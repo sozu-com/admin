@@ -1,0 +1,19 @@
+
+/* 
+body{
+    background-color: rgb(46, 59, 75);
+}
+.setDashColor{
+    background-color: #fff;
+}
+#page-wrapper {
+    min-height: 678px;
+}
+.content-wrapper {
+    overflow-y: scroll;
+    min-height: 678px;
+    max-height: 636px;
+}
+.content-wrapper{
+    background: #f2f3fa;
+} */

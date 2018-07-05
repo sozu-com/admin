@@ -1,0 +1,104 @@
+<!-- 
+<div class="page-brand">
+  <a class="link" routerLink="/dashboard">
+    <span class="brand">HYRIT ADMIN PANEL<span class="brand-tip"></span></span>
+    <span class="brand-mini">H</span>
+  </a>
+</div>
+
+<ul class="nav pull-left navbar-toolbar">
+  <li><a class="nav-link sidebar-toggler js-sidebar-toggler" (click)='this.UIService.toggleSidebar()'><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a></li>
+</ul>
+<ul class="nav pull-right navbar-toolbar">
+  <li class="dropdown dropdown-user"><a class="nav-link dropdown-toggle link" data-toggle="dropdown"><span>Admin</span><img src="../../../assets/img/default_usr.png"></a>
+  <ul class="dropdown-menu dropdown-menu-right">
+    <li><a class="dropdown-item" routerLink="/dashboard/change-password"><i class="ti-pencil"></i>Change Password</a></li>
+    <li><a class="dropdown-item" (click)="onLoggedout()"><i class="ti-power-off"></i>Logout</a></li>
+  </ul>
+  </li>
+</ul> -->
+
+
+<header>
+  <div class="row">
+    <!-- header -->
+      <div class="col-6">
+        <a class="logo" href="index.html">
+        <img src="http://via.placeholder.com/150x40" alt="img">
+        </a>
+
+      </div>
+      <div class="col-6">
+        <div class="user-profile float-right">
+           <a href="javascript://">
+              <h4>Lester Lyons</h4>
+              <img class="rounded-circle" src="http://via.placeholder.com/50x50">
+           </a>
+        </div>
+      </div>
+      <!-- <header end -->
+            
+
+      <!--slide menu start-->
+      <div id="side-menu-bar">
+          <div class="scrollbox" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+            <nav class="navbar navbar-expand-md navbar-dark">
+                <!-- Brand -->
+                <a class="navbar-brand" href="#"><img src="http://via.placeholder.com/150x40" alt="img"></a> 
+                <!-- Toggler/collapsibe Button -->
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <!-- Navbar links -->
+                <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                  <ul class="navbar-nav">
+                      <li class="nav-item">
+                        <a class="nav-link"><i><img src="./../../../assets/img/dashboard.png"></i><span>Dashboard</span></a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="javascript://"><i><img src="./../../../assets/img/user.png"></i><span>Manage Inhouse User</span></a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="javascript://"><i><img src="./../../../assets/img/stamp.png"></i><span>Manage Notary</span></a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="javascript://"><i><img src="./../../../assets/img/bank.png"></i><span>Manage Banks</span></a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="javascript://"><i><img src="./../../../assets/img/users.png"></i><span>Manage User</span></a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="javascript://"><i><img src="./../../../assets/img/key.png"></i><span>ACL</span></a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="javascript://"><i><img src="./../../../assets/img/graph2.png"></i><span>Report</span></a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="javascript://"><i><img src="./../../../assets/img/graph.png"></i><span>Magage lead</span></a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="javascript://"><i><img src="./../../../assets/img/graph.png"></i><span>Magage Properties</span></a>
+                      </li>
+                      <li class="nav-item active">
+                        <a class="nav-link" href="javascript://"><i><img src="./../../../assets/img/graph.png"></i><span>Magage Projects</span></a>
+                      </li>
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i><img src="./../../../assets/img/settings.png"></i><span>Settings</span></a>
+                        <div class="dropdown-menu">
+                            <ul>
+                              <li><a class="dropdown-item" href="setting-property.html">Property</a></li>
+                              <li><a class="dropdown-item" routerLink="setting-location">Location</a></li>
+                              <li><a class="dropdown-item logout-btn" (click)="onLoggedout()">Logout</a></li>
+                              <!-- <li><a class="dropdown-item" (click)="onLoggedout()">Logout</a></li> -->
+                            </ul>
+                        </div>
+                      </li>
+                  </ul>
+                </div>
+            </nav>
+          </div>
+      </div>
+      <!--side menu end-->
+  </div>
+</header>

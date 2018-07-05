@@ -1,0 +1,79 @@
+
+<div class="page-heading">
+    <div class="row">
+        <div class="col-lg-6">
+            <h1 class="page-title">Settings</h1>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a routerLink="/dashboard">Home</a></li>
+                <li class="breadcrumb-item active">Contact Us</li>
+            </ol>
+        </div>
+    </div>
+</div>
+      
+      <div class="page-content fade-in-up">
+        
+        <ngx-loading [show]="parameter.loading"></ngx-loading>
+        
+        <div class="ibox">
+          <div class="ibox-body">
+            <form class="form-horizontal" novalidate #addForm="ngForm" (ngSubmit)="updateDefaultSettings(addForm)">
+              <ul class="nav nav-tabs tabs-line" style="margin-bottom:30px;">
+                <li class="nav-item"><a class="nav-link active" data-toggle="tab">Updating ContactUs Information</a></li>
+              </ul>
+              <div class="tab-content">
+                <div class="tab-pane fade active">
+                
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Contact Number:</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control"
+                      id="helpAndSupportPhone" required minlength="1" [(ngModel)]="model.helpAndSupportPhone" 
+                      name="helpAndSupportPhone" #helpAndSupportPhone="ngModel"
+  ng2TelInput
+  [ng2TelInputOptions]="initialCountry"
+  (countryChange)="onCountryChange($event)" />
+
+      
+                      <div *ngIf="helpAndSupportPhone.errors && (helpAndSupportPhone.dirty || helpAndSupportPhone.touched)" class="show-error">
+                          <div [hidden]="!helpAndSupportPhone.errors.required">
+                            Contact Phone Number is required!
+                          </div>
+                          <div [hidden]="!helpAndSupportPhone.errors.min">
+                            Contact Phone Number must be at least 1.
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Contact Email:</label>
+                    <div class="col-sm-10">
+        
+                        <input type="email" class="form-control" placeholder="Contact Email" id="helpAndSupportEmail" required minlength="1" [(ngModel)]="model.helpAndSupportEmail" name="helpAndSupportEmail" #helpAndSupportEmail="ngModel">
+        
+                        <div *ngIf="helpAndSupportEmail.errors && (helpAndSupportEmail.dirty || helpAndSupportEmail.touched)" class="show-error">
+                            <div [hidden]="!helpAndSupportEmail.errors.required">
+                                Contact email is required!
+                            </div>
+                            <div [hidden]="!helpAndSupportEmail.errors.min">
+                                Contact email must be at least 1.
+                            </div>
+                            <div [hidden]="!helpAndSupportEmail.errors.email">
+                                Contact email must be valid email.
+                            </div>
+                        </div>
+        
+                    </div>
+                    </div>
+                    
+                  <div class="d-flex justify-content-end btn-right">
+                    <button [disabled]="parameter.loading" class="btn btn-info" type="submit">Update Settings</button>
+                  </div>
+                </div>
+      
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
