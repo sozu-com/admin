@@ -16,16 +16,6 @@
       <!-- add country -->
       <div class="form-outer">
           <div class="inline-form-group">
-            <!-- <div class="row">
-                <div class="col-md-4">
-                  <label><strong>Country</strong></label>
-                </div>
-                <div class="col-md-8">
-                  <input type="text" name="" placeholder="Swimming Pool">
-                  <button class="add-btn" (click)="openModal(addCountry)"><img src="./../../../../assets/img/add.png" alt="img"></button>
-                </div>
-            </div> -->
-
           <div class="row">
               <div class="col-md-12">
                 <label><strong>Country</strong></label>
@@ -64,6 +54,12 @@
                     <a title="Delete Country" class="icon-block block-icon"><img src="./../../../../assets/img/block.png" alt="img"></a>
                   </td>
                 </tr>
+
+                <div *ngIf="parameter.countryCount == 0">
+                  <p class="show-error">
+                    {{constant.errorMsg.NO_COUNTRY_FOUND}}
+                  </p>
+                </div>
             </table>
           </div>
       </div>
@@ -71,16 +67,6 @@
       <!-- add state -->
         <div class="form-outer marginT15">
           <div class="inline-form-group">
-            <!-- <div class="row">
-                <div class="col-md-4">
-                  <label><strong>State</strong></label>
-                </div>
-                <div class="col-md-8">
-                  <input type="text" name="" placeholder="Swimming Pool">
-                  <button class="add-btn" (click)="openModal(addState)"><img src="./../../../../assets/img/add.png" alt="img"></button>
-                </div>
-            </div> -->
-
           <div class="row">
               <div class="col-md-12">
                 <label><strong>State</strong></label>
@@ -128,6 +114,12 @@
                       <a href="javascript://" class="icon-block block-icon"><img src="./../../../../assets/img/block.png" alt="img"></a>
                   </td>
                 </tr>
+
+                <div *ngIf="parameter.stateCount == 0">
+                  <p class="show-error">
+                    {{constant.errorMsg.NO_STATE_FOUND}}
+                  </p>
+                </div>
             </table>
           </div>
       </div>
@@ -136,17 +128,6 @@
       <!-- add city -->
       <div class="form-outer marginT15">
         <div class="inline-form-group">
-          <!-- <div class="row">
-              <div class="col-md-4">
-                <label><strong>City</strong></label>
-              </div>
-              <div class="col-md-8">
-                <input type="text" name="" placeholder="Swimming Pool">
-                <button class="add-btn" (click)="openModal(addCity)"><img src="./../../../../assets/img/add.png" alt="img"></button>
-              </div>
-          </div> -->
-
-
           <div class="row">
             <div class="col-md-12">
               <label><strong>City</strong></label>
@@ -203,6 +184,12 @@
                     <a href="javascript://" class="icon-block block-icon"><img src="./../../../../assets/img/block.png" alt="img"></a>
                 </td>
               </tr>
+
+              <div *ngIf="parameter.cityCount == 0">
+                <p class="show-error">
+                  {{constant.errorMsg.NO_CITY_FOUND}}
+                </p>
+              </div>
           </table>
         </div>
     </div>
@@ -273,7 +260,7 @@
           </div>
         </div>
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="State (English)" id="name_en" required [(ngModel)]="location.countryModel.name_en" name="name_en" #name_en="ngModel">
+          <input type="text" class="form-control" placeholder="State (English)" id="name_en" required [(ngModel)]="location.stateModel.name_en" name="name_en" #name_en="ngModel">
           <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
               <div [hidden]="!name_en.errors.required">
                 {{constant.errorMsg.STATE_NAME_REQUIRED}}
@@ -287,7 +274,7 @@
                 {{constant.errorMsg.STATE_NAME_REQUIRED}}
               </div>
           </div> -->
-          <input type="text" class="form-control" placeholder="State (Spanish)" [(ngModel)]="location.countryModel.name_es" name="name_es">
+          <input type="text" class="form-control" placeholder="State (Spanish)" [(ngModel)]="location.stateModel.name_es" name="name_es">
         </div>
       </div>
       <div class="modal-footer">
@@ -333,7 +320,7 @@
           </div>
         </div>
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="City (English)" id="name_en" required [(ngModel)]="location.countryModel.name_en" name="name_en" #name_en="ngModel">
+          <input type="text" class="form-control" placeholder="City (English)" id="name_en" required [(ngModel)]="location.cityModel.name_en" name="name_en" #name_en="ngModel">
           <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
               <div [hidden]="!name_en.errors.required">
                 {{constant.errorMsg.CITY_NAME_REQUIRED}}
@@ -347,7 +334,7 @@
                 {{constant.errorMsg.CITY_NAME_REQUIRED}}
               </div>
           </div> -->
-          <input type="text" class="form-control" placeholder="City (Spanish)" [(ngModel)]="location.countryModel.name_es" name="name_es">
+          <input type="text" class="form-control" placeholder="City (Spanish)" [(ngModel)]="location.cityModel.name_es" name="name_es">
         </div>
       </div>
       <div class="modal-footer">

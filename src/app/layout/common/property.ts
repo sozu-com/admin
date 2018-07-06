@@ -33,4 +33,7 @@ export interface IProperty {
   country_id?: string;
   state_id?: string;
   city_id?:string;
+  countryCount?: number;
+  stateCount?: number;
+  cityCount?: number;
 }

@@ -69,6 +69,7 @@ export class LocationComponent implements OnInit {
         success => {
           this.parameter.loading = false;
           this.parameter.countries = success.data
+          this.parameter.countryCount = success.data.length;
           if(this.parameter.countries.length!=0){
             this.getStates(this.parameter.countries[0].id);
           }
@@ -100,9 +101,10 @@ export class LocationComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log(success)
+          console.log('states',success)
           this.parameter.loading = false;
           this.parameter.states = success.data
+          this.parameter.stateCount = success.data.length;
           if(this.parameter.states.length!=0){
             this.getCities(this.parameter.states[0].id);
           }
@@ -132,6 +134,7 @@ export class LocationComponent implements OnInit {
           console.log(success)
           this.parameter.loading = false;
           this.parameter.cities = success.data
+          this.parameter.cityCount = success.data.length;
         },
         error => {
           console.log(error)
@@ -215,7 +218,7 @@ export class LocationComponent implements OnInit {
     if(formdata.value.name_es == ''){
       console.log('xxx')
       this.swal.confirm({ 
-        text: this.constant.errorMsg.SAVE_ENGLISH_COUNTRY_NAME,
+        text: this.constant.errorMsg.SAVE_ENGLISH_STATE_NAME,
       }).then(function(){
         formdata.value.name_es = formdata.value.name_en;
         self.addState(formdata)
@@ -230,6 +233,7 @@ export class LocationComponent implements OnInit {
     }
   }
 
+
   addState(formdata: NgForm){
     
     this.modalRef.hide();
@@ -237,17 +241,19 @@ export class LocationComponent implements OnInit {
     this.parameter.url = 'country/addState';
 
     let input = new FormData();
-    input.append("country_id", formdata.value.country_id);
     input.append("name_es", formdata.value.name_es);
     input.append("name_en", formdata.value.name_en);
     input.append("status", '1');
 
     if(this.location.stateModel.country_id)
-      input.append("country_id", this.location.stateModel.country_id);
+      input.append("country_id", this.location.stateModel.country_id);  // edit
+    else
+      input.append("country_id", formdata.value.country_id);  // add
 
     if(this.location.stateModel.state_id)
       input.append("state_id", this.location.stateModel.state_id);
 
+console.log('==', formdata.value, this.location.stateModel.country_id, this.location.stateModel.state_id)
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
@@ -257,6 +263,7 @@ export class LocationComponent implements OnInit {
             title: 'Success',
             text: this.location.stateModel.state_id ? this.constant.successMsg.STATE_UPDATED_SUCCESSFULLY : this.constant.successMsg.STATE_ADDED_SUCCESSFULLY,
           })
+          this.getStates(this.location.stateModel.country_id);
           formdata.reset();
         },
         error => {
@@ -282,7 +289,7 @@ export class LocationComponent implements OnInit {
     if(formdata.value.name_es == ''){
       console.log('xxx')
       this.swal.confirm({ 
-        text: this.constant.errorMsg.SAVE_ENGLISH_COUNTRY_NAME,
+        text: this.constant.errorMsg.SAVE_ENGLISH_CITY_NAME,
       }).then(function(){
         formdata.value.name_es = formdata.value.name_en;
         self.addCity(formdata)
@@ -309,14 +316,14 @@ console.log(formdata.value)
     input.append("name_en", formdata.value.name_en);
     input.append("status", '1');
 
-    if(this.location.stateModel.country_id)
-      input.append("country_id", this.location.stateModel.country_id);
+    if(this.location.cityModel.country_id)
+      input.append("country_id", this.location.cityModel.country_id);
 
-    if(this.location.stateModel.state_id)
-      input.append("state_id", this.location.stateModel.state_id);
+    if(this.location.cityModel.state_id)
+      input.append("state_id", this.location.cityModel.state_id);
 
-    // if(this.location.stateModel.ci)
-    //   input.append("state_id", this.location.stateModel.state_id);
+    if(this.location.cityModel.city_id)
+      input.append("city_id", this.location.cityModel.city_id);
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
@@ -325,8 +332,9 @@ console.log(formdata.value)
           this.parameter.loading = false;
           this.swal.success({ 
             title: 'Success',
-            text: this.constant.successMsg.STATE_ADDED_SUCCESSFULLY,
+            text: this.location.cityModel.city_id ? this.constant.successMsg.CITY_UPDATED_SUCCESSFULLY : this.constant.successMsg.CITY_ADDED_SUCCESSFULLY,
           })
+          this.getCities(this.location.cityModel.state_id);
           formdata.reset();
         },
         error => {

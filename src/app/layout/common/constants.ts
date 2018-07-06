@@ -7,6 +7,11 @@ export class Constant{
         CITY_NAME_REQUIRED : 'City is required.',
         MISSING_COUNTRY_NAME_ES : 'Country name is missing in spanish.',
         SAVE_ENGLISH_COUNTRY_NAME : "We'll save english country name in place of spanish.",
+        SAVE_ENGLISH_STATE_NAME : "We'll save english state name in place of spanish.",
+        SAVE_ENGLISH_CITY_NAME : "We'll save english city name in place of spanish.",
+        NO_COUNTRY_FOUND : "No country found!",
+        NO_STATE_FOUND : "No state found!",
+        NO_CITY_FOUND : "No city found!",
     };
     public successMsg : any = {
         COUNTRY_ADDED_SUCCESSFULLY : 'Country added successfully',
