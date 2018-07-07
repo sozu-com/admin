@@ -10,7 +10,7 @@ import { SweetAlertService } from 'ngx-sweetalert2';
 import { AppComponent } from './app.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+// import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { SignupComponent } from './signup/signup.component';
 import { LayoutModule } from './layout/layout.module'
@@ -34,7 +34,7 @@ const appRoutes: Routes = [
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
-    NgbModule.forRoot(),
+    // NgbModule.forRoot(),
     BrowserModule,
     HttpModule,
     FormsModule,

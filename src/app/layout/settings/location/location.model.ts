@@ -22,4 +22,13 @@ export class Location{
         name_en: '',
         status: 0
     };
+
+    public localityModel = {
+        city_id: '',
+        locality_id: '',
+        name_es: '',
+        name_en: '',
+        status: 0,
+        poly_coordinates: []
+    };
 }

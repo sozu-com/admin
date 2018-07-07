@@ -4,7 +4,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MomentModule } from 'angular2-moment';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+// import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SweetAlertService } from 'ngx-sweetalert2';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { NgBoxModule } from 'ngbox/ngbox.module';
@@ -12,6 +12,7 @@ import { NgBoxService } from 'ngbox/ngbox.service';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { AgmCoreModule } from '@agm/core';
 
 // importing shared components
 import { LoginComponent } from './login/login.component';
@@ -35,7 +36,7 @@ import { PropertyComponent } from './settings/property/property.component';
         TranslateModule,
         FormsModule, 
         ReactiveFormsModule,
-        NgbModule.forRoot(),
+        // NgbModule.forRoot(),
         ModalModule.forRoot(),      // modal
         NgxPaginationModule,
         LoadingModule.forRoot({
@@ -47,7 +48,11 @@ import { PropertyComponent } from './settings/property/property.component';
         MomentModule,
         NgBoxModule,
         NgxMyDatePickerModule.forRoot(),
-        MalihuScrollbarModule.forRoot()
+        MalihuScrollbarModule.forRoot(),
+        AgmCoreModule.forRoot({
+            apiKey: "AIzaSyCYv_zELZGVo2Ehzgp8eh8UeSIidhMCmH8",
+            libraries: ['drawing']
+        }),
     ],
     declarations: [
         LayoutComponent,

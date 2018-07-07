@@ -36,4 +36,5 @@ export interface IProperty {
   countryCount?: number;
   stateCount?: number;
   cityCount?: number;
+  successText?: string;
 }

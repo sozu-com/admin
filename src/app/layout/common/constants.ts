@@ -19,6 +19,17 @@ export class Constant{
         STATE_ADDED_SUCCESSFULLY : 'State added successfully',
         STATE_UPDATED_SUCCESSFULLY : 'State updated successfully',
         CITY_ADDED_SUCCESSFULLY : 'City added successfully',
-        CITY_UPDATED_SUCCESSFULLY : 'City updated successfully'
+        CITY_UPDATED_SUCCESSFULLY : 'City updated successfully',
+        BLOCKED_SUCCESSFULLY : 'Blocked successfully',
+        UNBLOCKED_SUCCESSFULLY : 'Unblocked successfully',
+    };
+    public title : any = {
+        ARE_YOU_SURE: 'Are you sure?',
+        BLOCK_COUNTRY : 'You want to block this country?',
+        UNBLOCK_COUNTRY : 'You want to unblock this country?',
+        BLOCK_STATE : 'You want to block this state?',
+        UNBLOCK_STATE : 'You want to unblock this state?',
+        BLOCK_CITY : 'You want to block this city?',
+        UNBLOCK_CITY : 'You want to unblock this city?'
     }
 }
