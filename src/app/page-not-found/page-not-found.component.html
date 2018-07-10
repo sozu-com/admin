@@ -1,24 +1,32 @@
 
-<link href="../../assets/css/animate.css" rel="stylesheet">
-<link href="../../assets/css/style.css" rel="stylesheet">
-
-<div class="my-container">
-    <ngx-loading [show]="loading"></ngx-loading>
-</div>
-<div class="login-page">
-    <div class="row">
-        <div class="col-lg-offset-4 col-md-offset-4 col-sm-offset-6 col-lg-4 col-md-4 col-sm-6">
-            <div class="ibox-content">
-                <!-- <img src="../../assets/img/logo.png" class="logo"> -->
-                <h1>HYRIT</h1>
-
-                <h2>Page Not Found</h2>
-                <p class="not-found-text">Sorry, but the page you are looking for has not been found. 
-                Try checking the URL for error, then hit the refresh button on 
-                your browser or click below button to navigate to home page.</p>
-                <a class="btn btn-danger block full-width m-b" routerLink="">Home</a>
-
+<section id="wrapper">
+    <header>
+        <div class="row">
+            <div class="col-6">
+                <a class="logo" href="index.html">
+                <img src="http://via.placeholder.com/150x40" alt="img">
+                </a>
+            </div>
+        </div>
+    </header>
+        
+    <div class="login">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-8 col-lg-6 col-md-6 col-12">
+                    <h2>One Easy Solution for Your Needs.</h2>
+                    <p class="p18">Neque porro quisquam est qui dolorem ipsum quia dolor sit amet.</p>
+                </div>
+                <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+                    <div class="ibox-content">        
+                        <h2>Page Not Found</h2>
+                        <p class="not-found-text">Sorry, but the page you are looking for has not been found. 
+                        Try checking the URL for error, then hit the refresh button on 
+                        your browser or click below button to navigate to home page.</p>
+                        <a routerLink="" class="btn btn-info login-btn mgt-50">HOME</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</section>

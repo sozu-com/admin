@@ -29,13 +29,11 @@ export class ForgotPasswordComponent implements OnInit {
     this.admin.postDataApi('forgotPassword', input)
       .subscribe(
         success => {
-          if(success.statusCode==200){
-            this.parameter.loading = false;
-              this.swal.success({ 
-                title: 'Success',
-                text: 'New password has been sent to your email.',
-              })
-            }
+          this.parameter.loading = false;
+          this.swal.success({ 
+            title: 'Success',
+            text: success.message,
+          })
         },
         error => {
           this.parameter.loading = false;

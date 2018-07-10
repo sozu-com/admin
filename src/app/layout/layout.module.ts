@@ -22,7 +22,6 @@ import { AppHeaderComponent } from '../shared/app-header/app-header.component';
 import { AppSidebarComponent} from '../shared/app-sidebar/app-sidebar.component';
 import { DashboardComponent} from './dashboard/dashboard.component';
 import { AppFooterComponent } from '../shared/app-footer/app-footer.component';
-import { SessionModalComponent } from '../shared/session-modal/session-modal.component';
 
 // importing general component
 import { ChangePasswordComponent } from './settings/change-password/change-password.component';
@@ -41,9 +40,9 @@ import { PropertyComponent } from './settings/property/property.component';
         NgxPaginationModule,
         LoadingModule.forRoot({
             animationType: ANIMATION_TYPES.rectangleBounce,
-            backdropBackgroundColour: 'rgba(0,0,0,0.7)', 
+            backdropBackgroundColour: 'rgba(0,0,0,0.5)', 
             backdropBorderRadius: '4px',
-            primaryColour: '#ec4758'
+            primaryColour: '#00B96F'
         }),
         MomentModule,
         NgBoxModule,
@@ -62,7 +61,6 @@ import { PropertyComponent } from './settings/property/property.component';
         DashboardComponent,
         ChangePasswordComponent,
         AppFooterComponent,
-        SessionModalComponent,
         LocationComponent,
         PropertyComponent
     ],

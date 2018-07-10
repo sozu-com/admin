@@ -7,17 +7,23 @@ import { ChangePasswordComponent } from './settings/change-password/change-passw
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from '../auth.guard';
 import { LocationComponent } from './settings/location/location.component';
+import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
+import { PropertyComponent } from './settings/property/property.component';
 
 const routes: Routes = [
     {
         path: 'login', component: LoginComponent,
     }, 
     {
+        path: 'forgot-password', component: ForgotPasswordComponent,
+    }, 
+    {
         path: 'dashboard', component: LayoutComponent, canActivate: [AuthGuard],
         children: [
             { path: '', component: DashboardComponent },
             { path: 'change-password', component: ChangePasswordComponent },
-            { path: 'setting-location', component: LocationComponent}
+            { path: 'setting-location', component: LocationComponent},
+            { path: 'setting-property', component: PropertyComponent}
         ]
     }
 ];

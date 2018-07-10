@@ -37,4 +37,8 @@ export interface IProperty {
   stateCount?: number;
   cityCount?: number;
   successText?: string;
+  propertyTypes?: any;
+  propertyTypesCount?: number;
+  amenities?: any;
+  amenitiesCount?: number;
 }

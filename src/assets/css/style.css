@@ -361,7 +361,8 @@ text-align: center;
 position: relative;
 margin-top: 1rem;
 display: inline-block;
-margin-right: 7px;
+/* margin-right: 7px; */
+margin-right: 12px;
 }
 .tag a {
 position: absolute;

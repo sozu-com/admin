@@ -1,3 +1,313 @@
-<p>
-  property works!
-</p>
+
+<div class="container-fluid">
+  <div class="breadcrumb-group">
+      <h5>Settings</h5>
+      <nav class="breadcrumb">
+          <a class="breadcrumb-item" routerLink="/dashboard">Home</a>
+        <a class="breadcrumb-item">Settings</a>
+        <span class="breadcrumb-item active">Property</span>
+      </nav>
+  </div>
+  <ngx-loading [show]="parameter.loading"></ngx-loading>
+  <div class="white-bg">
+      <div class="page-title">
+        <h3>Property</h3>
+      </div>
+
+
+      <div class="form-outer">
+          <div class="inline-form-group">
+             <div class="row">
+                <div class="col-md-4">
+                    <label><strong>Property Configuration</strong></label>
+                </div>
+                <div class="col-md-8">
+                   <form role="form" novalidate #addConfigForm="ngForm" (ngSubmit)="checkIfConfigSpanishNameEntered('', addConfigForm.value.name_en, addConfigForm.value.name_es, 1, 'add')">
+                    <input type="text" class="form-control" placeholder="Configuration name (English)" id="name_en" required [(ngModel)]="property.configuration.name_en" name="name_en" #name_en="ngModel">
+                      <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
+                        <div [hidden]="!name_en.errors.required">
+                          {{constant.errorMsg.PROPERTY_CONFIG_REQUIRED}}
+                        </div>
+                    </div>
+                    
+                    <input type="text" class="form-control" placeholder="Configuration name (Spanish)" [(ngModel)]="property.configuration.name_es" name="name_es">
+
+                    <button [disabled]="addConfigForm.invalid" type="submit" class="add-btn">
+                       <img src="./../../../../assets/img/add.png" alt="img">
+                     </button>
+                   </form>
+                </div>
+             </div>
+          </div>
+      </div>
+
+      <div class="tabel-section padding40 paddingT0">
+          <div class="table-responsive">
+            <table class="table table-striped">
+                <tr>
+                  <th style="width:80%; text-align:left;">Name</th>
+                  <th style="width:20%">Action</th>
+                </tr>
+                <tr *ngFor="let item of parameter.items">
+                  <td class="text-left">
+                    {{item.name_en}}
+                  </td>
+                  <td>
+                    <a title="Edit Configuration" (click)="openPropertyConfigModal(addPropertyConfigModal, item.id, item.name_en, item.name_es, item.status)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
+                    <a *ngIf="item.status == 1" (click)="addPropertyConfigurationPopup(item.id, item.name_en, item.name_es, 0, 'block')" title="Block Configuration" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
+                    <a *ngIf="item.status == 0" (click)="addPropertyConfigurationPopup(item.id, item.name_en, item.name_es, 1, 'unblock')" title="Unblock Configuration" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a>
+                  </td>
+                </tr>
+
+                <div *ngIf="parameter.total == 0">
+                  <p class="show-error">
+                    {{constant.errorMsg.NO_CONFIGURATION_FOUND}}
+                  </p>
+                </div>
+            </table>
+          </div>
+      </div>
+
+
+      <div class="form-outer">
+        <div class="inline-form-group">
+           <div class="row">
+              <div class="col-md-4">
+                  <label><strong>Property Type</strong></label>
+              </div>
+              <div class="col-md-8">
+                 <form role="form" novalidate #addTypeForm="ngForm" (ngSubmit)="checkIfTypeSpanishNameEntered('', addTypeForm.value.name_en, addTypeForm.value.name_es, 1, 'add')">
+                  <input type="text" class="form-control" placeholder="Property type name (English)" id="name_en" required [(ngModel)]="property.type.name_en" name="name_en" #name_en="ngModel">
+                    <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
+                      <div [hidden]="!name_en.errors.required">
+                        {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
+                      </div>
+                  </div>
+                  
+                  <input type="text" class="form-control" placeholder="Property type name (Spanish)" [(ngModel)]="property.type.name_es" name="name_es">
+
+                  <button [disabled]="addTypeForm.invalid" type="submit" class="add-btn">
+                     <img src="./../../../../assets/img/add.png" alt="img">
+                   </button>
+                 </form>
+              </div>
+           </div>
+        </div>
+    </div>
+
+    <div class="tabel-section padding40 paddingT0">
+        <div class="table-responsive">
+          <table class="table table-striped">
+              <tr>
+                <th style="width:80%; text-align:left;">Name</th>
+                <th style="width:20%">Action</th>
+              </tr>
+              <tr *ngFor="let item of parameter.propertyTypes">
+                <td class="text-left">
+                  {{item.name_en}}
+                </td>
+                <td>
+                  <a title="Edit Property Type" (click)="openPropertyTypeModal(addPropertyTypeModal, item.id, item.name_en, item.name_es, item.status)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
+                  <a *ngIf="item.status == 1" (click)="addPropertyTypePopup(item.id, item.name_en, item.name_es, 0, 'block')" title="Block Property Type" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
+                  <a *ngIf="item.status == 0" (click)="addPropertyTypePopup(item.id, item.name_en, item.name_es, 1, 'unblock')" title="Unblock Property Type" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a>
+                </td>
+              </tr>
+
+              <div *ngIf="parameter.total == 0">
+                <p class="show-error">
+                  {{constant.errorMsg.NO_PROPERTY_TYPE_FOUND}}
+                </p>
+              </div>
+          </table>
+        </div>
+    </div>
+
+
+
+      <div class="form-outer">
+        <div class="inline-form-group">
+            <div class="row">
+              <div class="col-md-4">
+                  <label>Amenities</label>
+              </div>
+              <div class="col-md-8">
+                 <form role="form" novalidate #addAmenityForm="ngForm" (ngSubmit)="checkIfAmenitySpanishNameEntered('', '', addAmenityForm.value.name_en, addAmenityForm.value.name_es, 1, 'add')">
+                  <div class="browse-files">
+                    <input accept="image/*" (change)="changeListner($event)" type="file" class="image form-control" placeholder="Amenity" id="icon" required [(ngModel)]="property.amenities.icon" name="icon" #icon="ngModel">
+                    <div *ngIf="icon.errors && (icon.dirty || icon.touched)" class="show-error">
+                      <div [hidden]="!icon.errors.required">
+                        {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
+                      </div>
+                  </div>
+                    <span>Browse</span>
+                  </div>
+                  <!-- <input type="file" class="form-control" placeholder="Amenity" id="icon" required [(ngModel)]="property.amenities.icon" name="icon" #icon="ngModel">
+                    <div *ngIf="icon.errors && (icon.dirty || icon.touched)" class="show-error">
+                      <div [hidden]="!icon.errors.required">
+                        {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
+                      </div>
+                  </div> -->
+                  
+                  <input type="text" class="form-control" placeholder="Property type name (English)" id="name_en" required [(ngModel)]="property.type.name_en" name="name_en" #name_en="ngModel">
+                    <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
+                      <div [hidden]="!name_en.errors.required">
+                        {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
+                      </div>
+                  </div>
+                  
+                  <input type="text" class="form-control" placeholder="Property type name (Spanish)" [(ngModel)]="property.type.name_es" name="name_es">
+
+                  <button [disabled]="addAmenityForm.invalid" type="submit" class="add-btn">
+                     <img src="./../../../../assets/img/add.png" alt="img">
+                   </button>
+                 </form>
+              </div>
+              <!-- <div class="col-md-8">
+                  <div class="browse-files">
+                    <input type="file" name="">
+                    <span>Browse</span>
+                  </div>
+                  <input type="text" name="">
+                  <button class="add-btn" (click)="openAmenitiesModal(addAmenitiesModal, '', '', '', '', 1)">
+                    <img src="./../../../../assets/img/add.png" alt="img">
+                  </button>
+              </div> -->
+            </div>
+        </div>
+      </div>
+
+      <div class="tabel-section padding40">
+        <div class="table-responsive">
+            <table class="table table-striped">
+              <tr>
+                  <th style="width:15%">Image</th>
+                  <th style="width:65%; text-align:left;">Amenity Name</th>
+                  <th style="width:20%">Action</th>
+              </tr>
+              <tr *ngFor="let item of parameter.amenities">
+                  <td>
+                    <!-- <i class="fa fa-building"></i> -->
+                    <img alt="image" height="30" width="30" src="{{item.icon}}">
+                  </td>
+                  <td class="text-left">
+                    {{item.name_en}}
+                  </td>
+                  <td>
+                    <a title="Edit Amenity" (click)="openAmenityModal(addAmenityModal, item.id, item.icon, item.name_en, item.name_es, item.status)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
+                    <a *ngIf="item.status == 1" (click)="addAmenityPopup(item.id, item.icon, item.name_en, item.name_es, 0, 'block')" title="Block Amenity" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
+                    <a *ngIf="item.status == 0" (click)="addAmenityPopup(item.id, item.icon, item.name_en, item.name_es, 1, 'unblock')" title="Unblock Amenity" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a>
+                  </td>
+              </tr>
+            </table>
+        </div>
+      </div>
+      <div class="btn-cont text-right padding40 paddingT0">
+        <button class="btn btn-primary">Save</button>
+      </div>
+  </div>
+</div>
+
+
+<!-- add configuration modal -->
+<ng-template #addPropertyConfigModal>
+  <div class="modal-content">
+    <div class="modal-header my-modal-header">
+      <h4 class="modal-title">Edit Property Configuration</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <form class="form-horizontal my-modal-form" role="form" novalidate #addForm="ngForm" (ngSubmit)="checkIfConfigSpanishNameEntered(property.configuration.id, addForm.value.name_en, addForm.value.name_es, property.configuration.status, 'edit')">
+      <div class="modal-body my-modal-body">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Property Configuration (English)" id="name_en" required [(ngModel)]="property.configuration.name_en" name="name_en" #name_en="ngModel">
+          <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
+              <div [hidden]="!name_en.errors.required">
+                {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
+              </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Property Configuration (Spanish)" [(ngModel)]="property.configuration.name_es" name="name_es">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" [disabled]="addForm.invalid" class="btn btn-info">Submit</button>
+        <button type="button" class="btn btn-default" aria-label="Close" (click)="modalRef.hide()">Close</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+
+<!-- add PropertyTypeModal modal -->
+<ng-template #addPropertyTypeModal>
+  <div class="modal-content">
+    <div class="modal-header my-modal-header">
+      <h4 class="modal-title">Edit Property Type</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <form class="form-horizontal my-modal-form" role="form" novalidate #addForm="ngForm" (ngSubmit)="checkIfTypeSpanishNameEntered(property.type.id, addForm.value.name_en, addForm.value.name_es, property.type.status, 'edit')">
+      <div class="modal-body my-modal-body">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Property type (English)" id="name_en" required [(ngModel)]="property.type.name_en" name="name_en" #name_en="ngModel">
+          <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
+              <div [hidden]="!name_en.errors.required">
+                {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
+              </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Property type (Spanish)" [(ngModel)]="property.type.name_es" name="name_es">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" [disabled]="addForm.invalid" class="btn btn-info">Submit</button>
+        <button type="button" class="btn btn-default" aria-label="Close" (click)="modalRef.hide()">Close</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+
+
+<ng-template #addAmenitiesModal>
+    <div class="modal-content">
+      <div class="modal-header my-modal-header">
+        <h4 class="modal-title">Edit Amenity</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form class="form-horizontal my-modal-form" role="form" novalidate #addForm="ngForm" (ngSubmit)="checkIfAmenitySpanishNameEntered(property.amenities.id, addForm.value, addForm.value.name_en, addForm.value.name_es, property.amenities.status, 'edit')">
+        <div class="modal-body my-modal-body">
+          <div class="form-group">
+            <input type="file" class="form-control" placeholder="Amenity Icon (English)" id="icon" required [(ngModel)]="property.amenities.icon" name="icon" #icon="ngModel">
+            <div *ngIf="icon.errors && (icon.dirty || icon.touched)" class="show-error">
+                <div [hidden]="!icon.errors.required">
+                  {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
+                </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Amenity (English)" id="name_en" required [(ngModel)]="property.amenities.name_en" name="name_en" #name_en="ngModel">
+            <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
+                <div [hidden]="!name_en.errors.required">
+                  {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
+                </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Amenity (Spanish)" [(ngModel)]="property.amenities.name_es" name="name_es">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" [disabled]="addForm.invalid" class="btn btn-info">Submit</button>
+          <button type="button" class="btn btn-default" aria-label="Close" (click)="modalRef.hide()">Close</button>
+        </div>
+      </form>
+  </div>
+</ng-template>
+  

@@ -16,10 +16,8 @@ import { SignupComponent } from './signup/signup.component';
 import { LayoutModule } from './layout/layout.module'
 
 const appRoutes: Routes = [
-  // { path: '', pathMatch: 'full', component: LoginComponent },
   { path: '', pathMatch: 'full', redirectTo: 'login' },
   // { path: 'forgot-password', component: ForgotPasswordComponent },
-  // { path: 'verify-email/:userId', component: VerifyEmailComponent },
   // { path: 'dashboard', canActivate: [AuthGuard], loadChildren: './layout/layout.module#LayoutModule'},
   { path: '**', component: PageNotFoundComponent }
   // { path: '**', pathMatch: 'full', redirectTo: 'login' },
@@ -41,9 +39,9 @@ const appRoutes: Routes = [
     LayoutModule,
     LoadingModule.forRoot({
       animationType: ANIMATION_TYPES.rectangleBounce,
-      backdropBackgroundColour: 'rgba(0,0,0,0.7)', 
+      backdropBackgroundColour: 'rgba(0,0,0,0.5)', 
       backdropBorderRadius: '4px',
-      primaryColour: '#ec4758'
+      primaryColour: '#00B96F'
     }),
   ],
   providers: [AdminService, AuthGuard, SweetAlertService],
