@@ -174,6 +174,42 @@ export class LocationComponent implements OnInit {
           this.parameter.loading = false;
           this.parameter.cities = success.data
           this.parameter.cityCount = success.data.length;
+          if(this.parameter.cities.length!=0){
+            this.parameter.city_id = this.parameter.cities[0].id;
+            this.getLocalities(this.parameter.cities[0].id, '');
+          }
+        },
+        error => {
+          console.log(error)
+          this.parameter.loading = false;
+          if(error.statusCode==401) this.router.navigate(['']);
+          else
+            this.swal.warning({ 
+              // title: 'Internet Connection',
+              text: error.messages,
+            })
+        });
+  }
+  
+  getLocalities(city_id, keyword){
+    console.log('mm', city_id, keyword)
+    this.parameter.loading = true;
+    this.parameter.url = 'getLocalities';
+    this.parameter.city_id = city_id;
+
+    let input = new FormData();
+    input.append("city_id", city_id);
+    
+    if(keyword)
+      input.append("keyword", keyword);
+
+    this.admin.postDataApi(this.parameter.url, input)
+      .subscribe(
+        success => {
+          console.log('cities',success)
+          this.parameter.loading = false;
+          this.parameter.localities = success.data
+          this.parameter.localityCount = success.data.length;
         },
         error => {
           console.log(error)

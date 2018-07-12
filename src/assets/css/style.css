@@ -343,6 +343,7 @@ margin-top: -40px;
 position: relative;
 z-index: 1;
 cursor:pointer; 
+padding: 5px;
 }
 .inline-form-group {
 padding-right: 2.5rem;

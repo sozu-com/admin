@@ -28,17 +28,22 @@ export interface IProperty {
   countries?: any;
   states?: any;
   cities?: any;
+  localities?: any;
   name_es?: string;
   name_en?: string;
   country_id?: string;
   state_id?: string;
-  city_id?:string;
+  city_id?: string;
+  locality_id?: string;
   countryCount?: number;
   stateCount?: number;
   cityCount?: number;
+  localityCount?: number;
   successText?: string;
   propertyTypes?: any;
   propertyTypesCount?: number;
   amenities?: any;
   amenitiesCount?: number;
+  projectTypes?: any;
+  projectTypesCount?: number;
 }

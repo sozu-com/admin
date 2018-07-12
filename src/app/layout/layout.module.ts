@@ -27,6 +27,9 @@ import { AppFooterComponent } from '../shared/app-footer/app-footer.component';
 import { ChangePasswordComponent } from './settings/change-password/change-password.component';
 import { LocationComponent } from './settings/location/location.component';
 import { PropertyComponent } from './settings/property/property.component';
+import { ProjectComponent } from './settings/project/project.component';
+import { DataCollectorComponent } from './inhouse-users/data-collector/data-collector.component';
+import { LocalityComponent } from './settings/locality/locality.component';
 
 @NgModule({
     imports: [
@@ -62,7 +65,10 @@ import { PropertyComponent } from './settings/property/property.component';
         ChangePasswordComponent,
         AppFooterComponent,
         LocationComponent,
-        PropertyComponent
+        PropertyComponent,
+        ProjectComponent,
+        DataCollectorComponent,
+        LocalityComponent
     ],
     providers: [SweetAlertService, NgBoxService],
 })

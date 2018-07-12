@@ -14,12 +14,18 @@ export class Constant {
         SAVE_ENGLISH_PROPERTY_CONFIG : "We'll save english property configuration in place of spanish.",
         SAVE_ENGLISH_PROPERTY_TYPE : "We'll save english property type in place of spanish.",
         SAVE_ENGLISH_AMENITY : "We'll save english amenity in place of spanish.",
+        SAVE_ENGLISH_PROJECT_POSSESION : "We'll save english project possession status in place of spanish.",
+        SAVE_ENGLISH_PROJECT_TYPE : "We'll save english project type in place of spanish.",
+        SAVE_ENGLISH_PROJECT_AMENITY : "We'll save english project amenity in place of spanish.",
         NO_COUNTRY_FOUND : "No country found!",
         NO_STATE_FOUND : "No state found!",
         NO_CITY_FOUND : "No city found!",
         NO_CONFIGURATION_FOUND : "No property configuration found!",
         NO_PROPERTY_TYPE_FOUND : "No property type found!",
         NO_AMENITY_FOUND : "No amenity found!",
+        NO_POSSESSION_FOUND : "No project possession status found!",
+        NO_PROJECT_TYPE_FOUND : "No project type found!",
+        NO_PROJECT_AMENITY_FOUND : "No amenity found!",
     };
     public successMsg : any = {
         COUNTRY_ADDED_SUCCESSFULLY : 'Country added successfully',
@@ -30,6 +36,10 @@ export class Constant {
         PROPERTY_TYPE_ADDED_SUCCESSFULLY: 'Property type added successfully',
         AMENITY_UPDATED_SUCCESSFULLY: 'Amenity updated successfully',
         AMENITY_ADDED_SUCCESSFULLY: 'Amenity added successfully',
+        PROJECT_POSSESSION_UPDATED_SUCCESSFULLY: 'Project possession status updated successfully',
+        PROJECT_POSSESSION_ADDED_SUCCESSFULLY: 'Project possession status added successfully',
+        PROJECT_TYPE_UPDATED_SUCCESSFULLY: 'Project type updated successfully',
+        PROJECT_TYPE_ADDED_SUCCESSFULLY: 'Project type added successfully',
         STATE_ADDED_SUCCESSFULLY : 'State added successfully',
         STATE_UPDATED_SUCCESSFULLY : 'State updated successfully',
         CITY_ADDED_SUCCESSFULLY : 'City added successfully',
@@ -51,6 +61,10 @@ export class Constant {
         UNBLOCK_PROPERTY_CONFIG : 'You want to unblock this property configuration?',
         REMOVE_PROPERTY_CONFIGURATION : 'You want to block this configuration?',
         UNBLOCK_AMENITY : 'You want to unblock this amenity?',
-        BLOCK_AMENITY : 'You want to block this amenity?'
+        BLOCK_AMENITY : 'You want to block this amenity?',
+        BLOCK_PROJECT_TYPE : 'You want to block this project type?',
+        UNBLOCK_PROJECT_TYPE : 'You want to unblock this project type?',
+        BLOCK_PROJECT_POSSESSION : 'You want to block this project possession status?',
+        UNBLOCK_PROJECT_POSSESSION : 'You want to unblock this project possession status?'
     }
 }

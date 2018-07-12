@@ -9,6 +9,9 @@ import { AuthGuard } from '../auth.guard';
 import { LocationComponent } from './settings/location/location.component';
 import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
 import { PropertyComponent } from './settings/property/property.component';
+import { ProjectComponent } from './settings/project/project.component';
+import { DataCollectorComponent } from './inhouse-users/data-collector/data-collector.component';
+import { LocalityComponent } from './settings/locality/locality.component';
 
 const routes: Routes = [
     {
@@ -21,9 +24,12 @@ const routes: Routes = [
         path: 'dashboard', component: LayoutComponent, canActivate: [AuthGuard],
         children: [
             { path: '', component: DashboardComponent },
+            { path: 'view-data-collectors', component: DataCollectorComponent},
             { path: 'change-password', component: ChangePasswordComponent },
             { path: 'setting-location', component: LocationComponent},
-            { path: 'setting-property', component: PropertyComponent}
+            { path: 'locality', component: LocalityComponent},
+            { path: 'setting-property', component: PropertyComponent},
+            { path: 'setting-project', component: ProjectComponent}
         ]
     }
 ];

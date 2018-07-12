@@ -227,7 +227,8 @@
                <div class="form-group marginB0">
                   <label>Add Locality</label>
                   <div class="add-new">
-                      <a class="btn" href="javascript://" (click)="openLocalityModal(addLocalityModal, '', '', '', '', '')">+ Add New</a>
+                      <!-- <a class="btn" href="javascript://" (click)="openLocalityModal(addLocalityModal, '', '', '', '', '')">+ Add New</a> -->
+                      <a class="btn" href="javascript://" routerLink="/dashboard/locality">+ Add New</a>
                   </div>
                </div>
             </div>
@@ -236,27 +237,27 @@
     </div>
 
     <!-- list locality -->
-    <!-- <div class="tabel-section padding40 paddingT0">
+    <div class="tabel-section padding40 paddingT0">
         <div class="table-responsive">
           <table class="table table-striped">
               <tr>
                 
                 <th style="width:80%; text-align:left;">
                     <div class="table-search">
-                    <input type="Search here" (input)="getCities(parameter.state_id, $event.target.value)" name="" placeholder="Search here">
+                    <input type="Search here" (input)="getLocalities(parameter.city_id, $event.target.value)" name="" placeholder="Search here">
                     </div>
                 </th>
                 <th style="width:20%">Action</th>
               </tr>
-              <tr *ngFor="let city of parameter.cities">
+              <tr *ngFor="let locality of parameter.localities">
               
                 <td class="text-left">
-                  {{city.name_en}}
+                  {{locality.name_en}}
                 </td>
               <td>
-                    <a href="javascript://" (click)="openCityModal(addCityModal, city.country_id, city.state_id, city.id, city.name_en, city.name_es)" title="Edit City" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
-                    <a *ngIf="city.status == 1" (click)="blockUnblockCity(city.state_id, city.name_en, city.name_es, 0, city.id)" title="Block City" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
-                    <a *ngIf="city.status == 0" (click)="blockUnblockCity(city.state_id, city.name_en, city.name_es, 1, city.id)" title="Unblock City" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a>
+                    <a href="javascript://" (click)="openCityModal(addCityModal, locality.country_id, locality.state_id, locality.id, locality.name_en, city.name_es)" title="Edit City" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
+                    <a *ngIf="locality.status == 1" (click)="blockUnblockCity(locality.state_id, locality.name_en, locality.name_es, 0, locality.id)" title="Block City" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
+                    <a *ngIf="locality.status == 0" (click)="blockUnblockCity(locality.state_id, locality.name_en, locality.name_es, 1, locality.id)" title="Unblock City" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a>
                 </td>
               </tr>
 
@@ -267,7 +268,7 @@
               </div>
           </table>
         </div>
-    </div> -->
+    </div>
     
     </div>
 </div>
