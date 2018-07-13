@@ -1,0 +1,6 @@
+.selectedRow{
+    background: rgb(228, 224, 224)
+}
+.locality-name{
+    cursor: pointer;
+}

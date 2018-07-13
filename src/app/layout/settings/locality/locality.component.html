@@ -1,112 +1,107 @@
 <!--content start-->
 <div class="container-fluid">
-    <div class="breadcrumb-group">
-      <h5>Settings</h5>
-      <nav class="breadcrumb">
-          <a class="breadcrumb-item" routerLink="/dashboard">Home</a>
-          <a class="breadcrumb-item">Settings</a>
-          <a class="breadcrumb-item">Location</a>
-          <span class="breadcrumb-item active">Locality</span>
+  <div class="breadcrumb-group">
+    <h5>Settings</h5>
+    <nav class="breadcrumb">
+        <a class="breadcrumb-item" routerLink="/dashboard">Home</a>
+        <a class="breadcrumb-item">Settings</a>
+        <!-- <a class="breadcrumb-item">Location</a> -->
+        <span class="breadcrumb-item active">Locality</span>
+    </nav>
+  </div>
+    
+  <ngx-loading [show]="parameter.loading"></ngx-loading>
 
-      </nav>
-    </div>
-    <div class="white-bg">
-      <div class="page-title">
-          <h3>Locality</h3>
-      </div>
-
-
-      <!-- add city -->
-      <div class="form-outer marginT15">
-        <div class="inline-form-group">
-          <div class="row">
-            <div class="col-md-12">
-              <label><strong>Add Locality</strong></label>
-              <hr>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-6">
-               <div class="form-group marginB0">
-                  <label>Country</label>
-                  <select class="form-control" (change)="getStates($event.target.value)">
-                    <option *ngFor="let country of parameter.countries" value="{{country.id}}">{{country.name_en}}</option>
-                 </select>
-               </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-6">
-               <div class="form-group marginB0">
-                  <label>State</label>
-                  <select class="form-control" (change)="getCities($event.target.value)">
-                    <option>Select State</option>
-                    <option *ngFor="let state of parameter.states" value="{{state.id}}">{{state.name_en}}</option>
-                 </select>
-               </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-6">
-               <div class="form-group marginB0">
-                  <label>City</label>
-                  <select class="form-control" (change)="getLocalities($event.target.value)">
-                    <option>Select City</option>
-                    <option *ngFor="let city of parameter.cities" value="{{city.id}}">{{city.name_en}}</option>
-                 </select>
-               </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-6">
-
-            </div>
-         </div>
-        </div>
+  <div class="white-bg">
+    <div class="page-title">
+        <h3>Locality</h3>
     </div>
 
-    <!-- list city -->
-    <div class="tabel-section padding40 paddingT0">
-        <div class="table-responsive">
-          <table class="table table-striped">
-              <tr>
-
-                <th style="width:80%; text-align:left;">
-                    <div class="table-search">
-                    <input type="Search here" (input)="getLocalities(parameter.city_id, $event.target.value)" name="" placeholder="Search here">
-                    </div>
-                </th>
-                <th style="width:20%">Action</th>
-              </tr>
-              <div *ngIf="parameter.cityCount == 0">
-                <p class="show-error">
-                  {{constant.errorMsg.NO_LOCATION_FOUND}}
-                </p>
-              </div>
-          </table>
-        </div>
-    </div>
-
+    <!-- add city -->
     <div class="form-outer marginT15">
-      <div class="row">
-        <div class="col-md-4">
-          <table class="table table-striped">
-          <tr *ngFor="let locality of all_overlays; let index = index">
-            <td class="text-left" (click)="setSelection(locality.overlay)">
-              {{locality.name_en}}
+      <div class="inline-form-group">
+        <div class="row">
+          <div class="col-md-12">
+            <label><strong>Add Locality</strong></label>
+            <hr>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-6">
+            <div class="form-group marginB0">
+              <label>Country</label>
+              <select title="Choose Country" class="form-control" (change)="getStates($event.target.value)">
+                <option value="" disabled>Select Country</option>
+                <option *ngFor="let country of parameter.countries" value="{{country.id}}" [selected]="country.id == parameter.country_id">{{country.name_en}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-6">
+            <div class="form-group marginB0">
+              <label>State</label>
+              <select title="Choose State" class="form-control" (change)="getCities($event.target.value)">
+                <option value="" disabled>Select State</option>
+                <option *ngFor="let state of parameter.states" value="{{state.id}}" [selected]="state.id == parameter.state_id">{{state.name_en}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-6">
+            <div class="form-group marginB0">
+              <label>City</label>
+              <select title="Choose City" class="form-control" (change)="getLocalities($event.target.value)">
+                <option value="" disabled>Select City</option>
+                <option *ngFor="let city of parameter.cities" value="{{city.id}}" [selected]="city.id == parameter.city_id">{{city.name_en}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-6">
 
-            </td>
-            <td>
-              <a (click)="upadteSelection(locality, index)" title="Unblock State" class="icon-block block-icon"><img src="./../../../../assets/img/top-arrow.png" alt="img"></a>
-            </td>
-            <td>
-              <a (click)="removeSelection(locality, index)" title="Unblock State" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a>
-            </td>
-          <td>
-          </td>
-          </tr>
-        </table>
+          </div>
         </div>
-        <div class="col-md-8">
-          <div id="mapDiv" style="height: 500px; width: 100%;" #mapDiv></div>
-        
-        </div>
-
       </div>
-    </div>
+  </div>
+  <hr>
+  
+  <div class="form-outer marginT15">
+    <div class="row">
+      <div class="col-md-4">
+        <table class="table table-striped">
+          <tr>
+            <th style="width:80%; text-align:left;">
+                <div class="table-search">
+                <input type="Search here" (input)="getLocalities(parameter.city_id, $event.target.value)" name="" placeholder="Search here">
+                </div>
+            </th>
+            <th style="width:20%">Action</th>
+          </tr>
+          <tr *ngFor="let locality of all_overlays; let index = index">
+            <td class="text-left locality-name" [ngClass]="locality.id == selectedLocality ? 'selectedRow' : ''" (click)="setSelection(locality.overlay, locality.id)">
+              {{locality.name_en}}
+            </td>
+            <!-- <td>
+              <a (click)="upadteSelection(locality, index)" title="Unblock State" class="icon-block block-icon"><img src="./../../../../assets/img/top-arrow.png" alt="img"></a>
+            </td> -->
+            <td [ngClass]="locality.id == selectedLocality ? 'selectedRow' : ''">
+              <a *ngIf="locality.status == 0" (click)="removeSelection(locality, index, 1)" title="Unblock Locality" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a>
+              <a *ngIf="locality.status == 1" (click)="removeSelection(locality, index, 0)" title="Block Locality" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
+            </td>
+          </tr>
+
+          <div *ngIf="parameter.localityCount == 0">
+            <p class="show-error">
+              {{constant.errorMsg.NO_LOCALITY_FOUND}}
+            </p>
+          </div>
+
+        </table>
+      </div>
+
+      <!-- google map -->
+      <div class="col-md-8">
+        <div id="mapDiv" style="height: 500px; width: 100%;" #mapDiv></div>
+      </div>
 
     </div>
+  </div>
+
+  </div>
 </div>
 <!--content end-->

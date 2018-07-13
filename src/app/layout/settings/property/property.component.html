@@ -23,14 +23,7 @@
                 </div>
                 <div class="col-md-8">
                    <form role="form" novalidate #addConfigForm="ngForm" (ngSubmit)="checkIfConfigSpanishNameEntered('', addConfigForm.value.name_en, addConfigForm.value.name_es, 1, 'add')">
-                      <input type="text" class="form-control" placeholder="Configuration name (English)" id="name_en" required [(ngModel)]="property.configuration.name_en" name="name_en" #name_en="ngModel">
-                      <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
-                        <div [hidden]="!name_en.errors.required">
-                          {{constant.errorMsg.PROPERTY_CONFIG_REQUIRED}}
-                        </div>
-                    </div>      
-
-                    <!-- <div class="row">
+                    <div class="row">
                         <div class="col-lg-6 col-md-6">
                             <input type="text" class="form-control" placeholder="Configuration name (English)" id="name_en" required [(ngModel)]="property.configuration.name_en" name="name_en" #name_en="ngModel">
                             <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
@@ -42,7 +35,7 @@
                         <div class="col-lg-6 col-md-6">
                             <input type="text" class="form-control" placeholder="Configuration name (Spanish)" [(ngModel)]="property.configuration.name_es" name="name_es">
                         </div>
-                      </div> -->
+                      </div>
                     <button [disabled]="addConfigForm.invalid" type="submit" class="add-btn btn">
                        <img src="./../../../../assets/img/add.png" alt="img">
                      </button>
@@ -138,7 +131,6 @@
     </div>
 
 
-
       <div class="form-outer">
         <div class="inline-form-group">
             <div class="row">
@@ -151,10 +143,10 @@
                     <input accept="image/*" (change)="changeListner($event)" type="file" class="image form-control" placeholder="Amenity" id="icon" required [(ngModel)]="property.amenities.icon" name="icon" #icon="ngModel">
                     <div *ngIf="icon.errors && (icon.dirty || icon.touched)" class="show-error">
                       <div [hidden]="!icon.errors.required">
-                        {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
+                        {{constant.errorMsg.FILE_REQUIRED}}
                       </div>
                   </div>
-                    <span>Browse</span>
+                    <!-- <span>Browse</span> -->
                   </div>
                   <!-- <input type="file" class="form-control" placeholder="Amenity" id="icon" required [(ngModel)]="property.amenities.icon" name="icon" #icon="ngModel">
                     <div *ngIf="icon.errors && (icon.dirty || icon.touched)" class="show-error">

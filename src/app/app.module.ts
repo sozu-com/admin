@@ -39,8 +39,8 @@ const appRoutes: Routes = [
     LayoutModule,
     LoadingModule.forRoot({
       animationType: ANIMATION_TYPES.rectangleBounce,
-      backdropBackgroundColour: 'rgba(0,0,0,0.5)', 
-      backdropBorderRadius: '4px',
+      // backdropBackgroundColour: 'rgba(0,0,0,0.5)', 
+      // backdropBorderRadius: '4px',
       primaryColour: '#00B96F'
     }),
   ],

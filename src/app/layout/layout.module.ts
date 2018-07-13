@@ -30,6 +30,8 @@ import { PropertyComponent } from './settings/property/property.component';
 import { ProjectComponent } from './settings/project/project.component';
 import { DataCollectorComponent } from './inhouse-users/data-collector/data-collector.component';
 import { LocalityComponent } from './settings/locality/locality.component';
+import { InhouseUsersComponent } from './inhouse-users/inhouse-users.component';
+import { CsrSellerComponent } from './inhouse-users/csr-seller/csr-seller.component';
 
 @NgModule({
     imports: [
@@ -43,8 +45,8 @@ import { LocalityComponent } from './settings/locality/locality.component';
         NgxPaginationModule,
         LoadingModule.forRoot({
             animationType: ANIMATION_TYPES.rectangleBounce,
-            backdropBackgroundColour: 'rgba(0,0,0,0.5)', 
-            backdropBorderRadius: '4px',
+            // backdropBackgroundColour: 'rgba(0,0,0,0.5)', 
+            // backdropBorderRadius: '4px',
             primaryColour: '#00B96F'
         }),
         MomentModule,
@@ -52,7 +54,7 @@ import { LocalityComponent } from './settings/locality/locality.component';
         NgxMyDatePickerModule.forRoot(),
         MalihuScrollbarModule.forRoot(),
         AgmCoreModule.forRoot({
-            apiKey: "AIzaSyCYv_zELZGVo2Ehzgp8eh8UeSIidhMCmH8",
+            apiKey: "AIzaSyDRS3KuVS6OZrVrjCCVpGZ4zYPZHFwYIso",
             libraries: ['drawing']
         }),
     ],
@@ -68,7 +70,9 @@ import { LocalityComponent } from './settings/locality/locality.component';
         PropertyComponent,
         ProjectComponent,
         DataCollectorComponent,
-        LocalityComponent
+        LocalityComponent,
+        InhouseUsersComponent,
+        CsrSellerComponent
     ],
     providers: [SweetAlertService, NgBoxService],
 })

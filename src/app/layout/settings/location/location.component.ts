@@ -154,6 +154,41 @@ export class LocationComponent implements OnInit {
             })
         });
   }
+
+  getStatesWRTCountry(country_id, keyword){
+    this.parameter.loading = true;
+    this.parameter.url = 'country/getStates';
+    this.parameter.country_id = country_id;
+
+    let input = new FormData();
+    input.append("country_id", country_id);
+
+    if(keyword)
+      input.append("keyword", keyword);
+
+    this.admin.postDataApi(this.parameter.url, input)
+      .subscribe(
+        success => {
+          console.log('states',success)
+          this.parameter.loading = false;
+          this.parameter.states = success.data
+          this.parameter.stateCount = success.data.length;
+          if(this.parameter.states.length!=0){
+            this.parameter.state_id = this.parameter.states[0].id;
+            this.getCities(this.parameter.states[0].id, '');
+          }
+        },
+        error => {
+          console.log(error)
+          this.parameter.loading = false;
+          if(error.statusCode==401) this.router.navigate(['']);
+          else
+            this.swal.warning({ 
+              // title: 'Internet Connection',
+              text: error.messages,
+            })
+        });
+  }
   
   getCities(state_id, keyword){
     console.log('mm', state_id, keyword)

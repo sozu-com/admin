@@ -1,0 +1,101 @@
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+          <div class="title-group">
+              <h5>Settings</h5>
+              <p>Showing 6 out of 6</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="add-new text-right">
+              <a class="btn" href="javascript://" (click)="openUserModal(addUserModal)">+Add New</a>
+          </div>
+        </div>
+    </div>
+  
+    <ngx-loading [show]="parameter.loading"></ngx-loading>
+  
+    <div class="row">
+        <div  class="col-lg-4 col-md-12"></div>
+        <div class="col-lg-2 col-md-3 col-sm-6 col-6">
+          <div class="form-group marginB0">
+              <label>Country</label>
+              <select class="form-control">
+                <option>All</option>
+                <option>All</option>
+                <option>All</option>
+              </select>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-3 col-sm-6 col-6">
+          <div class="form-group marginB0">
+              <label>City</label>
+              <select class="form-control">
+                <option>All</option>
+                <option>All</option>
+                <option>All</option>
+              </select>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-3 col-sm-6 col-6">
+          <div class="form-group marginB0">
+              <label>Neighbourhood</label>
+              <select class="form-control">
+                <option>All</option>
+                <option>All</option>
+                <option>All</option>
+              </select>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-3 col-sm-6 col-6">
+          <div class="form-group marginB0">
+              <label>Building</label>
+              <select class="form-control">
+                <option>All</option>
+                <option>All</option>
+                <option>All</option>
+              </select>
+          </div>
+        </div>
+    </div>
+    <hr>
+    <app-data-collector *ngIf="parameter.routeName == '/dashboard/view-data-collectors'"></app-data-collector>
+    <app-csr-seller *ngIf="parameter.routeName == '/dashboard/view-csr-sellers'"></app-csr-seller>
+  </div>
+
+<!-- addAmenitiesModal -->
+<ng-template #addUserModal>
+    <div class="modal-content">
+      <div class="modal-header my-modal-header">
+        <h4 class="modal-title">Edit Amenity</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form class="form-horizontal my-modal-form" role="form" novalidate #addForm="ngForm" (ngSubmit)="checkIfAmenitySpanishNameEntered(project.amenities.id, '', addForm.value.name_en, addForm.value.name_es, project.amenities.status, 'edit')">
+        <div class="modal-body my-modal-body">
+          <div class="form-group">
+            <input accept="image/*" (change)="changeListner($event)" type="file" class="form-control">
+          </div>
+          
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Name (English)" id="name_en" required [(ngModel)]="project.amenities.name_en" name="name_en" #name_en="ngModel">
+            <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
+                <div [hidden]="!name_en.errors.required">
+                  {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
+                </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Amenity (Spanish)" [(ngModel)]="project.amenities.name_es" name="name_es">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" [disabled]="addForm.invalid" class="btn btn-info">Submit</button>
+          <button type="button" class="btn btn-default" aria-label="Close" (click)="modalRef.hide()">Close</button>
+        </div>
+      </form>
+  </div>
+</ng-template>
+  

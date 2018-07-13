@@ -8,6 +8,9 @@
           <span class="breadcrumb-item active">Location</span>
       </nav>
     </div>
+
+    <ngx-loading [show]="parameter.loading"></ngx-loading>
+    
     <div class="white-bg">
       <div class="page-title">
           <h3>Location</h3>
@@ -200,14 +203,14 @@
 
 
       <!-- add locality -->
-      <div class="form-outer marginT15">
+      <!-- <div class="form-outer marginT15">
         <div class="inline-form-group">
           <div class="row">
             <div class="col-md-12">
               <label><strong>Locality</strong></label>
               <hr>
             </div>
-            <!-- <div class="col-lg-3 col-md-3 col-sm-6 col-6">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-6">
                <div class="form-group marginB0">
                   <label>Country</label>
                   <select class="form-control" (change)="getStates($event.target.value)">
@@ -222,22 +225,21 @@
                     <option *ngFor="let state of parameter.states" value="{{state.id}}">{{state.name_en}}</option>
                  </select>
                </div>
-            </div> -->
+            </div>
             <div class="col-lg-2 col-md-3 col-sm-6 col-6">
                <div class="form-group marginB0">
                   <label>Add Locality</label>
                   <div class="add-new">
-                      <!-- <a class="btn" href="javascript://" (click)="openLocalityModal(addLocalityModal, '', '', '', '', '')">+ Add New</a> -->
                       <a class="btn" href="javascript://" routerLink="/dashboard/locality">+ Add New</a>
                   </div>
                </div>
             </div>
          </div>
         </div>
-    </div>
+    </div> -->
 
     <!-- list locality -->
-    <div class="tabel-section padding40 paddingT0">
+    <!-- <div class="tabel-section padding40 paddingT0">
         <div class="table-responsive">
           <table class="table table-striped">
               <tr>
@@ -269,7 +271,7 @@
           </table>
         </div>
     </div>
-    
+     -->
     </div>
 </div>
 <!--content end-->
@@ -326,7 +328,7 @@
       <div class="modal-body my-modal-body">
         <div class="form-group">
           <select title="Select Country" id="country_id" required [(ngModel)]="location.stateModel.country_id" name="country_id" #country_id="ngModel" class="form-control" required>
-            <option value="">Select Country</option>
+            <option value="" disabled>Select Country</option>
             <option *ngFor="let c of parameter.countries" value="{{c.id}}">{{c.name}}</option>
           </select>
           <div *ngIf="country_id.errors && (country_id.dirty || country_id.touched)" class="show-error">
@@ -375,7 +377,7 @@
       <div class="modal-body my-modal-body">
         <div class="form-group" *ngIf="location.cityModel.city_id == ''">
           <select title="Select Country" id="country_id" (change)="getStates($event.target.value)" required [(ngModel)]="location.cityModel.country_id" name="country_id" #country_id="ngModel" class="form-control" required>
-            <option value="">Select Country</option>
+            <option value="" disabled>Select Country</option>
             <option *ngFor="let c of parameter.countries" value="{{c.id}}">{{c.name}}</option>
           </select>
           <div *ngIf="country_id.errors && (country_id.dirty || country_id.touched)" class="show-error">
@@ -386,7 +388,7 @@
         </div>
         <div class="form-group">
           <select title="Select State" id="state_id" required [(ngModel)]="location.cityModel.state_id" name="state_id" #state_id="ngModel" class="form-control" required>
-            <option value="">Select State</option>
+            <option value="" disabled>Select State</option>
             <option *ngFor="let s of parameter.states" value="{{s.id}}">{{s.name}}</option>
           </select>
           <div *ngIf="state_id.errors && (state_id.dirty || state_id.touched)" class="show-error">
@@ -435,7 +437,7 @@
       <div class="modal-body my-modal-body">
         <div class="form-group" *ngIf="location.cityModel.city_id == ''">
           <select title="Select Country" id="country_id" (change)="getStates($event.target.value)" required [(ngModel)]="location.cityModel.country_id" name="country_id" #country_id="ngModel" class="form-control" required>
-            <option value="">Select Country</option>
+            <option value="" disabled>Select Country</option>
             <option *ngFor="let c of parameter.countries" value="{{c.id}}">{{c.name}}</option>
           </select>
           <div *ngIf="country_id.errors && (country_id.dirty || country_id.touched)" class="show-error">
@@ -446,7 +448,7 @@
         </div>
         <div class="form-group">
           <select title="Select State" id="state_id" required [(ngModel)]="location.cityModel.state_id" name="state_id" #state_id="ngModel" class="form-control" required>
-            <option value="">Select State</option>
+            <option value="" disabled>Select State</option>
             <option *ngFor="let s of parameter.states" value="{{s.id}}">{{s.name}}</option>
           </select>
           <div *ngIf="state_id.errors && (state_id.dirty || state_id.touched)" class="show-error">

@@ -6,8 +6,6 @@ import { IProperty } from '../../common/property';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Location } from '../location/location.model';
 import { Constant } from './../../common/constants';
-import { NgForm } from '@angular/forms';
-import { AGMComponent } from './../../common/agm.component';
 import { MapsAPILoader } from '@agm/core';
 
 declare const google;
@@ -30,7 +28,7 @@ export class LocalityComponent implements OnInit {
   selectedLocality:any;
   selectedShape:any;
   shapeName:any;
-
+  
 
   @ViewChild('mapDiv') mapDiv:ElementRef;
 
@@ -107,9 +105,17 @@ export class LocalityComponent implements OnInit {
           this.parameter.loading = false;
           this.parameter.states = success.data
           this.parameter.stateCount = success.data.length;
-          if(this.parameter.states.length!=0){
+          if(this.parameter.states.length){
             this.parameter.state_id = this.parameter.states[0].id;
             this.getCities(this.parameter.states[0].id, '');
+          }
+          else{
+            this.parameter.city_id = '0';
+            this.parameter.localityCount = 0;
+            this.parameter.cities = []
+            this.parameter.localities = []
+            this.all_overlays = []
+            this.init();
           }
         },
         error => {
@@ -143,6 +149,19 @@ export class LocalityComponent implements OnInit {
           this.parameter.loading = false;
           this.parameter.cities = success.data
           this.parameter.cityCount = success.data.length;
+          if(this.parameter.cities.length){
+            this.parameter.city_id = this.parameter.cities[0].id;
+            console.log('cityid', this.parameter.city_id)
+            this.getLocalities(this.parameter.city_id, '');
+          }
+          else{
+            this.parameter.cityCount = 0;
+            this.parameter.localityCount = 0;
+            this.parameter.cities = []
+            this.parameter.localities = []
+            this.all_overlays = []
+            this.init();
+          }
         },
         error => {
           console.log(error)
@@ -177,6 +196,12 @@ export class LocalityComponent implements OnInit {
           this.parameter.localities = success.data;
           this.all_overlays = this.parameter.localities;
           this.parameter.localityCount = success.data.length;
+          if(this.parameter.localities.length){
+            this.selectedLocality = this.parameter.localities[0].id;
+          }
+          else{
+            this.all_overlays = []
+          }
           this.init();
         },
         error => {
@@ -209,6 +234,7 @@ export class LocalityComponent implements OnInit {
           });
           this.map = map;
 
+          var all_overlays_index = 0;
           this.all_overlays.forEach(locality=>{
 
             var poly_coordinates = JSON.parse(locality.poly_coordinates);
@@ -234,11 +260,21 @@ export class LocalityComponent implements OnInit {
               fillOpacity: 0.35
             });
             locality.overlay = singlePolygon;
+
+            // showing selected first locality
+            if(all_overlays_index == 0) this.setSelection(singlePolygon, locality.id)
+            all_overlays_index++;
+
             //this.all_overlays.push(singlePolygon);
             google.maps.event.addListener(singlePolygon, 'click', ()=> {
-                this.setSelection(singlePolygon);
+              console.log('click', singlePolygon, locality.id)  
+              this.setSelection(singlePolygon, locality.id);
             });
 
+            // google.maps.event.addListener(singlePolygon, 'mouseup', function(muEvent) {
+            //         console.log('33')
+            //   this.setSelection(singlePolygon);
+            // });
 
             singlePolygon.setMap(map);
 
@@ -367,6 +403,7 @@ export class LocalityComponent implements OnInit {
 
 
   getPolygonCoords(newShape) {
+    console.log('new', newShape)
     //console.log('IN');
       var coordinates_array=[];
       var len = newShape.getPath().getLength();
@@ -399,7 +436,7 @@ export class LocalityComponent implements OnInit {
   }
 
   setSelection(shape, locality='') {
-
+console.log('zzzzzzzzzzzz',shape)
       this.clearSelection();
       this.selectedLocality = locality;
 
@@ -442,12 +479,13 @@ export class LocalityComponent implements OnInit {
     });
   }
 
-  removeSelection(locality,index){
+  removeSelection(locality,index, status){
       console.log('Removing...',locality);
-      this.all_overlays.splice(index,1);
-      locality.overlay.setMap(null);
+      locality.status = status;
+      // this.all_overlays.splice(index,1);
+      // locality.overlay.setMap(null);
       delete locality.overlay;
-      locality.status = 0;
+      // locality.status = 0;
       this.admin.postDataApi('addLocality', locality).subscribe(
       r => {
         console.log(r);

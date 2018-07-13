@@ -46,4 +46,6 @@ export interface IProperty {
   amenitiesCount?: number;
   projectTypes?: any;
   projectTypesCount?: number;
+  routeName?: string;
+  icon?: any;
 }

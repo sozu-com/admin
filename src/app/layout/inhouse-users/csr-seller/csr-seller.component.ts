@@ -5,16 +5,15 @@ import { SweetAlertService } from 'ngx-sweetalert2';
 import { IProperty } from '../../common/property';
 
 @Component({
-  selector: 'app-data-collector',
-  templateUrl: './data-collector.component.html',
-  styleUrls: ['./data-collector.component.css']
+  selector: 'app-csr-seller',
+  templateUrl: './csr-seller.component.html',
+  styleUrls: ['./csr-seller.component.css']
 })
-
-export class DataCollectorComponent implements OnInit {
+export class CsrSellerComponent implements OnInit {
   public parameter: IProperty = {};
   
   constructor(private admin: AdminService, private router: Router, private swal: SweetAlertService) { 
-    this.getDataCollectors()
+    this.getCsrSellers()
   }
 
   ngOnInit() {
@@ -22,14 +21,14 @@ export class DataCollectorComponent implements OnInit {
   }
 
 
-  getDataCollectors(){
+  getCsrSellers(){
     this.parameter.loading = true;
-    this.parameter.url = 'getDataCollectors';
+    this.parameter.url = 'getCsrSellers';
     let input = new FormData();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('getDataCollectors',success)
+          console.log('getCsrSellers',success)
           this.parameter.loading = false;
           this.parameter.items = success.data
           this.parameter.total = success.data.length;

@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AdminService } from '../admin.service';
 
 @Component({
   selector: 'app-layout',
@@ -9,6 +7,6 @@ import { AdminService } from '../admin.service';
 })
 
 export class LayoutComponent implements OnInit {
-  constructor(private router: Router, private admin: AdminService) {}
+  constructor() {}
   ngOnInit() {}
 }
