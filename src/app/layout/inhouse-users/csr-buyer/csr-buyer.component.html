@@ -1,0 +1,57 @@
+<ngx-loading [show]="parameter.loading"></ngx-loading>
+    <div class="white-bg">
+      <div class="tabel-section">
+        <div class="table-responsive">
+                      
+        <table class="table table-striped">
+            <tr>
+            <th style="width:6%">&nbsp;</th>
+                <th style="width:20%">
+                  <div class="table-search">
+                      <label>Name</label>
+                      <input type="Search here" name="">
+                  </div>
+                </th>
+                <th style="width:20%; text-align:left;">
+                  <div class="table-search">
+                      <label>Contact Number</label>
+                      <input type="Search here" name="">
+                  </div>
+                </th>
+                <th style="width:20%">
+                  <div class="table-search">
+                      <label>Email Address</label>
+                      <input type="Search here" name="">
+                  </div>
+                </th>
+                <th style="width:20%; vertical-align: top;">
+                  Building<a href="javascript://"><img src="./../../../../assets/img/top-arrow.png" alt="img"></a>
+                </th>
+                <th style="width:14%">
+                  &nbsp;
+                </th>
+            </tr>
+            <tr *ngFor="let item of parameter.items; let i = index">
+              <td> 
+                <img *ngIf="item.image" class="rounded-circle" [src]="item.image" alt="img">
+                <img *ngIf="!item.image" class="rounded-circle" src="http://via.placeholder.com/50x50" alt="img">
+              </td>
+              <td class="text-left">
+                <span class="name">{{item.name}}</span>
+              </td>
+              <td class="text-left" *ngIf="item.phone">{{item.phone}}</td>
+              <td class="text-left" *ngIf="!item.phone">NA</td>
+              <td class="text-left">{{item.email}}</td>
+              <td>14</td>
+              <td>
+                <a href="javascript://" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
+                <a href="javascript://" class="icon-block block-icon"><img src="./../../../../assets/img/block.png" alt="img"></a>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="btn-cont text-right marginT15">
+    <button class="btn btn-secondary">View All</button>
+  </div>

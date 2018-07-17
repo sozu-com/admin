@@ -1,12 +1,11 @@
-import { Component, OnInit, TemplateRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AdminService } from '../../../admin.service';
 import { Router } from '@angular/router';
 import { SweetAlertService } from 'ngx-sweetalert2';
 import { IProperty } from '../../common/property';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { Location } from '../location/location.model';
-import { Constant } from './../../common/constants';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { MapsAPILoader } from '@agm/core';
+import { Constant } from './../../common/constants';
 
 declare const google;
 
@@ -14,9 +13,13 @@ declare const google;
   selector: 'app-locality',
   templateUrl: './locality.component.html',
   styleUrls: ['./locality.component.css'],
-  providers: [Location, Constant]
+  providers: [Constant]
 })
+
 export class LocalityComponent implements OnInit {
+
+  @ViewChild('localityOpen') localityOpen: ElementRef;
+  @ViewChild('localityClose') localityClose: ElementRef;
 
   public parameter: IProperty = {};
   public modalRef: BsModalRef;
@@ -29,16 +32,15 @@ export class LocalityComponent implements OnInit {
   selectedShape:any;
   shapeName:any;
   
+  showModal: boolean = true;
 
   @ViewChild('mapDiv') mapDiv:ElementRef;
 
   constructor(
     private loader: MapsAPILoader,
-    private location: Location,
-    private constant: Constant,
-    private modalService: BsModalService,
     private admin: AdminService,
     private router: Router,
+    private constant: Constant,
     private swal: SweetAlertService) {}
 
   ngOnInit() {
@@ -338,37 +340,42 @@ export class LocalityComponent implements OnInit {
 
           google.maps.event.addListener(drawingManager, 'overlaycomplete', event=> {
 
-            this.swal.prompt({
-              text:''
-            }).then(f=>{
-              this.shapeName = f;
+            this.parameter.overlay = this.getPolygonCoords(event.overlay);
+            this.localityOpen.nativeElement.click();
 
-              var locality = {
-                name_en: this.shapeName,
-                name_es: this.shapeName,
-                coordinates: this.getPolygonCoords(event.overlay),
-                poly_coordinates: JSON.stringify(this.getPolygonCoords(event.overlay)),
-                status:'1',
-                city_id:this.parameter.city_id,
-                overlay: event.overlay
-              };
-              //console.log(locality);
-              //this.all_overlays.push(locality);
-              //this.all_overlays = this.all_overlays;
-              //this.all_overlays.splice(0,2);
-              //this.len = this.all_overlays.length;
-              console.log(this.all_overlays);
-              delete locality.overlay;
-              //console.log(locality);
+console.log('xx', typeof this.getPolygonCoords(event.overlay))
+            // this.swal.prompt({
+            //   text:''
+            // }).then(f=>{
 
-              this.admin.postDataApi('addLocality', locality).subscribe(
-                  r => {
-                    console.log(r);
-                    this.all_overlays.push(r.data);
-                    //this.getLocalities(this.parameter.city_id,'');
-                  });
+            //   this.shapeName = f;
 
-            });
+            //   var locality = {
+            //     name_en: this.shapeName,
+            //     name_es: this.shapeName,
+            //     coordinates: this.getPolygonCoords(event.overlay),
+            //     poly_coordinates: JSON.stringify(this.getPolygonCoords(event.overlay)),
+            //     status:'1',
+            //     city_id:this.parameter.city_id,
+            //     overlay: event.overlay
+            //   };
+            //   //console.log(locality);
+            //   //this.all_overlays.push(locality);
+            //   //this.all_overlays = this.all_overlays;
+            //   //this.all_overlays.splice(0,2);
+            //   //this.len = this.all_overlays.length;
+            //   console.log(this.all_overlays);
+            //   delete locality.overlay;
+            //   //console.log(locality);
+
+            //   this.admin.postDataApi('addLocality', locality).subscribe(
+            //       r => {
+            //         console.log(r);
+            //         this.all_overlays.push(r.data);
+            //         //this.getLocalities(this.parameter.city_id,'');
+            //       });
+
+            // });
             //this.all_overlays = this.all_overlays;
 
 
@@ -400,6 +407,46 @@ export class LocalityComponent implements OnInit {
       });
   }
 
+
+  checkIfLocalitySpanishNameEntered(name_en, name_es, price_per_sqft){
+    let self=this;
+    if(name_es == ''){
+      this.swal.confirm({ 
+        text: this.constant.errorMsg.SAVE_ENGLISH_COUNTRY_NAME,
+      }).then(function(){
+        self.addLocality(name_en, name_en, price_per_sqft)
+      })
+      .catch(function(){
+      // console.log('Logout cancelled by user');
+      })
+    }
+    else{
+      self.addLocality(name_en, name_es, price_per_sqft)
+    }
+  }
+
+
+  addLocality(name_en, name_es, price_per_sqft){
+    this.localityClose.nativeElement.click();
+    var locality = {
+      name_en: name_en,
+      name_es: name_es,
+      price_per_sqft: price_per_sqft,
+      coordinates: this.parameter.overlay,
+      poly_coordinates: JSON.stringify(this.parameter.overlay),
+      status: '1',
+      city_id:this.parameter.city_id,
+      overlay: this.parameter.overlay
+    };
+console.log('locality', locality)
+    delete locality.overlay;
+    
+    this.admin.postDataApi('addLocality', locality).subscribe(
+        r => {
+          console.log('zz',r)
+          this.all_overlays.push(r.data);
+        });
+  }
 
 
   getPolygonCoords(newShape) {

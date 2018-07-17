@@ -123,7 +123,7 @@
                 </td>
               </tr>
 
-              <div *ngIf="parameter.total == 0">
+              <div *ngIf="parameter.projectTypesCount == 0">
                 <p class="show-error">
                   {{constant.errorMsg.NO_PROJECT_TYPE_FOUND}}
                 </p>
@@ -160,7 +160,7 @@
                   
                   <div class="row">
                     <div class="col-lg-6 col-md-6">
-                        <input type="text" class="form-control" placeholder="Project amenity name (English)" id="name_en" required [(ngModel)]="project.type.name_en" name="name_en" #name_en="ngModel">
+                        <input type="text" class="form-control" placeholder="Project amenity name (English)" id="name_en" required [(ngModel)]="project.amenities.name_en" name="name_en" #name_en="ngModel">
                         <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
                           <div [hidden]="!name_en.errors.required">
                             {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
@@ -168,7 +168,7 @@
                       </div>    
                     </div>
                     <div class="col-lg-6 col-md-6">
-                        <input type="text" class="form-control" placeholder="Project amenity name (Spanish)" [(ngModel)]="project.type.name_es" name="name_es">
+                        <input type="text" class="form-control" placeholder="Project amenity name (Spanish)" [(ngModel)]="project.amenities.name_es" name="name_es">
                     </div>
                   </div>
                   <button [disabled]="addAmenityForm.invalid" type="submit" class="add-btn btn">
@@ -221,9 +221,9 @@
             </table>
         </div>
       </div>
-      <div class="btn-cont text-right padding40 paddingT0">
+      <!-- <div class="btn-cont text-right padding40 paddingT0">
         <button class="btn btn-primary">Save</button>
-      </div>
+      </div> -->
   </div>
 </div>
 

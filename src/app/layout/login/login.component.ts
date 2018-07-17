@@ -41,7 +41,8 @@ export class LoginComponent implements OnInit {
         success => {
           console.log('---', success)
           this.admin.setUserLoggedIn();
-          this.router.navigate(['dashboard']);
+          // this.router.navigate(['dashboard']);
+          this.router.navigate(['dashboard/view-inhouse-users/data-collectors']);
           this.parameter.loading = false;
         },
         error => {

@@ -3,13 +3,13 @@
     <div class="row">
         <div class="col-md-6">
           <div class="title-group">
-              <h5>Settings</h5>
-              <p>Showing 6 out of 6</p>
+              <h5>Inhouse Users</h5>
+              <p>Showing {{parameter.total}} out of {{parameter.total}}</p>
           </div>
         </div>
         <div class="col-md-6">
           <div class="add-new text-right">
-              <a class="btn" href="javascript://" (click)="openUserModal(addUserModal)">+Add New</a>
+              <a class="btn" href="javascript://" data-toggle="modal" data-target="#add" #modalOpen>Add New</a>
           </div>
         </div>
     </div>
@@ -17,34 +17,60 @@
     <ngx-loading [show]="parameter.loading"></ngx-loading>
   
     <div class="row">
-        <div  class="col-lg-4 col-md-12"></div>
+        <div  class="col-lg-2 col-md-12"></div>
         <div class="col-lg-2 col-md-3 col-sm-6 col-6">
           <div class="form-group marginB0">
               <label>Country</label>
-              <select class="form-control">
+              <!-- <select class="form-control">
                 <option>All</option>
                 <option>All</option>
                 <option>All</option>
+              </select> -->
+              <select title="Choose Country" class="form-control" (change)="getStates($event.target.value)">
+                <option value="" disabled>Select Country</option>
+                <option *ngFor="let country of parameter.countries" value="{{country.id}}" [selected]="country.id == parameter.country_id">{{country.name_en}}</option>
+              </select>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-3 col-sm-6 col-6">
+          <div class="form-group marginB0">
+              <label>State</label>
+              <!-- <select class="form-control">
+                <option>All</option>
+                <option>All</option>
+                <option>All</option>
+              </select> -->
+              <select title="Choose State" class="form-control" (change)="getCities($event.target.value)">
+                <option value="" disabled>Select State</option>
+                <option *ngFor="let state of parameter.states" value="{{state.id}}" [selected]="state.id == parameter.state_id">{{state.name_en}}</option>
               </select>
           </div>
         </div>
         <div class="col-lg-2 col-md-3 col-sm-6 col-6">
           <div class="form-group marginB0">
               <label>City</label>
-              <select class="form-control">
+              <!-- <select class="form-control">
                 <option>All</option>
                 <option>All</option>
                 <option>All</option>
+              </select> -->
+              <select title="Choose City" class="form-control" (change)="getLocalities($event.target.value)">
+                <option value="" disabled>Select City</option>
+                <option *ngFor="let city of parameter.cities" value="{{city.id}}" [selected]="city.id == parameter.city_id">{{city.name_en}}</option>
               </select>
           </div>
         </div>
         <div class="col-lg-2 col-md-3 col-sm-6 col-6">
           <div class="form-group marginB0">
-              <label>Neighbourhood</label>
-              <select class="form-control">
+              <label>Locality</label>
+              <!-- <select class="form-control">
                 <option>All</option>
                 <option>All</option>
                 <option>All</option>
+              </select> -->
+              <select title="Choose Locality" class="form-control" (change)="getLocalities($event.target.value)">
+                <option value="" disabled>Select Locality</option>
+                <option *ngFor="let locality of parameter.localities" value="{{locality.id}}" [selected]="locality.id == parameter.locality_id">{{locality.name_en}}</option>
               </select>
           </div>
         </div>
@@ -60,42 +86,239 @@
         </div>
     </div>
     <hr>
-    <app-data-collector *ngIf="parameter.routeName == '/dashboard/view-data-collectors'"></app-data-collector>
+    <!-- <app-data-collector *ngIf="parameter.routeName == '/dashboard/view-data-collectors'"></app-data-collector>
     <app-csr-seller *ngIf="parameter.routeName == '/dashboard/view-csr-sellers'"></app-csr-seller>
-  </div>
+    <app-csr-buyer *ngIf="parameter.routeName == '/dashboard/view-csr-buyers'"></app-csr-buyer>
+    <app-inhouse-broker *ngIf="parameter.routeName == '/dashboard/view-inhouse-broker'"></app-inhouse-broker>
+    <app-csr-closer *ngIf="parameter.routeName == '/dashboard/view-csr-closers'"></app-csr-closer> -->
 
-<!-- addAmenitiesModal -->
-<ng-template #addUserModal>
-    <div class="modal-content">
-      <div class="modal-header my-modal-header">
-        <h4 class="modal-title">Edit Amenity</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
+
+
+
+    
+    <div class="white-bg">
+      <div class="tabel-section">
+        <div class="table-responsive">
+                      
+        <table class="table table-striped">
+            <tr>
+            <th style="width:6%">&nbsp;</th>
+                <th style="width:20%">
+                  <div class="table-search">
+                      <label>Name</label>
+                      <input type="Search here" name="">
+                  </div>
+                </th>
+                <th style="width:20%; text-align:left;">
+                  <div class="table-search">
+                      <label>Contact Number</label>
+                      <input type="Search here" name="">
+                  </div>
+                </th>
+                <th style="width:20%">
+                  <div class="table-search">
+                      <label>Email Address</label>
+                      <input type="Search here" name="">
+                  </div>
+                </th>
+                <th style="width:20%; vertical-align: top;">
+                  Building<a href="javascript://"><img src="./../../../../assets/img/top-arrow.png" alt="img"></a>
+                </th>
+                <th style="width:14%">
+                  &nbsp;
+                </th>
+            </tr>
+            <tr *ngFor="let item of parameter.items; let i = index">
+              <td> 
+                <img *ngIf="item.image" class="rounded-circle" [src]="item.image" alt="img">
+                <img *ngIf="!item.image" class="rounded-circle" src="http://via.placeholder.com/50x50" alt="img">
+              </td>
+              <td class="text-left">
+                <span class="name">{{item.name}}</span>
+              </td>
+              <td class="text-left" *ngIf="item.phone">{{item.phone}}</td>
+              <td class="text-left" *ngIf="!item.phone">NA</td>
+              <td class="text-left">{{item.email}}</td>
+              <td>14</td>
+              <td>
+                <a href="javascript://" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
+                <a href="javascript://" class="icon-block block-icon"><img src="./../../../../assets/img/block.png" alt="img"></a>
+              </td>
+            </tr>
+          </table>
+        </div>
       </div>
-      <form class="form-horizontal my-modal-form" role="form" novalidate #addForm="ngForm" (ngSubmit)="checkIfAmenitySpanishNameEntered(project.amenities.id, '', addForm.value.name_en, addForm.value.name_es, project.amenities.status, 'edit')">
-        <div class="modal-body my-modal-body">
-          <div class="form-group">
-            <input accept="image/*" (change)="changeListner($event)" type="file" class="form-control">
-          </div>
-          
-          <div class="form-group">
-            <input type="text" class="form-control" placeholder="Name (English)" id="name_en" required [(ngModel)]="project.amenities.name_en" name="name_en" #name_en="ngModel">
-            <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
-                <div [hidden]="!name_en.errors.required">
-                  {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
-                </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control" placeholder="Amenity (Spanish)" [(ngModel)]="project.amenities.name_es" name="name_es">
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="submit" [disabled]="addForm.invalid" class="btn btn-info">Submit</button>
-          <button type="button" class="btn btn-default" aria-label="Close" (click)="modalRef.hide()">Close</button>
-        </div>
-      </form>
   </div>
-</ng-template>
-  
+  <div class="btn-cont text-right marginT15">
+    <button class="btn btn-secondary">View All</button>
+  </div>
+</div>
+
+
+
+<!-- add inhouse user modal -->
+<div class="modal animated" id="add">
+  <div class="modal-dialog fadeIndown modal-lg">
+     <div class="modal-content">
+        <div class="modal-header">
+           <button type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
+        </div>
+
+        <form class="form-horizontal form-model0P" role="form" novalidate #addForm="ngForm" (ngSubmit)="checkIfLocalitySpanishNameEntered()">
+        <div class="modal-body">
+            <div class="row">
+               <div class="col-6">
+                  <div class="add-img">
+                  <input type="file" name="">
+                  <label>+ Add Image</label>
+                  </div>
+               </div>
+               <div class="col-6">
+                  <div class="btn-cont text-right">
+                     <button type="submit" [disabled]="addForm.invalid" class="btn btn-primary">ADD</button>
+                  </div>
+               </div>
+               <div class="col-12">
+                  <div class="spacer40"></div>
+               </div>
+               <div class="col-12">
+                  <div class="form-group-2">
+                     <label>Name</label>
+                     <!-- <input class="form-control" type="text" name=""> -->
+                     <div class="form-group">
+                      <input type="text" class="form-control" id="name" required [(ngModel)]="model.userModel.name" name="name" #name="ngModel">
+                      <div *ngIf="name.errors && (name.dirty || name.touched)" class="show-error">
+                          <div [hidden]="!name.errors.required">
+                            {{constant.errorMsg.COUNTRY_NAME_REQUIRED}}
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+               </div>
+               <div class="col-12">
+                  <div class="form-group-2">
+                     <label>Contact number</label>
+                     <!-- <input class="form-control" type="text" name=""> -->
+                     <div class="form-group">
+                        <input type="text" class="form-control"
+                        id="phone" required minlength="1" [(ngModel)]="model.userModel.phone" 
+                        name="phone" #phone="ngModel"
+    ng2TelInput
+    [ng2TelInputOptions]="initialCountry"
+    (countryChange)="onCountryChange($event)" />
+                      <!-- <input type="text" class="form-control" id="phone" required [(ngModel)]="model.userModel.phone" name="phone" #phone="ngModel"> -->
+                      <div *ngIf="phone.errors && (phone.dirty || phone.touched)" class="show-error">
+                          <div [hidden]="!phone.errors.required">
+                            {{constant.errorMsg.COUNTRY_NAME_REQUIRED}}
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+               </div>
+               <div class="col-12">
+                  <div class="form-group-2">
+                     <label>Email ID</label>
+                     <!-- <input class="form-control" type="text" name=""> -->
+                     <div class="form-group">
+                      <input type="text" class="form-control" id="email" required [(ngModel)]="model.userModel.email" name="email" #email="ngModel">
+                      <div *ngIf="email.errors && (email.dirty || email.touched)" class="show-error">
+                          <div [hidden]="!email.errors.required">
+                            {{constant.errorMsg.COUNTRY_NAME_REQUIRED}}
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+               </div>
+            </div>
+
+            <div *ngFor="let add of model.address; let j=index">
+                <!-- <app-address [address]="add" (addAddress)="addEmptyObj($event)"></app-address> -->
+                <app-address [address]="add" [index]="j" (removeAddress)="removeAddressObj($event)"></app-address>
+            </div>
+
+            <button class="add-btn margin0" (click)="addEmptyObj()"><img src="./../../../assets/img/add.png" alt="img"></button>
+            {{model.address|json}}
+
+            <!-- <app-address></app-address> -->
+<!-- 
+              <div class="row" *ngFor="let temp of address; let i = index">
+                  <div class="col-sm-3 col-12">
+                    <div class="form-group-2">
+                      <label>Country</label>
+                      <select title="Choose Country" class="form-control" (change)="getStatesNew($event.target.value, i)" [(ngModel)]="model.userModel.countries[i]" name="countries[i]">
+                        <option value="" disabled>Select Country</option>
+                        <option *ngFor="let countryAdd of parameter.countriesAdd" value="{{countryAdd.id}}">{{countryAdd.name_en}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-sm-3 col-12">
+                    <div class="form-group-2">
+                      <label>State</label>
+                      <select title="Choose State" class="form-control" (change)="getCitiesNew($event.target.value, i)" [(ngModel)]="model.userModel.states[i]" name="states[i]">
+                        <option value="" disabled>Select State</option>
+                        <option *ngFor="let stateAdd of parameter.statesAdd" value="{{stateAdd.id}}">{{stateAdd.name_en}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-sm-3 col-12">
+                    <div class="form-group-2">
+                     <label>City</label>
+                     <select title="Choose City" class="form-control" (change)="getLocalitiesNew($event.target.value, i)" [(ngModel)]="model.userModel.cities[i]" name="cities[i]">
+                      <option value="" disabled>Select City</option>
+                      <option *ngFor="let cityAdd of parameter.citiesAdd" value="{{cityAdd.id}}">{{cityAdd.name_en}}</option>
+                    </select>
+                    </div>
+                  </div>
+                  <div class="col-sm-3 col-12">
+                  <div class="row">
+                    <div class="col-9">
+                    <div class="form-group-2">
+                     <label>Locality</label>
+                     <select title="Choose Locality" class="form-control" (change)="setLocality($event.target.value, i)" [(ngModel)]="model.userModel.localities[i]" name="localities[i]">
+                        <option value="" disabled>Select Locality</option>
+                        <option *ngFor="let localityAdd of parameter.localitiesAdd" value="{{localityAdd.id}}">{{localityAdd.name_en}}</option>
+                      </select>
+                    </div>
+                    </div>
+                    <div class="col-3">
+                      <div class="inline-form-group padding0 marginT10"> 
+                        <button class="add-btn margin0" (click)="addRow()"><img src="./../../../assets/img/add.png" alt="img"></button>
+                    </div>
+                  </div>
+                </div>
+               </div>
+            </div> -->
+
+
+            <div class="access-controls">
+                  
+               <label class="cust-check-bx2">Broker/Seller/Developer
+                 <input type="checkbox" checked="checked">
+                 <span class="checkmark"></span>
+               </label>
+ 
+               <label class="cust-check-bx2">Buyer/Renter
+                 <input type="checkbox">
+                 <span class="checkmark"></span>
+               </label>
+ 
+               <label class="cust-check-bx2">Broker
+                 <input type="checkbox">
+                 <span class="checkmark"></span>
+               </label>
+ 
+               <label class="cust-check-bx2">Data Collector
+                 <input type="checkbox">
+                 <span class="checkmark"></span>
+               </label>
+               <label class="cust-check-bx2">Data Collector
+                 <input type="checkbox">
+                 <span class="checkmark"></span>
+               </label>
+            </div>
+         </div>
+        </form>
+
+     </div>
+  </div>
+</div>

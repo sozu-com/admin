@@ -6,6 +6,7 @@ import { AdminService } from './admin.service';
 import { HttpModule } from '@angular/http';
 import { AuthGuard } from './auth.guard';
 import { SweetAlertService } from 'ngx-sweetalert2';
+import {Ng2TelInputModule} from 'ng2-tel-input';
 
 import { AppComponent } from './app.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
@@ -43,6 +44,7 @@ const appRoutes: Routes = [
       // backdropBorderRadius: '4px',
       primaryColour: '#00B96F'
     }),
+    Ng2TelInputModule
   ],
   providers: [AdminService, AuthGuard, SweetAlertService],
   bootstrap: [AppComponent]

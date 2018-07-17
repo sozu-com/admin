@@ -25,12 +25,12 @@ export interface IProperty {
   phoneNumber?: string;
   value?: Date;
   data?: any;
+  name_es?: string;
+  name_en?: string;
   countries?: any;
   states?: any;
   cities?: any;
   localities?: any;
-  name_es?: string;
-  name_en?: string;
   country_id?: string;
   state_id?: string;
   city_id?: string;
@@ -39,6 +39,18 @@ export interface IProperty {
   stateCount?: number;
   cityCount?: number;
   localityCount?: number;
+  countriesAdd?: any;
+  statesAdd?: any;
+  citiesAdd?: any;
+  localitiesAdd?: any;
+  country_idAdd?: string;
+  state_idAdd?: string;
+  city_idAdd?: string;
+  locality_idAdd?: string;
+  countryCountAdd?: number;
+  stateCountAdd?: number;
+  cityCountAdd?: number;
+  localityCountAdd?: number;
   successText?: string;
   propertyTypes?: any;
   propertyTypesCount?: number;
@@ -48,4 +60,6 @@ export interface IProperty {
   projectTypesCount?: number;
   routeName?: string;
   icon?: any;
+  userType?: string;
+  overlay?: any;
 }

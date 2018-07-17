@@ -6,6 +6,8 @@ export class Constant {
         STATE_NAME_REQUIRED : 'State is required.',
         CITY_NAME_REQUIRED : 'City is required.',
         PROPERTY_TYPE_REQUIRED : 'Name is required.',
+        PRICE_PER_SQFT_REQUIRED: 'Price per sqft is required',
+        PRICE_PER_SQFT_MIN: 'Price per sqft must be greater than 1',
         FILE_REQUIRED : 'File is required.',
         PROPERTY_CONFIG_REQUIRED : 'Name is required.',
         MISSING_COUNTRY_NAME_ES : 'Country name is missing in spanish.',

@@ -10,9 +10,13 @@ import { LocationComponent } from './settings/location/location.component';
 import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
 import { PropertyComponent } from './settings/property/property.component';
 import { ProjectComponent } from './settings/project/project.component';
-import { DataCollectorComponent } from './inhouse-users/data-collector/data-collector.component';
 import { LocalityComponent } from './settings/locality/locality.component';
 import { InhouseUsersComponent } from './inhouse-users/inhouse-users.component';
+// import { DataCollectorComponent } from './inhouse-users/data-collector/data-collector.component';
+// import { CsrSellerComponent } from './inhouse-users/csr-seller/csr-seller.component';
+// import { CsrBuyerComponent } from './inhouse-users/csr-buyer/csr-buyer.component';
+// import { InhouseBrokerComponent } from './inhouse-users/inhouse-broker/inhouse-broker.component';
+// import { CsrCloserComponent } from './inhouse-users/csr-closer/csr-closer.component';
 
 const routes: Routes = [
     {
@@ -25,8 +29,12 @@ const routes: Routes = [
         path: 'dashboard', component: LayoutComponent, canActivate: [AuthGuard],
         children: [
             { path: '', component: DashboardComponent },
-            { path: 'view-data-collectors', component: InhouseUsersComponent},
-            { path: 'view-csr-sellers', component: InhouseUsersComponent},
+            { path: 'view-inhouse-users/:userType', component: InhouseUsersComponent},
+            // { path: 'view-data-collectors', component: InhouseUsersComponent},
+            // { path: 'view-csr-sellers', component: InhouseUsersComponent},
+            // { path: 'view-csr-buyers', component: InhouseUsersComponent},
+            // { path: 'view-inhouse-broker', component: InhouseUsersComponent},
+            // { path: 'view-csr-closers', component: InhouseUsersComponent},
             // { path: 'view-data-collectors', component: DataCollectorComponent},
             { path: 'change-password', component: ChangePasswordComponent },
             { path: 'setting-location', component: LocationComponent},

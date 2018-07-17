@@ -297,14 +297,13 @@ export class LocationComponent implements OnInit {
       .subscribe(
         success => {
           console.log('success',success)
-          this.parameter.loading = false;
           this.swal.success({ 
             title: 'Success',
             text: this.location.countryModel.country_id || country_id ? this.constant.successMsg.COUNTRY_UPDATED_SUCCESSFULLY : this.constant.successMsg.COUNTRY_ADDED_SUCCESSFULLY,
           })
+          this.parameter.loading = false;
           this.getCountries('');
-          // this.location.countryModel
-          // formdata.reset();
+          // this.parameter.countries.push(success.data)
         },
         error => {
           this.parameter.loading = false;
@@ -369,12 +368,12 @@ export class LocationComponent implements OnInit {
       .subscribe(
         success => {
           console.log('success',success)
-          this.parameter.loading = false;
+          this.getStates(this.location.stateModel.country_id ? this.location.stateModel.country_id : country_id, '');
           this.swal.success({ 
             title: 'Success',
             text: this.location.stateModel.state_id || state_id ? this.constant.successMsg.STATE_UPDATED_SUCCESSFULLY : this.constant.successMsg.STATE_ADDED_SUCCESSFULLY,
           })
-          this.getStates(this.location.stateModel.country_id ? this.location.stateModel.country_id : country_id, '');
+          this.parameter.loading = false;
           // formdata.reset();
         },
         error => {
@@ -438,12 +437,12 @@ export class LocationComponent implements OnInit {
       .subscribe(
         success => {
           console.log('success',success)
-          this.parameter.loading = false;
+          this.getCities(this.location.cityModel.state_id, '');
           this.swal.success({ 
             title: 'Success',
             text: this.location.cityModel.city_id || city_id ? this.constant.successMsg.CITY_UPDATED_SUCCESSFULLY : this.constant.successMsg.CITY_ADDED_SUCCESSFULLY,
           })
-          this.getCities(this.location.cityModel.state_id, '');
+          this.parameter.loading = false;
           // formdata.reset();
         },
         error => {

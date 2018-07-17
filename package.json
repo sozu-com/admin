@@ -12,7 +12,7 @@
   },
   "private": true,
   "dependencies": {
-    "@agm/core": "^1.0.0-beta.3",
+    "@agm/core": "1.0.0-beta.1",
     "@angular/animations": "^4.4.7",
     "@angular/common": "^4.4.7",
     "@angular/compiler": "^4.4.7",
@@ -37,7 +37,7 @@
     "jvectormap": "^2.0.4",
     "ng2-cli-sweetalert2": "0.0.6",
     "ng2-sweetalert2": "0.0.8",
-    "ng2-tel-input": "^1.0.15",
+    "ng2-tel-input": "1.0.14",
     "ngbox": "0.0.15",
     "ngx-bootstrap": "2.0.5",
     "ngx-loading": "^1.0.14",

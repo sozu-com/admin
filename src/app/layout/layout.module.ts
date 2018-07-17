@@ -13,6 +13,7 @@ import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { AgmCoreModule } from '@agm/core';
+import {Ng2TelInputModule} from 'ng2-tel-input';
 
 // importing shared components
 import { LoginComponent } from './login/login.component';
@@ -32,6 +33,10 @@ import { DataCollectorComponent } from './inhouse-users/data-collector/data-coll
 import { LocalityComponent } from './settings/locality/locality.component';
 import { InhouseUsersComponent } from './inhouse-users/inhouse-users.component';
 import { CsrSellerComponent } from './inhouse-users/csr-seller/csr-seller.component';
+import { CsrBuyerComponent } from './inhouse-users/csr-buyer/csr-buyer.component';
+import { InhouseBrokerComponent } from './inhouse-users/inhouse-broker/inhouse-broker.component';
+import { CsrCloserComponent } from './inhouse-users/csr-closer/csr-closer.component';
+import { AddressComponent } from './inhouse-users/address/address.component';
 
 @NgModule({
     imports: [
@@ -53,10 +58,15 @@ import { CsrSellerComponent } from './inhouse-users/csr-seller/csr-seller.compon
         NgBoxModule,
         NgxMyDatePickerModule.forRoot(),
         MalihuScrollbarModule.forRoot(),
+        // AgmCoreModule.forRoot({
+        //     apiKey: "AIzaSyDRS3KuVS6OZrVrjCCVpGZ4zYPZHFwYIso",
+        //     libraries: ['drawing']
+        // }),
         AgmCoreModule.forRoot({
-            apiKey: "AIzaSyDRS3KuVS6OZrVrjCCVpGZ4zYPZHFwYIso",
+            apiKey: "AIzaSyCYv_zELZGVo2Ehzgp8eh8UeSIidhMCmH8",
             libraries: ['drawing']
-        }),
+          }),
+        Ng2TelInputModule
     ],
     declarations: [
         LayoutComponent,
@@ -72,7 +82,11 @@ import { CsrSellerComponent } from './inhouse-users/csr-seller/csr-seller.compon
         DataCollectorComponent,
         LocalityComponent,
         InhouseUsersComponent,
-        CsrSellerComponent
+        CsrSellerComponent,
+        CsrBuyerComponent,
+        InhouseBrokerComponent,
+        CsrCloserComponent,
+        AddressComponent
     ],
     providers: [SweetAlertService, NgBoxService],
 })
