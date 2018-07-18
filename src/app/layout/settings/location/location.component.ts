@@ -1,13 +1,13 @@
 import { Component, OnInit, TemplateRef, ViewChild, ElementRef } from '@angular/core';
-import { AdminService } from '../../../admin.service';
+import { AdminService } from '../../../services/admin.service';
 import { Router } from '@angular/router';
 import { SweetAlertService } from 'ngx-sweetalert2';
-import { IProperty } from '../../common/property';
+import { IProperty } from '../../../common/property';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { Location } from './location.model';
-import { Constant } from './../../common/constants';
+import { Location } from './../../../models/location.model'
+import { Constant } from './../../../common/constants';
 import { NgForm } from '@angular/forms';
-import { AGMComponent } from './../../common/agm.component';
+import { AGMComponent } from './../../../common/agm.component';
 import { MapsAPILoader } from '@agm/core';
 
 @Component({

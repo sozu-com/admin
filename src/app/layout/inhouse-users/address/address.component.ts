@@ -1,9 +1,9 @@
 import { Component, OnInit, TemplateRef, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
-import { AdminService } from '../../../admin.service';
+import { AdminService } from '../../../services/admin.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SweetAlertService } from 'ngx-sweetalert2';
-import { IProperty } from '../../common/property';
-import { InhouseUsers } from './../inhouse-users.model';
+import { IProperty } from '../../../common/property';
+import { InhouseUsers } from './../../../models/inhouse-users.model';
 
 @Component({
   selector: 'app-address',

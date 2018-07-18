@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AdminService } from '../../admin.service';
+import { AdminService } from '../../services/admin.service';
 import { SweetAlertService } from 'ngx-sweetalert2';
 import { NgForm } from '@angular/forms';
-import { IProperty } from '../../layout/common/property';
+import { IProperty } from '../../common/property';
 
 @Component({
   selector: 'app-login',

@@ -31,7 +31,8 @@
       <div class="col-6">
         <div class="user-profile float-right">
            <a href="javascript://">
-              <h4>Lester Lyons</h4>
+              <h4>{{fullName}}</h4>
+              
               <img class="rounded-circle" src="http://via.placeholder.com/50x50">
            </a>
         </div>
@@ -101,6 +102,7 @@
                               <li><a class="dropdown-item" routerLink="setting-locality">Locality</a></li>
                               <li><a class="dropdown-item" routerLink="setting-property">Property</a></li>
                               <li><a class="dropdown-item" routerLink="setting-project">Project</a></li>
+                              <li><a class="dropdown-item" routerLink="edit-profile">Edit Profile</a></li>
                               <li><a class="dropdown-item logout-btn" (click)="onLoggedout()">Logout</a></li>
                               <!-- <li><a class="dropdown-item" (click)="onLoggedout()">Logout</a></li> -->
                             </ul>

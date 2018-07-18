@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from '../../admin.service';
+import { AdminService } from '../../services/admin.service';
 import { Router } from '@angular/router';
 import { SweetAlertService } from 'ngx-sweetalert2';
 

@@ -1,11 +1,11 @@
 import { Component, OnInit, TemplateRef, ElementRef } from '@angular/core';
-import { AdminService } from '../../../admin.service';
+import { AdminService } from '../../../services/admin.service';
 import { Router } from '@angular/router';
 import { SweetAlertService } from 'ngx-sweetalert2';
-import { IProperty } from '../../common/property';
+import { IProperty } from '../../../common/property';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { Constant } from './../../common/constants';
-import { Property } from './property.model';
+import { Constant } from './../../../common/constants';
+import { Property } from './../../../models/property.model';
 
 @Component({
   selector: 'app-property',

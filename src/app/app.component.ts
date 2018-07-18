@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IProperty } from './layout/common/property';
+import { IProperty } from './common/property';
 import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
 
 @Component({

@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AdminService } from '../../../admin.service';
+import { AdminService } from '../../../services/admin.service';
 import { Router } from '@angular/router';
 import { SweetAlertService } from 'ngx-sweetalert2';
-import { IProperty } from '../../common/property';
+import { IProperty } from '../../../common/property';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { MapsAPILoader } from '@agm/core';
-import { Constant } from './../../common/constants';
+import { Constant } from './../../../common/constants';
 
 declare const google;
 

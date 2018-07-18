@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from '../admin.service';
+import { AdminService } from '../services/admin.service';
 import { NgForm } from '@angular/forms';
 import { SweetAlertService } from 'ngx-sweetalert2';
-import { IProperty } from '../layout/common/property';
+import { IProperty } from '../common/property';
 
 @Component({
   selector: 'app-forgot-password',

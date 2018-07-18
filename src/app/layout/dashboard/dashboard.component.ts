@@ -1,9 +1,9 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { AdminService } from '../../admin.service';
+import { AdminService } from '../../services/admin.service';
 import { Router } from '@angular/router';
 import { SweetAlertService } from 'ngx-sweetalert2';
-import { IProperty } from '../common/property';
-import { DashboardModel } from './dashboard.model';
+import { IProperty } from '../../common/property';
+import { DashboardModel } from './../../models/dashboard.model'
 
 @Component({
   selector: 'app-dashboard',

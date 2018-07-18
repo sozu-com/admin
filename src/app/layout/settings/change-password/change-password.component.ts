@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AdminService } from '../../../admin.service';
+import { AdminService } from '../../../services/admin.service';
 import { SweetAlertService } from 'ngx-sweetalert2';
-import { IProperty } from '../../common/property';
+import { IProperty } from '../../../common/property';
 import { NgForm } from '@angular/forms';
 
 @Component({

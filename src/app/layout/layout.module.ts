@@ -29,14 +29,10 @@ import { ChangePasswordComponent } from './settings/change-password/change-passw
 import { LocationComponent } from './settings/location/location.component';
 import { PropertyComponent } from './settings/property/property.component';
 import { ProjectComponent } from './settings/project/project.component';
-import { DataCollectorComponent } from './inhouse-users/data-collector/data-collector.component';
 import { LocalityComponent } from './settings/locality/locality.component';
 import { InhouseUsersComponent } from './inhouse-users/inhouse-users.component';
-import { CsrSellerComponent } from './inhouse-users/csr-seller/csr-seller.component';
-import { CsrBuyerComponent } from './inhouse-users/csr-buyer/csr-buyer.component';
-import { InhouseBrokerComponent } from './inhouse-users/inhouse-broker/inhouse-broker.component';
-import { CsrCloserComponent } from './inhouse-users/csr-closer/csr-closer.component';
 import { AddressComponent } from './inhouse-users/address/address.component';
+import { EditProfileComponent } from './settings/edit-profile/edit-profile.component';
 
 @NgModule({
     imports: [
@@ -79,14 +75,10 @@ import { AddressComponent } from './inhouse-users/address/address.component';
         LocationComponent,
         PropertyComponent,
         ProjectComponent,
-        DataCollectorComponent,
         LocalityComponent,
         InhouseUsersComponent,
-        CsrSellerComponent,
-        CsrBuyerComponent,
-        InhouseBrokerComponent,
-        CsrCloserComponent,
-        AddressComponent
+        AddressComponent,
+        EditProfileComponent
     ],
     providers: [SweetAlertService, NgBoxService],
 })
