@@ -5,12 +5,13 @@ import { SweetAlertService } from 'ngx-sweetalert2';
 import { IProperty } from '../../common/property';
 import { InhouseUsers } from './../../models/inhouse-users.model';
 import { NgForm } from '@angular/forms';
+import { Constant } from './../../common/constants';
 
 @Component({
   selector: 'app-inhouse-users',
   templateUrl: './inhouse-users.component.html',
   styleUrls: ['./inhouse-users.component.css'],
-  providers: [InhouseUsers]
+  providers: [InhouseUsers, Constant]
 })
 
 export class InhouseUsersComponent implements OnInit {
@@ -22,28 +23,30 @@ export class InhouseUsersComponent implements OnInit {
   initialCountry: any;
   addressIndex: number = 0;
 
-  constructor(private model: InhouseUsers, private element: ElementRef, private route: ActivatedRoute, private admin: AdminService, private router: Router, private swal: SweetAlertService) { }
+  constructor(private constant: Constant, private model: InhouseUsers, private element: ElementRef, private route: ActivatedRoute, private admin: AdminService, private router: Router, private swal: SweetAlertService) { }
 
   ngOnInit() {
-    
+    this.parameter.itemsPerPage = this.constant.itemsPerPage;
+    this.parameter.p = this.constant.p;
     this.parameter.routeName = this.router.url;
     this.parameter.sub = this.route.params.subscribe(params => {
       this.parameter.userType = params['userType'];
-      console.log('zz',this.parameter.userType)
       this.getCountries('view');
       // this.getInhouseUsers();
       this.initialCountry = {initialCountry: 'mx'}
     });
+  }
 
+  getPage(page){
+    this.parameter.p = page;
+    this.getInhouseUsers();
   }
 
   removeAddressObj(index){
-    console.log('index', index)
     this.model.address.splice(index, 1)
   }
 
   addEmptyObj(){
-    console.log('xxxxxxxxxxxxxx', this.model.address);
     if(this.model.address[this.addressIndex].countries && this.model.address[this.addressIndex].states && this.model.address[this.addressIndex].cities && this.model.address[this.addressIndex].localities){
       var obj = {
         countries: '',
@@ -62,17 +65,8 @@ export class InhouseUsersComponent implements OnInit {
     }
   }
 
-  public openUserModal(template: TemplateRef<any>) {
-    console.log('zz', template);
-    // this.project.possession.id = id;
-    // this.project.possession.name_en = name_en;
-    // this.project.possession.name_es = name_es==null? name_en : name_es;
-    // this.project.possession.status = status;
-    // this.modalRef = this.modalService.show(template);
-  }
 
   onCountryChange(e){
-    console.log(e)
     this.parameter.countryCode = e.iso2;
     this.parameter.dialCode = e.dialCode;
     this.initialCountry = {initialCountry: e.iso2}
@@ -84,6 +78,7 @@ export class InhouseUsersComponent implements OnInit {
 
 
   changeListner(event) {
+
     var reader = new FileReader();
     
     var image = this.element.nativeElement.querySelector('.image');
@@ -92,21 +87,17 @@ export class InhouseUsersComponent implements OnInit {
     this.parameter.icon = this.parameter.image;
 
     reader.onload = function(e) {
-      console.log(image)
       var src = e.target['result'];
         image.src = src;
-        console.log(image.src)
     };
 
     reader.readAsDataURL(event.target.files[0]);
   }
 
   addNewUser(formdata: NgForm){
-    console.log('zzzz', formdata, this.model.address, this.parameter.image)
-    console.log('countrycode','+'+this.model.userModel.country_code)
     this.parameter.loading = true;
     this.parameter.url = 'addNewUser';
-
+console.log('add newuser params', formdata, JSON.stringify(this.model.address), '+'+this.model.userModel.country_code)
     let input = new FormData();
     input.append("name", formdata.value.name);
     input.append("country_code", '+'+this.model.userModel.country_code);
@@ -134,12 +125,12 @@ export class InhouseUsersComponent implements OnInit {
             this.modalClose.nativeElement.click();
             formdata.reset();
           }
-          console.log('success',success)    
+          console.log('user add',success)    
         },
         error => {
           console.log('error',error)
           this.parameter.loading = false;
-          this.swal.warning({
+          this.swal.error({
             title: 'Error',
             text: error.message,
           })
@@ -147,8 +138,14 @@ export class InhouseUsersComponent implements OnInit {
   }
 
   editUser(userdata){
-    console.log('userdata', userdata)
+    console.log('edit user', userdata)
     this.modalOpen.nativeElement.click();
+    // this.model.userModel = userdata;
+    this.model.userModel.name = userdata.name;
+    this.model.userModel.email = userdata.email;
+    this.model.userModel.phone = userdata.phone;
+    this.model.userModel.country_code = userdata.country_code;
+    this.model.userModel.image = userdata.image;
   }
 
   getCountries(type){
@@ -170,7 +167,7 @@ export class InhouseUsersComponent implements OnInit {
         },
         error => {
           this.parameter.loading = false;
-          this.swal.warning({
+          this.swal.error({
             title: 'Error',
             text: error.message,
           })
@@ -189,7 +186,6 @@ export class InhouseUsersComponent implements OnInit {
       .subscribe(
         success => {
           this.parameter.loading = false;
-          console.log('states1',success)
           this.parameter.states = success.data
           this.parameter.stateCount = success.data.length;
           if(this.parameter.stateCount != 0){
@@ -198,9 +194,8 @@ export class InhouseUsersComponent implements OnInit {
           }          
         },
         error => {
-          console.log(error)
           this.parameter.loading = false;
-          this.swal.warning({
+          this.swal.error({
             title: 'Error',
             text: error.message,
           })
@@ -233,7 +228,7 @@ export class InhouseUsersComponent implements OnInit {
           this.parameter.loading = false;
           if(error.statusCode==401) this.router.navigate(['']);
           else
-            this.swal.warning({
+            this.swal.error({
               // title: 'Internet Connection',
               text: error.messages,
             })
@@ -266,17 +261,29 @@ export class InhouseUsersComponent implements OnInit {
           this.parameter.loading = false;
           if(error.statusCode==401) this.router.navigate(['']);
           else
-            this.swal.warning({
+            this.swal.error({
               // title: 'Internet Connection',
               text: error.messages,
             })
         });
   }
 
+  searchUserByName(name){
+    this.parameter.name = name;
+    this.getInhouseUsers();
+  }
+  searchUserByEmail(email){
+    this.parameter.email = email;
+    this.getInhouseUsers();
+  }
+  searchUserByPhone(phone){
+    this.parameter.phone = phone;
+    this.getInhouseUsers();
+  }
+
 
   getInhouseUsers(){
     this.parameter.loading = true;
-console.log('this.parameter.userType',this.parameter.userType)
     switch (this.parameter.userType) {
       case 'data-collectors':
       this.parameter.url = 'getDataCollectors';    
@@ -303,30 +310,39 @@ console.log('this.parameter.userType',this.parameter.userType)
         break;
     }
 
+    // if(this.parameter.name) this.parameter.url = this.parameter.url+'&name='+this.parameter.name;
+    // if(this.parameter.email) this.parameter.url = this.parameter.url+'&email='+this.parameter.email;
+    // if(this.parameter.phone) this.parameter.url = this.parameter.url+'&phone='+this.parameter.phone;
+
     let input = new FormData();
+    input.append("page", this.parameter.p.toString());
+
+    if(this.parameter.name)
+    input.append("name", this.parameter.name);
+
+    if(this.parameter.email)
+    input.append("email", this.parameter.email);
+    
+    if(this.parameter.phone)
+    input.append("phone", this.parameter.phone);
+
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('getInhouseBroker',success)
           this.parameter.loading = false;
           this.parameter.items = success.data
           this.parameter.total = success.data.length;
         },
         error => {
-          console.log(error)
           this.parameter.loading = false;
           if(error.statusCode==401) this.router.navigate(['']);
           else
-            this.swal.warning({ 
+            this.swal.error({ 
               // title: 'Internet Connection',
               text: error.messages,
             })
         });
   }
-
-
-
-
 
 
   addRow(){

@@ -38,7 +38,8 @@ export class LocationComponent implements OnInit {
     // this.getStates();
   }
 
-  public openCountryModal(template: TemplateRef<any>, country_id, name_en, name_es, status) {
+  public openCountryModal(template: TemplateRef<any>, country_id, name_en, name_es, status, index) {
+    this.parameter.index = index;
     this.location.countryModel.country_id = country_id;
     this.location.countryModel.name_en = name_en;
     this.location.countryModel.name_es = name_es;
@@ -46,7 +47,8 @@ export class LocationComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  public openStateModal(template: TemplateRef<any>, country_id, state_id, name_en, name_es, status) {
+  public openStateModal(template: TemplateRef<any>, country_id, state_id, name_en, name_es, status, index) {
+    this.parameter.index = index;
     this.location.stateModel.country_id = country_id;
     this.location.stateModel.state_id = state_id;
     this.location.stateModel.name_en = name_en;
@@ -55,7 +57,8 @@ export class LocationComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  public openCityModal(template: TemplateRef<any>, country_id, state_id, city_id, name_en, name_es, status) {
+  public openCityModal(template: TemplateRef<any>, country_id, state_id, city_id, name_en, name_es, status, index) {
+    this.parameter.index = index;
     this.location.cityModel.country_id = country_id;
     this.location.cityModel.state_id = state_id;
     this.location.cityModel.city_id = city_id;
@@ -65,7 +68,8 @@ export class LocationComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
   
-  public openLocalityModal(template: TemplateRef<any>, city_id, locality_id, name_en, name_es, poly_coordinates, status) {
+  public openLocalityModal(template: TemplateRef<any>, city_id, locality_id, name_en, name_es, poly_coordinates, status, index) {
+    this.parameter.index = index;
 
     this.agm.init(this.mapDiv);
     
@@ -302,8 +306,13 @@ export class LocationComponent implements OnInit {
             text: this.location.countryModel.country_id || country_id ? this.constant.successMsg.COUNTRY_UPDATED_SUCCESSFULLY : this.constant.successMsg.COUNTRY_ADDED_SUCCESSFULLY,
           })
           this.parameter.loading = false;
-          this.getCountries('');
-          // this.parameter.countries.push(success.data)
+          // this.getCountries('');
+          
+          if(this.parameter.index == -1)
+            this.parameter.countries.push(success.data)
+          else
+            this.parameter.countries[this.parameter.index]=success.data;
+
         },
         error => {
           this.parameter.loading = false;
@@ -367,13 +376,20 @@ export class LocationComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('success',success)
-          this.getStates(this.location.stateModel.country_id ? this.location.stateModel.country_id : country_id, '');
+          console.log('success1',success)
           this.swal.success({ 
             title: 'Success',
             text: this.location.stateModel.state_id || state_id ? this.constant.successMsg.STATE_UPDATED_SUCCESSFULLY : this.constant.successMsg.STATE_ADDED_SUCCESSFULLY,
           })
           this.parameter.loading = false;
+          // this.getStates(this.location.stateModel.country_id ? this.location.stateModel.country_id : country_id, '');
+          
+          
+          if(this.parameter.index == -1)
+            this.parameter.states.push(success.data)
+          else
+            this.parameter.states[this.parameter.index]=success.data;
+
           // formdata.reset();
         },
         error => {
@@ -411,6 +427,7 @@ export class LocationComponent implements OnInit {
     }
   }
 
+
   addCity(state_id, name_en, name_es, status, city_id){
     
     this.modalRef.hide();
@@ -418,7 +435,6 @@ export class LocationComponent implements OnInit {
     this.parameter.url = 'addCity';
 
     let input = new FormData();
-    // input.append("state_id", formdata.value.state_id);
     input.append("name_es", name_es);
     input.append("name_en", name_en);
     input.append("status", status);
@@ -436,13 +452,20 @@ export class LocationComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('success',success)
-          this.getCities(this.location.cityModel.state_id, '');
+          console.log('success2',success)
           this.swal.success({ 
             title: 'Success',
             text: this.location.cityModel.city_id || city_id ? this.constant.successMsg.CITY_UPDATED_SUCCESSFULLY : this.constant.successMsg.CITY_ADDED_SUCCESSFULLY,
           })
           this.parameter.loading = false;
+          // this.getCities(this.location.cityModel.state_id, '');
+          
+          
+          if(this.parameter.index == -1)
+            this.parameter.cities.push(success.data)
+          else
+            this.parameter.cities[this.parameter.index]=success.data;
+
           // formdata.reset();
         },
         error => {
@@ -463,8 +486,8 @@ export class LocationComponent implements OnInit {
   }
 
 
-  blockUnblockCountry(country_id, name_en, name_es, type){
-    
+  blockUnblockCountry(country_id, name_en, name_es, type, index){
+    this.parameter.index = index;
     this.parameter.title = this.constant.title.ARE_YOU_SURE;
     switch (type) {
       case 0:
@@ -490,8 +513,8 @@ export class LocationComponent implements OnInit {
   }
 
 
-  blockUnblockState(country_id, name_en, name_es, type, state_id){
-    
+  blockUnblockState(country_id, name_en, name_es, type, state_id, index){
+    this.parameter.index = index;
     this.parameter.title = this.constant.title.ARE_YOU_SURE;
     switch (type) {
       case 0:
@@ -517,8 +540,8 @@ export class LocationComponent implements OnInit {
   }
 
 
-  blockUnblockCity(state_id, name_en, name_es, type, city_id){
-    
+  blockUnblockCity(state_id, name_en, name_es, type, city_id, index){
+    this.parameter.index = index;
     this.parameter.title = this.constant.title.ARE_YOU_SURE;
     switch (type) {
       case 0:

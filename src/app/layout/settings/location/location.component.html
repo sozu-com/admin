@@ -22,17 +22,20 @@
           <div class="row">
               <div class="col-md-12">
                 <label><strong>Country</strong></label>
-                <hr>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-6 table-search">
+                  <input type="text" (input)="getCountries($event.target.value)" name="keyword" placeholder="Search here">
               </div>
               <div class="col-lg-2 col-md-3 col-sm-6 col-6">
                  <div class="form-group marginB0">
-                    <label>Add Country</label>
+                    <!-- <label>Add Country</label> -->
                     <div class="add-new">
-                        <a class="btn" href="javascript://" (click)="openCountryModal(addCountryModal, '', '', '', '1')">+ Add New</a>
+                        <a class="btn" href="javascript://" (click)="openCountryModal(addCountryModal, '', '', '', '1', -1)">+ Add New</a>
                     </div>
                  </div>
               </div>
            </div>
+           <hr>
           </div>
       </div>
 
@@ -41,21 +44,17 @@
           <div class="table-responsive">
             <table class="table table-striped">
                 <tr>
-                  <th style="width:80%; text-align:left;">
-                  <div class="table-search">
-                      <input type="text" (input)="getCountries($event.target.value)" name="keyword" placeholder="Search here">
-                      </div>
-                  </th>
+                  <th style="width:80%; text-align:left;">Country</th>
                   <th style="width:20%">Action</th>
                 </tr>
-                <tr *ngFor="let country of parameter.countries">
+                <tr *ngFor="let country of parameter.countries; let c=index">
                   <td class="text-left">
                     {{country.name_en}}
                   </td>
                   <td>
-                    <a title="Edit Country" (click)="openCountryModal(addCountryModal, country.id, country.name_en, country.name_es, country.status)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
-                    <a *ngIf="country.status == 1" (click)="blockUnblockCountry(country.id, country.name_en, country.name_es, 0)" title="Block Country" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
-                    <a *ngIf="country.status == 0" (click)="blockUnblockCountry(country.id, country.name_en, country.name_es, 1)" title="Unblock Country" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a>
+                    <a title="Edit Country" (click)="openCountryModal(addCountryModal, country.id, country.name_en, country.name_es, country.status, c)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
+                    <a *ngIf="country.status == 1" (click)="blockUnblockCountry(country.id, country.name_en, country.name_es, 0, c)" title="Block Country" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
+                    <a *ngIf="country.status == 0" (click)="blockUnblockCountry(country.id, country.name_en, country.name_es, 1, c)" title="Unblock Country" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a>
                   </td>
                 </tr>
 
@@ -88,7 +87,7 @@
                  <div class="form-group marginB0">
                     <label>Add State</label>
                     <div class="add-new">
-                        <a class="btn" href="javascript://" (click)="openStateModal(addStateModal, '', '', '', '', '1')">+ Add New</a>
+                        <a class="btn" href="javascript://" (click)="openStateModal(addStateModal, '', '', '', '', '1', -1)">+ Add New</a>
                     </div>
                  </div>
               </div>
@@ -108,15 +107,15 @@
                   </th>
                   <th style="width:20%">Action</th>
                 </tr>
-                <tr *ngFor="let state of parameter.states">
+                <tr *ngFor="let state of parameter.states; let s = index">
                 
                   <td class="text-left">
                     {{state.name_en}}
                   </td>
                 <td>
-                      <a href="javascript://" (click)="openStateModal(addStateModal, state.country_id, state.id, state.name_en, state.name_es, state.status)" title="Edit State" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
-                      <a *ngIf="state.status == 1" (click)="blockUnblockState(state.country_id, state.name_en, state.name_es, 0, state.id)" title="Block State" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
-                      <a *ngIf="state.status == 0" (click)="blockUnblockState(state.country_id, state.name_en, state.name_es, 1, state.id)" title="Unblock State" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a>
+                      <a href="javascript://" (click)="openStateModal(addStateModal, state.country_id, state.id, state.name_en, state.name_es, state.status, s)" title="Edit State" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
+                      <a *ngIf="state.status == 1" (click)="blockUnblockState(state.country_id, state.name_en, state.name_es, 0, state.id, s)" title="Block State" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
+                      <a *ngIf="state.status == 0" (click)="blockUnblockState(state.country_id, state.name_en, state.name_es, 1, state.id, s)" title="Unblock State" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a>
                   </td>
                 </tr>
 
@@ -158,7 +157,7 @@
                <div class="form-group marginB0">
                   <label>Add City</label>
                   <div class="add-new">
-                      <a class="btn" href="javascript://" (click)="openCityModal(addCityModal, '', '', '', '', '', 1)">+ Add New</a>
+                      <a class="btn" href="javascript://" (click)="openCityModal(addCityModal, '', '', '', '', '', 1, -1)">+ Add New</a>
                   </div>
                </div>
             </div>
@@ -179,15 +178,15 @@
                 </th>
                 <th style="width:20%">Action</th>
               </tr>
-              <tr *ngFor="let city of parameter.cities">
+              <tr *ngFor="let city of parameter.cities; let ci=index">
               
                 <td class="text-left">
                   {{city.name_en}}
                 </td>
               <td>
-                    <a href="javascript://" (click)="openCityModal(addCityModal, city.country_id, city.state_id, city.id, city.name_en, city.name_es, city.status)" title="Edit City" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
-                    <a *ngIf="city.status == 1" (click)="blockUnblockCity(city.state_id, city.name_en, city.name_es, 0, city.id)" title="Block City" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
-                    <a *ngIf="city.status == 0" (click)="blockUnblockCity(city.state_id, city.name_en, city.name_es, 1, city.id)" title="Unblock City" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a>
+                    <a href="javascript://" (click)="openCityModal(addCityModal, city.country_id, city.state_id, city.id, city.name_en, city.name_es, city.status, ci)" title="Edit City" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
+                    <a *ngIf="city.status == 1" (click)="blockUnblockCity(city.state_id, city.name_en, city.name_es, 0, city.id, ci)" title="Block City" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
+                    <a *ngIf="city.status == 0" (click)="blockUnblockCity(city.state_id, city.name_en, city.name_es, 1, city.id, ci)" title="Unblock City" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a>
                 </td>
               </tr>
 

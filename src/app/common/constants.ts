@@ -1,15 +1,16 @@
 export class Constant {
-    public limit: number = 10;
+    public itemsPerPage: number = 10;
+    public p: number = 1;
     public userPlaceholder: string = '../../../assets/img/default_usr.png';
     public errorMsg : any = {
-        COUNTRY_NAME_REQUIRED : 'Country is required.',
-        STATE_NAME_REQUIRED : 'State is required.',
-        CITY_NAME_REQUIRED : 'City is required.',
-        PROPERTY_TYPE_REQUIRED : 'Name is required.',
-        PRICE_PER_SQFT_REQUIRED: 'Price per sqft is required',
+        COUNTRY_NAME_REQUIRED : 'Please enter country.',
+        STATE_NAME_REQUIRED : 'Please enter state.',
+        CITY_NAME_REQUIRED : 'Please enter city.',
+        PROPERTY_TYPE_REQUIRED : 'Please enter name.',
+        PRICE_PER_SQFT_REQUIRED: 'Please enter price per sqft.',
         PRICE_PER_SQFT_MIN: 'Price per sqft must be greater than 1',
-        FILE_REQUIRED : 'File is required.',
-        PROPERTY_CONFIG_REQUIRED : 'Name is required.',
+        FILE_REQUIRED : 'Please choose file.',
+        PROPERTY_CONFIG_REQUIRED : 'Please enter name.',
         MISSING_COUNTRY_NAME_ES : 'Country name is missing in spanish.',
         SAVE_ENGLISH_COUNTRY_NAME : "We'll save english country name in place of spanish.",
         SAVE_ENGLISH_STATE_NAME : "We'll save english state name in place of spanish.",

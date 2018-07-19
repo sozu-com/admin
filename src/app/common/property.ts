@@ -67,4 +67,7 @@ export interface IProperty {
   is_broker?: number;
   is_data_collector?: number;
   image?: any;
+  index?: number;
+  name?: string;
+  phone?: string;
 }

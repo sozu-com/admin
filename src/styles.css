@@ -8,19 +8,29 @@
 .spinner-rectangle-bounce{
     position: fixed !important;
 }
-.my-pagination{text-align: center;}
+.intl-tel-input {
+    width: 100% !important;
+}
+.my-pagination{text-align: right;}
+.ngx-pagination .current {
+    background: #00B96F !important;
+}
+.form-group .form-control:focus {
+    border: none !important;
+    border-bottom: solid 1px #00B96F !important;
+}
 .ibox{overflow-x: auto;}
 .no-data {
     font-size: 20px;
     font-weight: 100;
 }
 .ng-valid[required], .ng-valid.required  {
-    /* color: #42A948; */
-    border-left: 5px solid #42A948 !important; 
+    border-bottom: 1px solid #00B96F !important; 
+    /* border-left: 5px solid #00B96F !important;  */
 }
 .ng-invalid:not(form)  {
-    /* color: #a94442; */
-    border-left: 5px solid #a94442 !important; 
+    /* border-bottom: 1px solid #a94442 !important;  */
+    /* border-left: 5px solid #a94442 !important;  */
 }
 .show-error{
     padding: 8px 10px;

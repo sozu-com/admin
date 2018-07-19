@@ -4,16 +4,16 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminService } from './services/admin.service';
 import { HttpModule } from '@angular/http';
-import { AuthGuard } from './auth.guard';
+import { AuthGuard } from './services/auth.guard';
 import { SweetAlertService } from 'ngx-sweetalert2';
 import {Ng2TelInputModule} from 'ng2-tel-input';
 
 import { AppComponent } from './app.component';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+// import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 // import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
-import { SignupComponent } from './signup/signup.component';
+// import { SignupComponent } from './signup/signup.component';
 import { LayoutModule } from './layout/layout.module'
 
 const appRoutes: Routes = [
@@ -27,8 +27,8 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    ForgotPasswordComponent,
-    SignupComponent,
+    // ForgotPasswordComponent,
+    // SignupComponent,
     PageNotFoundComponent
   ],
   imports: [

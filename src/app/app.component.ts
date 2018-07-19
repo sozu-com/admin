@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IProperty } from './common/property';
-import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
+import { Router, NavigationEnd, NavigationCancel, NavigationError, NavigationStart } from '@angular/router';
 
 @Component({
   selector: 'app-root',

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 import { Router } from '@angular/router';
-import { AdminService } from './services/admin.service'
+import { AdminService } from './admin.service'
 import { SweetAlertService } from 'ngx-sweetalert2';
 
 @Injectable()
@@ -12,10 +12,17 @@ export class AuthGuard implements CanActivate {
 
   canActivate(){
     let token =  localStorage.getItem('token');
-
-    if(this.admin.loginData$ == undefined){
+console.log('vvvvvvvvvvv', this.admin.loginData$.data)
+    if(this.admin.loginData$.data == undefined){
       let input = new FormData();
-      this.admin.loginData$ = this.admin.postDataApi('get-details', input);
+      // this.admin.loginData$ = this.admin.postDataApi('get-details', input)
+
+      this.admin.postDataApi('get-details', input)
+      .subscribe(
+        success => {
+          console.log('zzzzzzzzzzzzzzzzzzz', success.data)
+          this.admin.loginData$ = success.data;
+        });
     }
 
     if (token) {

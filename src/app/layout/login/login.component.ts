@@ -21,7 +21,9 @@ export class LoginComponent implements OnInit {
   public parameter: IProperty = {};
   emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"; 
   
-  constructor(private router: Router, private admin: AdminService, private swal: SweetAlertService) { }
+  constructor(private router: Router, private admin: AdminService, private swal: SweetAlertService) { 
+    this.parameter.loading= false;
+  }
 
   @ViewChild('input1') input1: ElementRef;
 

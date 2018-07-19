@@ -6,6 +6,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import { environment } from '../../environments/environment';
 import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class AdminService {
@@ -13,8 +14,8 @@ export class AdminService {
   private isUserLogin: boolean = false;
   public baseUrl: string = environment.baseUrl;
 
-  // banners$: Subject<any[]> = new BehaviorSubject<any[]>([]);
-  loginData$: Observable<{}>;
+  loginData$ = new BehaviorSubject({});
+  // loginData$: Observable<{}>;
 
   constructor(private http: Http) { }
 
@@ -68,17 +69,28 @@ export class AdminService {
     input.append("email", email);
     input.append("password", password);
 
-    this.loginData$ = this.http.post(this.baseUrl+'login', input, {headers: headers})
+    // this.loginData$ = this.http.post(this.baseUrl+'login', input, {headers: headers})
+    //             .map(response => {
+                  
+    //               console.log('resp', response)
+    //               var r = response.json();
+    //               localStorage.setItem('token', r.data.token); 
+    //               return r;
+    //             })
+    //             .catch(this.errorHandler);
+    //             console.log('data_obc', this.loginData$)
+    //             return this.loginData$
+
+    return this.http.post(this.baseUrl+'login', input, {headers: headers})
                 .map(response => {
                   
                   console.log('resp', response)
                   var r = response.json();
                   localStorage.setItem('token', r.data.token); 
+                  this.loginData$ = r;
                   return r;
                 })
                 .catch(this.errorHandler);
-                console.log('data_obc', this.loginData$)
-                return this.loginData$
   }
 
   logoutApi(){

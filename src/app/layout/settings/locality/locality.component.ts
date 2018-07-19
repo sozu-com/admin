@@ -6,6 +6,7 @@ import { IProperty } from '../../../common/property';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { MapsAPILoader } from '@agm/core';
 import { Constant } from './../../../common/constants';
+import { Locality } from './../../../models/locality.model'
 
 declare const google;
 
@@ -13,7 +14,7 @@ declare const google;
   selector: 'app-locality',
   templateUrl: './locality.component.html',
   styleUrls: ['./locality.component.css'],
-  providers: [Constant]
+  providers: [Constant, Locality]
 })
 
 export class LocalityComponent implements OnInit {
@@ -41,6 +42,7 @@ export class LocalityComponent implements OnInit {
     private admin: AdminService,
     private router: Router,
     private constant: Constant,
+    private model: Locality,
     private swal: SweetAlertService) {}
 
   ngOnInit() {
