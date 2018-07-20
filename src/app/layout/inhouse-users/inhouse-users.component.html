@@ -9,7 +9,8 @@
         </div>
         <div class="col-md-6">
           <div class="add-new text-right">
-              <a class="btn" href="javascript://" data-toggle="modal" data-target="#add" #modalOpen>Add New</a>
+              <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#add" #modalOpen>Add New</a>
+              <a class="btn" href="javascript://" (click)="openAddModal()">Add New</a>
           </div>
         </div>
     </div>
@@ -17,7 +18,7 @@
     <ngx-loading [show]="parameter.loading"></ngx-loading>
   
     <div class="row">
-        <div  class="col-lg-2 col-md-12"></div>
+        <!-- <div  class="col-lg-2 col-md-12"></div> -->
         <div class="col-lg-2 col-md-3 col-sm-6 col-6">
           <div class="form-group marginB0">
               <label>Country</label>
@@ -27,8 +28,9 @@
                 <option>All</option>
               </select> -->
               <select title="Choose Country" class="form-control" (change)="getStates($event.target.value)">
-                <option value="" disabled>Select Country</option>
-                <option *ngFor="let country of parameter.countries" value="{{country.id}}" [selected]="country.id == parameter.country_id">{{country.name_en}}</option>
+                <option value="-1">All</option>
+                <option *ngFor="let country of parameter.countries" value="{{country.id}}">{{country.name_en}}</option>
+                <!-- <option *ngFor="let country of parameter.countries" value="{{country.id}}" [selected]="country.id == parameter.country_id">{{country.name_en}}</option> -->
               </select>
           </div>
         </div>
@@ -41,8 +43,9 @@
                 <option>All</option>
               </select> -->
               <select title="Choose State" class="form-control" (change)="getCities($event.target.value)">
-                <option value="" disabled>Select State</option>
-                <option *ngFor="let state of parameter.states" value="{{state.id}}" [selected]="state.id == parameter.state_id">{{state.name_en}}</option>
+                <option value="-1">All</option>
+                <option *ngFor="let state of parameter.states" value="{{state.id}}">{{state.name_en}}</option>
+                <!-- <option *ngFor="let state of parameter.states" value="{{state.id}}" [selected]="state.id == parameter.state_id">{{state.name_en}}</option> -->
               </select>
           </div>
         </div>
@@ -55,8 +58,9 @@
                 <option>All</option>
               </select> -->
               <select title="Choose City" class="form-control" (change)="getLocalities($event.target.value)">
-                <option value="" disabled>Select City</option>
-                <option *ngFor="let city of parameter.cities" value="{{city.id}}" [selected]="city.id == parameter.city_id">{{city.name_en}}</option>
+                <option value="-1">All</option>
+                <option *ngFor="let city of parameter.cities" value="{{city.id}}">{{city.name_en}}</option>
+                <!-- <option *ngFor="let city of parameter.cities" value="{{city.id}}" [selected]="city.id == parameter.city_id">{{city.name_en}}</option> -->
               </select>
           </div>
         </div>
@@ -69,8 +73,9 @@
                 <option>All</option>
               </select> -->
               <select title="Choose Locality" class="form-control" (change)="getLocalities($event.target.value)">
-                <option value="" disabled>Select Locality</option>
-                <option *ngFor="let locality of parameter.localities" value="{{locality.id}}" [selected]="locality.id == parameter.locality_id">{{locality.name_en}}</option>
+                <option value="-1">All</option>
+                <option *ngFor="let locality of parameter.localities" value="{{locality.id}}">{{locality.name_en}}</option>
+                <!-- <option *ngFor="let locality of parameter.localities" value="{{locality.id}}" [selected]="locality.id == parameter.locality_id">{{locality.name_en}}</option> -->
               </select>
           </div>
         </div>
@@ -79,9 +84,13 @@
               <label>Building</label>
               <select class="form-control">
                 <option>All</option>
-                <option>All</option>
-                <option>All</option>
               </select>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-3 col-sm-6 col-6">
+          <div class="form-group marginB0">
+            <label>Apply Filters</label>
+            <button (click)="getInhouseUsers()" class="form-control btn btn-sm btn-info">Apply</button>
           </div>
         </div>
     </div>
@@ -92,7 +101,7 @@
     <div class="white-bg">
       <div class="tabel-section">
         <div class="table-responsive">
-                      
+
         <table class="table table-striped">
             <tr>
             <th style="width:6%">&nbsp;</th>
@@ -145,7 +154,6 @@
   </div>
   <div class="btn-cont text-right marginT15">
       <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
-    <!-- <button class="btn btn-secondary">View All</button> -->
   </div>
 </div>
 

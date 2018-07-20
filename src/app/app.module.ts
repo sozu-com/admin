@@ -15,6 +15,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 // import { SignupComponent } from './signup/signup.component';
 import { LayoutModule } from './layout/layout.module'
+import { HttpInterceptor } from './services/http-interceptor';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
@@ -46,7 +47,7 @@ const appRoutes: Routes = [
     }),
     Ng2TelInputModule
   ],
-  providers: [AdminService, AuthGuard, SweetAlertService],
+  providers: [AdminService, AuthGuard, SweetAlertService, HttpInterceptor],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

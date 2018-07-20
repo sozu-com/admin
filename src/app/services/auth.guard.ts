@@ -12,7 +12,7 @@ export class AuthGuard implements CanActivate {
 
   canActivate(){
     let token =  localStorage.getItem('token');
-console.log('vvvvvvvvvvv', this.admin.loginData$.data)
+// console.log('vvvvvvvvvvv', this.admin.loginData$.data)
     if(this.admin.loginData$.data == undefined){
       let input = new FormData();
       // this.admin.loginData$ = this.admin.postDataApi('get-details', input)
@@ -20,7 +20,7 @@ console.log('vvvvvvvvvvv', this.admin.loginData$.data)
       this.admin.postDataApi('get-details', input)
       .subscribe(
         success => {
-          console.log('zzzzzzzzzzzzzzzzzzz', success.data)
+          // console.log('zzzzzzzzzzzzzzzzzzz', success.data)
           this.admin.loginData$ = success.data;
         });
     }

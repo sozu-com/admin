@@ -1,48 +1,48 @@
 
-              <div class="row" *ngIf="address">
-                  <div class="col-sm-3 col-12">
-                    <div class="form-group-2">
-                      <label>Country</label>
-                      <select required title="Choose Country" class="form-control" (change)="getStatesNew($event.target.value, i)">
-                        <option value="" disabled>Select Country</option>
-                        <option *ngFor="let countryAdd of parameter.countriesAdd" value="{{countryAdd.id}}">{{countryAdd.name_en}}</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-sm-3 col-12">
-                    <div class="form-group-2">
-                      <label>State</label>
-                      <select required title="Choose State" class="form-control" (change)="getCitiesNew($event.target.value, i)">
-                        <option value="" disabled>Select State</option>
-                        <option *ngFor="let stateAdd of parameter.statesAdd" value="{{stateAdd.id}}">{{stateAdd.name_en}}</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-sm-3 col-12">
-                    <div class="form-group-2">
-                     <label>City</label>
-                     <select required title="Choose City" class="form-control" (change)="getLocalitiesNew($event.target.value, i)">
-                      <option value="" disabled>Select City</option>
-                      <option *ngFor="let cityAdd of parameter.citiesAdd" value="{{cityAdd.id}}">{{cityAdd.name_en}}</option>
-                    </select>
-                    </div>
-                  </div>
-                  <div class="col-sm-3 col-12">
-                  <div class="row">
-                    <div class="col-9">
-                    <div class="form-group-2">
-                     <label>Locality</label>
-                     <select required title="Choose Locality" class="form-control" (change)="setLocality($event.target.value, i)">
-                        <option value="" disabled>Select Locality</option>
-                        <option *ngFor="let localityAdd of parameter.localitiesAdd" value="{{localityAdd.id}}">{{localityAdd.name_en}}</option>
-                      </select>
-                    </div>
-                    </div>
-                    <div class="col-3">
-                      <div class="inline-form-group padding0 marginT10" *ngIf="index!=0"> 
-                        <button class="add-btn margin0" (click)="removeRow()"><img src="./../../../assets/img/close-tag.png" alt="img"></button>
-                      </div>
-                  </div>
-                </div>
-               </div>
-            </div>
+<div class="row" *ngIf="address">
+  <div class="col-sm-3 col-12">
+    <div class="form-group-2">
+      <label>Country</label>
+      <select required title="Choose Country" class="form-control" (change)="getStatesNew($event.target.value, i)">
+        <option value="" disabled>Select Country</option>
+        <option *ngFor="let countryAdd of parameter.countriesAdd" [selected]="countryAdd.id == address.countries" value="{{countryAdd.id}}">{{countryAdd.name_en}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="col-sm-3 col-12">
+    <div class="form-group-2">
+      <label>State</label>
+      <select required title="Choose State" class="form-control" (change)="getCitiesNew($event.target.value, i)">
+        <option value="" disabled>Select State</option>
+        <option *ngFor="let stateAdd of parameter.statesAdd" [selected]="stateAdd.id == address.states" value="{{stateAdd.id}}">{{stateAdd.name_en}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="col-sm-3 col-12">
+    <div class="form-group-2">
+      <label>City</label>
+      <select required title="Choose City" class="form-control" (change)="getLocalitiesNew($event.target.value, i)">
+      <option value="" disabled>Select City</option>
+      <option *ngFor="let cityAdd of parameter.citiesAdd" [selected]="cityAdd.id == address.cities" value="{{cityAdd.id}}">{{cityAdd.name_en}}</option>
+    </select>
+    </div>
+  </div>
+  <div class="col-sm-3 col-12">
+    <div class="row">
+      <div class="col-9">
+      <div class="form-group-2">
+        <label>Locality</label>
+        <select required title="Choose Locality" class="form-control" (change)="setLocality($event.target.value, i)">
+          <option value="" disabled>Select Locality</option>
+          <option *ngFor="let localityAdd of parameter.localitiesAdd" [selected]="localityAdd.id == address.localities" value="{{localityAdd.id}}">{{localityAdd.name_en}}</option>
+        </select>
+      </div>
+      </div>
+      <div class="col-3">
+        <div class="inline-form-group padding0 marginT10" *ngIf="index!=0"> 
+          <button class="add-btn margin0" (click)="removeRow()"><img src="./../../../assets/img/close-tag.png" alt="img"></button>
+        </div>
+    </div>
+    </div>
+  </div>
+</div>

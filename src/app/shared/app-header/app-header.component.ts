@@ -18,8 +18,8 @@ export class AppHeaderComponent {
   constructor(private sidebar: AppSidebarComponent, private admin: AdminService, private router: Router) { 
     router.events.subscribe((val) => {
       // see also 
-      console.log('inside')
-      console.log(val instanceof NavigationEnd) 
+      // console.log('inside')
+      // console.log(val instanceof NavigationEnd) 
   });
     // console.log('header', this.admin.loginData$.getValue())
     // this.admin.loginData$.subscribe(success=>{

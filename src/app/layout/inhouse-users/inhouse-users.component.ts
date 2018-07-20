@@ -3,7 +3,7 @@ import { AdminService } from '../../services/admin.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SweetAlertService } from 'ngx-sweetalert2';
 import { IProperty } from '../../common/property';
-import { InhouseUsers } from './../../models/inhouse-users.model';
+import { InhouseUsers, user, address } from './../../models/inhouse-users.model';
 import { NgForm } from '@angular/forms';
 import { Constant } from './../../common/constants';
 
@@ -11,7 +11,7 @@ import { Constant } from './../../common/constants';
   selector: 'app-inhouse-users',
   templateUrl: './inhouse-users.component.html',
   styleUrls: ['./inhouse-users.component.css'],
-  providers: [InhouseUsers, Constant]
+  providers: [InhouseUsers, Constant, user, address]
 })
 
 export class InhouseUsersComponent implements OnInit {
@@ -22,17 +22,21 @@ export class InhouseUsersComponent implements OnInit {
   public parameter: IProperty = {};
   initialCountry: any;
   addressIndex: number = 0;
+  tempAdd: Object;
 
-  constructor(private constant: Constant, private model: InhouseUsers, private element: ElementRef, private route: ActivatedRoute, private admin: AdminService, private router: Router, private swal: SweetAlertService) { }
+  constructor(private constant: Constant, private address:address, private user:user, private model: InhouseUsers, private element: ElementRef, private route: ActivatedRoute, private admin: AdminService, private router: Router, private swal: SweetAlertService) { }
 
   ngOnInit() {
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.p = this.constant.p;
     this.parameter.routeName = this.router.url;
+
+    this.tempAdd = this.model.address;
+
     this.parameter.sub = this.route.params.subscribe(params => {
       this.parameter.userType = params['userType'];
+      this.getInhouseUsers();
       this.getCountries('view');
-      // this.getInhouseUsers();
       this.initialCountry = {initialCountry: 'mx'}
     });
   }
@@ -67,12 +71,15 @@ export class InhouseUsersComponent implements OnInit {
 
 
   onCountryChange(e){
-    this.parameter.countryCode = e.iso2;
-    this.parameter.dialCode = e.dialCode;
+    this.model.userModel.country_code = e.iso2;
     this.initialCountry = {initialCountry: e.iso2}
   }
   
   openAddModal(){
+    // console.log('zzzzzzzzzzzzzzzzzzzzzz')
+    // this.model.userModel = new user();
+    // console.log('---------------', this.model.userModel)
+    // this.model.address = new address();
     this.modalOpen.nativeElement.click();
   }
 
@@ -97,7 +104,7 @@ export class InhouseUsersComponent implements OnInit {
   addNewUser(formdata: NgForm){
     this.parameter.loading = true;
     this.parameter.url = 'addNewUser';
-console.log('add newuser params', formdata, JSON.stringify(this.model.address), '+'+this.model.userModel.country_code)
+// console.log('add newuser params', formdata, JSON.stringify(this.model.address), '+'+this.model.userModel.country_code)
     let input = new FormData();
     input.append("name", formdata.value.name);
     input.append("country_code", '+'+this.model.userModel.country_code);
@@ -125,10 +132,10 @@ console.log('add newuser params', formdata, JSON.stringify(this.model.address), 
             this.modalClose.nativeElement.click();
             formdata.reset();
           }
-          console.log('user add',success)    
+          // console.log('user add',success)    
         },
         error => {
-          console.log('error',error)
+          // console.log('error',error)
           this.parameter.loading = false;
           this.swal.error({
             title: 'Error',
@@ -138,15 +145,39 @@ console.log('add newuser params', formdata, JSON.stringify(this.model.address), 
   }
 
   editUser(userdata){
-    console.log('edit user', userdata)
+    // console.log('edit user', userdata)
     this.modalOpen.nativeElement.click();
-    // this.model.userModel = userdata;
     this.model.userModel.name = userdata.name;
     this.model.userModel.email = userdata.email;
     this.model.userModel.phone = userdata.phone;
     this.model.userModel.country_code = userdata.country_code;
     this.model.userModel.image = userdata.image;
+    this.model.userModel.is_broker_seller_dev = userdata.permissions && userdata.permissions.can_csr_seller == 1 ? true : false;
+    this.model.userModel.is_buyer_renter = userdata.permissions && userdata.permissions.can_csr_buyer == 1 ? true : true;
+    this.model.userModel.is_broker = userdata.permissions && userdata.permissions.can_in_house_broker == 1 ? true : true;
+    this.model.userModel.is_data_collector = userdata.permissions && userdata.permissions.can_data_collector == 1 ? true : false;
+    this.model.userModel.is_csr_closer = userdata.permissions && userdata.permissions.can_csr_closer == 1 ? true : true;
+    
+    userdata.countries = ['19','19']
+    userdata.states = ['4','4']
+    userdata.cities = ['4','4']
+    userdata.localities = ['3','4']
+
+    for (let ind = 0; ind < 2; ind++) {
+      
+      var tempAdd = {
+        countries: userdata.countries[ind],
+        states: userdata.states[ind],
+        cities: userdata.cities[ind],
+        localities: userdata.localities[ind]
+      }
+
+      this.model.address[ind] = tempAdd;
+    }
+
+    // console.log('usermodel', this.model.userModel)
   }
+
 
   getCountries(type){
 
@@ -162,7 +193,7 @@ console.log('add newuser params', formdata, JSON.stringify(this.model.address), 
           this.parameter.countryCount = success.data.length;
           if(this.parameter.countryCount != 0){
             this.parameter.country_id = this.parameter.countries[0].id;
-            this.getStates(this.parameter.country_id, type);
+            // this.getStates(this.parameter.country_id, type);
           }
         },
         error => {
@@ -174,32 +205,41 @@ console.log('add newuser params', formdata, JSON.stringify(this.model.address), 
         });
   }
 
+
   getStates(country_id, type){
     this.parameter.loading = true;
     this.parameter.url = 'country/getStates';
     this.parameter.country_id = country_id;
 
-    let input = new FormData();
-    input.append("country_id", country_id);
-
-    this.admin.postDataApi(this.parameter.url, input)
-      .subscribe(
-        success => {
-          this.parameter.loading = false;
-          this.parameter.states = success.data
-          this.parameter.stateCount = success.data.length;
-          if(this.parameter.stateCount != 0){
-            this.parameter.state_id = this.parameter.states[0].id;
-            this.getCities(this.parameter.state_id, type);
-          }          
-        },
-        error => {
-          this.parameter.loading = false;
-          this.swal.error({
-            title: 'Error',
-            text: error.message,
-          })
-        });
+    if(country_id == -1){
+      this.parameter.states = [];
+      this.parameter.stateCount = 0;
+      this.parameter.state_id = '-1';
+      this.parameter.loading = false;
+    }
+    else{
+      let input = new FormData();
+      input.append("country_id", country_id);
+  
+      this.admin.postDataApi(this.parameter.url, input)
+        .subscribe(
+          success => {
+            this.parameter.loading = false;
+            this.parameter.states = success.data
+            this.parameter.stateCount = success.data.length;
+            if(this.parameter.stateCount != 0){
+              this.parameter.state_id = this.parameter.states[0].id;
+              // this.getCities(this.parameter.state_id, type);
+            }          
+          },
+          error => {
+            this.parameter.loading = false;
+            this.swal.error({
+              title: 'Error',
+              text: error.message,
+            })
+          });
+    }
   }
 
   getCities(state_id, type){
@@ -208,31 +248,39 @@ console.log('add newuser params', formdata, JSON.stringify(this.model.address), 
     this.parameter.url = 'getCities';
     this.parameter.state_id = state_id;
 
-    let input = new FormData();
-    input.append("state_id", state_id);
-
-    this.admin.postDataApi(this.parameter.url, input)
-      .subscribe(
-        success => {
-          this.parameter.loading = false;
-          console.log('cities1',success)
-          this.parameter.cities = success.data
-          this.parameter.cityCount = success.data.length;
-          if(this.parameter.cityCount != 0){
-            this.parameter.city_id = this.parameter.cities[0].id;
-            this.getLocalities(this.parameter.city_id, 'view');
-          }
-        },
-        error => {
-          console.log(error)
-          this.parameter.loading = false;
-          if(error.statusCode==401) this.router.navigate(['']);
-          else
-            this.swal.error({
-              // title: 'Internet Connection',
-              text: error.messages,
-            })
-        });
+    if(state_id == -1){
+      this.parameter.cities = [];
+      this.parameter.cityCount = 0;
+      this.parameter.city_id = '-1';
+      this.parameter.loading = false;
+    }
+    else{
+      let input = new FormData();
+      input.append("state_id", state_id);
+  
+      this.admin.postDataApi(this.parameter.url, input)
+        .subscribe(
+          success => {
+            this.parameter.loading = false;
+            // console.log('cities1',success)
+            this.parameter.cities = success.data
+            this.parameter.cityCount = success.data.length;
+            if(this.parameter.cityCount != 0){
+              this.parameter.city_id = this.parameter.cities[0].id;
+              // this.getLocalities(this.parameter.city_id, 'view');
+            }
+          },
+          error => {
+            // console.log(error)
+            this.parameter.loading = false;
+            if(error.statusCode==401) this.router.navigate(['']);
+            else
+              this.swal.error({
+                // title: 'Internet Connection',
+                text: error.messages,
+              })
+          });
+    }
   }
 
 
@@ -242,6 +290,14 @@ console.log('add newuser params', formdata, JSON.stringify(this.model.address), 
     this.parameter.url = 'getLocalities';
     this.parameter.city_id = city_id;
 
+    if(city_id == -1){
+      this.parameter.localities = [];
+      this.parameter.localityCount = 0;
+      this.parameter.locality_id = '-1';
+      this.parameter.loading = false;
+    }
+    else{
+
     let input = new FormData();
     input.append("city_id", city_id);
 
@@ -249,15 +305,15 @@ console.log('add newuser params', formdata, JSON.stringify(this.model.address), 
       .subscribe(
         success => {
           this.parameter.loading = false;
-          console.log('Localities1',success);
+          // console.log('Localities1',success);
           this.parameter.localities = success.data;
           this.parameter.localityCount = success.data.length;
-          this.getInhouseUsers()
           if(success.data.length!=0)
             this.parameter.locality_id = success.data[0].id;
+          this.getInhouseUsers()
         },
         error => {
-          console.log(error)
+          // console.log(error)
           this.parameter.loading = false;
           if(error.statusCode==401) this.router.navigate(['']);
           else
@@ -266,6 +322,7 @@ console.log('add newuser params', formdata, JSON.stringify(this.model.address), 
               text: error.messages,
             })
         });
+    }
   }
 
   searchUserByName(name){
@@ -310,28 +367,36 @@ console.log('add newuser params', formdata, JSON.stringify(this.model.address), 
         break;
     }
 
-    // if(this.parameter.name) this.parameter.url = this.parameter.url+'&name='+this.parameter.name;
-    // if(this.parameter.email) this.parameter.url = this.parameter.url+'&email='+this.parameter.email;
-    // if(this.parameter.phone) this.parameter.url = this.parameter.url+'&phone='+this.parameter.phone;
-
     let input = new FormData();
-    input.append("page", this.parameter.p.toString());
+      input.append("page", this.parameter.p.toString());
 
     if(this.parameter.name)
-    input.append("name", this.parameter.name);
+      input.append("name", this.parameter.name);
 
     if(this.parameter.email)
-    input.append("email", this.parameter.email);
+      input.append("email", this.parameter.email);
     
     if(this.parameter.phone)
-    input.append("phone", this.parameter.phone);
+      input.append("phone", this.parameter.phone);
+
+    if(this.parameter.country_id)
+      input.append("countries", JSON.stringify([this.parameter.country_id]));
+
+    if(this.parameter.state_id)
+      input.append("states", JSON.stringify([this.parameter.state_id]));
+    
+    if(this.parameter.city_id)
+      input.append("cities", JSON.stringify([this.parameter.city_id]));
+    
+    if(this.parameter.locality_id)
+      input.append("localities", JSON.stringify[this.parameter.locality_id]);
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
           this.parameter.loading = false;
-          this.parameter.items = success.data
-          this.parameter.total = success.data.length;
+          this.parameter.items = success.data;
+          this.parameter.total = success.total;
         },
         error => {
           this.parameter.loading = false;

@@ -7,6 +7,8 @@ import 'rxjs/add/observable/throw';
 import { environment } from '../../environments/environment';
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { SweetAlertService } from 'ngx-sweetalert2';
+import { HttpInterceptor } from './http-interceptor';
 
 @Injectable()
 export class AdminService {
@@ -17,7 +19,7 @@ export class AdminService {
   loginData$ = new BehaviorSubject({});
   // loginData$: Observable<{}>;
 
-  constructor(private http: Http) { }
+  constructor(public http: HttpInterceptor, private swal: SweetAlertService) { }
 
 // starting of general functions
   setUserLoggedIn(){ this.isUserLogin=true; }
@@ -51,6 +53,14 @@ export class AdminService {
 
   errorHandler(error: Response){
     return Observable.throw(error.json() || "Server error");
+    // // console.log('errorrrrrrr', error)
+    // var tt = Observable.throw(error.json() || "Server error");
+    // // console.log(tt.error.message)
+    // var tttt = this.swal.error({
+    //   title: 'Error',
+    //   // text: tt.error.message
+    // })
+    // return tttt
   }
 
   getCountries(){
@@ -63,7 +73,7 @@ export class AdminService {
 
 // login
   adminLogin(email, password){
-    console.log('aa')
+    // console.log('aa')
     var headers = this.getHeadersForLogin();
     let input = new FormData();
     input.append("email", email);
@@ -115,10 +125,11 @@ export class AdminService {
   }
 
   postDataApi(url, input){
-    console.log('admin', url, input)
+    // console.log('admin', url, input)
     var headers = this.getHeadersForMultipart();
     return this.http.post(this.baseUrl+url, input, {headers:headers})
-          .map(response => response.json())
+            .map((res: Response) => res.json())      
+    // .map(response => response.json())
           .catch(this.errorHandler);
   }
 
