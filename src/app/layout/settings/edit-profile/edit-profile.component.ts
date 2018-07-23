@@ -19,7 +19,7 @@ export class EditProfileComponent implements OnInit {
     name: '',
     phone: '',
     image: ''
-  }
+  };
 
   constructor(private element: ElementRef, private router: Router, private admin: AdminService, private swal: SweetAlertService) { }
 
@@ -35,22 +35,22 @@ export class EditProfileComponent implements OnInit {
   onCountryChange(e){
     this.parameter.countryCode = e.iso2;
     this.parameter.dialCode = e.dialCode;
-    this.initialCountry = {initialCountry: e.iso2}
+    this.initialCountry = {initialCountry: e.iso2};
   }
 
   changeListner(event) {
-    var reader = new FileReader();
-    
-    var image = this.element.nativeElement.querySelector('.image');
+    const reader = new FileReader();
+
+    const image = this.element.nativeElement.querySelector('.image');
 
     this.parameter.image = event.target.files[0];
     this.parameter.icon = this.parameter.image;
 
     reader.onload = function(e) {
-      console.log(image)
-      var src = e.target['result'];
+      console.log(image);
+      const src = e.target['result'];
         image.src = src;
-        console.log(image.src)
+        console.log(image.src);
     };
 
     reader.readAsDataURL(event.target.files[0]);
@@ -61,37 +61,31 @@ export class EditProfileComponent implements OnInit {
     this.parameter.loading = true;
     this.parameter.url = 'updateProfile';
 
-    let input = new FormData();
-    input.append("name", formData.value.name);
-    input.append("phone", formData.value.phone);
+    const input = new FormData();
+    input.append('name', formData.value.name);
+    input.append('phone', formData.value.phone);
     // input.append("country_code", this.parameter.countryCode);
-    input.append("image", this.parameter.image);
+    input.append('image', this.parameter.image);
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('succccc', success)
-          this.parameter.loading = false
+          console.log('succccc', success);
+          this.parameter.loading = false;
 
-          let input = new FormData();
-          let hh = {
-            name: 'johnnnn'
-          }
-          // this.admin.loginData$.next(hh)
-          // this.admin.loginData$.subscribe(success=>{
-          //   console.log('edit profile', success['data'].name)
-            
-          // })
+          const input = new FormData();
 
-          this.swal.success({ 
+          this.admin.login.next(success.data)
+
+          this.swal.success({
             title: 'Success',
             text: 'Details updated successfully!'
-          })
+          });
         },
         error => {
           this.parameter.loading = false;
-          if(error.statusCode==401) this.router.navigate(['']);
-          else this.swal.warning({ text: error.message })
+          if (error.statusCode === 401) this.router.navigate(['']);
+          else this.swal.warning({ text: error.message });
         });
   }
 }

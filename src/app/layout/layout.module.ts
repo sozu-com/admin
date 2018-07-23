@@ -40,14 +40,14 @@ import { UsersComponent } from './users/users.component';
         CommonModule,
         LayoutRoutingModule,
         TranslateModule,
-        FormsModule, 
+        FormsModule,
         ReactiveFormsModule,
         // NgbModule.forRoot(),
         ModalModule.forRoot(),      // modal
         NgxPaginationModule,
         LoadingModule.forRoot({
             animationType: ANIMATION_TYPES.rectangleBounce,
-            // backdropBackgroundColour: 'rgba(0,0,0,0.5)', 
+            // backdropBackgroundColour: 'rgba(0,0,0,0.5)',
             // backdropBorderRadius: '4px',
             primaryColour: '#00B96F'
         }),
@@ -60,7 +60,7 @@ import { UsersComponent } from './users/users.component';
         //     libraries: ['drawing']
         // }),
         AgmCoreModule.forRoot({
-            apiKey: "AIzaSyCYv_zELZGVo2Ehzgp8eh8UeSIidhMCmH8",
+            apiKey: 'AIzaSyCYv_zELZGVo2Ehzgp8eh8UeSIidhMCmH8',
             libraries: ['drawing']
           }),
         Ng2TelInputModule

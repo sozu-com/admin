@@ -12,7 +12,7 @@ export class ExcelDownload{
         const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'buffer' });
         this.saveAsExcelFile(excelBuffer, excelFileName);
     }
-        
+
     private saveAsExcelFile(buffer: any, fileName: string): void {
         const data: Blob = new Blob([buffer], {
             type: EXCEL_TYPE

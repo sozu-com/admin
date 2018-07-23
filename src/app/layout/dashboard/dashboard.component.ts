@@ -3,7 +3,7 @@ import { AdminService } from '../../services/admin.service';
 import { Router } from '@angular/router';
 import { SweetAlertService } from 'ngx-sweetalert2';
 import { IProperty } from '../../common/property';
-import { DashboardModel } from './../../models/dashboard.model'
+import { DashboardModel } from './../../models/dashboard.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,11 +15,11 @@ import { DashboardModel } from './../../models/dashboard.model'
 export class DashboardComponent {
   public parameter: IProperty = {};
 
-  constructor(private dashModel: DashboardModel, private admin: AdminService, private router: Router, private swal: SweetAlertService) {  
+  constructor(private dashModel: DashboardModel, private admin: AdminService, private router: Router, private swal: SweetAlertService) {
     // this.dashboard();
   }
 
-  dashboard(){
+  dashboard() {
     this.parameter.loading = true;
     this.parameter.url = 'dashboard';
     this.admin.getDataApi(this.parameter.url)
@@ -27,16 +27,16 @@ export class DashboardComponent {
         success => {
           this.parameter.loading = false;
           this.dashModel = success.data;
-          console.log(this.dashModel, success)
+          console.log(this.dashModel, success);
         },
         error => {
           this.parameter.loading = false;
-          if(error.statusCode==401) this.router.navigate(['']);
+          if (error.statusCode == 401) this.router.navigate(['']);
           else
-            this.swal.warning({ 
+            this.swal.warning({
               // title: 'Internet Connection',
               text: error.messages,
-            })
+            });
         });
   }
 }

@@ -27,26 +27,26 @@ export class UsersComponent implements OnInit {
 
   getInhouseUsers(){
     this.parameter.loading = true;
-console.log('this.parameter.userType',this.parameter.userType)
+console.log('this.parameter.userType', this.parameter.userType);
     switch (this.parameter.userType) {
       case 'data-collectors':
-      this.parameter.url = 'getDataCollectors';    
+      this.parameter.url = 'getDataCollectors';
         break;
 
       case 'csr-sellers':
-      this.parameter.url = 'getCsrSellers';    
+      this.parameter.url = 'getCsrSellers';
         break;
 
       case 'csr-buyers':
-      this.parameter.url = 'getCsrBuyers';    
+      this.parameter.url = 'getCsrBuyers';
         break;
-    
+
       case 'inhouse-broker':
-      this.parameter.url = 'getInhouseBroker';    
+      this.parameter.url = 'getInhouseBroker';
         break;
 
       case 'csr-closers':
-      this.parameter.url = 'getCsrClosers';    
+      this.parameter.url = 'getCsrClosers';
         break;
 
       default:
@@ -54,25 +54,25 @@ console.log('this.parameter.userType',this.parameter.userType)
         break;
     }
 
-    this.parameter.url = this.parameter.url+'?page='+this.parameter.p;
-    let input = new FormData();
+    this.parameter.url = this.parameter.url + '?page=' + this.parameter.p;
+    const input = new FormData();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('getInhouseBroker',success)
+          console.log('getInhouseBroker', success);
           this.parameter.loading = false;
-          this.parameter.items = success.data
+          this.parameter.items = success.data;
           this.parameter.total = success.data.length;
         },
         error => {
-          console.log(error)
+          console.log(error);
           this.parameter.loading = false;
-          if(error.statusCode==401) this.router.navigate(['']);
+          if (error.statusCode == 401) this.router.navigate(['']);
           else
-            this.swal.warning({ 
+            this.swal.warning({
               // title: 'Internet Connection',
               text: error.messages,
-            })
+            });
         });
   }
 

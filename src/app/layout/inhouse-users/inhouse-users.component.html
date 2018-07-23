@@ -72,7 +72,7 @@
                 <option>All</option>
                 <option>All</option>
               </select> -->
-              <select title="Choose Locality" class="form-control" (change)="getLocalities($event.target.value)">
+              <select title="Choose Locality" class="form-control" (change)="getLocalityBuildings($event.target.value)">
                 <option value="-1">All</option>
                 <option *ngFor="let locality of parameter.localities" value="{{locality.id}}">{{locality.name_en}}</option>
                 <!-- <option *ngFor="let locality of parameter.localities" value="{{locality.id}}" [selected]="locality.id == parameter.locality_id">{{locality.name_en}}</option> -->
@@ -82,8 +82,10 @@
         <div class="col-lg-2 col-md-3 col-sm-6 col-6">
           <div class="form-group marginB0">
               <label>Building</label>
-              <select class="form-control">
-                <option>All</option>
+              <select title="Choose Building" class="form-control" (change)="setBuilding($event.target.value)">
+                <option value="-1">All</option>
+                <option *ngFor="let building of parameter.buildings" value="{{building.id}}">{{building.name_en}}</option>
+                <!-- <option *ngFor="let locality of parameter.localities" value="{{locality.id}}" [selected]="locality.id == parameter.locality_id">{{locality.name_en}}</option> -->
               </select>
           </div>
         </div>
@@ -148,7 +150,8 @@
               <td>14</td>
               <td>
                 <a href="javascript://" (click)="editUser(item)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
-                <a href="javascript://" class="icon-block block-icon"><img src="./../../../../assets/img/block.png" alt="img"></a>
+                <a href="javascript://" *ngIf="item.is_blocked == 1" title="Unblock user" class="icon-block block-icon"><img src="./../../../../assets/img/block.png" alt="img"></a>
+                <a href="javascript://" *ngIf="item.is_blocked == 0" title="Block user" class="icon-block block-icon"><img src="./../../../../assets/img/block.png" alt="img"></a>
               </td>
             </tr>
           </table>

@@ -31,14 +31,17 @@ export interface IProperty {
   states?: any;
   cities?: any;
   localities?: any;
+  buildings?: any;
   country_id?: string;
   state_id?: string;
   city_id?: string;
   locality_id?: string;
+  building_id?: string;
   countryCount?: number;
   stateCount?: number;
   cityCount?: number;
   localityCount?: number;
+  buildingCount?: number;
   countriesAdd?: any;
   statesAdd?: any;
   citiesAdd?: any;

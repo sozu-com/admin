@@ -13,46 +13,49 @@ import { HttpInterceptor } from './http-interceptor';
 @Injectable()
 export class AdminService {
 
-  private isUserLogin: boolean = false;
+  private isUserLogin = false;
   public baseUrl: string = environment.baseUrl;
 
-  loginData$ = new BehaviorSubject({});
+  public login = new BehaviorSubject({});
+  loginData$ = this.login.asObservable();
+
+  // loginData$ = new BehaviorSubject({});
   // loginData$: Observable<{}>;
 
   constructor(public http: HttpInterceptor, private swal: SweetAlertService) { }
 
 // starting of general functions
-  setUserLoggedIn(){ this.isUserLogin=true; }
+  setUserLoggedIn() { this.isUserLogin = true; }
 
-  unsetUserLoggedIn(){ this.isUserLogin=false; }
+  unsetUserLoggedIn() { this.isUserLogin = false; }
 
-  getUserLoggedIn(){ return this.isUserLogin; }
+  getUserLoggedIn() { return this.isUserLogin; }
 
 
-  getHeadersForLogin(){
-    var headers = new Headers();
+  getHeadersForLogin() {
+    const headers = new Headers();
     // headers.append('Content-Type', 'application/x-www-form-urlencoded');
     return headers;
   }
 
-  getHeaders(){
-    var token = localStorage.getItem('token'); 
-    var headers = new Headers();
+  getHeaders() {
+    const token = localStorage.getItem('token');
+    const headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    headers.append('Authorization', 'Bearer '+token);
+    headers.append('Authorization', 'Bearer ' + token);
     return headers;
   }
 
-  getHeadersForMultipart(){
-    var token = localStorage.getItem('token'); 
-    var headers = new Headers();
+  getHeadersForMultipart() {
+    const token = localStorage.getItem('token');
+    const headers = new Headers();
     // headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    headers.append('Authorization', 'Bearer '+token);
+    headers.append('Authorization', 'Bearer ' + token);
     return headers;
   }
 
-  errorHandler(error: Response){
-    return Observable.throw(error.json() || "Server error");
+  errorHandler(error: Response) {
+    return Observable.throw(error.json() || 'Server error');
     // // console.log('errorrrrrrr', error)
     // var tt = Observable.throw(error.json() || "Server error");
     // // console.log(tt.error.message)
@@ -63,79 +66,64 @@ export class AdminService {
     // return tttt
   }
 
-  getCountries(){
+  getCountries() {
     return this.http.get('assets/countries.json')
               .map(response => response.json())
-              .catch(this.errorHandler);  
+              .catch(this.errorHandler);
   }
 // ending of general functions
 
 
 // login
-  adminLogin(email, password){
-    // console.log('aa')
-    var headers = this.getHeadersForLogin();
-    let input = new FormData();
-    input.append("email", email);
-    input.append("password", password);
+  adminLogin(email, password) {
+    const headers = this.getHeadersForLogin();
+    const input = new FormData();
+    input.append('email', email);
+    input.append('password', password);
 
-    // this.loginData$ = this.http.post(this.baseUrl+'login', input, {headers: headers})
-    //             .map(response => {
-                  
-    //               console.log('resp', response)
-    //               var r = response.json();
-    //               localStorage.setItem('token', r.data.token); 
-    //               return r;
-    //             })
-    //             .catch(this.errorHandler);
-    //             console.log('data_obc', this.loginData$)
-    //             return this.loginData$
-
-    return this.http.post(this.baseUrl+'login', input, {headers: headers})
+    return this.http.post(this.baseUrl + 'login', input, {headers: headers})
                 .map(response => {
-                  
-                  console.log('resp', response)
-                  var r = response.json();
-                  localStorage.setItem('token', r.data.token); 
-                  this.loginData$ = r;
+                  const r = response.json();
+                  localStorage.setItem('token', r.data.token);
+                  this.login.next(r.data)
                   return r;
                 })
                 .catch(this.errorHandler);
   }
 
-  logoutApi(){
-    var headers = this.getHeaders();
-    return this.http.put(this.baseUrl+'logout', {headers:headers})
-              .map(response => {response.json();})
+  logoutApi() {
+    const headers = this.getHeaders();
+    return this.http.put(this.baseUrl + 'logout', {headers: headers})
+              .map(response => {response.json(); })
               .catch(this.errorHandler);
   }
 
-  getDataApi(url){
-    var headers = this.getHeaders();
-    return this.http.get(this.baseUrl+url, {headers:headers})
+  getDataApi(url) {
+    const headers = this.getHeaders();
+    return this.http.get(this.baseUrl + url, {headers: headers})
               .map(response => response.json())
               .catch(this.errorHandler);
   }
 
-  putDataApi(url, input){
-    var headers = this.getHeadersForMultipart();
-    return this.http.put(this.baseUrl+url, input, {headers:headers})
+  putDataApi(url, input) {
+    const headers = this.getHeadersForMultipart();
+    return this.http.put(this.baseUrl + url, input, {headers: headers})
           .map(response => response.json())
           .catch(this.errorHandler);
   }
 
-  postDataApi(url, input){
+  postDataApi(url, input) {
     // console.log('admin', url, input)
-    var headers = this.getHeadersForMultipart();
-    return this.http.post(this.baseUrl+url, input, {headers:headers})
-            .map((res: Response) => res.json())      
+    const headers = this.getHeadersForMultipart();
+    return this.http.post(this.baseUrl + url, input, {headers: headers})
+            .map((res: Response) => res.json())
     // .map(response => response.json())
           .catch(this.errorHandler);
   }
 
-  deleteDataApi(url){
-    var headers = this.getHeaders();
-    return this.http.delete(this.baseUrl+url, {headers:headers})
+  deleteDataApi(url) {
+    const headers = this.getHeaders();
+    return this.http.delete(this.baseUrl + url, {headers: headers})
           .map(response => response.json())
           .catch(this.errorHandler);
   }

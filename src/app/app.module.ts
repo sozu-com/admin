@@ -14,7 +14,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 // import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 // import { SignupComponent } from './signup/signup.component';
-import { LayoutModule } from './layout/layout.module'
+import { LayoutModule } from './layout/layout.module';
 import { HttpInterceptor } from './services/http-interceptor';
 
 const appRoutes: Routes = [
@@ -41,7 +41,7 @@ const appRoutes: Routes = [
     LayoutModule,
     LoadingModule.forRoot({
       animationType: ANIMATION_TYPES.rectangleBounce,
-      // backdropBackgroundColour: 'rgba(0,0,0,0.5)', 
+      // backdropBackgroundColour: 'rgba(0,0,0,0.5)',
       // backdropBorderRadius: '4px',
       primaryColour: '#00B96F'
     }),

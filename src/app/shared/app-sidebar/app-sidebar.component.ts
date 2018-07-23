@@ -31,8 +31,8 @@ export class AppSidebarComponent implements OnInit {
     }
 
     onLoggedout(){
-        let self=this;
-        this.swal.confirm({ 
+        const self = this;
+        this.swal.confirm({
             title: 'Are you sure?',
             text: 'You want to log-out?',
         }).then(function(){
@@ -40,7 +40,7 @@ export class AppSidebarComponent implements OnInit {
         })
         .catch(function(){
         // console.log('Logout cancelled by user');
-        })
+        });
     }
 
 

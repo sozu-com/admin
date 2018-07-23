@@ -18,10 +18,10 @@ import { UsersComponent } from './users/users.component';
 const routes: Routes = [
     {
         path: 'login', component: LoginComponent,
-    }, 
+    },
     {
         path: 'forgot-password', component: ForgotPasswordComponent,
-    }, 
+    },
     {
         path: 'dashboard', component: LayoutComponent, canActivate: [AuthGuard],
         children: [

@@ -6,5 +6,5 @@ export class DashboardModel{
         order: 0,
         returned_with_damaged: 0,
         not_returned: 0
-    }
+    };
 }

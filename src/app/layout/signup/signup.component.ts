@@ -12,11 +12,11 @@ export class SignupComponent implements OnInit {
   ngOnInit() {}
 
   changeListner(event) {
-    var reader = new FileReader();
-    var image = this.element.nativeElement.querySelector('.profile_image');
+    const reader = new FileReader();
+    const image = this.element.nativeElement.querySelector('.profile_image');
 
     reader.onload = function(e) {
-        var src = e.target['result'];
+        const src = e.target['result'];
         image.src = src;
     };
 

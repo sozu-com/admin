@@ -1,8 +1,8 @@
 export class Constant {
-    public itemsPerPage: number = 10;
-    public p: number = 1;
-    public userPlaceholder: string = '../../../assets/img/default_usr.png';
-    public errorMsg : any = {
+    public itemsPerPage = 10;
+    public p = 1;
+    public userPlaceholder = '../../../assets/img/default_usr.png';
+    public errorMsg: any = {
         COUNTRY_NAME_REQUIRED : 'Please enter country.',
         STATE_NAME_REQUIRED : 'Please enter state.',
         CITY_NAME_REQUIRED : 'Please enter city.',
@@ -12,28 +12,28 @@ export class Constant {
         FILE_REQUIRED : 'Please choose file.',
         PROPERTY_CONFIG_REQUIRED : 'Please enter name.',
         MISSING_COUNTRY_NAME_ES : 'Country name is missing in spanish.',
-        SAVE_ENGLISH_COUNTRY_NAME : "We'll save english country name in place of spanish.",
-        SAVE_ENGLISH_STATE_NAME : "We'll save english state name in place of spanish.",
-        SAVE_ENGLISH_CITY_NAME : "We'll save english city name in place of spanish.",
-        SAVE_ENGLISH_PROPERTY_CONFIG : "We'll save english property configuration in place of spanish.",
-        SAVE_ENGLISH_PROPERTY_TYPE : "We'll save english property type in place of spanish.",
-        SAVE_ENGLISH_AMENITY : "We'll save english amenity in place of spanish.",
-        SAVE_ENGLISH_PROJECT_POSSESION : "We'll save english project possession status in place of spanish.",
-        SAVE_ENGLISH_PROJECT_TYPE : "We'll save english project type in place of spanish.",
-        SAVE_ENGLISH_PROJECT_AMENITY : "We'll save english project amenity in place of spanish.",
-        NO_COUNTRY_FOUND : "No country found!",
-        NO_STATE_FOUND : "No state found!",
-        NO_CITY_FOUND : "No city found!",
-        NO_LOCATION_FOUND: "No location found!",
-        NO_LOCALITY_FOUND: "No locality found!",
-        NO_CONFIGURATION_FOUND : "No property configuration found!",
-        NO_PROPERTY_TYPE_FOUND : "No property type found!",
-        NO_AMENITY_FOUND : "No amenity found!",
-        NO_POSSESSION_FOUND : "No project possession status found!",
-        NO_PROJECT_TYPE_FOUND : "No project type found!",
-        NO_PROJECT_AMENITY_FOUND : "No amenity found!",
+        SAVE_ENGLISH_COUNTRY_NAME : 'We\'ll save english country name in place of spanish.',
+        SAVE_ENGLISH_STATE_NAME : 'We\'ll save english state name in place of spanish.',
+        SAVE_ENGLISH_CITY_NAME : 'We\'ll save english city name in place of spanish.',
+        SAVE_ENGLISH_PROPERTY_CONFIG : 'We\'ll save english property configuration in place of spanish.',
+        SAVE_ENGLISH_PROPERTY_TYPE : 'We\'ll save english property type in place of spanish.',
+        SAVE_ENGLISH_AMENITY : 'We\'ll save english amenity in place of spanish.',
+        SAVE_ENGLISH_PROJECT_POSSESION : 'We\'ll save english project possession status in place of spanish.',
+        SAVE_ENGLISH_PROJECT_TYPE : 'We\'ll save english project type in place of spanish.',
+        SAVE_ENGLISH_PROJECT_AMENITY : 'We\'ll save english project amenity in place of spanish.',
+        NO_COUNTRY_FOUND : 'No country found!',
+        NO_STATE_FOUND : 'No state found!',
+        NO_CITY_FOUND : 'No city found!',
+        NO_LOCATION_FOUND: 'No location found!',
+        NO_LOCALITY_FOUND: 'No locality found!',
+        NO_CONFIGURATION_FOUND : 'No property configuration found!',
+        NO_PROPERTY_TYPE_FOUND : 'No property type found!',
+        NO_AMENITY_FOUND : 'No amenity found!',
+        NO_POSSESSION_FOUND : 'No project possession status found!',
+        NO_PROJECT_TYPE_FOUND : 'No project type found!',
+        NO_PROJECT_AMENITY_FOUND : 'No amenity found!',
     };
-    public successMsg : any = {
+    public successMsg: any = {
         COUNTRY_ADDED_SUCCESSFULLY : 'Country added successfully',
         COUNTRY_UPDATED_SUCCESSFULLY: 'Country updated successfully',
         PROPERTY_CONFIG_UPDATED_SUCCESSFULLY: 'Property configuration updated successfully',
@@ -53,7 +53,7 @@ export class Constant {
         BLOCKED_SUCCESSFULLY : 'Blocked successfully',
         UNBLOCKED_SUCCESSFULLY : 'Unblocked successfully',
     };
-    public title : any = {
+    public title: any = {
         ARE_YOU_SURE: 'Are you sure?',
         BLOCK_COUNTRY : 'You want to block this country?',
         UNBLOCK_COUNTRY : 'You want to unblock this country?',
@@ -72,5 +72,5 @@ export class Constant {
         UNBLOCK_PROJECT_TYPE : 'You want to unblock this project type?',
         BLOCK_PROJECT_POSSESSION : 'You want to block this project possession status?',
         UNBLOCK_PROJECT_POSSESSION : 'You want to unblock this project possession status?'
-    }
+    };
 }

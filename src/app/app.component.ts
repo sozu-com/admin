@@ -9,15 +9,15 @@ import { Router, NavigationEnd, NavigationCancel, NavigationError, NavigationSta
 })
 
 export class AppComponent {
-  
+
   public parameter: IProperty = {};
 
   constructor(private router: Router) {
     this.router.events.subscribe(event => {
-      if(event instanceof NavigationStart) {
+      if (event instanceof NavigationStart) {
         this.parameter.loading = true;
       }
-      if(event instanceof NavigationEnd) {
+      if (event instanceof NavigationEnd) {
         this.parameter.loading = false;
         window.scrollTo(0, 0);
       }
@@ -29,6 +29,4 @@ export class AppComponent {
       }
     });
    }
-  
-  ngOnInit() { }
 }
