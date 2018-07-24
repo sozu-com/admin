@@ -21,10 +21,10 @@
       <div class="col-xl-10 col-lg-12 col-md-12 col-sm-12 col-12">
         <ul class="nav nav-tabs">
           <li class="nav-item">
-              <a class="nav-link active" (click)="getBuyers()" data-toggle="tab" href="#approved">BUYER</a>
+              <a class="nav-link active" (click)="getBuyers(1, parameter.p, '', '', '')" data-toggle="tab" href="#approved">BUYER</a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" (click)="getSellers()" data-toggle="tab" href="#unapproved">SELLER</a>
+              <a class="nav-link" (click)="getBuyers(2, parameter.p, '', '', '')" data-toggle="tab" href="#unapproved">SELLER</a>
           </li>
         </ul>
       </div>
@@ -40,19 +40,19 @@
                 <th style="width:20%">
                   <div class="table-search">
                       <label>Name</label>
-                      <input type="Search here" name="">
+                      <input type="Search here" (input)="getBuyers(parameter.type, parameter.p, $event.target.value, parameter.phone, parameter.email)" name="">
                   </div>
                 </th>
                 <th style="width:20%; text-align:left;">
                   <div class="table-search">
                       <label>Contact Number</label>
-                      <input type="Search here" name="">
+                      <input type="Search here" (input)="getBuyers(parameter.type, parameter.p, parameter.name, $event.target.value, parameter.email)" name="">
                   </div>
                 </th>
                 <th style="width:20%">
                   <div class="table-search">
                       <label>Email Address</label>
-                      <input type="Search here" name="">
+                      <input type="Search here" (input)="getBuyers(parameter.type, parameter.p, parameter.name, parameter.phone, $event.target.value)" name="">
                   </div>
                 </th>
                 <th style="width:20%; vertical-align: top;">
@@ -81,14 +81,23 @@
                   <a href="javascript://" *ngIf="item.is_blocked == 0" (click)="blockUnblockPopup(i, item.id, 1, parameter.type)" title="Block user" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
                 </td>
               </tr>
+
             </table>
           </div>
         </div>
-        <div class="btn-cont text-right marginT15">
+
+        <div *ngIf="parameter.total == 0">
+          <img src="./../../../assets/img/404-error.svg">
+          <!-- <p class="show-error">
+            {{constant.errorMsg.NO_USER_FOUND}}
+          </p> -->
+        </div>
+
+        <div class="btn-cont text-right marginT15" *ngIf="parameter.total">
           <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
         </div>
       </div>
-      <div class="tab-pane container fade" id="seller">Seller tab on</div>
+      <!-- <div class="tab-pane container fade" id="seller">Seller tab on</div> -->
     </div>
   </div>
 </div>
@@ -146,7 +155,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-12">
+            <!-- <div class="col-12">
               <div class="form-group-2">
                 <label>User type</label>
                 <select title="Choose user type" [(ngModel)]="model.user_type" name="user_type" class="form-control">
@@ -163,7 +172,7 @@
                   <option value="seller">Seller</option>
                 </select>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </form>

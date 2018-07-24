@@ -515,6 +515,7 @@ console.log('countryid', country_id)
     });
   }
 
+  
   blockAdmin(index, id, flag, user_type) {
     this.parameter.url = 'blockAdmin';
     const input = new FormData();

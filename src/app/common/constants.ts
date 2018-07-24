@@ -32,6 +32,7 @@ export class Constant {
         NO_POSSESSION_FOUND : 'No project possession status found!',
         NO_PROJECT_TYPE_FOUND : 'No project type found!',
         NO_PROJECT_AMENITY_FOUND : 'No amenity found!',
+        NO_USER_FOUND : 'No user found!'
     };
     public successMsg: any = {
         COUNTRY_ADDED_SUCCESSFULLY : 'Country added successfully',
