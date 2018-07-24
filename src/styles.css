@@ -15,6 +15,9 @@
 .ngx-pagination .current {
     background: #00B96F !important;
 }
+.app-logo{
+    padding-top: 7px;
+}
 .form-group .form-control:focus {
     border: none !important;
     border-bottom: solid 1px #00B96F !important;

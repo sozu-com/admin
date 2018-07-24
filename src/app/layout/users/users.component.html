@@ -1,72 +1,72 @@
 
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-6">
-          <div class="title-group">
-              <h5>Users</h5>
-              <p>Showing {{parameter.total}} out of {{parameter.total}}</p>
-          </div>
+  <div class="row">
+      <div class="col-md-6">
+        <div class="title-group">
+            <h5>Users</h5>
+            <p>Showing {{parameter.total}} out of {{parameter.total}}</p>
         </div>
-        <div class="col-md-6">
-          <div class="add-new text-right">
-              <a class="btn" href="javascript://" data-toggle="modal" data-target="#add" #modalOpen>Add New</a>
-          </div>
+      </div>
+      <div class="col-md-6">
+        <div class="add-new text-right">
+            <a class="btn" href="javascript://" data-toggle="modal" data-target="#add" #modalOpen>Add New</a>
         </div>
-    </div>
-  
-    <ngx-loading [show]="parameter.loading"></ngx-loading>
-  
-    <div class="cust-tabs">
-        <div class="row flex-wrap-reverse">
-          <div class="col-xl-10 col-lg-12 col-md-12 col-sm-12 col-12">
-            <ul class="nav nav-tabs">
-              <li class="nav-item">
-                  <a class="nav-link active" data-toggle="tab" href="#approved">BUYER</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" data-toggle="tab" href="#unapproved">SELLER</a>
-              </li>
-            </ul>
-          </div>
-        </div>
+      </div>
+  </div>
 
-          <div class="tab-content">
-             <div class="tab-pane active">
-                <div class="tabel-section">
-                   <div class="table-responsive">
-                      <table class="table table-striped table-align-left">
-                         <tr>
-                            <th style="width:6%">&nbsp;</th>
-                                <th style="width:20%">
-                                  <div class="table-search">
-                                      <label>Name</label>
-                                      <input type="Search here" name="">
-                                  </div>
-                                </th>
-                                <th style="width:20%; text-align:left;">
-                                  <div class="table-search">
-                                      <label>Contact Number</label>
-                                      <input type="Search here" name="">
-                                  </div>
-                                </th>
-                                <th style="width:20%">
-                                  <div class="table-search">
-                                      <label>Email Address</label>
-                                      <input type="Search here" name="">
-                                  </div>
-                                </th>
-                                <th style="width:20%; vertical-align: top;">
-                                  Building<a href="javascript://"><img src="./../../../../assets/img/top-arrow.png" alt="img"></a>
-                                </th>
-                                <th style="width:14%">
-                                  &nbsp;
-                                </th>
-                         </tr>
-                   
-            <tr *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }">
+  <ngx-loading [show]="parameter.loading"></ngx-loading>
+
+  <div class="cust-tabs">
+    <div class="row flex-wrap-reverse">
+      <div class="col-xl-10 col-lg-12 col-md-12 col-sm-12 col-12">
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+              <a class="nav-link active" (click)="getBuyers()" data-toggle="tab" href="#approved">BUYER</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" (click)="getSellers()" data-toggle="tab" href="#unapproved">SELLER</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tab-content">
+      <div class="tab-pane active">
+        <div class="tabel-section">
+          <div class="table-responsive">
+            <table class="table table-striped table-align-left">
+              <tr>
+                <th style="width:6%">&nbsp;</th>
+                <th style="width:20%">
+                  <div class="table-search">
+                      <label>Name</label>
+                      <input type="Search here" name="">
+                  </div>
+                </th>
+                <th style="width:20%; text-align:left;">
+                  <div class="table-search">
+                      <label>Contact Number</label>
+                      <input type="Search here" name="">
+                  </div>
+                </th>
+                <th style="width:20%">
+                  <div class="table-search">
+                      <label>Email Address</label>
+                      <input type="Search here" name="">
+                  </div>
+                </th>
+                <th style="width:20%; vertical-align: top;">
+                  Building<a href="javascript://"><img src="./../../../../assets/img/top-arrow.png" alt="img"></a>
+                </th>
+                <th style="width:14%">
+                  &nbsp;
+                </th>
+              </tr>
+        
+              <tr *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }">
                 <td> 
                   <img *ngIf="item.image" class="rounded-circle" [src]="item.image" alt="img">
-                  <img *ngIf="!item.image" class="rounded-circle" src="http://via.placeholder.com/50x50" alt="img">
+                  <img *ngIf="!item.image" class="rounded-circle" src="./../../../assets/img/default_img.png" alt="img">
                 </td>
                 <td class="text-left">
                   <span class="name">{{item.name}}</span>
@@ -77,20 +77,20 @@
                 <td>14</td>
                 <td>
                   <a href="javascript://" (click)="editUser(item)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
-                  <a href="javascript://" class="icon-block block-icon"><img src="./../../../../assets/img/block.png" alt="img"></a>
+                  <a href="javascript://" *ngIf="item.is_blocked == 1" (click)="blockUnblockPopup(i, item.id, 0, parameter.type)" title="Unblock user" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a>
+                  <a href="javascript://" *ngIf="item.is_blocked == 0" (click)="blockUnblockPopup(i, item.id, 1, parameter.type)" title="Block user" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
                 </td>
               </tr>
-                      </table>
-                   </div>
-                </div>
-                <div class="btn-cont text-right marginT15">
-                    <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
-                   <!-- <button class="btn btn-secondary">View All</button> -->
-                </div>
-             </div>
-             <div class="tab-pane container fade" id="seller">Seller tab on</div>
+            </table>
           </div>
-       </div>
+        </div>
+        <div class="btn-cont text-right marginT15">
+          <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+        </div>
+      </div>
+      <div class="tab-pane container fade" id="seller">Seller tab on</div>
+    </div>
+  </div>
 </div>
 
 
@@ -98,88 +98,75 @@
 <!-- add inhouse user modal -->
 <div class="modal animated" id="add">
   <div class="modal-dialog fadeIndown modal-lg">
-     <div class="modal-content">
-        <div class="modal-header">
-           <button type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
-        </div>
+    <div class="modal-content">
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
+      </div>
 
-        <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="addNewUser(addForm)">
+      <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="addNewUser(addForm)">
         <div class="modal-body">
-            <div class="row">
-               <div class="col-6">
-                  <div class="add-img">
-                  <input required accept="image/*" class="image" (change)="changeListner($event)" type="file">
-                  <label>+ Add Image</label>
-                  </div>
-               </div>
-               <div class="col-6">
-                  <div class="btn-cont text-right">
-                     <button type="submit" [disabled]="addForm.invalid" class="btn btn-primary">ADD</button>
-                  </div>
-               </div>
-               <div class="col-12">
-                  <div class="spacer40"></div>
-               </div>
-               <div class="col-12">
-                  <div class="form-group-2">
-                     <label>Name</label>
-                     <div class="form-group">
-                      <!-- <input type="text" class="form-control" id="name" required [(ngModel)]="model.userModel.name" name="name" #name="ngModel">
-                      <div *ngIf="name.errors && (name.dirty || name.touched)" class="show-error">
-                          <div [hidden]="!name.errors.required">
-                            {{constant.errorMsg.COUNTRY_NAME_REQUIRED}}
-                          </div>
-                      </div> -->
-                      <input autocomplete="off" type="text" class="form-control" required [(ngModel)]="model.userModel.name" name="name">
-                    </div>
-                  </div>
-               </div>
-               <div class="col-12">
-                  <div class="form-group-2">
-                     <label>Contact number</label>
-                     <div class="form-group">
-                        <!-- <input type="text" class="form-control"
-                        id="phone" required minlength="1" [(ngModel)]="model.userModel.phone" 
-                        name="phone" #phone="ngModel"
-    ng2TelInput
-    [ng2TelInputOptions]="initialCountry"
-    (countryChange)="onCountryChange($event)" />
-                      <div *ngIf="phone.errors && (phone.dirty || phone.touched)" class="show-error">
-                          <div [hidden]="!phone.errors.required">
-                            {{constant.errorMsg.COUNTRY_NAME_REQUIRED}}
-                          </div>
-                      </div> -->
-                      <input autocomplete="off" type="text" class="form-control" id="phone" required minlength="1" [(ngModel)]="model.userModel.phone" name="phone"
-                            ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
-                    </div>
-                  </div>
-               </div>
-               <div class="col-12">
-                  <div class="form-group-2">
-                     <label>Email ID</label>
-                     <div class="form-group">
-                      <!-- <input type="text" class="form-control" id="email" required [(ngModel)]="model.userModel.email" name="email" #email="ngModel">
-                      <div *ngIf="email.errors && (email.dirty || email.touched)" class="show-error">
-                          <div [hidden]="!email.errors.required">
-                            {{constant.errorMsg.COUNTRY_NAME_REQUIRED}}
-                          </div>
-                      </div> -->
-                      <input autocomplete="off" type="text" class="form-control" required [(ngModel)]="model.userModel.email" name="email">
-                    </div>
-                  </div>
-               </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="add-img">
+              <input required accept="image/*" name="image" class="image" (change)="changeListner($event)" type="file">
+              <label>+ Add Image</label>
+              </div>
             </div>
-            <div class="form-group marginB0">
-                <label>Intereseted In</label>
-                <select class="form-control">
-                  <option>All</option>
-                  <option>All</option>
-                  <option>All</option>
+            <div class="col-6">
+              <div class="btn-cont text-right">
+                  <button *ngIf="model.id==''" type="submit" [disabled]="addForm.invalid" class="btn btn-primary">ADD</button>
+                  <button *ngIf="model.id!=''" type="submit" [disabled]="addForm.invalid" class="btn btn-primary">UPDATE</button>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="spacer40"></div>
+            </div>
+            <div class="col-12">
+              <div class="form-group-2">
+                  <label>Name</label>
+                  <div class="form-group">
+                  <input autocomplete="off" type="text" class="form-control" required [(ngModel)]="model.name" name="name">
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group-2">
+                  <label>Contact number</label>
+                  <div class="form-group">
+                  <input minlength="6" maxlength="16" autocomplete="off" type="text" class="form-control" id="phone" required minlength="1" [(ngModel)]="model.phone" name="phone"
+                        ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group-2">
+                  <label>Email ID</label>
+                  <div class="form-group">
+                  <input autocomplete="off" type="email" class="form-control" required [(ngModel)]="model.email" name="email">
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group-2">
+                <label>User type</label>
+                <select title="Choose user type" [(ngModel)]="model.user_type" name="user_type" class="form-control">
+                  <option value="buyer">Buyer</option>
+                  <option value="seller">Seller</option>
                 </select>
+              </div>
             </div>
-         </div>
-        </form>
-
-     </div>
+            <div class="col-12" *ngIf="model.user_type == 'seller'">
+              <div class="form-group-2">
+                <label>Interested In</label>
+                <select title="Choose user type" name="interested_in" class="form-control">
+                  <option value="buyer">Buyer</option>
+                  <option value="seller">Seller</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

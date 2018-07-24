@@ -71,15 +71,12 @@ export class InhouseUsersComponent implements OnInit {
 
 
   onCountryChange(e) {
-    this.model.userModel.country_code = e.iso2;
+    console.log('eeee',e)
+    this.model.userModel.country_code = e.dialCode;
     this.initialCountry = {initialCountry: e.iso2};
   }
 
   openAddModal() {
-    // console.log('zzzzzzzzzzzzzzzzzzzzzz')
-    // this.model.userModel = new user();
-    // console.log('---------------', this.model.userModel)
-    // this.model.address = new address();
     this.modalOpen.nativeElement.click();
   }
 
@@ -104,9 +101,13 @@ export class InhouseUsersComponent implements OnInit {
 
   addNewUser(formdata: NgForm) {
     this.parameter.loading = true;
-    this.parameter.url = 'addNewUser';
+    this.parameter.url = this.model.userModel.id!='' ? 'updateNewUser' : 'addNewUser';
 console.log('add newuser params', formdata, JSON.stringify(this.model.address), '+'+this.model.userModel.country_code)
     const input = new FormData();
+
+    if(this.model.userModel.id!='')
+      input.append('id', this.model.userModel.id);
+
     input.append('name', formdata.value.name);
     input.append('country_code', '+' + this.model.userModel.country_code);
     input.append('phone', formdata.value.phone);
@@ -119,33 +120,40 @@ console.log('add newuser params', formdata, JSON.stringify(this.model.address), 
     input.append('is_data_collector', formdata.value.is_data_collector == true ? '1' : '0');
     input.append('is_csr_closer', formdata.value.is_csr_closer == true ? '1' : '0');
 
-    // this.admin.postDataApi(this.parameter.url, input)
-    //   .subscribe(
-    //     success => {
-    //       this.parameter.loading = false;
-    //       if (success.success == 0) {
-    //         this.swal.error({
-    //           title: 'Error',
-    //           text: success.message
-    //         });
-    //       }
-    //       else{
-    //         this.modalClose.nativeElement.click();
-    //         formdata.reset();
-    //       }
-    //       // console.log('user add',success)
-    //     },
-    //     error => {
-    //       this.parameter.loading = false;
-    //       this.swal.error({
-    //         title: 'Error',
-    //         text: error.message,
-    //       });
-    //     });
+    this.admin.postDataApi(this.parameter.url, input)
+      .subscribe(
+        success => {
+          console.log('success',success)
+          this.parameter.loading = false;
+          if (success.success == 0) {
+            this.swal.error({
+              title: 'Error',
+              text: success.message
+            });
+          }
+          else{
+            this.modalClose.nativeElement.click();
+            formdata.reset();
+            this.swal.success({
+              title: 'Success',
+              text: this.model.userModel.id == '' ? 'Added successfully.' : 'Updated successfully.'
+            });
+          }
+          // console.log('user add',success)
+        },
+        error => {
+          console.log(error);
+          this.parameter.loading = false;
+          this.swal.error({
+            title: 'Error',
+            text: error.message,
+          });
+        });
   }
 
   editUser(userdata) {
-    // console.log('edit user', userdata)
+    console.log('edit user', userdata)
+    this.model.userModel.id = userdata.id;
     this.modalOpen.nativeElement.click();
     this.model.userModel.name = userdata.name;
     this.model.userModel.email = userdata.email;
@@ -176,6 +184,7 @@ console.log('add newuser params', formdata, JSON.stringify(this.model.address), 
     }
 
     // console.log('usermodel', this.model.userModel)
+    // updateNewUser
   }
 
 
@@ -392,26 +401,32 @@ console.log('countryid', country_id)
     switch (this.parameter.userType) {
       case 'data-collectors':
       this.parameter.url = 'getDataCollectors';
+      this.parameter.type = 1;
         break;
 
       case 'csr-sellers':
       this.parameter.url = 'getCsrSellers';
+      this.parameter.type = 2;
         break;
 
       case 'csr-buyers':
       this.parameter.url = 'getCsrBuyers';
+      this.parameter.type = 3;
         break;
 
       case 'inhouse-broker':
       this.parameter.url = 'getInhouseBroker';
+      this.parameter.type = 4;
         break;
 
       case 'csr-closers':
       this.parameter.url = 'getCsrClosers';
+      this.parameter.type = 5;
         break;
 
       default:
       this.parameter.url = 'getDataCollectors';
+      this.parameter.type = 1;
         break;
     }
 
@@ -471,5 +486,63 @@ console.log('countryid', country_id)
     };
 
     this.model.address.push(obj);
+  }
+
+
+  blockUnblockPopup(index, id, flag, user_type) {
+    this.parameter.index = index;
+    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    switch (flag) {
+      case 0:
+        this.parameter.text = this.constant.title.UNBLOCK_USER;
+        this.parameter.successText = this.constant.successMsg.UNBLOCKED_SUCCESSFULLY;
+        break;
+      case 1:
+        this.parameter.text = this.constant.title.BLOCK_USER;
+        this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
+        break;
+    }
+
+    const self = this;
+    this.swal.confirm({
+        title: this.parameter.title,
+        text: this.parameter.text,
+    }).then(function() {
+      self.blockAdmin(index, id, flag, user_type);
+    })
+    .catch(function() {
+      // console.log('Logout cancelled by user');
+    });
+  }
+
+  blockAdmin(index, id, flag, user_type) {
+    this.parameter.url = 'blockAdmin';
+    const input = new FormData();
+    input.append('id', id);
+    input.append('flag', flag);
+    input.append('user_type', user_type);
+
+    this.admin.postDataApi(this.parameter.url, input)
+      .subscribe(
+        success => {
+          console.log('success',success)
+          this.parameter.loading = false;
+          
+          this.swal.success({
+            title: 'Success',
+            text: this.parameter.successText
+          });
+
+          this.parameter.items[this.parameter.index] = success.data;
+
+        },
+        error => {
+          console.log(error);
+          this.parameter.loading = false;
+          this.swal.error({
+            title: 'Error',
+            text: error.message,
+          });
+        });
   }
 }

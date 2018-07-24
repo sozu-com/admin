@@ -73,4 +73,5 @@ export interface IProperty {
   index?: number;
   name?: string;
   phone?: string;
+  type?: number;
 }

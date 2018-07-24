@@ -13,11 +13,13 @@ import { Router } from '@angular/router';
 export class AppHeaderComponent {
 
   fullName: any;
+  image: any;
   public scrollbarOptions = { axis: 'yx', theme: 'minimal-dark' };
 
   constructor(private sidebar: AppSidebarComponent, private admin: AdminService, private router: Router) {
     this.admin.loginData$.subscribe(success=>{
       this.fullName = success['name'];
+      this.image = success['image'];
     })
   }
 

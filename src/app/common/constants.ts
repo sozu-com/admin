@@ -71,6 +71,8 @@ export class Constant {
         BLOCK_PROJECT_TYPE : 'You want to block this project type?',
         UNBLOCK_PROJECT_TYPE : 'You want to unblock this project type?',
         BLOCK_PROJECT_POSSESSION : 'You want to block this project possession status?',
-        UNBLOCK_PROJECT_POSSESSION : 'You want to unblock this project possession status?'
+        UNBLOCK_PROJECT_POSSESSION : 'You want to unblock this project possession status?',
+        BLOCK_USER : 'You want to block this user?',
+        UNBLOCK_USER : 'You want to unblock this user?',
     };
 }

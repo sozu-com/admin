@@ -10,6 +10,7 @@ export class InhouseUsers{
     ];
 
     public userModel = {
+        id: '',
         name: '',
         country_code: '52',
         phone: '',
