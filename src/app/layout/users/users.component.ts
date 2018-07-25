@@ -175,6 +175,7 @@ console.log(formdata)
 
   
   blockAdmin(index, id, flag, user_type) {
+    this.parameter.index = index;
     this.parameter.url = 'blockBuyerSeller';
     const input = new FormData();
     input.append('id', id);
@@ -187,12 +188,12 @@ console.log(formdata)
           console.log('success',success)
           this.parameter.loading = false;
           
+          this.parameter.items[this.parameter.index] = success.data;
+
           this.swal.success({
             title: 'Success',
             text: this.parameter.successText
           });
-
-          this.parameter.items[this.parameter.index] = success.data;
 
         },
         error => {
