@@ -4847,8 +4847,8 @@ var _a, _b, _c;
 // The file contents for the current environment will overwrite these during build.
 var environment = {
     production: false,
-    // baseUrl: 'http://192.168.100.88:8500/api/admin/'
-    baseUrl: 'http://45.232.252.136/api/admin/'
+    baseUrl: 'http://192.168.100.88:8500/api/admin/'
+    // baseUrl: 'http://45.232.252.136/api/admin/'
 };
 //# sourceMappingURL=environment.js.map
 
