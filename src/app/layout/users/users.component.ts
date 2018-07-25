@@ -27,9 +27,10 @@ export class UsersComponent implements OnInit {
   ngOnInit() {
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.p = this.constant.p;
+    this.parameter.type = 1;
     this.model.id = '';
     this.initialCountry = {initialCountry: 'mx'};
-    this.getBuyers(1, this.parameter.p, '', '', '');
+    this.getBuyers(this.parameter.type, this.parameter.p, '', '', '');
   }
 
   getBuyers(type, page, name, phone, email){
@@ -134,6 +135,65 @@ console.log(formdata)
             });
           }
           // console.log('user add',success)
+        },
+        error => {
+          console.log(error);
+          this.parameter.loading = false;
+          this.swal.error({
+            title: 'Error',
+            text: error.message,
+          });
+        });
+  }
+
+
+  blockUnblockPopup(index, id, flag, user_type) {
+    this.parameter.index = index;
+    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    switch (flag) {
+      case 0:
+        this.parameter.text = this.constant.title.UNBLOCK_USER;
+        this.parameter.successText = this.constant.successMsg.UNBLOCKED_SUCCESSFULLY;
+        break;
+      case 1:
+        this.parameter.text = this.constant.title.BLOCK_USER;
+        this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
+        break;
+    }
+
+    const self = this;
+    this.swal.confirm({
+        title: this.parameter.title,
+        text: this.parameter.text,
+    }).then(function() {
+      self.blockAdmin(index, id, flag, user_type);
+    })
+    .catch(function() {
+      // console.log('Logout cancelled by user');
+    });
+  }
+
+  
+  blockAdmin(index, id, flag, user_type) {
+    this.parameter.url = 'blockBuyerSeller';
+    const input = new FormData();
+    input.append('id', id);
+    input.append('flag', flag);
+    input.append('user_type', user_type);
+
+    this.admin.postDataApi(this.parameter.url, input)
+      .subscribe(
+        success => {
+          console.log('success',success)
+          this.parameter.loading = false;
+          
+          this.swal.success({
+            title: 'Success',
+            text: this.parameter.successText
+          });
+
+          this.parameter.items[this.parameter.index] = success.data;
+
         },
         error => {
           console.log(error);

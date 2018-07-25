@@ -21,6 +21,10 @@
 .app-logo{
     padding-top: 7px;
 }
+.form-group select.form-control {
+    padding: 8px 60px 8px 15px !important;
+    height: 40px !important;
+}
 .form-group .form-control:focus {
     border: none !important;
     border-bottom: solid 1px #00B96F !important;

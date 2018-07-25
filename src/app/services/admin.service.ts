@@ -51,6 +51,7 @@ export class AdminService {
     const headers = new Headers();
     // headers.append('Content-Type', 'application/x-www-form-urlencoded');
     headers.append('Authorization', 'Bearer ' + token);
+    console.log(headers)
     return headers;
   }
 

@@ -26,10 +26,9 @@
               <div class="col-lg-3 col-md-3 col-sm-6 col-6 table-search">
                   <input type="text" (input)="getCountries($event.target.value)" name="keyword" placeholder="Search here">
               </div>
-              <div class="col-lg-2 col-md-3 col-sm-6 col-6">
+              <div class="col-lg-9 col-md-9 col-sm-6 col-6">
                  <div class="form-group marginB0">
-                    <!-- <label>Add Country</label> -->
-                    <div class="add-new">
+                    <div class="add-new pull-right">
                         <a class="btn" href="javascript://" (click)="openCountryModal(addCountryModal, '', '', '', '1', -1)">+ Add New</a>
                     </div>
                  </div>
@@ -83,7 +82,14 @@
                     </select>
                  </div>
               </div>
-              <div class="col-lg-2 col-md-3 col-sm-6 col-6">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-6 table-search">
+                <div class="form-group marginB0">
+                  <label>Search</label>
+                  <input type="text" (input)="getCountries($event.target.value)" name="keyword" placeholder="Search here">
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-6"></div>
+              <div class="col-lg-2 col-md-2 col-sm-6 col-6">
                  <div class="form-group marginB0">
                     <label>Add State</label>
                     <div class="add-new">
@@ -100,11 +106,7 @@
           <div class="table-responsive">
             <table class="table table-striped">
                 <tr>
-                  <th style="width:80%; text-align:left;">
-                      <div class="table-search">
-                      <input type="Search here" (input)="getStates(parameter.country_id, $event.target.value)" name="" placeholder="Search here">
-                      </div>
-                  </th>
+                  <th style="width:80%; text-align:left;">State</th>
                   <th style="width:20%">Action</th>
                 </tr>
                 <tr *ngFor="let state of parameter.states; let s = index">
@@ -153,7 +155,14 @@
                  </select>
                </div>
             </div>
-            <div class="col-lg-2 col-md-3 col-sm-6 col-6">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-6 table-search">
+              <div class="form-group marginB0">
+                <label>Search</label>
+                <input type="text" (input)="getCountries($event.target.value)" name="keyword" placeholder="Search here">
+              </div>
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-6 col-6"></div>
+            <div class="col-lg-2 col-md-2 col-sm-6 col-6">
                <div class="form-group marginB0">
                   <label>Add City</label>
                   <div class="add-new">
@@ -171,11 +180,7 @@
           <table class="table table-striped">
               <tr>
                 
-                <th style="width:80%; text-align:left;">
-                    <div class="table-search">
-                    <input type="Search here" (input)="getCities(parameter.state_id, $event.target.value)" name="" placeholder="Search here">
-                    </div>
-                </th>
+                <th style="width:80%; text-align:left;">City</th>
                 <th style="width:20%">Action</th>
               </tr>
               <tr *ngFor="let city of parameter.cities; let ci=index">

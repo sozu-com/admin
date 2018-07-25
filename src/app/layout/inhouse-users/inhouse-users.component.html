@@ -250,7 +250,17 @@
               <app-address [address]="add" [index]="j" (removeAddress)="removeAddressObj($event)"></app-address>
             </div>
 
-            <button class="add-btn margin0" (click)="addEmptyObj()"><img src="./../../../assets/img/add.png" alt="img"></button>
+            <!-- <div class="row">
+              <div class="col-lg-3 col-md-3"></div>
+              <div class="btn-cont text-right col-lg-6 col-md-6">
+                <button class="btn btn-primary" (click)="addEmptyObj()">
+                    <img src="./../../../assets/img/add.png" alt="img">
+                </button>
+              </div>
+            </div> -->
+            <button class="add-btn margin0" (click)="addEmptyObj()">
+              <img src="./../../../assets/img/add.png" alt="img">
+            </button>
             
             <div class="access-controls">
                <label [ngClass]="{'access-control11': model.userModel.is_broker_seller_dev == true}" class="cust-check-bx2">Broker/Seller/Developer
