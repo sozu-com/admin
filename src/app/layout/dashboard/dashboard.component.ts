@@ -16,27 +16,5 @@ export class DashboardComponent {
   public parameter: IProperty = {};
 
   constructor(private dashModel: DashboardModel, private admin: AdminService, private router: Router, private swal: SweetAlertService) {
-    // this.dashboard();
-  }
-
-  dashboard() {
-    this.parameter.loading = true;
-    this.parameter.url = 'dashboard';
-    this.admin.getDataApi(this.parameter.url)
-      .subscribe(
-        success => {
-          this.parameter.loading = false;
-          this.dashModel = success.data;
-          console.log(this.dashModel, success);
-        },
-        error => {
-          this.parameter.loading = false;
-          if (error.statusCode == 401) this.router.navigate(['']);
-          else
-            this.swal.warning({
-              // title: 'Internet Connection',
-              text: error.messages,
-            });
-        });
   }
 }

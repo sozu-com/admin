@@ -24,10 +24,10 @@
                             <input autocomplete="off" [pattern]="emailPattern" class="form-control" placeholder="Username/Email" id="email" required [(ngModel)]="model.email" name="email" #input1 #email="ngModel">
                             <div *ngIf="email.errors && (email.dirty || email.touched)" class="show-error">
                                 <div [hidden]="!email.errors.required">
-                                    Email is required!
+                                    Please enter email.
                                 </div>
                                 <div [hidden]="!email.errors.pattern">
-                                    Email must be valid email.
+                                    Please enter valid email.
                                 </div>
                             </div>
                         </div>
@@ -35,15 +35,18 @@
                             <input autocomplete="off" type="password" class="form-control" placeholder="Password" minlength="8" id="password" required [(ngModel)]="model.password" name="password" #password="ngModel">
                             <div *ngIf="password.errors && (password.dirty || password.touched)" class="show-error">
                                 <div [hidden]="!password.errors.required">
-                                    Password is required!
+                                    Please enter password.
                                 </div>
                                 <div [hidden]="!password.errors.minlength">
                                     Password's length must be at least {{8-model.password.length}}.
                                 </div>
                             </div>
                         </div>
-                        <a class="fgt-pswd" href="/forgot-password">Forgot Password ?</a>
-                        <button type="submit" [disabled]="loginForm.invalid" class="login-btn mgt-50">LOGIN</button>
+                        <a class="fgt-pswd" href="/forgot-password">Forgot Password?</a>
+                        <div class="btn-cont text-right">
+                            <button type="submit" [disabled]="loginForm.invalid" class="btn btn-primary login-btn mgt-50">LOGIN</button>
+                        </div>
+
                         <p class="text-center">By login you are agree to <a href="javascript://"> Terms & Condition </a>
                         and <a href="javascript://"> Privacy Policy</a> of Nequore.</p>
                     </form>

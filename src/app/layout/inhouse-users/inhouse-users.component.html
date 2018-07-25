@@ -157,6 +157,11 @@
           </table>
         </div>
       </div>
+
+      <div class="center" *ngIf="parameter.total == 0">
+        <img src="./../../../assets/img/404-error.png">
+      </div>
+
   </div>
   <div class="btn-cont text-right marginT15">
       <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>

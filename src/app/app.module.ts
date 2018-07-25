@@ -19,6 +19,7 @@ import { HttpInterceptor } from './services/http-interceptor';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
+  { path: 'login', pathMatch: 'full', redirectTo: 'login' },
   // { path: 'forgot-password', component: ForgotPasswordComponent },
   // { path: 'dashboard', canActivate: [AuthGuard], loadChildren: './layout/layout.module#LayoutModule'},
   { path: '**', component: PageNotFoundComponent }

@@ -15,6 +15,9 @@
 .ngx-pagination .current {
     background: #00B96F !important;
 }
+.center{
+    text-align: center;
+}
 .app-logo{
     padding-top: 7px;
 }
