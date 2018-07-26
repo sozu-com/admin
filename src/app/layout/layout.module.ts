@@ -26,14 +26,15 @@ import { AppFooterComponent } from '../shared/app-footer/app-footer.component';
 
 // importing general component
 import { ChangePasswordComponent } from './settings/change-password/change-password.component';
-import { LocationComponent } from './settings/location/location.component';
-import { PropertyComponent } from './settings/property/property.component';
-import { ProjectComponent } from './settings/project/project.component';
-import { LocalityComponent } from './settings/locality/locality.component';
+// import { LocationComponent } from './settings/location/location.component';
+// import { PropertyComponent } from './settings/property/property.component';
+// import { ProjectComponent } from './settings/project/project.component';
+// import { LocalityComponent } from './settings/locality/locality.component';
+// import { EditProfileComponent } from './settings/edit-profile/edit-profile.component';
 import { InhouseUsersComponent } from './inhouse-users/inhouse-users.component';
 import { AddressComponent } from './inhouse-users/address/address.component';
-import { EditProfileComponent } from './settings/edit-profile/edit-profile.component';
 import { UsersComponent } from './users/users.component';
+import { LeadsComponent } from './leads/leads.component';
 
 @NgModule({
     imports: [
@@ -74,14 +75,15 @@ import { UsersComponent } from './users/users.component';
         DashboardComponent,
         ChangePasswordComponent,
         AppFooterComponent,
-        LocationComponent,
-        PropertyComponent,
-        ProjectComponent,
-        LocalityComponent,
+        // LocationComponent,
+        // PropertyComponent,
+        // ProjectComponent,
+        // LocalityComponent,
+        // EditProfileComponent,
         InhouseUsersComponent,
         AddressComponent,
-        EditProfileComponent,
-        UsersComponent
+        UsersComponent,
+        LeadsComponent
     ],
     providers: [SweetAlertService, NgBoxService],
 })
