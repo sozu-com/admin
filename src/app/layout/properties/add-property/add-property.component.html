@@ -1,0 +1,440 @@
+
+<div class="container-fluid">
+<div class="white-bg padding15">
+    <div class="row">
+      <div class="col-md-6">
+          <div class="title-group">
+            <h5>Add New Property</h5>
+          </div>
+      </div>
+      <div class="col-md-6">
+          <div class="btn-cont text-right">
+            <a class="btn-third btn" href="javascript://" *ngIf="tab != 3">Next</a>
+            <a class="btn-third btn" href="javascript://" *ngIf="tab == 3">Submitt</a>
+          </div>
+      </div>
+    </div>
+</div>
+<div class="spacer10"></div>
+<div class="white-bg padding15">
+    <div class="steps">
+      <ul class="d-flex">
+          <li [ngClass]="{'current': tab == 1}"><span></span><a (click)="setTab(1)">Create Draft</a></li>
+          <li [ngClass]="{'current': tab == 2}"><span></span><a (click)="setTab(2)">Additional Info</a></li>
+          <li [ngClass]="{'current': tab == 3}"><span></span><a (click)="setTab(3)">Tag a Building</a></li>
+          <li [ngClass]="{'current': tab == 4}"><span></span><a (click)="setTab(4)">Submit</a></li>
+      </ul>
+    </div>
+</div>
+<div class="spacer10"></div>
+
+<!-- tab-1 -->
+<div class="white-bg" *ngIf="tab==1">
+    <div class="page-title">
+      <h3>Create Draft</h3>
+    </div>
+    <div class="padding40">
+  
+<div class="form-group-3">
+    <label>This Property is available for?</label>
+    <div class="clearfix"></div>
+    <label class="cust-radio">
+      <input type="radio" checked="checked" name="radio">
+      <span class="checkmark">Sell</span>
+    </label>
+    <label class="cust-radio"> 
+      <input type="radio" name="radio">
+      <span class="checkmark">Rent</span>
+    </label>
+              <div class="clearfix"></div>
+    </div>
+    <div class="spacer15"></div>
+    <div class="row">
+    <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+      <div class="form-group-3">
+          <label>Select Country</label>
+        <select class="form-control">
+            <option>Select Country</option>
+            <option>Select Country</option>
+            <option>Select Country</option>
+        </select>
+      </div>   
+      </div>
+      <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+      <div class="form-group-3">
+          <label>&nbsp;</label>
+        <select class="form-control">
+            <option>Select State</option>
+            <option>Select State</option>
+            <option>Select State</option>
+        </select>
+      </div>   
+      </div>
+      <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+          <div class="form-group-3">
+              <label>&nbsp;</label>
+            <select class="form-control">
+                <option>Select City</option>
+                <option>Select City</option>
+                <option>Select City</option>
+            </select>
+          </div>   
+          </div>
+          <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+      <div class="form-group-3">
+          <label>&nbsp;</label>
+          <select class="form-control">
+            <option>Select Neighbourhood</option>
+            <option>Select Neighbourhood</option>
+            <option>Select Neighbourhood</option>
+        </select>
+      </div>   
+      </div>
+    </div>
+    <div class="spacer15"></div>
+
+    <div class="form-group-3">
+    <label>Select Configuration?</label>
+    <div class="clearfix"></div>
+    <label class="cust-radio">
+      <input type="radio" checked="checked" name="radio1">
+      <span class="checkmark">1RK</span>
+    </label>
+    <label class="cust-radio"> 
+      <input type="radio" name="radio1">
+      <span class="checkmark">1 BHK</span>
+    </label>
+    <label class="cust-radio">
+      <input type="radio" checked="checked" name="radio1">
+      <span class="checkmark">2 BHK</span>
+    </label>
+    <label class="cust-radio"> 
+      <input type="radio" name="radio1">
+      <span class="checkmark">3 BHK</span>
+    </label>
+      <label class="cust-radio"> 
+      <input type="radio" name="radio1">
+      <span class="checkmark">3+ BHK</span>
+    </label>
+              <div class="clearfix"></div>
+    </div>
+    <div class="spacer15"></div>
+
+    <div class="form-group-3">
+    <label>Select Property Type?</label>
+    <div class="clearfix"></div>
+    <label class="cust-radio">
+      <input type="radio" checked="checked" name="radio1">
+      <span class="checkmark">Apartment</span>
+    </label>
+    <label class="cust-radio"> 
+      <input type="radio" name="radio1">
+      <span class="checkmark">1 BHK</span>
+    </label>
+    <label class="cust-radio">
+      <input type="radio" checked="checked" name="radio1">
+      <span class="checkmark">2 BHK</span>
+    </label>
+    <label class="cust-radio"> 
+      <input type="radio" name="radio1">
+      <span class="checkmark">3 BHK</span>
+    </label>
+      <label class="cust-radio"> 
+      <input type="radio" name="radio1">
+      <span class="checkmark">3+ BHK</span>
+    </label>
+              <div class="clearfix"></div>
+    </div>
+
+    <div class="spacer15"></div>
+    <div class="row">
+            <div class="col-md-4 col-sm-12 col-12">
+    <div class="form-group-3">
+          <label>Enter Expected Price</label>
+          <input class="form-control" type="text" name="" placeholder="Amount should be in $">
+      </div> 
+
+    </div>
+    </div>
+    </div>
+
+
+    </div>
+
+
+
+
+<!-- tab-2 -->
+    <div class="white-bg" *ngIf="tab==2">
+        <div class="page-title">
+           <h3>Additional Info</h3>
+        </div>
+        <div class="padding40">
+       <div class="form-group-3">
+       <label>Add Images of your Property</label>
+       <div class="row">
+         <div class="col-md-7 col-sm-12 col-12">
+             <div class="upload-cover-img">
+                 <div class="upload-caption">
+                    <div class="fig-block"> <img src="img/placeholder-img.png" alt="img"></div>
+                     <p class="green-color marginT30">+Upload Cover image for the project</p>
+                     <p>JPG or PNG. Imae size should be 1920 × 1080 pixels (for HiDPI displays).</p>
+                   </div>  
+                   <input type="file" name="">
+             </div>
+
+         </div>
+         <div class="col-md-5 col-sm-12 col-12">
+             <div class="upload-cover-img upload-cover-small">
+                   <input type="file" name="">
+             </div>
+
+              <div class="upload-cover-img upload-cover-small">
+                   <input type="file" name="">
+                    <div class="upload-caption">
+                    
+                     <p class="green-color marginT30">+ Add more images</p>
+                    
+                   </div> 
+             </div>
+
+         </div>
+
+       </div>
+
+      </div> 
+        <div class="row">
+         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+           <div class="form-group-3">
+              <label>Total Area</label>
+               <input class="form-control" type="text" name="" placeholder="in sq.ft.">
+           </div>   
+           </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+           <div class="form-group-3">
+              <label>Floor</label>
+               <input class="form-control" type="text" name="" placeholder="in numbers">
+           </div>   
+           </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+           <div class="form-group-3">
+              <label>Bedrooms</label>
+               <input class="form-control" type="text" name="" placeholder="in numbers">
+           </div>   
+           </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+           <div class="form-group-3">
+              <label>Bathrooms</label>
+               <input class="form-control" type="text" name="" placeholder="in numbers">
+           </div>   
+           </div>
+
+       
+             
+        </div>
+     <div class="form-group-3">
+        <label>Is Parking Available?</label>
+        <div class="clearfix"></div>
+         <label class="cust-radio">
+          <input type="radio" checked="checked" name="radio">
+          <span class="checkmark">Yes</span>
+        </label>
+        <label class="cust-radio"> 
+          <input type="radio" name="radio">
+          <span class="checkmark">No</span>
+        </label>
+                  <div class="clearfix"></div>
+        </div>
+        <div class="spacer15"></div>
+       <div class="form-group-3">
+        <label>Is Property Furnished?</label>
+        <div class="clearfix"></div>
+         <label class="cust-radio">
+          <input type="radio" checked="checked" name="radio">
+          <span class="checkmark">Yes</span>
+        </label>
+        <label class="cust-radio"> 
+          <input type="radio" name="radio">
+          <span class="checkmark">No</span>
+        </label>
+                  <div class="clearfix"></div>
+        </div>
+
+         <div class="form-group-3">
+           <label>Description</label>
+           <textarea class="form-control"></textarea>
+         </div>
+
+        <div class="spacer15"></div>
+         <div class="form-group-3">
+        <label>This Property is avaulable for?</label>
+        <div class="clearfix"></div>
+         <label class="cust-radio">
+          <input type="radio" checked="checked" name="radio1">
+          <span class="checkmark">1</span>
+        </label>
+        <label class="cust-radio"> 
+          <input type="radio" name="radio1">
+          <span class="checkmark">2</span>
+        </label>
+         <label class="cust-radio">
+          <input type="radio" checked="checked" name="radio1">
+          <span class="checkmark">3</span>
+        </label>
+         <label class="cust-input">
+           <input type="text" name="" placeholder="Enter">
+
+         </label>
+          
+                  <div class="clearfix"></div>
+        </div>
+        <div class="spacer15"></div>
+       <div class="form-group-3">
+       <label>List of Amenties with this property</label>
+
+       <div class="list-group-items">
+           
+          <ul>
+          <li>
+           <div class="fig-block"><img src="img/bank.png" alt="img"></div>
+           <p class="p13">Fire Fighting</p>
+           </li>
+            <li>
+           <div class="fig-block"><img src="img/bank.png" alt="img"></div>
+           <p class="p13">Alevators</p>
+           </li>
+            <li>
+           <div class="fig-block"><img src="img/bank.png" alt="img"></div>
+           <p class="p13">Landscape Garden</p>
+           </li>
+            <li>
+           <div class="fig-block"><img src="img/bank.png" alt="img"></div>
+           <p class="p13">Internet / Wifi</p>
+           </li>
+            <li>
+           <div class="fig-block"><img src="img/bank.png" alt="img"></div>
+           <p class="p13">Rainwater Harvest</p>
+           </li>
+            <li>
+           <div class="fig-block"><img src="img/bank.png" alt="img"></div>
+           <p class="p13">Gymnasium</p>
+           </li>
+            <li>
+           <div class="fig-block"><img src="img/bank.png" alt="img"></div>
+           <p class="p13">Swimmimg Pool</p>
+           </li>
+            <li>
+           <div class="fig-block"><img src="img/bank.png" alt="img"></div>
+           <p class="p13">Fire Fighting</p>
+           </li>
+            <li>
+           <div class="fig-block"><img src="img/bank.png" alt="img"></div>
+           <p class="p13">Power Backup</p>
+           </li>
+            <li>
+           <div class="fig-block"><img src="img/bank.png" alt="img"></div>
+           <p class="p13">Children's Play Area</p>
+           </li>
+           </ul>
+
+           </div>
+       </div>
+        </div>
+
+
+        </div>
+
+
+
+
+<!-- tab-3 -->
+        <div class="white-bg" *ngIf="tab==3">
+            <div class="page-title">
+               <h3>Tag a Building</h3>
+            </div>
+            <div class="padding40">
+            <p class="p16">Search your building in Our Database</p>
+            
+            <div class="searh">
+               
+            <input type="text" name="">
+            <button>Search</button>
+            </div>
+            <div class="spacer50"></div>
+            <p class="p18">Didn’t Found your Building? <strong><span class="green-color">Generate a Request to add a building by our Data collectors</span></strong></p>
+                    <div class="spacer50"></div>
+
+            <div class="row">
+               <div class="col-lg-7 col-md-12 col-sm-12 col-12">
+                  <div class="row">
+                        <div class="col-sm-6 col-12">
+                           
+                           <div class="form-group-3">
+                                 <label>Name of Building</label>
+                                 <input class="form-control" type="text" name="">
+                           </div>
+
+                        </div>
+                        <div class="col-sm-6 col-12">
+                           
+                           <div class="form-group-3">
+                                 <label>Where it is located?</label>
+                                 <input class="form-control" type="text" name="">
+                           </div>
+
+                        </div>
+
+                  </div>
+                  <label class="label-optional">Developer Details (optional)</label>
+                      <div class="row">
+                         <div class="col-sm-6 col-12">
+                           
+                           <div class="form-group-3">
+                                 <label>Name of Developer</label>
+                                 <input class="form-control" type="text" name="">
+                           </div>
+
+                        </div>
+                         <div class="col-sm-6 col-12">
+                           
+                           <div class="form-group-3">
+                                 <label>Contact Number</label>
+                                 <input class="form-control" type="text" name="">
+                           </div>
+
+                        </div>
+
+                  </div>
+                      <div class="row">
+                         <div class="col-sm-12 col-12">
+                           
+                           <div class="form-group-3">
+                                 <label>Email Address</label>
+                                 <input class="form-control" type="text" name="">
+                           </div>
+
+                        </div>
+                       
+
+                  </div>
+
+               </div>
+
+                <div class="col-lg-5 col-md-12 col-sm-12 col-12">
+                  
+                      <div class="form-group-3 mark-pin-map">
+                                 <label>Mark Pin on Map</label>
+                                 <input class="form-control" type="text" name="">
+                        </div>
+                        <div><img class="img-fluid" src="img/map-img.png" alt="img"></div>
+               </div>
+            </div>
+
+
+
+
+            </div>
+         </div>
+         
+</div>
