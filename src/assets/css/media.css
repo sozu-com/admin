@@ -1,3 +1,4 @@
+
 @media (max-width:1280px){
 .table.table-striped tr td, .table.table-striped tr th{ padding:.5rem;  }
 }
@@ -10,7 +11,22 @@
 
 
 }
-@media only screen and (min-width:768px) and (max-width:992px) {}
+@media only screen and (min-width:768px) and (max-width:992px) {
+  .cust-tabs .nav-item .nav-link {
+  
+    padding: 8px;
+    margin-right: 1px;
+    
+}
+
+.project-des-content {
+ 
+    width: 73%;
+    
+}
+
+.float-right.right-side{ float:left !important;   }
+}
 @media (max-width:768px){
   .sigle-row-table .table.table-striped tr td {
      text-align:center !important; 
@@ -26,11 +42,18 @@
 .steps .d-flex{    
   display: block !important;
     width: 100%;}
-  
+  .chat-name-list, .chat-window {
+    min-height: unset;
+}
+ .chat-with-developer {
+ 
+    margin-top: 30px;
+}
+.float-right.right-side{ float:left !important;   }
 }
 @media only screen and (min-width:576px) and (max-width:767px){}
 @media (max-width:767px){
-   .scrollbox{height:auto; } 
+#side-menu-bar .scrollbox{height:auto; } 
    #side-menu-bar {
     width: auto;
     background-color:#131313;
@@ -77,5 +100,20 @@
     padding-top: 5rem;
 }
 
+.nav-tabs .nav-item {
+    margin-bottom: 10px;
+    width: 50%;
+}
+.chat-user p {
+  
+    width: 90%;
+}
+.chat-text .chat-input {
+    width: 70%;
+    
+}
+ 
+
 }
 @media (max-width:575px){}
+
