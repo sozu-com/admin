@@ -84,8 +84,13 @@
   <script>
     $(document).ready(function () {
       $(document).click(function (event) {
-        $('.navbar-nav>li>a').on('click', function(){
-          $('.navbar-collapse').collapse('hide');
+        // $('.navbar-nav>li>a').on('click', function(){
+        //   $('.navbar-collapse').collapse('hide');
+        // });
+        $('.navbar-nav li a').on('click', function(){
+            if(!$( this ).hasClass('dropdown-toggle')){
+                $('.navbar-collapse').collapse('hide');
+            }
         });
       });
     });
