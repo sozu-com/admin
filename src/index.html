@@ -80,6 +80,17 @@
       }
     }
   </style>
+  
+  <script>
+    $(document).ready(function () {
+      $(document).click(function (event) {
+        $('.navbar-nav>li>a').on('click', function(){
+          $('.navbar-collapse').collapse('hide');
+        });
+      });
+    });
+  </script>
+
 </head>
 <body>
   <div class="loading">
