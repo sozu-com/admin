@@ -213,7 +213,7 @@ AppModule = __decorate([
 var Constant = (function () {
     function Constant() {
         this.itemsPerPage = 10;
-        this.p = 1;
+        this.p = 0;
         this.userPlaceholder = '../../../assets/img/default_usr.png';
         this.errorMsg = {
             COUNTRY_NAME_REQUIRED: 'Please enter country.',
