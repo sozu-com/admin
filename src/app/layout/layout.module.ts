@@ -15,8 +15,8 @@ import { AgmCoreModule } from '@agm/core';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 
 // importing shared components
-import { LoginComponent } from './login/login.component';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+// import { LoginComponent } from './login/login.component';
+// import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
 import { AppHeaderComponent } from '../shared/app-header/app-header.component';
@@ -54,8 +54,8 @@ import { AddressComponent } from './inhouse-users/address/address.component';
     declarations: [
         LayoutComponent,
         AppHeaderComponent,
-        LoginComponent,
-        ForgotPasswordComponent,
+        // LoginComponent,
+        // ForgotPasswordComponent,
         DashboardComponent,
         ChangePasswordComponent,
         AppFooterComponent,

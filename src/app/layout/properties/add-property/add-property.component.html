@@ -1,440 +1,382 @@
 
 <div class="container-fluid">
-<div class="white-bg padding15">
+  <div class="white-bg padding15">
     <div class="row">
       <div class="col-md-6">
-          <div class="title-group">
-            <h5>Add New Property</h5>
-          </div>
+        <div class="title-group">
+          <h5>Add New Property</h5>
+        </div>
       </div>
       <div class="col-md-6">
-          <div class="btn-cont text-right">
-            <a class="btn-third btn" href="javascript://" *ngIf="tab != 3">Next</a>
-            <a class="btn-third btn" href="javascript://" *ngIf="tab == 3">Submitt</a>
-          </div>
+        <div class="btn-cont text-right">
+          <a class="btn-third btn" href="javascript://" (click)="setTab(tab+1)" *ngIf="tab != 3">Next</a>
+          <a class="btn-third btn" href="javascript://" *ngIf="tab == 3">Submitt</a>
+        </div>
       </div>
     </div>
-</div>
-<div class="spacer10"></div>
-<div class="white-bg padding15">
+  </div>
+  
+  <ngx-loading [show]="parameter.loading"></ngx-loading>
+
+  <div class="spacer10"></div>
+  
+  <div class="white-bg padding15">
     <div class="steps">
       <ul class="d-flex">
-          <li [ngClass]="{'current': tab == 1}"><span></span><a (click)="setTab(1)">Create Draft</a></li>
-          <li [ngClass]="{'current': tab == 2}"><span></span><a (click)="setTab(2)">Additional Info</a></li>
-          <li [ngClass]="{'current': tab == 3}"><span></span><a (click)="setTab(3)">Tag a Building</a></li>
-          <li [ngClass]="{'current': tab == 4}"><span></span><a (click)="setTab(4)">Submit</a></li>
+        <li [ngClass]="{'current': tab == 1}"><span></span><a (click)="addProperty(addForm, 1)">Create Draft</a></li>
+        <li [ngClass]="{'current': tab == 2}"><span></span><a (click)="addProperty(addForm, 2)">Additional Info</a></li>
+        <li [ngClass]="{'current': tab == 3}"><span></span><a (click)="addProperty(addForm, 3)">Privacy Info</a></li>
+        <li [ngClass]="{'current': tab == 4}"><span></span><a (click)="addProperty(addForm, 4)">Tag a Building</a></li>
+        <li [ngClass]="{'current': tab == 5}"><span></span><a (click)="addProperty(addForm, 5)">Submit</a></li>
       </ul>
     </div>
-</div>
-<div class="spacer10"></div>
+  </div>
 
-<!-- tab-1 -->
-<div class="white-bg" *ngIf="tab==1">
-    <div class="page-title">
-      <h3>Create Draft</h3>
-    </div>
-    <div class="padding40">
-  
-<div class="form-group-3">
-    <label>This Property is available for?</label>
-    <div class="clearfix"></div>
-    <label class="cust-radio">
-      <input type="radio" checked="checked" name="radio">
-      <span class="checkmark">Sell</span>
-    </label>
-    <label class="cust-radio"> 
-      <input type="radio" name="radio">
-      <span class="checkmark">Rent</span>
-    </label>
-              <div class="clearfix"></div>
-    </div>
-    <div class="spacer15"></div>
-    <div class="row">
-    <div class="col-lg-3 col-md-12 col-sm-12 col-12">
-      <div class="form-group-3">
-          <label>Select Country</label>
-        <select class="form-control">
-            <option>Select Country</option>
-            <option>Select Country</option>
-            <option>Select Country</option>
-        </select>
-      </div>   
+  <div class="spacer10"></div>
+
+  <form  ngNativeValidate #addForm="ngForm" (ngSubmit)="addNewUser(addForm)">
+    
+    <!-- tab-1 -->
+    <div class="white-bg" *ngIf="tab==1">
+      <div class="page-title">
+        <h3>Create Draft</h3>
       </div>
-      <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+      <div class="padding40">
       <div class="form-group-3">
-          <label>&nbsp;</label>
-        <select class="form-control">
-            <option>Select State</option>
-            <option>Select State</option>
-            <option>Select State</option>
-        </select>
-      </div>   
+        <label>This Property is available for?</label>
+        <div class="clearfix"></div>
+        <label class="cust-radio">
+          <input [(ngModel)]="model.for_sale" name="for_sale" type="checkbox" checked="model.for_sale == 1 ? checked: ''">
+          <span class="checkmark">Sell</span>
+        </label>
+        <label class="cust-radio"> 
+          <input [(ngModel)]="model.for_rent" name="for_rent" type="checkbox" checked="model.for_rent == 1 ? checked: ''">
+          <span class="checkmark">Rent</span>
+        </label>
+        <div class="clearfix"></div>
       </div>
-      <div class="col-lg-3 col-md-12 col-sm-12 col-12">
-          <div class="form-group-3">
-              <label>&nbsp;</label>
-            <select class="form-control">
-                <option>Select City</option>
-                <option>Select City</option>
-                <option>Select City</option>
-            </select>
-          </div>   
+        <div class="spacer15"></div>
+        <div class="row">
+          <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+            <div class="form-group-3">
+              <label>Select Country</label>
+              <select title="Choose Country" class="form-control" (change)="getStates($event.target.value)">
+                <option value="" [selected]="model.country_id == ''" disabled>Select Country</option>
+                <option *ngFor="let country of parameter.countries" value="{{country.id}}" [selected]="country.id == model.country_id">{{country.name_en}}</option>
+              </select>
+            </div>   
           </div>
           <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+            <div class="form-group-3">
+              <label>&nbsp;</label>
+              <select title="Choose State" class="form-control" (change)="getCities($event.target.value)">
+                <option value="" [selected]="model.state_id == ''" disabled>Select State</option>
+                <option *ngFor="let state of parameter.states" value="{{state.id}}" [selected]="state.id == model.state_id">{{state.name_en}}</option>
+              </select>
+            </div>   
+          </div>
+          <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+            <div class="form-group-3">
+              <label>&nbsp;</label>
+              <select title="Choose City" class="form-control" (change)="getLocalities($event.target.value)">
+                <option value="" [selected]="model.city_id == ''" disabled>Select City</option>
+                <option *ngFor="let city of parameter.cities" value="{{city.id}}" [selected]="city.id == model.city_id">{{city.name_en}}</option>
+              </select>
+            </div>   
+          </div>
+          <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+            <div class="form-group-3">
+              <label>&nbsp;</label>
+              <select title="Choose Locality" class="form-control" (change)="setLocality($event.target.value)">
+                <option value="" [selected]="model.locality_id == ''" disabled>Select Locality</option>
+                <option *ngFor="let locality of parameter.localities" value="{{locality.id}}" [selected]="locality.id == model.locality_id">{{locality.name_en}}</option>
+              </select>
+            </div>   
+          </div>
+        </div>
+      <div class="spacer15"></div>
+
       <div class="form-group-3">
-          <label>&nbsp;</label>
-          <select class="form-control">
-            <option>Select Neighbourhood</option>
-            <option>Select Neighbourhood</option>
-            <option>Select Neighbourhood</option>
-        </select>
-      </div>   
+        <label>Select Configuration?</label>
+        <div class="clearfix"></div>
+        <label class="cust-radio" *ngFor="let configuration of parameter.items">
+          <input type="radio" (change)="setConfiguration(configuration.id)" value="{{configuration.id}}" checked="model.configuration_id == configuration.id ? checked : ''" name="configuration_id">
+          <span class="checkmark">{{configuration.name_en}}</span>
+        </label>
+        <div class="clearfix"></div>
+      </div>
+      <div class="spacer15"></div>
+
+      <div class="form-group-3">
+        <label>Select Property Type?</label>
+        <div class="clearfix"></div>
+        <label class="cust-radio" *ngFor="let propertyType of parameter.propertyTypes">
+          <input type="radio" (change)="setPropertyType(propertyType.id)" value="{{propertyType.id}}" checked="model.property_type_id == propertyType.id ? checked : ''" name="property_type_id">
+          <span class="checkmark">{{propertyType.name_en}}</span>
+        </label>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="spacer15"></div>
+        <div class="row" *ngFor="let carpet_area of model.carpet_areas">
+          <div class="col-md-4 col-sm-12 col-12">
+            <div class="form-group-3">
+              <label>Enter Area</label>
+              <input class="form-control" type="text" [(ngModel)]="carpet_area.area" name="area" placeholder="Area should be in numbers">
+            </div> 
+          </div>
+          <div class="col-md-4 col-sm-12 col-12">
+            <div class="form-group-3">
+              <label>Enter Expected Price</label>
+              <input class="form-control" type="text" [(ngModel)]="carpet_area.price" name="price" placeholder="Amount should be in $">
+            </div> 
+          </div>
+        </div>
       </div>
     </div>
-    <div class="spacer15"></div>
-
-    <div class="form-group-3">
-    <label>Select Configuration?</label>
-    <div class="clearfix"></div>
-    <label class="cust-radio">
-      <input type="radio" checked="checked" name="radio1">
-      <span class="checkmark">1RK</span>
-    </label>
-    <label class="cust-radio"> 
-      <input type="radio" name="radio1">
-      <span class="checkmark">1 BHK</span>
-    </label>
-    <label class="cust-radio">
-      <input type="radio" checked="checked" name="radio1">
-      <span class="checkmark">2 BHK</span>
-    </label>
-    <label class="cust-radio"> 
-      <input type="radio" name="radio1">
-      <span class="checkmark">3 BHK</span>
-    </label>
-      <label class="cust-radio"> 
-      <input type="radio" name="radio1">
-      <span class="checkmark">3+ BHK</span>
-    </label>
-              <div class="clearfix"></div>
-    </div>
-    <div class="spacer15"></div>
-
-    <div class="form-group-3">
-    <label>Select Property Type?</label>
-    <div class="clearfix"></div>
-    <label class="cust-radio">
-      <input type="radio" checked="checked" name="radio1">
-      <span class="checkmark">Apartment</span>
-    </label>
-    <label class="cust-radio"> 
-      <input type="radio" name="radio1">
-      <span class="checkmark">1 BHK</span>
-    </label>
-    <label class="cust-radio">
-      <input type="radio" checked="checked" name="radio1">
-      <span class="checkmark">2 BHK</span>
-    </label>
-    <label class="cust-radio"> 
-      <input type="radio" name="radio1">
-      <span class="checkmark">3 BHK</span>
-    </label>
-      <label class="cust-radio"> 
-      <input type="radio" name="radio1">
-      <span class="checkmark">3+ BHK</span>
-    </label>
-              <div class="clearfix"></div>
-    </div>
-
-    <div class="spacer15"></div>
-    <div class="row">
-            <div class="col-md-4 col-sm-12 col-12">
-    <div class="form-group-3">
-          <label>Enter Expected Price</label>
-          <input class="form-control" type="text" name="" placeholder="Amount should be in $">
-      </div> 
-
-    </div>
-    </div>
-    </div>
 
 
-    </div>
-
-
-
-
-<!-- tab-2 -->
+    <!-- tab-2 -->
     <div class="white-bg" *ngIf="tab==2">
-        <div class="page-title">
-           <h3>Additional Info</h3>
-        </div>
-        <div class="padding40">
-       <div class="form-group-3">
-       <label>Add Images of your Property</label>
-       <div class="row">
-         <div class="col-md-7 col-sm-12 col-12">
-             <div class="upload-cover-img">
-                 <div class="upload-caption">
-                    <div class="fig-block"> <img src="img/placeholder-img.png" alt="img"></div>
-                     <p class="green-color marginT30">+Upload Cover image for the project</p>
-                     <p>JPG or PNG. Imae size should be 1920 × 1080 pixels (for HiDPI displays).</p>
-                   </div>  
-                   <input type="file" name="">
-             </div>
+      <div class="page-title">
+        <h3>Additional Info</h3>
+      </div>
+      <div class="padding40">
+        <div class="form-group-3">
+        <label>Add Images of your Property</label>
+          <div class="row">
+            <div class="col-md-7 col-sm-12 col-12">
+              <div class="upload-cover-img" [style.background-image]="image1">
+                <!-- <img *ngIf="url" [src]="url" height="200"> -->
+                <div class="upload-caption">
+                  <div class="fig-block"> 
+                    <img src="./../../../../assets/img/placeholder-img.png" alt="img">
+                  </div>
+                  <p class="green-color marginT30">+Upload Cover image for the project</p>
+                  <p>JPG or PNG. Image size should be 1920 × 1080 pixels (for HiDPI displays).</p>
+                </div>  
+                <input type="file" name="" (change)="onSelectFile1($event)">
+              </div>
+            </div>
+            <div class="col-md-5 col-sm-12 col-12">
+              <div class="upload-cover-img upload-cover-small" [style.background-image]="image2">
+                <input type="file" name="" (change)="onSelectFile2($event)">
+              </div>
 
-         </div>
-         <div class="col-md-5 col-sm-12 col-12">
-             <div class="upload-cover-img upload-cover-small">
-                   <input type="file" name="">
-             </div>
+              <div class="upload-cover-img upload-cover-small" [style.background-image]="image3">
+                <input type="file" name="" (change)="onSelectFile3($event)">
+                <div class="upload-caption">
+                  <p class="green-color marginT30">+ Add more images</p>
+                </div> 
+              </div>
+            </div>
+          </div>
+        </div> 
 
-              <div class="upload-cover-img upload-cover-small">
-                   <input type="file" name="">
-                    <div class="upload-caption">
-                    
-                     <p class="green-color marginT30">+ Add more images</p>
-                    
-                   </div> 
-             </div>
-
-         </div>
-
-       </div>
-
-      </div> 
-        <div class="row">
-         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-           <div class="form-group-3">
-              <label>Total Area</label>
-               <input class="form-control" type="text" name="" placeholder="in sq.ft.">
-           </div>   
-           </div>
+      <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-           <div class="form-group-3">
-              <label>Floor</label>
-               <input class="form-control" type="text" name="" placeholder="in numbers">
-           </div>   
-           </div>
-
-            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-           <div class="form-group-3">
-              <label>Bedrooms</label>
-               <input class="form-control" type="text" name="" placeholder="in numbers">
-           </div>   
-           </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-           <div class="form-group-3">
-              <label>Bathrooms</label>
-               <input class="form-control" type="text" name="" placeholder="in numbers">
-           </div>   
-           </div>
-
-       
-             
+          <div class="form-group-3">
+            <label>Total Area</label>
+            <input class="form-control" type="number" name="" placeholder="in sq.ft.">
+          </div>   
         </div>
-     <div class="form-group-3">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>Floor</label>
+            <input class="form-control" [(ngModel)]="model.floor" type="number" name="floor" placeholder="in numbers">
+          </div>   
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>Bedrooms</label>
+            <input class="form-control" [(ngModel)]="model.bedroom" type="number" name="bedroom" placeholder="in numbers">
+          </div>   
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>Bathrooms</label>
+            <input class="form-control" [(ngModel)]="model.bathroom" type="number" name="bathroom" placeholder="in numbers">
+          </div>   
+        </div>
+      </div>
+      <div class="form-group-3">
         <label>Is Parking Available?</label>
         <div class="clearfix"></div>
-         <label class="cust-radio">
-          <input type="radio" checked="checked" name="radio">
+        <label class="cust-radio">
+          <input type="radio" value="1" [(ngModel)]="model.parking" checked="model.parking == 1 ? checked: ''" name="parking">
           <span class="checkmark">Yes</span>
         </label>
         <label class="cust-radio"> 
-          <input type="radio" name="radio">
+          <input type="radio" value="0" [(ngModel)]="model.parking" checked="model.parking == 0 ? checked: ''" name="parking">
           <span class="checkmark">No</span>
         </label>
-                  <div class="clearfix"></div>
-        </div>
-        <div class="spacer15"></div>
-       <div class="form-group-3">
+        <div class="clearfix"></div>
+      </div>
+      <div class="spacer15"></div>
+      <div class="form-group-3">
         <label>Is Property Furnished?</label>
         <div class="clearfix"></div>
-         <label class="cust-radio">
-          <input type="radio" checked="checked" name="radio">
+        <label class="cust-radio">
+          <input type="radio" value="1" name="furnished" [(ngModel)]="model.furnished" checked="model.furnished == 1 ? checked: ''">
           <span class="checkmark">Yes</span>
         </label>
         <label class="cust-radio"> 
-          <input type="radio" name="radio">
+          <input type="radio" value="0" name="furnished" [(ngModel)]="model.furnished" checked="model.furnished == 0 ? checked: ''">
           <span class="checkmark">No</span>
         </label>
-                  <div class="clearfix"></div>
-        </div>
-
-         <div class="form-group-3">
-           <label>Description</label>
-           <textarea class="form-control"></textarea>
-         </div>
-
-        <div class="spacer15"></div>
-         <div class="form-group-3">
-        <label>This Property is avaulable for?</label>
         <div class="clearfix"></div>
-         <label class="cust-radio">
-          <input type="radio" checked="checked" name="radio1">
+      </div>
+
+      <div class="form-group-3">
+        <label>Description</label>
+        <textarea [(ngModel)]="model.description" name="description" class="form-control"></textarea>
+      </div>
+
+      <div class="spacer15"></div>
+      <div class="form-group-3">
+        <label>This Property is available for?</label>
+        <div class="clearfix"></div>
+        <label class="cust-radio">
+          <input type="radio" checked="model.quantity == 1 ? checked : ''" name="quantity">
           <span class="checkmark">1</span>
         </label>
         <label class="cust-radio"> 
-          <input type="radio" name="radio1">
+          <input type="radio" checked="model.quantity == 2 ? checked : ''" name="quantity">
           <span class="checkmark">2</span>
         </label>
-         <label class="cust-radio">
-          <input type="radio" checked="checked" name="radio1">
+        <label class="cust-radio">
+          <input type="radio" checked="model.quantity == 3 ? checked : ''" name="quantity">
           <span class="checkmark">3</span>
         </label>
-         <label class="cust-input">
-           <input type="text" name="" placeholder="Enter">
+        <label class="cust-input">
+          <input type="text" [(ngModel)]="model.quantity" name="quantity" placeholder="Enter">
+        </label>
+        <div class="clearfix"></div>
+      </div>
 
-         </label>
-          
-                  <div class="clearfix"></div>
+      <div class="spacer15"></div>
+      <div class="form-group-3">
+        <label>List of Amenties with this property</label>
+        <div class="list-group-items">
+          <ul>
+            <li *ngFor="let amenity of parameter.amenities" (click)="setAmenity(amenity.id)">
+              <div class="fig-block"><img [src]="amenity.icon" alt="img" class="width100"></div>
+              <p class="p13">{{amenity.name_en}}</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+    <!-- tab-3 -->
+    <div class="white-bg" *ngIf="tab==3">
+        <div class="page-title">
+          <h3>Additional Info</h3>
+        </div>
+        <div class="padding40">
+        <div class="form-group-3">
+          <label>Pets Allowed?</label>
+          <div class="clearfix"></div>
+          <label class="cust-radio">
+            <input type="radio" value="1" [(ngModel)]="model.pets" checked="model.pets == 1 ? checked: ''" name="parking">
+            <span class="checkmark">Yes</span>
+          </label>
+          <label class="cust-radio"> 
+            <input type="radio" value="0" [(ngModel)]="model.pets" checked="model.pets == 0 ? checked: ''" name="parking">
+            <span class="checkmark">No</span>
+          </label>
+          <div class="clearfix"></div>
         </div>
         <div class="spacer15"></div>
-       <div class="form-group-3">
-       <label>List of Amenties with this property</label>
-
-       <div class="list-group-items">
-           
-          <ul>
-          <li>
-           <div class="fig-block"><img src="img/bank.png" alt="img"></div>
-           <p class="p13">Fire Fighting</p>
-           </li>
-            <li>
-           <div class="fig-block"><img src="img/bank.png" alt="img"></div>
-           <p class="p13">Alevators</p>
-           </li>
-            <li>
-           <div class="fig-block"><img src="img/bank.png" alt="img"></div>
-           <p class="p13">Landscape Garden</p>
-           </li>
-            <li>
-           <div class="fig-block"><img src="img/bank.png" alt="img"></div>
-           <p class="p13">Internet / Wifi</p>
-           </li>
-            <li>
-           <div class="fig-block"><img src="img/bank.png" alt="img"></div>
-           <p class="p13">Rainwater Harvest</p>
-           </li>
-            <li>
-           <div class="fig-block"><img src="img/bank.png" alt="img"></div>
-           <p class="p13">Gymnasium</p>
-           </li>
-            <li>
-           <div class="fig-block"><img src="img/bank.png" alt="img"></div>
-           <p class="p13">Swimmimg Pool</p>
-           </li>
-            <li>
-           <div class="fig-block"><img src="img/bank.png" alt="img"></div>
-           <p class="p13">Fire Fighting</p>
-           </li>
-            <li>
-           <div class="fig-block"><img src="img/bank.png" alt="img"></div>
-           <p class="p13">Power Backup</p>
-           </li>
-            <li>
-           <div class="fig-block"><img src="img/bank.png" alt="img"></div>
-           <p class="p13">Children's Play Area</p>
-           </li>
-           </ul>
-
-           </div>
-       </div>
+        <div class="form-group-3">
+          <label>Marital Status?</label>
+          <div class="clearfix"></div>
+          <label class="cust-radio">
+            <input type="radio" value="1" name="marital_status" [(ngModel)]="model.marital_status" checked="model.marital_status == 1 ? checked: ''">
+            <span class="checkmark">Yes</span>
+          </label>
+          <label class="cust-radio"> 
+            <input type="radio" value="0" name="marital_status" [(ngModel)]="model.marital_status" checked="model.marital_status == 0 ? checked: ''">
+            <span class="checkmark">No</span>
+          </label>
+          <div class="clearfix"></div>
         </div>
+      </div>
+    </div>
 
+    
 
+    <!-- tab-4 -->
+    <div class="white-bg" *ngIf="tab==4">
+      <div class="page-title">
+        <h3>Tag a Building</h3>
+      </div>
+      <div class="padding40">
+        <p class="p16">Search your building in Our Database</p>
+        <div class="searh">
+          <input type="text" name="">
+          <button>Search</button>
         </div>
+        <div class="spacer50"></div>
+        <p class="p18">Didn’t Found your Building? <strong><span class="green-color">Generate a Request to add a building by our Data collectors</span></strong></p>
+        <div class="spacer50"></div>
 
-
-
-
-<!-- tab-3 -->
-        <div class="white-bg" *ngIf="tab==3">
-            <div class="page-title">
-               <h3>Tag a Building</h3>
-            </div>
-            <div class="padding40">
-            <p class="p16">Search your building in Our Database</p>
-            
-            <div class="searh">
-               
-            <input type="text" name="">
-            <button>Search</button>
-            </div>
-            <div class="spacer50"></div>
-            <p class="p18">Didn’t Found your Building? <strong><span class="green-color">Generate a Request to add a building by our Data collectors</span></strong></p>
-                    <div class="spacer50"></div>
-
+        <div class="row">
+          <div class="col-lg-7 col-md-12 col-sm-12 col-12">
             <div class="row">
-               <div class="col-lg-7 col-md-12 col-sm-12 col-12">
-                  <div class="row">
-                        <div class="col-sm-6 col-12">
-                           
-                           <div class="form-group-3">
-                                 <label>Name of Building</label>
-                                 <input class="form-control" type="text" name="">
-                           </div>
-
-                        </div>
-                        <div class="col-sm-6 col-12">
-                           
-                           <div class="form-group-3">
-                                 <label>Where it is located?</label>
-                                 <input class="form-control" type="text" name="">
-                           </div>
-
-                        </div>
-
-                  </div>
-                  <label class="label-optional">Developer Details (optional)</label>
-                      <div class="row">
-                         <div class="col-sm-6 col-12">
-                           
-                           <div class="form-group-3">
-                                 <label>Name of Developer</label>
-                                 <input class="form-control" type="text" name="">
-                           </div>
-
-                        </div>
-                         <div class="col-sm-6 col-12">
-                           
-                           <div class="form-group-3">
-                                 <label>Contact Number</label>
-                                 <input class="form-control" type="text" name="">
-                           </div>
-
-                        </div>
-
-                  </div>
-                      <div class="row">
-                         <div class="col-sm-12 col-12">
-                           
-                           <div class="form-group-3">
-                                 <label>Email Address</label>
-                                 <input class="form-control" type="text" name="">
-                           </div>
-
-                        </div>
-                       
-
-                  </div>
-
-               </div>
-
-                <div class="col-lg-5 col-md-12 col-sm-12 col-12">
-                  
-                      <div class="form-group-3 mark-pin-map">
-                                 <label>Mark Pin on Map</label>
-                                 <input class="form-control" type="text" name="">
-                        </div>
-                        <div><img class="img-fluid" src="img/map-img.png" alt="img"></div>
-               </div>
+              <div class="col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>Name of Building</label>
+                  <input class="form-control" type="text" name="">
+                </div>
+              </div>
+              <div class="col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>Where it is located?</label>
+                  <input class="form-control" type="text" name="">
+                </div>
+              </div>
             </div>
-
-
-
-
+            <label class="label-optional">Developer Details (optional)</label>
+            <div class="row">
+              <div class="col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>Name of Developer</label>
+                  <input class="form-control" type="text" name="">
+                </div>
+              </div>
+              <div class="col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>Contact Number</label>
+                  <input class="form-control" type="text" name="">
+                </div>
+              </div>
             </div>
-         </div>
-         
+            <div class="row">
+              <div class="col-sm-12 col-12">
+                <div class="form-group-3">
+                  <label>Email Address</label>
+                  <input class="form-control" type="text" name="">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-5 col-md-12 col-sm-12 col-12">
+            <div class="form-group-3 mark-pin-map">
+              <label>Mark Pin on Map</label>
+              <input class="form-control" type="text" name="">
+            </div>
+            <div><img class="img-fluid" src="img/map-img.png" alt="img"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </form>
+
 </div>

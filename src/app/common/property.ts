@@ -74,4 +74,5 @@ export interface IProperty {
   name?: string;
   phone?: string;
   type?: number;
+  property_id?: string;
 }

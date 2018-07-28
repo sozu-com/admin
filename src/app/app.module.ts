@@ -16,12 +16,15 @@ import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 // import { SignupComponent } from './signup/signup.component';
 import { LayoutModule } from './layout/layout.module';
 import { HttpInterceptor } from './services/http-interceptor';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { LoginComponent } from './login/login.component';
 
 const appRoutes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'login' },
-  // { path: 'login', pathMatch: 'full', redirectTo: 'login' },
-  // { path: 'forgot-password', component: ForgotPasswordComponent },
-  // { path: 'dashboard', canActivate: [AuthGuard], loadChildren: './layout/layout.module#LayoutModule'},
+  { path: '', pathMatch: 'full', component: LoginComponent},
+  { path: 'login', pathMatch: 'full', component: LoginComponent },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'dashboard', canActivate: [AuthGuard], loadChildren: './layout/layout.module#LayoutModule'},
+  // { path: '', pathMatch: 'full', redirectTo: 'login' },
   { path: '**', component: PageNotFoundComponent }
   // { path: '**', pathMatch: 'full', redirectTo: 'login' },
 ];
@@ -29,8 +32,8 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    // ForgotPasswordComponent,
-    // SignupComponent,
+    ForgotPasswordComponent,
+    LoginComponent,
     PageNotFoundComponent
   ],
   imports: [

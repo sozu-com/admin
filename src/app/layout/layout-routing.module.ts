@@ -10,12 +10,12 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { InhouseUsersComponent } from './inhouse-users/inhouse-users.component';
 
 const routes: Routes = [
-    {
-        path: 'login', component: LoginComponent,
-    },
-    {
-        path: 'forgot-password', component: ForgotPasswordComponent,
-    },
+    // {
+    //     path: 'login', component: LoginComponent,
+    // },
+    // {
+    //     path: 'forgot-password', component: ForgotPasswordComponent,
+    // },
     {
         path: 'dashboard', component: LayoutComponent, canActivate: [AuthGuard],
         children: [

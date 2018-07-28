@@ -114,11 +114,16 @@ export class AdminService {
   }
 
   postDataApi(url, input) {
-    // console.log('admin', url, input)
     const headers = this.getHeadersForMultipart();
     return this.http.post(this.baseUrl + url, input, {headers: headers})
             .map((res: Response) => res.json())
-    // .map(response => response.json())
+          .catch(this.errorHandler);
+  }
+
+  newPostDataApi(url, input) {
+    const headers = this.getHeadersForMultipart();
+    return this.http.post(url, input, {headers: headers})
+            .map((res: Response) => res.json())
           .catch(this.errorHandler);
   }
 
