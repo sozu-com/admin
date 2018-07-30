@@ -16,10 +16,10 @@ export class AppHeaderComponent {
   public scrollbarOptions = { axis: 'yx', theme: 'minimal-dark' };
 
   constructor(private admin: AdminService, private router: Router, private swal: SweetAlertService) {
-    this.admin.loginData$.subscribe(success=>{
+    this.admin.loginData$.subscribe(success => {
       this.fullName = success['name'];
       this.image = success['image'];
-    })
+    });
   }
 
   onLoggedout(){

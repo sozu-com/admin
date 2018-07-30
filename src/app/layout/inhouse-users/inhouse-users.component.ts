@@ -24,7 +24,9 @@ export class InhouseUsersComponent implements OnInit {
   addressIndex = 0;
   tempAdd: Object;
 
-  constructor(private constant: Constant, private address: address, private user: user, private model: InhouseUsers, private element: ElementRef, private route: ActivatedRoute, private admin: AdminService, private router: Router, private swal: SweetAlertService) { }
+  constructor(private constant: Constant, private address: address, private user: user,
+    private model: InhouseUsers, private element: ElementRef, private route: ActivatedRoute,
+    private admin: AdminService, private router: Router, private swal: SweetAlertService) { }
 
   ngOnInit() {
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
@@ -51,7 +53,8 @@ export class InhouseUsersComponent implements OnInit {
   }
 
   addEmptyObj() {
-    if (this.model.address[this.addressIndex].countries && this.model.address[this.addressIndex].states && this.model.address[this.addressIndex].cities && this.model.address[this.addressIndex].localities){
+    if (this.model.address[this.addressIndex].countries && this.model.address[this.addressIndex].states &&
+      this.model.address[this.addressIndex].cities && this.model.address[this.addressIndex].localities) {
       const obj = {
         countries: '',
         states : '',
@@ -60,8 +63,7 @@ export class InhouseUsersComponent implements OnInit {
       };
       this.addressIndex++;
       this.model.address.push(obj);
-    }
-    else{
+    }else {
       this.swal.error({
         title: 'Missing fields',
         text: 'Complete current row before adding new.',
@@ -71,7 +73,7 @@ export class InhouseUsersComponent implements OnInit {
 
 
   onCountryChange(e) {
-    console.log('eeee',e)
+    console.log('eeee', e);
     this.model.userModel.country_code = e.dialCode;
     this.initialCountry = {initialCountry: e.iso2};
   }
@@ -101,12 +103,11 @@ export class InhouseUsersComponent implements OnInit {
 
   addNewUser(formdata: NgForm) {
     this.parameter.loading = true;
-    this.parameter.url = this.model.userModel.id!='' ? 'updateNewUser' : 'addNewUser';
-console.log('add newuser params', formdata, JSON.stringify(this.model.address), '+'+this.model.userModel.country_code)
+    this.parameter.url = this.model.userModel.id !== '' ? 'updateNewUser' : 'addNewUser';
+console.log('add newuser params', formdata, JSON.stringify(this.model.address), '+' + this.model.userModel.country_code);
     const input = new FormData();
 
-    if(this.model.userModel.id!='')
-      input.append('id', this.model.userModel.id);
+    if (this.model.userModel.id !== '') {input.append('id', this.model.userModel.id); }
 
     input.append('name', formdata.value.name);
     input.append('country_code', '+' + this.model.userModel.country_code);
@@ -114,29 +115,28 @@ console.log('add newuser params', formdata, JSON.stringify(this.model.address), 
     input.append('image', this.parameter.image);
     input.append('email', formdata.value.email);
     input.append('address', JSON.stringify(this.model.address));
-    input.append('is_broker_seller_dev', formdata.value.is_broker_seller_dev == true ? '1' : '0');
-    input.append('is_buyer_renter', formdata.value.is_buyer_renter == true ? '1' : '0');
-    input.append('is_broker', formdata.value.is_broker == true ? '1' : '0');
-    input.append('is_data_collector', formdata.value.is_data_collector == true ? '1' : '0');
-    input.append('is_csr_closer', formdata.value.is_csr_closer == true ? '1' : '0');
+    input.append('is_broker_seller_dev', formdata.value.is_broker_seller_dev === true ? '1' : '0');
+    input.append('is_buyer_renter', formdata.value.is_buyer_renter === true ? '1' : '0');
+    input.append('is_broker', formdata.value.is_broker === true ? '1' : '0');
+    input.append('is_data_collector', formdata.value.is_data_collector === true ? '1' : '0');
+    input.append('is_csr_closer', formdata.value.is_csr_closer === true ? '1' : '0');
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('success',success)
+          console.log('success', success);
           this.parameter.loading = false;
-          if (success.success == 0) {
+          if (success.success === 0) {
             this.swal.error({
               title: 'Error',
               text: success.message
             });
-          }
-          else{
+          }else {
             this.modalClose.nativeElement.click();
             formdata.reset();
             this.swal.success({
               title: 'Success',
-              text: this.model.userModel.id == '' ? 'Added successfully.' : 'Updated successfully.'
+              text: this.model.userModel.id === '' ? 'Added successfully.' : 'Updated successfully.'
             });
           }
           // console.log('user add',success)
@@ -152,7 +152,7 @@ console.log('add newuser params', formdata, JSON.stringify(this.model.address), 
   }
 
   editUser(userdata) {
-    console.log('edit user', userdata)
+    console.log('edit user', userdata);
     this.model.userModel.id = userdata.id;
     this.modalOpen.nativeElement.click();
     this.model.userModel.name = userdata.name;
@@ -160,11 +160,11 @@ console.log('add newuser params', formdata, JSON.stringify(this.model.address), 
     this.model.userModel.phone = userdata.phone;
     this.model.userModel.country_code = userdata.country_code;
     this.model.userModel.image = userdata.image;
-    this.model.userModel.is_broker_seller_dev = userdata.permissions && userdata.permissions.can_csr_seller == 1 ? true : false;
-    this.model.userModel.is_buyer_renter = userdata.permissions && userdata.permissions.can_csr_buyer == 1 ? true : true;
-    this.model.userModel.is_broker = userdata.permissions && userdata.permissions.can_in_house_broker == 1 ? true : true;
-    this.model.userModel.is_data_collector = userdata.permissions && userdata.permissions.can_data_collector == 1 ? true : false;
-    this.model.userModel.is_csr_closer = userdata.permissions && userdata.permissions.can_csr_closer == 1 ? true : true;
+    this.model.userModel.is_broker_seller_dev = userdata.permissions && userdata.permissions.can_csr_seller === 1 ? true : false;
+    this.model.userModel.is_buyer_renter = userdata.permissions && userdata.permissions.can_csr_buyer === 1 ? true : true;
+    this.model.userModel.is_broker = userdata.permissions && userdata.permissions.can_in_house_broker === 1 ? true : true;
+    this.model.userModel.is_data_collector = userdata.permissions && userdata.permissions.can_data_collector === 1 ? true : false;
+    this.model.userModel.is_csr_closer = userdata.permissions && userdata.permissions.can_csr_closer === 1 ? true : true;
 
     userdata.countries = ['19', '19'];
     userdata.states = ['4', '4'];
@@ -200,7 +200,7 @@ console.log('add newuser params', formdata, JSON.stringify(this.model.address), 
           this.parameter.loading = false;
           this.parameter.countries = success.data;
           this.parameter.countryCount = success.data.length;
-          if (this.parameter.countryCount != 0){
+          if (this.parameter.countryCount !== 0) {
             // this.parameter.country_id = this.parameter.countries[0].id;
             // this.getStates(this.parameter.countries[0].id, type);
           }
@@ -219,15 +219,14 @@ console.log('add newuser params', formdata, JSON.stringify(this.model.address), 
     this.parameter.loading = true;
     this.parameter.url = 'country/getStates';
     this.parameter.country_id = country_id;
-console.log('countryid', country_id)
+console.log('countryid', country_id);
     if (country_id === '-1') {
       console.log('ssssss');
       this.parameter.states = []; this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
       this.parameter.stateCount = 0; this.parameter.cityCount = 0; this.parameter.localityCount = 0; this.parameter.buildingCount = 0;
       this.parameter.state_id = '-1'; this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
       this.parameter.loading = false;
-    }
-    else{
+    }else {
       const input = new FormData();
       input.append('country_id', country_id);
 
@@ -237,7 +236,7 @@ console.log('countryid', country_id)
             this.parameter.loading = false;
             this.parameter.states = success.data;
             this.parameter.stateCount = success.data.length;
-            if (this.parameter.stateCount != 0) {
+            if (this.parameter.stateCount !== 0) {
               // this.parameter.state_id = this.parameter.states[0].id;
               // this.getCities(this.parameter.states[0].id, type);
             }
@@ -258,13 +257,12 @@ console.log('countryid', country_id)
     this.parameter.url = 'getCities';
     this.parameter.state_id = state_id;
 
-    if (state_id == -1) {
-      this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = []; 
-      this.parameter.cityCount = 0; this.parameter.localityCount = 0; this.parameter.buildingCount = 0; 
-      this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1'; 
+    if (state_id === -1) {
+      this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
+      this.parameter.cityCount = 0; this.parameter.localityCount = 0; this.parameter.buildingCount = 0;
+      this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
       this.parameter.loading = false;
-    }
-    else{
+    }else {
       const input = new FormData();
       input.append('state_id', state_id);
 
@@ -275,7 +273,7 @@ console.log('countryid', country_id)
             // console.log('cities1',success)
             this.parameter.cities = success.data;
             this.parameter.cityCount = success.data.length;
-            if (this.parameter.cityCount != 0) {
+            if (this.parameter.cityCount !== 0) {
               // this.parameter.city_id = this.parameter.cities[0].id;
               // this.getLocalities(this.parameter.cities[0].id, 'view');
             }
@@ -283,12 +281,14 @@ console.log('countryid', country_id)
           error => {
             // console.log(error)
             this.parameter.loading = false;
-            if (error.statusCode == 401) this.router.navigate(['']);
-            else
+            if (error.statusCode === 401) {
+              this.router.navigate(['']);
+            }else {
               this.swal.error({
                 // title: 'Internet Connection',
                 text: error.messages,
               });
+            }
           });
     }
   }
@@ -300,13 +300,12 @@ console.log('countryid', country_id)
     this.parameter.url = 'getLocalities';
     this.parameter.city_id = city_id;
 
-    if (city_id == -1) {
-      this.parameter.localities = []; this.parameter.buildings = []; 
-      this.parameter.localityCount = 0; this.parameter.buildingCount = 0; 
-      this.parameter.locality_id = '-1'; this.parameter.building_id = '-1'; 
+    if (city_id === -1) {
+      this.parameter.localities = []; this.parameter.buildings = [];
+      this.parameter.localityCount = 0; this.parameter.buildingCount = 0;
+      this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
       this.parameter.loading = false;
-    }
-    else{
+    }else {
 
     const input = new FormData();
     input.append('city_id', city_id);
@@ -325,12 +324,14 @@ console.log('countryid', country_id)
         error => {
           // console.log(error)
           this.parameter.loading = false;
-          if (error.statusCode == 401) this.router.navigate(['']);
-          else
+          if (error.statusCode === 401) {
+            this.router.navigate(['']);
+          }else {
             this.swal.error({
               // title: 'Internet Connection',
               text: error.messages,
             });
+          }
         });
     }
   }
@@ -342,13 +343,12 @@ console.log('countryid', country_id)
     this.parameter.url = 'getLocalityBuildings';
     this.parameter.locality_id = locality_id;
 
-    if (locality_id == -1) {
+    if (locality_id === -1) {
       this.parameter.buildings = [];
       this.parameter.buildingCount = 0;
       this.parameter.building_id = '-1';
       this.parameter.loading = false;
-    }
-    else{
+    }else {
 
     const input = new FormData();
     input.append('locality_id', locality_id);
@@ -367,12 +367,14 @@ console.log('countryid', country_id)
         error => {
           // console.log(error)
           this.parameter.loading = false;
-          if (error.statusCode == 401) this.router.navigate(['']);
-          else
+          if (error.statusCode === 401) {
+            this.router.navigate(['']);
+          }else {
             this.swal.error({
               // title: 'Internet Connection',
               text: error.messages,
             });
+          }
         });
     }
   }
@@ -433,26 +435,27 @@ console.log('countryid', country_id)
     const input = new FormData();
     input.append('page', this.parameter.p.toString());
 
-    if (this.parameter.name)
-      input.append('name', this.parameter.name);
+    if (this.parameter.name) {input.append('name', this.parameter.name); }
 
-    if (this.parameter.email)
-      input.append('email', this.parameter.email);
+    if (this.parameter.email) {input.append('email', this.parameter.email); }
 
-    if (this.parameter.phone)
-      input.append('phone', this.parameter.phone);
+    if (this.parameter.phone) {input.append('phone', this.parameter.phone); }
 
-    if (this.parameter.country_id && this.parameter.country_id != '-1')
+    if (this.parameter.country_id && this.parameter.country_id !== '-1') {
       input.append('countries', JSON.stringify([this.parameter.country_id]));
+    }
 
-    if (this.parameter.state_id && this.parameter.state_id != '-1')
+    if (this.parameter.state_id && this.parameter.state_id !== '-1') {
       input.append('states', JSON.stringify([this.parameter.state_id]));
+    }
 
-    if (this.parameter.city_id && this.parameter.city_id != '-1')
+    if (this.parameter.city_id && this.parameter.city_id !== '-1') {
       input.append('cities', JSON.stringify([this.parameter.city_id]));
+    }
 
-    if (this.parameter.locality_id && this.parameter.locality_id != '-1')
+    if (this.parameter.locality_id && this.parameter.locality_id !== '-1') {
       input.append('localities', JSON.stringify[this.parameter.locality_id]);
+    }
 
     // if (this.parameter.locality_id && this.parameter.locality_id != '-1')
     //   input.append('localities', JSON.stringify[this.parameter.locality_id]);
@@ -460,19 +463,21 @@ console.log('countryid', country_id)
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('succc', success)
+          console.log('succc', success);
           this.parameter.loading = false;
           this.parameter.items = success.data;
           this.parameter.total = success.total;
         },
         error => {
           this.parameter.loading = false;
-          if (error.statusCode == 401) this.router.navigate(['']);
-          else
+          if (error.statusCode === 401) {
+            this.router.navigate(['']);
+          }else {
             this.swal.error({
               // title: 'Internet Connection',
               text: error.messages,
             });
+          }
         });
   }
 
@@ -515,7 +520,7 @@ console.log('countryid', country_id)
     });
   }
 
-  
+
   blockAdmin(index, id, flag, user_type) {
     this.parameter.url = 'blockAdmin';
     const input = new FormData();
@@ -526,9 +531,9 @@ console.log('countryid', country_id)
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('success',success)
+          console.log('success', success);
           this.parameter.loading = false;
-          
+
           this.swal.success({
             title: 'Success',
             text: this.parameter.successText

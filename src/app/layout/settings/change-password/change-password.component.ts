@@ -24,7 +24,7 @@ export class ChangePasswordComponent implements OnInit {
 
   ngOnInit() {}
 
-  changePassword(formData: NgForm){
+  changePassword(formData: NgForm) {
 
     this.parameter.loading = true;
     this.parameter.url = 'changePassword';
@@ -52,8 +52,11 @@ export class ChangePasswordComponent implements OnInit {
         },
         error => {
           this.parameter.loading = false;
-          if (error.statusCode == 401) this.router.navigate(['']);
-          else this.swal.warning({ text: error.message });
+          if (error.statusCode === 401) {
+            this.router.navigate(['']);
+          }else {
+            this.swal.warning({ text: error.message });
+          }
         });
   }
 }

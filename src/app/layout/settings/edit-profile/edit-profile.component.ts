@@ -24,15 +24,9 @@ export class EditProfileComponent implements OnInit {
   constructor(private element: ElementRef, private router: Router, private admin: AdminService, private swal: SweetAlertService) { }
 
   ngOnInit() {
-    // this.admin.loginData$
-    // this.model.countryCode = localStorage.getItem('countryCode')
-    // this.model.dialCode = localStorage.getItem('dialCode')
-    // this.model.helpAndSupportPhone = localStorage.getItem('helpAndSupportPhone')
-    // this.model.helpAndSupportEmail = localStorage.getItem('helpAndSupportEmail')
-    // this.initialCountry = {initialCountry: this.model.countryCode}
   }
 
-  onCountryChange(e){
+  onCountryChange(e) {
     this.parameter.countryCode = e.iso2;
     this.parameter.dialCode = e.dialCode;
     this.initialCountry = {initialCountry: e.iso2};
@@ -56,7 +50,7 @@ export class EditProfileComponent implements OnInit {
     reader.readAsDataURL(event.target.files[0]);
   }
 
-  updateProfile(formData: NgForm){
+  updateProfile(formData: NgForm) {
     console.log(formData);
     this.parameter.loading = true;
     this.parameter.url = 'updateProfile';
@@ -72,10 +66,7 @@ export class EditProfileComponent implements OnInit {
         success => {
           console.log('succccc', success);
           this.parameter.loading = false;
-
-          const input = new FormData();
-
-          this.admin.login.next(success.data)
+          this.admin.login.next(success.data);
 
           this.swal.success({
             title: 'Success',
@@ -84,8 +75,11 @@ export class EditProfileComponent implements OnInit {
         },
         error => {
           this.parameter.loading = false;
-          if (error.statusCode === 401) this.router.navigate(['']);
-          else this.swal.warning({ text: error.message });
+          if (error.statusCode === 401) {
+            this.router.navigate(['']);
+          }else {
+            this.swal.warning({ text: error.message });
+          }
         });
   }
 }

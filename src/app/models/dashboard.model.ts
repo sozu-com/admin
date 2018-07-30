@@ -1,4 +1,4 @@
-export class DashboardModel{
+export class DashboardModel {
     public dashboardModel = {
         category: 0,
         user: 0,

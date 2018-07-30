@@ -18,23 +18,23 @@ export class AddressComponent implements OnInit {
   @Input('index') index;
   @Output() removeAddress = new EventEmitter();
 
-  constructor(private model: InhouseUsers, private element: ElementRef, private route: ActivatedRoute, private admin: AdminService, private router: Router, private swal: SweetAlertService) { }
+  constructor(private model: InhouseUsers, private element: ElementRef, private route: ActivatedRoute,
+    private admin: AdminService, private router: Router, private swal: SweetAlertService) { }
 
   ngOnInit() {
     this.getCountriesNew(0);
-    // console.log('this.address',this.address)
-    if (this.address.countries){
+    if (this.address.countries) {
       this.getStatesNew(this.address.countries, 0);
       this.getCitiesNew(this.address.states, 0);
       this.getLocalitiesNew(this.address.cities, 0);
     }
   }
 
-  removeRow(){
+  removeRow() {
     this.removeAddress.emit(this.index);
   }
 
-  getCountriesNew(index){
+  getCountriesNew(index) {
 
     this.parameter.loading = true;
     this.parameter.url = 'getCountries';
@@ -55,7 +55,7 @@ export class AddressComponent implements OnInit {
         });
   }
 
-  getStatesNew(country_id, index){
+  getStatesNew(country_id, index) {
 
     this.parameter.loading = true;
     this.parameter.url = 'country/getStates';
@@ -81,7 +81,7 @@ export class AddressComponent implements OnInit {
         });
   }
 
-  getCitiesNew(state_id, index){
+  getCitiesNew(state_id, index) {
 
     this.parameter.loading = true;
     this.parameter.url = 'getCities';
@@ -99,17 +99,19 @@ export class AddressComponent implements OnInit {
         },
         error => {
           this.parameter.loading = false;
-          if (error.statusCode == 401) this.router.navigate(['']);
-          else
+          if (error.statusCode === 401) {
+            this.router.navigate(['']);
+          }else {
             this.swal.warning({
               // title: 'Internet Connection',
               text: error.message,
             });
+          }
         });
   }
 
 
-  getLocalitiesNew(city_id, index){
+  getLocalitiesNew(city_id, index) {
 
     this.parameter.loading = true;
     this.parameter.url = 'getLocalities';
@@ -128,16 +130,18 @@ export class AddressComponent implements OnInit {
         error => {
           console.log(error);
           this.parameter.loading = false;
-          if (error.statusCode == 401) this.router.navigate(['']);
-          else
+          if (error.statusCode === 401) {
+            this.router.navigate(['']);
+          }else {
             this.swal.warning({
               text: error.message,
             });
+          }
         });
   }
 
 
-  setLocality(locality_id, index){
+  setLocality(locality_id, index) {
     this.address.localities = locality_id;
   }
 }

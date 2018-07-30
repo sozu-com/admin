@@ -25,7 +25,8 @@ export class LocationComponent implements OnInit {
 
   @ViewChild('mapDiv') mapDiv: ElementRef;
 
-  constructor(private loader: MapsAPILoader, private location: Location, private constant: Constant, private modalService: BsModalService, private admin: AdminService, private router: Router, private swal: SweetAlertService) {
+  constructor(private loader: MapsAPILoader, private location: Location, private constant: Constant,
+    private modalService: BsModalService, private admin: AdminService, private router: Router, private swal: SweetAlertService) {
     this.parameter.countryCount = 0;
     this.parameter.stateCount = 0;
     this.parameter.cityCount = 0;
@@ -86,14 +87,13 @@ export class LocationComponent implements OnInit {
     this.modalRef = this.modalService.show(template); // {3}
   }
 
-  getCountries(keyword){
+  getCountries(keyword) {
 
     this.parameter.loading = true;
     this.parameter.url = 'getCountries';
     const input = new FormData();
 
-    if (keyword)
-      input.append('keyword', keyword);
+    if (keyword) { input.append('keyword', keyword); }
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
@@ -102,29 +102,25 @@ export class LocationComponent implements OnInit {
           this.parameter.loading = false;
           this.parameter.countries = success.data;
           this.parameter.countryCount = success.data.length;
-          if (this.parameter.countries.length != 0){
+          if (this.parameter.countries.length !== 0) {
             this.parameter.country_id = this.parameter.countries[0].id;
             this.getStates(this.parameter.countries[0].id, '');
           }
         },
         error => {
           this.parameter.loading = false;
-          if (error.statusCode == 401) {
-            this.swal.warning({
-              title: 'Error',
-              text: error.message,
-            });
+          if (error.statusCode === 401) {
             this.router.navigate(['']);
-          }
-          else
+          }else {
             this.swal.warning({
               title: 'Error',
               text: error.message,
             });
+          }
         });
   }
 
-  getStates(country_id, keyword){
+  getStates(country_id, keyword) {
     this.parameter.loading = true;
     this.parameter.url = 'country/getStates';
     this.parameter.country_id = country_id;
@@ -132,8 +128,7 @@ export class LocationComponent implements OnInit {
     const input = new FormData();
     input.append('country_id', country_id);
 
-    if (keyword)
-      input.append('keyword', keyword);
+    if (keyword) { input.append('keyword', keyword); }
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
@@ -142,24 +137,25 @@ export class LocationComponent implements OnInit {
           this.parameter.loading = false;
           this.parameter.states = success.data;
           this.parameter.stateCount = success.data.length;
-          if (this.parameter.states.length != 0){
+          if (this.parameter.states.length !== 0) {
             this.parameter.state_id = this.parameter.states[0].id;
             this.getCities(this.parameter.states[0].id, '');
           }
         },
         error => {
-          console.log(error);
           this.parameter.loading = false;
-          if (error.statusCode == 401) this.router.navigate(['']);
-          else
+          if (error.statusCode === 401) {
+            this.router.navigate(['']);
+          }else {
             this.swal.warning({
-              // title: 'Internet Connection',
-              text: error.messages,
+              title: 'Error',
+              text: error.message,
             });
+          }
         });
   }
 
-  getStatesWRTCountry(country_id, keyword){
+  getStatesWRTCountry(country_id, keyword) {
     this.parameter.loading = true;
     this.parameter.url = 'country/getStates';
     this.parameter.country_id = country_id;
@@ -167,8 +163,7 @@ export class LocationComponent implements OnInit {
     const input = new FormData();
     input.append('country_id', country_id);
 
-    if (keyword)
-      input.append('keyword', keyword);
+    if (keyword) {input.append('keyword', keyword); }
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
@@ -177,24 +172,25 @@ export class LocationComponent implements OnInit {
           this.parameter.loading = false;
           this.parameter.states = success.data;
           this.parameter.stateCount = success.data.length;
-          if (this.parameter.states.length != 0){
+          if (this.parameter.states.length !== 0) {
             this.parameter.state_id = this.parameter.states[0].id;
             this.getCities(this.parameter.states[0].id, '');
           }
         },
         error => {
-          console.log(error);
           this.parameter.loading = false;
-          if (error.statusCode == 401) this.router.navigate(['']);
-          else
+          if (error.statusCode === 401) {
+            this.router.navigate(['']);
+          }else {
             this.swal.warning({
-              // title: 'Internet Connection',
-              text: error.messages,
+              title: 'Error',
+              text: error.message,
             });
+          }
         });
   }
 
-  getCities(state_id, keyword){
+  getCities(state_id, keyword) {
     console.log('mm', state_id, keyword);
     this.parameter.loading = true;
     this.parameter.url = 'getCities';
@@ -203,8 +199,9 @@ export class LocationComponent implements OnInit {
     const input = new FormData();
     input.append('state_id', state_id);
 
-    if (keyword)
+    if (keyword) {
       input.append('keyword', keyword);
+    }
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
@@ -213,24 +210,25 @@ export class LocationComponent implements OnInit {
           this.parameter.loading = false;
           this.parameter.cities = success.data;
           this.parameter.cityCount = success.data.length;
-          if (this.parameter.cities.length != 0){
+          if (this.parameter.cities.length !== 0) {
             this.parameter.city_id = this.parameter.cities[0].id;
             this.getLocalities(this.parameter.cities[0].id, '');
           }
         },
         error => {
-          console.log(error);
           this.parameter.loading = false;
-          if (error.statusCode == 401) this.router.navigate(['']);
-          else
+          if (error.statusCode === 401) {
+            this.router.navigate(['']);
+          }else {
             this.swal.warning({
-              // title: 'Internet Connection',
-              text: error.messages,
+              title: 'Error',
+              text: error.message,
             });
+          }
         });
   }
 
-  getLocalities(city_id, keyword){
+  getLocalities(city_id, keyword) {
     console.log('mm', city_id, keyword);
     this.parameter.loading = true;
     this.parameter.url = 'getLocalities';
@@ -239,8 +237,7 @@ export class LocationComponent implements OnInit {
     const input = new FormData();
     input.append('city_id', city_id);
 
-    if (keyword)
-      input.append('keyword', keyword);
+    if (keyword) {input.append('keyword', keyword); }
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
@@ -251,20 +248,21 @@ export class LocationComponent implements OnInit {
           this.parameter.localityCount = success.data.length;
         },
         error => {
-          console.log(error);
           this.parameter.loading = false;
-          if (error.statusCode == 401) this.router.navigate(['']);
-          else
+          if (error.statusCode === 401) {
+            this.router.navigate(['']);
+          }else {
             this.swal.warning({
-              // title: 'Internet Connection',
-              text: error.messages,
+              title: 'Error',
+              text: error.message,
             });
+          }
         });
   }
 
-  checkIfCountrySpanishNameEntered(name_en, name_es= ''){
+  checkIfCountrySpanishNameEntered(name_en, name_es= '') {
     const self = this;
-    if (name_es == ''){
+    if (name_es === '') {
       this.swal.confirm({
         text: this.constant.errorMsg.SAVE_ENGLISH_COUNTRY_NAME,
       }).then(function(){
@@ -273,16 +271,15 @@ export class LocationComponent implements OnInit {
       .catch(function(){
       // console.log('Logout cancelled by user');
       });
-    }
-    else{
+    }else {
       self.addCountry(name_en, name_es, self.location.countryModel.status, '');
     }
   }
 
 
-  addCountry(name_en: string, name_es: string, status, country_id){
+  addCountry(name_en: string, name_es: string, status, country_id) {
 
-    if (country_id == '') this.modalRef.hide();    // hide only when open
+    if (country_id === '') {this.modalRef.hide(); }    // hide only when open
 
     this.parameter.loading = true;
     this.parameter.url = 'addCountry';
@@ -292,10 +289,11 @@ export class LocationComponent implements OnInit {
     input.append('name_en', name_en);
     input.append('status', status);
 
-    if (this.location.countryModel.country_id)
+    if (this.location.countryModel.country_id) {
       input.append('country_id', this.location.countryModel.country_id);
-    else if (country_id)
+    }else if (country_id) {
       input.append('country_id', country_id);
+    }
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
@@ -303,38 +301,37 @@ export class LocationComponent implements OnInit {
           console.log('success', success);
           this.swal.success({
             title: 'Success',
-            text: this.location.countryModel.country_id || country_id ? this.constant.successMsg.COUNTRY_UPDATED_SUCCESSFULLY : this.constant.successMsg.COUNTRY_ADDED_SUCCESSFULLY,
+            text: this.location.countryModel.country_id || country_id ?
+            this.constant.successMsg.COUNTRY_UPDATED_SUCCESSFULLY :
+            this.constant.successMsg.COUNTRY_ADDED_SUCCESSFULLY,
           });
           this.parameter.loading = false;
           // this.getCountries('');
 
-          if (this.parameter.index == -1)
+          if (this.parameter.index === -1) {
             this.parameter.countries.push(success.data);
-          else
+          }else {
             this.parameter.countries[this.parameter.index] = success.data;
+          }
 
         },
         error => {
           this.parameter.loading = false;
-          if (error.statusCode == 401) {
-            this.swal.warning({
-              title: 'Error',
-              text: error.message,
-            });
+          if (error.statusCode === 401) {
             this.router.navigate(['']);
-          }
-          else
+          }else {
             this.swal.warning({
               title: 'Error',
               text: error.message,
             });
+          }
         });
   }
 
 
-  checkIfStateSpanishNameEntered(country_id, name_en, name_es= ''){
+  checkIfStateSpanishNameEntered(country_id, name_en, name_es= '') {
     const self = this;
-    if (name_es == ''){
+    if (name_es === '') {
       this.swal.confirm({
         text: this.constant.errorMsg.SAVE_ENGLISH_STATE_NAME,
       }).then(function(){
@@ -343,16 +340,15 @@ export class LocationComponent implements OnInit {
       .catch(function(){
       // console.log('Logout cancelled by user');
       });
-    }
-    else{
+    }else {
       self.addState(country_id, name_en, name_es, self.location.stateModel.status, '');
     }
   }
 
 
-  addState(country_id, name_en, name_es, status, state_id){
+  addState(country_id, name_en, name_es, status, state_id) {
 
-    if (state_id == '') this.modalRef.hide();
+    if (state_id === '') {this.modalRef.hide(); }
 
     this.parameter.loading = true;
     this.parameter.url = 'country/addState';
@@ -363,15 +359,17 @@ export class LocationComponent implements OnInit {
     input.append('status', status);
 
 
-    if (this.location.stateModel.country_id)
+    if (this.location.stateModel.country_id) {
       input.append('country_id', this.location.stateModel.country_id);  // edit
-    else
+    }else {
       input.append('country_id', country_id);  // add
+    }
 
-    if (this.location.stateModel.state_id)
+    if (this.location.stateModel.state_id) {
       input.append('state_id', this.location.stateModel.state_id);
-    else if (state_id)
+    }else if (state_id) {
       input.append('state_id', state_id);
+    }
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
@@ -379,40 +377,39 @@ export class LocationComponent implements OnInit {
           console.log('success1', success);
           this.swal.success({
             title: 'Success',
-            text: this.location.stateModel.state_id || state_id ? this.constant.successMsg.STATE_UPDATED_SUCCESSFULLY : this.constant.successMsg.STATE_ADDED_SUCCESSFULLY,
+            text: this.location.stateModel.state_id || state_id ?
+            this.constant.successMsg.STATE_UPDATED_SUCCESSFULLY :
+            this.constant.successMsg.STATE_ADDED_SUCCESSFULLY,
           });
           this.parameter.loading = false;
           // this.getStates(this.location.stateModel.country_id ? this.location.stateModel.country_id : country_id, '');
 
 
-          if (this.parameter.index == -1)
+          if (this.parameter.index === -1) {
             this.parameter.states.push(success.data);
-          else
+          }else {
             this.parameter.states[this.parameter.index] = success.data;
+          }
 
           // formdata.reset();
         },
         error => {
           this.parameter.loading = false;
-          if (error.statusCode == 401) {
-            this.swal.warning({
-              title: 'Error',
-              text: error.message,
-            });
+          if (error.statusCode === 401) {
             this.router.navigate(['']);
-          }
-          else
+          }else {
             this.swal.warning({
               title: 'Error',
               text: error.message,
             });
+          }
         });
   }
 
 
-  checkIfCitySpanishNameEntered(state_id, name_en, name_es= ''){
+  checkIfCitySpanishNameEntered(state_id, name_en, name_es= '') {
     const self = this;
-    if (name_es == ''){
+    if (name_es === '') {
       this.swal.confirm({
         text: this.constant.errorMsg.SAVE_ENGLISH_CITY_NAME,
       }).then(function(){
@@ -421,14 +418,13 @@ export class LocationComponent implements OnInit {
       .catch(function(){
       // console.log('Logout cancelled by user');
       });
-    }
-    else{
+    }else {
       self.addCity(state_id, name_en, name_es, self.location.cityModel.status, '');
     }
   }
 
 
-  addCity(state_id, name_en, name_es, status, city_id){
+  addCity(state_id, name_en, name_es, status, city_id) {
 
     this.modalRef.hide();
     this.parameter.loading = true;
@@ -439,15 +435,17 @@ export class LocationComponent implements OnInit {
     input.append('name_en', name_en);
     input.append('status', status);
 
-    if (this.location.cityModel.state_id)
+    if (this.location.cityModel.state_id) {
       input.append('state_id', this.location.cityModel.state_id);   // edit
-    else
+    }else {
       input.append('state_id', state_id);   // add
+    }
 
-    if (this.location.cityModel.city_id)
+    if (this.location.cityModel.city_id) {
       input.append('city_id', this.location.cityModel.city_id);   // edit
-    else if (city_id)
+    }else if (city_id) {
       input.append('city_id', city_id);   // edit
+    }
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
@@ -455,38 +453,36 @@ export class LocationComponent implements OnInit {
           console.log('success2', success);
           this.swal.success({
             title: 'Success',
-            text: this.location.cityModel.city_id || city_id ? this.constant.successMsg.CITY_UPDATED_SUCCESSFULLY : this.constant.successMsg.CITY_ADDED_SUCCESSFULLY,
+            text: this.location.cityModel.city_id || city_id ?
+            this.constant.successMsg.CITY_UPDATED_SUCCESSFULLY : this.constant.successMsg.CITY_ADDED_SUCCESSFULLY,
           });
           this.parameter.loading = false;
           // this.getCities(this.location.cityModel.state_id, '');
 
 
-          if (this.parameter.index == -1)
+          if (this.parameter.index === -1) {
             this.parameter.cities.push(success.data);
-          else
+          }else {
             this.parameter.cities[this.parameter.index] = success.data;
+          }
 
           // formdata.reset();
         },
         error => {
           this.parameter.loading = false;
-          if (error.statusCode == 401) {
-            this.swal.warning({
-              title: 'Error',
-              text: error.message,
-            });
+          if (error.statusCode === 401) {
             this.router.navigate(['']);
-          }
-          else
+          }else {
             this.swal.warning({
               title: 'Error',
               text: error.message,
             });
+          }
         });
   }
 
 
-  blockUnblockCountry(country_id, name_en, name_es, type, index){
+  blockUnblockCountry(country_id, name_en, name_es, type, index) {
     this.parameter.index = index;
     this.parameter.title = this.constant.title.ARE_YOU_SURE;
     switch (type) {
@@ -513,7 +509,7 @@ export class LocationComponent implements OnInit {
   }
 
 
-  blockUnblockState(country_id, name_en, name_es, type, state_id, index){
+  blockUnblockState(country_id, name_en, name_es, type, state_id, index) {
     this.parameter.index = index;
     this.parameter.title = this.constant.title.ARE_YOU_SURE;
     switch (type) {
@@ -540,7 +536,7 @@ export class LocationComponent implements OnInit {
   }
 
 
-  blockUnblockCity(state_id, name_en, name_es, type, city_id, index){
+  blockUnblockCity(state_id, name_en, name_es, type, city_id, index) {
     this.parameter.index = index;
     this.parameter.title = this.constant.title.ARE_YOU_SURE;
     switch (type) {

@@ -75,4 +75,6 @@ export interface IProperty {
   phone?: string;
   type?: number;
   property_id?: string;
+  banks?: any;
+  bankCount?: string;
 }

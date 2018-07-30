@@ -8,21 +8,21 @@ import { SweetAlertService } from 'ngx-sweetalert2';
 
 export class AuthGuard implements CanActivate {
 
-  constructor(private router: Router, private admin: AdminService, private swal: SweetAlertService){}
+  constructor (private router: Router, private admin: AdminService, private swal: SweetAlertService){}
 
-  canActivate(){
+  canActivate () {
     const token =  localStorage.getItem('token');
 
-    this.admin.login.subscribe(success=>{
-      if (success['name'] === undefined){
+    this.admin.login.subscribe(success => {
+      if (success['name'] === undefined) {
         const input = new FormData();
         this.admin.postDataApi('get-details', input)
         .subscribe(
-          success => {
-            this.admin.login.next(success.data)
+          success1 => {
+            this.admin.login.next(success1.data);
           });
       }
-    })
+    });
 
     if (token) {
       return true;

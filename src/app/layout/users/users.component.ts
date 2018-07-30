@@ -22,7 +22,8 @@ export class UsersComponent implements OnInit {
   public parameter: IProperty = {};
   initialCountry: any;
 
-  constructor(private constant: Constant, private model: Users, private element: ElementRef, private route: ActivatedRoute, private admin: AdminService, private router: Router, private swal: SweetAlertService) { }
+  constructor(private constant: Constant, private model: Users, private element: ElementRef,
+    private route: ActivatedRoute, private admin: AdminService, private router: Router, private swal: SweetAlertService) { }
 
   ngOnInit() {
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
@@ -33,8 +34,8 @@ export class UsersComponent implements OnInit {
     this.getBuyers(this.parameter.type, this.parameter.p, '', '', '');
   }
 
-  getBuyers(type, page, name, phone, email){
-    
+  getBuyers(type, page, name, phone, email) {
+
     this.parameter.p = page;
     this.parameter.type = type;
     this.parameter.name = name;
@@ -42,19 +43,16 @@ export class UsersComponent implements OnInit {
     this.parameter.email = email;
     this.parameter.loading = true;
 
-    this.parameter.url = this.parameter.type == 1 ? 'getBuyers' : 'getSellers';
+    this.parameter.url = this.parameter.type === 1 ? 'getBuyers' : 'getSellers';
 
     const input = new FormData();
     input.append('page', this.parameter.p.toString());
 
-    if(this.parameter.name)
-      input.append('name', this.parameter.name);
+    if (this.parameter.name) {input.append('name', this.parameter.name); }
 
-    if(this.parameter.phone)
-      input.append('phone', this.parameter.phone);
+    if (this.parameter.phone) {input.append('phone', this.parameter.phone); }
 
-    if(this.parameter.email)
-      input.append('email', this.parameter.email);
+    if (this.parameter.email) {input.append('email', this.parameter.email); }
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
@@ -67,12 +65,13 @@ export class UsersComponent implements OnInit {
         error => {
           console.log(error);
           this.parameter.loading = false;
-          if (error.statusCode == 401) this.router.navigate(['']);
-          else
+          if (error.statusCode === 401) {
+            this.router.navigate(['']);
+          }else {
             this.swal.warning({
-              // title: 'Internet Connection',
               text: error.messages,
             });
+          }
         });
   }
 
@@ -95,19 +94,18 @@ export class UsersComponent implements OnInit {
   }
 
   onCountryChange(e) {
-    console.log('eeee',e)
+    console.log('eeee', e);
     this.model.country_code = e.dialCode;
     this.initialCountry = {initialCountry: e.iso2};
   }
 
   addNewUser(formdata: NgForm) {
     this.parameter.loading = true;
-    this.parameter.url = this.model.id != '' ? 'updateNewUser' : 'addSeller';
-console.log(formdata)
+    this.parameter.url = this.model.id !== '' ? 'updateNewUser' : 'addSeller';
+console.log(formdata);
     const input = new FormData();
 
-    if(this.model.id != '')
-      input.append('id', this.model.id);
+    if (this.model.id !== '') { input.append('id', this.model.id); }
 
     input.append('name', formdata.value.name);
     input.append('country_code', '+' + this.model.country_code);
@@ -118,20 +116,19 @@ console.log(formdata)
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('success',success)
+          console.log('success', success);
           this.parameter.loading = false;
-          if (success.success == 0) {
+          if (success.success === 0) {
             this.swal.error({
               title: 'Error',
               text: success.message
             });
-          }
-          else{
+          }else {
             this.modalClose.nativeElement.click();
             formdata.reset();
             this.swal.success({
               title: 'Success',
-              text: this.model.id == '' ? 'Added successfully.' : 'Updated successfully.'
+              text: this.model.id === '' ? 'Added successfully.' : 'Updated successfully.'
             });
           }
           // console.log('user add',success)
@@ -173,7 +170,7 @@ console.log(formdata)
     });
   }
 
-  
+
   blockAdmin(index, id, flag, user_type) {
     this.parameter.index = index;
     this.parameter.url = 'blockBuyerSeller';
@@ -185,9 +182,9 @@ console.log(formdata)
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('success',success)
+          console.log('success', success);
           this.parameter.loading = false;
-          
+
           this.parameter.items[this.parameter.index] = success.data;
 
           this.swal.success({

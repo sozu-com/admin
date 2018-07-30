@@ -36,7 +36,7 @@ export class AGMComponent {
                 drawingControlOptions: {
                     position: google.maps.ControlPosition.TOP_CENTER,
                     drawingModes: [
-                        //google.maps.drawing.OverlayType.MARKER,
+                        // google.maps.drawing.OverlayType.MARKER,
                         google.maps.drawing.OverlayType.CIRCLE,
                         google.maps.drawing.OverlayType.POLYGON,
                         google.maps.drawing.OverlayType.RECTANGLE
@@ -95,7 +95,7 @@ export class AGMComponent {
                 this.all_overlays.push(event);
                 if (event.type !== google.maps.drawing.OverlayType.MARKER) {
                     drawingManager.setDrawingMode(null);
-                    //Write code to select the newly selected object.
+                    // Write code to select the newly selected object.
 
                     const newShape = event.overlay;
                     newShape.type = event.type;
@@ -112,7 +112,7 @@ export class AGMComponent {
             //    var centerControl = new centerControl(centerControlDiv, map);
             const centerControl = this.CenterControl(centerControlDiv, map);
 
-            //centerControlDiv.index = 1;
+            // centerControlDiv.index = 1;
             map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(centerControlDiv);
         });
         }
@@ -194,7 +194,7 @@ export class AGMComponent {
 
     }
 
-    getPolygons(){
+    getPolygons() {
       console.log(this.all_overlays);
 
       this.all_overlays.forEach( (item, count) => {

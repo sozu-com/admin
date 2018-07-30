@@ -6,7 +6,7 @@ import { AdminService } from './services/admin.service';
 import { HttpModule } from '@angular/http';
 import { AuthGuard } from './services/auth.guard';
 import { SweetAlertService } from 'ngx-sweetalert2';
-import {Ng2TelInputModule} from 'ng2-tel-input';
+import { Ng2TelInputModule } from 'ng2-tel-input';
 
 import { AppComponent } from './app.component';
 // import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';

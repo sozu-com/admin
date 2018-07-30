@@ -33,8 +33,7 @@ url('../fonts/sf-ui-text-heavy-webfont.woff') format('woff');
 font-weight: normal;
 font-style: normal;
 }
-body{ font-family: 'sf_ui_textregular'; background-color:#F4F4F4; font-size:14px; color: #3E3E3E;    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale; }
+body{ font-family: 'sf_ui_textregular'; background-color:#F4F4F4; font-size:14px; color: #3E3E3E;   }
 a, button, input{outline:none; transition: all 0.5s ease; }
 a{color: #4661B1; text-decoration:none !important;}
 a:hover, a:foucs{ text-decoration:none !important;  }
@@ -59,7 +58,6 @@ p.p12{font-size:12px;  color: rgba(62,62,62,0.66);  font-weight:300;  margin-bot
 .padding30{padding:30px;}
 .padding40{padding:40px;}
 .paddingL0{padding-left:0 !important; }
-.padding0{padding:0 !important; }
 .spacer10{ clear:both; height:10px;   }
 .spacer15{ clear:both; height:15px;   }
 .spacer30{ clear:both; height:30px;   }
@@ -1473,78 +1471,7 @@ background: url(../img/location.png) no-repeat 15px 13px;
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
 }
-/*custom check box 2 start*/
-.cust-check-bx2 {
-    display: block;
-    position: relative;
-    padding:15px !important;
-    margin-bottom: 0;
-    cursor: pointer;
-    font-size: 14px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    font-family: 'sf_ui_textbold';
-    line-height: 15px;
-    margin-top: 11px;
-    background-color: #F5F5F5;
-    border-radius: 4px;
-    width: 144px;
-    height: 72px;
-    word-wrap: break-word;
-    float: left;
-    color: rgba(0,0,0,0.5);
-    margin-right: 10px;
-}
 
- 
-.cust-check-bx2 input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-}
- 
-.cust-check-bx2 .checkmark {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    height: 28px;
-    width: 28px;
-    /* background-color: #fff; */
-    /* border: 1px solid #434B52; */
-    border-radius: 40px 0 0 0;
-}
-
-.cust-check-bx2 input:checked ~ .checkmark {
-    background-color: #00B96F;
-    border-color: #00B96F;
-}
- 
-.cust-check-bx2 .checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-}
-
- 
-.cust-check-bx2 input:checked ~ .checkmark:after {
-    display: block;
-}
-
- 
-.cust-check-bx2 .checkmark:after {
-    left: 14px;
-    top: 11px;
-    width: 5px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 2px 2px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-}
-/*custom check box 2 end*/
 .form-group-4{
     margin-bottom:15px; 
 
@@ -1700,5 +1627,3 @@ background: url(../img/location.png) no-repeat 15px 13px;
     right:0;
     bottom:0;
 }
-
- 

@@ -1,6 +1,6 @@
 export class GeneralFunctions {
 
-  generateRandomString(){
+  generateRandomString() {
     const min = 1111111111;
     const max = 9999999999;
     const date3 = new Date();

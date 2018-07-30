@@ -15,6 +15,6 @@ import { DashboardModel } from './../../models/dashboard.model';
 export class DashboardComponent {
   public parameter: IProperty = {};
 
-  constructor(private dashModel: DashboardModel, private admin: AdminService, private router: Router, private swal: SweetAlertService) {
+  constructor (private dashModel: DashboardModel, private admin: AdminService, private router: Router, private swal: SweetAlertService) {
   }
 }

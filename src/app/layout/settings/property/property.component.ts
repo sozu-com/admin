@@ -20,7 +20,8 @@ export class PropertyComponent implements OnInit {
   public modalRef: BsModalRef;
   icon: any;
 
-  constructor(private element: ElementRef, private constant: Constant, private property: Property, private modalService: BsModalService, private admin: AdminService, private router: Router, private swal: SweetAlertService) {
+  constructor(private element: ElementRef, private constant: Constant, private property: Property,
+    private modalService: BsModalService, private admin: AdminService, private router: Router, private swal: SweetAlertService) {
     this.parameter.countryCount = 0;
     this.parameter.stateCount = 0;
     this.parameter.cityCount = 0;
@@ -59,9 +60,9 @@ export class PropertyComponent implements OnInit {
   }
 
 
-  addPropertyConfiguration(id, name_en, name_es, status, type){
+  addPropertyConfiguration(id, name_en, name_es, status, type) {
 
-    if (type != 'add') this.modalRef.hide();
+    if (type !== 'add') {this.modalRef.hide(); }
 
     this.parameter.loading = true;
     this.parameter.url = 'addConfiguration';
@@ -71,8 +72,7 @@ export class PropertyComponent implements OnInit {
     input.append('name_es', name_es);
     input.append('status', status);
 
-    if (id)
-      input.append('id', id);
+    if (id) {input.append('id', id); }
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
@@ -81,7 +81,9 @@ export class PropertyComponent implements OnInit {
           this.parameter.loading = false;
           this.swal.success({
             title: 'Success',
-            text: id ? this.constant.successMsg.PROPERTY_CONFIG_UPDATED_SUCCESSFULLY : this.constant.successMsg.PROPERTY_CONFIG_ADDED_SUCCESSFULLY,
+            text: id ?
+            this.constant.successMsg.PROPERTY_CONFIG_UPDATED_SUCCESSFULLY :
+            this.constant.successMsg.PROPERTY_CONFIG_ADDED_SUCCESSFULLY,
           });
           this.getConfigurations();
         },
@@ -95,8 +97,8 @@ export class PropertyComponent implements OnInit {
         });
   }
 
-  addPropertyType(id, name_en, name_es, status, type){
-    if (type != 'add') this.modalRef.hide();
+  addPropertyType(id, name_en, name_es, status, type) {
+    if (type !== 'add') {this.modalRef.hide(); }
 
     this.parameter.loading = true;
     this.parameter.url = 'addPropertyType';
@@ -106,8 +108,7 @@ export class PropertyComponent implements OnInit {
     input.append('name_es', name_es);
     input.append('status', status);
 
-    if (id)
-      input.append('id', id);
+    if (id) {input.append('id', id); }
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
@@ -116,7 +117,9 @@ export class PropertyComponent implements OnInit {
           this.parameter.loading = false;
           this.swal.success({
             title: 'Success',
-            text: id ? this.constant.successMsg.PROPERTY_TYPE_UPDATED_SUCCESSFULLY : this.constant.successMsg.PROPERTY_TYPE_ADDED_SUCCESSFULLY,
+            text: id ?
+            this.constant.successMsg.PROPERTY_TYPE_UPDATED_SUCCESSFULLY :
+            this.constant.successMsg.PROPERTY_TYPE_ADDED_SUCCESSFULLY,
           });
           this.getPropertyTypes();
         },
@@ -131,9 +134,9 @@ export class PropertyComponent implements OnInit {
   }
 
 
-  addAmenity(id, icon, name_en, name_es, status, type){
+  addAmenity(id, icon, name_en, name_es, status, type) {
 console.log('icon', id, icon, name_en, name_es, status, type);
-    if (type != 'add') this.modalRef.hide();
+    if (type !== 'add') {this.modalRef.hide(); }
 
 
     const iconNew = this.icon ? this.icon : this.property.amenities.icon;
@@ -147,11 +150,9 @@ console.log('mm', iconNew);
     input.append('name_es', name_es);
     input.append('status', status);
 
-    if (this.icon)
-      input.append('icon', iconNew);
+    if (this.icon) {input.append('icon', iconNew); }
 
-    if (id)
-      input.append('id', id);
+    if (id) {input.append('id', id); }
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
@@ -175,7 +176,7 @@ console.log('mm', iconNew);
   }
 
 
-  getConfigurations(){
+  getConfigurations() {
     this.parameter.loading = true;
     this.parameter.url = 'getConfigurations';
     const input = new FormData();
@@ -190,17 +191,19 @@ console.log('mm', iconNew);
         error => {
           console.log(error);
           this.parameter.loading = false;
-          if (error.statusCode == 401) this.router.navigate(['']);
-          else
+          if (error.statusCode === 401) {
+            this.router.navigate(['']);
+          }else {
             this.swal.warning({
               // title: 'Internet Connection',
               text: error.messages,
             });
+          }
         });
   }
 
 
-  getPropertyTypes(){
+  getPropertyTypes() {
     this.parameter.loading = true;
     this.parameter.url = 'getPropertyTypes';
     const input = new FormData();
@@ -215,16 +218,18 @@ console.log('mm', iconNew);
         error => {
           console.log(error);
           this.parameter.loading = false;
-          if (error.statusCode == 401) this.router.navigate(['']);
-          else
+          if (error.statusCode === 401) {
+            this.router.navigate(['']);
+          }else {
             this.swal.warning({
               // title: 'Internet Connection',
               text: error.messages,
             });
+          }
         });
   }
 
-  getAmenities(){
+  getAmenities() {
     this.parameter.loading = true;
     this.parameter.url = 'getPropertyAmenities';
     const input = new FormData();
@@ -239,20 +244,22 @@ console.log('mm', iconNew);
         error => {
           console.log(error);
           this.parameter.loading = false;
-          if (error.statusCode == 401) this.router.navigate(['']);
-          else
+          if (error.statusCode === 401) {
+            this.router.navigate(['']);
+          }else {
             this.swal.warning({
               // title: 'Internet Connection',
               text: error.messages,
             });
+          }
         });
   }
 
-  addPropertyConfigurationPopup(id, name_en, name_es, status, type){
+  addPropertyConfigurationPopup(id, name_en, name_es, status, type) {
     const self = this;
     this.swal.confirm({
       title: this.constant.title.ARE_YOU_SURE,
-      text: status == 1 ? this.constant.title.UNBLOCK_PROPERTY_CONFIG : this.constant.title.BLOCK_PROPERTY_CONFIG,
+      text: status === 1 ? this.constant.title.UNBLOCK_PROPERTY_CONFIG : this.constant.title.BLOCK_PROPERTY_CONFIG,
     }).then(function(){
       self.addPropertyConfiguration(id, name_en, name_es, status, type);
     })
@@ -261,11 +268,11 @@ console.log('mm', iconNew);
     });
   }
 
-  addPropertyTypePopup(id, name_en, name_es, status, type){
+  addPropertyTypePopup(id, name_en, name_es, status, type) {
     const self = this;
     this.swal.confirm({
       title: this.constant.title.ARE_YOU_SURE,
-      text: status == 1 ? this.constant.title.UNBLOCK_PROPERTY_TYPE : this.constant.title.BLOCK_PROPERTY_TYPE,
+      text: status === 1 ? this.constant.title.UNBLOCK_PROPERTY_TYPE : this.constant.title.BLOCK_PROPERTY_TYPE,
     }).then(function(){
       self.addPropertyType(id, name_en, name_es, status, type);
     })
@@ -274,11 +281,11 @@ console.log('mm', iconNew);
     });
   }
 
-  addAmenityPopup(id, icon, name_en, name_es, status, type){
+  addAmenityPopup(id, icon, name_en, name_es, status, type) {
     const self = this;
     this.swal.confirm({
       title: this.constant.title.ARE_YOU_SURE,
-      text: status == 1 ? this.constant.title.UNBLOCK_AMENITY : this.constant.title.BLOCK_AMENITY,
+      text: status === 1 ? this.constant.title.UNBLOCK_AMENITY : this.constant.title.BLOCK_AMENITY,
     }).then(function(){
       self.addAmenity(id, icon, name_en, name_es, status, type);
     })
@@ -287,9 +294,9 @@ console.log('mm', iconNew);
     });
   }
 
-  checkIfConfigSpanishNameEntered(id, name_en, name_es, status, type){
+  checkIfConfigSpanishNameEntered(id, name_en, name_es, status, type) {
     const self = this;
-    if (name_es == ''){
+    if (name_es === '') {
       this.swal.confirm({
         text: this.constant.errorMsg.SAVE_ENGLISH_PROPERTY_CONFIG,
       }).then(function(){
@@ -298,16 +305,15 @@ console.log('mm', iconNew);
       .catch(function(){
       // console.log('Logout cancelled by user');
       });
-    }
-    else{
+    }else {
       self.addPropertyConfiguration(id, name_en, name_es, status, type);
     }
   }
 
 
-  checkIfTypeSpanishNameEntered(id, name_en, name_es, status, type){
+  checkIfTypeSpanishNameEntered(id, name_en, name_es, status, type) {
     const self = this;
-    if (name_es == ''){
+    if (name_es === '') {
       this.swal.confirm({
         text: this.constant.errorMsg.SAVE_ENGLISH_PROPERTY_TYPE,
       }).then(function(){
@@ -316,17 +322,16 @@ console.log('mm', iconNew);
       .catch(function(){
       // console.log('Logout cancelled by user');
       });
-    }
-    else{
+    }else {
       self.addPropertyType(id, name_en, name_es, status, type);
     }
   }
 
 
-  checkIfAmenitySpanishNameEntered(id, icon, name_en, name_es, status, type){
+  checkIfAmenitySpanishNameEntered(id, icon, name_en, name_es, status, type) {
     console.log('00', id, icon, name_en, name_es, status, type);
     const self = this;
-    if (name_es == ''){
+    if (name_es === '') {
       this.swal.confirm({
         text: this.constant.errorMsg.SAVE_ENGLISH_AMENITY,
       }).then(function(){
@@ -335,8 +340,7 @@ console.log('mm', iconNew);
       .catch(function(){
       // console.log('Logout cancelled by user');
       });
-    }
-    else{
+    }else {
       self.addAmenity(id, icon, name_en, name_es, status, type);
     }
   }

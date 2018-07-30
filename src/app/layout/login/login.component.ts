@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AdminService } from '../../services/admin.service';
 import { SweetAlertService } from 'ngx-sweetalert2';
@@ -11,7 +11,7 @@ import { IProperty } from '../../common/property';
   styleUrls: ['./login.component.css']
 })
 
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, AfterViewInit {
 
   model = {
     email: '',
@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
 
   loginUser(formData: NgForm) {
     this.parameter.loading = true;
-  	const email = formData.value.email;
+    const email = formData.value.email;
     const password = formData.value.password;
 
     this.admin.adminLogin(email, password)

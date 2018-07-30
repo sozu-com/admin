@@ -32,27 +32,13 @@ export class ContactUsComponent implements OnInit {
     this.initialCountry = {initialCountry: this.model.countryCode};
   }
 
-  setCountryCode(){
-    // for (let index = 0; index < 4; index++) {
-    //   console.log('index1',index);
-    //   setTimeout(() => {
-    //     console.log('index',index);
-    //   }, 0);
-    // }
-  }
-
-  // telInputObject(obj) {
-  //   console.log(',,,,',obj)
-  //   obj.intlTelInput('setCountry', this.parameter.countryCode);
-  // }
-
-  onCountryChange(e){
+  onCountryChange(e) {
     this.parameter.countryCode = e.iso2;
     this.parameter.dialCode = e.dialCode;
     this.initialCountry = {initialCountry: e.iso2};
   }
 
-  updateDefaultSettings(formData: NgForm){
+  updateDefaultSettings(formData: NgForm) {
 
     this.parameter.loading = true;
     this.parameter.url = 'updateDefaultSettings';
@@ -80,8 +66,11 @@ export class ContactUsComponent implements OnInit {
         },
         error => {
           this.parameter.loading = false;
-          if (error.statusCode == 401) this.router.navigate(['']);
-          else this.swal.warning({ text: error.message });
+          if (error.statusCode === 401) {
+            this.router.navigate(['']);
+          }else {
+            this.swal.warning({ text: error.message });
+          }
         });
   }
 }

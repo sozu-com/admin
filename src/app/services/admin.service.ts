@@ -51,7 +51,7 @@ export class AdminService {
     const headers = new Headers();
     // headers.append('Content-Type', 'application/x-www-form-urlencoded');
     headers.append('Authorization', 'Bearer ' + token);
-    console.log(headers)
+    console.log(headers);
     return headers;
   }
 
@@ -86,7 +86,7 @@ export class AdminService {
                 .map(response => {
                   const r = response.json();
                   localStorage.setItem('token', r.data.token);
-                  this.login.next(r.data)
+                  this.login.next(r.data);
                   return r;
                 })
                 .catch(this.errorHandler);

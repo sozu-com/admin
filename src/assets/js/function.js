@@ -21,19 +21,14 @@ slider.on("slide", function(slideEvt) {
 
 //date picker function start
 
-/* $(function () {
+ $(function () {
 
                 $('#datetimepicker').datetimepicker({
                     format: 'DD/MM/YYYY' 
                 });
              });
 
- $(function () {
-
-                $('#datetimepicker2').datetimepicker({
-                    format: 'DD/MM/YYYY' 
-                });
-             });*/
+ 
 
 //date picker function end
 

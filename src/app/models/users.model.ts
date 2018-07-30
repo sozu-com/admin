@@ -1,5 +1,5 @@
 export class Users{
-    id:'';
+    id: '';
     name: '';
     country_code: '52';
     phone: '';

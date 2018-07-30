@@ -53,14 +53,15 @@ export class LocalityComponent implements OnInit {
     this.getCountries('');
   }
 
-  getCountries(keyword){
+  getCountries(keyword) {
 
     this.parameter.loading = true;
     this.parameter.url = 'getCountries';
     const input = new FormData();
 
-    if (keyword)
+    if (keyword) {
       input.append('keyword', keyword);
+    }
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
@@ -69,29 +70,29 @@ export class LocalityComponent implements OnInit {
           this.parameter.loading = false;
           this.parameter.countries = success.data;
           this.parameter.countryCount = success.data.length;
-          if (this.parameter.countries.length != 0){
+          if (this.parameter.countries.length !== 0) {
             this.parameter.country_id = this.parameter.countries[0].id;
             this.getStates(this.parameter.countries[0].id, '');
           }
         },
         error => {
           this.parameter.loading = false;
-          if (error.statusCode == 401) {
+          if (error.statusCode === 401) {
             this.swal.warning({
               title: 'Error',
               text: error.message,
             });
             this.router.navigate(['']);
-          }
-          else
+          }else {
             this.swal.warning({
               title: 'Error',
               text: error.message,
             });
+          }
         });
   }
 
-  getStates(country_id, keyword){
+  getStates(country_id, keyword) {
     this.parameter.loading = true;
     this.parameter.url = 'country/getStates';
     this.parameter.country_id = country_id;
@@ -99,8 +100,9 @@ export class LocalityComponent implements OnInit {
     const input = new FormData();
     input.append('country_id', country_id);
 
-    if (keyword)
+    if (keyword) {
       input.append('keyword', keyword);
+    }
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
@@ -109,11 +111,10 @@ export class LocalityComponent implements OnInit {
           this.parameter.loading = false;
           this.parameter.states = success.data;
           this.parameter.stateCount = success.data.length;
-          if (this.parameter.states.length){
+          if (this.parameter.states.length) {
             this.parameter.state_id = this.parameter.states[0].id;
             this.getCities(this.parameter.states[0].id, '');
-          }
-          else{
+          }else {
             this.parameter.city_id = '0';
             this.parameter.localityCount = 0;
             this.parameter.cities = [];
@@ -125,16 +126,18 @@ export class LocalityComponent implements OnInit {
         error => {
           console.log(error);
           this.parameter.loading = false;
-          if (error.statusCode == 401) this.router.navigate(['']);
-          else
+          if (error.statusCode === 401) {
+            this.router.navigate(['']);
+          }else {
             this.swal.warning({
               // title: 'Internet Connection',
               text: error.messages,
             });
+          }
         });
   }
 
-  getCities(state_id, keyword){
+  getCities(state_id, keyword) {
     console.log('mm', state_id, keyword);
     this.parameter.loading = true;
     this.parameter.url = 'getCities';
@@ -143,8 +146,9 @@ export class LocalityComponent implements OnInit {
     const input = new FormData();
     input.append('state_id', state_id);
 
-    if (keyword)
+    if (keyword) {
       input.append('keyword', keyword);
+    }
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
@@ -153,12 +157,11 @@ export class LocalityComponent implements OnInit {
           this.parameter.loading = false;
           this.parameter.cities = success.data;
           this.parameter.cityCount = success.data.length;
-          if (this.parameter.cities.length){
+          if (this.parameter.cities.length) {
             this.parameter.city_id = this.parameter.cities[0].id;
             console.log('cityid', this.parameter.city_id);
             this.getLocalities(this.parameter.city_id, '');
-          }
-          else{
+          }else {
             this.parameter.cityCount = 0;
             this.parameter.localityCount = 0;
             this.parameter.cities = [];
@@ -170,17 +173,19 @@ export class LocalityComponent implements OnInit {
         error => {
           console.log(error);
           this.parameter.loading = false;
-          if (error.statusCode == 401) this.router.navigate(['']);
-          else
+          if (error.statusCode === 401) {
+            this.router.navigate(['']);
+          }else {
             this.swal.warning({
               // title: 'Internet Connection',
               text: error.messages,
             });
+          }
         });
   }
 
 
-  getLocalities(city_id, keyword= ''){
+  getLocalities(city_id, keyword= '') {
     console.log('mm', city_id, keyword);
     this.parameter.loading = true;
     this.parameter.url = 'getLocalities';
@@ -189,8 +194,9 @@ export class LocalityComponent implements OnInit {
     const input = new FormData();
     input.append('city_id', city_id);
 
-    if (keyword)
-    input.append('keyword', keyword);
+    if (keyword) {
+      input.append('keyword', keyword);
+    }
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
@@ -200,10 +206,9 @@ export class LocalityComponent implements OnInit {
           this.parameter.localities = success.data;
           this.all_overlays = this.parameter.localities;
           this.parameter.localityCount = success.data.length;
-          if (this.parameter.localities.length){
+          if (this.parameter.localities.length) {
             this.selectedLocality = this.parameter.localities[0].id;
-          }
-          else{
+          }else {
             this.all_overlays = [];
           }
           this.init();
@@ -211,12 +216,14 @@ export class LocalityComponent implements OnInit {
         error => {
           console.log(error);
           this.parameter.loading = false;
-          if (error.statusCode == 401) this.router.navigate(['']);
-          else
+          if (error.statusCode === 401) {
+            this.router.navigate(['']);
+          }else {
             this.swal.warning({
               // title: 'Internet Connection',
               text: error.messages,
             });
+          }
         });
   }
 
@@ -242,18 +249,18 @@ export class LocalityComponent implements OnInit {
           this.all_overlays.forEach(locality => {
 
             const poly_coordinates = JSON.parse(locality.poly_coordinates);
-            //console.log(poly_coordinates);
+            // console.log(poly_coordinates);
             const polygon = poly_coordinates.map(ll => {
-              //console.log(ll);
+              // console.log(ll);
               const latlng = ll.split(',');
               const coord = new google.maps.LatLng(parseFloat(latlng[0]), parseFloat(latlng[1]));
-              //console.log(coord);
+              // console.log(coord);
               return coord;
               }
             );
 
 
-            //this.setSelection(polygon);
+            // this.setSelection(polygon);
             const singlePolygon = new google.maps.Polygon({
               paths: polygon,
               editable: false,
@@ -266,10 +273,10 @@ export class LocalityComponent implements OnInit {
             locality.overlay = singlePolygon;
 
             // showing selected first locality
-            if (all_overlays_index == 0) this.setSelection(singlePolygon, locality.id);
+            if (all_overlays_index === 0) {this.setSelection(singlePolygon, locality.id); }
             all_overlays_index++;
 
-            //this.all_overlays.push(singlePolygon);
+            // this.all_overlays.push(singlePolygon);
             google.maps.event.addListener(singlePolygon, 'click', () => {
               console.log('click', singlePolygon, locality.id);
               this.setSelection(singlePolygon, locality.id);
@@ -297,8 +304,8 @@ export class LocalityComponent implements OnInit {
               drawingControlOptions: {
                   position: google.maps.ControlPosition.TOP_CENTER,
                   drawingModes: [
-                      //google.maps.drawing.OverlayType.MARKER,
-                      //google.maps.drawing.OverlayType.CIRCLE,
+                      // google.maps.drawing.OverlayType.MARKER,
+                      // google.maps.drawing.OverlayType.CIRCLE,
                       google.maps.drawing.OverlayType.POLYGON,
                       google.maps.drawing.OverlayType.RECTANGLE
                   ]
@@ -378,13 +385,13 @@ console.log('xx', typeof this.getPolygonCoords(event.overlay));
             //       });
 
             // });
-            //this.all_overlays = this.all_overlays;
+            // this.all_overlays = this.all_overlays;
 
 
 
               if (event.type !== google.maps.drawing.OverlayType.MARKER) {
                   drawingManager.setDrawingMode(null);
-                  //Write code to select the newly selected object.
+                  // Write code to select the newly selected object.
 
                   const newShape = event.overlay;
                   newShape.type = event.type;
@@ -398,21 +405,21 @@ console.log('xx', typeof this.getPolygonCoords(event.overlay));
           });
 
 
-          //var centerControlDiv = document.createElement('div');
+          // var centerControlDiv = document.createElement('div');
           //    var centerControl = new centerControl(centerControlDiv, map);
-          //var centerControl = this.CenterControl(centerControlDiv, map);
+          // var centerControl = this.CenterControl(centerControlDiv, map);
 
-          //centerControlDiv.index = 1;
-          //map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(centerControlDiv);
+          // centerControlDiv.index = 1;
+          // map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(centerControlDiv);
       });
       }
       });
   }
 
 
-  checkIfLocalitySpanishNameEntered(name_en, name_es, price_per_sqft){
+  checkIfLocalitySpanishNameEntered(name_en, name_es, price_per_sqft) {
     const self = this;
-    if (name_es == ''){
+    if (name_es === '') {
       this.swal.confirm({
         text: this.constant.errorMsg.SAVE_ENGLISH_COUNTRY_NAME,
       }).then(function(){
@@ -421,14 +428,13 @@ console.log('xx', typeof this.getPolygonCoords(event.overlay));
       .catch(function(){
       // console.log('Logout cancelled by user');
       });
-    }
-    else{
+    }else {
       self.addLocality(name_en, name_es, price_per_sqft);
     }
   }
 
 
-  addLocality(name_en, name_es, price_per_sqft){
+  addLocality(name_en, name_es, price_per_sqft) {
     this.localityClose.nativeElement.click();
     const locality = {
       name_en: name_en,
@@ -453,14 +459,14 @@ console.log('locality', locality);
 
   getPolygonCoords(newShape) {
     console.log('new', newShape);
-    //console.log('IN');
+    // console.log('IN');
       const coordinates_array = [];
       const len = newShape.getPath().getLength();
       for (let i = 0; i < len; i++) {
-          //console.log(newShape.getPath().getAt(i).toUrlValue(6));
+          // console.log(newShape.getPath().getAt(i).toUrlValue(6));
           coordinates_array.push(newShape.getPath().getAt(i).toUrlValue(6));
       }
-      //console.log(coordinates_array);
+      // console.log(coordinates_array);
       return coordinates_array;
   }
 
@@ -497,14 +503,14 @@ console.log('zzzzzzzzzzzz', shape);
       const coord = new google.maps.LatLng(parseFloat(latlng[0]), parseFloat(latlng[1]));
 
 
-      //console.log(coords);
-      //var center = new google.maps.LatLngBounds(shape).getCenter();
-      //let center = shape.my_getBounds().getCenter()
+      // console.log(coords);
+      // var center = new google.maps.LatLngBounds(shape).getCenter();
+      // let center = shape.my_getBounds().getCenter()
 
       this.map.setCenter(coord);
 
-      //google.maps.event.addListener(selectedShape.getPath(), 'insert_at', getPolygonCoords(shape));
-      //google.maps.event.addListener(shape.getPath(), 'set_at', this.getPolygonCoords(shape));
+      // google.maps.event.addListener(selectedShape.getPath(), 'insert_at', getPolygonCoords(shape));
+      // google.maps.event.addListener(shape.getPath(), 'set_at', this.getPolygonCoords(shape));
   }
 
   deleteSelectedShape() {
@@ -520,7 +526,7 @@ console.log('zzzzzzzzzzzz', shape);
       this.all_overlays = [];
   }
 
-  getPolygons(){
+  getPolygons() {
     console.log(this.all_overlays);
     this.all_overlays.forEach( (item, count) => {
       console.log('overlay' + count);
@@ -528,7 +534,7 @@ console.log('zzzzzzzzzzzz', shape);
     });
   }
 
-  removeSelection(locality, index, status){
+  removeSelection(locality, index, status) {
       console.log('Removing...', locality);
       locality.status = status;
       // this.all_overlays.splice(index,1);
@@ -538,12 +544,12 @@ console.log('zzzzzzzzzzzz', shape);
       this.admin.postDataApi('addLocality', locality).subscribe(
       r => {
         console.log(r);
-        //this.all_overlays.push(r.data);
-        //this.getLocalities(this.parameter.city_id,'');
+        // this.all_overlays.push(r.data);
+        // this.getLocalities(this.parameter.city_id,'');
       });
   }
 
-  upadteSelection(locality, index){
+  upadteSelection(locality, index) {
 
   }
 
