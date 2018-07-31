@@ -7,12 +7,12 @@
           <h5>Add New Property</h5>
         </div>
       </div>
-      <div class="col-md-6">
+      <!-- <div class="col-md-6">
         <div class="btn-cont text-right">
           <a class="btn-third btn" href="javascript://" (click)="setTab(tab+1)" *ngIf="tab != 3">Next</a>
           <a class="btn-third btn" href="javascript://" *ngIf="tab == 3">Submitt</a>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
   
@@ -23,12 +23,18 @@
   <div class="white-bg padding15">
     <div class="steps">
       <ul class="d-flex">
-        <li [ngClass]="{'current': tab == 1}"><span></span><a (click)="addProperty(addForm, 1)">Create Draft</a></li>
+        <!-- <li [ngClass]="{'current': tab == 1}"><span></span><a (click)="addProperty(addForm, 1)">Create Draft</a></li>
         <li [ngClass]="{'current': tab == 2}"><span></span><a (click)="addProperty(addForm, 2)">Additional Info</a></li>
         <li [ngClass]="{'current': tab == 3}"><span></span><a (click)="addProperty(addForm, 3)">Preferable Buyers</a></li>
         <li [ngClass]="{'current': tab == 4}"><span></span><a (click)="addProperty(addForm, 4)">Custom</a></li>
         <li [ngClass]="{'current': tab == 5}"><span></span><a (click)="addProperty(addForm, 5)">Tag a Building</a></li>
-        <li [ngClass]="{'current': tab == 6}"><span></span><a (click)="addProperty(addForm, 6)">Submit</a></li>
+        <li [ngClass]="{'current': tab == 6}"><span></span><a (click)="addProperty(addForm, 6)">Submit</a></li> -->
+        <li [ngClass]="{'current': tab == 1}" [ngClass]="{'selected': tab > 1}"><span></span><a>Create Draft</a></li>
+        <li [ngClass]="{'current': tab == 2}" [ngClass]="{'selected': tab > 2}"><span></span><a>Additional Info</a></li>
+        <li [ngClass]="{'current': tab == 3}" [ngClass]="{'selected': tab > 3}"><span></span><a>Preferable Buyers</a></li>
+        <li [ngClass]="{'current': tab == 4}" [ngClass]="{'selected': tab > 4}"><span></span><a>Custom</a></li>
+        <li [ngClass]="{'current': tab == 5}" [ngClass]="{'selected': tab > 5}"><span></span><a>Tag a Building</a></li>
+        <li [ngClass]="{'current': tab == 6}" [ngClass]="{'selected': tab > 6}"><span></span><a>Submit</a></li>
       </ul>
     </div>
   </div>
@@ -123,26 +129,37 @@
           <div class="col-md-4 col-sm-12 col-12">
             <div class="form-group-3">
               <label>Enter Carpet Area</label>
-              <input class="form-control" required type="text" [(ngModel)]="carpet_area.area" name="area" placeholder="Area should be in Sq/ft.">
+              <input class="form-control" required type="text" name="area[{{c}}]" placeholder="Area should be in Sq/ft." [(ngModel)]="carpet_area.area">
             </div> 
           </div>
           <div class="col-md-4 col-sm-12 col-12">
             <div class="form-group-3">
               <label>Enter Average Price</label>
-              <input class="form-control" required type="text" [(ngModel)]="carpet_area.price" name="price" placeholder="Amount should be in $">
+              <input class="form-control" required type="text" name="price[{{c}}]" placeholder="Amount should be in $" [(ngModel)]="carpet_area.price">
             </div> 
           </div>
           <div class="col-md-4 col-sm-12 col-12" *ngIf="c>0">
-            <div class="btn-cont">
-              <a href="javascript://" class="btn-third btn" (click)="removeCarpetArea(c)">Remove</a>
+            <div class="btn-cont form-group-3">
+              <a href="javascript://" class="btn delete-button" (click)="model.carpet_areas.splice(c, 1)">
+                <img src="./../../../../assets/img/delete-button.png" width="40">
+              </a>
             </div> 
           </div>
         </div>
         <div class="row">
           <div class="col-md-4 btn-cont">
-              <a href="javascript://" class="btn-third btn" (click)="addNewCarpetArea()">Add More</a>
+              <a href="javascript://" class="btn-third btn" (click)="model.carpet_areas.push({area: '', price: ''})">Add More</a>
           </div>
         </div>
+      
+        <div class="row">
+          <div class="col-md-12">
+            <div class="btn-cont text-right">
+              <a class="btn-third btn" href="javascript://" (click)="addProperty(addForm, 2)">Next</a>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -166,21 +183,22 @@
                   <p class="green-color marginT30">+Upload Cover image for the project</p>
                   <p>JPG or PNG. Image size should be 1920 × 1080 pixels (for HiDPI displays).</p>
                 </div>  
-                <input type="file" name="" (change)="onSelectFile1($event)">
+                <input type="file" name="" accept="image/*" (change)="onSelectFile1($event)">
               </div>
             </div>
             <div class="col-md-5 col-sm-12 col-12">
-              <div class="upload-cover-img upload-cover-small" [style.background-image]="image2">
-                <input type="file" name="" (change)="onSelectFile2($event)">
+              <div class="upload-cover-img upload-cover-small" [style.background-image]="image3">
+                <input type="file" name="" accept="image/*" (change)="onSelectFile3($event)">
                 <div class="upload-caption">
-                  <p class="green-color marginT30">+ Add more images</p>
+                  <p class="green-color marginT30">+ Add Floor plan</p>
                 </div> 
               </div>
 
-              <div class="upload-cover-img upload-cover-small" [style.background-image]="image3">
-                <input type="file" name="" (change)="onSelectFile3($event)">
+              <div class="upload-cover-img upload-cover-small" [style.background-image]="image2">
+                <!-- <input type="file" name="" accept="image/*" (change)="onSelectFile2($event)"> -->
                 <div class="upload-caption">
-                  <p class="green-color marginT30">+ Add Floor plan</p>
+                  <!-- <p class="green-color marginT30">+ Add more image</p> -->
+                  <p class="green-color marginT30" data-toggle="modal" data-target="#add-more-img">+ Add more images</p>
                 </div> 
               </div>
             </div>
@@ -332,6 +350,15 @@
           </div>
         </div>
       </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="btn-cont text-right">
+            <a class="btn-third btn" href="javascript://" (click)="addProperty(addForm, 3)">Next</a>
+          </div>
+        </div>
+      </div>
+      
     </div>
   </div>
 
@@ -375,6 +402,15 @@
           </label>
           <div class="clearfix"></div>
         </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="btn-cont text-right">
+              <a class="btn-third btn" href="javascript://" (click)="addProperty(addForm, 4)">Next</a>
+            </div>
+          </div>
+        </div>
+        
       </div>
     </div>
 
@@ -401,16 +437,27 @@
             </div> 
           </div>
           <div class="col-md-4 col-sm-12 col-12" *ngIf="c>0">
-            <div class="btn-cont">
-              <a href="javascript://" class="btn-third btn" (click)="removeCustomArea(c)">Remove</a>
+            <div class="btn-cont ">
+              <a href="javascript://" class="btn delete-button" (click)="model.custom_attributes.splice(c, 1)">
+                <img src="./../../../../assets/img/delete-button.png" width="40">
+              </a>
             </div> 
           </div>
         </div>
         <div class="row">
           <div class="col-md-4 btn-cont">
-              <a href="javascript://" class="btn-third btn" (click)="addCustomArea()">Add More</a>
+              <a href="javascript://" class="btn-third btn" (click)="model.custom_attributes.push({name: '', value: ''})">Add More</a>
           </div>
         </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="btn-cont text-right">
+              <a class="btn-third btn" href="javascript://" (click)="addProperty(addForm, 5)">Next</a>
+            </div>
+          </div>
+        </div>
+        
       </div>
     </div>
 
@@ -507,9 +554,73 @@
             <div><img class="img-fluid" src="./../../../../assets/img/map-img.png" alt="img"></div>
           </div>
         </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="btn-cont text-right">
+              <a class="btn-third btn" href="javascript://" (click)="tagBuilding()">Next</a>
+            </div>
+          </div>
+        </div>
+        
       </div>
     </div>
   
   </form>
 
+<!-- Add More img -->
+<div class="modal add-more-popup" id="add-more-img">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Images</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="uploaded-img-block">
+            <div class="uploaded-img">
+                  <a class="remove" href="javascript://"><img src="./../../../../assets/img/remove-icon.png" alt="img"></a>
+                  <img class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+            </div>
+            <div class="uploaded-img">
+                  <a class="remove" href="javascript://"><img src="./../../../../assets/img/remove-icon.png" alt="img"></a>
+                  <img class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+            </div>
+            <div class="uploaded-img">
+                  <a class="remove" href="javascript://"><img src="./../../../../assets/img/remove-icon.png" alt="img"></a>
+                  <img class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+            </div>
+            <div class="uploaded-img">
+                  <a class="remove" href="javascript://"><img src="./../../../../assets/img/remove-icon.png" alt="img"></a>
+                  <img class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+            </div>
+            <div class="uploaded-img">
+                  <a class="remove" href="javascript://"><img src="./../../../../assets/img/remove-icon.png" alt="img"></a>
+                  <img class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+            </div>
+            <div class="uploaded-img">
+                  <a class="remove" href="javascript://"><img src="./../../../../assets/img/remove-icon.png" alt="img"></a>
+                  <img class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+            </div>
+          </div> 
+          <div class="add-more-images">
+              <input type="file" name="" accept="image/*" (change)="onSelectFile2($event)">
+              <span>+ Add more images</span>
+  
+          </div>
+        </div>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer btn-cont">
+  
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Submit</button>
+        </div>
+  
+      </div>
+    </div>
+  </div>
 </div>

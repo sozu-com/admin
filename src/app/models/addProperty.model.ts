@@ -9,6 +9,7 @@ export class CarpetAreas {
 
 export class AddPropertyModel {
     id = '';
+    step = 0;
     for_rent = false;
     for_sale = true;
     country_id = '';
@@ -16,7 +17,7 @@ export class AddPropertyModel {
     city_id = '';
     locality_id = '';
     configuration_id = '';
-    carpet_areas: Array<object> = [
+    carpet_areas = [
         {
             area: '',
             price: ''
@@ -38,9 +39,9 @@ export class AddPropertyModel {
     banks = [];
     pets = '1';
     marital_status = [
-        '1'
+        1
     ];
-    custom_attributes: Array<object> = [
+    custom_attributes = [
         {
             name: '',
             value: ''

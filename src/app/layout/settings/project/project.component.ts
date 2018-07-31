@@ -7,7 +7,6 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Constant } from './../../../common/constants';
 import { Project } from './../../../models/project.model';
 
-
 @Component({
   selector: 'app-project',
   templateUrl: './project.component.html',
@@ -51,7 +50,6 @@ export class ProjectComponent implements OnInit {
   }
 
   public openAmenityModal(template: TemplateRef<any>, id, icon, name_en, name_es, status) {
-    console.log('00', template, id, icon, name_en, name_es, status);
     this.project.amenities.id = id;
     this.project.amenities.icon = icon;
     this.project.amenities.name_en = name_en;
@@ -136,12 +134,11 @@ export class ProjectComponent implements OnInit {
 
 
   addAmenity(id, icon, name_en, name_es, status, type) {
-console.log('icon', id, icon, name_en, name_es, status, type);
+
     if (type !== 'add') {this.modalRef.hide(); }
 
-
     const iconNew = this.icon ? this.icon : this.project.amenities.icon;
-console.log('mm', iconNew);
+
     this.parameter.loading = true;
     this.parameter.url = 'addAmenity';
 
@@ -270,7 +267,6 @@ console.log('mm', iconNew);
   }
 
   addBuildingTypePopup(id, name_en, name_es, status, type) {
-    console.log(id, name_en, name_es, status, type);
     const self = this;
     this.swal.confirm({
       title: this.constant.title.ARE_YOU_SURE,
@@ -331,7 +327,6 @@ console.log('mm', iconNew);
 
 
   checkIfAmenitySpanishNameEntered(id, icon, name_en, name_es, status, type) {
-    console.log('00', id, icon, name_en, name_es, status, type);
     const self = this;
     if (name_es === '') {
       this.swal.confirm({
@@ -351,17 +346,13 @@ console.log('mm', iconNew);
 
   changeListner(event) {
     const reader = new FileReader();
-
     const image = this.element.nativeElement.querySelector('.image');
-
     const fileToUpload = event.target.files[0];
     this.icon = fileToUpload;
 
     reader.onload = function(e) {
-      console.log(image);
       const src = e.target['result'];
         image.src = src;
-        console.log(image.src);
     };
 
     reader.readAsDataURL(event.target.files[0]);

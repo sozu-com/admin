@@ -19,9 +19,6 @@ export class AdminService {
   public login = new BehaviorSubject({});
   loginData$ = this.login.asObservable();
 
-  // loginData$ = new BehaviorSubject({});
-  // loginData$: Observable<{}>;
-
   constructor(public http: HttpInterceptor, private swal: SweetAlertService) { }
 
 // starting of general functions
@@ -34,7 +31,6 @@ export class AdminService {
 
   getHeadersForLogin() {
     const headers = new Headers();
-    // headers.append('Content-Type', 'application/x-www-form-urlencoded');
     return headers;
   }
 
@@ -49,22 +45,12 @@ export class AdminService {
   getHeadersForMultipart() {
     const token = localStorage.getItem('token');
     const headers = new Headers();
-    // headers.append('Content-Type', 'application/x-www-form-urlencoded');
     headers.append('Authorization', 'Bearer ' + token);
-    console.log(headers);
     return headers;
   }
 
   errorHandler(error: Response) {
     return Observable.throw(error.json() || 'Server error');
-    // // console.log('errorrrrrrr', error)
-    // var tt = Observable.throw(error.json() || "Server error");
-    // // console.log(tt.error.message)
-    // var tttt = this.swal.error({
-    //   title: 'Error',
-    //   // text: tt.error.message
-    // })
-    // return tttt
   }
 
   getCountries() {
@@ -116,13 +102,6 @@ export class AdminService {
   postDataApi(url, input) {
     const headers = this.getHeadersForMultipart();
     return this.http.post(this.baseUrl + url, input, {headers: headers})
-            .map((res: Response) => res.json())
-          .catch(this.errorHandler);
-  }
-
-  newPostDataApi(url, input) {
-    const headers = this.getHeadersForMultipart();
-    return this.http.post(url, input, {headers: headers})
             .map((res: Response) => res.json())
           .catch(this.errorHandler);
   }

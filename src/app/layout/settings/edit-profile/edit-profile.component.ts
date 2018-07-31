@@ -41,17 +41,14 @@ export class EditProfileComponent implements OnInit {
     this.parameter.icon = this.parameter.image;
 
     reader.onload = function(e) {
-      console.log(image);
       const src = e.target['result'];
         image.src = src;
-        console.log(image.src);
     };
 
     reader.readAsDataURL(event.target.files[0]);
   }
 
   updateProfile(formData: NgForm) {
-    console.log(formData);
     this.parameter.loading = true;
     this.parameter.url = 'updateProfile';
 

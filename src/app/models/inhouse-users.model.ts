@@ -1,4 +1,4 @@
-export class InhouseUsers{
+export class InhouseUsers {
 
     public address = [
         {
@@ -25,7 +25,7 @@ export class InhouseUsers{
     };
 }
 
-export class user{
+export class User {
     name: '';
     country_code: '52';
     phone: '';
@@ -38,7 +38,7 @@ export class user{
     is_csr_closer: false;
 }
 
-export class address{
+export class Address {
     address: [
         {
             countries: '',

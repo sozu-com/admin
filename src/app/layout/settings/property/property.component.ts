@@ -50,7 +50,6 @@ export class PropertyComponent implements OnInit {
   }
 
   public openAmenityModal(template: TemplateRef<any>, id, icon, name_en, name_es, status) {
-    console.log('00', template, id, icon, name_en, name_es, status);
     this.property.amenities.id = id;
     this.property.amenities.icon = icon;
     this.property.amenities.name_en = name_en;
@@ -135,12 +134,11 @@ export class PropertyComponent implements OnInit {
 
 
   addAmenity(id, icon, name_en, name_es, status, type) {
-console.log('icon', id, icon, name_en, name_es, status, type);
+
     if (type !== 'add') {this.modalRef.hide(); }
 
-
     const iconNew = this.icon ? this.icon : this.property.amenities.icon;
-console.log('mm', iconNew);
+
     this.parameter.loading = true;
     this.parameter.url = 'addPropertyAmenity';
 
@@ -329,7 +327,6 @@ console.log('mm', iconNew);
 
 
   checkIfAmenitySpanishNameEntered(id, icon, name_en, name_es, status, type) {
-    console.log('00', id, icon, name_en, name_es, status, type);
     const self = this;
     if (name_es === '') {
       this.swal.confirm({
@@ -349,16 +346,13 @@ console.log('mm', iconNew);
 
   changeListner(event) {
     const reader = new FileReader();
-
     const image = this.element.nativeElement.querySelector('.image');
-// console.log(image)
     const fileToUpload = event.target.files[0];
     this.icon = fileToUpload;
 
     reader.onload = function(e) {
         const src = e.target['result'];
         image.src = src;
-        // console.log(image.src)
     };
 
     reader.readAsDataURL(event.target.files[0]);
@@ -369,14 +363,13 @@ console.log('mm', iconNew);
     const reader = new FileReader();
 
     const image = this.element.nativeElement.querySelector('.image1');
-console.log(image);
+
     const fileToUpload = event.target.files[0];
     this.icon = fileToUpload;
 
     reader.onload = function(e) {
         const src = e.target['result'];
         image.src = src;
-        console.log(image.src);
     };
 
     reader.readAsDataURL(event.target.files[0]);

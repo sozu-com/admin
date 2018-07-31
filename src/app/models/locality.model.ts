@@ -1,4 +1,4 @@
-export class Locality{
+export class Locality {
     public localityModel = {
         id: '',
         name_es: '',

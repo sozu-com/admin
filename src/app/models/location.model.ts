@@ -1,4 +1,4 @@
-export class Location{
+export class Location {
     public countryModel = {
         country_id: '',
         name_es: '',

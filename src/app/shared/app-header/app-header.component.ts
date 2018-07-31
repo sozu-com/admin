@@ -22,7 +22,7 @@ export class AppHeaderComponent {
     });
   }
 
-  onLoggedout(){
+  onLoggedout() {
       const self = this;
       this.swal.confirm({
           title: 'Are you sure?',
@@ -36,7 +36,7 @@ export class AppHeaderComponent {
   }
 
 
-  logout(){
+  logout() {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('isLoggedin');
       this.admin.unsetUserLoggedIn();

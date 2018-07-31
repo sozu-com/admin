@@ -1,4 +1,4 @@
-export class Users{
+export class Users {
     id: '';
     name: '';
     country_code: '52';

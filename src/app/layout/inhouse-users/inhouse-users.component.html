@@ -182,8 +182,8 @@
         <div class="modal-body">
             <div class="row">
                <div class="col-6">
-                  <div class="add-img">
-                  <input required accept="image/*" class="image" (change)="changeListner($event)" type="file">
+                  <div class="add-img" style="background-size: cover;" [style.background-image]="image1">
+                  <input required accept="image/*" type="file" name="" (change)="onSelectFile1($event)">
                   <label>+ Add Image</label>
                   </div>
                </div>

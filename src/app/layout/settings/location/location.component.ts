@@ -6,7 +6,6 @@ import { IProperty } from '../../../common/property';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Location } from './../../../models/location.model';
 import { Constant } from './../../../common/constants';
-import { NgForm } from '@angular/forms';
 import { AGMComponent } from './../../../common/agm.component';
 import { MapsAPILoader } from '@agm/core';
 
@@ -35,8 +34,6 @@ export class LocationComponent implements OnInit {
   ngOnInit() {
     this.getCountries('');
     this.agm = new AGMComponent(this.loader);
-    // this.agm.init(this.mapDiv);
-    // this.getStates();
   }
 
   public openCountryModal(template: TemplateRef<any>, country_id, name_en, name_es, status, index) {
@@ -191,7 +188,6 @@ export class LocationComponent implements OnInit {
   }
 
   getCities(state_id, keyword) {
-    console.log('mm', state_id, keyword);
     this.parameter.loading = true;
     this.parameter.url = 'getCities';
     this.parameter.state_id = state_id;
@@ -229,7 +225,6 @@ export class LocationComponent implements OnInit {
   }
 
   getLocalities(city_id, keyword) {
-    console.log('mm', city_id, keyword);
     this.parameter.loading = true;
     this.parameter.url = 'getLocalities';
     this.parameter.city_id = city_id;

@@ -3,15 +3,16 @@ import { AdminService } from '../../services/admin.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SweetAlertService } from 'ngx-sweetalert2';
 import { IProperty } from '../../common/property';
-import { InhouseUsers, user, address } from './../../models/inhouse-users.model';
+import { InhouseUsers, User, Address } from './../../models/inhouse-users.model';
 import { NgForm } from '@angular/forms';
 import { Constant } from './../../common/constants';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-inhouse-users',
   templateUrl: './inhouse-users.component.html',
   styleUrls: ['./inhouse-users.component.css'],
-  providers: [InhouseUsers, Constant, user, address]
+  providers: [InhouseUsers, Constant, User, Address]
 })
 
 export class InhouseUsersComponent implements OnInit {
@@ -23,10 +24,13 @@ export class InhouseUsersComponent implements OnInit {
   initialCountry: any;
   addressIndex = 0;
   tempAdd: Object;
+  url: any[];
+  image1: any;
 
-  constructor(private constant: Constant, private address: address, private user: user,
+  constructor(private constant: Constant, private address: Address, private user: User,
     private model: InhouseUsers, private element: ElementRef, private route: ActivatedRoute,
-    private admin: AdminService, private router: Router, private swal: SweetAlertService) { }
+    private admin: AdminService, private router: Router, private swal: SweetAlertService,
+    private sanitization: DomSanitizer) { }
 
   ngOnInit() {
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
@@ -83,22 +87,39 @@ export class InhouseUsersComponent implements OnInit {
   }
 
 
-  changeListner(event) {
+  onSelectFile1(event) { // called each time file input changes
+    if (event.target.files && event.target.files[0]) {
+      const reader = new FileReader();
 
-    const reader = new FileReader();
+      reader.onload = (e: any) => {
+          this.url = e.target.result;
+          this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.url})`);
+      };
 
-    const image = this.element.nativeElement.querySelector('.image');
+      const input = new FormData();
+      input.append('image', event.target.files[0]);
 
-    this.parameter.image = event.target.files[0];
-    this.parameter.icon = this.parameter.image;
+      this.admin.postDataApi('saveImage', input)
+      .subscribe(
+        success => {
+          console.log('successimage', success);
+          // this.model.cover_image = success.data.image;
+          this.parameter.loading = false;
+        },
+        error => {
+          console.log(error);
+          this.parameter.loading = false;
+          this.swal.error({
+            title: 'Error',
+            text: error.message,
+          });
+        });
 
-    reader.onload = function(e) {
-      const src = e.target['result'];
-        image.src = src;
-    };
-
-    reader.readAsDataURL(event.target.files[0]);
+      // this.model.cover_image = event.target.files[0];
+      reader.readAsDataURL(event.target.files[0]);
+    }
   }
+
 
 
   addNewUser(formdata: NgForm) {
@@ -153,6 +174,7 @@ console.log('add newuser params', formdata, JSON.stringify(this.model.address), 
 
   editUser(userdata) {
     console.log('edit user', userdata);
+    this.model.address = [];
     this.model.userModel.id = userdata.id;
     this.modalOpen.nativeElement.click();
     this.model.userModel.name = userdata.name;
@@ -166,24 +188,24 @@ console.log('add newuser params', formdata, JSON.stringify(this.model.address), 
     this.model.userModel.is_data_collector = userdata.permissions && userdata.permissions.can_data_collector === 1 ? true : false;
     this.model.userModel.is_csr_closer = userdata.permissions && userdata.permissions.can_csr_closer === 1 ? true : true;
 
-    userdata.countries = ['19', '19'];
-    userdata.states = ['4', '4'];
-    userdata.cities = ['4', '4'];
-    userdata.localities = ['3', '4'];
+    // userdata.countries = ['19', '19'];
+    // userdata.states = ['4', '4'];
+    // userdata.cities = ['4', '4'];
+    // userdata.localities = ['3', '4'];
 
-    for (let ind = 0; ind < 2; ind++) {
+    for (let ind = 0; ind < userdata.countries.length; ind++) {
 
       const tempAdd = {
-        countries: userdata.countries[ind],
-        states: userdata.states[ind],
-        cities: userdata.cities[ind],
-        localities: userdata.localities[ind]
+        countries: userdata.countries[ind].id,
+        states: userdata.states[ind].id,
+        cities: userdata.cities[ind].id,
+        localities: userdata.localities[ind].id
       };
 
       this.model.address[ind] = tempAdd;
     }
 
-    // console.log('usermodel', this.model.userModel)
+    console.log('usermodel', this.model.userModel);
     // updateNewUser
   }
 
