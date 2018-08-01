@@ -2,6 +2,7 @@ export class Constant {
     public itemsPerPage = 10;
     public p = 0;
     public userPlaceholder = '../../../assets/img/default_usr.png';
+    public initialCountry = 'mx';
     public errorMsg: any = {
         COUNTRY_NAME_REQUIRED : 'Please enter country.',
         STATE_NAME_REQUIRED : 'Please enter state.',

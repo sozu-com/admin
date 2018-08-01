@@ -141,7 +141,7 @@
           <div class="col-md-4 col-sm-12 col-12" *ngIf="c>0">
             <div class="btn-cont form-group-3">
               <a href="javascript://" class="btn delete-button" (click)="model.carpet_areas.splice(c, 1)">
-                <img src="./../../../../assets/img/delete-button.png" width="40">
+                <img src="assets/img/delete-button.png" width="40">
               </a>
             </div> 
           </div>
@@ -178,7 +178,7 @@
                 <!-- <img *ngIf="url" [src]="url" height="200"> -->
                 <div class="upload-caption">
                   <div class="fig-block"> 
-                    <img src="./../../../../assets/img/placeholder-img.png" alt="img">
+                    <img src="assets/img/placeholder-img.png" alt="img">
                   </div>
                   <p class="green-color marginT30">+Upload Cover image for the project</p>
                   <p>JPG or PNG. Image size should be 1920 × 1080 pixels (for HiDPI displays).</p>
@@ -309,11 +309,23 @@
                 <datalist id="amenities">
                   <option *ngFor="let amenity of parameter.amenities" value="{{amenity.name_en}}">
                 </datalist>
-                <button class="add-btn" (click)="addAmenity(amen)"><img src="./../../../../assets/img/add.png" alt="img"></button>
-                <span class="tag" *ngFor="let a of amenityList; let aIndex=index;">
-                <a href="javascript://" (click)="removeAmenity(aIndex)"><img src="./../../../../assets/img/close-tag.png" alt="img"></a>
+                <button class="add-btn" (click)="addAmenity(amen)"><img src="assets/img/add.png" alt="img"></button>
+                
+                <!-- <span class="tag" *ngFor="let a of amenityList; let aIndex=index;">
+                <a href="javascript://" (click)="removeAmenity(aIndex)">
+                  <img src="assets/img/close-tag.png" alt="img"></a>
                 {{a.name_en}}
-                </span>
+                </span> -->
+                
+                <div class="list-group-items" *ngIf="amenityList">
+                  <ul>
+                    <li *ngFor="let a of amenityList; let aIndex=index;">
+                      <a href="javascript://" (click)="removeAmenity(aIndex)" class="close">&times;</a>
+                      <div class="fig-block"><img class="width100" src="{{a.icon}}" alt="img"></div>
+                      <p class="p13">{{a.name_en}}</p>
+                    </li>
+                  </ul>
+                </div>
               </div>
           </div>
         </div>
@@ -322,15 +334,6 @@
       <div class="spacer15"></div>
       <div class="form-group-3">
         <label>List of Banks</label>
-        <!-- <div class="list-group-items">
-          <ul>
-            <li *ngFor="let amenity of parameter.amenities" (click)="setAmenity(amenity.id)">
-              <div class="fig-block"><img [src]="amenity.icon" alt="img" class="width100"></div>
-              <p class="p13">{{amenity.name_en}}</p>
-            </li>
-          </ul>
-        </div> -->
-
         <div class="inline-form-group form-group-3 paddingleft0">
           <div class="row">
               <!-- <div class="col-md-4">
@@ -341,11 +344,22 @@
                 <datalist id="banks">
                   <option *ngFor="let tBank of parameter.banks" value="{{tBank.name}}">
                 </datalist>
-                <button class="add-btn" (click)="addBank(bank)"><img src="./../../../../assets/img/add.png" alt="img"></button>
-                <span class="tag" *ngFor="let b of bankList; let bIndex=index;">
-                <a href="javascript://" (click)="removeBank(bIndex)"><img src="./../../../../assets/img/close-tag.png" alt="img"></a>
+                <button class="add-btn" (click)="addBank(bank)"><img src="assets/img/add.png" alt="img"></button>
+                <!-- <span class="tag" *ngFor="let b of bankList; let bIndex=index;">
+                <a href="javascript://" (click)="removeBank(bIndex)"><img src="assets/img/close-tag.png" alt="img"></a>
                 {{b.name}}
-                </span>
+                </span> -->
+
+                <div class="list-group-items" *ngIf="bankList">
+                  <ul>
+                    <li *ngFor="let b of bankList; let bIndex=index;">
+                      <a href="javascript://" (click)="removeBank(bIndex)" class="close">&times;</a>
+                      <div class="fig-block"><img class="width100" src="{{b.image}}" alt="img"></div>
+                      <p class="p13">{{b.name}}</p>
+                    </li>
+                  </ul>
+                </div>
+
               </div>
           </div>
         </div>
@@ -439,7 +453,7 @@
           <div class="col-md-4 col-sm-12 col-12" *ngIf="c>0">
             <div class="btn-cont ">
               <a href="javascript://" class="btn delete-button" (click)="model.custom_attributes.splice(c, 1)">
-                <img src="./../../../../assets/img/delete-button.png" width="40">
+                <img src="assets/img/delete-button.png" width="40">
               </a>
             </div> 
           </div>
@@ -471,40 +485,39 @@
       <div class="padding40">
         <p class="p16">Search your building in Our Database</p>
         <div class="searh">
-          <input type="text" #buildingname name="">
+          <input type="text" #buildingname name="buildingName" [(ngModel)]="buildingName">
           <button (click)="searchBuilding(buildingname.value)">Search</button>
         </div>
         <div class="spacer50"></div>
         
-        <p *ngIf="parameter.buildingCount == 0 && showBuilding" class="p18">Didn’t Found your Building? <strong><span (click)="showBuildingDetails(true)" class="green-color">Generate a Request to add a building by our Data collectors</span></strong></p>
-        <div *ngIf="showBuilding" class="spacer50"></div>
-
-
         <div *ngIf="parameter.buildingCount != 0" class="white-bg">
-            <div class="tabel-section">
-              <div class="table-responsive">
-      
-              <table class="table table-striped">
-                  <tr>
-                    <th>Name</th>
-                    <th>Choose Building</th>
-                  </tr>
+          <div class="tabel-section">
+            <div class="table-responsive">
+    
+            <table class="table table-striped">
+                <tr>
+                  <th>Name</th>
+                  <th>Choose Building</th>
+                </tr>
 
-                  <tr *ngFor="let item of parameter.buildings; let i = index">
-                    <td class="text-left">{{item.name}}</td>
-                    <td>
-                      <input type="radio" name="building_id" (change)="setBuildingId(item.id)">                      
-                    </td>
-                  </tr>
-                </table>
-              </div>
+                <tr *ngFor="let item of parameter.buildings; let i = index">
+                  <td class="text-left">{{item.name}}</td>
+                  <td>
+                    <input type="radio" name="building_id" (change)="setBuildingId(item.id)">                      
+                  </td>
+                </tr>
+              </table>
             </div>
-      
-            <div class="center" *ngIf="parameter.total == 0">
-              <img src="./../../../assets/img/404-error.png">
-            </div>
-      
-        </div>
+          </div>
+    
+          <div class="center" *ngIf="parameter.total == 0">
+            <img src="assets/img/404-error.png">
+          </div>
+    
+      </div>
+
+        <p *ngIf="parameter.buildingCount == 0 && showText" class="p18">Didn’t Found your Building? <strong><span (click)="showBuildingDetails(true)" class="green-color cursor-pointer">Generate a Request to add a building by our Data collectors</span></strong></p>
+        <div *ngIf="showBuilding" class="spacer50"></div>
 
         <div *ngIf="showBuilding" class="row">
           <div class="col-lg-7 col-md-12 col-sm-12 col-12">
@@ -512,13 +525,16 @@
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>Name of Building</label>
-                  <input class="form-control" type="text" name="" placeholder="Enter name of building">
+                  <input class="form-control" type="text" name="name" [(ngModel)]="building.name" placeholder="Enter name of building">
                 </div>
               </div>
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>Where it is located?</label>
-                  <input class="form-control" type="text" name="" placeholder="Enter address">
+                  <!-- <input class="form-control" type="text" name="address" [(ngModel)]="building.address" placeholder="Enter address"> -->
+                  <input placeholder="search for location" autocorrect="off" autocapitalize="off" 
+                    spellcheck="off" type="text" class="form-control" #search (input)="loadPlaces()"
+                    [formControl]="searchControl" [(ngModel)]="building.address" name="address">
                 </div>
               </div>
             </div>
@@ -527,13 +543,14 @@
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>Name of Developer</label>
-                  <input class="form-control" type="text" name="">
+                  <input class="form-control" type="text" name="dev_name" [(ngModel)]="building.dev_name">
                 </div>
               </div>
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>Contact Number</label>
-                  <input class="form-control" type="text" name="">
+                  <input minlength="6" maxlength="16" autocomplete="off" type="text" class="form-control" id="dev_phone" required [(ngModel)]="building.dev_phone" name="dev_phone"
+                      ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
                 </div>
               </div>
             </div>
@@ -541,7 +558,7 @@
               <div class="col-sm-12 col-12">
                 <div class="form-group-3">
                   <label>Email Address</label>
-                  <input class="form-control" type="text" name="">
+                  <input class="form-control" type="text" name="dev_email" [(ngModel)]="building.dev_email">
                 </div>
               </div>
             </div>
@@ -549,9 +566,16 @@
           <div class="col-lg-5 col-md-12 col-sm-12 col-12">
             <div class="form-group-3 mark-pin-map">
               <label>Mark Pin on Map</label>
-              <input class="form-control" type="text" name="">
+              <!-- <input placeholder="search for location" autocorrect="off" autocapitalize="off" 
+              spellcheck="off" type="text" class="form-control" #search (input)="loadPlaces()"
+              [formControl]="searchControl"> -->
             </div>
-            <div><img class="img-fluid" src="./../../../../assets/img/map-img.png" alt="img"></div>
+            <div>
+              <!-- <div id="mapDiv" style="height: 250px; width: 100%;" #mapDiv></div> -->
+              <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" (mapClick)="placeMarker($event)"[zoom]="zoom">
+                <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+              </agm-map>
+            </div>
           </div>
         </div>
 
@@ -576,48 +600,30 @@
         <!-- Modal Header -->
         <div class="modal-header">
           <h4 class="modal-title">Images</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <button type="button" style="display: none;" class="close" data-dismiss="modal" #modalClose>&times;</button>
+          <button type="button" class="close" (click)="closeModal()">&times;</button>
         </div>
   
         <!-- Modal body -->
         <div class="modal-body">
           <div class="uploaded-img-block">
-            <div class="uploaded-img">
-                  <a class="remove" href="javascript://"><img src="./../../../../assets/img/remove-icon.png" alt="img"></a>
-                  <img class="u-img" src="http://via.placeholder.com/300x300" alt="img">
-            </div>
-            <div class="uploaded-img">
-                  <a class="remove" href="javascript://"><img src="./../../../../assets/img/remove-icon.png" alt="img"></a>
-                  <img class="u-img" src="http://via.placeholder.com/300x300" alt="img">
-            </div>
-            <div class="uploaded-img">
-                  <a class="remove" href="javascript://"><img src="./../../../../assets/img/remove-icon.png" alt="img"></a>
-                  <img class="u-img" src="http://via.placeholder.com/300x300" alt="img">
-            </div>
-            <div class="uploaded-img">
-                  <a class="remove" href="javascript://"><img src="./../../../../assets/img/remove-icon.png" alt="img"></a>
-                  <img class="u-img" src="http://via.placeholder.com/300x300" alt="img">
-            </div>
-            <div class="uploaded-img">
-                  <a class="remove" href="javascript://"><img src="./../../../../assets/img/remove-icon.png" alt="img"></a>
-                  <img class="u-img" src="http://via.placeholder.com/300x300" alt="img">
-            </div>
-            <div class="uploaded-img">
-                  <a class="remove" href="javascript://"><img src="./../../../../assets/img/remove-icon.png" alt="img"></a>
-                  <img class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+            <div class="uploaded-img" *ngFor="let imageUrl of url2; let iu=index">
+                  <a class="remove" (click)="removeImage(iu)">
+                    <img src="assets/img/remove-icon.png" alt="img">
+                  </a>
+                  <img *ngIf="imageUrl" class="u-img" [src]="imageUrl" alt="img">
+                  <img *ngIf="!imageUrl" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
             </div>
           </div> 
           <div class="add-more-images">
-              <input type="file" name="" accept="image/*" (change)="onSelectFile2($event)">
+              <input type="file" name="" multiple max="6" accept="image/*" (change)="onSelectFile2($event)">
               <span>+ Add more images</span>
-  
           </div>
         </div>
   
         <!-- Modal footer -->
         <div class="modal-footer btn-cont">
-  
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Submit</button>
+          <button type="button" class="btn btn-primary" (click)="saveImaged" data-dismiss="modal">Submit</button>
         </div>
   
       </div>

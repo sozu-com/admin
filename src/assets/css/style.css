@@ -1716,13 +1716,13 @@ background: url(../img/location.png) no-repeat 15px 13px;
 .uploaded-img-block{display: flex;}
 
 .add-more-images input[type=file] {
+    cursor: pointer;
     text-indent: 1000px;
     overflow: hidden;
     font-size: 0;
     position: absolute;
     z-index: 2;
     width: 100%;
- 
     left: 0;
     right: 0;
     top: 0;
@@ -1730,13 +1730,11 @@ background: url(../img/location.png) no-repeat 15px 13px;
 }
 
 .add-more-images span {
-    
     color: #00B96F;
-        font-family: 'sf_ui_textregular';
+    font-family: 'sf_ui_textregular';
     font-size: 16px;
-   
 }
-.add-more-images{margin-top: 30px;}
+.add-more-images{margin-top: 30px;position: relative;}
 .add-more-popup .modal-body{
 padding:20px; 
 }
@@ -1747,11 +1745,9 @@ padding:20px;
 .add-more-popup .modal-lg{max-width:570px; }
 
 .add-more-popup .modal-header h4{
-    
     color: #000000;
     font-family: 'sf_ui_textregular';
     font-size: 20px;
-    
 }
 .add-more-popup .modal-footer {
     margin: 80px 0 0;

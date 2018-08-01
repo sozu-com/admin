@@ -26,7 +26,7 @@ export class AddPropertyModel {
     property_type_id = '';
     property_id = '';
     cover_image: File;
-    images: Array<File>;
+    images = [];
     floor_plan: File;
     bedroom = '1';
     bathroom = '1';
@@ -47,4 +47,15 @@ export class AddPropertyModel {
             value: ''
         }
     ];
+}
+
+export class Building {
+    name: string;
+    address: string;
+    lat: number;
+    lng: number;
+    dev_name: string;
+    dev_phone: string;
+    dev_email: string;
+    dev_countrycode: string;
 }

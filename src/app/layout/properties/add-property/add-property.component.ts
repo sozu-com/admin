@@ -1,23 +1,36 @@
-import { Component, OnInit, OnChanges, ViewChild } from '@angular/core';
+import { Component, OnInit, OnChanges, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { AdminService } from '../../../services/admin.service';
 import { Router } from '@angular/router';
 import { IProperty } from '../../../common/property';
 import { SweetAlertService } from 'ngx-sweetalert2';
 import { DomSanitizer } from '@angular/platform-browser';
-import { AddPropertyModel } from './../../../models/addProperty.model';
-import { NgForm } from '@angular/forms';
+import { AddPropertyModel, Building } from './../../../models/addProperty.model';
+import { NgForm, FormControl } from '@angular/forms';
+import { MapsAPILoader, AgmCoreModule } from '@agm/core';
+import { Constant } from './../../../common/constants';
+declare const google;
 
 @Component({
   selector: 'app-add-property',
   templateUrl: './add-property.component.html',
   styleUrls: ['./add-property.component.css'],
-  providers: [AddPropertyModel]
+  providers: [AddPropertyModel, Building, Constant]
 })
 
 export class AddPropertyComponent implements OnInit {
 
   public parameter: IProperty = {};
+  @ViewChild('modalClose') modalClose: ElementRef;
+  @ViewChild('mapDiv') mapDiv: ElementRef;
+  @ViewChild('search') searchElementRef: ElementRef;
+
+  public latitude: number;
+  public longitude: number;
+  public searchControl: FormControl;
+  public zoom: number;
+
   url: any[];
+  url2 = [];
   tab: number;
   selectedGuest;
   image1;
@@ -29,9 +42,14 @@ export class AddPropertyComponent implements OnInit {
   bankList = [];
   bank = '';
   testMarital = [];
+  imageEvent = [];
+  showText = false;
+  buildingName = '';
+  initialCountry: any;
 
   constructor(private model: AddPropertyModel, private admin: AdminService, private swal: SweetAlertService,
-    private router: Router, private sanitization: DomSanitizer) { }
+    private router: Router, private sanitization: DomSanitizer, private mapsAPILoader: MapsAPILoader,
+    private ngZone: NgZone, private building: Building, private constant: Constant) { }
 
   ngOnInit() {
     this.parameter.buildingCount = 0;
@@ -47,6 +65,7 @@ export class AddPropertyComponent implements OnInit {
       checked: ''}
     ];
     this.model.marital_status = [1];
+    this.initialCountry = {initialCountry: this.constant.initialCountry};
 
     this.tab = 1;
     this.getCountries('');
@@ -54,10 +73,27 @@ export class AddPropertyComponent implements OnInit {
     this.getPropertyTypes();
     this.getAmenities();
     this.getBanks();
+
+    // set google maps defaults
+    this.zoom = 4;
+    // this.latitude = 39.8282;
+    // this.longitude = -98.5795;
+
+    // create search FormControl
+    this.searchControl = new FormControl();
+
+    // set current position
+    this.setCurrentPosition();
   }
 
   setTab(tab) {
     this.tab = tab;
+  }
+
+  onCountryChange(e) {
+    console.log('eeee', e);
+    this.building.dev_countrycode = e.dialCode;
+    this.initialCountry = {initialCountry: e.iso2};
   }
 
   getCountries(keyword) {
@@ -367,6 +403,7 @@ export class AddPropertyComponent implements OnInit {
           this.parameter.loading = false;
           this.parameter.buildings = success.data;
           this.parameter.buildingCount = success.data.length;
+          if (this.parameter.buildingCount === 0) { this.showText = true; }
         },
         error => {
           console.log(error);
@@ -383,6 +420,8 @@ export class AddPropertyComponent implements OnInit {
 
   showBuildingDetails(showBuilding) {
     this.showBuilding = showBuilding;
+    this.buildingName = '';
+    this.loadPlaces();
   }
 
   onSelectFile1(event) { // called each time file input changes
@@ -392,8 +431,8 @@ export class AddPropertyComponent implements OnInit {
       reader.onload = (e: any) => {
           this.url = e.target.result;
           this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.url})`);
+          console.log('this.url, this.image1', this.url, this.image1);
       };
-
       const input = new FormData();
       input.append('image', event.target.files[0]);
 
@@ -419,22 +458,56 @@ export class AddPropertyComponent implements OnInit {
   }
 
 
-  onSelectFile2(event) { // called each time file input changes
+  onSelectFile2(event) {
     if (event.target.files && event.target.files[0]) {
-      const reader = new FileReader();
 
-      reader.onload = (e: any) => {
-          this.url = e.target.result;
-          this.image2 = this.sanitization.bypassSecurityTrustStyle(`url(${this.url})`);
-      };
+console.log('url2', this.url2);
 
-      const input = new FormData();
-      input.append('image', event.target.files[0]);
+      if (this.url2.length === 6 || event.target.files.length > 6) {
+        this.swal.warning({
+          title: 'Limit exceed.',
+          text: 'You can upload maximum of 6 images'
+        });
+      }else {
+        for (let index = 0; index < event.target.files.length; index++) {
+          const reader = new FileReader();
+          reader.onload = (e: any) => {
+            this.imageEvent.push(event.target.files[index]);
+            this.url2.push(e.target.result);
+            const tempurl = e.target.result;
+            this.image2 = this.sanitization.bypassSecurityTrustStyle(`url(${tempurl})`);
+          };
+          reader.readAsDataURL(event.target.files[index]);
+        }
+      }
+    }
+  }
+
+  closeModal() {
+    this.modalClose.nativeElement.click();
+    this.image2 = '';
+    this.url2 = [];
+    this.imageEvent = [];
+    this.model.images = [];
+  }
+
+  removeImage(index) {
+    this.url2.splice(index, 1);
+    this.imageEvent.splice(index, 1);
+    this.model.images.splice(index, 1);
+    console.log('----------', this.url2, this.imageEvent);
+  }
+
+  saveImages() {
+    console.log('----------', this.url2, this.imageEvent);
+    const input = new FormData();
+    for (let index = 0; index < this.imageEvent.length; index++) {
+      input.append('image', this.imageEvent[index]);
 
       this.admin.postDataApi('saveImage', input)
       .subscribe(
         success => {
-          console.log('successimage', success);
+          console.log('successimage' + index, success);
           this.model.images.push(success.data.image);
           this.parameter.loading = false;
         },
@@ -446,12 +519,8 @@ export class AddPropertyComponent implements OnInit {
             text: error.message,
           });
         });
-
-      // this.model.images = event.target.files;
-      reader.readAsDataURL(event.target.files[0]);
     }
   }
-
 
   onSelectFile3(event) { // called each time file input changes
     if (event.target.files && event.target.files[0]) {
@@ -590,5 +659,72 @@ export class AddPropertyComponent implements OnInit {
             text: error.message,
           });
         });
+  }
+
+  loadPlaces() {
+    console.log('--', this.searchElementRef.nativeElement);
+    // load Places Autocomplete
+    this.mapsAPILoader.load().then(() => {
+      const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
+        types: []
+      });
+      autocomplete.addListener('place_changed', () => {
+        this.ngZone.run(() => {
+          // get the place result
+          // const place: google.maps.places.PlaceResult = autocomplete.getPlace();
+          const place = autocomplete.getPlace();
+
+          // verify result
+          if (place.geometry === undefined || place.geometry === null) {
+            return;
+          }
+
+          // set latitude, longitude and zoom
+          this.latitude = place.geometry.location.lat();
+          this.longitude = place.geometry.location.lng();
+          this.zoom = 12;
+
+          console.log('----------', this.latitude, this.longitude, this.zoom);
+        });
+      });
+    });
+  }
+
+  setCurrentPosition() {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.latitude = position.coords.latitude;
+        this.longitude = position.coords.longitude;
+        this.zoom = 12;
+      });
+    }
+  }
+
+  placeMarker($event) {
+    this.latitude = $event.coords.lat;
+    this.longitude = $event.coords.lng;
+    this.getGeoLocation(this.latitude, this.longitude);
+    console.log($event.coords.lat);
+    console.log($event);
+  }
+
+
+  getGeoLocation(lat: number, lng: number) {
+    if (navigator.geolocation) {
+        const geocoder = new google.maps.Geocoder();
+        const latlng = new google.maps.LatLng(lat, lng);
+        const request = { latLng: latlng };
+
+        geocoder.geocode(request, (results, status) => {
+          if (status === google.maps.GeocoderStatus.OK) {
+            const result = results[0];
+            if (result != null) {
+              this.building.address = result.formatted_address;
+            } else {
+              this.building.address = lat + ',' + lng;
+            }
+          }
+        });
+    }
   }
 }

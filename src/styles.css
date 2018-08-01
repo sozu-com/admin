@@ -79,3 +79,6 @@ ngx-my-date-picker .ngxmdp .headertodaybtn {
 .delete-button{
     margin-top: 22px;
 }
+.cursor-pointer{
+    cursor: pointer;
+}

@@ -43,7 +43,7 @@ export class InhouseUsersComponent implements OnInit {
       this.parameter.userType = params['userType'];
       this.getInhouseUsers();
       this.getCountries();
-      this.initialCountry = {initialCountry: 'mx'};
+      this.initialCountry = {initialCountry: this.constant.initialCountry};
     });
   }
 

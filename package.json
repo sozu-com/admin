@@ -22,6 +22,7 @@
     "@angular/platform-browser": "^4.4.7",
     "@angular/platform-browser-dynamic": "^4.4.7",
     "@angular/router": "^4.4.7",
+    "@angular/service-worker": "^1.0.0-beta.16",
     "@ngx-translate/core": "^7.2.2",
     "angular-sweetalert-service": "^2.0.2",
     "angular2-moment": "^1.9.0",

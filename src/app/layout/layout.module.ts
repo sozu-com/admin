@@ -47,7 +47,7 @@ import { AddressComponent } from './inhouse-users/address/address.component';
         MalihuScrollbarModule.forRoot(),
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyCYv_zELZGVo2Ehzgp8eh8UeSIidhMCmH8',
-            libraries: ['drawing']
+            libraries: ['drawing', 'places']
           }),
         Ng2TelInputModule
     ],

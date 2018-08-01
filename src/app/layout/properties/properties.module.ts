@@ -5,6 +5,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { AddPropertyComponent } from './add-property/add-property.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
+import { AgmCoreModule } from '@agm/core';
+import { Ng2TelInputModule } from 'ng2-tel-input';
 
 const routes: Routes = [
   { path: 'add-property', component: AddPropertyComponent },
@@ -21,6 +23,11 @@ const routes: Routes = [
         animationType: ANIMATION_TYPES.rectangleBounce,
         primaryColour: '#00B96F'
     }),
+    AgmCoreModule.forRoot({
+        apiKey: 'AIzaSyCYv_zELZGVo2Ehzgp8eh8UeSIidhMCmH8',
+        libraries: ['drawing', 'places']
+      }),
+    Ng2TelInputModule,
   ],
   declarations: [
     PropertiesComponent,

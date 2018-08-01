@@ -8,6 +8,9 @@ import { AuthGuard } from './services/auth.guard';
 import { SweetAlertService } from 'ngx-sweetalert2';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+
 import { AppComponent } from './app.component';
 // import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
@@ -49,7 +52,8 @@ const appRoutes: Routes = [
       // backdropBorderRadius: '4px',
       primaryColour: '#00B96F'
     }),
-    Ng2TelInputModule
+    Ng2TelInputModule,
+    // ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [AdminService, AuthGuard, SweetAlertService, HttpInterceptor],
   bootstrap: [AppComponent]
