@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from './../services/admin.service';
 import { NgForm } from '@angular/forms';
-import { SweetAlertService } from 'ngx-sweetalert2';
 import { IProperty } from './../common/property';
+declare let swal: any;
 
 @Component({
   selector: 'app-forgot-password',
@@ -18,7 +18,7 @@ export class ForgotPasswordComponent implements OnInit {
     email: ''
   };
 
-  constructor(private admin: AdminService, private swal: SweetAlertService) { }
+  constructor(private admin: AdminService) { }
 
   ngOnInit() { }
 
@@ -30,17 +30,11 @@ export class ForgotPasswordComponent implements OnInit {
       .subscribe(
         success => {
           this.parameter.loading = false;
-          this.swal.success({
-            title: 'Success',
-            text: success.message,
-          });
+          swal('Success', success.message, 'success');
         },
         error => {
           this.parameter.loading = false;
-          this.swal.error({
-            title: 'Error',
-            text: error.message,
-          });
+          swal('Error', error.message, 'error');
         });
   }
 }

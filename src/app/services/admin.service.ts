@@ -5,9 +5,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import { environment } from '../../environments/environment';
-import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { SweetAlertService } from 'ngx-sweetalert2';
 import { HttpInterceptor } from './http-interceptor';
 
 @Injectable()
@@ -19,7 +17,7 @@ export class AdminService {
   public login = new BehaviorSubject({});
   loginData$ = this.login.asObservable();
 
-  constructor(public http: HttpInterceptor, private swal: SweetAlertService) { }
+  constructor(public http: HttpInterceptor) { }
 
 // starting of general functions
   setUserLoggedIn() { this.isUserLogin = true; }

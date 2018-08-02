@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AdminService } from '../../../services/admin.service';
-import { SweetAlertService } from 'ngx-sweetalert2';
+// import { SweetAlertService } from 'ngx-sweetalert2';
 import { IProperty } from '../../../common/property';
 import { NgForm } from '@angular/forms';
+declare let swal: any;
 
 @Component({
   selector: 'app-change-password',
@@ -20,7 +21,9 @@ export class ChangePasswordComponent implements OnInit {
     newPassword: ''
   };
 
-  constructor(private router: Router, private admin: AdminService, private swal: SweetAlertService) { }
+  constructor(private router: Router, private admin: AdminService,
+    // private swal: SweetAlertService
+  ) { }
 
   ngOnInit() {}
 
@@ -37,10 +40,11 @@ export class ChangePasswordComponent implements OnInit {
       .subscribe(
         success => {
           this.parameter.loading = false;
-          this.swal.success({
-            title: 'Success',
-            text: 'Password is changed successfully!'
-          });
+          swal('Success', 'Password is changed successfully!', 'success');
+          // this.swal.success({
+          //   title: 'Success',
+          //   text: 'Password is changed successfully!'
+          // });
 
           localStorage.removeItem('accessToken');
           localStorage.removeItem('countryCode');
@@ -55,7 +59,8 @@ export class ChangePasswordComponent implements OnInit {
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           }else {
-            this.swal.warning({ text: error.message });
+            swal('Error', error.message, 'error');
+            // this.swal.warning({ text: error.message });
           }
         });
   }

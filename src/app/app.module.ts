@@ -5,8 +5,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminService } from './services/admin.service';
 import { HttpModule } from '@angular/http';
 import { AuthGuard } from './services/auth.guard';
-import { SweetAlertService } from 'ngx-sweetalert2';
 import { Ng2TelInputModule } from 'ng2-tel-input';
+import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
@@ -41,7 +41,7 @@ const appRoutes: Routes = [
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
-    // NgbModule.forRoot(),
+    SweetAlert2Module.forRoot(),
     BrowserModule,
     HttpModule,
     FormsModule,
@@ -55,7 +55,7 @@ const appRoutes: Routes = [
     Ng2TelInputModule,
     // ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [AdminService, AuthGuard, SweetAlertService, HttpInterceptor],
+  providers: [AdminService, AuthGuard, HttpInterceptor],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

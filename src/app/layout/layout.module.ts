@@ -4,7 +4,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MomentModule } from 'angular2-moment';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { SweetAlertService } from 'ngx-sweetalert2';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { NgBoxModule } from 'ngbox/ngbox.module';
 import { NgBoxService } from 'ngbox/ngbox.service';
@@ -15,8 +14,6 @@ import { AgmCoreModule } from '@agm/core';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 
 // importing shared components
-// import { LoginComponent } from './login/login.component';
-// import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
 import { AppHeaderComponent } from '../shared/app-header/app-header.component';
@@ -47,7 +44,7 @@ import { AddressComponent } from './inhouse-users/address/address.component';
         MalihuScrollbarModule.forRoot(),
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyCYv_zELZGVo2Ehzgp8eh8UeSIidhMCmH8',
-            libraries: ['drawing', 'places']
+            libraries: ['drawing']
           }),
         Ng2TelInputModule
     ],
@@ -62,6 +59,7 @@ import { AddressComponent } from './inhouse-users/address/address.component';
         InhouseUsersComponent,
         AddressComponent
     ],
-    providers: [SweetAlertService, NgBoxService],
+    bootstrap: [LayoutComponent],
+    providers: [NgBoxService],
 })
 export class LayoutModule { }

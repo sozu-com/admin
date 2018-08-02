@@ -1,13 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AdminService } from '../../../services/admin.service';
 import { Router } from '@angular/router';
-import { SweetAlertService } from 'ngx-sweetalert2';
 import { IProperty } from '../../../common/property';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { MapsAPILoader } from '@agm/core';
 import { Constant } from './../../../common/constants';
 import { Locality } from './../../../models/locality.model';
-
+declare let swal: any;
 declare const google;
 
 @Component({
@@ -42,8 +41,8 @@ export class LocalityComponent implements OnInit {
     private admin: AdminService,
     private router: Router,
     private constant: Constant,
-    private model: Locality,
-    private swal: SweetAlertService) {}
+    public model: Locality
+  ) {}
 
   ngOnInit() {
     this.parameter.countryCount = 0;
@@ -78,16 +77,10 @@ export class LocalityComponent implements OnInit {
         error => {
           this.parameter.loading = false;
           if (error.statusCode === 401) {
-            this.swal.warning({
-              title: 'Error',
-              text: error.message,
-            });
+            swal('Error', error.message, 'error');
             this.router.navigate(['']);
           }else {
-            this.swal.warning({
-              title: 'Error',
-              text: error.message,
-            });
+            swal('Error', error.message, 'error');
           }
         });
   }
@@ -129,10 +122,7 @@ export class LocalityComponent implements OnInit {
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           }else {
-            this.swal.warning({
-              // title: 'Internet Connection',
-              text: error.messages,
-            });
+            swal('Error', error.message, 'error');
           }
         });
   }
@@ -176,10 +166,7 @@ export class LocalityComponent implements OnInit {
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           }else {
-            this.swal.warning({
-              // title: 'Internet Connection',
-              text: error.messages,
-            });
+            swal('Error', error.message, 'error');
           }
         });
   }
@@ -219,10 +206,7 @@ export class LocalityComponent implements OnInit {
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           }else {
-            this.swal.warning({
-              // title: 'Internet Connection',
-              text: error.messages,
-            });
+            swal('Error', error.message, 'error');
           }
         });
   }
@@ -420,14 +404,27 @@ console.log('xx', typeof this.getPolygonCoords(event.overlay));
   checkIfLocalitySpanishNameEntered(name_en, name_es, price_per_sqft) {
     const self = this;
     if (name_es === '') {
-      this.swal.confirm({
+      swal({
         text: this.constant.errorMsg.SAVE_ENGLISH_COUNTRY_NAME,
-      }).then(function(){
-        self.addLocality(name_en, name_en, price_per_sqft);
-      })
-      .catch(function(){
-      // console.log('Logout cancelled by user');
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.value) {
+          this.addLocality(name_en, name_en, price_per_sqft);
+        }
       });
+
+      // this.swal.confirm({
+      //   text: this.constant.errorMsg.SAVE_ENGLISH_COUNTRY_NAME,
+      // }).then(function(){
+      //   self.addLocality(name_en, name_en, price_per_sqft);
+      // })
+      // .catch(function(){
+      // // console.log('Logout cancelled by user');
+      // });
     }else {
       self.addLocality(name_en, name_es, price_per_sqft);
     }

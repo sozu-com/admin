@@ -2,13 +2,13 @@ import { Component, OnInit, OnChanges, ViewChild, ElementRef, NgZone } from '@an
 import { AdminService } from '../../../services/admin.service';
 import { Router } from '@angular/router';
 import { IProperty } from '../../../common/property';
-import { SweetAlertService } from 'ngx-sweetalert2';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AddPropertyModel, Building } from './../../../models/addProperty.model';
 import { NgForm, FormControl } from '@angular/forms';
-import { MapsAPILoader, AgmCoreModule } from '@agm/core';
+import { MapsAPILoader } from '@agm/core';
 import { Constant } from './../../../common/constants';
 declare const google;
+declare let swal: any;
 
 @Component({
   selector: 'app-add-property',
@@ -47,7 +47,7 @@ export class AddPropertyComponent implements OnInit {
   buildingName = '';
   initialCountry: any;
 
-  constructor(private model: AddPropertyModel, private admin: AdminService, private swal: SweetAlertService,
+  constructor(private model: AddPropertyModel, private admin: AdminService,
     private router: Router, private sanitization: DomSanitizer, private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone, private building: Building, private constant: Constant) { }
 
@@ -116,13 +116,14 @@ export class AddPropertyComponent implements OnInit {
         error => {
           this.parameter.loading = false;
           if (error.statusCode === 401) {
-            this.swal.warning({
-              title: 'Error',
-              text: error.message,
-            });
+            swal('Error', error.message, 'error');
+            // this.swal.warning({
+            //   title: 'Error',
+            //   text: error.message,
+            // });
             this.router.navigate(['']);
           }else {
-            this.swal.warning({ title: 'Error', text: error.message });
+            swal('Error', error.message, 'error');
           }
         });
   }
@@ -153,9 +154,7 @@ export class AddPropertyComponent implements OnInit {
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           }else {
-            this.swal.warning({
-              text: error.messages,
-            });
+            swal('Error', error.message, 'error');
           }
         });
   }
@@ -185,9 +184,7 @@ export class AddPropertyComponent implements OnInit {
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           } else {
-            this.swal.warning({
-              text: error.messages,
-            });
+            swal('Error', error.message, 'error');
           }
         });
   }
@@ -217,10 +214,7 @@ export class AddPropertyComponent implements OnInit {
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           } else {
-            this.swal.warning({
-              // title: 'Internet Connection',
-              text: error.messages,
-            });
+            swal('Error', error.message, 'error');
           }
         });
   }
@@ -259,10 +253,7 @@ export class AddPropertyComponent implements OnInit {
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           } else {
-            this.swal.warning({
-              // title: 'Internet Connection',
-              text: error.messages,
-            });
+            swal('Error', error.message, 'error');
           }
         });
   }
@@ -286,9 +277,7 @@ export class AddPropertyComponent implements OnInit {
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           } else {
-            this.swal.warning({
-              text: error.messages,
-            });
+            swal('Error', error.message, 'error');
           }
         });
   }
@@ -311,9 +300,7 @@ export class AddPropertyComponent implements OnInit {
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           } else {
-            this.swal.warning({
-              text: error.messages,
-            });
+            swal('Error', error.message, 'error');
           }
         });
   }
@@ -360,9 +347,7 @@ export class AddPropertyComponent implements OnInit {
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           } else {
-            this.swal.warning({
-              text: error.messages,
-            });
+            swal('Error', error.message, 'error');
           }
         });
   }
@@ -411,9 +396,7 @@ export class AddPropertyComponent implements OnInit {
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           } else {
-            this.swal.warning({
-              text: error.messages,
-            });
+            swal('Error', error.message, 'error');
           }
         });
   }
@@ -446,10 +429,7 @@ export class AddPropertyComponent implements OnInit {
         error => {
           console.log(error);
           this.parameter.loading = false;
-          this.swal.error({
-            title: 'Error',
-            text: error.message,
-          });
+          swal('Error', error.message, 'error');
         });
 
       // this.model.cover_image = event.target.files[0];
@@ -464,10 +444,7 @@ export class AddPropertyComponent implements OnInit {
 console.log('url2', this.url2);
 
       if (this.url2.length === 6 || event.target.files.length > 6) {
-        this.swal.warning({
-          title: 'Limit exceed.',
-          text: 'You can upload maximum of 6 images'
-        });
+        swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
       }else {
         for (let index = 0; index < event.target.files.length; index++) {
           const reader = new FileReader();
@@ -514,10 +491,7 @@ console.log('url2', this.url2);
         error => {
           console.log(error);
           this.parameter.loading = false;
-          this.swal.error({
-            title: 'Error',
-            text: error.message,
-          });
+          swal('Error', error.message, 'error');
         });
     }
   }
@@ -544,10 +518,7 @@ console.log('url2', this.url2);
         error => {
           console.log(error);
           this.parameter.loading = false;
-          this.swal.error({
-            title: 'Error',
-            text: error.message,
-          });
+          swal('Error', error.message, 'error');
         });
 
       // this.model.images = event.target.files;
@@ -626,10 +597,7 @@ console.log('url2', this.url2);
     //     },
     //     error => {
     //       this.parameter.loading = false;
-    //       this.swal.error({
-    //         title: 'Error',
-    //         text: error.message,
-    //       });
+              // swal('Error', error.message, 'error');
     //     });
   }
 
@@ -654,10 +622,7 @@ console.log('url2', this.url2);
         },
         error => {
           this.parameter.loading = false;
-          this.swal.error({
-            title: 'Error',
-            text: error.message,
-          });
+          swal('Error', error.message, 'error');
         });
   }
 

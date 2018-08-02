@@ -28,7 +28,7 @@
           <div class="col-lg-3 col-md-3 col-sm-6 col-6">
             <div class="form-group marginB0">
               <label>Country</label>
-              <select title="Choose Country" class="form-control" (change)="getStates($event.target.value)">
+              <select title="Choose Country" class="form-control" (change)="getStates($event.target.value, '')">
                 <option value="" disabled>Select Country</option>
                 <option *ngFor="let country of parameter.countries" value="{{country.id}}" [selected]="country.id == parameter.country_id">{{country.name_en}}</option>
               </select>
@@ -37,7 +37,7 @@
           <div class="col-lg-3 col-md-3 col-sm-6 col-6">
             <div class="form-group marginB0">
               <label>State</label>
-              <select title="Choose State" class="form-control" (change)="getCities($event.target.value)">
+              <select title="Choose State" class="form-control" (change)="getCities($event.target.value, '')">
                 <option value="" disabled>Select State</option>
                 <option *ngFor="let state of parameter.states" value="{{state.id}}" [selected]="state.id == parameter.state_id">{{state.name_en}}</option>
               </select>

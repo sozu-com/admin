@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { SweetAlertService } from 'ngx-sweetalert2';
+// import { SweetAlertService } from 'ngx-sweetalert2';
 import { IProperty } from '../../common/property';
 import { Users } from './../../models/users.model';
 import { NgForm } from '@angular/forms';
 import { Constant } from './../../common/constants';
+declare let swal: any;
 
 @Component({
   selector: 'app-users',
@@ -22,8 +23,10 @@ export class UsersComponent implements OnInit {
   public parameter: IProperty = {};
   initialCountry: any;
 
-  constructor(private constant: Constant, private model: Users, private element: ElementRef,
-    private route: ActivatedRoute, private admin: AdminService, private router: Router, private swal: SweetAlertService) { }
+  constructor(private constant: Constant, public model: Users, private element: ElementRef,
+    private route: ActivatedRoute, private admin: AdminService, private router: Router,
+    // private swal: SweetAlertService
+  ) { }
 
   ngOnInit() {
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
@@ -68,9 +71,10 @@ export class UsersComponent implements OnInit {
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           }else {
-            this.swal.warning({
-              text: error.messages,
-            });
+            swal('Error', error.message, 'error');
+            // this.swal.warning({
+            //   text: error.messages,
+            // });
           }
         });
   }
@@ -119,27 +123,31 @@ console.log(formdata);
           console.log('success', success);
           this.parameter.loading = false;
           if (success.success === 0) {
-            this.swal.error({
-              title: 'Error',
-              text: success.message
-            });
+            swal('Error', success.message, 'error');
+            // this.swal.error({
+            //   title: 'Error',
+            //   text: success.message
+            // });
           }else {
             this.modalClose.nativeElement.click();
             formdata.reset();
-            this.swal.success({
-              title: 'Success',
-              text: this.model.id === '' ? 'Added successfully.' : 'Updated successfully.'
-            });
+            const text = this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
+            swal('Success', text, 'error');
+            // this.swal.success({
+            //   title: 'Success',
+            //   text: this.model.id === '' ? 'Added successfully.' : 'Updated successfully.'
+            // });
           }
           // console.log('user add',success)
         },
         error => {
           console.log(error);
           this.parameter.loading = false;
-          this.swal.error({
-            title: 'Error',
-            text: error.message,
-          });
+          swal('Error', error.message, 'error');
+          // this.swal.error({
+          //   title: 'Error',
+          //   text: error.message,
+          // });
         });
   }
 
@@ -158,16 +166,30 @@ console.log(formdata);
         break;
     }
 
-    const self = this;
-    this.swal.confirm({
-        title: this.parameter.title,
-        text: this.parameter.text,
-    }).then(function() {
-      self.blockAdmin(index, id, flag, user_type);
-    })
-    .catch(function() {
-      // console.log('Logout cancelled by user');
+    swal({
+      title: this.parameter.title,
+      text: this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.blockAdmin(index, id, flag, user_type);
+      }
     });
+
+    // const self = this;
+    // this.swal.confirm({
+    //     title: this.parameter.title,
+    //     text: this.parameter.text,
+    // }).then(function() {
+    //   self.blockAdmin(index, id, flag, user_type);
+    // })
+    // .catch(function() {
+    //   // console.log('Logout cancelled by user');
+    // });
   }
 
 
@@ -186,20 +208,21 @@ console.log(formdata);
           this.parameter.loading = false;
 
           this.parameter.items[this.parameter.index] = success.data;
-
-          this.swal.success({
-            title: 'Success',
-            text: this.parameter.successText
-          });
+          swal('Success', success.message, 'success');
+          // this.swal.success({
+          //   title: 'Success',
+          //   text: this.parameter.successText
+          // });
 
         },
         error => {
           console.log(error);
           this.parameter.loading = false;
-          this.swal.error({
-            title: 'Error',
-            text: error.message,
-          });
+          swal('Error', error.message, 'error');
+          // this.swal.error({
+          //   title: 'Error',
+          //   text: error.message,
+          // });
         });
   }
 }

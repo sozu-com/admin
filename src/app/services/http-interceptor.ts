@@ -2,7 +2,7 @@
 import { Http, Request, RequestOptions, RequestOptionsArgs, Response, XHRBackend } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-import { SweetAlertService } from 'ngx-sweetalert2';
+// import { SweetAlertService } from 'ngx-sweetalert2';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -14,7 +14,9 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class HttpInterceptor extends Http {
 
-    constructor(backend: XHRBackend, options: RequestOptions, public http: Http, public swal: SweetAlertService, public router: Router) {
+    constructor(backend: XHRBackend, options: RequestOptions, public http: Http,
+        // public swal: SweetAlertService,
+        public router: Router) {
         super(backend, options);
     }
 

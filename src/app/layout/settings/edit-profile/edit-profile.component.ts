@@ -1,10 +1,10 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AdminService } from '../../../services/admin.service';
-import { SweetAlertService } from 'ngx-sweetalert2';
+// import { SweetAlertService } from 'ngx-sweetalert2';
 import { IProperty } from '../../../common/property';
 import { NgForm } from '@angular/forms';
-
+declare let swal: any;
 
 @Component({
   selector: 'app-edit-profile',
@@ -21,7 +21,9 @@ export class EditProfileComponent implements OnInit {
     image: ''
   };
 
-  constructor(private element: ElementRef, private router: Router, private admin: AdminService, private swal: SweetAlertService) { }
+  constructor(private element: ElementRef, private router: Router, private admin: AdminService,
+    // private swal: SweetAlertService
+  ) { }
 
   ngOnInit() {
   }
@@ -64,18 +66,20 @@ export class EditProfileComponent implements OnInit {
           console.log('succccc', success);
           this.parameter.loading = false;
           this.admin.login.next(success.data);
+          swal('Error', success.message, 'error');
 
-          this.swal.success({
-            title: 'Success',
-            text: 'Details updated successfully!'
-          });
+          // this.swal.success({
+          //   title: 'Success',
+          //   text: 'Details updated successfully!'
+          // });
         },
         error => {
           this.parameter.loading = false;
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           }else {
-            this.swal.warning({ text: error.message });
+            swal('Error', error.message, 'error');
+            // this.swal.warning({ text: error.message });
           }
         });
   }

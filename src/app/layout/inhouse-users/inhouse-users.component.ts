@@ -1,12 +1,12 @@
-import { Component, OnInit, TemplateRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { SweetAlertService } from 'ngx-sweetalert2';
 import { IProperty } from '../../common/property';
 import { InhouseUsers, User, Address } from './../../models/inhouse-users.model';
 import { NgForm } from '@angular/forms';
 import { Constant } from './../../common/constants';
 import { DomSanitizer } from '@angular/platform-browser';
+declare let swal: any;
 
 @Component({
   selector: 'app-inhouse-users',
@@ -28,8 +28,8 @@ export class InhouseUsersComponent implements OnInit {
   image1: any;
 
   constructor(private constant: Constant, private address: Address, private user: User,
-    private model: InhouseUsers, private element: ElementRef, private route: ActivatedRoute,
-    private admin: AdminService, private router: Router, private swal: SweetAlertService,
+    public model: InhouseUsers, private element: ElementRef, private route: ActivatedRoute,
+    private admin: AdminService, private router: Router,
     private sanitization: DomSanitizer) { }
 
   ngOnInit() {
@@ -43,7 +43,7 @@ export class InhouseUsersComponent implements OnInit {
       this.parameter.userType = params['userType'];
       this.getInhouseUsers();
       this.getCountries();
-      this.initialCountry = {initialCountry: this.constant.initialCountry};
+      this.initialCountry = {initialCountry: 'mx'};
     });
   }
 
@@ -68,10 +68,7 @@ export class InhouseUsersComponent implements OnInit {
       this.addressIndex++;
       this.model.address.push(obj);
     }else {
-      this.swal.error({
-        title: 'Missing fields',
-        text: 'Complete current row before adding new.',
-      });
+      swal('Missing fields', 'Complete current row before adding new.', 'error');
     }
   }
 
@@ -87,7 +84,7 @@ export class InhouseUsersComponent implements OnInit {
   }
 
 
-  onSelectFile1(event) { // called each time file input changes
+  onSelectFile1(event) {
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
 
@@ -109,10 +106,7 @@ export class InhouseUsersComponent implements OnInit {
         error => {
           console.log(error);
           this.parameter.loading = false;
-          this.swal.error({
-            title: 'Error',
-            text: error.message,
-          });
+          swal('Error', error.message, 'error');
         });
 
       // this.model.cover_image = event.target.files[0];
@@ -148,27 +142,19 @@ console.log('add newuser params', formdata, JSON.stringify(this.model.address), 
           console.log('success', success);
           this.parameter.loading = false;
           if (success.success === 0) {
-            this.swal.error({
-              title: 'Error',
-              text: success.message
-            });
+            swal('Error', success.message, 'error');
           }else {
             this.modalClose.nativeElement.click();
             formdata.reset();
-            this.swal.success({
-              title: 'Success',
-              text: this.model.userModel.id === '' ? 'Added successfully.' : 'Updated successfully.'
-            });
+            const text = this.model.userModel.id === '' ? 'Added successfully.' : 'Updated successfully.';
+            swal('Success', text, 'success');
           }
           // console.log('user add',success)
         },
         error => {
           console.log(error);
           this.parameter.loading = false;
-          this.swal.error({
-            title: 'Error',
-            text: error.message,
-          });
+          swal('Error', error.message, 'error');
         });
   }
 
@@ -229,10 +215,7 @@ console.log('add newuser params', formdata, JSON.stringify(this.model.address), 
         },
         error => {
           this.parameter.loading = false;
-          this.swal.error({
-            title: 'Error',
-            text: error.message,
-          });
+          swal('Error', error.message, 'error');
         });
   }
 
@@ -265,10 +248,7 @@ console.log('countryid', country_id);
           },
           error => {
             this.parameter.loading = false;
-            this.swal.error({
-              title: 'Error',
-              text: error.message,
-            });
+            swal('Error', error.message, 'error');
           });
     }
   }
@@ -306,10 +286,7 @@ console.log('countryid', country_id);
             if (error.statusCode === 401) {
               this.router.navigate(['']);
             }else {
-              this.swal.error({
-                // title: 'Internet Connection',
-                text: error.messages,
-              });
+              swal('Error', error.message, 'error');
             }
           });
     }
@@ -349,10 +326,7 @@ console.log('countryid', country_id);
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           }else {
-            this.swal.error({
-              // title: 'Internet Connection',
-              text: error.messages,
-            });
+            swal('Error', error.message, 'error');
           }
         });
     }
@@ -392,10 +366,7 @@ console.log('countryid', country_id);
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           }else {
-            this.swal.error({
-              // title: 'Internet Connection',
-              text: error.messages,
-            });
+            swal('Error', error.message, 'error');
           }
         });
     }
@@ -495,10 +466,7 @@ console.log('countryid', country_id);
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           }else {
-            this.swal.error({
-              // title: 'Internet Connection',
-              text: error.messages,
-            });
+            swal('Error', error.message, 'error');
           }
         });
   }
@@ -530,15 +498,18 @@ console.log('countryid', country_id);
         break;
     }
 
-    const self = this;
-    this.swal.confirm({
-        title: this.parameter.title,
-        text: this.parameter.text,
-    }).then(function() {
-      self.blockAdmin(index, id, flag, user_type);
-    })
-    .catch(function() {
-      // console.log('Logout cancelled by user');
+    swal({
+      title: this.parameter.title,
+      text: this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes!'
+    }).then((result) => {
+      if (result.value) {
+        this.blockAdmin(index, id, flag, user_type);
+      }
     });
   }
 
@@ -556,21 +527,18 @@ console.log('countryid', country_id);
           console.log('success', success);
           this.parameter.loading = false;
 
-          this.swal.success({
-            title: 'Success',
-            text: this.parameter.successText
-          });
-
+          // this.swal.success({
+          //   title: 'Success',
+          //   text: this.parameter.successText
+          // });
+          swal('Success', this.parameter.successText, 'error');
           this.parameter.items[this.parameter.index] = success.data;
 
         },
         error => {
           console.log(error);
           this.parameter.loading = false;
-          this.swal.error({
-            title: 'Error',
-            text: error.message,
-          });
+          swal('Error', error.message, 'error');
         });
   }
 }

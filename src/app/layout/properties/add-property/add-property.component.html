@@ -41,7 +41,7 @@
 
   <div class="spacer10"></div>
 
-  <form  ngNativeValidate #addForm="ngForm" (ngSubmit)="addNewUser(addForm)">
+  <form  ngNativeValidate #addForm="ngForm">
     
     <!-- tab-1 -->
     <div class="white-bg" *ngIf="tab==1">
@@ -623,7 +623,7 @@
   
         <!-- Modal footer -->
         <div class="modal-footer btn-cont">
-          <button type="button" class="btn btn-primary" (click)="saveImaged" data-dismiss="modal">Submit</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Submit</button>
         </div>
   
       </div>

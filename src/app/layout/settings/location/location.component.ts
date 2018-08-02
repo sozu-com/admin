@@ -1,13 +1,14 @@
 import { Component, OnInit, TemplateRef, ViewChild, ElementRef } from '@angular/core';
 import { AdminService } from '../../../services/admin.service';
 import { Router } from '@angular/router';
-import { SweetAlertService } from 'ngx-sweetalert2';
+// import { SweetAlertService } from 'ngx-sweetalert2';
 import { IProperty } from '../../../common/property';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Location } from './../../../models/location.model';
 import { Constant } from './../../../common/constants';
 import { AGMComponent } from './../../../common/agm.component';
 import { MapsAPILoader } from '@agm/core';
+declare let swal: any;
 
 @Component({
   selector: 'app-location',
@@ -25,7 +26,9 @@ export class LocationComponent implements OnInit {
   @ViewChild('mapDiv') mapDiv: ElementRef;
 
   constructor(private loader: MapsAPILoader, private location: Location, private constant: Constant,
-    private modalService: BsModalService, private admin: AdminService, private router: Router, private swal: SweetAlertService) {
+    private modalService: BsModalService, private admin: AdminService, private router: Router,
+    // private swal: SweetAlertService
+  ) {
     this.parameter.countryCount = 0;
     this.parameter.stateCount = 0;
     this.parameter.cityCount = 0;
@@ -109,10 +112,11 @@ export class LocationComponent implements OnInit {
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           }else {
-            this.swal.warning({
-              title: 'Error',
-              text: error.message,
-            });
+            swal('Error', error.message, 'error');
+            // this.swal.warning({
+            //   title: 'Error',
+            //   text: error.message,
+            // });
           }
         });
   }
@@ -144,10 +148,11 @@ export class LocationComponent implements OnInit {
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           }else {
-            this.swal.warning({
-              title: 'Error',
-              text: error.message,
-            });
+            swal('Error', error.message, 'error');
+            // this.swal.warning({
+            //   title: 'Error',
+            //   text: error.message,
+            // });
           }
         });
   }
@@ -179,10 +184,11 @@ export class LocationComponent implements OnInit {
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           }else {
-            this.swal.warning({
-              title: 'Error',
-              text: error.message,
-            });
+            swal('Error', error.message, 'error');
+            // this.swal.warning({
+            //   title: 'Error',
+            //   text: error.message,
+            // });
           }
         });
   }
@@ -216,10 +222,11 @@ export class LocationComponent implements OnInit {
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           }else {
-            this.swal.warning({
-              title: 'Error',
-              text: error.message,
-            });
+            swal('Error', error.message, 'error');
+            // this.swal.warning({
+            //   title: 'Error',
+            //   text: error.message,
+            // });
           }
         });
   }
@@ -247,10 +254,11 @@ export class LocationComponent implements OnInit {
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           }else {
-            this.swal.warning({
-              title: 'Error',
-              text: error.message,
-            });
+            swal('Error', error.message, 'error');
+            // this.swal.warning({
+            //   title: 'Error',
+            //   text: error.message,
+            // });
           }
         });
   }
@@ -258,14 +266,27 @@ export class LocationComponent implements OnInit {
   checkIfCountrySpanishNameEntered(name_en, name_es= '') {
     const self = this;
     if (name_es === '') {
-      this.swal.confirm({
+      swal({
         text: this.constant.errorMsg.SAVE_ENGLISH_COUNTRY_NAME,
-      }).then(function(){
-        self.addCountry(name_en, name_en, self.location.countryModel.status, '');
-      })
-      .catch(function(){
-      // console.log('Logout cancelled by user');
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.value) {
+          this.addCountry(name_en, name_en, self.location.countryModel.status, '');
+        }
       });
+
+      // this.swal.confirm({
+      //   text: this.constant.errorMsg.SAVE_ENGLISH_COUNTRY_NAME,
+      // }).then(function(){
+      //   self.addCountry(name_en, name_en, self.location.countryModel.status, '');
+      // })
+      // .catch(function(){
+      // // console.log('Logout cancelled by user');
+      // });
     }else {
       self.addCountry(name_en, name_es, self.location.countryModel.status, '');
     }
@@ -294,12 +315,11 @@ export class LocationComponent implements OnInit {
       .subscribe(
         success => {
           console.log('success', success);
-          this.swal.success({
-            title: 'Success',
-            text: this.location.countryModel.country_id || country_id ?
+          const text = this.location.countryModel.country_id || country_id ?
             this.constant.successMsg.COUNTRY_UPDATED_SUCCESSFULLY :
-            this.constant.successMsg.COUNTRY_ADDED_SUCCESSFULLY,
-          });
+            this.constant.successMsg.COUNTRY_ADDED_SUCCESSFULLY;
+          swal('Success', text, 'success');
+
           this.parameter.loading = false;
           // this.getCountries('');
 
@@ -315,10 +335,11 @@ export class LocationComponent implements OnInit {
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           }else {
-            this.swal.warning({
-              title: 'Error',
-              text: error.message,
-            });
+            swal('Error', error.message, 'error');
+            // this.swal.warning({
+            //   title: 'Error',
+            //   text: error.message,
+            // });
           }
         });
   }
@@ -327,14 +348,26 @@ export class LocationComponent implements OnInit {
   checkIfStateSpanishNameEntered(country_id, name_en, name_es= '') {
     const self = this;
     if (name_es === '') {
-      this.swal.confirm({
+      swal({
         text: this.constant.errorMsg.SAVE_ENGLISH_STATE_NAME,
-      }).then(function(){
-        self.addState(country_id, name_en, name_en, self.location.stateModel.status, '');
-      })
-      .catch(function(){
-      // console.log('Logout cancelled by user');
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.value) {
+          this.addState(country_id, name_en, name_en, self.location.stateModel.status, '');
+        }
       });
+      // this.swal.confirm({
+      //   text: this.constant.errorMsg.SAVE_ENGLISH_STATE_NAME,
+      // }).then(function(){
+      //   self.addState(country_id, name_en, name_en, self.location.stateModel.status, '');
+      // })
+      // .catch(function(){
+      // // console.log('Logout cancelled by user');
+      // });
     }else {
       self.addState(country_id, name_en, name_es, self.location.stateModel.status, '');
     }
@@ -370,12 +403,10 @@ export class LocationComponent implements OnInit {
       .subscribe(
         success => {
           console.log('success1', success);
-          this.swal.success({
-            title: 'Success',
-            text: this.location.stateModel.state_id || state_id ?
-            this.constant.successMsg.STATE_UPDATED_SUCCESSFULLY :
-            this.constant.successMsg.STATE_ADDED_SUCCESSFULLY,
-          });
+          const text = this.location.stateModel.state_id || state_id ?
+          this.constant.successMsg.STATE_UPDATED_SUCCESSFULLY :
+          this.constant.successMsg.STATE_ADDED_SUCCESSFULLY;
+          swal('Success', text, 'success');
           this.parameter.loading = false;
           // this.getStates(this.location.stateModel.country_id ? this.location.stateModel.country_id : country_id, '');
 
@@ -393,10 +424,11 @@ export class LocationComponent implements OnInit {
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           }else {
-            this.swal.warning({
-              title: 'Error',
-              text: error.message,
-            });
+            swal('Error', error.message, 'error');
+            // this.swal.warning({
+            //   title: 'Error',
+            //   text: error.message,
+            // });
           }
         });
   }
@@ -405,14 +437,26 @@ export class LocationComponent implements OnInit {
   checkIfCitySpanishNameEntered(state_id, name_en, name_es= '') {
     const self = this;
     if (name_es === '') {
-      this.swal.confirm({
+      swal({
         text: this.constant.errorMsg.SAVE_ENGLISH_CITY_NAME,
-      }).then(function(){
-        self.addCity(state_id, name_en, name_en, self.location.cityModel.status, '');
-      })
-      .catch(function(){
-      // console.log('Logout cancelled by user');
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.value) {
+          this.addCity(state_id, name_en, name_en, self.location.cityModel.status, '');
+        }
       });
+      // this.swal.confirm({
+      //   text: this.constant.errorMsg.SAVE_ENGLISH_CITY_NAME,
+      // }).then(function(){
+      //   self.addCity(state_id, name_en, name_en, self.location.cityModel.status, '');
+      // })
+      // .catch(function(){
+      // // console.log('Logout cancelled by user');
+      // });
     }else {
       self.addCity(state_id, name_en, name_es, self.location.cityModel.status, '');
     }
@@ -446,11 +490,9 @@ export class LocationComponent implements OnInit {
       .subscribe(
         success => {
           console.log('success2', success);
-          this.swal.success({
-            title: 'Success',
-            text: this.location.cityModel.city_id || city_id ?
-            this.constant.successMsg.CITY_UPDATED_SUCCESSFULLY : this.constant.successMsg.CITY_ADDED_SUCCESSFULLY,
-          });
+          const text = this.location.cityModel.city_id || city_id ?
+          this.constant.successMsg.CITY_UPDATED_SUCCESSFULLY : this.constant.successMsg.CITY_ADDED_SUCCESSFULLY;
+          swal('Success', text, 'success');
           this.parameter.loading = false;
           // this.getCities(this.location.cityModel.state_id, '');
 
@@ -468,10 +510,11 @@ export class LocationComponent implements OnInit {
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           }else {
-            this.swal.warning({
-              title: 'Error',
-              text: error.message,
-            });
+            swal('Error', error.message, 'error');
+            // this.swal.warning({
+            //   title: 'Error',
+            //   text: error.message,
+            // });
           }
         });
   }
@@ -491,15 +534,29 @@ export class LocationComponent implements OnInit {
         break;
     }
 
-    const self = this;
-    this.swal.confirm({
-        title: this.parameter.title,
-        text: this.parameter.text,
-    }).then(function(){
-      self.addCountry(name_en, name_es, type, country_id);
-    })
-    .catch(function(){
-      // console.log('Logout cancelled by user');
+    // const self = this;
+    // this.swal.confirm({
+    //     title: this.parameter.title,
+    //     text: this.parameter.text,
+    // }).then(function(){
+    //   self.addCountry(name_en, name_es, type, country_id);
+    // })
+    // .catch(function(){
+    //   // console.log('Logout cancelled by user');
+    // });
+
+    swal({
+      title: this.parameter.title,
+      text: this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.addCountry(name_en, name_es, type, country_id);
+      }
     });
   }
 
@@ -518,16 +575,29 @@ export class LocationComponent implements OnInit {
         break;
     }
 
-    const self = this;
-    this.swal.confirm({
-        title: this.parameter.title,
-        text: this.parameter.text,
-    }).then(function(){
-      self.addState(country_id, name_en, name_es, type, state_id);
-    })
-    .catch(function(){
-      // console.log('Logout cancelled by user');
+    // const self = this;
+    swal({
+      title: this.parameter.title,
+      text: this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.addState(country_id, name_en, name_es, type, state_id);
+      }
     });
+    // this.swal.confirm({
+    //     title: this.parameter.title,
+    //     text: this.parameter.text,
+    // }).then(function(){
+    //   self.addState(country_id, name_en, name_es, type, state_id);
+    // })
+    // .catch(function(){
+    //   // console.log('Logout cancelled by user');
+    // });
   }
 
 
@@ -545,16 +615,30 @@ export class LocationComponent implements OnInit {
         break;
     }
 
-    const self = this;
-    this.swal.confirm({
-        title: this.parameter.title,
-        text: this.parameter.text,
-    }).then(function(){
-      self.addCity(state_id, name_en, name_es, type, city_id);
-    })
-    .catch(function(){
-      // console.log('Logout cancelled by user');
+    swal({
+      title: this.parameter.title,
+      text: this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.addCity(state_id, name_en, name_es, type, city_id);
+      }
     });
+
+    // const self = this;
+    // this.swal.confirm({
+    //     title: this.parameter.title,
+    //     text: this.parameter.text,
+    // }).then(function(){
+    //   self.addCity(state_id, name_en, name_es, type, city_id);
+    // })
+    // .catch(function(){
+    //   // console.log('Logout cancelled by user');
+    // });
   }
 
 }

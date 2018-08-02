@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AdminService } from '../services/admin.service';
-import { SweetAlertService } from 'ngx-sweetalert2';
 import { NgForm } from '@angular/forms';
 import { IProperty } from '../common/property';
+declare let swal: any;
 
 @Component({
   selector: 'app-login',
@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   public parameter: IProperty = {};
   emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
 
-  constructor(private router: Router, private admin: AdminService, private swal: SweetAlertService) {
+  constructor(private router: Router, private admin: AdminService) {
     this.parameter.loading = false;
   }
 
@@ -50,10 +50,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         error => {
           console.log('---', error);
           this.parameter.loading = false;
-          this.swal.error({
-            title: 'Error',
-            text: error.message,
-          });
+          swal('Invalid Credentials', error.message, 'error');
         });
   }
 }

@@ -1,9 +1,9 @@
-import { Component, OnInit, TemplateRef, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { AdminService } from '../../../services/admin.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { SweetAlertService } from 'ngx-sweetalert2';
 import { IProperty } from '../../../common/property';
 import { InhouseUsers } from './../../../models/inhouse-users.model';
+declare let swal: any;
 
 @Component({
   selector: 'app-address',
@@ -19,7 +19,7 @@ export class AddressComponent implements OnInit {
   @Output() removeAddress = new EventEmitter();
 
   constructor(private model: InhouseUsers, private element: ElementRef, private route: ActivatedRoute,
-    private admin: AdminService, private router: Router, private swal: SweetAlertService) { }
+    private admin: AdminService, private router: Router) { }
 
   ngOnInit() {
     this.getCountriesNew(0);
@@ -48,10 +48,7 @@ export class AddressComponent implements OnInit {
         },
         error => {
           this.parameter.loading = false;
-          this.swal.warning({
-            title: 'Error',
-            text: error.message,
-          });
+          swal('Error', error.message, 'error');
         });
   }
 
@@ -74,10 +71,7 @@ export class AddressComponent implements OnInit {
         error => {
           console.log(error);
           this.parameter.loading = false;
-          this.swal.warning({
-            title: 'Error',
-            text: error.message,
-          });
+          swal('Error', error.message, 'error');
         });
   }
 
@@ -102,10 +96,7 @@ export class AddressComponent implements OnInit {
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           }else {
-            this.swal.warning({
-              // title: 'Internet Connection',
-              text: error.message,
-            });
+            swal('Error', error.message, 'error');
           }
         });
   }
@@ -133,9 +124,7 @@ export class AddressComponent implements OnInit {
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           }else {
-            this.swal.warning({
-              text: error.message,
-            });
+            swal('Error', error.message, 'error');
           }
         });
   }

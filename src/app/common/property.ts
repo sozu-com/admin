@@ -77,4 +77,6 @@ export interface IProperty {
   property_id?: string;
   banks?: any;
   bankCount?: string;
+  flag?: number;
+  page?: number;
 }

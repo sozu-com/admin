@@ -1,11 +1,12 @@
 import { Component, OnInit, TemplateRef, ElementRef } from '@angular/core';
 import { AdminService } from '../../../services/admin.service';
 import { Router } from '@angular/router';
-import { SweetAlertService } from 'ngx-sweetalert2';
+// import { SweetAlertService } from 'ngx-sweetalert2';
 import { IProperty } from '../../../common/property';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Constant } from './../../../common/constants';
 import { Property } from './../../../models/property.model';
+declare let swal: any;
 
 @Component({
   selector: 'app-property',
@@ -20,8 +21,10 @@ export class PropertyComponent implements OnInit {
   public modalRef: BsModalRef;
   icon: any;
 
-  constructor(private element: ElementRef, private constant: Constant, private property: Property,
-    private modalService: BsModalService, private admin: AdminService, private router: Router, private swal: SweetAlertService) {
+  constructor(private element: ElementRef, private constant: Constant, public property: Property,
+    private modalService: BsModalService, private admin: AdminService, private router: Router,
+    // private swal: SweetAlertService
+  ) {
     this.parameter.countryCount = 0;
     this.parameter.stateCount = 0;
     this.parameter.cityCount = 0;
@@ -78,20 +81,25 @@ export class PropertyComponent implements OnInit {
         success => {
           console.log('addConfigurations', success);
           this.parameter.loading = false;
-          this.swal.success({
-            title: 'Success',
-            text: id ?
+          const text = id ?
             this.constant.successMsg.PROPERTY_CONFIG_UPDATED_SUCCESSFULLY :
-            this.constant.successMsg.PROPERTY_CONFIG_ADDED_SUCCESSFULLY,
-          });
+            this.constant.successMsg.PROPERTY_CONFIG_ADDED_SUCCESSFULLY;
+          swal('Success', text, 'success');
+          // this.swal.success({
+          //   title: 'Success',
+          //   text: id ?
+          //   this.constant.successMsg.PROPERTY_CONFIG_UPDATED_SUCCESSFULLY :
+          //   this.constant.successMsg.PROPERTY_CONFIG_ADDED_SUCCESSFULLY,
+          // });
           this.getConfigurations();
         },
         error => {
           this.parameter.loading = false;
-          this.swal.warning({
-            title: 'Error',
-            text: error.message,
-          });
+          swal('Error', error.message, 'error');
+          // this.swal.warning({
+          //   title: 'Error',
+          //   text: error.message,
+          // });
           this.router.navigate(['']);
         });
   }
@@ -114,20 +122,26 @@ export class PropertyComponent implements OnInit {
         success => {
           console.log('addPropertyType', success);
           this.parameter.loading = false;
-          this.swal.success({
-            title: 'Success',
-            text: id ?
+          const text = id ?
             this.constant.successMsg.PROPERTY_TYPE_UPDATED_SUCCESSFULLY :
-            this.constant.successMsg.PROPERTY_TYPE_ADDED_SUCCESSFULLY,
-          });
+            this.constant.successMsg.PROPERTY_TYPE_ADDED_SUCCESSFULLY;
+          swal('Success', text, 'success');
+
+          // this.swal.success({
+          //   title: 'Success',
+          //   text: id ?
+          //   this.constant.successMsg.PROPERTY_TYPE_UPDATED_SUCCESSFULLY :
+          //   this.constant.successMsg.PROPERTY_TYPE_ADDED_SUCCESSFULLY,
+          // });
           this.getPropertyTypes();
         },
         error => {
           this.parameter.loading = false;
-          this.swal.warning({
-            title: 'Error',
-            text: error.message,
-          });
+          swal('Error', error.message, 'error');
+          // this.swal.warning({
+          //   title: 'Error',
+          //   text: error.message,
+          // });
           this.router.navigate(['']);
         });
   }
@@ -157,18 +171,24 @@ export class PropertyComponent implements OnInit {
         success => {
           console.log('addPropertyAmenity', success);
           this.parameter.loading = false;
-          this.swal.success({
-            title: 'Success',
-            text: id ? this.constant.successMsg.AMENITY_UPDATED_SUCCESSFULLY : this.constant.successMsg.AMENITY_ADDED_SUCCESSFULLY,
-          });
+          const text = id ?
+          this.constant.successMsg.AMENITY_UPDATED_SUCCESSFULLY :
+          this.constant.successMsg.AMENITY_ADDED_SUCCESSFULLY;
+          swal('Success', text, 'success');
+
+          // this.swal.success({
+          //   title: 'Success',
+          //   text: id ? this.constant.successMsg.AMENITY_UPDATED_SUCCESSFULLY : this.constant.successMsg.AMENITY_ADDED_SUCCESSFULLY,
+          // });
           this.getAmenities();
         },
         error => {
           this.parameter.loading = false;
-          this.swal.warning({
-            title: 'Error',
-            text: error.message,
-          });
+          swal('Error', error.message, 'error');
+          // this.swal.warning({
+          //   title: 'Error',
+          //   text: error.message,
+          // });
           this.router.navigate(['']);
         });
   }
@@ -192,10 +212,11 @@ export class PropertyComponent implements OnInit {
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           }else {
-            this.swal.warning({
-              // title: 'Internet Connection',
-              text: error.messages,
-            });
+            swal('Error', error.message, 'error');
+            // this.swal.warning({
+            //   // title: 'Internet Connection',
+            //   text: error.messages,
+            // });
           }
         });
   }
@@ -219,10 +240,11 @@ export class PropertyComponent implements OnInit {
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           }else {
-            this.swal.warning({
-              // title: 'Internet Connection',
-              text: error.messages,
-            });
+            swal('Error', error.message, 'error');
+            // this.swal.warning({
+            //   // title: 'Internet Connection',
+            //   text: error.messages,
+            // });
           }
         });
   }
@@ -245,64 +267,117 @@ export class PropertyComponent implements OnInit {
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           }else {
-            this.swal.warning({
-              // title: 'Internet Connection',
-              text: error.messages,
-            });
+            swal('Error', error.message, 'error');
+            // this.swal.warning({
+            //   // title: 'Internet Connection',
+            //   text: error.messages,
+            // });
           }
         });
   }
 
   addPropertyConfigurationPopup(id, name_en, name_es, status, type) {
     const self = this;
-    this.swal.confirm({
+    swal({
       title: this.constant.title.ARE_YOU_SURE,
       text: status === 1 ? this.constant.title.UNBLOCK_PROPERTY_CONFIG : this.constant.title.BLOCK_PROPERTY_CONFIG,
-    }).then(function(){
-      self.addPropertyConfiguration(id, name_en, name_es, status, type);
-    })
-    .catch(function(){
-    // console.log('Logout cancelled by user');
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.addPropertyConfiguration(id, name_en, name_es, status, type);
+      }
     });
+    // this.swal.confirm({
+    //   title: this.constant.title.ARE_YOU_SURE,
+    //   text: status === 1 ? this.constant.title.UNBLOCK_PROPERTY_CONFIG : this.constant.title.BLOCK_PROPERTY_CONFIG,
+    // }).then(function(){
+    //   self.addPropertyConfiguration(id, name_en, name_es, status, type);
+    // })
+    // .catch(function(){
+    // // console.log('Logout cancelled by user');
+    // });
   }
 
   addPropertyTypePopup(id, name_en, name_es, status, type) {
     const self = this;
-    this.swal.confirm({
+    swal({
       title: this.constant.title.ARE_YOU_SURE,
       text: status === 1 ? this.constant.title.UNBLOCK_PROPERTY_TYPE : this.constant.title.BLOCK_PROPERTY_TYPE,
-    }).then(function(){
-      self.addPropertyType(id, name_en, name_es, status, type);
-    })
-    .catch(function(){
-    // console.log('Logout cancelled by user');
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.addPropertyType(id, name_en, name_es, status, type);
+      }
     });
+    // this.swal.confirm({
+    //   title: this.constant.title.ARE_YOU_SURE,
+    //   text: status === 1 ? this.constant.title.UNBLOCK_PROPERTY_TYPE : this.constant.title.BLOCK_PROPERTY_TYPE,
+    // }).then(function(){
+    //   self.addPropertyType(id, name_en, name_es, status, type);
+    // })
+    // .catch(function(){
+    // // console.log('Logout cancelled by user');
+    // });
   }
 
   addAmenityPopup(id, icon, name_en, name_es, status, type) {
     const self = this;
-    this.swal.confirm({
+    swal({
       title: this.constant.title.ARE_YOU_SURE,
       text: status === 1 ? this.constant.title.UNBLOCK_AMENITY : this.constant.title.BLOCK_AMENITY,
-    }).then(function(){
-      self.addAmenity(id, icon, name_en, name_es, status, type);
-    })
-    .catch(function(){
-    // console.log('Logout cancelled by user');
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.addAmenity(id, icon, name_en, name_es, status, type);
+      }
     });
+    // this.swal.confirm({
+    //   title: this.constant.title.ARE_YOU_SURE,
+    //   text: status === 1 ? this.constant.title.UNBLOCK_AMENITY : this.constant.title.BLOCK_AMENITY,
+    // }).then(function(){
+    //   self.addAmenity(id, icon, name_en, name_es, status, type);
+    // })
+    // .catch(function(){
+    // // console.log('Logout cancelled by user');
+    // });
   }
 
   checkIfConfigSpanishNameEntered(id, name_en, name_es, status, type) {
     const self = this;
     if (name_es === '') {
-      this.swal.confirm({
+      swal({
         text: this.constant.errorMsg.SAVE_ENGLISH_PROPERTY_CONFIG,
-      }).then(function(){
-        self.addPropertyConfiguration(id, name_en, name_en, status, type);
-      })
-      .catch(function(){
-      // console.log('Logout cancelled by user');
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.value) {
+          this.addPropertyConfiguration(id, name_en, name_en, status, type);
+        }
       });
+
+      // this.swal.confirm({
+      //   text: this.constant.errorMsg.SAVE_ENGLISH_PROPERTY_CONFIG,
+      // }).then(function(){
+      //   self.addPropertyConfiguration(id, name_en, name_en, status, type);
+      // })
+      // .catch(function(){
+      // // console.log('Logout cancelled by user');
+      // });
     }else {
       self.addPropertyConfiguration(id, name_en, name_es, status, type);
     }
@@ -312,14 +387,27 @@ export class PropertyComponent implements OnInit {
   checkIfTypeSpanishNameEntered(id, name_en, name_es, status, type) {
     const self = this;
     if (name_es === '') {
-      this.swal.confirm({
+      swal({
         text: this.constant.errorMsg.SAVE_ENGLISH_PROPERTY_TYPE,
-      }).then(function(){
-        self.addPropertyType(id, name_en, name_en, status, type);
-      })
-      .catch(function(){
-      // console.log('Logout cancelled by user');
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.value) {
+          this.addPropertyType(id, name_en, name_en, status, type);
+        }
       });
+
+      // this.swal.confirm({
+      //   text: this.constant.errorMsg.SAVE_ENGLISH_PROPERTY_TYPE,
+      // }).then(function(){
+      //   self.addPropertyType(id, name_en, name_en, status, type);
+      // })
+      // .catch(function(){
+      // // console.log('Logout cancelled by user');
+      // });
     }else {
       self.addPropertyType(id, name_en, name_es, status, type);
     }
@@ -329,14 +417,27 @@ export class PropertyComponent implements OnInit {
   checkIfAmenitySpanishNameEntered(id, icon, name_en, name_es, status, type) {
     const self = this;
     if (name_es === '') {
-      this.swal.confirm({
+      swal({
         text: this.constant.errorMsg.SAVE_ENGLISH_AMENITY,
-      }).then(function(){
-        self.addAmenity(id, icon, name_en, name_en, status, type);
-      })
-      .catch(function(){
-      // console.log('Logout cancelled by user');
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.value) {
+          this.addAmenity(id, icon, name_en, name_en, status, type);
+        }
       });
+
+      // this.swal.confirm({
+      //   text: this.constant.errorMsg.SAVE_ENGLISH_AMENITY,
+      // }).then(function(){
+      //   self.addAmenity(id, icon, name_en, name_en, status, type);
+      // })
+      // .catch(function(){
+      // // console.log('Logout cancelled by user');
+      // });
     }else {
       self.addAmenity(id, icon, name_en, name_es, status, type);
     }
