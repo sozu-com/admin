@@ -545,7 +545,7 @@ console.log('url2', this.url2);
     this.parameter.url = this.model.id !== '' ? 'addProperty' : 'addProperty';
     this.model.step = tab - 1;
     const input = new FormData();
-    // input.append('property_id', '31');
+    this.parameter.property_id = '44';
     if (this.parameter.property_id) {input.append('property_id', this.parameter.property_id); }
 
     input.append('step', this.model.step.toString());
@@ -563,7 +563,7 @@ console.log('url2', this.url2);
 
     if (this.model.step === 2) {
       input.append('cover_image', this.model.cover_image);
-      input.append('images', JSON.stringify([this.model.images]));
+      input.append('images', JSON.stringify(this.model.images));
       input.append('floor_plan', this.model.floor_plan);
       input.append('bedroom', this.model.bedroom);
       input.append('bathroom', this.model.bathroom);
@@ -585,20 +585,18 @@ console.log('url2', this.url2);
       input.append('custom_attributes', JSON.stringify(this.model.custom_attributes));
     }
 
-
-
     this.parameter.loading = false;
-    // this.admin.postDataApi(this.parameter.url, input)
-    //   .subscribe(
-    //     success => {
-    //       console.log('success', success);
-    //       this.parameter.property_id = success.data.id;
-    //       this.parameter.loading = false;
-    //     },
-    //     error => {
-    //       this.parameter.loading = false;
-              // swal('Error', error.message, 'error');
-    //     });
+    this.admin.postDataApi(this.parameter.url, input)
+      .subscribe(
+        success => {
+          console.log('success', success);
+          this.parameter.property_id = success.data.id;
+          this.parameter.loading = false;
+        },
+        error => {
+          this.parameter.loading = false;
+          swal('Error', error.message, 'error');
+        });
   }
 
   setBuildingId(building_id) {
@@ -691,5 +689,34 @@ console.log('url2', this.url2);
           }
         });
     }
+  }
+
+
+  buildingRequest() {
+
+    this.parameter.loading = true;
+    this.parameter.url = 'buildingRequest';
+
+    const input = new FormData();
+    input.append('name', this.building.name);
+    input.append('address', this.building.address);
+    input.append('lat', this.building.lat.toString());
+    input.append('lng', this.building.lng.toString());
+
+    if (this.building.dev_name) {input.append('dev_name', this.building.dev_name); }
+    if (this.building.dev_phone) {input.append('dev_name', this.building.dev_phone); }
+    if (this.building.dev_countrycode) {input.append('dev_name', this.building.dev_countrycode); }
+    if (this.building.dev_email) {input.append('dev_name', this.building.dev_email); }
+
+    this.admin.postDataApi(this.parameter.url, input)
+      .subscribe(
+        success => {
+          console.log('success', success);
+          this.parameter.loading = false;
+        },
+        error => {
+          this.parameter.loading = false;
+          swal('Error', error.message, 'error');
+        });
   }
 }

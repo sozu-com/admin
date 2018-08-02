@@ -26,8 +26,8 @@
     height: 40px !important;
 }
 .form-group .form-control:focus {
-    border: none !important;
-    border-bottom: solid 1px #00B96F !important;
+    /* border: none !important; */
+    /* border-bottom: solid 1px #00B96F !important; */
 }
 .ibox{overflow-x: auto;}
 .no-data {
@@ -35,12 +35,10 @@
     font-weight: 100;
 }
 .ng-valid[required], .ng-valid.required  {
-    border-bottom: 1px solid #00B96F !important; 
-    /* border-left: 5px solid #00B96F !important;  */
+    /* border-bottom: 1px solid #00B96F !important;  */
 }
 .ng-invalid:not(form)  {
     /* border-bottom: 1px solid #a94442 !important;  */
-    /* border-left: 5px solid #a94442 !important;  */
 }
 .show-error{
     padding: 8px 10px;

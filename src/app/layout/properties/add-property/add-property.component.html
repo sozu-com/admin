@@ -23,18 +23,18 @@
   <div class="white-bg padding15">
     <div class="steps">
       <ul class="d-flex">
-        <!-- <li [ngClass]="{'current': tab == 1}"><span></span><a (click)="addProperty(addForm, 1)">Create Draft</a></li>
-        <li [ngClass]="{'current': tab == 2}"><span></span><a (click)="addProperty(addForm, 2)">Additional Info</a></li>
-        <li [ngClass]="{'current': tab == 3}"><span></span><a (click)="addProperty(addForm, 3)">Preferable Buyers</a></li>
-        <li [ngClass]="{'current': tab == 4}"><span></span><a (click)="addProperty(addForm, 4)">Custom</a></li>
-        <li [ngClass]="{'current': tab == 5}"><span></span><a (click)="addProperty(addForm, 5)">Tag a Building</a></li>
-        <li [ngClass]="{'current': tab == 6}"><span></span><a (click)="addProperty(addForm, 6)">Submit</a></li> -->
-        <li [ngClass]="{'current': tab == 1}" [ngClass]="{'selected': tab > 1}"><span></span><a>Create Draft</a></li>
+        <li [ngClass]="{'current': tab == 1}"><span></span><a (click)="setTab(1)">Create Draft</a></li>
+        <li [ngClass]="{'current': tab == 2}"><span></span><a (click)="setTab(2)">Additional Info</a></li>
+        <li [ngClass]="{'current': tab == 3}"><span></span><a (click)="setTab(3)">Preferable Buyers</a></li>
+        <li [ngClass]="{'current': tab == 4}"><span></span><a (click)="setTab(4)">Custom</a></li>
+        <li [ngClass]="{'current': tab == 5}"><span></span><a (click)="setTab(5)">Tag a Building</a></li>
+        <li [ngClass]="{'current': tab == 6}"><span></span><a (click)="setTab(6)">Submit</a></li>
+        <!-- <li [ngClass]="{'current': tab == 1}" [ngClass]="{'selected': tab > 1}"><span></span><a>Create Draft</a></li>
         <li [ngClass]="{'current': tab == 2}" [ngClass]="{'selected': tab > 2}"><span></span><a>Additional Info</a></li>
         <li [ngClass]="{'current': tab == 3}" [ngClass]="{'selected': tab > 3}"><span></span><a>Preferable Buyers</a></li>
         <li [ngClass]="{'current': tab == 4}" [ngClass]="{'selected': tab > 4}"><span></span><a>Custom</a></li>
         <li [ngClass]="{'current': tab == 5}" [ngClass]="{'selected': tab > 5}"><span></span><a>Tag a Building</a></li>
-        <li [ngClass]="{'current': tab == 6}" [ngClass]="{'selected': tab > 6}"><span></span><a>Submit</a></li>
+        <li [ngClass]="{'current': tab == 6}" [ngClass]="{'selected': tab > 6}"><span></span><a>Submit</a></li> -->
       </ul>
     </div>
   </div>
@@ -510,10 +510,13 @@
             </div>
           </div>
     
-          <div class="center" *ngIf="parameter.total == 0">
-            <img src="assets/img/404-error.png">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="btn-cont text-right">
+                <a class="btn-third btn" href="javascript://" (click)="tagBuilding()">Next</a>
+              </div>
+            </div>
           </div>
-    
       </div>
 
         <p *ngIf="parameter.buildingCount == 0 && showText" class="p18">Didn’t Found your Building? <strong><span (click)="showBuildingDetails(true)" class="green-color cursor-pointer">Generate a Request to add a building by our Data collectors</span></strong></p>
@@ -525,14 +528,14 @@
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>Name of Building</label>
-                  <input class="form-control" type="text" name="name" [(ngModel)]="building.name" placeholder="Enter name of building">
+                  <input required class="form-control" type="text" name="name" [(ngModel)]="building.name" placeholder="Enter name of building">
                 </div>
               </div>
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>Where it is located?</label>
                   <!-- <input class="form-control" type="text" name="address" [(ngModel)]="building.address" placeholder="Enter address"> -->
-                  <input placeholder="search for location" autocorrect="off" autocapitalize="off" 
+                  <input required placeholder="search for location" autocorrect="off" autocapitalize="off" 
                     spellcheck="off" type="text" class="form-control" #search (input)="loadPlaces()"
                     [formControl]="searchControl" [(ngModel)]="building.address" name="address">
                 </div>
@@ -582,7 +585,7 @@
         <div class="row">
           <div class="col-md-12">
             <div class="btn-cont text-right">
-              <a class="btn-third btn" href="javascript://" (click)="tagBuilding()">Next</a>
+              <a class="btn-third btn" href="javascript://" (click)="buildingRequest()">Next</a>
             </div>
           </div>
         </div>
@@ -623,7 +626,7 @@
   
         <!-- Modal footer -->
         <div class="modal-footer btn-cont">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Submit</button>
+          <button type="button" class="btn btn-primary" (click)="saveImages()" data-dismiss="modal">Submit</button>
         </div>
   
       </div>
