@@ -49,12 +49,16 @@
           <div class="table-responsive">
             <table class="table table-striped">
                 <tr>
-                  <th style="width:80%; text-align:left;">Name</th>
+                  <th style="width:40%; text-align:left;">Name (English)</th>
+                  <th style="width:40%; text-align:left;">Name (Spanish)</th>
                   <th style="width:20%">Action</th>
                 </tr>
                 <tr *ngFor="let item of parameter.items">
                   <td class="text-left">
                     {{item.name_en}}
+                  </td>
+                  <td class="text-left">
+                    {{item.name_es}}
                   </td>
                   <td>
                     <a title="Edit Configuration" (click)="openPropertyConfigModal(addPropertyConfigModal, item.id, item.name_en, item.name_es, item.status)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
@@ -107,12 +111,16 @@
         <div class="table-responsive">
           <table class="table table-striped">
               <tr>
-                <th style="width:80%; text-align:left;">Name</th>
+                <th style="width:40%; text-align:left;">Name (English)</th>
+                <th style="width:40%; text-align:left;">Name (Spanish)</th>
                 <th style="width:20%">Action</th>
               </tr>
               <tr *ngFor="let item of parameter.propertyTypes">
                 <td class="text-left">
                   {{item.name_en}}
+                </td>
+                <td class="text-left">
+                  {{item.name_es}}
                 </td>
                 <td>
                   <a title="Edit Property Type" (click)="openPropertyTypeModal(addPropertyTypeModal, item.id, item.name_en, item.name_es, item.status)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
@@ -191,8 +199,9 @@
         <div class="table-responsive">
             <table class="table table-striped">
               <tr>
-                  <th style="width:15%">Image</th>
-                  <th style="width:65%; text-align:left;">Amenity Name</th>
+                  <th style="width:20%">Image</th>
+                  <th style="width:30%; text-align:left;">Name (English)</th>
+                  <th style="width:30%; text-align:left;">Name (Spanish)</th>
                   <th style="width:20%">Action</th>
               </tr>
               <tr *ngFor="let item of parameter.amenities">
@@ -202,6 +211,9 @@
                   </td>
                   <td class="text-left">
                     {{item.name_en}}
+                  </td>
+                  <td class="text-left">
+                    {{item.name_es}}
                   </td>
                   <td>
                     <a title="Edit Amenity" (click)="openAmenityModal(addAmenityModal, item.id, item.icon, item.name_en, item.name_es, item.status)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>

@@ -80,8 +80,8 @@
               <a (click)="upadteSelection(locality, index)" title="Unblock State" class="icon-block block-icon"><img src="./../../../../assets/img/top-arrow.png" alt="img"></a>
             </td> -->
             <td [ngClass]="locality.id == selectedLocality ? 'selectedRow' : ''">
-              <a *ngIf="locality.status == 0" (click)="removeSelection(locality, index, 1)" title="Unblock Locality" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a>
-              <a *ngIf="locality.status == 1" (click)="removeSelection(locality, index, 0)" title="Block Locality" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
+              <a *ngIf="locality.status == 0" (click)="blockUnblockLocality(locality, index, 1)" title="Unblock Locality" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a>
+              <a *ngIf="locality.status == 1" (click)="blockUnblockLocality(locality, index, 0)" title="Block Locality" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
             </td>
           </tr>
 

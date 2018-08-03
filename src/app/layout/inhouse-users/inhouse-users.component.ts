@@ -499,8 +499,9 @@ console.log('countryid', country_id);
     }
 
     swal({
-      title: this.parameter.title,
-      text: this.parameter.text,
+      // title: this.parameter.title,
+      // text: this.parameter.text,
+      html: this.parameter.title + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',

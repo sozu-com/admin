@@ -416,15 +416,6 @@ console.log('xx', typeof this.getPolygonCoords(event.overlay));
           this.addLocality(name_en, name_en, price_per_sqft);
         }
       });
-
-      // this.swal.confirm({
-      //   text: this.constant.errorMsg.SAVE_ENGLISH_COUNTRY_NAME,
-      // }).then(function(){
-      //   self.addLocality(name_en, name_en, price_per_sqft);
-      // })
-      // .catch(function(){
-      // // console.log('Logout cancelled by user');
-      // });
     }else {
       self.addLocality(name_en, name_es, price_per_sqft);
     }
@@ -531,13 +522,43 @@ console.log('zzzzzzzzzzzz', shape);
     });
   }
 
+  blockUnblockLocality(locality, index, type) {
+    this.parameter.index = index;
+    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    switch (type) {
+      case 0:
+        this.parameter.text = this.constant.title.BLOCK_LOCALITY;
+        this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
+        break;
+      case 1:
+        this.parameter.text = this.constant.title.UNBLOCK_LOCALITY;
+        this.parameter.successText = this.constant.successMsg.UNBLOCKED_SUCCESSFULLY;
+        break;
+    }
+
+    swal({
+      // title: this.parameter.title,
+      // text: this.parameter.text,
+      html: this.parameter.title + '<br>' + this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.removeSelection(locality, index, type);
+        swal('Success', this.parameter.successText, 'success');
+      }
+    });
+  }
+
   removeSelection(locality, index, status) {
       console.log('Removing...', locality);
       locality.status = status;
       // this.all_overlays.splice(index,1);
       // locality.overlay.setMap(null);
       delete locality.overlay;
-      // locality.status = 0;
       this.admin.postDataApi('addLocality', locality).subscribe(
       r => {
         console.log(r);

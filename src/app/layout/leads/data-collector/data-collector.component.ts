@@ -1,29 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from '../../services/admin.service';
-import { IProperty } from '../../common/property';
+import { AdminService } from '../../../services/admin.service';
+import { IProperty } from '../../../common/property';
+import { Constant } from './../../../common/constants';
 import { Router } from '@angular/router';
-// import { SweetAlertService } from 'ngx-sweetalert2';
-import { Users } from '../../models/users.model';
+import { Users } from '../../../models/users.model';
 declare let swal: any;
 
 @Component({
-  selector: 'app-leads',
-  templateUrl: './leads.component.html',
-  styleUrls: ['./leads.component.css']
+  selector: 'app-data-collector',
+  templateUrl: './data-collector.component.html',
+  styleUrls: ['./data-collector.component.css'],
+  providers: [Constant]
 })
-export class LeadsComponent implements OnInit {
+export class DataCollectorComponent implements OnInit {
 
   public parameter: IProperty = {};
-
   items: Array<Users> = [];
 
   constructor(
     private admin: AdminService,
-    private router: Router
+    private router: Router,
+    private constant: Constant
   ) { }
 
   ngOnInit() {
-    this.parameter.page = 1;
+    this.parameter.page = this.constant.p;
     this.parameter.flag = 2;
     this.getListing();
   }

@@ -48,12 +48,16 @@
           <div class="table-responsive">
             <table class="table table-striped">
                 <tr>
-                  <th style="width:80%; text-align:left;">Name</th>
+                  <th style="width:40%; text-align:left;">Name (English)</th>
+                  <th style="width:40%; text-align:left;">Name (Spanish)</th>
                   <th style="width:20%">Action</th>
                 </tr>
                 <tr *ngFor="let item of parameter.items">
                   <td class="text-left">
                     {{item.name_en}}
+                  </td>
+                  <td class="text-left">
+                    {{item.name_es}}
                   </td>
                   <td>
                     <a title="Edit Configuration" (click)="openPossessionStatusModal(addPossessionStatusModal, item.id, item.name_en, item.name_es, item.status)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
@@ -109,12 +113,16 @@
         <div class="table-responsive">
           <table class="table table-striped">
               <tr>
-                <th style="width:80%; text-align:left;">Name</th>
+                <th style="width:40%; text-align:left;">Name (English)</th>
+                <th style="width:40%; text-align:left;">Name (Spanish)</th>
                 <th style="width:20%">Action</th>
               </tr>
               <tr *ngFor="let item of parameter.projectTypes">
                 <td class="text-left">
                   {{item.name_en}}
+                </td>
+                <td class="text-left">
+                  {{item.name_es}}
                 </td>
                 <td>
                   <a title="Edit Property Type" (click)="openBuildingTypeModal(addBuildingTypeModal, item.id, item.name_en, item.name_es, item.status)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
@@ -144,12 +152,12 @@
                  <form role="form" novalidate #addAmenityForm="ngForm" (ngSubmit)="checkIfAmenitySpanishNameEntered('', '', addAmenityForm.value.name_en, addAmenityForm.value.name_es, 1, 'add')">
                   <div class="browse-files">
                     <input accept="image/*" (change)="changeListner($event)" type="file" class="image form-control" placeholder="Amenity" id="icon" required [(ngModel)]="project.amenities.icon" name="icon" #icon="ngModel">
-                    <div *ngIf="icon.errors && (icon.dirty || icon.touched)" class="show-error">
-                      <div [hidden]="!icon.errors.required">
-                        {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
-                      </div>
-                  </div>
                     <span>Browse</span>
+                  </div>
+                  <div *ngIf="icon.errors && (icon.dirty || icon.touched)" class="show-error">
+                    <div [hidden]="!icon.errors.required">
+                      {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
+                    </div>
                   </div>
                   <!-- <input type="file" class="form-control" placeholder="Amenity" id="icon" required [(ngModel)]="property.amenities.icon" name="icon" #icon="ngModel">
                     <div *ngIf="icon.errors && (icon.dirty || icon.touched)" class="show-error">
@@ -194,8 +202,9 @@
         <div class="table-responsive">
             <table class="table table-striped">
               <tr>
-                  <th style="width:15%">Image</th>
-                  <th style="width:65%; text-align:left;">Amenity Name</th>
+                  <th style="width:20%">Image</th>
+                  <th style="width:30%; text-align:left;">Name (English)</th>
+                  <th style="width:30%; text-align:left;">Name (Spanish)</th>
                   <th style="width:20%">Action</th>
               </tr>
               <tr *ngFor="let item of parameter.amenities">
@@ -205,6 +214,9 @@
                   </td>
                   <td class="text-left">
                     {{item.name_en}}
+                  </td>
+                  <td class="text-left">
+                    {{item.name_es}}
                   </td>
                   <td>
                     <a title="Edit Amenity" (click)="openAmenityModal(addAmenityModal, item.id, item.icon, item.name_en, item.name_es, item.status)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>

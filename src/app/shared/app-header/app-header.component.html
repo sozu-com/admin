@@ -55,9 +55,22 @@
                       <li class="nav-item">
                         <a class="nav-link" href="javascript://" routerLink="users/view-users"><i><img src="./../../../assets/img/users.png"></i><span>Manage User</span></a>
                       </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="javascript://" routerLink="leads/view-leads"><i><img src="./../../../assets/img/graph.png"></i><span>Magage lead</span></a>
+                      <li class="nav-item dropdown">
+                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
+                         <i><img src="./../../../assets/img/graph.png"></i><span>Manage lead</span></a>
+                         <div class="dropdown-menu">
+                            <ul>
+                               <li><a class="dropdown-item" routerLink="leads/data-collectors">Data Collector</a></li>
+                               <li><a class="dropdown-item" href="javascript://" routerLink="leads/csr-sellers">CSR Seller</a></li>
+                               <li><a class="dropdown-item" href="javascript://" routerLink="leads/csr-buyers">CSR Buyer</a></li>
+                               <li><a class="dropdown-item" href="javascript://" routerLink="leads/inhouse-broker">Inhouse Broker</a></li>
+                               <li><a class="dropdown-item" href="javascript://" routerLink="leads/csr-closers">CSR Closer</a></li>
+                            </ul>
+                         </div>
                       </li>
+                      <!-- <li class="nav-item">
+                        <a class="nav-link" href="javascript://" routerLink="leads/view-leads"><i><img src="./../../../assets/img/graph.png"></i><span>Magage lead</span></a>
+                      </li> -->
                       <li class="nav-item">
                         <a class="nav-link" href="javascript://" routerLink="properties/view-properties"><i><img src="./../../../assets/img/graph.png"></i><span>Magage Properties</span></a>
                       </li>

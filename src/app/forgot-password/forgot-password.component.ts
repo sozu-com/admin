@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AdminService } from './../services/admin.service';
 import { NgForm } from '@angular/forms';
 import { IProperty } from './../common/property';
@@ -18,7 +19,7 @@ export class ForgotPasswordComponent implements OnInit {
     email: ''
   };
 
-  constructor(private admin: AdminService) { }
+  constructor(private admin: AdminService, private router: Router) { }
 
   ngOnInit() { }
 
@@ -31,6 +32,8 @@ export class ForgotPasswordComponent implements OnInit {
         success => {
           this.parameter.loading = false;
           swal('Success', success.message, 'success');
+          formData.reset();
+          this.router.navigate(['']);
         },
         error => {
           this.parameter.loading = false;

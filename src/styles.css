@@ -35,10 +35,10 @@
     font-weight: 100;
 }
 .ng-valid[required], .ng-valid.required  {
-    /* border-bottom: 1px solid #00B96F !important;  */
+    border: 1px solid #00B96F !important; 
 }
-.ng-invalid:not(form)  {
-    /* border-bottom: 1px solid #a94442 !important;  */
+.ng-touched.ng-invalid:not(form)  {
+    border: 1px solid #a94442 !important; 
 }
 .show-error{
     padding: 8px 10px;

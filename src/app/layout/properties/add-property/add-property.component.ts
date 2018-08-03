@@ -545,7 +545,7 @@ console.log('url2', this.url2);
     this.parameter.url = this.model.id !== '' ? 'addProperty' : 'addProperty';
     this.model.step = tab - 1;
     const input = new FormData();
-    this.parameter.property_id = '44';
+    // this.parameter.property_id = '44';
     if (this.parameter.property_id) {input.append('property_id', this.parameter.property_id); }
 
     input.append('step', this.model.step.toString());
@@ -617,6 +617,10 @@ console.log('url2', this.url2);
         success => {
           console.log('tagBuilding', success);
           this.parameter.loading = false;
+          swal('Property submitted successfully.',
+          'You will be notified once your property will be reviewed by them, you can view status in your properties.',
+          'success');
+          this.router.navigate(['/dashboard/properties/view-properties']);
         },
         error => {
           this.parameter.loading = false;
@@ -647,7 +651,7 @@ console.log('url2', this.url2);
           this.longitude = place.geometry.location.lng();
           this.zoom = 12;
 
-          console.log('----------', this.latitude, this.longitude, this.zoom);
+          if (place.formatted_address) { this.building.address = place.formatted_address; }
         });
       });
     });
@@ -697,22 +701,30 @@ console.log('url2', this.url2);
     this.parameter.loading = true;
     this.parameter.url = 'buildingRequest';
 
-    const input = new FormData();
-    input.append('name', this.building.name);
-    input.append('address', this.building.address);
-    input.append('lat', this.building.lat.toString());
-    input.append('lng', this.building.lng.toString());
+    this.building.lat = this.latitude;
+    this.building.lng = this.longitude;
 
-    if (this.building.dev_name) {input.append('dev_name', this.building.dev_name); }
-    if (this.building.dev_phone) {input.append('dev_name', this.building.dev_phone); }
-    if (this.building.dev_countrycode) {input.append('dev_name', this.building.dev_countrycode); }
-    if (this.building.dev_email) {input.append('dev_name', this.building.dev_email); }
+    // const input = new FormData();
+    // input.append('name', this.building.name);
+    // input.append('address', this.building.address);
+    // input.append('lat', this.building.lat.toString());
+    // input.append('lng', this.building.lng.toString());
 
-    this.admin.postDataApi(this.parameter.url, input)
+    // if (this.building.dev_name) {input.append('dev_name', this.building.dev_name); }
+    // if (this.building.dev_phone) {input.append('dev_name', this.building.dev_phone); }
+    // if (this.building.dev_countrycode) {input.append('dev_name', this.building.dev_countrycode); }
+    // if (this.building.dev_email) {input.append('dev_name', this.building.dev_email); }
+
+    this.admin.postDataApi(this.parameter.url, this.building)
       .subscribe(
         success => {
-          console.log('success', success);
+          console.log('buildingRequest', success);
           this.parameter.loading = false;
+          // Your Property is submitted to our Team.
+          swal('Property submitted successfully.',
+          'You will be notified once your property will be reviewed by them, you can view status in your properties.',
+          'success');
+          this.router.navigate(['/dashboard/properties/view-properties']);
         },
         error => {
           this.parameter.loading = false;
