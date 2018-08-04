@@ -49,7 +49,7 @@ export class InhouseUsersComponent implements OnInit {
 
   getPage(page) {
     console.log('page', page);
-    this.parameter.p = page - 1;
+    this.parameter.p = page;
     this.getInhouseUsers();
   }
 
@@ -427,7 +427,7 @@ console.log('countryid', country_id);
     }
 
     const input = new FormData();
-    input.append('page', this.parameter.p.toString());
+    input.append('page', (this.parameter.p - 1).toString());
 
     if (this.parameter.name) {input.append('name', this.parameter.name); }
 

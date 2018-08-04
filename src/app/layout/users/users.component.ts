@@ -37,6 +37,12 @@ export class UsersComponent implements OnInit {
     this.getBuyers(this.parameter.type, this.parameter.p, '', '', '');
   }
 
+  getPage(page) {
+    console.log('page', page);
+    this.parameter.p = page;
+    this.getBuyers(this.parameter.type, this.parameter.p, this.parameter.name, this.parameter.phone, this.parameter.email);
+  }
+
   getBuyers(type, page, name, phone, email) {
 
     this.parameter.p = page;
@@ -49,7 +55,7 @@ export class UsersComponent implements OnInit {
     this.parameter.url = this.parameter.type === 1 ? 'getBuyers' : 'getSellers';
 
     const input = new FormData();
-    input.append('page', this.parameter.p.toString());
+    input.append('page', (this.parameter.p - 1).toString());
 
     if (this.parameter.name) {input.append('name', this.parameter.name); }
 
@@ -63,7 +69,7 @@ export class UsersComponent implements OnInit {
           console.log('getBuyers', success);
           this.parameter.loading = false;
           this.parameter.items = success.data;
-          this.parameter.total = success.data.length;
+          this.parameter.total = success.total;
         },
         error => {
           console.log(error);

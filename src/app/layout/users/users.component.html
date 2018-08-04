@@ -71,12 +71,14 @@
                 <td class="text-left">
                   <span class="name">{{item.name}}</span>
                 </td>
-                <td class="text-left" *ngIf="item.phone">{{item.country_code}}-{{item.phone}}</td>
+                <!-- <td class="text-left" *ngIf="item.phone">{{item.country_code}}-{{item.phone}}</td> -->
+                <td class="text-left" *ngIf="item.phone">{{item.phone}}</td>
                 <td class="text-left" *ngIf="!item.phone">NA</td>
                 <td class="text-left">{{item.email}}</td>
                 <td>14</td>
                 <td>
-                  <a href="javascript://" (click)="editUser(item)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
+                  <!-- <a href="javascript://" (click)="editUser(item)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a> -->
+                  <a href="javascript://" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
                   <a href="javascript://" *ngIf="item.is_blocked == 1" (click)="blockUnblockPopup(i, item.id, 0, parameter.type)" title="Unblock user" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a>
                   <a href="javascript://" *ngIf="item.is_blocked == 0" (click)="blockUnblockPopup(i, item.id, 1, parameter.type)" title="Block user" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
                 </td>

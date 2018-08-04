@@ -62,7 +62,8 @@ export class PropertyComponent implements OnInit {
 
   addPropertyConfiguration(id, name_en, name_es, status, type) {
 
-    if (type !== 'add') {this.modalRef.hide(); }
+    // if (type !== 'add') {this.modalRef.hide(); }
+    if (type === 'edit') {this.modalRef.hide(); }
 
     this.parameter.loading = true;
     this.parameter.url = 'addConfiguration';
@@ -84,6 +85,9 @@ export class PropertyComponent implements OnInit {
             this.constant.successMsg.PROPERTY_CONFIG_ADDED_SUCCESSFULLY;
           swal('Success', text, 'success');
           this.getConfigurations();
+          this.property.configuration.id = '';
+          this.property.configuration.name_en = '';
+          this.property.configuration.name_es = '';
         },
         error => {
           this.parameter.loading = false;
@@ -93,7 +97,8 @@ export class PropertyComponent implements OnInit {
   }
 
   addPropertyType(id, name_en, name_es, status, type) {
-    if (type !== 'add') {this.modalRef.hide(); }
+    // if (type !== 'add') {this.modalRef.hide(); }
+    if (type === 'edit') {this.modalRef.hide(); }
 
     this.parameter.loading = true;
     this.parameter.url = 'addPropertyType';
@@ -115,6 +120,9 @@ export class PropertyComponent implements OnInit {
             this.constant.successMsg.PROPERTY_TYPE_ADDED_SUCCESSFULLY;
           swal('Success', text, 'success');
           this.getPropertyTypes();
+          this.property.type.id = '';
+          this.property.type.name_en = '';
+          this.property.type.name_es = '';
         },
         error => {
           this.parameter.loading = false;
@@ -125,8 +133,9 @@ export class PropertyComponent implements OnInit {
 
 
   addAmenity(id, icon, name_en, name_es, status, type) {
-
-    if (type !== 'add') {this.modalRef.hide(); }
+console.log('--', id, icon, name_en, name_es, status, type);
+    // if (type !== 'add') {this.modalRef.hide(); }
+    if (type === 'edit') {this.modalRef.hide(); }
 
     const iconNew = this.icon ? this.icon : this.property.amenities.icon;
 
@@ -153,6 +162,10 @@ export class PropertyComponent implements OnInit {
           this.constant.successMsg.AMENITY_ADDED_SUCCESSFULLY;
           swal('Success', text, 'success');
           this.getAmenities();
+          this.property.amenities.id = '';
+          this.property.amenities.name_en = '';
+          this.property.amenities.name_es = '';
+          this.property.amenities.icon = '';
         },
         error => {
           this.parameter.loading = false;
