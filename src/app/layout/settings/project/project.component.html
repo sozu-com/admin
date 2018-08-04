@@ -156,7 +156,7 @@
                   </div>
                   <div *ngIf="icon.errors && (icon.dirty || icon.touched)" class="show-error">
                     <div [hidden]="!icon.errors.required">
-                      {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
+                      {{constant.errorMsg.FILE_REQUIRED}}
                     </div>
                   </div>
                   <!-- <input type="file" class="form-control" placeholder="Amenity" id="icon" required [(ngModel)]="property.amenities.icon" name="icon" #icon="ngModel">

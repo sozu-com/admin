@@ -24,6 +24,7 @@ export class UsersComponent implements OnInit {
 
   public parameter: IProperty = {};
   initialCountry: any;
+  phonePattern = '^[0-9]{5,15}$';
 
   constructor(private constant: Constant, public model: Users, private element: ElementRef,
     private route: ActivatedRoute, private admin: AdminService, private router: Router,
@@ -128,7 +129,7 @@ console.log('sssssssssss', this.parameter.image);
         success => {
           console.log('success', success);
           this.parameter.loading = false;
-          if (success.success === 0) {
+          if (success.success === '0') {
             swal('Error', success.message, 'error');
           }else {
             this.modalClose.nativeElement.click();

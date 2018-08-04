@@ -27,6 +27,7 @@ export class InhouseUsersComponent implements OnInit {
   url: any[];
   image1: any;
   title: string;
+  phonePattern = '^[0-9]{5,15}$';
 
   constructor(private constant: Constant, private address: Address, private user: User,
     public model: InhouseUsers, private element: ElementRef, private route: ActivatedRoute,
@@ -145,7 +146,7 @@ console.log('aa', this.model.userModel.country_code);
         success => {
           console.log('success', success);
           this.parameter.loading = false;
-          if (success.success === 0) {
+          if (success.success === '0') {
             swal('Error', success.message, 'error');
           }else {
             this.modalClose.nativeElement.click();
