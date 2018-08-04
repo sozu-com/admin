@@ -26,6 +26,7 @@ export class InhouseUsersComponent implements OnInit {
   tempAdd: Object;
   url: any[];
   image1: any;
+  title: string;
 
   constructor(private constant: Constant, private address: Address, private user: User,
     public model: InhouseUsers, private element: ElementRef, private route: ActivatedRoute,
@@ -36,11 +37,12 @@ export class InhouseUsersComponent implements OnInit {
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.p = this.constant.p;
     this.parameter.routeName = this.router.url;
-
+    this.model.userModel.country_code = this.constant.country_code;
     this.tempAdd = this.model.address;
 
     this.parameter.sub = this.route.params.subscribe(params => {
       this.parameter.userType = params['userType'];
+      console.log('usertype', this.parameter.userType);
       this.getInhouseUsers();
       this.getCountries();
       this.initialCountry = {initialCountry: 'mx'};
@@ -88,7 +90,7 @@ export class InhouseUsersComponent implements OnInit {
   onSelectFile1(event) {
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
-
+      this.parameter.image = event.target.files[0];
       reader.onload = (e: any) => {
           this.url = e.target.result;
           this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.url})`);
@@ -120,15 +122,14 @@ export class InhouseUsersComponent implements OnInit {
   addNewUser(formdata: NgForm) {
     this.parameter.loading = true;
     this.parameter.url = this.model.userModel.id !== '' ? 'updateNewUser' : 'addNewUser';
-console.log('add newuser params', formdata, JSON.stringify(this.model.address), '+' + this.model.userModel.country_code);
+
     const input = new FormData();
 
     if (this.model.userModel.id !== '') {input.append('id', this.model.userModel.id); }
-
+console.log('aa', this.model.userModel.country_code);
     input.append('name', formdata.value.name);
     input.append('country_code', '+' + this.model.userModel.country_code);
     input.append('phone', formdata.value.phone);
-    input.append('image', this.parameter.image);
     input.append('email', formdata.value.email);
     input.append('address', JSON.stringify(this.model.address));
     input.append('is_broker_seller_dev', formdata.value.is_broker_seller_dev === true ? '1' : '0');
@@ -136,6 +137,8 @@ console.log('add newuser params', formdata, JSON.stringify(this.model.address), 
     input.append('is_broker', formdata.value.is_broker === true ? '1' : '0');
     input.append('is_data_collector', formdata.value.is_data_collector === true ? '1' : '0');
     input.append('is_csr_closer', formdata.value.is_csr_closer === true ? '1' : '0');
+
+    if (this.parameter.image) {input.append('image', this.parameter.image); }
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
@@ -147,10 +150,18 @@ console.log('add newuser params', formdata, JSON.stringify(this.model.address), 
           }else {
             this.modalClose.nativeElement.click();
             formdata.reset();
+            this.model.userModel.country_code = this.constant.country_code;
+            this.model.address = [{
+                countries: '',
+                states : '',
+                cities: '',
+                localities: ''
+            }];
+            this.image1 = '';
             const text = this.model.userModel.id === '' ? 'Added successfully.' : 'Updated successfully.';
             swal('Success', text, 'success');
+            this.getInhouseUsers();
           }
-          // console.log('user add',success)
         },
         error => {
           console.log(error);
@@ -397,26 +408,31 @@ console.log('countryid', country_id);
     switch (this.parameter.userType) {
       case 'data-collectors':
       this.parameter.url = 'getDataCollectors';
+      this.title = 'Data Collectors';
       this.parameter.type = 1;
         break;
 
       case 'csr-sellers':
       this.parameter.url = 'getCsrSellers';
+      this.title = 'CSR Sellers';
       this.parameter.type = 2;
         break;
 
       case 'csr-buyers':
       this.parameter.url = 'getCsrBuyers';
+      this.title = 'CSR Buyers';
       this.parameter.type = 3;
         break;
 
       case 'inhouse-broker':
       this.parameter.url = 'getInhouseBroker';
+      this.title = 'Inhouse Broker';
       this.parameter.type = 4;
         break;
 
       case 'csr-closers':
       this.parameter.url = 'getCsrClosers';
+      this.title = 'CSR Closers';
       this.parameter.type = 5;
         break;
 
@@ -528,12 +544,7 @@ console.log('countryid', country_id);
         success => {
           console.log('success', success);
           this.parameter.loading = false;
-
-          // this.swal.success({
-          //   title: 'Success',
-          //   text: this.parameter.successText
-          // });
-          swal('Success', this.parameter.successText, 'error');
+          swal('Success', this.parameter.successText, 'success');
           this.parameter.items[this.parameter.index] = success.data;
 
         },

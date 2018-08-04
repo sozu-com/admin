@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
 import { Router, ActivatedRoute } from '@angular/router';
-// import { SweetAlertService } from 'ngx-sweetalert2';
 import { IProperty } from '../../common/property';
 import { Users } from './../../models/users.model';
 import { NgForm } from '@angular/forms';
 import { Constant } from './../../common/constants';
+import { DomSanitizer } from '@angular/platform-browser';
 declare let swal: any;
 
 @Component({
@@ -17,6 +17,8 @@ declare let swal: any;
 
 export class UsersComponent implements OnInit {
 
+  url: any[];
+  image1;
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
 
@@ -25,7 +27,7 @@ export class UsersComponent implements OnInit {
 
   constructor(private constant: Constant, public model: Users, private element: ElementRef,
     private route: ActivatedRoute, private admin: AdminService, private router: Router,
-    // private swal: SweetAlertService
+    public sanitization: DomSanitizer
   ) { }
 
   ngOnInit() {
@@ -78,9 +80,6 @@ export class UsersComponent implements OnInit {
             this.router.navigate(['']);
           }else {
             swal('Error', error.message, 'error');
-            // this.swal.warning({
-            //   text: error.messages,
-            // });
           }
         });
   }
@@ -88,16 +87,15 @@ export class UsersComponent implements OnInit {
 
   changeListner(event) {
 
-    const reader = new FileReader();
-
-    const image = this.element.nativeElement.querySelector('.image');
-
     this.parameter.image = event.target.files[0];
     this.parameter.icon = this.parameter.image;
 
-    reader.onload = function(e) {
-      const src = e.target['result'];
-        image.src = src;
+    const reader = new FileReader();
+
+    reader.onload = (e: any) => {
+        this.url = e.target.result;
+        this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.url})`);
+        console.log('this.url, this.image1', this.url);
     };
 
     reader.readAsDataURL(event.target.files[0]);
@@ -106,6 +104,7 @@ export class UsersComponent implements OnInit {
   onCountryChange(e) {
     console.log('eeee', e);
     this.model.country_code = e.dialCode;
+    console.log('sssssssssss', this.model);
     this.initialCountry = {initialCountry: e.iso2};
   }
 
@@ -116,12 +115,13 @@ console.log(formdata);
     const input = new FormData();
 
     if (this.model.id !== '') { input.append('id', this.model.id); }
-
+console.log('sssssssssss', this.parameter.image);
     input.append('name', formdata.value.name);
     input.append('country_code', '+' + this.model.country_code);
     input.append('phone', formdata.value.phone);
-    input.append('image', this.parameter.image);
     input.append('email', formdata.value.email);
+
+    if (this.parameter.image) { input.append('image', this.parameter.image); }
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
@@ -130,19 +130,12 @@ console.log(formdata);
           this.parameter.loading = false;
           if (success.success === 0) {
             swal('Error', success.message, 'error');
-            // this.swal.error({
-            //   title: 'Error',
-            //   text: success.message
-            // });
           }else {
             this.modalClose.nativeElement.click();
+            this.getBuyers(this.parameter.type, this.parameter.p, this.parameter.name, this.parameter.phone, this.parameter.email);
             formdata.reset();
             const text = this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
-            swal('Success', text, 'error');
-            // this.swal.success({
-            //   title: 'Success',
-            //   text: this.model.id === '' ? 'Added successfully.' : 'Updated successfully.'
-            // });
+            swal('Success', text, 'success');
           }
           // console.log('user add',success)
         },
@@ -150,10 +143,6 @@ console.log(formdata);
           console.log(error);
           this.parameter.loading = false;
           swal('Error', error.message, 'error');
-          // this.swal.error({
-          //   title: 'Error',
-          //   text: error.message,
-          // });
         });
   }
 
@@ -186,17 +175,6 @@ console.log(formdata);
         this.blockAdmin(index, id, flag, user_type);
       }
     });
-
-    // const self = this;
-    // this.swal.confirm({
-    //     title: this.parameter.title,
-    //     text: this.parameter.text,
-    // }).then(function() {
-    //   self.blockAdmin(index, id, flag, user_type);
-    // })
-    // .catch(function() {
-    //   // console.log('Logout cancelled by user');
-    // });
   }
 
 
@@ -213,23 +191,14 @@ console.log(formdata);
         success => {
           console.log('success', success);
           this.parameter.loading = false;
-
-          this.parameter.items[this.parameter.index] = success.data;
+          // this.parameter.items[this.parameter.index] = success.data;
+          this.getBuyers(this.parameter.type, this.parameter.p, this.parameter.name, this.parameter.phone, this.parameter.email);
           swal('Success', success.message, 'success');
-          // this.swal.success({
-          //   title: 'Success',
-          //   text: this.parameter.successText
-          // });
-
         },
         error => {
           console.log(error);
           this.parameter.loading = false;
           swal('Error', error.message, 'error');
-          // this.swal.error({
-          //   title: 'Error',
-          //   text: error.message,
-          // });
         });
   }
 }

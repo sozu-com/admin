@@ -40,6 +40,10 @@
                 <th style="width:20%">
                   <div class="table-search">
                       <label>Name</label>
+                      <!-- <div class="searh-2">
+                        <input type="text" #nameSearch name="keyword" placeholder="Search here">
+                        <button (click)="getBuyers(parameter.type, parameter.p, nameSearch.value, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
+                      </div> -->
                       <input type="Search here" (input)="getBuyers(parameter.type, parameter.p, $event.target.value, parameter.phone, parameter.email)" name="">
                   </div>
                 </th>
@@ -71,8 +75,8 @@
                 <td class="text-left">
                   <span class="name">{{item.name}}</span>
                 </td>
-                <!-- <td class="text-left" *ngIf="item.phone">{{item.country_code}}-{{item.phone}}</td> -->
-                <td class="text-left" *ngIf="item.phone">{{item.phone}}</td>
+                <td class="text-left" *ngIf="item.phone">{{item.country_code}}-{{item.phone}}</td>
+                <!-- <td class="text-left" *ngIf="item.phone">{{item.phone}}</td> -->
                 <td class="text-left" *ngIf="!item.phone">NA</td>
                 <td class="text-left">{{item.email}}</td>
                 <td>14</td>
@@ -116,8 +120,8 @@
         <div class="modal-body">
           <div class="row">
             <div class="col-6">
-              <div class="add-img">
-              <input required accept="image/*" name="image" class="image" (change)="changeListner($event)" type="file">
+              <div class="add-img" [style.background-image]="image1">
+              <input accept="image/*" name="image" class="image" (change)="changeListner($event)" type="file">
               <label>+ Add Image</label>
               </div>
             </div>
@@ -142,7 +146,7 @@
               <div class="form-group-2">
                   <label>Contact number</label>
                   <div class="form-group">
-                  <input minlength="6" maxlength="16" autocomplete="off" type="text" class="form-control" id="phone" required minlength="1" [(ngModel)]="model.phone" name="phone"
+                  <input minlength="6" maxlength="16" autocomplete="off" type="number" class="form-control" id="phone" required minlength="1" [(ngModel)]="model.phone" name="phone"
                         ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
                 </div>
               </div>

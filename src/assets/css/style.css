@@ -96,7 +96,7 @@ box-shadow:none;
 border-bottom:solid 1px #00B774; 
 }
 .form-group .form-control:focus{
-border:solid 1px #00B774; 
+border-bottom:solid 1px #00B774; 
 }
 .form-group:focus-within label, .form-group-2:focus-within label, .table-search:focus-within label  {
 color:#00B774;
