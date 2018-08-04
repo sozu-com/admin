@@ -21,6 +21,7 @@ import { LayoutModule } from './layout/layout.module';
 import { HttpInterceptor } from './services/http-interceptor';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { LoginComponent } from './login/login.component';
+import { CommonService } from './services/common.service';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent},
@@ -55,7 +56,7 @@ const appRoutes: Routes = [
     Ng2TelInputModule,
     // ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [AdminService, AuthGuard, HttpInterceptor],
+  providers: [AdminService, CommonService, AuthGuard, HttpInterceptor],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

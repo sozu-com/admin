@@ -34,6 +34,8 @@ export class LocationComponent implements OnInit {
 
   ngOnInit() {
     this.getCountries('');
+    this.getAllCountries('');
+    this.getAllCountriesForCities('');
     this.agm = new AGMComponent(this.loader);
   }
 
@@ -85,8 +87,71 @@ export class LocationComponent implements OnInit {
     this.modalRef = this.modalService.show(template); // {3}
   }
 
-  getCountries(keyword) {
 
+  // used for dropdown for states
+  getAllCountries(keyword) {
+
+    this.parameter.loading = true;
+    this.parameter.url = 'getCountries';
+    const input = new FormData();
+
+    if (keyword) { input.append('keyword', keyword); }
+
+    this.admin.postDataApi(this.parameter.url, input)
+      .subscribe(
+        success => {
+          console.log('countries', success);
+          this.parameter.loading = false;
+          this.parameter.countries1 = success.data;
+          if (this.parameter.countries1.length !== 0) {
+            this.parameter.country_id = this.parameter.countries1[0].id;
+            this.getStatesWRTCountry(this.parameter.countries1[0].id, '');
+          }
+        },
+        error => {
+          this.parameter.loading = false;
+          if (error.statusCode === 401) {
+            this.router.navigate(['']);
+          }else {
+            swal('Error', error.message, 'error');
+          }
+        });
+  }
+
+
+  // used for dropdown for cities
+  getAllCountriesForCities(keyword) {
+
+    this.parameter.loading = true;
+    this.parameter.url = 'getCountries';
+    const input = new FormData();
+
+    if (keyword) { input.append('keyword', keyword); }
+
+    this.admin.postDataApi(this.parameter.url, input)
+      .subscribe(
+        success => {
+          console.log('countries', success);
+          this.parameter.loading = false;
+          this.parameter.countries2 = success.data;
+          if (this.parameter.countries2.length !== 0) {
+            this.parameter.country_id = this.parameter.countries2[0].id;
+            this.getStates(this.parameter.countries2[0].id, '');
+          }
+        },
+        error => {
+          this.parameter.loading = false;
+          if (error.statusCode === 401) {
+            this.router.navigate(['']);
+          }else {
+            swal('Error', error.message, 'error');
+          }
+        });
+  }
+
+
+  // used for country listing and country search
+  getCountries(keyword) {
     this.parameter.loading = true;
     this.parameter.url = 'getCountries';
     const input = new FormData();
@@ -100,10 +165,10 @@ export class LocationComponent implements OnInit {
           this.parameter.loading = false;
           this.parameter.countries = success.data;
           this.parameter.countryCount = success.data.length;
-          if (this.parameter.countries.length !== 0) {
-            this.parameter.country_id = this.parameter.countries[0].id;
-            this.getStates(this.parameter.countries[0].id, '');
-          }
+          // if (this.parameter.countries.length !== 0) {
+          //   this.parameter.country_id = this.parameter.countries[0].id;
+          //   this.getStatesWRTCountry(this.parameter.countries[0].id, '');
+          // }
         },
         error => {
           this.parameter.loading = false;
@@ -115,6 +180,7 @@ export class LocationComponent implements OnInit {
         });
   }
 
+  // used on click of country -- city
   getStates(country_id, keyword) {
     this.parameter.loading = true;
     this.parameter.url = 'country/getStates';
@@ -130,11 +196,11 @@ export class LocationComponent implements OnInit {
         success => {
           console.log('states', success);
           this.parameter.loading = false;
-          this.parameter.states = success.data;
-          this.parameter.stateCount = success.data.length;
-          if (this.parameter.states.length !== 0) {
-            this.parameter.state_id = this.parameter.states[0].id;
-            this.getCities(this.parameter.states[0].id, '');
+          this.parameter.states1 = success.data;
+          // this.parameter.stateCount = success.data.length;
+          if (this.parameter.states1.length !== 0) {
+            this.parameter.state_id = this.parameter.states1[0].id;
+            this.getCities(this.parameter.states1[0].id, '');
           }
         },
         error => {
@@ -147,6 +213,7 @@ export class LocationComponent implements OnInit {
         });
   }
 
+  // used for search and listing
   getStatesWRTCountry(country_id, keyword) {
     this.parameter.loading = true;
     this.parameter.url = 'country/getStates';
@@ -164,10 +231,10 @@ export class LocationComponent implements OnInit {
           this.parameter.loading = false;
           this.parameter.states = success.data;
           this.parameter.stateCount = success.data.length;
-          if (this.parameter.states.length !== 0) {
-            this.parameter.state_id = this.parameter.states[0].id;
-            this.getCities(this.parameter.states[0].id, '');
-          }
+          // if (this.parameter.states.length !== 0) {
+          //   this.parameter.state_id = this.parameter.states[0].id;
+          //   this.getCities(this.parameter.states[0].id, '');
+          // }
         },
         error => {
           this.parameter.loading = false;
@@ -198,10 +265,10 @@ export class LocationComponent implements OnInit {
           this.parameter.loading = false;
           this.parameter.cities = success.data;
           this.parameter.cityCount = success.data.length;
-          if (this.parameter.cities.length !== 0) {
-            this.parameter.city_id = this.parameter.cities[0].id;
-            this.getLocalities(this.parameter.cities[0].id, '');
-          }
+          // if (this.parameter.cities.length !== 0) {
+          //   this.parameter.city_id = this.parameter.cities[0].id;
+          //   this.getLocalities(this.parameter.cities[0].id, '');
+          // }
         },
         error => {
           this.parameter.loading = false;
@@ -290,7 +357,7 @@ export class LocationComponent implements OnInit {
           swal('Success', text, 'success');
 
           this.parameter.loading = false;
-          // this.getCountries('');
+          this.getAllCountries('');   // loading dropdown
 
           if (this.parameter.index === -1) {
             this.parameter.countries.push(success.data);
@@ -366,7 +433,7 @@ export class LocationComponent implements OnInit {
           swal('Success', text, 'success');
           this.parameter.loading = false;
           // this.getStates(this.location.stateModel.country_id ? this.location.stateModel.country_id : country_id, '');
-
+          this.getStates(this.parameter.country_id, '');
 
           if (this.parameter.index === -1) {
             this.parameter.states.push(success.data);

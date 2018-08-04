@@ -48,7 +48,8 @@ export class InhouseUsersComponent implements OnInit {
   }
 
   getPage(page) {
-    this.parameter.p = page;
+    console.log('page', page);
+    this.parameter.p = page - 1;
     this.getInhouseUsers();
   }
 

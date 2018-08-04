@@ -35,7 +35,7 @@
     font-weight: 100;
 }
 .ng-valid[required], .ng-valid.required  {
-    border: 1px solid #00B96F !important; 
+    /* border: 1px solid #00B96F !important;  */
 }
 .ng-touched.ng-invalid:not(form)  {
     border: 1px solid #a94442 !important; 
@@ -79,4 +79,7 @@ ngx-my-date-picker .ngxmdp .headertodaybtn {
 }
 .cursor-pointer{
     cursor: pointer;
+}
+.btn-cont .btn-primary {
+    border-radius: 4px !important;
 }

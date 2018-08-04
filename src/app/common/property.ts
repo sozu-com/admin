@@ -30,6 +30,12 @@ export interface IProperty {
   countries?: any;
   states?: any;
   cities?: any;
+  countries1?: any;
+  states1?: any;
+  cities1?: any;
+  countries2?: any;
+  states2?: any;
+  cities2?: any;
   localities?: any;
   buildings?: any;
   country_id?: string;
