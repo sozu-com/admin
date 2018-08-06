@@ -12,11 +12,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
-// import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-// import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
-// import { SignupComponent } from './signup/signup.component';
 import { LayoutModule } from './layout/layout.module';
 import { HttpInterceptor } from './services/http-interceptor';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
@@ -25,12 +22,10 @@ import { CommonService } from './services/common.service';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent},
+  { path: '**', component: PageNotFoundComponent },
   { path: 'login', pathMatch: 'full', component: LoginComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'dashboard', canActivate: [AuthGuard], loadChildren: './layout/layout.module#LayoutModule'},
-  // { path: '', pathMatch: 'full', redirectTo: 'login' },
-  { path: '**', component: PageNotFoundComponent }
-  // { path: '**', pathMatch: 'full', redirectTo: 'login' },
 ];
 
 @NgModule({

@@ -41,7 +41,7 @@
 
   <div class="spacer10"></div>
 
-  <form  ngNativeValidate #addForm="ngForm">
+  <form ngNativeValidate #createDraft="ngForm" (ngSubmit)="addProperty(createDraft, 2)">
     
     <!-- tab-1 -->
     <div class="white-bg" *ngIf="tab==1">
@@ -67,7 +67,7 @@
           <div class="col-lg-3 col-md-12 col-sm-12 col-12">
             <div class="form-group-3">
               <label>Select Country</label>
-              <select title="Choose Country" class="form-control" (change)="getStates($event.target.value)">
+              <select title="Choose Country" required class="form-control" (change)="getStates($event.target.value)">
                 <option value="" [selected]="model.country_id == ''" disabled>Select Country</option>
                 <option *ngFor="let country of parameter.countries" value="{{country.id}}" [selected]="country.id == model.country_id">{{country.name_en}}</option>
               </select>
@@ -76,7 +76,7 @@
           <div class="col-lg-3 col-md-12 col-sm-12 col-12">
             <div class="form-group-3">
               <label>&nbsp;</label>
-              <select title="Choose State" class="form-control" (change)="getCities($event.target.value)">
+              <select title="Choose State" required class="form-control" (change)="getCities($event.target.value)">
                 <option value="" [selected]="model.state_id == ''" disabled>Select State</option>
                 <option *ngFor="let state of parameter.states" value="{{state.id}}" [selected]="state.id == model.state_id">{{state.name_en}}</option>
               </select>
@@ -129,13 +129,13 @@
           <div class="col-md-4 col-sm-12 col-12">
             <div class="form-group-3">
               <label>Enter Carpet Area</label>
-              <input class="form-control" required type="text" name="area[{{c}}]" placeholder="Area should be in Sq/ft." [(ngModel)]="carpet_area.area">
+              <input required class="form-control" required type="text" name="area[{{c}}]" placeholder="Area should be in Sq/ft." [(ngModel)]="carpet_area.area">
             </div> 
           </div>
           <div class="col-md-4 col-sm-12 col-12">
             <div class="form-group-3">
               <label>Enter Average Price</label>
-              <input class="form-control" required type="text" name="price[{{c}}]" placeholder="Amount should be in $" [(ngModel)]="carpet_area.price">
+              <input required class="form-control" required type="text" name="price[{{c}}]" placeholder="Amount should be in $" [(ngModel)]="carpet_area.price">
             </div> 
           </div>
           <div class="col-md-4 col-sm-12 col-12" *ngIf="c>0">
@@ -155,15 +155,17 @@
         <div class="row">
           <div class="col-md-12">
             <div class="btn-cont text-right">
-              <a class="btn-third btn" href="javascript://" (click)="addProperty(addForm, 2)">Next</a>
+              <!-- <a class="btn-third btn" [disabled]="addForm.invalid" type="submit" href="javascript://" (click)="addProperty(addForm, 2)">Next</a> -->
+              <button type="submit" [disabled]="createDraft.invalid" class="btn btn-primary">Next</button>
             </div>
           </div>
         </div>
 
       </div>
     </div>
+    </form>
 
-
+    <form  ngNativeValidate #additionalInfo="ngForm" (ngSubmit)="addProperty(additionalInfo, 2)">
     <!-- tab-2 -->
     <div class="white-bg" *ngIf="tab==2">
       <div class="page-title">
@@ -368,17 +370,20 @@
       <div class="row">
         <div class="col-md-12">
           <div class="btn-cont text-right">
-            <a class="btn-third btn" href="javascript://" (click)="addProperty(addForm, 3)">Next</a>
+            <!-- <a class="btn-third btn" href="javascript://" (click)="addProperty(addForm, 3)">Next</a> -->
+            <button type="submit" class="btn btn-primary" [disabled]="additionalInfo.invalid">Next</button>
           </div>
         </div>
       </div>
       
     </div>
   </div>
+</form>
 
 
 
 
+<form  ngNativeValidate #preferableBuyer="ngForm" (ngSubmit)="addProperty(preferableBuyer, 4)">
     <!-- tab-3 -->
     <div class="white-bg" *ngIf="tab==3">
         <div class="page-title">
@@ -392,14 +397,6 @@
             <input type="checkbox" value="{{m.id}}" name="marital_status" (click)="addMaritalStatus(m.id, mi)" checked="{{m.checked}}">
             <span class="checkmark">{{m.name}}</span>
           </label>
-          <!-- <label class="cust-radio"> 
-            <input type="checkbox" value="2" name="marital_status" [(ngModel)]="model.marital_status" checked="model.marital_status == 2 ? checked: ''">
-            <span class="checkmark">Unmarried</span>
-          </label>
-          <label class="cust-radio"> 
-            <input type="checkbox" value="3" name="marital_status" [(ngModel)]="model.marital_status" checked="model.marital_status == 3 ? checked: ''">
-            <span class="checkmark">Divorced</span>
-          </label> -->
           <div class="clearfix"></div>
         </div>
         <div class="spacer15"></div>
@@ -420,16 +417,18 @@
         <div class="row">
           <div class="col-md-12">
             <div class="btn-cont text-right">
-              <a class="btn-third btn" href="javascript://" (click)="addProperty(addForm, 4)">Next</a>
+              <!-- <a class="btn-third btn" href="javascript://" (click)="addProperty(addForm, 4)">Next</a> -->
+              <button type="submit" [disabled]="preferableBuyer.invalid" class="btn btn-primary">Next</button>
             </div>
           </div>
         </div>
         
       </div>
     </div>
+</form>
 
 
-
+<form  ngNativeValidate #custom="ngForm" (ngSubmit)="addProperty(custom, 5)">
     <!-- tab-4 -->
     <div class="white-bg" *ngIf="tab==4">
         <div class="page-title">
@@ -467,14 +466,15 @@
         <div class="row">
           <div class="col-md-12">
             <div class="btn-cont text-right">
-              <a class="btn-third btn" href="javascript://" (click)="addProperty(addForm, 5)">Next</a>
+              <!-- <a class="btn-third btn" href="javascript://" (click)="addProperty(addForm, 5)">Next</a> -->
+              <button type="submit" [disabled]="custom.invalid" class="btn btn-primary">Next</button>
             </div>
           </div>
         </div>
         
       </div>
     </div>
-
+</form>
     
 
     <!-- tab-5 -->
@@ -491,6 +491,7 @@
         <div class="spacer50"></div>
         
         <div *ngIf="parameter.buildingCount != 0" class="white-bg">
+        <form  ngNativeValidate #tagABuilding="ngForm" (ngSubmit)="tagBuilding()">
           <div class="tabel-section">
             <div class="table-responsive">
     
@@ -503,7 +504,7 @@
                 <tr *ngFor="let item of parameter.buildings; let i = index">
                   <td class="text-left">{{item.name}}</td>
                   <td>
-                    <input type="radio" name="building_id" (change)="setBuildingId(item.id)">                      
+                    <input type="radio" required name="building_id" (change)="setBuildingId(item.id)">                      
                   </td>
                 </tr>
               </table>
@@ -513,15 +514,19 @@
           <div class="row">
             <div class="col-md-12">
               <div class="btn-cont text-right">
-                <a class="btn-third btn" href="javascript://" (click)="tagBuilding()">Next</a>
+                <!-- <a class="btn-third btn" href="javascript://" (click)="tagBuilding()">Next</a> -->
+                <button type="submit" [disabled]="tagABuilding.invalid" class="btn btn-primary">Submit</button>
               </div>
             </div>
           </div>
+          </form>
       </div>
 
         <p *ngIf="parameter.buildingCount == 0 && showText" class="p18">Didn’t Found your Building? <strong><span (click)="showBuildingDetails(true)" class="green-color cursor-pointer">Generate a Request to add a building by our Data collectors</span></strong></p>
         <div *ngIf="showBuilding" class="spacer50"></div>
 
+
+<form  ngNativeValidate #buildingRequestForm="ngForm" (ngSubmit)="buildingRequest()">
         <div *ngIf="showBuilding" class="row">
           <div class="col-lg-7 col-md-12 col-sm-12 col-12">
             <div class="row">
@@ -569,9 +574,6 @@
           <div class="col-lg-5 col-md-12 col-sm-12 col-12">
             <div class="form-group-3 mark-pin-map">
               <label>Mark Pin on Map</label>
-              <!-- <input placeholder="search for location" autocorrect="off" autocapitalize="off" 
-              spellcheck="off" type="text" class="form-control" #search (input)="loadPlaces()"
-              [formControl]="searchControl"> -->
             </div>
             <div>
               <!-- <div id="mapDiv" style="height: 250px; width: 100%;" #mapDiv></div> -->
@@ -585,15 +587,15 @@
         <div class="row" *ngIf="showBuilding">
           <div class="col-md-12">
             <div class="btn-cont text-right">
-              <a class="btn-third btn" href="javascript://" (click)="buildingRequest()">Next</a>
+              <!-- <a class="btn-third btn" href="javascript://" (click)="buildingRequest()">Next</a> -->
+              <button type="submit" [disabled]="buildingRequestForm.invalid" class="btn btn-primary">Submit</button>
             </div>
           </div>
         </div>
         
+  </form>
       </div>
     </div>
-  
-  </form>
 
 <!-- Add More img -->
 <div class="modal add-more-popup" id="add-more-img">

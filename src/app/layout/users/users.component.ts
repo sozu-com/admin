@@ -40,8 +40,13 @@ export class UsersComponent implements OnInit {
     this.getBuyers(this.parameter.type, this.parameter.p, '', '', '');
   }
 
+  closeModal() {
+    this.image1 = '';
+    this.model.name = ''; this.model.email = ''; this.model.phone = '';
+    this.modalClose.nativeElement.click();
+  }
+
   getPage(page) {
-    console.log('page', page);
     this.parameter.p = page;
     this.getBuyers(this.parameter.type, this.parameter.p, this.parameter.name, this.parameter.phone, this.parameter.email);
   }
@@ -90,33 +95,27 @@ export class UsersComponent implements OnInit {
 
     this.parameter.image = event.target.files[0];
     this.parameter.icon = this.parameter.image;
-
     const reader = new FileReader();
-
     reader.onload = (e: any) => {
         this.url = e.target.result;
         this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.url})`);
-        console.log('this.url, this.image1', this.url);
     };
 
     reader.readAsDataURL(event.target.files[0]);
   }
 
   onCountryChange(e) {
-    console.log('eeee', e);
     this.model.country_code = e.dialCode;
-    console.log('sssssssssss', this.model);
     this.initialCountry = {initialCountry: e.iso2};
   }
 
   addNewUser(formdata: NgForm) {
     this.parameter.loading = true;
     this.parameter.url = this.model.id !== '' ? 'updateNewUser' : 'addSeller';
-console.log(formdata);
+
     const input = new FormData();
 
     if (this.model.id !== '') { input.append('id', this.model.id); }
-console.log('sssssssssss', this.parameter.image);
     input.append('name', formdata.value.name);
     input.append('country_code', '+' + this.model.country_code);
     input.append('phone', formdata.value.phone);
@@ -138,7 +137,6 @@ console.log('sssssssssss', this.parameter.image);
             const text = this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
             swal('Success', text, 'success');
           }
-          // console.log('user add',success)
         },
         error => {
           console.log(error);
@@ -191,14 +189,11 @@ console.log('sssssssssss', this.parameter.image);
       .subscribe(
         success => {
           console.log('success', success);
-          this.parameter.loading = false;
-          // this.parameter.items[this.parameter.index] = success.data;
-          this.getBuyers(this.parameter.type, this.parameter.p, this.parameter.name, this.parameter.phone, this.parameter.email);
           swal('Success', success.message, 'success');
+          this.parameter.items[this.parameter.index] = success.data;
         },
         error => {
           console.log(error);
-          this.parameter.loading = false;
           swal('Error', error.message, 'error');
         });
   }

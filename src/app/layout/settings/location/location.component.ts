@@ -21,21 +21,21 @@ export class LocationComponent implements OnInit {
   public parameter: IProperty = {};
   public modalRef: BsModalRef;
   agm: any;
+  searchCountry: string;
+  searchState: string;
+  searchCity: string;
 
   @ViewChild('mapDiv') mapDiv: ElementRef;
 
   constructor(private loader: MapsAPILoader, private location: Location, private constant: Constant,
     private modalService: BsModalService, private admin: AdminService, private router: Router
-  ) {
-    this.parameter.countryCount = 0;
-    this.parameter.stateCount = 0;
-    this.parameter.cityCount = 0;
-  }
+  ) { }
 
   ngOnInit() {
-    this.getCountries('');
-    this.getAllCountries('');
-    this.getAllCountriesForCities('');
+    this.searchCountry = ''; this.searchState = ''; this.searchCity = '';
+    this.getCountries(this.searchCountry);
+    this.getAllCountries(this.searchCountry);
+    this.getAllCountriesForCities(this.searchCountry);
     this.agm = new AGMComponent(this.loader);
   }
 
@@ -66,20 +66,6 @@ export class LocationComponent implements OnInit {
     this.location.cityModel.name_en = name_en;
     this.location.cityModel.name_es = name_es;
     this.location.cityModel.status = status;
-    this.modalRef = this.modalService.show(template);
-  }
-
-  public openLocalityModal(template: TemplateRef<any>, city_id, locality_id, name_en, name_es, poly_coordinates, status, index) {
-    this.parameter.index = index;
-
-    this.agm.init(this.mapDiv);
-
-    this.location.localityModel.city_id = city_id;
-    this.location.localityModel.locality_id = locality_id;
-    this.location.localityModel.name_en = name_en;
-    this.location.localityModel.name_es = name_es;
-    this.location.localityModel.status = status;
-    this.location.localityModel.poly_coordinates = poly_coordinates;
     this.modalRef = this.modalService.show(template);
   }
 
@@ -164,11 +150,6 @@ export class LocationComponent implements OnInit {
           console.log('countries', success);
           this.parameter.loading = false;
           this.parameter.countries = success.data;
-          this.parameter.countryCount = success.data.length;
-          // if (this.parameter.countries.length !== 0) {
-          //   this.parameter.country_id = this.parameter.countries[0].id;
-          //   this.getStatesWRTCountry(this.parameter.countries[0].id, '');
-          // }
         },
         error => {
           this.parameter.loading = false;
@@ -197,11 +178,10 @@ export class LocationComponent implements OnInit {
           console.log('states', success);
           this.parameter.loading = false;
           this.parameter.states1 = success.data;
-          // this.parameter.stateCount = success.data.length;
           if (this.parameter.states1.length !== 0) {
             this.parameter.state_id = this.parameter.states1[0].id;
             this.getCities(this.parameter.states1[0].id, '');
-          }
+          }else { this.parameter.cities = []; }
         },
         error => {
           this.parameter.loading = false;
@@ -218,7 +198,7 @@ export class LocationComponent implements OnInit {
     this.parameter.loading = true;
     this.parameter.url = 'country/getStates';
     this.parameter.country_id = country_id;
-
+    this.searchState = keyword;
     const input = new FormData();
     input.append('country_id', country_id);
 
@@ -230,11 +210,6 @@ export class LocationComponent implements OnInit {
           console.log('states', success);
           this.parameter.loading = false;
           this.parameter.states = success.data;
-          this.parameter.stateCount = success.data.length;
-          // if (this.parameter.states.length !== 0) {
-          //   this.parameter.state_id = this.parameter.states[0].id;
-          //   this.getCities(this.parameter.states[0].id, '');
-          // }
         },
         error => {
           this.parameter.loading = false;
@@ -246,11 +221,41 @@ export class LocationComponent implements OnInit {
         });
   }
 
+
+  // used for search and listing
+  getStatesForCity(country_id, keyword) {
+    this.parameter.loading = true;
+    this.parameter.url = 'country/getStates';
+    this.parameter.country_id = country_id;
+
+    const input = new FormData();
+    input.append('country_id', country_id);
+
+    if (keyword) {input.append('keyword', keyword); }
+
+    this.admin.postDataApi(this.parameter.url, input)
+      .subscribe(
+        success => {
+          console.log('states', success);
+          this.parameter.loading = false;
+          this.parameter.states2 = success.data;
+        },
+        error => {
+          this.parameter.loading = false;
+          if (error.statusCode === 401) {
+            this.router.navigate(['']);
+          }else {
+            swal('Error', error.message, 'error');
+          }
+        });
+  }
+
+
   getCities(state_id, keyword) {
     this.parameter.loading = true;
     this.parameter.url = 'getCities';
     this.parameter.state_id = state_id;
-
+    this.searchCity = keyword;
     const input = new FormData();
     input.append('state_id', state_id);
 
@@ -264,11 +269,6 @@ export class LocationComponent implements OnInit {
           console.log('cities', success);
           this.parameter.loading = false;
           this.parameter.cities = success.data;
-          this.parameter.cityCount = success.data.length;
-          // if (this.parameter.cities.length !== 0) {
-          //   this.parameter.city_id = this.parameter.cities[0].id;
-          //   this.getLocalities(this.parameter.cities[0].id, '');
-          // }
         },
         error => {
           this.parameter.loading = false;
@@ -280,33 +280,6 @@ export class LocationComponent implements OnInit {
         });
   }
 
-  getLocalities(city_id, keyword) {
-    this.parameter.loading = true;
-    this.parameter.url = 'getLocalities';
-    this.parameter.city_id = city_id;
-
-    const input = new FormData();
-    input.append('city_id', city_id);
-
-    if (keyword) {input.append('keyword', keyword); }
-
-    this.admin.postDataApi(this.parameter.url, input)
-      .subscribe(
-        success => {
-          console.log('cities', success);
-          this.parameter.loading = false;
-          this.parameter.localities = success.data;
-          this.parameter.localityCount = success.data.length;
-        },
-        error => {
-          this.parameter.loading = false;
-          if (error.statusCode === 401) {
-            this.router.navigate(['']);
-          }else {
-            swal('Error', error.message, 'error');
-          }
-        });
-  }
 
   checkIfCountrySpanishNameEntered(name_en, name_es= '') {
     const self = this;

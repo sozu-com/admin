@@ -45,9 +45,6 @@ export class LocalityComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.parameter.countryCount = 0;
-    this.parameter.stateCount = 0;
-    this.parameter.cityCount = 0;
     this.parameter.localities = [];
     this.getCountries('');
   }
@@ -68,7 +65,6 @@ export class LocalityComponent implements OnInit {
           console.log('countries', success);
           this.parameter.loading = false;
           this.parameter.countries = success.data;
-          this.parameter.countryCount = success.data.length;
           if (this.parameter.countries.length !== 0) {
             this.parameter.country_id = this.parameter.countries[0].id;
             this.getStates(this.parameter.countries[0].id, '');
@@ -103,7 +99,6 @@ export class LocalityComponent implements OnInit {
           console.log('states', success);
           this.parameter.loading = false;
           this.parameter.states = success.data;
-          this.parameter.stateCount = success.data.length;
           if (this.parameter.states.length) {
             this.parameter.state_id = this.parameter.states[0].id;
             this.getCities(this.parameter.states[0].id, '');
@@ -146,13 +141,11 @@ export class LocalityComponent implements OnInit {
           console.log('cities', success);
           this.parameter.loading = false;
           this.parameter.cities = success.data;
-          this.parameter.cityCount = success.data.length;
           if (this.parameter.cities.length) {
             this.parameter.city_id = this.parameter.cities[0].id;
             console.log('cityid', this.parameter.city_id);
             this.getLocalities(this.parameter.city_id, '');
           }else {
-            this.parameter.cityCount = 0;
             this.parameter.localityCount = 0;
             this.parameter.cities = [];
             this.parameter.localities = [];

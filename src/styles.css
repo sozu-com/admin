@@ -1,52 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
-#wrapper{
-    background: #f4f4f4 !important;
-}
-.backdrop{
-    position: fixed !important;
-}
-.spinner-rectangle-bounce{
-    position: fixed !important;
-}
-.intl-tel-input {
-    width: 100% !important;
-}
+#wrapper{ background: #f4f4f4 !important; }
+.backdrop{ position: fixed !important; }
+.spinner-rectangle-bounce{ position: fixed !important; }
+.intl-tel-input { width: 100% !important; }
 .my-pagination{text-align: right;}
-.ngx-pagination .current {
-    background: #00B96F !important;
-}
-.center{
-    text-align: center;
-}
-.app-logo{
-    padding-top: 7px;
-}
-.form-group select.form-control {
-    padding: 8px 60px 8px 15px !important;
-    height: 40px !important;
-}
+.ngx-pagination .current { background: #00B96F !important; }
+.center{ text-align: center; }
+.app-logo{ padding-top: 7px; }
+.form-group select.form-control { padding: 8px 60px 8px 15px !important; height: 40px !important; }
 .form-group .form-control:focus {
     /* border: none !important; */
     /* border-bottom: solid 1px #00B96F !important; */
 }
-.ibox{overflow-x: auto;}
-.no-data {
-    font-size: 20px;
-    font-weight: 100;
-}
-.ng-valid[required], .ng-valid.required  {
-    border-bottom: 1px solid #00B96F !important; 
-}
-.ng-touched.ng-invalid:not(form)  {
-    border-bottom: 1px solid #a94442 !important; 
-}
+.ibox{ overflow-x: auto; }
+.no-data { font-size: 20px; font-weight: 100; }
+.ng-valid[required], .ng-valid.required { border-bottom: 1px solid #00B96F !important; }
+.ng-touched.ng-invalid:not(form) { border-bottom: 1px solid #a94442 !important; }
 .show-error{
     padding: 8px 10px;
     border-radius: 4px;
     font-size: 16px;
     color: #ed5565 !important;
 }
-.btn:disabled{cursor:not-allowed;}
+.btn:disabled{ cursor:not-allowed; }
+
 /* ngx-my-date-picker */
 ngx-my-date-picker .ngxmdp .header {
     width: 100%;
@@ -55,31 +32,15 @@ ngx-my-date-picker .ngxmdp .header {
     background-color: #FAFAFA;
     display: contents;
 }
-ngx-my-date-picker .ngxmdp .headertodaybtn {
-    padding: 0px 14px;
-    min-width: 100px;
-}
+ngx-my-date-picker .ngxmdp .headertodaybtn { padding: 0px 14px; min-width: 100px; }
 
 /* modal css */
-.my-modal-header{
-    padding-left: 30px;
-    padding-top: 20px;
-}
-.my-modal-form{
-    padding: 15px 15px !important;
-}
-.my-modal-body{
-    padding: 10px;
-}
-.unblock-bg{
-    background: #ea5d5d
-}
-.delete-button{
-    margin-top: 22px;
-}
-.cursor-pointer{
-    cursor: pointer;
-}
-.btn-cont .btn-primary {
-    border-radius: 4px !important;
-}
+.my-modal-header{ padding-left: 30px; padding-top: 20px; }
+.my-modal-form{ padding: 15px 15px !important; }
+.my-modal-body{ padding: 10px; }
+.unblock-bg{ background: #ea5d5d; }
+.delete-button{ margin-top: 22px; }
+.cursor-pointer{ cursor: pointer; }
+.btn-cont .btn-primary { border-radius: 4px !important; }
+.searh-2 button { padding: 0px 10px; }
+.error-border { border: 1px solid #dfe2e6; border-top: none; }

@@ -84,14 +84,22 @@
               <a *ngIf="locality.status == 1" (click)="blockUnblockLocality(locality, index, 0)" title="Block Locality" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
             </td>
           </tr>
-
-          <div *ngIf="parameter.localityCount == 0">
-            <p class="show-error">
-              {{constant.errorMsg.NO_LOCALITY_FOUND}}
-            </p>
-          </div>
-
         </table>
+
+
+        <!-- <div class="error-border" *ngIf="parameter.states?.length == 0; else stateNotFound">
+          <p class="show-error">{{constant.errorMsg.NO_STATE_FOUND}}</p>
+        </div>
+        <ng-template #stateNotFound>
+          <div class="error-border" *ngIf="parameter.cities?.length == 0">
+            <p class="show-error">{{constant.errorMsg.NO_LOCALITY_FOUND}}</p>
+          </div>
+          <ng-container *ngIf="bar === 99; else elseif2">bar === 99</ng-container>
+        </ng-template> -->
+        <!-- <div class="error-border" *ngIf="all_overlays?.length == 0">
+          <p class="show-error">{{constant.errorMsg.NO_LOCALITY_FOUND}}</p>
+        </div> -->
+
       </div>
 
       <!-- google map -->

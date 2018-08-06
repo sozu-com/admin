@@ -46,6 +46,7 @@ export interface IProperty {
   countryCount?: number;
   stateCount?: number;
   cityCount?: number;
+  stateCityCount?: number;
   localityCount?: number;
   buildingCount?: number;
   countriesAdd?: any;

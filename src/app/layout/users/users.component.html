@@ -67,7 +67,7 @@
                 </th>
               </tr>
         
-              <tr *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }">
+              <tr *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }; let i=index">
                 <td> 
                   <img *ngIf="item.image" class="rounded-circle" [src]="item.image" alt="img">
                   <img *ngIf="!item.image" class="rounded-circle" src="./../../../assets/img/default_img.png" alt="img">
@@ -76,7 +76,6 @@
                   <span class="name">{{item.name}}</span>
                 </td>
                 <td class="text-left" *ngIf="item.phone">{{item.country_code}}-{{item.phone}}</td>
-                <!-- <td class="text-left" *ngIf="item.phone">{{item.phone}}</td> -->
                 <td class="text-left" *ngIf="!item.phone">NA</td>
                 <td class="text-left">{{item.email}}</td>
                 <td>14</td>
@@ -113,7 +112,8 @@
   <div class="modal-dialog fadeIndown modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
+          <button style="display: none;" type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
+          <button type="button" class="close" (click)="closeModal()">&times;</button>
       </div>
 
       <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="addNewUser(addForm)">
@@ -146,7 +146,7 @@
               <div class="form-group-2">
                   <label>Contact number</label>
                   <div class="form-group">
-                  <input minlength="6" maxlength="16" autocomplete="off" type="number" [pattern]="phonePattern" class="form-control" id="phone" required minlength="1" [(ngModel)]="model.phone" name="phone"
+                  <input minlength="6" maxlength="16" autocomplete="off" type="text" [pattern]="phonePattern" class="form-control" id="phone" required minlength="1" [(ngModel)]="model.phone" name="phone"
                         ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
                 </div>
               </div>
@@ -159,24 +159,6 @@
                 </div>
               </div>
             </div>
-            <!-- <div class="col-12">
-              <div class="form-group-2">
-                <label>User type</label>
-                <select title="Choose user type" [(ngModel)]="model.user_type" name="user_type" class="form-control">
-                  <option value="buyer">Buyer</option>
-                  <option value="seller">Seller</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-12" *ngIf="model.user_type == 'seller'">
-              <div class="form-group-2">
-                <label>Interested In</label>
-                <select title="Choose user type" name="interested_in" class="form-control">
-                  <option value="buyer">Buyer</option>
-                  <option value="seller">Seller</option>
-                </select>
-              </div>
-            </div> -->
           </div>
         </div>
       </form>
