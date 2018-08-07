@@ -24,7 +24,7 @@
                 <label><strong>Country</strong></label>
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-6 table-search searh-2">
-                  <input type="text" name="searchCountry" [(ngModel)]="keyword" placeholder="Search here">
+                  <input type="text" name="keyword" [(ngModel)]="searchCountry" placeholder="Search here">
                   <button (click)="getCountries(searchCountry)"><i class="fa fa-search"></i></button>
               </div>
               <div class="col-lg-9 col-md-9 col-sm-6 col-6">
@@ -61,13 +61,13 @@
                     <a *ngIf="country.status == 0" (click)="blockUnblockCountry(country.id, country.name_en, country.name_es, 1, c)" title="Unblock Country" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png" alt="img"></a>
                   </td>
                 </tr>
-
-                <div class="error-border" *ngIf="parameter.countries?.length == 0">
-                  <p class="show-error">
-                    {{constant.errorMsg.NO_COUNTRY_FOUND}}
-                  </p>
-                </div>
             </table>
+
+            <div class="error-border" *ngIf="parameter.countries?.length == 0">
+              <p class="show-error">
+                {{constant.errorMsg.NO_COUNTRY_FOUND}}
+              </p>
+            </div>
           </div>
       </div>
 
@@ -132,13 +132,13 @@
                       <a *ngIf="state.status == 0" (click)="blockUnblockState(state.country_id, state.name_en, state.name_es, 1, state.id, s)" title="Unblock State" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png" alt="img"></a>
                   </td>
                 </tr>
-
-                <div class="error-border" *ngIf="parameter.states?.length == 0">
-                  <p class="show-error">
-                    {{constant.errorMsg.NO_STATE_FOUND}}
-                  </p>
-                </div>
             </table>
+
+            <div class="error-border" *ngIf="parameter.states?.length == 0">
+              <p class="show-error">
+                {{constant.errorMsg.NO_STATE_FOUND}}
+              </p>
+            </div>
           </div>
       </div>
       
