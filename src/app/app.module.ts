@@ -22,10 +22,10 @@ import { CommonService } from './services/common.service';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent},
-  { path: '**', component: PageNotFoundComponent },
   { path: 'login', pathMatch: 'full', component: LoginComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'dashboard', canActivate: [AuthGuard], loadChildren: './layout/layout.module#LayoutModule'},
+  { path: '**', component: PageNotFoundComponent },
 ];
 
 @NgModule({
