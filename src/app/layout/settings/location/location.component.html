@@ -24,7 +24,7 @@
                 <label><strong>Country</strong></label>
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-6 table-search searh-2">
-                  <input type="text" name="keyword" [(ngModel)]="searchCountry" placeholder="Search here">
+                  <input type="text" name="keyword" [(ngModel)]="searchCountry" (keyup.enter)="getCountries(searchCountry)" placeholder="Search here">
                   <button (click)="getCountries(searchCountry)"><i class="fa fa-search"></i></button>
               </div>
               <div class="col-lg-9 col-md-9 col-sm-6 col-6">
@@ -92,7 +92,7 @@
                 <div class="form-group marginB0">
                   <label>Search</label>
                   <div class="searh-2">
-                      <input type="text" [(ngModel)]="searchState" name="keyword" placeholder="Search here">
+                      <input type="text" [(ngModel)]="searchState" (keyup.enter)="getStatesWRTCountry(parameter.country_id, searchState)" name="keyword" placeholder="Search here">
                       <button (click)="getStatesWRTCountry(parameter.country_id, searchState)"><i class="fa fa-search"></i></button>
                   </div>
                 </div>
@@ -173,7 +173,7 @@
               <div class="form-group marginB0">
                 <label>Search</label>
                 <div class="searh-2">
-                    <input type="text" [(ngModel)]="searchCity" name="keyword" placeholder="Search here">
+                    <input type="text" [(ngModel)]="searchCity" (keyup.enter)="getCities(parameter.state_id, searchCity)" name="keyword" placeholder="Search here">
                     <button (click)="getCities(parameter.state_id, searchCity)"><i class="fa fa-search"></i></button>
                 </div>
               </div>

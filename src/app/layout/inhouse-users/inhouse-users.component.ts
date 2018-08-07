@@ -28,6 +28,7 @@ export class InhouseUsersComponent implements OnInit {
   image1: any;
   title: string;
   phonePattern = '^[0-9]{5,15}$';
+  newPage: number;
 
   constructor(private constant: Constant, private address: Address, private user: User,
     public model: InhouseUsers, private element: ElementRef, private route: ActivatedRoute,
@@ -46,21 +47,47 @@ export class InhouseUsersComponent implements OnInit {
       console.log('usertype', this.parameter.userType);
       this.getInhouseUsers();
       this.getCountries();
-      this.initialCountry = {initialCountry: 'mx'};
+      this.initialCountry = {initialCountry: this.constant.initialCountry};
     });
   }
 
   getPage(page) {
-    console.log('page', page);
+    console.log('page1111', page);
+    console.log('sssss');
     this.parameter.p = page;
     this.getInhouseUsers();
   }
 
+  closeModal() {
+    this.modalClose.nativeElement.click();
+    this.model.userModel.country_code = this.constant.country_code;
+    this.model.address = [{
+        countries: '',
+        states : '',
+        cities: '',
+        localities: ''
+    }];
+    this.image1 = '';
+    this.model.userModel.id = '';
+    this.model.userModel.name = '';
+    this.model.userModel.email = '';
+    this.model.userModel.phone = '';
+    this.initialCountry = {initialCountry: this.constant.initialCountry};
+    this.model.userModel.is_broker_seller_dev = false;
+    this.model.userModel.is_buyer_renter = false;
+    this.model.userModel.is_broker = false;
+    this.model.userModel.is_data_collector = false;
+    this.model.userModel.is_csr_closer = false;
+  }
+
   removeAddressObj(index) {
+    console.log('zz', index);
+    this.addressIndex--;
     this.model.address.splice(index, 1);
   }
 
   addEmptyObj() {
+    console.log('====', this.addressIndex, this.model.address);
     if (this.model.address[this.addressIndex].countries && this.model.address[this.addressIndex].states &&
       this.model.address[this.addressIndex].cities && this.model.address[this.addressIndex].localities) {
       const obj = {
@@ -84,6 +111,9 @@ export class InhouseUsersComponent implements OnInit {
   }
 
   openAddModal() {
+    console.log('--', this.initialCountry);
+    this.initialCountry = this.constant.initialCountry;
+    console.log('--', this.initialCountry);
     this.modalOpen.nativeElement.click();
   }
 
@@ -141,6 +171,14 @@ console.log('aa', this.model.userModel.country_code);
 
     if (this.parameter.image) {input.append('image', this.parameter.image); }
 
+    if (formdata.value.is_broker_seller_dev === false && formdata.value.is_buyer_renter === false &&
+      formdata.value.is_broker === false && formdata.value.is_data_collector === false &&
+      formdata.value.is_csr_closer === false) {
+        swal('Error', 'Please choose a role for inhouse user.', 'error');
+        this.parameter.loading = false;
+    }
+
+    console.log('addnewuser');
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
@@ -152,6 +190,7 @@ console.log('aa', this.model.userModel.country_code);
             this.modalClose.nativeElement.click();
             formdata.reset();
             this.model.userModel.country_code = this.constant.country_code;
+            this.initialCountry = {initialCountry: this.constant.initialCountry};
             this.model.address = [{
                 countries: '',
                 states : '',
@@ -161,7 +200,22 @@ console.log('aa', this.model.userModel.country_code);
             this.image1 = '';
             const text = this.model.userModel.id === '' ? 'Added successfully.' : 'Updated successfully.';
             swal('Success', text, 'success');
-            this.getInhouseUsers();
+
+            if ((formdata.value.is_broker_seller_dev === true && this.parameter.userType === 'csr-sellers') ||
+                (formdata.value.is_buyer_renter === true && this.parameter.userType === 'csr-buyers') ||
+                (formdata.value.is_broker === true && this.parameter.userType === 'inhouse-broker') ||
+                (formdata.value.is_data_collector === true && this.parameter.userType === 'data-collectors') ||
+                (formdata.value.is_csr_closer === true && this.parameter.userType === 'csr-closers')) {
+
+              if (this.model.userModel.id !== '') {
+                // edit -- replace
+                this.parameter.items[this.parameter.index] = success.data;
+              } else {
+                // add - push
+                this.parameter.items.push(success.data);
+              }
+            }
+            // this.getInhouseUsers();
           }
         },
         error => {
@@ -171,8 +225,9 @@ console.log('aa', this.model.userModel.country_code);
         });
   }
 
-  editUser(userdata) {
+  editUser(userdata, index) {
     console.log('edit user', userdata);
+    this.parameter.index = index;
     this.model.address = [];
     this.model.userModel.id = userdata.id;
     this.modalOpen.nativeElement.click();
@@ -180,7 +235,12 @@ console.log('aa', this.model.userModel.country_code);
     this.model.userModel.email = userdata.email;
     this.model.userModel.phone = userdata.phone;
     this.model.userModel.country_code = userdata.country_code;
-    this.model.userModel.image = userdata.image;
+
+    this.model.userModel.image = userdata.image != null ? userdata.image : '';
+    if (this.model.userModel.image) {
+      this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.model.userModel.image})`);
+    }
+
     this.model.userModel.is_broker_seller_dev = userdata.permissions && userdata.permissions.can_csr_seller === 1 ? true : false;
     this.model.userModel.is_buyer_renter = userdata.permissions && userdata.permissions.can_csr_buyer === 1 ? true : true;
     this.model.userModel.is_broker = userdata.permissions && userdata.permissions.can_in_house_broker === 1 ? true : true;
@@ -191,7 +251,7 @@ console.log('aa', this.model.userModel.country_code);
     // userdata.states = ['4', '4'];
     // userdata.cities = ['4', '4'];
     // userdata.localities = ['3', '4'];
-
+    console.log('usermodel', this.model.userModel, this.image1);
     for (let ind = 0; ind < userdata.countries.length; ind++) {
 
       const tempAdd = {
@@ -204,7 +264,7 @@ console.log('aa', this.model.userModel.country_code);
       this.model.address[ind] = tempAdd;
     }
 
-    console.log('usermodel', this.model.userModel);
+    console.log('usermodel', this.model.userModel, this.image1);
     // updateNewUser
   }
 
@@ -405,6 +465,7 @@ console.log('countryid', country_id);
 
 
   getInhouseUsers() {
+    console.log('parameter.p', this.parameter.p);
     this.parameter.loading = true;
     switch (this.parameter.userType) {
       case 'data-collectors':
@@ -444,7 +505,7 @@ console.log('countryid', country_id);
     }
 
     const input = new FormData();
-    input.append('page', (this.parameter.p - 1).toString());
+    input.append('page', this.parameter.p.toString());
 
     if (this.parameter.name) {input.append('name', this.parameter.name); }
 
@@ -467,9 +528,7 @@ console.log('countryid', country_id);
     if (this.parameter.locality_id && this.parameter.locality_id !== '-1') {
       input.append('localities', JSON.stringify[this.parameter.locality_id]);
     }
-
-    // if (this.parameter.locality_id && this.parameter.locality_id != '-1')
-    //   input.append('localities', JSON.stringify[this.parameter.locality_id]);
+    console.log('88');
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
@@ -478,6 +537,7 @@ console.log('countryid', country_id);
           this.parameter.loading = false;
           this.parameter.items = success.data;
           this.parameter.total = success.total;
+          // this.parameter.items.reverse();
         },
         error => {
           this.parameter.loading = false;

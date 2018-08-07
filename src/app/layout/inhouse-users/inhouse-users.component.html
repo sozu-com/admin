@@ -4,7 +4,7 @@
         <div class="col-md-6">
           <div class="title-group">
               <h5>Inhouse Users - {{title}}</h5>
-              <p>Showing {{parameter.total}} out of {{parameter.total}}</p>
+              <p>Showing {{parameter.items?.length}} out of {{parameter.total}}</p>
           </div>
         </div>
         <div class="col-md-6">
@@ -120,7 +120,7 @@
               <td class="text-left">{{item.email}}</td>
               <td>14</td>
               <td>
-                <a href="javascript://" (click)="editUser(item)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
+                <a href="javascript://" (click)="editUser(item, i)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
                 <a href="javascript://" *ngIf="item.is_blocked == 1" (click)="blockUnblockPopup(i, item.id, 0, parameter.type)" title="Unblock user" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a>
                 <a href="javascript://" *ngIf="item.is_blocked == 0" (click)="blockUnblockPopup(i, item.id, 1, parameter.type)" title="Block user" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
               </td>
@@ -135,6 +135,7 @@
 
   </div>
   <div class="btn-cont text-right marginT15">
+  
       <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
   </div>
 </div>
@@ -146,7 +147,8 @@
   <div class="modal-dialog fadeIndown modal-lg">
      <div class="modal-content">
         <div class="modal-header">
-           <button type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
+           <button type="button" style="display: none;" class="close" data-dismiss="modal" #modalClose>&times;</button>
+           <button type="button" class="close" (click)="closeModal()">&times;</button>
         </div>
 
         <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="addNewUser(addForm)">
@@ -155,7 +157,7 @@
                <div class="col-6">
                   <div class="add-img" style="background-size: cover;" [style.background-image]="image1">
                   <input accept="image/*" type="file" name="" (change)="onSelectFile1($event)">
-                  <label>+ Add Image</label>
+                  <label *ngIf="!image1">+ Add Image</label>
                   </div>
                </div>
                <div class="col-6">
@@ -198,7 +200,7 @@
               <app-address [address]="add" [index]="j" (removeAddress)="removeAddressObj($event)"></app-address>
             </div>
 
-            <div class="col-12">
+            <div class="col-12" *ngIf="model.address?.length!=0">
                 <div class="btn-cont center">
                   <button class="btn btn-primary margin0" (click)="addEmptyObj()">
                     <img src="./../../../assets/img/add.png" alt="img">

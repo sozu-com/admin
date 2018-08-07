@@ -178,6 +178,7 @@ export class UsersComponent implements OnInit {
 
 
   blockAdmin(index, id, flag, user_type) {
+    this.parameter.loading = true;
     this.parameter.index = index;
     this.parameter.url = 'blockBuyerSeller';
     const input = new FormData();
@@ -189,11 +190,13 @@ export class UsersComponent implements OnInit {
       .subscribe(
         success => {
           console.log('success', success);
+          this.parameter.loading = false;
           swal('Success', success.message, 'success');
           this.parameter.items[this.parameter.index] = success.data;
         },
         error => {
           console.log(error);
+          this.parameter.loading = false;
           swal('Error', error.message, 'error');
         });
   }

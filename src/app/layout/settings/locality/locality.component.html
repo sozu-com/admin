@@ -86,11 +86,16 @@
           </tr>
         </table>
 
+        <div class="error-border">
+          <p class="show-error" *ngIf="parameter.states?.length == 0">{{constant.errorMsg.NO_STATE_FOUND}}</p>
+          <p class="show-error" *ngIf="parameter.cities?.length == 0">{{constant.errorMsg.NO_CITY_FOUND}}</p>
+          <p class="show-error" *ngIf="all_overlays?.length == 0">{{constant.errorMsg.NO_LOCALITY_FOUND}}</p>
+        </div>
 
-        <!-- <div class="error-border" *ngIf="parameter.states?.length == 0; else stateNotFound">
+        <!-- <div class="error-border" *ngIf="parameter.states?.length == 0; else localityNotFound">
           <p class="show-error">{{constant.errorMsg.NO_STATE_FOUND}}</p>
         </div>
-        <ng-template #stateNotFound>
+        <ng-template #localityNotFound>
           <div class="error-border" *ngIf="parameter.cities?.length == 0">
             <p class="show-error">{{constant.errorMsg.NO_LOCALITY_FOUND}}</p>
           </div>
@@ -99,6 +104,7 @@
         <!-- <div class="error-border" *ngIf="all_overlays?.length == 0">
           <p class="show-error">{{constant.errorMsg.NO_LOCALITY_FOUND}}</p>
         </div> -->
+
 
       </div>
 

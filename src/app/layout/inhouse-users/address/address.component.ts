@@ -31,6 +31,7 @@ export class AddressComponent implements OnInit {
   }
 
   removeRow() {
+    console.log('index removerow', this.index);
     this.removeAddress.emit(this.index);
   }
 
