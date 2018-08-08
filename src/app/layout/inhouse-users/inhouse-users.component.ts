@@ -288,12 +288,16 @@ console.log('aa', this.model.userModel.country_code);
 
     this.parameter.url = 'country/getStates';
     this.parameter.country_id = country_id;
-    if (country_id === '-1') {
-      console.log('ssssss');
-      this.parameter.states = []; this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
-      this.parameter.stateCount = 0; this.parameter.cityCount = 0; this.parameter.localityCount = 0; this.parameter.buildingCount = 0;
-      this.parameter.state_id = '-1'; this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
-    }else {
+
+    this.parameter.states = []; this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
+    this.parameter.state_id = '-1'; this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
+
+    // if (country_id === '-1') {
+    //   console.log('ssssss');
+    //   this.parameter.states = []; this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
+    //   this.parameter.state_id = '-1'; this.parameter.city_id = '-1'; this.parameter.locality_id =
+    // '-1'; this.parameter.building_id = '-1';
+    // }else {
       const input = new FormData();
       input.append('country_id', country_id);
 
@@ -305,7 +309,7 @@ console.log('aa', this.model.userModel.country_code);
           error => {
             swal('Error', error.message, 'error');
           });
-    }
+    // }
   }
 
   getCities(state_id) {
@@ -313,11 +317,13 @@ console.log('aa', this.model.userModel.country_code);
     this.parameter.url = 'getCities';
     this.parameter.state_id = state_id;
 
-    if (state_id === -1) {
-      this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
-      this.parameter.cityCount = 0; this.parameter.localityCount = 0; this.parameter.buildingCount = 0;
-      this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
-    }else {
+    this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
+    this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
+
+    // if (state_id === -1) {
+    //   this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
+    //   this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
+    // }else {
       const input = new FormData();
       input.append('state_id', state_id);
 
@@ -333,7 +339,7 @@ console.log('aa', this.model.userModel.country_code);
               swal('Error', error.message, 'error');
             }
           });
-    }
+    // }
   }
 
 
@@ -342,10 +348,13 @@ console.log('aa', this.model.userModel.country_code);
     this.parameter.url = 'getLocalities';
     this.parameter.city_id = city_id;
 
-    if (city_id === -1) {
-      this.parameter.localities = []; this.parameter.buildings = [];
-      this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
-    }else {
+    this.parameter.localities = []; this.parameter.buildings = [];
+    this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
+
+    // if (city_id === -1) {
+    //   this.parameter.localities = []; this.parameter.buildings = [];
+    //   this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
+    // }else {
 
     const input = new FormData();
     input.append('city_id', city_id);
@@ -362,19 +371,22 @@ console.log('aa', this.model.userModel.country_code);
             swal('Error', error.message, 'error');
           }
         });
-    }
+    // }
   }
 
 
   getLocalityBuildings(locality_id) {
-
+console.log(locality_id);
     this.parameter.url = 'getLocalityBuildings';
     this.parameter.locality_id = locality_id;
 
-    if (locality_id === -1) {
-      this.parameter.buildings = [];
-      this.parameter.building_id = '-1';
-    }else {
+    this.parameter.buildings = [];
+    this.parameter.building_id = '-1';
+
+    // if (locality_id === -1) {
+    //   this.parameter.buildings = [];
+    //   this.parameter.building_id = '-1';
+    // }else {
 
     const input = new FormData();
     input.append('locality_id', locality_id);
@@ -382,6 +394,7 @@ console.log('aa', this.model.userModel.country_code);
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
+          console.log('succ', success);
           this.parameter.buildings = success.data;
         },
         error => {
@@ -391,7 +404,7 @@ console.log('aa', this.model.userModel.country_code);
             swal('Error', error.message, 'error');
           }
         });
-    }
+    // }
   }
 
 
@@ -474,7 +487,7 @@ console.log('aa', this.model.userModel.country_code);
     }
 
     if (this.parameter.locality_id && this.parameter.locality_id !== '-1') {
-      input.append('localities', JSON.stringify[this.parameter.locality_id]);
+      input.append('localities', JSON.stringify([this.parameter.locality_id]));
     }
 
     this.admin.postDataApi(this.parameter.url, input)
