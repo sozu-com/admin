@@ -45,6 +45,7 @@ export class InhouseUsersComponent implements OnInit {
     this.parameter.sub = this.route.params.subscribe(params => {
       this.parameter.userType = params['userType'];
       console.log('usertype', this.parameter.userType);
+      this.parameter.name = ''; this.parameter.phone = ''; this.parameter.email = '';
       this.getInhouseUsers();
       this.getCountries();
       this.initialCountry = {initialCountry: this.constant.initialCountry};
@@ -273,6 +274,9 @@ console.log('aa', this.model.userModel.country_code);
     this.parameter.url = 'getCountries';
     const input = new FormData();
 
+    this.parameter.states = []; this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
+    this.parameter.state_id = '-1'; this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
+
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
@@ -376,7 +380,6 @@ console.log('aa', this.model.userModel.country_code);
 
 
   getLocalityBuildings(locality_id) {
-console.log(locality_id);
     this.parameter.url = 'getLocalityBuildings';
     this.parameter.locality_id = locality_id;
 
