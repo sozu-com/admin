@@ -12,8 +12,8 @@ declare let swal: any;
 })
 
 export class AddressComponent implements OnInit {
-  public parameter: IProperty = {};
 
+  public parameter: IProperty = {};
   @Input('address') address;
   @Input('index') index;
   @Output() removeAddress = new EventEmitter();
@@ -46,6 +46,9 @@ export class AddressComponent implements OnInit {
         success => {
           this.parameter.loading = false;
           this.parameter.countriesAdd = success.data;
+          this.parameter.statesAdd = [];
+          this.parameter.citiesAdd = [];
+          this.parameter.localitiesAdd = [];
         },
         error => {
           this.parameter.loading = false;
@@ -68,6 +71,8 @@ export class AddressComponent implements OnInit {
           this.parameter.loading = false;
           this.parameter.statesAdd = success.data;
           this.address.countries = country_id;
+          this.parameter.citiesAdd = [];
+          this.parameter.localitiesAdd = [];
         },
         error => {
           console.log(error);
@@ -91,6 +96,7 @@ export class AddressComponent implements OnInit {
           this.parameter.loading = false;
           this.parameter.citiesAdd = success.data;
           this.address.states = state_id;
+          this.parameter.localitiesAdd = [];
         },
         error => {
           this.parameter.loading = false;
@@ -120,7 +126,6 @@ export class AddressComponent implements OnInit {
           this.address.cities = city_id;
         },
         error => {
-          console.log(error);
           this.parameter.loading = false;
           if (error.statusCode === 401) {
             this.router.navigate(['']);

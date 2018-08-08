@@ -63,7 +63,7 @@ export class UsersComponent implements OnInit {
     this.parameter.url = this.parameter.type === 1 ? 'getBuyers' : 'getSellers';
 
     const input = new FormData();
-    input.append('page', (this.parameter.p - 1).toString());
+    input.append('page', this.parameter.p.toString());
 
     if (this.parameter.name) {input.append('name', this.parameter.name); }
 

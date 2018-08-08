@@ -21,3 +21,11 @@ export class Project {
         status: 0
     };
 }
+
+export class Amenities {
+    id: string;
+    icon: string;
+    name_es: string;
+    name_en: string;
+    status: string;
+}

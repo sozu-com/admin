@@ -26,11 +26,11 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-6">
                             <input type="text" class="form-control" placeholder="Configuration name (English)" id="name_en" required [(ngModel)]="property.configuration.name_en" name="name_en" #name_en="ngModel">
-                            <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
+                            <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
                               <div [hidden]="!name_en.errors.required">
                                 {{constant.errorMsg.PROPERTY_CONFIG_REQUIRED}}
                               </div>
-                          </div>      
+                          </div>       -->
                         </div>
                         <div class="col-lg-6 col-md-6">
                             <input type="text" class="form-control" placeholder="Configuration name (Spanish)" [(ngModel)]="property.configuration.name_es" name="name_es">
@@ -88,11 +88,11 @@
                   <div class="row">
                     <div class="col-lg-6 col-md-6">
                         <input type="text" class="form-control" placeholder="Property type name (English)" id="name_en" required [(ngModel)]="property.type.name_en" name="name_en" #name_en="ngModel">
-                        <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
+                        <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
                           <div [hidden]="!name_en.errors.required">
                             {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
                           </div>
-                      </div>    
+                      </div>     -->
                     </div>
                     <div class="col-lg-6 col-md-6">
                       <input type="text" class="form-control" placeholder="Property type name (Spanish)" [(ngModel)]="property.type.name_es" name="name_es">
@@ -150,11 +150,11 @@
                   <div class="browse-files">
                     <input accept="image/*" (change)="changeListner($event)" type="file" class="image form-control" placeholder="Amenity" id="icon" required [(ngModel)]="property.amenities.icon" name="icon" #icon="ngModel">
                     <span>Browse</span>
-                    <div *ngIf="icon.errors && (icon.dirty || icon.touched)" class="show-error">
+                    <!-- <div *ngIf="icon.errors && (icon.dirty || icon.touched)" class="show-error">
                       <div [hidden]="!icon.errors.required">
                         {{constant.errorMsg.FILE_REQUIRED}}
                       </div>
-                  </div>
+                  </div> -->
                   </div>
                   <!-- <input type="file" class="form-control" placeholder="Amenity" id="icon" required [(ngModel)]="property.amenities.icon" name="icon" #icon="ngModel">
                     <div *ngIf="icon.errors && (icon.dirty || icon.touched)" class="show-error">
@@ -166,11 +166,11 @@
                   <div class="row">
                     <div class="col-lg-6 col-md-6">
                         <input type="text" class="form-control" placeholder="Amenity name (English)" id="name_en" required [(ngModel)]="property.amenities.name_en" name="name_en" #name_en="ngModel">
-                        <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
+                        <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
                           <div [hidden]="!name_en.errors.required">
                             {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
                           </div>
-                      </div>    
+                      </div>     -->
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <input type="text" class="form-control" placeholder="Amenity name (Spanish)" [(ngModel)]="property.amenities.name_es" name="name_es">
@@ -244,11 +244,11 @@
       <div class="modal-body my-modal-body">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Property Configuration (English)" id="name_en" required [(ngModel)]="property.configuration.name_en" name="name_en" #name_en="ngModel">
-          <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
+          <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
               <div [hidden]="!name_en.errors.required">
                 {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
               </div>
-          </div>
+          </div> -->
         </div>
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Property Configuration (Spanish)" [(ngModel)]="property.configuration.name_es" name="name_es">
@@ -276,11 +276,11 @@
       <div class="modal-body my-modal-body">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Property type (English)" id="name_en" required [(ngModel)]="property.type.name_en" name="name_en" #name_en="ngModel">
-          <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
+          <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
               <div [hidden]="!name_en.errors.required">
                 {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
               </div>
-          </div>
+          </div> -->
         </div>
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Property type (Spanish)" [(ngModel)]="property.type.name_es" name="name_es">
@@ -314,11 +314,11 @@
           </div>
           <div class="form-group">
             <input type="text" class="form-control" placeholder="Amenity (English)" id="name_en" required [(ngModel)]="property.amenities.name_en" name="name_en" #name_en="ngModel">
-            <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
+            <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
                 <div [hidden]="!name_en.errors.required">
                   {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
                 </div>
-            </div>
+            </div> -->
           </div>
           <div class="form-group">
             <input type="text" class="form-control" placeholder="Amenity (Spanish)" [(ngModel)]="property.amenities.name_es" name="name_es">

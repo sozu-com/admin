@@ -5,14 +5,14 @@ import { Router } from '@angular/router';
 import { IProperty } from '../../../common/property';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Constant } from './../../../common/constants';
-import { Project } from './../../../models/project.model';
+import { Project, Amenities } from './../../../models/project.model';
 declare let swal: any;
 
 @Component({
   selector: 'app-project',
   templateUrl: './project.component.html',
   styleUrls: ['./project.component.css'],
-  providers: [Constant, Project]
+  providers: [Constant, Project, Amenities]
 })
 
 export class ProjectComponent implements OnInit {
@@ -22,7 +22,8 @@ export class ProjectComponent implements OnInit {
   icon: any;
 
   constructor(private element: ElementRef, private constant: Constant, public project: Project,
-    private modalService: BsModalService, private admin: AdminService, private router: Router
+    private modalService: BsModalService, private admin: AdminService, private router: Router,
+    public amenityModel: Amenities
   ) {
     this.parameter.countryCount = 0;
     this.parameter.stateCount = 0;
@@ -33,6 +34,11 @@ export class ProjectComponent implements OnInit {
     this.getPossessionStatuses();
     this.getBuildingTypes();
     this.getAmenities();
+  }
+
+  closeModal() {
+    this.amenityModel = new Amenities;
+    this.modalRef.hide();
   }
 
   public openPossessionStatusModal(template: TemplateRef<any>, id, name_en, name_es, status) {
@@ -52,11 +58,16 @@ export class ProjectComponent implements OnInit {
   }
 
   public openAmenityModal(template: TemplateRef<any>, id, icon, name_en, name_es, status) {
-    this.project.amenities.id = id;
-    this.project.amenities.icon = icon;
-    this.project.amenities.name_en = name_en;
-    this.project.amenities.name_es = name_es;
-    this.project.amenities.status = status;
+    // this.project.amenities.id = id;
+    // this.project.amenities.icon = icon;
+    // this.project.amenities.name_en = name_en;
+    // this.project.amenities.name_es = name_es;
+    // this.project.amenities.status = status;
+    this.amenityModel.id = id;
+    this.amenityModel.icon = icon;
+    this.amenityModel.name_en = name_en;
+    this.amenityModel.name_es = name_es;
+    this.amenityModel.status = status;
     this.modalRef = this.modalService.show(template);
   }
 
@@ -133,7 +144,8 @@ export class ProjectComponent implements OnInit {
 
     if (type !== 'add') {this.modalRef.hide(); }
 
-    const iconNew = this.icon ? this.icon : this.project.amenities.icon;
+    // const iconNew = this.icon ? this.icon : this.project.amenities.icon;
+    const iconNew = this.icon ? this.icon : this.amenityModel.icon;
 
     this.parameter.loading = true;
     this.parameter.url = 'addAmenity';
@@ -155,8 +167,10 @@ export class ProjectComponent implements OnInit {
           this.parameter.loading = false;
           const text = id ? this.constant.successMsg.AMENITY_UPDATED_SUCCESSFULLY : this.constant.successMsg.AMENITY_ADDED_SUCCESSFULLY;
           swal('Success', text, 'success');
-          this.project.amenities.name_en = '';
-          this.project.amenities.name_es = '';
+          // this.project.amenities.name_en = '';
+          // this.project.amenities.name_es = '';
+          // this.project.amenities.icon = '';
+          this.amenityModel = new Amenities;
           this.getAmenities();
         },
         error => {

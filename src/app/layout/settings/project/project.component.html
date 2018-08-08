@@ -25,11 +25,11 @@
                       <div class="row">
                         <div class="col-lg-6 col-md-6">
                           <input type="text" class="form-control" placeholder="Possession status (English)" id="name_en" required [(ngModel)]="project.possession.name_en" name="name_en" #name_en="ngModel">
-                          <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
+                          <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
                             <div [hidden]="!name_en.errors.required">
                               {{constant.errorMsg.PROPERTY_CONFIG_REQUIRED}}
                             </div>
-                          </div>      
+                          </div>       -->
                         </div>
                         <div class="col-lg-6 col-md-6">
                             <input type="text" class="form-control" placeholder="Possession status (Spanish)" [(ngModel)]="project.possession.name_es" name="name_es">
@@ -88,11 +88,11 @@
                   <div class="row">
                       <div class="col-md-6 col-lg-6">
                           <input type="text" class="form-control" placeholder="Project type name (English)" id="name_en" required [(ngModel)]="project.type.name_en" name="name_en" #name_en="ngModel">
-                          <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
+                          <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
                             <div [hidden]="!name_en.errors.required">
                               {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
                             </div>
-                        </div>
+                        </div> -->
                       </div>
                     
                     <div class="col-lg-6 col-md-6">
@@ -151,32 +151,26 @@
               <div class="col-md-8">
                  <form role="form" novalidate #addAmenityForm="ngForm" (ngSubmit)="checkIfAmenitySpanishNameEntered('', '', addAmenityForm.value.name_en, addAmenityForm.value.name_es, 1, 'add')">
                   <div class="browse-files">
-                    <input accept="image/*" (change)="changeListner($event)" type="file" class="image form-control" placeholder="Amenity" id="icon" required [(ngModel)]="project.amenities.icon" name="icon" #icon="ngModel">
+                    <input accept="image/*" (change)="changeListner($event)" type="file" class="image form-control" placeholder="Amenity" id="icon" required [(ngModel)]="amenityModel.icon" name="icon" #icon="ngModel">
                     <span>Browse</span>
                   </div>
-                  <div *ngIf="icon.errors && (icon.dirty || icon.touched)" class="show-error">
+                  <!-- <div *ngIf="icon.errors && (icon.dirty || icon.touched)" class="show-error">
                     <div [hidden]="!icon.errors.required">
                       {{constant.errorMsg.FILE_REQUIRED}}
                     </div>
-                  </div>
-                  <!-- <input type="file" class="form-control" placeholder="Amenity" id="icon" required [(ngModel)]="property.amenities.icon" name="icon" #icon="ngModel">
-                    <div *ngIf="icon.errors && (icon.dirty || icon.touched)" class="show-error">
-                      <div [hidden]="!icon.errors.required">
-                        {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
-                      </div>
                   </div> -->
                   
                   <div class="row">
                     <div class="col-lg-6 col-md-6">
-                        <input type="text" class="form-control" placeholder="Project amenity name (English)" id="name_en" required [(ngModel)]="project.amenities.name_en" name="name_en" #name_en="ngModel">
-                        <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
+                        <input type="text" class="form-control" placeholder="Project amenity name (English)" id="name_en" required [(ngModel)]="amenityModel.name_en" name="name_en" #name_en="ngModel">
+                        <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
                           <div [hidden]="!name_en.errors.required">
                             {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
                           </div>
-                      </div>    
+                      </div>     -->
                     </div>
                     <div class="col-lg-6 col-md-6">
-                        <input type="text" class="form-control" placeholder="Project amenity name (Spanish)" [(ngModel)]="project.amenities.name_es" name="name_es">
+                        <input type="text" class="form-control" placeholder="Project amenity name (Spanish)" [(ngModel)]="amenityModel.name_es" name="name_es">
                     </div>
                   </div>
                   <button [disabled]="addAmenityForm.invalid" type="submit" class="add-btn btn">
@@ -253,11 +247,11 @@
       <div class="modal-body my-modal-body">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Project possession status (English)" id="name_en" required [(ngModel)]="project.possession.name_en" name="name_en" #name_en="ngModel">
-          <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
+          <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
               <div [hidden]="!name_en.errors.required">
                 {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
               </div>
-          </div>
+          </div> -->
         </div>
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Project possession status (Spanish)" [(ngModel)]="project.possession.name_es" name="name_es">
@@ -285,11 +279,11 @@
       <div class="modal-body my-modal-body">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Project type (English)" id="name_en" required [(ngModel)]="project.type.name_en" name="name_en" #name_en="ngModel">
-          <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
+          <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
               <div [hidden]="!name_en.errors.required">
                 {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
               </div>
-          </div>
+          </div> -->
         </div>
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Project type (Spanish)" [(ngModel)]="project.type.name_es" name="name_es">
@@ -313,30 +307,30 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form class="form-horizontal my-modal-form" role="form" novalidate #addForm="ngForm" (ngSubmit)="checkIfAmenitySpanishNameEntered(project.amenities.id, '', addForm.value.name_en, addForm.value.name_es, project.amenities.status, 'edit')">
+      <form class="form-horizontal my-modal-form" role="form" novalidate #addForm="ngForm" (ngSubmit)="checkIfAmenitySpanishNameEntered(amenityModel.id, '', addForm.value.name_en, addForm.value.name_es, amenityModel.status, 'edit')">
         <div class="modal-body my-modal-body">
           <div class="form-group amenity-img">
-            <img [src]="project.amenities.icon" class="image" width="100" height="100">
+            <img [src]="amenityModel.icon" class="image" width="100" height="100">
           </div>
           <div class="form-group">
             <input accept="image/*" (change)="changeListner($event)" type="file" class="form-control">
           </div>
           
           <div class="form-group">
-            <input type="text" class="form-control" placeholder="Amenity (English)" id="name_en" required [(ngModel)]="project.amenities.name_en" name="name_en" #name_en="ngModel">
-            <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
+            <input type="text" class="form-control" placeholder="Amenity (English)" id="name_en" required [(ngModel)]="amenityModel.name_en" name="name_en" #name_en="ngModel">
+            <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
                 <div [hidden]="!name_en.errors.required">
                   {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
                 </div>
-            </div>
+            </div> -->
           </div>
           <div class="form-group">
-            <input type="text" class="form-control" placeholder="Amenity (Spanish)" [(ngModel)]="project.amenities.name_es" name="name_es">
+            <input type="text" class="form-control" placeholder="Amenity (Spanish)" [(ngModel)]="amenityModel.name_es" name="name_es">
           </div>
         </div>
         <div class="modal-footer">
           <button type="submit" [disabled]="addForm.invalid" class="btn btn-info">Submit</button>
-          <button type="button" class="btn btn-default" aria-label="Close" (click)="modalRef.hide()">Close</button>
+          <button type="button" class="btn btn-default" aria-label="Close" (click)="closeModal()">Close</button>
         </div>
       </form>
   </div>

@@ -59,7 +59,7 @@
               <label>Building</label>
               <select title="Choose Building" class="form-control" (change)="setBuilding($event.target.value)">
                 <option value="-1">All</option>
-                <option *ngFor="let building of parameter.buildings" value="{{building.id}}">{{building.name_en}}</option>
+                <option *ngFor="let building of parameter.buildings" value="{{building.id}}">{{building.name}}</option>
               </select>
           </div>
         </div>
@@ -84,19 +84,31 @@
                 <th style="width:20%">
                   <div class="table-search">
                       <label>Name</label>
-                      <input type="text" (input)="searchUserByName($event.target.value)" name="">
+                      <div class="searh-3">
+                        <input type="Search here" [(ngModel)]="parameter.name" (keyup.enter)="searchUserByName(parameter.name)" name="">
+                        <button *ngIf="parameter.name" (click)="searchUserByName(parameter.name)"><i class="fa fa-search"></i></button>
+                      </div>
+                      <!-- <input type="text" (input)="searchUserByName($event.target.value)" name=""> -->
                   </div>
                 </th>
                 <th style="width:20%; text-align:left;">
                   <div class="table-search">
                       <label>Contact Number</label>
-                      <input type="type" (input)="searchUserByPhone($event.target.value)" name="">
+                      <div class="searh-3">
+                        <input type="Search here" [(ngModel)]="parameter.phone" (keyup.enter)="searchUserByPhone(parameter.phone)" name="">
+                        <button *ngIf="parameter.phone" (click)="searchUserByPhone(parameter.phone)"><i class="fa fa-search"></i></button>
+                      </div>
+                      <!-- <input type="type" (input)="searchUserByPhone($event.target.value)" name=""> -->
                   </div>
                 </th>
                 <th style="width:20%">
                   <div class="table-search">
                       <label>Email Address</label>
-                      <input type="email" (input)="searchUserByEmail($event.target.value)" name="">
+                      <div class="searh-3">
+                        <input type="Search here" [(ngModel)]="parameter.email" (keyup.enter)="searchUserByEmail(parameter.email)" name="">
+                        <button *ngIf="parameter.email" (click)="searchUserByEmail(parameter.email)"><i class="fa fa-search"></i></button>
+                      </div>
+                      <!-- <input type="email" (input)="searchUserByEmail($event.target.value)" name=""> -->
                   </div>
                 </th>
                 <th style="width:20%; vertical-align: top;">

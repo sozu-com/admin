@@ -53,7 +53,6 @@ export class InhouseUsersComponent implements OnInit {
 
   getPage(page) {
     console.log('page1111', page);
-    console.log('sssss');
     this.parameter.p = page;
     this.getInhouseUsers();
   }
@@ -271,39 +270,29 @@ console.log('aa', this.model.userModel.country_code);
 
   getCountries() {
 
-    this.parameter.loading = true;
     this.parameter.url = 'getCountries';
     const input = new FormData();
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
           this.parameter.countries = success.data;
-          this.parameter.countryCount = success.data.length;
-          if (this.parameter.countryCount !== 0) {
-            // this.parameter.country_id = this.parameter.countries[0].id;
-            // this.getStates(this.parameter.countries[0].id, type);
-          }
         },
         error => {
-          this.parameter.loading = false;
           swal('Error', error.message, 'error');
         });
   }
 
 
   getStates(country_id) {
-    this.parameter.loading = true;
+
     this.parameter.url = 'country/getStates';
     this.parameter.country_id = country_id;
-console.log('countryid', country_id);
     if (country_id === '-1') {
       console.log('ssssss');
       this.parameter.states = []; this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
       this.parameter.stateCount = 0; this.parameter.cityCount = 0; this.parameter.localityCount = 0; this.parameter.buildingCount = 0;
       this.parameter.state_id = '-1'; this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
-      this.parameter.loading = false;
     }else {
       const input = new FormData();
       input.append('country_id', country_id);
@@ -311,16 +300,9 @@ console.log('countryid', country_id);
       this.admin.postDataApi(this.parameter.url, input)
         .subscribe(
           success => {
-            this.parameter.loading = false;
             this.parameter.states = success.data;
-            this.parameter.stateCount = success.data.length;
-            if (this.parameter.stateCount !== 0) {
-              // this.parameter.state_id = this.parameter.states[0].id;
-              // this.getCities(this.parameter.states[0].id, type);
-            }
           },
           error => {
-            this.parameter.loading = false;
             swal('Error', error.message, 'error');
           });
     }
@@ -328,7 +310,6 @@ console.log('countryid', country_id);
 
   getCities(state_id) {
 
-    this.parameter.loading = true;
     this.parameter.url = 'getCities';
     this.parameter.state_id = state_id;
 
@@ -336,7 +317,6 @@ console.log('countryid', country_id);
       this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
       this.parameter.cityCount = 0; this.parameter.localityCount = 0; this.parameter.buildingCount = 0;
       this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
-      this.parameter.loading = false;
     }else {
       const input = new FormData();
       input.append('state_id', state_id);
@@ -344,18 +324,9 @@ console.log('countryid', country_id);
       this.admin.postDataApi(this.parameter.url, input)
         .subscribe(
           success => {
-            this.parameter.loading = false;
-            // console.log('cities1',success)
             this.parameter.cities = success.data;
-            this.parameter.cityCount = success.data.length;
-            if (this.parameter.cityCount !== 0) {
-              // this.parameter.city_id = this.parameter.cities[0].id;
-              // this.getLocalities(this.parameter.cities[0].id, 'view');
-            }
           },
           error => {
-            // console.log(error)
-            this.parameter.loading = false;
             if (error.statusCode === 401) {
               this.router.navigate(['']);
             }else {
@@ -368,15 +339,12 @@ console.log('countryid', country_id);
 
   getLocalities(city_id) {
 
-    this.parameter.loading = true;
     this.parameter.url = 'getLocalities';
     this.parameter.city_id = city_id;
 
     if (city_id === -1) {
       this.parameter.localities = []; this.parameter.buildings = [];
-      this.parameter.localityCount = 0; this.parameter.buildingCount = 0;
       this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
-      this.parameter.loading = false;
     }else {
 
     const input = new FormData();
@@ -385,17 +353,9 @@ console.log('countryid', country_id);
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
-          // console.log('Localities1',success);
           this.parameter.localities = success.data;
-          this.parameter.localityCount = success.data.length;
-          // if (success.data.length != 0)
-          //   this.parameter.locality_id = success.data[0].id;
-          // this.getInhouseUsers();
         },
         error => {
-          // console.log(error)
-          this.parameter.loading = false;
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           }else {
@@ -408,15 +368,12 @@ console.log('countryid', country_id);
 
   getLocalityBuildings(locality_id) {
 
-    this.parameter.loading = true;
     this.parameter.url = 'getLocalityBuildings';
     this.parameter.locality_id = locality_id;
 
     if (locality_id === -1) {
       this.parameter.buildings = [];
-      this.parameter.buildingCount = 0;
       this.parameter.building_id = '-1';
-      this.parameter.loading = false;
     }else {
 
     const input = new FormData();
@@ -425,17 +382,9 @@ console.log('countryid', country_id);
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
-          // console.log('Localities1',success);
           this.parameter.buildings = success.data;
-          this.parameter.buildingCount = success.data.length;
-          // if (success.data.length != 0)
-          //   this.parameter.locality_id = success.data[0].id;
-          // this.getInhouseUsers();
         },
         error => {
-          // console.log(error)
-          this.parameter.loading = false;
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           }else {
@@ -465,7 +414,6 @@ console.log('countryid', country_id);
 
 
   getInhouseUsers() {
-    console.log('parameter.p', this.parameter.p);
     this.parameter.loading = true;
     switch (this.parameter.userType) {
       case 'data-collectors':
@@ -528,7 +476,6 @@ console.log('countryid', country_id);
     if (this.parameter.locality_id && this.parameter.locality_id !== '-1') {
       input.append('localities', JSON.stringify[this.parameter.locality_id]);
     }
-    console.log('88');
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(

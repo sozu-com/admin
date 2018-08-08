@@ -248,11 +248,11 @@
       <div class="modal-body my-modal-body">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Country (English)" id="name_en" required [(ngModel)]="location.countryModel.name_en" name="name_en" #name_en="ngModel">
-          <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
+          <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
               <div [hidden]="!name_en.errors.required">
                 {{constant.errorMsg.COUNTRY_NAME_REQUIRED}}
               </div>
-          </div>
+          </div> -->
         </div>
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Country (Spanish)" [(ngModel)]="location.countryModel.name_es" name="name_es">
@@ -283,19 +283,19 @@
             <option value="" disabled>Select Country</option>
             <option *ngFor="let c of parameter.countries1" value="{{c.id}}">{{c.name}}</option>
           </select>
-          <div *ngIf="country_id.errors && (country_id.dirty || country_id.touched)" class="show-error">
+          <!-- <div *ngIf="country_id.errors && (country_id.dirty || country_id.touched)" class="show-error">
             <div [hidden]="!country_id.errors.required">
               {{constant.errorMsg.COUNTRY_NAME_REQUIRED}}
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="form-group">
           <input type="text" class="form-control" placeholder="State (English)" id="name_en" required [(ngModel)]="location.stateModel.name_en" name="name_en" #name_en="ngModel">
-          <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
+          <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
               <div [hidden]="!name_en.errors.required">
                 {{constant.errorMsg.STATE_NAME_REQUIRED}}
               </div>
-          </div>
+          </div> -->
         </div>
         <div class="form-group">
           <input type="text" class="form-control" placeholder="State (Spanish)" [(ngModel)]="location.stateModel.name_es" name="name_es">
@@ -326,30 +326,30 @@
             <option value="" disabled>Select Country</option>
             <option *ngFor="let c of parameter.countries1" value="{{c.id}}">{{c.name}}</option>
           </select>
-          <div *ngIf="country_id.errors && (country_id.dirty || country_id.touched)" class="show-error">
+          <!-- <div *ngIf="country_id.errors && (country_id.dirty || country_id.touched)" class="show-error">
             <div [hidden]="!country_id.errors.required">
               {{constant.errorMsg.COUNTRY_NAME_REQUIRED}}
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="form-group" *ngIf="location.cityModel.city_id == ''">
           <select title="Select State" id="state_id" required [(ngModel)]="location.cityModel.state_id" name="state_id" #state_id="ngModel" class="form-control" required>
             <option value="" disabled>Select State</option>
             <option *ngFor="let s of parameter.states2" value="{{s.id}}">{{s.name}}</option>
           </select>
-          <div *ngIf="state_id.errors && (state_id.dirty || state_id.touched)" class="show-error">
+          <!-- <div *ngIf="state_id.errors && (state_id.dirty || state_id.touched)" class="show-error">
             <div [hidden]="!state_id.errors.required">
               {{constant.errorMsg.STATE_NAME_REQUIRED}}
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="form-group">
           <input type="text" class="form-control" placeholder="City (English)" id="name_en" required [(ngModel)]="location.cityModel.name_en" name="name_en" #name_en="ngModel">
-          <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
+          <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
               <div [hidden]="!name_en.errors.required">
                 {{constant.errorMsg.CITY_NAME_REQUIRED}}
               </div>
-          </div>
+          </div> -->
         </div>
         <div class="form-group">
           <input type="text" class="form-control" placeholder="City (Spanish)" [(ngModel)]="location.cityModel.name_es" name="name_es">
