@@ -64,8 +64,11 @@
                       </div>
                   </div>
                 </th>
-                <th style="width:20%; vertical-align: top;">
+                <th style="width:20%; vertical-align: top;" *ngIf="parameter.type==1">
                   Interested In
+                </th>
+                <th style="width:20%; vertical-align: top;" *ngIf="parameter.type==2">
+                  Building
                 </th>
                 <th style="width:14%">
                   &nbsp;
@@ -78,12 +81,15 @@
                   <img *ngIf="!item.image" class="rounded-circle" src="./../../../assets/img/default_img.png" alt="img">
                 </td>
                 <td class="text-left">
-                  <span class="name">{{item.name}}</span>
+                  <span class="name">
+                    <a data-toggle="popover" data-placement="top" title="{{item.name}}">{{item.name}}</a>
+                  </span>
                 </td>
                 <td class="text-left" *ngIf="item.phone">{{item.country_code}}-{{item.phone}}</td>
                 <td class="text-left" *ngIf="!item.phone">NA</td>
                 <td class="text-left">{{item.email}}</td>
-                <td>14</td>
+                <td *ngIf="parameter.type==1">2 BHK</td>
+                <td *ngIf="parameter.type==2">12</td>
                 <td>
                   <!-- <a href="javascript://" (click)="editUser(item)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a> -->
                   <a href="javascript://" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
@@ -152,7 +158,7 @@
                   <label>Contact number</label>
                   <div class="form-group">
                   <input minlength="6" maxlength="16" autocomplete="off" type="text" [pattern]="phonePattern" class="form-control" id="phone" required minlength="1" [(ngModel)]="model.phone" name="phone"
-                        ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
+                      ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
                 </div>
               </div>
             </div>
@@ -160,7 +166,7 @@
               <div class="form-group-2">
                   <label>Email ID</label>
                   <div class="form-group">
-                  <input autocomplete="off" type="email" class="form-control" required [(ngModel)]="model.email" name="email">
+                  <input autocomplete="off" [pattern]="emailPattern" type="email" class="form-control" required [(ngModel)]="model.email" name="email">
                 </div>
               </div>
             </div>

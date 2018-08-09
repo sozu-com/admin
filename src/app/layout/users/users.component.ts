@@ -25,6 +25,7 @@ export class UsersComponent implements OnInit {
   public parameter: IProperty = {};
   initialCountry: any;
   phonePattern = '^[0-9]{5,15}$';
+  emailPattern = '^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$';
 
   constructor(private constant: Constant, public model: Users, private element: ElementRef,
     private route: ActivatedRoute, private admin: AdminService, private router: Router,
@@ -32,6 +33,7 @@ export class UsersComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.model.country_code = this.constant.country_code;
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.p = this.constant.p;
     this.parameter.type = 1;
@@ -41,8 +43,9 @@ export class UsersComponent implements OnInit {
   }
 
   closeModal() {
-    this.image1 = '';
-    this.model.name = ''; this.model.email = ''; this.model.phone = '';
+    // this.image1 = '';
+    // this.model.name = ''; this.model.email = ''; this.model.phone = '';
+    this.model = new Users();
     this.modalClose.nativeElement.click();
   }
 
@@ -105,7 +108,9 @@ export class UsersComponent implements OnInit {
   }
 
   onCountryChange(e) {
-    this.model.country_code = e.dialCode;
+    console.log('eee', e);
+    this.model.country_code = e.iso2;
+    this.model.dial_code = e.dialCode;
     this.initialCountry = {initialCountry: e.iso2};
   }
 
@@ -116,33 +121,35 @@ export class UsersComponent implements OnInit {
     const input = new FormData();
 
     if (this.model.id !== '') { input.append('id', this.model.id); }
-    input.append('name', formdata.value.name);
-    input.append('country_code', '+' + this.model.country_code);
-    input.append('phone', formdata.value.phone);
-    input.append('email', formdata.value.email);
+    input.append('name', this.model.name);
+    input.append('country_code', this.model.country_code);
+    input.append('dial_code', '+' + this.model.dial_code);
+    input.append('phone', this.model.phone);
+    input.append('email', this.model.email);
 
     if (this.parameter.image) { input.append('image', this.parameter.image); }
-
-    this.admin.postDataApi(this.parameter.url, input)
-      .subscribe(
-        success => {
-          console.log('success', success);
-          this.parameter.loading = false;
-          if (success.success === '0') {
-            swal('Error', success.message, 'error');
-          }else {
-            this.modalClose.nativeElement.click();
-            this.getBuyers(this.parameter.type, this.parameter.p, this.parameter.name, this.parameter.phone, this.parameter.email);
-            formdata.reset();
-            const text = this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
-            swal('Success', text, 'success');
-          }
-        },
-        error => {
-          console.log(error);
-          this.parameter.loading = false;
-          swal('Error', error.message, 'error');
-        });
+    this.parameter.loading = false;
+console.log('formata', formdata, this.model);
+    // this.admin.postDataApi(this.parameter.url, input)
+    //   .subscribe(
+    //     success => {
+    //       console.log('success', success);
+    //       this.parameter.loading = false;
+    //       if (success.success === '0') {
+    //         swal('Error', success.message, 'error');
+    //       }else {
+    //         this.modalClose.nativeElement.click();
+    //         this.getBuyers(this.parameter.type, this.parameter.p, this.parameter.name, this.parameter.phone, this.parameter.email);
+    //         formdata.reset();
+    //         const text = this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
+    //         swal('Success', text, 'success');
+    //       }
+    //     },
+    //     error => {
+    //       console.log(error);
+    //       this.parameter.loading = false;
+    //       swal('Error', error.message, 'error');
+    //     });
   }
 
 

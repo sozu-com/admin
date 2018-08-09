@@ -3,7 +3,8 @@
     <div class="breadcrumb-group">
       <h5>Settings</h5>
       <nav class="breadcrumb">
-          <a class="breadcrumb-item" routerLink="/dashboard">Home</a>
+          <a class="breadcrumb-item">Home</a>
+          <!-- <a class="breadcrumb-item" routerLink="/dashboard">Home</a> -->
           <a class="breadcrumb-item">Settings</a>
           <span class="breadcrumb-item active">Location</span>
       </nav>
@@ -82,7 +83,7 @@
               <div class="col-lg-3 col-md-3 col-sm-6 col-6">
                  <div class="form-group marginB0">
                     <label>Country</label>
-                    <select class="form-control" (change)="getStatesWRTCountry($event.target.value, searchState)">
+                    <select class="form-control" (change)="getStatesWRTCountry($event.target.value, '')">
                       <!-- <option value="" disabled>Select Country</option> -->
                        <option *ngFor="let country of parameter.countries1" value="{{country.id}}">{{country.name_en}}</option>
                     </select>
@@ -163,7 +164,7 @@
             <div class="col-lg-3 col-md-3 col-sm-6 col-6">
                <div class="form-group marginB0">
                   <label>State</label>
-                  <select class="form-control" (change)="getCities($event.target.value, searchCity)">
+                  <select class="form-control" (change)="getCities($event.target.value, '')">
                     <!-- <option value="" disabled>Select State</option> -->
                     <option *ngFor="let state of parameter.states1" value="{{state.id}}">{{state.name_en}}</option>
                  </select>

@@ -19,6 +19,8 @@ export class InhouseUsersComponent implements OnInit {
 
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
+  @ViewChild('viewModalOpen') viewModalOpen: ElementRef;
+  @ViewChild('viewModalClose') viewModalClose: ElementRef;
 
   public parameter: IProperty = {};
   initialCountry: any;
@@ -36,6 +38,7 @@ export class InhouseUsersComponent implements OnInit {
     private sanitization: DomSanitizer) { }
 
   ngOnInit() {
+    this.model.userModel.country_code = this.constant.country_code;
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.p = this.constant.p;
     this.parameter.routeName = this.router.url;
@@ -80,6 +83,21 @@ export class InhouseUsersComponent implements OnInit {
     this.model.userModel.is_csr_closer = false;
   }
 
+  closeViewModal() {
+    this.viewModalClose.nativeElement.click();
+    this.model.address = [{
+        countries: '',
+        states : '',
+        cities: '',
+        localities: ''
+    }];
+    this.model.userModel.is_broker_seller_dev = false;
+    this.model.userModel.is_buyer_renter = false;
+    this.model.userModel.is_broker = false;
+    this.model.userModel.is_data_collector = false;
+    this.model.userModel.is_csr_closer = false;
+  }
+
   removeAddressObj(index) {
     console.log('zz', index);
     this.addressIndex--;
@@ -88,8 +106,8 @@ export class InhouseUsersComponent implements OnInit {
 
   addEmptyObj() {
     console.log('====', this.addressIndex, this.model.address);
-    if (this.model.address[this.addressIndex].countries && this.model.address[this.addressIndex].states &&
-      this.model.address[this.addressIndex].cities && this.model.address[this.addressIndex].localities) {
+    if (this.model.address[this.addressIndex].countries !== '' && this.model.address[this.addressIndex].states !== ''  &&
+      this.model.address[this.addressIndex].cities !== ''  && this.model.address[this.addressIndex].localities !== '' ) {
       const obj = {
         countries: '',
         states : '',
@@ -106,7 +124,8 @@ export class InhouseUsersComponent implements OnInit {
 
   onCountryChange(e) {
     console.log('eeee', e);
-    this.model.userModel.country_code = e.dialCode;
+    this.model.userModel.country_code = e.iso2;
+    this.model.userModel.dial_code = e.dialCode;
     this.initialCountry = {initialCountry: e.iso2};
   }
 
@@ -157,9 +176,10 @@ export class InhouseUsersComponent implements OnInit {
     const input = new FormData();
 
     if (this.model.userModel.id !== '') {input.append('id', this.model.userModel.id); }
-console.log('aa', this.model.userModel.country_code);
+
     input.append('name', formdata.value.name);
-    input.append('country_code', '+' + this.model.userModel.country_code);
+    input.append('country_code', this.model.userModel.country_code);
+    input.append('dial_code', '+' + this.model.userModel.dial_code);
     input.append('phone', formdata.value.phone);
     input.append('email', formdata.value.email);
     input.append('address', JSON.stringify(this.model.address));
@@ -171,7 +191,11 @@ console.log('aa', this.model.userModel.country_code);
 
     if (this.parameter.image) {input.append('image', this.parameter.image); }
 
-    if (formdata.value.is_broker_seller_dev === false && formdata.value.is_buyer_renter === false &&
+    if (this.model.address[0].countries === '' || this.model.address[0].states === ''  ||
+      this.model.address[0].cities === '' || this.model.address[0].localities === '' ) {
+        swal('Error', 'Please choose location.', 'error');
+        this.parameter.loading = false;
+    } else if (formdata.value.is_broker_seller_dev === false && formdata.value.is_buyer_renter === false &&
       formdata.value.is_broker === false && formdata.value.is_data_collector === false &&
       formdata.value.is_csr_closer === false) {
         swal('Error', 'Please choose a role for inhouse user.', 'error');
@@ -209,9 +233,11 @@ console.log('aa', this.model.userModel.country_code);
 
                 if (this.model.userModel.id !== '') {
                   // edit -- replace
+                  console.log('edit');
                   this.parameter.items[this.parameter.index] = success.data;
                 } else {
                   // add - push
+                  console.log('add');
                   this.parameter.items.push(success.data);
                 }
               }
@@ -253,6 +279,33 @@ console.log('aa', this.model.userModel.country_code);
     // userdata.cities = ['4', '4'];
     // userdata.localities = ['3', '4'];
     console.log('usermodel', this.model.userModel, this.image1);
+    for (let ind = 0; ind < userdata.countries.length; ind++) {
+
+      const tempAdd = {
+        countries: userdata.countries[ind].id,
+        states: userdata.states[ind].id,
+        cities: userdata.cities[ind].id,
+        localities: userdata.localities[ind].id
+      };
+
+      this.model.address[ind] = tempAdd;
+    }
+
+    console.log('usermodel', this.model.userModel, this.image1);
+    // updateNewUser
+  }
+
+
+  viewDetails(userdata, index) {
+    this.model.address = [];
+    this.viewModalOpen.nativeElement.click();
+
+    this.model.userModel.is_broker_seller_dev = userdata.permissions && userdata.permissions.can_csr_seller === 1 ? true : false;
+    this.model.userModel.is_buyer_renter = userdata.permissions && userdata.permissions.can_csr_buyer === 1 ? true : true;
+    this.model.userModel.is_broker = userdata.permissions && userdata.permissions.can_in_house_broker === 1 ? true : true;
+    this.model.userModel.is_data_collector = userdata.permissions && userdata.permissions.can_data_collector === 1 ? true : false;
+    this.model.userModel.is_csr_closer = userdata.permissions && userdata.permissions.can_csr_closer === 1 ? true : true;
+
     for (let ind = 0; ind < userdata.countries.length; ind++) {
 
       const tempAdd = {
@@ -471,6 +524,7 @@ console.log('aa', this.model.userModel.country_code);
 
     const input = new FormData();
     input.append('page', this.parameter.p.toString());
+    // input.append('page', '2');
 
     if (this.parameter.name) {input.append('name', this.parameter.name); }
 
@@ -558,6 +612,7 @@ console.log('aa', this.model.userModel.country_code);
 
 
   blockAdmin(index, id, flag, user_type) {
+    this.parameter.loading = true;
     this.parameter.url = 'blockAdmin';
     const input = new FormData();
     input.append('id', id);

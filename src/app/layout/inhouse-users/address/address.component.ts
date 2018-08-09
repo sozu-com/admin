@@ -16,12 +16,15 @@ export class AddressComponent implements OnInit {
   public parameter: IProperty = {};
   @Input('address') address;
   @Input('index') index;
+  @Input('status') status;
+
   @Output() removeAddress = new EventEmitter();
 
   constructor(private model: InhouseUsers, private element: ElementRef, private route: ActivatedRoute,
     private admin: AdminService, private router: Router) { }
 
   ngOnInit() {
+    console.log('address', this.address);
     this.getCountriesNew(0);
     if (this.address.countries) {
       this.getStatesNew(this.address.countries, 0);
@@ -31,12 +34,13 @@ export class AddressComponent implements OnInit {
   }
 
   removeRow() {
-    console.log('index removerow', this.index);
     this.removeAddress.emit(this.index);
   }
 
   getCountriesNew(index) {
 
+    this.parameter.statesAdd = []; this.parameter.citiesAdd = []; this.parameter.localitiesAdd = [];
+    // this.address.states = []; this.address.cities = []; this.address.localities = [];
     this.parameter.loading = true;
     this.parameter.url = 'getCountries';
     const input = new FormData();
@@ -46,9 +50,6 @@ export class AddressComponent implements OnInit {
         success => {
           this.parameter.loading = false;
           this.parameter.countriesAdd = success.data;
-          this.parameter.statesAdd = [];
-          this.parameter.citiesAdd = [];
-          this.parameter.localitiesAdd = [];
         },
         error => {
           this.parameter.loading = false;
@@ -58,6 +59,8 @@ export class AddressComponent implements OnInit {
 
   getStatesNew(country_id, index) {
 
+    this.parameter.citiesAdd = []; this.parameter.localitiesAdd = [];
+    // this.address.cities = []; this.address.localities = [];
     this.parameter.loading = true;
     this.parameter.url = 'country/getStates';
     this.parameter.country_id = country_id;
@@ -65,24 +68,28 @@ export class AddressComponent implements OnInit {
     const input = new FormData();
     input.append('country_id', country_id);
 
-    this.admin.postDataApi(this.parameter.url, input)
+    if (country_id !== '') {
+      this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
+          console.log('states', success);
+          console.log('address.states', this.address.states);
           this.parameter.loading = false;
           this.parameter.statesAdd = success.data;
           this.address.countries = country_id;
-          this.parameter.citiesAdd = [];
-          this.parameter.localitiesAdd = [];
         },
         error => {
           console.log(error);
           this.parameter.loading = false;
           swal('Error', error.message, 'error');
         });
+    }
   }
 
   getCitiesNew(state_id, index) {
 
+    this.parameter.localitiesAdd = [];
+    // this.address.localities = [];
     this.parameter.loading = true;
     this.parameter.url = 'getCities';
     this.parameter.state_id = state_id;
@@ -90,13 +97,15 @@ export class AddressComponent implements OnInit {
     const input = new FormData();
     input.append('state_id', state_id);
 
-    this.admin.postDataApi(this.parameter.url, input)
+    if (state_id !== '') {
+      this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
+          console.log('cities', success);
+          console.log('address.cities', this.address.cities);
           this.parameter.loading = false;
           this.parameter.citiesAdd = success.data;
           this.address.states = state_id;
-          this.parameter.localitiesAdd = [];
         },
         error => {
           this.parameter.loading = false;
@@ -106,6 +115,7 @@ export class AddressComponent implements OnInit {
             swal('Error', error.message, 'error');
           }
         });
+    }
   }
 
 
@@ -118,9 +128,12 @@ export class AddressComponent implements OnInit {
     const input = new FormData();
     input.append('city_id', city_id);
 
-    this.admin.postDataApi(this.parameter.url, input)
+    if (city_id !== '') {
+      this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
+          console.log('localities', success);
+          console.log('address.localities', this.address.localities);
           this.parameter.loading = false;
           this.parameter.localitiesAdd = success.data;
           this.address.cities = city_id;
@@ -133,6 +146,7 @@ export class AddressComponent implements OnInit {
             swal('Error', error.message, 'error');
           }
         });
+    }
   }
 
 

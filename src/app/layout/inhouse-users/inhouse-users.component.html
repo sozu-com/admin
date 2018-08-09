@@ -88,7 +88,6 @@
                         <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="searchUserByName(parameter.name)" name="">
                         <button *ngIf="parameter.name" (click)="searchUserByName(parameter.name)"><i class="fa fa-search"></i></button>
                       </div>
-                      <!-- <input type="text" (input)="searchUserByName($event.target.value)" name=""> -->
                   </div>
                 </th>
                 <th style="width:20%; text-align:left;">
@@ -98,7 +97,6 @@
                         <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="searchUserByPhone(parameter.phone)" name="">
                         <button *ngIf="parameter.phone" (click)="searchUserByPhone(parameter.phone)"><i class="fa fa-search"></i></button>
                       </div>
-                      <!-- <input type="type" (input)="searchUserByPhone($event.target.value)" name=""> -->
                   </div>
                 </th>
                 <th style="width:20%">
@@ -108,7 +106,6 @@
                         <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="searchUserByEmail(parameter.email)" name="">
                         <button *ngIf="parameter.email" (click)="searchUserByEmail(parameter.email)"><i class="fa fa-search"></i></button>
                       </div>
-                      <!-- <input type="email" (input)="searchUserByEmail($event.target.value)" name=""> -->
                   </div>
                 </th>
                 <th *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'csr-closers'" style="width:8%; vertical-align: top;">
@@ -144,7 +141,9 @@
               <td *ngIf="parameter.userType == 'data-collectors'" >14</td>
               <td *ngIf="parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers'" >14</td>
               <td>
-                <a href="javascript://" (click)="editUser(item, i)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
+                <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#view" #viewModalOpen></a>
+                <a title="View Details" href="javascript://" (click)="viewDetails(item, i)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
+                <a title="Edit Details" href="javascript://" (click)="editUser(item, i)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
                 <a href="javascript://" *ngIf="item.is_blocked == 1" (click)="blockUnblockPopup(i, item.id, 0, parameter.type)" title="Unblock user" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a>
                 <a href="javascript://" *ngIf="item.is_blocked == 0" (click)="blockUnblockPopup(i, item.id, 1, parameter.type)" title="Block user" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
               </td>
@@ -221,7 +220,7 @@
             </div>
             
             <div *ngFor="let add of model.address; let j=index">
-              <app-address [address]="add" [index]="j" (removeAddress)="removeAddressObj($event)"></app-address>
+              <app-address [address]="add" [index]="j" [status]="false" (removeAddress)="removeAddressObj($event)"></app-address>
             </div>
 
             <div class="col-12" *ngIf="model.address?.length!=0">
@@ -254,6 +253,55 @@
                </label>
                <label [ngClass]="{'access-control11': model.userModel.is_csr_closer == true}" class="cust-check-bx2">CSR Closer
                  <input type="checkbox" [(ngModel)]="model.userModel.is_csr_closer" name="is_csr_closer">
+                 <span class="checkmark"></span>
+               </label>
+            </div>
+         </div>
+        </form>
+
+     </div>
+  </div>
+</div>
+
+
+<!-- view inhouse user modal -->
+<div class="modal animated" id="view">
+  <div class="modal-dialog fadeIndown modal-lg">
+     <div class="modal-content">
+        <div class="modal-header" style="padding: 5%; padding-bottom: 0;">
+          <h4 class="modal-title">{{title}}'s Details</h4>
+          <button type="button" style="display: none;" class="close" data-dismiss="modal" #viewModalClose>&times;</button>
+          <button type="button" class="close" (click)="closeViewModal()">&times;</button>
+        </div>
+
+        <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="addNewUser(addForm)">
+        <div class="modal-body">
+            <div *ngFor="let add of model.address; let j=index">
+              <app-address [address]="add" [index]="j" [status]="true" (removeAddress)="removeAddressObj($event)"></app-address>
+            </div>
+
+            <div class="access-controls">
+               <label [ngClass]="{'access-control11': model.userModel.is_broker_seller_dev == true}" class="cust-check-bx2">CSR Broker/Seller/Developer
+                 <input disabled type="checkbox" name="is_broker_seller_dev" [(ngModel)]="model.userModel.is_broker_seller_dev">
+                 <span class="checkmark"></span>
+               </label>
+ 
+               <label [ngClass]="{'access-control11': model.userModel.is_buyer_renter == true}" class="cust-check-bx2">CSR Buyer/Renter
+                 <input disabled type="checkbox" [(ngModel)]="model.userModel.is_buyer_renter" name="is_buyer_renter">
+                 <span class="checkmark"></span>
+               </label>
+ 
+               <label [ngClass]="{'access-control11': model.userModel.is_broker == true}" class="cust-check-bx2">Broker
+                 <input disabled type="checkbox" [(ngModel)]="model.userModel.is_broker" name="is_broker">
+                 <span class="checkmark"></span>
+               </label>
+ 
+               <label [ngClass]="{'access-control11': model.userModel.is_data_collector == true}" class="cust-check-bx2">Data Collector
+                 <input disabled type="checkbox" [(ngModel)]="model.userModel.is_data_collector" name="is_data_collector">
+                 <span class="checkmark"></span>
+               </label>
+               <label [ngClass]="{'access-control11': model.userModel.is_csr_closer == true}" class="cust-check-bx2">CSR Closer
+                 <input disabled type="checkbox" [(ngModel)]="model.userModel.is_csr_closer" name="is_csr_closer">
                  <span class="checkmark"></span>
                </label>
             </div>
