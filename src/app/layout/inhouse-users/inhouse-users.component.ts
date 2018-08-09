@@ -176,53 +176,54 @@ console.log('aa', this.model.userModel.country_code);
       formdata.value.is_csr_closer === false) {
         swal('Error', 'Please choose a role for inhouse user.', 'error');
         this.parameter.loading = false;
-    }
+    } else {
 
-    console.log('addnewuser');
-    this.admin.postDataApi(this.parameter.url, input)
-      .subscribe(
-        success => {
-          console.log('success', success);
-          this.parameter.loading = false;
-          if (success.success === '0') {
-            swal('Error', success.message, 'error');
-          }else {
-            this.modalClose.nativeElement.click();
-            formdata.reset();
-            this.model.userModel.country_code = this.constant.country_code;
-            this.initialCountry = {initialCountry: this.constant.initialCountry};
-            this.model.address = [{
-                countries: '',
-                states : '',
-                cities: '',
-                localities: ''
-            }];
-            this.image1 = '';
-            const text = this.model.userModel.id === '' ? 'Added successfully.' : 'Updated successfully.';
-            swal('Success', text, 'success');
+      console.log('addnewuser');
+      this.admin.postDataApi(this.parameter.url, input)
+        .subscribe(
+          success => {
+            console.log('success', success);
+            this.parameter.loading = false;
+            if (success.success === '0') {
+              swal('Error', success.message, 'error');
+            }else {
+              this.modalClose.nativeElement.click();
+              formdata.reset();
+              this.model.userModel.country_code = this.constant.country_code;
+              this.initialCountry = {initialCountry: this.constant.initialCountry};
+              this.model.address = [{
+                  countries: '',
+                  states : '',
+                  cities: '',
+                  localities: ''
+              }];
+              this.image1 = '';
+              const text = this.model.userModel.id === '' ? 'Added successfully.' : 'Updated successfully.';
+              swal('Success', text, 'success');
 
-            if ((formdata.value.is_broker_seller_dev === true && this.parameter.userType === 'csr-sellers') ||
-                (formdata.value.is_buyer_renter === true && this.parameter.userType === 'csr-buyers') ||
-                (formdata.value.is_broker === true && this.parameter.userType === 'inhouse-broker') ||
-                (formdata.value.is_data_collector === true && this.parameter.userType === 'data-collectors') ||
-                (formdata.value.is_csr_closer === true && this.parameter.userType === 'csr-closers')) {
+              if ((formdata.value.is_broker_seller_dev === true && this.parameter.userType === 'csr-sellers') ||
+                  (formdata.value.is_buyer_renter === true && this.parameter.userType === 'csr-buyers') ||
+                  (formdata.value.is_broker === true && this.parameter.userType === 'inhouse-broker') ||
+                  (formdata.value.is_data_collector === true && this.parameter.userType === 'data-collectors') ||
+                  (formdata.value.is_csr_closer === true && this.parameter.userType === 'csr-closers')) {
 
-              if (this.model.userModel.id !== '') {
-                // edit -- replace
-                this.parameter.items[this.parameter.index] = success.data;
-              } else {
-                // add - push
-                this.parameter.items.push(success.data);
+                if (this.model.userModel.id !== '') {
+                  // edit -- replace
+                  this.parameter.items[this.parameter.index] = success.data;
+                } else {
+                  // add - push
+                  this.parameter.items.push(success.data);
+                }
               }
+              // this.getInhouseUsers();
             }
-            // this.getInhouseUsers();
-          }
-        },
-        error => {
-          console.log(error);
-          this.parameter.loading = false;
-          swal('Error', error.message, 'error');
-        });
+          },
+          error => {
+            console.log(error);
+            this.parameter.loading = false;
+            swal('Error', error.message, 'error');
+          });
+    }
   }
 
   editUser(userdata, index) {

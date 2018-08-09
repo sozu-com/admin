@@ -41,7 +41,7 @@
                   <div class="table-search">
                       <label>Name</label>
                       <div class="searh-3">
-                        <input type="Search here" [(ngModel)]="parameter.name" (keyup.enter)="getBuyers(parameter.type, parameter.p, parameter.name, parameter.phone, parameter.email)" name="">
+                        <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getBuyers(parameter.type, parameter.p, parameter.name, parameter.phone, parameter.email)" name="">
                         <button *ngIf="parameter.name" (click)="getBuyers(parameter.type, parameter.p, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
                       </div>
                   </div>
@@ -50,7 +50,7 @@
                   <div class="table-search">
                       <label>Contact Number</label>
                       <div class="searh-3">
-                        <input type="Search here" [(ngModel)]="parameter.phone" (keyup.enter)="getBuyers(parameter.type, parameter.p, parameter.name, parameter.phone, parameter.email)" name="">
+                        <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="getBuyers(parameter.type, parameter.p, parameter.name, parameter.phone, parameter.email)" name="">
                         <button *ngIf="parameter.phone" (click)="getBuyers(parameter.type, parameter.p, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
                       </div>
                   </div>
@@ -59,7 +59,7 @@
                   <div class="table-search">
                       <label>Email Address</label>
                       <div class="searh-3">
-                        <input type="Search here" [(ngModel)]="parameter.email" (keyup.enter)="getBuyers(parameter.type, parameter.p, parameter.name, parameter.phone, parameter.email)" name="">
+                        <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="getBuyers(parameter.type, parameter.p, parameter.name, parameter.phone, parameter.email)" name="">
                         <button *ngIf="parameter.email" (click)="getBuyers(parameter.type, parameter.p, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
                       </div>
                   </div>

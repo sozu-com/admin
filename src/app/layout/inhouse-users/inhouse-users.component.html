@@ -85,7 +85,7 @@
                   <div class="table-search">
                       <label>Name</label>
                       <div class="searh-3">
-                        <input type="Search here" [(ngModel)]="parameter.name" (keyup.enter)="searchUserByName(parameter.name)" name="">
+                        <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="searchUserByName(parameter.name)" name="">
                         <button *ngIf="parameter.name" (click)="searchUserByName(parameter.name)"><i class="fa fa-search"></i></button>
                       </div>
                       <!-- <input type="text" (input)="searchUserByName($event.target.value)" name=""> -->
@@ -95,7 +95,7 @@
                   <div class="table-search">
                       <label>Contact Number</label>
                       <div class="searh-3">
-                        <input type="Search here" [(ngModel)]="parameter.phone" (keyup.enter)="searchUserByPhone(parameter.phone)" name="">
+                        <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="searchUserByPhone(parameter.phone)" name="">
                         <button *ngIf="parameter.phone" (click)="searchUserByPhone(parameter.phone)"><i class="fa fa-search"></i></button>
                       </div>
                       <!-- <input type="type" (input)="searchUserByPhone($event.target.value)" name=""> -->
@@ -105,7 +105,7 @@
                   <div class="table-search">
                       <label>Email Address</label>
                       <div class="searh-3">
-                        <input type="Search here" [(ngModel)]="parameter.email" (keyup.enter)="searchUserByEmail(parameter.email)" name="">
+                        <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="searchUserByEmail(parameter.email)" name="">
                         <button *ngIf="parameter.email" (click)="searchUserByEmail(parameter.email)"><i class="fa fa-search"></i></button>
                       </div>
                       <!-- <input type="email" (input)="searchUserByEmail($event.target.value)" name=""> -->

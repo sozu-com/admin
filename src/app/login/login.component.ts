@@ -19,7 +19,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
   };
 
   public parameter: IProperty = {};
-  emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
+  // emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
+  emailPattern = '^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$';
 
   constructor(private router: Router, private admin: AdminService) {
     this.parameter.loading = false;
@@ -38,7 +39,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     const email = formData.value.email;
     const password = formData.value.password;
 
-    this.admin.adminLogin(email, password)
+    this.admin.adminLogin(email.toLowerCase(), password)
       .subscribe(
         success => {
           console.log('---', success);
