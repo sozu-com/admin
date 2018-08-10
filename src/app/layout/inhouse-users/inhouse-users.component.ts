@@ -31,6 +31,9 @@ export class InhouseUsersComponent implements OnInit {
   title: string;
   phonePattern = '^[0-9]{5,15}$';
   newPage: number;
+  disabledLocalities = [];
+  seenDuplicate = false;
+  testObject = [];
 
   constructor(private constant: Constant, private address: Address, private user: User,
     public model: InhouseUsers, private element: ElementRef, private route: ActivatedRoute,
@@ -49,9 +52,11 @@ export class InhouseUsersComponent implements OnInit {
       this.parameter.userType = params['userType'];
       console.log('usertype', this.parameter.userType);
       this.parameter.name = ''; this.parameter.phone = ''; this.parameter.email = '';
+      this.parameter.items = []; this.parameter.total = 0;
       this.getInhouseUsers();
       this.getCountries();
       this.initialCountry = {initialCountry: this.constant.initialCountry};
+      // this.initialCountry = {initialCountry: 'in'};
     });
   }
 
@@ -91,6 +96,7 @@ export class InhouseUsersComponent implements OnInit {
         cities: '',
         localities: ''
     }];
+    this.disabledLocalities = [];
     this.model.userModel.is_broker_seller_dev = false;
     this.model.userModel.is_buyer_renter = false;
     this.model.userModel.is_broker = false;
@@ -102,6 +108,7 @@ export class InhouseUsersComponent implements OnInit {
     console.log('zz', index);
     this.addressIndex--;
     this.model.address.splice(index, 1);
+    this.disabledLocalities.splice(index, 1);
   }
 
   addEmptyObj() {
@@ -122,6 +129,16 @@ export class InhouseUsersComponent implements OnInit {
   }
 
 
+  disabledLocalityId(i) {
+    console.log('index', i);
+    // console.log('zz', id);
+    // this.disabledLocalities.push(this.model.address[i].localities);
+    this.disabledLocalities[i] = this.model.address[i].localities;
+    // for (let index = 0; index < this.model.address.length; index++) {
+    //   this.disabledLocalityId.push(this.model.address[index].localities);
+    // }
+  }
+
   onCountryChange(e) {
     console.log('eeee', e);
     this.model.userModel.country_code = e.iso2;
@@ -131,9 +148,19 @@ export class InhouseUsersComponent implements OnInit {
 
   openAddModal() {
     console.log('--', this.initialCountry);
-    this.initialCountry = this.constant.initialCountry;
+    this.initialCountry = {initialCountry: this.constant.initialCountry};
+    // this.initialCountry = {initialCountry: 'us', formatOnDisplay: false, separateDialCode: true};
     console.log('--', this.initialCountry);
     this.modalOpen.nativeElement.click();
+  }
+
+  telInputObject(obj) {
+    console.log('zzzzzzzzzzzzzzzzzz', obj);
+    obj.intlTelInput('setCountry', 'in');
+  }
+
+  initialcountryfunc( ) {
+    return {initialCountry: this.constant.initialCountry};
   }
 
 
@@ -168,7 +195,6 @@ export class InhouseUsersComponent implements OnInit {
   }
 
 
-
   addNewUser(formdata: NgForm) {
     this.parameter.loading = true;
     this.parameter.url = this.model.userModel.id !== '' ? 'updateNewUser' : 'addNewUser';
@@ -177,11 +203,11 @@ export class InhouseUsersComponent implements OnInit {
 
     if (this.model.userModel.id !== '') {input.append('id', this.model.userModel.id); }
 
-    input.append('name', formdata.value.name);
+    input.append('name', this.model.userModel.name);
     input.append('country_code', this.model.userModel.country_code);
     input.append('dial_code', '+' + this.model.userModel.dial_code);
-    input.append('phone', formdata.value.phone);
-    input.append('email', formdata.value.email);
+    input.append('phone', this.model.userModel.phone);
+    input.append('email', this.model.userModel.email);
     input.append('address', JSON.stringify(this.model.address));
     input.append('is_broker_seller_dev', formdata.value.is_broker_seller_dev === true ? '1' : '0');
     input.append('is_buyer_renter', formdata.value.is_buyer_renter === true ? '1' : '0');
@@ -191,17 +217,34 @@ export class InhouseUsersComponent implements OnInit {
 
     if (this.parameter.image) {input.append('image', this.parameter.image); }
 
+    // checking if locality is same or not
+    this.model.address.map((item) => {
+      console.log('=========', item);
+      const value = item['localities'];
+      console.log('aa', value, this.testObject);
+      if (this.testObject.indexOf(value) === -1) {
+        this.testObject.push(value);
+      } else {
+        this.seenDuplicate = true;
+      }
+    });
+console.log('duplicate', this.testObject, this.seenDuplicate);
     if (this.model.address[0].countries === '' || this.model.address[0].states === ''  ||
       this.model.address[0].cities === '' || this.model.address[0].localities === '' ) {
         swal('Error', 'Please choose location.', 'error');
         this.parameter.loading = false;
+    } else if (this.seenDuplicate) {
+      this.testObject = [];
+      this.parameter.loading = false;
+      this.seenDuplicate = false;
+      swal('Error', 'Please choose different localities.', 'error');
     } else if (formdata.value.is_broker_seller_dev === false && formdata.value.is_buyer_renter === false &&
       formdata.value.is_broker === false && formdata.value.is_data_collector === false &&
       formdata.value.is_csr_closer === false) {
         swal('Error', 'Please choose a role for inhouse user.', 'error');
         this.parameter.loading = false;
     } else {
-
+      this.parameter.loading = false;
       console.log('addnewuser');
       this.admin.postDataApi(this.parameter.url, input)
         .subscribe(

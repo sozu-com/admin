@@ -1,3 +1,13 @@
+//tooltip function start
+ 
+$(document).ready(function(){
+
+    $('[data-toggle="tooltip"]').tooltip(); 
+  
+});
+ 
+//tooltip function end
+
 
  $(document).ready(function() {
     //en scroll start
@@ -31,6 +41,4 @@ slider.on("slide", function(slideEvt) {
  
 
 //date picker function end
-
-
 

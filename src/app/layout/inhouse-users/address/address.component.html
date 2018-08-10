@@ -38,7 +38,7 @@
         <select [disabled]="status" required title="Choose Locality" class="form-control" (change)="setLocality($event.target.value, i)">
           <option value="">Select Locality</option>
           <!-- <option *ngFor="let localityAdd of parameter.localitiesAdd" value="{{localityAdd.id}}">{{localityAdd.name_en}}</option> -->
-          <option *ngFor="let localityAdd of parameter.localitiesAdd" [selected]="localityAdd.id == address.localities" value="{{localityAdd.id}}">{{localityAdd.name_en}}</option>
+          <option *ngFor="let localityAdd of parameter.localitiesAdd" [disabled]="localityAdd.disabled" [selected]="localityAdd.id == address.localities" value="{{localityAdd.id}}">{{localityAdd.name_en}}</option>
         </select>
       </div>
       </div>

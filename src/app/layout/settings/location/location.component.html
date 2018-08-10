@@ -24,11 +24,11 @@
               <div class="col-md-12">
                 <label><strong>Country</strong></label>
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-6 table-search searh-2">
+              <div class="col-xl-3 col-sm-6 col-12 table-search searh-2">
                   <input type="text" name="keyword" [(ngModel)]="searchCountry" (keyup.enter)="getCountries(searchCountry)" placeholder="Search here">
                   <button (click)="getCountries(searchCountry)"><i class="fa fa-search"></i></button>
               </div>
-              <div class="col-lg-9 col-md-9 col-sm-6 col-6">
+              <div class="col-xl-9 col-sm-6 col-12">
                  <div class="form-group marginB0">
                     <div class="btn-cont text-right">
                         <a class="btn btn-primary" href="javascript://" (click)="openCountryModal(addCountryModal, '', '', '', '1', -1)">+ Add New</a>

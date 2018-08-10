@@ -43,9 +43,9 @@ export class UsersComponent implements OnInit {
   }
 
   closeModal() {
-    // this.image1 = '';
-    // this.model.name = ''; this.model.email = ''; this.model.phone = '';
-    this.model = new Users();
+    this.image1 = '';
+    this.model.name = ''; this.model.email = ''; this.model.phone = '';
+    // this.model = new Users();
     this.modalClose.nativeElement.click();
   }
 

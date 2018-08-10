@@ -17,14 +17,17 @@ export class AddressComponent implements OnInit {
   @Input('address') address;
   @Input('index') index;
   @Input('status') status;
+  @Input('disabledLocalities') disabledLocalities;
 
   @Output() removeAddress = new EventEmitter();
+  @Output() disabledLocality = new EventEmitter();
 
   constructor(private model: InhouseUsers, private element: ElementRef, private route: ActivatedRoute,
     private admin: AdminService, private router: Router) { }
 
   ngOnInit() {
     console.log('address', this.address);
+    console.log('disabledLocalities', this.disabledLocalities);
     this.getCountriesNew(0);
     if (this.address.countries) {
       this.getStatesNew(this.address.countries, 0);
@@ -36,6 +39,10 @@ export class AddressComponent implements OnInit {
   removeRow() {
     this.removeAddress.emit(this.index);
   }
+
+  // disableLocality() {
+  //   this.disabledLocality.emit(this.address.localities);
+  // }
 
   getCountriesNew(index) {
 
@@ -137,6 +144,17 @@ export class AddressComponent implements OnInit {
           this.parameter.loading = false;
           this.parameter.localitiesAdd = success.data;
           this.address.cities = city_id;
+console.log('data', this.parameter.localitiesAdd, this.disabledLocalities);
+          for (let c = 0; c < this.parameter.localitiesAdd.length; c++) {
+            this.parameter.localitiesAdd[c].disabled = false;
+            for (let d = 0; d < this.disabledLocalities.length; d++) {
+              if (this.disabledLocalities[d] === (this.parameter.localitiesAdd[c].id).toString()) {
+                console.log('localitttttt', this.disabledLocalities[d], this.parameter.localitiesAdd[c].id);
+                this.parameter.localitiesAdd[c].disabled = true;
+              }
+            }
+          }
+          console.log('===============', this.parameter.localitiesAdd);
         },
         error => {
           this.parameter.loading = false;
@@ -152,5 +170,6 @@ export class AddressComponent implements OnInit {
 
   setLocality(locality_id, index) {
     this.address.localities = locality_id;
+    this.disabledLocality.emit(this.index);
   }
 }

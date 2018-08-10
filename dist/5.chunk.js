@@ -865,9 +865,11 @@ var UsersComponent = /** @class */ (function () {
         this.getBuyers(this.parameter.type, this.parameter.p, '', '', '');
     };
     UsersComponent.prototype.closeModal = function () {
-        // this.image1 = '';
-        // this.model.name = ''; this.model.email = ''; this.model.phone = '';
-        this.model = new __WEBPACK_IMPORTED_MODULE_3__models_users_model__["a" /* Users */]();
+        this.image1 = '';
+        this.model.name = '';
+        this.model.email = '';
+        this.model.phone = '';
+        // this.model = new Users();
         this.modalClose.nativeElement.click();
     };
     UsersComponent.prototype.getPage = function (page) {
