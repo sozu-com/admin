@@ -40,7 +40,6 @@ export class AddProjectComponent implements OnInit {
   selectedGuest;
   image1;
   image2;
-  image3;
   amenityList = [];
   amen = '';
   bankList = [];
@@ -54,7 +53,7 @@ export class AddProjectComponent implements OnInit {
   all_configurations:any=[];
 
   selected_amenities:any=[]
-  new_config:any;
+  new_config:any = new Configuration;
   FU:any={};
   initialCountry = {initialCountry: 'mx'};
 
@@ -184,8 +183,8 @@ export class AddProjectComponent implements OnInit {
   }
 
   removeImageMulti(index){
+    this.new_config.images_path.splice(index, 1);
     this.new_config.images.splice(index, 1);
-    this.new_config.other_images.splice(index, 1);
   }
 
   saveImages() {
@@ -211,11 +210,11 @@ export class AddProjectComponent implements OnInit {
   }
 
   fileUploader(event,key=0,model) { // called each time file input changes
+    this.parameter.loading = true;
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
           this.url = e.target.result;
-          this.image3 = this.sanitization.bypassSecurityTrustStyle(`url(${this.url})`);
       };
       const input = new FormData();
       input.append('image', event.target.files[0]);
@@ -242,14 +241,14 @@ export class AddProjectComponent implements OnInit {
   fileUploaderMulti(event) { // called each time file input changes
     if (event.target.files && event.target.files[0]) {
 
-      if (this.new_config.images === 6 || event.target.files.length > 6) {
+      if (this.new_config.images_path === 6 || event.target.files.length > 6) {
         swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
       }else {
         for (let index = 0; index < event.target.files.length; index++) {
           const reader = new FileReader();
           reader.onload = (e: any) => {
             this.new_config.images_files.push(event.target.files[index]);
-            this.new_config.images.push(e.target.result);
+            this.new_config.images_path.push(e.target.result);
 
           };
           reader.readAsDataURL(event.target.files[index]);
@@ -260,7 +259,7 @@ export class AddProjectComponent implements OnInit {
 
 
   saveImagesConfig() {
-    this.new_config.other_images = [];
+    this.new_config.images = [];
     const input = new FormData();
     for (let index = 0; index < this.new_config.images_files.length; index++) {
       input.append('image', this.new_config.images_files[index]);
@@ -269,7 +268,7 @@ export class AddProjectComponent implements OnInit {
       .subscribe(
         success => {
           console.log(success.data.image);
-          this.new_config.other_images.push(success.data.image);
+          this.new_config.images.push(success.data.image);
           this.parameter.loading = false;
         },
         error => {
@@ -280,7 +279,7 @@ export class AddProjectComponent implements OnInit {
     }
 
     delete this.new_config.images_files;
-    delete this.new_config.images;
+    delete this.new_config.images_path;
     this.model.configurations.push(this.new_config);
 
   }
@@ -411,6 +410,23 @@ export class AddProjectComponent implements OnInit {
     console.log(parentModel);
   }
 
+  editConfiguration(config){
+    console.log(this.new_config);
+    console.log(config);
+    this.new_config = config;
+    this.new_config.images = [];
+    this.new_config.images_files = [];
+    this.new_config.images_path = [];
+    // for(let key in config){
+    //   this.new_config[key] = config[key];
+    // }
+    this.openConfigPopup.nativeElement.click();
+  }
+
+  deleteConfiguration(index){
+    this.model.configurations.splice(index,1);
+  }
+
   addNewConfig(){
     this.closeConfigPopup.nativeElement.click();
     this.saveImagesConfig();
@@ -440,12 +456,15 @@ export class AddProjectComponent implements OnInit {
       delete this.model.id;
     }
     //console.log(this.model);
+
     this.admin.postDataApi('addProject', this.model).subscribe(
       success=>{
         console.log(success);
+        swal('Success', success.message, 'success');
       },
       error=>{
         console.log(error);
+        swal('Error', error.message, 'error');
       }
     );
   }

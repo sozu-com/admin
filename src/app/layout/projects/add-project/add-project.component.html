@@ -1,10 +1,13 @@
-<div class="container-fluid">
+  <ngx-loading [show]="parameter.loading"></ngx-loading>
+
+  <div class="container-fluid">
   <div class="white-bg">
      <div class="page-title">
         <h3>Manage Projects</h3>
      </div>
 
      <div class="padding40 paddingT0">
+
         <div class="row">
            <div class="col-md-5 col-sm-12 col-12">
               <div class="form-group-3">
@@ -32,7 +35,7 @@
                  <div class="col-sm-6 col-12">
                     <div class="form-group-3" >
                       <label>Name of Building</label>
-                      <input class="form-control" type="text" [(ngModel)]="model.name" name="name" placeholder="Enter name of building" >
+                      <input class="form-control" type="text" [(ngModel)]="model.name" name="name" placeholder="Enter name of building" required>
                     </div>
                  </div>
                  <div class="col-sm-6 col-12">
@@ -40,7 +43,7 @@
                      <label>Where it is located?</label>
                      <input placeholder="search for location" autocorrect="off" autocapitalize="off"
                        spellcheck="off" type="text" class="form-control" #search (input)="loadPlaces()"
-                     name="address" [(ngModel)]="model.address">
+                     name="address" [(ngModel)]="model.address" required>
                    </div>
                  </div>
               </div>
@@ -57,13 +60,13 @@
                  <div class="col-sm-6 col-12">
                     <div class="form-group-3">
                        <label>Building Age</label>
-                       <input class="form-control" [(ngModel)]="model.building_age"  type="text" name="building_age" />
+                       <input class="form-control" [(ngModel)]="model.building_age"  type="text" name="building_age" required />
                     </div>
                  </div>
                  <div class="col-sm-6 col-12">
                     <div class="form-group-3">
                        <label>Building type</label>
-                       <select [(ngModel)]="model.building_type_id"  class="form-control">
+                       <select [(ngModel)]="model.building_type_id"  class="form-control" name="building_type_id" required>
                           <option *ngFor="let s of all_building_types" [value]="s.id">
                             {{s.name}}
                           </option>
@@ -73,7 +76,8 @@
                  <div class="col-12">
                     <div class="form-group-3">
                        <label>Descriptuion</label>
-                       <textarea [(ngModel)]="model.description" name="description" class="form-control"></textarea>
+                       <textarea [(ngModel)]="model.description" name="description" class="form-control" [ngModelOptions]="{standalone: true}">
+                       </textarea>
                     </div>
                  </div>
                  <div class="col-md-4 col-sm-6 col-12">
@@ -89,13 +93,13 @@
                  <div class="col-md-4 col-sm-6 col-12">
                     <div class="form-group-3">
                        <label>Floors</label>
-                       <input class="form-control" [ngModel]="model.floors"  type="text" name="building_floors">
+                       <input class="form-control" [ngModel]="model.floors"  type="text" name="building_floors" required>
                     </div>
                  </div>
                  <div class="col-md-4 col-sm-6 col-12">
                     <div class="form-group-3">
                        <label>Average Price</label>
-                       <input class="form-control" [ngModel]="model.avg_price"  type="text" name="building_avg_price">
+                       <input class="form-control" [ngModel]="model.avg_price"  type="text" name="building_avg_price" required>
                     </div>
                  </div>
                  <div class="col-sm-12 col-12">
@@ -110,10 +114,10 @@
                         <tbody>
                          <tr *ngFor="let c of model.custom_attributes ;let i=index;">
                            <td>
-                             <input [(ngModel)]="c.name" class="form-control" type="text" />
+                             <input [(ngModel)]="c.name" class="form-control" name="name[c]" type="text" required/>
                            </td>
                            <td>
-                             <input [(ngModel)]="c.value" class="form-control" type="text" />
+                             <input [(ngModel)]="c.value" class="form-control" name="value[c]" type="text" required />
                            </td>
                            <td>
                              <a (click)="model.custom_attributes.splice(i,1)"><img src="assets/img/remove-icon.png" /></a>
@@ -152,7 +156,11 @@
                        <label class="float-right marginB0"><a class="edit-del" href="javascript://">Edit/Delete</a></label>
                        <div class="clearfix"></div>
                        <hr>
-                       <div *ngFor="let c of model.configurations" class="configur">
+                       <div *ngFor="let c of model.configurations; let index=index" class="configur">
+                         <div class="float-right marginB0"><a class="edit-del" href="javascript://">
+                           <span (click)="editConfiguration(c)">Edit</span>/
+                           <span (click)="deleteConfiguration(index);">Delete</span></a>
+                         </div>
                           <div class="row">
                              <div class="col-md-6 col-12">
                                 <p class="p18">{{c.config.name}}</p>
@@ -222,7 +230,6 @@
                        <div class="upload-caption">
                           <p class="green-color">+ Add more images</p>
                        </div>
-                       {{model.dev_logo|json}}
               </div>
 
               </div>
@@ -232,7 +239,8 @@
 
                    <div class="btn-cont text-right">
                    <hr>
-                   <button [disabled]="myform.valid" (click)="addProject()" class="btn-primary btn">Submit</button>
+                   <button [disabled]="!model.name
+                   " (click)="addProject()" class="btn-primary btn">Submit</button>
                    </div>
 
                    </div>
@@ -242,6 +250,7 @@
               </div>
            </div>
         </div>
+
      </div>
 
   </div>
@@ -355,7 +364,7 @@
                         <div class="upload-cover-img">
                            <div class="upload-caption">
                               <div class="fig-block">
-                                <img class="img-fluid" *ngIf="FU.floor_map_image" [src]="FU.floor_map_image" onerror='this.src="assets/img/placeholder-img.png"' />
+                                <img class="img-fluid" *ngIf="new_config.floor_map_image" [src]="new_config.floor_map_image" onerror='this.src="assets/img/placeholder-img.png"' />
                               <p class="green-color marginT30">+Upload Cover image for the project</p>
                               <p>JPG or PNG. Imae size should be 1920 × 1080 pixels (for HiDPI displays).</p>
                            </div>
@@ -364,7 +373,7 @@
                      </div>
 
                      <div class="uploaded-img-block">
-                       <div class="uploaded-img" *ngFor="let imageUrl of new_config.images; let iu=index">
+                       <div class="uploaded-img" *ngFor="let imageUrl of new_config.images_path; let iu=index">
                              <a class="remove" (click)="removeImageMulti(iu)">
                                <img src="assets/img/remove-icon.png" alt="img">
                              </a>

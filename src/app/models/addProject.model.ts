@@ -81,6 +81,7 @@ export class Configuration {
   id:any='';
   other_images:any=[];
   images_files:any=[];
+  images_path:any=[];
   images:any=[];
   updated_at:any='';
 }
