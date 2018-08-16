@@ -1,0 +1,331 @@
+<div class="container-fluid">
+  <div class="white-bg padding15">
+     <div class="row">
+       <div class="col-lg-4 col-md-12 col-sm-12 col-12">
+         <div *ngIf="lead?.user" class="profile">
+            <div class="fig-block">
+               <img [src]="lead.user.image" onerror='src="http://via.placeholder.com/56x56"' alt="img">
+            </div>
+            <div class="profile-info">
+               <h6>{{lead.user.name}}</h6>
+               <p>{{lead.user.phone}}</p>
+            </div>
+         </div>
+      </div>
+       <div class="col-lg-4 col-md-12 col-sm-12 col-12">
+         <div *ngIf="lead?.broker" class="profile">
+            <div class="fig-block">
+               <img [src]="lead.broker.image" onerror='src="http://via.placeholder.com/56x56"' alt="img">
+            </div>
+            <div class="profile-info">
+               <h6>{{lead.broker.name}}</h6>
+               <p>Broker</p>
+            </div>
+         </div>
+      </div>
+        <div class="col-lg-4 col-md-12 col-sm-12 col-12">
+          <div  class="form-group d-flex marginT10 float-right right-side">
+            <div class="dropdown btn-cont">
+              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                Invoices
+              </button>
+              <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="javascript://">action</a>
+                <a class="dropdown-item" href="javascript://">action</a>
+              </div>
+           </div>
+          </div>
+        </div>
+     </div>
+  </div>
+  <div class="spacer30"></div>
+  <div class="row">
+     <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+        <div *ngIf="lead" class="white-bg padding30">
+           <div class="row">
+              <div class="col-md-6">
+                 <h6>Details</h6>
+              </div>
+              <div class="col-md-6">
+                 <div class="edit text-right"><a href="javascript://">Edit</a></div>
+              </div>
+           </div>
+           <div class="details-table">
+             <table class="table">
+                <tbody><tr>
+                   <td style="padding-left:0"><label>Full Name</label></td>
+                   <td>{{lead.name}}</td>
+                </tr>
+                <tr>
+                   <td style="padding-left:0"><label>Contact Number</label></td>
+                   <td>{{lead.phone}}</td>
+                </tr>
+                <tr>
+                   <td style="padding-left:0"><label>Email address</label></td>
+                   <td>{{lead.email}}</td>
+                </tr>
+                <tr *ngIf="lead?.configuration">
+                   <td style="padding-left:0"><label>Interested In</label></td>
+                   <td>
+                     <span *ngFor="let conf of lead.configuration">
+                       {{conf.name}}
+                     </span>
+                   </td>
+                </tr>
+                <tr>
+                   <td style="padding-left:0"><label>Favourite Projects</label></td>
+                   <td>80 <a class="view-all" href="javascript://">View All</a></td>
+                </tr>
+              </tbody>
+             </table>
+           </div>
+        </div>
+        <div class="spacer30"></div>
+        <div *ngIf="conversation" class="white-bg">
+           <div class="chat-area scrollbox" style="height: 704px; width: 429px; padding-right: 17px; outline: none; overflow: hidden;" tabindex="0">
+             <div *ngFor="let m of conversation.messages" class="chat-user chat-user-one">
+                <p>{{m.message}}</p>
+                <span class="time">
+                2:05pm, May 01, 2014
+                </span>
+             </div>
+           </div><div style="position: absolute; z-index: 1; margin: 0px; padding: 0px; display: block; left: 472px; top: 413px;"><div class="enscroll-track track3" style="position: relative; height: 704px;"><a href="" class="handle3" style="position: absolute; z-index: 1; height: 581.709px; top: 0px;"><div class="top"></div><div class="bottom"></div></a></div></div>
+           <div class="chat-text">
+              <input class="chat-input" type="text" name="" placeholder="Type your message here …">
+              <button class="btn">Send</button>
+           </div>
+        </div>
+     </div>
+     <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+        <div class="white-bg chat-with-developer padding15">
+           <i class="float-left marginR15"><img src="assets/img/chat-icon.png" alt="img"></i>
+           <a href="javascript://">Chat with Developers <i class="fa fa-angle-right"></i></a>
+        </div>
+        <div class="white-bg padding15">
+           <p class="p16 marginB0">Fill in Information</p>
+        </div>
+        <hr class="margin0">
+        <div class="white-bg padding40">
+           <div class="form-group-4">
+              <label>Preferred</label>
+              <div class="clearfix"></div>
+              <label class="cust-radio">
+              <input type="radio" checked="checked" name="radio">
+              <span class="checkmark">Neighbourhood</span>
+              </label>
+              <label class="cust-radio">
+              <input type="radio" name="radio">
+              <span class="checkmark">Building</span>
+              </label>
+              <div class="clearfix"></div>
+           </div>
+           <div class="row">
+              <div class="col-sm-6 col-12">
+                 <div class="form-group-4">
+                    <label>Family Size</label>
+                    <input class="form-control" type="text" name="">
+                 </div>
+              </div>
+              <div class="col-sm-6 col-12">
+                 <div class="form-group-4">
+                    <label>Kids - Age group</label>
+                    <input class="form-control" type="text" name="">
+                 </div>
+              </div>
+           </div>
+           <div class="inline-form-group-2 marginT20">
+              <div class="row">
+                 <div class="col-6"><label class="float-left">Pets</label></div>
+                 <div class="col-6">
+                    <label class="cust-check-bx">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                    </label>
+                 </div>
+              </div>
+           </div>
+           <div class="form-group-4 marginT20">
+              <label>Close proximity needed to</label>
+              <div class="clearfix"></div>
+              <label class="cust-radio">
+              <input type="radio" checked="checked" name="radio1">
+              <span class="checkmark">Workplace</span>
+              </label>
+              <label class="cust-radio">
+              <input type="radio" name="radio1">
+              <span class="checkmark">School</span>
+              </label>
+              <label class="cust-radio">
+              <input type="radio" name="radio1">
+              <span class="checkmark">Gym</span>
+              </label>
+              <label class="cust-radio">
+              <input type="radio" name="radio1">
+              <span class="checkmark">Temple</span>
+              </label>
+              <div class="clearfix"></div>
+           </div>
+           <div class="form-group-4 date-picker">
+              <label>How soon planning to buy/rent</label>
+              <input type="text" class="form-control" id="datetimepicker" placeholder="Select Date">
+              <span class="sel-date">Select date</span>
+           </div>
+           <div class="form-group-4 marginT20">
+              <label>Car Types</label>
+              <div class="clearfix"></div>
+              <label class="cust-radio">
+              <input type="radio" checked="checked" name="radio2">
+              <span class="checkmark">Electric</span>
+              </label>
+              <label class="cust-radio">
+              <input type="radio" name="radio2">
+              <span class="checkmark">SUV</span>
+              </label>
+              <div class="clearfix"></div>
+           </div>
+        </div>
+        <div class="spacer30"></div>
+        <div class="white-bg padding15">
+           <div class="row">
+              <div class="col-6">
+                 <p class="p16 marginB0">Write a Note</p>
+              </div>
+              <div class="col-6 text-right"><a class="add" href="javascript://">Add</a></div>
+           </div>
+        </div>
+        <hr class="margin0">
+        <div class="write-note white-bg padding40">
+           <div class="wn-block">
+              <div class="circle">
+                 <span></span>
+              </div>
+              <a class="delete" href="javascript://">Delete</a>
+              <p class="time">07 Apr 2018 · 10:30AM</p>
+              <p class="p13">Hey! I am interested in the  property you’ve listed. I was thinking of having a look at it..<a class="view-more" href="javascript://">view more</a></p>
+           </div>
+           <div class="wn-block">
+              <div class="circle">
+                 <span></span>
+              </div>
+              <a class="delete" href="javascript://">Delete</a>
+              <p class="time">07 Apr 2018 · 10:30AM</p>
+              <p class="p13">Hey! I am interested in the  property you’ve listed. I was thinking of having a look at it..<a class="view-more" href="javascript://">view more</a></p>
+           </div>
+        </div>
+     </div>
+  </div>
+  <div class="spacer30"></div>
+  <div class="row">
+     <div class="col-6">
+        <p class="p16">Interested Properties</p>
+     </div>
+   <div class="col-6">
+        <div class="btn-cont text-right"> <a class="btn btn-fourth" href="javascript://">Add</a></div>
+     </div>
+  </div>
+  <div class="spacer15"></div>
+  <div class="row">
+     <div class="col-lg-4 col-md-12 col-sm-12 col-12">
+        <div class="project-des-bx white-bg">
+           <div class="price">$26k+</div>
+           <div class="fig-block">
+              <img src="http://via.placeholder.com/80x80" alt="img">
+           </div>
+           <div class="project-des-content">
+              <small>SNN Builders</small>
+              <h5>Morning Homes</h5>
+              <p class="p12">Kaveri Nagar, Murugeshpalya, Mumbai East.</p>
+              <p class="p13">1 RK, 1, 2 BHK Apartments</p>
+              <a class="delete-2" href="javascript://"><img src="assets/img/delete-green.png" alt="img"></a>
+           </div>
+        </div>
+     </div>
+   <div class="col-lg-4 col-md-12 col-sm-12 col-12">
+        <div class="project-des-bx white-bg ">
+           <div class="price">$26k+</div>
+           <div class="fig-block">
+              <img src="http://via.placeholder.com/80x80" alt="img">
+           </div>
+           <div class="project-des-content">
+              <small>SNN Builders</small>
+              <h5>Morning Homes</h5>
+              <p class="p12">Kaveri Nagar, Murugeshpalya, Mumbai East.</p>
+              <p class="p13">1 RK, 1, 2 BHK Apartments</p>
+              <a class="delete-2" href="javascript://"><img src="assets/img/delete-green.png" alt="img"></a>
+           </div>
+        </div>
+     </div>
+     <div class="col-lg-4 col-md-12 col-sm-12 col-12">
+        <div class="project-des-bx white-bg ">
+           <div class="price">$26k+</div>
+           <div class="fig-block">
+              <img src="http://via.placeholder.com/80x80" alt="img">
+           </div>
+           <div class="project-des-content">
+              <small>SNN Builders</small>
+              <h5>Morning Homes</h5>
+              <p class="p12">Kaveri Nagar, Murugeshpalya, Mumbai East.</p>
+              <p class="p13">1 RK, 1, 2 BHK Apartments</p>
+              <a class="delete-2" href="javascript://"><img src="assets/img/delete-green.png" alt="img"></a>
+           </div>
+        </div>
+     </div>
+  </div>
+  <div class="spacer30"></div>
+  <div class="row">
+     <div class="col-6">
+        <p class="p16">Viewed Projects or properties</p>
+     </div>
+     <div class="col-6">
+        <a class="view-all-2 float-right" href="javascript://">View All</a>
+     </div>
+  </div>
+  <div class="spacer15"></div>
+  <div class="row">
+     <div class="col-lg-4 col-md-12 col-sm-12 col-12">
+        <div class="project-des-bx white-bg">
+           <div class="price">$26k+</div>
+           <div class="fig-block">
+              <img src="http://via.placeholder.com/80x80" alt="img">
+           </div>
+           <div class="project-des-content">
+              <small>SNN Builders</small>
+              <h5>Morning Homes</h5>
+              <p class="p12">Kaveri Nagar, Murugeshpalya, Mumbai East.</p>
+              <p class="p13">1 RK, 1, 2 BHK Apartments</p>
+              <a class="delete-2" href="javascript://"><img src="assets/img/delete-green.png" alt="img"></a>
+           </div>
+        </div>
+     </div>
+     <div class="col-lg-4 col-md-12 col-sm-12 col-12">
+        <div class="project-des-bx white-bg ">
+           <div class="price">$26k+</div>
+           <div class="fig-block">
+              <img src="http://via.placeholder.com/80x80" alt="img">
+           </div>
+           <div class="project-des-content">
+              <small>SNN Builders</small>
+              <h5>Morning Homes</h5>
+              <p class="p12">Kaveri Nagar, Murugeshpalya, Mumbai East.</p>
+              <p class="p13">1 RK, 1, 2 BHK Apartments</p>
+              <a class="delete-2" href="javascript://"><img src="assets/img/delete-green.png" alt="img"></a>
+           </div>
+        </div>
+     </div>
+    <div class="col-lg-4 col-md-12 col-sm-12 col-12">
+        <div class="project-des-bx white-bg ">
+           <div class="price">$26k+</div>
+           <div class="fig-block">
+              <img src="http://via.placeholder.com/80x80" alt="img">
+           </div>
+           <div class="project-des-content">
+              <small>SNN Builders</small>
+              <h5>Morning Homes</h5>
+              <p class="p12">Kaveri Nagar, Murugeshpalya, Mumbai East.</p>
+              <p class="p13">1 RK, 1, 2 BHK Apartments</p>
+              <a class="delete-2" href="javascript://"><img src="assets/img/delete-green.png" alt="img"></a>
+           </div>
+        </div>
+     </div>
+  </div>
+</div>

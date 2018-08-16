@@ -12,13 +12,19 @@ import { CsrSellerComponent } from './csr-seller/csr-seller.component';
 import { CsrBuyerComponent } from './csr-buyer/csr-buyer.component';
 import { InhouseBrokerComponent } from './inhouse-broker/inhouse-broker.component';
 import { CsrCloserComponent } from './csr-closer/csr-closer.component';
+import { CsrBuyerDetailComponent } from './csr-buyer/csr-buyer-detail/csr-buyer-detail.component';
+import { InhouseBrokerDetailComponent } from './inhouse-broker/inhouse-broker-detail/inhouse-broker-detail.component';
+import { CsrCloserDetailComponent } from './csr-closer/csr-closer-detail/csr-closer-detail.component';
 
 const routes: Routes = [
   { path: 'data-collectors', component: DataCollectorComponent },
   { path: 'csr-sellers', component: CsrSellerComponent },
   { path: 'csr-buyers', component: CsrBuyerComponent },
+  { path: 'csr-buyers/:id', component: CsrBuyerDetailComponent },
   { path: 'inhouse-broker', component: InhouseBrokerComponent },
-  { path: 'csr-closers', component: CsrCloserComponent }
+  { path: 'inhouse-broker/:id', component: InhouseBrokerDetailComponent },
+  { path: 'csr-closers', component: CsrCloserComponent },
+  { path: 'csr-closers/:id', component: CsrCloserDetailComponent }
 ];
 
 @NgModule({
@@ -40,7 +46,10 @@ const routes: Routes = [
     CsrSellerComponent,
     CsrBuyerComponent,
     InhouseBrokerComponent,
-    CsrCloserComponent
+    CsrCloserComponent,
+    CsrBuyerDetailComponent,
+    InhouseBrokerDetailComponent,
+    CsrCloserDetailComponent
   ]
 })
 

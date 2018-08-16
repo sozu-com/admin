@@ -48,10 +48,18 @@ ngx-my-date-picker .ngxmdp .headertodaybtn { padding: 0px 14px; min-width: 100px
 
 .searh-3 { display:flex;  }
 .searh-3 input {
-    border: 1px solid rgba(196,196,196,0.5); background-color: #FEFEFE; 
-    height: 24px; width: 87%; padding:8px 15px; 
+    border: 1px solid rgba(196,196,196,0.5); background-color: #FEFEFE;
+    height: 24px; width: 87%; padding:8px 15px;
 }
 .searh-3 button {
     border: 1px solid rgba(196,196,196,0.5); background-color: #00B96F;
-    font-size: 12px; color:#fff; 
+    font-size: 12px; color:#fff;
+}
+
+.cust-check-bx2 .checkmark.open{
+  background-color: #00B96F;
+  border-color: #00B96F;
+}
+.cust-check-bx2 .checkmark.open:after{
+  display:block;
 }

@@ -5,10 +5,14 @@ import { Routes, RouterModule } from '@angular/router';
 import { AddProjectComponent } from './add-project/add-project.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
+import { AgmCoreModule } from '@agm/core';
+import { Ng2TelInputModule } from 'ng2-tel-input';
+
 
 const routes: Routes = [
+  { path: 'view-projects', component: ProjectsComponent },
   { path: 'add-project', component: AddProjectComponent },
-  { path: 'view-projects', component: ProjectsComponent }
+  { path: 'edit-project/:id', component: AddProjectComponent }
 ];
 
 @NgModule({
@@ -21,6 +25,11 @@ const routes: Routes = [
         animationType: ANIMATION_TYPES.rectangleBounce,
         primaryColour: '#00B96F'
     }),
+    AgmCoreModule.forRoot({
+        apiKey: 'AIzaSyCYv_zELZGVo2Ehzgp8eh8UeSIidhMCmH8',
+        libraries: ['drawing', 'places']
+      }),
+    Ng2TelInputModule
   ],
   declarations: [
     ProjectsComponent,

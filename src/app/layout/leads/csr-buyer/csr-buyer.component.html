@@ -189,7 +189,7 @@
                   <img *ngIf="!item.image" class="rounded-circle" src="./../../../assets/img/default_img.png" alt="img">
                 </td>
                 <td class="text-left">
-                  <span class="name">{{item.name}}</span>
+                  <span routerLink="/dashboard/leads/csr-buyers/{{item.id}}" class="name">{{item.name}}</span>
                 </td>
                 <td class="text-left" *ngIf="item.phone">{{item.country_code}}-{{item.phone}}</td>
                 <td class="text-left" *ngIf="!item.phone">NA</td>
@@ -198,7 +198,7 @@
                 <td class="text-left" *ngIf="item.admin.name">{{item.admin.name}}</td>
                 <td class="text-left" *ngIf="!item.admin.name">Not Assigned</td>
                 <td>
-                  <a href="javascript://" (click)="editUser(item)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
+                  <a href="javascript://" routerLink="/dashboard/leads/csr-buyers/{{item.id}}" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
                   <a href="javascript://" *ngIf="item.is_blocked == 1" (click)="blockUnblockPopup(i, item.id, 0, parameter.type)" title="Unblock user" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a>
                   <a href="javascript://" *ngIf="item.is_blocked == 0" (click)="blockUnblockPopup(i, item.id, 1, parameter.type)" title="Block user" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
                 </td>
@@ -206,6 +206,10 @@
             </table>
         </div>
       </div>
+  </div>
+
+  <div class="btn-cont text-right marginT15" *ngIf="parameter.total">
+    <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
   </div>
 
 </div>

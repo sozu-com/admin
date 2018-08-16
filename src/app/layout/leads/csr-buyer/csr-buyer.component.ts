@@ -37,6 +37,10 @@ export class CsrBuyerComponent implements OnInit {
     this.parameter[key] = value;
     this.getListing();
   }
+  getPage(page) {
+    this.parameter.p = page;
+    this.getListing();
+  }
   getListing() {
     this.parameter.loading = true;
     this.parameter.url = 'leads/csr-buyer';

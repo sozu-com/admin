@@ -1,3 +1,228 @@
-<p>
-  csr-closer works!
-</p>
+<ngx-loading [show]="parameter.loading"></ngx-loading>
+
+<div class="container-fluid">
+  <div class="row">
+     <div class="col-md-3">
+        <a class="view-all-2" href="javascript://"><i class="fa fa-angle-left"></i><span>View all</span></a>
+     </div>
+     <div class="col-md-9">
+        <div class="cust-tabs-2">
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" [ngClass]="{'active':parameter.flag==1}" (click)="changeFlag(1)" >This Week</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [ngClass]="{'active':parameter.flag==2}" (click)="changeFlag(2)" >This Month</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [ngClass]="{'active':parameter.flag==3}" (click)="changeFlag(3)" >Last Month</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [ngClass]="{'active':parameter.flag==4}" (click)="changeFlag(4)" >Lifetime</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [ngClass]="{'active':parameter.flag==5}" (click)="changeFlag(5)" >Custom</a>
+            </li>
+          </ul>
+        </div>
+     </div>
+     <div class="col-12">
+        <hr style="margin-top:0;">
+     </div>
+  </div>
+  <div class="sigle-row-table">
+
+        <table class="table table-striped">
+           <tbody><tr>
+              <td> <img class="rounded-circle" src="http://via.placeholder.com/50x50" alt="img"></td>
+              <td class="text-left">
+                 <span class="name">Lillian Russell</span>
+              </td>
+              <td class="text-left">
+                 728-111-1874
+              </td>
+              <td class="text-left">
+                 eunice_aufderhar@yahoo.com
+              </td>
+              <td>
+                 14
+              </td>
+              <td>
+                 <a href="javascript://" class="icon-block edit-icon"><img src="assets/img/viewfull.png" alt="img"></a>
+                 <a href="javascript://" class="icon-block block-icon"><img src="assets/img/block.png" alt="img"></a>
+              </td>
+           </tr>
+        </tbody></table>
+
+  </div>
+  <div class="row">
+
+   <div class="col-lg-8 col-md-12 col-sm-12 col-12">
+        <div class="info-box all-leads">
+           <div class="row">
+              <div class="col-md-6 col-sm-6 col-12 active">
+                 <div class="one-row ">
+                    <div class="o-block">
+                       <h5>Leads</h5>
+                       <small>Total</small>
+                    </div>
+                    <div class="o-block">
+                       <a class="view-all" href="javascript://">View All</a>
+                       <h4>26</h4>
+                    </div>
+                 </div>
+              </div>
+              <div class="col-md-6 col-sm-6 col-12">
+                <div class="two-block">
+           <div class="d-flex">
+              <div class="f-block">
+                 <h5>Notaries</h5>
+                 <small>Pending</small>
+                 <h3>25</h3>
+              </div>
+              <div class="f-block">
+                 <h5>Banks</h5>
+                 <small>Pending</small>
+                 <h3>02</h3>
+              </div>
+           </div>
+
+        </div>
+              </div>
+           </div>
+        </div>
+          <div class="info-box all-leads">
+           <div class="row">
+              <div class="col-md-6 col-sm-6 col-12 bdr-right">
+                 <div class="one-row ">
+                    <div class="o-block">
+                       <h5>Leads</h5>
+                       <small>Information Filled</small>
+                    </div>
+                    <div class="o-block">
+                       <a class="view-all" href="javascript://">View All</a>
+                       <h4>26</h4>
+                    </div>
+                 </div>
+              </div>
+              <div class="col-md-6 col-sm-6 col-12">
+                 <div class="one-row">
+                    <div class="o-block">
+                       <h5>Leads</h5>
+                       <small>Broker Assigned</small>
+                    </div>
+                    <div class="o-block">
+                       <a class="view-all" href="javascript://">View All</a>
+                       <h4>10</h4>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+
+     </div>
+     <div class="col-lg-4 col-md-12 col-sm-12 col-12">
+        <div class="chat-msg all-leads">
+           <div class="row">
+              <div class="col-6">
+                 <h5>Chat</h5>
+              </div>
+              <div class="col-6 text-right"><a class="msg" href="javascript://">Message</a></div>
+           </div>
+           <p>Waiting for response</p>
+           <p>
+              <strong>Mario Hudson</strong>
+              When you are free to have a meeting
+              with interested customers?
+           </p>
+           <p>
+              <strong>Rosie Benson</strong>
+              Is there any availability in the localities
+              I was asking you tomorrow and also p…
+           </p>
+        </div>
+     </div>
+  </div>
+  <div class="row">
+     <div class="col-12">
+        <div class="spacer15"></div>
+     </div>
+
+  </div>
+  <div class="row">
+     <div class="col-12">
+        <div class="title-group">
+           <h5>All Leads</h5>
+           <p>Showing 6 out of 36</p>
+        </div>
+     </div>
+
+  </div>
+  <div class="white-bg">
+     <div class="tabel-section">
+              <div class="table-responsive">
+                 <table class="table table-striped">
+                    <tbody><tr>
+                       <th style="width:6%">&nbsp;</th>
+                       <th style="width:20%">
+                          <div class="table-search">
+                             <label>Name</label>
+                             <input type="Search here" name="">
+                          </div>
+                       </th>
+                       <th style="width:20%; text-align:left;">
+                          <div class="table-search">
+                             <label>Contact</label>
+                             <input type="Search here" name="">
+                          </div>
+                       </th>
+                       <th style="width:20%">
+                          <div class="table-search">
+                             <label>Property</label>
+                             <input type="Search here" name="">
+                          </div>
+                       </th>
+
+                        <th style="width:20%;">
+                          <div class="table-search">
+                             <label>Assignee</label>
+
+                          </div>
+                       </th>
+                       <th style="width:14%">
+                          &nbsp;
+                       </th>
+                    </tr>
+                    <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }">
+                       <td>
+                         <img class="rounded-circle" [src]="item.image" onerror="this.src='assets/img/default_img.png'" alt="img">
+                       </td>
+                       <td class="text-left">
+                          <span routerLink="/dashboard/leads/csr-closers/{{item.id}}" class="name">{{item.name}}</span>
+                       </td>
+                       <td class="text-left">
+                          {{item.phone}}<br>
+                          {{item.email}}
+                       </td>
+                       <td class="text-left">
+                        <div class="property-selected">
+                           <p class="p14 marginB0">2 BHK</p>
+                           <p class="p12 marginB0"><strong>Green House Apartments</strong></p>
+                           <p class="p11"><i>Sarovar Builders</i></p>
+                        </div>
+                        </td>
+                       <td class="text-left">
+                          {{item.admin.name}}
+                       </td>
+
+                       <td>
+                          <a href="javascript://" routerLink="/dashboard/leads/csr-closers/{{item.id}}" class="icon-block edit-icon"><img src="assets/img/viewfull.png" alt="img"></a>
+                          <a href="javascript://" class="icon-block block-icon"><img src="assets/img/block.png" alt="img"></a>
+                       </td>
+                    </tr>
+
+                 </tbody></table>
+              </div>
+           </div>
+  </div>
+  </div>
