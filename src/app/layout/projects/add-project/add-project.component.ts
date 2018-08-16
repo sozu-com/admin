@@ -60,7 +60,7 @@ export class AddProjectComponent implements OnInit {
 
 
   constructor(
-    private model: AddProjectModel,
+    public model: AddProjectModel,
     private admin: AdminService,
     private route: ActivatedRoute,
     private router: Router,
@@ -210,7 +210,7 @@ export class AddProjectComponent implements OnInit {
     }
   }
 
-  fileUploader(event,key=0,model) { // called each time file input changes
+  fileUploader(event, key='0',model) { // called each time file input changes
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (e: any) => {

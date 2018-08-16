@@ -5,6 +5,7 @@ export class Constant {
     public dial_code = '52';
     public userPlaceholder = '../../../assets/img/default_usr.png';
     public initialCountry = 'mx';
+    public SERVER_URL = 'http://45.232.252.136:8080';
     public errorMsg: any = {
         COUNTRY_NAME_REQUIRED : 'Please enter country.',
         STATE_NAME_REQUIRED : 'Please enter state.',

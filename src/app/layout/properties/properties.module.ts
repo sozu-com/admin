@@ -9,7 +9,7 @@ import { AgmCoreModule } from '@agm/core';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 
 const routes: Routes = [
-  { path: 'add-property', component: AddPropertyComponent },
+  { path: 'add-property/:property_id', component: AddPropertyComponent },
   { path: 'view-properties', component: PropertiesComponent }
 ];
 

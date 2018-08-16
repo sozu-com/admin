@@ -70,6 +70,8 @@ export class AdminService {
                 .map(response => {
                   const r = response.json();
                   localStorage.setItem('token', r.data.token);
+                  // localStorage.setItem('admin_id', r.data.id);
+                  console.log('login data', r);
                   this.login.next(r.data);
                   return r;
                 })

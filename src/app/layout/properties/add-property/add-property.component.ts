@@ -1,6 +1,6 @@
 import { Component, OnInit, OnChanges, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { AdminService } from '../../../services/admin.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { IProperty } from '../../../common/property';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AddPropertyModel, Building } from './../../../models/addProperty.model';
@@ -46,12 +46,25 @@ export class AddPropertyComponent implements OnInit {
   showText = false;
   buildingName = '';
   initialCountry: any;
+  propertyDetails = false;
 
-  constructor(private model: AddPropertyModel, private admin: AdminService,
+  constructor(public model: AddPropertyModel, private admin: AdminService,
     private router: Router, private sanitization: DomSanitizer, private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone, private building: Building, private constant: Constant) { }
+    private ngZone: NgZone, private building: Building, public constant: Constant,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
+
+    // this.parameter.property_id = '49';
+    this.parameter.sub = this.route.params.subscribe(params => {
+      this.parameter.property_id = params['property_id'];
+      if (this.parameter.property_id === '0') {
+        this.parameter.property_id = '';
+      } else {
+        this.getPropertyById(this.parameter.property_id);
+      }
+    });
+
     this.parameter.buildingCount = 0;
     this.testMarital = [
       {id: 1,
@@ -76,14 +89,34 @@ export class AddPropertyComponent implements OnInit {
 
     // set google maps defaults
     this.zoom = 4;
-    // this.latitude = 39.8282;
-    // this.longitude = -98.5795;
-
     // create search FormControl
     this.searchControl = new FormControl();
-
     // set current position
     this.setCurrentPosition();
+    console.log('propertyid', this.parameter.property_id);
+  }
+
+  getPropertyById (property_id) {
+    this.parameter.loading = true;
+    this.parameter.url = 'getPropertyById';
+    const input = new FormData();
+    input.append('property_id', property_id);
+    this.admin.postDataApi(this.parameter.url, input)
+      .subscribe(
+        success => {
+          console.log('propertyDetails', success);
+          this.parameter.loading = false;
+          this.parameter.propertyDetails = success.data;
+        },
+        error => {
+          this.parameter.loading = false;
+          if (error.statusCode === 401) {
+            swal('Error', error.message, 'error');
+            this.router.navigate(['']);
+          }else {
+            swal('Error', error.message, 'error');
+          }
+        });
   }
 
   setTab(tab) {
@@ -100,13 +133,7 @@ export class AddPropertyComponent implements OnInit {
 
     this.parameter.loading = true;
     this.parameter.url = 'getCountries';
-    const input = new FormData();
-
-    if (keyword) {
-      input.append('keyword', keyword);
-    }
-
-    this.admin.postDataApi(this.parameter.url, input)
+    this.admin.postDataApi(this.parameter.url, {})
       .subscribe(
         success => {
           console.log('countries', success);
@@ -117,10 +144,6 @@ export class AddPropertyComponent implements OnInit {
           this.parameter.loading = false;
           if (error.statusCode === 401) {
             swal('Error', error.message, 'error');
-            // this.swal.warning({
-            //   title: 'Error',
-            //   text: error.message,
-            // });
             this.router.navigate(['']);
           }else {
             swal('Error', error.message, 'error');
@@ -138,8 +161,6 @@ export class AddPropertyComponent implements OnInit {
 
     const input = new FormData();
     input.append('country_id', country_id);
-
-    if (keyword) {input.append('keyword', keyword); }
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
@@ -168,8 +189,6 @@ export class AddPropertyComponent implements OnInit {
 
     const input = new FormData();
     input.append('state_id', state_id);
-
-    if (keyword) {input.append('keyword', keyword); }
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
@@ -235,6 +254,12 @@ export class AddPropertyComponent implements OnInit {
     this.model.amenities = [id];
   }
 
+  setQuantity(quantity) {
+    console.log('quantity', quantity);
+    this.model.quantity = quantity;
+    console.log(quantity);
+  }
+
   getConfigurations() {
     this.parameter.loading = true;
     this.parameter.url = 'getConfigurations';
@@ -245,7 +270,9 @@ export class AddPropertyComponent implements OnInit {
           console.log('getConfigurations', success);
           this.parameter.loading = false;
           this.parameter.items = success.data;
-          this.parameter.total = success.data.length;
+          if (this.parameter.items.length !== 0 && this.parameter.property_id === '') {
+            this.model.configuration_id = this.parameter.items[0].id;
+          }
         },
         error => {
           console.log(error);
@@ -269,7 +296,9 @@ export class AddPropertyComponent implements OnInit {
           console.log('getPropertyTypes', success);
           this.parameter.loading = false;
           this.parameter.propertyTypes = success.data;
-          this.parameter.propertyTypesCount = success.data.length;
+          if (this.parameter.propertyTypes.length !== 0 && this.parameter.property_id === '') {
+            this.model.property_type_id = this.parameter.propertyTypes[0].id;
+          }
         },
         error => {
           console.log(error);
@@ -292,7 +321,9 @@ export class AddPropertyComponent implements OnInit {
           console.log('getPropertyAmenities', success);
           this.parameter.loading = false;
           this.parameter.amenities = success.data;
-          this.parameter.amenitiesCount = success.data.length;
+          // if (this.parameter.amenities.length !== 0 && this.parameter.property_id === '') {
+          //   this.model.property_type_id = this.parameter.amenities[0].id;
+          // }
         },
         error => {
           console.log(error);
@@ -339,7 +370,6 @@ export class AddPropertyComponent implements OnInit {
           console.log('getBanks', success);
           this.parameter.loading = false;
           this.parameter.banks = success.data;
-          this.parameter.bankCount = success.data.length;
         },
         error => {
           console.log(error);
@@ -378,27 +408,32 @@ export class AddPropertyComponent implements OnInit {
   searchBuilding(keyword) {
     this.parameter.loading = true;
     this.parameter.url = 'searchBuilding';
-    const input = new FormData();
-    input.append('keyword', keyword);
 
-    this.admin.postDataApi(this.parameter.url, input)
-      .subscribe(
-        success => {
-          console.log('searchBuilding', success);
-          this.parameter.loading = false;
-          this.parameter.buildings = success.data;
-          this.parameter.buildingCount = success.data.length;
-          if (this.parameter.buildingCount === 0) { this.showText = true; }
-        },
-        error => {
-          console.log(error);
-          this.parameter.loading = false;
-          if (error.statusCode === 401) {
-            this.router.navigate(['']);
-          } else {
-            swal('Error', error.message, 'error');
-          }
-        });
+    if (keyword === '') {
+      swal('Error', 'Please enter some text.', 'error');
+    } else {
+      const input = new FormData();
+      input.append('keyword', keyword);
+
+      this.admin.postDataApi(this.parameter.url, input)
+        .subscribe(
+          success => {
+            console.log('searchBuilding', success);
+            this.parameter.loading = false;
+            this.parameter.buildings = success.data;
+            this.parameter.buildingCount = success.data.length;
+            if (this.parameter.buildingCount === 0) { this.showText = true; }
+          },
+          error => {
+            console.log(error);
+            this.parameter.loading = false;
+            if (error.statusCode === 401) {
+              this.router.navigate(['']);
+            } else {
+              swal('Error', error.message, 'error');
+            }
+          });
+    }
   }
 
   showBuildingDetails(showBuilding) {
@@ -533,7 +568,6 @@ console.log('url2', this.url2);
   addProperty(formdata: NgForm, tab) {
     console.log('formdata', formdata);
     console.log('api', this.model);
-    this.tab = tab;
 
     for (let index = 0; index < this.testMarital.length; index++) {
       if (this.testMarital[index].checked === 'checked') {
@@ -545,7 +579,6 @@ console.log('url2', this.url2);
     this.parameter.url = this.model.id !== '' ? 'addProperty' : 'addProperty';
     this.model.step = tab - 1;
     const input = new FormData();
-    // this.parameter.property_id = '44';
     if (this.parameter.property_id) {input.append('property_id', this.parameter.property_id); }
 
     input.append('step', this.model.step.toString());
@@ -592,6 +625,7 @@ console.log('url2', this.url2);
           console.log('success', success);
           this.parameter.property_id = success.data.id;
           this.parameter.loading = false;
+          this.tab = tab;
         },
         error => {
           this.parameter.loading = false;

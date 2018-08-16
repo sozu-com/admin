@@ -65,6 +65,7 @@ export interface IProperty {
   propertyTypes?: any;
   propertyTypesCount?: number;
   amenities?: any;
+  propertyDetails?: any;
   amenitiesCount?: number;
   projectTypes?: any;
   projectTypesCount?: number;
