@@ -24,6 +24,8 @@ import { AppFooterComponent } from '../shared/app-footer/app-footer.component';
 import { ChangePasswordComponent } from './settings/change-password/change-password.component';
 import { InhouseUsersComponent } from './inhouse-users/inhouse-users.component';
 import { AddressComponent } from './inhouse-users/address/address.component';
+// import { InterestedPropertyComponent } from './common-blocks/interested-property/interested-property.component';
+// import { ChatComponent } from './common-blocks/chat/chat.component';
 
 @NgModule({
     imports: [
@@ -57,7 +59,9 @@ import { AddressComponent } from './inhouse-users/address/address.component';
         ChangePasswordComponent,
         AppFooterComponent,
         InhouseUsersComponent,
-        AddressComponent
+        AddressComponent,
+        // InterestedPropertyComponent,
+        // ChatComponent
     ],
     bootstrap: [LayoutComponent],
     providers: [NgBoxService],

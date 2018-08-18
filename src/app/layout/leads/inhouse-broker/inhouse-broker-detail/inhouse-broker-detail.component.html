@@ -1,47 +1,34 @@
+<ngx-loading [show]="parameter.loading"></ngx-loading>
 <div class="container-fluid">
   <div class="white-bg padding15">
      <div class="row">
-       <div class="col-lg-4 col-md-12 col-sm-12 col-12">
-         <div *ngIf="lead?.user" class="profile">
+      <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+         <div *ngIf="parameter.lead?.user" class="profile">
             <div class="fig-block">
-               <img [src]="lead.user.image" onerror='src="http://via.placeholder.com/56x56"' alt="img">
+               <img [src]="parameter.lead.user.image" onerror='src="http://via.placeholder.com/56x56"' alt="img">
             </div>
             <div class="profile-info">
-               <h6>{{lead.user.name}}</h6>
-               <p>{{lead.user.phone}}</p>
+               <h6>{{parameter.lead.user.name}}</h6>
+               <p>{{parameter.lead.user.phone}}</p>
             </div>
          </div>
       </div>
-       <div class="col-lg-4 col-md-12 col-sm-12 col-12">
-         <div *ngIf="lead?.broker" class="profile">
-            <div class="fig-block">
-               <img [src]="lead.broker.image" onerror='src="http://via.placeholder.com/56x56"' alt="img">
-            </div>
-            <div class="profile-info">
-               <h6>{{lead.broker.name}}</h6>
-               <p>Broker</p>
-            </div>
-         </div>
-      </div>
-        <div class="col-lg-4 col-md-12 col-sm-12 col-12">
-          <div  class="form-group d-flex marginT10 float-right right-side">
-            <div class="dropdown btn-cont">
-              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                Invoices
-              </button>
-              <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="javascript://">action</a>
-                <a class="dropdown-item" href="javascript://">action</a>
-              </div>
-           </div>
-          </div>
+      <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+        <div class="form-group d-flex marginT10 float-right right-side">
+          <a class="btn btn-outline-primary" href="javascript://">Invoices</a> 
+          <select class="form-control green-select marginL15">
+             <option>Actions</option>
+             <option>Actions</option>
+             <option>Actions</option>
+          </select>
         </div>
+      </div>
      </div>
   </div>
   <div class="spacer30"></div>
   <div class="row">
      <div class="col-lg-6 col-md-12 col-sm-12 col-12">
-        <div *ngIf="lead" class="white-bg padding30">
+        <div *ngIf="parameter.lead" class="white-bg padding30">
            <div class="row">
               <div class="col-md-6">
                  <h6>Details</h6>
@@ -54,20 +41,20 @@
              <table class="table">
                 <tbody><tr>
                    <td style="padding-left:0"><label>Full Name</label></td>
-                   <td>{{lead.name}}</td>
+                   <td>{{parameter.lead.name}}</td>
                 </tr>
                 <tr>
                    <td style="padding-left:0"><label>Contact Number</label></td>
-                   <td>{{lead.phone}}</td>
+                   <td>{{parameter.lead.phone}}</td>
                 </tr>
                 <tr>
                    <td style="padding-left:0"><label>Email address</label></td>
-                   <td>{{lead.email}}</td>
+                   <td>{{parameter.lead.email}}</td>
                 </tr>
-                <tr *ngIf="lead?.configuration">
+                <tr *ngIf="parameter.lead?.configuration">
                    <td style="padding-left:0"><label>Interested In</label></td>
                    <td>
-                     <span *ngFor="let conf of lead.configuration">
+                     <span *ngFor="let conf of parameter.lead.configuration">
                        {{conf.name}}
                      </span>
                    </td>
@@ -81,7 +68,7 @@
            </div>
         </div>
         <div class="spacer30"></div>
-        <div *ngIf="conversation" class="white-bg">
+        <!-- <div *ngIf="conversation" class="white-bg">
            <div class="chat-area scrollbox" style="height: 704px; width: 429px; padding-right: 17px; outline: none; overflow: hidden;" tabindex="0">
              <div *ngFor="let m of conversation.messages" class="chat-user chat-user-one">
                 <p>{{m.message}}</p>
@@ -94,7 +81,12 @@
               <input class="chat-input" type="text" name="" placeholder="Type your message here …">
               <button class="btn">Send</button>
            </div>
+        </div> -->
+
+        <div *ngIf="parameter.messages && parameter.lead?.user">
+          <app-chat [messages]="parameter.messages" [admin_id]="parameter.admin_id" [conversation_id]="parameter.conversation_id" (sendMessage)="sendMessage"></app-chat>
         </div>
+
      </div>
      <div class="col-lg-6 col-md-12 col-sm-12 col-12">
         <div class="white-bg chat-with-developer padding15">
@@ -223,54 +215,19 @@
         <div class="btn-cont text-right"> <a class="btn btn-fourth" href="javascript://">Add</a></div>
      </div>
   </div>
+  
   <div class="spacer15"></div>
-  <div class="row">
-     <div class="col-lg-4 col-md-12 col-sm-12 col-12">
-        <div class="project-des-bx white-bg">
-           <div class="price">$26k+</div>
-           <div class="fig-block">
-              <img src="http://via.placeholder.com/80x80" alt="img">
-           </div>
-           <div class="project-des-content">
-              <small>SNN Builders</small>
-              <h5>Morning Homes</h5>
-              <p class="p12">Kaveri Nagar, Murugeshpalya, Mumbai East.</p>
-              <p class="p13">1 RK, 1, 2 BHK Apartments</p>
-              <a class="delete-2" href="javascript://"><img src="assets/img/delete-green.png" alt="img"></a>
-           </div>
-        </div>
-     </div>
-   <div class="col-lg-4 col-md-12 col-sm-12 col-12">
-        <div class="project-des-bx white-bg ">
-           <div class="price">$26k+</div>
-           <div class="fig-block">
-              <img src="http://via.placeholder.com/80x80" alt="img">
-           </div>
-           <div class="project-des-content">
-              <small>SNN Builders</small>
-              <h5>Morning Homes</h5>
-              <p class="p12">Kaveri Nagar, Murugeshpalya, Mumbai East.</p>
-              <p class="p13">1 RK, 1, 2 BHK Apartments</p>
-              <a class="delete-2" href="javascript://"><img src="assets/img/delete-green.png" alt="img"></a>
-           </div>
-        </div>
-     </div>
-     <div class="col-lg-4 col-md-12 col-sm-12 col-12">
-        <div class="project-des-bx white-bg ">
-           <div class="price">$26k+</div>
-           <div class="fig-block">
-              <img src="http://via.placeholder.com/80x80" alt="img">
-           </div>
-           <div class="project-des-content">
-              <small>SNN Builders</small>
-              <h5>Morning Homes</h5>
-              <p class="p12">Kaveri Nagar, Murugeshpalya, Mumbai East.</p>
-              <p class="p13">1 RK, 1, 2 BHK Apartments</p>
-              <a class="delete-2" href="javascript://"><img src="assets/img/delete-green.png" alt="img"></a>
-           </div>
-        </div>
-     </div>
+  <div class="row" *ngIf="parameter.interested_properties?.length>0">
+    <div class="col-lg-4 col-md-12 col-sm-12 col-12" *ngFor="let ip of parameter.interested_properties">
+      <app-interested-property [ip]="ip"></app-interested-property>
+    </div>
   </div>
+  <div *ngIf="parameter.interested_properties?.length == 0">
+    <p class="show-error">
+      {{constant.errorMsg.NO_INTERESTED_PROPERTY_FOUND}}
+    </p>
+  </div>
+
   <div class="spacer30"></div>
   <div class="row">
      <div class="col-6">

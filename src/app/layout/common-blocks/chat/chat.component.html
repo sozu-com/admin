@@ -1,0 +1,16 @@
+<div class="white-bg">
+  <!-- <div class="chat-area scrollbox" #malihuScrollBar> -->
+    <div class="chat-area scrollbox" #malihuScrollBar malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+      <div *ngFor="let m of messages" class="chat-user" [ngClass]="m.conversation_user.admin_id == admin_id ? 'chat-user-one' : 'chat-user-two'">
+        <p>{{m.message}}</p>
+        <span class="time">
+        {{m.updated_at | date: 'shortTime'}}, {{m.updated_at | date: 'longDate'}}
+        </span>
+      </div>
+  </div>
+  <!-- <div style="position: absolute; z-index: 1; margin: 0px; padding: 0px; display: block; left: 472px; top: 0px;"><div class="enscroll-track track3" style="position: relative; height: 704px;"><a href="" class="handle3" style="position: absolute; z-index: 1; height: 581.709px; top: 0px;"><div class="top"></div><div class="bottom"></div></a></div></div> -->
+  <div class="chat-text">
+      <input id="message" autocomplete="off" [(ngModel)]="message" (keyup.enter)="sendMessage()" class="chat-input" type="text" name="message" placeholder="Type your message here …">
+      <button (click)="sendMessage()" class="btn">Send</button>
+  </div>
+</div>

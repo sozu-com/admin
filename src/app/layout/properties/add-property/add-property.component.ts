@@ -107,6 +107,34 @@ export class AddPropertyComponent implements OnInit {
           console.log('propertyDetails', success);
           this.parameter.loading = false;
           this.parameter.propertyDetails = success.data;
+
+          this.getStates(success.data.locality.city.state.country.id, '');
+          this.getCities(success.data.locality.city.state.id, '');
+          this.getLocalities(success.data.locality.city.id, '');
+
+          this.model.locality_id = success.data.locality.id;
+          this.model.city_id = success.data.locality.city.id;
+          this.model.state_id = success.data.locality.city.state.id;
+          this.model.country_id = success.data.locality.city.state.country.id;
+
+          this.model.configuration_id = success.data.configuration.id;
+          this.model.property_type_id = success.data.property_type.id;
+
+          // this.model.carpet_areas.push(success.data.carpet_areas.map(s => { s.area, s.price }));
+          // this.model.carpet_areas.push(success.data.carpet_areas.map(s => { s.area, s.price }));
+          // success.data.carpet_areas.forEach(element => {
+          //   this.model.carpet_areas.push({
+          //     area: element.area,
+          //     price: element.price
+          //   });
+          // });
+
+          for (let index = 0; index < success.data.carpet_areas.length; index++) {
+            const element = success.data.carpet_areas[index];
+            this.model.carpet_areas[index] = {area: element.area, price: element.price};
+          }
+          // this.testMarital.map(s => s.id);
+          console.log('model', this.model);
         },
         error => {
           this.parameter.loading = false;

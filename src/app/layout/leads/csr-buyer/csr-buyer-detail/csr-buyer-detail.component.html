@@ -2,23 +2,23 @@
   <div class="white-bg padding15">
      <div class="row">
          <div class="col-lg-4 col-md-12 col-sm-12 col-12">
-           <div *ngIf="lead?.user" class="profile">
+           <div *ngIf="parameter.lead?.user" class="profile">
               <div class="fig-block">
-                 <img [src]="lead.user.image" onerror='src="http://via.placeholder.com/56x56"' alt="img">
+                 <img [src]="parameter.lead.user.image" onerror='src="http://via.placeholder.com/56x56"' alt="img">
               </div>
               <div class="profile-info">
-                 <h6>{{lead.user.name}}</h6>
-                 <p>{{lead.user.phone}}</p>
+                 <h6>{{parameter.lead.user.name}}</h6>
+                 <p>{{parameter.lead.user.phone}}</p>
               </div>
            </div>
         </div>
          <div class="col-lg-4 col-md-12 col-sm-12 col-12">
-           <div *ngIf="lead?.broker" class="profile">
+           <div *ngIf="parameter.lead?.broker" class="profile">
               <div class="fig-block">
-                 <img [src]="lead.broker.image" onerror='src="http://via.placeholder.com/56x56"' alt="img">
+                 <img [src]="parameter.lead.broker.image" onerror='src="http://via.placeholder.com/56x56"' alt="img">
               </div>
               <div class="profile-info">
-                 <h6>{{lead.broker.name}}</h6>
+                 <h6>{{parameter.lead.broker.name}}</h6>
                  <p>Broker</p>
               </div>
            </div>
@@ -30,7 +30,7 @@
                  Action
                </button>
                <div class="dropdown-menu dropdown-menu-right">
-                 <a (click)="assignToBroker()" *ngIf="! lead?.broker" class="dropdown-item" href="javascript://">Assign to broker</a>
+                 <a (click)="assignToBroker()" *ngIf="!parameter.lead?.broker && parameter.lead?.user" class="dropdown-item" href="javascript://">Assign to broker</a>
                  <a (click)="blockThisLead()" class="dropdown-item" href="javascript://">Block</a>
                </div>
             </div>
@@ -38,10 +38,11 @@
         </div>
      </div>
   </div>
+  <ngx-loading [show]="parameter.loading"></ngx-loading>
   <div class="spacer30"></div>
   <div class="row">
      <div class="col-lg-6 col-md-12 col-sm-12 col-12">
-        <div *ngIf="lead" class="white-bg padding30">
+        <div *ngIf="parameter.lead" class="white-bg padding30">
 
            <div class="row">
               <div class="col-md-6">
@@ -55,20 +56,20 @@
              <table class="table">
                 <tbody><tr>
                    <td style="padding-left:0"><label>Full Name</label></td>
-                   <td>{{lead.name}}</td>
+                   <td>{{parameter.lead.name}}</td>
                 </tr>
                 <tr>
                    <td style="padding-left:0"><label>Contact Number</label></td>
-                   <td>{{lead.phone}}</td>
+                   <td>{{parameter.lead.phone}}</td>
                 </tr>
                 <tr>
                    <td style="padding-left:0"><label>Email address</label></td>
-                   <td>{{lead.email}}</td>
+                   <td>{{parameter.lead.email}}</td>
                 </tr>
-                <tr *ngIf="lead?.configuration">
+                <tr *ngIf="parameter.lead?.configuration">
                    <td style="padding-left:0"><label>Interested In</label></td>
                    <td>
-                     <span *ngFor="let conf of lead.configuration">
+                     <span *ngFor="let conf of parameter.lead.configuration">
                        {{conf.name}}
                      </span>
                    </td>
@@ -171,23 +172,28 @@
 
      </div>
      <div class="col-lg-6 col-md-12 col-sm-12 col-12">
-          <div *ngIf="!lead?.user" class="white-bg padding20">
-            User is not registered.
-          </div>
-           <div *ngIf="conversation?.messages && lead?.user" class="white-bg">
-           <div class="chat-area scrollbox" style="height: 704px; width: 429px; padding-right: 17px; outline: none; overflow: hidden;" tabindex="0">
-              <div *ngFor="let m of conversation.messages" class="chat-user chat-user-one">
+        <div *ngIf="!parameter.lead?.user" class="white-bg padding20">
+          User is not registered.
+        </div>
+        <!-- <div *ngIf="messages && lead?.user" class="white-bg">
+           <div class="chat-area scrollbox" malihu-scrollbar [scrollbarOptions]="scrollbarOptions" style="height: 704px; width: 429px; padding-right: 17px; outline: none; overflow: hidden;" tabindex="0">
+              <div *ngFor="let m of messages" class="chat-user" [ngClass]="(m.conversation_user_id == loggedInUserId) ? 'chat-user-one' : 'chat-user-two'">
                  <p>{{m.message}}</p>
                  <span class="time">
-                 2:05pm, May 01, 2014
+                 {{m.updated_at | date: 'shortTime'}}, {{m.updated_at | date: 'longDate'}}
                  </span>
               </div>
-           </div><div style="position: absolute; z-index: 1; margin: 0px; padding: 0px; display: block; left: 472px; top: 0px;"><div class="enscroll-track track3" style="position: relative; height: 704px;"><a href="" class="handle3" style="position: absolute; z-index: 1; height: 581.709px; top: 0px;"><div class="top"></div><div class="bottom"></div></a></div></div>
+           </div>
            <div class="chat-text">
               <input [(ngModel)]="message" class="chat-input" type="text" name="message" placeholder="Type your message here …">
               <button (click)="sendMessage()" class="btn">Send</button>
            </div>
+        </div> -->
+        
+        <div *ngIf="parameter.messages && parameter.lead?.user">
+          <app-chat [messages]="parameter.messages" [admin_id]="parameter.admin_id" [conversation_id]="parameter.conversation_id" (sendMessage)="sendMessage"></app-chat>
         </div>
+
         <div class="spacer30"></div>
         <div class="white-bg padding15">
            <div class="row">

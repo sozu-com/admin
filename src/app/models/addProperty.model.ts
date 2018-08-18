@@ -17,13 +17,13 @@ export class AddPropertyModel {
     city_id = '';
     locality_id = '';
     configuration_id = '';
+    property_type_id = '';
     carpet_areas = [
         {
             area: '',
             price: ''
         }
     ];
-    property_type_id = '';
     property_id = '';
     cover_image: File;
     images = [];

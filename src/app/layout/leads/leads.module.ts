@@ -5,6 +5,7 @@ import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2TelInputModule } from 'ng2-tel-input';
+import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 
 import { LeadsComponent } from './leads.component';
 import { DataCollectorComponent } from './data-collector/data-collector.component';
@@ -15,6 +16,8 @@ import { CsrCloserComponent } from './csr-closer/csr-closer.component';
 import { CsrBuyerDetailComponent } from './csr-buyer/csr-buyer-detail/csr-buyer-detail.component';
 import { InhouseBrokerDetailComponent } from './inhouse-broker/inhouse-broker-detail/inhouse-broker-detail.component';
 import { CsrCloserDetailComponent } from './csr-closer/csr-closer-detail/csr-closer-detail.component';
+import { ChatComponent } from './../common-blocks/chat/chat.component';
+import { InterestedPropertyComponent } from './../common-blocks/interested-property/interested-property.component';
 
 const routes: Routes = [
   { path: 'data-collectors', component: DataCollectorComponent },
@@ -38,7 +41,8 @@ const routes: Routes = [
     NgxPaginationModule,
     FormsModule,
     ReactiveFormsModule,
-    Ng2TelInputModule
+    Ng2TelInputModule,
+    MalihuScrollbarModule.forRoot(),
   ],
   declarations: [
     LeadsComponent,
@@ -49,7 +53,9 @@ const routes: Routes = [
     CsrCloserComponent,
     CsrBuyerDetailComponent,
     InhouseBrokerDetailComponent,
-    CsrCloserDetailComponent
+    CsrCloserDetailComponent,
+    ChatComponent,
+    InterestedPropertyComponent
   ]
 })
 

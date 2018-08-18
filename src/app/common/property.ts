@@ -87,4 +87,16 @@ export interface IProperty {
   bankCount?: string;
   flag?: number;
   page?: number;
+
+  admin_id?: any;
+  id?: any;
+  lead?: any;
+  interested_properties?: any;
+  conversation?: any;
+  conversation_id?: number;
+  message?: any;
+  messages?: any;
+  socket?: any;
+  socket_id?: any;
+  connected?: any;
 }

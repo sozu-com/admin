@@ -35,7 +35,7 @@ font-style: normal;
 }
 body{ font-family: 'sf_ui_textregular'; background-color:#F4F4F4; font-size:14px; color: #3E3E3E;    -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale; }
-a, button, input, img{outline:none !important; transition: all 0.5s ease; }
+a, button, input{outline:none; transition: all 0.5s ease; }
 a{color: #4661B1; text-decoration:none !important;}
 a:hover, a:foucs{ text-decoration:none !important;  }
 .fontW500{
@@ -364,12 +364,11 @@ text-indent: 999px;
 overflow: hidden;
 padding-left: 0;
 vertical-align: middle;
-padding:4px 0 0;
+padding: 6px 0 0;
 color: rgba(0,0,0,0.5);
 position: relative;
 z-index: 2;
 background-color: transparent;
-box-shadow:none;
 }
 .inline-form-group .add-btn {
 height: 40px;
@@ -2131,16 +2130,4 @@ border: none;
 .broker-contact{
 color: #3EB967;
 font-size:12px; 
-}
-
-.form-model0P {
-    box-shadow: none;
-}
-.btn.btn-link{ color:#00B96F; text-decoration: none;  }
-.expand-collapes-section {
-    border-bottom: solid 1px #EFEFEF;
-    border-top: solid 1px #EFEFEF;
-    padding-top: 20px;
-    margin-top: -1px;
-    padding-bottom: 15px;
 }

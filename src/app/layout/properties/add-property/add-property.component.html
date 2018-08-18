@@ -68,40 +68,52 @@
             <div class="form-group-3">
               <label>Select Country</label>
               <select title="Choose Country" required class="form-control" (change)="getStates($event.target.value)">
-                <!-- <option value="" [selected]="model.country_id == ''" disabled>Select Country</option> -->
                 <option value="" disabled>Select Country</option>
                 <option *ngFor="let country of parameter.countries" value="{{country.id}}" [selected]="country.id == model.country_id">{{country.name_en}}</option>
               </select>
+              <!-- <select title="Choose Country" required class="form-control" name="country_id" [(ngModel)]="model.country_id">
+                <option value="" disabled>Select Country</option>
+                <option *ngFor="let country of parameter.countries" value="{{country.id}}">{{country.name_en}}</option>
+              </select> -->
             </div>   
           </div>
           <div class="col-lg-3 col-md-12 col-sm-12 col-12">
             <div class="form-group-3">
               <label>&nbsp;</label>
               <select title="Choose State" required class="form-control" (change)="getCities($event.target.value)">
-                <!-- <option value="" [selected]="model.state_id == ''" disabled>Select State</option> -->
                 <option value="" disabled>Select State</option>
                 <option *ngFor="let state of parameter.states" value="{{state.id}}" [selected]="state.id == model.state_id">{{state.name_en}}</option>
               </select>
+              <!-- <select title="Choose State" required class="form-control" name="state_id" [(ngModel)]="model.state_id">
+                <option value="" disabled>Select State</option>
+                <option *ngFor="let state of parameter.states" value="{{state.id}}">{{state.name_en}}</option>
+              </select> -->
             </div>   
           </div>
           <div class="col-lg-3 col-md-12 col-sm-12 col-12">
             <div class="form-group-3">
               <label>&nbsp;</label>
               <select title="Choose City" class="form-control" (change)="getLocalities($event.target.value)">
-                <!-- <option value="" [selected]="model.city_id == ''" disabled>Select City</option> -->
                 <option value="" disabled>Select City</option>
                 <option *ngFor="let city of parameter.cities" value="{{city.id}}" [selected]="city.id == model.city_id">{{city.name_en}}</option>
               </select>
+              <!-- <select title="Choose City" class="form-control" name="city_id" [(ngModel)]="model.city_id">
+                <option value="" disabled>Select City</option>
+                <option *ngFor="let city of parameter.cities" value="{{city.id}}">{{city.name_en}}</option>
+              </select> -->
             </div>   
           </div>
           <div class="col-lg-3 col-md-12 col-sm-12 col-12">
             <div class="form-group-3">
               <label>&nbsp;</label>
               <select title="Choose Locality" class="form-control" (change)="setLocality($event.target.value)">
-                <!-- <option value="" [selected]="model.locality_id == ''" disabled>Select Locality</option> -->
                 <option value="" disabled>Select Locality</option>
                 <option *ngFor="let locality of parameter.localities" value="{{locality.id}}" [selected]="locality.id == model.locality_id">{{locality.name_en}}</option>
               </select>
+              <!-- <select title="Choose Locality" class="form-control" name="locality_id" [(ngModel)]="model.locality_id">
+                <option value="" disabled>Select Locality</option>
+                <option *ngFor="let locality of parameter.localities" value="{{locality.id}}">{{locality.name_en}}</option>
+              </select> -->
             </div>   
           </div>
         </div>
