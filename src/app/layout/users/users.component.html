@@ -85,14 +85,14 @@
                     <a data-toggle="popover" data-placement="top" title="{{item.name}}">{{item.name}}</a>
                   </span>
                 </td>
-                <td class="text-left" *ngIf="item.phone">{{item.country_code}}-{{item.phone}}</td>
+                <td class="text-left" *ngIf="item.phone">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
                 <td class="text-left" *ngIf="!item.phone">NA</td>
                 <td class="text-left">{{item.email}}</td>
                 <td *ngIf="parameter.type==1">2 BHK</td>
                 <td *ngIf="parameter.type==2">12</td>
                 <td>
-                  <!-- <a href="javascript://" (click)="editUser(item)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a> -->
-                  <a href="javascript://" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
+                  <a href="javascript://" (click)="editUser(item, i)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
+                  <!-- <a href="javascript://" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a> -->
                   <a href="javascript://" *ngIf="item.is_blocked == 1" (click)="blockUnblockPopup(i, item.id, 0, parameter.type)" title="Unblock user" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a>
                   <a href="javascript://" *ngIf="item.is_blocked == 0" (click)="blockUnblockPopup(i, item.id, 1, parameter.type)" title="Block user" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
                 </td>
@@ -157,7 +157,7 @@
               <div class="form-group-2">
                   <label>Contact number</label>
                   <div class="form-group">
-                  <input minlength="6" maxlength="16" autocomplete="off" type="text" [pattern]="phonePattern" class="form-control" id="phone" required minlength="1" [(ngModel)]="model.phone" name="phone"
+                  <input minlength="6" maxlength="16" autocomplete="off" type="text" [pattern]="constant.phonePattern" class="form-control" id="phone" required minlength="1" [(ngModel)]="model.phone" name="phone"
                       ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
                 </div>
               </div>
@@ -166,7 +166,7 @@
               <div class="form-group-2">
                   <label>Email ID</label>
                   <div class="form-group">
-                  <input autocomplete="off" [pattern]="emailPattern" type="email" class="form-control" required [(ngModel)]="model.email" name="email">
+                  <input autocomplete="off" [pattern]="constant.emailPattern" type="email" class="form-control" required [(ngModel)]="model.email" name="email">
                 </div>
               </div>
             </div>

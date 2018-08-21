@@ -1,21 +1,24 @@
 <div class="project-des-bx white-bg">
   <div class="price">$26k+</div>
   <div class="fig-block">
-    <img src="http://via.placeholder.com/80x80" alt="img">
+    <img [src]="data.property.image" alt="img">
   </div>
   <div class="project-des-content">
+    <!-- <small>{{data.building.developer.name}}</small>
+    <h5>{{data.building.name}}</h5>
+    <p class="p12">{{data.building.address}}</p> -->
+
     <small>SNN Builders</small>
     <h5>Morning Homes</h5>
     <p class="p12">Kaveri Nagar, Murugeshpalya, Mumbai East.</p>
-    <p class="p13">1 RK, 1, 2 BHK Apartments</p>
-    <!-- <a class="delete-2" href="javascript://"><img src="assets/img/delete-green.png" alt="img"></a> -->
-    <!-- <a class="btn btn-primary" href="javascript://" data-toggle="modal" data-target="#dealFinalise" #modalOpen>Add New</a> -->
+    <p class="p13">{{data.property.configuration.name}}</p>
     <div class="dropdown threeDots">
       <button type="button" class="dropdown-toggle" data-toggle="dropdown">
         ...
       </button>
       <div class="dropdown-menu">
-        <a class="dropdown-item" *ngIf="data.is_finalized" href="javascript://" data-toggle="modal" data-target="#dealFinalize">Deal Finalized</a>
+        <!-- <a class="dropdown-item" *ngIf="adminType==4 && data.is_finalized" href="javascript://" data-toggle="modal" data-target="#dealFinalize">Deal Finalized</a> -->
+        <a class="dropdown-item" href="javascript://" data-toggle="modal" data-target="#dealFinalize">Deal Finalized</a>
         <a class="dropdown-item" href="#">Remove Property</a>
       </div>
     </div>

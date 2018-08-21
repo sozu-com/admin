@@ -138,8 +138,8 @@
       </div>
       <div class="col-12">
         <div class="title-group">
-            <h5>All Leads (Information Filled)</h5>
-            <p>Showing 4 out of 4</p>
+            <h5>All Leads</h5>
+            <p>Showing {{items?.length}} out of {{parameter.total}}</p>
         </div>
       </div>
   </div>
@@ -157,19 +157,28 @@
                   <th style="width:20%">
                     <div class="table-search">
                         <label>Name</label>
-                        <input type="Search here" (input)="changeFilter('name',$event.target.value)">
+                        <div class="searh-3">
+                            <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="changeFilter('name',$event.target.value)" name="">
+                            <button *ngIf="parameter.name" (click)="changeFilter('name', parameter.name)"><i class="fa fa-search"></i></button>
+                        </div>
                     </div>
                   </th>
                   <th style="width:20%; text-align:left;">
                     <div class="table-search">
                         <label>Contact Number</label>
-                        <input type="Search here" (input)="changeFilter('phone',$event.target.value)">
+                        <div class="searh-3">
+                            <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="changeFilter('phone',$event.target.value)" name="">
+                            <button *ngIf="parameter.phone" (click)="changeFilter('phone', parameter.phone)"><i class="fa fa-search"></i></button>
+                        </div>
                     </div>
                   </th>
                   <th style="width:20%">
                     <div class="table-search">
                         <label>Email</label>
-                        <input type="Search here" (input)="changeFilter('email',$event.target.value)">
+                        <div class="searh-3">
+                            <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="changeFilter('email',$event.target.value)" name="">
+                            <button *ngIf="parameter.email" (click)="changeFilter('email', parameter.email)"><i class="fa fa-search"></i></button>
+                        </div>
                     </div>
                   </th>
                   <th style="width:10%">

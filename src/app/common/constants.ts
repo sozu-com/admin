@@ -5,8 +5,8 @@ export class Constant {
     public dial_code = '52';
     public userPlaceholder = '../../../assets/img/default_usr.png';
     public initialCountry = 'mx';
-    // public SERVER_URL = 'http://45.232.252.136:8080';
-    public SERVER_URL = 'http://kanguroo.com.mx:8080';
+    public phonePattern = '^[0-9]{5,15}$';
+    public emailPattern = '^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$';
     public errorMsg: any = {
         COUNTRY_NAME_REQUIRED : 'Please enter country.',
         STATE_NAME_REQUIRED : 'Please enter state.',

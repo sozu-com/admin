@@ -24,10 +24,8 @@ export class UsersComponent implements OnInit {
 
   public parameter: IProperty = {};
   initialCountry: any;
-  phonePattern = '^[0-9]{5,15}$';
-  emailPattern = '^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$';
 
-  constructor(private constant: Constant, public model: Users, private element: ElementRef,
+  constructor(public constant: Constant, public model: Users, private element: ElementRef,
     private route: ActivatedRoute, private admin: AdminService, private router: Router,
     public sanitization: DomSanitizer
   ) { }
@@ -45,7 +43,6 @@ export class UsersComponent implements OnInit {
   closeModal() {
     this.image1 = '';
     this.model.name = ''; this.model.email = ''; this.model.phone = '';
-    // this.model = new Users();
     this.modalClose.nativeElement.click();
   }
 
@@ -108,7 +105,6 @@ export class UsersComponent implements OnInit {
   }
 
   onCountryChange(e) {
-    console.log('eee', e);
     this.model.country_code = e.iso2;
     this.model.dial_code = e.dialCode;
     this.initialCountry = {initialCountry: e.iso2};
@@ -129,27 +125,64 @@ export class UsersComponent implements OnInit {
 
     if (this.parameter.image) { input.append('image', this.parameter.image); }
     this.parameter.loading = false;
-console.log('formata', formdata, this.model);
-    // this.admin.postDataApi(this.parameter.url, input)
-    //   .subscribe(
-    //     success => {
-    //       console.log('success', success);
-    //       this.parameter.loading = false;
-    //       if (success.success === '0') {
-    //         swal('Error', success.message, 'error');
-    //       }else {
-    //         this.modalClose.nativeElement.click();
-    //         this.getBuyers(this.parameter.type, this.parameter.p, this.parameter.name, this.parameter.phone, this.parameter.email);
-    //         formdata.reset();
-    //         const text = this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
-    //         swal('Success', text, 'success');
-    //       }
-    //     },
-    //     error => {
-    //       console.log(error);
-    //       this.parameter.loading = false;
-    //       swal('Error', error.message, 'error');
-    //     });
+
+    this.admin.postDataApi(this.parameter.url, input)
+      .subscribe(
+        success => {
+          console.log('success', success);
+          this.parameter.loading = false;
+          if (success.success === '0') {
+            swal('Error', success.message, 'error');
+          }else {
+            this.modalClose.nativeElement.click();
+            // this.getBuyers(this.parameter.type, this.parameter.p, this.parameter.name, this.parameter.phone, this.parameter.email);
+            formdata.reset();
+            const text = this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
+            swal('Success', text, 'success');
+            if (this.parameter.items.length < 10) {
+              if (this.model.id !== '') {
+                this.parameter.items[this.parameter.index] = success.data;
+              } else {
+                this.parameter.items.push(success.data);
+              }
+            }
+          }
+        },
+        error => {
+          console.log(error);
+          this.parameter.loading = false;
+          swal('Error', error.message, 'error');
+        });
+  }
+
+
+  editUser(userdata, index) {
+    console.log('edit user', userdata);
+    this.parameter.index = index;
+    this.modalOpen.nativeElement.click();
+    this.model.id = userdata.id;
+    this.model.name = userdata.name;
+    this.model.email = userdata.email;
+    this.model.phone = userdata.phone;
+    this.model.country_code = userdata.country_code ? userdata.country_code : this.constant.country_code;
+    this.model.dial_code = userdata.dial_code ? userdata.dial_code : this.constant.dial_code;
+
+    const d = {
+      areaCodes: null,
+      dialCode: '91',
+      iso2: userdata.country_code,
+      priority: 0
+    };
+
+    this.onCountryChange(d);
+
+    this.initialCountry = {initialCountry: userdata.country_code};
+    console.log(this.initialCountry, this.model);
+
+    this.model.image = userdata.image != null ? userdata.image : '';
+    if (this.model.image) {
+      this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.model.image})`);
+    }
   }
 
 

@@ -79,7 +79,7 @@ export class CsrCloserDetailComponent implements OnInit {
   }
 
   public initSocket(): void {
-      this.socket = io.connect(this.constant.SERVER_URL);
+      this.socket = io.connect(this.admin.socketUrl);
       this.socket.on('connect', fun => {
         this.socket_id = this.socket.id;
         this.connected = this.socket.connected;

@@ -64,7 +64,7 @@ export class CsrCloserComponent implements OnInit {
           console.log(success);
           this.parameter.loading = false;
           this.items = success.data;
-          this.parameter.total = success.total;
+          this.parameter.total = success.total_count;
         },
         error => {
           this.parameter.loading = false;

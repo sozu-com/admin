@@ -45,70 +45,7 @@ export class InhouseBrokerDetailComponent implements OnInit {
         console.log('leads/details', r);
         this.parameter.lead_id = this.parameter.id;
         this.parameter.user_id = this.parameter.lead.user.id;
-        // if (this.parameter.lead.user) {
-        //   this.parameter.loading = true;
-        //   this.admin.postDataApi('conversation/getMessages',
-        //   {lead_id: this.parameter.id, user_id: this.parameter.lead.user.id}).subscribe(res => {
-        //     this.parameter.loading = false;
-        //     this.parameter.messages = res.data[0].messages;
-        //     this.parameter.conversation_id = res.data[0].id;
-        //     console.log('conversation/getMessages', res, this.parameter.messages);
-        //   });
-
-        //   this.initSocket();
-        // }else {
-        //   this.parameter.loading = false;
-        // }
       });
-  });
-
-
-  // sendMessage() {
-  //   if (this.parameter.message) {
-  //     this.admin.postDataApi('conversation/sendMessage',
-  //     {conversation_id: this.parameter.conversation_id, message: this.parameter.message}).subscribe(r => {
-  //       console.log('conversation/sendMessage', r);
-  //       this.parameter.message = '';
-  //     });
-  //   } else {
-  //     swal('Error', 'Please enter some text.', 'error');
-  //   }
-  // }
-
-//   public initSocket(): void {
-//     this.parameter.socket = io.connect(this.constant.SERVER_URL);
-//     this.parameter.socket.on('connect', fun => {
-//       this.parameter.socket_id = this.parameter.socket.id;
-//       this.parameter.connected = this.parameter.socket.connected;
-
-
-//       const data = {
-//         admin_id: this.parameter.admin_id,
-//         socket_id: this.parameter.socket_id,
-//       };
-
-//       if (this.parameter.connected) {
-//         console.log('Socket Connected', this.parameter.socket_id);
-//         console.log('dataa', data);
-//         this.parameter.socket.emit('add-admin', data, (res: any) => {
-//           console.log('res', res);
-//         });
-//         this.parameter.socket.on('message', (response: any) => {
-//           console.log('response', response, this.parameter.messages, this.parameter.conversation_id);
-//           if (response.data.conversation_id === this.parameter.conversation_id) {
-//             this.scrollToBottom();
-//             this.parameter.messages.push(response.data);
-//           }
-//           console.log('mess', this.parameter.messages);
-//         });
-//       }
-//     });
-// }
-
-  // scrollToBottom() {
-  //   setTimeout(() => {
-  //     $('.chat-area').mCustomScrollbar('scrollTo', 'bottom');
-  //   }, 200);
-  // }
+    });
   }
 }

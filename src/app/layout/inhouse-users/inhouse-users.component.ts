@@ -6,6 +6,7 @@ import { InhouseUsers, User, Address } from './../../models/inhouse-users.model'
 import { NgForm } from '@angular/forms';
 import { Constant } from './../../common/constants';
 import { DomSanitizer } from '@angular/platform-browser';
+import { CommonService } from './../../services/common.service';
 declare let swal: any;
 
 @Component({
@@ -29,15 +30,14 @@ export class InhouseUsersComponent implements OnInit {
   url: any[];
   image1: any;
   title: string;
-  phonePattern = '^[0-9]{5,15}$';
   newPage: number;
   disabledLocalities = [];
   seenDuplicate = false;
   testObject = [];
 
-  constructor(private constant: Constant, private address: Address, private user: User,
+  constructor(public constant: Constant, private address: Address, private user: User,
     public model: InhouseUsers, private element: ElementRef, private route: ActivatedRoute,
-    private admin: AdminService, private router: Router,
+    private admin: AdminService, private cs: CommonService, private router: Router,
     private sanitization: DomSanitizer) { }
 
   ngOnInit() {
@@ -131,12 +131,7 @@ export class InhouseUsersComponent implements OnInit {
 
   disabledLocalityId(i) {
     console.log('index', i);
-    // console.log('zz', id);
-    // this.disabledLocalities.push(this.model.address[i].localities);
     this.disabledLocalities[i] = this.model.address[i].localities;
-    // for (let index = 0; index < this.model.address.length; index++) {
-    //   this.disabledLocalityId.push(this.model.address[index].localities);
-    // }
   }
 
   onCountryChange(e) {
@@ -163,7 +158,6 @@ export class InhouseUsersComponent implements OnInit {
     return {initialCountry: this.constant.initialCountry};
   }
 
-
   onSelectFile1(event) {
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
@@ -173,23 +167,30 @@ export class InhouseUsersComponent implements OnInit {
           this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.url})`);
       };
 
-      const input = new FormData();
-      input.append('image', event.target.files[0]);
+      // this.cs.saveImage(event.target.files[0])
+      // .subscribe(
+      //   success => {
+      //     console.log('ss', success);
+      //     this.parameter.loading = false;
+      //   },
+      //   error => {
+      //     console.log(error);
+      //     this.parameter.loading = false;
+      //     swal('Error', error.message, 'error');
+      //   });
 
-      this.admin.postDataApi('saveImage', input)
-      .subscribe(
-        success => {
-          console.log('successimage', success);
-          // this.model.cover_image = success.data.image;
-          this.parameter.loading = false;
-        },
-        error => {
-          console.log(error);
-          this.parameter.loading = false;
-          swal('Error', error.message, 'error');
-        });
-
-      // this.model.cover_image = event.target.files[0];
+      // const input = new FormData();
+      // input.append('image', event.target.files[0]);
+      // this.admin.postDataApi('saveImage', input)
+      // .subscribe(
+      //   success => {
+      //     this.parameter.loading = false;
+      //   },
+      //   error => {
+      //     console.log(error);
+      //     this.parameter.loading = false;
+      //     swal('Error', error.message, 'error');
+      //   });
       reader.readAsDataURL(event.target.files[0]);
     }
   }

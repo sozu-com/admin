@@ -102,4 +102,11 @@ export class CommonService {
           }
         });
   }
+
+
+  saveImage(file) {
+    const input = new FormData();
+    input.append('image', file);
+    return this.admin.postDataApi('saveImage', input);
+  }
 }

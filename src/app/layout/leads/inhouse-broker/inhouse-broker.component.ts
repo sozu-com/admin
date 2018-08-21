@@ -24,6 +24,7 @@ export class InhouseBrokerComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.parameter.flag = 2;
     this.getListing();
@@ -64,7 +65,7 @@ export class InhouseBrokerComponent implements OnInit {
           console.log(success);
           this.parameter.loading = false;
           this.items = success.data;
-          this.parameter.total = success.total;
+          this.parameter.total = success.total_count;
         },
         error => {
           this.parameter.loading = false;

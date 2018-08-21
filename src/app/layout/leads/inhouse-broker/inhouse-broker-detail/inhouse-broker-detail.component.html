@@ -198,14 +198,15 @@
         <p class="p16">Interested Properties</p>
      </div>
    <div class="col-6">
-        <div class="btn-cont text-right"> <a class="btn btn-fourth" href="javascript://">Add</a></div>
+        <div class="btn-cont text-right"> <a routerLink="/dashboard/properties/add-property/0" class="btn btn-fourth" href="javascript://">Add</a></div>
      </div>
   </div>
   
   <div class="spacer15"></div>
   <div class="row" *ngIf="parameter.interested_properties?.length>0">
+    <!-- <div class="col-lg-4 col-md-12 col-sm-12 col-12" *ngFor="let ip of parameter.interested_properties"> -->
     <div class="col-lg-4 col-md-12 col-sm-12 col-12" *ngFor="let ip of parameter.interested_properties">
-      <app-interested-property [data]="ip"></app-interested-property>
+      <app-interested-property [data]="ip" [adminType]="4"></app-interested-property>
     </div>
   </div>
   <div *ngIf="parameter.interested_properties?.length == 0">

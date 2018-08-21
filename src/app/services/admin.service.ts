@@ -13,6 +13,7 @@ export class AdminService {
 
   private isUserLogin = false;
   public baseUrl: string = environment.baseUrl;
+  public socketUrl: string = environment.socketUrl;
 
   public login = new BehaviorSubject({});
   loginData$ = this.login.asObservable();

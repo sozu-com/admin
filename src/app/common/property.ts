@@ -101,4 +101,5 @@ export interface IProperty {
   connected?: any;
   lead_id?: number;
   user_id?: number;
+  adminType?: number;
 }

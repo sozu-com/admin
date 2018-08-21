@@ -29,8 +29,24 @@ export class ChatComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getMessages();
-    this.initSocket();
+    setTimeout(() => {
+      // console.log('----', this.lead_id, this.admin_id, this.user_id);
+      // this.getMessages();
+      this.parameter.loading = true;
+      this.admin.postDataApi('conversation/getMessages',
+      {lead_id: this.lead_id, user_id: this.user_id}).subscribe(res => {
+        console.log('getMessages', res);
+        this.parameter.messages = res.data[0].messages;
+        this.parameter.conversation_id = res.data[0].id;
+        // this.parameter.conversation_id = 3;
+        this.parameter.loading = false;
+        this.scrollToBottom();
+      });
+      this.initSocket();
+    }, 1000);
+    // this.parameter.conversation_id = 3;
+    // this.getMessages();
+    // this.initSocket();
   }
 
   getMessages() {
@@ -39,13 +55,14 @@ export class ChatComponent implements OnInit {
     {lead_id: this.lead_id, user_id: this.user_id}).subscribe(res => {
       this.parameter.messages = res.data[0].messages;
       this.parameter.conversation_id = res.data[0].id;
+      // this.parameter.conversation_id = 3;
       this.parameter.loading = false;
       this.scrollToBottom();
     });
   }
 
   public initSocket(): void {
-    this.parameter.socket = io.connect(this.constant.SERVER_URL);
+    this.parameter.socket = io.connect(this.admin.socketUrl);
     this.parameter.socket.on('connect', fun => {
       this.parameter.socket_id = this.parameter.socket.id;
       this.parameter.connected = this.parameter.socket.connected;
@@ -54,14 +71,15 @@ export class ChatComponent implements OnInit {
         admin_id: this.admin_id,
         socket_id: this.parameter.socket_id,
       };
-
+      console.log('add-admin-data', data);
       if (this.parameter.connected) {
         console.log('Socket Connected', this.parameter.socket_id);
         this.parameter.socket.emit('add-admin', data, (res: any) => {
-          // console.log('res', res);
+          console.log('add-admin', res);
         });
         this.parameter.socket.on('message', (response: any) => {
           if (response.data.conversation_id === this.parameter.conversation_id) {
+            console.log('message socket');
             this.scrollToBottom();
             this.parameter.messages.push(response.data);
           }
@@ -77,10 +95,12 @@ export class ChatComponent implements OnInit {
   }
 
   sendMessage() {
+    console.log('conversation_id', this.parameter.conversation_id);
     if (this.message) {
       this.admin.postDataApi('conversation/sendMessage',
       {conversation_id: this.parameter.conversation_id, message: this.message}).subscribe(r => {
-        // console.log('conversation/sendMessage', r);
+        console.log('conversation/sendMessage', r);
+        this.parameter.messages.push(r.data);
         this.scrollToBottom();
         this.message = '';
       });
@@ -88,5 +108,4 @@ export class ChatComponent implements OnInit {
       swal('Error', 'Please enter some text.', 'error');
     }
   }
-
 }

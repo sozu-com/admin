@@ -138,74 +138,116 @@
       </div>
       <div class="col-12">
         <div class="title-group">
-            <h5>All Leads (Information Filled)</h5>
-            <p>Showing 4 out of 4</p>
+            <h5>Requests Pending</h5>
+           <p>Showing {{items?.length}} out of {{parameter.total}}</p>
         </div>
       </div>
   </div>
 
   <div class="white-bg">
-      <div class="tabel-section">
-        <div class="table-responsive">
-            <table class="table table-striped table-align-left vertical-align-top">
-              <tr>
-                  <th>
-                    <div class="table-search">
-                        <!-- <label>Image</label> -->
-                    </div>
-                  </th>
-                  <th style="width:20%">
-                    <div class="table-search">
-                        <label>Name</label>
-                        <input type="Search here" (input)="changeFilter('name',$event.target.value)">
-                    </div>
-                  </th>
-                  <th style="width:20%; text-align:left;">
-                    <div class="table-search">
-                        <label>Contact Number</label>
-                        <input type="Search here" (input)="changeFilter('phone',$event.target.value)">
-                    </div>
-                  </th>
-                  <th style="width:20%">
-                    <div class="table-search">
-                        <label>Email</label>
-                        <input type="Search here" (input)="changeFilter('email',$event.target.value)">
-                    </div>
-                  </th>
-                  <th style="width:10%">
-                    Interested In
-                  </th>
-                  <th>
-                    Assignee
-                  </th>
-                  <th >
-                    <!-- Mark
-                    Complete -->
-                  </th>
-              </tr>
-              <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }">
-                <td>
-                  <img *ngIf="item.image" class="rounded-circle" [src]="item.image" alt="img">
-                  <img *ngIf="!item.image" class="rounded-circle" src="./../../../assets/img/default_img.png" alt="img">
-                </td>
-                <td class="text-left">
-                  <span class="name">{{item.name}}</span>
-                </td>
-                <td class="text-left" *ngIf="item.phone">{{item.country_code}}-{{item.phone}}</td>
-                <td class="text-left" *ngIf="!item.phone">NA</td>
-                <td class="text-left">{{item.email}}</td>
-                <td>2 BHK</td>
-                <td class="text-left" *ngIf="item.admin.name">{{item.admin.name}}</td>
-                <td class="text-left" *ngIf="!item.admin.name">Not Assigned</td>
-                <td>
-                  <a href="javascript://" (click)="editUser(item)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
-                  <a href="javascript://" *ngIf="item.is_blocked == 1" (click)="blockUnblockPopup(i, item.id, 0, parameter.type)" title="Unblock user" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a>
-                  <a href="javascript://" *ngIf="item.is_blocked == 0" (click)="blockUnblockPopup(i, item.id, 1, parameter.type)" title="Block user" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
-                </td>
-              </tr>
-            </table>
+        <div class="tabel-section">
+           <div class="table-responsive">
+              <table class="table table-striped table-align-left vertical-align-top border-0">
+                 <tr>
+                    <th class="border-top-0" style="width:20%">
+                       <div class="table-search">
+                          <label>Name of Building</label>
+                          <input type="Search here" name="">
+                       </div>
+                    </th>
+                    <th class="border-top-0" style="width:20%; text-align:left;">
+                       <div class="table-search">
+                          <label>Location</label>
+                          <input type="Search here" name="">
+                       </div>
+                    </th>
+                    <th class="border-top-0" style="width:20%">
+                       <div class="table-search">
+                          <label>Developer</label>
+                          <input type="Search here" name="">
+                       </div>
+                    </th>
+                    <th class="border-top-0" style="width:20%;">
+                       Contact and <br>
+                       Email address
+                    </th>
+                    <th  class="border-top-0" style="width:14%">
+                       Assignee
+                    </th>
+                    <th class="border-top-0" style="width:14%">
+                       Mark <br>
+                       Complete
+                    </th>
+                 </tr>
+                 <tr>
+                    <td><strong>Home Land Towers</strong></td>
+                    <td>570 Balistreri 
+                       Mews Apt. 293, Chandigarh.
+                    </td>
+                    <td>Jordan Price</td>
+                    <td>050-791-7903<br>
+                       rylan_champlin@gmail.com
+                    </td>
+                    <td>Corey Garrett</td>
+                    <td style="vertical-align:middle; ">
+                       <label class="marked">  <input type="checkbox" checked="checked">
+                         <span class="checkmark"></span>
+                       </label>
+
+                    </td>
+                 </tr>
+                     <tr>
+                    <td><strong>Home Land Towers</strong></td>
+                    <td>570 Balistreri 
+                       Mews Apt. 293, Chandigarh.
+                    </td>
+                    <td>Jordan Price</td>
+                    <td>050-791-7903<br>
+                       rylan_champlin@gmail.com
+                    </td>
+                    <td>Corey Garrett</td>
+                    <td style="vertical-align:middle; ">
+                       <label class="marked">  <input type="checkbox" checked="checked">
+                         <span class="checkmark"></span>
+                       </label>
+                    </td>
+                 </tr>
+                     <tr>
+                    <td><strong>Home Land Towers</strong></td>
+                    <td>570 Balistreri 
+                       Mews Apt. 293, Chandigarh.
+                    </td>
+                    <td>Jordan Price</td>
+                    <td>050-791-7903<br>
+                       rylan_champlin@gmail.com
+                    </td>
+                    <td>Corey Garrett</td>
+                    <td style="vertical-align:middle; ">
+                       <label class="marked">  <input type="checkbox" checked="checked">
+                         <span class="checkmark"></span>
+                       </label>
+
+                    </td>
+                 </tr>
+                <tr>
+                    <td><strong>Home Land Towers</strong></td>
+                    <td>570 Balistreri 
+                       Mews Apt. 293, Chandigarh.
+                    </td>
+                    <td>Jordan Price</td>
+                    <td>050-791-7903<br>
+                       rylan_champlin@gmail.com
+                    </td>
+                    <td>Corey Garrett</td>
+                    <td style="vertical-align:middle; ">
+                       <label class="marked">  <input type="checkbox" checked="checked">
+                         <span class="checkmark"></span>
+                       </label>
+                    </td>
+                 </tr>
+              </table>
+           </div>
         </div>
-      </div>
-  </div>
+     </div>
 
 </div>

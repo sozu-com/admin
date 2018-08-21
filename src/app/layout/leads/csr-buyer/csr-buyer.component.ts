@@ -24,6 +24,7 @@ export class CsrBuyerComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.parameter.flag = 2;
     this.getListing();
@@ -33,14 +34,17 @@ export class CsrBuyerComponent implements OnInit {
     this.parameter.flag = flag;
     this.getListing();
   }
+
   changeFilter(key, value) {
     this.parameter[key] = value;
     this.getListing();
   }
+
   getPage(page) {
-    this.parameter.p = page;
+    this.parameter.page = page;
     this.getListing();
   }
+
   getListing() {
     this.parameter.loading = true;
     this.parameter.url = 'leads/csr-buyer';
@@ -68,7 +72,7 @@ export class CsrBuyerComponent implements OnInit {
           console.log(success);
           this.parameter.loading = false;
           this.items = success.data;
-          this.parameter.total = success.total;
+          this.parameter.total = success.total_count;
         },
         error => {
           this.parameter.loading = false;
