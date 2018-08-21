@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: 'http://45.232.252.136/api/admin/'
+  baseUrl: 'http://kanguroo.com.mx/api/admin/'
 };
