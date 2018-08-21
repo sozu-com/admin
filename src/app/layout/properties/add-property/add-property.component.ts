@@ -7,6 +7,7 @@ import { AddPropertyModel, Building } from './../../../models/addProperty.model'
 import { NgForm, FormControl } from '@angular/forms';
 import { MapsAPILoader } from '@agm/core';
 import { Constant } from './../../../common/constants';
+// import { FileUpload } from './../../../common/fileUpload';
 declare const google;
 declare let swal: any;
 
@@ -18,6 +19,8 @@ declare let swal: any;
 })
 
 export class AddPropertyComponent implements OnInit {
+
+  // uploader: FileUpload;
 
   public parameter: IProperty = {};
   @ViewChild('modalClose') modalClose: ElementRef;
@@ -54,7 +57,7 @@ export class AddPropertyComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   ngOnInit() {
-
+    // this.uploader = new FileUpload();
     // this.parameter.property_id = '49';
     this.parameter.sub = this.route.params.subscribe(params => {
       this.parameter.property_id = params['property_id'];
@@ -471,6 +474,7 @@ export class AddPropertyComponent implements OnInit {
   }
 
   onSelectFile1(event) { // called each time file input changes
+    // this.uploader.onSelectFile1(event);
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
 

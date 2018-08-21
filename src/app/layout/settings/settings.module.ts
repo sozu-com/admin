@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MomentModule } from 'angular2-moment';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { AgmCoreModule } from '@agm/core';
@@ -47,7 +46,6 @@ const routes: Routes = [
         // backdropBorderRadius: '4px',
         primaryColour: '#00B96F'
     }),
-    MomentModule,
     AgmCoreModule.forRoot({
         apiKey: 'AIzaSyCYv_zELZGVo2Ehzgp8eh8UeSIidhMCmH8',
         libraries: ['drawing']

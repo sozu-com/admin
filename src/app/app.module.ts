@@ -19,6 +19,7 @@ import { HttpInterceptor } from './services/http-interceptor';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { LoginComponent } from './login/login.component';
 import { CommonService } from './services/common.service';
+// import { ChatTimePipe } from './pipes/chat-time.pipe';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent},
@@ -33,7 +34,8 @@ const appRoutes: Routes = [
     AppComponent,
     ForgotPasswordComponent,
     LoginComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    // ChatTimePipe
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -48,7 +50,7 @@ const appRoutes: Routes = [
       // backdropBorderRadius: '4px',
       primaryColour: '#00B96F'
     }),
-    Ng2TelInputModule,
+    Ng2TelInputModule
     // ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [AdminService, CommonService, AuthGuard, HttpInterceptor],

@@ -67,24 +67,10 @@
              </table>
            </div>
         </div>
-        <div class="spacer30"></div>
-        <!-- <div *ngIf="conversation" class="white-bg">
-           <div class="chat-area scrollbox" style="height: 704px; width: 429px; padding-right: 17px; outline: none; overflow: hidden;" tabindex="0">
-             <div *ngFor="let m of conversation.messages" class="chat-user chat-user-one">
-                <p>{{m.message}}</p>
-                <span class="time">
-                2:05pm, May 01, 2014
-                </span>
-             </div>
-           </div><div style="position: absolute; z-index: 1; margin: 0px; padding: 0px; display: block; left: 472px; top: 413px;"><div class="enscroll-track track3" style="position: relative; height: 704px;"><a href="" class="handle3" style="position: absolute; z-index: 1; height: 581.709px; top: 0px;"><div class="top"></div><div class="bottom"></div></a></div></div>
-           <div class="chat-text">
-              <input class="chat-input" type="text" name="" placeholder="Type your message here …">
-              <button class="btn">Send</button>
-           </div>
-        </div> -->
 
-        <div *ngIf="parameter.messages && parameter.lead?.user">
-          <app-chat [messages]="parameter.messages" [admin_id]="parameter.admin_id" [conversation_id]="parameter.conversation_id" (sendMessage)="sendMessage"></app-chat>
+        <div class="spacer30"></div>
+        <div *ngIf="parameter.lead?.user">
+          <app-chat [lead_id]="parameter.lead_id" [user_id]="parameter.user_id" [admin_id]="parameter.admin_id"></app-chat>
         </div>
 
      </div>
@@ -219,7 +205,7 @@
   <div class="spacer15"></div>
   <div class="row" *ngIf="parameter.interested_properties?.length>0">
     <div class="col-lg-4 col-md-12 col-sm-12 col-12" *ngFor="let ip of parameter.interested_properties">
-      <app-interested-property [ip]="ip"></app-interested-property>
+      <app-interested-property [data]="ip"></app-interested-property>
     </div>
   </div>
   <div *ngIf="parameter.interested_properties?.length == 0">
@@ -280,7 +266,8 @@
               <h5>Morning Homes</h5>
               <p class="p12">Kaveri Nagar, Murugeshpalya, Mumbai East.</p>
               <p class="p13">1 RK, 1, 2 BHK Apartments</p>
-              <a class="delete-2" href="javascript://"><img src="assets/img/delete-green.png" alt="img"></a>
+              <!-- <a class="delete-2" href="javascript://"><img src="assets/img/delete-green.png" alt="img"></a> -->
+              <a class="btn btn-primary" href="javascript://" data-toggle="modal" data-target="#dealFinalise" #modalOpen>Add New</a>
            </div>
         </div>
      </div>

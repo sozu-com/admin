@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MomentModule } from 'angular2-moment';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { NgBoxModule } from 'ngbox/ngbox.module';
@@ -40,7 +39,6 @@ import { AddressComponent } from './inhouse-users/address/address.component';
             animationType: ANIMATION_TYPES.rectangleBounce,
             primaryColour: '#00B96F'
         }),
-        MomentModule,
         NgBoxModule,
         NgxMyDatePickerModule.forRoot(),
         MalihuScrollbarModule.forRoot(),

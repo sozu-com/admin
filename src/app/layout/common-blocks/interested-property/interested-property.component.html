@@ -8,6 +8,75 @@
     <h5>Morning Homes</h5>
     <p class="p12">Kaveri Nagar, Murugeshpalya, Mumbai East.</p>
     <p class="p13">1 RK, 1, 2 BHK Apartments</p>
-    <a class="delete-2" href="javascript://"><img src="assets/img/delete-green.png" alt="img"></a>
+    <!-- <a class="delete-2" href="javascript://"><img src="assets/img/delete-green.png" alt="img"></a> -->
+    <!-- <a class="btn btn-primary" href="javascript://" data-toggle="modal" data-target="#dealFinalise" #modalOpen>Add New</a> -->
+    <div class="dropdown threeDots">
+      <button type="button" class="dropdown-toggle" data-toggle="dropdown">
+        ...
+      </button>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" *ngIf="data.is_finalized" href="javascript://" data-toggle="modal" data-target="#dealFinalize">Deal Finalized</a>
+        <a class="dropdown-item" href="#">Remove Property</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- deal finalize modal -->
+<div class="modal animated" id="dealFinalize">
+  <div class="modal-dialog fadeIndown">
+    <div class="modal-content">
+      <div class="modal-header">
+          <button style="display: none;" type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
+          <button type="button" class="close" (click)="closeModal()">&times;</button>
+      </div>
+
+      <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="attachProperty(); addForm.reset()">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group-2">
+                  <label for="token_amount">Token Amount</label>
+                  <div class="form-group">
+                  <input id="token_amount" #token_amount=ngModel autocomplete="off" name="token_amount" [(ngModel)]="model.token_amount" type="number" class="form-control" required>
+                  <!-- <input id="token_amount" #token_amount=ngModel autocomplete="off" name="token_amount" [(ngModel)]="model.token_amount" type="number" class="form-control" required
+                  
+                  [ngClass]="{
+                    'has-error': token_amount.errors && (token_amount.dirty || token_amount.touched)
+                  }"> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group-2">
+                  <label>Commission</label>
+                  <div class="form-group">
+                    <input autocomplete="off" type="number" name="commision" [(ngModel)]="model.commision" class="form-control" required>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group-2">
+                  <label>Total Amount</label>
+                  <div class="form-group">
+                    <input autocomplete="off" name="total_amount" [(ngModel)]="model.total_amount" type="number" class="form-control" required>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="spacer40"></div>
+            </div>
+            <div class="col-12">
+              <div class="btn-cont text-right">
+                  <button style="width: 100%;" type="submit" class="btn btn-primary">Finalize Deal</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

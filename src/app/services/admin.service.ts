@@ -17,6 +17,9 @@ export class AdminService {
   public login = new BehaviorSubject({});
   loginData$ = this.login.asObservable();
 
+  public country = new BehaviorSubject({});
+  countryData$ = this.country.asObservable();
+
   constructor(public http: HttpInterceptor) { }
 
 // starting of general functions
@@ -66,6 +69,8 @@ export class AdminService {
     input.append('email', email);
     input.append('password', password);
 
+    const tt = this.getCountryLocality('getCountryLocality');
+
     return this.http.post(this.baseUrl + 'login', input, {headers: headers})
                 .map(response => {
                   const r = response.json();
@@ -76,6 +81,21 @@ export class AdminService {
                   return r;
                 })
                 .catch(this.errorHandler);
+  }
+
+  getCountryLocality(url) {
+    console.log('responseresponse');
+    const headers = this.getHeaders();
+    const input = new FormData();
+    return this.http.post(this.baseUrl + url, input, {headers: headers})
+          .map(response => {
+            console.log('succccccccccccccc');
+            const r = response.json();
+            console.log('country data', r);
+            this.country.next(r.data);
+            return r;
+          })
+          .catch(this.errorHandler);
   }
 
   logoutApi() {

@@ -99,4 +99,6 @@ export interface IProperty {
   socket?: any;
   socket_id?: any;
   connected?: any;
+  lead_id?: number;
+  user_id?: number;
 }

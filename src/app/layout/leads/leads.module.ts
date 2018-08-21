@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 
+import { ChatTimePipe } from './../../pipes/chat-time.pipe';
 import { LeadsComponent } from './leads.component';
 import { DataCollectorComponent } from './data-collector/data-collector.component';
 import { CsrSellerComponent } from './csr-seller/csr-seller.component';
@@ -55,7 +56,8 @@ const routes: Routes = [
     InhouseBrokerDetailComponent,
     CsrCloserDetailComponent,
     ChatComponent,
-    InterestedPropertyComponent
+    InterestedPropertyComponent,
+    ChatTimePipe
   ]
 })
 

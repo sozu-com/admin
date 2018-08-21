@@ -190,8 +190,9 @@
            </div>
         </div> -->
         
-        <div *ngIf="parameter.messages && parameter.lead?.user">
-          <app-chat [messages]="parameter.messages" [admin_id]="parameter.admin_id" [conversation_id]="parameter.conversation_id" (sendMessage)="sendMessage"></app-chat>
+        <div *ngIf="parameter.lead?.user">
+          <!-- <app-chat [messages]="parameter.messages" [admin_id]="parameter.admin_id" [conversation_id]="parameter.conversation_id" (sendMessage)="sendMessage"></app-chat> -->
+          <app-chat [lead_id]="parameter.lead_id" [user_id]="parameter.user_id" [admin_id]="parameter.admin_id"></app-chat>
         </div>
 
         <div class="spacer30"></div>
