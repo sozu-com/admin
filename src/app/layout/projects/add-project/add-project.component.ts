@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges, ViewChild, ElementRef, NgZone } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators,FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
 import { AdminService } from '../../../services/admin.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IProperty } from '../../../common/property';
@@ -14,7 +14,7 @@ declare let swal: any;
   selector: 'app-add-project',
   templateUrl: './add-project.component.html',
   styleUrls: ['./add-project.component.css'],
-  providers:[AddProjectModel, Constant]
+  providers: [AddProjectModel, Constant]
 })
 export class AddProjectComponent implements OnInit {
 
@@ -33,14 +33,13 @@ export class AddProjectComponent implements OnInit {
   public longitude: number;
   public zoom: number;
 
-  id:number;
+  id: number;
   url: any[];
   url2 = [];
   tab: number;
   selectedGuest;
   image1;
   image2;
-  image3;
   amenityList = [];
   amen = '';
   bankList = [];
@@ -48,49 +47,54 @@ export class AddProjectComponent implements OnInit {
   testMarital = [];
   imageEvent = [];
   showText = false;
-  all_possession_statuses:any=[];
-  all_building_types:any=[];
-  all_amenities:any=[];
-  all_configurations:any=[];
+  all_possession_statuses: any= [];
+  all_building_types: any= [];
+  all_amenities: any= [];
+  all_configurations: any= [];
 
-  selected_amenities:any=[]
-  new_config:any;
-  FU:any={};
+  selected_amenities: any= [];
+  new_config: any = new Configuration;
+  new_config_booleon = false;
+  FU: any= {};
   initialCountry = {initialCountry: 'mx'};
 
 
   constructor(
-    public model: AddProjectModel,
+    private model: AddProjectModel,
     private admin: AdminService,
     private route: ActivatedRoute,
     private router: Router,
-    private fb:FormBuilder,
+    private fb: FormBuilder,
     private sanitization: DomSanitizer,
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
     private constant: Constant
-  ){ }
+  ) { }
 
   ngOnInit() {
-    this.route.params.subscribe( params =>{
+    this.route.params.subscribe( params => {
         this.id = params.id;
-        if(this.id){/* if id exists edit mode */
-          this.admin.postDataApi('getProjectById',{building_id:this.id}).subscribe(r=>{
+        if (this.id) {/* if id exists edit mode */
+          this.admin.postDataApi('getProjectById', {building_id: this.id}).subscribe(r => {
             this.model = JSON.parse(JSON.stringify(r.data));
             console.log(this.model);
-            this.admin.postDataApi('getAmenities',{}).subscribe(res=>{
-              this.all_amenities = res.data.map(item=>{item.selected = false;return item;});
-              this.selected_amenities = this.all_amenities.map(item=>{
-                if(this.model.amenities.find(am=>am.id===item.id)){
+            this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.model.main_image})`);
+            this.image2 = this.sanitization.bypassSecurityTrustStyle(`url(${this.model.images[0].image})`);
+            this.model.custom_attributes = this.model.custom_values;
+            this.FU.dev_logo = this.model.developer.developer_image;
+            this.admin.postDataApi('getAmenities', {}).subscribe(res => {
+              this.all_amenities = res.data.map(item => {item.selected = false; return item; });
+              this.selected_amenities = this.all_amenities.map(item => {
+                if (this.model.amenities.find(am => am.id === item.id)) {
                   item.selected = true;
                 }
                 return item;
               });
             });
           });
-        }else{
-          this.admin.postDataApi('getAmenities',{}).subscribe(res=>{
-            this.all_amenities = res.data.map(item=>{item.selected = false;return item;});
+        }else {
+          this.admin.postDataApi('getAmenities', {}).subscribe(res => {
+            this.all_amenities = res.data.map(item => {item.selected = false; return item; });
           });
           this.model.dev_countrycode = 'mx';
           this.model.dev_dialcode = '+52';
@@ -100,16 +104,15 @@ export class AddProjectComponent implements OnInit {
     this.zoom = 4;
     this.setCurrentPosition();
     this.initForm();
-    this.admin.postDataApi('getPossessionStatuses',{}).subscribe(r=>{
+    this.admin.postDataApi('getPossessionStatuses', {}).subscribe(r => {
       this.all_possession_statuses = r.data;
     });
-    this.admin.postDataApi('getBuildingTypes',{}).subscribe(r=>{
+    this.admin.postDataApi('getBuildingTypes', {}).subscribe(r => {
       this.all_building_types = r.data;
     });
 
-    this.admin.postDataApi('getConfigurations',{}).subscribe(r=>{
+    this.admin.postDataApi('getConfigurations', {}).subscribe(r => {
       this.all_configurations = r.data;
-      //console.log(this.all_amenities);
     });
 
   }
@@ -183,9 +186,9 @@ export class AddProjectComponent implements OnInit {
     console.log('----------', this.url2, this.imageEvent);
   }
 
-  removeImageMulti(index){
+  removeImageMulti(index) {
+    this.new_config.images_path.splice(index, 1);
     this.new_config.images.splice(index, 1);
-    this.new_config.other_images.splice(index, 1);
   }
 
   saveImages() {
@@ -210,12 +213,12 @@ export class AddProjectComponent implements OnInit {
     }
   }
 
-  fileUploader(event, key='0',model) { // called each time file input changes
+  fileUploader(event, key= 0, model) { // called each time file input changes
+    this.parameter.loading = true;
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
           this.url = e.target.result;
-          this.image3 = this.sanitization.bypassSecurityTrustStyle(`url(${this.url})`);
       };
       const input = new FormData();
       input.append('image', event.target.files[0]);
@@ -242,14 +245,14 @@ export class AddProjectComponent implements OnInit {
   fileUploaderMulti(event) { // called each time file input changes
     if (event.target.files && event.target.files[0]) {
 
-      if (this.new_config.images === 6 || event.target.files.length > 6) {
+      if (this.new_config.images_path === 6 || event.target.files.length > 6) {
         swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
       }else {
         for (let index = 0; index < event.target.files.length; index++) {
           const reader = new FileReader();
           reader.onload = (e: any) => {
             this.new_config.images_files.push(event.target.files[index]);
-            this.new_config.images.push(e.target.result);
+            this.new_config.images_path.push(e.target.result);
 
           };
           reader.readAsDataURL(event.target.files[index]);
@@ -260,7 +263,7 @@ export class AddProjectComponent implements OnInit {
 
 
   saveImagesConfig() {
-    this.new_config.other_images = [];
+    this.new_config.images = [];
     const input = new FormData();
     for (let index = 0; index < this.new_config.images_files.length; index++) {
       input.append('image', this.new_config.images_files[index]);
@@ -269,7 +272,7 @@ export class AddProjectComponent implements OnInit {
       .subscribe(
         success => {
           console.log(success.data.image);
-          this.new_config.other_images.push(success.data.image);
+          this.new_config.images.push(success.data.image);
           this.parameter.loading = false;
         },
         error => {
@@ -280,13 +283,13 @@ export class AddProjectComponent implements OnInit {
     }
 
     delete this.new_config.images_files;
-    delete this.new_config.images;
-    this.model.configurations.push(this.new_config);
+    delete this.new_config.images_path;
+    // this.model.configurations.push(this.new_config);
 
   }
 
   loadPlaces() {
-    //console.log('--', this.searchElementRef.nativeElement);
+    // console.log('--', this.searchElementRef.nativeElement);
     // load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
       const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
@@ -309,12 +312,12 @@ export class AddProjectComponent implements OnInit {
           console.log(place);
           this.model.lat = this.latitude;
           this.model.lng = this.longitude;
-          if(place.formatted_address){
+          if (place.formatted_address) {
             this.model.address = place.formatted_address;
           }
           this.zoom = 16;
 
-          //console.log('----------', this.latitude, this.longitude, this.zoom);
+          // console.log('----------', this.latitude, this.longitude, this.zoom);
         });
       });
     });
@@ -358,94 +361,118 @@ export class AddProjectComponent implements OnInit {
     }
   }
 
-  formValidate(){
+  formValidate() {
     return true;
   }
 
-  initForm(){
+  initForm() {
     this.myform = new FormGroup({
-      name: new FormControl('',[
+      name: new FormControl('', [
         Validators.required
       ]),
-      address: new FormControl('',[
+      address: new FormControl('', [
         Validators.required
       ]),
-      building_age: new FormControl('',[
+      building_age: new FormControl('', [
         Validators.required
       ]),
-      building_type: new FormControl('',[
+      building_type: new FormControl('', [
         Validators.required
       ]),
-      floors: new FormControl('',[
+      floors: new FormControl('', [
         Validators.required
       ]),
-      avg_price: new FormControl('',[
+      avg_price: new FormControl('', [
         Validators.required
       ]),
-      description: new FormControl('',[
+      description: new FormControl('', [
         Validators.required
       ]),
-      possession_status_id: new FormControl('',[
+      possession_status_id: new FormControl('', [
         Validators.required
       ])
     });
 
     this.myform2 = new FormGroup({
-      name: new FormControl('',[
+      name: new FormControl('', [
         Validators.required
       ]),
-      address: new FormControl('',[
+      address: new FormControl('', [
         Validators.required
       ])
     });
   }
 
-  openConfigPopupFun(){
+  openConfigPopupFun() {
     this.openConfigPopup.nativeElement.click();
     this.new_config = new Configuration;
+    this.new_config_booleon = true;
   }
 
-  selectConfiguration(id,parentModel){
-    let childModel = this.all_configurations.filter(r=>r.id == id);
+  selectConfiguration(id, parentModel) {
+    const childModel = this.all_configurations.filter(r => r.id === id);
     parentModel.config = childModel[0];
     console.log(parentModel);
   }
 
-  addNewConfig(){
+  editConfiguration(config) {
+    // console.log(this.new_config);
+    console.log(config);
+    this.new_config = config;
+    // this.new_config.images = [];
+    this.new_config.images_files = [];
+    this.new_config.images_path = [];
+    // for(let key in config){
+    //   this.new_config[key] = config[key];
+    // }
+    this.openConfigPopup.nativeElement.click();
+  }
+
+  deleteConfiguration(index) {
+    this.model.configurations.splice(index, 1);
+  }
+
+  addNewConfig() {
     this.closeConfigPopup.nativeElement.click();
     this.saveImagesConfig();
     console.log(this.new_config);
-    //this.model.configurations.push(this.new_config);
-    //this.new_config = new Configuration;
-
+    // this.model.configurations.push(this.new_config);
+    // this.new_config = new Configuration;
+    if (this.new_config_booleon === true) {
+      this.model.configurations.push(this.new_config);
+      this.new_config_booleon = false;
+    }
   }
 
-  onCountryChange(obj){
+  onCountryChange(obj) {
     this.model.dev_countrycode = obj.iso2;
-    this.model.dev_dialcode = "+"+obj.dialCode;
+    this.model.dev_dialcode = '+' + obj.dialCode;
   }
 
-  addProject(){
+  addProject() {
 
     this.model.dev_name = this.model.developer.name;
     this.model.dev_email = this.model.developer.email;
     this.model.dev_phone = this.model.developer.phone;
-    //this.model.dev_logo = this.model.developer.logo;
-    //this.model.dev_countrycode = this.model.developer.name;
+    // this.model.dev_logo = this.model.developer.logo;
+    // this.model.dev_countrycode = this.model.developer.name;
 
-    this.model.amenities = this.all_amenities.filter(op=>{ if(op.selected == true){ return op; }}).map(op=>{ return op.id;});
+    this.model.amenities = this.all_amenities.filter(op => { if (op.selected === true) { return op; }}).map(op => op.id);
     console.log(this.model);
 
-    if(!this.id){
+    if (!this.id) {
       delete this.model.id;
     }
-    //console.log(this.model);
+    // console.log(this.model);
+
     this.admin.postDataApi('addProject', this.model).subscribe(
-      success=>{
+      success => {
         console.log(success);
+        swal('Success', success.message, 'success');
       },
-      error=>{
+      error => {
         console.log(error);
+        swal('Error', error.message, 'error');
       }
     );
   }

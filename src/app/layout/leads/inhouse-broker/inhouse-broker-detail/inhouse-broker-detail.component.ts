@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute} from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AdminService } from '../../../../services/admin.service';
 import { IProperty } from '../../../../common/property';
 import * as io from 'socket.io-client';
@@ -7,6 +7,7 @@ import { Constant } from './../../../../common/constants';
 import { DealFinalize } from './../../../../models/leads.model';
 
 declare let swal: any;
+const SERVER_URL = 'http://kanguroo.com.mx/api:8080';
 
 @Component({
   selector: 'app-inhouse-broker-detail',
@@ -60,7 +61,7 @@ export class InhouseBrokerDetailComponent implements OnInit {
         // }
       });
   });
-  }
+
 
   // sendMessage() {
   //   if (this.parameter.message) {
@@ -109,4 +110,5 @@ export class InhouseBrokerDetailComponent implements OnInit {
   //     $('.chat-area').mCustomScrollbar('scrollTo', 'bottom');
   //   }, 200);
   // }
+  }
 }

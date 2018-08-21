@@ -12,16 +12,16 @@ export class AddProjectModel {
     name = '';
     for_rent = false;
     for_sale = true;
-    floors:any='';
+    floors: any = '';
     address = '';
-    avg_price='';
+    avg_price = '';
     cover_image: File;
     images = [];
-    building_images:any = [];
+    building_images: any = [];
     description = '';
     amenities = [];
-    lat:any = '';
-    lng:any = '';
+    lat: any = '';
+    lng: any = '';
     custom_attributes = [
         {
             name: '',
@@ -36,51 +36,53 @@ export class AddProjectModel {
     ];
     configurations = [];
     developer = {
-      name:'',
-      email:'',
-      country_code:'',
-      dial_code:'',
-      phone:'',
-      logo:'',
+      name: '',
+      email: '',
+      country_code: '',
+      dial_code: '',
+      phone: '',
+      logo: '',
+      developer_image: ''
     };
-    developer_id:any;
-    dev_countrycode:any='';
-    dev_dialcode:any='';
-    dev_email:any='';
-    dev_phone:any='';
-    dev_name:any='';
-    dev_logo:any='';
+    developer_id: any;
+    dev_countrycode: any = '';
+    dev_dialcode: any = '';
+    dev_email: any = '';
+    dev_phone: any = '';
+    dev_name: any = '';
+    dev_logo: any = '';
 
     building_age = '';
     building_type = '';
-    building_type_id:any ='';
-    possession_status_id:any='';
-    launch_date:any='';
-
+    building_type_id: any = '';
+    possession_status_id: any = '';
+    launch_date: any= '';
+    main_image: any= '';
 }
 
 
 export class Configuration {
-  base_price:any='';
-  building_id:any='';
-  carpet_area:any='';
-  config:any={
-      created_at:'',
-      created_by:'',
-      id:'',
-      name:'',
-      name_en:'',
-      name_es:'',
-      status:'',
-      updated_at:''
+  base_price: any= '';
+  building_id: any= '';
+  carpet_area: any= '';
+  config: any= {
+      created_at: '',
+      created_by: '',
+      id: '',
+      name: '',
+      name_en: '',
+      name_es: '',
+      status: '',
+      updated_at: ''
   };
-  configuration_id:any='';
-  created_at:any='';
-  created_by:any='';
-  floor_map_image:any='';
-  id:any='';
-  other_images:any=[];
-  images_files:any=[];
-  images:any=[];
-  updated_at:any='';
+  configuration_id: any= '';
+  created_at: any= '';
+  created_by: any= '';
+  floor_map_image: any= '';
+  id: any= '';
+  other_images: any= [];
+  images_files: any= [];
+  images_path: any= [];
+  images: any= [];
+  updated_at: any= '';
 }
