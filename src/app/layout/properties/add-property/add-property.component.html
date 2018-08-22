@@ -52,6 +52,8 @@
       <div class="form-group-3">
         <label>This Property is available for?</label>
         <div class="clearfix"></div>
+        {{model.for_rent|json}}
+        {{model.for_sale|json}}
         <label class="cust-radio">
           <input [(ngModel)]="model.for_sale" name="for_sale" type="checkbox" [checked]="model.for_sale == 1 ? 'checked': ''">
           <span class="checkmark">Buy</span>
@@ -194,8 +196,9 @@
         <label>Add Images of your Property</label>
           <div class="row">
             <div class="col-md-7 col-sm-12 col-12">
-              <div class="upload-cover-img" [style.background-image]="image1">
-                <!-- <img *ngIf="url" [src]="url" height="200"> -->
+              <!-- <div class="upload-cover-img" [style.background-image]="image1"> -->
+              <div class="upload-cover-img">
+                <img *ngIf="model.cover_image" [src]="model.cover_image" class="floor-plan">
                 <div class="upload-caption">
                   <div class="fig-block"> 
                     <img src="assets/img/placeholder-img.png" alt="img">
@@ -203,18 +206,21 @@
                   <p class="green-color marginT30">+Upload Cover image for the project</p>
                   <p>JPG or PNG. Image size should be 1920 × 1080 pixels (for HiDPI displays).</p>
                 </div>  
-                <input required type="file" name="" accept="image/*" (change)="onSelectFile1($event)">
+                <input type="file" name="" accept="image/*" (change)="onSelectFile('cover_image', $event)">
               </div>
             </div>
             <div class="col-md-5 col-sm-12 col-12">
-              <div class="upload-cover-img upload-cover-small" [style.background-image]="image3">
-                <input required type="file" name="" accept="image/*" (change)="onSelectFile3($event)">
+              <!-- <div class="upload-cover-img upload-cover-small" [style.background-image]="image3"> -->
+              <div class="upload-cover-img upload-cover-small">
+                <img *ngIf="model.floor_plan" [src]="model.floor_plan" class="floor-plan">
+                <input type="file" name="" accept="image/*" (change)="onSelectFile('floor_plan', $event)">
                 <div class="upload-caption">
                   <p class="green-color marginT30">+ Add Floor plan</p>
                 </div> 
               </div>
 
-              <div class="upload-cover-img upload-cover-small" [style.background-image]="image2">
+              <div class="upload-cover-img upload-cover-small">
+                  <!-- <div class="upload-cover-img upload-cover-small" [style.background-image]="image2"> -->
                 <!-- <input type="file" name="" accept="image/*" (change)="onSelectFile2($event)"> -->
                 <div class="upload-caption">
                   <!-- <p class="green-color marginT30">+ Add more image</p> -->

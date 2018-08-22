@@ -30,32 +30,18 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
     setTimeout(() => {
-      // console.log('----', this.lead_id, this.admin_id, this.user_id);
-      // this.getMessages();
-      this.parameter.loading = true;
-      this.admin.postDataApi('conversation/getMessages',
-      {lead_id: this.lead_id, user_id: this.user_id}).subscribe(res => {
-        console.log('getMessages', res);
-        this.parameter.messages = res.data[0].messages;
-        this.parameter.conversation_id = res.data[0].id;
-        // this.parameter.conversation_id = 3;
-        this.parameter.loading = false;
-        this.scrollToBottom();
-      });
+      this.getMessages();
       this.initSocket();
     }, 1000);
-    // this.parameter.conversation_id = 3;
-    // this.getMessages();
-    // this.initSocket();
   }
 
   getMessages() {
     this.parameter.loading = true;
     this.admin.postDataApi('conversation/getMessages',
     {lead_id: this.lead_id, user_id: this.user_id}).subscribe(res => {
+      console.log('getMessages', res);
       this.parameter.messages = res.data[0].messages;
       this.parameter.conversation_id = res.data[0].id;
-      // this.parameter.conversation_id = 3;
       this.parameter.loading = false;
       this.scrollToBottom();
     });

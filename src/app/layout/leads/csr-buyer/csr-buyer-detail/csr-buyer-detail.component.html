@@ -176,7 +176,7 @@
           User is not registered.
         </div>
 
-        <div *ngIf="parameter.lead_id">
+        <div *ngIf="parameter.lead?.user">
           <app-chat [lead_id]="parameter.lead_id" [user_id]="parameter.user_id" [admin_id]="parameter.admin_id"></app-chat>
         </div>
 
