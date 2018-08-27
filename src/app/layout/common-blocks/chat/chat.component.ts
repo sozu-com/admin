@@ -4,6 +4,7 @@ import { IProperty } from './../../../common/property';
 import * as io from 'socket.io-client';
 import { Constant } from './../../../common/constants';
 declare let swal: any;
+// import * as $ from 'jquery';
 
 @Component({
   selector: 'app-chat',

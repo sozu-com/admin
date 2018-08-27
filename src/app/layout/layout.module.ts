@@ -4,8 +4,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
-import { NgBoxModule } from 'ngbox/ngbox.module';
-import { NgBoxService } from 'ngbox/ngbox.service';
+// import { NgBoxModule } from 'ngbox/ngbox.module';
+// import { NgBoxService } from 'ngbox/ngbox.service';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -39,7 +39,7 @@ import { AddressComponent } from './inhouse-users/address/address.component';
             animationType: ANIMATION_TYPES.rectangleBounce,
             primaryColour: '#00B96F'
         }),
-        NgBoxModule,
+        // NgBoxModule,
         NgxMyDatePickerModule.forRoot(),
         MalihuScrollbarModule.forRoot(),
         AgmCoreModule.forRoot({
@@ -62,6 +62,6 @@ import { AddressComponent } from './inhouse-users/address/address.component';
         // ChatComponent
     ],
     bootstrap: [LayoutComponent],
-    providers: [NgBoxService],
+    // providers: [NgBoxService],
 })
 export class LayoutModule { }

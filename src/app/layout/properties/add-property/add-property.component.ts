@@ -11,6 +11,8 @@ import { Constant } from './../../../common/constants';
 import { FileUpload } from './../../../common/fileUpload';
 declare const google;
 declare let swal: any;
+import { EN } from './../../../locale/en';
+import { ES } from './../../../locale/es';
 
 @Component({
   selector: 'app-add-property',
@@ -32,6 +34,8 @@ export class AddPropertyComponent implements OnInit {
   public longitude: number;
   public searchControl: FormControl;
   public zoom: number;
+
+  name: string;
 
   url: File;
   url2 = [];
