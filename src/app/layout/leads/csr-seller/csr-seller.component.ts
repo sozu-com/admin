@@ -38,7 +38,7 @@ export class CsrSellerComponent implements OnInit {
     this.getListing();
   }
   getListing() {
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
     this.parameter.url = 'leads/csr-buyer';
 
     const input = new FormData();
@@ -62,19 +62,20 @@ export class CsrSellerComponent implements OnInit {
       .subscribe(
         success => {
           console.log(success);
-          this.parameter.loading = false;
+          // this.parameter.loading = false;
           this.items = success.data;
           this.parameter.total = success.total;
-        },
-        error => {
-          this.parameter.loading = false;
-          if (error.statusCode === 401) {
-            swal('Error', error.message, 'error');
-            this.router.navigate(['']);
-          }else {
-            swal('Error', error.message, 'error');
-          }
-        });
+        }
+        // error => {
+        //   this.parameter.loading = false;
+        //   if (error.statusCode === 401) {
+        //     swal('Error', error.message, 'error');
+        //     this.router.navigate(['']);
+        //   }else {
+        //     swal('Error', error.message, 'error');
+        //   }
+        // }
+      );
   }
 
 }

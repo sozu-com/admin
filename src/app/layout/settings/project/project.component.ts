@@ -76,7 +76,7 @@ export class ProjectComponent implements OnInit {
 
     if (type !== 'add') {this.modalRef.hide(); }
 
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
     this.parameter.url = 'addPossessionStatus';
 
     const input = new FormData();
@@ -90,7 +90,7 @@ export class ProjectComponent implements OnInit {
       .subscribe(
         success => {
           console.log('addPossessionStatus', success);
-          this.parameter.loading = false;
+          // this.parameter.loading = false;
           const text = id ?
           this.constant.successMsg.PROJECT_POSSESSION_UPDATED_SUCCESSFULLY :
           this.constant.successMsg.PROJECT_POSSESSION_ADDED_SUCCESSFULLY;
@@ -98,18 +98,19 @@ export class ProjectComponent implements OnInit {
           this.project.possession.name_en = '';
           this.project.possession.name_es = '';
           this.getPossessionStatuses();
-        },
-        error => {
-          this.parameter.loading = false;
-          swal('Error', error.message, 'error');
-          this.router.navigate(['']);
-        });
+        }
+        // error => {
+        //   this.parameter.loading = false;
+        //   swal('Error', error.message, 'error');
+        //   this.router.navigate(['']);
+        // }
+      );
   }
 
   addBuildingType(id, name_en, name_es, status, type) {
     if (type !== 'add') {this.modalRef.hide(); }
 
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
     this.parameter.url = 'addBuildingType';
 
     const input = new FormData();
@@ -123,7 +124,7 @@ export class ProjectComponent implements OnInit {
       .subscribe(
         success => {
           console.log('addBuildingType', success);
-          this.parameter.loading = false;
+          // this.parameter.loading = false;
           const text = id ?
             this.constant.successMsg.PROJECT_TYPE_UPDATED_SUCCESSFULLY :
             this.constant.successMsg.PROJECT_TYPE_ADDED_SUCCESSFULLY;
@@ -131,12 +132,13 @@ export class ProjectComponent implements OnInit {
             this.project.type.name_es = '';
           swal('Success', text, 'success');
           this.getBuildingTypes();
-        },
-        error => {
-          this.parameter.loading = false;
-          swal('Error', error.message, 'error');
-          this.router.navigate(['']);
-        });
+        }
+        // error => {
+        //   this.parameter.loading = false;
+        //   swal('Error', error.message, 'error');
+        //   this.router.navigate(['']);
+        // }
+      );
   }
 
 
@@ -147,7 +149,7 @@ export class ProjectComponent implements OnInit {
     // const iconNew = this.icon ? this.icon : this.project.amenities.icon;
     const iconNew = this.icon ? this.icon : this.amenityModel.icon;
 
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
     this.parameter.url = 'addAmenity';
 
     const input = new FormData();
@@ -164,7 +166,7 @@ export class ProjectComponent implements OnInit {
       .subscribe(
         success => {
           console.log('addAmenity', success);
-          this.parameter.loading = false;
+          // this.parameter.loading = false;
           const text = id ? this.constant.successMsg.AMENITY_UPDATED_SUCCESSFULLY : this.constant.successMsg.AMENITY_ADDED_SUCCESSFULLY;
           swal('Success', text, 'success');
           // this.project.amenities.name_en = '';
@@ -172,83 +174,87 @@ export class ProjectComponent implements OnInit {
           // this.project.amenities.icon = '';
           this.amenityModel = new Amenities;
           this.getAmenities();
-        },
-        error => {
-          this.parameter.loading = false;
-          swal('Error', error.message, 'error');
-          this.router.navigate(['']);
-        });
+        }
+        // error => {
+        //   this.parameter.loading = false;
+        //   swal('Error', error.message, 'error');
+        //   this.router.navigate(['']);
+        // }
+      );
   }
 
 
   getPossessionStatuses() {
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
     this.parameter.url = 'getPossessionStatuses';
     const input = new FormData();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
           console.log('getPossessionStatuses', success);
-          this.parameter.loading = false;
+          // this.parameter.loading = false;
           this.parameter.items = success.data;
           this.parameter.total = success.data.length;
-        },
-        error => {
-          console.log(error);
-          this.parameter.loading = false;
-          if (error.statusCode === 401) {
-            this.router.navigate(['']);
-          }else {
-            swal('Error', error.message, 'error');
-          }
-        });
+        }
+        // error => {
+        //   console.log(error);
+        //   this.parameter.loading = false;
+        //   if (error.statusCode === 401) {
+        //     this.router.navigate(['']);
+        //   }else {
+        //     swal('Error', error.message, 'error');
+        //   }
+        // }
+      );
   }
 
 
   getBuildingTypes() {
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
     this.parameter.url = 'getBuildingTypes';
     const input = new FormData();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
           console.log('getBuildingTypes', success);
-          this.parameter.loading = false;
+          // this.parameter.loading = false;
           this.parameter.projectTypes = success.data;
           this.parameter.projectTypesCount = success.data.length;
-        },
-        error => {
-          console.log(error);
-          this.parameter.loading = false;
-          if (error.statusCode === 401) {
-            this.router.navigate(['']);
-          }else {
-            swal('Error', error.message, 'error');
-          }
-        });
+        }
+        // error => {
+        //   console.log(error);
+        //   this.parameter.loading = false;
+        //   if (error.statusCode === 401) {
+        //     this.router.navigate(['']);
+        //   }else {
+        //     swal('Error', error.message, 'error');
+        //   }
+        // }
+      );
   }
 
   getAmenities() {
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
     this.parameter.url = 'getAmenities';
     const input = new FormData();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
           console.log('getAmenities', success);
-          this.parameter.loading = false;
+          // this.parameter.loading = false;
           this.parameter.amenities = success.data;
           this.parameter.amenitiesCount = success.data.length;
-        },
-        error => {
-          console.log(error);
-          this.parameter.loading = false;
-          if (error.statusCode === 401) {
-            this.router.navigate(['']);
-          }else {
-            swal('Error', error.message, 'error');
-          }
-        });
+        }
+        // error => {
+        //   console.log(error);
+        //   this.parameter.loading = false;
+        //   if (error.statusCode === 401) {
+        //     this.router.navigate(['']);
+        //   }else {
+        //     swal('Error', error.message, 'error');
+        //   }
+        // }
+      );
   }
 
   addPossessionStatusPopup(id, name_en, name_es, status, type) {

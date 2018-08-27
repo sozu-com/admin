@@ -19,6 +19,7 @@ import { HttpInterceptor } from './services/http-interceptor';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { LoginComponent } from './login/login.component';
 import { CommonService } from './services/common.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 // import { ChatTimePipe } from './pipes/chat-time.pipe';
 
 const appRoutes: Routes = [
@@ -54,6 +55,13 @@ const appRoutes: Routes = [
     // ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [AdminService, CommonService, AuthGuard, HttpInterceptor],
+  // providers: [AdminService, CommonService, AuthGuard,
+  //   {
+  //     provide: HTTP_INTERCEPTORS,
+  //     useClass: HttpInterceptor,
+  //     multi: true
+  //   }
+  // ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

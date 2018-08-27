@@ -14,7 +14,8 @@
       </div>
   </div>
 
-  <ngx-loading [show]="parameter.loading"></ngx-loading>
+  <!-- <ngx-loading [show]="cs.loader"></ngx-loading> -->
+  <!-- <ngx-loading [show]="cs.loader"></ngx-loading> -->
 
   <div class="cust-tabs">
     <div class="row flex-wrap-reverse">
@@ -138,8 +139,8 @@
             </div>
             <div class="col-6">
               <div class="btn-cont text-right">
-                  <button *ngIf="model.id==''" type="submit" [disabled]="addForm.invalid" class="btn btn-primary">ADD</button>
-                  <button *ngIf="model.id!=''" type="submit" [disabled]="addForm.invalid" class="btn btn-primary">UPDATE</button>
+                  <button *ngIf="model.id==''" type="submit" class="btn btn-primary">ADD</button>
+                  <button *ngIf="model.id!=''" type="submit" [disabled]="!addForm.valid" class="btn btn-primary">UPDATE</button>
               </div>
             </div>
             <div class="col-12">
@@ -149,7 +150,7 @@
               <div class="form-group-2">
                   <label>Name</label>
                   <div class="form-group">
-                  <input autocomplete="off" type="text" class="form-control" required [(ngModel)]="model.name" name="name">
+                  <input autocomplete="off" required type="text" class="form-control" [(ngModel)]="model.name" name="name">
                 </div>
               </div>
             </div>
@@ -166,7 +167,7 @@
               <div class="form-group-2">
                   <label>Email ID</label>
                   <div class="form-group">
-                  <input autocomplete="off" [pattern]="constant.emailPattern" type="email" class="form-control" required [(ngModel)]="model.email" name="email">
+                  <input autocomplete="off" required [pattern]="constant.emailPattern" type="email" class="form-control" [(ngModel)]="model.email" name="email">
                 </div>
               </div>
             </div>

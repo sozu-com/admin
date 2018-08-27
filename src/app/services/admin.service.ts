@@ -7,6 +7,7 @@ import 'rxjs/add/observable/throw';
 import { environment } from '../../environments/environment';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { HttpInterceptor } from './http-interceptor';
+import { CommonService } from './common.service';
 
 @Injectable()
 export class AdminService {
@@ -52,7 +53,9 @@ export class AdminService {
   }
 
   errorHandler(error: Response) {
-    return Observable.throw(error.json() || 'Server error');
+    console.log('error handler');
+    return Observable.throw(error || 'Server error');
+    // return Observable.throw(error.json() || 'Server error');
   }
 
   getCountries() {
@@ -76,8 +79,6 @@ export class AdminService {
                 .map(response => {
                   const r = response.json();
                   localStorage.setItem('token', r.data.token);
-                  // localStorage.setItem('admin_id', r.data.id);
-                  console.log('login data', r);
                   this.login.next(r.data);
                   return r;
                 })
@@ -85,14 +86,11 @@ export class AdminService {
   }
 
   getCountryLocality(url) {
-    console.log('responseresponse');
     const headers = this.getHeaders();
     const input = new FormData();
     return this.http.post(this.baseUrl + url, input, {headers: headers})
           .map(response => {
-            console.log('succccccccccccccc');
             const r = response.json();
-            console.log('country data', r);
             this.country.next(r.data);
             return r;
           })
@@ -102,35 +100,54 @@ export class AdminService {
   logoutApi() {
     const headers = this.getHeaders();
     return this.http.put(this.baseUrl + 'logout', {headers: headers})
-              .map(response => {response.json(); })
+              // .map(response => {response.json(); })
+              .map((res: Response) => {
+                this.http.loader.next({value: false});
+                return res.json();
+              })
               .catch(this.errorHandler);
   }
 
   getDataApi(url) {
     const headers = this.getHeaders();
     return this.http.get(this.baseUrl + url, {headers: headers})
-              .map(response => response.json())
+              // .map(response => response.json())
+              .map((res: Response) => {
+                this.http.loader.next({value: false});
+                return res.json();
+              })
               .catch(this.errorHandler);
   }
 
   putDataApi(url, input) {
     const headers = this.getHeadersForMultipart();
     return this.http.put(this.baseUrl + url, input, {headers: headers})
-          .map(response => response.json())
+          // .map(response => response.json())
+          .map((res: Response) => {
+            this.http.loader.next({value: false});
+            return res.json();
+          })
           .catch(this.errorHandler);
   }
 
   postDataApi(url, input) {
     const headers = this.getHeadersForMultipart();
     return this.http.post(this.baseUrl + url, input, {headers: headers})
-            .map((res: Response) => res.json())
+          .map((res: Response) => {
+            this.http.loader.next({value: false});
+            return res.json();
+          })
           .catch(this.errorHandler);
   }
 
   deleteDataApi(url) {
     const headers = this.getHeaders();
     return this.http.delete(this.baseUrl + url, {headers: headers})
-          .map(response => response.json())
+          // .map(response => response.json())
+          .map((res: Response) => {
+            this.http.loader.next({value: false});
+            return res.json();
+          })
           .catch(this.errorHandler);
   }
 }

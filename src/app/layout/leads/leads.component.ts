@@ -64,15 +64,16 @@ export class LeadsComponent implements OnInit {
           this.parameter.loading = false;
           this.items = success.data;
           this.parameter.total = success.total;
-        },
-        error => {
-          this.parameter.loading = false;
-          if (error.statusCode === 401) {
-            swal('Error', error.message, 'error');
-            this.router.navigate(['']);
-          }else {
-            swal('Error', error.message, 'error');
-          }
-        });
+        }
+        // error => {
+        //   this.parameter.loading = false;
+        //   if (error.statusCode === 401) {
+        //     swal('Error', error.message, 'error');
+        //     this.router.navigate(['']);
+        //   }else {
+        //     swal('Error', error.message, 'error');
+        //   }
+        // }
+      );
   }
 }

@@ -29,7 +29,7 @@ export class ChangePasswordComponent implements OnInit {
 
   changePassword(formData: NgForm) {
 
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
     this.parameter.url = 'changePassword';
 
     const input = new FormData();
@@ -39,7 +39,7 @@ export class ChangePasswordComponent implements OnInit {
     this.admin.putDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          // this.parameter.loading = false;
           swal('Success', 'Password is changed successfully!', 'success');
           // this.swal.success({
           //   title: 'Success',
@@ -55,7 +55,7 @@ export class ChangePasswordComponent implements OnInit {
           this.router.navigate(['']);
         },
         error => {
-          this.parameter.loading = false;
+          // this.parameter.loading = false;
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           }else {

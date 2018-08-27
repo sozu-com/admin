@@ -59,10 +59,11 @@ export class CsrCloserDetailComponent implements OnInit {
       console.log(r);
       this.lead = r.data;
       console.log(this.lead);
-    },
-    error => {
-      swal('Error', error.message, 'error');
-    });
+    }
+    // error => {
+    //   swal('Error', error.message, 'error');
+    // }
+  );
   }
 
   blockThisLead() {

@@ -8,7 +8,6 @@ declare let swal: any;
 @Injectable()
 export class CommonService {
 
-
   public country = new BehaviorSubject({});
   countryData$ = this.country.asObservable();
 

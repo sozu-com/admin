@@ -36,10 +36,10 @@ export class InhouseBrokerDetailComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe( params => {
       this.parameter.id = params.id;
-      this.parameter.loading = true;
+      // this.parameter.loading = true;
       this.admin.postDataApi('leads/details', {lead_id: this.parameter.id}).subscribe(r => {
         // console.log(r);
-        this.parameter.loading = false;
+        // this.parameter.loading = false;
         this.parameter.lead = r.data.lead;
         this.parameter.interested_properties = r.data.interested_properties;
         console.log('leads/details', r);

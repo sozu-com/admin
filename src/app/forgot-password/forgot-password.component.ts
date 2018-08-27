@@ -34,10 +34,6 @@ export class ForgotPasswordComponent implements OnInit {
           swal('Success', success.message, 'success');
           formData.reset();
           this.router.navigate(['']);
-        },
-        error => {
-          this.parameter.loading = false;
-          swal('Error', error.message, 'error');
         });
   }
 }

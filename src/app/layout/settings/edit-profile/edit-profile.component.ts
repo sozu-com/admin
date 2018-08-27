@@ -51,7 +51,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   updateProfile(formData: NgForm) {
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
     this.parameter.url = 'updateProfile';
 
     const input = new FormData();
@@ -64,7 +64,7 @@ export class EditProfileComponent implements OnInit {
       .subscribe(
         success => {
           console.log('succccc', success);
-          this.parameter.loading = false;
+          // this.parameter.loading = false;
           this.admin.login.next(success.data);
           swal('Error', success.message, 'error');
 
@@ -72,15 +72,16 @@ export class EditProfileComponent implements OnInit {
           //   title: 'Success',
           //   text: 'Details updated successfully!'
           // });
-        },
-        error => {
-          this.parameter.loading = false;
-          if (error.statusCode === 401) {
-            this.router.navigate(['']);
-          }else {
-            swal('Error', error.message, 'error');
-            // this.swal.warning({ text: error.message });
-          }
-        });
+        }
+        // error => {
+        //   this.parameter.loading = false;
+        //   if (error.statusCode === 401) {
+        //     this.router.navigate(['']);
+        //   }else {
+        //     swal('Error', error.message, 'error');
+        //     // this.swal.warning({ text: error.message });
+        //   }
+        // }
+      );
   }
 }

@@ -65,7 +65,7 @@ export class PropertyComponent implements OnInit {
     // if (type !== 'add') {this.modalRef.hide(); }
     if (type === 'edit') {this.modalRef.hide(); }
 
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
     this.parameter.url = 'addConfiguration';
 
     const input = new FormData();
@@ -79,7 +79,7 @@ export class PropertyComponent implements OnInit {
       .subscribe(
         success => {
           console.log('addConfigurations', success);
-          this.parameter.loading = false;
+          // this.parameter.loading = false;
           const text = id ?
             this.constant.successMsg.PROPERTY_CONFIG_UPDATED_SUCCESSFULLY :
             this.constant.successMsg.PROPERTY_CONFIG_ADDED_SUCCESSFULLY;
@@ -88,19 +88,20 @@ export class PropertyComponent implements OnInit {
           this.property.configuration.id = '';
           this.property.configuration.name_en = '';
           this.property.configuration.name_es = '';
-        },
-        error => {
-          this.parameter.loading = false;
-          swal('Error', error.message, 'error');
-          this.router.navigate(['']);
-        });
+        }
+        // error => {
+        //   this.parameter.loading = false;
+        //   swal('Error', error.message, 'error');
+        //   this.router.navigate(['']);
+        // }
+      );
   }
 
   addPropertyType(id, name_en, name_es, status, type) {
     // if (type !== 'add') {this.modalRef.hide(); }
     if (type === 'edit') {this.modalRef.hide(); }
 
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
     this.parameter.url = 'addPropertyType';
 
     const input = new FormData();
@@ -114,7 +115,7 @@ export class PropertyComponent implements OnInit {
       .subscribe(
         success => {
           console.log('addPropertyType', success);
-          this.parameter.loading = false;
+          // this.parameter.loading = false;
           const text = id ?
             this.constant.successMsg.PROPERTY_TYPE_UPDATED_SUCCESSFULLY :
             this.constant.successMsg.PROPERTY_TYPE_ADDED_SUCCESSFULLY;
@@ -123,12 +124,13 @@ export class PropertyComponent implements OnInit {
           this.property.type.id = '';
           this.property.type.name_en = '';
           this.property.type.name_es = '';
-        },
-        error => {
-          this.parameter.loading = false;
-          swal('Error', error.message, 'error');
-          this.router.navigate(['']);
-        });
+        }
+        // error => {
+        //   this.parameter.loading = false;
+        //   swal('Error', error.message, 'error');
+        //   this.router.navigate(['']);
+        // }
+      );
   }
 
 
@@ -139,7 +141,7 @@ console.log('--', id, icon, name_en, name_es, status, type);
 
     const iconNew = this.icon ? this.icon : this.property.amenities.icon;
 
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
     this.parameter.url = 'addPropertyAmenity';
 
     const input = new FormData();
@@ -156,7 +158,7 @@ console.log('--', id, icon, name_en, name_es, status, type);
       .subscribe(
         success => {
           console.log('addPropertyAmenity', success);
-          this.parameter.loading = false;
+          // this.parameter.loading = false;
           const text = id ?
           this.constant.successMsg.AMENITY_UPDATED_SUCCESSFULLY :
           this.constant.successMsg.AMENITY_ADDED_SUCCESSFULLY;
@@ -166,83 +168,87 @@ console.log('--', id, icon, name_en, name_es, status, type);
           this.property.amenities.name_en = '';
           this.property.amenities.name_es = '';
           this.property.amenities.icon = '';
-        },
-        error => {
-          this.parameter.loading = false;
-          swal('Error', error.message, 'error');
-          this.router.navigate(['']);
-        });
+        }
+        // error => {
+        //   this.parameter.loading = false;
+        //   swal('Error', error.message, 'error');
+        //   this.router.navigate(['']);
+        // }
+      );
   }
 
 
   getConfigurations() {
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
     this.parameter.url = 'getConfigurations';
     const input = new FormData();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
           console.log('getConfigurations', success);
-          this.parameter.loading = false;
+          // this.parameter.loading = false;
           this.parameter.items = success.data;
           this.parameter.total = success.data.length;
-        },
-        error => {
-          console.log(error);
-          this.parameter.loading = false;
-          if (error.statusCode === 401) {
-            this.router.navigate(['']);
-          }else {
-            swal('Error', error.message, 'error');
-          }
-        });
+        }
+        // error => {
+        //   console.log(error);
+        //   this.parameter.loading = false;
+        //   if (error.statusCode === 401) {
+        //     this.router.navigate(['']);
+        //   }else {
+        //     swal('Error', error.message, 'error');
+        //   }
+        // }
+      );
   }
 
 
   getPropertyTypes() {
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
     this.parameter.url = 'getPropertyTypes';
     const input = new FormData();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
           console.log('getPropertyTypes', success);
-          this.parameter.loading = false;
+          // this.parameter.loading = false;
           this.parameter.propertyTypes = success.data;
           this.parameter.propertyTypesCount = success.data.length;
-        },
-        error => {
-          console.log(error);
-          this.parameter.loading = false;
-          if (error.statusCode === 401) {
-            this.router.navigate(['']);
-          }else {
-            swal('Error', error.message, 'error');
-          }
-        });
+        }
+        // error => {
+        //   console.log(error);
+        //   this.parameter.loading = false;
+        //   if (error.statusCode === 401) {
+        //     this.router.navigate(['']);
+        //   }else {
+        //     swal('Error', error.message, 'error');
+        //   }
+        // }
+      );
   }
 
   getAmenities() {
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
     this.parameter.url = 'getPropertyAmenities';
     const input = new FormData();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
           console.log('getPropertyAmenities', success);
-          this.parameter.loading = false;
+          // this.parameter.loading = false;
           this.parameter.amenities = success.data;
           this.parameter.amenitiesCount = success.data.length;
-        },
-        error => {
-          console.log(error);
-          this.parameter.loading = false;
-          if (error.statusCode === 401) {
-            this.router.navigate(['']);
-          }else {
-            swal('Error', error.message, 'error');
-          }
-        });
+        }
+        // error => {
+        //   console.log(error);
+        //   this.parameter.loading = false;
+        //   if (error.statusCode === 401) {
+        //     this.router.navigate(['']);
+        //   }else {
+        //     swal('Error', error.message, 'error');
+        //   }
+        // }
+      );
   }
 
   addPropertyConfigurationPopup(id, name_en, name_es, status, type) {

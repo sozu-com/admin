@@ -1,6 +1,10 @@
 {
   "compileOnSave": false,
-  "paths": { "@angular/": ["../node_modules/"] },
+  // "baseUrl": "./src",
+  "paths": { 
+    "@angular/": ["../node_modules/"]
+    // "app/*": ["app/*"]
+  },
   "compilerOptions": {
     "outDir": "./dist/out-tsc",
     "sourceMap": true,

@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   loginUser(formData: NgForm) {
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
     const email = formData.value.email;
     const password = formData.value.password;
 
@@ -46,12 +46,13 @@ export class LoginComponent implements OnInit, AfterViewInit {
           this.admin.setUserLoggedIn();
           // this.router.navigate(['dashboard']);
           this.router.navigate(['dashboard/view-inhouse-users/data-collectors']);
-          this.parameter.loading = false;
-        },
-        error => {
-          console.log('---', error);
-          this.parameter.loading = false;
-          swal('Invalid Credentials', error.message, 'error');
-        });
+          // this.parameter.loading = false;
+        }
+        // error => {
+        //   console.log('---', error);
+        //   this.parameter.loading = false;
+        //   swal('Invalid Credentials', error.message, 'error');
+        // }
+      );
   }
 }

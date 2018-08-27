@@ -15,7 +15,7 @@
         </div>
     </div>
   
-    <ngx-loading [show]="parameter.loading"></ngx-loading>
+    <!-- <ngx-loading [show]="parameter.loading"></ngx-loading> -->
   
     <div class="row">
         <div class="col-lg-2 col-md-3 col-sm-6 col-6">
@@ -109,16 +109,16 @@
                   </div>
                 </th>
                 <th *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'csr-closers'" style="width:8%; vertical-align: top;">
-                  Leads<a href="javascript://"><img src="./../../../../assets/img/top-arrow.png" alt="img"></a>
+                  Leads<a href="javascript://"><img src="assets/img/top-arrow.png" alt="img"></a>
                 </th>
                 <th *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'csr-closers'" style="width:14%; vertical-align: top;">
-                  Properties<a href="javascript://"><img src="./../../../../assets/img/top-arrow.png" alt="img"></a>
+                  Properties<a href="javascript://"><img src="assets/img/top-arrow.png" alt="img"></a>
                 </th>
                 <th *ngIf="parameter.userType == 'data-collectors'" style="width:22%; vertical-align: top;">
-                  Building<a href="javascript://"><img src="./../../../../assets/img/top-arrow.png" alt="img"></a>
+                  Building<a href="javascript://"><img src="assets/img/top-arrow.png" alt="img"></a>
                 </th>
                 <th *ngIf="parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers'" style="width:22%; vertical-align: top;">
-                  Leads<a href="javascript://"><img src="./../../../../assets/img/top-arrow.png" alt="img"></a>
+                  Leads<a href="javascript://"><img src="assets/img/top-arrow.png" alt="img"></a>
                 </th>
                 <th style="width:14%">
                   &nbsp;
@@ -128,7 +128,7 @@
             <tr *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }; let i = index">
               <td> 
                 <img *ngIf="item.image" class="rounded-circle" [src]="item.image" alt="img">
-                <img *ngIf="!item.image" class="rounded-circle" src="./../../../assets/img/default_img.png" alt="img">
+                <img *ngIf="!item.image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
               </td>
               <td class="text-left">
                 <span class="name">{{item.name}}</span>
@@ -142,10 +142,10 @@
               <td *ngIf="parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers'" >14</td>
               <td>
                 <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#view" #viewModalOpen></a>
-                <a title="View Details" href="javascript://" (click)="viewDetails(item, i)" class="icon-block edit-icon"><img src="./../../../../assets/img/eye-icon.png" alt="img"></a>
-                <a title="Edit Details" href="javascript://" (click)="editUser(item, i)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
-                <a href="javascript://" *ngIf="item.is_blocked == 1" (click)="blockUnblockPopup(i, item.id, 0, parameter.type)" title="Unblock user" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a>
-                <a href="javascript://" *ngIf="item.is_blocked == 0" (click)="blockUnblockPopup(i, item.id, 1, parameter.type)" title="Block user" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
+                <a title="View Details" href="javascript://" (click)="viewDetails(item, i)" class="icon-block edit-icon"><img src="assets/img/eye-icon.png" alt="img"></a>
+                <a title="Edit Details" href="javascript://" (click)="editUser(item, i)" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
+                <a href="javascript://" *ngIf="item.is_blocked == 1" (click)="blockUnblockPopup(i, item.id, 0, parameter.type)" title="Unblock user" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png" alt="img"></a>
+                <a href="javascript://" *ngIf="item.is_blocked == 0" (click)="blockUnblockPopup(i, item.id, 1, parameter.type)" title="Block user" class="icon-block block-icon"><img src="assets/img/unblock.png" alt="img"></a>
               </td>
             </tr>
           </table>
@@ -153,7 +153,7 @@
       </div>
 
       <div class="center" *ngIf="parameter.total == 0">
-        <img src="./../../../assets/img/404-error.png">
+        <img src="assets/img/404-error.png">
       </div>
 
   </div>
@@ -231,7 +231,7 @@
             <div class="col-12" *ngIf="model.address?.length!=0">
                 <div class="btn-cont center">
                   <button class="btn btn-primary margin0" (click)="addEmptyObj()">
-                    <img src="./../../../assets/img/add.png" alt="img">
+                    <img src="assets/img/add.png" alt="img">
                   </button>
                 </div>
              </div>

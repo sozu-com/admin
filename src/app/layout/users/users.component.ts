@@ -7,6 +7,9 @@ import { NgForm } from '@angular/forms';
 import { Constant } from './../../common/constants';
 import { DomSanitizer } from '@angular/platform-browser';
 declare let swal: any;
+// import { HttpInterceptor } from './../../services/http-interceptor';
+import { HttpInterceptor } from './../../services/http-interceptor';
+// import { } from './'
 
 @Component({
   selector: 'app-users',
@@ -58,7 +61,7 @@ export class UsersComponent implements OnInit {
     this.parameter.name = name;
     this.parameter.phone = phone;
     this.parameter.email = email;
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
 
     this.parameter.url = this.parameter.type === 1 ? 'getBuyers' : 'getSellers';
 
@@ -75,18 +78,9 @@ export class UsersComponent implements OnInit {
       .subscribe(
         success => {
           console.log('getBuyers', success);
-          this.parameter.loading = false;
+          // this.parameter.loading = false;
           this.parameter.items = success.data;
           this.parameter.total = success.total;
-        },
-        error => {
-          console.log(error);
-          this.parameter.loading = false;
-          if (error.statusCode === 401) {
-            this.router.navigate(['']);
-          }else {
-            swal('Error', error.message, 'error');
-          }
         });
   }
 
@@ -111,7 +105,7 @@ export class UsersComponent implements OnInit {
   }
 
   addNewUser(formdata: NgForm) {
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
     this.parameter.url = this.model.id !== '' ? 'updateNewUser' : 'addSeller';
 
     const input = new FormData();
@@ -124,13 +118,12 @@ export class UsersComponent implements OnInit {
     input.append('email', this.model.email);
 
     if (this.parameter.image) { input.append('image', this.parameter.image); }
-    this.parameter.loading = false;
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
           console.log('success', success);
-          this.parameter.loading = false;
+          // this.parameter.loading = false;
           if (success.success === '0') {
             swal('Error', success.message, 'error');
           }else {
@@ -147,11 +140,6 @@ export class UsersComponent implements OnInit {
               }
             }
           }
-        },
-        error => {
-          console.log(error);
-          this.parameter.loading = false;
-          swal('Error', error.message, 'error');
         });
   }
 
@@ -218,7 +206,7 @@ export class UsersComponent implements OnInit {
 
 
   blockAdmin(index, id, flag, user_type) {
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
     this.parameter.index = index;
     this.parameter.url = 'blockBuyerSeller';
     const input = new FormData();
@@ -230,14 +218,9 @@ export class UsersComponent implements OnInit {
       .subscribe(
         success => {
           console.log('success', success);
-          this.parameter.loading = false;
+          // this.parameter.loading = false;
           swal('Success', success.message, 'success');
           this.parameter.items[this.parameter.index] = success.data;
-        },
-        error => {
-          console.log(error);
-          this.parameter.loading = false;
-          swal('Error', error.message, 'error');
         });
   }
 }

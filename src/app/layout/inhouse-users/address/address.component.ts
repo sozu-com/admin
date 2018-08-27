@@ -26,7 +26,6 @@ export class AddressComponent implements OnInit {
     private admin: AdminService, private router: Router) { }
 
   ngOnInit() {
-    console.log('address', this.address);
     this.getCountriesNew(0);
     if (this.address.countries) {
       this.getStatesNew(this.address.countries, 0);
@@ -42,26 +41,22 @@ export class AddressComponent implements OnInit {
   getCountriesNew(index) {
 
     this.parameter.statesAdd = []; this.parameter.citiesAdd = []; this.parameter.localitiesAdd = [];
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
     this.parameter.url = 'getCountries';
     const input = new FormData();
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          // this.parameter.loading = false;
           this.parameter.countriesAdd = success.data;
-        },
-        error => {
-          this.parameter.loading = false;
-          swal('Error', error.message, 'error');
         });
   }
 
   getStatesNew(country_id, index) {
 
     this.parameter.citiesAdd = []; this.parameter.localitiesAdd = [];
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
     this.parameter.url = 'country/getStates';
     this.parameter.country_id = country_id;
 
@@ -72,13 +67,9 @@ export class AddressComponent implements OnInit {
       this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          // this.parameter.loading = false;
           this.parameter.statesAdd = success.data;
           this.address.countries = country_id;
-        },
-        error => {
-          this.parameter.loading = false;
-          swal('Error', error.message, 'error');
         });
     }
   }
@@ -86,7 +77,7 @@ export class AddressComponent implements OnInit {
   getCitiesNew(state_id, index) {
 
     this.parameter.localitiesAdd = [];
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
     this.parameter.url = 'getCities';
     this.parameter.state_id = state_id;
 
@@ -97,17 +88,9 @@ export class AddressComponent implements OnInit {
       this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          // this.parameter.loading = false;
           this.parameter.citiesAdd = success.data;
           this.address.states = state_id;
-        },
-        error => {
-          this.parameter.loading = false;
-          if (error.statusCode === 401) {
-            this.router.navigate(['']);
-          }else {
-            swal('Error', error.message, 'error');
-          }
         });
     }
   }
@@ -115,7 +98,7 @@ export class AddressComponent implements OnInit {
 
   getLocalitiesNew(city_id, index) {
 
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
     this.parameter.url = 'getLocalities';
     this.parameter.city_id = city_id;
 
@@ -126,7 +109,7 @@ export class AddressComponent implements OnInit {
       this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          // this.parameter.loading = false;
           this.parameter.localitiesAdd = success.data;
           this.address.cities = city_id;
           for (let c = 0; c < this.parameter.localitiesAdd.length; c++) {
@@ -136,14 +119,6 @@ export class AddressComponent implements OnInit {
                 this.parameter.localitiesAdd[c].disabled = true;
               }
             }
-          }
-        },
-        error => {
-          this.parameter.loading = false;
-          if (error.statusCode === 401) {
-            this.router.navigate(['']);
-          }else {
-            swal('Error', error.message, 'error');
           }
         });
     }

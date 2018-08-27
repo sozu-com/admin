@@ -6,7 +6,6 @@ import { InhouseUsers, User, Address } from './../../models/inhouse-users.model'
 import { NgForm } from '@angular/forms';
 import { Constant } from './../../common/constants';
 import { DomSanitizer } from '@angular/platform-browser';
-import { CommonService } from './../../services/common.service';
 declare let swal: any;
 
 @Component({
@@ -30,14 +29,14 @@ export class InhouseUsersComponent implements OnInit {
   url: any[];
   image1: any;
   title: string;
-  newPage: number;
+  // newPage: number;
   disabledLocalities = [];
   seenDuplicate = false;
   testObject = [];
 
-  constructor(public constant: Constant, private address: Address, private user: User,
-    public model: InhouseUsers, private element: ElementRef, private route: ActivatedRoute,
-    private admin: AdminService, private cs: CommonService, private router: Router,
+  constructor(public constant: Constant, private address: Address,
+    public model: InhouseUsers, private route: ActivatedRoute,
+    private admin: AdminService, private router: Router,
     private sanitization: DomSanitizer) { }
 
   ngOnInit() {
@@ -50,7 +49,6 @@ export class InhouseUsersComponent implements OnInit {
 
     this.parameter.sub = this.route.params.subscribe(params => {
       this.parameter.userType = params['userType'];
-      console.log('usertype', this.parameter.userType);
       this.parameter.name = ''; this.parameter.phone = ''; this.parameter.email = '';
       this.parameter.items = []; this.parameter.total = 0;
       this.getInhouseUsers();
@@ -61,7 +59,6 @@ export class InhouseUsersComponent implements OnInit {
   }
 
   getPage(page) {
-    console.log('page1111', page);
     this.parameter.p = page;
     this.getInhouseUsers();
   }
@@ -105,14 +102,12 @@ export class InhouseUsersComponent implements OnInit {
   }
 
   removeAddressObj(index) {
-    console.log('zz', index);
     this.addressIndex--;
     this.model.address.splice(index, 1);
     this.disabledLocalities.splice(index, 1);
   }
 
   addEmptyObj() {
-    console.log('====', this.addressIndex, this.model.address);
     if (this.model.address[this.addressIndex].countries !== '' && this.model.address[this.addressIndex].states !== ''  &&
       this.model.address[this.addressIndex].cities !== ''  && this.model.address[this.addressIndex].localities !== '' ) {
       const obj = {
@@ -130,27 +125,21 @@ export class InhouseUsersComponent implements OnInit {
 
 
   disabledLocalityId(i) {
-    console.log('index', i);
     this.disabledLocalities[i] = this.model.address[i].localities;
   }
 
   onCountryChange(e) {
-    console.log('eeee', e);
     this.model.userModel.country_code = e.iso2;
     this.model.userModel.dial_code = e.dialCode;
     this.initialCountry = {initialCountry: e.iso2};
   }
 
   openAddModal() {
-    console.log('--', this.initialCountry);
     this.initialCountry = {initialCountry: this.constant.initialCountry};
-    // this.initialCountry = {initialCountry: 'us', formatOnDisplay: false, separateDialCode: true};
-    console.log('--', this.initialCountry);
     this.modalOpen.nativeElement.click();
   }
 
   telInputObject(obj) {
-    console.log('zzzzzzzzzzzzzzzzzz', obj);
     obj.intlTelInput('setCountry', 'in');
   }
 
@@ -197,7 +186,7 @@ export class InhouseUsersComponent implements OnInit {
 
 
   addNewUser(formdata: NgForm) {
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
     this.parameter.url = this.model.userModel.id !== '' ? 'updateNewUser' : 'addNewUser';
 
     const input = new FormData();
@@ -220,38 +209,34 @@ export class InhouseUsersComponent implements OnInit {
 
     // checking if locality is same or not
     this.model.address.map((item) => {
-      console.log('=========', item);
       const value = item['localities'];
-      console.log('aa', value, this.testObject);
       if (this.testObject.indexOf(value) === -1) {
         this.testObject.push(value);
       } else {
         this.seenDuplicate = true;
       }
     });
-console.log('duplicate', this.testObject, this.seenDuplicate);
+
     if (this.model.address[0].countries === '' || this.model.address[0].states === ''  ||
       this.model.address[0].cities === '' || this.model.address[0].localities === '' ) {
         swal('Error', 'Please choose location.', 'error');
-        this.parameter.loading = false;
+        // this.parameter.loading = false;
     } else if (this.seenDuplicate) {
       this.testObject = [];
-      this.parameter.loading = false;
+      // this.parameter.loading = false;
       this.seenDuplicate = false;
       swal('Error', 'Please choose different localities.', 'error');
     } else if (formdata.value.is_broker_seller_dev === false && formdata.value.is_buyer_renter === false &&
       formdata.value.is_broker === false && formdata.value.is_data_collector === false &&
       formdata.value.is_csr_closer === false) {
         swal('Error', 'Please choose a role for inhouse user.', 'error');
-        this.parameter.loading = false;
+        // this.parameter.loading = false;
     } else {
-      this.parameter.loading = false;
-      console.log('addnewuser');
+      // this.parameter.loading = false;
       this.admin.postDataApi(this.parameter.url, input)
         .subscribe(
           success => {
-            console.log('success', success);
-            this.parameter.loading = false;
+            // this.parameter.loading = false;
             if (success.success === '0') {
               swal('Error', success.message, 'error');
             }else {
@@ -277,27 +262,19 @@ console.log('duplicate', this.testObject, this.seenDuplicate);
 
                 if (this.model.userModel.id !== '') {
                   // edit -- replace
-                  console.log('edit');
                   this.parameter.items[this.parameter.index] = success.data;
                 } else {
                   // add - push
-                  console.log('add');
                   this.parameter.items.push(success.data);
                 }
               }
               // this.getInhouseUsers();
             }
-          },
-          error => {
-            console.log(error);
-            this.parameter.loading = false;
-            swal('Error', error.message, 'error');
           });
     }
   }
 
   editUser(userdata, index) {
-    console.log('edit user', userdata);
     this.parameter.index = index;
     this.model.address = [];
     this.model.userModel.id = userdata.id;
@@ -322,7 +299,6 @@ console.log('duplicate', this.testObject, this.seenDuplicate);
     // userdata.states = ['4', '4'];
     // userdata.cities = ['4', '4'];
     // userdata.localities = ['3', '4'];
-    console.log('usermodel', this.model.userModel, this.image1);
     for (let ind = 0; ind < userdata.countries.length; ind++) {
 
       const tempAdd = {
@@ -335,7 +311,6 @@ console.log('duplicate', this.testObject, this.seenDuplicate);
       this.model.address[ind] = tempAdd;
     }
 
-    console.log('usermodel', this.model.userModel, this.image1);
     // updateNewUser
   }
 
@@ -362,7 +337,6 @@ console.log('duplicate', this.testObject, this.seenDuplicate);
       this.model.address[ind] = tempAdd;
     }
 
-    console.log('usermodel', this.model.userModel, this.image1);
     // updateNewUser
   }
 
@@ -379,9 +353,6 @@ console.log('duplicate', this.testObject, this.seenDuplicate);
       .subscribe(
         success => {
           this.parameter.countries = success.data;
-        },
-        error => {
-          swal('Error', error.message, 'error');
         });
   }
 
@@ -407,9 +378,6 @@ console.log('duplicate', this.testObject, this.seenDuplicate);
         .subscribe(
           success => {
             this.parameter.states = success.data;
-          },
-          error => {
-            swal('Error', error.message, 'error');
           });
     // }
   }
@@ -433,13 +401,6 @@ console.log('duplicate', this.testObject, this.seenDuplicate);
         .subscribe(
           success => {
             this.parameter.cities = success.data;
-          },
-          error => {
-            if (error.statusCode === 401) {
-              this.router.navigate(['']);
-            }else {
-              swal('Error', error.message, 'error');
-            }
           });
     // }
   }
@@ -465,13 +426,6 @@ console.log('duplicate', this.testObject, this.seenDuplicate);
       .subscribe(
         success => {
           this.parameter.localities = success.data;
-        },
-        error => {
-          if (error.statusCode === 401) {
-            this.router.navigate(['']);
-          }else {
-            swal('Error', error.message, 'error');
-          }
         });
     // }
   }
@@ -495,15 +449,7 @@ console.log('duplicate', this.testObject, this.seenDuplicate);
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('succ', success);
           this.parameter.buildings = success.data;
-        },
-        error => {
-          if (error.statusCode === 401) {
-            this.router.navigate(['']);
-          }else {
-            swal('Error', error.message, 'error');
-          }
         });
     // }
   }
@@ -528,7 +474,7 @@ console.log('duplicate', this.testObject, this.seenDuplicate);
 
 
   getInhouseUsers() {
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
     switch (this.parameter.userType) {
       case 'data-collectors':
       this.parameter.url = 'getDataCollectors';
@@ -595,19 +541,10 @@ console.log('duplicate', this.testObject, this.seenDuplicate);
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('succc', success);
-          this.parameter.loading = false;
+          // this.parameter.loading = false;
           this.parameter.items = success.data;
           this.parameter.total = success.total;
           // this.parameter.items.reverse();
-        },
-        error => {
-          this.parameter.loading = false;
-          if (error.statusCode === 401) {
-            this.router.navigate(['']);
-          }else {
-            swal('Error', error.message, 'error');
-          }
         });
   }
 
@@ -656,7 +593,7 @@ console.log('duplicate', this.testObject, this.seenDuplicate);
 
 
   blockAdmin(index, id, flag, user_type) {
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
     this.parameter.url = 'blockAdmin';
     const input = new FormData();
     input.append('id', id);
@@ -666,16 +603,10 @@ console.log('duplicate', this.testObject, this.seenDuplicate);
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('success', success);
-          this.parameter.loading = false;
+          // this.parameter.loading = false;
           swal('Success', this.parameter.successText, 'success');
           this.parameter.items[this.parameter.index] = success.data;
 
-        },
-        error => {
-          console.log(error);
-          this.parameter.loading = false;
-          swal('Error', error.message, 'error');
         });
   }
 }

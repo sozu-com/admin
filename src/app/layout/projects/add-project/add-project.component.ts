@@ -135,13 +135,14 @@ export class AddProjectComponent implements OnInit {
         success => {
           console.log('successimage', success);
           this.model.cover_image = success.data.image;
-          this.parameter.loading = false;
-        },
-        error => {
-          console.log(error);
-          this.parameter.loading = false;
-          swal('Error', error.message, 'error');
-        });
+          // this.parameter.loading = false;
+        }
+        // error => {
+        //   console.log(error);
+        //   this.parameter.loading = false;
+        //   swal('Error', error.message, 'error');
+        // }
+      );
 
       // this.model.cover_image = event.target.files[0];
       reader.readAsDataURL(event.target.files[0]);
@@ -203,18 +204,19 @@ export class AddProjectComponent implements OnInit {
           console.log('successimage' + index, success);
           this.model.images.push(success.data.image);
           this.model.building_images.push(success.data.image);
-          this.parameter.loading = false;
-        },
-        error => {
-          console.log(error);
-          this.parameter.loading = false;
-          swal('Error', error.message, 'error');
-        });
+          // this.parameter.loading = false;
+        }
+        // error => {
+        //   console.log(error);
+        //   this.parameter.loading = false;
+        //   swal('Error', error.message, 'error');
+        // }
+      );
     }
   }
 
   fileUploader(event, key= '0', model) { // called each time file input changes
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
@@ -226,15 +228,16 @@ export class AddProjectComponent implements OnInit {
       .subscribe(
         success => {
           console.log('successimage', success);
-          this.parameter.loading = false;
+          // this.parameter.loading = false;
           this.FU[key] = success.data.image;
           model[key] = success.data.image;
-        },
-        error => {
-          console.log(error);
-          this.parameter.loading = false;
-          swal('Error', error.message, 'error');
-        });
+        }
+        // error => {
+        //   console.log(error);
+        //   this.parameter.loading = false;
+        //   swal('Error', error.message, 'error');
+        // }
+      );
 
       // this.model.images = event.target.files;
       reader.readAsDataURL(event.target.files[0]);
@@ -267,19 +270,20 @@ export class AddProjectComponent implements OnInit {
     const input = new FormData();
     for (let index = 0; index < this.new_config.images_files.length; index++) {
       input.append('image', this.new_config.images_files[index]);
-      this.parameter.loading = true;
+      // this.parameter.loading = true;
       this.admin.postDataApi('saveImage', input)
       .subscribe(
         success => {
           console.log(success.data.image);
           this.new_config.images.push(success.data.image);
-          this.parameter.loading = false;
-        },
-        error => {
-          console.log(error);
-          this.parameter.loading = false;
-          swal('Error', error.message, 'error');
-        });
+          // this.parameter.loading = false;
+        }
+        // error => {
+        //   console.log(error);
+        //   this.parameter.loading = false;
+        //   swal('Error', error.message, 'error');
+        // }
+      );
     }
 
     delete this.new_config.images_files;
@@ -469,11 +473,11 @@ export class AddProjectComponent implements OnInit {
       success => {
         console.log(success);
         swal('Success', success.message, 'success');
-      },
-      error => {
-        console.log(error);
-        swal('Error', error.message, 'error');
       }
+      // error => {
+      //   console.log(error);
+      //   swal('Error', error.message, 'error');
+      // }
     );
   }
 
