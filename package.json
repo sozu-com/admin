@@ -25,6 +25,7 @@
     "@angular/service-worker": "^1.0.0-beta.16",
     "@ngx-translate/core": "^7.2.2",
     "@toverux/ngx-sweetalert2": "3.3.1",
+    "angular-froala-wysiwyg": "^2.7.0",
     "animate.css": "^3.6.1",
     "cd-themify-icons": "0.0.1",
     "chart.js": "^2.7.1",

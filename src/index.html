@@ -23,7 +23,7 @@
   <script src="./assets/js/popper.min.js"></script>
   <script src="./assets/js/bootstrap.min.js"></script>
   <script src="./assets/js/enscroll-0.6.2.min.js"></script>
-  
+
   
   <style>
     /* .modal-backdrop.fade {
@@ -84,9 +84,6 @@
   <script>
     $(document).ready(function () {
       $(document).click(function (event) {
-        // $('.navbar-nav>li>a').on('click', function(){
-        //   $('.navbar-collapse').collapse('hide');
-        // });
         $('.navbar-nav li a').on('click', function(){
             if(!$( this ).hasClass('dropdown-toggle')){
                 $('.navbar-collapse').collapse('hide');
@@ -96,11 +93,12 @@
     });
   </script>
 
-    <script>
+    <!-- <script>
       $(document).ready(function(){
           $('[data-toggle="popover"]').popover();   
       });
-    </script>
+    </script> -->
+
 </head>
 <body>
   <app-root>

@@ -11,6 +11,7 @@ import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { AgmCoreModule } from '@agm/core';
 import { Ng2TelInputModule } from 'ng2-tel-input';
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 
 // importing shared components
 import { LayoutRoutingModule } from './layout-routing.module';
@@ -23,6 +24,9 @@ import { AppFooterComponent } from '../shared/app-footer/app-footer.component';
 import { ChangePasswordComponent } from './settings/change-password/change-password.component';
 import { InhouseUsersComponent } from './inhouse-users/inhouse-users.component';
 import { AddressComponent } from './inhouse-users/address/address.component';
+import { EditTemplateComponent } from './edit-template/edit-template.component';
+// import { NotaryComponent } from './notary/notary.component';
+// import { BanksComponent } from './banks/banks.component';
 // import { InterestedPropertyComponent } from './common-blocks/interested-property/interested-property.component';
 // import { ChatComponent } from './common-blocks/chat/chat.component';
 
@@ -46,7 +50,9 @@ import { AddressComponent } from './inhouse-users/address/address.component';
             apiKey: 'AIzaSyCYv_zELZGVo2Ehzgp8eh8UeSIidhMCmH8',
             libraries: ['drawing']
           }),
-        Ng2TelInputModule
+        Ng2TelInputModule,
+        FroalaEditorModule.forRoot(),
+        FroalaViewModule.forRoot()
     ],
     declarations: [
         LayoutComponent,
@@ -58,6 +64,9 @@ import { AddressComponent } from './inhouse-users/address/address.component';
         AppFooterComponent,
         InhouseUsersComponent,
         AddressComponent,
+        EditTemplateComponent,
+        // NotaryComponent,
+        // BanksComponent,
         // InterestedPropertyComponent,
         // ChatComponent
     ],
