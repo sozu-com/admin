@@ -25,10 +25,7 @@ import { ChangePasswordComponent } from './settings/change-password/change-passw
 import { InhouseUsersComponent } from './inhouse-users/inhouse-users.component';
 import { AddressComponent } from './inhouse-users/address/address.component';
 import { EditTemplateComponent } from './edit-template/edit-template.component';
-// import { NotaryComponent } from './notary/notary.component';
-// import { BanksComponent } from './banks/banks.component';
-// import { InterestedPropertyComponent } from './common-blocks/interested-property/interested-property.component';
-// import { ChatComponent } from './common-blocks/chat/chat.component';
+// import { AclComponent } from './src/app/layout/acl/acl.component';
 
 @NgModule({
     imports: [
@@ -65,10 +62,7 @@ import { EditTemplateComponent } from './edit-template/edit-template.component';
         InhouseUsersComponent,
         AddressComponent,
         EditTemplateComponent,
-        // NotaryComponent,
-        // BanksComponent,
-        // InterestedPropertyComponent,
-        // ChatComponent
+        // AclComponent
     ],
     bootstrap: [LayoutComponent],
     // providers: [NgBoxService],

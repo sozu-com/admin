@@ -5,12 +5,11 @@ import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2TelInputModule } from 'ng2-tel-input';
+import { AclComponent } from './acl.component';
 
-import { UsersComponent } from './users.component';
 
 const routes: Routes = [
-  { path: '', component: UsersComponent }
-  // { path: 'view-users', component: UsersComponent }
+  { path: '', component: AclComponent }
 ];
 
 @NgModule({
@@ -27,8 +26,7 @@ const routes: Routes = [
     Ng2TelInputModule
   ],
   declarations: [
-    UsersComponent
+    AclComponent
   ]
 })
-
-export class UsersModule { }
+export class AclModule { }

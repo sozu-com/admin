@@ -58,6 +58,7 @@
                         <div class="dropdown-menu">
                            <ul>
                               <li><a class="dropdown-item" routerLink="notary/view-notary">Notary</a></li>
+                              <li><a class="dropdown-item" routerLink="notary/notary-leads">Leads</a></li>
                            </ul>
                         </div>
                      </li>
@@ -71,7 +72,7 @@
                        </div>
                     </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="javascript://" routerLink="users/view-users"><i><img src="assets/img/users.png"></i><span>Manage User</span></a>
+                        <a class="nav-link" href="javascript://" routerLink="users"><i><img src="assets/img/users.png"></i><span>Manage User</span></a>
                       </li>
                       <li class="nav-item dropdown">
                          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
@@ -106,6 +107,24 @@
                         <a class="nav-link" href="javascript://"><i><img src="assets/img/graph.png"></i><span>Magage Projects</span></a>
                       </li> -->
                       <li class="nav-item">
+                        <a class="nav-link" href="javascript://" routerLink="access-control-mgt"><i><img src="assets/img/key.png"></i><span>ACL</span></a>
+                      </li>
+                      <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
+                          <i><img src="assets/img/graph2.png"></i><span>Reports</span></a>
+                          <div class="dropdown-menu">
+                             <ul>
+                                <li><a class="dropdown-item" routerLink="reports/seller">Seller</a></li>
+                                <li><a class="dropdown-item" href="javascript://" routerLink="reports/buyer">Buyer</a></li>
+                                <li><a class="dropdown-item" href="javascript://" routerLink="reports/notary">Notary</a></li>
+                                <li><a class="dropdown-item" href="javascript://" routerLink="reports/bank">Bank</a></li>
+                             </ul>
+                          </div>
+                       </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="javascript://" routerLink="manual-leads"><i><img src="assets/img/graph.png"></i><span>Manual Leads</span></a>
+                      </li>
+                      <li class="nav-item">
                         <a class="nav-link" href="javascript://" routerLink="edit-template"><i><img src="assets/img/users.png"></i><span>Edit Template</span></a>
                       </li>
                       <li class="nav-item dropdown">
@@ -119,7 +138,6 @@
                             <li><a class="dropdown-item" routerLink="settings/setting-project">Project</a></li>
                             <!-- <li><a class="dropdown-item" routerLink="settings/edit-profile">Edit Profile</a></li> -->
                             <li><a class="dropdown-item logout-btn" (click)="onLoggedout()">Logout</a></li>
-                            <!-- <li><a class="dropdown-item" (click)="onLoggedout()">Logout</a></li> -->
                           </ul>
                         </div>
                       </li>

@@ -8,10 +8,19 @@ import { Ng2TelInputModule } from 'ng2-tel-input';
 
 import { NotaryLeadsComponent } from './notary-leads/notary-leads.component';
 import { NotaryComponent } from './notary.component';
+import { NotaryLeadsDetailsComponent } from './notary-leads/notary-leads-details/notary-leads-details.component';
 
 const routes: Routes = [
   { path: 'view-notary', component: NotaryComponent },
-  { path: 'view-notary-leads', component: NotaryLeadsComponent }
+  { path: 'notary-leads', component: NotaryLeadsComponent },
+  { path: 'notary-leads/notary-lead-details', component: NotaryLeadsDetailsComponent },
+  // { path: '', component: NotaryComponent,
+  //   children: [
+  //     { path: 'view-notary', component: NotaryComponent },
+  //     { path: 'notary-leads', component: NotaryComponent },
+  //     { path: 'notary-leads/notary-lead-details', component: NotaryLeadsDetailsComponent }
+  //   ]
+  // },
 ];
 
 @NgModule({
@@ -29,7 +38,8 @@ const routes: Routes = [
   ],
   declarations: [
     NotaryComponent,
-    NotaryLeadsComponent
+    NotaryLeadsComponent,
+    NotaryLeadsDetailsComponent
   ]
 })
 

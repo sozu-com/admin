@@ -6,11 +6,10 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 
-import { UsersComponent } from './users.component';
+import { ManualLeadsComponent } from './manual-leads.component';
 
 const routes: Routes = [
-  { path: '', component: UsersComponent }
-  // { path: 'view-users', component: UsersComponent }
+  { path: '', component: ManualLeadsComponent }
 ];
 
 @NgModule({
@@ -27,8 +26,8 @@ const routes: Routes = [
     Ng2TelInputModule
   ],
   declarations: [
-    UsersComponent
+    ManualLeadsComponent
   ]
 })
 
-export class UsersModule { }
+export class ManualLeadsModule { }

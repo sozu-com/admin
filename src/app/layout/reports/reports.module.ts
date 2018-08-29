@@ -5,12 +5,17 @@ import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2TelInputModule } from 'ng2-tel-input';
-
-import { UsersComponent } from './users.component';
+import { ReportsComponent } from './reports.component';
+import { SellerComponent } from './seller/seller.component';
+import { BuyerComponent } from './buyer/buyer.component';
+import { NotaryComponent } from './notary/notary.component';
+import { BankComponent } from './bank/bank.component';
 
 const routes: Routes = [
-  { path: '', component: UsersComponent }
-  // { path: 'view-users', component: UsersComponent }
+  { path: 'seller', component: SellerComponent },
+  { path: 'buyer', component: BuyerComponent },
+  { path: 'notary', component: NotaryComponent },
+  { path: 'bank', component: BankComponent }
 ];
 
 @NgModule({
@@ -27,8 +32,11 @@ const routes: Routes = [
     Ng2TelInputModule
   ],
   declarations: [
-    UsersComponent
+    ReportsComponent,
+    SellerComponent,
+    BuyerComponent,
+    NotaryComponent,
+    BankComponent
   ]
 })
-
-export class UsersModule { }
+export class ReportsModule { }
