@@ -2,22 +2,19 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IProperty } from '../../common/property';
-import { Users } from './../../models/users.model';
+import { Bank } from './../../models/bank.model';
 import { NgForm } from '@angular/forms';
 import { Constant } from './../../common/constants';
 import { DomSanitizer } from '@angular/platform-browser';
 declare let swal: any;
-// import { HttpInterceptor } from './../../services/http-interceptor';
-import { HttpInterceptor } from './../../services/http-interceptor';
-// import { } from './'
-
 
 @Component({
   selector: 'app-banks',
   templateUrl: './banks.component.html',
   styleUrls: ['./banks.component.css'],
-  providers: [Users, Constant]
+  providers: [Bank]
 })
+
 export class BanksComponent implements OnInit {
 
   url: any[];
@@ -28,13 +25,14 @@ export class BanksComponent implements OnInit {
   public parameter: IProperty = {};
   initialCountry: any;
 
-  constructor(public constant: Constant, public model: Users, private element: ElementRef,
+  constructor(public constant: Constant, public model: Bank, private element: ElementRef,
     private route: ActivatedRoute, private admin: AdminService, private router: Router,
     public sanitization: DomSanitizer
   ) { }
 
   ngOnInit() {
     this.model.country_code = this.constant.country_code;
+    this.model.dial_code = this.constant.dial_code;
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.p = this.constant.p;
     this.parameter.type = 1;
@@ -63,7 +61,7 @@ export class BanksComponent implements OnInit {
     this.parameter.email = email;
     // this.parameter.loading = true;
 
-    this.parameter.url = this.parameter.type === 1 ? 'getBuyers' : 'getSellers';
+    this.parameter.url = 'getBanks';
 
     const input = new FormData();
     input.append('page', this.parameter.p.toString());
@@ -77,7 +75,7 @@ export class BanksComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('getBuyers', success);
+          console.log('getBanks', success);
           // this.parameter.loading = false;
           this.parameter.items = success.data;
           this.parameter.total = success.total;

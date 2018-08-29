@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AdminService } from './../services/admin.service';
 import { NgForm } from '@angular/forms';
 import { IProperty } from './../common/property';
+import { Constant } from './../common/constants';
 declare let swal: any;
 
 @Component({
@@ -14,12 +15,11 @@ declare let swal: any;
 export class ForgotPasswordComponent implements OnInit {
 
   public parameter: IProperty = {};
-  emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
   model = {
     email: ''
   };
 
-  constructor(private admin: AdminService, private router: Router) { }
+  constructor(private admin: AdminService, private router: Router, public constant: Constant) { }
 
   ngOnInit() { }
 

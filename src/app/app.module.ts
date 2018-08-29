@@ -20,6 +20,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { LoginComponent } from './login/login.component';
 import { CommonService } from './services/common.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { Constant } from './common/constants';
 
 
 // import { ChatTimePipe } from './pipes/chat-time.pipe';
@@ -56,7 +57,7 @@ const appRoutes: Routes = [
     Ng2TelInputModule,
     // ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [AdminService, CommonService, AuthGuard, HttpInterceptor],
+  providers: [AdminService, CommonService, AuthGuard, HttpInterceptor, Constant],
   // providers: [AdminService, CommonService, AuthGuard,
   //   {
   //     provide: HTTP_INTERCEPTORS,
