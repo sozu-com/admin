@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
-import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2TelInputModule } from 'ng2-tel-input';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 
 import { ChatTimePipe } from './../../pipes/chat-time.pipe';

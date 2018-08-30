@@ -1,8 +1,6 @@
-import { Component, OnInit, ElementRef, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AdminService } from '../../../services/admin.service';
-import { Router, ActivatedRoute } from '@angular/router';
 import { IProperty } from '../../../common/property';
-import { InhouseUsers } from './../../../models/inhouse-users.model';
 declare let swal: any;
 
 @Component({
@@ -22,12 +20,11 @@ export class AddressComponent implements OnInit {
   @Output() removeAddress = new EventEmitter();
   @Output() disabledLocality = new EventEmitter();
 
-  constructor(private model: InhouseUsers, private element: ElementRef, private route: ActivatedRoute,
-    private admin: AdminService, private router: Router) { }
+  constructor(private admin: AdminService) { }
 
   ngOnInit() {
     this.getCountriesNew(0);
-    if (this.address.countries) {
+    if (this.address && this.address.countries) {
       this.getStatesNew(this.address.countries, 0);
       this.getCitiesNew(this.address.states, 0);
       this.getLocalitiesNew(this.address.cities, 0);

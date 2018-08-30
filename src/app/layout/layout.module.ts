@@ -3,9 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
-// import { NgBoxModule } from 'ngbox/ngbox.module';
-// import { NgBoxService } from 'ngbox/ngbox.service';
+// import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -25,7 +23,11 @@ import { ChangePasswordComponent } from './settings/change-password/change-passw
 import { InhouseUsersComponent } from './inhouse-users/inhouse-users.component';
 import { AddressComponent } from './inhouse-users/address/address.component';
 import { EditTemplateComponent } from './edit-template/edit-template.component';
-// import { AclComponent } from './src/app/layout/acl/acl.component';
+import { AdminService } from '../services/admin.service';
+import { CommonService } from '../services/common.service';
+import { AuthGuard } from '../services/auth.guard';
+import { Constant } from '../common/constants';
+import { HttpInterceptor } from './../services/http-interceptor';
 
 @NgModule({
     imports: [
@@ -36,11 +38,10 @@ import { EditTemplateComponent } from './edit-template/edit-template.component';
         ReactiveFormsModule,
         ModalModule.forRoot(),      // modal
         NgxPaginationModule,
-        LoadingModule.forRoot({
-            animationType: ANIMATION_TYPES.rectangleBounce,
-            primaryColour: '#00B96F'
-        }),
-        // NgBoxModule,
+        // LoadingModule.forRoot({
+        //     animationType: ANIMATION_TYPES.rectangleBounce,
+        //     primaryColour: '#00B96F'
+        // }),
         NgxMyDatePickerModule.forRoot(),
         MalihuScrollbarModule.forRoot(),
         AgmCoreModule.forRoot({
@@ -54,17 +55,14 @@ import { EditTemplateComponent } from './edit-template/edit-template.component';
     declarations: [
         LayoutComponent,
         AppHeaderComponent,
-        // LoginComponent,
-        // ForgotPasswordComponent,
         DashboardComponent,
         ChangePasswordComponent,
         AppFooterComponent,
         InhouseUsersComponent,
         AddressComponent,
         EditTemplateComponent,
-        // AclComponent
     ],
+    providers: [AdminService, CommonService, AuthGuard, HttpInterceptor, Constant],
     bootstrap: [LayoutComponent],
-    // providers: [NgBoxService],
 })
 export class LayoutModule { }

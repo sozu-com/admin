@@ -1,6 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AppHeaderComponent } from './app-header.component';
+import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
+import { AdminService } from './../../services/admin.service';
+import { HttpInterceptor } from './../../services/http-interceptor';
+import { HttpModule, RequestOptions, XHRBackend, Http } from '@angular/http';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('HeaderComponent', () => {
   let component: AppHeaderComponent;
@@ -8,7 +13,18 @@ describe('HeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AppHeaderComponent ]
+      declarations: [ AppHeaderComponent ],
+      imports: [
+        HttpModule,
+        MalihuScrollbarModule.forRoot(),
+        RouterTestingModule.withRoutes([]),
+      ],
+      providers: [
+        {provide: Http, useFactory: (backend: XHRBackend, defaultOptions: RequestOptions) => new Http(backend, defaultOptions),
+          deps: [XHRBackend, RequestOptions]},
+        AdminService,
+        HttpInterceptor
+      ]
     })
     .compileComponents();
   }));

@@ -1,12 +1,9 @@
-import { Component, OnInit, TemplateRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { AdminService } from '../../../services/admin.service';
-import { Router } from '@angular/router';
 import { IProperty } from '../../../common/property';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Location } from './../../../models/location.model';
 import { Constant } from './../../../common/constants';
-import { AGMComponent } from './../../../common/agm.component';
-import { MapsAPILoader } from '@agm/core';
 declare let swal: any;
 
 @Component({
@@ -20,15 +17,13 @@ export class LocationComponent implements OnInit {
 
   public parameter: IProperty = {};
   public modalRef: BsModalRef;
-  agm: any;
+
   searchCountry: string;
   searchState: string;
   searchCity: string;
 
-  @ViewChild('mapDiv') mapDiv: ElementRef;
-
-  constructor(private loader: MapsAPILoader, private location: Location, private constant: Constant,
-    private modalService: BsModalService, private admin: AdminService, private router: Router
+  constructor(private location: Location, private constant: Constant,
+    private modalService: BsModalService, private admin: AdminService,
   ) { }
 
   ngOnInit() {
@@ -36,7 +31,6 @@ export class LocationComponent implements OnInit {
     this.getCountries(this.searchCountry);
     this.getAllCountries(this.searchCountry);
     this.getAllCountriesForCities(this.searchCountry);
-    this.agm = new AGMComponent(this.loader);
   }
 
   public openCountryModal(template: TemplateRef<any>, country_id, name_en, name_es, status, index) {

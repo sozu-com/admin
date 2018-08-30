@@ -1,7 +1,8 @@
 <div class="project-des-bx white-bg">
   <div class="price">$26k+</div>
   <div class="fig-block">
-    <img [src]="data.property.image" alt="img">
+    <img *ngIf="data && data.property && data.property.image" [src]="data.property.image" alt="img">
+    <img *ngIf="!data && !data.property && !data.property.image" alt="img">
   </div>
   <div class="project-des-content">
     <!-- <small>{{data.building.developer.name}}</small>
@@ -11,7 +12,8 @@
     <small>SNN Builders</small>
     <h5>Morning Homes</h5>
     <p class="p12">Kaveri Nagar, Murugeshpalya, Mumbai East.</p>
-    <p class="p13">{{data.property.configuration.name}}</p>
+    <p class="p13" *ngIf="data && data.property">{{data.property.configuration.name}}</p>
+    <p class="p13" *ngIf="!data && !data.property">NA</p>
     <div class="dropdown threeDots">
       <button type="button" class="dropdown-toggle" data-toggle="dropdown">
         ...

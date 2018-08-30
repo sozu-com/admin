@@ -1,15 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Injector } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminService } from './services/admin.service';
-import { HttpModule } from '@angular/http';
+import { HttpModule, Http, RequestOptions, XHRBackend } from '@angular/http';
 import { AuthGuard } from './services/auth.guard';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
-
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
+import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 
 import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
@@ -19,11 +17,7 @@ import { HttpInterceptor } from './services/http-interceptor';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { LoginComponent } from './login/login.component';
 import { CommonService } from './services/common.service';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Constant } from './common/constants';
-
-
-// import { ChatTimePipe } from './pipes/chat-time.pipe';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent},
@@ -38,8 +32,7 @@ const appRoutes: Routes = [
     AppComponent,
     ForgotPasswordComponent,
     LoginComponent,
-    PageNotFoundComponent,
-    // ChatTimePipe
+    PageNotFoundComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -50,21 +43,18 @@ const appRoutes: Routes = [
     LayoutModule,
     LoadingModule.forRoot({
       animationType: ANIMATION_TYPES.rectangleBounce,
-      // backdropBackgroundColour: 'rgba(0,0,0,0.5)',
-      // backdropBorderRadius: '4px',
       primaryColour: '#00B96F'
     }),
-    Ng2TelInputModule,
-    // ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
+    MalihuScrollbarModule.forRoot(),
+    Ng2TelInputModule
   ],
-  providers: [AdminService, CommonService, AuthGuard, HttpInterceptor, Constant],
-  // providers: [AdminService, CommonService, AuthGuard,
-  //   {
-  //     provide: HTTP_INTERCEPTORS,
-  //     useClass: HttpInterceptor,
-  //     multi: true
-  //   }
-  // ],
+  providers: [AdminService, CommonService, AuthGuard, HttpInterceptor, Constant
+    // {
+    //   provide: Http, // <-------------
+    //   useFactory: httpInterceptor,
+    //   deps: [ XHRBackend, RequestOptions, Store, Injector ]
+    // }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

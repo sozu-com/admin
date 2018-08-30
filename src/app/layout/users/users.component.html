@@ -150,7 +150,7 @@
               <div class="form-group-2">
                   <label>Name</label>
                   <div class="form-group">
-                  <input autocomplete="off" required type="text" class="form-control" [(ngModel)]="model.name" name="name">
+                  <input autocomplete="off" required type="text" class="form-control" #name="ngModel" [(ngModel)]="model.name" name="name">
                 </div>
               </div>
             </div>

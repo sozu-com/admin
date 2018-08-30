@@ -2,15 +2,13 @@ import { Component, OnInit, Input, ElementRef, ViewChild, AfterViewChecked } fro
 import { AdminService } from './../../../services/admin.service';
 import { IProperty } from './../../../common/property';
 import * as io from 'socket.io-client';
-import { Constant } from './../../../common/constants';
 declare let swal: any;
 // import * as $ from 'jquery';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.css'],
-  providers: [Constant]
+  styleUrls: ['./chat.component.css']
 })
 
 export class ChatComponent implements OnInit {
@@ -25,8 +23,7 @@ export class ChatComponent implements OnInit {
   public parameter: IProperty = {};
 
   constructor(
-    private admin: AdminService,
-    private constant: Constant
+    private admin: AdminService
   ) { }
 
   ngOnInit() {

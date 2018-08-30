@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
-import { Router, ActivatedRoute } from '@angular/router';
 import { IProperty } from '../../common/property';
 import { Users } from './../../models/users.model';
 import { NgForm } from '@angular/forms';
@@ -12,7 +11,7 @@ declare let swal: any;
   selector: 'app-acl',
   templateUrl: './acl.component.html',
   styleUrls: ['./acl.component.css'],
-  providers: [Users, Constant]
+  providers: [Users, Constant, AdminService]
 })
 export class AclComponent implements OnInit {
 
@@ -24,8 +23,8 @@ export class AclComponent implements OnInit {
   public parameter: IProperty = {};
   initialCountry: any;
 
-  constructor(public constant: Constant, public model: Users, private element: ElementRef,
-    private route: ActivatedRoute, private admin: AdminService, private router: Router,
+  constructor(public constant: Constant, public model: Users,
+    private admin: AdminService,
     public sanitization: DomSanitizer
   ) { }
 

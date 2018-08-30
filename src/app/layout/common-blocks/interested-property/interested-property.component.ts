@@ -31,26 +31,28 @@ export class InterestedPropertyComponent implements OnInit {
 
   attachProperty() {
 
-    this.parameter.url = 'leads/attach-property';
-    const input = {
-      lead_id: this.data.lead_id,
-      property_id: this.data.property_id,
-      token_amount: this.model.token_amount,
-      commision: this.model.commision,
-      total_amount: this.model.total_amount
-    };
-    this.modalClose.nativeElement.click();
-console.log('leads/attach-property', input);
-    // this.admin.postDataApi(this.parameter.url, input)
-    //   .subscribe(
-    //     success => {
-    //       this.modalClose.nativeElement.click();
-    //       swal('Success', 'Deal has been finalized successfully.', 'success');
-    //       console.log('aa', success);
-    //       // this.parameter.countries = success.data;
-    //     },
-    //     error => {
-    //       swal('Error', error.message, 'error');
-    //     });
+    if  (this.data && this.data.property_id) {
+      this.parameter.url = 'leads/attach-property';
+      const input = {
+        lead_id: this.data.lead_id,
+        property_id: this.data.property_id,
+        token_amount: this.model.token_amount,
+        commision: this.model.commision,
+        total_amount: this.model.total_amount
+      };
+      this.modalClose.nativeElement.click();
+  console.log('leads/attach-property', input);
+      // this.admin.postDataApi(this.parameter.url, input)
+      //   .subscribe(
+      //     success => {
+      //       this.modalClose.nativeElement.click();
+      //       swal('Success', 'Deal has been finalized successfully.', 'success');
+      //       console.log('aa', success);
+      //       // this.parameter.countries = success.data;
+      //     },
+      //     error => {
+      //       swal('Error', error.message, 'error');
+      //     });
+    }
   }
 }

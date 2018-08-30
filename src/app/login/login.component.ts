@@ -44,6 +44,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
           this.admin.setUserLoggedIn();
           this.router.navigate(['dashboard/view-inhouse-users/data-collectors']);
           this.parameter.loading = false;
+        },
+        error => {
+          this.parameter.loading = false;
         }
       );
   }

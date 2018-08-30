@@ -114,16 +114,6 @@ export class EditTemplateComponent implements OnInit {
 
 
   submitData() {
-    // $(this.edt.nativeElement).on('froalaEditor.contentChanged', (e, editor) => {
-    //   console.log('content changed');
-    // });
-
-    // $('.selector').froalaEditor({
-    //   fileUploadParams: {
-    //     id: 'my_editor'
-    //   }
-    // });
-
     console.log('Data - ', this.editorContent);
   }
 

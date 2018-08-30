@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute} from '@angular/router';
 import { AdminService } from '../../../../services/admin.service';
 import { IProperty } from '../../../../common/property';
-import * as io from 'socket.io-client';
 import { Constant } from './../../../../common/constants';
 
 declare let swal: any;
