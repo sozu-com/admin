@@ -6,13 +6,10 @@
         <a class="breadcrumb-item">Home</a>
         <!-- <a class="breadcrumb-item" routerLink="/dashboard">Home</a> -->
         <a class="breadcrumb-item">Settings</a>
-        <!-- <a class="breadcrumb-item">Location</a> -->
         <span class="breadcrumb-item active">Locality</span>
     </nav>
   </div>
     
-  <!-- <ngx-loading [show]="parameter.loading"></ngx-loading> -->
-
   <div class="white-bg">
     <div class="page-title">
         <h3>Locality</h3>
@@ -146,7 +143,7 @@
             </div> -->
           </div>
           <div class="form-group">
-            <input type="text" class="form-control" placeholder="Locality name (Spanish)" [(ngModel)]="model.localityModel.name_es">
+            <input type="text" name="name_es" class="form-control" placeholder="Locality name (Spanish)" [(ngModel)]="model.localityModel.name_es">
           </div>
 
           <div class="form-group">

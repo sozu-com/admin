@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { EditTemplateComponent } from './edit-template.component';
 
-import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { FroalaEditorModule, FroalaViewModule, FroalaEditorDirective } from 'angular-froala-wysiwyg';
 import { AdminService } from './../../services/admin.service';
 import { HttpInterceptor } from './../../services/http-interceptor';
 import { FormsModule } from '@angular/forms';
@@ -14,11 +14,11 @@ describe('EditTemplateComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditTemplateComponent ],
+      declarations: [ EditTemplateComponent, FroalaEditorDirective ],
       imports: [
         HttpModule,
         FormsModule,
-        FroalaEditorModule.forRoot(),
+        // FroalaEditorModule.forRoot(),
         FroalaViewModule.forRoot(),
         RouterTestingModule.withRoutes([]),
       ],

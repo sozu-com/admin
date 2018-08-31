@@ -7,5 +7,12 @@ export class Bank {
     image: string;
     email: string;
     branch: string;
-    avg_int: string;
+    floating_int: string;
+    interests: Array<Object> = [
+        {
+            min_price: 0,
+            max_price: 0,
+            interest : 0
+        }
+    ];
 }

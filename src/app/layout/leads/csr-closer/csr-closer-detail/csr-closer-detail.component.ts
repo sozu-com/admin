@@ -28,26 +28,19 @@ export class CsrCloserDetailComponent implements OnInit {
   connected: any;
 
   constructor(
-    private router: Router,
     private route: ActivatedRoute,
     private admin: AdminService,
-    private constant: Constant
   ) { }
 
   ngOnInit() {
     this.route.params.subscribe( params => {
         this.id = params.id;
         this.admin.postDataApi('leads/details', {lead_id: this.id}).subscribe(r => {
-          // console.log(r);
           this.lead = r.data.lead;
-          console.log(this.lead);
           if (this.lead.user) {
-
             this.admin.postDataApi('conversation/getMessages', {lead_id: this.id, user_id: this.lead.user.id}).subscribe(res => {
               this.conversation = res.data[0];
-              // console.log(this.conversation);
             });
-
             this.initSocket();
           }
         });
@@ -56,13 +49,8 @@ export class CsrCloserDetailComponent implements OnInit {
 
   assignToBroker() {
     this.admin.postDataApi('conversation/assignBroker', {lead_id: this.id}).subscribe(r => {
-      console.log(r);
       this.lead = r.data;
-      console.log(this.lead);
     }
-    // error => {
-    //   swal('Error', error.message, 'error');
-    // }
   );
   }
 
@@ -84,14 +72,7 @@ export class CsrCloserDetailComponent implements OnInit {
       this.socket.on('connect', fun => {
         this.socket_id = this.socket.id;
         this.connected = this.socket.connected;
-        // var data:any={
-        //   api_token:localStorage.getItem('api_token'),
-        //   user_id:localStorage.getItem('profile_id'),
-        //   socket_id:this.socket_id,
-        // }
         if (this.connected) {
-          console.log('Socket Connected', this.socket_id);
-          // this.socket.emit('add-user',data);
           this.socket.on('message', (res: any) => {
             console.log(res);
           });

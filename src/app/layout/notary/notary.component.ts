@@ -8,7 +8,7 @@ import { Constant } from './../../common/constants';
 import { DomSanitizer } from '@angular/platform-browser';
 declare let swal: any;
 // import { HttpInterceptor } from './../../services/http-interceptor';
-import { HttpInterceptor } from './../../services/http-interceptor';
+// import { HttpInterceptor } from './../../services/http-interceptor';
 // import { } from './'
 
 
@@ -28,8 +28,8 @@ export class NotaryComponent implements OnInit {
   public parameter: IProperty = {};
   initialCountry: any;
 
-  constructor(public constant: Constant, public model: Users, private element: ElementRef,
-    private route: ActivatedRoute, private admin: AdminService, private router: Router,
+  constructor(public constant: Constant, public model: Users,
+    private admin: AdminService,
     public sanitization: DomSanitizer
   ) { }
 
@@ -77,7 +77,7 @@ export class NotaryComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('getBuyers', success);
+          // console.log('getBuyers', success);
           // this.parameter.loading = false;
           this.parameter.items = success.data;
           this.parameter.total = success.total;
@@ -122,7 +122,7 @@ export class NotaryComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('success', success);
+          // console.log('success', success);
           // this.parameter.loading = false;
           if (success.success === '0') {
             swal('Error', success.message, 'error');

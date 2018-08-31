@@ -19,7 +19,6 @@ export class CsrCloserComponent implements OnInit {
 
   constructor(
     private admin: AdminService,
-    private router: Router,
     private constant: Constant
   ) { }
 
@@ -33,12 +32,13 @@ export class CsrCloserComponent implements OnInit {
     this.parameter.flag = flag;
     this.getListing();
   }
+
   changeFilter(key, value) {
     this.parameter[key] = value;
     this.getListing();
   }
+
   getListing() {
-    // this.parameter.loading = true;
     this.parameter.url = 'leads/csr-closer';
 
     const input = new FormData();
@@ -61,20 +61,9 @@ export class CsrCloserComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log(success);
-          // this.parameter.loading = false;
           this.items = success.data;
           this.parameter.total = success.total_count;
         }
-        // error => {
-        //   this.parameter.loading = false;
-        //   if (error.statusCode === 401) {
-        //     swal('Error', error.message, 'error');
-        //     this.router.navigate(['']);
-        //   }else {
-        //     swal('Error', error.message, 'error');
-        //   }
-        // }
       );
   }
 

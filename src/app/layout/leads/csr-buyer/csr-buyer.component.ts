@@ -19,7 +19,6 @@ export class CsrBuyerComponent implements OnInit {
 
   constructor(
     private admin: AdminService,
-    private router: Router,
     private constant: Constant
   ) { }
 
@@ -46,7 +45,6 @@ export class CsrBuyerComponent implements OnInit {
   }
 
   getListing() {
-    // this.parameter.loading = true;
     this.parameter.url = 'leads/csr-buyer';
 
     const input = new FormData();
@@ -69,8 +67,6 @@ export class CsrBuyerComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log(success);
-          // this.parameter.loading = false;
           this.items = success.data;
           this.parameter.total = success.total_count;
         });

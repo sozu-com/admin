@@ -8,7 +8,7 @@ import { Constant } from './../../common/constants';
 import { DomSanitizer } from '@angular/platform-browser';
 declare let swal: any;
 // import { HttpInterceptor } from './../../services/http-interceptor';
-import { HttpInterceptor } from './../../services/http-interceptor';
+// import { HttpInterceptor } from './../../services/http-interceptor';
 // import { } from './'
 
 @Component({
@@ -17,6 +17,7 @@ import { HttpInterceptor } from './../../services/http-interceptor';
   styleUrls: ['./manual-leads.component.css'],
   providers: [Users, Constant]
 })
+
 export class ManualLeadsComponent implements OnInit {
 
   url: any[];
@@ -27,8 +28,8 @@ export class ManualLeadsComponent implements OnInit {
   public parameter: IProperty = {};
   initialCountry: any;
 
-  constructor(public constant: Constant, public model: Users, private element: ElementRef,
-    private route: ActivatedRoute, private admin: AdminService, private router: Router,
+  constructor(public constant: Constant, public model: Users,
+    private admin: AdminService,
     public sanitization: DomSanitizer
   ) { }
 
@@ -76,7 +77,7 @@ export class ManualLeadsComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('getBuyers', success);
+          // console.log('getBuyers', success);
           // this.parameter.loading = false;
           this.parameter.items = success.data;
           this.parameter.total = success.total;
@@ -121,7 +122,7 @@ export class ManualLeadsComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('success', success);
+          // console.log('success', success);
           // this.parameter.loading = false;
           if (success.success === '0') {
             swal('Error', success.message, 'error');
@@ -144,7 +145,7 @@ export class ManualLeadsComponent implements OnInit {
 
 
   editUser(userdata, index) {
-    console.log('edit user', userdata);
+    // console.log('edit user', userdata);
     this.parameter.index = index;
     this.modalOpen.nativeElement.click();
     this.model.id = userdata.id;
@@ -164,7 +165,7 @@ export class ManualLeadsComponent implements OnInit {
     this.onCountryChange(d);
 
     this.initialCountry = {initialCountry: userdata.country_code};
-    console.log(this.initialCountry, this.model);
+    // console.log(this.initialCountry, this.model);
 
     this.model.image = userdata.image != null ? userdata.image : '';
     if (this.model.image) {
@@ -216,7 +217,7 @@ export class ManualLeadsComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('success', success);
+          // console.log('success', success);
           // this.parameter.loading = false;
           swal('Success', success.message, 'success');
           this.parameter.items[this.parameter.index] = success.data;

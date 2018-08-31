@@ -8,7 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, RequestOptions, XHRBackend, Http } from '@angular/http';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 import { ChatTimePipe } from './../../../pipes/chat-time.pipe';
-import * as $ from 'jquery';
+// import * as jquery from 'jquery';
 
 describe('ChatComponent', () => {
   let component: ChatComponent;

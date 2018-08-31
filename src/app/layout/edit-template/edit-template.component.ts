@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AdminService } from './../../services/admin.service';
 declare let swal: any;
+import * as jquery from 'jquery';
 
 @Component({
   selector: 'app-edit-template',
@@ -14,9 +15,9 @@ export class EditTemplateComponent implements OnInit {
   };
   @ViewChild('edt') edt;
   public editorContent = 'My Document\'s Title';
-  public imgObj: Object = {
-    src: 'https://s3-us-west-2.amazonaws.com/testbagant/nequore/1533540803eRoUG6oE6q4noxtU10BqijCN6GJdBn.png'
-  };
+  // public imgObj: Object = {
+  //   src: 'https://s3-us-west-2.amazonaws.com/testbagant/nequore/1533540803eRoUG6oE6q4noxtU10BqijCN6GJdBn.png'
+  // };
   public options: Object = {
     charCounterCount: true,
     // Set the image upload parameter.

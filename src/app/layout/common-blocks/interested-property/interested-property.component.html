@@ -1,4 +1,4 @@
-<div class="project-des-bx white-bg">
+<div *ngIf="data" class="project-des-bx white-bg">
   <div class="price">$26k+</div>
   <div class="fig-block">
     <img *ngIf="data && data.property && data.property.image" [src]="data.property.image" alt="img">

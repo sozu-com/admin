@@ -1,9 +1,13 @@
-import { Component, OnInit, Input, ElementRef, ViewChild, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { AdminService } from './../../../services/admin.service';
 import { IProperty } from './../../../common/property';
 import * as io from 'socket.io-client';
 declare let swal: any;
 // import * as $ from 'jquery';
+// declare var $: any;
+// const $ = require('jquery');
+// window.jQuery = $;
+// import * as jquery from 'jquery';
 
 @Component({
   selector: 'app-chat',
@@ -15,7 +19,7 @@ export class ChatComponent implements OnInit {
   @Input('admin_id') admin_id;
   @Input('lead_id') lead_id;
   @Input('user_id') user_id;
-  @ViewChild('malihuScrollBar') malihuScrollBar: ElementRef;
+  // @ViewChild('malihuScrollBar') malihuScrollBar: ElementRef;
 
   message: any;
 

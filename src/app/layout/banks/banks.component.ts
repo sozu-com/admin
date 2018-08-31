@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
-import { Router, ActivatedRoute } from '@angular/router';
 import { IProperty } from '../../common/property';
 import { Bank } from './../../models/bank.model';
 import { NgForm } from '@angular/forms';
@@ -25,8 +24,8 @@ export class BanksComponent implements OnInit {
   public parameter: IProperty = {};
   initialCountry: any;
 
-  constructor(public constant: Constant, public model: Bank, private element: ElementRef,
-    private route: ActivatedRoute, private admin: AdminService, private router: Router,
+  constructor(public constant: Constant, public model: Bank,
+    private admin: AdminService,
     public sanitization: DomSanitizer
   ) { }
 
@@ -35,31 +34,27 @@ export class BanksComponent implements OnInit {
     this.model.dial_code = this.constant.dial_code;
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.p = this.constant.p;
-    this.parameter.type = 1;
     this.model.id = '';
-    this.initialCountry = {initialCountry: 'mx'};
-    this.getBuyers(this.parameter.type, this.parameter.p, '', '', '');
+    this.initialCountry = {initialCountry: this.constant.country_code};
+    this.getBanks(this.parameter.p, '', '', '');
   }
 
   closeModal() {
-    this.image1 = '';
-    this.model.name = ''; this.model.email = ''; this.model.phone = '';
+    this.model = new Bank;
     this.modalClose.nativeElement.click();
   }
 
   getPage(page) {
     this.parameter.p = page;
-    this.getBuyers(this.parameter.type, this.parameter.p, this.parameter.name, this.parameter.phone, this.parameter.email);
+    this.getBanks(this.parameter.p, this.parameter.name, this.parameter.phone, this.parameter.email);
   }
 
-  getBuyers(type, page, name, phone, email) {
+  getBanks(page, name, phone, email) {
 
     this.parameter.p = page;
-    this.parameter.type = type;
     this.parameter.name = name;
     this.parameter.phone = phone;
     this.parameter.email = email;
-    // this.parameter.loading = true;
 
     this.parameter.url = 'getBanks';
 
@@ -75,8 +70,6 @@ export class BanksComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('getBanks', success);
-          // this.parameter.loading = false;
           this.parameter.items = success.data;
           this.parameter.total = success.total;
         });
@@ -102,9 +95,8 @@ export class BanksComponent implements OnInit {
     this.initialCountry = {initialCountry: e.iso2};
   }
 
-  addNewUser(formdata: NgForm) {
-    // this.parameter.loading = true;
-    this.parameter.url = this.model.id !== '' ? 'updateNewUser' : 'addSeller';
+  addBank(formdata: NgForm) {
+    this.parameter.url = this.model.id !== '' ? 'updateNewUser' : 'addBank';
 
     const input = new FormData();
 
@@ -114,6 +106,8 @@ export class BanksComponent implements OnInit {
     input.append('dial_code', '+' + this.model.dial_code);
     input.append('phone', this.model.phone);
     input.append('email', this.model.email);
+    input.append('floating_int', this.model.floating_int);
+    input.append('interests', JSON.stringify(this.model.interests));
 
     if (this.parameter.image) { input.append('image', this.parameter.image); }
 
@@ -121,12 +115,10 @@ export class BanksComponent implements OnInit {
       .subscribe(
         success => {
           console.log('success', success);
-          // this.parameter.loading = false;
           if (success.success === '0') {
             swal('Error', success.message, 'error');
           }else {
             this.modalClose.nativeElement.click();
-            // this.getBuyers(this.parameter.type, this.parameter.p, this.parameter.name, this.parameter.phone, this.parameter.email);
             formdata.reset();
             const text = this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
             swal('Success', text, 'success');

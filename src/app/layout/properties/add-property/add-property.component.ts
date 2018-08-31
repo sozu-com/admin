@@ -81,12 +81,11 @@ export class AddPropertyComponent implements OnInit {
         this.testMarital[0].checked = true;
         this.model.marital_status = [1];
         this.showSearch = true;
-        console.log('yes');
+        // console.log('yes');
       } else {
-        console.log('yes');
+        // console.log('yes');
         this.getPropertyById(this.parameter.property_id);
       }
-
     });
 
     this.parameter.buildingCount = 0;
@@ -128,21 +127,10 @@ export class AddPropertyComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          // console.log('propertyDetails', success);
           this.parameter.loading = false;
           this.parameter.propertyDetails = success.data;
           this.setModelData(success.data);
-          // console.log('model', this.model);
         }
-        // error => {
-        //   this.parameter.loading = false;
-        //   if (error.statusCode === 401) {
-        //     swal('Error', error.message, 'error');
-        //     this.router.navigate(['']);
-        //   }else {
-        //     swal('Error', error.message, 'error');
-        //   }
-        // }
       );
   }
 
@@ -226,36 +214,19 @@ export class AddPropertyComponent implements OnInit {
   }
 
   onCountryChange(e) {
-    // console.log('eeee', e);
     this.building.dev_countrycode = e.dialCode;
     this.initialCountry = {initialCountry: e.iso2};
   }
 
   getCountries(keyword) {
-
-    // this.parameter.loading = true;
     this.parameter.url = 'getCountries';
     this.admin.postDataApi(this.parameter.url, {})
       .subscribe(
-        success => {
-          // console.log('countries', success);
-          // this.parameter.loading = false;
-          this.parameter.countries = success.data;
-        }
-        // error => {
-        //   this.parameter.loading = false;
-        //   if (error.statusCode === 401) {
-        //     swal('Error', error.message, 'error');
-        //     this.router.navigate(['']);
-        //   }else {
-        //     swal('Error', error.message, 'error');
-        //   }
-        // }
+        success => { this.parameter.countries = success.data; }
       );
   }
 
   getStates(country_id, keyword) {
-    // this.parameter.loading = true;
     this.parameter.url = 'country/getStates';
     this.model.country_id = country_id;
     this.model.state_id = '';
@@ -267,25 +238,11 @@ export class AddPropertyComponent implements OnInit {
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
-        success => {
-          // console.log('states', success);
-          // this.parameter.loading = false;
-          this.parameter.states = success.data;
-        }
-        // error => {
-        //   // console.log(error);
-        //   this.parameter.loading = false;
-        //   if (error.statusCode === 401) {
-        //     this.router.navigate(['']);
-        //   }else {
-        //     swal('Error', error.message, 'error');
-        //   }
-        // }
+        success => { this.parameter.states = success.data; }
       );
   }
 
   getCities(state_id, keyword) {
-    // this.parameter.loading = true;
     this.parameter.url = 'getCities';
     this.model.state_id = state_id;
     this.model.city_id = '';
@@ -296,26 +253,12 @@ export class AddPropertyComponent implements OnInit {
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
-        success => {
-          // console.log('cities', success);
-          // this.parameter.loading = false;
-          this.parameter.cities = success.data;
-        }
-        // error => {
-        //   // console.log(error);
-        //   this.parameter.loading = false;
-        //   if (error.statusCode === 401) {
-        //     this.router.navigate(['']);
-        //   } else {
-        //     swal('Error', error.message, 'error');
-        //   }
-        // }
+        success => { this.parameter.cities = success.data; }
       );
   }
 
 
   getLocalities(city_id, keyword= '') {
-    // this.parameter.loading = true;
     this.parameter.url = 'getLocalities';
     this.model.city_id = city_id;
     this.model.locality_id = '';
@@ -327,34 +270,9 @@ export class AddPropertyComponent implements OnInit {
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
-        success => {
-          // console.log('Localities', success);
-          // this.parameter.loading = false;
-          this.parameter.localities = success.data;
-        }
-        // error => {
-        //   // console.log(error);
-        //   this.parameter.loading = false;
-        //   if (error.statusCode === 401) {
-        //     this.router.navigate(['']);
-        //   } else {
-        //     swal('Error', error.message, 'error');
-        //   }
-        // }
+        success => { this.parameter.localities = success.data; }
       );
   }
-
-  // setLocality(locality_id) {
-  //   this.model.locality_id = locality_id;
-  // }
-
-  // setConfiguration(id) {
-  //   this.model.configuration_id = id;
-  // }
-
-  // setPropertyType(id) {
-  //   this.model.property_type_id = id;
-  // }
 
   setAmenity(id) {
     this.model.amenities = [id];
@@ -365,94 +283,57 @@ export class AddPropertyComponent implements OnInit {
   }
 
   getConfigurations() {
-    // this.parameter.loading = true;
     this.parameter.url = 'getConfigurations';
     const input = new FormData();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          // this.parameter.loading = false;
           this.parameter.items = success.data;
           if (this.parameter.items.length !== 0 && this.parameter.property_id === '') {
             this.model.configuration_id = this.parameter.items[0].id;
           }
         }
-        // error => {
-        //   this.parameter.loading = false;
-        //   if (error.statusCode === 401) {
-        //     this.router.navigate(['']);
-        //   } else {
-        //     swal('Error', error.message, 'error');
-        //   }
-        // }
       );
   }
 
 
   getPropertyTypes() {
-    // this.parameter.loading = true;
     this.parameter.url = 'getPropertyTypes';
     const input = new FormData();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          // this.parameter.loading = false;
           this.parameter.propertyTypes = success.data;
           if (this.parameter.propertyTypes.length !== 0 && this.parameter.property_id === '') {
             this.model.property_type_id = this.parameter.propertyTypes[0].id;
           }
         }
-        // error => {
-        //   this.parameter.loading = false;
-        //   if (error.statusCode === 401) {
-        //     this.router.navigate(['']);
-        //   } else {
-        //     swal('Error', error.message, 'error');
-        //   }
-        // }
       );
   }
 
   getAmenities() {
-    // this.parameter.loading = true;
     this.parameter.url = 'getPropertyAmenities';
     const input = new FormData();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
-        success => {
-          // this.parameter.loading = false;
-          this.parameter.amenities = success.data;
-        }
-        // error => {
-        //   this.parameter.loading = false;
-        //   if (error.statusCode === 401) {
-        //     this.router.navigate(['']);
-        //   } else {
-        //     swal('Error', error.message, 'error');
-        //   }
-        // }
+        success => { this.parameter.amenities = success.data; }
       );
   }
 
   addAmenity(a) {
-    // console.log('a', a);
     const tt = this.getSelectedAmenityByName(a);
     if (tt) {
-      // console.log('fsdfs');
       this.amenityList.push(tt);
       this.model.amenities.push(tt.id);
     }
-    // console.log('afffdsfsdfsdf', this.amenityList);
     this.amen = '';
   }
 
   getSelectedAmenityByName(selectedName: string) {
     const r = this.amenityList.find(amenity => amenity.name_en === selectedName);
     if (r) {
-      // console.log('empty');
       return '';
     }else {
-      // console.log('ss');
       return this.parameter.amenities.find(amenity => amenity.name_en === selectedName);
     }
   }
@@ -464,25 +345,11 @@ export class AddPropertyComponent implements OnInit {
 
 
   getBanks() {
-    // this.parameter.loading = true;
     this.parameter.url = 'getBanks';
     const input = new FormData();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
-        success => {
-          // console.log('getBanks', success);
-          // this.parameter.loading = false;
-          this.parameter.banks = success.data;
-        }
-        // error => {
-        //   // console.log(error);
-        //   this.parameter.loading = false;
-        //   if (error.statusCode === 401) {
-        //     this.router.navigate(['']);
-        //   } else {
-        //     swal('Error', error.message, 'error');
-        //   }
-        // }
+        success => { this.parameter.banks = success.data; }
       );
   }
 
@@ -523,28 +390,16 @@ export class AddPropertyComponent implements OnInit {
     if (keyword === '') {
       swal('Error', 'Please enter some text.', 'error');
     } else {
-      // this.parameter.loading = true;
       const input = new FormData();
       input.append('keyword', keyword);
 
       this.admin.postDataApi(this.parameter.url, input)
         .subscribe(
           success => {
-            // console.log('searchBuilding', success);
-            // this.parameter.loading = false;
             this.parameter.buildings = success.data;
             this.parameter.buildingCount = success.data.length;
             if (this.parameter.buildingCount === 0) { this.showText = true; }
           }
-          // error => {
-          //   // console.log(error);
-          //   this.parameter.loading = false;
-          //   if (error.statusCode === 401) {
-          //     this.router.navigate(['']);
-          //   } else {
-          //     swal('Error', error.message, 'error');
-          //   }
-          // }
         );
     }
   }
@@ -594,37 +449,6 @@ export class AddPropertyComponent implements OnInit {
     }
   }
 
-  onSelectFile1(event) { // called each time file input changes
-    // this.uploader.onSelectFile1(event);
-    if (event.target.files && event.target.files[0]) {
-      const reader = new FileReader();
-
-      reader.onload = (e: any) => {
-          this.url = e.target.result;
-          this.model.cover_image = this.url;
-          // this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.url})`);
-          // console.log('this.url, this.image1', this.url, this.image1);
-      };
-      const input = new FormData();
-      input.append('image', event.target.files[0]);
-
-      // this.admin.postDataApi('saveImage', input)
-      // .subscribe(
-      //   success => {
-      //     console.log('successimage', success);
-      //     this.model.cover_image = success.data.image;
-      //     this.parameter.loading = false;
-      //   },
-      //   error => {
-      //     console.log(error);
-      //     this.parameter.loading = false;
-      //     swal('Error', error.message, 'error');
-      //   });
-
-      reader.readAsDataURL(event.target.files[0]);
-    }
-  }
-
 
   closeModal() {
     this.modalClose.nativeElement.click();
@@ -638,27 +462,16 @@ export class AddPropertyComponent implements OnInit {
     this.url2.splice(index, 1);
     this.imageEvent.splice(index, 1);
     this.model.images.splice(index, 1);
-    // console.log('----------', this.url2, this.imageEvent);
   }
 
   saveImages() {
-    // console.log('----------', this.url2, this.imageEvent);
     const input = new FormData();
     for (let index = 0; index < this.imageEvent.length; index++) {
       input.append('image', this.imageEvent[index]);
 
       this.admin.postDataApi('saveImage', input)
       .subscribe(
-        success => {
-          // console.log('successimage' + index, success);
-          this.model.images.push(success.data.image);
-          // this.parameter.loading = false;
-        }
-        // error => {
-        //   // console.log(error);
-        //   this.parameter.loading = false;
-        //   swal('Error', error.message, 'error');
-        // }
+        success => { this.model.images.push(success.data.image); }
       );
     }
   }
@@ -677,32 +490,18 @@ export class AddPropertyComponent implements OnInit {
 
       this.admin.postDataApi('saveImage', input)
       .subscribe(
-        success => {
-          // console.log('successimage', success);
-          this.model.floor_plan = success.data.image;
-          // this.parameter.loading = false;
-        }
-        // error => {
-        //   // console.log(error);
-        //   this.parameter.loading = false;
-        //   swal('Error', error.message, 'error');
-        // }
+        success => { this.model.floor_plan = success.data.image; }
       );
 
-      // this.model.images = event.target.files;
       reader.readAsDataURL(event.target.files[0]);
     }
   }
 
   addMaritalStatus(checked, i) {
-    // console.log('mm', i, checked, this.testMarital[i]);
     this.testMarital[i].checked = this.testMarital[i].checked === true ? false : true;
-    // console.log('atermm', this.testMarital);
   }
 
   addProperty(formdata: NgForm, tab) {
-    // console.log('formdata', formdata);
-    // console.log('api', this.model);
 
     this.model.marital_status = [];
     for (let index = 0; index < this.testMarital.length; index++) {
@@ -710,8 +509,7 @@ export class AddPropertyComponent implements OnInit {
         this.model.marital_status.push(this.testMarital[index].id);
       }
     }
-// console.log(this.model.cover_image, this.model);
-    // this.parameter.loading = true;
+
     this.parameter.url = this.model.id !== '' ? 'addProperty' : 'addProperty';
     this.model.step = tab - 1;
 
@@ -729,15 +527,6 @@ export class AddPropertyComponent implements OnInit {
       if (this.parameter.property_id) {
         input.append('property_id', this.parameter.property_id);
       }
-
-      // this.model.for_rent = this.model.for_rent == 'true' || this.model.for_rent === '1' ? '1' : '0';
-      // this.model.for_sale = this.model.for_sale == 'true' || this.model.for_sale === '1' ? '1' : '0';
-      // this.model.carpet_areas = JSON.stringify(this.model.carpet_areas);
-      // this.model.images = JSON.stringify(this.model.images);
-      // this.model.amenities = JSON.stringify(this.model.amenities);
-      // this.model.banks = JSON.stringify(this.model.banks);
-      // this.model.marital_status = JSON.stringify(this.model.marital_status);
-      // this.model.custom_attributes = JSON.stringify(this.model.custom_attributes);
 
       input.append('step', this.model.step.toString());
       // if (this.model.step === 1) {
@@ -765,43 +554,28 @@ export class AddPropertyComponent implements OnInit {
         input.append('quantity', this.model.quantity.toString());
         input.append('amenities', JSON.stringify(this.model.amenities));
         input.append('banks', JSON.stringify(this.model.banks));
-      // }
-      // if (this.model.step === 3) {
+
         input.append('pets', this.model.pets.toString());
         input.append('marital_status', JSON.stringify(this.model.marital_status));
-      // }
-      // if (this.model.step === 4) {
+
         input.append('custom_attributes', JSON.stringify(this.model.custom_attributes));
-      // }
-// console.log(input);
-// console.log('===', this.parameter.property_id);
-      // this.parameter.loading = false;
+
       this.admin.postDataApi(this.parameter.url, input)
         .subscribe(
           success => {
-            // console.log('success', success);
             this.parameter.property_id = success.data.id;
-            // this.parameter.loading = false;
             this.tab = tab;
-            // this.setModelData(success.data);
-            // console.log('this.model.postdataapi', this.model);
           }
-          // error => {
-          //   this.parameter.loading = false;
-          //   swal('Error', error.message, 'error');
-          // }
         );
     }
   }
 
   setBuildingId(building_id) {
-    console.log(this.showSearch, this.parameter.buildingCount, this.showText);
     this.building.id = building_id;
   }
 
   tagBuilding() {
 
-    // this.parameter.loading = true;
     this.parameter.url = 'tagBuilding';
 
     const input = new FormData();
@@ -811,22 +585,16 @@ export class AddPropertyComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          // console.log('tagBuilding', success);
-          // this.parameter.loading = false;
-          swal('Property submitted successfully.',
+          swal('Submitted successfully.',
           'You will be notified once your property will be reviewed by them, you can view status in your properties.',
           'success');
           this.router.navigate(['/dashboard/properties/view-properties']);
         }
-        // error => {
-        //   this.parameter.loading = false;
-        //   swal('Error', error.message, 'error');
-        // }
       );
   }
 
   loadPlaces() {
-    // console.log('--', this.searchElementRef.nativeElement);
+
     // load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
       const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
@@ -868,8 +636,6 @@ export class AddPropertyComponent implements OnInit {
     this.latitude = $event.coords.lat;
     this.longitude = $event.coords.lng;
     this.getGeoLocation(this.latitude, this.longitude);
-    // console.log($event.coords.lat);
-    // console.log($event);
   }
 
 
@@ -895,38 +661,18 @@ export class AddPropertyComponent implements OnInit {
 
   buildingRequest() {
 
-    // this.parameter.loading = true;
     this.parameter.url = 'buildingRequest';
-
     this.building.lat = this.latitude;
     this.building.lng = this.longitude;
-
-    // const input = new FormData();
-    // input.append('name', this.building.name);
-    // input.append('address', this.building.address);
-    // input.append('lat', this.building.lat.toString());
-    // input.append('lng', this.building.lng.toString());
-
-    // if (this.building.dev_name) {input.append('dev_name', this.building.dev_name); }
-    // if (this.building.dev_phone) {input.append('dev_name', this.building.dev_phone); }
-    // if (this.building.dev_countrycode) {input.append('dev_name', this.building.dev_countrycode); }
-    // if (this.building.dev_email) {input.append('dev_name', this.building.dev_email); }
 
     this.admin.postDataApi(this.parameter.url, this.building)
       .subscribe(
         success => {
-          // console.log('buildingRequest', success);
-          // this.parameter.loading = false;
-          // Your Property is submitted to our Team.
-          swal('Property submitted successfully.',
+          swal('Submitted successfully.',
           'You will be notified once your property will be reviewed by them, you can view status in your properties.',
           'success');
           this.router.navigate(['/dashboard/properties/view-properties']);
         }
-        // error => {
-        //   this.parameter.loading = false;
-        //   swal('Error', error.message, 'error');
-        // }
       );
   }
 }

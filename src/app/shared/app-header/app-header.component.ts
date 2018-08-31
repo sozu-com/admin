@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AdminService } from './../../services/admin.service';
 import { Router } from '@angular/router';
+// import { SweetAlertService } from 'ngx-sweetalert2';
 declare let swal: any;
 
 @Component({
@@ -10,11 +11,14 @@ declare let swal: any;
 })
 
 export class AppHeaderComponent {
+
   fullName: any;
   image: any;
   public scrollbarOptions = { axis: 'yx', theme: 'minimal-dark' };
 
-  constructor(private admin: AdminService, private router: Router) {
+  constructor(private admin: AdminService, private router: Router
+    // , private swal: SweetAlertService
+  ) {
     this.admin.loginData$.subscribe(success => {
       this.fullName = success['name'];
       this.image = success['image'];
