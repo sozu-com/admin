@@ -1,6 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ElementRef } from '@angular/core';
 import { AdminService } from './../../../services/admin.service';
+import { CommonService } from './../../../services/common.service';
 import { IProperty } from './../../../common/property';
+import { GeneralFunctions } from './../../../common/generalFunctions';
 import * as io from 'socket.io-client';
 declare let swal: any;
 // import * as $ from 'jquery';
@@ -19,18 +21,27 @@ export class ChatComponent implements OnInit {
   @Input('admin_id') admin_id;
   @Input('lead_id') lead_id;
   @Input('user_id') user_id;
-  // @ViewChild('malihuScrollBar') malihuScrollBar: ElementRef;
-
+  gf: GeneralFunctions;
   message: any;
+  showVideo = true;
+  video;
+  videoObj: Object = {
+    thumbnail: '',
+    original: ''
+  };
 
   public scrollbarOptions = { axis: 'y', theme: 'dark', scrollInertia: 0, scrollbar: 'bottom', scrollbarPosition: 'inside' };
   public parameter: IProperty = {};
 
   constructor(
-    private admin: AdminService
+    private element: ElementRef,
+    private admin: AdminService,
+    private cs: CommonService
   ) { }
 
   ngOnInit() {
+    this.gf = new GeneralFunctions();
+    this.parameter.message_type = 1;
     setTimeout(() => {
       this.getMessages();
       this.initSocket();
@@ -77,10 +88,104 @@ export class ChatComponent implements OnInit {
     }, 200);
   }
 
+
+  onSelectFile(param, event) {
+     if (event.target.files && event.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+          this.parameter.image = e.target.result;
+          // this.model[param] = this.parameter.image;
+      };
+      reader.readAsDataURL(event.target.files[0]);
+      this.cs.saveImage(event.target.files[0]).subscribe(
+        // success => {this.model[param] = success.data.image; }
+      );
+    }
+  }
+
+
+  showCanvas(event) {
+    this.parameter.loading = true;
+    this.showVideo = false;
+
+    this.video = document.getElementById('video1');
+
+    const reader = new FileReader();
+    const image = this.element.nativeElement.querySelector('.video55');
+    reader.onload = function(e) {
+      const src = e.target['result'];
+      image.src = src;
+
+      const timer = setInterval( () => {
+        if (image.readyState === 4) {
+          this.durationInSec = image.duration.toFixed(0);
+          // console.log("The duration is: " + image.duration.toFixed(2) + " seconds");
+          clearInterval(timer);
+        }
+      }, 500);
+    }.bind(this);
+
+    reader.readAsDataURL(event.target.files[0]);
+
+    const videoFile = event.target.files[0];
+    setTimeout(() => {
+      this.newcanvas(image, videoFile);
+    }, 5000);
+  }
+
+
+  newcanvas(video, videoFile) {
+    const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+    const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
+                                                      0, 0, canvas.width, canvas.height);
+
+    const ImageURL = canvas.toDataURL('image/jpeg');
+    // const fileToUpload = this.dataURLtoFile(ImageURL, 'tempFile.png');
+    const fileExtension = 'png';
+    const fileNameS3 = this.gf.generateRandomString() + '.' + fileExtension;
+
+    // // uploading video thumbnail
+    // // this.uploader.upload(fileToUpload, fileNameS3).then((x) => {
+    // //   this.imagePath = x;
+    // // });
+
+    // // uploading video file
+    // const videoExtension = 'mp4';
+    // const videofileNameS3 = this.gf.generateRandomString() + '.' + videoExtension;
+    // // this.uploader.upload(videoFile, videofileNameS3).then((x) => {
+    // //   this.imagePath = x;
+    // // });
+
+    // // creating image object
+    // // this.videoObj = {
+    // //   thumbnail: this.admin.imageBasePath + fileNameS3,
+    // //   file: this.admin.imageBasePath + videofileNameS3
+    // // };
+    // this.parameter.loading = false;
+    // console.log('mmmmmmmmmmmmmmmmmmmmm', this.videoObj);
+  }
+
+  // dataURLtoFile(dataurl, filename) {
+  //   const arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+  //       bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+  //   while (n--) {
+  //       u8arr[n] = bstr.charCodeAt(n);
+  //   }
+  //   return new File([u8arr], filename, {type: mime});
+  // }
+
   sendMessage() {
     if (this.message) {
-      this.admin.postDataApi('conversation/sendMessage',
-      {conversation_id: this.parameter.conversation_id, message: this.message}).subscribe(r => {
+      const params = {
+        conversation_id: this.parameter.conversation_id,
+        message: this.message,
+        message_type: this.parameter.message_type,
+        // image: 's',
+        // video: 's',
+        // attachment_name: 's',
+        // attachment: 's'
+      };
+      this.admin.postDataApi('conversation/sendMessage', params).subscribe(r => {
         this.parameter.messages.push(r.data);
         this.scrollToBottom();
         this.message = '';

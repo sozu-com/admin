@@ -16,7 +16,7 @@
     </div>
   
     <!-- <ngx-loading [show]="parameter.loading"></ngx-loading> -->
-  
+<!--   
     <div class="row">
         <div class="col-lg-2 col-md-3 col-sm-6 col-6">
           <div class="form-group marginB0">
@@ -69,7 +69,62 @@
             <button (click)="getInhouseUsers()" class="btn btn-primary">Apply</button>
           </div>
         </div>
-    </div>
+    </div> -->
+
+
+    <div class="row">
+      <div class="col-lg-2 col-md-3 col-sm-6 col-6">
+        <div class="form-group marginB0">
+            <label>Country</label>
+            <select title="Choose Country" class="form-control" (change)="getStates($event.target.value)">
+              <option value="-1">All</option>
+              <option *ngFor="let country of parameter.countries" value="{{country.id}}">{{country.name_en}}</option>
+            </select>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-3 col-sm-6 col-6">
+        <div class="form-group marginB0">
+            <label>State</label>
+            <select title="Choose State" class="form-control" (change)="getCities($event.target.value)">
+              <option value="-1">All</option>
+              <option *ngFor="let state of parameter.states" value="{{state.id}}">{{state.name_en}}</option>
+            </select>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-3 col-sm-6 col-6">
+        <div class="form-group marginB0">
+            <label>City</label>
+            <select title="Choose City" class="form-control" (change)="getLocalities($event.target.value)">
+              <option value="-1">All</option>
+              <option *ngFor="let city of parameter.cities" value="{{city.id}}">{{city.name_en}}</option>
+            </select>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-3 col-sm-6 col-6">
+        <div class="form-group marginB0">
+            <label>Locality</label>
+            <select title="Choose Locality" class="form-control" (change)="getLocalityBuildings($event.target.value)">
+              <option value="-1">All</option>
+              <option *ngFor="let locality of parameter.localities" value="{{locality.id}}">{{locality.name_en}}</option>
+            </select>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-3 col-sm-6 col-6">
+        <div class="form-group marginB0">
+            <label>Building</label>
+            <select title="Choose Building" class="form-control" (change)="setBuilding($event.target.value)">
+              <option value="-1">All</option>
+              <option *ngFor="let building of parameter.buildings" value="{{building.id}}">{{building.name}}</option>
+            </select>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-3 col-sm-6 col-6">
+        <div class="form-group btn-cont text-right">
+          <label style="display: block; margin-top: 3px;">&nbsp;</label>
+          <button (click)="getInhouseUsers()" class="btn btn-primary">Apply</button>
+        </div>
+      </div>
+  </div>
     <hr>
 
 

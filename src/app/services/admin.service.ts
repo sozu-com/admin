@@ -83,6 +83,29 @@ export class AdminService {
                   return r;
                 })
                 .catch(this.errorHandler);
+
+    // return new Promise((resolve: any, reject: any) => {
+    //   this.http.post(this.baseUrl + 'login', input)
+    //   .subscribe((response: any) => {
+    //     const r = response.json();
+    //     this.login.next(r.data);
+    //     console.log('response', r.data);
+    //     localStorage.setItem('token', r.data.token);
+    //     resolve(response);
+    //   }, (error: any) => {
+    //     reject(error);
+    //   });
+    // });
+  }
+
+  adminLogin1(email, password): Observable<any[]> {
+    const headers = this.getHeadersForLogin();
+    const input = new FormData();
+    input.append('email', email);
+    input.append('password', password);
+    const response1 = this.http.post(this.baseUrl + 'login', input, {headers: headers});
+    const response2 = this.http.post(this.baseUrl + 'getCountryLocality', {}, {headers: headers});
+    return Observable.forkJoin([response1, response2]);
   }
 
   getCountryLocality(url) {
@@ -90,6 +113,7 @@ export class AdminService {
     const input = new FormData();
     return this.http.post(this.baseUrl + url, input, {headers: headers})
           .map(response => {
+            console.log('country', response);
             const r = response.json();
             this.country.next(r.data);
             return r;

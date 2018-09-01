@@ -9,8 +9,7 @@ declare let swal: any;
 @Component({
   selector: 'app-csr-buyer-detail',
   templateUrl: './csr-buyer-detail.component.html',
-  styleUrls: ['./csr-buyer-detail.component.css'],
-  providers: [Constant]
+  styleUrls: ['./csr-buyer-detail.component.css']
 })
 
 export class CsrBuyerDetailComponent implements OnInit {
@@ -19,7 +18,8 @@ export class CsrBuyerDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private admin: AdminService
+    private admin: AdminService,
+    public constant: Constant
   ) {
     this.admin.loginData$.subscribe(success => {
       this.parameter.admin_id = success['id'];

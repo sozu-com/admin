@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
 import { IProperty } from '../../common/property';
-import { Users } from './../../models/users.model';
+import { ACL } from './../../models/acl.model';
 import { NgForm } from '@angular/forms';
 import { Constant } from './../../common/constants';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -11,7 +11,7 @@ declare let swal: any;
   selector: 'app-acl',
   templateUrl: './acl.component.html',
   styleUrls: ['./acl.component.css'],
-  providers: [Users, Constant, AdminService]
+  providers: [ACL]
 })
 export class AclComponent implements OnInit {
 
@@ -23,42 +23,39 @@ export class AclComponent implements OnInit {
   public parameter: IProperty = {};
   initialCountry: any;
 
-  constructor(public constant: Constant, public model: Users,
+  constructor(public constant: Constant, public model: ACL,
     private admin: AdminService,
     public sanitization: DomSanitizer
   ) { }
 
   ngOnInit() {
     this.model.country_code = this.constant.country_code;
+    this.model.dial_code = this.constant.dial_code;
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.p = this.constant.p;
-    this.parameter.type = 1;
     this.model.id = '';
-    this.initialCountry = {initialCountry: 'mx'};
-    this.getBuyers(this.parameter.type, this.parameter.p, '', '', '');
+    this.initialCountry = {initialCountry: this.constant.country_code};
+    this.getBanks(this.parameter.p, '', '', '');
   }
 
   closeModal() {
-    this.image1 = '';
-    this.model.name = ''; this.model.email = ''; this.model.phone = '';
+    this.model = new ACL;
     this.modalClose.nativeElement.click();
   }
 
   getPage(page) {
     this.parameter.p = page;
-    this.getBuyers(this.parameter.type, this.parameter.p, this.parameter.name, this.parameter.phone, this.parameter.email);
+    this.getBanks(this.parameter.p, this.parameter.name, this.parameter.phone, this.parameter.email);
   }
 
-  getBuyers(type, page, name, phone, email) {
+  getBanks(page, name, phone, email) {
 
     this.parameter.p = page;
-    this.parameter.type = type;
     this.parameter.name = name;
     this.parameter.phone = phone;
     this.parameter.email = email;
-    // this.parameter.loading = true;
 
-    this.parameter.url = this.parameter.type === 1 ? 'getBuyers' : 'getSellers';
+    this.parameter.url = 'getBanks';
 
     const input = new FormData();
     input.append('page', this.parameter.p.toString());
@@ -72,8 +69,6 @@ export class AclComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('getBuyers', success);
-          // this.parameter.loading = false;
           this.parameter.items = success.data;
           this.parameter.total = success.total;
         });
@@ -99,9 +94,8 @@ export class AclComponent implements OnInit {
     this.initialCountry = {initialCountry: e.iso2};
   }
 
-  addNewUser(formdata: NgForm) {
-    // this.parameter.loading = true;
-    this.parameter.url = this.model.id !== '' ? 'updateNewUser' : 'addSeller';
+  addBank(formdata: NgForm) {
+    this.parameter.url = this.model.id !== '' ? 'updateNewUser' : 'addBank';
 
     const input = new FormData();
 
@@ -111,6 +105,7 @@ export class AclComponent implements OnInit {
     input.append('dial_code', '+' + this.model.dial_code);
     input.append('phone', this.model.phone);
     input.append('email', this.model.email);
+    input.append('access_control', JSON.stringify(this.model.access_control));
 
     if (this.parameter.image) { input.append('image', this.parameter.image); }
 
@@ -118,12 +113,10 @@ export class AclComponent implements OnInit {
       .subscribe(
         success => {
           console.log('success', success);
-          // this.parameter.loading = false;
           if (success.success === '0') {
             swal('Error', success.message, 'error');
           }else {
             this.modalClose.nativeElement.click();
-            // this.getBuyers(this.parameter.type, this.parameter.p, this.parameter.name, this.parameter.phone, this.parameter.email);
             formdata.reset();
             const text = this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
             swal('Success', text, 'success');

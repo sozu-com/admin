@@ -108,4 +108,17 @@ export class CommonService {
     input.append('image', file);
     return this.admin.postDataApi('saveImage', input);
   }
+
+  saveVideo(file) {
+    const input = new FormData();
+    input.append('video', file);
+    input.append('thumb', file);
+    return this.admin.postDataApi('saveVideo', input);
+  }
+
+  saveAttachment(file) {
+    const input = new FormData();
+    input.append('attachment', file);
+    return this.admin.postDataApi('saveAttachment', input);
+  }
 }

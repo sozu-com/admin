@@ -16,9 +16,7 @@ export class AppHeaderComponent {
   image: any;
   public scrollbarOptions = { axis: 'yx', theme: 'minimal-dark' };
 
-  constructor(private admin: AdminService, private router: Router
-    // , private swal: SweetAlertService
-  ) {
+  constructor(private admin: AdminService, private router: Router) {
     this.admin.loginData$.subscribe(success => {
       this.fullName = success['name'];
       this.image = success['image'];

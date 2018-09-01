@@ -29,15 +29,19 @@ export class InhouseUsersComponent implements OnInit {
   url: any[];
   image1: any;
   title: string;
-  // newPage: number;
   disabledLocalities = [];
   seenDuplicate = false;
   testObject = [];
 
-  constructor(public constant: Constant, private address: Address,
+  constructor(public constant: Constant,
     public model: InhouseUsers, private route: ActivatedRoute,
     private admin: AdminService, private router: Router,
-    private sanitization: DomSanitizer) { }
+    private sanitization: DomSanitizer) {
+      this.admin.countryData$.subscribe(success => {
+        this.parameter.allCountry = success;
+        console.log('allCountry', success);
+      });
+    }
 
   ngOnInit() {
     this.model.userModel.country_code = this.constant.country_code;
@@ -155,38 +159,12 @@ export class InhouseUsersComponent implements OnInit {
           this.url = e.target.result;
           this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.url})`);
       };
-
-      // this.cs.saveImage(event.target.files[0])
-      // .subscribe(
-      //   success => {
-      //     console.log('ss', success);
-      //     this.parameter.loading = false;
-      //   },
-      //   error => {
-      //     console.log(error);
-      //     this.parameter.loading = false;
-      //     swal('Error', error.message, 'error');
-      //   });
-
-      // const input = new FormData();
-      // input.append('image', event.target.files[0]);
-      // this.admin.postDataApi('saveImage', input)
-      // .subscribe(
-      //   success => {
-      //     this.parameter.loading = false;
-      //   },
-      //   error => {
-      //     console.log(error);
-      //     this.parameter.loading = false;
-      //     swal('Error', error.message, 'error');
-      //   });
       reader.readAsDataURL(event.target.files[0]);
     }
   }
 
 
   addNewUser(formdata: NgForm) {
-    // this.parameter.loading = true;
     this.parameter.url = this.model.userModel.id !== '' ? 'updateNewUser' : 'addNewUser';
 
     const input = new FormData();
@@ -365,21 +343,14 @@ export class InhouseUsersComponent implements OnInit {
     this.parameter.states = []; this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
     this.parameter.state_id = '-1'; this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
 
-    // if (country_id === '-1') {
-    //   console.log('ssssss');
-    //   this.parameter.states = []; this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
-    //   this.parameter.state_id = '-1'; this.parameter.city_id = '-1'; this.parameter.locality_id =
-    // '-1'; this.parameter.building_id = '-1';
-    // }else {
-      const input = new FormData();
-      input.append('country_id', country_id);
+    const input = new FormData();
+    input.append('country_id', country_id);
 
-      this.admin.postDataApi(this.parameter.url, input)
-        .subscribe(
-          success => {
-            this.parameter.states = success.data;
-          });
-    // }
+    this.admin.postDataApi(this.parameter.url, input)
+      .subscribe(
+        success => {
+          this.parameter.states = success.data;
+        });
   }
 
   getCities(state_id) {
@@ -390,19 +361,14 @@ export class InhouseUsersComponent implements OnInit {
     this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
     this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
 
-    // if (state_id === -1) {
-    //   this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
-    //   this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
-    // }else {
-      const input = new FormData();
-      input.append('state_id', state_id);
+    const input = new FormData();
+    input.append('state_id', state_id);
 
-      this.admin.postDataApi(this.parameter.url, input)
-        .subscribe(
-          success => {
-            this.parameter.cities = success.data;
-          });
-    // }
+    this.admin.postDataApi(this.parameter.url, input)
+      .subscribe(
+        success => {
+          this.parameter.cities = success.data;
+        });
   }
 
 
@@ -414,11 +380,6 @@ export class InhouseUsersComponent implements OnInit {
     this.parameter.localities = []; this.parameter.buildings = [];
     this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
 
-    // if (city_id === -1) {
-    //   this.parameter.localities = []; this.parameter.buildings = [];
-    //   this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
-    // }else {
-
     const input = new FormData();
     input.append('city_id', city_id);
 
@@ -427,7 +388,6 @@ export class InhouseUsersComponent implements OnInit {
         success => {
           this.parameter.localities = success.data;
         });
-    // }
   }
 
 
@@ -438,11 +398,6 @@ export class InhouseUsersComponent implements OnInit {
     this.parameter.buildings = [];
     this.parameter.building_id = '-1';
 
-    // if (locality_id === -1) {
-    //   this.parameter.buildings = [];
-    //   this.parameter.building_id = '-1';
-    // }else {
-
     const input = new FormData();
     input.append('locality_id', locality_id);
 
@@ -451,7 +406,6 @@ export class InhouseUsersComponent implements OnInit {
         success => {
           this.parameter.buildings = success.data;
         });
-    // }
   }
 
 
@@ -474,7 +428,6 @@ export class InhouseUsersComponent implements OnInit {
 
 
   getInhouseUsers() {
-    // this.parameter.loading = true;
     switch (this.parameter.userType) {
       case 'data-collectors':
       this.parameter.url = 'getDataCollectors';

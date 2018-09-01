@@ -102,4 +102,6 @@ export interface IProperty {
   lead_id?: number;
   user_id?: number;
   adminType?: number;
+  allCountry?: any;
+  message_type?: number;
 }
