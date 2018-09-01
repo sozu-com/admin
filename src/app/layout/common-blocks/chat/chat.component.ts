@@ -62,6 +62,7 @@ export class ChatComponent implements OnInit {
   public initSocket(): void {
     this.parameter.socket = io.connect(this.admin.socketUrl);
     this.parameter.socket.on('connect', fun => {
+      console.log('Socket Connected');
       this.parameter.socket_id = this.parameter.socket.id;
       this.parameter.connected = this.parameter.socket.connected;
 
@@ -71,9 +72,11 @@ export class ChatComponent implements OnInit {
       };
       if (this.parameter.connected) {
         this.parameter.socket.emit('add-admin', data, (res: any) => {
+          console.log('Add Admin Success', data);
         });
         this.parameter.socket.on('message', (response: any) => {
           if (response.data.conversation_id === this.parameter.conversation_id) {
+            console.log('Message', response);
             this.scrollToBottom();
             this.parameter.messages.push(response.data);
           }
