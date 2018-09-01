@@ -87,6 +87,7 @@ export class InhouseUsersComponent implements OnInit {
     this.model.userModel.is_broker = false;
     this.model.userModel.is_data_collector = false;
     this.model.userModel.is_csr_closer = false;
+    this.disabledLocalities = [];
   }
 
   closeViewModal() {
@@ -228,6 +229,7 @@ export class InhouseUsersComponent implements OnInit {
                   cities: '',
                   localities: ''
               }];
+              this.disabledLocalities = [];
               this.image1 = '';
               const text = this.model.userModel.id === '' ? 'Added successfully.' : 'Updated successfully.';
               swal('Success', text, 'success');
