@@ -109,10 +109,10 @@ export class CommonService {
     return this.admin.postDataApi('saveImage', input);
   }
 
-  saveVideo(file) {
+  saveVideo(file, thumb) {
     const input = new FormData();
     input.append('video', file);
-    input.append('thumb', file);
+    input.append('thumb', thumb);
     return this.admin.postDataApi('saveVideo', input);
   }
 

@@ -4905,31 +4905,31 @@ var LoginComponent = /** @class */ (function () {
         this.parameter.loading = true;
         var email = formData.value.email;
         var password = formData.value.password;
-        this.admin.adminLogin1(email.toLowerCase(), password)
+        //     this.admin.adminLogin1(email.toLowerCase(), password)
+        //     .subscribe(success => {
+        //         this.parameter.loading = false;
+        //         const responseData1 = success[0];
+        //         const responseData2 = success[1];
+        //         const loginReponse = responseData1.json();
+        //         const countryResponse = responseData2.json();
+        //         this.admin.login.next(loginReponse.data);
+        //         this.admin.country.next(countryResponse.data);
+        // console.log('login success', success);
+        //         this.admin.setUserLoggedIn();
+        //         this.router.navigate(['dashboard/view-inhouse-users/data-collectors']);
+        //       },
+        //       error => {
+        //         this.parameter.loading = false;
+        //       }
+        //     );
+        this.admin.adminLogin(email.toLowerCase(), password)
             .subscribe(function (success) {
-            var responseData1 = success[0];
-            var responseData2 = success[1];
-            var loginReponse = responseData1.json();
-            var countryResponse = responseData2.json();
-            _this.admin.login.next(loginReponse.data);
-            _this.admin.country.next(countryResponse.data);
             _this.admin.setUserLoggedIn();
             _this.router.navigate(['dashboard/view-inhouse-users/data-collectors']);
             _this.parameter.loading = false;
         }, function (error) {
             _this.parameter.loading = false;
         });
-        // this.admin.adminLogin(email.toLowerCase(), password)
-        //   .subscribe(
-        //     success => {
-        //       this.admin.setUserLoggedIn();
-        //       this.router.navigate(['dashboard/view-inhouse-users/data-collectors']);
-        //       this.parameter.loading = false;
-        //     },
-        //     error => {
-        //       this.parameter.loading = false;
-        //     }
-        //   );
         // this.admin.adminLogin(email.toLowerCase(), password)
         // .then((data: any) => {
         //   this.admin.setUserLoggedIn();
@@ -5349,10 +5349,10 @@ var CommonService = /** @class */ (function () {
         input.append('image', file);
         return this.admin.postDataApi('saveImage', input);
     };
-    CommonService.prototype.saveVideo = function (file) {
+    CommonService.prototype.saveVideo = function (file, thumb) {
         var input = new FormData();
         input.append('video', file);
-        input.append('thumb', file);
+        input.append('thumb', thumb);
         return this.admin.postDataApi('saveVideo', input);
     };
     CommonService.prototype.saveAttachment = function (file) {

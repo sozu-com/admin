@@ -7,23 +7,52 @@
         </span>
       </div>
   </div>
+
   <div class="chat-text">
-      <!-- <div class="form-group row">
-          <label class="col-sm-2 col-form-label">Upload Video:</label>
-          <div class="col-sm-10" *ngIf="parameter.workoutId!='1'">
-            <input required type="file" name="video1" accept="video/mp4,video/x-m4v,video/*" (change)="showCanvas($event)" class="col-sm-12 my-input form-control">
-          </div>
-          <div class="col-sm-10" *ngIf="parameter.workoutId=='1'">
-              <input required type="file" required [(ngModel)]="workoutModel.model.video1" name="video1" #video1="ngModel" id="video1" name="video" accept="video/mp4,video/x-m4v,video/*" (change)="showCanvas($event)" class="col-sm-12 my-input form-control" required>
-              <div *ngIf="!editModel && video1.errors && (video1.dirty || video1.touched)" class="show-error">
-                  <div [hidden]="!video1.errors.required">
-                    Workout video is required!
-                  </div>
-              </div>
-            </div>
-        </div> -->
-      <input id="message" autocomplete="off" [(ngModel)]="message" (keyup.enter)="sendMessage()" class="chat-input" type="text" name="message" placeholder="Type your message here …">
-      <!-- <textarea rows="3" autocomplete="off" [(ngModel)]="message" class="chat-input" placeholder="Type your message here …" (keyup.enter)="sendMessage()"></textarea> -->
-      <button (click)="sendMessage()" class="btn">Send</button>
-  </div>
+    <div class="dropdown attach-items">
+      <a href="javascript://" class="dropdown-toggle" data-toggle="dropdown">
+     <i class="fa fa-paperclip" aria-hidden="true"></i>
+      </a>
+      <div class="dropdown-menu">
+        <div class="dropdown-item">
+          <input type="file" name="image" accept="image/*" (change)="onSelectFile('image', $event)">
+          <i class="fa fa-camera" aria-hidden="true"></i>
+          <span>Photo</span>
+        </div>
+        <a class="dropdown-item"> 
+          <!-- <input type="file" id="video1" name="video" accept="video/*" (change)="showCanvas($event)"> -->
+          <!-- <input type="file" name="video1" accept="video/mp4,video/x-m4v,video/*" (change)="showCanvas($event)"> -->
+          <input type="file" name="video1" id="video1" name="video" accept="video/mp4,video/x-m4v,video/*" (change)="showCanvas($event)">
+          <i class="fa fa-video-camera" aria-hidden="true"></i>
+          <span>Video</span>
+        </a>
+        <a class="dropdown-item">    
+          <input type="file" name="" accept="image/*" (change)="onSelectFile('image', $event)">
+          <i class="fa fa-file" aria-hidden="true"></i>
+          <span>Document</span>
+        </a>
+      </div>
+    </div>
+    <input id="message" autocomplete="off" *ngIf="model.message_type == 1" [(ngModel)]="model.message" (keyup.enter)="sendMessage()" class="chat-input" type="text" name="message" placeholder="Type your message here …">
+    <div class="chat-attached-file" *ngIf="model.message_type == 2">
+      <div class="attached-inner">
+        <a href="javascript://" (click)="updateModel('image')" class="close">&times;</a>
+        <div class="fig-block"><img class="img-fluid" src="{{model.image}}" alt="img"></div>
+      </div>
+    </div>
+    <div class="chat-attached-file" *ngIf="model.message_type == 3 && showVideo">
+      <div class="col-sm-4">
+        <canvas width="60" height="50" id="canvas"></canvas> <br/><br/>
+      </div>
+      <div class="attached-inner">
+        <a href="javascript://" (click)="updateModel('image')" class="close">&times;</a>
+        <div class="fig-block">
+          <!-- <img class="img-fluid" src="{{model.image}}" alt="img"> -->
+          <video src="" class="video55" autoplay type="video/mp4" controls></video>
+        </div>
+      </div>
+    </div>
+    <!-- <textarea rows="3" autocomplete="off" [(ngModel)]="message" class="chat-input" placeholder="Type your message here …" (keyup.enter)="sendMessage()"></textarea> -->
+    <button (click)="sendMessage()" class="btn">Send</button>
+ </div>
 </div>
