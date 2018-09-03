@@ -21,6 +21,8 @@ export class ChatComponent implements OnInit {
   @Input('admin_id') admin_id;
   @Input('lead_id') lead_id;
   @Input('user_id') user_id;
+  @Input('sent_as') sent_as;
+
   gf: GeneralFunctions;
   message: any;
   showVideo = true;
@@ -51,7 +53,7 @@ export class ChatComponent implements OnInit {
   getMessages() {
     this.parameter.loading = true;
     this.admin.postDataApi('conversation/getMessages',
-    {lead_id: this.lead_id, user_id: this.user_id}).subscribe(res => {
+    {lead_id: this.lead_id, user_id: this.user_id, sent_as: this.sent_as}).subscribe(res => {
       this.parameter.messages = res.data[0].messages;
       this.parameter.conversation_id = res.data[0].id;
       this.parameter.loading = false;

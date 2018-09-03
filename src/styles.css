@@ -55,7 +55,7 @@ ngx-my-date-picker .ngxmdp .headertodaybtn { padding: 0px 14px; min-width: 100px
 }
 .cust-check-bx2 .checkmark.open{ background-color: #00B96F; border-color: #00B96F; }
 .cust-check-bx2 .checkmark.open:after{ display:block; }
-.mCSB_container_wrapper { margin-right: 0px !important; }
+/* .mCSB_container_wrapper { margin-right: 0px !important; } */
 .scrollbox {
     overflow: auto;
     width: 100% !important;

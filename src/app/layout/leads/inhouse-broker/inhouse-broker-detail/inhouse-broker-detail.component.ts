@@ -30,9 +30,10 @@ export class InhouseBrokerDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.parameter.sent_as = 2;
     this.route.params.subscribe( params => {
       this.parameter.id = params.id;
-      this.admin.postDataApi('leads/details', {lead_id: this.parameter.id}).subscribe(r => {
+      this.admin.postDataApi('leads/details', {lead_id: this.parameter.id, sent_as: this.parameter.sent_as}).subscribe(r => {
         this.parameter.lead = r.data.lead;
         this.parameter.interested_properties = r.data.interested_properties;
         this.parameter.lead_id = this.parameter.id;

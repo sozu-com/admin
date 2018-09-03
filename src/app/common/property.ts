@@ -104,4 +104,5 @@ export interface IProperty {
   adminType?: number;
   allCountry?: any;
   message_type?: number;
+  sent_as?: number;
 }
