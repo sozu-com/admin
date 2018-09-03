@@ -1,7 +1,15 @@
 <div class="white-bg">
     <div class="chat-area scrollbox" malihu-scrollbar [scrollbarOptions]="scrollbarOptions" style="height: 704px; width: 429px; padding-right: 17px; outline: none; overflow: hidden;">
-      <div *ngFor="let m of parameter.messages" class="chat-user" [ngClass]="m.conversation_user.admin_id == admin_id ? 'chat-user-one' : 'chat-user-two'">
-        <p style="word-wrap: break-word;">{{m.message}}</p>
+      <div *ngFor="let m of parameter.messages; let i=index" class="chat-user" [ngClass]="m.conversation_user.admin_id == admin_id ? 'chat-user-one' : 'chat-user-two'">
+        <p *ngIf="m.message_type == 1" style="word-wrap: break-word;">{{m.message}}</p>
+        <img *ngIf="m.message_type == 2" src="{{m.image}}">
+        <img *ngIf="m.message_type == 3 && !m.play" (click)="playVideo(i)" src="{{m.image}}">
+        <video *ngIf="m.message_type == 3 && m.play" src="{{m.video}}" autoplay type="video/mp4" controls></video>
+        <div class="chat-shared-file" *ngIf="m.message_type == 4">
+          <a href="javascript://"><span>{{m.attachment_name}}</span>
+            <!-- <i class="fa fa-times" aria-hidden="true"></i> -->
+          </a>
+        </div>
         <span class="time">
         {{m.created_at  | chatTime: m.created_at}}
         </span>
@@ -20,14 +28,12 @@
           <span>Photo</span>
         </div>
         <a class="dropdown-item"> 
-          <!-- <input type="file" id="video1" name="video" accept="video/*" (change)="showCanvas($event)"> -->
-          <!-- <input type="file" name="video1" accept="video/mp4,video/x-m4v,video/*" (change)="showCanvas($event)"> -->
-          <input type="file" name="video1" id="video1" name="video" accept="video/mp4,video/x-m4v,video/*" (change)="showCanvas($event)">
+          <input type="file" name="video" id="videoFileObject" name="video" accept="video/mp4,video/x-m4v,video/*" (change)="showCanvas($event)">
           <i class="fa fa-video-camera" aria-hidden="true"></i>
           <span>Video</span>
         </a>
         <a class="dropdown-item">    
-          <input type="file" name="" accept="image/*" (change)="onSelectFile('image', $event)">
+            <input type="file" name="attachment" accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf" (change)="saveAttachment($event)">
           <i class="fa fa-file" aria-hidden="true"></i>
           <span>Document</span>
         </a>
@@ -41,18 +47,31 @@
       </div>
     </div>
     <div class="chat-attached-file" *ngIf="model.message_type == 3 && showVideo">
-      <div class="col-sm-4">
-        <canvas width="60" height="50" id="canvas"></canvas> <br/><br/>
-      </div>
       <div class="attached-inner">
-        <a href="javascript://" (click)="updateModel('image')" class="close">&times;</a>
+        <a href="javascript://" (click)="updateModel('video')" class="close">&times;</a>
         <div class="fig-block">
-          <!-- <img class="img-fluid" src="{{model.image}}" alt="img"> -->
-          <video src="" class="video55" autoplay type="video/mp4" controls></video>
+          <canvas width="60" height="50" id="canvas"></canvas> <br/><br/>
+          <!-- <video id="video" src="http://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" controls></video><br/> -->
+          <video style="display:none;" class="video55" autoplay type="video/mp4" controls></video>
+          <!-- <video id="video-element" controls>
+              <source type="video/mp4">
+          </video>
+          <canvas id="canvas-element"></canvas> -->
         </div>
       </div>
     </div>
-    <!-- <textarea rows="3" autocomplete="off" [(ngModel)]="message" class="chat-input" placeholder="Type your message here …" (keyup.enter)="sendMessage()"></textarea> -->
+    <div class="chat-attached-file" *ngIf="model.message_type == 4">
+      <div class="attached-inner">
+        <a href="javascript://" (click)="updateModel('video')" class="close">&times;</a>
+        <div class="fig-block">
+          <div class="chat-shared-file">
+            <a href="javascript://"><span>{{model.attachment_name}}</span>
+              <!-- <i class="fa fa-times" (click)="updateModel('attachment')" aria-hidden="true"></i> -->
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
     <button (click)="sendMessage()" class="btn">Send</button>
  </div>
 </div>

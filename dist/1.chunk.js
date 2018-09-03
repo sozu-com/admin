@@ -11,7 +11,7 @@ webpackJsonp([1],{
  * @suppress {suspiciousCode,uselessCode,missingProperties,missingOverride}
  */
 /* tslint:disable */
-var styles = [''];
+var styles = ['.chat-user-two[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n    border-radius: 0 10px 10px 10px;\n    background-color: #00B96F;\n    margin-bottom: 5px;\n    width: 40%;\n}\n.chat-user-one[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n    float: right;\n    background-color: #F5F5F5;\n    border-radius: 10px 10px 10px 0;\n    margin-bottom: 5px; \n    width: 40%;\n}\n.chat-user-two[_ngcontent-%COMP%]   video[_ngcontent-%COMP%] {\n    border-radius: 0 10px 10px 10px;\n    background-color: #00B96F;\n    margin-bottom: 5px;\n    width: 40%;\n}\n.chat-user-one[_ngcontent-%COMP%]   video[_ngcontent-%COMP%] {\n    float: right;\n    background-color: #F5F5F5;\n    border-radius: 10px 10px 10px 0;\n    margin-bottom: 5px; \n    width: 40%;\n}'];
 //# sourceMappingURL=data:application/json;base64,eyJmaWxlIjoiL2hvbWUvY2JsMTAwMi9Eb2N1bWVudHMvcmVhbGVzdGF0ZS1hZG1pbi9zcmMvYXBwL2xheW91dC9jb21tb24tYmxvY2tzL2NoYXQvY2hhdC5jb21wb25lbnQuY3NzLnNoaW0ubmdzdHlsZS50cyIsInZlcnNpb24iOjMsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIm5nOi8vL2hvbWUvY2JsMTAwMi9Eb2N1bWVudHMvcmVhbGVzdGF0ZS1hZG1pbi9zcmMvYXBwL2xheW91dC9jb21tb24tYmxvY2tzL2NoYXQvY2hhdC5jb21wb25lbnQuY3NzIl0sInNvdXJjZXNDb250ZW50IjpbIiAiXSwibWFwcGluZ3MiOiJBQUFBOzs7Ozs7OzsifQ==
 //# sourceMappingURL=chat.component.css.shim.ngstyle.js.map
 
@@ -56,24 +56,80 @@ var styles = [''];
 var styles_ChatComponent = [__WEBPACK_IMPORTED_MODULE_0__chat_component_css_shim_ngstyle__["a" /* styles */]];
 var RenderType_ChatComponent = __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵcrt"]({ encapsulation: 0,
     styles: styles_ChatComponent, data: {} });
+function View_ChatComponent_2(_l) {
+    return __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵvid"](0, [(_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](0, 0, null, null, 1, 'p', [['style',
+                'word-wrap: break-word;']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](1, null, ['', '']))], null, function (_ck, _v) {
+        var currVal_0 = _v.parent.context.$implicit.message;
+        _ck(_v, 1, 0, currVal_0);
+    });
+}
+function View_ChatComponent_3(_l) {
+    return __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵvid"](0, [(_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](0, 0, null, null, 0, 'img', [], [[8, 'src', 4]], null, null, null, null))], null, function (_ck, _v) {
+        var currVal_0 = __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵinlineInterpolate"](1, '', _v.parent.context.$implicit.image, '');
+        _ck(_v, 0, 0, currVal_0);
+    });
+}
+function View_ChatComponent_4(_l) {
+    return __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵvid"](0, [(_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](0, 0, null, null, 0, 'img', [], [[8, 'src', 4]], [[null, 'click']], function (_v, en, $event) {
+            var ad = true;
+            var _co = _v.component;
+            if (('click' === en)) {
+                var pd_0 = (_co.playVideo(_v.parent.context.index) !== false);
+                ad = (pd_0 && ad);
+            }
+            return ad;
+        }, null, null))], null, function (_ck, _v) {
+        var currVal_0 = __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵinlineInterpolate"](1, '', _v.parent.context.$implicit.image, '');
+        _ck(_v, 0, 0, currVal_0);
+    });
+}
+function View_ChatComponent_5(_l) {
+    return __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵvid"](0, [(_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](0, 0, null, null, 0, 'video', [['autoplay',
+                ''], ['controls', ''], ['type', 'video/mp4']], [[8, 'src', 4]], null, null, null, null))], null, function (_ck, _v) {
+        var currVal_0 = __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵinlineInterpolate"](1, '', _v.parent.context.$implicit.video, '');
+        _ck(_v, 0, 0, currVal_0);
+    });
+}
+function View_ChatComponent_6(_l) {
+    return __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵvid"](0, [(_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](0, 0, null, null, 7, 'div', [['class',
+                'chat-shared-file']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n          '])), (_l()(),
+            __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](2, 0, null, null, 4, 'a', [['href', 'javascript://']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](3, 0, null, null, 1, 'span', [], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](4, null, ['', ''])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n            '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n          '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n        ']))], null, function (_ck, _v) {
+        var currVal_0 = _v.parent.context.$implicit.attachment_name;
+        _ck(_v, 4, 0, currVal_0);
+    });
+}
 function View_ChatComponent_1(_l) {
-    return __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵvid"](0, [(_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](0, 0, null, null, 9, 'div', [['class',
+    return __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵvid"](0, [(_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](0, 0, null, null, 21, 'div', [['class',
                 'chat-user']], null, null, null, null, null)),
         __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵdid"](1, 278528, null, 0, __WEBPACK_IMPORTED_MODULE_2__angular_common__["p" /* NgClass */], [__WEBPACK_IMPORTED_MODULE_1__angular_core__["IterableDiffers"], __WEBPACK_IMPORTED_MODULE_1__angular_core__["KeyValueDiffers"],
             __WEBPACK_IMPORTED_MODULE_1__angular_core__["ElementRef"], __WEBPACK_IMPORTED_MODULE_1__angular_core__["Renderer"]], { klass: [0, 'klass'], ngClass: [1, 'ngClass'] }, null),
-        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n        '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](3, 0, null, null, 1, 'p', [['style', 'word-wrap: break-word;']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](4, null, ['', ''])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n        '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](6, 0, null, null, 2, 'span', [['class', 'time']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](7, null, ['\n        ', '\n        '])), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵppd"](8, 2), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n      ']))], function (_ck, _v) {
+        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n        '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵand"](16777216, null, null, 1, null, View_ChatComponent_2)), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵdid"](4, 16384, null, 0, __WEBPACK_IMPORTED_MODULE_2__angular_common__["k" /* NgIf */], [__WEBPACK_IMPORTED_MODULE_1__angular_core__["ViewContainerRef"], __WEBPACK_IMPORTED_MODULE_1__angular_core__["TemplateRef"]], { ngIf: [0, 'ngIf'] }, null),
+        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n        '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵand"](16777216, null, null, 1, null, View_ChatComponent_3)), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵdid"](7, 16384, null, 0, __WEBPACK_IMPORTED_MODULE_2__angular_common__["k" /* NgIf */], [__WEBPACK_IMPORTED_MODULE_1__angular_core__["ViewContainerRef"], __WEBPACK_IMPORTED_MODULE_1__angular_core__["TemplateRef"]], { ngIf: [0, 'ngIf'] }, null),
+        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n        '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵand"](16777216, null, null, 1, null, View_ChatComponent_4)), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵdid"](10, 16384, null, 0, __WEBPACK_IMPORTED_MODULE_2__angular_common__["k" /* NgIf */], [__WEBPACK_IMPORTED_MODULE_1__angular_core__["ViewContainerRef"], __WEBPACK_IMPORTED_MODULE_1__angular_core__["TemplateRef"]], { ngIf: [0, 'ngIf'] }, null),
+        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n        '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵand"](16777216, null, null, 1, null, View_ChatComponent_5)), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵdid"](13, 16384, null, 0, __WEBPACK_IMPORTED_MODULE_2__angular_common__["k" /* NgIf */], [__WEBPACK_IMPORTED_MODULE_1__angular_core__["ViewContainerRef"], __WEBPACK_IMPORTED_MODULE_1__angular_core__["TemplateRef"]], { ngIf: [0, 'ngIf'] }, null),
+        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n        '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵand"](16777216, null, null, 1, null, View_ChatComponent_6)), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵdid"](16, 16384, null, 0, __WEBPACK_IMPORTED_MODULE_2__angular_common__["k" /* NgIf */], [__WEBPACK_IMPORTED_MODULE_1__angular_core__["ViewContainerRef"], __WEBPACK_IMPORTED_MODULE_1__angular_core__["TemplateRef"]], { ngIf: [0, 'ngIf'] }, null),
+        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n        '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](18, 0, null, null, 2, 'span', [['class', 'time']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](19, null, ['\n        ',
+            '\n        '])), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵppd"](20, 2), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n      ']))], function (_ck, _v) {
         var _co = _v.component;
         var currVal_0 = 'chat-user';
         var currVal_1 = ((_v.context.$implicit.conversation_user.admin_id == _co.admin_id) ? 'chat-user-one' : 'chat-user-two');
         _ck(_v, 1, 0, currVal_0, currVal_1);
-    }, function (_ck, _v) {
-        var currVal_2 = _v.context.$implicit.message;
+        var currVal_2 = (_v.context.$implicit.message_type == 1);
         _ck(_v, 4, 0, currVal_2);
-        var currVal_3 = __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵunv"](_v, 7, 0, _ck(_v, 8, 0, __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵnov"](_v.parent, 0), _v.context.$implicit.created_at, _v.context.$implicit.created_at));
+        var currVal_3 = (_v.context.$implicit.message_type == 2);
         _ck(_v, 7, 0, currVal_3);
+        var currVal_4 = ((_v.context.$implicit.message_type == 3) && !_v.context.$implicit.play);
+        _ck(_v, 10, 0, currVal_4);
+        var currVal_5 = ((_v.context.$implicit.message_type == 3) && _v.context.$implicit.play);
+        _ck(_v, 13, 0, currVal_5);
+        var currVal_6 = (_v.context.$implicit.message_type == 4);
+        _ck(_v, 16, 0, currVal_6);
+    }, function (_ck, _v) {
+        var currVal_7 = __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵunv"](_v, 19, 0, _ck(_v, 20, 0, __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵnov"](_v.parent, 0), _v.context.$implicit.created_at, _v.context.$implicit.created_at));
+        _ck(_v, 19, 0, currVal_7);
     });
 }
-function View_ChatComponent_2(_l) {
+function View_ChatComponent_7(_l) {
     return __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵvid"](0, [(_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](0, 0, null, null, 5, 'input', [['autocomplete',
                 'off'], ['class', 'chat-input'], ['id', 'message'], ['name', 'message'], ['placeholder',
                 'Type your message here …'], ['type', 'text']], [[2, 'ng-untouched', null],
@@ -129,7 +185,7 @@ function View_ChatComponent_2(_l) {
         _ck(_v, 0, 0, currVal_0, currVal_1, currVal_2, currVal_3, currVal_4, currVal_5, currVal_6);
     });
 }
-function View_ChatComponent_3(_l) {
+function View_ChatComponent_8(_l) {
     return __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵvid"](0, [(_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](0, 0, null, null, 10, 'div', [['class',
                 'chat-attached-file']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n      '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](2, 0, null, null, 7, 'div', [['class', 'attached-inner']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n        '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](4, 0, null, null, 1, 'a', [['class', 'close'], ['href', 'javascript://']], null, [[null,
                 'click']], function (_v, en, $event) {
@@ -148,23 +204,48 @@ function View_ChatComponent_3(_l) {
         _ck(_v, 8, 0, currVal_0);
     });
 }
-function View_ChatComponent_4(_l) {
-    return __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵvid"](0, [(_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](0, 0, null, null, 21, 'div', [['class',
-                'chat-attached-file']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n      '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](2, 0, null, null, 6, 'div', [['class', 'col-sm-4']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n        '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](4, 0, null, null, 0, 'canvas', [['height', '50'], ['id', 'canvas'], ['width', '60']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, [' '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](6, 0, null, null, 0, 'br', [], null, null, null, null, null)), (_l()(),
-            __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](7, 0, null, null, 0, 'br', [], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n      '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n      '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](10, 0, null, null, 10, 'div', [['class', 'attached-inner']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n        '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](12, 0, null, null, 1, 'a', [['class', 'close'], ['href', 'javascript://']], null, [[null,
+function View_ChatComponent_9(_l) {
+    return __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵvid"](0, [(_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](0, 0, null, null, 19, 'div', [['class',
+                'chat-attached-file']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n      '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](2, 0, null, null, 16, 'div', [['class', 'attached-inner']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n        '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](4, 0, null, null, 1, 'a', [['class', 'close'], ['href', 'javascript://']], null, [[null,
                 'click']], function (_v, en, $event) {
             var ad = true;
             var _co = _v.component;
             if (('click' === en)) {
-                var pd_0 = (_co.updateModel('image') !== false);
+                var pd_0 = (_co.updateModel('video') !== false);
                 ad = (pd_0 && ad);
             }
             return ad;
         }, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['×'])), (_l()(),
-            __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n        '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](15, 0, null, null, 4, 'div', [['class', 'fig-block']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n          '])),
-        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n          '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](18, 0, null, null, 0, 'video', [['autoplay', ''], ['class', 'video55'], ['controls',
-                ''], ['src', ''], ['type', 'video/mp4']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n        '])),
-        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n      '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n    ']))], null, null);
+            __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n        '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](7, 0, null, null, 10, 'div', [['class', 'fig-block']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n          '])),
+        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](9, 0, null, null, 0, 'canvas', [['height', '50'],
+            ['id', 'canvas'], ['width', '60']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, [' '])), (_l()(),
+            __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](11, 0, null, null, 0, 'br', [], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](12, 0, null, null, 0, 'br', [], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n          '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n          '])), (_l()(),
+            __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](15, 0, null, null, 0, 'video', [['autoplay', ''], ['class',
+                    'video55'], ['controls', ''], ['style', 'display:none;'], ['type', 'video/mp4']], null, null, null, null, null)),
+        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n          '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n        '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n      '])), (_l()(),
+            __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n    ']))], null, null);
+}
+function View_ChatComponent_10(_l) {
+    return __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵvid"](0, [(_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](0, 0, null, null, 19, 'div', [['class',
+                'chat-attached-file']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n      '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](2, 0, null, null, 16, 'div', [['class', 'attached-inner']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n        '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](4, 0, null, null, 1, 'a', [['class', 'close'], ['href', 'javascript://']], null, [[null,
+                'click']], function (_v, en, $event) {
+            var ad = true;
+            var _co = _v.component;
+            if (('click' === en)) {
+                var pd_0 = (_co.updateModel('video') !== false);
+                ad = (pd_0 && ad);
+            }
+            return ad;
+        }, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['×'])), (_l()(),
+            __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n        '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](7, 0, null, null, 10, 'div', [['class', 'fig-block']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n          '])),
+        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](9, 0, null, null, 7, 'div', [['class', 'chat-shared-file']], null, null, null, null, null)),
+        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n            '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](11, 0, null, null, 4, 'a', [['href', 'javascript://']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](12, 0, null, null, 1, 'span', [], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](13, null, ['', ''])),
+        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n              '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n            '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n          '])),
+        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n        '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n      '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n    ']))], null, function (_ck, _v) {
+        var _co = _v.component;
+        var currVal_0 = _co.model.attachment_name;
+        _ck(_v, 13, 0, currVal_0);
+    });
 }
 function View_ChatComponent_0(_l) {
     return __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵvid"](0, [__WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵpid"](0, __WEBPACK_IMPORTED_MODULE_4__app_pipes_chat_time_pipe__["a" /* ChatTimePipe */], []), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](1, 0, null, null, 67, 'div', [['class', 'white-bg']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n    '])),
@@ -174,12 +255,12 @@ function View_ChatComponent_0(_l) {
             __WEBPACK_IMPORTED_MODULE_6_ngx_malihu_scrollbar_dist_lib_malihu_scrollbar_service__["a" /* MalihuScrollbarService */]], { scrollbarOptions: [0, 'scrollbarOptions'] }, null),
         (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n      '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵand"](16777216, null, null, 1, null, View_ChatComponent_1)), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵdid"](7, 802816, null, 0, __WEBPACK_IMPORTED_MODULE_2__angular_common__["l" /* NgForOf */], [__WEBPACK_IMPORTED_MODULE_1__angular_core__["ViewContainerRef"], __WEBPACK_IMPORTED_MODULE_1__angular_core__["TemplateRef"], __WEBPACK_IMPORTED_MODULE_1__angular_core__["IterableDiffers"]], { ngForOf: [0,
                 'ngForOf'] }, null), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n  '])),
-        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n\n  '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](10, 0, null, null, 57, 'div', [['class', 'chat-text']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n    '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](12, 0, null, null, 41, 'div', [['class',
+        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n\n  '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](10, 0, null, null, 57, 'div', [['class', 'chat-text']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n    '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](12, 0, null, null, 39, 'div', [['class',
                 'dropdown attach-items']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n      '])), (_l()(),
             __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](14, 0, null, null, 3, 'a', [['class', 'dropdown-toggle'],
                 ['data-toggle', 'dropdown'], ['href', 'javascript://']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n     '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](16, 0, null, null, 0, 'i', [['aria-hidden',
                 'true'], ['class', 'fa fa-paperclip']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n      '])),
-        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n      '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](19, 0, null, null, 33, 'div', [['class', 'dropdown-menu']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n        '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](21, 0, null, null, 8, 'div', [['class', 'dropdown-item']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n          '])), (_l()(),
+        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n      '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](19, 0, null, null, 31, 'div', [['class', 'dropdown-menu']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n        '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](21, 0, null, null, 8, 'div', [['class', 'dropdown-item']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n          '])), (_l()(),
             __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](23, 0, null, null, 0, 'input', [['accept', 'image/*'],
                 ['name', 'image'], ['type', 'file']], null, [[null, 'change']], function (_v, en, $event) {
                 var ad = true;
@@ -193,10 +274,8 @@ function View_ChatComponent_0(_l) {
         (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](25, 0, null, null, 0, 'i', [['aria-hidden', 'true'],
             ['class', 'fa fa-camera']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n          '])), (_l()(),
             __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](27, 0, null, null, 1, 'span', [], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['Photo'])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n        '])),
-        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n        '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](31, 0, null, null, 10, 'a', [['class', 'dropdown-item']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, [' \n          '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n          '])),
-        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n          '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](35, 0, null, null, 0, 'input', [['accept', 'video/mp4,video/x-m4v,video/*'], ['id',
-                'video1'], ['name', 'video'], ['type', 'file']], null, [[null,
-                'change']], function (_v, en, $event) {
+        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n        '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](31, 0, null, null, 8, 'a', [['class', 'dropdown-item']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, [' \n          '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](33, 0, null, null, 0, 'input', [['accept', 'video/mp4,video/x-m4v,video/*'], ['id', 'videoFileObject'], ['name',
+                'video'], ['type', 'file']], null, [[null, 'change']], function (_v, en, $event) {
             var ad = true;
             var _co = _v.component;
             if (('change' === en)) {
@@ -205,29 +284,32 @@ function View_ChatComponent_0(_l) {
             }
             return ad;
         }, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n          '])),
-        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](37, 0, null, null, 0, 'i', [['aria-hidden', 'true'],
+        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](35, 0, null, null, 0, 'i', [['aria-hidden', 'true'],
             ['class', 'fa fa-video-camera']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n          '])),
-        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](39, 0, null, null, 1, 'span', [], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['Video'])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n        '])),
-        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n        '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](43, 0, null, null, 8, 'a', [['class', 'dropdown-item']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['    \n          '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](45, 0, null, null, 0, 'input', [['accept', 'image/*'], ['name', ''], ['type', 'file']], null, [[null, 'change']], function (_v, en, $event) {
+        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](37, 0, null, null, 1, 'span', [], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['Video'])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n        '])),
+        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n        '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](41, 0, null, null, 8, 'a', [['class', 'dropdown-item']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['    \n            '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](43, 0, null, null, 0, 'input', [['accept', '.doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf'],
+            ['name', 'attachment'], ['type', 'file']], null, [[null,
+                'change']], function (_v, en, $event) {
             var ad = true;
             var _co = _v.component;
             if (('change' === en)) {
-                var pd_0 = (_co.onSelectFile('image', $event) !== false);
+                var pd_0 = (_co.saveAttachment($event) !== false);
                 ad = (pd_0 && ad);
             }
             return ad;
         }, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n          '])),
-        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](47, 0, null, null, 0, 'i', [['aria-hidden', 'true'],
+        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](45, 0, null, null, 0, 'i', [['aria-hidden', 'true'],
             ['class', 'fa fa-file']], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n          '])), (_l()(),
-            __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](49, 0, null, null, 1, 'span', [], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['Document'])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n        '])),
-        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n      '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n    '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n    '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵand"](16777216, null, null, 1, null, View_ChatComponent_2)), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵdid"](56, 16384, null, 0, __WEBPACK_IMPORTED_MODULE_2__angular_common__["k" /* NgIf */], [__WEBPACK_IMPORTED_MODULE_1__angular_core__["ViewContainerRef"], __WEBPACK_IMPORTED_MODULE_1__angular_core__["TemplateRef"]], { ngIf: [0,
+            __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](47, 0, null, null, 1, 'span', [], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['Document'])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n        '])),
+        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n      '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n    '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n    '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵand"](16777216, null, null, 1, null, View_ChatComponent_7)), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵdid"](54, 16384, null, 0, __WEBPACK_IMPORTED_MODULE_2__angular_common__["k" /* NgIf */], [__WEBPACK_IMPORTED_MODULE_1__angular_core__["ViewContainerRef"], __WEBPACK_IMPORTED_MODULE_1__angular_core__["TemplateRef"]], { ngIf: [0,
                 'ngIf'] }, null), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n    '])),
-        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵand"](16777216, null, null, 1, null, View_ChatComponent_3)),
-        __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵdid"](59, 16384, null, 0, __WEBPACK_IMPORTED_MODULE_2__angular_common__["k" /* NgIf */], [__WEBPACK_IMPORTED_MODULE_1__angular_core__["ViewContainerRef"], __WEBPACK_IMPORTED_MODULE_1__angular_core__["TemplateRef"]], { ngIf: [0, 'ngIf'] }, null), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n    '])),
-        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵand"](16777216, null, null, 1, null, View_ChatComponent_4)),
-        __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵdid"](62, 16384, null, 0, __WEBPACK_IMPORTED_MODULE_2__angular_common__["k" /* NgIf */], [__WEBPACK_IMPORTED_MODULE_1__angular_core__["ViewContainerRef"], __WEBPACK_IMPORTED_MODULE_1__angular_core__["TemplateRef"]], { ngIf: [0, 'ngIf'] }, null), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n    '])),
-        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n    '])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](65, 0, null, null, 1, 'button', [['class', 'btn']], null, [[null,
-                'click']], function (_v, en, $event) {
+        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵand"](16777216, null, null, 1, null, View_ChatComponent_8)),
+        __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵdid"](57, 16384, null, 0, __WEBPACK_IMPORTED_MODULE_2__angular_common__["k" /* NgIf */], [__WEBPACK_IMPORTED_MODULE_1__angular_core__["ViewContainerRef"], __WEBPACK_IMPORTED_MODULE_1__angular_core__["TemplateRef"]], { ngIf: [0, 'ngIf'] }, null), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n    '])),
+        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵand"](16777216, null, null, 1, null, View_ChatComponent_9)),
+        __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵdid"](60, 16384, null, 0, __WEBPACK_IMPORTED_MODULE_2__angular_common__["k" /* NgIf */], [__WEBPACK_IMPORTED_MODULE_1__angular_core__["ViewContainerRef"], __WEBPACK_IMPORTED_MODULE_1__angular_core__["TemplateRef"]], { ngIf: [0, 'ngIf'] }, null), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n    '])),
+        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵand"](16777216, null, null, 1, null, View_ChatComponent_10)),
+        __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵdid"](63, 16384, null, 0, __WEBPACK_IMPORTED_MODULE_2__angular_common__["k" /* NgIf */], [__WEBPACK_IMPORTED_MODULE_1__angular_core__["ViewContainerRef"], __WEBPACK_IMPORTED_MODULE_1__angular_core__["TemplateRef"]], { ngIf: [0, 'ngIf'] }, null), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵted"](-1, null, ['\n    '])),
+        (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵeld"](65, 0, null, null, 1, 'button', [['class', 'btn']], null, [[null, 'click']], function (_v, en, $event) {
             var ad = true;
             var _co = _v.component;
             if (('click' === en)) {
@@ -243,11 +325,13 @@ function View_ChatComponent_0(_l) {
         var currVal_1 = _co.parameter.messages;
         _ck(_v, 7, 0, currVal_1);
         var currVal_2 = (_co.model.message_type == 1);
-        _ck(_v, 56, 0, currVal_2);
+        _ck(_v, 54, 0, currVal_2);
         var currVal_3 = (_co.model.message_type == 2);
-        _ck(_v, 59, 0, currVal_3);
+        _ck(_v, 57, 0, currVal_3);
         var currVal_4 = ((_co.model.message_type == 3) && _co.showVideo);
-        _ck(_v, 62, 0, currVal_4);
+        _ck(_v, 60, 0, currVal_4);
+        var currVal_5 = (_co.model.message_type == 4);
+        _ck(_v, 63, 0, currVal_5);
     }, null);
 }
 function View_ChatComponent_Host_0(_l) {
@@ -258,7 +342,7 @@ function View_ChatComponent_Host_0(_l) {
 }
 var ChatComponentNgFactory = __WEBPACK_IMPORTED_MODULE_1__angular_core__["ɵccf"]('app-chat', __WEBPACK_IMPORTED_MODULE_7__app_layout_common_blocks_chat_chat_component__["a" /* ChatComponent */], View_ChatComponent_Host_0, { admin_id: 'admin_id', lead_id: 'lead_id',
     user_id: 'user_id', sent_as: 'sent_as' }, {}, []);
-//# sourceMappingURL=data:application/json;base64,eyJmaWxlIjoiL2hvbWUvY2JsMTAwMi9Eb2N1bWVudHMvcmVhbGVzdGF0ZS1hZG1pbi9zcmMvYXBwL2xheW91dC9jb21tb24tYmxvY2tzL2NoYXQvY2hhdC5jb21wb25lbnQubmdmYWN0b3J5LnRzIiwidmVyc2lvbiI6Mywic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsibmc6Ly8vaG9tZS9jYmwxMDAyL0RvY3VtZW50cy9yZWFsZXN0YXRlLWFkbWluL3NyYy9hcHAvbGF5b3V0L2NvbW1vbi1ibG9ja3MvY2hhdC9jaGF0LmNvbXBvbmVudC50cyIsIm5nOi8vL2hvbWUvY2JsMTAwMi9Eb2N1bWVudHMvcmVhbGVzdGF0ZS1hZG1pbi9zcmMvYXBwL2xheW91dC9jb21tb24tYmxvY2tzL2NoYXQvY2hhdC5jb21wb25lbnQuaHRtbCIsIm5nOi8vL2hvbWUvY2JsMTAwMi9Eb2N1bWVudHMvcmVhbGVzdGF0ZS1hZG1pbi9zcmMvYXBwL2xheW91dC9jb21tb24tYmxvY2tzL2NoYXQvY2hhdC5jb21wb25lbnQudHMuQ2hhdENvbXBvbmVudF9Ib3N0Lmh0bWwiXSwic291cmNlc0NvbnRlbnQiOlsiICIsIjxkaXYgY2xhc3M9XCJ3aGl0ZS1iZ1wiPlxuICAgIDxkaXYgY2xhc3M9XCJjaGF0LWFyZWEgc2Nyb2xsYm94XCIgbWFsaWh1LXNjcm9sbGJhciBbc2Nyb2xsYmFyT3B0aW9uc109XCJzY3JvbGxiYXJPcHRpb25zXCIgc3R5bGU9XCJoZWlnaHQ6IDcwNHB4OyB3aWR0aDogNDI5cHg7IHBhZGRpbmctcmlnaHQ6IDE3cHg7IG91dGxpbmU6IG5vbmU7IG92ZXJmbG93OiBoaWRkZW47XCI+XG4gICAgICA8ZGl2ICpuZ0Zvcj1cImxldCBtIG9mIHBhcmFtZXRlci5tZXNzYWdlc1wiIGNsYXNzPVwiY2hhdC11c2VyXCIgW25nQ2xhc3NdPVwibS5jb252ZXJzYXRpb25fdXNlci5hZG1pbl9pZCA9PSBhZG1pbl9pZCA/ICdjaGF0LXVzZXItb25lJyA6ICdjaGF0LXVzZXItdHdvJ1wiPlxuICAgICAgICA8cCBzdHlsZT1cIndvcmQtd3JhcDogYnJlYWstd29yZDtcIj57e20ubWVzc2FnZX19PC9wPlxuICAgICAgICA8c3BhbiBjbGFzcz1cInRpbWVcIj5cbiAgICAgICAge3ttLmNyZWF0ZWRfYXQgIHwgY2hhdFRpbWU6IG0uY3JlYXRlZF9hdH19XG4gICAgICAgIDwvc3Bhbj5cbiAgICAgIDwvZGl2PlxuICA8L2Rpdj5cblxuICA8ZGl2IGNsYXNzPVwiY2hhdC10ZXh0XCI+XG4gICAgPGRpdiBjbGFzcz1cImRyb3Bkb3duIGF0dGFjaC1pdGVtc1wiPlxuICAgICAgPGEgaHJlZj1cImphdmFzY3JpcHQ6Ly9cIiBjbGFzcz1cImRyb3Bkb3duLXRvZ2dsZVwiIGRhdGEtdG9nZ2xlPVwiZHJvcGRvd25cIj5cbiAgICAgPGkgY2xhc3M9XCJmYSBmYS1wYXBlcmNsaXBcIiBhcmlhLWhpZGRlbj1cInRydWVcIj48L2k+XG4gICAgICA8L2E+XG4gICAgICA8ZGl2IGNsYXNzPVwiZHJvcGRvd24tbWVudVwiPlxuICAgICAgICA8ZGl2IGNsYXNzPVwiZHJvcGRvd24taXRlbVwiPlxuICAgICAgICAgIDxpbnB1dCB0eXBlPVwiZmlsZVwiIG5hbWU9XCJpbWFnZVwiIGFjY2VwdD1cImltYWdlLypcIiAoY2hhbmdlKT1cIm9uU2VsZWN0RmlsZSgnaW1hZ2UnLCAkZXZlbnQpXCI+XG4gICAgICAgICAgPGkgY2xhc3M9XCJmYSBmYS1jYW1lcmFcIiBhcmlhLWhpZGRlbj1cInRydWVcIj48L2k+XG4gICAgICAgICAgPHNwYW4+UGhvdG88L3NwYW4+XG4gICAgICAgIDwvZGl2PlxuICAgICAgICA8YSBjbGFzcz1cImRyb3Bkb3duLWl0ZW1cIj4gXG4gICAgICAgICAgPCEtLSA8aW5wdXQgdHlwZT1cImZpbGVcIiBpZD1cInZpZGVvMVwiIG5hbWU9XCJ2aWRlb1wiIGFjY2VwdD1cInZpZGVvLypcIiAoY2hhbmdlKT1cInNob3dDYW52YXMoJGV2ZW50KVwiPiAtLT5cbiAgICAgICAgICA8IS0tIDxpbnB1dCB0eXBlPVwiZmlsZVwiIG5hbWU9XCJ2aWRlbzFcIiBhY2NlcHQ9XCJ2aWRlby9tcDQsdmlkZW8veC1tNHYsdmlkZW8vKlwiIChjaGFuZ2UpPVwic2hvd0NhbnZhcygkZXZlbnQpXCI+IC0tPlxuICAgICAgICAgIDxpbnB1dCB0eXBlPVwiZmlsZVwiIG5hbWU9XCJ2aWRlbzFcIiBpZD1cInZpZGVvMVwiIG5hbWU9XCJ2aWRlb1wiIGFjY2VwdD1cInZpZGVvL21wNCx2aWRlby94LW00dix2aWRlby8qXCIgKGNoYW5nZSk9XCJzaG93Q2FudmFzKCRldmVudClcIj5cbiAgICAgICAgICA8aSBjbGFzcz1cImZhIGZhLXZpZGVvLWNhbWVyYVwiIGFyaWEtaGlkZGVuPVwidHJ1ZVwiPjwvaT5cbiAgICAgICAgICA8c3Bhbj5WaWRlbzwvc3Bhbj5cbiAgICAgICAgPC9hPlxuICAgICAgICA8YSBjbGFzcz1cImRyb3Bkb3duLWl0ZW1cIj4gICAgXG4gICAgICAgICAgPGlucHV0IHR5cGU9XCJmaWxlXCIgbmFtZT1cIlwiIGFjY2VwdD1cImltYWdlLypcIiAoY2hhbmdlKT1cIm9uU2VsZWN0RmlsZSgnaW1hZ2UnLCAkZXZlbnQpXCI+XG4gICAgICAgICAgPGkgY2xhc3M9XCJmYSBmYS1maWxlXCIgYXJpYS1oaWRkZW49XCJ0cnVlXCI+PC9pPlxuICAgICAgICAgIDxzcGFuPkRvY3VtZW50PC9zcGFuPlxuICAgICAgICA8L2E+XG4gICAgICA8L2Rpdj5cbiAgICA8L2Rpdj5cbiAgICA8aW5wdXQgaWQ9XCJtZXNzYWdlXCIgYXV0b2NvbXBsZXRlPVwib2ZmXCIgKm5nSWY9XCJtb2RlbC5tZXNzYWdlX3R5cGUgPT0gMVwiIFsobmdNb2RlbCldPVwibW9kZWwubWVzc2FnZVwiIChrZXl1cC5lbnRlcik9XCJzZW5kTWVzc2FnZSgpXCIgY2xhc3M9XCJjaGF0LWlucHV0XCIgdHlwZT1cInRleHRcIiBuYW1lPVwibWVzc2FnZVwiIHBsYWNlaG9sZGVyPVwiVHlwZSB5b3VyIG1lc3NhZ2UgaGVyZSDigKZcIj5cbiAgICA8ZGl2IGNsYXNzPVwiY2hhdC1hdHRhY2hlZC1maWxlXCIgKm5nSWY9XCJtb2RlbC5tZXNzYWdlX3R5cGUgPT0gMlwiPlxuICAgICAgPGRpdiBjbGFzcz1cImF0dGFjaGVkLWlubmVyXCI+XG4gICAgICAgIDxhIGhyZWY9XCJqYXZhc2NyaXB0Oi8vXCIgKGNsaWNrKT1cInVwZGF0ZU1vZGVsKCdpbWFnZScpXCIgY2xhc3M9XCJjbG9zZVwiPiZ0aW1lczs8L2E+XG4gICAgICAgIDxkaXYgY2xhc3M9XCJmaWctYmxvY2tcIj48aW1nIGNsYXNzPVwiaW1nLWZsdWlkXCIgc3JjPVwie3ttb2RlbC5pbWFnZX19XCIgYWx0PVwiaW1nXCI+PC9kaXY+XG4gICAgICA8L2Rpdj5cbiAgICA8L2Rpdj5cbiAgICA8ZGl2IGNsYXNzPVwiY2hhdC1hdHRhY2hlZC1maWxlXCIgKm5nSWY9XCJtb2RlbC5tZXNzYWdlX3R5cGUgPT0gMyAmJiBzaG93VmlkZW9cIj5cbiAgICAgIDxkaXYgY2xhc3M9XCJjb2wtc20tNFwiPlxuICAgICAgICA8Y2FudmFzIHdpZHRoPVwiNjBcIiBoZWlnaHQ9XCI1MFwiIGlkPVwiY2FudmFzXCI+PC9jYW52YXM+IDxici8+PGJyLz5cbiAgICAgIDwvZGl2PlxuICAgICAgPGRpdiBjbGFzcz1cImF0dGFjaGVkLWlubmVyXCI+XG4gICAgICAgIDxhIGhyZWY9XCJqYXZhc2NyaXB0Oi8vXCIgKGNsaWNrKT1cInVwZGF0ZU1vZGVsKCdpbWFnZScpXCIgY2xhc3M9XCJjbG9zZVwiPiZ0aW1lczs8L2E+XG4gICAgICAgIDxkaXYgY2xhc3M9XCJmaWctYmxvY2tcIj5cbiAgICAgICAgICA8IS0tIDxpbWcgY2xhc3M9XCJpbWctZmx1aWRcIiBzcmM9XCJ7e21vZGVsLmltYWdlfX1cIiBhbHQ9XCJpbWdcIj4gLS0+XG4gICAgICAgICAgPHZpZGVvIHNyYz1cIlwiIGNsYXNzPVwidmlkZW81NVwiIGF1dG9wbGF5IHR5cGU9XCJ2aWRlby9tcDRcIiBjb250cm9scz48L3ZpZGVvPlxuICAgICAgICA8L2Rpdj5cbiAgICAgIDwvZGl2PlxuICAgIDwvZGl2PlxuICAgIDwhLS0gPHRleHRhcmVhIHJvd3M9XCIzXCIgYXV0b2NvbXBsZXRlPVwib2ZmXCIgWyhuZ01vZGVsKV09XCJtZXNzYWdlXCIgY2xhc3M9XCJjaGF0LWlucHV0XCIgcGxhY2Vob2xkZXI9XCJUeXBlIHlvdXIgbWVzc2FnZSBoZXJlIOKAplwiIChrZXl1cC5lbnRlcik9XCJzZW5kTWVzc2FnZSgpXCI+PC90ZXh0YXJlYT4gLS0+XG4gICAgPGJ1dHRvbiAoY2xpY2spPVwic2VuZE1lc3NhZ2UoKVwiIGNsYXNzPVwiYnRuXCI+U2VuZDwvYnV0dG9uPlxuIDwvZGl2PlxuPC9kaXY+IiwiPGFwcC1jaGF0PjwvYXBwLWNoYXQ+Il0sIm1hcHBpbmdzIjoiQUFBQTs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7b0JDRU07TUFBQTthQUFBO21DQUFBO01BQXFKLGtEQUNuSjtVQUFBO1VBQUEsNENBQWtDO1VBQUEsVUFBaUIsa0RBQ25EO1VBQUE7VUFBQSwwREFBbUI7VUFBQSx5REFFWjtVQUFBOztJQUppQztJQUFrQjtJQUE1RCxXQUEwQyxVQUFrQixTQUE1RDs7SUFDb0M7SUFBQTtJQUNmO1FBQUE7SUFBQTs7OztvQkErQnZCO01BQUE7TUFBQTtNQUFBO1VBQUE7TUFBQTtNQUFBO01BQUE7SUFBQTtJQUFBO0lBQUE7TUFBQTtNQUFBO0lBQUE7SUFBQTtNQUFBO01BQUE7SUFBQTtJQUFBO01BQUE7TUFBQTtJQUFBO0lBQUE7TUFBQTtNQUFBO0lBQUE7SUFBdUU7TUFBQTtNQUFBO0lBQUE7SUFBNEI7TUFBQTtNQUFBO0lBQUE7SUFBbkc7RUFBQSx1Q0FBQTtNQUFBO2FBQUE7UUFBQTtNQUFBLG9DQUFBO1VBQUE7VUFBQSxxRUFBQTtVQUFBLDhEQUFBO1VBQUE7O0lBQWdLO0lBQXpGO0lBQXZFLFdBQWdLLFVBQXpGLFNBQXZFOztJQUFBO0lBQUE7SUFBQTtJQUFBO0lBQUE7SUFBQTtJQUFBO0lBQUEsV0FBQSxxRUFBQTs7OztvQkFDQTtNQUFBO01BQUEsZ0JBQWdFLGdEQUM5RDtNQUFBO01BQUEsMERBQTRCO01B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
+//# sourceMappingURL=data:application/json;base64,eyJmaWxlIjoiL2hvbWUvY2JsMTAwMi9Eb2N1bWVudHMvcmVhbGVzdGF0ZS1hZG1pbi9zcmMvYXBwL2xheW91dC9jb21tb24tYmxvY2tzL2NoYXQvY2hhdC5jb21wb25lbnQubmdmYWN0b3J5LnRzIiwidmVyc2lvbiI6Mywic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsibmc6Ly8vaG9tZS9jYmwxMDAyL0RvY3VtZW50cy9yZWFsZXN0YXRlLWFkbWluL3NyYy9hcHAvbGF5b3V0L2NvbW1vbi1ibG9ja3MvY2hhdC9jaGF0LmNvbXBvbmVudC50cyIsIm5nOi8vL2hvbWUvY2JsMTAwMi9Eb2N1bWVudHMvcmVhbGVzdGF0ZS1hZG1pbi9zcmMvYXBwL2xheW91dC9jb21tb24tYmxvY2tzL2NoYXQvY2hhdC5jb21wb25lbnQuaHRtbCIsIm5nOi8vL2hvbWUvY2JsMTAwMi9Eb2N1bWVudHMvcmVhbGVzdGF0ZS1hZG1pbi9zcmMvYXBwL2xheW91dC9jb21tb24tYmxvY2tzL2NoYXQvY2hhdC5jb21wb25lbnQudHMuQ2hhdENvbXBvbmVudF9Ib3N0Lmh0bWwiXSwic291cmNlc0NvbnRlbnQiOlsiICIsIjxkaXYgY2xhc3M9XCJ3aGl0ZS1iZ1wiPlxuICAgIDxkaXYgY2xhc3M9XCJjaGF0LWFyZWEgc2Nyb2xsYm94XCIgbWFsaWh1LXNjcm9sbGJhciBbc2Nyb2xsYmFyT3B0aW9uc109XCJzY3JvbGxiYXJPcHRpb25zXCIgc3R5bGU9XCJoZWlnaHQ6IDcwNHB4OyB3aWR0aDogNDI5cHg7IHBhZGRpbmctcmlnaHQ6IDE3cHg7IG91dGxpbmU6IG5vbmU7IG92ZXJmbG93OiBoaWRkZW47XCI+XG4gICAgICA8ZGl2ICpuZ0Zvcj1cImxldCBtIG9mIHBhcmFtZXRlci5tZXNzYWdlczsgbGV0IGk9aW5kZXhcIiBjbGFzcz1cImNoYXQtdXNlclwiIFtuZ0NsYXNzXT1cIm0uY29udmVyc2F0aW9uX3VzZXIuYWRtaW5faWQgPT0gYWRtaW5faWQgPyAnY2hhdC11c2VyLW9uZScgOiAnY2hhdC11c2VyLXR3bydcIj5cbiAgICAgICAgPHAgKm5nSWY9XCJtLm1lc3NhZ2VfdHlwZSA9PSAxXCIgc3R5bGU9XCJ3b3JkLXdyYXA6IGJyZWFrLXdvcmQ7XCI+e3ttLm1lc3NhZ2V9fTwvcD5cbiAgICAgICAgPGltZyAqbmdJZj1cIm0ubWVzc2FnZV90eXBlID09IDJcIiBzcmM9XCJ7e20uaW1hZ2V9fVwiPlxuICAgICAgICA8aW1nICpuZ0lmPVwibS5tZXNzYWdlX3R5cGUgPT0gMyAmJiAhbS5wbGF5XCIgKGNsaWNrKT1cInBsYXlWaWRlbyhpKVwiIHNyYz1cInt7bS5pbWFnZX19XCI+XG4gICAgICAgIDx2aWRlbyAqbmdJZj1cIm0ubWVzc2FnZV90eXBlID09IDMgJiYgbS5wbGF5XCIgc3JjPVwie3ttLnZpZGVvfX1cIiBhdXRvcGxheSB0eXBlPVwidmlkZW8vbXA0XCIgY29udHJvbHM+PC92aWRlbz5cbiAgICAgICAgPGRpdiBjbGFzcz1cImNoYXQtc2hhcmVkLWZpbGVcIiAqbmdJZj1cIm0ubWVzc2FnZV90eXBlID09IDRcIj5cbiAgICAgICAgICA8YSBocmVmPVwiamF2YXNjcmlwdDovL1wiPjxzcGFuPnt7bS5hdHRhY2htZW50X25hbWV9fTwvc3Bhbj5cbiAgICAgICAgICAgIDwhLS0gPGkgY2xhc3M9XCJmYSBmYS10aW1lc1wiIGFyaWEtaGlkZGVuPVwidHJ1ZVwiPjwvaT4gLS0+XG4gICAgICAgICAgPC9hPlxuICAgICAgICA8L2Rpdj5cbiAgICAgICAgPHNwYW4gY2xhc3M9XCJ0aW1lXCI+XG4gICAgICAgIHt7bS5jcmVhdGVkX2F0ICB8IGNoYXRUaW1lOiBtLmNyZWF0ZWRfYXR9fVxuICAgICAgICA8L3NwYW4+XG4gICAgICA8L2Rpdj5cbiAgPC9kaXY+XG5cbiAgPGRpdiBjbGFzcz1cImNoYXQtdGV4dFwiPlxuICAgIDxkaXYgY2xhc3M9XCJkcm9wZG93biBhdHRhY2gtaXRlbXNcIj5cbiAgICAgIDxhIGhyZWY9XCJqYXZhc2NyaXB0Oi8vXCIgY2xhc3M9XCJkcm9wZG93bi10b2dnbGVcIiBkYXRhLXRvZ2dsZT1cImRyb3Bkb3duXCI+XG4gICAgIDxpIGNsYXNzPVwiZmEgZmEtcGFwZXJjbGlwXCIgYXJpYS1oaWRkZW49XCJ0cnVlXCI+PC9pPlxuICAgICAgPC9hPlxuICAgICAgPGRpdiBjbGFzcz1cImRyb3Bkb3duLW1lbnVcIj5cbiAgICAgICAgPGRpdiBjbGFzcz1cImRyb3Bkb3duLWl0ZW1cIj5cbiAgICAgICAgICA8aW5wdXQgdHlwZT1cImZpbGVcIiBuYW1lPVwiaW1hZ2VcIiBhY2NlcHQ9XCJpbWFnZS8qXCIgKGNoYW5nZSk9XCJvblNlbGVjdEZpbGUoJ2ltYWdlJywgJGV2ZW50KVwiPlxuICAgICAgICAgIDxpIGNsYXNzPVwiZmEgZmEtY2FtZXJhXCIgYXJpYS1oaWRkZW49XCJ0cnVlXCI+PC9pPlxuICAgICAgICAgIDxzcGFuPlBob3RvPC9zcGFuPlxuICAgICAgICA8L2Rpdj5cbiAgICAgICAgPGEgY2xhc3M9XCJkcm9wZG93bi1pdGVtXCI+IFxuICAgICAgICAgIDxpbnB1dCB0eXBlPVwiZmlsZVwiIG5hbWU9XCJ2aWRlb1wiIGlkPVwidmlkZW9GaWxlT2JqZWN0XCIgbmFtZT1cInZpZGVvXCIgYWNjZXB0PVwidmlkZW8vbXA0LHZpZGVvL3gtbTR2LHZpZGVvLypcIiAoY2hhbmdlKT1cInNob3dDYW52YXMoJGV2ZW50KVwiPlxuICAgICAgICAgIDxpIGNsYXNzPVwiZmEgZmEtdmlkZW8tY2FtZXJhXCIgYXJpYS1oaWRkZW49XCJ0cnVlXCI+PC9pPlxuICAgICAgICAgIDxzcGFuPlZpZGVvPC9zcGFuPlxuICAgICAgICA8L2E+XG4gICAgICAgIDxhIGNsYXNzPVwiZHJvcGRvd24taXRlbVwiPiAgICBcbiAgICAgICAgICAgIDxpbnB1dCB0eXBlPVwiZmlsZVwiIG5hbWU9XCJhdHRhY2htZW50XCIgYWNjZXB0PVwiLmRvYywuZG9jeCwueG1sLGFwcGxpY2F0aW9uL21zd29yZCxhcHBsaWNhdGlvbi92bmQub3BlbnhtbGZvcm1hdHMtb2ZmaWNlZG9jdW1lbnQud29yZHByb2Nlc3NpbmdtbC5kb2N1bWVudCxhcHBsaWNhdGlvbi9wZGZcIiAoY2hhbmdlKT1cInNhdmVBdHRhY2htZW50KCRldmVudClcIj5cbiAgICAgICAgICA8aSBjbGFzcz1cImZhIGZhLWZpbGVcIiBhcmlhLWhpZGRlbj1cInRydWVcIj48L2k+XG4gICAgICAgICAgPHNwYW4+RG9jdW1lbnQ8L3NwYW4+XG4gICAgICAgIDwvYT5cbiAgICAgIDwvZGl2PlxuICAgIDwvZGl2PlxuICAgIDxpbnB1dCBpZD1cIm1lc3NhZ2VcIiBhdXRvY29tcGxldGU9XCJvZmZcIiAqbmdJZj1cIm1vZGVsLm1lc3NhZ2VfdHlwZSA9PSAxXCIgWyhuZ01vZGVsKV09XCJtb2RlbC5tZXNzYWdlXCIgKGtleXVwLmVudGVyKT1cInNlbmRNZXNzYWdlKClcIiBjbGFzcz1cImNoYXQtaW5wdXRcIiB0eXBlPVwidGV4dFwiIG5hbWU9XCJtZXNzYWdlXCIgcGxhY2Vob2xkZXI9XCJUeXBlIHlvdXIgbWVzc2FnZSBoZXJlIOKAplwiPlxuICAgIDxkaXYgY2xhc3M9XCJjaGF0LWF0dGFjaGVkLWZpbGVcIiAqbmdJZj1cIm1vZGVsLm1lc3NhZ2VfdHlwZSA9PSAyXCI+XG4gICAgICA8ZGl2IGNsYXNzPVwiYXR0YWNoZWQtaW5uZXJcIj5cbiAgICAgICAgPGEgaHJlZj1cImphdmFzY3JpcHQ6Ly9cIiAoY2xpY2spPVwidXBkYXRlTW9kZWwoJ2ltYWdlJylcIiBjbGFzcz1cImNsb3NlXCI+JnRpbWVzOzwvYT5cbiAgICAgICAgPGRpdiBjbGFzcz1cImZpZy1ibG9ja1wiPjxpbWcgY2xhc3M9XCJpbWctZmx1aWRcIiBzcmM9XCJ7e21vZGVsLmltYWdlfX1cIiBhbHQ9XCJpbWdcIj48L2Rpdj5cbiAgICAgIDwvZGl2PlxuICAgIDwvZGl2PlxuICAgIDxkaXYgY2xhc3M9XCJjaGF0LWF0dGFjaGVkLWZpbGVcIiAqbmdJZj1cIm1vZGVsLm1lc3NhZ2VfdHlwZSA9PSAzICYmIHNob3dWaWRlb1wiPlxuICAgICAgPGRpdiBjbGFzcz1cImF0dGFjaGVkLWlubmVyXCI+XG4gICAgICAgIDxhIGhyZWY9XCJqYXZhc2NyaXB0Oi8vXCIgKGNsaWNrKT1cInVwZGF0ZU1vZGVsKCd2aWRlbycpXCIgY2xhc3M9XCJjbG9zZVwiPiZ0aW1lczs8L2E+XG4gICAgICAgIDxkaXYgY2xhc3M9XCJmaWctYmxvY2tcIj5cbiAgICAgICAgICA8Y2FudmFzIHdpZHRoPVwiNjBcIiBoZWlnaHQ9XCI1MFwiIGlkPVwiY2FudmFzXCI+PC9jYW52YXM+IDxici8+PGJyLz5cbiAgICAgICAgICA8IS0tIDx2aWRlbyBpZD1cInZpZGVvXCIgc3JjPVwiaHR0cDovL3d3dy53M3NjaG9vbHMuY29tL2h0bWwvbW92X2JiYi5tcDRcIiB0eXBlPVwidmlkZW8vbXA0XCIgY29udHJvbHM+PC92aWRlbz48YnIvPiAtLT5cbiAgICAgICAgICA8dmlkZW8gc3R5bGU9XCJkaXNwbGF5Om5vbmU7XCIgY2xhc3M9XCJ2aWRlbzU1XCIgYXV0b3BsYXkgdHlwZT1cInZpZGVvL21wNFwiIGNvbnRyb2xzPjwvdmlkZW8+XG4gICAgICAgICAgPCEtLSA8dmlkZW8gaWQ9XCJ2aWRlby1lbGVtZW50XCIgY29udHJvbHM+XG4gICAgICAgICAgICAgIDxzb3VyY2UgdHlwZT1cInZpZGVvL21wNFwiPlxuICAgICAgICAgIDwvdmlkZW8+XG4gICAgICAgICAgPGNhbnZhcyBpZD1cImNhbnZhcy1lbGVtZW50XCI+PC9jYW52YXM+IC0tPlxuICAgICAgICA8L2Rpdj5cbiAgICAgIDwvZGl2PlxuICAgIDwvZGl2PlxuICAgIDxkaXYgY2xhc3M9XCJjaGF0LWF0dGFjaGVkLWZpbGVcIiAqbmdJZj1cIm1vZGVsLm1lc3NhZ2VfdHlwZSA9PSA0XCI+XG4gICAgICA8ZGl2IGNsYXNzPVwiYXR0YWNoZWQtaW5uZXJcIj5cbiAgICAgICAgPGEgaHJlZj1cImphdmFzY3JpcHQ6Ly9cIiAoY2xpY2spPVwidXBkYXRlTW9kZWwoJ3ZpZGVvJylcIiBjbGFzcz1cImNsb3NlXCI+JnRpbWVzOzwvYT5cbiAgICAgICAgPGRpdiBjbGFzcz1cImZpZy1ibG9ja1wiPlxuICAgICAgICAgIDxkaXYgY2xhc3M9XCJjaGF0LXNoYXJlZC1maWxlXCI+XG4gICAgICAgICAgICA8YSBocmVmPVwiamF2YXNjcmlwdDovL1wiPjxzcGFuPnt7bW9kZWwuYXR0YWNobWVudF9uYW1lfX08L3NwYW4+XG4gICAgICAgICAgICAgIDwhLS0gPGkgY2xhc3M9XCJmYSBmYS10aW1lc1wiIChjbGljayk9XCJ1cGRhdGVNb2RlbCgnYXR0YWNobWVudCcpXCIgYXJpYS1oaWRkZW49XCJ0cnVlXCI+PC9pPiAtLT5cbiAgICAgICAgICAgIDwvYT5cbiAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgPC9kaXY+XG4gICAgICA8L2Rpdj5cbiAgICA8L2Rpdj5cbiAgICA8YnV0dG9uIChjbGljayk9XCJzZW5kTWVzc2FnZSgpXCIgY2xhc3M9XCJidG5cIj5TZW5kPC9idXR0b24+XG4gPC9kaXY+XG48L2Rpdj4iLCI8YXBwLWNoYXQ+PC9hcHAtY2hhdD4iXSwibWFwcGluZ3MiOiJBQUFBOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztvQkNHUTtNQUFBO01BQUEsZ0JBQThEOztJQUFBO0lBQUE7Ozs7b0JBQzlEO01BQUE7O1FBQWlDO1lBQUE7UUFBakMsV0FBaUMsU0FBakM7Ozs7b0JBQ0E7TUFBQTtRQUFBO1FBQUE7UUFBNEM7VUFBQTtVQUFBO1FBQUE7UUFBNUM7TUFBQTtJQUFtRTtRQUFBO0lBQW5FLFdBQW1FLFNBQW5FOzs7O29CQUNBO01BQUE7TUFBQTtJQUE2QztRQUFBO0lBQTdDLFdBQTZDLFNBQTdDOzs7O29CQUNBO01BQUE7TUFBQSxnQkFBMEQsb0RBQ3hEO2FBQUE7VUFBQSwwREFBd0I7TUFBQTtNQUFBLDRDQUFNO01BQUEsVUFBNEIsc0RBQ0Q7TUFBQSxpQ0FDckQ7O1FBRjBCO1FBQUE7Ozs7b0JBTmxDO01BQUE7YUFBQTttQ0FBQTtNQUFrSyxrREFDaEs7VUFBQSw0REFBQTtVQUFBO01BQStFLGtEQUMvRTtVQUFBLDREQUFBO1VBQUE7TUFBbUQsa0RBQ25EO1VBQUEsNERBQUE7VUFBQTtNQUFxRixrREFDckY7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
 //# sourceMappingURL=chat.component.ngfactory.js.map
 
 /***/ }),
@@ -3645,6 +3729,7 @@ var ChatComponent = /** @class */ (function () {
         var _this = this;
         this.parameter.loading = true;
         this.admin.postDataApi('conversation/getMessages', { lead_id: this.lead_id, user_id: this.user_id, sent_as: this.sent_as }).subscribe(function (res) {
+            console.log('getMessages', res);
             _this.parameter.messages = res.data[0].messages;
             _this.model.conversation_id = res.data[0].id;
             _this.parameter.loading = false;
@@ -3698,100 +3783,136 @@ var ChatComponent = /** @class */ (function () {
             this.cs.saveImage(event.target.files[0]).subscribe(function (success) { _this.model.image = success.data.image; });
         }
     };
+    ChatComponent.prototype.saveAttachment = function (event) {
+        var _this = this;
+        this.model.message_type = 4;
+        this.cs.saveAttachment(event.target.files[0]).subscribe(function (success) {
+            _this.model.attachment = success.data.name;
+            _this.model.attachment_name = event.target.files[0].name;
+        });
+    };
+    ChatComponent.prototype.playVideo = function (i) {
+        this.parameter.messages[i].play = true;
+        console.log('messages', this.parameter.messages);
+    };
+    ChatComponent.prototype.show = function (event) {
+        // On selecting a video file
+        document.querySelector('#videoFileObject').addEventListener('change', function () {
+            // Set object URL as the video <source>
+            document.querySelector('#video-element source')
+                .setAttribute('src', URL.createObjectURL(event.target.files[0]));
+        });
+        console.log('===');
+        var _VIDEO = document.querySelector('#video-element'), _CANVAS = document.querySelector('#canvas-element');
+        // Video metadata is loaded
+        _VIDEO.addEventListener('loadedmetadata', function () {
+            // Set canvas dimensions same as video dimensions
+            _CANVAS.width = _VIDEO.videoWidth;
+            _CANVAS.height = _VIDEO.videoHeight;
+        });
+    };
     ChatComponent.prototype.showCanvas = function (event) {
         var _this = this;
         this.model.message_type = 3;
         this.parameter.loading = true;
         this.showVideo = true;
-        this.video = document.getElementById('video1');
+        this.video = document.getElementById('videoFileObject');
         console.log('this.video', this.video);
-        var reader = new FileReader();
+        // const reader = new FileReader();
         var image = this.element.nativeElement.querySelector('.video55');
         console.log('image', image);
+        var reader = new FileReader();
         reader.onload = function (e) {
-            var _this = this;
+            console.log('target');
+            console.log('target', e.target);
             var src = e.target['result'];
             image.src = src;
-            var timer = setInterval(function () {
-                if (image.readyState === 4) {
-                    _this.durationInSec = image.duration.toFixed(0);
-                    console.log('The duration is: ' + image.duration.toFixed(2) + ' seconds');
-                    clearInterval(timer);
-                }
-            }, 500);
-        }.bind(this);
+            console.log('image_src', image.src);
+        };
+        // reader.onload = function(e) {
+        //   const src = e.target['result'];
+        //   image.src = src;
+        //   console.log('image_src', image.src);
+        //   // const timer = setInterval( () => {
+        //   //   console.log('image_readyState');
+        //   //   console.log('image_readyState', image.readyState);
+        //   //   if (image.readyState === 4) {
+        //   //     this.durationInSec = image.duration.toFixed(0);
+        //   //     console.log('The duration is: ' + image.duration.toFixed(2) + ' seconds');
+        //   //     clearInterval(timer);
+        //   //   }
+        //   // }, 500);
+        // }.bind(this);
         reader.readAsDataURL(event.target.files[0]);
         var videoFile = event.target.files[0];
         setTimeout(function () {
             _this.newcanvas(image, videoFile);
         }, 5000);
     };
+    ChatComponent.prototype.newcanvas1 = function (video) {
+        var canvas = document.getElementById('canvas');
+        // const video = document.getElementById('video') as HTMLVideoElement;
+        // console.log('videooooooo', video);
+        // canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+        canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+        console.log('zzzz', canvas);
+    };
     ChatComponent.prototype.newcanvas = function (video, videoFile) {
+        var _this = this;
         console.log('video', video, videoFile);
         console.log('value', this.model.message_type, this.showVideo);
-        var canvas = document.getElementById('canvas');
-        console.log('canvas', canvas);
-        // const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
+        // const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+        // const ctx = canvas.getContext('2d');
+        // const ss = ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
         //                                                   0, 0, canvas.width, canvas.height);
-        var ss = canvas.getContext('2d').drawImage(video, 0, 0, 40, 40, 0, 0, canvas.width, canvas.height);
-        console.log('ss', ss);
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+        var img = new Image();
+        img.onload = function () {
+            // ctx.drawImage(img, 0, 0);
+            ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight, 0, 0, canvas.width, canvas.height);
+        };
+        img.src = URL.createObjectURL(videoFile);
+        console.log('img src', img.src);
         var ImageURL = canvas.toDataURL('image/jpeg');
-        // const fileToUpload = this.dataURLtoFile(ImageURL, 'tempFile.png');
-        var fileExtension = 'png';
-        var fileNameS3 = this.gf.generateRandomString() + '.' + fileExtension;
-        console.log(ImageURL, fileExtension, fileNameS3);
-        // // uploading video thumbnail
-        // // this.uploader.upload(fileToUpload, fileNameS3).then((x) => {
-        // //   this.imagePath = x;
-        // // });
-        // // uploading video file
-        // const videoExtension = 'mp4';
-        // const videofileNameS3 = this.gf.generateRandomString() + '.' + videoExtension;
-        // // this.uploader.upload(videoFile, videofileNameS3).then((x) => {
-        // //   this.imagePath = x;
-        // // });
-        // // creating image object
-        // // this.videoObj = {
-        // //   thumbnail: this.admin.imageBasePath + fileNameS3,
-        // //   file: this.admin.imageBasePath + videofileNameS3
-        // // };
-        // this.parameter.loading = false;
-        // console.log('mmmmmmmmmmmmmmmmmmmmm', this.videoObj);
-        // this.cs.saveVideo(videoFile, 'd').subscribe(
+        var fileToUpload = this.dataURLtoFile(ImageURL, 'tempFile.png');
+        this.cs.saveVideo(videoFile, fileToUpload).subscribe(function (success) {
+            console.log('video uploaded', success);
+            _this.model.video = success.data.video;
+            _this.model.image = success.data.thumb;
+        });
+    };
+    ChatComponent.prototype.dataURLtoFile = function (dataurl, filename) {
+        var arr = dataurl.split(',');
+        var mime = arr[0].match(/:(.*?);/)[1];
+        var bstr = atob(arr[1]);
+        var n = bstr.length;
+        var u8arr = new Uint8Array(n);
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new File([u8arr], filename, { type: mime });
+        // const file = new File([u8arr], filename, {type: mime});
+        // this.cs.saveImage(file).subscribe(
         //   success => {
-        //     console.log('video uploaded', success);
-        //     // this.model.video = success.data.image;
+        //     console.log('image uploaded', success);
+        //     this.model.image = success.data.image;
+        //     return this.model.image;
         //   }
         // );
     };
-    // dataURLtoFile(dataurl, filename) {
-    //   const arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-    //       bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-    //   while (n--) {
-    //       u8arr[n] = bstr.charCodeAt(n);
-    //   }
-    //   return new File([u8arr], filename, {type: mime});
-    // }
     ChatComponent.prototype.sendMessage = function () {
         var _this = this;
-        if (this.model.message) {
-            // const params = {
-            //   conversation_id: this.parameter.conversation_id,
-            //   message: this.model.message,
-            //   message_type: this.parameter.message_type,
-            //   // image: 's',
-            //   // video: 's',
-            //   // attachment_name: 's',
-            //   // attachment: 's'
-            // };
+        if (this.model.message_type === 1 && !this.model.message) {
+            swal('Error', 'Please enter some text.', 'error');
+        }
+        else {
+            console.log('this.model', this.model);
             this.admin.postDataApi('conversation/sendMessage', this.model).subscribe(function (r) {
                 _this.parameter.messages.push(r.data);
                 _this.scrollToBottom();
                 _this.model = new __WEBPACK_IMPORTED_MODULE_4__models_chat_model__["a" /* Chat */];
             });
-        }
-        else {
-            swal('Error', 'Please enter some text.', 'error');
         }
     };
     ChatComponent.ctorParameters = function () { return [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"] }, { type: __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */] }, { type: __WEBPACK_IMPORTED_MODULE_2__services_common_service__["a" /* CommonService */] }, { type: __WEBPACK_IMPORTED_MODULE_4__models_chat_model__["a" /* Chat */] }]; };
