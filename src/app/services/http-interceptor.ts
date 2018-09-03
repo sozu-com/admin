@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IProperty } from './../common/property';
 declare let swal: any;
+import { environment } from '../../environments/environment';
 // operators
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
@@ -14,7 +15,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class HttpInterceptor extends Http {
     public parameter: IProperty = {};
-    // public loader: boolean;
+    public baseUrl: string = environment.baseUrl;
     public loader = new BehaviorSubject({});
     loaderValue$ = this.loader.asObservable();
 
@@ -27,7 +28,11 @@ export class HttpInterceptor extends Http {
 
     public request(url: string|Request, options?: RequestOptionsArgs): Observable<Response> {
         console.log('Request - ', url);
-        this.loader.next({value: true});
+        if (url['url'] === this.baseUrl + 'conversation/sendMessage') {
+            this.loader.next({value: false});
+        } else {
+            this.loader.next({value: true});
+        }
         return super.request(url, options)
             .catch(this.handleError);
     }

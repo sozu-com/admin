@@ -32,7 +32,7 @@ export class ChatComponent implements OnInit {
     original: ''
   };
 
-  public scrollbarOptions = { axis: 'y', theme: 'dark', scrollInertia: 0, scrollbar: 'bottom', scrollbarPosition: 'inside' };
+  public scrollbarOptions = { axis: 'y', theme: 'dark'};
   public parameter: IProperty = {};
 
   constructor(
