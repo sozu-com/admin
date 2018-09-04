@@ -7,6 +7,7 @@ import { ChangePasswordComponent } from './settings/change-password/change-passw
 import { AuthGuard } from './../services/auth.guard';
 import { InhouseUsersComponent } from './inhouse-users/inhouse-users.component';
 import { EditTemplateComponent } from './edit-template/edit-template.component';
+import { GenerateThumbComponent } from './generate-thumb/generate-thumb.component';
 
 const routes: Routes = [
     {
@@ -21,6 +22,7 @@ const routes: Routes = [
             { path: 'leads', loadChildren: './leads/leads.module#LeadsModule' },
             { path: 'manual-leads', loadChildren: './manual-leads/manual-leads.module#ManualLeadsModule' },
             { path: 'edit-template', component: EditTemplateComponent},
+            { path: 'generate-thumb', component: GenerateThumbComponent},
             { path: 'reports', loadChildren: './reports/reports.module#ReportsModule' },
             { path: 'access-control-mgt', loadChildren: './acl/acl.module#AclModule'},
             { path: 'settings', loadChildren: './settings/settings.module#SettingsModule' },

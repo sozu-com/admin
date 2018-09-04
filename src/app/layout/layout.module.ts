@@ -10,6 +10,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { AgmCoreModule } from '@agm/core';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { NgBoxModule } from 'ngbox/ngbox.module';
+import { NgBoxService } from 'ngbox/ngbox.service';
 
 // importing shared components
 import { LayoutRoutingModule } from './layout-routing.module';
@@ -28,6 +30,8 @@ import { CommonService } from '../services/common.service';
 import { AuthGuard } from '../services/auth.guard';
 import { Constant } from '../common/constants';
 import { HttpInterceptor } from './../services/http-interceptor';
+import { GenerateThumbComponent } from './generate-thumb/generate-thumb.component';
+// import { NotesComponent } from './common-blocks/notes/notes.component';
 
 @NgModule({
     imports: [
@@ -50,7 +54,8 @@ import { HttpInterceptor } from './../services/http-interceptor';
           }),
         Ng2TelInputModule,
         FroalaEditorModule.forRoot(),
-        FroalaViewModule.forRoot()
+        FroalaViewModule.forRoot(),
+        // NgBoxModule
     ],
     declarations: [
         LayoutComponent,
@@ -61,6 +66,8 @@ import { HttpInterceptor } from './../services/http-interceptor';
         InhouseUsersComponent,
         AddressComponent,
         EditTemplateComponent,
+        GenerateThumbComponent,
+        // NotesComponent,
     ],
     providers: [AdminService, CommonService, AuthGuard, HttpInterceptor, Constant],
     bootstrap: [LayoutComponent],

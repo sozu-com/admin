@@ -1263,10 +1263,11 @@ width: 100%;
 display: block;
 }
 .chat-user-two .time {
-color: rgba(0,0,0,0.5);
-font-size: 12px;
-line-height: 16px;
-
+    color: rgba(0,0,0,0.5);
+    font-size: 12px;
+    line-height: 16px;
+    float: left;
+    width: 100%;
 }
 .chat-text {
 background-color: #F5F5F5;
@@ -1803,6 +1804,7 @@ border-bottom: solid 2px #00B96F;
 }
 .write-note {
 padding: 25px 35px 5px 35px;
+max-height: 412px;
 }
 .page-title-2 {
 border-bottom: solid 1px #F5F5F5;
@@ -2194,16 +2196,23 @@ border-bottom: solid 1px #f1f1f1;
 padding: 8px 16px;
 position: relative;
 }
-
 .chat-shared-file{margin-bottom:6px;}
-.chat-shared-file  a{
- 	    font-weight: 600;
+.chat-shared-file a {
+    font-weight: 600;
     border-radius: 4px;
     border: solid 1px #ccc;
-    padding: 4px 8px;
+    padding: 4px 25px 4px 10px;
     text-align: center;
     color: #3E3E3E;
     font-size: 12px;
+    display: inline-block;
+}
+.chat-shared-file a span {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 250px;
 }
 .chat-shared-file .fa {
     padding-left: 7px;
@@ -2217,7 +2226,10 @@ position: relative;
     max-width:80px;
     overflow: hidden;
 }
-
+.chat-attached-file .attached-inner .fig-block video{
+    max-width:80px;
+    overflow: hidden;
+}
 .chat-attached-file .attached-inner {
     position: relative;
     display: inline-block;
@@ -2235,6 +2247,7 @@ position: relative;
     opacity: 1;
     text-align: center;
     top: 5px;
+    z-index: 1;
 }
 
 .attach-items .dropdown-menu .dropdown-item input[type="file"] {
@@ -2249,4 +2262,29 @@ position: relative;
     height: 100%;
     top: 0;
     bottom: 0;
+}
+ 
+.chat-user-one .chat-vid .vid-icon { 
+    width:32px !important;
+    height:32px; 
+    position: absolute; left:0; right:0; bottom:0; top:0; margin:auto;  
+    cursor: pointer;
+}
+
+.chat-vid .vid-img, 
+.chat-user-one .chat-vid span{ width:160px !important; height:120px; position: relative;}
+
+.chat-user-one .chat-vid span, 
+.chat-user-one video, 
+.chat-user-one img{float:right; border-radius:10px 10px 10px 0;}
+
+.chat-user video, .chat-user img{ width:160px !important; height:120px;}
+
+
+.chat-user-two .chat-vid span,
+.chat-user-two video,
+.chat-user-two img
+  {
+    border-radius: 0 10px 10px 10px;
+ 
 }

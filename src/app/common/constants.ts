@@ -60,6 +60,8 @@ export class Constant {
         CITY_UPDATED_SUCCESSFULLY : 'City updated successfully',
         BLOCKED_SUCCESSFULLY : 'Blocked successfully',
         UNBLOCKED_SUCCESSFULLY : 'Unblocked successfully',
+        NOTE_ADDED_SUCCESSFULLY : 'Note added successfully',
+        NOTE_DELETED_SUCCESSFULLY : 'Note deleted successfully',
     };
     public title: any = {
         ARE_YOU_SURE: 'Are you sure',

@@ -186,28 +186,15 @@
               <div class="col-6">
                  <p class="p16 marginB0">Write a Note</p>
               </div>
-              <div class="col-6 text-right"><a class="add" href="javascript://">Add</a></div>
+              <div class="col-6 text-right">
+                <a class="add" href="javascript://" data-toggle="modal" data-target="#addNote" #modalOpen>Add</a>
+              </div>
            </div>
         </div>
         <hr class="margin0">
-        <div class="write-note white-bg padding40">
-           <div class="wn-block">
-              <div class="circle">
-                 <span></span>
-              </div>
-              <a class="delete" href="javascript://">Delete</a>
-              <p class="time">07 Apr 2018 · 10:30AM</p>
-              <p class="p13">Hey! I am interested in the  property you’ve listed. I was thinking of having a look at it..<a class="view-more" href="javascript://">view more</a></p>
-           </div>
-           <div class="wn-block">
-              <div class="circle">
-                 <span></span>
-              </div>
-              <a class="delete" href="javascript://">Delete</a>
-              <p class="time">07 Apr 2018 · 10:30AM</p>
-              <p class="p13">Hey! I am interested in the  property you’ve listed. I was thinking of having a look at it..<a class="view-more" href="javascript://">view more</a></p>
-           </div>
-        </div>
+        
+        <app-notes [lead_id]="parameter.lead_id"></app-notes>
+
      </div>
   </div>
 
@@ -293,3 +280,4 @@
   </div>
 
 </div>
+

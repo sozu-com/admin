@@ -6,3 +6,9 @@ export class DealFinalize {
     total_amount: number;
     commision: number;
 }
+
+export class Notes {
+    id: number;
+    lead_id: number;
+    note: string;
+}

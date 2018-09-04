@@ -7,8 +7,12 @@ import * as moment from 'moment';
 
 export class ChatTimePipe implements PipeTransform {
 
-  transform(created_at: any): any {
-    return moment(created_at, 'YYYY-MM-DD H:m:s').utc(true).local().fromNow();
+  transform(created_at: any, format: string, type: number): any {
+    if (type === 1) {
+      return moment(created_at, format).utc(true).local().fromNow();
+    } else {
+      return moment(created_at, format).utc(true).local().format('LLLL');
+    }
   }
 
 }

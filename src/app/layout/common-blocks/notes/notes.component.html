@@ -1,0 +1,53 @@
+
+<div class="write-note white-bg padding40" malihu-scrollbar [scrollbarOptions]="scrollbarOptions" *ngIf="parameter.items?.length!=0">
+  <div class="wn-block" *ngFor="let item of parameter.items; let i=index">
+      <div class="circle">
+        <span></span>
+      </div>
+      <a class="delete" href="javascript://" (click)="deleteLeadPopup(item.id, i)">Delete</a>
+      <!-- <p class="time">07 Apr 2018 · 10:30AM</p> -->
+      <p class="time">{{item.updated_at  | chatTime: 'YYYY-MM-DD H:m:s': 2}}</p>
+      <p class="p13">{{item.note}}
+        <!-- <a class="view-more" href="javascript://">view more</a> -->
+      </p>
+  </div>
+</div>
+<p class="show-error" *ngIf="parameter.items?.length==0">
+  {{constant.errorMsg.NO_INTERESTED_PROPERTY_FOUND}}
+</p>
+
+
+<!-- add note modal -->
+<div class="modal animated" id="addNote">
+    <div class="modal-dialog fadeIndown">
+      <div class="modal-content">
+        <div class="modal-header" style="padding: 5%; padding-bottom: 0;">
+            <h4 class="modal-title">Add Note</h4>
+            <button style="display: none;" type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
+            <button type="button" class="close" (click)="closeModal()">&times;</button>
+        </div>
+  
+        <form class="form-horizontal form-model0P form-model-newP" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="addLeadNote(addForm); addForm.reset();">
+          <div class="modal-body modal-body-new">
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group-2">
+                    <div class="form-group">
+                      <textarea rows="3" required class="form-control" name="note" #note="ngModel" [(ngModel)]="model.note"></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                  <div class="btn-cont text-right">
+                      <button *ngIf="model.id==0 else UpdateNote" [disabled]="!addForm.valid" type="submit" class="btn btn-primary">ADD</button>
+                      <ng-template #UpdateNote>
+                          <button type="submit" [disabled]="!addForm.valid" class="btn btn-primary">UPDATE</button>
+                      </ng-template>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

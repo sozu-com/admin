@@ -6,6 +6,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
+import { NgBoxModule } from 'ngbox/ngbox.module';
+import { NgBoxService } from 'ngbox/ngbox.service';
 
 import { ChatTimePipe } from './../../pipes/chat-time.pipe';
 import { LeadsComponent } from './leads.component';
@@ -19,6 +21,7 @@ import { InhouseBrokerDetailComponent } from './inhouse-broker/inhouse-broker-de
 import { CsrCloserDetailComponent } from './csr-closer/csr-closer-detail/csr-closer-detail.component';
 import { ChatComponent } from './../common-blocks/chat/chat.component';
 import { InterestedPropertyComponent } from './../common-blocks/interested-property/interested-property.component';
+import { NotesComponent } from './../common-blocks/notes/notes.component';
 
 const routes: Routes = [
   { path: 'data-collectors', component: DataCollectorComponent },
@@ -44,6 +47,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     Ng2TelInputModule,
     MalihuScrollbarModule.forRoot(),
+    // NgBoxModule
   ],
   declarations: [
     LeadsComponent,
@@ -57,8 +61,10 @@ const routes: Routes = [
     CsrCloserDetailComponent,
     ChatComponent,
     InterestedPropertyComponent,
-    ChatTimePipe
-  ]
+    ChatTimePipe,
+    NotesComponent
+  ],
+  // providers: [NgBoxService]
 })
 
 export class LeadsModule { }
