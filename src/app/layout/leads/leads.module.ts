@@ -8,6 +8,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 import { NgBoxModule } from 'ngbox/ngbox.module';
 import { NgBoxService } from 'ngbox/ngbox.service';
+import { NouisliderModule } from 'ng2-nouislider';
 
 import { ChatTimePipe } from './../../pipes/chat-time.pipe';
 import { LeadsComponent } from './leads.component';
@@ -22,6 +23,7 @@ import { CsrCloserDetailComponent } from './csr-closer/csr-closer-detail/csr-clo
 import { ChatComponent } from './../common-blocks/chat/chat.component';
 import { InterestedPropertyComponent } from './../common-blocks/interested-property/interested-property.component';
 import { NotesComponent } from './../common-blocks/notes/notes.component';
+import { FillInformationComponent } from './../common-blocks/fill-information/fill-information.component';
 
 const routes: Routes = [
   { path: 'data-collectors', component: DataCollectorComponent },
@@ -47,6 +49,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     Ng2TelInputModule,
     MalihuScrollbarModule.forRoot(),
+    NouisliderModule
     // NgBoxModule
   ],
   declarations: [
@@ -62,7 +65,8 @@ const routes: Routes = [
     ChatComponent,
     InterestedPropertyComponent,
     ChatTimePipe,
-    NotesComponent
+    NotesComponent,
+    FillInformationComponent
   ],
   // providers: [NgBoxService]
 })

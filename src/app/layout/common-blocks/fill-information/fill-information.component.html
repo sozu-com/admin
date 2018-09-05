@@ -1,0 +1,58 @@
+
+{{fillInfo|json}}
+<div class="white-bg padding15">
+  <p class="p16 marginB0">Fill in Information</p>
+</div>
+<hr class="margin0">
+<div class="white-bg padding40">
+  <form ngNativeValidate #addForm="ngForm" (ngSubmit)="addPreferences()">
+  <div class="row">
+      <div class="col-sm-12 col-12">
+        <div class="form-group-4">
+            <label>Family Size</label>
+            <input min="1" class="form-control" required [(ngModel)]="fillInfo.family_size" type="number" name="family_size">
+        </div>
+      </div>
+  </div>
+  <div class="inline-form-group-2 marginT20">
+      <div class="row">
+        <div class="col-6"><label class="float-left">Pets</label></div>
+        <div class="col-6">
+            <label class="cust-check-bx">
+            <input required type="checkbox" value="{{fillInfo.pets == 1 ? 'true' : 'false'}}" [(ngModel)]="fillInfo.pets" name="pets">
+            <span class="checkmark"></span>
+            </label>
+        </div>
+      </div>
+  </div>
+  <div class="inline-form-group-2 marginT20">
+      <!-- <nouislider name="" [connect]="true" [min]="0" [max]="1000000" [step]="1000" [tooltips]="true" [(ngModel)]="fillInfo.price_range"></nouislider> -->
+  </div>
+  <div class="form-group-4 marginT20">
+      <label>Close proximity needed to</label>
+      <div class="clearfix"></div>
+      <label class="cust-radio" *ngFor="let proximity_place of parameter.proximity_places">
+        <input required type="checkbox" [checked]="proximity_place.is_selected == 0 ? '' : 'checked'" name="radio1">
+        <span class="checkmark">{{proximity_place.name}}</span>
+      </label>
+      <div class="clearfix"></div>
+  </div>
+  <div class="form-group-4 date-picker">
+      <label>How soon planning to buy/rent</label>
+      <input required type="date" [(ngModel)]="fillInfo.planning_to_buy" value="{{fillInfo.planning_to_buy}}" name="planning_to_but" class="form-control" id="datetimepicker">
+      <span class="sel-date">Select date</span>
+  </div>
+  <div class="form-group-4 marginT20">
+      <label>Car Types</label>
+      <div class="clearfix"></div>
+      <label class="cust-radio" *ngFor="let car_type of parameter.car_types">
+      <input required type="radio" [checked]="car_type.is_selected == 0 ? '' : 'checked'" name="radio2">
+      <span class="checkmark">{{car_type.name}}</span>
+      </label>
+      <div class="clearfix"></div>
+  </div>
+  <div class="btn-cont text-right">
+      <button type="submit" [disabled]="addForm.invalid" class="btn btn-primary">Save</button>
+  </div>
+</form>
+</div>

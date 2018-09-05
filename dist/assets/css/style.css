@@ -1236,7 +1236,7 @@ margin-top: 20px;
 .chat-user-one p {
 float: right;
 background-color: #F5F5F5;
-border-radius: 10px 10px 10px 0;
+border-radius: 10px 0px 10px 10px;
 color: #3E3E3E;
 margin-bottom: 5px;
 }
@@ -2276,7 +2276,21 @@ position: relative;
 
 .chat-user-one .chat-vid span, 
 .chat-user-one video, 
-.chat-user-one img{float:right; border-radius:10px 10px 10px 0;}
+.chat-user-one img{float:right; border-radius:10px 0px 10px 10px;}
+
+.chat-user-two .chat-vid .vid-icon { 
+    width:32px !important;
+    height:32px; 
+    position: absolute; left:0; right:0; bottom:0; top:0; margin:auto;  
+    cursor: pointer;
+}
+
+.chat-vid .vid-img, 
+.chat-user-two .chat-vid span{ width:160px !important; height:120px; position: relative;}
+
+.chat-user-two .chat-vid span, 
+.chat-user-two video, 
+.chat-user-two img{float: left; border-radius:10px 10px 10px 0;}
 
 .chat-user video, .chat-user img{ width:160px !important; height:120px;}
 

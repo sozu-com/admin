@@ -47,6 +47,7 @@ const routes: Routes = [
         primaryColour: '#00B96F'
     }),
     AgmCoreModule.forRoot({
+      // apiKey: 'AIzaSyCud9LaXE2hvv41JyXztnjugMxKO8QWLHQ',
         apiKey: 'AIzaSyCYv_zELZGVo2Ehzgp8eh8UeSIidhMCmH8',
         libraries: ['drawing']
       }),

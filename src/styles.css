@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~nouislider/distribute/nouislider.min.css";
+
 #wrapper{ background: #f4f4f4 !important; }
 .backdrop{ position: fixed !important; }
 .spinner-rectangle-bounce{ position: fixed !important; }

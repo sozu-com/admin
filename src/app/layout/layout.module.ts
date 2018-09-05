@@ -31,6 +31,7 @@ import { AuthGuard } from '../services/auth.guard';
 import { Constant } from '../common/constants';
 import { HttpInterceptor } from './../services/http-interceptor';
 import { GenerateThumbComponent } from './generate-thumb/generate-thumb.component';
+// import { FillInformationComponent } from './common-blocks/src/app/layout/common-blocks/fill-information/fill-information.component';
 // import { NotesComponent } from './common-blocks/notes/notes.component';
 
 @NgModule({
@@ -55,7 +56,7 @@ import { GenerateThumbComponent } from './generate-thumb/generate-thumb.componen
         Ng2TelInputModule,
         FroalaEditorModule.forRoot(),
         FroalaViewModule.forRoot(),
-        // NgBoxModule
+        NgBoxModule
     ],
     declarations: [
         LayoutComponent,
@@ -67,9 +68,11 @@ import { GenerateThumbComponent } from './generate-thumb/generate-thumb.componen
         AddressComponent,
         EditTemplateComponent,
         GenerateThumbComponent,
+        // FillInformationComponent,
         // NotesComponent,
     ],
-    providers: [AdminService, CommonService, AuthGuard, HttpInterceptor, Constant],
+    providers: [AdminService, CommonService, AuthGuard, HttpInterceptor, Constant,
+    NgBoxService],
     bootstrap: [LayoutComponent],
 })
 export class LayoutModule { }

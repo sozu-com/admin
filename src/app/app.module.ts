@@ -49,9 +49,10 @@ const appRoutes: Routes = [
     }),
     MalihuScrollbarModule.forRoot(),
     Ng2TelInputModule,
-    NgBoxModule
+    // NgBoxModule
   ],
-  providers: [AdminService, CommonService, AuthGuard, HttpInterceptor, Constant, NgBoxService
+  providers: [AdminService, CommonService, AuthGuard, HttpInterceptor, Constant,
+    // NgBoxService
     // {
     //   provide: Http, // <-------------
     //   useFactory: httpInterceptor,

@@ -3,18 +3,25 @@
       <div *ngFor="let m of parameter.messages; let i=index" class="chat-user" [ngClass]="m.conversation_user.admin_id == admin_id ? 'chat-user-one' : 'chat-user-two'">
         <p *ngIf="m.message_type == 1" style="word-wrap: break-word;">{{m.message}}</p>
 
-        <a *ngIf="m.message_type == 2" width="800" height="800" target="_blank" ng-box href="{{m.image}}">
+        <!-- <a class="btn btn-sm btn-danger" [group]="group" ng-box href="{{lastReport.image.original}}">View</a> -->
+        <!-- <a *ngIf="m.message_type == 2" ng-box width="800" height="800" target="_blank" href="{{m.image}}">
             <img src="{{m.image}}">
+        </a> -->
+        <a *ngIf="m.message_type == 2" href="{{m.image}}" data-lightbox="image" data-title="My caption">
+          <img class="ui bordered small image" src="{{m.image}}">
+        </a>
+        <a *ngIf="m.message_type == 3" href="{{m.video}}" data-lightbox="youtube" data-title="My caption">
+          <img class="ui bordered small image" src="{{m.image}}">
         </a>
         
-        <div class="chat-vid" *ngIf="m.message_type == 3 && !m.play">
+        <!-- <div class="chat-vid" *ngIf="m.message_type == 3 && !m.play">
           <span>
             <img class="vid-img" src="{{m.image}}">
             <img class="vid-icon" (click)="playVideo(i)" src="assets/img/play-button (2).png"/>
             <div class="clearfix"></div>
         </span>
-        </div>
-        <video *ngIf="m.message_type == 3 && m.play" src="{{m.video}}" autoplay type="video/mp4" controls></video>
+        </div> -->
+        <!-- <video *ngIf="m.message_type == 3 && m.play" src="{{m.video}}" autoplay type="video/mp4" controls></video> -->
         
         <div class="chat-shared-file" *ngIf="m.message_type == 4">
           <a href="javascript://" href="{{m.attachment}}"><span>{{m.attachment_name}}</span>

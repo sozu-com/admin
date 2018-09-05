@@ -5,10 +5,8 @@
         <span></span>
       </div>
       <a class="delete" href="javascript://" (click)="deleteLeadPopup(item.id, i)">Delete</a>
-      <!-- <p class="time">07 Apr 2018 · 10:30AM</p> -->
       <p class="time">{{item.updated_at  | chatTime: 'YYYY-MM-DD H:m:s': 2}}</p>
       <p class="p13">{{item.note}}
-        <!-- <a class="view-more" href="javascript://">view more</a> -->
       </p>
   </div>
 </div>

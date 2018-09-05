@@ -105,4 +105,7 @@ export interface IProperty {
   allCountry?: any;
   message_type?: number;
   sent_as?: number;
+  proximity_places?: any;
+  car_types?: any;
+  prefs?: any;
 }

@@ -27,7 +27,6 @@ export class NotesComponent implements OnInit {
   ngOnInit() {
     this.model.id = 0;
     this.getLeadNotes();
-    // this.getPrefOptions();
   }
 
   closeModal() {
@@ -69,13 +68,6 @@ export class NotesComponent implements OnInit {
 
   getLeadNotes() {
     this.admin.postDataApi('leads/getLeadNotes', {lead_id: this.lead_id}).subscribe(r => {
-      this.parameter.items = r.data;
-      console.log('leads/getLeadNotes', this.parameter.items);
-    });
-  }
-
-  getPrefOptions() {
-    this.admin.postDataApi('leads/getPrefOptions', {}).subscribe(r => {
       this.parameter.items = r.data;
       console.log('leads/getLeadNotes', this.parameter.items);
     });
