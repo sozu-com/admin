@@ -1,17 +1,17 @@
 <div *ngIf="data" class="project-des-bx white-bg">
-  <div class="price">$26k+</div>
+  <div class="price">${{data.property.min_price}}</div>
   <div class="fig-block">
     <img *ngIf="data && data.property && data.property.image" [src]="data.property.image" alt="img">
     <img *ngIf="!data && !data.property && !data.property.image" alt="img">
   </div>
   <div class="project-des-content">
-    <!-- <small>{{data.building.developer.name}}</small>
-    <h5>{{data.building.name}}</h5>
-    <p class="p12">{{data.building.address}}</p> -->
+    <small>{{data.property.building.developer.name}}</small>
+    <h5>{{data.property.building.name}}</h5>
+    <p class="p12">{{data.property.building.address}}</p>
 
-    <small>SNN Builders</small>
+    <!-- <small>SNN Builders</small>
     <h5>Morning Homes</h5>
-    <p class="p12">Kaveri Nagar, Murugeshpalya, Mumbai East.</p>
+    <p class="p12">Kaveri Nagar, Murugeshpalya, Mumbai East.</p> -->
     <p class="p13" *ngIf="data && data.property">{{data.property.configuration.name}}</p>
     <p class="p13" *ngIf="!data && !data.property">NA</p>
     <div class="dropdown threeDots">

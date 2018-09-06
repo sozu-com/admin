@@ -108,4 +108,7 @@ export interface IProperty {
   proximity_places?: any;
   car_types?: any;
   prefs?: any;
+  property_types?: any;
+  configurations?: any;
+  viewed_properties?: any;
 }

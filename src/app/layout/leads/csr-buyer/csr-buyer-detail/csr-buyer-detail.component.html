@@ -84,7 +84,7 @@
         </div>
         <div class="spacer30"></div>
 
-        <app-fill-information [fillInfo]="fillInfo" [proximity_places]="parameter.proximity_places" [lead_id]="parameter.lead_id"></app-fill-information>
+        <app-fill-information [fillInfo]="fillInfo" [lead_id]="parameter.lead_id"></app-fill-information>
 
      </div>
      <div class="col-lg-6 col-md-12 col-sm-12 col-12">
@@ -127,7 +127,7 @@
   <div class="spacer15"></div>
   <div class="row" *ngIf="parameter.interested_properties?.length>0">
     <div class="col-lg-4 col-md-12 col-sm-12 col-12" *ngFor="let ip of parameter.interested_properties">
-      <app-interested-property *ngIf="ip.building" [data]="ip" [adminType]="3"></app-interested-property>
+      <app-interested-property *ngIf="ip.property.building" [data]="ip" [adminType]="3"></app-interested-property>
     </div>
   </div>
   <div *ngIf="parameter.interested_properties?.length == 0">
@@ -147,53 +147,16 @@
      </div>
   </div>
   <div class="spacer15"></div>
-  <div class="row">
-     <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
-        <div class="project-des-bx white-bg">
-           <div class="price">$26k+</div>
-           <div class="fig-block">
-              <img src="http://via.placeholder.com/80x80" alt="img">
-           </div>
-           <div class="project-des-content">
-              <small>SNN Builders</small>
-              <h5>Morning Homes</h5>
-              <p class="p12">Kaveri Nagar, Murugeshpalya, Mumbai East.</p>
-              <p class="p13">1 RK, 1, 2 BHK Apartments</p>
-              <a class="delete-2" href="javascript://"><img src="assets/img/delete-green.png" alt="img"></a>
-           </div>
-        </div>
-     </div>
-     <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
-        <div class="project-des-bx white-bg ">
-           <div class="price">$26k+</div>
-           <div class="fig-block">
-              <img src="http://via.placeholder.com/80x80" alt="img">
-           </div>
-           <div class="project-des-content">
-              <small>SNN Builders</small>
-              <h5>Morning Homes</h5>
-              <p class="p12">Kaveri Nagar, Murugeshpalya, Mumbai East.</p>
-              <p class="p13">1 RK, 1, 2 BHK Apartments</p>
-              <a class="delete-2" href="javascript://"><img src="assets/img/delete-green.png" alt="img"></a>
-           </div>
-        </div>
-     </div>
-    <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
-        <div class="project-des-bx white-bg ">
-           <div class="price">$26k+</div>
-           <div class="fig-block">
-              <img src="http://via.placeholder.com/80x80" alt="img">
-           </div>
-           <div class="project-des-content">
-              <small>SNN Builders</small>
-              <h5>Morning Homes</h5>
-              <p class="p12">Kaveri Nagar, Murugeshpalya, Mumbai East.</p>
-              <p class="p13">1 RK, 1, 2 BHK Apartments</p>
-              <a class="delete-2" href="javascript://"><img src="assets/img/delete-green.png" alt="img"></a>
-           </div>
-        </div>
-     </div>
-  </div>
+  <div class="row" *ngIf="parameter.viewed_properties?.length>0">
+      <div class="col-lg-4 col-md-12 col-sm-12 col-12" *ngFor="let vp of parameter.viewed_properties">
+          <app-viewed-property *ngIf="vp.building" [property]="vp"></app-viewed-property>
+      </div>
+    </div>
+    <div *ngIf="parameter.viewed_properties?.length == 0">
+      <p class="show-error">
+        {{constant.errorMsg.NO_VIEWED_PROPERTY_FOUND}}
+      </p>
+    </div>
 
 </div>
 

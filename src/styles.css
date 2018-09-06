@@ -65,3 +65,23 @@ ngx-my-date-picker .ngxmdp .headertodaybtn { padding: 0px 14px; min-width: 100px
     /* padding-right: 0 !important; */
 }
 .access-control11{ background-color: rgba(0,185,111,0.22); color: #00B96F; }
+/* slider css start */
+nouislider{ padding-left: 50px; padding-right: 50px;}
+.noUi-connect { background: #00b96e;}
+.noUi-horizontal{height:4px !important;}
+.noUi-horizontal .noUi-handle {
+    right: -11px !important;
+    left: auto;
+    background: url(assets/img/range-slider-btn.png) no-repeat;
+    padding: 0px;
+    border: none;
+    width: 23px;
+    top: 2px;
+    box-shadow: none;
+  }
+.noUi-handle:after, .noUi-handle:before{display:none !important}
+/* slider css end */
+
+.fill-info{
+    max-height: 630px;
+}

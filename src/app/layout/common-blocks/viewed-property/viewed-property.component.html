@@ -1,0 +1,18 @@
+<div *ngIf="property" class="project-des-bx white-bg">
+  <div class="price">${{property.min_price}}</div>
+  <div class="fig-block">
+    <img *ngIf="property && property.image" [src]="property.image" alt="img">
+    <img *ngIf="!property && !property.image" alt="img">
+  </div>
+  <div class="project-des-content">
+    <small>{{property.building.developer.name}}</small>
+    <h5>{{property.building.name}}</h5>
+    <p class="p12">{{property.building.address}}</p>
+
+    <!-- <small>SNN Builders</small>
+    <h5>Morning Homes</h5>
+    <p class="p12">Kaveri Nagar, Murugeshpalya, Mumbai East.</p> -->
+    <p class="p13" *ngIf="property">{{property.configuration.name}}</p>
+    <p class="p13" *ngIf="!property">NA</p>
+  </div>
+</div>

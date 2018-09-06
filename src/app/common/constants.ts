@@ -5,6 +5,9 @@ export class Constant {
     public dial_code = '52';
     public userPlaceholder = '../../../assets/img/default_usr.png';
     public initialCountry = 'mx';
+    public minValue = 0;
+    public maxValue = 1000000000;
+    public steps = 1000;
     public phonePattern = '^[0-9]{5,15}$';
     public emailPattern = '^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$';
     // public emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
@@ -39,7 +42,8 @@ export class Constant {
         NO_PROJECT_TYPE_FOUND : 'No project type found!',
         NO_PROJECT_AMENITY_FOUND : 'No amenity found!',
         NO_USER_FOUND : 'No user found!',
-        NO_INTERESTED_PROPERTY_FOUND : 'No interested property found. Click Add button to add property.'
+        NO_INTERESTED_PROPERTY_FOUND : 'No interested property found. Click Add button to add property.',
+        NO_VIEWED_PROPERTY_FOUND : 'No property or project viewed by you.'
     };
     public successMsg: any = {
         COUNTRY_ADDED_SUCCESSFULLY : 'Country added successfully',
@@ -62,6 +66,7 @@ export class Constant {
         UNBLOCKED_SUCCESSFULLY : 'Unblocked successfully',
         NOTE_ADDED_SUCCESSFULLY : 'Note added successfully',
         NOTE_DELETED_SUCCESSFULLY : 'Note deleted successfully',
+        DETAILS_UPDATED_SUCCESSFULLY : 'Details updated successfully',
     };
     public title: any = {
         ARE_YOU_SURE: 'Are you sure',

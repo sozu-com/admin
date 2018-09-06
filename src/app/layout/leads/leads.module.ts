@@ -22,6 +22,7 @@ import { InhouseBrokerDetailComponent } from './inhouse-broker/inhouse-broker-de
 import { CsrCloserDetailComponent } from './csr-closer/csr-closer-detail/csr-closer-detail.component';
 import { ChatComponent } from './../common-blocks/chat/chat.component';
 import { InterestedPropertyComponent } from './../common-blocks/interested-property/interested-property.component';
+import { ViewedPropertyComponent } from './../common-blocks/viewed-property/viewed-property.component';
 import { NotesComponent } from './../common-blocks/notes/notes.component';
 import { FillInformationComponent } from './../common-blocks/fill-information/fill-information.component';
 
@@ -64,6 +65,7 @@ const routes: Routes = [
     CsrCloserDetailComponent,
     ChatComponent,
     InterestedPropertyComponent,
+    ViewedPropertyComponent,
     ChatTimePipe,
     NotesComponent,
     FillInformationComponent

@@ -201,7 +201,12 @@
                 <td class="text-left" *ngIf="item.phone">{{item.country_code}}-{{item.phone}}</td>
                 <td class="text-left" *ngIf="!item.phone">NA</td>
                 <td class="text-left">{{item.email}}</td>
-                <td>2 BHK</td>
+                <td>
+                    <span *ngFor="let conf of item.configuration">
+                        {{conf.name}},
+                    </span>
+                    <span *ngIf="item.configuration?.length==0">NA</span>
+                </td>
                 <td class="text-left" *ngIf="item.admin.name">{{item.admin.name}}</td>
                 <td class="text-left" *ngIf="!item.admin.name">Not Assigned</td>
                 <td>
