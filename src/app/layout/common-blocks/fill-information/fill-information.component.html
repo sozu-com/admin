@@ -47,7 +47,10 @@
     <div class="form-group-4 date-picker marginT20">
         <label>How soon planning to buy/rent</label>
         <div class="clearfix"></div>
-        <input type="date" required [(ngModel)]="fillInfo.planning_to_buy" value="{{fillInfo.planning_to_buy}}" name="planning_to_but" class="form-control" id="datetimepicker">
+        <!-- {{m.created_at  | chatTime: 'YYYY-MM-DD H:m:s': 5}} -->
+        <!-- <input type="date" required [(ngModel)]="fillInfo.planning_to_buy | date:'yyyy-MM-dd'" value="{{fillInfo.planning_to_buy}}" name="planning_to_but" class="form-control" id="datetimepicker"> -->
+        <!-- <input type="date" required [(ngModel)]="fillInfo.planning_to_buy" value="{{fillInfo.planning_to_buy}}" name="planning_to_but" class="form-control" id="datetimepicker"> -->
+        <input type="date" [ngModel]="fillInfo.planning_to_buy  | date:'yyyy-MM-dd' " (ngModelChange)="fillInfo.planning_to_buy = $event;" name="planning_to_but" class="form-control" id="datetimepicker">
         <div class="clearfix"></div>
         <!-- <span class="sel-date">Select date</span> -->
     </div>

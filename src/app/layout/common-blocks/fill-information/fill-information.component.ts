@@ -4,6 +4,7 @@ import { IProperty } from './../../../common/property';
 import { Constant } from './../../../common/constants';
 import { FillInformation } from './../../../models/leads.model';
 import { NouisliderModule } from 'ng2-nouislider';
+import { ChatTimePipe } from './../../../pipes/chat-time.pipe';
 declare let swal: any;
 
 @Component({
@@ -68,8 +69,11 @@ export class FillInformationComponent implements OnInit {
     this.fillInfo.min_price = this.fillInfo.price_range[0];
     this.fillInfo.max_price = this.fillInfo.price_range[1];
 
-    this.fillInfo.planning_to_buy = this.fillInfo.planning_to_buy + ' 00:00:00';
-
+    this.fillInfo.planning_to_buy = new ChatTimePipe().transform(this.fillInfo.planning_to_buy, 'YYYY-MM-DD HH:MM:SS', 3);
+    // this.fillInfo.planning_to_buy = new ChatTimePipe().transform(this.fillInfo.planning_to_buy, 'YYYY-MM-DD HH:MM:SS', 5);
+    // this.input.planning_to_buy = moment.utc(this.model.planning_to_buy_local).format('YYYY-MM-DD HH:MM:SS');
+    // this.model.planning_to_buy_local = moment(moment.utc(this.model.planning_to_buy).toDate()).local().format('YYYY-MM-DD HH:MM:SS');
+    console.log('utc====>', this.fillInfo.planning_to_buy);
     console.log('addPreferences', this.fillInfo);
     this.admin.postDataApi('leads/addPreferences', this.fillInfo).subscribe(r => {
       console.log('leads/getPrefOptions', this.parameter.items);

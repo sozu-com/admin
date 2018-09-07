@@ -1,3 +1,4 @@
+<!-- {{data|json}} -->
 <div *ngIf="data" class="project-des-bx white-bg">
   <div class="price">${{data.property.min_price}}</div>
   <div class="fig-block">
@@ -20,8 +21,8 @@
       </button>
       <div class="dropdown-menu">
         <!-- <a class="dropdown-item" *ngIf="adminType==4 && data.is_finalized" href="javascript://" data-toggle="modal" data-target="#dealFinalize">Deal Finalized</a> -->
-        <a class="dropdown-item" href="javascript://" data-toggle="modal" data-target="#dealFinalize">Deal Finalized</a>
-        <a class="dropdown-item" href="#">Remove Property</a>
+        <a *ngIf="adminType==2" class="dropdown-item" href="javascript://" data-toggle="modal" data-target="#dealFinalize">Deal Finalized</a>
+        <a class="dropdown-item" (click)="deleteLeadInterestedProperty(data.property.id, data.lead_id)">Remove Property</a>
       </div>
     </div>
   </div>

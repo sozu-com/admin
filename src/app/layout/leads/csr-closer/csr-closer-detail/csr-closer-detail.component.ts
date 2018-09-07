@@ -11,7 +11,7 @@ declare let swal: any;
   selector: 'app-csr-closer-detail',
   templateUrl: './csr-closer-detail.component.html',
   styleUrls: ['./csr-closer-detail.component.css'],
-  providers: [Constant, SelectedProperties]
+  providers: [SelectedProperties]
 })
 
 export class CsrCloserDetailComponent implements OnInit, OnDestroy {
@@ -30,6 +30,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private admin: AdminService,
+    public constant: Constant,
     public selectedProperties: SelectedProperties
   ) { }
 

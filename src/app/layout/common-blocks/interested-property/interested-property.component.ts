@@ -14,6 +14,7 @@ declare let swal: any;
 export class InterestedPropertyComponent implements OnInit {
 
   @Input('data') data;
+  @Input('index') index;
   @Input('adminType') adminType;
   @ViewChild('modalClose') modalClose;
 
@@ -51,5 +52,15 @@ export class InterestedPropertyComponent implements OnInit {
             // this.parameter.countries = success.data;
           });
     }
+  }
+
+  deleteLeadInterestedProperty(property_id, lead_id) {
+    this.parameter.url = 'leads/deleteLeadInterestedProperty';
+    this.admin.postDataApi(this.parameter.url, {property_id: property_id, lead_id: lead_id})
+        .subscribe(
+          success => {
+            swal('Success', 'Interested property removed successfully.', 'success');
+            // this.parameter.countries = success.data;
+          });
   }
 }

@@ -5,9 +5,9 @@
         <div class="col-lg-3 col-md-12 col-sm-6 col-12">
             <div class="df-profile">
               <i class="fa fa-angle-left" aria-hidden="true"></i>
-              <img src="http://via.placeholder.com/48x48" alt="img">
+              <img [src]="parameter.lead?.user?.image" onerror='src="assets/img/default_img.png"' alt="img">
               <div class="df-info" *ngIf="parameter.lead?.user">
-                  <p class="p14">{{parameter.lead.name}}</p>
+                  <p class="p14">{{parameter.lead.user.name}}</p>
                   <p class="p12">Status: Open</p>
               </div>
             </div>
@@ -46,22 +46,22 @@
               </div> -->
             </div>
             <div class="details-table">
-              <table class="table" *ngIf="parameter.lead?.user">
+              <table class="table">
                   <tr>
                     <td style="padding-left:0"><label>Full Name</label></td>
-                    <td colspan="2">{{parameter.lead.name}}</td>
+                    <td colspan="2" *ngIf="parameter?.lead?.name">{{parameter.lead.name}}</td>
                   </tr>
                   <tr>
                     <td style="padding-left:0"><label>Contact Number</label></td>
-                    <td colspan="2">{{parameter.lead.dial_code}}-{{parameter.lead.phone}}</td>
+                    <td colspan="2" *ngIf="parameter?.lead?.phone">{{parameter.lead.dial_code ? parameter.lead.dial_code : constant.dial_code}}-{{parameter.lead.phone}}</td>
                   </tr>
                   <tr>
                     <td style="padding-left:0"><label>Email address</label></td>
-                    <td colspan="2">{{parameter.lead.email}}</td>
+                    <td colspan="2" *ngIf="parameter?.lead?.email">{{parameter.lead.email}}</td>
                   </tr>
-                  <tr *ngIf="parameter.lead?.configuration">
+                  <tr>
                      <td style="padding-left:0"><label>Interested In</label></td>
-                     <td>
+                     <td *ngIf="parameter?.lead?.configuration">
                        <span *ngFor="let conf of parameter.lead.configuration">
                          {{conf.name}},
                        </span>
@@ -104,11 +104,11 @@
                   <p class="p13" *ngIf="selectedProperties?.banks && selectedProperties.banks.length==0">No Bank assigned yet </p>
                   <a *ngIf="selectedProperties?.banks && selectedProperties.banks.length==0" href="javascript://" class="green" data-toggle="modal" data-target="#notary-avail">Assign Now</a>
                   <div class="d-flex" *ngIf="selectedProperties?.banks && selectedProperties.banks.length!=0">
-                     <img [src]="selectedProperties?.banks && selectedProperties.banks[0].image" alt="img">
+                     <img [src]="selectedProperties?.banks && selectedProperties.banks[0].image" onerror='src="assets/img/bank-building.png"' alt="img">
                      <div class="bank-info">
                         <p class="p14">{{selectedProperties.banks[0].name}}</p>
                         <p class="p11">{{selectedProperties.banks[0].branch}}</p>
-                        <a href="javascript://" data-toggle="modal" data-target="#notary-avail" class="green">Change</a>
+                        <a href="javascript://" data-toggle="modal" data-target="#notary-avail" class="green-color green">Change</a>
                      </div>
                   </div>
                </div>
@@ -279,23 +279,27 @@
 <div class="modal" id="uploaded-documents">
     <div class="modal-dialog ">
       <div class="modal-content notary-avail">
-          <div class="modal-header popup-header">
+          <!-- <div class="modal-header modal-header-new"> -->
+            <div class="modal-header modal-header-new">
             <h4 class="modal-title">All Uploaded Documents</h4>
             <button type="button" class="close" data-dismiss="modal">&times;</button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body modal-body-new">
             <table class="table">
                 <tr *ngFor="let upDocument of selectedProperties.uploaded_documents">
                   <td>
                       <div class="n-avail-profile">
                         <div class="n-avail-info">
-                            <p class="p12">{{upDocument.attachment_name}}</p>
+                            <p class="p12" *ngIf="upDocument.attachment_name">{{upDocument.attachment_name}}</p>
+                            <p class="p12" *ngIf="!upDocument.attachment_name">{{upDocument.attachment.substring(upDocument.attachment.lastIndexOf('/'), upDocument.attachment.length)}}</p>
+                            <!-- <p class="p12" *ngIf="!upDocument.attachment_name">{{upDocument.attachment.length}}</p> -->
                         </div>
                       </div>
                   </td>
                   <td>
                       <label class="cust-check-bx float-right">
-                          <a href="https://docs.google.com/viewer?url={{upDocument.attachment}}">View</a>
+                          <!-- <a target="_blank" href="https://docs.google.com/viewer?url={{upDocument.attachment}}">View</a> -->
+                          <a target="_blank" href="{{upDocument.attachment}}">View</a>
                       </label>
                   </td>
                 </tr>

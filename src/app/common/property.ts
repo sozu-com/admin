@@ -113,4 +113,5 @@ export interface IProperty {
   viewed_properties?: any;
   allDocuments?: any;
   subscriber?: any;
+  favorites?: any;
 }

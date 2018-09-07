@@ -85,3 +85,21 @@ nouislider{ padding-left: 50px; padding-right: 50px;}
 .fill-info{
     max-height: 630px;
 }
+.modal-header-new {
+    padding: 20px;
+    padding-bottom: 0;
+}
+.modal-body-new {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+}
+.form-model-newP{
+    padding: 20px 15px;
+}
+.green-color {
+    color: #00B96F;
+}
+.delete{
+    padding-right: 22px;
+}

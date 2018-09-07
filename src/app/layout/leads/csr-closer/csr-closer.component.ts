@@ -61,6 +61,7 @@ export class CsrCloserComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
+          console.log('leads/csr-closer', success);
           this.items = success.data;
           this.parameter.total = success.total_count;
         }

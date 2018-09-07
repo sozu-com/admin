@@ -37,6 +37,7 @@ export class CsrBuyerDetailComponent implements OnInit {
         this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
           console.log('Lead Details', r);
           this.parameter.lead = r.data.lead;
+          this.parameter.favorites = r.data.favorites;
           this.setFillInformationData(r);
           this.parameter.proximity_places = r.data.lead.proximity_places;
           console.log('r.data.lead.prefs', r.data.lead.prefs);
@@ -91,23 +92,21 @@ export class CsrBuyerDetailComponent implements OnInit {
       console.log('leads/getPrefOptions', this.fillInfo);
     });
 
+    console.log('get====>', r.data.lead.min_price);
     if (r.data.lead.prefs !== null) {
       this.fillInfo.family_size = r.data.lead.prefs.family_size;
       this.fillInfo.pets = r.data.lead.prefs.pets;
-      this.fillInfo.min_price = r.data.lead.min_price;
-      this.fillInfo.max_price = r.data.lead.max_price;
-      this.fillInfo.price_range = [r.data.lead.prefs.min_price, r.data.lead.prefs.max_price];
-      this.fillInfo.planning_to_buy = new ChatTimePipe().transform(r.data.lead.prefs.planning_to_buy, 'YYYY-MM-DD H:m:s', 4);
-      // this.fillInfo.configuration = r.data.lead.configuration;
-
-      // this.parameter.prefs = r.data.lead.prefs;
+      this.fillInfo.min_price = r.data.lead.prefs.min_price ? r.data.lead.prefs.min_price : this.constant.minValue;
+      this.fillInfo.max_price = r.data.lead.prefs.max_price ? r.data.lead.prefs.max_price : this.constant.maxValue;
+      this.fillInfo.price_range = [this.fillInfo.min_price, this.fillInfo.max_price];
+      this.fillInfo.planning_to_buy = new ChatTimePipe().transform(r.data.lead.prefs.planning_to_buy, 'YYYY-MM-DD HH:MM:SS', 4);
+      console.log('local====>', this.fillInfo);
     } else {
       this.fillInfo.family_size = '';
       this.fillInfo.pets = '';
       this.fillInfo.min_price = this.constant.minValue;
       this.fillInfo.max_price = this.constant.maxValue;
       this.fillInfo.price_range = [this.constant.minValue, this.constant.maxValue];
-      // this.parameter.prefs = new FillInformation();
     }
   }
 

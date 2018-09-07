@@ -3,11 +3,11 @@
   <div class="white-bg padding15">
      <div class="row">
       <div class="col-lg-6 col-md-12 col-sm-12 col-12">
-         <div *ngIf="parameter.lead?.user" class="profile">
+         <div class="profile">
             <div class="fig-block">
-               <img [src]="parameter.lead.user.image" onerror='src="http://via.placeholder.com/56x56"' alt="img">
+                <img [src]="parameter.lead?.user?.image" onerror='src="assets/img/default_img.png"' alt="img">
             </div>
-            <div class="profile-info">
+            <div class="profile-info" *ngIf="parameter.lead?.user">
                <h6>{{parameter.lead.user.name}}</h6>
                <p>{{parameter.lead.user.phone}}</p>
             </div>
@@ -18,7 +18,7 @@
   <div class="spacer30"></div>
   <div class="row">
      <div class="col-lg-6 col-md-12 col-sm-12 col-12">
-        <div *ngIf="parameter.lead" class="white-bg padding30">
+        <div class="white-bg padding30">
            <div class="row">
               <div class="col-md-6">
                  <h6>Details</h6>
@@ -31,27 +31,30 @@
              <table class="table">
                 <tbody><tr>
                    <td style="padding-left:0"><label>Full Name</label></td>
-                   <td>{{parameter.lead.name}}</td>
+                   <td *ngIf="parameter?.lead?.name">{{parameter.lead.name}}</td>
                 </tr>
                 <tr>
                    <td style="padding-left:0"><label>Contact Number</label></td>
-                   <td>{{parameter.lead.dial_code}}{{parameter.lead.phone}}</td>
+                   <td *ngIf="parameter?.lead?.phone">{{parameter.lead.dial_code}}{{parameter.lead.phone}}</td>
                 </tr>
                 <tr>
                    <td style="padding-left:0"><label>Email address</label></td>
-                   <td>{{parameter.lead.email}}</td>
+                   <td *ngIf="parameter?.lead?.email">{{parameter.lead.email}}</td>
                 </tr>
-                <tr *ngIf="parameter.lead?.configuration">
+                <tr>
                    <td style="padding-left:0"><label>Interested In</label></td>
-                   <td>
+                   <td *ngIf="parameter?.lead?.configuration">
                      <span *ngFor="let conf of parameter.lead.configuration">
                        {{conf.name}},
                      </span>
+                     <span *ngIf="parameter.lead.configuration?.length==0">NA</span>
                    </td>
                 </tr>
                 <tr>
                    <td style="padding-left:0"><label>Favourite Projects</label></td>
-                   <td>80 <a class="view-all" href="javascript://">View All</a></td>
+                   <td>{{parameter.favorites?.length}} 
+                      <a *ngIf="parameter.favorites?.length!=0" class="view-all" href="javascript://">View All</a>
+                     </td>
                 </tr>
               </tbody>
              </table>
@@ -90,8 +93,8 @@
   
   <div class="spacer15"></div>
   <div class="row" *ngIf="parameter.interested_properties?.length>0">
-    <div class="col-lg-4 col-md-12 col-sm-12 col-12" *ngFor="let ip of parameter.interested_properties">
-      <app-interested-property *ngIf="ip.property.building" [data]="ip" [adminType]="3"></app-interested-property>
+    <div class="col-lg-4 col-md-12 col-sm-12 col-12" *ngFor="let ip of parameter.interested_properties; let in=index">
+      <app-interested-property *ngIf="ip.property.building" [data]="ip" [index]="in" [adminType]="2"></app-interested-property>
     </div>
   </div>
   <div *ngIf="parameter.interested_properties?.length == 0">

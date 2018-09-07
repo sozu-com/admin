@@ -37,8 +37,10 @@ export class InhouseBrokerDetailComponent implements OnInit {
     this.route.params.subscribe( params => {
       this.parameter.lead_id = params.id;
       this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
+        console.log('details', r);
         this.parameter.lead = r.data.lead;
         this.setFillInformationData(r);
+        this.parameter.favorites = r.data.favorites;
         this.parameter.interested_properties = r.data.interested_properties;
         this.parameter.viewed_properties = r.data.viewed_properties;
         this.parameter.user_id = this.parameter.lead.user.id;

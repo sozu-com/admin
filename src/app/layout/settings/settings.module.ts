@@ -14,13 +14,15 @@ import { LocalityComponent } from './locality/locality.component';
 import { PropertyComponent } from './property/property.component';
 import { ProjectComponent } from './project/project.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { DocumentsComponent } from './documents/documents.component';
 
 const routes: Routes = [
   { path: 'edit-profile', component: EditProfileComponent },
   { path: 'setting-location', component: LocationComponent},
   { path: 'setting-locality', component: LocalityComponent},
   { path: 'setting-property', component: PropertyComponent},
-  { path: 'setting-project', component: ProjectComponent}
+  { path: 'setting-project', component: ProjectComponent},
+  { path: 'documents-listing', component: DocumentsComponent}
 ];
 
 @NgModule({
@@ -31,7 +33,8 @@ const routes: Routes = [
     LocalityComponent,
     PropertyComponent,
     ProjectComponent,
-    SettingsComponent
+    SettingsComponent,
+    DocumentsComponent
   ],
   imports: [
     RouterModule.forChild(routes),

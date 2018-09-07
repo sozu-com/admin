@@ -12,10 +12,16 @@ export class ChatTimePipe implements PipeTransform {
       return moment(created_at, format).utc(true).local().fromNow();
     } else if (type === 3) {
       // converting date to utc
-      return moment(created_at, format).utc(true);
+      return moment.utc(created_at).format(format);
+      // return moment(created_at, format).utc(true);
     } else if (type === 4) {
       // converting date to local
-      return moment(created_at, format).utc(true).local().format('YYYY-MM-DD');
+      return moment(moment.utc(created_at).toDate()).local().format(format);
+      // return moment(created_at, format).utc(true).local().format('YYYY-MM-DD');
+    } else if (type === 5) {
+      // converting datetime to date
+      return moment(created_at, format).format('YYYY-MM-DD');
+      // return moment(created_at, format).utc(true).local().format('YYYY-MM-DD');
     } else {
       return moment(created_at, format).utc(true).local().format('LLLL');
     }
