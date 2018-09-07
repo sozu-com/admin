@@ -111,4 +111,6 @@ export interface IProperty {
   property_types?: any;
   configurations?: any;
   viewed_properties?: any;
+  allDocuments?: any;
+  subscriber?: any;
 }

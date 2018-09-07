@@ -58,6 +58,7 @@ p.p11 { color: #434B52; font-size: 11px; line-height: 18px; }
 .marginB40{margin-bottom:40px !important;}
 .marginL0{margin-left:0 !important; }
 .marginL15{margin-left:15px !important; }
+.marginT25{margin-top:25px !important;}
 .paddingT0{padding-top:0 !important }
 .padding15{padding:15px;}
 .padding20{padding:20px;}
@@ -2168,6 +2169,96 @@ background-color:#00B96F !important;
 color:#fff; 
 background-color: #000000;
 }
+.bank-assigned-now{background-color:#fff; margin-top:20px;  }
+
+.bank-assigned-now p{margin:0; }
+.bank-assigned-now .b-left{
+    padding: 15px;
+}
+.bank-assigned-now .b-right {
+    border-left: solid 1px #ededed;
+    padding: 15px 15px 30px;
+}
+
+.bank-assigned-now .b-right img {
+    margin-right: 15px;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+}
+.bank-assigned-now .b-right .green, .bank-assigned-now .b-left .green {
+    font-family: 'sf_ui_textbold';
+    position: absolute;
+    right: 30px;
+    bottom: 10px;
+    font-size: 13px;
+}
+.bank-assigned-now .b-left .green{right:15px !important; }
+
+.bank-assigned-now .b-right .green{float:right; }
+
+.bank-assigned-now .b-left .p13 {
+    font-family: 'sf_ui_textregular';
+    text-align: right;
+}
+
+.payment-status-table{margin-top:20px; }
+ 
+.pending-status {
+    height: 16px;
+    width: 72px;
+    border-radius: 8px;
+    background-color: rgba(255,57,49,0.16);
+    color: #FF3931;
+    font-size: 12px;
+    text-align: center;
+    display:inline-block; 
+}
+
+
+.page-title-2 .grand-total{
+   
+    color: #000000;
+    font-family: 'sf_ui_textbold';
+    font-size: 18px;
+  
+    text-align: right;
+}
+
+.payment-status-table .table {
+    margin: 0 40px;
+    width:85%;
+}
+.payment-status-table .table tr td,
+.upload-document-block .table tr td{padding-right:0; padding-left:0; border-bottom: 1px solid #dee2e6; border-top:none;  }
+
+
+.payment-status-table .table tr td label {
+    color: #434B52;
+    font-family: 'sf_ui_textregular';
+    font-size: 14px;
+    margin: 0;
+    display: block;
+}
+
+.payment-status-table .table tr td strong {
+   
+    color: #434B52;
+    font-family: 'sf_ui_textmedium';
+    font-size: 16px;
+  font-weight: normal;
+}
+
+
+.payment-status-table .table tr td small {
+   
+    color: rgba(0,0,0,0.5);
+    font-family: 'sf_ui_textregular';
+    font-size: 12px;
+    display: block;
+     
+}
+
 .attach-items>a{
 background-color: #fff;
 height:52px;
@@ -2301,4 +2392,43 @@ position: relative;
   {
     border-radius: 0 10px 10px 10px;
  
+}
+
+
+.n-avail-profile{display: flex;}
+.n-avail-profile img{ width:48px; height:48px; object-fit: cover; margin-right:15px; border-radius: 4px;    }
+
+.n-avail-profile .n-avail-info .p12{
+    margin:0; 
+    font-family: 'sf_ui_textmedium';
+    color: #465069; 
+}
+
+.n-avail-profile .n-avail-info .p10 {
+    
+    color: #A6ACBB;
+    font-family: 'sf_ui_textregular';
+    font-size: 10px;
+    
+}
+.notary-avail .cust-check-bx .checkmark {  
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+}
+.notary-avail .cust-check-bx .checkmark:after {
+    left: 5px;
+    top: 2px;
+    width: 6px;
+    height: 10px;   
+}
+.notary-avail .table td{ border-top:none; border-bottom:1px solid #ECEEF5;  }
+.popup-header{border:none;  }
+.popup-header h4 {
+    color: #000000;
+    font-family: 'sf_ui_textmedium';
+    font-size: 24px;
+}
+.notary-avail.modal-content  {
+    padding: 30px 40px;
 }

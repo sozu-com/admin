@@ -1,4 +1,17 @@
 
+<div class="spacer30"></div>
+<div class="white-bg padding15">
+    <div class="row">
+      <div class="col-6">
+          <p class="p16 marginB0">Write a Note</p>
+      </div>
+      <div class="col-6 text-right">
+        <a class="add" href="javascript://" data-toggle="modal" data-target="#addNote" #modalOpen>Add</a>
+      </div>
+    </div>
+</div>
+<hr class="margin0">
+
 <div class="write-note white-bg padding40" malihu-scrollbar [scrollbarOptions]="scrollbarOptions" *ngIf="parameter.items?.length!=0">
   <div class="wn-block" *ngFor="let item of parameter.items; let i=index">
       <div class="circle">

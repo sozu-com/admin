@@ -162,27 +162,36 @@
      <div class="tabel-section">
               <div class="table-responsive">
                  <table class="table table-striped">
-                    <tbody><tr>
+                    <tbody>
+                      <tr>
                        <th style="width:6%">&nbsp;</th>
                        <th style="width:20%">
                           <div class="table-search">
-                             <label>Name</label>
-                             <input type="Search here" name="">
+                              <label>Name</label>
+                              <div class="searh-3">
+                                  <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="changeFilter('name',$event.target.value)" name="">
+                                  <button *ngIf="parameter.name" (click)="changeFilter('name', parameter.name)"><i class="fa fa-search"></i></button>
+                              </div>
                           </div>
-                       </th>
-                       <th style="width:20%; text-align:left;">
+                        </th>
+                        <th style="width:20%; text-align:left;">
                           <div class="table-search">
-                             <label>Contact</label>
-                             <input type="Search here" name="">
+                              <label>Contact Number</label>
+                              <div class="searh-3">
+                                  <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="changeFilter('phone',$event.target.value)" name="">
+                                  <button *ngIf="parameter.phone" (click)="changeFilter('phone', parameter.phone)"><i class="fa fa-search"></i></button>
+                              </div>
                           </div>
-                       </th>
-                       <th style="width:20%">
+                        </th>
+                        <th style="width:20%">
                           <div class="table-search">
-                             <label>Property</label>
-                             <input type="Search here" name="">
+                              <label>Property</label>
+                              <div class="searh-3">
+                                  <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="changeFilter('email',$event.target.value)" name="">
+                                  <button *ngIf="parameter.email" (click)="changeFilter('email', parameter.email)"><i class="fa fa-search"></i></button>
+                              </div>
                           </div>
-                       </th>
-
+                        </th>
                         <th style="width:20%;">
                           <div class="table-search">
                              <label>Assignee</label>

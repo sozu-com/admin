@@ -13,16 +13,6 @@
             </div>
          </div>
       </div>
-      <div class="col-lg-6 col-md-12 col-sm-12 col-12">
-        <div class="form-group d-flex marginT10 float-right right-side">
-          <a class="btn btn-outline-primary" href="javascript://">Invoices</a> 
-          <select class="form-control green-select marginL15">
-             <option>Actions</option>
-             <option>Actions</option>
-             <option>Actions</option>
-          </select>
-        </div>
-      </div>
      </div>
   </div>
   <div class="spacer30"></div>
@@ -33,9 +23,9 @@
               <div class="col-md-6">
                  <h6>Details</h6>
               </div>
-              <div class="col-md-6">
+              <!-- <div class="col-md-6">
                  <div class="edit text-right"><a href="javascript://">Edit</a></div>
-              </div>
+              </div> -->
            </div>
            <div class="details-table">
              <table class="table">
@@ -45,7 +35,7 @@
                 </tr>
                 <tr>
                    <td style="padding-left:0"><label>Contact Number</label></td>
-                   <td>{{parameter.lead.phone}}</td>
+                   <td>{{parameter.lead.dial_code}}{{parameter.lead.phone}}</td>
                 </tr>
                 <tr>
                    <td style="padding-left:0"><label>Email address</label></td>
@@ -55,7 +45,7 @@
                    <td style="padding-left:0"><label>Interested In</label></td>
                    <td>
                      <span *ngFor="let conf of parameter.lead.configuration">
-                       {{conf.name}}
+                       {{conf.name}},
                      </span>
                    </td>
                 </tr>
@@ -79,119 +69,15 @@
            <i class="float-left marginR15"><img src="assets/img/chat-icon.png" alt="img"></i>
            <a href="javascript://">Chat with Developers <i class="fa fa-angle-right"></i></a>
         </div>
-        <div class="white-bg padding15">
-           <p class="p16 marginB0">Fill in Information</p>
-        </div>
-        <hr class="margin0">
-        <div class="white-bg padding40">
-           <div class="form-group-4">
-              <label>Preferred</label>
-              <div class="clearfix"></div>
-              <label class="cust-radio">
-              <input type="radio" checked="checked" name="radio">
-              <span class="checkmark">Neighbourhood</span>
-              </label>
-              <label class="cust-radio">
-              <input type="radio" name="radio">
-              <span class="checkmark">Building</span>
-              </label>
-              <div class="clearfix"></div>
-           </div>
-           <div class="row">
-              <div class="col-sm-6 col-12">
-                 <div class="form-group-4">
-                    <label>Family Size</label>
-                    <input class="form-control" type="text" name="">
-                 </div>
-              </div>
-              <div class="col-sm-6 col-12">
-                 <div class="form-group-4">
-                    <label>Kids - Age group</label>
-                    <input class="form-control" type="text" name="">
-                 </div>
-              </div>
-           </div>
-           <div class="inline-form-group-2 marginT20">
-              <div class="row">
-                 <div class="col-6"><label class="float-left">Pets</label></div>
-                 <div class="col-6">
-                    <label class="cust-check-bx">
-                    <input type="checkbox">
-                    <span class="checkmark"></span>
-                    </label>
-                 </div>
-              </div>
-           </div>
-           <div class="form-group-4 marginT20">
-              <label>Close proximity needed to</label>
-              <div class="clearfix"></div>
-              <label class="cust-radio">
-              <input type="radio" checked="checked" name="radio1">
-              <span class="checkmark">Workplace</span>
-              </label>
-              <label class="cust-radio">
-              <input type="radio" name="radio1">
-              <span class="checkmark">School</span>
-              </label>
-              <label class="cust-radio">
-              <input type="radio" name="radio1">
-              <span class="checkmark">Gym</span>
-              </label>
-              <label class="cust-radio">
-              <input type="radio" name="radio1">
-              <span class="checkmark">Temple</span>
-              </label>
-              <div class="clearfix"></div>
-           </div>
-           <div class="form-group-4 date-picker">
-              <label>How soon planning to buy/rent</label>
-              <input type="text" class="form-control" id="datetimepicker" placeholder="Select Date">
-              <span class="sel-date">Select date</span>
-           </div>
-           <div class="form-group-4 marginT20">
-              <label>Car Types</label>
-              <div class="clearfix"></div>
-              <label class="cust-radio">
-              <input type="radio" checked="checked" name="radio2">
-              <span class="checkmark">Electric</span>
-              </label>
-              <label class="cust-radio">
-              <input type="radio" name="radio2">
-              <span class="checkmark">SUV</span>
-              </label>
-              <div class="clearfix"></div>
-           </div>
-        </div>
-        <div class="spacer30"></div>
-        <div class="white-bg padding15">
-           <div class="row">
-              <div class="col-6">
-                 <p class="p16 marginB0">Write a Note</p>
-              </div>
-              <div class="col-6 text-right"><a class="add" href="javascript://">Add</a></div>
-           </div>
-        </div>
-        <hr class="margin0">
-        <div class="write-note white-bg padding40">
-           <div class="wn-block">
-              <div class="circle">
-                 <span></span>
-              </div>
-              <a class="delete" href="javascript://">Delete</a>
-              <p class="time">07 Apr 2018 · 10:30AM</p>
-              <p class="p13">Hey! I am interested in the  property you’ve listed. I was thinking of having a look at it..<a class="view-more" href="javascript://">view more</a></p>
-           </div>
-           <div class="wn-block">
-              <div class="circle">
-                 <span></span>
-              </div>
-              <a class="delete" href="javascript://">Delete</a>
-              <p class="time">07 Apr 2018 · 10:30AM</p>
-              <p class="p13">Hey! I am interested in the  property you’ve listed. I was thinking of having a look at it..<a class="view-more" href="javascript://">view more</a></p>
-           </div>
-        </div>
+        
+        <app-fill-information [fillInfo]="fillInfo" [lead_id]="parameter.lead_id"></app-fill-information>
+
+        <app-notes [lead_id]="parameter.lead_id"></app-notes>
+
      </div>
   </div>
+
+  <!-- Interested Properties start -->
   <div class="spacer30"></div>
   <div class="row">
      <div class="col-6">
@@ -204,9 +90,8 @@
   
   <div class="spacer15"></div>
   <div class="row" *ngIf="parameter.interested_properties?.length>0">
-    <!-- <div class="col-lg-4 col-md-12 col-sm-12 col-12" *ngFor="let ip of parameter.interested_properties"> -->
     <div class="col-lg-4 col-md-12 col-sm-12 col-12" *ngFor="let ip of parameter.interested_properties">
-      <app-interested-property [data]="ip" [adminType]="4"></app-interested-property>
+      <app-interested-property *ngIf="ip.property.building" [data]="ip" [adminType]="3"></app-interested-property>
     </div>
   </div>
   <div *ngIf="parameter.interested_properties?.length == 0">
@@ -214,7 +99,9 @@
       {{constant.errorMsg.NO_INTERESTED_PROPERTY_FOUND}}
     </p>
   </div>
+<!-- Interested Properties end -->
 
+<!-- viewed property or projects start -->
   <div class="spacer30"></div>
   <div class="row">
      <div class="col-6">
@@ -225,52 +112,15 @@
      </div>
   </div>
   <div class="spacer15"></div>
-  <div class="row">
-     <div class="col-lg-4 col-md-12 col-sm-12 col-12">
-        <div class="project-des-bx white-bg">
-           <div class="price">$26k+</div>
-           <div class="fig-block">
-              <img src="http://via.placeholder.com/80x80" alt="img">
-           </div>
-           <div class="project-des-content">
-              <small>SNN Builders</small>
-              <h5>Morning Homes</h5>
-              <p class="p12">Kaveri Nagar, Murugeshpalya, Mumbai East.</p>
-              <p class="p13">1 RK, 1, 2 BHK Apartments</p>
-              <a class="delete-2" href="javascript://"><img src="assets/img/delete-green.png" alt="img"></a>
-           </div>
-        </div>
-     </div>
-     <div class="col-lg-4 col-md-12 col-sm-12 col-12">
-        <div class="project-des-bx white-bg ">
-           <div class="price">$26k+</div>
-           <div class="fig-block">
-              <img src="http://via.placeholder.com/80x80" alt="img">
-           </div>
-           <div class="project-des-content">
-              <small>SNN Builders</small>
-              <h5>Morning Homes</h5>
-              <p class="p12">Kaveri Nagar, Murugeshpalya, Mumbai East.</p>
-              <p class="p13">1 RK, 1, 2 BHK Apartments</p>
-              <a class="delete-2" href="javascript://"><img src="assets/img/delete-green.png" alt="img"></a>
-           </div>
-        </div>
-     </div>
-    <div class="col-lg-4 col-md-12 col-sm-12 col-12">
-        <div class="project-des-bx white-bg ">
-           <div class="price">$26k+</div>
-           <div class="fig-block">
-              <img src="http://via.placeholder.com/80x80" alt="img">
-           </div>
-           <div class="project-des-content">
-              <small>SNN Builders</small>
-              <h5>Morning Homes</h5>
-              <p class="p12">Kaveri Nagar, Murugeshpalya, Mumbai East.</p>
-              <p class="p13">1 RK, 1, 2 BHK Apartments</p>
-              <!-- <a class="delete-2" href="javascript://"><img src="assets/img/delete-green.png" alt="img"></a> -->
-              <a class="btn btn-primary" href="javascript://" data-toggle="modal" data-target="#dealFinalise" #modalOpen>Add New</a>
-           </div>
-        </div>
-     </div>
-  </div>
+  <div class="row" *ngIf="parameter.viewed_properties?.length>0">
+      <div class="col-lg-4 col-md-12 col-sm-12 col-12" *ngFor="let vp of parameter.viewed_properties">
+          <app-viewed-property *ngIf="vp.building" [property]="vp"></app-viewed-property>
+      </div>
+    </div>
+    <div *ngIf="parameter.viewed_properties?.length == 0">
+      <p class="show-error">
+        {{constant.errorMsg.NO_VIEWED_PROPERTY_FOUND}}
+      </p>
+    </div>
+<!-- viewed property or projects end -->
 </div>

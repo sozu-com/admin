@@ -42,17 +42,14 @@ export class InterestedPropertyComponent implements OnInit {
       };
       this.modalClose.nativeElement.click();
   console.log('leads/attach-property', input);
-      // this.admin.postDataApi(this.parameter.url, input)
-      //   .subscribe(
-      //     success => {
-      //       this.modalClose.nativeElement.click();
-      //       swal('Success', 'Deal has been finalized successfully.', 'success');
-      //       console.log('aa', success);
-      //       // this.parameter.countries = success.data;
-      //     },
-      //     error => {
-      //       swal('Error', error.message, 'error');
-      //     });
+      this.admin.postDataApi(this.parameter.url, input)
+        .subscribe(
+          success => {
+            this.modalClose.nativeElement.click();
+            swal('Success', 'Deal has been finalized successfully.', 'success');
+            console.log('aa', success);
+            // this.parameter.countries = success.data;
+          });
     }
   }
 }

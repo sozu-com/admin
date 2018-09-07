@@ -67,3 +67,55 @@ export class PropertyTypes {
     is_selected: number;
     status: number;
 }
+
+export class SelectedProperties {
+    token_money: number;
+    total_amount: number;
+    commision: number;
+    banks: Array<BankAssigned>;
+    noataries: Array<NotaryAssigned>;
+    selected_documents: Array<Documents>;
+    allDocuments: Array<Documents>;
+    uploaded_documents: Array<UploadedDocuments>;
+}
+
+export class Documents {
+    id: number;
+    name_en: string;
+    name_es: string;
+    name: string;
+    is_selected: number;
+    status: number;
+}
+
+export class UploadedDocuments {
+    attachment: string; // attachment link
+    attachment_name: string; // just name of attachment
+    created_at: string;
+    id: number;
+    selected_property_id: number;
+    updated_at: string;
+    user_id: number;
+}
+
+export class NotaryAssigned {
+    id: number;
+    name: string;
+    phone: string;
+    dial_code: string;
+    country_code: string;
+    // is_selected: number;
+    // status: number;
+}
+
+export class BankAssigned {
+    id: number;
+    name: string;
+    phone: string;
+    dial_code: string;
+    country_code: string;
+    branch: string;
+    is_selected: number;
+    status: number;
+}
+

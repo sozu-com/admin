@@ -1,3 +1,406 @@
-<p>
-  csr-closer-detail works!
-</p>
+
+<div class="container-fluid">
+  <div class="white-bg padding15">
+      <div class="row">
+        <div class="col-lg-3 col-md-12 col-sm-6 col-12">
+            <div class="df-profile">
+              <i class="fa fa-angle-left" aria-hidden="true"></i>
+              <img src="http://via.placeholder.com/48x48" alt="img">
+              <div class="df-info" *ngIf="parameter.lead?.user">
+                  <p class="p14">{{parameter.lead.name}}</p>
+                  <p class="p12">Status: Open</p>
+              </div>
+            </div>
+        </div>
+        <div class="col-lg-5 col-md-12 col-sm-6 col-12">
+            <div class="profile-list">
+              <ul>
+                  <li>
+                    <div class="df-info">
+                        <p class="p14 marginB0" *ngIf="parameter.lead?.admin">{{parameter.lead.admin.name}}</p>
+                        <p class="p12">CSR Buyer</p>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="df-info" *ngIf="parameter.lead?.broker">
+                        <p class="p14 marginB0">{{parameter.lead.broker.name}}</p>
+                        <p class="p12">Inhouse Broker</p>
+                    </div>
+                  </li>
+              </ul>
+            </div>
+        </div>
+      </div>
+  </div>
+  
+  <div class="spacer30"></div>
+  <div class="row">
+      <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+        <div class="white-bg padding30">
+            <div class="row">
+              <div class="col-md-6">
+                  <h6>Details</h6>
+              </div>
+              <!-- <div class="col-md-6">
+                  <div class="edit text-right"><a href="javascript://">Edit</a></div>
+              </div> -->
+            </div>
+            <div class="details-table">
+              <table class="table" *ngIf="parameter.lead?.user">
+                  <tr>
+                    <td style="padding-left:0"><label>Full Name</label></td>
+                    <td colspan="2">{{parameter.lead.name}}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding-left:0"><label>Contact Number</label></td>
+                    <td colspan="2">{{parameter.lead.dial_code}}-{{parameter.lead.phone}}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding-left:0"><label>Email address</label></td>
+                    <td colspan="2">{{parameter.lead.email}}</td>
+                  </tr>
+                  <tr *ngIf="parameter.lead?.configuration">
+                     <td style="padding-left:0"><label>Interested In</label></td>
+                     <td>
+                       <span *ngFor="let conf of parameter.lead.configuration">
+                         {{conf.name}},
+                       </span>
+                       <span *ngIf="parameter.lead.configuration?.length == 0">NA</span>
+                     </td>
+                  </tr>
+                  <tr>
+                    <td  style="padding-left:0"><label><strong>Property Selected</strong></label></td>
+                    <td>
+                        <p class="p14 marginB0">2 BHK</p>
+                        <p class="p12 marginB0"><strong>Green House Apartments</strong></p>
+                        <p class="p11"><i>Sarovar Builders</i></p>
+                    </td>
+                    <td><a class="view-all-2" href="javascript://"> View Property</a></td>
+                  </tr>
+                  <!-- <tr>
+                    <td  style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
+                    <td colspan="2">
+                        <p class="date">02-Oct-2018, 04:00pm</p>
+                    </td>
+                  </tr> -->
+              </table>
+            </div>
+        </div>
+ 
+        <!-- notes start -->
+        <app-notes [lead_id]="parameter.lead_id"></app-notes>
+        <!-- notes end -->
+
+        <!-- <div class="spacer15"></div> -->
+        <div class="bank-assigned-now white-bg">
+            <div class="row">
+               <div class="col-md-6 col-sm-6 col-12 b-left">
+                  <p class="p13" *ngIf="selectedProperties?.noataries && selectedProperties.noataries.length==0">No Notary assigned yet </p>
+                  <a *ngIf="selectedProperties?.noataries && selectedProperties.noataries.length==0" href="javascript://" class="green" data-toggle="modal" data-target="#notary-avail">Assign Now</a>
+                  <p class="p13" *ngIf="selectedProperties?.noataries && selectedProperties.noataries.length!=0">{{selectedProperties.noataries[0].name}}</p>
+                  <p class="p13" *ngIf="selectedProperties?.noataries && selectedProperties.noataries.length!=0">Notary</p>
+               </div>
+               <div class="col-md-6 col-sm-6 col-12 b-right">
+                  <p class="p13" *ngIf="selectedProperties?.banks && selectedProperties.banks.length==0">No Bank assigned yet </p>
+                  <a *ngIf="selectedProperties?.banks && selectedProperties.banks.length==0" href="javascript://" class="green" data-toggle="modal" data-target="#notary-avail">Assign Now</a>
+                  <div class="d-flex" *ngIf="selectedProperties?.banks && selectedProperties.banks.length!=0">
+                     <img [src]="selectedProperties?.banks && selectedProperties.banks[0].image" alt="img">
+                     <div class="bank-info">
+                        <p class="p14">{{selectedProperties.banks[0].name}}</p>
+                        <p class="p11">{{selectedProperties.banks[0].branch}}</p>
+                        <a href="javascript://" data-toggle="modal" data-target="#notary-avail" class="green">Change</a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         <!-- <div class="spacer15"></div> -->
+        <div class="payment-status-table white-bg">
+            <div class="page-title-2 marginB0 border-0">
+               <div class="row">
+                  <div class="col-md-6 col-sm-6 col-12">
+                     <h4>Payment Status</h4>
+                  </div>
+                   <div class="col-md-6 col-sm-6 col-12">
+                     <div class="grand-total">${{selectedProperties.total_amount}}</div>
+                  </div>
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-12">
+                  <table class="table">
+                     <tr>
+                        <td><label>Token Amount</label></td>
+                        <td><strong>${{selectedProperties.token_money}}</strong></td>
+                        <td>&nbsp;</td>
+                     </tr>
+                     <tr>
+                        <td><label>Commission (1.45%)</label></td>
+                        <td><strong>${{selectedProperties.total_amount}}</strong></td>
+                        <td class="text-right">
+                           <div class="pending-status">Pending</div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <label>Pending Amount</label>
+                           <small>(Full property)</small>
+                        </td>
+                        <td><strong>$1,263,223.32</strong></td>
+                        <td>&nbsp;</td>
+                     </tr>
+                  </table>
+               </div>
+            </div>
+
+         </div>
+      </div>
+
+
+      <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+      <div class="white-bg">
+        <div class="page-title-3 marginB0">
+        <h4><i><img src="assets/img/chat-icon.png" alt="img"></i> Chat</h4>
+      </div>
+      <div class="cust-tabs-4">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a class="nav-link active" data-toggle="tab" href="#csr-closer">CSR Closer</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#notary">Seller</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#bank">Buyer</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#bank">Bank</a>
+            </li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div class="tab-pane active" id="csr-closer">
+              <div class="chat-window white-bg">
+                  <div class="chat-top">
+                    <a href="javascript://">
+                        <div class="profile">
+                          <div class="fig-block">
+                              <img src="http://via.placeholder.com/62x62" alt="img">
+                          </div>
+                          <div class="profile-info">
+                              <h6>Cole Washington</h6>
+                              <p class="p12">CSR Closer</p>
+                          </div>
+                        </div>
+                    </a>
+                  </div>
+                  <div class="chat-area scrollbox" tabindex="0" style="width: 488px; padding-right: 27px; outline: none; overflow: hidden;">
+                    <div class="chat-user chat-user-two">
+                        <p> Hey! I am interested in the  property you’ve listed. I was thinking of having a look at it. Can we schedule a tour? and Is the price listed fixed? Thanks. </p>
+                        <span class="time">
+                        2:05pm, May 01, 2014
+                        </span>
+                    </div>
+                    <div class="chat-user chat-user-one">
+                        <p> Hey! I am interested in the  property you’ve listed. I was thinking of having a look at it. Can we schedule a tour? and Is the price listed fixed? Thanks. </p>
+                        <span class="time">
+                        2:05pm, May 01, 2014
+                        </span>
+                    </div>
+                    <div class="chat-user chat-user-two">
+                        <p> Hey! I am interested in the  property you’ve listed. I was thinking of having a look at it. Can we schedule a tour? and Is the price listed fixed? Thanks. </p>
+                        <span class="time">
+                        2:05pm, May 01, 2014
+                        </span>
+                    </div>
+                    <div class="chat-user chat-user-one">
+                        <p> Hey! I am interested in the  property you’ve listed. I was thinking of having a look at it. Can we schedule a tour? and Is the price listed fixed? Thanks. </p>
+                        <span class="time">
+                        2:05pm, May 01, 2014
+                        </span>
+                    </div>
+                  </div> 
+                  <div class="chat-text">
+                    <input class="chat-input" type="text" name="" placeholder="Type your message here …">
+                    <button class="btn">Send</button>
+                  </div>
+              </div>
+            </div>
+            <div class="tab-pane container fade" id="notary">Notary</div>
+            <div class="tab-pane container fade" id="bank">Bank</div>
+        </div>
+      </div>
+
+      </div>
+
+      <div class="clearfix"></div>
+      <div class="upload-document-block white-bg">
+         <div class="page-title-2 border-0">
+            <div class="row">
+               <div class="col-9">
+                  <h4>Documents</h4>
+               </div>
+               <div class="col-3">
+                <a class="view" href="javascript://" (click)="save()">Save Selected</a>
+               </div>
+            </div>
+            <table class="table">
+               <tr *ngFor="let document of selectedProperties.allDocuments; let i=index">
+                  <td>
+                     <label class="cust-check-bx">{{document.name}}
+                      <input type="checkbox" (click)="setValue(i)" [checked]="document.is_selected == 1 ? 'checked' : ''" name="document">
+                      <span class="checkmark"></span>
+                     </label>
+                  </td>
+               </tr>
+            </table>
+         </div>
+      </div>
+       <div class="all-document-block white-bg">
+       <div class="page-title-2 border-0">
+       <div class="row">
+          <div class="col-9">
+              <h4>All Documents</h4>
+              <p class="p11 marginB0">From both seller and buyer</p>
+
+             </div>
+             <div class="col-3 text-right">
+             <a class="view" data-toggle="modal" data-target="#uploaded-documents" href="javascript://" >View</a>
+             </div>
+          </div>
+       </div>
+       </div>
+      </div>
+  </div>
+</div>
+
+
+<div class="modal" id="uploaded-documents">
+    <div class="modal-dialog ">
+      <div class="modal-content notary-avail">
+          <div class="modal-header popup-header">
+            <h4 class="modal-title">All Uploaded Documents</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <table class="table">
+                <tr *ngFor="let upDocument of selectedProperties.uploaded_documents">
+                  <td>
+                      <div class="n-avail-profile">
+                        <div class="n-avail-info">
+                            <p class="p12">{{upDocument.attachment_name}}</p>
+                        </div>
+                      </div>
+                  </td>
+                  <td>
+                      <label class="cust-check-bx float-right">
+                          <a href="https://docs.google.com/viewer?url={{upDocument.attachment}}">View</a>
+                      </label>
+                  </td>
+                </tr>
+            </table>
+          </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal" id="notary-avail">
+    <div class="modal-dialog ">
+      <div class="modal-content notary-avail">
+          <div class="modal-header popup-header">
+            <h4 class="modal-title">Notaries available</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <table class="table">
+                <tr>
+                  <td>
+                      <div class="n-avail-profile">
+                        <img src="http://via.placeholder.com/150x150" alt="img">
+                        <div class="n-avail-info">
+                            <p class="p12">Nicholas Taylor</p>
+                            <p class="p10">Contact : 985 968 8956</p>
+                        </div>
+                      </div>
+                  </td>
+                  <td>
+                      <label class="cust-check-bx float-right">
+                      <input type="checkbox">
+                      <span class="checkmark"></span>
+                      </label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                      <div class="n-avail-profile">
+                        <img src="http://via.placeholder.com/150x150" alt="img">
+                        <div class="n-avail-info">
+                            <p class="p12">Nicholas Taylor</p>
+                            <p class="p10">Contact : 985 968 8956</p>
+                        </div>
+                      </div>
+                  </td>
+                  <td>
+                      <label class="cust-check-bx float-right">
+                      <input type="checkbox">
+                      <span class="checkmark"></span>
+                      </label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                      <div class="n-avail-profile">
+                        <img src="http://via.placeholder.com/150x150" alt="img">
+                        <div class="n-avail-info">
+                            <p class="p12">Nicholas Taylor</p>
+                            <p class="p10">Contact : 985 968 8956</p>
+                        </div>
+                      </div>
+                  </td>
+                  <td>
+                      <label class="cust-check-bx float-right">
+                      <input type="checkbox">
+                      <span class="checkmark"></span>
+                      </label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                      <div class="n-avail-profile">
+                        <img src="http://via.placeholder.com/150x150" alt="img">
+                        <div class="n-avail-info">
+                            <p class="p12">Nicholas Taylor</p>
+                            <p class="p10">Contact : 985 968 8956</p>
+                        </div>
+                      </div>
+                  </td>
+                  <td>
+                      <label class="cust-check-bx float-right">
+                      <input type="checkbox">
+                      <span class="checkmark"></span>
+                      </label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                      <div class="n-avail-profile">
+                        <img src="http://via.placeholder.com/150x150" alt="img">
+                        <div class="n-avail-info">
+                            <p class="p12">Nicholas Taylor</p>
+                            <p class="p10">Contact : 985 968 8956</p>
+                        </div>
+                      </div>
+                  </td>
+                  <td>
+                      <label class="cust-check-bx float-right">
+                      <input type="checkbox">
+                      <span class="checkmark"></span>
+                      </label>
+                  </td>
+                </tr>
+            </table>
+          </div>
+      </div>
+    </div>
+</div>
