@@ -1,20 +1,26 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute} from '@angular/router';
 import { AdminService } from '../../../../services/admin.service';
 import { IProperty } from '../../../../common/property';
 import * as io from 'socket.io-client';
 import { Constant } from './../../../../common/constants';
-import { SelectedProperties} from './../../../../models/leads.model';
+import { SelectedProperties, AssignBank, AssignNotary } from './../../../../models/leads.model';
 declare let swal: any;
 
 @Component({
   selector: 'app-csr-closer-detail',
   templateUrl: './csr-closer-detail.component.html',
   styleUrls: ['./csr-closer-detail.component.css'],
-  providers: [SelectedProperties]
+  providers: [SelectedProperties, AssignBank, AssignNotary]
 })
 
 export class CsrCloserDetailComponent implements OnInit, OnDestroy {
+
+  @ViewChild('showBanks') showBanks: ElementRef;
+  @ViewChild('hideBanks') hideBanks: ElementRef;
+
+  @ViewChild('showNotaries') showNotaries: ElementRef;
+  @ViewChild('hideNotaries') hideNotaries: ElementRef;
 
   public parameter: IProperty = {};
 
@@ -31,12 +37,14 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private admin: AdminService,
     public constant: Constant,
-    public selectedProperties: SelectedProperties
+    public selectedProperties: SelectedProperties,
+    public assignBankModel: AssignBank,
+    public assignNotaryModel: AssignNotary
   ) { }
 
   ngOnInit() {
     this.parameter.sent_as = 3;
-    this.parameter.subscriber = this.route.params.subscribe( params => {
+    this.route.params.subscribe( params => {
       this.parameter.lead_id = params.id;
       this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
         console.log('lead details', r);
@@ -53,11 +61,68 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     // this.parameter.subscriber.uns
   }
 
-  assignToBroker() {
-    this.admin.postDataApi('conversation/assignBroker', {lead_id: this.id}).subscribe(r => {
-      this.lead = r.data;
-    }
-  );
+  getNotaries(property_id) {
+    this.assignNotaryModel.property_id = property_id;
+    this.assignNotaryModel.lead_id = this.parameter.lead_id;
+    this.admin.postDataApi('getNoataries', {}).subscribe(r => {
+      console.log('getNoataries', r);
+      this.showNotaries.nativeElement.click();
+      this.parameter.items = r.data;
+    });
+  }
+
+  assignNoatary(noatary_id) {
+    this.assignNotaryModel.noatary_id = noatary_id;
+    console.log('==', this.assignNotaryModel);
+    swal({
+      html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to assign this notary?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.admin.postDataApi('leads/assignNoatary', this.assignNotaryModel).subscribe(r => {
+          console.log('assignBank', r);
+          swal('Success', 'Notary is assigned successfully.', 'success');
+          this.assignNotaryModel = new AssignNotary();
+          this.hideNotaries.nativeElement.click();
+        });
+      }
+    });
+  }
+
+  getBanks(property_id) {
+    this.assignBankModel.property_id = property_id;
+    this.assignBankModel.lead_id = this.parameter.lead_id;
+    this.admin.postDataApi('getBanks', {}).subscribe(r => {
+      console.log('getbanks', r);
+      this.showBanks.nativeElement.click();
+      this.parameter.banks = r.data;
+    });
+  }
+
+  assignBank(bank_id) {
+    this.assignBankModel.bank_id = bank_id;
+    console.log('==', this.assignBankModel);
+    swal({
+      html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to assign this bank?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.admin.postDataApi('leads/assignBank', this.assignBankModel).subscribe(r => {
+          console.log('assignBank', r);
+          swal('Success', 'Bank is assigned successfully.', 'success');
+          this.assignBankModel = new AssignBank();
+          this.hideBanks.nativeElement.click();
+        });
+      }
+    });
   }
 
   setValue(i) {

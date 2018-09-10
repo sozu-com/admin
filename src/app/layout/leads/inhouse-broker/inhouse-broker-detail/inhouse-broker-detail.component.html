@@ -35,7 +35,7 @@
                 </tr>
                 <tr>
                    <td style="padding-left:0"><label>Contact Number</label></td>
-                   <td *ngIf="parameter?.lead?.phone">{{parameter.lead.dial_code}}{{parameter.lead.phone}}</td>
+                   <td *ngIf="parameter?.lead?.phone">+{{parameter.lead.dial_code}}{{parameter.lead.phone}}</td>
                 </tr>
                 <tr>
                    <td style="padding-left:0"><label>Email address</label></td>
@@ -81,7 +81,7 @@
   </div>
 
   <!-- Interested Properties start -->
-  <div class="spacer30"></div>
+  <!-- <div class="spacer30"></div>
   <div class="row">
      <div class="col-6">
         <p class="p16">Interested Properties</p>
@@ -101,7 +101,8 @@
     <p class="show-error">
       {{constant.errorMsg.NO_INTERESTED_PROPERTY_FOUND}}
     </p>
-  </div>
+  </div> -->
+  <app-interested-property [selected_properties]="parameter?.lead?.selected_properties" [lead_id]="parameter.lead_id" [interested_properties]="parameter.interested_properties" [adminType]="2"></app-interested-property>
 <!-- Interested Properties end -->
 
 <!-- viewed property or projects start -->

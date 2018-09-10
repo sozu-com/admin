@@ -6,8 +6,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
-import { NgBoxModule } from 'ngbox/ngbox.module';
-import { NgBoxService } from 'ngbox/ngbox.service';
+// import { NgBoxModule } from 'ngbox/ngbox.module';
+// import { NgBoxService } from 'ngbox/ngbox.service';
 import { NouisliderModule } from 'ng2-nouislider';
 
 import { ChatTimePipe } from './../../pipes/chat-time.pipe';

@@ -10,8 +10,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { AgmCoreModule } from '@agm/core';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
-import { NgBoxModule } from 'ngbox/ngbox.module';
-import { NgBoxService } from 'ngbox/ngbox.service';
+// import { NgBoxModule } from 'ngbox/ngbox.module';
+// import { NgBoxService } from 'ngbox/ngbox.service';
 
 // importing shared components
 import { LayoutRoutingModule } from './layout-routing.module';
@@ -57,7 +57,7 @@ import { GenerateThumbComponent } from './generate-thumb/generate-thumb.componen
         Ng2TelInputModule,
         FroalaEditorModule.forRoot(),
         FroalaViewModule.forRoot(),
-        NgBoxModule
+        // NgBoxModule
     ],
     declarations: [
         LayoutComponent,
@@ -73,8 +73,7 @@ import { GenerateThumbComponent } from './generate-thumb/generate-thumb.componen
         // FillInformationComponent,
         // NotesComponent,
     ],
-    providers: [AdminService, CommonService, AuthGuard, HttpInterceptor, Constant,
-    NgBoxService],
+    providers: [AdminService, CommonService, AuthGuard, HttpInterceptor, Constant],
     bootstrap: [LayoutComponent],
 })
 export class LayoutModule { }

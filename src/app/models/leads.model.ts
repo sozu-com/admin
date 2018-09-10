@@ -119,3 +119,14 @@ export class BankAssigned {
     status: number;
 }
 
+export class AssignBank {
+    lead_id: number;
+    property_id: number;
+    bank_id: number;
+}
+
+export class AssignNotary {
+    lead_id: number;
+    property_id: number;
+    noatary_id: number;
+}

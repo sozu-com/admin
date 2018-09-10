@@ -2174,6 +2174,14 @@ background-color: #000000;
 .bank-assigned-now p{margin:0; }
 .bank-assigned-now .b-left{
     padding: 15px;
+    padding-left: 30px; /*sheena*/
+}
+
+.bank-assigned-now .b-left img {
+    margin-right: 15px;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
 }
 .bank-assigned-now .b-right {
     border-left: solid 1px #ededed;
@@ -2432,3 +2440,21 @@ position: relative;
 .notary-avail.modal-content  {
     padding: 30px 40px;
 }
+
+/* .similar-properties.project-des-bx .fig-block, .similar-properties.project-des-bx .fig-block img{
+    width:104px;
+    height: 104px;
+
+
+}
+
+.similar-properties.project-des-bx {
+    max-width: 370px;
+    position: relative;
+}
+.similar-properties .price {
+    color: #000000;
+    font-size: 16px;
+    position: absolute;
+    right: 10px;
+} */

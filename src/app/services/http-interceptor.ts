@@ -16,6 +16,7 @@ import 'rxjs/add/operator/map';
 export class HttpInterceptor extends Http {
     public parameter: IProperty = {};
     public baseUrl: string = environment.baseUrl;
+    public baseIP: string = environment.baseIP;
     public loader = new BehaviorSubject({});
     loaderValue$ = this.loader.asObservable();
 
@@ -29,7 +30,9 @@ export class HttpInterceptor extends Http {
     public request(url: string|Request, options?: RequestOptionsArgs): Observable<Response> {
         console.log('Request - ', url);
 
-        if (url['url'] === this.baseUrl + 'conversation/sendMessage') {
+        if (url['url'] === this.baseUrl + 'conversation/sendMessage' ||
+            url['url'] === this.baseIP + 'user/allCities' ||
+            url['url'] === this.baseIP + 'user/homeSearch') {
             this.loader.next({value: false});
         } else if (url['url'] === this.baseUrl + 'saveImage') {
             this.loader.next({value: true});

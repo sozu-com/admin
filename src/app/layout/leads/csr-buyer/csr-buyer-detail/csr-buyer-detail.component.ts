@@ -17,7 +17,7 @@ declare let swal: any;
 export class CsrBuyerDetailComponent implements OnInit {
   // public scrollbarOptions = { axis: 'y', theme: 'dark' };
   public parameter: IProperty = {};
-
+  public selected_prop_ids = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -40,8 +40,14 @@ export class CsrBuyerDetailComponent implements OnInit {
           this.parameter.favorites = r.data.favorites;
           this.setFillInformationData(r);
           this.parameter.proximity_places = r.data.lead.proximity_places;
-          console.log('r.data.lead.prefs', r.data.lead.prefs);
           this.parameter.interested_properties = r.data.interested_properties;
+
+          // this.selected_prop_ids = r.data.lead.selected_properties.map(s => s.property_id);
+
+          // this.parameter.interested_properties.forEach(element => {
+          //   element.is_finalised = element.property_id
+          // });
+
           this.parameter.viewed_properties = r.data.viewed_properties;
           this.parameter.user_id = this.parameter.lead.user ? this.parameter.lead.user.id : 0;
         });
@@ -69,7 +75,8 @@ export class CsrBuyerDetailComponent implements OnInit {
       });
 
       this.fillInfo.car_types.forEach(element => {
-        element.is_selected = r.data.lead.prefs.car_type_id && (r.data.lead.prefs.car_type_id === element.id) ? 1 : 0;
+        element.is_selected = (r.data.lead.prefs != null) &&
+        r.data.lead.prefs.car_type_id && (r.data.lead.prefs.car_type_id === element.id) ? 1 : 0;
       });
 
       this.fillInfo.property_types_array.forEach(element => {

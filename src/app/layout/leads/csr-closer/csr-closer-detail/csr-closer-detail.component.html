@@ -53,7 +53,7 @@
                   </tr>
                   <tr>
                     <td style="padding-left:0"><label>Contact Number</label></td>
-                    <td colspan="2" *ngIf="parameter?.lead?.phone">{{parameter.lead.dial_code ? parameter.lead.dial_code : constant.dial_code}}-{{parameter.lead.phone}}</td>
+                    <td colspan="2" *ngIf="parameter?.lead?.phone">+{{parameter.lead.dial_code ? parameter.lead.dial_code : constant.dial_code}}-{{parameter.lead.phone}}</td>
                   </tr>
                   <tr>
                     <td style="padding-left:0"><label>Email address</label></td>
@@ -97,8 +97,17 @@
                <div class="col-md-6 col-sm-6 col-12 b-left">
                   <p class="p13" *ngIf="selectedProperties?.noataries && selectedProperties.noataries.length==0">No Notary assigned yet </p>
                   <a *ngIf="selectedProperties?.noataries && selectedProperties.noataries.length==0" href="javascript://" class="green" data-toggle="modal" data-target="#notary-avail">Assign Now</a>
-                  <p class="p13" *ngIf="selectedProperties?.noataries && selectedProperties.noataries.length!=0">{{selectedProperties.noataries[0].name}}</p>
-                  <p class="p13" *ngIf="selectedProperties?.noataries && selectedProperties.noataries.length!=0">Notary</p>
+                  <div class="d-flex" *ngIf="selectedProperties?.noataries && selectedProperties.noataries.length!=0">
+                    <img [src]="selectedProperties?.noataries && selectedProperties.noataries[0].image" onerror='src="assets/img/house.png"' alt="img">
+                    <div class="bank-info">
+                        <p title="Notary" class="p14">{{selectedProperties.noataries[0].name}}</p>
+                        <p class="p11">{{selectedProperties.noataries[0].dial_code ? selectedProperties.noataries[0].dial_code : constant.dial_code}}-{{selectedProperties.noataries[0].phone}}</p>
+                        <a href="javascript://" #showNotaries style="display: none;" data-toggle="modal" data-target="#notary-avail" class="green-color green">Change</a>
+                        <a href="javascript://" class="green-color green" (click)="getNotaries(selectedProperties.property_id)">Change</a>
+                    </div>
+                    </div>
+                  <!-- <p class="p13" *ngIf="selectedProperties?.noataries && selectedProperties.noataries.length!=0">{{selectedProperties.noataries[0].name}}</p>
+                  <p class="p13" *ngIf="selectedProperties?.noataries && selectedProperties.noataries.length!=0">Notary</p> -->
                </div>
                <div class="col-md-6 col-sm-6 col-12 b-right">
                   <p class="p13" *ngIf="selectedProperties?.banks && selectedProperties.banks.length==0">No Bank assigned yet </p>
@@ -106,9 +115,10 @@
                   <div class="d-flex" *ngIf="selectedProperties?.banks && selectedProperties.banks.length!=0">
                      <img [src]="selectedProperties?.banks && selectedProperties.banks[0].image" onerror='src="assets/img/bank-building.png"' alt="img">
                      <div class="bank-info">
-                        <p class="p14">{{selectedProperties.banks[0].name}}</p>
+                        <p title="Bank" class="p14">{{selectedProperties.banks[0].name}}</p>
                         <p class="p11">{{selectedProperties.banks[0].branch}}</p>
-                        <a href="javascript://" data-toggle="modal" data-target="#notary-avail" class="green-color green">Change</a>
+                        <a href="javascript://" #showBanks style="display: none;" data-toggle="modal" data-target="#bank-listing" class="green-color green">Change</a>
+                        <a href="javascript://" class="green-color green" (click)="getBanks(selectedProperties.property_id)">Change</a>
                      </div>
                   </div>
                </div>
@@ -291,8 +301,8 @@
                       <div class="n-avail-profile">
                         <div class="n-avail-info">
                             <p class="p12" *ngIf="upDocument.attachment_name">{{upDocument.attachment_name}}</p>
-                            <p class="p12" *ngIf="!upDocument.attachment_name">{{upDocument.attachment.substring(upDocument.attachment.lastIndexOf('/'), upDocument.attachment.length)}}</p>
-                            <!-- <p class="p12" *ngIf="!upDocument.attachment_name">{{upDocument.attachment.length}}</p> -->
+                            <!-- <p class="p12" *ngIf="!upDocument.attachment_name">{{upDocument.attachment.substring(upDocument.attachment.lastIndexOf('/'), upDocument.attachment.length)}}</p> -->
+                            <p class="p12" *ngIf="!upDocument.attachment_name">No name</p>
                         </div>
                       </div>
                   </td>
@@ -309,96 +319,28 @@
     </div>
 </div>
 
-<div class="modal" id="notary-avail">
+<div class="modal" id="bank-listing">
     <div class="modal-dialog ">
       <div class="modal-content notary-avail">
           <div class="modal-header popup-header">
-            <h4 class="modal-title">Notaries available</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Banks available</h4>
+            <button type="button" class="close" data-dismiss="modal" #hideBanks>&times;</button>
           </div>
           <div class="modal-body">
             <table class="table">
-                <tr>
+                <tr *ngFor="let bank of parameter.banks">
                   <td>
                       <div class="n-avail-profile">
-                        <img src="http://via.placeholder.com/150x150" alt="img">
+                        <img [src]="bank.image" onerror='src="assets/img/bank.png"' alt="img">
                         <div class="n-avail-info">
-                            <p class="p12">Nicholas Taylor</p>
-                            <p class="p10">Contact : 985 968 8956</p>
+                            <p class="p12">{{bank.name}}</p>
+                            <p class="p10">Branch : {{bank.branch ? bank.branch : 'NA'}}</p>
                         </div>
                       </div>
                   </td>
                   <td>
                       <label class="cust-check-bx float-right">
-                      <input type="checkbox">
-                      <span class="checkmark"></span>
-                      </label>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                      <div class="n-avail-profile">
-                        <img src="http://via.placeholder.com/150x150" alt="img">
-                        <div class="n-avail-info">
-                            <p class="p12">Nicholas Taylor</p>
-                            <p class="p10">Contact : 985 968 8956</p>
-                        </div>
-                      </div>
-                  </td>
-                  <td>
-                      <label class="cust-check-bx float-right">
-                      <input type="checkbox">
-                      <span class="checkmark"></span>
-                      </label>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                      <div class="n-avail-profile">
-                        <img src="http://via.placeholder.com/150x150" alt="img">
-                        <div class="n-avail-info">
-                            <p class="p12">Nicholas Taylor</p>
-                            <p class="p10">Contact : 985 968 8956</p>
-                        </div>
-                      </div>
-                  </td>
-                  <td>
-                      <label class="cust-check-bx float-right">
-                      <input type="checkbox">
-                      <span class="checkmark"></span>
-                      </label>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                      <div class="n-avail-profile">
-                        <img src="http://via.placeholder.com/150x150" alt="img">
-                        <div class="n-avail-info">
-                            <p class="p12">Nicholas Taylor</p>
-                            <p class="p10">Contact : 985 968 8956</p>
-                        </div>
-                      </div>
-                  </td>
-                  <td>
-                      <label class="cust-check-bx float-right">
-                      <input type="checkbox">
-                      <span class="checkmark"></span>
-                      </label>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                      <div class="n-avail-profile">
-                        <img src="http://via.placeholder.com/150x150" alt="img">
-                        <div class="n-avail-info">
-                            <p class="p12">Nicholas Taylor</p>
-                            <p class="p10">Contact : 985 968 8956</p>
-                        </div>
-                      </div>
-                  </td>
-                  <td>
-                      <label class="cust-check-bx float-right">
-                      <input type="checkbox">
+                      <input type="radio" name="bank_id" (click)="assignBank(bank.id)">
                       <span class="checkmark"></span>
                       </label>
                   </td>
@@ -406,5 +348,37 @@
             </table>
           </div>
       </div>
+    </div>
+</div>
+
+<div class="modal" id="notary-avail">
+    <div class="modal-dialog ">
+        <div class="modal-content notary-avail">
+            <div class="modal-header popup-header">
+            <h4 class="modal-title">Notaries available</h4>
+            <button type="button" class="close" data-dismiss="modal" #hideNotaries>&times;</button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <tr *ngFor="let item of parameter.items">
+                        <td>
+                            <div class="n-avail-profile">
+                            <img [src]="item.image" onerror='src="assets/img/house.png"' alt="img">
+                            <div class="n-avail-info">
+                                <p class="p12">{{item.name}}</p>
+                                <p class="p10">Phone : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
+                            </div>
+                            </div>
+                        </td>
+                        <td>
+                            <label class="cust-check-bx float-right">
+                                <input type="radio" name="notary_id" (click)="assignNoatary(item.id)">
+                                <span class="checkmark"></span>
+                            </label>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
 </div>

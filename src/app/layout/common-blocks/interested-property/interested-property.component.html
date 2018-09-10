@@ -1,36 +1,100 @@
-<!-- {{data|json}} -->
-<div *ngIf="data" class="project-des-bx white-bg">
-  <div class="price">${{data.property.min_price}}</div>
-  <div class="fig-block">
-    <img *ngIf="data && data.property && data.property.image" [src]="data.property.image" alt="img">
-    <img *ngIf="!data && !data.property && !data.property.image" alt="img">
+<!-- {{selected_properties|json}} -->
+  <div class="spacer30"></div>
+  <div class="row">
+     <div class="col-6">
+        <p class="p16">Interested Properties</p>
+     </div>
+   <div class="col-6">
+        <div class="btn-cont text-right">
+          <!-- <a class="btn btn-fourth" href="javascript://">Add</a> -->
+          <a style="display: none;" class="btn btn-fourth" #showPropertyModal href="javascript://" data-toggle="modal" data-target="#add-property">Add</a>
+          <!-- <a class="btn btn-fourth" href="javascript://" (click)="showProperties(lead_id)">Add</a> -->
+          <a class="btn btn-fourth" href="javascript://" (click)="showModal()">Add</a>
+        </div>
+     </div>
   </div>
-  <div class="project-des-content">
-    <small>{{data.property.building.developer.name}}</small>
-    <h5>{{data.property.building.name}}</h5>
-    <p class="p12">{{data.property.building.address}}</p>
+  
+  <div class="spacer15"></div>
+  <div class="row" *ngIf="interested_properties?.length>0">
+    <div class="col-lg-4 col-md-12 col-sm-12 col-12" *ngFor="let data of interested_properties; let in=index">
+      <!-- <app-interested-property *ngIf="ip.property.building" [data]="ip" [index]="in" [adminType]="2"></app-interested-property> -->
 
-    <!-- <small>SNN Builders</small>
-    <h5>Morning Homes</h5>
-    <p class="p12">Kaveri Nagar, Murugeshpalya, Mumbai East.</p> -->
-    <p class="p13" *ngIf="data && data.property">{{data.property.configuration.name}}</p>
-    <p class="p13" *ngIf="!data && !data.property">NA</p>
-    <div class="dropdown threeDots">
-      <button type="button" class="dropdown-toggle" data-toggle="dropdown">
-        ...
-      </button>
-      <div class="dropdown-menu">
-        <!-- <a class="dropdown-item" *ngIf="adminType==4 && data.is_finalized" href="javascript://" data-toggle="modal" data-target="#dealFinalize">Deal Finalized</a> -->
-        <a *ngIf="adminType==2" class="dropdown-item" href="javascript://" data-toggle="modal" data-target="#dealFinalize">Deal Finalized</a>
-        <a class="dropdown-item" (click)="deleteLeadInterestedProperty(data.property.id, data.lead_id)">Remove Property</a>
+    <div *ngIf="data.property.building && data" class="project-des-bx white-bg">
+      <div class="price">${{data.property.min_price}}</div>
+      <div class="fig-block">
+        <img [src]="data.property.image" onerror='src="assets/img/bank.png"' alt="img">
+      </div>
+      <div class="project-des-content">
+        <small>{{data.property.building.developer.name}}</small>
+        <h5>{{data.property.building.name.slice(0, 15)}}</h5>
+        <p class="p12">{{data.property.building.address.slice(0, 60)}}</p>
+
+        <p class="p13" *ngIf="data && data.property">{{data.property.configuration.name}}</p>
+        <p class="p13" *ngIf="!data && !data.property">NA</p>
+        <div class="dropdown threeDots">
+          <button type="button" class="dropdown-toggle" data-toggle="dropdown">
+            ...
+          </button>
+          <div class="dropdown-menu">
+            <a style="display: none;" *ngIf="adminType==2" class="dropdown-item" href="javascript://" #modalOpen data-toggle="modal" data-target="#dealFinalize">Deal Finalized</a>
+            <a *ngIf="adminType==2" class="dropdown-item" href="javascript://" (click)="openModal(data.property.id, data.lead_id)">Deal Finalized</a>
+            <a class="dropdown-item" (click)="deleteLeadInterestedProperty(data.property.id, data.lead_id, in)">Remove Property</a>
+          </div>
+        </div>
       </div>
     </div>
+
+    </div>
   </div>
+  <div *ngIf="parameter.interested_properties?.length == 0">
+    <p class="show-error">
+      {{constant.errorMsg.NO_INTERESTED_PROPERTY_FOUND}}
+    </p>
+  </div>
+
+
+
+<!-- add property to interested_properties -->
+<div class="modal" id="add-property">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content notary-avail">
+          <div class="modal-header popup-header">
+            <h4 class="modal-title">Properties available</h4>
+            <button type="button" class="close" data-dismiss="modal" #hidePropertyModal>&times;</button>
+          </div>
+          <div class="modal-body">
+              <div class="form-group">
+                <!-- <label>City</label> -->
+                <select required title="Choose City" class="form-control" (change)="homeSearch($event.target.value)">
+                  <option value="">Select City</option>
+                  <option *ngFor="let city of parameter.cities" [selected]="city.id == parameter.city_id" value="{{city.id}}">{{city.name}}</option>
+                </select>
+              </div>
+                
+              <table class="table">
+                <tr *ngFor="let item of parameter.items">
+                  <td>
+                      <div class="n-avail-profile">
+                        <img [src]="item.image" onerror='src="assets/img/house.png"' alt="img">
+                        <div class="n-avail-info">
+                            <p class="p12">{{item.building.name}}</p>
+                            <p class="p10">{{item.building.address ? item.building.address : 'NA'}}</p>
+                        </div>
+                      </div>
+                  </td>
+                  <td>
+                      <label class="cust-check-bx float-right">
+                      <input type="radio" name="bank_id" (click)="addLeadInterestedProperty(item.id)">
+                      <span class="checkmark"></span>
+                      </label>
+                  </td>
+                </tr>
+              </table>
+          </div>
+      </div>
+    </div>
 </div>
-
-
-
-
+  
 <!-- deal finalize modal -->
 <div class="modal animated" id="dealFinalize">
   <div class="modal-dialog fadeIndown">

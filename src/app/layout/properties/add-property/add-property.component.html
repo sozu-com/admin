@@ -301,7 +301,7 @@
           <span class="checkmark">3</span>
         </label>
         <label class="cust-input">
-          <input autocomplete="off" type="number" min="4" [(ngModel)]="model.quantity" (change)="setValue('quantity', $event.target.value)" name="quantity" placeholder="Enter">
+          <input autocomplete="off" type="number" min="1" [(ngModel)]="model.quantity" (change)="setValue('quantity', $event.target.value)" name="quantity" placeholder="Enter">
         </label>
         <button type="button" *ngIf="model.quantity>1" class="btn btn-link" (click)="propertyDetails='true'">Add property details</button>
         <div class="clearfix"></div>
@@ -393,7 +393,10 @@
                   <ul>
                     <li *ngFor="let a of amenityList; let aIndex=index;">
                       <a href="javascript://" (click)="removeAmenity(aIndex)" class="close">&times;</a>
-                      <div class="fig-block"><img class="width100" src="{{a.icon}}" alt="img"></div>
+                      <div class="fig-block">
+                          <img class="width100" [src]="a.icon" onerror='src="assets/img/bank-building.png"' alt="img">
+                        <!-- <img class="width100" src="{{a.icon}}" alt="img"> -->
+                      </div>
                       <p class="p13">{{a.name_en}}</p>
                     </li>
                   </ul>
@@ -424,8 +427,9 @@
                     <li *ngFor="let b of bankList; let bIndex=index;">
                       <a href="javascript://" (click)="removeBank(bIndex)" class="close">&times;</a>
                       <div class="fig-block">
-                        <img *ngIf="!b.image" class="width100" src="" alt="img">
-                        <img *ngIf="b.image" class="width100" src="{{b.image}}" alt="img">
+                          <img class="width100" [src]="b.image" onerror='src="assets/img/bank-building.png"' alt="img">
+                        <!-- <img *ngIf="!b.image" class="width100" src="" alt="img">
+                        <img *ngIf="b.image" class="width100" src="{{b.image}}" alt="img"> -->
                       </div>
                       <p class="p13">{{b.name}}</p>
                       <p class="p13">{{b.floating_int}} Floating</p>

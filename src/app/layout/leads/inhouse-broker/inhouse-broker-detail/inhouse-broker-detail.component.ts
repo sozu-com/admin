@@ -20,6 +20,7 @@ declare let swal: any;
 export class InhouseBrokerDetailComponent implements OnInit {
 
   public parameter: IProperty = {};
+  public selected_prop_ids = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -42,6 +43,9 @@ export class InhouseBrokerDetailComponent implements OnInit {
         this.setFillInformationData(r);
         this.parameter.favorites = r.data.favorites;
         this.parameter.interested_properties = r.data.interested_properties;
+
+        // this.selected_prop_ids = r.data.lead.selected_properties.map(s => s.property_id);
+
         this.parameter.viewed_properties = r.data.viewed_properties;
         this.parameter.user_id = this.parameter.lead.user.id;
       });
@@ -68,9 +72,11 @@ export class InhouseBrokerDetailComponent implements OnInit {
           console.log('====', element.is_selected, element.id);
         });
       });
-
+console.log('fillInfo', this.fillInfo);
+console.log('r.data.lead.prefs-->', r.data.lead.prefs);
       this.fillInfo.car_types.forEach(element => {
-        element.is_selected = r.data.lead.prefs.car_type_id && (r.data.lead.prefs.car_type_id === element.id) ? 1 : 0;
+        element.is_selected = (r.data.lead.prefs != null) &&
+        r.data.lead.prefs.car_type_id && (r.data.lead.prefs.car_type_id === element.id) ? 1 : 0;
       });
 
       this.fillInfo.property_types_array.forEach(element => {

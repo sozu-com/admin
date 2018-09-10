@@ -513,13 +513,13 @@ export class AddPropertyComponent implements OnInit {
     this.parameter.url = this.model.id !== '' ? 'addProperty' : 'addProperty';
     this.model.step = tab - 1;
 
-    if (this.model.cover_image === null || this.model.cover_image === undefined) {
+    if ((this.model.cover_image === null || this.model.cover_image === undefined) && (this.model.step === 2)) {
       swal('Error', 'Please choose cover image.', 'error');
-    }else if (this.model.floor_plan === null || this.model.floor_plan === undefined) {
+    }else if ((this.model.floor_plan === null || this.model.floor_plan === undefined) && (this.model.step === 2)) {
       swal('Error', 'Please choose floor plan.', 'error');
-    }else if (this.model.amenities.length === 0) {
+    }else if ((this.model.amenities.length === 0) && (this.model.step === 2)) {
       swal('Error', 'Please choose amenity.', 'error');
-    }else if (this.model.banks.length === 0) {
+    }else if ((this.model.banks.length === 0) && (this.model.step === 2)) {
       swal('Error', 'Please choose bank.', 'error');
     }else {
 
@@ -529,7 +529,7 @@ export class AddPropertyComponent implements OnInit {
       }
 
       input.append('step', this.model.step.toString());
-      // if (this.model.step === 1) {
+      if (this.model.step === 1) {
         input.append('for_rent', this.model.for_rent === true ? '1' : '0');
         input.append('for_sale', this.model.for_sale === true ? '1' : '0');
         input.append('country_id', this.model.country_id);
@@ -539,9 +539,9 @@ export class AddPropertyComponent implements OnInit {
         input.append('configuration_id', this.model.configuration_id);
         input.append('carpet_areas', JSON.stringify(this.model.carpet_areas));
         input.append('property_type_id', this.model.property_type_id);
-      // }
+      }
 
-      // if (this.model.step === 2) {
+      if (this.model.step === 2) {
         input.append('cover_image', this.model.cover_image);
         input.append('images', JSON.stringify(this.model.images));
         input.append('floor_plan', this.model.floor_plan);
@@ -554,11 +554,16 @@ export class AddPropertyComponent implements OnInit {
         input.append('quantity', this.model.quantity.toString());
         input.append('amenities', JSON.stringify(this.model.amenities));
         input.append('banks', JSON.stringify(this.model.banks));
+      }
 
+      if (this.model.step === 3) {
         input.append('pets', this.model.pets.toString());
         input.append('marital_status', JSON.stringify(this.model.marital_status));
+      }
 
+      if (this.model.step === 4) {
         input.append('custom_attributes', JSON.stringify(this.model.custom_attributes));
+      }
 
       this.admin.postDataApi(this.parameter.url, input)
         .subscribe(

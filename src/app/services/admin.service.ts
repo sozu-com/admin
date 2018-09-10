@@ -14,6 +14,7 @@ export class AdminService {
 
   private isUserLogin = false;
   public baseUrl: string = environment.baseUrl;
+  public baseIP: string = environment.baseIP;
   public socketUrl: string = environment.socketUrl;
 
   public login = new BehaviorSubject({});
@@ -157,6 +158,16 @@ export class AdminService {
   postDataApi(url, input) {
     const headers = this.getHeadersForMultipart();
     return this.http.post(this.baseUrl + url, input, {headers: headers})
+          .map((res: Response) => {
+            this.http.loader.next({value: false});
+            return res.json();
+          })
+          .catch(this.errorHandler);
+  }
+
+  generalApi(url, input) {
+    const headers = this.getHeadersForMultipart();
+    return this.http.post(this.baseIP + url, input, {headers: headers})
           .map((res: Response) => {
             this.http.loader.next({value: false});
             return res.json();

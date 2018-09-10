@@ -11,8 +11,7 @@
         <div class="user-profile float-right">
            <a href="javascript://">
               <h4>{{fullName}}</h4>
-              <img *ngIf="!image" class="rounded-circle" src="assets/img/default_img.png">
-              <img *ngIf="image" class="rounded-circle" src="{{image}}">
+              <img class="rounded-circle" [src]="image" onerror='src="assets/img/default_img.png"' alt="img">
            </a>
         </div>
       </div>

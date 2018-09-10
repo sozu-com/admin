@@ -196,11 +196,13 @@
                   <img *ngIf="!item.image" class="rounded-circle" src="./../../../assets/img/default_img.png" alt="img">
                 </td>
                 <td class="text-left">
-                  <span routerLink="/dashboard/leads/csr-buyers/{{item.id}}" class="name">{{item.name}}</span>
+                  <span *ngIf="item.name" routerLink="/dashboard/leads/csr-buyers/{{item.id}}" class="name">{{item.name}}</span>
+                  <span class="name" *ngIf="!item.name">NA</span>
                 </td>
-                <td class="text-left" *ngIf="item.phone">{{item.dial_code}}-{{item.phone}}</td>
+                <td class="text-left" *ngIf="item.phone">+{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
                 <td class="text-left" *ngIf="!item.phone">NA</td>
-                <td class="text-left">{{item.email}}</td>
+                <td class="text-left" *ngIf="item.email">{{item.email}}</td>
+                <td class="text-left" *ngIf="!item.email">NA</td>
                 <td>
                     <span *ngFor="let conf of item.configuration">
                         {{conf.name}},
