@@ -1,4 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Constant } from './../../../common/constants';
+import { IProperty } from './../../../common/property';
 
 @Component({
   selector: 'app-viewed-property',
@@ -7,11 +9,18 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ViewedPropertyComponent implements OnInit {
 
-  @Input('property') property;
+  @Input('viewed_properties') viewed_properties;
+  @ViewChild('showPropertyModal') showPropertyModal: ElementRef;
 
-  constructor() { }
+  public parameter: IProperty = {};
+  constructor(public constant: Constant) { }
 
   ngOnInit() {
-    console.log('ip', this.property);
+    console.log('ip', this.viewed_properties);
+  }
+
+  viewProperties(data) {
+    this.parameter.viewed_properties = data;
+    this.showPropertyModal.nativeElement.click();
   }
 }

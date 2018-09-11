@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AdminService } from '../../../../services/admin.service';
 import { IProperty } from '../../../../common/property';
@@ -18,7 +18,7 @@ declare let swal: any;
 })
 
 export class InhouseBrokerDetailComponent implements OnInit {
-
+  @ViewChild('showPropertyModal') showPropertyModal: ElementRef;
   public parameter: IProperty = {};
   public selected_prop_ids = [];
 
@@ -117,5 +117,9 @@ console.log('r.data.lead.prefs-->', r.data.lead.prefs);
       this.fillInfo.price_range = [this.constant.minValue, this.constant.maxValue];
       // this.parameter.prefs = new FillInformation();
     }
+  }
+
+  viewFavProperties() {
+    this.showPropertyModal.nativeElement.click();
   }
 }

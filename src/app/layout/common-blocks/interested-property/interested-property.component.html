@@ -8,6 +8,8 @@
         <div class="btn-cont text-right">
           <a style="display: none;" class="btn btn-fourth" #showPropertyModal href="javascript://" data-toggle="modal" data-target="#add-property">Add</a>
           <a class="btn btn-fourth" href="javascript://" (click)="showModal()">Add</a>
+          <a style="display: none;" data-toggle="modal" #showInterestedProperty data-target="#view-all" class="btn btn-fourth" href="javascript://">View All</a>
+          <a *ngIf="interested_properties?.length!=0" class="btn btn-fourth" href="javascript://" (click)="viewProperties(interested_properties)">View All</a>
         </div>
      </div>
   </div>
@@ -16,7 +18,7 @@
   <div class="row" *ngIf="interested_properties?.length>0">
     <div class="col-lg-4 col-md-12 col-sm-12 col-12" *ngFor="let data of interested_properties; let in=index">
 
-    <div *ngIf="data.property.building && data" class="project-des-bx white-bg">
+    <div *ngIf="data.property.building && data && in<3" class="project-des-bx white-bg">
       <div class="price">${{data.property.min_price}}</div>
       <div class="fig-block">
         <img [src]="data.property.image" onerror='src="assets/img/bank.png"' alt="img">
@@ -140,5 +142,40 @@
         </div>
       </form>
     </div>
+  </div>
+</div>
+
+
+<!-- show interested_properties -->
+<div class="modal" id="view-all">
+  <div class="modal-dialog  modal-lg">
+     <div class="modal-content">
+        <div class="modal-header">
+           <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <h3>Interested Properties</h3>
+          <hr>
+          <div class="scrollbox fav-prop">
+            <div class="row">
+              <div class="col-lg-6 col-md-12 col-sm-12 col-12" *ngFor="let x of parameter.interested_properties">
+                  <div class="project-des-bx white-bg-2">
+                      <div class="price">${{x.property.min_price}}</div>
+                    <div class="fig-block">
+                        <img [src]="x.property.image" onerror='src="assets/img/bank.png"' alt="img">
+                    </div>
+                    <div class="project-des-content">
+                        <small>{{x.property.building.developer.name}}</small>
+                        <h5>{{x.property.building.name.slice(0, 15)}}</h5>
+                        <p class="p12">{{x.property.building.address.slice(0, 60)}}</p>
+                        <p class="p13" *ngIf="x && x.property">{{x.property.configuration.name}}</p>
+                        <p class="p13" *ngIf="!x && !x.property">NA</p>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+     </div>
   </div>
 </div>

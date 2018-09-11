@@ -1,19 +1,92 @@
-<div *ngIf="property" class="project-des-bx white-bg">
+<!-- <div *ngIf="property" class="project-des-bx white-bg">
   <div class="price">${{property.min_price}}</div>
   <div class="fig-block">
       <img [src]="property.image" onerror='src="assets/img/bank.png"' alt="img">
-    <!-- <img *ngIf="property && property.image" [src]="property.image" alt="img">
-    <img *ngIf="!property && !property.image" alt="img"> -->
   </div>
   <div class="project-des-content">
     <small>{{property.building.developer.name}}</small>
     <h5>{{property.building.name}}</h5>
     <p class="p12">{{property.building.address}}</p>
-
-    <!-- <small>SNN Builders</small>
-    <h5>Morning Homes</h5>
-    <p class="p12">Kaveri Nagar, Murugeshpalya, Mumbai East.</p> -->
     <p class="p13" *ngIf="property">{{property.configuration.name}}</p>
     <p class="p13" *ngIf="!property">NA</p>
+  </div>
+</div>
+ -->
+
+
+
+<!-- {{viewed_properties|json}} -->
+<div class="spacer30"></div>
+<div class="row">
+   <div class="col-6">
+      <p class="p16">Viewed Projects or properties</p>
+   </div>
+ <div class="col-6">
+      <div class="btn-cont text-right">
+        <a style="display: none;" data-toggle="modal" #showPropertyModal data-target="#view-viewed-property" class="btn btn-fourth" href="javascript://">View All</a>
+        <a *ngIf="viewed_properties?.length!=0" class="btn btn-fourth" href="javascript://" (click)="viewProperties(viewed_properties)">View All</a>
+      </div>
+   </div>
+</div>
+
+<div class="spacer15"></div>
+<div class="row" *ngIf="viewed_properties?.length>0">
+  <div class="col-lg-4 col-md-12 col-sm-12 col-12" *ngFor="let data of viewed_properties; let in=index">
+
+  <div *ngIf="data.building && data && in<3" class="project-des-bx white-bg">
+    <div class="price">${{data.min_price}}</div>
+    <div class="fig-block">
+      <img [src]="data.image" onerror='src="assets/img/bank.png"' alt="img">
+    </div>
+    <div class="project-des-content">
+      <small>{{data.building.developer.name}}</small>
+      <h5>{{data.building.name.slice(0, 15)}}</h5>
+      <p class="p12">{{data.building.address.slice(0, 60)}}</p>
+
+      <p class="p13" *ngIf="data">{{data.configuration.name}}</p>
+      <p class="p13" *ngIf="!data">NA</p>
+    </div>
+  </div>
+
+  </div>
+</div>
+<div *ngIf="viewed_properties?.length == 0">
+  <p class="show-error">
+    {{constant.errorMsg.NO_VIEWED_PROPERTY_FOUND}}
+  </p>
+</div>
+
+
+<!-- show viewed_properties -->
+<div class="modal" id="view-viewed-property">
+  <div class="modal-dialog  modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <h3>Viewed Projects or properties</h3>
+          <hr>
+          <div class="scrollbox fav-prop">
+            <div class="row">
+              <div class="col-lg-6 col-md-12 col-sm-12 col-12" *ngFor="let x of parameter.viewed_properties">
+                  <div class="project-des-bx white-bg-2">
+                      <div class="price">${{x.min_price}}</div>
+                    <div class="fig-block">
+                        <img [src]="x.image" onerror='src="assets/img/bank.png"' alt="img">
+                    </div>
+                    <div class="project-des-content">
+                        <small>{{x.building.developer.name}}</small>
+                        <h5>{{x.building.name.slice(0, 15)}}</h5>
+                        <p class="p12">{{x.building.address.slice(0, 60)}}</p>
+                        <p class="p13" *ngIf="x">{{x.configuration.name}}</p>
+                        <p class="p13" *ngIf="!x">NA</p>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
   </div>
 </div>

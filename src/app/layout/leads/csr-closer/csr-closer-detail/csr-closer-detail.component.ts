@@ -171,4 +171,8 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   //   }
   // );
   }
+
+  noDocumentUploaded() {
+    swal('Error', 'No document uploaded yet.', 'error');
+  }
 }

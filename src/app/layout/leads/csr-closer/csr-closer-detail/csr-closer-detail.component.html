@@ -96,7 +96,8 @@
             <div class="row">
                <div class="col-md-6 col-sm-6 col-12 b-left">
                   <p class="p13" *ngIf="selectedProperties?.noataries && selectedProperties.noataries.length==0">No Notary assigned yet </p>
-                  <a *ngIf="selectedProperties?.noataries && selectedProperties.noataries.length==0" href="javascript://" class="green" data-toggle="modal" data-target="#notary-avail">Assign Now</a>
+                  <a style="display:none;" #showNotaries href="javascript://" class="green green-color" data-toggle="modal" data-target="#notary-avail">Assign Now</a>
+                  <a href="javascript://" *ngIf="selectedProperties?.noataries && selectedProperties.noataries.length==0" class="green-color green" (click)="getNotaries(selectedProperties.property_id)">Assign Now</a>
                   <div class="d-flex" *ngIf="selectedProperties?.noataries && selectedProperties.noataries.length!=0">
                     <img [src]="selectedProperties?.noataries && selectedProperties.noataries[0].image" onerror='src="assets/img/house.png"' alt="img">
                     <div class="bank-info">
@@ -111,7 +112,9 @@
                </div>
                <div class="col-md-6 col-sm-6 col-12 b-right">
                   <p class="p13" *ngIf="selectedProperties?.banks && selectedProperties.banks.length==0">No Bank assigned yet </p>
-                  <a *ngIf="selectedProperties?.banks && selectedProperties.banks.length==0" href="javascript://" class="green" data-toggle="modal" data-target="#notary-avail">Assign Now</a>
+                  <!-- <a *ngIf="selectedProperties?.banks && selectedProperties.banks.length==0" href="javascript://" class="green" data-toggle="modal" data-target="#notary-avail">Assign Now</a> -->
+                  <a style="display:none;" #showBanks href="javascript://" class="green green-color" data-toggle="modal" data-target="#bank-listing">Assign Now</a>
+                  <a href="javascript://" *ngIf="selectedProperties?.banks && selectedProperties.banks.length==0" class="green-color green" (click)="getBanks(selectedProperties.property_id)">Assign Now</a>
                   <div class="d-flex" *ngIf="selectedProperties?.banks && selectedProperties.banks.length!=0">
                      <img [src]="selectedProperties?.banks && selectedProperties.banks[0].image" onerror='src="assets/img/bank-building.png"' alt="img">
                      <div class="bank-info">
@@ -252,7 +255,7 @@
                   <h4>Documents</h4>
                </div>
                <div class="col-3">
-                <a class="view" href="javascript://" (click)="save()">Save Selected</a>
+                <a class="view" href="javascript://" (click)="save()">Save</a>
                </div>
             </div>
             <table class="table">
@@ -276,7 +279,8 @@
 
              </div>
              <div class="col-3 text-right">
-             <a class="view" data-toggle="modal" data-target="#uploaded-documents" href="javascript://" >View</a>
+                    <a *ngIf="selectedProperties?.uploaded_documents?.length==0" (click)="noDocumentUploaded()" class="view" href="javascript://" >View</a>
+                <a *ngIf="selectedProperties?.uploaded_documents?.length!=0" class="view" data-toggle="modal" data-target="#uploaded-documents" href="javascript://" >View</a>
              </div>
           </div>
        </div>

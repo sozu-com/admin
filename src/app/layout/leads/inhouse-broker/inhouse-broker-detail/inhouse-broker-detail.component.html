@@ -53,8 +53,9 @@
                 <tr>
                    <td style="padding-left:0"><label>Favourite Projects</label></td>
                    <td>{{parameter.favorites?.length}} 
-                      <a *ngIf="parameter.favorites?.length!=0" class="view-all" href="javascript://">View All</a>
-                     </td>
+                      <a style="display: none;" data-toggle="modal" #showPropertyModal data-target="#view-fav-property" class="view-all" href="javascript://">View All</a>
+                      <a *ngIf="parameter.favorites?.length!=0" class="view-all" href="javascript://" (click)="viewFavProperties()">View All</a>
+                    </td>
                 </tr>
               </tbody>
              </table>
@@ -106,7 +107,8 @@
 <!-- Interested Properties end -->
 
 <!-- viewed property or projects start -->
-  <div class="spacer30"></div>
+<app-viewed-property [viewed_properties]="parameter.viewed_properties"></app-viewed-property>
+  <!-- <div class="spacer30"></div>
   <div class="row">
      <div class="col-6">
         <p class="p16">Viewed Projects or properties</p>
@@ -125,6 +127,41 @@
       <p class="show-error">
         {{constant.errorMsg.NO_VIEWED_PROPERTY_FOUND}}
       </p>
-    </div>
+    </div> -->
 <!-- viewed property or projects end -->
+</div>
+
+
+<!-- show fav properties -->
+<div class="modal" id="view-fav-property">
+  <div class="modal-dialog  modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <h3>Favourite Properties</h3>
+          <hr>
+          <div class="scrollbox fav-prop">
+            <div class="row">
+              <div class="col-lg-6 col-md-12 col-sm-12 col-12" *ngFor="let x of parameter.favorites">
+                  <div class="project-des-bx white-bg-2">
+                      <div class="price">${{x.min_price}}</div>
+                    <div class="fig-block">
+                        <img [src]="x.image" onerror='src="assets/img/bank.png"' alt="img">
+                    </div>
+                    <div class="project-des-content">
+                        <small>{{x.building.developer.name}}</small>
+                        <h5>{{x.building.name.slice(0, 15)}}</h5>
+                        <p class="p12">{{x.building.address.slice(0, 60)}}</p>
+                        <p class="p13" *ngIf="x">{{x.configuration.name}}</p>
+                        <p class="p13" *ngIf="!x">NA</p>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
 </div>

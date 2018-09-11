@@ -15,7 +15,7 @@ declare let swal: any;
 })
 
 export class CsrBuyerDetailComponent implements OnInit {
-  // public scrollbarOptions = { axis: 'y', theme: 'dark' };
+  @ViewChild('showPropertyModal') showPropertyModal: ElementRef;
   public parameter: IProperty = {};
   public selected_prop_ids = [];
 
@@ -128,5 +128,9 @@ export class CsrBuyerDetailComponent implements OnInit {
     this.admin.postDataApi('conversation/block', {lead_id: this.parameter.lead_id}).subscribe(r => {
       // console.log('conversation/block', r);
     });
+  }
+
+  viewFavProperties() {
+    this.showPropertyModal.nativeElement.click();
   }
 }

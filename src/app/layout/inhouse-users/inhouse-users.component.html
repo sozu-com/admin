@@ -189,7 +189,7 @@
               <td class="text-left">
                 <span class="name">{{item.name}}</span>
               </td>
-              <td class="text-left" *ngIf="item.phone">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
+              <td class="text-left" *ngIf="item.phone">+{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
               <td class="text-left" *ngIf="!item.phone">NA</td>
               <td class="text-left">{{item.email}}</td>
               <td *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'csr-closers'; else showBuildings">14</td>

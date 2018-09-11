@@ -24,6 +24,8 @@ export class InterestedPropertyComponent implements OnInit {
   @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('showPropertyModal') showPropertyModal: ElementRef;
   @ViewChild('hidePropertyModal') hidePropertyModal: ElementRef;
+  @ViewChild('showInterestedProperty') showInterestedProperty: ElementRef;
+  @ViewChild('hideInterestedProperty') hideInterestedProperty: ElementRef;
 
   public parameter: IProperty = {};
 
@@ -89,7 +91,7 @@ export class InterestedPropertyComponent implements OnInit {
 
   showProperties(lead_id) {
     this.parameter.lead_id = lead_id;
-    this.admin.generalApi('user/allCities', {}).subscribe(r => {
+    this.admin.postDataApi('allCities', {}).subscribe(r => {
       this.parameter.cities = r.data;
       if (r.data.length !== 0) {
         this.parameter.city_id = r.data[0].id;
@@ -102,7 +104,7 @@ export class InterestedPropertyComponent implements OnInit {
 
   homeSearch(city_id) {
     this.parameter.city_id = city_id;
-    this.admin.generalApi('user/homeSearch', {city_id: city_id}).subscribe(r => {
+    this.admin.postDataApi('propertySearch', {city_id: city_id}).subscribe(r => {
       this.parameter.items = r.data;
     });
   }
@@ -138,5 +140,10 @@ export class InterestedPropertyComponent implements OnInit {
 
   checkIfExist(id) {
     return this.selected_properties.find(i => i.property_id === id);
+  }
+
+  viewProperties(data) {
+    this.parameter.interested_properties = data;
+    this.showInterestedProperty.nativeElement.click();
   }
 }
