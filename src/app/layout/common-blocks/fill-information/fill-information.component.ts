@@ -25,8 +25,6 @@ export class FillInformationComponent implements OnInit {
   constructor(private admin: AdminService, public constant: Constant, public model: FillInformation) { }
 
   ngOnInit() {
-    // console.log('dd', this.proximity_places);
-    console.log('dd', this.fillInfo);
     this.getPrefOptions();
   }
 
@@ -34,17 +32,14 @@ export class FillInformationComponent implements OnInit {
     this.admin.postDataApi('leads/getPrefOptions', {lead_id: this.lead_id}).subscribe(r => {
       this.parameter.proximity_places = r.data.proximity_places;
       this.parameter.car_types = r.data.car_types;
-      console.log('leads/getPrefOptions', r);
     });
   }
 
   setValue(param, i) {
     this.fillInfo[param][i].is_selected = this.fillInfo[param][i].is_selected === 1 ? 0 : 1;
-    console.log('aaaa', this.fillInfo);
   }
 
   addPreferences() {
-    console.log(this.fillInfo);
     this.fillInfo.car_types.forEach(element => {
       if (element.is_selected === 1) {
         this.fillInfo.car_type_id = element.id;
@@ -70,13 +65,8 @@ export class FillInformationComponent implements OnInit {
     this.fillInfo.max_price = this.fillInfo.price_range[1];
 
     this.fillInfo.planning_to_buy = new ChatTimePipe().transform(this.fillInfo.planning_to_buy, 'YYYY-MM-DD HH:MM:SS', 3);
-    // this.fillInfo.planning_to_buy = new ChatTimePipe().transform(this.fillInfo.planning_to_buy, 'YYYY-MM-DD HH:MM:SS', 5);
-    // this.input.planning_to_buy = moment.utc(this.model.planning_to_buy_local).format('YYYY-MM-DD HH:MM:SS');
-    // this.model.planning_to_buy_local = moment(moment.utc(this.model.planning_to_buy).toDate()).local().format('YYYY-MM-DD HH:MM:SS');
-    console.log('utc====>', this.fillInfo.planning_to_buy);
-    console.log('addPreferences', this.fillInfo);
+
     this.admin.postDataApi('leads/addPreferences', this.fillInfo).subscribe(r => {
-      console.log('leads/getPrefOptions', this.parameter.items);
       swal('Success', this.constant.successMsg.DETAILS_UPDATED_SUCCESSFULLY, 'success');
     });
   }

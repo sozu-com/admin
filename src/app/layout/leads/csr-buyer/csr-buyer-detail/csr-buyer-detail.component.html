@@ -5,7 +5,7 @@
            <div *ngIf="parameter.lead?.user" class="profile">
               <div class="fig-block">
                   <!-- default_img.png -->
-                 <img [src]="parameter.lead.user.image" onerror='src="assets/img/default_img.png"' alt="img">
+                 <img [src]="parameter?.lead?.user?.image" onerror='src="assets/img/default_img.png"' alt="img">
               </div>
               <div class="profile-info">
                  <h6>{{parameter.lead.user.name}}</h6>

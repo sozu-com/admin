@@ -25,19 +25,7 @@ export class ChatComponent implements OnInit {
   @Input('user_id') user_id;
   @Input('sent_as') sent_as;
 
-  editModel = false;
-  seconds = true;
-  isActive = true;
-  imagePath: string;
-  imgObj: Object = {
-    thumbnail: '',
-    original: ''
-  };
-  imgArray= [];
   durationInSec = 0;
-
-
-  gf: GeneralFunctions;
   showVideo = true;
   video: any;
   videoObj: Object = {
@@ -56,8 +44,6 @@ export class ChatComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.gf = new GeneralFunctions();
-    // this.model.message_type = 1;
     setTimeout(() => {
       this.getMessages();
       this.initSocket();
@@ -89,11 +75,9 @@ export class ChatComponent implements OnInit {
       };
       if (this.parameter.connected) {
         this.parameter.socket.emit('add-admin', data, (res: any) => {
-          console.log('Add Admin Success', data);
         });
         this.parameter.socket.on('message', (response: any) => {
           if (response.data.conversation_id === this.parameter.conversation_id) {
-            console.log('Message', response);
             this.scrollToBottom();
             this.parameter.messages.push(response.data);
           }
@@ -109,7 +93,6 @@ export class ChatComponent implements OnInit {
   }
 
   updateModel(param) {
-    console.log('param', param);
     this.model[param] = '';
     this.model.message_type = 1;
   }
@@ -141,7 +124,6 @@ export class ChatComponent implements OnInit {
 
   playVideo(i) {
     this.parameter.messages[i].play = true;
-    console.log('messages', this.parameter.messages);
   }
 
 
@@ -183,7 +165,6 @@ export class ChatComponent implements OnInit {
     const fileToUpload = this.dataURLtoFile(ImageURL, 'tempFile.png');
     this.cs.saveVideo(videoFile, fileToUpload).subscribe(
       success => {
-        console.log('image', success);
         this.model.video = success.data.video;
         this.model.image = success.data.thumb;
       }
@@ -207,9 +188,7 @@ export class ChatComponent implements OnInit {
       swal('Error', 'Please enter some text.', 'error');
     } else {
       this.model.conversation_id = this.parameter.conversation_id;
-      console.log('this.model', this.model);
       this.admin.postDataApi('conversation/sendMessage', this.model).subscribe(r => {
-        console.log('r.data', r.data);
         this.parameter.messages.push(r.data);
         this.scrollToBottom();
         this.model = new Chat;

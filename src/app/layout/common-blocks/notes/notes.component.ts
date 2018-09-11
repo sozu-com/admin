@@ -35,7 +35,6 @@ export class NotesComponent implements OnInit {
 
   addLeadNote(formdata: NgForm) {
     this.admin.postDataApi('leads/addLeadNote', {lead_id: this.lead_id, note: this.model.note}).subscribe(r => {
-      console.log('leads/addLeadNote', r);
       this.closeModal();
       this.parameter.items.push(r.data);
       swal('Success', this.constant.successMsg.NOTE_ADDED_SUCCESSFULLY, 'success');
@@ -60,7 +59,6 @@ export class NotesComponent implements OnInit {
 
   deleteLeadNote(note_id, index) {
     this.admin.postDataApi('leads/deleteLeadNote', {note_id: note_id}).subscribe(r => {
-      console.log('leads/addLeadNote', r);
       this.parameter.items.splice(index, 1);
       swal('Success', this.constant.successMsg.NOTE_DELETED_SUCCESSFULLY, 'success');
     });
@@ -69,7 +67,6 @@ export class NotesComponent implements OnInit {
   getLeadNotes() {
     this.admin.postDataApi('leads/getLeadNotes', {lead_id: this.lead_id}).subscribe(r => {
       this.parameter.items = r.data;
-      console.log('leads/getLeadNotes', this.parameter.items);
     });
   }
 }
