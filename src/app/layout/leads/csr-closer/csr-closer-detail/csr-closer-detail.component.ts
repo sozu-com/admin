@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute} from '@angular/router';
 import { AdminService } from '../../../../services/admin.service';
+import { CommonService } from '../../../../services/common.service';
 import { IProperty } from '../../../../common/property';
 import * as io from 'socket.io-client';
 import { Constant } from './../../../../common/constants';
@@ -35,7 +36,9 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private admin: AdminService,
+    private cs: CommonService,
     public constant: Constant,
     public selectedProperties: SelectedProperties,
     public assignBankModel: AssignBank,
@@ -174,5 +177,11 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
 
   noDocumentUploaded() {
     swal('Error', 'No document uploaded yet.', 'error');
+  }
+
+  viewPropertyDetails(property) {
+    this.cs.setPropertyDetails(property);
+    this.router.navigate(['/dashboard/properties/details/' + property.property_id]);
+    // routerLink="/dashboard/properties/details/"
   }
 }

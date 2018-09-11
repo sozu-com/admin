@@ -17,6 +17,9 @@ export class CommonService {
   public city = new BehaviorSubject({});
   cityData$ = this.country.asObservable();
 
+  public propertyDetails = new BehaviorSubject({});
+  propertyDetailsData$ = this.propertyDetails.asObservable();
+
   public parameter: IProperty = {};
   constructor(public admin: AdminService, private router: Router) { }
 
@@ -120,5 +123,10 @@ export class CommonService {
     const input = new FormData();
     input.append('attachment', file);
     return this.admin.postDataApi('saveAttachment', input);
+  }
+
+  setPropertyDetails(data) {
+    console.log('data', data);
+    this.propertyDetails.next(data);
   }
 }

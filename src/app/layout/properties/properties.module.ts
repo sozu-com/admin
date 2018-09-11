@@ -7,8 +7,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { AgmCoreModule } from '@agm/core';
 import { Ng2TelInputModule } from 'ng2-tel-input';
+import { PropertyDetailsComponent } from './property-details/property-details.component';
+import { ThousandPipe } from './../../pipes/thousand.pipe';
 
 const routes: Routes = [
+  { path: 'details/:property_id', component: PropertyDetailsComponent},
   { path: 'add-property/:property_id', component: AddPropertyComponent },
   { path: 'view-properties', component: PropertiesComponent }
 ];
@@ -31,7 +34,9 @@ const routes: Routes = [
   ],
   declarations: [
     PropertiesComponent,
-    AddPropertyComponent
+    AddPropertyComponent,
+    PropertyDetailsComponent,
+    ThousandPipe
   ]
 })
 

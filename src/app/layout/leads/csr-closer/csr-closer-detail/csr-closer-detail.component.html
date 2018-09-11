@@ -69,13 +69,17 @@
                      </td>
                   </tr>
                   <tr>
-                    <td  style="padding-left:0"><label><strong>Property Selected</strong></label></td>
-                    <td>
+                    <td style="padding-left:0"><label><strong>Property Selected</strong></label></td>
+                    <td *ngIf="parameter?.lead?.selected_properties?.length!=0">
                         <p class="p14 marginB0">2 BHK</p>
+                        <!-- parameter?.lead?.selected_properties[0].configuration.name -->
                         <p class="p12 marginB0"><strong>Green House Apartments</strong></p>
                         <p class="p11"><i>Sarovar Builders</i></p>
                     </td>
-                    <td><a class="view-all-2" href="javascript://"> View Property</a></td>
+                    <td *ngIf="parameter?.lead?.selected_properties?.length!=0">
+                        <a class="view-all-2" href="javascript://" (click)="viewPropertyDetails(parameter?.lead?.selected_properties[0])"> View Property</a>
+                    </td>
+                    <td *ngIf="parameter?.lead?.selected_properties?.length==0">NA</td>
                   </tr>
                   <!-- <tr>
                     <td  style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
