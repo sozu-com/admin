@@ -29,7 +29,8 @@ export class InhouseUsersComponent implements OnInit {
   url: any[];
   image1: any;
   title: string;
-  disabledLocalities = [];
+  // disabledLocalities = [];
+  disabledBuildings = [];
   seenDuplicate = false;
   testObject = [];
 
@@ -69,12 +70,37 @@ export class InhouseUsersComponent implements OnInit {
 
   closeModal() {
     this.modalClose.nativeElement.click();
+    this.emptyModel();
+    // this.model.userModel.country_code = this.constant.country_code;
+    // this.model.address = [{
+    //     countries: '',
+    //     states : '',
+    //     cities: '',
+    //     localities: '',
+    //     buildings: ''
+    // }];
+    // this.image1 = '';
+    // this.model.userModel.id = '';
+    // this.model.userModel.name = '';
+    // this.model.userModel.email = '';
+    // this.model.userModel.phone = '';
+    // this.initialCountry = {initialCountry: this.constant.initialCountry};
+    // this.model.userModel.is_broker_seller_dev = false;
+    // this.model.userModel.is_buyer_renter = false;
+    // this.model.userModel.is_broker = false;
+    // this.model.userModel.is_data_collector = false;
+    // this.model.userModel.is_csr_closer = false;
+    // this.disabledLocalities = [];
+  }
+
+  emptyModel() {
     this.model.userModel.country_code = this.constant.country_code;
     this.model.address = [{
         countries: '',
         states : '',
         cities: '',
-        localities: ''
+        localities: '',
+        buildings: ''
     }];
     this.image1 = '';
     this.model.userModel.id = '';
@@ -87,29 +113,32 @@ export class InhouseUsersComponent implements OnInit {
     this.model.userModel.is_broker = false;
     this.model.userModel.is_data_collector = false;
     this.model.userModel.is_csr_closer = false;
-    this.disabledLocalities = [];
+    this.disabledBuildings = [];
+
   }
 
   closeViewModal() {
     this.viewModalClose.nativeElement.click();
-    this.model.address = [{
-        countries: '',
-        states : '',
-        cities: '',
-        localities: ''
-    }];
-    this.disabledLocalities = [];
-    this.model.userModel.is_broker_seller_dev = false;
-    this.model.userModel.is_buyer_renter = false;
-    this.model.userModel.is_broker = false;
-    this.model.userModel.is_data_collector = false;
-    this.model.userModel.is_csr_closer = false;
+    this.emptyModel();
+    // this.model.address = [{
+    //     countries: '',
+    //     states : '',
+    //     cities: '',
+    //     localities: '',
+    //     buildings: ''
+    // }];
+    // this.disabledBuildings = [];
+    // this.model.userModel.is_broker_seller_dev = false;
+    // this.model.userModel.is_buyer_renter = false;
+    // this.model.userModel.is_broker = false;
+    // this.model.userModel.is_data_collector = false;
+    // this.model.userModel.is_csr_closer = false;
   }
 
   removeAddressObj(index) {
     this.addressIndex--;
     this.model.address.splice(index, 1);
-    this.disabledLocalities.splice(index, 1);
+    this.disabledBuildings.splice(index, 1);
   }
 
   addEmptyObj() {
@@ -119,7 +148,8 @@ export class InhouseUsersComponent implements OnInit {
         countries: '',
         states : '',
         cities: '',
-        localities: ''
+        localities: '',
+        buildings: ''
       };
       this.addressIndex++;
       this.model.address.push(obj);
@@ -129,8 +159,12 @@ export class InhouseUsersComponent implements OnInit {
   }
 
 
-  disabledLocalityId(i) {
-    this.disabledLocalities[i] = this.model.address[i].localities;
+  // disabledLocalityId(i) {
+  //   this.disabledLocalities[i] = this.model.address[i].localities;
+  // }
+
+  disabledBuildingId(i) {
+    this.disabledBuildings[i] = this.model.address[i].localities;
   }
 
   onCountryChange(e) {
@@ -188,14 +222,22 @@ export class InhouseUsersComponent implements OnInit {
 
     // checking if locality is same or not
     this.model.address.map((item) => {
-      const value = item['localities'];
-      if (this.testObject.indexOf(value) === -1) {
+      let value = item['localities'];
+      value = value.toString();
+      console.log('value', value);
+      if (value === '0') {
+        console.log('zz');
         this.testObject.push(value);
       } else {
-        this.seenDuplicate = true;
+        if (this.testObject.indexOf(value) === -1) {
+          console.log('ssssss', this.testObject.indexOf(value));
+          this.testObject.push(value);
+        } else {
+          this.seenDuplicate = true;
+        }
       }
     });
-
+console.log('address', this.model.address, this.seenDuplicate);
     if (this.model.address[0].countries === '' || this.model.address[0].states === ''  ||
       this.model.address[0].cities === '' || this.model.address[0].localities === '' ) {
         swal('Error', 'Please choose location.', 'error');
@@ -209,9 +251,7 @@ export class InhouseUsersComponent implements OnInit {
       formdata.value.is_broker === false && formdata.value.is_data_collector === false &&
       formdata.value.is_csr_closer === false) {
         swal('Error', 'Please choose a role for inhouse user.', 'error');
-        // this.parameter.loading = false;
     } else {
-      // this.parameter.loading = false;
       this.admin.postDataApi(this.parameter.url, input)
         .subscribe(
           success => {
@@ -227,9 +267,10 @@ export class InhouseUsersComponent implements OnInit {
                   countries: '',
                   states : '',
                   cities: '',
-                  localities: ''
+                  localities: '',
+                  buildings: ''
               }];
-              this.disabledLocalities = [];
+              this.disabledBuildings = [];
               this.image1 = '';
               const text = this.model.userModel.id === '' ? 'Added successfully.' : 'Updated successfully.';
               swal('Success', text, 'success');
@@ -248,7 +289,6 @@ export class InhouseUsersComponent implements OnInit {
                   this.parameter.items.push(success.data);
                 }
               }
-              // this.getInhouseUsers();
             }
           });
     }
@@ -285,7 +325,8 @@ export class InhouseUsersComponent implements OnInit {
         countries: userdata.countries[ind].id,
         states: userdata.states[ind].id,
         cities: userdata.cities[ind].id,
-        localities: userdata.localities[ind].id
+        localities: userdata.localities[ind].id,
+        buildings: userdata.buildings[ind].id
       };
 
       this.model.address[ind] = tempAdd;
@@ -311,7 +352,8 @@ export class InhouseUsersComponent implements OnInit {
         countries: userdata.countries[ind].id,
         states: userdata.states[ind].id,
         cities: userdata.cities[ind].id,
-        localities: userdata.localities[ind].id
+        localities: userdata.localities[ind].id,
+        buildings: userdata.buildings[ind].id
       };
 
       this.model.address[ind] = tempAdd;
@@ -509,7 +551,8 @@ export class InhouseUsersComponent implements OnInit {
       countries: '',
       states : '',
       cities: '',
-      localities: ''
+      localities: '',
+      buildings: ''
     };
 
     this.model.address.push(obj);

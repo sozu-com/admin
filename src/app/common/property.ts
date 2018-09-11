@@ -53,6 +53,7 @@ export interface IProperty {
   statesAdd?: any;
   citiesAdd?: any;
   localitiesAdd?: any;
+  buildingsAdd?: any;
   country_idAdd?: string;
   state_idAdd?: string;
   city_idAdd?: string;

@@ -1,4 +1,4 @@
-<!-- {{selected_properties|json}} -->
+<!-- {{interested_properties|json}} -->
   <div class="spacer30"></div>
   <div class="row">
      <div class="col-6">
@@ -6,9 +6,7 @@
      </div>
    <div class="col-6">
         <div class="btn-cont text-right">
-          <!-- <a class="btn btn-fourth" href="javascript://">Add</a> -->
           <a style="display: none;" class="btn btn-fourth" #showPropertyModal href="javascript://" data-toggle="modal" data-target="#add-property">Add</a>
-          <!-- <a class="btn btn-fourth" href="javascript://" (click)="showProperties(lead_id)">Add</a> -->
           <a class="btn btn-fourth" href="javascript://" (click)="showModal()">Add</a>
         </div>
      </div>
@@ -17,7 +15,6 @@
   <div class="spacer15"></div>
   <div class="row" *ngIf="interested_properties?.length>0">
     <div class="col-lg-4 col-md-12 col-sm-12 col-12" *ngFor="let data of interested_properties; let in=index">
-      <!-- <app-interested-property *ngIf="ip.property.building" [data]="ip" [index]="in" [adminType]="2"></app-interested-property> -->
 
     <div *ngIf="data.property.building && data" class="project-des-bx white-bg">
       <div class="price">${{data.property.min_price}}</div>
@@ -46,7 +43,7 @@
 
     </div>
   </div>
-  <div *ngIf="parameter.interested_properties?.length == 0">
+  <div *ngIf="interested_properties?.length == 0">
     <p class="show-error">
       {{constant.errorMsg.NO_INTERESTED_PROPERTY_FOUND}}
     </p>
@@ -112,11 +109,6 @@
                   <label for="token_amount">Amount to be paid by user</label>
                   <div class="form-group">
                   <input id="token_amount" #token_amount=ngModel autocomplete="off" name="token_amount" [(ngModel)]="model.token_amount" type="number" class="form-control" required>
-                  <!-- <input id="token_amount" #token_amount=ngModel autocomplete="off" name="token_amount" [(ngModel)]="model.token_amount" type="number" class="form-control" required
-                  
-                  [ngClass]="{
-                    'has-error': token_amount.errors && (token_amount.dirty || token_amount.touched)
-                  }"> -->
                 </div>
               </div>
             </div>

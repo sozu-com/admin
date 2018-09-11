@@ -5,7 +5,8 @@ export class InhouseUsers {
             countries: '',
             states : '',
             cities: '',
-            localities: ''
+            localities: '',
+            buildings: ''
         }
     ];
 
@@ -46,7 +47,16 @@ export class Address {
             countries: '',
             states: '',
             cities: '',
-            localities: ''
+            localities: '',
+            buildings: ''
         }
     ];
+}
+
+export class NewAddress {
+    countries: string;
+    states: string;
+    cities: string;
+    localities: string;
+    buildings: string;
 }

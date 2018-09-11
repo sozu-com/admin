@@ -281,7 +281,7 @@
             </div>
             
             <div *ngFor="let add of model.address; let j=index">
-              <app-address [address]="add" [index]="j" [status]="false" [disabledLocalities]="disabledLocalities" (disabledLocality)="disabledLocalityId(j)" (removeAddress)="removeAddressObj($event)"></app-address>
+              <app-address [address]="add" [index]="j" [status]="false" [disabledBuildings]="disabledBuildings" (disabledBuilding)="disabledBuildingId(j)" (removeAddress)="removeAddressObj($event)"></app-address>
             </div>
 
             <div class="col-12" *ngIf="model.address?.length!=0">

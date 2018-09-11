@@ -5,8 +5,9 @@
       <label>Country</label>
       <select [disabled]="status" required title="Choose Country" class="form-control" (change)="getStatesNew($event.target.value, i)">
         <option value="">Select Country</option>
-        <!-- <option *ngFor="let countryAdd of parameter.countriesAdd" value="{{countryAdd.id}}">{{countryAdd.name_en}}</option> -->
-        <option *ngFor="let countryAdd of parameter.countriesAdd" [selected]="countryAdd.id == address.countries" value="{{countryAdd.id}}">{{countryAdd.name_en}}</option>
+        <!-- <option *ngFor="let countryAdd of parameter.countriesAdd" value="{{countryAdd.id}}">{{countryAdd.name}}</option> -->
+        <option *ngFor="let countryAdd of parameter.countriesAdd" [selected]="countryAdd.id == address.countries" value="{{countryAdd.id}}">{{countryAdd.name}}</option>
+        <!-- <option *ngIf="parameter?.countriesAdd?.length!=0" value="0">All</option> -->
       </select>
     </div>
   </div>
@@ -15,8 +16,9 @@
       <label>State</label>
       <select [disabled]="status" required title="Choose State" class="form-control" (change)="getCitiesNew($event.target.value, i)">
         <option value="">Select State</option>
-        <!-- <option *ngFor="let stateAdd of parameter.statesAdd" value="{{stateAdd.id}}">{{stateAdd.name_en}}</option> -->
-        <option *ngFor="let stateAdd of parameter.statesAdd" [selected]="stateAdd.id == address.states" value="{{stateAdd.id}}">{{stateAdd.name_en}}</option>
+        <!-- <option *ngFor="let stateAdd of parameter.statesAdd" value="{{stateAdd.id}}">{{stateAdd.name}}</option> -->
+        <option *ngFor="let stateAdd of parameter.statesAdd" [selected]="stateAdd.id == address.states" value="{{stateAdd.id}}">{{stateAdd.name}}</option>
+        <!-- <option *ngIf="parameter?.statesAdd?.length==0" value="0">All</option> -->
       </select>
     </div>
   </div>
@@ -25,8 +27,20 @@
       <label>City</label>
       <select [disabled]="status" required title="Choose City" class="form-control" (change)="getLocalitiesNew($event.target.value, i)">
       <option value="">Select City</option>
-      <option *ngFor="let cityAdd of parameter.citiesAdd" [selected]="cityAdd.id == address.cities" value="{{cityAdd.id}}">{{cityAdd.name_en}}</option>
-      <!-- <option *ngFor="let cityAdd of parameter.citiesAdd" value="{{cityAdd.id}}">{{cityAdd.name_en}}</option> -->
+      <option *ngFor="let cityAdd of parameter.citiesAdd" [selected]="cityAdd.id == address.cities" value="{{cityAdd.id}}">{{cityAdd.name}}</option>
+      <!-- <option *ngIf="parameter?.citiesAdd?.length==0" value="0">All</option> -->
+      <!-- <option *ngFor="let cityAdd of parameter.citiesAdd" value="{{cityAdd.id}}">{{cityAdd.name}}</option> -->
+    </select>
+    </div>
+  </div>
+  <div class="col-sm-3 col-12">
+    <div class="form-group-2">
+      <label>Locality</label>
+      <select [disabled]="status" required title="Choose Locality" class="form-control" (change)="getLocalityBuildings($event.target.value, i)">
+      <option value="">Select Locality</option>
+      <option *ngFor="let localityAdd of parameter.localitiesAdd" [selected]="localityAdd.id == address.localities" value="{{localityAdd.id}}">{{localityAdd.name}}</option>
+      <!-- <option *ngIf="parameter?.citiesAdd?.length==0" value="0">All</option> -->
+      <!-- <option *ngFor="let cityAdd of parameter.citiesAdd" value="{{cityAdd.id}}">{{cityAdd.name}}</option> -->
     </select>
     </div>
   </div>
@@ -34,11 +48,12 @@
     <div class="row">
       <div class="col-10">
       <div class="form-group-2">
-        <label>Locality</label>
-        <select [disabled]="status" required title="Choose Locality" class="form-control" (change)="setLocality($event.target.value, i)">
-          <option value="">Select Locality</option>
-          <!-- <option *ngFor="let localityAdd of parameter.localitiesAdd" value="{{localityAdd.id}}">{{localityAdd.name_en}}</option> -->
-          <option *ngFor="let localityAdd of parameter.localitiesAdd" [disabled]="localityAdd.disabled" [selected]="localityAdd.id == address.localities" value="{{localityAdd.id}}">{{localityAdd.name_en}}</option>
+        <label>Building</label>
+        <select [disabled]="status" required title="Choose Building" class="form-control" (change)="setBuilding($event.target.value, i)">
+          <option value="">Select Building</option>
+          <!-- <option *ngFor="let localityAdd of parameter.localitiesAdd" value="{{localityAdd.id}}">{{localityAdd.name}}</option> -->
+          <option *ngFor="let buildingAdd of parameter.buildingsAdd" [disabled]="buildingAdd.disabled" [selected]="buildingAdd.id == address.buildings" value="{{buildingAdd.id}}">{{buildingAdd.name}}</option>
+          <!-- <option *ngIf="parameter?.localitiesAdd?.length==0" value="0">All</option> -->
         </select>
       </div>
       </div>
