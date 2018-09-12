@@ -152,7 +152,7 @@
                   <th>
                     <div class="table-search"></div>
                   </th>
-                  <th style="width:20%">
+                  <th style="width:18%">
                     <div class="table-search">
                         <label>Name</label>
                         <div class="searh-3">
@@ -179,11 +179,15 @@
                         </div>
                     </div>
                   </th>
-                  <th style="width:10%">
-                    Interested In
+                  <th style="width:12%">
+                    <div class="table-search">
+                        <label>Interested In</label>
+                    </div>
                   </th>
                   <th>
-                    Assignee
+                    <div class="table-search">
+                        <label>Assignee</label>
+                    </div>
                   </th>
                   <th >
                     <!-- Mark
@@ -199,22 +203,22 @@
                   <span *ngIf="item.name" routerLink="/dashboard/leads/csr-buyers/{{item.id}}" class="name">{{item.name}}</span>
                   <span class="name" *ngIf="!item.name">NA</span>
                 </td>
-                <td class="text-left" *ngIf="item.phone">+{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
+                <td class="text-left" *ngIf="item.phone">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
                 <td class="text-left" *ngIf="!item.phone">NA</td>
                 <td class="text-left" *ngIf="item.email">{{item.email}}</td>
                 <td class="text-left" *ngIf="!item.email">NA</td>
                 <td>
                     <span *ngFor="let conf of item.configuration">
-                        {{conf.name}},
+                        {{conf.name}}
                     </span>
                     <span *ngIf="item.configuration?.length==0">NA</span>
                 </td>
-                <td class="text-left" title="Buyer" *ngIf="item.admin.name">{{item.admin.name}}</td>
+                <td class="text-left" title="CSR Buyer" *ngIf="item.admin.name">{{item.admin.name}}</td>
                 <td class="text-left" *ngIf="!item.admin.name">Not Assigned</td>
                 <td>
-                  <a href="javascript://" routerLink="/dashboard/leads/csr-buyers/{{item.id}}" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
-                  <a href="javascript://" *ngIf="item.is_blocked == 1" (click)="blockUnblockPopup(i, item.id, 0, parameter.type)" title="Unblock user" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a>
-                  <a href="javascript://" *ngIf="item.is_blocked == 0" (click)="blockUnblockPopup(i, item.id, 1, parameter.type)" title="Block user" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
+                  <a href="javascript://" title="View Details" routerLink="/dashboard/leads/csr-buyers/{{item.id}}" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
+                  <a href="javascript://" *ngIf="item.is_blocked == 1" (click)="blockUnblockPopup(i, item.id, 0, parameter.type)" title="Unblock user" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png" alt="img"></a>
+                  <a href="javascript://" *ngIf="item.is_blocked == 0" (click)="blockUnblockPopup(i, item.id, 1, parameter.type)" title="Block user" class="icon-block block-icon"><img src="assets/img/unblock.png" alt="img"></a>
                 </td>
               </tr>
             </table>

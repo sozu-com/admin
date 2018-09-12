@@ -18,6 +18,7 @@ export class NotesComponent implements OnInit {
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
 
+  @Input('csrType') csrType;
   @Input('lead_id') lead_id;
   public parameter: IProperty = {};
   public scrollbarOptions = { axis: 'y', theme: 'dark'};

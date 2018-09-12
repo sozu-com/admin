@@ -210,22 +210,24 @@
                           <span routerLink="/dashboard/leads/csr-closers/{{item.id}}" class="name">{{item.name}}</span>
                        </td>
                        <td class="text-left">
-                        +{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}<br>
-                          {{item.email}}
+                        {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}<br>
+                        {{item.email}}
                        </td>
                        <td class="text-left">
                         <div class="property-selected">
-                           <p class="p14 marginB0">2 BHK</p>
-                           <p class="p12 marginB0"><strong>Green House Apartments</strong></p>
-                           <p class="p11"><i>Sarovar Builders</i></p>
+                           <p class="p14 marginB0">
+                               {{item?.selected_properties[0]?.property?.configuration.name}}
+                           </p>
+                           <p class="p12 marginB0"><strong>{{item?.selected_properties[0]?.property?.building?.name}}</strong></p>
+                           <p class="p11"><i>{{item?.selected_properties[0]?.property?.building?.developer?.name}}</i></p>
                         </div>
                         </td>
-                       <td class="text-left">
-                          {{item.admin.name}}
+                       <td class="text-left" title="CSR Closer">
+                          {{item.closer.name}}
                        </td>
 
                        <td>
-                          <a href="javascript://" routerLink="/dashboard/leads/csr-closers/{{item.id}}" class="icon-block edit-icon"><img src="assets/img/viewfull.png" alt="img"></a>
+                          <a href="javascript://" title="View Details" routerLink="/dashboard/leads/csr-closers/{{item.id}}" class="icon-block edit-icon"><img src="assets/img/viewfull.png" alt="img"></a>
                           <a href="javascript://" class="icon-block block-icon"><img src="assets/img/block.png" alt="img"></a>
                        </td>
                     </tr>

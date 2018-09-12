@@ -15,7 +15,7 @@ declare let swal: any;
 export class CsrBuyerComponent implements OnInit {
 
   public parameter: IProperty = {};
-  items: Array<Users> = [];
+  items = [];
 
   constructor(
     private admin: AdminService,
@@ -70,6 +70,51 @@ export class CsrBuyerComponent implements OnInit {
           console.log('succ', success);
           this.items = success.data;
           this.parameter.total = success.total_count;
+        });
+  }
+
+
+  blockUnblockPopup(index, id, flag, user_type) {
+    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    switch (flag) {
+      case 0:
+        this.parameter.text = this.constant.title.UNBLOCK_LEAD;
+        this.parameter.successText = this.constant.successMsg.UNBLOCKED_SUCCESSFULLY;
+        break;
+      case 1:
+        this.parameter.text = this.constant.title.BLOCK_LEAD;
+        this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
+        break;
+    }
+
+    swal({
+      html: this.parameter.title + '<br>' + this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes!'
+    }).then((result) => {
+      if (result.value) {
+        this.block(index, id, flag, user_type);
+      }
+    });
+  }
+
+
+  block(index, id, flag, user_type) {
+    this.parameter.url = 'leads/blockLead';
+    const input = new FormData();
+    input.append('lead_id', id);
+    input.append('flag', flag);
+
+    this.admin.postDataApi(this.parameter.url, input)
+      .subscribe(
+        success => {
+          console.log('success', success);
+          swal('Success', this.parameter.successText, 'success');
+          // this.items[index] = success.data;
+          this.items[index].is_blocked = flag;
         });
   }
 }

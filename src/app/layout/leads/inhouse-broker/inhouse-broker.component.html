@@ -200,7 +200,7 @@
                 <td class="text-left">
                   <span routerLink="/dashboard/leads/inhouse-broker/{{item.id}}"  class="name">{{item.name}}</span>
                 </td>
-                <td class="text-left" *ngIf="item.phone">+{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
+                <td class="text-left" *ngIf="item.phone">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
                 <td class="text-left" *ngIf="!item.phone">NA</td>
                 <td class="text-left">{{item.email}}</td>
                 <td>
@@ -209,10 +209,10 @@
                     </span>
                     <span *ngIf="item.configuration?.length==0">NA</span>
                 </td>
-                <td class="text-left" *ngIf="item?.admin?.name">{{item.admin.name}}</td>
+                <td class="text-left" title="Inhouse Broker" *ngIf="item?.admin?.name">{{item.broker.name}}</td>
                 <td class="text-left" *ngIf="!item?.admin?.name">Not Assigned</td>
                 <td>
-                  <a href="javascript://" routerLink="/dashboard/leads/inhouse-broker/{{item.id}}" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
+                  <a href="javascript://" title="View Details" routerLink="/dashboard/leads/inhouse-broker/{{item.id}}" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
                   <a href="javascript://" *ngIf="item.is_blocked == 1" (click)="blockUnblockPopup(i, item.id, 0, parameter.type)" title="Unblock user" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png" alt="img"></a>
                   <a href="javascript://" *ngIf="item.is_blocked == 0" (click)="blockUnblockPopup(i, item.id, 1, parameter.type)" title="Block user" class="icon-block block-icon"><img src="assets/img/unblock.png" alt="img"></a>
                 </td>

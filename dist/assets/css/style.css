@@ -1809,7 +1809,8 @@ border-bottom: solid 2px #00B96F;
 }
 .write-note {
 padding: 25px 35px 5px 35px;
-max-height: 412px;
+/* max-height: 412px; */
+max-height: 320px;
 }
 .page-title-2 {
 border-bottom: solid 1px #F5F5F5;

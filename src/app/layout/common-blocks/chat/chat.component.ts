@@ -24,7 +24,7 @@ export class ChatComponent implements OnInit {
   @Input('lead_id') lead_id;
   @Input('user_id') user_id;
   @Input('sent_as') sent_as;
-
+  // loadingMessages = false;
   durationInSec = 0;
   showVideo = true;
   video: any;

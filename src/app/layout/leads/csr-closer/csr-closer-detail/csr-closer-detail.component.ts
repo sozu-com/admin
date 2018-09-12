@@ -154,25 +154,20 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  save() {
+  updateDocumentChecklist() {
     const ids = this.selectedProperties.allDocuments.filter(d => d.is_selected === 1);
-    const idss = ids.map(d => d.id);
-    console.log('ids', ids, idss);
-  //   this.admin.postDataApi('getDocumentOptions', {}).subscribe(r => {
-  //     this.selectedProperties.allDocuments = r.data;
-  //     console.log('this.allDocuments', this.selectedProperties.allDocuments);
-  //     // this.selectedProperties.allDocuments.forEach(element => {
-  //     //   // console.log('aa', this.selectedProperties);
-  //     //   this.selectedProperties.selected_documents.forEach(pt => {
-  //     //     if (pt.id === element.id) {
-  //     //       element.is_selected = 1;
-  //     //     }
-  //     //   });
-  //     // });
-
-  //     console.log('this.allDocuments after', this.selectedProperties.allDocuments);
-  //   }
-  // );
+    const documents_ids = ids.map(d => d.id);
+    console.log('selected', this.selectedProperties);
+    console.log('ids', ids, documents_ids);
+    const input = {
+      lead_id: this.parameter.lead_id,
+      property_id: this.selectedProperties.property_id,
+      documents: documents_ids
+    };
+    this.admin.postDataApi('leads/updateDocumentChecklist', input).subscribe(r => {
+      console.log('updateDocumentChecklist', r);
+    }
+  );
   }
 
   noDocumentUploaded() {

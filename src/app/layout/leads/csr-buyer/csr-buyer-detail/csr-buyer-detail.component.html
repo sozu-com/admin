@@ -61,7 +61,7 @@
                 </tr>
                 <tr>
                    <td style="padding-left:0"><label>Contact Number</label></td>
-                   <td *ngIf="parameter?.lead?.phone">+{{parameter.lead.dial_code ? parameter.lead.dial_code : constant.dial_code}}-{{parameter.lead.phone}}</td>
+                   <td *ngIf="parameter?.lead?.phone">{{parameter.lead.dial_code ? parameter.lead.dial_code : constant.dial_code}}-{{parameter.lead.phone}}</td>
                 </tr>
                 <tr>
                    <td style="padding-left:0"><label>Email address</label></td>
@@ -106,7 +106,7 @@
         <!-- chat end -->
 
         <!-- notes start -->
-        <app-notes [lead_id]="parameter.lead_id"></app-notes>
+        <app-notes [csrType]="1" [lead_id]="parameter.lead_id"></app-notes>
         <!-- notes end -->
 
      </div>

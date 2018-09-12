@@ -69,6 +69,7 @@ export class PropertyTypes {
 }
 
 export class SelectedProperties {
+    property_id: number;
     token_money: number;
     total_amount: number;
     commision: number;

@@ -95,5 +95,7 @@ export class Constant {
         UNBLOCK_PROJECT_POSSESSION : 'You want to unblock this project possession status?',
         BLOCK_USER : 'You want to block this user?',
         UNBLOCK_USER : 'You want to unblock this user?',
+        BLOCK_LEAD : 'You want to block this lead?',
+        UNBLOCK_LEAD : 'You want to unblock this lead?',
     };
 }

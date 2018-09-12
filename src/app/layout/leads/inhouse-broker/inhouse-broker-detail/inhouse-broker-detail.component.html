@@ -35,7 +35,7 @@
                 </tr>
                 <tr>
                    <td style="padding-left:0"><label>Contact Number</label></td>
-                   <td *ngIf="parameter?.lead?.phone">+{{parameter.lead.dial_code}}{{parameter.lead.phone}}</td>
+                   <td *ngIf="parameter?.lead?.phone">{{parameter.lead.dial_code}}{{parameter.lead.phone}}</td>
                 </tr>
                 <tr>
                    <td style="padding-left:0"><label>Email address</label></td>
@@ -76,7 +76,7 @@
         
         <app-fill-information [fillInfo]="fillInfo" [lead_id]="parameter.lead_id"></app-fill-information>
 
-        <app-notes [lead_id]="parameter.lead_id"></app-notes>
+        <app-notes [csrType]="2" [lead_id]="parameter.lead_id"></app-notes>
 
      </div>
   </div>

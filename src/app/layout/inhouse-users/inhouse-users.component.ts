@@ -538,7 +538,7 @@ console.log('address', this.model.address, this.seenDuplicate);
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          // this.parameter.loading = false;
+          console.log('data', success);
           this.parameter.items = success.data;
           this.parameter.total = success.total;
           // this.parameter.items.reverse();
