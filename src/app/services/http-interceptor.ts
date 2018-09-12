@@ -31,15 +31,17 @@ export class HttpInterceptor extends Http {
         console.log('Request - ', url);
 
         if (url['url'] === this.baseUrl + 'conversation/sendMessage' ||
-            url['url'] === this.baseIP + 'user/allCities' ||
-            url['url'] === this.baseIP + 'user/homeSearch') {
+            // url['url'] === this.baseIP + 'user/allCities' ||
+            // url['url'] === this.baseIP + 'user/homeSearch' ||
+            url['url'] === this.baseUrl + 'getDocumentOptions' ||
+            url['url'] === this.baseUrl + 'leads/getPrefOptions') {
             this.loader.next({value: false});
         } else if (url['url'] === this.baseUrl + 'saveImage') {
-            this.loader.next({value: true});
+            this.loader.next({value: false});
         } else if (url['url'] === this.baseUrl + 'saveVideo') {
-            this.loader.next({value: true});
+            this.loader.next({value: false});
         } else if (url['url'] === this.baseUrl + 'saveAttachment') {
-            this.loader.next({value: true});
+            this.loader.next({value: false});
         } else {
             this.loader.next({value: true});
         }

@@ -41,13 +41,6 @@ export class CsrBuyerDetailComponent implements OnInit {
           this.setFillInformationData(r);
           this.parameter.proximity_places = r.data.lead.proximity_places;
           this.parameter.interested_properties = r.data.interested_properties;
-
-          // this.selected_prop_ids = r.data.lead.selected_properties.map(s => s.property_id);
-
-          // this.parameter.interested_properties.forEach(element => {
-          //   element.is_finalised = element.property_id
-          // });
-
           this.parameter.viewed_properties = r.data.viewed_properties;
           this.parameter.user_id = this.parameter.lead.user ? this.parameter.lead.user.id : 0;
         });
@@ -69,8 +62,6 @@ export class CsrBuyerDetailComponent implements OnInit {
           if (p.id === element.id) {
             element.is_selected = 1;
           }
-          // element.is_selected = p.id === element.id ? 1 : 0;
-          console.log('====', element.is_selected, element.id);
         });
       });
 
@@ -84,7 +75,6 @@ export class CsrBuyerDetailComponent implements OnInit {
           if (pt.id === element.id) {
             element.is_selected = 1;
           }
-          // element.is_selected = pt.id === element.id ? 1 : 0;
         });
       });
 
@@ -93,7 +83,6 @@ export class CsrBuyerDetailComponent implements OnInit {
           if (c.id === element.id) {
             element.is_selected = 1;
           }
-          // element.is_selected = c.id === element.id ? 1 : 0;
         });
       });
       console.log('leads/getPrefOptions', this.fillInfo);

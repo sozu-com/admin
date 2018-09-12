@@ -124,7 +124,7 @@
                      <img [src]="selectedProperties?.banks && selectedProperties.banks[0].image" onerror='src="assets/img/bank-building.png"' alt="img">
                      <div class="bank-info">
                         <p title="Bank" class="p14">{{selectedProperties.banks[0].name}}</p>
-                        <p class="p11">{{selectedProperties.banks[0].branch}}</p>
+                        <p class="p11">{{selectedProperties?.banks[0]?.branch ? selectedProperties?.banks[0]?.branch : 'NA'}}</p>
                         <a href="javascript://" #showBanks style="display: none;" data-toggle="modal" data-target="#bank-listing" class="green-color green">Change</a>
                         <a href="javascript://" class="green-color green" (click)="getBanks(selectedProperties.property_id)">Change</a>
                      </div>
@@ -349,7 +349,7 @@
                   </td>
                   <td>
                       <label class="cust-check-bx float-right">
-                      <input type="radio" name="bank_id" (click)="assignBank(bank.id)">
+                      <input type="radio" name="bank_id" (click)="assignBank(bank)">
                       <span class="checkmark"></span>
                       </label>
                   </td>
@@ -381,7 +381,7 @@
                         </td>
                         <td>
                             <label class="cust-check-bx float-right">
-                                <input type="radio" name="notary_id" (click)="assignNoatary(item.id)">
+                                <input type="radio" name="notary_id" (click)="assignNoatary(item)">
                                 <span class="checkmark"></span>
                             </label>
                         </td>

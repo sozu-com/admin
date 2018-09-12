@@ -105,6 +105,10 @@ export class NotaryAssigned {
     phone: string;
     dial_code: string;
     country_code: string;
+    lead_id: number;
+    image: string;
+    property_id: number;
+    noatary_id: number;
     // is_selected: number;
     // status: number;
 }
@@ -118,16 +122,21 @@ export class BankAssigned {
     branch: string;
     is_selected: number;
     status: number;
-}
-
-export class AssignBank {
     lead_id: number;
     property_id: number;
     bank_id: number;
 }
 
-export class AssignNotary {
-    lead_id: number;
-    property_id: number;
-    noatary_id: number;
-}
+// export class Bank {
+//     lead_id: number;
+//     property_id: number;
+//     bank_id: number;
+// }
+
+// export class Notary {
+//     lead_id: number;
+//     name: string;
+//     image: string;
+//     property_id: number;
+//     noatary_id: number;
+// }

@@ -5,14 +5,14 @@ import { CommonService } from '../../../../services/common.service';
 import { IProperty } from '../../../../common/property';
 import * as io from 'socket.io-client';
 import { Constant } from './../../../../common/constants';
-import { SelectedProperties, AssignBank, AssignNotary } from './../../../../models/leads.model';
+import { SelectedProperties, BankAssigned, NotaryAssigned } from './../../../../models/leads.model';
 declare let swal: any;
 
 @Component({
   selector: 'app-csr-closer-detail',
   templateUrl: './csr-closer-detail.component.html',
   styleUrls: ['./csr-closer-detail.component.css'],
-  providers: [SelectedProperties, AssignBank, AssignNotary]
+  providers: [SelectedProperties, BankAssigned, NotaryAssigned]
 })
 
 export class CsrCloserDetailComponent implements OnInit, OnDestroy {
@@ -41,8 +41,8 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     private cs: CommonService,
     public constant: Constant,
     public selectedProperties: SelectedProperties,
-    public assignBankModel: AssignBank,
-    public assignNotaryModel: AssignNotary
+    public bankModel: BankAssigned,
+    public notaryModel: NotaryAssigned
   ) { }
 
   ngOnInit() {
@@ -51,11 +51,11 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       this.parameter.lead_id = params.id;
       this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
         console.log('lead details', r);
+        this.getDocumentOptions();
         this.parameter.lead = r.data.lead;
         this.selectedProperties = r.data.lead.selected_properties[0];
         this.parameter.user_id = this.parameter.lead.user.id;
         console.log('selected property', this.selectedProperties);
-        this.getDocumentOptions();
       });
     });
   }
@@ -65,8 +65,8 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   }
 
   getNotaries(property_id) {
-    this.assignNotaryModel.property_id = property_id;
-    this.assignNotaryModel.lead_id = this.parameter.lead_id;
+    this.notaryModel.property_id = property_id;
+    this.notaryModel.lead_id = this.parameter.lead_id;
     this.admin.postDataApi('getNoataries', {}).subscribe(r => {
       console.log('getNoataries', r);
       this.showNotaries.nativeElement.click();
@@ -74,9 +74,10 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  assignNoatary(noatary_id) {
-    this.assignNotaryModel.noatary_id = noatary_id;
-    console.log('==', this.assignNotaryModel);
+  assignNoatary(notary) {
+    console.log('====', notary);
+    this.notaryModel.noatary_id = notary.id;
+    console.log('==', this.notaryModel);
     swal({
       html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to assign this notary?',
       type: 'warning',
@@ -86,10 +87,12 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.admin.postDataApi('leads/assignNoatary', this.assignNotaryModel).subscribe(r => {
+        this.selectedProperties.noataries = [notary];
+        // this.hideNotaries.nativeElement.click();
+        this.admin.postDataApi('leads/assignNoatary', this.notaryModel).subscribe(r => {
           console.log('assignBank', r);
           swal('Success', 'Notary is assigned successfully.', 'success');
-          this.assignNotaryModel = new AssignNotary();
+          this.notaryModel = new NotaryAssigned();
           this.hideNotaries.nativeElement.click();
         });
       }
@@ -97,8 +100,8 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   }
 
   getBanks(property_id) {
-    this.assignBankModel.property_id = property_id;
-    this.assignBankModel.lead_id = this.parameter.lead_id;
+    this.bankModel.property_id = property_id;
+    this.bankModel.lead_id = this.parameter.lead_id;
     this.admin.postDataApi('getBanks', {}).subscribe(r => {
       console.log('getbanks', r);
       this.showBanks.nativeElement.click();
@@ -106,9 +109,8 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  assignBank(bank_id) {
-    this.assignBankModel.bank_id = bank_id;
-    console.log('==', this.assignBankModel);
+  assignBank(bank) {
+    this.bankModel.bank_id = bank.id;
     swal({
       html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to assign this bank?',
       type: 'warning',
@@ -118,10 +120,12 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.admin.postDataApi('leads/assignBank', this.assignBankModel).subscribe(r => {
+        this.selectedProperties.banks = [bank];
+        // this.hideBanks.nativeElement.click();
+        this.admin.postDataApi('leads/assignBank', this.bankModel).subscribe(r => {
           console.log('assignBank', r);
           swal('Success', 'Bank is assigned successfully.', 'success');
-          this.assignBankModel = new AssignBank();
+          this.bankModel = new BankAssigned();
           this.hideBanks.nativeElement.click();
         });
       }

@@ -2396,7 +2396,7 @@ position: relative;
 .chat-user-two video, 
 .chat-user-two img{float: left; border-radius:10px 10px 10px 0;}
 
-.chat-user video, .chat-user img{ width:160px !important; height:120px;}
+.chat-user video, .chat-user img{ width:auto !important; height:120px;}
 
 
 .chat-user-two .chat-vid span,
@@ -2586,3 +2586,40 @@ position: relative;
     font-size: 14px;
     color:#fff; 
 }
+
+
+.loaderr {
+    border: 5px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 5px solid #3498db;
+    width: 30px;
+    height: 30px;
+    animation: spin 2s linear infinite;
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    z-index: 9;
+  }
+  
+
+.chat-user .vid-icon{
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
+
+  /* Safari */
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
