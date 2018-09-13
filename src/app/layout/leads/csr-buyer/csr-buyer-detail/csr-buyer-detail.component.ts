@@ -98,7 +98,7 @@ export class CsrBuyerDetailComponent implements OnInit {
       this.fillInfo.planning_to_buy = new ChatTimePipe().transform(r.data.lead.prefs.planning_to_buy, 'YYYY-MM-DD HH:MM:SS', 4);
       console.log('local====>', this.fillInfo);
     } else {
-      this.fillInfo.family_size = '';
+      this.fillInfo.family_size = 1;
       this.fillInfo.pets = '';
       this.fillInfo.min_price = this.constant.minValue;
       this.fillInfo.max_price = this.constant.maxValue;

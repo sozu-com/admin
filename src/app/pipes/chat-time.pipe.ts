@@ -10,6 +10,7 @@ export class ChatTimePipe implements PipeTransform {
   transform(created_at: any, format: string, type: number): any {
     if (type === 1) {
       return moment(created_at, format).utc(true).local().fromNow();
+      // return moment(created_at, format).utc(true).local().fromNow();
     } else if (type === 3) {
       // converting date to utc
       return moment.utc(created_at).format(format);

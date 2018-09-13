@@ -19,13 +19,24 @@
         <div class="col-sm-12 col-12">
             <div class="form-group-4">
                 <label>Family Size</label>
-                <input min="1" class="form-control" required [(ngModel)]="fillInfo.family_size" type="number" name="family_size">
+                <input min="1" class="form-control" [(ngModel)]="fillInfo.family_size" type="number" name="family_size">
             </div>
         </div>
     </div>
     <div class="inline-form-group-2 marginT20">
         <div class="row">
-            <div class="col-6"><label class="float-left">Pets</label></div>
+            <div class="col-6"><label class="float-left">Do you have pets?</label></div>
+            <div class="col-5">
+                <label class="cust-check-bx">
+                <input type="checkbox" value="{{fillInfo.pets == 1 ? 'true' : 'false'}}" [(ngModel)]="fillInfo.pets" name="pets">
+                <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="inline-form-group-2 marginT20">
+        <div class="row">
+            <div class="col-6"><label class="float-left">Do you have kids?</label></div>
             <div class="col-5">
                 <label class="cust-check-bx">
                 <input type="checkbox" value="{{fillInfo.pets == 1 ? 'true' : 'false'}}" [(ngModel)]="fillInfo.pets" name="pets">
@@ -47,18 +58,14 @@
     <div class="form-group-4 date-picker marginT20">
         <label>How soon planning to buy/rent</label>
         <div class="clearfix"></div>
-        <!-- {{m.created_at  | chatTime: 'YYYY-MM-DD H:m:s': 5}} -->
-        <!-- <input type="date" required [(ngModel)]="fillInfo.planning_to_buy | date:'yyyy-MM-dd'" value="{{fillInfo.planning_to_buy}}" name="planning_to_but" class="form-control" id="datetimepicker"> -->
-        <!-- <input type="date" required [(ngModel)]="fillInfo.planning_to_buy" value="{{fillInfo.planning_to_buy}}" name="planning_to_but" class="form-control" id="datetimepicker"> -->
-        <input type="date" [ngModel]="fillInfo.planning_to_buy  | date:'yyyy-MM-dd' " (ngModelChange)="fillInfo.planning_to_buy = $event;" name="planning_to_but" class="form-control" id="datetimepicker">
+        <input type="date" readonly min="{{today|date:'yyyy-MM-dd'}}" [ngModel]="fillInfo.planning_to_buy  | date:'yyyy-MM-dd' " (ngModelChange)="fillInfo.planning_to_buy = $event;" name="planning_to_but" class="form-control" id="datetimepicker">
         <div class="clearfix"></div>
-        <!-- <span class="sel-date">Select date</span> -->
     </div>
     <div class="form-group-4 marginT20">
-        <label>Car Types</label>
+        <label>Number of Cars</label>
         <div class="clearfix"></div>
         <label class="cust-radio" *ngFor="let car_type of fillInfo.car_types; let i=index">
-        <input required type="radio" (click)="setValue('car_types', i)" [checked]="car_type.is_selected == 0 ? '' : 'checked'" name="radio4">
+        <input type="radio" (click)="setValue('car_types', i)" [checked]="car_type.is_selected == 0 ? '' : 'checked'" name="radio4">
         <span class="checkmark">{{car_type.name}}</span>
         </label>
         <div class="clearfix"></div>

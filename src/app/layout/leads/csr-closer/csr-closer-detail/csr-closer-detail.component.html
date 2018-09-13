@@ -284,7 +284,7 @@
 
              </div>
              <div class="col-3 text-right">
-                    <a *ngIf="selectedProperties?.uploaded_documents?.length==0" (click)="noDocumentUploaded()" class="view" href="javascript://" >View</a>
+                <a *ngIf="selectedProperties?.uploaded_documents?.length==0" (click)="noDocumentUploaded()" class="view" href="javascript://" >View</a>
                 <a *ngIf="selectedProperties?.uploaded_documents?.length!=0" class="view" data-toggle="modal" data-target="#uploaded-documents" href="javascript://" >View</a>
              </div>
           </div>

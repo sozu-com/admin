@@ -15,7 +15,7 @@ export class Notes {
 
 export class FillInformation {
     lead_id: number;
-    family_size: string;
+    family_size: number;
     car_type_id: string;
     pets: string;
     min_price: number;

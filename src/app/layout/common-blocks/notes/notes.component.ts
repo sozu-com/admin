@@ -37,7 +37,8 @@ export class NotesComponent implements OnInit {
   addLeadNote(formdata: NgForm) {
     this.admin.postDataApi('leads/addLeadNote', {lead_id: this.lead_id, note: this.model.note}).subscribe(r => {
       this.closeModal();
-      this.parameter.items.push(r.data);
+      // this.parameter.items.push(r.data);
+      this.parameter.items = r.data;
       swal('Success', this.constant.successMsg.NOTE_ADDED_SUCCESSFULLY, 'success');
     });
   }

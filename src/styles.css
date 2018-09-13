@@ -22,7 +22,8 @@
     padding: 8px 10px;
     border-radius: 4px;
     font-size: 16px;
-    color: #ed5565 !important;
+    /* color: #ed5565 !important; */
+    color: #434b51c2 !important;
 }
 .btn:disabled{ cursor:not-allowed; }
 
@@ -315,3 +316,12 @@ nouislider{ padding-left: 50px; padding-right: 50px;}
     margin: auto;
     z-index: 9;
   }
+pre { font-family: 'sf_ui_textregular'; white-space: pre-wrap;}
+.note{border: 1px solid #80808026 !important;padding: 5px 10px !important; resize: none;}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}

@@ -19,8 +19,8 @@
       </div>
       <a class="delete" href="javascript://" (click)="deleteLeadPopup(item.id, i)">Delete</a>
       <p class="time">{{item.updated_at  | chatTime: 'YYYY-MM-DD H:m:s': 2}}</p>
-      <p class="p13">{{item.note}}
-      </p>
+      <!-- <p class="p13">{{item.note}}</p> -->
+      <pre class="p13">{{item.note}}</pre>
   </div>
 </div>
 <p class="show-error" *ngIf="parameter.items?.length==0">
@@ -44,7 +44,7 @@
               <div class="col-12">
                 <div class="form-group-2">
                     <div class="form-group">
-                      <textarea rows="3" required class="form-control" name="note" #note="ngModel" [(ngModel)]="model.note"></textarea>
+                      <textarea rows="4" required class="form-control note" name="note" #note="ngModel" [(ngModel)]="model.note"></textarea>
                   </div>
                 </div>
               </div>

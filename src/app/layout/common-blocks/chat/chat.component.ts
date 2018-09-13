@@ -5,6 +5,7 @@ import { IProperty } from './../../../common/property';
 import { GeneralFunctions } from './../../../common/generalFunctions';
 import { Chat, ConversationUser } from './../../../models/chat.model';
 import * as io from 'socket.io-client';
+import { ChatTimePipe } from '../../../pipes/chat-time.pipe';
 declare let swal: any;
 // import * as $ from 'jquery';
 // declare var $: any;
@@ -62,13 +63,9 @@ export class ChatComponent implements OnInit {
     {lead_id: this.lead_id, user_id: this.user_id, sent_as: this.sent_as}).subscribe(res => {
       console.log('getMessages', res);
       this.parameter.messages = res.data[0].messages;
-
-      // this.parameter.messages.map(p => p.loading = true);
-console.log('this.pa', this.parameter.messages);
+      if (this.parameter.messages.length < 30) {this.loadmore = false; }
+      console.log('loadmore', this.loadmore);
       this.parameter.conversation_id = res.data[0].id;
-      // this.loadmoring = false;
-      // if (res['data'].length < 30) {this.loadmore = false; }
-      // this.parameter.messages = res['data'].concat(this.parameter.messages);
       this.scrollToBottom();
     });
   }
@@ -83,11 +80,15 @@ console.log('this.pa', this.parameter.messages);
       const data = {
         admin_id: this.admin_id,
         socket_id: this.parameter.socket_id,
+        device_id: this.admin.deviceId + '_' + this.admin_id
       };
       if (this.parameter.connected) {
+        console.log('data', data);
         this.parameter.socket.emit('add-admin', data, (res: any) => {
         });
         this.parameter.socket.on('message', (response: any) => {
+          console.log('message socket', response.data.conversation_id, this.parameter.conversation_id);
+          console.log('response', response);
           if (response.data.conversation_id === this.parameter.conversation_id) {
             this.scrollToBottom();
             this.parameter.messages.push(response.data);
@@ -108,11 +109,21 @@ console.log('this.pa', this.parameter.messages);
     this.model.message_type = 1;
   }
 
+  js_yyyy_mm_dd_hh_mm_ss () {
+    const now = new Date();
+    const year = '' + now.getFullYear();
+    let month = '' + (now.getMonth() + 1); if (month.length === 1) { month = '0' + month; }
+    let day = '' + now.getDate(); if (day.length === 1) { day = '0' + day; }
+    let hour = '' + now.getHours(); if (hour.length === 1) { hour = '0' + hour; }
+    let minute = '' + now.getMinutes(); if (minute.length === 1) { minute = '0' + minute; }
+    let second = '' + now.getSeconds(); if (second.length === 1) { second = '0' + second; }
+    return year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
+  }
+
   onSelectFile(param, event) {
     this.optionsButton.nativeElement.click();
     this.model.loading = true;
-    const date = new Date();
-    // this.model.updated_at = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' 00:00:00';
+    // this.model.updated_at = this.js_yyyy_mm_dd_hh_mm_ss();
     console.log('model', this.model);
     this.model.conversation_user = {admin_id: this.admin_id};
     this.model.admin_id = this.admin_id;
@@ -234,15 +245,31 @@ console.log('this.pa', this.parameter.messages);
     return new File([u8arr], filename, {type: mime});
   }
 
+  toUTCDate(date) {
+    const _utc = new Date(date.getUTCFullYear(), date.getUTCMonth(),
+    date.getUTCDate(),  date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+    return _utc;
+  }
+
   setText (message, mt) {
     this.model.loading = true;
     this.model.conversation_user = {admin_id: this.admin_id};
+    const today = (new Date()).toUTCString();
+    console.log('today', today);
+    const today1 = new Date(today);
+    console.log('today', today1);
+    const r = (new Date()).getMilliseconds();
+    console.log('date', this.toUTCDate(new Date(r)));
+    // today = new ChatTimePipe().transform(today, 'YYYY-MM-DD HH:MM:SS', 3);
+    this.model.updated_at = today;
+    // this.model.updated_at = this.js_yyyy_mm_dd_hh_mm_ss();
     this.model.admin_id = this.admin_id;
     this.model.message_type = mt;
     this.model.message = message;
     this.model.image = '';
     this.model.video = '';
     this.parameter.messages.push(this.model);
+    console.log(this.model, '=========');
     this.scrollToBottom();
   }
 
@@ -377,16 +404,13 @@ console.log('this.pa', this.parameter.messages);
     // };
     const input = {lead_id: this.lead_id, user_id: this.user_id,
       sent_as: this.sent_as, last_message_id: this.parameter.messages[0].id};
-    // console.log(data);
-    // this.getMessages(input);
     this.admin.postDataApi('conversation/getMessages',
     {lead_id: this.lead_id, user_id: this.user_id,
       sent_as: this.sent_as, last_message_id: this.parameter.messages[0].id}).subscribe(res => {
       console.log(res);
       this.loadmoring = false;
       this.admin_id = admin_id;
-      console.log('old data', this.parameter.messages);
-      if (res['data'].length < 30) {this.loadmore = false; }
+      if (res.data[0].messages.length < 30) {this.loadmore = false; }
       this.parameter.messages = res.data[0].messages.concat(this.parameter.messages);
       console.log('new data', this.parameter.messages);
     });

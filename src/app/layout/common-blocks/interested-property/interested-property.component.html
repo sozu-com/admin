@@ -65,30 +65,43 @@
               <div class="form-group">
                 <!-- <label>City</label> -->
                 <select required title="Choose City" class="form-control" (change)="homeSearch($event.target.value)">
-                  <option value="">Select City</option>
+                  <option value="" disabled>Select City</option>
                   <option *ngFor="let city of parameter.cities" [selected]="city.id == parameter.city_id" value="{{city.id}}">{{city.name}}</option>
                 </select>
               </div>
                 
-              <table class="table">
-                <tr *ngFor="let item of parameter.items">
-                  <td>
-                      <div class="n-avail-profile">
-                        <img [src]="item.image" onerror='src="assets/img/house.png"' alt="img">
-                        <div class="n-avail-info">
-                            <p class="p12">{{item.building.name}}</p>
-                            <p class="p10">{{item.building.address ? item.building.address : 'NA'}}</p>
+              <table class="table" *ngIf="parameter?.items?.length!=0">
+                <tbody>
+                  <tr *ngFor="let item of parameter.items">
+                    <td>
+                        <div class="n-avail-profile">
+                          <img [src]="item.image" onerror='src="assets/img/house.png"' alt="img">
+                          <div class="n-avail-info">
+                              <p class="p12">{{item.building.name}}</p>
+                              <p class="p10 marginB0">{{item.building.address ? item.building.address : 'NA'}}</p>
+                              <p class="p10">{{item.configuration.name}}</p>
+                          </div>
                         </div>
-                      </div>
-                  </td>
-                  <td>
-                      <label class="cust-check-bx float-right">
-                      <input type="radio" name="bank_id" (click)="addLeadInterestedProperty(item.id)">
-                      <span class="checkmark"></span>
-                      </label>
-                  </td>
-                </tr>
+                    </td>
+                    <td>
+                        <label class="cust-check-bx float-right">
+                        <input type="checkbox" name="document">
+                        <!-- <input type="radio" name="bank_id" (click)="addLeadInterestedProperty(item.id)"> -->
+                        <span class="checkmark"></span>
+                        </label>
+                    </td>
+                  </tr>
+                </tbody>
               </table>
+              <div class="row" *ngIf="parameter?.items?.length!=0">
+                <div class="col-12 center btn-cont">
+                  <label style="display: block;">&nbsp;</label>
+                  <button (click)="getInhouseUsers()" class="btn btn-primary">Add</button>
+                </div>
+              </div>
+              <div *ngIf="parameter?.items?.length==0">
+                <p class="show-error">No property found for selected filters.</p>
+              </div>
           </div>
       </div>
     </div>
@@ -166,8 +179,8 @@
                     </div>
                     <div class="project-des-content">
                         <small>{{x.property.building.developer.name}}</small>
-                        <h5>{{x.property.building.name.slice(0, 15)}}</h5>
-                        <p class="p12">{{x.property.building.address.slice(0, 60)}}</p>
+                        <h5>{{x.property.building.name.slice(0, 20)}}</h5>
+                        <p class="p12">{{x.property.building.address.slice(0, 55)}}</p>
                         <p class="p13" *ngIf="x && x.property">{{x.property.configuration.name}}</p>
                         <p class="p13" *ngIf="!x && !x.property">NA</p>
                     </div>

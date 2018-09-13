@@ -105,6 +105,7 @@ export class InterestedPropertyComponent implements OnInit {
   homeSearch(city_id) {
     this.parameter.city_id = city_id;
     this.admin.postDataApi('propertySearch', {city_id: city_id}).subscribe(r => {
+      console.log('==>', r);
       this.parameter.items = r.data;
     });
   }
@@ -117,7 +118,7 @@ export class InterestedPropertyComponent implements OnInit {
     const ids = this.interested_properties.map(d => d.property.id);
     const ff = ids.filter(p => p === property_id);
     if (ff.length !== 0) {
-      swal('Error', 'This property is added in your interested properties.', 'error');
+      swal('Error', 'This property is already added in your interests.', 'error');
     } else {
       swal({
         html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to add this property to your interested property?',
@@ -136,6 +137,11 @@ export class InterestedPropertyComponent implements OnInit {
         }
       });
     }
+  }
+
+  checkIfAlreadyExist() {
+    const ids = this.interested_properties.map(d => d.property.id);
+    // const ff = ids.filter(p => p === property_id);
   }
 
   checkIfExist(id) {

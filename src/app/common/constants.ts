@@ -43,9 +43,9 @@ export class Constant {
         NO_PROJECT_TYPE_FOUND : 'No project type found!',
         NO_PROJECT_AMENITY_FOUND : 'No amenity found!',
         NO_USER_FOUND : 'No user found!',
-        NO_INTERESTED_PROPERTY_FOUND : 'No interested property found. Click Add button to add property.',
+        NO_INTERESTED_PROPERTY_FOUND : 'No interests added by user.',
         NO_VIEWED_PROPERTY_FOUND : 'No property or project viewed by you.',
-        NO_NOTE_FOUND : 'No note has been added by you yet.'
+        NO_NOTE_FOUND : 'No notes to show.'
     };
     public successMsg: any = {
         COUNTRY_ADDED_SUCCESSFULLY : 'Country added successfully',

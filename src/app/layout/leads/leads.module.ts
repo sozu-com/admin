@@ -9,7 +9,7 @@ import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 // import { NgBoxModule } from 'ngbox/ngbox.module';
 // import { NgBoxService } from 'ngbox/ngbox.service';
 import { NouisliderModule } from 'ng2-nouislider';
-
+import { MomentPipe } from './../../pipes/moment.pipe';
 import { ChatTimePipe } from './../../pipes/chat-time.pipe';
 import { LeadsComponent } from './leads.component';
 import { DataCollectorComponent } from './data-collector/data-collector.component';
@@ -66,6 +66,7 @@ const routes: Routes = [
     ChatComponent,
     InterestedPropertyComponent,
     ViewedPropertyComponent,
+    MomentPipe,
     ChatTimePipe,
     NotesComponent,
     FillInformationComponent

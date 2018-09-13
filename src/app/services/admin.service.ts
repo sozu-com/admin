@@ -15,6 +15,7 @@ export class AdminService {
   private isUserLogin = false;
   public baseUrl: string = environment.baseUrl;
   public baseIP: string = environment.baseIP;
+  public deviceId: string = environment.deviceId;
   public socketUrl: string = environment.socketUrl;
 
   public login = new BehaviorSubject({});
@@ -73,7 +74,7 @@ export class AdminService {
     const input = new FormData();
     input.append('email', email);
     input.append('password', password);
-
+    input.append('device_id', this.deviceId);
     const tt = this.getCountryLocality('getCountryLocality');
 
     return this.http.post(this.baseUrl + 'login', input, {headers: headers})

@@ -2172,7 +2172,7 @@ background-color:#00B96F !important;
 }
 .threeDots .dropdown-item:focus, .threeDots .dropdown-item:hover {
 color:#fff; 
-background-color: #000000;
+/* background-color: #000000; */ /*sheena */
 }
 .bank-assigned-now{background-color:#fff; margin-top:20px;  }
 

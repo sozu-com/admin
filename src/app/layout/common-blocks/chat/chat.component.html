@@ -9,19 +9,19 @@
             <span>{{m.message}}</span>
         </p>
 
-        <!-- <a *ngIf="m.message_type == 2" href="{{m.image}}" data-lightbox="image" data-title="">
-          <span>
-            <img class="ui bordered small image" src="{{m.image}}">
-            <div *ngIf="m.loading" class="loaderr"></div>
-          </span>
-        </a> -->
-
-        <a *ngIf="m.message_type == 2" href="{{m.image}}" target="_blank"  title="image" >
+        <a *ngIf="m.message_type == 2" href="{{m.image}}" data-lightbox="image">
           <span>
             <img class="ui bordered small image" src="{{m.image}}">
             <div *ngIf="m.loading" class="loaderr"></div>
           </span>
         </a>
+
+        <!-- <a *ngIf="m.message_type == 2" href="{{m.image}}" target="_blank"  title="image" >
+          <span>
+            <img class="ui bordered small image" src="{{m.image}}">
+            <div *ngIf="m.loading" class="loaderr"></div>
+          </span>
+        </a> -->
         
         <a *ngIf="m.message_type == 3" href="{{m.video}}" target="_blank" title="Video" class="chat-vid">
           <span class="new-loader">
@@ -58,7 +58,8 @@
         </div> -->
         
         <span class="time" *ngIf="m.updated_at">
-        {{m.created_at  | chatTime: 'YYYY-MM-DD H:m:s': 1}}
+            {{m.updated_at  | moment}}
+        <!-- {{m.updated_at  | chatTime: 'YYYY-MM-DD H:m:s': 1}} -->
         </span>
       </div>
   </div>

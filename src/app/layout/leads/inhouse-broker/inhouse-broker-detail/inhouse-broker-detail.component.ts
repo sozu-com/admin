@@ -110,7 +110,7 @@ console.log('r.data.lead.prefs-->', r.data.lead.prefs);
 
       // this.parameter.prefs = r.data.lead.prefs;
     } else {
-      this.fillInfo.family_size = '';
+      this.fillInfo.family_size = 1;
       this.fillInfo.pets = '';
       this.fillInfo.min_price = this.constant.minValue;
       this.fillInfo.max_price = this.constant.maxValue;

@@ -20,6 +20,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { LoginComponent } from './login/login.component';
 import { CommonService } from './services/common.service';
 import { Constant } from './common/constants';
+import { MomentPipe } from './pipes/moment.pipe';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent},
@@ -34,7 +35,8 @@ const appRoutes: Routes = [
     AppComponent,
     ForgotPasswordComponent,
     LoginComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    // MomentPipe
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

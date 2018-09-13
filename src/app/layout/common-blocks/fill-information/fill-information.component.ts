@@ -19,12 +19,14 @@ export class FillInformationComponent implements OnInit {
   @Input('lead_id') lead_id;
   @Input('fillInfo') fillInfo;
 
+  today: any;
   public parameter: IProperty = {};
   public scrollbarOptions = { axis: 'y', theme: 'dark', scrollbarPosition: 'inside'};
 
   constructor(private admin: AdminService, public constant: Constant, public model: FillInformation) { }
 
   ngOnInit() {
+    this.today = new Date();
     this.getPrefOptions();
   }
 
@@ -37,6 +39,10 @@ export class FillInformationComponent implements OnInit {
 
   setValue(param, i) {
     this.fillInfo[param][i].is_selected = this.fillInfo[param][i].is_selected === 1 ? 0 : 1;
+  }
+
+  saveDate(s) {
+    console.log('save', s);
   }
 
   addPreferences() {
@@ -63,9 +69,15 @@ export class FillInformationComponent implements OnInit {
     this.fillInfo.pets = this.fillInfo.pets === true ? '1' : '0';
     this.fillInfo.min_price = this.fillInfo.price_range[0];
     this.fillInfo.max_price = this.fillInfo.price_range[1];
-
-    this.fillInfo.planning_to_buy = new ChatTimePipe().transform(this.fillInfo.planning_to_buy, 'YYYY-MM-DD HH:MM:SS', 3);
-
+    console.log('before', this.fillInfo);
+    if (this.fillInfo.planning_to_buy === 'Invalid date') {
+console.log('yes');
+      this.fillInfo.planning_to_buy = '';
+    } else {
+      console.log('np');
+      this.fillInfo.planning_to_buy = new ChatTimePipe().transform(this.fillInfo.planning_to_buy, 'YYYY-MM-DD HH:MM:SS', 3);
+    }
+    console.log('fil', this.fillInfo);
     this.admin.postDataApi('leads/addPreferences', this.fillInfo).subscribe(r => {
       swal('Success', this.constant.successMsg.DETAILS_UPDATED_SUCCESSFULLY, 'success');
     });
