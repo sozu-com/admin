@@ -31,7 +31,7 @@
         <hr style="margin-top:0;">
       </div>
   </div>
-
+<!-- 
   <div class="sigle-row-table">
     <table class="table table-striped">
         <tr>
@@ -130,7 +130,122 @@
             </p>
         </div>
       </div>
+  </div> -->
+
+
+
+
+  <div class="sigle-row-table">
+                      
+        <table class="table table-striped">
+           <tr>
+              <td> <img class="rounded-circle" src="http://via.placeholder.com/50x50" alt="img"></td>
+              <td class="text-left">
+                 <span class="name">Lillian Russell</span>
+              </td>
+              <td class="text-left">
+                 728-111-1874
+              </td>
+              <td class="text-left">
+                 eunice_aufderhar@yahoo.com
+              </td>
+              <td>
+                 14
+              </td>
+              <td>
+                 <a href="javascript://" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
+                 <a href="javascript://" class="icon-block block-icon"><img src="assets/img/block.png" alt="img"></a>
+              </td>
+           </tr>
+        </table>
+     
   </div>
+  <div class="row">
+     
+   <div class="col-lg-8 col-md-12 col-sm-12 col-12">
+        <div class="info-box all-leads">
+           <div class="row">
+              <div class="col-md-6 col-sm-6 col-12 active">
+                 <div class="one-row ">
+                    <div class="o-block">
+                       <h5>Leads</h5>
+                       <small>Total</small>
+                    </div>
+                    <div class="o-block">
+                       <a class="view-all" href="javascript://">View All</a>
+                       <h4>26</h4>
+                    </div>
+                 </div>
+              </div>
+              <div class="col-md-6 col-sm-6 col-12">
+                 <div class="one-row">
+                    <div class="o-block">
+                       <h5>Leads</h5>
+                       <small>Without Broker</small>
+                    </div>
+                    <div class="o-block">
+                       <a class="view-all" href="javascript://">View All</a>
+                       <h4>10</h4>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+                      <div class="info-box all-leads">
+           <div class="row">
+              <div class="col-md-6 col-sm-6 col-12">
+                 <div class="one-row ">
+                    <div class="o-block">
+                       <h5>Leads</h5>
+                       <small>Information Filled</small>
+                    </div>
+                    <div class="o-block">
+                       <a class="view-all" href="javascript://">View All</a>
+                       <h4>26</h4>
+                    </div>
+                 </div>
+              </div>
+              <div class="col-md-6 col-sm-6 col-12">
+                 <div class="one-row">
+                    <div class="o-block">
+                       <h5>Leads</h5>
+                       <small>Broker Assigned</small>
+                    </div>
+                    <div class="o-block">
+                       <a class="view-all" href="javascript://">View All</a>
+                       <h4>10</h4>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+
+     </div>
+     <div class="col-lg-4 col-md-12 col-sm-12 col-12">
+        <div class="chat-msg all-leads">
+           <div class="row">
+              <div class="col-6">
+                 <h5>Chat</h5>
+              </div>
+              <div class="col-6 text-right"><a class="msg" href="javascript://">Message</a></div>
+           </div>
+           <p>Waiting for response</p>
+           <p>
+              <strong>Mario Hudson</strong>
+              When you are free to have a meeting 
+              with interested customers?
+           </p>
+           <p>
+              <strong>Rosie Benson</strong>
+              Is there any availability in the localities
+              I was asking you tomorrow and also p…
+           </p>
+        </div>
+     </div>
+
+
+
+
 
   <div class="row">
       <div class="col-12">
@@ -189,6 +304,7 @@
                         <label>Assignee</label>
                     </div>
                   </th>
+                  
                   <th >
                     <!-- Mark
                     Complete -->
@@ -208,8 +324,9 @@
                 <td class="text-left" *ngIf="item.email">{{item.email}}</td>
                 <td class="text-left" *ngIf="!item.email">NA</td>
                 <td>
-                    <span *ngFor="let conf of item.configuration">
+                    <span *ngFor="let conf of item.configuration; let ii=index">
                         {{conf.name}}
+                        <span *ngIf="ii<item?.configuration?.length-1">,</span>
                     </span>
                     <span *ngIf="item.configuration?.length==0">NA</span>
                 </td>
@@ -224,6 +341,10 @@
             </table>
         </div>
       </div>
+
+    <div class="center" *ngIf="items?.length == 0">
+        <img src="assets/img/404-error.png">
+    </div>
   </div>
 
   <div class="btn-cont text-right marginT15" *ngIf="parameter.total">

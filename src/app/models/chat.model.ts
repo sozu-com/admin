@@ -10,6 +10,7 @@ export class Chat {
     attachment: string;
     loading: boolean;
     conversation_user: ConversationUser;
+    random: number;
 }
 
 export class ConversationUser {

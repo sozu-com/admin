@@ -2376,7 +2376,7 @@ position: relative;
 }
 
 .chat-vid .vid-img, 
-.chat-user-one .chat-vid span{ width:160px !important; height:120px; position: relative;}
+.chat-user-one .chat-vid span{ width:120px !important; height:120px; position: relative;}
 
 .chat-user-one .chat-vid span, 
 .chat-user-one video, 
@@ -2390,7 +2390,7 @@ position: relative;
 }
 
 .chat-vid .vid-img, 
-.chat-user-two .chat-vid span{ width:160px !important; height:120px; position: relative;}
+.chat-user-two .chat-vid span{ width:120px !important; height:120px; position: relative;}
 
 .chat-user-two .chat-vid span, 
 .chat-user-two video, 

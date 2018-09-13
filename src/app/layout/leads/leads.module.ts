@@ -9,6 +9,7 @@ import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 // import { NgBoxModule } from 'ngbox/ngbox.module';
 // import { NgBoxService } from 'ngbox/ngbox.service';
 import { NouisliderModule } from 'ng2-nouislider';
+import { RemoveCommaPipe } from './../../pipes/remove-comma.pipe';
 import { MomentPipe } from './../../pipes/moment.pipe';
 import { ChatTimePipe } from './../../pipes/chat-time.pipe';
 import { LeadsComponent } from './leads.component';
@@ -66,6 +67,7 @@ const routes: Routes = [
     ChatComponent,
     InterestedPropertyComponent,
     ViewedPropertyComponent,
+    RemoveCommaPipe,
     MomentPipe,
     ChatTimePipe,
     NotesComponent,

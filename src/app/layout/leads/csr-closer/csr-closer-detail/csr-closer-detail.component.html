@@ -62,8 +62,9 @@
                   <tr>
                      <td style="padding-left:0"><label>Interested In</label></td>
                      <td *ngIf="parameter?.lead?.configuration">
-                       <span *ngFor="let conf of parameter.lead.configuration">
-                         {{conf.name}},
+                       <span *ngFor="let conf of parameter.lead.configuration; let ii=index">
+                         {{conf.name}}
+                         <span *ngIf="ii<parameter?.lead?.configuration?.length-1">,</span>
                        </span>
                        <span *ngIf="parameter.lead.configuration?.length == 0">NA</span>
                      </td>
@@ -155,7 +156,7 @@
                      </tr>
                      <tr>
                         <td><label>Commission (1.45%)</label></td>
-                        <td><strong>${{selectedProperties.total_amount}}</strong></td>
+                        <td><strong>${{selectedProperties.commision}}</strong></td>
                         <td class="text-right">
                            <div class="pending-status">Pending</div>
                         </td>
@@ -300,7 +301,7 @@
       <div class="modal-content notary-avail">
           <!-- <div class="modal-header modal-header-new"> -->
             <div class="modal-header modal-header-new">
-            <h4 class="modal-title">All Uploaded Documents</h4>
+            <h4 class="modal-title">Uploaded Documents</h4>
             <button type="button" class="close" data-dismiss="modal">&times;</button>
           </div>
           <div class="modal-body modal-body-new">
@@ -318,7 +319,7 @@
                   <td>
                       <label class="cust-check-bx float-right">
                           <!-- <a target="_blank" href="https://docs.google.com/viewer?url={{upDocument.attachment}}">View</a> -->
-                          <a target="_blank" href="{{upDocument.attachment}}">View</a>
+                          <a target="_blank" href="{{upDocument.attachment}}">Download</a>
                       </label>
                   </td>
                 </tr>

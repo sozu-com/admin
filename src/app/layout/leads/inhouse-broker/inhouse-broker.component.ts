@@ -40,6 +40,11 @@ export class InhouseBrokerComponent implements OnInit {
     this.getListing();
   }
 
+  getPage(page) {
+    this.parameter.page = page;
+    this.getListing();
+  }
+
   getListing() {
     this.parameter.url = 'leads/in-house-broker';
 

@@ -91,8 +91,8 @@
       </div>
     </div>
 
-    <input id="message" autocomplete="off" (change)="setText($event.target.value, 1)" [(ngModel)]="model.message" (keyup.enter)="sendMessage()" class="chat-input" type="text" name="message" placeholder="Type your message here …">
-    <!-- <input id="message" autocomplete="off" *ngIf="model.message_type == 1" [(ngModel)]="model.message" (keyup.enter)="sendMessage()" class="chat-input" type="text" name="message" placeholder="Type your message here …"> -->
+    <!-- <input id="message" autocomplete="off" (change)="setText($event.target.value, 1)" [(ngModel)]="model.message" (keyup.enter)="sendMessage()" class="chat-input" type="text" name="message" placeholder="Type your message here …"> -->
+    <input id="message" autocomplete="off" [(ngModel)]="text" (change)="setText($event.target.value, 1)" (keyup.enter)="sendMessage()" class="chat-input" type="text" name="message" placeholder="Type your message here …">
 <!-- 
     <div class="chat-attached-file" *ngIf="model.message_type == 2">
       <div class="attached-inner">

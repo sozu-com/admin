@@ -21,6 +21,7 @@ import { LoginComponent } from './login/login.component';
 import { CommonService } from './services/common.service';
 import { Constant } from './common/constants';
 import { MomentPipe } from './pipes/moment.pipe';
+import { RemoveCommaPipe } from './pipes/remove-comma.pipe';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent},
@@ -36,6 +37,7 @@ const appRoutes: Routes = [
     ForgotPasswordComponent,
     LoginComponent,
     PageNotFoundComponent,
+    // RemoveCommaPipe,
     // MomentPipe
   ],
   imports: [
