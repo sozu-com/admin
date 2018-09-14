@@ -2,17 +2,21 @@
 <div class="container-fluid">
   <div class="white-bg configuration-page">
       <div class="top-main-img-outer">
-        <div class="avl">Available for Rent</div>
+        <div class="avl">Available for
+            <span *ngIf="property?.for_rent">Rent</span>
+            <span *ngIf="property?.for_rent && property?.for_sale">/</span>
+            <span *ngIf="property?.for_sale">Sale</span>
+        </div>
         <div class="fig-block">
-            <img class="img-fluid top-main-img" [src]="property?.image" onerror='this.src="assets/img/bank.png"'>
+            <img class="img-fluid top-main-img" [src]="property?.image" onerror='this.src="assets/img/loading_image_1.gif"'>
       </div> 
       </div>
       <div class="padding30">
         <div class="apart-info ">
-            <p *ngIf="property?.configuration" class="p14">{{property.configuration.name}} {{property.property_type.name}}</p>
-            <p class="p12">{{property.bedroom}} Bed, {{property.bathroom}} Bath</p>
+            <p *ngIf="property?.configuration" class="p14">{{property?.configuration.name}} {{property?.property_type.name}}</p>
+            <p class="p12">{{property?.bedroom}} Bed, {{property?.bathroom}} Bath</p>
 
-            <h6 class="float-left">{{property.max_area}} sqft.</h6> <h6 class="float-right">{{property.max_price|thousand}}</h6>
+            <h6 class="float-left">{{property?.max_area}} sqft.</h6> <h6 class="float-right">{{property?.max_price|thousand}}</h6>
             <div class="clearfix"></div>
         </div> 
         <div class="building-name">
@@ -21,6 +25,7 @@
                 <p class="p12 marginB0">Building</p>
             </div>
             <div class="float-right"><a href="javascript://"><img src="assets/img/viewfull.png" alt="img"></a></div>
+            <!-- <div *ngIf="property.building" class="float-right" [routerLink]="['/project',property.building.id]"><a href="javascript://"><img src="assets/img/viewfull.png" alt="img"></a></div> -->
             <div class="clearfix"></div>
         </div>
 
@@ -28,7 +33,7 @@
         <div class="row">
             <div class="col-md-6 col-12">
                 <h4>Description</h4>
-                <p class="p15 newline">{{property.description}}</p>
+                <p class="p15 newline">{{property?.description}}</p>
 
                 <h4>Area</h4>
                 <div class="area-table" *ngIf="property?.carpet_areas">
@@ -73,10 +78,14 @@
                           <label>Pets Allowed</label>
                           <span>{{property?.pets?'Yes':'No'}}</span>
                           </td>
-                          <!-- <td *ngIf="marital_statuses">
+                          <td *ngIf="property?.marital_statuses">
                           <label>Available For</label>
-                          <span>{{marital_statuses}}</span>
-                          </td> -->
+                          <span *ngFor="let ms of property.marital_statuses; let i=index">
+                              {{ms.name}}
+                              <span *ngIf="i<property?.marital_statuses?.length-1">,</span>
+                            </span>
+                          </td>
+
                        </tr>
                     </tbody></table>
                 </div>
@@ -94,7 +103,7 @@
             </div>
             <div class="col-md-6 col-12">
                 <div class="fig-block text-center">
-                  <img src="assets/img/dummy-img2.png" alt="img">
+                    <img class="img-fluid" [src]="property.floor_plan" alt="img">
                 </div>
             </div>
 
