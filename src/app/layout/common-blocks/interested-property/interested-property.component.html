@@ -46,7 +46,7 @@
     </div>
   </div>
   <div *ngIf="interested_properties?.length == 0">
-    <p class="show-error">
+    <p class="show-not-found">
       {{constant.errorMsg.NO_INTERESTED_PROPERTY_FOUND}}
     </p>
   </div>
@@ -100,7 +100,7 @@
                 </div>
               </div>
               <div *ngIf="parameter?.items?.length==0">
-                <p class="show-error">No property found for selected filters.</p>
+                <p class="show-not-found">No property found for selected filters.</p>
               </div>
           </div>
       </div>

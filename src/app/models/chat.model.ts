@@ -1,5 +1,7 @@
 export class Chat {
     conversation_id: number;
+    id: number;
+    uid: any;
     admin_id: string;
     message: string;
     message_type = 1; // Text = 1, Image = 2, Video = 3, Attachement = 4

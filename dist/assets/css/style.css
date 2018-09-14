@@ -2376,7 +2376,7 @@ position: relative;
 }
 
 .chat-vid .vid-img, 
-.chat-user-one .chat-vid span{ width:120px !important; height:120px; position: relative;}
+.chat-user-one .chat-vid span{ width:160px !important; height:120px; position: relative;}
 
 .chat-user-one .chat-vid span, 
 .chat-user-one video, 
@@ -2390,7 +2390,7 @@ position: relative;
 }
 
 .chat-vid .vid-img, 
-.chat-user-two .chat-vid span{ width:120px !important; height:120px; position: relative;}
+.chat-user-two .chat-vid span{ width:160px !important; height:120px; position: relative;}
 
 .chat-user-two .chat-vid span, 
 .chat-user-two video, 
@@ -2623,3 +2623,28 @@ position: relative;
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+
+  .search .btn-light {
+    background-color: transparent;
+    margin-top: -63px;
+    border: none;
+}
+.search .form-control{padding-left: 50px; box-shadow:none; outline:none;     border: 1px solid #ced4da;  }
+
+.invoice-block {
+    display: block;
+    border-bottom: solid 1px #dee2e6;
+    padding: 16px;
+}
+
+ .invoice-note .note-here{border: solid 1px #dee2e6; padding:20px;  min-height:100px;    }
+
+ .invoice-details-block .table{ border:solid 1px #dee2e6; margin-top:30px;    }
+
+ .invoice-details {
+    padding-left: 30px;
+}
+
+.invoice-block.active{ background-color:#f1f1f1;  }
+#view-viewed-property .modal-dialog .modal-content, 
+#view-all .modal-dialog .modal-content{background-color:#f4f4f4; }

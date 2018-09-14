@@ -26,6 +26,7 @@ export class ChatComponent implements OnInit {
   @Input('user_id') user_id;
   @Input('sent_as') sent_as;
   // loadingMessages = false;
+  textMessage: any;
   durationInSec = 0;
   showVideo = true;
   video: any;
@@ -56,7 +57,7 @@ export class ChatComponent implements OnInit {
       const input = {lead_id: this.lead_id, user_id: this.user_id, sent_as: this.sent_as};
       this.initSocket();
       this.getMessages();
-    }, 1000);
+    }, 100);
   }
 
   getMessages() {
@@ -121,16 +122,48 @@ export class ChatComponent implements OnInit {
     return year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
   }
 
+  // onSelectFile(param, event) {
+  //   this.optionsButton.nativeElement.click();
+  //   this.model = new Chat();
+  //   this.model.loading = true;
+  //   console.log('model', this.model);
+  //   this.model.message_type = 2;
+  //   this.model.conversation_user = {admin_id: this.admin_id};
+  //   this.model.admin_id = this.admin_id;
+  //   console.log('model', this.model);
+  //   this.parameter.messages.push(this.model);
+  //   setTimeout(() => {
+  //     this.scrollToBottom();
+  //   }, 100);
+
+  //   if (event.target.files && event.target.files[0]) {
+  //     const reader = new FileReader();
+  //     reader.onload = (e: any) => {
+  //         this.image = e.target.result;
+  //         this.model[param] = e.target.result;
+  //         this.cs.saveImage(event.target.files[0]).subscribe(
+  //           success => {
+  //             this.model.image = success['data'].image;
+  //             this.sendMessage();
+  //           }
+  //         );
+  //     };
+  //     reader.readAsDataURL(event.target.files[0]);
+  //   }
+  // }
+
   onSelectFile(param, event) {
+
+    const model = new Chat;
+    model.message = this.textMessage;
+    model.message_type = 2;
+    model.loading = true;
+    model.conversation_user = {admin_id: this.admin_id};
+    model.admin_id = this.admin_id;
+    this.parameter.messages.push(model);
+
     this.optionsButton.nativeElement.click();
-    this.model = new Chat();
-    this.model.loading = true;
-    console.log('model', this.model);
-    this.model.message_type = 2;
-    this.model.conversation_user = {admin_id: this.admin_id};
-    this.model.admin_id = this.admin_id;
-    console.log('model', this.model);
-    this.parameter.messages.push(this.model);
+
     setTimeout(() => {
       this.scrollToBottom();
     }, 100);
@@ -139,11 +172,11 @@ export class ChatComponent implements OnInit {
       const reader = new FileReader();
       reader.onload = (e: any) => {
           this.image = e.target.result;
-          this.model[param] = e.target.result;
+          model[param] = e.target.result;
           this.cs.saveImage(event.target.files[0]).subscribe(
             success => {
-              this.model.image = success['data'].image;
-              this.sendMessage();
+              model.image = success['data'].image;
+              this.sendMessage(model);
             }
           );
       };
@@ -152,23 +185,24 @@ export class ChatComponent implements OnInit {
   }
 
   saveAttachment(event) {
-    this.optionsButton.nativeElement.click();
-    this.model = new Chat();
-    this.model.loading = true;
-    this.model.message_type = 4;
-    this.model.conversation_user = {admin_id: this.admin_id};
-    this.model.admin_id = this.admin_id;
-    console.log('model', this.model);
-    this.parameter.messages.push(this.model);
+    const model = new Chat;
+    model.message = this.textMessage;
+    model.message_type = 4;
+    model.loading = true;
+    model.conversation_user = {admin_id: this.admin_id};
+    model.admin_id = this.admin_id;
+    model.attachment_name = event.target.files[0].name;
+    this.parameter.messages.push(model);
+
     setTimeout(() => {
       this.scrollToBottom();
     }, 100);
 
     this.cs.saveAttachment(event.target.files[0]).subscribe(
       success => {
-        this.model.attachment = success['data'].name;
-        this.model.attachment_name = event.target.files[0].name;
-        this.sendMessage();
+        model.attachment = success['data'].name;
+        console.log('==>', model);
+        this.sendMessage(model);
       }
     );
   }
@@ -177,16 +211,43 @@ export class ChatComponent implements OnInit {
     this.parameter.messages[i].play = true;
   }
 
+  // saveAttachment(event) {
+  //   this.optionsButton.nativeElement.click();
+  //   this.model = new Chat();
+  //   this.model.loading = true;
+  //   this.model.message_type = 4;
+  //   this.model.conversation_user = {admin_id: this.admin_id};
+  //   this.model.admin_id = this.admin_id;
+  //   console.log('model', this.model);
+  //   this.parameter.messages.push(this.model);
+  //   setTimeout(() => {
+  //     this.scrollToBottom();
+  //   }, 100);
+
+  //   this.cs.saveAttachment(event.target.files[0]).subscribe(
+  //     success => {
+  //       this.model.attachment = success['data'].name;
+  //       this.model.attachment_name = event.target.files[0].name;
+  //       this.sendMessage();
+  //     }
+  //   );
+  // }
+
+  // playVideo(i) {
+  //   this.parameter.messages[i].play = true;
+  // }
+
 
   showCanvas(event) {
     this.optionsButton.nativeElement.click();
     this.showVideo = true;
-    this.model.message_type = 3;
-    this.model.conversation_user = {admin_id: this.admin_id};
-    this.model.admin_id =  this.admin_id;
-    this.model.loading = true;
-    console.log('model', this.model);
-    this.parameter.messages.push(this.model);
+    const model = new Chat;
+    model.message = this.textMessage;
+    model.message_type = 3;
+    model.loading = true;
+    model.conversation_user = {admin_id: this.admin_id};
+    model.admin_id = this.admin_id;
+    this.parameter.messages.push(model);
 
     setTimeout(() => {
       this.scrollToBottom();
@@ -205,35 +266,96 @@ export class ChatComponent implements OnInit {
             this.durationInSec = videoTest.duration.toFixed(0);
             setTimeout(() => {
               // create canvas at middle of video
-              this.newcanvas(videoTest, event.target.files[0]);
-
-            }, (this.durationInSec / 2).toFixed(0));
+              this.newcanvas(videoTest, event.target.files[0], model);
+            }, 3000);
             clearInterval(timer);
           }
         }, 1000);
       }.bind(this);
       reader.readAsDataURL(event.target.files[0]);
+      // setTimeout(() => {
+      //   this.newcanvas(videoTest, event.target.files[0]);
+      // }, 4000);
     }, 1000);
   }
 
-  newcanvas(video, videoFile) {
+  newcanvas(video, videoFile, model) {
+
     const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+    console.log(canvas);
     const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
                                                       0, 0, canvas.width, canvas.height);
-
     const ImageURL = canvas.toDataURL('image/jpeg');
-    this.model.image = ImageURL;
+    model.image = ImageURL;
     const fileToUpload = this.dataURLtoFile(ImageURL, 'tempFile.png');
     this.cs.saveVideo(videoFile, fileToUpload).subscribe(
       success => {
-        this.model.video = success['data'].video;
-        this.model.image = success['data'].thumb;
-        this.sendMessage();
+        console.log('image', success);
+        model.video = success['data'].video;
+        model.image = success['data'].thumb;
+        this.sendMessage(model);
       }, error => {
         console.log(error);
       }
     );
   }
+
+  // showCanvas(event) {
+  //   this.optionsButton.nativeElement.click();
+  //   this.showVideo = true;
+  //   this.model.message_type = 3;
+  //   this.model.conversation_user = {admin_id: this.admin_id};
+  //   this.model.admin_id =  this.admin_id;
+  //   this.model.loading = true;
+  //   console.log('model', this.model);
+  //   this.parameter.messages.push(this.model);
+
+  //   setTimeout(() => {
+  //     this.scrollToBottom();
+  //   }, 100);
+
+  //   setTimeout(() => {
+  //     this.video = document.getElementById('video1');
+  //     const reader = new FileReader();
+  //     const videoTest = this.element.nativeElement.querySelector('.video55');
+  //     reader.onload = function(e) {
+  //       const src = e.target['result'];
+  //       videoTest.src = src;
+  //       const timer = setInterval( () => {
+  //         // find duration of video only of video is in ready state
+  //         if (videoTest.readyState === 4) {
+  //           this.durationInSec = videoTest.duration.toFixed(0);
+  //           setTimeout(() => {
+  //             // create canvas at middle of video
+  //             this.newcanvas(videoTest, event.target.files[0]);
+
+  //           }, (this.durationInSec / 2).toFixed(0));
+  //           clearInterval(timer);
+  //         }
+  //       }, 1000);
+  //     }.bind(this);
+  //     reader.readAsDataURL(event.target.files[0]);
+  //   }, 1000);
+  // }
+
+  // newcanvas(video, videoFile) {
+  //   const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+  //   const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
+  //                                                     0, 0, canvas.width, canvas.height);
+
+  //   const ImageURL = canvas.toDataURL('image/jpeg');
+  //   this.model.image = ImageURL;
+  //   const fileToUpload = this.dataURLtoFile(ImageURL, 'tempFile.png');
+  //   this.cs.saveVideo(videoFile, fileToUpload).subscribe(
+  //     success => {
+  //       this.model.video = success['data'].video;
+  //       this.model.image = success['data'].thumb;
+  //       this.sendMessage();
+  //     }, error => {
+  //       console.log(error);
+  //     }
+  //   );
+  // }
 
   dataURLtoFile(dataurl, filename) {
     const arr = dataurl.split(',');
@@ -253,63 +375,102 @@ export class ChatComponent implements OnInit {
     return _utc;
   }
 
-  setText (message, mt) {
-    this.text = '';
-    this.model = new Chat();
-    this.model.loading = true;
-    this.model.conversation_user = {admin_id: this.admin_id};
-    // const today = (new Date()).toUTCString();
-    // console.log('today', today);
-    // const today1 = new Date(today);
-    // console.log('today', today1);
-    // const r = (new Date()).getMilliseconds();
-    // console.log('date', this.toUTCDate(new Date(r)));
-    // // today = new ChatTimePipe().transform(today, 'YYYY-MM-DD HH:MM:SS', 3);
-    // this.model.updated_at = today;
-    // this.model.updated_at = this.js_yyyy_mm_dd_hh_mm_ss();
-    this.model.admin_id = this.admin_id;
-    this.model.message_type = mt;
-    this.model.message = message;
-    this.model.image = '';
-    this.model.video = '';
-    this.parameter.messages.push(this.model);
-    console.log(this.model, '=========');
-    this.scrollToBottom();
+  // setText (message, mt) {
+  //   this.text = '';
+  //   this.model = new Chat();
+  //   this.model.loading = true;
+  //   this.model.conversation_user = {admin_id: this.admin_id};
+  //   // const today = (new Date()).toUTCString();
+  //   // console.log('today', today);
+  //   // const today1 = new Date(today);
+  //   // console.log('today', today1);
+  //   // const r = (new Date()).getMilliseconds();
+  //   // console.log('date', this.toUTCDate(new Date(r)));
+  //   // // today = new ChatTimePipe().transform(today, 'YYYY-MM-DD HH:MM:SS', 3);
+  //   // this.model.updated_at = today;
+  //   // this.model.updated_at = this.js_yyyy_mm_dd_hh_mm_ss();
+  //   this.model.admin_id = this.admin_id;
+  //   this.model.message_type = mt;
+  //   this.model.message = message;
+  //   this.model.image = '';
+  //   this.model.video = '';
+  //   this.parameter.messages.push(this.model);
+  //   console.log(this.model, '=========');
+  //   this.scrollToBottom();
+  // }
+
+  // sendMessage(model) {
+  //   if (this.model.message_type === 1 && !this.model.message) {
+  //     // swal('Error', 'Please enter some text.', 'error');
+  //   } else {
+  //     this.model.conversation_id =  this.parameter.conversation_id;
+
+  //     // if (this.model.message_type === 1) {
+  //     //   this.model.conversation_user = {admin_id: this.admin_id};
+  //     //   this.model.admin_id = this.admin_id;
+  //     //   this.parameter.messages.push(this.model);
+  //     //   this.model.loading = true;
+  //     // }
+  //     this.admin.postDataApi('conversation/sendMessage', this.model).subscribe(r => {
+  //       setTimeout(() => {
+  //         this.scrollToBottom();
+  //       }, 200);
+  //       if (this.model.message_type !== 1) {
+  //         if (this.model.loading === true) {
+  //           this.model.loading = false;
+  //           this.parameter.messages.splice(-1, 1);
+  //           this.parameter.messages.push(r['data']);
+  //         }else {
+  //           this.parameter.messages.push(r['data']);
+  //         }
+  //       }
+  //       this.model = new Chat;
+  //       // this.model.conversation_user.user_id = this.loginData.id;
+  //     },
+  //     error => {
+  //       swal('Error', error.error.message, 'error');
+  //     });
+  //   }
+
+  // }
+
+
+  setText() {
+    if (!this.textMessage) {
+      return false;
+    }
+    const model = new Chat;
+    model.message = this.textMessage;
+    model.message_type = 1;
+    model.loading = true;
+    model.conversation_user = {admin_id: this.admin_id};
+    model.admin_id = this.admin_id;
+    this.parameter.messages.push(model);
+    this.textMessage = '';
+    this.sendMessage(model);
   }
 
-  sendMessage() {
-    if (this.model.message_type === 1 && !this.model.message) {
-      // swal('Error', 'Please enter some text.', 'error');
+  sendMessage(model) {
+    if (model.message_type === 1 && !model.message) {
+      swal('Error', 'Please enter some text.', 'error');
     } else {
-      this.model.conversation_id =  this.parameter.conversation_id;
-
-      // if (this.model.message_type === 1) {
-      //   this.model.conversation_user = {admin_id: this.admin_id};
-      //   this.model.admin_id = this.admin_id;
-      //   this.parameter.messages.push(this.model);
-      //   this.model.loading = true;
-      // }
-      this.admin.postDataApi('conversation/sendMessage', this.model).subscribe(r => {
+      model.conversation_id =  this.parameter.conversation_id;
+      console.log('Appending', model);
+      this.admin.postDataApi('conversation/sendMessage', model).subscribe(r => {
+        console.log('sendMessage', r);
         setTimeout(() => {
           this.scrollToBottom();
-        }, 200);
-        if (this.model.message_type !== 1) {
-          if (this.model.loading === true) {
-            this.model.loading = false;
-            this.parameter.messages.splice(-1, 1);
-            this.parameter.messages.push(r['data']);
-          }else {
-            this.parameter.messages.push(r['data']);
-          }
+        }, 100);
+        if (model.loading === true) {
+          model.loading = false;
+          const date = new Date();
+          model.updated_at = date.getUTCDate();
         }
-        this.model = new Chat;
-        // this.model.conversation_user.user_id = this.loginData.id;
       },
       error => {
         swal('Error', error.error.message, 'error');
       });
     }
-
   }
 
   // onSelectFile(param, event) {

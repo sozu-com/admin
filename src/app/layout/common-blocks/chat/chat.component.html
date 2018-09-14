@@ -5,9 +5,10 @@
       </div> 
 
       <div *ngFor="let m of parameter.messages; let i=index" class="chat-user" [ngClass]="m?.conversation_user?.admin_id == admin_id ? 'chat-user-one' : 'chat-user-two'">
-        <p *ngIf="m.message_type == 1" style="word-wrap: break-word;">
+          <p *ngIf="m.message_type == 1" style="word-wrap: break-word;">
+            <span *ngIf="m.loading" class="m-loader"><img src="assets/img/loading-p.gif"></span>
             <span>{{m.message}}</span>
-        </p>
+          </p>
 
         <a *ngIf="m.message_type == 2" href="{{m.image}}" data-lightbox="image">
           <span>
@@ -23,13 +24,6 @@
           </span>
         </a> -->
         
-        <a *ngIf="m.message_type == 3" href="{{m.video}}" target="_blank" title="Video" class="chat-vid">
-          <span class="new-loader">
-            <img class="ui bordered small image" src="{{m.image}}">
-            <img *ngIf="!m.loading" class="vid-icon" (click)="playVideo(i)" src="assets/img/play-button.png" />
-            <div *ngIf="m.loading" class="loaderr"></div>
-          </span>
-        </a>
         
         <div class="chat-shared-file" *ngIf="m.message_type == 4">
           <p *ngIf="m.loading" class="m-loader"><img src="assets/img/loading-p.gif"></p>
@@ -39,18 +33,23 @@
           </span>
         </div>
         
-        <!-- <a *ngIf="m.message_type == 3" href="{{m.video}}" data-lightbox="youtube" data-title="My caption">
-          <img class="ui bordered small image" src="{{m.image}}">
+        <!-- <a *ngIf="m.message_type == 3" href="{{m.video}}" title="Video" class="chat-vid">
+          <span >
+            <img class="ui bordered small image" src="{{m.image}}">
+            <img *ngIf="!m.loading" class="vid-icon" (click)="playVideo(i)" src="assets/img/play-button.png" />
+            <div *ngIf="m.loading" class="loaderr"></div>
+          </span>
         </a> -->
-        
-        <!-- <div class="chat-vid" *ngIf="m.message_type == 3 && !m.play">
+
+        <div class="chat-vid" *ngIf="m.message_type == 3 && !m.play">
           <span>
-            <img class="vid-img" src="{{m.image}}">
-            <img class="vid-icon" (click)="playVideo(i)" src="assets/img/play-button (2).png"/>
-            <div class="clearfix"></div>
+              <img class="ui bordered small image" src="{{m.image}}">
+              <img *ngIf="!m.loading" class="vid-icon" (click)="playVideo(i)" src="assets/img/play-button.png" />
+              <div *ngIf="m.loading" class="loaderr"></div>
+              <div class="clearfix"></div>
         </span>
-        </div> -->
-        <!-- <video *ngIf="m.message_type == 3 && m.play" src="{{m.video}}" autoplay type="video/mp4" controls></video> -->
+        </div>
+        <video *ngIf="m.message_type == 3 && m.play" src="{{m.video}}" autoplay type="video/mp4" controls></video>
         
         <!-- <div class="chat-shared-file" *ngIf="m.message_type == 4">
           <a href="javascript://" href="{{m.attachment}}"><span>{{m.attachment_name}}</span>
@@ -58,9 +57,9 @@
         </div> -->
         
         <span class="time" *ngIf="m.updated_at">
-            {{m.updated_at  | moment}}
-        <!-- {{m.updated_at  | chatTime: 'YYYY-MM-DD H:m:s': 1}} -->
-        </span>
+            {{m.updated_at| moment}} {{m.uid}}
+          <!-- {{m.updated_at | date: 'shortTime'}}, {{m.updated_at | date: 'longDate'}} -->
+          </span>
       </div>
   </div>
 
@@ -92,7 +91,7 @@
     </div>
 
     <!-- <input id="message" autocomplete="off" (change)="setText($event.target.value, 1)" [(ngModel)]="model.message" (keyup.enter)="sendMessage()" class="chat-input" type="text" name="message" placeholder="Type your message here …"> -->
-    <input id="message" autocomplete="off" [(ngModel)]="text" (change)="setText($event.target.value, 1)" (keyup.enter)="sendMessage()" class="chat-input" type="text" name="message" placeholder="Type your message here …">
+    <input id="message" autocomplete="off" [(ngModel)]="textMessage" (keyup.enter)="setText()" class="chat-input" type="text" name="message" placeholder="Type your message here …">
 <!-- 
     <div class="chat-attached-file" *ngIf="model.message_type == 2">
       <div class="attached-inner">
@@ -120,7 +119,7 @@
         </div>
       </div>
     </div> -->
-    <video style="width: 100%; height: 100%;" src="{{model.video}}" class="video55" autoplay type="video/mp4" controls></video>
+    <video style="width: 100%; height: 100%;" src="{{videoSrc}}" class="video55" autoplay type="video/mp4" controls></video>
     <canvas style="display: none;" width="800" height="600" id="canvas"></canvas>
 
     <button (click)="sendMessage()" class="btn">Send</button>

@@ -23,7 +23,7 @@
       <pre class="p13">{{item.note}}</pre>
   </div>
 </div>
-<p class="show-error" *ngIf="parameter.items?.length==0">
+<p class="show-not-found" *ngIf="parameter.items?.length==0">
   {{constant.errorMsg.NO_NOTE_FOUND}}
 </p>
 
