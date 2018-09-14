@@ -71,6 +71,13 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       console.log('getNoataries', r);
       this.showNotaries.nativeElement.click();
       this.parameter.items = r.data;
+      for (let index = 0; index < this.parameter.items.length; index++) {
+        const element = this.parameter.items[index];
+        const id = this.selectedProperties.noataries[0] ? this.selectedProperties.noataries[0].id : 0;
+        if (id !== 0 && element.id === id) {
+          this.parameter.items.splice(index, 1);
+        }
+      }
     });
   }
 
@@ -86,6 +93,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes'
     }).then((result) => {
+      alert('csdfsdf');
       if (result.value) {
         this.selectedProperties.noataries = [notary];
         // this.hideNotaries.nativeElement.click();
@@ -95,8 +103,18 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
           this.notaryModel = new NotaryAssigned();
           this.hideNotaries.nativeElement.click();
         });
+      } else if (result.dismiss === 'cancel') {
+        alert('c');
+     }else {
+      alert('ca');
       }
-    });
+    }, function(dismiss){
+      alert('csfd');
+    }
+      // if(dismiss == 'cancel'){
+      //     // function when cancel button is clicked
+      // }
+      );
   }
 
   getBanks(property_id) {
@@ -106,6 +124,13 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       console.log('getbanks', r);
       this.showBanks.nativeElement.click();
       this.parameter.banks = r.data;
+      for (let index = 0; index < this.parameter.banks.length; index++) {
+        const element = this.parameter.banks[index];
+        const selectedBankId = this.selectedProperties.banks[0] ? this.selectedProperties.banks[0].id : 0;
+        if (selectedBankId !== 0 && element.id === selectedBankId) {
+          this.parameter.banks.splice(index, 1);
+        }
+      }
     });
   }
 

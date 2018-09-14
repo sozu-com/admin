@@ -7,7 +7,8 @@
    <div class="col-6">
         <div class="btn-cont text-right">
           <a style="display: none;" class="btn btn-fourth" #showPropertyModal href="javascript://" data-toggle="modal" data-target="#add-property">Add</a>
-          <a class="btn btn-fourth" href="javascript://" (click)="showModal()">Add</a>
+          <!-- <a class="btn btn-fourth" href="javascript://" (click)="showModal()">Add</a> -->
+          <a class="btn btn-fourth" href="javascript://" (click)="showProperties(lead_id)">Add</a>
           <a style="display: none;" data-toggle="modal" #showInterestedProperty data-target="#view-all" class="btn btn-fourth" href="javascript://">View All</a>
           <a *ngIf="interested_properties?.length!=0" class="btn btn-fourth" href="javascript://" (click)="viewProperties(interested_properties)">View All</a>
         </div>
@@ -19,7 +20,7 @@
     <div class="col-lg-4 col-md-12 col-sm-12 col-12" *ngFor="let data of interested_properties; let in=index">
 
     <div *ngIf="data.property.building && data && in<3" class="project-des-bx white-bg">
-      <div class="price">${{data.property.min_price}}</div>
+      <div class="price">{{data.property.min_price|thousand}}+</div>
       <div class="fig-block">
         <img [src]="data.property.image" onerror='src="assets/img/bank.png"' alt="img">
       </div>
@@ -62,17 +63,57 @@
             <button type="button" class="close" data-dismiss="modal" #hidePropertyModal>&times;</button>
           </div>
           <div class="modal-body">
+              <!-- <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                      <label>Choose Country</label>
+                        <select required title="Choose Country" class="form-control" (change)="setCountryId($event.target.value)">
+                          <option value="" disabled>Select Country</option>
+                          <option *ngFor="let country of parameter.countries" [selected]="country.id == parameter.country_id" value="{{country.id}}">{{country.name}}</option>
+                        </select>
+                      </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>Choose State</label>
+                        <select required title="Choose State" class="form-control" (change)="setStateId($event.target.value)">
+                          <option value="" disabled>Select State</option>
+                          <option *ngFor="let state of parameter.states" [selected]="state.id == parameter.state_id" value="{{state.id}}">{{state.name}}</option>
+                        </select>
+                      </div>
+                </div>
+              </div>
+              <div class="row">
+                  <div class="col-6">
+                      <div class="form-group">
+                          <label>Choose City</label>
+                          <select required title="Choose City" class="form-control" (change)="setCountryId($event.target.value)">
+                            <option value="" disabled>Select City</option>
+                            <option *ngFor="let city of parameter.countries" [selected]="city.id == parameter.city_id" value="{{city.id}}">{{city.name}}</option>
+                          </select>
+                        </div>
+                  </div>
+                  <div class="col-6">
+                      <div class="form-group">
+                          <label>Choose Locality</label>
+                          <select required title="Choose Locality" class="form-control" (change)="setStateId($event.target.value)">
+                            <option value="" disabled>Select State</option>
+                            <option *ngFor="let locality of parameter.states" [selected]="locality.id == parameter.locality_id" value="{{locality.id}}">{{locality.name}}</option>
+                          </select>
+                        </div>
+                  </div>
+                </div>
+   -->
               <div class="form-group">
-                <!-- <label>City</label> -->
-                <select required title="Choose City" class="form-control" (change)="homeSearch($event.target.value)">
+                <select required title="Choose City" class="form-control" (change)="propertySearch($event.target.value)">
                   <option value="" disabled>Select City</option>
                   <option *ngFor="let city of parameter.cities" [selected]="city.id == parameter.city_id" value="{{city.id}}">{{city.name}}</option>
                 </select>
               </div>
-                
+  
               <table class="table" *ngIf="parameter?.items?.length!=0">
                 <tbody>
-                  <tr *ngFor="let item of parameter.items">
+                  <tr *ngFor="let item of parameter.items; let i=index">
                     <td>
                         <div class="n-avail-profile">
                           <img [src]="item.image" onerror='src="assets/img/house.png"' alt="img">
@@ -85,20 +126,19 @@
                     </td>
                     <td>
                         <label class="cust-check-bx float-right">
-                        <input type="checkbox" name="document">
-                        <!-- <input type="radio" name="bank_id" (click)="addLeadInterestedProperty(item.id)"> -->
+                        <input type="radio" name="bank_id1" (click)="addLeadInterestedProperty(item.id)">
                         <span class="checkmark"></span>
                         </label>
                     </td>
                   </tr>
                 </tbody>
               </table>
-              <div class="row" *ngIf="parameter?.items?.length!=0">
+              <!-- <div class="row" *ngIf="parameter?.items?.length!=0">
                 <div class="col-12 center btn-cont">
                   <label style="display: block;">&nbsp;</label>
                   <button (click)="getInhouseUsers()" class="btn btn-primary">Add</button>
                 </div>
-              </div>
+              </div> -->
               <div *ngIf="parameter?.items?.length==0">
                 <p class="show-not-found">No property found for selected filters.</p>
               </div>
@@ -173,7 +213,7 @@
             <div class="row">
               <div class="col-lg-6 col-md-12 col-sm-12 col-12" *ngFor="let x of parameter.interested_properties">
                   <div class="project-des-bx white-bg-2">
-                      <div class="price">${{x.property.min_price}}</div>
+                      <div class="price">{{x.property.min_price|thousand}}+</div>
                     <div class="fig-block">
                         <img [src]="x.property.image" onerror='src="assets/img/bank.png"' alt="img">
                     </div>

@@ -18,6 +18,7 @@ export class FillInformation {
     family_size: number;
     car_type_id: string;
     pets: string;
+    kid_count: string;
     min_price: number;
     max_price: number;
     price_range: Array<number>;

@@ -31,8 +31,6 @@ export class HttpInterceptor extends Http {
         console.log('Request - ', url);
 
         if (url['url'] === this.baseUrl + 'conversation/sendMessage' ||
-            // url['url'] === this.baseIP + 'user/allCities' ||
-            // url['url'] === this.baseIP + 'user/homeSearch' ||
             url['url'] === this.baseUrl + 'getDocumentOptions' ||
             url['url'] === this.baseUrl + 'leads/getPrefOptions') {
             this.loader.next({value: false});

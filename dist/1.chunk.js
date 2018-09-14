@@ -21,7 +21,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/layout/common-blocks/chat/chat.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"white-bg\">\n    <div class=\"chat-area scrollbox\" malihu-scrollbar [scrollbarOptions]=\"scrollbarOptions\" style=\"height: 704px; width: 429px; padding-right: 17px; outline: none; overflow: hidden;\">\n      <div *ngIf=\"loadmore\" class=\"chat-load-more\" (click)=\"loadMore(admin_id)\" >\n        Previous Messages <img *ngIf=\"loadmoring\" src=\"assets/img/loading-p.gif\">\n      </div> \n\n      <div *ngFor=\"let m of parameter.messages; let i=index\" class=\"chat-user\" [ngClass]=\"m?.conversation_user?.admin_id == admin_id ? 'chat-user-one' : 'chat-user-two'\">\n          <p *ngIf=\"m.message_type == 1\" style=\"word-wrap: break-word;\">\n            <span *ngIf=\"m.loading\" class=\"m-loader\"><img src=\"assets/img/loading-p.gif\"></span>\n            <span>{{m.message}}</span>\n          </p>\n\n        <a *ngIf=\"m.message_type == 2\" href=\"{{m.image}}\" data-lightbox=\"image\">\n          <span>\n            <img class=\"ui bordered small image\" src=\"{{m.image}}\">\n            <div *ngIf=\"m.loading\" class=\"loaderr\"></div>\n          </span>\n        </a>\n\n        <!-- <a *ngIf=\"m.message_type == 2\" href=\"{{m.image}}\" target=\"_blank\"  title=\"image\" >\n          <span>\n            <img class=\"ui bordered small image\" src=\"{{m.image}}\">\n            <div *ngIf=\"m.loading\" class=\"loaderr\"></div>\n          </span>\n        </a> -->\n        \n        \n        <div class=\"chat-shared-file\" *ngIf=\"m.message_type == 4\">\n          <p *ngIf=\"m.loading\" class=\"m-loader\"><img src=\"assets/img/loading-p.gif\"></p>\n          <span *ngIf=\"!m.loading\">\n            <a href=\"javascript://\" href=\"{{m.attachment}}\"><span>{{m.attachment_name}}</span>\n            </a>\n          </span>\n        </div>\n        \n        <!-- <a *ngIf=\"m.message_type == 3\" href=\"{{m.video}}\" title=\"Video\" class=\"chat-vid\">\n          <span >\n            <img class=\"ui bordered small image\" src=\"{{m.image}}\">\n            <img *ngIf=\"!m.loading\" class=\"vid-icon\" (click)=\"playVideo(i)\" src=\"assets/img/play-button.png\" />\n            <div *ngIf=\"m.loading\" class=\"loaderr\"></div>\n          </span>\n        </a> -->\n\n        <div class=\"chat-vid\" *ngIf=\"m.message_type == 3 && !m.play\">\n          <span>\n              <img class=\"ui bordered small image\" src=\"{{m.image}}\">\n              <img *ngIf=\"!m.loading\" class=\"vid-icon\" (click)=\"playVideo(i)\" src=\"assets/img/play-button.png\" />\n              <div *ngIf=\"m.loading\" class=\"loaderr\"></div>\n              <div class=\"clearfix\"></div>\n        </span>\n        </div>\n        <video *ngIf=\"m.message_type == 3 && m.play\" src=\"{{m.video}}\" autoplay type=\"video/mp4\" controls></video>\n        \n        <!-- <div class=\"chat-shared-file\" *ngIf=\"m.message_type == 4\">\n          <a href=\"javascript://\" href=\"{{m.attachment}}\"><span>{{m.attachment_name}}</span>\n          </a>\n        </div> -->\n        \n        <span class=\"time\" *ngIf=\"m.updated_at\">\n            {{m.updated_at| moment}} {{m.uid}}\n          <!-- {{m.updated_at | date: 'shortTime'}}, {{m.updated_at | date: 'longDate'}} -->\n          </span>\n      </div>\n  </div>\n\n  <div style=\"position: absolute; z-index: 1; margin: 0px; padding: 0px; other: block; left: 581px; top: 91px;\"><div class=\"enscroll-track track3\" style=\"position: relative; height: 367px;\"><a href=\"\" class=\"handle3\" style=\"position: absolute; z-index: 1; height: 199.244px; top: 0px;\"><div class=\"top\"></div><div class=\"bottom\"></div></a></div></div>\n\n  <div class=\"chat-text\">\n    <div class=\"dropdown attach-items\">\n      <a href=\"javascript://\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" #optionsButton>\n     <i class=\"fa fa-paperclip\" aria-hidden=\"true\"></i>\n      </a>\n      <div class=\"dropdown-menu\">\n        <div class=\"dropdown-item\">\n          <input type=\"file\" name=\"image\" accept=\"image/*\" (change)=\"onSelectFile('image', $event)\">\n          <i class=\"fa fa-camera\" aria-hidden=\"true\"></i>\n          <span>Photo</span>\n        </div>\n        <a class=\"dropdown-item\"> \n          <!-- <input type=\"file\" name=\"video\" id=\"videoFileObject\" name=\"video\" accept=\"video/mp4,video/x-m4v,video/*\" (change)=\"showCanvas($event)\"> -->\n          <input type=\"file\" name=\"video1\" accept=\"video/mp4,video/x-m4v,video/*\" (change)=\"showCanvas($event)\">\n          <i class=\"fa fa-video-camera\" aria-hidden=\"true\"></i>\n          <span>Video</span>\n        </a>\n        <a class=\"dropdown-item\">    \n            <input type=\"file\" name=\"attachment\" accept=\".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf\" (change)=\"saveAttachment($event)\">\n          <i class=\"fa fa-file\" aria-hidden=\"true\"></i>\n          <span>Document</span>\n        </a>\n      </div>\n    </div>\n\n    <!-- <input id=\"message\" autocomplete=\"off\" (change)=\"setText($event.target.value, 1)\" [(ngModel)]=\"model.message\" (keyup.enter)=\"sendMessage()\" class=\"chat-input\" type=\"text\" name=\"message\" placeholder=\"Type your message here …\"> -->\n    <input id=\"message\" autocomplete=\"off\" [(ngModel)]=\"textMessage\" (keyup.enter)=\"setText()\" class=\"chat-input\" type=\"text\" name=\"message\" placeholder=\"Type your message here …\">\n<!-- \n    <div class=\"chat-attached-file\" *ngIf=\"model.message_type == 2\">\n      <div class=\"attached-inner\">\n        <a href=\"javascript://\" (click)=\"updateModel('image')\" class=\"close\">&times;</a>\n        <div class=\"fig-block\"><img class=\"img-fluid\" src=\"{{model.image}}\" alt=\"img\"></div>\n      </div>\n    </div>\n    <div class=\"chat-attached-file\" *ngIf=\"model.message_type == 3\">\n      <div class=\"attached-inner\">\n        <a href=\"javascript://\" (click)=\"updateModel('video')\" class=\"close\">&times;</a>\n        <div class=\"fig-block\">\n            <video style=\"width: 100%; height: 100%;\" src=\"{{model.video}}\" class=\"video55\" autoplay type=\"video/mp4\" controls></video>\n            <canvas style=\"display: none;\" width=\"800\" height=\"600\" id=\"canvas\"></canvas>\n        </div>\n      </div>\n    </div>\n    <div class=\"chat-attached-file\" *ngIf=\"model.message_type == 4\">\n      <div class=\"attached-inner\">\n        <a href=\"javascript://\" (click)=\"updateModel('video')\" class=\"close\">&times;</a>\n        <div class=\"fig-block\">\n          <div class=\"chat-shared-file\">\n            <a href=\"javascript://\"><span>{{model.attachment_name}}</span>\n            </a>\n          </div>\n        </div>\n      </div>\n    </div> -->\n    <video style=\"width: 100%; height: 100%;\" src=\"{{videoSrc}}\" class=\"video55\" autoplay type=\"video/mp4\" controls></video>\n    <canvas style=\"display: none;\" width=\"800\" height=\"600\" id=\"canvas\"></canvas>\n\n    <button (click)=\"sendMessage()\" class=\"btn\">Send</button>\n </div>\n</div>"
+module.exports = "<div class=\"white-bg\">\n    <div class=\"chat-area scrollbox\" malihu-scrollbar [scrollbarOptions]=\"scrollbarOptions\" style=\"height: 704px; width: 429px; padding-right: 17px; outline: none; overflow: hidden;\">\n      <div *ngIf=\"loadmore\" class=\"chat-load-more\" (click)=\"loadMore(admin_id)\" >\n        Previous Messages <img *ngIf=\"loadmoring\" src=\"assets/img/loading-p.gif\">\n      </div> \n\n      <div *ngFor=\"let m of parameter.messages; let i=index\" class=\"chat-user\" [ngClass]=\"m?.conversation_user?.admin_id == admin_id ? 'chat-user-one' : 'chat-user-two'\">\n          <p *ngIf=\"m.message_type == 1\" style=\"word-wrap: break-word;\">\n            <span *ngIf=\"m.loading\" class=\"m-loader\"><img src=\"assets/img/loading-p.gif\"></span>\n            <span>{{m.message}}</span>\n          </p>\n\n        <a *ngIf=\"m.message_type == 2\" href=\"{{m.image}}\" data-lightbox=\"image\">\n          <span>\n            <img class=\"ui bordered small image\" src=\"{{m.image}}\">\n            <div *ngIf=\"m.loading\" class=\"loaderr\"></div>\n          </span>\n        </a>\n\n        <!-- <a *ngIf=\"m.message_type == 2\" href=\"{{m.image}}\" target=\"_blank\"  title=\"image\" >\n          <span>\n            <img class=\"ui bordered small image\" src=\"{{m.image}}\">\n            <div *ngIf=\"m.loading\" class=\"loaderr\"></div>\n          </span>\n        </a> -->\n        \n        <div class=\"chat-shared-file\" *ngIf=\"m.message_type == 4\">\n          <p *ngIf=\"m.loading\" class=\"m-loader\">\n            <img style=\"width: 40px !important;\" src=\"assets/img/loading-p.gif\">\n          </p>\n          <span *ngIf=\"!m.loading\">\n            <a href=\"javascript://\" href=\"{{m.attachment}}\"><span>{{m.attachment_name}}</span>\n            </a>\n          </span>\n        </div>\n        \n        <!-- <a *ngIf=\"m.message_type == 3\" href=\"{{m.video}}\" title=\"Video\" class=\"chat-vid\">\n          <span >\n            <img class=\"ui bordered small image\" src=\"{{m.image}}\">\n            <img *ngIf=\"!m.loading\" class=\"vid-icon\" (click)=\"playVideo(i)\" src=\"assets/img/play-button.png\" />\n            <div *ngIf=\"m.loading\" class=\"loaderr\"></div>\n          </span>\n        </a> -->\n\n        <div class=\"chat-vid\" *ngIf=\"m.message_type == 3 && !m.play\">\n          <span>\n              <div *ngIf=\"m.loading\" class=\"loaderr\"></div>\n              <img *ngIf=\"m.image\" class=\"ui bordered small image\" src=\"{{m.image}}\">\n              <img *ngIf=\"!m.loading\" class=\"vid-icon\" (click)=\"playVideo(i)\" src=\"assets/img/play-button.png\" />\n              <div class=\"clearfix\"></div>\n        </span>\n        </div>\n        <video *ngIf=\"m.message_type == 3 && m.play\" src=\"{{m.video}}\" autoplay type=\"video/mp4\" controls></video>\n        \n        <!-- <div class=\"chat-shared-file\" *ngIf=\"m.message_type == 4\">\n          <a href=\"javascript://\" href=\"{{m.attachment}}\"><span>{{m.attachment_name}}</span>\n          </a>\n        </div> -->\n        <!-- m?.conversation_user?.admin_id == admin_id -->\n        <!-- {{m.conversation_user|json}} -->\n        <span class=\"time\" *ngIf=\"m.updated_at\">\n            {{m.updated_at| moment}}\n          </span>\n        <span class=\"time\" *ngIf=\"m?.conversation_user?.admin_id != admin_id\">\n          <strong>By - {{m?.conversation_user?.user?.name}}</strong>\n        </span>\n      </div>\n  </div>\n\n  <div style=\"position: absolute; z-index: 1; margin: 0px; padding: 0px; other: block; left: 581px; top: 91px;\"><div class=\"enscroll-track track3\" style=\"position: relative; height: 367px;\"><a href=\"\" class=\"handle3\" style=\"position: absolute; z-index: 1; height: 199.244px; top: 0px;\"><div class=\"top\"></div><div class=\"bottom\"></div></a></div></div>\n\n  <div class=\"chat-text\">\n    <div class=\"dropdown attach-items\">\n      <a href=\"javascript://\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" #optionsButton>\n     <i class=\"fa fa-paperclip\" aria-hidden=\"true\"></i>\n      </a>\n      <div class=\"dropdown-menu\">\n        <div class=\"dropdown-item\">\n          <input type=\"file\" name=\"image\" accept=\"image/*\" (change)=\"onSelectFile('image', $event)\">\n          <i class=\"fa fa-camera\" aria-hidden=\"true\"></i>\n          <span>Photo</span>\n        </div>\n        <a class=\"dropdown-item\"> \n          <input type=\"file\" name=\"video1\" accept=\"video/mp4,video/x-m4v,video/*\" (change)=\"showCanvas($event)\">\n          <i class=\"fa fa-video-camera\" aria-hidden=\"true\"></i>\n          <span>Video</span>\n        </a>\n        <a class=\"dropdown-item\">    \n            <input type=\"file\" name=\"attachment\" accept=\".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf\" (change)=\"saveAttachment($event)\">\n          <i class=\"fa fa-file\" aria-hidden=\"true\"></i>\n          <span>Document</span>\n        </a>\n      </div>\n    </div>\n\n    <!-- <input id=\"message\" autocomplete=\"off\" (change)=\"setText($event.target.value, 1)\" [(ngModel)]=\"model.message\" (keyup.enter)=\"sendMessage()\" class=\"chat-input\" type=\"text\" name=\"message\" placeholder=\"Type your message here …\"> -->\n    <input id=\"message\" autocomplete=\"off\" [(ngModel)]=\"textMessage\" (keyup.enter)=\"setText()\" class=\"chat-input\" type=\"text\" name=\"message\" placeholder=\"Type your message here …\">\n<!-- \n    <div class=\"chat-attached-file\" *ngIf=\"model.message_type == 2\">\n      <div class=\"attached-inner\">\n        <a href=\"javascript://\" (click)=\"updateModel('image')\" class=\"close\">&times;</a>\n        <div class=\"fig-block\"><img class=\"img-fluid\" src=\"{{model.image}}\" alt=\"img\"></div>\n      </div>\n    </div>\n    <div class=\"chat-attached-file\" *ngIf=\"model.message_type == 3\">\n      <div class=\"attached-inner\">\n        <a href=\"javascript://\" (click)=\"updateModel('video')\" class=\"close\">&times;</a>\n        <div class=\"fig-block\">\n            <video style=\"width: 100%; height: 100%;\" src=\"{{model.video}}\" class=\"video55\" autoplay type=\"video/mp4\" controls></video>\n            <canvas style=\"display: none;\" width=\"800\" height=\"600\" id=\"canvas\"></canvas>\n        </div>\n      </div>\n    </div>\n    <div class=\"chat-attached-file\" *ngIf=\"model.message_type == 4\">\n      <div class=\"attached-inner\">\n        <a href=\"javascript://\" (click)=\"updateModel('video')\" class=\"close\">&times;</a>\n        <div class=\"fig-block\">\n          <div class=\"chat-shared-file\">\n            <a href=\"javascript://\"><span>{{model.attachment_name}}</span>\n            </a>\n          </div>\n        </div>\n      </div>\n    </div> -->\n    <video style=\"width: 100%; height: 100%;\" src=\"{{videoSrc}}\" class=\"video55\" autoplay type=\"video/mp4\" controls></video>\n    <canvas style=\"display: none;\" width=\"800\" height=\"600\" id=\"canvas\"></canvas>\n\n    <button (click)=\"setText()\" class=\"btn\">Send</button>\n </div>\n</div>"
 
 /***/ }),
 
@@ -32,9 +32,10 @@ module.exports = "<div class=\"white-bg\">\n    <div class=\"chat-area scrollbox
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_admin_service__ = __webpack_require__("../../../../../src/app/services/admin.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_common_service__ = __webpack_require__("../../../../../src/app/services/common.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_chat_model__ = __webpack_require__("../../../../../src/app/models/chat.model.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_socket_io_client__ = __webpack_require__("../../../../socket.io-client/lib/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_socket_io_client__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common_constants__ = __webpack_require__("../../../../../src/app/common/constants.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__models_chat_model__ = __webpack_require__("../../../../../src/app/models/chat.model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_socket_io_client__ = __webpack_require__("../../../../socket.io-client/lib/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_socket_io_client__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChatComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -50,17 +51,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 // import * as $ from 'jquery';
 // declare var $: any;
 // const $ = require('jquery');
 // window.jQuery = $;
 // import * as jquery from 'jquery';
 var ChatComponent = /** @class */ (function () {
-    function ChatComponent(element, admin, cs, model) {
+    function ChatComponent(element, admin, cs, model, constant) {
         this.element = element;
         this.admin = admin;
         this.cs = cs;
         this.model = model;
+        this.constant = constant;
         this.durationInSec = 0;
         this.showVideo = true;
         this.videoObj = {
@@ -98,7 +101,7 @@ var ChatComponent = /** @class */ (function () {
     };
     ChatComponent.prototype.initSocket = function () {
         var _this = this;
-        this.parameter.socket = __WEBPACK_IMPORTED_MODULE_4_socket_io_client__["connect"](this.admin.socketUrl);
+        this.parameter.socket = __WEBPACK_IMPORTED_MODULE_5_socket_io_client__["connect"](this.admin.socketUrl);
         this.parameter.socket.on('connect', function (fun) {
             console.log('Socket Connected');
             _this.parameter.socket_id = _this.parameter.socket.id;
@@ -157,144 +160,108 @@ var ChatComponent = /** @class */ (function () {
         }
         return year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
     };
-    // onSelectFile(param, event) {
-    //   this.optionsButton.nativeElement.click();
-    //   this.model = new Chat();
-    //   this.model.loading = true;
-    //   console.log('model', this.model);
-    //   this.model.message_type = 2;
-    //   this.model.conversation_user = {admin_id: this.admin_id};
-    //   this.model.admin_id = this.admin_id;
-    //   console.log('model', this.model);
-    //   this.parameter.messages.push(this.model);
-    //   setTimeout(() => {
-    //     this.scrollToBottom();
-    //   }, 100);
-    //   if (event.target.files && event.target.files[0]) {
-    //     const reader = new FileReader();
-    //     reader.onload = (e: any) => {
-    //         this.image = e.target.result;
-    //         this.model[param] = e.target.result;
-    //         this.cs.saveImage(event.target.files[0]).subscribe(
-    //           success => {
-    //             this.model.image = success['data'].image;
-    //             this.sendMessage();
-    //           }
-    //         );
-    //     };
-    //     reader.readAsDataURL(event.target.files[0]);
-    //   }
-    // }
     ChatComponent.prototype.onSelectFile = function (param, event) {
         var _this = this;
-        var model = new __WEBPACK_IMPORTED_MODULE_3__models_chat_model__["a" /* Chat */];
-        model.message = this.textMessage;
-        model.message_type = 2;
-        model.loading = true;
-        model.conversation_user = { admin_id: this.admin_id };
-        model.admin_id = this.admin_id;
-        this.parameter.messages.push(model);
-        this.optionsButton.nativeElement.click();
-        setTimeout(function () {
-            _this.scrollToBottom();
-        }, 100);
-        if (event.target.files && event.target.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                _this.image = e.target.result;
-                model[param] = e.target.result;
-                _this.cs.saveImage(event.target.files[0]).subscribe(function (success) {
-                    model.image = success['data'].image;
-                    _this.sendMessage(model);
-                });
-            };
-            reader.readAsDataURL(event.target.files[0]);
+        if (event.target.files[0].size > this.constant.fileSizeLimit) {
+            swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+        }
+        else {
+            var model_1 = new __WEBPACK_IMPORTED_MODULE_4__models_chat_model__["a" /* Chat */];
+            model_1.message = this.textMessage;
+            model_1.message_type = 2;
+            model_1.loading = true;
+            model_1.conversation_user = { admin_id: this.admin_id };
+            model_1.admin_id = this.admin_id;
+            this.parameter.messages.push(model_1);
+            this.optionsButton.nativeElement.click();
+            setTimeout(function () {
+                _this.scrollToBottom();
+            }, 100);
+            if (event.target.files && event.target.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    _this.image = e.target.result;
+                    model_1[param] = e.target.result;
+                    _this.cs.saveImage(event.target.files[0]).subscribe(function (success) {
+                        model_1.image = success['data'].image;
+                        _this.sendMessage(model_1);
+                    });
+                };
+                reader.readAsDataURL(event.target.files[0]);
+            }
         }
     };
     ChatComponent.prototype.saveAttachment = function (event) {
         var _this = this;
-        var model = new __WEBPACK_IMPORTED_MODULE_3__models_chat_model__["a" /* Chat */];
-        model.message = this.textMessage;
-        model.message_type = 4;
-        model.loading = true;
-        model.conversation_user = { admin_id: this.admin_id };
-        model.admin_id = this.admin_id;
-        model.attachment_name = event.target.files[0].name;
-        this.parameter.messages.push(model);
-        setTimeout(function () {
-            _this.scrollToBottom();
-        }, 100);
-        this.cs.saveAttachment(event.target.files[0]).subscribe(function (success) {
-            model.attachment = success['data'].name;
-            console.log('==>', model);
-            _this.sendMessage(model);
-        });
+        if (event.target.files[0].size > this.constant.fileSizeLimit) {
+            swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+        }
+        else {
+            var model_2 = new __WEBPACK_IMPORTED_MODULE_4__models_chat_model__["a" /* Chat */];
+            model_2.message = this.textMessage;
+            model_2.message_type = 4;
+            model_2.loading = true;
+            model_2.conversation_user = { admin_id: this.admin_id };
+            model_2.admin_id = this.admin_id;
+            model_2.attachment_name = event.target.files[0].name;
+            this.parameter.messages.push(model_2);
+            setTimeout(function () {
+                _this.scrollToBottom();
+            }, 100);
+            this.cs.saveAttachment(event.target.files[0]).subscribe(function (success) {
+                model_2.attachment = success['data'].name;
+                console.log('==>', model_2);
+                _this.sendMessage(model_2);
+            });
+        }
     };
     ChatComponent.prototype.playVideo = function (i) {
         this.parameter.messages[i].play = true;
     };
-    // saveAttachment(event) {
-    //   this.optionsButton.nativeElement.click();
-    //   this.model = new Chat();
-    //   this.model.loading = true;
-    //   this.model.message_type = 4;
-    //   this.model.conversation_user = {admin_id: this.admin_id};
-    //   this.model.admin_id = this.admin_id;
-    //   console.log('model', this.model);
-    //   this.parameter.messages.push(this.model);
-    //   setTimeout(() => {
-    //     this.scrollToBottom();
-    //   }, 100);
-    //   this.cs.saveAttachment(event.target.files[0]).subscribe(
-    //     success => {
-    //       this.model.attachment = success['data'].name;
-    //       this.model.attachment_name = event.target.files[0].name;
-    //       this.sendMessage();
-    //     }
-    //   );
-    // }
-    // playVideo(i) {
-    //   this.parameter.messages[i].play = true;
-    // }
     ChatComponent.prototype.showCanvas = function (event) {
         var _this = this;
-        this.optionsButton.nativeElement.click();
-        this.showVideo = true;
-        var model = new __WEBPACK_IMPORTED_MODULE_3__models_chat_model__["a" /* Chat */];
-        model.message = this.textMessage;
-        model.message_type = 3;
-        model.loading = true;
-        model.conversation_user = { admin_id: this.admin_id };
-        model.admin_id = this.admin_id;
-        this.parameter.messages.push(model);
-        setTimeout(function () {
-            _this.scrollToBottom();
-        }, 100);
-        setTimeout(function () {
-            _this.video = document.getElementById('video1');
-            var reader = new FileReader();
-            var videoTest = _this.element.nativeElement.querySelector('.video55');
-            reader.onload = function (e) {
-                var _this = this;
-                var src = e.target['result'];
-                videoTest.src = src;
-                var timer = setInterval(function () {
-                    // find duration of video only of video is in ready state
-                    if (videoTest.readyState === 4) {
-                        _this.durationInSec = videoTest.duration.toFixed(0);
-                        setTimeout(function () {
-                            // create canvas at middle of video
-                            _this.newcanvas(videoTest, event.target.files[0], model);
-                        }, 3000);
-                        clearInterval(timer);
-                    }
-                }, 1000);
-            }.bind(_this);
-            reader.readAsDataURL(event.target.files[0]);
-            // setTimeout(() => {
-            //   this.newcanvas(videoTest, event.target.files[0]);
-            // }, 4000);
-        }, 1000);
+        if (event.target.files[0].size > this.constant.fileSizeLimit) {
+            swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+        }
+        else {
+            this.optionsButton.nativeElement.click();
+            this.showVideo = true;
+            var model_3 = new __WEBPACK_IMPORTED_MODULE_4__models_chat_model__["a" /* Chat */];
+            model_3.message = this.textMessage;
+            model_3.message_type = 3;
+            model_3.loading = true;
+            model_3.conversation_user = { admin_id: this.admin_id };
+            model_3.admin_id = this.admin_id;
+            this.parameter.messages.push(model_3);
+            setTimeout(function () {
+                _this.scrollToBottom();
+            }, 100);
+            setTimeout(function () {
+                _this.video = document.getElementById('video1');
+                var reader = new FileReader();
+                var videoTest = _this.element.nativeElement.querySelector('.video55');
+                reader.onload = function (e) {
+                    var _this = this;
+                    var src = e.target['result'];
+                    videoTest.src = src;
+                    var timer = setInterval(function () {
+                        // find duration of video only of video is in ready state
+                        if (videoTest.readyState === 4) {
+                            _this.durationInSec = videoTest.duration.toFixed(0);
+                            setTimeout(function () {
+                                // create canvas at middle of video
+                                _this.newcanvas(videoTest, event.target.files[0], model_3);
+                            }, 3000);
+                            clearInterval(timer);
+                        }
+                    }, 1000);
+                }.bind(_this);
+                reader.readAsDataURL(event.target.files[0]);
+                // setTimeout(() => {
+                //   this.newcanvas(videoTest, event.target.files[0]);
+                // }, 4000);
+            }, 1000);
+        }
     };
     ChatComponent.prototype.newcanvas = function (video, videoFile, model) {
         var _this = this;
@@ -313,57 +280,6 @@ var ChatComponent = /** @class */ (function () {
             console.log(error);
         });
     };
-    // showCanvas(event) {
-    //   this.optionsButton.nativeElement.click();
-    //   this.showVideo = true;
-    //   this.model.message_type = 3;
-    //   this.model.conversation_user = {admin_id: this.admin_id};
-    //   this.model.admin_id =  this.admin_id;
-    //   this.model.loading = true;
-    //   console.log('model', this.model);
-    //   this.parameter.messages.push(this.model);
-    //   setTimeout(() => {
-    //     this.scrollToBottom();
-    //   }, 100);
-    //   setTimeout(() => {
-    //     this.video = document.getElementById('video1');
-    //     const reader = new FileReader();
-    //     const videoTest = this.element.nativeElement.querySelector('.video55');
-    //     reader.onload = function(e) {
-    //       const src = e.target['result'];
-    //       videoTest.src = src;
-    //       const timer = setInterval( () => {
-    //         // find duration of video only of video is in ready state
-    //         if (videoTest.readyState === 4) {
-    //           this.durationInSec = videoTest.duration.toFixed(0);
-    //           setTimeout(() => {
-    //             // create canvas at middle of video
-    //             this.newcanvas(videoTest, event.target.files[0]);
-    //           }, (this.durationInSec / 2).toFixed(0));
-    //           clearInterval(timer);
-    //         }
-    //       }, 1000);
-    //     }.bind(this);
-    //     reader.readAsDataURL(event.target.files[0]);
-    //   }, 1000);
-    // }
-    // newcanvas(video, videoFile) {
-    //   const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-    //   const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
-    //                                                     0, 0, canvas.width, canvas.height);
-    //   const ImageURL = canvas.toDataURL('image/jpeg');
-    //   this.model.image = ImageURL;
-    //   const fileToUpload = this.dataURLtoFile(ImageURL, 'tempFile.png');
-    //   this.cs.saveVideo(videoFile, fileToUpload).subscribe(
-    //     success => {
-    //       this.model.video = success['data'].video;
-    //       this.model.image = success['data'].thumb;
-    //       this.sendMessage();
-    //     }, error => {
-    //       console.log(error);
-    //     }
-    //   );
-    // }
     ChatComponent.prototype.dataURLtoFile = function (dataurl, filename) {
         var arr = dataurl.split(',');
         var mime = arr[0].match(/:(.*?);/)[1];
@@ -379,66 +295,11 @@ var ChatComponent = /** @class */ (function () {
         var _utc = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
         return _utc;
     };
-    // setText (message, mt) {
-    //   this.text = '';
-    //   this.model = new Chat();
-    //   this.model.loading = true;
-    //   this.model.conversation_user = {admin_id: this.admin_id};
-    //   // const today = (new Date()).toUTCString();
-    //   // console.log('today', today);
-    //   // const today1 = new Date(today);
-    //   // console.log('today', today1);
-    //   // const r = (new Date()).getMilliseconds();
-    //   // console.log('date', this.toUTCDate(new Date(r)));
-    //   // // today = new ChatTimePipe().transform(today, 'YYYY-MM-DD HH:MM:SS', 3);
-    //   // this.model.updated_at = today;
-    //   // this.model.updated_at = this.js_yyyy_mm_dd_hh_mm_ss();
-    //   this.model.admin_id = this.admin_id;
-    //   this.model.message_type = mt;
-    //   this.model.message = message;
-    //   this.model.image = '';
-    //   this.model.video = '';
-    //   this.parameter.messages.push(this.model);
-    //   console.log(this.model, '=========');
-    //   this.scrollToBottom();
-    // }
-    // sendMessage(model) {
-    //   if (this.model.message_type === 1 && !this.model.message) {
-    //     // swal('Error', 'Please enter some text.', 'error');
-    //   } else {
-    //     this.model.conversation_id =  this.parameter.conversation_id;
-    //     // if (this.model.message_type === 1) {
-    //     //   this.model.conversation_user = {admin_id: this.admin_id};
-    //     //   this.model.admin_id = this.admin_id;
-    //     //   this.parameter.messages.push(this.model);
-    //     //   this.model.loading = true;
-    //     // }
-    //     this.admin.postDataApi('conversation/sendMessage', this.model).subscribe(r => {
-    //       setTimeout(() => {
-    //         this.scrollToBottom();
-    //       }, 200);
-    //       if (this.model.message_type !== 1) {
-    //         if (this.model.loading === true) {
-    //           this.model.loading = false;
-    //           this.parameter.messages.splice(-1, 1);
-    //           this.parameter.messages.push(r['data']);
-    //         }else {
-    //           this.parameter.messages.push(r['data']);
-    //         }
-    //       }
-    //       this.model = new Chat;
-    //       // this.model.conversation_user.user_id = this.loginData.id;
-    //     },
-    //     error => {
-    //       swal('Error', error.error.message, 'error');
-    //     });
-    //   }
-    // }
     ChatComponent.prototype.setText = function () {
         if (!this.textMessage) {
             return false;
         }
-        var model = new __WEBPACK_IMPORTED_MODULE_3__models_chat_model__["a" /* Chat */];
+        var model = new __WEBPACK_IMPORTED_MODULE_4__models_chat_model__["a" /* Chat */];
         model.message = this.textMessage;
         model.message_type = 1;
         model.loading = true;
@@ -471,84 +332,6 @@ var ChatComponent = /** @class */ (function () {
             });
         }
     };
-    // onSelectFile(param, event) {
-    //   if (event.target.files && event.target.files[0]) {
-    //     this.model.message_type = 2;
-    //     const reader = new FileReader();
-    //     reader.onload = (e: any) => {
-    //         this.parameter.image = e.target.result;
-    //         this.model[param] = e.target.result;
-    //     };
-    //     reader.readAsDataURL(event.target.files[0]);
-    //     this.cs.saveImage(event.target.files[0]).subscribe(
-    //       success => {this.model.image = success.data.image; }
-    //     );
-    //   }
-    // }
-    // saveAttachment(event) {
-    //   this.model.message_type = 4;
-    //   this.cs.saveAttachment(event.target.files[0]).subscribe(
-    //     success => {
-    //       this.model.attachment = success.data.name;
-    //       this.model.attachment_name = event.target.files[0].name;
-    //     }
-    //   );
-    // }
-    // playVideo(i) {
-    //   this.parameter.messages[i].play = true;
-    // }
-    // showCanvas(event) {
-    //   this.showVideo = true;
-    //   this.model.message_type = 3;
-    //   setTimeout(() => {
-    //     this.video = document.getElementById('video1');
-    //     const reader = new FileReader();
-    //     const videoTest = this.element.nativeElement.querySelector('.video55');
-    //     reader.onload = function(e) {
-    //       const src = e.target['result'];
-    //       videoTest.src = src;
-    //       const timer = setInterval( () => {
-    //         // find duration of video only of video is in ready state
-    //         if (videoTest.readyState === 4) {
-    //           this.durationInSec = videoTest.duration.toFixed(0);
-    //           setTimeout(() => {
-    //             // create canvas at middle of video
-    //             this.newcanvas(videoTest, event.target.files[0]);
-    //           }, (this.durationInSec / 2).toFixed(0));
-    //           clearInterval(timer);
-    //         }
-    //       }, 500);
-    //     }.bind(this);
-    //     reader.readAsDataURL(event.target.files[0]);
-    //     // setTimeout(() => {
-    //     //   this.newcanvas(videoTest, event.target.files[0]);
-    //     // }, 4000);
-    //   }, 1000);
-    // }
-    // newcanvas(video, videoFile) {
-    //   const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-    //   const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
-    //                                                     0, 0, canvas.width, canvas.height);
-    //   const ImageURL = canvas.toDataURL('image/jpeg');
-    //   const fileToUpload = this.dataURLtoFile(ImageURL, 'tempFile.png');
-    //   this.cs.saveVideo(videoFile, fileToUpload).subscribe(
-    //     success => {
-    //       this.model.video = success.data.video;
-    //       this.model.image = success.data.thumb;
-    //     }
-    //   );
-    // }
-    // dataURLtoFile(dataurl, filename) {
-    //   const arr = dataurl.split(',');
-    //   const mime = arr[0].match(/:(.*?);/)[1];
-    //   const bstr = atob(arr[1]);
-    //   let n = bstr.length;
-    //   const u8arr = new Uint8Array(n);
-    //   while (n--) {
-    //       u8arr[n] = bstr.charCodeAt(n);
-    //   }
-    //   return new File([u8arr], filename, {type: mime});
-    // }
     ChatComponent.prototype.loadMore = function (admin_id) {
         var _this = this;
         this.loadmoring = true;
@@ -571,7 +354,7 @@ var ChatComponent = /** @class */ (function () {
             console.log('new data', _this.parameter.messages);
         });
     };
-    var _a, _b, _c, _d, _e;
+    var _a, _b, _c, _d, _e, _f;
     __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])('admin_id'),
         __metadata("design:type", Object)
@@ -597,408 +380,13 @@ var ChatComponent = /** @class */ (function () {
             selector: 'app-chat',
             template: __webpack_require__("../../../../../src/app/layout/common-blocks/chat/chat.component.html"),
             styles: [__webpack_require__("../../../../../src/app/layout/common-blocks/chat/chat.component.css")],
-            providers: [__WEBPACK_IMPORTED_MODULE_3__models_chat_model__["a" /* Chat */]]
+            providers: [__WEBPACK_IMPORTED_MODULE_4__models_chat_model__["a" /* Chat */]]
         }),
-        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"]) === "function" ? _b : Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */]) === "function" ? _c : Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__services_common_service__["a" /* CommonService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_common_service__["a" /* CommonService */]) === "function" ? _d : Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_3__models_chat_model__["a" /* Chat */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__models_chat_model__["a" /* Chat */]) === "function" ? _e : Object])
+        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"]) === "function" ? _b : Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */]) === "function" ? _c : Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__services_common_service__["a" /* CommonService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_common_service__["a" /* CommonService */]) === "function" ? _d : Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4__models_chat_model__["a" /* Chat */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__models_chat_model__["a" /* Chat */]) === "function" ? _e : Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_3__common_constants__["a" /* Constant */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__common_constants__["a" /* Constant */]) === "function" ? _f : Object])
     ], ChatComponent);
     return ChatComponent;
 }());
 
-// import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
-// import { AdminService } from './../../../services/admin.service';
-// import { CommonService } from './../../../services/common.service';
-// import { IProperty } from './../../../common/property';
-// import { GeneralFunctions } from './../../../common/generalFunctions';
-// import { Chat, ConversationUser } from './../../../models/chat.model';
-// import * as io from 'socket.io-client';
-// import { ChatTimePipe } from '../../../pipes/chat-time.pipe';
-// declare let swal: any;
-// // import * as $ from 'jquery';
-// // declare var $: any;
-// // const $ = require('jquery');
-// // window.jQuery = $;
-// // import * as jquery from 'jquery';
-// @Component({
-//   selector: 'app-chat',
-//   templateUrl: './chat.component.html',
-//   styleUrls: ['./chat.component.css'],
-//   providers: [Chat]
-// })
-// export class ChatComponent implements OnInit {
-//   @Input('admin_id') admin_id;
-//   @Input('lead_id') lead_id;
-//   @Input('user_id') user_id;
-//   @Input('sent_as') sent_as;
-//   // loadingMessages = false;
-//   durationInSec = 0;
-//   showVideo = true;
-//   video: any;
-//   image: any;
-//   videoObj: Object = {
-//     thumbnail: '',
-//     original: ''
-//   };
-//   loadmore = true;
-//   loadmoring = false;
-//   public scrollbarOptions = { axis: 'y', theme: 'dark'};
-//   public parameter: IProperty = {};
-//   @ViewChild('optionsButton') optionsButton: ElementRef;
-//   text: string;
-//   new_model: Chat;
-//   constructor(
-//     private element: ElementRef,
-//     private admin: AdminService,
-//     private cs: CommonService,
-//     public model: Chat
-//   ) { }
-//   ngOnInit() {
-//   this.new_model = new Chat();
-//     // this.admin.loginData$.subscribe(success => {
-//     //   this.model.conversation_user = {admin_id: success['id']};
-//     // });
-//     setTimeout(() => {
-//       const input = {lead_id: this.lead_id, user_id: this.user_id, sent_as: this.sent_as};
-//       this.initSocket();
-//       this.getMessages();
-//     }, 1000);
-//   }
-//   getMessages() {
-//     this.admin.postDataApi('conversation/getMessages',
-//     {lead_id: this.lead_id, user_id: this.user_id, sent_as: this.sent_as}).subscribe(res => {
-//       console.log('getMessages', res);
-//       this.parameter.messages = res.data[0].messages;
-//       if (this.parameter.messages.length < 30) {this.loadmore = false; }
-//       console.log('loadmore', this.loadmore);
-//       this.parameter.conversation_id = res.data[0].id;
-//       this.scrollToBottom();
-//     });
-//   }
-//   public initSocket(): void {
-//     this.parameter.socket = io.connect(this.admin.socketUrl);
-//     this.parameter.socket.on('connect', fun => {
-//       console.log('Socket Connected');
-//       this.parameter.socket_id = this.parameter.socket.id;
-//       this.parameter.connected = this.parameter.socket.connected;
-//       const data = {
-//         admin_id: this.admin_id,
-//         socket_id: this.parameter.socket_id,
-//         device_id: this.admin.deviceId + '_' + this.admin_id
-//       };
-//       if (this.parameter.connected) {
-//         console.log('data', data);
-//         this.parameter.socket.emit('add-admin', data, (res: any) => {
-//         });
-//         this.parameter.socket.on('message', (response: any) => {
-//           console.log('message socket', response.data.conversation_id, this.parameter.conversation_id);
-//           console.log('response', response);
-//           if (response.data.conversation_id === this.parameter.conversation_id) {
-//             this.scrollToBottom();
-//             this.parameter.messages.push(response.data);
-//           }
-//         });
-//       }
-//     });
-//   }
-//   scrollToBottom() {
-//     setTimeout(() => {
-//       $('.chat-area').mCustomScrollbar('scrollTo', 'bottom');
-//     }, 200);
-//   }
-//   updateModel(param) {
-//     this.model[param] = '';
-//     this.model.message_type = 1;
-//   }
-//   js_yyyy_mm_dd_hh_mm_ss () {
-//     const now = new Date();
-//     const year = '' + now.getFullYear();
-//     let month = '' + (now.getMonth() + 1); if (month.length === 1) { month = '0' + month; }
-//     let day = '' + now.getDate(); if (day.length === 1) { day = '0' + day; }
-//     let hour = '' + now.getHours(); if (hour.length === 1) { hour = '0' + hour; }
-//     let minute = '' + now.getMinutes(); if (minute.length === 1) { minute = '0' + minute; }
-//     let second = '' + now.getSeconds(); if (second.length === 1) { second = '0' + second; }
-//     return year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
-//   }
-//   onSelectFile(param, event) {
-//     this.optionsButton.nativeElement.click();
-//     this.model = new Chat();
-//     this.model.loading = true;
-//     console.log('model', this.model);
-//     this.model.message_type = 2;
-//     this.model.conversation_user = {admin_id: this.admin_id};
-//     this.model.admin_id = this.admin_id;
-//     console.log('model', this.model);
-//     this.parameter.messages.push(this.model);
-//     setTimeout(() => {
-//       this.scrollToBottom();
-//     }, 100);
-//     if (event.target.files && event.target.files[0]) {
-//       const reader = new FileReader();
-//       reader.onload = (e: any) => {
-//           this.image = e.target.result;
-//           this.model[param] = e.target.result;
-//           this.cs.saveImage(event.target.files[0]).subscribe(
-//             success => {
-//               this.model.image = success['data'].image;
-//               this.sendMessage(this.model);
-//             }
-//           );
-//       };
-//       reader.readAsDataURL(event.target.files[0]);
-//     }
-//   }
-//   saveAttachment(event) {
-//     this.optionsButton.nativeElement.click();
-//     this.model = new Chat();
-//     this.model.loading = true;
-//     this.model.message_type = 4;
-//     this.model.conversation_user = {admin_id: this.admin_id};
-//     this.model.admin_id = this.admin_id;
-//     console.log('model', this.model);
-//     this.parameter.messages.push(this.model);
-//     setTimeout(() => {
-//       this.scrollToBottom();
-//     }, 100);
-//     this.cs.saveAttachment(event.target.files[0]).subscribe(
-//       success => {
-//         this.model.attachment = success['data'].name;
-//         this.model.attachment_name = event.target.files[0].name;
-//         this.sendMessage(this.model);
-//       }
-//     );
-//   }
-//   playVideo(i) {
-//     this.parameter.messages[i].play = true;
-//   }
-//   showCanvas(event) {
-//     this.optionsButton.nativeElement.click();
-//     this.showVideo = true;
-//     this.model.message_type = 3;
-//     this.model.conversation_user = {admin_id: this.admin_id};
-//     this.model.admin_id =  this.admin_id;
-//     this.model.loading = true;
-//     console.log('model', this.model);
-//     this.parameter.messages.push(this.model);
-//     setTimeout(() => {
-//       this.scrollToBottom();
-//     }, 100);
-//     setTimeout(() => {
-//       this.video = document.getElementById('video1');
-//       const reader = new FileReader();
-//       const videoTest = this.element.nativeElement.querySelector('.video55');
-//       reader.onload = function(e) {
-//         const src = e.target['result'];
-//         videoTest.src = src;
-//         const timer = setInterval( () => {
-//           // find duration of video only of video is in ready state
-//           if (videoTest.readyState === 4) {
-//             this.durationInSec = videoTest.duration.toFixed(0);
-//             setTimeout(() => {
-//               // create canvas at middle of video
-//               this.newcanvas(videoTest, event.target.files[0]);
-//             }, (this.durationInSec / 2).toFixed(0));
-//             clearInterval(timer);
-//           }
-//         }, 1000);
-//       }.bind(this);
-//       reader.readAsDataURL(event.target.files[0]);
-//     }, 1000);
-//   }
-//   newcanvas(video, videoFile) {
-//     const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-//     const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
-//                                                       0, 0, canvas.width, canvas.height);
-//     const ImageURL = canvas.toDataURL('image/jpeg');
-//     this.model.image = ImageURL;
-//     const fileToUpload = this.dataURLtoFile(ImageURL, 'tempFile.png');
-//     this.cs.saveVideo(videoFile, fileToUpload).subscribe(
-//       success => {
-//         this.model.video = success['data'].video;
-//         this.model.image = success['data'].thumb;
-//         this.sendMessage(this.model);
-//       }, error => {
-//         console.log(error);
-//       }
-//     );
-//   }
-//   dataURLtoFile(dataurl, filename) {
-//     const arr = dataurl.split(',');
-//     const mime = arr[0].match(/:(.*?);/)[1];
-//     const bstr = atob(arr[1]);
-//     let n = bstr.length;
-//     const u8arr = new Uint8Array(n);
-//     while (n--) {
-//         u8arr[n] = bstr.charCodeAt(n);
-//     }
-//     return new File([u8arr], filename, {type: mime});
-//   }
-//   toUTCDate(date) {
-//     const _utc = new Date(date.getUTCFullYear(), date.getUTCMonth(),
-//     date.getUTCDate(),  date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
-//     return _utc;
-//   }
-//   setText (message, mt) {
-//     this.text = '';
-//     this.model = new Chat();
-//     this.model.loading = true;
-//     this.model.conversation_user = {admin_id: this.admin_id};
-//     this.model.random = Math.random();
-//     // const today = (new Date()).toUTCString();
-//     // console.log('today', today);
-//     // const today1 = new Date(today);
-//     // console.log('today', today1);
-//     // const r = (new Date()).getMilliseconds();
-//     // console.log('date', this.toUTCDate(new Date(r)));
-//     // // today = new ChatTimePipe().transform(today, 'YYYY-MM-DD HH:MM:SS', 3);
-//     // this.model.updated_at = today;
-//     // this.model.updated_at = this.js_yyyy_mm_dd_hh_mm_ss();
-//     this.model.admin_id = this.admin_id;
-//     this.model.message_type = mt;
-//     this.model.message = message;
-//     this.model.image = '';
-//     this.model.video = '';
-//     console.log(this.model, '=========');
-//     this.parameter.messages.push(this.model);
-//     this.scrollToBottom();
-//   }
-//   sendMessage(new_model) {
-//     this.new_model = new_model;
-//     console.log('new-model', new_model);
-//     if (this.new_model.message_type === 1 && !this.new_model.message) {
-//       // swal('Error', 'Please enter some text.', 'error');
-//     } else {
-//       this.new_model.conversation_id =  this.parameter.conversation_id;
-//       this.admin.postDataApi('conversation/sendMessage', this.new_model).subscribe(r => {
-//         setTimeout(() => {
-//           this.scrollToBottom();
-//         }, 200);
-//         if (this.new_model.message_type !== 1) {
-//           if (this.new_model.loading === true) {
-//             this.new_model.loading = false;
-//             this.parameter.messages.splice(-1, 1);
-//             this.parameter.messages.push(r['data']);
-//           }else {
-//             this.parameter.messages.push(r['data']);
-//           }
-//         }
-//         // this.model = new Chat;
-//         // this.model.conversation_user.user_id = this.loginData.id;
-//       },
-//       error => {
-//         swal('Error', error.error.message, 'error');
-//       });
-//     }
-//   }
-//   // onSelectFile(param, event) {
-//   //   if (event.target.files && event.target.files[0]) {
-//   //     this.model.message_type = 2;
-//   //     const reader = new FileReader();
-//   //     reader.onload = (e: any) => {
-//   //         this.parameter.image = e.target.result;
-//   //         this.model[param] = e.target.result;
-//   //     };
-//   //     reader.readAsDataURL(event.target.files[0]);
-//   //     this.cs.saveImage(event.target.files[0]).subscribe(
-//   //       success => {this.model.image = success.data.image; }
-//   //     );
-//   //   }
-//   // }
-//   // saveAttachment(event) {
-//   //   this.model.message_type = 4;
-//   //   this.cs.saveAttachment(event.target.files[0]).subscribe(
-//   //     success => {
-//   //       this.model.attachment = success.data.name;
-//   //       this.model.attachment_name = event.target.files[0].name;
-//   //     }
-//   //   );
-//   // }
-//   // playVideo(i) {
-//   //   this.parameter.messages[i].play = true;
-//   // }
-//   // showCanvas(event) {
-//   //   this.showVideo = true;
-//   //   this.model.message_type = 3;
-//   //   setTimeout(() => {
-//   //     this.video = document.getElementById('video1');
-//   //     const reader = new FileReader();
-//   //     const videoTest = this.element.nativeElement.querySelector('.video55');
-//   //     reader.onload = function(e) {
-//   //       const src = e.target['result'];
-//   //       videoTest.src = src;
-//   //       const timer = setInterval( () => {
-//   //         // find duration of video only of video is in ready state
-//   //         if (videoTest.readyState === 4) {
-//   //           this.durationInSec = videoTest.duration.toFixed(0);
-//   //           setTimeout(() => {
-//   //             // create canvas at middle of video
-//   //             this.newcanvas(videoTest, event.target.files[0]);
-//   //           }, (this.durationInSec / 2).toFixed(0));
-//   //           clearInterval(timer);
-//   //         }
-//   //       }, 500);
-//   //     }.bind(this);
-//   //     reader.readAsDataURL(event.target.files[0]);
-//   //     // setTimeout(() => {
-//   //     //   this.newcanvas(videoTest, event.target.files[0]);
-//   //     // }, 4000);
-//   //   }, 1000);
-//   // }
-//   // newcanvas(video, videoFile) {
-//   //   const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-//   //   const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
-//   //                                                     0, 0, canvas.width, canvas.height);
-//   //   const ImageURL = canvas.toDataURL('image/jpeg');
-//   //   const fileToUpload = this.dataURLtoFile(ImageURL, 'tempFile.png');
-//   //   this.cs.saveVideo(videoFile, fileToUpload).subscribe(
-//   //     success => {
-//   //       this.model.video = success.data.video;
-//   //       this.model.image = success.data.thumb;
-//   //     }
-//   //   );
-//   // }
-//   // dataURLtoFile(dataurl, filename) {
-//   //   const arr = dataurl.split(',');
-//   //   const mime = arr[0].match(/:(.*?);/)[1];
-//   //   const bstr = atob(arr[1]);
-//   //   let n = bstr.length;
-//   //   const u8arr = new Uint8Array(n);
-//   //   while (n--) {
-//   //       u8arr[n] = bstr.charCodeAt(n);
-//   //   }
-//   //   return new File([u8arr], filename, {type: mime});
-//   // }
-//   loadMore(admin_id) {
-//     this.loadmoring = true;
-//     // const data = {
-//     //   sent_as: 7,
-//     //   conversation_id: this.conversation_id,
-//     //   last_message_id: this.messages[0].id
-//     // };
-//     const input = {lead_id: this.lead_id, user_id: this.user_id,
-//       sent_as: this.sent_as, last_message_id: this.parameter.messages[0].id};
-//     this.admin.postDataApi('conversation/getMessages',
-//     {lead_id: this.lead_id, user_id: this.user_id,
-//       sent_as: this.sent_as, last_message_id: this.parameter.messages[0].id}).subscribe(res => {
-//       console.log(res);
-//       this.loadmoring = false;
-//       this.admin_id = admin_id;
-//       if (res.data[0].messages.length < 30) {this.loadmore = false; }
-//       this.parameter.messages = res.data[0].messages.concat(this.parameter.messages);
-//       console.log('new data', this.parameter.messages);
-//     });
-//   }
-//   // sendMessage() {
-//   //   if (this.model.message_type === 1 && !this.model.message) {
-//   //     swal('Error', 'Please enter some text.', 'error');
-//   //   } else {
-//   //     this.model.conversation_id = this.parameter.conversation_id;
-//   //     this.admin.postDataApi('conversation/sendMessage', this.model).subscribe(r => {
-//   //       this.parameter.messages.push(r.data);
-//   //       this.scrollToBottom();
-//   //       this.model = new Chat;
-//   //     });
-//   //   }
-//   // }
-// }
 //# sourceMappingURL=chat.component.js.map
 
 /***/ }),
@@ -1024,7 +412,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/layout/common-blocks/fill-information/fill-information.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "\n<div class=\"white-bg padding15\">\n    <p class=\"p16 marginB0\">Fill in Information</p>\n</div>\n<hr class=\"margin0\" *ngIf=\"fillInfo\">\n<div class=\"white-bg padding40 fill-info\" malihu-scrollbar [scrollbarOptions]=\"scrollbarOptions\">\n    <form ngNativeValidate #addForm=\"ngForm\" (ngSubmit)=\"addPreferences()\">\n    <div class=\"form-group-4\">\n        <label>Close proximity needed to</label>\n        <div class=\"clearfix\"></div>\n        <label class=\"cust-radio\" *ngFor=\"let proximity_place of fillInfo.proximity_places_array; let i=index\">\n            <input type=\"checkbox\" (click)=\"setValue('proximity_places_array', i)\" [checked]=\"proximity_place.is_selected == 0 ? '' : 'checked'\" name=\"radio3\">\n            <span class=\"checkmark\">{{proximity_place.name}}</span>\n        </label>\n        <div class=\"clearfix\"></div>\n    </div>\n    <div class=\"form-group-4 marginT20\"></div>\n    <div class=\"row\">\n        <div class=\"col-sm-12 col-12\">\n            <div class=\"form-group-4\">\n                <label>Family Size</label>\n                <input min=\"1\" class=\"form-control\" [(ngModel)]=\"fillInfo.family_size\" type=\"number\" name=\"family_size\">\n            </div>\n        </div>\n    </div>\n    <div class=\"inline-form-group-2 marginT20\">\n        <div class=\"row\">\n            <div class=\"col-6\"><label class=\"float-left\">Do you have pets?</label></div>\n            <div class=\"col-5\">\n                <label class=\"cust-check-bx\">\n                <input type=\"checkbox\" value=\"{{fillInfo.pets == 1 ? 'true' : 'false'}}\" [(ngModel)]=\"fillInfo.pets\" name=\"pets\">\n                <span class=\"checkmark\"></span>\n                </label>\n            </div>\n        </div>\n    </div>\n    <div class=\"inline-form-group-2 marginT20\">\n        <div class=\"row\">\n            <div class=\"col-6\"><label class=\"float-left\">Do you have kids?</label></div>\n            <div class=\"col-5\">\n                <label class=\"cust-check-bx\">\n                <input type=\"checkbox\" value=\"{{fillInfo.pets == 1 ? 'true' : 'false'}}\" [(ngModel)]=\"fillInfo.pets\" name=\"pets\">\n                <span class=\"checkmark\"></span>\n                </label>\n            </div>\n        </div>\n    </div>\n    <div class=\"form-group-4 marginT20\">\n    <div class=\"row\">\n        <div class=\"col-sm-12 col-12\">\n            <div class=\"form-group-4\">\n                <label>Price range</label>\n                <nouislider *ngIf=\"fillInfo.price_range\" name=\"price_range\" [connect]=\"true\" [min]=\"constant.minValue\" [max]=\"constant.maxValue\" [step]=\"constant.steps\" [tooltips]=\"true\" [(ngModel)]=\"fillInfo.price_range\"></nouislider>\n            </div>\n        </div>\n    </div>\n    </div>\n    <div class=\"form-group-4 date-picker marginT20\">\n        <label>How soon planning to buy/rent</label>\n        <div class=\"clearfix\"></div>\n        <input type=\"date\" readonly min=\"{{today|date:'yyyy-MM-dd'}}\" [ngModel]=\"fillInfo.planning_to_buy  | date:'yyyy-MM-dd' \" (ngModelChange)=\"fillInfo.planning_to_buy = $event;\" name=\"planning_to_but\" class=\"form-control\" id=\"datetimepicker\">\n        <div class=\"clearfix\"></div>\n    </div>\n    <div class=\"form-group-4 marginT20\">\n        <label>Number of Cars</label>\n        <div class=\"clearfix\"></div>\n        <label class=\"cust-radio\" *ngFor=\"let car_type of fillInfo.car_types; let i=index\">\n        <input type=\"radio\" (click)=\"setValue('car_types', i)\" [checked]=\"car_type.is_selected == 0 ? '' : 'checked'\" name=\"radio4\">\n        <span class=\"checkmark\">{{car_type.name}}</span>\n        </label>\n        <div class=\"clearfix\"></div>\n    </div>\n    <div class=\"form-group-4 marginT20\">\n        <label>Configuration</label>\n        <div class=\"clearfix\"></div>\n        <label class=\"cust-radio\" *ngFor=\"let configuration of fillInfo.configurations_array; let i=index\">\n            <input type=\"checkbox\" (click)=\"setValue('configurations_array', i)\" [checked]=\"configuration.is_selected == 0 ? '' : 'checked'\" name=\"radio2\">\n            <span class=\"checkmark\">{{configuration.name}}</span>\n        </label>\n        <div class=\"clearfix\"></div>\n    </div>\n    <div class=\"form-group-4 marginT20\">\n        <label>Property Type</label>\n        <div class=\"clearfix\"></div>\n        <label class=\"cust-radio\" *ngFor=\"let property_type of fillInfo.property_types_array; let i=index\">\n            <input type=\"checkbox\" (click)=\"setValue('property_types_array', i)\" [checked]=\"property_type.is_selected == 0 ? '' : 'checked'\" name=\"radio1\">\n            <span class=\"checkmark\">{{property_type.name}}</span>\n        </label>\n        <div class=\"clearfix\"></div>\n    </div>\n\n\n    <div class=\"btn-cont text-right\">\n        <!-- <button type=\"submit\" [disabled]=\"addForm.invalid\" class=\"btn btn-primary\">Save</button> -->\n        <button type=\"submit\" class=\"btn btn-primary\">Save</button>\n    </div>\n    </form>\n</div>\n"
+module.exports = "\n<div class=\"white-bg padding15\">\n    <p class=\"p16 marginB0\">Fill in Information</p>\n</div>\n<hr class=\"margin0\" *ngIf=\"fillInfo\">\n<div class=\"white-bg padding40 fill-info\" malihu-scrollbar [scrollbarOptions]=\"scrollbarOptions\">\n    <form ngNativeValidate #addForm=\"ngForm\" (ngSubmit)=\"addPreferences()\">\n    <div class=\"form-group-4\">\n        <label>Close proximity needed to</label>\n        <div class=\"clearfix\"></div>\n        <label class=\"cust-radio\" *ngFor=\"let proximity_place of fillInfo.proximity_places_array; let i=index\">\n            <input type=\"checkbox\" (click)=\"setValue('proximity_places_array', i)\" [checked]=\"proximity_place.is_selected == 0 ? '' : 'checked'\" name=\"radio3\">\n            <span class=\"checkmark\">{{proximity_place.name}}</span>\n        </label>\n        <div class=\"clearfix\"></div>\n    </div>\n    <div class=\"form-group-4 marginT20\"></div>\n    <div class=\"row\">\n        <div class=\"col-sm-12 col-12\">\n            <div class=\"form-group-4\">\n                <label>Family Size</label>\n                <input min=\"1\" class=\"form-control\" [(ngModel)]=\"fillInfo.family_size\" type=\"number\" name=\"family_size\">\n            </div>\n        </div>\n    </div>\n    <div class=\"inline-form-group-2 marginT20\">\n        <div class=\"row\">\n            <div class=\"col-6\"><label class=\"float-left\">Do you have pets?</label></div>\n            <div class=\"col-5\">\n                <label class=\"cust-check-bx\">\n                <input type=\"checkbox\" value=\"{{fillInfo.pets == 1 ? 'true' : 'false'}}\" [(ngModel)]=\"fillInfo.pets\" name=\"pets\">\n                <span class=\"checkmark\"></span>\n                </label>\n            </div>\n        </div>\n    </div>\n    <div class=\"inline-form-group-2 marginT20\">\n        <div class=\"row\">\n            <div class=\"col-6\"><label class=\"float-left\">Do you have kids?</label></div>\n            <div class=\"col-5\">\n                <label class=\"cust-check-bx\">\n                <input type=\"checkbox\" value=\"{{fillInfo.kid_count == 1 ? 'true' : 'false'}}\" [(ngModel)]=\"fillInfo.kid_count\" name=\"kid_count\">\n                <span class=\"checkmark\"></span>\n                </label>\n            </div>\n        </div>\n    </div>\n    <div class=\"form-group-4 marginT20\">\n    <div class=\"row\">\n        <div class=\"col-sm-12 col-12\">\n            <div class=\"form-group-4\">\n                <label>Price range</label>\n                <nouislider *ngIf=\"fillInfo.price_range\" name=\"price_range\" [connect]=\"true\" [min]=\"constant.minValue\" [max]=\"constant.maxValue\" [step]=\"constant.steps\" [tooltips]=\"true\" [(ngModel)]=\"fillInfo.price_range\"></nouislider>\n            </div>\n        </div>\n    </div>\n    </div>\n    <div class=\"form-group-4 date-picker marginT20\">\n        <label>How soon planning to buy/rent</label>\n        <div class=\"clearfix\"></div>\n        <input type=\"date\" min=\"{{today|date:'yyyy-MM-dd'}}\" max='9999-12-31' [ngModel]=\"fillInfo.planning_to_buy  | date:'yyyy-MM-dd' \" (ngModelChange)=\"fillInfo.planning_to_buy = $event;\" name=\"planning_to_but\" class=\"form-control\" id=\"datetimepicker\">\n        <!-- <span class=\"sel-date\">Select date</span> -->\n        <!-- <div class=\"select-date select-date-small\">\n            <img *ngIf=\"model.floor_plan\" [src]=\"model.floor_plan\" class=\"floor-plan\">\n            <input type=\"file\" name=\"\" accept=\"image/*\" (change)=\"onSelectFile('floor_plan', $event)\">\n            <div class=\"select-date-caption\">\n                <p class=\"green-color marginT30\">Select date</p>\n            </div> \n        </div> -->\n        <div class=\"clearfix\"></div>\n    </div>\n    <div class=\"form-group-4 marginT20\">\n        <label>Number of Cars</label>\n        <div class=\"clearfix\"></div>\n        <label class=\"cust-radio\" *ngFor=\"let car_type of fillInfo.car_types; let i=index\">\n        <input type=\"radio\" (click)=\"setValue('car_types', i)\" [checked]=\"car_type.is_selected == 0 ? '' : 'checked'\" name=\"radio4\">\n        <span class=\"checkmark\">{{car_type.name}}</span>\n        </label>\n        <div class=\"clearfix\"></div>\n    </div>\n    <div class=\"form-group-4 marginT20\">\n        <label>Configuration</label>\n        <div class=\"clearfix\"></div>\n        <label class=\"cust-radio\" *ngFor=\"let configuration of fillInfo.configurations_array; let i=index\">\n            <input type=\"checkbox\" (click)=\"setValue('configurations_array', i)\" [checked]=\"configuration.is_selected == 0 ? '' : 'checked'\" name=\"radio2\">\n            <span class=\"checkmark\">{{configuration.name}}</span>\n        </label>\n        <div class=\"clearfix\"></div>\n    </div>\n    <div class=\"form-group-4 marginT20\">\n        <label>Property Type</label>\n        <div class=\"clearfix\"></div>\n        <label class=\"cust-radio\" *ngFor=\"let property_type of fillInfo.property_types_array; let i=index\">\n            <input type=\"checkbox\" (click)=\"setValue('property_types_array', i)\" [checked]=\"property_type.is_selected == 0 ? '' : 'checked'\" name=\"radio1\">\n            <span class=\"checkmark\">{{property_type.name}}</span>\n        </label>\n        <div class=\"clearfix\"></div>\n    </div>\n\n\n    <div class=\"btn-cont text-right\">\n        <!-- <button type=\"submit\" [disabled]=\"addForm.invalid\" class=\"btn btn-primary\">Save</button> -->\n        <button type=\"submit\" class=\"btn btn-primary\">Save</button>\n    </div>\n    </form>\n</div>\n"
 
 /***/ }),
 
@@ -1099,7 +487,8 @@ var FillInformationComponent = /** @class */ (function () {
                 _this.fillInfo.configurations.push(element.id);
             }
         });
-        this.fillInfo.pets = this.fillInfo.pets === true ? '1' : '0';
+        this.fillInfo.pets = this.fillInfo.pets === true || this.fillInfo.pets.toString() === '1' ? '1' : '0';
+        this.fillInfo.kid_count = this.fillInfo.kid_count === true || this.fillInfo.kid_count.toString() === '1' ? '1' : '0';
         this.fillInfo.min_price = this.fillInfo.price_range[0];
         this.fillInfo.max_price = this.fillInfo.price_range[1];
         console.log('before', this.fillInfo);
@@ -1162,7 +551,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/layout/common-blocks/interested-property/interested-property.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!-- {{interested_properties|json}} -->\n  <div class=\"spacer30\"></div>\n  <div class=\"row\">\n     <div class=\"col-6\">\n        <p class=\"p16\">Interested Properties</p>\n     </div>\n   <div class=\"col-6\">\n        <div class=\"btn-cont text-right\">\n          <a style=\"display: none;\" class=\"btn btn-fourth\" #showPropertyModal href=\"javascript://\" data-toggle=\"modal\" data-target=\"#add-property\">Add</a>\n          <a class=\"btn btn-fourth\" href=\"javascript://\" (click)=\"showModal()\">Add</a>\n          <a style=\"display: none;\" data-toggle=\"modal\" #showInterestedProperty data-target=\"#view-all\" class=\"btn btn-fourth\" href=\"javascript://\">View All</a>\n          <a *ngIf=\"interested_properties?.length!=0\" class=\"btn btn-fourth\" href=\"javascript://\" (click)=\"viewProperties(interested_properties)\">View All</a>\n        </div>\n     </div>\n  </div>\n  \n  <div class=\"spacer15\"></div>\n  <div class=\"row\" *ngIf=\"interested_properties?.length>0\">\n    <div class=\"col-lg-4 col-md-12 col-sm-12 col-12\" *ngFor=\"let data of interested_properties; let in=index\">\n\n    <div *ngIf=\"data.property.building && data && in<3\" class=\"project-des-bx white-bg\">\n      <div class=\"price\">${{data.property.min_price}}</div>\n      <div class=\"fig-block\">\n        <img [src]=\"data.property.image\" onerror='src=\"assets/img/bank.png\"' alt=\"img\">\n      </div>\n      <div class=\"project-des-content\">\n        <small>{{data.property.building.developer.name}}</small>\n        <h5>{{data.property.building.name.slice(0, 15)}}</h5>\n        <p class=\"p12\">{{data.property.building.address.slice(0, 60)}}</p>\n\n        <p class=\"p13\" *ngIf=\"data && data.property\">{{data.property.configuration.name}}</p>\n        <p class=\"p13\" *ngIf=\"!data && !data.property\">NA</p>\n        <div class=\"dropdown threeDots\">\n          <button type=\"button\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n            ...\n          </button>\n          <div class=\"dropdown-menu\">\n            <a style=\"display: none;\" *ngIf=\"adminType==2\" class=\"dropdown-item\" href=\"javascript://\" #modalOpen data-toggle=\"modal\" data-target=\"#dealFinalize\">Deal Finalized</a>\n            <a *ngIf=\"adminType==2\" class=\"dropdown-item\" href=\"javascript://\" (click)=\"openModal(data.property.id, data.lead_id)\">Deal Finalized</a>\n            <a class=\"dropdown-item\" (click)=\"deleteLeadInterestedProperty(data.property.id, data.lead_id, in)\">Remove Property</a>\n          </div>\n        </div>\n      </div>\n    </div>\n\n    </div>\n  </div>\n  <div *ngIf=\"interested_properties?.length == 0\">\n    <p class=\"show-not-found\">\n      {{constant.errorMsg.NO_INTERESTED_PROPERTY_FOUND}}\n    </p>\n  </div>\n\n\n\n<!-- add property to interested_properties -->\n<div class=\"modal\" id=\"add-property\">\n    <div class=\"modal-dialog modal-lg\">\n      <div class=\"modal-content notary-avail\">\n          <div class=\"modal-header popup-header\">\n            <h4 class=\"modal-title\">Properties available</h4>\n            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" #hidePropertyModal>&times;</button>\n          </div>\n          <div class=\"modal-body\">\n              <div class=\"form-group\">\n                <!-- <label>City</label> -->\n                <select required title=\"Choose City\" class=\"form-control\" (change)=\"homeSearch($event.target.value)\">\n                  <option value=\"\" disabled>Select City</option>\n                  <option *ngFor=\"let city of parameter.cities\" [selected]=\"city.id == parameter.city_id\" value=\"{{city.id}}\">{{city.name}}</option>\n                </select>\n              </div>\n                \n              <table class=\"table\" *ngIf=\"parameter?.items?.length!=0\">\n                <tbody>\n                  <tr *ngFor=\"let item of parameter.items\">\n                    <td>\n                        <div class=\"n-avail-profile\">\n                          <img [src]=\"item.image\" onerror='src=\"assets/img/house.png\"' alt=\"img\">\n                          <div class=\"n-avail-info\">\n                              <p class=\"p12\">{{item.building.name}}</p>\n                              <p class=\"p10 marginB0\">{{item.building.address ? item.building.address : 'NA'}}</p>\n                              <p class=\"p10\">{{item.configuration.name}}</p>\n                          </div>\n                        </div>\n                    </td>\n                    <td>\n                        <label class=\"cust-check-bx float-right\">\n                        <input type=\"checkbox\" name=\"document\">\n                        <!-- <input type=\"radio\" name=\"bank_id\" (click)=\"addLeadInterestedProperty(item.id)\"> -->\n                        <span class=\"checkmark\"></span>\n                        </label>\n                    </td>\n                  </tr>\n                </tbody>\n              </table>\n              <div class=\"row\" *ngIf=\"parameter?.items?.length!=0\">\n                <div class=\"col-12 center btn-cont\">\n                  <label style=\"display: block;\">&nbsp;</label>\n                  <button (click)=\"getInhouseUsers()\" class=\"btn btn-primary\">Add</button>\n                </div>\n              </div>\n              <div *ngIf=\"parameter?.items?.length==0\">\n                <p class=\"show-not-found\">No property found for selected filters.</p>\n              </div>\n          </div>\n      </div>\n    </div>\n</div>\n  \n<!-- deal finalize modal -->\n<div class=\"modal animated\" id=\"dealFinalize\">\n  <div class=\"modal-dialog fadeIndown\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n          <button style=\"display: none;\" type=\"button\" class=\"close\" data-dismiss=\"modal\" #modalClose>&times;</button>\n          <button type=\"button\" class=\"close\" (click)=\"closeModal()\">&times;</button>\n      </div>\n\n      <form class=\"form-horizontal form-model0P\" role=\"form\" ngNativeValidate #addForm=\"ngForm\" (ngSubmit)=\"attachProperty(); addForm.reset()\">\n        <div class=\"modal-body\">\n          <div class=\"row\">\n            <div class=\"col-12\">\n              <div class=\"form-group-2\">\n                  <label for=\"token_amount\">Amount to be paid by user</label>\n                  <div class=\"form-group\">\n                  <input id=\"token_amount\" #token_amount=ngModel autocomplete=\"off\" name=\"token_amount\" [(ngModel)]=\"model.token_amount\" type=\"number\" class=\"form-control\" required>\n                </div>\n              </div>\n            </div>\n            <div class=\"col-12\">\n              <div class=\"form-group-2\">\n                  <label>Commission</label>\n                  <div class=\"form-group\">\n                    <input autocomplete=\"off\" type=\"number\" name=\"commision\" [(ngModel)]=\"model.commision\" class=\"form-control\" required>\n                </div>\n              </div>\n            </div>\n            <div class=\"col-12\">\n              <div class=\"form-group-2\">\n                  <label>Total Amount</label>\n                  <div class=\"form-group\">\n                    <input autocomplete=\"off\" name=\"total_amount\" [(ngModel)]=\"model.total_amount\" type=\"number\" class=\"form-control\" required>\n                </div>\n              </div>\n            </div>\n            <div class=\"col-12\">\n              <div class=\"spacer40\"></div>\n            </div>\n            <div class=\"col-12\">\n              <div class=\"btn-cont text-right\">\n                  <button style=\"width: 100%;\" type=\"submit\" class=\"btn btn-primary\">Finalize Deal</button>\n              </div>\n            </div>\n          </div>\n        </div>\n      </form>\n    </div>\n  </div>\n</div>\n\n\n<!-- show interested_properties -->\n<div class=\"modal\" id=\"view-all\">\n  <div class=\"modal-dialog  modal-lg\">\n     <div class=\"modal-content\">\n        <div class=\"modal-header\">\n           <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n        </div>\n        <div class=\"modal-body\">\n          <h3>Interested Properties</h3>\n          <hr>\n          <div class=\"scrollbox fav-prop\">\n            <div class=\"row\">\n              <div class=\"col-lg-6 col-md-12 col-sm-12 col-12\" *ngFor=\"let x of parameter.interested_properties\">\n                  <div class=\"project-des-bx white-bg-2\">\n                      <div class=\"price\">${{x.property.min_price}}</div>\n                    <div class=\"fig-block\">\n                        <img [src]=\"x.property.image\" onerror='src=\"assets/img/bank.png\"' alt=\"img\">\n                    </div>\n                    <div class=\"project-des-content\">\n                        <small>{{x.property.building.developer.name}}</small>\n                        <h5>{{x.property.building.name.slice(0, 20)}}</h5>\n                        <p class=\"p12\">{{x.property.building.address.slice(0, 55)}}</p>\n                        <p class=\"p13\" *ngIf=\"x && x.property\">{{x.property.configuration.name}}</p>\n                        <p class=\"p13\" *ngIf=\"!x && !x.property\">NA</p>\n                    </div>\n                  </div>\n              </div>\n            </div>\n          </div>\n        </div>\n     </div>\n  </div>\n</div>"
+module.exports = "<!-- {{interested_properties|json}} -->\n  <div class=\"spacer30\"></div>\n  <div class=\"row\">\n     <div class=\"col-6\">\n        <p class=\"p16\">Interested Properties</p>\n     </div>\n   <div class=\"col-6\">\n        <div class=\"btn-cont text-right\">\n          <a style=\"display: none;\" class=\"btn btn-fourth\" #showPropertyModal href=\"javascript://\" data-toggle=\"modal\" data-target=\"#add-property\">Add</a>\n          <!-- <a class=\"btn btn-fourth\" href=\"javascript://\" (click)=\"showModal()\">Add</a> -->\n          <a class=\"btn btn-fourth\" href=\"javascript://\" (click)=\"showProperties(lead_id)\">Add</a>\n          <a style=\"display: none;\" data-toggle=\"modal\" #showInterestedProperty data-target=\"#view-all\" class=\"btn btn-fourth\" href=\"javascript://\">View All</a>\n          <a *ngIf=\"interested_properties?.length!=0\" class=\"btn btn-fourth\" href=\"javascript://\" (click)=\"viewProperties(interested_properties)\">View All</a>\n        </div>\n     </div>\n  </div>\n  \n  <div class=\"spacer15\"></div>\n  <div class=\"row\" *ngIf=\"interested_properties?.length>0\">\n    <div class=\"col-lg-4 col-md-12 col-sm-12 col-12\" *ngFor=\"let data of interested_properties; let in=index\">\n\n    <div *ngIf=\"data.property.building && data && in<3\" class=\"project-des-bx white-bg\">\n      <div class=\"price\">{{data.property.min_price|thousand}}+</div>\n      <div class=\"fig-block\">\n        <img [src]=\"data.property.image\" onerror='src=\"assets/img/bank.png\"' alt=\"img\">\n      </div>\n      <div class=\"project-des-content\">\n        <small>{{data.property.building.developer.name}}</small>\n        <h5>{{data.property.building.name.slice(0, 15)}}</h5>\n        <p class=\"p12\">{{data.property.building.address.slice(0, 60)}}</p>\n\n        <p class=\"p13\" *ngIf=\"data && data.property\">{{data.property.configuration.name}}</p>\n        <p class=\"p13\" *ngIf=\"!data && !data.property\">NA</p>\n        <div class=\"dropdown threeDots\">\n          <button type=\"button\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n            ...\n          </button>\n          <div class=\"dropdown-menu\">\n            <a style=\"display: none;\" *ngIf=\"adminType==2\" class=\"dropdown-item\" href=\"javascript://\" #modalOpen data-toggle=\"modal\" data-target=\"#dealFinalize\">Deal Finalized</a>\n            <a *ngIf=\"adminType==2\" class=\"dropdown-item\" href=\"javascript://\" (click)=\"openModal(data.property.id, data.lead_id)\">Deal Finalized</a>\n            <a class=\"dropdown-item\" (click)=\"deleteLeadInterestedProperty(data.property.id, data.lead_id, in)\">Remove Property</a>\n          </div>\n        </div>\n      </div>\n    </div>\n\n    </div>\n  </div>\n  <div *ngIf=\"interested_properties?.length == 0\">\n    <p class=\"show-not-found\">\n      {{constant.errorMsg.NO_INTERESTED_PROPERTY_FOUND}}\n    </p>\n  </div>\n\n\n\n<!-- add property to interested_properties -->\n<div class=\"modal\" id=\"add-property\">\n    <div class=\"modal-dialog modal-lg\">\n      <div class=\"modal-content notary-avail\">\n          <div class=\"modal-header popup-header\">\n            <h4 class=\"modal-title\">Properties available</h4>\n            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" #hidePropertyModal>&times;</button>\n          </div>\n          <div class=\"modal-body\">\n              <!-- <div class=\"row\">\n                <div class=\"col-6\">\n                    <div class=\"form-group\">\n                      <label>Choose Country</label>\n                        <select required title=\"Choose Country\" class=\"form-control\" (change)=\"setCountryId($event.target.value)\">\n                          <option value=\"\" disabled>Select Country</option>\n                          <option *ngFor=\"let country of parameter.countries\" [selected]=\"country.id == parameter.country_id\" value=\"{{country.id}}\">{{country.name}}</option>\n                        </select>\n                      </div>\n                </div>\n                <div class=\"col-6\">\n                    <div class=\"form-group\">\n                        <label>Choose State</label>\n                        <select required title=\"Choose State\" class=\"form-control\" (change)=\"setStateId($event.target.value)\">\n                          <option value=\"\" disabled>Select State</option>\n                          <option *ngFor=\"let state of parameter.states\" [selected]=\"state.id == parameter.state_id\" value=\"{{state.id}}\">{{state.name}}</option>\n                        </select>\n                      </div>\n                </div>\n              </div>\n              <div class=\"row\">\n                  <div class=\"col-6\">\n                      <div class=\"form-group\">\n                          <label>Choose City</label>\n                          <select required title=\"Choose City\" class=\"form-control\" (change)=\"setCountryId($event.target.value)\">\n                            <option value=\"\" disabled>Select City</option>\n                            <option *ngFor=\"let city of parameter.countries\" [selected]=\"city.id == parameter.city_id\" value=\"{{city.id}}\">{{city.name}}</option>\n                          </select>\n                        </div>\n                  </div>\n                  <div class=\"col-6\">\n                      <div class=\"form-group\">\n                          <label>Choose Locality</label>\n                          <select required title=\"Choose Locality\" class=\"form-control\" (change)=\"setStateId($event.target.value)\">\n                            <option value=\"\" disabled>Select State</option>\n                            <option *ngFor=\"let locality of parameter.states\" [selected]=\"locality.id == parameter.locality_id\" value=\"{{locality.id}}\">{{locality.name}}</option>\n                          </select>\n                        </div>\n                  </div>\n                </div>\n   -->\n              <div class=\"form-group\">\n                <select required title=\"Choose City\" class=\"form-control\" (change)=\"propertySearch($event.target.value)\">\n                  <option value=\"\" disabled>Select City</option>\n                  <option *ngFor=\"let city of parameter.cities\" [selected]=\"city.id == parameter.city_id\" value=\"{{city.id}}\">{{city.name}}</option>\n                </select>\n              </div>\n  \n              <table class=\"table\" *ngIf=\"parameter?.items?.length!=0\">\n                <tbody>\n                  <tr *ngFor=\"let item of parameter.items; let i=index\">\n                    <td>\n                        <div class=\"n-avail-profile\">\n                          <img [src]=\"item.image\" onerror='src=\"assets/img/house.png\"' alt=\"img\">\n                          <div class=\"n-avail-info\">\n                              <p class=\"p12\">{{item.building.name}}</p>\n                              <p class=\"p10 marginB0\">{{item.building.address ? item.building.address : 'NA'}}</p>\n                              <p class=\"p10\">{{item.configuration.name}}</p>\n                          </div>\n                        </div>\n                    </td>\n                    <td>\n                        <label class=\"cust-check-bx float-right\">\n                        <input type=\"radio\" name=\"bank_id1\" (click)=\"addLeadInterestedProperty(item.id)\">\n                        <span class=\"checkmark\"></span>\n                        </label>\n                    </td>\n                  </tr>\n                </tbody>\n              </table>\n              <!-- <div class=\"row\" *ngIf=\"parameter?.items?.length!=0\">\n                <div class=\"col-12 center btn-cont\">\n                  <label style=\"display: block;\">&nbsp;</label>\n                  <button (click)=\"getInhouseUsers()\" class=\"btn btn-primary\">Add</button>\n                </div>\n              </div> -->\n              <div *ngIf=\"parameter?.items?.length==0\">\n                <p class=\"show-not-found\">No property found for selected filters.</p>\n              </div>\n          </div>\n      </div>\n    </div>\n</div>\n  \n<!-- deal finalize modal -->\n<div class=\"modal animated\" id=\"dealFinalize\">\n  <div class=\"modal-dialog fadeIndown\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n          <button style=\"display: none;\" type=\"button\" class=\"close\" data-dismiss=\"modal\" #modalClose>&times;</button>\n          <button type=\"button\" class=\"close\" (click)=\"closeModal()\">&times;</button>\n      </div>\n\n      <form class=\"form-horizontal form-model0P\" role=\"form\" ngNativeValidate #addForm=\"ngForm\" (ngSubmit)=\"attachProperty(); addForm.reset()\">\n        <div class=\"modal-body\">\n          <div class=\"row\">\n            <div class=\"col-12\">\n              <div class=\"form-group-2\">\n                  <label for=\"token_amount\">Amount to be paid by user</label>\n                  <div class=\"form-group\">\n                  <input id=\"token_amount\" #token_amount=ngModel autocomplete=\"off\" name=\"token_amount\" [(ngModel)]=\"model.token_amount\" type=\"number\" class=\"form-control\" required>\n                </div>\n              </div>\n            </div>\n            <div class=\"col-12\">\n              <div class=\"form-group-2\">\n                  <label>Commission</label>\n                  <div class=\"form-group\">\n                    <input autocomplete=\"off\" type=\"number\" name=\"commision\" [(ngModel)]=\"model.commision\" class=\"form-control\" required>\n                </div>\n              </div>\n            </div>\n            <div class=\"col-12\">\n              <div class=\"form-group-2\">\n                  <label>Total Amount</label>\n                  <div class=\"form-group\">\n                    <input autocomplete=\"off\" name=\"total_amount\" [(ngModel)]=\"model.total_amount\" type=\"number\" class=\"form-control\" required>\n                </div>\n              </div>\n            </div>\n            <div class=\"col-12\">\n              <div class=\"spacer40\"></div>\n            </div>\n            <div class=\"col-12\">\n              <div class=\"btn-cont text-right\">\n                  <button style=\"width: 100%;\" type=\"submit\" class=\"btn btn-primary\">Finalize Deal</button>\n              </div>\n            </div>\n          </div>\n        </div>\n      </form>\n    </div>\n  </div>\n</div>\n\n\n<!-- show interested_properties -->\n<div class=\"modal\" id=\"view-all\">\n  <div class=\"modal-dialog  modal-lg\">\n     <div class=\"modal-content\">\n        <div class=\"modal-header\">\n           <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n        </div>\n        <div class=\"modal-body\">\n          <h3>Interested Properties</h3>\n          <hr>\n          <div class=\"scrollbox fav-prop\">\n            <div class=\"row\">\n              <div class=\"col-lg-6 col-md-12 col-sm-12 col-12\" *ngFor=\"let x of parameter.interested_properties\">\n                  <div class=\"project-des-bx white-bg-2\">\n                      <div class=\"price\">{{x.property.min_price|thousand}}+</div>\n                    <div class=\"fig-block\">\n                        <img [src]=\"x.property.image\" onerror='src=\"assets/img/bank.png\"' alt=\"img\">\n                    </div>\n                    <div class=\"project-des-content\">\n                        <small>{{x.property.building.developer.name}}</small>\n                        <h5>{{x.property.building.name.slice(0, 20)}}</h5>\n                        <p class=\"p12\">{{x.property.building.address.slice(0, 55)}}</p>\n                        <p class=\"p13\" *ngIf=\"x && x.property\">{{x.property.configuration.name}}</p>\n                        <p class=\"p13\" *ngIf=\"!x && !x.property\">NA</p>\n                    </div>\n                  </div>\n              </div>\n            </div>\n          </div>\n        </div>\n     </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -1196,7 +585,7 @@ var InterestedPropertyComponent = /** @class */ (function () {
         this.parameter = {};
     }
     InterestedPropertyComponent.prototype.ngOnInit = function () {
-        this.showProperties(this.lead_id);
+        // this.showProperties(this.lead_id);
     };
     InterestedPropertyComponent.prototype.openModal = function (property_id, lead_id) {
         var test = this.selected_properties.map(function (i) { return i.property_id === property_id; });
@@ -1256,14 +645,33 @@ var InterestedPropertyComponent = /** @class */ (function () {
             _this.parameter.cities = r.data;
             if (r.data.length !== 0) {
                 _this.parameter.city_id = r.data[0].id;
-                _this.homeSearch(r.data[0].id);
+                _this.propertySearch(r.data[0].id);
+                _this.showPropertyModal.nativeElement.click();
             }
             else {
                 swal('Error', 'No city exists.', 'error');
             }
         });
     };
-    InterestedPropertyComponent.prototype.homeSearch = function (city_id) {
+    // showProperties(lead_id) {
+    //   this.parameter.lead_id = lead_id;
+    //   this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
+    //     console.log('getCountryLocality', r);
+    //     this.parameter.cities = r.data;
+    //     if (r.data.length !== 0) {
+    //       this.showPropertyModal.nativeElement.click();
+    //       this.parameter.countries = r.data;
+    //       this.parameter.country_id = r.data[0].id;
+    //       this.parameter.states = r.data[0].states;
+    //       // this.parameter.states.push({id: '0', name: 'All', status: 1});
+    //       this.parameter.state_id = '0';
+    //       this.propertySearch(r.data[0].id);
+    //     } else {
+    //       swal('Error', 'No city exists.', 'error');
+    //     }
+    //   });
+    // }
+    InterestedPropertyComponent.prototype.propertySearch = function (city_id) {
         var _this = this;
         this.parameter.city_id = city_id;
         this.admin.postDataApi('propertySearch', { city_id: city_id }).subscribe(function (r) {
@@ -1526,7 +934,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/layout/common-blocks/viewed-property/viewed-property.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!-- <div *ngIf=\"property\" class=\"project-des-bx white-bg\">\n  <div class=\"price\">${{property.min_price}}</div>\n  <div class=\"fig-block\">\n      <img [src]=\"property.image\" onerror='src=\"assets/img/bank.png\"' alt=\"img\">\n  </div>\n  <div class=\"project-des-content\">\n    <small>{{property.building.developer.name}}</small>\n    <h5>{{property.building.name}}</h5>\n    <p class=\"p12\">{{property.building.address}}</p>\n    <p class=\"p13\" *ngIf=\"property\">{{property.configuration.name}}</p>\n    <p class=\"p13\" *ngIf=\"!property\">NA</p>\n  </div>\n</div>\n -->\n\n\n\n<!-- {{viewed_properties|json}} -->\n<div class=\"spacer30\"></div>\n<div class=\"row\">\n   <div class=\"col-6\">\n      <p class=\"p16\">Viewed Projects or properties</p>\n   </div>\n <div class=\"col-6\">\n      <div class=\"btn-cont text-right\">\n        <a style=\"display: none;\" data-toggle=\"modal\" #showPropertyModal data-target=\"#view-viewed-property\" class=\"btn btn-fourth\" href=\"javascript://\">View All</a>\n        <a *ngIf=\"viewed_properties?.length!=0\" class=\"btn btn-fourth\" href=\"javascript://\" (click)=\"viewProperties(viewed_properties)\">View All</a>\n      </div>\n   </div>\n</div>\n\n<div class=\"spacer15\"></div>\n<div class=\"row\" *ngIf=\"viewed_properties?.length>0\">\n  <div class=\"col-lg-4 col-md-12 col-sm-12 col-12\" *ngFor=\"let data of viewed_properties; let in=index\">\n\n  <div *ngIf=\"data.building && data && in<3\" class=\"project-des-bx white-bg\">\n    <div class=\"price\">${{data.min_price}}</div>\n    <div class=\"fig-block\">\n      <img [src]=\"data.image\" onerror='src=\"assets/img/bank.png\"' alt=\"img\">\n    </div>\n    <div class=\"project-des-content\">\n      <small>{{data.building.developer.name}}</small>\n      <h5>{{data.building.name.slice(0, 15)}}</h5>\n      <p class=\"p12\">{{data.building.address.slice(0, 60)}}</p>\n\n      <p class=\"p13\" *ngIf=\"data\">{{data.configuration.name}}</p>\n      <p class=\"p13\" *ngIf=\"!data\">NA</p>\n    </div>\n  </div>\n\n  </div>\n</div>\n<div *ngIf=\"viewed_properties?.length == 0\">\n  <p class=\"show-not-found\">\n    {{constant.errorMsg.NO_VIEWED_PROPERTY_FOUND}}\n  </p>\n</div>\n\n\n<!-- show viewed_properties -->\n<div class=\"modal\" id=\"view-viewed-property\">\n  <div class=\"modal-dialog  modal-lg\">\n      <div class=\"modal-content\">\n        <div class=\"modal-header\">\n            <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n        </div>\n        <div class=\"modal-body\">\n          <h3>Viewed Projects or properties</h3>\n          <hr>\n          <div class=\"scrollbox fav-prop\">\n            <div class=\"row\">\n              <div class=\"col-lg-6 col-md-12 col-sm-12 col-12\" *ngFor=\"let x of parameter.viewed_properties\">\n                  <div class=\"project-des-bx white-bg-2\">\n                      <div class=\"price\">${{x.min_price}}</div>\n                    <div class=\"fig-block\">\n                        <img [src]=\"x.image\" onerror='src=\"assets/img/bank.png\"' alt=\"img\">\n                    </div>\n                    <div class=\"project-des-content\">\n                        <small>{{x.building.developer.name}}</small>\n                        <h5>{{x.building.name.slice(0, 15)}}</h5>\n                        <p class=\"p12\">{{x.building.address.slice(0, 55)}}</p>\n                        <p class=\"p13\" *ngIf=\"x\">{{x.configuration.name}}</p>\n                        <p class=\"p13\" *ngIf=\"!x\">NA</p>\n                    </div>\n                  </div>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n  </div>\n</div>"
+module.exports = "<!-- <div *ngIf=\"property\" class=\"project-des-bx white-bg\">\n  <div class=\"price\">${{property.min_price}}</div>\n  <div class=\"fig-block\">\n      <img [src]=\"property.image\" onerror='src=\"assets/img/bank.png\"' alt=\"img\">\n  </div>\n  <div class=\"project-des-content\">\n    <small>{{property.building.developer.name}}</small>\n    <h5>{{property.building.name}}</h5>\n    <p class=\"p12\">{{property.building.address}}</p>\n    <p class=\"p13\" *ngIf=\"property\">{{property.configuration.name}}</p>\n    <p class=\"p13\" *ngIf=\"!property\">NA</p>\n  </div>\n</div>\n -->\n\n\n\n<!-- {{viewed_properties|json}} -->\n<div class=\"spacer30\"></div>\n<div class=\"row\">\n   <div class=\"col-6\">\n      <p class=\"p16\">Viewed Projects or properties</p>\n   </div>\n <div class=\"col-6\">\n      <div class=\"btn-cont text-right\">\n        <a style=\"display: none;\" data-toggle=\"modal\" #showPropertyModal data-target=\"#view-viewed-property\" class=\"btn btn-fourth\" href=\"javascript://\">View All</a>\n        <a *ngIf=\"viewed_properties?.length!=0\" class=\"btn btn-fourth\" href=\"javascript://\" (click)=\"viewProperties(viewed_properties)\">View All</a>\n      </div>\n   </div>\n</div>\n\n<div class=\"spacer15\"></div>\n<div class=\"row\" *ngIf=\"viewed_properties?.length>0\">\n  <div class=\"col-lg-4 col-md-12 col-sm-12 col-12\" *ngFor=\"let data of viewed_properties; let in=index\">\n\n  <div *ngIf=\"data.building && data && in<3\" class=\"project-des-bx white-bg\">\n    <div class=\"price\">{{data.min_price|thousand}}+</div>\n    <div class=\"fig-block\">\n      <img [src]=\"data.image\" onerror='src=\"assets/img/bank.png\"' alt=\"img\">\n    </div>\n    <div class=\"project-des-content\">\n      <small>{{data.building.developer.name}}</small>\n      <h5>{{data.building.name.slice(0, 15)}}</h5>\n      <p class=\"p12\">{{data.building.address.slice(0, 60)}}</p>\n\n      <p class=\"p13\" *ngIf=\"data\">{{data.configuration.name}}</p>\n      <p class=\"p13\" *ngIf=\"!data\">NA</p>\n    </div>\n  </div>\n\n  </div>\n</div>\n<div *ngIf=\"viewed_properties?.length == 0\">\n  <p class=\"show-not-found\">\n    {{constant.errorMsg.NO_VIEWED_PROPERTY_FOUND}}\n  </p>\n</div>\n\n\n<!-- show viewed_properties -->\n<div class=\"modal\" id=\"view-viewed-property\">\n  <div class=\"modal-dialog  modal-lg\">\n      <div class=\"modal-content\">\n        <div class=\"modal-header\">\n            <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n        </div>\n        <div class=\"modal-body\">\n          <h3>Viewed Projects or properties</h3>\n          <hr>\n          <div class=\"scrollbox fav-prop\">\n            <div class=\"row\">\n              <div class=\"col-lg-6 col-md-12 col-sm-12 col-12\" *ngFor=\"let x of parameter.viewed_properties\">\n                  <div class=\"project-des-bx white-bg-2\">\n                      <div class=\"price\">{{x.min_price|thousand}}+</div>\n                    <div class=\"fig-block\">\n                        <img [src]=\"x.image\" onerror='src=\"assets/img/bank.png\"' alt=\"img\">\n                    </div>\n                    <div class=\"project-des-content\">\n                        <small>{{x.building.developer.name}}</small>\n                        <h5>{{x.building.name.slice(0, 15)}}</h5>\n                        <p class=\"p12\">{{x.building.address.slice(0, 55)}}</p>\n                        <p class=\"p13\" *ngIf=\"x\">{{x.configuration.name}}</p>\n                        <p class=\"p13\" *ngIf=\"!x\">NA</p>\n                    </div>\n                  </div>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -1668,6 +1076,7 @@ var CsrBuyerDetailComponent = /** @class */ (function () {
     CsrBuyerDetailComponent.prototype.setFillInformationData = function (r) {
         var _this = this;
         this.admin.postDataApi('leads/getPrefOptions', { lead_id: this.parameter.lead_id }).subscribe(function (res) {
+            console.log('====>', res);
             _this.fillInfo.lead_id = _this.parameter.lead_id;
             _this.fillInfo.proximity_places_array = res.data.proximity_places;
             _this.fillInfo.car_types = res.data.car_types;
@@ -1707,6 +1116,7 @@ var CsrBuyerDetailComponent = /** @class */ (function () {
         if (r.data.lead.prefs !== null) {
             this.fillInfo.family_size = r.data.lead.prefs.family_size;
             this.fillInfo.pets = r.data.lead.prefs.pets;
+            this.fillInfo.kid_count = r.data.lead.prefs.kid_count;
             this.fillInfo.min_price = r.data.lead.prefs.min_price ? r.data.lead.prefs.min_price : this.constant.minValue;
             this.fillInfo.max_price = r.data.lead.prefs.max_price ? r.data.lead.prefs.max_price : this.constant.maxValue;
             this.fillInfo.price_range = [this.fillInfo.min_price, this.fillInfo.max_price];
@@ -1716,6 +1126,7 @@ var CsrBuyerDetailComponent = /** @class */ (function () {
         else {
             this.fillInfo.family_size = 1;
             this.fillInfo.pets = '';
+            this.fillInfo.kid_count = '';
             this.fillInfo.min_price = this.constant.minValue;
             this.fillInfo.max_price = this.constant.maxValue;
             this.fillInfo.price_range = [this.constant.minValue, this.constant.maxValue];
@@ -1777,7 +1188,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/layout/leads/csr-buyer/csr-buyer.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "\n<!-- <ngx-loading [show]=\"parameter.loading\"></ngx-loading> -->\n\n<div class=\"container-fluid\">\n  <div class=\"row\">\n      <div class=\"col-md-3\">\n        <a class=\"view-all-2\" href=\"javascript://\"><i class=\"fa fa-angle-left\"></i><span>View all</span></a>\n      </div>\n      <div class=\"col-md-9\">\n        <div class=\"cust-tabs-2\">\n            <ul class=\"nav nav-tabs\">\n              <li class=\"nav-item\">\n                  <a class=\"nav-link\" [ngClass]=\"{'active':parameter.flag==1}\" (click)=\"changeFlag(1)\" >This Week</a>\n              </li>\n              <li class=\"nav-item\">\n                  <a class=\"nav-link\" [ngClass]=\"{'active':parameter.flag==2}\" (click)=\"changeFlag(2)\" >This Month</a>\n              </li>\n              <li class=\"nav-item\">\n                  <a class=\"nav-link\" [ngClass]=\"{'active':parameter.flag==3}\" (click)=\"changeFlag(3)\" >Last Month</a>\n              </li>\n              <li class=\"nav-item\">\n                  <a class=\"nav-link\" [ngClass]=\"{'active':parameter.flag==4}\" (click)=\"changeFlag(4)\" >Lifetime</a>\n              </li>\n              <li class=\"nav-item\">\n                  <a class=\"nav-link\" [ngClass]=\"{'active':parameter.flag==5}\" (click)=\"changeFlag(5)\" >Custom</a>\n              </li>\n            </ul>\n        </div>\n      </div>\n      <div class=\"col-12\">\n        <hr style=\"margin-top:0;\">\n      </div>\n  </div>\n<!-- \n  <div class=\"sigle-row-table\">\n    <table class=\"table table-striped\">\n        <tr>\n          <td> <img class=\"rounded-circle\" src=\"./../../../assets/img/default_img.png\" alt=\"img\"></td>\n          <td class=\"text-left\">\n              <span class=\"name\">Lillian Russell</span>\n          </td>\n          <td class=\"text-left\">\n              728-111-1874\n          </td>\n          <td class=\"text-left\">\n              eunice_aufderhar@yahoo.com\n          </td>\n          <td>\n              14\n          </td>\n          <td>\n              <a href=\"javascript://\" class=\"icon-block edit-icon\"><img src=\"./../../../assets/img/edit.png\" alt=\"img\"></a>\n              <a href=\"javascript://\" class=\"icon-block block-icon\"><img src=\"./../../../assets/img/unblock.png\" alt=\"img\"></a>\n          </td>\n        </tr>\n    </table>\n  </div>\n\n  <div class=\"row\">\n      <div class=\"col-lg-4 col-md-12 col-sm-12 col-12\">\n        <div class=\"info-box\">\n            <div class=\"one-row\">\n              <div class=\"o-block\">\n                  <h5>Buildings</h5>\n                  <small>Requests Pending</small>\n              </div>\n              <div class=\"o-block\">\n                  <a class=\"view-all\" href=\"javascript://\">View All</a>\n                  <h4>15</h4>\n              </div>\n            </div>\n            <div class=\"three-row\">\n              <div class=\"t-block\">\n                  <p><strong>3</strong></p>\n                  <p>Admin</p>\n              </div>\n              <div class=\"t-block\">\n                  <p><strong>6</strong></p>\n                  <p>CSR</p>\n              </div>\n              <div class=\"t-block\">\n                  <p><strong>5</strong></p>\n                  <p>User</p>\n              </div>\n            </div>\n        </div>\n      </div>\n    <div class=\"col-lg-4 col-md-12 col-sm-12 col-12\">\n        <div class=\"four-block\">\n            <div class=\"d-flex\">\n              <div class=\"f-block approved\">\n                  <h5>Approved</h5>\n                  <h3>25</h3>\n              </div>\n              <div class=\"f-block unapproved\">\n                  <h5>Unapproved</h5>\n                  <h3>02</h3>\n              </div>\n            </div>\n            <div class=\"d-flex\">\n              <div class=\"f-block pending active\">\n                  <h5>Pending</h5>\n                  <h3>01</h3>\n              </div>\n              <div class=\"f-block unapproved\">\n                  <h5>In Draft</h5>\n                  <h3>02</h3>\n              </div>\n            </div>\n        </div>\n      </div>\n      <div class=\"col-lg-4 col-md-12 col-sm-12 col-12\">\n        <div class=\"chat-msg\">\n            <div class=\"row\">\n              <div class=\"col-6\">\n                  <h5>Chat</h5>\n              </div>\n              <div class=\"col-6 text-right\"><a class=\"msg\" href=\"javascript://\">Message</a></div>\n            </div>\n            <p>Waiting for response</p>\n            <p>\n              <strong>Mario Hudson</strong>\n              When you are free to have a meeting\n              with interested customers?\n            </p>\n            <p>\n              <strong>Rosie Benson</strong>\n              Is there any availability in the localities\n              I was asking you tomorrow and also p…\n            </p>\n        </div>\n      </div>\n  </div> -->\n\n\n\n\n  <div class=\"sigle-row-table\">\n                      \n        <table class=\"table table-striped\">\n           <tr>\n              <td> <img class=\"rounded-circle\" src=\"http://via.placeholder.com/50x50\" alt=\"img\"></td>\n              <td class=\"text-left\">\n                 <span class=\"name\">Lillian Russell</span>\n              </td>\n              <td class=\"text-left\">\n                 728-111-1874\n              </td>\n              <td class=\"text-left\">\n                 eunice_aufderhar@yahoo.com\n              </td>\n              <td>\n                 14\n              </td>\n              <td>\n                 <a href=\"javascript://\" class=\"icon-block edit-icon\"><img src=\"assets/img/edit.png\" alt=\"img\"></a>\n                 <a href=\"javascript://\" class=\"icon-block block-icon\"><img src=\"assets/img/block.png\" alt=\"img\"></a>\n              </td>\n           </tr>\n        </table>\n     \n  </div>\n  <div class=\"row\">\n     \n   <div class=\"col-lg-8 col-md-12 col-sm-12 col-12\">\n        <div class=\"info-box all-leads\">\n           <div class=\"row\">\n              <div class=\"col-md-6 col-sm-6 col-12 active\">\n                 <div class=\"one-row \">\n                    <div class=\"o-block\">\n                       <h5>Leads</h5>\n                       <small>Total</small>\n                    </div>\n                    <div class=\"o-block\">\n                       <a class=\"view-all\" href=\"javascript://\">View All</a>\n                       <h4>26</h4>\n                    </div>\n                 </div>\n              </div>\n              <div class=\"col-md-6 col-sm-6 col-12\">\n                 <div class=\"one-row\">\n                    <div class=\"o-block\">\n                       <h5>Leads</h5>\n                       <small>Without Broker</small>\n                    </div>\n                    <div class=\"o-block\">\n                       <a class=\"view-all\" href=\"javascript://\">View All</a>\n                       <h4>10</h4>\n                    </div>\n                 </div>\n              </div>\n           </div>\n        </div>\n                      <div class=\"info-box all-leads\">\n           <div class=\"row\">\n              <div class=\"col-md-6 col-sm-6 col-12\">\n                 <div class=\"one-row \">\n                    <div class=\"o-block\">\n                       <h5>Leads</h5>\n                       <small>Information Filled</small>\n                    </div>\n                    <div class=\"o-block\">\n                       <a class=\"view-all\" href=\"javascript://\">View All</a>\n                       <h4>26</h4>\n                    </div>\n                 </div>\n              </div>\n              <div class=\"col-md-6 col-sm-6 col-12\">\n                 <div class=\"one-row\">\n                    <div class=\"o-block\">\n                       <h5>Leads</h5>\n                       <small>Broker Assigned</small>\n                    </div>\n                    <div class=\"o-block\">\n                       <a class=\"view-all\" href=\"javascript://\">View All</a>\n                       <h4>10</h4>\n                    </div>\n                 </div>\n              </div>\n           </div>\n        </div>\n\n     </div>\n     <div class=\"col-lg-4 col-md-12 col-sm-12 col-12\">\n        <div class=\"chat-msg all-leads\">\n           <div class=\"row\">\n              <div class=\"col-6\">\n                 <h5>Chat</h5>\n              </div>\n              <div class=\"col-6 text-right\"><a class=\"msg\" href=\"javascript://\">Message</a></div>\n           </div>\n           <p>Waiting for response</p>\n           <p>\n              <strong>Mario Hudson</strong>\n              When you are free to have a meeting \n              with interested customers?\n           </p>\n           <p>\n              <strong>Rosie Benson</strong>\n              Is there any availability in the localities\n              I was asking you tomorrow and also p…\n           </p>\n        </div>\n     </div>\n\n\n\n\n\n  <div class=\"row\">\n      <div class=\"col-12\">\n        <div class=\"spacer40\"></div>\n      </div>\n      <div class=\"col-12\">\n        <div class=\"title-group\">\n            <h5>All Leads (Information Filled)</h5>\n            <p>Showing {{items?.length}} out of {{parameter.total}}</p>\n        </div>\n      </div>\n  </div>\n\n  <div class=\"white-bg\">\n      <div class=\"tabel-section\">\n        <div class=\"table-responsive\">\n            <table class=\"table table-striped table-align-left vertical-align-top\">\n              <tr>\n                  <th>\n                    <div class=\"table-search\"></div>\n                  </th>\n                  <th style=\"width:18%\">\n                    <div class=\"table-search\">\n                        <label>Name</label>\n                        <div class=\"searh-3\">\n                            <input type=\"text\" [(ngModel)]=\"parameter.name\" (keyup.enter)=\"changeFilter('name',$event.target.value)\" name=\"\">\n                            <button *ngIf=\"parameter.name\" (click)=\"changeFilter('name', parameter.name)\"><i class=\"fa fa-search\"></i></button>\n                        </div>\n                    </div>\n                  </th>\n                  <th style=\"width:20%; text-align:left;\">\n                    <div class=\"table-search\">\n                        <label>Contact Number</label>\n                        <div class=\"searh-3\">\n                            <input type=\"text\" [(ngModel)]=\"parameter.phone\" (keyup.enter)=\"changeFilter('phone',$event.target.value)\" name=\"\">\n                            <button *ngIf=\"parameter.phone\" (click)=\"changeFilter('phone', parameter.phone)\"><i class=\"fa fa-search\"></i></button>\n                        </div>\n                    </div>\n                  </th>\n                  <th style=\"width:20%\">\n                    <div class=\"table-search\">\n                        <label>Email</label>\n                        <div class=\"searh-3\">\n                            <input type=\"text\" [(ngModel)]=\"parameter.email\" (keyup.enter)=\"changeFilter('email',$event.target.value)\" name=\"\">\n                            <button *ngIf=\"parameter.email\" (click)=\"changeFilter('email', parameter.email)\"><i class=\"fa fa-search\"></i></button>\n                        </div>\n                    </div>\n                  </th>\n                  <th style=\"width:12%\">\n                    <div class=\"table-search\">\n                        <label>Interested In</label>\n                    </div>\n                  </th>\n                  <th>\n                    <div class=\"table-search\">\n                        <label>Assignee</label>\n                    </div>\n                  </th>\n                  \n                  <th >\n                    <!-- Mark\n                    Complete -->\n                  </th>\n              </tr>\n              <tr *ngFor=\"let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }\">\n                <td>\n                  <img *ngIf=\"item.image\" class=\"rounded-circle\" [src]=\"item.image\" alt=\"img\">\n                  <img *ngIf=\"!item.image\" class=\"rounded-circle\" src=\"./../../../assets/img/default_img.png\" alt=\"img\">\n                </td>\n                <td class=\"text-left\">\n                  <span *ngIf=\"item.name\" routerLink=\"/dashboard/leads/csr-buyers/{{item.id}}\" class=\"name\">{{item.name}}</span>\n                  <span class=\"name\" *ngIf=\"!item.name\">NA</span>\n                </td>\n                <td class=\"text-left\" *ngIf=\"item.phone\">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>\n                <td class=\"text-left\" *ngIf=\"!item.phone\">NA</td>\n                <td class=\"text-left\" *ngIf=\"item.email\">{{item.email}}</td>\n                <td class=\"text-left\" *ngIf=\"!item.email\">NA</td>\n                <td>\n                    <span *ngFor=\"let conf of item.configuration; let ii=index\">\n                        {{conf.name}}\n                        <span *ngIf=\"ii<item?.configuration?.length-1\">,</span>\n                    </span>\n                    <span *ngIf=\"item.configuration?.length==0\">NA</span>\n                </td>\n                <td class=\"text-left\" title=\"CSR Buyer\" *ngIf=\"item.admin.name\">{{item.admin.name}}</td>\n                <td class=\"text-left\" *ngIf=\"!item.admin.name\">Not Assigned</td>\n                <td>\n                  <a href=\"javascript://\" title=\"View Details\" routerLink=\"/dashboard/leads/csr-buyers/{{item.id}}\" class=\"icon-block edit-icon\"><img src=\"./../../../../assets/img/edit.png\" alt=\"img\"></a>\n                  <a href=\"javascript://\" *ngIf=\"item.is_blocked == 1\" (click)=\"blockUnblockPopup(i, item.id, 0, parameter.type)\" title=\"Unblock user\" class=\"icon-block block-icon unblock-bg\"><img src=\"assets/img/block.png\" alt=\"img\"></a>\n                  <a href=\"javascript://\" *ngIf=\"item.is_blocked == 0\" (click)=\"blockUnblockPopup(i, item.id, 1, parameter.type)\" title=\"Block user\" class=\"icon-block block-icon\"><img src=\"assets/img/unblock.png\" alt=\"img\"></a>\n                </td>\n              </tr>\n            </table>\n        </div>\n      </div>\n\n    <div class=\"center\" *ngIf=\"items?.length == 0\">\n        <img src=\"assets/img/404-error.png\">\n    </div>\n  </div>\n\n  <div class=\"btn-cont text-right marginT15\" *ngIf=\"parameter.total\">\n    <pagination-controls class=\"my-pagination\" (pageChange)=\"getPage($event)\"></pagination-controls>\n  </div>\n\n</div>\n"
+module.exports = "\n\n<div class=\"container-fluid\">\n  <div class=\"row\">\n      <div class=\"col-md-5\">\n        <!-- <a class=\"view-all-2\" href=\"javascript://\"><i class=\"fa fa-angle-left\"></i><span>View all</span></a> -->\n        <h5>Manage Leads - CSR Buyer</h5>\n      </div>\n      <div class=\"col-md-7\">\n        <div class=\"cust-tabs-2\">\n            <ul class=\"nav nav-tabs\">\n              <li class=\"nav-item\">\n                  <a class=\"nav-link\" [ngClass]=\"{'active':parameter.flag==1}\" (click)=\"changeFlag(1)\" >This Week</a>\n              </li>\n              <li class=\"nav-item\">\n                  <a class=\"nav-link\" [ngClass]=\"{'active':parameter.flag==2}\" (click)=\"changeFlag(2)\" >This Month</a>\n              </li>\n              <li class=\"nav-item\">\n                  <a class=\"nav-link\" [ngClass]=\"{'active':parameter.flag==3}\" (click)=\"changeFlag(3)\" >Last Month</a>\n              </li>\n              <li class=\"nav-item\">\n                  <a class=\"nav-link\" [ngClass]=\"{'active':parameter.flag==4}\" (click)=\"changeFlag(4)\" >Lifetime</a>\n              </li>\n              <li class=\"nav-item\">\n                  <a class=\"nav-link\" [ngClass]=\"{'active':parameter.flag==5}\" (click)=\"changeFlag(5)\" >Custom</a>\n              </li>\n            </ul>\n        </div>\n      </div>\n      <div class=\"col-12\">\n        <hr style=\"margin-top:0;\">\n      </div>\n  </div>\n\n\n  <!-- <div class=\"sigle-row-table\">       \n    <table class=\"table table-striped\">\n        <tr>\n            <td> <img class=\"rounded-circle\" src=\"http://via.placeholder.com/50x50\" alt=\"img\"></td>\n            <td class=\"text-left\">\n                <span class=\"name\">Lillian Russell</span>\n            </td>\n            <td class=\"text-left\">\n                728-111-1874\n            </td>\n            <td class=\"text-left\">\n                eunice_aufderhar@yahoo.com\n            </td>\n            <td>\n                14\n            </td>\n            <td>\n                <a href=\"javascript://\" class=\"icon-block edit-icon\"><img src=\"assets/img/edit.png\" alt=\"img\"></a>\n                <a href=\"javascript://\" class=\"icon-block block-icon\"><img src=\"assets/img/block.png\" alt=\"img\"></a>\n            </td>\n        </tr>\n    </table>   \n  </div> -->\n\n  <div class=\"row\">\n     \n   <div class=\"col-lg-8 col-md-12 col-sm-12 col-12\">\n        <div class=\"info-box all-leads\">\n           <div class=\"row\">\n              <div class=\"col-md-6 col-sm-6 col-12 active\">\n                 <div class=\"one-row \">\n                    <div class=\"o-block\">\n                       <h5>Leads</h5>\n                       <small>Total</small>\n                    </div>\n                    <div class=\"o-block\">\n                       <a class=\"view-all\" href=\"javascript://\">View All</a>\n                       <h4>26</h4>\n                    </div>\n                 </div>\n              </div>\n              <div class=\"col-md-6 col-sm-6 col-12\">\n                 <div class=\"one-row\">\n                    <div class=\"o-block\">\n                       <h5>Leads</h5>\n                       <small>Without Broker</small>\n                    </div>\n                    <div class=\"o-block\">\n                       <a class=\"view-all\" href=\"javascript://\">View All</a>\n                       <h4>10</h4>\n                    </div>\n                 </div>\n              </div>\n           </div>\n        </div>\n                      <div class=\"info-box all-leads\">\n           <div class=\"row\">\n              <div class=\"col-md-6 col-sm-6 col-12\">\n                 <div class=\"one-row \">\n                    <div class=\"o-block\">\n                       <h5>Leads</h5>\n                       <small>Information Filled</small>\n                    </div>\n                    <div class=\"o-block\">\n                       <a class=\"view-all\" href=\"javascript://\">View All</a>\n                       <h4>26</h4>\n                    </div>\n                 </div>\n              </div>\n              <div class=\"col-md-6 col-sm-6 col-12\">\n                 <div class=\"one-row\">\n                    <div class=\"o-block\">\n                       <h5>Leads</h5>\n                       <small>Broker Assigned</small>\n                    </div>\n                    <div class=\"o-block\">\n                       <a class=\"view-all\" href=\"javascript://\">View All</a>\n                       <h4>10</h4>\n                    </div>\n                 </div>\n              </div>\n           </div>\n        </div>\n\n     </div>\n     <div class=\"col-lg-4 col-md-12 col-sm-12 col-12\">\n        <div class=\"chat-msg all-leads\">\n           <div class=\"row\">\n              <div class=\"col-6\">\n                 <h5>Chat</h5>\n              </div>\n              <div class=\"col-6 text-right\"><a class=\"msg\" href=\"javascript://\">Message</a></div>\n           </div>\n           <p>Waiting for response</p>\n           <p>\n              <strong>Mario Hudson</strong>\n              When you are free to have a meeting \n              with interested customers?\n           </p>\n           <p>\n              <strong>Rosie Benson</strong>\n              Is there any availability in the localities\n              I was asking you tomorrow and also p…\n           </p>\n        </div>\n     </div>\n\n\n\n\n\n  <div class=\"row\">\n      <div class=\"col-12\">\n        <div class=\"spacer40\"></div>\n      </div>\n      <div class=\"col-12\">\n        <div class=\"title-group\">\n            <h5>All Leads (Information Filled)</h5>\n            <p>Showing {{items?.length}} out of {{parameter.total}}</p>\n        </div>\n      </div>\n  </div>\n\n  <div class=\"white-bg\">\n      <div class=\"tabel-section\">\n        <div class=\"table-responsive\">\n            <table class=\"table table-striped table-align-left vertical-align-top\">\n              <tr>\n                  <th>\n                    <div class=\"table-search\"></div>\n                  </th>\n                  <th style=\"width:18%\">\n                    <div class=\"table-search\">\n                        <label>Name</label>\n                        <div class=\"searh-3\">\n                            <input type=\"text\" [(ngModel)]=\"parameter.name\" (keyup.enter)=\"changeFilter('name',$event.target.value)\" name=\"\">\n                            <button *ngIf=\"parameter.name\" (click)=\"changeFilter('name', parameter.name)\"><i class=\"fa fa-search\"></i></button>\n                        </div>\n                    </div>\n                  </th>\n                  <th style=\"width:20%; text-align:left;\">\n                    <div class=\"table-search\">\n                        <label>Contact Number</label>\n                        <div class=\"searh-3\">\n                            <input type=\"text\" [(ngModel)]=\"parameter.phone\" (keyup.enter)=\"changeFilter('phone',$event.target.value)\" name=\"\">\n                            <button *ngIf=\"parameter.phone\" (click)=\"changeFilter('phone', parameter.phone)\"><i class=\"fa fa-search\"></i></button>\n                        </div>\n                    </div>\n                  </th>\n                  <th style=\"width:20%\">\n                    <div class=\"table-search\">\n                        <label>Email</label>\n                        <div class=\"searh-3\">\n                            <input type=\"text\" [(ngModel)]=\"parameter.email\" (keyup.enter)=\"changeFilter('email',$event.target.value)\" name=\"\">\n                            <button *ngIf=\"parameter.email\" (click)=\"changeFilter('email', parameter.email)\"><i class=\"fa fa-search\"></i></button>\n                        </div>\n                    </div>\n                  </th>\n                  <th style=\"width:12%\">\n                    <div class=\"table-search\">\n                        <label>Interested In</label>\n                    </div>\n                  </th>\n                  <th>\n                    <div class=\"table-search\">\n                        <label>Assignee</label>\n                    </div>\n                  </th>\n                  \n                  <th >\n                    <!-- Mark\n                    Complete -->\n                  </th>\n              </tr>\n              <tr *ngFor=\"let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }\">\n                <td>\n                  <img *ngIf=\"item.image\" class=\"rounded-circle\" [src]=\"item.image\" alt=\"img\">\n                  <img *ngIf=\"!item.image\" class=\"rounded-circle\" src=\"./../../../assets/img/default_img.png\" alt=\"img\">\n                </td>\n                <td class=\"text-left\">\n                  <span *ngIf=\"item.name\" routerLink=\"/dashboard/leads/csr-buyers/{{item.id}}\" class=\"name\">{{item.name}}</span>\n                  <span class=\"name\" *ngIf=\"!item.name\">NA</span>\n                </td>\n                <td class=\"text-left\" *ngIf=\"item.phone\">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>\n                <td class=\"text-left\" *ngIf=\"!item.phone\">NA</td>\n                <td class=\"text-left\" *ngIf=\"item.email\">{{item.email}}</td>\n                <td class=\"text-left\" *ngIf=\"!item.email\">NA</td>\n                <td>\n                    <span *ngFor=\"let conf of item.configuration; let ii=index\">\n                        {{conf.name}}\n                        <span *ngIf=\"ii<item?.configuration?.length-1\">,</span>\n                    </span>\n                    <span *ngIf=\"item.configuration?.length==0\">NA</span>\n                </td>\n                <td class=\"text-left\" title=\"CSR Buyer\" *ngIf=\"item.admin.name\">{{item.admin.name}}</td>\n                <td class=\"text-left\" *ngIf=\"!item.admin.name\">Not Assigned</td>\n                <td>\n                  <a href=\"javascript://\" title=\"View Details\" routerLink=\"/dashboard/leads/csr-buyers/{{item.id}}\" class=\"icon-block edit-icon\"><img src=\"./../../../../assets/img/edit.png\" alt=\"img\"></a>\n                  <a href=\"javascript://\" *ngIf=\"item.is_blocked == 1\" (click)=\"blockUnblockPopup(i, item.id, 0, parameter.type)\" title=\"Unblock user\" class=\"icon-block block-icon unblock-bg\"><img src=\"assets/img/block.png\" alt=\"img\"></a>\n                  <a href=\"javascript://\" *ngIf=\"item.is_blocked == 0\" (click)=\"blockUnblockPopup(i, item.id, 1, parameter.type)\" title=\"Block user\" class=\"icon-block block-icon\"><img src=\"assets/img/unblock.png\" alt=\"img\"></a>\n                </td>\n              </tr>\n            </table>\n        </div>\n      </div>\n\n    <div class=\"center\" *ngIf=\"items?.length == 0\">\n        <img src=\"assets/img/404-error.png\">\n    </div>\n  </div>\n\n  <div class=\"btn-cont text-right marginT15\" *ngIf=\"parameter.total\">\n    <pagination-controls class=\"my-pagination\" (pageChange)=\"getPage($event)\"></pagination-controls>\n  </div>\n\n</div>\n"
 
 /***/ }),
 
@@ -1930,7 +1341,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/layout/leads/csr-closer/csr-closer-detail/csr-closer-detail.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "\n<div class=\"container-fluid\">\n  <div class=\"white-bg padding15\">\n      <div class=\"row\">\n        <div class=\"col-lg-3 col-md-12 col-sm-6 col-12\">\n            <div class=\"df-profile\">\n              <i class=\"fa fa-angle-left\" aria-hidden=\"true\"></i>\n              <img [src]=\"parameter.lead?.user?.image\" onerror='src=\"assets/img/default_img.png\"' alt=\"img\">\n              <div class=\"df-info\" *ngIf=\"parameter.lead?.user\">\n                  <p class=\"p14\">{{parameter.lead.user.name}}</p>\n                  <p class=\"p12\">Status: Open</p>\n              </div>\n            </div>\n        </div>\n        <div class=\"col-lg-5 col-md-12 col-sm-6 col-12\">\n            <div class=\"profile-list\">\n              <ul>\n                  <li>\n                    <div class=\"df-info\">\n                        <p class=\"p14 marginB0\" *ngIf=\"parameter.lead?.admin\">{{parameter.lead.admin.name}}</p>\n                        <p class=\"p12\">CSR Buyer</p>\n                    </div>\n                  </li>\n                  <li>\n                    <div class=\"df-info\" *ngIf=\"parameter.lead?.broker\">\n                        <p class=\"p14 marginB0\">{{parameter.lead.broker.name}}</p>\n                        <p class=\"p12\">Inhouse Broker</p>\n                    </div>\n                  </li>\n              </ul>\n            </div>\n        </div>\n      </div>\n  </div>\n  \n  <div class=\"spacer30\"></div>\n  <div class=\"row\">\n      <div class=\"col-lg-6 col-md-12 col-sm-12 col-12\">\n        <div class=\"white-bg padding30\">\n            <div class=\"row\">\n              <div class=\"col-md-6\">\n                  <h6>Details</h6>\n              </div>\n              <!-- <div class=\"col-md-6\">\n                  <div class=\"edit text-right\"><a href=\"javascript://\">Edit</a></div>\n              </div> -->\n            </div>\n            <div class=\"details-table\">\n              <table class=\"table\">\n                  <tr>\n                    <td style=\"padding-left:0\"><label>Full Name</label></td>\n                    <td colspan=\"2\" *ngIf=\"parameter?.lead?.name\">{{parameter.lead.name}}</td>\n                  </tr>\n                  <tr>\n                    <td style=\"padding-left:0\"><label>Contact Number</label></td>\n                    <td colspan=\"2\" *ngIf=\"parameter?.lead?.phone\">{{parameter.lead.dial_code ? parameter.lead.dial_code : constant.dial_code}}-{{parameter.lead.phone}}</td>\n                  </tr>\n                  <tr>\n                    <td style=\"padding-left:0\"><label>Email address</label></td>\n                    <td colspan=\"2\" *ngIf=\"parameter?.lead?.email\">{{parameter.lead.email}}</td>\n                  </tr>\n                  <tr>\n                     <td style=\"padding-left:0\"><label>Interested In</label></td>\n                     <td *ngIf=\"parameter?.lead?.configuration\">\n                       <span *ngFor=\"let conf of parameter.lead.configuration; let ii=index\">\n                         {{conf.name}}\n                         <span *ngIf=\"ii<parameter?.lead?.configuration?.length-1\">,</span>\n                       </span>\n                       <span *ngIf=\"parameter.lead.configuration?.length == 0\">NA</span>\n                     </td>\n                  </tr>\n                  <tr>\n                    <td style=\"padding-left:0\"><label><strong>Property Selected</strong></label></td>\n                    <td *ngIf=\"parameter?.lead?.selected_properties?.length!=0\">\n                        <p class=\"p14 marginB0\">\n                            {{parameter.lead?.selected_properties[0]?.property?.configuration.name}}\n                        </p>\n                        <p class=\"p12 marginB0\"><strong>{{parameter.lead?.selected_properties[0]?.property?.building?.name}}</strong></p>\n                        <p class=\"p11\"><i>{{parameter.lead?.selected_properties[0]?.property?.building?.developer?.name}}</i></p>\n                    </td>\n                    <td *ngIf=\"parameter?.lead?.selected_properties?.length!=0\">\n                        <a class=\"view-all-2\" href=\"javascript://\" (click)=\"viewPropertyDetails(parameter?.lead?.selected_properties[0])\"> View Property</a>\n                    </td>\n                    <td *ngIf=\"parameter?.lead?.selected_properties?.length==0\">NA</td>\n                  </tr>\n                  <!-- <tr>\n                    <td  style=\"padding-left:0\"><label><strong>Meeting Schedule</strong></label></td>\n                    <td colspan=\"2\">\n                        <p class=\"date\">02-Oct-2018, 04:00pm</p>\n                    </td>\n                  </tr> -->\n              </table>\n            </div>\n        </div>\n \n        <!-- notes start -->\n        <app-notes [lead_id]=\"parameter.lead_id\"></app-notes>\n        <!-- notes end -->\n\n        <!-- <div class=\"spacer15\"></div> -->\n        <div class=\"bank-assigned-now white-bg\">\n            <div class=\"row\">\n               <div class=\"col-md-6 col-sm-6 col-12 b-left\">\n                  <p class=\"p13\" *ngIf=\"selectedProperties?.noataries && selectedProperties.noataries.length==0\">No Notary assigned yet </p>\n                  <a style=\"display:none;\" #showNotaries href=\"javascript://\" class=\"green green-color\" data-toggle=\"modal\" data-target=\"#notary-avail\">Assign Now</a>\n                  <a href=\"javascript://\" *ngIf=\"selectedProperties?.noataries && selectedProperties.noataries.length==0\" class=\"green-color green\" (click)=\"getNotaries(selectedProperties.property_id)\">Assign Now</a>\n                  <div class=\"d-flex\" *ngIf=\"selectedProperties?.noataries && selectedProperties.noataries.length!=0\">\n                    <img [src]=\"selectedProperties?.noataries && selectedProperties.noataries[0].image\" onerror='src=\"assets/img/house.png\"' alt=\"img\">\n                    <div class=\"bank-info\">\n                        <p title=\"Notary\" class=\"p14\">{{selectedProperties.noataries[0].name}}</p>\n                        <p class=\"p11\">{{selectedProperties.noataries[0].dial_code ? selectedProperties.noataries[0].dial_code : constant.dial_code}}-{{selectedProperties.noataries[0].phone}}</p>\n                        <a href=\"javascript://\" #showNotaries style=\"display: none;\" data-toggle=\"modal\" data-target=\"#notary-avail\" class=\"green-color green\">Change</a>\n                        <a href=\"javascript://\" class=\"green-color green\" (click)=\"getNotaries(selectedProperties.property_id)\">Change</a>\n                    </div>\n                    </div>\n                  <!-- <p class=\"p13\" *ngIf=\"selectedProperties?.noataries && selectedProperties.noataries.length!=0\">{{selectedProperties.noataries[0].name}}</p>\n                  <p class=\"p13\" *ngIf=\"selectedProperties?.noataries && selectedProperties.noataries.length!=0\">Notary</p> -->\n               </div>\n               <div class=\"col-md-6 col-sm-6 col-12 b-right\">\n                  <p class=\"p13\" *ngIf=\"selectedProperties?.banks && selectedProperties.banks.length==0\">No Bank assigned yet </p>\n                  <!-- <a *ngIf=\"selectedProperties?.banks && selectedProperties.banks.length==0\" href=\"javascript://\" class=\"green\" data-toggle=\"modal\" data-target=\"#notary-avail\">Assign Now</a> -->\n                  <a style=\"display:none;\" #showBanks href=\"javascript://\" class=\"green green-color\" data-toggle=\"modal\" data-target=\"#bank-listing\">Assign Now</a>\n                  <a href=\"javascript://\" *ngIf=\"selectedProperties?.banks && selectedProperties.banks.length==0\" class=\"green-color green\" (click)=\"getBanks(selectedProperties.property_id)\">Assign Now</a>\n                  <div class=\"d-flex\" *ngIf=\"selectedProperties?.banks && selectedProperties.banks.length!=0\">\n                     <img [src]=\"selectedProperties?.banks && selectedProperties.banks[0].image\" onerror='src=\"assets/img/bank-building.png\"' alt=\"img\">\n                     <div class=\"bank-info\">\n                        <p title=\"Bank\" class=\"p14\">{{selectedProperties.banks[0].name}}</p>\n                        <p class=\"p11\">{{selectedProperties?.banks[0]?.branch ? selectedProperties?.banks[0]?.branch : 'NA'}}</p>\n                        <a href=\"javascript://\" #showBanks style=\"display: none;\" data-toggle=\"modal\" data-target=\"#bank-listing\" class=\"green-color green\">Change</a>\n                        <a href=\"javascript://\" class=\"green-color green\" (click)=\"getBanks(selectedProperties.property_id)\">Change</a>\n                     </div>\n                  </div>\n               </div>\n            </div>\n         </div>\n\n         <!-- <div class=\"spacer15\"></div> -->\n        <div class=\"payment-status-table white-bg\">\n            <div class=\"page-title-2 marginB0 border-0\">\n               <div class=\"row\">\n                  <div class=\"col-md-6 col-sm-6 col-12\">\n                     <h4>Payment Status</h4>\n                  </div>\n                   <div class=\"col-md-6 col-sm-6 col-12\">\n                     <div class=\"grand-total\">${{selectedProperties.total_amount}}</div>\n                  </div>\n               </div>\n            </div>\n            <div class=\"row\">\n               <div class=\"col-12\">\n                  <table class=\"table\">\n                     <tr>\n                        <td><label>Token Amount</label></td>\n                        <td><strong>${{selectedProperties.token_money}}</strong></td>\n                        <td>&nbsp;</td>\n                     </tr>\n                     <tr>\n                        <td><label>Commission (1.45%)</label></td>\n                        <td><strong>${{selectedProperties.commision}}</strong></td>\n                        <td class=\"text-right\">\n                           <div class=\"pending-status\">Pending</div>\n                        </td>\n                     </tr>\n                     <tr>\n                        <td>\n                           <label>Pending Amount</label>\n                           <small>(Full property)</small>\n                        </td>\n                        <td><strong>$1,263,223.32</strong></td>\n                        <td>&nbsp;</td>\n                     </tr>\n                  </table>\n               </div>\n            </div>\n\n         </div>\n      </div>\n\n\n      <div class=\"col-lg-6 col-md-12 col-sm-12 col-12\">\n      <div class=\"white-bg\">\n        <div class=\"page-title-3 marginB0\">\n        <h4><i><img src=\"assets/img/chat-icon.png\" alt=\"img\"></i> Chat</h4>\n      </div>\n      <div class=\"cust-tabs-4\">\n        <ul class=\"nav nav-tabs\">\n            <li class=\"nav-item\">\n              <a class=\"nav-link active\" data-toggle=\"tab\" href=\"#csr-closer\">CSR Closer</a>\n            </li>\n            <li class=\"nav-item\">\n              <a class=\"nav-link\" data-toggle=\"tab\" href=\"#notary\">Seller</a>\n            </li>\n            <li class=\"nav-item\">\n              <a class=\"nav-link\" data-toggle=\"tab\" href=\"#bank\">Buyer</a>\n            </li>\n            <li class=\"nav-item\">\n              <a class=\"nav-link\" data-toggle=\"tab\" href=\"#bank\">Bank</a>\n            </li>\n        </ul>\n        <!-- Tab panes -->\n        <div class=\"tab-content\">\n            <div class=\"tab-pane active\" id=\"csr-closer\">\n              <div class=\"chat-window white-bg\">\n                  <div class=\"chat-top\">\n                    <a href=\"javascript://\">\n                        <div class=\"profile\">\n                          <div class=\"fig-block\">\n                              <img src=\"http://via.placeholder.com/62x62\" alt=\"img\">\n                          </div>\n                          <div class=\"profile-info\">\n                              <h6>Cole Washington</h6>\n                              <p class=\"p12\">CSR Closer</p>\n                          </div>\n                        </div>\n                    </a>\n                  </div>\n                  <div class=\"chat-area scrollbox\" tabindex=\"0\" style=\"width: 488px; padding-right: 27px; outline: none; overflow: hidden;\">\n                    <div class=\"chat-user chat-user-two\">\n                        <p> Hey! I am interested in the  property you’ve listed. I was thinking of having a look at it. Can we schedule a tour? and Is the price listed fixed? Thanks. </p>\n                        <span class=\"time\">\n                        2:05pm, May 01, 2014\n                        </span>\n                    </div>\n                    <div class=\"chat-user chat-user-one\">\n                        <p> Hey! I am interested in the  property you’ve listed. I was thinking of having a look at it. Can we schedule a tour? and Is the price listed fixed? Thanks. </p>\n                        <span class=\"time\">\n                        2:05pm, May 01, 2014\n                        </span>\n                    </div>\n                    <div class=\"chat-user chat-user-two\">\n                        <p> Hey! I am interested in the  property you’ve listed. I was thinking of having a look at it. Can we schedule a tour? and Is the price listed fixed? Thanks. </p>\n                        <span class=\"time\">\n                        2:05pm, May 01, 2014\n                        </span>\n                    </div>\n                    <div class=\"chat-user chat-user-one\">\n                        <p> Hey! I am interested in the  property you’ve listed. I was thinking of having a look at it. Can we schedule a tour? and Is the price listed fixed? Thanks. </p>\n                        <span class=\"time\">\n                        2:05pm, May 01, 2014\n                        </span>\n                    </div>\n                  </div> \n                  <div class=\"chat-text\">\n                    <input class=\"chat-input\" type=\"text\" name=\"\" placeholder=\"Type your message here …\">\n                    <button class=\"btn\">Send</button>\n                  </div>\n              </div>\n            </div>\n            <div class=\"tab-pane container fade\" id=\"notary\">Notary</div>\n            <div class=\"tab-pane container fade\" id=\"bank\">Bank</div>\n        </div>\n      </div>\n\n      </div>\n\n      <div class=\"clearfix\"></div>\n      <div class=\"upload-document-block white-bg\">\n         <div class=\"page-title-2 border-0\">\n            <div class=\"row\">\n               <div class=\"col-9\">\n                  <h4>Documents</h4>\n               </div>\n               <div class=\"col-3\">\n                <a class=\"view pull-right\" href=\"javascript://\" (click)=\"updateDocumentChecklist()\">Save</a>\n               </div>\n            </div>\n            <table class=\"table\">\n               <tr *ngFor=\"let document of selectedProperties.allDocuments; let i=index\">\n                  <td>\n                     <label class=\"cust-check-bx\">{{document.name}}\n                      <input type=\"checkbox\" (click)=\"setValue(i)\" [checked]=\"document.is_selected == 1 ? 'checked' : ''\" name=\"document\">\n                      <span class=\"checkmark\"></span>\n                     </label>\n                  </td>\n               </tr>\n            </table>\n         </div>\n      </div>\n       <div class=\"all-document-block white-bg\">\n       <div class=\"page-title-2 border-0\">\n       <div class=\"row\">\n          <div class=\"col-9\">\n              <h4>All Documents</h4>\n              <p class=\"p11 marginB0\">From both seller and buyer</p>\n\n             </div>\n             <div class=\"col-3 text-right\">\n                <a *ngIf=\"selectedProperties?.uploaded_documents?.length==0\" (click)=\"noDocumentUploaded()\" class=\"view\" href=\"javascript://\" >View</a>\n                <a *ngIf=\"selectedProperties?.uploaded_documents?.length!=0\" class=\"view\" data-toggle=\"modal\" data-target=\"#uploaded-documents\" href=\"javascript://\" >View</a>\n             </div>\n          </div>\n       </div>\n       </div>\n      </div>\n  </div>\n</div>\n\n\n<div class=\"modal\" id=\"uploaded-documents\">\n    <div class=\"modal-dialog \">\n      <div class=\"modal-content notary-avail\">\n          <!-- <div class=\"modal-header modal-header-new\"> -->\n            <div class=\"modal-header modal-header-new\">\n            <h4 class=\"modal-title\">Uploaded Documents</h4>\n            <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n          </div>\n          <div class=\"modal-body modal-body-new\">\n            <table class=\"table\">\n                <tr *ngFor=\"let upDocument of selectedProperties.uploaded_documents\">\n                  <td>\n                      <div class=\"n-avail-profile\">\n                        <div class=\"n-avail-info\">\n                            <p class=\"p12\" *ngIf=\"upDocument.attachment_name\">{{upDocument.attachment_name}}</p>\n                            <!-- <p class=\"p12\" *ngIf=\"!upDocument.attachment_name\">{{upDocument.attachment.substring(upDocument.attachment.lastIndexOf('/'), upDocument.attachment.length)}}</p> -->\n                            <p class=\"p12\" *ngIf=\"!upDocument.attachment_name\">No name</p>\n                        </div>\n                      </div>\n                  </td>\n                  <td>\n                      <label class=\"cust-check-bx float-right\">\n                          <!-- <a target=\"_blank\" href=\"https://docs.google.com/viewer?url={{upDocument.attachment}}\">View</a> -->\n                          <a target=\"_blank\" href=\"{{upDocument.attachment}}\">Download</a>\n                      </label>\n                  </td>\n                </tr>\n            </table>\n          </div>\n      </div>\n    </div>\n</div>\n\n<div class=\"modal\" id=\"bank-listing\">\n    <div class=\"modal-dialog \">\n      <div class=\"modal-content notary-avail\">\n          <div class=\"modal-header popup-header\">\n            <h4 class=\"modal-title\">Banks available</h4>\n            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" #hideBanks>&times;</button>\n          </div>\n          <div class=\"modal-body\">\n            <table class=\"table\">\n                <tr *ngFor=\"let bank of parameter.banks\">\n                  <td>\n                      <div class=\"n-avail-profile\">\n                        <img [src]=\"bank.image\" onerror='src=\"assets/img/bank.png\"' alt=\"img\">\n                        <div class=\"n-avail-info\">\n                            <p class=\"p12\">{{bank.name}}</p>\n                            <p class=\"p10\">Branch : {{bank.branch ? bank.branch : 'NA'}}</p>\n                        </div>\n                      </div>\n                  </td>\n                  <td>\n                      <label class=\"cust-check-bx float-right\">\n                      <input type=\"radio\" name=\"bank_id\" (click)=\"assignBank(bank)\">\n                      <span class=\"checkmark\"></span>\n                      </label>\n                  </td>\n                </tr>\n            </table>\n          </div>\n      </div>\n    </div>\n</div>\n\n<div class=\"modal\" id=\"notary-avail\">\n    <div class=\"modal-dialog \">\n        <div class=\"modal-content notary-avail\">\n            <div class=\"modal-header popup-header\">\n            <h4 class=\"modal-title\">Notaries available</h4>\n            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" #hideNotaries>&times;</button>\n            </div>\n            <div class=\"modal-body\">\n                <table class=\"table\">\n                    <tr *ngFor=\"let item of parameter.items\">\n                        <td>\n                            <div class=\"n-avail-profile\">\n                            <img [src]=\"item.image\" onerror='src=\"assets/img/house.png\"' alt=\"img\">\n                            <div class=\"n-avail-info\">\n                                <p class=\"p12\">{{item.name}}</p>\n                                <p class=\"p10\">Phone : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>\n                            </div>\n                            </div>\n                        </td>\n                        <td>\n                            <label class=\"cust-check-bx float-right\">\n                                <input type=\"radio\" name=\"notary_id\" (click)=\"assignNoatary(item)\">\n                                <span class=\"checkmark\"></span>\n                            </label>\n                        </td>\n                    </tr>\n                </table>\n            </div>\n        </div>\n    </div>\n</div>"
+module.exports = "\n<div class=\"container-fluid\">\n        <div class=\"white-bg padding15\">\n            <div class=\"row\">\n              <div class=\"col-lg-3 col-md-12 col-sm-6 col-12\">\n                  <div class=\"df-profile\">\n                    <i class=\"fa fa-angle-left\" aria-hidden=\"true\"></i>\n                    <img [src]=\"parameter.lead?.user?.image\" onerror='src=\"assets/img/default_img.png\"' alt=\"img\">\n                    <div class=\"df-info\" *ngIf=\"parameter.lead?.user\">\n                        <p class=\"p14\">{{parameter.lead.user.name}}</p>\n                        <p class=\"p12\">Status: Open</p>\n                    </div>\n                  </div>\n              </div>\n              <div class=\"col-lg-5 col-md-12 col-sm-6 col-12\">\n                  <div class=\"profile-list\">\n                    <ul>\n                        <li>\n                          <div class=\"df-info\">\n                              <p class=\"p14 marginB0\" *ngIf=\"parameter.lead?.admin\">{{parameter.lead.admin.name}}</p>\n                              <p class=\"p12\">CSR Buyer</p>\n                          </div>\n                        </li>\n                        <li>\n                          <div class=\"df-info\" *ngIf=\"parameter.lead?.broker\">\n                              <p class=\"p14 marginB0\">{{parameter.lead.broker.name}}</p>\n                              <p class=\"p12\">Inhouse Broker</p>\n                          </div>\n                        </li>\n                    </ul>\n                  </div>\n              </div>\n            </div>\n        </div>\n        \n        <div class=\"spacer30\"></div>\n        <div class=\"row\">\n            <div class=\"col-lg-6 col-md-12 col-sm-12 col-12\">\n              <div class=\"white-bg padding30\">\n                  <div class=\"row\">\n                    <div class=\"col-md-6\">\n                        <h6>Details</h6>\n                    </div>\n                    <!-- <div class=\"col-md-6\">\n                        <div class=\"edit text-right\"><a href=\"javascript://\">Edit</a></div>\n                    </div> -->\n                  </div>\n                  <div class=\"details-table\">\n                    <table class=\"table\">\n                        <tr>\n                          <td style=\"padding-left:0\"><label>Full Name</label></td>\n                          <td colspan=\"2\" *ngIf=\"parameter?.lead?.name\">{{parameter.lead.name}}</td>\n                        </tr>\n                        <tr>\n                          <td style=\"padding-left:0\"><label>Contact Number</label></td>\n                          <td colspan=\"2\" *ngIf=\"parameter?.lead?.phone\">{{parameter.lead.dial_code ? parameter.lead.dial_code : constant.dial_code}}-{{parameter.lead.phone}}</td>\n                        </tr>\n                        <tr>\n                          <td style=\"padding-left:0\"><label>Email address</label></td>\n                          <td colspan=\"2\" *ngIf=\"parameter?.lead?.email\">{{parameter.lead.email}}</td>\n                        </tr>\n                        <tr>\n                           <td style=\"padding-left:0\"><label>Interested In</label></td>\n                           <td *ngIf=\"parameter?.lead?.configuration\">\n                             <span *ngFor=\"let conf of parameter.lead.configuration; let ii=index\">\n                               {{conf.name}}\n                               <span *ngIf=\"ii<parameter?.lead?.configuration?.length-1\">,</span>\n                             </span>\n                             <span *ngIf=\"parameter.lead.configuration?.length == 0\">NA</span>\n                           </td>\n                        </tr>\n                        <tr>\n                          <td style=\"padding-left:0\"><label><strong>Property Selected</strong></label></td>\n                          <td *ngIf=\"parameter?.lead?.selected_properties?.length!=0\">\n                              <p class=\"p14 marginB0\">\n                                  {{parameter.lead?.selected_properties[0]?.property?.configuration.name}}\n                              </p>\n                              <p class=\"p12 marginB0\"><strong>{{parameter.lead?.selected_properties[0]?.property?.building?.name}}</strong></p>\n                              <p class=\"p11\"><i>{{parameter.lead?.selected_properties[0]?.property?.building?.developer?.name}}</i></p>\n                          </td>\n                          <td *ngIf=\"parameter?.lead?.selected_properties?.length!=0\">\n                              <a class=\"view-all-2\" href=\"javascript://\" (click)=\"viewPropertyDetails(parameter?.lead?.selected_properties[0])\"> View Property</a>\n                          </td>\n                          <td *ngIf=\"parameter?.lead?.selected_properties?.length==0\">NA</td>\n                        </tr>\n                        <!-- <tr>\n                          <td  style=\"padding-left:0\"><label><strong>Meeting Schedule</strong></label></td>\n                          <td colspan=\"2\">\n                              <p class=\"date\">02-Oct-2018, 04:00pm</p>\n                          </td>\n                        </tr> -->\n                    </table>\n                  </div>\n              </div>\n       \n              <!-- notes start -->\n              <app-notes [lead_id]=\"parameter.lead_id\"></app-notes>\n              <!-- notes end -->\n      \n              <!-- <div class=\"spacer15\"></div> -->\n              <div class=\"bank-assigned-now white-bg\">\n                  <div class=\"row\">\n                     <div class=\"col-md-6 col-sm-6 col-12 b-left\">\n                        <p class=\"p13\" *ngIf=\"selectedProperties?.noataries && selectedProperties.noataries.length==0\">No Notary assigned yet </p>\n                        <a style=\"display:none;\" #showNotaries href=\"javascript://\" class=\"green green-color\" data-toggle=\"modal\" data-target=\"#notary-avail\">Assign Now</a>\n                        <a href=\"javascript://\" *ngIf=\"selectedProperties?.noataries && selectedProperties.noataries.length==0\" class=\"green-color green\" (click)=\"getNotaries(selectedProperties.property_id)\">Assign Now</a>\n                        <div class=\"d-flex\" *ngIf=\"selectedProperties?.noataries && selectedProperties.noataries.length!=0\">\n                          <img [src]=\"selectedProperties?.noataries && selectedProperties.noataries[0].image\" onerror='src=\"assets/img/house.png\"' alt=\"img\">\n                          <div class=\"bank-info\">\n                              <p title=\"Notary\" class=\"p14\">{{selectedProperties.noataries[0].name}}</p>\n                              <p class=\"p11\">{{selectedProperties.noataries[0].dial_code ? selectedProperties.noataries[0].dial_code : constant.dial_code}}-{{selectedProperties.noataries[0].phone}}</p>\n                              <a href=\"javascript://\" #showNotaries style=\"display: none;\" data-toggle=\"modal\" data-target=\"#notary-avail\" class=\"green-color green\">Change</a>\n                              <a href=\"javascript://\" class=\"green-color green\" (click)=\"getNotaries(selectedProperties.property_id)\">Change</a>\n                          </div>\n                          </div>\n                        <!-- <p class=\"p13\" *ngIf=\"selectedProperties?.noataries && selectedProperties.noataries.length!=0\">{{selectedProperties.noataries[0].name}}</p>\n                        <p class=\"p13\" *ngIf=\"selectedProperties?.noataries && selectedProperties.noataries.length!=0\">Notary</p> -->\n                     </div>\n                     <div class=\"col-md-6 col-sm-6 col-12 b-right\">\n                        <p class=\"p13\" *ngIf=\"selectedProperties?.banks && selectedProperties.banks.length==0\">No Bank assigned yet </p>\n                        <!-- <a *ngIf=\"selectedProperties?.banks && selectedProperties.banks.length==0\" href=\"javascript://\" class=\"green\" data-toggle=\"modal\" data-target=\"#notary-avail\">Assign Now</a> -->\n                        <a style=\"display:none;\" #showBanks href=\"javascript://\" class=\"green green-color\" data-toggle=\"modal\" data-target=\"#bank-listing\">Assign Now</a>\n                        <a href=\"javascript://\" *ngIf=\"selectedProperties?.banks && selectedProperties.banks.length==0\" class=\"green-color green\" (click)=\"getBanks(selectedProperties.property_id)\">Assign Now</a>\n                        <div class=\"d-flex\" *ngIf=\"selectedProperties?.banks && selectedProperties.banks.length!=0\">\n                           <img [src]=\"selectedProperties?.banks && selectedProperties.banks[0].image\" onerror='src=\"assets/img/bank-building.png\"' alt=\"img\">\n                           <div class=\"bank-info\">\n                              <p title=\"Bank\" class=\"p14\">{{selectedProperties.banks[0].name}}</p>\n                              <p class=\"p11\">{{selectedProperties?.banks[0]?.branch ? selectedProperties?.banks[0]?.branch : 'NA'}}</p>\n                              <a href=\"javascript://\" #showBanks style=\"display: none;\" data-toggle=\"modal\" data-target=\"#bank-listing\" class=\"green-color green\">Change</a>\n                              <a href=\"javascript://\" class=\"green-color green\" (click)=\"getBanks(selectedProperties.property_id)\">Change</a>\n                           </div>\n                        </div>\n                     </div>\n                  </div>\n               </div>\n      \n               <!-- <div class=\"spacer15\"></div> -->\n              <div class=\"payment-status-table white-bg\">\n                  <div class=\"page-title-2 marginB0 border-0\">\n                     <div class=\"row\">\n                        <div class=\"col-md-6 col-sm-6 col-12\">\n                           <h4>Payment Status</h4>\n                        </div>\n                         <div class=\"col-md-6 col-sm-6 col-12\">\n                           <div class=\"grand-total\">${{selectedProperties.total_amount}}</div>\n                        </div>\n                     </div>\n                  </div>\n                  <div class=\"row\">\n                     <div class=\"col-12\">\n                        <table class=\"table\">\n                           <tr>\n                              <td><label>Token Amount</label></td>\n                              <td><strong>${{selectedProperties.token_money}}</strong></td>\n                              <td>&nbsp;</td>\n                           </tr>\n                           <tr>\n                              <td><label>Commission (1.45%)</label></td>\n                              <td><strong>${{selectedProperties.commision}}</strong></td>\n                              <td class=\"text-right\">\n                                 <div class=\"pending-status\">Pending</div>\n                              </td>\n                           </tr>\n                           <tr>\n                              <td>\n                                 <label>Pending Amount</label>\n                                 <small>(Full property)</small>\n                              </td>\n                              <td><strong>$1,263,223.32</strong></td>\n                              <td>&nbsp;</td>\n                           </tr>\n                        </table>\n                     </div>\n                  </div>\n      \n               </div>\n            </div>\n      \n      \n            <div class=\"col-lg-6 col-md-12 col-sm-12 col-12\">\n            <div class=\"white-bg\">\n              <div class=\"page-title-3 marginB0\">\n              <h4><i><img src=\"assets/img/chat-icon.png\" alt=\"img\"></i> Chat</h4>\n            </div>\n            <div class=\"cust-tabs-4\">\n              <ul class=\"nav nav-tabs\">\n                  <li class=\"nav-item\">\n                    <a class=\"nav-link active\" data-toggle=\"tab\" href=\"#csr-closer\">CSR Closer</a>\n                  </li>\n                  <li class=\"nav-item\">\n                    <a class=\"nav-link\" data-toggle=\"tab\" href=\"#notary\">Seller</a>\n                  </li>\n                  <li class=\"nav-item\">\n                    <a class=\"nav-link\" data-toggle=\"tab\" href=\"#bank\">Buyer</a>\n                  </li>\n                  <li class=\"nav-item\">\n                    <a class=\"nav-link\" data-toggle=\"tab\" href=\"#bank\">Bank</a>\n                  </li>\n              </ul>\n              <!-- Tab panes -->\n              <div class=\"tab-content\">\n                  <div class=\"tab-pane active\" id=\"csr-closer\">\n                    <div class=\"chat-window white-bg\">\n                        <div class=\"chat-top\">\n                          <a href=\"javascript://\">\n                              <div class=\"profile\">\n                                <div class=\"fig-block\">\n                                    <img src=\"http://via.placeholder.com/62x62\" alt=\"img\">\n                                </div>\n                                <div class=\"profile-info\">\n                                    <h6>Cole Washington</h6>\n                                    <p class=\"p12\">CSR Closer</p>\n                                </div>\n                              </div>\n                          </a>\n                        </div>\n                        <div class=\"chat-area scrollbox\" tabindex=\"0\" style=\"width: 488px; padding-right: 27px; outline: none; overflow: hidden;\">\n                          <div class=\"chat-user chat-user-two\">\n                              <p> Hey! I am interested in the  property you’ve listed. I was thinking of having a look at it. Can we schedule a tour? and Is the price listed fixed? Thanks. </p>\n                              <span class=\"time\">\n                              2:05pm, May 01, 2014\n                              </span>\n                          </div>\n                          <div class=\"chat-user chat-user-one\">\n                              <p> Hey! I am interested in the  property you’ve listed. I was thinking of having a look at it. Can we schedule a tour? and Is the price listed fixed? Thanks. </p>\n                              <span class=\"time\">\n                              2:05pm, May 01, 2014\n                              </span>\n                          </div>\n                          <div class=\"chat-user chat-user-two\">\n                              <p> Hey! I am interested in the  property you’ve listed. I was thinking of having a look at it. Can we schedule a tour? and Is the price listed fixed? Thanks. </p>\n                              <span class=\"time\">\n                              2:05pm, May 01, 2014\n                              </span>\n                          </div>\n                          <div class=\"chat-user chat-user-one\">\n                              <p> Hey! I am interested in the  property you’ve listed. I was thinking of having a look at it. Can we schedule a tour? and Is the price listed fixed? Thanks. </p>\n                              <span class=\"time\">\n                              2:05pm, May 01, 2014\n                              </span>\n                          </div>\n                        </div> \n                        <div class=\"chat-text\">\n                          <input class=\"chat-input\" type=\"text\" name=\"\" placeholder=\"Type your message here …\">\n                          <button class=\"btn\">Send</button>\n                        </div>\n                    </div>\n                  </div>\n                  <div class=\"tab-pane container fade\" id=\"notary\">Notary</div>\n                  <div class=\"tab-pane container fade\" id=\"bank\">Bank</div>\n              </div>\n            </div>\n      \n            </div>\n      \n            <div class=\"clearfix\"></div>\n            <div class=\"upload-document-block white-bg\">\n               <div class=\"page-title-2 border-0\">\n                  <div class=\"row\">\n                     <div class=\"col-9\">\n                        <h4>Documents</h4>\n                     </div>\n                     <div class=\"col-3\">\n                      <a class=\"view pull-right\" href=\"javascript://\" (click)=\"updateDocumentChecklist()\">Save</a>\n                     </div>\n                  </div>\n                  <table class=\"table\">\n                     <tr *ngFor=\"let document of selectedProperties.allDocuments; let i=index\">\n                        <td>\n                           <label class=\"cust-check-bx\">{{document.name}}\n                            <input type=\"checkbox\" (click)=\"setValue(i)\" [checked]=\"document.is_selected == 1 ? 'checked' : ''\" name=\"document\">\n                            <span class=\"checkmark\"></span>\n                           </label>\n                        </td>\n                     </tr>\n                  </table>\n               </div>\n            </div>\n             <div class=\"all-document-block white-bg\">\n             <div class=\"page-title-2 border-0\">\n             <div class=\"row\">\n                <div class=\"col-9\">\n                    <h4>All Documents</h4>\n                    <p class=\"p11 marginB0\">From both seller and buyer</p>\n      \n                   </div>\n                   <div class=\"col-3 text-right\">\n                      <a *ngIf=\"selectedProperties?.uploaded_documents?.length==0\" (click)=\"noDocumentUploaded()\" class=\"view\" href=\"javascript://\" >View</a>\n                      <a *ngIf=\"selectedProperties?.uploaded_documents?.length!=0\" class=\"view\" data-toggle=\"modal\" data-target=\"#uploaded-documents\" href=\"javascript://\" >View</a>\n                   </div>\n                </div>\n             </div>\n             </div>\n            </div>\n        </div>\n      </div>\n      \n      \n      <div class=\"modal\" id=\"uploaded-documents\">\n          <div class=\"modal-dialog \">\n            <div class=\"modal-content notary-avail\">\n                <!-- <div class=\"modal-header modal-header-new\"> -->\n                  <div class=\"modal-header modal-header-new\">\n                  <h4 class=\"modal-title\">Uploaded Documents</h4>\n                  <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n                </div>\n                <div class=\"modal-body\">\n                  <table class=\"table\">\n                      <tr *ngFor=\"let upDocument of selectedProperties.uploaded_documents\">\n                        <td>\n                            <div class=\"n-avail-profile\">\n                              <div class=\"n-avail-info\">\n                                  <p class=\"p14 marginB0\" *ngIf=\"upDocument.attachment_name\">{{upDocument.attachment_name}}</p>\n                                  <!-- <p class=\"p12\" *ngIf=\"!upDocument.attachment_name\">{{upDocument.attachment.substring(upDocument.attachment.lastIndexOf('/'), upDocument.attachment.length)}}</p> -->\n                                  <p class=\"p14 marginB0\" *ngIf=\"!upDocument.attachment_name\">No name</p>\n                              </div>\n                            </div>\n                        </td>\n                        <td class=\"text-right\">\n                             \n                                <!-- <a target=\"_blank\" href=\"https://docs.google.com/viewer?url={{upDocument.attachment}}\">View</a> -->\n                                <a class=\"green-color\" target=\"_blank\" href=\"{{upDocument.attachment}}\">Download</a>\n                            \n                        </td>\n                      </tr>\n                  </table>\n                </div>\n            </div>\n          </div>\n      </div>\n      \n      <div class=\"modal\" id=\"bank-listing\">\n          <div class=\"modal-dialog \">\n            <div class=\"modal-content notary-avail\">\n                <div class=\"modal-header popup-header\">\n                  <h4 class=\"modal-title\">Banks available</h4>\n                  <button type=\"button\" class=\"close\" data-dismiss=\"modal\" #hideBanks>&times;</button>\n                </div>\n                <div class=\"modal-body\">\n                  <table class=\"table\">\n                      <tr *ngFor=\"let bank of parameter.banks\">\n                        <td>\n                            <div class=\"n-avail-profile\">\n                              <img [src]=\"bank.image\" onerror='src=\"assets/img/bank.png\"' alt=\"img\">\n                              <div class=\"n-avail-info\">\n                                  <p class=\"p12\">{{bank.name}}</p>\n                                  <p class=\"p10\">Branch : {{bank.branch ? bank.branch : 'NA'}}</p>\n                              </div>\n                            </div>\n                        </td>\n                        <td>\n                            <label class=\"cust-check-bx float-right\">\n                            <input type=\"radio\" name=\"bank_id\" (click)=\"assignBank(bank)\">\n                            <span class=\"checkmark\"></span>\n                            </label>\n                        </td>\n                      </tr>\n                  </table>\n                </div>\n            </div>\n          </div>\n      </div>\n      \n      <div class=\"modal\" id=\"notary-avail\">\n          <div class=\"modal-dialog \">\n              <div class=\"modal-content notary-avail\">\n                  <div class=\"modal-header popup-header\">\n                  <h4 class=\"modal-title\">Notaries available</h4>\n                  <button type=\"button\" class=\"close\" data-dismiss=\"modal\" #hideNotaries>&times;</button>\n                  </div>\n                  <div class=\"modal-body\">\n                      <table class=\"table\">\n                          <tr *ngFor=\"let item of parameter.items\">\n                              <td>\n                                  <div class=\"n-avail-profile\">\n                                  <img [src]=\"item.image\" onerror='src=\"assets/img/house.png\"' alt=\"img\">\n                                  <div class=\"n-avail-info\">\n                                      <p class=\"p12\">{{item.name}}</p>\n                                      <p class=\"p10\">Phone : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>\n                                  </div>\n                                  </div>\n                              </td>\n                              <td>\n                                  <label class=\"cust-check-bx float-right\">\n                                      <input type=\"radio\" name=\"notary_id\" (click)=\"assignNoatary(item)\">\n                                      <span class=\"checkmark\"></span>\n                                  </label>\n                              </td>\n                          </tr>\n                      </table>\n                  </div>\n              </div>\n          </div>\n      </div>"
 
 /***/ }),
 
@@ -1998,6 +1409,13 @@ var CsrCloserDetailComponent = /** @class */ (function () {
             console.log('getNoataries', r);
             _this.showNotaries.nativeElement.click();
             _this.parameter.items = r.data;
+            for (var index = 0; index < _this.parameter.items.length; index++) {
+                var element = _this.parameter.items[index];
+                var id = _this.selectedProperties.noataries[0] ? _this.selectedProperties.noataries[0].id : 0;
+                if (id !== 0 && element.id === id) {
+                    _this.parameter.items.splice(index, 1);
+                }
+            }
         });
     };
     CsrCloserDetailComponent.prototype.assignNoatary = function (notary) {
@@ -2013,6 +1431,7 @@ var CsrCloserDetailComponent = /** @class */ (function () {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes'
         }).then(function (result) {
+            alert('csdfsdf');
             if (result.value) {
                 _this.selectedProperties.noataries = [notary];
                 // this.hideNotaries.nativeElement.click();
@@ -2023,7 +1442,19 @@ var CsrCloserDetailComponent = /** @class */ (function () {
                     _this.hideNotaries.nativeElement.click();
                 });
             }
-        });
+            else if (result.dismiss === 'cancel') {
+                alert('c');
+            }
+            else {
+                alert('ca');
+            }
+        }, function (dismiss) {
+            alert('csfd');
+        }
+        // if(dismiss == 'cancel'){
+        //     // function when cancel button is clicked
+        // }
+        );
     };
     CsrCloserDetailComponent.prototype.getBanks = function (property_id) {
         var _this = this;
@@ -2033,6 +1464,13 @@ var CsrCloserDetailComponent = /** @class */ (function () {
             console.log('getbanks', r);
             _this.showBanks.nativeElement.click();
             _this.parameter.banks = r.data;
+            for (var index = 0; index < _this.parameter.banks.length; index++) {
+                var element = _this.parameter.banks[index];
+                var selectedBankId = _this.selectedProperties.banks[0] ? _this.selectedProperties.banks[0].id : 0;
+                if (selectedBankId !== 0 && element.id === selectedBankId) {
+                    _this.parameter.banks.splice(index, 1);
+                }
+            }
         });
     };
     CsrCloserDetailComponent.prototype.assignBank = function (bank) {
@@ -2157,7 +1595,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/layout/leads/csr-closer/csr-closer.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!-- <ngx-loading [show]=\"parameter.loading\"></ngx-loading> -->\n\n<div class=\"container-fluid\">\n  <div class=\"row\">\n     <div class=\"col-md-3\">\n        <a class=\"view-all-2\" href=\"javascript://\"><i class=\"fa fa-angle-left\"></i><span>View all</span></a>\n     </div>\n     <div class=\"col-md-9\">\n        <div class=\"cust-tabs-2\">\n          <ul class=\"nav nav-tabs\">\n            <li class=\"nav-item\">\n                <a class=\"nav-link\" [ngClass]=\"{'active':parameter.flag==1}\" (click)=\"changeFlag(1)\" >This Week</a>\n            </li>\n            <li class=\"nav-item\">\n                <a class=\"nav-link\" [ngClass]=\"{'active':parameter.flag==2}\" (click)=\"changeFlag(2)\" >This Month</a>\n            </li>\n            <li class=\"nav-item\">\n                <a class=\"nav-link\" [ngClass]=\"{'active':parameter.flag==3}\" (click)=\"changeFlag(3)\" >Last Month</a>\n            </li>\n            <li class=\"nav-item\">\n                <a class=\"nav-link\" [ngClass]=\"{'active':parameter.flag==4}\" (click)=\"changeFlag(4)\" >Lifetime</a>\n            </li>\n            <li class=\"nav-item\">\n                <a class=\"nav-link\" [ngClass]=\"{'active':parameter.flag==5}\" (click)=\"changeFlag(5)\" >Custom</a>\n            </li>\n          </ul>\n        </div>\n     </div>\n     <div class=\"col-12\">\n        <hr style=\"margin-top:0;\">\n     </div>\n  </div>\n  <div class=\"sigle-row-table\">\n\n        <table class=\"table table-striped\">\n           <tbody><tr>\n              <td> <img class=\"rounded-circle\" src=\"http://via.placeholder.com/50x50\" alt=\"img\"></td>\n              <td class=\"text-left\">\n                 <span class=\"name\">Lillian Russell</span>\n              </td>\n              <td class=\"text-left\">\n                 728-111-1874\n              </td>\n              <td class=\"text-left\">\n                 eunice_aufderhar@yahoo.com\n              </td>\n              <td>\n                 14\n              </td>\n              <td>\n                 <a href=\"javascript://\" class=\"icon-block edit-icon\"><img src=\"assets/img/viewfull.png\" alt=\"img\"></a>\n                 <a href=\"javascript://\" class=\"icon-block block-icon\"><img src=\"assets/img/block.png\" alt=\"img\"></a>\n              </td>\n           </tr>\n        </tbody></table>\n\n  </div>\n  <div class=\"row\">\n\n   <div class=\"col-lg-8 col-md-12 col-sm-12 col-12\">\n        <div class=\"info-box all-leads\">\n           <div class=\"row\">\n              <div class=\"col-md-6 col-sm-6 col-12 active\">\n                 <div class=\"one-row \">\n                    <div class=\"o-block\">\n                       <h5>Leads</h5>\n                       <small>Total</small>\n                    </div>\n                    <div class=\"o-block\">\n                       <a class=\"view-all\" href=\"javascript://\">View All</a>\n                       <h4>26</h4>\n                    </div>\n                 </div>\n              </div>\n              <div class=\"col-md-6 col-sm-6 col-12\">\n                <div class=\"two-block\">\n           <div class=\"d-flex\">\n              <div class=\"f-block\">\n                 <h5>Notaries</h5>\n                 <small>Pending</small>\n                 <h3>25</h3>\n              </div>\n              <div class=\"f-block\">\n                 <h5>Banks</h5>\n                 <small>Pending</small>\n                 <h3>02</h3>\n              </div>\n           </div>\n\n        </div>\n              </div>\n           </div>\n        </div>\n          <div class=\"info-box all-leads\">\n           <div class=\"row\">\n              <div class=\"col-md-6 col-sm-6 col-12 bdr-right\">\n                 <div class=\"one-row \">\n                    <div class=\"o-block\">\n                       <h5>Leads</h5>\n                       <small>Information Filled</small>\n                    </div>\n                    <div class=\"o-block\">\n                       <a class=\"view-all\" href=\"javascript://\">View All</a>\n                       <h4>26</h4>\n                    </div>\n                 </div>\n              </div>\n              <div class=\"col-md-6 col-sm-6 col-12\">\n                 <div class=\"one-row\">\n                    <div class=\"o-block\">\n                       <h5>Leads</h5>\n                       <small>Broker Assigned</small>\n                    </div>\n                    <div class=\"o-block\">\n                       <a class=\"view-all\" href=\"javascript://\">View All</a>\n                       <h4>10</h4>\n                    </div>\n                 </div>\n              </div>\n           </div>\n        </div>\n\n     </div>\n     <div class=\"col-lg-4 col-md-12 col-sm-12 col-12\">\n        <div class=\"chat-msg all-leads\">\n           <div class=\"row\">\n              <div class=\"col-6\">\n                 <h5>Chat</h5>\n              </div>\n              <div class=\"col-6 text-right\"><a class=\"msg\" href=\"javascript://\">Message</a></div>\n           </div>\n           <p>Waiting for response</p>\n           <p>\n              <strong>Mario Hudson</strong>\n              When you are free to have a meeting\n              with interested customers?\n           </p>\n           <p>\n              <strong>Rosie Benson</strong>\n              Is there any availability in the localities\n              I was asking you tomorrow and also p…\n           </p>\n        </div>\n     </div>\n  </div>\n  <div class=\"row\">\n     <div class=\"col-12\">\n        <div class=\"spacer15\"></div>\n     </div>\n\n  </div>\n  <div class=\"row\">\n     <div class=\"col-12\">\n        <div class=\"title-group\">\n           <h5>Requests Pending</h5>\n           <p>Showing {{items?.length}} out of {{parameter.total}}</p>\n        </div>\n     </div>\n\n  </div>\n  <div class=\"white-bg\">\n     <div class=\"tabel-section\">\n              <div class=\"table-responsive\">\n                 <table class=\"table table-striped\">\n                    <!-- <tbody> -->\n                      <tr>\n                       <th style=\"width:6%\">&nbsp;</th>\n                       <th style=\"width:20%\">\n                          <div class=\"table-search\">\n                              <label>Name</label>\n                              <div class=\"searh-3\">\n                                  <input type=\"text\" [(ngModel)]=\"parameter.name\" (keyup.enter)=\"changeFilter('name',$event.target.value)\" name=\"\">\n                                  <button *ngIf=\"parameter.name\" (click)=\"changeFilter('name', parameter.name)\"><i class=\"fa fa-search\"></i></button>\n                              </div>\n                          </div>\n                        </th>\n                        <th style=\"width:20%; text-align:left;\">\n                          <div class=\"table-search\">\n                              <label>Contact Number</label>\n                              <div class=\"searh-3\">\n                                  <input type=\"text\" [(ngModel)]=\"parameter.phone\" (keyup.enter)=\"changeFilter('phone',$event.target.value)\" name=\"\">\n                                  <button *ngIf=\"parameter.phone\" (click)=\"changeFilter('phone', parameter.phone)\"><i class=\"fa fa-search\"></i></button>\n                              </div>\n                          </div>\n                        </th>\n                        <th style=\"width:20%\">\n                          <div class=\"table-search\">\n                              <label>Property</label>\n                              <div class=\"searh-3\">\n                                  <input type=\"text\" [(ngModel)]=\"parameter.email\" (keyup.enter)=\"changeFilter('email',$event.target.value)\" name=\"\">\n                                  <button *ngIf=\"parameter.email\" (click)=\"changeFilter('email', parameter.email)\"><i class=\"fa fa-search\"></i></button>\n                              </div>\n                          </div>\n                        </th>\n                       <th style=\"width:20%\">\n                            <div class=\"table-search\">\n                                <label>Assignee</label>\n                            </div>\n                        </th>\n                       <th style=\"width:14%\">\n                          &nbsp;\n                       </th>\n                    </tr>\n                    <tr *ngFor=\"let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }\">\n                       <td>\n                         <img class=\"rounded-circle\" [src]=\"item.image\" onerror=\"this.src='assets/img/default_img.png'\" alt=\"img\">\n                       </td>\n                       <td class=\"text-left\">\n                          <span routerLink=\"/dashboard/leads/csr-closers/{{item.id}}\" class=\"name\">{{item.name}}</span>\n                       </td>\n                       <td class=\"text-left\">\n                        {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}<br>\n                        {{item.email}}\n                       </td>\n                       <td class=\"text-left\">\n                        <div class=\"property-selected\">\n                           <p class=\"p14 marginB0\">\n                               {{item?.selected_properties[0]?.property?.configuration.name}}\n                           </p>\n                           <p class=\"p12 marginB0\"><strong>{{item?.selected_properties[0]?.property?.building?.name}}</strong></p>\n                           <p class=\"p11\"><i>{{item?.selected_properties[0]?.property?.building?.developer?.name}}</i></p>\n                        </div>\n                        </td>\n                       <td class=\"text-left\" title=\"CSR Closer\">\n                          {{item.closer.name}}\n                       </td>\n\n                       <td>\n                          <a href=\"javascript://\" title=\"View Details\" routerLink=\"/dashboard/leads/csr-closers/{{item.id}}\" class=\"icon-block edit-icon\"><img src=\"assets/img/viewfull.png\" alt=\"img\"></a>\n                          <a href=\"javascript://\" class=\"icon-block block-icon\"><img src=\"assets/img/block.png\" alt=\"img\"></a>\n                       </td>\n                    </tr>\n\n                 <!-- </tbody> -->\n                </table>\n              </div>\n           </div>\n           <div class=\"center\" *ngIf=\"items?.length == 0\">\n               <img src=\"assets/img/404-error.png\">\n           </div>\n  </div>\n  </div>\n"
+module.exports = "<!-- <ngx-loading [show]=\"parameter.loading\"></ngx-loading> -->\n\n<div class=\"container-fluid\">\n  <div class=\"row\">\n     <div class=\"col-md-5\">\n        <!-- <a class=\"view-all-2\" href=\"javascript://\"><i class=\"fa fa-angle-left\"></i><span>View all</span></a> -->\n        <h5>Manage Leads - CSR Closer</h5>\n     </div>\n     <div class=\"col-md-7\">\n        <div class=\"cust-tabs-2\">\n          <ul class=\"nav nav-tabs\">\n            <li class=\"nav-item\">\n                <a class=\"nav-link\" [ngClass]=\"{'active':parameter.flag==1}\" (click)=\"changeFlag(1)\" >This Week</a>\n            </li>\n            <li class=\"nav-item\">\n                <a class=\"nav-link\" [ngClass]=\"{'active':parameter.flag==2}\" (click)=\"changeFlag(2)\" >This Month</a>\n            </li>\n            <li class=\"nav-item\">\n                <a class=\"nav-link\" [ngClass]=\"{'active':parameter.flag==3}\" (click)=\"changeFlag(3)\" >Last Month</a>\n            </li>\n            <li class=\"nav-item\">\n                <a class=\"nav-link\" [ngClass]=\"{'active':parameter.flag==4}\" (click)=\"changeFlag(4)\" >Lifetime</a>\n            </li>\n            <li class=\"nav-item\">\n                <a class=\"nav-link\" [ngClass]=\"{'active':parameter.flag==5}\" (click)=\"changeFlag(5)\" >Custom</a>\n            </li>\n          </ul>\n        </div>\n     </div>\n     <div class=\"col-12\">\n        <hr style=\"margin-top:0;\">\n     </div>\n  </div>\n  <!-- <div class=\"sigle-row-table\">\n\n        <table class=\"table table-striped\">\n           <tbody><tr>\n              <td> <img class=\"rounded-circle\" src=\"http://via.placeholder.com/50x50\" alt=\"img\"></td>\n              <td class=\"text-left\">\n                 <span class=\"name\">Lillian Russell</span>\n              </td>\n              <td class=\"text-left\">\n                 728-111-1874\n              </td>\n              <td class=\"text-left\">\n                 eunice_aufderhar@yahoo.com\n              </td>\n              <td>\n                 14\n              </td>\n              <td>\n                 <a href=\"javascript://\" class=\"icon-block edit-icon\"><img src=\"assets/img/viewfull.png\" alt=\"img\"></a>\n                 <a href=\"javascript://\" class=\"icon-block block-icon\"><img src=\"assets/img/block.png\" alt=\"img\"></a>\n              </td>\n           </tr>\n        </tbody></table>\n\n  </div> -->\n  <div class=\"row\">\n\n   <div class=\"col-lg-8 col-md-12 col-sm-12 col-12\">\n        <div class=\"info-box all-leads\">\n           <div class=\"row\">\n              <div class=\"col-md-6 col-sm-6 col-12 active\">\n                 <div class=\"one-row \">\n                    <div class=\"o-block\">\n                       <h5>Leads</h5>\n                       <small>Total</small>\n                    </div>\n                    <div class=\"o-block\">\n                       <a class=\"view-all\" href=\"javascript://\">View All</a>\n                       <h4>26</h4>\n                    </div>\n                 </div>\n              </div>\n              <div class=\"col-md-6 col-sm-6 col-12\">\n                <div class=\"two-block\">\n           <div class=\"d-flex\">\n              <div class=\"f-block\">\n                 <h5>Notaries</h5>\n                 <small>Pending</small>\n                 <h3>25</h3>\n              </div>\n              <div class=\"f-block\">\n                 <h5>Banks</h5>\n                 <small>Pending</small>\n                 <h3>02</h3>\n              </div>\n           </div>\n\n        </div>\n              </div>\n           </div>\n        </div>\n          <div class=\"info-box all-leads\">\n           <div class=\"row\">\n              <div class=\"col-md-6 col-sm-6 col-12 bdr-right\">\n                 <div class=\"one-row \">\n                    <div class=\"o-block\">\n                       <h5>Leads</h5>\n                       <small>Information Filled</small>\n                    </div>\n                    <div class=\"o-block\">\n                       <a class=\"view-all\" href=\"javascript://\">View All</a>\n                       <h4>26</h4>\n                    </div>\n                 </div>\n              </div>\n              <div class=\"col-md-6 col-sm-6 col-12\">\n                 <div class=\"one-row\">\n                    <div class=\"o-block\">\n                       <h5>Leads</h5>\n                       <small>Broker Assigned</small>\n                    </div>\n                    <div class=\"o-block\">\n                       <a class=\"view-all\" href=\"javascript://\">View All</a>\n                       <h4>10</h4>\n                    </div>\n                 </div>\n              </div>\n           </div>\n        </div>\n\n     </div>\n     <div class=\"col-lg-4 col-md-12 col-sm-12 col-12\">\n        <div class=\"chat-msg all-leads\">\n           <div class=\"row\">\n              <div class=\"col-6\">\n                 <h5>Chat</h5>\n              </div>\n              <div class=\"col-6 text-right\"><a class=\"msg\" href=\"javascript://\">Message</a></div>\n           </div>\n           <p>Waiting for response</p>\n           <p>\n              <strong>Mario Hudson</strong>\n              When you are free to have a meeting\n              with interested customers?\n           </p>\n           <p>\n              <strong>Rosie Benson</strong>\n              Is there any availability in the localities\n              I was asking you tomorrow and also p…\n           </p>\n        </div>\n     </div>\n  </div>\n  <div class=\"row\">\n     <div class=\"col-12\">\n        <div class=\"spacer15\"></div>\n     </div>\n\n  </div>\n  <div class=\"row\">\n     <div class=\"col-12\">\n        <div class=\"title-group\">\n           <h5>Requests Pending</h5>\n           <p>Showing {{items?.length}} out of {{parameter.total}}</p>\n        </div>\n     </div>\n\n  </div>\n  <div class=\"white-bg\">\n     <div class=\"tabel-section\">\n              <div class=\"table-responsive\">\n                 <table class=\"table table-striped\">\n                    <!-- <tbody> -->\n                      <tr>\n                       <th style=\"width:6%\">&nbsp;</th>\n                       <th style=\"width:20%\">\n                          <div class=\"table-search\">\n                              <label>Name</label>\n                              <div class=\"searh-3\">\n                                  <input type=\"text\" [(ngModel)]=\"parameter.name\" (keyup.enter)=\"changeFilter('name',$event.target.value)\" name=\"\">\n                                  <button *ngIf=\"parameter.name\" (click)=\"changeFilter('name', parameter.name)\"><i class=\"fa fa-search\"></i></button>\n                              </div>\n                          </div>\n                        </th>\n                        <th style=\"width:20%; text-align:left;\">\n                          <div class=\"table-search\">\n                              <label>Contact Number</label>\n                              <div class=\"searh-3\">\n                                  <input type=\"text\" [(ngModel)]=\"parameter.phone\" (keyup.enter)=\"changeFilter('phone',$event.target.value)\" name=\"\">\n                                  <button *ngIf=\"parameter.phone\" (click)=\"changeFilter('phone', parameter.phone)\"><i class=\"fa fa-search\"></i></button>\n                              </div>\n                          </div>\n                        </th>\n                        <th style=\"width:20%\">\n                          <div class=\"table-search\">\n                              <label>Property</label>\n                              <div class=\"searh-3\">\n                                  <input type=\"text\" [(ngModel)]=\"parameter.email\" (keyup.enter)=\"changeFilter('email',$event.target.value)\" name=\"\">\n                                  <button *ngIf=\"parameter.email\" (click)=\"changeFilter('email', parameter.email)\"><i class=\"fa fa-search\"></i></button>\n                              </div>\n                          </div>\n                        </th>\n                       <th style=\"width:20%\">\n                            <div class=\"table-search\">\n                                <label>Assignee</label>\n                            </div>\n                        </th>\n                       <th style=\"width:14%\">\n                          &nbsp;\n                       </th>\n                    </tr>\n                    <tr *ngFor=\"let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }\">\n                       <td>\n                         <img class=\"rounded-circle\" [src]=\"item.image\" onerror=\"this.src='assets/img/default_img.png'\" alt=\"img\">\n                       </td>\n                       <td class=\"text-left\">\n                          <span routerLink=\"/dashboard/leads/csr-closers/{{item.id}}\" class=\"name\">{{item.name}}</span>\n                       </td>\n                       <td class=\"text-left\">\n                        {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}<br>\n                        {{item.email}}\n                       </td>\n                       <td class=\"text-left\">\n                        <div class=\"property-selected\">\n                           <p class=\"p14 marginB0\">\n                               {{item?.selected_properties[0]?.property?.configuration.name}}\n                           </p>\n                           <p class=\"p12 marginB0\"><strong>{{item?.selected_properties[0]?.property?.building?.name}}</strong></p>\n                           <p class=\"p11\"><i>{{item?.selected_properties[0]?.property?.building?.developer?.name}}</i></p>\n                        </div>\n                        </td>\n                       <td class=\"text-left\" title=\"CSR Closer\">\n                          {{item.closer.name}}\n                       </td>\n\n                       <td>\n                          <a href=\"javascript://\" title=\"View Details\" routerLink=\"/dashboard/leads/csr-closers/{{item.id}}\" class=\"icon-block edit-icon\"><img src=\"assets/img/viewfull.png\" alt=\"img\"></a>\n                          <a href=\"javascript://\" class=\"icon-block block-icon\"><img src=\"assets/img/block.png\" alt=\"img\"></a>\n                       </td>\n                    </tr>\n\n                 <!-- </tbody> -->\n                </table>\n              </div>\n           </div>\n           <div class=\"center\" *ngIf=\"items?.length == 0\">\n               <img src=\"assets/img/404-error.png\">\n           </div>\n  </div>\n  </div>\n"
 
 /***/ }),
 
@@ -2588,6 +2026,7 @@ var InhouseBrokerDetailComponent = /** @class */ (function () {
         if (r.data.lead.prefs !== null) {
             this.fillInfo.family_size = r.data.lead.prefs.family_size;
             this.fillInfo.pets = r.data.lead.prefs.pets;
+            this.fillInfo.kid_count = r.data.lead.prefs.kid_count;
             this.fillInfo.min_price = r.data.lead.min_price;
             this.fillInfo.max_price = r.data.lead.max_price;
             this.fillInfo.price_range = [r.data.lead.prefs.min_price, r.data.lead.prefs.max_price];
@@ -2598,6 +2037,7 @@ var InhouseBrokerDetailComponent = /** @class */ (function () {
         else {
             this.fillInfo.family_size = 1;
             this.fillInfo.pets = '';
+            this.fillInfo.kid_count = '';
             this.fillInfo.min_price = this.constant.minValue;
             this.fillInfo.max_price = this.constant.maxValue;
             this.fillInfo.price_range = [this.constant.minValue, this.constant.maxValue];
@@ -2649,7 +2089,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/layout/leads/inhouse-broker/inhouse-broker.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "\n<!-- <ngx-loading [show]=\"parameter.loading\"></ngx-loading> -->\n\n<div class=\"container-fluid\">\n  <div class=\"row\">\n      <div class=\"col-md-3\">\n        <a class=\"view-all-2\" href=\"javascript://\"><i class=\"fa fa-angle-left\"></i><span>View all</span></a>\n      </div>\n      <div class=\"col-md-9\">\n        <div class=\"cust-tabs-2\">\n            <ul class=\"nav nav-tabs\">\n              <li class=\"nav-item\">\n                  <a class=\"nav-link\" [ngClass]=\"{'active':parameter.flag==1}\" (click)=\"changeFlag(1)\" >This Week</a>\n              </li>\n              <li class=\"nav-item\">\n                  <a class=\"nav-link\" [ngClass]=\"{'active':parameter.flag==2}\" (click)=\"changeFlag(2)\" >This Month</a>\n              </li>\n              <li class=\"nav-item\">\n                  <a class=\"nav-link\" [ngClass]=\"{'active':parameter.flag==3}\" (click)=\"changeFlag(3)\" >Last Month</a>\n              </li>\n              <li class=\"nav-item\">\n                  <a class=\"nav-link\" [ngClass]=\"{'active':parameter.flag==4}\" (click)=\"changeFlag(4)\" >Lifetime</a>\n              </li>\n              <li class=\"nav-item\">\n                  <a class=\"nav-link\" [ngClass]=\"{'active':parameter.flag==5}\" (click)=\"changeFlag(5)\" >Custom</a>\n              </li>\n            </ul>\n        </div>\n      </div>\n      <div class=\"col-12\">\n        <hr style=\"margin-top:0;\">\n      </div>\n  </div>\n\n  <div class=\"sigle-row-table\">\n    <table class=\"table table-striped\">\n        <tr>\n          <td> <img class=\"rounded-circle\" src=\"./../../../assets/img/default_img.png\" alt=\"img\"></td>\n          <td class=\"text-left\">\n              <span class=\"name\">Lillian Russell</span>\n          </td>\n          <td class=\"text-left\">\n              728-111-1874\n          </td>\n          <td class=\"text-left\">\n              eunice_aufderhar@yahoo.com\n          </td>\n          <td>\n              14\n          </td>\n          <td>\n              <a href=\"javascript://\" class=\"icon-block edit-icon\"><img src=\"./../../../assets/img/edit.png\" alt=\"img\"></a>\n              <a href=\"javascript://\" class=\"icon-block block-icon\"><img src=\"./../../../assets/img/unblock.png\" alt=\"img\"></a>\n          </td>\n        </tr>\n    </table>\n  </div>\n\n  <div class=\"row\">\n      <div class=\"col-lg-4 col-md-12 col-sm-12 col-12\">\n        <div class=\"info-box\">\n            <div class=\"one-row\">\n              <div class=\"o-block\">\n                  <h5>Buildings</h5>\n                  <small>Requests Pending</small>\n              </div>\n              <div class=\"o-block\">\n                  <a class=\"view-all\" href=\"javascript://\">View All</a>\n                  <h4>15</h4>\n              </div>\n            </div>\n            <div class=\"three-row\">\n              <div class=\"t-block\">\n                  <p><strong>3</strong></p>\n                  <p>Admin</p>\n              </div>\n              <div class=\"t-block\">\n                  <p><strong>6</strong></p>\n                  <p>CSR</p>\n              </div>\n              <div class=\"t-block\">\n                  <p><strong>5</strong></p>\n                  <p>User</p>\n              </div>\n            </div>\n        </div>\n      </div>\n    <div class=\"col-lg-4 col-md-12 col-sm-12 col-12\">\n        <div class=\"four-block\">\n            <div class=\"d-flex\">\n              <div class=\"f-block approved\">\n                  <h5>Approved</h5>\n                  <h3>25</h3>\n              </div>\n              <div class=\"f-block unapproved\">\n                  <h5>Unapproved</h5>\n                  <h3>02</h3>\n              </div>\n            </div>\n            <div class=\"d-flex\">\n              <div class=\"f-block pending active\">\n                  <h5>Pending</h5>\n                  <h3>01</h3>\n              </div>\n              <div class=\"f-block unapproved\">\n                  <h5>In Draft</h5>\n                  <h3>02</h3>\n              </div>\n            </div>\n        </div>\n      </div>\n      <div class=\"col-lg-4 col-md-12 col-sm-12 col-12\">\n        <div class=\"chat-msg\">\n            <div class=\"row\">\n              <div class=\"col-6\">\n                  <h5>Chat</h5>\n              </div>\n              <div class=\"col-6 text-right\"><a class=\"msg\" href=\"javascript://\">Message</a></div>\n            </div>\n            <p>Waiting for response</p>\n            <p>\n              <strong>Mario Hudson</strong>\n              When you are free to have a meeting\n              with interested customers?\n            </p>\n            <p>\n              <strong>Rosie Benson</strong>\n              Is there any availability in the localities\n              I was asking you tomorrow and also p…\n            </p>\n        </div>\n      </div>\n  </div>\n\n  <div class=\"row\">\n      <div class=\"col-12\">\n        <div class=\"spacer40\"></div>\n      </div>\n      <div class=\"col-12\">\n        <div class=\"title-group\">\n            <h5>All Leads</h5>\n            <p>Showing {{items?.length}} out of {{parameter.total}}</p>\n        </div>\n      </div>\n  </div>\n\n  <div class=\"white-bg\">\n      <div class=\"tabel-section\">\n        <div class=\"table-responsive\">\n            <table class=\"table table-striped table-align-left vertical-align-top\">\n              <tr>\n                  <th>\n                    <div class=\"table-search\">\n                        <!-- <label>Image</label> -->\n                    </div>\n                  </th>\n                  <th style=\"width:18%\">\n                    <div class=\"table-search\">\n                        <label>Name</label>\n                        <div class=\"searh-3\">\n                            <input type=\"text\" [(ngModel)]=\"parameter.name\" (keyup.enter)=\"changeFilter('name',$event.target.value)\" name=\"\">\n                            <button *ngIf=\"parameter.name\" (click)=\"changeFilter('name', parameter.name)\"><i class=\"fa fa-search\"></i></button>\n                        </div>\n                    </div>\n                  </th>\n                  <th style=\"width:20%; text-align:left;\">\n                    <div class=\"table-search\">\n                        <label>Contact Number</label>\n                        <div class=\"searh-3\">\n                            <input type=\"text\" [(ngModel)]=\"parameter.phone\" (keyup.enter)=\"changeFilter('phone',$event.target.value)\" name=\"\">\n                            <button *ngIf=\"parameter.phone\" (click)=\"changeFilter('phone', parameter.phone)\"><i class=\"fa fa-search\"></i></button>\n                        </div>\n                    </div>\n                  </th>\n                  <th style=\"width:20%\">\n                    <div class=\"table-search\">\n                        <label>Email</label>\n                        <div class=\"searh-3\">\n                            <input type=\"text\" [(ngModel)]=\"parameter.email\" (keyup.enter)=\"changeFilter('email',$event.target.value)\" name=\"\">\n                            <button *ngIf=\"parameter.email\" (click)=\"changeFilter('email', parameter.email)\"><i class=\"fa fa-search\"></i></button>\n                        </div>\n                    </div>\n                  </th>\n                  <th style=\"width:12%\">\n                    <div class=\"table-search\">\n                        <label>Interested In</label>\n                    </div>\n                    </th>\n                    <th>\n                    <div class=\"table-search\">\n                        <label>Assignee</label>\n                    </div>\n                    </th>\n                    \n                  <th >\n                    <!-- Mark\n                    Complete -->\n                  </th>\n              </tr>\n              <tr *ngFor=\"let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }\">\n                <td>\n                  <img *ngIf=\"item.image\" class=\"rounded-circle\" [src]=\"item.image\" alt=\"img\">\n                  <img *ngIf=\"!item.image\" class=\"rounded-circle\" src=\"./../../../assets/img/default_img.png\" alt=\"img\">\n                </td>\n                <td class=\"text-left\">\n                  <span routerLink=\"/dashboard/leads/inhouse-broker/{{item.id}}\"  class=\"name\">{{item.name}}</span>\n                </td>\n                <td class=\"text-left\" *ngIf=\"item.phone\">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>\n                <td class=\"text-left\" *ngIf=\"!item.phone\">NA</td>\n                <td class=\"text-left\">{{item.email}}</td>\n                <td>\n                    <span *ngFor=\"let conf of item.configuration; let ii=index\">\n                        {{conf.name}}\n                        <span *ngIf=\"ii<item?.configuration?.length-1\">,</span>\n                    </span>\n                    <span *ngIf=\"item.configuration?.length==0\">NA</span>\n                </td>\n                <td class=\"text-left\" title=\"Inhouse Broker\" *ngIf=\"item?.admin?.name\">{{item.broker.name}}</td>\n                <td class=\"text-left\" *ngIf=\"!item?.admin?.name\">Not Assigned</td>\n                <td>\n                  <a href=\"javascript://\" title=\"View Details\" routerLink=\"/dashboard/leads/inhouse-broker/{{item.id}}\" class=\"icon-block edit-icon\"><img src=\"assets/img/edit.png\" alt=\"img\"></a>\n                  <a href=\"javascript://\" *ngIf=\"item.is_blocked == 1\" (click)=\"blockUnblockPopup(i, item.id, 0, parameter.type)\" title=\"Unblock user\" class=\"icon-block block-icon unblock-bg\"><img src=\"assets/img/block.png\" alt=\"img\"></a>\n                  <a href=\"javascript://\" *ngIf=\"item.is_blocked == 0\" (click)=\"blockUnblockPopup(i, item.id, 1, parameter.type)\" title=\"Block user\" class=\"icon-block block-icon\"><img src=\"assets/img/unblock.png\" alt=\"img\"></a>\n                </td>\n              </tr>\n            </table>\n        </div>\n      </div>\n      <div class=\"center\" *ngIf=\"items?.length == 0\">\n          <img src=\"assets/img/404-error.png\">\n      </div>\n  </div>\n    \n  <div class=\"btn-cont text-right marginT15\" *ngIf=\"parameter.total\">\n        <pagination-controls class=\"my-pagination\" (pageChange)=\"getPage($event)\"></pagination-controls>\n    </div>\n    \n</div>\n"
+module.exports = "\n\n<div class=\"container-fluid\">\n  <div class=\"row\">\n      <div class=\"col-md-5\">\n        <!-- <a class=\"view-all-2\" href=\"javascript://\"><i class=\"fa fa-angle-left\"></i><span>\n            View all\n        </span></a> -->\n        <h5>Manage Leads - Inhouse Broker</h5>\n      </div>\n      <div class=\"col-md-7\">\n        <div class=\"cust-tabs-2\">\n            <ul class=\"nav nav-tabs\">\n              <li class=\"nav-item\">\n                  <a class=\"nav-link\" [ngClass]=\"{'active':parameter.flag==1}\" (click)=\"changeFlag(1)\" >This Week</a>\n              </li>\n              <li class=\"nav-item\">\n                  <a class=\"nav-link\" [ngClass]=\"{'active':parameter.flag==2}\" (click)=\"changeFlag(2)\" >This Month</a>\n              </li>\n              <li class=\"nav-item\">\n                  <a class=\"nav-link\" [ngClass]=\"{'active':parameter.flag==3}\" (click)=\"changeFlag(3)\" >Last Month</a>\n              </li>\n              <li class=\"nav-item\">\n                  <a class=\"nav-link\" [ngClass]=\"{'active':parameter.flag==4}\" (click)=\"changeFlag(4)\" >Lifetime</a>\n              </li>\n              <li class=\"nav-item\">\n                  <a class=\"nav-link\" [ngClass]=\"{'active':parameter.flag==5}\" (click)=\"changeFlag(5)\" >Custom</a>\n              </li>\n            </ul>\n        </div>\n      </div>\n      <div class=\"col-12\">\n        <hr style=\"margin-top:0;\">\n      </div>\n  </div>\n<!-- \n  <div class=\"sigle-row-table\">\n    <table class=\"table table-striped\">\n        <tr>\n          <td> <img class=\"rounded-circle\" src=\"./../../../assets/img/default_img.png\" alt=\"img\"></td>\n          <td class=\"text-left\">\n              <span class=\"name\">Lillian Russell</span>\n          </td>\n          <td class=\"text-left\">\n              728-111-1874\n          </td>\n          <td class=\"text-left\">\n              eunice_aufderhar@yahoo.com\n          </td>\n          <td>\n              14\n          </td>\n          <td>\n              <a href=\"javascript://\" class=\"icon-block edit-icon\"><img src=\"./../../../assets/img/edit.png\" alt=\"img\"></a>\n              <a href=\"javascript://\" class=\"icon-block block-icon\"><img src=\"./../../../assets/img/unblock.png\" alt=\"img\"></a>\n          </td>\n        </tr>\n    </table>\n  </div> -->\n\n  <div class=\"row\">\n      <div class=\"col-lg-4 col-md-12 col-sm-12 col-12\">\n        <div class=\"info-box\">\n            <div class=\"one-row\">\n              <div class=\"o-block\">\n                  <h5>Buildings</h5>\n                  <small>Requests Pending</small>\n              </div>\n              <div class=\"o-block\">\n                  <a class=\"view-all\" href=\"javascript://\">View All</a>\n                  <h4>15</h4>\n              </div>\n            </div>\n            <div class=\"three-row\">\n              <div class=\"t-block\">\n                  <p><strong>3</strong></p>\n                  <p>Admin</p>\n              </div>\n              <div class=\"t-block\">\n                  <p><strong>6</strong></p>\n                  <p>CSR</p>\n              </div>\n              <div class=\"t-block\">\n                  <p><strong>5</strong></p>\n                  <p>User</p>\n              </div>\n            </div>\n        </div>\n      </div>\n    <div class=\"col-lg-4 col-md-12 col-sm-12 col-12\">\n        <div class=\"four-block\">\n            <div class=\"d-flex\">\n              <div class=\"f-block approved\">\n                  <h5>Approved</h5>\n                  <h3>25</h3>\n              </div>\n              <div class=\"f-block unapproved\">\n                  <h5>Unapproved</h5>\n                  <h3>02</h3>\n              </div>\n            </div>\n            <div class=\"d-flex\">\n              <div class=\"f-block pending active\">\n                  <h5>Pending</h5>\n                  <h3>01</h3>\n              </div>\n              <div class=\"f-block unapproved\">\n                  <h5>In Draft</h5>\n                  <h3>02</h3>\n              </div>\n            </div>\n        </div>\n      </div>\n      <div class=\"col-lg-4 col-md-12 col-sm-12 col-12\">\n        <div class=\"chat-msg\">\n            <div class=\"row\">\n              <div class=\"col-6\">\n                  <h5>Chat</h5>\n              </div>\n              <div class=\"col-6 text-right\"><a class=\"msg\" href=\"javascript://\">Message</a></div>\n            </div>\n            <p>Waiting for response</p>\n            <p>\n              <strong>Mario Hudson</strong>\n              When you are free to have a meeting\n              with interested customers?\n            </p>\n            <p>\n              <strong>Rosie Benson</strong>\n              Is there any availability in the localities\n              I was asking you tomorrow and also p…\n            </p>\n        </div>\n      </div>\n  </div>\n\n  <div class=\"row\">\n      <div class=\"col-12\">\n        <div class=\"spacer40\"></div>\n      </div>\n      <div class=\"col-12\">\n        <div class=\"title-group\">\n            <h5>All Leads</h5>\n            <p>Showing {{items?.length}} out of {{parameter.total}}</p>\n        </div>\n      </div>\n  </div>\n\n  <div class=\"white-bg\">\n      <div class=\"tabel-section\">\n        <div class=\"table-responsive\">\n            <table class=\"table table-striped table-align-left vertical-align-top\">\n              <tr>\n                  <th>\n                    <div class=\"table-search\">\n                        <!-- <label>Image</label> -->\n                    </div>\n                  </th>\n                  <th style=\"width:18%\">\n                    <div class=\"table-search\">\n                        <label>Name</label>\n                        <div class=\"searh-3\">\n                            <input type=\"text\" [(ngModel)]=\"parameter.name\" (keyup.enter)=\"changeFilter('name',$event.target.value)\" name=\"\">\n                            <button *ngIf=\"parameter.name\" (click)=\"changeFilter('name', parameter.name)\"><i class=\"fa fa-search\"></i></button>\n                        </div>\n                    </div>\n                  </th>\n                  <th style=\"width:20%; text-align:left;\">\n                    <div class=\"table-search\">\n                        <label>Contact Number</label>\n                        <div class=\"searh-3\">\n                            <input type=\"text\" [(ngModel)]=\"parameter.phone\" (keyup.enter)=\"changeFilter('phone',$event.target.value)\" name=\"\">\n                            <button *ngIf=\"parameter.phone\" (click)=\"changeFilter('phone', parameter.phone)\"><i class=\"fa fa-search\"></i></button>\n                        </div>\n                    </div>\n                  </th>\n                  <th style=\"width:20%\">\n                    <div class=\"table-search\">\n                        <label>Email</label>\n                        <div class=\"searh-3\">\n                            <input type=\"text\" [(ngModel)]=\"parameter.email\" (keyup.enter)=\"changeFilter('email',$event.target.value)\" name=\"\">\n                            <button *ngIf=\"parameter.email\" (click)=\"changeFilter('email', parameter.email)\"><i class=\"fa fa-search\"></i></button>\n                        </div>\n                    </div>\n                  </th>\n                  <th style=\"width:12%\">\n                    <div class=\"table-search\">\n                        <label>Interested In</label>\n                    </div>\n                    </th>\n                    <th>\n                    <div class=\"table-search\">\n                        <label>Assignee</label>\n                    </div>\n                    </th>\n                    \n                  <th >\n                    <!-- Mark\n                    Complete -->\n                  </th>\n              </tr>\n              <tr *ngFor=\"let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }\">\n                <td>\n                  <img *ngIf=\"item.image\" class=\"rounded-circle\" [src]=\"item.image\" alt=\"img\">\n                  <img *ngIf=\"!item.image\" class=\"rounded-circle\" src=\"./../../../assets/img/default_img.png\" alt=\"img\">\n                </td>\n                <td class=\"text-left\">\n                  <span routerLink=\"/dashboard/leads/inhouse-broker/{{item.id}}\"  class=\"name\">{{item.name}}</span>\n                </td>\n                <td class=\"text-left\" *ngIf=\"item.phone\">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>\n                <td class=\"text-left\" *ngIf=\"!item.phone\">NA</td>\n                <td class=\"text-left\">{{item.email}}</td>\n                <td>\n                    <span *ngFor=\"let conf of item.configuration; let ii=index\">\n                        {{conf.name}}\n                        <span *ngIf=\"ii<item?.configuration?.length-1\">,</span>\n                    </span>\n                    <span *ngIf=\"item.configuration?.length==0\">NA</span>\n                </td>\n                <td class=\"text-left\" title=\"Inhouse Broker\" *ngIf=\"item?.admin?.name\">{{item.broker.name}}</td>\n                <td class=\"text-left\" *ngIf=\"!item?.admin?.name\">Not Assigned</td>\n                <td>\n                  <a href=\"javascript://\" title=\"View Details\" routerLink=\"/dashboard/leads/inhouse-broker/{{item.id}}\" class=\"icon-block edit-icon\"><img src=\"assets/img/edit.png\" alt=\"img\"></a>\n                  <a href=\"javascript://\" *ngIf=\"item.is_blocked == 1\" (click)=\"blockUnblockPopup(i, item.id, 0, parameter.type)\" title=\"Unblock user\" class=\"icon-block block-icon unblock-bg\"><img src=\"assets/img/block.png\" alt=\"img\"></a>\n                  <a href=\"javascript://\" *ngIf=\"item.is_blocked == 0\" (click)=\"blockUnblockPopup(i, item.id, 1, parameter.type)\" title=\"Block user\" class=\"icon-block block-icon\"><img src=\"assets/img/unblock.png\" alt=\"img\"></a>\n                </td>\n              </tr>\n            </table>\n        </div>\n      </div>\n      <div class=\"center\" *ngIf=\"items?.length == 0\">\n          <img src=\"assets/img/404-error.png\">\n      </div>\n  </div>\n    \n  <div class=\"btn-cont text-right marginT15\" *ngIf=\"parameter.total\">\n        <pagination-controls class=\"my-pagination\" (pageChange)=\"getPage($event)\"></pagination-controls>\n    </div>\n    \n</div>\n"
 
 /***/ }),
 
@@ -2883,6 +2323,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__common_blocks_viewed_property_viewed_property_component__ = __webpack_require__("../../../../../src/app/layout/common-blocks/viewed-property/viewed-property.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__common_blocks_notes_notes_component__ = __webpack_require__("../../../../../src/app/layout/common-blocks/notes/notes.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__common_blocks_fill_information_fill_information_component__ = __webpack_require__("../../../../../src/app/layout/common-blocks/fill-information/fill-information.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__pipes_thousand_pipe__ = __webpack_require__("../../../../../src/app/pipes/thousand.pipe.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LeadsModule", function() { return LeadsModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -2900,6 +2341,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 // import { NgBoxModule } from 'ngbox/ngbox.module';
 // import { NgBoxService } from 'ngbox/ngbox.service';
+
 
 
 
@@ -2962,6 +2404,7 @@ var LeadsModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_22__common_blocks_interested_property_interested_property_component__["a" /* InterestedPropertyComponent */],
                 __WEBPACK_IMPORTED_MODULE_23__common_blocks_viewed_property_viewed_property_component__["a" /* ViewedPropertyComponent */],
                 __WEBPACK_IMPORTED_MODULE_9__pipes_remove_comma_pipe__["a" /* RemoveCommaPipe */],
+                __WEBPACK_IMPORTED_MODULE_26__pipes_thousand_pipe__["a" /* ThousandPipe */],
                 __WEBPACK_IMPORTED_MODULE_10__pipes_moment_pipe__["a" /* MomentPipe */],
                 __WEBPACK_IMPORTED_MODULE_11__pipes_chat_time_pipe__["a" /* ChatTimePipe */],
                 __WEBPACK_IMPORTED_MODULE_24__common_blocks_notes_notes_component__["a" /* NotesComponent */],
@@ -3179,7 +2622,8 @@ var MomentPipe = /** @class */ (function () {
     }
     MomentPipe.prototype.transform = function (dateTime, args) {
         if (args === void 0) { args = 'YYYY-MM-DD H:m:s'; }
-        return __WEBPACK_IMPORTED_MODULE_1_moment__(dateTime, args).utc(true).local().fromNow();
+        return __WEBPACK_IMPORTED_MODULE_1_moment__(dateTime, args).utc(true).local().format('LLLL');
+        // return moment(dateTime, args ).utc(true).local().fromNow();
     };
     MomentPipe = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Pipe"])({

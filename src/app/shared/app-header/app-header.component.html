@@ -41,61 +41,61 @@
                       <!-- <li class="nav-item">
                         <a class="nav-link" href="javascript://" routerLink="generate-thumb"><i><img src="assets/img/graph.png"></i><span>Thumb</span></a>
                       </li> -->
-                      <li class="nav-item dropdown">
+                      <li class="nav-item dropdown" [routerLinkActive]="'active'">
                          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
                          <i><img src="assets/img/user.png"></i><span>Manage Inhouse User</span></a>
                          <div class="dropdown-menu">
                             <ul>
-                               <li><a class="dropdown-item" routerLink="view-inhouse-users/data-collectors">Data Collector</a></li>
-                               <li><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/csr-sellers">CSR Seller</a></li>
-                               <li><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/csr-buyers">CSR Buyer</a></li>
-                               <li><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/inhouse-broker">Inhouse Broker</a></li>
-                               <li><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/csr-closers">CSR Closer</a></li>
+                               <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="view-inhouse-users/data-collectors">Data Collector</a></li>
+                               <li [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/csr-sellers">CSR Seller</a></li>
+                               <li [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/csr-buyers">CSR Buyer</a></li>
+                               <li [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/inhouse-broker">Inhouse Broker</a></li>
+                               <li [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/csr-closers">CSR Closer</a></li>
                             </ul>
                          </div>
                       </li>
-                      <li class="nav-item dropdown">
+                      <li class="nav-item dropdown" [routerLinkActive]="'active'">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
                         <i><img src="assets/img/stamp.png"></i><span>Manage Notary</span></a>
                         <div class="dropdown-menu">
                            <ul>
-                              <li><a class="dropdown-item" routerLink="notary/view-notary">Notary</a></li>
-                              <li><a class="dropdown-item" routerLink="notary/notary-leads">Leads</a></li>
+                              <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="notary/view-notary">Notary</a></li>
+                              <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="notary/notary-leads">Leads</a></li>
                            </ul>
                         </div>
                      </li>
-                     <li class="nav-item dropdown">
+                     <li class="nav-item dropdown" [routerLinkActive]="'active'">
                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
                        <i><img src="assets/img/bank.png"></i><span>Manage Banks</span></a>
                        <div class="dropdown-menu">
                           <ul>
-                             <li><a class="dropdown-item" routerLink="banks/view-banks">Banks</a></li>
+                             <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="banks/view-banks">Banks</a></li>
                           </ul>
                        </div>
                     </li>
-                      <li class="nav-item">
+                      <li class="nav-item" [routerLinkActive]="'active'">
                         <a class="nav-link" href="javascript://" routerLink="users"><i><img src="assets/img/users.png"></i><span>Manage User</span></a>
                       </li>
-                      <li class="nav-item dropdown">
+                      <li class="nav-item dropdown" [routerLinkActive]="'active'">
                          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
                          <i><img src="assets/img/graph.png"></i><span>Manage lead</span></a>
                          <div class="dropdown-menu">
                             <ul>
-                               <li><a class="dropdown-item" routerLink="leads/data-collectors">Data Collector</a></li>
-                               <li><a class="dropdown-item" href="javascript://" routerLink="leads/csr-sellers">CSR Seller</a></li>
-                               <li><a class="dropdown-item" href="javascript://" routerLink="leads/csr-buyers">CSR Buyer</a></li>
-                               <li><a class="dropdown-item" href="javascript://" routerLink="leads/inhouse-broker">Inhouse Broker</a></li>
-                               <li><a class="dropdown-item" href="javascript://" routerLink="leads/csr-closers">CSR Closer</a></li>
+                               <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="leads/data-collectors">Data Collector</a></li>
+                               <li [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/csr-sellers">CSR Seller</a></li>
+                               <li [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/csr-buyers">CSR Buyer</a></li>
+                               <li [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/inhouse-broker">Inhouse Broker</a></li>
+                               <li [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/csr-closers">CSR Closer</a></li>
                             </ul>
                          </div>
                       </li>
                       <!-- <li class="nav-item">
                         <a class="nav-link" href="javascript://" routerLink="leads/view-leads"><i><img src="assets/img/graph.png"></i><span>Magage lead</span></a>
                       </li> -->
-                      <li class="nav-item">
+                      <li class="nav-item" [routerLinkActive]="'active'">
                         <a class="nav-link" href="javascript://" routerLink="projects/add-project"><i><img src="assets/img/graph.png"></i><span>Add Project</span></a>
                       </li>
-                      <li class="nav-item">
+                      <li class="nav-item" [routerLinkActive]="'active'">
                         <a class="nav-link" href="javascript://" routerLink="properties/view-properties"><i><img src="assets/img/graph.png"></i><span>Magage Properties</span></a>
                       </li>
                       <!-- 
@@ -108,39 +108,39 @@
                       <li class="nav-item active">
                         <a class="nav-link" href="javascript://"><i><img src="assets/img/graph.png"></i><span>Magage Projects</span></a>
                       </li> -->
-                      <li class="nav-item">
+                      <li class="nav-item" [routerLinkActive]="'active'">
                         <a class="nav-link" href="javascript://" routerLink="access-control-mgt"><i><img src="assets/img/key.png"></i><span>ACL</span></a>
                       </li>
-                      <li class="nav-item dropdown">
+                      <li class="nav-item dropdown" [routerLinkActive]="'active'">
                           <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
                           <i><img src="assets/img/graph2.png"></i><span>Reports</span></a>
                           <div class="dropdown-menu">
                              <ul>
-                                <li><a class="dropdown-item" routerLink="reports/seller">Seller</a></li>
-                                <li><a class="dropdown-item" href="javascript://" routerLink="reports/buyer">Buyer</a></li>
-                                <li><a class="dropdown-item" href="javascript://" routerLink="reports/notary">Notary</a></li>
-                                <li><a class="dropdown-item" href="javascript://" routerLink="reports/bank">Bank</a></li>
+                                <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="reports/seller">Seller</a></li>
+                                <li [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="reports/buyer">Buyer</a></li>
+                                <li [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="reports/notary">Notary</a></li>
+                                <li [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="reports/bank">Bank</a></li>
                              </ul>
                           </div>
                        </li>
-                      <li class="nav-item">
+                      <li class="nav-item" [routerLinkActive]="'active'">
                         <a class="nav-link" href="javascript://" routerLink="manual-leads"><i><img src="assets/img/graph.png"></i><span>Manual Leads</span></a>
                       </li>
-                      <li class="nav-item">
+                      <li class="nav-item" [routerLinkActive]="'active'">
                         <a class="nav-link" href="javascript://" routerLink="edit-template"><i><img src="assets/img/users.png"></i><span>Edit Template</span></a>
                       </li>
-                      <li class="nav-item dropdown">
+                      <li class="nav-item dropdown" [routerLinkActive]="'active'">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
                         <i><img src="assets/img/settings.png"></i><span>Settings</span></a>
                         <div class="dropdown-menu">
                           <ul>
-                            <li><a class="dropdown-item" routerLink="settings/setting-location">Location</a></li>
-                            <li><a class="dropdown-item" routerLink="settings/setting-locality">Locality</a></li>
-                            <li><a class="dropdown-item" routerLink="settings/setting-property">Property</a></li>
-                            <li><a class="dropdown-item" routerLink="settings/setting-project">Project</a></li>
+                            <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/setting-location">Location</a></li>
+                            <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/setting-locality">Locality</a></li>
+                            <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/setting-property">Property</a></li>
+                            <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/setting-project">Project</a></li>
                             <!-- <li><a class="dropdown-item" routerLink="settings/edit-profile">Edit Profile</a></li> -->
-                            <li><a class="dropdown-item" routerLink="settings/documents-listing">Documents Listing</a></li>
-                            <li><a class="dropdown-item logout-btn" (click)="onLoggedout()">Logout</a></li>
+                            <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/documents-listing">Documents Listing</a></li>
+                            <li [routerLinkActive]="'active'"><a class="dropdown-item logout-btn" (click)="onLoggedout()">Logout</a></li>
                           </ul>
                         </div>
                       </li>

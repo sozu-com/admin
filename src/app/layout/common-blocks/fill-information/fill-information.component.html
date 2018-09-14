@@ -39,7 +39,7 @@
             <div class="col-6"><label class="float-left">Do you have kids?</label></div>
             <div class="col-5">
                 <label class="cust-check-bx">
-                <input type="checkbox" value="{{fillInfo.pets == 1 ? 'true' : 'false'}}" [(ngModel)]="fillInfo.pets" name="pets">
+                <input type="checkbox" value="{{fillInfo.kid_count == 1 ? 'true' : 'false'}}" [(ngModel)]="fillInfo.kid_count" name="kid_count">
                 <span class="checkmark"></span>
                 </label>
             </div>
@@ -58,7 +58,15 @@
     <div class="form-group-4 date-picker marginT20">
         <label>How soon planning to buy/rent</label>
         <div class="clearfix"></div>
-        <input type="date" readonly min="{{today|date:'yyyy-MM-dd'}}" [ngModel]="fillInfo.planning_to_buy  | date:'yyyy-MM-dd' " (ngModelChange)="fillInfo.planning_to_buy = $event;" name="planning_to_but" class="form-control" id="datetimepicker">
+        <input type="date" min="{{today|date:'yyyy-MM-dd'}}" max='9999-12-31' [ngModel]="fillInfo.planning_to_buy  | date:'yyyy-MM-dd' " (ngModelChange)="fillInfo.planning_to_buy = $event;" name="planning_to_but" class="form-control" id="datetimepicker">
+        <!-- <span class="sel-date">Select date</span> -->
+        <!-- <div class="select-date select-date-small">
+            <img *ngIf="model.floor_plan" [src]="model.floor_plan" class="floor-plan">
+            <input type="file" name="" accept="image/*" (change)="onSelectFile('floor_plan', $event)">
+            <div class="select-date-caption">
+                <p class="green-color marginT30">Select date</p>
+            </div> 
+        </div> -->
         <div class="clearfix"></div>
     </div>
     <div class="form-group-4 marginT20">

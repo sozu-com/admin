@@ -7,6 +7,7 @@ export class Constant {
     public initialCountry = 'mx';
     public minValue = 0;
     public maxValue = 1000000000;
+    public fileSizeLimit = 25000000; // 25MB
     public steps = 1000;
     public phonePattern = '^[0-9]{5,15}$';
     public emailPattern = '^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$';
@@ -45,7 +46,8 @@ export class Constant {
         NO_USER_FOUND : 'No user found!',
         NO_INTERESTED_PROPERTY_FOUND : 'No interests added by user.',
         NO_VIEWED_PROPERTY_FOUND : 'No property or project viewed by you.',
-        NO_NOTE_FOUND : 'No notes to show.'
+        NO_NOTE_FOUND : 'No notes to show.',
+        FILE_SIZE_EXCEEDS : 'Choosed file is more than 25MB.'
     };
     public successMsg: any = {
         COUNTRY_ADDED_SUCCESSFULLY : 'Country added successfully',

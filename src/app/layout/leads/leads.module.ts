@@ -26,6 +26,7 @@ import { InterestedPropertyComponent } from './../common-blocks/interested-prope
 import { ViewedPropertyComponent } from './../common-blocks/viewed-property/viewed-property.component';
 import { NotesComponent } from './../common-blocks/notes/notes.component';
 import { FillInformationComponent } from './../common-blocks/fill-information/fill-information.component';
+import { ThousandPipe } from '../../pipes/thousand.pipe';
 
 const routes: Routes = [
   { path: 'data-collectors', component: DataCollectorComponent },
@@ -68,6 +69,7 @@ const routes: Routes = [
     InterestedPropertyComponent,
     ViewedPropertyComponent,
     RemoveCommaPipe,
+    ThousandPipe,
     MomentPipe,
     ChatTimePipe,
     NotesComponent,

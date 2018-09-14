@@ -49,6 +49,7 @@ export class CsrBuyerDetailComponent implements OnInit {
 
   setFillInformationData(r) {
     this.admin.postDataApi('leads/getPrefOptions', {lead_id: this.parameter.lead_id}).subscribe(res => {
+      console.log('====>', res);
       this.fillInfo.lead_id = this.parameter.lead_id;
       this.fillInfo.proximity_places_array = res.data.proximity_places;
       this.fillInfo.car_types = res.data.car_types;
@@ -92,6 +93,7 @@ export class CsrBuyerDetailComponent implements OnInit {
     if (r.data.lead.prefs !== null) {
       this.fillInfo.family_size = r.data.lead.prefs.family_size;
       this.fillInfo.pets = r.data.lead.prefs.pets;
+      this.fillInfo.kid_count = r.data.lead.prefs.kid_count;
       this.fillInfo.min_price = r.data.lead.prefs.min_price ? r.data.lead.prefs.min_price : this.constant.minValue;
       this.fillInfo.max_price = r.data.lead.prefs.max_price ? r.data.lead.prefs.max_price : this.constant.maxValue;
       this.fillInfo.price_range = [this.fillInfo.min_price, this.fillInfo.max_price];
@@ -100,6 +102,7 @@ export class CsrBuyerDetailComponent implements OnInit {
     } else {
       this.fillInfo.family_size = 1;
       this.fillInfo.pets = '';
+      this.fillInfo.kid_count = '';
       this.fillInfo.min_price = this.constant.minValue;
       this.fillInfo.max_price = this.constant.maxValue;
       this.fillInfo.price_range = [this.constant.minValue, this.constant.maxValue];

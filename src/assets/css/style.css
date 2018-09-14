@@ -1011,7 +1011,7 @@ border-radius: 20px;
 text-align: center;
 border: 1px solid rgba(179,179,179,0.5);
 padding-top: 2px;
-display: block;
+display:inline-block;
 padding: 1.5px 20px;
 min-width: 88px;
 }
@@ -1230,13 +1230,15 @@ height: 376px;
 }
 #side-menu-bar .scrollbox {
 overflow: auto;
-width:100% !important;
-height:100vh;
+width:100%  !important;
+height:100vh !important;
 padding-right: 0 !important;
 }
 .chat-user {
 clear: both;
 margin-top: 20px;
+float: left;
+width:100%;
 }
 .chat-user-one p {
 float: right;
@@ -1249,7 +1251,7 @@ margin-bottom: 5px;
 border-radius: 0 10px 10px 10px;
 background-color: #00B96F;
 color: #fff;
-margin-bottom: 5px;
+ 
 }
 .chat-user p {
 font-size: 16px;
@@ -1266,6 +1268,7 @@ text-align: right;
 clear: both;
 width: 100%;
 display: block;
+padding-top:5px; 
 }
 .chat-user-two .time {
     color: rgba(0,0,0,0.5);
@@ -1273,6 +1276,7 @@ display: block;
     line-height: 16px;
     float: left;
     width: 100%;
+    padding-top:5px; 
 }
 .chat-text {
 background-color: #F5F5F5;
@@ -1369,7 +1373,7 @@ margin-right: 8px;
 }
 .form-group-4 .cust-radio .checkmark {
 font-size: 12px;
-width:128px;
+ 
 }
 .inline-form-group-2 label {
 float: right;
@@ -1526,9 +1530,10 @@ color: #00B96F;
 font-size: 12px;
 }
 .wn-block {
-margin-bottom: 30px;
-position: relative;
-padding-left: 30px;
+    padding-bottom: 25px;
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 5px;
 }
 .wn-block .time {
 font-size: 12px;
@@ -1540,6 +1545,7 @@ margin-bottom: 0;
 line-height: 24px;
 font-size: 13px;
 color: #434B52;
+ 
 }
 .delete {
 color: rgba(0,0,0,0.5);
@@ -1554,16 +1560,43 @@ color: #00B96F;
 .write-note .wn-block:last-child .circle span:after{
 display:none; 
 }
-.circle span {
+.circle span, .write-note .wn-block:after {
 height: 12px;
 width: 12px;
 border: 1px solid #00B96F;
-background-color: rgba(0,185,111,0.12);
+background-color: #E5F7ED;
 display: block;
 border-radius:50px; 
 position: relative;
 }
-.circle span:after {
+ 
+.write-note .wn-block:before {
+content:''; 
+height: 12px;
+width: 12px;
+border: 1px solid #00B96F;
+background-color: #E5F7ED;
+display: block;
+border-radius:50px; 
+position:absolute;
+left:0;
+top:7px;  
+}
+.write-note .wn-block:last-child:after{display:none; }
+.write-note .wn-block:after {
+    content: '';
+    position: absolute;
+    height: 100%;
+    border: none;
+    border-right: 2px dotted #EAEAEA;
+    width: 2px;
+    left: 5px;
+    top:20px;
+    background-color: transparent;
+}
+.write-note .wn-block .circle{display:none; }
+
+/*.circle span:after {
 content: '';
 position: absolute;
 height: 85px;
@@ -1578,7 +1611,7 @@ top: 12px;
 position: absolute;
 left: 0;
 top: 7px;
-}
+}*/
 .project-des-bx {
 margin-bottom: 30px;
 display: flex;
@@ -2300,7 +2333,7 @@ border-bottom: solid 1px #f1f1f1;
 padding: 8px 16px;
 position: relative;
 }
-.chat-shared-file{margin-bottom:6px;}
+
 .chat-shared-file a {
     font-weight: 600;
     border-radius: 4px;
@@ -2376,7 +2409,7 @@ position: relative;
 }
 
 .chat-vid .vid-img, 
-.chat-user-one .chat-vid span{ width:160px !important; height:120px; position: relative;}
+.chat-user-one .chat-vid span{ width:120px !important; height:120px; position: relative;}
 
 .chat-user-one .chat-vid span, 
 .chat-user-one video, 
@@ -2390,13 +2423,13 @@ position: relative;
 }
 
 .chat-vid .vid-img, 
-.chat-user-two .chat-vid span{ width:160px !important; height:120px; position: relative;}
+.chat-user-two .chat-vid span{ width:120px !important; height:120px; position: relative;}
 
 .chat-user-two .chat-vid span, 
 .chat-user-two video, 
 .chat-user-two img{float: left; border-radius:10px 10px 10px 0;}
 
-.chat-user video, .chat-user img{ width:auto !important; height:120px;}
+.chat-user video, .chat-user img{ width:120px !important; height:120px; object-fit:cover;}
 
 
 .chat-user-two .chat-vid span,
@@ -2421,7 +2454,7 @@ position: relative;
     
     color: #A6ACBB;
     font-family: 'sf_ui_textregular';
-    font-size: 10px;
+    font-size: 12px;
     
 }
 .notary-avail .cust-check-bx .checkmark {  
@@ -2435,17 +2468,22 @@ position: relative;
     width: 6px;
     height: 10px;   
 }
-.notary-avail .table td{ border-top:none; border-bottom:1px solid #ECEEF5;  }
+.notary-avail .table td {
+    border-top: none;
+    border-bottom: 1px solid #ECEEF5;
+    padding-left: 0;
+    padding-right: 0;
+}
 .popup-header{border:none;  }
 .popup-header h4 {
     color: #000000;
     font-family: 'sf_ui_textmedium';
     font-size: 24px;
 }
-.notary-avail.modal-content  {
+/*.notary-avail.modal-content  {
     padding: 30px 40px;
 }
-
+*/
 /* .similar-properties.project-des-bx .fig-block, .similar-properties.project-des-bx .fig-block img{
     width:104px;
     height: 104px;
@@ -2648,3 +2686,48 @@ position: relative;
 .invoice-block.active{ background-color:#f1f1f1;  }
 #view-viewed-property .modal-dialog .modal-content, 
 #view-all .modal-dialog .modal-content{background-color:#f4f4f4; }
+
+.modal-open .modal {
+ 
+    padding: 0 !important;
+}
+
+
+
+
+.select-date {
+    height: 10px;
+    width:100%;
+    border: 1px solid #F9F9F9;
+    background-color: #FDFDFD;
+    position:relative; 
+}
+.select-date.select-date-small {
+    height: 10px;
+    margin-bottom: 30px;
+}
+.select-date-caption {
+    position: absolute;
+    top: 0;
+    transform: translateY(-50%);
+    left: 0;
+    right: 0;
+    max-width: 380px;
+    margin: auto;
+    text-align: center;
+    z-index:1; 
+}
+.select-date-caption p{ margin-bottom:0; font-size:12px;   }
+.select-date input[type=file] {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    text-indent: 700px;
+    overflow: hidden;
+    font-size: 0;
+    z-index: 2;
+    width: 100%;
+    cursor:pointer; 
+}

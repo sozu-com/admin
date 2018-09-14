@@ -66,7 +66,8 @@ export class FillInformationComponent implements OnInit {
         this.fillInfo.configurations.push(element.id);
       }
     });
-    this.fillInfo.pets = this.fillInfo.pets === true ? '1' : '0';
+    this.fillInfo.pets = this.fillInfo.pets === true || this.fillInfo.pets.toString() === '1' ? '1' : '0';
+    this.fillInfo.kid_count = this.fillInfo.kid_count === true || this.fillInfo.kid_count.toString() === '1' ? '1' : '0';
     this.fillInfo.min_price = this.fillInfo.price_range[0];
     this.fillInfo.max_price = this.fillInfo.price_range[1];
     console.log('before', this.fillInfo);

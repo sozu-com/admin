@@ -32,7 +32,7 @@ export class InterestedPropertyComponent implements OnInit {
   constructor(public model: DealFinalize, private admin: AdminService, public constant: Constant) { }
 
   ngOnInit() {
-    this.showProperties(this.lead_id);
+    // this.showProperties(this.lead_id);
   }
 
   openModal(property_id, lead_id) {
@@ -95,14 +95,34 @@ export class InterestedPropertyComponent implements OnInit {
       this.parameter.cities = r.data;
       if (r.data.length !== 0) {
         this.parameter.city_id = r.data[0].id;
-        this.homeSearch(r.data[0].id);
+        this.propertySearch(r.data[0].id);
+        this.showPropertyModal.nativeElement.click();
       } else {
         swal('Error', 'No city exists.', 'error');
       }
     });
   }
 
-  homeSearch(city_id) {
+  // showProperties(lead_id) {
+  //   this.parameter.lead_id = lead_id;
+  //   this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
+  //     console.log('getCountryLocality', r);
+  //     this.parameter.cities = r.data;
+  //     if (r.data.length !== 0) {
+  //       this.showPropertyModal.nativeElement.click();
+  //       this.parameter.countries = r.data;
+  //       this.parameter.country_id = r.data[0].id;
+  //       this.parameter.states = r.data[0].states;
+  //       // this.parameter.states.push({id: '0', name: 'All', status: 1});
+  //       this.parameter.state_id = '0';
+  //       this.propertySearch(r.data[0].id);
+  //     } else {
+  //       swal('Error', 'No city exists.', 'error');
+  //     }
+  //   });
+  // }
+
+  propertySearch(city_id) {
     this.parameter.city_id = city_id;
     this.admin.postDataApi('propertySearch', {city_id: city_id}).subscribe(r => {
       console.log('==>', r);

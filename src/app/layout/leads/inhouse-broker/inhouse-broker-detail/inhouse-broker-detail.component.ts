@@ -102,6 +102,7 @@ console.log('r.data.lead.prefs-->', r.data.lead.prefs);
     if (r.data.lead.prefs !== null) {
       this.fillInfo.family_size = r.data.lead.prefs.family_size;
       this.fillInfo.pets = r.data.lead.prefs.pets;
+      this.fillInfo.kid_count = r.data.lead.prefs.kid_count;
       this.fillInfo.min_price = r.data.lead.min_price;
       this.fillInfo.max_price = r.data.lead.max_price;
       this.fillInfo.price_range = [r.data.lead.prefs.min_price, r.data.lead.prefs.max_price];
@@ -112,6 +113,7 @@ console.log('r.data.lead.prefs-->', r.data.lead.prefs);
     } else {
       this.fillInfo.family_size = 1;
       this.fillInfo.pets = '';
+      this.fillInfo.kid_count = '';
       this.fillInfo.min_price = this.constant.minValue;
       this.fillInfo.max_price = this.constant.maxValue;
       this.fillInfo.price_range = [this.constant.minValue, this.constant.maxValue];
