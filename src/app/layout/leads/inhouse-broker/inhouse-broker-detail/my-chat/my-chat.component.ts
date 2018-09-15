@@ -390,21 +390,17 @@ export class MyChatComponent implements OnInit {
         }, 100);
         if (model.loading === true) {
           model.loading = false;
-          const date = new Date();        }
-
-      }
-      // error => {
-      //   swal('Error', error.message, 'error');
-      // }
-      );
+          const date = new Date();
+          model.updated_at = date;
+        }
+      });
     }
-
   }
 
   loadMore() {
     this.loadmoring = true;
     const data = {
-      sent_as: 3,
+      sent_as: 2,
       conversation_id: this.conversation_id,
       lead_id: this.lead_id,
       last_message_id: this.messages[0].id

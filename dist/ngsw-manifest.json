@@ -13,7 +13,7 @@
       "/flags.ae33acae404631e997ef.png": "19fae9a6aa4bb419eba378b0d0573906dc1be38a",
       "/flags@2x.f2c77a6b7e26ff160fdb.png": "99254765af9e027397ff2a32affb16e75e95ae52",
       "/0.59c79dc401c9da80c3b9.chunk.js": "f55e02519aa7ef067c58a277426659657c5f979a",
-      "/1.3727f49381510d063859.chunk.js": "0bc4590b5803a20724b439fcb692c1dd91b84436",
+      "/1.f093ce6d11065aba5fed.chunk.js": "13826f63ea17e346319041f2d2e09dfd5ebd9ed0",
       "/2.631513234946a43a9d7b.chunk.js": "ca202b9ca6ea232d88b14d2942432ba7b747e819",
       "/3.4cdf9456eda39297b45b.chunk.js": "44f662aff1812842fdb37e17f60a8635e750045d",
       "/4.11647dd850ba29d670dd.chunk.js": "924c9831ceef74b4356be7ed1753df0879e3a161",
@@ -29,7 +29,7 @@
       "/scripts.16a93cda8571ff08cb59.bundle.js": "0fd4c484979c534dff7329f0ece7bad642faf7bf",
       "/sw-register.a52508b023e230fd33af.bundle.js": "02a522d055607948f7ce2dbed110fe95da49f67d",
       "/vendor.9b243a7463de995535b2.bundle.js": "b544898834bdad0b47fa3c481252798b5fe638f6",
-      "/inline.804fb8e59f64315b4d38.bundle.js": "e9d87fcc9066118546a54dad8435fff406d0565f",
+      "/inline.cf99b7ee80d3439c379f.bundle.js": "8455b615e9c55f6da1c23c1b638b2caff8782c15",
       "/styles.3c3eedd4c86a810f3111.bundle.css": "6300bc445de9942f774ad56240e5d26f7928c8ba",
       "/assets/animation-w480-h480.json": "ac6c4d6cf1e315e8bda952d0bf68924f361b3afe",
       "/assets/countries.json": "5be427991ec674cc67b240c9922a56519ea2022b",
@@ -42,8 +42,8 @@
       "/assets/css/media.css": "26ee404d1674aa625323ea1a836aa2003b1bc37a",
       "/assets/css/style_old.css": "032518330935d5bbae3d9d13755f05d509ac0479",
       "/assets/css/style.css": "6174b073bc80f618d261ba6b59c528e591c33932",
-      "/assets/fonts/fonts/SF-UI-Text-Bold.otf": "82c72b8f419e2801c921e4add7d11f4143da06b6",
       "/assets/fonts/fonts/SF-UI-Text-BoldItalic.otf": "9638b3522682e330c96a9a8961559c35c7bfd78e",
+      "/assets/fonts/fonts/SF-UI-Text-Bold.otf": "82c72b8f419e2801c921e4add7d11f4143da06b6",
       "/assets/fonts/fonts/SF-UI-Text-Heavy.otf": "7f854163cef2d13061373472259aebe6214c7800",
       "/assets/fonts/fonts/SF-UI-Text-HeavyItalic.otf": "0eb54a4b3c2bac8c7765117d81e3844a1e3d540d",
       "/assets/fonts/fonts/SF-UI-Text-Light.otf": "b9241af921b62b9c3c2091931bbdb18698ec86c1",
@@ -130,7 +130,8 @@
       "/assets/img/loading-p.gif": "601b499156bd51be9df2bb99ab2f8a91aebc2a88",
       "/assets/img/location.png": "a41ddc9f95cd3994522f755c980c5ef009a2a4fb",
       "/assets/img/lock.png": "3801dfe0d67f7b3bd32d308e29e1e87adc6d97e9",
-      "/assets/img/logo.png": "5af296b053d52b2cd7827bf45f3c13046d20889f",
+      "/assets/img/logo_old.png": "5af296b053d52b2cd7827bf45f3c13046d20889f",
+      "/assets/img/logo.png": "d7bf1c042b47c66714b5c4b18894b2c8735f402e",
       "/assets/img/map-3.png": "5f7a852e26f468d110d49a314b11506323893415",
       "/assets/img/map-img.png": "417c77232fcd4593e1c8348e80a05632d247dcce",
       "/assets/img/placeholder-img.png": "eb3169b9ce1da532f9d9fb804ac409e231e69248",
@@ -163,7 +164,7 @@
       "/assets/js/popper.min.js": "bafe987c18cbe0587de3e6360e7da40a2885614b",
       "/favicon.ico": "6988290cf1b8253b904392a6f6b281f11a2e3e1e",
       "/manifest.json": "695498879d027f12fd69e1611511cf77a5fa0bce",
-      "/index.html": "44868472b6ad5f4e1f4d0852fae21a55c9148ac0"
+      "/index.html": "fcfa767d01a4a47efd0df63a07afdad6f6a84f1e"
     },
     "_generatedFromWebpack": true
   }

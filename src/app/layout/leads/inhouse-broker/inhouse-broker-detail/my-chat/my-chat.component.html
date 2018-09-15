@@ -44,14 +44,18 @@
         </div> 
         <div *ngFor="let m of messages;let i = index" [ngClass]="m.conversation_user.admin_id == admin_id ? 'chat-user-one' :'chat-user-two'" class="chat-user">
           <p *ngIf="m.message_type == 1" style="word-wrap: break-word;">
-            <span *ngIf="m.loading" class="m-loader"><img style="width:30px !important;" src="assets/img/loading-p.gif"></span>
+            <span *ngIf="m.loading" class="m-loader">
+              <img style="width:30px !important;" src="assets/img/loading-p.gif">
+            </span>
+            <!-- com -->
             <span>{{m.message}}</span>
           </p>
 
           <a *ngIf="m.message_type == 2" href="{{m.image}}" data-lightbox="image" title="image" >
             <span>
               <img class="ui bordered small image" src="{{m.image}}">
-              <div *ngIf="m.loading" class="loaderr"></div>
+              <!-- <div *ngIf="m.loading" class="loaderr"></div> -->
+              <!-- com -->
             </span>
           </a>
        
@@ -66,7 +70,7 @@
           <video *ngIf="m.message_type == 3 && m.play" src="{{m.video}}" autoplay type="video/mp4" controls></video>
           
           <div class="chat-shared-file" *ngIf="m.message_type == 4">
-            <p *ngIf="m.loading" class="m-loader"><img src="assets/img/loading-p.gif"></p>
+            <p *ngIf="m.loading" class="m-loader"><img style="width:30px !important;" src="assets/img/loading-p.gif"></p>
             <span *ngIf="!m.loading">
               <a href="javascript://" href="{{m.attachment}}"><span>{{m.attachment_name}}</span>
               </a>
