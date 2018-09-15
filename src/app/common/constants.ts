@@ -1,4 +1,5 @@
 export class Constant {
+    public projectName = 'Kanguroo';
     public itemsPerPage = 10;
     public p = 1;
     public country_code = 'mx';
@@ -12,6 +13,16 @@ export class Constant {
     public phonePattern = '^[0-9]{5,15}$';
     public emailPattern = '^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$';
     // public emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
+    public userType = {
+        csr_buyer: 1,
+        inhouse_broker: 2,
+        closer: 3,
+        csr_seller: 4,
+        bank: 5,
+        notary: 6,
+        user_buyer: 7,
+        user_seller_dev: 8
+    };
     public errorMsg: any = {
         COUNTRY_NAME_REQUIRED : 'Please enter country.',
         STATE_NAME_REQUIRED : 'Please enter state.',

@@ -18,11 +18,12 @@ export class LoginComponent implements OnInit, AfterViewInit {
     email: '',
     password: ''
   };
-
+  projectName: string;
   public parameter: IProperty = {};
 
   constructor(private router: Router, private admin: AdminService, public constant: Constant) {
     this.parameter.loading = false;
+    this.projectName = this.constant.projectName;
   }
 
   @ViewChild('input1') input1: ElementRef;

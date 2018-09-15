@@ -18,10 +18,12 @@ export class ForgotPasswordComponent implements OnInit {
   model = {
     email: ''
   };
-
+  projectName: string;
   constructor(private admin: AdminService, private router: Router, public constant: Constant) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.projectName = this.constant.projectName;
+  }
 
   forgotPassword(formData: NgForm) {
     this.parameter.loading = true;

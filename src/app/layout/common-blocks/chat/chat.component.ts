@@ -50,6 +50,7 @@ export class ChatComponent implements OnInit {
     // this.admin.loginData$.subscribe(success => {
     //   this.model.conversation_user = {admin_id: success['id']};
     // });
+    this.parameter.messages = [];
     setTimeout(() => {
       const input = {lead_id: this.lead_id, user_id: this.user_id, sent_as: this.sent_as};
       this.initSocket();
@@ -58,6 +59,7 @@ export class ChatComponent implements OnInit {
   }
 
   getMessages() {
+    // const url = this.sent_as === 1 ? 'conversation/getMessages' : 'conversation/chatListingBroker';
     this.admin.postDataApi('conversation/getMessages',
     {lead_id: this.lead_id, user_id: this.user_id, sent_as: this.sent_as}).subscribe(res => {
       console.log('getMessages', res);
@@ -299,7 +301,7 @@ export class ChatComponent implements OnInit {
         if (model.loading === true) {
           model.loading = false;
           const date = new Date();
-          model.updated_at = date.getUTCDate();
+          model.updated_at = date; // date.getUTCDate();
         }
       },
       error => {

@@ -5,11 +5,12 @@
        <a *ngFor="let con of conversations" [ngClass]="{'active':con.selected == true}" href="javascript://">
           <div class="profile" (click)="selectConversation(con)">
              <div class="fig-block">
-                <img [src]="con.other.image" onerror='src="http://via.placeholder.com/62x62"' alt="img" />
+                <img [src]="con.image" onerror='src="http://via.placeholder.com/62x62"' alt="img" />
              </div>
              <div class="profile-info">
-                <h6>{{con.other.name}}</h6>
-                <p class="p12">{{con.other.phone}}</p>
+                <h6>{{con?.name}}</h6>
+                <p class="p12" *ngIf="con?.phone">{{con?.dial_code? con?.dial_code: constant.dial_code}} -{{con?.phone}}</p>
+                <p class="p12" *ngIf="!con?.phone">NA</p>
                 <i class="fa fa-angle-right float-right"></i>
              </div>
           </div>
@@ -24,12 +25,13 @@
            <a href="javascript://">
              <div class="profile">
                 <div class="fig-block">
-                   <img [src]="conversation.other.image" onerror='src="http://via.placeholder.com/62x62"' alt="img">
+                   <img [src]="conversation?.other?.image" onerror='src="http://via.placeholder.com/62x62"' alt="img">
                 </div>
                 <div class="profile-info">
-                   <h6>{{conversation.other.name}}</h6>
-                   <p class="p12">{{conversation.other.phone}}</p>
-
+                   <h6>{{conversation?.other?.name}}</h6>
+                   <p class="p12" *ngIf="conversation?.other?.phone">{{conversation?.other?.dial_code? conversation?.other?.dial_code: constant.dial_code}} -{{conversation?.other?.phone}}</p>
+                    <p class="p12" *ngIf="!conversation?.other?.phone">NA</p>
+                   <p class="p12">{{conversation?.other?.phone}}</p>
                 </div>
              </div>
           </a>
@@ -42,32 +44,17 @@
         </div> 
         <div *ngFor="let m of messages;let i = index" [ngClass]="m.conversation_user.admin_id == admin_id ? 'chat-user-one' :'chat-user-two'" class="chat-user">
           <p *ngIf="m.message_type == 1" style="word-wrap: break-word;">
-            <span *ngIf="m.loading" class="m-loader"><img src="assets/img/loading-p.gif"></span>
+            <span *ngIf="m.loading" class="m-loader"><img style="width:30px !important;" src="assets/img/loading-p.gif"></span>
             <span>{{m.message}}</span>
           </p>
 
-          <!-- <a class="btn btn-sm btn-danger" [group]="group" ng-box href="{{lastReport.image.original}}">View</a> -->
-          <!-- <a *ngIf="m.message_type == 2" ng-box width="800" height="800" target="_blank" href="{{m.image}}">
-              <img src="{{m.image}}">
-          </a> -->
           <a *ngIf="m.message_type == 2" href="{{m.image}}" data-lightbox="image" title="image" >
             <span>
               <img class="ui bordered small image" src="{{m.image}}">
               <div *ngIf="m.loading" class="loaderr"></div>
             </span>
           </a>
-          <!-- <a *ngIf="m.message_type == 2" href="{{m.image}}" data-lightbox="image" data-title="My caption">
-            <img class="ui bordered small image" src="{{m.image}}">
-            
-          </a> -->
-          <!-- <a *ngIf="m.message_type == 3" href="{{m.video}}" title="Video" class="chat-vid">
-            <span >
-              <img class="ui bordered small image" src="{{m.image}}">
-              <img *ngIf="!m.loading" class="vid-icon" (click)="playVideo(i)" src="assets/img/play-button.png" />
-              <div *ngIf="m.loading" class="loaderr"></div>
-            </span>
-          </a> -->
-          
+       
           <div class="chat-vid" *ngIf="m.message_type == 3 && !m.play">
             <span>
                 <img class="ui bordered small image" src="{{m.image}}">
@@ -77,15 +64,6 @@
           </span>
           </div>
           <video *ngIf="m.message_type == 3 && m.play" src="{{m.video}}" autoplay type="video/mp4" controls></video>
-          
-          <!-- <div class="chat-vid" *ngIf="m.message_type == 3 && !m.play">
-            <span>
-              <img class="vid-img" src="{{m.image}}">
-              <img class="vid-icon" (click)="playVideo(i)" src="assets/img/play-button (2).png"/>
-              <div class="clearfix"></div>
-          </span>
-          </div> -->
-          <!-- <video *ngIf="m.message_type == 3 && m.play" src="{{m.video}}" autoplay type="video/mp4" controls></video> -->
           
           <div class="chat-shared-file" *ngIf="m.message_type == 4">
             <p *ngIf="m.loading" class="m-loader"><img src="assets/img/loading-p.gif"></p>
@@ -98,10 +76,15 @@
           
             <div class="time clearfix" *ngIf="m.updated_at">
               {{m.updated_at| moment}} {{m.play}}
-            <!-- {{m.updated_at | date: 'shortTime'}}, {{m.updated_at | date: 'longDate'}} -->
             </div>
          </div>
 
+         <div *ngIf="messages?.length==0">
+            <p class="show-not-found">
+              No message found.
+            </p>
+         </div>
+  
        </div>
 
        <div style="position: absolute; z-index: 1; margin: 0px; padding: 0px; other: block; left: 581px; top: 91px;"><div class="enscroll-track track3" style="position: relative; height: 367px;"><a href="" class="handle3" style="position: absolute; z-index: 1; height: 199.244px; top: 0px;"><div class="top"></div><div class="bottom"></div></a></div></div>
@@ -164,7 +147,6 @@
         <button (click)="sendMessage()" class="btn">Send</button>
         
        </div>
-
     </div>
     </div>
   </div>

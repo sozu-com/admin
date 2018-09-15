@@ -42,14 +42,14 @@ export class CsrBuyerDetailComponent implements OnInit {
           this.parameter.proximity_places = r.data.lead.proximity_places;
           this.parameter.interested_properties = r.data.interested_properties;
 
-          this.parameter.interested_properties.forEach(element => {
-            const test = this.parameter.lead.selected_properties.map(i => i.property_id === element.property.id);
-            if (test[0]) {
-              element.is_finalised = 1;
-            } else {
-              element.is_finalised = 0;
-            }
-          });
+          // this.parameter.interested_properties.forEach(element => {
+          //   const test = this.parameter.lead.selected_properties.map(i => i.property_id === element.property.id);
+          //   if (test[0]) {
+          //     element.is_finalised = 1;
+          //   } else {
+          //     element.is_finalised = 0;
+          //   }
+          // });
 
           this.parameter.viewed_properties = r.data.viewed_properties;
           this.parameter.user_id = this.parameter.lead.user ? this.parameter.lead.user.id : 0;

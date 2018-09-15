@@ -32,7 +32,7 @@ export class InterestedPropertyComponent implements OnInit {
   constructor(public model: DealFinalize, private admin: AdminService, public constant: Constant) { }
 
   ngOnInit() {
-    this.showProperties(this.lead_id);
+    // this.showProperties(this.lead_id);
   }
 
   openModal(property_id, lead_id) {
@@ -99,7 +99,7 @@ export class InterestedPropertyComponent implements OnInit {
       if (r.data.length !== 0) {
         this.parameter.city_id = r.data[0].id;
         this.propertySearch(r.data[0].id);
-        // this.showPropertyModal.nativeElement.click();
+        this.showPropertyModal.nativeElement.click();
       } else {
         swal('Error', 'No city exists.', 'error');
       }

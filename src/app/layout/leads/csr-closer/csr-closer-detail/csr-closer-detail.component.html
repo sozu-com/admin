@@ -177,81 +177,113 @@
             </div>
       
       
+
+            <!-- chatting -->
             <div class="col-lg-6 col-md-12 col-sm-12 col-12">
-            <div class="white-bg">
-              <div class="page-title-3 marginB0">
-              <h4><i><img src="assets/img/chat-icon.png" alt="img"></i> Chat</h4>
-            </div>
-            <div class="cust-tabs-4">
-              <ul class="nav nav-tabs">
-                  <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#csr-closer">CSR Closer</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#notary">Seller</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#bank">Buyer</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#bank">Bank</a>
-                  </li>
-              </ul>
-              <!-- Tab panes -->
-              <div class="tab-content">
-                  <div class="tab-pane active" id="csr-closer">
-                    <div class="chat-window white-bg">
-                        <div class="chat-top">
-                          <a href="javascript://">
-                              <div class="profile">
-                                <div class="fig-block">
-                                    <img src="http://via.placeholder.com/62x62" alt="img">
+                <div class="white-bg">
+                    <div class="page-title-3 marginB0">
+                        <h4><i><img src="assets/img/chat-icon.png" alt="img"></i> Chat</h4>
+                    </div>
+                    <div class="cust-tabs-4">
+                        <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a [ngClass]="{'active':chat_admin_sent_as==8}" (click)="getLeadConversation(8)" class="nav-link">Seller</a>
+                        </li>
+                        <li class="nav-item">
+                            <a [ngClass]="{'active':chat_admin_sent_as==7}" (click)="getLeadConversation(7)" class="nav-link">Buyer</a>
+                        </li>
+                        </ul>
+                        
+                        <div class="tab-content">
+                            <div class="chat-window white-bg">
+                            <div class="chat-top">
+                                <a href="javascript://">
+                                <div class="profile">
+                                    <div class="fig-block">
+                                    <img [src]="chat_admin?.image" onerror="this.src='assets/img/default_img.png'" alt="img" />
+                                    </div>
+                                    <div class="profile-info">
+                                    <h6>{{chat_admin?.name}}</h6>
+                                    <p *ngIf="chat_admin_sent_as == 3" class="p12">CSR Closer</p>
+                                    <p *ngIf="chat_admin_sent_as == 6" class="p12">Notary</p>
+                                    <p *ngIf="chat_admin_sent_as == 5" class="p12">Bank</p>
+                                    </div>
                                 </div>
-                                <div class="profile-info">
-                                    <h6>Cole Washington</h6>
-                                    <p class="p12">CSR Closer</p>
+                                </a>
+                            </div>
+                            <div malihu-scrollbar [scrollbarOptions]="scrollbarOptions" class="chat-area scrollbox" #chatWin>
+                                <div *ngFor="let m of messages" [ngClass]="m.conversation_user.user_id == loginData.id ? 'chat-user-one' :'chat-user-two'" class="chat-user">
+                                    <p *ngIf="m.message_type == 1" style="word-wrap: break-word;">
+                                        <span *ngIf="m.loading" class="m-loader"><img src="assets/img/loading-p.gif"></span>
+                                        <span *ngIf="!m.loading">{{m.message}}</span>
+                                        </p>
+                            
+                                        
+                                        <a *ngIf="m.message_type == 2" href="{{m.image}}"  title="image" >
+                                        <span *ngIf="m.loading" class="m-loader"><img src="assets/img/loading_image_1.gif"></span>
+                                        <span *ngIf="!m.loading"><img class="ui bordered small image" src="{{m.image}}"></span>
+                                        </a>
+                                        
+                                        <a *ngIf="m.message_type == 3" href="{{m.video}}" title="Video">
+                                        <span *ngIf="m.loading" class="m-loader"><img src="assets/img/loading_image_1.gif"></span>
+                                        <span *ngIf="!m.loading"><img class="ui bordered small image" src="{{m.image}}"></span>
+                                        </a>
+                                        
+                                        <div class="chat-shared-file" *ngIf="m.message_type == 4">
+                                        <p *ngIf="m.loading" class="m-loader"><img src="assets/img/loading-p.gif"></p>
+                                        <span *ngIf="!m.loading">
+                                            <a href="javascript://" href="{{m.attachment}}"><span>{{m.attachment_name}}</span>
+                                            </a>
+                                        </span>
+                                        </div>
+                                    <span class="time" *ngIf="m.updated_at">
+                                        {{m.updated_at| moment}}
+                                    </span>
                                 </div>
-                              </div>
-                          </a>
+                        
+                                </div>
+                            
+                                
+                                <div style="position: absolute; z-index: 1; margin: 0px; padding: 0px; other: block; left: 581px; top: 91px;"><div class="enscroll-track track3" style="position: relative; height: 367px;"><a href="" class="handle3" style="position: absolute; z-index: 1; height: 199.244px; top: 0px;"><div class="top"></div><div class="bottom"></div></a></div></div>
+            
+                                <div class="chat-text">
+                                <div class="dropdown attach-items">
+                                    <a href="javascript://" class="dropdown-toggle" data-toggle="dropdown" #optionsButton>
+                                    <i class="fa fa-paperclip" aria-hidden="true"></i>
+                                    </a>
+                                    <div class="dropdown-menu">
+                                    <div class="dropdown-item">
+                                        <input type="file" name="image" accept="image/*" (change)="onSelectFile('image', $event)">
+                                        <i class="fa fa-camera" aria-hidden="true"></i>
+                                        <span>Photo</span>
+                                    </div>
+                                    <a class="dropdown-item"> 
+                                        <input type="file" name="video1" accept="video/mp4,video/x-m4v,video/*" (change)="showCanvas($event)">
+                                        <i class="fa fa-video-camera" aria-hidden="true"></i>
+                                        <span>Video</span>
+                                    </a>
+                                    <a class="dropdown-item">    
+                                        <input type="file" name="attachment" accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf" (change)="saveAttachment($event)">
+                                        <i class="fa fa-file" aria-hidden="true"></i>
+                                        <span>Document</span>
+                                    </a>
+                                    </div>
+                                </div>
+                                <input id="message" autocomplete="off" *ngIf="model.message_type == 1" [(ngModel)]="model.message" (keyup.enter)="sendMessage()" class="chat-input" type="text" name="message" placeholder="Type your message here …">
+                                <canvas style="display: none;" width="800" height="600" id="canvas"></canvas>
+            
+                                <button (click)="sendMessage()" class="btn">Send</button>
+                                
+                                </div>
                         </div>
-                        <div class="chat-area scrollbox" tabindex="0" style="width: 488px; padding-right: 27px; outline: none; overflow: hidden;">
-                          <div class="chat-user chat-user-two">
-                              <p> Hey! I am interested in the  property you’ve listed. I was thinking of having a look at it. Can we schedule a tour? and Is the price listed fixed? Thanks. </p>
-                              <span class="time">
-                              2:05pm, May 01, 2014
-                              </span>
-                          </div>
-                          <div class="chat-user chat-user-one">
-                              <p> Hey! I am interested in the  property you’ve listed. I was thinking of having a look at it. Can we schedule a tour? and Is the price listed fixed? Thanks. </p>
-                              <span class="time">
-                              2:05pm, May 01, 2014
-                              </span>
-                          </div>
-                          <div class="chat-user chat-user-two">
-                              <p> Hey! I am interested in the  property you’ve listed. I was thinking of having a look at it. Can we schedule a tour? and Is the price listed fixed? Thanks. </p>
-                              <span class="time">
-                              2:05pm, May 01, 2014
-                              </span>
-                          </div>
-                          <div class="chat-user chat-user-one">
-                              <p> Hey! I am interested in the  property you’ve listed. I was thinking of having a look at it. Can we schedule a tour? and Is the price listed fixed? Thanks. </p>
-                              <span class="time">
-                              2:05pm, May 01, 2014
-                              </span>
-                          </div>
-                        </div> 
-                        <div class="chat-text">
-                          <input class="chat-input" type="text" name="" placeholder="Type your message here …">
-                          <button class="btn">Send</button>
+            
                         </div>
                     </div>
-                  </div>
-                  <div class="tab-pane container fade" id="notary">Notary</div>
-                  <div class="tab-pane container fade" id="bank">Bank</div>
-              </div>
-            </div>
-      
-            </div>
+                    </div>
+                    
+
+
+
       
             <div class="clearfix"></div>
             <div class="upload-document-block white-bg">

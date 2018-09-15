@@ -91,7 +91,7 @@ export class MyChatComponent implements OnInit {
       this.admin_id = success['id'];
     });
     this.loadingConversation = true;
-    this.admin.postDataApi('conversation/chatListingBroker', {sent_as: 3}).subscribe(r => {
+    this.admin.postDataApi('leads/developers', {lead_id: this.lead_id}).subscribe(r => {
       console.log(r);
       this.conversations = r['data'];
       if (this.conversations.length > 0) {
@@ -99,50 +99,66 @@ export class MyChatComponent implements OnInit {
         this.selectConversation(this.conversations[0]);
       }
       this.loadingConversation = false;
-    }
-    // error => {
-    //   console.log(error);
+    });
+    // this.admin.postDataApi('conversation/chatListingBroker', {sent_as: 3}).subscribe(r => {
+    //   console.log(r);
+    //   this.conversations = r['data'];
+    //   if (this.conversations.length > 0) {
+    //     this.initSocket();
+    //     this.selectConversation(this.conversations[0]);
+    //   }
     //   this.loadingConversation = false;
-    // }
-    );
+    // });
   }
 
   selectConversation(conversation) {
-    this.loadmore = true;
-    this.conversations.map(con => {
-      con.selected = false;
-      if (con === conversation) {
-        con.selected = true;
-        this.conversation_id = con.id;
-      }
-    });
 
-    this.conversation = conversation;
-    const data = {
-      sent_as: 3,
+    const data1 = {
       lead_id: this.lead_id,
-      conversation_id: this.conversation_id
+      other_id: conversation.id,
+      other_sent_as: this.constant.userType.user_seller_dev,
+      sent_as: this.constant.userType.inhouse_broker
     };
 
-    this.loadingMessages = true;
-    this.admin.postDataApi('conversation/getMessages', data).subscribe(res => {
-      console.log(res);
-      this.messages = res.data[0].messages;
-      // this.messages.map(r=>{
-      //   r.loading = true;
-      //   return r;
-      // });
-      if (this.messages.length < 30) {this.loadmore = false; }
-      this.loadingMessages = false;
-      setTimeout(() => {
-        this.scrollToBottom();
-      }, 200);
-    }
-    // error => {
-    //   this.loadingMessages = false;
-    // }
-    );
+    this.admin.postDataApi('conversation/getLeadConversation', data1).subscribe(res => {
+      console.log('===========', res);
+      if (res.data) {
 
+        this.conversation = res.data;
+        this.conversation_id = res.data[0].id;
+
+        this.loadmore = true;
+        this.conversations.map(con => {
+          con.selected = false;
+          if (con === conversation) {
+            con.selected = true;
+            // this.conversation_id = con.id;
+          }
+        });
+
+
+        const data = {
+            sent_as: 3,
+            lead_id: this.lead_id,
+            conversation_id: this.conversation_id
+          };
+
+          this.loadingMessages = true;
+          this.admin.postDataApi('conversation/getMessages', data).subscribe(r => {
+            console.log(r);
+            this.messages = r.data[0].messages;
+            // this.messages.map(r=>{
+            //   r.loading = true;
+            //   return r;
+            // });
+            if (this.messages.length < 30) {this.loadmore = false; }
+            this.loadingMessages = false;
+            setTimeout(() => {
+              this.scrollToBottom();
+            }, 200);
+          });
+      }
+    });
   }
 
 

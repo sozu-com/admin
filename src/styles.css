@@ -327,3 +327,6 @@ input::-webkit-inner-spin-button {
     padding: 5px 8px !important;
 }
 /* .m-loader{background-color: #F5F5F5; padding:5px; display: inline-block; border-radius:10px;  } */
+.m-loader, .mCS_img_loaded{
+    width: 30px !important;
+}
