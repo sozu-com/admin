@@ -36,7 +36,7 @@ const routes: Routes = [
     PropertiesComponent,
     AddPropertyComponent,
     PropertyDetailsComponent,
-    ThousandPipe
+    // ThousandPipe
   ]
 })
 

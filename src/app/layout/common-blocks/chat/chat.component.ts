@@ -35,6 +35,7 @@ export class ChatComponent implements OnInit {
     thumbnail: '',
     original: ''
   };
+  videoSrc: any;
   loadmore = true;
   loadmoring = false;
   public scrollbarOptions = { axis: 'y', theme: 'dark'};
