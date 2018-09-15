@@ -8,6 +8,7 @@ import { AuthGuard } from './../services/auth.guard';
 import { InhouseUsersComponent } from './inhouse-users/inhouse-users.component';
 import { EditTemplateComponent } from './edit-template/edit-template.component';
 import { GenerateThumbComponent } from './generate-thumb/generate-thumb.component';
+import { LeadsComponent } from './leads/leads.component';
 
 const routes: Routes = [
     {
@@ -20,6 +21,7 @@ const routes: Routes = [
             { path: 'banks', loadChildren: './banks/banks.module#BanksModule' },
             { path: 'users', loadChildren: './users/users.module#UsersModule' },
             { path: 'leads', loadChildren: './leads/leads.module#LeadsModule' },
+            // { path: 'leads', component: LeadsComponent },
             { path: 'manual-leads', loadChildren: './manual-leads/manual-leads.module#ManualLeadsModule' },
             { path: 'edit-template', component: EditTemplateComponent},
             { path: 'generate-thumb', component: GenerateThumbComponent},

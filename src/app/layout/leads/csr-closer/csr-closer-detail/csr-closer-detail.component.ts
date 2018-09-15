@@ -160,7 +160,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes'
     }).then((result) => {
-      alert('csdfsdf');
+      // alert('csdfsdf');
       if (result.value) {
         this.selectedProperties.noataries = [notary];
         // this.hideNotaries.nativeElement.click();
@@ -171,12 +171,12 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
           this.hideNotaries.nativeElement.click();
         });
       } else if (result.dismiss === 'cancel') {
-        alert('c');
+        // alert('c');
      }else {
-      alert('ca');
+      // alert('ca');
       }
     }, function(dismiss){
-      alert('csfd');
+      // alert('csfd');
     }
       // if(dismiss == 'cancel'){
       //     // function when cancel button is clicked
