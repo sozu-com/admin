@@ -32,7 +32,7 @@ export class InterestedPropertyComponent implements OnInit {
   constructor(public model: DealFinalize, private admin: AdminService, public constant: Constant) { }
 
   ngOnInit() {
-    // this.showProperties(this.lead_id);
+    this.showProperties(this.lead_id);
   }
 
   openModal(property_id, lead_id) {
@@ -77,7 +77,7 @@ export class InterestedPropertyComponent implements OnInit {
       }).then((result) => {
         if (result.value) {
           const input = {property_id: property_id, lead_id: this.lead_id};
-          this.admin.postDataApi(this.parameter.url, {property_id: property_id, lead_id: lead_id})
+          this.admin.postDataApi(this.parameter.url, {property_id: [property_id], lead_id: lead_id})
             .subscribe(
               success => {
                 this.interested_properties.splice(index, 1);
@@ -96,7 +96,7 @@ export class InterestedPropertyComponent implements OnInit {
       if (r.data.length !== 0) {
         this.parameter.city_id = r.data[0].id;
         this.propertySearch(r.data[0].id);
-        this.showPropertyModal.nativeElement.click();
+        // this.showPropertyModal.nativeElement.click();
       } else {
         swal('Error', 'No city exists.', 'error');
       }
@@ -124,7 +124,7 @@ export class InterestedPropertyComponent implements OnInit {
 
   propertySearch(city_id) {
     this.parameter.city_id = city_id;
-    this.admin.postDataApi('propertySearch', {city_id: city_id}).subscribe(r => {
+    this.admin.postDataApi('propertySearch', {city_id: city_id, lead_id: this.lead_id}).subscribe(r => {
       console.log('==>', r);
       this.parameter.items = r.data;
     });
@@ -152,6 +152,7 @@ export class InterestedPropertyComponent implements OnInit {
           const input = {property_id: property_id, lead_id: this.lead_id};
           this.admin.postDataApi('leads/addLeadInterestedProperty', input).subscribe(r => {
             this.showPropertyModal.nativeElement.click();
+            swal('Success', 'Added Successfully', 'success');
             this.interested_properties.push(r.data);
           });
         }

@@ -98,20 +98,22 @@ export class BanksComponent implements OnInit {
   addBank(formdata: NgForm) {
     this.parameter.url = this.model.id !== '' ? 'updateNewUser' : 'addBank';
 
-    const input = new FormData();
+    // const input = new FormData();
 
-    if (this.model.id !== '') { input.append('id', this.model.id); }
-    input.append('name', this.model.name);
-    input.append('country_code', this.model.country_code);
-    input.append('dial_code', '+' + this.model.dial_code);
-    input.append('phone', this.model.phone);
-    input.append('email', this.model.email);
-    input.append('floating_int', this.model.floating_int);
-    input.append('interests', JSON.stringify(this.model.interests));
+    // if (this.model.id !== '') { input.append('id', this.model.id); }
+    // input.append('name', this.model.name);
+    // input.append('country_code', this.model.country_code);
+    // input.append('dial_code', '+' + this.model.dial_code);
+    // input.append('phone', this.model.phone);
+    // input.append('email', this.model.email);
+    // input.append('floating_int', this.model.floating_int);
+    // input.append('interests', JSON.stringify(this.model.interests));
 
-    if (this.parameter.image) { input.append('image', this.parameter.image); }
+    this.model.dial_code = '+' + this.model.dial_code;
+    this.model.interests = JSON.stringify(this.model.interestsArray);
+    // if (this.parameter.image) { input.append('image', this.parameter.image); }
 
-    this.admin.postDataApi(this.parameter.url, input)
+    this.admin.postDataApi(this.parameter.url, this.model)
       .subscribe(
         success => {
           console.log('success', success);

@@ -209,8 +209,9 @@
               </tr>
               <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }">
                 <td>
-                  <img *ngIf="item.image" class="rounded-circle" [src]="item.image" alt="img">
-                  <img *ngIf="!item.image" class="rounded-circle" src="./../../../assets/img/default_img.png" alt="img">
+                <img [src]="item.image" class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
+                  <!-- <img *ngIf="item.image" class="rounded-circle" [src]="item.image" alt="img">
+                  <img *ngIf="!item.image" class="rounded-circle" src="./../../../assets/img/default_img.png" alt="img"> -->
                 </td>
                 <td class="text-left">
                   <span *ngIf="item.name" routerLink="/dashboard/leads/csr-buyers/{{item.id}}" class="name">{{item.name}}</span>

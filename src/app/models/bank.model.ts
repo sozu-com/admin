@@ -8,7 +8,8 @@ export class Bank {
     email: string;
     branch: string;
     floating_int: string;
-    interests: Array<Object> = [
+    interests: string;
+    interestsArray: Array<Object> = [
         {
             min_price: 0,
             max_price: 0,

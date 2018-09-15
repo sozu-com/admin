@@ -282,6 +282,12 @@ export class AddPropertyComponent implements OnInit {
     this.model[key] = value;
   }
 
+  toggleValue (key, value) {
+    console.log('beforetoggleValue', key, this.model[key]);
+    this.model[key] = !value;
+    console.log('toggleValue', this.model[key]);
+  }
+
   getConfigurations() {
     this.parameter.url = 'getConfigurations';
     const input = new FormData();

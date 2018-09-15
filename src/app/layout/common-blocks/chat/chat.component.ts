@@ -7,11 +7,6 @@ import { Chat, ConversationUser } from './../../../models/chat.model';
 import * as io from 'socket.io-client';
 import { ChatTimePipe } from '../../../pipes/chat-time.pipe';
 declare let swal: any;
-// import * as $ from 'jquery';
-// declare var $: any;
-// const $ = require('jquery');
-// window.jQuery = $;
-// import * as jquery from 'jquery';
 
 @Component({
   selector: 'app-chat',

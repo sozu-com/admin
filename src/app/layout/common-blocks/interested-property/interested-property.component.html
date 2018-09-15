@@ -7,8 +7,8 @@
    <div class="col-6">
         <div class="btn-cont text-right">
           <a style="display: none;" class="btn btn-fourth" #showPropertyModal href="javascript://" data-toggle="modal" data-target="#add-property">Add</a>
-          <!-- <a class="btn btn-fourth" href="javascript://" (click)="showModal()">Add</a> -->
-          <a class="btn btn-fourth" href="javascript://" (click)="showProperties(lead_id)">Add</a>
+          <a class="btn btn-fourth" href="javascript://" (click)="showModal()">Add</a>
+          <!-- <a class="btn btn-fourth" href="javascript://" (click)="showProperties(lead_id)">Add</a> -->
           <a style="display: none;" data-toggle="modal" #showInterestedProperty data-target="#view-all" class="btn btn-fourth" href="javascript://">View All</a>
           <a *ngIf="interested_properties?.length!=0" class="btn btn-fourth" href="javascript://" (click)="viewProperties(interested_properties)">View All</a>
         </div>

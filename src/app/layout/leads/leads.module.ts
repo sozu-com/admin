@@ -27,6 +27,7 @@ import { ViewedPropertyComponent } from './../common-blocks/viewed-property/view
 import { NotesComponent } from './../common-blocks/notes/notes.component';
 import { FillInformationComponent } from './../common-blocks/fill-information/fill-information.component';
 import { ThousandPipe } from '../../pipes/thousand.pipe';
+import { MyChatComponent } from './inhouse-broker/inhouse-broker-detail/my-chat/my-chat.component';
 
 const routes: Routes = [
   { path: 'data-collectors', component: DataCollectorComponent },
@@ -35,6 +36,7 @@ const routes: Routes = [
   { path: 'csr-buyers/:id', component: CsrBuyerDetailComponent },
   { path: 'inhouse-broker', component: InhouseBrokerComponent },
   { path: 'inhouse-broker/:id', component: InhouseBrokerDetailComponent },
+  { path: 'chat-with-developer/:id', component: MyChatComponent },
   { path: 'csr-closers', component: CsrCloserComponent },
   { path: 'csr-closers/:id', component: CsrCloserDetailComponent }
 ];
@@ -73,7 +75,8 @@ const routes: Routes = [
     MomentPipe,
     ChatTimePipe,
     NotesComponent,
-    FillInformationComponent
+    FillInformationComponent,
+    MyChatComponent
   ],
   // providers: [NgBoxService]
 })

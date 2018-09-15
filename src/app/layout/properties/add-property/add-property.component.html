@@ -47,7 +47,6 @@
         <label>This Property is available for?</label>
         <div class="clearfix"></div>
         <label class="cust-radio">
-          <!-- <input type="checkbox" value="{{model.for_sale}}" name="for_sale" checked="{{m.checked}}"> -->
           <input [(ngModel)]="model.for_sale" name="for_sale" type="checkbox" [checked]="model.for_sale == '1' ? 'checked': ''">
           <span class="checkmark">Buy</span>
         </label>
@@ -55,6 +54,14 @@
           <input [(ngModel)]="model.for_rent" name="for_rent" type="checkbox" [checked]="model.for_rent == '1' ? 'checked': ''">
           <span class="checkmark">Rent</span>
         </label>
+        <!-- <label class="cust-radio">
+          <input type="radio" (change)="toggleValue('for_sale', model.for_sale)" [checked]="model.for_sale == 'true' ? 'checked' : ''" name="for_sale">
+          <span class="checkmark">Buy</span>
+        </label>
+        <label class="cust-radio"> 
+          <input [(ngModel)]="model.for_rent" name="for_rent" type="checkbox" [checked]="model.for_rent == '1' ? 'checked': ''">
+          <span class="checkmark">Rent</span>
+        </label> -->
         <div class="clearfix"></div>
       </div>
         <div class="spacer15"></div>

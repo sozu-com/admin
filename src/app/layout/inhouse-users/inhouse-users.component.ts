@@ -323,10 +323,10 @@ console.log('address', this.model.address, this.seenDuplicate);
 
       const tempAdd = {
         countries: userdata.countries[ind].id,
-        states: userdata.states[ind].id,
-        cities: userdata.cities[ind].id,
-        localities: userdata.localities[ind].id,
-        buildings: userdata.buildings[ind].id
+        states: userdata.states[ind] ? userdata.states[ind].id : '0',
+        cities: userdata.cities[ind] ? userdata.cities[ind].id : '0',
+        localities: userdata.localities[ind] ? userdata.localities[ind].id : '0',
+        buildings: userdata.buildings[ind] ? userdata.buildings[ind].id : '0'
       };
 
       this.model.address[ind] = tempAdd;
