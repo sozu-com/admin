@@ -36,14 +36,17 @@ export class InterestedPropertyComponent implements OnInit {
   }
 
   openModal(property_id, lead_id) {
-    const test = this.selected_properties.map(i => i.property_id === property_id);
-    if (test[0]) {
-      swal('Error', 'This property is already finalized by you.', 'error');
-    } else {
-      this.model.property_id = property_id;
-      this.model.lead_id = lead_id;
-      this.modalOpen.nativeElement.click();
-    }
+    // const test = this.selected_properties.map(i => i.property_id === property_id);
+    // if (test[0]) {
+    //   swal('Error', 'This property is already finalized by you.', 'error');
+    // } else {
+    //   this.model.property_id = property_id;
+    //   this.model.lead_id = lead_id;
+    //   this.modalOpen.nativeElement.click();
+    // }
+    this.model.property_id = property_id;
+    this.model.lead_id = lead_id;
+    this.modalOpen.nativeElement.click();
   }
 
   closeModal() {

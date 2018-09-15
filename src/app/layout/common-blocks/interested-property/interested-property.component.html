@@ -37,7 +37,7 @@
           </button>
           <div class="dropdown-menu">
             <a style="display: none;" *ngIf="adminType==2" class="dropdown-item" href="javascript://" #modalOpen data-toggle="modal" data-target="#dealFinalize">Deal Finalized</a>
-            <a *ngIf="adminType==2" class="dropdown-item" href="javascript://" (click)="openModal(data.property.id, data.lead_id)">Deal Finalized</a>
+            <a *ngIf="data.is_finalised==0 && adminType==2" class="dropdown-item" href="javascript://" (click)="openModal(data.property.id, data.lead_id)">Deal Finalized</a>
             <a class="dropdown-item" (click)="deleteLeadInterestedProperty(data.property.id, data.lead_id, in)">Remove Property</a>
           </div>
         </div>
@@ -63,47 +63,6 @@
             <button type="button" class="close" data-dismiss="modal" #hidePropertyModal>&times;</button>
           </div>
           <div class="modal-body">
-              <!-- <div class="row">
-                <div class="col-6">
-                    <div class="form-group">
-                      <label>Choose Country</label>
-                        <select required title="Choose Country" class="form-control" (change)="setCountryId($event.target.value)">
-                          <option value="" disabled>Select Country</option>
-                          <option *ngFor="let country of parameter.countries" [selected]="country.id == parameter.country_id" value="{{country.id}}">{{country.name}}</option>
-                        </select>
-                      </div>
-                </div>
-                <div class="col-6">
-                    <div class="form-group">
-                        <label>Choose State</label>
-                        <select required title="Choose State" class="form-control" (change)="setStateId($event.target.value)">
-                          <option value="" disabled>Select State</option>
-                          <option *ngFor="let state of parameter.states" [selected]="state.id == parameter.state_id" value="{{state.id}}">{{state.name}}</option>
-                        </select>
-                      </div>
-                </div>
-              </div>
-              <div class="row">
-                  <div class="col-6">
-                      <div class="form-group">
-                          <label>Choose City</label>
-                          <select required title="Choose City" class="form-control" (change)="setCountryId($event.target.value)">
-                            <option value="" disabled>Select City</option>
-                            <option *ngFor="let city of parameter.countries" [selected]="city.id == parameter.city_id" value="{{city.id}}">{{city.name}}</option>
-                          </select>
-                        </div>
-                  </div>
-                  <div class="col-6">
-                      <div class="form-group">
-                          <label>Choose Locality</label>
-                          <select required title="Choose Locality" class="form-control" (change)="setStateId($event.target.value)">
-                            <option value="" disabled>Select State</option>
-                            <option *ngFor="let locality of parameter.states" [selected]="locality.id == parameter.locality_id" value="{{locality.id}}">{{locality.name}}</option>
-                          </select>
-                        </div>
-                  </div>
-                </div>
-   -->
               <div class="form-group">
                 <select required title="Choose City" class="form-control" (change)="propertySearch($event.target.value)">
                   <option value="" disabled>Select City</option>
@@ -169,7 +128,7 @@
             </div>
             <div class="col-12">
               <div class="form-group-2">
-                  <label>Commission</label>
+                  <label>Commission (in %)</label>
                   <div class="form-group">
                     <input autocomplete="off" type="number" name="commision" [(ngModel)]="model.commision" class="form-control" required>
                 </div>
@@ -211,7 +170,7 @@
           <hr>
           <div class="scrollbox fav-prop">
             <div class="row">
-              <div class="col-lg-6 col-md-12 col-sm-12 col-12" *ngFor="let x of parameter.interested_properties">
+              <div class="col-lg-6 col-md-12 col-sm-12 col-12" *ngFor="let x of parameter.interested_properties; let in=index">
                   <div class="project-des-bx white-bg-2">
                       <div class="price">{{x.property.min_price|thousand}}+</div>
                     <div class="fig-block">
@@ -223,6 +182,16 @@
                         <p class="p12">{{x.property.building.address.slice(0, 55)}}</p>
                         <p class="p13" *ngIf="x && x.property">{{x.property.configuration.name}}</p>
                         <p class="p13" *ngIf="!x && !x.property">NA</p>
+                        <div class="dropdown threeDots">
+                          <button type="button" class="dropdown-toggle" data-toggle="dropdown">
+                            ...
+                          </button>
+                          <div class="dropdown-menu">
+                            <a style="display: none;" *ngIf="adminType==2" class="dropdown-item" href="javascript://" #modalOpen data-toggle="modal" data-target="#dealFinalize">Deal Finalized</a>
+                            <a *ngIf="x.is_finalised==0 && adminType==2" class="dropdown-item" href="javascript://" (click)="openModal(x.property.id, x.lead_id)">Deal Finalized</a>
+                            <a class="dropdown-item" (click)="deleteLeadInterestedProperty(x.property.id, x.lead_id, in)">Remove Property</a>
+                          </div>
+                        </div>
                     </div>
                   </div>
               </div>

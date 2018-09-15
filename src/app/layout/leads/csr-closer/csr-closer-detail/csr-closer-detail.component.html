@@ -155,8 +155,8 @@
                               <td>&nbsp;</td>
                            </tr>
                            <tr>
-                              <td><label>Commission (1.45%)</label></td>
-                              <td><strong>${{selectedProperties.commision}}</strong></td>
+                              <td><label>Commission (in %)</label></td>
+                              <td><strong>{{selectedProperties.commision}}%</strong></td>
                               <td class="text-right">
                                  <div class="pending-status">Pending</div>
                               </td>
@@ -166,7 +166,7 @@
                                  <label>Pending Amount</label>
                                  <small>(Full property)</small>
                               </td>
-                              <td><strong>$1,263,223.32</strong></td>
+                              <td><strong>${{selectedProperties.total_amount - selectedProperties.token_money}}</strong></td>
                               <td>&nbsp;</td>
                            </tr>
                         </table>
