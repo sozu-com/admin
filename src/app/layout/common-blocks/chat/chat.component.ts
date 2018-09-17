@@ -131,6 +131,8 @@ export class ChatComponent implements OnInit {
       model.loading = true;
       model.conversation_user = {admin_id: this.admin_id};
       model.admin_id = this.admin_id;
+      const date = new Date();
+      model.updated_at = date;
       this.parameter.messages.push(model);
 
       this.optionsButton.nativeElement.click();
@@ -161,6 +163,7 @@ export class ChatComponent implements OnInit {
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
       swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
     } else {
+      this.optionsButton.nativeElement.click();
       const model = new Chat;
       model.message = this.textMessage;
       model.message_type = 4;
@@ -168,6 +171,8 @@ export class ChatComponent implements OnInit {
       model.conversation_user = {admin_id: this.admin_id};
       model.admin_id = this.admin_id;
       model.attachment_name = event.target.files[0].name;
+      const date = new Date();
+      model.updated_at = date;
       this.parameter.messages.push(model);
 
       setTimeout(() => {
@@ -198,6 +203,8 @@ export class ChatComponent implements OnInit {
       model.message = this.textMessage;
       model.message_type = 3;
       model.loading = true;
+      const date = new Date();
+      model.updated_at = date;
       model.conversation_user = {admin_id: this.admin_id};
       model.admin_id = this.admin_id;
       this.parameter.messages.push(model);
@@ -281,6 +288,8 @@ export class ChatComponent implements OnInit {
     model.message_type = 1;
     model.loading = true;
     model.conversation_user = {admin_id: this.admin_id};
+    const date = new Date();
+    model.updated_at = date;
     model.admin_id = this.admin_id;
     this.parameter.messages.push(model);
     this.textMessage = '';
@@ -300,8 +309,9 @@ export class ChatComponent implements OnInit {
         }, 100);
         if (model.loading === true) {
           model.loading = false;
-          const date = new Date();
-          model.updated_at = date; // date.getUTCDate();
+          // const date = new Date();
+          // model.updated_at = date;
+          // model.updated_at = new ChatTimePipe().transform(date, 'YYYY-MM-DD HH:MM:SS', 3);
         }
       },
       error => {

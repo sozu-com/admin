@@ -62,9 +62,12 @@
         </div> -->
         <!-- m?.conversation_user?.admin_id == admin_id -->
         <!-- {{m.conversation_user|json}} -->
-        <span class="time" *ngIf="m.updated_at">
-            {{m.updated_at| moment}}
-          </span>
+        <!-- <span class="time">
+          {{m.updated_at}}
+        </span> -->
+
+        <span class="time" *ngIf="m.updated_at && m.id">{{m.updated_at| moment}}</span>
+        <span class="time" *ngIf="m.updated_at && !m.id">{{m.updated_at|date:'h:mm a'|lowercase}}, {{m.updated_at|date: 'MMM d y'}}</span>
         <span class="time" *ngIf="m?.conversation_user?.admin_id != admin_id">
           <strong>By - {{m?.conversation_user?.user?.name?m?.conversation_user?.user?.name:m?.conversation_user?.admin?.name}}</strong>
         </span>

@@ -20,18 +20,17 @@
 
  <div class="col-lg-8 col-md-8 col-sm-12 col-12">
     <div *ngIf="loadingMessages" class="chat-window white-bg"><img style="width:100%" src="assets/img/loading_content.gif"></div>
-    <div *ngIf="conversation && !loadingMessages" class="chat-window white-bg">
+    <div *ngIf="conversations && !loadingMessages" class="chat-window white-bg">
        <div class="chat-top">
            <a href="javascript://">
              <div class="profile">
                 <div class="fig-block">
-                   <img [src]="conversation?.other?.image" onerror='src="http://via.placeholder.com/62x62"' alt="img">
+                   <img [src]="parameter.image" onerror='src="http://via.placeholder.com/62x62"' alt="img">
                 </div>
                 <div class="profile-info">
-                   <h6>{{conversation?.other?.name}}</h6>
-                   <p class="p12" *ngIf="conversation?.other?.phone">{{conversation?.other?.dial_code? conversation?.other?.dial_code: constant.dial_code}} -{{conversation?.other?.phone}}</p>
-                    <p class="p12" *ngIf="!conversation?.other?.phone">NA</p>
-                   <p class="p12">{{conversation?.other?.phone}}</p>
+                  <h6>{{parameter.name}}</h6>
+                  <p class="p12" *ngIf="parameter.phone">{{parameter.dial_code? parameter.dial_code: constant.dial_code}}-{{parameter.phone}}</p>
+                  <p class="p12" *ngIf="!parameter.phone">NA</p>
                 </div>
              </div>
           </a>
@@ -44,9 +43,9 @@
         </div> 
         <div *ngFor="let m of messages;let i = index" [ngClass]="m.conversation_user.admin_id == admin_id ? 'chat-user-one' :'chat-user-two'" class="chat-user">
           <p *ngIf="m.message_type == 1" style="word-wrap: break-word;">
-            <span *ngIf="m.loading" class="m-loader">
+            <!-- <span *ngIf="m.loading" class="m-loader">
               <img style="width:30px !important;" src="assets/img/loading-p.gif">
-            </span>
+            </span> -->
             <!-- com -->
             <span>{{m.message}}</span>
           </p>
@@ -61,7 +60,7 @@
        
           <div class="chat-vid" *ngIf="m.message_type == 3 && !m.play">
             <span>
-                <img class="ui bordered small image" src="{{m.image}}">
+                <img class="ui bordered small image" *ngIf="m.image" src="{{m.image}}">
                 <img *ngIf="!m.loading" class="vid-icon" (click)="playVideo(i)" src="assets/img/play-button.png" />
                 <div *ngIf="m.loading" class="loaderr"></div>
                 <div class="clearfix"></div>
@@ -78,9 +77,15 @@
           </div>
             
           
-            <div class="time clearfix" *ngIf="m.updated_at">
+            <!-- <div class="time clearfix" *ngIf="m.updated_at">
               {{m.updated_at| moment}} {{m.play}}
-            </div>
+            </div> -->
+
+        <span class="time" *ngIf="m.updated_at && m.id">{{m.updated_at| moment}} {{m.play}}</span>
+        <span class="time" *ngIf="m.updated_at && !m.id">{{m.updated_at|date:'h:mm a'|lowercase}}, {{m.updated_at|date: 'MMM d y'}}</span>
+            <span class="time" *ngIf="m?.conversation_user?.admin_id != admin_id">
+              <strong>By - {{m?.conversation_user?.user?.name ? m?.conversation_user?.user?.name : m?.conversation_user?.admin?.name}}</strong>
+            </span>
          </div>
 
          <div *ngIf="messages?.length==0">

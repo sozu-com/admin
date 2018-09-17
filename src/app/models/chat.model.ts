@@ -8,7 +8,7 @@ export class Chat {
     image: string;
     video: string;
     attachment_name: string;
-    updated_at: string;
+    updated_at: any;
     attachment: string;
     loading: boolean;
     conversation_user: ConversationUser;

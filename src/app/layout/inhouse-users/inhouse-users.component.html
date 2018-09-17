@@ -15,63 +15,6 @@
         </div>
     </div>
   
-    <!-- <ngx-loading [show]="parameter.loading"></ngx-loading> -->
-<!--   
-    <div class="row">
-        <div class="col-lg-2 col-md-3 col-sm-6 col-6">
-          <div class="form-group marginB0">
-              <label>Country</label>
-              <select title="Choose Country" class="form-control" (change)="getStates($event.target.value)">
-                <option value="-1">All</option>
-                <option *ngFor="let country of parameter.countries" value="{{country.id}}">{{country.name_en}}</option>
-              </select>
-          </div>
-        </div>
-        <div class="col-lg-2 col-md-3 col-sm-6 col-6">
-          <div class="form-group marginB0">
-              <label>State</label>
-              <select title="Choose State" class="form-control" (change)="getCities($event.target.value)">
-                <option value="-1">All</option>
-                <option *ngFor="let state of parameter.states" value="{{state.id}}">{{state.name_en}}</option>
-              </select>
-          </div>
-        </div>
-        <div class="col-lg-2 col-md-3 col-sm-6 col-6">
-          <div class="form-group marginB0">
-              <label>City</label>
-              <select title="Choose City" class="form-control" (change)="getLocalities($event.target.value)">
-                <option value="-1">All</option>
-                <option *ngFor="let city of parameter.cities" value="{{city.id}}">{{city.name_en}}</option>
-              </select>
-          </div>
-        </div>
-        <div class="col-lg-2 col-md-3 col-sm-6 col-6">
-          <div class="form-group marginB0">
-              <label>Locality</label>
-              <select title="Choose Locality" class="form-control" (change)="getLocalityBuildings($event.target.value)">
-                <option value="-1">All</option>
-                <option *ngFor="let locality of parameter.localities" value="{{locality.id}}">{{locality.name_en}}</option>
-              </select>
-          </div>
-        </div>
-        <div class="col-lg-2 col-md-3 col-sm-6 col-6">
-          <div class="form-group marginB0">
-              <label>Building</label>
-              <select title="Choose Building" class="form-control" (change)="setBuilding($event.target.value)">
-                <option value="-1">All</option>
-                <option *ngFor="let building of parameter.buildings" value="{{building.id}}">{{building.name}}</option>
-              </select>
-          </div>
-        </div>
-        <div class="col-lg-2 col-md-3 col-sm-6 col-6">
-          <div class="form-group btn-cont text-right">
-            <label style="display: block; margin-top: 3px;">&nbsp;</label>
-            <button (click)="getInhouseUsers()" class="btn btn-primary">Apply</button>
-          </div>
-        </div>
-    </div> -->
-
-
     <div class="row">
       <div class="col-lg-2 col-md-3 col-sm-6 col-6">
         <div class="form-group marginB0">
@@ -183,8 +126,6 @@
             <tr *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }; let i = index">
               <td> 
                 <img [src]="item.image" class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
-                <!-- <img *ngIf="item.image" class="rounded-circle" [src]="item.image" alt="img">
-                <img *ngIf="!item.image" class="rounded-circle" src="assets/img/default_img.png" alt="img"> -->
               </td>
               <td class="text-left">
                 <span class="name">{{item.name}}</span>
@@ -200,8 +141,15 @@
                 <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#view" #viewModalOpen></a>
                 <a title="View Details" href="javascript://" (click)="viewDetails(item, i)" class="icon-block edit-icon"><img src="assets/img/eye-icon.png" alt="img"></a>
                 <a title="Edit Details" href="javascript://" (click)="editUser(item, i)" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
-                <a href="javascript://" *ngIf="item.is_blocked == 1" (click)="blockUnblockPopup(i, item.id, 0, parameter.type)" title="Unblock user" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png" alt="img"></a>
-                <a href="javascript://" *ngIf="item.is_blocked == 0" (click)="blockUnblockPopup(i, item.id, 1, parameter.type)" title="Block user" class="icon-block block-icon"><img src="assets/img/unblock.png" alt="img"></a>
+                <a href="javascript://" *ngIf="item.is_blocked == 1" (click)="blockUnblockPopup(i, item.id, 0, parameter.type)" title="Unblock user" class="icon-block block-icon unblock-bg">
+                  <img src="assets/img/block.png" alt="img">
+                </a>
+                <a href="javascript://" *ngIf="item.is_blocked == 0" (click)="blockUnblockPopup(i, item.id, 1, parameter.type)" title="Block user" class="icon-block block-icon">
+                  <img src="assets/img/unblock.png" alt="img">
+                </a>
+                <!-- <a href="javascript://" (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1, parameter.type)" title="{{item.is_blocked}}==1?'Unblock User':'Block User'" class="icon-block block-icon" [ngClass]="item.is_blocked==1?'unblock-bg':''">
+                  <img src="assets/img/block.png" alt="img">
+                </a> -->
               </td>
             </tr>
           </table>

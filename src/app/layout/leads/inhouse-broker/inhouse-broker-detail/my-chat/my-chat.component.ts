@@ -28,6 +28,7 @@ declare let swal: any;
 })
 export class MyChatComponent implements OnInit {
 
+  public parameter: IProperty = {};
   conversations: any = [];
   conversation: any;
   conversation_id: any;
@@ -113,6 +114,11 @@ export class MyChatComponent implements OnInit {
 
   selectConversation(conversation) {
 
+    this.parameter.name = conversation.name;
+    this.parameter.image = conversation.image;
+    this.parameter.dialCode = conversation.dial_code;
+    this.parameter.phone = conversation.phone;
+
     const data1 = {
       lead_id: this.lead_id,
       other_id: conversation.id,
@@ -187,6 +193,7 @@ export class MyChatComponent implements OnInit {
 
           this.socket.on('message', (response: any) => {
           if (response.data.conversation_id === this.conversation_id) {
+            console.log('Message received');
             this.messages.push(response.data);
             setTimeout(() => {
               this.scrollToBottom();
@@ -217,6 +224,8 @@ export class MyChatComponent implements OnInit {
     model.uid = Math.random().toString(36).substr(2, 15);
     model.conversation_id =  this.conversation_id;
     model.conversation_user = {admin_id: this.admin_id};
+    const date = new Date();
+    model.updated_at = date;
     this.messages.push(model);
 
     setTimeout(() => {
@@ -256,6 +265,8 @@ export class MyChatComponent implements OnInit {
     model.conversation_id =  this.conversation_id;
     model.conversation_user = {admin_id: this.admin_id};
     model.attachment_name = event.target.files[0].name;
+    const date = new Date();
+    model.updated_at = date;
     this.messages.push(model);
 
     setTimeout(() => {
@@ -292,6 +303,8 @@ export class MyChatComponent implements OnInit {
     model.uid = Math.random().toString(36).substr(2, 15);
     model.conversation_id =  this.conversation_id;
     model.conversation_user = {admin_id: this.admin_id};
+    const date = new Date();
+    model.updated_at = date;
     this.messages.push(model);
 
 
@@ -372,6 +385,8 @@ export class MyChatComponent implements OnInit {
     model.loading = true;
     model.conversation_id =  this.conversation_id;
     model.conversation_user = {admin_id: this.admin_id};
+    const date = new Date();
+    model.updated_at = date;
     this.messages.push(model);
     this.textMessage = '';
     this.sendMessage(model);
@@ -390,8 +405,8 @@ export class MyChatComponent implements OnInit {
         }, 100);
         if (model.loading === true) {
           model.loading = false;
-          const date = new Date();
-          model.updated_at = date;
+          // const date = new Date();
+          // model.updated_at = date;
         }
       });
     }
