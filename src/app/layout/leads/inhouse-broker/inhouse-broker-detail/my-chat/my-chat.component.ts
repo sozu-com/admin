@@ -101,15 +101,6 @@ export class MyChatComponent implements OnInit {
       }
       this.loadingConversation = false;
     });
-    // this.admin.postDataApi('conversation/chatListingBroker', {sent_as: 3}).subscribe(r => {
-    //   console.log(r);
-    //   this.conversations = r['data'];
-    //   if (this.conversations.length > 0) {
-    //     this.initSocket();
-    //     this.selectConversation(this.conversations[0]);
-    //   }
-    //   this.loadingConversation = false;
-    // });
   }
 
   selectConversation(conversation) {
@@ -185,7 +176,7 @@ export class MyChatComponent implements OnInit {
           device_id: this.admin.deviceId + '_' + this.admin_id
         };
         if (this.connected) {
-          console.log('Socket Connected', this.socket_id);
+          console.log('Socket Connected', this.socket_id, data);
 
           this.socket.emit('add-admin', data, (res: any) => {
             console.log('res', res);

@@ -16,7 +16,7 @@ export class Constant {
     public userType = {
         csr_buyer: 1,
         inhouse_broker: 2,
-        closer: 3,
+        csr_closer: 3,
         csr_seller: 4,
         bank: 5,
         notary: 6,

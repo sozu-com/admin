@@ -187,10 +187,10 @@
                     <div class="cust-tabs-4">
                         <ul class="nav nav-tabs">
                         <li class="nav-item">
-                            <a [ngClass]="{'active':chat_admin_sent_as==8}" (click)="getLeadConversation(8)" class="nav-link">Seller</a>
+                            <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.user_buyer}" (click)="getLeadConversation(constant.userType.user_buyer)" class="nav-link">Buyer</a>
                         </li>
                         <li class="nav-item">
-                            <a [ngClass]="{'active':chat_admin_sent_as==7}" (click)="getLeadConversation(7)" class="nav-link">Buyer</a>
+                            <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.user_seller_dev}" (click)="getLeadConversation(constant.userType.user_seller_dev)" class="nav-link">Seller</a>
                         </li>
                         </ul>
                         
@@ -211,7 +211,7 @@
                                 </div>
                                 </a>
                             </div>
-                            <div malihu-scrollbar [scrollbarOptions]="scrollbarOptions" class="chat-area scrollbox" #chatWin>
+                            <div malihu-scrollbar [scrollbarOptions]="scrollbarOptions" class="chat-area" #chatWin>
                                 <div *ngFor="let m of messages" [ngClass]="m.conversation_user.user_id == loginData.id ? 'chat-user-one' :'chat-user-two'" class="chat-user">
                                     <p *ngIf="m.message_type == 1" style="word-wrap: break-word;">
                                         <span *ngIf="m.loading" class="m-loader"><img src="assets/img/loading-p.gif"></span>
@@ -269,10 +269,10 @@
                                     </a>
                                     </div>
                                 </div>
-                                <input id="message" autocomplete="off" *ngIf="model.message_type == 1" [(ngModel)]="model.message" (keyup.enter)="sendMessage()" class="chat-input" type="text" name="message" placeholder="Type your message here …">
+                                <input id="message" autocomplete="off" [(ngModel)]="textMessage" (keyup.enter)="setText()" class="chat-input" type="text" name="message" placeholder="Type your message here …">
                                 <canvas style="display: none;" width="800" height="600" id="canvas"></canvas>
             
-                                <button (click)="sendMessage()" class="btn">Send</button>
+                                <button (click)="setText()" class="btn">Send</button>
                                 
                                 </div>
                         </div>

@@ -130,7 +130,7 @@
               <div class="form-group-2">
                   <label>Commission (in %)</label>
                   <div class="form-group">
-                    <input autocomplete="off" type="number" name="commision" [(ngModel)]="model.commision" class="form-control" required>
+                    <input autocomplete="off" min="0" max="100" type="number" name="commision" [(ngModel)]="model.commision" class="form-control" required>
                 </div>
               </div>
             </div>
