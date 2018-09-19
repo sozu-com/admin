@@ -26,6 +26,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
 
   public parameter: IProperty = {};
 
+  videoSrc: any;
   id: any;
   textMessage: any;
   conversations: any = [];
@@ -344,165 +345,6 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       });
   }
 
-  // scrollToBottom() {
-  //   if (this.chatWin) {
-  //     $('.chat-area').mCustomScrollbar('scrollTo', 'bottom', {scrollInertia: 0});
-  //   }
-  // }
-
-  // updateModel(param) {
-  //   console.log('param', param);
-  //   this.model[param] = '';
-  //   this.model.message_type = 1;
-  // }
-
-  // onSelectFile(param, event) {
-  //   this.optionsButton.nativeElement.click();
-  //   this.model.conversation_id =  this.conversation_id;
-  //   this.model.loading = true;
-  //   this.messages.push(this.model);
-  //   setTimeout(() => {
-  //     this.scrollToBottom();
-  //   }, 100);
-
-  //   if (event.target.files && event.target.files[0]) {
-  //     this.model.message_type = 2;
-  //     const reader = new FileReader();
-  //     reader.onload = (e: any) => {
-  //         this.image = e.target.result;
-  //         this.model[param] = e.target.result;
-  //         this.cs.saveImage(event.target.files[0]).subscribe(
-  //           success => {
-  //             this.model.image = success['data'].image;
-  //             this.sendMessage();
-  //           }
-  //         );
-  //     };
-  //     reader.readAsDataURL(event.target.files[0]);
-  //   }
-  // }
-
-  // saveAttachment(event) {
-  //   this.optionsButton.nativeElement.click();
-  //   this.model.conversation_id =  this.conversation_id;
-  //   this.model.loading = true;
-  //   this.model.message_type = 4;
-  //   this.messages.push(this.model);
-  //   setTimeout(() => {
-  //     this.scrollToBottom();
-  //   }, 100);
-
-  //   this.cs.saveAttachment(event.target.files[0]).subscribe(
-  //     success => {
-  //       this.model.attachment = success['data'].name;
-  //       this.model.attachment_name = event.target.files[0].name;
-  //       this.sendMessage();
-  //     }
-  //   );
-  // }
-
-  // playVideo(i) {
-  //   this.messages[i].play = true;
-  // }
-
-
-  // showCanvas(event) {
-  //   this.optionsButton.nativeElement.click();
-  //   this.showVideo = true;
-  //   this.model.message_type = 3;
-  //   this.model.conversation_id =  this.conversation_id;
-  //   this.model.loading = true;
-  //   setTimeout(() => {
-  //     this.scrollToBottom();
-  //   }, 100);
-
-  //   setTimeout(() => {
-  //     this.video = document.getElementById('video1');
-  //     const reader = new FileReader();
-  //     const videoTest = this.element.nativeElement.querySelector('.video55');
-  //     reader.onload = function(e) {
-  //       const src = e.target['result'];
-  //       videoTest.src = src;
-  //       const timer = setInterval( () => {
-  //         // find duration of video only of video is in ready state
-  //         if (videoTest.readyState === 4) {
-  //           this.durationInSec = videoTest.duration.toFixed(0);
-  //           setTimeout(() => {
-  //             // create canvas at middle of video
-  //             this.newcanvas(videoTest, event.target.files[0]);
-
-  //           }, (this.durationInSec / 2).toFixed(0));
-  //           clearInterval(timer);
-  //         }
-  //       }, 1000);
-  //     }.bind(this);
-  //     reader.readAsDataURL(event.target.files[0]);
-  //     // setTimeout(() => {
-  //     //   this.newcanvas(videoTest, event.target.files[0]);
-  //     // }, 4000);
-  //   }, 1000);
-  // }
-
-  // newcanvas(video, videoFile) {
-
-  //   const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-  //   console.log(canvas);
-  //   const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
-  //                                                     0, 0, canvas.width, canvas.height);
-
-  //   const ImageURL = canvas.toDataURL('image/jpeg');
-  //   this.model.image = ImageURL;
-  //   this.messages.push(this.model);
-  //   console.log(this.model);
-  //   const fileToUpload = this.dataURLtoFile(ImageURL, 'tempFile.png');
-  //   console.log(videoFile, fileToUpload);
-  //   this.cs.saveVideo(videoFile, fileToUpload).subscribe(
-  //     success => {
-  //       console.log('image', success);
-  //       this.model.video = success['data'].video;
-  //       this.model.image = success['data'].thumb;
-  //       this.sendMessage();
-  //     }
-  //   );
-  // }
-
-  // dataURLtoFile(dataurl, filename) {
-  //   const arr = dataurl.split(',');
-  //   const mime = arr[0].match(/:(.*?);/)[1];
-  //   const bstr = atob(arr[1]);
-  //   let n = bstr.length;
-  //   const u8arr = new Uint8Array(n);
-  //   while (n--) {
-  //       u8arr[n] = bstr.charCodeAt(n);
-  //   }
-  //   return new File([u8arr], filename, {type: mime});
-  // }
-
-  // sendMessage() {
-  //   if (this.model.message_type === 1 && !this.model.message) {
-  //     swal('Error', 'Please enter some text.', 'error');
-  //   } else {
-
-  //     this.admin.postDataApi('/user/conversation/sendMessage', this.model).subscribe(r => {
-  //       console.log('sendMessage', r);
-  //       setTimeout(() => {
-  //         this.scrollToBottom();
-  //       }, 200);
-  //       if (this.model.loading === true) {
-  //         this.model.loading = false;
-  //         this.messages.splice(-1, 1);
-  //         this.messages.push(r['data']);
-  //       }else {
-  //         this.messages.push(r['data']);
-  //       }
-  //       this.model = new Chat;
-  //       this.model.conversation_user.admin_id = this.loginData.id;
-  //     });
-  //   }
-
-  // }
-
-
   scrollToBottom() {
     if (this.chatWin) {
       $('.chat-area').mCustomScrollbar('scrollTo', 'bottom', {scrollInertia: 0});
@@ -520,22 +362,20 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     model.message = this.textMessage;
     model.message_type = 2;
     model.loading = true;
-    model.uid = Math.random().toString(36).substr(2, 15);
+    // model.uid = Math.random().toString(36).substr(2, 15);
     model.conversation_id =  this.conversation_id;
     model.conversation_user = {admin_id: this.admin_id};
-    const date = new Date();
-    model.updated_at = date;
+    model.updated_at = new Date();
     this.messages.push(model);
-
-    setTimeout(() => {
-      this.scrollToBottom();
-    }, 100);
 
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
           this.image = e.target.result;
           model[param] = e.target.result;
+          setTimeout(() => {
+            this.scrollToBottom();
+          }, 100);
           this.cs.saveImage(event.target.files[0]).subscribe(
             success => {
               model.image = success['data'].image;
@@ -681,12 +521,11 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     const model = new Chat;
     model.message = this.textMessage;
     model.message_type = 1;
-    model.loading = true;
     model.conversation_id =  this.conversation_id;
     model.conversation_user = {admin_id: this.admin_id};
-    const date = new Date();
-    model.updated_at = date;
+    model.updated_at = new Date();
     this.messages.push(model);
+    // model.loading = true;
     this.textMessage = '';
     this.sendMessage(model);
   }
@@ -695,17 +534,14 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     if (model.message_type === 1 && !model.message) {
       swal('Error', 'Please enter some text.', 'error');
     } else {
-
+      setTimeout(() => {
+        this.scrollToBottom();
+      }, 100);
       console.log('Appending', model);
       this.admin.postDataApi('conversation/sendMessage', model).subscribe(r => {
         console.log('sendMessage', r);
-        setTimeout(() => {
-          this.scrollToBottom();
-        }, 100);
         if (model.loading === true) {
           model.loading = false;
-          // const date = new Date();
-          // model.updated_at = date;
         }
       });
     }
@@ -752,11 +588,14 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
 
     this.admin.postDataApi('conversation/getLeadConversation', data).subscribe(r => {
       console.log('conversation/getLeadConversation', r);
-      // if (r['data']) {
-      //   this.conversation_id = r['data'][0].id;
-      //   this.model.conversation_id = this.conversation_id;
-      //   this.messages = r['data'][0].messages;
-      // }
+      if (r['data']) {
+        this.conversation_id = r['data'][0].id;
+        this.model.conversation_id = this.conversation_id;
+        this.messages = r['data'][0].messages;
+        setTimeout(() => {
+          this.scrollToBottom();
+        }, 100);
+      }
     });
   }
 

@@ -12,7 +12,7 @@ import { CommonService } from './common.service';
 @Injectable()
 export class AdminService {
 
-  private isUserLogin = false;
+  // private isUserLogin = false;
   public baseUrl: string = environment.baseUrl;
   public baseIP: string = environment.baseIP;
   public deviceId: string = environment.deviceId;
@@ -27,11 +27,11 @@ export class AdminService {
   constructor(public http: HttpInterceptor) { }
 
 // starting of general functions
-  setUserLoggedIn() { this.isUserLogin = true; }
+  // setUserLoggedIn() { this.isUserLogin = true; }
 
-  unsetUserLoggedIn() { this.isUserLogin = false; }
+  // unsetUserLoggedIn() { this.isUserLogin = false; }
 
-  getUserLoggedIn() { return this.isUserLogin; }
+  // getUserLoggedIn() { return this.isUserLogin; }
 
 
   getHeadersForLogin() {

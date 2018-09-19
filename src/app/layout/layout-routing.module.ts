@@ -21,7 +21,6 @@ const routes: Routes = [
             { path: 'banks', loadChildren: './banks/banks.module#BanksModule' },
             { path: 'users', loadChildren: './users/users.module#UsersModule' },
             { path: 'leads', loadChildren: './leads/leads.module#LeadsModule' },
-            // { path: 'leads', component: LeadsComponent },
             { path: 'manual-leads', loadChildren: './manual-leads/manual-leads.module#ManualLeadsModule' },
             { path: 'edit-template', component: EditTemplateComponent},
             { path: 'generate-thumb', component: GenerateThumbComponent},

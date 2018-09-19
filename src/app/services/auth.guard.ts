@@ -12,27 +12,26 @@ export class AuthGuard implements CanActivate {
   canActivate () {
     const token =  localStorage.getItem('token');
 
-    this.admin.login.subscribe(success => {
-      if (success['name'] === undefined) {
-        this.admin.postDataApi('get-details', {})
-        .subscribe(
-          success1 => {
-            this.admin.login.next(success1.data);
-          });
-      }
-    });
-
-    this.admin.country.subscribe(success => {
-      if (!success[0]) {
-        this.admin.postDataApi('getCountryLocality', {})
-        .subscribe(
-          success1 => {
-            this.admin.country.next(success1.data);
-          });
-      }
-    });
-
     if (token) {
+      this.admin.login.subscribe(success => {
+        if (success['name'] === undefined) {
+          this.admin.postDataApi('get-details', {})
+          .subscribe(
+            success1 => {
+              this.admin.login.next(success1.data);
+            });
+        }
+      });
+
+      this.admin.country.subscribe(success => {
+        if (!success[0]) {
+          this.admin.postDataApi('getCountryLocality', {})
+          .subscribe(
+            success1 => {
+              this.admin.country.next(success1.data);
+            });
+        }
+      });
       return true;
     }
     this.router.navigate(['']);

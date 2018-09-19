@@ -51,7 +51,7 @@ export class ChangePasswordComponent implements OnInit {
           localStorage.removeItem('dialCode');
           localStorage.removeItem('helpAndSupportEmail');
           localStorage.removeItem('helpAndSupportPhone');
-          this.admin.unsetUserLoggedIn();
+          // this.admin.unsetUserLoggedIn();
           this.router.navigate(['']);
         },
         error => {

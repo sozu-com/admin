@@ -42,9 +42,9 @@ export class AppHeaderComponent {
 
   logout() {
     swal('Success', 'Logout successfully.', 'success');
-    localStorage.removeItem('accessToken');
+    localStorage.removeItem('token');
     localStorage.removeItem('isLoggedin');
-    this.admin.unsetUserLoggedIn();
+    // this.admin.unsetUserLoggedIn();
     this.router.navigate(['']);
   }
 }

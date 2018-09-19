@@ -35,7 +35,8 @@ export class AclComponent implements OnInit {
     this.parameter.p = this.constant.p;
     this.model.id = '';
     this.initialCountry = {initialCountry: this.constant.country_code};
-    this.getBanks(this.parameter.p, '', '', '');
+    this.getAclList();
+    this.getAclUsers(this.parameter.p, '', '', '');
   }
 
   closeModal() {
@@ -45,17 +46,26 @@ export class AclComponent implements OnInit {
 
   getPage(page) {
     this.parameter.p = page;
-    this.getBanks(this.parameter.p, this.parameter.name, this.parameter.phone, this.parameter.email);
+    this.getAclUsers(this.parameter.p, this.parameter.name, this.parameter.phone, this.parameter.email);
   }
 
-  getBanks(page, name, phone, email) {
+  getAclList() {
+    this.admin.postDataApi('getAclList', {})
+      .subscribe(
+        success => {
+          this.parameter.data = success.data;
+          console.log('getAclList', success);
+        });
+  }
+
+  getAclUsers(page, name, phone, email) {
 
     this.parameter.p = page;
     this.parameter.name = name;
     this.parameter.phone = phone;
     this.parameter.email = email;
 
-    this.parameter.url = 'getBanks';
+    this.parameter.url = 'getAclUsers';
 
     const input = new FormData();
     input.append('page', this.parameter.p.toString());
@@ -69,14 +79,19 @@ export class AclComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
+          console.log('getAclUsers', success);
           this.parameter.items = success.data;
           this.parameter.total = success.total;
         });
   }
 
+  setPermission(index) {
+    this.parameter.data[index].is_selected = this.parameter.data[index].is_selected &&
+    this.parameter.data[index].is_selected === true ? false : true;
+    console.log(this.parameter.data);
+  }
 
   changeListner(event) {
-
     this.parameter.image = event.target.files[0];
     this.parameter.icon = this.parameter.image;
     const reader = new FileReader();
@@ -84,7 +99,6 @@ export class AclComponent implements OnInit {
         this.url = e.target.result;
         this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.url})`);
     };
-
     reader.readAsDataURL(event.target.files[0]);
   }
 
@@ -94,41 +108,30 @@ export class AclComponent implements OnInit {
     this.initialCountry = {initialCountry: e.iso2};
   }
 
-  addBank(formdata: NgForm) {
-    this.parameter.url = this.model.id !== '' ? 'updateNewUser' : 'addBank';
-
-    const input = new FormData();
-
-    if (this.model.id !== '') { input.append('id', this.model.id); }
-    input.append('name', this.model.name);
-    input.append('country_code', this.model.country_code);
-    input.append('dial_code', '+' + this.model.dial_code);
-    input.append('phone', this.model.phone);
-    input.append('email', this.model.email);
-    input.append('access_control', JSON.stringify(this.model.access_control));
-
-    if (this.parameter.image) { input.append('image', this.parameter.image); }
-
-    this.admin.postDataApi(this.parameter.url, input)
-      .subscribe(
-        success => {
-          console.log('success', success);
-          if (success.success === '0') {
-            swal('Error', success.message, 'error');
-          }else {
-            this.modalClose.nativeElement.click();
-            formdata.reset();
-            const text = this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
-            swal('Success', text, 'success');
-            if (this.parameter.items.length < 10) {
-              if (this.model.id !== '') {
-                this.parameter.items[this.parameter.index] = success.data;
-              } else {
-                this.parameter.items.push(success.data);
-              }
-            }
-          }
-        });
+  add(formdata: NgForm) {
+    this.parameter.url = this.model.id !== '' ? 'updateAclUser' : 'addAclUser';
+    this.model.dial_code = '+' + this.model.dial_code;
+    console.log('model', this.model);
+    // this.admin.postDataApi(this.parameter.url, this.model)
+    //   .subscribe(
+    //     success => {
+    //       console.log('success', success);
+    //       if (success.success === '0') {
+    //         swal('Error', success.message, 'error');
+    //       }else {
+    //         this.modalClose.nativeElement.click();
+    //         formdata.reset();
+    //         const text = this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
+    //         swal('Success', text, 'success');
+    //         if (this.parameter.items.length < 10) {
+    //           if (this.model.id !== '') {
+    //             this.parameter.items[this.parameter.index] = success.data;
+    //           } else {
+    //             this.parameter.items.push(success.data);
+    //           }
+    //         }
+    //       }
+    //     });
   }
 
 

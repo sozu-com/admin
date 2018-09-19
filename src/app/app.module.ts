@@ -8,8 +8,6 @@ import { AuthGuard } from './services/auth.guard';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
-import { NgBoxModule } from 'ngbox/ngbox.module';
-import { NgBoxService } from 'ngbox/ngbox.service';
 
 import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
@@ -20,8 +18,6 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { LoginComponent } from './login/login.component';
 import { CommonService } from './services/common.service';
 import { Constant } from './common/constants';
-import { MomentPipe } from './pipes/moment.pipe';
-import { RemoveCommaPipe } from './pipes/remove-comma.pipe';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent},
@@ -52,16 +48,9 @@ const appRoutes: Routes = [
       primaryColour: '#00B96F'
     }),
     MalihuScrollbarModule.forRoot(),
-    Ng2TelInputModule,
-    // NgBoxModule
+    Ng2TelInputModule
   ],
-  providers: [AdminService, CommonService, AuthGuard, HttpInterceptor, Constant,
-    // NgBoxService
-    // {
-    //   provide: Http, // <-------------
-    //   useFactory: httpInterceptor,
-    //   deps: [ XHRBackend, RequestOptions, Store, Injector ]
-    // }
+  providers: [AdminService, CommonService, AuthGuard, HttpInterceptor, Constant
   ],
   bootstrap: [AppComponent]
 })

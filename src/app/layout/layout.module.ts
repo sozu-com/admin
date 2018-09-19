@@ -10,8 +10,6 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { AgmCoreModule } from '@agm/core';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
-// import { NgBoxModule } from 'ngbox/ngbox.module';
-// import { NgBoxService } from 'ngbox/ngbox.service';
 
 // importing shared components
 import { LayoutRoutingModule } from './layout-routing.module';
@@ -57,8 +55,7 @@ import { ThousandPipe } from '../pipes/thousand.pipe';
           }),
         Ng2TelInputModule,
         FroalaEditorModule.forRoot(),
-        FroalaViewModule.forRoot(),
-        // NgBoxModule
+        FroalaViewModule.forRoot()
     ],
     declarations: [
         LayoutComponent,

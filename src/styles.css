@@ -326,7 +326,10 @@ input::-webkit-inner-spin-button {
 .searh-3 input{
     padding: 5px 8px !important;
 }
-/* .m-loader{background-color: #F5F5F5; padding:5px; display: inline-block; border-radius:10px;  } */
-.m-loader, .mCS_img_loaded{
+.m-loader .text-message{
     width: 30px !important;
+    height: 22px !important;
 }
+/* .m-loader .file-message{
+    height: 22px !important;
+} */

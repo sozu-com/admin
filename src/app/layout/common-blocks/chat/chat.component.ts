@@ -23,7 +23,6 @@ export class ChatComponent implements OnInit {
   // loadingMessages = false;
   textMessage: any;
   durationInSec = 0;
-  showVideo = true;
   video: any;
   image: any;
   videoObj: Object = {
@@ -128,7 +127,7 @@ export class ChatComponent implements OnInit {
       const model = new Chat;
       model.message = this.textMessage;
       model.message_type = 2;
-      model.loading = true;
+      // model.loading = true;
       model.conversation_user = {admin_id: this.admin_id};
       model.admin_id = this.admin_id;
       const date = new Date();
@@ -137,15 +136,14 @@ export class ChatComponent implements OnInit {
 
       this.optionsButton.nativeElement.click();
 
-      setTimeout(() => {
-        this.scrollToBottom();
-      }, 100);
-
       if (event.target.files && event.target.files[0]) {
         const reader = new FileReader();
         reader.onload = (e: any) => {
             this.image = e.target.result;
             model[param] = e.target.result;
+            setTimeout(() => {
+              this.scrollToBottom();
+            }, 100);
             this.cs.saveImage(event.target.files[0]).subscribe(
               success => {
                 model.image = success['data'].image;
@@ -198,7 +196,6 @@ export class ChatComponent implements OnInit {
       swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
     } else {
       this.optionsButton.nativeElement.click();
-      this.showVideo = true;
       const model = new Chat;
       model.message = this.textMessage;
       model.message_type = 3;
@@ -322,11 +319,6 @@ export class ChatComponent implements OnInit {
 
   loadMore(admin_id) {
     this.loadmoring = true;
-    // const data = {
-    //   sent_as: 7,
-    //   conversation_id: this.conversation_id,
-    //   last_message_id: this.messages[0].id
-    // };
     const input = {lead_id: this.lead_id, user_id: this.user_id,
       sent_as: this.sent_as, last_message_id: this.parameter.messages[0].id};
     this.admin.postDataApi('conversation/getMessages',

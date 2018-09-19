@@ -24,6 +24,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
   constructor(private router: Router, private admin: AdminService, public constant: Constant) {
     this.parameter.loading = false;
     this.projectName = this.constant.projectName;
+
+    const token =  localStorage.getItem('token');
+    if (token) {
+      this.router.navigate(['dashboard/view-inhouse-users/data-collectors']);
+    }
   }
 
   @ViewChild('input1') input1: ElementRef;
@@ -60,7 +65,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     this.admin.adminLogin(email.toLowerCase(), password)
       .subscribe(
         success => {
-          this.admin.setUserLoggedIn();
+          // this.admin.setUserLoggedIn();
           this.router.navigate(['dashboard/view-inhouse-users/data-collectors']);
           this.parameter.loading = false;
         },

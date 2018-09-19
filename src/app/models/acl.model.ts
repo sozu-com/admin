@@ -6,11 +6,11 @@ export class ACL {
     phone: string;
     image: string;
     email: string;
-    access_control: Array<Object> = [
-        {
-            min_price: 0,
-            max_price: 0,
-            interest : 0
-        }
-    ];
+    acl_array: Array<Permission>;
+    acl: Array<number>;
+}
+
+export class Permission {
+    id: string;
+    name: string;
 }

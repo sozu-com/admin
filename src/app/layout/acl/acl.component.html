@@ -24,8 +24,8 @@
                   <div class="table-search">
                       <label>Name</label>
                       <div class="searh-3">
-                        <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getBanks(parameter.p, parameter.name, parameter.phone, parameter.email)" name="">
-                        <button *ngIf="parameter.name" (click)="getBanks(parameter.p, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
+                        <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getAclUsers(parameter.p, parameter.name, parameter.phone, parameter.email)" name="">
+                        <button *ngIf="parameter.name" (click)="getAclUsers(parameter.p, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
                       </div>
                   </div>
                 </th>
@@ -33,8 +33,8 @@
                   <div class="table-search">
                       <label>Contact Number</label>
                       <div class="searh-3">
-                        <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="getBanks(parameter.p, parameter.name, parameter.phone, parameter.email)" name="">
-                        <button *ngIf="parameter.phone" (click)="getBanks(parameter.p, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
+                        <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="getAclUsers(parameter.p, parameter.name, parameter.phone, parameter.email)" name="">
+                        <button *ngIf="parameter.phone" (click)="getAclUsers(parameter.p, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
                       </div>
                   </div>
                 </th>
@@ -42,8 +42,8 @@
                   <div class="table-search">
                       <label>Email Address</label>
                       <div class="searh-3">
-                        <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="getBanks(parameter.p, parameter.name, parameter.phone, parameter.email)" name="">
-                        <button *ngIf="parameter.email" (click)="getBanks(parameter.p, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
+                        <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="getAclUsers(parameter.p, parameter.name, parameter.phone, parameter.email)" name="">
+                        <button *ngIf="parameter.email" (click)="getAclUsers(parameter.p, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
                       </div>
                   </div>
                 </th>
@@ -103,7 +103,7 @@
             <button type="button" class="close" (click)="closeModal()">&times;</button>
         </div>
   
-        <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="addBank(addForm)">
+        <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="add(addForm)">
           <div class="modal-body">
             <div class="row">
               <div class="col-6">
@@ -148,27 +148,9 @@
               </div>
 
               <div class="access-controls">
-                <label [ngClass]="{'access-control11': true}" class="cust-check-bx2">Dashboard
-                  <input disabled type="checkbox" name="is_broker_seller_dev">
-                  <span class="checkmark"></span>
-                </label>
-  
-                <label [ngClass]="{'access-control11': true}" class="cust-check-bx2">Broker Mgt.
-                  <input disabled type="checkbox" name="is_buyer_renter">
-                  <span class="checkmark"></span>
-                </label>
-  
-                <label [ngClass]="{'access-control11': true}" class="cust-check-bx2">Seller Mgt.
-                  <input disabled type="checkbox" name="is_broker">
-                  <span class="checkmark"></span>
-                </label>
-  
-                <label [ngClass]="{'access-control11': true}" class="cust-check-bx2">Bank Mgt.
-                  <input disabled type="checkbox" name="is_data_collector">
-                  <span class="checkmark"></span>
-                </label>
-                <label [ngClass]="{'access-control11': true}" class="cust-check-bx2">Notary Mgt.
-                  <input disabled type="checkbox" name="is_csr_closer">
+                  <!-- [ngClass]="{'access-control11': true}" -->
+                <label *ngFor="let permission of parameter.data; let i=index" class="cust-check-bx2">{{permission.name}}
+                  <input (click)="setPermission(i)" type="checkbox" value="{{permission.id}}" name="acl{{i}}">
                   <span class="checkmark"></span>
                 </label>
               </div>
