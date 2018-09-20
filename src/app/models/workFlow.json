@@ -1,0 +1,281 @@
+{
+    "data":{
+        "id":1,
+        "name":"Sheena",
+        "email":"sheena@code-brew.com",
+        "address":"",
+        "image":"https:\/\/s3-us-west-2.amazonaws.com\/testbagant\/nequore\/1533625353FKPPgbH5SlQ51eJhvoMugvwwXZcSmU.png",
+        "country_code":"IN",
+        "dial_code":"+91",
+        "phone":"43324324",
+        "is_blocked":1,
+        "created_by":null,
+        "is_bank":null,
+        "is_noatary":null,
+        "floating_int":null,
+        "branch":null,
+        "is_acl":null,
+        "created_at":"2018-07-16 10:43:09",
+        "updated_at":"2018-09-17 06:41:49",
+        "token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6Ijk4MDZjNjc2OTVkN2U3ZTU0NWZlOGNiMzczN2QwYzQ1MGRjMjg2OTFkYjVkYjY1ZTgyNWJiNTIzMDU0ODg5NzJmMjZjYmRlZmM3NmIzNGE1In0.eyJhdWQiOiIxIiwianRpIjoiOTgwNmM2NzY5NWQ3ZTdlNTQ1ZmU4Y2IzNzM3ZDBjNDUwZGMyODY5MWRiNWRiNjVlODI1YmI1MjMwNTQ4ODk3MmYyNmNiZGVmYzc2YjM0YTUiLCJpYXQiOjE1Mzc0MjIxMTgsIm5iZiI6MTUzNzQyMjExOCwiZXhwIjoxNTY4OTU4MTE4LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.zXrXEB6CaXp0Rw1ubL1LkTI3Gs45RXbSBcgoCxZmgOcWMA8-VjiHUpmmYaNhd33bFqxFkkz-I-qQ0vLMQDCnQZAUdxTAKgwHisG3CD11HaxCddm2BrKqdu6DrnnN2yzy6CpBIGoT9QrSniZSx51nUp511zWDR7pq9srK4XKEWoy6A-Ico7-3pIyxbvCfABpNi3m7plOi9JWejJ62skYlXeAxZqLhqBebZ0A185FXbSPxzn33HHk_sjZhuXaFTWxJekKrWDGFfOlsDgwzws2Mg1gBhaDz8Yvw41tW_VTZwZ6gyn9gzrzdQ4XEcyh43c0R2Pydg16WXaDnMGikKtZLT6yiK6WNsvFhj65eJd4L7XewBxd958jFR9-bGt75Q4w4vACN70iXKSzBuyAur5MTflzLtONk08_NP-a6kGhP6pjyiMwlm-wbOvAKeRq4sOkf3JoCHJlDth0N5splolDqMiRn3ZkayxWlkg8pAKhLeka5m7Tb-huGJblqtAh7j7EtmZeywNcmGDDydaHIX9JusU5VrPCE0MzSHdp0QQUsPGJcHnrsjKtLRuIiQ65xT4EZ1hyBJBl2Apnqj9D0GhImKVEV2qGJFMLr-BZjyC2rIudxJ0zgszH4cXU6VtD64Z3271BJt5p_fOc2HehtBzAEvwckkjPtptHPyn19_tBPNR0",
+        "admin_acl":[{
+            "id":1,
+            "admin_id":1,
+            "acl_id":1,
+            "can_create":1,
+            "can_read":1,
+            "can_update":1,
+            "can_delete":1,
+            "created_at":"2018-09-19 00:00:00",
+            "updated_at":"2018-09-19 00:00:00",
+            "acl":{
+                "id":1,
+                "name":"Dashboard",
+                "deleted_at":null,
+                "created_at":"2018-09-19 00:00:00",
+                "updated_at":"2018-09-19 00:00:00"
+                }
+            },
+            {
+                "id":2,
+                "admin_id":1,
+                "acl_id":2,
+                "can_create":1,
+                "can_read":1,
+                "can_update":1,
+                "can_delete":1,
+                "created_at":"2018-09-19 00:00:00",
+                "updated_at":"2018-09-19 00:00:00",
+                "acl":{
+                    "id":2,
+                    "name":"Broker Management",
+                    "deleted_at":null,
+                    "created_at":"2018-09-19 00:00:00",
+                    "updated_at":"2018-09-19 00:00:00"
+                    }
+            },
+            {
+                "id":3,
+                "admin_id":1,
+                "acl_id":3,
+                "can_create":1,
+                "can_read":1,
+                "can_update":1,
+                "can_delete":1,
+                "created_at":"2018-09-19 00:00:00",
+                "updated_at":"2018-09-19 00:00:00",
+                "acl":{
+                    "id":3,
+                    "name":"Seller Management",
+                    "deleted_at":null,
+                    "created_at":"2018-09-19 00:00:00",
+                    "updated_at":"2018-09-19 00:00:00"
+                    }
+            },
+            {
+                "id":4,
+                "admin_id":1,
+                "acl_id":4,
+                "can_create":1,
+                "can_read":1,
+                "can_update":1,
+                "can_delete":1,
+                "created_at":"2018-09-19 00:00:00",
+                "updated_at":"2018-09-19 00:00:00",
+                "acl":{
+                    "id":4,
+                    "name":"Bank Management",
+                    "deleted_at":null,
+                    "created_at":"2018-09-19 00:00:00",
+                    "updated_at":"2018-09-19 00:00:00"
+                    }
+            },
+            {
+                "id":5,
+                "admin_id":1,
+                "acl_id":5,
+                "can_create":1,
+                "can_read":1,
+                "can_update":1,
+                "can_delete":1,
+                "created_at":"2018-09-19 00:00:00",
+                "updated_at":"2018-09-19 00:00:00",
+                "acl":{
+                    "id":5,
+                    "name":"Noataries Management",
+                    "deleted_at":null,
+                    "created_at":"2018-09-19 00:00:00",
+                    "updated_at":"2018-09-19 00:00:00"
+                }
+            },
+            {
+                "id":6,
+                "admin_id":1,
+                "acl_id":6,
+                "can_create":1,
+                "can_read":1,
+                "can_update":1,
+                "can_delete":1,
+                "created_at":"2018-09-19 00:00:00",
+                "updated_at":"2018-09-19 00:00:00",
+                "acl":{
+                    "id":6,
+                    "name":"User Management",
+                    "deleted_at":null,
+                    "created_at":"2018-09-19 00:00:00",
+                    "updated_at":"2018-09-19 00:00:00"
+                }
+            },
+            {
+                "id":7,
+                "admin_id":1,
+                "acl_id":7,
+                "can_create":1,
+                "can_read":1,
+                "can_update":1,
+                "can_delete":1,
+                "created_at":"2018-09-19 00:00:00",
+                "updated_at":"2018-09-19 00:00:00",
+                "acl":{
+                    "id":7,
+                    "name":"Data Collector Management",
+                    "deleted_at":null,
+                    "created_at":"2018-09-19 00:00:00",
+                    "updated_at":"2018-09-19 00:00:00"
+                }
+            },
+            {
+                "id":8,
+                "admin_id":1,
+                "acl_id":8,
+                "can_create":1,
+                "can_read":1,
+                "can_update":1,
+                "can_delete":1,
+                "created_at":"2018-09-19 00:00:00",
+                "updated_at":"2018-09-19 00:00:00",
+                "acl":{
+                    "id":8,
+                    "name":"Manage Lead",
+                    "deleted_at":null,"created_at":"2018-09-19 00:00:00","updated_at":"2018-09-19 00:00:00"
+                    }
+            },
+            {
+                "id":9,
+                "admin_id":1,
+                "acl_id":9,
+                "can_create":1,
+                "can_read":1,
+                "can_update":1,
+                "can_delete":1,
+                "created_at":"2018-09-19 00:00:00",
+                "updated_at":"2018-09-19 00:00:00",
+                "acl":{
+                    "id":9,
+                    "name":"Property Management",
+                    "deleted_at":null,"created_at":"2018-09-19 00:00:00","updated_at":"2018-09-19 00:00:00"
+                    }
+            },
+            {
+                "id":10,
+                "admin_id":1,
+                "acl_id":10,
+                "can_create":1,
+                "can_read":1,
+                "can_update":1,
+                "can_delete":1,
+                "created_at":"2018-09-19 00:00:00",
+                "updated_at":"2018-09-19 00:00:00",
+                "acl":{
+                    "id":10,
+                    "name":"Building Management",
+                    "deleted_at":null,"created_at":"2018-09-19 00:00:00","updated_at":"2018-09-19 00:00:00"
+                    }
+            },
+            {
+                "id":11,
+                "admin_id":1,
+                "acl_id":11,
+                "can_create":1,
+                "can_read":1,
+                "can_update":1,
+                "can_delete":1,
+                "created_at":"2018-09-19 00:00:00",
+                "updated_at":"2018-09-19 00:00:00",
+                "acl":{
+                    "id":11,
+                    "name":"Enquiries",
+                    "deleted_at":null,"created_at":"2018-09-19 00:00:00","updated_at":"2018-09-19 00:00:00"
+                    }
+            },
+            {
+                "id":12,
+                "admin_id":1,
+                "acl_id":12,
+                "can_create":1,
+                "can_read":1,
+                "can_update":1,
+                "can_delete":1,
+                "created_at":"2018-09-19 00:00:00",
+                "updated_at":"2018-09-19 00:00:00",
+                "acl":{
+                    "id":12,
+                    "name":"Manage Localities",
+                    "deleted_at":null,"created_at":"2018-09-19 00:00:00","updated_at":"2018-09-19 00:00:00"
+                    }
+            },
+            {
+                "id":13,
+                "admin_id":1,
+                "acl_id":13,
+                "can_create":1,
+                "can_read":1,
+                "can_update":1,
+                "can_delete":1,
+                "created_at":"2018-09-19 00:00:00",
+                "updated_at":"2018-09-19 00:00:00",
+                "acl":{
+                    "id":13,
+                    "name":"Admin Defaults",
+                    "deleted_at":null,"created_at":"2018-09-19 00:00:00","updated_at":"2018-09-19 00:00:00"
+                    }
+            },
+            {
+                "id":14,
+                "admin_id":1,
+                "acl_id":14,
+                "can_create":1,
+                "can_read":1,
+                "can_update":1,
+                "can_delete":1,
+                "created_at":"2018-09-19 00:00:00",
+                "updated_at":"2018-09-19 00:00:00",
+                "acl":{
+                    "id":14,
+                    "name":"Access Controls",
+                    "deleted_at":null,"created_at":"2018-09-19 00:00:00","updated_at":"2018-09-19 00:00:00"
+                    }
+            }],
+            "permissions":{
+                "id":1,
+                "admin_id":1,
+                "all_geo_access":1,
+                "can_data_collector":1,
+                "can_csr_buyer":1,
+                "can_csr_seller":1,
+                "can_csr_closer":1,
+                "can_in_house_broker":1,
+                "can_crud_admins":1,
+                "can_crud_users":1,
+                "can_crud_buildings":1,
+                "can_crud_properties":1,
+                "can_crud_leads":1,
+                "can_view_reports":1,
+                "can_crud_banks":1,
+                "can_crud_notaries":1,
+                "can_crud_blog":1,
+                "created_at":"2018-07-16 10:43:09",
+                "updated_at":"2018-07-16 10:43:09"
+            }
+        }
+}

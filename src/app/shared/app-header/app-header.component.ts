@@ -3,23 +3,28 @@ import { AdminService } from './../../services/admin.service';
 import { Router } from '@angular/router';
 // import { SweetAlertService } from 'ngx-sweetalert2';
 declare let swal: any;
+import { AdminACL } from './../../common/adminAcl';
+// import { AclPermissionDirective } from './../../directives/acl-permission.directive';
 
 @Component({
   selector: 'app-header',
   templateUrl: './app-header.component.html',
-  styleUrls: ['./app-header.component.css']
+  styleUrls: ['./app-header.component.css'],
+  providers: [AdminACL]
 })
 
 export class AppHeaderComponent {
 
   fullName: any;
   image: any;
+  admin_acl: any;
   public scrollbarOptions = { axis: 'yx', theme: 'minimal-dark' };
 
-  constructor(private admin: AdminService, private router: Router) {
+  constructor(private admin: AdminService, private router: Router, public adminACL: AdminACL) {
     this.admin.loginData$.subscribe(success => {
       this.fullName = success['name'];
       this.image = success['image'];
+      this.admin_acl = success['admin_acl'];
     });
   }
 

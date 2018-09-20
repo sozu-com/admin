@@ -6,12 +6,10 @@ export class ACL {
     phone: string;
     image: string;
     email: string;
-    acl_array: Array<Permission> = [];
-    acl: Array<Permission> = [];
+    admin_acl: Array<Permission> = [];
 }
 
 export class Permission {
-    id: number;
     name: string;
     acl_id: number;
     can_create: number;

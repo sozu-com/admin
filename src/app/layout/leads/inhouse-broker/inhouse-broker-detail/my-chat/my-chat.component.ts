@@ -135,7 +135,7 @@ export class MyChatComponent implements OnInit {
 
 
         const data = {
-            sent_as: 3,
+            sent_as: this.constant.userType.inhouse_broker,
             lead_id: this.lead_id,
             conversation_id: this.conversation_id
           };

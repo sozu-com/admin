@@ -57,9 +57,9 @@ export class AclComponent implements OnInit {
           // this.parameter.data = success.data;
           success.data.forEach(element => {
             const e = new Permission();
-            e.acl_id = element.id; e.id = element.id; e.name = element.name;
+            e.acl_id = element.id; e.name = element.name;
             e.can_create = 0; e.can_update = 0; e.can_read = 0; e.can_delete = 0;
-            this.model.acl.push(e);
+            this.model.admin_acl.push(e);
           });
           console.log('model', this.model);
         });
@@ -93,9 +93,9 @@ export class AclComponent implements OnInit {
   }
 
   setPermission(param, index) {
-    this.model.acl[index][param] = this.model.acl[index][param] &&
-    this.model.acl[index][param] === 1 ? 0 : 1;
-    console.log(this.model.acl);
+    this.model.admin_acl[index][param] = this.model.admin_acl[index][param] &&
+    this.model.admin_acl[index][param] === 1 ? 0 : 1;
+    console.log(this.model.admin_acl);
   }
 
   changeListner(event) {
@@ -118,57 +118,60 @@ export class AclComponent implements OnInit {
   add(formdata: NgForm) {
     this.parameter.url = this.model.id !== '' ? 'updateAclUser' : 'addAclUser';
     this.model.dial_code = '+' + this.model.dial_code;
+    // this.model.acl = JSON.stringify(this.model.acl);
     console.log('model', this.model);
-    this.admin.postDataApi(this.parameter.url, this.model)
-      .subscribe(
-        success => {
-          console.log('success', success);
-          if (success.success === '0') {
-            swal('Error', success.message, 'error');
-          }else {
-            this.modalClose.nativeElement.click();
-            formdata.reset();
-            const text = this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
-            swal('Success', text, 'success');
-            if (this.parameter.items.length < 10) {
-              if (this.model.id !== '') {
-                this.parameter.items[this.parameter.index] = success.data;
-              } else {
-                this.parameter.items.push(success.data);
-              }
-            }
-          }
-        });
+    // this.admin.postDataApi(this.parameter.url, this.model)
+    //   .subscribe(
+    //     success => {
+    //       console.log('success', success);
+    //       if (success.success === '0') {
+    //         swal('Error', success.message, 'error');
+    //       }else {
+    //         this.modalClose.nativeElement.click();
+    //         formdata.reset();
+    //         const text = this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
+    //         swal('Success', text, 'success');
+    //         if (this.parameter.items.length < 10) {
+    //           if (this.model.id !== '') {
+    //             this.parameter.items[this.parameter.index] = success.data;
+    //           } else {
+    //             this.parameter.items.push(success.data);
+    //           }
+    //         }
+    //       }
+    //     });
   }
 
 
   editUser(userdata, index) {
     console.log('edit user', userdata);
     this.parameter.index = index;
+    this.model = userdata;
+    console.log('model', this.model);
     this.modalOpen.nativeElement.click();
-    this.model.id = userdata.id;
-    this.model.name = userdata.name;
-    this.model.email = userdata.email;
-    this.model.phone = userdata.phone;
-    this.model.country_code = userdata.country_code ? userdata.country_code : this.constant.country_code;
-    this.model.dial_code = userdata.dial_code ? userdata.dial_code : this.constant.dial_code;
+    // this.model.id = userdata.id;
+    // this.model.name = userdata.name;
+    // this.model.email = userdata.email;
+    // this.model.phone = userdata.phone;
+    // this.model.country_code = userdata.country_code ? userdata.country_code : this.constant.country_code;
+    // this.model.dial_code = userdata.dial_code ? userdata.dial_code : this.constant.dial_code;
 
-    const d = {
-      areaCodes: null,
-      dialCode: '91',
-      iso2: userdata.country_code,
-      priority: 0
-    };
+    // const d = {
+    //   areaCodes: null,
+    //   dialCode: '91',
+    //   iso2: userdata.country_code,
+    //   priority: 0
+    // };
 
-    this.onCountryChange(d);
+    // this.onCountryChange(d);
 
-    this.initialCountry = {initialCountry: userdata.country_code};
-    console.log(this.initialCountry, this.model);
+    // this.initialCountry = {initialCountry: userdata.country_code};
+    // console.log(this.initialCountry, this.model);
 
-    this.model.image = userdata.image != null ? userdata.image : '';
-    if (this.model.image) {
-      this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.model.image})`);
-    }
+    // this.model.image = userdata.image != null ? userdata.image : '';
+    // if (this.model.image) {
+    //   this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.model.image})`);
+    // }
   }
 
 

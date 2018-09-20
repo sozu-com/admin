@@ -155,19 +155,19 @@
               </div> -->
 
               <div class="row">
-                <div class="col-12" *ngFor="let permission of model.acl; let i=index">
+                <div class="col-12" *ngFor="let permission of model.admin_acl; let i=index">
                   <label><strong>{{permission.name}}</strong></label><br>
                   <label>Can Create
-                    <input type="checkbox" (click)="setPermission('can_create', i)" name="can_create{{i}}">
+                    <input type="checkbox" [checked]="permission.can_create == 1 ? 'checked': ''" (click)="setPermission('can_create', i)" name="can_create{{i}}">
                   </label>
                   <label>Can Read
-                    <input type="checkbox" (click)="setPermission('can_read', i)" name="can_read{{i}}">
+                    <input type="checkbox" [checked]="permission.can_read == 1 ? 'checked': ''" (click)="setPermission('can_read', i)" name="can_read{{i}}">
                   </label>
                   <label>Can Update
-                    <input type="checkbox" (click)="setPermission('can_update', i)" name="can_update{{i}}">
+                    <input type="checkbox" [checked]="permission.can_update == 1 ? 'checked': ''" (click)="setPermission('can_update', i)" name="can_update{{i}}">
                   </label>
                   <label>Can Delete
-                    <input type="checkbox" (click)="setPermission('can_delete', i)" name="can_delete{{i}}">
+                    <input type="checkbox" [checked]="permission.can_delete == 1 ? 'checked': ''" (click)="setPermission('can_delete', i)" name="can_delete{{i}}">
                   </label>
                 </div>
                 <br>
