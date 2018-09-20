@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
 import { IProperty } from '../../common/property';
-import { ACL } from './../../models/acl.model';
+import { ACL, Permission } from './../../models/acl.model';
 import { NgForm } from '@angular/forms';
 import { Constant } from './../../common/constants';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -19,7 +19,7 @@ export class AclComponent implements OnInit {
   image1;
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
-
+  // model = new ACL();
   public parameter: IProperty = {};
   initialCountry: any;
 
@@ -29,6 +29,7 @@ export class AclComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
@@ -53,8 +54,14 @@ export class AclComponent implements OnInit {
     this.admin.postDataApi('getAclList', {})
       .subscribe(
         success => {
-          this.parameter.data = success.data;
-          console.log('getAclList', success);
+          // this.parameter.data = success.data;
+          success.data.forEach(element => {
+            const e = new Permission();
+            e.acl_id = element.id; e.id = element.id; e.name = element.name;
+            e.can_create = 0; e.can_update = 0; e.can_read = 0; e.can_delete = 0;
+            this.model.acl.push(e);
+          });
+          console.log('model', this.model);
         });
   }
 
@@ -85,10 +92,10 @@ export class AclComponent implements OnInit {
         });
   }
 
-  setPermission(index) {
-    this.parameter.data[index].is_selected = this.parameter.data[index].is_selected &&
-    this.parameter.data[index].is_selected === true ? false : true;
-    console.log(this.parameter.data);
+  setPermission(param, index) {
+    this.model.acl[index][param] = this.model.acl[index][param] &&
+    this.model.acl[index][param] === 1 ? 0 : 1;
+    console.log(this.model.acl);
   }
 
   changeListner(event) {
@@ -112,26 +119,26 @@ export class AclComponent implements OnInit {
     this.parameter.url = this.model.id !== '' ? 'updateAclUser' : 'addAclUser';
     this.model.dial_code = '+' + this.model.dial_code;
     console.log('model', this.model);
-    // this.admin.postDataApi(this.parameter.url, this.model)
-    //   .subscribe(
-    //     success => {
-    //       console.log('success', success);
-    //       if (success.success === '0') {
-    //         swal('Error', success.message, 'error');
-    //       }else {
-    //         this.modalClose.nativeElement.click();
-    //         formdata.reset();
-    //         const text = this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
-    //         swal('Success', text, 'success');
-    //         if (this.parameter.items.length < 10) {
-    //           if (this.model.id !== '') {
-    //             this.parameter.items[this.parameter.index] = success.data;
-    //           } else {
-    //             this.parameter.items.push(success.data);
-    //           }
-    //         }
-    //       }
-    //     });
+    this.admin.postDataApi(this.parameter.url, this.model)
+      .subscribe(
+        success => {
+          console.log('success', success);
+          if (success.success === '0') {
+            swal('Error', success.message, 'error');
+          }else {
+            this.modalClose.nativeElement.click();
+            formdata.reset();
+            const text = this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
+            swal('Success', text, 'success');
+            if (this.parameter.items.length < 10) {
+              if (this.model.id !== '') {
+                this.parameter.items[this.parameter.index] = success.data;
+              } else {
+                this.parameter.items.push(success.data);
+              }
+            }
+          }
+        });
   }
 
 

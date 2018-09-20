@@ -6,11 +6,16 @@ export class ACL {
     phone: string;
     image: string;
     email: string;
-    acl_array: Array<Permission>;
-    acl: Array<number>;
+    acl_array: Array<Permission> = [];
+    acl: Array<Permission> = [];
 }
 
 export class Permission {
-    id: string;
+    id: number;
     name: string;
+    acl_id: number;
+    can_create: number;
+    can_read: number;
+    can_update: number;
+    can_delete: number;
 }

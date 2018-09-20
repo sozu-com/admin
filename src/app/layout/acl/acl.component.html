@@ -147,12 +147,30 @@
                 </div>
               </div>
 
-              <div class="access-controls">
-                  <!-- [ngClass]="{'access-control11': true}" -->
-                <label *ngFor="let permission of parameter.data; let i=index" class="cust-check-bx2">{{permission.name}}
-                  <input (click)="setPermission(i)" type="checkbox" value="{{permission.id}}" name="acl{{i}}">
+              <!-- <div class="access-controls">
+                <label *ngFor="let permission of model.acl; let i=index" class="cust-check-bx2">{{permission.name}}
+                  <input (click)="setPermission(permission.id, i)" type="checkbox" name="acl{{i}}">
                   <span class="checkmark"></span>
                 </label>
+              </div> -->
+
+              <div class="row">
+                <div class="col-12" *ngFor="let permission of model.acl; let i=index">
+                  <label><strong>{{permission.name}}</strong></label><br>
+                  <label>Can Create
+                    <input type="checkbox" (click)="setPermission('can_create', i)" name="can_create{{i}}">
+                  </label>
+                  <label>Can Read
+                    <input type="checkbox" (click)="setPermission('can_read', i)" name="can_read{{i}}">
+                  </label>
+                  <label>Can Update
+                    <input type="checkbox" (click)="setPermission('can_update', i)" name="can_update{{i}}">
+                  </label>
+                  <label>Can Delete
+                    <input type="checkbox" (click)="setPermission('can_delete', i)" name="can_delete{{i}}">
+                  </label>
+                </div>
+                <br>
               </div>
             </div>
           </div>
