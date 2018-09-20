@@ -18,6 +18,7 @@ export class AdminService {
   public deviceId: string = environment.deviceId;
   public socketUrl: string = environment.socketUrl;
 
+  public admin_acl: any;
   public login = new BehaviorSubject({});
   loginData$ = this.login.asObservable();
 
@@ -81,6 +82,7 @@ export class AdminService {
                 .map(response => {
                   const r = response.json();
                   localStorage.setItem('token', r.data.token);
+                  this.admin_acl = r.data.m ? r.data.m[0] : [];
                   this.login.next(r.data);
                   return r;
                 })

@@ -24,8 +24,10 @@ export class AppHeaderComponent {
     this.admin.loginData$.subscribe(success => {
       this.fullName = success['name'];
       this.image = success['image'];
-      this.admin_acl = success['admin_acl'];
+      console.log('admin_acl', success['admin_acl']);
     });
+    // this.admin_acl = this.admin.admin_acl[0];
+    // console.log('admin', this.admin.admin_acl);
   }
 
   onLoggedout() {

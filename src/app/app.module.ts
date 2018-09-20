@@ -19,6 +19,7 @@ import { LoginComponent } from './login/login.component';
 import { CommonService } from './services/common.service';
 import { Constant } from './common/constants';
 import { AclPermissionDirective } from './directives/acl-permission.directive';
+import { AclPermissionComponent } from './acl-permission/acl-permission.component';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent},
@@ -34,7 +35,8 @@ const appRoutes: Routes = [
     ForgotPasswordComponent,
     LoginComponent,
     PageNotFoundComponent,
-    AclPermissionDirective,
+    // AclPermissionDirective,
+    // AclPermissionComponent,
     // RemoveCommaPipe,
     // MomentPipe
   ],

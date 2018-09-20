@@ -30,6 +30,7 @@ import { Constant } from '../common/constants';
 import { HttpInterceptor } from './../services/http-interceptor';
 import { GenerateThumbComponent } from './generate-thumb/generate-thumb.component';
 import { ThousandPipe } from '../pipes/thousand.pipe';
+import { AclPermissionDirective } from '../directives/acl-permission.directive';
 // import { ViewedPropertyComponent } from './common-blocks/src/app/layout/common-blocks/viewed-property/viewed-property.component';
 // import { FillInformationComponent } from './common-blocks/src/app/layout/common-blocks/fill-information/fill-information.component';
 // import { NotesComponent } from './common-blocks/notes/notes.component';
@@ -67,9 +68,7 @@ import { ThousandPipe } from '../pipes/thousand.pipe';
         AddressComponent,
         EditTemplateComponent,
         GenerateThumbComponent,
-        // ViewedPropertyComponent,
-        // FillInformationComponent,
-        // NotesComponent,
+        AclPermissionDirective
     ],
     providers: [AdminService, CommonService, AuthGuard, HttpInterceptor, Constant],
     bootstrap: [LayoutComponent],
