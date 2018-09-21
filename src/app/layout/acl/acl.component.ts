@@ -58,7 +58,7 @@ export class AclComponent implements OnInit {
           success.data.forEach(element => {
             const e = new Permission();
             e.acl_id = element.id; e.name = element.name;
-            e.can_create = 0; e.can_update = 0; e.can_read = 0; e.can_delete = 0;
+            e.can_create = 1; e.can_update = 1; e.can_read = 1; e.can_delete = 1;
             this.model.admin_acl.push(e);
           });
           console.log('model', this.model);
@@ -120,26 +120,26 @@ export class AclComponent implements OnInit {
     this.model.dial_code = '+' + this.model.dial_code;
     // this.model.acl = JSON.stringify(this.model.acl);
     console.log('model', this.model);
-    // this.admin.postDataApi(this.parameter.url, this.model)
-    //   .subscribe(
-    //     success => {
-    //       console.log('success', success);
-    //       if (success.success === '0') {
-    //         swal('Error', success.message, 'error');
-    //       }else {
-    //         this.modalClose.nativeElement.click();
-    //         formdata.reset();
-    //         const text = this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
-    //         swal('Success', text, 'success');
-    //         if (this.parameter.items.length < 10) {
-    //           if (this.model.id !== '') {
-    //             this.parameter.items[this.parameter.index] = success.data;
-    //           } else {
-    //             this.parameter.items.push(success.data);
-    //           }
-    //         }
-    //       }
-    //     });
+    this.admin.postDataApi(this.parameter.url, this.model)
+      .subscribe(
+        success => {
+          console.log('success', success);
+          if (success.success === '0') {
+            swal('Error', success.message, 'error');
+          }else {
+            this.modalClose.nativeElement.click();
+            formdata.reset();
+            const text = this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
+            swal('Success', text, 'success');
+            if (this.parameter.items.length < 10) {
+              if (this.model.id !== '') {
+                this.parameter.items[this.parameter.index] = success.data;
+              } else {
+                this.parameter.items.push(success.data);
+              }
+            }
+          }
+        });
   }
 
 

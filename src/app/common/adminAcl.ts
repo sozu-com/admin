@@ -1,4 +1,4 @@
-export class AdminACL {
+export class AdminACL1 {
     public permission = {
         dashboard: 1,
         manage_inhouse_users: 0,

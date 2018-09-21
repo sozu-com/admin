@@ -6,10 +6,12 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { AclComponent } from './acl.component';
+import { AddAclComponent } from './add-acl/add-acl.component';
 
 
 const routes: Routes = [
-  { path: '', component: AclComponent }
+  { path: '', component: AclComponent },
+  { path: 'add-acl-user', component: AddAclComponent }
 ];
 
 @NgModule({
@@ -26,7 +28,8 @@ const routes: Routes = [
     Ng2TelInputModule
   ],
   declarations: [
-    AclComponent
+    AclComponent,
+    AddAclComponent
   ]
 })
 export class AclModule { }

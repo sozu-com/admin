@@ -1,6 +1,6 @@
 import { Directive, Input, ElementRef, HostListener } from '@angular/core';
 import { AdminService } from '../services/admin.service';
-import { AdminACL } from './../common/adminAcl';
+// import { AdminACL } from './../common/adminAcl';
 
 @Directive({
   selector: '[appAclPermission]'
@@ -10,7 +10,7 @@ export class AclPermissionDirective {
   @Input('aclId') aclId;
   // @Input('admin_acl') admin_acl;
   admin_acl: any;
-  constructor(public el: ElementRef, private admin: AdminService, private adminAcl: AdminACL) {
+  constructor(public el: ElementRef, private admin: AdminService) {
     // console.log('yess');
     // console.log('aa', this.admin_acl);
     // this.admin_acl.forEach(element => {

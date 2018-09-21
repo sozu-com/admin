@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AclPermissionComponent } from './acl-permission.component';
+import { AddAclComponent } from './add-acl.component';
 
-describe('AclPermissionComponent', () => {
-  let component: AclPermissionComponent;
-  let fixture: ComponentFixture<AclPermissionComponent>;
+describe('AddAclComponent', () => {
+  let component: AddAclComponent;
+  let fixture: ComponentFixture<AddAclComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AclPermissionComponent ]
+      declarations: [ AddAclComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AclPermissionComponent);
+    fixture = TestBed.createComponent(AddAclComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

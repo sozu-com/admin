@@ -19,7 +19,7 @@ import { LoginComponent } from './login/login.component';
 import { CommonService } from './services/common.service';
 import { Constant } from './common/constants';
 import { AclPermissionDirective } from './directives/acl-permission.directive';
-import { AclPermissionComponent } from './acl-permission/acl-permission.component';
+import { Login, AdminACL } from './models/login.model';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent},
@@ -54,7 +54,7 @@ const appRoutes: Routes = [
     MalihuScrollbarModule.forRoot(),
     Ng2TelInputModule
   ],
-  providers: [AdminService, CommonService, AuthGuard, HttpInterceptor, Constant
+  providers: [AdminService, CommonService, AuthGuard, HttpInterceptor, Constant, Login, AdminACL
   ],
   bootstrap: [AppComponent]
 })

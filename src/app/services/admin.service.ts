@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { HttpInterceptor } from './http-interceptor';
 import { CommonService } from './common.service';
-
+import { Login, AdminACL } from './../models/login.model';
 @Injectable()
 export class AdminService {
 
@@ -18,14 +18,14 @@ export class AdminService {
   public deviceId: string = environment.deviceId;
   public socketUrl: string = environment.socketUrl;
 
-  public admin_acl: any;
+  public admin_acl: any = {};
   public login = new BehaviorSubject({});
   loginData$ = this.login.asObservable();
 
   public country = new BehaviorSubject({});
   countryData$ = this.country.asObservable();
 
-  constructor(public http: HttpInterceptor) { }
+  constructor(public http: HttpInterceptor, public loginModel: Login, public aclModel: AdminACL) { }
 
 // starting of general functions
   // setUserLoggedIn() { this.isUserLogin = true; }
@@ -82,7 +82,10 @@ export class AdminService {
                 .map(response => {
                   const r = response.json();
                   localStorage.setItem('token', r.data.token);
-                  this.admin_acl = r.data.m ? r.data.m[0] : [];
+                  const dd = r.data.m.map((obj, index) => {
+                    const key =  Object.keys(obj)[0];
+                    this.admin_acl[key] =  obj[key];
+                  });
                   this.login.next(r.data);
                   return r;
                 })
