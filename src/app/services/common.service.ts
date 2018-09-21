@@ -8,6 +8,7 @@ declare let swal: any;
 @Injectable()
 export class CommonService {
 
+  public data: Object = {};
   public country = new BehaviorSubject({});
   countryData$ = this.country.asObservable();
 
@@ -128,5 +129,9 @@ export class CommonService {
   setPropertyDetails(data) {
     console.log('data', data);
     this.propertyDetails.next(data);
+  }
+
+  setData(object) {
+    this.data = object;
   }
 }

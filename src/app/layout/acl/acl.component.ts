@@ -5,6 +5,8 @@ import { ACL, Permission } from './../../models/acl.model';
 import { NgForm } from '@angular/forms';
 import { Constant } from './../../common/constants';
 import { DomSanitizer } from '@angular/platform-browser';
+import { CommonService } from './../../services/common.service';
+import { Router } from '@angular/router';
 declare let swal: any;
 
 @Component({
@@ -24,8 +26,8 @@ export class AclComponent implements OnInit {
   initialCountry: any;
 
   constructor(public constant: Constant, public model: ACL,
-    private admin: AdminService,
-    public sanitization: DomSanitizer
+    public admin: AdminService, private cs: CommonService,
+    public sanitization: DomSanitizer, private router: Router
   ) { }
 
   ngOnInit() {
@@ -57,7 +59,7 @@ export class AclComponent implements OnInit {
           // this.parameter.data = success.data;
           success.data.forEach(element => {
             const e = new Permission();
-            e.acl_id = element.id; e.name = element.name;
+            e.acl_id = element.id; e.acl.name = element.name;
             e.can_create = 1; e.can_update = 1; e.can_read = 1; e.can_delete = 1;
             this.model.admin_acl.push(e);
           });
@@ -142,38 +144,10 @@ export class AclComponent implements OnInit {
         });
   }
 
-
-  editUser(userdata, index) {
-    console.log('edit user', userdata);
-    this.parameter.index = index;
-    this.model = userdata;
-    console.log('model', this.model);
-    this.modalOpen.nativeElement.click();
-    // this.model.id = userdata.id;
-    // this.model.name = userdata.name;
-    // this.model.email = userdata.email;
-    // this.model.phone = userdata.phone;
-    // this.model.country_code = userdata.country_code ? userdata.country_code : this.constant.country_code;
-    // this.model.dial_code = userdata.dial_code ? userdata.dial_code : this.constant.dial_code;
-
-    // const d = {
-    //   areaCodes: null,
-    //   dialCode: '91',
-    //   iso2: userdata.country_code,
-    //   priority: 0
-    // };
-
-    // this.onCountryChange(d);
-
-    // this.initialCountry = {initialCountry: userdata.country_code};
-    // console.log(this.initialCountry, this.model);
-
-    // this.model.image = userdata.image != null ? userdata.image : '';
-    // if (this.model.image) {
-    //   this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.model.image})`);
-    // }
+  editData(item, id) {
+    this.cs.data = item;
+    this.router.navigate(['/dashboard/access-control-mgt/add-acl-user', id]);
   }
-
 
   blockUnblockPopup(index, id, flag, user_type) {
     this.parameter.index = index;

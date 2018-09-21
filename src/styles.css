@@ -333,3 +333,15 @@ input::-webkit-inner-spin-button {
 /* .m-loader .file-message{
     height: 22px !important;
 } */
+.display-none {
+    display: none;
+}
+.action-icon {
+    height: 32px;
+    width: 32px;
+    border: 1px solid rgba(206,206,206,0.5);
+    background-color: #FFFFFF;
+    display: inline-block;
+    text-align: center;
+    padding: 3px;
+}

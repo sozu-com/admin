@@ -11,7 +11,7 @@ import { AddAclComponent } from './add-acl/add-acl.component';
 
 const routes: Routes = [
   { path: '', component: AclComponent },
-  { path: 'add-acl-user', component: AddAclComponent }
+  { path: 'add-acl-user/:id', component: AddAclComponent }
 ];
 
 @NgModule({

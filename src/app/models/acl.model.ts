@@ -10,10 +10,15 @@ export class ACL {
 }
 
 export class Permission {
-    name: string;
+    show: boolean;
+    // name: string;
+    acl: {
+        name: string;
+    };
     acl_id: number;
     can_create: number;
     can_read: number;
     can_update: number;
     can_delete: number;
+    can_crud: number;
 }
