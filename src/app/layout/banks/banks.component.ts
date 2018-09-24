@@ -25,7 +25,7 @@ export class BanksComponent implements OnInit {
   initialCountry: any;
 
   constructor(public constant: Constant, public model: Bank,
-    private admin: AdminService,
+    public admin: AdminService,
     public sanitization: DomSanitizer
   ) { }
 

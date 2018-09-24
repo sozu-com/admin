@@ -21,7 +21,7 @@
                 <div class="col-md-4">
                     <label><strong>Possession Status</strong></label>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-8" *ngIf="admin?.admin_acl['Settings']?.can_create==1">
                    <form role="form" novalidate #addPossessionForm="ngForm" (ngSubmit)="checkIfPossessionSpanishNameEntered('', addPossessionForm.value.name_en, addPossessionForm.value.name_es, 1, 'add')">
                       <div class="row">
                         <div class="col-lg-6 col-md-6">
@@ -83,7 +83,7 @@
               <div class="col-md-4">
                   <label><strong>Project Type</strong></label>
               </div>
-              <div class="col-md-8">
+              <div class="col-md-8" *ngIf="admin?.admin_acl['Settings']?.can_create==1">
                  <form role="form" novalidate #addTypeForm="ngForm" (ngSubmit)="checkIfTypeSpanishNameEntered('', addTypeForm.value.name_en, addTypeForm.value.name_es, 1, 'add')">
 
                   <div class="row">
@@ -149,7 +149,7 @@
               <div class="col-md-4">
                   <label>Amenities</label>
               </div>
-              <div class="col-md-8">
+              <div class="col-md-8" *ngIf="admin?.admin_acl['Settings']?.can_create==1">
                  <form role="form" novalidate #addAmenityForm="ngForm" (ngSubmit)="checkIfAmenitySpanishNameEntered('', '', addAmenityForm.value.name_en, addAmenityForm.value.name_es, 1, 'add')">
                   <div class="browse-files">
                     <input accept="image/*" (change)="changeListner($event)" type="file" class="image form-control" placeholder="Amenity" id="icon" required [(ngModel)]="amenityModel.icon" name="icon" #icon="ngModel">

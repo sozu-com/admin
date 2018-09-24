@@ -38,7 +38,7 @@ export class LocalityComponent implements OnInit {
 
   constructor(
     private loader: MapsAPILoader,
-    private admin: AdminService,
+    public admin: AdminService,
     private router: Router,
     private constant: Constant,
     public model: Locality

@@ -29,7 +29,7 @@ export class UsersComponent implements OnInit {
   initialCountry: any;
 
   constructor(public constant: Constant, public model: Users, private element: ElementRef,
-    private route: ActivatedRoute, private admin: AdminService, private router: Router,
+    private route: ActivatedRoute, public admin: AdminService, private router: Router,
     public sanitization: DomSanitizer
   ) { }
 

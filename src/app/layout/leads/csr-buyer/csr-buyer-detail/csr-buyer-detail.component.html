@@ -24,7 +24,8 @@
               </div>
            </div>
         </div>
-        <div class="col-lg-4 col-md-12 col-sm-12 col-12">
+        
+        <div class="col-lg-4 col-md-12 col-sm-12 col-12" *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_update==1">
            <div  class="form-group d-flex marginT10 float-right right-side">
              <div class="dropdown btn-cont">
                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -32,7 +33,7 @@
                </button>
                <div class="dropdown-menu dropdown-menu-right">
                  <a (click)="assignToBroker()" *ngIf="!parameter.lead?.broker && parameter.lead?.user" class="dropdown-item" href="javascript://">Assign to broker</a>
-                 <a (click)="blockThisLead()" class="dropdown-item" href="javascript://">Block</a>
+                 <!-- <a (click)="blockThisLead()" class="dropdown-item" href="javascript://">Block</a> -->
                </div>
             </div>
            </div>

@@ -23,7 +23,7 @@ export class DocumentsComponent implements OnInit {
   constructor(
     public constant: Constant,
     private modalService: BsModalService,
-    private admin: AdminService,
+    public admin: AdminService,
     public model: Document
   ) {
   }

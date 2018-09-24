@@ -21,7 +21,7 @@ export class PropertyComponent implements OnInit {
   icon: any;
 
   constructor(private element: ElementRef, private constant: Constant, public property: Property,
-    private modalService: BsModalService, private admin: AdminService, private router: Router
+    private modalService: BsModalService, public admin: AdminService, private router: Router
   ) {
     this.parameter.countryCount = 0;
     this.parameter.stateCount = 0;

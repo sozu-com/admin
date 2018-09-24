@@ -10,6 +10,7 @@
         <div class="col-md-6">
           <div class="btn-cont text-right">
               <a *ngIf="admin?.admin_acl['Access Controls']?.can_create==1" class="btn btn-primary" href="javascript://" routerLink="/dashboard/access-control-mgt/add-acl-user/0">+Add New</a>
+              <!-- <a *ngIf="admin?.admin_acl['Access Controls']?.can_create==1" class="btn btn-primary" href="javascript://" routerLink="/dashboard/access-control-mgt/add-acl-user/0">+Add New</a> -->
               <!-- <a class="btn btn-primary" href="javascript://" data-toggle="modal" data-target="#add" #modalOpen>Add Popup</a> -->
           </div>
         </div>
@@ -79,11 +80,12 @@
                   <!-- <a [ngClass]="{'display-none':admin?.admin_acl['Access Controls']?.can_update==0}" href="javascript://" (click)="editData(item, item.id)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a> -->
                   <!-- <a href="javascript://" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a>
                   <a href="javascript://" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a> -->
-                  <button (click)="editData(item, item.id)" class="action-icon"><img src="./../../../../assets/img/edit.png" alt="img"></button>
-                  <button [disabled]="admin?.admin_acl['Access Controls']?.can_delete==1" *ngIf="item.is_blocked == 1" (click)="blockUnblockPopup(i, item.id, 0, parameter.type)" title="Unblock user" class="action-icon block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></button>
-                  <button [disabled]="admin?.admin_acl['Access Controls']?.can_delete==1" *ngIf="item.is_blocked == 0" (click)="blockUnblockPopup(i, item.id, 1, parameter.type)" title="Block user" class="action-icon edit-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></button>
-                  <!-- <button *ngIf="item.is_blocked == 1" [ngClass]="{'display-none':admin?.admin_acl['Access Controls']?.can_delete==0}" (click)="blockUnblockPopup(i, item.id, 0, parameter.type)" title="Unblock user" class="action-icon block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></button>
-                  <button *ngIf="item.is_blocked == 0" [ngClass]="{'display-none':admin?.admin_acl['Access Controls']?.can_delete==0}" (click)="blockUnblockPopup(i, item.id, 1, parameter.type)" title="Block user" class="action-icon edit-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></button> -->
+                  <button [disabled]="admin?.admin_acl['Access Controls']?.can_update==0" (click)="editData(item, item.id)" class="action-icon"><img src="./../../../../assets/img/edit.png" alt="img"></button>
+                  <button [disabled]="admin?.admin_acl['Access Controls']?.can_delete==0"
+                      (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1, parameter.type)" 
+                      title="{{item.is_blocked==1?'Unblock User':'Block User'}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"
+                      class="action-icon"><img src="assets/img/block.png" alt="img">
+                  </button>
                 </td>
               </tr>
             </table>

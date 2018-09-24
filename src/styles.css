@@ -46,7 +46,7 @@ ngx-my-date-picker .ngxmdp .headertodaybtn { padding: 0px 14px; min-width: 100px
 .my-modal-header{ padding-left: 30px; padding-top: 20px; }
 .my-modal-form{ padding: 15px 15px !important; }
 .my-modal-body{ padding: 10px; }
-.unblock-bg{ background: #ea5d5d; }
+.unblock-bg{ background: #ea5d5d !important; }
 .delete-button{ margin-top: 22px; }
 .cursor-pointer{ cursor: pointer; }
 .btn-cont .btn-primary { border-radius: 4px !important; }
@@ -344,4 +344,5 @@ input::-webkit-inner-spin-button {
     display: inline-block;
     text-align: center;
     padding: 3px;
+    cursor: pointer;
 }

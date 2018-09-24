@@ -36,7 +36,7 @@ export class InhouseUsersComponent implements OnInit {
 
   constructor(public constant: Constant,
     public model: InhouseUsers, private route: ActivatedRoute,
-    private admin: AdminService, private router: Router,
+    public admin: AdminService, private router: Router,
     private sanitization: DomSanitizer) {
       this.admin.countryData$.subscribe(success => {
         this.parameter.allCountry = success;

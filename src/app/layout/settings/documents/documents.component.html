@@ -21,7 +21,7 @@
                   <div class="col-md-4">
                       <label><strong>Document Name</strong></label>
                   </div>
-                  <div class="col-md-8">
+                  <div class="col-md-8" *ngIf="admin?.admin_acl['Settings']?.can_create==1">
                      <form role="form" novalidate #addForm="ngForm" (ngSubmit)="checkIfSpanishNameEntered('', addForm.value.name_en, addForm.value.name_es, 1, 'add');">
                         <div class="row">
                           <div class="col-lg-6 col-md-6">

@@ -4,7 +4,6 @@
       <h5>Settings</h5>
       <nav class="breadcrumb">
           <a class="breadcrumb-item">Home</a>
-          <!-- <a class="breadcrumb-item" routerLink="/dashboard">Home</a> -->
           <a class="breadcrumb-item">Settings</a>
           <span class="breadcrumb-item active">Location</span>
       </nav>
@@ -31,7 +30,7 @@
               <div class="col-xl-9 col-sm-6 col-12">
                  <div class="form-group marginB0">
                     <div class="btn-cont text-right">
-                        <a class="btn btn-primary" href="javascript://" (click)="openCountryModal(addCountryModal, '', '', '', '1', -1)">+ Add New</a>
+                        <a *ngIf="admin?.admin_acl['Settings']?.can_create==1" class="btn btn-primary" href="javascript://" (click)="openCountryModal(addCountryModal, '', '', '', '1', -1)">+ Add New</a>
                     </div>
                  </div>
               </div>
@@ -103,7 +102,7 @@
                  <div class="form-group marginB0">
                     <label style="display: block;">&nbsp;</label>
                     <div class="btn-cont pull-right">
-                        <a class="btn btn-primary" href="javascript://" (click)="openStateModal(addStateModal, '', '', '', '', '1', -1)">+ Add New</a>
+                        <a *ngIf="admin?.admin_acl['Settings']?.can_create==1" class="btn btn-primary" href="javascript://" (click)="openStateModal(addStateModal, '', '', '', '', '1', -1)">+ Add New</a>
                     </div>
                  </div>
               </div>
@@ -183,7 +182,7 @@
                <div class="form-group marginB0">
                   <label style="display: block;">&nbsp;</label>
                   <div class="btn-cont pull-right">
-                      <a class="btn btn-primary" href="javascript://" (click)="openCityModal(addCityModal, '', '', '', '', '', 1, -1)">+ Add New</a>
+                      <a *ngIf="admin?.admin_acl['Settings']?.can_create==1" class="btn btn-primary" href="javascript://" (click)="openCityModal(addCityModal, '', '', '', '', '', 1, -1)">+ Add New</a>
                   </div>
                </div>
             </div>

@@ -23,7 +23,7 @@ export class LocationComponent implements OnInit {
   searchCity: string;
 
   constructor(private location: Location, private constant: Constant,
-    private modalService: BsModalService, private admin: AdminService,
+    private modalService: BsModalService, public admin: AdminService,
   ) { }
 
   ngOnInit() {

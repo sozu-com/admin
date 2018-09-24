@@ -11,7 +11,7 @@ import { IProperty } from './../../../common/property';
 export class PropertyDetailsComponent implements OnInit {
 
   property: any;
-  constructor(private admin: AdminService, private route: ActivatedRoute) { }
+  constructor(public admin: AdminService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.params.subscribe( params => {

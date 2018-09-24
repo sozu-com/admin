@@ -29,7 +29,7 @@ export class NotaryComponent implements OnInit {
   initialCountry: any;
 
   constructor(public constant: Constant, public model: Users,
-    private admin: AdminService,
+    public admin: AdminService,
     public sanitization: DomSanitizer
   ) { }
 

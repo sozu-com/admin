@@ -21,7 +21,7 @@ export class CsrBuyerDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private admin: AdminService,
+    public admin: AdminService,
     public constant: Constant,
     public fillInfo: FillInformation
   ) {

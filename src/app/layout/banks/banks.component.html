@@ -9,7 +9,7 @@
       </div>
       <div class="col-md-6">
         <div class="btn-cont text-right">
-            <a class="btn btn-primary" href="javascript://" data-toggle="modal" data-target="#add" #modalOpen>Add New</a>
+            <a *ngIf="admin?.admin_acl['Bank Management']?.can_create==1" class="btn btn-primary" href="javascript://" data-toggle="modal" data-target="#add" #modalOpen>Add New</a>
         </div>
       </div>
   </div>
@@ -75,9 +75,15 @@
               <td>{{item.branch ? item.branch : 'NA'}}</td>
               <td>{{item.floating_int ? item.floating_int+'%' : '0 %'}}</td>
               <td>
-                <a href="javascript://" (click)="editUser(item, i)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
+                <!-- <a href="javascript://" (click)="editUser(item, i)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
                 <a href="javascript://" *ngIf="item.is_blocked == 1" (click)="blockUnblockPopup(i, item.id, 0, parameter.type)" title="Unblock user" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a>
-                <a href="javascript://" *ngIf="item.is_blocked == 0" (click)="blockUnblockPopup(i, item.id, 1, parameter.type)" title="Block user" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
+                <a href="javascript://" *ngIf="item.is_blocked == 0" (click)="blockUnblockPopup(i, item.id, 1, parameter.type)" title="Block user" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a> -->
+                <button title="Edit Details" [disabled]="admin?.admin_acl['Bank Management']?.can_update==0" (click)="editUser(item, i)" class="action-icon"><img src="./../../../../assets/img/edit.png" alt="img"></button>
+                <button [disabled]="admin?.admin_acl['Bank Management']?.can_delete==0"
+                  (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1, parameter.type)" 
+                  title="{{item.is_blocked==1?'Unblock Bank':'Block Bank'}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"
+                  class="action-icon"><img src="assets/img/block.png" alt="img">
+                </button>
               </td>
             </tr>
 

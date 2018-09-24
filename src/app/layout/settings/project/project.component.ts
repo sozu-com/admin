@@ -22,7 +22,7 @@ export class ProjectComponent implements OnInit {
   icon: any;
 
   constructor(private element: ElementRef, private constant: Constant, public project: Project,
-    private modalService: BsModalService, private admin: AdminService, private router: Router,
+    private modalService: BsModalService, public admin: AdminService, private router: Router,
     public amenityModel: Amenities
   ) {
     this.parameter.countryCount = 0;
