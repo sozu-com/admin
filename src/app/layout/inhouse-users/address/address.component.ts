@@ -49,7 +49,7 @@ export class AddressComponent implements OnInit {
 
   getStatesNew(country_id, index) {
 
-    console.log('=====', country_id, index);
+    // console.log('=====', country_id, index);
 
     this.parameter.citiesAdd = []; this.parameter.localitiesAdd = []; this.parameter.buildingsAdd = [];
     this.parameter.url = 'country/getStates';
@@ -62,7 +62,7 @@ export class AddressComponent implements OnInit {
       this.admin.postDataApi(this.parameter.url, {country_id: country_id})
       .subscribe(
         success => {
-          console.log('getStates', success);
+          // console.log('getStates', success);
           this.parameter.statesAdd = success.data;
           this.address.countries = country_id;
           this.parameter.statesAdd.push({id: '0', name: 'All', status: 1});

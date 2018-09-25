@@ -16,7 +16,7 @@ export class ViewedPropertyComponent implements OnInit {
   constructor(public constant: Constant) { }
 
   ngOnInit() {
-    console.log('ip', this.viewed_properties);
+    // console.log('ip', this.viewed_properties);
   }
 
   viewProperties(data) {

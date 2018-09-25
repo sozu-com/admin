@@ -20,12 +20,13 @@ export class AddPropertyModel {
     locality_id = '';
     configuration_id = '';
     property_type_id = '';
-    carpet_areas: any = [
-        {
-            area: '',
-            price: ''
-        }
-    ];
+    // carpet_areas: any = [
+    //     {
+    //         area: '',
+    //         price: ''
+    //     }
+    // ];
+    carpet_areas: any = [];
     property_id = '';
     cover_image: File;
     images: any = [];
@@ -41,12 +42,14 @@ export class AddPropertyModel {
     banks: any = [];
     pets = 1;
     marital_status: any = [1];
-    custom_attributes: any = [
-        {
-            name: '',
-            value: ''
-        }
-    ];
+    // custom_attributes: any = [
+    //     {
+    //         name: '',
+    //         value: ''
+    //     }
+    // ];
+    custom_attributes: any = [];
+    property_quantity_details: any= [];
 }
 
 export class Building {
@@ -59,4 +62,15 @@ export class Building {
     dev_phone: string;
     dev_email: string;
     dev_countrycode: string;
+}
+
+export class PropertyDetails {
+    floor: number;
+    area: number;
+    conf_type: any;
+    price: number;
+    total_price: number;
+    payment_status_id: any;
+    building_specific_type_id: any;
+    direction: any;
 }

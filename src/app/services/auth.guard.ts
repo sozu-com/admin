@@ -11,7 +11,7 @@ export class AuthGuard implements CanActivate {
   constructor (private router: Router, private admin: AdminService, public loginModel: Login, public aclModel: AdminACL) {}
 
   canActivate () {
-    console.log('auth guard');
+    // console.log('auth guard');
     const token =  localStorage.getItem('token');
     if (token) {
       // this.admin.login.subscribe(success => {
@@ -32,12 +32,13 @@ export class AuthGuard implements CanActivate {
         .subscribe(
           success1 => {
             console.log('ssss', success1);
-            this.admin.login.next(success1.data);
+            this.admin.permissions = success1.data.permissions;
             const aclData: any = {};
             const dd = success1.data.m.map((obj, index) => {
               const key =  Object.keys(obj)[0];
               this.admin.admin_acl[key] =  obj[key];
             });
+            this.admin.login.next(success1.data);
           });
 
       this.admin.country.subscribe(success => {

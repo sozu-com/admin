@@ -5,16 +5,24 @@ import { AdminService } from './../services/admin.service';
 import { Location } from '@angular/common';
 
 @Injectable()
-export class CsrCloserGuard implements CanActivate {
+export class CsrBrokerGuard implements CanActivate {
   constructor(private admin: AdminService, private location: Location) {}
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-      if (this.admin.permissions.can_csr_closer === 1) {
-        return true;
-      } else {
-        this.location.back();
-        return false;
-      }
+      console.log('broker', this.admin.permissions);
+
+      this.admin.loginData$.subscribe(success => {
+        console.log('========', success);
+        // console.log('admin_acl', success['admin_acl']);
+      });
+
+      return true;
+      // if (this.admin.permissions.can_in_house_broker === 1) {
+      //   return true;
+      // } else {
+      //   this.location.back();
+      //   return false;
+      // }
   }
 }

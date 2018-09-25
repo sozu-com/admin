@@ -28,17 +28,22 @@ import { NotesComponent } from './../common-blocks/notes/notes.component';
 import { FillInformationComponent } from './../common-blocks/fill-information/fill-information.component';
 import { ThousandPipe } from '../../pipes/thousand.pipe';
 import { MyChatComponent } from './inhouse-broker/inhouse-broker-detail/my-chat/my-chat.component';
+import { CsrBuyerGuard } from '../../guards/csr-buyer.guard';
+import { DataCollectorGuard } from '../../guards/data-collector.guard';
+import { CsrSellerGuard } from '../../guards/csr-seller.guard';
+import { CsrBrokerGuard } from '../../guards/csr-broker.guard';
+import { CsrCloserGuard } from '../../guards/csr-closer.guard';
 
 const routes: Routes = [
-  { path: 'data-collectors', component: DataCollectorComponent },
-  { path: 'csr-sellers', component: CsrSellerComponent },
-  { path: 'csr-buyers', component: CsrBuyerComponent },
-  { path: 'csr-buyers/:id', component: CsrBuyerDetailComponent },
-  { path: 'inhouse-broker', component: InhouseBrokerComponent },
-  { path: 'inhouse-broker/:id', component: InhouseBrokerDetailComponent },
-  { path: 'chat-with-developer/:id', component: MyChatComponent },
-  { path: 'csr-closers', component: CsrCloserComponent },
-  { path: 'csr-closers/:id', component: CsrCloserDetailComponent }
+  { path: 'data-collectors', component: DataCollectorComponent, canActivate: [DataCollectorGuard] },
+  { path: 'csr-sellers', component: CsrSellerComponent, canActivate: [CsrSellerGuard] },
+  { path: 'csr-buyers', component: CsrBuyerComponent, canActivate: [CsrBuyerGuard] },
+  { path: 'csr-buyers/:id', component: CsrBuyerDetailComponent, canActivate: [CsrBuyerGuard] },
+  { path: 'inhouse-broker', component: InhouseBrokerComponent, canActivate: [CsrBrokerGuard] },
+  { path: 'inhouse-broker/:id', component: InhouseBrokerDetailComponent, canActivate: [CsrBrokerGuard] },
+  { path: 'chat-with-developer/:id', component: MyChatComponent, canActivate: [CsrBrokerGuard] },
+  { path: 'csr-closers', component: CsrCloserComponent, canActivate: [CsrCloserGuard] },
+  { path: 'csr-closers/:id', component: CsrCloserDetailComponent, canActivate: [CsrCloserGuard] }
 ];
 
 @NgModule({

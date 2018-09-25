@@ -38,7 +38,7 @@ export class InhouseBrokerDetailComponent implements OnInit {
     this.route.params.subscribe( params => {
       this.parameter.lead_id = params.id;
       this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
-        console.log('details', r);
+        // console.log('details', r);
         this.parameter.lead = r.data.lead;
         this.setFillInformationData(r);
         this.parameter.favorites = r.data.favorites;
@@ -76,11 +76,11 @@ export class InhouseBrokerDetailComponent implements OnInit {
             element.is_selected = 1;
           }
           // element.is_selected = p.id === element.id ? 1 : 0;
-          console.log('====', element.is_selected, element.id);
+          // console.log('====', element.is_selected, element.id);
         });
       });
-console.log('fillInfo', this.fillInfo);
-console.log('r.data.lead.prefs-->', r.data.lead.prefs);
+// console.log('fillInfo', this.fillInfo);
+// console.log('r.data.lead.prefs-->', r.data.lead.prefs);
       this.fillInfo.car_types.forEach(element => {
         element.is_selected = (r.data.lead.prefs != null) &&
         r.data.lead.prefs.car_type_id && (r.data.lead.prefs.car_type_id === element.id) ? 1 : 0;
@@ -103,7 +103,7 @@ console.log('r.data.lead.prefs-->', r.data.lead.prefs);
           // element.is_selected = c.id === element.id ? 1 : 0;
         });
       });
-      console.log('leads/getPrefOptions', this.fillInfo);
+      // console.log('leads/getPrefOptions', this.fillInfo);
     });
 
     if (r.data.lead.prefs !== null) {

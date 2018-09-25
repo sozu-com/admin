@@ -42,7 +42,7 @@ export class FillInformationComponent implements OnInit {
   }
 
   saveDate(s) {
-    console.log('save', s);
+    // console.log('save', s);
   }
 
   addPreferences() {
@@ -70,15 +70,15 @@ export class FillInformationComponent implements OnInit {
     this.fillInfo.kid_count = this.fillInfo.kid_count === true || this.fillInfo.kid_count.toString() === '1' ? '1' : '0';
     this.fillInfo.min_price = this.fillInfo.price_range[0];
     this.fillInfo.max_price = this.fillInfo.price_range[1];
-    console.log('before', this.fillInfo);
+    // console.log('before', this.fillInfo);
     if (this.fillInfo.planning_to_buy === 'Invalid date') {
-console.log('yes');
+// console.log('yes');
       this.fillInfo.planning_to_buy = '';
     } else {
-      console.log('np');
+      // console.log('np');
       this.fillInfo.planning_to_buy = new ChatTimePipe().transform(this.fillInfo.planning_to_buy, 'YYYY-MM-DD HH:MM:SS', 3);
     }
-    console.log('fil', this.fillInfo);
+    // console.log('fil', this.fillInfo);
     this.admin.postDataApi('leads/addPreferences', this.fillInfo).subscribe(r => {
       swal('Success', this.constant.successMsg.DETAILS_UPDATED_SUCCESSFULLY, 'success');
     });

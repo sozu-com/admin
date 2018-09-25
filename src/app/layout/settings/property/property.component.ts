@@ -78,7 +78,7 @@ export class PropertyComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('addConfigurations', success);
+          // console.log('addConfigurations', success);
           // this.parameter.loading = false;
           const text = id ?
             this.constant.successMsg.PROPERTY_CONFIG_UPDATED_SUCCESSFULLY :
@@ -114,7 +114,7 @@ export class PropertyComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('addPropertyType', success);
+          // console.log('addPropertyType', success);
           // this.parameter.loading = false;
           const text = id ?
             this.constant.successMsg.PROPERTY_TYPE_UPDATED_SUCCESSFULLY :
@@ -135,7 +135,7 @@ export class PropertyComponent implements OnInit {
 
 
   addAmenity(id, icon, name_en, name_es, status, type) {
-console.log('--', id, icon, name_en, name_es, status, type);
+// console.log('--', id, icon, name_en, name_es, status, type);
     // if (type !== 'add') {this.modalRef.hide(); }
     if (type === 'edit') {this.modalRef.hide(); }
 
@@ -157,7 +157,7 @@ console.log('--', id, icon, name_en, name_es, status, type);
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('addPropertyAmenity', success);
+          // console.log('addPropertyAmenity', success);
           // this.parameter.loading = false;
           const text = id ?
           this.constant.successMsg.AMENITY_UPDATED_SUCCESSFULLY :
@@ -185,7 +185,7 @@ console.log('--', id, icon, name_en, name_es, status, type);
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('getConfigurations', success);
+          // console.log('getConfigurations', success);
           // this.parameter.loading = false;
           this.parameter.items = success.data;
           this.parameter.total = success.data.length;
@@ -210,7 +210,7 @@ console.log('--', id, icon, name_en, name_es, status, type);
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('getPropertyTypes', success);
+          // console.log('getPropertyTypes', success);
           // this.parameter.loading = false;
           this.parameter.propertyTypes = success.data;
           this.parameter.propertyTypesCount = success.data.length;
@@ -234,7 +234,7 @@ console.log('--', id, icon, name_en, name_es, status, type);
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('getPropertyAmenities', success);
+          // console.log('getPropertyAmenities', success);
           // this.parameter.loading = false;
           this.parameter.amenities = success.data;
           this.parameter.amenitiesCount = success.data.length;

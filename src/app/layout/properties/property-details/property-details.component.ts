@@ -27,7 +27,7 @@ export class PropertyDetailsComponent implements OnInit {
     this.admin.generalApi('user/getPropertyById', {property_id: property_id})
       .subscribe(success => {
         this.property = success.data;
-        console.log('getPropertyById', this.property);
+        // console.log('getPropertyById', this.property);
       });
   }
 }

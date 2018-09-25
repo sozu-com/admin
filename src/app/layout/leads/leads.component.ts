@@ -23,7 +23,7 @@ export class LeadsComponent implements OnInit {
   ngOnInit() {
     this.parameter.page = 1;
     this.parameter.flag = 2;
-    this.getListing();
+    // this.getListing();
   }
 
   changeFlag(flag) {
@@ -58,7 +58,7 @@ export class LeadsComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log(success);
+          // console.log(success);
           this.parameter.loading = false;
           this.items = success.data;
           this.parameter.total = success.total;

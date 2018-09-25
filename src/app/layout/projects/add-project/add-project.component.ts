@@ -77,7 +77,7 @@ export class AddProjectComponent implements OnInit {
         if (this.id) {/* if id exists edit mode */
           this.admin.postDataApi('getProjectById', {building_id: this.id}).subscribe(r => {
             this.model = JSON.parse(JSON.stringify(r.data));
-            console.log(this.model);
+            // console.log(this.model);
             this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.model.main_image})`);
             this.image2 = this.sanitization.bypassSecurityTrustStyle(`url(${this.model.images[0].image})`);
             this.model.custom_attributes = this.model.custom_values;
@@ -125,7 +125,7 @@ export class AddProjectComponent implements OnInit {
       reader.onload = (e: any) => {
           this.url = e.target.result;
           this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.url})`);
-          console.log('this.url, this.image1', this.url, this.image1);
+          // console.log('this.url, this.image1', this.url, this.image1);
       };
       const input = new FormData();
       input.append('image', event.target.files[0]);
@@ -133,7 +133,7 @@ export class AddProjectComponent implements OnInit {
       this.admin.postDataApi('saveImage', input)
       .subscribe(
         success => {
-          console.log('successimage', success);
+          // console.log('successimage', success);
           this.model.cover_image = success.data.image;
           // this.parameter.loading = false;
         }
@@ -153,7 +153,7 @@ export class AddProjectComponent implements OnInit {
   onSelectFile2(event) {
     if (event.target.files && event.target.files[0]) {
 
-      console.log('url2', this.url2);
+      // console.log('url2', this.url2);
 
       if (this.url2.length === 6 || event.target.files.length > 6) {
         swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
@@ -184,7 +184,7 @@ export class AddProjectComponent implements OnInit {
     this.url2.splice(index, 1);
     this.imageEvent.splice(index, 1);
     this.model.images.splice(index, 1);
-    console.log('----------', this.url2, this.imageEvent);
+    // console.log('----------', this.url2, this.imageEvent);
   }
 
   removeImageMulti(index) {
@@ -193,7 +193,7 @@ export class AddProjectComponent implements OnInit {
   }
 
   saveImages() {
-    console.log('----------', this.url2, this.imageEvent);
+    // console.log('----------', this.url2, this.imageEvent);
     const input = new FormData();
     for (let index = 0; index < this.imageEvent.length; index++) {
       input.append('image', this.imageEvent[index]);
@@ -201,7 +201,7 @@ export class AddProjectComponent implements OnInit {
       this.admin.postDataApi('saveImage', input)
       .subscribe(
         success => {
-          console.log('successimage' + index, success);
+          // console.log('successimage' + index, success);
           this.model.images.push(success.data.image);
           this.model.building_images.push(success.data.image);
           // this.parameter.loading = false;
@@ -227,7 +227,7 @@ export class AddProjectComponent implements OnInit {
       this.admin.postDataApi('saveImage', input)
       .subscribe(
         success => {
-          console.log('successimage', success);
+          // console.log('successimage', success);
           // this.parameter.loading = false;
           this.FU[key] = success.data.image;
           model[key] = success.data.image;
@@ -274,7 +274,7 @@ export class AddProjectComponent implements OnInit {
       this.admin.postDataApi('saveImage', input)
       .subscribe(
         success => {
-          console.log(success.data.image);
+          // console.log(success.data.image);
           this.new_config.images.push(success.data.image);
           // this.parameter.loading = false;
         }
@@ -313,7 +313,7 @@ export class AddProjectComponent implements OnInit {
           // set latitude, longitude and zoom
           this.latitude = place.geometry.location.lat();
           this.longitude = place.geometry.location.lng();
-          console.log(place);
+          // console.log(place);
           this.model.lat = this.latitude;
           this.model.lng = this.longitude;
           if (place.formatted_address) {
@@ -341,8 +341,8 @@ export class AddProjectComponent implements OnInit {
     this.latitude = $event.coords.lat;
     this.longitude = $event.coords.lng;
     this.getGeoLocation(this.latitude, this.longitude);
-    console.log($event.coords.lat);
-    console.log($event);
+    // console.log($event.coords.lat);
+    // console.log($event);
   }
 
 
@@ -416,12 +416,12 @@ export class AddProjectComponent implements OnInit {
   selectConfiguration(id, parentModel) {
     const childModel = this.all_configurations.filter(r => r.id === id);
     parentModel.config = childModel[0];
-    console.log(parentModel);
+    // console.log(parentModel);
   }
 
   editConfiguration(config) {
     // console.log(this.new_config);
-    console.log(config);
+    // console.log(config);
     this.new_config = config;
     // this.new_config.images = [];
     this.new_config.images_files = [];
@@ -439,7 +439,7 @@ export class AddProjectComponent implements OnInit {
   addNewConfig() {
     this.closeConfigPopup.nativeElement.click();
     this.saveImagesConfig();
-    console.log(this.new_config);
+    // console.log(this.new_config);
     // this.model.configurations.push(this.new_config);
     // this.new_config = new Configuration;
     if (this.new_config_booleon === true) {
@@ -462,7 +462,7 @@ export class AddProjectComponent implements OnInit {
     // this.model.dev_countrycode = this.model.developer.name;
 
     this.model.amenities = this.all_amenities.filter(op => { if (op.selected === true) { return op; }}).map(op => op.id);
-    console.log(this.model);
+    // console.log(this.model);
 
     if (!this.id) {
       delete this.model.id;
@@ -471,7 +471,7 @@ export class AddProjectComponent implements OnInit {
 
     this.admin.postDataApi('addProject', this.model).subscribe(
       success => {
-        console.log(success);
+        // console.log(success);
         swal('Success', success.message, 'success');
       }
       // error => {

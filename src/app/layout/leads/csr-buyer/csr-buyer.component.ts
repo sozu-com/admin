@@ -67,7 +67,7 @@ export class CsrBuyerComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('succ', success);
+          // console.log('succ', success);
           this.items = success.data;
           this.parameter.total = success.total_count;
         });
@@ -111,7 +111,7 @@ export class CsrBuyerComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('success', success);
+          // console.log('success', success);
           swal('Success', this.parameter.successText, 'success');
           // this.items[index] = success.data;
           this.items[index].is_blocked = flag;

@@ -97,26 +97,11 @@ export class BanksComponent implements OnInit {
 
   addBank(formdata: NgForm) {
     this.parameter.url = this.model.id !== '' ? 'updateNewUser' : 'addBank';
-
-    // const input = new FormData();
-
-    // if (this.model.id !== '') { input.append('id', this.model.id); }
-    // input.append('name', this.model.name);
-    // input.append('country_code', this.model.country_code);
-    // input.append('dial_code', '+' + this.model.dial_code);
-    // input.append('phone', this.model.phone);
-    // input.append('email', this.model.email);
-    // input.append('floating_int', this.model.floating_int);
-    // input.append('interests', JSON.stringify(this.model.interests));
-
     this.model.dial_code = '+' + this.model.dial_code;
     this.model.interests = JSON.stringify(this.model.interestsArray);
-    // if (this.parameter.image) { input.append('image', this.parameter.image); }
-
     this.admin.postDataApi(this.parameter.url, this.model)
       .subscribe(
         success => {
-          console.log('success', success);
           if (success.success === '0') {
             swal('Error', success.message, 'error');
           }else {
@@ -137,7 +122,6 @@ export class BanksComponent implements OnInit {
 
 
   editUser(userdata, index) {
-    console.log('edit user', userdata);
     this.parameter.index = index;
     this.modalOpen.nativeElement.click();
     this.model.id = userdata.id;
@@ -157,7 +141,6 @@ export class BanksComponent implements OnInit {
     this.onCountryChange(d);
 
     this.initialCountry = {initialCountry: userdata.country_code};
-    console.log(this.initialCountry, this.model);
 
     this.model.image = userdata.image != null ? userdata.image : '';
     if (this.model.image) {
@@ -209,8 +192,6 @@ export class BanksComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('success', success);
-          // this.parameter.loading = false;
           swal('Success', success.message, 'success');
           this.parameter.items[this.parameter.index] = success.data;
         });

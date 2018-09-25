@@ -36,7 +36,7 @@ export class CommonService {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('countries', success);
+          // console.log('countries', success);
           this.parameter.loading = false;
           this.country.next(success.data);
         },
@@ -63,7 +63,7 @@ export class CommonService {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('states', success);
+          // console.log('states', success);
           this.parameter.loading = false;
           this.state.next(success.data);
         },
@@ -92,7 +92,7 @@ export class CommonService {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('cities', success);
+          // console.log('cities', success);
           this.parameter.loading = false;
           this.city.next(success.data);
         },
@@ -127,7 +127,7 @@ export class CommonService {
   }
 
   setPropertyDetails(data) {
-    console.log('data', data);
+    // console.log('data', data);
     this.propertyDetails.next(data);
   }
 

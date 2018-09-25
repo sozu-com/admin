@@ -18,6 +18,7 @@ export class AdminService {
   public deviceId: string = environment.deviceId;
   public socketUrl: string = environment.socketUrl;
 
+  public permissions: any = {};
   public admin_acl: any = {};
   public login = new BehaviorSubject({});
   loginData$ = this.login.asObservable();
@@ -56,7 +57,7 @@ export class AdminService {
   }
 
   errorHandler(error: Response) {
-    console.log('error handler');
+    // console.log('error handler');
     return Observable.throw(error || 'Server error');
     // return Observable.throw(error.json() || 'Server error');
   }
@@ -82,11 +83,13 @@ export class AdminService {
                 .map(response => {
                   const r = response.json();
                   localStorage.setItem('token', r.data.token);
+                  this.login.next(r.data);
+                  this.permissions = r.data.permissions;
                   const dd = r.data.m.map((obj, index) => {
                     const key =  Object.keys(obj)[0];
                     this.admin_acl[key] =  obj[key];
                   });
-                  this.login.next(r.data);
+                  console.log(this.admin_acl, this.permissions);
                   return r;
                 })
                 .catch(this.errorHandler);
@@ -120,7 +123,7 @@ export class AdminService {
     const input = new FormData();
     return this.http.post(this.baseUrl + url, input, {headers: headers})
           .map(response => {
-            console.log('country', response);
+            // console.log('country', response);
             const r = response.json();
             this.country.next(r.data);
             return r;

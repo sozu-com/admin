@@ -80,7 +80,7 @@ export class LocationComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('countries', success);
+          // console.log('countries', success);
           // this.parameter.loading = false;
           this.parameter.countries1 = success.data;
           if (this.parameter.countries1.length !== 0) {
@@ -112,7 +112,7 @@ export class LocationComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('countries', success);
+          // console.log('countries', success);
           // this.parameter.loading = false;
           this.parameter.countries2 = success.data;
           if (this.parameter.countries2.length !== 0) {
@@ -143,7 +143,7 @@ export class LocationComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('countries', success);
+          // console.log('countries', success);
           // this.parameter.loading = false;
           this.parameter.countries = success.data;
         }
@@ -172,7 +172,7 @@ export class LocationComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('states', success);
+          // console.log('states', success);
           // this.parameter.loading = false;
           this.parameter.states1 = success.data;
           if (this.parameter.states1.length !== 0) {
@@ -205,7 +205,7 @@ export class LocationComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('states', success);
+          // console.log('states', success);
           // this.parameter.loading = false;
           this.parameter.states = success.data;
         }
@@ -235,7 +235,7 @@ export class LocationComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('states', success);
+          // console.log('states', success);
           // this.parameter.loading = false;
           this.parameter.states2 = success.data;
         }
@@ -266,7 +266,7 @@ export class LocationComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('cities', success);
+          // console.log('cities', success);
           // this.parameter.loading = false;
           this.parameter.cities = success.data;
         }
@@ -324,7 +324,7 @@ export class LocationComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('success', success);
+          // console.log('success', success);
           const text = this.location.countryModel.country_id || country_id ?
             this.constant.successMsg.COUNTRY_UPDATED_SUCCESSFULLY :
             this.constant.successMsg.COUNTRY_ADDED_SUCCESSFULLY;
@@ -401,7 +401,7 @@ export class LocationComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('success1', success);
+          // console.log('success1', success);
           const text = this.location.stateModel.state_id || state_id ?
           this.constant.successMsg.STATE_UPDATED_SUCCESSFULLY :
           this.constant.successMsg.STATE_ADDED_SUCCESSFULLY;
@@ -476,7 +476,7 @@ export class LocationComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('success2', success);
+          // console.log('success2', success);
           const text = this.location.cityModel.city_id || city_id ?
           this.constant.successMsg.CITY_UPDATED_SUCCESSFULLY : this.constant.successMsg.CITY_ADDED_SUCCESSFULLY;
           swal('Success', text, 'success');

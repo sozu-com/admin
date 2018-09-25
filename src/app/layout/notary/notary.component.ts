@@ -145,7 +145,7 @@ export class NotaryComponent implements OnInit {
 
 
   editUser(userdata, index) {
-    console.log('edit user', userdata);
+    // console.log('edit user', userdata);
     this.parameter.index = index;
     this.modalOpen.nativeElement.click();
     this.model.id = userdata.id;
@@ -165,7 +165,7 @@ export class NotaryComponent implements OnInit {
     this.onCountryChange(d);
 
     this.initialCountry = {initialCountry: userdata.country_code};
-    console.log(this.initialCountry, this.model);
+    // console.log(this.initialCountry, this.model);
 
     this.model.image = userdata.image != null ? userdata.image : '';
     if (this.model.image) {
@@ -217,7 +217,7 @@ export class NotaryComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('success', success);
+          // console.log('success', success);
           // this.parameter.loading = false;
           swal('Success', success.message, 'success');
           this.parameter.items[this.parameter.index] = success.data;

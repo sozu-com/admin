@@ -56,14 +56,12 @@ export class AclComponent implements OnInit {
     this.admin.postDataApi('getAclList', {})
       .subscribe(
         success => {
-          // this.parameter.data = success.data;
           success.data.forEach(element => {
             const e = new Permission();
             e.acl_id = element.id; e.acl.name = element.name;
             e.can_create = 1; e.can_update = 1; e.can_read = 1; e.can_delete = 1;
             this.model.admin_acl.push(e);
           });
-          console.log('model', this.model);
         });
   }
 
@@ -88,7 +86,6 @@ export class AclComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('getAclUsers', success);
           this.parameter.items = success.data;
           this.parameter.total = success.total;
         });
@@ -97,7 +94,6 @@ export class AclComponent implements OnInit {
   setPermission(param, index) {
     this.model.admin_acl[index][param] = this.model.admin_acl[index][param] &&
     this.model.admin_acl[index][param] === 1 ? 0 : 1;
-    console.log(this.model.admin_acl);
   }
 
   changeListner(event) {
@@ -120,12 +116,9 @@ export class AclComponent implements OnInit {
   add(formdata: NgForm) {
     this.parameter.url = this.model.id !== '' ? 'updateAclUser' : 'addAclUser';
     this.model.dial_code = '+' + this.model.dial_code;
-    // this.model.acl = JSON.stringify(this.model.acl);
-    console.log('model', this.model);
     this.admin.postDataApi(this.parameter.url, this.model)
       .subscribe(
         success => {
-          console.log('success', success);
           if (success.success === '0') {
             swal('Error', success.message, 'error');
           }else {
@@ -192,7 +185,6 @@ export class AclComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('success', success);
           // this.parameter.loading = false;
           swal('Success', success.message, 'success');
           this.parameter.items[this.parameter.index] = success.data;

@@ -40,7 +40,7 @@ export class InhouseUsersComponent implements OnInit {
     private sanitization: DomSanitizer) {
       this.admin.countryData$.subscribe(success => {
         this.parameter.allCountry = success;
-        console.log('allCountry', success);
+        // console.log('allCountry', success);
       });
     }
 
@@ -224,20 +224,20 @@ export class InhouseUsersComponent implements OnInit {
     this.model.address.map((item) => {
       let value = item['localities'];
       value = value.toString();
-      console.log('value', value);
+      // console.log('value', value);
       if (value === '0') {
-        console.log('zz');
+        // console.log('zz');
         this.testObject.push(value);
       } else {
         if (this.testObject.indexOf(value) === -1) {
-          console.log('ssssss', this.testObject.indexOf(value));
+          // console.log('ssssss', this.testObject.indexOf(value));
           this.testObject.push(value);
         } else {
           this.seenDuplicate = true;
         }
       }
     });
-console.log('address', this.model.address, this.seenDuplicate);
+// console.log('address', this.model.address, this.seenDuplicate);
     if (this.model.address[0].countries === '' || this.model.address[0].states === ''  ||
       this.model.address[0].cities === '' || this.model.address[0].localities === '' ) {
         swal('Error', 'Please choose location.', 'error');
@@ -275,17 +275,17 @@ console.log('address', this.model.address, this.seenDuplicate);
               const text = this.model.userModel.id === '' ? 'Added successfully.' : 'Updated successfully.';
               swal('Success', text, 'success');
 
-              if ((formdata.value.is_broker_seller_dev === true && this.parameter.userType === 'csr-sellers') ||
-                  (formdata.value.is_buyer_renter === true && this.parameter.userType === 'csr-buyers') ||
-                  (formdata.value.is_broker === true && this.parameter.userType === 'inhouse-broker') ||
-                  (formdata.value.is_data_collector === true && this.parameter.userType === 'data-collectors') ||
-                  (formdata.value.is_csr_closer === true && this.parameter.userType === 'csr-closers')) {
 
-                if (this.model.userModel.id !== '') {
-                  // edit -- replace
-                  this.parameter.items[this.parameter.index] = success.data;
-                } else {
-                  // add - push
+              if (this.model.userModel.id !== '') {
+                // edit -- replace
+                this.parameter.items[this.parameter.index] = success.data;
+              } else {
+                // add - push
+                if ((formdata.value.is_broker_seller_dev === true && this.parameter.userType === 'csr-sellers') ||
+                (formdata.value.is_buyer_renter === true && this.parameter.userType === 'csr-buyers') ||
+                (formdata.value.is_broker === true && this.parameter.userType === 'inhouse-broker') ||
+                (formdata.value.is_data_collector === true && this.parameter.userType === 'data-collectors') ||
+                (formdata.value.is_csr_closer === true && this.parameter.userType === 'csr-closers')) {
                   this.parameter.items.push(success.data);
                 }
               }
@@ -315,18 +315,14 @@ console.log('address', this.model.address, this.seenDuplicate);
     this.model.userModel.is_data_collector = userdata.permissions && userdata.permissions.can_data_collector === 1 ? true : false;
     this.model.userModel.is_csr_closer = userdata.permissions && userdata.permissions.can_csr_closer === 1 ? true : true;
 
-    // userdata.countries = ['19', '19'];
-    // userdata.states = ['4', '4'];
-    // userdata.cities = ['4', '4'];
-    // userdata.localities = ['3', '4'];
     for (let ind = 0; ind < userdata.countries.length; ind++) {
 
       const tempAdd = {
         countries: userdata.countries[ind].id,
-        states: userdata.states[ind] ? userdata.states[ind].id : '0',
-        cities: userdata.cities[ind] ? userdata.cities[ind].id : '0',
-        localities: userdata.localities[ind] ? userdata.localities[ind].id : '0',
-        buildings: userdata.buildings[ind] ? userdata.buildings[ind].id : '0'
+        states: userdata.states && userdata.states[ind] ? userdata.states[ind].id : '0',
+        cities: userdata.cities && userdata.cities[ind] ? userdata.cities[ind].id : '0',
+        localities: userdata.localities && userdata.localities[ind] ? userdata.localities[ind].id : '0',
+        buildings: userdata.buildings && userdata.buildings[ind] ? userdata.buildings[ind].id : '0'
       };
 
       this.model.address[ind] = tempAdd;
@@ -350,10 +346,10 @@ console.log('address', this.model.address, this.seenDuplicate);
 
       const tempAdd = {
         countries: userdata.countries[ind].id,
-        states: userdata.states[ind].id,
-        cities: userdata.cities[ind].id,
-        localities: userdata.localities[ind].id,
-        buildings: userdata.buildings[ind].id
+        states: userdata.states[ind].id ? userdata.states[ind].id : '0',
+        cities: userdata.cities[ind].id ? userdata.cities[ind].id : '0',
+        localities: userdata.localities[ind].id ? userdata.localities[ind].id : '0',
+        buildings: userdata.buildings[ind].id ? userdata.buildings[ind].id : '0'
       };
 
       this.model.address[ind] = tempAdd;
@@ -538,7 +534,7 @@ console.log('address', this.model.address, this.seenDuplicate);
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('data', success);
+          // console.log('data', success);
           this.parameter.items = success.data;
           this.parameter.total = success.total;
           // this.parameter.items.reverse();

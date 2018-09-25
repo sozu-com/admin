@@ -68,7 +68,7 @@ export class InhouseBrokerComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('inhouse', success);
+          // console.log('inhouse', success);
           this.items = success.data;
           this.parameter.total = success.total_count;
         }

@@ -25,7 +25,7 @@ export class AppHeaderComponent {
     this.admin.loginData$.subscribe(success => {
       this.fullName = success['name'];
       this.image = success['image'];
-      console.log('admin_acl', success['admin_acl']);
+      // console.log('admin_acl', success['admin_acl']);
     });
   }
 
@@ -50,7 +50,8 @@ export class AppHeaderComponent {
     swal('Success', 'Logout successfully.', 'success');
     localStorage.removeItem('token');
     localStorage.removeItem('isLoggedin');
-    // this.admin.unsetUserLoggedIn();
+    this.admin.admin_acl = {};
+    this.admin.permissions = {};
     this.router.navigate(['']);
   }
 }

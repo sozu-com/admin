@@ -64,7 +64,7 @@ export class DocumentsComponent implements OnInit {
       .subscribe(
         success => {
           this.model = new Document();
-          console.log('addDocumentOptions', success);
+          // console.log('addDocumentOptions', success);
           const text = id ?
           this.constant.successMsg.DOCUMENT_NAME_UPDATED_SUCCESSFULLY :
           this.constant.successMsg.DOCUMENT_NAME_ADDED_SUCCESSFULLY;
@@ -80,7 +80,7 @@ export class DocumentsComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, {})
       .subscribe(
         success => {
-          console.log('getDocumentOptions', success);
+          // console.log('getDocumentOptions', success);
           this.parameter.items = success.data;
           this.parameter.total = success.data.length;
         }
@@ -109,7 +109,7 @@ export class DocumentsComponent implements OnInit {
 
 
   checkIfSpanishNameEntered(id, name_en, name_es, status, type) {
-    console.log('id, name_en, name_es, status, type', id, name_en, name_es, status, type);
+    // console.log('id, name_en, name_es, status, type', id, name_en, name_es, status, type);
     const self = this;
     if (name_es === undefined) {
       swal({

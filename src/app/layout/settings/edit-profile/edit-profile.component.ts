@@ -66,7 +66,7 @@ export class EditProfileComponent implements OnInit {
           console.log('succccc', success);
           // this.parameter.loading = false;
           this.admin.login.next(success.data);
-          swal('Error', success.message, 'error');
+          swal('Success', success.message, 'success');
 
           // this.swal.success({
           //   title: 'Success',

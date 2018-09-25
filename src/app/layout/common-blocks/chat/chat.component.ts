@@ -58,13 +58,10 @@ export class ChatComponent implements OnInit {
   }
 
   getMessages() {
-    // const url = this.sent_as === 1 ? 'conversation/getMessages' : 'conversation/chatListingBroker';
     this.admin.postDataApi('conversation/getMessages',
     {lead_id: this.lead_id, user_id: this.user_id, sent_as: this.sent_as}).subscribe(res => {
-      console.log('getMessages', res);
       this.parameter.messages = res.data[0].messages;
       if (this.parameter.messages.length < 30) {this.loadmore = false; }
-      console.log('loadmore', this.loadmore);
       this.parameter.conversation_id = res.data[0].id;
       this.scrollToBottom();
     });
@@ -73,7 +70,6 @@ export class ChatComponent implements OnInit {
   public initSocket(): void {
     this.parameter.socket = io.connect(this.admin.socketUrl);
     this.parameter.socket.on('connect', fun => {
-      console.log('Socket Connected');
       this.parameter.socket_id = this.parameter.socket.id;
       this.parameter.connected = this.parameter.socket.connected;
 
@@ -83,12 +79,9 @@ export class ChatComponent implements OnInit {
         device_id: this.admin.deviceId + '_' + this.admin_id
       };
       if (this.parameter.connected) {
-        console.log('data', data);
         this.parameter.socket.emit('add-admin', data, (res: any) => {
         });
         this.parameter.socket.on('message', (response: any) => {
-          console.log('message socket', response.data.conversation_id, this.parameter.conversation_id);
-          console.log('response', response);
           if (response.data.conversation_id === this.parameter.conversation_id) {
             this.scrollToBottom();
             this.parameter.messages.push(response.data);
@@ -180,7 +173,6 @@ export class ChatComponent implements OnInit {
       this.cs.saveAttachment(event.target.files[0]).subscribe(
         success => {
           model.attachment = success['data'].name;
-          console.log('==>', model);
           this.sendMessage(model);
         }
       );
@@ -240,7 +232,6 @@ export class ChatComponent implements OnInit {
   newcanvas(video, videoFile, model) {
 
     const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-    console.log(canvas);
     const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
                                                       0, 0, canvas.width, canvas.height);
     const ImageURL = canvas.toDataURL('image/jpeg');
@@ -248,12 +239,11 @@ export class ChatComponent implements OnInit {
     const fileToUpload = this.dataURLtoFile(ImageURL, 'tempFile.png');
     this.cs.saveVideo(videoFile, fileToUpload).subscribe(
       success => {
-        console.log('image', success);
         model.video = success['data'].video;
         model.image = success['data'].thumb;
         this.sendMessage(model);
       }, error => {
-        console.log(error);
+        // console.log(error);
       }
     );
   }
@@ -298,17 +288,12 @@ export class ChatComponent implements OnInit {
       swal('Error', 'Please enter some text.', 'error');
     } else {
       model.conversation_id =  this.parameter.conversation_id;
-      console.log('Appending', model);
       this.admin.postDataApi('conversation/sendMessage', model).subscribe(r => {
-        console.log('sendMessage', r);
         setTimeout(() => {
           this.scrollToBottom();
         }, 100);
         if (model.loading === true) {
           model.loading = false;
-          // const date = new Date();
-          // model.updated_at = date;
-          // model.updated_at = new ChatTimePipe().transform(date, 'YYYY-MM-DD HH:MM:SS', 3);
         }
       },
       error => {
@@ -324,12 +309,10 @@ export class ChatComponent implements OnInit {
     this.admin.postDataApi('conversation/getMessages',
     {lead_id: this.lead_id, user_id: this.user_id,
       sent_as: this.sent_as, last_message_id: this.parameter.messages[0].id}).subscribe(res => {
-      console.log(res);
       this.loadmoring = false;
       this.admin_id = admin_id;
       if (res.data[0].messages.length < 30) {this.loadmore = false; }
       this.parameter.messages = res.data[0].messages.concat(this.parameter.messages);
-      console.log('new data', this.parameter.messages);
     });
   }
 }

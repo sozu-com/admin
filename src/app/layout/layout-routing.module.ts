@@ -9,6 +9,7 @@ import { InhouseUsersComponent } from './inhouse-users/inhouse-users.component';
 import { EditTemplateComponent } from './edit-template/edit-template.component';
 import { GenerateThumbComponent } from './generate-thumb/generate-thumb.component';
 import { LeadsComponent } from './leads/leads.component';
+import { CsrBuyerGuard } from '../guards/csr-buyer.guard';
 
 const routes: Routes = [
     {

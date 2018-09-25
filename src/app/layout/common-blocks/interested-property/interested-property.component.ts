@@ -128,7 +128,7 @@ export class InterestedPropertyComponent implements OnInit {
   propertySearch(city_id) {
     this.parameter.city_id = city_id;
     this.admin.postDataApi('propertySearch', {city_id: city_id, lead_id: this.lead_id}).subscribe(r => {
-      console.log('==>', r);
+      // console.log('==>', r);
       this.parameter.items = r.data;
     });
   }

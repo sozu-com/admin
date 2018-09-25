@@ -89,7 +89,7 @@ export class ProjectComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('addPossessionStatus', success);
+          // console.log('addPossessionStatus', success);
           // this.parameter.loading = false;
           const text = id ?
           this.constant.successMsg.PROJECT_POSSESSION_UPDATED_SUCCESSFULLY :
@@ -123,7 +123,7 @@ export class ProjectComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('addBuildingType', success);
+          // console.log('addBuildingType', success);
           // this.parameter.loading = false;
           const text = id ?
             this.constant.successMsg.PROJECT_TYPE_UPDATED_SUCCESSFULLY :
@@ -165,7 +165,7 @@ export class ProjectComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('addAmenity', success);
+          // console.log('addAmenity', success);
           // this.parameter.loading = false;
           const text = id ? this.constant.successMsg.AMENITY_UPDATED_SUCCESSFULLY : this.constant.successMsg.AMENITY_ADDED_SUCCESSFULLY;
           swal('Success', text, 'success');
@@ -191,7 +191,7 @@ export class ProjectComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('getPossessionStatuses', success);
+          // console.log('getPossessionStatuses', success);
           // this.parameter.loading = false;
           this.parameter.items = success.data;
           this.parameter.total = success.data.length;
@@ -216,7 +216,7 @@ export class ProjectComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('getBuildingTypes', success);
+          // console.log('getBuildingTypes', success);
           // this.parameter.loading = false;
           this.parameter.projectTypes = success.data;
           this.parameter.projectTypesCount = success.data.length;
@@ -240,7 +240,7 @@ export class ProjectComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('getAmenities', success);
+          // console.log('getAmenities', success);
           // this.parameter.loading = false;
           this.parameter.amenities = success.data;
           this.parameter.amenitiesCount = success.data.length;

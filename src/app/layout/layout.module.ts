@@ -31,6 +31,11 @@ import { HttpInterceptor } from './../services/http-interceptor';
 import { GenerateThumbComponent } from './generate-thumb/generate-thumb.component';
 import { ThousandPipe } from '../pipes/thousand.pipe';
 import { AclPermissionDirective } from '../directives/acl-permission.directive';
+import { CsrBuyerGuard } from '../guards/csr-buyer.guard';
+import { CsrSellerGuard } from '../guards/csr-seller.guard';
+import { CsrBrokerGuard } from '../guards/csr-broker.guard';
+import { CsrCloserGuard } from '../guards/csr-closer.guard';
+import { DataCollectorGuard } from '../guards/data-collector.guard';
 // import { ViewedPropertyComponent } from './common-blocks/src/app/layout/common-blocks/viewed-property/viewed-property.component';
 // import { FillInformationComponent } from './common-blocks/src/app/layout/common-blocks/fill-information/fill-information.component';
 // import { NotesComponent } from './common-blocks/notes/notes.component';
@@ -70,7 +75,18 @@ import { AclPermissionDirective } from '../directives/acl-permission.directive';
         GenerateThumbComponent,
         AclPermissionDirective
     ],
-    providers: [AdminService, CommonService, AuthGuard, HttpInterceptor, Constant],
+    providers: [
+        AdminService,
+        CommonService,
+        AuthGuard,
+        CsrBuyerGuard,
+        CsrSellerGuard,
+        CsrBrokerGuard,
+        CsrCloserGuard,
+        DataCollectorGuard,
+        HttpInterceptor,
+        Constant
+    ],
     bootstrap: [LayoutComponent],
 })
 export class LayoutModule { }
