@@ -7,12 +7,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { AgmCoreModule } from '@agm/core';
 import { Ng2TelInputModule } from 'ng2-tel-input';
+import { AclUserGuard } from '../../guards/acl-user.guard';
 
 
 const routes: Routes = [
-  { path: 'view-projects', component: ProjectsComponent },
-  { path: 'add-project', component: AddProjectComponent },
-  { path: 'edit-project/:id', component: AddProjectComponent }
+  { path: 'view-projects', component: ProjectsComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Building Management', 'can_read', '']}},
+  { path: 'add-project', component: AddProjectComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Building Management', 'can_create', '']}},
+  { path: 'edit-project/:id', component: AddProjectComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Building Management', 'can_update', '']}}
 ];
 
 @NgModule({

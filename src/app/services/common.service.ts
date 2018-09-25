@@ -134,4 +134,10 @@ export class CommonService {
   setData(object) {
     this.data = object;
   }
+
+  checkAccess(key, subkey) {
+    console.log(key, subkey);
+    const obj = this.admin.admin_acl[key];
+    return obj ? obj[subkey] : 0;
+  }
 }

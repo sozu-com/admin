@@ -271,7 +271,8 @@ export class InhouseUsersComponent implements OnInit {
                   buildings: ''
               }];
               this.disabledBuildings = [];
-              this.image1 = '';
+              this.image1 = ''; this.model.userModel.name = ''; this.model.userModel.phone = '';
+              this.model.userModel.email = '';
               const text = this.model.userModel.id === '' ? 'Added successfully.' : 'Updated successfully.';
               swal('Success', text, 'success');
 
@@ -310,10 +311,10 @@ export class InhouseUsersComponent implements OnInit {
     }
 
     this.model.userModel.is_broker_seller_dev = userdata.permissions && userdata.permissions.can_csr_seller === 1 ? true : false;
-    this.model.userModel.is_buyer_renter = userdata.permissions && userdata.permissions.can_csr_buyer === 1 ? true : true;
-    this.model.userModel.is_broker = userdata.permissions && userdata.permissions.can_in_house_broker === 1 ? true : true;
+    this.model.userModel.is_buyer_renter = userdata.permissions && userdata.permissions.can_csr_buyer === 1 ? true : false;
+    this.model.userModel.is_broker = userdata.permissions && userdata.permissions.can_in_house_broker === 1 ? true : false;
     this.model.userModel.is_data_collector = userdata.permissions && userdata.permissions.can_data_collector === 1 ? true : false;
-    this.model.userModel.is_csr_closer = userdata.permissions && userdata.permissions.can_csr_closer === 1 ? true : true;
+    this.model.userModel.is_csr_closer = userdata.permissions && userdata.permissions.can_csr_closer === 1 ? true : false;
 
     for (let ind = 0; ind < userdata.countries.length; ind++) {
 

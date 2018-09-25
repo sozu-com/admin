@@ -38,24 +38,20 @@ export class AddAclComponent implements OnInit {
           this.getAclUserById(this.model.id);
         } else {
           this.model.id = '';
+          this.getAclList();
         }
       });
     // }
-    this.getAclList();
   }
 
   getAclUserById(id) {
     this.admin.postDataApi('getAclUserById', {'id': id})
     .subscribe(
       success => {
-        console.log('success', success);
-        if (success.success === '0') {
-          swal('Error', success.message, 'error');
-        }else {
-          this.model = success.data;
-          this.model.admin_acl = success.data.admin_acl;
-          console.log('====', this.model);
-        }
+        console.log('getAclUserById', success);
+        this.model = success.data;
+        this.model.admin_acl = success.data.admin_acl;
+        console.log('====', this.model);
       });
   }
 
@@ -87,7 +83,6 @@ export class AddAclComponent implements OnInit {
           success.data.forEach(element => {
             const e = new Permission();
             console.log('===', element.name);
-            console.log('===111', e);
             const acl = {name: element.name};
             e.acl_id = element.id; e.acl = acl; e.show = false;
             e.can_create = 1; e.can_update = 1; e.can_read = 1; e.can_delete = 1; e.can_crud = 1;

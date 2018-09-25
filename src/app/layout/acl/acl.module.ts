@@ -7,11 +7,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { AclComponent } from './acl.component';
 import { AddAclComponent } from './add-acl/add-acl.component';
+import { AclUserGuard } from '../../guards/acl-user.guard';
 
 
 const routes: Routes = [
-  { path: '', component: AclComponent },
-  { path: 'add-acl-user/:id', component: AddAclComponent }
+  { path: '', component: AclComponent, canActivate: [AclUserGuard], data: {roles: ['Access Controls', 'can_read', '']} },
+  { path: 'add-acl-user/:id', component: AddAclComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Access Controls', 'can_create', '']} }
 ];
 
 @NgModule({

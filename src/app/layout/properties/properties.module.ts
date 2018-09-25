@@ -9,11 +9,15 @@ import { AgmCoreModule } from '@agm/core';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { PropertyDetailsComponent } from './property-details/property-details.component';
 import { ThousandPipe } from './../../pipes/thousand.pipe';
+import { AclUserGuard } from '../../guards/acl-user.guard';
 
 const routes: Routes = [
-  { path: 'details/:property_id', component: PropertyDetailsComponent},
-  { path: 'add-property/:property_id', component: AddPropertyComponent },
-  { path: 'view-properties', component: PropertiesComponent }
+  { path: 'details/:property_id', component: PropertyDetailsComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_read', '']}},
+  { path: 'add-property/:property_id', component: AddPropertyComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_update', '']}},
+  { path: 'view-properties', component: PropertiesComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_read', '']}}
 ];
 
 @NgModule({

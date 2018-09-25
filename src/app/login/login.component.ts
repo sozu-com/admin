@@ -25,10 +25,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
     this.parameter.loading = false;
     this.projectName = this.constant.projectName;
 
-    const token =  localStorage.getItem('token');
-    if (token) {
-      this.router.navigate(['dashboard/view-inhouse-users/data-collectors']);
-    }
+    // const token =  localStorage.getItem('token');
+    // if (token) {
+    //   this.router.navigate(['dashboard/view-inhouse-users/data-collectors']);
+    // }
   }
 
   @ViewChild('input1') input1: ElementRef;
@@ -65,8 +65,29 @@ export class LoginComponent implements OnInit, AfterViewInit {
     this.admin.adminLogin(email.toLowerCase(), password)
       .subscribe(
         success => {
-          // this.admin.setUserLoggedIn();
-          this.router.navigate(['dashboard/view-inhouse-users/data-collectors']);
+          if (success.data.permissions) {
+            if (success.data.permissions.can_csr_buyer === 1) {
+              console.log('login buyer');
+              this.router.navigate(['dashboard/leads/csr-buyers']);
+            } else if (success.data.permissions.can_data_collector === 1) {
+              console.log('login data collector');
+              this.router.navigate(['dashboard/leads/data-collectors']);
+            } else if (success.data.permissions.can_in_house_broker === 1) {
+              console.log('login broker');
+              this.router.navigate(['dashboard/leads/inhouse-broker']);
+            } else if (success.data.permissions.can_csr_seller === 1) {
+              console.log('login seller');
+              this.router.navigate(['dashboard/leads/csr-closers']);
+            } else if (success.data.permissions.can_csr_closer === 1) {
+              console.log('login closer');
+              this.router.navigate(['dashboard/leads/csr-closers']);
+            } else {
+              console.log('login else');
+              this.router.navigate(['dashboard/view-inhouse-users/data-collectors']);
+            }
+          } else {
+            this.router.navigate(['dashboard/view-inhouse-users/data-collectors']);
+          }
           this.parameter.loading = false;
         },
         error => {

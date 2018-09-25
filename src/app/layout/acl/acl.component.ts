@@ -8,6 +8,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { CommonService } from './../../services/common.service';
 import { Router } from '@angular/router';
 declare let swal: any;
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-acl',
@@ -27,8 +28,15 @@ export class AclComponent implements OnInit {
 
   constructor(public constant: Constant, public model: ACL,
     public admin: AdminService, private cs: CommonService,
-    public sanitization: DomSanitizer, private router: Router
-  ) { }
+    public sanitization: DomSanitizer, private router: Router,
+    private location: Location
+  ) {
+    const dd = this.cs.checkAccess('Broker Management', 'can_read');
+    console.log('==', dd);
+    if (dd === 0) {
+      this.location.back();
+    }
+  }
 
   ngOnInit() {
 
@@ -58,7 +66,7 @@ export class AclComponent implements OnInit {
         success => {
           success.data.forEach(element => {
             const e = new Permission();
-            e.acl_id = element.id; e.acl.name = element.name;
+            e.acl_id = element.id; const acl = {name: element.name}; e.acl = acl;
             e.can_create = 1; e.can_update = 1; e.can_read = 1; e.can_delete = 1;
             this.model.admin_acl.push(e);
           });

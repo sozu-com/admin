@@ -6,11 +6,12 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { BanksComponent } from './banks.component';
+import { AclUserGuard } from '../../guards/acl-user.guard';
 
 
 const routes: Routes = [
-  { path: 'view-banks', component: BanksComponent },
-  // { path: 'view-banks-leads', component: BanksComponent },
+  { path: 'view-banks', component: BanksComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Bank Management', 'can_read', '']}}
 ];
 
 @NgModule({

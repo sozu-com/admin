@@ -32,7 +32,7 @@ export class AuthGuard implements CanActivate {
         .subscribe(
           success1 => {
             console.log('ssss', success1);
-            this.admin.permissions = success1.data.permissions;
+            this.admin.permissions = success1.data.permissions ? success1.data.permissions : {};
             const aclData: any = {};
             const dd = success1.data.m.map((obj, index) => {
               const key =  Object.keys(obj)[0];

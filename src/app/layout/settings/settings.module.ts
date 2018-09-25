@@ -15,14 +15,21 @@ import { PropertyComponent } from './property/property.component';
 import { ProjectComponent } from './project/project.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { DocumentsComponent } from './documents/documents.component';
+import { AclUserGuard } from '../../guards/acl-user.guard';
 
 const routes: Routes = [
-  { path: 'edit-profile', component: EditProfileComponent },
-  { path: 'setting-location', component: LocationComponent},
-  { path: 'setting-locality', component: LocalityComponent},
-  { path: 'setting-property', component: PropertyComponent},
-  { path: 'setting-project', component: ProjectComponent},
-  { path: 'documents-listing', component: DocumentsComponent}
+  { path: 'edit-profile', component: EditProfileComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Settings', 'can_read', '']}},
+  { path: 'setting-location', component: LocationComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Settings', 'can_read', '']}},
+  { path: 'setting-locality', component: LocalityComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Settings', 'can_read', '']}},
+  { path: 'setting-property', component: PropertyComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Settings', 'can_read', '']}},
+  { path: 'setting-project', component: ProjectComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Settings', 'can_read', '']}},
+  { path: 'documents-listing', component: DocumentsComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Settings', 'can_read', '']}}
 ];
 
 @NgModule({

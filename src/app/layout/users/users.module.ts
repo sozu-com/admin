@@ -7,9 +7,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 
 import { UsersComponent } from './users.component';
+import { AclUserGuard } from '../../guards/acl-user.guard';
 
 const routes: Routes = [
-  { path: '', component: UsersComponent }
+  { path: '', component: UsersComponent,
+    canActivate: [AclUserGuard], data: {roles: ['User Management', 'can_read', '']}}
   // { path: 'view-users', component: UsersComponent }
 ];
 
