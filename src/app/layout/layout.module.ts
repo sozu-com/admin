@@ -32,6 +32,7 @@ import { GenerateThumbComponent } from './generate-thumb/generate-thumb.componen
 import { ThousandPipe } from '../pipes/thousand.pipe';
 import { AclPermissionDirective } from '../directives/acl-permission.directive';
 import { AclUserGuard } from '../guards/acl-user.guard';
+import { InhouseUserGuard } from '../guards/inhouse-user.guard';
 // import { ViewedPropertyComponent } from './common-blocks/src/app/layout/common-blocks/viewed-property/viewed-property.component';
 // import { FillInformationComponent } from './common-blocks/src/app/layout/common-blocks/fill-information/fill-information.component';
 // import { NotesComponent } from './common-blocks/notes/notes.component';
@@ -76,6 +77,7 @@ import { AclUserGuard } from '../guards/acl-user.guard';
         CommonService,
         AuthGuard,
         AclUserGuard,
+        InhouseUserGuard,
         HttpInterceptor,
         Constant
     ],
