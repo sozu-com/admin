@@ -10,6 +10,7 @@ import { EditTemplateComponent } from './edit-template/edit-template.component';
 import { GenerateThumbComponent } from './generate-thumb/generate-thumb.component';
 import { LeadsComponent } from './leads/leads.component';
 import { AclUserGuard } from '../guards/acl-user.guard';
+import { InhouseUserGuard } from '../guards/inhouse-user.guard';
 
 const routes: Routes = [
     {
@@ -30,14 +31,16 @@ const routes: Routes = [
             // { path: 'settings', loadChildren: './settings/settings.module#SettingsModule', canActivate: [AclUserGuard]},
             // { path: 'properties', loadChildren: './properties/properties.module#PropertiesModule', canActivate: [AclUserGuard]},
             // { path: 'projects', loadChildren: './projects/projects.module#ProjectsModule', canActivate: [AclUserGuard]},
-            { path: 'view-inhouse-users/:userType', component: InhouseUsersComponent},
+            { path: 'view-inhouse-users/:userType', component: InhouseUsersComponent,
+                canActivate: [InhouseUserGuard]},
             { path: 'change-password', component: ChangePasswordComponent},
             { path: 'notary', loadChildren: './notary/notary.module#NotaryModule'},
             { path: 'banks', loadChildren: './banks/banks.module#BanksModule'},
             { path: 'users', loadChildren: './users/users.module#UsersModule'},
             { path: 'leads', loadChildren: './leads/leads.module#LeadsModule'},
             { path: 'manual-leads', loadChildren: './manual-leads/manual-leads.module#ManualLeadsModule'},
-            { path: 'edit-template', component: EditTemplateComponent},
+            { path: 'edit-template', component: EditTemplateComponent,
+                canActivate: [AclUserGuard], data: {roles: ['Templates', 'can_read', '']}},
             { path: 'generate-thumb', component: GenerateThumbComponent},
             { path: 'reports', loadChildren: './reports/reports.module#ReportsModule'},
             { path: 'access-control-mgt', loadChildren: './acl/acl.module#AclModule'},
