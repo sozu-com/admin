@@ -22,11 +22,24 @@ export class AppHeaderComponent {
   public scrollbarOptions = { axis: 'yx', theme: 'minimal-dark' };
 
   constructor(public admin: AdminService, private router: Router, public adminModel: AdminACL) {
-    this.admin.loginData$.subscribe(success => {
-      this.fullName = success['name'];
-      this.image = success['image'];
-      // console.log('admin_acl', success['admin_acl']);
-    });
+    // this.admin.loginData$.subscribe(success => {
+    //   this.fullName = success['name'];
+    //   this.image = success['image'];
+    // });
+    this.setData();
+  }
+
+  setData() {
+    this.admin.postDataApi('get-details', {})
+      .subscribe(
+        success1 => {
+          this.fullName = success1.data.name;
+          this.image = success1.data.image;
+          const dd = success1.data.m.map((obj, index) => {
+            const key =  Object.keys(obj)[0];
+            this.admin.admin_acl[key] =  obj[key];
+          });
+        });
   }
 
   onLoggedout() {
@@ -50,7 +63,10 @@ export class AppHeaderComponent {
     swal('Success', 'Logout successfully.', 'success');
     localStorage.removeItem('token');
     localStorage.removeItem('isLoggedin');
+    localStorage.removeItem('permissions');
+    localStorage.removeItem('admin_acl');
     this.admin.admin_acl = {};
+    this.admin.admin_acl_array = [];
     this.admin.permissions = {};
     this.router.navigate(['']);
   }

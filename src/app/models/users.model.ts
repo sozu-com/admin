@@ -8,4 +8,5 @@ export class Users {
     email: string;
     interested_in: string;
     user_type: string;
+    address: string;
 }

@@ -91,13 +91,12 @@ export class BanksComponent implements OnInit {
 
   onCountryChange(e) {
     this.model.country_code = e.iso2;
-    this.model.dial_code = e.dialCode;
+    this.model.dial_code = '+' + e.dialCode;
     this.initialCountry = {initialCountry: e.iso2};
   }
 
   addBank(formdata: NgForm) {
     this.parameter.url = this.model.id !== '' ? 'updateNewUser' : 'addBank';
-    this.model.dial_code = '+' + this.model.dial_code;
     this.model.interests = JSON.stringify(this.model.interestsArray);
     this.admin.postDataApi(this.parameter.url, this.model)
       .subscribe(

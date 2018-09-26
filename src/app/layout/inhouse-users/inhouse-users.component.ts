@@ -169,7 +169,7 @@ export class InhouseUsersComponent implements OnInit {
 
   onCountryChange(e) {
     this.model.userModel.country_code = e.iso2;
-    this.model.userModel.dial_code = e.dialCode;
+    this.model.userModel.dial_code = '+' + e.dialCode;
     this.initialCountry = {initialCountry: e.iso2};
   }
 
@@ -208,7 +208,7 @@ export class InhouseUsersComponent implements OnInit {
 
     input.append('name', this.model.userModel.name);
     input.append('country_code', this.model.userModel.country_code);
-    input.append('dial_code', '+' + this.model.userModel.dial_code);
+    input.append('dial_code', this.model.userModel.dial_code);
     input.append('phone', this.model.userModel.phone);
     input.append('email', this.model.userModel.email);
     input.append('address', JSON.stringify(this.model.address));

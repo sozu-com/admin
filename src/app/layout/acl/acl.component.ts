@@ -117,13 +117,12 @@ export class AclComponent implements OnInit {
 
   onCountryChange(e) {
     this.model.country_code = e.iso2;
-    this.model.dial_code = e.dialCode;
+    this.model.dial_code = '+' + e.dialCode;
     this.initialCountry = {initialCountry: e.iso2};
   }
 
   add(formdata: NgForm) {
     this.parameter.url = this.model.id !== '' ? 'updateAclUser' : 'addAclUser';
-    this.model.dial_code = '+' + this.model.dial_code;
     this.admin.postDataApi(this.parameter.url, this.model)
       .subscribe(
         success => {
@@ -165,8 +164,6 @@ export class AclComponent implements OnInit {
     }
 
     swal({
-      // title: this.parameter.title,
-      // text: this.parameter.text,
       html: this.parameter.title + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
@@ -182,18 +179,10 @@ export class AclComponent implements OnInit {
 
 
   blockAdmin(index, id, flag, user_type) {
-    // this.parameter.loading = true;
     this.parameter.index = index;
-    this.parameter.url = 'blockBuyerSeller';
-    const input = new FormData();
-    input.append('id', id);
-    input.append('flag', flag);
-    input.append('user_type', user_type);
-
-    this.admin.postDataApi(this.parameter.url, input)
+    this.admin.postDataApi('blockAclUser', {id: id, flag: flag})
       .subscribe(
         success => {
-          // this.parameter.loading = false;
           swal('Success', success.message, 'success');
           this.parameter.items[this.parameter.index] = success.data;
         });

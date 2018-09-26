@@ -100,7 +100,7 @@ export class ManualLeadsComponent implements OnInit {
 
   onCountryChange(e) {
     this.model.country_code = e.iso2;
-    this.model.dial_code = e.dialCode;
+    this.model.dial_code = '+' + e.dialCode;
     this.initialCountry = {initialCountry: e.iso2};
   }
 
@@ -113,7 +113,7 @@ export class ManualLeadsComponent implements OnInit {
     if (this.model.id !== '') { input.append('id', this.model.id); }
     input.append('name', this.model.name);
     input.append('country_code', this.model.country_code);
-    input.append('dial_code', '+' + this.model.dial_code);
+    input.append('dial_code', this.model.dial_code);
     input.append('phone', this.model.phone);
     input.append('email', this.model.email);
 
@@ -157,7 +157,7 @@ export class ManualLeadsComponent implements OnInit {
 
     const d = {
       areaCodes: null,
-      dialCode: '91',
+      dialCode: '+91',
       iso2: userdata.country_code,
       priority: 0
     };

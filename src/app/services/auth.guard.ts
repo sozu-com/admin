@@ -21,37 +21,34 @@ export class AuthGuard implements CanActivate {
       //     this.admin.postDataApi('get-details', {})
       //     .subscribe(
       //       success1 => {
-      //         console.log('ssss', success1);
+      //         console.log('ssss1', success1);
+      //         this.admin.permissions = success1.data.permissions ? success1.data.permissions : {};
+      //         const aclData: any = {};
+      //         const dd = success1.data.m.map((obj, index) => {
+      //           const key =  Object.keys(obj)[0];
+      //           this.admin.admin_acl[key] =  obj[key];
+      //         });
       //         this.admin.login.next(success1.data);
-      //         this.admin.admin_acl = success1.data.admin_acl;
+      //         console.log('111111');
       //       });
       //   }
       // });
 
-      this.admin.postDataApi('get-details', {})
-        .subscribe(
-          success1 => {
-            console.log('ssss', success1);
-            this.admin.permissions = success1.data.permissions ? success1.data.permissions : {};
-            const aclData: any = {};
-            const dd = success1.data.m.map((obj, index) => {
-              const key =  Object.keys(obj)[0];
-              this.admin.admin_acl[key] =  obj[key];
-            });
-            this.admin.login.next(success1.data);
-          });
-
-      this.admin.country.subscribe(success => {
-        if (!success[0]) {
-          this.admin.postDataApi('getCountryLocality', {})
-          .subscribe(
-            success1 => {
-              this.admin.country.next(success1.data);
-            });
-        }
-      });
+      // this.admin.country.subscribe(success => {
+      //   console.log('22222');
+      //   if (!success[0]) {
+      //     this.admin.postDataApi('getCountryLocality', {})
+      //     .subscribe(
+      //       success1 => {
+      //         console.log('3333');
+      //         this.admin.country.next(success1.data);
+      //       });
+      //   }
+      // });
+      console.log('inside guard');
       return true;
     }
+    console.log('====');
     this.router.navigate(['']);
     return false;
   }

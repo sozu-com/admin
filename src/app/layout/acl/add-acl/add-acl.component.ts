@@ -71,7 +71,7 @@ export class AddAclComponent implements OnInit {
 
   onCountryChange(e) {
     this.model.country_code = e.iso2;
-    this.model.dial_code = e.dialCode;
+    this.model.dial_code = '+' + e.dialCode;
     this.initialCountry = {initialCountry: e.iso2};
   }
 
@@ -113,7 +113,6 @@ export class AddAclComponent implements OnInit {
 
 
   add(formdata: NgForm) {
-    this.model.dial_code = '+' + this.model.dial_code;
     console.log(this.model);
     this.admin.postDataApi('addAclUser', this.model)
       .subscribe(

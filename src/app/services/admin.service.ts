@@ -20,6 +20,7 @@ export class AdminService {
 
   public permissions: any = {};
   public admin_acl: any = {};
+  public admin_acl_array: any = [];
   public login = new BehaviorSubject({});
   loginData$ = this.login.asObservable();
 
@@ -85,11 +86,14 @@ export class AdminService {
                   localStorage.setItem('token', r.data.token);
                   this.login.next(r.data);
                   this.permissions = r.data.permissions;
+                  this.admin_acl_array = r.data.m;
                   const dd = r.data.m.map((obj, index) => {
                     const key =  Object.keys(obj)[0];
                     this.admin_acl[key] =  obj[key];
                   });
                   console.log(this.admin_acl, this.permissions);
+                  localStorage.setItem('permissions', JSON.stringify(this.permissions));
+                  localStorage.setItem('admin_acl', JSON.stringify(this.admin_acl));
                   return r;
                 })
                 .catch(this.errorHandler);

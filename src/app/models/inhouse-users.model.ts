@@ -14,7 +14,7 @@ export class InhouseUsers {
         id: '',
         name: '',
         country_code: 'mx',
-        dial_code: '52',
+        dial_code: '+52',
         phone: '',
         image: '',
         email: '',
@@ -30,7 +30,7 @@ export class InhouseUsers {
 export class User {
     name: '';
     country_code: 'mx';
-    dial_code: '52';
+    dial_code: '+52';
     phone: '';
     image: '';
     email: '';

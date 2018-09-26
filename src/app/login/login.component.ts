@@ -83,12 +83,55 @@ export class LoginComponent implements OnInit, AfterViewInit {
               this.router.navigate(['dashboard/leads/csr-closers']);
             } else {
               console.log('login else');
-              this.router.navigate(['dashboard/view-inhouse-users/data-collectors']);
+              this.router.navigate(['dashboard']);
             }
           } else {
-            this.router.navigate(['dashboard/view-inhouse-users/data-collectors']);
+            this.parameter.loading = false;
+            let check = true;
+            let path = '';
+            const dd = this.admin.admin_acl_array.map((obj, index) => {
+              const key =  Object.keys(obj)[0];
+              console.log('1', key);
+              if (check && obj[key]['can_read'] === 1) {
+                console.log('========', key, obj[key], obj[key]['can_read']);
+                check = false;
+                switch (key) {
+                  case 'Dashboard': path = 'dashboard'; this.router.navigate(['dashboard']); break;
+                  case 'Broker Management': path = 'view-inhouse-users/inhouse-broker'; this.router.navigate([path]); break;
+                  case 'Seller Management': path = 'view-inhouse-users/csr-sellers'; this.router.navigate([path]); break;
+                  case 'Bank Management': path = 'banks/view-banks'; this.router.navigate([path]); break;
+                  case 'Noataries Management': path = 'notary/view-notary'; this.router.navigate([path]); break;
+                  case 'User Management': path = 'users'; this.router.navigate([path]); break;
+                  case 'Data Collector Management': path = 'view-inhouse-users/data-collectors'; this.router.navigate([path]); break;
+                  case 'Property Management': path = 'properties/view-properties'; this.router.navigate([path]); break;
+                  case 'Building Management': path = 'projects/view-projects'; this.router.navigate([path]); break;
+                  case 'Enquiries': path = 'dashboard'; this.router.navigate([path]); break;
+                  case 'Manage Localities': path = 'dashboard'; this.router.navigate([path]); break;
+                  case 'Admin Defaults': path = 'dashboard'; this.router.navigate([path]); break;
+                  case 'Access Controls': path = 'access-control-mgt'; this.router.navigate([path]); break;
+                  case 'Buyer Management': path = 'view-inhouse-users/csr-buyers'; this.router.navigate([path]); break;
+                  case 'Closer Management': path = 'view-inhouse-users/csr-closers'; this.router.navigate([path]); break;
+                  case 'Notary Lead Management': path = 'dashboard'; this.router.navigate([path]); break;
+                  case 'Data Collector Lead Management': path = 'leads/data-collectors'; this.router.navigate([path]); break;
+                  case 'Seller Lead Management': path = 'leads/csr-sellers'; this.router.navigate([path]); break;
+                  case 'Buyer Lead Management': path = 'leads/csr-buyers'; this.router.navigate([path]); break;
+                  case 'Broker Lead Management': path = 'leads/inhouse-broker'; this.router.navigate([path]); break;
+                  case 'Closer Lead Management': path = 'leads/csr-closers'; this.router.navigate([path]); break;
+                  case 'Reports': path = 'reports'; this.router.navigate([path]); break;
+                  case 'Manual Leads': path = 'manual-leads'; this.router.navigate([path]); break;
+                  case 'Templates': path = 'edit-template'; this.router.navigate([path]); break;
+                  case 'Settings': path = 'settings/setting-location'; this.router.navigate([path]); break;
+                  default: path = 'dashboard'; this.router.navigate([path]); break;
+                }
+              }
+            });
+
+            // for (const key of this.admin.admin_acl_array) {
+            //   console.log(`obj.${key} = ${this.admin.admin_acl_array[key]}`);
+            //   console.log('keyeeeee', key, this.admin.admin_acl_array[key]);
+            // }
+            this.router.navigate(['dashboard']);
           }
-          this.parameter.loading = false;
         },
         error => {
           this.parameter.loading = false;

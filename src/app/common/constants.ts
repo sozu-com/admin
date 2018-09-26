@@ -3,7 +3,7 @@ export class Constant {
     public itemsPerPage = 10;
     public p = 1;
     public country_code = 'mx';
-    public dial_code = '52';
+    public dial_code = '+52';
     public userPlaceholder = '../../../assets/img/default_usr.png';
     public initialCountry = 'mx';
     public minValue = 0;
