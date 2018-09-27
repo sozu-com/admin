@@ -115,12 +115,13 @@ export interface IProperty {
   allDocuments?: any;
   subscriber?: any;
   favorites?: any;
-
   buildingSpecificTypes?: any;
   paymentStatuses?: any;
   keyword?: string;
   configuration_id?: number;
   address?: any;
   property_for?: any;
-
+  dash_flag?: any;
+  sort_by?: any;
+  sort_by_order?: any;
 }

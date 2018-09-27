@@ -126,7 +126,7 @@ export class AddPropertyComponent implements OnInit {
           if (this.parameter.propertyDetails.step < 5) {
             this.tab = this.parameter.propertyDetails.step;
           }
-          this.url2 = this.parameter.propertyDetails.images.map(op => { return op.image; });
+          this.url2 = this.parameter.propertyDetails.images.map(op => op.image);
           if (this.url2.length > 0) {
             this.image2  = this.sanitization.bypassSecurityTrustStyle(`url(${this.url2[0]})`);
           }

@@ -10,11 +10,16 @@ import { Ng2TelInputModule } from 'ng2-tel-input';
 import { PropertyDetailsComponent } from './property-details/property-details.component';
 import { ThousandPipe } from './../../pipes/thousand.pipe';
 import { AclUserGuard } from '../../guards/acl-user.guard';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 const routes: Routes = [
   { path: 'details/:property_id', component: PropertyDetailsComponent,
     canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_read', '']}},
   { path: 'add-property/:property_id', component: AddPropertyComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_update', '']}},
+  { path: 'edit-property/:property_id', component: AddPropertyComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_update', '']}},
+  { path: 'edit-property/:property_id/:edit', component: AddPropertyComponent,
     canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_update', '']}},
   { path: 'view-properties', component: PropertiesComponent,
     canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_read', '']}}
@@ -35,6 +40,7 @@ const routes: Routes = [
         libraries: ['drawing', 'places']
       }),
     Ng2TelInputModule,
+    NgxPaginationModule
   ],
   declarations: [
     PropertiesComponent,

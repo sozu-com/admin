@@ -9,6 +9,7 @@ export class CarpetAreas {
 
 export class AddProjectModel {
     id = '';
+    building_id = '';
     name = '';
     for_rent = false;
     for_sale = true;
@@ -36,6 +37,7 @@ export class AddProjectModel {
     ];
     configurations = [];
     developer = {
+      id: '',
       name: '',
       email: '',
       country_code: '',

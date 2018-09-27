@@ -7,6 +7,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { AddProjectModel, Configuration } from './../../../models/addProject.model';
 import { MapsAPILoader } from '@agm/core';
 import { Constant } from './../../../common/constants';
+import { FileUpload } from './../../../common/fileUpload';
 declare const google;
 declare let swal: any;
 
@@ -33,7 +34,7 @@ export class AddProjectComponent implements OnInit {
   public longitude: number;
   public zoom: number;
 
-  id: number;
+  id: any;
   url: any[];
   url2 = [];
   tab: number;
@@ -58,6 +59,8 @@ export class AddProjectComponent implements OnInit {
   FU: any= {};
   initialCountry = {initialCountry: 'mx'};
 
+  file1: any; file2: any; file3: any; file4: any; file5: any;
+
 
   constructor(
     public model: AddProjectModel,
@@ -72,16 +75,27 @@ export class AddProjectComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.file1 = new FileUpload(true, this.admin);
+    this.file2 = new FileUpload(false, this.admin);
+    this.file3 = new FileUpload(true, this.admin);
+    this.file4 = new FileUpload(false, this.admin);
+    this.file5 = new FileUpload(true, this.admin);
+
     this.route.params.subscribe( params => {
         this.id = params.id;
         if (this.id) {/* if id exists edit mode */
           this.admin.postDataApi('getProjectById', {building_id: this.id}).subscribe(r => {
             this.model = JSON.parse(JSON.stringify(r.data));
-            // console.log(this.model);
-            this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.model.main_image})`);
-            this.image2 = this.sanitization.bypassSecurityTrustStyle(`url(${this.model.images[0].image})`);
+            console.log(this.model);
+            this.file1.image = this.model.main_image;
+            this.model.images.map((value, index) => {
+              this.file2.files[index] = value;
+            });
+            this.model.configurations.map((item) => {
+              item.images = item.images.map(r1 => r1.image);
+            });
             this.model.custom_attributes = this.model.custom_values;
-            this.FU.dev_logo = this.model.developer.developer_image;
+            this.file5.image = this.model.developer.developer_image;
             this.admin.postDataApi('getAmenities', {}).subscribe(res => {
               this.all_amenities = res.data.map(item => {item.selected = false; return item; });
               this.selected_amenities = this.all_amenities.map(item => {
@@ -117,61 +131,6 @@ export class AddProjectComponent implements OnInit {
 
   }
 
-
-  onSelectFile1(event) { // called each time file input changes
-    if (event.target.files && event.target.files[0]) {
-      const reader = new FileReader();
-
-      reader.onload = (e: any) => {
-          this.url = e.target.result;
-          this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.url})`);
-          // console.log('this.url, this.image1', this.url, this.image1);
-      };
-      const input = new FormData();
-      input.append('image', event.target.files[0]);
-
-      this.admin.postDataApi('saveImage', input)
-      .subscribe(
-        success => {
-          // console.log('successimage', success);
-          this.model.cover_image = success.data.image;
-          // this.parameter.loading = false;
-        }
-        // error => {
-        //   console.log(error);
-        //   this.parameter.loading = false;
-        //   swal('Error', error.message, 'error');
-        // }
-      );
-
-      // this.model.cover_image = event.target.files[0];
-      reader.readAsDataURL(event.target.files[0]);
-    }
-  }
-
-
-  onSelectFile2(event) {
-    if (event.target.files && event.target.files[0]) {
-
-      // console.log('url2', this.url2);
-
-      if (this.url2.length === 6 || event.target.files.length > 6) {
-        swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
-      }else {
-        for (let index = 0; index < event.target.files.length; index++) {
-          const reader = new FileReader();
-          reader.onload = (e: any) => {
-            this.imageEvent.push(event.target.files[index]);
-            this.url2.push(e.target.result);
-            const tempurl = e.target.result;
-            this.image2 = this.sanitization.bypassSecurityTrustStyle(`url(${tempurl})`);
-          };
-          reader.readAsDataURL(event.target.files[index]);
-        }
-      }
-    }
-  }
-
   closeModal() {
     this.modalClose.nativeElement.click();
     this.image2 = '';
@@ -180,116 +139,11 @@ export class AddProjectComponent implements OnInit {
     this.model.images = [];
   }
 
-  removeImage(index) {
-    this.url2.splice(index, 1);
-    this.imageEvent.splice(index, 1);
-    this.model.images.splice(index, 1);
-    // console.log('----------', this.url2, this.imageEvent);
-  }
-
-  removeImageMulti(index) {
-    this.new_config.images_path.splice(index, 1);
-    this.new_config.images.splice(index, 1);
-  }
-
   saveImages() {
-    // console.log('----------', this.url2, this.imageEvent);
-    const input = new FormData();
-    for (let index = 0; index < this.imageEvent.length; index++) {
-      input.append('image', this.imageEvent[index]);
-
-      this.admin.postDataApi('saveImage', input)
-      .subscribe(
-        success => {
-          // console.log('successimage' + index, success);
-          this.model.images.push(success.data.image);
-          this.model.building_images.push(success.data.image);
-          // this.parameter.loading = false;
-        }
-        // error => {
-        //   console.log(error);
-        //   this.parameter.loading = false;
-        //   swal('Error', error.message, 'error');
-        // }
-      );
-    }
-  }
-
-  fileUploader(event, key= '0', model) { // called each time file input changes
-    // this.parameter.loading = true;
-    if (event.target.files && event.target.files[0]) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-          this.url = e.target.result;
-      };
-      const input = new FormData();
-      input.append('image', event.target.files[0]);
-      this.admin.postDataApi('saveImage', input)
-      .subscribe(
-        success => {
-          // console.log('successimage', success);
-          // this.parameter.loading = false;
-          this.FU[key] = success.data.image;
-          model[key] = success.data.image;
-        }
-        // error => {
-        //   console.log(error);
-        //   this.parameter.loading = false;
-        //   swal('Error', error.message, 'error');
-        // }
-      );
-
-      // this.model.images = event.target.files;
-      reader.readAsDataURL(event.target.files[0]);
-    }
-  }
-
-
-  fileUploaderMulti(event) { // called each time file input changes
-    if (event.target.files && event.target.files[0]) {
-
-      if (this.new_config.images_path === 6 || event.target.files.length > 6) {
-        swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
-      }else {
-        for (let index = 0; index < event.target.files.length; index++) {
-          const reader = new FileReader();
-          reader.onload = (e: any) => {
-            this.new_config.images_files.push(event.target.files[index]);
-            this.new_config.images_path.push(e.target.result);
-
-          };
-          reader.readAsDataURL(event.target.files[index]);
-        }
-      }
-    }
-  }
-
-
-  saveImagesConfig() {
-    this.new_config.images = [];
-    const input = new FormData();
-    for (let index = 0; index < this.new_config.images_files.length; index++) {
-      input.append('image', this.new_config.images_files[index]);
-      // this.parameter.loading = true;
-      this.admin.postDataApi('saveImage', input)
-      .subscribe(
-        success => {
-          // console.log(success.data.image);
-          this.new_config.images.push(success.data.image);
-          // this.parameter.loading = false;
-        }
-        // error => {
-        //   console.log(error);
-        //   this.parameter.loading = false;
-        //   swal('Error', error.message, 'error');
-        // }
-      );
-    }
-
-    delete this.new_config.images_files;
-    delete this.new_config.images_path;
-    // this.model.configurations.push(this.new_config);
-
+    this.file2.upload().then(r => {
+      console.log(r);
+      console.log(this.file2.files);
+    });
   }
 
   loadPlaces() {
@@ -338,8 +192,8 @@ export class AddProjectComponent implements OnInit {
   }
 
   placeMarker($event) {
-    this.latitude = $event.coords.lat;
-    this.longitude = $event.coords.lng;
+    this.model.lat = this.latitude = $event.coords.lat;
+    this.model.lng = this.longitude = $event.coords.lng;
     this.getGeoLocation(this.latitude, this.longitude);
     // console.log($event.coords.lat);
     // console.log($event);
@@ -411,6 +265,8 @@ export class AddProjectComponent implements OnInit {
     this.openConfigPopup.nativeElement.click();
     this.new_config = new Configuration;
     this.new_config_booleon = true;
+    this.file3.image = '';
+    this.file4.files = [];
   }
 
   selectConfiguration(id, parentModel) {
@@ -423,12 +279,11 @@ export class AddProjectComponent implements OnInit {
     // console.log(this.new_config);
     // console.log(config);
     this.new_config = config;
-    // this.new_config.images = [];
-    this.new_config.images_files = [];
-    this.new_config.images_path = [];
-    // for(let key in config){
-    //   this.new_config[key] = config[key];
-    // }
+    this.file3.image = config.floor_map_image;
+    this.file4.files = [];
+    config.images.forEach((value, index) => {
+      this.file4.files.push({image: value});
+    });
     this.openConfigPopup.nativeElement.click();
   }
 
@@ -438,14 +293,26 @@ export class AddProjectComponent implements OnInit {
 
   addNewConfig() {
     this.closeConfigPopup.nativeElement.click();
-    this.saveImagesConfig();
-    // console.log(this.new_config);
-    // this.model.configurations.push(this.new_config);
-    // this.new_config = new Configuration;
-    if (this.new_config_booleon === true) {
-      this.model.configurations.push(this.new_config);
-      this.new_config_booleon = false;
-    }
+    this.parameter.loading = true;
+    console.log('new config');
+    this.file3.upload().then(r => {
+      this.file4.upload().then(r1 => {
+        this.parameter.loading = false;
+        if (this.new_config_booleon === true) {
+          this.new_config.floor_map_image = this.file3.image;
+          this.new_config.images = this.file4.files.map(r2 => r2.image);
+          console.log(this.new_config);
+          this.model.configurations.push(this.new_config);
+          this.new_config_booleon = false;
+        }
+      }, error => {
+        this.parameter.loading = false;
+      });
+    },
+    error => {
+      this.parameter.loading = false;
+    });
+
   }
 
   onCountryChange(obj) {
@@ -455,30 +322,65 @@ export class AddProjectComponent implements OnInit {
 
   addProject() {
 
+    this.model.cover_image = this.file1.image;
+    this.model.building_images = this.file2.files.map(r => r.image);
     this.model.dev_name = this.model.developer.name;
     this.model.dev_email = this.model.developer.email;
     this.model.dev_phone = this.model.developer.phone;
-    // this.model.dev_logo = this.model.developer.logo;
+    this.model.dev_logo = this.file5.image;
     // this.model.dev_countrycode = this.model.developer.name;
+
+    /* remove fields for edit */
+    if (!this.model.name) {swal('Error', 'Please add building name', 'error'); return false; }
+    if (!this.model.address) {swal('Error', 'Please add address', 'error'); return false; }
+    if (!this.model.cover_image) {swal('Error', 'Please add cover image', 'error'); return false; }
+    if (!this.model.cover_image) {swal('Error', 'Please add cover image', 'error'); return false; }
+    if (this.model.building_images.length < 1) {swal('Error', 'Please add atleast one more building image', 'error'); return false; }
+    if (!this.model.building_age) {swal('Error', 'Please add building age', 'error'); return false; }
+    if (!this.model.building_type_id) {swal('Error', 'Please add building type', 'error'); return false; }
+    if (!this.model.description) {swal('Error', 'Please add building description', 'error'); return false; }
+    if (!this.model.possession_status_id) {swal('Error', 'Please add possession status', 'error'); return false; }
+    if (!this.model.floors) {swal('Error', 'Please add floors', 'error'); return false; }
+    // if(!this.model.launch_date){swal('Error','Please add building launch date','error'); return false;}
+    if (!this.model.avg_price) {swal('Error', 'Please add building average price', 'error'); return false; }
+    if (this.model.amenities.length < 1) {swal('Error', 'Please add amenities', 'error'); return false; }
+    if (this.model.configurations.length < 1) {swal('Error', 'Please add building configuration', 'error'); return false; }
+    if (!this.id) {
+      if (!this.model.dev_name) {swal('Error', 'Please add developer name', 'error'); return false; }
+      if (!this.model.dev_countrycode) {swal('Error', 'Please add developer country code', 'error'); return false; }
+      if (!this.model.dev_email) {swal('Error', 'Please add developer email', 'error'); return false; }
+      if (!this.model.dev_phone) {swal('Error', 'Please add developer phone', 'error'); return false; }
+      if (!this.model.dev_logo) {swal('Error', 'Please add developer image', 'error'); return false; }
+    }
 
     this.model.amenities = this.all_amenities.filter(op => { if (op.selected === true) { return op; }}).map(op => op.id);
     // console.log(this.model);
 
-    if (!this.id) {
-      delete this.model.id;
-    }
-    // console.log(this.model);
-
-    this.admin.postDataApi('addProject', this.model).subscribe(
-      success => {
+    if (this.id) {
+      this.model.building_id = this.id;
+      this.model.developer_id =  this.model.developer.id;
+      this.admin.postDataApi('updateProject', this.model).subscribe(success => {
         // console.log(success);
         swal('Success', success.message, 'success');
-      }
-      // error => {
-      //   console.log(error);
-      //   swal('Error', error.message, 'error');
-      // }
-    );
+      }, error => {
+        console.log(error);
+        swal('Error', error.message, 'error');
+      });
+    }else {
+      delete this.model.id;
+      delete this.model.building_id;
+
+      this.admin.postDataApi('addProject', this.model).subscribe(success => {
+        // console.log(success);
+        swal('Success', success.message, 'success');
+      }, error => {
+        console.log(error);
+        swal('Error', error.message, 'error');
+      });
+    }
+
   }
+
+
 
 }

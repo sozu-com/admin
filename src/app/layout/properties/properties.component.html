@@ -1,44 +1,50 @@
 
                <div class="container-fluid">
                   <div class="row">
-                     <div class="col-md-6">
+                    <div class="col-md-4">
                      <div class="form-group">
-                  <label>Manage Properties</label>
-                  <div class="d-flex">
-                  <button class="all-btn">All</button>
-                  <input style="max-width:200px" class="form-control" type="text" name="">
-                  </div>
-                  </div>
-                   </div>
+                      <p class="p16">Manage Properties</p>
+                      <!-- <div class="d-flex">
+                      <button class="all-btn">All</button>
+                      <input style="max-width:200px" class="form-control" type="text" name="">
+                      </div> -->
+                      </div>
+                    </div>
                    <div class="col-md-2">
                   <div class="form-group">
                   <label>Country</label>
-                   <select class="form-control">
-                      <option>All</option>
-                      <option>All</option>
-                      <option>All</option>
+                   <select class="form-control" (change)="onCountryChange($event.target.value)">
+                      <option value="0">All</option>
+                      <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option>
                    </select>
                   </div>
                   </div>
                   <div class="col-md-2">
                   <div class="form-group">
-                  <label>City</label>
-                   <select class="form-control">
-                      <option>All</option>
-                      <option>All</option>
-                      <option>All</option>
+                  <label>State</label>
+                   <select class="form-control" (change)="onStateChange($event.target.value)">
+                      <option value="0">All</option>
+                      <option *ngFor="let item of location.states" [value]="item.id">{{item.name}}</option>
                    </select>
                   </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group">
+                    <label>City</label>
+                      <select class="form-control" (change)="onCityChange($event.target.value)">
+                        <option value="0">All</option>
+                        <option *ngFor="let item of location.cities" [value]="item.id">{{item.name}}</option>
+                      </select>
+                    </div>
                   </div>
    
                   <div class="col-md-2">
                   <div class="form-group">
-                  <label>Neighbourhood</label>
-                   <select class="form-control">
-                      <option>All</option>
-                      <option>All</option>
-                      <option>All</option>
-                   </select>
+                  <label>Locality</label>
+                  <select class="form-control" (change)="onLocalityChange($event.target.value)">
+                      <option value="0">All</option>
+                      <option *ngFor="let item of location.localities" [value]="item.id">{{item.name}}</option>
+                    </select>
                   </div>
                   </div>
                   </div>
@@ -46,21 +52,21 @@
                   <div class="row">
                         <div class="col-md-12">
                            <div class="cust-tabs-2">
-                              <ul class="nav nav-tabs float-left">
+                              <ul class="nav nav-tabs float-right">
                                  <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#tw">This Week</a>
+                                    <a [ngClass]="{'active':parameter.dash_flag == 1}" (click)="parameter.dash_flag=1;getListing()" class="nav-link" data-toggle="tab" href="#tw">This Week</a>
                                  </li>
                                  <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#tm">This Month</a>
+                                    <a [ngClass]="{'active':parameter.dash_flag == 2}" (click)="parameter.dash_flag=2;getListing()" class="nav-link" data-toggle="tab" href="#tm">This Month</a>
                                  </li>
                                  <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#lm">Last Month</a>
+                                    <a [ngClass]="{'active':parameter.dash_flag == 3}" (click)="parameter.dash_flag=3;getListing()" class="nav-link" data-toggle="tab" href="#lm">Last Month</a>
                                  </li>
                                  <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#lt">Lifetime</a>
+                                    <a [ngClass]="{'active':parameter.dash_flag == 4}" (click)="parameter.dash_flag=4;getListing()" class="nav-link" data-toggle="tab" href="#lt">Lifetime</a>
                                  </li>
                                  <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#cust">Custom</a>
+                                    <a [ngClass]="{'active':parameter.dash_flag == 5}" (click)="parameter.dash_flag=5;getListing()" class="nav-link" data-toggle="tab" href="#cust">Custom</a>
                                  </li>
                               </ul>
                            </div>
@@ -69,102 +75,28 @@
                            <hr style="margin-top:0;">
                         </div>
                      </div>
-                
-                     <div class="row">
-                        <div class="col-lg-4 col-md-12 col-sm-12 col-12">
-                           <div class="info-box-2">
-                              <div class="one-row">
-                                 <div class="o-block">
-                                    <h5>Properties</h5>
-                                    <small>Requests Pending</small>
-                                 </div>
-                                 <div class="o-block">
-                                    <a class="view-all" href="javascript://">View All</a>
-                                    <h4>15</h4>
-                                 </div>
-                              </div>
-                                <div class="one-row">
-                                 <div class="o-block">
-                                    <h5>Buildings</h5>
-                                    <small>Total Available</small>
-                                 </div>
-                                 <div class="o-block">
-                                    <span class="view-all">&nbsp;</span>
-                                    <h4>15</h4>
-                                 </div>
-                              </div>
-                             
-                           </div>
-                        </div>
-                       <div class="col-lg-4 col-md-12 col-sm-12 col-12">
-                           <div class="four-block">
-                              <div class="d-flex">
-                                 <div class="f-block approved">
-                                    <h5>Approved</h5>
-                                    <h3>25</h3>
-                                 </div>
-                                 <div class="f-block unapproved">
-                                    <h5>Unapproved</h5>
-                                    <h3>02</h3>
-                                 </div>
-                              </div>
-                              <div class="d-flex">
-                                 <div class="f-block pending active">
-                                    <h5>Pending</h5>
-                                    <h3>01</h3>
-                                 </div>
-                                 <div class="f-block unapproved">
-                                    <h5>In Draft</h5>
-                                    <h3>02</h3>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                        <div class="col-lg-4 col-md-12 col-sm-12 col-12">
-                           <div class="chat-msg">
-                              <div class="row">
-                                 <div class="col-6">
-                                    <h5>Chat</h5>
-                                 </div>
-                                 <div class="col-6 text-right"><a class="msg" href="javascript://">Message</a></div>
-                              </div>
-                              <p>Waiting for response</p>
-                              <p>
-                                 <strong>Mario Hudson</strong>
-                                 When you are free to have a meeting 
-                                 with interested customers?
-                              </p>
-                              <p>
-                                 <strong>Rosie Benson</strong>
-                                 Is there any availability in the localities
-                                 I was asking you tomorrow and also p…
-                              </p>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="spacer50"></div>
+
                       <div class="cust-tabs">
                       <div class="row flex-wrap-reverse">
                          
                       <div class="col-xl-10 col-lg-12 col-md-12 col-sm-12 col-12">
                         <ul class="nav nav-tabs">
                            <li class="nav-item">
-                              <a class="nav-link active" data-toggle="tab" href="#approved">Approved</a>
+                              <a [ngClass]="{'active':parameter.flag==3}" (click)="changeFlag(3)" class="nav-link" >Approved</a>
                            </li>
                            <li class="nav-item">
-                              <a class="nav-link" data-toggle="tab" href="#unapproved">Unapproved</a>
+                              <a [ngClass]="{'active':parameter.flag==2}" (click)="changeFlag(2)" class="nav-link" >Unapproved</a>
                            </li>
                             <li class="nav-item">
-                              <a class="nav-link" data-toggle="tab" href="#pending-review">Pending Review</a>
+                              <a [ngClass]="{'active':parameter.flag==4}" (click)="changeFlag(4)" class="nav-link" >Pending Review</a>
                            </li>
                             <li class="nav-item">
-                              <a class="nav-link" data-toggle="tab" href="#in-draft">In Draft</a>
+                              <a [ngClass]="{'active':parameter.flag==1}" (click)="changeFlag(1)" class="nav-link" >In Draft</a>
                            </li>
                         </ul>
                         </div>
-                        <!-- *ngIf="admin?.admin_acl['Property Management']?.can_create==1" -->
                         <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12"><div class="add-new text-left">
-                              <a  class="btn" href="javascript://" routerLink="/dashboard/properties/add-property/0">+Add New Property</a>
+                              <a *ngIf="admin?.admin_acl['Property Management']?.can_create==1" class="btn" href="javascript://" routerLink="/dashboard/properties/add-property/0">+Add New Property</a>
                            </div></div>
                            </div>
                         <div class="tab-content">
@@ -176,136 +108,80 @@
                                           <th>
                                              <div class="table-search">
                                                 <label>Name of Building</label>
-                                                <input type="Search here" name="">
+                                                <input type="Search here" [(ngModel)]="parameter.keyword" (keyup.enter)="getListing()" >
                                              </div>
                                           </th>
                                           <th>
                                              <div class="table-search">
                                                 <label>Configuration</label>
-                                                <input type="Search here" name="">
+                                                <select [(ngModel)]="parameter.configuration_id" (change)="getListing()">
+                                                  <option value="0">All configuration</option>
+                                                  <option *ngFor="let c of configurations" value="c.id" >
+                                                    {{c.name}}
+                                                  </option>
+                                                </select>
                                              </div>
                                           </th>
                                           <th style="vertical-align:top;">
-                                             <div class="d-flex"><span>Price</span><a href="javascript://"><img src="./../../../assets/img/top-arrow.png" alt="img"></a></div>
+                                             <div (click)="toggleAndSort(1,'price_sort')" class="d-flex"><span>Price</span>
+                                              <a href="javascript://"><img [ngClass]="{'upsidedown':this.price_sort==2}" src="assets/img/top-arrow.png" alt="img"></a></div>
                                           </th>
                                          <th style="vertical-align:top;">
-                                             <div class="d-flex"><span>Availability</span>
-                                             <a href="javascript://"><img src="./../../../assets/img/top-arrow.png" alt="img"></a>
+                                             <div (click)="toggleAndSort(2,'availability_sort')" class="d-flex"><span>Availability</span>
+                                             <a href="javascript://"><img [ngClass]="{'upsidedown':this.availability_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
                                              </div>
                                           </th>
                                           <th style="vertical-align:top;">
-                                             <div class="-d-flex"><span>Leads</span><a href="javascript://"><img src="./../../../assets/img/top-arrow.png" alt="img"></a></div>
+                                             <div (click)="toggleAndSort(3,'lead_sort')" class="-d-flex"><span>Leads</span>
+                                              <a href="javascript://"><img [ngClass]="{'upsidedown':this.lead_sort==2}" src="assets/img/top-arrow.png" alt="img"></a></div>
                                           </th>
                                           <th>&nbsp;</th>
                                        </tr>
                                  
-                                       <tr>
+                                       <tr *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }">
                                            <td>
-                                             <strong>Home Land Towers</strong>
+                                             <strong>{{p?.building?.name}}</strong>
                                              <div class="clearfix"></div>
-                                             <small>3 Properties</small>                                     
+                                             <small *ngIf="p.quantity > 0">
+                                              {{p.quantity}} 
+                                              <span *ngIf="p.quantity == 1">property</span>
+                                              <span *ngIf="p.quantity > 1">properties</span>
+                                            </small>                                     
    
                                            </td>
-                                           <td>4 BHK</td>
-                                           <td>570 Balistreri Mews Apt. 293</td>
-                                           <td><span class="green-color">3</span></td>
-                                           <td>14</td>
+                                           <td><span *ngIf="p && p.configuration">{{p.configuration?.name}}</span></td>
+                                           <td><span>{{p.min_price}}</span></td>
+                                           <td><span class="green-color">
+                                             <span *ngIf="p.for_sale">Sell</span>
+                                             <span *ngIf="p.for_rent">Rent</span></span>
+                                           </td>
+                                           <td><span>lead_count</span></td>
                                            <td>
                                              <div class="message">
-                                             <span></span>
-                                             <i class="fa fa-envelope" aria-hidden="true"></i>
-   
+                                                <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="parameter?.flag!=3" routerLink="../edit-property/{{p.id}}" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                                                <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="parameter?.flag==3" routerLink="../edit-property/{{p.id}}/edit" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                                                <button [disabled]="admin?.admin_acl['Property Management']?.can_delete==0" *ngIf="!p.is_blocked" (click)="block(p);" class="action-icon" title="Block"><img src="assets/img/block.png" alt="img"></button>
+                                                <button [disabled]="admin?.admin_acl['Property Management']?.can_delete==0" *ngIf="p.is_blocked == true" (click)="unblock(p);" class="action-icon unblock-bg" title="UnBlock"><img src="assets/img/unblock.png" alt="img"></button>
+                                                <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="p.status == 3" (click)="changeStatus(p,2);" class="action-icon" title="Unapprove"><img src="assets/img/tick-selected.png" alt="img"></button>
+                                                <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="p.status == 2" (click)="changeStatus(p,3);" class="action-icon" title="Approve"><img src="assets/img/tick.png" alt="img"></button>
                                              </div>
    
                                            </td>
                                        </tr>
-                                        <tr>
-                                           <td>
-                                             &nbsp; 
-                                              </td>
-                                           <td>4 BHK</td>
-                                           <td>$56.6k</td>
-                                          <td><span class="green-color">1</span></td>
-                                           <td>14</td>
-                                           <td>
-                                             <div class="message">
-                                             <span></span>
-                                             <i class="fa fa-envelope" aria-hidden="true"></i>
-   
-                                             </div>
-                                       </tr>
-                                        <tr>
-                                           <td>
-                                             &nbsp; 
-                                              </td>
-                                           <td>4 BHK</td>
-                                           <td>570 Balistreri Mews Apt. 293</td>
-                                           <td><span class="red-color">0</span></td>
-                                           <td>14</td>
-                                          <td>
-                                             <div class="message">
-                                           
-                                             <i class="fa fa-envelope" aria-hidden="true"></i>
-   
-                                             </div>
-                                       </tr>
-                                        <tr>
-                                           <td>
-                                             <strong>Home Land Towers</strong>
-                                             <div class="clearfix"></div>
-                                             <small>3 Properties</small>                                     
-   
-                                           </td>
-                                           <td>Sell Only</td>
-                                           <td>$56.6k</td>
-                                              <td><span class="green-color">2</span></td>
-   
-                                           <td>14</td>
-                                        <td>
-                                             <div class="message">
-                                              
-                                             <i class="fa fa-envelope" aria-hidden="true"></i>
-   
-                                             </div>
-                                       </tr>
-                                        <tr>
-                                           <td>
-                                             &nbsp; 
-                                              </td>
-                                           <td>4 BHK</td>
-                                           <td>570 Balistreri Mews Apt. 293</td>
-                                              <td><span class="green-color">2</span></td>
-   
-                                           <td>14</td>
-                                           <td>
-                                             <div class="message">
-                                             <span></span>
-                                             <i class="fa fa-envelope" aria-hidden="true"></i>
-   
-                                             </div>
-                                       </tr>
-                                        <tr>
-                                           <td>
-                                             &nbsp; 
-                                              </td>
-                                           <td>4 BHK</td>
-                                           <td>570 Balistreri Mews Apt. 293</td>
-                                              <td><span class="green-color">1</span></td>
-   
-                                           <td>14</td>
-                                          <td>
-                                             <div class="message">
-                                             
-                                             <i class="fa fa-envelope" aria-hidden="true"></i>
-   
-                                             </div>
-                                       </tr>
+                                       <tr *ngIf="parameter.loading == false && total == 0">
+                                         <td colspan="10">No result found</td>
+                                        </tr>
                                     </table>
                                  </div>
                               </div>
-                              <div class="btn-cont text-right marginT15">
+                              <!-- <div class="btn-cont text-right marginT15">
                                  <button class="btn btn-secondary">View All</button>
-                              </div>
+                              </div> -->
+                              <div class="spacer30"></div>
+
+                              <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+
+
                            </div>
                            <div class="tab-pane container fade" id="seller">Seller tab on</div>
                         </div>

@@ -6,6 +6,7 @@ import { AddProjectComponent } from './add-project/add-project.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { AgmCoreModule } from '@agm/core';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { AclUserGuard } from '../../guards/acl-user.guard';
 
@@ -33,7 +34,8 @@ const routes: Routes = [
         apiKey: 'AIzaSyCYv_zELZGVo2Ehzgp8eh8UeSIidhMCmH8',
         libraries: ['drawing', 'places']
       }),
-    Ng2TelInputModule
+    Ng2TelInputModule,
+    NgxPaginationModule
   ],
   declarations: [
     ProjectsComponent,
