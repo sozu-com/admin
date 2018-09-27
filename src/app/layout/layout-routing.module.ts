@@ -8,9 +8,7 @@ import { AuthGuard } from './../services/auth.guard';
 import { InhouseUsersComponent } from './inhouse-users/inhouse-users.component';
 import { EditTemplateComponent } from './edit-template/edit-template.component';
 import { GenerateThumbComponent } from './generate-thumb/generate-thumb.component';
-import { LeadsComponent } from './leads/leads.component';
 import { AclUserGuard } from '../guards/acl-user.guard';
-import { InhouseUserGuard } from '../guards/inhouse-user.guard';
 
 const routes: Routes = [
     {

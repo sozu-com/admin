@@ -22,11 +22,12 @@ export class AppHeaderComponent {
   public scrollbarOptions = { axis: 'yx', theme: 'minimal-dark' };
 
   constructor(public admin: AdminService, private router: Router, public adminModel: AdminACL) {
-    // this.admin.loginData$.subscribe(success => {
-    //   this.fullName = success['name'];
-    //   this.image = success['image'];
-    // });
-    this.setData();
+    this.admin.loginData$.subscribe(success => {
+      console.log('success', success);
+      this.fullName = success['name'];
+      this.image = success['image'];
+    });
+    // this.setData();
   }
 
   setData() {

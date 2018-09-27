@@ -14,25 +14,25 @@ export class AuthGuard implements CanActivate {
     // console.log('auth guard');
     const token =  localStorage.getItem('token');
     if (token) {
-      // this.admin.login.subscribe(success => {
-      //   console.log('outside', success);
-      //   if (success['name'] === undefined) {
-      //     console.log('inside');
-      //     this.admin.postDataApi('get-details', {})
-      //     .subscribe(
-      //       success1 => {
-      //         console.log('ssss1', success1);
-      //         this.admin.permissions = success1.data.permissions ? success1.data.permissions : {};
-      //         const aclData: any = {};
-      //         const dd = success1.data.m.map((obj, index) => {
-      //           const key =  Object.keys(obj)[0];
-      //           this.admin.admin_acl[key] =  obj[key];
-      //         });
-      //         this.admin.login.next(success1.data);
-      //         console.log('111111');
-      //       });
-      //   }
-      // });
+      this.admin.login.subscribe(success => {
+        console.log('outside', success);
+        if (success['name'] === undefined) {
+          console.log('inside');
+          this.admin.postDataApi('get-details', {})
+          .subscribe(
+            success1 => {
+              console.log('ssss1', success1);
+              this.admin.permissions = success1.data.permissions ? success1.data.permissions : {};
+              const aclData: any = {};
+              const dd = success1.data.m.map((obj, index) => {
+                const key =  Object.keys(obj)[0];
+                this.admin.admin_acl[key] =  obj[key];
+              });
+              this.admin.login.next(success1.data);
+              console.log('111111');
+            });
+        }
+      });
 
       // this.admin.country.subscribe(success => {
       //   console.log('22222');
