@@ -43,7 +43,7 @@ export class PropertiesComponent implements OnInit {
     this.getListing();
   }
 
-  getListing(){
+  getListing() {
     this.parameter.loading = true;
     this.admin.postDataApi('propertyHome', this.parameter).subscribe(
       success => {
@@ -57,25 +57,25 @@ export class PropertiesComponent implements OnInit {
       });
   }
 
-  getCountries(){
+  getCountries() {
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
       console.log('Country', r);
       this.location.countries = r['data'];
     });
   }
 
-  getPropertyConfigurations(){
+  getPropertyConfigurations() {
     this.admin.postDataApi('getPropertyConfigurations', {}).subscribe(r => {
       console.log('Config', r);
       this.configurations = r['data'];
     });
   }
 
-  onCountryChange(id){
+  onCountryChange(id) {
     console.log(id);
     this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
-    if (!id || id == 0){
+    if (!id || id == 0) {
       this.parameter.state_id = '0';
       return false;
     }
@@ -88,7 +88,7 @@ export class PropertiesComponent implements OnInit {
   onStateChange(id) {
     console.log(id);
     this.location.localities = []; this.parameter.locality_id = '0';
-    if (!id || id == 0){
+    if (!id || id == 0) {
       this.parameter.city_id = '0';
       return false;
     }
@@ -100,7 +100,7 @@ export class PropertiesComponent implements OnInit {
 
   onCityChange(id) {
     console.log(id);
-    if (!id || id == 0){
+    if (!id || id == 0) {
       this.parameter.locality_id = '0';
       return false;
     }
@@ -110,9 +110,9 @@ export class PropertiesComponent implements OnInit {
     this.location.localities = selectedCountry[0].localities;
   }
 
-  onLocalityChange(id){
+  onLocalityChange(id) {
     console.log(id);
-    if (!id || id == 0){
+    if (!id || id == 0) {
       return false;
     }
 
@@ -121,15 +121,15 @@ export class PropertiesComponent implements OnInit {
     // this.location.locality = selectedLocation[0];
   }
 
-  changeFlag(flag){
+  changeFlag(flag) {
     this.parameter.flag = flag;
     this.getListing();
   }
 
-  toggleAndSort(sort_by, sort_by_order){
-    if (this[sort_by_order] == 1){
+  toggleAndSort(sort_by, sort_by_order) {
+    if (this[sort_by_order] == 1) {
       this[sort_by_order] = 2;
-    }else{
+    }else {
       this[sort_by_order] = 1;
     }
 
@@ -140,12 +140,12 @@ export class PropertiesComponent implements OnInit {
   }
 
 
-  getPage(page){
+  getPage(page) {
     this.parameter.page = page;
     this.getListing();
   }
 
-  block(item){
+  block(item) {
     item.is_blocked = true;
     this.admin.postDataApi('blockProperty', {property_id: item.id, flag: 1}).subscribe(r => {
       console.log(r);
@@ -156,7 +156,7 @@ export class PropertiesComponent implements OnInit {
     });
   }
 
-  unblock(item){
+  unblock(item) {
     item.is_blocked = false;
     this.admin.postDataApi('blockProperty', {property_id: item.id, flag: 0 }).subscribe(r => {
       console.log(r);
@@ -167,7 +167,7 @@ export class PropertiesComponent implements OnInit {
     });
   }
 
-  changeStatus(item, status){
+  changeStatus(item, status) {
     item.status = status;
     this.admin.postDataApi('updatePropertyStatus', {property_id: item.id, status_id: status }).subscribe(r => {
       console.log(r);

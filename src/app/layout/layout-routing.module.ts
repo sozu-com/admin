@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LayoutComponent } from './layout.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ChangePasswordComponent } from './settings/change-password/change-password.component';
-import { AuthGuard } from './../services/auth.guard';
+import { AuthGuard } from './../guards/auth.guard';
 import { InhouseUsersComponent } from './inhouse-users/inhouse-users.component';
 import { EditTemplateComponent } from './edit-template/edit-template.component';
 import { GenerateThumbComponent } from './generate-thumb/generate-thumb.component';

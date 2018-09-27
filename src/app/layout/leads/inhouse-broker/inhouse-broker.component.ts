@@ -46,29 +46,9 @@ export class InhouseBrokerComponent implements OnInit {
   }
 
   getListing() {
-    this.parameter.url = 'leads/in-house-broker';
-
-    const input = new FormData();
-    if (this.parameter.page) {
-      input.append('page', this.parameter.page.toString());
-    }
-    if (this.parameter.flag) {
-      input.append('flag', this.parameter.flag.toString());
-    }
-    if (this.parameter.name) {
-      input.append('name', this.parameter.name);
-    }
-    if (this.parameter.email) {
-      input.append('email', this.parameter.email);
-    }
-    if (this.parameter.phone) {
-      input.append('phone', this.parameter.phone);
-    }
-
-    this.admin.postDataApi(this.parameter.url, input)
+    this.admin.postDataApi('leads/in-house-broker', this.parameter)
       .subscribe(
         success => {
-          // console.log('inhouse', success);
           this.items = success.data;
           this.parameter.total = success.total_count;
         }

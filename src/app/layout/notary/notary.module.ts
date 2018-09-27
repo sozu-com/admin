@@ -10,21 +10,15 @@ import { NotaryLeadsComponent } from './notary-leads/notary-leads.component';
 import { NotaryComponent } from './notary.component';
 import { NotaryLeadsDetailsComponent } from './notary-leads/notary-leads-details/notary-leads-details.component';
 import { AclUserGuard } from '../../guards/acl-user.guard';
+import { SharedModule } from '../../modules/shared.module';
 
 const routes: Routes = [
   { path: 'view-notary', component: NotaryComponent,
     canActivate: [AclUserGuard], data: {roles: ['Noataries Management', 'can_read', '']}},
   { path: 'notary-leads', component: NotaryLeadsComponent,
     canActivate: [AclUserGuard], data: {roles: ['Notary Lead Management', 'can_read', '']}},
-  { path: 'notary-leads/notary-lead-details', component: NotaryLeadsDetailsComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Notary Lead Management', 'can_read', '']}},
-  // { path: '', component: NotaryComponent,
-  //   children: [
-  //     { path: 'view-notary', component: NotaryComponent },
-  //     { path: 'notary-leads', component: NotaryComponent },
-  //     { path: 'notary-leads/notary-lead-details', component: NotaryLeadsDetailsComponent }
-  //   ]
-  // },
+  { path: 'notary-leads/:id', component: NotaryLeadsDetailsComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Notary Lead Management', 'can_read', '']}}
 ];
 
 @NgModule({
@@ -38,7 +32,8 @@ const routes: Routes = [
     NgxPaginationModule,
     FormsModule,
     ReactiveFormsModule,
-    Ng2TelInputModule
+    Ng2TelInputModule,
+    SharedModule
   ],
   declarations: [
     NotaryComponent,

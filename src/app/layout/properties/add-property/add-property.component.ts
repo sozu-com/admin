@@ -466,9 +466,9 @@ export class AddPropertyComponent implements OnInit {
   onSelectFile2(event) {
     if (event.target.files && event.target.files[0]) {
 
-// console.log('url2', this.url2);
+console.log('url2', this.url2);
 
-      if (this.url2.length === 6 || event.target.files.length > 6) {
+      if (this.url2.length > 6 || event.target.files.length > 6) {
         swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
       }else {
         for (let index = 0; index < event.target.files.length; index++) {

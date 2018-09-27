@@ -3,9 +3,8 @@ import { AdminService } from './../../../services/admin.service';
 import { CommonService } from './../../../services/common.service';
 import { IProperty } from './../../../common/property';
 import { Constant } from './../../../common/constants';
-import { Chat, ConversationUser } from './../../../models/chat.model';
+import { Chat } from './../../../models/chat.model';
 import * as io from 'socket.io-client';
-import { ChatTimePipe } from '../../../pipes/chat-time.pipe';
 declare let swal: any;
 
 @Component({

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -25,11 +25,10 @@ import { AddressComponent } from './inhouse-users/address/address.component';
 import { EditTemplateComponent } from './edit-template/edit-template.component';
 import { AdminService } from '../services/admin.service';
 import { CommonService } from '../services/common.service';
-import { AuthGuard } from '../services/auth.guard';
+import { AuthGuard } from '../guards/auth.guard';
 import { Constant } from '../common/constants';
 import { HttpInterceptor } from './../services/http-interceptor';
 import { GenerateThumbComponent } from './generate-thumb/generate-thumb.component';
-import { ThousandPipe } from '../pipes/thousand.pipe';
 import { AclPermissionDirective } from '../directives/acl-permission.directive';
 import { AclUserGuard } from '../guards/acl-user.guard';
 
@@ -78,4 +77,4 @@ import { AclUserGuard } from '../guards/acl-user.guard';
     ],
     bootstrap: [LayoutComponent],
 })
-export class LayoutModule { }
+export class LayoutModule {}

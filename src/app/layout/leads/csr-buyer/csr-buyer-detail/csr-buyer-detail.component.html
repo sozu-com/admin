@@ -1,10 +1,9 @@
 <div class="container-fluid">
   <div class="white-bg padding15">
      <div class="row">
-         <div class="col-lg-4 col-md-12 col-sm-12 col-12">
+         <div class="col-lg-3 col-md-12 col-sm-12 col-12">
            <div *ngIf="parameter.lead?.user" class="profile">
               <div class="fig-block">
-                  <!-- default_img.png -->
                  <img [src]="parameter?.lead?.user?.image" onerror='src="assets/img/default_img.png"' alt="img">
               </div>
               <div class="profile-info">
@@ -24,17 +23,36 @@
               </div>
            </div>
         </div>
+        <!-- <div class="col-lg-5 col-md-12 col-sm-6 col-12">
+            <div class="profile-list">
+            <ul>
+                <li>
+                    <div class="df-info">
+                        <p class="p14 marginB0" *ngIf="parameter.lead?.admin">{{parameter.lead.admin.name}}</p>
+                        <p class="p12">CSR Buyer</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="df-info" *ngIf="parameter.lead?.broker">
+                        <p class="p14 marginB0">{{parameter.lead.broker.name}}</p>
+                        <p class="p12">Inhouse Broker</p>
+                    </div>
+                </li>
+            </ul>
+            </div>
+        </div> -->
         
         <div class="col-lg-4 col-md-12 col-sm-12 col-12" *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_update==1">
-           <div  class="form-group d-flex marginT10 float-right right-side">
+           <div class="form-group d-flex marginT10 float-right right-side">
              <div class="dropdown btn-cont">
-               <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+              <a *ngIf="!parameter.lead?.broker && parameter.lead?.user && admin?.admin_acl['Buyer Lead Management']?.can_update==1" (click)="assignToBroker()" class="btn btn-primary" href="javascript://">Assign to broker</a>
+              <!-- <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                  Action
                </button>
                <div class="dropdown-menu dropdown-menu-right">
                  <a (click)="assignToBroker()" *ngIf="!parameter.lead?.broker && parameter.lead?.user" class="dropdown-item" href="javascript://">Assign to broker</a>
-                 <!-- <a (click)="blockThisLead()" class="dropdown-item" href="javascript://">Block</a> -->
-               </div>
+                 <a (click)="blockThisLead()" class="dropdown-item" href="javascript://">Block</a>
+               </div> -->
             </div>
            </div>
         </div>

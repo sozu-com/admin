@@ -231,11 +231,11 @@
                         <a href="javascript://" *ngIf="item.is_blocked == 1" (click)="blockUnblockPopup(i, item.id, 0, parameter.type)" title="Unblock user" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png" alt="img"></a>
                         <a href="javascript://" *ngIf="item.is_blocked == 0" (click)="blockUnblockPopup(i, item.id, 1, parameter.type)" title="Block user" class="icon-block block-icon"><img src="assets/img/unblock.png" alt="img"></a> -->
                         <button title="View Details" routerLink="/dashboard/leads/csr-buyers/{{item.id}}" [disabled]="admin?.admin_acl['Buyer Lead Management']?.can_read==0" class="action-icon"><img src="./../../../../assets/img/edit.png" alt="img"></button>
-                        <button [disabled]="admin?.admin_acl['Buyer Lead Management']?.can_delete==0"
+                        <!-- <button [disabled]="admin?.admin_acl['Buyer Lead Management']?.can_delete==0"
                             (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1, parameter.type)" 
                             title="{{item.is_blocked==1?'Unblock Lead':'Block Lead'}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"
                             class="action-icon"><img src="assets/img/block.png" alt="img">
-                        </button>
+                        </button> -->
                         </td>
                     </tr>
                     </table>

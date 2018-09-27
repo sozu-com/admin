@@ -23,7 +23,7 @@ export class AppHeaderComponent {
 
   constructor(public admin: AdminService, private router: Router, public adminModel: AdminACL) {
     this.admin.loginData$.subscribe(success => {
-      console.log('success', success);
+      console.log('success1', success);
       this.fullName = success['name'];
       this.image = success['image'];
     });

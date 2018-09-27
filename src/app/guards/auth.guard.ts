@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 import { Router } from '@angular/router';
-import { AdminService } from './admin.service';
+import { AdminService } from './../services/admin.service';
 import { Login, AdminACL } from './../models/login.model';
 
 @Injectable()
@@ -22,13 +22,13 @@ export class AuthGuard implements CanActivate {
           .subscribe(
             success1 => {
               console.log('ssss1', success1);
+              this.admin.login.next(success1.data);
               this.admin.permissions = success1.data.permissions ? success1.data.permissions : {};
               const aclData: any = {};
               const dd = success1.data.m.map((obj, index) => {
                 const key =  Object.keys(obj)[0];
                 this.admin.admin_acl[key] =  obj[key];
               });
-              this.admin.login.next(success1.data);
               console.log('111111');
             });
         }

@@ -46,28 +46,9 @@ export class CsrBuyerComponent implements OnInit {
 
   getListing() {
     this.parameter.url = 'leads/csr-buyer';
-
-    const input = new FormData();
-    if (this.parameter.page) {
-      input.append('page', this.parameter.page.toString());
-    }
-    if (this.parameter.flag) {
-      input.append('flag', this.parameter.flag.toString());
-    }
-    if (this.parameter.name) {
-      input.append('name', this.parameter.name);
-    }
-    if (this.parameter.email) {
-      input.append('email', this.parameter.email);
-    }
-    if (this.parameter.phone) {
-      input.append('phone', this.parameter.phone);
-    }
-
-    this.admin.postDataApi(this.parameter.url, input)
+    this.admin.postDataApi(this.parameter.url, this.parameter)
       .subscribe(
         success => {
-          // console.log('succ', success);
           this.items = success.data;
           this.parameter.total = success.total_count;
         });
@@ -103,17 +84,10 @@ export class CsrBuyerComponent implements OnInit {
 
 
   block(index, id, flag, user_type) {
-    this.parameter.url = 'leads/blockLead';
-    const input = new FormData();
-    input.append('lead_id', id);
-    input.append('flag', flag);
-
-    this.admin.postDataApi(this.parameter.url, input)
+    this.admin.postDataApi('leads/blockLead', {lead_id: id, flag: flag})
       .subscribe(
         success => {
-          // console.log('success', success);
           swal('Success', this.parameter.successText, 'success');
-          // this.items[index] = success.data;
           this.items[index].is_blocked = flag;
         });
   }

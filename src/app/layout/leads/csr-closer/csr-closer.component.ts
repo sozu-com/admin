@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../../services/admin.service';
 import { IProperty } from '../../../common/property';
 import { Constant } from './../../../common/constants';
-import { Router } from '@angular/router';
 import { Users } from '../../../models/users.model';
 declare let swal: any;
 
@@ -24,7 +23,13 @@ export class CsrCloserComponent implements OnInit {
 
   ngOnInit() {
     this.parameter.page = this.constant.p;
+    this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.flag = 2;
+    this.getListing();
+  }
+
+  getPage(page) {
+    this.parameter.page = page;
     this.getListing();
   }
 
@@ -40,28 +45,9 @@ export class CsrCloserComponent implements OnInit {
 
   getListing() {
     this.parameter.url = 'leads/csr-closer';
-
-    const input = new FormData();
-    if (this.parameter.page) {
-      input.append('page', this.parameter.page.toString());
-    }
-    if (this.parameter.flag) {
-      input.append('flag', this.parameter.flag.toString());
-    }
-    if (this.parameter.name) {
-      input.append('name', this.parameter.name);
-    }
-    if (this.parameter.email) {
-      input.append('email', this.parameter.email);
-    }
-    if (this.parameter.phone) {
-      input.append('phone', this.parameter.phone);
-    }
-
-    this.admin.postDataApi(this.parameter.url, input)
+    this.admin.postDataApi(this.parameter.url, this.parameter)
       .subscribe(
         success => {
-          // console.log('leads/csr-closer', success);
           this.items = success.data;
           this.parameter.total = success.total_count;
         }

@@ -29,6 +29,8 @@ import { FillInformationComponent } from './../common-blocks/fill-information/fi
 import { ThousandPipe } from '../../pipes/thousand.pipe';
 import { MyChatComponent } from './inhouse-broker/inhouse-broker-detail/my-chat/my-chat.component';
 import { AclUserGuard } from '../../guards/acl-user.guard';
+import { LayoutModule } from '../layout.module';
+import { SharedModule } from '../../modules/shared.module';
 
 const routes: Routes = [
   { path: 'data-collectors', component: DataCollectorComponent,
@@ -64,7 +66,9 @@ const routes: Routes = [
     ReactiveFormsModule,
     Ng2TelInputModule,
     MalihuScrollbarModule.forRoot(),
-    NouisliderModule
+    NouisliderModule,
+    SharedModule
+    // LayoutModule
     // NgBoxModule
   ],
   declarations: [
@@ -77,14 +81,14 @@ const routes: Routes = [
     CsrBuyerDetailComponent,
     InhouseBrokerDetailComponent,
     CsrCloserDetailComponent,
-    ChatComponent,
+    // ChatComponent,
     InterestedPropertyComponent,
     ViewedPropertyComponent,
     RemoveCommaPipe,
     ThousandPipe,
-    MomentPipe,
-    ChatTimePipe,
-    NotesComponent,
+    // MomentPipe,
+    // ChatTimePipe,
+    // NotesComponent,
     FillInformationComponent,
     MyChatComponent
   ],

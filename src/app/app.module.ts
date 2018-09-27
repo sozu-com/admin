@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminService } from './services/admin.service';
 import { HttpModule, Http, RequestOptions, XHRBackend } from '@angular/http';
-import { AuthGuard } from './services/auth.guard';
+import { AuthGuard } from './guards/auth.guard';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
@@ -20,6 +20,7 @@ import { CommonService } from './services/common.service';
 import { Constant } from './common/constants';
 import { AclPermissionDirective } from './directives/acl-permission.directive';
 import { Login, AdminACL } from './models/login.model';
+import { SharedModule } from './modules/shared.module';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent},
@@ -47,6 +48,7 @@ const appRoutes: Routes = [
     HttpModule,
     FormsModule,
     LayoutModule,
+    SharedModule,
     LoadingModule.forRoot({
       animationType: ANIMATION_TYPES.rectangleBounce,
       primaryColour: '#00B96F'
