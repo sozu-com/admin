@@ -181,7 +181,7 @@
                         {{item.email}}
                     </td>
                     <td>
-                    <a class="green-color fontW500" href="javascript://">Change Availability</a>
+                    <a class="green-color fontW500" data-toggle="modal" data-target="#set-availability" href="javascript://">Change Availability</a>
                     </td>
                     <td>
                         <a href="javascript://" routerLink="/dashboard/notary/notary-leads/{{item.id}}" class="icon-block edit-icon"><img src="assets/img/viewfull.png" alt="img"></a> 
@@ -198,3 +198,54 @@
         <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
     </div>
 </div>
+
+
+
+<!-- add inhouse user modal -->
+<!-- <div class="modal animated" id="set-availability">
+    <div class="modal-dialog fadeIndown">
+        <div class="modal-content">
+            <div class="modal-header modal-header-new">
+                <h4 class="modal-title">View Availability</h4>
+                <button type="button" style="display: none;" class="close" data-dismiss="modal" #modalClose>&times;</button>
+                <button type="button" class="close" (click)="closeModal()">&times;</button>
+            </div>
+    
+            <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="addNewUser(addForm)">
+            <div class="modal-body modal-body-new">
+                <div class="row">
+                    <div class="col-5">
+                        <div class="form-group-2">
+                            <label>Date</label>
+                            <div class="form-group">
+                            <input type="date" #date class="form-control" required name="name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-5">
+                        <div class="form-group-2">
+                            <label>Time</label>
+                            <div class="form-group">
+                            <input type="time" #value class="form-control" required name="name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group-2">
+                            <button type="button" class="btn btn-primary">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="btn-cont text-right">
+                            <button type="submit" [disabled]="addForm.invalid" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </form>
+    
+        </div>
+    </div>
+</div> -->
