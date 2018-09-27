@@ -14,7 +14,7 @@ const routes: Routes = [
     {
         path: 'dashboard', component: LayoutComponent, canActivate: [AuthGuard],
         children: [
-            { path: '', component: DashboardComponent },
+            { path: 'dashboard', component: DashboardComponent },
             { path: 'view-inhouse-users/:userType', component: InhouseUsersComponent,
                 canActivate: [AclUserGuard], data: {roles: ['', '', '']}},
             { path: 'change-password', component: ChangePasswordComponent},
