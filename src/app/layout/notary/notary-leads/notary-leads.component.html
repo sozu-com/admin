@@ -167,7 +167,7 @@
                         &nbsp;
                     </th>
                 </tr>
-                <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }">
+                <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index">
                     <td>
                         <img class="rounded-circle" [src]="item.image" onerror="this.src='assets/img/default_img.png'" alt="img">
                     </td>
@@ -181,7 +181,8 @@
                         {{item.email}}
                     </td>
                     <td>
-                    <a class="green-color fontW500" data-toggle="modal" data-target="#set-availability" href="javascript://">Change Availability</a>
+                    <a style="display:none;" #modalOpen class="green-color fontW500" data-toggle="modal" data-target="#set-availability" href="javascript://">Change Availability</a>
+                    <a class="green-color fontW500" (click)="openModal(item, i)" href="javascript://">Change Availability</a>
                     </td>
                     <td>
                         <a href="javascript://" routerLink="/dashboard/notary/notary-leads/{{item.id}}" class="icon-block edit-icon"><img src="assets/img/viewfull.png" alt="img"></a> 
@@ -202,7 +203,7 @@
 
 
 <!-- add inhouse user modal -->
-<!-- <div class="modal animated" id="set-availability">
+<div class="modal animated" id="set-availability">
     <div class="modal-dialog fadeIndown">
         <div class="modal-content">
             <div class="modal-header modal-header-new">
@@ -211,14 +212,14 @@
                 <button type="button" class="close" (click)="closeModal()">&times;</button>
             </div>
     
-            <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="addNewUser(addForm)">
+            <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="add(addForm)">
             <div class="modal-body modal-body-new">
                 <div class="row">
                     <div class="col-5">
                         <div class="form-group-2">
                             <label>Date</label>
                             <div class="form-group">
-                            <input type="date" #date class="form-control" required name="name">
+                            <input type="date" [(ngModel)]="date" class="form-control" name="date">
                             </div>
                         </div>
                     </div>
@@ -226,20 +227,27 @@
                         <div class="form-group-2">
                             <label>Time</label>
                             <div class="form-group">
-                            <input type="time" #value class="form-control" required name="name">
+                            <input type="time" [(ngModel)]="time" class="form-control" name="time">
                             </div>
                         </div>
                     </div>
                     <div class="col-2">
                         <div class="form-group-2">
-                            <button type="button" class="btn btn-primary">+</button>
+                            <button type="button" class="btn btn-primary" (click)="addDateTime()">+</button>
                         </div>
+                    </div>
+                </div>
+                <div class="row" *ngFor="let d of data">
+                    {{d|json}}
+                    <div class="col-8">
+                        <label *ngIf="d.id!=0" class="notary-ava">{{d.date_time | moment}}</label>
+                        <label *ngIf="d.id==0" class="notary-ava">{{d.date_time|date: 'MMM d y'}}, {{d.date_time|date:'h:mm a'|lowercase}}</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12">
                         <div class="btn-cont text-right">
-                            <button type="submit" [disabled]="addForm.invalid" class="btn btn-primary">Save</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </div>
                 </div>
@@ -248,4 +256,4 @@
     
         </div>
     </div>
-</div> -->
+</div>

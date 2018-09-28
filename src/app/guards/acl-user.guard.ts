@@ -18,25 +18,30 @@ export class AclUserGuard implements CanActivate {
       const inhouseUserRole = roles ? roles[2] : '';
 
       const admin_acl = JSON.parse(localStorage.getItem('admin_acl'));
-      const obj = admin_acl[key];
       const permissions = JSON.parse(localStorage.getItem('permissions'));
-      if (((state.url === '/dashboard/view-inhouse-users/data-collectors') && (admin_acl['Data Collector Management']['can_read'] === 1)) ||
+      if (permissions || admin_acl) {
+        const obj = admin_acl[key];
+        if (((state.url === '/dashboard/view-inhouse-users/data-collectors') &&
+            (admin_acl['Data Collector Management']['can_read'] === 1)) ||
           ((state.url === '/dashboard/view-inhouse-users/csr-sellers') && (admin_acl['Seller Management']['can_read'] === 1)) ||
           ((state.url === '/dashboard/view-inhouse-users/csr-buyers') && (admin_acl['Buyer Management']['can_read'] === 1)) ||
           ((state.url === '/dashboard/view-inhouse-users/inhouse-broker') && (admin_acl['Broker Management']['can_read'] === 1)) ||
           ((state.url === '/dashboard/view-inhouse-users/csr-closers') && (admin_acl['Closer Management']['can_read'] === 1))) {
             console.log('permissions');
             return true;
-      } else if ((obj && obj[subkey] === 1) || (permissions && permissions[inhouseUserRole] === 1)) {
-        console.log('admin_acl');
-        return true;
+        } else if ((obj && obj[subkey] === 1) || (permissions && permissions[inhouseUserRole] === 1)) {
+          console.log('admin_acl');
+          return true;
+        } else {
+          console.log('else');
+            // this.router.events.pairwise().subscribe((e) => {
+            //   this.router.navigate([previousUrl]);
+            //   return false;
+            // });
+          this.location.back();
+          return false;
+        }
       } else {
-        console.log('else');
-          // this.router.events.pairwise().subscribe((e) => {
-          //   this.router.navigate([previousUrl]);
-          //   return false;
-          // });
-        this.location.back();
         return false;
       }
   }

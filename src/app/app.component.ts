@@ -35,11 +35,6 @@ export class AppComponent implements OnInit {
     this.interceptor.loaderValue$.subscribe(res => {
       setTimeout(() => {
         this.loading = Object.keys(res).length !== 0 ? res['value'] : false;
-        // if (res['value'] === true || res['value'] === false) {
-        //   this.loading = res['value'];
-        // } else {
-        //   this.loading = false;
-        // }
       }, 0);
     });
   }

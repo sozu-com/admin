@@ -346,3 +346,8 @@ input::-webkit-inner-spin-button {
     padding: 3px;
     cursor: pointer;
 }
+.notary-ava {
+    background-color: #e0f5e6;
+    padding: 5px 15px;
+    color: #4eb96f;
+}

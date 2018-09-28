@@ -128,16 +128,32 @@ export class BankAssigned {
     bank_id: number;
 }
 
-// export class Bank {
-//     lead_id: number;
-//     property_id: number;
-//     bank_id: number;
-// }
+export class NotaryLeads {
+    id: string;
+    name: string;
+    dial_code: string;
+    country_code: string;
+    phone: string;
+    email: string;
+    selected_properties: Array<SelectedNotary>;
+    datetime: any;
+}
 
-// export class Notary {
-//     lead_id: number;
-//     name: string;
-//     image: string;
-//     property_id: number;
-//     noatary_id: number;
-// }
+export class SelectedNotary {
+    selected_noatary: Array<NotaryAvailabilty>;
+}
+
+export class NotaryAvailabilty {
+    noatary_availability: Array<Datetime>;
+}
+
+export class Datetime {
+    id: number;
+    date_time: any;
+}
+
+export class AddNotaryAvailabilty {
+    property_id: string;
+    lead_id: string;
+    date_time: Array<any> = [];
+}
