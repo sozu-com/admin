@@ -351,3 +351,29 @@ input::-webkit-inner-spin-button {
     padding: 5px 15px;
     color: #4eb96f;
 }
+
+/**/
+.upload-cover-img,.add-project-img-more{
+    overflow:hidden;
+}
+.upload-cover-img img,
+.add-project-img-more img{
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    height: 100%;
+}
+.upload-caption{cursor:pointer}
+.upload-caption .number{
+    font-size: 50px;
+    color: #00B96F;
+    text-shadow: 1px 1px 5px #000;
+}
+.form-control.ng-invalid.ng-touched{
+    border: solid thin #fb9494;
+}
+.paramtext{padding:10px;}
+.btn-green{
+ background: #00B96F;
+ color:#fff;   
+}

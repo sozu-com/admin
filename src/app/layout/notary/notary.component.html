@@ -58,7 +58,7 @@
               </th>
             </tr>
       
-            <tr *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }; let i=index">
+            <tr *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index">
               <td> 
                   <img [src]="item.image" class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
               </td>

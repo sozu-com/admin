@@ -7,7 +7,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { NgForm, FormControl } from '@angular/forms';
 import { MapsAPILoader } from '@agm/core';
 import { Constant } from '../../../common/constants';
+import { FileUpload } from './../../../common/fileUpload';
 import { AddPropertyModel, Building, PropertyDetails } from '../../../models/addProperty.model';
+import { HttpInterceptor } from '../../../services/http-interceptor';
 declare const google;
 declare let swal: any;
 
@@ -15,14 +17,15 @@ declare let swal: any;
   selector: 'app-add-property',
   templateUrl: './add-property.component.html',
   styleUrls: ['./add-property.component.css'],
-  providers: [AddPropertyModel, Building, Constant]
+  providers: [AddPropertyModel, Building, Constant,HttpInterceptor]
 })
 export class AddPropertyComponent implements OnInit {
 
-  file1: any;
+  file2:any;
 
   public parameter: IProperty = {};
   @ViewChild('modalClose') modalClose: ElementRef;
+  @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('mapDiv') mapDiv: ElementRef;
   @ViewChild('search') searchElementRef: ElementRef;
 
@@ -62,21 +65,26 @@ export class AddPropertyComponent implements OnInit {
   buildingName = '';
   initialCountry: any;
   propertyDetails = false;
-  details: any;
+  details:any;
   editMode = false;
-  newcarpet_area = {area: '', price: ''};
-  newcustom_attribute = {name: '', value: ''};
+  newcarpet_area = {area:'',price:''};
+  newcustom_attribute = {name:'',value:''};
+  buildingLoading = false;
 
-  constructor(public model: AddPropertyModel, private us: AdminService,
+  constructor(public model: AddPropertyModel, private us: AdminService, private cs: CommonService,
     private router: Router, private sanitization: DomSanitizer, private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone, private building: Building, public constant: Constant,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private http:HttpInterceptor) { }
 
   ngOnInit() {
+    this.http.loader.next({value:true});
     this.details = new PropertyDetails;
+    
+    this.file2 = new FileUpload(false, this.us);
 
     this.parameter.sub = this.route.params.subscribe(params => {
-      if (params['edit'] === 'edit') {
+      if(params['edit'] == 'edit'){
         this.editMode = true;
       }
       this.parameter.property_id = params['property_id'];
@@ -85,13 +93,28 @@ export class AddPropertyComponent implements OnInit {
         this.testMarital[0].checked = true;
         this.model.marital_status = [1];
         this.showSearch = true;
+        //console.log('no');
       } else {
+        //console.log('yes');
         this.getPropertyById(this.parameter.property_id);
       }
     });
 
     this.parameter.buildingCount = 0;
+    // this.testMarital = [
+    //   {id: 1,
+    //   name: 'Married',
+    //   checked: 'true'},
+    //   {id: 2,
+    //   name: 'Unmarried',
+    //   checked: 'false'},
+    //   {id: 3,
+    //   name: 'Divorced',
+    //   checked: 'false'}
+    // ];
+    // this.model.marital_status = [1];
     this.initialCountry = {initialCountry: this.constant.initialCountry};
+    this.building.dev_countrycode = this.constant.dial_code;
 
     this.tab = 1;
     this.getCountries('');
@@ -123,13 +146,14 @@ export class AddPropertyComponent implements OnInit {
           this.parameter.loading = false;
           this.parameter.propertyDetails = success['data'];
           this.setModelData(success['data']);
-          if (this.parameter.propertyDetails.step < 5) {
-            this.tab = this.parameter.propertyDetails.step;
+          if(this.parameter.propertyDetails.step < 5){
+            this.tab = this.parameter.propertyDetails.step
           }
-          this.url2 = this.parameter.propertyDetails.images.map(op => op.image);
-          if (this.url2.length > 0) {
-            this.image2  = this.sanitization.bypassSecurityTrustStyle(`url(${this.url2[0]})`);
+          this.url2 = this.parameter.propertyDetails.images.map(op=>{ return op.image;});
+          if(this.url2.length > 0){
+            this.image2  = this.url2[0];
           }
+          //console.log(this.url2);
         }
       );
   }
@@ -161,6 +185,7 @@ export class AddPropertyComponent implements OnInit {
     this.model.parking = data.parking;
     this.model.furnished = data.furnished;
     this.model.property_quantity_details = data.details;
+    this.model.images = data.images;
 
     this.building.id = data.building ? data.building.id : '';
     this.building.name = data.building ? data.building.name : '';
@@ -209,9 +234,8 @@ export class AddPropertyComponent implements OnInit {
 
   setTab(tab) {
     swal({
-      html: 'Moving back can reset informations entered on current tab' + '<br>' + 'Are you sure you want to go back?',
-      // title: 'Are you sure?',
-      // text: 'Moving back can reset informations entered on current tab. Are you sure you want to go back?',
+      title: 'Are you sure?',
+      text: 'Moving back can reset information entered on current tab.',
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -248,16 +272,16 @@ export class AddPropertyComponent implements OnInit {
     this.model.state_id = '';
     this.model.city_id = '';
     this.model.locality_id = '';
-    this.parameter.cities = [];
-    this.parameter.localities = [];
+    this.parameter.cities=[];
+    this.parameter.localities=[];
     const input = new FormData();
     input.append('country_id', country_id);
 
-    this.us.postDataApi(this.parameter.url, input).subscribe(success => {
+    this.us.postDataApi(this.parameter.url, input).subscribe(success =>{
       this.parameter.states = success['data'];
       this.parameter.loading = false;
     },
-    error => {
+    error=>{
       this.parameter.loading = false;
     });
   }
@@ -268,14 +292,14 @@ export class AddPropertyComponent implements OnInit {
     this.model.state_id = state_id;
     this.model.city_id = '';
     this.model.locality_id = '';
-    this.parameter.localities = [];
+    this.parameter.localities=[];
     const input = new FormData();
     input.append('state_id', state_id);
 
     this.us.postDataApi(this.parameter.url, input).subscribe(success => {
       this.parameter.cities = success['data'];
       this.parameter.loading = false; },
-    error => {
+    error=>{
         this.parameter.loading = false;
     });
   }
@@ -343,9 +367,9 @@ export class AddPropertyComponent implements OnInit {
       );
   }
 
-  addAmenity(a, i) {
+  addAmenity(a,i) {
     const tt = this.getSelectedAmenityByName(a);
-    this.parameter.amenities.splice(i, 1);
+    this.parameter.amenities.splice(i,1);
     if (tt) {
       this.amenityList.push(tt);
       this.model.amenities.push(tt.id);
@@ -362,7 +386,7 @@ export class AddPropertyComponent implements OnInit {
     }
   }
 
-  removeAmenity(amenity, index) {
+  removeAmenity(amenity,index) {
     this.parameter.amenities.push(amenity);
     this.model.amenities.splice(index, 1);
     this.amenityList.splice(index, 1);
@@ -378,7 +402,7 @@ export class AddPropertyComponent implements OnInit {
       );
   }
 
-  getBuildingSpecificTypes() {
+  getBuildingSpecificTypes(){
     this.parameter.url = 'getBuildingSpecificTypes';
     const input = new FormData();
     this.us.postDataApi(this.parameter.url, input)
@@ -387,7 +411,7 @@ export class AddPropertyComponent implements OnInit {
       );
   }
 
-  getPaymentStatuses() {
+  getPaymentStatuses(){
     this.parameter.url = 'getPaymentStatuses';
     const input = new FormData();
     this.us.postDataApi(this.parameter.url, input)
@@ -405,21 +429,22 @@ export class AddPropertyComponent implements OnInit {
     this.bank = '';
   }
 
- addCarpetArea() {
-    if (this.newcarpet_area.area === '' || this.newcarpet_area.price === '') {
+
+  addCarpetArea(){
+    if (!this.newcarpet_area.area || !this.newcarpet_area.price) {
       swal('Error', 'Please fill carpet area fields', 'error');
     } else {
       this.model.carpet_areas.push(JSON.parse(JSON.stringify(this.newcarpet_area)));
-      this.newcarpet_area = {area: '', price: ''};
+      this.newcarpet_area = {area:'',price:''};
     }
   }
 
   addCustomAttribute() {
-    if (this.newcustom_attribute.name === '' || this.newcustom_attribute.value === '') {
+    if (!this.newcustom_attribute.name || !this.newcustom_attribute.value) {
       swal('Error', 'Please fill custom attribute fields', 'error');
     } else {
       this.model.custom_attributes.push(this.newcustom_attribute);
-      this.newcustom_attribute = {name: '', value: ''};
+      this.newcustom_attribute = {name:'',value:''};
     }
   }
 
@@ -438,11 +463,14 @@ export class AddPropertyComponent implements OnInit {
   }
 
   searchBuilding(keyword) {
+    if(!keyword) {
+      swal('Error', 'Please enter some text.', 'error');return false;
+    }
+
     this.showBuilding = false;
+    this.buildingLoading = true;
     this.parameter.url = 'searchBuilding';
-    if (keyword === '') {
-      swal('Error', 'Please enter some text.', 'error');
-    } else {
+    
       const input = new FormData();
       input.append('keyword', keyword);
 
@@ -452,23 +480,28 @@ export class AddPropertyComponent implements OnInit {
             this.parameter.buildings = success['data'];
             this.parameter.buildingCount = success['data'].length;
             if (this.parameter.buildingCount === 0) { this.showText = true; }
+            this.buildingLoading = false;
+          },
+          error=>{
+            this.buildingLoading = true;
           }
         );
-    }
+    
   }
 
   showBuildingDetails(showBuilding) {
     this.showBuilding = showBuilding;
     this.buildingName = '';
     this.loadPlaces();
+
   }
 
   onSelectFile2(event) {
     if (event.target.files && event.target.files[0]) {
 
-console.log('url2', this.url2);
+// console.log('url2', this.url2);
 
-      if (this.url2.length > 6 || event.target.files.length > 6) {
+      if ((this.url2.length+event.target.files.length) > 6 || event.target.files.length > 6) {
         swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
       }else {
         for (let index = 0; index < event.target.files.length; index++) {
@@ -477,7 +510,7 @@ console.log('url2', this.url2);
             this.imageEvent.push(event.target.files[index]);
             this.url2.push(e.target.result);
             const tempurl = e.target.result;
-            this.image2 = this.sanitization.bypassSecurityTrustStyle(`url(${tempurl})`);
+            this.image2 = tempurl;
           };
           reader.readAsDataURL(event.target.files[index]);
         }
@@ -505,31 +538,36 @@ console.log('url2', this.url2);
     }
   }
 
-
-  closeModal() {
-    this.modalClose.nativeElement.click();
-    // this.image2 = '';
-    // this.url2 = [];
-    // this.imageEvent = [];
-    // this.model.images = [];
+  modelOpenFun(){
+    this.modalOpen.nativeElement.click();
+    this.file2.backup(JSON.parse(JSON.stringify(this.model.images)));
   }
 
-  removeImage(index) {
-    this.url2.splice(index, 1);
-    this.imageEvent.splice(index, 1);
-    this.model.images.splice(index, 1);
+  modelCloseFun() {
+    this.modalClose.nativeElement.click();
+    //this.file2.reset();
   }
 
   saveImages() {
-    const input = new FormData();
-    for (let index = 0; index < this.imageEvent.length; index++) {
-      input.append('image', this.imageEvent[index]);
-
-      this.us.postDataApi('saveImage', input)
-      .subscribe(
-        success => { this.model.images.push(success['data'].image); }
-      );
+    this.http.loader.next({value:true});
+    console.log('sss');
+    if(this.file2.files.length < 1){
+      swal('Error','Please select atleast one image','error');return false;
     }
+    this.modalClose.nativeElement.click();
+    this.file2.upload().then(r => {
+      console.log('resolved');
+      this.model.images = this.file2.files;
+      this.http.loader.next({value:false});
+    });
+  }
+
+  file2Select($event){
+    if ((this.file2.files.length + $event.target.files.length) > 6) {
+      swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
+      return false;
+    }
+    this.file2.onSelectFile($event);
   }
 
   onSelectFile3(event) { // called each time file input changes
@@ -569,15 +607,17 @@ console.log('url2', this.url2);
     this.parameter.url = this.model.id !== '' ? 'addProperty' : 'addProperty';
     this.model.step = tab - 1;
 
-    if (this.model.carpet_areas.length < 1 && this.tab === 1) {
+    if(this.model.carpet_areas.length < 1 && this.tab == 1){
       swal('Error', 'Please add carpet area.', 'error');
-    }else if ((this.model.cover_image === null || this.model.cover_image === undefined) && (this.model.step === 2)) {
+    }else if((this.model.cover_image === null || this.model.cover_image === undefined) && (this.model.step==2)) {
       swal('Error', 'Please choose cover image.', 'error');
-    }else if ((this.model.floor_plan === null || this.model.floor_plan === undefined) && (this.model.step === 2)) {
+    }else if ((this.model.floor_plan === null || this.model.floor_plan === undefined) && (this.model.step==2)) {
       swal('Error', 'Please choose floor plan.', 'error');
-    }else if ((this.model.amenities.length === 0) && (this.model.step === 2)) {
+    }else if ((this.model.amenities.length === 0) && (this.model.step==2)) {
       swal('Error', 'Please choose amenity.', 'error');
-    }else {
+    }else if ((this.model.marital_status.length === 0) && (this.model.step==3)) {
+      swal('Error', 'Please choose marital status.', 'error');
+    }else{
       const input = new FormData();
       if (this.parameter.property_id) {
         input.append('property_id', this.parameter.property_id);
@@ -585,8 +625,9 @@ console.log('url2', this.url2);
 
       input.append('step', this.model.step.toString());
        if (this.model.step === 1) {
-        input.append('for_rent', this.model.for_rent === true ? '1' : '0');
+
         input.append('for_sale', this.model.for_sale === true ? '1' : '0');
+        input.append('for_rent', this.model.for_sale === true ? '0' : '1');
         input.append('country_id', this.model.country_id);
         input.append('state_id', this.model.state_id);
         input.append('city_id', this.model.city_id);
@@ -597,8 +638,9 @@ console.log('url2', this.url2);
        }
 
        if (this.model.step === 2) {
+        let imagesString = this.model.images.map(r => r.image);
+        input.append('images', JSON.stringify(imagesString));
         input.append('cover_image', this.model.cover_image);
-        input.append('images', JSON.stringify(this.model.images));
         input.append('floor_plan', this.model.floor_plan);
         input.append('bedroom', this.model.bedroom.toString());
         input.append('bathroom', this.model.bathroom.toString());
@@ -610,6 +652,7 @@ console.log('url2', this.url2);
         input.append('amenities', JSON.stringify(this.model.amenities));
         input.append('banks', JSON.stringify(this.model.banks));
         input.append('property_quantity_details', JSON.stringify(this.model.property_quantity_details));
+        //console.log(this.model.property_quantity_details);
        }
        if (this.model.step === 3) {
         input.append('pets', this.model.pets.toString());
@@ -618,7 +661,7 @@ console.log('url2', this.url2);
        if (this.model.step === 4) {
         input.append('custom_attributes', JSON.stringify(this.model.custom_attributes));
        }
-      console.log('INPUT=>', input);
+      console.log('INPUT=>',input);
       this.us.postDataApi(this.parameter.url, input)
         .subscribe(
           success => {
@@ -648,7 +691,7 @@ console.log('url2', this.url2);
           swal('Submitted successfully.',
           'You will be notified once your property will be reviewed by them, you can view status in your properties.',
           'success');
-          this.router.navigate(['/dashboard/properties/view-properties']);
+          this.router.navigate(['/seller/my-properties']);
         }
       );
   }
@@ -701,6 +744,7 @@ console.log('url2', this.url2);
 
   getGeoLocation(lat: number, lng: number) {
     if (navigator.geolocation) {
+        this.parameter.loading = true;
         const geocoder = new google.maps.Geocoder();
         const latlng = new google.maps.LatLng(lat, lng);
         const request = { latLng: latlng };
@@ -714,6 +758,7 @@ console.log('url2', this.url2);
               this.building.address = lat + ',' + lng;
             }
           }
+          this.parameter.loading = false;
         });
     }
   }
@@ -721,35 +766,48 @@ console.log('url2', this.url2);
 
   buildingRequest() {
 
+    if(this.building.dev_name && (!this.building.dev_phone || !this.building.dev_email || !this.building.dev_countrycode)){
+      swal('Error','Please fill complete devloper information','error');return false;
+    }
+
     this.parameter.url = 'buildingRequest';
     this.building.lat = this.latitude;
     this.building.lng = this.longitude;
 
+    if(!this.building.lat || !this.building.lng){
+      swal('Error','Please select location','error');return false;
+    }
+    console.log(this.building);
     this.us.postDataApi(this.parameter.url, this.building)
       .subscribe(
         success => {
           swal('Submitted successfully.',
           'You will be notified once your property will be reviewed by them, you can view status in your properties.',
           'success');
-          this.router.navigate(['/dashboard/properties/view-properties']);
+          this.router.navigate(['/seller/my-properties']);
         }
       );
   }
 
-  addPropertyDetails() {
+  addPropertyDetails(){
+ 
     this.model.property_quantity_details.push(JSON.parse(JSON.stringify(this.details)));
     this.details = new PropertyDetails;
+   
   }
 
-  checkEmptyDetails() {
-    for (const item of this.details){
-      if (item === '') {return false; }
+  checkEmptyDetails(){
+    for(let item of this.details){
+      if(item == ''){return false;}
     }
     return true;
   }
 
-  removeDetails(i) {
-    this.model.property_quantity_details.splice(i, 1);
+  removeDetails(i){
+    this.model.property_quantity_details.splice(i,1);
   }
 
+  clickOnSale(){
+    console.log(this.model.for_sale);
+  }
 }

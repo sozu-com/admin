@@ -4,7 +4,7 @@ export class Users {
     country_code: string;
     dial_code: string;
     phone: string;
-    image: string;
+    image: any;
     email: string;
     interested_in: string;
     user_type: string;

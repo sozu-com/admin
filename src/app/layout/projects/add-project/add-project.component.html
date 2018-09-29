@@ -1,4 +1,4 @@
-<!-- <ngx-loading [show]="parameter.loading"></ngx-loading> -->
+<ngx-loading [show]="parameter.loading"></ngx-loading>
 
 <div class="container-fluid">
   <div class="white-bg">
@@ -24,24 +24,24 @@
               </div>
             </div>
             <div class="add-project-img-more">
-              <img [src]="file2?.files[0]?.image" onerror="this.src='assets/img/placeholder-img.png'" class="img-fluid">
+              <img [src]="model.images[0]?.image" onerror="this.src='assets/img/placeholder-img.png'" class="img-fluid">
               <div class="upload-caption">
-                <p *ngIf="file2.files.length > 1" class="number" data-target="#add-more-img" data-toggle="modal">+{{file2.files.length-1}}</p>
-                <p *ngIf="file2.files.length <= 1" class="green-color marginT30" data-toggle="modal" data-target="#add-more-img">+ Add more images</p>
+                <p *ngIf="model?.images?.length > 1" class="number" (click)="modelOpenFun()">+{{model?.images?.length-1}}</p>
+                <p *ngIf="model?.images?.length <= 1" class="green-color"  (click)="modelOpenFun()">+ Add more images</p>
               </div>
             </div>
-          </div>
+           </div>
           <div class="col-md-7 col-sm-12 col-12">
             <div class="row">
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
-                  <label>Name of Building</label>
+                  <label>Name of the Building</label>
                   <input class="form-control" type="text" [(ngModel)]="model.name" name="name" placeholder="Enter name of building" autocomplete="off" required>
                 </div>
               </div>
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
-                  <label>Where it is located?</label>
+                  <label>Location</label>
                   <input placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search (input)="loadPlaces()" name="address" [(ngModel)]="model.address" autocomplete="off" required>
                 </div>
               </div>
@@ -53,18 +53,17 @@
                   <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
                 </agm-map>
               </div>
-              <p class="p13">Verify these two details provided initially, Proceed further if correct or edit the details if wrong and then proceed ahead.</p>
             </div>
             <div class="row">
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
-                  <label>Building Age</label>
-                  <input class="form-control" [(ngModel)]="model.building_age" type="number" name="building_age" required />
+                  <label>Building Age (in yrs)</label>
+                  <input min="0" class="form-control" [(ngModel)]="model.building_age" type="number" name="building_age" required />
                 </div>
               </div>
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
-                  <label>Building type</label>
+                  <label>Building Type</label>
                   <select [(ngModel)]="model.building_type_id" class="form-control" name="building_type_id" required>
                           <option *ngFor="let s of all_building_types" [value]="s.id">
                             {{s.name}}
@@ -74,73 +73,80 @@
               </div>
               <div class="col-12">
                 <div class="form-group-3">
-                  <label>Descriptuion</label>
-                  <textarea [(ngModel)]="model.description" name="model_description" class="form-control">
+                  <label>Description</label>
+                  <textarea [(ngModel)]="model.description" name="model_description" class="form-control" placeholder="Enter project description">
                        </textarea>
                 </div>
               </div>
-              <div class="col-md-4 col-sm-6 col-12">
+              <div class="col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
-                  <label>Possession status</label>
+                  <label>Possession Status</label>
                   <select [(ngModel)]="model.possession_status_id" class="form-control" name="possession_status_id">
-                          <option *ngFor="let s of all_possession_statuses" [value]="s.id">
-                            {{s.name}}
-                          </option>
-                       </select>
+                    <option value="">Select status</option>
+                    <option *ngFor="let s of all_possession_statuses" [value]="s.id">
+                      {{s.name}}
+                    </option>
+                  </select>
                 </div>
               </div>
-              <div class="col-md-4 col-sm-6 col-12">
+              <div class="col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>Floors</label>
-                  <input class="form-control" [(ngModel)]="model.floors" type="number" name="building_floors" required>
+                  <input min="0" class="form-control" [(ngModel)]="model.floors" type="number" name="building_floors" placeholder="Floors" required>
                 </div>
+                
               </div>
-              <div class="col-md-4 col-sm-6 col-12">
+              <div class="col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>Average Price</label>
-                  <input class="form-control" [(ngModel)]="model.avg_price" type="number" name="building_avg_price" required>
+                  <input min="0" class="form-control" [(ngModel)]="model.avg_price" type="number" name="building_avg_price" placeholder="Average price" required>
                 </div>
               </div>
+              <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>Launch Date</label>
+                    <input class="form-control" [(ngModel)]="model.launch_date" type="date" name="building_launch_date" placeholder="Launch date" required>
+                  </div>
+                </div>
+
               <div class="col-sm-12 col-12">
                 <div class="form-group-3">
                   <label>Enter Custom Parameter and Value</label>
-                  <table class="table-responsive">
-                    <thead>
-                      <tr>
-                        <td style="width:43%">Parameter Name</td>
-                        <td style="width:43%">Parameter Value</td>
-                        <td style="width:20%"></td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let c of model.custom_attributes ;let i=index;">
-                        <td>
-                          <input [(ngModel)]="c.name" class="form-control" name="name[{{i}}]" type="text" required/>
-                        </td>
-                        <td>
-                          <input [(ngModel)]="c.value" class="form-control" name="value[{{i}}]" type="text" required />
-                        </td>
-                        <td>
-                          <a (click)="model.custom_attributes.splice(i,1)"><img src="assets/img/remove-icon.png" /></a>
-                        </td>
-                      </tr>
-
-                    </tbody>
-                  </table>
-                  <br/>
-                  <div class="btn-cont">
-                    <a (click)="model.custom_attributes.push({name:'',value:''})" class="btn-third btn" href="javascript://">Add</a>
-                  </div>
-                  <br/>
+                  <div class="row">
+                      <div class="col-sm-5">
+                        <input [(ngModel)]="new_custom.name" class="form-control" name="custom_name" type="text" placeholder="Parameter name"/>
+                      </div>
+                      <div class="col-sm-5">
+                        <input [(ngModel)]="new_custom.value" class="form-control" name="custom_value" type="text" placeholder="Parameter value" />
+                      </div>
+                      <div class="col-sm-2">
+                        <a (click)="addNewCustom()" class="btn-third btn btn-green" href="javascript://">Add</a>
+                      </div>
+                    </div>
+                    <div class="row" *ngFor="let c of model.custom_attributes ;let i=index;">
+                        <div class="col-sm-5">
+                            <div class="paramtext">{{c.name}}</div>                        </div>
+                        <div class="col-sm-5">
+                            <div class="paramtext">{{c.value}}</div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="paramtext"><a (click)="model.custom_attributes.splice(i,1)"><img src="assets/img/remove-icon.png" /></a></div>
+                        </div>
+                      </div>
 
                 </div>
               </div>
+              <div class="spacer30"></div>
 
               <div class="col-12">
                 <div class="form-group-3 marginB0">
                   <label>Amenities available</label>
                   <ul class="loc-tags-group">
-                    <li *ngFor="let a of all_amenities"><span *ngIf="a.selected==true">{{a.name}}</span></li>
+                    <li *ngFor="let a of all_amenities">
+                      <span *ngIf="a.selected==true">{{a.name}} 
+                        <b (click)="a.selected = false" title="remove"><img src="assets/img/close-tag.png" /></b>
+                      </span>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -154,13 +160,12 @@
               <div class="col-12">
                 <div class="form-group-3" style="width: 100%;">
                   <label class="float-left marginB0">Configuration</label>
-                  <label class="float-right marginB0"><a class="edit-del" href="javascript://">Edit/Delete</a></label>
                   <div class="clearfix"></div>
                   <hr>
                   <div *ngFor="let c of model.configurations; let index=index" class="configur">
-                    <div class="float-right marginB0"><a class="edit-del" href="javascript://">
-                           <span (click)="editConfiguration(c)">Edit</span>/
-                           <span (click)="deleteConfiguration(index);">Delete</span></a>
+                    <div class="float-right marginB0">
+                           <a (click)="editConfiguration(c, index)" title="Edit"><img src="assets/img/edit.png" /></a>
+                           <a (click)="deleteConfiguration(index);" title="Delete"><img src="assets/img/block.png" /></a>
                     </div>
                     <div class="row">
                       <div class="col-md-6 col-12">
@@ -172,6 +177,7 @@
                           </div>
                         </div>
                       </div>
+                      {{c.images|json}}
                       <div class="col-md-6 col-12">
                         <p class="p14 text-right">Average Price</p>
                         <h3 class="text-right">{{c?.base_price}} per sq/ft.</h3>
@@ -189,7 +195,6 @@
                       </div>
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>
@@ -203,19 +208,19 @@
               <div class="col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>Name</label>
-                  <input [(ngModel)]="model.developer.name" class="form-control" type="text" name="assaas" required>
+                  <input [(ngModel)]="model.developer.name" class="form-control" type="text" name="developer_name" placeholder="Developer Name" required>
                 </div>
               </div>
               <div class="col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>Email</label>
-                  <input [(ngModel)]="model.developer.email" class="form-control" type="email" name="assaas" required>
+                  <input [(ngModel)]="model.developer.email" class="form-control" type="email" name="developer_email" placeholder="Developer Email" required pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
                 </div>
               </div>
               <div class="col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>Phone Number</label>
-                  <input minlength="6" maxlength="16" autocomplete="off" type="text" class="form-control" id="phone" required minlength="1" [(ngModel)]="model.developer.phone" name="phone" ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)"/>
+                  <input minlength="6" maxlength="16" autocomplete="off" type="number" class="form-control" id="phone" placeholder="Phone Number" required minlength="1" [(ngModel)]="model.developer.phone" name="phone" ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)"/>
 
                 </div>
               </div>
@@ -273,7 +278,7 @@
       </div>
       <div class="modal-footer">
         <div class="btn-cont">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
@@ -282,6 +287,7 @@
 
 
 <!-- Add More img -->
+<span data-target="#add-more-img" data-toggle="modal" #modalOpen></span>
 <div class="modal add-more-popup" id="add-more-img">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -289,8 +295,7 @@
       <!-- Modal Header -->
       <div class="modal-header">
         <h4 class="modal-title">Images</h4>
-        <button type="button" style="display: none;" class="close" data-dismiss="modal" #modalClose>&times;</button>
-        <button type="button" class="close" (click)="closeModal()">&times;</button>
+        <button type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
       </div>
 
       <!-- Modal body -->
@@ -303,15 +308,14 @@
           </div>
         </div>
         <div class="add-more-images">
-          <input type="file" name="add-more" multiple max="6" accept="image/*" (change)="file2.onSelectFile($event)">
+          <input type="file" name="add-more" multiple max="6" accept="image/*" (change)="file2Select($event)">
           <span>+ Add more images</span>
         </div>
-
       </div>
 
       <!-- Modal footer -->
       <div class="modal-footer btn-cont">
-        <button type="button" (click)="saveImages()" class="btn btn-primary" data-dismiss="modal">Submit</button>
+        <button type="button" (click)="saveImages()" class="btn btn-primary">Submit</button>
       </div>
 
     </div>
@@ -343,24 +347,22 @@
           <div class="col-sm-6 col-12">
             <div class="form-group-3">
               <label>Carpet area (sqft)</label>
-              <input class="form-control" [(ngModel)]="new_config.carpet_area" type="number" name="base_price">
+              <input min="0" class="form-control" [(ngModel)]="new_config.carpet_area" type="number" name="base_price" required>
             </div>
           </div>
           <div class="col-sm-6 col-12">
             <div class="form-group-3">
               <label>Base Price</label>
-              <input class="form-control" [(ngModel)]="new_config.base_price" type="number" name="base_price">
+              <input min="0" class="form-control" [(ngModel)]="new_config.base_price" type="number" name="base_price" required>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-12">
-
-
             <div class="form-group-3">
-              <label>Add Images</label>
+              <label>Floor Plan Image</label>
               <div class="upload-cover-img" style="max-width: 400px; margin: 0px auto;height: 250px;">
-                  <img class="img-fluid" *ngIf="file3.image" [src]="file3.image" onerror='this.src="assets/img/placeholder-img.png"' />
+                  <img class="img-fluid" [src]="file3.image" onerror='this.src="assets/img/placeholder-img.png"' />
                   <div *ngIf="!file3.image" class="upload-caption">
                       <p class="green-color marginT30">+Upload Cover image for the project</p>
                       <p>JPG or PNG. Imae size should be 1920 × 1080 pixels (for HiDPI displays).</p>
@@ -368,6 +370,7 @@
                   <input type="file" accept="image/*" name="floor_map_image" (change)="file3.onSelectFile($event)">
               </div>
               <div class="spacer30"></div>
+              <label>Other Images</label>
               <div class="uploaded-img-block">
                 <div class="uploaded-img" *ngFor="let item of file4.files; let i=index">
                   <a class="remove" (click)="file4.remove(i)">
@@ -377,9 +380,9 @@
                   <img *ngIf="!item.image" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
                 </div>
               </div>
-
+              
               <div class="add-project-img-more">
-                <input type="file" name="add-more-images" multiple max="6" accept="image/*" (change)="file4.onSelectFile($event)">
+                <input type="file" name="add-more-images" multiple max="6" accept="image/*" (change)="file4Select($event)">
                 <div class="upload-caption">
                   <p class="green-color">+ Add more images</p>
                 </div>
@@ -389,10 +392,14 @@
         </div>
         <div class="modal-footer">
           <div class="btn-cont">
-            <button (click)="addNewConfig()" type="button" class="btn btn-primary">Save</button>
+            <button [disabled]="!new_config.configuration_id
+            || !new_config.carpet_area
+            || !new_config.base_price
+            || !file3.image" (click)="addNewConfig()" type="button" class="btn btn-primary">Save</button>
           </div>
         </div>
 
       </div>
     </div>
   </div>
+

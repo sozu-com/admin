@@ -155,5 +155,6 @@ export class Datetime {
 export class AddNotaryAvailabilty {
     property_id: string;
     lead_id: string;
+    date_time_array: Array<any> = [];
     date_time: Array<any> = [];
 }

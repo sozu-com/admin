@@ -2,9 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
 import { IProperty } from '../../common/property';
 import { Bank } from './../../models/bank.model';
-import { NgForm } from '@angular/forms';
 import { Constant } from './../../common/constants';
-import { DomSanitizer } from '@angular/platform-browser';
 declare let swal: any;
 
 @Component({
@@ -16,58 +14,48 @@ declare let swal: any;
 
 export class BanksComponent implements OnInit {
 
-  url: any[];
-  image1;
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
 
   public parameter: IProperty = {};
   initialCountry: any;
 
-  constructor(public constant: Constant, public model: Bank,
-    public admin: AdminService,
-    public sanitization: DomSanitizer
-  ) { }
+  constructor(public constant: Constant, public model: Bank, public admin: AdminService) { }
 
   ngOnInit() {
-    this.model.country_code = this.constant.country_code;
-    this.model.dial_code = this.constant.dial_code;
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
-    this.parameter.p = this.constant.p;
+    this.parameter.page = this.constant.p;
     this.model.id = '';
     this.initialCountry = {initialCountry: this.constant.country_code};
-    this.getBanks(this.parameter.p, '', '', '');
+    this.getBanks(this.parameter.page, '', '', '');
   }
 
   closeModal() {
-    this.model = new Bank;
+    this.model = new Bank();
     this.modalClose.nativeElement.click();
   }
 
+  openModal() {
+    this.model = new Bank();
+    this.model.country_code = this.constant.country_code;
+    this.model.dial_code = this.constant.dial_code;
+    console.log(this.model);
+    this.modalOpen.nativeElement.click();
+  }
+
   getPage(page) {
-    this.parameter.p = page;
-    this.getBanks(this.parameter.p, this.parameter.name, this.parameter.phone, this.parameter.email);
+    this.parameter.page = page;
+    this.getBanks(this.parameter.page, this.parameter.name, this.parameter.phone, this.parameter.email);
   }
 
   getBanks(page, name, phone, email) {
 
-    this.parameter.p = page;
+    this.parameter.page = page;
     this.parameter.name = name;
     this.parameter.phone = phone;
     this.parameter.email = email;
 
-    this.parameter.url = 'getBanks';
-
-    const input = new FormData();
-    input.append('page', this.parameter.p.toString());
-
-    if (this.parameter.name) {input.append('name', this.parameter.name); }
-
-    if (this.parameter.phone) {input.append('phone', this.parameter.phone); }
-
-    if (this.parameter.email) {input.append('email', this.parameter.email); }
-
-    this.admin.postDataApi(this.parameter.url, input)
+    this.admin.postDataApi('getBanks', this.parameter)
       .subscribe(
         success => {
           this.parameter.items = success.data;
@@ -77,15 +65,13 @@ export class BanksComponent implements OnInit {
 
 
   changeListner(event) {
-
-    this.parameter.image = event.target.files[0];
-    this.parameter.icon = this.parameter.image;
     const reader = new FileReader();
     reader.onload = (e: any) => {
-        this.url = e.target.result;
-        this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.url})`);
+        // this.model.image = e.target.result;
     };
-
+    const input = new FormData();
+    input.append('image', event.target.files[0]);
+    this.admin.postDataApi('saveImage', input).subscribe(res => {this.model.image = res['data'].image; });
     reader.readAsDataURL(event.target.files[0]);
   }
 
@@ -95,24 +81,25 @@ export class BanksComponent implements OnInit {
     this.initialCountry = {initialCountry: e.iso2};
   }
 
-  addBank(formdata: NgForm) {
-    this.parameter.url = this.model.id !== '' ? 'updateNewUser' : 'addBank';
-    this.model.interests = JSON.stringify(this.model.interestsArray);
-    this.admin.postDataApi(this.parameter.url, this.model)
+  addBank() {
+    this.parameter.url = this.model.id ? 'updateNewUser' : 'addBank';
+    // this.model.interests = JSON.stringify(this.model.interestsArray);
+    this.admin.postDataApi('addBank', this.model)
       .subscribe(
         success => {
           if (success.success === '0') {
             swal('Error', success.message, 'error');
           }else {
+            this.model = new Bank();
             this.modalClose.nativeElement.click();
-            formdata.reset();
-            const text = this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
+            const text = this.model.id ? 'Updated successfully.' : 'Added successfully.';
             swal('Success', text, 'success');
             if (this.parameter.items.length < 10) {
-              if (this.model.id !== '') {
+              if (this.model.id) {
                 this.parameter.items[this.parameter.index] = success.data;
               } else {
                 this.parameter.items.push(success.data);
+                this.parameter.total++;
               }
             }
           }
@@ -121,34 +108,13 @@ export class BanksComponent implements OnInit {
 
 
   editUser(userdata, index) {
+    this.model = JSON.parse(JSON.stringify(userdata));
     this.parameter.index = index;
     this.modalOpen.nativeElement.click();
-    this.model.id = userdata.id;
-    this.model.name = userdata.name;
-    this.model.email = userdata.email;
-    this.model.phone = userdata.phone;
-    this.model.country_code = userdata.country_code ? userdata.country_code : this.constant.country_code;
-    this.model.dial_code = userdata.dial_code ? userdata.dial_code : this.constant.dial_code;
-
-    const d = {
-      areaCodes: null,
-      dialCode: '91',
-      iso2: userdata.country_code,
-      priority: 0
-    };
-
-    this.onCountryChange(d);
-
-    this.initialCountry = {initialCountry: userdata.country_code};
-
-    this.model.image = userdata.image != null ? userdata.image : '';
-    if (this.model.image) {
-      this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.model.image})`);
-    }
   }
 
 
-  blockUnblockPopup(index, id, flag, user_type) {
+  blockUnblockPopup(index, id, flag) {
     this.parameter.index = index;
     this.parameter.title = this.constant.title.ARE_YOU_SURE;
     switch (flag) {
@@ -163,8 +129,6 @@ export class BanksComponent implements OnInit {
     }
 
     swal({
-      // title: this.parameter.title,
-      // text: this.parameter.text,
       html: this.parameter.title + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
@@ -173,22 +137,15 @@ export class BanksComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.blockAdmin(index, id, flag, user_type);
+        this.blockNoatary(index, id, flag);
       }
     });
   }
 
 
-  blockAdmin(index, id, flag, user_type) {
-    // this.parameter.loading = true;
+  blockNoatary(index, id, flag) {
     this.parameter.index = index;
-    this.parameter.url = 'blockBuyerSeller';
-    const input = new FormData();
-    input.append('id', id);
-    input.append('flag', flag);
-    input.append('user_type', user_type);
-
-    this.admin.postDataApi(this.parameter.url, input)
+    this.admin.postDataApi('blockNoatary', {id: id, flag: flag})
       .subscribe(
         success => {
           swal('Success', success.message, 'success');

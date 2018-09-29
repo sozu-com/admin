@@ -18,19 +18,19 @@
             <div class="cust-tabs-2">
             <ul class="nav nav-tabs float-left">
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#tw">This Week</a>
+                    <a class="nav-link" [ngClass]="{'active':parameter.flag==1}" (click)="changeFlag(1)" >This Week</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#tm">This Month</a>
+                    <a class="nav-link" [ngClass]="{'active':parameter.flag==2}" (click)="changeFlag(2)" >This Month</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#lm">Last Month</a>
+                    <a class="nav-link" [ngClass]="{'active':parameter.flag==3}" (click)="changeFlag(3)" >Last Month</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#lt">Lifetime</a>
+                    <a class="nav-link" [ngClass]="{'active':parameter.flag==4}" (click)="changeFlag(4)" >Lifetime</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#cust">Custom</a>
+                    <a class="nav-link" [ngClass]="{'active':parameter.flag==5}" (click)="changeFlag(5)" >Custom</a>
                 </li>
             </ul>
             </div>
@@ -212,7 +212,7 @@
                 <button type="button" class="close" (click)="closeModal()">&times;</button>
             </div>
     
-            <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="add(addForm)">
+            <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="add()">
             <div class="modal-body modal-body-new">
                 <div class="row">
                     <div class="col-5">
@@ -237,11 +237,20 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" *ngFor="let d of data">
-                    {{d|json}}
+                <div class="row" *ngFor="let d of data; let j=index">
                     <div class="col-8">
-                        <label *ngIf="d.id!=0" class="notary-ava">{{d.date_time | moment}}</label>
-                        <label *ngIf="d.id==0" class="notary-ava">{{d.date_time|date: 'MMM d y'}}, {{d.date_time|date:'h:mm a'|lowercase}}</label>
+                        <label class="notary-ava">{{d.date_time | moment}}</label>
+                    </div>
+                    <div class="col-2">
+                        <button type="button" class="btn btn-primary" (click)="removeNoataryAvailability(d.id, j)">*</button>
+                    </div>
+                </div>
+                <div class="row" *ngFor="let a of availability.date_time_array; let i=index">
+                    <div class="col-8">
+                        <label class="notary-ava">{{a.date_time|date: 'MMM d y'}}, {{a.date_time|date:'h:mm a'|lowercase}}</label>
+                    </div>
+                    <div class="col-2">
+                        <button type="button" class="btn btn-primary" (click)="removeNoatary(i)">*</button>
                     </div>
                 </div>
                 <div class="row">

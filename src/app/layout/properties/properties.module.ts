@@ -11,12 +11,14 @@ import { PropertyDetailsComponent } from './property-details/property-details.co
 import { ThousandPipe } from './../../pipes/thousand.pipe';
 import { AclUserGuard } from '../../guards/acl-user.guard';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { FilterByIdPipe } from '../../pipes/filter-by-id.pipe';
+import { FilterByNamePipe } from '../../pipes/filter-by-name.pipe';
 
 const routes: Routes = [
   { path: 'details/:property_id', component: PropertyDetailsComponent,
     canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_read', '']}},
   { path: 'add-property/:property_id', component: AddPropertyComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_update', '']}},
+    canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_create', '']}},
   { path: 'edit-property/:property_id', component: AddPropertyComponent,
     canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_update', '']}},
   { path: 'edit-property/:property_id/:edit', component: AddPropertyComponent,
@@ -46,6 +48,8 @@ const routes: Routes = [
     PropertiesComponent,
     AddPropertyComponent,
     PropertyDetailsComponent,
+    FilterByIdPipe,
+    FilterByNamePipe
     // ThousandPipe
   ]
 })

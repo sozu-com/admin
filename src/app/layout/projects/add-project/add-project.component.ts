@@ -21,6 +21,7 @@ export class AddProjectComponent implements OnInit {
 
   public parameter: IProperty = {};
   @ViewChild('modalClose') modalClose: ElementRef;
+  @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('mapDiv') mapDiv: ElementRef;
   @ViewChild('search') searchElementRef: ElementRef;
 
@@ -29,7 +30,7 @@ export class AddProjectComponent implements OnInit {
 
   myform: FormGroup;
   myform2: FormGroup;
-
+  
   public latitude: number;
   public longitude: number;
   public zoom: number;
@@ -55,7 +56,8 @@ export class AddProjectComponent implements OnInit {
 
   selected_amenities: any= [];
   new_config: any = new Configuration;
-  new_config_booleon = false;
+  new_custom:any = {name:'',value:''};
+  new_config_edit: any;
   FU: any= {};
   initialCountry = {initialCountry: 'mx'};
 
@@ -88,9 +90,6 @@ export class AddProjectComponent implements OnInit {
             this.model = JSON.parse(JSON.stringify(r.data));
             console.log(this.model);
             this.file1.image = this.model.main_image;
-            this.model.images.map((value, index) => {
-              this.file2.files[index] = value;
-            });
             this.model.configurations.map((item) => {
               item.images = item.images.map(r1 => r1.image);
             });
@@ -131,18 +130,24 @@ export class AddProjectComponent implements OnInit {
 
   }
 
-  closeModal() {
+  modelOpenFun(){
+    this.modalOpen.nativeElement.click();
+    this.file2.backup(JSON.parse(JSON.stringify(this.model.images)));
+  }
+
+  modelCloseFun() {
     this.modalClose.nativeElement.click();
-    this.image2 = '';
-    this.url2 = [];
-    this.imageEvent = [];
-    this.model.images = [];
+    //this.file2.reset();
   }
 
   saveImages() {
+    if(this.file2.files.length < 1){
+      swal('Error','Please select atleast one image','error');return false;
+    }
+    this.modalClose.nativeElement.click();
     this.file2.upload().then(r => {
-      console.log(r);
-      console.log(this.file2.files);
+      console.log('resolved');
+      this.model.images = this.file2.files;
     });
   }
 
@@ -261,10 +266,14 @@ export class AddProjectComponent implements OnInit {
     });
   }
 
+  closeConfigPopUpFun(){
+    this.closeConfigPopup.nativeElement.click();
+    this.file4.reset();
+  }
   openConfigPopupFun() {
     this.openConfigPopup.nativeElement.click();
     this.new_config = new Configuration;
-    this.new_config_booleon = true;
+    this.new_config_edit = -1;
     this.file3.image = '';
     this.file4.files = [];
   }
@@ -275,35 +284,55 @@ export class AddProjectComponent implements OnInit {
     // console.log(parentModel);
   }
 
-  editConfiguration(config) {
+  editConfiguration(config, index) {
     // console.log(this.new_config);
     // console.log(config);
-    this.new_config = config;
+    this.new_config_edit = index;
+    this.new_config = JSON.parse(JSON.stringify(config));
     this.file3.image = config.floor_map_image;
     this.file4.files = [];
     config.images.forEach((value, index) => {
-      this.file4.files.push({image: value});
+      this.file4.files.push(value);
     });
     this.openConfigPopup.nativeElement.click();
   }
 
   deleteConfiguration(index) {
-    this.model.configurations.splice(index, 1);
+    swal({
+      title: 'Are you sure?',
+      text: "Do you want to Delete?",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#00B96F',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Delete!'
+    }).then((result) => {
+      if (result.value) {
+        this.model.configurations.splice(index, 1);
+      }
+    })
+
   }
 
   addNewConfig() {
+    if(this.file4.files.length < 1){
+      swal('Error','Please select atleast one more image','error');return false;
+    }
     this.closeConfigPopup.nativeElement.click();
     this.parameter.loading = true;
-    console.log('new config');
+    //console.log('new config');
     this.file3.upload().then(r => {
+      //console.log(this.file3.image);
       this.file4.upload().then(r1 => {
         this.parameter.loading = false;
-        if (this.new_config_booleon === true) {
-          this.new_config.floor_map_image = this.file3.image;
-          this.new_config.images = this.file4.files.map(r2 => r2.image);
-          console.log(this.new_config);
+        this.new_config.floor_map_image = this.file3.image;
+        console.log('===', this.file4.files);
+        this.new_config.images = this.file4.files;
+        console.log(this.new_config_edit,this.new_config);
+        if(this.new_config_edit >= 0 ){
+          this.model.configurations[this.new_config_edit] = JSON.parse(JSON.stringify(this.new_config));
+        }else{
           this.model.configurations.push(this.new_config);
-          this.new_config_booleon = false;
         }
       }, error => {
         this.parameter.loading = false;
@@ -323,13 +352,16 @@ export class AddProjectComponent implements OnInit {
   addProject() {
 
     this.model.cover_image = this.file1.image;
-    this.model.building_images = this.file2.files.map(r => r.image);
+    this.model.building_images = this.model.images.map(r => r.image);
     this.model.dev_name = this.model.developer.name;
     this.model.dev_email = this.model.developer.email;
     this.model.dev_phone = this.model.developer.phone;
     this.model.dev_logo = this.file5.image;
-    // this.model.dev_countrycode = this.model.developer.name;
+    this.model.amenities = this.all_amenities.filter(op => { if (op.selected === true) { return op; }}).map(op => op.id);
 
+    this.model.configurations.forEach(item => {
+      item.images = item.images.map(x => x.image);
+    });
     /* remove fields for edit */
     if (!this.model.name) {swal('Error', 'Please add building name', 'error'); return false; }
     if (!this.model.address) {swal('Error', 'Please add address', 'error'); return false; }
@@ -353,8 +385,6 @@ export class AddProjectComponent implements OnInit {
       if (!this.model.dev_logo) {swal('Error', 'Please add developer image', 'error'); return false; }
     }
 
-    this.model.amenities = this.all_amenities.filter(op => { if (op.selected === true) { return op; }}).map(op => op.id);
-    // console.log(this.model);
 
     if (this.id) {
       this.model.building_id = this.id;
@@ -381,6 +411,28 @@ export class AddProjectComponent implements OnInit {
 
   }
 
+  file2Select($event){
+    if ((this.file2.files.length + $event.target.files.length) > 6) {
+      swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
+      return false;
+    }
+    this.file2.onSelectFile($event);
+  }
 
+  file4Select($event){
+    if ((this.file4.files.length + $event.target.files.length) > 6) {
+      swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
+      return false;
+    }
+    this.file4.onSelectFile($event);
+  }
 
+  addNewCustom(){
+    if(!this.new_custom.name || !this.new_custom.value){
+      swal('Error', 'Please add parameter name and value', 'error');
+      return false;
+    }
+    this.model.custom_attributes.unshift(this.new_custom);
+    this.new_custom = {name:'',value:''};
+  }
 }

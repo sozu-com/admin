@@ -6,7 +6,7 @@ import { Users } from '../../../models/users.model';
 import { AddNotaryAvailabilty, NotaryLeads } from '../../../models/leads.model';
 import { ChatTimePipe } from '../../../pipes/chat-time.pipe';
 declare let swal: any;
-
+import {} from './../../../services/http-interceptor';
 @Component({
   selector: 'app-notary-leads',
   templateUrl: './notary-leads.component.html',
@@ -25,7 +25,7 @@ export class NotaryLeadsComponent implements OnInit {
   constructor(
     private admin: AdminService,
     private constant: Constant,
-    private availability: AddNotaryAvailabilty
+    public availability: AddNotaryAvailabilty
   ) { }
 
   ngOnInit() {
@@ -33,7 +33,6 @@ export class NotaryLeadsComponent implements OnInit {
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.flag = 2;
     this.getListing();
-    this.data = ['2018-02-02, 12:00PM', '2018-02-02, 12:00PM', '2018-02-02, 12:00PM'];
   }
 
   getPage(page) {
@@ -58,13 +57,13 @@ export class NotaryLeadsComponent implements OnInit {
       console.log(newdate);
       const d = new ChatTimePipe().transform(newdate, 'YYYY-MM-DD HH:MM:SS', 3);
       console.log('===========', d);
-      this.availability.date_time.push({date_time: d});
-      this.items[this.parameter.index].selected_properties[0].selected_noatary[0].noatary_availability.push({id: 0, date_time: this.date});
+      this.availability.date_time_array.push({date_time: d});
+      this.date = ''; this.time = '';
     }
   }
 
   openModal (item, index) {
-    this.availability.date_time = item.selected_properties[0].selected_noatary[0].noatary_availability;
+    // this.availability.date_time_array = item.selected_properties[0].selected_noatary[0].noatary_availability;
     this.availability.property_id = item.selected_properties[0].property_id;
     this.availability.lead_id = item.id;
     this.parameter.index = index;
@@ -74,6 +73,7 @@ export class NotaryLeadsComponent implements OnInit {
 
   closeModal() {
     this.modalClose.nativeElement.click();
+    this.availability = new AddNotaryAvailabilty();
   }
 
   getListing() {
@@ -87,13 +87,33 @@ export class NotaryLeadsComponent implements OnInit {
   }
 
   add() {
-    console.log('====', this.availability);
-    // this.admin.postDataApi('leads/addNoataryAvailability', this.availability)
-    //   .subscribe(
-    //     success => {
-    //       this.items = success.data;
-    //       this.parameter.total = success.total_count;
-    //     }
-    //   );
+    this.availability.date_time_array.forEach(element => {
+      this.availability.date_time.push(element.date_time);
+    });
+    this.admin.postDataApi('leads/addNoataryAvailability', this.availability)
+      .subscribe(
+        success => {
+          this.closeModal();
+          swal('Success', 'Availability added successfully.', 'success');
+          // this.items = success.data;
+          // this.parameter.total = success.total_count;
+        }
+      );
+  }
+
+  removeNoataryAvailability(id, j) {
+    this.admin.postDataApi('leads/removeNoataryAvailability', {id: id})
+      .subscribe(
+        success => {
+          this.data.splice(j, 1);
+          console.log('sssss', success);
+          // this.items = success.data;
+          // this.parameter.total = success.total_count;
+        }
+      );
+  }
+
+  removeNoatary(i) {
+    this.availability.date_time_array.splice(i, 1);
   }
 }

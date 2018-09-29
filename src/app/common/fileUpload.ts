@@ -7,6 +7,7 @@ export class FileUpload {
     image: any;
     files: any;
     loading = false;
+    backupArray:any;
 
     constructor(single, us){
       this.us = us;
@@ -67,7 +68,7 @@ export class FileUpload {
        return new Promise((resolve, reject) => {
                if (this.single == false){
                  const total = this.files.length; let i = 1;
-                 for (const item of this.files){
+                 this.files.map((item)=>{
                    if (item.file){
                     const formData = new FormData();
                     formData.append('image', item.file);
@@ -80,32 +81,43 @@ export class FileUpload {
                       i++;
                     },
                     error => {
-                      if (i == total){ reject(error); }/* reject on last loop */
+                      if (i === total) { reject(error); }/* reject on last loop */
                       i++;
                     });
+                   }else {
+                     if (i >= total) {console.log(this.files); resolve(); }
+                     i++;
                    }
-                 }
+                 });
                }
-               if (this.single == true && this.file){
+               if (this.single === true && this.file) {
                  const formData = new FormData();
                  formData.append('image', this.file);
-                 //console.log(this.file);
                  this.us.postDataApi('saveImage', formData).subscribe(res => {
-                   //console.log(res);
                    this.file = '';
                    this.image = res['data'].image;
                    resolve();
                  },
                  error => {
-                   //console.log('error');
                    reject(error);
                  });
+               } else {
+                 resolve();
                }
         });
-     }
+  }
 
-     remove(index){
-       this.files.splice(index, 1);
-     }
+  remove(index){
+    this.files.splice(index, 1);
+  }
+
+  backup(files){
+    this.backupArray = files;
+    this.files = files;
+  }
+
+  reset(){
+    this.files = JSON.parse(JSON.stringify(this.backup));
+  }
 
 }

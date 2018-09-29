@@ -9,7 +9,7 @@ declare let swal: any;
   selector: 'app-notary',
   templateUrl: './notary.component.html',
   styleUrls: ['./notary.component.css'],
-  providers: [Users, Constant]
+  providers: [Users]
 })
 export class NotaryComponent implements OnInit {
 
@@ -22,12 +22,14 @@ export class NotaryComponent implements OnInit {
   constructor(public constant: Constant, public model: Users, public admin: AdminService) { }
 
   ngOnInit() {
+    this.model.country_code = this.constant.country_code;
+    this.model.dial_code = this.constant.dial_code;
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
-    this.parameter.p = this.constant.p;
+    this.parameter.page = this.constant.p;
     this.parameter.type = 1;
     this.model.id = '';
     this.initialCountry = {initialCountry: this.constant.country_code};
-    this.getNoatariesListing(this.parameter.p, '', '', '');
+    this.getNoatariesListing(this.parameter.page, '', '', '');
   }
 
   closeModal() {
@@ -43,13 +45,13 @@ export class NotaryComponent implements OnInit {
   }
 
   getPage(page) {
-    this.parameter.p = page;
-    this.getNoatariesListing(this.parameter.p, this.parameter.name, this.parameter.phone, this.parameter.email);
+    this.parameter.page = page;
+    this.getNoatariesListing(this.parameter.page, this.parameter.name, this.parameter.phone, this.parameter.email);
   }
 
   getNoatariesListing(page, name, phone, email) {
 
-    this.parameter.p = page;
+    this.parameter.page = page;
     this.parameter.name = name;
     this.parameter.phone = phone;
     this.parameter.email = email;
@@ -65,7 +67,7 @@ export class NotaryComponent implements OnInit {
   changeListner(event) {
     const reader = new FileReader();
     reader.onload = (e: any) => {
-        this.model.image = e.target.result;
+        // this.model.image = e.target.result;
     };
     const input = new FormData();
     input.append('image', event.target.files[0]);

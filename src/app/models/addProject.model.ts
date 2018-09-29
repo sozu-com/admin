@@ -23,18 +23,8 @@ export class AddProjectModel {
     amenities = [];
     lat: any = '';
     lng: any = '';
-    custom_attributes = [
-        {
-            name: '',
-            value: ''
-        }
-    ];
-    custom_values = [
-        {
-            name: '',
-            value: ''
-        }
-    ];
+    custom_attributes = [];
+    custom_values = [];
     configurations = [];
     developer = {
       id: '',
