@@ -68,7 +68,7 @@
       <div class="col-lg-2 col-md-3 col-sm-6 col-6">
         <div class="form-group btn-cont text-right">
           <label style="display: block; margin-top: 3px;">&nbsp;</label>
-          <button (click)="getInhouseUsers()" class="btn btn-primary">Apply</button>
+          <button type="button" (click)="getInhouseUsers()" class="btn btn-primary">Apply</button>
         </div>
       </div>
   </div>
@@ -88,7 +88,7 @@
                       <label>Name</label>
                       <div class="searh-3">
                         <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="searchUserByName(parameter.name)" name="">
-                        <button *ngIf="parameter.name" (click)="searchUserByName(parameter.name)"><i class="fa fa-search"></i></button>
+                        <button type="button" *ngIf="parameter.name" (click)="searchUserByName(parameter.name)"><i class="fa fa-search"></i></button>
                       </div>
                   </div>
                 </th>
@@ -97,7 +97,7 @@
                       <label>Contact Number</label>
                       <div class="searh-3">
                         <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="searchUserByPhone(parameter.phone)" name="">
-                        <button *ngIf="parameter.phone" (click)="searchUserByPhone(parameter.phone)"><i class="fa fa-search"></i></button>
+                        <button type="button" *ngIf="parameter.phone" (click)="searchUserByPhone(parameter.phone)"><i class="fa fa-search"></i></button>
                       </div>
                   </div>
                 </th>
@@ -106,7 +106,7 @@
                       <label>Email Address</label>
                       <div class="searh-3">
                         <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="searchUserByEmail(parameter.email)" name="">
-                        <button *ngIf="parameter.email" (click)="searchUserByEmail(parameter.email)"><i class="fa fa-search"></i></button>
+                        <button type="button" *ngIf="parameter.email" (click)="searchUserByEmail(parameter.email)"><i class="fa fa-search"></i></button>
                       </div>
                   </div>
                 </th>
@@ -191,7 +191,6 @@
 </div>
 
 
-
 <!-- add inhouse user modal -->
 <div class="modal animated" id="add">
   <div class="modal-dialog fadeIndown modal-lg">
@@ -257,7 +256,7 @@
 
             <div class="col-12" *ngIf="model.address?.length!=0">
                 <div class="btn-cont center">
-                  <button class="btn btn-primary margin0" (click)="addEmptyObj()">
+                  <button type="button" class="btn btn-primary margin0" (click)="addEmptyObj()">
                     <img src="assets/img/add.png" alt="img">
                   </button>
                 </div>

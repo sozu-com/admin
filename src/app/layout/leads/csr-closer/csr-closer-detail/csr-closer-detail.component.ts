@@ -94,7 +94,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.parameter.sent_as = 3;
+    this.parameter.sent_as = this.constant.userType.csr_closer;
 
     this.admin.loginData$.subscribe(success => {
       this.admin_id = success['id'];
@@ -114,6 +114,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
         // chatting
         this.chat_buyer = r.data.lead.user;
         this.chat_seller = r.data.lead.selected_properties[0].property.creator;
+        this.chat_notary = r.data.lead.selected_properties[0].selected_noatary[0].noatary;
         this.getLeadConversation(this.constant.userType.user_buyer);
         // this.chat_bank = r.data.lead.banks[0];
 
@@ -560,13 +561,8 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     input.append('attachment_name', file.name);
 
     this.admin.postDataApi('uploadDealDocument', input).subscribe(r => {
-      // console.log(r);
       swal('Success', 'Successfully uploaded the document', 'success');
-    }
-    // ,error=>{
-    //   swal('Error',error.error.message,'error');
-    // }
-    );
+    });
   }
 
   getLeadConversation(admin_sent_as) {
@@ -577,17 +573,22 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     if (admin_sent_as === this.constant.userType.user_seller_dev) {
       this.chat_admin = this.chat_seller;
     }
-    // console.log('this.chat_admin', this.chat_admin);
-
+    if (admin_sent_as === this.constant.userType.notary) {
+      this.chat_admin = this.chat_notary;
+    }
+    if (admin_sent_as === this.constant.userType.bank) {
+      this.chat_admin = this.chat_bank;
+    }
+console.log('chat_admin', this.chat_admin);
     const data = {
       lead_id: this.parameter.lead_id,
       other_sent_as: admin_sent_as,
       other_id: this.chat_admin.id,
       sent_as: this.constant.userType.csr_closer
     };
-
+console.log('=========', data);
     this.admin.postDataApi('conversation/getLeadConversation', data).subscribe(r => {
-      // console.log('conversation/getLeadConversation', r);
+      console.log('conversation/getLeadConversation', r);
       if (r['data']) {
         this.conversation_id = r['data'][0].id;
         this.model.conversation_id = this.conversation_id;

@@ -12,20 +12,22 @@
 </div>
 <hr class="margin0">
 
-<div *ngIf="parameter.items?.length!=0" [ngStyle]="{'max-height':csrType === 1 ? '250px' : '' }" class="write-note white-bg padding40" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+<div *ngIf="parameter.items?.length!=0" [ngStyle]="{'max-height':sent_as === 1 ? '250px' : '' }" class="write-note white-bg padding40" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
   <div class="wn-block" *ngFor="let item of parameter.items; let i=index">
       <div class="circle">
         <span></span>
       </div>
       <a class="delete" href="javascript://" (click)="deleteLeadPopup(item.id, i)">Delete</a>
       <p class="time">{{item.updated_at  | chatTime: 'YYYY-MM-DD H:m:s': 2}}</p>
-      <!-- <p class="p13">{{item.note}}</p> -->
-      <pre class="p13">{{item.note}}</pre>
+      <pre class="p13" *ngIf="!item.show">{{item.note.slice(0, 90)}} <span class="read-more" *ngIf="item.note.length>100" (click)="item.show=true">Read more</span></pre>
+      <pre class="p13" *ngIf="item.show">{{item.note}}</pre>
   </div>
 </div>
-<p class="show-not-found" *ngIf="parameter.items?.length==0">
-  {{constant.errorMsg.NO_NOTE_FOUND}}
-</p>
+<div  *ngIf="parameter.items?.length==0" class="write-note white-bg" [ngStyle]="{'height':sent_as === 1 ? '230px' : '245px' }">
+  <p class="show-not-found">
+    {{constant.errorMsg.NO_NOTE_FOUND}}
+  </p>
+</div>
 
 
 <!-- add note modal -->
@@ -38,7 +40,7 @@
             <button type="button" class="close" (click)="closeModal()">&times;</button>
         </div>
   
-        <form class="form-horizontal form-model0P form-model-newP" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="addLeadNote(addForm); addForm.reset();">
+        <form class="form-horizontal form-model0P form-model-newP" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="addLeadNote(addForm, sent_as); addForm.reset();">
           <div class="modal-body modal-body-new">
             <div class="row">
               <div class="col-12">

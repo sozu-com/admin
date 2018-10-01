@@ -142,8 +142,10 @@ export class InhouseUsersComponent implements OnInit {
   }
 
   addEmptyObj() {
+    console.log(this.model.address);
     if (this.model.address[this.addressIndex].countries !== '' && this.model.address[this.addressIndex].states !== ''  &&
-      this.model.address[this.addressIndex].cities !== ''  && this.model.address[this.addressIndex].localities !== '' ) {
+      this.model.address[this.addressIndex].cities !== ''  && this.model.address[this.addressIndex].localities !== '' &&
+      this.model.address[this.addressIndex].buildings !== '') {
       const obj = {
         countries: '',
         states : '',
@@ -222,7 +224,7 @@ export class InhouseUsersComponent implements OnInit {
 
     // checking if locality is same or not
     this.model.address.map((item) => {
-      let value = item['localities'];
+      let value = item['buildings'];
       value = value.toString();
       // console.log('value', value);
       if (value === '0') {
@@ -239,7 +241,7 @@ export class InhouseUsersComponent implements OnInit {
     });
 // console.log('address', this.model.address, this.seenDuplicate);
     if (this.model.address[0].countries === '' || this.model.address[0].states === ''  ||
-      this.model.address[0].cities === '' || this.model.address[0].localities === '' ) {
+      this.model.address[0].cities === '' || this.model.address[0].localities === ''  || this.model.address[0].buildings === '' ) {
         swal('Error', 'Please choose location.', 'error');
         // this.parameter.loading = false;
     } else if (this.seenDuplicate) {
@@ -291,6 +293,8 @@ export class InhouseUsersComponent implements OnInit {
                 }
               }
             }
+          }, error => {
+            console.log('errorrrr====');
           });
     }
   }
@@ -451,6 +455,7 @@ export class InhouseUsersComponent implements OnInit {
 
 
   setBuilding(building_id) {
+    console.log(building_id);
     this.parameter.building_id = building_id;
   }
 
@@ -531,6 +536,9 @@ export class InhouseUsersComponent implements OnInit {
     if (this.parameter.locality_id && this.parameter.locality_id !== '-1') {
       input.append('localities', JSON.stringify([this.parameter.locality_id]));
     }
+    if (this.parameter.building_id && this.parameter.building_id !== '-1') {
+      input.append('buildings', JSON.stringify([this.parameter.building_id]));
+    }
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
@@ -603,5 +611,64 @@ export class InhouseUsersComponent implements OnInit {
           this.parameter.items[this.parameter.index] = success.data;
 
         });
+  }
+
+
+  getCountryLocality() {
+    this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
+      console.log('Country', r);
+      this.parameter.countries = r['data'];
+    });
+  }
+
+
+  onCountryChange1(id) {
+    console.log(id);
+    this.parameter.cities = []; this.parameter.city_id = '0';
+    this.parameter.localities = []; this.parameter.locality_id = '0';
+    if (!id || id === 0) {
+      this.parameter.state_id = '0';
+      return false;
+    }
+
+    this.parameter.country_id = id;
+    const selectedCountry = this.parameter.countries.filter(x => x.id === id);
+    this.parameter.states = selectedCountry[0].states;
+  }
+
+  onStateChange(id) {
+    console.log(id);
+    this.parameter.localities = []; this.parameter.locality_id = '0';
+    if (!id || id === 0) {
+      this.parameter.city_id = '0';
+      return false;
+    }
+
+    this.parameter.state_id = id;
+    const selectedState = this.parameter.states.filter(x => x.id === id);
+    this.parameter.cities = selectedState[0].cities;
+  }
+
+  onCityChange(id) {
+    console.log(id);
+    if (!id || id === 0) {
+      this.parameter.locality_id = '0';
+      return false;
+    }
+
+    this.parameter.city_id = id;
+    const selectedCountry = this.parameter.cities.filter(x => x.id === id);
+    this.parameter.localities = selectedCountry[0].localities;
+  }
+
+  onLocalityChange(id) {
+    console.log(id);
+    if (!id || id === 0) {
+      return false;
+    }
+
+    this.parameter.locality_id = id;
+    // let selectedLocation = this.location.localities.filter(x=>x.id == id);
+    // this.location.locality = selectedLocation[0];
   }
 }

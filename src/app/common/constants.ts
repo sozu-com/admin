@@ -58,7 +58,7 @@ export class Constant {
         NO_INTERESTED_PROPERTY_FOUND : 'No interests added by user.',
         NO_VIEWED_PROPERTY_FOUND : 'No property or project viewed by you.',
         NO_NOTE_FOUND : 'No notes to show.',
-        FILE_SIZE_EXCEEDS : 'Choosed file is more than 25MB.'
+        FILE_SIZE_EXCEEDS : 'The file you have selected is too large. The maximum size is 25MB.'
     };
     public successMsg: any = {
         COUNTRY_ADDED_SUCCESSFULLY : 'Country added successfully',

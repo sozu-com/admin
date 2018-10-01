@@ -94,7 +94,7 @@
         </div>
 
         <!-- notes start -->
-        <app-notes [lead_id]="parameter.lead_id"></app-notes>
+        <app-notes [sent_as]="parameter.sent_as" [lead_id]="parameter.lead_id"></app-notes>
         <!-- notes end -->
 
         <!-- <div class="spacer15"></div> -->
@@ -188,6 +188,12 @@
                 </li>
                 <li class="nav-item">
                     <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.user_seller_dev}" (click)="getLeadConversation(constant.userType.user_seller_dev)" class="nav-link">Seller</a>
+                </li>
+                <li class="nav-item">
+                    <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.notary}" (click)="getLeadConversation(constant.userType.notary)" class="nav-link">Notary</a>
+                </li>
+                <li class="nav-item">
+                    <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.bank}" (click)="getLeadConversation(constant.userType.bank)" class="nav-link">Bank</a>
                 </li>
                 </ul>
                 

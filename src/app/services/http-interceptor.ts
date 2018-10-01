@@ -28,8 +28,6 @@ export class HttpInterceptor extends Http {
     }
 
     public request(url: string|Request, options?: RequestOptionsArgs): Observable<Response> {
-        // console.log('Request - ', url);
-
         if (url['url'] === this.baseUrl + 'conversation/sendMessage' ||
             url['url'] === this.baseUrl + 'getDocumentOptions' ||
             url['url'] === this.baseUrl + 'leads/getPrefOptions') {

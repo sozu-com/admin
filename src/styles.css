@@ -110,6 +110,10 @@ nouislider{ padding-left: 50px; padding-right: 50px;}
     padding-right: 22px;
 }
 .newline{white-space: pre-wrap;}
+.read-more {
+    color: #00B96F;
+    cursor: pointer;
+}
 
 /* .chat-load-more img{height:30px;}
 .video55{display:none;} */

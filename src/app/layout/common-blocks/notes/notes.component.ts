@@ -18,7 +18,7 @@ export class NotesComponent implements OnInit {
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
 
-  @Input('csrType') csrType;
+  @Input('sent_as') sent_as;
   @Input('lead_id') lead_id;
   public parameter: IProperty = {};
   public scrollbarOptions = { axis: 'y', theme: 'dark'};
@@ -34,8 +34,8 @@ export class NotesComponent implements OnInit {
     this.modalClose.nativeElement.click();
   }
 
-  addLeadNote(formdata: NgForm) {
-    this.admin.postDataApi('leads/addLeadNote', {lead_id: this.lead_id, note: this.model.note}).subscribe(r => {
+  addLeadNote(formdata: NgForm, sent_as) {
+    this.admin.postDataApi('leads/addLeadNote', {lead_id: this.lead_id, note: this.model.note, sent_as: sent_as}).subscribe(r => {
       this.closeModal();
       // this.parameter.items.push(r.data);
       this.parameter.items = r.data;
@@ -67,7 +67,7 @@ export class NotesComponent implements OnInit {
   }
 
   getLeadNotes() {
-    this.admin.postDataApi('leads/getLeadNotes', {lead_id: this.lead_id}).subscribe(r => {
+    this.admin.postDataApi('leads/getLeadNotes', {lead_id: this.lead_id, sent_as: this.sent_as}).subscribe(r => {
       this.parameter.items = r.data;
     });
   }
