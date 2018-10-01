@@ -16,9 +16,13 @@ export class AclUserGuard implements CanActivate {
       const key = roles ? roles[0] : '';
       const subkey = roles ? roles[1] : '';
       const inhouseUserRole = roles ? roles[2] : '';
-
+console.log('inside');
       const admin_acl = JSON.parse(localStorage.getItem('admin_acl'));
       const permissions = JSON.parse(localStorage.getItem('permissions'));
+      // const admin_acl = this.admin.admin_acl;
+      // const permissions = this.admin.permissions;
+      console.log('adminacl', admin_acl);
+      console.log('permission', permissions);
       if (permissions || admin_acl) {
         const obj = admin_acl[key];
         if (((state.url === '/dashboard/view-inhouse-users/data-collectors') &&
@@ -27,17 +31,10 @@ export class AclUserGuard implements CanActivate {
           ((state.url === '/dashboard/view-inhouse-users/csr-buyers') && (admin_acl['Buyer Management']['can_read'] === 1)) ||
           ((state.url === '/dashboard/view-inhouse-users/inhouse-broker') && (admin_acl['Broker Management']['can_read'] === 1)) ||
           ((state.url === '/dashboard/view-inhouse-users/csr-closers') && (admin_acl['Closer Management']['can_read'] === 1))) {
-            console.log('permissions');
             return true;
         } else if ((obj && obj[subkey] === 1) || (permissions && permissions[inhouseUserRole] === 1)) {
-          console.log('admin_acl');
           return true;
         } else {
-          console.log('else');
-            // this.router.events.pairwise().subscribe((e) => {
-            //   this.router.navigate([previousUrl]);
-            //   return false;
-            // });
           this.location.back();
           return false;
         }

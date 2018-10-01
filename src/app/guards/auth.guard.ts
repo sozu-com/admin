@@ -3,12 +3,13 @@ import { CanActivate } from '@angular/router';
 import { Router } from '@angular/router';
 import { AdminService } from './../services/admin.service';
 import { Login, AdminACL } from './../models/login.model';
-
+import { HttpInterceptor } from './../services/http-interceptor';
 @Injectable()
 
 export class AuthGuard implements CanActivate {
 
-  constructor (private router: Router, private admin: AdminService, public loginModel: Login, public aclModel: AdminACL) {}
+  constructor (private router: Router, private interceptor: HttpInterceptor,
+    private admin: AdminService, public loginModel: Login, public aclModel: AdminACL) {}
 
   canActivate () {
     // console.log('auth guard');
@@ -21,6 +22,7 @@ export class AuthGuard implements CanActivate {
           this.admin.postDataApi('get-details', {})
           .subscribe(
             success1 => {
+              this.interceptor.loader.next({value: true});
               console.log('ssss1', success1);
               this.admin.login.next(success1.data);
               this.admin.permissions = success1.data.permissions ? success1.data.permissions : {};
@@ -29,6 +31,7 @@ export class AuthGuard implements CanActivate {
                 const key =  Object.keys(obj)[0];
                 this.admin.admin_acl[key] =  obj[key];
               });
+              this.interceptor.loader.next({value: false});
               console.log('111111');
             });
         }
