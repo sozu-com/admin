@@ -1,0 +1,201 @@
+
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-md-6">
+      <div class="form-group">
+  <label>Manage Bank Leads</label>
+  <div class="d-flex">
+  <button class="all-btn">All</button>
+  <input style="max-width:200px" class="form-control" type="text" name="">
+  </div>
+  </div>
+      </div>
+  
+  </div>
+  
+  <div class="row">
+          <div class="col-md-12">
+              <div class="cust-tabs-2">
+              <ul class="nav nav-tabs float-left">
+                  <li class="nav-item">
+                      <a class="nav-link" [ngClass]="{'active':parameter.flag==1}" (click)="changeFlag(1)" >This Week</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" [ngClass]="{'active':parameter.flag==2}" (click)="changeFlag(2)" >This Month</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" [ngClass]="{'active':parameter.flag==3}" (click)="changeFlag(3)" >Last Month</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" [ngClass]="{'active':parameter.flag==4}" (click)="changeFlag(4)" >Lifetime</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" [ngClass]="{'active':parameter.flag==5}" (click)="changeFlag(5)" >Custom</a>
+                  </li>
+              </ul>
+              </div>
+          </div>
+          <div class="col-12">
+              <hr style="margin-top:0; margin-bottom:20px;">
+          </div>
+      </div>
+  
+      <div class="row">
+  
+          <div class="col-lg-8 col-md-12 col-sm-12 col-12">
+          <div class="info-box all-leads marginT0">
+              <div class="one-row">
+                  <div class="o-block">
+                      <h5>All Leads</h5>
+                      <small>Total</small>
+                  </div>
+                  <div class="o-block">
+                      <a class="view-all" href="javascript://">View All</a>
+                      <h4>36</h4>
+                  </div>
+              </div>
+          
+              </div>
+  
+                      <div class="info-box all-leads">
+                      <div class="row">
+                      <div class="col-md-6 col-sm-6 col-12 active">
+              <div class="one-row ">
+                  <div class="o-block">
+                      <h5>Leads</h5>
+                      <small>Open</small>
+                  </div>
+                  <div class="o-block">
+                      <a class="view-all" href="javascript://">View All</a>
+                      <h4>26</h4>
+                  </div>
+              </div>
+              </div>
+  
+                  <div class="col-md-6 col-sm-6 col-12">
+              <div class="one-row">
+                  <div class="o-block">
+                      <h5>Leads</h5>
+                      <small>Closed</small>
+                  </div>
+                  <div class="o-block">
+                      <a class="view-all" href="javascript://">View All</a>
+                      <h4>10</h4>
+                  </div>
+              </div>
+              </div>
+  
+  
+  
+              </div>
+          
+              </div>
+          
+  
+          </div>
+          <div class="col-lg-4 col-md-12 col-sm-12 col-12">
+              <div class="chat-msg all-leads marginT0">
+              <div class="row">
+                  <div class="col-6">
+                      <h5>Chat</h5>
+                  </div>
+                  <div class="col-6 text-right"><a class="msg" href="javascript://">Message</a></div>
+              </div>
+              <p>Waiting for response</p>
+              <p>
+                  <strong>Mario Hudson</strong>
+                  When you are free to have a meeting 
+                  with interested customers?
+              </p>
+              <p>
+                  <strong>Rosie Benson</strong>
+                  Is there any availability in the localities
+                  I was asking you tomorrow and also p…
+              </p>
+              </div>
+          </div>
+      </div>
+      <div class="spacer15"></div>
+      <div class="row">
+          <div class="col-12">
+              <div class="title-group">
+              <h5>Leads (All)</h5>
+              <p>Showing {{items?.length}} out of {{parameter.total}}</p>
+              </div>
+          </div>
+          
+      </div>
+  
+  
+          <div class="white-bg">
+          <div class="tabel-section">
+              <div class="table-responsive">
+              <table class="table table-striped border-0">
+                  <tbody><tr>
+                  <th style="width:6%; border-top:0">&nbsp;</th>
+                      <th style="width:25%; border-top:0">
+                          <div class="table-search">
+                          <label>Name</label>
+                          <div class="searh-3">
+                              <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="changeFilter('name',$event.target.value)" name="">
+                              <button *ngIf="parameter.name" (click)="changeFilter('name', parameter.name)"><i class="fa fa-search"></i></button>
+                          </div>
+                          </div>
+                      </th>
+                      <th style="width:25%; text-align:left; border-top:0">
+                          <div class="table-search">
+                          <label>Contact Number</label>
+                          <div class="searh-3">
+                              <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="changeFilter('phone',$event.target.value)" name="">
+                              <button *ngIf="parameter.phone" (click)="changeFilter('phone', parameter.phone)"><i class="fa fa-search"></i></button>
+                          </div>
+                          </div>
+                      </th>
+                      <th style="width:30%; border-top:0">
+                          <div class="table-search">
+                          <label>Email Address</label>
+                          <div class="searh-3">
+                              <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="changeFilter('email',$event.target.value)" name="">
+                              <button *ngIf="parameter.email" (click)="changeFilter('email', parameter.email)"><i class="fa fa-search"></i></button>
+                          </div>
+                          </div>
+                      </th>
+                      <!-- <th style="width:20%; border-top:0">
+                          &nbsp;  
+                      </th> -->
+                      <th style="width:14%; border-top:0">
+                          &nbsp;
+                      </th>
+                  </tr>
+                  <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index">
+                      <td>
+                          <img class="rounded-circle" [src]="item.image" onerror="this.src='assets/img/default_img.png'" alt="img">
+                      </td>
+                      <td class="text-left">
+                          <span routerLink="/dashboard/leads/csr-closers/{{item.id}}" class="name">{{item.name}}</span>
+                      </td>
+                      <td class="text-left">
+                          {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}<br>
+                      </td>
+                      <td class="text-left">
+                          {{item.email}}
+                      </td>
+                      <!-- <td>
+                      <a style="display:none;" #modalOpen class="green-color fontW500" data-toggle="modal" data-target="#set-availability" href="javascript://">Change Availability</a>
+                      <a class="green-color fontW500" (click)="openModal(item, i)" href="javascript://">Change Availability</a>
+                      </td> -->
+                      <td>
+                          <a href="javascript://" routerLink="/dashboard/banks/bank-leads/{{item.id}}" class="icon-block edit-icon"><img src="assets/img/viewfull.png" alt="img"></a> 
+                      </td>
+                  </tr>
+              </tbody></table>
+              </div>
+          </div>
+          <div class="center" *ngIf="items?.length == 0">
+              <img src="assets/img/404-error.png">
+          </div>
+      </div>
+      <div class="btn-cont text-right marginT15" *ngIf="parameter.total">
+          <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+      </div>
+  </div>

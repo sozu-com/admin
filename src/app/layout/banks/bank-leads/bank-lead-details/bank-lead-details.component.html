@@ -1,0 +1,255 @@
+
+<div class="container-fluid">
+  <div class="white-bg padding15">
+      <div class="row">
+          <div class="col-lg-3 col-md-12 col-sm-6 col-12">
+              <div class="df-profile">
+              <a routerLink="../"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+              <img [src]="parameter.lead?.user?.image" onerror='src="assets/img/default_img.png"' alt="img">
+              <div class="df-info" *ngIf="parameter.lead?.user">
+                  <p class="p14">{{parameter.lead.user.name}}</p>
+                  <p class="p12">Status: Open</p>
+              </div>
+              </div>
+          </div>
+          <div class="col-lg-5 col-md-12 col-sm-6 col-12">
+              <div class="profile-list">
+              <ul>
+                  <li>
+                      <div class="df-info">
+                          <p class="p14 marginB0" *ngIf="parameter.lead?.admin">{{parameter.lead.admin.name}}</p>
+                          <p class="p12">CSR Buyer</p>
+                      </div>
+                  </li>
+                  <!-- <li>
+                      <div class="df-info" *ngIf="parameter.lead?.broker">
+                          <p class="p14 marginB0">{{parameter.lead.broker.name}}</p>
+                          <p class="p12">Inhouse Broker</p>
+                      </div>
+                  </li> -->
+                  <li>
+                      <div class="df-info" *ngIf="parameter.lead?.closer">
+                          <p class="p14 marginB0">{{parameter.lead.closer.name}}</p>
+                          <p class="p12">CSR Closer</p>
+                      </div>
+                  </li>
+              </ul>
+              </div>
+          </div>
+      </div>
+  </div>
+  
+  <div class="spacer30"></div>
+  <div class="row">
+      <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+          <div class="white-bg padding30">
+              <div class="row">
+              <div class="col-md-6">
+                  <h6>Details</h6>
+              </div>
+              <!-- <div class="col-md-6">
+                  <div class="edit text-right"><a href="javascript://">Edit</a></div>
+              </div> -->
+              </div>
+              <div class="details-table">
+              <table class="table">
+                  <tr>
+                      <td style="padding-left:0"><label>Full Name</label></td>
+                      <td colspan="2" *ngIf="parameter?.lead?.name">{{parameter.lead.name}}</td>
+                  </tr>
+                  <tr>
+                      <td style="padding-left:0"><label>Contact Number</label></td>
+                      <td colspan="2" *ngIf="parameter?.lead?.phone">{{parameter.lead.dial_code ? parameter.lead.dial_code : constant.dial_code}}-{{parameter.lead.phone}}</td>
+                  </tr>
+                  <tr>
+                      <td style="padding-left:0"><label>Email address</label></td>
+                      <td colspan="2" *ngIf="parameter?.lead?.email">{{parameter.lead.email}}</td>
+                  </tr>
+                  <tr>
+                      <td style="padding-left:0"><label>Interested In</label></td>
+                      <td *ngIf="parameter?.lead?.configuration">
+                          <span *ngFor="let conf of parameter.lead.configuration; let ii=index">
+                          {{conf.name}}
+                          <span *ngIf="ii<parameter?.lead?.configuration?.length-1">,</span>
+                          </span>
+                          <span *ngIf="parameter.lead.configuration?.length == 0">NA</span>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td style="padding-left:0"><label><strong>Property Selected</strong></label></td>
+                      <td *ngIf="parameter?.lead?.selected_properties?.length!=0">
+                          <p class="p14 marginB0">
+                              {{parameter.lead?.selected_properties[0]?.property?.configuration.name}}
+                          </p>
+                          <p class="p12 marginB0"><strong>{{parameter.lead?.selected_properties[0]?.property?.building?.name}}</strong></p>
+                          <p class="p11"><i>{{parameter.lead?.selected_properties[0]?.property?.building?.developer?.name}}</i></p>
+                      </td>
+                      <td *ngIf="parameter?.lead?.selected_properties?.length!=0">
+                          <a class="view-all-2" href="javascript://" (click)="viewPropertyDetails(parameter?.lead?.selected_properties[0])"> View Property</a>
+                      </td>
+                      <td *ngIf="parameter?.lead?.selected_properties?.length==0">NA</td>
+                  </tr>
+                  <tr>
+                      <td  style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
+                      <td colspan="2">
+                          <p class="date">02-Oct-2018, 04:00pm</p>
+                      </td>
+                  </tr>
+              </table>
+              </div>
+          </div>
+  
+          <!-- notes start -->
+          <app-notes [lead_id]="parameter.lead_id"></app-notes>
+          <!-- notes end -->
+  
+      </div>
+  
+  
+      <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+      
+      <!-- chat start -->
+      <div *ngIf="parameter.lead?.user">
+          <app-chat [lead_id]="parameter.lead_id" [sent_as]="parameter.sent_as" [user_id]="parameter.user_id" [admin_id]="parameter.admin_id"></app-chat>
+      </div>
+      <!-- chat end -->
+  
+      <div class="clearfix"></div>
+      <div class="upload-document-block white-bg">
+          <div class="page-title-2 border-0">
+              <div class="row">
+                  <div class="col-9">
+                  <h4>Documents</h4>
+                  </div>
+                  <div class="col-3">
+                  <a class="view pull-right" href="javascript://" (click)="updateDocumentChecklist()">Save</a>
+                  </div>
+              </div>
+              <table class="table">
+                  <tr *ngFor="let document of selectedProperties.allDocuments; let i=index">
+                  <td>
+                      <label class="cust-check-bx">{{document.name}}
+                      <input type="checkbox" (click)="setValue(i)" [checked]="document.is_selected == 1 ? 'checked' : ''" name="document">
+                      <span class="checkmark"></span>
+                      </label>
+                  </td>
+                  </tr>
+              </table>
+          </div>
+      </div>
+          <div class="all-document-block white-bg">
+          <div class="page-title-2 border-0">
+          <div class="row">
+          <div class="col-9">
+              <h4>All Documents</h4>
+              <p class="p11 marginB0">From both seller and buyer</p>
+  
+              </div>
+              <div class="col-3 text-right">
+                  <a *ngIf="selectedProperties?.uploaded_documents?.length==0" (click)="noDocumentUploaded()" class="view" href="javascript://" >View</a>
+                  <a *ngIf="selectedProperties?.uploaded_documents?.length!=0" class="view" data-toggle="modal" data-target="#uploaded-documents" href="javascript://" >View</a>
+              </div>
+          </div>
+          </div>
+          </div>
+      </div>
+  </div>
+  </div>
+  
+  
+  <div class="modal" id="uploaded-documents">
+      <div class="modal-dialog ">
+      <div class="modal-content notary-avail">
+          <!-- <div class="modal-header modal-header-new"> -->
+              <div class="modal-header modal-header-new">
+              <h4 class="modal-title">Uploaded Documents</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+              <table class="table">
+                  <tr *ngFor="let upDocument of selectedProperties.uploaded_documents">
+                  <td>
+                      <div class="n-avail-profile">
+                          <div class="n-avail-info">
+                              <p class="p14 marginB0" *ngIf="upDocument.attachment_name">{{upDocument.attachment_name}}</p>
+                              <!-- <p class="p12" *ngIf="!upDocument.attachment_name">{{upDocument.attachment.substring(upDocument.attachment.lastIndexOf('/'), upDocument.attachment.length)}}</p> -->
+                              <p class="p14 marginB0" *ngIf="!upDocument.attachment_name">No name</p>
+                          </div>
+                      </div>
+                  </td>
+                  <td class="text-right">
+                          
+                          <!-- <a target="_blank" href="https://docs.google.com/viewer?url={{upDocument.attachment}}">View</a> -->
+                          <a class="green-color" target="_blank" href="{{upDocument.attachment}}">Download</a>
+                      
+                  </td>
+                  </tr>
+              </table>
+          </div>
+      </div>
+      </div>
+  </div>
+  
+  <div class="modal" id="bank-listing">
+      <div class="modal-dialog ">
+      <div class="modal-content notary-avail">
+          <div class="modal-header popup-header">
+              <h4 class="modal-title">Banks available</h4>
+              <button type="button" class="close" data-dismiss="modal" #hideBanks>&times;</button>
+          </div>
+          <div class="modal-body">
+              <table class="table">
+                  <tr *ngFor="let bank of parameter.banks">
+                  <td>
+                      <div class="n-avail-profile">
+                          <img [src]="bank.image" onerror='src="assets/img/bank.png"' alt="img">
+                          <div class="n-avail-info">
+                              <p class="p12">{{bank.name}}</p>
+                              <p class="p10">Branch : {{bank.branch ? bank.branch : 'NA'}}</p>
+                          </div>
+                      </div>
+                  </td>
+                  <td>
+                      <label class="cust-check-bx float-right">
+                      <input type="radio" name="bank_id" (click)="assignBank(bank)">
+                      <span class="checkmark"></span>
+                      </label>
+                  </td>
+                  </tr>
+              </table>
+          </div>
+      </div>
+      </div>
+  </div>
+  
+  <div class="modal" id="notary-avail">
+      <div class="modal-dialog ">
+          <div class="modal-content notary-avail">
+              <div class="modal-header popup-header">
+              <h4 class="modal-title">Notaries available</h4>
+              <button type="button" class="close" data-dismiss="modal" #hideNotaries>&times;</button>
+              </div>
+              <div class="modal-body">
+                  <table class="table">
+                      <tr *ngFor="let item of parameter.items">
+                          <td>
+                              <div class="n-avail-profile">
+                              <img [src]="item.image" onerror='src="assets/img/house.png"' alt="img">
+                              <div class="n-avail-info">
+                                  <p class="p12">{{item.name}}</p>
+                                  <p class="p10">Phone : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
+                              </div>
+                              </div>
+                          </td>
+                          <td>
+                              <label class="cust-check-bx float-right">
+                                  <input type="radio" name="notary_id" (click)="assignNoatary(item)">
+                                  <span class="checkmark"></span>
+                              </label>
+                          </td>
+                      </tr>
+                  </table>
+              </div>
+          </div>
+      </div>
+  </div>

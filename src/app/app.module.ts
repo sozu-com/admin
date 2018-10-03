@@ -30,6 +30,14 @@ const appRoutes: Routes = [
   { path: '**', component: PageNotFoundComponent },
 ];
 
+// const appRoutes: Routes = [
+//   { path: '', pathMatch: 'full', component: LoginComponent},
+//   { path: 'login', pathMatch: 'full', component: LoginComponent },
+//   { path: 'forgot-password', component: ForgotPasswordComponent },
+//   { path: 'dashboard', canActivate: [AuthGuard], data: {roles: ['', '', '']}, loadChildren: './layout/layout.module#LayoutModule'},
+//   { path: '**', component: PageNotFoundComponent },
+// ];
+
 @NgModule({
   declarations: [
     AppComponent,

@@ -35,6 +35,34 @@ const routes: Routes = [
     }
 ];
 
+
+// const routes: Routes = [
+//     {
+//         path: 'dashboard', component: LayoutComponent,
+//         children: [
+//             { path: 'dashboard', component: DashboardComponent,
+//                 canActivate: [AuthGuard], data: {roles: ['', '', '']}},
+//             { path: 'view-inhouse-users/:userType', component: InhouseUsersComponent,
+//                 canActivate: [AuthGuard], data: {roles: ['', '', '']}},
+//             { path: 'change-password', component: ChangePasswordComponent,
+//                 canActivate: [AuthGuard], data: {roles: ['', '', '']}},
+//             { path: 'notary', loadChildren: './notary/notary.module#NotaryModule'},
+//             { path: 'banks', loadChildren: './banks/banks.module#BanksModule'},
+//             { path: 'users', loadChildren: './users/users.module#UsersModule'},
+//             { path: 'leads', loadChildren: './leads/leads.module#LeadsModule'},
+//             { path: 'manual-leads', loadChildren: './manual-leads/manual-leads.module#ManualLeadsModule'},
+//             { path: 'edit-template', component: EditTemplateComponent,
+//                 canActivate: [AuthGuard], data: {roles: ['Templates', 'can_read', '']}},
+//             { path: 'generate-thumb', component: GenerateThumbComponent},
+//             { path: 'reports', loadChildren: './reports/reports.module#ReportsModule'},
+//             { path: 'access-control-mgt', loadChildren: './acl/acl.module#AclModule'},
+//             { path: 'settings', loadChildren: './settings/settings.module#SettingsModule'},
+//             { path: 'properties', loadChildren: './properties/properties.module#PropertiesModule'},
+//             { path: 'projects', loadChildren: './projects/projects.module#ProjectsModule'},
+//         ]
+//     }
+// ];
+
 @NgModule({
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]

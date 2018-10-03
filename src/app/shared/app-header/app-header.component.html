@@ -245,7 +245,7 @@
                        </li>
                        <li *ngIf="admin?.admin_acl['Noataries Management']?.can_read==1 && admin?.admin_acl['Notary Lead Management']?.can_read==1" class="nav-item dropdown" [routerLinkActive]="'active'">
                          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
-                         <i><img src="assets/img/stamp.png"></i><span>Manage Notary</span></a>
+                         <i><img src="assets/img/stamp.png"></i><span>Manage Notaries</span></a>
                          <div class="dropdown-menu">
                             <ul>
                                <li *ngIf="admin?.admin_acl['Noataries Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="notary/view-notary">Notary</a></li>
@@ -253,9 +253,19 @@
                             </ul>
                          </div>
                       </li>
-                      <li *ngIf="admin?.admin_acl['Bank Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
+                      <li *ngIf="admin?.admin_acl['Bank Management']?.can_read==1 && admin?.admin_acl['Bank Lead Management']?.can_read==1" class="nav-item dropdown" [routerLinkActive]="'active'">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
+                        <i><img src="assets/img/bank.png"></i><span>Manage Banks</span></a>
+                        <div class="dropdown-menu">
+                           <ul>
+                              <li *ngIf="admin?.admin_acl['Bank Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="banks/view-banks">Banks</a></li>
+                              <li *ngIf="admin?.admin_acl['Bank Lead Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="banks/bank-leads">Leads</a></li>
+                           </ul>
+                        </div>
+                     </li>
+                      <!-- <li *ngIf="admin?.admin_acl['Bank Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
                         <a class="nav-link" href="javascript://" routerLink="banks/view-banks"><i><img src="assets/img/bank.png"></i><span>Manage Banks</span></a>
-                      </li>
+                      </li> -->
                        
                       <li *ngIf="admin?.admin_acl['User Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
                         <a class="nav-link" href="javascript://" routerLink="users"><i><img src="assets/img/users.png"></i><span>Manage Users</span></a>

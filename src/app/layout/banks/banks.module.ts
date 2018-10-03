@@ -7,11 +7,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { BanksComponent } from './banks.component';
 import { AclUserGuard } from '../../guards/acl-user.guard';
+import { BankLeadsComponent } from './bank-leads/bank-leads.component';
+import { BankLeadDetailsComponent } from './bank-leads/bank-lead-details/bank-lead-details.component';
+import { SharedModule } from '../../modules/shared.module';
 
 
 const routes: Routes = [
   { path: 'view-banks', component: BanksComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Bank Management', 'can_read', '']}}
+    canActivate: [AclUserGuard], data: {roles: ['Bank Management', 'can_read', '']}},
+  { path: 'bank-leads', component: BankLeadsComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Bank Lead Management', 'can_read', '']}},
+  { path: 'bank-leads/:id', component: BankLeadDetailsComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Bank Lead Management', 'can_read', '']}}
 ];
 
 @NgModule({
@@ -25,10 +32,13 @@ const routes: Routes = [
     NgxPaginationModule,
     FormsModule,
     ReactiveFormsModule,
-    Ng2TelInputModule
+    Ng2TelInputModule,
+    SharedModule
   ],
   declarations: [
-    BanksComponent
+    BanksComponent,
+    BankLeadsComponent,
+    BankLeadDetailsComponent
   ]
 })
 

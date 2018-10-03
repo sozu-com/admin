@@ -82,8 +82,6 @@ export class BanksComponent implements OnInit {
   }
 
   addBank() {
-    this.parameter.url = this.model.id ? 'updateNewUser' : 'addBank';
-    // this.model.interests = JSON.stringify(this.model.interestsArray);
     this.admin.postDataApi('addBank', this.model)
       .subscribe(
         success => {
@@ -109,6 +107,7 @@ export class BanksComponent implements OnInit {
 
   editUser(userdata, index) {
     this.model = JSON.parse(JSON.stringify(userdata));
+    console.log(this.model);
     this.parameter.index = index;
     this.modalOpen.nativeElement.click();
   }

@@ -31,6 +31,7 @@ import { MyChatComponent } from './inhouse-broker/inhouse-broker-detail/my-chat/
 import { AclUserGuard } from '../../guards/acl-user.guard';
 import { LayoutModule } from '../layout.module';
 import { SharedModule } from '../../modules/shared.module';
+import { AuthGuard } from '../../guards/auth.guard';
 
 const routes: Routes = [
   { path: 'data-collectors', component: DataCollectorComponent,
@@ -52,6 +53,28 @@ const routes: Routes = [
   { path: 'csr-closers/:id', component: CsrCloserDetailComponent,
     canActivate: [AclUserGuard], data: {roles: ['Closer Lead Management', 'can_read', 'can_csr_closer']}}
 ];
+
+
+// const routes: Routes = [
+//   { path: 'data-collectors', component: DataCollectorComponent,
+//     canActivate: [AuthGuard], data: {roles: ['Data Collector Lead Management', 'can_read', 'can_data_collector']}},
+//   { path: 'csr-sellers', component: CsrSellerComponent,
+//     canActivate: [AuthGuard], data: {roles: ['Seller Lead Management', 'can_read', 'can_csr_seller']}},
+//   { path: 'csr-buyers', component: CsrBuyerComponent,
+//     canActivate: [AuthGuard], data: {roles: ['Buyer Lead Management', 'can_read', 'can_csr_buyer']}},
+//   { path: 'csr-buyers/:id', component: CsrBuyerDetailComponent,
+//     canActivate: [AuthGuard], data: {roles: ['Buyer Lead Management', 'can_read', 'can_csr_buyer']}},
+//   { path: 'inhouse-broker', component: InhouseBrokerComponent,
+//     canActivate: [AuthGuard], data: {roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker']}},
+//   { path: 'inhouse-broker/:id', component: InhouseBrokerDetailComponent,
+//     canActivate: [AuthGuard], data: {roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker']}},
+//   { path: 'chat-with-developer/:id', component: MyChatComponent,
+//     canActivate: [AuthGuard], data: {roles: ['Broker Lead Management', 'can_update', 'can_in_house_broker']}},
+//   { path: 'csr-closers', component: CsrCloserComponent,
+//     canActivate: [AuthGuard], data: {roles: ['Closer Lead Management', 'can_read', 'can_csr_closer']}},
+//   { path: 'csr-closers/:id', component: CsrCloserDetailComponent,
+//     canActivate: [AuthGuard], data: {roles: ['Closer Lead Management', 'can_read', 'can_csr_closer']}}
+// ];
 
 @NgModule({
   imports: [
