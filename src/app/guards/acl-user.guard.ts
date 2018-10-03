@@ -11,6 +11,20 @@ export class AclUserGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
+
+//       // return this.admin.getDetails().map(e => {
+//       //   console.log('1');
+//       //   if (e) {
+//       //     console.log('2');
+//       //     console.log(e);
+//       //     return true;
+//       //   }
+//       // }).catch(() => {
+//       //   console.log('3');
+//       //   // this.location.back();
+//       //   return Observable.of(false);
+//       // });
+
       const roles = next.data['roles'] as Array<string>;
 
       const key = roles ? roles[0] : '';

@@ -27,6 +27,12 @@ export class AdminService {
   public country = new BehaviorSubject({});
   countryData$ = this.country.asObservable();
 
+  public per = new BehaviorSubject({});
+  permissions1$ = this.per.asObservable();
+
+  public a_acl = new BehaviorSubject({});
+  admin_acl1$ = this.a_acl.asObservable();
+
   constructor(public http: HttpInterceptor, public loginModel: Login, public aclModel: AdminACL) { }
 
 // starting of general functions
@@ -92,6 +98,8 @@ export class AdminService {
                     this.admin_acl[key] =  obj[key];
                   });
                   console.log(this.admin_acl, this.permissions);
+                  this.per.next(r.data.permissions);
+                  this.a_acl.next(this.admin_acl);
                   localStorage.setItem('permissions', JSON.stringify(this.permissions));
                   localStorage.setItem('admin_acl', JSON.stringify(this.admin_acl));
                   return r;
@@ -197,5 +205,32 @@ export class AdminService {
             return res.json();
           })
           .catch(this.errorHandler);
+  }
+
+  getDetails () {
+    const headers = this.getHeadersForMultipart();
+    return this.http.post(this.baseUrl + 'get-details', {headers: headers})
+          .map((res: Response) => {
+            this.http.loader.next({value: false});
+            return res.json();
+          })
+          .catch(this.errorHandler);
+
+    // this.admin.postDataApi('get-details', {})
+    // .subscribe(
+    //   success1 => {
+    //     // this.interceptor.loader.next({value: true});
+    //     console.log('ssss1', success1);
+    //     this.admin.login.next(success1.data);
+    //     this.admin.permissions = success1.data.permissions ? success1.data.permissions : {};
+    //     const aclData: any = {};
+    //     const dd = success1.data.m.map((obj, index) => {
+    //       const key =  Object.keys(obj)[0];
+    //       this.admin.admin_acl[key] =  obj[key];
+    //     });
+    //     this.admin.a_acl.next(this.admin.admin_acl);
+    //     this.admin.per.next(this.admin.permissions);
+    //     console.log('111111');
+    //   });
   }
 }

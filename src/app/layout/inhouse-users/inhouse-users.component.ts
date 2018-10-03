@@ -278,7 +278,6 @@ export class InhouseUsersComponent implements OnInit {
               const text = this.model.userModel.id === '' ? 'Added successfully.' : 'Updated successfully.';
               swal('Success', text, 'success');
 
-
               if (this.model.userModel.id !== '') {
                 // edit -- replace
                 this.parameter.items[this.parameter.index] = success.data;

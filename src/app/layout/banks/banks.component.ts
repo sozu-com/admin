@@ -55,7 +55,7 @@ export class BanksComponent implements OnInit {
     this.parameter.phone = phone;
     this.parameter.email = email;
 
-    this.admin.postDataApi('getBanks', this.parameter)
+    this.admin.postDataApi('getBanksListing', this.parameter)
       .subscribe(
         success => {
           this.parameter.items = success.data;
