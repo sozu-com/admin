@@ -133,7 +133,7 @@
               <table class="table table-striped border-0">
                   <tbody><tr>
                   <th style="width:6%; border-top:0">&nbsp;</th>
-                      <th style="width:25%; border-top:0">
+                      <th style="width:20%; border-top:0">
                           <div class="table-search">
                           <label>Name</label>
                           <div class="searh-3">
@@ -142,7 +142,7 @@
                           </div>
                           </div>
                       </th>
-                      <th style="width:25%; text-align:left; border-top:0">
+                      <th style="width:20%; text-align:left; border-top:0">
                           <div class="table-search">
                           <label>Contact Number</label>
                           <div class="searh-3">
@@ -151,7 +151,7 @@
                           </div>
                           </div>
                       </th>
-                      <th style="width:30%; border-top:0">
+                      <th style="width:25%; border-top:0">
                           <div class="table-search">
                           <label>Email Address</label>
                           <div class="searh-3">
@@ -160,10 +160,15 @@
                           </div>
                           </div>
                       </th>
+                      <th style="width:20%; border-top:0">
+                          <div class="table-search">
+                          <label>Assignee</label>
+                          </div>
+                      </th>
                       <!-- <th style="width:20%; border-top:0">
                           &nbsp;  
                       </th> -->
-                      <th style="width:14%; border-top:0">
+                      <th style="width:9%; border-top:0">
                           &nbsp;
                       </th>
                   </tr>
@@ -180,12 +185,15 @@
                       <td class="text-left">
                           {{item.email}}
                       </td>
+                      <td class="text-left" title="Bank">
+                        {{item?.selected_properties[0]?.banks[0]?.name}}
+                      </td>
                       <!-- <td>
                       <a style="display:none;" #modalOpen class="green-color fontW500" data-toggle="modal" data-target="#set-availability" href="javascript://">Change Availability</a>
                       <a class="green-color fontW500" (click)="openModal(item, i)" href="javascript://">Change Availability</a>
                       </td> -->
                       <td>
-                          <a href="javascript://" routerLink="/dashboard/banks/bank-leads/{{item.id}}" class="icon-block edit-icon"><img src="assets/img/viewfull.png" alt="img"></a> 
+                          <a title="View Details" href="javascript://" routerLink="/dashboard/banks/bank-leads/{{item.id}}" class="icon-block edit-icon"><img src="assets/img/viewfull.png" alt="img"></a> 
                       </td>
                   </tr>
               </tbody></table>

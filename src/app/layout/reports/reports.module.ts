@@ -11,6 +11,7 @@ import { BuyerComponent } from './buyer/buyer.component';
 import { NotaryComponent } from './notary/notary.component';
 import { BankComponent } from './bank/bank.component';
 import { AclUserGuard } from '../../guards/acl-user.guard';
+import { AuthGuard } from '../../guards/auth.guard';
 
 const routes: Routes = [
   { path: 'seller', component: SellerComponent,
@@ -22,6 +23,17 @@ const routes: Routes = [
   { path: 'bank', component: BankComponent,
     canActivate: [AclUserGuard], data: {roles: ['Reports', 'can_read', '']}}
 ];
+
+// const routes: Routes = [
+//   { path: 'seller', component: SellerComponent,
+//     canActivate: [AuthGuard], data: {roles: ['Reports', 'can_read', '']}},
+//   { path: 'buyer', component: BuyerComponent,
+//     canActivate: [AuthGuard], data: {roles: ['Reports', 'can_read', '']}},
+//   { path: 'notary', component: NotaryComponent,
+//     canActivate: [AuthGuard], data: {roles: ['Reports', 'can_read', '']}},
+//   { path: 'bank', component: BankComponent,
+//     canActivate: [AuthGuard], data: {roles: ['Reports', 'can_read', '']}}
+// ];
 
 @NgModule({
   imports: [

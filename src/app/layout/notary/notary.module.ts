@@ -11,6 +11,7 @@ import { NotaryComponent } from './notary.component';
 import { NotaryLeadsDetailsComponent } from './notary-leads/notary-leads-details/notary-leads-details.component';
 import { AclUserGuard } from '../../guards/acl-user.guard';
 import { SharedModule } from '../../modules/shared.module';
+import { AuthGuard } from '../../guards/auth.guard';
 
 const routes: Routes = [
   { path: 'view-notary', component: NotaryComponent,
@@ -20,6 +21,15 @@ const routes: Routes = [
   { path: 'notary-leads/:id', component: NotaryLeadsDetailsComponent,
     canActivate: [AclUserGuard], data: {roles: ['Notary Lead Management', 'can_read', '']}}
 ];
+
+// const routes: Routes = [
+//   { path: 'view-notary', component: NotaryComponent,
+//     canActivate: [AuthGuard], data: {roles: ['Noataries Management', 'can_read', '']}},
+//   { path: 'notary-leads', component: NotaryLeadsComponent,
+//     canActivate: [AuthGuard], data: {roles: ['Notary Lead Management', 'can_read', '']}},
+//   { path: 'notary-leads/:id', component: NotaryLeadsDetailsComponent,
+//     canActivate: [AuthGuard], data: {roles: ['Notary Lead Management', 'can_read', '']}}
+// ];
 
 @NgModule({
   imports: [

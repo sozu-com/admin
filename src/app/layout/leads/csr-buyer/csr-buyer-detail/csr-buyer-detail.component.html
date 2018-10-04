@@ -133,53 +133,12 @@
   </div>
 
   <!-- Interested Properties start -->
-  <!-- <div class="spacer30"></div>
-  <div class="row">
-     <div class="col-6">
-        <p class="p16">Interested Properties</p>
-     </div>
-   <div class="col-6">
-        <div class="btn-cont text-right"> <a routerLink="/dashboard/properties/add-property/0" class="btn btn-fourth" href="javascript://">Add</a></div>
-     </div>
-  </div>
-  
-  <div class="spacer15"></div>
-  <div class="row" *ngIf="parameter.interested_properties?.length>0">
-    <div class="col-lg-4 col-md-12 col-sm-12 col-12" *ngFor="let ip of parameter.interested_properties; let in=index">
-      <app-interested-property *ngIf="ip.property.building" [data]="ip" [index]="in" [adminType]="1"></app-interested-property>
-    </div>
-  </div>
-  <div *ngIf="parameter.interested_properties?.length == 0">
-    <p class="show-error">
-      {{constant.errorMsg.NO_INTERESTED_PROPERTY_FOUND}}
-    </p>
-  </div> -->
-  <app-interested-property [selected_properties]="parameter?.lead?.selected_properties" [lead_id]="parameter.lead_id" [interested_properties]="parameter.interested_properties" [adminType]="1"></app-interested-property>
-<!-- Interested Properties end -->
+  <app-interested-property [selected_properties]="parameter?.lead?.selected_properties" [lead_id]="parameter.lead_id" [interested_properties]="parameter.interested_properties" [sent_as]="parameter.sent_as"></app-interested-property>
+  <!-- Interested Properties end -->
 
-<!-- viewed property or projects start -->
-<app-viewed-property [viewed_properties]="parameter.viewed_properties"></app-viewed-property>
-  <!-- <div class="spacer30"></div>
-  <div class="row">
-     <div class="col-6">
-        <p class="p16">Viewed Projects or properties</p>
-     </div>
-     <div class="col-6">
-        <a class="view-all-2 float-right" href="javascript://">View All</a>
-     </div>
-  </div>
-  <div class="spacer15"></div>
-  <div class="row" *ngIf="parameter.viewed_properties?.length>0">
-      <div class="col-lg-4 col-md-12 col-sm-12 col-12" *ngFor="let vp of parameter.viewed_properties">
-          <app-viewed-property *ngIf="vp.building" [property]="vp"></app-viewed-property>
-      </div>
-    </div>
-    <div *ngIf="parameter.viewed_properties?.length == 0">
-      <p class="show-error">
-        {{constant.errorMsg.NO_VIEWED_PROPERTY_FOUND}}
-      </p>
-    </div> -->
-<!-- viewed property or projects end -->
+  <!-- viewed property or projects start -->
+  <app-viewed-property [viewed_properties]="parameter.viewed_properties"></app-viewed-property>
+  <!-- viewed property or projects end -->
 </div>
 
 

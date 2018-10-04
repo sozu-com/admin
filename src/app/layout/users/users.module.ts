@@ -8,12 +8,19 @@ import { Ng2TelInputModule } from 'ng2-tel-input';
 
 import { UsersComponent } from './users.component';
 import { AclUserGuard } from '../../guards/acl-user.guard';
+import { AuthGuard } from '../../guards/auth.guard';
 
 const routes: Routes = [
   { path: '', component: UsersComponent,
     canActivate: [AclUserGuard], data: {roles: ['User Management', 'can_read', '']}}
   // { path: 'view-users', component: UsersComponent }
 ];
+
+// const routes: Routes = [
+//   { path: '', component: UsersComponent,
+//     canActivate: [AuthGuard], data: {roles: ['User Management', 'can_read', '']}}
+//   // { path: 'view-users', component: UsersComponent }
+// ];
 
 @NgModule({
   imports: [

@@ -35,7 +35,7 @@ export class NotaryLeadsDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.parameter.sent_as = 6;
+    this.parameter.sent_as = this.constant.userType.notary;
     this.route.params.subscribe( params => {
       this.parameter.lead_id = params.id;
       this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
@@ -43,7 +43,8 @@ export class NotaryLeadsDetailsComponent implements OnInit {
         this.getDocumentOptions();
         this.parameter.lead = r.data.lead;
         this.selectedProperties = r.data.lead.selected_properties[0];
-        this.parameter.user_id = this.parameter.lead.user.id;
+        // notary will chat with closer
+        this.parameter.user_id = this.parameter.lead.closer.id;
       });
     });
   }

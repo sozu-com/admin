@@ -9,6 +9,7 @@ import { AgmCoreModule } from '@agm/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { AclUserGuard } from '../../guards/acl-user.guard';
+import { AuthGuard } from '../../guards/auth.guard';
 
 
 const routes: Routes = [
@@ -19,6 +20,15 @@ const routes: Routes = [
   { path: 'edit-project/:id', component: AddProjectComponent,
     canActivate: [AclUserGuard], data: {roles: ['Building Management', 'can_update', '']}}
 ];
+
+// const routes: Routes = [
+//   { path: 'view-projects', component: ProjectsComponent,
+//     canActivate: [AuthGuard], data: {roles: ['Building Management', 'can_read', '']}},
+//   { path: 'add-project', component: AddProjectComponent,
+//     canActivate: [AuthGuard], data: {roles: ['Building Management', 'can_create', '']}},
+//   { path: 'edit-project/:id', component: AddProjectComponent,
+//     canActivate: [AuthGuard], data: {roles: ['Building Management', 'can_update', '']}}
+// ];
 
 @NgModule({
   imports: [

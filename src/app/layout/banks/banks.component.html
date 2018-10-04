@@ -127,8 +127,8 @@
             </div>
             <div class="col-6">
               <div class="btn-cont text-right">
-                  <button *ngIf="model.id==''" type="submit" class="btn btn-primary">ADD</button>
-                  <button *ngIf="model.id!=''" type="submit" [disabled]="!addForm.valid" class="btn btn-primary">UPDATE</button>
+                  <button *ngIf="!model.id" type="submit" [disabled]="!addForm.valid" class="btn btn-primary">ADD</button>
+                  <button *ngIf="model.id" type="submit" [disabled]="!addForm.valid" class="btn btn-primary">UPDATE</button>
               </div>
             </div>
             <div class="col-12">

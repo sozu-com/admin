@@ -16,7 +16,7 @@
             <p *ngIf="property?.configuration" class="p14">{{property?.configuration.name}} {{property?.property_type.name}}</p>
             <p class="p12">{{property?.bedroom}} Bed, {{property?.bathroom}} Bath</p>
 
-            <h6 class="float-left">{{property?.max_area}} sqft.</h6> <h6 class="float-right">{{property?.max_price}}</h6>
+            <h6 class="float-left">{{property?.max_area}} sqft.</h6> <h6 class="float-right">{{property?.max_price|thousand}}</h6>
             <div class="clearfix"></div>
         </div> 
         <div class="building-name">
@@ -44,7 +44,7 @@
                        </tr>
                        <tr *ngFor="let area of property?.carpet_areas " >
                          <td>{{area.area}} sqft.</td>
-                         <td>{{area.price}}</td>
+                         <td>{{area.price|thousand}}</td>
                        </tr>
 
                     </tbody></table>

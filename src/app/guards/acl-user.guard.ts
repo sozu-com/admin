@@ -11,32 +11,18 @@ export class AclUserGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-
       this.admin.admin_acl = this.admin.admin_acl ? this.admin.admin_acl : {};
       this.admin.permissions = this.admin.permissions ? this.admin.permissions : {};
-      // const admin_acl = this.admin.admin_acl ? this.admin.admin_acl : {};
-      // const permissions = this.admin.permissions ? this.admin.permissions : {};
-      // console.log('acl route');
-      // console.log('type', typeof admin_acl);
-      // console.log(admin_acl, 'length', Object.keys(admin_acl).length);
-      // console.log(permissions, 'length', Object.keys(permissions).length);
       if (Object.keys(this.admin.permissions).length === 0 && Object.keys(this.admin.admin_acl).length === 0) {
-        console.log('if2');
         return this.admin.getDetails().map(e => {
-          console.log('e1', e);
-          console.log('adminacl', this.admin.admin_acl);
-          console.log('permission', this.admin.permissions);
           if (e) {
             return this.checkData(next, state, this.admin.admin_acl, this.admin.permissions);
           }
         }).catch(() => {
-          console.log('6');
           // this.location.back();
           return Observable.of(false);
         });
       } else {
-        console.log('adminacl----', this.admin.admin_acl);
-        console.log('permission----', this.admin.permissions);
         return this.checkData(next, state, this.admin.admin_acl, this.admin.permissions);
       }
 
@@ -106,7 +92,6 @@ export class AclUserGuard implements CanActivate {
     // const admin_acl = JSON.parse(localStorage.getItem('admin_acl'));
     // const permissions = JSON.parse(localStorage.getItem('permissions'));
     if (permissions || admin_acl) {
-      console.log('1');
       const obj = admin_acl[key];
       if (((state.url === '/dashboard/view-inhouse-users/data-collectors') &&
           (admin_acl['Data Collector Management']['can_read'] === 1)) ||
@@ -114,18 +99,14 @@ export class AclUserGuard implements CanActivate {
         ((state.url === '/dashboard/view-inhouse-users/csr-buyers') && (admin_acl['Buyer Management']['can_read'] === 1)) ||
         ((state.url === '/dashboard/view-inhouse-users/inhouse-broker') && (admin_acl['Broker Management']['can_read'] === 1)) ||
         ((state.url === '/dashboard/view-inhouse-users/csr-closers') && (admin_acl['Closer Management']['can_read'] === 1))) {
-          console.log('2');
           return true;
       } else if ((obj && obj[subkey] === 1) || (permissions && permissions[inhouseUserRole] === 1)) {
-        console.log('3');
         return true;
       } else {
-        console.log('4');
         this.location.back();
         return false;
       }
     } else {
-      console.log('5');
       return false;
     }
   }

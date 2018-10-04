@@ -37,8 +37,8 @@
             ...
           </button>
           <div class="dropdown-menu">
-            <a style="display: none;" *ngIf="adminType==2" class="dropdown-item" href="javascript://" #modalOpen data-toggle="modal" data-target="#dealFinalize">Deal Finalized</a>
-            <a *ngIf="selected_properties?.length==0 && adminType==2" class="dropdown-item" href="javascript://" (click)="openModal(data.property.id, data.lead_id)">Deal Finalized</a>
+            <a style="display: none;" *ngIf="sent_as==2" class="dropdown-item" href="javascript://" #modalOpen data-toggle="modal" data-target="#dealFinalize">Deal Finalized</a>
+            <a *ngIf="selected_properties?.length==0 && sent_as==2" class="dropdown-item" href="javascript://" (click)="openModal(data.property.id, data.lead_id)">Deal Finalized</a>
             <a class="dropdown-item" (click)="deleteLeadInterestedProperty(data.property.id, data.lead_id, in)">Remove Property</a>
           </div>
         </div>
@@ -189,8 +189,8 @@
                             ...
                           </button>
                           <div class="dropdown-menu">
-                            <a style="display: none;" *ngIf="adminType==2" class="dropdown-item" href="javascript://" #modalOpen data-toggle="modal" data-target="#dealFinalize">Deal Finalized</a>
-                            <a *ngIf="selected_properties?.length==0 && adminType==2" class="dropdown-item" href="javascript://" (click)="openModal(x.property.id, x.lead_id)">Deal Finalized</a>
+                            <a style="display: none;" *ngIf="sent_as==2" class="dropdown-item" href="javascript://" #modalOpen data-toggle="modal" data-target="#dealFinalize">Deal Finalized</a>
+                            <a *ngIf="selected_properties?.length==0 && sent_as==2" class="dropdown-item" href="javascript://" (click)="openModal(x.property.id, x.lead_id)">Deal Finalized</a>
                             <a class="dropdown-item" (click)="deleteLeadInterestedProperty(x.property.id, x.lead_id, in)">Remove Property</a>
                           </div>
                         </div>

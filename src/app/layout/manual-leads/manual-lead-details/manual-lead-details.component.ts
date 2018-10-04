@@ -1,22 +1,21 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute} from '@angular/router';
-import { AdminService } from '../../../../services/admin.service';
-import { CommonService } from '../../../../services/common.service';
-import { IProperty } from '../../../../common/property';
+import { AdminService } from '../../../services/admin.service';
+import { CommonService } from '../../../services/common.service';
+import { IProperty } from '../../../common/property';
 import * as io from 'socket.io-client';
-import { Constant } from './../../../../common/constants';
-import { SelectedProperties, BankAssigned, NotaryAssigned } from './../../../../models/leads.model';
-import { Chat } from '../../../../models/chat.model';
+import { Constant } from './../../../common/constants';
+import { SelectedProperties, BankAssigned, NotaryAssigned } from './../../../models/leads.model';
+import { Chat } from '../../../models/chat.model';
 declare let swal: any;
 
 @Component({
-  selector: 'app-csr-closer-detail',
-  templateUrl: './csr-closer-detail.component.html',
-  styleUrls: ['./csr-closer-detail.component.css'],
+  selector: 'app-manual-lead-details',
+  templateUrl: './manual-lead-details.component.html',
+  styleUrls: ['./manual-lead-details.component.css'],
   providers: [SelectedProperties, BankAssigned, NotaryAssigned, Chat]
 })
-
-export class CsrCloserDetailComponent implements OnInit, OnDestroy {
+export class ManualLeadDetailsComponent implements OnInit {
 
   @ViewChild('showBanks') showBanks: ElementRef;
   @ViewChild('hideBanks') hideBanks: ElementRef;
@@ -128,10 +127,6 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
         // });
       });
     });
-  }
-
-  ngOnDestroy() {
-    // this.parameter.subscriber.uns
   }
 
   getNotaries(property_id) {

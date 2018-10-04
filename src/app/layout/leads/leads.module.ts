@@ -108,7 +108,7 @@ const routes: Routes = [
     InterestedPropertyComponent,
     ViewedPropertyComponent,
     RemoveCommaPipe,
-    ThousandPipe,
+    // ThousandPipe,
     // MomentPipe,
     // ChatTimePipe,
     // NotesComponent,

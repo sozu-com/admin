@@ -89,18 +89,12 @@
                       </td>
                       <td *ngIf="parameter?.lead?.selected_properties?.length==0">NA</td>
                   </tr>
-                  <tr>
-                      <td  style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
-                      <td colspan="2">
-                          <p class="date">02-Oct-2018, 04:00pm</p>
-                      </td>
-                  </tr>
               </table>
               </div>
           </div>
   
           <!-- notes start -->
-          <app-notes [lead_id]="parameter.lead_id"></app-notes>
+          <app-notes [sent_as]="parameter.sent_as" [lead_id]="parameter.lead_id"></app-notes>
           <!-- notes end -->
   
       </div>
@@ -114,142 +108,7 @@
       </div>
       <!-- chat end -->
   
-      <div class="clearfix"></div>
-      <div class="upload-document-block white-bg">
-          <div class="page-title-2 border-0">
-              <div class="row">
-                  <div class="col-9">
-                  <h4>Documents</h4>
-                  </div>
-                  <div class="col-3">
-                  <a class="view pull-right" href="javascript://" (click)="updateDocumentChecklist()">Save</a>
-                  </div>
-              </div>
-              <table class="table">
-                  <tr *ngFor="let document of selectedProperties.allDocuments; let i=index">
-                  <td>
-                      <label class="cust-check-bx">{{document.name}}
-                      <input type="checkbox" (click)="setValue(i)" [checked]="document.is_selected == 1 ? 'checked' : ''" name="document">
-                      <span class="checkmark"></span>
-                      </label>
-                  </td>
-                  </tr>
-              </table>
-          </div>
-      </div>
-          <div class="all-document-block white-bg">
-          <div class="page-title-2 border-0">
-          <div class="row">
-          <div class="col-9">
-              <h4>All Documents</h4>
-              <p class="p11 marginB0">From both seller and buyer</p>
-  
-              </div>
-              <div class="col-3 text-right">
-                  <a *ngIf="selectedProperties?.uploaded_documents?.length==0" (click)="noDocumentUploaded()" class="view" href="javascript://" >View</a>
-                  <a *ngIf="selectedProperties?.uploaded_documents?.length!=0" class="view" data-toggle="modal" data-target="#uploaded-documents" href="javascript://" >View</a>
-              </div>
-          </div>
-          </div>
-          </div>
       </div>
   </div>
   </div>
   
-  
-  <div class="modal" id="uploaded-documents">
-      <div class="modal-dialog ">
-      <div class="modal-content notary-avail">
-          <!-- <div class="modal-header modal-header-new"> -->
-              <div class="modal-header modal-header-new">
-              <h4 class="modal-title">Uploaded Documents</h4>
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-          <div class="modal-body">
-              <table class="table">
-                  <tr *ngFor="let upDocument of selectedProperties.uploaded_documents">
-                  <td>
-                      <div class="n-avail-profile">
-                          <div class="n-avail-info">
-                              <p class="p14 marginB0" *ngIf="upDocument.attachment_name">{{upDocument.attachment_name}}</p>
-                              <!-- <p class="p12" *ngIf="!upDocument.attachment_name">{{upDocument.attachment.substring(upDocument.attachment.lastIndexOf('/'), upDocument.attachment.length)}}</p> -->
-                              <p class="p14 marginB0" *ngIf="!upDocument.attachment_name">No name</p>
-                          </div>
-                      </div>
-                  </td>
-                  <td class="text-right">
-                          
-                          <!-- <a target="_blank" href="https://docs.google.com/viewer?url={{upDocument.attachment}}">View</a> -->
-                          <a class="green-color" target="_blank" href="{{upDocument.attachment}}">Download</a>
-                      
-                  </td>
-                  </tr>
-              </table>
-          </div>
-      </div>
-      </div>
-  </div>
-  
-  <div class="modal" id="bank-listing">
-      <div class="modal-dialog ">
-      <div class="modal-content notary-avail">
-          <div class="modal-header popup-header">
-              <h4 class="modal-title">Banks available</h4>
-              <button type="button" class="close" data-dismiss="modal" #hideBanks>&times;</button>
-          </div>
-          <div class="modal-body">
-              <table class="table">
-                  <tr *ngFor="let bank of parameter.banks">
-                  <td>
-                      <div class="n-avail-profile">
-                          <img [src]="bank.image" onerror='src="assets/img/bank.png"' alt="img">
-                          <div class="n-avail-info">
-                              <p class="p12">{{bank.name}}</p>
-                              <p class="p10">Branch : {{bank.branch ? bank.branch : 'NA'}}</p>
-                          </div>
-                      </div>
-                  </td>
-                  <td>
-                      <label class="cust-check-bx float-right">
-                      <input type="radio" name="bank_id" (click)="assignBank(bank)">
-                      <span class="checkmark"></span>
-                      </label>
-                  </td>
-                  </tr>
-              </table>
-          </div>
-      </div>
-      </div>
-  </div>
-  
-  <div class="modal" id="notary-avail">
-      <div class="modal-dialog ">
-          <div class="modal-content notary-avail">
-              <div class="modal-header popup-header">
-              <h4 class="modal-title">Notaries available</h4>
-              <button type="button" class="close" data-dismiss="modal" #hideNotaries>&times;</button>
-              </div>
-              <div class="modal-body">
-                  <table class="table">
-                      <tr *ngFor="let item of parameter.items">
-                          <td>
-                              <div class="n-avail-profile">
-                              <img [src]="item.image" onerror='src="assets/img/house.png"' alt="img">
-                              <div class="n-avail-info">
-                                  <p class="p12">{{item.name}}</p>
-                                  <p class="p10">Phone : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
-                              </div>
-                              </div>
-                          </td>
-                          <td>
-                              <label class="cust-check-bx float-right">
-                                  <input type="radio" name="notary_id" (click)="assignNoatary(item)">
-                                  <span class="checkmark"></span>
-                              </label>
-                          </td>
-                      </tr>
-                  </table>
-              </div>
-          </div>
-      </div>
-  </div>

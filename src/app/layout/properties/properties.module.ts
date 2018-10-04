@@ -13,6 +13,8 @@ import { AclUserGuard } from '../../guards/acl-user.guard';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FilterByIdPipe } from '../../pipes/filter-by-id.pipe';
 import { FilterByNamePipe } from '../../pipes/filter-by-name.pipe';
+import { AuthGuard } from '../../guards/auth.guard';
+import { SharedModule } from '../../modules/shared.module';
 
 const routes: Routes = [
   { path: 'details/:property_id', component: PropertyDetailsComponent,
@@ -26,6 +28,20 @@ const routes: Routes = [
   { path: 'view-properties', component: PropertiesComponent,
     canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_read', '']}}
 ];
+
+
+// const routes: Routes = [
+//   { path: 'details/:property_id', component: PropertyDetailsComponent,
+//     canActivate: [AuthGuard], data: {roles: ['Property Management', 'can_read', '']}},
+//   { path: 'add-property/:property_id', component: AddPropertyComponent,
+//     canActivate: [AuthGuard], data: {roles: ['Property Management', 'can_create', '']}},
+//   { path: 'edit-property/:property_id', component: AddPropertyComponent,
+//     canActivate: [AuthGuard], data: {roles: ['Property Management', 'can_update', '']}},
+//   { path: 'edit-property/:property_id/:edit', component: AddPropertyComponent,
+//     canActivate: [AuthGuard], data: {roles: ['Property Management', 'can_update', '']}},
+//   { path: 'view-properties', component: PropertiesComponent,
+//     canActivate: [AuthGuard], data: {roles: ['Property Management', 'can_read', '']}}
+// ];
 
 @NgModule({
   imports: [
@@ -42,7 +58,8 @@ const routes: Routes = [
         libraries: ['drawing', 'places']
       }),
     Ng2TelInputModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    SharedModule
   ],
   declarations: [
     PropertiesComponent,

@@ -38,14 +38,14 @@ const routes: Routes = [
 
 // const routes: Routes = [
 //     {
-//         path: 'dashboard', component: LayoutComponent,
+//         path: 'dashboard', component: LayoutComponent, canActivate: [AuthGuard], data: {roles: ['Dashboard', 'can_read', '']},
 //         children: [
 //             { path: 'dashboard', component: DashboardComponent,
-//                 canActivate: [AuthGuard], data: {roles: ['', '', '']}},
+//                 canActivate: [AuthGuard], data: {roles: ['Dashboard', 'can_read', '']}},
 //             { path: 'view-inhouse-users/:userType', component: InhouseUsersComponent,
 //                 canActivate: [AuthGuard], data: {roles: ['', '', '']}},
 //             { path: 'change-password', component: ChangePasswordComponent,
-//                 canActivate: [AuthGuard], data: {roles: ['', '', '']}},
+//                 canActivate: [AuthGuard], data: {roles: ['Settings', 'can_read', '']}},
 //             { path: 'notary', loadChildren: './notary/notary.module#NotaryModule'},
 //             { path: 'banks', loadChildren: './banks/banks.module#BanksModule'},
 //             { path: 'users', loadChildren: './users/users.module#UsersModule'},

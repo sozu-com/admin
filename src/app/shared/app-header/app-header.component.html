@@ -311,7 +311,7 @@
                            </div>
                         </li>
                        <li *ngIf="admin?.admin_acl['Manual Leads']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
-                         <a class="nav-link" href="javascript://" routerLink="manual-leads"><i><img src="assets/img/graph.png"></i><span>Manual Leads</span></a>
+                         <a class="nav-link" href="javascript://" routerLink="manual-leads/view-all"><i><img src="assets/img/graph.png"></i><span>Manual Leads</span></a>
                        </li>
                        <li *ngIf="admin?.admin_acl['Templates']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
                          <a class="nav-link" href="javascript://" routerLink="edit-template"><i><img src="assets/img/users.png"></i><span>Edit Template</span></a>

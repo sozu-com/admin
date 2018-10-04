@@ -83,11 +83,13 @@ export class LoginComponent implements OnInit, AfterViewInit {
             // let path = '';
             const dd = this.admin.admin_acl_array.map((obj, index) => {
               const key =  Object.keys(obj)[0];
-              console.log('1', key);
+              // console.log('1', key);
               if (check && obj[key]['can_read'] === 1) {
                 console.log('========', key, obj[key], obj[key]['can_read']);
                 check = false;
+                console.log('path', obj[key]['acl'].path);
                 this.router.navigate([obj[key]['acl'].path]);
+                // this.router.navigate(['dashboard/view-inhouse-users/inhouse-broker']);
                 // switch (key) {
                 //   case 'Dashboard': path = 'dashboard'; this.router.navigate(['dashboard']); break;
                 //   case 'Broker Management': path = 'dashboard/view-inhouse-users/inhouse-broker'; this.router.navigate([path]); break;

@@ -16,7 +16,7 @@ export class InterestedPropertyComponent implements OnInit {
 
   @Input('data') data;
   @Input('lead_id') lead_id;
-  @Input('adminType') adminType;
+  @Input('sent_as') sent_as;
   @Input('interested_properties') interested_properties;
   @Input('selected_properties') selected_properties;
 

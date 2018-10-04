@@ -6,6 +6,7 @@ import { ChatTimePipe } from '../pipes/chat-time.pipe';
 import { NotesComponent } from '../layout/common-blocks/notes/notes.component';
 import { MomentPipe } from '../pipes/moment.pipe';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
+import { ThousandPipe } from '../pipes/thousand.pipe';
 
 @NgModule({
   imports: [
@@ -18,13 +19,15 @@ import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
     ChatComponent,
     ChatTimePipe,
     NotesComponent,
-    MomentPipe
+    MomentPipe,
+    ThousandPipe
   ],
   exports: [
     ChatComponent,
     ChatTimePipe,
     NotesComponent,
-    MomentPipe
+    MomentPipe,
+    ThousandPipe
   ]
 })
 export class SharedModule { }

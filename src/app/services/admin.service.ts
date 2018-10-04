@@ -207,12 +207,21 @@ export class AdminService {
         .map((response: Response) => {
           this.http.loader.next({value: false});
           const r = response.json();
-          this.permissions = r.data.permissions;
-          this.admin_acl_array = r.data.m;
-          const dd = r.data.m.map((obj, index) => {
-            const key =  Object.keys(obj)[0];
-            this.admin_acl[key] =  obj[key];
-          });
+
+                this.login.next(r.data);
+                this.permissions = r.data.permissions ? r.data.permissions : {};
+                const aclData: any = {};
+                const dd = r.data.m.map((obj, index) => {
+                  const key =  Object.keys(obj)[0];
+                  this.admin_acl[key] =  obj[key];
+                });
+
+          // this.permissions = r.data.permissions;
+          // this.admin_acl_array = r.data.m;
+          // const dd = r.data.m.map((obj, index) => {
+          //   const key =  Object.keys(obj)[0];
+          //   this.admin_acl[key] =  obj[key];
+          // });
           return Observable.of(true);
         })
         .catch(this.errorHandler);
