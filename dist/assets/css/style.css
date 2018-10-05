@@ -1626,8 +1626,10 @@ position: absolute;
 right: 10px;
 }
 .project-des-bx .fig-block, .project-des-bx .fig-block img {
-width: 104px;
-height: 104px;
+/* width: 104px;
+height: 104px; */
+width: 125px;
+height: 125px;
 object-fit:cover; 
 }
 .project-des-content {

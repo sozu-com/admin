@@ -1,7 +1,6 @@
-<div class="container-fluid">
+<!-- <div class="container-fluid">
   <div class="row">
      <div class="col-md-5">
-        <!-- <a class="view-all-2" href="javascript://"><i class="fa fa-angle-left"></i><span>View all</span></a> -->
         <h5>Manage Leads - CSR Closer</h5>
      </div>
      <div class="col-md-7">
@@ -29,31 +28,6 @@
         <hr style="margin-top:0;">
      </div>
   </div>
-  <!-- <div class="sigle-row-table">
-
-        <table class="table table-striped">
-           <tbody><tr>
-              <td> <img class="rounded-circle" src="http://via.placeholder.com/50x50" alt="img"></td>
-              <td class="text-left">
-                 <span class="name">Lillian Russell</span>
-              </td>
-              <td class="text-left">
-                 728-111-1874
-              </td>
-              <td class="text-left">
-                 eunice_aufderhar@yahoo.com
-              </td>
-              <td>
-                 14
-              </td>
-              <td>
-                 <a href="javascript://" class="icon-block edit-icon"><img src="assets/img/viewfull.png" alt="img"></a>
-                 <a href="javascript://" class="icon-block block-icon"><img src="assets/img/block.png" alt="img"></a>
-              </td>
-           </tr>
-        </tbody></table>
-
-  </div> -->
   <div class="row">
 
    <div class="col-lg-8 col-md-12 col-sm-12 col-12">
@@ -162,81 +136,82 @@
         <div class="col-12">
   <div class="white-bg">
      <div class="tabel-section">
-              <div class="table-responsive">
-                 <table class="table table-striped">
-                    <!-- <tbody> -->
-                      <tr>
-                       <th style="width:6%">&nbsp;</th>
-                       <th style="width:20%">
-                          <div class="table-search">
-                              <label>Name</label>
-                              <div class="searh-3">
-                                  <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="changeFilter('name',$event.target.value)" name="">
-                                  <button *ngIf="parameter.name" (click)="changeFilter('name', parameter.name)"><i class="fa fa-search"></i></button>
-                              </div>
-                          </div>
-                        </th>
-                        <th style="width:25%; text-align:left;">
-                          <div class="table-search">
-                              <label>Contact Number</label>
-                              <div class="searh-3">
-                                  <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="changeFilter('phone',$event.target.value)" name="">
-                                  <button *ngIf="parameter.phone" (click)="changeFilter('phone', parameter.phone)"><i class="fa fa-search"></i></button>
-                              </div>
-                          </div>
-                        </th>
-                        <th style="width:25%">
-                          <div class="table-search">
-                              <label>Property</label>
-                              <div class="searh-3">
-                                  <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="changeFilter('email',$event.target.value)" name="">
-                                  <button *ngIf="parameter.email" (click)="changeFilter('email', parameter.email)"><i class="fa fa-search"></i></button>
-                              </div>
-                          </div>
-                        </th>
-                       <th style="width:10%">
-                            <div class="table-search">
-                                <label>Assignee</label>
-                                <div class="searh-3"></div>
-                            </div>
-                        </th>
-                       <th style="width:14%">
-                          &nbsp;
-                       </th>
-                    </tr>
-                    <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }">
-                       <td>
-                         <img class="rounded-circle" [src]="item.image" onerror="this.src='assets/img/default_img.png'" alt="img">
-                       </td>
-                       <td class="text-left">
-                          <span routerLink="/dashboard/leads/csr-closers/{{item.id}}" class="name">{{item.name}}</span>
-                       </td>
-                       <td class="text-left">
-                        {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}<br>
-                        {{item.email}}
-                       </td>
-                       <td class="text-left">
-                        <div class="property-selected">
-                           <p class="p14 marginB0">
-                               {{item?.selected_properties[0]?.property?.configuration.name}}
-                           </p>
-                           <p class="p12 marginB0"><strong>{{item?.selected_properties[0]?.property?.building?.name}}</strong></p>
-                           <p class="p11"><i>{{item?.selected_properties[0]?.property?.building?.developer?.name}}</i></p>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <tr>
+                <th style="width:6%">&nbsp;</th>
+                <th style="width:20%">
+                    <div class="table-search">
+                        <label>Name</label>
+                        <div class="searh-3">
+                            <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="changeFilter('name',$event.target.value)" name="">
+                            <button *ngIf="parameter.name" (click)="changeFilter('name', parameter.name)"><i class="fa fa-search"></i></button>
                         </div>
-                        </td>
-                       <td class="text-left" title="CSR Closer">
-                          {{item.closer.name}}
-                       </td>
-
-                       <td>
-                          <a href="javascript://" title="View Details" routerLink="/dashboard/leads/csr-closers/{{item.id}}" class="icon-block edit-icon"><img src="assets/img/viewfull.png" alt="img"></a>
-                          <!-- <a href="javascript://" class="icon-block block-icon"><img src="assets/img/block.png" alt="img"></a> -->
-                       </td>
-                    </tr>
-
-                 <!-- </tbody> -->
-                </table>
-              </div>
+                    </div>
+                </th>
+                <th style="width:20%; text-align:left;">
+                    <div class="table-search">
+                        <label>Contact Number</label>
+                        <div class="searh-3">
+                            <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="changeFilter('phone',$event.target.value)" name="">
+                            <button *ngIf="parameter.phone" (click)="changeFilter('phone', parameter.phone)"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </th>
+                <th style="width:20%">
+                    <div class="table-search">
+                        <label>Property</label>
+                        <div class="searh-3">
+                            <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="changeFilter('email',$event.target.value)" name="">
+                            <button *ngIf="parameter.email" (click)="changeFilter('email', parameter.email)"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </th>
+                <th style="width:10%">
+                    <div class="table-search">
+                        <label>Assignee</label>
+                        <div class="searh-3"></div>
+                    </div>
+                </th>
+                <th style="width:10%">
+                    <div class="table-search">
+                        <label>Property For</label>
+                    </div>
+                </th>
+                <th style="width:14%">
+                    &nbsp;
+                </th>
+            </tr>
+            <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }">
+                <td>
+                    <img class="rounded-circle" [src]="item.image" onerror="this.src='assets/img/default_img.png'" alt="img">
+                </td>
+                <td class="text-left">
+                    <span routerLink="/dashboard/leads/csr-closers/{{item.id}}" class="name">{{item.name}}</span>
+                </td>
+                <td class="text-left">
+                {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}<br>
+                {{item.email}}
+                </td>
+                <td class="text-left">
+                <div class="property-selected">
+                    <p class="p14 marginB0">
+                        {{item?.selected_properties[0]?.property?.configuration.name}}
+                    </p>
+                    <p class="p12 marginB0"><strong>{{item?.selected_properties[0]?.property?.building?.name}}</strong></p>
+                    <p class="p11"><i>{{item?.selected_properties[0]?.property?.building?.developer?.name}}</i></p>
+                </div>
+                </td>
+                <td class="text-left" title="CSR Closer">
+                    {{item.closer.name}}
+                </td>
+                <td class="text-left" *ngIf="item.sale_rent">{{item.sale_rent==1 ? 'Buy' : 'Rent'}}</td>
+                <td>
+                    <a href="javascript://" title="View Details" routerLink="/dashboard/leads/csr-closers/{{item.id}}" class="icon-block edit-icon"><img src="assets/img/viewfull.png" alt="img"></a>
+                </td>
+            </tr>
+        </table>
+        </div>
            </div>
            <div class="center" *ngIf="items?.length == 0">
                <img src="assets/img/404-error.png">
@@ -246,4 +221,327 @@
   <div class="btn-cont text-right marginT15" *ngIf="items?.length!=0">
     <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
 </div>
-  </div>
+  </div> -->
+
+
+  <!-- <ngx-loading [show]="parameter.loading"></ngx-loading> -->
+
+<div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+             <div class="form-group">
+              <p class="p16">Manage CSR Closer Lead</p>
+              <div class="d-flex">
+              <button (click)="removeCsrUser()" class="all-btn">All</button>
+    
+              <div class="autocomplete">
+                <input style="max-width:200px" list="amenities" [(ngModel)]="parameter.keyword" (input)="getCsrListing()" class="form-control" type="text" name="keyword">
+                <!-- <input type="text"  (keyup.enter)="addAmenity(amen)" name="amen" [(ngModel)]="amen"> -->
+                <div id="myInputautocomplete-list" class="autocomplete-items">
+                    <div *ngFor="let item of users" (click)="selectCsrUser(item)">{{item.email}}</div>
+                </div>
+               </div>
+              
+              </div>
+              </div>
+            </div>
+           <div class="col-md-2">
+          <div class="form-group">
+          <label>Country</label>
+           <select class="form-control" (change)="onCountryChange($event.target.value)">
+              <option value="0">All</option>
+              <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option>
+           </select>
+          </div>
+          </div>
+          <div class="col-md-2">
+          <div class="form-group">
+          <label>State</label>
+           <select class="form-control" (change)="onStateChange($event.target.value)">
+              <option value="0">All</option>
+              <option *ngFor="let item of location.states" [value]="item.id">{{item.name}}</option>
+           </select>
+          </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+            <label>City</label>
+              <select class="form-control" (change)="onCityChange($event.target.value)">
+                <option value="0">All</option>
+                <option *ngFor="let item of location.cities" [value]="item.id">{{item.name}}</option>
+              </select>
+            </div>
+          </div>
+    
+          <div class="col-md-2">
+          <div class="form-group">
+          <label>Locality</label>
+          <select class="form-control" (change)="onLocalityChange($event.target.value)">
+              <option value="0">All</option>
+              <option *ngFor="let item of location.localities" [value]="item.id">{{item.name}}</option>
+            </select>
+          </div>
+          </div>
+          </div>
+    
+        <!-- <div *ngIf="users?.length > 0 && initSelection"class="row">
+            <table class="table table-striped">
+                <tbody><tr *ngFor="let item of users" (click)="selectCsrUser(item)">
+                    <td> <img class="rounded-circle" [src]="item.image" onerror='this.src="http://via.placeholder.com/50x50"' alt="img"></td>
+                    <td class="text-left">
+                        <span class="name">{{item.name}}</span>
+                    </td>
+                    <td class="text-left">
+                        {{item.phone}}
+                    </td>
+                    <td class="text-left">
+                        {{item.email}}
+                    </td>
+                    <td>
+                        <a href="javascript://" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
+                        <a href="javascript://" class="icon-block block-icon"><img src="assets/img/block.png" alt="img"></a>
+                    </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div> -->
+      <div class="listingResults" >
+      <div class="row">
+         <div class="col-12">
+            <div class="cust-tabs-2">
+              <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" [ngClass]="{'active':parameter.flag==1}" (click)="changeFlag(1)" >This Week</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [ngClass]="{'active':parameter.flag==2}" (click)="changeFlag(2)" >This Month</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [ngClass]="{'active':parameter.flag==3}" (click)="changeFlag(3)" >Last Month</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [ngClass]="{'active':parameter.flag==4}" (click)="changeFlag(4)" >Lifetime</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [ngClass]="{'active':parameter.flag==5}" (click)="changeFlag(5)" >Custom</a>
+                </li>
+              </ul>
+            </div>
+         </div>
+         <div class="col-12">
+            <hr style="margin-top:0;">
+         </div>
+      </div>
+      <div *ngIf="selectedUser as item" class="sigle-row-table">
+            <table class="table table-striped">
+            <tbody><tr>
+                <td> <img class="rounded-circle" [src]="item.image" onerror='this.src="http://via.placeholder.com/50x50"' alt="img"></td>
+                <td class="text-left">
+                    <span class="name">{{item.name}}</span>
+                </td>
+                <td class="text-left">
+                    {{item.phone}}
+                </td>
+                <td class="text-left">
+                    {{item.email}}
+                </td>
+                <td>
+                    <a (click)="removeCsrUser()" href="javascript://" class="icon-block edit-icon"><img src="assets/img/remove-icon.png" alt="remove" title="remove" /></a>
+                    <!-- <a href="javascript://" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
+                    <a href="javascript://" class="icon-block block-icon"><img src="assets/img/block.png" alt="img"></a> -->
+                </td>
+                </tr>
+            </tbody>
+            </table>
+      </div>
+      <div class="row">
+         <div class="col-lg-8 col-md-12 col-sm-12 col-12">
+            <div class="info-box all-leads">
+               <div class="row">
+                  <div class="col-md-6 col-sm-6 col-12 bdr-right" [ngClass]="{'active':parameter.count_flag == '1'}" (click)="changeCountFlag(1)">
+                     <div class="one-row ">
+                        <div class="o-block">
+                           <h5>All Leads</h5>
+                           <small>Total</small>
+                        </div>
+                        <div class="o-block">
+                           <a class="view-all" href="javascript://">View All</a>
+                           <h4>{{dash?.lead_total}}</h4>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-md-6 col-sm-6 col-12">
+                    <div class="two-block">
+                        <div class="d-flex">
+                            <div class="f-block" [ngClass]="{'active':parameter.count_flag == '2'}" (click)="changeCountFlag(2)">
+                                <h5>Notaries</h5>
+                                <small>Pending</small>
+                                <h3>{{dash?.noatary_pending}}</h3>
+                            </div>
+                            <div class="f-block" [ngClass]="{'active':parameter.count_flag == '3'}" (click)="changeCountFlag(3)">
+                                <h5>Banks</h5>
+                                <small>Pending</small>
+                                <h3>{{dash?.bank_pending}}</h3>
+                            </div>
+                        </div>
+                        
+                        </div>
+                  </div>
+               </div>
+            </div>
+            <div class="info-box all-leads">
+               <div class="row">
+                  <div class="col-md-6 col-sm-6 col-12 bdr-right" [ngClass]="{'active':parameter.count_flag == '4'}" (click)="changeCountFlag(4)">
+                     <div class="one-row ">
+                        <div class="o-block">
+                           <h5>Leads</h5>
+                           <small>Open</small>
+                        </div>
+                        <div class="o-block">
+                           <a class="view-all" href="javascript://">View All</a>
+                           <h4>{{dash?.lead_open}}</h4>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-md-6 col-sm-6 col-12" [ngClass]="{'active':parameter.count_flag == '5'}" (click)="changeCountFlag(5)">
+                     <div class="one-row">
+                        <div class="o-block">
+                           <h5>Leads</h5>
+                           <small>Closed</small>
+                        </div>
+                        <div class="o-block">
+                           <a class="view-all" href="javascript://">View All</a>
+                           <h4>{{dash?.lead_closed}}</h4>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+    
+         </div>
+         <div class="col-lg-4 col-md-12 col-sm-12 col-12">
+            <div class="chat-msg all-leads" style="padding:0px">
+                    <div class="padding20" *ngIf="dash.lead_total == 0">No records found</div>
+                    <ngx-charts-pie-chart [results]="chartView"></ngx-charts-pie-chart>
+            </div>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-12">
+            <div class="spacer40"></div>
+         </div>
+    
+      </div>
+      <div class="row">
+         <div class="col-6">
+            <div class="title-group">
+               <h5>Leads 
+                <span *ngIf="parameter.count_flag == 1">(Total)</span>
+                <span *ngIf="parameter.count_flag == 2">(Noatary Pending)</span>
+                <span *ngIf="parameter.count_flag == 3">(Bank Pending)</span>
+                <span *ngIf="parameter.count_flag == 4">(Open)</span>
+                <span *ngIf="parameter.count_flag == 5">(Closed)</span>
+               </h5>
+               <p>
+                   <!-- Showing {{parameter.page}} out of {{parameter.total_count}} -->
+                </p>
+            </div>
+         </div>
+         <div class="col-6">
+            <div class="add-new text-right">
+               <!-- <a class="btn" href="javascript://">+Add New</a> -->
+            </div>
+         </div>
+      </div>
+      <div class="white-bg">
+         <div class="tabel-section">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <tr>
+                    <th style="width:6%">&nbsp;</th>
+                    <th style="width:20%">
+                        <div class="table-search">
+                            <label>Name</label>
+                            <div class="searh-3">
+                                <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="changeFilter('name',$event.target.value)" name="">
+                                <button *ngIf="parameter.name" (click)="changeFilter('name', parameter.name)"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </th>
+                    <th style="width:20%; text-align:left;">
+                        <div class="table-search">
+                            <label>Contact Number</label>
+                            <div class="searh-3">
+                                <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="changeFilter('phone',$event.target.value)" name="">
+                                <button *ngIf="parameter.phone" (click)="changeFilter('phone', parameter.phone)"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </th>
+                    <th style="width:20%">
+                        <div class="table-search">
+                            <label>Property</label>
+                            <div class="searh-3">
+                                <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="changeFilter('email',$event.target.value)" name="">
+                                <button *ngIf="parameter.email" (click)="changeFilter('email', parameter.email)"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </th>
+                    <th style="width:10%">
+                        <div class="table-search">
+                            <label>Assignee</label>
+                            <div class="searh-3"></div>
+                        </div>
+                    </th>
+                    <th style="width:10%">
+                        <div class="table-search">
+                            <label>Property For</label>
+                        </div>
+                    </th>
+                    <th style="width:14%">
+                        &nbsp;
+                    </th>
+                </tr>
+                <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }">
+                    <td>
+                        <img class="rounded-circle" [src]="item.image" onerror="this.src='assets/img/default_img.png'" alt="img">
+                    </td>
+                    <td class="text-left">
+                        <span routerLink="/dashboard/leads/csr-closers/{{item.id}}" class="name">{{item.name}}</span>
+                    </td>
+                    <td class="text-left">
+                    {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}<br>
+                    {{item.email}}
+                    </td>
+                    <td class="text-left">
+                    <div class="property-selected">
+                        <p class="p14 marginB0">
+                            {{item?.selected_properties[0]?.property?.configuration.name}}
+                        </p>
+                        <p class="p12 marginB0"><strong>{{item?.selected_properties[0]?.property?.building?.name}}</strong></p>
+                        <p class="p11"><i>{{item?.selected_properties[0]?.property?.building?.developer?.name}}</i></p>
+                    </div>
+                    </td>
+                    <td class="text-left" title="CSR Closer">
+                        {{item.closer.name}}
+                    </td>
+                    <td class="text-left" *ngIf="item.sale_rent">{{item.sale_rent==1 ? 'Buy' : 'Rent'}}</td>
+                    <td>
+                        <a href="javascript://" title="View Details" routerLink="/dashboard/leads/csr-closers/{{item.id}}" class="icon-block edit-icon"><img src="assets/img/viewfull.png" alt="img"></a>
+                    </td>
+                </tr>
+            </table>
+            <div class="padding20 center" *ngIf="parameter.noResultFound">
+                <img src="assets/img/404-error.png">
+            </div>
+            </div>
+         </div>
+    
+      </div>
+      </div>
+
+
+      <div class="btn-cont text-right marginT15" *ngIf="parameter.total">
+            <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+        </div>
+    </div>
+    

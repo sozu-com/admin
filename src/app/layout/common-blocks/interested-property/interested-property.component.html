@@ -17,28 +17,29 @@
   
   <div class="spacer15"></div>
   <div class="row" *ngIf="interested_properties?.length>0">
-    <div class="col-lg-4 col-md-12 col-sm-12 col-12" *ngFor="let data of interested_properties; let in=index">
+    <div class="col-lg-6 col-md-12 col-sm-12 col-12" *ngFor="let data of interested_properties; let in=index">
 
-    <div *ngIf="data.property.building && data && in<3" class="project-des-bx white-bg">
+    <div *ngIf="data.property.building && data && in<2" class="project-des-bx white-bg">
       <div class="price">{{data.property.min_price|thousand}}+</div>
       <div class="fig-block">
         <img [src]="data.property.image" onerror='src="assets/img/bank.png"' alt="img">
       </div>
       <div class="project-des-content">
         <small>{{data.property.building.developer.name}}</small>
-        <h5>{{data.property.building.name.slice(0, 15)}}</h5>
-        <p class="p12">{{data.property.building.address.slice(0, 60)}}</p>
-
-        <p class="p13" title="Configuration" *ngIf="data && data.property">{{data.property.configuration.name}}</p>
-        <p class="p13" title="Configuration" *ngIf="!data && !data.property">NA</p>
-        <p class="p13" title="Property Type" *ngIf="data && data.property">{{data.property.property_type.name}}</p>
+        <a routerLink="/dashboard/properties/details/{{data.property.id}}">
+          <h5>{{data.property.building.name.slice(0, 35)}}</h5>
+        </a>
+        <p class="p12">{{data.property.building.address.slice(0, 90)}}</p>
+        <p class="p13" *ngIf="data && data.property">{{data.property.configuration.name}}, {{data.property.property_type.name}}</p>
+        <!-- <p class="p13" title="Property Type" *ngIf="data && data.property">{{data.property.property_type.name}}</p> -->
+        <p class="p13" title="Type"><strong>{{data.property.for_sale == 1 ? 'Buy' : 'Rent'}}</strong></p>
         <div class="dropdown threeDots">
           <button type="button" class="dropdown-toggle" data-toggle="dropdown">
             ...
           </button>
           <div class="dropdown-menu">
-            <a style="display: none;" *ngIf="sent_as==2" class="dropdown-item" href="javascript://" #modalOpen data-toggle="modal" data-target="#dealFinalize">Deal Finalized</a>
-            <a *ngIf="selected_properties?.length==0 && sent_as==2" class="dropdown-item" href="javascript://" (click)="openModal(data.property.id, data.lead_id)">Deal Finalized</a>
+            <a style="display: none;" class="dropdown-item" href="javascript://" #modalOpen data-toggle="modal" data-target="#dealFinalize">Deal Finalized</a>
+            <a *ngIf="!is_deal_finalised && sent_as==2" class="dropdown-item" href="javascript://" (click)="openModal(data.property.id, data.lead_id)">Deal Finalized</a>
             <a class="dropdown-item" (click)="deleteLeadInterestedProperty(data.property.id, data.lead_id, in)">Remove Property</a>
           </div>
         </div>
@@ -179,11 +180,14 @@
                     </div>
                     <div class="project-des-content">
                         <small>{{x.property.building.developer.name}}</small>
-                        <h5>{{x.property.building.name.slice(0, 20)}}</h5>
-                        <p class="p12">{{x.property.building.address.slice(0, 55)}}</p>
-                        <p class="p13" *ngIf="x && x.property">{{x.property.configuration.name}}</p>
-                        <p class="p13" *ngIf="!x && !x.property">NA</p>
-                        <p class="p13" *ngIf="x && x.property">{{x.property.property_type.name}}</p>
+                        <a routerLink="/dashboard/properties/details/{{x.property.id}}">
+                          <h5>{{x.property.building.name.slice(0, 20)}}</h5>
+                        </a>
+                        <p class="p12">{{x.property.building.address.slice(0, 50)}}</p>
+                        <p class="p13" *ngIf="x && x.property">{{x.property.configuration.name}}, {{x.property.property_type.name}}</p>
+                        <!-- <p class="p13" *ngIf="!x && !x.property">NA</p>
+                        <p class="p13" *ngIf="x && x.property">{{x.property.property_type.name}}</p> -->
+                        <p class="p13" *ngIf="x && x.property">{{x.property.for_sale==1 ? 'Buy' : 'Rent'}}</p>
                         <div class="dropdown threeDots">
                           <button type="button" class="dropdown-toggle" data-toggle="dropdown">
                             ...

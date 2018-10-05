@@ -19,7 +19,7 @@ export class InterestedPropertyComponent implements OnInit {
   @Input('sent_as') sent_as;
   @Input('interested_properties') interested_properties;
   @Input('selected_properties') selected_properties;
-
+  @Input('is_deal_finalised') is_deal_finalised;
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('showPropertyModal') showPropertyModal: ElementRef;
@@ -44,6 +44,7 @@ export class InterestedPropertyComponent implements OnInit {
     //   this.model.lead_id = lead_id;
     //   this.modalOpen.nativeElement.click();
     // }
+    console.log('==================');
     this.model.property_id = property_id;
     this.model.lead_id = lead_id;
     this.modalOpen.nativeElement.click();
@@ -59,6 +60,7 @@ export class InterestedPropertyComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, this.model)
       .subscribe(
         success => {
+          this.is_deal_finalised = true;
           this.modalClose.nativeElement.click();
           swal('Success', 'Deal has been finalized successfully.', 'success');
         });
@@ -90,7 +92,6 @@ export class InterestedPropertyComponent implements OnInit {
       });
     }
   }
-
 
   showProperties(lead_id) {
     this.parameter.lead_id = lead_id;

@@ -1,17 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from './../../services/admin.service';
 import { Router } from '@angular/router';
-// import { SweetAlertService } from 'ngx-sweetalert2';
 declare let swal: any;
-// import { AdminACL } from './../../common/adminAcl';
-// import { AclPermissionDirective } from './../../directives/acl-permission.directive';
-import { Login, AdminACL } from './../../models/login.model';
 
 @Component({
   selector: 'app-header',
   templateUrl: './app-header.component.html',
-  styleUrls: ['./app-header.component.css'],
-  providers: [Login, AdminACL]
+  styleUrls: ['./app-header.component.css']
 })
 
 export class AppHeaderComponent {
@@ -21,13 +16,12 @@ export class AppHeaderComponent {
   admin_acl: any;
   public scrollbarOptions = { axis: 'yx', theme: 'minimal-dark' };
 
-  constructor(public admin: AdminService, private router: Router, public adminModel: AdminACL) {
+  constructor(public admin: AdminService, private router: Router) {
     this.admin.loginData$.subscribe(success => {
       console.log('success1', success);
       this.fullName = success['name'];
       this.image = success['image'];
     });
-    // this.setData();
   }
 
   setData() {

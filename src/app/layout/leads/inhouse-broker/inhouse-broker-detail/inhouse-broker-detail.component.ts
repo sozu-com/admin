@@ -21,7 +21,7 @@ export class InhouseBrokerDetailComponent implements OnInit {
   @ViewChild('showPropertyModal') showPropertyModal: ElementRef;
   public parameter: IProperty = {};
   public selected_prop_ids = [];
-
+  is_deal_finalised: boolean;
   constructor(
     private route: ActivatedRoute,
     private admin: AdminService,
@@ -43,16 +43,7 @@ export class InhouseBrokerDetailComponent implements OnInit {
         this.setFillInformationData(r);
         this.parameter.favorites = r.data.favorites;
         this.parameter.interested_properties = r.data.interested_properties;
-
-        // this.selected_prop_ids = r.data.lead.selected_properties.map(s => s.property_id);
-        // this.parameter.interested_properties.forEach(element => {
-        //   const test = this.parameter.lead.selected_properties.map(i => i.property_id === element.property.id);
-        //   if (test[0]) {
-        //     element.is_finalised = 1;
-        //   } else {
-        //     element.is_finalised = 0;
-        //   }
-        // });
+        this.is_deal_finalised = this.parameter.lead.selected_properties.length !== 0 ? true : false;
         this.parameter.viewed_properties = r.data.viewed_properties;
         this.parameter.user_id = this.parameter.lead.user.id;
       });

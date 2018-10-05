@@ -10,8 +10,6 @@ import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 // import { NgBoxService } from 'ngbox/ngbox.service';
 import { NouisliderModule } from 'ng2-nouislider';
 import { RemoveCommaPipe } from './../../pipes/remove-comma.pipe';
-import { MomentPipe } from './../../pipes/moment.pipe';
-import { ChatTimePipe } from './../../pipes/chat-time.pipe';
 import { LeadsComponent } from './leads.component';
 import { DataCollectorComponent } from './data-collector/data-collector.component';
 import { CsrSellerComponent } from './csr-seller/csr-seller.component';
@@ -21,22 +19,23 @@ import { CsrCloserComponent } from './csr-closer/csr-closer.component';
 import { CsrBuyerDetailComponent } from './csr-buyer/csr-buyer-detail/csr-buyer-detail.component';
 import { InhouseBrokerDetailComponent } from './inhouse-broker/inhouse-broker-detail/inhouse-broker-detail.component';
 import { CsrCloserDetailComponent } from './csr-closer/csr-closer-detail/csr-closer-detail.component';
-import { ChatComponent } from './../common-blocks/chat/chat.component';
 import { InterestedPropertyComponent } from './../common-blocks/interested-property/interested-property.component';
 import { ViewedPropertyComponent } from './../common-blocks/viewed-property/viewed-property.component';
-import { NotesComponent } from './../common-blocks/notes/notes.component';
 import { FillInformationComponent } from './../common-blocks/fill-information/fill-information.component';
-import { ThousandPipe } from '../../pipes/thousand.pipe';
 import { MyChatComponent } from './inhouse-broker/inhouse-broker-detail/my-chat/my-chat.component';
 import { AclUserGuard } from '../../guards/acl-user.guard';
 import { LayoutModule } from '../layout.module';
 import { SharedModule } from '../../modules/shared.module';
 import { AuthGuard } from '../../guards/auth.guard';
+import { CsrSellerDetailComponent } from './csr-seller/csr-seller-detail/csr-seller-detail.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 const routes: Routes = [
   { path: 'data-collectors', component: DataCollectorComponent,
     canActivate: [AclUserGuard], data: {roles: ['Data Collector Lead Management', 'can_read', 'can_data_collector']}},
   { path: 'csr-sellers', component: CsrSellerComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Seller Lead Management', 'can_read', 'can_csr_seller']}},
+  { path: 'csr-sellers/:id', component: CsrSellerDetailComponent,
     canActivate: [AclUserGuard], data: {roles: ['Seller Lead Management', 'can_read', 'can_csr_seller']}},
   { path: 'csr-buyers', component: CsrBuyerComponent,
     canActivate: [AclUserGuard], data: {roles: ['Buyer Lead Management', 'can_read', 'can_csr_buyer']}},
@@ -90,6 +89,7 @@ const routes: Routes = [
     Ng2TelInputModule,
     MalihuScrollbarModule.forRoot(),
     NouisliderModule,
+    NgxChartsModule,
     SharedModule
     // LayoutModule
     // NgBoxModule
@@ -98,6 +98,7 @@ const routes: Routes = [
     LeadsComponent,
     DataCollectorComponent,
     CsrSellerComponent,
+    CsrSellerDetailComponent,
     CsrBuyerComponent,
     InhouseBrokerComponent,
     CsrCloserComponent,

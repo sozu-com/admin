@@ -124,4 +124,8 @@ export interface IProperty {
   dash_flag?: any;
   sort_by?: any;
   sort_by_order?: any;
+  sort_by_flag?: any;
+  count_flag?: any;
+  seller_id?: any;
+  noResultFound?: any;
 }

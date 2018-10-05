@@ -14,21 +14,24 @@
 
 <div class="spacer15"></div>
 <div class="row" *ngIf="viewed_properties?.length>0">
-  <div class="col-lg-4 col-md-12 col-sm-12 col-12" *ngFor="let data of viewed_properties; let in=index">
+  <div class="col-lg-6 col-md-12 col-sm-12 col-12" *ngFor="let data of viewed_properties; let in=index">
 
-  <div *ngIf="data.building && data && in<3" class="project-des-bx white-bg">
+  <div *ngIf="data.building && data && in<2" class="project-des-bx white-bg">
     <div class="price">{{data.min_price|thousand}}+</div>
     <div class="fig-block">
       <img [src]="data.image" onerror='src="assets/img/bank.png"' alt="img">
     </div>
     <div class="project-des-content">
       <small>{{data.building.developer.name}}</small>
-      <h5>{{data.building.name.slice(0, 15)}}</h5>
-      <p class="p12">{{data.building.address.slice(0, 60)}}</p>
+      <a routerLink="/dashboard/properties/details/{{data.id}}">
+      <h5>{{data.building.name.slice(0, 35)}}</h5>
+      </a>
+      <p class="p12">{{data.building.address.slice(0, 90)}}</p>
 
-      <p class="p13" title="Configuration" *ngIf="data">{{data.configuration.name}}</p>
-      <p class="p13" title="Configuration" *ngIf="!data">NA</p>
-      <p class="p13" title="Property Type" *ngIf="data">{{data.property_type.name}}</p>
+      <p class="p13" *ngIf="data">{{data.configuration.name}}, {{data.property_type.name}}</p>
+      <!-- <p class="p13" title="Configuration" *ngIf="!data">NA</p> -->
+      <!-- <p class="p13" title="Property Type" *ngIf="data">{{data.property_type.name}}</p> -->
+      <p class="p13" title="Type"><strong>{{data.for_sale == 1 ? 'Buy' : 'Rent'}}</strong></p>
     </div>
   </div>
 
@@ -61,11 +64,14 @@
                     </div>
                     <div class="project-des-content">
                         <small>{{x.building.developer.name}}</small>
-                        <h5>{{x.building.name.slice(0, 15)}}</h5>
-                        <p class="p12">{{x.building.address.slice(0, 55)}}</p>
-                        <p class="p13" *ngIf="x">{{x.configuration.name}}</p>
-                        <p class="p13" *ngIf="!x">NA</p>
-                        <p class="p13" *ngIf="x">{{x.property_type.name}}</p>
+                        <a routerLink="/dashboard/properties/details/{{x.id}}">
+                          <h5>{{x.building.name.slice(0, 15)}}</h5>
+                        </a>
+                        <p class="p12">{{x.building.address.slice(0, 45)}}</p>
+                        <p class="p13" *ngIf="x">{{x.configuration.name}}, {{x.property_type.name}}</p>
+                        <!-- <p class="p13" *ngIf="!x">NA</p>
+                        <p class="p13" *ngIf="x">{{x.property_type.name}}</p> -->
+                        <p class="p13" *ngIf="x">{{x.for_sale==1 ? 'Buy' : 'Rent'}}</p>
                     </div>
                   </div>
               </div>

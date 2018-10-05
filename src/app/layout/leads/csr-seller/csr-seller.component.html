@@ -1,12 +1,87 @@
 <!-- <ngx-loading [show]="parameter.loading"></ngx-loading> -->
 
 <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+         <div class="form-group">
+          <p class="p16">Manage CSR Seller Lead</p>
+          <div class="d-flex">
+          <button (click)="removeCsrUser()" class="all-btn">All</button>
 
+          <div class="autocomplete">
+            <input style="max-width:200px" list="amenities" [(ngModel)]="parameter.keyword" (input)="getCsrListing()" class="form-control" type="text" name="keyword">
+            <!-- <input type="text"  (keyup.enter)="addAmenity(amen)" name="amen" [(ngModel)]="amen"> -->
+            <div id="myInputautocomplete-list" class="autocomplete-items">
+                <div *ngFor="let item of users" (click)="selectCsrUser(item)">{{item.email}}</div>
+            </div>
+           </div>
+          
+          </div>
+          </div>
+        </div>
+       <div class="col-md-2">
+      <div class="form-group">
+      <label>Country</label>
+       <select class="form-control" (change)="onCountryChange($event.target.value)">
+          <option value="0">All</option>
+          <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option>
+       </select>
+      </div>
+      </div>
+      <div class="col-md-2">
+      <div class="form-group">
+      <label>State</label>
+       <select class="form-control" (change)="onStateChange($event.target.value)">
+          <option value="0">All</option>
+          <option *ngFor="let item of location.states" [value]="item.id">{{item.name}}</option>
+       </select>
+      </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+        <label>City</label>
+          <select class="form-control" (change)="onCityChange($event.target.value)">
+            <option value="0">All</option>
+            <option *ngFor="let item of location.cities" [value]="item.id">{{item.name}}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-md-2">
+      <div class="form-group">
+      <label>Locality</label>
+      <select class="form-control" (change)="onLocalityChange($event.target.value)">
+          <option value="0">All</option>
+          <option *ngFor="let item of location.localities" [value]="item.id">{{item.name}}</option>
+        </select>
+      </div>
+      </div>
+      </div>
+
+    <!-- <div *ngIf="users?.length > 0 && initSelection"class="row">
+        <table class="table table-striped">
+            <tbody><tr *ngFor="let item of users" (click)="selectCsrUser(item)">
+                <td> <img class="rounded-circle" [src]="item.image" onerror='this.src="http://via.placeholder.com/50x50"' alt="img"></td>
+                <td class="text-left">
+                    <span class="name">{{item.name}}</span>
+                </td>
+                <td class="text-left">
+                    {{item.phone}}
+                </td>
+                <td class="text-left">
+                    {{item.email}}
+                </td>
+                <td>
+                    <a href="javascript://" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
+                    <a href="javascript://" class="icon-block block-icon"><img src="assets/img/block.png" alt="img"></a>
+                </td>
+                </tr>
+            </tbody>
+        </table>
+    </div> -->
+  <div class="listingResults" >
   <div class="row">
-     <div class="col-md-3">
-        <a class="view-all-2" href="javascript://"><i class="fa fa-angle-left"></i><span>View all</span></a>
-     </div>
-     <div class="col-md-9">
+     <div class="col-12">
         <div class="cust-tabs-2">
           <ul class="nav nav-tabs">
             <li class="nav-item">
@@ -31,34 +106,33 @@
         <hr style="margin-top:0;">
      </div>
   </div>
-  <div class="sigle-row-table">
-     <table class="table table-striped">
+  <div *ngIf="selectedUser as item" class="sigle-row-table">
+        <table class="table table-striped">
         <tbody><tr>
-           <td> <img class="rounded-circle" src="http://via.placeholder.com/50x50" alt="img"></td>
-           <td class="text-left">
-              <span class="name">Lillian Russell</span>
-           </td>
-           <td class="text-left">
-              728-111-1874
-           </td>
-           <td class="text-left">
-              eunice_aufderhar@yahoo.com
-           </td>
-           <td>
-              14
-           </td>
-           <td>
-              <a href="javascript://" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
-              <a href="javascript://" class="icon-block block-icon"><img src="assets/img/block.png" alt="img"></a>
-           </td>
-        </tr>
-     </tbody></table>
+            <td> <img class="rounded-circle" [src]="item.image" onerror='this.src="http://via.placeholder.com/50x50"' alt="img"></td>
+            <td class="text-left">
+                <span class="name">{{item.name}}</span>
+            </td>
+            <td class="text-left">
+                {{item.phone}}
+            </td>
+            <td class="text-left">
+                {{item.email}}
+            </td>
+            <td>
+                <a (click)="removeCsrUser()" href="javascript://" class="icon-block edit-icon"><img src="assets/img/remove-icon.png" alt="remove" title="remove" /></a>
+                <!-- <a href="javascript://" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
+                <a href="javascript://" class="icon-block block-icon"><img src="assets/img/block.png" alt="img"></a> -->
+            </td>
+            </tr>
+        </tbody>
+        </table>
   </div>
   <div class="row">
      <div class="col-lg-8 col-md-12 col-sm-12 col-12">
         <div class="info-box all-leads">
            <div class="row">
-              <div class="col-md-6 col-sm-6 col-12 active">
+              <div class="col-md-6 col-sm-6 col-12" [ngClass]="{'active':parameter.count_flag == '1'}" (click)="changeCountFlag(1)">
                  <div class="one-row ">
                     <div class="o-block">
                        <h5>Leads</h5>
@@ -66,11 +140,11 @@
                     </div>
                     <div class="o-block">
                        <a class="view-all" href="javascript://">View All</a>
-                       <h4>26</h4>
+                       <h4>{{dash?.lead_total}}</h4>
                     </div>
                  </div>
               </div>
-              <div class="col-md-6 col-sm-6 col-12">
+              <div class="col-md-6 col-sm-6 col-12" [ngClass]="{'active':parameter.count_flag == '2'}" (click)="changeCountFlag(2)">
                  <div class="one-row">
                     <div class="o-block">
                        <h5>Leads</h5>
@@ -78,15 +152,15 @@
                     </div>
                     <div class="o-block">
                        <a class="view-all" href="javascript://">View All</a>
-                       <h4>10</h4>
+                       <h4>{{dash?.lead_without_property}}</h4>
                     </div>
                  </div>
               </div>
            </div>
         </div>
-                      <div class="info-box all-leads">
+        <div class="info-box all-leads">
            <div class="row">
-              <div class="col-md-6 col-sm-6 col-12">
+              <div class="col-md-6 col-sm-6 col-12" [ngClass]="{'active':parameter.count_flag == '3'}" (click)="changeCountFlag(3)">
                  <div class="one-row ">
                     <div class="o-block">
                        <h5>Leads</h5>
@@ -94,11 +168,11 @@
                     </div>
                     <div class="o-block">
                        <a class="view-all" href="javascript://">View All</a>
-                       <h4>26</h4>
+                       <h4>{{dash?.lead_with_property}}</h4>
                     </div>
                  </div>
               </div>
-              <div class="col-md-6 col-sm-6 col-12">
+              <div class="col-md-6 col-sm-6 col-12" [ngClass]="{'active':parameter.count_flag == '4'}" (click)="changeCountFlag(4)">
                  <div class="one-row">
                     <div class="o-block">
                        <h5>Leads</h5>
@@ -106,7 +180,7 @@
                     </div>
                     <div class="o-block">
                        <a class="view-all" href="javascript://">View All</a>
-                       <h4>10</h4>
+                       <h4>{{dash?.lead_property_pending}}</h4>
                     </div>
                  </div>
               </div>
@@ -115,24 +189,20 @@
 
      </div>
      <div class="col-lg-4 col-md-12 col-sm-12 col-12">
-        <div class="chat-msg all-leads">
-           <div class="row">
-              <div class="col-6">
-                 <h5>Chat</h5>
-              </div>
-              <div class="col-6 text-right"><a class="msg" href="javascript://">Message</a></div>
-           </div>
-           <p>Waiting for response</p>
-           <p>
-              <strong>Mario Hudson</strong>
-              When you are free to have a meeting
-              with interested customers?
-           </p>
-           <p>
-              <strong>Rosie Benson</strong>
-              Is there any availability in the localities
-              I was asking you tomorrow and also p…
-           </p>
+        <div class="chat-msg all-leads" style="padding:0px">
+            <div class="padding20" *ngIf="dash.lead_total == 0">No records found</div>
+            <ngx-charts-pie-chart [results]="chartView"></ngx-charts-pie-chart>
+              <!-- <ngx-charts-bar-vertical
+                [scheme]="colorScheme"
+                [results]="chartView"
+                [gradient]="gradient"
+                [yAxis]="showYAxis"
+                [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel"
+                [xAxisLabel]="xAxisLabel"
+                [yAxisLabel]="yAxisLabel"
+                (select)="onSelect($event)">
+                </ngx-charts-bar-vertical> -->
         </div>
      </div>
   </div>
@@ -145,13 +215,20 @@
   <div class="row">
      <div class="col-6">
         <div class="title-group">
-           <h5>Leads (Without Properties)</h5>
-           <p>Showing 6 out of 9</p>
+           <h5>Leads 
+            <span *ngIf="parameter.count_flag == 1">(Total)</span>
+            <span *ngIf="parameter.count_flag == 2">(Without Properties)</span>
+            <span *ngIf="parameter.count_flag == 3">(With Properties)</span>
+            <span *ngIf="parameter.count_flag == 4">(Pending Properties)</span>
+           </h5>
+           <p>
+               <!-- Showing {{parameter.page}} out of {{parameter.total_count}} -->
+            </p>
         </div>
      </div>
      <div class="col-6">
         <div class="add-new text-right">
-           <a class="btn" href="javascript://">+Add New</a>
+           <!-- <a class="btn" href="javascript://">+Add New</a> -->
         </div>
      </div>
   </div>
@@ -162,64 +239,74 @@
               <tbody>
 
               <tr>
-              <th style="width:6%; border-top:0">&nbsp;</th>
+              <th style="width:6%; border-top:0">
+                <div class="table-search">
+                    <label>Image</label>
+                </div>
+                </th>
                  <th style="width:20%; border-top:0">
                     <div class="table-search">
                        <label>Name</label>
-                       <input type="Search here" name="">
+                       <div class="searh-3">
+                        <input type="Search here" name="name" [(ngModel)]="parameter.name" (keyup.enter)="getListing()">
+                        <button *ngIf="parameter.name" (click)="getListing()"><i class="fa fa-search"></i></button>
+                      </div>
                     </div>
                  </th>
                  <th style="width:20%; text-align:left; border-top:0">
                     <div class="table-search">
                        <label>Contact Number</label>
-                       <input type="Search here" name="">
+                       <div class="searh-3">
+                            <input type="Search here" name="phone" [(ngModel)]="parameter.phone" (keyup.enter)="getListing()">
+                            <button *ngIf="parameter.phone" (click)="getListing()"><i class="fa fa-search"></i></button>
+                        </div>
                     </div>
                  </th>
                  <th style="width:20%; border-top:0">
                     <div class="table-search">
                        <label>Email Address</label>
-                       <input type="Search here" name="">
+                       <div class="searh-3">
+                            <input type="Search here" name="email" [(ngModel)]="parameter.email" (keyup.enter)="getListing()">
+                            <button *ngIf="parameter.email" (click)="getListing()"><i class="fa fa-search"></i></button>
+                       </div>
                     </div>
-                 </th>
-                 <th style="width:20%; vertical-align: top; border-top:0">
-                    Assignee
-
                  </th>
                  <th>
                  <label>Properties</label>
                   <div class="ppties">
-                     <a href="javascript://" data-toggle="tooltip" data-placement="top" title="" data-original-title="Coming soon">A<img src="assets/img/top-arrow.png" alt="img"></a>
+                     <a href="javascript://" (click)="sort_by(1)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Coming soon">A<img src="assets/img/top-arrow.png" alt="img"></a>
                      </div>
                  </th>
                   <th>
                    <label>&nbsp;</label>
                   <div class="ppties">
-                     <a href="javascript://" data-toggle="tooltip" data-placement="top" title="" data-original-title="Coming soon">R<img src="assets/img/top-arrow.png" alt="img"></a>
+                     <a href="javascript://" (click)="sort_by(2)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Coming soon">R<img src="assets/img/top-arrow.png" alt="img"></a>
                      </div>
                  </th>
                   <th>
                   <label>&nbsp;</label>
                   <div class="ppties">
-                     <a href="javascript://" data-toggle="tooltip" data-placement="top" title="" data-original-title="Coming soon">P<img src="assets/img/top-arrow.png" alt="img"></a>
+                     <a href="javascript://" (click)="sort_by(3)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Coming soon">P<img src="assets/img/top-arrow.png" alt="img"></a>
                      </div>
                  </th>
                   <th>
                   <label>&nbsp;</label>
                   <div class="ppties">
-                     <a href="javascript://" data-toggle="tooltip" data-placement="top" title="" data-original-title="In Draft">D<img src="assets/img/top-arrow.png" alt="img"></a>
+                     <a href="javascript://" (click)="sort_by(4)"  data-toggle="tooltip" data-placement="top" title="" data-original-title="In Draft">D<img src="assets/img/top-arrow.png" alt="img"></a>
                      </div>
                  </th>
                   <th>
                   <label>&nbsp;</label>
                   <div class="ppties">
-                     <a href="javascript://" data-toggle="tooltip" data-placement="top" title="" data-original-title="Coming soon">T<img src="assets/img/top-arrow.png" alt="img"></a>
+                     <a href="javascript://" (click)="sort_by(5)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Coming soon">T<img src="assets/img/top-arrow.png" alt="img"></a>
                      </div>
                  </th>
               </tr>
               <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }">
                 <td>
-                  <img *ngIf="item.image" class="rounded-circle" [src]="item.image" alt="img">
-                  <img *ngIf="!item.image" class="rounded-circle" src="./../../../assets/img/default_img.png" alt="img">
+                  <a routerLink="{{item.id}}" href="javascript://"><img *ngIf="item.image" class="rounded-circle" [src]="item.image" alt="img">
+                  <img *ngIf="!item.image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
+                  </a>
                 </td>
                 <td class="text-left">
                   <span class="name">{{item.name}}</span>
@@ -230,28 +317,33 @@
                     {{item.email}}
                  </td>
                  <td>
-                   Logan Cast
+                  {{item.approved_count}}
                  </td>
                  <td>
-                    15
+                  {{item.rejected_count}}
                  </td>
                  <td>
-                    14
+                    {{item.pending_count}}
                  </td>
                  <td>
-                    13
+                    {{item.draft_count}}
                  </td>
                  <td>
-                    12
-                 </td>
-                 <td>
-                    11
+                    {{item.total_count}}
                  </td>
               </tr>
 
            </tbody></table>
+           <div class="padding20" *ngIf="parameter.noResultFound">No result found</div>
+
         </div>
      </div>
 
+
+     <div class="spacer30"></div>
+     <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+
+
   </div>
+  </div><!-- listingResults -->
 </div>

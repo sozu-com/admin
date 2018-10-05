@@ -1,264 +1,139 @@
 
 <div class="container-fluid">
-  <div class="white-bg padding15">
-      <div class="row">
-          <div class="col-lg-3 col-md-12 col-sm-6 col-12">
-              <div class="df-profile">
-              <a routerLink="../"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
-              <img [src]="parameter.lead?.user?.image" onerror='src="assets/img/default_img.png"' alt="img">
-              <div class="df-info" *ngIf="parameter.lead?.user">
-                  <p class="p14">{{parameter.lead.user.name}}</p>
-                  <p class="p12">Status: Open</p>
-              </div>
-              </div>
-          </div>
-          <div class="col-lg-5 col-md-12 col-sm-6 col-12">
-              <div class="profile-list">
-              <ul>
-                  <li>
-                      <div class="df-info">
-                          <p class="p14 marginB0" *ngIf="parameter.lead?.admin">{{parameter.lead.admin.name}}</p>
-                          <p class="p12">CSR Buyer</p>
-                      </div>
-                  </li>
-                  <li>
-                      <div class="df-info" *ngIf="parameter.lead?.broker">
-                          <p class="p14 marginB0">{{parameter.lead.broker.name}}</p>
-                          <p class="p12">Inhouse Broker</p>
-                      </div>
-                  </li>
-              </ul>
-              </div>
-          </div>
-      </div>
-  </div>
-  
-  <div class="spacer30"></div>
-  <div class="row">
-      <div class="col-lg-6 col-md-12 col-sm-12 col-12">
-          <div class="white-bg padding30">
-              <div class="row">
-              <div class="col-md-6">
-                  <h6>Details</h6>
-              </div>
-              <!-- <div class="col-md-6">
-                  <div class="edit text-right"><a href="javascript://">Edit</a></div>
-              </div> -->
-              </div>
-              <div class="details-table">
-              <table class="table">
-                  <tr>
-                      <td style="padding-left:0"><label>Full Name</label></td>
-                      <td colspan="2" *ngIf="parameter?.lead?.name">{{parameter.lead.name}}</td>
-                  </tr>
-                  <tr>
-                      <td style="padding-left:0"><label>Contact Number</label></td>
-                      <td colspan="2" *ngIf="parameter?.lead?.phone">{{parameter.lead.dial_code ? parameter.lead.dial_code : constant.dial_code}}-{{parameter.lead.phone}}</td>
-                  </tr>
-                  <tr>
-                      <td style="padding-left:0"><label>Email address</label></td>
-                      <td colspan="2" *ngIf="parameter?.lead?.email">{{parameter.lead.email}}</td>
-                  </tr>
-                  <tr>
-                      <td style="padding-left:0"><label>Interested In</label></td>
-                      <td *ngIf="parameter?.lead?.configuration">
-                          <span *ngFor="let conf of parameter.lead.configuration; let ii=index">
-                          {{conf.name}}
-                          <span *ngIf="ii<parameter?.lead?.configuration?.length-1">,</span>
-                          </span>
-                          <span *ngIf="parameter.lead.configuration?.length == 0">NA</span>
-                      </td>
-                  </tr>
-                  <tr>
-                      <td style="padding-left:0"><label><strong>Property Selected</strong></label></td>
-                      <td *ngIf="parameter?.lead?.selected_properties?.length!=0">
-                          <p class="p14 marginB0">
-                              {{parameter.lead?.selected_properties[0]?.property?.configuration.name}}
-                          </p>
-                          <p class="p12 marginB0"><strong>{{parameter.lead?.selected_properties[0]?.property?.building?.name}}</strong></p>
-                          <p class="p11"><i>{{parameter.lead?.selected_properties[0]?.property?.building?.developer?.name}}</i></p>
-                      </td>
-                      <td *ngIf="parameter?.lead?.selected_properties?.length!=0">
-                          <a class="view-all-2" href="javascript://" (click)="viewPropertyDetails(parameter?.lead?.selected_properties[0])"> View Property</a>
-                      </td>
-                      <td *ngIf="parameter?.lead?.selected_properties?.length==0">NA</td>
-                  </tr>
-                  <!-- <tr>
-                      <td  style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
-                      <td colspan="2">
-                          <p class="date">02-Oct-2018, 04:00pm</p>
-                      </td>
-                  </tr> -->
-              </table>
-              </div>
-          </div>
-  
-          <!-- notes start -->
-          <app-notes [sent_as]="parameter.sent_as" [lead_id]="parameter.lead_id"></app-notes>
-          <!-- notes end -->
-  
-          <!-- <div class="spacer15"></div> -->
-          <div class="bank-assigned-now white-bg">
-              <div class="row">
-                  <div class="col-md-6 col-sm-6 col-12 b-left">
-                  <p class="p13" *ngIf="selectedProperties?.noataries && selectedProperties.noataries.length==0">No Notary assigned yet </p>
-                  <a style="display:none;" #showNotaries href="javascript://" class="green green-color" data-toggle="modal" data-target="#notary-avail">Assign Now</a>
-                  <a href="javascript://" *ngIf="selectedProperties?.noataries && selectedProperties.noataries.length==0" class="green-color green" (click)="getNotaries(selectedProperties.property_id)">Assign Now</a>
-                  <div class="d-flex" *ngIf="selectedProperties?.noataries && selectedProperties.noataries.length!=0">
-                      <img [src]="selectedProperties?.noataries && selectedProperties.noataries[0].image" onerror='src="assets/img/house.png"' alt="img">
-                      <div class="bank-info">
-                          <p title="Notary" class="p14">{{selectedProperties.noataries[0].name}}</p>
-                          <p class="p11">{{selectedProperties.noataries[0].dial_code ? selectedProperties.noataries[0].dial_code : constant.dial_code}}-{{selectedProperties.noataries[0].phone}}</p>
-                          <a href="javascript://" #showNotaries style="display: none;" data-toggle="modal" data-target="#notary-avail" class="green-color green">Change</a>
-                          <a href="javascript://" class="green-color green" (click)="getNotaries(selectedProperties.property_id)">Change</a>
-                      </div>
-                      </div>
-                  </div>
-                  <div class="col-md-6 col-sm-6 col-12 b-right">
-                  <p class="p13" *ngIf="selectedProperties?.banks && selectedProperties.banks.length==0">No Bank assigned yet </p>
-                  <a style="display:none;" #showBanks href="javascript://" class="green green-color" data-toggle="modal" data-target="#bank-listing">Assign Now</a>
-                  <a href="javascript://" *ngIf="selectedProperties?.banks && selectedProperties.banks.length==0" class="green-color green" (click)="getBanks(selectedProperties.property_id)">Assign Now</a>
-                  <div class="d-flex" *ngIf="selectedProperties?.banks && selectedProperties.banks.length!=0">
-                      <img [src]="selectedProperties?.banks && selectedProperties.banks[0].image" onerror='src="assets/img/bank-building.png"' alt="img">
-                      <div class="bank-info">
-                          <p title="Bank" class="p14">{{selectedProperties.banks[0].name}}</p>
-                          <p class="p11">{{selectedProperties?.banks[0]?.branch ? selectedProperties?.banks[0]?.branch : 'NA'}}</p>
-                          <a href="javascript://" #showBanks style="display: none;" data-toggle="modal" data-target="#bank-listing" class="green-color green">Change</a>
-                          <a href="javascript://" class="green-color green" (click)="getBanks(selectedProperties.property_id)">Change</a>
-                      </div>
-                  </div>
-                  </div>
-              </div>
-          </div>
-  
-      </div>
-  
-  
-  
-      <!-- chatting -->
-      <div class="col-lg-6 col-md-12 col-sm-12 col-12">
-          <div class="white-bg">
-              <div class="page-title-3 marginB0">
-                  <h4><i><img src="assets/img/chat-icon.png" alt="img"></i> Chat</h4>
-              </div>
-              <div class="cust-tabs-4">
-                  <ul class="nav nav-tabs">
-                  <li class="nav-item">
-                      <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.user_buyer}" (click)="getLeadConversation(constant.userType.user_buyer)" class="nav-link">Buyer</a>
-                  </li>
-                  <li class="nav-item">
-                      <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.user_seller_dev}" (click)="getLeadConversation(constant.userType.user_seller_dev)" class="nav-link">Seller</a>
-                  </li>
-                  <li class="nav-item">
-                      <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.notary}" (click)="getLeadConversation(constant.userType.notary)" class="nav-link">Notary</a>
-                  </li>
-                  <li class="nav-item">
-                      <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.bank}" (click)="getLeadConversation(constant.userType.bank)" class="nav-link">Bank</a>
-                  </li>
-                  </ul>
-                  
-                  <div class="tab-content">
-                      <div class="chat-window white-bg">
-                      <div class="chat-top">
-                          <a href="javascript://">
-                          <div class="profile">
-                              <div class="fig-block">
-                              <img [src]="chat_admin?.image" onerror="this.src='assets/img/default_img.png'" alt="img" />
-                              </div>
-                              <div class="profile-info">
-                              <h6>{{chat_admin?.name}}</h6>
-                              <p *ngIf="chat_admin_sent_as == 3" class="p12">CSR Closer</p>
-                              <p *ngIf="chat_admin_sent_as == 6" class="p12">Notary</p>
-                              <p *ngIf="chat_admin_sent_as == 5" class="p12">Bank</p>
-                              </div>
-                          </div>
-                          </a>
-                      </div>
-                      <div malihu-scrollbar [scrollbarOptions]="scrollbarOptions" class="chat-area scrollbox" #chatWin>
-                          <div *ngFor="let m of messages; let i=index" [ngClass]="m.conversation_user.admin_id == admin_id ? 'chat-user-one' :'chat-user-two'" class="chat-user">
-                              <p *ngIf="m.message_type == 1" style="word-wrap: break-word;">
-                                  <span>{{m.message}}</span>
-                                  <!-- <span *ngIf="m.loading" class="m-loader">
-                                      <img class="text-message" src="assets/img/loading-p.gif">
-                                  </span>
-                                  <span *ngIf="!m.loading">{{m.message}}</span> -->
-                              </p>
-  
-                              <a *ngIf="m.message_type == 2" href="{{m.image}}" data-lightbox="image">
-                                  <span *ngIf="!m.loading">
-                                      <img class="ui bordered small image" src="{{m.image}}">
-                                  </span>
-                                  <!-- <div *ngIf="m.loading" class="loaderr"></div> -->
-                                  <span *ngIf="m.loading" class="m-loader">
-                                      <img src="assets/img/loading_image_1.gif">
-                                  </span>
-                              </a>
-                              
-                              <div class="chat-vid" *ngIf="m.message_type == 3 && !m.play">
-                                  <span>
-                                      <div *ngIf="m.loading" class="loaderr"></div>
-                                      <img *ngIf="m.image" class="ui bordered small image" src="{{m.image}}">
-                                      <img *ngIf="!m.loading" class="vid-icon" (click)="playVideo(i)" src="assets/img/play-button.png" />
-                                      <div class="clearfix"></div>
-                                  </span>
-                              </div>
-                              <video *ngIf="m.message_type == 3 && m.play" src="{{m.video}}" autoplay type="video/mp4" controls></video>
-                              
-                              <div class="chat-shared-file" *ngIf="m.message_type == 4">
-                                  <p *ngIf="m.loading" class="m-loader">
-                                      <img class="text-message" src="assets/img/loading-p.gif">
-                                  </p>
-                                  <span *ngIf="!m.loading">
-                                      <a href="javascript://" href="{{m.attachment}}"><span>{{m.attachment_name}}</span></a>
-                                  </span>
-                              </div>
-  
-                              <span class="time" *ngIf="m.id">{{m.updated_at| moment}}</span>
-                              <span class="time" *ngIf="!m.id">{{m.updated_at|date:'h:mm a'|lowercase}}, {{m.updated_at|date: 'MMM d y'}}</span>
-                              
-                          </div>                
-                      </div>
-                                              
-                      <div style="position: absolute; z-index: 1; margin: 0px; padding: 0px; other: block; left: 581px; top: 91px;"><div class="enscroll-track track3" style="position: relative; height: 367px;"><a href="" class="handle3" style="position: absolute; z-index: 1; height: 199.244px; top: 0px;"><div class="top"></div><div class="bottom"></div></a></div></div>
-      
-                      <div class="chat-text">
-                          <div class="dropdown attach-items">
-                              <a href="javascript://" class="dropdown-toggle" data-toggle="dropdown" #optionsButton>
-                              <i class="fa fa-paperclip" aria-hidden="true"></i>
-                              </a>
-                              <div class="dropdown-menu">
-                              <div class="dropdown-item">
-                                  <input type="file" name="image" accept="image/*" (change)="onSelectFile('image', $event)">
-                                  <i class="fa fa-camera" aria-hidden="true"></i>
-                                  <span>Photo</span>
-                              </div>
-                              <a class="dropdown-item"> 
-                                  <input type="file" name="video1" accept="video/mp4,video/x-m4v,video/*" (change)="showCanvas($event)">
-                                  <i class="fa fa-video-camera" aria-hidden="true"></i>
-                                  <span>Video</span>
-                              </a>
-                              <a class="dropdown-item">    
-                                  <input type="file" name="attachment" accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf" (change)="saveAttachment($event)">
-                                  <i class="fa fa-file" aria-hidden="true"></i>
-                                  <span>Document</span>
-                              </a>
-                              </div>
-                          </div>
-                          <input id="message" autocomplete="off" [(ngModel)]="textMessage" (keyup.enter)="setText()" class="chat-input" type="text" name="message" placeholder="Type your message here …">
-                          <video style="width: 100%; height: 100%;" src="{{videoSrc}}" class="video55" autoplay type="video/mp4" controls></video>
-                          <canvas style="display: none;" width="800" height="600" id="canvas"></canvas>
-      
-                          <button (click)="setText()" class="btn">Send</button>
-                          
-                      </div>
-                  </div>
-      
-              </div>
-          </div>
-      </div>
-  
-      </div>
-  </div>
-  </div>
-  
-  
+        <div class="white-bg padding15">
+            <div class="row">
+                <div class="col-lg-3 col-md-12 col-sm-6 col-12">
+                    <div class="df-profile">
+                    <a routerLink="/dashboard/manual-leads/view-all"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+                    <img [src]="parameter?.data?.image" onerror='src="assets/img/default_img.png"' alt="img">
+                    <div class="df-info" *ngIf="parameter?.data">
+                        <p class="p14">{{parameter.data.name}}</p>
+                        <p class="p12">Status: {{parameter?.data?.status.name}}</p>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="spacer30"></div>
+        <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+                <div class="white-bg padding30">
+                    <div class="row">
+                    <div class="col-md-6">
+                        <h6>Details</h6>
+                    </div>
+                    <!-- <div class="col-md-6">
+                        <div class="edit text-right"><a href="javascript://">Edit</a></div>
+                    </div> -->
+                    </div>
+                    <div class="details-table">
+                    <table class="table">
+                        <tr>
+                            <td style="padding-left:0"><label>Full Name</label></td>
+                            <td colspan="2" *ngIf="parameter?.data?.name">{{parameter.data.name}}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left:0"><label>Contact Number</label></td>
+                            <td colspan="2" *ngIf="parameter?.data?.phone">{{parameter.data.dial_code ? parameter.data.dial_code : constant.dial_code}}-{{parameter.data.phone}}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left:0"><label>Email address</label></td>
+                            <td colspan="2" *ngIf="parameter?.data?.email">{{parameter.data.email}}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left:0"><label>Type</label></td>
+                            <td *ngIf="parameter?.data?.type?.name">{{parameter.data.type.name}}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left:0"><label><strong>Property Selected</strong></label></td>
+                            <td *ngIf="parameter?.data?.property?.length!=0">
+                                <a class="view-all-2" href="javascript://" (click)="viewPropertyDetails(parameter?.data?.property)"> View Property</a>
+                            </td>
+                            <td *ngIf="parameter?.data?.property?.length==0">NA</td>
+                        </tr>
+                        <!-- <tr>
+                            <td  style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
+                            <td colspan="2">
+                                <p class="date">02-Oct-2018, 04:00pm</p>
+                            </td>
+                        </tr> -->
+                    </table>
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+            <div class="white-bg">
+                <div class="white-bg padding15">
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="p16 marginB0">Write a Note</p>
+                        </div>
+                        <div class="col-6 text-right">
+                        <a class="add" href="javascript://" data-toggle="modal" data-target="#addNote" #modalOpen>Add</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <hr class="margin0">
+
+                <div *ngIf="parameter?.data?.notes?.length!=0" class="write-note white-bg padding40" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+                    <div class="wn-block" *ngFor="let item of parameter?.data?.notes; let i=index">
+                        <div class="circle">
+                        <span></span>
+                        </div>
+                        <a class="delete" href="javascript://" (click)="deleteLeadPopup(item.id, i)">Delete</a>
+                        <p class="time">{{item.updated_at  | chatTime: 'YYYY-MM-DD H:m:s': 2}}</p>
+                        <pre class="p13" *ngIf="!item.show">{{item.note.slice(0, 90)}} <span class="read-more" *ngIf="item.note.length>100" (click)="item.show=true">Read more</span></pre>
+                        <pre class="p13" *ngIf="item.show">{{item.note}}</pre>
+                    </div>
+                </div>
+                <div  *ngIf="parameter?.data?.notes?.length==0" class="write-note white-bg" style="height:230px;">
+                    <p class="show-not-found">
+                        {{constant.errorMsg.NO_NOTE_FOUND}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- add note modal -->
+<div class="modal animated" id="addNote">
+    <div class="modal-dialog fadeIndown">
+        <div class="modal-content">
+        <div class="modal-header modal-header-new">
+            <h4 class="modal-title">Add Note</h4>
+            <button style="display: none;" type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
+            <button type="button" class="close" (click)="closeModal()">&times;</button>
+        </div>
+    
+        <form class="form-horizontal form-model0P form-model-newP" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="addLeadNote(); addForm.reset();">
+            <div class="modal-body modal-body-new">
+            <div class="row">
+                <div class="col-12">
+                <div class="form-group-2">
+                    <div class="form-group">
+                        <textarea rows="4" required class="form-control note" name="note" #note="ngModel" [(ngModel)]="model.note"></textarea>
+                    </div>
+                </div>
+                </div>
+                <div class="col-12">
+                    <div class="btn-cont text-right">
+                        <button type="submit" [disabled]="!addForm.valid" class="btn btn-primary">Add</button>
+                        <!-- <button *ngIf="model.id==0 else UpdateNote" [disabled]="!addForm.valid" type="submit" class="btn btn-primary">ADD</button>
+                        <ng-template #UpdateNote>
+                            <button type="submit" [disabled]="!addForm.valid" class="btn btn-primary">UPDATE</button>
+                        </ng-template> -->
+                    </div>
+                </div>
+            </div>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>

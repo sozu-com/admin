@@ -114,8 +114,9 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
         // chatting
         this.chat_buyer = r.data.lead.user;
         this.chat_seller = r.data.lead.selected_properties[0].property.creator;
-        this.chat_notary = r.data.lead.selected_properties[0].selected_noatary[0].noatary;
-        this.chat_bank = r.data.lead.selected_properties[0].banks[0];
+        this.chat_notary = r.data.lead.selected_properties[0].selected_noatary[0] ?
+                            r.data.lead.selected_properties[0].selected_noatary[0].noatary : [];
+        this.chat_bank = r.data.lead.selected_properties[0].banks ? r.data.lead.selected_properties[0].banks[0] : [];
         this.getLeadConversation(this.constant.userType.user_buyer);
         // this.chat_bank = r.data.lead.banks[0];
 
