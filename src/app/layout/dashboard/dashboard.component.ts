@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AdminService } from '../../services/admin.service';
+import { IProperty } from '../../common/property';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,6 +10,17 @@ import { Component } from '@angular/core';
 
 export class DashboardComponent {
 
-  constructor () {
+  public parameter: IProperty = {};
+  constructor (private admin: AdminService) {
+    this.getListing();
+  }
+
+  getListing() {
+    this.parameter.noResultFound = false;
+    this.admin.postDataApi('get-details', {}).subscribe(
+    success => {
+      this.parameter.items = success.data;
+      if (this.parameter.items.length <= 0) { this.parameter.noResultFound = true; }
+    });
   }
 }
