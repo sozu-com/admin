@@ -19,17 +19,17 @@
       "/4.564e97aa3b794ff0955f.chunk.js": "eddd55d15afc7c9f772447d4ef0a7c7679d1a481",
       "/5.1877190657a6373b7fa5.chunk.js": "40df508f62fd6821985649f4737d6699e1589e00",
       "/6.7b4ecfe0832752dc28b0.chunk.js": "bcb787f987fca7f2794e19f319ab3d0144d46b6e",
-      "/7.15ce2d6b0d326d644756.chunk.js": "bed8b1e3121830eec75b0dc2d521084fc443fd18",
+      "/7.5e73e613d266722d48c0.chunk.js": "27407b456701a89c3cfa5dab18de7fb163a66e4a",
       "/8.9e885bf2cf02ecd64104.chunk.js": "757f00142163077aca1fd1285322a904c89a2023",
       "/9.ca869587780b122eb910.chunk.js": "b660cdc95e1e69d39725527135496424e9243a21",
       "/10.9e11f5f06dbf9a763013.chunk.js": "1617f9a0791416c74d6d6cafbf96ceece5676e3d",
       "/11.02b1429f704cf17fc097.chunk.js": "7632adfb3e3624c79214feebc2f35b940638fdff",
       "/polyfills.56115248da9cb441c2a1.bundle.js": "264f0d899ca4b654a6c5ab653fb53b4b2569f38e",
-      "/main.fcf5fb1c0cf7c6b3c744.bundle.js": "2220bde9f0932ecb79ba46963ac2eaa36f810096",
+      "/main.ffbcd0a552449e068b52.bundle.js": "7effb83fb8e56b6eef5a13eb7623b95040e16197",
       "/scripts.16a93cda8571ff08cb59.bundle.js": "0fd4c484979c534dff7329f0ece7bad642faf7bf",
       "/sw-register.a52508b023e230fd33af.bundle.js": "02a522d055607948f7ce2dbed110fe95da49f67d",
       "/vendor.2ce0efef93ca1b4a1a1f.bundle.js": "1d35acfb5b75aa58ce6b24f7ae24dae3a695f8fe",
-      "/inline.e1c80c269475913277b2.bundle.js": "16c5c14d4b3bd59387df25ba921448effc803691",
+      "/inline.a11e6c6f4b9e066f14e0.bundle.js": "5968628d5725fa93583677332fd231750f4bc30f",
       "/styles.0eb379cdb62c85ff0309.bundle.css": "d52b422479e7ed633dee0b1738cc144b138bb3e3",
       "/assets/animation-w480-h480.json": "ac6c4d6cf1e315e8bda952d0bf68924f361b3afe",
       "/assets/countries.json": "5be427991ec674cc67b240c9922a56519ea2022b",
@@ -143,6 +143,7 @@
       "/assets/img/remove-icon.png": "99b12fa279cb2ab09a65a6cd1c04ad91beb2ba40",
       "/assets/img/right-round.png": "caa29f2d6f70c796c1fe0d3257c44e3a1ebc4ec4",
       "/assets/img/settings.png": "50fd6df222a7e24e730148128f7cc766ecb636b0",
+      "/assets/img/skyline.png": "6638f2e9427c6e878811b9d38ba3fee201fa3254",
       "/assets/img/stamp.png": "609af78c67af9ead61c3d212e1c594f13344b2ac",
       "/assets/img/tick-current.png": "14eb3df63cb2fad7fc5813ce4faa72423c261e3d",
       "/assets/img/tick-selected.png": "0952f3f24f65d8f78de85a2ad8bf9a030189685b",
@@ -165,7 +166,7 @@
       "/assets/js/popper.min.js": "bafe987c18cbe0587de3e6360e7da40a2885614b",
       "/favicon.ico": "7b887be63d0ee2b92273699102231704ac8a2338",
       "/manifest.json": "695498879d027f12fd69e1611511cf77a5fa0bce",
-      "/index.html": "828b1fe4fc643b6c1aa4abeeda3d69469f9d611b"
+      "/index.html": "d38cf537328eaa0254213901ef248cebd988920c"
     },
     "_generatedFromWebpack": true
   }

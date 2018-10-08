@@ -34,6 +34,9 @@ export class ProjectsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.route.params.subscribe( params => {
+      this.parameter.data_collector_id = params.id;
+    });
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.parameter.dash_flag = 2;

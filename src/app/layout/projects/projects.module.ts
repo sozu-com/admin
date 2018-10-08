@@ -15,6 +15,8 @@ import { AuthGuard } from '../../guards/auth.guard';
 const routes: Routes = [
   { path: 'view-projects', component: ProjectsComponent,
     canActivate: [AclUserGuard], data: {roles: ['Building Management', 'can_read', '']}},
+  { path: 'view-projects/:id', component: ProjectsComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Building Management', 'can_read', '']}},
   { path: 'add-project', component: AddProjectComponent,
     canActivate: [AclUserGuard], data: {roles: ['Building Management', 'can_create', '']}},
   { path: 'edit-project/:id', component: AddProjectComponent,

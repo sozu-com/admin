@@ -128,4 +128,5 @@ export interface IProperty {
   count_flag?: any;
   seller_id?: any;
   noResultFound?: any;
+  data_collector_id?: string;
 }
