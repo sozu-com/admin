@@ -227,7 +227,7 @@
                         <div class="form-group-2">
                             <label>Date</label>
                             <div class="form-group">
-                            <input type="date" [(ngModel)]="date" class="form-control" name="date">
+                            <input type="date" min="{{today|date:'yyyy-MM-dd'}}" max='9999-12-31' [(ngModel)]="date" class="form-control" name="date">
                             </div>
                         </div>
                     </div>
@@ -241,7 +241,7 @@
                     </div>
                     <div class="col-2">
                         <div class="form-group-2">
-                            <button type="button" class="btn btn-primary" (click)="addDateTime()">+</button>
+                            <button type="button" class="btn btn-primary green-bg" (click)="addDateTime()">+</button>
                         </div>
                     </div>
                 </div>

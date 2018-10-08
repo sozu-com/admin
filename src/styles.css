@@ -103,6 +103,10 @@ nouislider{ padding-left: 50px; padding-right: 50px;}
 .form-model-newP{
     padding: 20px 15px;
 }
+.green-bg {
+    background-color: #4eb96f;
+    border-color: #4eb96f;
+}
 .green-color {
     color: #00B96F;
 }

@@ -232,7 +232,7 @@
                                   admin?.admin_acl['Closer Management']?.can_read==1" 
                           class="nav-item dropdown" [routerLinkActive]="'active'">
                           <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
-                          <i><img src="assets/img/user.png"></i><span>Manage Inhouse User</span></a>
+                          <i><img src="assets/img/user.png"></i><span>Manage Inhouse Users</span></a>
                           <div  class="dropdown-menu">
                              <ul>
                                 <li *ngIf="admin?.admin_acl['Data Collector Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="view-inhouse-users/data-collectors">Data Collector</a></li>
@@ -278,7 +278,7 @@
                                 admin?.admin_acl['Closer Lead Management']?.can_read==1 || admin?.permissions?.can_csr_closer==1"
                         class="nav-item dropdown" [routerLinkActive]="'active'">
                           <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
-                          <i><img src="assets/img/graph.png"></i><span>Manage lead</span></a>
+                          <i><img src="assets/img/graph.png"></i><span>Manage Leads</span></a>
                           <div class="dropdown-menu">
                              <ul>
                                 <li *ngIf="admin?.admin_acl['Data Collector Lead Management']?.can_read==1 || admin?.permissions?.can_data_collector==1" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="leads/data-collectors">Data Collector</a></li>

@@ -22,6 +22,7 @@ export class NotaryLeadsComponent implements OnInit {
   data = [];
   date: any;
   time: any;
+  today: any;
   constructor(
     private admin: AdminService,
     private constant: Constant,
@@ -29,6 +30,7 @@ export class NotaryLeadsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.today = new Date();
     this.parameter.page = this.constant.p;
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.flag = 2;
