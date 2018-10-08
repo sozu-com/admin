@@ -23,6 +23,17 @@ export class Constant {
         user_buyer: 7,
         user_seller_dev: 8
     };
+
+    public buildingStatus = {
+        1: 'Live',
+        2: 'Pending Data',
+        3: 'Submitted for approval',
+        4: 'Rejected',
+        5: 'Update requested',
+        6: 'Hidden',
+        7: 'Deleted'
+    };
+
     public errorMsg: any = {
         COUNTRY_NAME_REQUIRED : 'Please enter country.',
         STATE_NAME_REQUIRED : 'Please enter state.',
