@@ -29,7 +29,7 @@ export class InterestedPropertyComponent implements OnInit {
 
   public parameter: IProperty = {};
 
-  constructor(public model: DealFinalize, private admin: AdminService, public constant: Constant) { }
+  constructor(public model: DealFinalize, public admin: AdminService, public constant: Constant) { }
 
   ngOnInit() {
     // this.showProperties(this.lead_id);

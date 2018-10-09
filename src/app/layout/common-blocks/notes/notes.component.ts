@@ -23,7 +23,7 @@ export class NotesComponent implements OnInit {
   public parameter: IProperty = {};
   public scrollbarOptions = { axis: 'y', theme: 'dark'};
 
-  constructor(private admin: AdminService, public model: Notes, public constant: Constant) { }
+  constructor(public admin: AdminService, public model: Notes, public constant: Constant) { }
 
   ngOnInit() {
     this.model.id = 0;

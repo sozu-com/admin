@@ -23,7 +23,7 @@ export class NotaryLeadsDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private admin: AdminService,
+    public admin: AdminService,
     private cs: CommonService,
     public constant: Constant,
     public selectedProperties: SelectedProperties,

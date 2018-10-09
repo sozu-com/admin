@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Pipe } from '@angular/core';
-import { Router, ActivatedRoute} from '@angular/router';
+import { ActivatedRoute} from '@angular/router';
 import { AdminService } from '../../../../services/admin.service';
 import { IProperty } from '../../../../common/property';
 import { Constant } from './../../../../common/constants';
@@ -35,22 +35,11 @@ export class CsrBuyerDetailComponent implements OnInit {
     this.route.params.subscribe( params => {
       this.parameter.lead_id = params.id;
         this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
-          // console.log('Lead Details', r);
           this.parameter.lead = r.data.lead;
           this.parameter.favorites = r.data.favorites;
           this.setFillInformationData(r);
           this.parameter.proximity_places = r.data.lead.proximity_places;
           this.parameter.interested_properties = r.data.interested_properties;
-
-          // this.parameter.interested_properties.forEach(element => {
-          //   const test = this.parameter.lead.selected_properties.map(i => i.property_id === element.property.id);
-          //   if (test[0]) {
-          //     element.is_finalised = 1;
-          //   } else {
-          //     element.is_finalised = 0;
-          //   }
-          // });
-
           this.parameter.viewed_properties = r.data.viewed_properties;
           this.parameter.user_id = this.parameter.lead.user ? this.parameter.lead.user.id : 0;
         });
@@ -59,7 +48,6 @@ export class CsrBuyerDetailComponent implements OnInit {
 
   setFillInformationData(r) {
     this.admin.postDataApi('leads/getPrefOptions', {lead_id: this.parameter.lead_id}).subscribe(res => {
-      // console.log('====>', res);
       this.fillInfo.lead_id = this.parameter.lead_id;
       this.fillInfo.proximity_places_array = res.data.proximity_places;
       this.fillInfo.car_types = res.data.car_types;
@@ -96,10 +84,8 @@ export class CsrBuyerDetailComponent implements OnInit {
           }
         });
       });
-      // console.log('leads/getPrefOptions', this.fillInfo);
     });
 
-    // console.log('get====>', r.data.lead.min_price);
     if (r.data.lead.prefs !== null) {
       this.fillInfo.family_size = r.data.lead.prefs.family_size;
       this.fillInfo.pets = r.data.lead.prefs.pets;
@@ -108,7 +94,6 @@ export class CsrBuyerDetailComponent implements OnInit {
       this.fillInfo.max_price = r.data.lead.prefs.max_price ? r.data.lead.prefs.max_price : this.constant.maxValue;
       this.fillInfo.price_range = [this.fillInfo.min_price, this.fillInfo.max_price];
       this.fillInfo.planning_to_buy = new ChatTimePipe().transform(r.data.lead.prefs.planning_to_buy, 'YYYY-MM-DD HH:MM:SS', 4);
-      // console.log('local====>', this.fillInfo);
     } else {
       this.fillInfo.family_size = 1;
       this.fillInfo.pets = '';

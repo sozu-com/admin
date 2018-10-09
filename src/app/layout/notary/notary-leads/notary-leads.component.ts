@@ -24,7 +24,7 @@ export class NotaryLeadsComponent implements OnInit {
   time: any;
   today: any;
   constructor(
-    private admin: AdminService,
+    public admin: AdminService,
     private constant: Constant,
     public availability: AddNotaryAvailabilty
   ) { }

@@ -46,7 +46,7 @@ const routes: Routes = [
   { path: 'inhouse-broker/:id', component: InhouseBrokerDetailComponent,
     canActivate: [AclUserGuard], data: {roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker']}},
   { path: 'chat-with-developer/:id', component: MyChatComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Broker Lead Management', 'can_update', 'can_in_house_broker']}},
+    canActivate: [AclUserGuard], data: {roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker']}},
   { path: 'csr-closers', component: CsrCloserComponent,
     canActivate: [AclUserGuard], data: {roles: ['Closer Lead Management', 'can_read', 'can_csr_closer']}},
   { path: 'csr-closers/:id', component: CsrCloserDetailComponent,

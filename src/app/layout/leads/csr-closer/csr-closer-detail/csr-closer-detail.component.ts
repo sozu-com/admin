@@ -83,7 +83,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private admin: AdminService,
+    public admin: AdminService,
     private cs: CommonService,
     public constant: Constant,
     public selectedProperties: SelectedProperties,
@@ -102,14 +102,10 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     this.route.params.subscribe( params => {
       this.parameter.lead_id = params.id;
       this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
-        // console.log('lead details', r);
         this.getDocumentOptions();
         this.parameter.lead = r.data.lead;
         this.selectedProperties = r.data.lead.selected_properties[0];
         this.parameter.user_id = this.parameter.lead.user.id;
-        // console.log('selected property', this.selectedProperties);
-
-
 
         // chatting
         this.chat_buyer = r.data.lead.user;
@@ -139,7 +135,6 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     this.notaryModel.property_id = property_id;
     this.notaryModel.lead_id = this.parameter.lead_id;
     this.admin.postDataApi('getNoataries', {}).subscribe(r => {
-      // console.log('getNoataries', r);
       this.showNotaries.nativeElement.click();
       this.parameter.items = r.data;
       for (let index = 0; index < this.parameter.items.length; index++) {
@@ -153,9 +148,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   }
 
   assignNoatary(notary) {
-    // console.log('====', notary);
     this.notaryModel.noatary_id = notary.id;
-    // console.log('==', this.notaryModel);
     swal({
       html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to assign this notary?',
       type: 'warning',
@@ -164,12 +157,9 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes'
     }).then((result) => {
-      // alert('csdfsdf');
       if (result.value) {
         this.selectedProperties.noataries = [notary];
-        // this.hideNotaries.nativeElement.click();
         this.admin.postDataApi('leads/assignNoatary', this.notaryModel).subscribe(r => {
-          // console.log('assignBank', r);
           swal('Success', 'Notary is assigned successfully.', 'success');
           this.notaryModel = new NotaryAssigned();
           this.hideNotaries.nativeElement.click();
@@ -192,7 +182,6 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     this.bankModel.property_id = property_id;
     this.bankModel.lead_id = this.parameter.lead_id;
     this.admin.postDataApi('getBanks', {}).subscribe(r => {
-      // console.log('getbanks', r);
       this.showBanks.nativeElement.click();
       this.parameter.banks = r.data;
       for (let index = 0; index < this.parameter.banks.length; index++) {
@@ -217,9 +206,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     }).then((result) => {
       if (result.value) {
         this.selectedProperties.banks = [bank];
-        // this.hideBanks.nativeElement.click();
         this.admin.postDataApi('leads/assignBank', this.bankModel).subscribe(r => {
-          // console.log('assignBank', r);
           swal('Success', 'Bank is assigned successfully.', 'success');
           this.bankModel = new BankAssigned();
           this.hideBanks.nativeElement.click();
@@ -229,7 +216,6 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   }
 
   setValue(i) {
-    // console.log('ss', i, this.selectedProperties.allDocuments);
     this.selectedProperties.allDocuments[i].is_selected =
     this.selectedProperties.allDocuments[i].is_selected && this.selectedProperties.allDocuments[i].is_selected === 1 ? 0 : 1;
   }
@@ -449,7 +435,6 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     model.updated_at = date;
     this.messages.push(model);
 
-
     setTimeout(() => {
       this.scrollToBottom();
     }, 100);
@@ -465,11 +450,16 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
           // find duration of video only of video is in ready state
           if (videoTest.readyState === 4) {
             this.durationInSec = videoTest.duration.toFixed(0);
+            // setTimeout(() => {
+            //   // create canvas at middle of video
+            //   this.newcanvas(videoTest, event.target.files[0], model);
+
+            // }, (this.durationInSec / 2).toFixed(0));
             setTimeout(() => {
               // create canvas at middle of video
               this.newcanvas(videoTest, event.target.files[0], model);
 
-            }, (this.durationInSec / 2).toFixed(0));
+            }, 3000);
             clearInterval(timer);
           }
         }, 1000);
@@ -520,17 +510,21 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   setText() {
     if (!this.textMessage) {
       return false;
+    } else if ((Object.keys(this.admin.admin_acl).length !== 0 && this.admin.admin_acl['Closer Lead Management'].can_update === 0)
+      || this.admin.permissions.can_csr_closer === 0) {
+      return false;
+    } else {
+      const model = new Chat;
+      model.message = this.textMessage;
+      model.message_type = 1;
+      model.conversation_id =  this.conversation_id;
+      model.conversation_user = {admin_id: this.admin_id};
+      model.updated_at = new Date();
+      this.messages.push(model);
+      // model.loading = true;
+      this.textMessage = '';
+      this.sendMessage(model);
     }
-    const model = new Chat;
-    model.message = this.textMessage;
-    model.message_type = 1;
-    model.conversation_id =  this.conversation_id;
-    model.conversation_user = {admin_id: this.admin_id};
-    model.updated_at = new Date();
-    this.messages.push(model);
-    // model.loading = true;
-    this.textMessage = '';
-    this.sendMessage(model);
   }
 
   sendMessage(model) {
@@ -540,9 +534,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         this.scrollToBottom();
       }, 100);
-      // console.log('Appending', model);
       this.admin.postDataApi('conversation/sendMessage', model).subscribe(r => {
-        // console.log('sendMessage', r);
         if (model.loading === true) {
           model.loading = false;
         }
@@ -554,8 +546,6 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
 
   uploadDocument(event) {
     const file = event.target.files[0];
-    // console.log(file);
-
     const input = new FormData();
     input.append('lead_id', this.params.lead_id);
     input.append('property_id', this.params.property_id);

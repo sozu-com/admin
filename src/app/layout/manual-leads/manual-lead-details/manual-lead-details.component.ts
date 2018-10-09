@@ -23,7 +23,7 @@ export class ManualLeadDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private admin: AdminService,
+    public admin: AdminService,
     private router: Router,
     private cs: CommonService,
     public constant: Constant,

@@ -4,21 +4,9 @@ import { AdminService } from './../../../../../services/admin.service';
 import { CommonService } from './../../../../../services/common.service';
 import { IProperty } from './../../../../../common/property';
 import { Constant } from './../../../../../common/constants';
-import { Chat, ConversationUser } from './../../../../../models/chat.model';
+import { Chat } from './../../../../../models/chat.model';
 import * as io from 'socket.io-client';
-import { ChatTimePipe } from '../../../../../pipes/chat-time.pipe';
 declare let swal: any;
-
-
-// import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-// import { UserService } from '../../services/user.service';
-// import { CommonService } from '../../services/common.service';
-// import * as io from 'socket.io-client';
-// import { environment } from '../../../environments/environment';
-// import { Chat } from '../../models/chat.model';
-// import { Constant } from '../../common/constants';
-
-// declare let swal: any;
 
 @Component({
   selector: 'app-my-chat',
@@ -59,7 +47,7 @@ export class MyChatComponent implements OnInit {
   };
   image: any;
   imgArray= [];
-  durationInSec = 0;
+  durationInSec: any = 0;
   showVideo = true;
   video: any;
   videoObj: Object = {
@@ -77,7 +65,7 @@ export class MyChatComponent implements OnInit {
 
   constructor(
     private element: ElementRef,
-    private admin: AdminService,
+    public admin: AdminService,
     private cs: CommonService,
     public constant: Constant,
     private route: ActivatedRoute
@@ -317,8 +305,11 @@ export class MyChatComponent implements OnInit {
             setTimeout(() => {
               // create canvas at middle of video
               this.newcanvas(videoTest, event.target.files[0], model);
-
-            }, (this.durationInSec / 2).toFixed(0));
+            }, 3000);
+            // setTimeout(() => {
+            //   // create canvas at middle of video
+            //   this.newcanvas(videoTest, event.target.files[0], model);
+            // }, (this.durationInSec / 2).toFixed(0));
             clearInterval(timer);
           }
         }, 1000);
@@ -369,18 +360,22 @@ export class MyChatComponent implements OnInit {
   setText() {
     if (!this.textMessage) {
       return false;
+    } else if ((Object.keys(this.admin.admin_acl).length !== 0 && this.admin.admin_acl['Broker Lead Management'].can_update === 0) ||
+    this.admin.permissions.can_in_house_broker === 0) {
+        return false;
+    } else {
+      const model = new Chat;
+      model.message = this.textMessage;
+      model.message_type = 1;
+      model.loading = true;
+      model.conversation_id =  this.conversation_id;
+      model.conversation_user = {admin_id: this.admin_id};
+      const date = new Date();
+      model.updated_at = date;
+      this.messages.push(model);
+      this.textMessage = '';
+      this.sendMessage(model);
     }
-    const model = new Chat;
-    model.message = this.textMessage;
-    model.message_type = 1;
-    model.loading = true;
-    model.conversation_id =  this.conversation_id;
-    model.conversation_user = {admin_id: this.admin_id};
-    const date = new Date();
-    model.updated_at = date;
-    this.messages.push(model);
-    this.textMessage = '';
-    this.sendMessage(model);
   }
 
   sendMessage(model) {

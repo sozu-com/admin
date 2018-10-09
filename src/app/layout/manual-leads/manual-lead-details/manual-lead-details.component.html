@@ -1,21 +1,21 @@
 
 <div class="container-fluid">
-        <div class="white-bg padding15">
-            <div class="row">
-                <div class="col-lg-3 col-md-12 col-sm-6 col-12">
-                    <div class="df-profile">
-                    <a routerLink="/dashboard/manual-leads/view-all"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
-                    <img [src]="parameter?.data?.image" onerror='src="assets/img/default_img.png"' alt="img">
-                    <div class="df-info" *ngIf="parameter?.data">
-                        <p class="p14">{{parameter.data.name}}</p>
-                        <p class="p12">Status: {{parameter?.data?.status.name}}</p>
-                    </div>
-                    </div>
+    <div class="white-bg padding15">
+        <div class="row">
+            <div class="col-lg-3 col-md-12 col-sm-6 col-12">
+                <div class="df-profile">
+                <a routerLink="/dashboard/manual-leads/view-all"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+                <img [src]="parameter?.data?.image" onerror='src="assets/img/default_img.png"' alt="img">
+                <div class="df-info" *ngIf="parameter?.data">
+                    <p class="p14">{{parameter.data.name}}</p>
+                    <p class="p12">Status: {{parameter?.data?.status.name}}</p>
+                </div>
                 </div>
             </div>
         </div>
+    </div>
         
-        <div class="spacer30"></div>
+    <div class="spacer30"></div>
         <div class="row">
             <div class="col-lg-6 col-md-12 col-sm-12 col-12">
                 <div class="white-bg padding30">
@@ -72,7 +72,11 @@
                             <p class="p16 marginB0">Write a Note</p>
                         </div>
                         <div class="col-6 text-right">
-                        <a class="add" href="javascript://" data-toggle="modal" data-target="#addNote" #modalOpen>Add</a>
+                            <!-- add note -->
+                        <a *ngIf="admin?.admin_acl['Manual Leads']?.can_update==1; else noAddPermission" class="add" href="javascript://" data-toggle="modal" data-target="#addNote" #modalOpen>Add</a>
+                        <ng-template #noAddPermission>
+                            <a class="add" href="javascript://">Add</a>
+                        </ng-template>
                         </div>
                     </div>
                 </div>
@@ -84,7 +88,11 @@
                         <div class="circle">
                         <span></span>
                         </div>
-                        <a class="delete" href="javascript://" (click)="deleteLeadPopup(item.id, i)">Delete</a>
+                        <!-- delete note -->
+                        <a *ngIf="admin?.admin_acl['Manual Leads']?.can_update==1; else noDeletePermission" class="delete" href="javascript://" (click)="deleteLeadPopup(item.id, i)">Delete</a>
+                        <ng-template #noDeletePermission>
+                            <a class="delete" href="javascript://">Delete</a>
+                        </ng-template>
                         <p class="time">{{item.updated_at  | chatTime: 'YYYY-MM-DD H:m:s': 2}}</p>
                         <pre class="p13" *ngIf="!item.show">{{item.note.slice(0, 90)}} <span class="read-more" *ngIf="item.note.length>100" (click)="item.show=true">Read more</span></pre>
                         <pre class="p13" *ngIf="item.show">{{item.note}}</pre>

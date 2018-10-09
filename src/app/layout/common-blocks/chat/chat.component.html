@@ -79,9 +79,19 @@
 
   <div class="chat-text">
     <div class="dropdown attach-items">
-      <a href="javascript://" class="dropdown-toggle" data-toggle="dropdown" #optionsButton>
+      <a *ngIf="(sent_as==constant.userType.csr_buyer && (admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1)) ||
+      (sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==1 || admin?.permissions?.can_in_house_broker==1)) ||
+      (sent_as==constant.userType.notary && (admin?.admin_acl['Notary Lead Management']?.can_update==1 || admin?.permissions?.can_noatary==1)) ||
+      (sent_as==constant.userType.bank && (admin?.admin_acl['Bank Lead Management']?.can_update==1 || admin?.permissions?.can_bank==1)); else noPermissiom" href="javascript://" class="dropdown-toggle" data-toggle="dropdown" #optionsButton>
      <i class="fa fa-paperclip" aria-hidden="true"></i>
       </a>
+
+      <ng-template #noPermissiom>
+        <a>
+          <i class="fa fa-paperclip" aria-hidden="true"></i>
+        </a>
+      </ng-template>
+
       <div class="dropdown-menu">
         <div class="dropdown-item">
           <input type="file" name="image" accept="image/*" (change)="onSelectFile('image', $event)">
@@ -133,9 +143,9 @@
     <video style="width: 100%; height: 100%;" src="{{videoSrc}}" class="video55" autoplay type="video/mp4" controls></video>
     <canvas style="display: none;" width="800" height="600" id="canvas"></canvas>
 
-    <button [disabled]="(parameter.sent_as==constant.userType.csr_buyer && (admin?.admin_acl['Buyer Lead Management']?.can_update==0 || admin?.permissions?.can_csr_buyer==0)) ||
-    parameter.sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==0 || admin?.permissions?.can_in_house_broker==0) ||
-    parameter.sent_as==constant.userType.notary && (admin?.admin_acl['Notary Lead Management']?.can_update==0 || admin?.permissions?.can_noatary==0) ||
-    parameter.sent_as==constant.userType.bank && (admin?.admin_acl['Bank Lead Management']?.can_update==0 || admin?.permissions?.can_bank==0)" (click)="setText()" class="btn">Send</button>
+    <button [disabled]="(sent_as==constant.userType.csr_buyer && (admin?.admin_acl['Buyer Lead Management']?.can_update==0 || admin?.permissions?.can_csr_buyer==0)) ||
+    (sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==0 || admin?.permissions?.can_in_house_broker==0)) ||
+    (sent_as==constant.userType.notary && (admin?.admin_acl['Notary Lead Management']?.can_update==0 || admin?.permissions?.can_noatary==0)) ||
+    (sent_as==constant.userType.bank && (admin?.admin_acl['Bank Lead Management']?.can_update==0 || admin?.permissions?.can_bank==0))" (click)="setText()" class="btn">Send</button>
  </div>
 </div>

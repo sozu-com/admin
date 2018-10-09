@@ -270,14 +270,17 @@ export class ChatComponent implements OnInit {
     if (!this.textMessage) {
       return false;
     } else if ((this.sent_as === this.constant.userType.csr_buyer &&
-        ((this.admin.admin_acl.length !== 0 && this.admin.admin_acl['Buyer Lead Management'].can_update === 0)
-        || this.admin.permissions.can_csr_buyer === 1)) ||
+        ((Object.keys(this.admin.admin_acl).length !== 0 && this.admin.admin_acl['Buyer Lead Management'].can_update === 0)
+        || this.admin.permissions.can_csr_buyer === 0)) ||
       this.sent_as === this.constant.userType.inhouse_broker &&
-      (this.admin.admin_acl['Broker Lead Management'].can_update === 0 || this.admin.permissions.can_in_house_broker === 0) ||
+      ((Object.keys(this.admin.admin_acl).length !== 0 && this.admin.admin_acl['Broker Lead Management'].can_update === 0) ||
+      this.admin.permissions.can_in_house_broker === 0) ||
       this.sent_as === this.constant.userType.notary &&
-      (this.admin.admin_acl['Notary Lead Management'].can_update === 0 || this.admin.permissions.can_noatary === 0) ||
+      ((Object.keys(this.admin.admin_acl).length !== 0 && this.admin.admin_acl['Notary Lead Management'].can_update === 0) ||
+      this.admin.permissions.can_noatary === 0) ||
       this.sent_as === this.constant.userType.bank &&
-      (this.admin.admin_acl['Bank Lead Management'].can_update === 0 || this.admin.permissions.can_bank === 0)) {
+      ((Object.keys(this.admin.admin_acl).length !== 0 && this.admin.admin_acl['Bank Lead Management'].can_update === 0)
+      || this.admin.permissions.can_bank === 0)) {
         return false;
     } else {
       const model = new Chat;

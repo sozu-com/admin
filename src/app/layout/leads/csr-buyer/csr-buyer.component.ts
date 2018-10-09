@@ -1,97 +1,3 @@
-// import { Component, OnInit } from '@angular/core';
-// import { AdminService } from '../../../services/admin.service';
-// import { IProperty } from '../../../common/property';
-// import { Constant } from './../../../common/constants';
-// declare let swal: any;
-
-// @Component({
-//   selector: 'app-csr-buyer',
-//   templateUrl: './csr-buyer.component.html',
-//   styleUrls: ['./csr-buyer.component.css'],
-//   providers: [Constant]
-// })
-// export class CsrBuyerComponent implements OnInit {
-
-//   public parameter: IProperty = {};
-//   items = [];
-
-//   constructor(
-//     private admin: AdminService,
-//     private constant: Constant
-//   ) { }
-
-//   ngOnInit() {
-//     this.parameter.itemsPerPage = this.constant.itemsPerPage;
-//     this.parameter.page = this.constant.p;
-//     this.parameter.flag = 2;
-//     this.getListing();
-//   }
-
-//   changeFlag(flag) {
-//     this.parameter.flag = flag;
-//     this.getListing();
-//   }
-
-//   changeFilter(key, value) {
-//     this.parameter[key] = value;
-//     this.getListing();
-//   }
-
-//   getPage(page) {
-//     this.parameter.page = page;
-//     this.getListing();
-//   }
-
-//   getListing() {
-//     this.parameter.url = 'leads/csr-buyer';
-//     this.admin.postDataApi(this.parameter.url, this.parameter)
-//       .subscribe(
-//         success => {
-//           this.items = success.data;
-//           this.parameter.total = success.total_count;
-//         });
-//   }
-
-
-//   blockUnblockPopup(index, id, flag, user_type) {
-//     this.parameter.title = this.constant.title.ARE_YOU_SURE;
-//     switch (flag) {
-//       case 0:
-//         this.parameter.text = this.constant.title.UNBLOCK_LEAD;
-//         this.parameter.successText = this.constant.successMsg.UNBLOCKED_SUCCESSFULLY;
-//         break;
-//       case 1:
-//         this.parameter.text = this.constant.title.BLOCK_LEAD;
-//         this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
-//         break;
-//     }
-
-//     swal({
-//       html: this.parameter.title + '<br>' + this.parameter.text,
-//       type: 'warning',
-//       showCancelButton: true,
-//       confirmButtonColor: '#3085d6',
-//       cancelButtonColor: '#d33',
-//       confirmButtonText: 'Yes!'
-//     }).then((result) => {
-//       if (result.value) {
-//         this.block(index, id, flag, user_type);
-//       }
-//     });
-//   }
-
-
-//   block(index, id, flag, user_type) {
-//     this.admin.postDataApi('leads/blockLead', {lead_id: id, flag: flag})
-//       .subscribe(
-//         success => {
-//           swal('Success', this.parameter.successText, 'success');
-//           this.items[index].is_blocked = flag;
-//         });
-//   }
-// }
-
-
 
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../../services/admin.service';
@@ -124,7 +30,7 @@ export class CsrBuyerComponent implements OnInit {
   chartView: any= [];
 
   constructor(
-    private admin: AdminService,
+    public admin: AdminService,
     private constant: Constant
   ) { }
 
@@ -143,13 +49,11 @@ export class CsrBuyerComponent implements OnInit {
 
   getCountries() {
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
-      console.log('Country', r);
       this.location.countries = r['data'];
     });
   }
 
   onCountryChange(id) {
-    console.log(id);
     this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
     if (!id || id === 0) {
@@ -162,7 +66,6 @@ export class CsrBuyerComponent implements OnInit {
   }
 
   onStateChange(id) {
-    console.log(id);
     this.location.localities = []; this.parameter.locality_id = '0';
     if (!id || id === 0) {
       this.parameter.city_id = '0';
@@ -174,7 +77,6 @@ export class CsrBuyerComponent implements OnInit {
   }
 
   onCityChange(id) {
-    console.log(id);
     if (!id || id === 0) {
       this.parameter.locality_id = '0';
       return false;
@@ -185,7 +87,6 @@ export class CsrBuyerComponent implements OnInit {
   }
 
   onLocalityChange(id) {
-    console.log(id);
     if (!id || id === 0) {
       return false;
     }
@@ -234,7 +135,6 @@ export class CsrBuyerComponent implements OnInit {
     }
     this.admin.postDataApi('getCsrBuyers', input).subscribe(
       success => {
-        console.log(success.data);
         this.users = success.data;
       });
   }
@@ -269,7 +169,6 @@ export class CsrBuyerComponent implements OnInit {
     }
 
     this.admin.postDataApi('leads/csr-buyer-dash-count', input).subscribe(r => {
-      console.log('dash', r);
       this.dash = r.data;
 
       this.chartView = [
@@ -300,7 +199,6 @@ export class CsrBuyerComponent implements OnInit {
     success => {
       this.items = success.data;
       if (this.items.length <= 0) { this.parameter.noResultFound = true; }
-      console.log(success);
       this.parameter.total = success.total_count;
     });
   }
@@ -320,5 +218,4 @@ export class CsrBuyerComponent implements OnInit {
     }
     this.getListing();
   }
-
 }

@@ -1,68 +1,8 @@
-// import { Component, OnInit } from '@angular/core';
-// import { AdminService } from '../../../services/admin.service';
-// import { IProperty } from '../../../common/property';
-// import { Constant } from './../../../common/constants';
-// import { Users } from '../../../models/users.model';
-// declare let swal: any;
-
-// @Component({
-//   selector: 'app-csr-closer',
-//   templateUrl: './csr-closer.component.html',
-//   styleUrls: ['./csr-closer.component.css'],
-//   providers: [Constant]
-// })
-// export class CsrCloserComponent implements OnInit {
-
-//   public parameter: IProperty = {};
-//   items: Array<Users> = [];
-
-//   constructor(
-//     private admin: AdminService,
-//     private constant: Constant
-//   ) { }
-
-//   ngOnInit() {
-//     this.parameter.page = this.constant.p;
-//     this.parameter.itemsPerPage = this.constant.itemsPerPage;
-//     this.parameter.flag = 2;
-//     this.getListing();
-//   }
-
-//   getPage(page) {
-//     this.parameter.page = page;
-//     this.getListing();
-//   }
-
-//   changeFlag(flag) {
-//     this.parameter.flag = flag;
-//     this.getListing();
-//   }
-
-//   changeFilter(key, value) {
-//     this.parameter[key] = value;
-//     this.getListing();
-//   }
-
-//   getListing() {
-//     this.parameter.url = 'leads/csr-closer';
-//     this.admin.postDataApi(this.parameter.url, this.parameter)
-//       .subscribe(
-//         success => {
-//           this.items = success.data;
-//           this.parameter.total = success.total_count;
-//         }
-//       );
-//   }
-
-// }
-
-
 
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../../services/admin.service';
 import { IProperty } from '../../../common/property';
 import { Constant } from './../../../common/constants';
-import { Router } from '@angular/router';
 import { Users } from '../../../models/users.model';
 declare let swal: any;
 
@@ -92,7 +32,7 @@ export class CsrCloserComponent implements OnInit {
   chartView = [];
 
   constructor(
-    private admin: AdminService,
+    public admin: AdminService,
     private constant: Constant
   ) { }
 
@@ -111,13 +51,11 @@ export class CsrCloserComponent implements OnInit {
 
   getCountries() {
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
-      console.log('Country', r);
       this.location.countries = r['data'];
     });
   }
 
   onCountryChange(id) {
-    console.log(id);
     this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
     if (!id || id === 0) {
@@ -130,7 +68,6 @@ export class CsrCloserComponent implements OnInit {
   }
 
   onStateChange(id) {
-    console.log(id);
     this.location.localities = []; this.parameter.locality_id = '0';
     if (!id || id === 0) {
       this.parameter.city_id = '0';
@@ -142,7 +79,6 @@ export class CsrCloserComponent implements OnInit {
   }
 
   onCityChange(id) {
-    console.log(id);
     if (!id || id === 0) {
       this.parameter.locality_id = '0';
       return false;
@@ -153,7 +89,6 @@ export class CsrCloserComponent implements OnInit {
   }
 
   onLocalityChange(id) {
-    console.log(id);
     if (!id || id === 0) {
       return false;
     }
@@ -202,7 +137,6 @@ export class CsrCloserComponent implements OnInit {
     }
     this.admin.postDataApi('getCsrClosers', input).subscribe(
       success => {
-        console.log(success.data);
         this.users = success.data;
       });
   }
@@ -237,7 +171,6 @@ export class CsrCloserComponent implements OnInit {
     }
 
     this.admin.postDataApi('leads/csr-closer-dash-count', input).subscribe(r => {
-      console.log('dash', r);
       this.dash = r.data;
       this.chartView = [
         {
@@ -272,7 +205,6 @@ export class CsrCloserComponent implements OnInit {
     success => {
       this.items = success.data;
       if (this.items.length <= 0) { this.parameter.noResultFound = true; }
-      console.log(success);
       this.parameter.total = success.total_count;
     });
   }

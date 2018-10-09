@@ -55,14 +55,18 @@ export class AppHeaderComponent {
 
 
   logout() {
-    swal('Success', 'Logout successfully.', 'success');
-    localStorage.removeItem('token');
-    localStorage.removeItem('isLoggedin');
-    localStorage.removeItem('permissions');
-    localStorage.removeItem('admin_acl');
-    this.admin.admin_acl = {};
-    this.admin.admin_acl_array = [];
-    this.admin.permissions = {};
-    this.router.navigate(['']);
+    this.admin.postDataApi('logout', {}).subscribe(r => {
+      if (r) {
+        swal('Success', 'Logout successfully.', 'success');
+        localStorage.removeItem('token');
+        localStorage.removeItem('isLoggedin');
+        localStorage.removeItem('permissions');
+        localStorage.removeItem('admin_acl');
+        this.admin.admin_acl = {};
+        this.admin.admin_acl_array = [];
+        this.admin.permissions = {};
+        this.router.navigate(['']);
+      }
+    });
   }
 }

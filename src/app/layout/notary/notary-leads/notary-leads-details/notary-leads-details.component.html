@@ -122,7 +122,10 @@
                         <h4>Documents</h4>
                         </div>
                         <div class="col-3">
-                        <a class="view pull-right" href="javascript://" (click)="updateDocumentChecklist()">Save</a>
+                            <a *ngIf="(admin?.admin_acl['Notary Lead Management']?.can_update==1 || admin?.permissions?.can_noatary==1); else noDocumentPermission" class="view pull-right" href="javascript://" (click)="updateDocumentChecklist()">Save</a>
+                            <ng-template #noDocumentPermission>
+                                <a class="view pull-right" href="javascript://">Save</a>
+                            </ng-template>
                         </div>
                     </div>
                     <table class="table">

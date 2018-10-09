@@ -1,84 +1,3 @@
-// import { Component, OnInit } from '@angular/core';
-// import { AdminService } from '../../../services/admin.service';
-// import { IProperty } from '../../../common/property';
-// import { Constant } from './../../../common/constants';
-// import { Router } from '@angular/router';
-// import { Users } from '../../../models/users.model';
-// declare let swal: any;
-
-// @Component({
-//   selector: 'app-inhouse-broker',
-//   templateUrl: './inhouse-broker.component.html',
-//   styleUrls: ['./inhouse-broker.component.css'],
-//   providers: [Constant]
-// })
-// export class InhouseBrokerComponent implements OnInit {
-
-//   public parameter: IProperty = {};
-//   items = [];
-
-//   constructor(
-//     private admin: AdminService,
-//     private router: Router,
-//     private constant: Constant
-//   ) { }
-
-//   ngOnInit() {
-//     this.parameter.itemsPerPage = this.constant.itemsPerPage;
-//     this.parameter.page = this.constant.p;
-//     this.parameter.flag = 2;
-//     this.getListing();
-//   }
-
-//   changeFlag(flag) {
-//     this.parameter.flag = flag;
-//     this.getListing();
-//   }
-
-//   changeFilter(key, value) {
-//     this.parameter[key] = value;
-//     this.getListing();
-//   }
-
-//   getPage(page) {
-//     this.parameter.page = page;
-//     this.getListing();
-//   }
-
-//   getListing() {
-//     this.admin.postDataApi('leads/in-house-broker', this.parameter)
-//       .subscribe(
-//         success => {
-//           this.items = success.data;
-//           this.parameter.total = success.total_count;
-//         }
-//       );
-//   }
-
-//   updateLeadType(sale_rent, lead_id, index) {
-//     this.parameter.url = 'leads/updateLeadType';
-//     swal({
-//       html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to change availability for this property?',
-//       type: 'warning',
-//       showCancelButton: true,
-//       confirmButtonColor: '#3085d6',
-//       cancelButtonColor: '#d33',
-//       confirmButtonText: 'Yes'
-//     }).then((result) => {
-//       if (result.value) {
-//         this.admin.postDataApi(this.parameter.url, {sale_rent: sale_rent, lead_id: lead_id})
-//           .subscribe(
-//             success => {
-//               this.items[index].sale_rent = sale_rent;
-//               swal('Success', 'Availability for this property changed successfully.', 'success');
-//             });
-//       }
-//     });
-//   }
-// }
-
-
-
 
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../../services/admin.service';
@@ -111,7 +30,7 @@ export class InhouseBrokerComponent implements OnInit {
   chartView: any= [];
 
   constructor(
-    private admin: AdminService,
+    public admin: AdminService,
     private constant: Constant
   ) { }
 
@@ -130,13 +49,11 @@ export class InhouseBrokerComponent implements OnInit {
 
   getCountries() {
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
-      console.log('Country', r);
       this.location.countries = r['data'];
     });
   }
 
   onCountryChange(id) {
-    console.log(id);
     this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
     if (!id || id === 0) {
@@ -149,7 +66,6 @@ export class InhouseBrokerComponent implements OnInit {
   }
 
   onStateChange(id) {
-    console.log(id);
     this.location.localities = []; this.parameter.locality_id = '0';
     if (!id || id === 0) {
       this.parameter.city_id = '0';
@@ -161,7 +77,6 @@ export class InhouseBrokerComponent implements OnInit {
   }
 
   onCityChange(id) {
-    console.log(id);
     if (!id || id === 0) {
       this.parameter.locality_id = '0';
       return false;
@@ -172,7 +87,6 @@ export class InhouseBrokerComponent implements OnInit {
   }
 
   onLocalityChange(id) {
-    console.log(id);
     if (!id || id === 0) {
       return false;
     }
@@ -256,7 +170,6 @@ export class InhouseBrokerComponent implements OnInit {
     }
 
     this.admin.postDataApi('leads/in-house-broker-dash-count', input).subscribe(r => {
-      console.log('dash', r);
       this.dash = r.data;
       this.chartView = [
         {
@@ -291,11 +204,9 @@ export class InhouseBrokerComponent implements OnInit {
     success => {
       this.items = success.data;
       if (this.items.length <= 0) {this.parameter.noResultFound = true; }
-      console.log(success);
       this.parameter.total = success.total_count;
     });
   }
-
 
   getPage(page) {
     this.parameter.page = page;

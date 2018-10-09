@@ -8,7 +8,6 @@ import { DealFinalize } from './../../../../models/leads.model';
 import { FillInformation } from './../../../../models/leads.model';
 import { ChatTimePipe } from './../../../../pipes/chat-time.pipe';
 declare let swal: any;
-// const SERVER_URL = 'http://kanguroo.com.mx/api:8080';
 
 @Component({
   selector: 'app-inhouse-broker-detail',
@@ -18,13 +17,15 @@ declare let swal: any;
 })
 
 export class InhouseBrokerDetailComponent implements OnInit {
+
   @ViewChild('showPropertyModal') showPropertyModal: ElementRef;
   public parameter: IProperty = {};
   public selected_prop_ids = [];
   is_deal_finalised: boolean;
+
   constructor(
     private route: ActivatedRoute,
-    private admin: AdminService,
+    public admin: AdminService,
     public constant: Constant,
     public fillInfo: FillInformation
   ) {
@@ -38,7 +39,6 @@ export class InhouseBrokerDetailComponent implements OnInit {
     this.route.params.subscribe( params => {
       this.parameter.lead_id = params.id;
       this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
-        // console.log('details', r);
         this.parameter.lead = r.data.lead;
         this.setFillInformationData(r);
         this.parameter.favorites = r.data.favorites;
@@ -66,12 +66,8 @@ export class InhouseBrokerDetailComponent implements OnInit {
           if (p.id === element.id) {
             element.is_selected = 1;
           }
-          // element.is_selected = p.id === element.id ? 1 : 0;
-          // console.log('====', element.is_selected, element.id);
         });
       });
-// console.log('fillInfo', this.fillInfo);
-// console.log('r.data.lead.prefs-->', r.data.lead.prefs);
       this.fillInfo.car_types.forEach(element => {
         element.is_selected = (r.data.lead.prefs != null) &&
         r.data.lead.prefs.car_type_id && (r.data.lead.prefs.car_type_id === element.id) ? 1 : 0;
@@ -82,7 +78,6 @@ export class InhouseBrokerDetailComponent implements OnInit {
           if (pt.id === element.id) {
             element.is_selected = 1;
           }
-          // element.is_selected = pt.id === element.id ? 1 : 0;
         });
       });
 
@@ -91,10 +86,8 @@ export class InhouseBrokerDetailComponent implements OnInit {
           if (c.id === element.id) {
             element.is_selected = 1;
           }
-          // element.is_selected = c.id === element.id ? 1 : 0;
         });
       });
-      // console.log('leads/getPrefOptions', this.fillInfo);
     });
 
     if (r.data.lead.prefs !== null) {

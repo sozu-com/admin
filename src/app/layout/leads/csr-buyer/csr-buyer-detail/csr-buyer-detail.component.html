@@ -45,7 +45,7 @@
         <div class="col-lg-4 col-md-12 col-sm-12 col-12" *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1">
            <div class="form-group d-flex marginT10 float-right right-side">
              <div class="dropdown btn-cont">
-              <a *ngIf="(!parameter.lead?.broker && parameter.lead?.user && admin?.admin_acl['Buyer Lead Management']?.can_update==1) || admin?.permissions?.can_csr_buyer==1" (click)="assignToBroker()" class="btn btn-primary" href="javascript://">Assign to broker</a>
+              <a *ngIf="!parameter.lead?.broker && parameter.lead?.user && (admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1)" (click)="assignToBroker()" class="btn btn-primary" href="javascript://">Assign to broker</a>
               <!-- <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                  Action
                </button>
