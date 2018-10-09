@@ -18,12 +18,12 @@ export class FillInformationComponent implements OnInit {
 
   @Input('lead_id') lead_id;
   @Input('fillInfo') fillInfo;
-
+  @Input('sent_as') sent_as;
   today: any;
   public parameter: IProperty = {};
   public scrollbarOptions = { axis: 'y', theme: 'dark', scrollbarPosition: 'inside'};
 
-  constructor(private admin: AdminService, public constant: Constant, public model: FillInformation) { }
+  constructor(public admin: AdminService, public constant: Constant, public model: FillInformation) { }
 
   ngOnInit() {
     this.today = new Date();

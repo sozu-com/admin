@@ -38,7 +38,7 @@ export class ChatComponent implements OnInit {
 
   constructor(
     private element: ElementRef,
-    private admin: AdminService,
+    public admin: AdminService,
     private cs: CommonService,
     public model: Chat,
     public constant: Constant
@@ -266,20 +266,32 @@ export class ChatComponent implements OnInit {
   }
 
   setText() {
+    console.log('====', this.sent_as, this.admin.admin_acl);
     if (!this.textMessage) {
       return false;
+    } else if ((this.sent_as === this.constant.userType.csr_buyer &&
+        ((this.admin.admin_acl.length !== 0 && this.admin.admin_acl['Buyer Lead Management'].can_update === 0)
+        || this.admin.permissions.can_csr_buyer === 1)) ||
+      this.sent_as === this.constant.userType.inhouse_broker &&
+      (this.admin.admin_acl['Broker Lead Management'].can_update === 0 || this.admin.permissions.can_in_house_broker === 0) ||
+      this.sent_as === this.constant.userType.notary &&
+      (this.admin.admin_acl['Notary Lead Management'].can_update === 0 || this.admin.permissions.can_noatary === 0) ||
+      this.sent_as === this.constant.userType.bank &&
+      (this.admin.admin_acl['Bank Lead Management'].can_update === 0 || this.admin.permissions.can_bank === 0)) {
+        return false;
+    } else {
+      const model = new Chat;
+      model.message = this.textMessage;
+      model.message_type = 1;
+      model.loading = true;
+      model.conversation_user = {admin_id: this.admin_id};
+      const date = new Date();
+      model.updated_at = date;
+      model.admin_id = this.admin_id;
+      this.parameter.messages.push(model);
+      this.textMessage = '';
+      this.sendMessage(model);
     }
-    const model = new Chat;
-    model.message = this.textMessage;
-    model.message_type = 1;
-    model.loading = true;
-    model.conversation_user = {admin_id: this.admin_id};
-    const date = new Date();
-    model.updated_at = date;
-    model.admin_id = this.admin_id;
-    this.parameter.messages.push(model);
-    this.textMessage = '';
-    this.sendMessage(model);
   }
 
   sendMessage(model) {

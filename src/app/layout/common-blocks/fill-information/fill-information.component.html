@@ -100,7 +100,13 @@
 
     <div class="btn-cont text-right">
         <!-- <button type="submit" [disabled]="addForm.invalid" class="btn btn-primary">Save</button> -->
-        <button type="submit" class="btn btn-primary">Save</button>
+        <!-- *ngIf="(!parameter.lead?.broker && parameter.lead?.user && admin?.admin_acl['Buyer Lead Management']?.can_update==1) || admin?.permissions?.can_csr_buyer==1" -->
+        <!-- admin?.admin_acl['Buyer Management']?.can_create==1 && parameter.userType=='csr-buyers' ||
+                admin?.admin_acl['Broker Management']?.can_create==1 && parameter.userType=='inhouse-broker' ||
+                admin?.admin_acl['Closer Management']?.can_create==1 && parameter.userType=='csr-closers'" -->
+
+        <button [disabled]="(parameter.sent_as==constant.userType.csr_buyer && (admin?.admin_acl['Buyer Lead Management']?.can_update==0 || admin?.permissions?.can_csr_buyer==0)) ||
+                            parameter.sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==0 || admin?.permissions?.can_in_house_broker==0)" type="submit" class="btn btn-primary">Save</button>
     </div>
     </form>
 </div>

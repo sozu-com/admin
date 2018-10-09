@@ -78,6 +78,8 @@ export class AddPropertyComponent implements OnInit {
     private http:HttpInterceptor) { }
 
   ngOnInit() {
+    this.parameter.amenities = [];
+    this.parameter.banks = [];
     this.http.loader.next({value:true});
     this.details = new PropertyDetails;
     
@@ -192,11 +194,16 @@ export class AddPropertyComponent implements OnInit {
     if (this.building.id === '') {
       this.showSearch = true;
     }
-    this.amenityList = data.amenities;
     for (let index = 0; index < data.amenities.length; index++) {
-      const element = data.amenities[index];
-      this.model.amenities[index] = data.amenities[index].id;
+      console.log(data.amenities[index]);
+      this.addAmenity(data.amenities[index]);
     }
+
+    for (let index = 0; index < data.banks.length; index++) {
+      console.log(data.banks[index]);
+      this.addBank(data.banks[index]);
+    }
+
 
     for (let index = 0; index < this.testMarital.length; index++) {
       // console.log('data.marital_status', this.testMarital, data.marital_statuses);
@@ -367,14 +374,18 @@ export class AddPropertyComponent implements OnInit {
       );
   }
 
-  addAmenity(a,i) {
-    const tt = this.getSelectedAmenityByName(a);
-    this.parameter.amenities.splice(i,1);
-    if (tt) {
-      this.amenityList.push(tt);
-      this.model.amenities.push(tt.id);
+  addAmenity(amen) {
+    if(!amen){ 
+      return false;
     }
-    this.amen = '';
+    let index = this.amenityList.findIndex(x=>x.id==amen.id);
+    if(index < 0 ){
+      this.model.amenities.push(amen.id);
+      this.amenityList.push(amen);
+
+      let removeIndex = this.parameter.amenities.findIndex(x=>x.id==amen.id);
+      this.parameter.amenities.splice(removeIndex,1);
+    }
   }
 
   getSelectedAmenityByName(selectedName: string) {
@@ -419,16 +430,24 @@ export class AddPropertyComponent implements OnInit {
         success => { this.parameter.paymentStatuses = success['data']; }
       );
   }
-
-  addBank(a) {
-    const tt = this.getSelectedBankByName(a);
-    if (tt) {
-      this.bankList.push(tt);
-      this.model.banks.push(tt.id);
+  addBank(bank) {
+    if(!bank){ 
+      return false;
     }
-    this.bank = '';
+    let index = this.bankList.findIndex(x=>x.id==bank.id);
+    if(index < 0 ){
+      this.model.banks.push(bank.id);
+      this.bankList.push(bank);
+      let removeIndex = this.parameter.banks.findIndex(x=>x.id==bank.id);
+      this.parameter.banks.splice(removeIndex,1);
+    }
   }
 
+removeBank(bank,index) {
+    this.parameter.banks.push(bank);
+    this.model.banks.splice(index, 1);
+    this.bankList.splice(index, 1);
+  }
 
   addCarpetArea(){
     if (!this.newcarpet_area.area || !this.newcarpet_area.price) {
@@ -457,10 +476,6 @@ export class AddPropertyComponent implements OnInit {
     }
   }
 
-  removeBank(index) {
-    this.model.banks.splice(index, 1);
-    this.bankList.splice(index, 1);
-  }
 
   searchBuilding(keyword) {
     if(!keyword) {

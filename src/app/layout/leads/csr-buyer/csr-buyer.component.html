@@ -522,7 +522,8 @@
                             <td class="text-left" *ngIf="!item.admin.name">Not Assigned</td>
                             <td class="text-left" *ngIf="item.sale_rent">{{item.sale_rent==1 ? 'Buy' : 'Rent'}}</td>
                             <td>
-                            <button title="View Details" routerLink="/dashboard/leads/csr-buyers/{{item.id}}" [disabled]="admin?.admin_acl['Buyer Lead Management']?.can_read==0" class="action-icon"><img src="./../../../../assets/img/edit.png" alt="img"></button>
+                                    <!-- [disabled]="admin?.admin_acl['Buyer Lead Management']?.can_read==0 ||  || admin?.permissions?.can_csr_buyer==1" -->
+                            <button title="View Details" routerLink="/dashboard/leads/csr-buyers/{{item.id}}" class="action-icon"><img src="./../../../../assets/img/edit.png" alt="img"></button>
                             </td>
                         </tr>
                     </table>

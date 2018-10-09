@@ -513,9 +513,9 @@
                 <option *ngFor="let amenity of parameter.amenities" value="{{amenity.name_en}}">
               </datalist> -->
 
-              <select style="max-width:50%" title="Choose Amenity" class="form-control" name="amen" [(ngModel)]="amen" (change)="addAmenity(amen)">
-                <option value="" disabled>Select Amenity</option>
-                <option *ngFor="let amenity of parameter.amenities; let i=index" value="{{amenity.name_en}}">{{amenity.name_en}}</option>
+              <select style="max-width:50%" title="Choose Amenity" class="form-control" name="amen" [(ngModel)]="amen" (click)="addAmenity(amen)">
+                <option value="">Select Amenity</option>
+                <option *ngFor="let amenity of parameter.amenities; let i=index" [ngValue]="amenity">{{amenity.name_en}}</option>
               </select>
               <!-- <button type="button" class="add-btn" (click)="addAmenity(amen,i)"><img src="assets/img/add.png" alt="img"></button> -->
 
@@ -544,18 +544,17 @@
                 <option *ngFor="let tBank of parameter.banks" value="{{tBank.name}}">
               </datalist> -->
               <select style="max-width:50%" title="Choose Bank" class="form-control" name="bank" [(ngModel)]="bank" (change)="addBank(bank)">
-                <option value="" disabled>Select Bank</option>
-                <option *ngFor="let tBank of parameter.banks" value="{{tBank.name}}">{{tBank.name}}</option>
+                <option value="">Select Bank</option>
+                <option *ngFor="let tBank of parameter.banks" [ngValue]="tBank">{{tBank.name}}</option>
               </select>
               <!-- <button type="button" class="add-btn" (click)="addBank(bank)"><img src="assets/img/add.png" alt="img"></button> -->
 
               <div class="list-group-items" *ngIf="bankList">
                 <ul>
                   <li *ngFor="let b of bankList; let bIndex=index;">
-                    <a href="javascript://" (click)="removeBank(bIndex)" class="close">&times;</a>
+                    <a href="javascript://" (click)="removeBank(b,bIndex)" class="close">&times;</a>
                     <div class="fig-block">
-                      <img *ngIf="!b.image" class="width100" src="" alt="img">
-                      <img *ngIf="b.image" class="width100" src="{{b.image}}" alt="img">
+                      <img class="width100" [src]="b.image" onerror="this.src='assets/img/bank-building.png'" alt="img">
                     </div>
                     <p class="p13">{{b.name}}</p>
                     <p class="p13">{{b.floating_int}} Floating</p>

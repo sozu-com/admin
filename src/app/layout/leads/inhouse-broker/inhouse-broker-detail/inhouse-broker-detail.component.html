@@ -99,7 +99,7 @@
            <a href="javascript://" routerLink="/dashboard/leads/chat-with-developer/{{parameter.lead_id}}">Chat with Developers <i class="fa fa-angle-right"></i></a>
         </div>
         
-        <app-fill-information [fillInfo]="fillInfo" [lead_id]="parameter.lead_id"></app-fill-information>
+        <app-fill-information [sent_as]="parameter.sent_as" [fillInfo]="fillInfo" [lead_id]="parameter.lead_id"></app-fill-information>
 
         <app-notes [sent_as]="parameter.sent_as" [lead_id]="parameter.lead_id"></app-notes>
 
