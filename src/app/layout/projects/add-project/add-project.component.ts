@@ -90,9 +90,9 @@ export class AddProjectComponent implements OnInit {
             this.model = JSON.parse(JSON.stringify(r.data));
             console.log(this.model);
             this.file1.image = this.model.main_image;
-            this.model.configurations.map((item) => {
-              item.images = item.images.map(r1 => r1.image);
-            });
+            // this.model.configurations.map((item) => {
+            //   item.images = item.images.map(r1 => r1.image);
+            // });
             this.model.custom_attributes = this.model.custom_values;
             this.file5.image = this.model.developer.developer_image;
             this.admin.postDataApi('getAmenities', {}).subscribe(res => {
@@ -289,10 +289,11 @@ export class AddProjectComponent implements OnInit {
     // console.log(config);
     this.new_config_edit = index;
     this.new_config = JSON.parse(JSON.stringify(config));
+    console.log('EDIT',this.new_config);
     this.file3.image = config.floor_map_image;
     this.file4.files = [];
-    config.images.forEach((value, index) => {
-      this.file4.files.push(value);
+    config.images.forEach((item, index) => {
+      this.file4.files.push(item);
     });
     this.openConfigPopup.nativeElement.click();
   }
@@ -330,10 +331,11 @@ export class AddProjectComponent implements OnInit {
         this.new_config.images = this.file4.files;
         console.log(this.new_config_edit,this.new_config);
         if(this.new_config_edit >= 0 ){
-          this.model.configurations[this.new_config_edit] = JSON.parse(JSON.stringify(this.new_config));
+          this.model.configurations[this.new_config_edit] = this.new_config;
         }else{
           this.model.configurations.push(this.new_config);
         }
+        console.log(this.model.configurations);
       }, error => {
         this.parameter.loading = false;
       });
@@ -373,7 +375,7 @@ export class AddProjectComponent implements OnInit {
     if (!this.model.description) {swal('Error', 'Please add building description', 'error'); return false; }
     if (!this.model.possession_status_id) {swal('Error', 'Please add possession status', 'error'); return false; }
     if (!this.model.floors) {swal('Error', 'Please add floors', 'error'); return false; }
-    // if(!this.model.launch_date){swal('Error','Please add building launch date','error'); return false;}
+    if (!this.model.launch_date){swal('Error','Please add building launch date','error'); return false;}
     if (!this.model.avg_price) {swal('Error', 'Please add building average price', 'error'); return false; }
     if (this.model.amenities.length < 1) {swal('Error', 'Please add amenities', 'error'); return false; }
     if (this.model.configurations.length < 1) {swal('Error', 'Please add building configuration', 'error'); return false; }
@@ -385,7 +387,7 @@ export class AddProjectComponent implements OnInit {
       if (!this.model.dev_logo) {swal('Error', 'Please add developer image', 'error'); return false; }
     }
 
-
+    console.log(this.model);
     if (this.id) {
       this.model.building_id = this.id;
       this.model.developer_id =  this.model.developer.id;

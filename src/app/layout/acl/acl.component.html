@@ -177,7 +177,7 @@
                   <label>Can Update
                     <input type="checkbox" [checked]="permission.can_update == 1 ? 'checked': ''" (click)="setPermission('can_update', i)" name="can_update{{i}}">
                   </label>
-                  <label>Can Delete
+                  <label>Can Block/Unblock
                     <input type="checkbox" [checked]="permission.can_delete == 1 ? 'checked': ''" (click)="setPermission('can_delete', i)" name="can_delete{{i}}">
                   </label>
                 </div>

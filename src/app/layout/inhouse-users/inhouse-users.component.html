@@ -142,10 +142,11 @@
               <td *ngIf="parameter.userType == 'data-collectors'" >14</td>
               <td *ngIf="parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers'" >14</td>
               <td>
-                <a *ngIf="parameter.userType == 'data-collectors'" title="View Projects" href="javascript://" routerLink="/dashboard/projects/view-projects/{{item.id}}" class="icon-block edit-icon"><img src="assets/img/skyline.png" alt="img"></a>
+                <a *ngIf="parameter.userType == 'data-collectors'" title="View Projects" href="javascript://" routerLink="/dashboard/projects/view-projects/{{item.id}}" class="icon-block edit-icon">
+                  <img src="assets/img/ic_projects_manage.png" alt="img"></a>
                 
                 <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#view" #viewModalOpen></a>
-                <a title="View Details" href="javascript://" (click)="viewDetails(item, i)" class="icon-block edit-icon"><img src="assets/img/eye-icon.png" alt="img"></a>
+                <a title="View Roles" href="javascript://" (click)="viewDetails(item, i)" class="icon-block edit-icon"><img src="assets/img/eye-icon.png" alt="img"></a>
                 <!-- <a title="Edit Details" href="javascript://" (click)="editUser(item, i)" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a> -->
                 <!-- <a href="javascript://" *ngIf="item.is_blocked == 1" (click)="blockUnblockPopup(i, item.id, 0, parameter.type)" 
                 title="Unblock user" class="icon-block block-icon unblock-bg">
@@ -309,7 +310,8 @@
   <div class="modal-dialog fadeIndown modal-lg">
      <div class="modal-content">
         <div class="modal-header" style="padding: 5%; padding-bottom: 0;">
-          <h4 class="modal-title">{{title}}'s Details</h4>
+          <!-- <h4 class="modal-title">{{title}}'s Roles</h4> -->
+          <h4 class="modal-title">Assigned Roles</h4>
           <button type="button" style="display: none;" class="close" data-dismiss="modal" #viewModalClose>&times;</button>
           <button type="button" class="close" (click)="closeViewModal()">&times;</button>
         </div>

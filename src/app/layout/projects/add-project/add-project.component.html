@@ -14,7 +14,7 @@
             <div class="form-group-3">
               <label>Add Images</label>
               <div class="upload-cover-img">
-                <img [src]="file1.image" onerror="this.src='assets/img/placeholder-img.png'" class="img-fluid">
+                <img [src]="file1.image" onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
                 <!-- <img *ngIf="url" [src]="url" height="200"> -->
                 <div *ngIf="!file1.image" class="upload-caption">
                   <p class="green-color marginT30">+Upload Cover image for the project</p>
@@ -24,7 +24,7 @@
               </div>
             </div>
             <div class="add-project-img-more">
-              <img [src]="model.images[0]?.image" onerror="this.src='assets/img/placeholder-img.png'" class="img-fluid">
+              <img [src]="model.images[0]?.image" onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
               <div class="upload-caption">
                 <p *ngIf="model?.images?.length > 1" class="number" (click)="modelOpenFun()">+{{model?.images?.length-1}}</p>
                 <p *ngIf="model?.images?.length <= 1" class="green-color"  (click)="modelOpenFun()">+ Add more images</p>
@@ -105,7 +105,7 @@
               <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>Launch Date</label>
-                    <input class="form-control" [(ngModel)]="model.launch_date" type="date" name="building_launch_date" placeholder="Launch date" required>
+                    <input class="form-control" [ngModel]="model.launch_date  | date:'yyyy-MM-dd'" (ngModelChange)="model.launch_date  = $event" type="date" name="building_launch_date" placeholder="Launch date">
                   </div>
                 </div>
 
@@ -177,7 +177,7 @@
                           </div>
                         </div>
                       </div>
-                      {{c.images|json}}
+     
                       <div class="col-md-6 col-12">
                         <p class="p14 text-right">Average Price</p>
                         <h3 class="text-right">{{c?.base_price}} per sq/ft.</h3>
@@ -198,6 +198,7 @@
                 </div>
               </div>
             </div>
+
             <div class="row">
               <div class="col-12">
                 <div class="page-title paddingL0">
@@ -387,6 +388,7 @@
                   <p class="green-color">+ Add more images</p>
                 </div>
               </div>
+          
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IProperty } from '../../common/property';
@@ -12,6 +12,8 @@ declare let swal: any;
 })
 export class ProjectsComponent implements OnInit {
 
+  @ViewChild('modalOpen') modalOpen: ElementRef;
+  @ViewChild('modalClose') modalClose: ElementRef;
   public parameter: IProperty = {};
   public location: IProperty = {};
 
@@ -19,7 +21,7 @@ export class ProjectsComponent implements OnInit {
   total: any= 0;
   configurations: any= [];
   countries: any;
-
+  reason: string;
   price_sort = 1;
   availability_sort = 1;
   lead_sort = 1;
@@ -170,14 +172,25 @@ export class ProjectsComponent implements OnInit {
     });
   }
 
-  rejectProject(item, status) {
-    item.status = status;
-    this.admin.postDataApi('rejectProject', {building_id: item.id }).subscribe(r => {
+  rejectProject(status) {
+    this.items[this.parameter.index].status = status;
+    this.admin.postDataApi('rejectProject', {building_id: this.parameter.building_id, reason: this.reason }).subscribe(r => {
       console.log(r);
-      swal('Success', 'Project approved successfully.', 'success');
+      swal('Success', 'Project unapproved successfully.', 'success');
+      this.closeModal();
     },
     error => {
       swal('Error', error.error.message, 'error');
     });
+  }
+
+  openCancellationModal(item, index) {
+    this.parameter.building_id = item.id;
+    this.parameter.index = index;
+    this.modalOpen.nativeElement.click();
+  }
+
+  closeModal() {
+    this.modalClose.nativeElement.click();
   }
 }

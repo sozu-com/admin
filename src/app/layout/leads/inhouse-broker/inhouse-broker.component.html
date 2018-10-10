@@ -3,7 +3,7 @@
     <div class="row" *ngIf="admin?.admin_acl['Broker Lead Management']?.can_read==1">
         <div class="col-md-4">
             <div class="form-group">
-                <p class="p16">Manage Leads - Inhouse Broker</p>
+                <p class="p16">Manage Inhouse Broker's Leads</p>
                 <div class="d-flex">
                 <button (click)="removeCsrUser()" class="all-btn">All</button>
 
@@ -284,8 +284,7 @@
                         <td class="text-left">{{item.email}}</td>
                         <td>
                             <span *ngFor="let conf of item.configuration; let ii=index">
-                                {{conf.name}}
-                                <span *ngIf="ii<item?.configuration?.length-1">,</span>
+                                {{conf.name}}<span *ngIf="ii<item?.configuration?.length-1">,</span>
                             </span>
                             <span *ngIf="item.configuration?.length==0">NA</span>
                         </td>

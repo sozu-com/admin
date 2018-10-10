@@ -9,7 +9,7 @@
 </div>
 <div class="white-bg padding40">
     <div class="row">
-    <form role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="add(addForm)">
+    <form role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="add()">
       <div class="col-xl-12 col-lg-12 col-md-12 col-12">
           <div class="row">
             <div class="col-6">
@@ -147,7 +147,7 @@
                     <input type="checkbox" [checked]="permission.can_update == 1 ? 'checked': ''"  (click)="setPermission('can_update', i)">
                     <span class="checkmark"></span>
                 </label>
-                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_delete==1}">Can Delete
+                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_delete==1}">Can Block/Unblock
                     <input type="checkbox" [checked]="permission.can_delete == 1 ? 'checked': ''"  (click)="setPermission('can_delete', i)">
                     <span class="checkmark"></span>
                 </label>

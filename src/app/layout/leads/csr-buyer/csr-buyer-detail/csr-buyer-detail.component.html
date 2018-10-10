@@ -90,8 +90,7 @@
                    <td style="padding-left:0"><label>Interested In</label></td>
                    <td *ngIf="parameter.lead?.configuration">
                      <span *ngFor="let conf of parameter.lead.configuration; let ii=index">
-                       {{conf.name}}
-                       <span *ngIf="ii<parameter?.lead?.configuration?.length-1">,</span>
+                       {{conf.name}}<span *ngIf="ii<parameter?.lead?.configuration?.length-1">,</span>
                      </span>
                      <span *ngIf="parameter.lead.configuration?.length==0">NA</span>
                    </td>

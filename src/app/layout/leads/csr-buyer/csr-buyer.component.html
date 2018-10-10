@@ -2,7 +2,7 @@
     <div class="row" *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_read==1">
         <div class="col-md-4">
             <div class="form-group">
-                <p class="p16">Manage CSR Buyer Lead</p>
+                <p class="p16">Manage CSR Buyer's Lead</p>
                 <div class="d-flex">
                     <button (click)="removeCsrUser()" class="all-btn">All</button>
                     <div class="autocomplete">
@@ -281,8 +281,7 @@
                         <td class="text-left" *ngIf="!item.email">NA</td>
                         <td>
                             <span *ngFor="let conf of item.configuration; let ii=index">
-                                {{conf.name}}
-                                <span *ngIf="ii<item?.configuration?.length-1">,</span>
+                                {{conf.name}}<span *ngIf="ii<item?.configuration?.length-1">,</span>
                             </span>
                             <span *ngIf="item.configuration?.length==0">NA</span>
                         </td>

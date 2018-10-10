@@ -112,7 +112,7 @@ export class AddAclComponent implements OnInit {
   }
 
 
-  add(formdata: NgForm) {
+  add() {
     console.log(this.model);
     this.admin.postDataApi('addAclUser', this.model)
       .subscribe(
@@ -120,7 +120,7 @@ export class AddAclComponent implements OnInit {
           if (success.success === '0') {
             swal('Error', success.message, 'error');
           }else {
-            formdata.reset();
+            // formdata.reset();
             const text = this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
             swal('Success', text, 'success');
             // if (this.parameter.items.length < 10) {
