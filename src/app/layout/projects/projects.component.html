@@ -3,7 +3,7 @@
                   <div class="row">
                     <div class="col-md-4">
                      <div class="form-group">
-                      <p class="p16">Manage Properties</p>
+                      <p class="p16">Manage Projects</p>
                       <!-- <div class="d-flex">
                       <button class="all-btn">All</button>
                       <input style="max-width:200px" class="form-control" type="text" name="">
@@ -96,7 +96,7 @@
                         </ul>
                         </div> -->
 
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"><div class="add-new text-left">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"><div class="add-new pull-right">
                               <a *ngIf="admin?.admin_acl['Building Management']?.can_create==1" class="btn" href="javascript://" routerLink="/dashboard/projects/add-project">+Add New Project</a>
                            </div></div>
                            </div>
@@ -160,13 +160,16 @@
                                             </td>
                                            <td><span *ngIf="p.developer">{{p?.developer?.email}}</span></td>
                                            <td><span>{{p.avg_price}}</span></td>
-                                                                                     <td>
+                                            <td>
                                              <div class="message">
-                                                <button [disabled]="admin?.admin_acl['Building Management']?.can_update==0" routerLink="../edit-project/{{p.id}}" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                                                <button [disabled]="admin?.admin_acl['Building Management']?.can_update==0" routerLink="/dashboard/projects/edit-project/{{p.id}}" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                                                 <button [disabled]="admin?.admin_acl['Building Management']?.can_delete==0" *ngIf="!p.is_blocked" (click)="block(p);" class="action-icon" title="Block"><img src="assets/img/block.png" alt="img"></button>
                                                 <button [disabled]="admin?.admin_acl['Building Management']?.can_delete==0" *ngIf="p.is_blocked == true" (click)="unblock(p);" class="action-icon unblock-bg" title="UnBlock"><img src="assets/img/unblock.png" alt="img"></button>
-                                                <!-- <button *ngIf="p.status == 3" (click)="changeStatus(p,2);" class="action-icon" title="Unapprove"><img src="assets/img/tick-selected.png" alt="img"></button>
-                                                <button *ngIf="p.status == 2" (click)="changeStatus(p,3);" class="action-icon" title="Approve"><img src="assets/img/tick.png" alt="img"></button> -->
+                                                <!-- unapprove -->
+                                                <!-- <button style="display:none;" [disabled]="admin?.admin_acl['Building Management']?.can_update==0"  data-toggle="modal" data-target="#addNote" *ngIf="p.status == 1" class="action-icon" title="Unapprove"><img src="assets/img/tick-selected.png" alt="img"></button>
+                                                <button [disabled]="admin?.admin_acl['Building Management']?.can_update==0"  data-toggle="modal" data-target="#addNote" *ngIf="p.status == 1" class="action-icon" title="Unapprove"><img src="assets/img/tick-selected.png" alt="img"></button> -->
+                                                <!-- approve -->
+                                                <!-- <button [disabled]="admin?.admin_acl['Building Management']?.can_update==0" *ngIf="p.status == 2 || p.status == 4"  (click)="changeStatus(p, 1);" class="action-icon" title="Approve"><img src="assets/img/tick.png" alt="img"></button> -->
                                              </div>
    
                                            </td>
@@ -192,3 +195,39 @@
                      </div>
                      
                   </div>
+
+<!-- 
+
+<div class="modal animated" id="addNote">
+  <div class="modal-dialog fadeIndown">
+    <div class="modal-content">
+      <div class="modal-header modal-header-new">
+          <h4 class="modal-title">Reason</h4>
+          <button style="display: none;" type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
+          <button type="button" class="close" (click)="closeModal()">&times;</button>
+      </div>
+
+      <form class="form-horizontal form-model0P form-model-newP" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="changeStatus(p, 1); addForm.reset();">
+        <div class="modal-body modal-body-new">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group-2">
+                  <div class="form-group">
+                    <textarea rows="4" required class="form-control note" name="note" #note="ngModel" [(ngModel)]="model.note"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+                <div class="btn-cont text-right">
+                    <button *ngIf="model.id==0 else UpdateNote" [disabled]="!addForm.valid" type="submit" class="btn btn-primary">ADD</button>
+                    <ng-template #UpdateNote>
+                        <button type="submit" [disabled]="!addForm.valid" class="btn btn-primary">UPDATE</button>
+                    </ng-template>
+                </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div> -->

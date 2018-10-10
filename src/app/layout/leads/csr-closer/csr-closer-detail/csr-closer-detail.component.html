@@ -49,15 +49,15 @@
             <table class="table">
                 <tr>
                     <td style="padding-left:0"><label>Full Name</label></td>
-                    <td colspan="2" *ngIf="parameter?.lead?.name">{{parameter.lead.name}}</td>
+                    <td colspan="2" *ngIf="parameter?.lead?.name">{{parameter.lead.user.name}}</td>
                 </tr>
                 <tr>
                     <td style="padding-left:0"><label>Contact Number</label></td>
-                    <td colspan="2" *ngIf="parameter?.lead?.phone">{{parameter.lead.dial_code ? parameter.lead.dial_code : constant.dial_code}}-{{parameter.lead.phone}}</td>
+                    <td colspan="2" *ngIf="parameter?.lead?.phone">{{parameter.lead.user.dial_code ? parameter.lead.user.dial_code : constant.dial_code}}-{{parameter.lead.user.phone}}</td>
                 </tr>
                 <tr>
                     <td style="padding-left:0"><label>Email address</label></td>
-                    <td colspan="2" *ngIf="parameter?.lead?.email">{{parameter.lead.email}}</td>
+                    <td colspan="2" *ngIf="parameter?.lead?.email">{{parameter.lead.user.email}}</td>
                 </tr>
                 <tr>
                     <td style="padding-left:0"><label>Interested In</label></td>
@@ -233,7 +233,7 @@
                             </div>
                             <div class="profile-info">
                             <h6>{{chat_admin?.name}}</h6>
-                            <p *ngIf="chat_admin_sent_as == 3" class="p12">CSR Closer</p>
+                            <p *ngIf="chat_admin_sent_as == 3" class="p12">CSR Closure</p>
                             <p *ngIf="chat_admin_sent_as == 6" class="p12">Notary</p>
                             <p *ngIf="chat_admin_sent_as == 5" class="p12">Bank</p>
                             </div>

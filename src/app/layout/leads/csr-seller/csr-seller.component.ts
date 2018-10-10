@@ -20,18 +20,18 @@ export class CsrSellerComponent implements OnInit {
   public location: IProperty = {};
   items: Array<Users> = [];
 
-  users:any = [];
-  selectedUser:any;
+  users: any = [];
+  selectedUser: any;
   initSelection = false;
 
-  dash:any={
+  dash: any= {
     lead_total: 0,
-    lead_property_pending:0,
+    lead_property_pending: 0,
     lead_with_property: 0,
     lead_without_property: 0
   };
-  
-  chartView:any=[];
+
+  chartView: any= [];
 
   constructor(
     private admin: AdminService,
@@ -39,29 +39,25 @@ export class CsrSellerComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.parameter.keyword='';
+    this.parameter.keyword = '';
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.parameter.flag = 2;
     this.parameter.total = 0;
     this.parameter.count_flag = 1;
     this.getCountries();
-    //this.getCsrListing();
     this.getListing();
     this.getCsrSellerDash();
-    Object.assign(this,this.chartView);
-    //this.myChart = new Chart(ctx,{});
+    Object.assign(this, this.chartView);
   }
 
   getCountries() {
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
-      console.log('Country', r);
       this.location.countries = r['data'];
     });
   }
 
   onCountryChange(id) {
-    console.log(id);
     this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
     if (!id || id === 0) {
@@ -71,11 +67,9 @@ export class CsrSellerComponent implements OnInit {
     this.parameter.country_id = id;
     const selectedCountry = this.location.countries.filter(x => x.id == id);
     this.location.states = selectedCountry[0].states;
-    
   }
 
   onStateChange(id) {
-    console.log(id);
     this.location.localities = []; this.parameter.locality_id = '0';
     if (!id || id === 0) {
       this.parameter.city_id = '0';
@@ -87,7 +81,6 @@ export class CsrSellerComponent implements OnInit {
   }
 
   onCityChange(id) {
-    console.log(id);
     if (!id || id == 0) {
       this.parameter.locality_id = '0';
       return false;
@@ -98,7 +91,6 @@ export class CsrSellerComponent implements OnInit {
   }
 
   onLocalityChange(id) {
-    console.log(id);
     if (!id || id == 0) {
       return false;
     }
@@ -118,12 +110,12 @@ export class CsrSellerComponent implements OnInit {
     this.getListing();
   }
 
-  changeCountFlag(flag){
+  changeCountFlag(flag) {
     this.parameter.count_flag = flag;
     this.getListing();
   }
 
-  getCsrListing(){
+  getCsrListing() {
     this.initSelection = true;
     this.users = [];
     const input = new FormData();
@@ -147,12 +139,11 @@ export class CsrSellerComponent implements OnInit {
     }
     this.admin.postDataApi('getCsrSellers', input).subscribe(
       success => {
-        console.log(success.data);
         this.users = success.data;
       });
   }
 
-  selectCsrUser(user){
+  selectCsrUser(user) {
     this.selectedUser = user;
     this.users = [];
     this.parameter.keyword = '';
@@ -161,9 +152,9 @@ export class CsrSellerComponent implements OnInit {
     this.getCsrSellerDash();
   }
 
-  removeCsrUser(){
+  removeCsrUser() {
     this.selectedUser = '';
-    this.parameter.keyword='';
+    this.parameter.keyword = '';
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.parameter.flag = 2;
@@ -171,8 +162,8 @@ export class CsrSellerComponent implements OnInit {
     this.parameter.count_flag = 1;
     this.getListing();
   }
-  
-  getCsrSellerDash(){
+
+  getCsrSellerDash() {
     const input = new FormData();
     if (this.selectedUser) {
       input.append('assignee_id', this.selectedUser.id);
@@ -181,37 +172,37 @@ export class CsrSellerComponent implements OnInit {
       input.append('flag', this.parameter.flag.toString());
     }
 
-    this.admin.postDataApi('leads/csr-seller-dash-count',input).subscribe(r=>{
-      console.log('dash',r);
+    this.admin.postDataApi('leads/csr-seller-dash-count', input).subscribe(r => {
+      console.log('dash', r);
       this.dash = r.data;
-      this.chartView=[
+      this.chartView = [
         {
-          "name": "Lead Property pending",
-          "value": parseInt(this.dash.lead_property_pending,10)
+          'name': 'Lead Property pending',
+          'value': parseInt(this.dash.lead_property_pending, 10)
         },
         {
-          "name": "Lead with Property",
-          "value": parseInt(this.dash.lead_with_property,10)
+          'name': 'Lead with Property',
+          'value': parseInt(this.dash.lead_with_property, 10)
         },
         {
-          "name": "Lead without Property",
-          "value": parseInt(this.dash.lead_without_property,10)
+          'name': 'Lead without Property',
+          'value': parseInt(this.dash.lead_without_property, 10)
         }
       ];
-      //Object.assign(this,this.chartView);
     });
   }
 
   getListing() {
-    this.items=[];
-    let input:any = JSON.parse(JSON.stringify(this.parameter));
+    this.items = [];
+    this.parameter.noResultFound = false;
+    const input: any = JSON.parse(JSON.stringify(this.parameter));
     if (this.selectedUser) {
       input.assignee_id = this.selectedUser.id;
     }
     this.admin.postDataApi('leads/csr-seller', input).subscribe(
     success => {
       this.items = success.data;
-      console.log(success);
+      if (this.items.length <= 0) { this.parameter.noResultFound = true; }
       this.parameter.total = success.total_count;
     });
   }
@@ -222,14 +213,13 @@ export class CsrSellerComponent implements OnInit {
     this.getListing();
   }
 
-  sort_by(sort_by_flag){
-    if(this.parameter.sort_by_flag != sort_by_flag){
+  sort_by(sort_by_flag) {
+    if (this.parameter.sort_by_flag !== sort_by_flag) {
       this.parameter.sort_by_flag = sort_by_flag;
       this.parameter.sort_by_order = 0;
-    }else{
-      this.parameter.sort_by_order = this.parameter.sort_by_order?0:1;
+    }else {
+      this.parameter.sort_by_order = this.parameter.sort_by_order ? 0 : 1;
     }
     this.getListing();
   }
-
 }

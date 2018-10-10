@@ -26,7 +26,7 @@ export class DataCollectorComponent implements OnInit {
     request_pending_total: 0,
     request_pending_admin: 0,
     request_pending_csr: 0,
-    request_pending_user:0,
+    request_pending_user: 0,
     building_approved: 0,
     building_draft: 0,
     building_pending: 0,
@@ -211,7 +211,6 @@ export class DataCollectorComponent implements OnInit {
     success => {
       this.items = success.data;
       if (this.items.length <= 0) { this.parameter.noResultFound = true; }
-      console.log('listing',success);
       this.parameter.total = success.total_count;
     });
   }
@@ -232,12 +231,15 @@ export class DataCollectorComponent implements OnInit {
     this.getListing();
   }
 
-  changeStatus(item){
-    this.admin.postDataApi('leads/markBuildingRequestComplete',{id:item.id}).subscribe(r=>{
-      item.status = 1;
-    },
-    error=>{
-      swal('Error',error.error.message, 'error');
-    });
+  changeStatus(item, status) {
+    if (status === 1) {
+      this.admin.postDataApi('leads/markBuildingRequestComplete', {id: item.id}).subscribe(r => {
+        item.status = 1;
+        swal('Success', 'Successfully marked as complete.', 'success');
+      },
+      error => {
+        swal('Error', error.error.message, 'error');
+      });
+    }
   }
 }

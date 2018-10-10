@@ -241,7 +241,7 @@
               <tr>
               <th style="width:6%; border-top:0">
                 <div class="table-search">
-                    <label>Image</label>
+                    <!-- <label>Image</label> -->
                 </div>
                 </th>
                  <th style="width:20%; border-top:0">
@@ -272,7 +272,9 @@
                     </div>
                  </th>
                  <th>
-                 <label>Properties</label>
+                    <div class="table-search">
+                        <label>Properties</label>
+                    </div>
                   <div class="ppties">
                      <a href="javascript://" (click)="sort_by(1)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Coming soon">A<img src="assets/img/top-arrow.png" alt="img"></a>
                      </div>
@@ -301,6 +303,7 @@
                      <a href="javascript://" (click)="sort_by(5)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Coming soon">T<img src="assets/img/top-arrow.png" alt="img"></a>
                      </div>
                  </th>
+                 <th style="width:9%"></th>
               </tr>
               <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }">
                 <td>
@@ -331,19 +334,27 @@
                  <td>
                     {{item.total_count}}
                  </td>
+                 <td>
+                    <button title="View Details" routerLink="/dashboard/leads/csr-sellers/{{item.id}}" class="action-icon"><img src="./../../../../assets/img/edit.png" alt="img"></button>
+                </td>
               </tr>
 
            </tbody></table>
-           <div class="padding20" *ngIf="parameter.noResultFound">No result found</div>
+           <div class="padding20 center" *ngIf="parameter.noResultFound">
+            <img src="assets/img/404-error.png">
+          </div>
 
         </div>
      </div>
 
 
-     <div class="spacer30"></div>
-     <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+     <!-- <div class="spacer30"></div>
+     <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls> -->
 
 
   </div>
-  </div><!-- listingResults -->
+  </div>
+    <div class="btn-cont text-right marginT15" *ngIf="parameter.total">
+        <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+    </div>
 </div>

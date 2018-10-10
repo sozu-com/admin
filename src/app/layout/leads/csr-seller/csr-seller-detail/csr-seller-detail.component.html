@@ -96,10 +96,10 @@
         </ul>
         </div>
         <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12"><div class="add-new text-left">
-              <a *ngIf="admin?.admin_acl['Property Management']?.can_create==1" class="btn" href="javascript://" routerLink="/dashboard/properties/add-property/0">+Add New Property</a>
+              <a *ngIf="admin?.admin_acl['Property Management']?.can_create==1 || admin?.permissions?.can_csr_seller==1" class="btn" href="javascript://" routerLink="/dashboard/properties/add-property/0">+Add New Property</a>
             </div></div>
             </div>
-        <div class="tab-content">
+        <div class="tab-content white-bg">
             <div class="tab-pane active">
               <div class="tabel-section">
                   <div class="table-responsive">
@@ -195,23 +195,30 @@
 
                             </td>
                         </tr>
-                        <tr *ngIf="parameter.loading == false && total == 0">
-                          <td colspan="10">No result found</td>
-                        </tr>
+                        <!-- <tr *ngIf="parameter.loading == false && total == 0">
+                          <td colspan="10">
+                            <img src="assets/img/404-error.png">
+                          </td>
+                        </tr> -->
                     </table>
+                    <div class="padding20 center" *ngIf="parameter.loading == false && total == 0">
+                      <img src="assets/img/404-error.png">
+                    </div>
                   </div>
               </div>
               <!-- <div class="btn-cont text-right marginT15">
                   <button class="btn btn-secondary">View All</button>
               </div> -->
-              <div class="spacer30"></div>
+              <!-- <div class="spacer30"></div>
 
-              <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+              <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls> -->
 
 
             </div>
             <div class="tab-pane container fade" id="seller">Seller tab on</div>
         </div>
       </div>
-      
+      <div class="btn-cont text-right marginT15" *ngIf="parameter.total">
+          <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+      </div>
   </div>

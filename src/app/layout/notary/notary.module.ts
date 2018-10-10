@@ -15,11 +15,11 @@ import { AuthGuard } from '../../guards/auth.guard';
 
 const routes: Routes = [
   { path: 'view-notary', component: NotaryComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Noataries Management', 'can_read', '']}},
+    canActivate: [AclUserGuard], data: {roles: ['Noataries Management', 'can_read', 'can_noatary']}},
   { path: 'notary-leads', component: NotaryLeadsComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Notary Lead Management', 'can_read', '']}},
+    canActivate: [AclUserGuard], data: {roles: ['Notary Lead Management', 'can_read', 'can_noatary']}},
   { path: 'notary-leads/:id', component: NotaryLeadsDetailsComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Notary Lead Management', 'can_read', '']}}
+    canActivate: [AclUserGuard], data: {roles: ['Notary Lead Management', 'can_read', 'can_noatary']}}
 ];
 
 // const routes: Routes = [

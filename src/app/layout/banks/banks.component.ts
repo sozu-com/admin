@@ -88,16 +88,17 @@ export class BanksComponent implements OnInit {
           if (success.success === '0') {
             swal('Error', success.message, 'error');
           }else {
-            this.model = new Bank();
             this.modalClose.nativeElement.click();
             const text = this.model.id ? 'Updated successfully.' : 'Added successfully.';
             swal('Success', text, 'success');
             if (this.parameter.items.length < 10) {
               if (this.model.id) {
                 this.parameter.items[this.parameter.index] = success.data;
+                this.model = new Bank();
               } else {
                 this.parameter.items.push(success.data);
                 this.parameter.total++;
+                this.model = new Bank();
               }
             }
           }

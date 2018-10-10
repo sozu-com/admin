@@ -77,6 +77,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
               this.router.navigate(['dashboard/leads/csr-sellers']);
             } else if (success.data.permissions.can_csr_closer === 1) {
               this.router.navigate(['dashboard/leads/csr-closers']);
+            } else if (success.data.permissions.can_bank === 1) {
+              this.router.navigate(['dashboard/banks/bank-leads']);
+            } else if (success.data.permissions.can_noatary === 1) {
+              this.router.navigate(['dashboard/notary/notary-leads']);
             }
           } else {
             let check = true;

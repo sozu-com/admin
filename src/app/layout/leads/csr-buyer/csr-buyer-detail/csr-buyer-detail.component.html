@@ -7,8 +7,8 @@
                  <img [src]="parameter?.lead?.user?.image" onerror='src="assets/img/default_img.png"' alt="img">
               </div>
               <div class="profile-info">
-                 <h6 title="User">{{parameter.lead.user.name}}</h6>
-                 <p title="Broker">{{parameter?.lead?.admin.name}}</p>
+                 <h6>{{parameter.lead.user.name ? parameter.lead.user.name : parameter.lead.name}}</h6>
+                 <p>{{parameter.lead.user.dial_code ? parameter.lead.user.dial_code : parameter.lead.dial_code}}-{{parameter.lead.user.phone?parameter.lead.user.phone:parameter.lead.phone}}</p>
               </div>
            </div>
         </div>
@@ -76,15 +76,15 @@
              <table class="table">
                 <tbody><tr>
                    <td style="padding-left:0"><label>Full Name</label></td>
-                   <td *ngIf="parameter.lead?.name">{{parameter.lead.name}}</td>
+                   <td *ngIf="parameter.lead?.name">{{parameter.lead.user.name?parameter.lead.user.name:parameter.lead.name}}</td>
                 </tr>
                 <tr>
                    <td style="padding-left:0"><label>Contact Number</label></td>
-                   <td *ngIf="parameter?.lead?.phone">{{parameter.lead.dial_code ? parameter.lead.dial_code : constant.dial_code}}-{{parameter.lead.phone}}</td>
+                   <td *ngIf="parameter?.lead?.phone">{{parameter.lead.user.dial_code ? parameter.lead.user.dial_code : parameter.lead.dial_code}}-{{parameter.lead.user.phone?parameter.lead.user.phone:parameter.lead.phone}}</td>
                 </tr>
                 <tr>
                    <td style="padding-left:0"><label>Email address</label></td>
-                   <td *ngIf="parameter?.lead?.email">{{parameter.lead.email}}</td>
+                   <td *ngIf="parameter?.lead?.email">{{parameter.lead.user.email?parameter.lead.user.email:parameter.lead.email}}</td>
                 </tr>
                 <tr>
                    <td style="padding-left:0"><label>Interested In</label></td>

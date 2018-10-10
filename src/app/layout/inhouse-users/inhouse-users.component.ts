@@ -494,13 +494,13 @@ export class InhouseUsersComponent implements OnInit {
 
       case 'inhouse-broker':
       this.parameter.url = 'getInhouseBroker';
-      this.title = 'Inhouse Broker';
+      this.title = 'Inhouse Brokers';
       this.parameter.type = 4;
         break;
 
       case 'csr-closers':
       this.parameter.url = 'getCsrClosers';
-      this.title = 'CSR Closers';
+      this.title = 'CSR Closures';
       this.parameter.type = 5;
         break;
 

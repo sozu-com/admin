@@ -3,7 +3,7 @@
     <div class="row" *ngIf="admin?.admin_acl['Closer Lead Management']?.can_read==1">
         <div class="col-md-4">
             <div class="form-group">
-                <p class="p16">Manage CSR Closer Lead</p>
+                <p class="p16">Manage CSR Closure Lead</p>
                 <div class="d-flex">
                 <button (click)="removeCsrUser()" class="all-btn">All</button>
 
@@ -292,7 +292,7 @@
                         <p class="p11"><i>{{item?.selected_properties[0]?.property?.building?.developer?.name}}</i></p>
                     </div>
                     </td>
-                    <td class="text-left" title="CSR Closer">
+                    <td class="text-left" title="CSR Closure">
                         {{item.closer.name}}
                     </td>
                     <td class="text-left" *ngIf="item.sale_rent">{{item.sale_rent==1 ? 'Buy' : 'Rent'}}</td>

@@ -156,6 +156,13 @@
                   <img src="assets/img/unblock.png" alt="img">
                 </a> -->
                 
+                <!-- <button title="View Leads" [disabled]="admin?.admin_acl['Data Collector Management']?.can_update==0 && parameter.userType=='data-collectors' ||
+                  admin?.admin_acl['Seller Management']?.can_update==0 && parameter.userType=='csr-sellers' ||
+                  admin?.admin_acl['Buyer Management']?.can_update==0 && parameter.userType=='csr-buyers' ||
+                  admin?.admin_acl['Broker Management']?.can_update==0 && parameter.userType=='inhouse-broker' ||
+                  admin?.admin_acl['Closer Management']?.can_update==0 && parameter.userType=='csr-closers'" 
+                (click)="editUser(item, i)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button> -->
+
                 <button title="Edit Details" [disabled]="admin?.admin_acl['Data Collector Management']?.can_update==0 && parameter.userType=='data-collectors' ||
                   admin?.admin_acl['Seller Management']?.can_update==0 && parameter.userType=='csr-sellers' ||
                   admin?.admin_acl['Buyer Management']?.can_update==0 && parameter.userType=='csr-buyers' ||
@@ -284,7 +291,7 @@
                  <input type="checkbox" [(ngModel)]="model.userModel.is_data_collector" name="is_data_collector">
                  <span class="checkmark"></span>
                </label>
-               <label [ngClass]="{'access-control11': model.userModel.is_csr_closer == true}" class="cust-check-bx2">CSR Closer
+               <label [ngClass]="{'access-control11': model.userModel.is_csr_closer == true}" class="cust-check-bx2">CSR Closure
                  <input type="checkbox" [(ngModel)]="model.userModel.is_csr_closer" name="is_csr_closer">
                  <span class="checkmark"></span>
                </label>
@@ -333,7 +340,7 @@
                  <input disabled type="checkbox" [(ngModel)]="model.userModel.is_data_collector" name="is_data_collector">
                  <span class="checkmark"></span>
                </label>
-               <label [ngClass]="{'access-control11': model.userModel.is_csr_closer == true}" class="cust-check-bx2">CSR Closer
+               <label [ngClass]="{'access-control11': model.userModel.is_csr_closer == true}" class="cust-check-bx2">CSR Closure
                  <input disabled type="checkbox" [(ngModel)]="model.userModel.is_csr_closer" name="is_csr_closer">
                  <span class="checkmark"></span>
                </label>

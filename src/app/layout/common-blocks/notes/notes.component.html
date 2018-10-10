@@ -10,7 +10,8 @@
         (sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==1 || admin?.permissions?.can_in_house_broker==1)) ||
         (sent_as==constant.userType.csr_closer && (admin?.admin_acl['Closer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_closer==1)) ||
         (sent_as==constant.userType.notary && (admin?.admin_acl['Notary Lead Management']?.can_update==1 || admin?.permissions?.can_noatary==1)) ||
-        (sent_as==constant.userType.bank && (admin?.admin_acl['Bank Lead Management']?.can_update==1 || admin?.permissions?.can_bank==1)); else noAddPermissiom" class="add" href="javascript://" data-toggle="modal" data-target="#addNote" #modalOpen>Add</a>
+        (sent_as==constant.userType.bank && (admin?.admin_acl['Bank Lead Management']?.can_update==1 || admin?.permissions?.can_bank==1)); else noAddPermissiom"
+        class="add" href="javascript://" data-toggle="modal" data-target="#addNote" #modalOpen>Add</a>
 
         <ng-template #noAddPermissiom>
           <a class="add" href="javascript://">Add</a>

@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IProperty } from '../../common/property';
-import { NgForm } from '@angular/forms';
 import { Constant } from './../../common/constants';
 declare let swal: any;
 
@@ -50,7 +49,6 @@ export class ProjectsComponent implements OnInit {
     this.parameter.loading = true;
     this.admin.postDataApi('projectHome', this.parameter).subscribe(
       success => {
-        console.log('LIST', success);
         this.items = success.data;
         this.total = success.total_count;
         this.parameter.loading = false;
@@ -62,20 +60,17 @@ export class ProjectsComponent implements OnInit {
 
   getCountries() {
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
-      console.log('Country', r);
       this.location.countries = r['data'];
     });
   }
 
   getPropertyConfigurations() {
     this.admin.postDataApi('getConfigurations', {}).subscribe(r => {
-      console.log('Config', r);
       this.configurations = r['data'];
     });
   }
 
   onCountryChange(id) {
-    console.log(id);
     this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
     if (!id || id === 0) {
@@ -89,7 +84,6 @@ export class ProjectsComponent implements OnInit {
   }
 
   onStateChange(id) {
-    console.log(id);
     this.location.localities = []; this.parameter.locality_id = '0';
     if (!id || id === 0) {
       this.parameter.city_id = '0';
@@ -102,7 +96,6 @@ export class ProjectsComponent implements OnInit {
   }
 
   onCityChange(id) {
-    console.log(id);
     if (!id || id == 0) {
       this.parameter.locality_id = '0';
       return false;
@@ -114,7 +107,6 @@ export class ProjectsComponent implements OnInit {
   }
 
   onLocalityChange(id) {
-    console.log(id);
     if (!id || id == 0) {
       return false;
     }
@@ -138,7 +130,6 @@ export class ProjectsComponent implements OnInit {
 
     this.parameter.sort_by = sort_by;
     this.parameter.sort_by_order = sort_by_order;
-    console.log(this.parameter);
     this.getListing();
   }
 
@@ -151,8 +142,7 @@ export class ProjectsComponent implements OnInit {
   block(item) {
     item.is_blocked = true;
     this.admin.postDataApi('blockProject', {building_id: item.id, flag: 1}).subscribe(r => {
-      console.log(r);
-      swal('Success', 'Project blocked successfully', 'success');
+      swal('Success', 'Project blocked successfully.', 'success');
     },
     error => {
       swal('Error', error.error.message, 'error');
@@ -162,22 +152,32 @@ export class ProjectsComponent implements OnInit {
   unblock(item) {
     item.is_blocked = false;
     this.admin.postDataApi('blockProject', {building_id: item.id, flag: 0 }).subscribe(r => {
-      console.log(r);
-      swal('Success', 'Project unblocked successfully', 'success');
+      swal('Success', 'Project unblocked successfully.', 'success');
     },
     error => {
       swal('Error', error.error.message, 'error');
     });
   }
 
-  // changeStatus(item,status){
-  //   item.status = status;
-  //   this.admin.postDataApi('updateProjectStatus',{building_id:item.id, status_id: status }).subscribe(r=>{
-  //     console.log(r);
-  //     swal('Success','Project status changed','success');
-  //   },
-  //   error=>{
-  //     swal('Error',error.error.message,'error');
-  //   });
-  // }
+  approveProject(item, status) {
+    item.status = status;
+    this.admin.postDataApi('approveProject', {building_id: item.id }).subscribe(r => {
+      console.log(r);
+      swal('Success', 'Project approved successfully.', 'success');
+    },
+    error => {
+      swal('Error', error.error.message, 'error');
+    });
+  }
+
+  rejectProject(item, status) {
+    item.status = status;
+    this.admin.postDataApi('rejectProject', {building_id: item.id }).subscribe(r => {
+      console.log(r);
+      swal('Success', 'Project approved successfully.', 'success');
+    },
+    error => {
+      swal('Error', error.error.message, 'error');
+    });
+  }
 }

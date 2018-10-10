@@ -14,11 +14,11 @@ import { SharedModule } from '../../modules/shared.module';
 
 const routes: Routes = [
   { path: 'view-banks', component: BanksComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Bank Management', 'can_read', '']}},
+    canActivate: [AclUserGuard], data: {roles: ['Bank Management', 'can_read', 'can_bank']}},
   { path: 'bank-leads', component: BankLeadsComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Bank Lead Management', 'can_read', '']}},
+    canActivate: [AclUserGuard], data: {roles: ['Bank Lead Management', 'can_read', 'can_bank']}},
   { path: 'bank-leads/:id', component: BankLeadDetailsComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Bank Lead Management', 'can_read', '']}}
+    canActivate: [AclUserGuard], data: {roles: ['Bank Lead Management', 'can_read', 'can_bank']}}
 ];
 
 @NgModule({
