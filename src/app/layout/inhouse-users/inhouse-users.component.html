@@ -142,8 +142,21 @@
               <td *ngIf="parameter.userType == 'data-collectors'" >14</td>
               <td *ngIf="parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers'" >14</td>
               <td>
-                <a *ngIf="parameter.userType == 'data-collectors'" title="View Projects" href="javascript://" routerLink="/dashboard/projects/view-projects/{{item.id}}" class="icon-block edit-icon">
-                  <img src="assets/img/ic_projects_manage.png" alt="img"></a>
+                <a *ngIf="admin?.admin_acl['Building Management']?.can_read==1 && parameter.userType == 'data-collectors'" title="View Projects" href="javascript://" routerLink="/dashboard/projects/view-projects/{{item.id}}" class="icon-block edit-icon">
+                  <img src="assets/img/ic_projects_manage.png" alt="img">
+                </a>
+                <a *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 && parameter.userType == 'csr-sellers'" title="View Leads" href="javascript://" routerLink="/dashboard/leads/csr-sellers-leads/{{item.id}}" class="icon-block edit-icon">
+                  <img src="assets/img/ic_leads.png" alt="img">
+                </a>
+                <a *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_read==1 && parameter.userType == 'csr-buyers'" title="View Leads" href="javascript://" routerLink="/dashboard/leads/csr-buyers-leads/{{item.id}}" class="icon-block edit-icon">
+                  <img src="assets/img/ic_leads.png" alt="img">
+                </a>
+                <a *ngIf="admin?.admin_acl['Broker Lead Management']?.can_read==1 && parameter.userType == 'inhouse-broker'" title="View Leads" href="javascript://" routerLink="/dashboard/leads/inhouse-broker-leads/{{item.id}}" class="icon-block edit-icon">
+                  <img src="assets/img/ic_leads.png" alt="img">
+                </a>
+                <a *ngIf="admin?.admin_acl['Closer Lead Management']?.can_read==1 && parameter.userType == 'csr-closers'" title="View Leads" href="javascript://" routerLink="/dashboard/leads/csr-closers-leads/{{item.id}}" class="icon-block edit-icon">
+                  <img src="assets/img/ic_leads.png" alt="img">
+                </a>
                 
                 <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#view" #viewModalOpen></a>
                 <a title="View Roles" href="javascript://" (click)="viewDetails(item, i)" class="icon-block edit-icon"><img src="assets/img/eye-icon.png" alt="img"></a>

@@ -4,12 +4,12 @@
     <div class="row">
         <div class="col-md-4">
          <div class="form-group">
-          <p class="p16">Manage CSR Seller Lead</p>
+          <p class="p16">Manage CSR Seller's Lead</p>
           <div class="d-flex">
           <button (click)="removeCsrUser()" class="all-btn">All</button>
 
           <div class="autocomplete">
-            <input style="max-width:200px" list="amenities" [(ngModel)]="parameter.keyword" (input)="getCsrListing()" class="form-control" type="text" name="keyword">
+            <input style="max-width:200px" list="amenities" [(ngModel)]="parameter.keyword" (input)="getCsrListing()" class="form-control" type="text" name="keyword" (focusout)="closeCsrListing()">
             <!-- <input type="text"  (keyup.enter)="addAmenity(amen)" name="amen" [(ngModel)]="amen"> -->
             <div id="myInputautocomplete-list" class="autocomplete-items">
                 <div *ngFor="let item of users" (click)="selectCsrUser(item)">{{item.email}}</div>
@@ -228,9 +228,9 @@
      </div>
      <div class="col-6">
         <div class="add-new text-right">
-           <!-- <a class="btn" href="javascript://">+Add New</a> -->
+            <a class="btn" (click)="bulkAssign()" href="javascript://">Bulk Re-assign</a>
         </div>
-     </div>
+    </div>
   </div>
   <div class="white-bg">
      <div class="tabel-section">
@@ -239,9 +239,14 @@
               <tbody>
 
               <tr>
+                <th style="width:6%">
+                    <div class="table-search">
+                    <a (click)="selectAll()"><label>All</label></a>
+                    </div>
+                </th>
               <th style="width:6%; border-top:0">
                 <div class="table-search">
-                    <!-- <label>Image</label> -->
+                    <label>Image</label>
                 </div>
                 </th>
                  <th style="width:20%; border-top:0">
@@ -272,9 +277,7 @@
                     </div>
                  </th>
                  <th>
-                    <div class="table-search">
-                        <label>Properties</label>
-                    </div>
+                 <label>Properties</label>
                   <div class="ppties">
                      <a href="javascript://" (click)="sort_by(1)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Coming soon">A<img src="assets/img/top-arrow.png" alt="img"></a>
                      </div>
@@ -303,9 +306,15 @@
                      <a href="javascript://" (click)="sort_by(5)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Coming soon">T<img src="assets/img/top-arrow.png" alt="img"></a>
                      </div>
                  </th>
-                 <th style="width:9%"></th>
               </tr>
               <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }">
+                <td>
+                    <label class="cust-check-bx" >
+                    <input type="checkbox" [(ngModel)]="item.selected" name="document">
+                    <span class="checkmark"></span>
+                    </label>
+                    <!-- <i class="fa" [ngClass]="item.selected?'fa-check-square-o':'fa-square-o'" (click)="item.selected = !item.selected" aria-hidden="true"></i> -->
+                </td>
                 <td>
                   <a routerLink="{{item.id}}" href="javascript://"><img *ngIf="item.image" class="rounded-circle" [src]="item.image" alt="img">
                   <img *ngIf="!item.image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
@@ -334,15 +343,13 @@
                  <td>
                     {{item.total_count}}
                  </td>
-                 <td>
-                    <button title="View Details" routerLink="/dashboard/leads/csr-sellers/{{item.id}}" class="action-icon"><img src="./../../../../assets/img/edit.png" alt="img"></button>
-                </td>
               </tr>
 
            </tbody></table>
+           <!-- <div class="padding20" *ngIf="parameter.noResultFound">No result found</div> -->
            <div class="padding20 center" *ngIf="parameter.noResultFound">
-            <img src="assets/img/404-error.png">
-          </div>
+                <img src="assets/img/404-error.png">
+            </div>
 
         </div>
      </div>
@@ -354,7 +361,54 @@
 
   </div>
   </div>
+
     <div class="btn-cont text-right marginT15" *ngIf="parameter.total">
         <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
     </div>
 </div>
+
+
+
+<!-- Assignment model -->
+<a data-toggle="modal" data-target="#assign-model" #openAssignModel></a>
+<div class="modal" id="assign-model">
+    <div class="modal-dialog ">
+        <div class="modal-content notary-avail">
+            <div class="modal-header popup-header">
+            <h4 class="modal-title">Re Assign to</h4>
+            <button type="button" class="close" data-dismiss="modal" #closeAssignModel>&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <input style="max-width:200px" list="amenities" [(ngModel)]="assign.keyword" (input)="getAssignListing()" class="form-control" type="text" name="keyword" placeholder="Search">
+                    </div>
+                    <div class="col-md-4">
+                        <a class="btn btn-primary pull-right" (click)="assignNow()">Assign</a>
+                    </div>
+                </div>
+                <div class="spacer40"></div>
+                <table class="table">
+                    <tr *ngFor="let item of assign.items">
+                        <td>
+                            <div class="n-avail-profile">
+                            <img [src]="item.image" onerror='src="assets/img/house.png"' alt="img">
+                            <div class="n-avail-info">
+                                <p class="p12">{{item.name}}</p>
+                                <p class="p10">Phone : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
+                            </div>
+                            </div>
+                        </td>
+                        <td>
+                            <label class="cust-check-bx float-right">
+                                <input type="radio" name="notary_id" (click)="assignItem = item">
+                                <span class="checkmark"></span>
+                            </label>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+    

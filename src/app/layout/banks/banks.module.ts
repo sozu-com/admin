@@ -10,6 +10,7 @@ import { AclUserGuard } from '../../guards/acl-user.guard';
 import { BankLeadsComponent } from './bank-leads/bank-leads.component';
 import { BankLeadDetailsComponent } from './bank-leads/bank-lead-details/bank-lead-details.component';
 import { SharedModule } from '../../modules/shared.module';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 
 const routes: Routes = [
@@ -33,6 +34,7 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     Ng2TelInputModule,
+    NgxChartsModule,
     SharedModule
   ],
   declarations: [

@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AdminService } from '../../../services/admin.service';
 import { IProperty } from '../../../common/property';
 import { Constant } from './../../../common/constants';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Users } from '../../../models/users.model';
 
 
@@ -16,8 +16,14 @@ declare let swal: any;
 })
 export class CsrSellerComponent implements OnInit {
 
+  @ViewChild('openAssignModel') openAssignModel: ElementRef;
+  @ViewChild('closeAssignModel') closeAssignModel: ElementRef;
+
   public parameter: IProperty = {};
   public location: IProperty = {};
+  public assign: IProperty = {};
+  assignItem: any;
+
   items: Array<Users> = [];
 
   users: any = [];
@@ -36,6 +42,7 @@ export class CsrSellerComponent implements OnInit {
   constructor(
     private admin: AdminService,
     private constant: Constant,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -45,6 +52,9 @@ export class CsrSellerComponent implements OnInit {
     this.parameter.flag = 2;
     this.parameter.total = 0;
     this.parameter.count_flag = 1;
+    this.route.params.subscribe( params => {
+      this.parameter.assignee_id = params.id;
+    });
     this.getCountries();
     this.getListing();
     this.getCsrSellerDash();
@@ -53,11 +63,13 @@ export class CsrSellerComponent implements OnInit {
 
   getCountries() {
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
+      console.log('Country', r);
       this.location.countries = r['data'];
     });
   }
 
   onCountryChange(id) {
+    console.log(id);
     this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
     if (!id || id === 0) {
@@ -67,9 +79,11 @@ export class CsrSellerComponent implements OnInit {
     this.parameter.country_id = id;
     const selectedCountry = this.location.countries.filter(x => x.id == id);
     this.location.states = selectedCountry[0].states;
+
   }
 
   onStateChange(id) {
+    console.log(id);
     this.location.localities = []; this.parameter.locality_id = '0';
     if (!id || id === 0) {
       this.parameter.city_id = '0';
@@ -81,6 +95,7 @@ export class CsrSellerComponent implements OnInit {
   }
 
   onCityChange(id) {
+    console.log(id);
     if (!id || id == 0) {
       this.parameter.locality_id = '0';
       return false;
@@ -91,6 +106,7 @@ export class CsrSellerComponent implements OnInit {
   }
 
   onLocalityChange(id) {
+    console.log(id);
     if (!id || id == 0) {
       return false;
     }
@@ -139,8 +155,15 @@ export class CsrSellerComponent implements OnInit {
     }
     this.admin.postDataApi('getCsrSellers', input).subscribe(
       success => {
+        console.log(success.data);
         this.users = success.data;
       });
+  }
+
+  closeCsrListing() {
+    setTimeout(() => {
+      this.users = [];
+    }, 200);
   }
 
   selectCsrUser(user) {
@@ -157,16 +180,19 @@ export class CsrSellerComponent implements OnInit {
     this.parameter.keyword = '';
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
-    this.parameter.flag = 2;
+    // this.parameter.flag = 2;
     this.parameter.total = 0;
     this.parameter.count_flag = 1;
     this.getListing();
+    this.getCsrSellerDash();
   }
 
   getCsrSellerDash() {
     const input = new FormData();
     if (this.selectedUser) {
       input.append('assignee_id', this.selectedUser.id);
+    } else if (this.parameter.assignee_id) {
+      input.append('assignee_id', this.parameter.assignee_id);
     }
     if (this.parameter.flag) {
       input.append('flag', this.parameter.flag.toString());
@@ -198,11 +224,14 @@ export class CsrSellerComponent implements OnInit {
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     if (this.selectedUser) {
       input.assignee_id = this.selectedUser.id;
+    } else if (this.parameter.assignee_id) {
+      input.assignee_id = this.parameter.assignee_id;
     }
     this.admin.postDataApi('leads/csr-seller', input).subscribe(
     success => {
       this.items = success.data;
       if (this.items.length <= 0) { this.parameter.noResultFound = true; }
+      console.log(success);
       this.parameter.total = success.total_count;
     });
   }
@@ -222,4 +251,49 @@ export class CsrSellerComponent implements OnInit {
     }
     this.getListing();
   }
+
+  selectAll() {
+    this.items.forEach(item => {
+      item.selected = true;
+    });
+  }
+
+  bulkAssign() {
+    // this.assign.keyword = '';
+    this.openAssignModel.nativeElement.click();
+    // this.admin.postDataApi('getCsrSellers', {}).subscribe(
+    //   success => {
+    //     this.assign.items = success.data;
+    //   });
+  }
+
+  getAssignListing() {
+    // this.assign.items = [];
+    const input = {
+      keyword: this.assign.keyword
+    };
+    this.admin.postDataApi('getCsrSellers', input).subscribe(
+    success => {
+      this.assign.items = success.data;
+    });
+  }
+
+  assignNow() {
+    const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
+    const input = {
+      closer_id: this.assignItem.id,
+      leads: leads_ids
+    };
+    this.admin.postDataApi('leads/bulkAssignSeller', input).subscribe(r => {
+      this.closeAssignModel.nativeElement.click();
+      console.log(r);
+      this.getListing();
+    },
+    error => {
+      this.closeAssignModel.nativeElement.click();
+      swal('Error', error.error.message, 'error');
+    });
+
+  }
+
 }

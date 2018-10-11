@@ -30,7 +30,7 @@ export class AddProjectComponent implements OnInit {
 
   myform: FormGroup;
   myform2: FormGroup;
-  
+
   public latitude: number;
   public longitude: number;
   public zoom: number;
@@ -56,7 +56,7 @@ export class AddProjectComponent implements OnInit {
 
   selected_amenities: any= [];
   new_config: any = new Configuration;
-  new_custom:any = {name:'',value:''};
+  new_custom: any = {name: '', value: ''};
   new_config_edit: any;
   FU: any= {};
   initialCountry = {initialCountry: 'mx'};
@@ -141,8 +141,8 @@ export class AddProjectComponent implements OnInit {
   }
 
   saveImages() {
-    if(this.file2.files.length < 1){
-      swal('Error','Please select atleast one image','error');return false;
+    if (this.file2.files.length < 1){
+      swal('Error', 'Please select atleast one image', 'error'); return false;
     }
     this.modalClose.nativeElement.click();
     this.file2.upload().then(r => {
@@ -289,7 +289,7 @@ export class AddProjectComponent implements OnInit {
     // console.log(config);
     this.new_config_edit = index;
     this.new_config = JSON.parse(JSON.stringify(config));
-    console.log('EDIT',this.new_config);
+    console.log('EDIT', this.new_config);
     this.file3.image = config.floor_map_image;
     this.file4.files = [];
     config.images.forEach((item, index) => {
@@ -301,7 +301,7 @@ export class AddProjectComponent implements OnInit {
   deleteConfiguration(index) {
     swal({
       title: 'Are you sure?',
-      text: "Do you want to Delete?",
+      text: 'Do you want to Delete?',
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#00B96F',
@@ -311,13 +311,13 @@ export class AddProjectComponent implements OnInit {
       if (result.value) {
         this.model.configurations.splice(index, 1);
       }
-    })
+    });
 
   }
 
   addNewConfig() {
-    if(this.file4.files.length < 1){
-      swal('Error','Please select atleast one more image','error');return false;
+    if (this.file4.files.length < 1){
+      swal('Error', 'Please select atleast one more image', 'error'); return false;
     }
     this.closeConfigPopup.nativeElement.click();
     this.parameter.loading = true;
@@ -329,8 +329,8 @@ export class AddProjectComponent implements OnInit {
         this.new_config.floor_map_image = this.file3.image;
         console.log('===', this.file4.files);
         this.new_config.images = this.file4.files;
-        console.log(this.new_config_edit,this.new_config);
-        if(this.new_config_edit >= 0 ){
+        console.log(this.new_config_edit, this.new_config);
+        if (this.new_config_edit >= 0 ){
           this.model.configurations[this.new_config_edit] = this.new_config;
         }else{
           this.model.configurations.push(this.new_config);
@@ -375,7 +375,7 @@ export class AddProjectComponent implements OnInit {
     if (!this.model.description) {swal('Error', 'Please add building description', 'error'); return false; }
     if (!this.model.possession_status_id) {swal('Error', 'Please add possession status', 'error'); return false; }
     if (!this.model.floors) {swal('Error', 'Please add floors', 'error'); return false; }
-    if (!this.model.launch_date){swal('Error','Please add building launch date','error'); return false;}
+    if (!this.model.launch_date){swal('Error', 'Please add building launch date', 'error'); return false; }
     if (!this.model.avg_price) {swal('Error', 'Please add building average price', 'error'); return false; }
     if (this.model.amenities.length < 1) {swal('Error', 'Please add amenities', 'error'); return false; }
     if (this.model.configurations.length < 1) {swal('Error', 'Please add building configuration', 'error'); return false; }
@@ -430,11 +430,11 @@ export class AddProjectComponent implements OnInit {
   }
 
   addNewCustom(){
-    if(!this.new_custom.name || !this.new_custom.value){
+    if (!this.new_custom.name || !this.new_custom.value){
       swal('Error', 'Please add parameter name and value', 'error');
       return false;
     }
     this.model.custom_attributes.unshift(this.new_custom);
-    this.new_custom = {name:'',value:''};
+    this.new_custom = {name: '', value: ''};
   }
 }

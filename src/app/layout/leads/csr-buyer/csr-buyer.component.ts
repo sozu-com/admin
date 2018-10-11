@@ -1,9 +1,10 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import { AdminService } from '../../../services/admin.service';
 import { IProperty } from '../../../common/property';
 import { Constant } from './../../../common/constants';
 import { Users } from '../../../models/users.model';
+import { ActivatedRoute } from '@angular/router';
 declare let swal: any;
 
 @Component({
@@ -13,8 +14,14 @@ declare let swal: any;
 })
 export class CsrBuyerComponent implements OnInit {
 
+  @ViewChild('openAssignModel') openAssignModel: ElementRef;
+  @ViewChild('closeAssignModel') closeAssignModel: ElementRef;
+
   public parameter: IProperty = {};
   public location: IProperty = {};
+  public assign: IProperty = {};
+  assignItem: any;
+
   items: Array<Users> = [];
 
   users: any = [];
@@ -31,7 +38,8 @@ export class CsrBuyerComponent implements OnInit {
 
   constructor(
     public admin: AdminService,
-    private constant: Constant
+    private constant: Constant,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -41,10 +49,14 @@ export class CsrBuyerComponent implements OnInit {
     this.parameter.flag = 2;
     this.parameter.total = 0;
     this.parameter.count_flag = 1;
+    this.route.params.subscribe( params => {
+      this.parameter.assignee_id = params.id;
+    });
     this.getCountries();
     this.getListing();
     this.getCsrSellerDash();
     Object.assign(this, this.chartView);
+
   }
 
   getCountries() {
@@ -139,6 +151,12 @@ export class CsrBuyerComponent implements OnInit {
       });
   }
 
+  closeCsrListing() {
+    setTimeout(() => {
+      this.users = [];
+    }, 200);
+  }
+
   selectCsrUser(user) {
     this.selectedUser = user;
     this.users = [];
@@ -153,16 +171,19 @@ export class CsrBuyerComponent implements OnInit {
     this.parameter.keyword = '';
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
-    this.parameter.flag = 2;
+    // this.parameter.flag = 2;
     this.parameter.total = 0;
     this.parameter.count_flag = 1;
     this.getListing();
+    this.getCsrSellerDash();
   }
 
   getCsrSellerDash() {
     const input = new FormData();
     if (this.selectedUser) {
       input.append('assignee_id', this.selectedUser.id);
+    } else if (this.parameter.assignee_id) {
+      input.append('assignee_id', this.parameter.assignee_id);
     }
     if (this.parameter.flag) {
       input.append('flag', this.parameter.flag.toString());
@@ -194,6 +215,8 @@ export class CsrBuyerComponent implements OnInit {
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     if (this.selectedUser) {
       input.assignee_id = this.selectedUser.id;
+    } else if (this.parameter.assignee_id) {
+      input.assignee_id = this.parameter.assignee_id;
     }
     this.admin.postDataApi('leads/csr-buyer', input).subscribe(
     success => {
@@ -217,5 +240,49 @@ export class CsrBuyerComponent implements OnInit {
       this.parameter.sort_by_order = this.parameter.sort_by_order ? 0 : 1;
     }
     this.getListing();
+  }
+
+  selectAll() {
+    this.items.forEach(item => {
+      item.selected = true;
+    });
+  }
+
+  bulkAssign() {
+    // this.assign.keyword = '';
+    this.openAssignModel.nativeElement.click();
+    // this.admin.postDataApi('getCsrBuyers', {}).subscribe(
+    //   success => {
+    //     this.assign.items = success.data;
+    //   });
+  }
+
+  getAssignListing() {
+    // this.assign.items = [];
+    const input = {
+      keyword: this.assign.keyword
+    };
+    this.admin.postDataApi('getCsrBuyers', input).subscribe(
+    success => {
+      this.assign.items = success.data;
+    });
+  }
+
+  assignNow() {
+    const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
+    const input = {
+      csr_buyer_id: this.assignItem.id,
+      leads: leads_ids
+    };
+    this.admin.postDataApi('leads/bulkAssignBuyer', input).subscribe(r => {
+      this.closeAssignModel.nativeElement.click();
+      console.log(r);
+      this.getListing();
+    },
+    error => {
+      this.closeAssignModel.nativeElement.click();
+      swal('Error', error.error.message, 'error');
+    });
+
   }
 }

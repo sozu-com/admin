@@ -25,7 +25,7 @@ export class CsrSellerDetailComponent implements OnInit {
   availability_sort = 1;
   lead_sort = 1;
 
-  seller_id:any;
+  seller_id: any;
 
   constructor(
     public constant: Constant,
@@ -42,7 +42,7 @@ export class CsrSellerDetailComponent implements OnInit {
       this.parameter.page = this.constant.p;
       this.parameter.dash_flag = 2;
       this.parameter.flag = 3;
-      this.parameter.property_for ='';
+      this.parameter.property_for = '';
       this.getCountries();
       this.getPropertyConfigurations();
       this.getListing();
@@ -57,7 +57,7 @@ export class CsrSellerDetailComponent implements OnInit {
       success => {
         console.log('LIST', success);
         this.items = success.data;
-        if(this.items.length <= 0){this.parameter.noResultFound = true;}
+        if (this.items.length <= 0){this.parameter.noResultFound = true; }
         this.total = success.total_count;
         this.parameter.loading = false;
       },
@@ -140,11 +140,11 @@ export class CsrSellerDetailComponent implements OnInit {
   }
 
   sort_by(sort_by){
-    if(this.parameter.sort_by != sort_by){
+    if (this.parameter.sort_by != sort_by){
       this.parameter.sort_by = sort_by;
       this.parameter.sort_by_order = 0;
     }else{
-      this.parameter.sort_by_order = this.parameter.sort_by_order?0:1;
+      this.parameter.sort_by_order = this.parameter.sort_by_order ? 0 : 1;
     }
     this.getListing();
   }

@@ -7,7 +7,7 @@ export class FileUpload {
     image: any;
     files: any;
     loading = false;
-    backupArray:any;
+    backupArray: any;
 
     constructor(single, us){
       this.us = us;
@@ -68,7 +68,7 @@ export class FileUpload {
        return new Promise((resolve, reject) => {
                if (this.single == false){
                  const total = this.files.length; let i = 1;
-                 this.files.map((item)=>{
+                 this.files.map((item) => {
                    if (item.file){
                     const formData = new FormData();
                     formData.append('image', item.file);

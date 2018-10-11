@@ -24,30 +24,40 @@ import { ViewedPropertyComponent } from './../common-blocks/viewed-property/view
 import { FillInformationComponent } from './../common-blocks/fill-information/fill-information.component';
 import { MyChatComponent } from './inhouse-broker/inhouse-broker-detail/my-chat/my-chat.component';
 import { AclUserGuard } from '../../guards/acl-user.guard';
-import { LayoutModule } from '../layout.module';
 import { SharedModule } from '../../modules/shared.module';
-import { AuthGuard } from '../../guards/auth.guard';
 import { CsrSellerDetailComponent } from './csr-seller/csr-seller-detail/csr-seller-detail.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 const routes: Routes = [
   { path: 'data-collectors', component: DataCollectorComponent,
     canActivate: [AclUserGuard], data: {roles: ['Data Collector Lead Management', 'can_read', 'can_data_collector']}},
+
   { path: 'csr-sellers', component: CsrSellerComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Seller Lead Management', 'can_read', 'can_csr_seller']}},
+  { path: 'csr-sellers-leads/:id', component: CsrSellerComponent,
     canActivate: [AclUserGuard], data: {roles: ['Seller Lead Management', 'can_read', 'can_csr_seller']}},
   { path: 'csr-sellers/:id', component: CsrSellerDetailComponent,
     canActivate: [AclUserGuard], data: {roles: ['Seller Lead Management', 'can_read', 'can_csr_seller']}},
+
   { path: 'csr-buyers', component: CsrBuyerComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Buyer Lead Management', 'can_read', 'can_csr_buyer']}},
+  { path: 'csr-buyers-leads/:id', component: CsrBuyerComponent,
     canActivate: [AclUserGuard], data: {roles: ['Buyer Lead Management', 'can_read', 'can_csr_buyer']}},
   { path: 'csr-buyers/:id', component: CsrBuyerDetailComponent,
     canActivate: [AclUserGuard], data: {roles: ['Buyer Lead Management', 'can_read', 'can_csr_buyer']}},
+
   { path: 'inhouse-broker', component: InhouseBrokerComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker']}},
+  { path: 'inhouse-broker-leads/:id', component: InhouseBrokerComponent,
     canActivate: [AclUserGuard], data: {roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker']}},
   { path: 'inhouse-broker/:id', component: InhouseBrokerDetailComponent,
     canActivate: [AclUserGuard], data: {roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker']}},
   { path: 'chat-with-developer/:id', component: MyChatComponent,
     canActivate: [AclUserGuard], data: {roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker']}},
+
   { path: 'csr-closers', component: CsrCloserComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Closer Lead Management', 'can_read', 'can_csr_closer']}},
+  { path: 'csr-closers-leads/:id', component: CsrCloserComponent,
     canActivate: [AclUserGuard], data: {roles: ['Closer Lead Management', 'can_read', 'can_csr_closer']}},
   { path: 'csr-closers/:id', component: CsrCloserDetailComponent,
     canActivate: [AclUserGuard], data: {roles: ['Closer Lead Management', 'can_read', 'can_csr_closer']}}

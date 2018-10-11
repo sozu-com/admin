@@ -31,6 +31,7 @@ import { HttpInterceptor } from './../services/http-interceptor';
 import { GenerateThumbComponent } from './generate-thumb/generate-thumb.component';
 import { AclPermissionDirective } from '../directives/acl-permission.directive';
 import { AclUserGuard } from '../guards/acl-user.guard';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
     imports: [
@@ -52,6 +53,7 @@ import { AclUserGuard } from '../guards/acl-user.guard';
             libraries: ['drawing']
           }),
         Ng2TelInputModule,
+        NgxChartsModule,
         FroalaEditorModule.forRoot(),
         FroalaViewModule.forRoot()
     ],

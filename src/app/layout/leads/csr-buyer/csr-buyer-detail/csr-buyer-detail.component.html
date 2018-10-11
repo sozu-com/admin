@@ -2,28 +2,18 @@
   <div class="white-bg padding15">
      <div class="row">
          <div class="col-lg-3 col-md-12 col-sm-12 col-12">
-           <div *ngIf="parameter.lead?.user" class="profile">
-              <div class="fig-block">
-                 <img [src]="parameter?.lead?.user?.image" onerror='src="assets/img/default_img.png"' alt="img">
+           <div class="df-profile">
+              <a routerLink="../"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+              <img [src]="parameter?.lead?.user?.image" onerror='src="assets/img/default_img.png"' alt="img">
+              <div class="df-info">
+                  <p class="p14">{{parameter?.lead?.user?.name ? parameter?.lead?.user?.name : parameter?.lead?.name}}</p>
+                  <p class="p12">
+                    {{parameter?.lead?.user?.dial_code ? parameter?.lead?.user?.dial_code : parameter?.lead?.dial_code}}-{{parameter?.lead?.user?.phone ? parameter?.lead?.user?.phone : parameter?.lead?.phone}}
+                  </p>
               </div>
-              <div class="profile-info">
-                 <h6>{{parameter.lead.user.name ? parameter.lead.user.name : parameter.lead.name}}</h6>
-                 <p>{{parameter.lead.user.dial_code ? parameter.lead.user.dial_code : parameter.lead.dial_code}}-{{parameter.lead.user.phone?parameter.lead.user.phone:parameter.lead.phone}}</p>
-              </div>
-           </div>
+            </div>
         </div>
-         <!-- <div class="col-lg-4 col-md-12 col-sm-12 col-12">
-           <div *ngIf="parameter.lead?.broker" class="profile">
-              <div class="fig-block">
-                 <img [src]="parameter.lead.broker.image" onerror='src="assets/img/default_img.png"' alt="img">
-              </div>
-              <div class="profile-info">
-                 <h6>{{parameter.lead.broker.name}}</h6>
-                 <p>Broker</p>
-              </div>
-           </div>
-        </div> -->
-        <div class="col-lg-5 col-md-12 col-sm-6 col-12">
+        <div class="col-lg-6 col-md-12 col-sm-6 col-12">
             <div class="profile-list">
             <ul>
                 <li>
@@ -42,7 +32,7 @@
             </div>
         </div>
         
-        <div class="col-lg-4 col-md-12 col-sm-12 col-12" *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1">
+        <div class="col-lg-3 col-md-12 col-sm-12 col-12" *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1">
            <div class="form-group d-flex marginT10 float-right right-side">
              <div class="dropdown btn-cont">
               <a *ngIf="!parameter.lead?.broker && parameter.lead?.user && (admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1)" (click)="assignToBroker()" class="btn btn-primary" href="javascript://">Assign to broker</a>
@@ -57,6 +47,7 @@
            </div>
         </div>
      </div>
+
   </div>
   <!-- <ngx-loading [show]="parameter.loading"></ngx-loading> -->
   <div class="spacer30"></div>

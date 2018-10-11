@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AdminService } from '../../../services/admin.service';
 import { IProperty } from '../../../common/property';
 import { Constant } from './../../../common/constants';
@@ -14,8 +14,14 @@ declare let swal: any;
 })
 export class DataCollectorComponent implements OnInit {
 
+  @ViewChild('openAssignModel') openAssignModel: ElementRef;
+  @ViewChild('closeAssignModel') closeAssignModel: ElementRef;
+
   public parameter: IProperty = {};
   public location: IProperty = {};
+  public assign: IProperty = {};
+  assignItem: any;
+
   items: Array<Users> = [];
 
   users: any = [];
@@ -150,6 +156,12 @@ export class DataCollectorComponent implements OnInit {
       });
   }
 
+  closeCsrListing() {
+    setTimeout(() => {
+      this.users = [];
+    }, 200);
+  }
+
   selectCsrUser(user) {
     this.selectedUser = user;
     this.users = [];
@@ -164,10 +176,11 @@ export class DataCollectorComponent implements OnInit {
     this.parameter.keyword = '';
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
-    this.parameter.flag = 2;
+    // this.parameter.flag = 2;
     this.parameter.total = 0;
     this.parameter.count_flag = 1;
     this.getListing();
+    this.getCsrSellerDash();
   }
 
   getCsrSellerDash() {
@@ -211,6 +224,7 @@ export class DataCollectorComponent implements OnInit {
     success => {
       this.items = success.data;
       if (this.items.length <= 0) { this.parameter.noResultFound = true; }
+      console.log('listing', success);
       this.parameter.total = success.total_count;
     });
   }
@@ -231,15 +245,57 @@ export class DataCollectorComponent implements OnInit {
     this.getListing();
   }
 
-  changeStatus(item, status) {
-    if (status === 1) {
-      this.admin.postDataApi('leads/markBuildingRequestComplete', {id: item.id}).subscribe(r => {
-        item.status = 1;
-        swal('Success', 'Successfully marked as complete.', 'success');
-      },
-      error => {
-        swal('Error', error.error.message, 'error');
-      });
-    }
+  changeStatus(item) {
+    this.admin.postDataApi('leads/markBuildingRequestComplete', {id: item.id}).subscribe(r => {
+      item.status = 1;
+    },
+    error => {
+      swal('Error', error.error.message, 'error');
+    });
   }
+
+  selectAll() {
+    this.items.forEach(item => {
+      item.selected = true;
+    });
+  }
+
+  bulkAssign() {
+    // this.assign.keyword = '';
+    this.openAssignModel.nativeElement.click();
+    // this.admin.postDataApi('getDataCollectors', {}).subscribe(
+    //   success => {
+    //     this.assign.items = success.data;
+    //   });
+  }
+
+  getAssignListing() {
+    // this.assign.items = [];
+    const input = {
+      keyword: this.assign.keyword
+    };
+    this.admin.postDataApi('getDataCollectors ', input).subscribe(
+    success => {
+      this.assign.items = success.data;
+    });
+  }
+
+  assignNow() {
+    const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
+    const input = {
+      data_collector_id: this.assignItem.id,
+      leads: leads_ids
+    };
+    this.admin.postDataApi('leads/bulkAssignCollector', input).subscribe(r => {
+      this.closeAssignModel.nativeElement.click();
+      console.log(r);
+      this.getListing();
+    },
+    error => {
+      this.closeAssignModel.nativeElement.click();
+      swal('Error', error.error.message, 'error');
+    });
+
+  }
+
 }

@@ -9,4 +9,5 @@ export class Users {
     interested_in: string;
     user_type: string;
     address: string;
+    selected: any;
 }

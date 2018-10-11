@@ -7,13 +7,13 @@ import { locale as es } from './app.es';
 @Injectable()
 export class TranslateService {
 
-  dictionary:Object={
-    'en':en,
-    'es':es
+  dictionary: Object= {
+    'en': en,
+    'es': es
   };
 
-  lang_code:any='en';
-  lang:any;
+  lang_code: any= 'en';
+  lang: any;
 
   constructor() {
     //console.log(this.dictionary[this.lang_code]);

@@ -129,4 +129,5 @@ export interface IProperty {
   seller_id?: any;
   noResultFound?: any;
   data_collector_id?: string;
+  assignee_id?: string;
 }
