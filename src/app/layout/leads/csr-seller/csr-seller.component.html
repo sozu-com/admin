@@ -1,7 +1,7 @@
 <!-- <ngx-loading [show]="parameter.loading"></ngx-loading> -->
 
 <div class="container-fluid">
-    <div class="row">
+    <div class="row" *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 && !this.parameter.assignee_id">
         <div class="col-md-4">
          <div class="form-group">
           <p class="p16">Manage CSR Seller's Lead</p>
@@ -237,19 +237,18 @@
         <div class="table-responsive">
            <table class="table table-striped border-0">
               <tbody>
-
               <tr>
                 <th style="width:6%">
                     <div class="table-search">
                     <a (click)="selectAll()"><label>All</label></a>
                     </div>
                 </th>
-              <th style="width:6%; border-top:0">
-                <div class="table-search">
-                    <label>Image</label>
-                </div>
+                <th style="width:6%; border-top:0">
+                    <div class="table-search">
+                        <label>Image</label>
+                    </div>
                 </th>
-                 <th style="width:20%; border-top:0">
+                <th style="width:20%; border-top:0">
                     <div class="table-search">
                        <label>Name</label>
                        <div class="searh-3">
@@ -257,8 +256,8 @@
                         <button *ngIf="parameter.name" (click)="getListing()"><i class="fa fa-search"></i></button>
                       </div>
                     </div>
-                 </th>
-                 <th style="width:20%; text-align:left; border-top:0">
+                </th>
+                <th style="width:20%; text-align:left; border-top:0">
                     <div class="table-search">
                        <label>Contact Number</label>
                        <div class="searh-3">
@@ -266,8 +265,8 @@
                             <button *ngIf="parameter.phone" (click)="getListing()"><i class="fa fa-search"></i></button>
                         </div>
                     </div>
-                 </th>
-                 <th style="width:20%; border-top:0">
+                </th>
+                <th style="width:20%; border-top:0">
                     <div class="table-search">
                        <label>Email Address</label>
                        <div class="searh-3">
@@ -277,10 +276,17 @@
                     </div>
                  </th>
                  <th>
-                 <label>Properties</label>
-                  <div class="ppties">
-                     <a href="javascript://" (click)="sort_by(1)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Coming soon">A<img src="assets/img/top-arrow.png" alt="img"></a>
-                     </div>
+                    <div class="table-search">
+                        <label>Assignee</label>
+                    </div>
+                 </th>
+                 <th>
+                    <div class="table-search">
+                        <label>Properties</label>
+                    </div>
+                    <div class="ppties">
+                        <a href="javascript://" (click)="sort_by(1)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Coming soon">A<img src="assets/img/top-arrow.png" alt="img"></a>
+                    </div>
                  </th>
                   <th>
                    <label>&nbsp;</label>
@@ -328,6 +334,7 @@
                   <td class="text-left">
                     {{item.email}}
                  </td>
+                 <td class="text-left">{{item.csr_seller_name}}</td>
                  <td>
                   {{item.approved_count}}
                  </td>
@@ -383,8 +390,8 @@
                     <div class="col-md-8">
                         <input style="max-width:200px" list="amenities" [(ngModel)]="assign.keyword" (input)="getAssignListing()" class="form-control" type="text" name="keyword" placeholder="Search">
                     </div>
-                    <div class="col-md-4">
-                        <a class="btn btn-primary pull-right" (click)="assignNow()">Assign</a>
+                    <div class="col-md-4 btn-cont">
+                        <a class="btn btn-primary pull-right" href="javascript://" (click)="assignNow()">Assign</a>
                     </div>
                 </div>
                 <div class="spacer40"></div>

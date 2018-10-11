@@ -1,6 +1,6 @@
 
 <div class="container-fluid">
-    <div class="row" *ngIf="admin?.admin_acl['Broker Lead Management']?.can_read==1">
+    <div class="row" *ngIf="admin?.admin_acl['Broker Lead Management']?.can_read==1 && !this.parameter.assignee_id">
         <div class="col-md-4">
             <div class="form-group">
                 <p class="p16">Manage Inhouse Broker's Leads</p>
@@ -342,8 +342,8 @@
                         <div class="col-md-8">
                             <input style="max-width:200px" list="amenities" [(ngModel)]="assign.keyword" (input)="getAssignListing()" class="form-control" type="text" name="keyword" placeholder="Search">
                         </div>
-                        <div class="col-md-4">
-                            <a class="btn btn-primary pull-right" (click)="assignNow()">Assign</a>
+                        <div class="col-md-4 btn-cont">
+                            <a class="btn btn-primary pull-right" href="javascript://" (click)="assignNow()">Assign</a>
                         </div>
                     </div>
                     <div class="spacer40"></div>

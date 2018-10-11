@@ -220,13 +220,9 @@
                        </li> -->
 
 
-
                        <li *ngIf="admin?.admin_acl['Dashboard']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
                           <a class="nav-link" href="javascript://" routerLink="/dashboard/dashboard"><i><img src="assets/img/dashboard.png"></i><span>Dashboard</span></a>
                         </li>
-                       <!-- <li *ngIf="admin?.admin_acl['Dashboard']?.can_read==1" [routerLinkActive]="'active'" class="nav-item">
-                          <a class="nav-link" routerLink="/dashboard"><i><img src="assets/img/dashboard.png"></i><span>Dashboard</span></a>
-                        </li> -->
 
                        <li *ngIf="admin?.admin_acl['Data Collector Management']?.can_read==1 || admin?.admin_acl['Seller Management']?.can_read==1 ||
                                   admin?.admin_acl['Buyer Management']?.can_read==1 || admin?.admin_acl['Broker Management']?.can_read==1 ||
@@ -271,10 +267,6 @@
                         </div>
                      </li>
 
-                      <!-- <li *ngIf="admin?.admin_acl['Bank Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
-                        <a class="nav-link" href="javascript://" routerLink="banks/view-banks"><i><img src="assets/img/bank.png"></i><span>Manage Banks</span></a>
-                      </li> -->
-                       
                       <li *ngIf="admin?.admin_acl['User Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
                         <a class="nav-link" href="javascript://" routerLink="users"><i><img src="assets/img/users.png"></i><span>Manage Users</span></a>
                       </li>
@@ -289,11 +281,11 @@
                           <i><img src="assets/img/ic_leads.png"></i><span>Manage Leads</span></a>
                           <div class="dropdown-menu">
                              <ul>
-                                <li *ngIf="admin?.admin_acl['Data Collector Lead Management']?.can_read==1 || admin?.permissions?.can_data_collector==1" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="leads/data-collectors">Data Collectors</a></li>
-                                <li *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 || admin?.permissions?.can_csr_seller==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/csr-sellers">CSR Sellers</a></li>
-                                <li *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_read==1 || admin?.permissions?.can_csr_buyer==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/csr-buyers">CSR Buyers</a></li>
-                                <li *ngIf="admin?.admin_acl['Broker Lead Management']?.can_read==1 || admin?.permissions?.can_in_house_broker==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/inhouse-broker">Inhouse Brokers</a></li>
-                                <li *ngIf="admin?.admin_acl['Closer Lead Management']?.can_read==1 || admin?.permissions?.can_csr_closer==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/csr-closers">CSR Closures</a></li>
+                                <li *ngIf="admin?.admin_acl['Data Collector Lead Management']?.can_read==1 || admin?.permissions?.can_data_collector==1" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="leads/data-collectors">Data Collector</a></li>
+                                <li *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 || admin?.permissions?.can_csr_seller==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/csr-sellers">CSR Seller</a></li>
+                                <li *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_read==1 || admin?.permissions?.can_csr_buyer==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/csr-buyers">CSR Buyer</a></li>
+                                <li *ngIf="admin?.admin_acl['Broker Lead Management']?.can_read==1 || admin?.permissions?.can_in_house_broker==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/inhouse-broker">Inhouse Broker</a></li>
+                                <li *ngIf="admin?.admin_acl['Closer Lead Management']?.can_read==1 || admin?.permissions?.can_csr_closer==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/csr-closers">CSR Closure</a></li>
                              </ul>
                           </div>
                        </li>

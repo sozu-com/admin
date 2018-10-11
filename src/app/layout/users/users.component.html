@@ -89,8 +89,7 @@
                 <td class="text-left">{{item.email}}</td>
                 <td *ngIf="parameter.type==1">
                   <span *ngFor="let interest of item.interests; let ii=index">
-                    {{interest.name}}
-                    <span *ngIf="ii<item.interests?.length-1">,</span>
+                    {{interest.name}}<span *ngIf="ii<item.interests?.length-1">,</span>
                   </span>
                   <span *ngIf="item.interests?.length == 0">NA</span>
                 </td>
