@@ -130,4 +130,6 @@ export interface IProperty {
   noResultFound?: any;
   data_collector_id?: string;
   assignee_id?: string;
+  min?: any;
+  max?: any;
 }

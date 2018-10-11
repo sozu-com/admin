@@ -94,13 +94,20 @@
                     <a class="nav-link" [ngClass]="{'active':parameter.flag==4}" (click)="changeFlag(4)" >Lifetime</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" [ngClass]="{'active':parameter.flag==5}" (click)="changeFlag(5)" >Custom</a>
+                    <a class="nav-link" [ngClass]="{'active':parameter.flag==5}" (click)="parameter.flag=5" >Custom</a>
                 </li>
               </ul>
             </div>
          </div>
          <div class="col-12">
             <hr style="margin-top:0;">
+            <div *ngIf="parameter.flag == 5" class="pull-right btn-cont">
+                From:<input type="date" [ngModel] ="parameter.min | date:'yyyy-MM-dd'" max="{{today| date:'yyyy-MM-dd'}}" (ngModelChange)="parameter.min = $event; parameter.max=''" />
+                To:<input type="date" [ngModel] ="parameter.max | date:'yyyy-MM-dd'" min="{{parameter.min | date:'yyyy-MM-dd'}}" max="{{today| date:'yyyy-MM-dd'}}" (ngModelChange)="parameter.max = $event" />
+                <button class="btn btn-primary" href="javascript://" (click)="getListing()" [disabled]="
+                parameter.flag == 5 && (!parameter.min || !parameter.max)
+                ">Go</button>
+            </div>
          </div>
       </div>
       <div *ngIf="selectedUser as item" class="sigle-row-table">
@@ -208,7 +215,7 @@
             <div class="title-group">
                <h5>Leads 
                 <span *ngIf="parameter.count_flag == 1">(Total)</span>
-                <span *ngIf="parameter.count_flag == 2">(Noatary Pending)</span>
+                <span *ngIf="parameter.count_flag == 2">(Notary Pending)</span>
                 <span *ngIf="parameter.count_flag == 3">(Bank Pending)</span>
                 <span *ngIf="parameter.count_flag == 4">(Open)</span>
                 <span *ngIf="parameter.count_flag == 5">(Closed)</span>

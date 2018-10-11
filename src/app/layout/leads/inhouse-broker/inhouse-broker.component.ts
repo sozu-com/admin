@@ -23,7 +23,7 @@ export class InhouseBrokerComponent implements OnInit {
   assignItem: any;
 
   items = [];
-
+  today = new Date();
   users: any = [];
   selectedUser: any;
   initSelection = false;

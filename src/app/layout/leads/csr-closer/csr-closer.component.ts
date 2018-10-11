@@ -24,7 +24,7 @@ export class CsrCloserComponent implements OnInit {
   assignItem: any;
 
   items: Array<Users> = [];
-
+  today = new Date();
   users: any = [];
   selectedUser: any;
   initSelection = false;

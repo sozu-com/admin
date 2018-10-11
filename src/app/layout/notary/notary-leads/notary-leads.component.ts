@@ -51,6 +51,7 @@ export class NotaryLeadsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.today = new Date();
     this.parameter.keyword = '';
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
@@ -58,11 +59,9 @@ export class NotaryLeadsComponent implements OnInit {
     this.parameter.total = 0;
     this.parameter.count_flag = 1;
     this.getCountries();
-    //this.getCsrListing();
     this.getListing();
     this.getCsrSellerDash();
     Object.assign(this, this.chartView);
-    //this.myChart = new Chart(ctx,{});
   }
 
   getCountries() {
@@ -130,13 +129,13 @@ export class NotaryLeadsComponent implements OnInit {
     this.getListing();
   }
 
-  changeCountFlag(flag){
+  changeCountFlag(flag) {
     console.log(flag);
     this.parameter.count_flag = flag;
     this.getListing();
   }
 
-  getCsrListing(){
+  getCsrListing() {
     this.initSelection = true;
     this.users = [];
     const input = new FormData();
@@ -165,13 +164,13 @@ export class NotaryLeadsComponent implements OnInit {
       });
   }
 
-  closeCsrListing(){
+  closeCsrListing() {
     setTimeout(() => {
       this.users = [];
     }, 200);
   }
 
-  selectCsrUser(user){
+  selectCsrUser(user) {
     this.selectedUser = user;
     this.users = [];
     this.parameter.keyword = '';
@@ -180,7 +179,7 @@ export class NotaryLeadsComponent implements OnInit {
     this.getCsrSellerDash();
   }
 
-  removeCsrUser(){
+  removeCsrUser() {
     this.selectedUser = '';
     this.parameter.keyword = '';
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
@@ -192,7 +191,7 @@ export class NotaryLeadsComponent implements OnInit {
     this.getCsrSellerDash();
   }
 
-  getCsrSellerDash(){
+  getCsrSellerDash() {
     const input = new FormData();
     if (this.selectedUser) {
       input.append('assignee_id', this.selectedUser.id);
@@ -218,7 +217,6 @@ export class NotaryLeadsComponent implements OnInit {
           'value': parseInt(this.dash.close_count, 10)
         }
       ];
-      //Object.assign(this,this.chartView);
     });
   }
 
@@ -242,11 +240,11 @@ export class NotaryLeadsComponent implements OnInit {
     this.getListing();
   }
 
-  sort_by(sort_by_flag){
-    if (this.parameter.sort_by_flag != sort_by_flag){
+  sort_by(sort_by_flag) {
+    if (this.parameter.sort_by_flag !== sort_by_flag) {
       this.parameter.sort_by_flag = sort_by_flag;
       this.parameter.sort_by_order = 0;
-    }else{
+    }else {
       this.parameter.sort_by_order = this.parameter.sort_by_order ? 0 : 1;
     }
     this.getListing();
@@ -310,13 +308,13 @@ export class NotaryLeadsComponent implements OnInit {
   }
 
 
-  selectAll(){
+  selectAll() {
     this.items.forEach(item => {
       item.selected = true;
     });
   }
 
-  bulkAssign(){
+  bulkAssign() {
     // this.assign.keyword = '';
     this.openAssignModel.nativeElement.click();
     // this.admin.postDataApi('getCsrBuyers', {}).subscribe(
@@ -325,7 +323,7 @@ export class NotaryLeadsComponent implements OnInit {
     //   });
   }
 
-  getAssignListing(){
+  getAssignListing() {
     // this.assign.items = [];
     const input = {
       keyword: this.assign.keyword
@@ -336,7 +334,7 @@ export class NotaryLeadsComponent implements OnInit {
     });
   }
 
-  assignNow(){
+  assignNow() {
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     const input = {
       csr_buyer_id: this.assignItem.id,

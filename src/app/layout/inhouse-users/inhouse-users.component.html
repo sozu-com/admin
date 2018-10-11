@@ -110,18 +110,19 @@
                   </div>
               </div>
             </th>
-            <th *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'csr-closers'" style="width:8%; vertical-align: top;">
+            <th *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'csr-closers' ||
+            parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers'" style="width:8%; vertical-align: top;">
               Leads<a href="javascript://"><img src="assets/img/top-arrow.png" alt="img"></a>
             </th>
-            <th *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'csr-closers'" style="width:14%; vertical-align: top;">
+            <!-- <th *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'csr-closers'" style="width:14%; vertical-align: top;">
               Properties<a href="javascript://"><img src="assets/img/top-arrow.png" alt="img"></a>
-            </th>
+            </th> -->
             <th *ngIf="parameter.userType == 'data-collectors'" style="width:22%; vertical-align: top;">
               Building<a href="javascript://"><img src="assets/img/top-arrow.png" alt="img"></a>
             </th>
-            <th *ngIf="parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers'" style="width:22%; vertical-align: top;">
+            <!-- <th *ngIf="parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers'" style="width:22%; vertical-align: top;">
               Leads<a href="javascript://"><img src="assets/img/top-arrow.png" alt="img"></a>
-            </th>
+            </th> -->
             <th style="width:19%">
               &nbsp;
             </th>
@@ -137,10 +138,11 @@
               <td class="text-left" *ngIf="item.phone">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
               <td class="text-left" *ngIf="!item.phone">NA</td>
               <td class="text-left">{{item.email}}</td>
-              <td *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'csr-closers'; else showBuildings">14</td>
-              <td *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'csr-closers'; else showBuildings">14</td>
+              <td *ngIf="parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers' ||
+                    parameter.userType == 'inhouse-broker' || parameter.userType == 'csr-closers'; else showBuildings">{{item.lead_count}}</td>
+              <!-- <td *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'csr-closers'; else showBuildings">14</td> -->
               <td *ngIf="parameter.userType == 'data-collectors'" >14</td>
-              <td *ngIf="parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers'" >14</td>
+              <!-- <td *ngIf="parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers'" >14</td> -->
               <td>
                 <a *ngIf="admin?.admin_acl['Building Management']?.can_read==1 && parameter.userType == 'data-collectors'" title="View Projects" href="javascript://" routerLink="/dashboard/projects/view-projects/{{item.id}}" class="icon-block edit-icon">
                   <img src="assets/img/ic_projects_manage.png" alt="img">

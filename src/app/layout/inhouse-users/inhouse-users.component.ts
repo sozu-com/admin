@@ -71,26 +71,6 @@ export class InhouseUsersComponent implements OnInit {
   closeModal() {
     this.modalClose.nativeElement.click();
     this.emptyModel();
-    // this.model.userModel.country_code = this.constant.country_code;
-    // this.model.address = [{
-    //     countries: '',
-    //     states : '',
-    //     cities: '',
-    //     localities: '',
-    //     buildings: ''
-    // }];
-    // this.image1 = '';
-    // this.model.userModel.id = '';
-    // this.model.userModel.name = '';
-    // this.model.userModel.email = '';
-    // this.model.userModel.phone = '';
-    // this.initialCountry = {initialCountry: this.constant.initialCountry};
-    // this.model.userModel.is_broker_seller_dev = false;
-    // this.model.userModel.is_buyer_renter = false;
-    // this.model.userModel.is_broker = false;
-    // this.model.userModel.is_data_collector = false;
-    // this.model.userModel.is_csr_closer = false;
-    // this.disabledLocalities = [];
   }
 
   emptyModel() {
@@ -120,19 +100,6 @@ export class InhouseUsersComponent implements OnInit {
   closeViewModal() {
     this.viewModalClose.nativeElement.click();
     this.emptyModel();
-    // this.model.address = [{
-    //     countries: '',
-    //     states : '',
-    //     cities: '',
-    //     localities: '',
-    //     buildings: ''
-    // }];
-    // this.disabledBuildings = [];
-    // this.model.userModel.is_broker_seller_dev = false;
-    // this.model.userModel.is_buyer_renter = false;
-    // this.model.userModel.is_broker = false;
-    // this.model.userModel.is_data_collector = false;
-    // this.model.userModel.is_csr_closer = false;
   }
 
   removeAddressObj(index) {
@@ -159,11 +126,6 @@ export class InhouseUsersComponent implements OnInit {
       swal('Missing fields', 'Complete current row before adding new.', 'error');
     }
   }
-
-
-  // disabledLocalityId(i) {
-  //   this.disabledLocalities[i] = this.model.address[i].localities;
-  // }
 
   disabledBuildingId(i) {
     this.disabledBuildings[i] = this.model.address[i].localities;
