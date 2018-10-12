@@ -141,7 +141,7 @@
               <td *ngIf="parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers' ||
                     parameter.userType == 'inhouse-broker' || parameter.userType == 'csr-closers'; else showBuildings">{{item.lead_count}}</td>
               <!-- <td *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'csr-closers'; else showBuildings">14</td> -->
-              <td *ngIf="parameter.userType == 'data-collectors'" >14</td>
+              <td *ngIf="parameter.userType == 'data-collectors'" >{{item.buildings_count}}</td>
               <!-- <td *ngIf="parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers'" >14</td> -->
               <td>
                 <a *ngIf="admin?.admin_acl['Building Management']?.can_read==1 && parameter.userType == 'data-collectors'" title="View Projects" href="javascript://" routerLink="/dashboard/projects/view-projects/{{item.id}}" class="icon-block edit-icon">

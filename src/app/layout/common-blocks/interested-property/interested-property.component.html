@@ -9,7 +9,7 @@
           <!-- add -->
           <a style="display: none;" class="btn btn-fourth" #showPropertyModal href="javascript://" data-toggle="modal" data-target="#add-property">Add</a>
           <a *ngIf="(sent_as==constant.userType.csr_buyer && (admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1)) ||
-          sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==1 || admin?.permissions?.can_in_house_broker==1); else noAddPermission" class="btn btn-fourth" href="javascript://" (click)="showProperties(lead_id)">Add</a>
+          sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==1 || admin?.permissions?.can_in_house_broker==1); else noAddPermission" class="btn btn-fourth" href="javascript://" (click)="getCountries(lead_id)">Add</a>
           
           <ng-template #noAddPermission>
             <a class="btn btn-fourth" href="javascript://">Add</a>
@@ -76,6 +76,114 @@
 
 <!-- add property to interested_properties -->
 <div class="modal" id="add-property">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content notary-avail">
+        <div class="modal-header popup-header">
+          <h4 class="modal-title">Properties available</h4>
+          <button type="button" class="close" data-dismiss="modal" #hidePropertyModal>&times;</button>
+        </div>
+        <div class="modal-body">
+            <!-- <div class="form-group">
+              <select required title="Choose City" class="form-control" (change)="propertySearch($event.target.value)">
+                <option value="" disabled>Select City</option>
+                <option *ngFor="let city of parameter.cities" [selected]="city.id == parameter.city_id" value="{{city.id}}">{{city.name}}</option>
+              </select>
+            </div> -->
+
+            <div class="row">
+              <div class="col-md-3">
+                <div class="form-group">
+                <label>Country</label>
+                <select class="form-control" (change)="onCountryChange($event.target.value)">
+                    <option value="0">All</option>
+                    <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option>
+                </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                <label>State</label>
+                <select class="form-control" (change)="onStateChange($event.target.value)">
+                    <option value="0">All</option>
+                    <option *ngFor="let item of location.states" [value]="item.id">{{item.name}}</option>
+                </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                <label>City</label>
+                    <select class="form-control" (change)="onCityChange($event.target.value)">
+                    <option value="0">All</option>
+                    <option *ngFor="let item of location.cities" [value]="item.id">{{item.name}}</option>
+                    </select>
+                </div>
+            </div>
+    
+            <div class="col-md-3">
+                <div class="form-group">
+                <label>Locality</label>
+                <select class="form-control" (change)="onLocalityChange($event.target.value)">
+                    <option value="0">All</option>
+                    <option *ngFor="let item of location.localities" [value]="item.id">{{item.name}}</option>
+                </select>
+                </div>
+            </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-3">
+                <div class="form-group btn-cont">
+                <label>View Properties</label>
+                <button class="btn btn-primary" (click)="propertySearch()">View</button>
+                </div>
+              </div>
+      
+              <div class="col-md-3">
+                  <div class="form-group btn-cont">
+                  <label>Add</label>
+                  <button class="btn btn-primary" (click)="addPropertyToInterest()">View</button>
+                  </div>
+              </div>
+            </div>
+
+            <table class="table" *ngIf="parameter?.items?.length!=0">
+              <tbody>
+                <tr *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }; let i=index">
+                  <td>
+                      <div class="n-avail-profile">
+                        <img [src]="item.image" onerror='src="assets/img/house.png"' alt="img">
+                        <div class="n-avail-info">
+                            <p class="p12">{{item.building.name}}</p>
+                            <p class="p10 marginB0">{{item.building.address ? item.building.address : 'NA'}}</p>
+                            <p class="p10">{{item.configuration.name}}</p>
+                        </div>
+                      </div>
+                  </td>
+                  <td>
+                      <!-- <label class="cust-check-bx float-right">
+                      <input type="radio" name="bank_id1" (click)="addLeadInterestedProperty(item.id)">
+                      <span class="checkmark"></span>
+                      </label> -->
+                      <label class="cust-check-bx float-right">
+                        <input type="checkbox" name="bank_id1" (click)="addLeadInterestedProperty(item.id)">
+                        <span class="checkmark"></span>
+                      </label>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <!-- <div class="form-group btn-cont">
+              <label>Add</label>
+              <button class="btn btn-primary" (click)="addPropertyToInterest()">View</button>
+            </div> -->
+            <div *ngIf="parameter?.items?.length==0">
+              <p class="show-not-found">No property found for selected filters.</p>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<!-- <div class="modal" id="add-property">
     <div class="modal-dialog modal-lg">
       <div class="modal-content notary-avail">
           <div class="modal-header popup-header">
@@ -112,19 +220,13 @@
                   </tr>
                 </tbody>
               </table>
-              <!-- <div class="row" *ngIf="parameter?.items?.length!=0">
-                <div class="col-12 center btn-cont">
-                  <label style="display: block;">&nbsp;</label>
-                  <button (click)="getInhouseUsers()" class="btn btn-primary">Add</button>
-                </div>
-              </div> -->
               <div *ngIf="parameter?.items?.length==0">
                 <p class="show-not-found">No property found for selected filters.</p>
               </div>
           </div>
       </div>
     </div>
-</div>
+</div> -->
   
 <!-- deal finalize modal -->
 <div class="modal animated" id="dealFinalize">

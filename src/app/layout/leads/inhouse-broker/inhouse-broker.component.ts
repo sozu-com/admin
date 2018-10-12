@@ -60,11 +60,13 @@ export class InhouseBrokerComponent implements OnInit {
 
   getCountries() {
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
+      console.log('Country', r);
       this.location.countries = r['data'];
     });
   }
 
   onCountryChange(id) {
+    console.log(id);
     this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
     if (!id || id === 0) {
@@ -72,33 +74,37 @@ export class InhouseBrokerComponent implements OnInit {
       return false;
     }
     this.parameter.country_id = id;
-    const selectedCountry = this.location.countries.filter(x => x.id === id);
+    const selectedCountry = this.location.countries.filter(x => x.id == id);
     this.location.states = selectedCountry[0].states;
+
   }
 
   onStateChange(id) {
+    console.log(id);
     this.location.localities = []; this.parameter.locality_id = '0';
     if (!id || id === 0) {
       this.parameter.city_id = '0';
       return false;
     }
     this.parameter.state_id = id;
-    const selectedState = this.location.states.filter(x => x.id === id);
+    const selectedState = this.location.states.filter(x => x.id == id);
     this.location.cities = selectedState[0].cities;
   }
 
   onCityChange(id) {
-    if (!id || id === 0) {
+    console.log(id);
+    if (!id || id == 0) {
       this.parameter.locality_id = '0';
       return false;
     }
     this.parameter.city_id = id;
-    const selectedCountry = this.location.cities.filter(x => x.id === id);
+    const selectedCountry = this.location.cities.filter(x => x.id == id);
     this.location.localities = selectedCountry[0].localities;
   }
 
   onLocalityChange(id) {
-    if (!id || id === 0) {
+    console.log(id);
+    if (!id || id == 0) {
       return false;
     }
     this.parameter.locality_id = id;

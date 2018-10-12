@@ -28,23 +28,16 @@ export class InterestedPropertyComponent implements OnInit {
   @ViewChild('hideInterestedProperty') hideInterestedProperty: ElementRef;
 
   public parameter: IProperty = {};
-
+  public location: IProperty = {};
+  property_ids = [];
   constructor(public model: DealFinalize, public admin: AdminService, public constant: Constant) { }
 
   ngOnInit() {
-    // this.showProperties(this.lead_id);
+    this.parameter.itemsPerPage = this.constant.itemsPerPage;
+    this.parameter.p = this.constant.p;
   }
 
   openModal(property_id, lead_id) {
-    // const test = this.selected_properties.map(i => i.property_id === property_id);
-    // if (test[0]) {
-    //   swal('Error', 'This property is already finalized by you.', 'error');
-    // } else {
-    //   this.model.property_id = property_id;
-    //   this.model.lead_id = lead_id;
-    //   this.modalOpen.nativeElement.click();
-    // }
-    console.log('==================');
     this.model.property_id = property_id;
     this.model.lead_id = lead_id;
     this.modalOpen.nativeElement.click();
@@ -55,9 +48,8 @@ export class InterestedPropertyComponent implements OnInit {
   }
 
   attachProperty() {
-    this.parameter.url = 'leads/attach-property';
     this.modalClose.nativeElement.click();
-    this.admin.postDataApi(this.parameter.url, this.model)
+    this.admin.postDataApi('leads/attach-property', this.model)
       .subscribe(
         success => {
           this.is_deal_finalised = true;
@@ -71,7 +63,6 @@ export class InterestedPropertyComponent implements OnInit {
     if (test[0]) {
       swal('Error', 'You cannot remove this property as this is finalized property.', 'error');
     } else {
-      this.parameter.url = 'leads/deleteLeadInterestedProperty';
       swal({
         html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to remove this property?',
         type: 'warning',
@@ -82,10 +73,11 @@ export class InterestedPropertyComponent implements OnInit {
       }).then((result) => {
         if (result.value) {
           const input = {property_id: property_id, lead_id: this.lead_id};
-          this.admin.postDataApi(this.parameter.url, {property_id: [property_id], lead_id: lead_id})
+          this.admin.postDataApi('leads/deleteLeadInterestedProperty', {property_id: [property_id], lead_id: lead_id})
             .subscribe(
               success => {
-                this.interested_properties.splice(index, 1);
+                this.parameter.interested_properties.splice(index, 1);
+                this.interested_properties = this.parameter.interested_properties;
                 swal('Success', 'Interested property removed successfully.', 'success');
               });
         }
@@ -93,19 +85,19 @@ export class InterestedPropertyComponent implements OnInit {
     }
   }
 
-  showProperties(lead_id) {
-    this.parameter.lead_id = lead_id;
-    this.admin.postDataApi('allCities', {}).subscribe(r => {
-      this.parameter.cities = r.data;
-      if (r.data.length !== 0) {
-        this.parameter.city_id = r.data[0].id;
-        this.propertySearch(r.data[0].id);
-        this.showPropertyModal.nativeElement.click();
-      } else {
-        swal('Error', 'No city exists.', 'error');
-      }
-    });
-  }
+  // showProperties(lead_id) {
+  //   this.parameter.lead_id = lead_id;
+  //   this.admin.postDataApi('allCities', {}).subscribe(r => {
+  //     this.parameter.cities = r.data;
+  //     if (r.data.length !== 0) {
+  //       this.parameter.city_id = r.data[0].id;
+  //       this.propertySearch(r.data[0].id);
+  //       this.showPropertyModal.nativeElement.click();
+  //     } else {
+  //       swal('Error', 'No city exists.', 'error');
+  //     }
+  //   });
+  // }
 
   // showProperties(lead_id) {
   //   this.parameter.lead_id = lead_id;
@@ -126,13 +118,6 @@ export class InterestedPropertyComponent implements OnInit {
   //   });
   // }
 
-  propertySearch(city_id) {
-    this.parameter.city_id = city_id;
-    this.admin.postDataApi('propertySearch', {city_id: city_id, lead_id: this.lead_id}).subscribe(r => {
-      // console.log('==>', r);
-      this.parameter.items = r.data;
-    });
-  }
 
   showModal() {
     this.showPropertyModal.nativeElement.click();
@@ -141,27 +126,56 @@ export class InterestedPropertyComponent implements OnInit {
   addLeadInterestedProperty(property_id) {
     const ids = this.interested_properties.map(d => d.property.id);
     const ff = ids.filter(p => p === property_id);
+    console.log(property_id, ids, ff);
     if (ff.length !== 0) {
       swal('Error', 'This property is already added in your interests.', 'error');
     } else {
-      swal({
-        html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to add this property to your interested property?',
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes'
-      }).then((result) => {
-        if (result.value) {
-          const input = {property_id: property_id, lead_id: this.lead_id};
-          this.admin.postDataApi('leads/addLeadInterestedProperty', input).subscribe(r => {
-            this.showPropertyModal.nativeElement.click();
-            swal('Success', 'Added Successfully', 'success');
-            this.interested_properties.push(r.data);
-          });
-        }
-      });
+      const check_id = this.property_ids.indexOf(property_id);
+      if (check_id === -1) {
+        this.property_ids.push(property_id);
+      } else {
+        this.property_ids.splice(check_id, 1);
+      }
+      // swal({
+      //   html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to add this property to your interested property?',
+      //   type: 'warning',
+      //   showCancelButton: true,
+      //   confirmButtonColor: '#3085d6',
+      //   cancelButtonColor: '#d33',
+      //   confirmButtonText: 'Yes'
+      // }).then((result) => {
+      //   if (result.value) {
+      //     const input = {property_id: property_id, lead_id: this.lead_id};
+      //     this.admin.postDataApi('leads/addLeadInterestedProperty', input).subscribe(r => {
+      //       this.showPropertyModal.nativeElement.click();
+      //       swal('Success', 'Added Successfully', 'success');
+      //       this.interested_properties.push(r.data);
+      //     });
+      //   }
+      // });
     }
+  }
+
+  addPropertyToInterest() {
+    console.log(this.property_ids);
+    swal({
+      html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to add selected properties to your interested properties?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        const input = {property_id: this.property_ids, lead_id: this.parameter.lead_id};
+        this.admin.postDataApi('leads/addLeadInterestedProperty', input).subscribe(r => {
+          this.showPropertyModal.nativeElement.click();
+          this.property_ids = [];
+          swal('Success', 'Added Successfully', 'success');
+          this.interested_properties.push(r.data);
+        });
+      }
+    });
   }
 
   checkIfAlreadyExist() {
@@ -174,7 +188,72 @@ export class InterestedPropertyComponent implements OnInit {
   }
 
   viewProperties(data) {
-    this.parameter.interested_properties = data;
+    // this.parameter.interested_properties = data;
+    this.admin.postDataApi('leads/getLeadInterestedProperty', {lead_id: this.lead_id}).subscribe(r => {
+      console.log('Country', r);
+      this.parameter.interested_properties = r['data'];
+    });
     this.showInterestedProperty.nativeElement.click();
+  }
+
+  getCountries(lead_id) {
+    this.parameter.lead_id = lead_id;
+    this.showPropertyModal.nativeElement.click();
+    this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
+      console.log('Country', r);
+      this.location.countries = r['data'];
+    });
+  }
+
+  onCountryChange(id) {
+    this.location.cities = []; this.parameter.city_id = '0';
+    this.location.localities = []; this.parameter.locality_id = '0';
+    if (!id || id === 0) {
+      this.parameter.state_id = '0';
+      return false;
+    }
+    this.parameter.country_id = id;
+    const selectedCountry = this.location.countries.filter(x => x.id == id);
+    console.log(selectedCountry);
+    this.location.states = selectedCountry[0].states;
+
+  }
+
+  onStateChange(id) {
+    console.log(id);
+    this.location.localities = []; this.parameter.locality_id = '0';
+    if (!id || id === 0) {
+      this.parameter.city_id = '0';
+      return false;
+    }
+    this.parameter.state_id = id;
+    const selectedState = this.location.states.filter(x => x.id == id);
+    this.location.cities = selectedState[0].cities;
+  }
+
+  onCityChange(id) {
+    console.log(id);
+    if (!id || id == 0) {
+      this.parameter.locality_id = '0';
+      return false;
+    }
+    this.parameter.city_id = id;
+    const selectedCountry = this.location.cities.filter(x => x.id == id);
+    this.location.localities = selectedCountry[0].localities;
+  }
+
+  onLocalityChange(id) {
+    console.log(id);
+    if (!id || id == 0) {
+      return false;
+    }
+    this.parameter.locality_id = id;
+  }
+
+  propertySearch() {
+    this.admin.postDataApi('propertySearch', this.parameter).subscribe(r => {
+      this.parameter.items = r.data;
+      this.parameter.total = r.total;
+    });
   }
 }
