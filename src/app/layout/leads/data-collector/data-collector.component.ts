@@ -41,7 +41,7 @@ export class DataCollectorComponent implements OnInit {
   chartView: any= [];
 
   constructor(
-    private admin: AdminService,
+    public admin: AdminService,
     private constant: Constant
   ) { }
 

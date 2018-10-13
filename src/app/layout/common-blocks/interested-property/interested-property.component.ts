@@ -202,6 +202,8 @@ export class InterestedPropertyComponent implements OnInit {
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
       console.log('Country', r);
       this.location.countries = r['data'];
+      this.parameter.items = [];
+      this.parameter.noResultFound = false;
     });
   }
 
@@ -254,6 +256,7 @@ export class InterestedPropertyComponent implements OnInit {
     this.admin.postDataApi('propertySearch', this.parameter).subscribe(r => {
       this.parameter.items = r.data;
       this.parameter.total = r.total;
+      if (this.parameter.items.length <= 0) { this.parameter.noResultFound = true; }
     });
   }
 }

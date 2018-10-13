@@ -40,7 +40,7 @@ export class CsrSellerComponent implements OnInit {
   chartView: any= [];
 
   constructor(
-    private admin: AdminService,
+    public admin: AdminService,
     private constant: Constant,
     private route: ActivatedRoute
   ) { }
