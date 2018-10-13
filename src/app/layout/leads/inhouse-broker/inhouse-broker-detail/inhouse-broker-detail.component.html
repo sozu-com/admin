@@ -34,8 +34,13 @@
       </div>
 
       <div *ngIf="is_deal_finalised" class="col-lg-4 col-md-12 col-sm-12 col-12">
-        <div class="btn-cont text-right">
-            <a style="cursor: auto;" class="btn btn-fourth" href="javascript://">Deal Finalized</a>
+        <div class="row">
+            <div class="col-sm-7 btn-cont text-right">
+                <a style="cursor: auto;" class="btn btn-fourth" href="javascript://">Deal Finalized</a>
+            </div>
+            <div class="col-sm-5 btn-cont text-right">
+                <a (click)="getInvoice()" style="cursor: auto;" class="btn btn-fourth" href="javascript://">Invoice</a>
+            </div>
         </div>
      </div>
      </div>

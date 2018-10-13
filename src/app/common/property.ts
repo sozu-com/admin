@@ -132,4 +132,5 @@ export interface IProperty {
   assignee_id?: string;
   min?: any;
   max?: any;
+  lead_sort?: number;
 }

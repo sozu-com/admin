@@ -279,10 +279,15 @@
                             </th>
                             <th style="width:10%">
                                 <div class="table-search">
-                                    <label>Property For</label>
+                                    <label>User Choice</label>
                                 </div>
                             </th>
-                            <th style="width:14%"></th>
+                            <th style="width:10%">
+                                <div class="table-search">
+                                    <label>Change Property For</label>
+                                </div>
+                            </th>
+                            <th style="width:4%"></th>
                         </tr>
                         <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let in=index">
                         <td>
@@ -311,12 +316,20 @@
                         <td class="text-left" title="Inhouse Broker" *ngIf="item?.admin?.name">{{item.broker.name}}</td>
                         <td class="text-left" *ngIf="!item?.admin?.name">Not Assigned</td>
                         <td class="text-left" *ngIf="item.sale_rent">{{item.sale_rent==1 ? 'Buy' : 'Rent'}}</td>
+                        <td class="text-left">
+                            <a *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_update==0" class="green-color fontW500" href="javascript://">
+                                Change to {{item.sale_rent==1 ? 'Rent' : 'Buy'}}
+                            </a>
+                            <a *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_update==1" class="green-color fontW500" (click)="updateLeadType(item.sale_rent==1?'2':'1', item.id, in)" href="javascript://">
+                                Change to {{item.sale_rent==1 ? 'Rent' : 'Buy'}}
+                            </a>
+                        </td>
                         <td>
                             <a href="javascript://" title="View Details" routerLink="/dashboard/leads/inhouse-broker/{{item.id}}" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
-                            <button [disabled]="admin?.admin_acl['Buyer Lead Management']?.can_update==0"
+                            <!-- <button [disabled]="admin?.admin_acl['Buyer Lead Management']?.can_update==0"
                                 (click)="updateLeadType(item.sale_rent==1?'2':'1', item.id, in)" 
                                 title="Change Type" class="action-icon"><img src="assets/img/block.png" alt="img">
-                            </button>
+                            </button> -->
                         </td>
                         </tr>
                     </table>

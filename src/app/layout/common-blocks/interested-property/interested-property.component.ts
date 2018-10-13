@@ -85,40 +85,6 @@ export class InterestedPropertyComponent implements OnInit {
     }
   }
 
-  // showProperties(lead_id) {
-  //   this.parameter.lead_id = lead_id;
-  //   this.admin.postDataApi('allCities', {}).subscribe(r => {
-  //     this.parameter.cities = r.data;
-  //     if (r.data.length !== 0) {
-  //       this.parameter.city_id = r.data[0].id;
-  //       this.propertySearch(r.data[0].id);
-  //       this.showPropertyModal.nativeElement.click();
-  //     } else {
-  //       swal('Error', 'No city exists.', 'error');
-  //     }
-  //   });
-  // }
-
-  // showProperties(lead_id) {
-  //   this.parameter.lead_id = lead_id;
-  //   this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
-  //     console.log('getCountryLocality', r);
-  //     this.parameter.cities = r.data;
-  //     if (r.data.length !== 0) {
-  //       this.showPropertyModal.nativeElement.click();
-  //       this.parameter.countries = r.data;
-  //       this.parameter.country_id = r.data[0].id;
-  //       this.parameter.states = r.data[0].states;
-  //       // this.parameter.states.push({id: '0', name: 'All', status: 1});
-  //       this.parameter.state_id = '0';
-  //       this.propertySearch(r.data[0].id);
-  //     } else {
-  //       swal('Error', 'No city exists.', 'error');
-  //     }
-  //   });
-  // }
-
-
   showModal() {
     this.showPropertyModal.nativeElement.click();
   }
@@ -136,46 +102,33 @@ export class InterestedPropertyComponent implements OnInit {
       } else {
         this.property_ids.splice(check_id, 1);
       }
-      // swal({
-      //   html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to add this property to your interested property?',
-      //   type: 'warning',
-      //   showCancelButton: true,
-      //   confirmButtonColor: '#3085d6',
-      //   cancelButtonColor: '#d33',
-      //   confirmButtonText: 'Yes'
-      // }).then((result) => {
-      //   if (result.value) {
-      //     const input = {property_id: property_id, lead_id: this.lead_id};
-      //     this.admin.postDataApi('leads/addLeadInterestedProperty', input).subscribe(r => {
-      //       this.showPropertyModal.nativeElement.click();
-      //       swal('Success', 'Added Successfully', 'success');
-      //       this.interested_properties.push(r.data);
-      //     });
-      //   }
-      // });
     }
   }
 
   addPropertyToInterest() {
     console.log(this.property_ids);
-    swal({
-      html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to add selected properties to your interested properties?',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes'
-    }).then((result) => {
-      if (result.value) {
-        const input = {property_id: this.property_ids, lead_id: this.parameter.lead_id};
-        this.admin.postDataApi('leads/addLeadInterestedProperty', input).subscribe(r => {
-          this.showPropertyModal.nativeElement.click();
-          this.property_ids = [];
-          swal('Success', 'Added Successfully', 'success');
-          this.interested_properties.push(r.data);
-        });
-      }
-    });
+    if (this.property_ids.length > 0) {
+      swal({
+        html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to add selected properties to your interested properties?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.value) {
+          const input = {property_id: this.property_ids, lead_id: this.parameter.lead_id};
+          this.admin.postDataApi('leads/addLeadInterestedProperty', input).subscribe(r => {
+            this.showPropertyModal.nativeElement.click();
+            this.property_ids = [];
+            swal('Success', 'Added Successfully', 'success');
+            this.interested_properties.push(r.data);
+          });
+        }
+      });
+    } else {
+      swal('Error', 'Please choose any property.', 'error');
+    }
   }
 
   checkIfAlreadyExist() {
@@ -197,13 +150,16 @@ export class InterestedPropertyComponent implements OnInit {
   }
 
   getCountries(lead_id) {
+    this.location.cities = []; this.parameter.city_id = '0';
+    this.location.localities = []; this.parameter.locality_id = '0';
+    this.location.states = []; this.parameter.state_id = '0';
+    this.parameter.items = [];
+    this.parameter.noResultFound = false;
     this.parameter.lead_id = lead_id;
     this.showPropertyModal.nativeElement.click();
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
       console.log('Country', r);
       this.location.countries = r['data'];
-      this.parameter.items = [];
-      this.parameter.noResultFound = false;
     });
   }
 

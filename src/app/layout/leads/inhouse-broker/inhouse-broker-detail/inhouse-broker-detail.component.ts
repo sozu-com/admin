@@ -115,4 +115,12 @@ export class InhouseBrokerDetailComponent implements OnInit {
   viewFavProperties() {
     this.showPropertyModal.nativeElement.click();
   }
+
+  getInvoice() {
+    this.admin.postDataApi('leads/getInvoice', {lead_id: this.parameter.lead_id}).subscribe(r => {
+      if (r) {
+        console.log('Invocie', r);
+      }
+    });
+  }
 }

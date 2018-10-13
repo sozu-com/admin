@@ -23,6 +23,7 @@ export class InhouseUsersComponent implements OnInit {
   @ViewChild('viewModalClose') viewModalClose: ElementRef;
 
   public parameter: IProperty = {};
+  lead_sort = 1;
   initialCountry: any;
   addressIndex = 0;
   tempAdd: Object;
@@ -433,7 +434,10 @@ export class InhouseUsersComponent implements OnInit {
     this.getInhouseUsers();
   }
 
-
+  setLeadSort () {
+    this.lead_sort = this.lead_sort === 1 ? 2 : 1;
+    this.getInhouseUsers();
+  }
   getInhouseUsers() {
     switch (this.parameter.userType) {
       case 'data-collectors':
@@ -474,26 +478,19 @@ export class InhouseUsersComponent implements OnInit {
 
     const input = new FormData();
     input.append('page', this.parameter.p.toString());
-    // input.append('page', '2');
-
+    if (this.lead_sort) { input.append('lead_sort', this.lead_sort.toString()); }
     if (this.parameter.name) {input.append('name', this.parameter.name); }
-
     if (this.parameter.email) {input.append('email', this.parameter.email); }
-
     if (this.parameter.phone) {input.append('phone', this.parameter.phone); }
-
     if (this.parameter.country_id && this.parameter.country_id !== '-1') {
       input.append('countries', JSON.stringify([this.parameter.country_id]));
     }
-
     if (this.parameter.state_id && this.parameter.state_id !== '-1') {
       input.append('states', JSON.stringify([this.parameter.state_id]));
     }
-
     if (this.parameter.city_id && this.parameter.city_id !== '-1') {
       input.append('cities', JSON.stringify([this.parameter.city_id]));
     }
-
     if (this.parameter.locality_id && this.parameter.locality_id !== '-1') {
       input.append('localities', JSON.stringify([this.parameter.locality_id]));
     }

@@ -568,4 +568,28 @@ console.log('xx', typeof this.getPolygonCoords(event.overlay));
 
   }
 
+  markLocalityFeatured (index, locality_id, flag) {
+    let title = '';
+    if (flag === 1) {
+      title = 'You want to feature this locality?';
+    } else {
+      title = 'You want to unfeature this locality?';
+    }
+    swal({
+      html: 'Are you sure' + '<br>' + title,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.admin.postDataApi('markLocalityFeatured', {locality_id: locality_id, flag: flag}).subscribe(
+          r => {
+            this.parameter.localities[index] = r.data;
+            swal('Success', this.parameter.successText, 'success');
+          });
+      }
+    });
+  }
 }

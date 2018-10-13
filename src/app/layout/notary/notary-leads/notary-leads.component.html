@@ -309,71 +309,79 @@
 
     <!-- add inhouse user modal -->
 <div class="modal animated" id="set-availability">
-        <div class="modal-dialog fadeIndown">
-            <div class="modal-content">
-                <div class="modal-header modal-header-new">
-                    <h4 class="modal-title">View Availability</h4>
-                    <button type="button" style="display: none;" class="close" data-dismiss="modal" #modalClose>&times;</button>
-                    <button type="button" class="close" (click)="closeModal()">&times;</button>
-                </div>
-        
-                <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="add()">
-                <div class="modal-body modal-body-new">
-                    <div class="row">
-                        <div class="col-5">
-                            <div class="form-group-2">
-                                <label>Date</label>
-                                <div class="form-group">
-                                <input type="date" min="{{today|date:'yyyy-MM-dd'}}" max='9999-12-31' [(ngModel)]="date" class="form-control" name="date">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-5">
-                            <div class="form-group-2">
-                                <label>Time</label>
-                                <div class="form-group">
-                                <input type="time" [(ngModel)]="time" class="form-control" name="time">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-2">
-                            <div class="form-group-2">
-                                <button type="button" class="btn btn-primary green-bg" (click)="addDateTime()">+</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" *ngFor="let d of data; let j=index">
-                        <div class="col-8">
-                            <label class="notary-ava">{{d.date_time | moment}}</label>
-                        </div>
-                        <div class="col-2">
-                            <button type="button" class="btn btn-primary" (click)="removeNoataryAvailability(d.id, j)">*</button>
-                        </div>
-                    </div>
-                    <div class="row" *ngFor="let a of availability.date_time_array; let i=index">
-                        <div class="col-8">
-                            <label class="notary-ava">{{a.date_time|date: 'MMM d y'}}, {{a.date_time|date:'h:mm a'|lowercase}}</label>
-                        </div>
-                        <div class="col-2">
-                            <button type="button" class="btn btn-primary" (click)="removeNoatary(i)">*</button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="btn-cont text-right">
-                                <button type="submit" class="btn btn-primary">Save</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                </form>
-        
+    <div class="modal-dialog fadeIndown">
+        <div class="modal-content">
+            <div class="modal-header modal-header-new">
+                <h4 class="modal-title">View Availability</h4>
+                <button type="button" style="display: none;" class="close" data-dismiss="modal" #modalClose>&times;</button>
+                <button type="button" class="close" (click)="closeModal()">&times;</button>
             </div>
+    
+            <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="add()">
+            <div class="modal-body modal-body-new">
+                <div class="row">
+                    <div class="col-5">
+                        <div class="form-group-2">
+                            <label>Date</label>
+                            <div class="form-group">
+                            <input type="date" min="{{today|date:'yyyy-MM-dd'}}" max='9999-12-31' [(ngModel)]="date" class="form-control" name="date">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-5">
+                        <div class="form-group-2">
+                            <label>Time</label>
+                            <div class="form-group">
+                            <input type="time" [(ngModel)]="time" class="form-control" name="time">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group-2">
+                            <button type="button" class="btn btn-primary green-bg" (click)="addDateTime()">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngFor="let d of data; let j=index">
+                    <div class="col-8">
+                        <label class="notary-ava">{{d.date_time | moment}}</label>
+                    </div>
+                    <div class="col-2">
+                        <a class="green-color fontW500" (click)="removeNoataryAvailability(d.id, j)" href="javascript://">
+                            Remove
+                        </a>
+                        <!-- <button type="button" class="btn btn-primary" (click)="removeNoataryAvailability(d.id, j)">
+                            Remove
+                        </button> -->
+                    </div>
+                </div>
+                <div class="row" *ngFor="let a of availability.date_time_array; let i=index">
+                    <div class="col-8">
+                        <label class="notary-ava">{{a.date_time|date: 'MMM d y'}}, {{a.date_time|date:'h:mm a'|lowercase}}</label>
+                    </div>
+                    <div class="col-2">
+                        <a class="green-color fontW500" (click)="removeNoatary(i)" href="javascript://">
+                            Remove
+                        </a>
+                        <!-- <button type="button" class="btn btn-primary" (click)="removeNoatary(i)">*</button> -->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="btn-cont text-right">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </form>
+    
         </div>
     </div>
+</div>
 
 
-    <!-- Assignment model -->
+<!-- Assignment model -->
 <a data-toggle="modal" data-target="#assign-model" #openAssignModel></a>
 <div class="modal" id="assign-model">
         <div class="modal-dialog ">

@@ -112,13 +112,13 @@
             </th>
             <th *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'csr-closers' ||
             parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers'" style="width:8%; vertical-align: top;">
-              Leads<a href="javascript://"><img src="assets/img/top-arrow.png" alt="img"></a>
+              Leads<a (click)="setLeadSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.lead_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
             </th>
             <!-- <th *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'csr-closers'" style="width:14%; vertical-align: top;">
               Properties<a href="javascript://"><img src="assets/img/top-arrow.png" alt="img"></a>
             </th> -->
             <th *ngIf="parameter.userType == 'data-collectors'" style="width:22%; vertical-align: top;">
-              Building<a href="javascript://"><img src="assets/img/top-arrow.png" alt="img"></a>
+              Building<a (click)="setLeadSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.lead_sort==2}" [ngClass]="{'upsidedown':this.price_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
             </th>
             <!-- <th *ngIf="parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers'" style="width:22%; vertical-align: top;">
               Leads<a href="javascript://"><img src="assets/img/top-arrow.png" alt="img"></a>
