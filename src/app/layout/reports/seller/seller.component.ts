@@ -15,7 +15,7 @@ export class SellerComponent implements OnInit {
   single: any[];
   multi: any[];
 
-  view: any[] = [700, 400];
+ 
   chartView: any = [];
   // options
   showXAxis = true;
@@ -54,7 +54,7 @@ export class SellerComponent implements OnInit {
       const data = [];
       this.parameter.items.forEach(element => {
         data.push({
-          'name' : element.month_name,
+          'name' : element.month_name + ',' + element.year,
           'series': [
             {
               'name': 'Sign Up',
