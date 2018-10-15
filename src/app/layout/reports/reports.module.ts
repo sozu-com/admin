@@ -12,6 +12,7 @@ import { NotaryComponent } from './notary/notary.component';
 import { BankComponent } from './bank/bank.component';
 import { AclUserGuard } from '../../guards/acl-user.guard';
 import { AuthGuard } from '../../guards/auth.guard';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 const routes: Routes = [
   { path: 'seller', component: SellerComponent,
@@ -46,6 +47,7 @@ const routes: Routes = [
     NgxPaginationModule,
     FormsModule,
     ReactiveFormsModule,
+    NgxChartsModule,
     Ng2TelInputModule
   ],
   declarations: [

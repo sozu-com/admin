@@ -30,6 +30,19 @@
             </ul>
             </div>
         </div>
+        <div class="col-lg-4 col-md-12 col-sm-12 col-12">
+            <div class="row">
+                <div class="col-sm-12 btn-cont text-right">
+                    <a *ngIf="parameter?.lead?.lead_status_closer!=1 &&
+                    (admin?.admin_acl['Closer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_closer==1)" (click)="markLeadClose()" class="btn btn-fourth" href="javascript://">
+                        Close Lead
+                    </a>
+                    <a *ngIf="parameter?.lead?.lead_status_closer==1" style="cursor: auto;" class="btn btn-fourth" href="javascript://">
+                        Lead Closed
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

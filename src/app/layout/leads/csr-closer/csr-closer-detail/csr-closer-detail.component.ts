@@ -265,7 +265,24 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     this.router.navigate(['/dashboard/properties/details/' + property.property_id]);
   }
 
-
+  markLeadClose() {
+    swal({
+      html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to close this lead?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.admin.postDataApi('leads/closer-mark-lead-closed', {lead_id: this.parameter.lead_id}).subscribe(r => {
+          console.log('r', r);
+          this.parameter.lead.lead_status_closer = 1;
+          swal('Success', 'Lead closed successfully.', 'success');
+        });
+      }
+    });
+  }
 
 
 

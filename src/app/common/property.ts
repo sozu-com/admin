@@ -133,4 +133,6 @@ export interface IProperty {
   min?: any;
   max?: any;
   lead_sort?: number;
+  start_date?: any;
+  end_date?: any;
 }

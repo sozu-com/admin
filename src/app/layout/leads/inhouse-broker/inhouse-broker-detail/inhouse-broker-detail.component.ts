@@ -8,6 +8,9 @@ import { DealFinalize } from './../../../../models/leads.model';
 import { FillInformation } from './../../../../models/leads.model';
 import { ChatTimePipe } from './../../../../pipes/chat-time.pipe';
 declare let swal: any;
+import {saveAs as importedSaveAs} from 'file-saver';
+import { Http, ResponseContentType } from '@angular/http';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-inhouse-broker-detail',
@@ -27,7 +30,8 @@ export class InhouseBrokerDetailComponent implements OnInit {
     private route: ActivatedRoute,
     public admin: AdminService,
     public constant: Constant,
-    public fillInfo: FillInformation
+    public fillInfo: FillInformation,
+    private http: Http
   ) {
     this.admin.loginData$.subscribe(success => {
       this.parameter.admin_id = success['id'];
@@ -117,9 +121,10 @@ export class InhouseBrokerDetailComponent implements OnInit {
   }
 
   getInvoice() {
-    this.admin.postDataApi('leads/getInvoice', {lead_id: this.parameter.lead_id}).subscribe(r => {
+    this.parameter.url = 'getInvoicePdf/' + this.parameter.lead_id;
+    this.admin.getInvoicePdf(this.parameter.url).subscribe(r => {
       if (r) {
-        console.log('Invocie', r);
+        importedSaveAs(r, 'Invoice_' + moment(new Date()).format('DD MMM YYYY, h:mm a') + '.pdf');
       }
     });
   }

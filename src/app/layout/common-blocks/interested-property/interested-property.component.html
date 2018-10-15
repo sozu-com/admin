@@ -83,13 +83,6 @@
           <button type="button" class="close" data-dismiss="modal" #hidePropertyModal>&times;</button>
         </div>
         <div class="modal-body">
-            <!-- <div class="form-group">
-              <select required title="Choose City" class="form-control" (change)="propertySearch($event.target.value)">
-                <option value="" disabled>Select City</option>
-                <option *ngFor="let city of parameter.cities" [selected]="city.id == parameter.city_id" value="{{city.id}}">{{city.name}}</option>
-              </select>
-            </div> -->
-
             <div class="row">
               <div class="col-md-3">
                 <div class="form-group">
@@ -118,7 +111,6 @@
                     </select>
                 </div>
             </div>
-    
             <div class="col-md-3">
                 <div class="form-group">
                 <label>Locality</label>
@@ -133,22 +125,22 @@
             <div class="row">
               <div class="col-md-3">
                 <div class="form-group btn-cont">
-                <!-- <label>View Properties</label> -->
                 <button class="btn btn-primary" (click)="propertySearch()">View Properties</button>
                 </div>
               </div>
-      
-              <div class="col-md-3">
+              <div class="col-md-9 pull-right">
+                <pagination-controls *ngIf="parameter.total>constant.p" class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+              </div>
+              <!-- <div class="col-md-3">
                   <div class="form-group btn-cont">
-                  <!-- <label>Add</label> -->
                   <button class="btn btn-primary" (click)="addPropertyToInterest()">Add Properties</button>
                   </div>
-              </div>
+              </div> -->
             </div>
 
             <table class="table" *ngIf="parameter?.items?.length!=0">
               <tbody>
-                <tr *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }; let i=index">
+                <tr *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index">
                   <td>
                       <div class="n-avail-profile">
                         <img [src]="item.image" onerror='src="assets/img/house.png"' alt="img">
@@ -165,71 +157,29 @@
                       <span class="checkmark"></span>
                       </label> -->
                       <label class="cust-check-bx float-right">
-                        <input type="checkbox" name="bank_id1" (click)="addLeadInterestedProperty(item.id)">
+                        <input [checked]="item.checked == true ? 'checked': ''" type="checkbox" name="bank_id1" (click)="addLeadInterestedProperty(item.id)">
                         <span class="checkmark"></span>
                       </label>
                   </td>
                 </tr>
               </tbody>
             </table>
-            <!-- <div class="form-group btn-cont">
-              <label>Add</label>
-              <button class="btn btn-primary" (click)="addPropertyToInterest()">View</button>
-            </div> -->
             <div *ngIf="parameter?.items?.length==0 && parameter.noResultFound">
               <p class="show-not-found">No property found for selected filters.</p>
             </div>
-            <div *ngIf="!parameter.noResultFound">
+            <div *ngIf="!parameter.noResultFound && parameter?.items?.length==0">
               <p class="show-not-found">Select filters to view properties.</p>
+            </div>
+
+            <div *ngIf="property_ids.length>0" class="row pull-right">
+              <div class="form-group btn-cont">
+              <button class="btn btn-primary" (click)="addPropertyToInterest()">Add Properties</button>
+              </div>
             </div>
         </div>
     </div> 
   </div>
 </div>
-<!-- <div class="modal" id="add-property">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content notary-avail">
-          <div class="modal-header popup-header">
-            <h4 class="modal-title">Properties available</h4>
-            <button type="button" class="close" data-dismiss="modal" #hidePropertyModal>&times;</button>
-          </div>
-          <div class="modal-body">
-              <div class="form-group">
-                <select required title="Choose City" class="form-control" (change)="propertySearch($event.target.value)">
-                  <option value="" disabled>Select City</option>
-                  <option *ngFor="let city of parameter.cities" [selected]="city.id == parameter.city_id" value="{{city.id}}">{{city.name}}</option>
-                </select>
-              </div>
-  
-              <table class="table" *ngIf="parameter?.items?.length!=0">
-                <tbody>
-                  <tr *ngFor="let item of parameter.items; let i=index">
-                    <td>
-                        <div class="n-avail-profile">
-                          <img [src]="item.image" onerror='src="assets/img/house.png"' alt="img">
-                          <div class="n-avail-info">
-                              <p class="p12">{{item.building.name}}</p>
-                              <p class="p10 marginB0">{{item.building.address ? item.building.address : 'NA'}}</p>
-                              <p class="p10">{{item.configuration.name}}</p>
-                          </div>
-                        </div>
-                    </td>
-                    <td>
-                        <label class="cust-check-bx float-right">
-                        <input type="radio" name="bank_id1" (click)="addLeadInterestedProperty(item.id)">
-                        <span class="checkmark"></span>
-                        </label>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div *ngIf="parameter?.items?.length==0">
-                <p class="show-not-found">No property found for selected filters.</p>
-              </div>
-          </div>
-      </div>
-    </div>
-</div> -->
   
 <!-- deal finalize modal -->
 <div class="modal animated" id="dealFinalize">

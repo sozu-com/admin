@@ -34,7 +34,8 @@ export class InterestedPropertyComponent implements OnInit {
 
   ngOnInit() {
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
-    this.parameter.p = this.constant.p;
+    this.parameter.page = this.constant.p;
+    this.parameter.total = 0;
   }
 
   openModal(property_id, lead_id) {
@@ -45,6 +46,11 @@ export class InterestedPropertyComponent implements OnInit {
 
   closeModal() {
     this.modalClose.nativeElement.click();
+  }
+
+  getPage(page) {
+    this.parameter.page = page;
+    this.propertySearch();
   }
 
   attachProperty() {
@@ -211,6 +217,12 @@ export class InterestedPropertyComponent implements OnInit {
   propertySearch() {
     this.admin.postDataApi('propertySearch', this.parameter).subscribe(r => {
       this.parameter.items = r.data;
+      if (this.property_ids.length > 0) {
+        this.parameter.items.forEach(element => {
+          const check_id = this.property_ids.indexOf(element.id);
+          if (check_id !== -1) { element.checked = true; }
+        });
+      }
       this.parameter.total = r.total;
       if (this.parameter.items.length <= 0) { this.parameter.noResultFound = true; }
     });

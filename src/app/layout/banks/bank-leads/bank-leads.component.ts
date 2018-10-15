@@ -208,6 +208,7 @@ export class BankLeadsComponent implements OnInit {
 
   getListing() {
     this.items = [];
+    this.parameter.noResultFound = false;
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     if (this.selectedUser) {
       input.assignee_id = this.selectedUser.id;
@@ -216,6 +217,7 @@ export class BankLeadsComponent implements OnInit {
     success => {
       this.items = success.data;
       console.log(success);
+      if (this.items.length <= 0) { this.parameter.noResultFound = true; }
       this.parameter.total = success.total_count;
     });
   }

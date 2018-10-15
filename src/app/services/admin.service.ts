@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers } from '@angular/http';
+import { Http, Response, ResponseContentType, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -215,15 +215,18 @@ export class AdminService {
                   const key =  Object.keys(obj)[0];
                   this.admin_acl[key] =  obj[key];
                 });
-
-          // this.permissions = r.data.permissions;
-          // this.admin_acl_array = r.data.m;
-          // const dd = r.data.m.map((obj, index) => {
-          //   const key =  Object.keys(obj)[0];
-          //   this.admin_acl[key] =  obj[key];
-          // });
           return Observable.of(true);
         })
         .catch(this.errorHandler);
+  }
+
+  getInvoicePdf(url): Observable<Blob> {
+    const options = new RequestOptions({responseType: ResponseContentType.Blob });
+    return this.http.get(this.baseUrl + url, options)
+              .map((response: Response) => {
+                this.http.loader.next({value: false});
+                return response.blob();
+              })
+              .catch(this.errorHandler);
   }
 }

@@ -445,3 +445,10 @@ input[type="file"]{background:transparent !important}
     background-color: DodgerBlue !important; 
     color: #ffffff; 
   }
+  .legend-title {
+      /* position: relative; */
+      display: none;
+  }
+  .legend-labels {
+      width: 200px !important;
+  }

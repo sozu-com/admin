@@ -292,19 +292,25 @@
                                 </td>
                             </tr>
                         </tbody></table>
-               <div class="padding20" *ngIf="parameter.noResultFound">No result found</div>
+                <div class="padding20 center" *ngIf="parameter.noResultFound">
+                        <img src="./../../../assets/img/404-error.png">
+                </div>
     
             </div>
          </div>
     
     
-         <div class="spacer30"></div>
+         <!-- <div class="spacer30"></div>
          <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+     -->
     
-    
-      </div>
-      </div><!-- listingResults -->
+        </div>
     </div>
+
+    <div class="btn-cont text-right marginT15" *ngIf="parameter.total">
+        <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+    </div>
+</div>
     
 
     <!-- add inhouse user modal -->

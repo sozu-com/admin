@@ -59,7 +59,7 @@ export class BanksComponent implements OnInit {
       .subscribe(
         success => {
           this.parameter.items = success.data;
-          this.parameter.total = success.total;
+          this.parameter.total = success.total_count;
         });
   }
 
