@@ -4,10 +4,8 @@
       <div class="col-12">
         <div class="title-group">
             <h5>Reports - Seller</h5>
-            
         </div>
       </div>
-    
   </div>
 
   <div class="white-bg marginT15 padding15">
@@ -18,31 +16,54 @@
       <div class="col-12">
         <hr style="margin-top:0;">
         <div class="pull-right btn-cont">
-            From:<input type="date" [ngModel] ="parameter.start_date | date:'yyyy-MM-dd'" max="{{today| date:'yyyy-MM-dd'}}" (ngModelChange)="parameter.start_date = $event; parameter.end_date=''" />
-            To:<input type="date" [ngModel] ="parameter.end_date | date:'yyyy-MM-dd'" min="{{parameter.start_date | date:'yyyy-MM-dd'}}" max="{{today| date:'yyyy-MM-dd'}}" (ngModelChange)="parameter.end_date = $event" />
-            <button class="btn btn-primary" (click)="getReportData()" [disabled]="parameter.min && parameter.end_date">Go</button>
+            From: <input class="date-input" type="date" [ngModel] ="parameter.start_date | date:'yyyy-MM-dd'" max="{{today| date:'yyyy-MM-dd'}}" (ngModelChange)="parameter.start_date = $event; parameter.end_date=''" />
+            To: <input class="date-input" type="date" [ngModel] ="parameter.end_date | date:'yyyy-MM-dd'" min="{{parameter.start_date | date:'yyyy-MM-dd'}}" max="{{today| date:'yyyy-MM-dd'}}" (ngModelChange)="parameter.end_date = $event" />
+            <button class="btn btn-primary" (click)="getReportData()" [disabled]="parameter.start_date && parameter.end_date">Go</button>
         </div>
     </div>
+    </div>
+    <div class="row report-data">
+      <div class="col-sm-5">
+        <p class="report-data-title">Total Seller On Platform</p>
+        <p class="report-data-value">{{totalSignUpCount+totalAddedProperty+totalApproved+totalSold}}</p>
+      </div>
+      <div class="col-sm-7">
+          <div class="row">
+              <div class="col-sm-6">
+                  <span class="label report-green">&nbsp;</span> <span> Sign Up ({{totalSignUpCount}})</span>
+              </div>
+              <div class="col-sm-6">
+                  <span class="label report-blue">&nbsp;</span> <span> Added Property ({{totalAddedProperty}})</span>
+              </div>
+          </div>
+          <div class="row marginT15">
+              <div class="col-sm-6">
+                  <span class="label report-red">&nbsp;</span> <span> Approved ({{totalApproved}})</span>
+              </div>
+              <div class="col-sm-6">
+                  <span class="label report-yellow">&nbsp;</span> <span> Sold ({{totalSold}})</span>
+              </div>
+          </div>
+      </div>
+      <!-- <span class="label report-green">&nbsp;</span> <span> Sign Up </span>
+      <span class="label report-blue">&nbsp;</span> <span> Added Property </span>
+      <span class="label report-red">&nbsp;</span> <span> Approved </span>
+      <span class="label report-yellow">&nbsp;</span> <span> Sold </span> -->
     </div>
     <div class="graph-area">
       <!-- <img src="assets/img/graph-img.png" alt="img"> -->
       <ngx-charts-bar-vertical-2d
-      [view]="view"
       [scheme]="colorScheme"
       [results]="chartView"
-      [gradient]="gradient"
-      [xAxis]="showXAxis"
-      [yAxis]="showYAxis"
-      [legend]="showLegend"
+      [gradient]="false"
+      [xAxis]="true"
+      [yAxis]="true"
+      [barPadding]="2"
+      [groupPadding]="4"
+      [legend]="false"
+      [animations]="true"
       (select)="onSelect($event)">
     </ngx-charts-bar-vertical-2d>
-
-    <!-- <ngx-charts-bar-vertical-2d
-      [scheme]="colorScheme"
-      [results]="chartView"
-      [xAxis]="showXAxis"
-      [yAxis]="showYAxis">
-    </ngx-charts-bar-vertical-2d> -->
 
     </div>
   </div>

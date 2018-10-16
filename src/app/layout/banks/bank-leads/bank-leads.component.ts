@@ -267,7 +267,7 @@ export class BankLeadsComponent implements OnInit {
   assignNow() {
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     const input = {
-      csr_buyer_id: this.assignItem.id,
+      bank_id	: this.assignItem.id,
       leads: leads_ids
     };
     this.admin.postDataApi('leads/bulkAssignBank', input).subscribe(r => {

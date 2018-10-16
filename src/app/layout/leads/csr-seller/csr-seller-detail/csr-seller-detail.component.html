@@ -96,7 +96,7 @@
         </ul>
         </div>
         <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12"><div class="add-new text-left">
-              <a *ngIf="admin?.admin_acl['Property Management']?.can_create==1 || admin?.permissions?.can_csr_seller==1" class="btn" href="javascript://" routerLink="/dashboard/properties/add-property/0">+Add New Property</a>
+              <a *ngIf="admin?.admin_acl['Property Management']?.can_create==1 || admin?.permissions?.can_csr_seller==1" class="btn" href="javascript://" routerLink="/dashboard/properties/add-property/0/{{parameter.seller_id}}">+Add New Property</a>
             </div></div>
             </div>
         <div class="tab-content white-bg">

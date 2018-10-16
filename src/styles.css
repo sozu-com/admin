@@ -445,10 +445,37 @@ input[type="file"]{background:transparent !important}
     background-color: DodgerBlue !important; 
     color: #ffffff; 
   }
+  .report-label { font-size: 9px; font-weight: 500; padding: 2px 15px; text-transform: uppercase; }
   .legend-title {
       /* position: relative; */
       display: none;
   }
   .legend-labels {
       width: 150px !important;
+  }
+  .report-red {
+      background-color: #ee7b7c;
+  }
+  .report-blue {
+      background-color: #4a85ff;
+  }
+  .report-green {
+      background-color: #4eb96f;
+  }
+  .report-yellow {
+      background-color: #f5d05c;
+  }
+  .report-data{
+      padding: 45px 40px 45px 60px;
+  }
+  .report-data-title{
+    color: rgba(0,0,0,0.5);
+    font-size: 14px;
+    margin-bottom: 0px;
+  }
+  .report-data-value {
+    font-size: 30px;
+  }
+  .date-input{
+      padding: 5px 5px 5px 10px;
   }

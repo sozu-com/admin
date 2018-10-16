@@ -19,7 +19,7 @@ import { SharedModule } from '../../modules/shared.module';
 const routes: Routes = [
   { path: 'details/:property_id', component: PropertyDetailsComponent,
     canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_read', '']}},
-  { path: 'add-property/:property_id', component: AddPropertyComponent,
+  { path: 'add-property/:property_id/:seller_id', component: AddPropertyComponent,
     canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_create', '']}},
   { path: 'edit-property/:property_id', component: AddPropertyComponent,
     canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_update', '']}},

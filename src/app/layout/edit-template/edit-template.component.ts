@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AdminService } from './../../services/admin.service';
 declare let swal: any;
 import * as jquery from 'jquery';
-
+import { HttpInterceptor } from './../../services/http-interceptor';
 @Component({
   selector: 'app-edit-template',
   templateUrl: './edit-template.component.html',
@@ -10,6 +10,9 @@ import * as jquery from 'jquery';
 })
 export class EditTemplateComponent implements OnInit {
 
+  constructor(private admin: AdminService, private http: HttpInterceptor) {
+    this.http.loader.next({value: false});
+  }
   public imageLink = {
     link: ''
   };
@@ -108,7 +111,6 @@ export class EditTemplateComponent implements OnInit {
     }
   };
 
-  constructor(private admin: AdminService) { }
 
   ngOnInit() {
   }

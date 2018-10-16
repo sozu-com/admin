@@ -9,14 +9,15 @@ export class FileUpload {
     loading = false;
     backupArray: any;
 
-    constructor(single, us){
+    constructor(single, us) {
       this.us = us;
       this.single = single;
-      if (this.single != true){
+      if (this.single != true) {
         this.files = [];
       }
     }
 
+    // upload = true means upload file just after reading
     onSelectFile(event, upload = false) {
 
        if (event.target.files && event.target.files[0]) {

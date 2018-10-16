@@ -281,7 +281,7 @@ export class CsrSellerComponent implements OnInit {
   assignNow() {
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     const input = {
-      closer_id: this.assignItem.id,
+      csr_seller_id: this.assignItem.id,
       leads: leads_ids
     };
     this.admin.postDataApi('leads/bulkAssignSeller', input).subscribe(r => {

@@ -338,7 +338,7 @@ export class NotaryLeadsComponent implements OnInit {
   assignNow() {
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     const input = {
-      csr_buyer_id: this.assignItem.id,
+      noatary_id: this.assignItem.id,
       leads: leads_ids
     };
     this.admin.postDataApi('leads/bulkAssignNoatary', input).subscribe(r => {
