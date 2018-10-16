@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IProperty } from '../../common/property';
-import { NgForm } from '@angular/forms';
 import { Constant } from './../../common/constants';
 declare let swal: any;
 
@@ -27,10 +26,7 @@ export class PropertiesComponent implements OnInit {
 
   constructor(
     public constant: Constant,
-    private element: ElementRef,
-    private route: ActivatedRoute,
-    public admin: AdminService,
-    private router: Router
+    public admin: AdminService
   ) { }
 
   ngOnInit() {
@@ -126,19 +122,28 @@ export class PropertiesComponent implements OnInit {
     this.getListing();
   }
 
-  toggleAndSort(sort_by, sort_by_order) {
-    if (this[sort_by_order] == 1) {
-      this[sort_by_order] = 2;
-    }else {
-      this[sort_by_order] = 1;
-    }
+  // toggleAndSort(sort_by, sort_by_order) {
+  //   if (this[sort_by_order] == 1) {
+  //     this[sort_by_order] = 0;
+  //   }else {
+  //     this[sort_by_order] = 1;
+  //   }
 
-    this.parameter.sort_by = sort_by;
-    this.parameter.sort_by_order = sort_by_order;
-    console.log(this.parameter);
+  //   this.parameter.sort_by = sort_by;
+  //   this.parameter.sort_by_order = sort_by_order;
+  //   console.log(this.parameter);
+  //   this.getListing();
+  // }
+
+  sort_by(sort_by) {
+    if (this.parameter.sort_by !== sort_by) {
+      this.parameter.sort_by = sort_by;
+      this.parameter.sort_by_order = 1;
+    }else {
+      this.parameter.sort_by_order = this.parameter.sort_by_order ? 0 : 1;
+    }
     this.getListing();
   }
-
 
   getPage(page) {
     this.parameter.page = page;

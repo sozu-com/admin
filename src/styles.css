@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~nouislider/distribute/nouislider.min.css";
 
+table tr{    outline: none !important;}
 #wrapper{ background: #f4f4f4 !important; }
 .backdrop{ position: fixed !important; }
 .spinner-rectangle-bounce{ position: fixed !important; }
@@ -478,4 +479,7 @@ input[type="file"]{background:transparent !important}
   }
   .date-input{
       padding: 5px 5px 5px 10px;
+  }
+  .new-btn {
+    min-width: none;
   }

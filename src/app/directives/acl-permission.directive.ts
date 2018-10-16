@@ -10,7 +10,7 @@ export class AclPermissionDirective {
   @Input('aclId') aclId;
   // @Input('admin_acl') admin_acl;
   admin_acl: any;
-  constructor(public el: ElementRef, private admin: AdminService) {
+  constructor() {
     // console.log('yess');
     // console.log('aa', this.admin_acl);
     // this.admin_acl.forEach(element => {

@@ -26,8 +26,8 @@
                   <div class="table-search">
                       <label>Name</label>
                       <div class="searh-3">
-                        <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getAclUsers(parameter.p, parameter.name, parameter.phone, parameter.email)" name="">
-                        <button *ngIf="parameter.name" (click)="getAclUsers(parameter.p, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
+                        <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getAclUsers(parameter.page, parameter.name, parameter.phone, parameter.email)" name="">
+                        <button *ngIf="parameter.name" (click)="getAclUsers(parameter.page, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
                       </div>
                   </div>
                 </th>
@@ -35,8 +35,8 @@
                   <div class="table-search">
                       <label>Contact Number</label>
                       <div class="searh-3">
-                        <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="getAclUsers(parameter.p, parameter.name, parameter.phone, parameter.email)" name="">
-                        <button *ngIf="parameter.phone" (click)="getAclUsers(parameter.p, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
+                        <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="getAclUsers(parameter.page, parameter.name, parameter.phone, parameter.email)" name="">
+                        <button *ngIf="parameter.phone" (click)="getAclUsers(parameter.page, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
                       </div>
                   </div>
                 </th>
@@ -44,8 +44,8 @@
                   <div class="table-search">
                       <label>Email Address</label>
                       <div class="searh-3">
-                        <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="getAclUsers(parameter.p, parameter.name, parameter.phone, parameter.email)" name="">
-                        <button *ngIf="parameter.email" (click)="getAclUsers(parameter.p, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
+                        <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="getAclUsers(parameter.page, parameter.name, parameter.phone, parameter.email)" name="">
+                        <button *ngIf="parameter.email" (click)="getAclUsers(parameter.page, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
                       </div>
                   </div>
                 </th>
@@ -57,7 +57,7 @@
                 </th>
               </tr>
         
-              <tr *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }; let i=index">
+              <tr *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index">
                 <td> 
                   <img *ngIf="item.image && item.image!='image'" class="rounded-circle" [src]="item.image" alt="img">
                   <img *ngIf="!item.image || item.image=='image'" class="rounded-circle" src="./../../../assets/img/default_img.png" alt="img">
@@ -74,13 +74,13 @@
                 <td class="text-left" *ngIf="!item.phone">NA</td>
                 <td class="text-left" *ngIf="item.email">{{item.email}}</td>
                 <td class="text-left" *ngIf="!item.email">NA</td>
-                <td>435DFGD</td>
+                <td>{{item.id}}</td>
                 <td>
                   <!-- <a href="javascript://" routerLink="/dashboard/access-control-mgt/add-acl-user/{{item.id}}" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a> -->
                   <!-- <a [ngClass]="{'display-none':admin?.admin_acl['Access Controls']?.can_update==0}" href="javascript://" (click)="editData(item, item.id)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a> -->
                   <!-- <a href="javascript://" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a>
                   <a href="javascript://" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a> -->
-                  <button [disabled]="admin?.admin_acl['Access Controls']?.can_update==0" (click)="editData(item, item.id)" class="action-icon"><img src="./../../../../assets/img/edit.png" alt="img"></button>
+                  <button title="Edit Details" [disabled]="admin?.admin_acl['Access Controls']?.can_update==0" (click)="editData(item, item.id)" class="action-icon"><img src="./../../../../assets/img/edit.png" alt="img"></button>
                   <button [disabled]="admin?.admin_acl['Access Controls']?.can_delete==0"
                       (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1, parameter.type)" 
                       title="{{item.is_blocked==1?'Unblock User':'Block User'}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"

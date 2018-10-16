@@ -19,7 +19,6 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { LoginComponent } from './login/login.component';
 import { CommonService } from './services/common.service';
 import { Constant } from './common/constants';
-import { AclPermissionDirective } from './directives/acl-permission.directive';
 import { Login, AdminACL } from './models/login.model';
 import { SharedModule } from './modules/shared.module';
 
@@ -30,14 +29,6 @@ const appRoutes: Routes = [
   { path: 'dashboard', canActivate: [AuthGuard], loadChildren: './layout/layout.module#LayoutModule'},
   { path: '**', component: PageNotFoundComponent },
 ];
-
-// const appRoutes: Routes = [
-//   { path: '', pathMatch: 'full', component: LoginComponent},
-//   { path: 'login', pathMatch: 'full', component: LoginComponent },
-//   { path: 'forgot-password', component: ForgotPasswordComponent },
-//   { path: 'dashboard', canActivate: [AuthGuard], data: {roles: ['', '', '']}, loadChildren: './layout/layout.module#LayoutModule'},
-//   { path: '**', component: PageNotFoundComponent },
-// ];
 
 @NgModule({
   declarations: [

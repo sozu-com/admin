@@ -99,7 +99,7 @@
                               <a *ngIf="admin?.admin_acl['Property Management']?.can_create==1" class="btn" href="javascript://" routerLink="/dashboard/properties/add-property/0/0">+Add New Property</a>
                            </div></div>
                            </div>
-                        <div class="tab-content">
+                        <div class="tab-content white-bg">
                            <div class="tab-pane active">
                               <div class="tabel-section">
                                  <div class="table-responsive">
@@ -126,17 +126,25 @@
                                              </div>
                                           </th>
                                           <th style="width:15%;vertical-align:top;">
-                                             <div (click)="toggleAndSort(1,'price_sort')" class="d-flex"><span>Price</span>
-                                              <a href="javascript://"><img [ngClass]="{'upsidedown':this.price_sort==2}" src="assets/img/top-arrow.png" alt="img"></a></div>
+                                             <div (click)="sort_by(1)" class="d-flex table-search">
+                                               <label>Price</label>
+                                              <a href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by==1 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a></div>
                                           </th>
                                           <th style="width:15%;vertical-align:top;">
-                                             <div (click)="toggleAndSort(2,'availability_sort')" class="d-flex"><span>Availability</span>
-                                             <a href="javascript://"><img [ngClass]="{'upsidedown':this.availability_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
+                                             <div (click)="sort_by(2)" class="d-flex table-search">
+                                               <label>Availability</label>
+                                             <a href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by==2 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a>
                                              </div>
                                           </th>
                                           <th style="width:15%;vertical-align:top;">
-                                             <div (click)="toggleAndSort(3,'lead_sort')" class="-d-flex"><span>Leads</span>
-                                              <a href="javascript://"><img [ngClass]="{'upsidedown':this.lead_sort==2}" src="assets/img/top-arrow.png" alt="img"></a></div>
+                                            <div (click)="sort_by(3)" class="d-flex table-search">
+                                              <label>Leads</label>
+                                              <a href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by==3 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a>
+                                            </div>
+
+                                             <!-- <div (click)="sort_by(3)" class="-d-flex table-search">
+                                               <label>Leads</label>
+                                              <a href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by==3 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a></div> -->
                                           </th>
                                           <th style="width:15%;">&nbsp;</th>
                                        </tr>
@@ -158,7 +166,7 @@
                                              <span *ngIf="p.for_sale">Sell</span>
                                              <span *ngIf="p.for_rent">Rent</span></span>
                                            </td>
-                                           <td><span>lead_count</span></td>
+                                           <td><span>{{p.lead_properties_count}}</span></td>
                                            <td>
                                              <div class="message">
                                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="parameter?.flag!=3" routerLink="../edit-property/{{p.id}}" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
@@ -171,23 +179,29 @@
    
                                            </td>
                                        </tr>
-                                       <tr *ngIf="parameter.loading == false && total == 0">
+                                       <!-- <tr *ngIf="parameter.loading == false && total == 0">
                                          <td colspan="10">No result found</td>
-                                        </tr>
+                                        </tr> -->
                                     </table>
+                                    <div class="padding20 center" *ngIf="parameter.loading == false && total == 0">
+                                        <img src="./../../../assets/img/404-error.png">
+                                    </div>
                                  </div>
                               </div>
                               <!-- <div class="btn-cont text-right marginT15">
                                  <button class="btn btn-secondary">View All</button>
                               </div> -->
-                              <div class="spacer30"></div>
+                              <!-- <div class="spacer30"></div>
 
                               <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
-
+ -->
 
                            </div>
                            <div class="tab-pane container fade" id="seller">Seller tab on</div>
                         </div>
                      </div>
                      
-                  </div>
+    <div class="btn-cont text-right marginT15" *ngIf="total">
+        <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+    </div>
+</div>

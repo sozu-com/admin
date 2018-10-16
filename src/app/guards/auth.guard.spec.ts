@@ -1,8 +1,8 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 
 import { AuthGuard } from './auth.guard';
-import { HttpInterceptor } from './http-interceptor';
-import { AdminService } from './admin.service';
+import { HttpInterceptor } from './../services/http-interceptor';
+import { AdminService } from './../services/admin.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, RequestOptions, XHRBackend, Http } from '@angular/http';
 

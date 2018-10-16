@@ -22,7 +22,7 @@ import { AppFooterComponent } from '../shared/app-footer/app-footer.component';
 import { ChangePasswordComponent } from './settings/change-password/change-password.component';
 import { InhouseUsersComponent } from './inhouse-users/inhouse-users.component';
 import { AddressComponent } from './inhouse-users/address/address.component';
-import { EditTemplateComponent } from './edit-template/edit-template.component';
+// import { EditTemplateComponent } from './edit-template/edit-template.component';
 import { AdminService } from '../services/admin.service';
 import { CommonService } from '../services/common.service';
 import { AuthGuard } from '../guards/auth.guard';
@@ -32,6 +32,8 @@ import { GenerateThumbComponent } from './generate-thumb/generate-thumb.componen
 import { AclPermissionDirective } from '../directives/acl-permission.directive';
 import { AclUserGuard } from '../guards/acl-user.guard';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+// import { TemplatesComponent } from './src/app/layout/templates/templates.component';
+// import { AddTemplateComponent } from './templates/src/app/layout/templates/add-template/add-template.component';
 
 @NgModule({
     imports: [
@@ -65,9 +67,11 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
         AppFooterComponent,
         InhouseUsersComponent,
         AddressComponent,
-        EditTemplateComponent,
+        // EditTemplateComponent,
         GenerateThumbComponent,
-        AclPermissionDirective
+        AclPermissionDirective,
+        // TemplatesComponent,
+        // AddTemplateComponent
     ],
     providers: [
         AdminService,

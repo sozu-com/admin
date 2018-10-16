@@ -135,4 +135,5 @@ export interface IProperty {
   lead_sort?: number;
   start_date?: any;
   end_date?: any;
+  post_type?: any;
 }

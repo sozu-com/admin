@@ -6,7 +6,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ChangePasswordComponent } from './settings/change-password/change-password.component';
 import { AuthGuard } from './../guards/auth.guard';
 import { InhouseUsersComponent } from './inhouse-users/inhouse-users.component';
-import { EditTemplateComponent } from './edit-template/edit-template.component';
+// import { EditTemplateComponent } from './edit-template/edit-template.component';
 import { GenerateThumbComponent } from './generate-thumb/generate-thumb.component';
 import { AclUserGuard } from '../guards/acl-user.guard';
 
@@ -23,8 +23,7 @@ const routes: Routes = [
             { path: 'users', loadChildren: './users/users.module#UsersModule'},
             { path: 'leads', loadChildren: './leads/leads.module#LeadsModule'},
             { path: 'manual-leads', loadChildren: './manual-leads/manual-leads.module#ManualLeadsModule'},
-            { path: 'edit-template', component: EditTemplateComponent,
-                canActivate: [AclUserGuard], data: {roles: ['Templates', 'can_read', '']}},
+            { path: 'templates', loadChildren: './templates/templates.module#TemplatesModule' },
             { path: 'generate-thumb', component: GenerateThumbComponent},
             { path: 'reports', loadChildren: './reports/reports.module#ReportsModule'},
             { path: 'access-control-mgt', loadChildren: './acl/acl.module#AclModule'},

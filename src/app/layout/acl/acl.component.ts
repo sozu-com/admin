@@ -43,11 +43,11 @@ export class AclComponent implements OnInit {
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
-    this.parameter.p = this.constant.p;
+    this.parameter.page = this.constant.p;
     this.model.id = '';
     this.initialCountry = {initialCountry: this.constant.country_code};
     this.getAclList();
-    this.getAclUsers(this.parameter.p, '', '', '');
+    this.getAclUsers(this.parameter.page, '', '', '');
   }
 
   closeModal() {
@@ -56,8 +56,8 @@ export class AclComponent implements OnInit {
   }
 
   getPage(page) {
-    this.parameter.p = page;
-    this.getAclUsers(this.parameter.p, this.parameter.name, this.parameter.phone, this.parameter.email);
+    this.parameter.page = page;
+    this.getAclUsers(this.parameter.page, this.parameter.name, this.parameter.phone, this.parameter.email);
   }
 
   getAclList() {
@@ -74,24 +74,7 @@ export class AclComponent implements OnInit {
   }
 
   getAclUsers(page, name, phone, email) {
-
-    this.parameter.p = page;
-    this.parameter.name = name;
-    this.parameter.phone = phone;
-    this.parameter.email = email;
-
-    this.parameter.url = 'getAclUsers';
-
-    const input = new FormData();
-    input.append('page', this.parameter.p.toString());
-
-    if (this.parameter.name) {input.append('name', this.parameter.name); }
-
-    if (this.parameter.phone) {input.append('phone', this.parameter.phone); }
-
-    if (this.parameter.email) {input.append('email', this.parameter.email); }
-
-    this.admin.postDataApi(this.parameter.url, input)
+    this.admin.postDataApi('getAclUsers', this.parameter)
       .subscribe(
         success => {
           this.parameter.items = success.data;

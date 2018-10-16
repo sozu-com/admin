@@ -1,0 +1,148 @@
+
+<div  class="row">
+    <div  class="col-md-6">
+        <div  class="title-group">
+            <h5>Templates</h5>
+        </div>
+    </div>
+    <div  class="col-md-6">
+        <div class="btn-cont pull-right">
+            <button *ngIf="!post.id" (click)="submitAll()" class="btn btn-primary">Save</button>
+            <button *ngIf="post.id" (click)="submitAll()" class="btn btn-primary">Update</button>
+        </div>
+    </div>
+</div>
+<hr/>
+<div class="white-bg padding20">
+    <div class="row" *ngIf="post.id">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="form-group-3">
+            <p class="p16-two">Slug</p>
+            </div>
+        </div>
+        <div class="col-lg-10 col-md-12 col-sm-12 col-12">
+            <div class="form-group-3">
+                <input [(ngModel)]="post.slug" placeholder="Enter slug" class="form-control" type="text" />
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-12 col-sm-12 col-12">
+            <a title="Preview" href="{{post.blog_url}}" class="action-icon"><img src="assets/img/viewfull.png" alt="img"></a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+            <div class="upload-cover-img white-bg" style="height: 200px;">
+                <img [src]="file1.image" onerror="this.src='assets/img/placeholder.png'" class="floor-plan">
+                <div *ngIf="!file1.image" class="upload-caption">
+                    <p class="green-color marginT30">+Upload Cover image for the post</p>
+                    <p>JPG or PNG. Image size should be 1920 × 1080 pixels (for HiDPI displays).</p>
+                </div>
+                <input type="file" name="" accept="image/*" (change)="file1.onSelectFile($event,true)">
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+            <div class="form-group-3">
+                <p class="p16-two">Publish Date</p>
+                <input class="form-control" type="date" [ngModel] ="post.publish_date | date:'yyyy-MM-dd'" (ngModelChange)="post.publish_date = $event"/>
+            </div>
+            <div class="form-group-3">
+                <p class="p16-two">Post type</p>
+                <label class="cust-radio">
+                    <input type="radio" (change)="post.post_type=1" value="1" [checked]="post.post_type == '1' ? 'checked' : ''" name="post_type">
+                    <span class="checkmark">Post</span>
+                </label>
+                <label class="cust-radio">
+                    <input type="radio" (change)="post.post_type=2" value="2" [checked]="post.post_type == '2' ? 'checked' : ''" name="post_type">
+                    <span class="checkmark">Page</span>
+                </label>
+                <label class="cust-radio">
+                    <input type="radio" (change)="post.post_type=3" value="3" [checked]="post.post_type == '3' ? 'checked' : ''" name="post_type">
+                    <span class="checkmark">News</span>
+                </label>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group-3">
+                <p class="p16-two">Post Status</p>
+                <label class="cust-radio">
+                    <input type="radio" (change)="post.status=1" value="1" [checked]="post.status == '1' ? 'checked' : ''" name="post_status">
+                    <span class="checkmark">Draft</span>
+                </label>
+                <label class="cust-radio">
+                    <input type="radio" (change)="post.status=2" value="2" [checked]="post.status == '2' ? 'checked' : ''" name="post_status">
+                    <span class="checkmark">Publish</span>
+                </label>
+    
+            </div>
+        </div>
+    </div>
+</div>
+<hr/>
+    
+<div class="cust-tabs">
+    <div class="row flex-wrap-reverse">
+        <div class="col-xl-10 col-lg-12 col-md-12 col-sm-12 col-12">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active show" data-toggle="tab" href="#english">English</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#spanish">Spanish</a>
+            </li>
+        </ul>
+        </div>
+    </div>
+    <div class="tab-content">
+        <div id="english"  class="tab-pane white-bg padding20 active">
+            <div class="row marginT20">
+                <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+                    <div class="form-group-3">
+                        <label class="p16-two">Enter title</label>
+                        <input [(ngModel)]="post.title_en" placeholder="Enter title" class="form-control" type="text" />
+                    </div>
+                </div>
+            </div>
+            <div [froalaEditor]="options" [(froalaModel)]="post.description_en"></div>
+            <div class="spacer30"></div>
+            <div class="row">
+                <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+                    <div class="form-group-3">
+                        <label class="p16-two">Enter meta title</label>
+                        <input [(ngModel)]="post.meta_title_en" placeholder="Enter meta title" class="form-control" type="text" />
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="form-group-3">
+                        <label class="p16-two">Enter meta description</label>
+                        <textarea  [(ngModel)]="post.meta_description_en" placeholder="Enter meta description" class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="spanish"  class="tab-pane white-bg padding20">
+            <div class="row marginT20">
+                <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+                    <div class="form-group-3">
+                        <label class="p16-two">Enter title</label>
+                        <input  [(ngModel)]="post.title_es" placeholder="Enter title" class="form-control" type="text" />
+                    </div>
+                </div>
+            </div>
+            <div [froalaEditor]="options" [(froalaModel)]="post.description_es"></div>
+            <div class="spacer30"></div>
+            <div class="row">
+                <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+                    <div class="form-group-3">
+                        <label class="p16-two">Enter meta title</label>
+                        <input  [(ngModel)]="post.meta_title_es" placeholder="Enter meta title" class="form-control" type="text" />
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="form-group-3">
+                        <label class="p16-two">Enter meta description</label>
+                        <textarea  [(ngModel)]="post.meta_description_es" placeholder="Enter meta description" class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+ 
+</div>

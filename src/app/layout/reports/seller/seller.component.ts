@@ -13,16 +13,16 @@ export class SellerComponent implements OnInit {
   public parameter: IProperty = {};
   today = new Date();
   chartView: any = [];
-  totalSignUpCount = 0;
-  totalAddedProperty = 0;
-  totalApproved = 0;
-  totalSold = 0;
+  totalSignUpCount: number;
+  totalAddedProperty: number;
+  totalApproved: number;
+  totalSold: number;
   colorScheme = {
     domain: ['#4eb96f', '#4a85ff', '#ee7b7c', '#f5d05c']
   };
 
   constructor(public admin: AdminService) {
-    Object.assign(this, this.chartView);
+    // Object.assign(this, this.chartView);
   }
 
   onSelect(event) {
@@ -31,21 +31,22 @@ export class SellerComponent implements OnInit {
 
   ngOnInit() {
     const date = new Date();
-    this.parameter.start_date = moment(date.getFullYear() + '-' + '01' + '-' + '01').format('YYYY-MM-DD');
-    this.parameter.end_date = moment().format('YYYY-MM-DD');
+    this.parameter.min = moment(date.getFullYear() + '-' + '01' + '-' + '01').format('YYYY-MM-DD');
+    this.parameter.max = moment().format('YYYY-MM-DD');
     this.getReportData();
   }
 
   getReportData () {
-    const input = {start_date: this.parameter.start_date, end_date: this.parameter.end_date};
+    this.totalSignUpCount = 0; this.totalAddedProperty = 0; this.totalApproved = 0; this.totalSold = 0;
+    const input = {start_date: this.parameter.min, end_date: this.parameter.max};
     this.admin.postDataApi('reports/sellers', input).subscribe(r => {
       this.parameter.items = r.data;
       const data = [];
       this.parameter.items.forEach(element => {
         this.totalSignUpCount = this.totalSignUpCount + element.signup_count;
-        this.totalAddedProperty = this.totalSignUpCount + element.property_count;
-        this.totalApproved = this.totalSignUpCount + element.property_approved;
-        this.totalSold = this.totalSignUpCount + element.property_sold;
+        this.totalAddedProperty = this.totalAddedProperty + element.property_count;
+        this.totalApproved = this.totalApproved + element.property_approved;
+        this.totalSold = this.totalSold + element.property_sold;
         data.push({
           'name' : element.month_name + ', ' + element.year,
           'series': [
@@ -65,6 +66,7 @@ export class SellerComponent implements OnInit {
           ]
         });
       });
+      this.parameter.total = this.totalSignUpCount + this.totalAddedProperty + this.totalApproved + this.totalSold;
       this.chartView = data;
       // Object.assign(this, this.chartView);
     });

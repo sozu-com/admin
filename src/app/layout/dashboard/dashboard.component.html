@@ -1,14 +1,21 @@
 
 <div class="container-fluid">
   <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-5">
         <div class="title-group">
             <h5>Hello Admin</h5>
         </div>
       </div>
-      
+      <div class="col-md-7">
+        <div class="pull-right btn-cont">
+          From: <input class="date-input" type="date" [ngModel] ="parameter.min | date:'yyyy-MM-dd'" max="{{today| date:'yyyy-MM-dd'}}" (ngModelChange)="parameter.min = $event; parameter.max=''" />
+          To: <input class="date-input" type="date" [ngModel] ="parameter.max | date:'yyyy-MM-dd'" min="{{parameter.min | date:'yyyy-MM-dd'}}" max="{{today| date:'yyyy-MM-dd'}}" (ngModelChange)="parameter.max = $event" />
+          <button class="btn btn-primary new-btn" href="javascript://" (click)="getReportData()"
+              [disabled]="!parameter.min || !parameter.max">Go</button>
+        </div>
+      </div>
   </div>
-<div class="row">
+  <div class="row">
       <div class="col-md-4 col-sm-12 col-12">
         <div class="info-box dashboard-bx">
           <p class="p14">All Properties</p>
@@ -92,206 +99,41 @@
             <div class="spacer30"></div>
             <div class="row">
               <div class="col-md-6 col-sm-12 col-12">
-                <!-- <img class="img-fluid" src="assets/img/dummy-graph.png" alt="img"> -->
                 <div style="height:300px">
                   <ngx-charts-bar-vertical
                   [scheme]="colorScheme"
                   [results]="chartCommision"
-                  [gradient]="gradient"
-                  [xAxis]="showXAxis"
-                  [yAxis]="showYAxis"
-                  [showXAxisLabel]="showXAxisLabel"
-                  [showYAxisLabel]="showYAxisLabel"
-                  [xAxisLabel]="xAxisLabel"
-                  [yAxisLabel]="yAxisLabel"
-                  (select)="onSelect($event)">
+                  [gradient]="false"
+                  [xAxis]="true"
+                  [yAxis]="true">
                 </ngx-charts-bar-vertical>
                 </div>
               </div>
                 <div class="col-md-6 col-sm-12 col-12">
-                <!-- <img class="img-fluid" src="assets/img/dummy-graph2.png" alt="img"> -->
                 <div style="height:300px">
                     <ngx-charts-area-chart
                       [scheme]="colorScheme"
                       [results]="chartSales"
-                      [gradient]="gradient"
-                      [xAxis]="showXAxis"
-                      [yAxis]="showYAxis"
-                      [showXAxisLabel]="showXAxisLabel"
-                      [showYAxisLabel]="showYAxisLabel"
-                      [xAxisLabel]="xAxisLabel"
-                      [yAxisLabel]="yAxisLabel"
-                      (select)="onSelect($event)">
+                      [gradient]="false"
+                      [xAxis]="true"
+                      [yAxis]="true">
                     </ngx-charts-area-chart>
                 </div>
               </div>
 
             </div>
               </div>
-          <div id="notary" class="tab-pane fade">
+          <!-- <div id="notary" class="tab-pane fade">
             <h3>Menu 1</h3>
             <p>Some content in menu 1.</p>
           </div>
           <div id="banks" class="tab-pane fade">
             <h3>Menu 2</h3>
             <p>Some content in menu 2.</p>
-          </div>
+          </div> -->
         </div>
 
         <div class="clearfix"></div>
-</div>
+  </div>
 
-<div class="spacer30"></div>
-            <div class="row">
-                <div class="col-12">
-                  <div class="title-group">
-                      <h5>Properties</h5>
-                      <p>Showing <span class="green-color">130</span> out of 2790 <a class="view-all" href="javascript://">View All</a></p>
-                  </div>
-                </div>
-              
-            </div>
-                      <div class="white-bg">
-            <div class="table-responsive-md">
-            <table class="table table-borderless properties-table">
-              <tr>
-                <td>
-                  <div class="profile">
-                    <div class="fig-block">
-                      <img src="http://via.placeholder.com/56x56" alt="img">
-                    </div>
-                    <div class="profile-info">
-                      <h6>Horizon Center</h6>
-                      <p>Hamilton, New Jersey</p>
-                    </div>
-
-                  </div>
-
-                </td>
-                <td>
-                  <p class="p12">Assigned to</p>
-                  <p class="black-color p14">Mukesh Rana (Agent)</p>
-              </td>
-                <td>
-                  <p class="p12">Configuration</p>
-                  <p class="black-color p14">2BHK, 3BHK, 4BHK</p>
-              </td>
-                <td>
-                  <p class="p12">Price Range</p>
-                  <p class="black-color p14">$26.9k - $38.5k</p>
-              </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="profile">
-                    <div class="fig-block">
-                      <img src="http://via.placeholder.com/56x56" alt="img">
-                    </div>
-                    <div class="profile-info">
-                      <h6>Horizon Center</h6>
-                      <p>Hamilton, New Jersey</p>
-                    </div>
-
-                  </div>
-
-                </td>
-                <td>
-                  <p class="p12">Assigned to</p>
-                  <p class="black-color p14">Mukesh Rana (Agent)</p>
-              </td>
-                <td>
-                  <p class="p12">Configuration</p>
-                  <p class="black-color p14">2BHK, 3BHK, 4BHK</p>
-              </td>
-                <td>
-                  <p class="p12">Price Range</p>
-                  <p class="black-color p14">$26.9k - $38.5k</p>
-              </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="profile">
-                    <div class="fig-block">
-                      <img src="http://via.placeholder.com/56x56" alt="img">
-                    </div>
-                    <div class="profile-info">
-                      <h6>Horizon Center</h6>
-                      <p>Hamilton, New Jersey</p>
-                    </div>
-
-                  </div>
-
-                </td>
-                <td>
-                  <p class="p12">Assigned to</p>
-                  <p class="black-color p14">Mukesh Rana (Agent)</p>
-              </td>
-                <td>
-                  <p class="p12">Configuration</p>
-                  <p class="black-color p14">2BHK, 3BHK, 4BHK</p>
-              </td>
-                <td>
-                  <p class="p12">Price Range</p>
-                  <p class="black-color p14">$26.9k - $38.5k</p>
-              </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="profile">
-                    <div class="fig-block">
-                      <img src="http://via.placeholder.com/56x56" alt="img">
-                    </div>
-                    <div class="profile-info">
-                      <h6>Horizon Center</h6>
-                      <p>Hamilton, New Jersey</p>
-                    </div>
-
-                  </div>
-
-                </td>
-                <td>
-                  <p class="p12">Assigned to</p>
-                  <p class="black-color p14">Mukesh Rana (Agent)</p>
-              </td>
-                <td>
-                  <p class="p12">Configuration</p>
-                  <p class="black-color p14">2BHK, 3BHK, 4BHK</p>
-              </td>
-                <td>
-                  <p class="p12">Price Range</p>
-                  <p class="black-color p14">$26.9k - $38.5k</p>
-              </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="profile">
-                    <div class="fig-block">
-                      <img src="http://via.placeholder.com/56x56" alt="img">
-                    </div>
-                    <div class="profile-info">
-                      <h6>Horizon Center</h6>
-                      <p>Hamilton, New Jersey</p>
-                    </div>
-
-                  </div>
-
-                </td>
-                <td>
-                  <p class="p12">Assigned to</p>
-                  <p class="black-color p14">Mukesh Rana (Agent)</p>
-              </td>
-                <td>
-                  <p class="p12">Configuration</p>
-                  <p class="black-color p14">2BHK, 3BHK, 4BHK</p>
-              </td>
-                <td>
-                  <p class="p12">Price Range</p>
-                  <p class="black-color p14">$26.9k - $38.5k</p>
-              </td>
-              </tr>
-
-          
-            </table>
-          </div>
-          </div>
 </div>

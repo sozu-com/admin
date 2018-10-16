@@ -139,11 +139,11 @@ export class CsrSellerDetailComponent implements OnInit {
     this.getListing();
   }
 
-  sort_by(sort_by){
-    if (this.parameter.sort_by != sort_by){
+  sort_by(sort_by) {
+    if (this.parameter.sort_by !== sort_by) {
       this.parameter.sort_by = sort_by;
       this.parameter.sort_by_order = 0;
-    }else{
+    }else {
       this.parameter.sort_by_order = this.parameter.sort_by_order ? 0 : 1;
     }
     this.getListing();
