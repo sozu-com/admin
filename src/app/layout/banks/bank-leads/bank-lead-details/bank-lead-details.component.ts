@@ -39,7 +39,6 @@ export class BankLeadDetailsComponent implements OnInit {
     this.route.params.subscribe( params => {
       this.parameter.lead_id = params.id;
       this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
-        // console.log('lead details', r);
         this.getDocumentOptions();
         this.parameter.lead = r.data.lead;
         this.selectedProperties = r.data.lead.selected_properties[0];
@@ -97,13 +96,12 @@ export class BankLeadDetailsComponent implements OnInit {
       html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to close this lead?',
       type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
         this.admin.postDataApi('leads/bank-mark-lead-closed', {lead_id: this.parameter.lead_id}).subscribe(r => {
-          console.log('r', r);
           this.parameter.lead.lead_status_bank = 1;
           swal('Success', 'Lead closed successfully.', 'success');
         });

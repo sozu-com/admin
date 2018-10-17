@@ -320,7 +320,8 @@
                      </div>
                  </th>
               </tr>
-              <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }">
+              <tr class="cursor-pointer" title="Click to view details" *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }"
+                routerLink="{{item.id}}">
                 <td>
                     <label class="cust-check-bx" >
                     <input type="checkbox" [(ngModel)]="item.selected" name="document">
@@ -329,9 +330,8 @@
                     <!-- <i class="fa" [ngClass]="item.selected?'fa-check-square-o':'fa-square-o'" (click)="item.selected = !item.selected" aria-hidden="true"></i> -->
                 </td>
                 <td>
-                  <a routerLink="{{item.id}}" href="javascript://"><img *ngIf="item.image" class="rounded-circle" [src]="item.image" alt="img">
-                  <img *ngIf="!item.image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
-                  </a>
+                    <img *ngIf="item.image" class="rounded-circle" [src]="item.image" alt="img">
+                    <img *ngIf="!item.image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
                 </td>
                 <td class="text-left">
                   <span class="name">{{item.name}}</span>

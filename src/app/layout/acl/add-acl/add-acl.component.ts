@@ -1,9 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AdminService } from './../../../services/admin.service';
 import { CommonService } from './../../../services/common.service';
 import { IProperty } from './../../../common/property';
 import { ACL, Permission } from './../../../models/acl.model';
-import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Constant } from './../../../common/constants';
 declare let swal: any;
@@ -29,9 +28,6 @@ export class AddAclComponent implements OnInit {
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.p = this.constant.p;
     this.initialCountry = {initialCountry: this.constant.country_code};
-//     if (this.cs.data !== {}) {
-// console.log('data', this.cs.data);
-//     } else {
       this.parameter.sub = this.route.params.subscribe(params => {
         if (params['id'] !== '0') {
           this.model.id = params['id'];
@@ -41,17 +37,14 @@ export class AddAclComponent implements OnInit {
           this.getAclList();
         }
       });
-    // }
   }
 
   getAclUserById(id) {
     this.admin.postDataApi('getAclUserById', {'id': id})
     .subscribe(
       success => {
-        console.log('getAclUserById', success);
         this.model = success.data;
         this.model.admin_acl = success.data.admin_acl;
-        console.log('====', this.model);
       });
   }
 
@@ -79,10 +72,8 @@ export class AddAclComponent implements OnInit {
     this.admin.postDataApi('getAclList', {})
       .subscribe(
         success => {
-          // this.parameter.data = success.data;
           success.data.forEach(element => {
             const e = new Permission();
-            console.log('===', element.name);
             const acl = {name: element.name};
             e.acl_id = element.id; e.acl = acl; e.show = false;
             e.can_create = 1; e.can_update = 1; e.can_read = 1; e.can_delete = 1; e.can_crud = 1;
@@ -113,14 +104,12 @@ export class AddAclComponent implements OnInit {
 
 
   add() {
-    console.log(this.model);
     this.admin.postDataApi('addAclUser', this.model)
       .subscribe(
         success => {
           if (success.success === '0') {
             swal('Error', success.message, 'error');
           }else {
-            // formdata.reset();
             const text = this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
             swal('Success', text, 'success');
             // if (this.parameter.items.length < 10) {

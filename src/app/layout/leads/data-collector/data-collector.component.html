@@ -267,9 +267,7 @@
                         <input type="checkbox" [(ngModel)]="item.selected" name="document">
                         <span class="checkmark"></span>
                         </label>
-                        <!-- <i class="fa" [ngClass]="item.selected?'fa-check-square-o':'fa-square-o'" (click)="item.selected = !item.selected" aria-hidden="true"></i> -->
                     </td>
-
                     <td><strong>{{item.name}}</strong></td>
                     <td>{{item.address}}
                     </td>
@@ -277,13 +275,19 @@
                         <span>{{item?.dev_name}}</span>
                         <span *ngIf="!item.dev_name" >NA</span>
                     </td>
-                    <td>{{item?.dev_phone}}<br>
+                    <td *ngIf="item.dev_phone || item.dev_mail">
+                        {{item?.dev_countrycode ? item.dev_countrycode : constant.dial_code}}-{{item?.dev_phone}}<br>
                         {{item?.dev_mail}}
                     </td>
+                    <td *ngIf="!item.dev_phone && !item.dev_mail">NA</td>
                     <td>{{item?.collector?.name}}</td>
                     <td style="vertical-align:middle; ">
-                       <button *ngIf="!item.status" (click)="changeStatus(item, 1)" class="action-icon" title="Mark Complete"><img alt="img" src="assets/img/tick.png"></button>
-                       <button *ngIf="item.status" (click)="changeStatus(item, 2)" class="action-icon" title="Mark Incomplete"><img alt="img" src="assets/img/tick-selected.png"></button>
+                        <a title="Completed" *ngIf="item.status==1" style="cursor:auto;" class="green-color fontW500" href="javascript://">Completed</a>
+                        <a style="cursor:auto;" *ngIf="admin?.admin_acl['Data Collector Lead Management']?.can_update==0 || admin?.permissions?.can_data_collector==0" class="green-color fontW500" href="javascript://">Mark Complete</a>
+                        <a title="Mark Complete" *ngIf="item.status==0 && (admin?.admin_acl['Data Collector Lead Management']?.can_update==1 || admin?.permissions?.can_data_collector==1)" class="green-color fontW500" (click)="changeStatus(item, 1)" href="javascript://">Mark Complete</a>
+
+                       <!-- <button *ngIf="!item.status" (click)="changeStatus(item, 1)" class="action-icon" title="Mark Complete"><img alt="img" src="assets/img/tick.png"></button>
+                       <button *ngIf="item.status" (click)="changeStatus(item, 2)" class="action-icon" title="Mark Incomplete"><img alt="img" src="assets/img/tick-selected.png"></button> -->
                     </td>
                  </tr>
               </table>

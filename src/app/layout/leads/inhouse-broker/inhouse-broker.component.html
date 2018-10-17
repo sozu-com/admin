@@ -287,9 +287,10 @@
                                     <label>Change Property For</label>
                                 </div>
                             </th>
-                            <th style="width:4%"></th>
+                            <!-- <th style="width:4%"></th> -->
                         </tr>
-                        <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let in=index">
+                        <tr class="cursor-pointer" title="Click to view details" *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let in=index"
+                            routerLink="/dashboard/leads/inhouse-broker/{{item.id}}">
                         <td>
                             <label class="cust-check-bx" >
                             <input type="checkbox" [(ngModel)]="item.selected" name="document">
@@ -324,13 +325,9 @@
                                 Change to {{item.sale_rent==1 ? 'Rent' : 'Buy'}}
                             </a>
                         </td>
-                        <td>
+                        <!-- <td>
                             <a href="javascript://" title="View Details" routerLink="/dashboard/leads/inhouse-broker/{{item.id}}" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
-                            <!-- <button [disabled]="admin?.admin_acl['Buyer Lead Management']?.can_update==0"
-                                (click)="updateLeadType(item.sale_rent==1?'2':'1', item.id, in)" 
-                                title="Change Type" class="action-icon"><img src="assets/img/block.png" alt="img">
-                            </button> -->
-                        </td>
+                        </td> -->
                         </tr>
                     </table>
                     <div class="padding20 center" *ngIf="parameter.noResultFound">

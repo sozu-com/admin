@@ -542,8 +542,8 @@ export class InhouseUsersComponent implements OnInit {
       html: this.parameter.title + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
       confirmButtonText: 'Yes!'
     }).then((result) => {
       if (result.value) {
@@ -565,7 +565,9 @@ export class InhouseUsersComponent implements OnInit {
       .subscribe(
         success => {
           // this.parameter.loading = false;
-          swal('Success', this.parameter.successText, 'success');
+          swal('Success',
+          this.parameter.successText,
+          'success');
           this.parameter.items[this.parameter.index] = success.data;
 
         });

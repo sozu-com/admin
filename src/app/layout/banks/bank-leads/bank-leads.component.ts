@@ -59,45 +59,44 @@ export class BankLeadsComponent implements OnInit {
   }
 
   onCountryChange(id) {
-    console.log(id);
+    this.location.states = []; this.parameter.state_id = '0';
     this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
-    if (!id || id === 0) {
+    if (!id || id === '0') {
       this.parameter.state_id = '0';
       return false;
     }
     this.parameter.country_id = id;
-    const selectedCountry = this.location.countries.filter(x => x.id == id);
+    const selectedCountry = this.location.countries.filter(x => x.id.toString() === id);
     this.location.states = selectedCountry[0].states;
 
   }
 
   onStateChange(id) {
-    console.log(id);
+    this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
-    if (!id || id === 0) {
+    if (!id || id === '0') {
       this.parameter.city_id = '0';
       return false;
     }
     this.parameter.state_id = id;
-    const selectedState = this.location.states.filter(x => x.id == id);
+    const selectedState = this.location.states.filter(x => x.id.toString() === id);
     this.location.cities = selectedState[0].cities;
   }
 
   onCityChange(id) {
-    console.log(id);
-    if (!id || id == 0) {
+    this.location.localities = []; this.parameter.locality_id = '0';
+    if (!id || id === '0') {
       this.parameter.locality_id = '0';
       return false;
     }
     this.parameter.city_id = id;
-    const selectedCountry = this.location.cities.filter(x => x.id == id);
+    const selectedCountry = this.location.cities.filter(x => x.id.toString() === id);
     this.location.localities = selectedCountry[0].localities;
   }
 
   onLocalityChange(id) {
-    console.log(id);
-    if (!id || id == 0) {
+    if (!id || id === '0') {
       return false;
     }
     this.parameter.locality_id = id;
@@ -145,7 +144,6 @@ export class BankLeadsComponent implements OnInit {
     }
     this.admin.postDataApi('getBanks', input).subscribe(
       success => {
-        console.log(success.data);
         this.users = success.data;
       });
   }
@@ -187,13 +185,8 @@ export class BankLeadsComponent implements OnInit {
     }
 
     this.admin.postDataApi('leads/bank-dash-count', input).subscribe(r => {
-      console.log('dash', r);
       this.dash = r.data;
       this.chartView = [
-        // {
-        //   "name": "Total",
-        //   "value": parseInt(this.dash.all_count,10)
-        // },
         {
           'name': 'Open',
           'value': parseInt(this.dash.open_count, 10)
@@ -216,12 +209,10 @@ export class BankLeadsComponent implements OnInit {
     this.admin.postDataApi('leads/banks', input).subscribe(
     success => {
       this.items = success.data;
-      console.log(success);
       if (this.items.length <= 0) { this.parameter.noResultFound = true; }
       this.parameter.total = success.total_count;
     });
   }
-
 
   getPage(page) {
     this.parameter.page = page;
@@ -272,16 +263,11 @@ export class BankLeadsComponent implements OnInit {
     };
     this.admin.postDataApi('leads/bulkAssignBank', input).subscribe(r => {
       this.closeAssignModel.nativeElement.click();
-      console.log(r);
       this.getListing();
     },
     error => {
       this.closeAssignModel.nativeElement.click();
       swal('Error', error.error.message, 'error');
     });
-
   }
-
-
-
 }

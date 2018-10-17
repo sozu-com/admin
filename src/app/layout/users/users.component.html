@@ -65,10 +65,14 @@
                   </div>
                 </th>
                 <th style="width:20%; vertical-align: top;" *ngIf="parameter.type==1">
-                  Interested In
+                  <div class="table-search">
+                    <label>Interested In</label>
+                  </div>
                 </th>
                 <th style="width:20%; vertical-align: top;" *ngIf="parameter.type==2">
-                  Building
+                  <div class="table-search">
+                    <label>Building</label>
+                  </div>
                 </th>
                 <th style="width:14%">
                   &nbsp;
@@ -93,7 +97,7 @@
                   </span>
                   <span *ngIf="item.interests?.length == 0">NA</span>
                 </td>
-                <td *ngIf="parameter.type==2">12</td>
+                <td *ngIf="parameter.type==2">{{item.buildings_count}}</td>
                 <td>
                   <!-- <a href="javascript://" (click)="editUser(item, i)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
                   <a href="javascript://" *ngIf="item.is_blocked == 1" (click)="blockUnblockPopup(i, item.id, 0, parameter.type)" title="Unblock user" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a>

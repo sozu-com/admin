@@ -1,37 +1,37 @@
 
 <div class="container-fluid">
   <div class="row">
-      <div class="col-md-5">
-        <div class="title-group">
-            <h5>Hello Admin</h5>
-        </div>
+    <div class="col-md-5">
+      <div class="title-group">
+          <h5>Hello {{fullName}}</h5>
       </div>
-      <div class="col-md-7">
-        <div class="pull-right btn-cont">
-          From: <input class="date-input" type="date" [ngModel] ="parameter.min | date:'yyyy-MM-dd'" max="{{today| date:'yyyy-MM-dd'}}" (ngModelChange)="parameter.min = $event; parameter.max=''" />
-          To: <input class="date-input" type="date" [ngModel] ="parameter.max | date:'yyyy-MM-dd'" min="{{parameter.min | date:'yyyy-MM-dd'}}" max="{{today| date:'yyyy-MM-dd'}}" (ngModelChange)="parameter.max = $event" />
-          <button class="btn btn-primary new-btn" href="javascript://" (click)="getReportData()"
-              [disabled]="!parameter.min || !parameter.max">Go</button>
-        </div>
+    </div>
+    <div class="col-md-7">
+      <div class="pull-right btn-cont">
+        From: <input class="date-input" type="date" [ngModel] ="parameter.min | date:'yyyy-MM-dd'" max="{{today| date:'yyyy-MM-dd'}}" (ngModelChange)="parameter.min = $event; parameter.max=''" />
+        To: <input class="date-input" type="date" [ngModel] ="parameter.max | date:'yyyy-MM-dd'" min="{{parameter.min | date:'yyyy-MM-dd'}}" max="{{today| date:'yyyy-MM-dd'}}" (ngModelChange)="parameter.max = $event" />
+        <button class="btn btn-primary new-btn" href="javascript://" (click)="getReportData()"
+            [disabled]="!parameter.min || !parameter.max">Go</button>
       </div>
+    </div>
   </div>
-  <div class="row">
+<div class="row">
       <div class="col-md-4 col-sm-12 col-12">
         <div class="info-box dashboard-bx">
           <p class="p14">All Properties</p>
-          <h3>452</h3>
+          <h3>{{all_properties_count}}</h3>
         </div>
       </div>
       <div class="col-md-4 col-sm-12 col-12">
         <div class="info-box dashboard-bx">
           <p class="p14">Property for Sale</p>
-          <h3>350</h3>
+          <h3>{{sale_properties_count}}</h3>
         </div>
       </div>
       <div class="col-md-4 col-sm-12 col-12">
         <div class="info-box dashboard-bx">
           <p class="p14">Property for Rent</p>
-          <h3>102</h3>
+          <h3>{{rent_properties_count}}</h3>
         </div>
       </div>
 
@@ -39,40 +39,19 @@
 <div class="spacer30"></div>
 <div class="white-bg padding40">
       <h3>Stats and Trend Analytics</h3>
-      <div class="row">
+      <hr>
+      <!-- <div class="row">
       <div class="col-12">
       <div class="cust-tabs-2 dashboard-tabs">
             <ul class="nav nav-tabs">
               <li class="nav-item marginL0">
                   <a class="nav-link active" data-toggle="tab" href="#prop">Properties</a>
               </li>
-              <li class="nav-item">
-                  <a class="nav-link" data-toggle="tab" href="#notary">Notary</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" data-toggle="tab" href="#banks">Banks</a>
-              </li>
-              
             </ul>
           </div>
 
         </div>
-    <div class="col-12">
-          <div class="three-dots dropdown float-right">
-          <a href="javascript://" class="dropdown-toggle" data-toggle="dropdown">
-            <span></span>
-            <span></span>
-            <span></span>
-          </a>
-          <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Link 1</a>
-                <a class="dropdown-item" href="#">Link 2</a>
-                <a class="dropdown-item" href="#">Link 3</a>
-              </div>
-          </div>
-      </div>
-
-        </div>
+        </div> -->
           <div class="clearfix"></div>
 
         <div class="tab-content">
@@ -81,19 +60,14 @@
             <div class="col-lg-5 col-md-6 col-sm-12 col-12">
             <div class="stats-block">
                   <p class="p14">Total Commission on platform</p>
-                  <h2>$2,575.00</h2>
+                  <h2>${{total_commission}}</h2>
             </div>
             </div>
               <div class="col-lg-5 col-md-6 col-sm-12 col-12">
               <div class="stats-block">
                   <p class="p14">Your Sales</p>
-                  <h2>$6,451.00 </h2>
+                  <h2>${{total_sales}}</h2>
             </div>
-            </div>
-            <div class="col-lg-2 col-md-12 col-sm-12 col-12">
-            
-                <p class="p12 text-right">Last 6 months</p>
-            
             </div>
             </div>
             <div class="spacer30"></div>
@@ -105,7 +79,9 @@
                   [results]="chartCommision"
                   [gradient]="false"
                   [xAxis]="true"
-                  [yAxis]="true">
+                  [yAxis]="true"
+                  [showXAxisLabel]="true"
+                  [showYAxisLabel]="true">
                 </ngx-charts-bar-vertical>
                 </div>
               </div>
@@ -116,24 +92,17 @@
                       [results]="chartSales"
                       [gradient]="false"
                       [xAxis]="true"
-                      [yAxis]="true">
+                      [yAxis]="true"
+                      [showXAxisLabel]="true"
+                      [showYAxisLabel]="true">
                     </ngx-charts-area-chart>
                 </div>
               </div>
 
             </div>
               </div>
-          <!-- <div id="notary" class="tab-pane fade">
-            <h3>Menu 1</h3>
-            <p>Some content in menu 1.</p>
-          </div>
-          <div id="banks" class="tab-pane fade">
-            <h3>Menu 2</h3>
-            <p>Some content in menu 2.</p>
-          </div> -->
         </div>
 
         <div class="clearfix"></div>
   </div>
-
 </div>

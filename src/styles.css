@@ -483,3 +483,6 @@ input[type="file"]{background:transparent !important}
   .new-btn {
     min-width: none;
   }
+  .swal2-popup .swal2-styled.swal2-confirm {
+    background-color: #00b96e !important;
+  }

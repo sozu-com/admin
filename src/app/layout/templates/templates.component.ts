@@ -22,7 +22,7 @@ export class TemplatesComponent implements OnInit {
   };
 
   constructor(
-    private admin: AdminService,
+    public admin: AdminService,
     public constant: Constant,
     private http: HttpInterceptor
   ) { }

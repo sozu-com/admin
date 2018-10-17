@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AdminService } from './../../services/admin.service';
 import { Router } from '@angular/router';
+import { Constant } from '../../common/constants';
 declare let swal: any;
 
 @Component({
@@ -16,7 +17,7 @@ export class AppHeaderComponent {
   admin_acl: any;
   public scrollbarOptions = { axis: 'yx', theme: 'minimal-dark' };
 
-  constructor(public admin: AdminService, private router: Router) {
+  constructor(public admin: AdminService, private router: Router, private constant: Constant) {
     this.admin.loginData$.subscribe(success => {
       console.log('success1', success);
       this.fullName = success['name'];
@@ -43,8 +44,8 @@ export class AppHeaderComponent {
       text: 'You want to logout?',
       type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
       confirmButtonText: 'Logout!'
     }).then((result) => {
       if (result.value) {

@@ -22,7 +22,6 @@ export class AclComponent implements OnInit {
   image1;
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
-  // model = new ACL();
   public parameter: IProperty = {};
   initialCountry: any;
 
@@ -32,7 +31,6 @@ export class AclComponent implements OnInit {
     private location: Location
   ) {
     const dd = this.cs.checkAccess('Broker Management', 'can_read');
-    console.log('==', dd);
     if (dd === 0) {
       this.location.back();
     }
@@ -150,8 +148,8 @@ export class AclComponent implements OnInit {
       html: this.parameter.title + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {

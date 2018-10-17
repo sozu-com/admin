@@ -10,6 +10,8 @@ export class Constant {
     public maxValue = 1000000000;
     public fileSizeLimit = 25000000; // 25MB
     public steps = 1000;
+    public confirmButtonColor = '#4eb96f';
+    public cancelButtonColor = '#ee7b7c';
     public phonePattern = '^[0-9]{5,15}$';
     public emailPattern = '^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$';
     // public emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';

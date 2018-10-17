@@ -277,9 +277,10 @@
                                 <label>Property For</label>
                             </div>
                         </th>                        
-                        <th style="width:9%"></th>
+                        <!-- <th style="width:9%"></th> -->
                     </tr>
-                    <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }">
+                    <tr class="cursor-pointer" title="Click to view details" *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }"
+                        routerLink="/dashboard/leads/csr-buyers/{{item.id}}">
                         <td>
                             <label class="cust-check-bx" >
                             <input type="checkbox" [(ngModel)]="item.selected" name="document">
@@ -291,7 +292,7 @@
                         <img [src]="item.image" class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
                         </td>
                         <td class="text-left">
-                        <span *ngIf="item.name" routerLink="/dashboard/leads/csr-buyers/{{item.id}}" class="name">{{item.name}}</span>
+                        <span *ngIf="item.name" class="name">{{item.name}}</span>
                         <span class="name" *ngIf="!item.name">NA</span>
                         </td>
                         <td class="text-left" *ngIf="item.phone">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
@@ -307,10 +308,9 @@
                         <td class="text-left" title="CSR Buyer" *ngIf="item.admin.name">{{item.admin.name}}</td>
                         <td class="text-left" *ngIf="!item.admin.name">Not Assigned</td>
                         <td class="text-left" *ngIf="item.sale_rent">{{item.sale_rent==1 ? 'Buy' : 'Rent'}}</td>
-                        <td>
-                                <!-- [disabled]="admin?.admin_acl['Buyer Lead Management']?.can_read==0 ||  || admin?.permissions?.can_csr_buyer==1" -->
+                        <!-- <td>
                         <button title="View Details" routerLink="/dashboard/leads/csr-buyers/{{item.id}}" class="action-icon"><img src="./../../../../assets/img/edit.png" alt="img"></button>
-                        </td>
+                        </td> -->
                     </tr>
                 </table>
                 <div class="padding20 center" *ngIf="parameter.noResultFound">

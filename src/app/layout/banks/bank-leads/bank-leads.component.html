@@ -265,14 +265,12 @@
                                     <label>Assignee</label>
                                     </div>
                                 </th>
-                                <!-- <th style="width:20%; border-top:0">
-                                    &nbsp;  
-                                </th> -->
-                                <th style="width:9%; border-top:0">
+                                <!-- <th style="width:9%; border-top:0">
                                     &nbsp;
-                                </th>
+                                </th> -->
                             </tr>
-                            <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index">
+                            <tr class="cursor-pointer" title="Click to view details" *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index"
+                                routerLink="/dashboard/banks/bank-leads/{{item.id}}">
                                 <td>
                                     <label class="cust-check-bx" >
                                     <input type="checkbox" [(ngModel)]="item.selected" name="document">
@@ -284,7 +282,7 @@
                                     <img class="rounded-circle" [src]="item.image" onerror="this.src='assets/img/default_img.png'" alt="img">
                                 </td>
                                 <td class="text-left">
-                                    <span routerLink="/dashboard/leads/csr-closers/{{item.id}}" class="name">{{item.name}}</span>
+                                    <span class="name">{{item.name}}</span>
                                 </td>
                                 <td class="text-left">
                                     {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}<br>
@@ -299,9 +297,9 @@
                                 <a style="display:none;" #modalOpen class="green-color fontW500" data-toggle="modal" data-target="#set-availability" href="javascript://">Change Availability</a>
                                 <a class="green-color fontW500" (click)="openModal(item, i)" href="javascript://">Change Availability</a>
                                 </td> -->
-                                <td>
+                                <!-- <td>
                                     <a title="View Details" href="javascript://" routerLink="/dashboard/banks/bank-leads/{{item.id}}" class="icon-block edit-icon"><img src="assets/img/viewfull.png" alt="img"></a> 
-                                </td>
+                                </td> -->
                             </tr>
                         </tbody>
                     </table>
@@ -311,11 +309,6 @@
     
             </div>
          </div>
-    
-    
-         <!-- <div class="spacer30"></div>
-         <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
-     -->
     
         </div>
     </div>

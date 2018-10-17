@@ -61,7 +61,7 @@
                         <th style="width:15%;vertical-align:top;">
                            <div (click)="sort_by(1)" class="d-flex table-search">
                              <label>Publish Date</label>
-                           <a href="javascript://"><img [ngClass]="{'upsidedown':this.availability_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
+                           <a href="javascript://"><img [ngClass]="{'upsidedown':this.parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a>
                            </div>
                         </th>
                         <th style="width:4%;">&nbsp;</th>
@@ -82,22 +82,12 @@
                            </div>
                          </td>
                      </tr>
-                     <!-- <tr *ngIf="parameter.loading == false && total == 0">
-                       <td colspan="10">No result found</td>
-                      </tr> -->
                   </table>
                   <div class="padding20 center" *ngIf="parameter.loading == false && total == 0">
                       <img src="./../../../assets/img/404-error.png">
                   </div>
                </div>
             </div>
-            <!-- <div class="btn-cont text-right marginT15">
-               <button class="btn btn-secondary">View All</button>
-            </div> -->
-            <!-- <div class="spacer30"></div>
-
-            <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls> -->
-
 
          </div>
       </div>
@@ -105,4 +95,4 @@
     <div class="btn-cont text-right marginT15" *ngIf="parameter.total">
         <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
     </div>
-   </div>
+</div>

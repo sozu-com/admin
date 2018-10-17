@@ -242,7 +242,7 @@
                         </div>
                     </th>
                     <th style="width:6%">&nbsp;</th>
-                    <th style="width:20%">
+                    <th style="width:15%">
                         <div class="table-search">
                             <label>Name</label>
                             <div class="searh-3">
@@ -260,7 +260,7 @@
                             </div>
                         </div>
                     </th>
-                    <th style="width:20%">
+                    <th style="width:30%">
                         <div class="table-search">
                             <label>Property</label>
                             <div class="searh-3">
@@ -280,11 +280,12 @@
                             <label>Property For</label>
                         </div>
                     </th>
-                    <th style="width:14%">
+                    <!-- <th style="width:14%">
                         &nbsp;
-                    </th>
+                    </th> -->
                 </tr>
-                <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }">
+                <tr class="cursor-pointer" title="Click to view details" *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }"
+                    routerLink="/dashboard/leads/csr-closers/{{item.id}}">
                     <td>
                         <label class="cust-check-bx" >
                         <input type="checkbox" [(ngModel)]="item.selected" name="document">
@@ -315,9 +316,9 @@
                         {{item.closer.name}}
                     </td>
                     <td class="text-left" *ngIf="item.sale_rent">{{item.sale_rent==1 ? 'Buy' : 'Rent'}}</td>
-                    <td>
+                    <!-- <td>
                         <a href="javascript://" title="View Details" routerLink="/dashboard/leads/csr-closers/{{item.id}}" class="icon-block edit-icon"><img src="assets/img/viewfull.png" alt="img"></a>
-                    </td>
+                    </td> -->
                 </tr>
             </table>
             <div class="padding20 center" *ngIf="parameter.noResultFound">
