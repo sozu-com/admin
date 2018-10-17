@@ -258,8 +258,8 @@ export class InhouseBrokerComponent implements OnInit {
       html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to change availability for this property?',
       type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {

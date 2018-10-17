@@ -234,8 +234,8 @@ export class AddPropertyComponent implements OnInit {
       text: 'Moving back can reset information entered on current tab.',
       type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {

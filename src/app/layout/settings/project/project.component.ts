@@ -265,8 +265,8 @@ export class ProjectComponent implements OnInit {
       html: this.constant.title.ARE_YOU_SURE + '<br>' + text,
       type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
@@ -283,8 +283,8 @@ export class ProjectComponent implements OnInit {
       html: this.constant.title.ARE_YOU_SURE + '<br>' + text,
       type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
@@ -301,8 +301,8 @@ export class ProjectComponent implements OnInit {
       html: this.constant.title.ARE_YOU_SURE + '<br>' + text,
       type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
@@ -318,8 +318,8 @@ export class ProjectComponent implements OnInit {
         text: this.constant.errorMsg.SAVE_ENGLISH_PROJECT_POSSESION,
         type: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: this.constant.confirmButtonColor,
+        cancelButtonColor: this.constant.cancelButtonColor,
         confirmButtonText: 'Yes'
       }).then((result) => {
         if (result.value) {
@@ -339,8 +339,8 @@ export class ProjectComponent implements OnInit {
         text: this.constant.errorMsg.SAVE_ENGLISH_PROJECT_TYPE,
         type: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: this.constant.confirmButtonColor,
+        cancelButtonColor: this.constant.cancelButtonColor,
         confirmButtonText: 'Yes'
       }).then((result) => {
         if (result.value) {
@@ -360,8 +360,8 @@ export class ProjectComponent implements OnInit {
         text: this.constant.errorMsg.SAVE_ENGLISH_AMENITY,
         type: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: this.constant.confirmButtonColor,
+        cancelButtonColor: this.constant.cancelButtonColor,
         confirmButtonText: 'Yes'
       }).then((result) => {
         if (result.value) {

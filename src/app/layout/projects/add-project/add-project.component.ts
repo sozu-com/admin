@@ -304,8 +304,8 @@ export class AddProjectComponent implements OnInit {
       text: 'Do you want to Delete?',
       type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#00B96F',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
       confirmButtonText: 'Yes, Delete!'
     }).then((result) => {
       if (result.value) {

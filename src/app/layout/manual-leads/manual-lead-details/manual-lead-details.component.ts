@@ -70,8 +70,8 @@ export class ManualLeadDetailsComponent implements OnInit {
       text: 'You want to delete this note?',
       type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
       confirmButtonText: 'Delete!'
     }).then((result) => {
       if (result.value) {

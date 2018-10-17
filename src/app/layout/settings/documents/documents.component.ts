@@ -97,8 +97,8 @@ export class DocumentsComponent implements OnInit {
       html: this.constant.title.ARE_YOU_SURE + '<br>' + text,
       type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
@@ -116,8 +116,8 @@ export class DocumentsComponent implements OnInit {
         text: this.constant.errorMsg.SAVE_ENGLISH_DOCUMENT_NAME,
         type: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: this.constant.confirmButtonColor,
+        cancelButtonColor: this.constant.cancelButtonColor,
         confirmButtonText: 'Yes'
       }).then((result) => {
         if (result.value) {

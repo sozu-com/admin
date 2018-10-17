@@ -405,8 +405,8 @@ console.log('xx', typeof this.getPolygonCoords(event.overlay));
         text: this.constant.errorMsg.SAVE_ENGLISH_COUNTRY_NAME,
         type: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: this.constant.confirmButtonColor,
+        cancelButtonColor: this.constant.cancelButtonColor,
         confirmButtonText: 'Yes'
       }).then((result) => {
         if (result.value) {
@@ -539,8 +539,8 @@ console.log('xx', typeof this.getPolygonCoords(event.overlay));
       html: this.parameter.title + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
@@ -579,8 +579,8 @@ console.log('xx', typeof this.getPolygonCoords(event.overlay));
       html: 'Are you sure' + '<br>' + title,
       type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {

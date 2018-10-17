@@ -73,8 +73,8 @@ export class InterestedPropertyComponent implements OnInit {
         html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to remove this property?',
         type: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: this.constant.confirmButtonColor,
+        cancelButtonColor: this.constant.cancelButtonColor,
         confirmButtonText: 'Yes'
       }).then((result) => {
         if (result.value) {
@@ -118,8 +118,8 @@ export class InterestedPropertyComponent implements OnInit {
         html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to add selected properties to your interested properties?',
         type: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: this.constant.confirmButtonColor,
+        cancelButtonColor: this.constant.cancelButtonColor,
         confirmButtonText: 'Yes'
       }).then((result) => {
         if (result.value) {

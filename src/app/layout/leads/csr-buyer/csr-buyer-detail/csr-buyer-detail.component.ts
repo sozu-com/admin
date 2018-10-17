@@ -5,7 +5,6 @@ import { IProperty } from '../../../../common/property';
 import { Constant } from './../../../../common/constants';
 import { FillInformation } from './../../../../models/leads.model';
 import { ChatTimePipe } from './../../../../pipes/chat-time.pipe';
-declare let swal: any;
 
 @Component({
   selector: 'app-csr-buyer-detail',

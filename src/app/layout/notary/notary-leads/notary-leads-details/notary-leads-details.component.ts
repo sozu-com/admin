@@ -97,8 +97,8 @@ export class NotaryLeadsDetailsComponent implements OnInit {
       html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to close this lead?',
       type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {

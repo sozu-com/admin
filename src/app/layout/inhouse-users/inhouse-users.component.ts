@@ -565,9 +565,7 @@ export class InhouseUsersComponent implements OnInit {
       .subscribe(
         success => {
           // this.parameter.loading = false;
-          swal('Success',
-          this.parameter.successText,
-          'success');
+          swal('Success', this.parameter.successText, 'success');
           this.parameter.items[this.parameter.index] = success.data;
 
         });

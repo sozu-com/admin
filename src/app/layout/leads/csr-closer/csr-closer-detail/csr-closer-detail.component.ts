@@ -153,8 +153,8 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to assign this notary?',
       type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
@@ -200,8 +200,8 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to assign this bank?',
       type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
@@ -270,8 +270,8 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to close this lead?',
       type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
