@@ -291,7 +291,7 @@
                         </tr>
                         <tr class="cursor-pointer" title="Click to view details" *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let in=index"
                             routerLink="/dashboard/leads/inhouse-broker/{{item.id}}">
-                        <td>
+                        <td (click)="$event.stopPropagation()">
                             <label class="cust-check-bx" >
                             <input type="checkbox" [(ngModel)]="item.selected" name="document">
                             <span class="checkmark"></span>
@@ -321,7 +321,7 @@
                             <a *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_update==0" class="green-color fontW500" href="javascript://">
                                 Change to {{item.sale_rent==1 ? 'Rent' : 'Buy'}}
                             </a>
-                            <a *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_update==1" class="green-color fontW500" (click)="updateLeadType(item.sale_rent==1?'2':'1', item.id, in)" href="javascript://">
+                            <a *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_update==1" class="green-color fontW500" (click)="updateLeadType($event, item.sale_rent==1?'2':'1', item.id, in)" href="javascript://">
                                 Change to {{item.sale_rent==1 ? 'Rent' : 'Buy'}}
                             </a>
                         </td>

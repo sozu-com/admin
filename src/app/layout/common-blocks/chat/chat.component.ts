@@ -59,7 +59,9 @@ export class ChatComponent implements OnInit {
   getMessages() {
     this.admin.postDataApi('conversation/getMessages',
     {lead_id: this.lead_id, user_id: this.user_id, sent_as: this.sent_as}).subscribe(res => {
+
       this.parameter.messages = res.data[0].messages;
+      console.log('messages', this.parameter.messages);
       if (this.parameter.messages.length < 30) {this.loadmore = false; }
       this.parameter.conversation_id = res.data[0].id;
       this.scrollToBottom();
@@ -68,7 +70,13 @@ export class ChatComponent implements OnInit {
 
   public initSocket(): void {
     this.parameter.socket = io.connect(this.admin.socketUrl);
+    this.parameter.socket.on('disconnect', fun => {
+      console.log('disconnect');
+      console.log('disconnect', this.parameter.socket);
+    });
     this.parameter.socket.on('connect', fun => {
+      console.log('connect');
+      console.log('connect', this.parameter.socket);
       this.parameter.socket_id = this.parameter.socket.id;
       this.parameter.connected = this.parameter.socket.connected;
 
@@ -328,5 +336,21 @@ export class ChatComponent implements OnInit {
       if (res.data[0].messages.length < 30) {this.loadmore = false; }
       this.parameter.messages = res.data[0].messages.concat(this.parameter.messages);
     });
+  }
+
+  sendProperty(property) {
+    const model = new Chat;
+    model.message = property.configuration.name + ' in ' + property.building.name;
+    model.message_type = 5;
+    model.property_id = property.id;
+    model.image = property.image;
+    model.property_url = property.property_url;
+    model.loading = true;
+    model.updated_at = new Date();
+    model.uid = Math.random().toString(36).substr(2, 15);
+    model.conversation_id =  this.parameter.conversation_id;
+    model.conversation_user = {admin_id: this.admin_id};
+    this.parameter.messages.push(model);
+    this.sendMessage(model);
   }
 }

@@ -13,6 +13,8 @@ export class Chat {
     loading: boolean;
     conversation_user: ConversationUser;
     random: number;
+    property_id: any;
+    property_url: any;
 }
 
 export class ConversationUser {

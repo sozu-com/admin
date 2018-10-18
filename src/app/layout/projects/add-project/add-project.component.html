@@ -58,14 +58,15 @@
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>Building Age (in yrs)</label>
-                  <input min="0" class="form-control" [(ngModel)]="model.building_age" type="number" name="building_age" required />
+                  <input placeholder="Building Age" min="0" class="form-control" [(ngModel)]="model.building_age" type="number" name="building_age" required />
                 </div>
               </div>
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>Building Type</label>
                   <select [(ngModel)]="model.building_type_id" class="form-control" name="building_type_id" required>
-                          <option *ngFor="let s of all_building_types" [value]="s.id">
+                    <option value="" disabled>Choose Building type</option>      
+                    <option *ngFor="let s of all_building_types" [value]="s.id">
                             {{s.name}}
                           </option>
                        </select>
@@ -165,17 +166,25 @@
                   <div *ngFor="let c of model.configurations; let index=index" class="configur">
                     <div class="float-right marginB0">
                            <a (click)="editConfiguration(c, index)" title="Edit"><img src="assets/img/edit.png" /></a>
-                           <a (click)="deleteConfiguration(index);" title="Delete"><img src="assets/img/block.png" /></a>
+                           <a (click)="deleteConfiguration(index);" title="Delete"><img src="assets/img/delete-green.png" /></a>
                     </div>
                     <div class="row">
                       <div class="col-md-6 col-12">
                         <p class="p18">{{c?.config?.name}}</p>
                         <label>Images</label>
-                        <div class="image-group">
+                        <!-- <div class="image-group">
                           <div class="fig-block">
                             <img class="img-fluid" [src]="c.floor_map_image" onerror='this.src="http://via.placeholder.com/48x48"' alt="img">
                           </div>
-                        </div>
+                        </div> -->
+                        <div class="image-group">
+                            <div class="fig-block">
+                                <img class="img-fluid" [src]="c.floor_map_image" onerror='this.src="http://via.placeholder.com/48x48"' alt="img">
+                            </div>
+                            <div *ngFor="let im of c.images"  class="fig-block">
+                               <img [src]="im.image" onerror="this.src='http://via.placeholder.com/48x48'" alt="img">
+                            </div>
+                         </div>
                       </div>
      
                       <div class="col-md-6 col-12">
@@ -328,7 +337,7 @@
 <div class="modal" id="add-config">
   <div class="modal-dialog modal-lg">
     <div class="modal-content add-config-popup">
-
+      <form #addConfig >
       <div class="modal-header popup-header">
         <h4 class="modal-title">Add Configuration</h4>
         <button type="button" class="close" data-dismiss="modal" #closeConfigPopup>×</button>
@@ -353,7 +362,7 @@
           </div>
           <div class="col-sm-6 col-12">
             <div class="form-group-3">
-              <label>Base Price</label>
+              <label>Average Price</label>
               <input min="0" class="form-control" [(ngModel)]="new_config.base_price" type="number" name="base_price" required>
             </div>
           </div>
@@ -363,7 +372,7 @@
             <div class="form-group-3">
               <label>Floor Plan Image</label>
               <div class="upload-cover-img" style="max-width: 400px; margin: 0px auto;height: 250px;">
-                  <img class="img-fluid" [src]="file3.image" onerror='this.src="assets/img/placeholder-img.png"' />
+                  <img class="img-fluid" [src]="file3.image" onerror='this.src="assets/img/placeholder.png"' />
                   <div *ngIf="!file3.image" class="upload-caption">
                       <p class="green-color marginT30">+Upload Cover image for the project</p>
                       <p>JPG or PNG. Imae size should be 1920 × 1080 pixels (for HiDPI displays).</p>
@@ -372,6 +381,7 @@
               </div>
               <div class="spacer30"></div>
               <label>Other Images</label>
+              <div class="spacer30"></div>
               <div class="uploaded-img-block">
                 <div class="uploaded-img" *ngFor="let item of file4.files; let i=index">
                   <a class="remove" (click)="file4.remove(i)">
@@ -400,8 +410,9 @@
             || !file3.image" (click)="addNewConfig()" type="button" class="btn btn-primary">Save</button>
           </div>
         </div>
-
       </div>
+      </form>
+
     </div>
   </div>
 

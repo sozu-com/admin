@@ -415,6 +415,68 @@ export class InhouseUsersComponent implements OnInit {
         });
   }
 
+  // getCountries() {
+  //   this.parameter.states = []; this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
+  //   this.parameter.state_id = '-1'; this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
+
+  //   this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
+  //     console.log('Country', r);
+  //     this.parameter.countries = r['data'];
+  //   });
+  // }
+
+  // getStates(country_id) {
+  //   this.parameter.country_id = country_id;
+  //   this.parameter.states = []; this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
+  //   this.parameter.state_id = '-1'; this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
+
+  //   if (!country_id || country_id === '-1') {
+  //     return false;
+  //   }
+  //   this.parameter.country_id = country_id;
+  //   const selectedCountry = this.parameter.countries.filter(x => x.id.toString() === country_id);
+  //   this.parameter.states = selectedCountry[0].states;
+
+  // }
+
+  // getCities(state_id) {
+  //   this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
+  //   this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
+
+  //   if (!state_id || state_id === '-1') {
+  //     return false;
+  //   }
+  //   this.parameter.state_id = state_id;
+  //   const selectedState = this.parameter.states.filter(x => x.id.toString() === state_id);
+  //   this.parameter.cities = selectedState[0].cities;
+  // }
+
+  // getLocalities(city_id) {
+  //   this.parameter.localities = []; this.parameter.buildings = [];
+  //   this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
+
+  //   if (!city_id || city_id === '-1') {
+  //     return false;
+  //   }
+  //   this.parameter.city_id = city_id;
+  //   const selectedCountry = this.parameter.cities.filter(x => x.id.toString() === city_id);
+  //   this.parameter.localities = selectedCountry[0].localities;
+  // }
+
+  // getLocalityBuildings(locality_id) {
+  //   console.log(locality_id);
+
+  //   this.parameter.buildings = [];
+  //   this.parameter.building_id = '-1';
+
+  //   if (!locality_id || locality_id === '-1') {
+  //     return false;
+  //   }
+  //   this.parameter.locality_id = locality_id;
+  //   const selectedCountry = this.parameter.cities.filter(x => x.id.toString() === locality_id);
+  //   this.parameter.buildings = selectedCountry[0].localities;
+  // }
+
 
   setBuilding(building_id) {
     console.log(building_id);

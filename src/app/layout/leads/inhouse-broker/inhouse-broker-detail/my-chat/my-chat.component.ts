@@ -81,7 +81,6 @@ export class MyChatComponent implements OnInit {
     });
     this.loadingConversation = true;
     this.admin.postDataApi('leads/developers', {lead_id: this.lead_id}).subscribe(r => {
-      // console.log(r);
       this.conversations = r['data'];
       if (this.conversations.length > 0) {
         this.initSocket();

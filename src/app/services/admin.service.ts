@@ -84,7 +84,7 @@ export class AdminService {
                     const key =  Object.keys(obj)[0];
                     this.admin_acl[key] =  obj[key];
                   });
-                  console.log(this.admin_acl, this.permissions);
+                  // console.log(this.admin_acl, this.permissions);
                   // localStorage.setItem('permissions', r.data.permissions);
                   // localStorage.setItem('admin_acl', this.admin_acl);
                   return r;
@@ -152,7 +152,7 @@ export class AdminService {
                   const key =  Object.keys(obj)[0];
                   this.admin_acl[key] =  obj[key];
                 });
-                console.log(this.admin_acl, this.permissions);
+                // console.log(this.admin_acl, this.permissions);
                 return response.json();
               })
               .catch(this.errorHandler);

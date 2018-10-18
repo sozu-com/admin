@@ -291,6 +291,14 @@
                                 </span>
                             </div>
 
+                            <a *ngIf="m.message_type == 5" href="{{m.property_url}}" target="_blank" title="Property Image" >
+                                <span>
+                                    <img class="ui bordered small image" src="{{m.image}}">
+                                    <div *ngIf="m.loading" class="loaderr"></div>
+                                </span>
+                                <h5>{{m.message}}</h5>
+                            </a>
+            
                             <span class="time" *ngIf="m.id">{{m.updated_at| moment}}</span>
                             <span class="time" *ngIf="!m.id">{{m.updated_at|date:'h:mm a'|lowercase}}, {{m.updated_at|date: 'MMM d y'}}</span>
                             
@@ -482,3 +490,6 @@
         </div>
     </div>
 </div>
+
+
+<app-block-get-property #blockGetProperty (itemSelect)="sendProperty($event)"></app-block-get-property>

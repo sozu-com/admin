@@ -21,7 +21,7 @@ export class DashboardComponent {
   sale_properties_count = 0;
   fullName: string;
   colorScheme = {
-    domain: ['#00B96F']
+    domain: ['#4eb96f']
   };
 
   public parameter: IProperty = {};

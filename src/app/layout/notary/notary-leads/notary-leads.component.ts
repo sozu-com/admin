@@ -66,51 +66,49 @@ export class NotaryLeadsComponent implements OnInit {
 
   getCountries() {
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
-      console.log('Country', r);
       this.location.countries = r['data'];
     });
   }
 
   onCountryChange(id) {
-    console.log(id);
+    this.location.states = []; this.parameter.state_id = '0';
     this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
-    if (!id || id === 0) {
+    if (!id || id === '0') {
       this.parameter.state_id = '0';
       return false;
     }
     this.parameter.country_id = id;
-    const selectedCountry = this.location.countries.filter(x => x.id == id);
+    const selectedCountry = this.location.countries.filter(x => x.id.toString() === id);
     this.location.states = selectedCountry[0].states;
 
   }
 
   onStateChange(id) {
-    console.log(id);
+    this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
-    if (!id || id === 0) {
+    if (!id || id === '0') {
       this.parameter.city_id = '0';
       return false;
     }
     this.parameter.state_id = id;
-    const selectedState = this.location.states.filter(x => x.id == id);
+    const selectedState = this.location.states.filter(x => x.id.toString() === id);
     this.location.cities = selectedState[0].cities;
   }
 
   onCityChange(id) {
-    console.log(id);
-    if (!id || id == 0) {
+    this.location.localities = []; this.parameter.locality_id = '0';
+    if (!id || id === '0') {
       this.parameter.locality_id = '0';
       return false;
     }
     this.parameter.city_id = id;
-    const selectedCountry = this.location.cities.filter(x => x.id == id);
+    const selectedCountry = this.location.cities.filter(x => x.id.toString() === id);
     this.location.localities = selectedCountry[0].localities;
   }
 
   onLocalityChange(id) {
-    console.log(id);
-    if (!id || id == 0) {
+    if (!id || id === '0') {
       return false;
     }
     this.parameter.locality_id = id;
@@ -130,7 +128,6 @@ export class NotaryLeadsComponent implements OnInit {
   }
 
   changeCountFlag(flag) {
-    console.log(flag);
     this.parameter.count_flag = flag;
     this.getListing();
   }
@@ -159,7 +156,6 @@ export class NotaryLeadsComponent implements OnInit {
     }
     this.admin.postDataApi('getNoataries', input).subscribe(
       success => {
-        console.log(success.data);
         this.users = success.data;
       });
   }
@@ -201,7 +197,6 @@ export class NotaryLeadsComponent implements OnInit {
     }
 
     this.admin.postDataApi('leads/noatary-dash-count', input).subscribe(r => {
-      console.log('dash', r);
       this.dash = r.data;
       this.chartView = [
         // {
@@ -253,17 +248,16 @@ export class NotaryLeadsComponent implements OnInit {
 
   addDateTime () {
     if (this.date && this.time) {
-      console.log(this.date, this.time);
       const newdate = this.date + ' ' + this.time + ':00';
-      console.log(newdate);
       const d = new ChatTimePipe().transform(newdate, 'YYYY-MM-DD HH:MM:SS', 3);
-      console.log('===========', d);
       this.availability.date_time_array.push({date_time: d});
       this.date = ''; this.time = '';
     }
   }
 
-  openModal (item, index) {
+  openModal ($event, item, index) {
+    console.log($event);
+    // $event.stopPropagation();
     // this.availability.date_time_array = item.selected_properties[0].selected_noatary[0].noatary_availability;
     this.availability.property_id = item.selected_properties[0].property_id;
     this.availability.lead_id = item.id;
@@ -297,7 +291,6 @@ export class NotaryLeadsComponent implements OnInit {
       .subscribe(
         success => {
           this.data.splice(j, 1);
-          console.log('sssss', success);
           // this.items = success.data;
           // this.parameter.total = success.total_count;
         }
@@ -343,7 +336,6 @@ export class NotaryLeadsComponent implements OnInit {
     };
     this.admin.postDataApi('leads/bulkAssignNoatary', input).subscribe(r => {
       this.closeAssignModel.nativeElement.click();
-      console.log(r);
       this.getListing();
     },
     error => {

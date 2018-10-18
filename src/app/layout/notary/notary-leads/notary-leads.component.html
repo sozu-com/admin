@@ -261,32 +261,32 @@
                                 </th> -->
                             </tr>
                             <tr class="cursor-pointer" title="Click to view details" *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index"
-                            routerLink="/dashboard/notary/notary-leads/{{item.id}}">
-                                <td>
+                            >
+                                <td (click)="$event.stopPropagation()">
                                     <label class="cust-check-bx" >
                                     <input type="checkbox" [(ngModel)]="item.selected" name="document">
                                     <span class="checkmark"></span>
                                     </label>
                                     <!-- <i class="fa" [ngClass]="item.selected?'fa-check-square-o':'fa-square-o'" (click)="item.selected = !item.selected" aria-hidden="true"></i> -->
                                 </td>
-                                <td>
+                                <td routerLink="/dashboard/notary/notary-leads/{{item.id}}">
                                     <img class="rounded-circle" [src]="item.image" onerror="this.src='assets/img/default_img.png'" alt="img">
                                 </td>
-                                <td class="text-left">
+                                <td class="text-left" routerLink="/dashboard/notary/notary-leads/{{item.id}}">
                                     <span routerLink="/dashboard/leads/csr-closers/{{item.id}}" class="name">{{item.name}}</span>
                                 </td>
-                                <td class="text-left">
+                                <td class="text-left" routerLink="/dashboard/notary/notary-leads/{{item.id}}">
                                     {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}<br>
                                 </td>
-                                <td class="text-left">
+                                <td class="text-left" routerLink="/dashboard/notary/notary-leads/{{item.id}}">
                                     {{item.email}}
                                 </td>
-                                <td class="text-left" title="Notary">
+                                <td class="text-left" title="Notary" routerLink="/dashboard/notary/notary-leads/{{item.id}}">
                                     {{item?.selected_properties[0]?.selected_noatary[0]?.noatary?.name}}
                                 </td>
-                                <td>
+                                <td (click)="openModal($event, item, i)">
                                 <a style="display:none;" #modalOpen class="green-color fontW500" data-toggle="modal" data-target="#set-availability" href="javascript://">Change Availability</a>
-                                <a class="green-color fontW500" (click)="openModal(item, i)" href="javascript://">Change Availability</a>
+                                <a class="green-color fontW500" href="javascript://">Change Availability</a>
                                 </td>
                                 <!-- <td>
                                     <a href="javascript://" routerLink="/dashboard/notary/notary-leads/{{item.id}}" class="icon-block edit-icon"><img src="assets/img/viewfull.png" alt="img"></a> 

@@ -9,7 +9,7 @@ import { FillInformation } from './../../../../models/leads.model';
 import { ChatTimePipe } from './../../../../pipes/chat-time.pipe';
 declare let swal: any;
 import {saveAs as importedSaveAs} from 'file-saver';
-import { Http, ResponseContentType } from '@angular/http';
+import { Http } from '@angular/http';
 import * as moment from 'moment';
 
 @Component({

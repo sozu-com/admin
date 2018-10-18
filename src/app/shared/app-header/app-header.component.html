@@ -316,6 +316,9 @@
                        <li *ngIf="admin?.admin_acl['Templates']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
                          <a class="nav-link" href="javascript://" routerLink="templates/view-all"><i><img src="assets/img/users.png"></i><span>Templates</span></a>
                        </li>
+                       <li class="nav-item" *ngIf="admin?.admin_acl['Appointments']?.can_read==1" [routerLinkActive]="'active'">
+                         <a class="nav-link" href="javascript://" routerLink="appointments"><i><img src="assets/img/calender-icon.png"></i><span>Appointments</span></a>
+                       </li>
                        <li *ngIf="admin?.admin_acl['Settings']?.can_read==1" class="nav-item dropdown" [routerLinkActive]="'active'">
                          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
                          <i><img src="assets/img/settings.png"></i><span>Settings</span></a>

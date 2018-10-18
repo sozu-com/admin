@@ -60,51 +60,47 @@ export class InhouseBrokerComponent implements OnInit {
 
   getCountries() {
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
-      console.log('Country', r);
       this.location.countries = r['data'];
     });
   }
 
   onCountryChange(id) {
-    console.log(id);
+    this.location.states = []; this.parameter.state_id = '0';
     this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
-    if (!id || id === 0) {
+    if (!id || id === '0') {
       this.parameter.state_id = '0';
       return false;
     }
     this.parameter.country_id = id;
-    const selectedCountry = this.location.countries.filter(x => x.id == id);
+    const selectedCountry = this.location.countries.filter(x => x.id.toString() === id);
     this.location.states = selectedCountry[0].states;
 
   }
 
   onStateChange(id) {
-    console.log(id);
     this.location.localities = []; this.parameter.locality_id = '0';
-    if (!id || id === 0) {
+    if (!id || id === '0') {
       this.parameter.city_id = '0';
       return false;
     }
     this.parameter.state_id = id;
-    const selectedState = this.location.states.filter(x => x.id == id);
+    const selectedState = this.location.states.filter(x => x.id.toString() === id);
     this.location.cities = selectedState[0].cities;
   }
 
   onCityChange(id) {
-    console.log(id);
-    if (!id || id == 0) {
+    if (!id || id === '0') {
       this.parameter.locality_id = '0';
       return false;
     }
     this.parameter.city_id = id;
-    const selectedCountry = this.location.cities.filter(x => x.id == id);
+    const selectedCountry = this.location.cities.filter(x => x.id.toString() === id);
     this.location.localities = selectedCountry[0].localities;
   }
 
   onLocalityChange(id) {
-    console.log(id);
-    if (!id || id == 0) {
+    if (!id || id === '0') {
       return false;
     }
     this.parameter.locality_id = id;
@@ -152,7 +148,6 @@ export class InhouseBrokerComponent implements OnInit {
     }
     this.admin.postDataApi('getInhouseBroker', input).subscribe(
       success => {
-        console.log(success.data);
         this.users = success.data;
       });
   }
@@ -251,8 +246,9 @@ export class InhouseBrokerComponent implements OnInit {
     this.getListing();
   }
 
-
-  updateLeadType(sale_rent, lead_id, index) {
+  updateLeadType($event, sale_rent, lead_id, index) {
+    $event.stopPropagation();
+    console.log('----');
     this.parameter.url = 'leads/updateLeadType';
     swal({
       html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to change availability for this property?',
@@ -307,7 +303,6 @@ export class InhouseBrokerComponent implements OnInit {
     };
     this.admin.postDataApi('leads/bulkAssignBroker', input).subscribe(r => {
       this.closeAssignModel.nativeElement.click();
-      console.log(r);
       this.getListing();
     },
     error => {

@@ -627,4 +627,20 @@ console.log('=========', data);
     // error => {}
     );
   }
+
+  sendProperty(property) {
+    const model = new Chat;
+    model.message = property.configuration.name + ' in ' + property.building.name;
+    model.message_type = 5;
+    model.property_id = property.id;
+    model.image = property.image;
+    model.property_url = property.property_url;
+    model.loading = true;
+    model.updated_at = new Date();
+    model.uid = Math.random().toString(36).substr(2, 15);
+    model.conversation_id =  this.parameter.conversation_id;
+    model.conversation_user = {admin_id: this.admin_id};
+    this.parameter.messages.push(model);
+    this.sendMessage(model);
+  }
 }

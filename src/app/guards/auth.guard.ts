@@ -50,15 +50,15 @@ export class AuthGuard implements CanActivate {
 
       this.admin.login.subscribe(success => {
         this.interceptor.loader.next({value: true});
-        console.log('outside', success);
+        // console.log('outside', success);
         if (success['name'] === undefined) {
           this.interceptor.loader.next({value: true});
-          console.log('inside');
+          // console.log('inside');
           this.admin.postDataApi('get-details', {})
           .subscribe(
             success1 => {
               this.interceptor.loader.next({value: true});
-              console.log('ssss1', success1);
+              // console.log('ssss1', success1);
               this.admin.login.next(success1.data);
               this.admin.permissions = success1.data.permissions ? success1.data.permissions : {};
               const aclData: any = {};
@@ -67,7 +67,7 @@ export class AuthGuard implements CanActivate {
                 this.admin.admin_acl[key] =  obj[key];
               });
               this.interceptor.loader.next({value: false});
-              console.log('111111');
+              // console.log('111111');
             });
         }
       });
@@ -83,10 +83,10 @@ export class AuthGuard implements CanActivate {
       //       });
       //   }
       // });
-      console.log('inside guard');
+      // console.log('inside guard');
       return true;
     }
-    console.log('====');
+    // console.log('====');
     this.router.navigate(['']);
     return false;
   }

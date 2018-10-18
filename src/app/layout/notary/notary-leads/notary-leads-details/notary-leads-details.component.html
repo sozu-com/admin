@@ -104,8 +104,8 @@
                         </tr>
                         <tr>
                             <td  style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
-                            <td colspan="2">
-                                <p class="date">02-Oct-2018, 04:00pm</p>
+                            <td colspan="2" *ngIf="parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability?.length!=0">
+                                <p *ngFor="let na of parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability" class="date">{{na.date_time | moment}}</p>
                             </td>
                         </tr>
                     </table>

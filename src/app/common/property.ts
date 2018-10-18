@@ -136,4 +136,6 @@ export interface IProperty {
   start_date?: any;
   end_date?: any;
   post_type?: any;
+  year?: any;
+  month?: any;
 }

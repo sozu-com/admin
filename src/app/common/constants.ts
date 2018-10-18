@@ -10,7 +10,21 @@ export class Constant {
     public maxValue = 1000000000;
     public fileSizeLimit = 25000000; // 25MB
     public steps = 1000;
-    public confirmButtonColor = '#4eb96f';
+    public months = [
+        {id: 1, name: 'JAN'},
+        {id: 2, name: 'FEB'},
+        {id: 3, name: 'MAR'},
+        {id: 4, name: 'APR'},
+        {id: 5, name: 'MAY'},
+        {id: 6, name: 'JUN'},
+        {id: 7, name: 'JUL'},
+        {id: 8, name: 'AUG'},
+        {id: 9, name: 'SEP'},
+        {id: 10, name: 'OCT'},
+        {id: 11, name: 'NOV'},
+        {id: 12, name: 'DEC'}
+    ];
+    public confirmButtonColor = '#00b96f';
     public cancelButtonColor = '#ee7b7c';
     public phonePattern = '^[0-9]{5,15}$';
     public emailPattern = '^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$';

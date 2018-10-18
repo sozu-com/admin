@@ -24,9 +24,10 @@ export class AddProjectComponent implements OnInit {
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('mapDiv') mapDiv: ElementRef;
   @ViewChild('search') searchElementRef: ElementRef;
-
+  
   @ViewChild('openConfigPopup') openConfigPopup: ElementRef;
   @ViewChild('closeConfigPopup') closeConfigPopup: ElementRef;
+  @ViewChild('addConfig') addConfig: ElementRef;
 
   myform: FormGroup;
   myform2: FormGroup;
@@ -272,6 +273,8 @@ export class AddProjectComponent implements OnInit {
   }
   openConfigPopupFun() {
     this.openConfigPopup.nativeElement.click();
+    console.log('open');
+    this.addConfig.nativeElement.reset();
     this.new_config = new Configuration;
     this.new_config_edit = -1;
     this.file3.image = '';
@@ -317,7 +320,7 @@ export class AddProjectComponent implements OnInit {
 
   addNewConfig() {
     if (this.file4.files.length < 1){
-      swal('Error', 'Please select atleast one more image', 'error'); return false;
+      swal('Error', 'Please choose atleast one image for other images', 'error'); return false;
     }
     this.closeConfigPopup.nativeElement.click();
     this.parameter.loading = true;
@@ -394,6 +397,7 @@ export class AddProjectComponent implements OnInit {
       this.admin.postDataApi('updateProject', this.model).subscribe(success => {
         // console.log(success);
         swal('Success', success.message, 'success');
+        this.router.navigate(['/dashboard/projects/view-projects']);
       }, error => {
         console.log(error);
         swal('Error', error.message, 'error');
@@ -405,6 +409,7 @@ export class AddProjectComponent implements OnInit {
       this.admin.postDataApi('addProject', this.model).subscribe(success => {
         // console.log(success);
         swal('Success', success.message, 'success');
+        this.router.navigate(['/dashboard/projects/view-projects']);
       }, error => {
         console.log(error);
         swal('Error', error.message, 'error');

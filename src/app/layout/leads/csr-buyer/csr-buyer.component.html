@@ -281,7 +281,7 @@
                     </tr>
                     <tr class="cursor-pointer" title="Click to view details" *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }"
                         routerLink="/dashboard/leads/csr-buyers/{{item.id}}">
-                        <td>
+                        <td (click)="$event.stopPropagation()">
                             <label class="cust-check-bx" >
                             <input type="checkbox" [(ngModel)]="item.selected" name="document">
                             <span class="checkmark"></span>

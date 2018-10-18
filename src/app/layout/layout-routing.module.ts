@@ -27,6 +27,7 @@ const routes: Routes = [
             { path: 'generate-thumb', component: GenerateThumbComponent},
             { path: 'reports', loadChildren: './reports/reports.module#ReportsModule'},
             { path: 'access-control-mgt', loadChildren: './acl/acl.module#AclModule'},
+            { path: 'appointments', loadChildren: './appointments/appointments.module#AppointmentsModule'},
             { path: 'settings', loadChildren: './settings/settings.module#SettingsModule'},
             { path: 'properties', loadChildren: './properties/properties.module#PropertiesModule'},
             { path: 'projects', loadChildren: './projects/projects.module#ProjectsModule'},

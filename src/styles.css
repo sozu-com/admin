@@ -1,13 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~nouislider/distribute/nouislider.min.css";
 
-table tr{    outline: none !important;}
+table tr, table tr td{outline: none !important;}
 #wrapper{ background: #f4f4f4 !important; }
 .backdrop{ position: fixed !important; }
 .spinner-rectangle-bounce{ position: fixed !important; }
 .intl-tel-input { width: 100% !important; }
 .my-pagination{text-align: right;}
-.ngx-pagination .current { background: #00B96F !important; }
+.ngx-pagination .current { background: #00b96f !important; }
 .center{ text-align: center; }
 .app-logo{ padding-top: 7px; }
 .form-group select.form-control { padding: 8px 25px 8px 15px !important; height: 40px !important; }
@@ -59,10 +59,10 @@ ngx-my-date-picker .ngxmdp .headertodaybtn { padding: 0px 14px; min-width: 100px
     height: 24px; width: 87%; padding:8px 15px;
 }
 .searh-3 button {
-    border: 1px solid rgba(196,196,196,0.5); background-color: #00B96F;
+    border: 1px solid rgba(196,196,196,0.5); background-color: #00b96f;
     font-size: 12px; color:#fff;
 }
-.cust-check-bx2 .checkmark.open{ background-color: #00B96F; border-color: #00B96F; }
+.cust-check-bx2 .checkmark.open{ background-color: #00b96f; border-color: #00b96f; }
 .cust-check-bx2 .checkmark.open:after{ display:block; }
 /* .mCSB_container_wrapper { margin-right: 0px !important; } */
 .scrollbox {
@@ -71,10 +71,10 @@ ngx-my-date-picker .ngxmdp .headertodaybtn { padding: 0px 14px; min-width: 100px
     height: 550px !important;
     /* padding-right: 0 !important; */
 }
-.access-control11{ background-color: rgba(0,185,111,0.22); color: #00B96F; }
+.access-control11{ background-color: rgba(0,185,111,0.22); color: #00b96f; }
 /* slider css start */
 nouislider{ padding-left: 50px; padding-right: 50px;}
-.noUi-connect { background: #00b96e;}
+.noUi-connect { background: #00b96f;}
 .noUi-horizontal{height:4px !important;}
 .noUi-horizontal .noUi-handle {
     right: -11px !important;
@@ -105,163 +105,20 @@ nouislider{ padding-left: 50px; padding-right: 50px;}
     padding: 20px 15px;
 }
 .green-bg {
-    background-color: #4eb96f;
-    border-color: #4eb96f;
+    background-color: #00b96f;
+    border-color: #00b96f;
 }
 .green-color {
-    color: #00B96F;
+    color: #00b96f;
 }
 .delete{
     padding-right: 22px;
 }
 .newline{white-space: pre-wrap;}
 .read-more {
-    color: #00B96F;
+    color: #00b96f;
     cursor: pointer;
 }
-
-/* .chat-load-more img{height:30px;}
-.video55{display:none;} */
-
-
-
-
-/* chat */
-/* .chat-text .chat-input{width:70%;}
-.attach-items>a{
-    background-color: #fff;
-    height:52px;
-    color:#00B96F;
-    display: flex;
-    align-items: center;
-    width:52px;
-    font-size:21px;
-    justify-content: center;
-    float:left;
-}
-    .attach-items .dropdown-toggle::after{ display: none; }
-    .attach-items .dropdown-menu .dropdown-item .fa{font-size:12px;  color: #434B52; padding-right: 8px;}
-    .attach-items .dropdown-menu .dropdown-item span {
-    font-size: 13px;
-    color: #434B52;
-    }
-    .attach-items .dropdown-menu {
-    border: none;
-    box-shadow: 0 0 8px #dad8d8;
-    margin: 0;
-    padding: 0;
-    }
-    .attach-items .dropdown-menu .dropdown-item:active{    background-color: #f8f9fa;}
-    .attach-items .dropdown-menu .dropdown-item {
-    border-bottom: solid 1px #f1f1f1;
-    padding: 8px 16px;
-    position: relative;
-    }
-    .chat-shared-file{margin-bottom:6px;}
-    .chat-shared-file a {
-        font-weight: 600;
-        border-radius: 4px;
-        border: solid 1px #ccc;
-        padding: 4px 25px 4px 10px;
-        text-align: center;
-        color: #3E3E3E;
-        font-size: 12px;
-        display: inline-block;
-    }
-    .chat-shared-file a span {
-        display: block;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        max-width: 250px;
-    }
-    .chat-shared-file .fa {
-        padding-left: 7px;
-        color: #3E3E3E;
-        font-size: 11px;
-    }
-    
-    .chat-user-one .chat-shared-file{text-align: right;}
-    
-    .chat-attached-file .attached-inner .fig-block img{
-        max-width:80px;
-        overflow: hidden;
-    }
-    .chat-attached-file .attached-inner .fig-block video{
-        max-width:80px;
-        overflow: hidden;
-    }
-    .chat-attached-file .attached-inner {
-        position: relative;
-        display: inline-block;
-    }
-    
-    .chat-attached-file .attached-inner .close {
-        position: absolute;
-        right: 5px;
-        font-size: 14px;
-        background-color: #fff;
-        border-radius: 50%;
-        width: 15px;
-        height: 15px;
-        display: block;
-        opacity: 1;
-        text-align: center;
-        top: 5px;
-        z-index: 1;
-    }
-    
-    .attach-items .dropdown-menu .dropdown-item input[type="file"] {
-        position: absolute;
-        text-indent: 500px;
-        font-size: 0;
-        z-index: 9;
-        cursor: pointer;
-        left: 0;
-        right: 0;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        bottom: 0;
-    }
-     
-    .chat-user-one .chat-vid .vid-icon { 
-        width:32px !important;
-        height:32px; 
-        position: absolute; left:0; right:0; bottom:0; top:0; margin:auto;  
-        cursor: pointer;
-    }
-    
-    .chat-vid .vid-img, 
-    .chat-user-one .chat-vid span{  height:120px; position: relative;}
-    
-    .chat-user-one .chat-vid span, 
-    .chat-user-one video, 
-    .chat-user-one img{float:right; border-radius:10px 0px 10px 10px;}
-    
-    .chat-user-two .chat-vid .vid-icon { 
-        width:32px !important;
-        height:32px; 
-        position: absolute; left:0; right:0; bottom:0; top:0; margin:auto;  
-        cursor: pointer;
-    }
-    
-    .chat-vid .vid-img, 
-    .chat-user-two .chat-vid span{ height:120px; position: relative;}
-    
-    .chat-user-two .chat-vid span, 
-    .chat-user-two video, 
-    .chat-user-two img{float: left; border-radius:10px 10px 10px 0;}
-    
-    .chat-user video, .chat-user img{ height:120px;}
-    
-    
-    .chat-user-two .chat-vid span,
-    .chat-user-two video,
-    .chat-user-two img
-      {
-        border-radius: 0 10px 10px 10px;
-    } */
 
 /* chat */
 
@@ -358,7 +215,7 @@ input::-webkit-inner-spin-button {
 .notary-ava {
     background-color: #e0f5e6;
     padding: 5px 15px;
-    color: #4eb96f;
+    color: #00b96f;
 }
 
 /**/
@@ -375,7 +232,7 @@ input::-webkit-inner-spin-button {
 .upload-caption{cursor:pointer}
 .upload-caption .number{
     font-size: 50px;
-    color: #00B96F;
+    color: #00b96f;
     text-shadow: 1px 1px 5px #000;
 }
 .form-control.ng-invalid.ng-touched{
@@ -383,7 +240,7 @@ input::-webkit-inner-spin-button {
 }
 .paramtext{padding:10px;}
 .btn-green{
- background: #00B96F;
+ background: #00b96f;
  color:#fff;   
 }
 
@@ -461,7 +318,7 @@ input[type="file"]{background:transparent !important}
       background-color: #4a85ff;
   }
   .report-green {
-      background-color: #4eb96f;
+      background-color: #00b96f;
   }
   .report-yellow {
       background-color: #f5d05c;
@@ -484,5 +341,145 @@ input[type="file"]{background:transparent !important}
     min-width: none;
   }
   .swal2-popup .swal2-styled.swal2-confirm {
-    background-color: #00b96e !important;
+    background-color: #00b96f !important;
   }
+
+
+  /* Calender - Appointments */
+/* .chat-square{display:flex;width:200px;height:200px;}
+.chat-square img{
+object-fit: cover;
+} */
+
+/* .four-block .f-block{
+cursor:pointer;
+}
+.four-block .f-block.active{
+color:#fff;
+background:#00B96F;
+}
+.four-block .f-block.active h5,
+.four-block .f-block.active h3{
+color:#fff;
+} */
+
+
+.month-date li{
+width: 52px;
+height: 70px;
+text-align: center;
+padding: 3px;
+float: left;
+margin: 2px;
+position:relative;
+background: #eee;
+}
+.month-date li b{
+font-size:20px;
+display:block;
+clear:both;
+}
+.month-date li .meeting-count {
+position: absolute;
+top: 0px;
+right: -8px;
+width: 20px;
+height: 20px;
+background: #fb9494;
+border-radius: 50%;
+color: #fff;
+font-size: 13px;
+z-index: 2;
+}
+.month-date li .meeting-count.green{
+background: #00B96F;
+}
+
+/******/
+.shadow-new, .outer-sh{
+border-radius: 4px;
+background-color: #FFFFFF;
+box-shadow: 0 2px 8px 0 rgba(0,0,0,0.12);
+position: relative;
+margin-bottom: 20px;
+}.appoint.bordered {
+background-color: #FFFFFF;
+box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+border-radius: 6px;
+margin-top: 30px;
+overflow: hidden;
+height:182px;
+box-shadow: 0 4px 12px 0 rgba(0,0,0,0.12), 0 -4px 0 0 #00B96F, 0 1px 2px 0 rgba(0,0,0,0.12);
+padding: 20px 20px 0;
+}
+.appoint h5 {
+color: #434B52;
+font-size: 14px;
+text-align: left;
+margin-bottom: 0;
+position: relative;
+padding-left: 13px;
+margin-bottom: 9px;
+}
+.appoint-date {
+color: #00B96F;
+font-size: 12px;
+border: none;
+width: 100px;
+}
+.three-dots span {
+height: 3px;
+width: 3px;
+background-color: #434B52;
+display: block;
+border-radius: 50%;
+margin-bottom: 1px;
+}
+.three-dots span:hover{
+color: #00B96F;
+}
+.appoint .a-text {
+color: rgba(0,0,0,1);
+font-size: 12px;
+font-weight: 500;
+padding: 0;
+text-align: right;
+margin-bottom: 4px;
+}
+.appoint .no-show, .new li p.no-show{
+color: #D1412A;
+font-size: 10px;
+font-weight: 500;
+text-align: right;
+}
+a.three-dots {
+margin-top: 7px;
+}
+.ap-row {
+display: flex;
+justify-content: flex-end;
+}
+.ap-row .ap-col{
+margin-left: 15px;
+}
+.model-appointment .user.fig-block{
+width:100px;
+height:100px;
+border-radius:50%;
+margin:0px auto;
+}
+/* Calender - Appointments - End*/
+
+.configur .fig-block{
+    width:50px;
+    height:50px;
+    overflow: hidden;
+    display:flex;
+    margin-bottom: 10px;
+}
+
+.configur .fig-block img{
+    object-fit: cover;
+    width: 100%;
+    object-position: center;
+}

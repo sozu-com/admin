@@ -1241,6 +1241,20 @@ margin-top: 20px;
 float: left;
 width:100%;
 }
+.chat-user.chat-user-one {
+text-align: right;
+}
+.chat-user.chat-user-one a h5 {
+clear: both;
+color: #00b96f;
+}
+.chat-user.chat-user-two {
+text-align: left;
+}
+.chat-user.chat-user-two a h5{
+clear: both;
+color: #00b96f;
+}
 .chat-user-one p {
 float: right;
 background-color: #F5F5F5;

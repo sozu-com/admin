@@ -7,6 +7,8 @@ import { NotesComponent } from '../layout/common-blocks/notes/notes.component';
 import { MomentPipe } from '../pipes/moment.pipe';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 import { ThousandPipe } from '../pipes/thousand.pipe';
+import { BlockGetPropertyComponent } from '../layout/common-blocks/block-get-property/block-get-property.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   imports: [
@@ -14,20 +16,23 @@ import { ThousandPipe } from '../pipes/thousand.pipe';
     FormsModule,
     ReactiveFormsModule,
     MalihuScrollbarModule.forRoot(),
+    NgxPaginationModule
   ],
   declarations: [
     ChatComponent,
     ChatTimePipe,
     NotesComponent,
     MomentPipe,
-    ThousandPipe
+    ThousandPipe,
+    BlockGetPropertyComponent
   ],
   exports: [
     ChatComponent,
     ChatTimePipe,
     NotesComponent,
     MomentPipe,
-    ThousandPipe
+    ThousandPipe,
+    BlockGetPropertyComponent
   ]
 })
 export class SharedModule { }

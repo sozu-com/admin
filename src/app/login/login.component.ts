@@ -4,7 +4,6 @@ import { AdminService } from '../services/admin.service';
 import { NgForm } from '@angular/forms';
 import { IProperty } from '../common/property';
 import { Constant } from './../common/constants';
-declare let swal: any;
 
 @Component({
   selector: 'app-login',

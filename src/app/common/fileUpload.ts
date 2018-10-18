@@ -26,11 +26,11 @@ export class FileUpload {
            this.loading = true;
            const reader = new FileReader();
            reader.onload = (e: any) => {
-             //console.log('single',this.single,' index',index);
-             if (this.single == true){
+             // console.log('single',this.single,' index',index);
+             if (this.single == true) {
                this.image = e.target.result;
                this.file = event.target.files[index];
-             }else{
+             }else {
                const model: any = {};
                model.image = e.target.result;
                model.file = event.target.files[index];
@@ -43,7 +43,7 @@ export class FileUpload {
              //   console.log('uploading');
              //   this.upload();
              // }
-             if (index == (event.target.files.length - 1) && upload == true){
+             if (index == (event.target.files.length - 1) && upload == true) {
                  this.upload().then(r => {
                      this.loading = false;
                  });
@@ -56,29 +56,29 @@ export class FileUpload {
 
      }
 
-     getFile(){
+     getFile() {
        return this.file;
      }
 
-     getFiles(){
+     getFiles() {
        return this.files;
      }
 
-     upload(): Promise<any>{
-       //console.log(this.single);
+     upload(): Promise<any> {
+       // console.log(this.single);
        return new Promise((resolve, reject) => {
-               if (this.single == false){
+               if (this.single == false) {
                  const total = this.files.length; let i = 1;
                  this.files.map((item) => {
-                   if (item.file){
+                   if (item.file) {
                     const formData = new FormData();
                     formData.append('image', item.file);
-                    //console.log(item);
+                    // console.log(item);
                     this.us.postDataApi('saveImage', formData).subscribe(res => {
-                      //console.log(res);
+                      // console.log(res);
                       delete item.file;
                       item.image = res['data'].image;
-                      if (i == total){resolve(); }/* resolve on last loop */
+                      if (i == total) {resolve(); }/* resolve on last loop */
                       i++;
                     },
                     error => {
@@ -108,16 +108,16 @@ export class FileUpload {
         });
   }
 
-  remove(index){
+  remove(index) {
     this.files.splice(index, 1);
   }
 
-  backup(files){
+  backup(files) {
     this.backupArray = files;
     this.files = files;
   }
 
-  reset(){
+  reset() {
     this.files = JSON.parse(JSON.stringify(this.backup));
   }
 

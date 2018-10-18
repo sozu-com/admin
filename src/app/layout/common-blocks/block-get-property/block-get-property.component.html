@@ -1,0 +1,119 @@
+<!-- add property to interested_properties -->
+<a class="btn btn-fourth" #showPropertyWithSearchModal href="javascript://" data-toggle="modal" data-target="#add-property"></a>
+<div *ngIf="location?.countries" class="modal" id="add-property">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content notary-avail">
+        <div class="modal-header popup-header">
+          <h4 class="modal-title">Properties available</h4>
+          <button type="button" class="close" data-dismiss="modal" #hidePropertyWithSearchModal>&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                
+                <div class="col-3">
+                    <div class="form-group">
+                    <label>Country</label>
+                    <select class="form-control" (change)="onCountryChange($event.target.value)">
+                        <option value="0">All</option>
+                        <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                    <label>State</label>
+                    <select class="form-control" (change)="onStateChange($event.target.value)">
+                        <option value="0">All</option>
+                        <option *ngFor="let item of location.states" [value]="item.id">{{item.name}}</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                    <label>City</label>
+                        <select class="form-control" (change)="onCityChange($event.target.value)">
+                        <option value="0">All</option>
+                        <option *ngFor="let item of location.cities" [value]="item.id">{{item.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                    <label>Locality</label>
+                    <select class="form-control" (change)="onLocalityChange($event.target.value)">
+                        <option value="0">All</option>
+                        <option *ngFor="let item of location.localities" [value]="item.id">{{item.name}}</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                    <label>Building</label>
+                    <select class="form-control" (change)="onBuildingChange($event.target.value)">
+                        <option value="0">All</option>
+                        <option *ngFor="let item of location.buildings" [value]="item.id">{{item.name}}</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="col-6">
+                    
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label>Search</label>
+                        <div class="d-flex">
+                            <div class="searh-3">
+                                <input type="text" [(ngModel)]="parameter.keyword" (keyup.enter)="getListing()" name="">
+                                <button (click)="getListing()"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="btn-cont text-right marginT15" *ngIf="parameter.total">
+                <!-- <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls> -->
+            </div>
+
+            <div *ngIf="loading" class="padding20">
+                <img src="assets/img/loading_content.gif" alt="loading..."/>
+            </div>
+            <div *ngIf="!loading && items?.length==0">
+                <p class="show-not-found">No property found for selected filters.</p>
+            </div>
+
+            <table class="table" style="min-height:200px;">
+              <tbody *ngIf="!loading && items.length > 0">
+                <tr *ngFor="let item of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }">
+                  <td>
+                      <div class="n-avail-profile">
+                        <img [src]="item.image" onerror='src="assets/img/house.png"' alt="img">
+                        <div class="n-avail-info">
+                            <p class="p12">{{item.building.name}}</p>
+                            <p class="p10 marginB0">{{item.building.address ? item.building.address : 'NA'}}</p>
+                            <p class="p10">{{item.configuration.name}}</p>
+                        </div>
+                      </div>
+                  </td>
+                  <td>
+                      <!-- <label class="cust-check-bx float-right">
+                      <input type="radio" name="bank_id1" (click)="selectItem(item)">
+                      <span class="checkmark"></span>
+                      </label> -->
+                      <div class="btn-cont">
+                          <button (click)="selectItem(item)" class="btn-primary">Send</button>
+                      </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <div class="btn-cont text-right marginT15" *ngIf="parameter.total">
+                <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+            </div>
+
+        </div>
+    </div>
+  </div>
+</div>
