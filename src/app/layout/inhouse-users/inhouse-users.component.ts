@@ -282,19 +282,21 @@ export class InhouseUsersComponent implements OnInit {
     this.model.userModel.is_data_collector = userdata.permissions && userdata.permissions.can_data_collector === 1 ? true : false;
     this.model.userModel.is_csr_closer = userdata.permissions && userdata.permissions.can_csr_closer === 1 ? true : false;
 
+    console.log(userdata);
     for (let ind = 0; ind < userdata.countries.length; ind++) {
-
       const tempAdd = {
-        countries: userdata.countries[ind].id,
-        states: userdata.states && userdata.states[ind] ? userdata.states[ind].id : '0',
-        cities: userdata.cities && userdata.cities[ind] ? userdata.cities[ind].id : '0',
-        localities: userdata.localities && userdata.localities[ind] ? userdata.localities[ind].id : '0',
-        buildings: userdata.buildings && userdata.buildings[ind] ? userdata.buildings[ind].id : '0'
+        countries: userdata.countries[ind].id.toString(),
+        states: userdata.states && userdata.states[ind] ? userdata.states[ind].id.toString() : '0',
+        cities: userdata.cities && userdata.cities[ind] ? userdata.cities[ind].id.toString() : '0',
+        localities: userdata.localities && userdata.localities[ind] ? userdata.localities[ind].id.toString() : '0',
+        buildings: userdata.buildings && userdata.buildings[ind] ? userdata.buildings[ind].id.toString() : '0'
       };
-
+console.log('temp', tempAdd);
       this.model.address[ind] = tempAdd;
+      // this.model.address.push(tempAdd);
+      console.log('address' + ind, this.model.address[ind]);
     }
-
+// console.log('address', this.model.address);
     // updateNewUser
   }
 
@@ -326,75 +328,138 @@ export class InhouseUsersComponent implements OnInit {
   }
 
 
+  // getCountries() {
+  //   this.parameter.url = 'getCountries';
+  //   const input = new FormData();
+  //   this.parameter.states = []; this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
+  //   this.parameter.state_id = '-1'; this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
+  //   this.admin.postDataApi(this.parameter.url, input)
+  //     .subscribe(
+  //       success => {
+  //         this.parameter.countries = success.data;
+  //       });
+  // }
+
+
+  // getStates(country_id) {
+
+  //   this.parameter.url = 'country/getStates';
+  //   this.parameter.country_id = country_id;
+
+  //   this.parameter.states = []; this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
+  //   this.parameter.state_id = '-1'; this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
+
+  //   const input = new FormData();
+  //   input.append('country_id', country_id);
+
+  //   this.admin.postDataApi(this.parameter.url, input)
+  //     .subscribe(
+  //       success => {
+  //         this.parameter.states = success.data;
+  //       });
+  // }
+
+  // getCities(state_id) {
+
+  //   this.parameter.url = 'getCities';
+  //   this.parameter.state_id = state_id;
+
+  //   this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
+  //   this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
+
+  //   const input = new FormData();
+  //   input.append('state_id', state_id);
+
+  //   this.admin.postDataApi(this.parameter.url, input)
+  //     .subscribe(
+  //       success => {
+  //         this.parameter.cities = success.data;
+  //       });
+  // }
+
+
+  // getLocalities(city_id) {
+
+  //   this.parameter.url = 'getLocalities';
+  //   this.parameter.city_id = city_id;
+
+  //   this.parameter.localities = []; this.parameter.buildings = [];
+  //   this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
+
+  //   const input = new FormData();
+  //   input.append('city_id', city_id);
+
+  //   this.admin.postDataApi(this.parameter.url, input)
+  //     .subscribe(
+  //       success => {
+  //         this.parameter.localities = success.data;
+  //       });
+  // }
+
+
+  // getLocalityBuildings(locality_id) {
+  //   this.parameter.url = 'getLocalityBuildings';
+  //   this.parameter.locality_id = locality_id;
+
+  //   this.parameter.buildings = [];
+  //   this.parameter.building_id = '-1';
+
+  //   const input = new FormData();
+  //   input.append('locality_id', locality_id);
+
+  //   this.admin.postDataApi(this.parameter.url, input)
+  //     .subscribe(
+  //       success => {
+  //         this.parameter.buildings = success.data;
+  //       });
+  // }
+
   getCountries() {
-
-    this.parameter.url = 'getCountries';
-    const input = new FormData();
-
     this.parameter.states = []; this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
     this.parameter.state_id = '-1'; this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
 
-    this.admin.postDataApi(this.parameter.url, input)
-      .subscribe(
-        success => {
-          this.parameter.countries = success.data;
-        });
+    this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
+      console.log('Country', r);
+      this.parameter.countries = r['data'];
+    });
   }
 
-
   getStates(country_id) {
-
-    this.parameter.url = 'country/getStates';
     this.parameter.country_id = country_id;
-
     this.parameter.states = []; this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
     this.parameter.state_id = '-1'; this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
 
-    const input = new FormData();
-    input.append('country_id', country_id);
+    if (!country_id || country_id === '-1') {
+      return false;
+    }
+    this.parameter.country_id = country_id;
+    const selectedCountry = this.parameter.countries.filter(x => x.id.toString() === country_id);
+    this.parameter.states = selectedCountry[0].states;
 
-    this.admin.postDataApi(this.parameter.url, input)
-      .subscribe(
-        success => {
-          this.parameter.states = success.data;
-        });
   }
 
   getCities(state_id) {
-
-    this.parameter.url = 'getCities';
-    this.parameter.state_id = state_id;
-
     this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
     this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
 
-    const input = new FormData();
-    input.append('state_id', state_id);
-
-    this.admin.postDataApi(this.parameter.url, input)
-      .subscribe(
-        success => {
-          this.parameter.cities = success.data;
-        });
+    if (!state_id || state_id === '-1') {
+      return false;
+    }
+    this.parameter.state_id = state_id;
+    const selectedState = this.parameter.states.filter(x => x.id.toString() === state_id);
+    this.parameter.cities = selectedState[0].cities;
   }
 
-
   getLocalities(city_id) {
-
-    this.parameter.url = 'getLocalities';
-    this.parameter.city_id = city_id;
-
     this.parameter.localities = []; this.parameter.buildings = [];
     this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
 
-    const input = new FormData();
-    input.append('city_id', city_id);
-
-    this.admin.postDataApi(this.parameter.url, input)
-      .subscribe(
-        success => {
-          this.parameter.localities = success.data;
-        });
+    if (!city_id || city_id === '-1') {
+      return false;
+    }
+    this.parameter.city_id = city_id;
+    const selectedCountry = this.parameter.cities.filter(x => x.id.toString() === city_id);
+    this.parameter.localities = selectedCountry[0].localities;
   }
 
 
@@ -414,54 +479,6 @@ export class InhouseUsersComponent implements OnInit {
           this.parameter.buildings = success.data;
         });
   }
-
-  // getCountries() {
-  //   this.parameter.states = []; this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
-  //   this.parameter.state_id = '-1'; this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
-
-  //   this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
-  //     console.log('Country', r);
-  //     this.parameter.countries = r['data'];
-  //   });
-  // }
-
-  // getStates(country_id) {
-  //   this.parameter.country_id = country_id;
-  //   this.parameter.states = []; this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
-  //   this.parameter.state_id = '-1'; this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
-
-  //   if (!country_id || country_id === '-1') {
-  //     return false;
-  //   }
-  //   this.parameter.country_id = country_id;
-  //   const selectedCountry = this.parameter.countries.filter(x => x.id.toString() === country_id);
-  //   this.parameter.states = selectedCountry[0].states;
-
-  // }
-
-  // getCities(state_id) {
-  //   this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
-  //   this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
-
-  //   if (!state_id || state_id === '-1') {
-  //     return false;
-  //   }
-  //   this.parameter.state_id = state_id;
-  //   const selectedState = this.parameter.states.filter(x => x.id.toString() === state_id);
-  //   this.parameter.cities = selectedState[0].cities;
-  // }
-
-  // getLocalities(city_id) {
-  //   this.parameter.localities = []; this.parameter.buildings = [];
-  //   this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
-
-  //   if (!city_id || city_id === '-1') {
-  //     return false;
-  //   }
-  //   this.parameter.city_id = city_id;
-  //   const selectedCountry = this.parameter.cities.filter(x => x.id.toString() === city_id);
-  //   this.parameter.localities = selectedCountry[0].localities;
-  // }
 
   // getLocalityBuildings(locality_id) {
   //   console.log(locality_id);

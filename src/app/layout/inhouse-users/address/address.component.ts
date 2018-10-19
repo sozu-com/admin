@@ -16,14 +16,15 @@ export class AddressComponent implements OnInit {
   @Input('status') status;
   @Input('disabledBuildings') disabledBuildings;
 
+  @Input('countries') countries;
   @Output() removeAddress = new EventEmitter();
-  // @Output() disabledLocality = new EventEmitter();
   @Output() disabledBuilding = new EventEmitter();
 
-  constructor(private admin: AdminService) { }
+  constructor(private admin: AdminService) {
+    this.getCountriesNew(0);
+  }
 
   ngOnInit() {
-    this.getCountriesNew(0);
     if (this.address && this.address.countries) {
       this.getStatesNew(this.address.countries, 0);
       this.getCitiesNew(this.address.states, 0);
@@ -35,33 +36,38 @@ export class AddressComponent implements OnInit {
     this.removeAddress.emit(this.index);
   }
 
-  getCountriesNew(index) {
 
+
+
+
+
+
+  getCountriesNew1(index) {
     this.parameter.statesAdd = []; this.parameter.citiesAdd = []; this.parameter.localitiesAdd = [];
     this.parameter.buildingsAdd = [];
     this.parameter.url = 'getCountries';
-    // const input = new FormData();
-
     this.admin.postDataApi(this.parameter.url, {})
       .subscribe(success => { this.parameter.countriesAdd = success.data; });
   }
 
-  getStatesNew(country_id, index) {
+  getCountriesNew(index) {
+    this.parameter.statesAdd = []; this.parameter.citiesAdd = []; this.parameter.localitiesAdd = [];
+    this.parameter.buildingsAdd = [];
+    // this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
+    //   console.log('Country', r);
+    //   this.parameter.countriesAdd = r['data'];
+    // });
+  }
 
-    // console.log('=====', country_id, index);
-
+  getStatesNew1(country_id, index) {
     this.parameter.citiesAdd = []; this.parameter.localitiesAdd = []; this.parameter.buildingsAdd = [];
     this.parameter.url = 'country/getStates';
     this.parameter.country_id = country_id;
-
-    // const input = new FormData();
-    // input.append('country_id', country_id);
 
     if (country_id !== '' && country_id !== '0') {
       this.admin.postDataApi(this.parameter.url, {country_id: country_id})
       .subscribe(
         success => {
-          // console.log('getStates', success);
           this.parameter.statesAdd = success.data;
           this.address.countries = country_id;
           this.parameter.statesAdd.push({id: '0', name: 'All', status: 1});
@@ -78,14 +84,54 @@ export class AddressComponent implements OnInit {
     }
   }
 
-  getCitiesNew(state_id, index) {
+  getStatesNew(country_id, index) {
+    this.parameter.statesAdd = [];
+    this.parameter.citiesAdd = []; this.parameter.localitiesAdd = []; this.parameter.buildingsAdd = [];
+    this.parameter.country_id = country_id;
+
+    this.address.countries = country_id;
+    // this.parameter.statesAdd.push({id: '0', name: 'All', status: 1});
+    this.parameter.citiesAdd.push({id: '0', name: 'All', status: 1});
+    this.parameter.localitiesAdd.push({id: '0', name: 'All', status: 1});
+    this.parameter.buildingsAdd.push({id: '0', name: 'All', status: 1});
+    this.address.states = '0'; this.address.cities = '0';
+    this.address.localities = '0'; this.address.buildings = '0';
+console.log('cit', this.parameter.citiesAdd, this.address.cities);
+    if (country_id === '' || country_id === '0') {
+      this.parameter.statesAdd.push({id: '0', name: 'All', status: 1});
+      // this.parameter.statesAdd = [];
+      // this.address.countries = country_id; this.address.states = '0';
+      // this.address.cities = '0'; this.address.localities = '0'; this.address.buildings = '0';
+      return false;
+    } else {
+      this.parameter.country_id = country_id;
+      // const selectedCountry = this.parameter.countriesAdd.filter(x => x.id.toString() === country_id);
+      if (this.countries) {
+        const selectedCountry = this.countries.filter(x => x.id.toString() === country_id.toString());
+        this.parameter.statesAdd = selectedCountry[0].states;
+        console.log('-------', this.parameter.statesAdd);
+
+      console.log('==========', this.countries, selectedCountry, country_id);
+              this.parameter.statesAdd.push({id: '0', name: 'All', status: 1});
+      }
+
+
+
+      // this.address.countries = country_id;
+      // this.parameter.statesAdd.push({id: '0', name: 'All', status: 1});
+      // this.parameter.citiesAdd.push({id: '0', name: 'All', status: 1});
+      // this.parameter.localitiesAdd.push({id: '0', name: 'All', status: 1});
+      // this.parameter.buildingsAdd.push({id: '0', name: 'All', status: 1});
+      // this.address.states = '0'; this.address.cities = '0';
+      // this.address.localities = '0'; this.address.buildings = '0';
+    }
+  }
+
+  getCitiesNew1(state_id, index) {
 
     this.parameter.localitiesAdd = [];
     this.parameter.url = 'getCities';
     this.parameter.state_id = state_id;
-
-    // const input = new FormData();
-    // input.append('state_id', state_id);
 
     if (state_id !== '' && state_id !== '0') {
       this.admin.postDataApi(this.parameter.url, {state_id: state_id})
@@ -104,14 +150,41 @@ export class AddressComponent implements OnInit {
     }
   }
 
+  getCitiesNew(state_id, index) {
+    this.parameter.localitiesAdd = [];
+    this.parameter.citiesAdd = [];
 
-  getLocalitiesNew(city_id, index) {
+
+    // this.parameter.citiesAdd.push({id: '0', name: 'All', status: 1});
+    this.parameter.localitiesAdd.push({id: '0', name: 'All', status: 1});
+    this.parameter.buildingsAdd.push({id: '0', name: 'All', status: 1});
+    this.address.states = state_id; this.address.cities = '0';
+    this.address.localities = '0'; this.address.buildings = '0';
+
+    if (state_id === '' || state_id === '0') {
+      this.parameter.citiesAdd.push({id: '0', name: 'All', status: 1});
+      // this.parameter.citiesAdd = []; this.address.states = state_id;
+      // this.address.cities = '0'; this.address.localities = '0'; this.address.buildings = '0';
+      return false;
+    }
+
+    // this.parameter.citiesAdd = success.data;
+
+    const selectedState = this.parameter.statesAdd.filter(x => x.id.toString() === state_id.toString());
+    this.parameter.citiesAdd = selectedState[0].cities;
+    this.parameter.citiesAdd.push({id: '0', name: 'All', status: 1});
+    // this.parameter.citiesAdd.push({id: '0', name: 'All', status: 1});
+    // this.parameter.localitiesAdd.push({id: '0', name: 'All', status: 1});
+    // this.parameter.buildingsAdd.push({id: '0', name: 'All', status: 1});
+    // this.address.states = state_id; this.address.cities = '0';
+    // this.address.localities = '0'; this.address.buildings = '0';
+
+  }
+
+  getLocalitiesNew1(city_id, index) {
 
     this.parameter.url = 'getLocalities';
     this.parameter.city_id = city_id;
-
-    // const input = new FormData();
-    // input.append('city_id', city_id);
 
     if (city_id !== '' && city_id !== '0') {
       this.admin.postDataApi(this.parameter.url, {city_id: city_id})
@@ -121,14 +194,6 @@ export class AddressComponent implements OnInit {
           this.parameter.localitiesAdd.push({id: '0', name: 'All', status: 1});
           this.parameter.buildingsAdd.push({id: '0', name: 'All', status: 1});
           this.address.cities = city_id; this.address.localities = '0'; this.address.buildings = '0';
-          // for (let c = 0; c < this.parameter.localitiesAdd.length; c++) {
-          //   this.parameter.localitiesAdd[c].disabled = false;
-          //   for (let d = 0; d < this.disabledLocalities.length; d++) {
-          //     if (this.disabledLocalities[d] === (this.parameter.localitiesAdd[c].id).toString()) {
-          //       this.parameter.localitiesAdd[c].disabled = true;
-          //     }
-          //   }
-          // }
         });
     } else {
       this.parameter.localitiesAdd = []; this.address.cities = city_id;
@@ -136,6 +201,30 @@ export class AddressComponent implements OnInit {
     }
   }
 
+
+  getLocalitiesNew(city_id, index) {
+    this.parameter.city_id = city_id;
+console.log(city_id);
+    this.parameter.localitiesAdd = []; this.address.cities = city_id;
+    // this.parameter.localitiesAdd.push({id: '0', name: 'All', status: 1});
+    this.parameter.buildingsAdd.push({id: '0', name: 'All', status: 1});
+    this.address.localities = '0'; this.address.buildings = '0';
+
+    if (city_id === '' || city_id === '0') {
+      this.parameter.localitiesAdd.push({id: '0', name: 'All', status: 1});
+      // this.parameter.localitiesAdd = []; this.address.cities = city_id;
+      // this.address.localities = '0'; this.address.buildings = '0';
+      return false;
+    }
+
+    const selectedCountry = this.parameter.citiesAdd.filter(x => x.id.toString() === city_id.toString());
+    console.log(selectedCountry);
+    this.parameter.localitiesAdd = selectedCountry[0].localities;
+    this.parameter.localitiesAdd.push({id: '0', name: 'All', status: 1});
+    // this.parameter.localitiesAdd.push({id: '0', name: 'All', status: 1});
+    // this.parameter.buildingsAdd.push({id: '0', name: 'All', status: 1});
+    // this.address.cities = city_id; this.address.localities = '0'; this.address.buildings = '0';
+  }
 
   getLocalityBuildings(locality_id, index) {
     this.parameter.url = 'getLocalityBuildings';
@@ -158,11 +247,6 @@ export class AddressComponent implements OnInit {
           }
         });
   }
-
-  // setLocality(locality_id, index) {
-  //   this.address.localities = locality_id;
-  //   this.disabledLocality.emit(this.index);
-  // }
 
   setBuilding(building_id, index) {
     this.address.buildings = building_id;
