@@ -288,7 +288,7 @@
              </div>
             
             <div class="access-controls">
-               <label [ngClass]="{'access-control11': model.userModel.is_broker_seller_dev == true}" class="cust-check-bx2">CSR Broker/Seller/Developer
+               <label [ngClass]="{'access-control11': model.userModel.is_broker_seller_dev == true}" class="cust-check-bx2">CSR Seller/Developer
                  <input type="checkbox" name="is_broker_seller_dev" [(ngModel)]="model.userModel.is_broker_seller_dev">
                  <span class="checkmark"></span>
                </label>
@@ -298,7 +298,7 @@
                  <span class="checkmark"></span>
                </label>
  
-               <label [ngClass]="{'access-control11': model.userModel.is_broker == true}" class="cust-check-bx2">Broker
+               <label [ngClass]="{'access-control11': model.userModel.is_broker == true}" class="cust-check-bx2">Inhouse Broker
                  <input type="checkbox" [(ngModel)]="model.userModel.is_broker" name="is_broker">
                  <span class="checkmark"></span>
                </label>

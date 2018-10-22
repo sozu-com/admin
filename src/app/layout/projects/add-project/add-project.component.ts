@@ -24,7 +24,7 @@ export class AddProjectComponent implements OnInit {
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('mapDiv') mapDiv: ElementRef;
   @ViewChild('search') searchElementRef: ElementRef;
-  
+
   @ViewChild('openConfigPopup') openConfigPopup: ElementRef;
   @ViewChild('closeConfigPopup') closeConfigPopup: ElementRef;
   @ViewChild('addConfig') addConfig: ElementRef;

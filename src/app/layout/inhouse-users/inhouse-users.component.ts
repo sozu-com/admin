@@ -104,13 +104,18 @@ export class InhouseUsersComponent implements OnInit {
   }
 
   removeAddressObj(index) {
-    this.addressIndex--;
+    // this.addressIndex--;
     this.model.address.splice(index, 1);
     this.disabledBuildings.splice(index, 1);
+    console.log(this.addressIndex);
   }
 
   addEmptyObj() {
-    console.log(this.model.address);
+    console.log('aaaa', this.model.address, this.model.address.length);
+    this.addressIndex = this.model.address.length;
+    this.addressIndex--;
+    console.log('==', this.addressIndex);
+    console.log(this.model.address, this.addressIndex);
     if (this.model.address[this.addressIndex].countries !== '' && this.model.address[this.addressIndex].states !== ''  &&
       this.model.address[this.addressIndex].cities !== ''  && this.model.address[this.addressIndex].localities !== '' &&
       this.model.address[this.addressIndex].buildings !== '') {
@@ -166,7 +171,7 @@ export class InhouseUsersComponent implements OnInit {
 
   addNewUser(formdata: NgForm) {
     this.parameter.url = this.model.userModel.id !== '' ? 'updateNewUser' : 'addNewUser';
-
+    this.seenDuplicate = false;
     const input = new FormData();
 
     if (this.model.userModel.id !== '') {input.append('id', this.model.userModel.id); }
@@ -189,20 +194,20 @@ export class InhouseUsersComponent implements OnInit {
     this.model.address.map((item) => {
       let value = item['buildings'];
       value = value.toString();
-      // console.log('value', value);
+      console.log('value', value);
       if (value === '0') {
-        // console.log('zz');
+        console.log('zz');
         this.testObject.push(value);
       } else {
         if (this.testObject.indexOf(value) === -1) {
-          // console.log('ssssss', this.testObject.indexOf(value));
+          console.log('ssssss', this.testObject.indexOf(value));
           this.testObject.push(value);
         } else {
           this.seenDuplicate = true;
         }
       }
     });
-// console.log('address', this.model.address, this.seenDuplicate);
+console.log('address', this.model.address, this.seenDuplicate);
     if (this.model.address[0].countries === '' || this.model.address[0].states === ''  ||
       this.model.address[0].cities === '' || this.model.address[0].localities === ''  || this.model.address[0].buildings === '' ) {
         swal('Error', 'Please choose location.', 'error');
@@ -282,7 +287,7 @@ export class InhouseUsersComponent implements OnInit {
     this.model.userModel.is_data_collector = userdata.permissions && userdata.permissions.can_data_collector === 1 ? true : false;
     this.model.userModel.is_csr_closer = userdata.permissions && userdata.permissions.can_csr_closer === 1 ? true : false;
 
-    console.log(userdata);
+    console.log('userdata', userdata);
     for (let ind = 0; ind < userdata.countries.length; ind++) {
       const tempAdd = {
         countries: userdata.countries[ind].id.toString(),

@@ -161,8 +161,16 @@ export class AddTemplateComponent implements OnInit {
 
   submitAll() {
     console.log(this.post);
+
+    if (!this.post.post_type){swal('Error', 'Please enter post type', 'error'); return false; }
+    if (!this.post.title_en){swal('Error', 'Please enter title in english', 'error'); return false; }
+    if (!this.post.description_en && !this.post.description_es){swal('Error', 'Please enter description', 'error'); return false; }
+    if (!this.post.meta_title_en && !this.post.meta_title_es){swal('Error', 'Please enter post type', 'error'); return false; }
+    if (!this.post.meta_description_en && !this.post.meta_description_es){swal('Error', 'Please enter post type', 'error'); return false; }
+
     this.post.image = this.file1.image;
     if (this.post.id) {
+      if (!this.post.slug){swal('Error', 'Please enter slug', 'error'); return false; }
       this.post.blog_id = this.post.id;
     }
     this.admin.postDataApi('addBlog', this.post).subscribe(r => {
