@@ -94,8 +94,10 @@ export class AddressComponent implements OnInit {
     this.parameter.citiesAdd.push({id: '0', name: 'All', status: 1});
     this.parameter.localitiesAdd.push({id: '0', name: 'All', status: 1});
     this.parameter.buildingsAdd.push({id: '0', name: 'All', status: 1});
-    this.address.states = '0'; this.address.cities = '0';
-    this.address.localities = '0'; this.address.buildings = '0';
+    this.address.states = this.address.states ? this.address.states : '0';
+    this.address.cities = this.address.cities ? this.address.cities : '0';
+    this.address.localities = this.address.localities ? this.address.localities : '0';
+    this.address.buildings = this.address.buildings ? this.address.buildings : '0';
 console.log('cit', this.parameter.citiesAdd, this.address.cities);
     if (country_id === '' || country_id === '0') {
       this.parameter.statesAdd.push({id: '0', name: 'All', status: 1});
@@ -158,8 +160,13 @@ console.log('cit', this.parameter.citiesAdd, this.address.cities);
     // this.parameter.citiesAdd.push({id: '0', name: 'All', status: 1});
     this.parameter.localitiesAdd.push({id: '0', name: 'All', status: 1});
     this.parameter.buildingsAdd.push({id: '0', name: 'All', status: 1});
-    this.address.states = state_id; this.address.cities = '0';
-    this.address.localities = '0'; this.address.buildings = '0';
+    // this.address.states = state_id; this.address.cities = '0';
+    // this.address.localities = '0'; this.address.buildings = '0';
+
+    this.address.states = state_id;
+    this.address.cities = this.address.cities ? this.address.cities : '0';
+    this.address.localities = this.address.localities ? this.address.localities : '0';
+    this.address.buildings = this.address.buildings ? this.address.buildings : '0';
 
     if (state_id === '' || state_id === '0') {
       this.parameter.citiesAdd.push({id: '0', name: 'All', status: 1});
@@ -208,7 +215,10 @@ console.log(city_id);
     this.parameter.localitiesAdd = []; this.address.cities = city_id;
     // this.parameter.localitiesAdd.push({id: '0', name: 'All', status: 1});
     this.parameter.buildingsAdd.push({id: '0', name: 'All', status: 1});
-    this.address.localities = '0'; this.address.buildings = '0';
+    // this.address.localities = '0'; this.address.buildings = '0';
+
+    this.address.localities = this.address.localities ? this.address.localities : '0';
+    this.address.buildings = this.address.buildings ? this.address.buildings : '0';
 
     if (city_id === '' || city_id === '0') {
       this.parameter.localitiesAdd.push({id: '0', name: 'All', status: 1});
@@ -235,7 +245,10 @@ console.log(city_id);
         success => {
           this.parameter.buildingsAdd = success.data;
           this.address.localities = locality_id;
-          this.address.buildings = '0';
+          // this.address.buildings = '0';
+
+    this.address.buildings = this.address.buildings ? this.address.buildings : '0';
+
           this.parameter.buildingsAdd.push({id: '0', name: 'All', status: 1});
           for (let c = 0; c < this.parameter.buildingsAdd.length; c++) {
             this.parameter.buildingsAdd[c].disabled = false;

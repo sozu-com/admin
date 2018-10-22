@@ -355,46 +355,47 @@ export class AddProjectComponent implements OnInit {
   }
 
   addProject() {
+    const modelSave = JSON.parse(JSON.stringify(this.model));
+    modelSave.cover_image = this.file1.image;
+    modelSave.building_images = modelSave.images.map(r => r.image);
+    modelSave.images = modelSave.images.map(r => r.image);
+    modelSave.dev_name = modelSave.developer.name;
+    modelSave.dev_email = modelSave.developer.email;
+    modelSave.dev_phone = modelSave.developer.phone;
+    modelSave.dev_logo = this.file5.image;
+    modelSave.amenities = this.all_amenities.filter(op => { if (op.selected === true) { return op; }}).map(op => op.id);
 
-    this.model.cover_image = this.file1.image;
-    this.model.building_images = this.model.images.map(r => r.image);
-    this.model.dev_name = this.model.developer.name;
-    this.model.dev_email = this.model.developer.email;
-    this.model.dev_phone = this.model.developer.phone;
-    this.model.dev_logo = this.file5.image;
-    this.model.amenities = this.all_amenities.filter(op => { if (op.selected === true) { return op; }}).map(op => op.id);
-
-    this.model.configurations.forEach(item => {
+    modelSave.configurations.forEach(item => {
       item.images = item.images.map(x => x.image);
     });
     /* remove fields for edit */
-    if (!this.model.name) {swal('Error', 'Please add building name', 'error'); return false; }
-    if (!this.model.address) {swal('Error', 'Please add address', 'error'); return false; }
-    if (!this.model.cover_image) {swal('Error', 'Please add cover image', 'error'); return false; }
-    if (!this.model.cover_image) {swal('Error', 'Please add cover image', 'error'); return false; }
-    if (this.model.building_images.length < 1) {swal('Error', 'Please add atleast one more building image', 'error'); return false; }
-    if (!this.model.building_age) {swal('Error', 'Please add building age', 'error'); return false; }
-    if (!this.model.building_type_id) {swal('Error', 'Please add building type', 'error'); return false; }
-    if (!this.model.description) {swal('Error', 'Please add building description', 'error'); return false; }
-    if (!this.model.possession_status_id) {swal('Error', 'Please add possession status', 'error'); return false; }
-    if (!this.model.floors) {swal('Error', 'Please add floors', 'error'); return false; }
-    if (!this.model.launch_date){swal('Error', 'Please add building launch date', 'error'); return false; }
-    if (!this.model.avg_price) {swal('Error', 'Please add building average price', 'error'); return false; }
-    if (this.model.amenities.length < 1) {swal('Error', 'Please add amenities', 'error'); return false; }
-    if (this.model.configurations.length < 1) {swal('Error', 'Please add building configuration', 'error'); return false; }
+    if (!modelSave.name) {swal('Error', 'Please add building name', 'error'); return false; }
+    if (!modelSave.address) {swal('Error', 'Please add address', 'error'); return false; }
+    if (!modelSave.cover_image) {swal('Error', 'Please add cover image', 'error'); return false; }
+    if (!modelSave.cover_image) {swal('Error', 'Please add cover image', 'error'); return false; }
+    if (modelSave.building_images.length < 1) {swal('Error', 'Please add atleast one more building image', 'error'); return false; }
+    if (!modelSave.building_age) {swal('Error', 'Please add building age', 'error'); return false; }
+    if (!modelSave.building_type_id) {swal('Error', 'Please add building type', 'error'); return false; }
+    if (!modelSave.description) {swal('Error', 'Please add building description', 'error'); return false; }
+    if (!modelSave.possession_status_id) {swal('Error', 'Please add possession status', 'error'); return false; }
+    if (!modelSave.floors) {swal('Error', 'Please add floors', 'error'); return false; }
+    if (!modelSave.launch_date){swal('Error', 'Please add building launch date', 'error'); return false; }
+    if (!modelSave.avg_price) {swal('Error', 'Please add building average price', 'error'); return false; }
+    if (modelSave.amenities.length < 1) {swal('Error', 'Please add amenities', 'error'); return false; }
+    if (modelSave.configurations.length < 1) {swal('Error', 'Please add building configuration', 'error'); return false; }
     if (!this.id) {
-      if (!this.model.dev_name) {swal('Error', 'Please add developer name', 'error'); return false; }
-      if (!this.model.dev_countrycode) {swal('Error', 'Please add developer country code', 'error'); return false; }
-      if (!this.model.dev_email) {swal('Error', 'Please add developer email', 'error'); return false; }
-      if (!this.model.dev_phone) {swal('Error', 'Please add developer phone', 'error'); return false; }
-      if (!this.model.dev_logo) {swal('Error', 'Please add developer image', 'error'); return false; }
+      if (!modelSave.dev_name) {swal('Error', 'Please add developer name', 'error'); return false; }
+      if (!modelSave.dev_countrycode) {swal('Error', 'Please add developer country code', 'error'); return false; }
+      if (!modelSave.dev_email) {swal('Error', 'Please add developer email', 'error'); return false; }
+      if (!modelSave.dev_phone) {swal('Error', 'Please add developer phone', 'error'); return false; }
+      if (!modelSave.dev_logo) {swal('Error', 'Please add developer image', 'error'); return false; }
     }
 
-    console.log(this.model);
+    console.log(modelSave);
     if (this.id) {
-      this.model.building_id = this.id;
-      this.model.developer_id =  this.model.developer.id;
-      this.admin.postDataApi('updateProject', this.model).subscribe(success => {
+      modelSave.building_id = this.id;
+      modelSave.developer_id =  modelSave.developer.id;
+      this.admin.postDataApi('updateProject', modelSave).subscribe(success => {
         // console.log(success);
         swal('Success', success.message, 'success');
         this.router.navigate(['/dashboard/projects/view-projects']);
@@ -403,10 +404,10 @@ export class AddProjectComponent implements OnInit {
         swal('Error', error.message, 'error');
       });
     }else {
-      delete this.model.id;
-      delete this.model.building_id;
+      delete modelSave.id;
+      delete modelSave.building_id;
 
-      this.admin.postDataApi('addProject', this.model).subscribe(success => {
+      this.admin.postDataApi('addProject', modelSave).subscribe(success => {
         // console.log(success);
         swal('Success', success.message, 'success');
         this.router.navigate(['/dashboard/projects/view-projects']);
