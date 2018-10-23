@@ -78,20 +78,29 @@ export class AddressComponent implements OnInit {
     }
   }
 
-  getStatesNew(country_id, index) {
+  getStatesNew(country_id, setZero) {
     this.parameter.statesAdd = [];
     this.parameter.citiesAdd = []; this.parameter.localitiesAdd = []; this.parameter.buildingsAdd = [];
     this.parameter.country_id = country_id;
 
     this.address.countries = country_id;
-    this.address.states = this.address.states ? this.address.states : '0';
-    this.address.cities = this.address.cities ? this.address.cities : '0';
-    this.address.localities = this.address.localities ? this.address.localities : '0';
-    this.address.buildings = this.address.buildings ? this.address.buildings : '0';
+    this.address.states = this.address.states && setZero === 1 ? '0' : this.address.states;
+    this.address.cities = this.address.cities && setZero === 1 ? '0' : this.address.cities;
+    this.address.localities = this.address.localities && setZero === 1 ? '0' : this.address.localities;
+    this.address.buildings = this.address.buildings && setZero === 1 ? '0' : this.address.buildings;
+
+    // if (setZero === 1) {
+    //   this.address.states = '0';
+    //   this.address.cities = '0';
+    //   this.address.localities = '0';
+    //   this.address.buildings = '0';
+    // }
+    console.log('pppp', this.address);
     if (country_id === '' || country_id === '0') {
       return false;
     } else {
       this.parameter.country_id = country_id;
+      // console.log('this', this.countries);
       if (this.countries) {
         const selectedCountry = this.countries.filter(x => x.id.toString() === country_id.toString());
         this.parameter.statesAdd = selectedCountry[0].states;
@@ -122,14 +131,25 @@ export class AddressComponent implements OnInit {
     }
   }
 
-  getCitiesNew(state_id, index) {
+  getCitiesNew(state_id, setZero) {
     this.parameter.localitiesAdd = []; this.parameter.buildingsAdd = [];
     this.parameter.citiesAdd = [];
     this.address.states = state_id;
-    this.address.cities = this.address.cities ? this.address.cities : '0';
-    this.address.localities = this.address.localities ? this.address.localities : '0';
-    this.address.buildings = this.address.buildings ? this.address.buildings : '0';
 
+
+    this.address.cities = this.address.cities && setZero === 1 ? '0' : this.address.cities;
+    this.address.localities = this.address.localities && setZero === 1 ? '0' : this.address.localities;
+    this.address.buildings = this.address.buildings && setZero === 1 ? '0' : this.address.buildings;
+
+    // this.address.cities = this.address.cities ? this.address.cities : '0';
+    // this.address.localities = this.address.localities ? this.address.localities : '0';
+    // this.address.buildings = this.address.buildings ? this.address.buildings : '0';
+
+    // if (setZero === 1) {
+    //   this.address.cities = '0';
+    //   this.address.localities = '0';
+    //   this.address.buildings = '0';
+    // }
     if (state_id === '' || state_id === '0') {
       return false;
     }
@@ -160,12 +180,20 @@ export class AddressComponent implements OnInit {
   }
 
 
-  getLocalitiesNew(city_id, index) {
+  getLocalitiesNew(city_id, setZero) {
     this.parameter.city_id = city_id;
     this.parameter.localitiesAdd = []; this.parameter.buildingsAdd = []; this.address.cities = city_id;
-    this.address.localities = this.address.localities ? this.address.localities : '0';
-    this.address.buildings = this.address.buildings ? this.address.buildings : '0';
 
+    this.address.localities = this.address.localities && setZero === 1 ? '0' : this.address.localities;
+    this.address.buildings = this.address.buildings && setZero === 1 ? '0' : this.address.buildings;
+
+    // this.address.localities = this.address.localities ? this.address.localities : '0';
+    // this.address.buildings = this.address.buildings ? this.address.buildings : '0';
+
+    // if (setZero === 1) {
+    //   this.address.localities = '0';
+    //   this.address.buildings = '0';
+    // }
     if (city_id === '' || city_id === '0') {
       return false;
     }
@@ -176,7 +204,7 @@ export class AddressComponent implements OnInit {
     }
   }
 
-  getLocalityBuildings(locality_id, index) {
+  getLocalityBuildings(locality_id, setZero) {
     this.parameter.url = 'getLocalityBuildings';
     this.parameter.locality_id = locality_id;
     this.parameter.buildingsAdd = [];
@@ -187,6 +215,11 @@ export class AddressComponent implements OnInit {
           this.address.localities = locality_id;
           // this.address.buildings = '0';
 
+          this.address.buildings = this.address.buildings && setZero === 1 ? '0' : this.address.buildings;
+
+          // if (setZero === 1) {
+          //   this.address.buildings = '0';
+          // }
     // this.address.buildings = this.address.buildings ? this.address.buildings : '0';
 
           // this.parameter.buildingsAdd.push({id: '0', name: 'All', status: 1});

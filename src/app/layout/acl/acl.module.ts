@@ -11,6 +11,8 @@ import { AclUserGuard } from '../../guards/acl-user.guard';
 
 
 const routes: Routes = [
+  // { path: '', component: AclComponent, canActivate: [AclUserGuard]},
+  // { path: 'add-acl-user/:id', component: AddAclComponent }
   { path: '', component: AclComponent, canActivate: [AclUserGuard], data: {roles: ['Access Controls', 'can_read', '']} },
   { path: 'add-acl-user/:id', component: AddAclComponent,
     canActivate: [AclUserGuard], data: {roles: ['Access Controls', 'can_create', '']} }

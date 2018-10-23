@@ -33,6 +33,7 @@ export class MyChatComponent implements OnInit {
   socket_id: any;
   connected: any;
   loginData: any;
+  loginData$$: any;
   /**************/
 
   admin_id: any;
@@ -76,7 +77,7 @@ export class MyChatComponent implements OnInit {
     this.route.params.subscribe( params => {
       this.lead_id = params.id;
     });
-    this.admin.loginData$.subscribe(success => {
+    this.loginData$$ = this.admin.loginData$.subscribe(success => {
       this.admin_id = success['id'];
     });
     this.loadingConversation = true;
@@ -105,7 +106,7 @@ export class MyChatComponent implements OnInit {
     };
 
     this.admin.postDataApi('conversation/getLeadConversation', data1).subscribe(res => {
-      // console.log('===========', res);
+      console.log('===========', res);
       if (res.data) {
 
         this.conversation = res.data;
@@ -129,7 +130,7 @@ export class MyChatComponent implements OnInit {
 
           this.loadingMessages = true;
           this.admin.postDataApi('conversation/getMessages', data).subscribe(r => {
-            // console.log(r);
+            console.log(r);
             this.messages = r.data[0].messages;
             // this.messages.map(r=>{
             //   r.loading = true;
@@ -202,8 +203,8 @@ export class MyChatComponent implements OnInit {
     model.uid = Math.random().toString(36).substr(2, 15);
     model.conversation_id =  this.conversation_id;
     model.conversation_user = {admin_id: this.admin_id};
-    const date = new Date();
-    model.updated_at = date;
+    const d = new Date();
+    model.updated_at = d.toUTCString();
     this.messages.push(model);
 
     setTimeout(() => {
@@ -243,8 +244,8 @@ export class MyChatComponent implements OnInit {
     model.conversation_id =  this.conversation_id;
     model.conversation_user = {admin_id: this.admin_id};
     model.attachment_name = event.target.files[0].name;
-    const date = new Date();
-    model.updated_at = date;
+    const d = new Date();
+    model.updated_at = d.toUTCString();
     this.messages.push(model);
 
     setTimeout(() => {
@@ -281,8 +282,8 @@ export class MyChatComponent implements OnInit {
     model.uid = Math.random().toString(36).substr(2, 15);
     model.conversation_id =  this.conversation_id;
     model.conversation_user = {admin_id: this.admin_id};
-    const date = new Date();
-    model.updated_at = date;
+    const d = new Date();
+    model.updated_at = d.toUTCString();
     this.messages.push(model);
 
 
@@ -367,10 +368,11 @@ export class MyChatComponent implements OnInit {
       model.message = this.textMessage;
       model.message_type = 1;
       model.loading = true;
+      model.uid = Math.random().toString(36).substr(2, 15);
       model.conversation_id =  this.conversation_id;
       model.conversation_user = {admin_id: this.admin_id};
-      const date = new Date();
-      model.updated_at = date;
+      const d = new Date();
+      model.updated_at = d.toUTCString();
       this.messages.push(model);
       this.textMessage = '';
       this.sendMessage(model);
@@ -382,17 +384,22 @@ export class MyChatComponent implements OnInit {
       swal('Error', 'Please enter some text.', 'error');
     } else {
 
+      setTimeout(() => {
+        this.scrollToBottom();
+      }, 100);
+
       // console.log('Appending', model);
       this.admin.postDataApi('conversation/sendMessage', model).subscribe(r => {
         // console.log('sendMessage', r);
+        if (model.loading == true){
+          model.loading = false;
+          const foundIndex = this.messages.findIndex(x => x.uid == model.uid);
+          this.messages[foundIndex] = r['data'];
+        }
         setTimeout(() => {
           this.scrollToBottom();
         }, 100);
-        if (model.loading === true) {
-          model.loading = false;
-          // const date = new Date();
-          // model.updated_at = date;
-        }
+
       });
     }
   }
@@ -414,6 +421,29 @@ export class MyChatComponent implements OnInit {
     }
     // error => {}
     );
+  }
+
+  sendProperty(property){
+    console.log('M=>', property);
+    const model = new Chat;
+    model.message = property.configuration.name + ' in ' + property.building.name;
+    model.message_type = 5;
+    model.property_id = property.id;
+    model.image = property.image;
+    model.property_url = property.property_url;
+    model.loading = true;
+    model.updated_at = new Date();
+    model.uid = Math.random().toString(36).substr(2, 15);
+    model.conversation_id =  this.conversation_id;
+    model.conversation_user = {admin_id: this.admin_id};
+    this.messages.push(model);
+    this.sendMessage(model);
+  }
+
+  onDestroy(){
+    if (this.loginData$$){
+      this.loginData$$.unsubscribe();
+    }
   }
 
 }

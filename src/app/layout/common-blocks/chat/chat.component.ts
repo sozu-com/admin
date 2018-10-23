@@ -61,6 +61,10 @@ export class ChatComponent implements OnInit {
     {lead_id: this.lead_id, user_id: this.user_id, sent_as: this.sent_as}).subscribe(res => {
 
       this.parameter.messages = res.data[0].messages;
+      // this.parameter.messages.map(r=>{
+      //   r.loading = true;
+      //   return r;
+      // });
       console.log('messages', this.parameter.messages);
       if (this.parameter.messages.length < 30) {this.loadmore = false; }
       this.parameter.conversation_id = res.data[0].id;
@@ -124,17 +128,25 @@ export class ChatComponent implements OnInit {
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
       swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
     } else {
+      this.optionsButton.nativeElement.click();
+
       const model = new Chat;
       model.message = this.textMessage;
       model.message_type = 2;
-      // model.loading = true;
+      model.loading = true;
+      model.uid = Math.random().toString(36).substr(2, 15);
+      model.conversation_id =  this.parameter.conversation_id;
       model.conversation_user = {admin_id: this.admin_id};
       model.admin_id = this.admin_id;
-      const date = new Date();
-      model.updated_at = date;
+      const d = new Date();
+      model.updated_at = d.toUTCString();
       this.parameter.messages.push(model);
 
-      this.optionsButton.nativeElement.click();
+
+
+      setTimeout(() => {
+        this.scrollToBottom();
+      }, 100);
 
       if (event.target.files && event.target.files[0]) {
         const reader = new FileReader();
@@ -166,11 +178,13 @@ export class ChatComponent implements OnInit {
       model.message = this.textMessage;
       model.message_type = 4;
       model.loading = true;
+      model.uid = Math.random().toString(36).substr(2, 15);
+      model.conversation_id =  this.parameter.conversation_id;
       model.conversation_user = {admin_id: this.admin_id};
       model.admin_id = this.admin_id;
       model.attachment_name = event.target.files[0].name;
-      const date = new Date();
-      model.updated_at = date;
+      const d = new Date();
+      model.updated_at = d.toUTCString();
       this.parameter.messages.push(model);
 
       setTimeout(() => {
@@ -199,8 +213,10 @@ export class ChatComponent implements OnInit {
       model.message = this.textMessage;
       model.message_type = 3;
       model.loading = true;
-      const date = new Date();
-      model.updated_at = date;
+      model.uid = Math.random().toString(36).substr(2, 15);
+      model.conversation_id =  this.parameter.conversation_id;
+      const d = new Date();
+      model.updated_at = d.toUTCString();
       model.conversation_user = {admin_id: this.admin_id};
       model.admin_id = this.admin_id;
       this.parameter.messages.push(model);
@@ -295,33 +311,59 @@ export class ChatComponent implements OnInit {
       model.message = this.textMessage;
       model.message_type = 1;
       model.loading = true;
+      model.uid = Math.random().toString(36).substr(2, 15);
+      model.conversation_id =  this.parameter.conversation_id;
       model.conversation_user = {admin_id: this.admin_id};
-      const date = new Date();
-      model.updated_at = date;
+      const d = new Date();
+      model.updated_at = d.toUTCString();
       model.admin_id = this.admin_id;
       this.parameter.messages.push(model);
       this.textMessage = '';
+      setTimeout(() => {
+        this.scrollToBottom();
+      }, 100);
       this.sendMessage(model);
     }
   }
 
   sendMessage(model) {
-    if (model.message_type === 1 && !model.message) {
+    if (model.message_type == 1 && !model.message) {
       swal('Error', 'Please enter some text.', 'error');
     } else {
-      model.conversation_id =  this.parameter.conversation_id;
+      console.log('Appending', model);
       this.admin.postDataApi('conversation/sendMessage', model).subscribe(r => {
+        console.log('sendMessage', r);
+
+        if (model.loading == true){
+          model.loading = false;
+          const foundIndex = this.parameter.messages.findIndex(x => x.uid == model.uid);
+          this.parameter.messages[foundIndex] = r['data'];
+        }
         setTimeout(() => {
           this.scrollToBottom();
         }, 100);
-        if (model.loading === true) {
-          model.loading = false;
-        }
       },
       error => {
         swal('Error', error.error.message, 'error');
       });
     }
+
+    // if (model.message_type === 1 && !model.message) {
+    //   swal('Error', 'Please enter some text.', 'error');
+    // } else {
+    //   model.conversation_id =  this.parameter.conversation_id;
+    //   this.admin.postDataApi('conversation/sendMessage', model).subscribe(r => {
+    //     setTimeout(() => {
+    //       this.scrollToBottom();
+    //     }, 100);
+    //     if (model.loading === true) {
+    //       model.loading = false;
+    //     }
+    //   },
+    //   error => {
+    //     swal('Error', error.error.message, 'error');
+    //   });
+    // }
   }
 
   loadMore(admin_id) {
@@ -346,11 +388,12 @@ export class ChatComponent implements OnInit {
     model.image = property.image;
     model.property_url = property.property_url;
     model.loading = true;
-    model.updated_at = new Date();
     model.uid = Math.random().toString(36).substr(2, 15);
     model.conversation_id =  this.parameter.conversation_id;
     model.conversation_user = {admin_id: this.admin_id};
     this.parameter.messages.push(model);
+    const d = new Date();
+    model.updated_at = d.toUTCString();
     this.sendMessage(model);
   }
 }

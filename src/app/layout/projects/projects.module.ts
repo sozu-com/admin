@@ -9,10 +9,12 @@ import { AgmCoreModule } from '@agm/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { AclUserGuard } from '../../guards/acl-user.guard';
-import { AuthGuard } from '../../guards/auth.guard';
+import { ProjectDetailsComponent } from './project-details/project-details.component';
 
 
 const routes: Routes = [
+  { path: 'details/:project_id', component: ProjectDetailsComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Building Management', 'can_read', '']}},
   { path: 'view-projects', component: ProjectsComponent,
     canActivate: [AclUserGuard], data: {roles: ['Building Management', 'can_read', '']}},
   { path: 'view-projects/:id', component: ProjectsComponent,
@@ -51,7 +53,8 @@ const routes: Routes = [
   ],
   declarations: [
     ProjectsComponent,
-    AddProjectComponent
+    AddProjectComponent,
+    ProjectDetailsComponent
   ]
 })
 

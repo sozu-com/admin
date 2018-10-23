@@ -81,7 +81,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
             } else if (success.data.permissions.can_noatary === 1) {
               this.router.navigate(['dashboard/notary/notary-leads']);
             }
-          } else {
+          } else if (success.data.admin_acl) {
             let check = true;
             // let path = '';
             const dd = this.admin.admin_acl_array.map((obj, index) => {
@@ -125,6 +125,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
                 // }
               }
             });
+          } else {
+            this.router.navigate(['dashboard']);
           }
         },
         error => {

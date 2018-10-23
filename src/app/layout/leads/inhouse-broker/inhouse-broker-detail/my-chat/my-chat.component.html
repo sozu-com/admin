@@ -1,168 +1,189 @@
 <div class="row">
-  <div class="col-lg-4 col-md-4 col-sm-12 col-12">
-    <div malihu-scrollbar [scrollbarOptions]="scrollbarOptions" class="chat-name-list white-bg">
-       <div *ngIf="loadingConversation" class="chat-window white-bg"><img style="width:100%" src="assets/img/loading_content.gif"></div>
-       <a *ngFor="let con of conversations" [ngClass]="{'active':con.selected == true}" href="javascript://">
-          <div class="profile" (click)="selectConversation(con)">
-             <div class="fig-block">
-                <img [src]="con.image" onerror='src="http://via.placeholder.com/62x62"' alt="img" />
-             </div>
-             <div class="profile-info">
-                <h6>{{con?.name}}</h6>
-                <p class="p12" *ngIf="con?.phone">{{con?.dial_code? con?.dial_code: constant.dial_code}} -{{con?.phone}}</p>
-                <p class="p12" *ngIf="!con?.phone">NA</p>
-                <i class="fa fa-angle-right float-right"></i>
-             </div>
-          </div>
-       </a>
-    </div>
- </div>
-
- <div class="col-lg-8 col-md-8 col-sm-12 col-12">
-    <div *ngIf="loadingMessages" class="chat-window white-bg"><img style="width:100%" src="assets/img/loading_content.gif"></div>
-    <div *ngIf="conversations && !loadingMessages" class="chat-window white-bg">
-       <div class="chat-top">
-           <a href="javascript://">
-             <div class="profile">
-                <div class="fig-block">
-                   <img [src]="parameter.image" onerror='src="http://via.placeholder.com/62x62"' alt="img">
-                </div>
-                <div class="profile-info">
-                  <h6>{{parameter.name}}</h6>
-                  <p class="p12" *ngIf="parameter.phone">{{parameter.dial_code? parameter.dial_code: constant.dial_code}}-{{parameter.phone}}</p>
-                  <p class="p12" *ngIf="!parameter.phone">NA</p>
-                </div>
-             </div>
-          </a>
-
-       </div>
-
-       <div malihu-scrollbar [scrollbarOptions]="scrollbarOptions" class="chat-area scrollbox" #chatWin>
-        <div *ngIf="loadmore" class="chat-load-more" (click)="loadMore()" >
-          Previous Messages <img *ngIf="loadmoring" src="assets/img/loading-p.gif">
-        </div> 
-        <div *ngFor="let m of messages;let i = index" [ngClass]="m.conversation_user.admin_id == admin_id ? 'chat-user-one' :'chat-user-two'" class="chat-user">
-          <p *ngIf="m.message_type == 1" style="word-wrap: break-word;">
-            <!-- <span *ngIf="m.loading" class="m-loader">
-              <img style="width:30px !important;" src="assets/img/loading-p.gif">
-            </span> -->
-            <!-- com -->
-            <span>{{m.message}}</span>
-          </p>
-
-          <a *ngIf="m.message_type == 2" href="{{m.image}}" data-lightbox="image" title="image" >
-            <span>
-              <img class="ui bordered small image" src="{{m.image}}">
-              <!-- <div *ngIf="m.loading" class="loaderr"></div> -->
-              <!-- com -->
-            </span>
-          </a>
-       
-          <div class="chat-vid" *ngIf="m.message_type == 3 && !m.play">
-            <span>
-                <img class="ui bordered small image" *ngIf="m.image" src="{{m.image}}">
-                <img *ngIf="!m.loading" class="vid-icon" (click)="playVideo(i)" src="assets/img/play-button.png" />
-                <div *ngIf="m.loading" class="loaderr"></div>
-                <div class="clearfix"></div>
-          </span>
-          </div>
-          <video *ngIf="m.message_type == 3 && m.play" src="{{m.video}}" autoplay type="video/mp4" controls></video>
-          
-          <div class="chat-shared-file" *ngIf="m.message_type == 4">
-            <p *ngIf="m.loading" class="m-loader"><img style="width:30px !important;" src="assets/img/loading-p.gif"></p>
-            <span *ngIf="!m.loading">
-              <a href="javascript://" href="{{m.attachment}}"><span>{{m.attachment_name}}</span>
-              </a>
-            </span>
-          </div>
-            
-          
-            <!-- <div class="time clearfix" *ngIf="m.updated_at">
-              {{m.updated_at| moment}} {{m.play}}
-            </div> -->
-
-        <span class="time" *ngIf="m.updated_at && m.id">{{m.updated_at| moment}} {{m.play}}</span>
-        <span class="time" *ngIf="m.updated_at && !m.id">{{m.updated_at|date:'h:mm a'|lowercase}}, {{m.updated_at|date: 'MMM d y'}}</span>
-            <span class="time" *ngIf="m?.conversation_user?.admin_id != admin_id">
-              <strong>By - {{m?.conversation_user?.user?.name ? m?.conversation_user?.user?.name : m?.conversation_user?.admin?.name}}</strong>
-            </span>
-         </div>
-
-         <div *ngIf="messages?.length==0">
-            <p class="show-not-found">
-              No message found.
-            </p>
+    <div class="col-lg-4 col-md-4 col-sm-12 col-12">
+      <div malihu-scrollbar [scrollbarOptions]="scrollbarOptions" class="chat-name-list white-bg">
+         <div *ngIf="loadingConversation" class="chat-window white-bg"><img style="width:100%" src="assets/img/loading_content.gif"></div>
+         <div *ngIf="!loadingConversation && conversations.length == 0" class="padding20">No conversation found</div>
+         <a *ngFor="let con of conversations" [ngClass]="{'active':con.selected == true}" href="javascript://">
+            <div class="profile" (click)="selectConversation(con)">
+               <div class="fig-block">
+                  <img [src]="con.image" onerror='src="http://via.placeholder.com/62x62"' alt="img" />
+               </div>
+               <div class="profile-info">
+                  <h6>{{con.name}}</h6>
+                  <!-- <p class="p12">{{con.phone}}</p> -->
+                  <p class="p12">{{con.phone}}</p>
+                  <i class="fa fa-angle-right float-right"></i>
+               </div>
+            </div>
+         </a>
+      </div>
+   </div>
+   
+   <div class="col-lg-8 col-md-8 col-sm-12 col-12">
+      <div *ngIf="loadingMessages" class="chat-window white-bg"><img style="width:100%" src="assets/img/loading_content.gif"></div>
+      <div *ngIf="conversation && !loadingMessages" class="chat-window white-bg">
+         <div class="chat-top">
+             <a href="javascript://">
+               <div class="profile">
+                  <div class="fig-block">
+                     <img [src]="parameter.image" onerror='src="http://via.placeholder.com/62x62"' alt="img">
+                  </div>
+                  <div class="profile-info">
+                     <h6>{{parameter.name}}</h6>
+                     <!-- <p class="p12">{{conversation.other.phone}}</p> -->
+                     <p class="p12">{{parameter.phone}}</p>
+                  </div>
+               </div>
+            </a>
+  
          </div>
   
-       </div>
-
-       <div style="position: absolute; z-index: 1; margin: 0px; padding: 0px; other: block; left: 581px; top: 91px;"><div class="enscroll-track track3" style="position: relative; height: 367px;"><a href="" class="handle3" style="position: absolute; z-index: 1; height: 199.244px; top: 0px;"><div class="top"></div><div class="bottom"></div></a></div></div>
-
-       <div class="chat-text">
-        <div class="dropdown attach-items">
-          <a *ngIf="(admin?.admin_acl['Broker Lead Management']?.can_update==1 || admin?.permissions?.can_in_house_broker==1); else noPermission" href="javascript://" class="dropdown-toggle" data-toggle="dropdown" #optionsButton>
-            <i class="fa fa-paperclip" aria-hidden="true"></i>
-          </a>
-          
-          <ng-template #noPermission>
-            <a>
-                <i class="fa fa-paperclip" aria-hidden="true"></i>
+         <div *ngIf="messages" malihu-scrollbar [scrollbarOptions]="scrollbarOptions" class="chat-area scrollbox" #chatWin>
+          <div *ngIf="loadmore" class="chat-load-more" (click)="loadMore()" >
+            Previous Messages <img *ngIf="loadmoring" src="assets/img/loading-p.gif">
+          </div> 
+          <div *ngFor="let m of messages;let i = index" [ngClass]="m?.conversation_user?.admin_id == admin_id ? 'chat-user-one' :'chat-user-two'" class="chat-user">
+            <p *ngIf="m.message_type == 1" style="word-wrap: break-word;">
+              <!-- <span *ngIf="m.loading" class="m-loader"><img src="assets/img/loading-p.gif"></span> -->
+              <span>{{m.message}}</span>
+            </p>
+  
+            <!-- <a class="btn btn-sm btn-danger" [group]="group" ng-box href="{{lastReport.image.original}}">View</a> -->
+            <!-- <a *ngIf="m.message_type == 2" ng-box width="800" height="800" target="_blank" href="{{m.image}}">
+                <img src="{{m.image}}">
+            </a> -->
+            <a *ngIf="m.message_type == 2" href="{{m.image}}" data-lightbox="image" title="image" >
+              <span>
+                <img class="ui bordered small image" src="{{m.image}}">
+                <div *ngIf="m.loading" class="loaderr"></div>
+              </span>
             </a>
-          </ng-template>
-
-          <div class="dropdown-menu">
-            <div class="dropdown-item">
-              <input type="file" name="image" accept="image/*" (change)="onSelectFile('image', $event)">
-              <i class="fa fa-camera" aria-hidden="true"></i>
-              <span>Photo</span>
+            <!-- <a *ngIf="m.message_type == 2" href="{{m.image}}" data-lightbox="image" data-title="My caption">
+              <img class="ui bordered small image" src="{{m.image}}">
+              
+            </a> -->
+            <!-- <a *ngIf="m.message_type == 3" href="{{m.video}}" title="Video" class="chat-vid">
+              <span >
+                <img class="ui bordered small image" src="{{m.image}}">
+                <img *ngIf="!m.loading" class="vid-icon" (click)="playVideo(i)" src="assets/img/play-button.png" />
+                <div *ngIf="m.loading" class="loaderr"></div>
+              </span>
+            </a> -->
+            
+            <div class="chat-vid" *ngIf="m.message_type == 3 && !m.play">
+              <span>
+                  <img class="ui bordered small image" src="{{m.image}}" onerror="this.src='assets/img/placeholder.png'">
+                  <img *ngIf="!m.loading" class="vid-icon" (click)="playVideo(i)" src="assets/img/play-button.png" />
+                  <div *ngIf="m.loading" class="loaderr"></div>
+                  <div class="clearfix"></div>
+            </span>
             </div>
-            <a class="dropdown-item"> 
-              <!-- <input type="file" name="video" id="videoFileObject" name="video" accept="video/mp4,video/x-m4v,video/*" (change)="showCanvas($event)"> -->
-              <input type="file" name="video1" accept="video/mp4,video/x-m4v,video/*" (change)="showCanvas($event)">
-              <i class="fa fa-video-camera" aria-hidden="true"></i>
-              <span>Video</span>
-            </a>
-            <a class="dropdown-item">    
-                <input type="file" name="attachment" accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf" (change)="saveAttachment($event)">
-              <i class="fa fa-file" aria-hidden="true"></i>
-              <span>Document</span>
-            </a>
-          </div>
-        </div>
-        <input id="message" autocomplete="off" [(ngModel)]="textMessage" (keyup.enter)="setText()" class="chat-input" type="text" name="message" placeholder="Type your message here …">
-        
-        <!-- <div class="chat-attached-file" *ngIf="model.message_type == 2">
-          <div class="attached-inner">
-            <a href="javascript://" (click)="updateModel('image')" class="close">&times;</a>
-            <div class="fig-block"><img class="img-fluid" src="{{model.image}}" alt="img"></div>
-          </div>
-        </div>
-        <div class="chat-attached-file">
-          <div class="attached-inner">
-            <a href="javascript://" (click)="updateModel('video')" class="close">&times;</a>
-            <div class="fig-block">
-                <video style="width: 100%; height: 100%;" src="{{model.video}}" class="video55" autoplay type="video/mp4" controls></video>
-            </div>
-          </div>
-        </div>
-        <div class="chat-attached-file" *ngIf="model.message_type == 4">
-          <div class="attached-inner">
-            <a href="javascript://" (click)="updateModel('video')" class="close">&times;</a>
-            <div class="fig-block">
-              <div class="chat-shared-file">
-                <a href="javascript://"><span>{{model.attachment_name}}</span>
-                  <i class="fa fa-times" (click)="updateModel('attachment')" aria-hidden="true"></i>
+            <video *ngIf="m.message_type == 3 && m.play" src="{{m.video}}" autoplay type="video/mp4" controls></video>
+            
+            <!-- <div class="chat-vid" *ngIf="m.message_type == 3 && !m.play">
+              <span>
+                <img class="vid-img" src="{{m.image}}">
+                <img class="vid-icon" (click)="playVideo(i)" src="assets/img/play-button (2).png"/>
+                <div class="clearfix"></div>
+            </span>
+            </div> -->
+            <!-- <video *ngIf="m.message_type == 3 && m.play" src="{{m.video}}" autoplay type="video/mp4" controls></video> -->
+            
+            <div class="chat-shared-file" *ngIf="m.message_type == 4">
+              <span *ngIf="m.loading" class="m-loader">
+                <img class="ui bordered small image" src='assets/img/placeholder.png'>
+                <div *ngIf="m.loading" class="loaderr"></div>
+              </span>
+              <span *ngIf="!m.loading">
+                <a href="javascript://" target="_blank" href="{{m.attachment}}"><span>{{m.attachment_name}} <img class="viewfull" src="assets/img/viewfull.png"></span>
                 </a>
+              </span>
+            </div>
+              
+            <a *ngIf="m.message_type == 5" href="{{m.property_url}}" target="_blank" title="image" >
+              <span>
+                <img class="ui bordered small image" src="{{m.image}}">
+                <div *ngIf="m.loading" class="loaderr"></div>
+              </span>
+              <h5>{{m.message}}</h5>
+            </a>
+            
+            <div class="time clearfix" *ngIf="m.updated_at && !m.uid">{{m.updated_at| moment}}</div>
+            <div class="time clearfix" *ngIf="m.updated_at && m.uid">
+                {{m.updated_at|date:'h:mm a, MMM d y'}}
+            </div>
+  
+           </div>
+  
+         </div>
+  
+         <div style="position: absolute; z-index: 1; margin: 0px; padding: 0px; other: block; left: 581px; top: 91px;"><div class="enscroll-track track3" style="position: relative; height: 367px;"><a href="" class="handle3" style="position: absolute; z-index: 1; height: 199.244px; top: 0px;"><div class="top"></div><div class="bottom"></div></a></div></div>
+  
+         <div class="chat-text">
+          <div class="dropdown attach-items">
+            <a href="javascript://" class="dropdown-toggle" data-toggle="dropdown" #optionsButton>
+              <i class="fa fa-paperclip" aria-hidden="true"></i>
+            </a>
+            <div class="dropdown-menu">
+              <div class="dropdown-item">
+                <input type="file" name="image" accept="image/*" (change)="onSelectFile('image', $event)">
+                <i class="fa fa-camera" aria-hidden="true"></i>
+                <span>Photo</span>
+              </div>
+              <a class="dropdown-item"> 
+                <!-- <input type="file" name="video" id="videoFileObject" name="video" accept="video/mp4,video/x-m4v,video/*" (change)="showCanvas($event)"> -->
+                <input type="file" name="video1" accept="video/mp4,video/x-m4v,video/*" (change)="showCanvas($event)">
+                <i class="fa fa-video-camera" aria-hidden="true"></i>
+                <span>Video</span>
+              </a>
+              <a class="dropdown-item">    
+                  <input type="file" name="attachment" accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf" (change)="saveAttachment($event)">
+                <i class="fa fa-file" aria-hidden="true"></i>
+                <span>Document</span>
+              </a>
+              <a class="dropdown-item" (click)="blockGetProperty.showModal()">    
+                <i class="fa fa-file" aria-hidden="true"></i>
+                <span>Property</span>
+              </a>
+            </div>
+          </div>
+          <input id="message" autocomplete="off" [(ngModel)]="textMessage" (keyup.enter)="setText()" class="chat-input" type="text" name="message" placeholder="Type your message here …">
+          
+          <!-- <div class="chat-attached-file" *ngIf="model.message_type == 2">
+            <div class="attached-inner">
+              <a href="javascript://" (click)="updateModel('image')" class="close">&times;</a>
+              <div class="fig-block"><img class="img-fluid" src="{{model.image}}" alt="img"></div>
+            </div>
+          </div>
+          <div class="chat-attached-file">
+            <div class="attached-inner">
+              <a href="javascript://" (click)="updateModel('video')" class="close">&times;</a>
+              <div class="fig-block">
+                  <video style="width: 100%; height: 100%;" src="{{model.video}}" class="video55" autoplay type="video/mp4" controls></video>
               </div>
             </div>
           </div>
-        </div> -->
-        <video style="width: 100%; height: 100%;" src="{{videoSrc}}" class="video55" autoplay type="video/mp4" controls></video>
-        <canvas style="display: none;" width="800" height="600" id="canvas"></canvas>
-
-        <button [disabled]="admin?.admin_acl['Broker Lead Management']?.can_update==0 || admin?.permissions?.can_in_house_broker==0" (click)="sendMessage()" class="btn">Send</button>
-        
-       </div>
+          <div class="chat-attached-file" *ngIf="model.message_type == 4">
+            <div class="attached-inner">
+              <a href="javascript://" (click)="updateModel('video')" class="close">&times;</a>
+              <div class="fig-block">
+                <div class="chat-shared-file">
+                  <a href="javascript://"><span>{{model.attachment_name}}</span>
+                    <i class="fa fa-times" (click)="updateModel('attachment')" aria-hidden="true"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div> -->
+          <video style="width: 100%; height: 100%;" src="{{videoSrc}}" class="video55" autoplay type="video/mp4" controls></video>
+          <canvas style="display: none;" width="800" height="600" id="canvas"></canvas>
+  
+          <button (click)="setText()" class="btn">Send</button>
+          
+         </div>
+  
+      </div>
+      </div>
     </div>
-    </div>
-  </div>
+  
+    <app-block-get-property #blockGetProperty (itemSelect)="sendProperty($event)"></app-block-get-property>

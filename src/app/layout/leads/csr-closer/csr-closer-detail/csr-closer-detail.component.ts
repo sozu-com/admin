@@ -638,9 +638,9 @@ console.log('=========', data);
     model.loading = true;
     model.updated_at = new Date();
     model.uid = Math.random().toString(36).substr(2, 15);
-    model.conversation_id =  this.parameter.conversation_id;
+    model.conversation_id =  this.conversation_id;
     model.conversation_user = {admin_id: this.admin_id};
-    this.parameter.messages.push(model);
+    this.messages.push(model);
     this.sendMessage(model);
   }
 }

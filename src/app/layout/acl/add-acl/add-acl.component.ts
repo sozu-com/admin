@@ -104,6 +104,7 @@ export class AddAclComponent implements OnInit {
 
 
   add() {
+    console.log(this.model);
     this.admin.postDataApi('addAclUser', this.model)
       .subscribe(
         success => {

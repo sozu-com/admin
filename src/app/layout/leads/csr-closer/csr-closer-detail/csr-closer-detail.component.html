@@ -332,6 +332,10 @@
                                 <i class="fa fa-file" aria-hidden="true"></i>
                                 <span>Document</span>
                             </a>
+                            <a class="dropdown-item" (click)="blockGetProperty.showModal()">    
+                                <i class="fa fa-file" aria-hidden="true"></i>
+                                <span>Property</span>
+                            </a>
                             </div>
                         </div>
                         <input id="message" autocomplete="off" [(ngModel)]="textMessage" (keyup.enter)="setText()" class="chat-input" type="text" name="message" placeholder="Type your message here …">
@@ -346,6 +350,9 @@
             </div>
         </div>
     </div>
+
+
+<app-block-get-property #blockGetProperty (itemSelect)="sendProperty($event)"></app-block-get-property>
 
 
     <div class="clearfix"></div>
