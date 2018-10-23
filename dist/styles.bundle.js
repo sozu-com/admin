@@ -1,4 +1,4 @@
-webpackJsonp([16],{
+webpackJsonp([15],{
 
 /***/ "../../../../../src/assets/img/range-slider-btn.png":
 /***/ (function(module, exports) {
@@ -884,7 +884,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 2:
+/***/ 3:
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__("../../../../../src/styles.css");
@@ -900,5 +900,5 @@ module.exports = __webpack_require__("../../../../lightbox2/dist/css/lightbox.mi
 
 /***/ })
 
-},[2]);
+},[3]);
 //# sourceMappingURL=styles.bundle.js.map
