@@ -152,7 +152,7 @@
                             <td>
                               <img [src]="p.main_image" class="rounded-circle" onerror='this.src="assets/img/default_img.png"' alt="img">
                             </td>
-                            <td>
+                            <td class="cursor-pointer" title="Click to view details" routerLink="/dashboard/projects/details/{{p.id}}">
                               <strong>{{p?.name}}</strong>
                             </td>
                             <td>

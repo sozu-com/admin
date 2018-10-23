@@ -1,20 +1,10 @@
-<!-- <div *ngIf="!project" style="margin-top:120px;" class="container" >
+<div *ngIf="!project" style="margin-top:120px;" class="container" >
   <img style="width:100%" src="assets/img/loading_content.gif">
 </div>
 <div class="inner-page-wrapper details-page gray-bg-1" *ngIf="project">
  <div class="container">
 
     <div class="clearfix"></div>
-    <div class="row">
-       <div class="col-12">
-          <ol class="breadcrumb">
-             <li class="breadcrumb-item"><a href="javascript://">{{ts.lang.Home}}</a></li>
-             <li class="breadcrumb-item" *ngIf="project.city"><a href="javascript://">{{project.city.name}}</a></li>
-             <li class="breadcrumb-item" *ngIf="project.locality"><a href="javascript://">{{project.locality.name}}</a></li>
-             <li class="breadcrumb-item active"><a href="javascript://">{{project.name}}</a></li>
-          </ol>
-       </div>
-    </div>
     <div class="details-header marginB30">
        <div class="row">
           <div class="col-md-6 col-12">
@@ -32,7 +22,9 @@
                    <b *ngIf="base_price_max">{{base_price_max|thousand}}</b>
                 </p>
                 <p class="p16">{{ts.lang.Price_on_Request}}</p>
-                <div class="btn-cont float-right"><a [ngx-scroll-to]="'#bottomDetails'" class="btn btn-primary btn-lg" href="javascript://">Contact Developer</a></div>
+                <div class="btn-cont float-right">
+                  <!-- <a [ngx-scroll-to]="'#bottomDetails'" class="btn btn-primary btn-lg" href="javascript://">Contact Developer</a> -->
+                </div>
              </div>
           </div>
        </div>
@@ -48,7 +40,7 @@
           </div>
        </div>
 
-       <a *ngIf="project.images.length > 2" class="btn view-photos" href="javascript://">{{ts.lang.View_Photos}}</a>
+       <!-- <a *ngIf="project.images.length > 2" class="btn view-photos" href="javascript://">{{ts.lang.View_Photos}}</a> -->
     </div>
     <div class="img-des">
        <div class="row">
@@ -84,17 +76,17 @@
     <hr id="bottomDetails">
     <div class="container">
        <ul class="nav nav-pills">
-          <li class="nav-item active">
+          <li class="nav-item {{active}}">
              <a class="nav-link" data-toggle="pill" href="#one">{{ts.lang.Overview}}</a>
           </li>
           <li class="nav-item">
-             <a class="nav-link" data-toggle="pill" href="#two">{{ts.lang.Configs}}</a>
+             <a class="nav-link" data-toggle="pill" (click)="active=''" href="#two">{{ts.lang.Configs}}</a>
           </li>
           <li class="nav-item">
-             <a class="nav-link" data-toggle="pill" href="#three">{{ts.lang.Amenities}}</a>
+             <a class="nav-link" data-toggle="pill" (click)="active=''" href="#three">{{ts.lang.Amenities}}</a>
           </li>
           <li class="nav-item">
-             <a class="nav-link" data-toggle="pill" href="#four">{{ts.lang.Developer}}</a>
+             <a class="nav-link" data-toggle="pill" (click)="active=''" href="#four">{{ts.lang.Developer}}</a>
           </li>
 
        </ul>
@@ -127,7 +119,7 @@
                          <div style="height:200px;" #mapListing>
                          </div>
                       </div>
-
+<!-- 
                       <div class="spacer30"></div>
 
                       <p *ngIf="project.configurations.length > 0" class="p14">{{ts.lang.Configs}}</p>
@@ -218,12 +210,12 @@
                                     <img class="img-fluid" [src]="project.developer.developer_image" src="http://via.placeholder.com/56x56" alt="img">
                                  </div>
                               </td>
-                              <td style="width:30%">
+                              <td style="width:50%">
                                  <p class="p11">{{ts.lang.Developer}}</p>
                                  <p class="p16">{{project.developer.name}}</p>
                                  <p class="p13">{{project.developer.developer_title}}</p>
                               </td>
-                              <td style="width:60%;">
+                              <td style="width:40%;">
                                  <p class="p16">1</p>
                                  <p class="p13">{{ts.lang.Projects}}</p>
                               </td>
@@ -241,7 +233,7 @@
                               </td>
                            </tr>
                         </table>
-                     </div>
+                     </div> -->
 
                    </div>
                    <div class="tab-pane" id="two">
@@ -312,12 +304,12 @@
                                     <img class="img-fluid" [src]="project.developer.developer_image" src="http://via.placeholder.com/56x56" alt="img">
                                  </div>
                               </td>
-                              <td style="width:30%">
+                              <td style="width:60%">
                                  <p class="p11">{{ts.lang.Developer}}</p>
                                  <p class="p16">{{project.developer.name}}</p>
                                  <p class="p13">{{project.developer.developer_title}}</p>
                               </td>
-                              <td style="width:60%;">
+                              <td style="width:30%;">
                                  <p class="p16">1</p>
                                  <p class="p13">Projects</p>
                               </td>
@@ -347,4 +339,4 @@
     </div>
  </div>
   <div class="spacer60"></div>
-</div> -->
+</div>

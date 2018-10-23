@@ -10,6 +10,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { AclUserGuard } from '../../guards/acl-user.guard';
 import { ProjectDetailsComponent } from './project-details/project-details.component';
+import { SharedModule } from '../../modules/shared.module';
+import { NumberexPipe } from '../../pipes/numberex.pipe';
 
 
 const routes: Routes = [
@@ -24,15 +26,6 @@ const routes: Routes = [
   { path: 'edit-project/:id', component: AddProjectComponent,
     canActivate: [AclUserGuard], data: {roles: ['Building Management', 'can_update', '']}}
 ];
-
-// const routes: Routes = [
-//   { path: 'view-projects', component: ProjectsComponent,
-//     canActivate: [AuthGuard], data: {roles: ['Building Management', 'can_read', '']}},
-//   { path: 'add-project', component: AddProjectComponent,
-//     canActivate: [AuthGuard], data: {roles: ['Building Management', 'can_create', '']}},
-//   { path: 'edit-project/:id', component: AddProjectComponent,
-//     canActivate: [AuthGuard], data: {roles: ['Building Management', 'can_update', '']}}
-// ];
 
 @NgModule({
   imports: [
@@ -49,12 +42,14 @@ const routes: Routes = [
         libraries: ['drawing', 'places']
       }),
     Ng2TelInputModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    SharedModule
   ],
   declarations: [
     ProjectsComponent,
     AddProjectComponent,
-    ProjectDetailsComponent
+    ProjectDetailsComponent,
+    NumberexPipe
   ]
 })
 

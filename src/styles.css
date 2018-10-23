@@ -508,26 +508,6 @@ input[type="file"]{background:transparent !important}
     background-color: #00b96f !important;
   }
 
-
-  /* Calender - Appointments */
-/* .chat-square{display:flex;width:200px;height:200px;}
-.chat-square img{
-object-fit: cover;
-} */
-
-/* .four-block .f-block{
-cursor:pointer;
-}
-.four-block .f-block.active{
-color:#fff;
-background:#00B96F;
-}
-.four-block .f-block.active h5,
-.four-block .f-block.active h3{
-color:#fff;
-} */
-
-
 .month-date li{
 width: 52px;
 height: 70px;
@@ -648,3 +628,7 @@ margin:0px auto;
     object-position: center;
 }
 .property-share{position: relative}
+.fig-block img.icon {
+    width: 25px;
+    height: 25px;
+}

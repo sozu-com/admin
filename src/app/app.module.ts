@@ -21,6 +21,7 @@ import { CommonService } from './services/common.service';
 import { Constant } from './common/constants';
 import { Login, AdminACL } from './models/login.model';
 import { SharedModule } from './modules/shared.module';
+import { TranslateService } from './lang/translate.service';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent},
@@ -35,11 +36,7 @@ const appRoutes: Routes = [
     AppComponent,
     ForgotPasswordComponent,
     LoginComponent,
-    PageNotFoundComponent,
-    // AclPermissionDirective,
-    // AclPermissionComponent,
-    // RemoveCommaPipe,
-    // MomentPipe
+    PageNotFoundComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -57,7 +54,15 @@ const appRoutes: Routes = [
     MalihuScrollbarModule.forRoot(),
     Ng2TelInputModule
   ],
-  providers: [AdminService, CommonService, AuthGuard, HttpInterceptor, Constant, Login, AdminACL
+  providers: [
+    AdminService,
+    CommonService,
+    AuthGuard,
+    HttpInterceptor,
+    Constant,
+    Login,
+    AdminACL,
+    TranslateService
   ],
   bootstrap: [AppComponent]
 })
