@@ -30,10 +30,12 @@ export class CsrBuyerDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.parameter.loading = true;
     this.parameter.sent_as = this.constant.userType.csr_buyer;
     this.route.params.subscribe( params => {
       this.parameter.lead_id = params.id;
         this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
+          this.parameter.loading = false;
           this.parameter.lead = r.data.lead;
           this.parameter.favorites = r.data.favorites;
           this.setFillInformationData(r);
@@ -41,6 +43,8 @@ export class CsrBuyerDetailComponent implements OnInit {
           this.parameter.interested_properties = r.data.interested_properties;
           this.parameter.viewed_properties = r.data.viewed_properties;
           this.parameter.user_id = this.parameter.lead.user ? this.parameter.lead.user.id : 0;
+        }, error => {
+          this.parameter.loading = false;
         });
     });
   }

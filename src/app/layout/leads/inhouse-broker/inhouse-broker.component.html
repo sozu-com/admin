@@ -233,7 +233,13 @@
                         <tr>
                             <th style="width:6%">
                                 <div class="table-search">
-                                <a (click)="selectAll()"><label>All</label></a>
+                                    <label>All</label>
+                                    <div>
+                                        <label class="cust-check-bx" >
+                                            <input type="checkbox" (click)="selectAll(parameter.is_selected)" name="document">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </div>
                                 </div>
                             </th>
 

@@ -98,7 +98,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!-- <router-outlet></router-outlet> -->\n<!-- \n<div class=\"preloader-backdrop\" *ngIf=\"loading\">\n    <div class=\"page-preloader\">Loading</div>\n</div> -->\n<!-- <ngbox></ngbox> -->\n<ngx-loading [show]=\"loading\"></ngx-loading>\n<router-outlet></router-outlet>"
+module.exports = "<!-- <router-outlet></router-outlet> -->\n<!-- \n<div class=\"preloader-backdrop\" *ngIf=\"loading\">\n    <div class=\"page-preloader\">Loading</div>\n</div> -->\n<!-- <ngbox></ngbox> -->\n<!-- <ngx-loading [show]=\"loading\"></ngx-loading> -->\n<router-outlet></router-outlet>"
 
 /***/ }),
 
@@ -663,58 +663,6 @@ var AclUserGuard = /** @class */ (function () {
         else {
             return this.checkData(next, state, this.admin.admin_acl, this.admin.permissions);
         }
-        // const admin_acl = this.admin.admin_acl ? this.admin.admin_acl : {};
-        // const permissions = this.admin.permissions ? this.admin.permissions : {};
-        // console.log('acl route');
-        // console.log('type', typeof admin_acl);
-        // console.log(admin_acl, 'length', Object.keys(admin_acl).length);
-        // console.log(permissions, 'length', Object.keys(permissions).length);
-        // if (Object.keys(permissions).length === 0 && Object.keys(admin_acl).length === 0) {
-        //   console.log('if2');
-        //   return this.admin.getDetails().map(e => {
-        //     console.log('e1', e);
-        //     console.log('adminacl', admin_acl);
-        //     console.log('permission', permissions);
-        //     if (e) {
-        //       return this.checkData(next, state, admin_acl, permissions);
-        //     }
-        //   }).catch(() => {
-        //     console.log('6');
-        //     // this.location.back();
-        //     return Observable.of(false);
-        //   });
-        // } else {
-        //   return this.checkData(next, state, admin_acl, permissions);
-        // }
-        //       const roles = next.data['roles'] as Array<string>;
-        //       const key = roles ? roles[0] : '';
-        //       const subkey = roles ? roles[1] : '';
-        //       const inhouseUserRole = roles ? roles[2] : '';
-        // console.log('inside');
-        //       const admin_acl = JSON.parse(localStorage.getItem('admin_acl'));
-        //       const permissions = JSON.parse(localStorage.getItem('permissions'));
-        //       // const admin_acl = this.admin.admin_acl;
-        //       // const permissions = this.admin.permissions;
-        //       console.log('adminacl', admin_acl);
-        //       console.log('permission', permissions);
-        //       if (permissions || admin_acl) {
-        //         const obj = admin_acl[key];
-        //         if (((state.url === '/dashboard/view-inhouse-users/data-collectors') &&
-        //             (admin_acl['Data Collector Management']['can_read'] === 1)) ||
-        //           ((state.url === '/dashboard/view-inhouse-users/csr-sellers') && (admin_acl['Seller Management']['can_read'] === 1)) ||
-        //           ((state.url === '/dashboard/view-inhouse-users/csr-buyers') && (admin_acl['Buyer Management']['can_read'] === 1)) ||
-        //           ((state.url === '/dashboard/view-inhouse-users/inhouse-broker') && (admin_acl['Broker Management']['can_read'] === 1)) ||
-        //           ((state.url === '/dashboard/view-inhouse-users/csr-closers') && (admin_acl['Closer Management']['can_read'] === 1))) {
-        //             return true;
-        //         } else if ((obj && obj[subkey] === 1) || (permissions && permissions[inhouseUserRole] === 1)) {
-        //           return true;
-        //         } else {
-        //           this.location.back();
-        //           return false;
-        //         }
-        //       } else {
-        //         return false;
-        //       }
     };
     AclUserGuard.prototype.checkData = function (next, state, admin_acl, permissions) {
         var roles = next.data['roles'];
@@ -2113,7 +2061,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/layout/inhouse-users/address/address.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!-- \n<div class=\"row\" *ngIf=\"address\">\n  <div class=\"col-sm-3 col-12\">\n    <div class=\"form-group-2\">\n      <label>Country</label>\n      <select [disabled]=\"status\" required title=\"Choose Country\" class=\"form-control\" (change)=\"getStatesNew($event.target.value, i)\">\n        <option value=\"\" disabled>Select Country</option>\n        <option *ngFor=\"let countryAdd of countries\" [selected]=\"countryAdd.id == address.countries\" value=\"{{countryAdd.id}}\">{{countryAdd.name}}</option>\n      </select>\n    </div>\n  </div>\n  <div class=\"col-sm-3 col-12\">\n    <div class=\"form-group-2\">\n      <label>State</label>\n      <select [disabled]=\"status\" required title=\"Choose State\" class=\"form-control\" (change)=\"getCitiesNew($event.target.value, i)\">\n        <option value=\"\" disabled>Select State</option>\n        <option *ngFor=\"let stateAdd of parameter.statesAdd\" [selected]=\"stateAdd.id == address.states\" value=\"{{stateAdd.id}}\">{{stateAdd.name}}</option>\n      </select>\n    </div>\n  </div>\n  <div class=\"col-sm-3 col-12\">\n    <div class=\"form-group-2\">\n      <label>City</label>\n      <select [disabled]=\"status\" required title=\"Choose City\" class=\"form-control\" (change)=\"getLocalitiesNew($event.target.value, i)\">\n      <option value=\"\" disabled>Select City</option>\n      {{parameter.citiesAdd | json}}\n      <option *ngFor=\"let cityAdd of parameter.citiesAdd\" [selected]=\"cityAdd.id == address.cities\" value=\"{{cityAdd.id}}\">{{cityAdd.name}}</option>\n    </select>\n    </div>\n  </div>\n  <div class=\"col-sm-3 col-12\">\n    <div class=\"form-group-2\">\n      <label>Locality</label>\n      <select [disabled]=\"status\" required title=\"Choose Locality\" class=\"form-control\" (change)=\"getLocalityBuildings($event.target.value, i)\">\n      <option value=\"\" disabled>Select Locality</option>\n      <option *ngFor=\"let localityAdd of parameter.localitiesAdd\" [selected]=\"localityAdd.id == address.localities\" value=\"{{localityAdd.id}}\">{{localityAdd.name}}</option>\n    </select>\n    </div>\n  </div>\n  <div class=\"col-sm-3 col-12\">\n    <div class=\"row\">\n      <div class=\"col-10\">\n      <div class=\"form-group-2\">\n        <label>Building</label>\n        <select [disabled]=\"status\" required title=\"Choose Building\" class=\"form-control\" (change)=\"setBuilding($event.target.value, i)\">\n          <option value=\"\" disabled>Select Building</option>\n          <option *ngFor=\"let buildingAdd of parameter.buildingsAdd\" [disabled]=\"buildingAdd.disabled\" [selected]=\"buildingAdd.id == address.buildings\" value=\"{{buildingAdd.id}}\">{{buildingAdd.name}}</option>\n        </select>\n      </div>\n      </div>\n      <a href=\"javascript://\" (click)=\"removeRow()\" class=\"close\" *ngIf=\"index!=0\">\n        <img src=\"assets/img/close-tag.png\" alt=\"img\">\n      </a>\n    </div>\n  </div>\n</div> -->\n<!-- {{address|json}}\n{{index|json}} -->\n\n<div class=\"row\" *ngIf=\"address\">\n  <div class=\"col-sm-3 col-12\">\n    <div class=\"form-group-2\">\n      <label>Country</label>\n      <select required title=\"Choose Country\" class=\"form-control\" (change)=\"getStatesNew($event.target.value, 1)\">\n        <option value=\"\" disabled>Select Country</option>\n        <!-- <option value=\"0\" [selected]=\"address.countries==0 && address.countries!=''\">All</option> -->\n        <option *ngFor=\"let countryAdd of countries\" [selected]=\"countryAdd.id == address.countries\" value=\"{{countryAdd.id}}\">{{countryAdd.name}}</option>\n      </select>\n    </div>\n  </div>\n  <div class=\"col-sm-3 col-12\">\n    <div class=\"form-group-2\">\n      <label>State</label>\n      <select [disabled]=\"status\" required title=\"Choose State\" class=\"form-control\" (change)=\"getCitiesNew($event.target.value, 1)\">\n        <option value=\"\" disabled>Select State</option>\n        <option value=\"0\" [selected]=\"address.states!='' && address.states==0\">All</option>\n        <option *ngFor=\"let stateAdd of parameter.statesAdd\" [selected]=\"stateAdd.id == address.states\" value=\"{{stateAdd.id}}\">{{stateAdd.name}}</option>\n      </select>\n    </div>\n  </div>\n  <div class=\"col-sm-3 col-12\">\n    <div class=\"form-group-2\">\n      <label>City</label>\n      <select [disabled]=\"status\" required title=\"Choose City\" class=\"form-control\" (change)=\"getLocalitiesNew($event.target.value, 1)\">\n      <option value=\"\" disabled>Select City</option>\n      <option value=\"0\" [selected]=\"address.cities!='' && address.cities==0\">All</option>\n      <option *ngFor=\"let cityAdd of parameter.citiesAdd\" [selected]=\"cityAdd.id == address.cities\" value=\"{{cityAdd.id}}\">{{cityAdd.name}}</option>\n    </select>\n    </div>\n  </div>\n  <div class=\"col-sm-3 col-12\">\n    <div class=\"form-group-2\">\n      <label>Locality</label>\n      <select [disabled]=\"status\" required title=\"Choose Locality\" class=\"form-control\" (change)=\"getLocalityBuildings($event.target.value, 1)\">\n      <option value=\"\" disabled>Select Locality</option>\n      <option value=\"0\" [selected]=\"address.localities != '' && address.localities==0\">All</option>\n      <option *ngFor=\"let localityAdd of parameter.localitiesAdd\" [selected]=\"localityAdd.id == address.localities\" value=\"{{localityAdd.id}}\">{{localityAdd.name}}</option>\n    </select>\n    </div>\n  </div>\n  <div class=\"col-sm-3 col-12\">\n    <div class=\"row\">\n      <div class=\"col-10\">\n      <div class=\"form-group-2\">\n        <label>Building</label>\n        <select [disabled]=\"status\" required title=\"Choose Building\" class=\"form-control\" (change)=\"setBuilding($event.target.value, i)\">\n          <option value=\"\" disabled>Select Building</option>\n          <option value=\"0\" [selected]=\"address.buildings!='' && address.buildings==0\">All</option>\n          <option *ngFor=\"let buildingAdd of parameter.buildingsAdd\" [disabled]=\"buildingAdd.disabled\" [selected]=\"buildingAdd.id == address.buildings\" value=\"{{buildingAdd.id}}\">{{buildingAdd.name}}</option>\n        </select>\n      </div>\n      </div>\n      <a href=\"javascript://\" (click)=\"removeRow()\" class=\"close\" *ngIf=\"index!=0\">\n        <img src=\"assets/img/close-tag.png\" alt=\"img\">\n      </a>\n    </div>\n  </div>\n</div>"
+module.exports = "<!-- \n<div class=\"row\" *ngIf=\"address\">\n  <div class=\"col-sm-3 col-12\">\n    <div class=\"form-group-2\">\n      <label>Country</label>\n      <select [disabled]=\"status\" required title=\"Choose Country\" class=\"form-control\" (change)=\"getStatesNew($event.target.value, i)\">\n        <option value=\"\" disabled>Select Country</option>\n        <option *ngFor=\"let countryAdd of countries\" [selected]=\"countryAdd.id == address.countries\" value=\"{{countryAdd.id}}\">{{countryAdd.name}}</option>\n      </select>\n    </div>\n  </div>\n  <div class=\"col-sm-3 col-12\">\n    <div class=\"form-group-2\">\n      <label>State</label>\n      <select [disabled]=\"status\" required title=\"Choose State\" class=\"form-control\" (change)=\"getCitiesNew($event.target.value, i)\">\n        <option value=\"\" disabled>Select State</option>\n        <option *ngFor=\"let stateAdd of parameter.statesAdd\" [selected]=\"stateAdd.id == address.states\" value=\"{{stateAdd.id}}\">{{stateAdd.name}}</option>\n      </select>\n    </div>\n  </div>\n  <div class=\"col-sm-3 col-12\">\n    <div class=\"form-group-2\">\n      <label>City</label>\n      <select [disabled]=\"status\" required title=\"Choose City\" class=\"form-control\" (change)=\"getLocalitiesNew($event.target.value, i)\">\n      <option value=\"\" disabled>Select City</option>\n      {{parameter.citiesAdd | json}}\n      <option *ngFor=\"let cityAdd of parameter.citiesAdd\" [selected]=\"cityAdd.id == address.cities\" value=\"{{cityAdd.id}}\">{{cityAdd.name}}</option>\n    </select>\n    </div>\n  </div>\n  <div class=\"col-sm-3 col-12\">\n    <div class=\"form-group-2\">\n      <label>Locality</label>\n      <select [disabled]=\"status\" required title=\"Choose Locality\" class=\"form-control\" (change)=\"getLocalityBuildings($event.target.value, i)\">\n      <option value=\"\" disabled>Select Locality</option>\n      <option *ngFor=\"let localityAdd of parameter.localitiesAdd\" [selected]=\"localityAdd.id == address.localities\" value=\"{{localityAdd.id}}\">{{localityAdd.name}}</option>\n    </select>\n    </div>\n  </div>\n  <div class=\"col-sm-3 col-12\">\n    <div class=\"row\">\n      <div class=\"col-10\">\n      <div class=\"form-group-2\">\n        <label>Building</label>\n        <select [disabled]=\"status\" required title=\"Choose Building\" class=\"form-control\" (change)=\"setBuilding($event.target.value, i)\">\n          <option value=\"\" disabled>Select Building</option>\n          <option *ngFor=\"let buildingAdd of parameter.buildingsAdd\" [disabled]=\"buildingAdd.disabled\" [selected]=\"buildingAdd.id == address.buildings\" value=\"{{buildingAdd.id}}\">{{buildingAdd.name}}</option>\n        </select>\n      </div>\n      </div>\n      <a href=\"javascript://\" (click)=\"removeRow()\" class=\"close\" *ngIf=\"index!=0\">\n        <img src=\"assets/img/close-tag.png\" alt=\"img\">\n      </a>\n    </div>\n  </div>\n</div> -->\n<div class=\"row\" *ngIf=\"address\">\n  <div class=\"col-sm-3 col-12\">\n    <div class=\"form-group-2\">\n      <label>Country</label>\n      <select required title=\"Choose Country\" class=\"form-control\" (change)=\"getStatesNew($event.target.value, 1)\">\n        <option value=\"\" disabled>Select Country</option>\n        <!-- <option value=\"0\" [selected]=\"address.countries==0 && address.countries!=''\">All</option> -->\n        <option *ngFor=\"let countryAdd of countries\" [selected]=\"countryAdd.id == address.countries\" value=\"{{countryAdd.id}}\">{{countryAdd.name}}</option>\n      </select>\n    </div>\n  </div>\n  <div class=\"col-sm-3 col-12\">\n    <div class=\"form-group-2\">\n      <label>State</label>\n      <select [disabled]=\"status\" required title=\"Choose State\" class=\"form-control\" (change)=\"getCitiesNew($event.target.value, 1)\">\n        <option value=\"\" disabled>Select State</option>\n        <option value=\"0\" [selected]=\"address.states!='' && address.states==0\">All</option>\n        <option *ngFor=\"let stateAdd of parameter.statesAdd\" [selected]=\"stateAdd.id == address.states\" value=\"{{stateAdd.id}}\">{{stateAdd.name}}</option>\n      </select>\n    </div>\n  </div>\n  <div class=\"col-sm-3 col-12\">\n    <div class=\"form-group-2\">\n      <label>City</label>\n      <select [disabled]=\"status\" required title=\"Choose City\" class=\"form-control\" (change)=\"getLocalitiesNew($event.target.value, 1)\">\n      <option value=\"\" disabled>Select City</option>\n      <option value=\"0\" [selected]=\"address.cities!='' && address.cities==0\">All</option>\n      <option *ngFor=\"let cityAdd of parameter.citiesAdd\" [selected]=\"cityAdd.id == address.cities\" value=\"{{cityAdd.id}}\">{{cityAdd.name}}</option>\n    </select>\n    </div>\n  </div>\n  <div class=\"col-sm-3 col-12\">\n    <div class=\"form-group-2\">\n      <label>Locality</label>\n      <select [disabled]=\"status\" required title=\"Choose Locality\" class=\"form-control\" (change)=\"getLocalityBuildings($event.target.value, 1)\">\n      <option value=\"\" disabled>Select Locality</option>\n      <option value=\"0\" [selected]=\"address.localities != '' && address.localities==0\">All</option>\n      <option *ngFor=\"let localityAdd of parameter.localitiesAdd\" [selected]=\"localityAdd.id == address.localities\" value=\"{{localityAdd.id}}\">{{localityAdd.name}}</option>\n    </select>\n    </div>\n  </div>\n  <div class=\"col-sm-3 col-12\">\n    <div class=\"row\">\n      <div class=\"col-10\">\n      <div class=\"form-group-2\">\n        <label>Building</label>\n        <select [disabled]=\"status\" required title=\"Choose Building\" class=\"form-control\" (change)=\"setBuilding($event.target.value, i)\">\n          <option value=\"\" disabled>Select Building</option>\n          <option value=\"0\" [selected]=\"address.buildings!='' && address.buildings==0\">All</option>\n          <option *ngFor=\"let buildingAdd of parameter.buildingsAdd\" [disabled]=\"buildingAdd.disabled\" [selected]=\"buildingAdd.id == address.buildings\" value=\"{{buildingAdd.id}}\">{{buildingAdd.name}}</option>\n        </select>\n      </div>\n      </div>\n      <a href=\"javascript://\" (click)=\"removeRow()\" class=\"close\" *ngIf=\"index!=0\">\n        <img src=\"assets/img/close-tag.png\" alt=\"img\">\n      </a>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -2435,6 +2383,7 @@ module.exports = "\n<div class=\"container-fluid\">\n    <div class=\"row\">\n  
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_inhouse_users_model__ = __webpack_require__("../../../../../src/app/models/inhouse-users.model.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__common_constants__ = __webpack_require__("../../../../../src/app/common/constants.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_platform_browser__ = __webpack_require__("../../../platform-browser/@angular/platform-browser.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_common_service__ = __webpack_require__("../../../../../src/app/services/common.service.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return InhouseUsersComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -2451,10 +2400,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var InhouseUsersComponent = /** @class */ (function () {
-    function InhouseUsersComponent(constant, model, route, admin, router, sanitization) {
+    function InhouseUsersComponent(constant, cs, model, route, admin, router, sanitization) {
         var _this = this;
         this.constant = constant;
+        this.cs = cs;
         this.model = model;
         this.route = route;
         this.admin = admin;
@@ -2578,10 +2529,14 @@ var InhouseUsersComponent = /** @class */ (function () {
         var _this = this;
         if (event.target.files && event.target.files[0]) {
             var reader = new FileReader();
-            this.parameter.image = event.target.files[0];
+            // this.parameter.image = event.target.files[0];
             reader.onload = function (e) {
                 _this.url = e.target.result;
                 _this.image1 = _this.sanitization.bypassSecurityTrustStyle("url(" + _this.url + ")");
+                _this.cs.saveImage(event.target.files[0]).subscribe(function (success) {
+                    _this.parameter.image = success['data'].image;
+                    console.log('----', _this.parameter.image);
+                });
             };
             reader.readAsDataURL(event.target.files[0]);
         }
@@ -2691,39 +2646,37 @@ var InhouseUsersComponent = /** @class */ (function () {
         }
     };
     InhouseUsersComponent.prototype.editUser = function (userdata, index) {
-        this.parameter.index = index;
-        this.model.address = [];
-        this.model.userModel.id = userdata.id;
-        this.modalOpen.nativeElement.click();
-        this.model.userModel.name = userdata.name;
-        this.model.userModel.email = userdata.email;
-        this.model.userModel.phone = userdata.phone;
-        this.model.userModel.country_code = userdata.country_code;
-        this.model.userModel.image = userdata.image != null ? userdata.image : '';
-        if (this.model.userModel.image) {
-            this.image1 = this.sanitization.bypassSecurityTrustStyle("url(" + this.model.userModel.image + ")");
-        }
-        this.model.userModel.is_broker_seller_dev = userdata.permissions && userdata.permissions.can_csr_seller === 1 ? true : false;
-        this.model.userModel.is_buyer_renter = userdata.permissions && userdata.permissions.can_csr_buyer === 1 ? true : false;
-        this.model.userModel.is_broker = userdata.permissions && userdata.permissions.can_in_house_broker === 1 ? true : false;
-        this.model.userModel.is_data_collector = userdata.permissions && userdata.permissions.can_data_collector === 1 ? true : false;
-        this.model.userModel.is_csr_closer = userdata.permissions && userdata.permissions.can_csr_closer === 1 ? true : false;
-        console.log('userdata', userdata);
-        for (var ind = 0; ind < userdata.countries.length; ind++) {
-            var tempAdd = {
-                countries: userdata.countries[ind].id.toString(),
-                states: userdata.states && userdata.states[ind] ? userdata.states[ind].id.toString() : '0',
-                cities: userdata.cities && userdata.cities[ind] ? userdata.cities[ind].id.toString() : '0',
-                localities: userdata.localities && userdata.localities[ind] ? userdata.localities[ind].id.toString() : '0',
-                buildings: userdata.buildings && userdata.buildings[ind] ? userdata.buildings[ind].id.toString() : '0'
-            };
-            console.log('temp', tempAdd);
-            this.model.address[ind] = tempAdd;
-            // this.model.address.push(tempAdd);
-            console.log('address' + ind, this.model.address[ind]);
-        }
-        // console.log('address', this.model.address);
-        // updateNewUser
+        var _this = this;
+        this.admin.postDataApi('getNewUserById', { id: userdata.id }).subscribe(function (r) {
+            userdata = r['data'];
+            _this.parameter.index = index;
+            _this.model.address = [];
+            _this.model.userModel.id = userdata.id;
+            _this.model.userModel.name = userdata.name;
+            _this.model.userModel.email = userdata.email;
+            _this.model.userModel.phone = userdata.phone;
+            _this.model.userModel.country_code = userdata.country_code;
+            _this.model.userModel.image = userdata.image != null ? userdata.image : '';
+            if (_this.model.userModel.image) {
+                _this.image1 = _this.sanitization.bypassSecurityTrustStyle("url(" + _this.model.userModel.image + ")");
+            }
+            _this.model.userModel.is_broker_seller_dev = userdata.permissions && userdata.permissions.can_csr_seller === 1 ? true : false;
+            _this.model.userModel.is_buyer_renter = userdata.permissions && userdata.permissions.can_csr_buyer === 1 ? true : false;
+            _this.model.userModel.is_broker = userdata.permissions && userdata.permissions.can_in_house_broker === 1 ? true : false;
+            _this.model.userModel.is_data_collector = userdata.permissions && userdata.permissions.can_data_collector === 1 ? true : false;
+            _this.model.userModel.is_csr_closer = userdata.permissions && userdata.permissions.can_csr_closer === 1 ? true : false;
+            for (var ind = 0; ind < userdata.countries.length; ind++) {
+                var tempAdd = {
+                    countries: userdata.countries[ind].id.toString(),
+                    states: userdata.states !== null && userdata.states[ind] ? userdata.states[ind].id.toString() : '0',
+                    cities: userdata.cities !== null && userdata.cities[ind] ? userdata.cities[ind].id.toString() : '0',
+                    localities: userdata.localities !== null && userdata.localities[ind] ? userdata.localities[ind].id.toString() : '0',
+                    buildings: userdata.buildings !== null && userdata.buildings[ind] ? userdata.buildings[ind].id.toString() : '0'
+                };
+                _this.model.address[ind] = tempAdd;
+            }
+            _this.modalOpen.nativeElement.click();
+        });
     };
     InhouseUsersComponent.prototype.viewDetails = function (userdata, index) {
         this.model.address = [];
@@ -3086,7 +3039,7 @@ var InhouseUsersComponent = /** @class */ (function () {
         // let selectedLocation = this.location.localities.filter(x=>x.id == id);
         // this.location.locality = selectedLocation[0];
     };
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
     __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('modalOpen'),
         __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"]) === "function" ? _a : Object)
@@ -3110,7 +3063,7 @@ var InhouseUsersComponent = /** @class */ (function () {
             styles: [__webpack_require__("../../../../../src/app/layout/inhouse-users/inhouse-users.component.css")],
             providers: [__WEBPACK_IMPORTED_MODULE_3__models_inhouse_users_model__["a" /* InhouseUsers */], __WEBPACK_IMPORTED_MODULE_4__common_constants__["a" /* Constant */], __WEBPACK_IMPORTED_MODULE_3__models_inhouse_users_model__["b" /* User */], __WEBPACK_IMPORTED_MODULE_3__models_inhouse_users_model__["c" /* Address */]]
         }),
-        __metadata("design:paramtypes", [typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4__common_constants__["a" /* Constant */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__common_constants__["a" /* Constant */]) === "function" ? _e : Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_3__models_inhouse_users_model__["a" /* InhouseUsers */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__models_inhouse_users_model__["a" /* InhouseUsers */]) === "function" ? _f : Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* ActivatedRoute */]) === "function" ? _g : Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */]) === "function" ? _h : Object, typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */]) === "function" ? _j : Object, typeof (_k = typeof __WEBPACK_IMPORTED_MODULE_5__angular_platform_browser__["DomSanitizer"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__angular_platform_browser__["DomSanitizer"]) === "function" ? _k : Object])
+        __metadata("design:paramtypes", [typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4__common_constants__["a" /* Constant */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__common_constants__["a" /* Constant */]) === "function" ? _e : Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_6__services_common_service__["a" /* CommonService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__services_common_service__["a" /* CommonService */]) === "function" ? _f : Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_3__models_inhouse_users_model__["a" /* InhouseUsers */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__models_inhouse_users_model__["a" /* InhouseUsers */]) === "function" ? _g : Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* ActivatedRoute */]) === "function" ? _h : Object, typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */]) === "function" ? _j : Object, typeof (_k = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */]) === "function" ? _k : Object, typeof (_l = typeof __WEBPACK_IMPORTED_MODULE_5__angular_platform_browser__["DomSanitizer"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__angular_platform_browser__["DomSanitizer"]) === "function" ? _l : Object])
     ], InhouseUsersComponent);
     return InhouseUsersComponent;
 }());

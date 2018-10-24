@@ -138,4 +138,5 @@ export interface IProperty {
   post_type?: any;
   year?: any;
   month?: any;
+  is_selected?: boolean;
 }

@@ -40,11 +40,15 @@ export class AddAclComponent implements OnInit {
   }
 
   getAclUserById(id) {
+    this.parameter.loading = true;
     this.admin.postDataApi('getAclUserById', {'id': id})
     .subscribe(
       success => {
+        this.parameter.loading = false;
         this.model = success.data;
         this.model.admin_acl = success.data.admin_acl;
+      }, error => {
+        this.parameter.loading = false;
       });
   }
 
@@ -69,9 +73,11 @@ export class AddAclComponent implements OnInit {
   }
 
   getAclList() {
+    this.parameter.loading = true;
     this.admin.postDataApi('getAclList', {})
       .subscribe(
         success => {
+          this.parameter.loading = false;
           success.data.forEach(element => {
             const e = new Permission();
             const acl = {name: element.name};
@@ -79,6 +85,8 @@ export class AddAclComponent implements OnInit {
             e.can_create = 1; e.can_update = 1; e.can_read = 1; e.can_delete = 1; e.can_crud = 1;
             this.model.admin_acl.push(e);
           });
+        }, error => {
+          this.parameter.loading = false;
         });
   }
 
@@ -105,9 +113,11 @@ export class AddAclComponent implements OnInit {
 
   add() {
     console.log(this.model);
+    this.parameter.loading = true;
     this.admin.postDataApi('addAclUser', this.model)
       .subscribe(
         success => {
+          this.parameter.loading = false;
           if (success.success === '0') {
             swal('Error', success.message, 'error');
           }else {
@@ -121,6 +131,8 @@ export class AddAclComponent implements OnInit {
             //   }
             // }
           }
+        }, error => {
+          this.parameter.loading = false;
         });
   }
 }

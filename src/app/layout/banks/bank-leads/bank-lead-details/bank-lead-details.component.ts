@@ -38,12 +38,16 @@ export class BankLeadDetailsComponent implements OnInit {
     this.parameter.sent_as = this.constant.userType.bank;
     this.route.params.subscribe( params => {
       this.parameter.lead_id = params.id;
+      this.parameter.loading = true;
       this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
         this.getDocumentOptions();
+        this.parameter.loading = false;
         this.parameter.lead = r.data.lead;
         this.selectedProperties = r.data.lead.selected_properties[0];
         // bank will chat with closer only
         this.parameter.user_id = this.parameter.lead.closer.id;
+      }, error => {
+        this.parameter.loading = false;
       });
     });
   }
@@ -76,8 +80,12 @@ export class BankLeadDetailsComponent implements OnInit {
       property_id: this.selectedProperties.property_id,
       documents: documents_ids
     };
+    this.parameter.loading = true;
     this.admin.postDataApi('leads/updateDocumentChecklist', input).subscribe(r => {
+      this.parameter.loading = false;
       swal('Success', 'Successfully saved', 'success');
+    }, error => {
+      this.parameter.loading = false;
     }
   );
   }
@@ -101,9 +109,13 @@ export class BankLeadDetailsComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
+        this.parameter.loading = true;
         this.admin.postDataApi('leads/bank-mark-lead-closed', {lead_id: this.parameter.lead_id}).subscribe(r => {
+          this.parameter.loading = false;
           this.parameter.lead.lead_status_bank = 1;
           swal('Success', 'Lead closed successfully.', 'success');
+        }, error => {
+          this.parameter.loading = false;
         });
       }
     });

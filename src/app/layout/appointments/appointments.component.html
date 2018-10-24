@@ -1,4 +1,4 @@
-
+<ngx-loading [show]="parameter.loading"></ngx-loading>
 <div class="container-fluid">
   <div class="row">
       <div class="col-md-6">
@@ -85,8 +85,8 @@
               <div class="col-12">
                 <div class="form-group-2">
                    <div class="form-group">
-                      <label>Date and Time</label>
-                     <input class="form-control" type="datetime" [ngModel] ="appointmentNew.appointment_date | date:'yyyy-MM-dd H:m:s'" (ngModelChange)="appointmentNew.appointment_date = $event">
+                    <label>Date and Time</label>
+                    <input class="form-control" type="datetime-local" [ngModel] ="appointmentNew.appointment_date | date:'yyyy-MM-ddTHH:mm'" (ngModelChange)="appointmentNew.appointment_date = $event">
                   </div>
                 </div>
               </div>

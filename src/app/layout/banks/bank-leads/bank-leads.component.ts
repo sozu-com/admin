@@ -145,6 +145,8 @@ export class BankLeadsComponent implements OnInit {
     this.admin.postDataApi('getBanks', input).subscribe(
       success => {
         this.users = success.data;
+      }, error => {
+        // this.parameter.loading = false;
       });
   }
 
@@ -206,11 +208,15 @@ export class BankLeadsComponent implements OnInit {
     if (this.selectedUser) {
       input.assignee_id = this.selectedUser.id;
     }
+    this.parameter.loading = true;
     this.admin.postDataApi('leads/banks', input).subscribe(
     success => {
+      this.parameter.loading = false;
       this.items = success.data;
       if (this.items.length <= 0) { this.parameter.noResultFound = true; }
       this.parameter.total = success.total_count;
+    }, error => {
+      this.parameter.loading = false;
     });
   }
 
@@ -249,9 +255,13 @@ export class BankLeadsComponent implements OnInit {
     const input = {
       keyword: this.assign.keyword
     };
+    this.parameter.loading = true;
     this.admin.postDataApi('getBanks', input).subscribe(
     success => {
+      this.parameter.loading = false;
       this.assign.items = success.data;
+    }, error => {
+      this.parameter.loading = false;
     });
   }
 
@@ -261,7 +271,9 @@ export class BankLeadsComponent implements OnInit {
       bank_id	: this.assignItem.id,
       leads: leads_ids
     };
+    // this.parameter.loading = true;
     this.admin.postDataApi('leads/bulkAssignBank', input).subscribe(r => {
+      // this.parameter.loading = false;
       this.closeAssignModel.nativeElement.click();
       this.getListing();
     },

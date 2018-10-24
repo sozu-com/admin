@@ -44,7 +44,7 @@ export class AclComponent implements OnInit {
     this.parameter.page = this.constant.p;
     this.model.id = '';
     this.initialCountry = {initialCountry: this.constant.country_code};
-    this.getAclList();
+    // this.getAclList();
     this.getAclUsers(this.parameter.page, '', '', '');
   }
 
@@ -72,11 +72,15 @@ export class AclComponent implements OnInit {
   }
 
   getAclUsers(page, name, phone, email) {
+    this.parameter.loading = true;
     this.admin.postDataApi('getAclUsers', this.parameter)
       .subscribe(
         success => {
+          this.parameter.loading = false;
           this.parameter.items = success.data;
           this.parameter.total = success.total;
+        }, error =>  {
+          this.parameter.loading = false;
         });
   }
 

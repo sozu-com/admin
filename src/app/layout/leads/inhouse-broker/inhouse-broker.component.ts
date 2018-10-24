@@ -43,6 +43,7 @@ export class InhouseBrokerComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.parameter.is_selected = false;
     this.parameter.keyword = '';
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
@@ -269,9 +270,10 @@ export class InhouseBrokerComponent implements OnInit {
     });
   }
 
-  selectAll() {
+  selectAll(is_selected) {
+    this.parameter.is_selected = !is_selected;
     this.items.forEach(item => {
-      item.selected = true;
+      item.selected = this.parameter.is_selected;
     });
   }
 

@@ -1,4 +1,4 @@
-
+<ngx-loading [show]="parameter.loading"></ngx-loading>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-6">
@@ -50,7 +50,9 @@
                   </div>
                 </th>
                 <th style="width:10%; vertical-align: top;">
-                  Emp. ID
+                  <div class="table-search">
+                    <label>Emp. ID</label>
+                  </div>
                 </th>
                 <th style="width:14%">
                   &nbsp;

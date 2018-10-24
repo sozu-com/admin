@@ -1,4 +1,4 @@
-
+<ngx-loading [show]="parameter.loading"></ngx-loading>
 <div class="container-fluid">
         <div class="row">
             <div class="col-md-4">
@@ -279,16 +279,16 @@
                                     <!-- <i class="fa" [ngClass]="item.selected?'fa-check-square-o':'fa-square-o'" (click)="item.selected = !item.selected" aria-hidden="true"></i> -->
                                 </td>
                                 <td>
-                                    <img class="rounded-circle" [src]="item.image" onerror="this.src='assets/img/default_img.png'" alt="img">
+                                    <img class="rounded-circle" [src]="item.user.image" onerror="this.src='assets/img/default_img.png'" alt="img">
                                 </td>
                                 <td class="text-left">
-                                    <span class="name">{{item.name}}</span>
+                                    <span class="name">{{item.user.name}}</span>
                                 </td>
                                 <td class="text-left">
-                                    {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}<br>
+                                    {{item.user.dial_code ? item.user.dial_code : constant.dial_code}}-{{item.user.phone}}<br>
                                 </td>
                                 <td class="text-left">
-                                    {{item.email}}
+                                    {{item.user.email}}
                                 </td>
                                 <td class="text-left" title="Bank">
                                   {{item?.selected_properties[0]?.banks[0]?.name}}

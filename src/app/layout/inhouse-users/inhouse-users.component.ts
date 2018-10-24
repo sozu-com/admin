@@ -6,6 +6,7 @@ import { InhouseUsers, User, Address } from './../../models/inhouse-users.model'
 import { NgForm } from '@angular/forms';
 import { Constant } from './../../common/constants';
 import { DomSanitizer } from '@angular/platform-browser';
+import { CommonService } from '../../services/common.service';
 declare let swal: any;
 
 @Component({
@@ -35,7 +36,7 @@ export class InhouseUsersComponent implements OnInit {
   seenDuplicate = false;
   testObject = [];
 
-  constructor(public constant: Constant,
+  constructor(public constant: Constant, private cs: CommonService,
     public model: InhouseUsers, private route: ActivatedRoute,
     public admin: AdminService, private router: Router,
     private sanitization: DomSanitizer) {
@@ -159,10 +160,16 @@ export class InhouseUsersComponent implements OnInit {
   onSelectFile1(event) {
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
-      this.parameter.image = event.target.files[0];
+      // this.parameter.image = event.target.files[0];
       reader.onload = (e: any) => {
           this.url = e.target.result;
           this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.url})`);
+          this.cs.saveImage(event.target.files[0]).subscribe(
+            success => {
+              this.parameter.image = success['data'].image;
+              console.log('----', this.parameter.image);
+            }
+          );
       };
       reader.readAsDataURL(event.target.files[0]);
     }
@@ -267,42 +274,40 @@ console.log('address', this.model.address, this.seenDuplicate);
   }
 
   editUser(userdata, index) {
-    this.parameter.index = index;
-    this.model.address = [];
-    this.model.userModel.id = userdata.id;
-    this.modalOpen.nativeElement.click();
-    this.model.userModel.name = userdata.name;
-    this.model.userModel.email = userdata.email;
-    this.model.userModel.phone = userdata.phone;
-    this.model.userModel.country_code = userdata.country_code;
+    this.admin.postDataApi('getNewUserById', {id: userdata.id}).subscribe(r => {
+      userdata = r['data'];
+      this.parameter.index = index;
+      this.model.address = [];
+      this.model.userModel.id = userdata.id;
+      this.model.userModel.name = userdata.name;
+      this.model.userModel.email = userdata.email;
+      this.model.userModel.phone = userdata.phone;
+      this.model.userModel.country_code = userdata.country_code;
 
-    this.model.userModel.image = userdata.image != null ? userdata.image : '';
-    if (this.model.userModel.image) {
-      this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.model.userModel.image})`);
-    }
+      this.model.userModel.image = userdata.image != null ? userdata.image : '';
+      if (this.model.userModel.image) {
+        this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.model.userModel.image})`);
+      }
 
-    this.model.userModel.is_broker_seller_dev = userdata.permissions && userdata.permissions.can_csr_seller === 1 ? true : false;
-    this.model.userModel.is_buyer_renter = userdata.permissions && userdata.permissions.can_csr_buyer === 1 ? true : false;
-    this.model.userModel.is_broker = userdata.permissions && userdata.permissions.can_in_house_broker === 1 ? true : false;
-    this.model.userModel.is_data_collector = userdata.permissions && userdata.permissions.can_data_collector === 1 ? true : false;
-    this.model.userModel.is_csr_closer = userdata.permissions && userdata.permissions.can_csr_closer === 1 ? true : false;
+      this.model.userModel.is_broker_seller_dev = userdata.permissions && userdata.permissions.can_csr_seller === 1 ? true : false;
+      this.model.userModel.is_buyer_renter = userdata.permissions && userdata.permissions.can_csr_buyer === 1 ? true : false;
+      this.model.userModel.is_broker = userdata.permissions && userdata.permissions.can_in_house_broker === 1 ? true : false;
+      this.model.userModel.is_data_collector = userdata.permissions && userdata.permissions.can_data_collector === 1 ? true : false;
+      this.model.userModel.is_csr_closer = userdata.permissions && userdata.permissions.can_csr_closer === 1 ? true : false;
 
-    console.log('userdata', userdata);
-    for (let ind = 0; ind < userdata.countries.length; ind++) {
-      const tempAdd = {
-        countries: userdata.countries[ind].id.toString(),
-        states: userdata.states && userdata.states[ind] ? userdata.states[ind].id.toString() : '0',
-        cities: userdata.cities && userdata.cities[ind] ? userdata.cities[ind].id.toString() : '0',
-        localities: userdata.localities && userdata.localities[ind] ? userdata.localities[ind].id.toString() : '0',
-        buildings: userdata.buildings && userdata.buildings[ind] ? userdata.buildings[ind].id.toString() : '0'
-      };
-console.log('temp', tempAdd);
-      this.model.address[ind] = tempAdd;
-      // this.model.address.push(tempAdd);
-      console.log('address' + ind, this.model.address[ind]);
-    }
-// console.log('address', this.model.address);
-    // updateNewUser
+      for (let ind = 0; ind < userdata.countries.length; ind++) {
+        const tempAdd = {
+          countries: userdata.countries[ind].id.toString(),
+          states: userdata.states !== null && userdata.states[ind] ? userdata.states[ind].id.toString() : '0',
+          cities: userdata.cities !== null && userdata.cities[ind] ? userdata.cities[ind].id.toString() : '0',
+          localities: userdata.localities !== null && userdata.localities[ind] ? userdata.localities[ind].id.toString() : '0',
+          buildings: userdata.buildings !== null && userdata.buildings[ind] ? userdata.buildings[ind].id.toString() : '0'
+        };
+        this.model.address[ind] = tempAdd;
+      }
+
+      this.modalOpen.nativeElement.click();
+    });
   }
 
 

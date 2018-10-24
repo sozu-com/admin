@@ -49,7 +49,7 @@ export class BanksComponent implements OnInit {
   }
 
   getBanks(page, name, phone, email) {
-
+    this.parameter.loading = true;
     this.parameter.page = page;
     this.parameter.name = name;
     this.parameter.phone = phone;
@@ -58,8 +58,11 @@ export class BanksComponent implements OnInit {
     this.admin.postDataApi('getBanksListing', this.parameter)
       .subscribe(
         success => {
+          this.parameter.loading = false;
           this.parameter.items = success.data;
           this.parameter.total = success.total_count;
+        }, error => {
+          this.parameter.loading = false;
         });
   }
 
@@ -82,9 +85,11 @@ export class BanksComponent implements OnInit {
   }
 
   addBank() {
+    this.parameter.loading = true;
     this.admin.postDataApi('addBank', this.model)
       .subscribe(
         success => {
+          this.parameter.loading = false;
           if (success.success === '0') {
             swal('Error', success.message, 'error');
           }else {
@@ -102,6 +107,8 @@ export class BanksComponent implements OnInit {
               }
             }
           }
+        }, error => {
+          this.parameter.loading = false;
         });
   }
 
@@ -145,11 +152,15 @@ export class BanksComponent implements OnInit {
 
   blockNoatary(index, id, flag) {
     this.parameter.index = index;
+    this.parameter.loading = true;
     this.admin.postDataApi('blockNoatary', {id: id, flag: flag})
       .subscribe(
         success => {
+          this.parameter.loading = false;
           swal('Success', success.message, 'success');
           this.parameter.items[this.parameter.index] = success.data;
+        }, error => {
+          this.parameter.loading = false;
         });
   }
 }

@@ -45,6 +45,7 @@ export class CsrCloserComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.parameter.is_selected = false;
     this.parameter.keyword = '';
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
@@ -256,9 +257,10 @@ export class CsrCloserComponent implements OnInit {
     this.getListing();
   }
 
-  selectAll() {
+  selectAll(is_selected) {
+    this.parameter.is_selected = !is_selected;
     this.items.forEach(item => {
-      item.selected = true;
+      item.selected = this.parameter.is_selected;
     });
   }
 
@@ -297,7 +299,5 @@ export class CsrCloserComponent implements OnInit {
       this.closeAssignModel.nativeElement.click();
       swal('Error', error.error.message, 'error');
     });
-
   }
-
 }

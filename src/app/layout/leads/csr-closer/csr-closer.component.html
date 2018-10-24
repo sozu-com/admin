@@ -238,11 +238,26 @@
                     <tr>
                     <th style="width:6%">
                         <div class="table-search">
-                        <a (click)="selectAll()"><label>All</label></a>
+                            <label>All</label>
+                            <div>
+                                <label class="cust-check-bx" >
+                                    <input type="checkbox" (click)="selectAll(parameter.is_selected)" name="document">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
                         </div>
                     </th>
-                    <th style="width:6%">&nbsp;</th>
-                    <th style="width:15%">
+                    <!-- <th style="width:6%">&nbsp;</th> -->
+                    <th style="width:6%">
+                        <div class="table-search">
+                            <label>Image</label>
+                            <div class="searh-3">
+                                <!-- <input type="Search here" name="name" [(ngModel)]="parameter.name" (keyup.enter)="getListing()">
+                                <button *ngIf="parameter.name" (click)="getListing()"><i class="fa fa-search"></i></button> -->
+                            </div>
+                        </div>
+                    </th>
+                    <th style="width:18%">
                         <div class="table-search">
                             <label>Name</label>
                             <div class="searh-3">
@@ -260,7 +275,7 @@
                             </div>
                         </div>
                     </th>
-                    <th style="width:30%">
+                    <th style="width:30%" class="border-top-0">
                         <div class="table-search">
                             <label>Property</label>
                             <div class="searh-3">
@@ -269,7 +284,7 @@
                             </div>
                         </div>
                     </th>
-                    <th style="width:10%">
+                    <th style="width:10%" class="border-top-0">
                         <div class="table-search">
                             <label>Assignee</label>
                             <div class="searh-3"></div>

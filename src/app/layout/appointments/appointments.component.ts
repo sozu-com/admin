@@ -50,9 +50,14 @@ export class AppointmentsComponent implements OnInit {
   }
 
   getAppointments() {
+    this.meetings = [];
+    this.parameter.loading = true;
     this.admin.postDataApi('leads/getAllAppointments', this.parameter).subscribe(r => {
       console.log('appointments', r);
+      this.parameter.loading = false;
       this.appointmentDates = r['data'];
+    }, error => {
+      this.parameter.loading = false;
     });
   }
 
@@ -74,10 +79,13 @@ export class AppointmentsComponent implements OnInit {
       status_id: this.appointmentNew.status_id,
       appointment_date: this.appointmentNew.appointment_date
     };
+    this.parameter.loading = true;
     this.admin.postDataApi('leads/updateAppointmentStatus', input).subscribe(r => {
+      // this.parameter.loading = false;
       console.log('Updated', r);
       this.getAppointments();
     }, error => {
+      this.parameter.loading = false;
       console.log(error);
     });
   }

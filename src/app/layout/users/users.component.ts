@@ -86,7 +86,7 @@ export class UsersComponent implements OnInit {
   }
 
   addNewUser(formdata: NgForm) {
-    this.parameter.url = this.model.id ? 'updateNewUser' : 'addSeller';
+    this.parameter.url = 'addSeller';
 
     const input = new FormData();
     // dont send model, cuz need to send file

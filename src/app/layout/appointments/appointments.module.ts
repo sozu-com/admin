@@ -9,6 +9,7 @@ import { AuthGuard } from '../../guards/auth.guard';
 import { AppointmentsComponent } from './appointments.component';
 
 const routes: Routes = [
+  // { path: '', component: AppointmentsComponent}
   { path: '', component: AppointmentsComponent,
     canActivate: [AclUserGuard], data: {roles: ['Appointments', 'can_read', '']}}
 ];

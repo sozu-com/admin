@@ -108,7 +108,7 @@ var UsersComponent = /** @class */ (function () {
     };
     UsersComponent.prototype.addNewUser = function (formdata) {
         var _this = this;
-        this.parameter.url = this.model.id ? 'updateNewUser' : 'addSeller';
+        this.parameter.url = 'addSeller';
         var input = new FormData();
         // dont send model, cuz need to send file
         if (this.model.id) {
