@@ -38,13 +38,17 @@ export class NotaryLeadsDetailsComponent implements OnInit {
     this.parameter.sent_as = this.constant.userType.notary;
     this.route.params.subscribe( params => {
       this.parameter.lead_id = params.id;
+      this.parameter.loading = true;
       this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
+        this.parameter.loading = false;
         // console.log('lead details', r);
         this.getDocumentOptions();
         this.parameter.lead = r.data.lead;
         this.selectedProperties = r.data.lead.selected_properties[0];
         // notary will chat with closer
         this.parameter.user_id = this.parameter.lead.closer.id;
+      }, error => {
+        this.parameter.loading = false;
       });
     });
   }
@@ -77,8 +81,12 @@ export class NotaryLeadsDetailsComponent implements OnInit {
       property_id: this.selectedProperties.property_id,
       documents: documents_ids
     };
+    this.parameter.loading = true;
     this.admin.postDataApi('leads/updateDocumentChecklist', input).subscribe(r => {
+      this.parameter.loading = false;
       swal('Success', 'Successfully saved', 'success');
+    }, error => {
+      this.parameter.loading = false;
     }
   );
   }

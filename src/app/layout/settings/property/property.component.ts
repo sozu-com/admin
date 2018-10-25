@@ -179,75 +179,56 @@ export class PropertyComponent implements OnInit {
 
 
   getConfigurations() {
-    // this.parameter.loading = true;
+    this.parameter.loading = true;
     this.parameter.url = 'getConfigurations';
     const input = new FormData();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
           // console.log('getConfigurations', success);
-          // this.parameter.loading = false;
+          this.parameter.loading = false;
           this.parameter.items = success.data;
           this.parameter.total = success.data.length;
+        },
+        error => {
+          this.parameter.loading = false;
         }
-        // error => {
-        //   console.log(error);
-        //   this.parameter.loading = false;
-        //   if (error.statusCode === 401) {
-        //     this.router.navigate(['']);
-        //   }else {
-        //     swal('Error', error.message, 'error');
-        //   }
-        // }
       );
   }
 
 
   getPropertyTypes() {
-    // this.parameter.loading = true;
+    this.parameter.loading = true;
     this.parameter.url = 'getPropertyTypes';
     const input = new FormData();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
           // console.log('getPropertyTypes', success);
-          // this.parameter.loading = false;
+          this.parameter.loading = false;
           this.parameter.propertyTypes = success.data;
           this.parameter.propertyTypesCount = success.data.length;
+        },
+        error => {
+          this.parameter.loading = false;
         }
-        // error => {
-        //   console.log(error);
-        //   this.parameter.loading = false;
-        //   if (error.statusCode === 401) {
-        //     this.router.navigate(['']);
-        //   }else {
-        //     swal('Error', error.message, 'error');
-        //   }
-        // }
       );
   }
 
   getAmenities() {
-    // this.parameter.loading = true;
+    this.parameter.loading = true;
     this.parameter.url = 'getPropertyAmenities';
     const input = new FormData();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
           // console.log('getPropertyAmenities', success);
-          // this.parameter.loading = false;
+          this.parameter.loading = false;
           this.parameter.amenities = success.data;
           this.parameter.amenitiesCount = success.data.length;
+        }, error => {
+          this.parameter.loading = false;
         }
-        // error => {
-        //   console.log(error);
-        //   this.parameter.loading = false;
-        //   if (error.statusCode === 401) {
-        //     this.router.navigate(['']);
-        //   }else {
-        //     swal('Error', error.message, 'error');
-        //   }
-        // }
       );
   }
 

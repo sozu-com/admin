@@ -21,12 +21,9 @@ export class EditProfileComponent implements OnInit {
     image: ''
   };
 
-  constructor(private element: ElementRef, private router: Router, private admin: AdminService,
-    // private swal: SweetAlertService
-  ) { }
+  constructor(private element: ElementRef, private admin: AdminService) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   onCountryChange(e) {
     this.parameter.countryCode = e.iso2;
@@ -51,7 +48,6 @@ export class EditProfileComponent implements OnInit {
   }
 
   updateProfile(formData: NgForm) {
-    // this.parameter.loading = true;
     this.parameter.url = 'updateProfile';
 
     const input = new FormData();
@@ -59,29 +55,16 @@ export class EditProfileComponent implements OnInit {
     input.append('phone', formData.value.phone);
     // input.append("country_code", this.parameter.countryCode);
     input.append('image', this.parameter.image);
-
+    this.parameter.loading = true;
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('succccc', success);
-          // this.parameter.loading = false;
+          this.parameter.loading = false;
           this.admin.login.next(success.data);
           swal('Success', success.message, 'success');
-
-          // this.swal.success({
-          //   title: 'Success',
-          //   text: 'Details updated successfully!'
-          // });
+        }, error => {
+          this.parameter.loading = false;
         }
-        // error => {
-        //   this.parameter.loading = false;
-        //   if (error.statusCode === 401) {
-        //     this.router.navigate(['']);
-        //   }else {
-        //     swal('Error', error.message, 'error');
-        //     // this.swal.warning({ text: error.message });
-        //   }
-        // }
       );
   }
 }

@@ -87,7 +87,9 @@ export class AddProjectComponent implements OnInit {
     this.route.params.subscribe( params => {
         this.id = params.id;
         if (this.id) {/* if id exists edit mode */
+          this.parameter.loading = true;
           this.admin.postDataApi('getProjectById', {building_id: this.id}).subscribe(r => {
+            this.parameter.loading = false;
             this.model = JSON.parse(JSON.stringify(r.data));
             console.log(this.model);
             this.file1.image = this.model.main_image;
@@ -105,6 +107,8 @@ export class AddProjectComponent implements OnInit {
                 return item;
               });
             });
+          }, error => {
+            this.parameter.loading = false;
           });
         }else {
           this.admin.postDataApi('getAmenities', {}).subscribe(res => {
@@ -131,18 +135,17 @@ export class AddProjectComponent implements OnInit {
 
   }
 
-  modelOpenFun(){
+  modelOpenFun() {
     this.modalOpen.nativeElement.click();
     this.file2.backup(JSON.parse(JSON.stringify(this.model.images)));
   }
 
   modelCloseFun() {
     this.modalClose.nativeElement.click();
-    //this.file2.reset();
   }
 
   saveImages() {
-    if (this.file2.files.length < 1){
+    if (this.file2.files.length < 1) {
       swal('Error', 'Please select atleast one image', 'error'); return false;
     }
     this.modalClose.nativeElement.click();
@@ -319,21 +322,19 @@ export class AddProjectComponent implements OnInit {
   }
 
   addNewConfig() {
-    if (this.file4.files.length < 1){
+    if (this.file4.files.length < 1) {
       swal('Error', 'Please choose atleast one image for other images', 'error'); return false;
     }
     this.closeConfigPopup.nativeElement.click();
     this.parameter.loading = true;
-    //console.log('new config');
     this.file3.upload().then(r => {
-      //console.log(this.file3.image);
       this.file4.upload().then(r1 => {
         this.parameter.loading = false;
         this.new_config.floor_map_image = this.file3.image;
         console.log('===', this.file4.files);
         this.new_config.images = this.file4.files;
         console.log(this.new_config_edit, this.new_config);
-        if (this.new_config_edit >= 0 ){
+        if (this.new_config_edit >= 0 ) {
           this.model.configurations[this.new_config_edit] = this.new_config;
         }else{
           this.model.configurations.push(this.new_config);
@@ -379,7 +380,7 @@ export class AddProjectComponent implements OnInit {
     if (!modelSave.description) {swal('Error', 'Please add building description', 'error'); return false; }
     if (!modelSave.possession_status_id) {swal('Error', 'Please add possession status', 'error'); return false; }
     if (!modelSave.floors) {swal('Error', 'Please add floors', 'error'); return false; }
-    if (!modelSave.launch_date){swal('Error', 'Please add building launch date', 'error'); return false; }
+    if (!modelSave.launch_date) {swal('Error', 'Please add building launch date', 'error'); return false; }
     if (!modelSave.avg_price) {swal('Error', 'Please add building average price', 'error'); return false; }
     if (modelSave.amenities.length < 1) {swal('Error', 'Please add amenities', 'error'); return false; }
     if (modelSave.configurations.length < 1) {swal('Error', 'Please add building configuration', 'error'); return false; }
@@ -395,31 +396,36 @@ export class AddProjectComponent implements OnInit {
     if (this.id) {
       modelSave.building_id = this.id;
       modelSave.developer_id =  modelSave.developer.id;
+      this.parameter.loading = true;
       this.admin.postDataApi('updateProject', modelSave).subscribe(success => {
         // console.log(success);
+        this.parameter.loading = false;
         swal('Success', success.message, 'success');
         this.router.navigate(['/dashboard/projects/view-projects']);
       }, error => {
         console.log(error);
+        this.parameter.loading = false;
         swal('Error', error.message, 'error');
       });
     }else {
       delete modelSave.id;
       delete modelSave.building_id;
-
+      this.parameter.loading = true;
       this.admin.postDataApi('addProject', modelSave).subscribe(success => {
         // console.log(success);
+        this.parameter.loading = false;
         swal('Success', success.message, 'success');
         this.router.navigate(['/dashboard/projects/view-projects']);
       }, error => {
         console.log(error);
+        this.parameter.loading = false;
         swal('Error', error.message, 'error');
       });
     }
 
   }
 
-  file2Select($event){
+  file2Select($event) {
     if ((this.file2.files.length + $event.target.files.length) > 6) {
       swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
       return false;
@@ -427,7 +433,7 @@ export class AddProjectComponent implements OnInit {
     this.file2.onSelectFile($event);
   }
 
-  file4Select($event){
+  file4Select($event) {
     if ((this.file4.files.length + $event.target.files.length) > 6) {
       swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
       return false;
@@ -435,7 +441,7 @@ export class AddProjectComponent implements OnInit {
     this.file4.onSelectFile($event);
   }
 
-  addNewCustom(){
+  addNewCustom() {
     if (!this.new_custom.name || !this.new_custom.value){
       swal('Error', 'Please add parameter name and value', 'error');
       return false;

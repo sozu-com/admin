@@ -200,21 +200,19 @@ export class AdminService {
           .catch(this.errorHandler);
   }
 
-
   getDetails (): Observable<any> {
     const headers = this.getHeadersForMultipart();
     return this.http.post(this.baseUrl + 'get-details', {}, {headers: headers})
         .map((response: Response) => {
           this.http.loader.next({value: false});
           const r = response.json();
-
-                this.login.next(r.data);
-                this.permissions = r.data.permissions ? r.data.permissions : {};
-                const aclData: any = {};
-                const dd = r.data.m.map((obj, index) => {
-                  const key =  Object.keys(obj)[0];
-                  this.admin_acl[key] =  obj[key];
-                });
+          this.login.next(r.data);
+          this.permissions = r.data.permissions ? r.data.permissions : {};
+          const aclData: any = {};
+          const dd = r.data.m.map((obj, index) => {
+            const key =  Object.keys(obj)[0];
+            this.admin_acl[key] =  obj[key];
+          });
           return Observable.of(true);
         })
         .catch(this.errorHandler);

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AdminService } from './../../services/admin.service';
 import { Router } from '@angular/router';
 import { Constant } from '../../common/constants';
+import { IProperty } from '../../common/property';
 declare let swal: any;
 
 @Component({
@@ -12,6 +13,7 @@ declare let swal: any;
 
 export class AppHeaderComponent {
 
+  public parameter: IProperty = {};
   fullName: any;
   image: any;
   admin_acl: any;
@@ -23,6 +25,7 @@ export class AppHeaderComponent {
       this.fullName = success['name'];
       this.image = success['image'];
     });
+    this.getNotifications();
   }
 
   setData() {
@@ -68,6 +71,14 @@ export class AppHeaderComponent {
         this.admin.permissions = {};
         this.router.navigate(['']);
       }
+    });
+  }
+
+
+  getNotifications() {
+    this.admin.postDataApi('getNotifications', {}).subscribe(r => {
+      this.parameter.items = r.data;
+      this.parameter.total = r.total_count;
     });
   }
 }

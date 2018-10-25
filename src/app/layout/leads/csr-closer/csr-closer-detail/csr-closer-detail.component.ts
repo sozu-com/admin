@@ -101,7 +101,9 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     });
     this.route.params.subscribe( params => {
       this.parameter.lead_id = params.id;
+      this.parameter.loading = true;
       this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
+        this.parameter.loading = false;
         this.getDocumentOptions();
         this.parameter.lead = r.data.lead;
         this.selectedProperties = r.data.lead.selected_properties[0];
@@ -123,6 +125,8 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
         //     item.selected = false;
         //   }
         // });
+      }, error => {
+        this.parameter.loading = false;
       });
     });
   }
@@ -158,11 +162,15 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
+        this.parameter.loading = true;
         this.selectedProperties.noataries = [notary];
         this.admin.postDataApi('leads/assignNoatary', this.notaryModel).subscribe(r => {
+          this.parameter.loading = false;
           swal('Success', 'Notary is assigned successfully.', 'success');
           this.notaryModel = new NotaryAssigned();
           this.hideNotaries.nativeElement.click();
+        }, error => {
+          this.parameter.loading = false;
         });
       } else if (result.dismiss === 'cancel') {
         // alert('c');
@@ -205,11 +213,15 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
+        this.parameter.loading = true;
         this.selectedProperties.banks = [bank];
         this.admin.postDataApi('leads/assignBank', this.bankModel).subscribe(r => {
+          this.parameter.loading = false;
           swal('Success', 'Bank is assigned successfully.', 'success');
           this.bankModel = new BankAssigned();
           this.hideBanks.nativeElement.click();
+        }, error => {
+          this.parameter.loading = false;
         });
       }
     });
@@ -252,6 +264,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     };
     this.admin.postDataApi('leads/updateDocumentChecklist', input).subscribe(r => {
       // console.log('updateDocumentChecklist', r);
+      swal('Success', 'Updated successfully.', 'success');
     }
   );
   }

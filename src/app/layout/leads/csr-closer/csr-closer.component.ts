@@ -233,11 +233,15 @@ export class CsrCloserComponent implements OnInit {
     } else if (this.parameter.assignee_id) {
       input.assignee_id = this.parameter.assignee_id;
     }
+    this.parameter.loading = true;
     this.admin.postDataApi('leads/csr-closer', input).subscribe(
     success => {
+      this.parameter.loading = false;
       this.items = success.data;
       if (this.items.length <= 0) { this.parameter.noResultFound = true; }
       this.parameter.total = success.total_count;
+    }, error => {
+      this.parameter.loading = false;
     });
   }
 
@@ -290,12 +294,16 @@ export class CsrCloserComponent implements OnInit {
       closer_id: this.assignItem.id,
       leads: leads_ids
     };
+    this.parameter.loading = true;
     this.admin.postDataApi('leads/bulkAssignCloser', input).subscribe(r => {
+      this.parameter.loading = false;
+      swal('Success', 'Assigned successfully', 'success');
       this.closeAssignModel.nativeElement.click();
       console.log(r);
       this.getListing();
     },
     error => {
+      this.parameter.loading = false;
       this.closeAssignModel.nativeElement.click();
       swal('Error', error.error.message, 'error');
     });

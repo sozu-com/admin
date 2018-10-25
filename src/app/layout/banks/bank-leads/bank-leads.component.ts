@@ -274,6 +274,7 @@ export class BankLeadsComponent implements OnInit {
     // this.parameter.loading = true;
     this.admin.postDataApi('leads/bulkAssignBank', input).subscribe(r => {
       // this.parameter.loading = false;
+      swal('Success', 'Assigned successfully', 'success');
       this.closeAssignModel.nativeElement.click();
       this.getListing();
     },

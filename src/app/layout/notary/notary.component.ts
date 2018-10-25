@@ -50,7 +50,7 @@ export class NotaryComponent implements OnInit {
   }
 
   getNoatariesListing(page, name, phone, email) {
-
+    this.parameter.loading = true;
     this.parameter.page = page;
     this.parameter.name = name;
     this.parameter.phone = phone;
@@ -59,8 +59,11 @@ export class NotaryComponent implements OnInit {
     this.admin.postDataApi('getNoatariesListing', this.parameter)
       .subscribe(
         success => {
+          this.parameter.loading = false;
           this.parameter.items = success.data;
           this.parameter.total = success.total;
+        }, error => {
+          this.parameter.loading = false;
         });
   }
 
@@ -82,9 +85,11 @@ export class NotaryComponent implements OnInit {
   }
 
   addNewUser() {
+    this.parameter.loading = true;
     this.admin.postDataApi('addNoatary', this.model)
       .subscribe(
         success => {
+          this.parameter.loading = false;
           this.modalClose.nativeElement.click();
           const text = this.model.id ? 'Updated successfully.' : 'Added successfully.';
           swal('Success', text, 'success');
@@ -98,6 +103,8 @@ export class NotaryComponent implements OnInit {
               this.model = new Users();
             }
           }
+        }, error => {
+          this.parameter.loading = false;
         });
   }
 

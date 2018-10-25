@@ -38,9 +38,13 @@ export class ManualLeadDetailsComponent implements OnInit {
     });
     this.route.params.subscribe( params => {
       this.parameter.lead_id = params.id;
+      this.parameter.loading = true;
       this.admin.postDataApi('getManualLeadById', {id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
+        this.parameter.loading = false;
         this.parameter.data = r.data;
         this.parameter.user_id = this.parameter.data.user.id;
+      }, error => {
+        this.parameter.loading = false;
       });
     });
   }

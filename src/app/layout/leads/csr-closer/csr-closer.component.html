@@ -1,4 +1,4 @@
-
+<ngx-loading [show]="parameter.loading"></ngx-loading>
 <div class="container-fluid">
     <div class="row" *ngIf="admin?.admin_acl['Closer Lead Management']?.can_read==1 && !this.parameter.assignee_id">
         <div class="col-md-4">

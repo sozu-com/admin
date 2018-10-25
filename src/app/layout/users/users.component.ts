@@ -59,12 +59,15 @@ export class UsersComponent implements OnInit {
     this.parameter.phone = phone;
     this.parameter.email = email;
     this.parameter.url = this.parameter.type === 1 ? 'getBuyers' : 'getSellers';
-
+    this.parameter.loading = true;
     this.admin.postDataApi(this.parameter.url, this.parameter)
       .subscribe(
         success => {
+          this.parameter.loading = false;
           this.parameter.items = success.data;
           this.parameter.total = success.total;
+        }, error => {
+          this.parameter.loading = false;
         });
   }
 
@@ -97,10 +100,11 @@ export class UsersComponent implements OnInit {
     input.append('phone', this.model.phone);
     input.append('email', this.model.email);
     if (this.model.image) { input.append('image', this.model.image); }
-
+    this.parameter.loading = true;
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
+          this.parameter.loading = false;
           console.log('success', success);
           // this.parameter.loading = false;
           this.modalClose.nativeElement.click();
@@ -114,6 +118,8 @@ export class UsersComponent implements OnInit {
               this.parameter.total++;
             }
           }
+        }, error => {
+          this.parameter.loading = false;
         });
   }
 

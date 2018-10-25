@@ -5,6 +5,7 @@ import { Building , Property} from './../../../models/global.model';
 import { MapsAPILoader } from '@agm/core';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from './../../../lang/translate.service';
+import { IProperty } from '../../../common/property';
 declare let swal: any;
 declare const google;
 
@@ -14,7 +15,7 @@ declare const google;
   styleUrls: ['./project-details.component.css']
 })
 export class ProjectDetailsComponent implements OnInit {
-
+  public parameter: IProperty = {};
   properties: Array<Property>;
   project: Building;
   id: any;
@@ -46,8 +47,10 @@ export class ProjectDetailsComponent implements OnInit {
 
 
   getListing() {
-    this.admin.generalApi('user/getProjectProperties', {project_id: this.id}).subscribe(res => {
+    this.parameter.loading = true;
+    this.admin.postDataApi('getProjectDetail', {project_id: this.id}).subscribe(res => {
       console.log(res);
+      this.parameter.loading = false;
       this.project = res['data'].building;
       this.properties = res['data'].properties;
       this.configurations =  this.project.configurations;
@@ -76,6 +79,8 @@ export class ProjectDetailsComponent implements OnInit {
 
       }
       this.initMapLocations();
+    }, error => {
+      this.parameter.loading = false;
     });
   }
 

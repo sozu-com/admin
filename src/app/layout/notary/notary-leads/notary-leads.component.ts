@@ -222,11 +222,15 @@ export class NotaryLeadsComponent implements OnInit {
     if (this.selectedUser) {
       input.assignee_id = this.selectedUser.id;
     }
+    this.parameter.loading = true;
     this.admin.postDataApi('leads/noataries', input).subscribe(
     success => {
+      this.parameter.loading = false;
       this.items = success.data;
       if (this.items.length <= 0) { this.parameter.noResultFound = true; }
       this.parameter.total = success.total;
+    }, error => {
+      this.parameter.loading = false;
     });
   }
 
@@ -275,13 +279,18 @@ export class NotaryLeadsComponent implements OnInit {
     this.availability.date_time_array.forEach(element => {
       this.availability.date_time.push(element.date_time);
     });
+    this.parameter.loading = true;
     this.admin.postDataApi('leads/addNoataryAvailability', this.availability)
       .subscribe(
         success => {
+          this.items[this.parameter.index] = success.data;
+          this.parameter.loading = false;
           this.closeModal();
           swal('Success', 'Availability added successfully.', 'success');
           // this.items = success.data;
           // this.parameter.total = success.total_count;
+        }, error => {
+          this.parameter.loading = false;
         }
       );
   }
@@ -334,11 +343,15 @@ export class NotaryLeadsComponent implements OnInit {
       noatary_id: this.assignItem.id,
       leads: leads_ids
     };
+    this.parameter.loading = true;
     this.admin.postDataApi('leads/bulkAssignNoatary', input).subscribe(r => {
+      this.parameter.loading = false;
+      swal('Success', 'Assigned successfully', 'success');
       this.closeAssignModel.nativeElement.click();
       this.getListing();
     },
     error => {
+      this.parameter.loading = false;
       this.closeAssignModel.nativeElement.click();
       swal('Error', error.error.message, 'error');
     });

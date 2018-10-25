@@ -30,10 +30,10 @@ export class CsrBuyerDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.parameter.loading = true;
     this.parameter.sent_as = this.constant.userType.csr_buyer;
     this.route.params.subscribe( params => {
       this.parameter.lead_id = params.id;
+      this.parameter.loading = true;
         this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
           this.parameter.loading = false;
           this.parameter.lead = r.data.lead;

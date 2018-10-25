@@ -229,9 +229,11 @@ console.log('address', this.model.address, this.seenDuplicate);
       formdata.value.is_csr_closer === false) {
         swal('Error', 'Please choose a role for inhouse user.', 'error');
     } else {
+      this.parameter.loading = true;
       this.admin.postDataApi(this.parameter.url, input)
         .subscribe(
           success => {
+            this.parameter.loading = false;
             // this.parameter.loading = false;
             if (success.success === '0') {
               swal('Error', success.message, 'error');
@@ -269,12 +271,15 @@ console.log('address', this.model.address, this.seenDuplicate);
             }
           }, error => {
             console.log('errorrrr====');
+            this.parameter.loading = false;
           });
     }
   }
 
   editUser(userdata, index) {
+    this.parameter.loading = true;
     this.admin.postDataApi('getNewUserById', {id: userdata.id}).subscribe(r => {
+      this.parameter.loading = false;
       userdata = r['data'];
       this.parameter.index = index;
       this.model.address = [];
@@ -307,6 +312,8 @@ console.log('address', this.model.address, this.seenDuplicate);
       }
 
       this.modalOpen.nativeElement.click();
+    }, erorr => {
+      this.parameter.loading = false;
     });
   }
 
@@ -528,6 +535,7 @@ console.log('address', this.model.address, this.seenDuplicate);
     this.getInhouseUsers();
   }
   getInhouseUsers() {
+    this.parameter.loading = true;
     switch (this.parameter.userType) {
       case 'data-collectors':
       this.parameter.url = 'getDataCollectors';
@@ -590,10 +598,13 @@ console.log('address', this.model.address, this.seenDuplicate);
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
+          this.parameter.loading = false;
           // console.log('data', success);
           this.parameter.items = success.data;
           this.parameter.total = success.total;
           // this.parameter.items.reverse();
+        }, error => {
+          this.parameter.loading = false;
         });
   }
 

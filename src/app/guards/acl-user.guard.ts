@@ -10,7 +10,6 @@ export class AclUserGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-
       this.admin.admin_acl = this.admin.admin_acl ? this.admin.admin_acl : {};
       this.admin.permissions = this.admin.permissions ? this.admin.permissions : {};
       if (Object.keys(this.admin.permissions).length === 0 && Object.keys(this.admin.admin_acl).length === 0) {
@@ -28,9 +27,7 @@ export class AclUserGuard implements CanActivate {
   }
 
   checkData (next, state, admin_acl, permissions) {
-
     const roles = next.data['roles'] as Array<string>;
-
     const key = roles ? roles[0] : '';
     const subkey = roles ? roles[1] : '';
     const inhouseUserRole = roles ? roles[2] : '';

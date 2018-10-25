@@ -148,9 +148,13 @@ export class InterestedPropertyComponent implements OnInit {
 
   viewProperties(data) {
     // this.parameter.interested_properties = data;
+    this.parameter.loading = true;
     this.admin.postDataApi('leads/getLeadInterestedProperty', {lead_id: this.lead_id}).subscribe(r => {
+      this.parameter.loading = false;
       console.log('Country', r);
       this.parameter.interested_properties = r['data'];
+    }, error => {
+      this.parameter.loading = false;
     });
     this.showInterestedProperty.nativeElement.click();
   }
@@ -172,12 +176,12 @@ export class InterestedPropertyComponent implements OnInit {
   onCountryChange(id) {
     this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
-    if (!id || id === 0) {
+    if (!id || id.toString() === '0') {
       this.parameter.state_id = '0';
       return false;
     }
     this.parameter.country_id = id;
-    const selectedCountry = this.location.countries.filter(x => x.id == id);
+    const selectedCountry = this.location.countries.filter(x => x.id.toString() === id);
     console.log(selectedCountry);
     this.location.states = selectedCountry[0].states;
 
@@ -186,29 +190,29 @@ export class InterestedPropertyComponent implements OnInit {
   onStateChange(id) {
     console.log(id);
     this.location.localities = []; this.parameter.locality_id = '0';
-    if (!id || id === 0) {
+    if (!id || id.toString() === '0') {
       this.parameter.city_id = '0';
       return false;
     }
     this.parameter.state_id = id;
-    const selectedState = this.location.states.filter(x => x.id == id);
+    const selectedState = this.location.states.filter(x => x.id.toString() === id);
     this.location.cities = selectedState[0].cities;
   }
 
   onCityChange(id) {
     console.log(id);
-    if (!id || id == 0) {
+    if (!id || id.toString() === '0') {
       this.parameter.locality_id = '0';
       return false;
     }
     this.parameter.city_id = id;
-    const selectedCountry = this.location.cities.filter(x => x.id == id);
+    const selectedCountry = this.location.cities.filter(x => x.id.toString() === id);
     this.location.localities = selectedCountry[0].localities;
   }
 
   onLocalityChange(id) {
     console.log(id);
-    if (!id || id == 0) {
+    if (!id || id.toString() === '0') {
       return false;
     }
     this.parameter.locality_id = id;

@@ -219,12 +219,16 @@ export class DataCollectorComponent implements OnInit {
     if (this.selectedUser) {
       input.assignee_id = this.selectedUser.id;
     }
+    this.parameter.loading = true;
     this.admin.postDataApi('leads/data-collector', input).subscribe(
     success => {
+      this.parameter.loading = false;
       this.items = success.data;
       if (this.items.length <= 0) { this.parameter.noResultFound = true; }
       console.log('listing', success);
       this.parameter.total = success.total_count;
+    }, error => {
+      this.parameter.loading = false;
     });
   }
 
@@ -245,10 +249,13 @@ export class DataCollectorComponent implements OnInit {
   }
 
   changeStatus(item) {
+    this.parameter.loading = true;
     this.admin.postDataApi('leads/markBuildingRequestComplete', {id: item.id}).subscribe(r => {
+      this.parameter.loading = false;
       item.status = 1;
     },
     error => {
+      this.parameter.loading = false;
       swal('Error', error.error.message, 'error');
     });
   }
@@ -286,12 +293,16 @@ export class DataCollectorComponent implements OnInit {
       data_collector_id: this.assignItem.id,
       leads: leads_ids
     };
+    this.parameter.loading = true;
     this.admin.postDataApi('leads/bulkAssignCollector', input).subscribe(r => {
+      this.parameter.loading = false;
+      swal('Success', 'Assigned successfully', 'success');
       this.closeAssignModel.nativeElement.click();
       console.log(r);
       this.getListing();
     },
     error => {
+      this.parameter.loading = false;
       this.closeAssignModel.nativeElement.click();
       swal('Error', error.error.message, 'error');
     });

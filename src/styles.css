@@ -632,3 +632,30 @@ margin:0px auto;
     width: 25px;
     height: 25px;
 }
+
+/* notification - start */
+.dropdown-messages {
+  width: 330px;
+  min-width: 0;
+  margin-left: 5px;
+  font-size: 13px;
+}
+.dropdown-messages .dropdown-messages-box {
+  padding: 10px 10px 10px 10px;
+}
+.dropdown-messages-box img.img-circle {
+    width: 38px;
+    height: 38px;
+}
+.media-body {
+    overflow: hidden;
+}
+.media-body {
+    display: block;
+    width: auto;
+}
+.notification a{
+    font-size: 18px;
+    color: #fff;
+}
+/* notification - end */

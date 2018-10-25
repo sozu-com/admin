@@ -10,6 +10,7 @@ import { IProperty } from './../../../common/property';
 })
 export class PropertyDetailsComponent implements OnInit {
 
+  public parameter: IProperty = {};
   property: any;
   constructor(public admin: AdminService, private route: ActivatedRoute) { }
 
@@ -24,10 +25,14 @@ export class PropertyDetailsComponent implements OnInit {
   }
 
   getPropertyDetails(property_id) {
+    this.parameter.loading = true;
     this.admin.generalApi('user/getPropertyById', {property_id: property_id})
       .subscribe(success => {
+        this.parameter.loading = false;
         this.property = success.data;
         // console.log('getPropertyById', this.property);
+      }, error => {
+        this.parameter.loading = false;
       });
   }
 }

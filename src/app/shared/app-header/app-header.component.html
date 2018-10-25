@@ -5,9 +5,38 @@
         <a class="logo">
         <img class="app-logo" src="assets/img/logo.png" alt="img">
         </a>
-
       </div>
-      <div class="col-6">
+      <div class="col-4">
+        <div class="user-profile notification float-right">
+            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" aria-expanded="true">
+                <i class="fa fa-bell"></i>
+                <span *ngIf="parameter.total!=0" class="label label-warning">{{parameter.total}}</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-left dropdown-messages">
+                <li *ngFor="let noti of parameter.items">
+                    <div class="dropdown-messages-box">
+                        <a href="profile.html" class="pull-left">
+                            <img alt="image" class="img-circle" src="assets/img/default_img.png">
+                        </a>
+                        <div class="media-body">
+                            <small class="pull-right">46h ago</small>
+                            <strong>Mike Loreipsum</strong> started following <strong>Monica Smith</strong>. <br>
+                            <small class="text-muted">3 days ago at 7:58 pm - 10.06.2014</small>
+                        </div>
+                    </div>
+                </li>
+                <!-- <li class="divider"></li> -->
+                <li>
+                    <div class="text-center link-block">
+                        <a>
+                            <i class="fa fa-bell"></i> <strong>Read All</strong>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+      </div>
+      <div class="col-2">
         <div class="user-profile float-right">
            <a href="javascript://">
               <h4>{{fullName}}</h4>

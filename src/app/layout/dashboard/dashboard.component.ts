@@ -39,10 +39,12 @@ export class DashboardComponent {
 
 
   getReportData() {
+    this.parameter.loading = true;
     this.parameter.noResultFound = false;
     const input = {start_date: this.parameter.min, end_date: this.parameter.max};
     this.admin.postDataApi('dashboard', input).subscribe(
     success => {
+      this.parameter.loading = false;
       this.all_properties_count = success.data.all_properties_count;
       this.rent_properties_count = success.data.rent_properties_count;
       this.sale_properties_count = success.data.sale_properties_count;
@@ -71,6 +73,8 @@ export class DashboardComponent {
         name: 'Sales',
         series: data1
       }];
+    }, error => {
+      this.parameter.loading = false;
     });
   }
 }

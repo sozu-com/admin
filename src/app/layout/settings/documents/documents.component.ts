@@ -77,12 +77,16 @@ export class DocumentsComponent implements OnInit {
 
   getDocumentOptions() {
     this.parameter.url = 'getDocumentOptions';
+    this.parameter.loading = true;
     this.admin.postDataApi(this.parameter.url, {})
       .subscribe(
         success => {
+          this.parameter.loading = false;
           // console.log('getDocumentOptions', success);
           this.parameter.items = success.data;
           this.parameter.total = success.data.length;
+        }, error => {
+          this.parameter.loading = false;
         }
       );
   }

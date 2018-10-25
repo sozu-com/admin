@@ -224,11 +224,15 @@ export class InhouseBrokerComponent implements OnInit {
     } else if (this.parameter.assignee_id) {
       input.assignee_id = this.parameter.assignee_id;
     }
+    this.parameter.loading = true;
     this.admin.postDataApi('leads/in-house-broker', input).subscribe(
     success => {
+      this.parameter.loading = false;
       this.items = success.data;
       if (this.items.length <= 0) {this.parameter.noResultFound = true; }
       this.parameter.total = success.total_count;
+    }, error => {
+      this.parameter.loading = false;
     });
   }
 
@@ -260,11 +264,15 @@ export class InhouseBrokerComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
+        this.parameter.loading = true;
         this.admin.postDataApi(this.parameter.url, {sale_rent: sale_rent, lead_id: lead_id})
           .subscribe(
             success => {
+              this.parameter.loading = false;
               this.items[index].sale_rent = sale_rent;
               swal('Success', 'Availability for this property changed successfully.', 'success');
+            }, error => {
+              this.parameter.loading = false;
             });
       }
     });
@@ -303,11 +311,15 @@ export class InhouseBrokerComponent implements OnInit {
       broker_id: this.assignItem.id,
       leads: leads_ids
     };
+    this.parameter.loading = true;
     this.admin.postDataApi('leads/bulkAssignBroker', input).subscribe(r => {
+      this.parameter.loading = false;
+      swal('Success', 'Assigned successfully', 'success');
       this.closeAssignModel.nativeElement.click();
       this.getListing();
     },
     error => {
+      this.parameter.loading = false;
       this.closeAssignModel.nativeElement.click();
       swal('Error', error.error.message, 'error');
     });

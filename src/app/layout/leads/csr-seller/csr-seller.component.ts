@@ -231,12 +231,16 @@ export class CsrSellerComponent implements OnInit {
     } else if (this.parameter.assignee_id) {
       input.assignee_id = this.parameter.assignee_id;
     }
+    this.parameter.loading = true;
     this.admin.postDataApi('leads/csr-seller', input).subscribe(
     success => {
+      this.parameter.loading = false;
       this.items = success.data;
       if (this.items.length <= 0) { this.parameter.noResultFound = true; }
       console.log(success);
       this.parameter.total = success.total_count;
+    }, error => {
+      this.parameter.loading = false;
     });
   }
 
@@ -289,12 +293,16 @@ export class CsrSellerComponent implements OnInit {
       csr_seller_id: this.assignItem.id,
       leads: leads_ids
     };
+    this.parameter.loading = true;
     this.admin.postDataApi('leads/bulkAssignSeller', input).subscribe(r => {
+      this.parameter.loading = false;
+      swal('Success', 'Assigned successfully', 'success');
       this.closeAssignModel.nativeElement.click();
       console.log(r);
       this.getListing();
     },
     error => {
+      this.parameter.loading = false;
       this.closeAssignModel.nativeElement.click();
       swal('Error', error.error.message, 'error');
     });

@@ -131,9 +131,11 @@ export class AddPropertyComponent implements OnInit {
     this.parameter.url = 'getPropertyById';
     const input = new FormData();
     input.append('property_id', property_id);
+    this.parameter.loading = true;
     this.us.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
+          this.parameter.loading = false;
           console.log(success);
           this.parameter.loading = false;
           this.parameter.propertyDetails = success['data'];
@@ -145,6 +147,8 @@ export class AddPropertyComponent implements OnInit {
           if (this.url2.length > 0) {
             this.image2  = this.url2[0];
           }
+        }, error => {
+          this.parameter.loading = false;
         }
       );
   }
@@ -262,7 +266,7 @@ export class AddPropertyComponent implements OnInit {
   }
 
   getStates(country_id, keyword) {
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
     this.parameter.url = 'country/getStates';
     this.model.country_id = country_id;
     this.model.state_id = '';
@@ -275,15 +279,15 @@ export class AddPropertyComponent implements OnInit {
 
     this.us.postDataApi(this.parameter.url, input).subscribe(success => {
       this.parameter.states = success['data'];
-      this.parameter.loading = false;
+      // this.parameter.loading = false;
     },
     error => {
-      this.parameter.loading = false;
+      // this.parameter.loading = false;
     });
   }
 
   getCities(state_id, keyword) {
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
     this.parameter.url = 'getCities';
     this.model.state_id = state_id;
     this.model.city_id = '';
@@ -294,9 +298,10 @@ export class AddPropertyComponent implements OnInit {
 
     this.us.postDataApi(this.parameter.url, input).subscribe(success => {
       this.parameter.cities = success['data'];
-      this.parameter.loading = false; },
+      // this.parameter.loading = false;
+    },
     error => {
-        this.parameter.loading = false;
+        // this.parameter.loading = false;
     });
   }
 
@@ -663,12 +668,16 @@ removeBank(bank, index) {
         input.append('custom_attributes', JSON.stringify(this.model.custom_attributes));
        }
       console.log('INPUT=>', input);
+      this.parameter.loading = true;
       this.us.postDataApi(this.parameter.url, input)
         .subscribe(
           success => {
+            this.parameter.loading = false;
             console.log(success);
             this.parameter.property_id = success['data'].id;
             this.tab = tab;
+          }, error => {
+            this.parameter.loading = false;
           }
         );
     }
@@ -686,13 +695,17 @@ removeBank(bank, index) {
     if (this.parameter.property_id) {input.append('property_id', this.parameter.property_id); }
     input.append('building_id', this.building.id);
 
+    this.parameter.loading = true;
     this.us.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
+          this.parameter.loading = false;
           swal('Submitted successfully.',
           'You will be notified once your property will be reviewed by them, you can view status in your properties.',
           'success');
-          this.router.navigate(['/seller/my-properties']);
+          this.router.navigate(['/dashboard/properties/view-properties']);
+        }, error => {
+          this.parameter.loading = false;
         }
       );
   }
@@ -767,7 +780,7 @@ removeBank(bank, index) {
 
   buildingRequest() {
 
-    if (this.building.dev_name && (!this.building.dev_phone || !this.building.dev_email || !this.building.dev_countrycode)){
+    if (this.building.dev_name && (!this.building.dev_phone || !this.building.dev_email || !this.building.dev_countrycode)) {
       swal('Error', 'Please fill complete devloper information', 'error'); return false;
     }
 
@@ -775,17 +788,21 @@ removeBank(bank, index) {
     this.building.lat = this.latitude;
     this.building.lng = this.longitude;
 
-    if (!this.building.lat || !this.building.lng){
+    if (!this.building.lat || !this.building.lng) {
       swal('Error', 'Please select location', 'error'); return false;
     }
     console.log(this.building);
+    this.parameter.loading = true;
     this.us.postDataApi(this.parameter.url, this.building)
       .subscribe(
         success => {
+          this.parameter.loading = false;
           swal('Submitted successfully.',
           'You will be notified once your property will be reviewed by them, you can view status in your properties.',
           'success');
-          this.router.navigate(['/seller/my-properties']);
+          this.router.navigate(['/dashboard/properties/view-properties']);
+        }, error => {
+          this.parameter.loading = false;
         }
       );
   }

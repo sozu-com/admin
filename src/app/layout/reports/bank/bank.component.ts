@@ -37,7 +37,9 @@ export class BankComponent implements OnInit {
   getReportData () {
     this.totalSignUpCount = 0; this.totalPropertyCount = 0;
     const input = {start_date: this.parameter.min, end_date: this.parameter.max};
+    this.parameter.loading = true;
     this.admin.postDataApi('reports/bank', input).subscribe(r => {
+      this.parameter.loading = false;
       this.parameter.items = r.data;
       const data = [];
       this.parameter.items.forEach(element => {
@@ -59,6 +61,8 @@ export class BankComponent implements OnInit {
       this.parameter.total = this.totalSignUpCount + this.totalPropertyCount;
       this.chartView = data;
       // Object.assign(this, this.chartView);
+    }, error => {
+      this.parameter.loading = false;
     });
   }
 }

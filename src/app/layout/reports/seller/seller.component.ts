@@ -39,7 +39,9 @@ export class SellerComponent implements OnInit {
   getReportData () {
     this.totalSignUpCount = 0; this.totalAddedProperty = 0; this.totalApproved = 0; this.totalSold = 0;
     const input = {start_date: this.parameter.min, end_date: this.parameter.max};
+    this.parameter.loading = true;
     this.admin.postDataApi('reports/sellers', input).subscribe(r => {
+      this.parameter.loading = false;
       this.parameter.items = r.data;
       const data = [];
       this.parameter.items.forEach(element => {
@@ -69,6 +71,8 @@ export class SellerComponent implements OnInit {
       this.parameter.total = this.totalSignUpCount + this.totalAddedProperty + this.totalApproved + this.totalSold;
       this.chartView = data;
       // Object.assign(this, this.chartView);
+    }, error => {
+      this.parameter.loading = false;
     });
   }
 }

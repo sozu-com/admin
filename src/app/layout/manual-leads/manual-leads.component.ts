@@ -43,12 +43,16 @@ export class ManualLeadsComponent implements OnInit {
 
   getListing() {
     this.parameter.url = 'getManualLeads';
+    this.parameter.loading = true;
     this.admin.postDataApi(this.parameter.url, this.parameter)
       .subscribe(
         success => {
+          this.parameter.loading = false;
           console.log('suceess', success);
           this.items = success.data;
           this.parameter.total = success.total_count;
+        }, error => {
+          this.parameter.loading = false;
         });
   }
 }

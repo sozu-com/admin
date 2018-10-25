@@ -42,7 +42,9 @@ export class InhouseBrokerDetailComponent implements OnInit {
     this.parameter.sent_as = this.constant.userType.inhouse_broker;
     this.route.params.subscribe( params => {
       this.parameter.lead_id = params.id;
+      this.parameter.loading = true;
       this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
+        this.parameter.loading = false;
         this.parameter.lead = r.data.lead;
         this.setFillInformationData(r);
         this.parameter.favorites = r.data.favorites;
@@ -50,6 +52,8 @@ export class InhouseBrokerDetailComponent implements OnInit {
         this.is_deal_finalised = this.parameter.lead.selected_properties.length !== 0 ? true : false;
         this.parameter.viewed_properties = r.data.viewed_properties;
         this.parameter.user_id = this.parameter.lead.user.id;
+      }, error => {
+        this.parameter.loading = false;
       });
     });
   }
@@ -122,10 +126,14 @@ export class InhouseBrokerDetailComponent implements OnInit {
 
   getInvoice() {
     this.parameter.url = 'getInvoicePdf/' + this.parameter.lead_id;
+    this.parameter.loading = true;
     this.admin.getInvoicePdf(this.parameter.url).subscribe(r => {
+      this.parameter.loading = false;
       if (r) {
         importedSaveAs(r, 'Invoice_' + moment(new Date()).format('DD MMM YYYY, h:mm a') + '.pdf');
       }
+    }, error => {
+      this.parameter.loading = false;
     });
   }
 }

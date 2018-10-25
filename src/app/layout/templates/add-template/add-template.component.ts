@@ -4,6 +4,7 @@ import * as jquery from 'jquery';
 import { HttpInterceptor } from './../../../services/http-interceptor';
 import { FileUpload } from './../../../common/fileUpload';
 import { ActivatedRoute } from '@angular/router';
+import { IProperty } from '../../../common/property';
 
 declare let swal: any;
 
@@ -14,6 +15,7 @@ declare let swal: any;
 })
 export class AddTemplateComponent implements OnInit {
 
+  public parameter: IProperty = {};
   public imageLink = {
     link: ''
   };
@@ -146,11 +148,14 @@ export class AddTemplateComponent implements OnInit {
     this.route.params.subscribe( params => {
       this.post.id = params.id;
       if (this.post.id > 0) {
+        this.parameter.loading = true;
         this.admin.postDataApi('getBlogById', {id: this.post.id}).subscribe(r => {
+          this.parameter.loading = false;
           console.log(r);
           this.post = r['data'];
           this.file1.image = this.post.image;
         }, error => {
+          this.parameter.loading = false;
           swal('Error', error, 'error');
         });
       }else {
@@ -162,22 +167,26 @@ export class AddTemplateComponent implements OnInit {
   submitAll() {
     console.log(this.post);
 
-    if (!this.post.post_type){swal('Error', 'Please enter post type', 'error'); return false; }
-    if (!this.post.title_en){swal('Error', 'Please enter title in english', 'error'); return false; }
-    if (!this.post.description_en && !this.post.description_es){swal('Error', 'Please enter description', 'error'); return false; }
-    if (!this.post.meta_title_en && !this.post.meta_title_es){swal('Error', 'Please enter post type', 'error'); return false; }
-    if (!this.post.meta_description_en && !this.post.meta_description_es){swal('Error', 'Please enter post type', 'error'); return false; }
+    if (!this.post.post_type) {swal('Error', 'Please enter post type', 'error'); return false; }
+    if (!this.post.title_en) {swal('Error', 'Please enter title in english', 'error'); return false; }
+    if (!this.post.description_en && !this.post.description_es) {swal('Error', 'Please enter description', 'error'); return false; }
+    if (!this.post.meta_title_en && !this.post.meta_title_es) {swal('Error', 'Please enter post type', 'error'); return false; }
+    if (!this.post.meta_description_en && !this.post.meta_description_es) {swal('Error', 'Please enter post type', 'error'); return false; }
 
     this.post.image = this.file1.image;
     if (this.post.id) {
-      if (!this.post.slug){swal('Error', 'Please enter slug', 'error'); return false; }
+      if (!this.post.slug) {swal('Error', 'Please enter slug', 'error'); return false; }
       this.post.blog_id = this.post.id;
     }
+    this.parameter.loading = true;
     this.admin.postDataApi('addBlog', this.post).subscribe(r => {
+      this.parameter.loading = false;
       console.log(r);
     },
     error => {
-      swal('Error', error, 'error');
+      console.log('errorrrr', error);
+      this.parameter.loading = false;
+      // swal('Error', error.message, 'error');
     });
   }
 

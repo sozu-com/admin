@@ -31,6 +31,7 @@ import { GenerateThumbComponent } from './generate-thumb/generate-thumb.componen
 import { AclPermissionDirective } from '../directives/acl-permission.directive';
 import { AclUserGuard } from '../guards/acl-user.guard';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 
 @NgModule({
     imports: [
@@ -41,10 +42,10 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
         ReactiveFormsModule,
         ModalModule.forRoot(),      // modal
         NgxPaginationModule,
-        // LoadingModule.forRoot({
-        //     animationType: ANIMATION_TYPES.rectangleBounce,
-        //     primaryColour: '#00B96F'
-        // }),
+        LoadingModule.forRoot({
+            animationType: ANIMATION_TYPES.rectangleBounce,
+            primaryColour: '#00B96F'
+        }),
         NgxMyDatePickerModule.forRoot(),
         MalihuScrollbarModule.forRoot(),
         AgmCoreModule.forRoot({

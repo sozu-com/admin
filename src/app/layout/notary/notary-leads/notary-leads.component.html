@@ -1,4 +1,4 @@
-
+<ngx-loading [show]="parameter.loading"></ngx-loading>
 <div class="container-fluid">
         <div class="row">
             <div class="col-md-4">
@@ -220,7 +220,11 @@
                                 <a (click)="selectAll()"><label>All</label></a>
                                 </div>
                             </th>
-                            <th style="width:6%; border-top:0">&nbsp;</th>
+                            <th style="width:6%; border-top:0">
+                                <div class="table-search">
+                                    <label>Image</label>
+                                </div>
+                            </th>
                                 <th style="width:15%; border-top:0">
                                     <div class="table-search">
                                     <label>Name</label>
