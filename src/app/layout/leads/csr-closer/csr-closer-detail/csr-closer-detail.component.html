@@ -95,6 +95,15 @@
                     </td>
                     <td *ngIf="parameter?.lead?.selected_properties?.length==0">NA</td>
                 </tr>
+                <tr>
+                    <td  style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
+                    <td colspan="2" *ngIf="parameter?.lead?.selected_properties[0]?.selected_noatary!=0 && parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability?.length!=0; else noAvailability">
+                        <p *ngFor="let na of parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability" class="date">{{na.date_time | moment}}</p>
+                    </td>
+                    <ng-template #noAvailability>
+                        <td colspan="2"><p>No availability given by notary yet.</p></td>
+                    </ng-template>
+                </tr>
                 <!-- <tr>
                     <td  style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
                     <td colspan="2">

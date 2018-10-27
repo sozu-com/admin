@@ -13,22 +13,25 @@
                 <span *ngIf="parameter.total!=0" class="label label-warning">{{parameter.total}}</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-left dropdown-messages">
-                <li *ngFor="let noti of parameter.items">
-                    <div class="dropdown-messages-box">
-                        <a href="profile.html" class="pull-left">
+                <li *ngFor="let noti of parameter.items; let i=index">
+                    <div *ngIf="i<5" class="dropdown-messages-box">
+                        <!-- <a href="profile.html" class="pull-left">
                             <img alt="image" class="img-circle" src="assets/img/default_img.png">
-                        </a>
+                        </a> -->
                         <div class="media-body">
-                            <small class="pull-right">46h ago</small>
-                            <strong>Mike Loreipsum</strong> started following <strong>Monica Smith</strong>. <br>
-                            <small class="text-muted">3 days ago at 7:58 pm - 10.06.2014</small>
+                            <!-- <small class="pull-right">46h ago</small> -->
+                            <strong>{{noti.notification_desc}}</strong><br>
+                            {{noti.notification_text}}
+                            <!-- started following <strong>Monica Smith</strong>.  -->
+                            <br>
+                            <small class="text-muted">{{noti.updated_at}}</small>
                         </div>
                     </div>
                 </li>
                 <!-- <li class="divider"></li> -->
                 <li>
                     <div class="text-center link-block">
-                        <a>
+                        <a routerLink="/dashboard/notifications">
                             <i class="fa fa-bell"></i> <strong>Read All</strong>
                         </a>
                     </div>
@@ -350,6 +353,9 @@
                        <li class="nav-item" *ngIf="admin?.admin_acl['Appointments']?.can_read==1" [routerLinkActive]="'active'">
                          <a class="nav-link" href="javascript://" routerLink="appointments"><i><img src="assets/img/calender-icon.png"></i><span>Appointments</span></a>
                        </li>
+                       <li class="nav-item" [routerLinkActive]="'active'">
+                        <a class="nav-link" href="javascript://" routerLink="notifications"><i><img src="assets/img/graph.png"></i><span>Notifications</span></a>
+                      </li>
                        <li *ngIf="admin?.admin_acl['Settings']?.can_read==1" class="nav-item dropdown" [routerLinkActive]="'active'">
                          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
                          <i><img src="assets/img/settings.png"></i><span>Settings</span></a>
@@ -373,3 +379,10 @@
       <!--side menu end-->
   </div>
 </header>
+
+
+<!-- 
+you are just perfect to me in many ways!
+and i wish God grace me with some of your rays!
+you
+-->

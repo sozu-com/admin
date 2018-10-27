@@ -9,6 +9,7 @@ import { InhouseUsersComponent } from './inhouse-users/inhouse-users.component';
 // import { EditTemplateComponent } from './edit-template/edit-template.component';
 import { GenerateThumbComponent } from './generate-thumb/generate-thumb.component';
 import { AclUserGuard } from '../guards/acl-user.guard';
+import { NotificationsComponent } from './notifications/notifications.component';
 
 const routes: Routes = [
     {
@@ -28,6 +29,7 @@ const routes: Routes = [
             { path: 'reports', loadChildren: './reports/reports.module#ReportsModule'},
             { path: 'access-control-mgt', loadChildren: './acl/acl.module#AclModule'},
             { path: 'appointments', loadChildren: './appointments/appointments.module#AppointmentsModule'},
+            { path: 'notifications', component: NotificationsComponent},
             { path: 'settings', loadChildren: './settings/settings.module#SettingsModule'},
             { path: 'properties', loadChildren: './properties/properties.module#PropertiesModule'},
             { path: 'projects', loadChildren: './projects/projects.module#ProjectsModule'},

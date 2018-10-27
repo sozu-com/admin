@@ -116,6 +116,33 @@
                 <app-notes [sent_as]="parameter.sent_as" [lead_id]="parameter.lead_id"></app-notes>
                 <!-- notes end -->
         
+                <div *ngIf="parameter?.lead?.sale_rent==1" class="bank-assigned-now white-bg">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-12 b-left">
+                        <p class="p13" *ngIf="selectedProperties?.noataries && selectedProperties.noataries.length==0">No Notary assigned yet </p>
+        
+                        <div class="d-flex" *ngIf="selectedProperties?.noataries && selectedProperties.noataries.length!=0">
+                            <img [src]="selectedProperties?.noataries && selectedProperties.noataries[0].image" onerror='src="assets/img/house.png"' alt="img">
+                            <div class="bank-info">
+                                <p title="Notary" class="p14">{{selectedProperties.noataries[0].name}}</p>
+                                <p class="p11">{{selectedProperties.noataries[0].dial_code ? selectedProperties.noataries[0].dial_code : constant.dial_code}}-{{selectedProperties.noataries[0].phone}}</p>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-12 b-right">
+                        <p class="p13" *ngIf="selectedProperties?.banks && selectedProperties.banks.length==0">No Bank assigned yet </p>
+        
+                        <div class="d-flex" *ngIf="selectedProperties?.banks && selectedProperties.banks.length!=0">
+                            <img [src]="selectedProperties?.banks && selectedProperties.banks[0].image" onerror='src="assets/img/bank-building.png"' alt="img">
+                            <div class="bank-info">
+                                <p title="Bank" class="p14">{{selectedProperties.banks[0].name}}</p>
+                                <p class="p11">{{selectedProperties?.banks[0]?.branch ? selectedProperties?.banks[0]?.branch : 'NA'}}</p>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+        
             </div>
         
         

@@ -32,6 +32,7 @@ import { AclPermissionDirective } from '../directives/acl-permission.directive';
 import { AclUserGuard } from '../guards/acl-user.guard';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
+import { NotificationsComponent } from './notifications/notifications.component';
 
 @NgModule({
     imports: [
@@ -66,7 +67,8 @@ import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
         InhouseUsersComponent,
         AddressComponent,
         GenerateThumbComponent,
-        AclPermissionDirective
+        AclPermissionDirective,
+        NotificationsComponent
     ],
     providers: [
         AdminService,

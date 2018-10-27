@@ -1859,7 +1859,8 @@ color: #00B96F;
 border-bottom: solid 2px #00B96F;
 }
 .write-note {
-padding: 25px 35px 5px 35px;
+    padding: 5px 35px 5px 5px;
+/* padding: 25px 35px 5px 35px; */
 /* max-height: 412px; */
 max-height: 320px;
 }
@@ -3013,3 +3014,15 @@ position: relative;
 }
 .contact-developer.white-bg{padding:0; box-shadow: none; }
 /* end - project details - website css */
+
+/* notifications start */
+.notifications li{
+    padding:10px;
+    border-bottom:solid thin #eee;
+    transition: all 0.5s;
+    border-left:solid 3px #eee;
+}
+.notifications li:hover{
+    border-left:solid 3px #00B96F;
+}
+/* notifications end */
