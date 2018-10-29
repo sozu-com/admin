@@ -117,6 +117,7 @@ export class UsersComponent implements OnInit {
               this.parameter.items.push(success.data);
               this.parameter.total++;
             }
+            formdata.reset();
           }
         }, error => {
           this.parameter.loading = false;
@@ -125,22 +126,11 @@ export class UsersComponent implements OnInit {
 
 
   editUser(userdata, index) {
-    console.log('edit user', userdata);
     this.parameter.index = index;
     this.model = userdata;
     this.image = userdata.image;
     this.model.image = userdata.image != null ? userdata.image : '';
     this.modalOpen.nativeElement.click();
-    // const d = {
-    //   areaCodes: null,
-    //   dialCode: '+91',
-    //   iso2: userdata.country_code,
-    //   priority: 0
-    // };
-
-    // this.onCountryChange(d);
-
-    // this.initialCountry = {initialCountry: userdata.country_code};
   }
 
 

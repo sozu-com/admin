@@ -8,7 +8,10 @@
             <img [src]="parameter.lead?.user?.image" onerror='src="assets/img/default_img.png"' alt="img">
             <div class="df-info" *ngIf="parameter.lead?.user">
                 <p class="p14">{{parameter.lead.user.name}}</p>
-                <p class="p12">Status: Open</p>
+                <!-- <p class="p12">Status: Open</p> -->
+                <p class="p12">
+                    {{parameter?.lead?.user?.dial_code ? parameter?.lead?.user?.dial_code : parameter?.lead?.dial_code}}-{{parameter?.lead?.user?.phone ? parameter?.lead?.user?.phone : parameter?.lead?.phone}}
+                </p>
             </div>
             </div>
         </div>

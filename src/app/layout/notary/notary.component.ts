@@ -3,6 +3,7 @@ import { AdminService } from '../../services/admin.service';
 import { IProperty } from '../../common/property';
 import { Users } from './../../models/users.model';
 import { Constant } from './../../common/constants';
+import { NgForm } from '@angular/forms';
 declare let swal: any;
 
 @Component({
@@ -22,12 +23,9 @@ export class NotaryComponent implements OnInit {
   constructor(public constant: Constant, public model: Users, public admin: AdminService) { }
 
   ngOnInit() {
-    this.model.country_code = this.constant.country_code;
-    this.model.dial_code = this.constant.dial_code;
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.parameter.type = 1;
-    this.model.id = '';
     this.initialCountry = {initialCountry: this.constant.country_code};
     this.getNoatariesListing(this.parameter.page, '', '', '');
   }
@@ -84,7 +82,7 @@ export class NotaryComponent implements OnInit {
     this.initialCountry = {initialCountry: e.iso2};
   }
 
-  addNewUser() {
+  addNewUser(formData: NgForm) {
     this.parameter.loading = true;
     this.admin.postDataApi('addNoatary', this.model)
       .subscribe(
@@ -96,12 +94,12 @@ export class NotaryComponent implements OnInit {
           if (this.parameter.items.length < 10) {
             if (this.model.id) {
               this.parameter.items[this.parameter.index] = success.data;
-              this.model = new Users();
             } else {
               this.parameter.items.push(success.data);
               this.parameter.total++;
-              this.model = new Users();
             }
+            this.model = new Users();
+            formData.reset();
           }
         }, error => {
           this.parameter.loading = false;

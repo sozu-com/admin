@@ -104,10 +104,10 @@
     <div class="modal-content">
       <div class="modal-header">
           <button style="display: none;" type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
-          <button type="button" class="close" (click)="closeModal()">&times;</button>
+          <button type="button" class="close" (click)="closeModal(); addForm.reset()">&times;</button>
       </div>
 
-      <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="addNewUser()">
+      <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="addNewUser(addForm)">
         <div class="modal-body">
           <div class="row">
             <div class="col-6">
@@ -122,8 +122,8 @@
             </div>
             <div class="col-6">
               <div class="btn-cont text-right">
-                  <button *ngIf="model.id==''" type="submit" class="btn btn-primary">ADD</button>
-                  <button *ngIf="model.id!=''" type="submit" [disabled]="!addForm.valid" class="btn btn-primary">UPDATE</button>
+                  <button *ngIf="!model.id" type="submit" class="btn btn-primary">ADD</button>
+                  <button *ngIf="model.id" type="submit" [disabled]="!addForm.valid" class="btn btn-primary">UPDATE</button>
               </div>
             </div>
             <div class="col-12">

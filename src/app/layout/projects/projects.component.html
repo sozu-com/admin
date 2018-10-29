@@ -150,7 +150,7 @@
                   
                         <tr *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
                             <td>
-                              <img [src]="p.main_image" class="rounded-circle" onerror='this.src="assets/img/default_img.png"' alt="img">
+                              <img [src]="p.main_image" class="rounded-circle" onerror='this.src="assets/img/placeholder-img.png"' alt="img">
                             </td>
                             <td class="cursor-pointer" title="Click to view details" routerLink="/dashboard/projects/details/{{p.id}}">
                               <strong>{{p?.name}}</strong>

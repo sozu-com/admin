@@ -27,6 +27,22 @@ export class InhouseUsers {
     };
 }
 
+export class UserModel {
+    id: string;
+    name: string;
+    country_code: string;
+    dial_code: string;
+    phone: string;
+    image: string;
+    email: string;
+    address: Array<NewAddress>;
+    is_broker_seller_dev: boolean;
+    is_buyer_renter: boolean;
+    is_broker: boolean;
+    is_data_collector: boolean;
+    is_csr_closer: boolean;
+}
+
 export class User {
     name: '';
     country_code: 'mx';

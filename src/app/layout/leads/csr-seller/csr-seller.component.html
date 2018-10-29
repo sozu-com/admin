@@ -296,32 +296,32 @@
                     <div class="table-search">
                         <label>Properties</label>
                     </div>
-                    <div class="ppties">
-                        <a href="javascript://" (click)="sort_by(1)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Coming soon">A<img src="assets/img/top-arrow.png" alt="img"></a>
+                    <div class="ppties" title="Approved">
+                        <a href="javascript://" (click)="sort_by(3)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Coming soon">A<img [ngClass]="{'upsidedown':parameter.sort_by_flag==3 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a>
                     </div>
                  </th>
-                 <th style="width:5%;">
+                 <th style="width:5%;" title="Unapproved">
                    <label>&nbsp;</label>
                   <div class="ppties">
-                     <a href="javascript://" (click)="sort_by(2)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Coming soon">R<img src="assets/img/top-arrow.png" alt="img"></a>
+                     <a href="javascript://" (click)="sort_by(4)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Coming soon">U<img [ngClass]="{'upsidedown':parameter.sort_by_flag==3 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a>
                      </div>
                  </th>
-                 <th style="width:5%;">
+                 <th style="width:5%;" title="Pending Review">
                   <label>&nbsp;</label>
                   <div class="ppties">
-                     <a href="javascript://" (click)="sort_by(3)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Coming soon">P<img src="assets/img/top-arrow.png" alt="img"></a>
+                     <a href="javascript://" (click)="sort_by(2)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Coming soon">P<img [ngClass]="{'upsidedown':parameter.sort_by_flag==2 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a>
                      </div>
                  </th>
-                 <th style="width:5%;">
+                 <th style="width:5%;" title="In Draft">
                   <label>&nbsp;</label>
                   <div class="ppties">
-                     <a href="javascript://" (click)="sort_by(4)"  data-toggle="tooltip" data-placement="top" title="" data-original-title="In Draft">D<img src="assets/img/top-arrow.png" alt="img"></a>
+                     <a href="javascript://" (click)="sort_by(1)"  data-toggle="tooltip" data-placement="top" title="" data-original-title="In Draft">D<img [ngClass]="{'upsidedown':parameter.sort_by_flag==1 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a>
                      </div>
                  </th>
-                 <th style="width:5%;">
+                 <th style="width:5%;" title="Total">
                   <label>&nbsp;</label>
                   <div class="ppties">
-                     <a href="javascript://" (click)="sort_by(5)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Coming soon">T<img src="assets/img/top-arrow.png" alt="img"></a>
+                     <a href="javascript://" (click)="sort_by(5)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Coming soon">T<img [ngClass]="{'upsidedown':parameter.sort_by_flag==5 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a>
                      </div>
                  </th>
               </tr>
@@ -341,7 +341,7 @@
                 <td class="text-left">
                   <span class="name">{{item.name}}</span>
                  </td>
-                 <td class="text-left" *ngIf="item.phone">{{item.country_code}}-{{item.phone}}</td>
+                 <td class="text-left" *ngIf="item.phone">{{item.dial_code}}-{{item.phone}}</td>
                  <td class="text-left" *ngIf="!item.phone">NA</td>
                   <td class="text-left">
                     {{item.email}}

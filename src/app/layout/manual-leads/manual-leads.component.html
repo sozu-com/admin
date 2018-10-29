@@ -68,7 +68,13 @@
                     <td class="text-left" *ngIf="!item.phone">NA</td>
                     <td class="text-left" *ngIf="item.email">{{item.email}}</td>
                     <td class="text-left" *ngIf="!item.email">NA</td>
-                    <td class="text-left">{{item?.status?.name}}</td>
+                    <td class="text-left">
+                            <!-- background: #939292;
+                            padding: 4px 8px;
+                            color: #fff;
+                            border-radius: 12px; -->
+                        <span>{{item?.status?.name}}</span>
+                    </td>
                     <td class="text-left">{{item?.type?.name}}</td>
                     <!-- <td>
                         <button title="View Details" routerLink="/dashboard/manual-leads/view-details/{{item.id}}" class="action-icon"><img src="./../../../../assets/img/edit.png" alt="img"></button>

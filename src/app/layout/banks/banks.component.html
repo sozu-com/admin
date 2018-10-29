@@ -109,10 +109,10 @@
     <div class="modal-content">
       <div class="modal-header">
           <button style="display: none;" type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
-          <button type="button" class="close" (click)="closeModal()">&times;</button>
+          <button type="button" class="close" (click)="closeModal(); addForm.reset()">&times;</button>
       </div>
 
-      <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="addBank(); addForm.reset();">
+      <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="addBank(addForm)">
         <div class="modal-body">
           <div class="row">
             <div class="col-6">

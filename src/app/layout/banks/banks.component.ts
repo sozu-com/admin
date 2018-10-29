@@ -3,6 +3,7 @@ import { AdminService } from '../../services/admin.service';
 import { IProperty } from '../../common/property';
 import { Bank } from './../../models/bank.model';
 import { Constant } from './../../common/constants';
+import { NgForm } from '@angular/forms';
 declare let swal: any;
 
 @Component({
@@ -25,7 +26,6 @@ export class BanksComponent implements OnInit {
   ngOnInit() {
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
-    this.model.id = '';
     this.initialCountry = {initialCountry: this.constant.country_code};
     this.getBanks(this.parameter.page, '', '', '');
   }
@@ -84,7 +84,7 @@ export class BanksComponent implements OnInit {
     this.initialCountry = {initialCountry: e.iso2};
   }
 
-  addBank() {
+  addBank(formData: NgForm) {
     this.parameter.loading = true;
     this.admin.postDataApi('addBank', this.model)
       .subscribe(
@@ -99,12 +99,13 @@ export class BanksComponent implements OnInit {
             if (this.parameter.items.length < 10) {
               if (this.model.id) {
                 this.parameter.items[this.parameter.index] = success.data;
-                this.model = new Bank();
+                // this.model = new Bank();
               } else {
                 this.parameter.items.push(success.data);
                 this.parameter.total++;
-                this.model = new Bank();
               }
+              formData.reset();
+              this.model = new Bank();
             }
           }
         }, error => {

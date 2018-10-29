@@ -5,6 +5,7 @@ import { IProperty } from './../../../common/property';
 import { ACL, Permission } from './../../../models/acl.model';
 import { ActivatedRoute } from '@angular/router';
 import { Constant } from './../../../common/constants';
+import { NgForm } from '@angular/forms';
 declare let swal: any;
 
 @Component({
@@ -111,8 +112,7 @@ export class AddAclComponent implements OnInit {
   }
 
 
-  add() {
-    console.log(this.model);
+  add(formData: NgForm) {
     this.parameter.loading = true;
     this.admin.postDataApi('addAclUser', this.model)
       .subscribe(
@@ -123,13 +123,9 @@ export class AddAclComponent implements OnInit {
           }else {
             const text = this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
             swal('Success', text, 'success');
-            // if (this.parameter.items.length < 10) {
-            //   if (this.model.id !== '') {
-            //     this.parameter.items[this.parameter.index] = success.data;
-            //   } else {
-            //     this.parameter.items.push(success.data);
-            //   }
-            // }
+            if (this.model.id === '') {
+              formData.reset();
+            }
           }
         }, error => {
           this.parameter.loading = false;

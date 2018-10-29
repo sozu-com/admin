@@ -1,3 +1,501 @@
+<!-- <ngx-loading [show]="parameter.loading"></ngx-loading>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+          <div class="title-group">
+              <h5>{{title}}</h5>
+              <p>Showing {{parameter.items?.length}} out of {{parameter.total}}</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="btn-cont text-right">
+              <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#add" #modalOpen>Add New</a>
+              <a *ngIf="admin?.admin_acl['Data Collector Management']?.can_create==1 && parameter.userType=='data-collectors' ||
+                admin?.admin_acl['Seller Management']?.can_create==1 && parameter.userType=='csr-sellers' ||
+                admin?.admin_acl['Buyer Management']?.can_create==1 && parameter.userType=='csr-buyers' ||
+                admin?.admin_acl['Broker Management']?.can_create==1 && parameter.userType=='inhouse-broker' ||
+                admin?.admin_acl['Closer Management']?.can_create==1 && parameter.userType=='csr-closers'" class="btn btn-primary" href="javascript://" (click)="openAddModal()">Add New</a>
+          </div>
+        </div>
+    </div>
+  
+    <div class="row">
+      <div class="col-lg-2 col-md-3 col-sm-6 col-6">
+        <div class="form-group marginB0">
+            <label>Country</label>
+            <select title="Choose Country" class="form-control" (change)="getStates($event.target.value)">
+              <option value="-1">All</option>
+              <option *ngFor="let country of parameter.countries" value="{{country.id}}">{{country.name_en}}</option>
+            </select>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-3 col-sm-6 col-6">
+        <div class="form-group marginB0">
+            <label>State</label>
+            <select title="Choose State" class="form-control" (change)="getCities($event.target.value)">
+              <option value="-1">All</option>
+              <option *ngFor="let state of parameter.states" value="{{state.id}}">{{state.name_en}}</option>
+            </select>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-3 col-sm-6 col-6">
+        <div class="form-group marginB0">
+            <label>City</label>
+            <select title="Choose City" class="form-control" (change)="getLocalities($event.target.value)">
+              <option value="-1">All</option>
+              <option *ngFor="let city of parameter.cities" value="{{city.id}}">{{city.name_en}}</option>
+            </select>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-3 col-sm-6 col-6">
+        <div class="form-group marginB0">
+            <label>Locality</label>
+            <select title="Choose Locality" class="form-control" (change)="getLocalityBuildings($event.target.value)">
+              <option value="-1">All</option>
+              <option *ngFor="let locality of parameter.localities" value="{{locality.id}}">{{locality.name_en}}</option>
+            </select>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-3 col-sm-6 col-6">
+        <div class="form-group marginB0">
+            <label>Building</label>
+            <select title="Choose Building" class="form-control" (change)="setBuilding($event.target.value)">
+              <option value="-1">All</option>
+              <option *ngFor="let building of parameter.buildings" value="{{building.id}}">{{building.name}}</option>
+            </select>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-3 col-sm-6 col-6">
+        <div class="form-group btn-cont text-right">
+          <label style="display: block; margin-top: 3px;">&nbsp;</label>
+          <button type="button" (click)="getInhouseUsers()" class="btn btn-primary">Apply</button>
+        </div>
+      </div>
+  </div>
+    <hr>
+
+
+    
+    <div class="white-bg">
+      <div class="tabel-section">
+        <div class="table-responsive">
+
+        <table class="table table-striped">
+          <tr>
+            <th style="width:6%">&nbsp;</th>
+            <th style="width:15%">
+              <div class="table-search">
+                  <label>Name</label>
+                  <div class="searh-3">
+                    <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="searchUserByName(parameter.name)" name="">
+                    <button type="button" *ngIf="parameter.name" (click)="searchUserByName(parameter.name)"><i class="fa fa-search"></i></button>
+                  </div>
+              </div>
+            </th>
+            <th style="width:18%; text-align:left;">
+              <div class="table-search">
+                  <label>Contact Number</label>
+                  <div class="searh-3">
+                    <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="searchUserByPhone(parameter.phone)" name="">
+                    <button type="button" *ngIf="parameter.phone" (click)="searchUserByPhone(parameter.phone)"><i class="fa fa-search"></i></button>
+                  </div>
+              </div>
+            </th>
+            <th style="width:20%">
+              <div class="table-search">
+                  <label>Email Address</label>
+                  <div class="searh-3">
+                    <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="searchUserByEmail(parameter.email)" name="">
+                    <button type="button" *ngIf="parameter.email" (click)="searchUserByEmail(parameter.email)"><i class="fa fa-search"></i></button>
+                  </div>
+              </div>
+            </th>
+            <th *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'csr-closers' ||
+            parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers'" style="width:8%; vertical-align: top;">
+              Leads<a (click)="setLeadSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.lead_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
+            </th>
+            <th *ngIf="parameter.userType == 'data-collectors'" style="width:22%; vertical-align: top;">
+              Building<a (click)="setLeadSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.lead_sort==2}" [ngClass]="{'upsidedown':this.price_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
+            </th>
+            <th style="width:19%">
+              &nbsp;
+            </th>
+          </tr>
+
+            <tr *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }; let i = index">
+              <td> 
+                <img [src]="item.image" class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
+              </td>
+              <td class="text-left">
+                <span class="name">{{item.name}}</span>
+              </td>
+              <td class="text-left" *ngIf="item.phone">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
+              <td class="text-left" *ngIf="!item.phone">NA</td>
+              <td class="text-left">{{item.email}}</td>
+              <td *ngIf="parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers' ||
+                    parameter.userType == 'inhouse-broker' || parameter.userType == 'csr-closers'; else showBuildings">{{item.lead_count}}</td>
+              <td *ngIf="parameter.userType == 'data-collectors'" >{{item.buildings_count}}</td>
+              <td>
+                <a *ngIf="admin?.admin_acl['Building Management']?.can_read==1 && parameter.userType == 'data-collectors'" title="View Projects" href="javascript://" routerLink="/dashboard/projects/view-projects/{{item.id}}" class="icon-block edit-icon">
+                  <img src="assets/img/ic_projects_manage.png" alt="img">
+                </a>
+                <a *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 && parameter.userType == 'csr-sellers'" title="View Leads" href="javascript://" routerLink="/dashboard/leads/csr-sellers-leads/{{item.id}}" class="icon-block edit-icon">
+                  <img src="assets/img/ic_leads.png" alt="img">
+                </a>
+                <a *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_read==1 && parameter.userType == 'csr-buyers'" title="View Leads" href="javascript://" routerLink="/dashboard/leads/csr-buyers-leads/{{item.id}}" class="icon-block edit-icon">
+                  <img src="assets/img/ic_leads.png" alt="img">
+                </a>
+                <a *ngIf="admin?.admin_acl['Broker Lead Management']?.can_read==1 && parameter.userType == 'inhouse-broker'" title="View Leads" href="javascript://" routerLink="/dashboard/leads/inhouse-broker-leads/{{item.id}}" class="icon-block edit-icon">
+                  <img src="assets/img/ic_leads.png" alt="img">
+                </a>
+                <a *ngIf="admin?.admin_acl['Closer Lead Management']?.can_read==1 && parameter.userType == 'csr-closers'" title="View Leads" href="javascript://" routerLink="/dashboard/leads/csr-closers-leads/{{item.id}}" class="icon-block edit-icon">
+                  <img src="assets/img/ic_leads.png" alt="img">
+                </a>
+                
+                <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#view" #viewModalOpen></a>
+                <a title="View Roles" href="javascript://" (click)="viewDetails(item, i)" class="icon-block edit-icon"><img src="assets/img/eye-icon.png" alt="img"></a>
+
+                <button title="Edit Details" [disabled]="admin?.admin_acl['Data Collector Management']?.can_update==0 && parameter.userType=='data-collectors' ||
+                  admin?.admin_acl['Seller Management']?.can_update==0 && parameter.userType=='csr-sellers' ||
+                  admin?.admin_acl['Buyer Management']?.can_update==0 && parameter.userType=='csr-buyers' ||
+                  admin?.admin_acl['Broker Management']?.can_update==0 && parameter.userType=='inhouse-broker' ||
+                  admin?.admin_acl['Closer Management']?.can_update==0 && parameter.userType=='csr-closers'" 
+                (click)="editUser(item, i)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+
+                <button [disabled]="admin?.admin_acl['Data Collector Management']?.can_delete==0 && parameter.userType=='data-collectors' ||
+                  admin?.admin_acl['Seller Management']?.can_delete==0 && parameter.userType=='csr-sellers' ||
+                  admin?.admin_acl['Buyer Management']?.can_delete==0 && parameter.userType=='csr-buyers' ||
+                  admin?.admin_acl['Broker Management']?.can_delete==0 && parameter.userType=='inhouse-broker' ||
+                  admin?.admin_acl['Closer Management']?.can_delete==0 && parameter.userType=='csr-closers'"
+                (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1, parameter.type)" 
+                title="{{item.is_blocked==1?'Unblock User':'Block User'}}" 
+                [ngClass]="{'unblock-bg':item.is_blocked==1}"
+                class="action-icon">
+                <img src="assets/img/block.png" alt="img">
+              </button>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="center" *ngIf="parameter.total == 0">
+        <img src="assets/img/404-error.png">
+      </div>
+
+  </div>
+  <div class="btn-cont text-right marginT15">
+  
+      <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+  </div>
+</div> -->
+
+
+<!-- add inhouse user modal -->
+<!-- <div class="modal animated" id="add">
+  <div class="modal-dialog fadeIndown modal-lg">
+     <div class="modal-content">
+        <div class="modal-header">
+           <button type="button" style="display: none;" class="close" data-dismiss="modal" #modalClose>&times;</button>
+           <button type="button" class="close" (click)="closeModal()">&times;</button>
+        </div>
+
+        <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="addNewUser(addForm); addForm.reset()">
+        <div class="modal-body">
+            <div class="row">
+               <div class="col-6">
+                  <div class="add-img" style="background-size: cover;" [style.background-image]="image1">
+                  <input accept="image/*" type="file" name="" (change)="onSelectFile1($event)">
+                  <label *ngIf="!image1">+ Add Image</label>
+                  </div>
+               </div>
+               <div class="col-6">
+                  <div class="btn-cont text-right">
+                    <button type="button" class="btn btn-primary" (click)="closeModal(); addForm.reset()">Reset</button> 
+                    <button *ngIf="model.userModel.id==''" type="submit" [disabled]="addForm.invalid" class="btn btn-primary">ADD</button>
+                     <button *ngIf="model.userModel.id!=''" type="submit" [disabled]="addForm.invalid" class="btn btn-primary">UPDATE</button>
+                  </div>
+               </div>
+               <div class="col-12">
+                  <div class="spacer40"></div>
+               </div>
+               <div class="col-12">
+                  <div class="form-group-2">
+                     <label>Name</label>
+                     <div class="form-group">
+                      <input autocomplete="off" type="text" class="form-control" required [(ngModel)]="model.userModel.name" name="name">
+                    </div>
+                  </div>
+               </div>
+               <div class="col-12">
+                  <div class="form-group-2">
+                     <label>Contact number</label>
+                     <div class="form-group">
+                      <input minlength="6" maxlength="16" autocomplete="off" type="text" 
+                        [pattern]="constant.phonePattern" class="form-control" id="phone" 
+                        required minlength="1" [(ngModel)]="model.userModel.phone" name="phone"
+                        ng2TelInput #phonetest
+                        (intlTelInputObject)="telInputObject($event)"
+                        [ng2TelInputOptions]="initialCountry" 
+                        (countryChange)="onCountryChange($event)" />
+                    </div>
+                  </div>
+               </div>
+               <div class="col-12">
+                  <div class="form-group-2">
+                     <label>Email ID</label>
+                     <div class="form-group">
+                      <input autocomplete="off" [pattern]="constant.emailPattern" type="email" class="form-control" required [(ngModel)]="model.userModel.email" name="email">
+                    </div>
+                  </div>
+               </div>
+            </div>
+            
+            <div *ngFor="let add of model.address; let j=index">
+              <app-address [countries]="parameter.countries" [address]="add" [index]="j" [status]="false" [disabledBuildings]="disabledBuildings" (disabledBuilding)="disabledBuildingId(j)" (removeAddress)="removeAddressObj($event)"></app-address>
+            </div>
+
+            <div class="col-12" *ngIf="model.address?.length!=0">
+                <div class="btn-cont center">
+                  <button type="button" class="btn btn-primary margin0" (click)="addEmptyObj()">
+                    <img src="assets/img/add.png" alt="img">
+                  </button>
+                </div>
+             </div>
+            
+            <div class="access-controls">
+               <label [ngClass]="{'access-control11': model.userModel.is_broker_seller_dev == true}" class="cust-check-bx2">CSR Seller/Developer
+                 <input type="checkbox" name="is_broker_seller_dev" [(ngModel)]="model.userModel.is_broker_seller_dev">
+                 <span class="checkmark"></span>
+               </label>
+ 
+               <label [ngClass]="{'access-control11': model.userModel.is_buyer_renter == true}" class="cust-check-bx2">CSR Buyer/Renter
+                 <input type="checkbox" [(ngModel)]="model.userModel.is_buyer_renter" name="is_buyer_renter">
+                 <span class="checkmark"></span>
+               </label>
+ 
+               <label [ngClass]="{'access-control11': model.userModel.is_broker == true}" class="cust-check-bx2">Inhouse Broker
+                 <input type="checkbox" [(ngModel)]="model.userModel.is_broker" name="is_broker">
+                 <span class="checkmark"></span>
+               </label>
+ 
+               <label [ngClass]="{'access-control11': model.userModel.is_data_collector == true}" class="cust-check-bx2">Data Collector
+                 <input type="checkbox" [(ngModel)]="model.userModel.is_data_collector" name="is_data_collector">
+                 <span class="checkmark"></span>
+               </label>
+               <label [ngClass]="{'access-control11': model.userModel.is_csr_closer == true}" class="cust-check-bx2">CSR Closure
+                 <input type="checkbox" [(ngModel)]="model.userModel.is_csr_closer" name="is_csr_closer">
+                 <span class="checkmark"></span>
+               </label>
+            </div>
+         </div>
+        </form>
+
+     </div>
+  </div>
+</div> -->
+
+<div class="modal animated" id="add">
+    <div class="modal-dialog fadeIndown modal-lg">
+       <div class="modal-content">
+          <div class="modal-header">
+             <button type="button" style="display: none;" class="close" data-dismiss="modal" #modalClose>&times;</button>
+             <button type="button" class="close" (click)="closeModal(); addForm.reset()">&times;</button>
+          </div>
+  
+          <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="addNewUser(addForm)">
+          <div class="modal-body">
+              <div class="row">
+                 <div class="col-6">
+                    <div class="add-img" style="background-size: cover;" [style.background-image]="image1">
+                    <input accept="image/*" type="file" name="" (change)="onSelectFile1($event)">
+                    <label *ngIf="!image1">+ Add Image</label>
+                    </div>
+                 </div>
+                 <div class="col-6">
+                    <div class="btn-cont text-right">
+                      <button *ngIf="!model.id" type="submit" [disabled]="addForm.invalid" class="btn btn-primary">ADD</button>
+                       <button *ngIf="model.id" type="submit" [disabled]="addForm.invalid" class="btn btn-primary">UPDATE</button>
+                    </div>
+                 </div>
+                 <div class="col-12">
+                    <div class="spacer40"></div>
+                 </div>
+                 <div class="col-12">
+                    <div class="form-group-2">
+                       <label>Name</label>
+                       <div class="form-group">
+                        <input autocomplete="off" type="text" class="form-control" required [(ngModel)]="model.name" name="name">
+                      </div>
+                    </div>
+                 </div>
+                 <div class="col-12">
+                    <div class="form-group-2">
+                       <label>Contact number</label>
+                       <div class="form-group">
+                        <input minlength="6" maxlength="16" autocomplete="off" type="text" 
+                          [pattern]="constant.phonePattern" class="form-control" id="phone" 
+                          required minlength="1" [(ngModel)]="model.phone" name="phone"
+                          ng2TelInput #phonetest
+                          (intlTelInputObject)="telInputObject($event)"
+                          [ng2TelInputOptions]="initialCountry" 
+                          (countryChange)="onCountryChange($event)" />
+                      </div>
+                    </div>
+                 </div>
+                 <div class="col-12">
+                    <div class="form-group-2">
+                       <label>Email ID</label>
+                       <div class="form-group">
+                        <input autocomplete="off" [pattern]="constant.emailPattern" type="email" class="form-control" required [(ngModel)]="model.email" name="email">
+                      </div>
+                    </div>
+                 </div>
+              </div>
+              <div *ngFor="let add of model.address; let j=index">
+                <app-address [countries]="parameter.countries" [address]="add" [index]="j" [status]="false" [disabledBuildings]="disabledBuildings" (disabledBuilding)="disabledBuildingId(j)" (removeAddress)="removeAddressObj($event)"></app-address>
+              </div>
+  
+              <div class="col-12" *ngIf="model.address?.length!=0">
+                  <div class="btn-cont center">
+                    <button type="button" class="btn btn-primary margin0" (click)="addEmptyObj()">
+                      <img src="assets/img/add.png" alt="img">
+                    </button>
+                  </div>
+               </div>
+              
+              <div class="access-controls">
+                 <label [ngClass]="{'access-control11': model.is_broker_seller_dev == true}" class="cust-check-bx2">CSR Seller/Developer
+                   <input type="checkbox" name="is_broker_seller_dev" [(ngModel)]="model.is_broker_seller_dev">
+                   <span class="checkmark"></span>
+                 </label>
+   
+                 <label [ngClass]="{'access-control11': model.is_buyer_renter == true}" class="cust-check-bx2">CSR Buyer/Renter
+                   <input type="checkbox" [(ngModel)]="model.is_buyer_renter" name="is_buyer_renter">
+                   <span class="checkmark"></span>
+                 </label>
+   
+                 <label [ngClass]="{'access-control11': model.is_broker == true}" class="cust-check-bx2">Inhouse Broker
+                   <input type="checkbox" [(ngModel)]="model.is_broker" name="is_broker">
+                   <span class="checkmark"></span>
+                 </label>
+   
+                 <label [ngClass]="{'access-control11': model.is_data_collector == true}" class="cust-check-bx2">Data Collector
+                   <input type="checkbox" [(ngModel)]="model.is_data_collector" name="is_data_collector">
+                   <span class="checkmark"></span>
+                 </label>
+                 <label [ngClass]="{'access-control11': model.is_csr_closer == true}" class="cust-check-bx2">CSR Closure
+                   <input type="checkbox" [(ngModel)]="model.is_csr_closer" name="is_csr_closer">
+                   <span class="checkmark"></span>
+                 </label>
+              </div>
+           </div>
+          </form>
+  
+       </div>
+    </div>
+  </div>
+
+
+<!-- view inhouse user modal -->
+<!-- <div class="modal animated" id="view">
+  <div class="modal-dialog fadeIndown modal-lg">
+     <div class="modal-content">
+        <div class="modal-header" style="padding: 5%; padding-bottom: 0;">
+          <h4 class="modal-title">Assigned Roles</h4>
+          <button type="button" style="display: none;" class="close" data-dismiss="modal" #viewModalClose>&times;</button>
+          <button type="button" class="close" (click)="closeViewModal()">&times;</button>
+        </div>
+
+        <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="addNewUser(addForm)">
+        <div class="modal-body">
+            <div *ngFor="let add of model.address; let j=index">
+              <app-address [address]="add" [index]="j" [status]="true" (removeAddress)="removeAddressObj($event)"></app-address>
+            </div>
+
+            <div class="access-controls">
+               <label [ngClass]="{'access-control11': model.userModel.is_broker_seller_dev == true}" class="cust-check-bx2">CSR Broker/Seller/Developer
+                 <input disabled type="checkbox" name="is_broker_seller_dev" [(ngModel)]="model.userModel.is_broker_seller_dev">
+                 <span class="checkmark"></span>
+               </label>
+ 
+               <label [ngClass]="{'access-control11': model.userModel.is_buyer_renter == true}" class="cust-check-bx2">CSR Buyer/Renter
+                 <input disabled type="checkbox" [(ngModel)]="model.userModel.is_buyer_renter" name="is_buyer_renter">
+                 <span class="checkmark"></span>
+               </label>
+ 
+               <label [ngClass]="{'access-control11': model.userModel.is_broker == true}" class="cust-check-bx2">Broker
+                 <input disabled type="checkbox" [(ngModel)]="model.userModel.is_broker" name="is_broker">
+                 <span class="checkmark"></span>
+               </label>
+ 
+               <label [ngClass]="{'access-control11': model.userModel.is_data_collector == true}" class="cust-check-bx2">Data Collector
+                 <input disabled type="checkbox" [(ngModel)]="model.userModel.is_data_collector" name="is_data_collector">
+                 <span class="checkmark"></span>
+               </label>
+               <label [ngClass]="{'access-control11': model.userModel.is_csr_closer == true}" class="cust-check-bx2">CSR Closure
+                 <input disabled type="checkbox" [(ngModel)]="model.userModel.is_csr_closer" name="is_csr_closer">
+                 <span class="checkmark"></span>
+               </label>
+            </div>
+         </div>
+        </form>
+
+     </div>
+  </div>
+</div> -->
+
+<div class="modal animated" id="view">
+    <div class="modal-dialog fadeIndown modal-lg">
+       <div class="modal-content">
+          <div class="modal-header" style="padding: 5%; padding-bottom: 0;">
+            <h4 class="modal-title">Assigned Roles</h4>
+            <button type="button" style="display: none;" class="close" data-dismiss="modal" #viewModalClose>&times;</button>
+            <button type="button" class="close" (click)="closeViewModal()">&times;</button>
+          </div>
+  
+          <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm1="ngForm" (ngSubmit)="addNewUser(addForm1)">
+          <div class="modal-body">
+              <div *ngFor="let add of model.address; let j=index">
+                <app-address [address]="add" [index]="j" [status]="true" (removeAddress)="removeAddressObj($event)"></app-address>
+              </div>
+  
+              <div class="access-controls">
+                 <label [ngClass]="{'access-control11': model.is_broker_seller_dev == true}" class="cust-check-bx2">CSR Broker/Seller/Developer
+                   <input disabled type="checkbox" name="is_broker_seller_dev" [(ngModel)]="model.is_broker_seller_dev">
+                   <span class="checkmark"></span>
+                 </label>
+   
+                 <label [ngClass]="{'access-control11': model.is_buyer_renter == true}" class="cust-check-bx2">CSR Buyer/Renter
+                   <input disabled type="checkbox" [(ngModel)]="model.is_buyer_renter" name="is_buyer_renter">
+                   <span class="checkmark"></span>
+                 </label>
+   
+                 <label [ngClass]="{'access-control11': model.is_broker == true}" class="cust-check-bx2">Broker
+                   <input disabled type="checkbox" [(ngModel)]="model.is_broker" name="is_broker">
+                   <span class="checkmark"></span>
+                 </label>
+   
+                 <label [ngClass]="{'access-control11': model.is_data_collector == true}" class="cust-check-bx2">Data Collector
+                   <input disabled type="checkbox" [(ngModel)]="model.is_data_collector" name="is_data_collector">
+                   <span class="checkmark"></span>
+                 </label>
+                 <label [ngClass]="{'access-control11': model.is_csr_closer == true}" class="cust-check-bx2">CSR Closure
+                   <input disabled type="checkbox" [(ngModel)]="model.is_csr_closer" name="is_csr_closer">
+                   <span class="checkmark"></span>
+                 </label>
+              </div>
+           </div>
+          </form>
+  
+       </div>
+    </div>
+  </div>
+  
+
+
+
 <ngx-loading [show]="parameter.loading"></ngx-loading>
 <div class="container-fluid">
     <div class="row">
@@ -114,15 +612,9 @@
             parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers'" style="width:8%; vertical-align: top;">
               Leads<a (click)="setLeadSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.lead_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
             </th>
-            <!-- <th *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'csr-closers'" style="width:14%; vertical-align: top;">
-              Properties<a href="javascript://"><img src="assets/img/top-arrow.png" alt="img"></a>
-            </th> -->
             <th *ngIf="parameter.userType == 'data-collectors'" style="width:22%; vertical-align: top;">
               Building<a (click)="setLeadSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.lead_sort==2}" [ngClass]="{'upsidedown':this.price_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
             </th>
-            <!-- <th *ngIf="parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers'" style="width:22%; vertical-align: top;">
-              Leads<a href="javascript://"><img src="assets/img/top-arrow.png" alt="img"></a>
-            </th> -->
             <th style="width:19%">
               &nbsp;
             </th>
@@ -139,10 +631,8 @@
               <td class="text-left" *ngIf="!item.phone">NA</td>
               <td class="text-left">{{item.email}}</td>
               <td *ngIf="parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers' ||
-                    parameter.userType == 'inhouse-broker' || parameter.userType == 'csr-closers'; else showBuildings">{{item.lead_count}}</td>
-              <!-- <td *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'csr-closers'; else showBuildings">14</td> -->
-              <td *ngIf="parameter.userType == 'data-collectors'" >{{item.buildings_count}}</td>
-              <!-- <td *ngIf="parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers'" >14</td> -->
+                    parameter.userType == 'inhouse-broker' || parameter.userType == 'csr-closers'; else showBuildings">{{item.lead_count?item.lead_count:'0'}}</td>
+              <td *ngIf="parameter.userType == 'data-collectors'" >{{item.buildings_count?item.buildings_count:'0'}}</td>
               <td>
                 <a *ngIf="admin?.admin_acl['Building Management']?.can_read==1 && parameter.userType == 'data-collectors'" title="View Projects" href="javascript://" routerLink="/dashboard/projects/view-projects/{{item.id}}" class="icon-block edit-icon">
                   <img src="assets/img/ic_projects_manage.png" alt="img">
@@ -162,22 +652,6 @@
                 
                 <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#view" #viewModalOpen></a>
                 <a title="View Roles" href="javascript://" (click)="viewDetails(item, i)" class="icon-block edit-icon"><img src="assets/img/eye-icon.png" alt="img"></a>
-                <!-- <a title="Edit Details" href="javascript://" (click)="editUser(item, i)" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a> -->
-                <!-- <a href="javascript://" *ngIf="item.is_blocked == 1" (click)="blockUnblockPopup(i, item.id, 0, parameter.type)" 
-                title="Unblock user" class="icon-block block-icon unblock-bg">
-                  <img src="assets/img/block.png" alt="img">
-                </a>
-                <a href="javascript://" *ngIf="item.is_blocked == 0" (click)="blockUnblockPopup(i, item.id, 1, parameter.type)" 
-                title="Block user" class="icon-block block-icon">
-                  <img src="assets/img/unblock.png" alt="img">
-                </a> -->
-                
-                <!-- <button title="View Leads" [disabled]="admin?.admin_acl['Data Collector Management']?.can_update==0 && parameter.userType=='data-collectors' ||
-                  admin?.admin_acl['Seller Management']?.can_update==0 && parameter.userType=='csr-sellers' ||
-                  admin?.admin_acl['Buyer Management']?.can_update==0 && parameter.userType=='csr-buyers' ||
-                  admin?.admin_acl['Broker Management']?.can_update==0 && parameter.userType=='inhouse-broker' ||
-                  admin?.admin_acl['Closer Management']?.can_update==0 && parameter.userType=='csr-closers'" 
-                (click)="editUser(item, i)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button> -->
 
                 <button title="Edit Details" [disabled]="admin?.admin_acl['Data Collector Management']?.can_update==0 && parameter.userType=='data-collectors' ||
                   admin?.admin_acl['Seller Management']?.can_update==0 && parameter.userType=='csr-sellers' ||
@@ -212,159 +686,5 @@
   <div class="btn-cont text-right marginT15">
   
       <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
-  </div>
-</div>
-
-
-<!-- add inhouse user modal -->
-<div class="modal animated" id="add">
-  <div class="modal-dialog fadeIndown modal-lg">
-     <div class="modal-content">
-        <div class="modal-header">
-           <button type="button" style="display: none;" class="close" data-dismiss="modal" #modalClose>&times;</button>
-           <button type="button" class="close" (click)="closeModal()">&times;</button>
-        </div>
-
-        <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="addNewUser(addForm)">
-        <div class="modal-body">
-            <div class="row">
-               <div class="col-6">
-                  <div class="add-img" style="background-size: cover;" [style.background-image]="image1">
-                  <input accept="image/*" type="file" name="" (change)="onSelectFile1($event)">
-                  <label *ngIf="!image1">+ Add Image</label>
-                  </div>
-               </div>
-               <div class="col-6">
-                  <div class="btn-cont text-right">
-                     <button *ngIf="model.userModel.id==''" type="submit" [disabled]="addForm.invalid" class="btn btn-primary">ADD</button>
-                     <button *ngIf="model.userModel.id!=''" type="submit" [disabled]="addForm.invalid" class="btn btn-primary">UPDATE</button>
-                  </div>
-               </div>
-               <div class="col-12">
-                  <div class="spacer40"></div>
-               </div>
-               <div class="col-12">
-                  <div class="form-group-2">
-                     <label>Name</label>
-                     <div class="form-group">
-                      <input autocomplete="off" type="text" class="form-control" required [(ngModel)]="model.userModel.name" name="name">
-                    </div>
-                  </div>
-               </div>
-               <div class="col-12">
-                  <div class="form-group-2">
-                     <label>Contact number</label>
-                     <div class="form-group">
-                      <input minlength="6" maxlength="16" autocomplete="off" type="text" 
-                        [pattern]="constant.phonePattern" class="form-control" id="phone" 
-                        required minlength="1" [(ngModel)]="model.userModel.phone" name="phone"
-                        ng2TelInput #phonetest
-                        (intlTelInputObject)="telInputObject($event)"
-                        [ng2TelInputOptions]="initialCountry" 
-                        (countryChange)="onCountryChange($event)" />
-                    </div>
-                  </div>
-               </div>
-               <div class="col-12">
-                  <div class="form-group-2">
-                     <label>Email ID</label>
-                     <div class="form-group">
-                      <input autocomplete="off" [pattern]="constant.emailPattern" type="email" class="form-control" required [(ngModel)]="model.userModel.email" name="email">
-                    </div>
-                  </div>
-               </div>
-            </div>
-            
-            <div *ngFor="let add of model.address; let j=index">
-              <app-address [countries]="parameter.countries" [address]="add" [index]="j" [status]="false" [disabledBuildings]="disabledBuildings" (disabledBuilding)="disabledBuildingId(j)" (removeAddress)="removeAddressObj($event)"></app-address>
-            </div>
-
-            <div class="col-12" *ngIf="model.address?.length!=0">
-                <div class="btn-cont center">
-                  <button type="button" class="btn btn-primary margin0" (click)="addEmptyObj()">
-                    <img src="assets/img/add.png" alt="img">
-                  </button>
-                </div>
-             </div>
-            
-            <div class="access-controls">
-               <label [ngClass]="{'access-control11': model.userModel.is_broker_seller_dev == true}" class="cust-check-bx2">CSR Seller/Developer
-                 <input type="checkbox" name="is_broker_seller_dev" [(ngModel)]="model.userModel.is_broker_seller_dev">
-                 <span class="checkmark"></span>
-               </label>
- 
-               <label [ngClass]="{'access-control11': model.userModel.is_buyer_renter == true}" class="cust-check-bx2">CSR Buyer/Renter
-                 <input type="checkbox" [(ngModel)]="model.userModel.is_buyer_renter" name="is_buyer_renter">
-                 <span class="checkmark"></span>
-               </label>
- 
-               <label [ngClass]="{'access-control11': model.userModel.is_broker == true}" class="cust-check-bx2">Inhouse Broker
-                 <input type="checkbox" [(ngModel)]="model.userModel.is_broker" name="is_broker">
-                 <span class="checkmark"></span>
-               </label>
- 
-               <label [ngClass]="{'access-control11': model.userModel.is_data_collector == true}" class="cust-check-bx2">Data Collector
-                 <input type="checkbox" [(ngModel)]="model.userModel.is_data_collector" name="is_data_collector">
-                 <span class="checkmark"></span>
-               </label>
-               <label [ngClass]="{'access-control11': model.userModel.is_csr_closer == true}" class="cust-check-bx2">CSR Closure
-                 <input type="checkbox" [(ngModel)]="model.userModel.is_csr_closer" name="is_csr_closer">
-                 <span class="checkmark"></span>
-               </label>
-            </div>
-         </div>
-        </form>
-
-     </div>
-  </div>
-</div>
-
-
-<!-- view inhouse user modal -->
-<div class="modal animated" id="view">
-  <div class="modal-dialog fadeIndown modal-lg">
-     <div class="modal-content">
-        <div class="modal-header" style="padding: 5%; padding-bottom: 0;">
-          <!-- <h4 class="modal-title">{{title}}'s Roles</h4> -->
-          <h4 class="modal-title">Assigned Roles</h4>
-          <button type="button" style="display: none;" class="close" data-dismiss="modal" #viewModalClose>&times;</button>
-          <button type="button" class="close" (click)="closeViewModal()">&times;</button>
-        </div>
-
-        <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="addNewUser(addForm)">
-        <div class="modal-body">
-            <div *ngFor="let add of model.address; let j=index">
-              <app-address [address]="add" [index]="j" [status]="true" (removeAddress)="removeAddressObj($event)"></app-address>
-            </div>
-
-            <div class="access-controls">
-               <label [ngClass]="{'access-control11': model.userModel.is_broker_seller_dev == true}" class="cust-check-bx2">CSR Broker/Seller/Developer
-                 <input disabled type="checkbox" name="is_broker_seller_dev" [(ngModel)]="model.userModel.is_broker_seller_dev">
-                 <span class="checkmark"></span>
-               </label>
- 
-               <label [ngClass]="{'access-control11': model.userModel.is_buyer_renter == true}" class="cust-check-bx2">CSR Buyer/Renter
-                 <input disabled type="checkbox" [(ngModel)]="model.userModel.is_buyer_renter" name="is_buyer_renter">
-                 <span class="checkmark"></span>
-               </label>
- 
-               <label [ngClass]="{'access-control11': model.userModel.is_broker == true}" class="cust-check-bx2">Broker
-                 <input disabled type="checkbox" [(ngModel)]="model.userModel.is_broker" name="is_broker">
-                 <span class="checkmark"></span>
-               </label>
- 
-               <label [ngClass]="{'access-control11': model.userModel.is_data_collector == true}" class="cust-check-bx2">Data Collector
-                 <input disabled type="checkbox" [(ngModel)]="model.userModel.is_data_collector" name="is_data_collector">
-                 <span class="checkmark"></span>
-               </label>
-               <label [ngClass]="{'access-control11': model.userModel.is_csr_closer == true}" class="cust-check-bx2">CSR Closure
-                 <input disabled type="checkbox" [(ngModel)]="model.userModel.is_csr_closer" name="is_csr_closer">
-                 <span class="checkmark"></span>
-               </label>
-            </div>
-         </div>
-        </form>
-
-     </div>
   </div>
 </div>

@@ -1,8 +1,9 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, Output } from '@angular/core';
 import { DealFinalize } from './../../../models/leads.model';
 import { IProperty } from './../../../common/property';
 import { AdminService } from './../../../services/admin.service';
 import { Constant } from './../../../common/constants';
+import { EventEmitter } from 'events';
 declare let swal: any;
 
 @Component({
@@ -14,6 +15,7 @@ declare let swal: any;
 
 export class InterestedPropertyComponent implements OnInit {
 
+  @Output() deal_finalised_success = new EventEmitter();
   @Input('data') data;
   @Input('lead_id') lead_id;
   @Input('sent_as') sent_as;
@@ -61,6 +63,7 @@ export class InterestedPropertyComponent implements OnInit {
           this.is_deal_finalised = true;
           this.modalClose.nativeElement.click();
           swal('Success', 'Deal has been finalized successfully.', 'success');
+          this.deal_finalised_success.emit('true');
         });
   }
 

@@ -5,7 +5,7 @@ import { IProperty } from '../../../../common/property';
 import { Constant } from './../../../../common/constants';
 import { FillInformation } from './../../../../models/leads.model';
 import { ChatTimePipe } from './../../../../pipes/chat-time.pipe';
-
+declare let swal: any;
 @Component({
   selector: 'app-csr-buyer-detail',
   templateUrl: './csr-buyer-detail.component.html',
@@ -110,6 +110,7 @@ export class CsrBuyerDetailComponent implements OnInit {
   assignToBroker() {
     this.admin.postDataApi('conversation/assignBroker', {lead_id: this.parameter.lead_id}).subscribe(r => {
       this.parameter.lead = r.data;
+      swal('Success', 'Broker assigned successfully', 'success');
     }
   );
   }

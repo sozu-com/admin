@@ -151,7 +151,7 @@
                                  
                                        <tr *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }">
                                            <td class="cursor-pointer" title="Click to view details" routerLink="/dashboard/properties/details/{{p.id}}">
-                                             <strong>{{p?.building?.name}}</strong>
+                                             <strong>{{p?.building?.name?p?.building?.name:'NA'}}</strong>
                                              <div class="clearfix"></div>
                                              <small *ngIf="p.quantity > 0">
                                               {{p.quantity}} 

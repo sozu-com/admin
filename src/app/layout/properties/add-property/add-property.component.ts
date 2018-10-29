@@ -703,7 +703,9 @@ removeBank(bank, index) {
           swal('Submitted successfully.',
           'You will be notified once your property will be reviewed by them, you can view status in your properties.',
           'success');
-          this.router.navigate(['/dashboard/properties/view-properties']);
+          if (this.router.url.indexOf('/dashboard/properties/edit-property') === -1) {
+            this.router.navigate(['/dashboard/properties/view-properties']);
+          }
         }, error => {
           this.parameter.loading = false;
         }
@@ -800,7 +802,9 @@ removeBank(bank, index) {
           swal('Submitted successfully.',
           'You will be notified once your property will be reviewed by them, you can view status in your properties.',
           'success');
-          this.router.navigate(['/dashboard/properties/view-properties']);
+          if (this.router.url.indexOf('/dashboard/properties/edit-property') === -1) {
+            this.router.navigate(['/dashboard/properties/view-properties']);
+          }
         }, error => {
           this.parameter.loading = false;
         }
