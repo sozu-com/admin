@@ -4,6 +4,7 @@ import { AdminService } from '../services/admin.service';
 import { NgForm } from '@angular/forms';
 import { IProperty } from '../common/property';
 import { Constant } from './../common/constants';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -65,6 +66,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
       .subscribe(
         success => {
           this.parameter.loading = false;
+          if (success.data.is_blocked === 1) {
+            swal('Error', 'You are blocked by admin.', 'error');
+            return false;
+          }
           if (success.data.permissions) {
             if (success.data.permissions.can_csr_buyer === 1) {
               this.router.navigate(['dashboard/leads/csr-buyers']);
@@ -83,47 +88,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
             }
           } else if (success.data.admin_acl) {
             let check = true;
-            // let path = '';
             const dd = this.admin.admin_acl_array.map((obj, index) => {
               const key =  Object.keys(obj)[0];
-              // console.log('1', key);
               if (check && obj[key]['can_read'] === 1) {
-                console.log('========', key, obj[key], obj[key]['can_read']);
                 check = false;
-                console.log('path', obj[key]['acl'].path);
-                // this.router.navigate(['dashboard']);
                 this.router.navigate([obj[key]['acl'].path]);
-                // this.router.navigate(['dashboard/view-inhouse-users/inhouse-broker']);
-                // switch (key) {
-                //   case 'Dashboard': path = 'dashboard'; this.router.navigate(['dashboard']); break;
-                //   case 'Broker Management': path = 'dashboard/view-inhouse-users/inhouse-broker'; this.router.navigate([path]); break;
-                //   case 'Seller Management': path = 'dashboard/view-inhouse-users/csr-sellers'; this.router.navigate([path]); break;
-                //   case 'Bank Management': path = 'dashboard/banks/view-banks'; this.router.navigate([path]); break;
-                //   case 'Noataries Management': path = 'dashboard/notary/view-notary'; this.router.navigate([path]); break;
-                //   case 'User Management': path = 'dashboard/users'; this.router.navigate([path]); break;
-                //   case 'Data Collector Management':
-                //     path = 'dashboard/view-inhouse-users/data-collectors';
-                //     this.router.navigate([path]); break;
-                //   case 'Property Management': path = 'dashboard/properties/view-properties'; this.router.navigate([path]); break;
-                //   case 'Building Management': path = 'dashboard/projects/view-projects'; this.router.navigate([path]); break;
-                //   case 'Enquiries': path = 'dashboard'; this.router.navigate([path]); break;
-                //   case 'Manage Localities': path = 'dashboard'; this.router.navigate([path]); break;
-                //   case 'Admin Defaults': path = 'dashboard'; this.router.navigate([path]); break;
-                //   case 'Access Controls': path = 'dashboard/access-control-mgt'; this.router.navigate([path]); break;
-                //   case 'Buyer Management': path = 'dashboard/view-inhouse-users/csr-buyers'; this.router.navigate([path]); break;
-                //   case 'Closer Management': path = 'dashboard/view-inhouse-users/csr-closers'; this.router.navigate([path]); break;
-                //   case 'Notary Lead Management': path = 'dashboard'; this.router.navigate([path]); break;
-                //   case 'Data Collector Lead Management': path = 'dashboard/leads/data-collectors'; this.router.navigate([path]); break;
-                //   case 'Seller Lead Management': path = 'dashboard/leads/csr-sellers'; this.router.navigate([path]); break;
-                //   case 'Buyer Lead Management': path = 'dashboard/leads/csr-buyers'; this.router.navigate([path]); break;
-                //   case 'Broker Lead Management': path = 'dashboard/leads/inhouse-broker'; this.router.navigate([path]); break;
-                //   case 'Closer Lead Management': path = 'dashboard/leads/csr-closers'; this.router.navigate([path]); break;
-                //   case 'Reports': path = 'dashboard/reports'; this.router.navigate([path]); break;
-                //   case 'Manual Leads': path = 'dashboard/manual-leads'; this.router.navigate([path]); break;
-                //   case 'Templates': path = 'dashboard/edit-template'; this.router.navigate([path]); break;
-                //   case 'Settings': path = 'dashboard/settings/setting-location'; this.router.navigate([path]); break;
-                //   default: path = 'dashboard'; this.router.navigate([path]); break;
-                // }
               }
             });
           } else {

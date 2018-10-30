@@ -6934,7 +6934,10 @@ var ChangePasswordComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_admin_service__ = __webpack_require__("../../../../../src/app/services/admin.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__common_constants__ = __webpack_require__("../../../../../src/app/common/constants.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_sweetalert2__ = __webpack_require__("../../../../sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_sweetalert2__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginComponent; });
+
 
 
 
@@ -6984,6 +6987,10 @@ var LoginComponent = /** @class */ (function () {
         this.admin.adminLogin(email.toLowerCase(), password)
             .subscribe(function (success) {
             _this.parameter.loading = false;
+            if (success.data.is_blocked === 1) {
+                __WEBPACK_IMPORTED_MODULE_3_sweetalert2___default()('Error', 'You are blocked by admin.', 'error');
+                return false;
+            }
             if (success.data.permissions) {
                 if (success.data.permissions.can_csr_buyer === 1) {
                     _this.router.navigate(['dashboard/leads/csr-buyers']);
@@ -7009,47 +7016,11 @@ var LoginComponent = /** @class */ (function () {
             }
             else if (success.data.admin_acl) {
                 var check_1 = true;
-                // let path = '';
                 var dd = _this.admin.admin_acl_array.map(function (obj, index) {
                     var key = Object.keys(obj)[0];
-                    // console.log('1', key);
                     if (check_1 && obj[key]['can_read'] === 1) {
-                        console.log('========', key, obj[key], obj[key]['can_read']);
                         check_1 = false;
-                        console.log('path', obj[key]['acl'].path);
-                        // this.router.navigate(['dashboard']);
                         _this.router.navigate([obj[key]['acl'].path]);
-                        // this.router.navigate(['dashboard/view-inhouse-users/inhouse-broker']);
-                        // switch (key) {
-                        //   case 'Dashboard': path = 'dashboard'; this.router.navigate(['dashboard']); break;
-                        //   case 'Broker Management': path = 'dashboard/view-inhouse-users/inhouse-broker'; this.router.navigate([path]); break;
-                        //   case 'Seller Management': path = 'dashboard/view-inhouse-users/csr-sellers'; this.router.navigate([path]); break;
-                        //   case 'Bank Management': path = 'dashboard/banks/view-banks'; this.router.navigate([path]); break;
-                        //   case 'Noataries Management': path = 'dashboard/notary/view-notary'; this.router.navigate([path]); break;
-                        //   case 'User Management': path = 'dashboard/users'; this.router.navigate([path]); break;
-                        //   case 'Data Collector Management':
-                        //     path = 'dashboard/view-inhouse-users/data-collectors';
-                        //     this.router.navigate([path]); break;
-                        //   case 'Property Management': path = 'dashboard/properties/view-properties'; this.router.navigate([path]); break;
-                        //   case 'Building Management': path = 'dashboard/projects/view-projects'; this.router.navigate([path]); break;
-                        //   case 'Enquiries': path = 'dashboard'; this.router.navigate([path]); break;
-                        //   case 'Manage Localities': path = 'dashboard'; this.router.navigate([path]); break;
-                        //   case 'Admin Defaults': path = 'dashboard'; this.router.navigate([path]); break;
-                        //   case 'Access Controls': path = 'dashboard/access-control-mgt'; this.router.navigate([path]); break;
-                        //   case 'Buyer Management': path = 'dashboard/view-inhouse-users/csr-buyers'; this.router.navigate([path]); break;
-                        //   case 'Closer Management': path = 'dashboard/view-inhouse-users/csr-closers'; this.router.navigate([path]); break;
-                        //   case 'Notary Lead Management': path = 'dashboard'; this.router.navigate([path]); break;
-                        //   case 'Data Collector Lead Management': path = 'dashboard/leads/data-collectors'; this.router.navigate([path]); break;
-                        //   case 'Seller Lead Management': path = 'dashboard/leads/csr-sellers'; this.router.navigate([path]); break;
-                        //   case 'Buyer Lead Management': path = 'dashboard/leads/csr-buyers'; this.router.navigate([path]); break;
-                        //   case 'Broker Lead Management': path = 'dashboard/leads/inhouse-broker'; this.router.navigate([path]); break;
-                        //   case 'Closer Lead Management': path = 'dashboard/leads/csr-closers'; this.router.navigate([path]); break;
-                        //   case 'Reports': path = 'dashboard/reports'; this.router.navigate([path]); break;
-                        //   case 'Manual Leads': path = 'dashboard/manual-leads'; this.router.navigate([path]); break;
-                        //   case 'Templates': path = 'dashboard/edit-template'; this.router.navigate([path]); break;
-                        //   case 'Settings': path = 'dashboard/settings/setting-location'; this.router.navigate([path]); break;
-                        //   default: path = 'dashboard'; this.router.navigate([path]); break;
-                        // }
                     }
                 });
             }
