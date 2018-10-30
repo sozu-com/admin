@@ -5,6 +5,7 @@ import { IProperty } from '../../../common/property';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Constant } from './../../../common/constants';
 import { Project, Amenities } from './../../../models/project.model';
+import { NgForm } from '@angular/forms';
 declare let swal: any;
 
 @Component({
@@ -24,6 +25,7 @@ export class ProjectComponent implements OnInit {
     private modalService: BsModalService, public admin: AdminService,
     public amenityModel: Amenities
   ) {
+    this.parameter.index = -1;
     this.parameter.countryCount = 0;
     this.parameter.stateCount = 0;
     this.parameter.cityCount = 0;
@@ -40,7 +42,8 @@ export class ProjectComponent implements OnInit {
     this.modalRef.hide();
   }
 
-  public openPossessionStatusModal(template: TemplateRef<any>, id, name_en, name_es, status) {
+  public openPossessionStatusModal(template: TemplateRef<any>, index, id, name_en, name_es, status) {
+    this.parameter.index = index;
     this.project.possession.id = id;
     this.project.possession.name_en = name_en;
     this.project.possession.name_es = name_es == null ? name_en : name_es;
@@ -48,7 +51,8 @@ export class ProjectComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  public openBuildingTypeModal(template: TemplateRef<any>, id, name_en, name_es, status) {
+  public openBuildingTypeModal(template: TemplateRef<any>, index, id, name_en, name_es, status) {
+    this.parameter.index = index;
     this.project.type.id = id;
     this.project.type.name_en = name_en;
     this.project.type.name_es = name_es;
@@ -56,12 +60,8 @@ export class ProjectComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  public openAmenityModal(template: TemplateRef<any>, id, icon, name_en, name_es, status) {
-    // this.project.amenities.id = id;
-    // this.project.amenities.icon = icon;
-    // this.project.amenities.name_en = name_en;
-    // this.project.amenities.name_es = name_es;
-    // this.project.amenities.status = status;
+  public openAmenityModal(template: TemplateRef<any>, index, id, icon, name_en, name_es, status) {
+    this.parameter.index = index;
     this.amenityModel.id = id;
     this.amenityModel.icon = icon;
     this.amenityModel.name_en = name_en;
@@ -72,44 +72,39 @@ export class ProjectComponent implements OnInit {
 
 
   addPossessionStatus(id, name_en, name_es, status, type) {
-
-    if (type !== 'add') {this.modalRef.hide(); }
-
-    // this.parameter.loading = true;
+    if (type === 'edit') {this.modalRef.hide(); }
     this.parameter.url = 'addPossessionStatus';
-
     const input = new FormData();
     input.append('name_en', name_en);
     input.append('name_es', name_es);
     input.append('status', status);
 
     if (id) {input.append('id', id); }
-
+    this.parameter.loading = true;
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          // console.log('addPossessionStatus', success);
-          // this.parameter.loading = false;
+          this.parameter.loading = false;
           const text = id ?
           this.constant.successMsg.PROJECT_POSSESSION_UPDATED_SUCCESSFULLY :
           this.constant.successMsg.PROJECT_POSSESSION_ADDED_SUCCESSFULLY;
           swal('Success', text, 'success');
           this.project.possession.name_en = '';
           this.project.possession.name_es = '';
-          this.getPossessionStatuses();
-        }
-        // error => {
-        //   this.parameter.loading = false;
-        //   swal('Error', error.message, 'error');
-        //   this.router.navigate(['']);
-        // }
-      );
+          if (this.parameter.index !== -1) {
+            this.parameter.items[this.parameter.index] = success.data;
+          } else {
+            this.parameter.items.push(success.data);
+          }
+          this.parameter.index = -1;
+          // this.getPossessionStatuses();
+        }, error => {
+          this.parameter.loading = false;
+        });
   }
 
   addBuildingType(id, name_en, name_es, status, type) {
-    if (type !== 'add') {this.modalRef.hide(); }
-
-    // this.parameter.loading = true;
+    if (type === 'edit') {this.modalRef.hide(); }
     this.parameter.url = 'addBuildingType';
 
     const input = new FormData();
@@ -118,37 +113,33 @@ export class ProjectComponent implements OnInit {
     input.append('status', status);
 
     if (id) {input.append('id', id); }
-
+    this.parameter.loading = true;
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          // console.log('addBuildingType', success);
-          // this.parameter.loading = false;
+          this.parameter.loading = false;
           const text = id ?
             this.constant.successMsg.PROJECT_TYPE_UPDATED_SUCCESSFULLY :
             this.constant.successMsg.PROJECT_TYPE_ADDED_SUCCESSFULLY;
             this.project.type.name_en = '';
             this.project.type.name_es = '';
           swal('Success', text, 'success');
-          this.getBuildingTypes();
-        }
-        // error => {
-        //   this.parameter.loading = false;
-        //   swal('Error', error.message, 'error');
-        //   this.router.navigate(['']);
-        // }
-      );
+          if (this.parameter.index !== -1) {
+            this.parameter.projectTypes[this.parameter.index] = success.data;
+          } else {
+            this.parameter.projectTypes.push(success.data);
+          }
+          this.parameter.index = -1;
+          // this.getBuildingTypes();
+        }, error => {
+          this.parameter.loading = false;
+        });
   }
 
 
   addAmenity(id, icon, name_en, name_es, status, type) {
-
-    if (type !== 'add') {this.modalRef.hide(); }
-
-    // const iconNew = this.icon ? this.icon : this.project.amenities.icon;
+    if (type === 'edit') {this.modalRef.hide(); }
     const iconNew = this.icon ? this.icon : this.amenityModel.icon;
-
-    // this.parameter.loading = true;
     this.parameter.url = 'addAmenity';
 
     const input = new FormData();
@@ -160,26 +151,24 @@ export class ProjectComponent implements OnInit {
     if (this.icon) {input.append('icon', iconNew); }
 
     if (id) {input.append('id', id); }
-
+    this.parameter.loading = true;
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          // console.log('addAmenity', success);
-          // this.parameter.loading = false;
+          this.parameter.loading = false;
           const text = id ? this.constant.successMsg.AMENITY_UPDATED_SUCCESSFULLY : this.constant.successMsg.AMENITY_ADDED_SUCCESSFULLY;
           swal('Success', text, 'success');
-          // this.project.amenities.name_en = '';
-          // this.project.amenities.name_es = '';
-          // this.project.amenities.icon = '';
+          if (this.parameter.index !== -1) {
+            this.parameter.amenities[this.parameter.index] = success.data;
+          } else {
+            this.parameter.amenities.push(success.data);
+          }
+          this.parameter.index = -1;
           this.amenityModel = new Amenities;
-          this.getAmenities();
-        }
-        // error => {
-        //   this.parameter.loading = false;
-        //   swal('Error', error.message, 'error');
-        //   this.router.navigate(['']);
-        // }
-      );
+          // this.getAmenities();
+        }, error => {
+          this.parameter.loading = false;
+        });
   }
 
 
@@ -232,7 +221,8 @@ export class ProjectComponent implements OnInit {
       );
   }
 
-  addPossessionStatusPopup(id, name_en, name_es, status, type) {
+  addPossessionStatusPopup(index, id, name_en, name_es, status, type) {
+    this.parameter.index = index;
     const text = status === 1 ? this.constant.title.UNBLOCK_PROJECT_POSSESSION : this.constant.title.BLOCK_PROJECT_POSSESSION;
     swal({
       // title: this.constant.title.ARE_YOU_SURE,
@@ -250,7 +240,8 @@ export class ProjectComponent implements OnInit {
     });
   }
 
-  addBuildingTypePopup(id, name_en, name_es, status, type) {
+  addBuildingTypePopup(index, id, name_en, name_es, status, type) {
+    this.parameter.index = index;
     const text = status === 1 ? this.constant.title.UNBLOCK_PROJECT_TYPE : this.constant.title.BLOCK_PROJECT_TYPE;
     swal({
       // title: this.constant.title.ARE_YOU_SURE,
@@ -268,7 +259,8 @@ export class ProjectComponent implements OnInit {
     });
   }
 
-  addAmenityPopup(id, icon, name_en, name_es, status, type) {
+  addAmenityPopup(index, id, icon, name_en, name_es, status, type) {
+    this.parameter.index = index;
     const text = status === 1 ? this.constant.title.UNBLOCK_AMENITY : this.constant.title.BLOCK_AMENITY;
     swal({
       // title: this.constant.title.ARE_YOU_SURE,
@@ -286,8 +278,9 @@ export class ProjectComponent implements OnInit {
     });
   }
 
-  checkIfPossessionSpanishNameEntered(id, name_en, name_es, status, type) {
+  checkIfPossessionSpanishNameEntered(formdata: NgForm, id, name_en, name_es, status, type) {
     const self = this;
+    formdata.reset();
     if (name_es === '') {
       swal({
         text: this.constant.errorMsg.SAVE_ENGLISH_PROJECT_POSSESION,
@@ -307,8 +300,9 @@ export class ProjectComponent implements OnInit {
   }
 
 
-  checkIfTypeSpanishNameEntered(id, name_en, name_es, status, type) {
+  checkIfTypeSpanishNameEntered(formdata: NgForm, id, name_en, name_es, status, type) {
     const self = this;
+    formdata.reset();
     if (name_es === '') {
       swal({
         text: this.constant.errorMsg.SAVE_ENGLISH_PROJECT_TYPE,
@@ -328,8 +322,9 @@ export class ProjectComponent implements OnInit {
   }
 
 
-  checkIfAmenitySpanishNameEntered(id, icon, name_en, name_es, status, type) {
+  checkIfAmenitySpanishNameEntered(formdata: NgForm, id, icon, name_en, name_es, status, type) {
     const self = this;
+    formdata.reset();
     if (name_es === '') {
       swal({
         text: this.constant.errorMsg.SAVE_ENGLISH_AMENITY,

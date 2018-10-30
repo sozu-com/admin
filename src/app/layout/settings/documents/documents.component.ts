@@ -4,6 +4,7 @@ import { IProperty } from '../../../common/property';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Constant } from './../../../common/constants';
 import { Document } from './../../../models/document.model';
+import { NgForm } from '@angular/forms';
 declare let swal: any;
 
 
@@ -112,8 +113,9 @@ export class DocumentsComponent implements OnInit {
   }
 
 
-  checkIfSpanishNameEntered(id, name_en, name_es, status, type) {
+  checkIfSpanishNameEntered(formdata: NgForm, id, name_en, name_es, status, type) {
     // console.log('id, name_en, name_es, status, type', id, name_en, name_es, status, type);
+    formdata.reset();
     const self = this;
     if (name_es === undefined) {
       swal({

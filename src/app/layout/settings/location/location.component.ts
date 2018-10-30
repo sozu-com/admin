@@ -70,92 +70,52 @@ export class LocationComponent implements OnInit {
 
   // used for dropdown for states
   getAllCountries(keyword) {
-
-    // this.parameter.loading = true;
     this.parameter.url = 'getCountries';
     const input = new FormData();
-
     if (keyword) { input.append('keyword', keyword); }
-
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          // console.log('countries', success);
-          // this.parameter.loading = false;
           this.parameter.countries1 = success.data;
           if (this.parameter.countries1.length !== 0) {
             this.parameter.country_id = this.parameter.countries1[0].id;
             this.getStatesWRTCountry(this.parameter.countries1[0].id, '');
           }
-        }
-        // error => {
-        //   this.parameter.loading = false;
-        //   if (error.statusCode === 401) {
-        //     this.router.navigate(['']);
-        //   }else {
-        //     swal('Error', error.message, 'error');
-        //   }
-        // }
-      );
+        });
   }
 
 
   // used for dropdown for cities
   getAllCountriesForCities(keyword) {
-
-    // this.parameter.loading = true;
     this.parameter.url = 'getCountries';
     const input = new FormData();
-
     if (keyword) { input.append('keyword', keyword); }
-
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          // console.log('countries', success);
-          // this.parameter.loading = false;
           this.parameter.countries2 = success.data;
           if (this.parameter.countries2.length !== 0) {
             this.parameter.country_id = this.parameter.countries2[0].id;
             this.getStates(this.parameter.countries2[0].id, '');
           }
-        }
-        // error => {
-        //   this.parameter.loading = false;
-        //   if (error.statusCode === 401) {
-        //     this.router.navigate(['']);
-        //   }else {
-        //     swal('Error', error.message, 'error');
-        //   }
-        // }
-      );
+        });
   }
 
 
   // used for country listing and country search
   getCountries(keyword) {
-    // this.parameter.loading = true;
+    this.parameter.loading = true;
     this.parameter.url = 'getCountries';
     const input = new FormData();
-
     if (keyword) { input.append('keyword', keyword); }
-
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          // console.log('countries', success);
-          // this.parameter.loading = false;
+          this.parameter.loading = false;
           this.parameter.countries = success.data;
-        }
-        // error => {
-        //   this.parameter.loading = false;
-        //   if (error.statusCode === 401) {
-        //     this.router.navigate(['']);
-        //   }else {
-        //     swal('Error', error.message, 'error');
-        //   }
-        // }
-      );
+        }, error => {
+          this.parameter.loading = false;
+        });
   }
 
   // used on click of country -- city
@@ -172,23 +132,12 @@ export class LocationComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          // console.log('states', success);
-          // this.parameter.loading = false;
           this.parameter.states1 = success.data;
           if (this.parameter.states1.length !== 0) {
             this.parameter.state_id = this.parameter.states1[0].id;
             this.getCities(this.parameter.states1[0].id, '');
           }else { this.parameter.cities = []; }
-        }
-        // error => {
-        //   this.parameter.loading = false;
-        //   if (error.statusCode === 401) {
-        //     this.router.navigate(['']);
-        //   }else {
-        //     swal('Error', error.message, 'error');
-        //   }
-        // }
-      );
+        });
   }
 
   // used for search and listing
@@ -208,16 +157,7 @@ export class LocationComponent implements OnInit {
           // console.log('states', success);
           // this.parameter.loading = false;
           this.parameter.states = success.data;
-        }
-        // error => {
-        //   this.parameter.loading = false;
-        //   if (error.statusCode === 401) {
-        //     this.router.navigate(['']);
-        //   }else {
-        //     swal('Error', error.message, 'error');
-        //   }
-        // }
-      );
+        });
   }
 
 
@@ -238,16 +178,7 @@ export class LocationComponent implements OnInit {
           // console.log('states', success);
           // this.parameter.loading = false;
           this.parameter.states2 = success.data;
-        }
-        // error => {
-        //   this.parameter.loading = false;
-        //   if (error.statusCode === 401) {
-        //     this.router.navigate(['']);
-        //   }else {
-        //     swal('Error', error.message, 'error');
-        //   }
-        // }
-      );
+        });
   }
 
 
@@ -269,16 +200,7 @@ export class LocationComponent implements OnInit {
           // console.log('cities', success);
           // this.parameter.loading = false;
           this.parameter.cities = success.data;
-        }
-        // error => {
-        //   this.parameter.loading = false;
-        //   if (error.statusCode === 401) {
-        //     this.router.navigate(['']);
-        //   }else {
-        //     swal('Error', error.message, 'error');
-        //   }
-        // }
-      );
+        });
   }
 
 
@@ -338,17 +260,7 @@ export class LocationComponent implements OnInit {
           }else {
             this.parameter.countries[this.parameter.index] = success.data;
           }
-
-        }
-        // error => {
-        //   this.parameter.loading = false;
-        //   if (error.statusCode === 401) {
-        //     this.router.navigate(['']);
-        //   }else {
-        //     swal('Error', error.message, 'error');
-        //   }
-        // }
-      );
+        });
   }
 
 
@@ -417,16 +329,7 @@ export class LocationComponent implements OnInit {
           }
 
           // formdata.reset();
-        }
-        // error => {
-        //   this.parameter.loading = false;
-        //   if (error.statusCode === 401) {
-        //     this.router.navigate(['']);
-        //   }else {
-        //     swal('Error', error.message, 'error');
-        //   }
-        // }
-      );
+        });
   }
 
 
@@ -491,16 +394,7 @@ export class LocationComponent implements OnInit {
           }
 
           // formdata.reset();
-        }
-        // error => {
-        //   this.parameter.loading = false;
-        //   if (error.statusCode === 401) {
-        //     this.router.navigate(['']);
-        //   }else {
-        //     swal('Error', error.message, 'error');
-        //   }
-        // }
-      );
+        });
   }
 
 

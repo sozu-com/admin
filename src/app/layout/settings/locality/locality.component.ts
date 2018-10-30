@@ -39,7 +39,6 @@ export class LocalityComponent implements OnInit {
   constructor(
     private loader: MapsAPILoader,
     public admin: AdminService,
-    private router: Router,
     private constant: Constant,
     public model: Locality
   ) {}
@@ -51,7 +50,7 @@ export class LocalityComponent implements OnInit {
 
   getCountries(keyword) {
 
-    // this.parameter.loading = true;
+    this.parameter.loading = true;
     this.parameter.url = 'getCountries';
     const input = new FormData();
 
@@ -62,28 +61,20 @@ export class LocalityComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          // console.log('countries', success);
-          // this.parameter.loading = false;
+          this.parameter.loading = false;
           this.parameter.countries = success.data;
           if (this.parameter.countries.length !== 0) {
             this.parameter.country_id = this.parameter.countries[0].id;
             this.getStates(this.parameter.countries[0].id, '');
           }
+        }, error => {
+          this.parameter.loading = false;
         }
-        // error => {
-        //   this.parameter.loading = false;
-        //   if (error.statusCode === 401) {
-        //     swal('Error', error.message, 'error');
-        //     this.router.navigate(['']);
-        //   }else {
-        //     swal('Error', error.message, 'error');
-        //   }
-        // }
       );
   }
 
   getStates(country_id, keyword) {
-    // this.parameter.loading = true;
+    this.parameter.loading = true;
     this.parameter.url = 'country/getStates';
     this.parameter.country_id = country_id;
 
@@ -98,7 +89,7 @@ export class LocalityComponent implements OnInit {
       .subscribe(
         success => {
           // console.log('states', success);
-          // this.parameter.loading = false;
+          this.parameter.loading = false;
           this.parameter.states = success.data;
           if (this.parameter.states.length) {
             this.parameter.state_id = this.parameter.states[0].id;
@@ -111,22 +102,14 @@ export class LocalityComponent implements OnInit {
             this.all_overlays = [];
             this.init();
           }
-        }
-        // error => {
-        //   console.log(error);
-        //   this.parameter.loading = false;
-        //   if (error.statusCode === 401) {
-        //     this.router.navigate(['']);
-        //   }else {
-        //     swal('Error', error.message, 'error');
-        //   }
-        // }
-      );
+        }, error => {
+          this.parameter.loading = false;
+        });
   }
 
   getCities(state_id, keyword) {
     // console.log('mm', state_id, keyword);
-    // this.parameter.loading = true;
+    this.parameter.loading = true;
     this.parameter.url = 'getCities';
     this.parameter.state_id = state_id;
 
@@ -141,7 +124,7 @@ export class LocalityComponent implements OnInit {
       .subscribe(
         success => {
           // console.log('cities', success);
-          // this.parameter.loading = false;
+          this.parameter.loading = false;
           this.parameter.cities = success.data;
           if (this.parameter.cities.length) {
             this.parameter.city_id = this.parameter.cities[0].id;
@@ -154,23 +137,15 @@ export class LocalityComponent implements OnInit {
             this.all_overlays = [];
             this.init();
           }
-        }
-        // error => {
-        //   console.log(error);
-        //   this.parameter.loading = false;
-        //   if (error.statusCode === 401) {
-        //     this.router.navigate(['']);
-        //   }else {
-        //     swal('Error', error.message, 'error');
-        //   }
-        // }
-      );
+        }, error => {
+          this.parameter.loading = false;
+        });
   }
 
 
   getLocalities(city_id, keyword= '') {
     // console.log('mm', city_id, keyword);
-    // this.parameter.loading = true;
+    this.parameter.loading = true;
     this.parameter.url = 'getLocalities';
     this.parameter.city_id = city_id;
 
@@ -185,7 +160,7 @@ export class LocalityComponent implements OnInit {
       .subscribe(
         success => {
           // console.log('Localities', success);
-          // this.parameter.loading = false;
+          this.parameter.loading = false;
           this.parameter.localities = success.data;
           this.all_overlays = this.parameter.localities;
           this.parameter.localityCount = success.data.length;
@@ -195,20 +170,10 @@ export class LocalityComponent implements OnInit {
             this.all_overlays = [];
           }
           this.init();
-        }
-        // error => {
-        //   console.log(error);
-        //   this.parameter.loading = false;
-        //   if (error.statusCode === 401) {
-        //     this.router.navigate(['']);
-        //   }else {
-        //     swal('Error', error.message, 'error');
-        //   }
-        // }
-      );
+        }, error => {
+          this.parameter.loading = false;
+        });
   }
-
-
 
 
   init() {
