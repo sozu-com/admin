@@ -14,6 +14,7 @@ import swal from 'sweetalert2';
 
 export class LoginComponent implements OnInit, AfterViewInit {
 
+  loginForm: NgForm;
   model = {
     email: '',
     password: ''
@@ -22,6 +23,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   public parameter: IProperty = {};
 
   constructor(private router: Router, private admin: AdminService, public constant: Constant) {
+    // this.loginForm.reset();
     this.parameter.loading = false;
     this.projectName = this.constant.projectName;
 

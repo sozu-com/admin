@@ -7,6 +7,7 @@ import { AddNotaryAvailabilty, NotaryLeads } from '../../../models/leads.model';
 import { ChatTimePipe } from '../../../pipes/chat-time.pipe';
 declare let swal: any;
 import {} from './../../../services/http-interceptor';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-notary-leads',
@@ -47,7 +48,8 @@ export class NotaryLeadsComponent implements OnInit {
   constructor(
     public admin: AdminService,
     private constant: Constant,
-    public availability: AddNotaryAvailabilty
+    public availability: AddNotaryAvailabilty,
+    public route: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -58,6 +60,9 @@ export class NotaryLeadsComponent implements OnInit {
     this.parameter.flag = 2;
     this.parameter.total = 0;
     this.parameter.count_flag = 1;
+    this.route.params.subscribe( params => {
+      this.parameter.assignee_id = params.id;
+    });
     this.getCountries();
     this.getListing();
     this.getCsrSellerDash();
@@ -191,6 +196,8 @@ export class NotaryLeadsComponent implements OnInit {
     const input = new FormData();
     if (this.selectedUser) {
       input.append('assignee_id', this.selectedUser.id);
+    } else if (this.parameter.assignee_id) {
+      input.append('assignee_id', this.parameter.assignee_id);
     }
     if (this.parameter.flag) {
       input.append('flag', this.parameter.flag.toString());
@@ -221,6 +228,8 @@ export class NotaryLeadsComponent implements OnInit {
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     if (this.selectedUser) {
       input.assignee_id = this.selectedUser.id;
+    } else if (this.parameter.assignee_id) {
+      input.assignee_id = this.parameter.assignee_id;
     }
     this.parameter.loading = true;
     this.admin.postDataApi('leads/noataries', input).subscribe(

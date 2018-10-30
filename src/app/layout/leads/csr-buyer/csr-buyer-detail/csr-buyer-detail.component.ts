@@ -17,7 +17,7 @@ export class CsrBuyerDetailComponent implements OnInit {
   @ViewChild('showPropertyModal') showPropertyModal: ElementRef;
   public parameter: IProperty = {};
   public selected_prop_ids = [];
-
+  is_deal_finalised: boolean;
   constructor(
     private route: ActivatedRoute,
     public admin: AdminService,
@@ -41,6 +41,7 @@ export class CsrBuyerDetailComponent implements OnInit {
           this.setFillInformationData(r);
           this.parameter.proximity_places = r.data.lead.proximity_places;
           this.parameter.interested_properties = r.data.interested_properties;
+          this.is_deal_finalised = this.parameter.lead.selected_properties.length !== 0 ? true : false;
           this.parameter.viewed_properties = r.data.viewed_properties;
           this.parameter.user_id = this.parameter.lead.user ? this.parameter.lead.user.id : 0;
         }, error => {

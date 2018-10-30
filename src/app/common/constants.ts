@@ -7,7 +7,7 @@ export class Constant {
     public userPlaceholder = '../../../assets/img/default_usr.png';
     public initialCountry = 'mx';
     public minValue = 0;
-    public maxValue = 1000000000;
+    public maxValue = 1000000; // 1000000000;
     public fileSizeLimit = 25000000; // 25MB
     public steps = 1000;
     public months = [

@@ -3,6 +3,7 @@ import { AdminService } from '../../../services/admin.service';
 import { IProperty } from '../../../common/property';
 import { Constant } from './../../../common/constants';
 import { Users } from '../../../models/users.model';
+import { ActivatedRoute } from '@angular/router';
 declare let swal: any;
 
 @Component({
@@ -37,6 +38,7 @@ export class BankLeadsComponent implements OnInit {
   constructor(
     private admin: AdminService,
     private constant: Constant,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -46,6 +48,9 @@ export class BankLeadsComponent implements OnInit {
     this.parameter.flag = 2;
     this.parameter.total = 0;
     this.parameter.count_flag = 1;
+    this.route.params.subscribe( params => {
+      this.parameter.assignee_id = params.id;
+    });
     this.getCountries();
     this.getListing();
     this.getCsrSellerDash();
@@ -181,6 +186,8 @@ export class BankLeadsComponent implements OnInit {
     const input = new FormData();
     if (this.selectedUser) {
       input.append('assignee_id', this.selectedUser.id);
+    } else if (this.parameter.assignee_id) {
+      input.append('assignee_id', this.parameter.assignee_id);
     }
     if (this.parameter.flag) {
       input.append('flag', this.parameter.flag.toString());
@@ -207,6 +214,8 @@ export class BankLeadsComponent implements OnInit {
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     if (this.selectedUser) {
       input.assignee_id = this.selectedUser.id;
+    } else if (this.parameter.assignee_id) {
+      input.assignee_id = this.parameter.assignee_id;
     }
     this.parameter.loading = true;
     this.admin.postDataApi('leads/banks', input).subscribe(

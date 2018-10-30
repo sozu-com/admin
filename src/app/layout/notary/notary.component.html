@@ -72,6 +72,10 @@
               <td class="text-left">{{item.email}}</td>
               <td class="text-left">{{item.address?item.address:'NA'}}</td>
               <td>
+                <a *ngIf="admin?.admin_acl['Notary Lead Management']?.can_read==1" title="View Leads" href="javascript://"
+                  routerLink="/dashboard/notary/view-notary-leads/{{item.id}}" class="icon-block edit-icon">
+                  <img src="assets/img/ic_leads.png" alt="img">
+                </a>
                 <button title="Edit Details" [disabled]="admin?.admin_acl['Noataries Management']?.can_update==0" (click)="editUser(item, i)" class="action-icon"><img src="./../../../../assets/img/edit.png" alt="img"></button>
                 <button [disabled]="admin?.admin_acl['Noataries Management']?.can_delete==0"
                   (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1)" 

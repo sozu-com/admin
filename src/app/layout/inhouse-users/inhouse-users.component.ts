@@ -908,7 +908,7 @@ export class InhouseUsersComponent implements OnInit {
     this.parameter.url = this.model.id ? 'updateNewUser' : 'addNewUser';
     this.seenDuplicate = false;
     const input = new FormData();
-
+console.log('===', formdata);
     if (this.model.id !== '') {input.append('id', this.model.id); }
 
     input.append('name', this.model.name);
@@ -949,9 +949,12 @@ export class InhouseUsersComponent implements OnInit {
       this.testObject = [];
       this.seenDuplicate = false;
       swal('Error', 'Please choose different localities.', 'error');
-    } else if (formdata.value.is_broker_seller_dev === false && formdata.value.is_buyer_renter === false &&
+    } else if ((formdata.value.is_broker_seller_dev === false && formdata.value.is_buyer_renter === false &&
       formdata.value.is_broker === false && formdata.value.is_data_collector === false &&
-      formdata.value.is_csr_closer === false) {
+      formdata.value.is_csr_closer === false) ||
+      (formdata.value.is_broker_seller_dev === null && formdata.value.is_buyer_renter === null &&
+        formdata.value.is_broker === null && formdata.value.is_data_collector === null &&
+        formdata.value.is_csr_closer === null)) {
         swal('Error', 'Please choose a role for inhouse user.', 'error');
     } else {
       this.parameter.loading = true;
@@ -1035,24 +1038,21 @@ export class InhouseUsersComponent implements OnInit {
     this.viewModalOpen.nativeElement.click();
 
     this.model.is_broker_seller_dev = userdata.permissions && userdata.permissions.can_csr_seller === 1 ? true : false;
-    this.model.is_buyer_renter = userdata.permissions && userdata.permissions.can_csr_buyer === 1 ? true : true;
-    this.model.is_broker = userdata.permissions && userdata.permissions.can_in_house_broker === 1 ? true : true;
+    this.model.is_buyer_renter = userdata.permissions && userdata.permissions.can_csr_buyer === 1 ? true : false;
+    this.model.is_broker = userdata.permissions && userdata.permissions.can_in_house_broker === 1 ? true : false;
     this.model.is_data_collector = userdata.permissions && userdata.permissions.can_data_collector === 1 ? true : false;
-    this.model.is_csr_closer = userdata.permissions && userdata.permissions.can_csr_closer === 1 ? true : true;
+    this.model.is_csr_closer = userdata.permissions && userdata.permissions.can_csr_closer === 1 ? true : false;
 
-    for (let ind = 0; ind < userdata.countries.length; ind++) {
-
-      const tempAdd = {
-        countries: userdata.countries[ind].id,
-        states: userdata.states[ind].id ? userdata.states[ind].id : '0',
-        cities: userdata.cities[ind].id ? userdata.cities[ind].id : '0',
-        localities: userdata.localities[ind].id ? userdata.localities[ind].id : '0',
-        buildings: userdata.buildings[ind].id ? userdata.buildings[ind].id : '0'
-      };
-
-      this.model.address[ind] = tempAdd;
-    }
-
+    // for (let ind = 0; ind < userdata.countries.length; ind++) {
+    //   const tempAdd = {
+    //     countries: userdata.countries[ind].id.toString(),
+    //     states: userdata.states !== null && userdata.states[ind] ? userdata.states[ind].id.toString() : '0',
+    //     cities: userdata.cities !== null && userdata.cities[ind] ? userdata.cities[ind].id.toString() : '0',
+    //     localities: userdata.localities !== null && userdata.localities[ind] ? userdata.localities[ind].id.toString() : '0',
+    //     buildings: userdata.buildings !== null && userdata.buildings[ind] ? userdata.buildings[ind].id.toString() : '0'
+    //   };
+    //   this.model.address[ind] = tempAdd;
+    // }
     // updateNewUser
   }
 

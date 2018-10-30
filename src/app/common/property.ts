@@ -139,4 +139,6 @@ export interface IProperty {
   year?: any;
   month?: any;
   is_selected?: boolean;
+  location?: any;
+  developer?: any;
 }

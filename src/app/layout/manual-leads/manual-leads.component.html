@@ -61,7 +61,7 @@
                 <tr class="cursor-pointer" title="Click to view details" *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }" routerLink="/dashboard/manual-leads/view-details/{{item.id}}">
                     <td><img [src]="item.image" class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img"></td>
                     <td class="text-left">
-                        <span *ngIf="item.name" routerLink="/dashboard/leads/csr-buyers/{{item.id}}" class="name">{{item.name}}</span>
+                        <span *ngIf="item.name"class="name">{{item.name}}</span>
                         <span class="name" *ngIf="!item.name">NA</span>
                     </td>
                     <td class="text-left" *ngIf="item.phone">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>

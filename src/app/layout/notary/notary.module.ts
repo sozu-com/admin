@@ -17,8 +17,16 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 const routes: Routes = [
   { path: 'view-notary', component: NotaryComponent,
     canActivate: [AclUserGuard], data: {roles: ['Noataries Management', 'can_read', 'can_noatary']}},
+
+  // all leads
   { path: 'notary-leads', component: NotaryLeadsComponent,
     canActivate: [AclUserGuard], data: {roles: ['Notary Lead Management', 'can_read', 'can_noatary']}},
+
+  // leads wrt particular notary
+  { path: 'view-notary-leads/:id', component: NotaryLeadsComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Notary Lead Management', 'can_read', 'can_noatary']}},
+
+    // details
   { path: 'notary-leads/:id', component: NotaryLeadsDetailsComponent,
     canActivate: [AclUserGuard], data: {roles: ['Notary Lead Management', 'can_read', 'can_noatary']}}
 ];

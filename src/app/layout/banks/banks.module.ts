@@ -16,8 +16,15 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 const routes: Routes = [
   { path: 'view-banks', component: BanksComponent,
     canActivate: [AclUserGuard], data: {roles: ['Bank Management', 'can_read', 'can_bank']}},
+  // all leads
   { path: 'bank-leads', component: BankLeadsComponent,
     canActivate: [AclUserGuard], data: {roles: ['Bank Lead Management', 'can_read', 'can_bank']}},
+
+  // leads wrt particular bank
+  { path: 'view-bank-leads/:id', component: BankLeadsComponent,
+  canActivate: [AclUserGuard], data: {roles: ['Bank Lead Management', 'can_read', 'can_bank']}},
+
+  // bank lead details
   { path: 'bank-leads/:id', component: BankLeadDetailsComponent,
     canActivate: [AclUserGuard], data: {roles: ['Bank Lead Management', 'can_read', 'can_bank']}}
 ];

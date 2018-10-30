@@ -56,6 +56,10 @@ export class InterestedPropertyComponent implements OnInit {
   }
 
   attachProperty() {
+    if (this.model.total_amount < this.model.token_amount) {
+      swal('Error', 'Total amount must be greater than token amount.', 'error');
+      return false;
+    }
     this.modalClose.nativeElement.click();
     this.admin.postDataApi('leads/attach-property', this.model)
       .subscribe(
@@ -167,6 +171,7 @@ export class InterestedPropertyComponent implements OnInit {
     this.location.localities = []; this.parameter.locality_id = '0';
     this.location.states = []; this.parameter.state_id = '0';
     this.parameter.items = [];
+    this.parameter.total = 0;
     this.parameter.noResultFound = false;
     this.parameter.lead_id = lead_id;
     this.showPropertyModal.nativeElement.click();
@@ -177,6 +182,7 @@ export class InterestedPropertyComponent implements OnInit {
   }
 
   onCountryChange(id) {
+    this.location.states = []; this.parameter.state_id = '0';
     this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
     if (!id || id.toString() === '0') {
@@ -192,6 +198,7 @@ export class InterestedPropertyComponent implements OnInit {
 
   onStateChange(id) {
     console.log(id);
+    this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
     if (!id || id.toString() === '0') {
       this.parameter.city_id = '0';
@@ -204,6 +211,7 @@ export class InterestedPropertyComponent implements OnInit {
 
   onCityChange(id) {
     console.log(id);
+    this.location.localities = []; this.parameter.locality_id = '0';
     if (!id || id.toString() === '0') {
       this.parameter.locality_id = '0';
       return false;

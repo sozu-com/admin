@@ -249,7 +249,7 @@
                         <label>All</label>
                         <div>
                             <label class="cust-check-bx marginT0">
-                                <input type="checkbox" (click)="selectAll(parameter.is_selected)" name="document">
+                                <input class="width1" type="checkbox" (click)="selectAll(parameter.is_selected)" name="document">
                                 <span class="checkmark"></span>
                             </label>
                         </div>
@@ -264,7 +264,7 @@
                     <div class="table-search">
                        <label>Name</label>
                        <div class="searh-3">
-                        <input type="Search here" name="name" [(ngModel)]="parameter.name" (keyup.enter)="getListing()">
+                        <input autocomplete="off" type="text" name="name" [(ngModel)]="parameter.name" (keyup.enter)="getListing()">
                         <button *ngIf="parameter.name" (click)="getListing()"><i class="fa fa-search"></i></button>
                       </div>
                     </div>
@@ -273,7 +273,7 @@
                     <div class="table-search">
                        <label>Contact Number</label>
                        <div class="searh-3">
-                            <input type="Search here" name="phone" [(ngModel)]="parameter.phone" (keyup.enter)="getListing()">
+                            <input autocomplete="off" type="text" name="phone" [(ngModel)]="parameter.phone" (keyup.enter)="getListing()">
                             <button *ngIf="parameter.phone" (click)="getListing()"><i class="fa fa-search"></i></button>
                         </div>
                     </div>
@@ -282,7 +282,7 @@
                     <div class="table-search">
                        <label>Email Address</label>
                        <div class="searh-3">
-                            <input type="Search here" name="email" [(ngModel)]="parameter.email" (keyup.enter)="getListing()">
+                            <input autocomplete="off" type="text" name="email" [(ngModel)]="parameter.email" (keyup.enter)="getListing()">
                             <button *ngIf="parameter.email" (click)="getListing()"><i class="fa fa-search"></i></button>
                        </div>
                     </div>

@@ -7,7 +7,7 @@
    <div class="col-6">
         <div class="btn-cont text-right">
           <!-- add -->
-          <a style="display: none;" class="btn btn-fourth" #showPropertyModal href="javascript://" data-toggle="modal" data-target="#add-property">Add</a>
+          <a style="display: none;" class="btn btn-fourth" #showPropertyModal href="javascript://" data-toggle="modal" data-target="#add-property-popup">Add</a>
           <a *ngIf="(sent_as==constant.userType.csr_buyer && (admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1)) ||
           sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==1 || admin?.permissions?.can_in_house_broker==1); else noAddPermission" class="btn btn-fourth" href="javascript://" (click)="getCountries(lead_id)">Add</a>
           
@@ -16,7 +16,7 @@
           </ng-template>
 
           <!-- view  -->
-          <a style="display: none;" data-toggle="modal" #showInterestedProperty data-target="#view-all" class="btn btn-fourth" href="javascript://">View All</a>
+          <a style="display: none;" data-toggle="modal" #showInterestedProperty data-target="#view-all-property" class="btn btn-fourth" href="javascript://">View All</a>
           <a *ngIf="interested_properties?.length!=0" class="btn btn-fourth" href="javascript://" (click)="viewProperties(interested_properties)">View All</a>
         </div>
      </div>
@@ -75,7 +75,7 @@
 
 
 <!-- add property to interested_properties -->
-<div class="modal" id="add-property">
+<div class="modal" id="add-property-popup">
   <div class="modal-dialog modal-lg">
     <div class="modal-content notary-avail">
         <div class="modal-header popup-header">
@@ -234,7 +234,7 @@
 
 
 <!-- show interested_properties -->
-<div class="modal" id="view-all">
+<div class="modal" id="view-all-property">
   <div class="modal-dialog  modal-lg">
      <div class="modal-content">
         <div class="modal-header">
