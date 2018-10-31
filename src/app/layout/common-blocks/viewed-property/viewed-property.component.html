@@ -1,13 +1,13 @@
-<!-- {{viewed_properties|json}} -->
+<ngx-loading [show]="parameter.loading"></ngx-loading>
 <div class="spacer30"></div>
 <div class="row">
    <div class="col-6">
-      <p class="p16">Viewed Projects or properties</p>
+      <p class="p16">Viewed Properties</p>
    </div>
  <div class="col-6">
       <div class="btn-cont text-right">
         <a style="display: none;" data-toggle="modal" #showPropertyModal data-target="#view-viewed-property" class="btn btn-fourth" href="javascript://">View All</a>
-        <a *ngIf="viewed_properties?.length!=0" class="btn btn-fourth" href="javascript://" (click)="viewProperties(viewed_properties)">View All</a>
+        <a *ngIf="viewed_properties?.length!=0" class="btn btn-fourth" href="javascript://" (click)="viewProperties(viewed_properties, user_id)">View All</a>
       </div>
    </div>
 </div>
@@ -52,7 +52,7 @@
             <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
-          <h3>Viewed Projects or properties</h3>
+          <h3>Viewed Properties</h3>
           <hr>
           <div class="scrollbox fav-prop">
             <div class="row">

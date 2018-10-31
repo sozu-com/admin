@@ -101,12 +101,41 @@
                             </td>
                             <td *ngIf="parameter?.lead?.selected_properties?.length==0">NA</td>
                         </tr>
+                        
+                        <!-- My Availabilities -->
                         <tr>
-                            <td  style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
-                            <td colspan="2" *ngIf="parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability?.length!=0">
-                                <p *ngFor="let na of parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability" class="date">{{na.date_time | moment}}</p>
+                            <td  style="padding-left:0"><label><strong>Availabilities</strong></label></td>
+                            <td colspan="2" *ngIf="parameter?.lead?.selected_properties[0]?.selected_noatary!=0 && parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability?.length!=0; else noAvailability1">
+                                <p *ngFor="let na of parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability; let m=index" class="date">
+                                    <span *ngIf="m<2">{{na.date_time | moment}}</span>
+                                    <!-- <span *ngIf="m>1 && show==true">{{na.date_time | moment}}</span> -->
+                                </p>
+                                <!-- <span class="read-more" *ngIf="show==false && parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability.length>2" (click)="show=true">Read more</span> -->
+                                <span class="read-more" *ngIf="parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability.length>2" data-toggle="modal" data-target="#get-availability1">Read more</span>
                             </td>
+                            <ng-template #noAvailability1>
+                                <td colspan="2"><p>No availability given by notary yet.</p></td>
+                            </ng-template>
                         </tr>
+
+
+                        <!-- Meeting Schedule -->
+                        <!-- <td>
+                            <p>3:30 pm, Nov 02 2018</p>
+                        </td> -->
+                        <!-- <tr>
+                            <td  style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
+                            <td colspan="2" *ngIf="parameter?.lead?.selected_properties[0]?.selected_noatary!=0 && parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability?.length!=0; else noAvailability2">
+                                <p *ngFor="let na of parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability; let m=index" class="date">
+                                    <span *ngIf="m<2">{{na.date_time | moment}}</span>
+                                </p>
+                                <span class="read-more" *ngIf="parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability.length>2" data-toggle="modal" data-target="#get-availability2">Read more</span>
+                            </td>
+                            <ng-template #noAvailability2>
+                                <td colspan="2"><p>Meeting not scheduled.</p></td>
+                            </ng-template>
+                        </tr> -->
+        
                     </table>
                     </div>
                 </div>
@@ -295,3 +324,26 @@
                 </div>
             </div>
         </div>
+
+
+
+<div class="modal animated" id="get-availability1">
+    <div class="modal-dialog fadeIndown">
+        <div class="modal-content">
+            <div class="modal-header modal-header-new">
+                <h4 class="modal-title">Notary Availabilities</h4>
+                <button type="button" style="display: none;" class="close" data-dismiss="modal" #modalClose>&times;</button>
+                <button type="button" class="close" (click)="closeModal()">&times;</button>
+            </div>
+    
+            <div class="modal-body modal-body-new">
+                <div class="row">
+                    <div class="col-6" *ngFor="let d of parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability; let j=index">
+                        <label class="notary-ava">{{d.date_time | moment}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            

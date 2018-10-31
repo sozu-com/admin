@@ -16,10 +16,10 @@ declare let swal: any;
   providers: [SelectedProperties, BankAssigned, NotaryAssigned, Chat]
 })
 export class NotaryLeadsDetailsComponent implements OnInit {
-
+  show = false;
   public parameter: IProperty = {};
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
-
+  @ViewChild('modalClose') modalClose: ElementRef;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -32,6 +32,10 @@ export class NotaryLeadsDetailsComponent implements OnInit {
     this.admin.loginData$.subscribe(success => {
       this.parameter.admin_id = success['id'];
     });
+  }
+
+  closeModal() {
+    this.modalClose.nativeElement.click();
   }
 
   ngOnInit() {

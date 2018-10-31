@@ -116,8 +116,12 @@
   <!-- Interested Properties end -->
 
   <!-- viewed property or projects start -->
-  <app-viewed-property [viewed_properties]="parameter.viewed_properties"></app-viewed-property>
+  <app-viewed-property [user_id]="parameter?.lead?.user_id" [viewed_properties]="parameter.viewed_properties"></app-viewed-property>
   <!-- viewed property or projects end -->
+
+  <!-- viewed projects start -->
+  <app-viewed-projects [user_id]="parameter?.lead?.user_id" [viewed_projects]="parameter.viewed_projects"></app-viewed-projects>
+  <!-- viewed projects end -->
 </div>
 
 

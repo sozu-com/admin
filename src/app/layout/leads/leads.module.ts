@@ -27,6 +27,7 @@ import { AclUserGuard } from '../../guards/acl-user.guard';
 import { SharedModule } from '../../modules/shared.module';
 import { CsrSellerDetailComponent } from './csr-seller/csr-seller-detail/csr-seller-detail.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { ViewedProjectsComponent } from '../common-blocks/viewed-projects/viewed-projects.component';
 
 const routes: Routes = [
   { path: 'data-collectors', component: DataCollectorComponent,
@@ -117,6 +118,7 @@ const routes: Routes = [
     CsrCloserDetailComponent,
     InterestedPropertyComponent,
     ViewedPropertyComponent,
+    ViewedProjectsComponent,
     RemoveCommaPipe,
     FillInformationComponent,
     MyChatComponent

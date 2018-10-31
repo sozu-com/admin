@@ -73,6 +73,8 @@ export class SelectedProperties {
     property_id: number;
     token_money: number;
     total_amount: number;
+    pending_amount: number;
+    statua: any;
     commision: number;
     banks: Array<BankAssigned>;
     noataries: Array<NotaryAssigned>;

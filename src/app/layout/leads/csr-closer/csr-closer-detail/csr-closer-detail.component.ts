@@ -17,7 +17,8 @@ declare let swal: any;
 })
 
 export class CsrCloserDetailComponent implements OnInit, OnDestroy {
-
+  @ViewChild('modalClose1') modalClose1: ElementRef;
+  @ViewChild('modalClose2') modalClose2: ElementRef;
   @ViewChild('showBanks') showBanks: ElementRef;
   @ViewChild('hideBanks') hideBanks: ElementRef;
 
@@ -25,7 +26,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   @ViewChild('hideNotaries') hideNotaries: ElementRef;
 
   public parameter: IProperty = {};
-
+  show = false;
   videoSrc: any;
   id: any;
   textMessage: any;
@@ -75,7 +76,8 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   loadmore= true;
   loadmoring: any = false;
   admin_id: string;
-
+  showInput: false;
+  pen_amount = 0;
   @ViewChild('chatWin') chatWin: ElementRef;
   @ViewChild('optionsButton') optionsButton: ElementRef;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
@@ -93,6 +95,16 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     private element: ElementRef
   ) { }
 
+  closeModal1() {
+    console.log('close');
+    this.modalClose1.nativeElement.click();
+  }
+
+  closeModal2() {
+    console.log('close');
+    this.modalClose2.nativeElement.click();
+  }
+
   ngOnInit() {
     this.parameter.sent_as = this.constant.userType.csr_closer;
 
@@ -107,6 +119,9 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
         this.getDocumentOptions();
         this.parameter.lead = r.data.lead;
         this.selectedProperties = r.data.lead.selected_properties[0];
+        this.pen_amount = this.selectedProperties.pending_amount ?
+                          this.selectedProperties.pending_amount :
+                          (this.selectedProperties.total_amount - this.selectedProperties.token_money);
         this.parameter.user_id = this.parameter.lead.user.id;
 
         // chatting
@@ -573,7 +588,6 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   }
 
 
-
   uploadDocument(event) {
     const file = event.target.files[0];
     const input = new FormData();
@@ -655,5 +669,45 @@ console.log('=========', data);
     model.conversation_user = {admin_id: this.admin_id};
     this.messages.push(model);
     this.sendMessage(model);
+  }
+
+
+  scheduleMeeting(item) {
+    swal({
+      html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to schedule this time for meeting?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.admin.postDataApi('leads/closer-mark-lead-closed', {lead_id: this.parameter.lead_id}).subscribe(r => {
+          console.log('r', r);
+          this.parameter.lead.lead_status_closer = 1;
+          swal('Success', 'Meeting scheduled successfully.', 'success');
+        });
+      }
+    });
+  }
+
+  updatePropertyAmount() {
+    console.log('11');
+    if (this.pen_amount > this.selectedProperties.total_amount && this.pen_amount < 0) {
+      swal('Error', 'Incorrect amount entered', 'error');
+      return false;
+    }
+    const input = {
+      lead_id: this.parameter.lead_id,
+      property_id: this.selectedProperties.property_id,
+      pending_amount: this.pen_amount
+    };
+    this.admin.postDataApi('leads/updatePropertyAmount', input).subscribe(r => {
+      console.log('r', r);
+      this.showInput = false;
+      this.selectedProperties.pending_amount = this.pen_amount;
+      // this.parameter.lead.lead_status_closer = 1;
+      swal('Success', 'Amount updated successfully.', 'success');
+    });
   }
 }

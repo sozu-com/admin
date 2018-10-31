@@ -33,6 +33,7 @@ import { AclUserGuard } from '../guards/acl-user.guard';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { NotificationsComponent } from './notifications/notifications.component';
+// import { ViewedProjectsComponent } from './common-blocks/src/app/layout/common-blocks/viewed-projects/viewed-projects.component';
 
 @NgModule({
     imports: [
@@ -68,7 +69,8 @@ import { NotificationsComponent } from './notifications/notifications.component'
         AddressComponent,
         GenerateThumbComponent,
         AclPermissionDirective,
-        NotificationsComponent
+        NotificationsComponent,
+        // ViewedProjectsComponent
     ],
     providers: [
         AdminService,

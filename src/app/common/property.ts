@@ -112,6 +112,7 @@ export interface IProperty {
   property_types?: any;
   configurations?: any;
   viewed_properties?: any;
+  viewed_projects?: any;
   allDocuments?: any;
   subscriber?: any;
   favorites?: any;
@@ -141,4 +142,6 @@ export interface IProperty {
   is_selected?: boolean;
   location?: any;
   developer?: any;
+  page2?: any;
+  total2?: any;
 }

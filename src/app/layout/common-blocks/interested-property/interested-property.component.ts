@@ -37,6 +37,7 @@ export class InterestedPropertyComponent implements OnInit {
   ngOnInit() {
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
+    this.parameter.page2 = this.constant.p;
     this.parameter.total = 0;
   }
 
@@ -53,6 +54,11 @@ export class InterestedPropertyComponent implements OnInit {
   getPage(page) {
     this.parameter.page = page;
     this.propertySearch();
+  }
+
+  getPage2(page) {
+    this.parameter.page2 = page;
+    this.viewProperties('');
   }
 
   attachProperty() {
@@ -156,10 +162,11 @@ export class InterestedPropertyComponent implements OnInit {
   viewProperties(data) {
     // this.parameter.interested_properties = data;
     this.parameter.loading = true;
-    this.admin.postDataApi('leads/getLeadInterestedProperty', {lead_id: this.lead_id}).subscribe(r => {
+    this.admin.postDataApi('leads/getLeadInterestedProperty', {lead_id: this.lead_id, page: this.parameter.page2}).subscribe(r => {
       this.parameter.loading = false;
       console.log('Country', r);
       this.parameter.interested_properties = r['data'];
+      this.parameter.total2 = r.total;
     }, error => {
       this.parameter.loading = false;
     });

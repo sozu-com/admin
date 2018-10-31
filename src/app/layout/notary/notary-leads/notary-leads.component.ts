@@ -2,12 +2,12 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { AdminService } from '../../../services/admin.service';
 import { IProperty } from '../../../common/property';
 import { Constant } from './../../../common/constants';
-import { Users } from '../../../models/users.model';
 import { AddNotaryAvailabilty, NotaryLeads } from '../../../models/leads.model';
 import { ChatTimePipe } from '../../../pipes/chat-time.pipe';
 declare let swal: any;
 import {} from './../../../services/http-interceptor';
 import { ActivatedRoute } from '@angular/router';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-notary-leads',
@@ -262,8 +262,9 @@ export class NotaryLeadsComponent implements OnInit {
   addDateTime () {
     if (this.date && this.time) {
       const newdate = this.date + ' ' + this.time + ':00';
-      const d = new ChatTimePipe().transform(newdate, 'YYYY-MM-DD HH:MM:SS', 3);
-      this.availability.date_time_array.push({date_time: d});
+      // const d = new ChatTimePipe().transform(newdate, 'YYYY-MM-DD HH:MM:SS', 3);
+      // this.availability.date_time_array.push({date_time: d});
+      this.availability.date_time_array.push({date_time: newdate});
       this.date = ''; this.time = '';
     }
   }
@@ -286,7 +287,12 @@ export class NotaryLeadsComponent implements OnInit {
 
   add() {
     this.availability.date_time_array.forEach(element => {
-      this.availability.date_time.push(element.date_time);
+      const d: any = new Date(element.date_time);
+      const f = moment(d).utc().format('YYYY-MM-DD HH:mm:ss');
+      this.availability.date_time.push(f);
+    });
+    this.data.forEach(element1 => {
+      this.availability.date_time.push(element1.date_time);
     });
     this.parameter.loading = true;
     this.admin.postDataApi('leads/addNoataryAvailability', this.availability)

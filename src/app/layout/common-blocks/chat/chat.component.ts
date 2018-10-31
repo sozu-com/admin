@@ -315,7 +315,9 @@ export class ChatComponent implements OnInit {
       model.conversation_id =  this.parameter.conversation_id;
       model.conversation_user = {admin_id: this.admin_id};
       const d = new Date();
+      console.log('11', d);
       model.updated_at = d.toUTCString();
+      console.log('22', model.updated_at);
       model.admin_id = this.admin_id;
       this.parameter.messages.push(model);
       this.textMessage = '';

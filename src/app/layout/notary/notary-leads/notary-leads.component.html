@@ -361,7 +361,7 @@
                 </div>
                 <div class="row" *ngFor="let a of availability.date_time_array; let i=index">
                     <div class="col-8">
-                        <label class="notary-ava">{{a.date_time|date: 'MMM d y'}}, {{a.date_time|date:'h:mm a'|lowercase}}</label>
+                        <label class="notary-ava">{{a.date_time|date:'h:mm a'|lowercase}}, {{a.date_time|date: 'MMM d y'}}</label>
                     </div>
                     <div class="col-2">
                         <a class="green-color fontW500" (click)="removeNoatary(i)" href="javascript://">

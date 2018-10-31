@@ -23,17 +23,17 @@ export class AppComponent implements OnInit {
 
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
-        // this.parameter.loading = true;
+        this.parameter.loading = true;
       }
       if (event instanceof NavigationEnd) {
-        // this.parameter.loading = false;
+        this.parameter.loading = false;
         window.scrollTo(0, 0);
       }
       if (event instanceof NavigationCancel) {
-        // this.parameter.loading = false;
+        this.parameter.loading = false;
       }
       if (event instanceof NavigationError) {
-        // this.parameter.loading = false;
+        this.parameter.loading = false;
       }
     });
   }

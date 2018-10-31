@@ -140,7 +140,7 @@
 
             <table class="table" *ngIf="parameter?.items?.length!=0">
               <tbody>
-                <tr *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index">
+                <tr *ngFor="let item of parameter.items| paginate: { id:'page1', itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index">
                   <td>
                       <div class="n-avail-profile">
                         <img [src]="item.image" onerror='src="assets/img/house.png"' alt="img">
@@ -245,7 +245,7 @@
           <hr>
           <div class="scrollbox fav-prop">
             <div class="row">
-              <div class="col-lg-6 col-md-12 col-sm-12 col-12" *ngFor="let x of parameter.interested_properties; let in=index">
+              <div class="col-lg-6 col-md-12 col-sm-12 col-12" *ngFor="let x of parameter.interested_properties| paginate: { id: 'page2', itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page2, totalItems: parameter.total2 }; let in=index">
                   <div class="project-des-bx white-bg-2">
                       <div class="price">{{x.property.min_price|thousand}}+</div>
                     <div class="fig-block">
@@ -254,9 +254,9 @@
                     <div class="project-des-content">
                         <small>{{x.property.building.developer.name}}</small>
                         <a routerLink="/dashboard/properties/details/{{x.property.id}}">
-                          <h5>{{x.property.building.name.slice(0, 20)}}</h5>
+                          <h5>{{x.property.building.name.slice(0, 15)}}</h5>
                         </a>
-                        <p class="p12">{{x.property.building.address.slice(0, 50)}}</p>
+                        <p class="p12">{{x.property.building.address.slice(0, 45)}}</p>
                         <p class="p13" *ngIf="x && x.property">{{x.property.configuration.name}}, {{x.property.property_type.name}}</p>
                         <!-- <p class="p13" *ngIf="!x && !x.property">NA</p>
                         <p class="p13" *ngIf="x && x.property">{{x.property.property_type.name}}</p> -->
@@ -284,7 +284,11 @@
                     </div>
                   </div>
               </div>
+
             </div>
+
+            <pagination-controls *ngIf="parameter.total2>constant.p" class="my-pagination" (pageChange)="getPage2($event)"></pagination-controls>
+
           </div>
         </div>
      </div>

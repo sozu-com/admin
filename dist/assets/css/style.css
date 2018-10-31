@@ -2704,6 +2704,8 @@ position: relative;
 
 .invoice-block.active{ background-color:#f1f1f1;  }
 #view-viewed-property .modal-dialog .modal-content, 
+#view-viewed-projects .modal-dialog .modal-content, 
+#view-all-property .modal-dialog .modal-content, 
 #view-fav-property .modal-dialog .modal-content, 
 #view-all .modal-dialog .modal-content{background-color:#f4f4f4; }
 

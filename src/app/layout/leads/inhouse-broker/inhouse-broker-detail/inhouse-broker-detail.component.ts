@@ -51,6 +51,7 @@ export class InhouseBrokerDetailComponent implements OnInit {
         this.parameter.interested_properties = r.data.interested_properties;
         this.is_deal_finalised = this.parameter.lead.selected_properties.length !== 0 ? true : false;
         this.parameter.viewed_properties = r.data.viewed_properties;
+        this.parameter.viewed_projects = r.data.viewed_projects;
         this.parameter.user_id = this.parameter.lead.user.id;
       }, error => {
         this.parameter.loading = false;
