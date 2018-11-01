@@ -106,7 +106,10 @@ export class InhouseBrokerDetailComponent implements OnInit {
       this.fillInfo.min_price = r.data.lead.min_price;
       this.fillInfo.max_price = r.data.lead.max_price;
       this.fillInfo.price_range = [r.data.lead.prefs.min_price, r.data.lead.prefs.max_price];
-      this.fillInfo.planning_to_buy = new ChatTimePipe().transform(r.data.lead.prefs.planning_to_buy, 'YYYY-MM-DD H:m:s', 4);
+
+      if (r.data.lead.prefs.planning_to_buy !== null) {
+        this.fillInfo.planning_to_buy = new ChatTimePipe().transform(r.data.lead.prefs.planning_to_buy, 'YYYY-MM-DD H:m:s', 4);
+      }
       // this.fillInfo.configuration = r.data.lead.configuration;
 
       // this.parameter.prefs = r.data.lead.prefs;
