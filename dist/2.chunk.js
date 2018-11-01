@@ -1315,6 +1315,99 @@ var LocationComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "../../../../../src/app/layout/settings/profile/profile.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/layout/settings/profile/profile.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<ngx-loading [show]=\"parameter.loading\"></ngx-loading>\n<div class=\"container-fluid\">\n<div class=\"row\">\n    <div class=\"col-12\">\n      <div class=\"title-group\">\n          <h5>My Profile</h5>\n          <div class=\"spacer30\"></div>\n      </div>\n    </div>\n</div>\n<div class=\"white-bg padding40\">\n    <div class=\"row\">\n    <form role=\"form\" ngNativeValidate #addForm=\"ngForm\" (ngSubmit)=\"add(addForm)\">\n      <div class=\"col-xl-12 col-lg-12 col-md-12 col-12\">\n          <div class=\"row\">\n            <div class=\"col-6\">\n                <div class=\"add-img\">\n                  <input type=\"file\" name=\"\">\n                  <label>+ Add Image</label>\n                </div>\n            </div>\n            <div class=\"col-6\">\n                <div class=\"btn-cont text-right\">\n                    <button *ngIf=\"model.id==''\" type=\"submit\" [disabled]=\"!addForm.valid\" class=\"btn btn-primary\">ADD</button>\n                    <button *ngIf=\"model.id!=''\" type=\"submit\" class=\"btn btn-primary\">UPDATE</button>\n                </div>\n            </div>\n            <div class=\"col-12\">\n                <div class=\"spacer40\"></div>\n            </div>\n            <div class=\"col-12\">\n                <div class=\"form-group-2\">\n                  <label>Name</label>\n                  <input autocomplete=\"off\" required type=\"text\" class=\"form-control\" [(ngModel)]=\"model.name\" name=\"name\">\n                </div>\n            </div>\n            <div class=\"col-12\">\n                <div class=\"form-group-2\">\n                  <label>Contact number</label>\n                  <input minlength=\"6\" maxlength=\"16\" autocomplete=\"off\" type=\"text\" [pattern]=\"constant.phonePattern\" class=\"form-control\" id=\"phone\" required minlength=\"1\" [(ngModel)]=\"model.phone\" name=\"phone\"\n                        ng2TelInput [ng2TelInputOptions]=\"initialCountry\" (countryChange)=\"onCountryChange($event)\" />\n                </div>\n            </div>\n            <div class=\"col-12\">\n                <div class=\"form-group-2\">\n                  <label>Email ID</label>\n                  <input autocomplete=\"off\" required [pattern]=\"constant.emailPattern\" type=\"email\" class=\"form-control\" [(ngModel)]=\"model.email\" name=\"email\">\n                </div>\n            </div>\n          </div>\n          <div class=\"access-controls\">\n              <div class=\"select-controls\" *ngFor=\"let permission of model.admin_acl; let i=index\">\n              <label class=\"cust-check-bx2\" [ngClass]=\"{'access-control11':permission.can_create==1 || permission.can_read==1 || permission.can_update==1 || permission.can_delete==1}\">{{permission?.acl?.name}}\n              <input (click)=\"expandBox(i)\" type=\"checkbox\" [checked]=\"permission.can_create == 1 || permission.can_read==1 || permission.can_update==1 || permission.can_delete==1 ? 'checked': ''\">\n              <span class=\"checkmark\"></span>\n              </label>\n              \n              <div class=\"clearfix\"></div>\n              <div *ngIf=\"permission.show\" id=\"broker-seller-dev\" class=\"inner-select\">\n                <label class=\"cust-check-bx\" [ngClass]=\"{'inner-checked':permission.can_create==1}\">Can Create\n                    <input type=\"checkbox\" [checked]=\"permission.can_create == 1 ? 'checked': ''\"  (click)=\"setPermission('can_create', i)\">\n                    <span class=\"checkmark\"></span>\n                </label>\n                <label class=\"cust-check-bx\" [ngClass]=\"{'inner-checked':permission.can_read==1}\">Can Read\n                    <input type=\"checkbox\" [checked]=\"permission.can_read == 1 ? 'checked': ''\"  (click)=\"setPermission('can_read', i)\">\n                    <span class=\"checkmark\"></span>\n                </label>\n                <label class=\"cust-check-bx\" [ngClass]=\"{'inner-checked':permission.can_update==1}\">Can Update\n                    <input type=\"checkbox\" [checked]=\"permission.can_update == 1 ? 'checked': ''\"  (click)=\"setPermission('can_update', i)\">\n                    <span class=\"checkmark\"></span>\n                </label>\n                <label class=\"cust-check-bx\" [ngClass]=\"{'inner-checked':permission.can_delete==1}\">Can Block/Unblock\n                    <input type=\"checkbox\" [checked]=\"permission.can_delete == 1 ? 'checked': ''\"  (click)=\"setPermission('can_delete', i)\">\n                    <span class=\"checkmark\"></span>\n                </label>\n                <label class=\"cust-check-bx\" [ngClass]=\"{'inner-checked':permission.can_crud==1}\">CRUD\n                    <input type=\"checkbox\" [checked]=\"permission.can_crud == 1 ? 'checked': ''\"  (click)=\"setPermission('can_crud', i)\">\n                    <span class=\"checkmark\"></span>\n                </label>\n                <br>\n              </div>\n              <div class=\"clearfix\"></div>\n            </div>\n            </div>\n      </div>\n      </form>\n    </div>\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/layout/settings/profile/profile.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_admin_service__ = __webpack_require__("../../../../../src/app/services/admin.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_acl_model__ = __webpack_require__("../../../../../src/app/models/acl.model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common_constants__ = __webpack_require__("../../../../../src/app/common/constants.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProfileComponent; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var ProfileComponent = /** @class */ (function () {
+    function ProfileComponent(constant, model, admin) {
+        this.constant = constant;
+        this.model = model;
+        this.admin = admin;
+        this.parameter = {};
+        this.show = false;
+    }
+    ProfileComponent.prototype.ngOnInit = function () {
+        this.model.country_code = this.constant.country_code;
+        this.model.dial_code = this.constant.dial_code;
+        this.parameter.itemsPerPage = this.constant.itemsPerPage;
+        this.parameter.p = this.constant.p;
+        this.initialCountry = { initialCountry: this.constant.country_code };
+        // this.model.id = params['id'];
+        this.loginData(this.model.id);
+    };
+    ProfileComponent.prototype.loginData = function (id) {
+        var _this = this;
+        this.parameter.loading = true;
+        this.admin.postDataApi('loginData', {})
+            .subscribe(function (success) {
+            _this.parameter.loading = false;
+            _this.model = success.data;
+            _this.model.admin_acl = success.data.admin_acl;
+        }, function (error) {
+            _this.parameter.loading = false;
+        });
+    };
+    var _a, _b, _c;
+    ProfileComponent = __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-profile',
+            template: __webpack_require__("../../../../../src/app/layout/settings/profile/profile.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/layout/settings/profile/profile.component.css")],
+            providers: [__WEBPACK_IMPORTED_MODULE_2__models_acl_model__["a" /* ACL */]]
+        }),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__common_constants__["a" /* Constant */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__common_constants__["a" /* Constant */]) === "function" ? _a : Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__models_acl_model__["a" /* ACL */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__models_acl_model__["a" /* ACL */]) === "function" ? _b : Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */]) === "function" ? _c : Object])
+    ], ProfileComponent);
+    return ProfileComponent;
+}());
+
+//# sourceMappingURL=profile.component.js.map
+
+/***/ }),
+
 /***/ "../../../../../src/app/layout/settings/project/project.component.css":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2208,6 +2301,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__edit_profile_edit_profile_component__ = __webpack_require__("../../../../../src/app/layout/settings/edit-profile/edit-profile.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__documents_documents_component__ = __webpack_require__("../../../../../src/app/layout/settings/documents/documents.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__guards_acl_user_guard__ = __webpack_require__("../../../../../src/app/guards/acl-user.guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__profile_profile_component__ = __webpack_require__("../../../../../src/app/layout/settings/profile/profile.component.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SettingsModule", function() { return SettingsModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -2232,7 +2326,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 var routes = [
+    { path: 'view-profile', component: __WEBPACK_IMPORTED_MODULE_17__profile_profile_component__["a" /* ProfileComponent */],
+        canActivate: [__WEBPACK_IMPORTED_MODULE_16__guards_acl_user_guard__["a" /* AclUserGuard */]], data: { roles: ['Settings', 'can_read', ''] } },
     { path: 'edit-profile', component: __WEBPACK_IMPORTED_MODULE_14__edit_profile_edit_profile_component__["a" /* EditProfileComponent */],
         canActivate: [__WEBPACK_IMPORTED_MODULE_16__guards_acl_user_guard__["a" /* AclUserGuard */]], data: { roles: ['Settings', 'can_read', ''] } },
     { path: 'setting-location', component: __WEBPACK_IMPORTED_MODULE_9__location_location_component__["a" /* LocationComponent */],
@@ -2272,7 +2369,8 @@ var SettingsModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_12__property_property_component__["a" /* PropertyComponent */],
                 __WEBPACK_IMPORTED_MODULE_13__project_project_component__["a" /* ProjectComponent */],
                 __WEBPACK_IMPORTED_MODULE_10__settings_component__["a" /* SettingsComponent */],
-                __WEBPACK_IMPORTED_MODULE_15__documents_documents_component__["a" /* DocumentsComponent */]
+                __WEBPACK_IMPORTED_MODULE_15__documents_documents_component__["a" /* DocumentsComponent */],
+                __WEBPACK_IMPORTED_MODULE_17__profile_profile_component__["a" /* ProfileComponent */]
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_8__angular_router__["a" /* RouterModule */].forChild(routes),

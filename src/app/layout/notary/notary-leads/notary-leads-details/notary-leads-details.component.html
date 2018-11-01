@@ -118,13 +118,12 @@
                             </ng-template>
                         </tr>
 
-
                         <!-- Meeting Schedule -->
                         <tr *ngIf="parameter?.lead?.sale_rent==1">
                             <td  style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
                             <td colspan="2" class="cursor-pointer">
-                                <p class="date" *ngIf="meetingDate.appointment_date; else noAvailability4">
-                                    <span>{{meetingDate.appointment_date | moment}}</span>
+                                <p class="date" *ngIf="scheduleMeeting.appointment_date; else noAvailability4">
+                                    <span>{{scheduleMeeting.appointment_date | moment}}</span>
                                 </p>
                                 <ng-template #noAvailability4>
                                     <p>Meeting not scheduled by closure.</p>

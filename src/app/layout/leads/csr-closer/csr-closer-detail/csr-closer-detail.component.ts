@@ -26,10 +26,10 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   @ViewChild('hideNotaries') hideNotaries: ElementRef;
 
   public parameter: IProperty = {};
-  meetingDate: any = {
-    appointment_date: '',
-    id: ''
-  };
+  // meetingDate: any = {
+  //   appointment_date: '',
+  //   id: ''
+  // };
   show = false;
   videoSrc: any;
   id: any;
@@ -129,18 +129,21 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
                           (this.selectedProperties.total_amount - this.selectedProperties.token_money);
         this.parameter.user_id = this.parameter.lead.user.id;
 
-        if (this.parameter.lead.appointments && this.parameter.lead.appointments.length !== 0) {
-          for (let index = 0; index < this.parameter.lead.appointments.length; index++) {
-            const element = this.parameter.lead.appointments[index];
-            if (element.sent_as === this.constant.userType.csr_closer) {
-              this.meetingDate = {
-                appointment_date: element.appointment_date,
-                id: element.id
-              };
-              this.scheduleMeeting = this.meetingDate;
-            }
-          }
+        if (this.parameter.lead.appointments.length !== 0) {
+          this.scheduleMeeting = this.parameter.lead.appointments[0];
         }
+        // if (this.parameter.lead.appointments && this.parameter.lead.appointments.length !== 0) {
+        //   for (let index = 0; index < this.parameter.lead.appointments.length; index++) {
+        //     const element = this.parameter.lead.appointments[index];
+        //     if (element.sent_as === this.constant.userType.csr_closer) {
+        //       this.meetingDate = {
+        //         appointment_date: element.appointment_date,
+        //         id: element.id
+        //       };
+        //       this.scheduleMeeting = this.meetingDate;
+        //     }
+        //   }
+        // }
 
         // chatting
         this.chat_buyer = r.data.lead.user;
@@ -148,6 +151,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
         this.chat_notary = r.data.lead.selected_properties[0].selected_noatary[0] ?
                             r.data.lead.selected_properties[0].selected_noatary[0].noatary : [];
         this.chat_bank = r.data.lead.selected_properties[0].banks ? r.data.lead.selected_properties[0].banks[0] : [];
+
         this.getLeadConversation(this.constant.userType.user_buyer);
         // this.chat_bank = r.data.lead.banks[0];
 
@@ -158,6 +162,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
         //     item.selected = false;
         //   }
         // });
+
       }, error => {
         this.parameter.loading = false;
       });
@@ -369,6 +374,31 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
 
   public initSocket(): void {
       this.socket = io.connect(this.admin.socketUrl);
+
+      // this.parameter.socket.on('connect', fun => {
+      //   console.log('connect');
+      //   console.log('connect', this.parameter.socket);
+      //   this.parameter.socket_id = this.parameter.socket.id;
+      //   this.parameter.connected = this.parameter.socket.connected;
+
+      //   const data = {
+      //     admin_id: this.admin_id,
+      //     socket_id: this.parameter.socket_id,
+      //     device_id: this.admin.deviceId + '_' + this.admin_id
+      //   };
+      //   if (this.parameter.connected) {
+      //     this.parameter.socket.emit('add-admin', data, (res: any) => {
+      //     });
+      //     this.parameter.socket.on('message', (response: any) => {
+      //       if (response.data.conversation_id === this.parameter.conversation_id) {
+      //         this.scrollToBottom();
+      //         this.parameter.messages.push(response.data);
+      //       }
+      //     });
+      //   }
+      // });
+
+
       this.socket.on('connect', fun => {
         this.socket_id = this.socket.id;
         this.connected = this.socket.connected;
@@ -379,14 +409,16 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
           device_id: this.admin.deviceId + '_' + this.admin_id
         };
         if (this.connected) {
-          // console.log('Socket Connected', this.socket_id);
+          console.log('Socket Connected', this.socket_id);
 
           this.socket.emit('add-admin', data, (res: any) => {
-            // console.log('res', res);
+            console.log('res', res);
           });
 
           this.socket.on('message', (response: any) => {
           if (response.data.conversation_id === this.conversation_id) {
+            console.log('Socket conversation_id');
+            console.log('Socket conversation_id', this.conversation_id);
             this.messages.push(response.data);
             setTimeout(() => {
               this.scrollToBottom();
@@ -645,6 +677,7 @@ console.log('=========', data);
       console.log('conversation/getLeadConversation', r);
       if (r['data']) {
         this.conversation_id = r['data'][0].id;
+        this.initSocket();
         this.model.conversation_id = this.conversation_id;
         this.messages = r['data'][0].messages;
         setTimeout(() => {

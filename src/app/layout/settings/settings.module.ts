@@ -17,8 +17,11 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { DocumentsComponent } from './documents/documents.component';
 import { AclUserGuard } from '../../guards/acl-user.guard';
 import { AuthGuard } from '../../guards/auth.guard';
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
+  { path: 'view-profile', component: ProfileComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Settings', 'can_read', '']}},
   { path: 'edit-profile', component: EditProfileComponent,
     canActivate: [AclUserGuard], data: {roles: ['Settings', 'can_read', '']}},
   { path: 'setting-location', component: LocationComponent,
@@ -57,7 +60,8 @@ const routes: Routes = [
     PropertyComponent,
     ProjectComponent,
     SettingsComponent,
-    DocumentsComponent
+    DocumentsComponent,
+    ProfileComponent
   ],
   imports: [
     RouterModule.forChild(routes),

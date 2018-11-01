@@ -1,6 +1,6 @@
 webpackJsonp([10],{
 
-/***/ "../../../../../src/app/layout/manual-leads/manual-lead-details/manual-lead-details.component.css":
+/***/ "../../../../../src/app/layout/acl/acl.component.css":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
@@ -18,165 +18,26 @@ module.exports = module.exports.toString();
 
 /***/ }),
 
-/***/ "../../../../../src/app/layout/manual-leads/manual-lead-details/manual-lead-details.component.html":
+/***/ "../../../../../src/app/layout/acl/acl.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<ngx-loading [show]=\"parameter.loading\"></ngx-loading>\n<div class=\"container-fluid\">\n    <div class=\"white-bg padding15\">\n        <div class=\"row\">\n            <div class=\"col-lg-3 col-md-12 col-sm-6 col-12\">\n                <div class=\"df-profile\">\n                <a routerLink=\"/dashboard/manual-leads/view-all\"><i class=\"fa fa-angle-left\" aria-hidden=\"true\"></i></a>\n                <img [src]=\"parameter?.data?.image\" onerror='src=\"assets/img/default_img.png\"' alt=\"img\">\n                <div class=\"df-info\" *ngIf=\"parameter?.data\">\n                    <p class=\"p14\">{{parameter.data.name}}</p>\n                    <p class=\"p12\">Status: {{parameter?.data?.status.name}}</p>\n                </div>\n                </div>\n            </div>\n        </div>\n    </div>\n        \n    <div class=\"spacer30\"></div>\n        <div class=\"row\">\n            <div class=\"col-lg-6 col-md-12 col-sm-12 col-12\">\n                <div class=\"white-bg padding30\">\n                    <div class=\"row\">\n                    <div class=\"col-md-6\">\n                        <h6>Details</h6>\n                    </div>\n                    <!-- <div class=\"col-md-6\">\n                        <div class=\"edit text-right\"><a href=\"javascript://\">Edit</a></div>\n                    </div> -->\n                    </div>\n                    <div class=\"details-table\">\n                    <table class=\"table\">\n                        <tr>\n                            <td style=\"padding-left:0\"><label>Full Name</label></td>\n                            <td colspan=\"2\" *ngIf=\"parameter?.data?.name\">{{parameter.data.name}}</td>\n                        </tr>\n                        <tr>\n                            <td style=\"padding-left:0\"><label>Contact Number</label></td>\n                            <td colspan=\"2\" *ngIf=\"parameter?.data?.phone\">{{parameter.data.dial_code ? parameter.data.dial_code : constant.dial_code}}-{{parameter.data.phone}}</td>\n                        </tr>\n                        <tr>\n                            <td style=\"padding-left:0\"><label>Email address</label></td>\n                            <td colspan=\"2\" *ngIf=\"parameter?.data?.email\">{{parameter.data.email}}</td>\n                        </tr>\n                        <tr>\n                            <td style=\"padding-left:0\"><label>Type</label></td>\n                            <td *ngIf=\"parameter?.data?.type?.name\">{{parameter.data.type.name}}</td>\n                        </tr>\n                        <tr>\n                            <td style=\"padding-left:0\"><label><strong>Property Selected</strong></label></td>\n                            <td *ngIf=\"parameter?.data?.property?.length!=0\">\n                                <a class=\"view-all-2\" href=\"javascript://\" (click)=\"viewPropertyDetails(parameter?.data?.property)\"> View Property</a>\n                            </td>\n                            <td *ngIf=\"parameter?.data?.property?.length==0\">NA</td>\n                        </tr>\n                        <!-- <tr>\n                            <td  style=\"padding-left:0\"><label><strong>Meeting Schedule</strong></label></td>\n                            <td colspan=\"2\">\n                                <p class=\"date\">02-Oct-2018, 04:00pm</p>\n                            </td>\n                        </tr> -->\n                    </table>\n                    </div>\n                </div>\n            </div>\n        \n\n        <div class=\"col-lg-6 col-md-12 col-sm-12 col-12\">\n            <div class=\"white-bg\">\n                <div class=\"white-bg padding15\">\n                    <div class=\"row\">\n                        <div class=\"col-6\">\n                            <p class=\"p16 marginB0\">Write a Note</p>\n                        </div>\n                        <div class=\"col-6 text-right\">\n                            <!-- add note -->\n                        <a *ngIf=\"admin?.admin_acl['Manual Leads']?.can_update==1; else noAddPermission\" class=\"add\" href=\"javascript://\" data-toggle=\"modal\" data-target=\"#addNote\" #modalOpen>Add</a>\n                        <ng-template #noAddPermission>\n                            <a class=\"add\" href=\"javascript://\">Add</a>\n                        </ng-template>\n                        </div>\n                    </div>\n                </div>\n                \n                <hr class=\"margin0\">\n\n                <div *ngIf=\"parameter?.data?.notes?.length!=0\" class=\"write-note white-bg padding40\" malihu-scrollbar [scrollbarOptions]=\"scrollbarOptions\">\n                    <div class=\"wn-block\" *ngFor=\"let item of parameter?.data?.notes; let i=index\">\n                        <div class=\"circle\">\n                        <span></span>\n                        </div>\n                        <!-- delete note -->\n                        <a *ngIf=\"admin?.admin_acl['Manual Leads']?.can_update==1; else noDeletePermission\" class=\"delete\" href=\"javascript://\" (click)=\"deleteLeadPopup(item.id, i)\">Delete</a>\n                        <ng-template #noDeletePermission>\n                            <a class=\"delete\" href=\"javascript://\">Delete</a>\n                        </ng-template>\n                        <p class=\"time\">{{item.updated_at  | chatTime: 'YYYY-MM-DD H:m:s': 2}}</p>\n                        <pre class=\"p13\" *ngIf=\"!item.show\">{{item.note.slice(0, 90)}} <span class=\"read-more\" *ngIf=\"item.note.length>100\" (click)=\"item.show=true\">Read more</span></pre>\n                        <pre class=\"p13\" *ngIf=\"item.show\">{{item.note}}</pre>\n                    </div>\n                </div>\n                <div  *ngIf=\"parameter?.data?.notes?.length==0\" class=\"write-note white-bg\" style=\"height:230px;\">\n                    <p class=\"show-not-found\">\n                        {{constant.errorMsg.NO_NOTE_FOUND}}\n                    </p>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n\n\n\n<!-- add note modal -->\n<div class=\"modal animated\" id=\"addNote\">\n    <div class=\"modal-dialog fadeIndown\">\n        <div class=\"modal-content\">\n        <div class=\"modal-header modal-header-new\">\n            <h4 class=\"modal-title\">Add Note</h4>\n            <button style=\"display: none;\" type=\"button\" class=\"close\" data-dismiss=\"modal\" #modalClose>&times;</button>\n            <button type=\"button\" class=\"close\" (click)=\"closeModal()\">&times;</button>\n        </div>\n    \n        <form class=\"form-horizontal form-model0P form-model-newP\" role=\"form\" ngNativeValidate #addForm=\"ngForm\" (ngSubmit)=\"addLeadNote(); addForm.reset();\">\n            <div class=\"modal-body modal-body-new\">\n            <div class=\"row\">\n                <div class=\"col-12\">\n                <div class=\"form-group-2\">\n                    <div class=\"form-group\">\n                        <textarea rows=\"4\" required class=\"form-control note\" name=\"note\" #note=\"ngModel\" [(ngModel)]=\"model.note\"></textarea>\n                    </div>\n                </div>\n                </div>\n                <div class=\"col-12\">\n                    <div class=\"btn-cont text-right\">\n                        <button type=\"submit\" [disabled]=\"!addForm.valid\" class=\"btn btn-primary\">Add</button>\n                        <!-- <button *ngIf=\"model.id==0 else UpdateNote\" [disabled]=\"!addForm.valid\" type=\"submit\" class=\"btn btn-primary\">ADD</button>\n                        <ng-template #UpdateNote>\n                            <button type=\"submit\" [disabled]=\"!addForm.valid\" class=\"btn btn-primary\">UPDATE</button>\n                        </ng-template> -->\n                    </div>\n                </div>\n            </div>\n            </div>\n        </form>\n        </div>\n    </div>\n</div>\n"
+module.exports = "<ngx-loading [show]=\"parameter.loading\"></ngx-loading>\n<div class=\"container-fluid\">\n    <div class=\"row\">\n        <div class=\"col-md-6\">\n          <div class=\"title-group\">\n              <h5>Access Control Mgt.</h5>\n              <p>Showing {{parameter.items?.length}} out of {{parameter.total}}</p>\n          </div>\n        </div>\n        <div class=\"col-md-6\">\n          <div class=\"btn-cont text-right\">\n              <a *ngIf=\"admin?.admin_acl['Access Controls']?.can_create==1\" class=\"btn btn-primary\" href=\"javascript://\" routerLink=\"/dashboard/access-control-mgt/add-acl-user/0\">+Add New</a>\n              <!-- <a *ngIf=\"admin?.admin_acl['Access Controls']?.can_create==1\" class=\"btn btn-primary\" href=\"javascript://\" routerLink=\"/dashboard/access-control-mgt/add-acl-user/0\">+Add New</a> -->\n              <!-- <a class=\"btn btn-primary\" href=\"javascript://\" data-toggle=\"modal\" data-target=\"#add\" #modalOpen>Add Popup</a> -->\n          </div>\n        </div>\n    </div>\n  \n    <div class=\"white-bg\">\n        <div class=\"tabel-section\">\n          <div class=\"table-responsive\">\n            <table class=\"table table-striped table-align-left\">\n              <tr>\n                <th style=\"width:6%\">&nbsp;</th>\n                <th style=\"width:20%\">\n                  <div class=\"table-search\">\n                      <label>Name</label>\n                      <div class=\"searh-3\">\n                        <input type=\"text\" [(ngModel)]=\"parameter.name\" (keyup.enter)=\"getAclUsers(parameter.page, parameter.name, parameter.phone, parameter.email)\" name=\"\">\n                        <button *ngIf=\"parameter.name\" (click)=\"getAclUsers(parameter.page, parameter.name, parameter.phone, parameter.email)\"><i class=\"fa fa-search\"></i></button>\n                      </div>\n                  </div>\n                </th>\n                <th style=\"width:20%; text-align:left;\">\n                  <div class=\"table-search\">\n                      <label>Contact Number</label>\n                      <div class=\"searh-3\">\n                        <input type=\"text\" [(ngModel)]=\"parameter.phone\" (keyup.enter)=\"getAclUsers(parameter.page, parameter.name, parameter.phone, parameter.email)\" name=\"\">\n                        <button *ngIf=\"parameter.phone\" (click)=\"getAclUsers(parameter.page, parameter.name, parameter.phone, parameter.email)\"><i class=\"fa fa-search\"></i></button>\n                      </div>\n                  </div>\n                </th>\n                <th style=\"width:20%\">\n                  <div class=\"table-search\">\n                      <label>Email Address</label>\n                      <div class=\"searh-3\">\n                        <input type=\"text\" [(ngModel)]=\"parameter.email\" (keyup.enter)=\"getAclUsers(parameter.page, parameter.name, parameter.phone, parameter.email)\" name=\"\">\n                        <button *ngIf=\"parameter.email\" (click)=\"getAclUsers(parameter.page, parameter.name, parameter.phone, parameter.email)\"><i class=\"fa fa-search\"></i></button>\n                      </div>\n                  </div>\n                </th>\n                <th style=\"width:10%; vertical-align: top;\">\n                  <div class=\"table-search\">\n                    <label>Emp. ID</label>\n                  </div>\n                </th>\n                <th style=\"width:14%\">\n                  &nbsp;\n                </th>\n              </tr>\n        \n              <tr *ngFor=\"let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index\">\n                <td> \n                  <img *ngIf=\"item.image && item.image!='image'\" class=\"rounded-circle\" [src]=\"item.image\" alt=\"img\">\n                  <img *ngIf=\"!item.image || item.image=='image'\" class=\"rounded-circle\" src=\"./../../../assets/img/default_img.png\" alt=\"img\">\n                </td>\n                <td class=\"text-left\">\n                  <span class=\"name\">\n                    <a data-toggle=\"popover\" data-placement=\"top\" title=\"{{item.name}}\">\n                      {{item.name}}\n                      <!-- {{admin?.admin_acl['Access Controls']?.can_delete}} -->\n                    </a>\n                  </span>\n                </td>\n                <td class=\"text-left\" *ngIf=\"item.phone\">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>\n                <td class=\"text-left\" *ngIf=\"!item.phone\">NA</td>\n                <td class=\"text-left\" *ngIf=\"item.email\">{{item.email}}</td>\n                <td class=\"text-left\" *ngIf=\"!item.email\">NA</td>\n                <td>{{item.id}}</td>\n                <td>\n                  <!-- <a href=\"javascript://\" routerLink=\"/dashboard/access-control-mgt/add-acl-user/{{item.id}}\" class=\"icon-block edit-icon\"><img src=\"./../../../../assets/img/edit.png\" alt=\"img\"></a> -->\n                  <!-- <a [ngClass]=\"{'display-none':admin?.admin_acl['Access Controls']?.can_update==0}\" href=\"javascript://\" (click)=\"editData(item, item.id)\" class=\"icon-block edit-icon\"><img src=\"./../../../../assets/img/edit.png\" alt=\"img\"></a> -->\n                  <!-- <a href=\"javascript://\" class=\"icon-block block-icon unblock-bg\"><img src=\"./../../../../assets/img/block.png\" alt=\"img\"></a>\n                  <a href=\"javascript://\" class=\"icon-block block-icon\"><img src=\"./../../../../assets/img/unblock.png\" alt=\"img\"></a> -->\n                  <button title=\"Edit Details\" [disabled]=\"admin?.admin_acl['Access Controls']?.can_update==0\" (click)=\"editData(item, item.id)\" class=\"action-icon\"><img src=\"./../../../../assets/img/edit.png\" alt=\"img\"></button>\n                  <button [disabled]=\"admin?.admin_acl['Access Controls']?.can_delete==0\"\n                      (click)=\"blockUnblockPopup(i, item.id, item.is_blocked==1?0:1, parameter.type)\" \n                      title=\"{{item.is_blocked==1?'Unblock User':'Block User'}}\" [ngClass]=\"{'unblock-bg':item.is_blocked==1}\"\n                      class=\"action-icon\"><img src=\"assets/img/block.png\" alt=\"img\">\n                  </button>\n                </td>\n              </tr>\n            </table>\n          </div>\n        </div>\n  \n        <div class=\"center\" *ngIf=\"parameter.total == 0\">\n          <img src=\"./../../../assets/img/404-error.png\">\n        </div>\n    </div>\n    \n    <div class=\"btn-cont text-right marginT15\" *ngIf=\"parameter.total\">\n      <pagination-controls class=\"my-pagination\" (pageChange)=\"getPage($event)\"></pagination-controls>\n    </div>\n    \n  </div>\n  \n  \n  \n  <!-- add inhouse user modal -->\n  <div class=\"modal animated\" id=\"add\">\n    <div class=\"modal-dialog fadeIndown modal-lg\">\n      <div class=\"modal-content\">\n        <div class=\"modal-header\">\n            <button style=\"display: none;\" type=\"button\" class=\"close\" data-dismiss=\"modal\" #modalClose>&times;</button>\n            <button type=\"button\" class=\"close\" (click)=\"closeModal()\">&times;</button>\n        </div>\n  \n        <form class=\"form-horizontal form-model0P\" role=\"form\" ngNativeValidate #addForm=\"ngForm\" (ngSubmit)=\"add(addForm)\">\n          <div class=\"modal-body\">\n            <div class=\"row\">\n              <div class=\"col-6\">\n                <div class=\"add-img\" [style.background-image]=\"image1\">\n                <input accept=\"image/*\" name=\"image\" class=\"image\" (change)=\"changeListner($event)\" type=\"file\">\n                <label *ngIf=\"!image1\">+ Add Image</label>\n                </div>\n              </div>\n              <div class=\"col-6\">\n                <div class=\"btn-cont text-right\">\n                    <button *ngIf=\"model.id==''\" type=\"submit\" class=\"btn btn-primary\">ADD</button>\n                    <button *ngIf=\"model.id!=''\"  type=\"submit\" [disabled]=\"!addForm.valid\" class=\"btn btn-primary\">UPDATE</button>\n                </div>\n              </div>\n              <div class=\"col-12\">\n                <div class=\"spacer40\"></div>\n              </div>\n              <div class=\"col-12\">\n                <div class=\"form-group-2\">\n                    <label>Name</label>\n                    <div class=\"form-group\">\n                    <input autocomplete=\"off\" required type=\"text\" class=\"form-control\" [(ngModel)]=\"model.name\" name=\"name\">\n                  </div>\n                </div>\n              </div>\n              <div class=\"col-12\">\n                <div class=\"form-group-2\">\n                    <label>Contact number</label>\n                    <div class=\"form-group\">\n                    <input minlength=\"6\" maxlength=\"16\" autocomplete=\"off\" type=\"text\" [pattern]=\"constant.phonePattern\" class=\"form-control\" id=\"phone\" required minlength=\"1\" [(ngModel)]=\"model.phone\" name=\"phone\"\n                        ng2TelInput [ng2TelInputOptions]=\"initialCountry\" (countryChange)=\"onCountryChange($event)\" />\n                  </div>\n                </div>\n              </div>\n              <div class=\"col-12\">\n                <div class=\"form-group-2\">\n                    <label>Email ID</label>\n                    <div class=\"form-group\">\n                    <input autocomplete=\"off\" required [pattern]=\"constant.emailPattern\" type=\"email\" class=\"form-control\" [(ngModel)]=\"model.email\" name=\"email\">\n                  </div>\n                </div>\n              </div>\n\n              <!-- <div class=\"access-controls\">\n                <label *ngFor=\"let permission of model.acl; let i=index\" class=\"cust-check-bx2\">{{permission.name}}\n                  <input (click)=\"setPermission(permission.id, i)\" type=\"checkbox\" name=\"acl{{i}}\">\n                  <span class=\"checkmark\"></span>\n                </label>\n              </div> -->\n\n              <div class=\"row\">\n                <div class=\"col-12\" *ngFor=\"let permission of model.admin_acl; let i=index\">\n                  <label><strong>{{permission?.acl?.name}}</strong></label><br>\n                  <label>Can Create\n                    <input type=\"checkbox\" [checked]=\"permission.can_create == 1 ? 'checked': ''\" (click)=\"setPermission('can_create', i)\" name=\"can_create{{i}}\">\n                  </label>\n                  <label>Can Read\n                    <input type=\"checkbox\" [checked]=\"permission.can_read == 1 ? 'checked': ''\" (click)=\"setPermission('can_read', i)\" name=\"can_read{{i}}\">\n                  </label>\n                  <label>Can Update\n                    <input type=\"checkbox\" [checked]=\"permission.can_update == 1 ? 'checked': ''\" (click)=\"setPermission('can_update', i)\" name=\"can_update{{i}}\">\n                  </label>\n                  <label>Can Block/Unblock\n                    <input type=\"checkbox\" [checked]=\"permission.can_delete == 1 ? 'checked': ''\" (click)=\"setPermission('can_delete', i)\" name=\"can_delete{{i}}\">\n                  </label>\n                </div>\n                <br>\n              </div>\n            </div>\n          </div>\n        </form>\n      </div>\n    </div>\n  </div>"
 
 /***/ }),
 
-/***/ "../../../../../src/app/layout/manual-leads/manual-lead-details/manual-lead-details.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_admin_service__ = __webpack_require__("../../../../../src/app/services/admin.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_common_service__ = __webpack_require__("../../../../../src/app/services/common.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__common_constants__ = __webpack_require__("../../../../../src/app/common/constants.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__models_leads_model__ = __webpack_require__("../../../../../src/app/models/leads.model.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ManualLeadDetailsComponent; });
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-
-var ManualLeadDetailsComponent = /** @class */ (function () {
-    function ManualLeadDetailsComponent(route, admin, router, cs, constant, model) {
-        this.route = route;
-        this.admin = admin;
-        this.router = router;
-        this.cs = cs;
-        this.constant = constant;
-        this.model = model;
-        this.parameter = {};
-        this.scrollbarOptions = { axis: 'y', theme: 'dark' };
-    }
-    ManualLeadDetailsComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.parameter.sent_as = this.constant.userType.csr_closer;
-        this.admin.loginData$.subscribe(function (success) {
-            _this.admin_id = success['id'];
-        });
-        this.route.params.subscribe(function (params) {
-            _this.parameter.lead_id = params.id;
-            _this.parameter.loading = true;
-            _this.admin.postDataApi('getManualLeadById', { id: _this.parameter.lead_id, sent_as: _this.parameter.sent_as }).subscribe(function (r) {
-                _this.parameter.loading = false;
-                _this.parameter.data = r.data;
-                _this.parameter.user_id = _this.parameter.data.user.id;
-            }, function (error) {
-                _this.parameter.loading = false;
-            });
-        });
-    };
-    ManualLeadDetailsComponent.prototype.viewPropertyDetails = function (property) {
-        this.cs.setPropertyDetails(property);
-        this.router.navigate(['/dashboard/properties/details/' + property.id]);
-    };
-    ManualLeadDetailsComponent.prototype.closeModal = function () {
-        this.modalClose.nativeElement.click();
-    };
-    ManualLeadDetailsComponent.prototype.addLeadNote = function () {
-        var _this = this;
-        this.admin.postDataApi('addManualLeadNote', { manual_lead_id: this.parameter.lead_id, note: this.model.note }).subscribe(function (r) {
-            _this.closeModal();
-            // this.parameter.items.push(r.data);
-            _this.parameter.data.notes.unshift(r.data);
-            swal('Success', _this.constant.successMsg.NOTE_ADDED_SUCCESSFULLY, 'success');
-        });
-    };
-    ManualLeadDetailsComponent.prototype.deleteLeadPopup = function (note_id, index) {
-        var _this = this;
-        swal({
-            title: 'Are you sure?',
-            text: 'You want to delete this note?',
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: this.constant.confirmButtonColor,
-            cancelButtonColor: this.constant.cancelButtonColor,
-            confirmButtonText: 'Delete!'
-        }).then(function (result) {
-            if (result.value) {
-                _this.deleteLeadNote(note_id, index);
-            }
-        });
-    };
-    ManualLeadDetailsComponent.prototype.deleteLeadNote = function (note_id, index) {
-        var _this = this;
-        this.admin.postDataApi('deleteManualLeadNote', { note_id: note_id }).subscribe(function (r) {
-            _this.parameter.data.notes.splice(index, 1);
-            swal('Success', _this.constant.successMsg.NOTE_DELETED_SUCCESSFULLY, 'success');
-        });
-    };
-    var _a, _b, _c, _d, _e, _f, _g, _h;
-    __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('modalOpen'),
-        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"]) === "function" ? _a : Object)
-    ], ManualLeadDetailsComponent.prototype, "modalOpen", void 0);
-    __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('modalClose'),
-        __metadata("design:type", typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"]) === "function" ? _b : Object)
-    ], ManualLeadDetailsComponent.prototype, "modalClose", void 0);
-    ManualLeadDetailsComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'app-manual-lead-details',
-            template: __webpack_require__("../../../../../src/app/layout/manual-leads/manual-lead-details/manual-lead-details.component.html"),
-            styles: [__webpack_require__("../../../../../src/app/layout/manual-leads/manual-lead-details/manual-lead-details.component.css")],
-            providers: [__WEBPACK_IMPORTED_MODULE_5__models_leads_model__["a" /* Notes */]]
-        }),
-        __metadata("design:paramtypes", [typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */]) === "function" ? _c : Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_admin_service__["a" /* AdminService */]) === "function" ? _d : Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" ? _e : Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_3__services_common_service__["a" /* CommonService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_common_service__["a" /* CommonService */]) === "function" ? _f : Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_4__common_constants__["a" /* Constant */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__common_constants__["a" /* Constant */]) === "function" ? _g : Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_5__models_leads_model__["a" /* Notes */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__models_leads_model__["a" /* Notes */]) === "function" ? _h : Object])
-    ], ManualLeadDetailsComponent);
-    return ManualLeadDetailsComponent;
-}());
-
-//# sourceMappingURL=manual-lead-details.component.js.map
-
-/***/ }),
-
-/***/ "../../../../../src/app/layout/manual-leads/manual-leads.component.css":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, ".add-img{\n    background-size: cover;background-repeat: no-repeat;\n}", ""]);
-
-// exports
-
-
-/*** EXPORTS FROM exports-loader ***/
-module.exports = module.exports.toString();
-
-/***/ }),
-
-/***/ "../../../../../src/app/layout/manual-leads/manual-leads.component.html":
-/***/ (function(module, exports) {
-
-module.exports = "\n<ngx-loading [show]=\"parameter.loading\"></ngx-loading>\n<div class=\"container-fluid\">\n\n    <div class=\"row\">\n        <div class=\"col-12\">\n        <div class=\"title-group\">\n            <h5>Manual Leads</h5>\n            <p>Showing {{items?.length}} out of {{parameter.total}}</p>\n        </div>\n        </div>\n    </div>\n\n    <div class=\"white-bg\">\n        <div class=\"tabel-section\">\n            <div class=\"table-responsive\">\n                <table class=\"table table-striped table-align-left vertical-align-top\">\n                <tr>\n                    <th style=\"width:10%\">\n                        <div class=\"table-search\"></div>\n                    </th>\n                    <th style=\"width:20%\">\n                        <div class=\"table-search\">\n                            <label>Name</label>\n                            <div class=\"searh-3\">\n                                <input type=\"text\" [(ngModel)]=\"parameter.name\" (keyup.enter)=\"changeFilter('name',$event.target.value)\" name=\"\">\n                                <button *ngIf=\"parameter.name\" (click)=\"changeFilter('name', parameter.name)\"><i class=\"fa fa-search\"></i></button>\n                            </div>\n                        </div>\n                    </th>\n                    <th style=\"width:20%; text-align:left;\">\n                        <div class=\"table-search\">\n                            <label>Contact Number</label>\n                            <div class=\"searh-3\">\n                                <input type=\"text\" [(ngModel)]=\"parameter.phone\" (keyup.enter)=\"changeFilter('phone',$event.target.value)\" name=\"\">\n                                <button *ngIf=\"parameter.phone\" (click)=\"changeFilter('phone', parameter.phone)\"><i class=\"fa fa-search\"></i></button>\n                            </div>\n                        </div>\n                    </th>\n                    <th style=\"width:20%\">\n                        <div class=\"table-search\">\n                            <label>Email</label>\n                            <div class=\"searh-3\">\n                                <input type=\"text\" [(ngModel)]=\"parameter.email\" (keyup.enter)=\"changeFilter('email',$event.target.value)\" name=\"\">\n                                <button *ngIf=\"parameter.email\" (click)=\"changeFilter('email', parameter.email)\"><i class=\"fa fa-search\"></i></button>\n                            </div>\n                        </div>\n                    </th>\n                    <th style=\"width:15%\">\n                        <div class=\"table-search\">\n                            <label>Status</label>\n                        </div>\n                    </th>\n                    <th style=\"width:15%\">\n                        <div class=\"table-search\">\n                            <label>Type</label>\n                        </div>\n                    </th>\n                    <!-- <th></th> -->\n                </tr>\n                <tr class=\"cursor-pointer\" title=\"Click to view details\" *ngFor=\"let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }\" routerLink=\"/dashboard/manual-leads/view-details/{{item.id}}\">\n                    <td><img [src]=\"item.image\" class=\"rounded-circle\" onerror='src=\"assets/img/default_img.png\"' alt=\"img\"></td>\n                    <td class=\"text-left\">\n                        <span *ngIf=\"item.name\"class=\"name\">{{item.name}}</span>\n                        <span class=\"name\" *ngIf=\"!item.name\">NA</span>\n                    </td>\n                    <td class=\"text-left\" *ngIf=\"item.phone\">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>\n                    <td class=\"text-left\" *ngIf=\"!item.phone\">NA</td>\n                    <td class=\"text-left\" *ngIf=\"item.email\">{{item.email}}</td>\n                    <td class=\"text-left\" *ngIf=\"!item.email\">NA</td>\n                    <td class=\"text-left\">\n                            <!-- background: #939292;\n                            padding: 4px 8px;\n                            color: #fff;\n                            border-radius: 12px; -->\n                        <span [style.color]=\"item?.status?.hex_code\">{{item?.status?.name}}</span>\n                    </td>\n                    <td class=\"text-left\" [style.color]=\"item?.type?.hex_code\">{{item?.type?.name}}</td>\n                    <!-- <td>\n                        <button title=\"View Details\" routerLink=\"/dashboard/manual-leads/view-details/{{item.id}}\" class=\"action-icon\"><img src=\"./../../../../assets/img/edit.png\" alt=\"img\"></button>\n                    </td> -->\n                </tr>\n                </table>\n            </div>\n        </div>\n\n        <div class=\"center\" *ngIf=\"items?.length == 0\">\n            <img src=\"assets/img/404-error.png\">\n        </div>\n    </div>         \n\n    <div class=\"btn-cont text-right marginT15\" *ngIf=\"parameter.total\">\n        <pagination-controls class=\"my-pagination\" (pageChange)=\"getPage($event)\"></pagination-controls>\n    </div>\n</div>\n"
-
-/***/ }),
-
-/***/ "../../../../../src/app/layout/manual-leads/manual-leads.component.ts":
+/***/ "../../../../../src/app/layout/acl/acl.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_admin_service__ = __webpack_require__("../../../../../src/app/services/admin.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__common_constants__ = __webpack_require__("../../../../../src/app/common/constants.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ManualLeadsComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_acl_model__ = __webpack_require__("../../../../../src/app/models/acl.model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common_constants__ = __webpack_require__("../../../../../src/app/common/constants.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_platform_browser__ = __webpack_require__("../../../platform-browser/@angular/platform-browser.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_common_service__ = __webpack_require__("../../../../../src/app/services/common.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AclComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -189,61 +50,183 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var ManualLeadsComponent = /** @class */ (function () {
-    function ManualLeadsComponent(admin, constant) {
-        this.admin = admin;
+
+
+
+
+
+var AclComponent = /** @class */ (function () {
+    function AclComponent(constant, model, admin, cs, sanitization, router, location) {
         this.constant = constant;
+        this.model = model;
+        this.admin = admin;
+        this.cs = cs;
+        this.sanitization = sanitization;
+        this.router = router;
+        this.location = location;
         this.parameter = {};
-        this.items = [];
+        var dd = this.cs.checkAccess('Broker Management', 'can_read');
+        if (dd === 0) {
+            this.location.back();
+        }
     }
-    ManualLeadsComponent.prototype.ngOnInit = function () {
+    AclComponent.prototype.ngOnInit = function () {
+        this.model.country_code = this.constant.country_code;
+        this.model.dial_code = this.constant.dial_code;
         this.parameter.itemsPerPage = this.constant.itemsPerPage;
         this.parameter.page = this.constant.p;
-        this.getListing();
+        this.model.id = '';
+        this.initialCountry = { initialCountry: this.constant.country_code };
+        // this.getAclList();
+        this.getAclUsers(this.parameter.page, '', '', '');
     };
-    ManualLeadsComponent.prototype.changeFlag = function (flag) {
-        this.parameter.flag = flag;
-        this.getListing();
+    AclComponent.prototype.closeModal = function () {
+        this.model = new __WEBPACK_IMPORTED_MODULE_2__models_acl_model__["a" /* ACL */];
+        this.modalClose.nativeElement.click();
     };
-    ManualLeadsComponent.prototype.changeFilter = function (key, value) {
-        this.parameter[key] = value;
-        this.getListing();
-    };
-    ManualLeadsComponent.prototype.getPage = function (page) {
+    AclComponent.prototype.getPage = function (page) {
         this.parameter.page = page;
-        this.getListing();
+        this.getAclUsers(this.parameter.page, this.parameter.name, this.parameter.phone, this.parameter.email);
     };
-    ManualLeadsComponent.prototype.getListing = function () {
+    AclComponent.prototype.getAclList = function () {
         var _this = this;
-        this.parameter.url = 'getManualLeads';
+        this.admin.postDataApi('getAclList', {})
+            .subscribe(function (success) {
+            success.data.forEach(function (element) {
+                var e = new __WEBPACK_IMPORTED_MODULE_2__models_acl_model__["b" /* Permission */]();
+                e.acl_id = element.id;
+                var acl = { name: element.name };
+                e.acl = acl;
+                e.can_create = 1;
+                e.can_update = 1;
+                e.can_read = 1;
+                e.can_delete = 1;
+                _this.model.admin_acl.push(e);
+            });
+        });
+    };
+    AclComponent.prototype.getAclUsers = function (page, name, phone, email) {
+        var _this = this;
         this.parameter.loading = true;
-        this.admin.postDataApi(this.parameter.url, this.parameter)
+        this.admin.postDataApi('getAclUsers', this.parameter)
             .subscribe(function (success) {
             _this.parameter.loading = false;
-            console.log('suceess', success);
-            _this.items = success.data;
-            _this.parameter.total = success.total_count;
+            _this.parameter.items = success.data;
+            _this.parameter.total = success.total;
         }, function (error) {
             _this.parameter.loading = false;
         });
     };
-    var _a, _b;
-    ManualLeadsComponent = __decorate([
+    AclComponent.prototype.setPermission = function (param, index) {
+        this.model.admin_acl[index][param] = this.model.admin_acl[index][param] &&
+            this.model.admin_acl[index][param] === 1 ? 0 : 1;
+    };
+    AclComponent.prototype.changeListner = function (event) {
+        var _this = this;
+        this.parameter.image = event.target.files[0];
+        this.parameter.icon = this.parameter.image;
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            _this.url = e.target.result;
+            _this.image1 = _this.sanitization.bypassSecurityTrustStyle("url(" + _this.url + ")");
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    };
+    AclComponent.prototype.onCountryChange = function (e) {
+        this.model.country_code = e.iso2;
+        this.model.dial_code = '+' + e.dialCode;
+        this.initialCountry = { initialCountry: e.iso2 };
+    };
+    AclComponent.prototype.add = function (formdata) {
+        var _this = this;
+        this.parameter.url = this.model.id !== '' ? 'updateAclUser' : 'addAclUser';
+        this.admin.postDataApi(this.parameter.url, this.model)
+            .subscribe(function (success) {
+            if (success.success === '0') {
+                swal('Error', success.message, 'error');
+            }
+            else {
+                _this.modalClose.nativeElement.click();
+                formdata.reset();
+                var text = _this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
+                swal('Success', text, 'success');
+                if (_this.parameter.items.length < 10) {
+                    if (_this.model.id !== '') {
+                        _this.parameter.items[_this.parameter.index] = success.data;
+                    }
+                    else {
+                        _this.parameter.items.push(success.data);
+                    }
+                }
+            }
+        });
+    };
+    AclComponent.prototype.editData = function (item, id) {
+        this.cs.data = item;
+        this.router.navigate(['/dashboard/access-control-mgt/add-acl-user', id]);
+    };
+    AclComponent.prototype.blockUnblockPopup = function (index, id, flag, user_type) {
+        var _this = this;
+        this.parameter.index = index;
+        this.parameter.title = this.constant.title.ARE_YOU_SURE;
+        switch (flag) {
+            case 0:
+                this.parameter.text = this.constant.title.UNBLOCK_USER;
+                this.parameter.successText = this.constant.successMsg.UNBLOCKED_SUCCESSFULLY;
+                break;
+            case 1:
+                this.parameter.text = this.constant.title.BLOCK_USER;
+                this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
+                break;
+        }
+        swal({
+            html: this.parameter.title + '<br>' + this.parameter.text,
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: this.constant.confirmButtonColor,
+            cancelButtonColor: this.constant.cancelButtonColor,
+            confirmButtonText: 'Yes'
+        }).then(function (result) {
+            if (result.value) {
+                _this.blockAdmin(index, id, flag, user_type);
+            }
+        });
+    };
+    AclComponent.prototype.blockAdmin = function (index, id, flag, user_type) {
+        var _this = this;
+        this.parameter.index = index;
+        this.admin.postDataApi('blockAclUser', { id: id, flag: flag })
+            .subscribe(function (success) {
+            swal('Success', success.message, 'success');
+            _this.parameter.items[_this.parameter.index] = success.data;
+        });
+    };
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('modalOpen'),
+        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"]) === "function" ? _a : Object)
+    ], AclComponent.prototype, "modalOpen", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('modalClose'),
+        __metadata("design:type", typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"]) === "function" ? _b : Object)
+    ], AclComponent.prototype, "modalClose", void 0);
+    AclComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'app-manual-leads',
-            template: __webpack_require__("../../../../../src/app/layout/manual-leads/manual-leads.component.html"),
-            styles: [__webpack_require__("../../../../../src/app/layout/manual-leads/manual-leads.component.css")]
+            selector: 'app-acl',
+            template: __webpack_require__("../../../../../src/app/layout/acl/acl.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/layout/acl/acl.component.css")],
+            providers: [__WEBPACK_IMPORTED_MODULE_2__models_acl_model__["a" /* ACL */]]
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */]) === "function" ? _a : Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__common_constants__["a" /* Constant */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__common_constants__["a" /* Constant */]) === "function" ? _b : Object])
-    ], ManualLeadsComponent);
-    return ManualLeadsComponent;
+        __metadata("design:paramtypes", [typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__common_constants__["a" /* Constant */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__common_constants__["a" /* Constant */]) === "function" ? _c : Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__models_acl_model__["a" /* ACL */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__models_acl_model__["a" /* ACL */]) === "function" ? _d : Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */]) === "function" ? _e : Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_5__services_common_service__["a" /* CommonService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__services_common_service__["a" /* CommonService */]) === "function" ? _f : Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_4__angular_platform_browser__["DomSanitizer"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_platform_browser__["DomSanitizer"]) === "function" ? _g : Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_6__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__angular_router__["b" /* Router */]) === "function" ? _h : Object, typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_7__angular_common__["Location"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__angular_common__["Location"]) === "function" ? _j : Object])
+    ], AclComponent);
+    return AclComponent;
 }());
 
-//# sourceMappingURL=manual-leads.component.js.map
+//# sourceMappingURL=acl.component.js.map
 
 /***/ }),
 
-/***/ "../../../../../src/app/layout/manual-leads/manual-leads.module.ts":
+/***/ "../../../../../src/app/layout/acl/acl.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -256,12 +239,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_tel_input__ = __webpack_require__("../../../../ng2-tel-input/ng2-tel-input.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_tel_input___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_ng2_tel_input__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__manual_leads_component__ = __webpack_require__("../../../../../src/app/layout/manual-leads/manual-leads.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__manual_lead_details_manual_lead_details_component__ = __webpack_require__("../../../../../src/app/layout/manual-leads/manual-lead-details/manual-lead-details.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__modules_shared_module__ = __webpack_require__("../../../../../src/app/modules/shared.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__guards_acl_user_guard__ = __webpack_require__("../../../../../src/app/guards/acl-user.guard.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_ngx_malihu_scrollbar__ = __webpack_require__("../../../../ngx-malihu-scrollbar/dist/lib/index.js");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ManualLeadsModule", function() { return ManualLeadsModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__acl_component__ = __webpack_require__("../../../../../src/app/layout/acl/acl.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__add_acl_add_acl_component__ = __webpack_require__("../../../../../src/app/layout/acl/add-acl/add-acl.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__guards_acl_user_guard__ = __webpack_require__("../../../../../src/app/guards/acl-user.guard.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AclModule", function() { return AclModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -278,19 +259,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-
-
 var routes = [
-    // { path: '', component: ManualLeadsComponent }
-    { path: 'view-all', component: __WEBPACK_IMPORTED_MODULE_7__manual_leads_component__["a" /* ManualLeadsComponent */],
-        canActivate: [__WEBPACK_IMPORTED_MODULE_10__guards_acl_user_guard__["a" /* AclUserGuard */]], data: { roles: ['Manual Leads', 'can_read', ''] } },
-    { path: 'view-details/:id', component: __WEBPACK_IMPORTED_MODULE_8__manual_lead_details_manual_lead_details_component__["a" /* ManualLeadDetailsComponent */],
-        canActivate: [__WEBPACK_IMPORTED_MODULE_10__guards_acl_user_guard__["a" /* AclUserGuard */]], data: { roles: ['Manual Leads', 'can_read', ''] } }
+    // { path: '', component: AclComponent, canActivate: [AclUserGuard]},
+    // { path: 'add-acl-user/:id', component: AddAclComponent }
+    { path: '', component: __WEBPACK_IMPORTED_MODULE_7__acl_component__["a" /* AclComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_9__guards_acl_user_guard__["a" /* AclUserGuard */]], data: { roles: ['Access Controls', 'can_read', ''] } },
+    { path: 'add-acl-user/:id', component: __WEBPACK_IMPORTED_MODULE_8__add_acl_add_acl_component__["a" /* AddAclComponent */],
+        canActivate: [__WEBPACK_IMPORTED_MODULE_9__guards_acl_user_guard__["a" /* AclUserGuard */]], data: { roles: ['Access Controls', 'can_create', ''] } }
 ];
-var ManualLeadsModule = /** @class */ (function () {
-    function ManualLeadsModule() {
+var AclModule = /** @class */ (function () {
+    function AclModule() {
     }
-    ManualLeadsModule = __decorate([
+    AclModule = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
             imports: [
                 __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* RouterModule */].forChild(routes),
@@ -302,20 +281,205 @@ var ManualLeadsModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_4_ngx_pagination__["a" /* NgxPaginationModule */],
                 __WEBPACK_IMPORTED_MODULE_5__angular_forms__["FormsModule"],
                 __WEBPACK_IMPORTED_MODULE_5__angular_forms__["ReactiveFormsModule"],
-                __WEBPACK_IMPORTED_MODULE_6_ng2_tel_input__["Ng2TelInputModule"],
-                __WEBPACK_IMPORTED_MODULE_11_ngx_malihu_scrollbar__["a" /* MalihuScrollbarModule */].forRoot(),
-                __WEBPACK_IMPORTED_MODULE_9__modules_shared_module__["a" /* SharedModule */]
+                __WEBPACK_IMPORTED_MODULE_6_ng2_tel_input__["Ng2TelInputModule"]
             ],
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_7__manual_leads_component__["a" /* ManualLeadsComponent */],
-                __WEBPACK_IMPORTED_MODULE_8__manual_lead_details_manual_lead_details_component__["a" /* ManualLeadDetailsComponent */]
+                __WEBPACK_IMPORTED_MODULE_7__acl_component__["a" /* AclComponent */],
+                __WEBPACK_IMPORTED_MODULE_8__add_acl_add_acl_component__["a" /* AddAclComponent */]
             ]
         })
-    ], ManualLeadsModule);
-    return ManualLeadsModule;
+    ], AclModule);
+    return AclModule;
 }());
 
-//# sourceMappingURL=manual-leads.module.js.map
+//# sourceMappingURL=acl.module.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/layout/acl/add-acl/add-acl.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/layout/acl/add-acl/add-acl.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<ngx-loading [show]=\"parameter.loading\"></ngx-loading>\n<div class=\"container-fluid\">\n<div class=\"row\">\n    <div class=\"col-12\">\n      <div class=\"title-group\">\n          <h5>{{model.id!='' ? 'Edit' : 'Add'}} ACL User</h5>\n          <div class=\"spacer30\"></div>\n      </div>\n    </div>\n</div>\n<div class=\"white-bg padding40\">\n    <div class=\"row\">\n    <form role=\"form\" ngNativeValidate #addForm=\"ngForm\" (ngSubmit)=\"add(addForm)\">\n      <div class=\"col-xl-12 col-lg-12 col-md-12 col-12\">\n          <div class=\"row\">\n            <div class=\"col-6\">\n                <div class=\"add-img\">\n                  <input type=\"file\" name=\"\">\n                  <label>+ Add Image</label>\n                </div>\n            </div>\n            <div class=\"col-6\">\n                <div class=\"btn-cont text-right\">\n                    <button *ngIf=\"model.id==''\" type=\"submit\" [disabled]=\"!addForm.valid\" class=\"btn btn-primary\">ADD</button>\n                    <button *ngIf=\"model.id!=''\" type=\"submit\" class=\"btn btn-primary\">UPDATE</button>\n                </div>\n            </div>\n            <div class=\"col-12\">\n                <div class=\"spacer40\"></div>\n            </div>\n            <div class=\"col-12\">\n                <div class=\"form-group-2\">\n                  <label>Name</label>\n                  <input autocomplete=\"off\" required type=\"text\" class=\"form-control\" [(ngModel)]=\"model.name\" name=\"name\">\n                </div>\n            </div>\n            <div class=\"col-12\">\n                <div class=\"form-group-2\">\n                  <label>Contact number</label>\n                  <input minlength=\"6\" maxlength=\"16\" autocomplete=\"off\" type=\"text\" [pattern]=\"constant.phonePattern\" class=\"form-control\" id=\"phone\" required minlength=\"1\" [(ngModel)]=\"model.phone\" name=\"phone\"\n                        ng2TelInput [ng2TelInputOptions]=\"initialCountry\" (countryChange)=\"onCountryChange($event)\" />\n                </div>\n            </div>\n            <div class=\"col-12\">\n                <div class=\"form-group-2\">\n                  <label>Email ID</label>\n                  <input autocomplete=\"off\" required [pattern]=\"constant.emailPattern\" type=\"email\" class=\"form-control\" [(ngModel)]=\"model.email\" name=\"email\">\n                </div>\n            </div>\n          </div>\n          <!-- <div class=\"row\">\n            <div class=\"col-sm-3 col-12\">\n                <div class=\"form-group-2\">\n                  <label>Country</label>\n                  <select class=\"form-control\">\n                      <option>1BHK</option>\n                      <option>2BHK</option>\n                      <option>3BHK</option>\n                  </select>\n                </div>\n            </div>\n            <div class=\"col-sm-3 col-12\">\n                <div class=\"form-group-2\">\n                  <label>City</label>\n                  <select class=\"form-control\">\n                      <option>1BHK</option>\n                      <option>2BHK</option>\n                      <option>3BHK</option>\n                  </select>\n                </div>\n            </div>\n            <div class=\"col-sm-6 col-12\">\n                <div class=\"row\">\n                  <div class=\"col-9\">\n                      <div class=\"form-group-2\">\n                        <label>Neighbourhood</label>\n                        <select class=\"form-control\">\n                            <option>1BHK</option>\n                            <option>2BHK</option>\n                            <option>3BHK</option>\n                        </select>\n                      </div>\n                  </div>\n                  <div class=\"col-3\">\n                      <div class=\"inline-form-group padding0 marginT10\"> <button class=\"add-btn margin0\"><img src=\"img/add.png\" alt=\"img\"></button></div>\n                  </div>\n                </div>\n            </div>\n          </div> -->\n          <!-- <div class=\"row\">\n            <div class=\"col-sm-3 col-12\">\n                <div class=\"form-group-2\">\n                  <label>Country</label>\n                  <select class=\"form-control\">\n                      <option>1BHK</option>\n                      <option>2BHK</option>\n                      <option>3BHK</option>\n                  </select>\n                </div>\n            </div>\n            <div class=\"col-sm-3 col-12\">\n                <div class=\"form-group-2\">\n                  <label>City</label>\n                  <select class=\"form-control\">\n                      <option>1BHK</option>\n                      <option>2BHK</option>\n                      <option>3BHK</option>\n                  </select>\n                </div>\n            </div>\n            <div class=\"col-sm-6 col-12\">\n                <div class=\"row\">\n                  <div class=\"col-9\">\n                      <div class=\"form-group-2\">\n                        <label>Neighbourhood</label>\n                        <select class=\"form-control\">\n                            <option>1BHK</option>\n                            <option>2BHK</option>\n                            <option>3BHK</option>\n                        </select>\n                      </div>\n                  </div>\n                  <div class=\"col-3\">\n                      <div class=\"inline-form-group padding0 marginT10\"> <button class=\"add-btn margin0\"><img src=\"img/add.png\" alt=\"img\"></button></div>\n                  </div>\n                </div>\n            </div>\n          </div> -->\n        \n          <div class=\"access-controls\">\n              <div class=\"select-controls\" *ngFor=\"let permission of model.admin_acl; let i=index\">\n              <label class=\"cust-check-bx2\" [ngClass]=\"{'access-control11':permission.can_create==1 || permission.can_read==1 || permission.can_update==1 || permission.can_delete==1}\">{{permission?.acl?.name}}\n              <input (click)=\"expandBox(i)\" type=\"checkbox\" [checked]=\"permission.can_create == 1 || permission.can_read==1 || permission.can_update==1 || permission.can_delete==1 ? 'checked': ''\">\n              <span class=\"checkmark\"></span>\n              </label>\n              \n              <div class=\"clearfix\"></div>\n              <div *ngIf=\"permission.show\" id=\"broker-seller-dev\" class=\"inner-select\">\n                <label class=\"cust-check-bx\" [ngClass]=\"{'inner-checked':permission.can_create==1}\">Can Create\n                    <input type=\"checkbox\" [checked]=\"permission.can_create == 1 ? 'checked': ''\"  (click)=\"setPermission('can_create', i)\">\n                    <span class=\"checkmark\"></span>\n                </label>\n                <label class=\"cust-check-bx\" [ngClass]=\"{'inner-checked':permission.can_read==1}\">Can Read\n                    <input type=\"checkbox\" [checked]=\"permission.can_read == 1 ? 'checked': ''\"  (click)=\"setPermission('can_read', i)\">\n                    <span class=\"checkmark\"></span>\n                </label>\n                <label class=\"cust-check-bx\" [ngClass]=\"{'inner-checked':permission.can_update==1}\">Can Update\n                    <input type=\"checkbox\" [checked]=\"permission.can_update == 1 ? 'checked': ''\"  (click)=\"setPermission('can_update', i)\">\n                    <span class=\"checkmark\"></span>\n                </label>\n                <label class=\"cust-check-bx\" [ngClass]=\"{'inner-checked':permission.can_delete==1}\">Can Block/Unblock\n                    <input type=\"checkbox\" [checked]=\"permission.can_delete == 1 ? 'checked': ''\"  (click)=\"setPermission('can_delete', i)\">\n                    <span class=\"checkmark\"></span>\n                </label>\n                <label class=\"cust-check-bx\" [ngClass]=\"{'inner-checked':permission.can_crud==1}\">CRUD\n                    <input type=\"checkbox\" [checked]=\"permission.can_crud == 1 ? 'checked': ''\"  (click)=\"setPermission('can_crud', i)\">\n                    <span class=\"checkmark\"></span>\n                </label>\n                <br>\n              </div>\n              <div class=\"clearfix\"></div>\n            </div>\n            \n            <!-- inner-checked -->\n                  <!-- <div class=\"select-controls\">\n              <label class=\"cust-check-bx2\">Data Collector\n              <input id=\"dc\" type=\"checkbox\">\n              <span class=\"checkmark\"></span>\n              </label>\n              <div class=\"clearfix\"></div>\n                    <div style=\"display:none;\" id=\"data-collector\" class=\"inner-select\">\n                <label class=\"cust-check-bx\">Abc\n                              <input type=\"checkbox\">\n                              <span class=\"checkmark\"></span>\n                  </label>\n                  <label class=\"cust-check-bx inner-checked\">Lorem ipsum\n                              <input type=\"checkbox\" checked=\"checked\">\n                              <span class=\"checkmark\"></span>\n                  </label>\n                  <label class=\"cust-check-bx\">xyz\n                              <input type=\"checkbox\">\n                              <span class=\"checkmark\"></span>\n                  </label>\n                  <label class=\"cust-check-bx\">Abc\n                              <input type=\"checkbox\">\n                              <span class=\"checkmark\"></span>\n                  </label>\n                  <label class=\"cust-check-bx inner-checked\">Lorem ipsum\n                              <input type=\"checkbox\" checked=\"checked\">\n                              <span class=\"checkmark\"></span>\n                  </label>\n                  <label class=\"cust-check-bx\">xyz\n                              <input type=\"checkbox\">\n                              <span class=\"checkmark\"></span>\n                  </label>\n  \n              </div>\n                </div> -->\n  \n  \n                \n            </div>\n      </div>\n      </form>\n    </div>\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/layout/acl/add-acl/add-acl.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_admin_service__ = __webpack_require__("../../../../../src/app/services/admin.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_common_service__ = __webpack_require__("../../../../../src/app/services/common.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_acl_model__ = __webpack_require__("../../../../../src/app/models/acl.model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__common_constants__ = __webpack_require__("../../../../../src/app/common/constants.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AddAclComponent; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+var AddAclComponent = /** @class */ (function () {
+    function AddAclComponent(constant, model, cs, admin, route) {
+        this.constant = constant;
+        this.model = model;
+        this.cs = cs;
+        this.admin = admin;
+        this.route = route;
+        this.parameter = {};
+        this.show = false;
+    }
+    AddAclComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.model.country_code = this.constant.country_code;
+        this.model.dial_code = this.constant.dial_code;
+        this.parameter.itemsPerPage = this.constant.itemsPerPage;
+        this.parameter.p = this.constant.p;
+        this.initialCountry = { initialCountry: this.constant.country_code };
+        this.parameter.sub = this.route.params.subscribe(function (params) {
+            if (params['id'] !== '0') {
+                _this.model.id = params['id'];
+                _this.getAclUserById(_this.model.id);
+            }
+            else {
+                _this.model.id = '';
+                _this.getAclList();
+            }
+        });
+    };
+    AddAclComponent.prototype.getAclUserById = function (id) {
+        var _this = this;
+        this.parameter.loading = true;
+        this.admin.postDataApi('getAclUserById', { 'id': id })
+            .subscribe(function (success) {
+            _this.parameter.loading = false;
+            _this.model = success.data;
+            _this.model.admin_acl = success.data.admin_acl;
+        }, function (error) {
+            _this.parameter.loading = false;
+        });
+    };
+    AddAclComponent.prototype.set = function () {
+        this.show = true;
+    };
+    AddAclComponent.prototype.changeListner = function (event) {
+        this.parameter.image = event.target.files[0];
+        this.parameter.icon = this.parameter.image;
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            // this.url = e.target.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    };
+    AddAclComponent.prototype.onCountryChange = function (e) {
+        this.model.country_code = e.iso2;
+        this.model.dial_code = '+' + e.dialCode;
+        this.initialCountry = { initialCountry: e.iso2 };
+    };
+    AddAclComponent.prototype.getAclList = function () {
+        var _this = this;
+        this.parameter.loading = true;
+        this.admin.postDataApi('getAclList', {})
+            .subscribe(function (success) {
+            _this.parameter.loading = false;
+            success.data.forEach(function (element) {
+                var e = new __WEBPACK_IMPORTED_MODULE_3__models_acl_model__["b" /* Permission */]();
+                var acl = { name: element.name };
+                e.acl_id = element.id;
+                e.acl = acl;
+                e.show = false;
+                e.can_create = 1;
+                e.can_update = 1;
+                e.can_read = 1;
+                e.can_delete = 1;
+                e.can_crud = 1;
+                _this.model.admin_acl.push(e);
+            });
+        }, function (error) {
+            _this.parameter.loading = false;
+        });
+    };
+    AddAclComponent.prototype.expandBox = function (index) {
+        this.model.admin_acl[index].show = this.model.admin_acl[index].show === true ? false : true;
+    };
+    AddAclComponent.prototype.setPermission = function (param, index) {
+        if (param === 'can_crud') {
+            this.model.admin_acl[index]['can_create'] = this.model.admin_acl[index]['can_crud'] === 1 ? 0 : 1;
+            this.model.admin_acl[index]['can_read'] = this.model.admin_acl[index]['can_crud'] === 1 ? 0 : 1;
+            this.model.admin_acl[index]['can_update'] = this.model.admin_acl[index]['can_crud'] === 1 ? 0 : 1;
+            this.model.admin_acl[index]['can_delete'] = this.model.admin_acl[index]['can_crud'] === 1 ? 0 : 1;
+            this.model.admin_acl[index]['can_crud'] = this.model.admin_acl[index]['can_crud'] === 1 ? 0 : 1;
+        }
+        else {
+            this.model.admin_acl[index][param] = this.model.admin_acl[index][param] &&
+                this.model.admin_acl[index][param] === 1 ? 0 : 1;
+            this.model.admin_acl[index]['can_crud'] = this.model.admin_acl[index]['can_create'] === 1 &&
+                this.model.admin_acl[index]['can_read'] === 1 && this.model.admin_acl[index]['can_update'] === 1 &&
+                this.model.admin_acl[index]['can_delete'] === 1 ? 1 : 0;
+        }
+    };
+    AddAclComponent.prototype.add = function (formData) {
+        var _this = this;
+        this.parameter.loading = true;
+        this.admin.postDataApi('addAclUser', this.model)
+            .subscribe(function (success) {
+            _this.parameter.loading = false;
+            if (success.success === '0') {
+                swal('Error', success.message, 'error');
+            }
+            else {
+                var text = _this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
+                swal('Success', text, 'success');
+                if (_this.model.id === '') {
+                    formData.reset();
+                }
+            }
+        }, function (error) {
+            _this.parameter.loading = false;
+        });
+    };
+    var _a, _b, _c, _d, _e;
+    AddAclComponent = __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-add-acl',
+            template: __webpack_require__("../../../../../src/app/layout/acl/add-acl/add-acl.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/layout/acl/add-acl/add-acl.component.css")],
+            providers: [__WEBPACK_IMPORTED_MODULE_3__models_acl_model__["a" /* ACL */]]
+        }),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_5__common_constants__["a" /* Constant */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__common_constants__["a" /* Constant */]) === "function" ? _a : Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__models_acl_model__["a" /* ACL */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__models_acl_model__["a" /* ACL */]) === "function" ? _b : Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__services_common_service__["a" /* CommonService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_common_service__["a" /* CommonService */]) === "function" ? _c : Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */]) === "function" ? _d : Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_router__["c" /* ActivatedRoute */]) === "function" ? _e : Object])
+    ], AddAclComponent);
+    return AddAclComponent;
+}());
+
+//# sourceMappingURL=add-acl.component.js.map
 
 /***/ })
 

@@ -51,6 +51,9 @@ export class HttpInterceptor extends Http {
         let body = error['_body'];
         body = JSON.parse(body);
         swal('Error', body.message, 'error');
+        if (body.message === 'Unauthenticated.') {
+            this.router.navigate(['']);
+        }
         return Observable.throw(body);
     }
 }

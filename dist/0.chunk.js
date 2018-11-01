@@ -131,6 +131,29 @@ var FileUpload = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "../../../../../src/app/models/acl.model.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ACL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return Permission; });
+var ACL = /** @class */ (function () {
+    function ACL() {
+        this.admin_acl = [];
+    }
+    return ACL;
+}());
+
+var Permission = /** @class */ (function () {
+    function Permission() {
+    }
+    return Permission;
+}());
+
+//# sourceMappingURL=acl.model.js.map
+
+/***/ }),
+
 /***/ "../../../../../src/app/models/users.model.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 

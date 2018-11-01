@@ -1270,10 +1270,10 @@ var CsrCloserDetailComponent = /** @class */ (function () {
         this.model = model;
         this.element = element;
         this.parameter = {};
-        this.meetingDate = {
-            appointment_date: '',
-            id: ''
-        };
+        // meetingDate: any = {
+        //   appointment_date: '',
+        //   id: ''
+        // };
         this.show = false;
         this.conversations = [];
         this.messages = [];
@@ -1326,18 +1326,21 @@ var CsrCloserDetailComponent = /** @class */ (function () {
                     _this.selectedProperties.pending_amount :
                     (_this.selectedProperties.total_amount - _this.selectedProperties.token_money);
                 _this.parameter.user_id = _this.parameter.lead.user.id;
-                if (_this.parameter.lead.appointments && _this.parameter.lead.appointments.length !== 0) {
-                    for (var index = 0; index < _this.parameter.lead.appointments.length; index++) {
-                        var element = _this.parameter.lead.appointments[index];
-                        if (element.sent_as === _this.constant.userType.csr_closer) {
-                            _this.meetingDate = {
-                                appointment_date: element.appointment_date,
-                                id: element.id
-                            };
-                            _this.scheduleMeeting = _this.meetingDate;
-                        }
-                    }
+                if (_this.parameter.lead.appointments.length !== 0) {
+                    _this.scheduleMeeting = _this.parameter.lead.appointments[0];
                 }
+                // if (this.parameter.lead.appointments && this.parameter.lead.appointments.length !== 0) {
+                //   for (let index = 0; index < this.parameter.lead.appointments.length; index++) {
+                //     const element = this.parameter.lead.appointments[index];
+                //     if (element.sent_as === this.constant.userType.csr_closer) {
+                //       this.meetingDate = {
+                //         appointment_date: element.appointment_date,
+                //         id: element.id
+                //       };
+                //       this.scheduleMeeting = this.meetingDate;
+                //     }
+                //   }
+                // }
                 // chatting
                 _this.chat_buyer = r.data.lead.user;
                 _this.chat_seller = r.data.lead.selected_properties[0].property.creator;
@@ -1546,6 +1549,27 @@ var CsrCloserDetailComponent = /** @class */ (function () {
     CsrCloserDetailComponent.prototype.initSocket = function () {
         var _this = this;
         this.socket = __WEBPACK_IMPORTED_MODULE_4_socket_io_client__["connect"](this.admin.socketUrl);
+        // this.parameter.socket.on('connect', fun => {
+        //   console.log('connect');
+        //   console.log('connect', this.parameter.socket);
+        //   this.parameter.socket_id = this.parameter.socket.id;
+        //   this.parameter.connected = this.parameter.socket.connected;
+        //   const data = {
+        //     admin_id: this.admin_id,
+        //     socket_id: this.parameter.socket_id,
+        //     device_id: this.admin.deviceId + '_' + this.admin_id
+        //   };
+        //   if (this.parameter.connected) {
+        //     this.parameter.socket.emit('add-admin', data, (res: any) => {
+        //     });
+        //     this.parameter.socket.on('message', (response: any) => {
+        //       if (response.data.conversation_id === this.parameter.conversation_id) {
+        //         this.scrollToBottom();
+        //         this.parameter.messages.push(response.data);
+        //       }
+        //     });
+        //   }
+        // });
         this.socket.on('connect', function (fun) {
             _this.socket_id = _this.socket.id;
             _this.connected = _this.socket.connected;
@@ -1555,12 +1579,14 @@ var CsrCloserDetailComponent = /** @class */ (function () {
                 device_id: _this.admin.deviceId + '_' + _this.admin_id
             };
             if (_this.connected) {
-                // console.log('Socket Connected', this.socket_id);
+                console.log('Socket Connected', _this.socket_id);
                 _this.socket.emit('add-admin', data, function (res) {
-                    // console.log('res', res);
+                    console.log('res', res);
                 });
                 _this.socket.on('message', function (response) {
                     if (response.data.conversation_id === _this.conversation_id) {
+                        console.log('Socket conversation_id');
+                        console.log('Socket conversation_id', _this.conversation_id);
                         _this.messages.push(response.data);
                         setTimeout(function () {
                             _this.scrollToBottom();
@@ -1794,6 +1820,7 @@ var CsrCloserDetailComponent = /** @class */ (function () {
             console.log('conversation/getLeadConversation', r);
             if (r['data']) {
                 _this.conversation_id = r['data'][0].id;
+                _this.initSocket();
                 _this.model.conversation_id = _this.conversation_id;
                 _this.messages = r['data'][0].messages;
                 setTimeout(function () {
