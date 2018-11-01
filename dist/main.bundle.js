@@ -1336,7 +1336,22 @@ var ChatComponent = /** @class */ (function () {
     };
     ChatComponent.prototype.getMessages = function () {
         var _this = this;
-        this.admin.postDataApi('conversation/getMessages', { lead_id: this.lead_id, user_id: this.user_id, sent_as: this.sent_as }).subscribe(function (res) {
+        var i = {};
+        if ((this.sent_as === this.constant.userType.notary) || (this.sent_as === this.constant.userType.bank)) {
+            i = {
+                lead_id: this.lead_id,
+                user_id: this.user_id,
+                sent_as: this.sent_as
+            };
+        }
+        else {
+            i = {
+                lead_id: this.lead_id,
+                user_id: this.user_id,
+                sent_as: this.sent_as
+            };
+        }
+        this.admin.postDataApi('conversation/getMessages', i).subscribe(function (res) {
             _this.parameter.messages = res.data[0].messages;
             // this.parameter.messages.map(r=>{
             //   r.loading = true;

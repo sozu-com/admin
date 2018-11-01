@@ -312,7 +312,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   }
 
   viewPropertyDetails(property) {
-    // this.cs.setPropertyDetails(property);
+    this.cs.setPropertyDetails(property);
     this.router.navigate(['/dashboard/properties/details/' + property.property_id]);
   }
 
@@ -343,6 +343,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
 
 
   selectConversation(conversation) {
+    console.log('con', conversation);
     this.conversations.map(con => {
       con.selected = false;
       if (con === conversation) {
@@ -352,7 +353,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     });
 
     this.conversation = conversation;
-
+console.log('con id', this.conversation_id);
     const data = {
       conversation_id: this.conversation_id
     };

@@ -817,7 +817,9 @@ var CsrBuyerDetailComponent = /** @class */ (function () {
             this.fillInfo.min_price = r.data.lead.prefs.min_price ? r.data.lead.prefs.min_price : this.constant.minValue;
             this.fillInfo.max_price = r.data.lead.prefs.max_price ? r.data.lead.prefs.max_price : this.constant.maxValue;
             this.fillInfo.price_range = [this.fillInfo.min_price, this.fillInfo.max_price];
-            this.fillInfo.planning_to_buy = new __WEBPACK_IMPORTED_MODULE_5__pipes_chat_time_pipe__["a" /* ChatTimePipe */]().transform(r.data.lead.prefs.planning_to_buy, 'YYYY-MM-DD HH:MM:SS', 4);
+            if (r.data.lead.prefs.planning_to_buy !== null) {
+                this.fillInfo.planning_to_buy = new __WEBPACK_IMPORTED_MODULE_5__pipes_chat_time_pipe__["a" /* ChatTimePipe */]().transform(r.data.lead.prefs.planning_to_buy, 'YYYY-MM-DD HH:MM:SS', 4);
+            }
         }
         else {
             this.fillInfo.family_size = 1;
@@ -1503,7 +1505,7 @@ var CsrCloserDetailComponent = /** @class */ (function () {
         swal('Error', 'No document uploaded yet.', 'error');
     };
     CsrCloserDetailComponent.prototype.viewPropertyDetails = function (property) {
-        // this.cs.setPropertyDetails(property);
+        this.cs.setPropertyDetails(property);
         this.router.navigate(['/dashboard/properties/details/' + property.property_id]);
     };
     CsrCloserDetailComponent.prototype.markLeadClose = function () {
@@ -1527,6 +1529,7 @@ var CsrCloserDetailComponent = /** @class */ (function () {
     };
     CsrCloserDetailComponent.prototype.selectConversation = function (conversation) {
         var _this = this;
+        console.log('con', conversation);
         this.conversations.map(function (con) {
             con.selected = false;
             if (con === conversation) {
@@ -1535,6 +1538,7 @@ var CsrCloserDetailComponent = /** @class */ (function () {
             }
         });
         this.conversation = conversation;
+        console.log('con id', this.conversation_id);
         var data = {
             conversation_id: this.conversation_id
         };

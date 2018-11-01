@@ -98,7 +98,10 @@ export class CsrBuyerDetailComponent implements OnInit {
       this.fillInfo.min_price = r.data.lead.prefs.min_price ? r.data.lead.prefs.min_price : this.constant.minValue;
       this.fillInfo.max_price = r.data.lead.prefs.max_price ? r.data.lead.prefs.max_price : this.constant.maxValue;
       this.fillInfo.price_range = [this.fillInfo.min_price, this.fillInfo.max_price];
-      this.fillInfo.planning_to_buy = new ChatTimePipe().transform(r.data.lead.prefs.planning_to_buy, 'YYYY-MM-DD HH:MM:SS', 4);
+
+      if (r.data.lead.prefs.planning_to_buy !== null) {
+        this.fillInfo.planning_to_buy = new ChatTimePipe().transform(r.data.lead.prefs.planning_to_buy, 'YYYY-MM-DD HH:MM:SS', 4);
+      }
     } else {
       this.fillInfo.family_size = 1;
       this.fillInfo.pets = '';
