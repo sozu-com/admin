@@ -103,7 +103,7 @@
                         </tr>
                         
                         <!-- My Availabilities -->
-                        <tr>
+                        <tr *ngIf="parameter?.lead?.sale_rent==1">
                             <td  style="padding-left:0"><label><strong>Availabilities</strong></label></td>
                             <td colspan="2" *ngIf="parameter?.lead?.selected_properties[0]?.selected_noatary!=0 && parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability?.length!=0; else noAvailability1">
                                 <p *ngFor="let na of parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability; let m=index" class="date">
@@ -120,21 +120,17 @@
 
 
                         <!-- Meeting Schedule -->
-                        <!-- <td>
-                            <p>3:30 pm, Nov 02 2018</p>
-                        </td> -->
-                        <!-- <tr>
+                        <tr *ngIf="parameter?.lead?.sale_rent==1">
                             <td  style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
-                            <td colspan="2" *ngIf="parameter?.lead?.selected_properties[0]?.selected_noatary!=0 && parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability?.length!=0; else noAvailability2">
-                                <p *ngFor="let na of parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability; let m=index" class="date">
-                                    <span *ngIf="m<2">{{na.date_time | moment}}</span>
+                            <td colspan="2" class="cursor-pointer">
+                                <p class="date" *ngIf="meetingDate.appointment_date; else noAvailability4">
+                                    <span>{{meetingDate.appointment_date | moment}}</span>
                                 </p>
-                                <span class="read-more" *ngIf="parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability.length>2" data-toggle="modal" data-target="#get-availability2">Read more</span>
+                                <ng-template #noAvailability4>
+                                    <p>Meeting not scheduled by closure.</p>
+                                </ng-template>
                             </td>
-                            <ng-template #noAvailability2>
-                                <td colspan="2"><p>Meeting not scheduled.</p></td>
-                            </ng-template>
-                        </tr> -->
+                        </tr>          
         
                     </table>
                     </div>

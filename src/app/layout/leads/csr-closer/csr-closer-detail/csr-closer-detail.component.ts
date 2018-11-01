@@ -5,7 +5,7 @@ import { CommonService } from '../../../../services/common.service';
 import { IProperty } from '../../../../common/property';
 import * as io from 'socket.io-client';
 import { Constant } from './../../../../common/constants';
-import { SelectedProperties, BankAssigned, NotaryAssigned } from './../../../../models/leads.model';
+import { SelectedProperties, BankAssigned, NotaryAssigned, ScheduleMeeting } from './../../../../models/leads.model';
 import { Chat } from '../../../../models/chat.model';
 declare let swal: any;
 
@@ -13,7 +13,7 @@ declare let swal: any;
   selector: 'app-csr-closer-detail',
   templateUrl: './csr-closer-detail.component.html',
   styleUrls: ['./csr-closer-detail.component.css'],
-  providers: [SelectedProperties, BankAssigned, NotaryAssigned, Chat]
+  providers: [SelectedProperties, BankAssigned, NotaryAssigned, Chat, ScheduleMeeting]
 })
 
 export class CsrCloserDetailComponent implements OnInit, OnDestroy {
@@ -26,6 +26,10 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   @ViewChild('hideNotaries') hideNotaries: ElementRef;
 
   public parameter: IProperty = {};
+  meetingDate: any = {
+    appointment_date: '',
+    id: ''
+  };
   show = false;
   videoSrc: any;
   id: any;
@@ -89,6 +93,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     private cs: CommonService,
     public constant: Constant,
     public selectedProperties: SelectedProperties,
+    public scheduleMeeting: ScheduleMeeting,
     public bankModel: BankAssigned,
     public notaryModel: NotaryAssigned,
     public model: Chat,
@@ -123,6 +128,19 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
                           this.selectedProperties.pending_amount :
                           (this.selectedProperties.total_amount - this.selectedProperties.token_money);
         this.parameter.user_id = this.parameter.lead.user.id;
+
+        if (this.parameter.lead.appointments && this.parameter.lead.appointments.length !== 0) {
+          for (let index = 0; index < this.parameter.lead.appointments.length; index++) {
+            const element = this.parameter.lead.appointments[index];
+            if (element.sent_as === this.constant.userType.csr_closer) {
+              this.meetingDate = {
+                appointment_date: element.appointment_date,
+                id: element.id
+              };
+              this.scheduleMeeting = this.meetingDate;
+            }
+          }
+        }
 
         // chatting
         this.chat_buyer = r.data.lead.user;
@@ -672,7 +690,7 @@ console.log('=========', data);
   }
 
 
-  scheduleMeeting(item) {
+  addAppointment(item) {
     swal({
       html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to schedule this time for meeting?',
       type: 'warning',
@@ -682,9 +700,18 @@ console.log('=========', data);
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.admin.postDataApi('leads/closer-mark-lead-closed', {lead_id: this.parameter.lead_id}).subscribe(r => {
+        this.scheduleMeeting.lead_id = this.parameter.lead_id;
+        this.scheduleMeeting.property_id = this.selectedProperties.property_id;
+        this.scheduleMeeting.appointment_date = item.date_time;
+        this.scheduleMeeting.sent_as = this.constant.userType.csr_closer;
+
+        if (this.scheduleMeeting.appointment_date) {
+          this.scheduleMeeting.id = this.scheduleMeeting.id;
+        }
+        this.admin.postDataApi('leads/addAppointment', this.scheduleMeeting).subscribe(r => {
           console.log('r', r);
-          this.parameter.lead.lead_status_closer = 1;
+          this.scheduleMeeting = r.data;
+          this.closeModal2();
           swal('Success', 'Meeting scheduled successfully.', 'success');
         });
       }

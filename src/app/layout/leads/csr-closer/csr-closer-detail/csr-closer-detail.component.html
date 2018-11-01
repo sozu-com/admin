@@ -100,7 +100,7 @@
                 </tr>
                 
                 <!-- Notary Availabilities -->
-                <tr>
+                <tr *ngIf="parameter?.lead?.sale_rent==1">
                     <td  style="padding-left:0"><label><strong>Notary Availabilities</strong></label></td>
                     <td colspan="2" *ngIf="parameter?.lead?.selected_properties[0]?.selected_noatary!=0 && parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability?.length!=0; else noAvailability3">
                         <p *ngFor="let na of parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability; let m=index" class="date">
@@ -114,23 +114,17 @@
                 </tr>
 
                 <!-- Meeting Schedule -->
-                <!-- <td>
-                    <p>3:30 pm, Nov 02 2018</p>
-                </td> -->
-                <!-- <tr>
+                <tr *ngIf="parameter?.lead?.sale_rent==1">
                     <td  style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
-                    <td colspan="2" *ngIf="parameter?.lead?.selected_properties[0]?.selected_noatary!=0 && parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability?.length!=0; else noAvailability4">
-                        <p *ngFor="let na of parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability; let m=index" class="date">
-                            <span *ngIf="m<2">{{na.date_time | moment}}</span>
+                    <td colspan="2" class="cursor-pointer">
+                        <p class="date" *ngIf="scheduleMeeting.appointment_date; else noAvailability4" data-toggle="modal" data-target="#get-availability2">
+                            <span title="Reschedule meeting">{{scheduleMeeting.appointment_date | moment}}</span>
                         </p>
-                        <span class="read-more" *ngIf="parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability.length>2" data-toggle="modal" data-target="#get-availability2">Read more</span>
+                        <ng-template #noAvailability4>
+                            <p title="Schedule meeting" data-toggle="modal" data-target="#get-availability2">Meeting not scheduled.</p>
+                        </ng-template>
                     </td>
-                    <ng-template #noAvailability4>
-                        <td colspan="2">
-                            <p data-toggle="modal" data-target="#get-availability2">Meeting not scheduled.</p>
-                        </td>
-                    </ng-template>
-                </tr> -->
+                </tr>
 
             </table>
             </div>
@@ -220,7 +214,7 @@
                         <td style="width:40%"><label>Token Amount</label></td>
                         <td style="width:40%"><strong>${{selectedProperties.token_money}}</strong></td>
                         <td class="text-right" style="width:20%">
-                            <div class="pending-status">{{selectedProperties.status==0?'Pending':'Paid'}}</div>
+                            <div class="pending-status">{{selectedProperties.status==1?'Paid':'Pending'}}</div>
                         </td>
                     </tr>
                     <tr>
@@ -239,10 +233,12 @@
                             <input style="width: 90%;" [(ngModel)]="pen_amount" *ngIf="showInput" type="number" value="{{selectedProperties.total_amount - selectedProperties.token_money}}">
                         </td>
                         <td style="width:20%">
-                            <button *ngIf="!showInput" title="Edit Amount" (click)="showInput=true">
+                            <a *ngIf="!showInput" title="Edit Amount" (click)="showInput=true" class="green-color fontW500" href="javascript://">Edit</a>
+                            <a *ngIf="showInput" title="Save Amount" (click)="updatePropertyAmount()" class="green-color fontW500" href="javascript://">Save</a>
+                            <!-- <button *ngIf="!showInput" title="Edit Amount" (click)="showInput=true">
                                 <img src="assets/img/edit.png" alt="img">
                             </button>
-                            <button *ngIf="showInput" (click)="updatePropertyAmount()">Save</button>
+                            <button *ngIf="showInput" (click)="updatePropertyAmount()">Save</button> -->
                         </td>
                     </tr>
                 </table>
@@ -501,6 +497,11 @@
                     </label>
                 </td>
                 </tr>
+                <div  *ngIf="parameter.banks?.length==0" class="write-note white-bg">
+                    <p class="show-not-found">
+                      No bank is available.
+                    </p>
+                </div>
             </table>
         </div>
     </div>
@@ -533,6 +534,11 @@
                             </label>
                         </td>
                     </tr>
+                    <div  *ngIf="parameter.items?.length==0" class="write-note white-bg">
+                        <p class="show-not-found">
+                          No notary is available.
+                        </p>
+                    </div>
                 </table>
             </div>
         </div>
@@ -575,32 +581,20 @@
                     <tr *ngFor="let d of parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability; let j=index">
                         <td>
                             <label class="notary-ava">{{d.date_time | moment}}</label>
-                            <!-- <div class="n-avail-profile">
-                            <img [src]="item.image" onerror='src="assets/img/house.png"' alt="img">
-                            <div class="n-avail-info">
-                                <p class="p12">{{item.name}}</p>
-                                <p class="p10">Phone : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
-                            </div>
-                            </div> -->
                         </td>
                         <td>
                             <label class="cust-check-bx float-right">
-                                <input type="radio" name="notary_id" (click)="scheduleMeeting(d)">
+                                <input [checked]="d.date_time==scheduleMeeting.appointment_date" type="radio" name="notary_id" (click)="addAppointment(d)">
                                 <span class="checkmark"></span>
                             </label>
                         </td>
                     </tr>
+                    <div *ngIf="parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability==null" class="write-note white-bg">
+                        <p class="show-not-found">
+                            No availability given by notary yet.
+                        </p>
+                    </div>
                 </table>
-                <!-- <div class="row" *ngFor="let d of parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability; let j=index">
-                    <div class="col-8">
-                        <label class="notary-ava">{{d.date_time | moment}}</label>
-                    </div>
-                    <div class="col-2">
-                        <a class="green-color fontW500" (click)="removeNoataryAvailability(d.id, j)" href="javascript://">
-                            Set Meeting
-                        </a>
-                    </div>
-                </div> -->
             </div>
     
         </div>

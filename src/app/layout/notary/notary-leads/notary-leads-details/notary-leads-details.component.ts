@@ -19,6 +19,10 @@ export class NotaryLeadsDetailsComponent implements OnInit {
   show = false;
   public parameter: IProperty = {};
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
+  meetingDate: any = {
+    appointment_date: '',
+    id: ''
+  };
   @ViewChild('modalClose') modalClose: ElementRef;
   constructor(
     private route: ActivatedRoute,
@@ -49,6 +53,17 @@ export class NotaryLeadsDetailsComponent implements OnInit {
         this.getDocumentOptions();
         this.parameter.lead = r.data.lead;
         this.selectedProperties = r.data.lead.selected_properties[0];
+        if (this.parameter.lead.appointments && this.parameter.lead.appointments.length !== 0) {
+          for (let index = 0; index < this.parameter.lead.appointments.length; index++) {
+            const element = this.parameter.lead.appointments[index];
+            if (element.sent_as === this.constant.userType.csr_closer) {
+              this.meetingDate = {
+                appointment_date: element.appointment_date,
+                id: element.id
+              };
+            }
+          }
+        }
         // notary will chat with closer
         this.parameter.user_id = this.parameter.lead.closer.id;
       }, error => {

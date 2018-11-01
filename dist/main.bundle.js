@@ -4453,11 +4453,12 @@ var NewAddress = /** @class */ (function () {
 /* unused harmony export UploadedDocuments */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return NotaryAssigned; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return BankAssigned; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return NotaryLeads; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return NotaryLeads; });
 /* unused harmony export SelectedNotary */
 /* unused harmony export NotaryAvailabilty */
 /* unused harmony export Datetime */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return AddNotaryAvailabilty; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return AddNotaryAvailabilty; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return ScheduleMeeting; });
 var DealFinalize = /** @class */ (function () {
     function DealFinalize() {
     }
@@ -4560,6 +4561,12 @@ var AddNotaryAvailabilty = /** @class */ (function () {
         this.date_time = [];
     }
     return AddNotaryAvailabilty;
+}());
+
+var ScheduleMeeting = /** @class */ (function () {
+    function ScheduleMeeting() {
+    }
+    return ScheduleMeeting;
 }());
 
 //# sourceMappingURL=leads.model.js.map
@@ -5589,8 +5596,10 @@ var AppHeaderComponent = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return environment; });
 var environment = {
     production: true,
-    baseIP: 'http://45.232.252.136/api/',
-    baseUrl: 'http://45.232.252.136/api/admin/',
+    // baseIP: 'http://45.232.252.136/api/',
+    // baseUrl: 'http://45.232.252.136/api/admin/',
+    baseIP: 'http://kanguroo.mx/api/',
+    baseUrl: 'http://kanguroo.mx/api/admin/',
     socketUrl: 'http://45.232.252.136:8080',
     deviceId: 'ADMIN'
     // baseUrl: 'https://kanguroo.mx/api/admin/',

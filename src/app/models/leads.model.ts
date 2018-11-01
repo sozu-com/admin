@@ -160,3 +160,11 @@ export class AddNotaryAvailabilty {
     date_time_array: Array<any> = [];
     date_time: Array<any> = [];
 }
+
+export class ScheduleMeeting {
+    lead_id: any;
+    property_id: any;
+    id: any;
+    appointment_date: any;
+    sent_as: any;
+}
