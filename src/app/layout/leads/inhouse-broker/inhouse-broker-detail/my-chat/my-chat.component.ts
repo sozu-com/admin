@@ -104,8 +104,9 @@ export class MyChatComponent implements OnInit {
       other_sent_as: this.constant.userType.user_seller_dev,
       sent_as: this.constant.userType.inhouse_broker
     };
-
+    this.parameter.loading = true;
     this.admin.postDataApi('conversation/getLeadConversation', data1).subscribe(res => {
+      this.parameter.loading = false;
       console.log('===========', res);
       if (res.data) {
 
@@ -143,6 +144,8 @@ export class MyChatComponent implements OnInit {
             }, 200);
           });
       }
+    }, error => {
+      this.parameter.loading = false;
     });
   }
 

@@ -232,12 +232,16 @@ var InterestedPropertyComponent = /** @class */ (function () {
             return false;
         }
         this.modalClose.nativeElement.click();
+        this.parameter.loading = true;
         this.admin.postDataApi('leads/attach-property', this.model)
             .subscribe(function (success) {
+            _this.parameter.loading = false;
             _this.is_deal_finalised = true;
             _this.modalClose.nativeElement.click();
             swal('Success', 'Deal has been finalized successfully.', 'success');
             _this.deal_finalised_success.emit('true');
+        }, function (error) {
+            _this.parameter.loading = false;
         });
     };
     InterestedPropertyComponent.prototype.deleteLeadInterestedProperty = function (property_id, lead_id, index) {
@@ -1816,7 +1820,9 @@ var CsrCloserDetailComponent = /** @class */ (function () {
             sent_as: this.constant.userType.csr_closer
         };
         console.log('=========', data);
+        this.parameter.loading = true;
         this.admin.postDataApi('conversation/getLeadConversation', data).subscribe(function (r) {
+            _this.parameter.loading = false;
             console.log('conversation/getLeadConversation', r);
             if (r['data']) {
                 _this.conversation_id = r['data'][0].id;
@@ -1827,6 +1833,8 @@ var CsrCloserDetailComponent = /** @class */ (function () {
                     _this.scrollToBottom();
                 }, 100);
             }
+        }, function (error) {
+            _this.parameter.loading = false;
         });
     };
     CsrCloserDetailComponent.prototype.loadMore = function () {
@@ -3510,7 +3518,9 @@ var MyChatComponent = /** @class */ (function () {
             other_sent_as: this.constant.userType.user_seller_dev,
             sent_as: this.constant.userType.inhouse_broker
         };
+        this.parameter.loading = true;
         this.admin.postDataApi('conversation/getLeadConversation', data1).subscribe(function (res) {
+            _this.parameter.loading = false;
             console.log('===========', res);
             if (res.data) {
                 _this.conversation = res.data;
@@ -3545,6 +3555,8 @@ var MyChatComponent = /** @class */ (function () {
                     }, 200);
                 });
             }
+        }, function (error) {
+            _this.parameter.loading = false;
         });
     };
     MyChatComponent.prototype.initSocket = function () {

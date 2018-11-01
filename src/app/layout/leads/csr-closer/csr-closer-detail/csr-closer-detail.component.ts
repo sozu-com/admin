@@ -673,7 +673,9 @@ console.log('chat_admin', this.chat_admin);
       sent_as: this.constant.userType.csr_closer
     };
 console.log('=========', data);
+    this.parameter.loading = true;
     this.admin.postDataApi('conversation/getLeadConversation', data).subscribe(r => {
+      this.parameter.loading = false;
       console.log('conversation/getLeadConversation', r);
       if (r['data']) {
         this.conversation_id = r['data'][0].id;
@@ -684,6 +686,8 @@ console.log('=========', data);
           this.scrollToBottom();
         }, 100);
       }
+    }, error => {
+      this.parameter.loading = false;
     });
   }
 

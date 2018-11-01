@@ -791,6 +791,8 @@ export class InhouseUsersComponent implements OnInit {
     }
 
   ngOnInit() {
+    this.model.country_code = this.constant.country_code;
+    this.model.dial_code = this.constant.dial_code;
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.p = this.constant.p;
     this.parameter.routeName = this.router.url;
@@ -873,6 +875,7 @@ export class InhouseUsersComponent implements OnInit {
     this.model.address = [new NewAddress()];
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
+    console.log('==', this.model);
     this.initialCountry = {initialCountry: this.constant.initialCountry};
     this.modalOpen.nativeElement.click();
   }

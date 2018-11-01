@@ -67,13 +67,17 @@ export class InterestedPropertyComponent implements OnInit {
       return false;
     }
     this.modalClose.nativeElement.click();
+    this.parameter.loading = true;
     this.admin.postDataApi('leads/attach-property', this.model)
       .subscribe(
         success => {
+          this.parameter.loading = false;
           this.is_deal_finalised = true;
           this.modalClose.nativeElement.click();
           swal('Success', 'Deal has been finalized successfully.', 'success');
           this.deal_finalised_success.emit('true');
+        }, error => {
+          this.parameter.loading = false;
         });
   }
 
