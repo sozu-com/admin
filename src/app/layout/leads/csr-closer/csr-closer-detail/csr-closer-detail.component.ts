@@ -312,7 +312,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   }
 
   viewPropertyDetails(property) {
-    this.cs.setPropertyDetails(property);
+    // this.cs.setPropertyDetails(property);
     this.router.navigate(['/dashboard/properties/details/' + property.property_id]);
   }
 

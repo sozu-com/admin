@@ -59,7 +59,9 @@ export class AppHeaderComponent {
 
 
   logout() {
+    this.parameter.loading = true;
     this.admin.postDataApi('logout', {}).subscribe(r => {
+      this.parameter.loading = false;
       if (r) {
         swal('Success', 'Logout successfully.', 'success');
         localStorage.removeItem('token');
@@ -71,6 +73,8 @@ export class AppHeaderComponent {
         this.admin.permissions = {};
         this.router.navigate(['']);
       }
+    }, error => {
+      this.parameter.loading = false;
     });
   }
 

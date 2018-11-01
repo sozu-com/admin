@@ -145,6 +145,7 @@ var NotaryLeadsDetailsComponent = /** @class */ (function () {
         swal('Error', 'No document uploaded yet.', 'error');
     };
     NotaryLeadsDetailsComponent.prototype.viewPropertyDetails = function (property) {
+        console.log('--', property.property_id);
         this.cs.setPropertyDetails(property);
         this.router.navigate(['/dashboard/properties/details/' + property.property_id]);
     };

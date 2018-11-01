@@ -1503,7 +1503,7 @@ var CsrCloserDetailComponent = /** @class */ (function () {
         swal('Error', 'No document uploaded yet.', 'error');
     };
     CsrCloserDetailComponent.prototype.viewPropertyDetails = function (property) {
-        this.cs.setPropertyDetails(property);
+        // this.cs.setPropertyDetails(property);
         this.router.navigate(['/dashboard/properties/details/' + property.property_id]);
     };
     CsrCloserDetailComponent.prototype.markLeadClose = function () {

@@ -120,6 +120,7 @@ export class NotaryLeadsDetailsComponent implements OnInit {
   }
 
   viewPropertyDetails(property) {
+    console.log('--', property.property_id);
     this.cs.setPropertyDetails(property);
     this.router.navigate(['/dashboard/properties/details/' + property.property_id]);
   }

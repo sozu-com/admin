@@ -1063,6 +1063,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 var routes = [
+    // { path: 'details/:property_id', component: PropertyDetailsComponent },
     { path: 'details/:property_id', component: __WEBPACK_IMPORTED_MODULE_9__property_details_property_details_component__["a" /* PropertyDetailsComponent */],
         canActivate: [__WEBPACK_IMPORTED_MODULE_10__guards_acl_user_guard__["a" /* AclUserGuard */]], data: { roles: ['Property Management', 'can_read', ''] } },
     { path: 'add-property/:property_id/:seller_id', component: __WEBPACK_IMPORTED_MODULE_4__add_property_add_property_component__["a" /* AddPropertyComponent */],

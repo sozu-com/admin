@@ -5560,7 +5560,9 @@ var AppHeaderComponent = /** @class */ (function () {
     };
     AppHeaderComponent.prototype.logout = function () {
         var _this = this;
+        this.parameter.loading = true;
         this.admin.postDataApi('logout', {}).subscribe(function (r) {
+            _this.parameter.loading = false;
             if (r) {
                 swal('Success', 'Logout successfully.', 'success');
                 localStorage.removeItem('token');
@@ -5572,6 +5574,8 @@ var AppHeaderComponent = /** @class */ (function () {
                 _this.admin.permissions = {};
                 _this.router.navigate(['']);
             }
+        }, function (error) {
+            _this.parameter.loading = false;
         });
     };
     AppHeaderComponent.prototype.getNotifications = function () {
