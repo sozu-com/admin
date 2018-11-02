@@ -41,11 +41,11 @@
       </div>
       <div class="col-2">
         <div class="user-profile float-right">
-           <a href="javascript://">
+           <!-- <a href="javascript://">
               <h4>{{fullName}}</h4>
               <img (click)="onLoggedout()" class="rounded-circle" [src]="image" onerror='src="assets/img/default_img.png"' alt="img">
-           </a>
-           <!-- <a class="dropdown-toggle count-info color-white animation" data-toggle="dropdown" href="#" aria-expanded="true">
+           </a> -->
+           <a class="dropdown-toggle count-info color-white animation" data-toggle="dropdown" href="#" aria-expanded="true">
               <h4>{{fullName}}</h4>
               <img class="rounded-circle" [src]="image" onerror='src="assets/img/default_img.png"' alt="img">
           </a>
@@ -53,7 +53,7 @@
             <li><a class="dropdown-item" routerLink="/dashboard/settings/view-profile"><i class="ti-user"></i>Profile</a></li>
             <li class="dropdown-divider"></li>
             <li><a class="dropdown-item" (click)="onLoggedout()"><i class="ti-power-off"></i>Logout</a></li>
-          </ul> -->
+          </ul>
         </div>
       </div>
       <!-- <header end -->

@@ -84,9 +84,9 @@ export class ProfileComponent implements OnInit {
   //       });
   // }
 
-  // expandBox(index) {
-  //   this.model.admin_acl[index].show = this.model.admin_acl[index].show === true ? false : true;
-  // }
+  expandBox(index) {
+    this.model.admin_acl[index].show = this.model.admin_acl[index].show === true ? false : true;
+  }
 
   // setPermission(param, index) {
   //   if (param === 'can_crud') {

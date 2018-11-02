@@ -12,7 +12,7 @@
         <div class="row">
           <div class="col-md-5 col-sm-12 col-12">
             <div class="form-group-3">
-              <label>Add Images</label>
+              <label>Add Images <span class="color-red">*</span></label>
               <div class="upload-cover-img">
                 <img [src]="file1.image" onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
                 <!-- <img *ngIf="url" [src]="url" height="200"> -->
@@ -35,19 +35,19 @@
             <div class="row">
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
-                  <label>Name of the Building</label>
+                  <label>Name of the Building <span class="color-red">*</span></label>
                   <input class="form-control" type="text" [(ngModel)]="model.name" name="name" placeholder="Enter name of building" autocomplete="off" required>
                 </div>
               </div>
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
-                  <label>Location</label>
+                  <label>Location <span class="color-red">*</span></label>
                   <input placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search (input)="loadPlaces()" name="address" [(ngModel)]="model.address" autocomplete="off" required>
                 </div>
               </div>
             </div>
             <div class="form-group-3">
-              <label>Location Pin on Map</label>
+              <label>Location Pin on Map <span class="color-red">*</span></label>
               <div style="width: 100%;">
                 <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" (mapClick)="placeMarker($event)" [zoom]="zoom">
                   <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
@@ -57,13 +57,13 @@
             <div class="row">
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
-                  <label>Building Age (in yrs)</label>
+                  <label>Building Age (in yrs) <span class="color-red">*</span></label>
                   <input placeholder="Building Age" min="0" class="form-control" [(ngModel)]="model.building_age" type="number" name="building_age" required />
                 </div>
               </div>
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
-                  <label>Building Type</label>
+                  <label>Building Type <span class="color-red">*</span></label>
                   <select [(ngModel)]="model.building_type_id" class="form-control" name="building_type_id" required>
                     <option value="" disabled>Choose Building type</option>      
                     <option *ngFor="let s of all_building_types" [value]="s.id">
@@ -74,14 +74,14 @@
               </div>
               <div class="col-12">
                 <div class="form-group-3">
-                  <label>Description</label>
+                  <label>Description <span class="color-red">*</span></label>
                   <textarea [(ngModel)]="model.description" name="model_description" class="form-control" placeholder="Enter project description">
                        </textarea>
                 </div>
               </div>
               <div class="col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
-                  <label>Possession Status</label>
+                  <label>Possession Status <span class="color-red">*</span></label>
                   <select [(ngModel)]="model.possession_status_id" class="form-control" name="possession_status_id">
                     <option value="">Select status</option>
                     <option *ngFor="let s of all_possession_statuses" [value]="s.id">
@@ -92,20 +92,20 @@
               </div>
               <div class="col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
-                  <label>Floors</label>
+                  <label>Floors <span class="color-red">*</span></label>
                   <input min="0" class="form-control" [(ngModel)]="model.floors" type="number" name="building_floors" placeholder="Floors" required>
                 </div>
                 
               </div>
               <div class="col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
-                  <label>Average Price</label>
+                  <label>Average Price <span class="color-red">*</span></label>
                   <input min="0" class="form-control" [(ngModel)]="model.avg_price" type="number" name="building_avg_price" placeholder="Average price" required>
                 </div>
               </div>
               <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
-                    <label>Launch Date</label>
+                    <label>Launch Date <span class="color-red">*</span></label>
                     <input class="form-control" [ngModel]="model.launch_date  | date:'yyyy-MM-dd'" (ngModelChange)="model.launch_date  = $event" type="date" name="building_launch_date" placeholder="Launch date">
                   </div>
                 </div>
@@ -141,7 +141,7 @@
 
               <div class="col-12">
                 <div class="form-group-3 marginB0">
-                  <label>Amenities available</label>
+                  <label>Amenities available <span class="color-red">*</span></label>
                   <ul class="loc-tags-group">
                     <li *ngFor="let a of all_amenities">
                       <span *ngIf="a.selected==true">{{a.name}} 
@@ -160,7 +160,7 @@
               </div>
               <div class="col-12">
                 <div class="form-group-3" style="width: 100%;">
-                  <label class="float-left marginB0">Configuration</label>
+                  <label class="float-left marginB0">Configuration <span class="color-red">*</span></label>
                   <div class="clearfix"></div>
                   <hr>
                   <div *ngFor="let c of model.configurations; let index=index" class="configur">
@@ -171,7 +171,7 @@
                     <div class="row">
                       <div class="col-md-6 col-12">
                         <p class="p18">{{c?.config?.name}}</p>
-                        <label>Images</label>
+                        <label>Images <span class="color-red">*</span></label>
                         <!-- <div class="image-group">
                           <div class="fig-block">
                             <img class="img-fluid" [src]="c.floor_map_image" onerror='this.src="http://via.placeholder.com/48x48"' alt="img">
@@ -188,7 +188,7 @@
                       </div>
      
                       <div class="col-md-6 col-12">
-                        <p class="p14 text-right">Average Price</p>
+                        <p class="p14 text-right">Average Price <span class="color-red">*</span></p>
                         <h3 class="text-right">{{c?.base_price}} per sq/ft.</h3>
                       </div>
                       <div class="col-12">
@@ -211,7 +211,7 @@
             <div class="row">
               <div class="col-12">
                 <div class="page-title paddingL0">
-                  <h3>Developer Info</h3>
+                  <h3>Developer Info <span class="color-red">*</span></h3>
                 </div>
               </div>
 
@@ -356,13 +356,13 @@
         <div class="row">
           <div class="col-sm-6 col-12">
             <div class="form-group-3">
-              <label>Carpet area (sqft)</label>
+              <label>Carpet area (sqft) <span class="color-red">*</span></label>
               <input min="0" class="form-control" [(ngModel)]="new_config.carpet_area" type="number" name="base_price" required>
             </div>
           </div>
           <div class="col-sm-6 col-12">
             <div class="form-group-3">
-              <label>Average Price</label>
+              <label>Average Price <span class="color-red">*</span></label>
               <input min="0" class="form-control" [(ngModel)]="new_config.base_price" type="number" name="base_price" required>
             </div>
           </div>
@@ -370,7 +370,7 @@
         <div class="row">
           <div class="col-12">
             <div class="form-group-3">
-              <label>Floor Plan Image</label>
+              <label>Floor Plan Image <span class="color-red">*</span></label>
               <div class="upload-cover-img" style="max-width: 400px; margin: 0px auto;height: 250px;">
                   <img class="img-fluid" [src]="file3.image" onerror='this.src="assets/img/placeholder.png"' />
                   <div *ngIf="!file3.image" class="upload-caption">
@@ -380,7 +380,7 @@
                   <input type="file" accept="image/*" name="floor_map_image" (change)="file3.onSelectFile($event)">
               </div>
               <div class="spacer30"></div>
-              <label>Other Images</label>
+              <label>Other Images <span class="color-red">*</span></label>
               <div class="spacer30"></div>
               <div class="uploaded-img-block">
                 <div class="uploaded-img" *ngFor="let item of file4.files; let i=index">

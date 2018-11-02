@@ -252,6 +252,11 @@ export class BankLeadsComponent implements OnInit {
 
   bulkAssign() {
     // this.assign.keyword = '';
+    const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
+    if (leads_ids.length === 0) {
+      swal('Error', 'Please choose atleast one lead.', 'error');
+      return false;
+    }
     this.openAssignModel.nativeElement.click();
     // this.admin.postDataApi('getBanks', {}).subscribe(
     //   success => {

@@ -1391,6 +1391,43 @@ var ProfileComponent = /** @class */ (function () {
             _this.parameter.loading = false;
         });
     };
+    // set() {
+    //   this.show = true;
+    // }
+    // changeListner(event) {
+    //   this.parameter.image = event.target.files[0];
+    //   this.parameter.icon = this.parameter.image;
+    //   const reader = new FileReader();
+    //   reader.onload = (e: any) => {
+    //       // this.url = e.target.result;
+    //   };
+    //   reader.readAsDataURL(event.target.files[0]);
+    // }
+    // onCountryChange(e) {
+    //   this.model.country_code = e.iso2;
+    //   this.model.dial_code = '+' + e.dialCode;
+    //   this.initialCountry = {initialCountry: e.iso2};
+    // }
+    // getAclList() {
+    //   this.parameter.loading = true;
+    //   this.admin.postDataApi('getAclList', {})
+    //     .subscribe(
+    //       success => {
+    //         this.parameter.loading = false;
+    //         success.data.forEach(element => {
+    //           const e = new Permission();
+    //           const acl = {name: element.name};
+    //           e.acl_id = element.id; e.acl = acl; e.show = false;
+    //           e.can_create = 1; e.can_update = 1; e.can_read = 1; e.can_delete = 1; e.can_crud = 1;
+    //           this.model.admin_acl.push(e);
+    //         });
+    //       }, error => {
+    //         this.parameter.loading = false;
+    //       });
+    // }
+    ProfileComponent.prototype.expandBox = function (index) {
+        this.model.admin_acl[index].show = this.model.admin_acl[index].show === true ? false : true;
+    };
     var _a, _b, _c;
     ProfileComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({

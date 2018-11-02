@@ -220,7 +220,7 @@
                  </div>
                  <div class="col-12">
                     <div class="form-group-2">
-                       <label>Name</label>
+                       <label>Name <span class="color-red">*</span></label>
                        <div class="form-group">
                         <input autocomplete="off" type="text" class="form-control" required [(ngModel)]="model.name" name="name">
                       </div>
@@ -228,7 +228,7 @@
                  </div>
                  <div class="col-12">
                     <div class="form-group-2">
-                       <label>Contact number</label>
+                       <label>Contact number <span class="color-red">*</span></label>
                        <div class="form-group">
                         <input minlength="6" maxlength="16" autocomplete="off" type="text" 
                           [pattern]="constant.phonePattern" class="form-control" id="phone" 
@@ -242,7 +242,7 @@
                  </div>
                  <div class="col-12">
                     <div class="form-group-2">
-                       <label>Email ID</label>
+                       <label>Email ID <span class="color-red">*</span></label>
                        <div class="form-group">
                         <input autocomplete="off" [pattern]="constant.emailPattern" type="email" class="form-control" required [(ngModel)]="model.email" name="email">
                       </div>

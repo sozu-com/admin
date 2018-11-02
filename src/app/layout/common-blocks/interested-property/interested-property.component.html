@@ -190,7 +190,7 @@
           <button type="button" class="close" (click)="closeModal()">&times;</button>
       </div>
 
-      <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="attachProperty(); addForm.reset()">
+      <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="attachProperty(addForm)">
         <div class="modal-body">
           <div class="row">
             <div class="col-12">

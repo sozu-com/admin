@@ -665,3 +665,17 @@ margin:0px auto;
 .color-white {
     color: #fff !important;
 }
+.btn-primary-new{
+    color: #fff;
+    background-color: #00B96F;
+    border-color: #00B96F;
+    font-size: 14px;
+    font-family: 'sf_ui_textmedium';
+    text-align: center;
+    border-radius: 0;
+    padding: 8px 15px;
+    border-radius: 4px !important;
+}
+.color-red{
+    color: #ea5d5d;
+}

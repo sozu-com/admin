@@ -4,6 +4,7 @@ import { IProperty } from './../../../common/property';
 import { AdminService } from './../../../services/admin.service';
 import { Constant } from './../../../common/constants';
 import { EventEmitter } from 'events';
+import { NgForm } from '@angular/forms';
 declare let swal: any;
 
 @Component({
@@ -61,7 +62,7 @@ export class InterestedPropertyComponent implements OnInit {
     this.viewProperties('');
   }
 
-  attachProperty() {
+  attachProperty(formdata: NgForm) {
     if (this.model.total_amount < this.model.token_amount) {
       swal('Error', 'Total amount must be greater than token amount.', 'error');
       return false;
@@ -71,6 +72,7 @@ export class InterestedPropertyComponent implements OnInit {
     this.admin.postDataApi('leads/attach-property', this.model)
       .subscribe(
         success => {
+          formdata.reset();
           this.parameter.loading = false;
           this.is_deal_finalised = true;
           this.modalClose.nativeElement.click();
