@@ -42,11 +42,11 @@
         </div>
         <div class="col-lg-6 col-md-12 col-sm-12 col-12">
             <div class="form-group-3">
-                <p class="p16-two">Publish Date</p>
+                <p class="p16-two">Publish Date<span class="color-red">*</span></p>
                 <input class="form-control" type="date" [ngModel] ="post.publish_date | date:'yyyy-MM-dd'" (ngModelChange)="post.publish_date = $event"/>
             </div>
             <div class="form-group-3">
-                <p class="p16-two">Post type</p>
+                <p class="p16-two">Post type<span class="color-red">*</span></p>
                 <label class="cust-radio">
                     <input type="radio" (change)="post.post_type=1" value="1" [checked]="post.post_type == '1' ? 'checked' : ''" name="post_type">
                     <span class="checkmark">Post</span>
@@ -62,7 +62,7 @@
             </div>
             <div class="clearfix"></div>
             <div class="form-group-3">
-                <p class="p16-two">Post Status</p>
+                <p class="p16-two">Post Status<span class="color-red">*</span></p>
                 <label class="cust-radio">
                     <input type="radio" (change)="post.status=1" value="1" [checked]="post.status == '1' ? 'checked' : ''" name="post_status">
                     <span class="checkmark">Draft</span>
@@ -96,7 +96,7 @@
             <div class="row marginT20">
                 <div class="col-lg-6 col-md-12 col-sm-12 col-12">
                     <div class="form-group-3">
-                        <label class="p16-two">Enter title</label>
+                        <label class="p16-two">Enter title<span class="color-red">*</span></label>
                         <input [(ngModel)]="post.title_en" placeholder="Enter title" class="form-control" type="text" />
                     </div>
                 </div>
@@ -106,13 +106,13 @@
             <div class="row">
                 <div class="col-lg-6 col-md-12 col-sm-12 col-12">
                     <div class="form-group-3">
-                        <label class="p16-two">Enter meta title</label>
+                        <label class="p16-two">Enter meta title<span class="color-red">*</span></label>
                         <input [(ngModel)]="post.meta_title_en" placeholder="Enter meta title" class="form-control" type="text" />
                     </div>
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="form-group-3">
-                        <label class="p16-two">Enter meta description</label>
+                        <label class="p16-two">Enter meta description<span class="color-red">*</span></label>
                         <textarea  [(ngModel)]="post.meta_description_en" placeholder="Enter meta description" class="form-control"></textarea>
                     </div>
                 </div>
@@ -122,7 +122,7 @@
             <div class="row marginT20">
                 <div class="col-lg-6 col-md-12 col-sm-12 col-12">
                     <div class="form-group-3">
-                        <label class="p16-two">Enter title</label>
+                        <label class="p16-two">Enter title<span class="color-red">*</span></label>
                         <input  [(ngModel)]="post.title_es" placeholder="Enter title" class="form-control" type="text" />
                     </div>
                 </div>
@@ -132,13 +132,13 @@
             <div class="row">
                 <div class="col-lg-6 col-md-12 col-sm-12 col-12">
                     <div class="form-group-3">
-                        <label class="p16-two">Enter meta title</label>
+                        <label class="p16-two">Enter meta title<span class="color-red">*</span></label>
                         <input  [(ngModel)]="post.meta_title_es" placeholder="Enter meta title" class="form-control" type="text" />
                     </div>
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="form-group-3">
-                        <label class="p16-two">Enter meta description</label>
+                        <label class="p16-two">Enter meta description<span class="color-red">*</span></label>
                         <textarea  [(ngModel)]="post.meta_description_es" placeholder="Enter meta description" class="form-control"></textarea>
                     </div>
                 </div>
