@@ -139,17 +139,17 @@ var AppComponent = /** @class */ (function () {
         this.parameter = {};
         this.loading = false;
         this.router.events.subscribe(function (event) {
-            if (event instanceof __WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* NavigationStart */]) {
+            if (event instanceof __WEBPACK_IMPORTED_MODULE_1__angular_router__["NavigationStart"]) {
                 _this.parameter.loading = true;
             }
-            if (event instanceof __WEBPACK_IMPORTED_MODULE_1__angular_router__["e" /* NavigationEnd */]) {
+            if (event instanceof __WEBPACK_IMPORTED_MODULE_1__angular_router__["NavigationEnd"]) {
                 _this.parameter.loading = false;
                 window.scrollTo(0, 0);
             }
-            if (event instanceof __WEBPACK_IMPORTED_MODULE_1__angular_router__["f" /* NavigationCancel */]) {
+            if (event instanceof __WEBPACK_IMPORTED_MODULE_1__angular_router__["NavigationCancel"]) {
                 _this.parameter.loading = false;
             }
-            if (event instanceof __WEBPACK_IMPORTED_MODULE_1__angular_router__["g" /* NavigationError */]) {
+            if (event instanceof __WEBPACK_IMPORTED_MODULE_1__angular_router__["NavigationError"]) {
                 _this.parameter.loading = false;
             }
         });
@@ -169,7 +169,7 @@ var AppComponent = /** @class */ (function () {
             template: __webpack_require__("../../../../../src/app/app.component.html"),
             styles: [__webpack_require__("../../../../../src/app/app.component.css")]
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" ? _a : Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_admin_service__["a" /* AdminService */]) === "function" ? _b : Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__services_http_interceptor__["a" /* HttpInterceptor */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_http_interceptor__["a" /* HttpInterceptor */]) === "function" ? _c : Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["Router"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["Router"]) === "function" ? _a : Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_admin_service__["a" /* AdminService */]) === "function" ? _b : Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__services_http_interceptor__["a" /* HttpInterceptor */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_http_interceptor__["a" /* HttpInterceptor */]) === "function" ? _c : Object])
     ], AppComponent);
     return AppComponent;
 }());
@@ -255,7 +255,7 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_12__page_not_found_page_not_found_component__["a" /* PageNotFoundComponent */]
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_4__angular_router__["a" /* RouterModule */].forRoot(appRoutes),
+                __WEBPACK_IMPORTED_MODULE_4__angular_router__["RouterModule"].forRoot(appRoutes),
                 __WEBPACK_IMPORTED_MODULE_9__toverux_ngx_sweetalert2__["a" /* SweetAlert2Module */].forRoot(),
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
                 __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["BrowserModule"],
@@ -609,7 +609,7 @@ var ForgotPasswordComponent = /** @class */ (function () {
             template: __webpack_require__("../../../../../src/app/forgot-password/forgot-password.component.html"),
             styles: [__webpack_require__("../../../../../src/app/forgot-password/forgot-password.component.css")]
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_admin_service__["a" /* AdminService */]) === "function" ? _a : Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" ? _b : Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__common_constants__["a" /* Constant */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__common_constants__["a" /* Constant */]) === "function" ? _c : Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_admin_service__["a" /* AdminService */]) === "function" ? _a : Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["Router"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["Router"]) === "function" ? _b : Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__common_constants__["a" /* Constant */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__common_constants__["a" /* Constant */]) === "function" ? _c : Object])
     ], ForgotPasswordComponent);
     return ForgotPasswordComponent;
 }());
@@ -699,7 +699,7 @@ var AclUserGuard = /** @class */ (function () {
     var _a, _b, _c;
     AclUserGuard = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_admin_service__["a" /* AdminService */]) === "function" ? _a : Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__angular_common__["Location"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_common__["Location"]) === "function" ? _b : Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" ? _c : Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_admin_service__["a" /* AdminService */]) === "function" ? _a : Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__angular_common__["Location"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_common__["Location"]) === "function" ? _b : Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["Router"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["Router"]) === "function" ? _c : Object])
     ], AclUserGuard);
     return AclUserGuard;
 }());
@@ -820,7 +820,7 @@ var AuthGuard = /** @class */ (function () {
     var _a, _b, _c, _d, _e;
     AuthGuard = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" ? _a : Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__services_http_interceptor__["a" /* HttpInterceptor */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_http_interceptor__["a" /* HttpInterceptor */]) === "function" ? _b : Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_admin_service__["a" /* AdminService */]) === "function" ? _c : Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__models_login_model__["a" /* Login */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__models_login_model__["a" /* Login */]) === "function" ? _d : Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_3__models_login_model__["b" /* AdminACL */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__models_login_model__["b" /* AdminACL */]) === "function" ? _e : Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["Router"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["Router"]) === "function" ? _a : Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__services_http_interceptor__["a" /* HttpInterceptor */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_http_interceptor__["a" /* HttpInterceptor */]) === "function" ? _b : Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_admin_service__["a" /* AdminService */]) === "function" ? _c : Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__models_login_model__["a" /* Login */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__models_login_model__["a" /* Login */]) === "function" ? _d : Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_3__models_login_model__["b" /* AdminACL */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__models_login_model__["b" /* AdminACL */]) === "function" ? _e : Object])
     ], AuthGuard);
     return AuthGuard;
 }());
@@ -1368,10 +1368,10 @@ var ChatComponent = /** @class */ (function () {
     ChatComponent.prototype.initSocket = function () {
         var _this = this;
         this.parameter.socket = __WEBPACK_IMPORTED_MODULE_5_socket_io_client__["connect"](this.admin.socketUrl);
-        this.parameter.socket.on('disconnect', function (fun) {
-            console.log('disconnect');
-            console.log('disconnect', _this.parameter.socket);
-        });
+        // this.parameter.socket.on('disconnect', fun => {
+        //   console.log('disconnect');
+        //   console.log('disconnect', this.parameter.socket);
+        // });
         this.parameter.socket.on('connect', function (fun) {
             console.log('connect');
             console.log('connect', _this.parameter.socket);
@@ -1876,7 +1876,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/layout/dashboard/dashboard.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<ngx-loading [show]=\"parameter.loading\"></ngx-loading>\n<div class=\"container-fluid\">\n  <div class=\"row\">\n    <div class=\"col-md-5\">\n      <div class=\"title-group\">\n          <h5>Hello {{fullName}}</h5>\n      </div>\n    </div>\n    <div class=\"col-md-7\">\n      <div class=\"pull-right btn-cont\">\n        From: <input class=\"date-input\" type=\"date\" [ngModel] =\"parameter.min | date:'yyyy-MM-dd'\" max=\"{{today| date:'yyyy-MM-dd'}}\" (ngModelChange)=\"parameter.min = $event; parameter.max=''\" />\n        To: <input class=\"date-input\" type=\"date\" [ngModel] =\"parameter.max | date:'yyyy-MM-dd'\" min=\"{{parameter.min | date:'yyyy-MM-dd'}}\" max=\"{{today| date:'yyyy-MM-dd'}}\" (ngModelChange)=\"parameter.max = $event\" />\n        <button class=\"btn btn-primary new-btn\" href=\"javascript://\" (click)=\"getReportData()\"\n            [disabled]=\"!parameter.min || !parameter.max\">Go</button>\n      </div>\n    </div>\n  </div>\n<div class=\"row\">\n      <div class=\"col-md-4 col-sm-12 col-12\">\n        <div class=\"info-box dashboard-bx\">\n          <p class=\"p14\">All Properties</p>\n          <h3>{{all_properties_count}}</h3>\n        </div>\n      </div>\n      <div class=\"col-md-4 col-sm-12 col-12\">\n        <div class=\"info-box dashboard-bx\">\n          <p class=\"p14\">Property for Sale</p>\n          <h3>{{sale_properties_count}}</h3>\n        </div>\n      </div>\n      <div class=\"col-md-4 col-sm-12 col-12\">\n        <div class=\"info-box dashboard-bx\">\n          <p class=\"p14\">Property for Rent</p>\n          <h3>{{rent_properties_count}}</h3>\n        </div>\n      </div>\n\n</div>\n<div class=\"spacer30\"></div>\n<div class=\"white-bg padding40\">\n      <h3>Stats and Trend Analytics</h3>\n      <hr>\n      <!-- <div class=\"row\">\n      <div class=\"col-12\">\n      <div class=\"cust-tabs-2 dashboard-tabs\">\n            <ul class=\"nav nav-tabs\">\n              <li class=\"nav-item marginL0\">\n                  <a class=\"nav-link active\" data-toggle=\"tab\" href=\"#prop\">Properties</a>\n              </li>\n            </ul>\n          </div>\n\n        </div>\n        </div> -->\n          <div class=\"clearfix\"></div>\n\n        <div class=\"tab-content\">\n          <div id=\"prop\" class=\"tab-pane fade in active show\">\n          <div class=\"row\">\n            <div class=\"col-lg-5 col-md-6 col-sm-12 col-12\">\n            <div class=\"stats-block\">\n                  <p class=\"p14\">Total Commission on platform</p>\n                  <h2>${{total_commission}}</h2>\n            </div>\n            </div>\n              <div class=\"col-lg-5 col-md-6 col-sm-12 col-12\">\n              <div class=\"stats-block\">\n                  <p class=\"p14\">Your Sales</p>\n                  <h2>${{total_sales}}</h2>\n            </div>\n            </div>\n            </div>\n            <div class=\"spacer30\"></div>\n            <div class=\"row\">\n              <div class=\"col-md-6 col-sm-12 col-12\">\n                <div style=\"height:300px\">\n                  <ngx-charts-bar-vertical\n                  [scheme]=\"colorScheme\"\n                  [results]=\"chartCommision\"\n                  [gradient]=\"false\"\n                  [xAxis]=\"true\"\n                  [yAxis]=\"true\"\n                  [showXAxisLabel]=\"true\"\n                  [showYAxisLabel]=\"true\">\n                </ngx-charts-bar-vertical>\n                </div>\n              </div>\n                <div class=\"col-md-6 col-sm-12 col-12\">\n                <div style=\"height:300px\">\n                    <ngx-charts-area-chart\n                      [scheme]=\"colorScheme\"\n                      [results]=\"chartSales\"\n                      [gradient]=\"false\"\n                      [xAxis]=\"true\"\n                      [yAxis]=\"true\"\n                      [showXAxisLabel]=\"true\"\n                      [showYAxisLabel]=\"true\">\n                    </ngx-charts-area-chart>\n                </div>\n              </div>\n\n            </div>\n              </div>\n        </div>\n\n        <div class=\"clearfix\"></div>\n  </div>\n</div>\n"
+module.exports = "<ngx-loading [show]=\"parameter.loading\"></ngx-loading>\n<div class=\"container-fluid\">\n  <div class=\"row\">\n    <div class=\"col-md-5\">\n      <div class=\"title-group\">\n          <h5>Hello {{fullName}}</h5>\n      </div>\n    </div>\n    <div class=\"col-md-7\">\n      <!-- <div class=\"pull-right btn-cont\">\n        From: <input class=\"date-input\" type=\"date\" [ngModel] =\"parameter.min | date:'yyyy-MM-dd'\" max=\"{{today| date:'yyyy-MM-dd'}}\" (ngModelChange)=\"parameter.min = $event; parameter.max=''\" />\n        To: <input class=\"date-input\" type=\"date\" [ngModel] =\"parameter.max | date:'yyyy-MM-dd'\" min=\"{{parameter.min | date:'yyyy-MM-dd'}}\" max=\"{{today| date:'yyyy-MM-dd'}}\" (ngModelChange)=\"parameter.max = $event\" />\n        <button class=\"btn btn-primary new-btn\" href=\"javascript://\" (click)=\"getReportData()\"\n            [disabled]=\"!parameter.min || !parameter.max\">Go</button>\n      </div> -->\n      <div class=\"pull-right btn-cont\">\n        From: <p-calendar [(ngModel)]=\"parameter.min\" [maxDate]=\"today\" showButtonBar=\"true\" [monthNavigator]=\"true\" [yearNavigator]=\"true\" yearRange=\"2000:2030\"></p-calendar>\n        To: <p-calendar [(ngModel)]=\"parameter.max\" [minDate]=\"parameter.min\" [maxDate]=\"today\" showButtonBar=\"true\" [monthNavigator]=\"true\" [yearNavigator]=\"true\" yearRange=\"2000:2030\"></p-calendar>\n        <button class=\"btn btn-primary-new\" href=\"javascript://\" (click)=\"getReportData()\"\n            [disabled]=\"!parameter.min || !parameter.max\">Go</button>\n      </div>\n    </div>\n  </div>\n<div class=\"row\">\n      <div class=\"col-md-4 col-sm-12 col-12\">\n        <div class=\"info-box dashboard-bx\">\n          <p class=\"p14\">All Properties</p>\n          <h3>{{all_properties_count}}</h3>\n        </div>\n      </div>\n      <div class=\"col-md-4 col-sm-12 col-12\">\n        <div class=\"info-box dashboard-bx\">\n          <p class=\"p14\">Property for Sale</p>\n          <h3>{{sale_properties_count}}</h3>\n        </div>\n      </div>\n      <div class=\"col-md-4 col-sm-12 col-12\">\n        <div class=\"info-box dashboard-bx\">\n          <p class=\"p14\">Property for Rent</p>\n          <h3>{{rent_properties_count}}</h3>\n        </div>\n      </div>\n\n</div>\n<div class=\"spacer30\"></div>\n<div class=\"white-bg padding40\">\n      <h3>Stats and Trend Analytics</h3>\n      <hr>\n      <!-- <div class=\"row\">\n      <div class=\"col-12\">\n      <div class=\"cust-tabs-2 dashboard-tabs\">\n            <ul class=\"nav nav-tabs\">\n              <li class=\"nav-item marginL0\">\n                  <a class=\"nav-link active\" data-toggle=\"tab\" href=\"#prop\">Properties</a>\n              </li>\n            </ul>\n          </div>\n\n        </div>\n        </div> -->\n          <div class=\"clearfix\"></div>\n\n        <div class=\"tab-content\">\n          <div id=\"prop\" class=\"tab-pane fade in active show\">\n          <div class=\"row\">\n            <div class=\"col-lg-5 col-md-6 col-sm-12 col-12\">\n            <div class=\"stats-block\">\n                  <p class=\"p14\">Total Commission on platform</p>\n                  <h2>${{total_commission}}</h2>\n            </div>\n            </div>\n              <div class=\"col-lg-5 col-md-6 col-sm-12 col-12\">\n              <div class=\"stats-block\">\n                  <p class=\"p14\">Your Sales</p>\n                  <h2>${{total_sales}}</h2>\n            </div>\n            </div>\n            </div>\n            <div class=\"spacer30\"></div>\n            <div class=\"row\">\n              <div class=\"col-md-6 col-sm-12 col-12\">\n                <div style=\"height:300px\">\n                  <ngx-charts-bar-vertical\n                  [scheme]=\"colorScheme\"\n                  [results]=\"chartCommision\"\n                  [gradient]=\"false\"\n                  [xAxis]=\"true\"\n                  [yAxis]=\"true\"\n                  [showXAxisLabel]=\"true\"\n                  [showYAxisLabel]=\"true\">\n                </ngx-charts-bar-vertical>\n                </div>\n              </div>\n                <div class=\"col-md-6 col-sm-12 col-12\">\n                <div style=\"height:300px\">\n                    <ngx-charts-area-chart\n                      [scheme]=\"colorScheme\"\n                      [results]=\"chartSales\"\n                      [gradient]=\"false\"\n                      [xAxis]=\"true\"\n                      [yAxis]=\"true\"\n                      [showXAxisLabel]=\"true\"\n                      [showYAxisLabel]=\"true\">\n                    </ngx-charts-area-chart>\n                </div>\n              </div>\n\n            </div>\n              </div>\n        </div>\n\n        <div class=\"clearfix\"></div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -1918,8 +1918,10 @@ var DashboardComponent = /** @class */ (function () {
         };
         this.parameter = {};
         var date = new Date();
-        this.parameter.min = __WEBPACK_IMPORTED_MODULE_2_moment__(date.getFullYear() + '-' + (date.getMonth() - 4) + '-' + '01').format('YYYY-MM-DD');
-        this.parameter.max = __WEBPACK_IMPORTED_MODULE_2_moment__().format('YYYY-MM-DD');
+        this.parameter.min = new Date(date.getFullYear() + '-' + (date.getMonth() - 4) + '-' + '01');
+        this.parameter.max = date;
+        // this.parameter.min = moment(date.getFullYear() + '-' + (date.getMonth() - 4) + '-' + '01').format('YYYY-MM-DD');
+        // this.parameter.max = moment().format('YYYY-MM-DD');
         this.admin.loginData$.subscribe(function (success) {
             _this.fullName = success['name'];
         });
@@ -1929,7 +1931,8 @@ var DashboardComponent = /** @class */ (function () {
         var _this = this;
         this.parameter.loading = true;
         this.parameter.noResultFound = false;
-        var input = { start_date: this.parameter.min, end_date: this.parameter.max };
+        // const input = {start_date: this.parameter.min, end_date: this.parameter.max};
+        var input = { start_date: __WEBPACK_IMPORTED_MODULE_2_moment__(this.parameter.min).format('YYYY-MM-DD'), end_date: __WEBPACK_IMPORTED_MODULE_2_moment__(this.parameter.max).format('YYYY-MM-DD') };
         this.admin.postDataApi('dashboard', input).subscribe(function (success) {
             _this.parameter.loading = false;
             _this.all_properties_count = success.data.all_properties_count;
@@ -3108,7 +3111,7 @@ var InhouseUsersComponent = /** @class */ (function () {
             styles: [__webpack_require__("../../../../../src/app/layout/inhouse-users/inhouse-users.component.css")],
             providers: [__WEBPACK_IMPORTED_MODULE_4__common_constants__["a" /* Constant */], __WEBPACK_IMPORTED_MODULE_3__models_inhouse_users_model__["b" /* User */], __WEBPACK_IMPORTED_MODULE_3__models_inhouse_users_model__["c" /* Address */], __WEBPACK_IMPORTED_MODULE_3__models_inhouse_users_model__["a" /* UserModel */]]
         }),
-        __metadata("design:paramtypes", [typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4__common_constants__["a" /* Constant */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__common_constants__["a" /* Constant */]) === "function" ? _e : Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_6__services_common_service__["a" /* CommonService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__services_common_service__["a" /* CommonService */]) === "function" ? _f : Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_3__models_inhouse_users_model__["a" /* UserModel */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__models_inhouse_users_model__["a" /* UserModel */]) === "function" ? _g : Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* ActivatedRoute */]) === "function" ? _h : Object, typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */]) === "function" ? _j : Object, typeof (_k = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */]) === "function" ? _k : Object, typeof (_l = typeof __WEBPACK_IMPORTED_MODULE_5__angular_platform_browser__["DomSanitizer"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__angular_platform_browser__["DomSanitizer"]) === "function" ? _l : Object])
+        __metadata("design:paramtypes", [typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4__common_constants__["a" /* Constant */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__common_constants__["a" /* Constant */]) === "function" ? _e : Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_6__services_common_service__["a" /* CommonService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__services_common_service__["a" /* CommonService */]) === "function" ? _f : Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_3__models_inhouse_users_model__["a" /* UserModel */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__models_inhouse_users_model__["a" /* UserModel */]) === "function" ? _g : Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["ActivatedRoute"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["ActivatedRoute"]) === "function" ? _h : Object, typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */]) === "function" ? _j : Object, typeof (_k = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["Router"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["Router"]) === "function" ? _k : Object, typeof (_l = typeof __WEBPACK_IMPORTED_MODULE_5__angular_platform_browser__["DomSanitizer"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__angular_platform_browser__["DomSanitizer"]) === "function" ? _l : Object])
     ], InhouseUsersComponent);
     return InhouseUsersComponent;
 }());
@@ -3206,8 +3209,8 @@ var LayoutRoutingModule = /** @class */ (function () {
     }
     LayoutRoutingModule = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forChild(routes)],
-            exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */]]
+            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["RouterModule"].forChild(routes)],
+            exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["RouterModule"]]
         })
     ], LayoutRoutingModule);
     return LayoutRoutingModule;
@@ -3314,6 +3317,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__swimlane_ngx_charts___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_27__swimlane_ngx_charts__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_28_ngx_loading__ = __webpack_require__("../../../../ngx-loading/ngx-loading/ngx-loading.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__notifications_notifications_component__ = __webpack_require__("../../../../../src/app/layout/notifications/notifications.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30_primeng_primeng__ = __webpack_require__("../../../../primeng/primeng.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30_primeng_primeng___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_30_primeng_primeng__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LayoutModule", function() { return LayoutModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -3355,6 +3360,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 // import { ViewedProjectsComponent } from './common-blocks/src/app/layout/common-blocks/viewed-projects/viewed-projects.component';
+
 var LayoutModule = /** @class */ (function () {
     function LayoutModule() {
     }
@@ -3381,7 +3387,8 @@ var LayoutModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_9_ng2_tel_input__["Ng2TelInputModule"],
                 __WEBPACK_IMPORTED_MODULE_27__swimlane_ngx_charts__["NgxChartsModule"],
                 __WEBPACK_IMPORTED_MODULE_10_angular_froala_wysiwyg__["a" /* FroalaEditorModule */].forRoot(),
-                __WEBPACK_IMPORTED_MODULE_10_angular_froala_wysiwyg__["b" /* FroalaViewModule */].forRoot()
+                __WEBPACK_IMPORTED_MODULE_10_angular_froala_wysiwyg__["b" /* FroalaViewModule */].forRoot(),
+                __WEBPACK_IMPORTED_MODULE_30_primeng_primeng__["CalendarModule"]
             ],
             declarations: [
                 __WEBPACK_IMPORTED_MODULE_12__layout_component__["a" /* LayoutComponent */],
@@ -3596,7 +3603,7 @@ var ChangePasswordComponent = /** @class */ (function () {
             template: __webpack_require__("../../../../../src/app/layout/settings/change-password/change-password.component.html"),
             styles: [__webpack_require__("../../../../../src/app/layout/settings/change-password/change-password.component.css")]
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" ? _a : Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_admin_service__["a" /* AdminService */]) === "function" ? _b : Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["Router"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["Router"]) === "function" ? _a : Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_admin_service__["a" /* AdminService */]) === "function" ? _b : Object])
     ], ChangePasswordComponent);
     return ChangePasswordComponent;
 }());
@@ -3766,7 +3773,7 @@ var LoginComponent = /** @class */ (function () {
             template: __webpack_require__("../../../../../src/app/login/login.component.html"),
             styles: [__webpack_require__("../../../../../src/app/login/login.component.css")]
         }),
-        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" ? _b : Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_admin_service__["a" /* AdminService */]) === "function" ? _c : Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__common_constants__["a" /* Constant */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__common_constants__["a" /* Constant */]) === "function" ? _d : Object])
+        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["Router"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["Router"]) === "function" ? _b : Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_admin_service__["a" /* AdminService */]) === "function" ? _c : Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__common_constants__["a" /* Constant */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__common_constants__["a" /* Constant */]) === "function" ? _d : Object])
     ], LoginComponent);
     return LoginComponent;
 }());
@@ -3881,12 +3888,13 @@ var NewAddress = /** @class */ (function () {
 /* unused harmony export UploadedDocuments */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return NotaryAssigned; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return BankAssigned; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return NotaryLeads; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return NotaryLeads; });
 /* unused harmony export SelectedNotary */
 /* unused harmony export NotaryAvailabilty */
 /* unused harmony export Datetime */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return AddNotaryAvailabilty; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return AddNotaryAvailabilty; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return ScheduleMeeting; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return AddAppointment; });
 var DealFinalize = /** @class */ (function () {
     function DealFinalize() {
     }
@@ -3995,6 +4003,12 @@ var ScheduleMeeting = /** @class */ (function () {
     function ScheduleMeeting() {
     }
     return ScheduleMeeting;
+}());
+
+var AddAppointment = /** @class */ (function () {
+    function AddAppointment() {
+    }
+    return AddAppointment;
 }());
 
 //# sourceMappingURL=leads.model.js.map
@@ -4696,7 +4710,7 @@ var CommonService = /** @class */ (function () {
     var _a, _b;
     CommonService = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__admin_service__["a" /* AdminService */]) === "function" ? _a : Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */]) === "function" ? _b : Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__admin_service__["a" /* AdminService */]) === "function" ? _a : Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["Router"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["Router"]) === "function" ? _b : Object])
     ], CommonService);
     return CommonService;
 }());
@@ -4801,7 +4815,7 @@ var HttpInterceptor = /** @class */ (function (_super) {
     var _a, _b, _c, _d;
     HttpInterceptor = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_http__["c" /* XHRBackend */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_http__["c" /* XHRBackend */]) === "function" ? _a : Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_http__["d" /* RequestOptions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_http__["d" /* RequestOptions */]) === "function" ? _b : Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Http */]) === "function" ? _c : Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */]) === "function" ? _d : Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_http__["c" /* XHRBackend */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_http__["c" /* XHRBackend */]) === "function" ? _a : Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_http__["d" /* RequestOptions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_http__["d" /* RequestOptions */]) === "function" ? _b : Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Http */]) === "function" ? _c : Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__angular_router__["Router"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_router__["Router"]) === "function" ? _d : Object])
     ], HttpInterceptor);
     return HttpInterceptor;
 }(__WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Http */]));
@@ -5015,7 +5029,7 @@ var AppHeaderComponent = /** @class */ (function () {
             template: __webpack_require__("../../../../../src/app/shared/app-header/app-header.component.html"),
             styles: [__webpack_require__("../../../../../src/app/shared/app-header/app-header.component.css")]
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */]) === "function" ? _a : Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */]) === "function" ? _b : Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__common_constants__["a" /* Constant */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__common_constants__["a" /* Constant */]) === "function" ? _c : Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */]) === "function" ? _a : Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["Router"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["Router"]) === "function" ? _b : Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__common_constants__["a" /* Constant */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__common_constants__["a" /* Constant */]) === "function" ? _c : Object])
     ], AppHeaderComponent);
     return AppHeaderComponent;
 }());
@@ -5031,14 +5045,10 @@ var AppHeaderComponent = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return environment; });
 var environment = {
     production: true,
-    // baseIP: 'http://45.232.252.136/api/',
-    // baseUrl: 'http://45.232.252.136/api/admin/',
-    baseIP: 'http://kanguroo.mx/api/',
-    baseUrl: 'http://kanguroo.mx/api/admin/',
+    baseUrl: 'http://45.232.252.136:8002/api/admin/',
+    baseIP: 'http://45.232.252.136:8002/api/',
     socketUrl: 'http://45.232.252.136:8080',
     deviceId: 'ADMIN'
-    // baseUrl: 'https://kanguroo.mx/api/admin/',
-    // socketUrl: 'https://kanguroo.mx:8080'
 };
 //# sourceMappingURL=environment.js.map
 

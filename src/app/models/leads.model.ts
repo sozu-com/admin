@@ -168,3 +168,11 @@ export class ScheduleMeeting {
     appointment_date: any;
     sent_as: any;
 }
+
+export class AddAppointment {
+    property_id: string;
+    lead_id: string;
+    appointment_date: any;
+    sent_as: string;
+    id: string;
+}

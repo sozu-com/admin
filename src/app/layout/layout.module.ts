@@ -34,6 +34,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { NotificationsComponent } from './notifications/notifications.component';
 // import { ViewedProjectsComponent } from './common-blocks/src/app/layout/common-blocks/viewed-projects/viewed-projects.component';
+import { CalendarModule } from 'primeng/primeng';
 
 @NgModule({
     imports: [
@@ -57,7 +58,8 @@ import { NotificationsComponent } from './notifications/notifications.component'
         Ng2TelInputModule,
         NgxChartsModule,
         FroalaEditorModule.forRoot(),
-        FroalaViewModule.forRoot()
+        FroalaViewModule.forRoot(),
+        CalendarModule
     ],
     declarations: [
         LayoutComponent,

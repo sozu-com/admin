@@ -3,14 +3,14 @@ import { ActivatedRoute} from '@angular/router';
 import { AdminService } from '../../../../services/admin.service';
 import { IProperty } from '../../../../common/property';
 import { Constant } from './../../../../common/constants';
-import { FillInformation } from './../../../../models/leads.model';
+import { FillInformation, AddAppointment } from './../../../../models/leads.model';
 import { ChatTimePipe } from './../../../../pipes/chat-time.pipe';
 declare let swal: any;
 @Component({
   selector: 'app-csr-buyer-detail',
   templateUrl: './csr-buyer-detail.component.html',
   styleUrls: ['./csr-buyer-detail.component.css'],
-  providers: [FillInformation]
+  providers: [FillInformation, AddAppointment]
 })
 
 export class CsrBuyerDetailComponent implements OnInit {
@@ -22,7 +22,8 @@ export class CsrBuyerDetailComponent implements OnInit {
     private route: ActivatedRoute,
     public admin: AdminService,
     public constant: Constant,
-    public fillInfo: FillInformation
+    public fillInfo: FillInformation,
+    public appointment: AddAppointment
   ) {
     this.admin.loginData$.subscribe(success => {
       this.parameter.admin_id = success['id'];
@@ -37,6 +38,9 @@ export class CsrBuyerDetailComponent implements OnInit {
         this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
           this.parameter.loading = false;
           this.parameter.lead = r.data.lead;
+          if (r.data.lead.appointments.length !== 0) {
+            this.appointment = r.data.lead.appointments[0];
+          }
           this.parameter.favorites = r.data.favorites;
           this.setFillInformationData(r);
           this.parameter.proximity_places = r.data.lead.proximity_places;
@@ -128,5 +132,9 @@ export class CsrBuyerDetailComponent implements OnInit {
 
   viewFavProperties() {
     this.showPropertyModal.nativeElement.click();
+  }
+
+  dealFinalisedReceived(value) {
+    console.log(value);
   }
 }

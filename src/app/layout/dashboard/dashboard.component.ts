@@ -27,8 +27,10 @@ export class DashboardComponent {
   public parameter: IProperty = {};
   constructor (private admin: AdminService) {
     const date = new Date();
-    this.parameter.min = moment(date.getFullYear() + '-' + (date.getMonth() - 4) + '-' + '01').format('YYYY-MM-DD');
-    this.parameter.max = moment().format('YYYY-MM-DD');
+    this.parameter.min = new Date(date.getFullYear() + '-' + (date.getMonth() - 4) + '-' + '01');
+    this.parameter.max = date;
+    // this.parameter.min = moment(date.getFullYear() + '-' + (date.getMonth() - 4) + '-' + '01').format('YYYY-MM-DD');
+    // this.parameter.max = moment().format('YYYY-MM-DD');
 
     this.admin.loginData$.subscribe(success => {
       this.fullName = success['name'];
@@ -41,7 +43,8 @@ export class DashboardComponent {
   getReportData() {
     this.parameter.loading = true;
     this.parameter.noResultFound = false;
-    const input = {start_date: this.parameter.min, end_date: this.parameter.max};
+   // const input = {start_date: this.parameter.min, end_date: this.parameter.max};
+    const input = {start_date: moment(this.parameter.min).format('YYYY-MM-DD'), end_date: moment(this.parameter.max).format('YYYY-MM-DD')};
     this.admin.postDataApi('dashboard', input).subscribe(
     success => {
       this.parameter.loading = false;

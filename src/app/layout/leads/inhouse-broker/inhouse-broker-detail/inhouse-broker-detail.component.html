@@ -35,8 +35,8 @@
 
       <div class="col-lg-4 col-md-12 col-sm-12 col-12">
         <div class="row">
-            <div class="col-sm-7 btn-cont text-right" *ngIf="is_deal_finalised">
-                <a style="cursor: auto;" class="btn btn-fourth" href="javascript://">Deal Finalized</a>
+            <div class="col-sm-7 btn-cont text-right">
+                <a *ngIf="is_deal_finalised" style="cursor: auto;" class="btn btn-fourth" href="javascript://">Deal Finalized</a>
             </div>
             <div class="col-sm-5 btn-cont text-right">
                 <a (click)="getInvoice()" class="btn btn-fourth" href="javascript://">Invoice</a>
@@ -45,7 +45,7 @@
                </button>
                <div class="dropdown-menu dropdown-menu-right">
                  <a *ngIf="is_deal_finalised" (click)="getInvoice()" class="dropdown-item" href="javascript://">Download Invoice</a>
-                 <a (click)="blockThisLead()" class="dropdown-item" href="javascript://">Schedule Meeting</a>
+                 <a data-toggle="modal" data-target="#set_appointment" class="dropdown-item" href="javascript://">Schedule Meeting</a>
                </div> -->
             </div>
         </div>
@@ -95,6 +95,23 @@
                       <a *ngIf="parameter.favorites?.length!=0" class="view-all" href="javascript://" (click)="viewFavProperties()">View All</a>
                     </td>
                 </tr>
+
+                <!-- Meeting Schedule -->
+                <tr *ngIf="parameter?.lead?.sale_rent==1">
+                    <td  style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
+                    <td *ngIf="is_deal_finalised" colspan="2" class="cursor-pointer">
+                        <p class="date" *ngIf="appointment.appointment_date; else noAvailability4" data-toggle="modal" data-target="#set_appointment">
+                            <span title="Reschedule meeting">{{app_date|moment}}</span>
+                        </p>
+                        <ng-template #noAvailability4>
+                            <p title="Schedule meeting" data-toggle="modal" data-target="#set_appointment">Appointment not scheduled.</p>
+                        </ng-template>
+                    </td>
+                    <td *ngIf="!is_deal_finalised" colspan="2" class="cursor-pointer">
+                        <p title="Schedule meeting">Cannot schedule meeting as deal is not finalized.</p>
+                    </td>
+                </tr>
+    
               </tbody>
              </table>
            </div>
@@ -120,6 +137,7 @@
   </div>
 
   <!-- Interested Properties start -->
+  <!-- <app-interested-property (deal_finalised_success)="dealFinalisedReceived(v)" [is_deal_finalised]="is_deal_finalised" [selected_properties]="parameter?.lead?.selected_properties" [lead_id]="parameter.lead_id" [interested_properties]="parameter.interested_properties" [sent_as]="parameter.sent_as"></app-interested-property> -->
   <app-interested-property [is_deal_finalised]="is_deal_finalised" [selected_properties]="parameter?.lead?.selected_properties" [lead_id]="parameter.lead_id" [interested_properties]="parameter.interested_properties" [sent_as]="parameter.sent_as"></app-interested-property>
   <!-- Interested Properties end -->
 
@@ -170,3 +188,34 @@
       </div>
   </div>
 </div>
+
+
+<!-- add inhouse user modal -->
+<div class="modal animated" id="set_appointment">
+    <div class="modal-dialog fadeIndown">
+        <div class="modal-content">
+            <div class="modal-header modal-header-new">
+                <h4 class="modal-title">Schedule Appointment</h4>
+                <button type="button" style="display: none;" class="close" data-dismiss="modal" #modalClose>&times;</button>
+                <button type="button" class="close" (click)="closeModal()">&times;</button>
+            </div>
+    
+            <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="add()">
+            <div class="modal-body modal-body-new">
+                <div class="row">
+                    <div class="col-10">
+                        <p-calendar title="Click to add" name="app" [(ngModel)]="appointment.appointment_date" [minDate]="today" showButtonBar="true" showTime="true" hourFormat="12" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group-2">
+                            <a *ngIf="!appointment.id && appointment.appointment_date" class="green-color fontW500" (click)="add()" href="javascript://">Save</a>
+                            <a *ngIf="appointment.id" class="green-color fontW500" (click)="add()" href="javascript://">Edit</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+    

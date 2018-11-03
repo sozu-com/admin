@@ -28,6 +28,7 @@ import { SharedModule } from '../../modules/shared.module';
 import { CsrSellerDetailComponent } from './csr-seller/csr-seller-detail/csr-seller-detail.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ViewedProjectsComponent } from '../common-blocks/viewed-projects/viewed-projects.component';
+import { CalendarModule } from 'primeng/primeng';
 
 const routes: Routes = [
   { path: 'data-collectors', component: DataCollectorComponent,
@@ -101,7 +102,8 @@ const routes: Routes = [
     MalihuScrollbarModule.forRoot(),
     NouisliderModule,
     NgxChartsModule,
-    SharedModule
+    SharedModule,
+    CalendarModule
     // LayoutModule
     // NgBoxModule
   ],

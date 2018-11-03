@@ -227,7 +227,7 @@ var AddTemplateComponent = /** @class */ (function () {
             template: __webpack_require__("../../../../../src/app/layout/templates/add-template/add-template.component.html"),
             styles: [__webpack_require__("../../../../../src/app/layout/templates/add-template/add-template.component.css")]
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */]) === "function" ? _a : Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_router__["c" /* ActivatedRoute */]) === "function" ? _b : Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__services_http_interceptor__["a" /* HttpInterceptor */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_http_interceptor__["a" /* HttpInterceptor */]) === "function" ? _c : Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */]) === "function" ? _a : Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__angular_router__["ActivatedRoute"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_router__["ActivatedRoute"]) === "function" ? _b : Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__services_http_interceptor__["a" /* HttpInterceptor */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_http_interceptor__["a" /* HttpInterceptor */]) === "function" ? _c : Object])
     ], AddTemplateComponent);
     return AddTemplateComponent;
 }());
@@ -403,7 +403,7 @@ var TemplatesModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_8__add_template_add_template_component__["a" /* AddTemplateComponent */]
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_6__angular_router__["a" /* RouterModule */].forChild(routes),
+                __WEBPACK_IMPORTED_MODULE_6__angular_router__["RouterModule"].forChild(routes),
                 __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"],
                 __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["a" /* TranslateModule */],
                 __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormsModule"],
@@ -417,7 +417,7 @@ var TemplatesModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_11_angular_froala_wysiwyg__["a" /* FroalaEditorModule */].forRoot(),
                 __WEBPACK_IMPORTED_MODULE_11_angular_froala_wysiwyg__["b" /* FroalaViewModule */].forRoot()
             ],
-            exports: [__WEBPACK_IMPORTED_MODULE_6__angular_router__["a" /* RouterModule */]]
+            exports: [__WEBPACK_IMPORTED_MODULE_6__angular_router__["RouterModule"]]
         })
     ], TemplatesModule);
     return TemplatesModule;

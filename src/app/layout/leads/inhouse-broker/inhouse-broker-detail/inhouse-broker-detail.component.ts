@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AdminService } from '../../../../services/admin.service';
 import { IProperty } from '../../../../common/property';
 import * as io from 'socket.io-client';
 import { Constant } from './../../../../common/constants';
-import { DealFinalize } from './../../../../models/leads.model';
+import { DealFinalize, AddAppointment } from './../../../../models/leads.model';
 import { FillInformation } from './../../../../models/leads.model';
 import { ChatTimePipe } from './../../../../pipes/chat-time.pipe';
 declare let swal: any;
-import {saveAs as importedSaveAs} from 'file-saver';
+import { saveAs as importedSaveAs } from 'file-saver';
 import { Http } from '@angular/http';
 import * as moment from 'moment';
 
@@ -16,22 +16,26 @@ import * as moment from 'moment';
   selector: 'app-inhouse-broker-detail',
   templateUrl: './inhouse-broker-detail.component.html',
   styleUrls: ['./inhouse-broker-detail.component.css'],
-  providers: [DealFinalize, FillInformation]
+  providers: [DealFinalize, FillInformation, AddAppointment]
 })
 
 export class InhouseBrokerDetailComponent implements OnInit {
-
+  @ViewChild('modalOpen') modalOpen: ElementRef;
+  @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('showPropertyModal') showPropertyModal: ElementRef;
+  app_date: any;
   public parameter: IProperty = {};
   public selected_prop_ids = [];
   is_deal_finalised: boolean;
-
+  date = new Date();
+  input: any;
   constructor(
     private route: ActivatedRoute,
     public admin: AdminService,
     public constant: Constant,
     public fillInfo: FillInformation,
-    private http: Http
+    private http: Http,
+    public appointment: AddAppointment
   ) {
     this.admin.loginData$.subscribe(success => {
       this.parameter.admin_id = success['id'];
@@ -46,6 +50,12 @@ export class InhouseBrokerDetailComponent implements OnInit {
       this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
         this.parameter.loading = false;
         this.parameter.lead = r.data.lead;
+        if (r.data.lead.appointments.length !== 0) {
+          this.appointment = r.data.lead.appointments[0];
+          this.app_date = this.appointment.appointment_date;
+          this.appointment.appointment_date =
+          new Date(moment(this.appointment.appointment_date).utc(true).local().format('YYYY-MM-DD, h:mm a'));
+        }
         this.setFillInformationData(r);
         this.parameter.favorites = r.data.favorites;
         this.parameter.interested_properties = r.data.interested_properties;
@@ -139,5 +149,47 @@ export class InhouseBrokerDetailComponent implements OnInit {
     }, error => {
       this.parameter.loading = false;
     });
+  }
+
+  add() {
+    const d: any = new Date(this.appointment.appointment_date);
+    const f = moment(d).utc().format('YYYY-MM-DD HH:mm:ss');
+    this.input = {
+      lead_id: this.parameter.lead_id,
+      property_id: this.parameter.lead.selected_properties[0].property_id,
+      appointment_date: f,
+      sent_as: this.parameter.sent_as
+    };
+    if (this.appointment.id) {
+      this.input.id = this.appointment.id;
+    }
+    this.parameter.loading = true;
+    this.admin.postDataApi('leads/addAppointment', this.input)
+      .subscribe(
+        success => {
+          console.log(success.data);
+          this.appointment = success.data;
+          this.app_date = this.appointment.appointment_date;
+          this.appointment.appointment_date =
+          new Date(moment(this.appointment.appointment_date).utc(true).local().format('YYYY-MM-DD, h:mm a'));
+          this.parameter.loading = false;
+          this.closeModal();
+          swal('Success', 'Appointment scheduled successfully.', 'success');
+        }, error => {
+          this.parameter.loading = false;
+        }
+      );
+  }
+
+  openModal () {
+    this.modalOpen.nativeElement.click();
+  }
+
+  closeModal() {
+    this.modalClose.nativeElement.click();
+  }
+
+  dealFinalisedReceived(value) {
+    this.is_deal_finalised = true;
   }
 }

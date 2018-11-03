@@ -25,20 +25,21 @@ export class SellerComponent implements OnInit {
     // Object.assign(this, this.chartView);
   }
 
-  onSelect(event) {
-    console.log(event);
-  }
+  onSelect(event) {}
 
   ngOnInit() {
     const date = new Date();
-    this.parameter.min = moment(date.getFullYear() + '-' + '01' + '-' + '01').format('YYYY-MM-DD');
-    this.parameter.max = moment().format('YYYY-MM-DD');
+    this.parameter.min = new Date(date.getFullYear() + '-' + '01' + '-' + '01');
+    this.parameter.max = date;
+    // this.parameter.min = moment(date.getFullYear() + '-' + '01' + '-' + '01').format('YYYY-MM-DD');
+    // this.parameter.max = moment().format('YYYY-MM-DD');
     this.getReportData();
   }
 
   getReportData () {
     this.totalSignUpCount = 0; this.totalAddedProperty = 0; this.totalApproved = 0; this.totalSold = 0;
-    const input = {start_date: this.parameter.min, end_date: this.parameter.max};
+    // const input = {start_date: this.parameter.min, end_date: this.parameter.max};
+    const input = {start_date: moment(this.parameter.min).format('YYYY-MM-DD'), end_date: moment(this.parameter.max).format('YYYY-MM-DD')};
     this.parameter.loading = true;
     this.admin.postDataApi('reports/sellers', input).subscribe(r => {
       this.parameter.loading = false;

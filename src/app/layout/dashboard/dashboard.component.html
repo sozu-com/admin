@@ -7,10 +7,16 @@
       </div>
     </div>
     <div class="col-md-7">
-      <div class="pull-right btn-cont">
+      <!-- <div class="pull-right btn-cont">
         From: <input class="date-input" type="date" [ngModel] ="parameter.min | date:'yyyy-MM-dd'" max="{{today| date:'yyyy-MM-dd'}}" (ngModelChange)="parameter.min = $event; parameter.max=''" />
         To: <input class="date-input" type="date" [ngModel] ="parameter.max | date:'yyyy-MM-dd'" min="{{parameter.min | date:'yyyy-MM-dd'}}" max="{{today| date:'yyyy-MM-dd'}}" (ngModelChange)="parameter.max = $event" />
         <button class="btn btn-primary new-btn" href="javascript://" (click)="getReportData()"
+            [disabled]="!parameter.min || !parameter.max">Go</button>
+      </div> -->
+      <div class="pull-right btn-cont">
+        From: <p-calendar [(ngModel)]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+        To: <p-calendar [(ngModel)]="parameter.max" [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+        <button class="btn btn-primary-new" href="javascript://" (click)="getReportData()"
             [disabled]="!parameter.min || !parameter.max">Go</button>
       </div>
     </div>

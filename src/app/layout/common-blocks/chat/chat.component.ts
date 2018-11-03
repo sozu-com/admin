@@ -87,10 +87,10 @@ export class ChatComponent implements OnInit {
 
   public initSocket(): void {
     this.parameter.socket = io.connect(this.admin.socketUrl);
-    this.parameter.socket.on('disconnect', fun => {
-      console.log('disconnect');
-      console.log('disconnect', this.parameter.socket);
-    });
+    // this.parameter.socket.on('disconnect', fun => {
+    //   console.log('disconnect');
+    //   console.log('disconnect', this.parameter.socket);
+    // });
     this.parameter.socket.on('connect', fun => {
       console.log('connect');
       console.log('connect', this.parameter.socket);

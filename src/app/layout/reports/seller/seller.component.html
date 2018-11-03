@@ -16,21 +16,11 @@
       <div class="col-12">
         <hr style="margin-top:0;">
         <div class="pull-right btn-cont">
-            <!-- <form class="form-inline">
-                <div class="form-group">
-                    <label for="From">From:</label>
-                    <input name="from" class="form-control date-input" type="date" [ngModel] ="parameter.min | date:'yyyy-MM-dd'" max="{{today| date:'yyyy-MM-dd'}}" (ngModelChange)="parameter.min = $event; parameter.max=''" />
-                </div>
-                <div class="form-group">
-                    <label for="To">To:</label>
-                    <input name="to" class="form-control date-input" type="date" [ngModel] ="parameter.max | date:'yyyy-MM-dd'" min="{{parameter.min | date:'yyyy-MM-dd'}}" max="{{today| date:'yyyy-MM-dd'}}" (ngModelChange)="parameter.max = $event" />
-                </div>
-                <button class="btn btn-primary btn-sm" href="javascript://" (click)="getReportData()"
-                [disabled]="(!parameter.min || !parameter.max)">Go</button>
-            </form> -->
-            From: <input class="date-input" type="date" [ngModel] ="parameter.min | date:'yyyy-MM-dd'" max="{{today| date:'yyyy-MM-dd'}}" (ngModelChange)="parameter.min = $event; parameter.max=''" />
-            To: <input class="date-input" type="date" [ngModel] ="parameter.max | date:'yyyy-MM-dd'" min="{{parameter.min | date:'yyyy-MM-dd'}}" max="{{today| date:'yyyy-MM-dd'}}" (ngModelChange)="parameter.max = $event" />
-            <button class="btn btn-primary new-btn" href="javascript://" (click)="getReportData()"
+            <!-- From: <input class="date-input" type="date" [ngModel] ="parameter.min | date:'yyyy-MM-dd'" max="{{today| date:'yyyy-MM-dd'}}" (ngModelChange)="parameter.min = $event; parameter.max=''" />
+            To: <input class="date-input" type="date" [ngModel] ="parameter.max | date:'yyyy-MM-dd'" min="{{parameter.min | date:'yyyy-MM-dd'}}" max="{{today| date:'yyyy-MM-dd'}}" (ngModelChange)="parameter.max = $event" /> -->
+            From: <p-calendar [(ngModel)]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+            To: <p-calendar [(ngModel)]="parameter.max" [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+            <button class="btn btn-primary-new new-btn" href="javascript://" (click)="getReportData()"
                 [disabled]="!parameter.min || !parameter.max">Go</button>
         </div>
     </div>

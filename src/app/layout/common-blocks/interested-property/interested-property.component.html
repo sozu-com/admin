@@ -32,9 +32,9 @@
         <img [src]="data.property.image" onerror='src="assets/img/placeholder-img.png"' alt="img">
       </div>
       <div class="project-des-content">
-        <small>{{data.property.building.developer.name}}</small>
+        <small>{{data?.property?.building?.developer?.name}}</small>
         <a routerLink="/dashboard/properties/details/{{data.property.id}}">
-          <h5>{{data.property.building.name.slice(0, 35)}}</h5>
+          <h5>{{data?.property?.building?.name.slice(0, 35)}}</h5>
         </a>
         <p class="p12">{{data.property.building.address.slice(0, 90)}}</p>
         <p class="p13" *ngIf="data && data.property">{{data.property.configuration.name}}, {{data.property.property_type.name}}</p>

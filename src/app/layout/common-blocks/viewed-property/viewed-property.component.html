@@ -22,7 +22,7 @@
       <img [src]="data.image" onerror='src="assets/img/placeholder-img.png"' alt="img">
     </div>
     <div class="project-des-content">
-      <small>{{data.building.developer.name}}</small>
+      <small>{{data?.building?.developer?.name}}</small>
       <a routerLink="/dashboard/properties/details/{{data.id}}">
       <h5>{{data.building.name.slice(0, 35)}}</h5>
       </a>

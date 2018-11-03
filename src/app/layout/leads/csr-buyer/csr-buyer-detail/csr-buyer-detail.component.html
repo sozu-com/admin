@@ -99,6 +99,20 @@
                       <a *ngIf="parameter.favorites?.length!=0" class="view-all" href="javascript://" (click)="viewFavProperties()">View All</a>
                     </td>
                 </tr>
+
+                <!-- Meeting Schedule -->
+                <tr *ngIf="parameter?.lead?.sale_rent==1">
+                    <td  style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
+                    <td colspan="2" class="cursor-pointer">
+                        <p class="date" *ngIf="appointment.appointment_date; else noAvailability4">
+                            <span>{{appointment.appointment_date | moment}}</span>
+                        </p>
+                        <ng-template #noAvailability4>
+                            <p>Meeting not scheduled by broker.</p>
+                        </ng-template>
+                    </td>
+                </tr>          
+
               </tbody>
              </table>
            </div>

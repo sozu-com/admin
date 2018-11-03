@@ -13,6 +13,7 @@ import { BankComponent } from './bank/bank.component';
 import { AclUserGuard } from '../../guards/acl-user.guard';
 import { AuthGuard } from '../../guards/auth.guard';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { CalendarModule } from 'primeng/primeng';
 
 const routes: Routes = [
   { path: 'seller', component: SellerComponent,
@@ -48,7 +49,8 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     NgxChartsModule,
-    Ng2TelInputModule
+    Ng2TelInputModule,
+    CalendarModule
   ],
   declarations: [
     ReportsComponent,

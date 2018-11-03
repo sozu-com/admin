@@ -2245,7 +2245,7 @@ var PropertyComponent = /** @class */ (function () {
             styles: [__webpack_require__("../../../../../src/app/layout/settings/property/property.component.css")],
             providers: [__WEBPACK_IMPORTED_MODULE_4__common_constants__["a" /* Constant */], __WEBPACK_IMPORTED_MODULE_5__models_property_model__["a" /* Property */]]
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"]) === "function" ? _a : Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__common_constants__["a" /* Constant */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__common_constants__["a" /* Constant */]) === "function" ? _b : Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_5__models_property_model__["a" /* Property */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__models_property_model__["a" /* Property */]) === "function" ? _c : Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3_ngx_bootstrap_modal__["b" /* BsModalService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_ngx_bootstrap_modal__["b" /* BsModalService */]) === "function" ? _d : Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */]) === "function" ? _e : Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */]) === "function" ? _f : Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"]) === "function" ? _a : Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__common_constants__["a" /* Constant */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__common_constants__["a" /* Constant */]) === "function" ? _b : Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_5__models_property_model__["a" /* Property */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__models_property_model__["a" /* Property */]) === "function" ? _c : Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3_ngx_bootstrap_modal__["b" /* BsModalService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_ngx_bootstrap_modal__["b" /* BsModalService */]) === "function" ? _d : Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */]) === "function" ? _e : Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["Router"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["Router"]) === "function" ? _f : Object])
     ], PropertyComponent);
     return PropertyComponent;
 }());
@@ -2410,7 +2410,7 @@ var SettingsModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_17__profile_profile_component__["a" /* ProfileComponent */]
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_8__angular_router__["a" /* RouterModule */].forChild(routes),
+                __WEBPACK_IMPORTED_MODULE_8__angular_router__["RouterModule"].forChild(routes),
                 __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"],
                 __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["a" /* TranslateModule */],
                 __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormsModule"],
@@ -2429,7 +2429,7 @@ var SettingsModule = /** @class */ (function () {
                 }),
                 __WEBPACK_IMPORTED_MODULE_7_ng2_tel_input__["Ng2TelInputModule"]
             ],
-            exports: [__WEBPACK_IMPORTED_MODULE_8__angular_router__["a" /* RouterModule */]]
+            exports: [__WEBPACK_IMPORTED_MODULE_8__angular_router__["RouterModule"]]
         })
     ], SettingsModule);
     return SettingsModule;
