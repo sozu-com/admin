@@ -1331,8 +1331,37 @@ var ChatComponent = /** @class */ (function () {
         setTimeout(function () {
             var input = { lead_id: _this.lead_id, user_id: _this.user_id, sent_as: _this.sent_as };
             _this.initSocket();
-            _this.getMessages();
+            if ((_this.sent_as === _this.constant.userType.notary) || (_this.sent_as === _this.constant.userType.bank)) {
+                _this.getLeadConversation();
+            }
+            else {
+                _this.getMessages();
+            }
         }, 100);
+    };
+    ChatComponent.prototype.getLeadConversation = function () {
+        var _this = this;
+        var data = {
+            lead_id: this.lead_id,
+            other_sent_as: this.constant.userType.csr_closer,
+            other_id: this.user_id,
+            sent_as: this.sent_as
+        };
+        this.parameter.loading = true;
+        this.admin.postDataApi('conversation/getLeadConversation', data).subscribe(function (r) {
+            _this.parameter.loading = false;
+            console.log('conversation/getLeadConversation', r);
+            if (r['data']) {
+                _this.parameter.messages = r.data[0].messages;
+                if (_this.parameter.messages.length < 30) {
+                    _this.loadmore = false;
+                }
+                _this.parameter.conversation_id = r.data[0].id;
+                _this.scrollToBottom();
+            }
+        }, function (error) {
+            _this.parameter.loading = false;
+        });
     };
     ChatComponent.prototype.getMessages = function () {
         var _this = this;
@@ -5045,10 +5074,14 @@ var AppHeaderComponent = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return environment; });
 var environment = {
     production: true,
-    baseUrl: 'http://45.232.252.136:8002/api/admin/',
-    baseIP: 'http://45.232.252.136:8002/api/',
+    // baseIP: 'http://45.232.252.136/api/',
+    // baseUrl: 'http://45.232.252.136/api/admin/',
+    baseIP: 'http://kanguroo.mx/api/',
+    baseUrl: 'http://kanguroo.mx/api/admin/',
     socketUrl: 'http://45.232.252.136:8080',
     deviceId: 'ADMIN'
+    // baseUrl: 'https://kanguroo.mx/api/admin/',
+    // socketUrl: 'https://kanguroo.mx:8080'
 };
 //# sourceMappingURL=environment.js.map
 

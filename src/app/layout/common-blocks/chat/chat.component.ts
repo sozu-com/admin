@@ -52,8 +52,36 @@ export class ChatComponent implements OnInit {
     setTimeout(() => {
       const input = {lead_id: this.lead_id, user_id: this.user_id, sent_as: this.sent_as};
       this.initSocket();
-      this.getMessages();
+      if ((this.sent_as === this.constant.userType.notary) || (this.sent_as === this.constant.userType.bank)) {
+        this.getLeadConversation();
+      } else {
+        this.getMessages();
+      }
     }, 100);
+  }
+
+  getLeadConversation () {
+
+    const data = {
+      lead_id: this.lead_id,
+      other_sent_as: this.constant.userType.csr_closer, // closure with chat with notary/bank
+      other_id: this.user_id,
+      sent_as: this.sent_as
+    };
+
+    this.parameter.loading = true;
+    this.admin.postDataApi('conversation/getLeadConversation', data).subscribe(r => {
+      this.parameter.loading = false;
+      console.log('conversation/getLeadConversation', r);
+      if (r['data']) {
+        this.parameter.messages = r.data[0].messages;
+        if (this.parameter.messages.length < 30) {this.loadmore = false; }
+        this.parameter.conversation_id = r.data[0].id;
+        this.scrollToBottom();
+      }
+    }, error => {
+      this.parameter.loading = false;
+    });
   }
 
   getMessages() {
