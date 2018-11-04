@@ -269,7 +269,7 @@
                       </div>
                     </div>
                 </th>
-                <th style="width:20%; text-align:left;">
+                <th style="width:15%; text-align:left;">
                     <div class="table-search">
                        <label>Contact Number</label>
                        <div class="searh-3">
@@ -290,6 +290,11 @@
                  <th style="width:10%;">
                     <div class="table-search">
                         <label>Assignee</label>
+                    </div>
+                 </th>
+                 <th style="width:5%;">
+                    <div class="table-search">
+                        <label>Chat</label>
                     </div>
                  </th>
                  <th style="width:5%;">
@@ -325,8 +330,7 @@
                      </div>
                  </th>
               </tr>
-              <tr class="cursor-pointer" title="Click to view details" *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }"
-                routerLink="{{item.id}}">
+              <tr class="cursor-pointer" title="Click to view details" *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }">
                 <td (click)="$event.stopPropagation()">
                     <label class="cust-check-bx marginT0">
                     <input type="checkbox" [(ngModel)]="item.selected" name="document">
@@ -334,32 +338,36 @@
                     </label>
                     <!-- <i class="fa" [ngClass]="item.selected?'fa-check-square-o':'fa-square-o'" (click)="item.selected = !item.selected" aria-hidden="true"></i> -->
                 </td>
-                <td>
+                <td routerLink="{{item.id}}">
                     <img *ngIf="item.image" class="rounded-circle" [src]="item.image" alt="img">
                     <img *ngIf="!item.image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
                 </td>
-                <td class="text-left">
+                <td class="text-left" routerLink="{{item.id}}">
                   <span class="name">{{item.name}}</span>
                  </td>
-                 <td class="text-left" *ngIf="item.phone">{{item.dial_code}}-{{item.phone}}</td>
-                 <td class="text-left" *ngIf="!item.phone">NA</td>
-                  <td class="text-left">
+                 <td routerLink="{{item.id}}" class="text-left" *ngIf="item.phone">{{item.dial_code}}-{{item.phone}}</td>
+                 <td routerLink="{{item.id}}" class="text-left" *ngIf="!item.phone">NA</td>
+                <td routerLink="{{item.id}}" class="text-left">
                     {{item.email}}
+                </td>
+                 <td routerLink="{{item.id}}" class="text-left">{{item.csr_seller_name?item.csr_seller_name:'NA'}}</td>
+                 <td class="text-left" (click)="getCSRSellerChat($event, 274, item.id)">
+                     <a href="javascript://">
+                        Chat with Seller <i class="fa fa-angle-right"></i></a>
                  </td>
-                 <td class="text-left">{{item.csr_seller_name}}</td>
-                 <td>
+                 <td routerLink="{{item.id}}">
                   {{item.approved_count}}
                  </td>
-                 <td>
+                 <td routerLink="{{item.id}}">
                   {{item.rejected_count}}
                  </td>
-                 <td>
+                 <td routerLink="{{item.id}}">
                     {{item.pending_count}}
                  </td>
-                 <td>
+                 <td routerLink="{{item.id}}">
                     {{item.draft_count}}
                  </td>
-                 <td>
+                 <td routerLink="{{item.id}}">
                     {{item.total_count}}
                  </td>
               </tr>
@@ -372,11 +380,6 @@
 
         </div>
      </div>
-
-
-     <!-- <div class="spacer30"></div>
-     <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls> -->
-
 
   </div>
   </div>

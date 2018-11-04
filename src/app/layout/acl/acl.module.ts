@@ -8,6 +8,8 @@ import { Ng2TelInputModule } from 'ng2-tel-input';
 import { AclComponent } from './acl.component';
 import { AddAclComponent } from './add-acl/add-acl.component';
 import { AclUserGuard } from '../../guards/acl-user.guard';
+import { ImgPipe } from '../../pipes/img.pipe';
+import { SharedModule } from '../../modules/shared.module';
 
 
 const routes: Routes = [
@@ -29,7 +31,8 @@ const routes: Routes = [
     NgxPaginationModule,
     FormsModule,
     ReactiveFormsModule,
-    Ng2TelInputModule
+    Ng2TelInputModule,
+    SharedModule
   ],
   declarations: [
     AclComponent,

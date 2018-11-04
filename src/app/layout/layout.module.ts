@@ -19,7 +19,7 @@ import { DashboardComponent} from './dashboard/dashboard.component';
 import { AppFooterComponent } from '../shared/app-footer/app-footer.component';
 
 // importing general component
-import { ChangePasswordComponent } from './settings/change-password/change-password.component';
+// import { ChangePasswordComponent } from './settings/change-password/change-password.component';
 import { InhouseUsersComponent } from './inhouse-users/inhouse-users.component';
 import { AddressComponent } from './inhouse-users/address/address.component';
 import { AdminService } from '../services/admin.service';
@@ -35,6 +35,7 @@ import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { NotificationsComponent } from './notifications/notifications.component';
 // import { ViewedProjectsComponent } from './common-blocks/src/app/layout/common-blocks/viewed-projects/viewed-projects.component';
 import { CalendarModule } from 'primeng/primeng';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 @NgModule({
     imports: [
@@ -59,13 +60,14 @@ import { CalendarModule } from 'primeng/primeng';
         NgxChartsModule,
         FroalaEditorModule.forRoot(),
         FroalaViewModule.forRoot(),
-        CalendarModule
+        CalendarModule,
+        LazyLoadImageModule
     ],
     declarations: [
         LayoutComponent,
         AppHeaderComponent,
         DashboardComponent,
-        ChangePasswordComponent,
+        // ChangePasswordComponent,
         AppFooterComponent,
         InhouseUsersComponent,
         AddressComponent,

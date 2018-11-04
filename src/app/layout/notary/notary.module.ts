@@ -13,6 +13,7 @@ import { AclUserGuard } from '../../guards/acl-user.guard';
 import { SharedModule } from '../../modules/shared.module';
 import { AuthGuard } from '../../guards/auth.guard';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { CalendarModule } from 'primeng/primeng';
 
 const routes: Routes = [
   { path: 'view-notary', component: NotaryComponent,
@@ -53,7 +54,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     Ng2TelInputModule,
     NgxChartsModule,
-    SharedModule
+    SharedModule,
+    CalendarModule
   ],
   declarations: [
     NotaryComponent,

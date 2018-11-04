@@ -4,7 +4,9 @@ export class Constant {
     public p = 1;
     public country_code = 'mx';
     public dial_code = '+52';
-    public userPlaceholder = '../../../assets/img/default_usr.png';
+    public propertyPlaceholder = 'assets/img/placeholder.png';
+    public floorMapPlaceholder = 'assets/img/placeholder.png';
+    public userPlaceholder = 'assets/img/default_usr.png';
     public initialCountry = 'mx';
     public minValue = 0;
     public maxValue = 1000000; // 1000000000;

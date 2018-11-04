@@ -262,7 +262,7 @@
                         </div>
                     </th>
                  </tr>
-                 <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }">
+                 <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }">
                     <!-- <td>
                         <a href="javascript://"><img *ngIf="item.image" class="rounded-circle" [src]="item.image" alt="img">
                         <img *ngIf="!item.image" class="rounded-circle" src="assets/img/default_img.png" alt="img">

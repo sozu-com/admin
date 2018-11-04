@@ -173,10 +173,10 @@ export class InterestedPropertyComponent implements OnInit {
       console.log('Country', r);
       this.parameter.interested_properties = r['data'];
       this.parameter.total2 = r.total;
+      this.showInterestedProperty.nativeElement.click();
     }, error => {
       this.parameter.loading = false;
     });
-    this.showInterestedProperty.nativeElement.click();
   }
 
   getCountries(lead_id) {

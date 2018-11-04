@@ -60,7 +60,7 @@
       
             <tr *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index">
               <td> 
-                  <img [src]="item.image" class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
+                  <img [src]="item.image| img:'small'" class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
               </td>
               <td class="text-left">
                 <span class="name">
@@ -76,7 +76,7 @@
                   routerLink="/dashboard/notary/view-notary-leads/{{item.id}}" class="icon-block edit-icon">
                   <img src="assets/img/ic_leads.png" alt="img">
                 </a>
-                <button title="Edit Details" [disabled]="admin?.admin_acl['Noataries Management']?.can_update==0" (click)="editUser(item, i)" class="action-icon"><img src="./../../../../assets/img/edit.png" alt="img"></button>
+                <button title="Edit Details" [disabled]="admin?.admin_acl['Noataries Management']?.can_update==0" (click)="editUser(item, i)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                 <button [disabled]="admin?.admin_acl['Noataries Management']?.can_delete==0"
                   (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1)" 
                   title="{{item.is_blocked==1?'Unblock Notary':'Block Notary'}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"
@@ -91,7 +91,7 @@
       </div>
 
       <div class="center" *ngIf="parameter.total == 0">
-        <img src="./../../../assets/img/404-error.png">
+        <img src="assets/img/404-error.png">
       </div>
   </div>
   

@@ -9,6 +9,8 @@ import { Ng2TelInputModule } from 'ng2-tel-input';
 import { UsersComponent } from './users.component';
 import { AclUserGuard } from '../../guards/acl-user.guard';
 import { AuthGuard } from '../../guards/auth.guard';
+import { ImgPipe } from '../../pipes/img.pipe';
+import { SharedModule } from '../../modules/shared.module';
 
 const routes: Routes = [
   { path: '', component: UsersComponent,
@@ -33,7 +35,8 @@ const routes: Routes = [
     NgxPaginationModule,
     FormsModule,
     ReactiveFormsModule,
-    Ng2TelInputModule
+    Ng2TelInputModule,
+    SharedModule
   ],
   declarations: [
     UsersComponent

@@ -110,15 +110,13 @@ export class UsersComponent implements OnInit {
           this.modalClose.nativeElement.click();
           const text = this.model.id ? 'Updated successfully.' : 'Added successfully.';
           swal('Success', text, 'success');
-          if (this.parameter.items.length < 10) {
-            if (this.model.id) {
-              this.parameter.items[this.parameter.index] = success.data;
-            } else {
-              this.parameter.items.push(success.data);
-              this.parameter.total++;
-            }
-            formdata.reset();
+          if (this.model.id) {
+            this.parameter.items[this.parameter.index] = success.data;
+          } else if (this.parameter.items.length < 10 && !this.model.id) {
+            this.parameter.items.push(success.data);
+            this.parameter.total++;
           }
+          formdata.reset();
         }, error => {
           this.parameter.loading = false;
         });

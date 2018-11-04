@@ -274,7 +274,7 @@
                                     <!-- <i class="fa" [ngClass]="item.selected?'fa-check-square-o':'fa-square-o'" (click)="item.selected = !item.selected" aria-hidden="true"></i> -->
                                 </td>
                                 <td routerLink="/dashboard/notary/notary-leads/{{item.id}}">
-                                    <img class="rounded-circle" [src]="item.image" onerror="this.src='assets/img/default_img.png'" alt="img">
+                                    <img class="rounded-circle" [src]="item.image| img:'small'" onerror="this.src='assets/img/default_img.png'" alt="img">
                                 </td>
                                 <td class="text-left" routerLink="/dashboard/notary/notary-leads/{{item.id}}">
                                     <span routerLink="/dashboard/leads/csr-closers/{{item.id}}" class="name">{{item.name}}</span>
@@ -298,7 +298,7 @@
                             </tr>
                         </tbody></table>
                     <div class="padding20 center" *ngIf="parameter.noResultFound">
-                        <img src="./../../../assets/img/404-error.png">
+                        <img src="assets/img/404-error.png">
                     </div>
                 </div>
             </div>
@@ -324,8 +324,10 @@
             <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="add()">
             <div class="modal-body modal-body-new">
                 <div class="row">
-                    <!-- <p-calendar [(ngModel)]="date" [minDate]="today" showButtonBar="true" showTime="true" hourFormat="12" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar> -->
-                    <div class="col-5">
+                    <div class="col-10">
+                        <p-calendar title="Click to add" name="app" [(ngModel)]="date" [minDate]="today" showButtonBar="true" showTime="true" hourFormat="12" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+                    </div>
+                    <!-- <div class="col-5">
                         <div class="form-group-2">
                             <label>Date</label>
                             <div class="form-group">
@@ -340,7 +342,7 @@
                             <input type="time" [(ngModel)]="time" class="form-control" name="time">
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-2">
                         <div class="form-group-2">
                             <button type="button" class="btn btn-primary green-bg" (click)="addDateTime()">+</button>

@@ -18,7 +18,7 @@ const routes: Routes = [
             { path: '', component: DashboardComponent },
             { path: 'view-inhouse-users/:userType', component: InhouseUsersComponent,
                 canActivate: [AclUserGuard], data: {roles: ['', '', '']}},
-            { path: 'change-password', component: ChangePasswordComponent},
+            // { path: 'change-password', component: ChangePasswordComponent},
             { path: 'notary', loadChildren: './notary/notary.module#NotaryModule'},
             { path: 'banks', loadChildren: './banks/banks.module#BanksModule'},
             { path: 'users', loadChildren: './users/users.module#UsersModule'},

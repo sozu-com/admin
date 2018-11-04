@@ -260,12 +260,16 @@ export class NotaryLeadsComponent implements OnInit {
   }
 
   addDateTime () {
-    if (this.date && this.time) {
-      const newdate = this.date + ' ' + this.time + ':00';
-      // const d = new ChatTimePipe().transform(newdate, 'YYYY-MM-DD HH:MM:SS', 3);
-      // this.availability.date_time_array.push({date_time: d});
-      this.availability.date_time_array.push({date_time: newdate});
-      this.date = ''; this.time = '';
+    // if (this.date && this.time) {
+    //   const newdate = this.date + ' ' + this.time + ':00';
+    //   // const d = new ChatTimePipe().transform(newdate, 'YYYY-MM-DD HH:MM:SS', 3);
+    //   // this.availability.date_time_array.push({date_time: d});
+    //   this.availability.date_time_array.push({date_time: newdate});
+    //   this.date = ''; this.time = '';
+    // }
+    if (this.date) {
+      this.availability.date_time_array.push({date_time: this.date});
+      this.date = '';
     }
   }
 

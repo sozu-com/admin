@@ -5,7 +5,7 @@
           <div class="col-lg-3 col-md-12 col-sm-6 col-12">
               <div class="df-profile">
               <a routerLink="../"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
-              <img [src]="parameter.lead?.user?.image" onerror='src="assets/img/default_img.png"' alt="img">
+              <img [src]="parameter.lead?.user?.image| img:'small'" onerror='src="assets/img/default_img.png"' alt="img">
               <div class="df-info" *ngIf="parameter.lead?.user">
                   <p class="p14">{{parameter.lead.user.name}}</p>
                   <p class="p12">Status: Open</p>

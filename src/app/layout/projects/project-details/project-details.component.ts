@@ -6,6 +6,7 @@ import { MapsAPILoader } from '@agm/core';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from './../../../lang/translate.service';
 import { IProperty } from '../../../common/property';
+import { Constant } from '../../../common/constants';
 declare let swal: any;
 declare const google;
 
@@ -35,7 +36,8 @@ export class ProjectDetailsComponent implements OnInit {
     private loader: MapsAPILoader,
     private admin: AdminService,
     private route: ActivatedRoute,
-    public ts: TranslateService
+    public ts: TranslateService,
+    public constant: Constant
   ) { }
 
   ngOnInit() {

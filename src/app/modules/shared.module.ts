@@ -9,6 +9,7 @@ import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 import { ThousandPipe } from '../pipes/thousand.pipe';
 import { BlockGetPropertyComponent } from '../layout/common-blocks/block-get-property/block-get-property.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ImgPipe } from '../pipes/img.pipe';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     NotesComponent,
     MomentPipe,
     ThousandPipe,
+    ImgPipe,
     BlockGetPropertyComponent
   ],
   exports: [
@@ -32,6 +34,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     NotesComponent,
     MomentPipe,
     ThousandPipe,
+    ImgPipe,
     BlockGetPropertyComponent
   ]
 })

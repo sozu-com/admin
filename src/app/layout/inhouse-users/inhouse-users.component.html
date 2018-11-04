@@ -124,7 +124,8 @@
 
             <tr *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }; let i = index">
               <td> 
-                <img [src]="item.image" class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
+                  <img [src]="item.image" class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
+                <!-- <img [src]="item.image| img:'small'" class="rounded-circle" onerror='src="constant.userPlaceholder"' alt="img"> -->
               </td>
               <td class="text-left">
                 <span class="name">{{item.name}}</span>

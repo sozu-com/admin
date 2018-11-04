@@ -29,6 +29,7 @@ import { CsrSellerDetailComponent } from './csr-seller/csr-seller-detail/csr-sel
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ViewedProjectsComponent } from '../common-blocks/viewed-projects/viewed-projects.component';
 import { CalendarModule } from 'primeng/primeng';
+import { SellerChatComponent } from './csr-seller/csr-seller-detail/seller-chat/seller-chat.component';
 
 const routes: Routes = [
   { path: 'data-collectors', component: DataCollectorComponent,
@@ -40,6 +41,8 @@ const routes: Routes = [
     canActivate: [AclUserGuard], data: {roles: ['Seller Lead Management', 'can_read', 'can_csr_seller']}},
   { path: 'csr-sellers/:id', component: CsrSellerDetailComponent,
     canActivate: [AclUserGuard], data: {roles: ['Seller Lead Management', 'can_read', 'can_csr_seller']}},
+  { path: 'chat-with-seller/:id/:user_id', component: SellerChatComponent,
+  canActivate: [AclUserGuard], data: {roles: ['Seller Lead Management', 'can_read', 'can_csr_seller']}},
 
   { path: 'csr-buyers', component: CsrBuyerComponent,
     canActivate: [AclUserGuard], data: {roles: ['Buyer Lead Management', 'can_read', 'can_csr_buyer']}},
@@ -123,7 +126,8 @@ const routes: Routes = [
     ViewedProjectsComponent,
     RemoveCommaPipe,
     FillInformationComponent,
-    MyChatComponent
+    MyChatComponent,
+    SellerChatComponent
   ],
   // providers: [NgBoxService]
 })

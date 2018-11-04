@@ -43,6 +43,7 @@
     "lightbox2": "^2.10.0",
     "moment": "^2.22.2",
     "ng-auto-complete": "^2.10.5",
+    "ng-lazyload-image": "^3.3.0",
     "ng2-nouislider": "^1.7.12",
     "ng2-tel-input": "^1.0.14",
     "ngbox": "0.0.15",

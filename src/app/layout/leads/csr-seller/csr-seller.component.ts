@@ -42,7 +42,8 @@ export class CsrSellerComponent implements OnInit {
   constructor(
     public admin: AdminService,
     private constant: Constant,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -314,4 +315,8 @@ export class CsrSellerComponent implements OnInit {
 
   }
 
+  getCSRSellerChat($event, csr_seller_id, user_id) {
+    // $event.stopPropagation();
+    this.router.navigate(['/dashboard/leads/chat-with-seller', csr_seller_id, user_id]);
+  }
 }

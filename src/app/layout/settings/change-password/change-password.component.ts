@@ -17,51 +17,26 @@ export class ChangePasswordComponent implements OnInit {
   public parameter: IProperty = {};
 
   model = {
-    oldPassword: '',
-    newPassword: ''
+    password: '',
+    c_password: ''
   };
 
-  constructor(private router: Router, private admin: AdminService,
-    // private swal: SweetAlertService
-  ) { }
+  constructor(private router: Router, private admin: AdminService) { }
 
   ngOnInit() {}
 
   changePassword(formData: NgForm) {
-
-    // this.parameter.loading = true;
-    this.parameter.url = 'changePassword';
-
-    const input = new FormData();
-    input.append('oldPassword', formData.value.oldPassword);
-    input.append('newPassword', formData.value.newPassword);
-
-    this.admin.putDataApi(this.parameter.url, input)
+    this.parameter.loading = true;
+    this.admin.postDataApi('changePassword', this.model)
       .subscribe(
         success => {
-          // this.parameter.loading = false;
+          this.parameter.loading = false;
           swal('Success', 'Password is changed successfully!', 'success');
-          // this.swal.success({
-          //   title: 'Success',
-          //   text: 'Password is changed successfully!'
-          // });
-
-          localStorage.removeItem('accessToken');
-          localStorage.removeItem('countryCode');
-          localStorage.removeItem('dialCode');
-          localStorage.removeItem('helpAndSupportEmail');
-          localStorage.removeItem('helpAndSupportPhone');
-          // this.admin.unsetUserLoggedIn();
+          localStorage.removeItem('token');
           this.router.navigate(['']);
         },
         error => {
-          // this.parameter.loading = false;
-          if (error.statusCode === 401) {
-            this.router.navigate(['']);
-          }else {
-            swal('Error', error.message, 'error');
-            // this.swal.warning({ text: error.message });
-          }
+          this.parameter.loading = false;
         });
   }
 }

@@ -15,6 +15,8 @@ import { FilterByIdPipe } from '../../pipes/filter-by-id.pipe';
 import { FilterByNamePipe } from '../../pipes/filter-by-name.pipe';
 import { AuthGuard } from '../../guards/auth.guard';
 import { SharedModule } from '../../modules/shared.module';
+import LazyLoadImageModule from 'ng-lazyload-image';
+import { ImgPipe } from '../../pipes/img.pipe';
 
 const routes: Routes = [
   // { path: 'details/:property_id', component: PropertyDetailsComponent },
@@ -60,14 +62,16 @@ const routes: Routes = [
       }),
     Ng2TelInputModule,
     NgxPaginationModule,
-    SharedModule
+    SharedModule,
+    LazyLoadImageModule
   ],
   declarations: [
     PropertiesComponent,
     AddPropertyComponent,
     PropertyDetailsComponent,
     FilterByIdPipe,
-    FilterByNamePipe
+    FilterByNamePipe,
+    // ImgPipe
     // ThousandPipe
   ]
 })
