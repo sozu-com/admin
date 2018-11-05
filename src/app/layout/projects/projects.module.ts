@@ -1,19 +1,22 @@
+// third party libraries
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProjectsComponent } from './projects.component';
 import { Routes, RouterModule } from '@angular/router';
-import { AddProjectComponent } from './add-project/add-project.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { AgmCoreModule } from '@agm/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Ng2TelInputModule } from 'ng2-tel-input';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+
+// general components
+import { ProjectsComponent } from './projects.component';
+import { AddProjectComponent } from './add-project/add-project.component';
 import { AclUserGuard } from '../../guards/acl-user.guard';
 import { ProjectDetailsComponent } from './project-details/project-details.component';
 import { SharedModule } from '../../modules/shared.module';
 import { NumberexPipe } from '../../pipes/numberex.pipe';
-import { ImgPipe } from '../../pipes/img.pipe';
-import LazyLoadImageModule from 'ng-lazyload-image';
+// import { ImgPipe } from '../../pipes/img.pipe';
 
 
 const routes: Routes = [

@@ -1,22 +1,25 @@
+// third party libraries
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PropertiesComponent } from './properties.component';
 import { Routes, RouterModule } from '@angular/router';
-import { AddPropertyComponent } from './add-property/add-property.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { AgmCoreModule } from '@agm/core';
 import { Ng2TelInputModule } from 'ng2-tel-input';
-import { PropertyDetailsComponent } from './property-details/property-details.component';
-import { ThousandPipe } from './../../pipes/thousand.pipe';
-import { AclUserGuard } from '../../guards/acl-user.guard';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+
+// general components
+import { PropertiesComponent } from './properties.component';
+import { AddPropertyComponent } from './add-property/add-property.component';
+import { PropertyDetailsComponent } from './property-details/property-details.component';
+// import { ThousandPipe } from './../../pipes/thousand.pipe';
+import { AclUserGuard } from '../../guards/acl-user.guard';
 import { FilterByIdPipe } from '../../pipes/filter-by-id.pipe';
 import { FilterByNamePipe } from '../../pipes/filter-by-name.pipe';
-import { AuthGuard } from '../../guards/auth.guard';
+// import { AuthGuard } from '../../guards/auth.guard';
 import { SharedModule } from '../../modules/shared.module';
-import LazyLoadImageModule from 'ng-lazyload-image';
-import { ImgPipe } from '../../pipes/img.pipe';
+// import { ImgPipe } from '../../pipes/img.pipe';
 
 const routes: Routes = [
   // { path: 'details/:property_id', component: PropertyDetailsComponent },

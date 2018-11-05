@@ -1,3 +1,4 @@
+// third party libraries
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
@@ -8,8 +9,6 @@ import { Ng2TelInputModule } from 'ng2-tel-input';
 
 import { UsersComponent } from './users.component';
 import { AclUserGuard } from '../../guards/acl-user.guard';
-import { AuthGuard } from '../../guards/auth.guard';
-import { ImgPipe } from '../../pipes/img.pipe';
 import { SharedModule } from '../../modules/shared.module';
 
 const routes: Routes = [
@@ -17,12 +16,6 @@ const routes: Routes = [
     canActivate: [AclUserGuard], data: {roles: ['User Management', 'can_read', '']}}
   // { path: 'view-users', component: UsersComponent }
 ];
-
-// const routes: Routes = [
-//   { path: '', component: UsersComponent,
-//     canActivate: [AuthGuard], data: {roles: ['User Management', 'can_read', '']}}
-//   // { path: 'view-users', component: UsersComponent }
-// ];
 
 @NgModule({
   imports: [

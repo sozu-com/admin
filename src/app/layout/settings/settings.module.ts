@@ -1,3 +1,4 @@
+// third party libraries
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -16,7 +17,7 @@ import { ProjectComponent } from './project/project.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { DocumentsComponent } from './documents/documents.component';
 import { AclUserGuard } from '../../guards/acl-user.guard';
-import { AuthGuard } from '../../guards/auth.guard';
+// import { AuthGuard } from '../../guards/auth.guard';
 import { ProfileComponent } from './profile/profile.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 

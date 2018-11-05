@@ -22,6 +22,7 @@ import { Constant } from './common/constants';
 import { Login, AdminACL } from './models/login.model';
 import { SharedModule } from './modules/shared.module';
 import { TranslateService } from './lang/translate.service';
+// import LazyLoadImageModule from 'ng-lazyload-image';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent},
@@ -52,7 +53,8 @@ const appRoutes: Routes = [
       primaryColour: '#00B96F'
     }),
     MalihuScrollbarModule.forRoot(),
-    Ng2TelInputModule
+    Ng2TelInputModule,
+    // LazyLoadImageModule
   ],
   providers: [
     AdminService,
