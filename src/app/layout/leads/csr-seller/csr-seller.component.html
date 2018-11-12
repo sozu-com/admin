@@ -260,7 +260,7 @@
                         <label>Image</label>
                     </div>
                 </th>
-                <th style="width:20%;">
+                <th style="width:15%;">
                     <div class="table-search">
                        <label>Name</label>
                        <div class="searh-3">
@@ -269,7 +269,7 @@
                       </div>
                     </div>
                 </th>
-                <th style="width:15%; text-align:left;">
+                <th style="width:15%;">
                     <div class="table-search">
                        <label>Contact Number</label>
                        <div class="searh-3">
@@ -292,11 +292,11 @@
                         <label>Assignee</label>
                     </div>
                  </th>
-                 <!-- <th style="width:5%;">
+                 <th style="width:5%;">
                     <div class="table-search">
-                        <label>Chat</label>
+                        <label>Chat with Seller</label>
                     </div>
-                 </th> -->
+                 </th>
                  <th style="width:5%;">
                     <div class="table-search">
                         <label>Properties</label>
@@ -345,16 +345,15 @@
                 <td class="text-left" routerLink="{{item.id}}">
                   <span class="name">{{item.name}}</span>
                  </td>
-                 <td routerLink="{{item.id}}" class="text-left" *ngIf="item.phone">{{item.dial_code}}-{{item.phone}}</td>
+                 <td routerLink="{{item.id}}" class="text-left" *ngIf="item.phone">{{item.dial_code}}-{{item.phone.trim()}}</td>
                  <td routerLink="{{item.id}}" class="text-left" *ngIf="!item.phone">NA</td>
                 <td routerLink="{{item.id}}" class="text-left">
                     {{item.email}}
                 </td>
                  <td routerLink="{{item.id}}" class="text-left">{{item.csr_seller_name?item.csr_seller_name:'NA'}}</td>
-                 <!-- <td class="text-left" (click)="getCSRSellerChat($event, 274, item.id)">
-                     <a href="javascript://">
-                        Chat with Seller <i class="fa fa-angle-right"></i></a>
-                 </td> -->
+                 <td class="text-left" (click)="getCSRSellerChat($event, item.assigned_csr_seller_id, item.id)">
+                     <a class="green-color fontW500" href="javascript://">Chat</a>
+                 </td>
                  <td routerLink="{{item.id}}">
                   {{item.approved_count}}
                  </td>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { AdminService } from '../../../services/admin.service';
 import { Router } from '@angular/router';
 import { IProperty } from '../../../common/property';
@@ -6,6 +6,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { MapsAPILoader } from '@agm/core';
 import { Constant } from './../../../common/constants';
 import { Locality } from './../../../models/locality.model';
+import { FormControl } from '@angular/forms';
 declare let swal: any;
 declare const google;
 
@@ -18,9 +19,14 @@ declare const google;
 
 export class LocalityComponent implements OnInit {
 
+  @ViewChild('searchLocality') searchElementRef: ElementRef;
   @ViewChild('localityOpen') localityOpen: ElementRef;
   @ViewChild('localityClose') localityClose: ElementRef;
 
+  public latitude: number;
+  public longitude: number;
+  public searchControl: FormControl;
+  public zoom: number;
   public parameter: IProperty = {};
   public modalRef: BsModalRef;
   agm: any;
@@ -39,6 +45,7 @@ export class LocalityComponent implements OnInit {
   constructor(
     private loader: MapsAPILoader,
     public admin: AdminService,
+    private ngZone: NgZone,
     private constant: Constant,
     public model: Locality
   ) {}
@@ -557,4 +564,46 @@ console.log('xx', typeof this.getPolygonCoords(event.overlay));
       }
     });
   }
+
+  loadPlaces() {
+
+    // load Places Autocomplete
+    this.loader.load().then(() => {
+      const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
+        types: []
+      });
+      autocomplete.addListener('place_changed', () => {
+        this.ngZone.run(() => {
+          // get the place result
+          // const place: google.maps.places.PlaceResult = autocomplete.getPlace();
+          const place = autocomplete.getPlace();
+
+          // verify result
+          if (place.geometry === undefined || place.geometry === null) {
+            return;
+          }
+
+          // set latitude, longitude and zoom
+          this.latitude = place.geometry.location.lat();
+          this.longitude = place.geometry.location.lng();
+          this.zoom = 12;
+
+          if (place.formatted_address) {
+            console.log('==', place.formatted_address);
+          }
+
+          const map = new google.maps.Map(this.mapDiv.nativeElement, {
+            center: {
+                lat: this.latitude,
+                lng: this.longitude
+            },
+            zoom: 18
+          });
+          this.map = map;
+
+        });
+      });
+    });
+  }
+
 }

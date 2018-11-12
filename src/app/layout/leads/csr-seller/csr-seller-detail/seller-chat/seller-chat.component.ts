@@ -102,7 +102,7 @@ export class SellerChatComponent implements OnInit {
 
     const data1 = {
       lead_id: this.lead_id,
-      other_id: user_id ? user_id : conversation.id,
+      other_id: conversation.id,
       other_sent_as: this.constant.userType.user_seller_dev,
       sent_as: this.constant.userType.csr_seller
     };
@@ -127,7 +127,7 @@ export class SellerChatComponent implements OnInit {
 
         const data = {
             sent_as: this.constant.userType.inhouse_broker,
-            lead_id: this.lead_id,
+            // lead_id: this.lead_id,
             conversation_id: this.conversation_id
           };
 
@@ -396,7 +396,7 @@ export class SellerChatComponent implements OnInit {
       // console.log('Appending', model);
       this.admin.postDataApi('conversation/sendMessage', model).subscribe(r => {
         // console.log('sendMessage', r);
-        if (model.loading == true){
+        if (model.loading == true) {
           model.loading = false;
           const foundIndex = this.messages.findIndex(x => x.uid == model.uid);
           this.messages[foundIndex] = r['data'];
@@ -428,7 +428,7 @@ export class SellerChatComponent implements OnInit {
     );
   }
 
-  sendProperty(property){
+  sendProperty(property) {
     console.log('M=>', property);
     const model = new Chat;
     model.message = property.configuration.name + ' in ' + property.building.name;
@@ -445,8 +445,8 @@ export class SellerChatComponent implements OnInit {
     this.sendMessage(model);
   }
 
-  onDestroy(){
-    if (this.loginData$$){
+  onDestroy() {
+    if (this.loginData$$) {
       this.loginData$$.unsubscribe();
     }
   }
