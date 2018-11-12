@@ -299,16 +299,16 @@ export class CsrCloserComponent implements OnInit {
       closer_id: this.assignItem.id,
       leads: leads_ids
     };
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
     this.admin.postDataApi('leads/bulkAssignCloser', input).subscribe(r => {
-      this.parameter.loading = false;
+      // this.parameter.loading = false;
       swal('Success', 'Assigned successfully', 'success');
       this.closeAssignModel.nativeElement.click();
       console.log(r);
       this.getListing();
     },
     error => {
-      this.parameter.loading = false;
+      // this.parameter.loading = false;
       this.closeAssignModel.nativeElement.click();
       swal('Error', error.error.message, 'error');
     });

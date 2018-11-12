@@ -1,6 +1,6 @@
 <ngx-loading [show]="parameter.loading"></ngx-loading>
 <div class="container-fluid">
-        <div class="row">
+        <div class="row" *ngIf="admin?.admin_acl['Notary Lead Management']?.can_read==1 && !this.parameter.assignee_id">
             <div class="col-md-4">
              <div class="form-group">
               <p class="p16">Manage Notary's Leads</p>
@@ -204,7 +204,7 @@
                 </p>
             </div>
          </div>
-         <div class="col-6">
+         <div class="col-6" *ngIf="admin?.admin_acl['Notary Lead Management']?.can_read==1 && !this.parameter.assignee_id">
             <div class="add-new text-right">
                 <a class="btn" (click)="bulkAssign()" href="javascript://">Bulk Re-assign</a>
             </div>
@@ -215,7 +215,7 @@
             <div class="table-responsive">
                     <table class="table table-striped border-0">
                             <tbody><tr>
-                            <th style="width:6%">
+                            <th *ngIf="admin?.admin_acl['Notary Lead Management']?.can_read==1 && !this.parameter.assignee_id" style="width:6%">
                                 <div class="table-search">
                                 <a (click)="selectAll()"><label>All</label></a>
                                 </div>
@@ -266,7 +266,7 @@
                             </tr>
                             <tr class="cursor-pointer" title="Click to view details" *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index"
                             >
-                                <td (click)="$event.stopPropagation()">
+                                <td *ngIf="admin?.admin_acl['Notary Lead Management']?.can_read==1 && !this.parameter.assignee_id" (click)="$event.stopPropagation()">
                                     <label class="cust-check-bx" >
                                     <input type="checkbox" [(ngModel)]="item.selected" name="document">
                                     <span class="checkmark"></span>

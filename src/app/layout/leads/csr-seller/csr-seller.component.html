@@ -232,7 +232,7 @@
             </p>
         </div>
      </div>
-     <div class="col-6">
+     <div class="col-6" *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 && !this.parameter.assignee_id">
         <div class="add-new text-right">
             <a class="btn" (click)="bulkAssign()" href="javascript://">Bulk Re-assign</a>
         </div>
@@ -244,7 +244,7 @@
            <table class="table table-striped border-0">
               <tbody>
               <tr>
-                <th style="width:5%;">
+                <th *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 && !this.parameter.assignee_id" style="width:5%;">
                     <div class="table-search">
                         <label>All</label>
                         <div>
@@ -331,7 +331,7 @@
                  </th>
               </tr>
               <tr class="cursor-pointer" title="Click to view details" *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }">
-                <td (click)="$event.stopPropagation()">
+                <td *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 && !this.parameter.assignee_id" (click)="$event.stopPropagation()">
                     <label class="cust-check-bx marginT0">
                     <input type="checkbox" [(ngModel)]="item.selected" name="document">
                     <span class="checkmark"></span>

@@ -225,7 +225,8 @@
                 </p>
             </div>
          </div>
-         <div class="col-6">
+         <!-- only inhouse users can do this -->
+         <div class="col-6" *ngIf="admin?.admin_acl['Closer Lead Management']?.can_read==1 && !this.parameter.assignee_id">
             <div class="add-new text-right">
                 <a class="btn" (click)="bulkAssign()" href="javascript://">Bulk Re-assign</a>
             </div>
@@ -236,7 +237,8 @@
             <div class="table-responsive">
                 <table class="table table-striped">
                     <tr>
-                    <th style="width:6%">
+                <!-- only inhouse users can do this -->
+                    <th *ngIf="admin?.admin_acl['Closer Lead Management']?.can_read==1 && !this.parameter.assignee_id" style="width:6%">
                         <div class="table-search">
                             <label>All</label>
                             <div>
@@ -301,7 +303,8 @@
                 </tr>
                 <tr class="cursor-pointer" title="Click to view details" *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }"
                     routerLink="/dashboard/leads/csr-closers/{{item.id}}">
-                    <td (click)="$event.stopPropagation()">
+                    <!-- only inhouse users can do this -->
+                    <td *ngIf="admin?.admin_acl['Closer Lead Management']?.can_read==1 && !this.parameter.assignee_id" (click)="$event.stopPropagation()">
                         <label class="cust-check-bx" >
                         <input type="checkbox" [(ngModel)]="item.selected" name="document">
                         <span class="checkmark"></span>
