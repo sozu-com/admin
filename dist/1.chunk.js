@@ -3329,8 +3329,12 @@ var CsrSellerComponent = /** @class */ (function () {
         });
     };
     CsrSellerComponent.prototype.getCSRSellerChat = function ($event, csr_seller_id, user_id) {
-        // $event.stopPropagation();
-        this.router.navigate(['/dashboard/leads/chat-with-seller', csr_seller_id, user_id]);
+        if (csr_seller_id) {
+            this.router.navigate(['/dashboard/leads/chat-with-seller', csr_seller_id, user_id]);
+        }
+        else {
+            swal('Error', 'No CSR Seller is assigned.', 'error');
+        }
     };
     var _a, _b, _c, _d, _e, _f;
     __decorate([
