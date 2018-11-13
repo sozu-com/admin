@@ -312,8 +312,8 @@
                             </span>
                             <span *ngIf="item.configuration?.length==0">NA</span>
                         </td>
-                        <td class="text-left" title="CSR Buyer" *ngIf="item.admin.name">{{item.admin.name}}</td>
-                        <td class="text-left" *ngIf="!item.admin.name">Not Assigned</td>
+                        <td class="text-left" title="CSR Buyer" *ngIf="item?.admin?.name">{{item?.admin?.name}}</td>
+                        <td class="text-left" *ngIf="!item?.admin?.name">Not Assigned</td>
                         <td class="text-left" *ngIf="item.sale_rent">{{item.sale_rent==1 ? 'Buy' : 'Rent'}}</td>
                         <!-- <td>
                         <button title="View Details" routerLink="/dashboard/leads/csr-buyers/{{item.id}}" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
