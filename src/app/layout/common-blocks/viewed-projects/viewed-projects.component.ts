@@ -15,11 +15,17 @@ export class ViewedProjectsComponent implements OnInit {
   @ViewChild('showProjectModal') showProjectModal: ElementRef;
 
   public parameter: IProperty = {};
+  public scrollbarOptions = { axis: 'y', theme: 'dark', scrollbarPosition: 'inside'};
   constructor(public constant: Constant, private admin: AdminService) { }
 
   ngOnInit() {
     this.parameter.page = this.constant.p;
-    // console.log('ip', this.viewed_projects);
+    this.parameter.itemsPerPage = this.constant.itemsPerPage;
+  }
+
+  getPage(page) {
+    this.parameter.page = page;
+    this.viewProjects('', this.user_id);
   }
 
   viewProjects(data, user_id) {
@@ -28,6 +34,7 @@ export class ViewedProjectsComponent implements OnInit {
     this.parameter.loading = true;
     this.admin.postDataApi('leads/viewedProjects', {user_id: user_id, page: this.parameter.page}).subscribe(r => {
       this.parameter.loading = false;
+      this.parameter.total = r.total;
       this.parameter.viewed_projects = r.data;
       console.log('Country', this.parameter.viewed_projects);
       this.showProjectModal.nativeElement.click();

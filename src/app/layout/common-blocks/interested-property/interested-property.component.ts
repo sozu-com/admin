@@ -33,6 +33,7 @@ export class InterestedPropertyComponent implements OnInit {
   public parameter: IProperty = {};
   public location: IProperty = {};
   property_ids = [];
+  public scrollbarOptions = { axis: 'y', theme: 'dark', scrollbarPosition: 'inside'};
   constructor(public model: DealFinalize, public admin: AdminService, public constant: Constant) { }
 
   ngOnInit() {
@@ -40,6 +41,7 @@ export class InterestedPropertyComponent implements OnInit {
     this.parameter.page = this.constant.p;
     this.parameter.page2 = this.constant.p;
     this.parameter.total = 0;
+    this.parameter.total2 = 0;
   }
 
   openModal(property_id, lead_id) {
@@ -59,7 +61,7 @@ export class InterestedPropertyComponent implements OnInit {
 
   getPage2(page) {
     this.parameter.page2 = page;
-    this.viewProperties('');
+    this.viewProperties('', page);
   }
 
   attachProperty(formdata: NgForm) {
@@ -165,7 +167,12 @@ export class InterestedPropertyComponent implements OnInit {
     return this.selected_properties.find(i => i.property_id === id);
   }
 
-  viewProperties(data) {
+  openviewPropertyModal(data, page) {
+    this.viewProperties(data, page);
+    this.showInterestedProperty.nativeElement.click();
+  }
+
+  viewProperties(data, page) {
     // this.parameter.interested_properties = data;
     this.parameter.loading = true;
     this.admin.postDataApi('leads/getLeadInterestedProperty', {lead_id: this.lead_id, page: this.parameter.page2}).subscribe(r => {
@@ -173,7 +180,6 @@ export class InterestedPropertyComponent implements OnInit {
       console.log('Country', r);
       this.parameter.interested_properties = r['data'];
       this.parameter.total2 = r.total;
-      this.showInterestedProperty.nativeElement.click();
     }, error => {
       this.parameter.loading = false;
     });

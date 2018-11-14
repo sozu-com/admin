@@ -5,7 +5,6 @@
 
 export const environment = {
   production: false,
-  // baseUrl: 'http://192.168.100.88:8500/api/admin/',
   // baseUrl: 'http://45.232.252.136/api/admin/',
   // baseIP: 'http://45.232.252.136/api/',
   baseUrl: 'http://kanguroo.mx/api/admin/',
@@ -15,6 +14,5 @@ export const environment = {
   // baseUrl: 'http://192.168.100.88:8500/api/admin/',
   // baseIP: 'http://192.168.100.88/api/',
   // socketUrl: 'http://192.168.100.88:8080',
-  // baseUrl: 'https://kanguroo.mx/api/admin/',
   // socketUrl: 'https://kanguroo.mx:8080'
 };

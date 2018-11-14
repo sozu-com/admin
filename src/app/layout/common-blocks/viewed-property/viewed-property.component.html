@@ -7,7 +7,7 @@
  <div class="col-6">
       <div class="btn-cont text-right">
         <a style="display: none;" data-toggle="modal" #showPropertyModal data-target="#view-viewed-property" class="btn btn-fourth" href="javascript://">View All</a>
-        <a *ngIf="viewed_properties?.length!=0" class="btn btn-fourth" href="javascript://" (click)="viewProperties(viewed_properties, user_id)">View All</a>
+        <a *ngIf="viewed_properties?.length!=0" class="btn btn-fourth" href="javascript://" (click)="openModal(viewed_properties, user_id, 1)">View All</a>
       </div>
    </div>
 </div>
@@ -53,19 +53,23 @@
         </div>
         <div class="modal-body">
           <h3>Viewed Properties</h3>
+          
           <hr>
-          <div class="scrollbox fav-prop">
+          <pagination-controls id="v-property-1" class="my-pagination" (pageChange)="getPageForViewedProperty($event)"></pagination-controls>
+          
+          <div class="scrollbox fav-prop" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
             <div class="row">
-              <div class="col-lg-6 col-md-12 col-sm-12 col-12" *ngFor="let x of parameter.viewed_properties">
+              <div class="col-lg-6 col-md-12 col-sm-12 col-12"
+                *ngFor="let x of parameter.viewed_properties| paginate: { id:'v-property-1', itemsPerPage: itemsPerPage, currentPage: page, totalItems: total }; let in=index">
                   <div class="project-des-bx white-bg-2">
                       <div class="price">{{x.min_price|thousand}}+</div>
                     <div class="fig-block">
                         <img [src]="x.image" onerror='src="assets/img/bank.png"' alt="img">
                     </div>
                     <div class="project-des-content">
-                        <small>{{x.building.developer.name}}</small>
+                        <small>{{x.building?.developer?.name}}</small>
                         <a routerLink="/dashboard/properties/details/{{x.id}}">
-                          <h5>{{x.building.name.slice(0, 15)}}</h5>
+                          <h5>{{x.building?.name.slice(0, 15)}}</h5>
                         </a>
                         <p class="p12">{{x.building.address.slice(0, 45)}}</p>
                         <p class="p13" *ngIf="x">{{x.configuration.name}}, {{x.property_type.name}}</p>
@@ -77,6 +81,7 @@
               </div>
             </div>
           </div>
+          
         </div>
       </div>
   </div>

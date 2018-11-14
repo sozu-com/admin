@@ -57,16 +57,17 @@
         <div class="modal-body">
           <h3>Viewed Projects</h3>
           <hr>
-          <div class="scrollbox fav-prop">
+          <div class="scrollbox fav-prop" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
             <div class="row">
-              <div class="col-lg-6 col-md-12 col-sm-12 col-12" *ngFor="let x of parameter.viewed_projects">
+              <div class="col-lg-6 col-md-12 col-sm-12 col-12"
+                *ngFor="let x of parameter.viewed_projects| paginate: {itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let in=index">
                   <div class="project-des-bx white-bg-2">
                       <div class="price">{{x.starting_price|thousand}}+</div>
                     <div class="fig-block">
                         <img [src]="x.main_image" onerror='src="assets/img/bank.png"' alt="img">
                     </div>
                     <div class="project-des-content">
-                        <small>{{x.developer.name}}</small>
+                        <small>{{x?.developer?.name}}</small>
                         <a routerLink="/dashboard/projects/details/{{x.id}}">
                           <h5>{{x.name.slice(0, 15)}}</h5>
                         </a>
@@ -82,6 +83,7 @@
                   </div>
               </div>
             </div>
+            <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
           </div>
         </div>
       </div>

@@ -17,7 +17,7 @@
 
           <!-- view  -->
           <a style="display: none;" data-toggle="modal" #showInterestedProperty data-target="#view-all-property" class="btn btn-fourth" href="javascript://">View All</a>
-          <a *ngIf="interested_properties?.length!=0" class="btn btn-fourth" href="javascript://" (click)="viewProperties(interested_properties)">View All</a>
+          <a *ngIf="interested_properties?.length!=0" class="btn btn-fourth" href="javascript://" (click)="openviewPropertyModal(interested_properties, 1)">View All</a>
         </div>
      </div>
   </div>
@@ -129,7 +129,7 @@
                 </div>
               </div>
               <div class="col-md-9 pull-right">
-                <pagination-controls *ngIf="parameter.total>constant.p" class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+                <pagination-controls id="page1" *ngIf="parameter.total>constant.p" class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
               </div>
               <!-- <div class="col-md-3">
                   <div class="form-group btn-cont">
@@ -243,18 +243,19 @@
         <div class="modal-body">
           <h3>Interested Properties</h3>
           <hr>
-          <div class="scrollbox fav-prop">
+          <div class="scrollbox fav-prop" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
             <div class="row">
-              <div class="col-lg-6 col-md-12 col-sm-12 col-12" *ngFor="let x of parameter.interested_properties| paginate: { id: 'page2', itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page2, totalItems: parameter.total2 }; let in=index">
+              <div class="col-lg-6 col-md-12 col-sm-12 col-12"
+                *ngFor="let x of parameter.interested_properties| paginate: { id: 'page2', itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page2, totalItems: parameter.total2 }; let in=index">
                   <div class="project-des-bx white-bg-2">
                       <div class="price">{{x.property.min_price|thousand}}+</div>
                     <div class="fig-block">
                         <img [src]="x.property.image" onerror='src="assets/img/bank.png"' alt="img">
                     </div>
                     <div class="project-des-content">
-                        <small>{{x.property.building.developer.name}}</small>
+                        <small>{{x.property?.building?.developer?.name}}</small>
                         <a routerLink="/dashboard/properties/details/{{x.property.id}}">
-                          <h5>{{x.property.building.name.slice(0, 15)}}</h5>
+                          <h5>{{x.property?.building?.name.slice(0, 15)}}</h5>
                         </a>
                         <p class="p12">{{x.property.building.address.slice(0, 45)}}</p>
                         <p class="p13" *ngIf="x && x.property">{{x.property.configuration.name}}, {{x.property.property_type.name}}</p>
@@ -287,7 +288,7 @@
 
             </div>
 
-            <pagination-controls *ngIf="parameter.total2>constant.p" class="my-pagination" (pageChange)="getPage2($event)"></pagination-controls>
+            <pagination-controls id="page2" class="my-pagination" (pageChange)="getPage2($event)"></pagination-controls>
 
           </div>
         </div>
