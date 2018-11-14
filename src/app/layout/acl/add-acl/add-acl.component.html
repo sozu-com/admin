@@ -128,7 +128,7 @@
           </div> -->
         
           <div class="access-controls">
-              <div class="select-controls" *ngFor="let permission of model.admin_acl; let i=index">
+              <div class="select-controls select-controls-1" *ngFor="let permission of model.admin_acl; let i=index">
               <label class="cust-check-bx2" [ngClass]="{'access-control11':permission.can_create==1 || permission.can_read==1 || permission.can_update==1 || permission.can_delete==1}">{{permission?.acl?.name}}
               <input (click)="expandBox(i)" type="checkbox" [checked]="permission.can_create == 1 || permission.can_read==1 || permission.can_update==1 || permission.can_delete==1 ? 'checked': ''">
               <span class="checkmark"></span>

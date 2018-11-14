@@ -655,7 +655,7 @@ margin:0px auto;
     width: auto;
 }
 .notification a{
-    font-size: 18px;
+    font-size: 16px;
     color: #fff;
 }
 /* notification - end */
@@ -681,4 +681,7 @@ margin:0px auto;
 }
 .bell {
     padding: 5px;
+}
+.access-controls .select-controls-1 {
+    display: -webkit-inline-box;
 }

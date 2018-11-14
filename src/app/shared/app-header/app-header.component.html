@@ -50,8 +50,9 @@
               <img class="rounded-circle" [src]="image" onerror='src="assets/img/default_img.png"' alt="img">
           </a>
           <ul class="dropdown-menu animated slideInDown">
-            <li><a class="dropdown-item" routerLink="/dashboard/settings/change-password"><i class="ti-user"></i>Change Password</a></li>
             <li><a class="dropdown-item" routerLink="/dashboard/settings/view-profile"><i class="ti-user"></i>Profile</a></li>
+            <li><a class="dropdown-item" routerLink="/dashboard/settings/change-password"><i class="ti-pencil"></i>Change Password</a></li>
+            <!-- <li><a class="dropdown-item" routerLink="/dashboard/settings/default-settings"><i class="ti-settings"></i>Default Settings</a></li> -->
             <li class="dropdown-divider"></li>
             <li><a class="dropdown-item" (click)="onLoggedout()"><i class="ti-power-off"></i>Logout</a></li>
           </ul>
@@ -375,6 +376,7 @@
                              <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/setting-locality">Locality</a></li>
                              <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/setting-property">Property</a></li>
                              <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/setting-project">Project</a></li>
+                             <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/default-settings">Default Settings</a></li>
                              <!-- <li><a class="dropdown-item" routerLink="settings/edit-profile">Edit Profile</a></li> -->
                              <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/documents-listing">Documents Listing</a></li>
                              <li [routerLinkActive]="'active'"><a class="dropdown-item logout-btn" (click)="onLoggedout()">Logout</a></li>

@@ -74,7 +74,7 @@ export class SelectedProperties {
     token_money: number;
     total_amount: number;
     pending_amount: number;
-    statua: any;
+    status: any;
     commision: number;
     banks: Array<BankAssigned>;
     noataries: Array<NotaryAssigned>;

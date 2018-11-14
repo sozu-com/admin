@@ -27,7 +27,7 @@ export class InhouseBrokerDetailComponent implements OnInit {
   public parameter: IProperty = {};
   public selected_prop_ids = [];
   is_deal_finalised: boolean;
-  date = new Date();
+  today = new Date();
   input: any;
   constructor(
     private route: ActivatedRoute,

@@ -1,0 +1,52 @@
+
+<ngx-loading [show]="parameter.loading"></ngx-loading>
+<!--content start-->
+<div class="container-fluid">
+    <div class="breadcrumb-group">
+    <h5>Settings</h5>
+    <nav class="breadcrumb">
+        <a class="breadcrumb-item">Home</a>
+        <a class="breadcrumb-item">Settings</a>
+        <span class="breadcrumb-item active">Default Settings</span>
+    </nav>
+    </div>
+
+    <form class="form-horizontal" novalidate #addForm="ngForm" (ngSubmit)="updateGlobalSetting()">
+        
+        <div class="form-group-3 row">
+            <label class="col-sm-6 col-form-label">By default, added property will be marked approved:</label>
+            <div class="col-sm-6">
+                <div class="clearfix"></div>
+                <label class="cust-radio">
+                  <input type="radio" (change)="setValue('bulk_approve_property', 1)" value="1" [checked]="model.bulk_approve_property == 1 ? 'checked' : ''" name="bulk_approve_property">
+                  <span class="checkmark">Yes</span>
+                </label>
+                <label class="cust-radio">
+                  <input type="radio" (change)="setValue('bulk_approve_property', 0)" value="0" [checked]="model.bulk_approve_property == 0 ? 'checked' : ''" name="bulk_approve_property">
+                  <span class="checkmark">No</span>
+                </label>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+
+        <div class="form-group-3 row">
+            <label class="col-sm-6 col-form-label">By default, added project will be marked approved:</label>
+            <div class="col-sm-6">
+                <div class="clearfix"></div>
+                <label class="cust-radio">
+                  <input type="radio" (change)="setValue('bulk_approve_project', 1)" value="1" [checked]="model.bulk_approve_project == 1 ? 'checked' : ''" name="bulk_approve_project">
+                  <span class="checkmark">Yes</span>
+                </label>
+                <label class="cust-radio">
+                  <input type="radio" (change)="setValue('bulk_approve_project', 0)" value="0" [checked]="model.bulk_approve_project == 0 ? 'checked' : ''" name="bulk_approve_project">
+                  <span class="checkmark">No</span>
+                </label>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="form-group btn-cont text-right">
+            <button [disabled]="parameter.loading" class="btn btn-primary apply-btn" type="submit">Update Settings</button>
+        </div>
+    </form>
+</div>
+      

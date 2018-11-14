@@ -9,6 +9,7 @@ import { AgmCoreModule } from '@agm/core';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { Routes, RouterModule } from '@angular/router';
 
+// components
 import { LocationComponent } from './location/location.component';
 import { SettingsComponent } from './settings.component';
 import { LocalityComponent } from './locality/locality.component';
@@ -17,13 +18,14 @@ import { ProjectComponent } from './project/project.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { DocumentsComponent } from './documents/documents.component';
 import { AclUserGuard } from '../../guards/acl-user.guard';
-// import { AuthGuard } from '../../guards/auth.guard';
 import { ProfileComponent } from './profile/profile.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { DefaultSettingsComponent } from './default-settings/default-settings.component';
 
 const routes: Routes = [
   { path: 'view-profile', component: ProfileComponent },
   { path: 'change-password', component: ChangePasswordComponent },
+  { path: 'default-settings', component: DefaultSettingsComponent },
   { path: 'edit-profile', component: EditProfileComponent,
     canActivate: [AclUserGuard], data: {roles: ['Settings', 'can_read', '']}},
   { path: 'setting-location', component: LocationComponent,
@@ -38,20 +40,6 @@ const routes: Routes = [
     canActivate: [AclUserGuard], data: {roles: ['Settings', 'can_read', '']}}
 ];
 
-// const routes: Routes = [
-//   { path: 'edit-profile', component: EditProfileComponent,
-//     canActivate: [AuthGuard], data: {roles: ['Settings', 'can_read', '']}},
-//   { path: 'setting-location', component: LocationComponent,
-//     canActivate: [AuthGuard], data: {roles: ['Settings', 'can_read', '']}},
-//   { path: 'setting-locality', component: LocalityComponent,
-//     canActivate: [AuthGuard], data: {roles: ['Settings', 'can_read', '']}},
-//   { path: 'setting-property', component: PropertyComponent,
-//     canActivate: [AuthGuard], data: {roles: ['Settings', 'can_read', '']}},
-//   { path: 'setting-project', component: ProjectComponent,
-//     canActivate: [AuthGuard], data: {roles: ['Settings', 'can_read', '']}},
-//   { path: 'documents-listing', component: DocumentsComponent,
-//     canActivate: [AuthGuard], data: {roles: ['Settings', 'can_read', '']}}
-// ];
 
 @NgModule({
 
@@ -64,7 +52,8 @@ const routes: Routes = [
     SettingsComponent,
     DocumentsComponent,
     ProfileComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    DefaultSettingsComponent
   ],
   imports: [
     RouterModule.forChild(routes),
