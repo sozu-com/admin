@@ -167,19 +167,17 @@ export class InterestedPropertyComponent implements OnInit {
     return this.selected_properties.find(i => i.property_id === id);
   }
 
-  openviewPropertyModal(data, page) {
-    this.viewProperties(data, page);
-    this.showInterestedProperty.nativeElement.click();
-  }
-
   viewProperties(data, page) {
     // this.parameter.interested_properties = data;
     this.parameter.loading = true;
-    this.admin.postDataApi('leads/getLeadInterestedProperty', {lead_id: this.lead_id, page: this.parameter.page2}).subscribe(r => {
+    this.admin.postDataApi('leads/getLeadInterestedProperty', {lead_id: this.lead_id, page: page}).subscribe(r => {
       this.parameter.loading = false;
       console.log('Country', r);
       this.parameter.interested_properties = r['data'];
       this.parameter.total2 = r.total;
+      if (this.parameter.page === 1) {
+        this.showInterestedProperty.nativeElement.click();
+      }
     }, error => {
       this.parameter.loading = false;
     });

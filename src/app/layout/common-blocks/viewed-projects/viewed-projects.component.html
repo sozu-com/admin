@@ -7,7 +7,7 @@
  <div class="col-6">
       <div class="btn-cont text-right">
         <a style="display: none;" data-toggle="modal" #showProjectModal data-target="#view-viewed-projects" class="btn btn-fourth" href="javascript://">View All</a>
-        <a *ngIf="viewed_projects?.length!=0" class="btn btn-fourth" href="javascript://" (click)="viewProjects(viewed_properties, user_id)">View All</a>
+        <a *ngIf="viewed_projects?.length!=0" class="btn btn-fourth" href="javascript://" (click)="viewProjects(viewed_properties, 1, user_id)">View All</a>
       </div>
    </div>
 </div>
@@ -57,10 +57,11 @@
         <div class="modal-body">
           <h3>Viewed Projects</h3>
           <hr>
+          <pagination-controls id="v-projects-1" class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
           <div class="scrollbox fav-prop" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
             <div class="row">
               <div class="col-lg-6 col-md-12 col-sm-12 col-12"
-                *ngFor="let x of parameter.viewed_projects| paginate: {itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let in=index">
+                *ngFor="let x of parameter.viewed_projects| paginate: {id:'v-projects-1', itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let in=index">
                   <div class="project-des-bx white-bg-2">
                       <div class="price">{{x.starting_price|thousand}}+</div>
                     <div class="fig-block">
@@ -83,7 +84,6 @@
                   </div>
               </div>
             </div>
-            <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
           </div>
         </div>
       </div>

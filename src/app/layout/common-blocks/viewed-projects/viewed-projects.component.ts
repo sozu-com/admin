@@ -25,19 +25,21 @@ export class ViewedProjectsComponent implements OnInit {
 
   getPage(page) {
     this.parameter.page = page;
-    this.viewProjects('', this.user_id);
+    this.viewProjects('', this.parameter.page, this.user_id);
   }
 
-  viewProjects(data, user_id) {
+  viewProjects(data, page, user_id) {
     // this.parameter.viewed_projects = data;
     // this.showProjectModal.nativeElement.click();
     this.parameter.loading = true;
-    this.admin.postDataApi('leads/viewedProjects', {user_id: user_id, page: this.parameter.page}).subscribe(r => {
+    this.admin.postDataApi('leads/viewedProjects', {user_id: user_id, page: page}).subscribe(r => {
       this.parameter.loading = false;
       this.parameter.total = r.total;
       this.parameter.viewed_projects = r.data;
       console.log('Country', this.parameter.viewed_projects);
-      this.showProjectModal.nativeElement.click();
+      if (this.parameter.page === 1) {
+        this.showProjectModal.nativeElement.click();
+      }
     }, error => {
       this.parameter.loading = false;
     });

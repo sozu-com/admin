@@ -17,7 +17,7 @@
 
           <!-- view  -->
           <a style="display: none;" data-toggle="modal" #showInterestedProperty data-target="#view-all-property" class="btn btn-fourth" href="javascript://">View All</a>
-          <a *ngIf="interested_properties?.length!=0" class="btn btn-fourth" href="javascript://" (click)="openviewPropertyModal(interested_properties, 1)">View All</a>
+          <a *ngIf="interested_properties?.length!=0" class="btn btn-fourth" href="javascript://" (click)="viewProperties(interested_properties, 1)">View All</a>
         </div>
      </div>
   </div>

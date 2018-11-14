@@ -7,7 +7,7 @@
  <div class="col-6">
       <div class="btn-cont text-right">
         <a style="display: none;" data-toggle="modal" #showPropertyModal data-target="#view-viewed-property" class="btn btn-fourth" href="javascript://">View All</a>
-        <a *ngIf="viewed_properties?.length!=0" class="btn btn-fourth" href="javascript://" (click)="openModal(viewed_properties, user_id, 1)">View All</a>
+        <a *ngIf="viewed_properties?.length!=0" class="btn btn-fourth" href="javascript://" (click)="viewProperties(viewed_properties, user_id, 1)">View All</a>
       </div>
    </div>
 </div>
@@ -60,7 +60,7 @@
           <div class="scrollbox fav-prop" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
             <div class="row">
               <div class="col-lg-6 col-md-12 col-sm-12 col-12"
-                *ngFor="let x of parameter.viewed_properties| paginate: { id:'v-property-1', itemsPerPage: itemsPerPage, currentPage: page, totalItems: total }; let in=index">
+                *ngFor="let x of parameter.viewed_properties| paginate: { id:'v-property-1', itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let in=index">
                   <div class="project-des-bx white-bg-2">
                       <div class="price">{{x.min_price|thousand}}+</div>
                     <div class="fig-block">
