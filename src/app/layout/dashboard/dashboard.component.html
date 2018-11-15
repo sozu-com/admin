@@ -13,11 +13,18 @@
         <button class="btn btn-primary new-btn" href="javascript://" (click)="getReportData()"
             [disabled]="!parameter.min || !parameter.max">Go</button>
       </div> -->
-      <div class="pull-right btn-cont">
-        From: <p-calendar [(ngModel)]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
-        To: <p-calendar [(ngModel)]="parameter.max" [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
-        <button class="btn btn-primary-new" href="javascript://" (click)="getReportData()"
-            [disabled]="!parameter.min || !parameter.max">Go</button>
+      <div class="pull-right btn-cont row">
+        <div class="col-sm-5">
+          From: <p-calendar [(ngModel)]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+        </div>
+        <div class="col-sm-5">
+          To: <p-calendar [(ngModel)]="parameter.max" [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+        </div>
+        <div class="col-sm-2">
+          Apply: <button class="btn btn-primary-new" href="javascript://" (click)="getReportData()"
+          [disabled]="!parameter.min || !parameter.max">Go</button>
+        </div>
+        
       </div>
     </div>
   </div>

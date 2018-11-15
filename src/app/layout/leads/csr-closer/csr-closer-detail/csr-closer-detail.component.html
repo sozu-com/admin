@@ -264,10 +264,12 @@
                 <li class="nav-item">
                     <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.user_seller_dev}" (click)="getLeadConversation(constant.userType.user_seller_dev)" class="nav-link">Seller</a>
                 </li>
-                <li class="nav-item" *ngIf="parameter?.lead?.sale_rent==1">
+                <!-- show only if notary is assigned and property is available for sale -->
+                <li class="nav-item" *ngIf="selectedProperties.noataries && selectedProperties.noataries.length!=0 && parameter?.lead?.sale_rent==1">
                     <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.notary}" (click)="getLeadConversation(constant.userType.notary)" class="nav-link">Notary</a>
                 </li>
-                <li class="nav-item" *ngIf="parameter?.lead?.sale_rent==1">
+                <!-- show only if bank is assigned and property is available for sale -->
+                <li class="nav-item" *ngIf="selectedProperties.banks && selectedProperties.banks.length!=0 && parameter?.lead?.sale_rent==1">
                     <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.bank}" (click)="getLeadConversation(constant.userType.bank)" class="nav-link">Bank</a>
                 </li>
                 </ul>
@@ -369,7 +371,7 @@
                                 <i class="fa fa-file" aria-hidden="true"></i>
                                 <span>Document</span>
                             </a>
-                            <a class="dropdown-item" (click)="blockGetProperty.showModal()">    
+                            <a class="dropdown-item cursor-pointer" (click)="blockGetProperty.showModal()">    
                                 <i class="fa fa-file" aria-hidden="true"></i>
                                 <span>Property</span>
                             </a>
@@ -600,6 +602,3 @@
         </div>
     </div>
 </div>
-    
-
-<app-block-get-property #blockGetProperty (itemSelect)="sendProperty($event)"></app-block-get-property>

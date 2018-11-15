@@ -270,7 +270,7 @@ export class AddProjectComponent implements OnInit {
     });
   }
 
-  closeConfigPopUpFun(){
+  closeConfigPopUpFun() {
     this.closeConfigPopup.nativeElement.click();
     this.file4.reset();
   }
@@ -336,7 +336,7 @@ export class AddProjectComponent implements OnInit {
         console.log(this.new_config_edit, this.new_config);
         if (this.new_config_edit >= 0 ) {
           this.model.configurations[this.new_config_edit] = this.new_config;
-        }else{
+        }else {
           this.model.configurations.push(this.new_config);
         }
         console.log(this.model.configurations);

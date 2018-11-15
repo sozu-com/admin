@@ -176,8 +176,8 @@
                         <img [src]="x.image" onerror='src="assets/img/bank.png"' alt="img">
                     </div>
                     <div class="project-des-content">
-                        <small>{{x.building.developer.name}}</small>
-                        <h5>{{x.building.name.slice(0, 15)}}</h5>
+                        <small>{{x?.building?.developer?.name}}</small>
+                        <h5>{{x?.building?.name.slice(0, 15)}}</h5>
                         <p class="p12">{{x.building.address.slice(0, 60)}}</p>
                         <p class="p13" *ngIf="x">{{x.configuration.name}}</p>
                         <p class="p13" *ngIf="!x">NA</p>

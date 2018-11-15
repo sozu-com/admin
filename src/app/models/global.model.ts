@@ -1,5 +1,5 @@
 
-export class Property{
+export class Property {
     amenities?: any= [];
     area?: any;
     active?: any;
@@ -36,7 +36,7 @@ export class Property{
     marital_statuses?: any;
 }
 
-export class Building{
+export class Building {
     address?: any;
     banks?: any = [];
     admin_id?: any;
@@ -57,7 +57,7 @@ export class Building{
     avg_price?: any;
 }
 
-export class Locality{
+export class Locality {
     city_id?: any;
     active?: any;
     id?: any;
@@ -72,7 +72,7 @@ export class Locality{
     data?: any;
   }
 
-  export class Developer{
+  export class Developer {
     assigned_csr_buyer_id?: any;
     assigned_csr_seller_id?: any;
     buildings_count?: any;

@@ -29,7 +29,7 @@
     <div *ngIf="data.property.building && data && in<2" class="project-des-bx white-bg">
       <div class="price">{{data.property.min_price|thousand}}+</div>
       <div class="fig-block">
-        <img [src]="data.property.image" onerror='src="assets/img/placeholder-img.png"' alt="img">
+        <img [src]="data.property.image| img:'thumb'" onerror='src="assets/img/placeholder-img.png"' alt="img">
       </div>
       <div class="project-des-content">
         <small>{{data?.property?.building?.developer?.name}}</small>
@@ -143,7 +143,7 @@
                 <tr *ngFor="let item of parameter.items| paginate: { id:'page1', itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index">
                   <td>
                       <div class="n-avail-profile">
-                        <img [src]="item.image" onerror='src="assets/img/house.png"' alt="img">
+                        <img [src]="item.image| img:'thumb'" onerror='src="assets/img/house.png"' alt="img">
                         <div class="n-avail-info">
                             <p class="p12">{{item.building.name}}</p>
                             <p class="p10 marginB0">{{item.building.address ? item.building.address : 'NA'}}</p>
@@ -243,6 +243,8 @@
         <div class="modal-body">
           <h3>Interested Properties</h3>
           <hr>
+          <pagination-controls id="page2" class="my-pagination" (pageChange)="getPage2($event)"></pagination-controls>
+
           <div class="scrollbox fav-prop" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
             <div class="row">
               <div class="col-lg-6 col-md-12 col-sm-12 col-12"
@@ -250,7 +252,7 @@
                   <div class="project-des-bx white-bg-2">
                       <div class="price">{{x.property.min_price|thousand}}+</div>
                     <div class="fig-block">
-                        <img [src]="x.property.image" onerror='src="assets/img/bank.png"' alt="img">
+                        <img [src]="x.property.image| img:'thumb'" onerror='src="assets/img/bank.png"' alt="img">
                     </div>
                     <div class="project-des-content">
                         <small>{{x.property?.building?.developer?.name}}</small>
@@ -285,11 +287,7 @@
                     </div>
                   </div>
               </div>
-
             </div>
-
-            <pagination-controls id="page2" class="my-pagination" (pageChange)="getPage2($event)"></pagination-controls>
-
           </div>
         </div>
      </div>

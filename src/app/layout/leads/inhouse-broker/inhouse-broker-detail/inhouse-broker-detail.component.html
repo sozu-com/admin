@@ -99,7 +99,7 @@
                 <!-- Meeting Schedule -->
                 <tr *ngIf="parameter?.lead?.sale_rent==1">
                     <td  style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
-                    <td *ngIf="is_deal_finalised" colspan="2" class="cursor-pointer">
+                    <td colspan="2" class="cursor-pointer">
                         <p class="date" *ngIf="appointment.appointment_date; else noAvailability4" data-toggle="modal" data-target="#set_appointment">
                             <span title="Reschedule meeting">{{app_date|moment}}</span>
                         </p>
@@ -107,9 +107,9 @@
                             <p title="Schedule meeting" data-toggle="modal" data-target="#set_appointment">Appointment not scheduled.</p>
                         </ng-template>
                     </td>
-                    <td *ngIf="!is_deal_finalised" colspan="2" class="cursor-pointer">
+                    <!-- <td *ngIf="!is_deal_finalised" colspan="2" class="cursor-pointer">
                         <p title="Schedule meeting">Cannot schedule meeting as deal is not finalized.</p>
-                    </td>
+                    </td> -->
                 </tr>
     
               </tbody>
@@ -170,9 +170,9 @@
                         <img [src]="x.image" onerror='src="assets/img/bank.png"' alt="img">
                     </div>
                     <div class="project-des-content">
-                        <small>{{x.building.developer.name}}</small>
+                        <small>{{x?.building?.developer?.name ? x?.building?.developer?.name : 'NA'}}</small>
                         <a routerLink="/dashboard/properties/details/{{x.id}}">
-                            <h5>{{x.building.name.slice(0, 15)}}</h5>
+                            <h5>{{x?.building?.name.slice(0, 15)}}</h5>
                         </a>
                         <p class="p12">{{x.building.address.slice(0, 50)}}</p>
                         <p class="p13" *ngIf="x">{{x.configuration.name}}, {{x.property_type.name}}</p>

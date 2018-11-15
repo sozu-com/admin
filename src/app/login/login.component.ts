@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   ngOnInit() {}
 
   ngAfterViewInit() {
-    this.input1.nativeElement.focus();
+    // this.input1.nativeElement.focus();
   }
 
   loginUser(formData: NgForm) {

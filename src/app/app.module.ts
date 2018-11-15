@@ -1,7 +1,7 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, Injector } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminService } from './services/admin.service';
 import { HttpModule, Http, RequestOptions, XHRBackend } from '@angular/http';
@@ -46,6 +46,7 @@ const appRoutes: Routes = [
     BrowserModule,
     HttpModule,
     FormsModule,
+    ReactiveFormsModule,
     LayoutModule,
     SharedModule,
     LoadingModule.forRoot({

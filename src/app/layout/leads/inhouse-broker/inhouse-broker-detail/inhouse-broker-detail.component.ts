@@ -156,7 +156,7 @@ export class InhouseBrokerDetailComponent implements OnInit {
     const f = moment(d).utc().format('YYYY-MM-DD HH:mm:ss');
     this.input = {
       lead_id: this.parameter.lead_id,
-      property_id: this.parameter.lead.selected_properties[0].property_id,
+      // property_id: this.parameter.lead.selected_properties[0].property_id,
       appointment_date: f,
       sent_as: this.parameter.sent_as
     };

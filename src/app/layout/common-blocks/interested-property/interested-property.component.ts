@@ -175,7 +175,8 @@ export class InterestedPropertyComponent implements OnInit {
       console.log('Country', r);
       this.parameter.interested_properties = r['data'];
       this.parameter.total2 = r.total;
-      if (this.parameter.page === 1) {
+      console.log('--', this.parameter.page, page);
+      if (page === 1) {
         this.showInterestedProperty.nativeElement.click();
       }
     }, error => {

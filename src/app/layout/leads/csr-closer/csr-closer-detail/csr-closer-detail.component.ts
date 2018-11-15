@@ -190,6 +190,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   }
 
   assignNoatary(notary) {
+    console.log('assignNoatary=', notary);
     this.notaryModel.noatary_id = notary.id;
     swal({
       html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to assign this notary?',
@@ -202,6 +203,11 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       if (result.value) {
         this.parameter.loading = true;
         this.selectedProperties.noataries = [notary];
+        this.chat_notary = notary;
+        // this.chat_notary = r.data.lead.selected_properties[0].selected_noatary[0] ?
+        // r.data.lead.selected_properties[0].selected_noatary[0].noatary : [];
+        // this.chat_bank = r.data.lead.selected_properties[0].banks ? r.data.lead.selected_properties[0].banks[0] : [];
+
         this.admin.postDataApi('leads/assignNoatary', this.notaryModel).subscribe(r => {
           this.parameter.loading = false;
           swal('Success', 'Notary is assigned successfully.', 'success');
@@ -253,6 +259,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       if (result.value) {
         this.parameter.loading = true;
         this.selectedProperties.banks = [bank];
+        this.chat_bank = bank;
         this.admin.postDataApi('leads/assignBank', this.bankModel).subscribe(r => {
           this.parameter.loading = false;
           swal('Success', 'Bank is assigned successfully.', 'success');
@@ -453,6 +460,9 @@ console.log('con id', this.conversation_id);
     model.updated_at = new Date();
     this.messages.push(model);
 
+    setTimeout(() => {
+      this.scrollToBottom();
+    }, 100);
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
@@ -610,16 +620,34 @@ console.log('con id', this.conversation_id);
       || this.admin.permissions.can_csr_closer === 0) {
       return false;
     } else {
+
       const model = new Chat;
       model.message = this.textMessage;
       model.message_type = 1;
+      model.loading = true;
+      model.uid = Math.random().toString(36).substr(2, 15);
       model.conversation_id =  this.conversation_id;
       model.conversation_user = {admin_id: this.admin_id};
-      model.updated_at = new Date();
+      const d = new Date();
+      model.updated_at = d.toUTCString();
       this.messages.push(model);
-      // model.loading = true;
       this.textMessage = '';
+      setTimeout(() => {
+        this.scrollToBottom();
+      }, 100);
       this.sendMessage(model);
+
+
+      // const model = new Chat;
+      // model.message = this.textMessage;
+      // model.message_type = 1;
+      // model.conversation_id =  this.conversation_id;
+      // model.conversation_user = {admin_id: this.admin_id};
+      // model.updated_at = new Date();
+      // this.messages.push(model);
+      // // model.loading = true;
+      // this.textMessage = '';
+      // this.sendMessage(model);
     }
   }
 
@@ -627,13 +655,16 @@ console.log('con id', this.conversation_id);
     if (model.message_type === 1 && !model.message) {
       swal('Error', 'Please enter some text.', 'error');
     } else {
-      setTimeout(() => {
-        this.scrollToBottom();
-      }, 100);
+      // setTimeout(() => {
+      //   this.scrollToBottom();
+      // }, 100);
       this.admin.postDataApi('conversation/sendMessage', model).subscribe(r => {
         if (model.loading === true) {
           model.loading = false;
         }
+        setTimeout(() => {
+          this.scrollToBottom();
+        }, 100);
       });
     }
   }

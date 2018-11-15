@@ -19,10 +19,10 @@
   <div *ngIf="data && in<2" class="project-des-bx white-bg">
     <div class="price">{{data.starting_price|thousand}}+</div>
     <div class="fig-block">
-      <img [src]="data.main_image" onerror='src="assets/img/placeholder-img.png"' alt="img">
+      <img [src]="data.main_image| img:'thumb'" onerror='src="assets/img/placeholder-img.png"' alt="img">
     </div>
     <div class="project-des-content">
-      <small>{{data?.developer?.name}}</small>
+      <small>{{data?.developer?.name ? data?.developer?.name : 'NA'}}</small>
       <a routerLink="/dashboard/projects/details/{{data.id}}">
       <h5>{{data.name.slice(0, 35)}}</h5>
       </a>
@@ -65,10 +65,10 @@
                   <div class="project-des-bx white-bg-2">
                       <div class="price">{{x.starting_price|thousand}}+</div>
                     <div class="fig-block">
-                        <img [src]="x.main_image" onerror='src="assets/img/bank.png"' alt="img">
+                        <img [src]="x.main_image| img:'thumb'" onerror='src="assets/img/bank.png"' alt="img">
                     </div>
                     <div class="project-des-content">
-                        <small>{{x?.developer?.name}}</small>
+                        <small>{{x?.developer?.name ? x?.developer?.name : 'NA'}}</small>
                         <a routerLink="/dashboard/projects/details/{{x.id}}">
                           <h5>{{x.name.slice(0, 15)}}</h5>
                         </a>

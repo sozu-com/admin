@@ -20,7 +20,9 @@ table tr, table tr td{outline: none !important;}
 /* .ng-valid[required], .ng-valid.required { border-bottom: 1px solid #00B96F !important; } */
 /* .ng-touched.ng-invalid:not(form) { border-bottom: 1px solid #a94442 !important; } */
 .show-error{
-    padding: 8px 10px;
+    text-align: left;
+    padding: 8px 0px;
+    /* padding: 8px 10px; */
     border-radius: 4px;
     font-size: 16px;
     color: #ed5565 !important;

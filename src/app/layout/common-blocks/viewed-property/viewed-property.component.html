@@ -19,10 +19,10 @@
   <div *ngIf="data.building && data && in<2" class="project-des-bx white-bg">
     <div class="price">{{data.min_price|thousand}}+</div>
     <div class="fig-block">
-      <img [src]="data.image" onerror='src="assets/img/placeholder-img.png"' alt="img">
+      <img [src]="data.image| img:'thumb'" onerror='src="assets/img/placeholder-img.png"' alt="img">
     </div>
     <div class="project-des-content">
-      <small>{{data?.building?.developer?.name}}</small>
+      <small>{{data?.building?.developer?.name ? data?.building?.developer?.name : 'NA'}}</small>
       <a routerLink="/dashboard/properties/details/{{data.id}}">
       <h5>{{data.building.name.slice(0, 35)}}</h5>
       </a>
@@ -64,10 +64,10 @@
                   <div class="project-des-bx white-bg-2">
                       <div class="price">{{x.min_price|thousand}}+</div>
                     <div class="fig-block">
-                        <img [src]="x.image" onerror='src="assets/img/bank.png"' alt="img">
+                        <img [src]="x.image| img:'thumb'" onerror='src="assets/img/bank.png"' alt="img">
                     </div>
                     <div class="project-des-content">
-                        <small>{{x.building?.developer?.name}}</small>
+                        <small>{{x.building?.developer?.name ? x.building?.developer?.name : 'NA'}}</small>
                         <a routerLink="/dashboard/properties/details/{{x.id}}">
                           <h5>{{x.building?.name.slice(0, 15)}}</h5>
                         </a>

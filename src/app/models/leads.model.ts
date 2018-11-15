@@ -1,4 +1,3 @@
-
 export class DealFinalize {
     lead_id: number;
     property_id: number;
@@ -81,6 +80,7 @@ export class SelectedProperties {
     selected_documents: Array<Documents>;
     allDocuments: Array<Documents>;
     uploaded_documents: Array<UploadedDocuments>;
+    property: any;
 }
 
 export class Documents {

@@ -394,7 +394,7 @@ export class MyChatComponent implements OnInit {
       // console.log('Appending', model);
       this.admin.postDataApi('conversation/sendMessage', model).subscribe(r => {
         // console.log('sendMessage', r);
-        if (model.loading == true){
+        if (model.loading == true) {
           model.loading = false;
           const foundIndex = this.messages.findIndex(x => x.uid == model.uid);
           this.messages[foundIndex] = r['data'];
