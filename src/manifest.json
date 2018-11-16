@@ -2,8 +2,8 @@
     "name": "Kanguroo",
     "short_name": "Kanguroo",
     "start_url": "http://45.232.252.136:8001",
-    "theme_color": "#008080",
-    "background_color": "#008B8B",
+    "theme_color": "#fff",
+    "background_color": "#fff",
     "display": "standalone",
     "description": "Your step-by-step guide through the long, complex journey of selling or renting your property",
     "icons": [

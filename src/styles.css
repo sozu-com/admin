@@ -1,6 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~nouislider/distribute/nouislider.min.css";
 
+@media (max-width:767px){
+    .move-below{
+        margin-top: 30px;
+    }
+    .access-controls .select-controls-1 {
+        display: inline-block !important;
+    }
+}
+
 table tr, table tr td{outline: none !important;}
 #wrapper{ background: #f4f4f4 !important; }
 .backdrop{ position: fixed !important; }
@@ -11,10 +20,18 @@ table tr, table tr td{outline: none !important;}
 .center{ text-align: center; }
 .app-logo{ padding-top: 7px; }
 .form-group select.form-control { padding: 8px 25px 8px 15px !important; height: 40px !important; }
-.form-group .form-control:focus {
-    /* border: none !important; */
-    /* border-bottom: solid 1px #00B96F !important; */
+/* p-calender color */
+.ui-widget-header .ui-button, .ui-widget-content .ui-button, .ui-widget.ui-button, .ui-button {
+    background: #00b96f !important; border: #00B96F !important;
 }
+/* .form-group .form-control:focus {
+    border: none !important;
+    border-bottom: solid 1px #00B96F !important;
+} */
+.width100P{width: 100% !important};
+
+
+
 .ibox{ overflow-x: auto; }
 .no-data { font-size: 20px; font-weight: 100; }
 /* .ng-valid[required], .ng-valid.required { border-bottom: 1px solid #00B96F !important; } */
@@ -666,6 +683,16 @@ margin:0px auto;
 }
 .color-white {
     color: #fff !important;
+}
+.btn-calender {
+    color: #fff;
+    background-color: #00B96F;
+    border-color: #00B96F;
+    font-size: 11px;
+    font-family: 'sf_ui_textmedium';
+    text-align: center;
+    border-radius: 0;
+    border-radius: 4px !important;
 }
 .btn-primary-new{
     color: #fff;

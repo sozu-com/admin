@@ -27,10 +27,12 @@ export class BankComponent implements OnInit {
 
   ngOnInit() {
     const date = new Date();
-    this.parameter.min = new Date(date.getFullYear() + '-' + '01' + '-' + '01');
-    this.parameter.max = date;
+    // this.parameter.min = new Date(date.getFullYear() + '-' + '01' + '-' + '01');
+    // this.parameter.max = date;
     // this.parameter.min = moment(date.getFullYear() + '-' + '01' + '-' + '01').format('YYYY-MM-DD');
     // this.parameter.max = moment().format('YYYY-MM-DD');
+    this.parameter.min = moment().subtract(12, 'months').toDate();
+    this.parameter.max = moment().toDate();
     this.getReportData();
   }
 

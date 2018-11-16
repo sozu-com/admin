@@ -58,7 +58,8 @@
                     spellcheck="off" type="text" class="form-control" #search (input)="loadPlaces()"
                     [formControl]="searchControl" [(ngModel)]="address" name="address"> -->
               <input required placeholder="Search Locality" autocorrect="off" autocapitalize="off"
-                spellcheck="off" type="text" class="form-control" #searchLocality (input)="loadPlaces()">
+                spellcheck="off" type="text" class="form-control" style="padding: 8px 25px 8px 15px;
+                height: 40px !important;" #searchLocality (input)="loadPlaces()">
             </div>
           </div>
         </div>

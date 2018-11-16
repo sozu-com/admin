@@ -1,11 +1,12 @@
 <ngx-loading [show]="parameter.loading"></ngx-loading>
-<div  class="row">
-    <div  class="col-md-6">
-        <div  class="title-group">
+<div class="container-fluid">
+<div class="row">
+    <div class="col-md-6 col-6">
+        <div class="title-group">
             <h5>Templates</h5>
         </div>
     </div>
-    <div  class="col-md-6">
+    <div class="col-md-6 col-6">
         <div class="btn-cont pull-right">
             <button *ngIf="!post.id" (click)="submitAll()" class="btn btn-primary">Save</button>
             <button *ngIf="post.id" (click)="submitAll()" class="btn btn-primary">Update</button>
@@ -145,4 +146,5 @@
             </div>
         </div>
  
+</div>
 </div>

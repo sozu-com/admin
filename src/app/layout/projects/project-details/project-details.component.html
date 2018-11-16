@@ -306,13 +306,13 @@
                            <tr>
                               <td style="width:10%">
                                  <div class="fig-block">
-                                    <img class="img-fluid" [src]="project.developer.developer_image" src="http://via.placeholder.com/56x56" alt="img">
+                                    <img class="img-fluid" [src]="project?.developer?.developer_image" onerror='src="assets/img/default_img.png"' alt="img">
                                  </div>
                               </td>
                               <td style="width:60%">
                                  <p class="p11">{{ts.lang.Developer}}</p>
-                                 <p class="p16">{{project.developer.name}}</p>
-                                 <p class="p13">{{project.developer.developer_title}}</p>
+                                 <p class="p16">{{project?.developer?.name ? project?.developer?.name : 'NA'}}</p>
+                                 <p class="p13">{{project?.developer?.developer_title ? project?.developer?.developer_title : 'NA'}}</p>
                               </td>
                               <td style="width:30%;">
                                  <p class="p16">1</p>
@@ -325,7 +325,7 @@
                               </td>
                               <td>
                                  <p class="p12">{{ts.lang.Contact_Developer}}</p>
-                                 <p>{{project.developer.country_code}} {{project.developer.phone | numberex:2}}</p>
+                                 <p *ngIf="project?.developer?.country_code">{{project?.developer?.country_code}} {{project.developer.phone | numberex:2}}</p>
                               </td>
                               <td>
                                  &nbsp;

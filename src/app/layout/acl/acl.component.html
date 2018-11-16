@@ -1,13 +1,13 @@
 <ngx-loading [show]="parameter.loading"></ngx-loading>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 col-6">
           <div class="title-group">
               <h5>Access Control Mgt.</h5>
               <p>Showing {{parameter.items?.length}} out of {{parameter.total}}</p>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 col-6">
           <div class="btn-cont text-right">
               <a *ngIf="admin?.admin_acl['Access Controls']?.can_create==1" class="btn btn-primary" href="javascript://" routerLink="/dashboard/access-control-mgt/add-acl-user/0">+Add New</a>
               <!-- <a *ngIf="admin?.admin_acl['Access Controls']?.can_create==1" class="btn btn-primary" href="javascript://" routerLink="/dashboard/access-control-mgt/add-acl-user/0">+Add New</a> -->

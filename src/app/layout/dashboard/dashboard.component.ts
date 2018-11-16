@@ -27,10 +27,10 @@ export class DashboardComponent {
   public parameter: IProperty = {};
   constructor (private admin: AdminService) {
     const date = new Date();
-    this.parameter.min = new Date(date.getFullYear() + '-' + (date.getMonth() - 4) + '-' + '01');
-    this.parameter.max = date;
-    // this.parameter.min = moment(date.getFullYear() + '-' + (date.getMonth() - 4) + '-' + '01');
-    // this.parameter.max = moment();
+    // this.parameter.min = new Date(date.getFullYear() + '-' + (date.getMonth() - 4) + '-' + '01');
+    // this.parameter.max = date;
+    this.parameter.min = moment().subtract(6, 'months').toDate();
+    this.parameter.max = moment().toDate();
 
     this.admin.loginData$.subscribe(success => {
       this.fullName = success['name'];

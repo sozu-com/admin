@@ -1,31 +1,58 @@
 <ngx-loading [show]="parameter.loading"></ngx-loading>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-5">
+    <div class="col-md-4">
       <div class="title-group">
           <h5>Hello {{fullName}}</h5>
       </div>
     </div>
-    <div class="col-md-7">
+    <div class="col-md-8">
       <!-- <div class="pull-right btn-cont">
         From: <input class="date-input" type="date" [ngModel] ="parameter.min | date:'yyyy-MM-dd'" max="{{today| date:'yyyy-MM-dd'}}" (ngModelChange)="parameter.min = $event; parameter.max=''" />
         To: <input class="date-input" type="date" [ngModel] ="parameter.max | date:'yyyy-MM-dd'" min="{{parameter.min | date:'yyyy-MM-dd'}}" max="{{today| date:'yyyy-MM-dd'}}" (ngModelChange)="parameter.max = $event" />
         <button class="btn btn-primary new-btn" href="javascript://" (click)="getReportData()"
             [disabled]="!parameter.min || !parameter.max">Go</button>
       </div> -->
-      <div class="pull-right btn-cont row">
+      <!-- <div class="pull-right btn-cont row">
         <div class="col-sm-5">
-          From: <p-calendar [(ngModel)]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+          <label>From:</label>
+          <p-calendar showIcon="true" [(ngModel)]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
         </div>
         <div class="col-sm-5">
-          To: <p-calendar [(ngModel)]="parameter.max" [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+            <label>To:</label>
+          <p-calendar showIcon="true" [(ngModel)]="parameter.max" [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
         </div>
         <div class="col-sm-2">
-          Apply: <button class="btn btn-primary-new" href="javascript://" (click)="getReportData()"
-          [disabled]="!parameter.min || !parameter.max">Go</button>
+          <label>Apply:</label>
+          <button class="btn btn-calender" href="javascript://" (click)="getReportData()"
+          [disabled]="!parameter.min || !parameter.max">Apply</button>
         </div>
-        
-      </div>
+      </div> -->
+
+
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-5 col-5">
+          <div class="form-group marginB0">
+              <label>From:</label>
+              <p-calendar showIcon="true" [(ngModel)]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-5 col-5">
+          <div class="form-group marginB0">
+              <label>To:</label>
+              <p-calendar showIcon="true" [(ngModel)]="parameter.max" [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-2 col-2">
+          <div class="form-group btn-cont">
+            <label style="display: block; margin-top: 3px;">&nbsp;</label>
+            <button class="btn btn-calender" href="javascript://" (click)="getReportData()"
+          [disabled]="!parameter.min || !parameter.max">Apply</button>
+          </div>
+        </div>
+    </div>
+
+
     </div>
   </div>
 <div class="row">

@@ -1,13 +1,13 @@
 <ngx-loading [show]="parameter.loading"></ngx-loading>
 <div class="container-fluid">
   <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-6 col-6">
         <div class="title-group">
             <h5>Users</h5>
             <p>Showing {{parameter.items?.length}} out of {{parameter.total}}</p>
         </div>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-6 col-6">
         <div class="btn-cont text-right">
             <a style="display: none;" class="btn btn-primary" href="javascript://" data-toggle="modal" data-target="#add" #modalOpen>Add New</a>
             <a *ngIf="admin?.admin_acl['User Management']?.can_create==1" (click)="openModal()" class="btn btn-primary" href="javascript://">Add New</a>

@@ -1,11 +1,12 @@
 <ngx-loading [show]="parameter.loading"></ngx-loading>
+<div class="container-fluid">
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-6 col-6">
       <div class="title-group">
           <h5>Templates</h5>
       </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6 col-6">
       <div class="btn-cont text-right">
           <a *ngIf="admin?.admin_acl['Templates']?.can_create==1" routerLink="/dashboard/templates/add-template/0" class="btn btn-primary" href="javascript://">Add New</a>
       </div>
@@ -96,4 +97,5 @@
     <div class="btn-cont text-right marginT15" *ngIf="parameter.total">
         <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
     </div>
+</div>
 </div>
