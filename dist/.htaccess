@@ -13,21 +13,4 @@ RewriteRule ^ - [L]
 # If the requested resource doesn't exist, use index.html
 RewriteRule ^ /index.html
 
-ExpiresActive On
-
-# Images
-ExpiresByType image/jpg “access 1 month”
-ExpiresByType image/jpeg “access 1 month”
-ExpiresByType image/gif “access 1 month”
-ExpiresByType image/png “access 1 month”
-ExpiresByType image/x-icon “access 1 year”
-ExpiresDefault “access 1 week”
-
-# CSS, JavaScript
-ExpiresByType text/css “access 1 year”
-ExpiresByType text/html “access 1 week”
-ExpiresByType application/pdf “access 1 year”
-ExpiresByType text/x-javascript “access 1 month”
-ExpiresByType application/x-shockwave-flash “access 1 month”
-
 </IfModule>
