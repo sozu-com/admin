@@ -41,9 +41,9 @@
                       <p-calendar showIcon="true" [(ngModel)]="parameter.max" [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
                   </div>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-2 col-2">
+                <div class="col-lg-4 col-md-4 col-sm-2 col-5">
                   <div class="form-group btn-cont">
-                    <label style="display: block; margin-top: 3px;">&nbsp;</label>
+                    <label class="addMT3">&nbsp;</label>
                     <button class="btn btn-calender" href="javascript://" (click)="getReportData()"
                   [disabled]="!parameter.min || !parameter.max">Apply</button>
                   </div>

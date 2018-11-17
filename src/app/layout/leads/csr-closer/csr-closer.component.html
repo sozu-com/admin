@@ -100,13 +100,35 @@
             </div>
          </div>
          <div class="col-12">
-            <hr style="margin-top:0;">
+            <!-- <hr style="margin-top:0;">
             <div *ngIf="parameter.flag == 5" class="pull-right btn-cont">
                 From:<input type="date" [ngModel] ="parameter.min | date:'yyyy-MM-dd'" max="{{today| date:'yyyy-MM-dd'}}" (ngModelChange)="parameter.min = $event; parameter.max=''" />
                 To:<input type="date" [ngModel] ="parameter.max | date:'yyyy-MM-dd'" min="{{parameter.min | date:'yyyy-MM-dd'}}" max="{{today| date:'yyyy-MM-dd'}}" (ngModelChange)="parameter.max = $event" />
                 <button class="btn btn-primary" href="javascript://" (click)="getListing()" [disabled]="
                 parameter.flag == 5 && (!parameter.min || !parameter.max)
                 ">Go</button>
+            </div> -->
+
+            <div *ngIf="parameter.flag == 5" class="pull-right row">
+                <div class="col-lg-4 col-md-4 col-sm-5 col-5">
+                <div class="form-group marginB0">
+                    <label>From:</label>
+                    <p-calendar showIcon="true" [(ngModel)]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+                </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-5 col-5">
+                <div class="form-group marginB0">
+                    <label>To:</label>
+                    <p-calendar showIcon="true" [(ngModel)]="parameter.max" [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+                </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-2 col-6">
+                <div class="form-group btn-cont">
+                    <label class="addMT3">&nbsp;</label>
+                    <button class="btn btn-calender" href="javascript://" (click)="getListing()"
+                [disabled]="!parameter.min || !parameter.max">Apply</button>
+                </div>
+                </div>
             </div>
          </div>
       </div>
@@ -211,7 +233,7 @@
     
       </div>
       <div class="row">
-         <div class="col-6">
+         <div class="col-lg-6 col-md-6 col-6">
             <div class="title-group">
                <h5>Leads 
                 <span *ngIf="parameter.count_flag == 1">(Total)</span>
@@ -226,7 +248,7 @@
             </div>
          </div>
          <!-- only inhouse users can do this -->
-         <div class="col-6" *ngIf="admin?.admin_acl['Closer Lead Management']?.can_read==1 && !this.parameter.assignee_id">
+         <div class="col-lg-6 col-md-6 col-5" *ngIf="admin?.admin_acl['Closer Lead Management']?.can_read==1 && !this.parameter.assignee_id">
             <div class="add-new text-right">
                 <a class="btn" (click)="bulkAssign()" href="javascript://">Bulk Re-assign</a>
             </div>
@@ -366,10 +388,10 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-8 col-6">
                             <input style="max-width:200px" list="amenities" [(ngModel)]="assign.keyword" (input)="getAssignListing()" class="form-control" type="text" name="keyword" placeholder="Search">
                         </div>
-                        <div class="col-md-4 btn-cont">
+                        <div class="col-md-4 col-5 btn-cont">
                             <a class="btn btn-primary pull-right" href="javascript://" (click)="assignNow()">Assign</a>
                         </div>
                     </div>

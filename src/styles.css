@@ -10,6 +10,11 @@
     }
 }
 
+@media (min-width:575px){
+    .addMT3{
+        display: block; margin-top: 3px;
+    }
+}
 table tr, table tr td{outline: none !important;}
 #wrapper{ background: #f4f4f4 !important; }
 .backdrop{ position: fixed !important; }

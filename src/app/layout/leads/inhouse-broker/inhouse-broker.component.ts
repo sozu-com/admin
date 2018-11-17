@@ -4,6 +4,7 @@ import { AdminService } from '../../../services/admin.service';
 import { IProperty } from '../../../common/property';
 import { Constant } from './../../../common/constants';
 import { ActivatedRoute } from '@angular/router';
+import * as moment from 'moment';
 declare let swal: any;
 
 @Component({
@@ -219,6 +220,12 @@ export class InhouseBrokerComponent implements OnInit {
     this.items = [];
     this.parameter.noResultFound = false;
     const input: any = JSON.parse(JSON.stringify(this.parameter));
+    if (this.parameter.min) {
+      input.min = moment(this.parameter.min).format('YYYY-MM-DD');
+    }
+    if (this.parameter.max) {
+      input.max = moment(this.parameter.max).format('YYYY-MM-DD');
+    }
     if (this.selectedUser) {
       input.assignee_id = this.selectedUser.id;
     } else if (this.parameter.assignee_id) {
