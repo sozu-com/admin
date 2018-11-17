@@ -1,10 +1,7 @@
 {
     "name": "Kanguroo",
     "short_name": "Kanguroo",
-    "start_url": "https://kanguroo.mx:8004",
-    "related_applications": [{
-        "platform": "web"
-    }],
+    "start_url": "http://45.232.252.136:8001",
     "theme_color": "#00B96F",
     "background_color": "#00B96F",
     "display": "standalone",
