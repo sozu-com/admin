@@ -9,6 +9,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { HttpInterceptor } from './http-interceptor';
 import { CommonService } from './common.service';
 import { Login, AdminACL } from './../models/login.model';
+import { MessagingService } from '../fire-base/messaging.service';
 @Injectable()
 export class AdminService {
 
@@ -27,7 +28,10 @@ export class AdminService {
   public country = new BehaviorSubject({});
   countryData$ = this.country.asObservable();
 
-  constructor(public http: HttpInterceptor, public loginModel: Login, public aclModel: AdminACL) { }
+  constructor(public http: HttpInterceptor,
+    public msg: MessagingService,
+    public loginModel: Login,
+    public aclModel: AdminACL) { }
 
 
   getHeadersForLogin() {
@@ -70,6 +74,7 @@ export class AdminService {
     const input = new FormData();
     input.append('email', email);
     input.append('password', password);
+    input.append('device_token', this.msg.fcmTokens ? this.msg.fcmTokens : '');
     input.append('device_id', this.deviceId);
     const tt = this.getCountryLocality('getCountryLocality');
 

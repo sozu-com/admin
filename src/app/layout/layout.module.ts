@@ -35,6 +35,7 @@ import { AclPermissionDirective } from '../directives/acl-permission.directive';
 import { AclUserGuard } from '../guards/acl-user.guard';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { MessagingService } from '../fire-base/messaging.service';
+import { SharedModule } from '../modules/shared.module';
 
 @NgModule({
     imports: [
@@ -43,7 +44,7 @@ import { MessagingService } from '../fire-base/messaging.service';
         TranslateModule,
         FormsModule,
         ReactiveFormsModule,
-        ModalModule.forRoot(),      // modal
+        ModalModule.forRoot(),
         NgxPaginationModule,
         LoadingModule.forRoot({
             animationType: ANIMATION_TYPES.rectangleBounce,
@@ -57,6 +58,7 @@ import { MessagingService } from '../fire-base/messaging.service';
           }),
         Ng2TelInputModule,
         NgxChartsModule,
+        SharedModule,
         FroalaEditorModule.forRoot(),
         FroalaViewModule.forRoot(),
         CalendarModule,
@@ -66,15 +68,12 @@ import { MessagingService } from '../fire-base/messaging.service';
         LayoutComponent,
         AppHeaderComponent,
         DashboardComponent,
-        // ChangePasswordComponent,
         AppFooterComponent,
         InhouseUsersComponent,
         AddressComponent,
         GenerateThumbComponent,
         AclPermissionDirective,
-        NotificationsComponent,
-        // MessagingService
-        // ViewedProjectsComponent
+        // NotificationsComponent
     ],
     providers: [
         AdminService,

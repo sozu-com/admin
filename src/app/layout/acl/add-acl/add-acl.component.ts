@@ -19,6 +19,7 @@ export class AddAclComponent implements OnInit {
   public parameter: IProperty = {};
   initialCountry: any;
   show = false;
+  image: any;
   constructor(public constant: Constant, public model: ACL, private cs: CommonService,
     private admin: AdminService, private route: ActivatedRoute
   ) { }
@@ -47,6 +48,8 @@ export class AddAclComponent implements OnInit {
       success => {
         this.parameter.loading = false;
         this.model = success.data;
+        this.image = this.model.image;
+        console.log('==', this.model);
         this.model.admin_acl = success.data.admin_acl;
       }, error => {
         this.parameter.loading = false;
@@ -57,14 +60,31 @@ export class AddAclComponent implements OnInit {
     this.show = true;
   }
 
+  // changeListner(event) {
+  //   this.parameter.image = event.target.files[0];
+  //   this.parameter.icon = this.parameter.image;
+  //   const reader = new FileReader();
+  //   reader.onload = (e: any) => {
+  //       // this.url = e.target.result;
+  //   };
+  //   reader.readAsDataURL(event.target.files[0]);
+  // }
+
   changeListner(event) {
-    this.parameter.image = event.target.files[0];
-    this.parameter.icon = this.parameter.image;
+    // this.model.image = event.target.files[0];
     const reader = new FileReader();
     reader.onload = (e: any) => {
-        // this.url = e.target.result;
+      this.image = e.target.result;
+      this.parameter.loading = true;
+      this.cs.saveImage(event.target.files[0]).subscribe(
+        success => {
+          this.parameter.loading = false;
+          this.model.image = success['data'].image;
+        }
+      );
     };
     reader.readAsDataURL(event.target.files[0]);
+    console.log(this.model);
   }
 
   onCountryChange(e) {

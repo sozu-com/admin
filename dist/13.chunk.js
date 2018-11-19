@@ -1,201 +1,202 @@
 webpackJsonp([13],{
 
-/***/ "../../../../../src/$$_gendir/app/layout/layout.module.ngfactory.ts":
+/***/ "../../../../../src/app/layout/appointments/appointments.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/layout/appointments/appointments.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<ngx-loading [show]=\"parameter.loading\"></ngx-loading>\n<div class=\"container-fluid\">\n  <div class=\"row\">\n      <div class=\"col-md-6\">\n        <div class=\"title-group\">\n            <h5>Appointments</h5>\n            <p></p>\n        </div>\n      </div>\n  </div>\n\n<div class=\"white-bg padding20\">\n   <!-- <p class=\"p14\">My appointments</p> -->\n   <div class=\"row\">\n      <div class=\"col-4\">\n        <select class=\"form-control\" [(ngModel)]=\"parameter.year\">\n          <option *ngFor=\"let y of yearList\" [value]=\"y\">{{y}}</option>\n        </select> \n      </div>\n      <div class=\"col-4\">\n        <select class=\"form-control\" [(ngModel)]=\"parameter.month\" (change)=\"getAppointments()\">\n          <option *ngFor=\"let m of constant.months\" [value]=\"m.id\">{{m.name}}</option>\n        </select> \n      </div>\n   </div>\n   <div class=\"spacer30 clearfix\"></div>\n   <ul class=\"month-date\">\n     <li class=\"cursor-pointer\" *ngFor=\"let item of appointmentDates\" title=\"Click to view list\" (click)=\"meetings = item.meetings\">\n      <span>{{item.day}}</span>\n      <b>{{item.date}}</b>\n      <span class=\"meeting-count\" [ngClass]=\"{'green':item.meeting_count > 0}\">{{item.meeting_count}}</span>\n     </li>\n   </ul>\n   <div class=\"spacer30 clearfix\"></div>\n   <div *ngFor=\"let item of meetings\">\n      <div class=\"col-4 white-bg padding15 shadow-new\">\n          <div class=\"appoint  marginT0\">\n                        \n              <div class=\"ap-row\">\n                 <div class=\"ap-col\">\n                    <p class=\"a-text\">{{item?.appointment_date|date :'shortTime'}}</p>\n                    <p class=\"no-show\">{{item?.status?.name}}</p>\n                 </div>\n                 <div class=\"ap-col\">\n                    <p class=\"a-text\">{{item?.lead?.user.name}}</p>\n                    <p class=\"a-text\">{{item?.lead?.user.dial_code}} {{item?.lead?.user.phone}}</p>\n                 </div>\n                 <div class=\"ap-col\">\n                    <button title=\"Edit Appointment\" [disabled]=\"admin?.admin_acl['Appointments']?.can_update==0\" (click)=\"openAppintment(item)\" class=\"action-icon float-right\">\n                      <img src=\"./../../../../assets/img/edit.png\" alt=\"img\">\n                    </button>\n                 </div>\n              </div>      \n           </div>\n          \n        </div>\n   </div>\n</div>\n</div>\n\n\n<!-- add note modal -->\n<a data-toggle=\"modal\" data-target=\"#editAppointment\" #modalOpen></a>\n<div class=\"modal animated\" id=\"editAppointment\">\n    <div class=\"modal-dialog fadeIndown\">\n      <div class=\"modal-content\">\n        <div class=\"modal-header modal-header-new\">\n            <h4 class=\"modal-title\">Appointment</h4>\n            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" #modalClose>&times;</button>\n        </div>\n          <div class=\"modal-body modal-body-new model-appointment\">\n            <div class=\"row\">\n\n              <div class=\"col-sm-12 col-12\">\n                  <div class=\"user fig-block upload-cover-img\">\n                  <img class=\"floor-plan\" [src]=\"appointmentNew?.lead?.user?.image\" onerror=\"this.src='assets/img/default_img.png'\" />\n                  <input accept=\"image/*\" name=\"\" type=\"file\">\n                  </div>\n              </div>\n              <div class=\"col-sm-12 col-12 text-center\" >\n                  <p class=\"p18\">{{appointmentNew?.lead?.user?.name}}</p>\n                  <p class=\"p14\">{{appointmentNew?.lead?.user?.dial_code}} {{appointmentNew?.lead?.user?.phone}}</p>\n              </div>\n\n              <div class=\"col-12\">\n                <div class=\"form-group-2\">\n                   <div class=\"form-group\">\n                    <label>Date and Time</label>\n                    <input class=\"form-control\" type=\"datetime-local\" [ngModel] =\"appointmentNew.appointment_date | date:'yyyy-MM-ddTHH:mm'\" (ngModelChange)=\"appointmentNew.appointment_date = $event\">\n                  </div>\n                </div>\n              </div>\n              <div class=\"col-12\">\n                <div class=\"form-group-2\">\n                    <div class=\"form-group\">\n                      <label>Status</label>\n                      <select class=\"form-control\" [(ngModel)]=\"appointmentNew.status_id\">\n                        <option *ngFor=\"let item of appointStatuses\" [value]=\"item.id\">{{item.name}}</option>\n                      </select>\n                  </div>\n                </div>\n              </div>\n              <div class=\"col-12\">\n                  <div class=\"btn-cont text-right\">\n                      <button (click)=\"saveAppointment()\" type=\"submit\" class=\"btn btn-primary\">Save Appointment</button>\n                  </div>\n              </div>\n            </div>\n          </div>\n  \n      </div>\n    </div>\n  </div>\n\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/layout/appointments/appointments.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_admin_service__ = __webpack_require__("../../../../../src/app/services/admin.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__common_constants__ = __webpack_require__("../../../../../src/app/common/constants.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppointmentsComponent; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var AppointmentsComponent = /** @class */ (function () {
+    function AppointmentsComponent(admin, constant) {
+        this.admin = admin;
+        this.constant = constant;
+        this.parameter = {};
+        this.appointmentDates = [];
+        this.appointStatuses = [];
+        this.meetings = [];
+        this.yearList = [];
+        this.appointmentNew = {};
+        var d = new Date();
+        console.log(d);
+        this.parameter.year = d.getFullYear();
+        this.parameter.month = d.getMonth() + 1;
+        this.getAppointments();
+        this.getAppointmentStatuses();
+        this.yearList.push(this.parameter.year);
+        this.yearList.push(this.parameter.year + 1);
+        // this.yearList.push(this.parameter.year + 2);
+        this.yearList.unshift(this.parameter.year - 1);
+        console.log(this.parameter);
+    }
+    AppointmentsComponent.prototype.ngOnInit = function () {
+    };
+    AppointmentsComponent.prototype.getAppointmentStatuses = function () {
+        var _this = this;
+        this.admin.postDataApi('getAppointmentStatuses', {}).subscribe(function (r) {
+            console.log('Status', r);
+            _this.appointStatuses = r['data'];
+        });
+    };
+    AppointmentsComponent.prototype.getAppointments = function () {
+        var _this = this;
+        this.meetings = [];
+        this.parameter.loading = true;
+        this.admin.postDataApi('leads/getAllAppointments', this.parameter).subscribe(function (r) {
+            console.log('appointments', r);
+            _this.parameter.loading = false;
+            _this.appointmentDates = r['data'];
+        }, function (error) {
+            _this.parameter.loading = false;
+        });
+    };
+    AppointmentsComponent.prototype.openAppintment = function (item) {
+        this.modalOpen.nativeElement.click();
+        this.appointmentBack = item;
+        this.appointmentNew = JSON.parse(JSON.stringify(item));
+        this.appointmentNew.status_id = this.appointmentNew.status.id;
+    };
+    AppointmentsComponent.prototype.saveAppointment = function () {
+        var _this = this;
+        this.appointmentDates = [];
+        this.meetings = [];
+        this.modalClose.nativeElement.click();
+        console.log(this.appointmentNew);
+        var input = {
+            appointment_id: this.appointmentNew.id,
+            status_id: this.appointmentNew.status_id,
+            appointment_date: this.appointmentNew.appointment_date
+        };
+        this.parameter.loading = true;
+        this.admin.postDataApi('leads/updateAppointmentStatus', input).subscribe(function (r) {
+            // this.parameter.loading = false;
+            console.log('Updated', r);
+            _this.getAppointments();
+        }, function (error) {
+            _this.parameter.loading = false;
+            console.log(error);
+        });
+    };
+    var _a, _b, _c, _d;
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('modalOpen'),
+        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"]) === "function" ? _a : Object)
+    ], AppointmentsComponent.prototype, "modalOpen", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('modalClose'),
+        __metadata("design:type", typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"]) === "function" ? _b : Object)
+    ], AppointmentsComponent.prototype, "modalClose", void 0);
+    AppointmentsComponent = __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-appointments',
+            template: __webpack_require__("../../../../../src/app/layout/appointments/appointments.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/layout/appointments/appointments.component.css")]
+        }),
+        __metadata("design:paramtypes", [typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */]) === "function" ? _c : Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__common_constants__["a" /* Constant */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__common_constants__["a" /* Constant */]) === "function" ? _d : Object])
+    ], AppointmentsComponent);
+    return AppointmentsComponent;
+}());
+
+//# sourceMappingURL=appointments.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/layout/appointments/appointments.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_layout_layout_module__ = __webpack_require__("../../../../../src/app/layout/layout.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_layout_layout_component__ = __webpack_require__("../../../../../src/app/layout/layout.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__layout_component_ngfactory__ = __webpack_require__("../../../../../src/$$_gendir/app/layout/layout.component.ngfactory.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__dashboard_dashboard_component_ngfactory__ = __webpack_require__("../../../../../src/$$_gendir/app/layout/dashboard/dashboard.component.ngfactory.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__inhouse_users_inhouse_users_component_ngfactory__ = __webpack_require__("../../../../../src/$$_gendir/app/layout/inhouse-users/inhouse-users.component.ngfactory.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__generate_thumb_generate_thumb_component_ngfactory__ = __webpack_require__("../../../../../src/$$_gendir/app/layout/generate-thumb/generate-thumb.component.ngfactory.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__notifications_notifications_component_ngfactory__ = __webpack_require__("../../../../../src/$$_gendir/app/layout/notifications/notifications.component.ngfactory.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__gendir_node_modules_ngx_bootstrap_modal_modal_backdrop_component_ngfactory__ = __webpack_require__("../../../../../src/$$_gendir/node_modules/ngx-bootstrap/modal/modal-backdrop.component.ngfactory.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__gendir_node_modules_ngx_bootstrap_modal_modal_container_component_ngfactory__ = __webpack_require__("../../../../../src/$$_gendir/node_modules/ngx-bootstrap/modal/modal-container.component.ngfactory.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__gendir_node_modules_ngx_mydatepicker_dist_ngx_my_date_picker_component_ngfactory__ = __webpack_require__("../../../../../src/$$_gendir/node_modules/ngx-mydatepicker/dist/ngx-my-date-picker.component.ngfactory.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__gendir_node_modules_swimlane_ngx_charts_release_common_tooltip_tooltip_component_ngfactory__ = __webpack_require__("../../../../../src/$$_gendir/node_modules/@swimlane/ngx-charts/release/common/tooltip/tooltip.component.ngfactory.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_ngx_pagination__ = __webpack_require__("../../../../ngx-pagination/dist/ngx-pagination.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_ngx_loading__ = __webpack_require__("../../../../ngx-loading/ngx-loading/ngx-loading.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__swimlane_ngx_charts_release_common_tooltip_injection_service__ = __webpack_require__("../../../../@swimlane/ngx-charts/release/common/tooltip/injection.service.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__swimlane_ngx_charts_release_common_tooltip_tooltip_service__ = __webpack_require__("../../../../@swimlane/ngx-charts/release/common/tooltip/tooltip.service.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_ngx_bootstrap_positioning_positioning_service__ = __webpack_require__("../../../../ngx-bootstrap/positioning/positioning.service.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19_ngx_bootstrap_component_loader_component_loader_factory__ = __webpack_require__("../../../../ngx-bootstrap/component-loader/component-loader.factory.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20_ngx_bootstrap_modal_bs_modal_service__ = __webpack_require__("../../../../ngx-bootstrap/modal/bs-modal.service.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21_ngx_mydatepicker_dist_services_ngx_my_date_picker_config__ = __webpack_require__("../../../../ngx-mydatepicker/dist/services/ngx-my-date-picker.config.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22_ngx_malihu_scrollbar_dist_lib_malihu_scrollbar_service__ = __webpack_require__("../../../../ngx-malihu-scrollbar/dist/lib/malihu-scrollbar.service.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__agm_core_utils_browser_globals__ = __webpack_require__("../../../../@agm/core/utils/browser-globals.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__agm_core_services_maps_api_loader_maps_api_loader__ = __webpack_require__("../../../../@agm/core/services/maps-api-loader/maps-api-loader.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__agm_core_services_maps_api_loader_lazy_maps_api_loader__ = __webpack_require__("../../../../@agm/core/services/maps-api-loader/lazy-maps-api-loader.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__app_services_http_interceptor__ = __webpack_require__("../../../../../src/app/services/http-interceptor.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__app_services_admin_service__ = __webpack_require__("../../../../../src/app/services/admin.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__app_models_login_model__ = __webpack_require__("../../../../../src/app/models/login.model.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__app_services_common_service__ = __webpack_require__("../../../../../src/app/services/common.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__app_fire_base_messaging_service__ = __webpack_require__("../../../../../src/app/fire-base/messaging.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__app_guards_auth_guard__ = __webpack_require__("../../../../../src/app/guards/auth.guard.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__app_guards_acl_user_guard__ = __webpack_require__("../../../../../src/app/guards/acl-user.guard.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__app_common_constants__ = __webpack_require__("../../../../../src/app/common/constants.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__app_layout_layout_routing_module__ = __webpack_require__("../../../../../src/app/layout/layout-routing.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__ngx_translate_core_index__ = __webpack_require__("../../../../@ngx-translate/core/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38_ngx_bootstrap_modal_modal_module__ = __webpack_require__("../../../../ngx-bootstrap/modal/modal.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39_ngx_mydatepicker_dist_ngx_my_date_picker_module__ = __webpack_require__("../../../../ngx-mydatepicker/dist/ngx-my-date-picker.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40_ngx_malihu_scrollbar_dist_lib_malihu_scrollbar_module__ = __webpack_require__("../../../../ngx-malihu-scrollbar/dist/lib/malihu-scrollbar.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__agm_core_core_module__ = __webpack_require__("../../../../@agm/core/core.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42_ng2_tel_input_src_ng2_tel_input_module__ = __webpack_require__("../../../../ng2-tel-input/src/ng2-tel-input.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42_ng2_tel_input_src_ng2_tel_input_module___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_42_ng2_tel_input_src_ng2_tel_input_module__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__swimlane_ngx_charts_release_common_axes_axes_module__ = __webpack_require__("../../../../@swimlane/ngx-charts/release/common/axes/axes.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__swimlane_ngx_charts_release_common_tooltip_tooltip_module__ = __webpack_require__("../../../../@swimlane/ngx-charts/release/common/tooltip/tooltip.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__swimlane_ngx_charts_release_common_chart_common_module__ = __webpack_require__("../../../../@swimlane/ngx-charts/release/common/chart-common.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__swimlane_ngx_charts_release_area_chart_area_chart_module__ = __webpack_require__("../../../../@swimlane/ngx-charts/release/area-chart/area-chart.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__swimlane_ngx_charts_release_bar_chart_bar_chart_module__ = __webpack_require__("../../../../@swimlane/ngx-charts/release/bar-chart/bar-chart.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__swimlane_ngx_charts_release_bubble_chart_bubble_chart_module__ = __webpack_require__("../../../../@swimlane/ngx-charts/release/bubble-chart/bubble-chart.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__swimlane_ngx_charts_release_force_directed_graph_force_directed_graph_module__ = __webpack_require__("../../../../@swimlane/ngx-charts/release/force-directed-graph/force-directed-graph.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__swimlane_ngx_charts_release_heat_map_heat_map_module__ = __webpack_require__("../../../../@swimlane/ngx-charts/release/heat-map/heat-map.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__swimlane_ngx_charts_release_line_chart_line_chart_module__ = __webpack_require__("../../../../@swimlane/ngx-charts/release/line-chart/line-chart.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__swimlane_ngx_charts_release_pie_chart_pie_chart_module__ = __webpack_require__("../../../../@swimlane/ngx-charts/release/pie-chart/pie-chart.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__swimlane_ngx_charts_release_polar_chart_polar_chart_module__ = __webpack_require__("../../../../@swimlane/ngx-charts/release/polar-chart/polar-chart.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_54__swimlane_ngx_charts_release_number_card_number_card_module__ = __webpack_require__("../../../../@swimlane/ngx-charts/release/number-card/number-card.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_55__swimlane_ngx_charts_release_tree_map_tree_map_module__ = __webpack_require__("../../../../@swimlane/ngx-charts/release/tree-map/tree-map.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_56__swimlane_ngx_charts_release_gauge_gauge_module__ = __webpack_require__("../../../../@swimlane/ngx-charts/release/gauge/gauge.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_57__swimlane_ngx_charts_release_ngx_charts_module__ = __webpack_require__("../../../../@swimlane/ngx-charts/release/ngx-charts.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_58_angular_froala_wysiwyg_editor_editor_module__ = __webpack_require__("../../../../angular-froala-wysiwyg/editor/editor.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_59_angular_froala_wysiwyg_view_view_module__ = __webpack_require__("../../../../angular-froala-wysiwyg/view/view.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_60_primeng_components_button_button__ = __webpack_require__("../../../../primeng/components/button/button.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_60_primeng_components_button_button___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_60_primeng_components_button_button__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_61_primeng_components_calendar_calendar__ = __webpack_require__("../../../../primeng/components/calendar/calendar.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_61_primeng_components_calendar_calendar___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_61_primeng_components_calendar_calendar__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_62_ng_lazyload_image_src_lazyload_image_module__ = __webpack_require__("../../../../ng-lazyload-image/src/lazyload-image.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_62_ng_lazyload_image_src_lazyload_image_module___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_62_ng_lazyload_image_src_lazyload_image_module__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_63__app_layout_dashboard_dashboard_component__ = __webpack_require__("../../../../../src/app/layout/dashboard/dashboard.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_64__app_layout_inhouse_users_inhouse_users_component__ = __webpack_require__("../../../../../src/app/layout/inhouse-users/inhouse-users.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_65__app_layout_generate_thumb_generate_thumb_component__ = __webpack_require__("../../../../../src/app/layout/generate-thumb/generate-thumb.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_66__app_layout_notifications_notifications_component__ = __webpack_require__("../../../../../src/app/layout/notifications/notifications.component.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LayoutModuleNgFactory", function() { return LayoutModuleNgFactory; });
-/**
- * @fileoverview This file is generated by the Angular template compiler.
- * Do not edit.
- * @suppress {suspiciousCode,uselessCode,missingProperties,missingOverride}
- */
-/* tslint:disable */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var LayoutModuleNgFactory = __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵcmf"](__WEBPACK_IMPORTED_MODULE_1__app_layout_layout_module__["a" /* LayoutModule */], [__WEBPACK_IMPORTED_MODULE_2__app_layout_layout_component__["a" /* LayoutComponent */]], function (_l) {
-    return __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmod"]([__WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_0__angular_core__["ComponentFactoryResolver"], __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵCodegenComponentFactoryResolver"], [[8, [__WEBPACK_IMPORTED_MODULE_3__layout_component_ngfactory__["a" /* LayoutComponentNgFactory */], __WEBPACK_IMPORTED_MODULE_4__dashboard_dashboard_component_ngfactory__["a" /* DashboardComponentNgFactory */], __WEBPACK_IMPORTED_MODULE_5__inhouse_users_inhouse_users_component_ngfactory__["a" /* InhouseUsersComponentNgFactory */],
-                    __WEBPACK_IMPORTED_MODULE_6__generate_thumb_generate_thumb_component_ngfactory__["a" /* GenerateThumbComponentNgFactory */], __WEBPACK_IMPORTED_MODULE_7__notifications_notifications_component_ngfactory__["a" /* NotificationsComponentNgFactory */],
-                    __WEBPACK_IMPORTED_MODULE_8__gendir_node_modules_ngx_bootstrap_modal_modal_backdrop_component_ngfactory__["a" /* ModalBackdropComponentNgFactory */], __WEBPACK_IMPORTED_MODULE_9__gendir_node_modules_ngx_bootstrap_modal_modal_container_component_ngfactory__["a" /* ModalContainerComponentNgFactory */],
-                    __WEBPACK_IMPORTED_MODULE_10__gendir_node_modules_ngx_mydatepicker_dist_ngx_my_date_picker_component_ngfactory__["a" /* NgxMyDatePickerNgFactory */], __WEBPACK_IMPORTED_MODULE_11__gendir_node_modules_swimlane_ngx_charts_release_common_tooltip_tooltip_component_ngfactory__["a" /* TooltipContentComponentNgFactory */]]],
-            [3, __WEBPACK_IMPORTED_MODULE_0__angular_core__["ComponentFactoryResolver"]], __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModuleRef"]]), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](4608, __WEBPACK_IMPORTED_MODULE_12__angular_common__["NgLocalization"], __WEBPACK_IMPORTED_MODULE_12__angular_common__["NgLocaleLocalization"], [__WEBPACK_IMPORTED_MODULE_0__angular_core__["LOCALE_ID"]]), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](4608, __WEBPACK_IMPORTED_MODULE_13__angular_forms__["ɵi"], __WEBPACK_IMPORTED_MODULE_13__angular_forms__["ɵi"], []),
-        __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](4608, __WEBPACK_IMPORTED_MODULE_13__angular_forms__["FormBuilder"], __WEBPACK_IMPORTED_MODULE_13__angular_forms__["FormBuilder"], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](4608, __WEBPACK_IMPORTED_MODULE_14_ngx_pagination__["a" /* PaginationService */], __WEBPACK_IMPORTED_MODULE_14_ngx_pagination__["a" /* PaginationService */], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](4608, __WEBPACK_IMPORTED_MODULE_15_ngx_loading__["a" /* ɵc */], __WEBPACK_IMPORTED_MODULE_15_ngx_loading__["a" /* ɵc */], [[2, 'loadingConfig']]), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](4608, __WEBPACK_IMPORTED_MODULE_16__swimlane_ngx_charts_release_common_tooltip_injection_service__["a" /* InjectionService */], __WEBPACK_IMPORTED_MODULE_16__swimlane_ngx_charts_release_common_tooltip_injection_service__["a" /* InjectionService */], [__WEBPACK_IMPORTED_MODULE_0__angular_core__["ApplicationRef"], __WEBPACK_IMPORTED_MODULE_0__angular_core__["ComponentFactoryResolver"],
-            __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injector"]]), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](4608, __WEBPACK_IMPORTED_MODULE_17__swimlane_ngx_charts_release_common_tooltip_tooltip_service__["a" /* TooltipService */], __WEBPACK_IMPORTED_MODULE_17__swimlane_ngx_charts_release_common_tooltip_tooltip_service__["a" /* TooltipService */], [__WEBPACK_IMPORTED_MODULE_16__swimlane_ngx_charts_release_common_tooltip_injection_service__["a" /* InjectionService */]]), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](4608, __WEBPACK_IMPORTED_MODULE_12__angular_common__["LocationStrategy"], __WEBPACK_IMPORTED_MODULE_12__angular_common__["PathLocationStrategy"], [__WEBPACK_IMPORTED_MODULE_12__angular_common__["PlatformLocation"], [2, __WEBPACK_IMPORTED_MODULE_12__angular_common__["APP_BASE_HREF"]]]), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](4608, __WEBPACK_IMPORTED_MODULE_12__angular_common__["Location"], __WEBPACK_IMPORTED_MODULE_12__angular_common__["Location"], [__WEBPACK_IMPORTED_MODULE_12__angular_common__["LocationStrategy"]]), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](4608, __WEBPACK_IMPORTED_MODULE_18_ngx_bootstrap_positioning_positioning_service__["a" /* PositioningService */], __WEBPACK_IMPORTED_MODULE_18_ngx_bootstrap_positioning_positioning_service__["a" /* PositioningService */], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](4608, __WEBPACK_IMPORTED_MODULE_19_ngx_bootstrap_component_loader_component_loader_factory__["a" /* ComponentLoaderFactory */], __WEBPACK_IMPORTED_MODULE_19_ngx_bootstrap_component_loader_component_loader_factory__["a" /* ComponentLoaderFactory */], [__WEBPACK_IMPORTED_MODULE_0__angular_core__["ComponentFactoryResolver"], __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgZone"], __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injector"],
-            __WEBPACK_IMPORTED_MODULE_18_ngx_bootstrap_positioning_positioning_service__["a" /* PositioningService */], __WEBPACK_IMPORTED_MODULE_0__angular_core__["ApplicationRef"]]), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](4608, __WEBPACK_IMPORTED_MODULE_20_ngx_bootstrap_modal_bs_modal_service__["a" /* BsModalService */], __WEBPACK_IMPORTED_MODULE_20_ngx_bootstrap_modal_bs_modal_service__["a" /* BsModalService */], [__WEBPACK_IMPORTED_MODULE_0__angular_core__["RendererFactory2"], __WEBPACK_IMPORTED_MODULE_19_ngx_bootstrap_component_loader_component_loader_factory__["a" /* ComponentLoaderFactory */]]),
-        __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](4608, __WEBPACK_IMPORTED_MODULE_21_ngx_mydatepicker_dist_services_ngx_my_date_picker_config__["a" /* NgxMyDatePickerConfig */], __WEBPACK_IMPORTED_MODULE_21_ngx_mydatepicker_dist_services_ngx_my_date_picker_config__["a" /* NgxMyDatePickerConfig */], []),
-        __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](4608, __WEBPACK_IMPORTED_MODULE_22_ngx_malihu_scrollbar_dist_lib_malihu_scrollbar_service__["a" /* MalihuScrollbarService */], __WEBPACK_IMPORTED_MODULE_22_ngx_malihu_scrollbar_dist_lib_malihu_scrollbar_service__["a" /* MalihuScrollbarService */], [__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgZone"]]),
-        __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](4608, __WEBPACK_IMPORTED_MODULE_23__agm_core_utils_browser_globals__["a" /* WindowRef */], __WEBPACK_IMPORTED_MODULE_23__agm_core_utils_browser_globals__["a" /* WindowRef */], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](4608, __WEBPACK_IMPORTED_MODULE_23__agm_core_utils_browser_globals__["b" /* DocumentRef */], __WEBPACK_IMPORTED_MODULE_23__agm_core_utils_browser_globals__["b" /* DocumentRef */], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](4608, __WEBPACK_IMPORTED_MODULE_24__agm_core_services_maps_api_loader_maps_api_loader__["a" /* MapsAPILoader */], __WEBPACK_IMPORTED_MODULE_25__agm_core_services_maps_api_loader_lazy_maps_api_loader__["a" /* LazyMapsAPILoader */], [__WEBPACK_IMPORTED_MODULE_25__agm_core_services_maps_api_loader_lazy_maps_api_loader__["b" /* LAZY_MAPS_API_CONFIG */], __WEBPACK_IMPORTED_MODULE_23__agm_core_utils_browser_globals__["a" /* WindowRef */], __WEBPACK_IMPORTED_MODULE_23__agm_core_utils_browser_globals__["b" /* DocumentRef */]]), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](4608, __WEBPACK_IMPORTED_MODULE_26__app_services_http_interceptor__["a" /* HttpInterceptor */], __WEBPACK_IMPORTED_MODULE_26__app_services_http_interceptor__["a" /* HttpInterceptor */], [__WEBPACK_IMPORTED_MODULE_27__angular_http__["f" /* XHRBackend */], __WEBPACK_IMPORTED_MODULE_27__angular_http__["g" /* RequestOptions */],
-            __WEBPACK_IMPORTED_MODULE_27__angular_http__["i" /* Http */], __WEBPACK_IMPORTED_MODULE_28__angular_router__["a" /* Router */]]), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](4608, __WEBPACK_IMPORTED_MODULE_29__app_services_admin_service__["a" /* AdminService */], __WEBPACK_IMPORTED_MODULE_29__app_services_admin_service__["a" /* AdminService */], [__WEBPACK_IMPORTED_MODULE_26__app_services_http_interceptor__["a" /* HttpInterceptor */], __WEBPACK_IMPORTED_MODULE_30__app_models_login_model__["a" /* Login */], __WEBPACK_IMPORTED_MODULE_30__app_models_login_model__["b" /* AdminACL */]]), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](4608, __WEBPACK_IMPORTED_MODULE_31__app_services_common_service__["a" /* CommonService */], __WEBPACK_IMPORTED_MODULE_31__app_services_common_service__["a" /* CommonService */], [__WEBPACK_IMPORTED_MODULE_29__app_services_admin_service__["a" /* AdminService */], __WEBPACK_IMPORTED_MODULE_28__angular_router__["a" /* Router */]]), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](4608, __WEBPACK_IMPORTED_MODULE_32__app_fire_base_messaging_service__["a" /* MessagingService */], __WEBPACK_IMPORTED_MODULE_32__app_fire_base_messaging_service__["a" /* MessagingService */], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](4608, __WEBPACK_IMPORTED_MODULE_33__app_guards_auth_guard__["a" /* AuthGuard */], __WEBPACK_IMPORTED_MODULE_33__app_guards_auth_guard__["a" /* AuthGuard */], [__WEBPACK_IMPORTED_MODULE_28__angular_router__["a" /* Router */], __WEBPACK_IMPORTED_MODULE_26__app_services_http_interceptor__["a" /* HttpInterceptor */], __WEBPACK_IMPORTED_MODULE_29__app_services_admin_service__["a" /* AdminService */], __WEBPACK_IMPORTED_MODULE_30__app_models_login_model__["a" /* Login */], __WEBPACK_IMPORTED_MODULE_30__app_models_login_model__["b" /* AdminACL */]]),
-        __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](4608, __WEBPACK_IMPORTED_MODULE_34__app_guards_acl_user_guard__["a" /* AclUserGuard */], __WEBPACK_IMPORTED_MODULE_34__app_guards_acl_user_guard__["a" /* AclUserGuard */], [__WEBPACK_IMPORTED_MODULE_29__app_services_admin_service__["a" /* AdminService */], __WEBPACK_IMPORTED_MODULE_12__angular_common__["Location"],
-            __WEBPACK_IMPORTED_MODULE_28__angular_router__["a" /* Router */]]), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](4608, __WEBPACK_IMPORTED_MODULE_35__app_common_constants__["a" /* Constant */], __WEBPACK_IMPORTED_MODULE_35__app_common_constants__["a" /* Constant */], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_12__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_12__angular_common__["CommonModule"], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_28__angular_router__["x" /* RouterModule */], __WEBPACK_IMPORTED_MODULE_28__angular_router__["x" /* RouterModule */], [[2, __WEBPACK_IMPORTED_MODULE_28__angular_router__["k" /* ɵa */]], [2, __WEBPACK_IMPORTED_MODULE_28__angular_router__["a" /* Router */]]]), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_36__app_layout_layout_routing_module__["a" /* LayoutRoutingModule */], __WEBPACK_IMPORTED_MODULE_36__app_layout_layout_routing_module__["a" /* LayoutRoutingModule */], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_37__ngx_translate_core_index__["a" /* TranslateModule */], __WEBPACK_IMPORTED_MODULE_37__ngx_translate_core_index__["a" /* TranslateModule */], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_13__angular_forms__["ɵba"], __WEBPACK_IMPORTED_MODULE_13__angular_forms__["ɵba"], []),
-        __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_13__angular_forms__["FormsModule"], __WEBPACK_IMPORTED_MODULE_13__angular_forms__["FormsModule"], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_13__angular_forms__["ReactiveFormsModule"], __WEBPACK_IMPORTED_MODULE_13__angular_forms__["ReactiveFormsModule"], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_38_ngx_bootstrap_modal_modal_module__["a" /* ModalModule */], __WEBPACK_IMPORTED_MODULE_38_ngx_bootstrap_modal_modal_module__["a" /* ModalModule */], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_14_ngx_pagination__["b" /* NgxPaginationModule */], __WEBPACK_IMPORTED_MODULE_14_ngx_pagination__["b" /* NgxPaginationModule */], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_15_ngx_loading__["b" /* LoadingModule */], __WEBPACK_IMPORTED_MODULE_15_ngx_loading__["b" /* LoadingModule */], []),
-        __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_39_ngx_mydatepicker_dist_ngx_my_date_picker_module__["a" /* NgxMyDatePickerModule */], __WEBPACK_IMPORTED_MODULE_39_ngx_mydatepicker_dist_ngx_my_date_picker_module__["a" /* NgxMyDatePickerModule */], []),
-        __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_40_ngx_malihu_scrollbar_dist_lib_malihu_scrollbar_module__["a" /* MalihuScrollbarModule */], __WEBPACK_IMPORTED_MODULE_40_ngx_malihu_scrollbar_dist_lib_malihu_scrollbar_module__["a" /* MalihuScrollbarModule */], []),
-        __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_41__agm_core_core_module__["a" /* AgmCoreModule */], __WEBPACK_IMPORTED_MODULE_41__agm_core_core_module__["a" /* AgmCoreModule */], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_42_ng2_tel_input_src_ng2_tel_input_module__["Ng2TelInputModule"], __WEBPACK_IMPORTED_MODULE_42_ng2_tel_input_src_ng2_tel_input_module__["Ng2TelInputModule"], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_43__swimlane_ngx_charts_release_common_axes_axes_module__["a" /* AxesModule */], __WEBPACK_IMPORTED_MODULE_43__swimlane_ngx_charts_release_common_axes_axes_module__["a" /* AxesModule */], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_44__swimlane_ngx_charts_release_common_tooltip_tooltip_module__["a" /* TooltipModule */], __WEBPACK_IMPORTED_MODULE_44__swimlane_ngx_charts_release_common_tooltip_tooltip_module__["a" /* TooltipModule */], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_45__swimlane_ngx_charts_release_common_chart_common_module__["a" /* ChartCommonModule */], __WEBPACK_IMPORTED_MODULE_45__swimlane_ngx_charts_release_common_chart_common_module__["a" /* ChartCommonModule */], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_46__swimlane_ngx_charts_release_area_chart_area_chart_module__["a" /* AreaChartModule */], __WEBPACK_IMPORTED_MODULE_46__swimlane_ngx_charts_release_area_chart_area_chart_module__["a" /* AreaChartModule */], []),
-        __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_47__swimlane_ngx_charts_release_bar_chart_bar_chart_module__["a" /* BarChartModule */], __WEBPACK_IMPORTED_MODULE_47__swimlane_ngx_charts_release_bar_chart_bar_chart_module__["a" /* BarChartModule */], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_48__swimlane_ngx_charts_release_bubble_chart_bubble_chart_module__["a" /* BubbleChartModule */], __WEBPACK_IMPORTED_MODULE_48__swimlane_ngx_charts_release_bubble_chart_bubble_chart_module__["a" /* BubbleChartModule */], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_49__swimlane_ngx_charts_release_force_directed_graph_force_directed_graph_module__["a" /* ForceDirectedGraphModule */], __WEBPACK_IMPORTED_MODULE_49__swimlane_ngx_charts_release_force_directed_graph_force_directed_graph_module__["a" /* ForceDirectedGraphModule */], []),
-        __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_50__swimlane_ngx_charts_release_heat_map_heat_map_module__["a" /* HeatMapModule */], __WEBPACK_IMPORTED_MODULE_50__swimlane_ngx_charts_release_heat_map_heat_map_module__["a" /* HeatMapModule */], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_51__swimlane_ngx_charts_release_line_chart_line_chart_module__["a" /* LineChartModule */], __WEBPACK_IMPORTED_MODULE_51__swimlane_ngx_charts_release_line_chart_line_chart_module__["a" /* LineChartModule */], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_52__swimlane_ngx_charts_release_pie_chart_pie_chart_module__["a" /* PieChartModule */], __WEBPACK_IMPORTED_MODULE_52__swimlane_ngx_charts_release_pie_chart_pie_chart_module__["a" /* PieChartModule */], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_53__swimlane_ngx_charts_release_polar_chart_polar_chart_module__["a" /* PolarChartModule */], __WEBPACK_IMPORTED_MODULE_53__swimlane_ngx_charts_release_polar_chart_polar_chart_module__["a" /* PolarChartModule */], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_54__swimlane_ngx_charts_release_number_card_number_card_module__["a" /* NumberCardModule */], __WEBPACK_IMPORTED_MODULE_54__swimlane_ngx_charts_release_number_card_number_card_module__["a" /* NumberCardModule */], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_55__swimlane_ngx_charts_release_tree_map_tree_map_module__["a" /* TreeMapModule */], __WEBPACK_IMPORTED_MODULE_55__swimlane_ngx_charts_release_tree_map_tree_map_module__["a" /* TreeMapModule */], []),
-        __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_56__swimlane_ngx_charts_release_gauge_gauge_module__["a" /* GaugeModule */], __WEBPACK_IMPORTED_MODULE_56__swimlane_ngx_charts_release_gauge_gauge_module__["a" /* GaugeModule */], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_57__swimlane_ngx_charts_release_ngx_charts_module__["a" /* NgxChartsModule */], __WEBPACK_IMPORTED_MODULE_57__swimlane_ngx_charts_release_ngx_charts_module__["a" /* NgxChartsModule */], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_58_angular_froala_wysiwyg_editor_editor_module__["a" /* FroalaEditorModule */], __WEBPACK_IMPORTED_MODULE_58_angular_froala_wysiwyg_editor_editor_module__["a" /* FroalaEditorModule */], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_59_angular_froala_wysiwyg_view_view_module__["a" /* FroalaViewModule */], __WEBPACK_IMPORTED_MODULE_59_angular_froala_wysiwyg_view_view_module__["a" /* FroalaViewModule */], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_60_primeng_components_button_button__["ButtonModule"], __WEBPACK_IMPORTED_MODULE_60_primeng_components_button_button__["ButtonModule"], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_61_primeng_components_calendar_calendar__["CalendarModule"], __WEBPACK_IMPORTED_MODULE_61_primeng_components_calendar_calendar__["CalendarModule"], []),
-        __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_62_ng_lazyload_image_src_lazyload_image_module__["LazyLoadImageModule"], __WEBPACK_IMPORTED_MODULE_62_ng_lazyload_image_src_lazyload_image_module__["LazyLoadImageModule"], []),
-        __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](512, __WEBPACK_IMPORTED_MODULE_1__app_layout_layout_module__["a" /* LayoutModule */], __WEBPACK_IMPORTED_MODULE_1__app_layout_layout_module__["a" /* LayoutModule */], []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](1024, __WEBPACK_IMPORTED_MODULE_28__angular_router__["t" /* ROUTES */], function () {
-            return [[{ path: 'dashboard', component: __WEBPACK_IMPORTED_MODULE_2__app_layout_layout_component__["a" /* LayoutComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_33__app_guards_auth_guard__["a" /* AuthGuard */]],
-                        children: [{ path: '', component: __WEBPACK_IMPORTED_MODULE_63__app_layout_dashboard_dashboard_component__["a" /* DashboardComponent */] }, { path: 'view-inhouse-users/:userType',
-                                component: __WEBPACK_IMPORTED_MODULE_64__app_layout_inhouse_users_inhouse_users_component__["a" /* InhouseUsersComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_34__app_guards_acl_user_guard__["a" /* AclUserGuard */]],
-                                data: { roles: ['', '', ''] } }, { path: 'notary', loadChildren: './notary/notary.module#NotaryModule' },
-                            { path: 'banks', loadChildren: './banks/banks.module#BanksModule' },
-                            { path: 'users', loadChildren: './users/users.module#UsersModule' },
-                            { path: 'leads', loadChildren: './leads/leads.module#LeadsModule' },
-                            { path: 'manual-leads', loadChildren: './manual-leads/manual-leads.module#ManualLeadsModule' },
-                            { path: 'templates', loadChildren: './templates/templates.module#TemplatesModule' },
-                            { path: 'generate-thumb', component: __WEBPACK_IMPORTED_MODULE_65__app_layout_generate_thumb_generate_thumb_component__["a" /* GenerateThumbComponent */] },
-                            { path: 'reports', loadChildren: './reports/reports.module#ReportsModule' },
-                            { path: 'access-control-mgt', loadChildren: './acl/acl.module#AclModule' },
-                            { path: 'appointments', loadChildren: './appointments/appointments.module#AppointmentsModule' },
-                            { path: 'notifications', component: __WEBPACK_IMPORTED_MODULE_66__app_layout_notifications_notifications_component__["a" /* NotificationsComponent */] },
-                            { path: 'settings', loadChildren: './settings/settings.module#SettingsModule' },
-                            { path: 'properties', loadChildren: './properties/properties.module#PropertiesModule' },
-                            { path: 'projects', loadChildren: './projects/projects.module#ProjectsModule' }] }]];
-        }, []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](256, 'loadingConfig', { animationType: 'rectangle-bounce',
-            primaryColour: '#00B96F' }, []), __WEBPACK_IMPORTED_MODULE_0__angular_core__["ɵmpd"](256, __WEBPACK_IMPORTED_MODULE_25__agm_core_services_maps_api_loader_lazy_maps_api_loader__["b" /* LAZY_MAPS_API_CONFIG */], { apiKey: 'AIzaSyCYv_zELZGVo2Ehzgp8eh8UeSIidhMCmH8', libraries: ['drawing'] }, [])]);
-});
-//# sourceMappingURL=data:application/json;base64,eyJmaWxlIjoiL2hvbWUvY2JsMTAwMi9Eb2N1bWVudHMvcmVhbGVzdGF0ZS1hZG1pbi9zcmMvYXBwL2xheW91dC9sYXlvdXQubW9kdWxlLm5nZmFjdG9yeS50cyIsInZlcnNpb24iOjMsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIm5nOi8vL2hvbWUvY2JsMTAwMi9Eb2N1bWVudHMvcmVhbGVzdGF0ZS1hZG1pbi9zcmMvYXBwL2xheW91dC9sYXlvdXQubW9kdWxlLnRzIl0sInNvdXJjZXNDb250ZW50IjpbIiAiXSwibWFwcGluZ3MiOiJBQUFBOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OzsifQ==
-//# sourceMappingURL=layout.module.ngfactory.js.map
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ngx_loading__ = __webpack_require__("../../../../ngx-loading/ngx-loading/ngx-loading.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ngx_pagination__ = __webpack_require__("../../../../ngx-pagination/dist/ngx-pagination.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__guards_acl_user_guard__ = __webpack_require__("../../../../../src/app/guards/acl-user.guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__appointments_component__ = __webpack_require__("../../../../../src/app/layout/appointments/appointments.component.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppointmentsModule", function() { return AppointmentsModule; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+
+
+
+var routes = [
+    // { path: '', component: AppointmentsComponent}
+    { path: '', component: __WEBPACK_IMPORTED_MODULE_7__appointments_component__["a" /* AppointmentsComponent */],
+        canActivate: [__WEBPACK_IMPORTED_MODULE_6__guards_acl_user_guard__["a" /* AclUserGuard */]], data: { roles: ['Appointments', 'can_read', ''] } }
+];
+var AppointmentsModule = /** @class */ (function () {
+    function AppointmentsModule() {
+    }
+    AppointmentsModule = __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+            imports: [
+                __WEBPACK_IMPORTED_MODULE_2__angular_router__["RouterModule"].forChild(routes),
+                __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"],
+                __WEBPACK_IMPORTED_MODULE_3_ngx_loading__["a" /* LoadingModule */].forRoot({
+                    animationType: __WEBPACK_IMPORTED_MODULE_3_ngx_loading__["b" /* ANIMATION_TYPES */].rectangleBounce,
+                    primaryColour: '#00B96F'
+                }),
+                __WEBPACK_IMPORTED_MODULE_4_ngx_pagination__["a" /* NgxPaginationModule */],
+                __WEBPACK_IMPORTED_MODULE_5__angular_forms__["FormsModule"],
+                __WEBPACK_IMPORTED_MODULE_5__angular_forms__["ReactiveFormsModule"]
+            ],
+            declarations: [
+                __WEBPACK_IMPORTED_MODULE_7__appointments_component__["a" /* AppointmentsComponent */]
+            ]
+        })
+    ], AppointmentsModule);
+    return AppointmentsModule;
+}());
+
+//# sourceMappingURL=appointments.module.js.map
 
 /***/ })
 

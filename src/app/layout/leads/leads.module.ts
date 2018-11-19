@@ -37,8 +37,10 @@ const routes: Routes = [
 
   { path: 'csr-sellers', component: CsrSellerComponent,
     canActivate: [AclUserGuard], data: {roles: ['Seller Lead Management', 'can_read', 'can_csr_seller']}},
+  // lead wrt seller
   { path: 'csr-sellers-leads/:id', component: CsrSellerComponent,
     canActivate: [AclUserGuard], data: {roles: ['Seller Lead Management', 'can_read', 'can_csr_seller']}},
+  // lead details
   { path: 'csr-sellers/:id', component: CsrSellerDetailComponent,
     canActivate: [AclUserGuard], data: {roles: ['Seller Lead Management', 'can_read', 'can_csr_seller']}},
   { path: 'chat-with-seller/:id/:user_id', component: SellerChatComponent,
@@ -46,15 +48,19 @@ const routes: Routes = [
 
   { path: 'csr-buyers', component: CsrBuyerComponent,
     canActivate: [AclUserGuard], data: {roles: ['Buyer Lead Management', 'can_read', 'can_csr_buyer']}},
+  // lead wrt buyer
   { path: 'csr-buyers-leads/:id', component: CsrBuyerComponent,
     canActivate: [AclUserGuard], data: {roles: ['Buyer Lead Management', 'can_read', 'can_csr_buyer']}},
+  // lead details
   { path: 'csr-buyers/:id', component: CsrBuyerDetailComponent,
     canActivate: [AclUserGuard], data: {roles: ['Buyer Lead Management', 'can_read', 'can_csr_buyer']}},
 
   { path: 'inhouse-broker', component: InhouseBrokerComponent,
     canActivate: [AclUserGuard], data: {roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker']}},
+  // leads wrt inhouse broker
   { path: 'inhouse-broker-leads/:id', component: InhouseBrokerComponent,
     canActivate: [AclUserGuard], data: {roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker']}},
+  // lead details
   { path: 'inhouse-broker/:id', component: InhouseBrokerDetailComponent,
     canActivate: [AclUserGuard], data: {roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker']}},
   { path: 'chat-with-developer/:id', component: MyChatComponent,
@@ -62,8 +68,10 @@ const routes: Routes = [
 
   { path: 'csr-closers', component: CsrCloserComponent,
     canActivate: [AclUserGuard], data: {roles: ['Closer Lead Management', 'can_read', 'can_csr_closer']}},
+  // leads wrt closure
   { path: 'csr-closers-leads/:id', component: CsrCloserComponent,
     canActivate: [AclUserGuard], data: {roles: ['Closer Lead Management', 'can_read', 'can_csr_closer']}},
+  // lead details
   { path: 'csr-closers/:id', component: CsrCloserDetailComponent,
     canActivate: [AclUserGuard], data: {roles: ['Closer Lead Management', 'can_read', 'can_csr_closer']}}
 ];

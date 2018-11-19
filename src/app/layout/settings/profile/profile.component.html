@@ -14,16 +14,10 @@
       <div class="col-xl-12 col-lg-12 col-md-12 col-12">
           <div class="row">
             <div class="col-6">
-                <div class="add-img">
-                  <input type="file" disabled name="">
-                  <label>+ Add Image</label>
+                <div class="add-img" style="display:flex;">
+                    <img *ngIf="image" [src]="image" style="object-fit: cover; width: 100%;">
+                    <label *ngIf="!image">No Image</label>
                 </div>
-            </div>
-            <div class="col-6">
-                <!-- <div class="btn-cont text-right">
-                    <button *ngIf="model.id==''" type="submit" [disabled]="!addForm.valid" class="btn btn-primary">ADD</button>
-                    <button *ngIf="model.id!=''" type="submit" class="btn btn-primary">UPDATE</button>
-                </div> -->
             </div>
             <div class="col-12">
                 <div class="spacer40"></div>
@@ -58,30 +52,112 @@
               <div class="clearfix"></div>
               <div *ngIf="permission.show" id="broker-seller-dev" class="inner-select">
                 <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_create==1}">Can Create
-                    <input type="checkbox" [checked]="permission.can_create == 1 ? 'checked': ''"  (click)="setPermission('can_create', i)">
+                    <input type="checkbox" [checked]="permission.can_create == 1 ? 'checked': ''" >
                     <span class="checkmark"></span>
                 </label>
                 <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_read==1}">Can Read
-                    <input type="checkbox" [checked]="permission.can_read == 1 ? 'checked': ''"  (click)="setPermission('can_read', i)">
+                    <input type="checkbox" [checked]="permission.can_read == 1 ? 'checked': ''" >
                     <span class="checkmark"></span>
                 </label>
                 <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_update==1}">Can Update
-                    <input type="checkbox" [checked]="permission.can_update == 1 ? 'checked': ''"  (click)="setPermission('can_update', i)">
+                    <input type="checkbox" [checked]="permission.can_update == 1 ? 'checked': ''" >
                     <span class="checkmark"></span>
                 </label>
                 <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_delete==1}">Can Block/Unblock
-                    <input type="checkbox" [checked]="permission.can_delete == 1 ? 'checked': ''"  (click)="setPermission('can_delete', i)">
+                    <input type="checkbox" [checked]="permission.can_delete == 1 ? 'checked': ''" >
                     <span class="checkmark"></span>
                 </label>
                 <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_crud==1}">CRUD
-                    <input type="checkbox" [checked]="permission.can_crud == 1 ? 'checked': ''"  (click)="setPermission('can_crud', i)">
+                    <input type="checkbox" [checked]="permission.can_crud == 1 ? 'checked': ''" >
                     <span class="checkmark"></span>
                 </label>
                 <br>
               </div>
               <div class="clearfix"></div>
             </div>
+        </div>
+
+
+          <!-- <div class="row">
+            <div class="col-sm-3 col-12">
+                <div class="form-group-2">
+                  <label>Country</label>
+                  <select class="form-control">
+                      <option>1BHK</option>
+                      <option>2BHK</option>
+                      <option>3BHK</option>
+                  </select>
+                </div>
             </div>
+            <div class="col-sm-3 col-12">
+                <div class="form-group-2">
+                  <label>City</label>
+                  <select class="form-control">
+                      <option>1BHK</option>
+                      <option>2BHK</option>
+                      <option>3BHK</option>
+                  </select>
+                </div>
+            </div>
+            <div class="col-sm-6 col-12">
+                <div class="row">
+                  <div class="col-9">
+                      <div class="form-group-2">
+                        <label>Neighbourhood</label>
+                        <select class="form-control">
+                            <option>1BHK</option>
+                            <option>2BHK</option>
+                            <option>3BHK</option>
+                        </select>
+                      </div>
+                  </div>
+                  <div class="col-3">
+                      <div class="inline-form-group padding0 marginT10"> <button class="add-btn margin0"><img src="img/add.png" alt="img"></button></div>
+                  </div>
+                </div>
+            </div>
+          </div> -->
+          <!-- <div class="row">
+            <div class="col-sm-3 col-12">
+                <div class="form-group-2">
+                  <label>Country</label>
+                  <select class="form-control">
+                      <option>1BHK</option>
+                      <option>2BHK</option>
+                      <option>3BHK</option>
+                  </select>
+                </div>
+            </div>
+            <div class="col-sm-3 col-12">
+                <div class="form-group-2">
+                  <label>City</label>
+                  <select class="form-control">
+                      <option>1BHK</option>
+                      <option>2BHK</option>
+                      <option>3BHK</option>
+                  </select>
+                </div>
+            </div>
+            <div class="col-sm-6 col-12">
+                <div class="row">
+                  <div class="col-9">
+                      <div class="form-group-2">
+                        <label>Neighbourhood</label>
+                        <select class="form-control">
+                            <option>1BHK</option>
+                            <option>2BHK</option>
+                            <option>3BHK</option>
+                        </select>
+                      </div>
+                  </div>
+                  <div class="col-3">
+                      <div class="inline-form-group padding0 marginT10"> <button class="add-btn margin0"><img src="img/add.png" alt="img"></button></div>
+                  </div>
+                </div>
+            </div>
+          </div> -->
+        
+          
       </div>
       </form>
     </div>

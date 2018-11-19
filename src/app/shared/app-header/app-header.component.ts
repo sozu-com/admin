@@ -19,7 +19,7 @@ export class AppHeaderComponent {
   fullName: any;
   image: any;
   admin_acl: any;
-  msg_count: number;
+  msg_count = 0;
   public scrollbarOptions = { axis: 'yx', theme: 'minimal-dark' };
 
   constructor(public admin: AdminService, private router: Router, private constant: Constant,
@@ -31,12 +31,13 @@ export class AppHeaderComponent {
     });
 
     this.msg.currentMessage$.subscribe(r => {
+      console.log('push', r);
       if ( r != null && r.data.notification_type !== 100) {
         /* count if not a push of chat messages */
         this.msg_count++;
       }
     });
-
+console.log('msg_count', this.msg_count);
     this.getNotifications();
   }
 
@@ -94,7 +95,12 @@ export class AppHeaderComponent {
   getNotifications() {
     this.admin.postDataApi('getNotifications', {}).subscribe(r => {
       this.parameter.items = r.data;
-      this.parameter.total = r.total_count;
+      // this.msg_count = r.total_count;
     });
+  }
+
+  viewNotification () {
+    this.msg_count = 0;
+    this.router.navigate(['/dashboard/notifications']);
   }
 }
