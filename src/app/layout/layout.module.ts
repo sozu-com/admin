@@ -34,6 +34,7 @@ import { GenerateThumbComponent } from './generate-thumb/generate-thumb.componen
 import { AclPermissionDirective } from '../directives/acl-permission.directive';
 import { AclUserGuard } from '../guards/acl-user.guard';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { MessagingService } from '../fire-base/messaging.service';
 
 @NgModule({
     imports: [
@@ -72,11 +73,13 @@ import { NotificationsComponent } from './notifications/notifications.component'
         GenerateThumbComponent,
         AclPermissionDirective,
         NotificationsComponent,
+        // MessagingService
         // ViewedProjectsComponent
     ],
     providers: [
         AdminService,
         CommonService,
+        MessagingService,
         AuthGuard,
         AclUserGuard,
         HttpInterceptor,

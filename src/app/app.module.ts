@@ -9,6 +9,12 @@ import { AuthGuard } from './guards/auth.guard';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
+import { AngularFireModule} from 'angularfire2';
+import { AngularFireDatabaseModule} from 'angularfire2/database';
+import { environment} from '../environments/environment';
+import * as firebase from 'firebase';
+firebase.initializeApp(environment.firebase);
+
 
 import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
@@ -22,6 +28,7 @@ import { Constant } from './common/constants';
 import { Login, AdminACL } from './models/login.model';
 import { SharedModule } from './modules/shared.module';
 import { TranslateService } from './lang/translate.service';
+// import { MessagingService } from './fire-base/messaging.service';
 // import LazyLoadImageModule from 'ng-lazyload-image';
 
 const appRoutes: Routes = [
@@ -37,7 +44,8 @@ const appRoutes: Routes = [
     AppComponent,
     ForgotPasswordComponent,
     LoginComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    // MessagingService
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -55,10 +63,13 @@ const appRoutes: Routes = [
     }),
     MalihuScrollbarModule.forRoot(),
     Ng2TelInputModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    // AngularFireDatabaseModule
     // LazyLoadImageModule
   ],
   providers: [
     AdminService,
+    // MessagingService,
     CommonService,
     AuthGuard,
     HttpInterceptor,
