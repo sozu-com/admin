@@ -3,5 +3,14 @@ export const environment = {
   baseUrl: 'http://45.232.252.136:8002/api/admin/',
   baseIP: 'http://45.232.252.136:8002/api/',
   socketUrl: 'http://45.232.252.136:8090',
-  deviceId: 'ADMIN'
+  deviceId: 'ADMIN',
+
+  firebase: {
+    apiKey: 'AIzaSyAZMJdN4-tFi3vkKLz-c-BoFHMq7eAkoAc',
+    authDomain: 'nequore-user.firebaseapp.com',
+    databaseURL: 'https://nequore-user.firebaseio.com',
+    projectId: 'nequore-user',
+    storageBucket: 'nequore-user.appspot.com',
+    messagingSenderId: '1056655786619'
+  }
 };
