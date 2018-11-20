@@ -1805,7 +1805,8 @@ padding-left: 50px;
 }
 .profile-list ul li {
 display: inline-block;
-width:40%;
+width:28%;
+/* width:40%; */
 margin-right: 15px;
 }
 .details-table .table tr td label strong  {

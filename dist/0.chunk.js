@@ -137,6 +137,7 @@ var FileUpload = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ACL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return Permission; });
+/* unused harmony export NewAddress */
 var ACL = /** @class */ (function () {
     function ACL() {
         this.admin_acl = [];
@@ -148,6 +149,12 @@ var Permission = /** @class */ (function () {
     function Permission() {
     }
     return Permission;
+}());
+
+var NewAddress = /** @class */ (function () {
+    function NewAddress() {
+    }
+    return NewAddress;
 }());
 
 //# sourceMappingURL=acl.model.js.map

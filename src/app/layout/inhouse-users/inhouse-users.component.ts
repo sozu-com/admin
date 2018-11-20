@@ -140,11 +140,6 @@ export class InhouseUsersComponent implements OnInit {
       buildings: '0'
     };
     this.model.address[0] = obj;
-    this.model.country_code = this.constant.country_code;
-    this.model.dial_code = this.constant.dial_code;
-    console.log('==', this.model);
-    this.initialCountry = {initialCountry: this.constant.initialCountry};
-
 
     switch (this.parameter.userType) {
       case 'data-collectors':
@@ -177,6 +172,11 @@ export class InhouseUsersComponent implements OnInit {
       this.model.is_data_collector = true;
         break;
     }
+
+    this.model.country_code = this.constant.country_code;
+    this.model.dial_code = this.constant.dial_code;
+    console.log('==', this.model);
+    this.initialCountry = {initialCountry: this.constant.initialCountry};
 
     this.modalOpen.nativeElement.click();
   }
@@ -216,8 +216,8 @@ console.log('===', formdata);
     if (this.model.id !== '') {input.append('id', this.model.id); }
 
     input.append('name', this.model.name);
-    input.append('country_code', this.model.country_code);
-    input.append('dial_code', this.model.dial_code);
+    input.append('country_code', this.model.country_code ? this.model.country_code : this.constant.dial_code);
+    input.append('dial_code', this.model.dial_code ? this.model.dial_code : this.constant.dial_code);
     input.append('phone', this.model.phone);
     input.append('email', this.model.email);
     input.append('address', JSON.stringify(this.model.address));

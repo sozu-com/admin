@@ -78,86 +78,49 @@
         </div>
 
 
-          <!-- <div class="row">
-            <div class="col-sm-3 col-12">
+        <div class="row" *ngFor="let add of model.address; let j=index">
+            <div class="col-sm-2 col-12">
                 <div class="form-group-2">
                   <label>Country</label>
                   <select class="form-control">
-                      <option>1BHK</option>
-                      <option>2BHK</option>
-                      <option>3BHK</option>
+                      <option>{{add.countries}}</option>
                   </select>
                 </div>
             </div>
-            <div class="col-sm-3 col-12">
+            <div class="col-sm-2 col-12">
+                <div class="form-group-2">
+                  <label>State</label>
+                  <select class="form-control" disabled>
+                      <option>{{add.states}}</option>
+                  </select>
+                </div>
+            </div>
+            <div class="col-sm-2 col-12">
                 <div class="form-group-2">
                   <label>City</label>
-                  <select class="form-control">
-                      <option>1BHK</option>
-                      <option>2BHK</option>
-                      <option>3BHK</option>
+                  <select class="form-control" disabled>
+                      <option>{{add.cities}}</option>
                   </select>
                 </div>
             </div>
-            <div class="col-sm-6 col-12">
-                <div class="row">
-                  <div class="col-9">
-                      <div class="form-group-2">
-                        <label>Neighbourhood</label>
-                        <select class="form-control">
-                            <option>1BHK</option>
-                            <option>2BHK</option>
-                            <option>3BHK</option>
-                        </select>
-                      </div>
-                  </div>
-                  <div class="col-3">
-                      <div class="inline-form-group padding0 marginT10"> <button class="add-btn margin0"><img src="img/add.png" alt="img"></button></div>
-                  </div>
-                </div>
-            </div>
-          </div> -->
-          <!-- <div class="row">
-            <div class="col-sm-3 col-12">
+            <div class="col-sm-2 col-12">
                 <div class="form-group-2">
-                  <label>Country</label>
-                  <select class="form-control">
-                      <option>1BHK</option>
-                      <option>2BHK</option>
-                      <option>3BHK</option>
+                  <label>Locality</label>
+                  <select class="form-control" disabled>
+                      <option>{{add.localities}}</option>
                   </select>
                 </div>
             </div>
-            <div class="col-sm-3 col-12">
+            <div class="col-sm-2 col-12">
                 <div class="form-group-2">
-                  <label>City</label>
-                  <select class="form-control">
-                      <option>1BHK</option>
-                      <option>2BHK</option>
-                      <option>3BHK</option>
+                  <label>Building</label>
+                  <select class="form-control" disabled>
+                      <option>{{add.buildings}}</option>
                   </select>
                 </div>
             </div>
-            <div class="col-sm-6 col-12">
-                <div class="row">
-                  <div class="col-9">
-                      <div class="form-group-2">
-                        <label>Neighbourhood</label>
-                        <select class="form-control">
-                            <option>1BHK</option>
-                            <option>2BHK</option>
-                            <option>3BHK</option>
-                        </select>
-                      </div>
-                  </div>
-                  <div class="col-3">
-                      <div class="inline-form-group padding0 marginT10"> <button class="add-btn margin0"><img src="img/add.png" alt="img"></button></div>
-                  </div>
-                </div>
-            </div>
-          </div> -->
-        
-          
+          </div>
+                 
       </div>
       </form>
     </div>

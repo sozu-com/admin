@@ -16,6 +16,7 @@ import { AclUserGuard } from '../../guards/acl-user.guard';
 import { ProjectDetailsComponent } from './project-details/project-details.component';
 import { SharedModule } from '../../modules/shared.module';
 import { NumberexPipe } from '../../pipes/numberex.pipe';
+import { CalendarModule } from 'primeng/primeng';
 // import { ImgPipe } from '../../pipes/img.pipe';
 
 
@@ -48,6 +49,7 @@ const routes: Routes = [
       }),
     Ng2TelInputModule,
     NgxPaginationModule,
+    CalendarModule,
     SharedModule,
     LazyLoadImageModule
   ],

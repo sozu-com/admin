@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
-import { Router, ActivatedRoute } from '@angular/router';
 import { IProperty } from '../../common/property';
 import { Constant } from './../../common/constants';
+import * as moment from 'moment';
 declare let swal: any;
 
 @Component({
@@ -41,7 +41,14 @@ export class PropertiesComponent implements OnInit {
 
   getListing() {
     this.parameter.loading = true;
-    this.admin.postDataApi('propertyHome', this.parameter).subscribe(
+    const input: any = JSON.parse(JSON.stringify(this.parameter));
+    if (this.parameter.min) {
+      input.min = moment(this.parameter.min).format('YYYY-MM-DD');
+    }
+    if (this.parameter.max) {
+      input.max = moment(this.parameter.max).format('YYYY-MM-DD');
+    }
+    this.admin.postDataApi('propertyHome', input).subscribe(
       success => {
         console.log('LIST', success);
         this.items = success.data;

@@ -3,19 +3,25 @@ import { ActivatedRoute} from '@angular/router';
 import { AdminService } from '../../../../services/admin.service';
 import { IProperty } from '../../../../common/property';
 import { Constant } from './../../../../common/constants';
-import { FillInformation, AddAppointment } from './../../../../models/leads.model';
+import { FillInformation, AddAppointmentMultiple } from './../../../../models/leads.model';
 import { ChatTimePipe } from './../../../../pipes/chat-time.pipe';
+import * as moment from 'moment';
 declare let swal: any;
+
 @Component({
   selector: 'app-csr-buyer-detail',
   templateUrl: './csr-buyer-detail.component.html',
   styleUrls: ['./csr-buyer-detail.component.css'],
-  providers: [FillInformation, AddAppointment]
+  providers: [FillInformation, AddAppointmentMultiple]
 })
 
 export class CsrBuyerDetailComponent implements OnInit {
   @ViewChild('showPropertyModal') showPropertyModal: ElementRef;
+  @ViewChild('modalOpen') modalOpen: ElementRef;
+  @ViewChild('modalClose') modalClose: ElementRef;
   public parameter: IProperty = {};
+  date: any;
+  data = [];
   public selected_prop_ids = [];
   is_deal_finalised: boolean;
   constructor(
@@ -23,7 +29,7 @@ export class CsrBuyerDetailComponent implements OnInit {
     public admin: AdminService,
     public constant: Constant,
     public fillInfo: FillInformation,
-    public appointment: AddAppointment
+    public appointment: AddAppointmentMultiple
   ) {
     this.admin.loginData$.subscribe(success => {
       this.parameter.admin_id = success['id'];
@@ -39,7 +45,8 @@ export class CsrBuyerDetailComponent implements OnInit {
           this.parameter.loading = false;
           this.parameter.lead = r.data.lead;
           if (r.data.lead.appointments.length !== 0) {
-            this.appointment = r.data.lead.appointments[0];
+            this.data = r.data.lead.appointments;
+            // this.appointment = r.data.lead.appointments[0];
           }
           this.parameter.favorites = r.data.favorites;
           this.setFillInformationData(r);
@@ -136,5 +143,69 @@ export class CsrBuyerDetailComponent implements OnInit {
 
   dealFinalisedReceived(value) {
     console.log(value);
+  }
+
+  addDateTime () {
+    if (this.date) {
+      this.appointment.appointment_date_array.push(this.date);
+      this.date = '';
+    }
+  }
+
+
+  add() {
+    this.appointment.appointment_date_array.forEach(element => {
+      const d: any = new Date(element);
+      const f = moment(d).utc().format('YYYY-MM-DD HH:mm:ss');
+      this.appointment.appointment_date.push(f);
+    });
+    if (this.appointment.appointment_date.length === 0) {
+      swal('Error', 'Choose atleast one date.', 'error');
+      return false;
+    }
+    this.parameter.loading = true;
+    console.log('data', this.appointment);
+    this.admin.postDataApi('leads/addAppointmentMultiple', this.appointment)
+      .subscribe(
+        success => {
+          this.data.push.apply(this.data, success.data);
+          console.log(this.data);
+          // this.app_date = this.appointment.appointment_date;
+          // this.appointment.appointment_date =
+          // new Date(moment(this.appointment.appointment_date).utc(true).local().format('YYYY-MM-DD, h:mm a'));
+          this.parameter.loading = false;
+          this.closeModal();
+          swal('Success', 'Appointment scheduled successfully.', 'success');
+        }, error => {
+          this.parameter.loading = false;
+        }
+      );
+  }
+
+  openModal () {
+    this.appointment = new AddAppointmentMultiple();
+    this.appointment.lead_id = this.parameter.lead_id;
+    this.appointment.property_id = this.parameter.lead.selected_properties[0].property_id;
+    this.appointment.sent_as = this.constant.userType.inhouse_broker;
+    this.modalOpen.nativeElement.click();
+  }
+
+  closeModal() {
+    this.modalClose.nativeElement.click();
+  }
+
+  deleteAppointment(id, j) {
+    this.admin.postDataApi('leads/deleteAppointment', {id: id})
+      .subscribe(
+        success => {
+          this.data.splice(j, 1);
+          // this.items = success.data;
+          // this.parameter.total = success.total_count;
+        }
+      );
+  }
+
+  removeAppointment(i) {
+    this.appointment.appointment_date_array.splice(i, 1);
   }
 }

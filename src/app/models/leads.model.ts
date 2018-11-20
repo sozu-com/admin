@@ -176,3 +176,12 @@ export class AddAppointment {
     sent_as: string;
     id: string;
 }
+
+export class AddAppointmentMultiple {
+    id: any;
+    sent_as: any;
+    property_id: string;
+    lead_id: any;
+    appointment_date_array: Array<any> = [];
+    appointment_date: Array<any> = [];
+}

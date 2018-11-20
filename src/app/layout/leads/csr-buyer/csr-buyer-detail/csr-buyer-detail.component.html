@@ -7,14 +7,14 @@
               <a routerLink="../"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
               <img [src]="parameter?.lead?.user?.image" onerror='src="assets/img/default_img.png"' alt="img">
               <div class="df-info">
-                  <p class="p14">{{parameter?.lead?.user?.name ? parameter?.lead?.user?.name : parameter?.lead?.name}}</p>
+                  <p class="p14 text-ellipsis120">{{parameter?.lead?.user?.name ? parameter?.lead?.user?.name : parameter?.lead?.name}}</p>
                   <p class="p12">
                     {{parameter?.lead?.user?.dial_code ? parameter?.lead?.user?.dial_code : parameter?.lead?.dial_code}}-{{parameter?.lead?.user?.phone ? parameter?.lead?.user?.phone : parameter?.lead?.phone}}
                   </p>
               </div>
             </div>
         </div>
-        <div class="col-lg-6 col-md-12 col-sm-6 col-12">
+        <div class="col-lg-7 col-md-12 col-sm-6 col-12">
             <div class="profile-list">
             <ul>
                 <li>
@@ -29,11 +29,17 @@
                         <p class="p12">Inhouse Broker</p>
                     </div>
                 </li>
+                <li>
+                    <div class="df-info" *ngIf="parameter.lead?.closer">
+                        <p class="p14 marginB0">{{parameter.lead.closer.name}}</p>
+                        <p class="p12">CSR Closure</p>
+                    </div>
+                </li>
             </ul>
             </div>
         </div>
         
-        <div class="col-lg-3 col-md-12 col-sm-12 col-12" *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1">
+        <div class="col-lg-2 col-md-12 col-sm-12 col-12" *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1">
            <div *ngIf="!parameter.lead?.broker && parameter.lead?.user && (admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1)" class="form-group d-flex marginT10 float-right right-side">
              <div class="dropdown btn-cont">
               <a (click)="assignToBroker()" class="btn btn-primary" href="javascript://">Assign to broker</a>
@@ -103,6 +109,19 @@
                 <!-- Meeting Schedule -->
                 <tr *ngIf="parameter?.lead?.sale_rent==1">
                     <td  style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
+                    <td colspan="2">
+                        <p style="display:none;" class="date" #modalOpen data-toggle="modal" data-target="#set_appointment">Click to Schedule</p>
+                        <p class="date cursor-pointer" (click)="openModal()">Click to Schedule</p>
+                        <p *ngFor="let na of data; let m=index" class="date">
+                            <span *ngIf="m<2">{{na.appointment_date | moment}}</span>
+                        </p>
+                        <span class="read-more" *ngIf="data.length>2" data-toggle="modal" data-target="#get-availability1">View all</span>
+                    </td>
+                </tr>
+    
+                <!-- Meeting Schedule -->
+                <!-- <tr *ngIf="parameter?.lead?.sale_rent==1">
+                    <td  style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
                     <td colspan="2" class="cursor-pointer">
                         <p class="date" *ngIf="appointment.appointment_date; else noAvailability4">
                             <span>{{appointment.appointment_date | moment}}</span>
@@ -111,7 +130,7 @@
                             <p>Meeting not scheduled by broker.</p>
                         </ng-template>
                     </td>
-                </tr>          
+                </tr>           -->
 
               </tbody>
              </table>
@@ -191,3 +210,112 @@
       </div>
   </div>
 </div>
+
+
+<!-- add inhouse user modal -->
+<div class="modal animated" id="set_appointment">
+    <!-- <div class="modal-dialog fadeIndown">
+        <div class="modal-content">
+            <div class="modal-header modal-header-new">
+                <h4 class="modal-title">Schedule Appointment</h4>
+                <button type="button" style="display: none;" class="close" data-dismiss="modal" #modalClose>&times;</button>
+                <button type="button" class="close" (click)="closeModal()">&times;</button>
+            </div>
+    
+            <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="add()">
+            <div class="modal-body modal-body-new">
+                <div class="row">
+                    <div class="col-10">
+                        <p-calendar title="Click to add" name="app" [(ngModel)]="appointment.appointment_date" [minDate]="today" showButtonBar="true" showTime="true" hourFormat="12" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group-2">
+                            <a *ngIf="!appointment.id && appointment.appointment_date" class="green-color fontW500" (click)="add()" href="javascript://">Save</a>
+                            <a *ngIf="appointment.id" class="green-color fontW500" (click)="add()" href="javascript://">Edit</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div> -->
+    <div class="modal-dialog fadeIndown">
+        <div class="modal-dialog fadeIndown">
+            <div class="modal-content">
+                <div class="modal-header modal-header-new">
+                        <h4 class="modal-title">Schedule Meeting</h4>
+                    <button type="button" style="display: none;" class="close" data-dismiss="modal" #modalClose>&times;</button>
+                    <button type="button" class="close" (click)="closeModal()">&times;</button>
+                </div>
+        
+                <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="add()">
+                <div class="modal-body padding0">
+                    <div class="row">
+                        <div class="col-8">
+                            <label>Choose Date & Time</label>
+                            <p-calendar title="Click to add" name="app" [(ngModel)]="date" [minDate]="today" showButtonBar="true" showTime="true" hourFormat="12" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group-2">
+                                <label style="display: block; margin-top: 3px;">&nbsp;</label>
+                                <a class="green-color fontW500" href="javascript://" (click)="addDateTime()">Add</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="row" *ngFor="let d of data; let j=index">
+                        <div class="col-8">
+                            <label class="notary-ava">{{d.appointment_date | moment}}</label>
+                        </div>
+                        <div class="col-2">
+                            <a class="green-color fontW500" (click)="deleteAppointment(d.id, j)" href="javascript://">
+                                Remove
+                            </a>
+                        </div>
+                    </div> -->
+                    <div class="row" *ngFor="let a of appointment.appointment_date_array; let i=index">
+                        <div class="col-8">
+                            <label class="notary-ava">{{a|date:'h:mm a'|lowercase}}, {{a|date: 'MMM d y'}}</label>
+                        </div>
+                        <div class="col-2">
+                            <a class="green-color fontW500" (click)="removeAppointment(i)" href="javascript://">
+                                Remove
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8"></div>
+                        <div class="col-2">
+                            <div class="btn-cont text-right">
+                                <button type="submit" class="btn btn-primary-new">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </form>
+        
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal animated" id="get-availability1">
+    <div class="modal-dialog fadeIndown">
+        <div class="modal-content">
+            <div class="modal-header modal-header-new">
+                <h4 class="modal-title">Meeting Scheduled</h4>
+                <button type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
+                <!-- <button type="button" class="close" (click)="closeModal()">&times;</button> -->
+            </div>
+    
+            <div class="modal-body modal-body-new">
+                <div class="row">
+                    <div class="col-6" *ngFor="let d of data; let j=index">
+                        <label class="notary-ava">{{d.appointment_date | moment}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    

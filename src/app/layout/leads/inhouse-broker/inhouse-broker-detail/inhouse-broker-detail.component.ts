@@ -4,7 +4,7 @@ import { AdminService } from '../../../../services/admin.service';
 import { IProperty } from '../../../../common/property';
 import * as io from 'socket.io-client';
 import { Constant } from './../../../../common/constants';
-import { DealFinalize, AddAppointment } from './../../../../models/leads.model';
+import { DealFinalize, AddAppointment, AddAppointmentMultiple } from './../../../../models/leads.model';
 import { FillInformation } from './../../../../models/leads.model';
 import { ChatTimePipe } from './../../../../pipes/chat-time.pipe';
 declare let swal: any;
@@ -16,7 +16,7 @@ import * as moment from 'moment';
   selector: 'app-inhouse-broker-detail',
   templateUrl: './inhouse-broker-detail.component.html',
   styleUrls: ['./inhouse-broker-detail.component.css'],
-  providers: [DealFinalize, FillInformation, AddAppointment]
+  providers: [DealFinalize, FillInformation, AddAppointment, AddAppointmentMultiple]
 })
 
 export class InhouseBrokerDetailComponent implements OnInit {
@@ -24,6 +24,8 @@ export class InhouseBrokerDetailComponent implements OnInit {
   @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('showPropertyModal') showPropertyModal: ElementRef;
   app_date: any;
+  date: any;
+  data = [];
   public parameter: IProperty = {};
   public selected_prop_ids = [];
   is_deal_finalised: boolean;
@@ -35,7 +37,7 @@ export class InhouseBrokerDetailComponent implements OnInit {
     public constant: Constant,
     public fillInfo: FillInformation,
     private http: Http,
-    public appointment: AddAppointment
+    public appointment: AddAppointmentMultiple
   ) {
     this.admin.loginData$.subscribe(success => {
       this.parameter.admin_id = success['id'];
@@ -51,10 +53,15 @@ export class InhouseBrokerDetailComponent implements OnInit {
         this.parameter.loading = false;
         this.parameter.lead = r.data.lead;
         if (r.data.lead.appointments.length !== 0) {
-          this.appointment = r.data.lead.appointments[0];
-          this.app_date = this.appointment.appointment_date;
-          this.appointment.appointment_date =
-          new Date(moment(this.appointment.appointment_date).utc(true).local().format('YYYY-MM-DD, h:mm a'));
+          // this.appointment = r.data.lead.appointments;
+          // this.app_date = this.appointment.appointment_date;
+          // this.appointment.appointment_date =
+          // new Date(moment(this.appointment.appointment_date).utc(true).local().format('YYYY-MM-DD, h:mm a'));
+          this.data = r.data.lead.appointments;
+// r.data.lead.appointments.forEach(element1 => {
+//   this.data.push(moment(this.appointment.appointment_date).utc(true).local().format('YYYY-MM-DD, h:mm a'));
+// });
+console.log('apoiinn', this.appointment);
         }
         this.setFillInformationData(r);
         this.parameter.favorites = r.data.favorites;
@@ -151,27 +158,63 @@ export class InhouseBrokerDetailComponent implements OnInit {
     });
   }
 
+  addDateTime () {
+    if (this.date) {
+      this.appointment.appointment_date_array.push(this.date);
+      this.date = '';
+    }
+  }
+
+  addOld() {
+    // const d: any = new Date(this.appointment.appointment_date);
+    // const f = moment(d).utc().format('YYYY-MM-DD HH:mm:ss');
+    // this.input = {
+    //   lead_id: this.parameter.lead_id,
+    //   // property_id: this.parameter.lead.selected_properties[0].property_id,
+    //   appointment_date: f,
+    //   sent_as: this.parameter.sent_as
+    // };
+    // if (this.appointment.id) {
+    //   this.input.id = this.appointment.id;
+    // }
+    // this.parameter.loading = true;
+    // this.admin.postDataApi('leads/addAppointment', this.input)
+    //   .subscribe(
+    //     success => {
+    //       console.log(success.data);
+    //       this.appointment = success.data;
+    //       this.app_date = this.appointment.appointment_date;
+    //       this.appointment.appointment_date =
+    //       new Date(moment(this.appointment.appointment_date).utc(true).local().format('YYYY-MM-DD, h:mm a'));
+    //       this.parameter.loading = false;
+    //       this.closeModal();
+    //       swal('Success', 'Appointment scheduled successfully.', 'success');
+    //     }, error => {
+    //       this.parameter.loading = false;
+    //     }
+    //   );
+  }
+
   add() {
-    const d: any = new Date(this.appointment.appointment_date);
-    const f = moment(d).utc().format('YYYY-MM-DD HH:mm:ss');
-    this.input = {
-      lead_id: this.parameter.lead_id,
-      // property_id: this.parameter.lead.selected_properties[0].property_id,
-      appointment_date: f,
-      sent_as: this.parameter.sent_as
-    };
-    if (this.appointment.id) {
-      this.input.id = this.appointment.id;
+    this.appointment.appointment_date_array.forEach(element => {
+      const d: any = new Date(element);
+      const f = moment(d).utc().format('YYYY-MM-DD HH:mm:ss');
+      this.appointment.appointment_date.push(f);
+    });
+    if (this.appointment.appointment_date.length === 0) {
+      swal('Error', 'Choose atleast one date.', 'error');
+      return false;
     }
     this.parameter.loading = true;
-    this.admin.postDataApi('leads/addAppointment', this.input)
+    console.log('data', this.appointment);
+    this.admin.postDataApi('leads/addAppointmentMultiple', this.appointment)
       .subscribe(
         success => {
-          console.log(success.data);
-          this.appointment = success.data;
-          this.app_date = this.appointment.appointment_date;
-          this.appointment.appointment_date =
-          new Date(moment(this.appointment.appointment_date).utc(true).local().format('YYYY-MM-DD, h:mm a'));
+          this.data.push.apply(this.data, success.data);
+          console.log(this.data);
+          // this.app_date = this.appointment.appointment_date;
+          // this.appointment.appointment_date =
+          // new Date(moment(this.appointment.appointment_date).utc(true).local().format('YYYY-MM-DD, h:mm a'));
           this.parameter.loading = false;
           this.closeModal();
           swal('Success', 'Appointment scheduled successfully.', 'success');
@@ -182,6 +225,10 @@ export class InhouseBrokerDetailComponent implements OnInit {
   }
 
   openModal () {
+    this.appointment = new AddAppointmentMultiple();
+    this.appointment.lead_id = this.parameter.lead_id;
+    this.appointment.property_id = this.parameter.lead.selected_properties[0].property_id;
+    this.appointment.sent_as = this.constant.userType.inhouse_broker;
     this.modalOpen.nativeElement.click();
   }
 
@@ -192,4 +239,21 @@ export class InhouseBrokerDetailComponent implements OnInit {
   dealFinalisedReceived(value) {
     this.is_deal_finalised = true;
   }
+
+
+  deleteAppointment(id, j) {
+    this.admin.postDataApi('leads/deleteAppointment', {id: id})
+      .subscribe(
+        success => {
+          this.data.splice(j, 1);
+          // this.items = success.data;
+          // this.parameter.total = success.total_count;
+        }
+      );
+  }
+
+  removeAppointment(i) {
+    this.appointment.appointment_date_array.splice(i, 1);
+  }
+
 }

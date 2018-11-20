@@ -7,7 +7,7 @@
             <a routerLink="../"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
             <img [src]="parameter.lead?.user?.image" onerror='src="assets/img/default_img.png"' alt="img">
             <div class="df-info" *ngIf="parameter.lead?.user">
-                <p class="p14">{{parameter.lead.user.name}}</p>
+                <p class="p14 text-ellipsis120">{{parameter.lead.user.name}}</p>
                 <!-- <p class="p12">Status: Open</p> -->
                 <p class="p12">
                     {{parameter?.lead?.user?.dial_code ? parameter?.lead?.user?.dial_code : parameter?.lead?.dial_code}}-{{parameter?.lead?.user?.phone ? parameter?.lead?.user?.phone : parameter?.lead?.phone}}
@@ -15,7 +15,7 @@
             </div>
             </div>
         </div>
-        <div class="col-lg-5 col-md-12 col-sm-6 col-12">
+        <div class="col-lg-7 col-md-12 col-sm-6 col-12">
             <div class="profile-list">
             <ul>
                 <li>
@@ -30,10 +30,16 @@
                         <p class="p12">Inhouse Broker</p>
                     </div>
                 </li>
+                <li>
+                    <div class="df-info" *ngIf="parameter.lead?.closer">
+                        <p class="p14 marginB0">{{parameter.lead.closer.name}}</p>
+                        <p class="p12">CSR Closure</p>
+                    </div>
+                </li>
             </ul>
             </div>
         </div>
-        <div class="col-lg-4 col-md-12 col-sm-12 col-12">
+        <div class="col-lg-2 col-md-12 col-sm-12 col-12">
             <div class="row">
                 <div class="col-sm-12 btn-cont text-right">
                     <a *ngIf="parameter?.lead?.lead_status_closer!=1 &&

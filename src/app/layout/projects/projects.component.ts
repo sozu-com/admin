@@ -3,6 +3,7 @@ import { AdminService } from '../../services/admin.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IProperty } from '../../common/property';
 import { Constant } from './../../common/constants';
+import * as moment from 'moment';
 declare let swal: any;
 
 @Component({
@@ -49,7 +50,14 @@ export class ProjectsComponent implements OnInit {
 
   getListing() {
     this.parameter.loading = true;
-    this.admin.postDataApi('projectHome', this.parameter).subscribe(
+    const input: any = JSON.parse(JSON.stringify(this.parameter));
+    if (this.parameter.min) {
+      input.min = moment(this.parameter.min).format('YYYY-MM-DD');
+    }
+    if (this.parameter.max) {
+      input.max = moment(this.parameter.max).format('YYYY-MM-DD');
+    }
+    this.admin.postDataApi('projectHome', input).subscribe(
       success => {
         this.items = success.data;
         this.total = success.total_count;

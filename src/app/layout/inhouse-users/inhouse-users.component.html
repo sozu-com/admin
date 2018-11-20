@@ -127,7 +127,7 @@
                   <img [src]="item.image" class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
                 <!-- <img [src]="item.image| img:'small'" class="rounded-circle" onerror='src="constant.userPlaceholder"' alt="img"> -->
               </td>
-              <td class="text-left">
+              <td class="text-left text-ellipsis120">
                 <span class="name">{{item.name}}</span>
               </td>
               <td class="text-left" *ngIf="item.phone">{{item.dial_code && item.dial_code!=undefined ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>

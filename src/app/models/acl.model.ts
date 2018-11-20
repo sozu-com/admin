@@ -7,6 +7,7 @@ export class ACL {
     image: string;
     email: string;
     admin_acl: Array<Permission> = [];
+    address: Array<NewAddress>;
 }
 
 export class Permission {
@@ -21,4 +22,12 @@ export class Permission {
     can_update: number;
     can_delete: number;
     can_crud: number;
+}
+
+export class NewAddress {
+    countries: string;
+    states: string;
+    cities: string;
+    localities: string;
+    buildings: string;
 }

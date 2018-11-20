@@ -298,7 +298,12 @@ export class NotaryLeadsComponent implements OnInit {
     this.data.forEach(element1 => {
       this.availability.date_time.push(element1.date_time);
     });
+    if (this.availability.date_time.length === 0) {
+      swal('Error', 'Choose atleast one date.', 'error');
+      return false;
+    }
     this.parameter.loading = true;
+    console.log('data', this.availability);
     this.admin.postDataApi('leads/addNoataryAvailability', this.availability)
       .subscribe(
         success => {

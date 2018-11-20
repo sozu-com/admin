@@ -8,14 +8,14 @@
       </div>
       <div class="col-4">
         <div class="user-profile notification float-right">
-            <!-- <a class="dropdown-toggle count-info bell" (click)="viewNotification()">
-                <i class="fa fa-bell"></i>
-                <span *ngIf="msg_count!=0" class="label label-warning">{{msg_count}}</span>
-            </a> -->
-            <a (click)="viewNotification()" class="dropdown-toggle count-info bell" data-toggle="dropdown" href="#" aria-expanded="true">
+            <a class="count-info bell cursor-pointer" (click)="viewNotification()">
                 <i class="fa fa-bell"></i>
                 <span *ngIf="msg_count!=0" class="label label-warning">{{msg_count}}</span>
             </a>
+            <!-- <a (click)="viewNotification()" class="dropdown-toggle count-info bell" data-toggle="dropdown" href="#" aria-expanded="true">
+                <i class="fa fa-bell"></i>
+                <span *ngIf="msg_count!=0" class="label label-warning">{{msg_count}}</span>
+            </a> -->
             <!-- <ul class="dropdown-menu dropdown-menu-left dropdown-messages">
                 <li *ngFor="let noti of parameter.items; let i=index">
                     <div *ngIf="i<5" class="dropdown-messages-box">
@@ -54,7 +54,7 @@
             <li><a class="dropdown-item" routerLink="/dashboard/settings/change-password"><i class="ti-pencil"></i>Change Password</a></li>
             <!-- <li><a class="dropdown-item" routerLink="/dashboard/settings/default-settings"><i class="ti-settings"></i>Default Settings</a></li> -->
             <li class="dropdown-divider"></li>
-            <li><a class="dropdown-item" (click)="onLoggedout()"><i class="ti-power-off"></i>Logout</a></li>
+            <li><a class="dropdown-item cursor-pointer" (click)="onLoggedout()"><i class="ti-power-off"></i>Logout</a></li>
           </ul>
         </div>
       </div>

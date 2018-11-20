@@ -55,7 +55,13 @@
                     </select>
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-3">
+                    <div class="form-group btn-cont">
+                    <label style="display: block; margin-top: 3px;">&nbsp;</label>
+                    <button type="button" (click)="getListing()" class="btn btn-primary-new width100P">Apply</button>
+                    </div>
+                </div>
+                <div class="col-3">
                     
                 </div>
                 <div class="col-3">
@@ -63,7 +69,7 @@
                         <label>Search</label>
                         <div class="d-flex">
                             <div class="searh-3">
-                                <input type="text" [(ngModel)]="parameter.keyword" (keyup.enter)="getListing()" name="">
+                                <input class="form-control" type="text" [(ngModel)]="parameter.keyword" (keyup.enter)="getListing()" name="">
                                 <button (click)="getListing()"><i class="fa fa-search"></i></button>
                             </div>
                         </div>
@@ -101,8 +107,8 @@
                       <input type="radio" name="bank_id1" (click)="selectItem(item)">
                       <span class="checkmark"></span>
                       </label> -->
-                      <div class="btn-cont">
-                          <button (click)="selectItem(item)" class="btn-primary">Send</button>
+                      <div class="form-group btn-cont">
+                          <button (click)="selectItem(item)" class="btn btn-primary-new">Send</button>
                       </div>
                   </td>
                 </tr>

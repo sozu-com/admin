@@ -19,6 +19,7 @@ import { FilterByIdPipe } from '../../pipes/filter-by-id.pipe';
 import { FilterByNamePipe } from '../../pipes/filter-by-name.pipe';
 // import { AuthGuard } from '../../guards/auth.guard';
 import { SharedModule } from '../../modules/shared.module';
+import { CalendarModule } from 'primeng/primeng';
 // import { ImgPipe } from '../../pipes/img.pipe';
 
 const routes: Routes = [
@@ -65,6 +66,7 @@ const routes: Routes = [
       }),
     Ng2TelInputModule,
     NgxPaginationModule,
+    CalendarModule,
     SharedModule,
     LazyLoadImageModule
   ],
