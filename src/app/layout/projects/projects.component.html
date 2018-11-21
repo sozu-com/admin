@@ -1,13 +1,123 @@
 <ngx-loading [show]="parameter.loading"></ngx-loading>
 <div class="container-fluid">
-  <div class="row">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <p class="p16">Manage Projects</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="offset-md-4"></div>
+        <div class="col-md-8 col-12">
+            <div class="cust-tabs-2">
+                <ul class="nav nav-tabs float-right">
+                    <li class="nav-item">
+                      <a [ngClass]="{'active':parameter.dash_flag == 1}" (click)="changeFlag(1)" class="nav-link" data-toggle="tab" href="#tw">This Week</a>
+                    </li>
+                    <li class="nav-item">
+                      <a [ngClass]="{'active':parameter.dash_flag == 2}" (click)="changeFlag(2)" class="nav-link" data-toggle="tab" href="#tm">This Month</a>
+                    </li>
+                    <li class="nav-item">
+                      <a [ngClass]="{'active':parameter.dash_flag == 3}" (click)="changeFlag(3)" class="nav-link" data-toggle="tab" href="#lm">Last Month</a>
+                    </li>
+                    <li class="nav-item">
+                      <a [ngClass]="{'active':parameter.dash_flag == 4}" (click)="changeFlag(4)" class="nav-link" data-toggle="tab" href="#lt">Lifetime</a>
+                    </li>
+                    <li class="nav-item">
+                      <a [ngClass]="{'active':parameter.dash_flag == 5}" (click)="changeFlag(5)" class="nav-link" data-toggle="tab" href="#cust">Custom</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div *ngIf="parameter.dash_flag == 5" class="row">
+                <div class="offset-lg-7"></div>
+                <div class="col-lg-2 col-md-2 col-sm-5 col-5">
+                <div class="form-group marginB0">
+                    <label>From:</label>
+                    <p-calendar showIcon="true" [(ngModel)]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+                </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-5 col-5">
+                <div class="form-group marginB0">
+                    <label>To:</label>
+                    <p-calendar showIcon="true" [(ngModel)]="parameter.max" [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+                </div>
+                </div>
+                <div class="col-lg-1 col-md-2 col-sm-2 col-6">
+                <div class="form-group btn-cont">
+                    <label class="addMT3">&nbsp;</label>
+                    <button class="btn btn-calender" href="javascript://" (click)="getListing()"
+                        [disabled]="!parameter.min || !parameter.max">Apply</button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group">
+            <label>Country</label>
+            <select class="form-control" (change)="onCountryChange($event.target.value)">
+                <option value="0">All</option>
+                <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option>
+            </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+            <label>State</label>
+            <select class="form-control" (change)="onStateChange($event.target.value)">
+                <option value="0">All</option>
+                <option *ngFor="let item of location.states" [value]="item.id">{{item.name}}</option>
+            </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+            <label>City</label>
+                <select class="form-control" (change)="onCityChange($event.target.value)">
+                <option value="0">All</option>
+                <option *ngFor="let item of location.cities" [value]="item.id">{{item.name}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="form-group">
+            <label>Locality</label>
+            <select class="form-control" (change)="onLocalityChange($event.target.value)">
+                <option value="0">All</option>
+                <option *ngFor="let item of location.localities" [value]="item.id">{{item.name}}</option>
+            </select>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="form-group btn-cont">
+            <label style="display: block; margin-top: 3px;">&nbsp;</label>
+            <button type="button" (click)="getListing()" class="btn btn-primary-new width100P">Apply</button>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="form-group btn-cont">
+            <label style="display: block; margin-top: 3px;">&nbsp;</label>
+            <button type="button" (click)="resetFilters()" class="btn btn-primary-new width100P">Reset</button>
+            </div>
+        </div>
+    </div>
+
+  <!-- <div class="row">
     <div class="col-md-4">
       <div class="form-group">
       <p class="p16">Manage Projects</p>
-      <!-- <div class="d-flex">
-      <button class="all-btn">All</button>
-      <input style="max-width:200px" class="form-control" type="text" name="">
-      </div> -->
       </div>
     </div>
     <div class="col-md-2">
@@ -47,9 +157,9 @@
     </select>
   </div>
   </div>
-  </div>
+  </div> -->
 
-  <div class="row">
+  <!-- <div class="row">
         <div class="col-md-12">
             <div class="cust-tabs-2">
               <ul class="nav nav-tabs float-right">
@@ -94,7 +204,7 @@
                 </div>
             </div>
         </div>
-      </div>
+      </div> -->
 
       <div class="cust-tabs">
       <div class="row flex-wrap-reverse">

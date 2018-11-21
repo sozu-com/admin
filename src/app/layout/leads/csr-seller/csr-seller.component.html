@@ -1,156 +1,139 @@
 <ngx-loading [show]="parameter.loading"></ngx-loading>
 <div class="container-fluid">
-    <div class="row" *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 && !this.parameter.assignee_id">
+    <div class="row">
         <div class="col-md-4">
-         <div class="form-group">
-          <p class="p16">Manage CSR Seller's Lead</p>
-          <div class="d-flex">
-          <button (click)="removeCsrUser()" class="all-btn">All</button>
-
-          <div class="autocomplete">
-            <input style="max-width:200px" list="amenities" [(ngModel)]="parameter.keyword" (input)="getCsrListing()" class="form-control" type="text" name="keyword" (focusout)="closeCsrListing()">
-            <!-- <input type="text"  (keyup.enter)="addAmenity(amen)" name="amen" [(ngModel)]="amen"> -->
-            <div id="myInputautocomplete-list" class="autocomplete-items">
-                <div *ngFor="let item of users" (click)="selectCsrUser(item)">{{item.email}}</div>
-            </div>
-           </div>
-          
-          </div>
-          </div>
-        </div>
-       <div class="col-md-2">
-      <div class="form-group">
-      <label>Country</label>
-       <select class="form-control" (change)="onCountryChange($event.target.value)">
-          <option value="0">All</option>
-          <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option>
-       </select>
-      </div>
-      </div>
-      <div class="col-md-2">
-      <div class="form-group">
-      <label>State</label>
-       <select class="form-control" (change)="onStateChange($event.target.value)">
-          <option value="0">All</option>
-          <option *ngFor="let item of location.states" [value]="item.id">{{item.name}}</option>
-       </select>
-      </div>
-      </div>
-      <div class="col-md-2">
-        <div class="form-group">
-        <label>City</label>
-          <select class="form-control" (change)="onCityChange($event.target.value)">
-            <option value="0">All</option>
-            <option *ngFor="let item of location.cities" [value]="item.id">{{item.name}}</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="col-md-2">
-      <div class="form-group">
-      <label>Locality</label>
-      <select class="form-control" (change)="onLocalityChange($event.target.value)">
-          <option value="0">All</option>
-          <option *ngFor="let item of location.localities" [value]="item.id">{{item.name}}</option>
-        </select>
-      </div>
-      </div>
-      </div>
-
-    <!-- <div *ngIf="users?.length > 0 && initSelection"class="row">
-        <table class="table table-striped">
-            <tbody><tr *ngFor="let item of users" (click)="selectCsrUser(item)">
-                <td> <img class="rounded-circle" [src]="item.image" onerror='this.src="http://via.placeholder.com/50x50"' alt="img"></td>
-                <td class="text-left">
-                    <span class="name">{{item.name}}</span>
-                </td>
-                <td class="text-left">
-                    {{item.phone}}
-                </td>
-                <td class="text-left">
-                    {{item.email}}
-                </td>
-                <td>
-                    <a href="javascript://" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
-                    <a href="javascript://" class="icon-block block-icon"><img src="assets/img/block.png" alt="img"></a>
-                </td>
-                </tr>
-            </tbody>
-        </table>
-    </div> -->
-  <div class="listingResults" >
-  <div class="row">
-     <div class="col-12">
-        <div class="cust-tabs-2">
-          <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link" [ngClass]="{'active':parameter.flag==1}" (click)="changeFlag(1)" >This Week</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" [ngClass]="{'active':parameter.flag==2}" (click)="changeFlag(2)" >This Month</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" [ngClass]="{'active':parameter.flag==3}" (click)="changeFlag(3)" >Last Month</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" [ngClass]="{'active':parameter.flag==4}" (click)="changeFlag(4)" >Lifetime</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" [ngClass]="{'active':parameter.flag==5}" (click)="parameter.flag=5" >Custom</a>
-            </li>
-          </ul>
-        </div>
-     </div>
-     <div class="col-12">
-        <!-- <hr style="margin-top:0;">
-        <div *ngIf="parameter.flag == 5" class="pull-right btn-cont">
-            From:<input type="date" [ngModel] ="parameter.min | date:'yyyy-MM-dd'" max="{{today| date:'yyyy-MM-dd'}}" (ngModelChange)="parameter.min = $event; parameter.max=''" />
-            To:<input type="date" [ngModel] ="parameter.max | date:'yyyy-MM-dd'" min="{{parameter.min | date:'yyyy-MM-dd'}}" max="{{today| date:'yyyy-MM-dd'}}" (ngModelChange)="parameter.max = $event" />
-            <button class="btn btn-primary" href="javascript://" (click)="getListing()" [disabled]="
-            parameter.flag == 5 && (!parameter.min || !parameter.max)
-            ">Go</button>
-        </div> -->
-
-        <div *ngIf="parameter.flag == 5" class="pull-right row">
-            <div class="col-lg-4 col-md-4 col-sm-5 col-5">
-            <div class="form-group marginB0">
-                <label>From:</label>
-                <p-calendar showIcon="true" [(ngModel)]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
-            </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-5 col-5">
-            <div class="form-group marginB0">
-                <label>To:</label>
-                <p-calendar showIcon="true" [(ngModel)]="parameter.max" [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
-            </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-2 col-6">
-            <div class="form-group btn-cont">
-                <label class="addMT3">&nbsp;</label>
-                <button class="btn btn-calender" href="javascript://" (click)="getListing()"
-            [disabled]="!parameter.min || !parameter.max">Apply</button>
-            </div>
+            <div class="form-group">
+                <p class="p16">Manage CSR Seller's Lead</p>
             </div>
         </div>
-     </div>
-  </div>
-  <div *ngIf="selectedUser as item" class="sigle-row-table">
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group" *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 && !this.parameter.assignee_id">
+                <div class="d-flex">
+                <div class="autocomplete">
+                    <input placeholder="Search CSR Seller" style="max-width:200px" list="amenities" [(ngModel)]="parameter.keyword" (input)="getCsrListing()" class="form-control" type="text" name="keyword" (focusout)="closeCsrListing()">
+                    <div id="myInputautocomplete-list" class="autocomplete-items">
+                        <div *ngFor="let item of users" (click)="selectCsrUser(item)">{{item.email}}</div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-12">
+            <div class="cust-tabs-2">
+                <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==1}" (click)="changeFlag(1)" >This Week</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==2}" (click)="changeFlag(2)" >This Month</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==3}" (click)="changeFlag(3)" >Last Month</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==4}" (click)="changeFlag(4)" >Lifetime</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==5}" (click)="parameter.flag=5" >Custom</a>
+                </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div *ngIf="parameter.flag == 5" class="row">
+                <div class="offset-lg-7"></div>
+                <div class="col-lg-2 col-md-2 col-sm-5 col-5">
+                <div class="form-group marginB0">
+                    <label>From:</label>
+                    <p-calendar showIcon="true" [(ngModel)]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+                </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-5 col-5">
+                <div class="form-group marginB0">
+                    <label>To:</label>
+                    <p-calendar showIcon="true" [(ngModel)]="parameter.max" [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+                </div>
+                </div>
+                <div class="col-lg-1 col-md-2 col-sm-2 col-6">
+                <div class="form-group btn-cont">
+                    <label class="addMT3">&nbsp;</label>
+                    <button class="btn btn-calender" href="javascript://" (click)="getListing(); getCSRDashBoardData();"
+                        [disabled]="!parameter.min || !parameter.max">Apply</button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="listingResults" >
+        <div class="row" *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 && !this.parameter.assignee_id">
+            <div class="col-md-2">
+                <div class="form-group">
+                <label>Country</label>
+                <select class="form-control" (change)="onCountryChange($event.target.value)">
+                    <option value="0">All</option>
+                    <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option>
+                </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                <label>State</label>
+                <select class="form-control" (change)="onStateChange($event.target.value)">
+                    <option value="0">All</option>
+                    <option *ngFor="let item of location.states" [value]="item.id">{{item.name}}</option>
+                </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                <label>City</label>
+                    <select class="form-control" (change)="onCityChange($event.target.value)">
+                    <option value="0">All</option>
+                    <option *ngFor="let item of location.cities" [value]="item.id">{{item.name}}</option>
+                    </select>
+                </div>
+            </div>
+    
+            <div class="col-md-2">
+                <div class="form-group">
+                <label>Locality</label>
+                <select class="form-control" (change)="onLocalityChange($event.target.value)">
+                    <option value="0">All</option>
+                    <option *ngFor="let item of location.localities" [value]="item.id">{{item.name}}</option>
+                </select>
+                </div>
+            </div>
+    
+            <div class="col-md-2">
+                <div class="form-group btn-cont">
+                <label style="display: block; margin-top: 3px;">&nbsp;</label>
+                <button type="button" (click)="getListing(); getCSRDashBoardData();" class="btn btn-primary-new width100P">Apply</button>
+                </div>
+            </div>
+    
+            <div class="col-md-2">
+                <div class="form-group btn-cont">
+                <label style="display: block; margin-top: 3px;">&nbsp;</label>
+                <button type="button" (click)="resetFilters()" class="btn btn-primary-new width100P">Reset</button>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="selectedUser as item" class="sigle-row-table">
         <table class="table table-striped">
         <tbody><tr>
-            <td> <img class="rounded-circle" [src]="item.image" onerror='this.src="http://via.placeholder.com/50x50"' alt="img"></td>
+            <td><img class="rounded-circle" [src]="item.image| img:'small'" onerror='this.src="assets/img/default_img.png"' alt="img"></td>
             <td class="text-left">
                 <span class="name">{{item.name}}</span>
             </td>
-            <td class="text-left">
-                {{item.phone}}
-            </td>
-            <td class="text-left">
-                {{item.email}}
-            </td>
+            <td class="text-left">{{item.phone}}</td>
+            <td class="text-left">{{item.email}}</td>
             <td>
                 <a (click)="removeCsrUser()" href="javascript://" class="icon-block edit-icon"><img src="assets/img/remove-icon.png" alt="remove" title="remove" /></a>
-                <!-- <a href="javascript://" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
-                <a href="javascript://" class="icon-block block-icon"><img src="assets/img/block.png" alt="img"></a> -->
             </td>
             </tr>
         </tbody>

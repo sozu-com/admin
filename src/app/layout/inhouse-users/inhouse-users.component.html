@@ -135,7 +135,7 @@
               <td class="text-left">{{item.email}}</td>
               <td *ngIf="parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers' ||
                     parameter.userType == 'inhouse-broker' || parameter.userType == 'csr-closers'; else showBuildings">{{item.lead_count?item.lead_count:'0'}}</td>
-              <td *ngIf="parameter.userType == 'data-collectors'" >{{item.buildings_count?item.buildings_count:'0'}}</td>
+              <td *ngIf="parameter.userType == 'data-collectors'" >{{item.added_buildings_count?item.added_buildings_count:'0'}}</td>
               <td>
                 <a *ngIf="admin?.admin_acl['Building Management']?.can_read==1 && parameter.userType == 'data-collectors'" title="View Projects" href="javascript://" routerLink="/dashboard/projects/view-projects/{{item.id}}" class="icon-block edit-icon">
                   <img src="assets/img/ic_projects_manage.png" alt="img">

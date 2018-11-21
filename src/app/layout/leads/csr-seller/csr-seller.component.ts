@@ -59,7 +59,7 @@ export class CsrSellerComponent implements OnInit {
     });
     this.getCountries();
     this.getListing();
-    this.getCsrSellerDash();
+    this.getCSRDashBoardData();
     Object.assign(this, this.chartView);
   }
 
@@ -72,6 +72,7 @@ export class CsrSellerComponent implements OnInit {
 
   onCountryChange(id) {
     console.log(id);
+    this.parameter.country_id = '0';
     this.location.states = []; this.parameter.state_id = '0';
     this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
@@ -116,14 +117,15 @@ export class CsrSellerComponent implements OnInit {
       return false;
     }
     this.parameter.locality_id = id;
-    this.getCsrListing();
+    // this.getCsrListing();
   }
 
   changeFlag(flag) {
     this.parameter.flag = flag;
     this.parameter.count_flag = 1;
+    this.resetDates();
     this.getListing();
-    this.getCsrSellerDash();
+    this.getCSRDashBoardData();
   }
 
   changeFilter(key, value) {
@@ -143,26 +145,48 @@ export class CsrSellerComponent implements OnInit {
     if (this.parameter.keyword) {
       input.append('keyword', this.parameter.keyword);
     }
-    if (this.parameter.country_id && this.parameter.country_id !== '-1') {
-      input.append('countries', JSON.stringify([this.parameter.country_id]));
-    }
+    // if (this.parameter.country_id && this.parameter.country_id !== '-1') {
+    //   input.append('countries', JSON.stringify([this.parameter.country_id]));
+    // }
 
-    if (this.parameter.state_id && this.parameter.state_id !== '-1') {
-      input.append('states', JSON.stringify([this.parameter.state_id]));
-    }
+    // if (this.parameter.state_id && this.parameter.state_id !== '-1') {
+    //   input.append('states', JSON.stringify([this.parameter.state_id]));
+    // }
 
-    if (this.parameter.city_id && this.parameter.city_id !== '-1') {
-      input.append('cities', JSON.stringify([this.parameter.city_id]));
-    }
+    // if (this.parameter.city_id && this.parameter.city_id !== '-1') {
+    //   input.append('cities', JSON.stringify([this.parameter.city_id]));
+    // }
 
-    if (this.parameter.locality_id && this.parameter.locality_id !== '-1') {
-      input.append('localities', JSON.stringify([this.parameter.locality_id]));
-    }
+    // if (this.parameter.locality_id && this.parameter.locality_id !== '-1') {
+    //   input.append('localities', JSON.stringify([this.parameter.locality_id]));
+    // }
     this.admin.postDataApi('getCsrSellers', input).subscribe(
       success => {
         console.log(success.data);
         this.users = success.data;
       });
+  }
+
+  resetFilters() {
+    this.location.countries = []; this.parameter.country_id = '0';
+    this.location.states = []; this.parameter.state_id = '0';
+    this.location.cities = []; this.parameter.city_id = '0';
+    this.location.localities = []; this.parameter.locality_id = '0';
+    this.parameter.is_selected = false;
+    this.parameter.page = this.constant.p;
+    this.parameter.flag = 2;
+    this.parameter.total = 0;
+    // this.selectedUser = '';
+    this.parameter.keyword = '';
+    this.parameter.count_flag = 1;
+    this.resetDates();
+    this.getListing();
+    this.getCSRDashBoardData();
+  }
+
+  resetDates() {
+    this.parameter.min = '';
+    this.parameter.max = '';
   }
 
   closeCsrListing() {
@@ -177,7 +201,7 @@ export class CsrSellerComponent implements OnInit {
     this.parameter.keyword = '';
     this.initSelection = false;
     this.getListing();
-    this.getCsrSellerDash();
+    this.getCSRDashBoardData();
   }
 
   removeCsrUser() {
@@ -189,18 +213,30 @@ export class CsrSellerComponent implements OnInit {
     this.parameter.total = 0;
     this.parameter.count_flag = 1;
     this.getListing();
-    this.getCsrSellerDash();
+    this.getCSRDashBoardData();
   }
 
-  getCsrSellerDash() {
-    const input = new FormData();
-    if (this.selectedUser) {
-      input.append('assignee_id', this.selectedUser.id);
-    } else if (this.parameter.assignee_id) {
-      input.append('assignee_id', this.parameter.assignee_id);
+  getCSRDashBoardData() {
+    // const input = new FormData();
+    // if (this.selectedUser) {
+    //   input.append('assignee_id', this.selectedUser.id);
+    // } else if (this.parameter.assignee_id) {
+    //   input.append('assignee_id', this.parameter.assignee_id);
+    // }
+    // if (this.parameter.flag) {
+    //   input.append('flag', this.parameter.flag.toString());
+    // }
+    const input: any = JSON.parse(JSON.stringify(this.parameter));
+    if (this.parameter.min) {
+      input.min = moment(this.parameter.min).format('YYYY-MM-DD');
     }
-    if (this.parameter.flag) {
-      input.append('flag', this.parameter.flag.toString());
+    if (this.parameter.max) {
+      input.max = moment(this.parameter.max).format('YYYY-MM-DD');
+    }
+    if (this.selectedUser) {
+      input.assignee_id = this.selectedUser.id;
+    } else if (this.parameter.assignee_id) {
+      input.assignee_id = this.parameter.assignee_id;
     }
 
     this.admin.postDataApi('leads/csr-seller-dash-count', input).subscribe(r => {

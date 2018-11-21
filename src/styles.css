@@ -34,7 +34,7 @@ table tr, table tr td{outline: none !important;}
     border-bottom: solid 1px #00B96F !important;
 } */
 .width100P{width: 100% !important};
-
+.no-border-radius{border-radius: 0px !important; }
 
 
 .ibox{ overflow-x: auto; }

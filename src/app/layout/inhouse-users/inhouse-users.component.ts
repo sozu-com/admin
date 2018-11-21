@@ -56,11 +56,12 @@ export class InhouseUsersComponent implements OnInit {
     this.tempAdd = this.model.address;
 
     this.parameter.sub = this.route.params.subscribe(params => {
+      this.parameter.p = this.constant.p;
       this.parameter.userType = params['userType'];
       this.parameter.name = ''; this.parameter.phone = ''; this.parameter.email = '';
       this.parameter.items = []; this.parameter.total = 0;
-      this.getInhouseUsers();
       this.getCountries();
+      this.getInhouseUsers();
       this.initialCountry = {initialCountry: this.constant.initialCountry};
     });
   }
@@ -448,6 +449,8 @@ console.log('===', formdata);
   // }
 
   getCountries() {
+    this.parameter.countries = [];
+    this.parameter.country_id = '-1';
     this.parameter.states = []; this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
     this.parameter.state_id = '-1'; this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
 

@@ -20,6 +20,7 @@ export class CsrBuyerDetailComponent implements OnInit {
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
   public parameter: IProperty = {};
+  today = new Date();
   date: any;
   data = [];
   public selected_prop_ids = [];

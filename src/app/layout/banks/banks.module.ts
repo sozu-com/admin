@@ -11,6 +11,7 @@ import { BankLeadsComponent } from './bank-leads/bank-leads.component';
 import { BankLeadDetailsComponent } from './bank-leads/bank-lead-details/bank-lead-details.component';
 import { SharedModule } from '../../modules/shared.module';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { CalendarModule } from 'primeng/primeng';
 
 
 const routes: Routes = [
@@ -42,7 +43,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     Ng2TelInputModule,
     NgxChartsModule,
-    SharedModule
+    SharedModule,
+    CalendarModule
   ],
   declarations: [
     BanksComponent,

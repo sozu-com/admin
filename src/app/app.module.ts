@@ -1,10 +1,10 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, Injector } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminService } from './services/admin.service';
-import { HttpModule, Http, RequestOptions, XHRBackend } from '@angular/http';
+import { HttpModule } from '@angular/http';
 import { AuthGuard } from './guards/auth.guard';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
@@ -28,8 +28,6 @@ import { Constant } from './common/constants';
 import { Login, AdminACL } from './models/login.model';
 import { SharedModule } from './modules/shared.module';
 import { TranslateService } from './lang/translate.service';
-import { AngularFireDatabase } from 'angularfire2/database';
-import { AngularFireAuth } from 'angularfire2/auth';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent},

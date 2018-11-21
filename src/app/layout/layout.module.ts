@@ -76,13 +76,13 @@ import { SharedModule } from '../modules/shared.module';
         // NotificationsComponent
     ],
     providers: [
-        AdminService,
-        CommonService,
+        // AdminService,
+        // CommonService,
         MessagingService,
         AuthGuard,
         AclUserGuard,
-        HttpInterceptor,
-        Constant
+        // HttpInterceptor,
+        // Constant
     ],
     bootstrap: [LayoutComponent],
 })

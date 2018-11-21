@@ -150,6 +150,11 @@ export class LocalityComponent implements OnInit {
   }
 
 
+  getLatLngFromAddress() {
+    // https://maps.googleapis.com/maps/api/geocode/json?address=adress&key=YOUR_API_KEY
+  }
+
+
   getLocalities(city_id, keyword= '') {
     // console.log('mm', city_id, keyword);
     this.parameter.loading = true;
@@ -567,6 +572,7 @@ console.log('xx', typeof this.getPolygonCoords(event.overlay));
 
   loadPlaces() {
 
+    console.log('locality', this.searchElementRef.nativeElement);
     // load Places Autocomplete
     this.loader.load().then(() => {
       const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
@@ -577,7 +583,7 @@ console.log('xx', typeof this.getPolygonCoords(event.overlay));
           // get the place result
           // const place: google.maps.places.PlaceResult = autocomplete.getPlace();
           const place = autocomplete.getPlace();
-
+console.log('place', place);
           // verify result
           if (place.geometry === undefined || place.geometry === null) {
             return;

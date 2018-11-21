@@ -76,8 +76,11 @@ export class PropertiesComponent implements OnInit {
 
   onCountryChange(id) {
     console.log(id);
+    this.parameter.country_id = '0';
+    this.location.states = []; this.parameter.state_id = '0';
     this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
+    this.parameter.buildings = []; this.parameter.building_id = '0';
     if (!id || id.toString() === '0') {
       this.parameter.state_id = '0';
       return false;
@@ -90,7 +93,9 @@ export class PropertiesComponent implements OnInit {
 
   onStateChange(id) {
     console.log(id);
+    this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
+    this.parameter.buildings = []; this.parameter.building_id = '0';
     if (!id || id.toString() === '0') {
       this.parameter.city_id = '0';
       return false;
@@ -103,6 +108,8 @@ export class PropertiesComponent implements OnInit {
 
   onCityChange(id) {
     console.log(id);
+    this.location.localities = []; this.parameter.locality_id = '0';
+    this.parameter.buildings = []; this.parameter.building_id = '0';
     if (!id || id.toString() === '0') {
       this.parameter.locality_id = '0';
       return false;
@@ -115,16 +122,45 @@ export class PropertiesComponent implements OnInit {
 
   onLocalityChange(id) {
     console.log(id);
+    this.parameter.buildings = []; this.parameter.building_id = '0';
     if (!id || id.toString() === '0') {
       return false;
     }
-
     this.parameter.locality_id = id;
     // let selectedLocation = this.location.localities.filter(x=>x.id == id);
     // this.location.locality = selectedLocation[0];
   }
 
+  getLocalityBuildings(id) {
+    if (!id || id.toString() === '0') {
+      return false;
+    }
+    this.parameter.locality_id = id;
+    this.parameter.loading = true;
+    this.admin.postDataApi('getLocalityBuildings', this.parameter)
+      .subscribe(
+        success => {
+          this.parameter.loading = false;
+          this.parameter.buildings = success.data;
+        }, error => {
+          this.parameter.loading = false;
+        });
+  }
+
+  setBuilding(building_id) {
+    this.parameter.building_id = building_id;
+  }
+
   changeFlag(flag) {
+    this.parameter.dash_flag = flag;
+    if (flag === 5) {
+      return false;
+    }
+    this.resetDates();
+    this.getListing();
+  }
+
+  changePropertyFlag(flag) {
     this.parameter.flag = flag;
     this.getListing();
   }
@@ -189,4 +225,25 @@ export class PropertiesComponent implements OnInit {
       swal('Error', error.error.message, 'error');
     });
   }
+
+  resetFilters() {
+    this.onCountryChange('0');
+    // this.parameter.country_id = '0';
+    // this.location.states = []; this.parameter.state_id = '0';
+    // this.location.cities = []; this.parameter.city_id = '0';
+    // this.location.localities = []; this.parameter.locality_id = '0';
+    this.parameter.is_selected = false;
+    this.parameter.page = this.constant.p;
+    this.parameter.dash_flag = 2;
+    this.parameter.total = 0;
+    this.parameter.count_flag = 1;
+    this.resetDates();
+    this.getListing();
+  }
+
+  resetDates() {
+    this.parameter.min = '';
+    this.parameter.max = '';
+  }
+
 }
