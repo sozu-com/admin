@@ -44,9 +44,13 @@ export class PropertiesComponent implements OnInit {
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');
+    } else {
+      delete input.min;
     }
     if (this.parameter.max) {
       input.max = moment(this.parameter.max).format('YYYY-MM-DD');
+    } else {
+      delete input.max;
     }
     this.admin.postDataApi('propertyHome', input).subscribe(
       success => {

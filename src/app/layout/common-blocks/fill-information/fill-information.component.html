@@ -4,7 +4,7 @@
 </div>
 <hr class="margin0" *ngIf="fillInfo">
 <div class="white-bg padding40 fill-info" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
-    <form ngNativeValidate #addForm="ngForm" (ngSubmit)="addPreferences()">
+    <!-- <form ngNativeValidate #addForm="ngForm" (ngSubmit)="addPreferences()"> -->
     <div class="form-group-4">
         <label>Close proximity needed to</label>
         <div class="clearfix"></div>
@@ -58,7 +58,8 @@
     <div class="form-group-4 date-picker marginT20">
         <label>How soon planning to buy/rent</label>
         <div class="clearfix"></div>
-        <input type="date" min="{{today|date:'yyyy-MM-dd'}}" max='9999-12-31' [ngModel]="fillInfo.planning_to_buy  | date:'yyyy-MM-dd' " (ngModelChange)="fillInfo.planning_to_buy = $event;" name="planning_to_but" class="form-control" id="datetimepicker">
+        <p-calendar showIcon="true" (onSelect)="onSelect($event)" [(ngModel)]="fillInfo.planning_to_buy" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+        <!-- <input type="date" min="{{today|date:'yyyy-MM-dd'}}" max='9999-12-31' [ngModel]="fillInfo.planning_to_buy  | date:'yyyy-MM-dd' " (ngModelChange)="fillInfo.planning_to_buy = $event;" name="planning_to_but" class="form-control" id="datetimepicker"> -->
         <!-- <span class="sel-date">Select date</span> -->
         <!-- <div class="select-date select-date-small">
             <img *ngIf="model.floor_plan" [src]="model.floor_plan" class="floor-plan">
@@ -73,7 +74,7 @@
         <label>Number of Cars</label>
         <div class="clearfix"></div>
         <label class="cust-radio" *ngFor="let car_type of fillInfo.car_types; let i=index">
-        <input type="radio" (click)="setValue('car_types', i)" [checked]="car_type.is_selected == 0 ? '' : 'checked'" name="radio4">
+            <input type="radio" (click)="setCarType('car_types', i, car_type.id)" [checked]="car_type.is_selected == 0 ? '' : 'checked'" name="radio4">
         <span class="checkmark">{{car_type.name}}</span>
         </label>
         <div class="clearfix"></div>
@@ -107,7 +108,7 @@
 
         <button [disabled]="(sent_as==constant.userType.csr_buyer && (admin?.admin_acl['Buyer Lead Management']?.can_update==0 || admin?.permissions?.can_csr_buyer==0)) ||
                             (sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==0 || admin?.permissions?.can_in_house_broker==0))"
-                type="submit" class="btn btn-primary">Save</button>
+                type="button" class="btn btn-primary" (click)="addPreferences()">Save</button>
     </div>
-    </form>
+    <!-- </form> -->
 </div>

@@ -102,7 +102,7 @@ export class CsrBuyerDetailComponent implements OnInit {
         });
       });
     });
-
+    console.log('-------435453453------------', r.data.lead.prefs);
     if (r.data.lead.prefs !== null) {
       this.fillInfo.family_size = r.data.lead.prefs.family_size;
       this.fillInfo.pets = r.data.lead.prefs.pets;
@@ -110,9 +110,10 @@ export class CsrBuyerDetailComponent implements OnInit {
       this.fillInfo.min_price = r.data.lead.prefs.min_price ? r.data.lead.prefs.min_price : this.constant.minValue;
       this.fillInfo.max_price = r.data.lead.prefs.max_price ? r.data.lead.prefs.max_price : this.constant.maxValue;
       this.fillInfo.price_range = [this.fillInfo.min_price, this.fillInfo.max_price];
-
+console.log('-------------------', r.data.lead.prefs);
       if (r.data.lead.prefs.planning_to_buy !== null) {
-        this.fillInfo.planning_to_buy = new ChatTimePipe().transform(r.data.lead.prefs.planning_to_buy, 'YYYY-MM-DD HH:MM:SS', 4);
+        this.fillInfo.planning_to_buy = moment.utc(r.data.lead.prefs.planning_to_buy).toDate();
+        // this.fillInfo.planning_to_buy = new ChatTimePipe().transform(r.data.lead.prefs.planning_to_buy, 'YYYY-MM-DD HH:MM:SS', 4);
       }
     } else {
       this.fillInfo.family_size = 1;

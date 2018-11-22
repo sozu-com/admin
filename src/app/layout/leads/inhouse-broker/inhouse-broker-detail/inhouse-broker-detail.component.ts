@@ -125,7 +125,8 @@ console.log('apoiinn', this.appointment);
       this.fillInfo.price_range = [r.data.lead.prefs.min_price, r.data.lead.prefs.max_price];
 
       if (r.data.lead.prefs.planning_to_buy !== null) {
-        this.fillInfo.planning_to_buy = new ChatTimePipe().transform(r.data.lead.prefs.planning_to_buy, 'YYYY-MM-DD H:m:s', 4);
+        this.fillInfo.planning_to_buy = moment.utc(r.data.lead.prefs.planning_to_buy).toDate();
+        // this.fillInfo.planning_to_buy = new ChatTimePipe().transform(r.data.lead.prefs.planning_to_buy, 'YYYY-MM-DD H:m:s', 4);
       }
       // this.fillInfo.configuration = r.data.lead.configuration;
 

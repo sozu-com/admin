@@ -159,10 +159,11 @@ export class DataCollectorComponent implements OnInit {
   }
 
   resetFilters() {
-    this.location.countries = []; this.parameter.country_id = '0';
-    this.location.states = []; this.parameter.state_id = '0';
-    this.location.cities = []; this.parameter.city_id = '0';
-    this.location.localities = []; this.parameter.locality_id = '0';
+    this.onCountryChange('0');
+    // this.parameter.country_id = '0';
+    // this.location.states = []; this.parameter.state_id = '0';
+    // this.location.cities = []; this.parameter.city_id = '0';
+    // this.location.localities = []; this.parameter.locality_id = '0';
     this.parameter.is_selected = false;
     this.parameter.page = this.constant.p;
     this.parameter.flag = 2;
@@ -218,9 +219,13 @@ export class DataCollectorComponent implements OnInit {
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');
+    } else {
+      delete input.min;
     }
     if (this.parameter.max) {
       input.max = moment(this.parameter.max).format('YYYY-MM-DD');
+    } else {
+      delete input.max;
     }
     if (this.selectedUser) {
       input.assignee_id = this.selectedUser.id;
@@ -255,9 +260,13 @@ export class DataCollectorComponent implements OnInit {
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');
+    } else {
+      delete input.min;
     }
     if (this.parameter.max) {
       input.max = moment(this.parameter.max).format('YYYY-MM-DD');
+    } else {
+      delete input.max;
     }
     if (this.selectedUser) {
       input.assignee_id = this.selectedUser.id;

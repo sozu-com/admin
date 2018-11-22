@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { AdminService } from './../../../services/admin.service';
 import { IProperty } from './../../../common/property';
 import { Constant } from './../../../common/constants';
 import { FillInformation } from './../../../models/leads.model';
-import { NouisliderModule } from 'ng2-nouislider';
 import { ChatTimePipe } from './../../../pipes/chat-time.pipe';
+import * as moment from 'moment';
 declare let swal: any;
 
 @Component({
@@ -27,6 +27,9 @@ export class FillInformationComponent implements OnInit {
 
   ngOnInit() {
     this.today = new Date();
+    // if (this.fillInfo.planning_to_buy) {
+    //   this.fillInfo.planning_to_buy = moment.utc(this.fillInfo.planning_to_buy).toDate();
+    // }
     this.getPrefOptions();
   }
 
@@ -35,6 +38,23 @@ export class FillInformationComponent implements OnInit {
       this.parameter.proximity_places = r.data.proximity_places;
       this.parameter.car_types = r.data.car_types;
     });
+  }
+
+  onSelect(e) {
+    console.log('ssss');
+    console.log('eee', e);
+    this.fillInfo.planning_to_buy = e;
+  }
+
+  setCarType(param, i, id) {
+    this.fillInfo.car_types.forEach(element => {
+      if (element.id === id) {
+        element.is_selected = 1;
+      } else {
+        element.is_selected = 0;
+      }
+    });
+    // this.fillInfo[param][i].is_selected = this.fillInfo[param][i].is_selected === 1 ? 0 : 1;
   }
 
   setValue(param, i) {
@@ -46,6 +66,7 @@ export class FillInformationComponent implements OnInit {
   }
 
   addPreferences() {
+    console.log('fillinfo', this.fillInfo);
     this.fillInfo.car_types.forEach(element => {
       if (element.is_selected === 1) {
         this.fillInfo.car_type_id = element.id;
@@ -70,15 +91,10 @@ export class FillInformationComponent implements OnInit {
     this.fillInfo.kid_count = this.fillInfo.kid_count === true || this.fillInfo.kid_count.toString() === '1' ? '1' : '0';
     this.fillInfo.min_price = this.fillInfo.price_range[0];
     this.fillInfo.max_price = this.fillInfo.price_range[1];
-    // console.log('before', this.fillInfo);
-    if (this.fillInfo.planning_to_buy === 'Invalid date') {
-// console.log('yes');
-      this.fillInfo.planning_to_buy = '';
-    } else {
-      // console.log('np');
-      this.fillInfo.planning_to_buy = new ChatTimePipe().transform(this.fillInfo.planning_to_buy, 'YYYY-MM-DD HH:MM:SS', 3);
+    if (this.fillInfo.planning_to_buy) {
+      this.fillInfo.planning_to_buy = moment.utc(this.fillInfo.planning_to_buy).toDate();
+      // this.fillInfo.planning_to_buy = new ChatTimePipe().transform(this.fillInfo.planning_to_buy, 'YYYY-MM-DD HH:MM:SS', 3);
     }
-    // console.log('fil', this.fillInfo);
     this.admin.postDataApi('leads/addPreferences', this.fillInfo).subscribe(r => {
       swal('Success', this.constant.successMsg.DETAILS_UPDATED_SUCCESSFULLY, 'success');
     });

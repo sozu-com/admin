@@ -68,18 +68,21 @@ export class CsrBuyerComponent implements OnInit {
   }
 
   onCountryChange(id) {
-    this.parameter.country_id = '0';
+    console.log('--');
+    console.log('id', id);
+    this.parameter.country_id = id;
     this.location.states = []; this.parameter.state_id = '0';
     this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
+    console.log(this.parameter.country_id);
     if (!id || id === '0') {
-      this.parameter.state_id = '0';
+      // this.parameter.state_id = '0';
       return false;
     }
-    this.parameter.country_id = id;
+    console.log('-----');
+    // this.parameter.country_id = id;
     const selectedCountry = this.location.countries.filter(x => x.id.toString() === id);
     this.location.states = selectedCountry[0].states;
-
   }
 
   onStateChange(id) {
@@ -159,10 +162,11 @@ export class CsrBuyerComponent implements OnInit {
   }
 
   resetFilters() {
-    this.location.countries = []; this.parameter.country_id = '0';
-    this.location.states = []; this.parameter.state_id = '0';
-    this.location.cities = []; this.parameter.city_id = '0';
-    this.location.localities = []; this.parameter.locality_id = '0';
+    this.onCountryChange('0');
+    // this.parameter.country_id = '0';
+    // this.location.states = []; this.parameter.state_id = '0';
+    // this.location.cities = []; this.parameter.city_id = '0';
+    // this.location.localities = []; this.parameter.locality_id = '0';
     this.parameter.is_selected = false;
     this.parameter.page = this.constant.p;
     this.parameter.flag = 2;
@@ -170,9 +174,9 @@ export class CsrBuyerComponent implements OnInit {
     // this.selectedUser = '';
     this.parameter.keyword = '';
     this.parameter.count_flag = 1;
-    this.resetDates();
-    this.getListing();
-    this.getCSRDashBoardData();
+    // this.resetDates();
+    // this.getListing();
+    // this.getCSRDashBoardData();
   }
 
   resetDates() {
@@ -220,9 +224,13 @@ export class CsrBuyerComponent implements OnInit {
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');
+    } else {
+      delete input.min;
     }
     if (this.parameter.max) {
       input.max = moment(this.parameter.max).format('YYYY-MM-DD');
+    } else {
+      delete input.max;
     }
     if (this.selectedUser) {
       input.assignee_id = this.selectedUser.id;
@@ -256,9 +264,13 @@ export class CsrBuyerComponent implements OnInit {
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');
+    } else {
+      delete input.min;
     }
     if (this.parameter.max) {
       input.max = moment(this.parameter.max).format('YYYY-MM-DD');
+    } else {
+      delete input.max;
     }
     if (this.selectedUser) {
       input.assignee_id = this.selectedUser.id;

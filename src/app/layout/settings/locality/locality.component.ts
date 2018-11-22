@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { AdminService } from '../../../services/admin.service';
-import { Router } from '@angular/router';
 import { IProperty } from '../../../common/property';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { MapsAPILoader } from '@agm/core';
 import { Constant } from './../../../common/constants';
 import { Locality } from './../../../models/locality.model';
 import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
 declare let swal: any;
 declare const google;
 
@@ -136,6 +136,7 @@ export class LocalityComponent implements OnInit {
           if (this.parameter.cities.length) {
             this.parameter.city_id = this.parameter.cities[0].id;
             // console.log('cityid', this.parameter.city_id);
+            this.getGeoLocation(this.parameter.cities[0].name_en);
             this.getLocalities(this.parameter.city_id, '');
           }else {
             this.parameter.localityCount = 0;
@@ -395,9 +396,13 @@ console.log('xx', typeof this.getPolygonCoords(event.overlay));
     }
   }
 
+  closeModal() {
+    this.model = new Locality();
+    this.localityClose.nativeElement.click();
+  }
 
   addLocality(name_en, name_es, price_per_sqft) {
-    this.localityClose.nativeElement.click();
+    // this.localityClose.nativeElement.click();
     const locality = {
       name_en: name_en,
       name_es: name_es,
@@ -408,13 +413,12 @@ console.log('xx', typeof this.getPolygonCoords(event.overlay));
       city_id: this.parameter.city_id,
       overlay: this.parameter.overlay
     };
-// console.log('locality', locality);
     delete locality.overlay;
 
     this.admin.postDataApi('addLocality', locality).subscribe(
         r => {
-          // console.log('zz', r);
           this.all_overlays.push(r.data);
+          this.closeModal();
         });
   }
 
@@ -568,6 +572,30 @@ console.log('xx', typeof this.getPolygonCoords(event.overlay));
           });
       }
     });
+  }
+
+  getGeoLocation(address: string) {
+    console.log('Getting address: ', address);
+    // const geocoder = new google.maps.Geocode();
+    this.loader.load().then(() => {
+      console.log('--');
+      // const geocoder = new google.maps.Geocode();
+    });
+    // return Observable.create(observer => {
+    //     geocoder.geocode({
+    //         'address': address
+    //     }, (results, status) => {
+    //         if (status == google.maps.GeocoderStatus.OK) {
+    //           console.log('====');
+    //           console.log('reposnee', results[0].geometry.location);
+    //             observer.next(results[0].geometry.location);
+    //             observer.complete();
+    //         } else {
+    //             console.log('Error: ', results, ' & Status: ', status);
+    //             observer.error();
+    //         }
+    //     });
+    // });
   }
 
   loadPlaces() {

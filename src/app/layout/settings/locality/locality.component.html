@@ -135,13 +135,13 @@
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header my-modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button type="button" class="close" (click)="closeModal()">&times;</button>
         <h4 class="modal-title">Add Locality Details</h4>
       </div>
       <form class="form-horizontal form-model0P" role="form" novalidate #addForm="ngForm" (ngSubmit)="checkIfLocalitySpanishNameEntered(addForm.value.name_en, addForm.value.name_es, addForm.value.price_per_sqft)">
         <div class="modal-body model-body10P">
           <div class="form-group">
-            <input type="text" class="form-control" placeholder="Locality name (English)" id="name_en" required [(ngModel)]="model.localityModel.name_en" name="name_en" #name_en="ngModel">
+            <input type="text" class="form-control" placeholder="Locality name (English)" id="name_en" required [(ngModel)]="model.name_en" name="name_en" #name_en="ngModel">
             <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
                 <div [hidden]="!name_en.errors.required">
                   {{constant.errorMsg.COUNTRY_NAME_REQUIRED}}
@@ -149,11 +149,11 @@
             </div> -->
           </div>
           <div class="form-group">
-            <input type="text" name="name_es" class="form-control" placeholder="Locality name (Spanish)" [(ngModel)]="model.localityModel.name_es">
+            <input type="text" name="name_es" class="form-control" placeholder="Locality name (Spanish)" [(ngModel)]="model.name_es">
           </div>
 
           <div class="form-group">
-            <input type="text" class="form-control" min="1" placeholder="Price per sqft" id="price_per_sqft" required [(ngModel)]="model.localityModel.price_per_sqft" name="price_per_sqft" #price_per_sqft="ngModel">
+            <input type="text" class="form-control" min="1" placeholder="Price per sqft" id="price_per_sqft" required [(ngModel)]="model.price_per_sqft" name="price_per_sqft" #price_per_sqft="ngModel">
             <!-- <div *ngIf="price_per_sqft.errors && (price_per_sqft.dirty || price_per_sqft.touched)" class="show-error">
                 <div [hidden]="!price_per_sqft.errors.required">
                   {{constant.errorMsg.PRICE_PER_SQFT_REQUIRED}}
@@ -167,7 +167,8 @@
         </div>
         <div class="modal-footer">
           <button type="submit" [disabled]="addForm.invalid" class="btn btn-info">Submit</button>
-          <button type="button" class="btn btn-default" #localityClose data-dismiss="modal">Close</button>
+          <button style="display:none;" type="button" class="btn btn-default" #localityClose data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-default" (click)="closeModal()">Close</button>
         </div>
       </form>
 
