@@ -173,7 +173,7 @@ export class ProjectsComponent implements OnInit {
 
   changeFlag(flag) {
     this.parameter.dash_flag = flag;
-    if (flag === 5) {
+    if (flag.toString() === '5') {
       return false;
     }
     this.resetDates();

@@ -1047,7 +1047,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 3:
+/***/ 2:
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__("../../../../../src/styles.css");
@@ -1065,5 +1065,5 @@ module.exports = __webpack_require__("../../../../primeng/resources/primeng.min.
 
 /***/ })
 
-},[3]);
+},[2]);
 //# sourceMappingURL=styles.bundle.js.map

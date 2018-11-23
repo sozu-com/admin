@@ -25,15 +25,10 @@ import { AppFooterComponent } from '../shared/app-footer/app-footer.component';
 // importing general component
 import { InhouseUsersComponent } from './inhouse-users/inhouse-users.component';
 import { AddressComponent } from './inhouse-users/address/address.component';
-import { AdminService } from '../services/admin.service';
-import { CommonService } from '../services/common.service';
 import { AuthGuard } from '../guards/auth.guard';
-import { Constant } from '../common/constants';
-import { HttpInterceptor } from './../services/http-interceptor';
 import { GenerateThumbComponent } from './generate-thumb/generate-thumb.component';
 import { AclPermissionDirective } from '../directives/acl-permission.directive';
 import { AclUserGuard } from '../guards/acl-user.guard';
-import { NotificationsComponent } from './notifications/notifications.component';
 import { MessagingService } from '../fire-base/messaging.service';
 import { SharedModule } from '../modules/shared.module';
 

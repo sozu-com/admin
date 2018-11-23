@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AdminService } from '../../../services/admin.service';
 import { IProperty } from '../../../common/property';
 import { Constant } from './../../../common/constants';
-// import { Router } from '@angular/router';
 import { Users } from '../../../models/users.model';
 import * as moment from 'moment';
 declare let swal: any;
@@ -72,7 +71,7 @@ export class DataCollectorComponent implements OnInit {
     this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
     if (!id || id === '0') {
-      this.parameter.state_id = '0';
+      // this.parameter.state_id = '0';
       return false;
     }
     this.parameter.country_id = id;
@@ -84,7 +83,7 @@ export class DataCollectorComponent implements OnInit {
     this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
     if (!id || id === '0') {
-      this.parameter.city_id = '0';
+      // this.parameter.city_id = '0';
       return false;
     }
     this.parameter.state_id = id;
@@ -95,7 +94,7 @@ export class DataCollectorComponent implements OnInit {
   onCityChange(id) {
     this.location.localities = []; this.parameter.locality_id = '0';
     if (!id || id === '0') {
-      this.parameter.locality_id = '0';
+      // this.parameter.locality_id = '0';
       return false;
     }
     this.parameter.city_id = id;
