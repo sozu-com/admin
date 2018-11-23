@@ -1,4 +1,4 @@
-webpackJsonp([17],{
+webpackJsonp([18],{
 
 /***/ "../../../../raw-loader/index.js!../../../../froala-editor/js/froala_editor.pkgd.min.js":
 /***/ (function(module, exports) {
@@ -90,7 +90,7 @@ __webpack_require__("../../../../script-loader/addScript.js")(__webpack_require_
 
 /***/ }),
 
-/***/ 4:
+/***/ 3:
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__("../../../../script-loader/index.js!../../../../sweetalert2/dist/sweetalert2.js");
@@ -101,5 +101,5 @@ module.exports = __webpack_require__("../../../../script-loader/index.js!../../.
 
 /***/ })
 
-},[4]);
+},[3]);
 //# sourceMappingURL=scripts.bundle.js.map
