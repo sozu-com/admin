@@ -96,7 +96,7 @@
         </ul>
         </div>
         <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12"><div class="add-new text-left">
-              <a *ngIf="admin?.admin_acl['Property Management']?.can_create==1 || admin?.permissions?.can_csr_seller==1" class="btn" href="javascript://" routerLink="/dashboard/properties/add-property/0/{{parameter.seller_id}}">+Add New Property</a>
+              <a *ngIf="admin?.admin_acl['Seller Lead Management']?.can_create==1 || admin?.permissions?.can_csr_seller==1" class="btn" href="javascript://" routerLink="/dashboard/properties/add-property/0/{{parameter.seller_id}}">+Add New Property</a>
             </div></div>
             </div>
         <div class="tab-content white-bg">
@@ -185,12 +185,20 @@
                             <td><span>{{p.lead_properties_count}}</span></td>
                             <td>
                               <div class="message">
-                                <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="parameter?.flag!=3" routerLink="/dashboard/properties/edit-property/{{p.id}}" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
-                                <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="parameter?.flag==3" routerLink="/dashboard/properties/edit-property/{{p.id}}/edit" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
-                                <button [disabled]="admin?.admin_acl['Property Management']?.can_delete==0" *ngIf="!p.is_blocked" (click)="block(p);" class="action-icon" title="Block"><img src="assets/img/block.png" alt="img"></button>
-                                <button [disabled]="admin?.admin_acl['Property Management']?.can_delete==0" *ngIf="p.is_blocked == true" (click)="unblock(p);" class="action-icon unblock-bg" title="UnBlock"><img src="assets/img/unblock.png" alt="img"></button>
-                                <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="p.status == 3" (click)="changeStatus(p,2);" class="action-icon" title="Unapprove"><img src="assets/img/tick-selected.png" alt="img"></button>
-                                <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="p.status == 2" (click)="changeStatus(p,3);" class="action-icon" title="Approve"><img src="assets/img/tick.png" alt="img"></button>
+                                  <!-- admin?.admin_acl['Property Management']?.can_update!=1 ||  -->
+                                <!-- <button [disabled]="true" routerLink="/dashboard/properties/edit-property/{{p.id}}" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button> -->
+                                <button [disabled]="admin?.admin_acl['Seller Lead Management']?.can_update==0 || admin?.permissions?.can_csr_seller==0" 
+                                    *ngIf="parameter?.flag!=3" routerLink="/dashboard/properties/edit-property/{{p.id}}" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                                <button [disabled]="admin?.admin_acl['Seller Lead Management']?.can_update==0 || admin?.permissions?.can_csr_seller==0" 
+                                    *ngIf="parameter?.flag==3" routerLink="/dashboard/properties/edit-property/{{p.id}}/edit" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                                <button [disabled]="admin?.admin_acl['Seller Lead Management']?.can_update==0 || admin?.permissions?.can_csr_seller==0" 
+                                    *ngIf="!p.is_blocked" (click)="block(p);" class="action-icon" title="Block"><img src="assets/img/block.png" alt="img"></button>
+                                <button [disabled]="admin?.admin_acl['Seller Lead Management']?.can_update==0 || admin?.permissions?.can_csr_seller==0" 
+                                    *ngIf="p.is_blocked == true" (click)="unblock(p);" class="action-icon unblock-bg" title="UnBlock"><img src="assets/img/unblock.png" alt="img"></button>
+                                <button [disabled]="admin?.admin_acl['Seller Lead Management']?.can_update==0 || admin?.permissions?.can_csr_seller==0" 
+                                    *ngIf="p.status == 3" (click)="changeStatus(p,2);" class="action-icon" title="Unapprove"><img src="assets/img/tick-selected.png" alt="img"></button>
+                                <button [disabled]="admin?.admin_acl['Seller Lead Management']?.can_update==0 || admin?.permissions?.can_csr_seller==0" 
+                                    *ngIf="p.status == 2" (click)="changeStatus(p,3);" class="action-icon" title="Approve"><img src="assets/img/tick.png" alt="img"></button>
                               </div>
 
                             </td>

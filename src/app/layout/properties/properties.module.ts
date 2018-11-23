@@ -23,15 +23,15 @@ import { CalendarModule } from 'primeng/primeng';
 // import { ImgPipe } from '../../pipes/img.pipe';
 
 const routes: Routes = [
-  // { path: 'details/:property_id', component: PropertyDetailsComponent },
-  { path: 'details/:property_id', component: PropertyDetailsComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_read', '']}},
+  { path: 'details/:property_id', component: PropertyDetailsComponent },
+  // { path: 'details/:property_id', component: PropertyDetailsComponent,
+  //   canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_read', '']}},
   { path: 'add-property/:property_id/:seller_id', component: AddPropertyComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_create', '']}},
+    canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_create', 'can_csr_seller']}},
   { path: 'edit-property/:property_id', component: AddPropertyComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_update', '']}},
+    canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_update', 'can_csr_seller']}},
   { path: 'edit-property/:property_id/:edit', component: AddPropertyComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_update', '']}},
+    canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_update', 'can_csr_seller']}},
   { path: 'view-properties', component: PropertiesComponent,
     canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_read', '']}}
 ];
