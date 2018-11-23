@@ -5025,12 +5025,9 @@ var AppHeaderComponent = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return environment; });
 var environment = {
     production: true,
-    // baseUrl: 'http://45.232.252.136:8002/api/admin/',
-    // baseIP: 'http://45.232.252.136:8002/api/',
-    // socketUrl: 'http://45.232.252.136:8090',
-    baseIP: 'https://kanguroo.mx/api/',
-    baseUrl: 'https://kanguroo.mx/api/admin/',
-    socketUrl: 'http://45.232.252.136:8080',
+    baseUrl: 'http://45.232.252.136:8002/api/admin/',
+    baseIP: 'http://45.232.252.136:8002/api/',
+    socketUrl: 'http://45.232.252.136:8090',
     deviceId: 'ADMIN',
     firebase: {
         apiKey: 'AIzaSyAZMJdN4-tFi3vkKLz-c-BoFHMq7eAkoAc',
