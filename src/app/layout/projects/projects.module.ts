@@ -30,7 +30,7 @@ const routes: Routes = [
   { path: 'add-project', component: AddProjectComponent,
     canActivate: [AclUserGuard], data: {roles: ['Building Management', 'can_create', '']}},
   { path: 'edit-project/:id', component: AddProjectComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Building Management', 'can_update', '']}}
+    canActivate: [AclUserGuard], data: {roles: ['Building Management', 'can_update', 'can_data_collector']}}
 ];
 
 @NgModule({

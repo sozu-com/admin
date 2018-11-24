@@ -268,7 +268,7 @@
                         </div>
                         </div>
                     </th>
-                    <th style="width:20%">
+                    <th style="width:15%">
                         <div class="table-search">
                         <label>Developer</label>
                         <div class="searh-3">
@@ -287,9 +287,14 @@
                             <label>Assignee</label>
                         </div>
                     </th>
-                    <th style="width:14%">
+                    <th style="width:15%">
                         <div class="table-search">
                             <label>Mark<br>Complete</label>
+                        </div>
+                    </th>
+                    <th style="width:4%">
+                        <div class="table-search">
+                            <label>Edit<br>Details</label>
                         </div>
                     </th>
                  </tr>
@@ -322,9 +327,11 @@
                         <a title="Completed" *ngIf="item.status==1" style="cursor:auto;" class="green-color fontW500" href="javascript://">Completed</a>
                         <a style="cursor:auto;" *ngIf="admin?.admin_acl['Data Collector Lead Management']?.can_update==0 || admin?.permissions?.can_data_collector==0" class="green-color fontW500" href="javascript://">Mark Complete</a>
                         <a title="Mark Complete" *ngIf="item.status==0 && (admin?.admin_acl['Data Collector Lead Management']?.can_update==1 || admin?.permissions?.can_data_collector==1)" class="green-color fontW500" (click)="changeStatus(item, 1)" href="javascript://">Mark Complete</a>
-
                        <!-- <button *ngIf="!item.status" (click)="changeStatus(item, 1)" class="action-icon" title="Mark Complete"><img alt="img" src="assets/img/tick.png"></button>
                        <button *ngIf="item.status" (click)="changeStatus(item, 2)" class="action-icon" title="Mark Incomplete"><img alt="img" src="assets/img/tick-selected.png"></button> -->
+                    </td>
+                    <td>
+                        <button [disabled]="admin?.admin_acl['Data Collector Lead Management']?.can_update==0 || admin?.permissions?.can_data_collector==0" routerLink="/dashboard/projects/edit-project/{{item.id}}" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                     </td>
                  </tr>
               </table>

@@ -241,7 +241,7 @@
                                 <label>Image</label>
                               </div>
                           </th>
-                          <th style="width:20%">
+                          <th style="width:15%">
                               <div class="table-search">
                                   <label>Name of Building</label>
                                   <div class="searh-3">
@@ -272,7 +272,7 @@
                               <div class="d-flex table-search"><span><label>Avg Price</label></span></div>
                           </th>
                           
-                          <th style="vertical-align:top;width:100px;width:14%">
+                          <th style="vertical-align:top;width:100px;width:19%">
                             <div class="d-flex table-search"><span><label>Actions</label></span>
                             </div>
                           </th>
@@ -296,10 +296,10 @@
                                 <button [disabled]="admin?.admin_acl['Building Management']?.can_update==0" routerLink="/dashboard/projects/edit-project/{{p.id}}" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                                 <button [disabled]="admin?.admin_acl['Building Management']?.can_delete==0" *ngIf="!p.is_blocked" (click)="block(p);" class="action-icon" title="Block"><img src="assets/img/block.png" alt="img"></button>
                                 <button [disabled]="admin?.admin_acl['Building Management']?.can_delete==0" *ngIf="p.is_blocked == true" (click)="unblock(p);" class="action-icon unblock-bg" title="UnBlock"><img src="assets/img/unblock.png" alt="img"></button>
-                                <!-- unapprove -->
+                                <!-- unapprove => when status=2(pending), 1(approved)-->
                                 <a style="display:none;" #modalOpen data-toggle="modal" data-target="#addNote"></a>
-                                <button (click)="openCancellationModal(p, i)" [disabled]="admin?.admin_acl['Building Management']?.can_update==0" *ngIf="p.status == 1" class="action-icon" title="Unapprove"><img src="assets/img/tick-selected.png" alt="img"></button>
-                                <!-- approve -->
+                                <button (click)="openCancellationModal(p, i)" [disabled]="admin?.admin_acl['Building Management']?.can_update==0" *ngIf="p.status == 1 || p.status==2" class="action-icon" title="Unapprove"><img src="assets/img/tick-selected.png" alt="img"></button>
+                                <!-- approve => when status=2(pending), 4(rejected)-->
                                 <button [disabled]="admin?.admin_acl['Building Management']?.can_update==0" *ngIf="p.status == 2 || p.status == 4"  (click)="approveProject(p, 1);" class="action-icon" title="Approve"><img src="assets/img/tick.png" alt="img"></button>
                               </div>
 
