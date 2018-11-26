@@ -448,6 +448,14 @@ console.log('===', formdata);
   //       });
   // }
 
+  resetFilters() {
+    this.parameter.countries = JSON.parse(JSON.stringify(this.parameter.countries));
+    this.getStates('-1');
+    this.parameter.p = this.constant.p;
+    this.parameter.total = 0;
+    this.getInhouseUsers();
+  }
+
   getCountries() {
     this.parameter.countries = [];
     this.parameter.country_id = '-1';
@@ -468,7 +476,6 @@ console.log('===', formdata);
     if (!country_id || country_id === '-1') {
       return false;
     }
-    this.parameter.country_id = country_id;
     const selectedCountry = this.parameter.countries.filter(x => x.id.toString() === country_id);
     this.parameter.states = selectedCountry[0].states;
 

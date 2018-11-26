@@ -136,7 +136,7 @@ export class LocalityComponent implements OnInit {
           if (this.parameter.cities.length) {
             this.parameter.city_id = this.parameter.cities[0].id;
             // console.log('cityid', this.parameter.city_id);
-            this.getGeoLocation(this.parameter.cities[0].name_en);
+            // this.getLatLan(this.parameter.cities[0].name_en);
             this.getLocalities(this.parameter.city_id, '');
           }else {
             this.parameter.localityCount = 0;
@@ -574,28 +574,29 @@ console.log('xx', typeof this.getPolygonCoords(event.overlay));
     });
   }
 
-  getGeoLocation(address: string) {
-    console.log('Getting address: ', address);
-    // const geocoder = new google.maps.Geocode();
+  getLatLan(address: string) {
+    console.log('Getting Address - ', address);
     this.loader.load().then(() => {
       console.log('--');
+      const geocoder = new google.maps.Geocoder();
+      console.log('zz');
+      console.log(geocoder);
+      return Observable.create(observer => {
+        geocoder.geocode( { 'address': address}, function(results, status) {
+          console.log('090090');
+          console.log('status', status, google.maps.GeocoderStatus);
+            if (status === google.maps.GeocoderStatus.OK) {
+                observer.next(results[0].geometry.location);
+                observer.complete();
+            } else {
+                console.log('Error - ', results, ' & Status - ', status);
+                observer.next({});
+                observer.complete();
+            }
+        });
+    });
       // const geocoder = new google.maps.Geocode();
     });
-    // return Observable.create(observer => {
-    //     geocoder.geocode({
-    //         'address': address
-    //     }, (results, status) => {
-    //         if (status == google.maps.GeocoderStatus.OK) {
-    //           console.log('====');
-    //           console.log('reposnee', results[0].geometry.location);
-    //             observer.next(results[0].geometry.location);
-    //             observer.complete();
-    //         } else {
-    //             console.log('Error: ', results, ' & Status: ', status);
-    //             observer.error();
-    //         }
-    //     });
-    // });
   }
 
   loadPlaces() {

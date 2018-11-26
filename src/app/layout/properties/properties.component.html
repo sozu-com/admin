@@ -60,16 +60,16 @@
    </div>
 
    <div class="row">
-      <div class="col-md-2">
+      <div class="col-lg-2 col-md-2">
             <div class="form-group">
             <label>Country</label>
             <select class="form-control" (change)="onCountryChange($event.target.value)">
-               <option value="0" [selected]="parameter.country_id=='0' ? 'true': 'false'">All</option>
+               <option value="0">All</option>
                <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option>
             </select>
             </div>
       </div>
-      <div class="col-md-2">
+      <div class="col-lg-2 col-md-2">
             <div class="form-group">
             <label>State</label>
             <select class="form-control" (change)="onStateChange($event.target.value)">
@@ -78,7 +78,7 @@
             </select>
             </div>
       </div>
-      <div class="col-md-2">
+      <div class="col-lg-2 col-md-2">
             <div class="form-group">
             <label>City</label>
                <select class="form-control" (change)="onCityChange($event.target.value)">
@@ -88,7 +88,7 @@
             </div>
       </div>
 
-      <div class="col-md-2">
+      <div class="col-lg-2 col-md-2">
             <div class="form-group">
             <label>Locality</label>
             <select class="form-control" (change)="getLocalityBuildings($event.target.value)">
@@ -98,7 +98,7 @@
             </div>
       </div>
 
-      <div class="col-md-2">
+      <div class="col-lg-2 col-md-2">
          <div class="form-group marginB0">
                <label>Building</label>
                <select class="form-control" (change)="setBuilding($event.target.value)">
@@ -108,19 +108,19 @@
          </div>
       </div>
       
-      <div class="col-md-2">
+      <div class="col-lg-1 col-md-2">
             <div class="form-group btn-cont">
             <label style="display: block; margin-top: 3px;">&nbsp;</label>
-            <button type="button" (click)="getListing()" class="btn btn-primary-new width100P">Apply</button>
+            <button type="button" (click)="getListing()" class="btn btn-primary-new width100P P86">Apply</button>
             </div>
       </div>
 
-      <!-- <div class="col-md-2">
+      <div class="col-lg-1 col-md-2">
             <div class="form-group btn-cont">
             <label style="display: block; margin-top: 3px;">&nbsp;</label>
-            <button type="button" (click)="resetFilters()" class="btn btn-primary-new width100P">Reset</button>
+            <button type="button" (click)="resetFilters()" class="btn btn-primary-new width100P P86">Reset</button>
             </div>
-      </div> -->
+      </div>
    </div>
    <!-- <div class="row">
       <div class="col-md-4">

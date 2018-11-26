@@ -1,20 +1,20 @@
 <ngx-loading [show]="parameter.loading"></ngx-loading>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-6 col-6">
+        <div class="col-lg-10 col-md-6 col-6">
           <div class="title-group">
               <h5>{{title}}</h5>
               <p>Showing {{parameter.items?.length}} out of {{parameter.total}}</p>
           </div>
         </div>
-        <div class="col-md-6 col-6">
+        <div class="col-lg-2 col-md-6 col-6">
           <div class="btn-cont text-right">
               <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#add" #modalOpen>Add New</a>
               <a *ngIf="admin?.admin_acl['Data Collector Management']?.can_create==1 && parameter.userType=='data-collectors' ||
                 admin?.admin_acl['Seller Management']?.can_create==1 && parameter.userType=='csr-sellers' ||
                 admin?.admin_acl['Buyer Management']?.can_create==1 && parameter.userType=='csr-buyers' ||
                 admin?.admin_acl['Broker Management']?.can_create==1 && parameter.userType=='inhouse-broker' ||
-                admin?.admin_acl['Closer Management']?.can_create==1 && parameter.userType=='csr-closers'" class="btn btn-primary" href="javascript://" (click)="openAddModal()">Add New</a>
+                admin?.admin_acl['Closer Management']?.can_create==1 && parameter.userType=='csr-closers'" class="btn btn-primary-new width100P" href="javascript://" (click)="openAddModal()">Add New</a>
           </div>
         </div>
     </div>
@@ -65,10 +65,16 @@
             </select>
         </div>
       </div>
-      <div class="col-lg-2 col-md-3 col-sm-6 col-6">
+      <div class="col-lg-1 col-md-3 col-sm-6 col-6">
         <div class="form-group btn-cont">
           <label style="display: block; margin-top: 3px;">&nbsp;</label>
-          <button type="button" (click)="getInhouseUsers()" class="btn btn-primary-new width100P">Apply</button>
+          <button type="button" (click)="getInhouseUsers()" class="btn btn-primary-new width100P P86">Apply</button>
+        </div>
+      </div>
+      <div class="col-lg-1 col-md-3 col-sm-6 col-6">
+        <div class="form-group btn-cont">
+          <label style="display: block; margin-top: 3px;">&nbsp;</label>
+          <button type="button" (click)="resetFilters()" class="btn btn-primary-new width100P P86">Reset</button>
         </div>
       </div>
   </div>

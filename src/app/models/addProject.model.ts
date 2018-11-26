@@ -50,6 +50,7 @@ export class AddProjectModel {
     possession_status_id: any = '';
     launch_date: any= '';
     main_image: any= '';
+    is_completed: any;
 }
 
 

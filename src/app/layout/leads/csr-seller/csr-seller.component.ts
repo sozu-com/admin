@@ -65,19 +65,16 @@ export class CsrSellerComponent implements OnInit {
 
   getCountries() {
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
-      console.log('Country', r);
       this.location.countries = r['data'];
     });
   }
 
   onCountryChange(id) {
-    console.log(id);
-    this.parameter.country_id = '0';
+    this.parameter.country_id = id;
     this.location.states = []; this.parameter.state_id = '0';
     this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
     if (!id || id === '0') {
-      this.parameter.state_id = '0';
       return false;
     }
     this.parameter.country_id = id;
@@ -87,11 +84,9 @@ export class CsrSellerComponent implements OnInit {
   }
 
   onStateChange(id) {
-    console.log(id);
     this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
     if (!id || id === '0') {
-      this.parameter.city_id = '0';
       return false;
     }
     this.parameter.state_id = id;
@@ -100,10 +95,8 @@ export class CsrSellerComponent implements OnInit {
   }
 
   onCityChange(id) {
-    console.log(id);
     this.location.localities = []; this.parameter.locality_id = '0';
     if (!id || id === '0') {
-      this.parameter.locality_id = '0';
       return false;
     }
     this.parameter.city_id = id;
@@ -112,7 +105,6 @@ export class CsrSellerComponent implements OnInit {
   }
 
   onLocalityChange(id) {
-    console.log(id);
     if (!id || id === '0') {
       return false;
     }
@@ -168,11 +160,8 @@ export class CsrSellerComponent implements OnInit {
   }
 
   resetFilters() {
+    this.location.countries = JSON.parse(JSON.stringify(this.location.countries));
     this.onCountryChange('0');
-    // this.parameter.country_id = '0';
-    // this.location.states = []; this.parameter.state_id = '0';
-    // this.location.cities = []; this.parameter.city_id = '0';
-    // this.location.localities = []; this.parameter.locality_id = '0';
     this.parameter.is_selected = false;
     this.parameter.page = this.constant.p;
     this.parameter.flag = 2;

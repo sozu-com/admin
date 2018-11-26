@@ -91,7 +91,6 @@ export class AddProjectComponent implements OnInit {
           this.admin.postDataApi('getProjectById', {building_id: this.id}).subscribe(r => {
             this.parameter.loading = false;
             this.model = JSON.parse(JSON.stringify(r.data));
-            console.log(this.model);
             this.file1.image = this.model.main_image;
             // this.model.configurations.map((item) => {
             //   item.images = item.images.map(r1 => r1.image);
@@ -150,7 +149,6 @@ export class AddProjectComponent implements OnInit {
     }
     this.modalClose.nativeElement.click();
     this.file2.upload().then(r => {
-      console.log('resolved');
       this.model.images = this.file2.files;
     });
   }
@@ -176,15 +174,12 @@ export class AddProjectComponent implements OnInit {
           // set latitude, longitude and zoom
           this.latitude = place.geometry.location.lat();
           this.longitude = place.geometry.location.lng();
-          // console.log(place);
           this.model.lat = this.latitude;
           this.model.lng = this.longitude;
           if (place.formatted_address) {
             this.model.address = place.formatted_address;
           }
           this.zoom = 16;
-
-          // console.log('----------', this.latitude, this.longitude, this.zoom);
         });
       });
     });
@@ -204,8 +199,6 @@ export class AddProjectComponent implements OnInit {
     this.model.lat = this.latitude = $event.coords.lat;
     this.model.lng = this.longitude = $event.coords.lng;
     this.getGeoLocation(this.latitude, this.longitude);
-    // console.log($event.coords.lat);
-    // console.log($event);
   }
 
 
@@ -276,7 +269,6 @@ export class AddProjectComponent implements OnInit {
   }
   openConfigPopupFun() {
     this.openConfigPopup.nativeElement.click();
-    console.log('open');
     this.addConfig.nativeElement.reset();
     this.new_config = new Configuration;
     this.new_config_edit = -1;
@@ -287,15 +279,11 @@ export class AddProjectComponent implements OnInit {
   selectConfiguration(id, parentModel) {
     const childModel = this.all_configurations.filter(r => r.id === id);
     parentModel.config = childModel[0];
-    // console.log(parentModel);
   }
 
   editConfiguration(config, index) {
-    // console.log(this.new_config);
-    // console.log(config);
     this.new_config_edit = index;
     this.new_config = JSON.parse(JSON.stringify(config));
-    console.log('EDIT', this.new_config);
     this.file3.image = config.floor_map_image;
     this.file4.files = [];
     config.images.forEach((item, index) => {
@@ -331,15 +319,12 @@ export class AddProjectComponent implements OnInit {
       this.file4.upload().then(r1 => {
         this.parameter.loading = false;
         this.new_config.floor_map_image = this.file3.image;
-        console.log('===', this.file4.files);
         this.new_config.images = this.file4.files;
-        console.log(this.new_config_edit, this.new_config);
         if (this.new_config_edit >= 0 ) {
           this.model.configurations[this.new_config_edit] = this.new_config;
         }else {
           this.model.configurations.push(this.new_config);
         }
-        console.log(this.model.configurations);
       }, error => {
         this.parameter.loading = false;
       });
@@ -355,7 +340,74 @@ export class AddProjectComponent implements OnInit {
     this.model.dev_dialcode = '+' + obj.dialCode;
   }
 
+  // addProject() {
+  //   const modelSave = JSON.parse(JSON.stringify(this.model));
+  //   modelSave.cover_image = this.file1.image;
+  //   modelSave.building_images = modelSave.images.map(r => r.image);
+  //   modelSave.images = modelSave.images.map(r => r.image);
+  //   modelSave.dev_name = modelSave.developer.name;
+  //   modelSave.dev_email = modelSave.developer.email;
+  //   modelSave.dev_phone = modelSave.developer.phone;
+  //   modelSave.dev_logo = this.file5.image;
+  //   modelSave.amenities = this.all_amenities.filter(op => { if (op.selected === true) { return op; }}).map(op => op.id);
+
+  //   modelSave.configurations.forEach(item => {
+  //     item.images = item.images.map(x => x.image);
+  //   });
+  //   /* remove fields for edit */
+  //   if (!modelSave.name) {swal('Error', 'Please add building name', 'error'); return false; }
+  //   if (!modelSave.address) {swal('Error', 'Please add address', 'error'); return false; }
+  //   if (!modelSave.cover_image) {swal('Error', 'Please add cover image', 'error'); return false; }
+  //   if (!modelSave.cover_image) {swal('Error', 'Please add cover image', 'error'); return false; }
+  //   if (modelSave.building_images.length < 1) {swal('Error', 'Please add atleast one more building image', 'error'); return false; }
+  //   if (!modelSave.building_age) {swal('Error', 'Please add building age', 'error'); return false; }
+  //   if (!modelSave.building_type_id) {swal('Error', 'Please add building type', 'error'); return false; }
+  //   if (!modelSave.description) {swal('Error', 'Please add building description', 'error'); return false; }
+  //   if (!modelSave.possession_status_id) {swal('Error', 'Please add possession status', 'error'); return false; }
+  //   if (!modelSave.floors) {swal('Error', 'Please add floors', 'error'); return false; }
+  //   if (!modelSave.launch_date) {swal('Error', 'Please add building launch date', 'error'); return false; }
+  //   if (!modelSave.avg_price) {swal('Error', 'Please add building average price', 'error'); return false; }
+  //   if (modelSave.amenities.length < 1) {swal('Error', 'Please add amenities', 'error'); return false; }
+  //   if (modelSave.configurations.length < 1) {swal('Error', 'Please add building configuration', 'error'); return false; }
+  //   if (!this.id) {
+  //     if (!modelSave.dev_name) {swal('Error', 'Please add developer name', 'error'); return false; }
+  //     if (!modelSave.dev_countrycode) {swal('Error', 'Please add developer country code', 'error'); return false; }
+  //     if (!modelSave.dev_email) {swal('Error', 'Please add developer email', 'error'); return false; }
+  //     if (!modelSave.dev_phone) {swal('Error', 'Please add developer phone', 'error'); return false; }
+  //     if (!modelSave.dev_logo) {swal('Error', 'Please add developer image', 'error'); return false; }
+  //   }
+
+  //   if (this.id) {
+  //     modelSave.building_id = this.id;
+  //     modelSave.developer_id =  modelSave.developer.id;
+  //     this.parameter.loading = true;
+  //     this.admin.postDataApi('updateProject', modelSave).subscribe(success => {
+  //       this.parameter.loading = false;
+  //       swal('Success', success.message, 'success');
+  //       this.router.navigate(['/dashboard/projects/view-projects']);
+  //     }, error => {
+  //       this.parameter.loading = false;
+  //       swal('Error', error.message, 'error');
+  //     });
+  //   }else {
+  //     delete modelSave.id;
+  //     delete modelSave.building_id;
+  //     this.parameter.loading = true;
+  //     this.admin.postDataApi('addProject', modelSave).subscribe(success => {
+  //       this.parameter.loading = false;
+  //       swal('Success', success.message, 'success');
+  //       this.router.navigate(['/dashboard/projects/view-projects']);
+  //     }, error => {
+  //       this.parameter.loading = false;
+  //       swal('Error', error.message, 'error');
+  //     });
+  //   }
+
+  // }
+
+
   addProject() {
+    this.model.is_completed = 0;
     const modelSave = JSON.parse(JSON.stringify(this.model));
     modelSave.cover_image = this.file1.image;
     modelSave.building_images = modelSave.images.map(r => r.image);
@@ -370,40 +422,54 @@ export class AddProjectComponent implements OnInit {
       item.images = item.images.map(x => x.image);
     });
     /* remove fields for edit */
-    if (!modelSave.name) {swal('Error', 'Please add building name', 'error'); return false; }
-    if (!modelSave.address) {swal('Error', 'Please add address', 'error'); return false; }
-    if (!modelSave.cover_image) {swal('Error', 'Please add cover image', 'error'); return false; }
-    if (!modelSave.cover_image) {swal('Error', 'Please add cover image', 'error'); return false; }
-    if (modelSave.building_images.length < 1) {swal('Error', 'Please add atleast one more building image', 'error'); return false; }
-    if (!modelSave.building_age) {swal('Error', 'Please add building age', 'error'); return false; }
-    if (!modelSave.building_type_id) {swal('Error', 'Please add building type', 'error'); return false; }
-    if (!modelSave.description) {swal('Error', 'Please add building description', 'error'); return false; }
-    if (!modelSave.possession_status_id) {swal('Error', 'Please add possession status', 'error'); return false; }
-    if (!modelSave.floors) {swal('Error', 'Please add floors', 'error'); return false; }
-    if (!modelSave.launch_date) {swal('Error', 'Please add building launch date', 'error'); return false; }
-    if (!modelSave.avg_price) {swal('Error', 'Please add building average price', 'error'); return false; }
-    if (modelSave.amenities.length < 1) {swal('Error', 'Please add amenities', 'error'); return false; }
-    if (modelSave.configurations.length < 1) {swal('Error', 'Please add building configuration', 'error'); return false; }
-    if (!this.id) {
-      if (!modelSave.dev_name) {swal('Error', 'Please add developer name', 'error'); return false; }
-      if (!modelSave.dev_countrycode) {swal('Error', 'Please add developer country code', 'error'); return false; }
-      if (!modelSave.dev_email) {swal('Error', 'Please add developer email', 'error'); return false; }
-      if (!modelSave.dev_phone) {swal('Error', 'Please add developer phone', 'error'); return false; }
-      if (!modelSave.dev_logo) {swal('Error', 'Please add developer image', 'error'); return false; }
+    // if (!modelSave.name) {swal('Error', 'Please add building name', 'error'); return false; }
+    // if (!modelSave.address) {swal('Error', 'Please add address', 'error'); return false; }
+    // if (!modelSave.cover_image) {swal('Error', 'Please add cover image', 'error'); return false; }
+    // if (!modelSave.cover_image) {swal('Error', 'Please add cover image', 'error'); return false; }
+    // if (modelSave.building_images.length < 1) {swal('Error', 'Please add atleast one more building image', 'error'); return false; }
+    // if (!modelSave.building_age) {swal('Error', 'Please add building age', 'error'); return false; }
+    // if (!modelSave.building_type_id) {swal('Error', 'Please add building type', 'error'); return false; }
+    // if (!modelSave.description) {swal('Error', 'Please add building description', 'error'); return false; }
+    // if (!modelSave.possession_status_id) {swal('Error', 'Please add possession status', 'error'); return false; }
+    // if (!modelSave.floors) {swal('Error', 'Please add floors', 'error'); return false; }
+    // if (!modelSave.launch_date) {swal('Error', 'Please add building launch date', 'error'); return false; }
+    // if (!modelSave.avg_price) {swal('Error', 'Please add building average price', 'error'); return false; }
+    // if (modelSave.amenities.length < 1) {swal('Error', 'Please add amenities', 'error'); return false; }
+    // if (modelSave.configurations.length < 1) {swal('Error', 'Please add building configuration', 'error'); return false; }
+    // if (!this.id) {
+    //   if (!modelSave.dev_name) {swal('Error', 'Please add developer name', 'error'); return false; }
+    //   if (!modelSave.dev_countrycode) {swal('Error', 'Please add developer country code', 'error'); return false; }
+    //   if (!modelSave.dev_email) {swal('Error', 'Please add developer email', 'error'); return false; }
+    //   if (!modelSave.dev_phone) {swal('Error', 'Please add developer phone', 'error'); return false; }
+    //   if (!modelSave.dev_logo) {swal('Error', 'Please add developer image', 'error'); return false; }
+    // }
+
+    if (modelSave.name && modelSave.address && modelSave.cover_image && modelSave.cover_image &&
+      modelSave.building_images.length > 0 && modelSave.building_age && modelSave.building_type_id &&
+      modelSave.description && modelSave.possession_status_id && modelSave.floors && modelSave.launch_date &&
+      modelSave.avg_price && modelSave.amenities.length > 0 && modelSave.configurations.length > 0) {
+      this.model.is_completed = 1;
+        // swal('Error', 'Please add building name', 'error');
+      return false;
+    }
+    if (this.id) {
+      if (modelSave.dev_name && modelSave.dev_countrycode && modelSave.dev_email && modelSave.dev_phone &&
+        modelSave.dev_logo) {
+          this.model.is_completed = 1;
+        // swal('Error', 'Please add developer name', 'error'); 
+        return false;
+      }
     }
 
-    console.log(modelSave);
     if (this.id) {
       modelSave.building_id = this.id;
       modelSave.developer_id =  modelSave.developer.id;
       this.parameter.loading = true;
       this.admin.postDataApi('updateProject', modelSave).subscribe(success => {
-        // console.log(success);
         this.parameter.loading = false;
         swal('Success', success.message, 'success');
         this.router.navigate(['/dashboard/projects/view-projects']);
       }, error => {
-        console.log(error);
         this.parameter.loading = false;
         swal('Error', error.message, 'error');
       });
@@ -412,12 +478,10 @@ export class AddProjectComponent implements OnInit {
       delete modelSave.building_id;
       this.parameter.loading = true;
       this.admin.postDataApi('addProject', modelSave).subscribe(success => {
-        // console.log(success);
         this.parameter.loading = false;
         swal('Success', success.message, 'success');
         this.router.navigate(['/dashboard/projects/view-projects']);
       }, error => {
-        console.log(error);
         this.parameter.loading = false;
         swal('Error', error.message, 'error');
       });

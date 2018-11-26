@@ -1,18 +1,14 @@
 <ngx-loading [show]="parameter.loading"></ngx-loading>
-<!--content start-->
 <div class="container-fluid">
     <div class="breadcrumb-group">
       <h5>Settings</h5>
       <nav class="breadcrumb">
           <a class="breadcrumb-item">Home</a>
-          <!-- <a class="breadcrumb-item" routerLink="/dashboard">Home</a> -->
           <a class="breadcrumb-item">Settings</a>
           <span class="breadcrumb-item active">Location</span>
       </nav>
     </div>
 
-    <!-- <ngx-loading [show]="parameter.loading"></ngx-loading> -->
-    
     <div class="white-bg">
       <div class="page-title">
           <h3>Location</h3>
@@ -25,23 +21,12 @@
               <div class="col-md-12">
                 <label><strong>Country</strong></label>
               </div>
-              <!-- <div class="col-xl-3 col-sm-6 col-12 table-search searh-2">
-                  <input type="text" name="keyword" [(ngModel)]="searchCountry" (keyup.enter)="getCountries(searchCountry)" placeholder="Search here">
-                  <button (click)="getCountries(searchCountry)"><i class="fa fa-search"></i></button>
-              </div>
-              <div class="col-xl-9 col-sm-6 col-12">
-                 <div class="form-group marginB0">
-                    <div class="btn-cont text-right">
-                        <a *ngIf="admin?.admin_acl['Settings']?.can_create==1" class="btn btn-primary" href="javascript://" (click)="openCountryModal(addCountryModal, '', '', '', '1', -1)">+ Add New</a>
-                    </div>
-                 </div>
-              </div> -->
 
               <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-6 table-search">
                   <div class="form-group marginB0">
                     <div class="searh-2">
-                        <input type="text" name="keyword" [(ngModel)]="searchCountry" (keyup.enter)="getCountries(searchCountry)" placeholder="Search here">
-                        <button (click)="getCountries(searchCountry)"><i class="fa fa-search"></i></button>
+                        <input autocomplete="off" type="text" name="keyword" [(ngModel)]="searchCountry" (keyup.enter)="getCountries(searchCountry, 1)" placeholder="Search here">
+                        <button (click)="getCountries(searchCountry, 1)"><i class="fa fa-search"></i></button>
                     </div>
                   </div>
                 </div>
@@ -66,7 +51,7 @@
                   <th style="width:40%; text-align:left;">Country (Spanish)</th>
                   <th style="width:20%">Action</th>
                 </tr>
-                <tr *ngFor="let country of parameter.countries; let c=index">
+                <tr *ngFor="let country of parameter.countries1; let c=index">
                   <td class="text-left">
                     {{country.name_en}}
                   </td>
@@ -83,15 +68,12 @@
                         title="{{country.status==1?'Block':'Unblock'}}" [ngClass]="{'unblock-bg':country.status==0}"
                         class="action-icon"><img src="assets/img/block.png" alt="img">
                       </button>
-                    <!-- <a title="Edit Country" (click)="openCountryModal(addCountryModal, country.id, country.name_en, country.name_es, country.status, c)" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
-                    <a *ngIf="country.status == 1" (click)="blockUnblockCountry(country.id, country.name_en, country.name_es, 0, c)" title="Block Country" class="icon-block block-icon"><img src="assets/img/unblock.png" alt="img"></a>
-                    <a *ngIf="country.status == 0" (click)="blockUnblockCountry(country.id, country.name_en, country.name_es, 1, c)" title="Unblock Country" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png" alt="img"></a> -->
                   </td>
                 </tr>
             </table>
 
-            <div class="error-border" *ngIf="parameter.countries?.length == 0">
-              <p class="show-error">
+            <div class="error-border" *ngIf="parameter.countries1?.length == 0">
+              <p class="show-not-found">
                 {{constant.errorMsg.NO_COUNTRY_FOUND}}
               </p>
             </div>
@@ -109,9 +91,8 @@
               <div class="col-lg-3 col-md-3 col-sm-6 col-6">
                  <div class="form-group marginB0">
                     <label>Country</label>
-                    <select class="form-control" (change)="getStatesWRTCountry($event.target.value, '')">
-                      <!-- <option value="" disabled>Select Country</option> -->
-                       <option *ngFor="let country of parameter.countries1" value="{{country.id}}">{{country.name_en}}</option>
+                    <select class="form-control" (change)="getStates($event.target.value, '', 1)">
+                       <option *ngFor="let country of parameter.countries2" value="{{country.id}}">{{country.name_en}}</option>
                     </select>
                  </div>
               </div>
@@ -119,8 +100,8 @@
                 <div class="form-group marginB0">
                   <label>Search</label>
                   <div class="searh-2">
-                      <input type="text" [(ngModel)]="searchState" (keyup.enter)="getStatesWRTCountry(parameter.country_id, searchState)" name="keyword" placeholder="Search here">
-                      <button (click)="getStatesWRTCountry(parameter.country_id, searchState)"><i class="fa fa-search"></i></button>
+                      <input autocomplete="off" type="text" [(ngModel)]="searchState" (keyup.enter)="getStates(parameter.country_id, searchState, 1)" name="keyword" placeholder="Search here">
+                      <button (click)="getStates(parameter.country_id, searchState, 1)"><i class="fa fa-search"></i></button>
                   </div>
                 </div>
               </div>
@@ -146,7 +127,7 @@
                   <th style="width:40%; text-align:left;">State (Spanish)</th>
                   <th style="width:20%">Action</th>
                 </tr>
-                <tr *ngFor="let state of parameter.states; let s = index">
+                <tr *ngFor="let state of parameter.states1; let s = index">
                   <td class="text-left">
                     {{state.name_en}}
                   </td>
@@ -163,15 +144,12 @@
                       title="{{state.status==1?'Block':'Unblock'}}" [ngClass]="{'unblock-bg':state.status==0}"
                       class="action-icon"><img src="assets/img/block.png" alt="img">
                     </button>
-                      <!-- <a href="javascript://" (click)="openStateModal(addStateModal, state.country_id, state.id, state.name_en, state.name_es, state.status, s)" title="Edit State" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
-                      <a *ngIf="state.status == 1" (click)="blockUnblockState(state.country_id, state.name_en, state.name_es, 0, state.id, s)" title="Block State" class="icon-block block-icon"><img src="assets/img/unblock.png" alt="img"></a>
-                      <a *ngIf="state.status == 0" (click)="blockUnblockState(state.country_id, state.name_en, state.name_es, 1, state.id, s)" title="Unblock State" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png" alt="img"></a> -->
                   </td>
                 </tr>
             </table>
 
-            <div class="error-border" *ngIf="parameter.states?.length == 0">
-              <p class="show-error">
+            <div class="error-border" *ngIf="parameter.states1?.length == 0">
+              <p class="show-not-found">
                 {{constant.errorMsg.NO_STATE_FOUND}}
               </p>
             </div>
@@ -190,18 +168,16 @@
             <div class="col-lg-3 col-md-3 col-sm-6 col-6">
                <div class="form-group marginB0">
                   <label>Country</label>
-                  <select class="form-control" (change)="getStates($event.target.value, '')">
-                    <!-- <option value="" disabled>Select Country</option> -->
-                    <option *ngFor="let country of parameter.countries1" value="{{country.id}}">{{country.name_en}}</option>
+                  <select class="form-control" (change)="getStates($event.target.value, '', 2)">
+                    <option *ngFor="let country of parameter.countries3" value="{{country.id}}">{{country.name_en}}</option>
                  </select>
                </div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-6">
                <div class="form-group marginB0">
                   <label>State</label>
-                  <select class="form-control" (change)="getCities($event.target.value, '')">
-                    <!-- <option value="" disabled>Select State</option> -->
-                    <option *ngFor="let state of parameter.states1" value="{{state.id}}">{{state.name_en}}</option>
+                  <select class="form-control" (change)="getCities($event.target.value, '', 1)">
+                    <option *ngFor="let state of parameter.states2" value="{{state.id}}">{{state.name_en}}</option>
                  </select>
                </div>
             </div>
@@ -209,8 +185,8 @@
               <div class="form-group marginB0">
                 <label>Search</label>
                 <div class="searh-2">
-                    <input type="text" [(ngModel)]="searchCity" (keyup.enter)="getCities(parameter.state_id, searchCity)" name="keyword" placeholder="Search here">
-                    <button (click)="getCities(parameter.state_id, searchCity)"><i class="fa fa-search"></i></button>
+                    <input autocomplete="off" type="text" [(ngModel)]="searchCity" (keyup.enter)="getCities(parameter.state_id, searchCity, 1)" name="keyword" placeholder="Search here">
+                    <button (click)="getCities(parameter.state_id, searchCity, 1)"><i class="fa fa-search"></i></button>
                 </div>
               </div>
             </div>
@@ -235,7 +211,7 @@
                 <th style="width:40%; text-align:left;">City (Spanish)</th>
                 <th style="width:20%">Action</th>
               </tr>
-              <tr *ngFor="let city of parameter.cities; let ci=index">
+              <tr *ngFor="let city of parameter.cities1; let ci=index">
                 <td class="text-left">
                   {{city.name_en}}
                 </td>
@@ -252,22 +228,19 @@
                     title="{{city.status==1?'Block':'Unblock'}}" [ngClass]="{'unblock-bg':city.status==0}"
                     class="action-icon"><img src="assets/img/block.png" alt="img">
                   </button>
-                  <!-- <a href="javascript://" (click)="openCityModal(addCityModal, city.country_id, city.state_id, city.id, city.name_en, city.name_es, city.status, ci)" title="Edit City" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
-                  <a *ngIf="city.status == 1" (click)="blockUnblockCity(city.state_id, city.name_en, city.name_es, 0, city.id, ci)" title="Block City" class="icon-block block-icon"><img src="assets/img/unblock.png" alt="img"></a>
-                  <a *ngIf="city.status == 0" (click)="blockUnblockCity(city.state_id, city.name_en, city.name_es, 1, city.id, ci)" title="Unblock City" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png" alt="img"></a> -->
               </td>
               </tr>
           </table>
 
-          <div class="error-border" *ngIf="parameter.states1?.length == 0; else cityNotFound">
-            <p class="show-error">
+          <div class="error-border" *ngIf="parameter.states2?.length == 0; else cityNotFound">
+            <p class="show-not-found">
               {{constant.errorMsg.NO_STATE_FOUND}}
             </p>
           </div>
 
           <ng-template #cityNotFound>
-            <div class="error-border" *ngIf="parameter.cities?.length == 0">
-              <p class="show-error">
+            <div class="error-border" *ngIf="parameter.cities1?.length == 0">
+              <p class="show-not-found">
                 {{constant.errorMsg.NO_CITY_FOUND}}
               </p>
             </div>
@@ -292,15 +265,15 @@
     <form class="form-horizontal my-modal-form" role="form" novalidate #addForm="ngForm" (ngSubmit)="checkIfCountrySpanishNameEntered(addForm.value.name_en, addForm.value.name_es)">
       <div class="modal-body my-modal-body">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Country (English)" id="name_en" required [(ngModel)]="location.countryModel.name_en" name="name_en" #name_en="ngModel">
-          <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
+          <input autocomplete="off" type="text" class="form-control" placeholder="Country (English)" id="name_en" required [(ngModel)]="location.countryModel.name_en" name="name_en" #name_en="ngModel">
+          <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-not-found">
               <div [hidden]="!name_en.errors.required">
                 {{constant.errorMsg.COUNTRY_NAME_REQUIRED}}
               </div>
           </div> -->
         </div>
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Country (Spanish)" [(ngModel)]="location.countryModel.name_es" name="name_es">
+          <input autocomplete="off" type="text" class="form-control" placeholder="Country (Spanish)" [(ngModel)]="location.countryModel.name_es" name="name_es">
         </div>
       </div>
       <div class="modal-footer">
@@ -326,24 +299,24 @@
         <div class="form-group" *ngIf="location.stateModel.state_id == ''">
           <select title="Select Country" id="country_id" required [(ngModel)]="location.stateModel.country_id" name="country_id" #country_id="ngModel" class="form-control" required>
             <option value="" disabled>Select Country</option>
-            <option *ngFor="let c of parameter.countries1" value="{{c.id}}">{{c.name}}</option>
+            <option *ngFor="let c of parameter.countries4" value="{{c.id}}">{{c.name}}</option>
           </select>
-          <!-- <div *ngIf="country_id.errors && (country_id.dirty || country_id.touched)" class="show-error">
+          <!-- <div *ngIf="country_id.errors && (country_id.dirty || country_id.touched)" class="show-not-found">
             <div [hidden]="!country_id.errors.required">
               {{constant.errorMsg.COUNTRY_NAME_REQUIRED}}
             </div>
           </div> -->
         </div>
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="State (English)" id="name_en" required [(ngModel)]="location.stateModel.name_en" name="name_en" #name_en="ngModel">
-          <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
+          <input autocomplete="off" type="text" class="form-control" placeholder="State (English)" id="name_en" required [(ngModel)]="location.stateModel.name_en" name="name_en" #name_en="ngModel">
+          <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-not-found">
               <div [hidden]="!name_en.errors.required">
                 {{constant.errorMsg.STATE_NAME_REQUIRED}}
               </div>
           </div> -->
         </div>
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="State (Spanish)" [(ngModel)]="location.stateModel.name_es" name="name_es">
+          <input autocomplete="off" type="text" class="form-control" placeholder="State (Spanish)" [(ngModel)]="location.stateModel.name_es" name="name_es">
         </div>
       </div>
       <div class="modal-footer">
@@ -367,11 +340,11 @@
     <form class="form-horizontal my-modal-form" role="form" novalidate #addForm="ngForm" (ngSubmit)="checkIfCitySpanishNameEntered(addForm.value.state_id, addForm.value.name_en, addForm.value.name_es)">
       <div class="modal-body my-modal-body">
         <div class="form-group" *ngIf="location.cityModel.city_id == ''">
-          <select title="Select Country" id="country_id" (change)="getStatesForCity($event.target.value)" required [(ngModel)]="location.cityModel.country_id" name="country_id" #country_id="ngModel" class="form-control" required>
+          <select title="Select Country" id="country_id" (change)="getStates($event.target.value, '', 3)" required [(ngModel)]="location.cityModel.country_id" name="country_id" #country_id="ngModel" class="form-control" required>
             <option value="" disabled>Select Country</option>
-            <option *ngFor="let c of parameter.countries1" value="{{c.id}}">{{c.name}}</option>
+            <option *ngFor="let c of parameter.countries5" value="{{c.id}}">{{c.name}}</option>
           </select>
-          <!-- <div *ngIf="country_id.errors && (country_id.dirty || country_id.touched)" class="show-error">
+          <!-- <div *ngIf="country_id.errors && (country_id.dirty || country_id.touched)" class="show-not-found">
             <div [hidden]="!country_id.errors.required">
               {{constant.errorMsg.COUNTRY_NAME_REQUIRED}}
             </div>
@@ -380,24 +353,24 @@
         <div class="form-group" *ngIf="location.cityModel.city_id == ''">
           <select title="Select State" id="state_id" required [(ngModel)]="location.cityModel.state_id" name="state_id" #state_id="ngModel" class="form-control" required>
             <option value="" disabled>Select State</option>
-            <option *ngFor="let s of parameter.states2" value="{{s.id}}">{{s.name}}</option>
+            <option *ngFor="let s of parameter.states3" value="{{s.id}}">{{s.name}}</option>
           </select>
-          <!-- <div *ngIf="state_id.errors && (state_id.dirty || state_id.touched)" class="show-error">
+          <!-- <div *ngIf="state_id.errors && (state_id.dirty || state_id.touched)" class="show-not-found">
             <div [hidden]="!state_id.errors.required">
               {{constant.errorMsg.STATE_NAME_REQUIRED}}
             </div>
           </div> -->
         </div>
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="City (English)" id="name_en" required [(ngModel)]="location.cityModel.name_en" name="name_en" #name_en="ngModel">
-          <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
+          <input autocomplete="off" type="text" class="form-control" placeholder="City (English)" id="name_en" required [(ngModel)]="location.cityModel.name_en" name="name_en" #name_en="ngModel">
+          <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-not-found">
               <div [hidden]="!name_en.errors.required">
                 {{constant.errorMsg.CITY_NAME_REQUIRED}}
               </div>
           </div> -->
         </div>
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="City (Spanish)" [(ngModel)]="location.cityModel.name_es" name="name_es">
+          <input autocomplete="off" type="text" class="form-control" placeholder="City (Spanish)" [(ngModel)]="location.cityModel.name_es" name="name_es">
         </div>
       </div>
       <div class="modal-footer">

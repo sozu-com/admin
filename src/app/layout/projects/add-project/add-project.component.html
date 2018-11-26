@@ -3,7 +3,7 @@
 <div class="container-fluid">
   <div class="white-bg">
     <div class="page-title">
-      <h3>Manage Project</h3>
+      <h3>Add Project</h3>
     </div>
 
     <div class="padding40 paddingT0">
@@ -12,7 +12,9 @@
         <div class="row">
           <div class="col-md-5 col-sm-12 col-12">
             <div class="form-group-3">
-              <label>Add Images <span class="color-red">*</span></label>
+              <label>Add Images
+                <!-- <span class="color-red">*</span> -->
+              </label>
               <div class="upload-cover-img">
                 <img [src]="file1.image" onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
                 <!-- <img *ngIf="url" [src]="url" height="200"> -->
@@ -41,13 +43,17 @@
               </div>
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
-                  <label>Location <span class="color-red">*</span></label>
-                  <input placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search (input)="loadPlaces()" name="address" [(ngModel)]="model.address" autocomplete="off" required>
+                  <label>Location
+                    <!-- <span class="color-red">*</span> -->
+                  </label>
+                  <input placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search (input)="loadPlaces()" name="address" [(ngModel)]="model.address" autocomplete="off">
                 </div>
               </div>
             </div>
             <div class="form-group-3">
-              <label>Location Pin on Map <span class="color-red">*</span></label>
+              <label>Location Pin on Map
+                <!-- <span class="color-red">*</span> -->
+              </label>
               <div style="width: 100%;">
                 <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" (mapClick)="placeMarker($event)" [zoom]="zoom">
                   <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
@@ -57,14 +63,18 @@
             <div class="row">
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
-                  <label>Building Age (in yrs) <span class="color-red">*</span></label>
-                  <input placeholder="Building Age" min="0" class="form-control" [(ngModel)]="model.building_age" type="number" name="building_age" required />
+                  <label>Building Age (in yrs)
+                    <!-- <span class="color-red">*</span> -->
+                  </label>
+                  <input placeholder="Building Age" min="0" class="form-control" [(ngModel)]="model.building_age" type="number" name="building_age"/>
                 </div>
               </div>
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
-                  <label>Building Type <span class="color-red">*</span></label>
-                  <select [(ngModel)]="model.building_type_id" class="form-control" name="building_type_id" required>
+                  <label>Building Type
+                    <!-- <span class="color-red">*</span> -->
+                  </label>
+                  <select [(ngModel)]="model.building_type_id" class="form-control" name="building_type_id">
                     <option value="" disabled>Choose Building type</option>      
                     <option *ngFor="let s of all_building_types" [value]="s.id">
                             {{s.name}}
@@ -74,14 +84,18 @@
               </div>
               <div class="col-12">
                 <div class="form-group-3">
-                  <label>Description <span class="color-red">*</span></label>
+                  <label>Description
+                    <!-- <span class="color-red">*</span> -->
+                  </label>
                   <textarea [(ngModel)]="model.description" name="model_description" class="form-control" placeholder="Enter project description">
                        </textarea>
                 </div>
               </div>
               <div class="col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
-                  <label>Possession Status <span class="color-red">*</span></label>
+                  <label>Possession Status
+                    <!-- <span class="color-red">*</span> -->
+                  </label>
                   <select [(ngModel)]="model.possession_status_id" class="form-control" name="possession_status_id">
                     <option value="">Select status</option>
                     <option *ngFor="let s of all_possession_statuses" [value]="s.id">
@@ -92,20 +106,26 @@
               </div>
               <div class="col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
-                  <label>Floors <span class="color-red">*</span></label>
-                  <input min="0" class="form-control" [(ngModel)]="model.floors" type="number" name="building_floors" placeholder="Floors" required>
+                  <label>Floors
+                    <!-- <span class="color-red">*</span> -->
+                  </label>
+                  <input min="0" class="form-control" [(ngModel)]="model.floors" type="number" name="building_floors" placeholder="Floors">
                 </div>
                 
               </div>
               <div class="col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
-                  <label>Average Price <span class="color-red">*</span></label>
-                  <input min="0" class="form-control" [(ngModel)]="model.avg_price" type="number" name="building_avg_price" placeholder="Average price" required>
+                  <label>Average Price
+                    <!-- <span class="color-red">*</span> -->
+                  </label>
+                  <input min="0" class="form-control" [(ngModel)]="model.avg_price" type="number" name="building_avg_price" placeholder="Average price">
                 </div>
               </div>
               <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
-                    <label>Launch Date <span class="color-red">*</span></label>
+                    <label>Launch Date
+                      <!-- <span class="color-red">*</span> -->
+                    </label>
                     <input class="form-control" [ngModel]="model.launch_date  | date:'yyyy-MM-dd'" (ngModelChange)="model.launch_date  = $event" type="date" name="building_launch_date" placeholder="Launch date">
                   </div>
                 </div>
@@ -141,7 +161,9 @@
 
               <div class="col-12">
                 <div class="form-group-3 marginB0">
-                  <label>Amenities available <span class="color-red">*</span></label>
+                  <label>Amenities available
+                    <!-- <span class="color-red">*</span> -->
+                  </label>
                   <ul class="loc-tags-group">
                     <li *ngFor="let a of all_amenities">
                       <span *ngIf="a.selected==true">{{a.name}} 
@@ -160,7 +182,9 @@
               </div>
               <div class="col-12">
                 <div class="form-group-3" style="width: 100%;">
-                  <label class="float-left marginB0">Configuration <span class="color-red">*</span></label>
+                  <label class="float-left marginB0">Configuration
+                    <!-- <span class="color-red">*</span> -->
+                  </label>
                   <div class="clearfix"></div>
                   <hr>
                   <div *ngFor="let c of model.configurations; let index=index" class="configur">
@@ -171,7 +195,9 @@
                     <div class="row">
                       <div class="col-md-6 col-12">
                         <p class="p18">{{c?.config?.name}}</p>
-                        <label>Images <span class="color-red">*</span></label>
+                        <label>Images
+                          <!-- <span class="color-red">*</span> -->
+                        </label>
                         <!-- <div class="image-group">
                           <div class="fig-block">
                             <img class="img-fluid" [src]="c.floor_map_image" onerror='this.src="http://via.placeholder.com/48x48"' alt="img">
@@ -188,7 +214,9 @@
                       </div>
      
                       <div class="col-md-6 col-12">
-                        <p class="p14 text-right">Average Price <span class="color-red">*</span></p>
+                        <p class="p14 text-right">Average Price
+                          <!-- <span class="color-red">*</span> -->
+                        </p>
                         <h3 class="text-right">{{c?.base_price}} per sq/ft.</h3>
                       </div>
                       <div class="col-12">
@@ -211,26 +239,28 @@
             <div class="row">
               <div class="col-12">
                 <div class="page-title paddingL0">
-                  <h3>Developer Info <span class="color-red">*</span></h3>
+                  <h3>Developer Info
+                    <!-- <span class="color-red">*</span> -->
+                  </h3>
                 </div>
               </div>
 
               <div class="col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>Name</label>
-                  <input [(ngModel)]="model.developer.name" class="form-control" type="text" name="developer_name" placeholder="Developer Name" required>
+                  <input [(ngModel)]="model.developer.name" class="form-control" type="text" name="developer_name" placeholder="Developer Name">
                 </div>
               </div>
               <div class="col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>Email</label>
-                  <input [(ngModel)]="model.developer.email" class="form-control" type="email" name="developer_email" placeholder="Developer Email" required pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
+                  <input [(ngModel)]="model.developer.email" class="form-control" type="email" name="developer_email" placeholder="Developer Email" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
                 </div>
               </div>
               <div class="col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>Phone Number</label>
-                  <input minlength="6" maxlength="16" autocomplete="off" type="number" class="form-control" id="phone" placeholder="Phone Number" required minlength="1" [(ngModel)]="model.developer.phone" name="phone" ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)"/>
+                  <input minlength="6" maxlength="16" autocomplete="off" type="number" class="form-control" id="phone" placeholder="Phone Number" minlength="1" [(ngModel)]="model.developer.phone" name="phone" ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)"/>
 
                 </div>
               </div>
@@ -356,21 +386,27 @@
         <div class="row">
           <div class="col-sm-6 col-12">
             <div class="form-group-3">
-              <label>Carpet area (sqft) <span class="color-red">*</span></label>
-              <input min="0" class="form-control" [(ngModel)]="new_config.carpet_area" type="number" name="base_price" required>
+              <label>Carpet area (sqft)
+                <!-- <span class="color-red">*</span> -->
+              </label>
+              <input min="0" class="form-control" [(ngModel)]="new_config.carpet_area" type="number" name="base_price">
             </div>
           </div>
           <div class="col-sm-6 col-12">
             <div class="form-group-3">
-              <label>Average Price <span class="color-red">*</span></label>
-              <input min="0" class="form-control" [(ngModel)]="new_config.base_price" type="number" name="base_price" required>
+              <label>Average Price
+                <!-- <span class="color-red">*</span> -->
+              </label>
+              <input min="0" class="form-control" [(ngModel)]="new_config.base_price" type="number" name="base_price">
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-12">
             <div class="form-group-3">
-              <label>Floor Plan Image <span class="color-red">*</span></label>
+              <label>Floor Plan Image
+                <!-- <span class="color-red">*</span> -->
+              </label>
               <div class="upload-cover-img" style="max-width: 400px; margin: 0px auto;height: 250px;">
                   <img class="img-fluid" [src]="file3.image" onerror='this.src="assets/img/placeholder.png"' />
                   <div *ngIf="!file3.image" class="upload-caption">
@@ -380,7 +416,9 @@
                   <input type="file" accept="image/*" name="floor_map_image" (change)="file3.onSelectFile($event)">
               </div>
               <div class="spacer30"></div>
-              <label>Other Images <span class="color-red">*</span></label>
+              <label>Other Images
+                <!-- <span class="color-red">*</span> -->
+              </label>
               <div class="spacer30"></div>
               <div class="uploaded-img-block">
                 <div class="uploaded-img" *ngFor="let item of file4.files; let i=index">

@@ -54,7 +54,7 @@
           <div class="col-lg-3 col-md-3 col-sm-6 col-6">
             <div class="form-group marginB0">
               <label>Search Locality</label>
-              <input required placeholder="Search Locality" autocorrect="off" autocapitalize="off"
+              <input autocomplete="off" required placeholder="Search Locality" autocorrect="off" autocapitalize="off"
                 spellcheck="off" type="text" class="form-control" style="padding: 8px 25px 8px 15px;
                 height: 40px !important;" #searchLocality (input)="loadPlaces()">
             </div>
@@ -70,9 +70,13 @@
         <table class="table table-striped">
           <tr>
             <th style="width:80%; text-align:left;">
-                <div class="table-search">
-                <input type="Search here" style="height:32px;" (input)="getLocalities(parameter.city_id, $event.target.value)" name="" placeholder="Search here">
+                <div class="searh-3">
+                    <input autocomplete="off" type="text" style="height:32px;" (keyup.enter)="getLocalities(parameter.city_id, $event.target.value)" name="" placeholder="Search here">
+                    <button (click)="getLocalities(parameter.city_id, $event.target.value)"><i class="fa fa-search"></i></button>
                 </div>
+                <!-- <div class="table-search">
+                <input autocomplete="off" type="text" style="height:32px;" (input)="getLocalities(parameter.city_id, $event.target.value)" name="" placeholder="Search here">
+                </div> -->
             </th>
             <th style="width:20%">Action</th>
           </tr>
@@ -91,22 +95,22 @@
         </table>
 
         <div class="error-border" [ngSwitch]="true">
-          <p class="show-error" *ngSwitchCase="parameter.states?.length == 0">{{constant.errorMsg.NO_STATE_FOUND}}</p>
-          <p class="show-error" *ngSwitchCase="parameter.states?.length != 0 && parameter.cities?.length == 0">{{constant.errorMsg.NO_CITY_FOUND}}</p>
-          <p class="show-error" *ngSwitchCase="parameter.states?.length != 0 && parameter.cities?.length != 0 && all_overlays?.length == 0">{{constant.errorMsg.NO_LOCALITY_FOUND}}</p>
+          <p class="show-not-found" *ngSwitchCase="parameter.states?.length == 0">{{constant.errorMsg.NO_STATE_FOUND}}</p>
+          <p class="show-not-found" *ngSwitchCase="parameter.states?.length != 0 && parameter.cities?.length == 0">{{constant.errorMsg.NO_CITY_FOUND}}</p>
+          <p class="show-not-found" *ngSwitchCase="parameter.states?.length != 0 && parameter.cities?.length != 0 && all_overlays?.length == 0">{{constant.errorMsg.NO_LOCALITY_FOUND}}</p>
         </div>
 
         <!-- <div class="error-border" *ngIf="parameter.states?.length == 0; else localityNotFound">
-          <p class="show-error">{{constant.errorMsg.NO_STATE_FOUND}}</p>
+          <p class="show-not-found">{{constant.errorMsg.NO_STATE_FOUND}}</p>
         </div>
         <ng-template #localityNotFound>
           <div class="error-border" *ngIf="parameter.cities?.length == 0">
-            <p class="show-error">{{constant.errorMsg.NO_LOCALITY_FOUND}}</p>
+            <p class="show-not-found">{{constant.errorMsg.NO_LOCALITY_FOUND}}</p>
           </div>
           <ng-container *ngIf="bar === 99; else elseif2">bar === 99</ng-container>
         </ng-template> -->
         <!-- <div class="error-border" *ngIf="all_overlays?.length == 0">
-          <p class="show-error">{{constant.errorMsg.NO_LOCALITY_FOUND}}</p>
+          <p class="show-not-found">{{constant.errorMsg.NO_LOCALITY_FOUND}}</p>
         </div> -->
 
 
@@ -141,20 +145,20 @@
       <form class="form-horizontal form-model0P" role="form" novalidate #addForm="ngForm" (ngSubmit)="checkIfLocalitySpanishNameEntered(addForm.value.name_en, addForm.value.name_es, addForm.value.price_per_sqft)">
         <div class="modal-body model-body10P">
           <div class="form-group">
-            <input type="text" class="form-control" placeholder="Locality name (English)" id="name_en" required [(ngModel)]="model.name_en" name="name_en" #name_en="ngModel">
-            <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-error">
+            <input autocomplete="off" type="text" class="form-control" placeholder="Locality name (English)" id="name_en" required [(ngModel)]="model.name_en" name="name_en" #name_en="ngModel">
+            <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-not-found">
                 <div [hidden]="!name_en.errors.required">
                   {{constant.errorMsg.COUNTRY_NAME_REQUIRED}}
                 </div>
             </div> -->
           </div>
           <div class="form-group">
-            <input type="text" name="name_es" class="form-control" placeholder="Locality name (Spanish)" [(ngModel)]="model.name_es">
+            <input autocomplete="off" type="text" name="name_es" class="form-control" placeholder="Locality name (Spanish)" [(ngModel)]="model.name_es">
           </div>
 
           <div class="form-group">
-            <input type="text" class="form-control" min="1" placeholder="Price per sqft" id="price_per_sqft" required [(ngModel)]="model.price_per_sqft" name="price_per_sqft" #price_per_sqft="ngModel">
-            <!-- <div *ngIf="price_per_sqft.errors && (price_per_sqft.dirty || price_per_sqft.touched)" class="show-error">
+            <input autocomplete="off" type="text" class="form-control" min="1" placeholder="Price per sqft" id="price_per_sqft" required [(ngModel)]="model.price_per_sqft" name="price_per_sqft" #price_per_sqft="ngModel">
+            <!-- <div *ngIf="price_per_sqft.errors && (price_per_sqft.dirty || price_per_sqft.touched)" class="show-not-found">
                 <div [hidden]="!price_per_sqft.errors.required">
                   {{constant.errorMsg.PRICE_PER_SQFT_REQUIRED}}
                 </div>

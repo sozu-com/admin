@@ -127,7 +127,7 @@ export class ProjectsComponent implements OnInit {
   // }
 
   onCountryChange(id) {
-    this.parameter.country_id = '0';
+    this.parameter.country_id = id;
     this.location.states = []; this.parameter.state_id = '0';
     this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
@@ -219,9 +219,12 @@ export class ProjectsComponent implements OnInit {
   }
 
   approveProject(item, status) {
+    if (item.is_completed !== 1) {
+      swal('Error', 'You cannot approve the building as some of details are missing.', 'error');
+      return false;
+    }
     item.status = status;
     this.admin.postDataApi('approveProject', {building_id: item.id }).subscribe(r => {
-      console.log(r);
       swal('Success', 'Project approved successfully.', 'success');
     },
     error => {
@@ -232,7 +235,6 @@ export class ProjectsComponent implements OnInit {
   rejectProject(status) {
     this.items[this.parameter.index].status = status;
     this.admin.postDataApi('rejectProject', {building_id: this.parameter.building_id, reason: this.reason }).subscribe(r => {
-      console.log(r);
       swal('Success', 'Project unapproved successfully.', 'success');
       this.closeModal();
     },
@@ -252,11 +254,8 @@ export class ProjectsComponent implements OnInit {
   }
 
   resetFilters() {
+    this.location.countries = JSON.parse(JSON.stringify(this.location.countries));
     this.onCountryChange('0');
-    // this.parameter.country_id = '0';
-    // this.location.states = []; this.parameter.state_id = '0';
-    // this.location.cities = []; this.parameter.city_id = '0';
-    // this.location.localities = []; this.parameter.locality_id = '0';
     this.parameter.is_selected = false;
     this.parameter.page = this.constant.p;
     this.parameter.dash_flag = 2;

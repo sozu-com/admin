@@ -52,61 +52,9 @@ export class BankLeadsComponent implements OnInit {
     this.route.params.subscribe( params => {
       this.parameter.assignee_id = params.id;
     });
-    this.getCountries();
     this.getListing();
     this.getCSRDashBoardData();
     Object.assign(this, this.chartView);
-  }
-
-  getCountries() {
-    this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
-      this.location.countries = r['data'];
-    });
-  }
-
-  onCountryChange(id) {
-    this.location.states = []; this.parameter.state_id = '0';
-    this.location.cities = []; this.parameter.city_id = '0';
-    this.location.localities = []; this.parameter.locality_id = '0';
-    if (!id || id === '0') {
-      this.parameter.state_id = '0';
-      return false;
-    }
-    this.parameter.country_id = id;
-    const selectedCountry = this.location.countries.filter(x => x.id.toString() === id);
-    this.location.states = selectedCountry[0].states;
-
-  }
-
-  onStateChange(id) {
-    this.location.cities = []; this.parameter.city_id = '0';
-    this.location.localities = []; this.parameter.locality_id = '0';
-    if (!id || id === '0') {
-      this.parameter.city_id = '0';
-      return false;
-    }
-    this.parameter.state_id = id;
-    const selectedState = this.location.states.filter(x => x.id.toString() === id);
-    this.location.cities = selectedState[0].cities;
-  }
-
-  onCityChange(id) {
-    this.location.localities = []; this.parameter.locality_id = '0';
-    if (!id || id === '0') {
-      this.parameter.locality_id = '0';
-      return false;
-    }
-    this.parameter.city_id = id;
-    const selectedCountry = this.location.cities.filter(x => x.id.toString() === id);
-    this.location.localities = selectedCountry[0].localities;
-  }
-
-  onLocalityChange(id) {
-    if (!id || id === '0') {
-      return false;
-    }
-    this.parameter.locality_id = id;
-    // this.getCsrListing();
   }
 
   changeFlag(flag) {
@@ -158,16 +106,10 @@ export class BankLeadsComponent implements OnInit {
   }
 
   resetFilters() {
-    this.onCountryChange('0');
-    // this.location.countries = []; this.parameter.country_id = '0';
-    // this.location.states = []; this.parameter.state_id = '0';
-    // this.location.cities = []; this.parameter.city_id = '0';
-    // this.location.localities = []; this.parameter.locality_id = '0';
     this.parameter.is_selected = false;
     this.parameter.page = this.constant.p;
     this.parameter.flag = 2;
     this.parameter.total = 0;
-    // this.selectedUser = '';
     this.parameter.keyword = '';
     this.parameter.count_flag = 1;
     this.resetDates();

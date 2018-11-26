@@ -69,7 +69,7 @@ export class CsrCloserComponent implements OnInit {
   }
 
   onCountryChange(id) {
-    this.parameter.country_id = '0';
+    this.parameter.country_id = id;
     this.location.states = []; this.parameter.state_id = '0';
     this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
@@ -161,11 +161,8 @@ export class CsrCloserComponent implements OnInit {
   }
 
   resetFilters() {
+    this.location.countries = JSON.parse(JSON.stringify(this.location.countries));
     this.onCountryChange('0');
-    // this.parameter.country_id = '0';
-    // this.location.states = []; this.parameter.state_id = '0';
-    // this.location.cities = []; this.parameter.city_id = '0';
-    // this.location.localities = []; this.parameter.locality_id = '0';
     this.parameter.is_selected = false;
     this.parameter.page = this.constant.p;
     this.parameter.flag = 2;

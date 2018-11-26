@@ -54,7 +54,6 @@ export class PropertiesComponent implements OnInit {
     }
     this.admin.postDataApi('propertyHome', input).subscribe(
       success => {
-        console.log('LIST', success);
         this.items = success.data;
         this.total = success.total_count;
         this.parameter.loading = false;
@@ -66,27 +65,23 @@ export class PropertiesComponent implements OnInit {
 
   getCountries() {
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
-      console.log('Country', r);
       this.location.countries = r['data'];
     });
   }
 
   getPropertyConfigurations() {
     this.admin.postDataApi('getPropertyConfigurations', {}).subscribe(r => {
-      console.log('Config', r);
       this.configurations = r['data'];
     });
   }
 
   onCountryChange(id) {
-    console.log(id);
-    this.parameter.country_id = '0';
+    this.parameter.country_id = id;
     this.location.states = []; this.parameter.state_id = '0';
     this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
     this.parameter.buildings = []; this.parameter.building_id = '0';
     if (!id || id.toString() === '0') {
-      this.parameter.state_id = '0';
       return false;
     }
 
@@ -96,12 +91,10 @@ export class PropertiesComponent implements OnInit {
   }
 
   onStateChange(id) {
-    console.log(id);
     this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
     this.parameter.buildings = []; this.parameter.building_id = '0';
     if (!id || id.toString() === '0') {
-      this.parameter.city_id = '0';
       return false;
     }
 
@@ -111,11 +104,9 @@ export class PropertiesComponent implements OnInit {
   }
 
   onCityChange(id) {
-    console.log(id);
     this.location.localities = []; this.parameter.locality_id = '0';
     this.parameter.buildings = []; this.parameter.building_id = '0';
     if (!id || id.toString() === '0') {
-      this.parameter.locality_id = '0';
       return false;
     }
 
@@ -125,7 +116,6 @@ export class PropertiesComponent implements OnInit {
   }
 
   onLocalityChange(id) {
-    console.log(id);
     this.parameter.buildings = []; this.parameter.building_id = '0';
     if (!id || id.toString() === '0') {
       return false;
@@ -200,7 +190,6 @@ export class PropertiesComponent implements OnInit {
   block(item) {
     item.is_blocked = true;
     this.admin.postDataApi('blockProperty', {property_id: item.id, flag: 1}).subscribe(r => {
-      console.log(r);
       swal('Success', 'Property blocked successfully', 'success');
     },
     error => {
@@ -211,7 +200,6 @@ export class PropertiesComponent implements OnInit {
   unblock(item) {
     item.is_blocked = false;
     this.admin.postDataApi('blockProperty', {property_id: item.id, flag: 0 }).subscribe(r => {
-      console.log(r);
       swal('Success', 'Property unblocked successfully', 'success');
     },
     error => {
@@ -222,7 +210,6 @@ export class PropertiesComponent implements OnInit {
   changeStatus(item, status) {
     item.status = status;
     this.admin.postDataApi('updatePropertyStatus', {property_id: item.id, status_id: status }).subscribe(r => {
-      console.log(r);
       swal('Success', 'Property status changed', 'success');
     },
     error => {
@@ -231,11 +218,8 @@ export class PropertiesComponent implements OnInit {
   }
 
   resetFilters() {
+    this.location.countries = JSON.parse(JSON.stringify(this.location.countries));
     this.onCountryChange('0');
-    // this.parameter.country_id = '0';
-    // this.location.states = []; this.parameter.state_id = '0';
-    // this.location.cities = []; this.parameter.city_id = '0';
-    // this.location.localities = []; this.parameter.locality_id = '0';
     this.parameter.is_selected = false;
     this.parameter.page = this.constant.p;
     this.parameter.dash_flag = 2;

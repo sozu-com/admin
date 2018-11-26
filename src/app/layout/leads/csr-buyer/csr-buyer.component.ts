@@ -68,19 +68,13 @@ export class CsrBuyerComponent implements OnInit {
   }
 
   onCountryChange(id) {
-    console.log('--');
-    console.log('id', id);
     this.parameter.country_id = id;
     this.location.states = []; this.parameter.state_id = '0';
     this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
-    console.log(this.parameter.country_id);
     if (!id || id === '0') {
-      // this.parameter.state_id = '0';
       return false;
     }
-    console.log('-----');
-    // this.parameter.country_id = id;
     const selectedCountry = this.location.countries.filter(x => x.id.toString() === id);
     this.location.states = selectedCountry[0].states;
   }
@@ -162,21 +156,17 @@ export class CsrBuyerComponent implements OnInit {
   }
 
   resetFilters() {
+    this.location.countries = JSON.parse(JSON.stringify(this.location.countries));
     this.onCountryChange('0');
-    // this.parameter.country_id = '0';
-    // this.location.states = []; this.parameter.state_id = '0';
-    // this.location.cities = []; this.parameter.city_id = '0';
-    // this.location.localities = []; this.parameter.locality_id = '0';
     this.parameter.is_selected = false;
     this.parameter.page = this.constant.p;
     this.parameter.flag = 2;
     this.parameter.total = 0;
-    // this.selectedUser = '';
     this.parameter.keyword = '';
     this.parameter.count_flag = 1;
-    // this.resetDates();
-    // this.getListing();
-    // this.getCSRDashBoardData();
+    this.resetDates();
+    this.getListing();
+    this.getCSRDashBoardData();
   }
 
   resetDates() {

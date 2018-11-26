@@ -28,9 +28,7 @@ export class LocationComponent implements OnInit {
 
   ngOnInit() {
     this.searchCountry = ''; this.searchState = ''; this.searchCity = '';
-    this.getCountries(this.searchCountry);
-    this.getAllCountries(this.searchCountry);
-    this.getAllCountriesForCities(this.searchCountry);
+    this.getCountries(this.searchCountry, '');
   }
 
   public openCountryModal(template: TemplateRef<any>, country_id, name_en, name_es, status, index) {
@@ -68,60 +66,43 @@ export class LocationComponent implements OnInit {
   }
 
 
-  // used for dropdown for states
-  getAllCountries(keyword) {
-    this.parameter.url = 'getCountries';
-    const input = new FormData();
-    if (keyword) { input.append('keyword', keyword); }
-    this.admin.postDataApi(this.parameter.url, input)
-      .subscribe(
-        success => {
-          this.parameter.countries1 = success.data;
-          if (this.parameter.countries1.length !== 0) {
-            this.parameter.country_id = this.parameter.countries1[0].id;
-            this.getStatesWRTCountry(this.parameter.countries1[0].id, '');
-          }
-        });
-  }
-
-
-  // used for dropdown for cities
-  getAllCountriesForCities(keyword) {
-    this.parameter.url = 'getCountries';
-    const input = new FormData();
-    if (keyword) { input.append('keyword', keyword); }
-    this.admin.postDataApi(this.parameter.url, input)
-      .subscribe(
-        success => {
-          this.parameter.countries2 = success.data;
-          if (this.parameter.countries2.length !== 0) {
-            this.parameter.country_id = this.parameter.countries2[0].id;
-            this.getStates(this.parameter.countries2[0].id, '');
-          }
-        });
-  }
-
-
   // used for country listing and country search
-  getCountries(keyword) {
-    this.parameter.loading = true;
-    this.parameter.url = 'getCountries';
+  getCountries(keyword, keyname) {
     const input = new FormData();
     if (keyword) { input.append('keyword', keyword); }
-    this.admin.postDataApi(this.parameter.url, input)
+    this.admin.postDataApi('getCountries', input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
-          this.parameter.countries = success.data;
+          console.log(success.data);
+          console.log('keyname', keyname);
+          if (keyname === '') {
+            this.parameter.countries1 = success.data.reverse();
+            this.parameter.countries2 = success.data.reverse();
+            this.parameter.countries3 = success.data.reverse();
+            this.parameter.countries4 = success.data.reverse();
+            this.parameter.countries5 = success.data.reverse();
+            this.getStates(this.parameter.countries2[0].id, '', '');
+          } else if (keyname === 1) {
+            this.parameter.countries1 = success.data.reverse();
+          } else if (keyname === 2) {
+            this.parameter.countries2 = success.data.reverse();
+            if (this.parameter.countries2.length > 0) {
+              // this.getStates(this.parameter.countries2[0].id, '', '1');
+            }
+          } else if (keyname === 3) {
+            this.parameter.countries3 = success.data.reverse();
+          } else if (keyname === 4) {
+            this.parameter.countries4 = success.data.reverse();
+          } else if (keyname === 5) {
+            this.parameter.countries5 = success.data.reverse();
+          }
         }, error => {
-          this.parameter.loading = false;
+          // this.parameter.loading = false;
         });
   }
 
   // used on click of country -- city
-  getStates(country_id, keyword) {
-    // this.parameter.loading = true;
-    this.parameter.url = 'country/getStates';
+  getStates(country_id, keyword, keyname) {
     this.parameter.country_id = country_id;
 
     const input = new FormData();
@@ -129,77 +110,61 @@ export class LocationComponent implements OnInit {
 
     if (keyword) { input.append('keyword', keyword); }
 
-    this.admin.postDataApi(this.parameter.url, input)
+    this.admin.postDataApi('country/getStates', input)
       .subscribe(
         success => {
-          this.parameter.states1 = success.data;
-          if (this.parameter.states1.length !== 0) {
-            this.parameter.state_id = this.parameter.states1[0].id;
-            this.getCities(this.parameter.states1[0].id, '');
-          }else { this.parameter.cities = []; }
-        });
-  }
-
-  // used for search and listing
-  getStatesWRTCountry(country_id, keyword) {
-    // this.parameter.loading = true;
-    this.parameter.url = 'country/getStates';
-    this.parameter.country_id = country_id;
-    this.searchState = keyword;
-    const input = new FormData();
-    input.append('country_id', country_id);
-
-    if (keyword) {input.append('keyword', keyword); }
-
-    this.admin.postDataApi(this.parameter.url, input)
-      .subscribe(
-        success => {
-          // console.log('states', success);
-          // this.parameter.loading = false;
-          this.parameter.states = success.data;
-        });
-  }
-
-
-  // used for search and listing
-  getStatesForCity(country_id, keyword) {
-    // this.parameter.loading = true;
-    this.parameter.url = 'country/getStates';
-    this.parameter.country_id = country_id;
-
-    const input = new FormData();
-    input.append('country_id', country_id);
-
-    if (keyword) {input.append('keyword', keyword); }
-
-    this.admin.postDataApi(this.parameter.url, input)
-      .subscribe(
-        success => {
-          // console.log('states', success);
-          // this.parameter.loading = false;
-          this.parameter.states2 = success.data;
+          console.log('states', success.data);
+          console.log('keyname', keyname);
+          if (keyname === '') {
+            this.parameter.states1 = success.data.reverse();
+            this.parameter.states2 = success.data.reverse();
+            this.parameter.states3 = success.data.reverse();
+            this.getCities(this.parameter.states1[0].id, '', '');
+          } else if (keyname === 1) {
+            this.parameter.states1 = success.data.reverse();
+            console.log('states1', this.parameter.states1);
+            // this.getCities(this.parameter.states1[0].id, '', '1');
+          } else if (keyname === 2) {
+            this.parameter.states2 = success.data.reverse();
+            if (this.parameter.states2.length > 0) {
+              this.getCities(this.parameter.states2[0].id, '', 1);
+            } else {
+              this.parameter.cities1 = [];
+            }
+          } else if (keyname === 3) {
+            this.parameter.states3 = success.data.reverse();
+          }
+          // if (this.parameter.states1.length !== 0) {
+          //   this.parameter.state_id = this.parameter.states1[0].id;
+          //   this.getCities(this.parameter.states1[0].id, '', '1');
+          // }else { this.parameter.cities = []; }
         });
   }
 
 
-  getCities(state_id, keyword) {
-    // this.parameter.loading = true;
-    this.parameter.url = 'getCities';
+  getCities(state_id, keyword, keyname) {
     this.parameter.state_id = state_id;
     this.searchCity = keyword;
     const input = new FormData();
     input.append('state_id', state_id);
-
-    if (keyword) {
-      input.append('keyword', keyword);
-    }
-
-    this.admin.postDataApi(this.parameter.url, input)
+    if (keyword) { input.append('keyword', keyword); }
+    this.admin.postDataApi('getCities', input)
       .subscribe(
         success => {
-          // console.log('cities', success);
+          console.log('cities', success.data);
+          console.log('keyname', keyname);
+          // this.parameter.cities = success.data.reverse();
+          if (keyname === '') {
+            this.parameter.cities1 = success.data.reverse();
+            this.parameter.cities2 = success.data.reverse();
+          } else if (keyname === 1) {
+            this.parameter.cities1 = success.data.reverse();
+            console.log('cities1', this.parameter.cities1);
+          } else if (keyname === 2) {
+            this.parameter.cities2 = success.data.reverse();
+          }
+        }, error => {
           // this.parameter.loading = false;
-          this.parameter.cities = success.data;
         });
   }
 
@@ -226,11 +191,7 @@ export class LocationComponent implements OnInit {
 
 
   addCountry(name_en: string, name_es: string, status, country_id) {
-
     if (country_id === '') {this.modalRef.hide(); }    // hide only when open
-
-    // this.parameter.loading = true;
-    this.parameter.url = 'addCountry';
 
     const input = new FormData();
     input.append('name_es', name_es);
@@ -243,23 +204,22 @@ export class LocationComponent implements OnInit {
       input.append('country_id', country_id);
     }
 
-    this.admin.postDataApi(this.parameter.url, input)
+    this.admin.postDataApi('addCountry', input)
       .subscribe(
         success => {
-          // console.log('success', success);
           const text = this.location.countryModel.country_id || country_id ?
             this.constant.successMsg.COUNTRY_UPDATED_SUCCESSFULLY :
             this.constant.successMsg.COUNTRY_ADDED_SUCCESSFULLY;
           swal('Success', text, 'success');
+          this.getCountries('', '');
+          // this.getAllCountries('', 'added-country');   // loading dropdown
 
-          // this.parameter.loading = false;
-          this.getAllCountries('');   // loading dropdown
 
-          if (this.parameter.index === -1) {
-            this.parameter.countries.push(success.data);
-          }else {
-            this.parameter.countries[this.parameter.index] = success.data;
-          }
+          // if (this.parameter.index === -1) {
+          //   this.parameter.countries1.push(success.data);
+          // }else {
+          //   this.parameter.countries1[this.parameter.index] = success.data;
+          // }
         });
   }
 
@@ -289,14 +249,10 @@ export class LocationComponent implements OnInit {
 
     if (state_id === '') {this.modalRef.hide(); }
 
-    // this.parameter.loading = true;
-    this.parameter.url = 'country/addState';
-
     const input = new FormData();
     input.append('name_es', name_es);
     input.append('name_en', name_en);
     input.append('status', status);
-
 
     if (this.location.stateModel.country_id) {
       input.append('country_id', this.location.stateModel.country_id);  // edit
@@ -310,25 +266,20 @@ export class LocationComponent implements OnInit {
       input.append('state_id', state_id);
     }
 
-    this.admin.postDataApi(this.parameter.url, input)
+    this.admin.postDataApi('country/addState', input)
       .subscribe(
         success => {
-          // console.log('success1', success);
           const text = this.location.stateModel.state_id || state_id ?
           this.constant.successMsg.STATE_UPDATED_SUCCESSFULLY :
           this.constant.successMsg.STATE_ADDED_SUCCESSFULLY;
           swal('Success', text, 'success');
-          // this.parameter.loading = false;
-          // this.getStates(this.location.stateModel.country_id ? this.location.stateModel.country_id : country_id, '');
-          this.getStates(this.parameter.country_id, '');
-
-          if (this.parameter.index === -1) {
-            this.parameter.states.push(success.data);
-          }else {
-            this.parameter.states[this.parameter.index] = success.data;
-          }
-
-          // formdata.reset();
+          this.getStates(this.parameter.country_id, '', 1);
+          // this.getStatesWRTCountry(this.parameter.country_id, '');
+          // if (this.parameter.index === -1) {
+          //   this.parameter.states.push(success.data);
+          // }else {
+          //   this.parameter.states[this.parameter.index] = success.data;
+          // }
         });
   }
 
@@ -356,9 +307,6 @@ export class LocationComponent implements OnInit {
 
   addCity(state_id, name_en, name_es, status, city_id) {
     if (city_id === '') {this.modalRef.hide(); }
-    // this.parameter.loading = true;
-    this.parameter.url = 'addCity';
-
     const input = new FormData();
     input.append('name_es', name_es);
     input.append('name_en', name_en);
@@ -376,24 +324,19 @@ export class LocationComponent implements OnInit {
       input.append('city_id', city_id);   // edit
     }
 
-    this.admin.postDataApi(this.parameter.url, input)
+    this.admin.postDataApi('addCity', input)
       .subscribe(
         success => {
-          // console.log('success2', success);
           const text = this.location.cityModel.city_id || city_id ?
           this.constant.successMsg.CITY_UPDATED_SUCCESSFULLY : this.constant.successMsg.CITY_ADDED_SUCCESSFULLY;
           swal('Success', text, 'success');
-          // this.parameter.loading = false;
-          // this.getCities(this.location.cityModel.state_id, '');
+          this.getCities(this.location.cityModel.state_id, '', 1);
 
-
-          if (this.parameter.index === -1) {
-            this.parameter.cities.push(success.data);
-          }else {
-            this.parameter.cities[this.parameter.index] = success.data;
-          }
-
-          // formdata.reset();
+          // if (this.parameter.index === -1) {
+          //   this.parameter.cities.push(success.data);
+          // }else {
+          //   this.parameter.cities[this.parameter.index] = success.data;
+          // }
         });
   }
 
