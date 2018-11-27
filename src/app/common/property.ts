@@ -43,8 +43,12 @@ export interface IProperty {
   localities?: any;
   buildings?: any;
   country_id?: string;
+  country_id1?: string;
+  country_id2?: string;
   state_id?: string;
+  state_id1?: any;
   city_id?: string;
+  city_id1?: any;
   locality_id?: string;
   building_id?: string;
   countryCount?: number;

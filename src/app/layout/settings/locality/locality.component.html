@@ -51,14 +51,14 @@
               </select>
             </div>
           </div>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-6">
+          <!-- <div class="col-lg-3 col-md-3 col-sm-6 col-6">
             <div class="form-group marginB0">
               <label>Search Locality</label>
               <input autocomplete="off" required placeholder="Search Locality" autocorrect="off" autocapitalize="off"
                 spellcheck="off" type="text" class="form-control" style="padding: 8px 25px 8px 15px;
                 height: 40px !important;" #searchLocality (input)="loadPlaces()">
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
   </div>
@@ -71,7 +71,7 @@
           <tr>
             <th style="width:80%; text-align:left;">
                 <div class="searh-3">
-                    <input autocomplete="off" type="text" style="height:32px;" (keyup.enter)="getLocalities(parameter.city_id, $event.target.value)" name="" placeholder="Search here">
+                    <input autocomplete="off" type="text" style="height:28px; font-size: 14px;" (keyup.enter)="getLocalities(parameter.city_id, $event.target.value)" name="" placeholder="Search here">
                     <button (click)="getLocalities(parameter.city_id, $event.target.value)"><i class="fa fa-search"></i></button>
                 </div>
                 <!-- <div class="table-search">
@@ -118,6 +118,26 @@
 
       <!-- google map -->
       <div class="col-md-8">
+
+        <!-- add city -->
+        <div class="form-outer marginB10">
+            <!-- <div class="inline-form-group"> -->
+              <div class="row">
+                <div class="offset-lg-3"></div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-6">
+                  <div class="form-group marginB0"></div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-6">
+                  <div class="form-group marginB0">
+                    <!-- <label>Search Locality</label> -->
+                    <input autocomplete="off" required placeholder="Search area you want to mark." autocorrect="off" autocapitalize="off"
+                      spellcheck="off" type="text" class="form-control" style="padding: 8px 25px 8px 15px;
+                      height: 40px !important;" #searchLocality (input)="loadPlaces()">
+                  </div>
+                </div>
+              </div>
+            <!-- </div> -->
+        </div>
         <div id="mapDiv" style="height: 500px; width: 100%;" #mapDiv></div>
       </div>
 

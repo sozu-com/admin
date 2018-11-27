@@ -163,6 +163,25 @@ export class AdminService {
               .catch(this.errorHandler);
   }
 
+  getApi(url) {
+    const headers = this.getHeaders();
+    return this.http.get(this.baseUrl + url, {headers: headers})
+              // .map(response => response.json())
+              .map((res: Response) => {
+                return res.json();
+              })
+              .catch(this.errorHandler);
+  }
+
+  googleApi(url) {
+    const headers = this.getHeaders();
+    return this.http.get(url, {headers: headers})
+              .map((res: Response) => {
+                return res.json();
+              })
+              .catch(this.errorHandler);
+  }
+
   putDataApi(url, input) {
     const headers = this.getHeadersForMultipart();
     return this.http.put(this.baseUrl + url, input, {headers: headers})

@@ -136,7 +136,7 @@ export class LocalityComponent implements OnInit {
           if (this.parameter.cities.length) {
             this.parameter.city_id = this.parameter.cities[0].id;
             // console.log('cityid', this.parameter.city_id);
-            // this.getLatLan(this.parameter.cities[0].name_en);
+            this.getLatLan(this.parameter.cities[0].name_en);
             this.getLocalities(this.parameter.city_id, '');
           }else {
             this.parameter.localityCount = 0;
@@ -149,7 +149,6 @@ export class LocalityComponent implements OnInit {
           this.parameter.loading = false;
         });
   }
-
 
   getLatLngFromAddress() {
     // https://maps.googleapis.com/maps/api/geocode/json?address=adress&key=YOUR_API_KEY
@@ -399,6 +398,7 @@ console.log('xx', typeof this.getPolygonCoords(event.overlay));
   closeModal() {
     this.model = new Locality();
     this.localityClose.nativeElement.click();
+    this.getLocalities(this.parameter.city_id, '');
   }
 
   addLocality(name_en, name_es, price_per_sqft) {
@@ -417,8 +417,9 @@ console.log('xx', typeof this.getPolygonCoords(event.overlay));
 
     this.admin.postDataApi('addLocality', locality).subscribe(
         r => {
-          this.all_overlays.push(r.data);
+          // this.all_overlays.push(r.data);
           this.closeModal();
+          // this.init();
         });
   }
 
@@ -457,12 +458,35 @@ console.log('xx', typeof this.getPolygonCoords(event.overlay));
   }
 
   setSelection(shape, locality= '') {
-// console.log('zzzzzzzzzzzz', shape);
+console.log('zzzzzzzzzzzz', shape);
       this.clearSelection();
       this.selectedLocality = locality;
 
       this.selectedShape = shape;
       shape.setEditable(true);
+      const coords = this.getPolygonCoords(shape);
+
+      const latlng = coords[0].split(',');
+      const coord = new google.maps.LatLng(parseFloat(latlng[0]), parseFloat(latlng[1]));
+
+
+      // console.log(coords);
+      // var center = new google.maps.LatLngBounds(shape).getCenter();
+      // let center = shape.my_getBounds().getCenter()
+
+      this.map.setCenter(coord);
+
+      // google.maps.event.addListener(selectedShape.getPath(), 'insert_at', getPolygonCoords(shape));
+      // google.maps.event.addListener(shape.getPath(), 'set_at', this.getPolygonCoords(shape));
+  }
+
+  setSelectionNonEditable(shape, locality= '') {
+console.log('zzzzzzzzzzzz', shape);
+      this.clearSelection();
+      this.selectedLocality = locality;
+
+      this.selectedShape = shape;
+      shape.setEditable(false);
       const coords = this.getPolygonCoords(shape);
 
       const latlng = coords[0].split(',');
@@ -576,6 +600,15 @@ console.log('xx', typeof this.getPolygonCoords(event.overlay));
 
   getLatLan(address: string) {
     console.log('Getting Address - ', address);
+
+    // this.admin.googleApi('https://maps.googleapis.com/maps/api/geocode/json?address=' + address)
+    //   .subscribe(
+    //     success => {
+    //       console.log('-----', success);
+    //     }, error => {
+    //       this.parameter.loading = false;
+    //     });
+
     this.loader.load().then(() => {
       console.log('--');
       const geocoder = new google.maps.Geocoder();

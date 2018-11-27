@@ -73,8 +73,8 @@ export class LocationComponent implements OnInit {
     this.admin.postDataApi('getCountries', input)
       .subscribe(
         success => {
-          console.log(success.data);
-          console.log('keyname', keyname);
+          // console.log(success.data);
+          // console.log('keyname', keyname);
           if (keyname === '') {
             this.parameter.countries1 = success.data.reverse();
             this.parameter.countries2 = success.data.reverse();
@@ -113,18 +113,19 @@ export class LocationComponent implements OnInit {
     this.admin.postDataApi('country/getStates', input)
       .subscribe(
         success => {
-          console.log('states', success.data);
-          console.log('keyname', keyname);
           if (keyname === '') {
+            this.parameter.country_id1 = country_id;
+            this.parameter.country_id2 = country_id;
             this.parameter.states1 = success.data.reverse();
             this.parameter.states2 = success.data.reverse();
             this.parameter.states3 = success.data.reverse();
             this.getCities(this.parameter.states1[0].id, '', '');
           } else if (keyname === 1) {
+            this.parameter.country_id1 = country_id;
             this.parameter.states1 = success.data.reverse();
-            console.log('states1', this.parameter.states1);
             // this.getCities(this.parameter.states1[0].id, '', '1');
           } else if (keyname === 2) {
+            this.parameter.country_id2 = country_id;
             this.parameter.states2 = success.data.reverse();
             if (this.parameter.states2.length > 0) {
               this.getCities(this.parameter.states2[0].id, '', 1);
@@ -151,15 +152,15 @@ export class LocationComponent implements OnInit {
     this.admin.postDataApi('getCities', input)
       .subscribe(
         success => {
-          console.log('cities', success.data);
-          console.log('keyname', keyname);
           // this.parameter.cities = success.data.reverse();
           if (keyname === '') {
+            this.parameter.state_id1 = state_id;
             this.parameter.cities1 = success.data.reverse();
             this.parameter.cities2 = success.data.reverse();
           } else if (keyname === 1) {
+            this.parameter.state_id1 = state_id;
             this.parameter.cities1 = success.data.reverse();
-            console.log('cities1', this.parameter.cities1);
+            // console.log('cities1', this.parameter.cities1);
           } else if (keyname === 2) {
             this.parameter.cities2 = success.data.reverse();
           }
@@ -273,7 +274,8 @@ export class LocationComponent implements OnInit {
           this.constant.successMsg.STATE_UPDATED_SUCCESSFULLY :
           this.constant.successMsg.STATE_ADDED_SUCCESSFULLY;
           swal('Success', text, 'success');
-          this.getStates(this.parameter.country_id, '', 1);
+          this.getStates(this.parameter.country_id1, '', 1);
+          this.getStates(this.parameter.country_id2, '', 2);
           // this.getStatesWRTCountry(this.parameter.country_id, '');
           // if (this.parameter.index === -1) {
           //   this.parameter.states.push(success.data);
@@ -330,7 +332,7 @@ export class LocationComponent implements OnInit {
           const text = this.location.cityModel.city_id || city_id ?
           this.constant.successMsg.CITY_UPDATED_SUCCESSFULLY : this.constant.successMsg.CITY_ADDED_SUCCESSFULLY;
           swal('Success', text, 'success');
-          this.getCities(this.location.cityModel.state_id, '', 1);
+          this.getCities(this.parameter.state_id1, '', 1);
 
           // if (this.parameter.index === -1) {
           //   this.parameter.cities.push(success.data);
