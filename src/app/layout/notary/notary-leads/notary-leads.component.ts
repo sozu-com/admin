@@ -189,11 +189,11 @@ export class NotaryLeadsComponent implements OnInit {
         //   "value": parseInt(this.dash.all_count,10)
         // },
         {
-          'name': 'Open',
+          'name': 'Leads (Open)',
           'value': parseInt(this.dash.open_count, 10)
         },
         {
-          'name': 'Closed',
+          'name': 'Leads (Closed)',
           'value': parseInt(this.dash.close_count, 10)
         }
       ];
@@ -221,7 +221,7 @@ export class NotaryLeadsComponent implements OnInit {
       this.parameter.loading = false;
       this.items = success.data;
       if (this.items.length <= 0) { this.parameter.noResultFound = true; }
-      this.parameter.total = success.total;
+      this.parameter.total = success.total_count;
     }, error => {
       this.parameter.loading = false;
     });

@@ -233,15 +233,15 @@ export class CsrBuyerComponent implements OnInit {
 
       this.chartView = [
         {
-          'name': 'Lead information filled',
+          'name': 'Leads (Information filled)',
           'value': parseInt(this.dash.lead_information_filled, 10)
         },
         {
-          'name': 'Lead with broker assigned',
+          'name': 'Leads (With broker assigned)',
           'value': parseInt(this.dash.lead_broker_assigned, 10)
         },
         {
-          'name': 'Lead without broker assigned',
+          'name': 'Leads (Without broker assigned)',
           'value': parseInt(this.dash.lead_without_broker, 10)
         }
       ];

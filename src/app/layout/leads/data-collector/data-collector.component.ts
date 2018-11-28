@@ -235,15 +235,15 @@ export class DataCollectorComponent implements OnInit {
 
       this.chartView = [
         {
-          'name': 'Lead information filled',
+          'name': 'Leads (Information filled)',
           'value': parseInt(this.dash.request_pending_admin, 10)
         },
         {
-          'name': 'Lead with broker assigned',
+          'name': 'Leads (With broker assigned)',
           'value': parseInt(this.dash.request_pending_csr, 10)
         },
         {
-          'name': 'Lead without broker assigned',
+          'name': 'Leads (Without broker assigned)',
           'value': parseInt(this.dash.request_pending_user, 10)
         }
       ];

@@ -233,20 +233,20 @@ export class InhouseBrokerComponent implements OnInit {
     this.admin.postDataApi('leads/in-house-broker-dash-count', input).subscribe(r => {
       this.dash = r.data;
       this.chartView = [
+        // {
+        //   'name': 'Total Leads',
+        //   'value': parseInt(this.dash.lead_total, 10)
+        // },
         {
-          'name': 'Total Leads',
-          'value': parseInt(this.dash.lead_total, 10)
-        },
-        {
-          'name': 'Lead properties',
+          'name': 'Lead (Properties)',
           'value': parseInt(this.dash.lead_properties, 10)
         },
         {
-          'name': 'Lead open',
+          'name': 'Lead (Open)',
           'value': parseInt(this.dash.lead_open, 10)
         },
         {
-          'name': 'Lead closed',
+          'name': 'Leads (Deal finalized)',
           'value': parseInt(this.dash.lead_closed, 10)
         }
       ];

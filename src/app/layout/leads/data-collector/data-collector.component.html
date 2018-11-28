@@ -335,22 +335,25 @@
                     </td>
                  </tr>
               </table>
-              <!-- <div class="padding20" *ngIf="parameter.noResultFound">No result found</div> -->
                 <div class="padding20 center" *ngIf="parameter.noResultFound">
                     <img src="assets/img/404-error.png">
                 </div>
-
            </div>
-
-           <!-- <div class="spacer30"></div>
-           <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
-
-            -->
         </div>
      </div>
 
-    <div class="btn-cont text-right marginT15" *ngIf="parameter.total">
-        <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+    
+    <div class="btn-cont marginT15" *ngIf="parameter.total">
+        <div class="row">
+            <div class="col-6">
+                <div class="title-group">
+                    <p>Showing {{items?.length}} out of {{parameter.total}}</p>
+                </div>
+            </div>
+            <div class="col-6 text-right">
+                <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+            </div>
+        </div>
     </div>
 </div>
 

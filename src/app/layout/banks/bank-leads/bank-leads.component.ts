@@ -176,11 +176,11 @@ export class BankLeadsComponent implements OnInit {
       this.dash = r.data;
       this.chartView = [
         {
-          'name': 'Open',
+          'name': 'Leads (Open)',
           'value': parseInt(this.dash.open_count, 10)
         },
         {
-          'name': 'Closed',
+          'name': 'Leads (Closed)',
           'value': parseInt(this.dash.close_count, 10)
         }
       ];

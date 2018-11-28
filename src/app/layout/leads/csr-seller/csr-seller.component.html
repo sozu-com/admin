@@ -221,9 +221,6 @@
             <span *ngIf="parameter.count_flag == 3">(With Properties)</span>
             <span *ngIf="parameter.count_flag == 4">(Pending Properties)</span>
            </h5>
-           <p>
-               <!-- Showing {{parameter.page}} out of {{parameter.total_count}} -->
-            </p>
         </div>
      </div>
      <div class="col-lg-6 col-md-6 col-5" *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 && !this.parameter.assignee_id">
@@ -366,7 +363,6 @@
               </tr>
 
            </tbody></table>
-           <!-- <div class="padding20" *ngIf="parameter.noResultFound">No result found</div> -->
            <div class="padding20 center" *ngIf="parameter.noResultFound">
                 <img src="assets/img/404-error.png">
             </div>
@@ -377,8 +373,17 @@
   </div>
   </div>
 
-    <div class="btn-cont text-right marginT15" *ngIf="parameter.total">
-        <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+    <div class="btn-cont marginT15" *ngIf="parameter.total">
+        <div class="row">
+            <div class="col-6">
+                <div class="title-group">
+                    <p>Showing {{items?.length}} out of {{parameter.total}}</p>
+                </div>
+            </div>
+            <div class="col-6 text-right">
+                <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+            </div>
+        </div>
     </div>
 </div>
 

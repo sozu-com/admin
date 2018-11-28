@@ -322,24 +322,25 @@
                            </tr> -->
                      </table>
                      <div class="padding20 center" *ngIf="parameter.loading == false && total == 0">
-                           <img src="./../../../assets/img/404-error.png">
+                           <img src="assets/img/404-error.png">
                      </div>
                   </div>
                </div>
-               <!-- <div class="btn-cont text-right marginT15">
-                  <button class="btn btn-secondary">View All</button>
-               </div> -->
-               <!-- <div class="spacer30"></div>
-
-               <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
--->
-
             </div>
             <div class="tab-pane container fade" id="seller">Seller tab on</div>
          </div>
       </div>
       
-    <div class="btn-cont text-right marginT15" *ngIf="total">
-        <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
-    </div>
+    <div class="btn-cont marginT15" *ngIf="total">
+         <div class="row">
+             <div class="col-6">
+                 <div class="title-group">
+                     <p>Showing {{items?.length}} out of {{total}}</p>
+                 </div>
+             </div>
+             <div class="col-6 text-right">
+                 <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+             </div>
+         </div>
+     </div>
 </div>

@@ -238,19 +238,19 @@ export class CsrCloserComponent implements OnInit {
       this.dash = r.data;
       this.chartView = [
         {
-          'name': 'Noataries Pending',
+          'name': 'Noatary (Not assigned)',
           'value': parseInt(this.dash.noatary_pending, 10)
         },
         {
-          'name': 'Bank Pending',
+          'name': 'Bank (Not assigned)',
           'value': parseInt(this.dash.bank_pending, 10)
         },
         {
-          'name': 'Lead open',
+          'name': 'Lead (Open)',
           'value': parseInt(this.dash.lead_open, 10)
         },
         {
-          'name': 'Lead closed',
+          'name': 'Lead (Closed)',
           'value': parseInt(this.dash.lead_closed, 10)
         }
       ];
