@@ -159,7 +159,7 @@
                     <img [src]="selectedProperties?.noataries && selectedProperties.noataries[0].image" onerror='src="assets/img/house.png"' alt="img">
                     <div class="bank-info">
                         <p title="Notary" class="p14">{{selectedProperties.noataries[0].name}}</p>
-                        <p class="p11">{{selectedProperties.noataries[0].dial_code ? selectedProperties.noataries[0].dial_code : constant.dial_code}}-{{selectedProperties.noataries[0].phone}}</p>
+                        <p class="p11 marginB10">{{selectedProperties.noataries[0].dial_code ? selectedProperties.noataries[0].dial_code : constant.dial_code}}-{{selectedProperties.noataries[0].phone}}</p>
                         
                         <!-- change notary -->
                         <a href="javascript://" #showNotaries style="display: none;" data-toggle="modal" data-target="#notary-avail" class="green-color green">Change</a>
@@ -186,7 +186,7 @@
                     <img [src]="selectedProperties?.banks && selectedProperties.banks[0].image" onerror='src="assets/img/bank-building.png"' alt="img">
                     <div class="bank-info">
                         <p title="Bank" class="p14">{{selectedProperties.banks[0].name}}</p>
-                        <p class="p11">{{selectedProperties?.banks[0]?.branch ? selectedProperties?.banks[0]?.branch : 'NA'}}</p>
+                        <p class="p11 marginB10">{{selectedProperties?.banks[0]?.branch ? selectedProperties?.banks[0]?.branch : 'NA'}}</p>
                         
                         <!-- change bank -->
                         <a href="javascript://" #showBanks style="display: none;" data-toggle="modal" data-target="#bank-listing" class="green-color green">Change</a>
