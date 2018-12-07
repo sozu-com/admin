@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { IProperty } from '../../common/property';
 import { Constant } from './../../common/constants';
 import * as moment from 'moment';

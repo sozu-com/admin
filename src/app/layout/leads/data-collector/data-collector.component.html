@@ -331,7 +331,7 @@
                        <button *ngIf="item.status" (click)="changeStatus(item, 2)" class="action-icon" title="Mark Incomplete"><img alt="img" src="assets/img/tick-selected.png"></button> -->
                     </td>
                     <td>
-                        <button [disabled]="admin?.admin_acl['Data Collector Lead Management']?.can_update==0 || admin?.permissions?.can_data_collector==0" routerLink="/dashboard/projects/edit-project/{{item.id}}" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                        <button [disabled]="admin?.admin_acl['Data Collector Lead Management']?.can_update==0 || admin?.permissions?.can_data_collector==0" routerLink="/dashboard/projects/edit-building-request/{{item.id}}" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                     </td>
                  </tr>
               </table>

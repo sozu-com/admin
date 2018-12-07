@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AdminService } from '../../../services/admin.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IProperty } from '../../../common/property';
-import { DomSanitizer } from '@angular/platform-browser';
 import { AddProjectModel, Configuration } from './../../../models/addProject.model';
 import { MapsAPILoader } from '@agm/core';
 import { Constant } from './../../../common/constants';
@@ -64,14 +63,11 @@ export class AddProjectComponent implements OnInit {
 
   file1: any; file2: any; file3: any; file4: any; file5: any;
 
-
   constructor(
     public model: AddProjectModel,
     private admin: AdminService,
     private route: ActivatedRoute,
     private router: Router,
-    private fb: FormBuilder,
-    private sanitization: DomSanitizer,
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
     private constant: Constant
@@ -85,12 +81,30 @@ export class AddProjectComponent implements OnInit {
     this.file5 = new FileUpload(true, this.admin);
 
     this.route.params.subscribe( params => {
+      console.log('paramsssss');
+      console.log('param', params);
         this.id = params.id;
-        if (this.id) {/* if id exists edit mode */
+        if (this.id) {
+          /* if id exists edit mode */
           this.parameter.loading = true;
           this.admin.postDataApi('getProjectById', {building_id: this.id}).subscribe(r => {
             this.parameter.loading = false;
             this.model = JSON.parse(JSON.stringify(r.data));
+            if (r.data.developer == null) {
+              this.model.developer = {
+                id: '',
+                name: '',
+                email: '',
+                country_code: this.constant.country_code,
+                dial_code: this.constant.dial_code,
+                phone: '',
+                logo: '',
+                developer_image: ''
+              };
+              this.model.developer.name = r.data.developer != null && r.data.developer.name ? r.data.developer.name : '';
+              this.model.developer.email = r.data.developer != null && r.data.developer.email ? r.data.developer.email : '';
+              this.model.developer.phone = r.data.developer != null && r.data.developer.phone ? r.data.developer.phone : '';
+            }
             this.file1.image = this.model.main_image;
             // this.model.configurations.map((item) => {
             //   item.images = item.images.map(r1 => r1.image);
@@ -101,6 +115,49 @@ export class AddProjectComponent implements OnInit {
               this.all_amenities = res.data.map(item => {item.selected = false; return item; });
               this.selected_amenities = this.all_amenities.map(item => {
                 if (this.model.amenities.find(am => am.id === item.id)) {
+                  item.selected = true;
+                }
+                return item;
+              });
+            });
+          }, error => {
+            this.parameter.loading = false;
+          });
+        }else if (params.request_id) {
+          /* if request_id exists, building request edit mode */
+          this.parameter.loading = true;
+          this.admin.postDataApi('getBuildingRequest', {building_request_id: params.request_id}).subscribe(r => {
+            this.parameter.loading = false;
+            this.model = JSON.parse(JSON.stringify(r.data));
+            console.log('--------------', r);
+            console.log('--------------', this.model);
+            if (r.data.developer == null) {
+              this.model.developer = {
+                id: '',
+                name: '',
+                email: '',
+                country_code: this.constant.country_code,
+                dial_code: this.constant.dial_code,
+                phone: '',
+                logo: '',
+                developer_image: ''
+              };
+              this.model.building_request_id = params.request_id;
+              this.model.developer.name = r.data.dev_name ? r.data.dev_name : '';
+              this.model.developer.email = r.data.dev_email ? r.data.dev_email : '';
+              this.model.developer.country_code = r.data.dev_countrycode ? r.data.dev_countrycode : '';
+              this.model.developer.phone = r.data.dev_phone ? r.data.dev_phone : '';
+            }
+            this.file1.image = this.model.main_image;
+            // this.model.configurations.map((item) => {
+            //   item.images = item.images.map(r1 => r1.image);
+            // });
+            this.model.custom_attributes = this.model.custom_values;
+            this.file5.image = this.model.developer.developer_image;
+            this.admin.postDataApi('getAmenities', {}).subscribe(res => {
+              this.all_amenities = res.data.map(item => {item.selected = false; return item; });
+              this.selected_amenities = this.all_amenities.map(item => {
+                if (this.model.amenities && this.model.amenities.find(am => am.id === item.id)) {
                   item.selected = true;
                 }
                 return item;
@@ -409,18 +466,27 @@ export class AddProjectComponent implements OnInit {
   addProject() {
     this.model.is_completed = 0;
     const modelSave = JSON.parse(JSON.stringify(this.model));
+    console.log('modelsave', modelSave);
     modelSave.cover_image = this.file1.image;
-    modelSave.building_images = modelSave.images.map(r => r.image);
-    modelSave.images = modelSave.images.map(r => r.image);
+    if (modelSave.images) {
+      modelSave.building_images = modelSave.images.map(r => r.image);
+    }
+    if (modelSave.images) {
+      modelSave.images = modelSave.images.map(r => r.image);
+    }
     modelSave.dev_name = modelSave.developer.name;
     modelSave.dev_email = modelSave.developer.email;
     modelSave.dev_phone = modelSave.developer.phone;
+    modelSave.dev_countrycode = modelSave.developer.country_code;
+    modelSave.dev_dialcode = modelSave.developer.dev_dialcode;
     modelSave.dev_logo = this.file5.image;
     modelSave.amenities = this.all_amenities.filter(op => { if (op.selected === true) { return op; }}).map(op => op.id);
 
-    modelSave.configurations.forEach(item => {
-      item.images = item.images.map(x => x.image);
-    });
+    if (modelSave.configurations && modelSave.configurations.length > 0) {
+      modelSave.configurations.forEach(item => {
+        item.images = item.images.map(x => x.image);
+      });
+    }
     /* remove fields for edit */
     // if (!modelSave.name) {swal('Error', 'Please add building name', 'error'); return false; }
     // if (!modelSave.address) {swal('Error', 'Please add address', 'error'); return false; }
@@ -443,22 +509,33 @@ export class AddProjectComponent implements OnInit {
     //   if (!modelSave.dev_phone) {swal('Error', 'Please add developer phone', 'error'); return false; }
     //   if (!modelSave.dev_logo) {swal('Error', 'Please add developer image', 'error'); return false; }
     // }
-
+    if (modelSave.dev_email) {
+      if (!modelSave.dev_name) {swal('Error', 'Please add developer name', 'error'); return false; }
+      if (!modelSave.dev_countrycode) {swal('Error', 'Please add developer country code', 'error'); return false; }
+      if (!modelSave.dev_email) {swal('Error', 'Please add developer email', 'error'); return false; }
+      if (!modelSave.dev_phone) {swal('Error', 'Please add developer phone', 'error'); return false; }
+      if (!modelSave.dev_logo) {swal('Error', 'Please add developer image', 'error'); return false; }
+    }
     if (modelSave.name && modelSave.address && modelSave.cover_image && modelSave.cover_image &&
       modelSave.building_images.length > 0 && modelSave.building_age && modelSave.building_type_id &&
       modelSave.description && modelSave.possession_status_id && modelSave.floors && modelSave.launch_date &&
-      modelSave.avg_price && modelSave.amenities.length > 0 && modelSave.configurations.length > 0) {
+      modelSave.avg_price && modelSave.amenities.length > 0 && modelSave.configurations.length > 0
+      && modelSave.dev_email && modelSave.dev_name && modelSave.dev_phone && modelSave.dev_logo) {
       this.model.is_completed = 1;
         // swal('Error', 'Please add building name', 'error');
-      return false;
+      // return false;
     }
     if (this.id) {
       if (modelSave.dev_name && modelSave.dev_countrycode && modelSave.dev_email && modelSave.dev_phone &&
         modelSave.dev_logo) {
           this.model.is_completed = 1;
-        // swal('Error', 'Please add developer name', 'error'); 
-        return false;
+        // swal('Error', 'Please add developer name', 'error');
+        // return false;
       }
+    }
+
+    if (this.model.building_request_id) {
+      modelSave.building_request_id = this.model.building_request_id;
     }
 
     if (this.id) {

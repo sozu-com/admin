@@ -30,6 +30,8 @@ const routes: Routes = [
   { path: 'add-project', component: AddProjectComponent,
     canActivate: [AclUserGuard], data: {roles: ['Building Management', 'can_create', '']}},
   { path: 'edit-project/:id', component: AddProjectComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Building Management', 'can_update', 'can_data_collector']}},
+  { path: 'edit-building-request/:request_id', component: AddProjectComponent,
     canActivate: [AclUserGuard], data: {roles: ['Building Management', 'can_update', 'can_data_collector']}}
 ];
 

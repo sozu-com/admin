@@ -287,7 +287,7 @@
                               <strong>{{p?.name}}</strong>
                             </td>
                             <td>
-                                <strong>{{p?.address}}</strong>
+                                <strong>{{p.address?p.address:'NA'}}</strong>
                             </td>
                             <td><span *ngIf="p.developer">{{p?.developer?.email}}</span></td>
                             <td><span>{{p.avg_price}}</span></td>

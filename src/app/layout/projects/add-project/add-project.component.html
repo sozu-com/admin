@@ -26,7 +26,7 @@
               </div>
             </div>
             <div class="add-project-img-more">
-              <img [src]="model.images[0]?.image" onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
+              <img *ngIf="model.images?.length>0" [src]="model.images[0]?.image" onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
               <div class="upload-caption">
                 <p *ngIf="model?.images?.length > 1" class="number" (click)="modelOpenFun()">+{{model?.images?.length-1}}</p>
                 <p *ngIf="model?.images?.length <= 1" class="green-color"  (click)="modelOpenFun()">+ Add more images</p>
@@ -260,7 +260,7 @@
               <div class="col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>Phone Number</label>
-                  <input minlength="6" maxlength="16" autocomplete="off" type="number" class="form-control" id="phone" placeholder="Phone Number" minlength="1" [(ngModel)]="model.developer.phone" name="phone" ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)"/>
+                  <input minlength="6" maxlength="16" autocomplete="off" type="text" class="form-control" id="phone" placeholder="Phone Number" minlength="1" [(ngModel)]="model.developer.phone" name="phone" ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)"/>
 
                 </div>
               </div>

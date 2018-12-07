@@ -51,6 +51,7 @@ export class AddProjectModel {
     launch_date: any= '';
     main_image: any= '';
     is_completed: any;
+    building_request_id: '';
 }
 
 
