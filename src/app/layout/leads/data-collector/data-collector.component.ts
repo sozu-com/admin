@@ -14,6 +14,8 @@ declare let swal: any;
 })
 export class DataCollectorComponent implements OnInit {
 
+  @ViewChild('modalOpen') modalOpen: ElementRef;
+  @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('openAssignModel') openAssignModel: ElementRef;
   @ViewChild('closeAssignModel') closeAssignModel: ElementRef;
 
@@ -21,8 +23,9 @@ export class DataCollectorComponent implements OnInit {
   public location: IProperty = {};
   public assign: IProperty = {};
   assignItem: any;
-
-  items: Array<Users> = [];
+  reason: string;
+  // items: Array<Users> = [];
+  items: any= [];
   today = new Date();
   users: any = [];
   selectedUser: any;
@@ -126,6 +129,11 @@ export class DataCollectorComponent implements OnInit {
   changeCountFlag(flag) {
     this.parameter.count_flag = flag;
     this.getListing();
+  }
+
+  changeCountFlagForBuilding(flag) {
+    this.parameter.count_flag = flag;
+    this.getListingForBuildings();
   }
 
   getCsrListing() {
@@ -281,6 +289,37 @@ export class DataCollectorComponent implements OnInit {
   }
 
 
+  getListingForBuildings() {
+    this.items = [];
+    this.parameter.noResultFound = false;
+    const input: any = JSON.parse(JSON.stringify(this.parameter));
+    if (this.parameter.min) {
+      input.min = moment(this.parameter.min).format('YYYY-MM-DD');
+    } else {
+      delete input.min;
+    }
+    if (this.parameter.max) {
+      input.max = moment(this.parameter.max).format('YYYY-MM-DD');
+    } else {
+      delete input.max;
+    }
+    if (this.selectedUser) {
+      input.assignee_id = this.selectedUser.id;
+    }
+    this.parameter.loading = true;
+    this.admin.postDataApi('leads/data-collector-buildings', input).subscribe(
+    success => {
+      this.parameter.loading = false;
+      this.items = success.data;
+      if (this.items.length <= 0) { this.parameter.noResultFound = true; }
+      console.log('listing', success);
+      this.parameter.total = success.total_count;
+    }, error => {
+      this.parameter.loading = false;
+    });
+  }
+
+
   getPage(page) {
     this.parameter.page = page;
     this.getListing();
@@ -360,6 +399,43 @@ export class DataCollectorComponent implements OnInit {
       swal('Error', error.error.message, 'error');
     });
 
+  }
+
+  openCancellationModal(item, index) {
+    this.parameter.building_id = item.id;
+    this.parameter.index = index;
+    this.modalOpen.nativeElement.click();
+  }
+
+  approveProject(item, status) {
+    if (item.is_completed !== 1) {
+      swal('Error', 'You cannot approve the building as some of details are missing.', 'error');
+      return false;
+    }
+    item.status = status;
+    this.admin.postDataApi('approveProject', {building_id: item.id }).subscribe(r => {
+      this.getCSRDashBoardData();
+      swal('Success', 'Project approved successfully.', 'success');
+    },
+    error => {
+      swal('Error', error.error.message, 'error');
+    });
+  }
+
+  rejectProject(status) {
+    this.items[this.parameter.index].status = status;
+    this.admin.postDataApi('rejectProject', {building_id: this.parameter.building_id, reason: this.reason }).subscribe(r => {
+      swal('Success', 'Project unapproved successfully.', 'success');
+      this.getCSRDashBoardData();
+      this.closeModal();
+    },
+    error => {
+      swal('Error', error.error.message, 'error');
+    });
+  }
+
+  closeModal() {
+    this.modalClose.nativeElement.click();
   }
 
 }

@@ -648,12 +648,13 @@ box-shadow: 0 4px 12px 0 rgba(0,0,0,0.12), 0 -4px 0 0 #00B96F, 0 1px 2px 0 rgba(
 height:96px; 
 }
 .three-row .t-block {
-width: 33.33%;
+/* width: 33.33%; */
+width: 50%;
 border-right: 1px solid #EDEDED;
 text-align: center;
 padding: 12px 0;
 }
-.three-row {border-top: 1px solid #EDEDED; display: flex;}
+.three-row {border-top: 1px solid #EDEDED; display: flex;height: 100%;}
 .three-row .t-block p{
 color: rgba(0,0,0,0.5);
 font-size: 12px;

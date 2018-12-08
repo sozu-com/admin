@@ -464,9 +464,9 @@ export class AddProjectComponent implements OnInit {
 
 
   addProject() {
-    this.model.is_completed = 0;
     const modelSave = JSON.parse(JSON.stringify(this.model));
     console.log('modelsave', modelSave);
+    modelSave.is_completed = 0;
     modelSave.cover_image = this.file1.image;
     if (modelSave.images) {
       modelSave.building_images = modelSave.images.map(r => r.image);
@@ -516,23 +516,33 @@ export class AddProjectComponent implements OnInit {
       if (!modelSave.dev_phone) {swal('Error', 'Please add developer phone', 'error'); return false; }
       if (!modelSave.dev_logo) {swal('Error', 'Please add developer image', 'error'); return false; }
     }
-    if (modelSave.name && modelSave.address && modelSave.cover_image && modelSave.cover_image &&
-      modelSave.building_images.length > 0 && modelSave.building_age && modelSave.building_type_id &&
-      modelSave.description && modelSave.possession_status_id && modelSave.floors && modelSave.launch_date &&
-      modelSave.avg_price && modelSave.amenities.length > 0 && modelSave.configurations.length > 0
-      && modelSave.dev_email && modelSave.dev_name && modelSave.dev_phone && modelSave.dev_logo) {
-      this.model.is_completed = 1;
+    if (modelSave.building_age) {
+      console.log('----', modelSave);
+    } else {
+      console.log('-=====', modelSave);
+    }
+    if (modelSave.name && modelSave.address && modelSave.address != null && modelSave.cover_image &&
+      modelSave.building_images.length > 0 && modelSave.building_age && modelSave.building_age != null && modelSave.building_type_id &&
+      modelSave.description && modelSave.description != null && modelSave.possession_status_id &&
+      modelSave.floors && modelSave.floors != null && modelSave.launch_date && modelSave.launch_date != null &&
+      modelSave.avg_price && modelSave.avg_price != null && modelSave.amenities.length > 0 &&
+      modelSave.configurations.length > 0 && modelSave.dev_email && modelSave.dev_email != null
+      && modelSave.dev_name && modelSave.dev_name != null
+      && modelSave.dev_phone && modelSave.dev_phone != null && modelSave.dev_logo) {
+        console.log('----111');
+        modelSave.is_completed = 1;
         // swal('Error', 'Please add building name', 'error');
       // return false;
     }
-    if (this.id) {
-      if (modelSave.dev_name && modelSave.dev_countrycode && modelSave.dev_email && modelSave.dev_phone &&
-        modelSave.dev_logo) {
-          this.model.is_completed = 1;
-        // swal('Error', 'Please add developer name', 'error');
-        // return false;
-      }
-    }
+
+    // if (this.id) {
+    //   if (modelSave.dev_name && modelSave.dev_countrycode && modelSave.dev_email && modelSave.dev_phone &&
+    //     modelSave.dev_logo) {
+    //       modelSave.is_completed = 1;
+    //     // swal('Error', 'Please add developer name', 'error');
+    //     // return false;
+    //   }
+    // }
 
     if (this.model.building_request_id) {
       modelSave.building_request_id = this.model.building_request_id;
@@ -545,7 +555,7 @@ export class AddProjectComponent implements OnInit {
       this.admin.postDataApi('updateProject', modelSave).subscribe(success => {
         this.parameter.loading = false;
         swal('Success', success.message, 'success');
-        this.router.navigate(['/dashboard/projects/view-projects']);
+        // this.router.navigate(['/dashboard/projects/view-projects']);
       }, error => {
         this.parameter.loading = false;
         swal('Error', error.message, 'error');
@@ -557,7 +567,7 @@ export class AddProjectComponent implements OnInit {
       this.admin.postDataApi('addProject', modelSave).subscribe(success => {
         this.parameter.loading = false;
         swal('Success', success.message, 'success');
-        this.router.navigate(['/dashboard/projects/view-projects']);
+        // this.router.navigate(['/dashboard/projects/view-projects']);
       }, error => {
         this.parameter.loading = false;
         swal('Error', error.message, 'error');

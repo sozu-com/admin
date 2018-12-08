@@ -160,15 +160,15 @@
               </div>
             </div>
             <div class="three-row">
-              <div class="t-block" [ngClass]="{'active':parameter.count_flag == '2'}" (click)="changeCountFlag(2)">
+              <!-- <div class="t-block" [ngClass]="{'active':parameter.count_flag == '2'}" (click)="changeCountFlag(2)">
                   <p><strong>{{dash.request_pending_admin}}</strong></p>
                   <p>Admin</p>
+              </div> -->
+              <div class="t-block" [ngClass]="{'active':parameter.count_flag == '2'}" (click)="changeCountFlag(2)">
+                  <p><strong>{{dash.request_pending_admin}}</strong></p>
+                  <p>Admin/Data Collector</p>
               </div>
               <div class="t-block" [ngClass]="{'active':parameter.count_flag == '3'}" (click)="changeCountFlag(3)">
-                  <p><strong>{{dash.request_pending_csr}}</strong></p>
-                  <p>CSR</p>
-              </div>
-              <div class="t-block" [ngClass]="{'active':parameter.count_flag == '4'}" (click)="changeCountFlag(4)">
                   <p><strong>{{dash.request_pending_user}}</strong></p>
                   <p>User</p>
               </div>
@@ -178,21 +178,21 @@
     <div class="col-lg-4 col-md-12 col-sm-12 col-12">
         <div class="four-block">
             <div class="d-flex">
-              <div class="f-block approved">
+              <div class="f-block approved" [ngClass]="{'active':parameter.count_flag == '4'}" (click)="changeCountFlagForBuilding(4)">
                   <h5>Approved</h5>
                   <h3>{{dash.building_approved}}</h3>
               </div>
-              <div class="f-block unapproved">
+              <div class="f-block unapproved" [ngClass]="{'active':parameter.count_flag == '5'}" (click)="changeCountFlagForBuilding(5)">
                   <h5>Unapproved</h5>
                   <h3>{{dash.building_unapproved}}</h3>
               </div>
             </div>
             <div class="d-flex">
-              <div class="f-block pending">
+              <div class="f-block pending" [ngClass]="{'active':parameter.count_flag == '6'}" (click)="changeCountFlagForBuilding(6)">
                   <h5>Pending</h5>
                   <h3>{{dash.building_pending}}</h3>
               </div>
-              <div class="f-block unapproved">
+              <div class="f-block unapproved" [ngClass]="{'active':parameter.count_flag == '7'}" (click)="changeCountFlagForBuilding(7)">
                   <h5>In Draft</h5>
                   <h3>{{dash.building_draft}}</h3>
               </div>
@@ -250,7 +250,7 @@
                     </th>
 
                     <!-- <th>Image</th> -->
-                    <th style="width:20%">
+                    <th style="width:15%">
                         <div class="table-search">
                         <label>Name of Building</label>
                         <div class="searh-3">
@@ -282,23 +282,31 @@
                             <label>Contact <br>Email</label>
                         </div>
                     </th>
-                    <th style="width:14%">
+                    <!-- show collector name in case of 1,2,3 -->
+                    <th style="width:14%" *ngIf="parameter.count_flag==1 || parameter.count_flag==2 || parameter.count_flag==3">
                         <div class="table-search">
                             <label>Assignee</label>
                         </div>
                     </th>
-                    <th style="width:15%">
+                    <!-- mark complete only when it is request - 1,2,3 -->
+                    <th style="width:15%" *ngIf="parameter.count_flag==1 || parameter.count_flag==2 || parameter.count_flag==3">
                         <div class="table-search">
                             <label>Mark<br>Complete</label>
                         </div>
                     </th>
-                    <th style="width:4%">
+                    <!-- use request details to create project -->
+                    <th style="width:4%" *ngIf="parameter.count_flag==1 || parameter.count_flag==2 || parameter.count_flag==3">
+                        <div class="table-search">
+                            <label>Use template</label>
+                        </div>
+                    </th>
+                    <th style="width:9%" *ngIf="parameter.count_flag==4 || parameter.count_flag==5 || parameter.count_flag==6 || parameter.count_flag==7">
                         <div class="table-search">
                             <label>Edit<br>Details</label>
                         </div>
                     </th>
                  </tr>
-                 <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }">
+                 <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index">
                     <!-- <td>
                         <a href="javascript://"><img *ngIf="item.image" class="rounded-circle" [src]="item.image" alt="img">
                         <img *ngIf="!item.image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
@@ -313,25 +321,49 @@
                     <td><strong>{{item.name}}</strong></td>
                     <td>{{item.address}}
                     </td>
-                    <td>
+                    <!-- dev name -->
+                    <td *ngIf="parameter.count_flag==1 || parameter.count_flag==2 || parameter.count_flag==3">
                         <span>{{item?.dev_name}}</span>
                         <span *ngIf="!item.dev_name" >NA</span>
                     </td>
-                    <td *ngIf="item.dev_phone || item.dev_mail">
-                        {{item?.dev_countrycode ? item.dev_countrycode : constant.dial_code}}-{{item?.dev_phone}}<br>
-                        {{item?.dev_mail}}
+                    <td *ngIf="parameter.count_flag==4 || parameter.count_flag==5 || parameter.count_flag==6 || parameter.count_flag==7">
+                        <span>{{item?.developer?.name}}</span>
+                        <span *ngIf="!item.developer.name" >NA</span>
                     </td>
-                    <td *ngIf="!item.dev_phone && !item.dev_mail">NA</td>
-                    <td>{{item?.collector?.name}}</td>
-                    <td style="vertical-align:middle; ">
+                    <!-- dev phone & email -->
+                    <td *ngIf="parameter.count_flag==1 || parameter.count_flag==2 || parameter.count_flag==3">
+                        <span *ngIf="item.dev_phone">{{item?.dev_countrycode ? item.dev_countrycode : constant.dial_code}}-{{item?.dev_phone}}</span>
+                        <br>
+                        <span *ngIf="item.dev_mail">{{item?.dev_mail}}</span>
+                    </td>
+                    <td *ngIf="parameter.count_flag==4 || parameter.count_flag==5 || parameter.count_flag==6 || parameter.count_flag==7">
+                        <span *ngIf="item?.developer?.phone">{{item?.developer?.dial_code ? item?.developer?.dial_code : constant.dial_code}}-{{item?.developer?.phone}}</span>
+                        <br>
+                        <span *ngIf="item?.developer?.email">{{item?.developer?.email}}</span>
+                    </td>
+                    <!-- show collector name in case of 1,2,3 -->
+                    <td *ngIf="parameter.count_flag==1 || parameter.count_flag==2 || parameter.count_flag==3">
+                        {{item?.collector?.name}}
+                    </td>
+                    <td style="vertical-align:middle;" *ngIf="parameter.count_flag==1 || parameter.count_flag==2 || parameter.count_flag==3">
                         <a title="Completed" *ngIf="item.status==1" style="cursor:auto;" class="green-color fontW500" href="javascript://">Completed</a>
                         <a style="cursor:auto;" *ngIf="admin?.admin_acl['Data Collector Lead Management']?.can_update==0 || admin?.permissions?.can_data_collector==0" class="green-color fontW500" href="javascript://">Mark Complete</a>
                         <a title="Mark Complete" *ngIf="item.status==0 && (admin?.admin_acl['Data Collector Lead Management']?.can_update==1 || admin?.permissions?.can_data_collector==1)" class="green-color fontW500" (click)="changeStatus(item, 1)" href="javascript://">Mark Complete</a>
-                       <!-- <button *ngIf="!item.status" (click)="changeStatus(item, 1)" class="action-icon" title="Mark Complete"><img alt="img" src="assets/img/tick.png"></button>
-                       <button *ngIf="item.status" (click)="changeStatus(item, 2)" class="action-icon" title="Mark Incomplete"><img alt="img" src="assets/img/tick-selected.png"></button> -->
                     </td>
-                    <td>
-                        <button [disabled]="admin?.admin_acl['Data Collector Lead Management']?.can_update==0 || admin?.permissions?.can_data_collector==0" routerLink="/dashboard/projects/edit-building-request/{{item.id}}" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                    <!-- add project - use request details as template -->
+                    <td *ngIf="parameter.count_flag==1 || parameter.count_flag==2 || parameter.count_flag==3">
+                        <button [disabled]="admin?.admin_acl['Data Collector Lead Management']?.can_update==0 || admin?.permissions?.can_data_collector==0" routerLink="/dashboard/projects/edit-building-request/{{item.id}}" title="Create Project" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                    </td>
+                    <!-- edit project in case of 4,5,6,7 -->
+                    <td *ngIf="parameter.count_flag==4 || parameter.count_flag==5 || parameter.count_flag==6 || parameter.count_flag==7">
+                        <!-- unapprove => when status=2(pending), 1(approved) && not in draft-->
+                        <a style="display:none;" #modalOpen data-toggle="modal" data-target="#addNote"></a>
+                        <button (click)="openCancellationModal(item, i)" [disabled]="admin?.admin_acl['Data Collector Lead Management']?.can_update==0" 
+                        *ngIf="(item.status == 1 || item.status==2) && parameter.count_flag!=7" class="action-icon" title="Unapprove"><img src="assets/img/tick-selected.png" alt="img"></button>
+                        <!-- approve => when status=2(pending), 4(rejected) && not in draft-->
+                        <button [disabled]="admin?.admin_acl['Data Collector Lead Management']?.can_update==0" 
+                        *ngIf="(item.status == 2 || item.status == 4) && parameter.count_flag!=7" (click)="approveProject(item, 1);" class="action-icon" title="Approve"><img src="assets/img/tick.png" alt="img"></button>
+                        <button [disabled]="admin?.admin_acl['Data Collector Lead Management']?.can_update==0 || admin?.permissions?.can_data_collector==0" routerLink="/dashboard/projects/edit-project/{{item.id}}" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                     </td>
                  </tr>
               </table>
@@ -399,4 +431,37 @@
                 </div>
             </div>
         </div>
+    </div>
+
+
+
+<div class="modal animated" id="addNote">
+    <div class="modal-dialog fadeIndown">
+        <div class="modal-content">
+        <div class="modal-header modal-header-new">
+            <h4 class="modal-title">Add Reason</h4>
+            <button style="display: none;" type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
+            <button type="button" class="close" (click)="closeModal()">&times;</button>
+        </div>
+    
+        <form class="form-horizontal form-model0P form-model-newP" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="rejectProject(4); addForm.reset();">
+            <div class="modal-body modal-body-new">
+            <div class="row">
+                <div class="col-12">
+                <div class="form-group-2">
+                    <div class="form-group">
+                        <textarea rows="4" required class="form-control note" name="reason" [(ngModel)]="reason"></textarea>
+                    </div>
+                </div>
+                </div>
+                <div class="col-12">
+                    <div class="btn-cont text-right">
+                        <button type="submit" [disabled]="!addForm.valid" class="btn btn-primary">Add</button>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </form>
+        </div>
+    </div>
     </div>
