@@ -216,8 +216,11 @@
             <h5>Leads
                 <span *ngIf="parameter.count_flag == 1">(Total Request)</span>
                 <span *ngIf="parameter.count_flag == 2">(Admin Request)</span>
-                <span *ngIf="parameter.count_flag == 3">(CSR Request)</span>
-                <span *ngIf="parameter.count_flag == 4">(User Request)</span>
+                <span *ngIf="parameter.count_flag == 3">(User Request)</span>
+                <span *ngIf="parameter.count_flag == 4">(Approved)</span>
+                <span *ngIf="parameter.count_flag == 5">(Unapproved)</span>
+                <span *ngIf="parameter.count_flag == 6">(Pending)</span>
+                <span *ngIf="parameter.count_flag == 7">(In Draft)</span>
             </h5>
             <p>
             <!-- Showing {{parameter.page}} out of {{parameter.total_count}} -->
