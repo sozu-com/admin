@@ -321,28 +321,32 @@
                         <span class="checkmark"></span>
                         </label>
                     </td>
-                    <td><strong>{{item.name}}</strong></td>
-                    <td>{{item.address}}
+                    <td><strong>{{item?.name}}</strong></td>
+                    <td>{{item?.address}}
                     </td>
                     <!-- dev name -->
                     <td *ngIf="parameter.count_flag==1 || parameter.count_flag==2 || parameter.count_flag==3">
                         <span>{{item?.dev_name}}</span>
-                        <span *ngIf="!item.dev_name" >NA</span>
+                        <span *ngIf="!item?.dev_name" >NA</span>
                     </td>
                     <td *ngIf="parameter.count_flag==4 || parameter.count_flag==5 || parameter.count_flag==6 || parameter.count_flag==7">
                         <span>{{item?.developer?.name}}</span>
-                        <span *ngIf="!item.developer.name" >NA</span>
+                        <span *ngIf="!item?.developer?.name" >NA</span>
                     </td>
                     <!-- dev phone & email -->
                     <td *ngIf="parameter.count_flag==1 || parameter.count_flag==2 || parameter.count_flag==3">
                         <span *ngIf="item.dev_phone">{{item?.dev_countrycode ? item.dev_countrycode : constant.dial_code}}-{{item?.dev_phone}}</span>
+                        <span *ngIf="!item.dev_phone">NA</span>
                         <br>
                         <span *ngIf="item.dev_mail">{{item?.dev_mail}}</span>
+                        <span *ngIf="!item.dev_mail">NA</span>
                     </td>
                     <td *ngIf="parameter.count_flag==4 || parameter.count_flag==5 || parameter.count_flag==6 || parameter.count_flag==7">
                         <span *ngIf="item?.developer?.phone">{{item?.developer?.dial_code ? item?.developer?.dial_code : constant.dial_code}}-{{item?.developer?.phone}}</span>
+                        <span *ngIf="!item?.developer?.phone">NA</span>
                         <br>
                         <span *ngIf="item?.developer?.email">{{item?.developer?.email}}</span>
+                        <span *ngIf="!item?.developer?.email">NA</span>
                     </td>
                     <!-- show collector name in case of 1,2,3 -->
                     <td *ngIf="parameter.count_flag==1 || parameter.count_flag==2 || parameter.count_flag==3">
