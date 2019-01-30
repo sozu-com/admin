@@ -7420,8 +7420,10 @@ var AppHeaderComponent = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return environment; });
 var environment = {
     production: true,
-    baseIP: 'http://kanguroo.mx/api/',
-    baseUrl: 'http://kanguroo.mx/api/admin/',
+    // baseIP: 'http://kanguroo.mx/api/',
+    // baseUrl: 'http://kanguroo.mx/api/admin/',
+    baseIP: 'http://45.232.252.136/',
+    baseUrl: 'http://45.232.252.136/api/admin/',
     socketUrl: 'http://45.232.252.136:8080',
     deviceId: 'ADMIN',
     firebase: {
