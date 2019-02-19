@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, ViewChild, AfterContentInit } from '@angular/core';
 import { AdminService } from './../../../services/admin.service';
 import { CommonService } from './../../../services/common.service';
 import { IProperty } from './../../../common/property';

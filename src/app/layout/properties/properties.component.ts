@@ -234,4 +234,15 @@ export class PropertiesComponent implements OnInit {
     this.parameter.max = '';
   }
 
+  markPropertyFeatured(item, is_featured: number) {
+    item.is_featured = is_featured;
+    this.admin.postDataApi('markPropertyFeatured', {property_id: item.id, flag: is_featured }).subscribe(r => {
+      const msg = is_featured === 1 ? 'Featured successfully.' : 'Unfeatured successfully.';
+      swal('Success', msg, 'success');
+    },
+    error => {
+      swal('Error', error.error.message, 'error');
+    });
+  }
+
 }
