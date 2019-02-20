@@ -28,6 +28,7 @@ import { Constant } from './common/constants';
 import { Login, AdminACL } from './models/login.model';
 import { SharedModule } from './modules/shared.module';
 import { TranslateService } from './lang/translate.service';
+import { NumberWithCommasPipe } from './pipes/number-with-commas.pipe';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent},
@@ -43,6 +44,7 @@ const appRoutes: Routes = [
     ForgotPasswordComponent,
     LoginComponent,
     PageNotFoundComponent,
+    // NumberWithCommasPipe,
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

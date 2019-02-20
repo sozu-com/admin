@@ -59,19 +59,19 @@
       <div class="col-md-4 col-sm-12 col-12">
         <div class="info-box dashboard-bx">
           <p class="p14">All Properties</p>
-          <h3>{{all_properties_count}}</h3>
+          <h3>{{all_properties_count|numberWithCommas}}</h3>
         </div>
       </div>
       <div class="col-md-4 col-sm-12 col-12">
         <div class="info-box dashboard-bx">
           <p class="p14">Property for Sale</p>
-          <h3>{{sale_properties_count}}</h3>
+          <h3>{{sale_properties_count|numberWithCommas}}</h3>
         </div>
       </div>
       <div class="col-md-4 col-sm-12 col-12">
         <div class="info-box dashboard-bx">
           <p class="p14">Property for Rent</p>
-          <h3>{{rent_properties_count}}</h3>
+          <h3>{{rent_properties_count|numberWithCommas}}</h3>
         </div>
       </div>
 
@@ -100,13 +100,13 @@
             <div class="col-lg-5 col-md-6 col-sm-12 col-12">
             <div class="stats-block">
                   <p class="p14">Total Commission on platform</p>
-                  <h2>${{total_commission}}</h2>
+                  <h2>${{total_commission|numberWithCommas}}</h2>
             </div>
             </div>
               <div class="col-lg-5 col-md-6 col-sm-12 col-12">
               <div class="stats-block">
                   <p class="p14">Your Sales</p>
-                  <h2>${{total_sales}}</h2>
+                  <h2>${{total_sales|numberWithCommas}}</h2>
             </div>
             </div>
             </div>

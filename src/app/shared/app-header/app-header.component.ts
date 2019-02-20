@@ -23,7 +23,8 @@ export class AppHeaderComponent {
   public scrollbarOptions = { axis: 'yx', theme: 'minimal-dark' };
 
   constructor(public admin: AdminService, private router: Router, private constant: Constant,
-    private msg: MessagingService) {
+    private msg: MessagingService
+    ) {
     this.admin.loginData$.subscribe(success => {
       // console.log('success1', success);
       this.fullName = success['name'];

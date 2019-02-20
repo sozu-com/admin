@@ -10,6 +10,7 @@ import { ThousandPipe } from '../pipes/thousand.pipe';
 import { BlockGetPropertyComponent } from '../layout/common-blocks/block-get-property/block-get-property.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ImgPipe } from '../pipes/img.pipe';
+import { NumberWithCommasPipe } from '../pipes/number-with-commas.pipe';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { ImgPipe } from '../pipes/img.pipe';
     MomentPipe,
     ThousandPipe,
     ImgPipe,
-    BlockGetPropertyComponent
+    BlockGetPropertyComponent,
+    NumberWithCommasPipe
   ],
   exports: [
     ChatComponent,
@@ -35,7 +37,8 @@ import { ImgPipe } from '../pipes/img.pipe';
     MomentPipe,
     ThousandPipe,
     ImgPipe,
-    BlockGetPropertyComponent
+    BlockGetPropertyComponent,
+    NumberWithCommasPipe
   ]
 })
 export class SharedModule { }
