@@ -181,7 +181,8 @@ export class AddTemplateComponent implements OnInit {
     this.parameter.loading = true;
     this.admin.postDataApi('addBlog', this.post).subscribe(r => {
       this.parameter.loading = false;
-      console.log(r);
+      this.post.id ? swal('Success', 'Updated successfully.', 'success') : swal('Sucsess', 'Added successfully.', 'success');
+      this.post = r['data'];
     },
     error => {
       console.log('errorrrr', error);
@@ -190,4 +191,14 @@ export class AddTemplateComponent implements OnInit {
     });
   }
 
+  previewPost(blog_url: string) {
+    // window.open(encodeURI(blog_url), '_blank');
+    let url = '';
+    if (!/^http[s]?:\/\//.test(blog_url)) {
+        url += 'http://';
+    }
+
+    url += blog_url;
+    window.open(encodeURIComponent(blog_url), '_blank');
+  }
 }
