@@ -378,7 +378,8 @@
             <div class="form-group-3">
               <label>Title</label>
               <select class="form-control" [(ngModel)]="new_config.configuration_id" (change)="selectConfiguration($event.target.value,new_config)" name="config_name">
-                  <option *ngFor="let c of all_configurations" value="{{c.id}}" daa-model="c">{{c.name}}</option>
+                <option value="">Select</option>  
+                <option *ngFor="let c of all_configurations" value="{{c.id}}" daa-model="c">{{c.name}}</option>
               </select>
             </div>
           </div>

@@ -395,6 +395,8 @@ export class AddProjectComponent implements OnInit {
   onCountryChange(obj) {
     this.model.dev_countrycode = obj.iso2;
     this.model.dev_dialcode = '+' + obj.dialCode;
+    this.model.developer.dial_code = this.model.dev_dialcode;
+    this.model.developer.country_code = this.model.dev_countrycode;
   }
 
   // addProject() {
@@ -477,8 +479,8 @@ export class AddProjectComponent implements OnInit {
     modelSave.dev_name = modelSave.developer.name;
     modelSave.dev_email = modelSave.developer.email;
     modelSave.dev_phone = modelSave.developer.phone;
-    modelSave.dev_countrycode = modelSave.developer.country_code;
-    modelSave.dev_dialcode = modelSave.developer.dev_dialcode;
+    modelSave.dev_countrycode = modelSave.developer.country_code ? modelSave.developer.country_code : this.constant.country_code;
+    modelSave.dev_dialcode = modelSave.developer.dial_code ? modelSave.developer.dial_code : this.constant.dial_code;
     modelSave.dev_logo = this.file5.image;
     modelSave.amenities = this.all_amenities.filter(op => { if (op.selected === true) { return op; }}).map(op => op.id);
 
@@ -509,6 +511,8 @@ export class AddProjectComponent implements OnInit {
     //   if (!modelSave.dev_phone) {swal('Error', 'Please add developer phone', 'error'); return false; }
     //   if (!modelSave.dev_logo) {swal('Error', 'Please add developer image', 'error'); return false; }
     // }
+
+    console.log(modelSave);
     if (modelSave.dev_email) {
       if (!modelSave.dev_name) {swal('Error', 'Please add developer name', 'error'); return false; }
       if (!modelSave.dev_countrycode) {swal('Error', 'Please add developer country code', 'error'); return false; }
