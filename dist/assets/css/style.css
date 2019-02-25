@@ -1683,14 +1683,19 @@ width: 72px;
 height: 72px;
 position: relative;
 margin-right: 16px;
+margin-bottom: 16px;
+float: left;
 }
-.uploaded-img-block .uploaded-img .u-img{ width:72px; height:72px; object-fit: cover; border-radius: 4px;   }
+.uploaded-img-block .uploaded-img .u-img{ width:72px; height:72px; object-fit: cover; border-radius: 4px;border: 1px solid #bdbaba;   }
 .uploaded-img .remove {
 position: absolute;
 right: -12px;
 top: -12px;
 }
-.uploaded-img-block{display: flex;}
+.uploaded-img-block{
+    /* display: flex; */
+    display: flow-root;
+}
 .add-more-images input[type=file] {
 text-indent: 1000px;
 overflow: hidden;

@@ -189,6 +189,10 @@ export class AddProjectComponent implements OnInit {
       this.all_configurations = r.data;
     });
 
+    this.admin.postDataApi('getDevelopers', {}).subscribe(r => {
+      console.log('=========developers======', r);
+    });
+
   }
 
   modelOpenFun() {
@@ -343,7 +347,7 @@ export class AddProjectComponent implements OnInit {
     this.new_config = JSON.parse(JSON.stringify(config));
     this.file3.image = config.floor_map_image;
     this.file4.files = [];
-    config.images.forEach((item, index) => {
+    config.images.forEach((item, i: number) => {
       this.file4.files.push(item);
     });
     this.openConfigPopup.nativeElement.click();
@@ -558,7 +562,9 @@ export class AddProjectComponent implements OnInit {
       this.parameter.loading = true;
       this.admin.postDataApi('updateProject', modelSave).subscribe(success => {
         this.parameter.loading = false;
-        swal('Success', success.message, 'success');
+        swal('Success', 'Updated successfully.', 'success');
+        // set model to avoid duplication creation of project
+        this.setProjectModel(success['data']);
         // this.router.navigate(['/dashboard/projects/view-projects']);
       }, error => {
         this.parameter.loading = false;
@@ -570,7 +576,10 @@ export class AddProjectComponent implements OnInit {
       this.parameter.loading = true;
       this.admin.postDataApi('addProject', modelSave).subscribe(success => {
         this.parameter.loading = false;
-        swal('Success', success.message, 'success');
+        swal('Success', 'Added successfully.', 'success');
+        // set model to avoid duplication creation of project
+        this.id = success['data'].id;
+        this.setProjectModel(success['data']);
         // this.router.navigate(['/dashboard/projects/view-projects']);
       }, error => {
         this.parameter.loading = false;
@@ -581,27 +590,61 @@ export class AddProjectComponent implements OnInit {
   }
 
   file2Select($event) {
-    if ((this.file2.files.length + $event.target.files.length) > 6) {
-      swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
-      return false;
-    }
+    // if ((this.file2.files.length + $event.target.files.length) > 6) {
+    //   swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
+    //   return false;
+    // }
     this.file2.onSelectFile($event);
   }
 
   file4Select($event) {
-    if ((this.file4.files.length + $event.target.files.length) > 6) {
-      swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
-      return false;
-    }
+    // if ((this.file4.files.length + $event.target.files.length) > 6) {
+    //   swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
+    //   return false;
+    // }
     this.file4.onSelectFile($event);
   }
 
   addNewCustom() {
-    if (!this.new_custom.name || !this.new_custom.value){
+    if (!this.new_custom.name || !this.new_custom.value) {
       swal('Error', 'Please add parameter name and value', 'error');
       return false;
     }
     this.model.custom_attributes.unshift(this.new_custom);
     this.new_custom = {name: '', value: ''};
+  }
+
+  setProjectModel(data) {
+    this.model = JSON.parse(JSON.stringify(data));
+      if (data.developer == null) {
+        this.model.developer = {
+          id: '',
+          name: '',
+          email: '',
+          country_code: this.constant.country_code,
+          dial_code: this.constant.dial_code,
+          phone: '',
+          logo: '',
+          developer_image: ''
+        };
+        this.model.developer.name = data.developer != null && data.developer.name ? data.developer.name : '';
+        this.model.developer.email = data.developer != null && data.developer.email ? data.developer.email : '';
+        this.model.developer.phone = data.developer != null && data.developer.phone ? data.developer.phone : '';
+      }
+      this.file1.image = this.model.main_image;
+      // this.model.configurations.map((item) => {
+      //   item.images = item.images.map(r1 => r1.image);
+      // });
+      this.model.custom_attributes = this.model.custom_values;
+      this.file5.image = this.model.developer.developer_image;
+      this.admin.postDataApi('getAmenities', {}).subscribe(res => {
+        this.all_amenities = res.data.map(item => {item.selected = false; return item; });
+        this.selected_amenities = this.all_amenities.map(item => {
+          if (this.model.amenities.find(am => am.id === item.id)) {
+            item.selected = true;
+          }
+          return item;
+        });
+      });
   }
 }

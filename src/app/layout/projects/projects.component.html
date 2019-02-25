@@ -280,7 +280,7 @@
                   
                         <tr *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
                             <td>
-                                <img class="rounded-circle" onerror='this.src="constant.propertyPlaceholder"' [defaultImage]="p.main_image| img:'thumb'" [lazyLoad]="p.main_image">
+                                <img class="rounded-circle" onerror='this.src="assets/img/placeholder-img.png"' [defaultImage]="p.main_image| img:'thumb'" [lazyLoad]="p.main_image">
                               <!-- <img [src]="p.main_image| img:'thumb'" class="rounded-circle" onerror='this.src="assets/img/placeholder-img.png"' alt="img"> -->
                             </td>
                             <td class="cursor-pointer" title="Click to view details" routerLink="/dashboard/projects/details/{{p.id}}">
