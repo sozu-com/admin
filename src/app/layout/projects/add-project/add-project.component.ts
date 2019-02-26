@@ -28,6 +28,7 @@ export class AddProjectComponent implements OnInit {
   @ViewChild('closeConfigPopup') closeConfigPopup: ElementRef;
   @ViewChild('addConfig') addConfig: ElementRef;
 
+  @ViewChild('openDeveloperListModel') openDeveloperListModel: ElementRef;
   myform: FormGroup;
   myform2: FormGroup;
 
@@ -53,7 +54,7 @@ export class AddProjectComponent implements OnInit {
   all_building_types: any= [];
   all_amenities: any= [];
   all_configurations: any= [];
-
+  all_developers: any = [];
   selected_amenities: any= [];
   new_config: any = new Configuration;
   new_custom: any = {name: '', value: ''};
@@ -191,6 +192,7 @@ export class AddProjectComponent implements OnInit {
 
     this.admin.postDataApi('getDevelopers', {}).subscribe(r => {
       console.log('=========developers======', r);
+      this.all_developers = r.data;
     });
 
   }
@@ -646,5 +648,9 @@ export class AddProjectComponent implements OnInit {
           return item;
         });
       });
+  }
+
+  selectDeveloper() {
+    this.openDeveloperListModel.nativeElement.click();
   }
 }

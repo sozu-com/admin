@@ -46,7 +46,7 @@
                               </div>
                            </div>
                         </th>
-                        <th style="width:30%; text-align:left;">
+                        <th style="width:25%; text-align:left;">
                             <div class="table-search">
                                <label>Description</label>
                                <div class="searh-3">
@@ -66,11 +66,11 @@
                            <a href="javascript://"><img [ngClass]="{'upsidedown':this.parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a>
                            </div>
                         </th>
-                        <th style="width:4%;">&nbsp;</th>
+                        <th style="width:9%;">&nbsp;</th>
                      </tr>
-                     <tr *ngFor="let item of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }">
+                     <tr *ngFor="let item of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
                         <td>
-                            <img class="rounded-circle" [src]="item.image" onerror="this.src='assets/img/default_img.png'" alt="img">
+                          <img class="rounded-circle" [src]="item.image" onerror="this.src='assets/img/default_img.png'" alt="img">
                         </td>
                         <td>
                            <strong>{{item.title}}</strong>
@@ -80,13 +80,14 @@
                          <td><span>{{item.publish_date|date:'shortDate'}}</span></td>
                          <td>
                            <div class="message">
-                              <button [disabled]="admin?.admin_acl['Templates']?.can_update==0" routerLink="/dashboard/templates/edit-template/{{item.id}}" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                              <button [disabled]="admin?.admin_acl['Templates']?.can_update==0" routerLink="/dashboard/templates/edit-template/{{item.id}}" title="Edit Template" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                              <button [disabled]="admin?.admin_acl['Templates']?.can_update==0" (click)="deleteBlogPopUp(item.id, i)" title="Delete Template" class="action-icon"><img src="assets/img/remove-icon.png" alt="img"></button>
                            </div>
                          </td>
                      </tr>
                   </table>
                   <div class="padding20 center" *ngIf="parameter.loading == false && total == 0">
-                      <img src="./../../../assets/img/404-error.png">
+                      <img src="assets/img/404-error.png">
                   </div>
                </div>
             </div>

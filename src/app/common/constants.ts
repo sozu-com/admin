@@ -141,5 +141,6 @@ export class Constant {
         UNBLOCK_USER : 'You want to unblock this user?',
         BLOCK_LEAD : 'You want to block this lead?',
         UNBLOCK_LEAD : 'You want to unblock this lead?',
+        DELETE_BLOG: 'You want to delete this template?'
     };
 }

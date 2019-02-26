@@ -7,9 +7,9 @@ export const environment = {
   production: false,
   // baseIP: 'http://kanguroo.mx/api/',
   // baseUrl: 'http://kanguroo.mx/api/admin/',
-  baseIP: 'http://45.232.252.136/',
-  baseUrl: 'http://45.232.252.136/api/admin/',
-  socketUrl: 'http://45.232.252.136:8080',
+  baseIP: 'http://45.232.252.136:8002/',
+  baseUrl: 'http://45.232.252.136:8002/api/admin/',
+  socketUrl: 'http://45.232.252.136:8090',
   deviceId: 'ADMIN',
 
   firebase: {
