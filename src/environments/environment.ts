@@ -9,8 +9,8 @@ export const environment = {
   // baseUrl: 'https://api.sozul.com/api/admin/',
   // baseIP: 'http://45.232.252.136:8002/',
   // baseUrl: 'http://45.232.252.136:8002/api/admin/',
-  baseIP: 'https://api.sozul.com/',
-  baseUrl: 'https://api.sozul.com/api/admin/',
+  baseIP: 'https://apitest.sozul.com/',
+  baseUrl: 'https://apitest.sozul.com/api/admin/',
   socketUrl: 'http://45.232.252.136:8080',
   deviceId: 'ADMIN',
 
