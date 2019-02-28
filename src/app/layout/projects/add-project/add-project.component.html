@@ -245,28 +245,34 @@
                 </div>
               </div>
 
-              <!-- <div class="col-md-12 col-sm-12 col-12">
+              <div class="col-md-6 col-sm-6 col-6">
                 <div class="form-group-3">
-                  <label (click)="selectDeveloper()">Select Developer</label>
+                  <label class="green-color" (click)="selectDeveloper()">Select Developer</label>
                 </div>
-              </div> -->
+              </div>
+
+              <div class="col-md-6 col-sm-6 col-6">
+                <div class="form-group-3">
+                  <label class="green-color" (click)="addDeveloper()">Add New Developer</label>
+                </div>
+              </div>
 
               <div class="col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>Name</label>
-                  <input [(ngModel)]="model.developer.name" class="form-control" type="text" name="developer_name" placeholder="Developer Name">
+                  <input autocomplete="off" [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.developer.name" class="form-control" type="text" name="developer_name" placeholder="Developer Name">
                 </div>
               </div>
               <div class="col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>Email</label>
-                  <input [(ngModel)]="model.developer.email" class="form-control" type="email" name="developer_email" placeholder="Developer Email" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
+                  <input autocomplete="off" [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.developer.email" class="form-control" type="email" name="developer_email" placeholder="Developer Email" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
                 </div>
               </div>
               <div class="col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>Phone Number</label>
-                  <input minlength="6" maxlength="16" autocomplete="off" type="text" class="form-control" id="phone" placeholder="Phone Number" minlength="1" [(ngModel)]="model.developer.phone" name="phone" ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)"/>
+                  <input autocomplete="off" [disabled]="!canEditdeveloperInfo" minlength="6" maxlength="16" autocomplete="off" type="text" class="form-control" id="phone" placeholder="Phone Number" minlength="1" [(ngModel)]="model.developer.phone" name="phone" ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)"/>
 
                 </div>
               </div>
@@ -276,7 +282,7 @@
                   <label>Logo</label>
 
                   <div class="add-project-img-more">
-                    <input type="file" accept="image/*" name="sasdsda" (change)="file5.onSelectFile($event, true);">
+                    <input [disabled]="!canEditdeveloperInfo" type="file" accept="image/*" name="sasdsda" (change)="file5.onSelectFile($event, true);">
                     <img class="img-fluid" *ngIf="file5.image" [src]="file5.image">
                     <div *ngIf="!file5.image"  class="upload-caption">
                       <p class="green-color">+ Add more images</p>
@@ -368,6 +374,46 @@
   </div>
 </div>
 
+<a #openDeveloperListModel class="btn-third btn btn-block" data-target="#developer-list" data-toggle="modal"></a>
+<div class="modal" id="developer-list">
+  <div class="modal-dialog">
+    <div class="modal-content notary-avail">
+        <div class="modal-header popup-header">
+        <h4 class="modal-title">Select Developer</h4>
+        <button type="button" class="close" data-dismiss="modal" #closeDeveloperListModel>&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-8 col-6">
+                    <input style="max-width:200px" list="amenities" (input)="getAssignListing()" class="form-control" type="text" name="keyword" placeholder="Search">
+                </div>
+            </div>
+            <div class="spacer40"></div>
+            <table class="table">
+                <tr *ngFor="let item of all_developers">
+                    <td *ngIf="item.is_blocked!=1">
+                        <div class="n-avail-profile">
+                        <img [src]="item.image" onerror='src="assets/img/default_img.png"' alt="img">
+                        <div class="n-avail-info">
+                            <p class="p12">{{item.name}}</p>
+                            <p class="p10">Phone : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
+                        </div>
+                        </div>
+                    </td>
+                    <td *ngIf="item.is_blocked!=1">
+                        <label class="cust-check-bx float-right">
+                            <input type="radio" name="notary_id" (click)="setDeveloper(item)">
+                            <span class="checkmark"></span>
+                        </label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+
+
 
 <a #openConfigPopup class="btn-third btn btn-block" data-target="#add-config" data-toggle="modal"></a>
 <div class="modal" id="add-config">
@@ -394,7 +440,6 @@
           <div class="col-sm-6 col-12">
             <div class="form-group-3">
               <label>Carpet area (sqft)
-                <!-- <span class="color-red">*</span> -->
               </label>
               <input min="0" class="form-control" [(ngModel)]="new_config.carpet_area" type="number" name="base_price">
             </div>
@@ -402,7 +447,6 @@
           <div class="col-sm-6 col-12">
             <div class="form-group-3">
               <label>Average Price
-                <!-- <span class="color-red">*</span> -->
               </label>
               <input min="0" class="form-control" [(ngModel)]="new_config.base_price" type="number" name="base_price">
             </div>
@@ -412,7 +456,6 @@
           <div class="col-12">
             <div class="form-group-3">
               <label>Floor Plan Image
-                <!-- <span class="color-red">*</span> -->
               </label>
               <div class="upload-cover-img" style="max-width: 400px; margin: 0px auto;height: 250px;">
                   <img class="img-fluid" [src]="file3.image" onerror='this.src="assets/img/placeholder.png"' />
@@ -424,7 +467,6 @@
               </div>
               <div class="spacer30"></div>
               <label>Other Images
-                <!-- <span class="color-red">*</span> -->
               </label>
               <div class="spacer30"></div>
               <div class="uploaded-img-block">
@@ -461,50 +503,4 @@
     </div>
   </div>
 
-
-
-
-
-<!-- Choose developer model -->
-<a data-toggle="modal" data-target="#developer-list-model" #openDeveloperListModel></a>
-<div class="modal" id="developer-list-model">
-    <div class="modal-dialog ">
-        <div class="modal-content notary-avail">
-            <div class="modal-header popup-header">
-            <h4 class="modal-title">Select Developer</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-8 col-6">
-                        <input style="max-width:200px" list="amenities" (input)="getAssignListing()" class="form-control" type="text" name="keyword" placeholder="Search">
-                    </div>
-                    <div class="col-md-4 col-5 btn-cont">
-                        <a class="btn btn-primary pull-right" href="javascript://" (click)="assignNow()">Assign</a>
-                    </div>
-                </div>
-                <div class="spacer40"></div>
-                <table class="table">
-                    <tr *ngFor="let item of all_developers">
-                        <td *ngIf="item.is_blocked!=1">
-                            <div class="n-avail-profile">
-                            <!-- <img [src]="item.image" onerror='src="assets/img/default_img.png"' alt="img"> -->
-                            <div class="n-avail-info">
-                                <p class="p12">{{item.name}}</p>
-                                <p class="p10">Phone : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
-                            </div>
-                            </div>
-                        </td>
-                        <td *ngIf="item.is_blocked!=1">
-                            <label class="cust-check-bx float-right">
-                                <input type="radio" name="notary_id" (click)="assignItem = item">
-                                <span class="checkmark"></span>
-                            </label>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-    
+  

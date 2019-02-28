@@ -29,6 +29,7 @@ export class AddProjectComponent implements OnInit {
   @ViewChild('addConfig') addConfig: ElementRef;
 
   @ViewChild('openDeveloperListModel') openDeveloperListModel: ElementRef;
+  @ViewChild('closeDeveloperListModel') closeDeveloperListModel: ElementRef;
   myform: FormGroup;
   myform2: FormGroup;
 
@@ -36,6 +37,7 @@ export class AddProjectComponent implements OnInit {
   public longitude: number;
   public zoom: number;
 
+  canEditdeveloperInfo: boolean;
   id: any;
   url: any[];
   url2 = [];
@@ -87,6 +89,7 @@ export class AddProjectComponent implements OnInit {
         this.id = params.id;
         if (this.id) {
           /* if id exists edit mode */
+          this.canEditdeveloperInfo = false;
           this.parameter.loading = true;
           this.admin.postDataApi('getProjectById', {building_id: this.id}).subscribe(r => {
             this.parameter.loading = false;
@@ -126,6 +129,7 @@ export class AddProjectComponent implements OnInit {
           });
         }else if (params.request_id) {
           /* if request_id exists, building request edit mode */
+          this.canEditdeveloperInfo = false;
           this.parameter.loading = true;
           this.admin.postDataApi('getBuildingRequest', {building_request_id: params.request_id}).subscribe(r => {
             this.parameter.loading = false;
@@ -168,6 +172,7 @@ export class AddProjectComponent implements OnInit {
             this.parameter.loading = false;
           });
         }else {
+          this.canEditdeveloperInfo = true;
           this.admin.postDataApi('getAmenities', {}).subscribe(res => {
             this.all_amenities = res.data.map(item => {item.selected = false; return item; });
           });
@@ -189,12 +194,6 @@ export class AddProjectComponent implements OnInit {
     this.admin.postDataApi('getConfigurations', {}).subscribe(r => {
       this.all_configurations = r.data;
     });
-
-    this.admin.postDataApi('getDevelopers', {}).subscribe(r => {
-      console.log('=========developers======', r);
-      this.all_developers = r.data;
-    });
-
   }
 
   modelOpenFun() {
@@ -588,7 +587,6 @@ export class AddProjectComponent implements OnInit {
         swal('Error', error.message, 'error');
       });
     }
-
   }
 
   file2Select($event) {
@@ -651,6 +649,53 @@ export class AddProjectComponent implements OnInit {
   }
 
   selectDeveloper() {
-    this.openDeveloperListModel.nativeElement.click();
+    this.parameter.loading = true;
+    this.admin.postDataApi('getDevelopers', {}).subscribe(r => {
+      this.parameter.loading = false;
+      console.log('=========developers======', r);
+      this.all_developers = r.data;
+      this.openDeveloperListModel.nativeElement.click();
+    });
+  }
+
+  addDeveloper() {
+    this.canEditdeveloperInfo = true;
+    this.model.developer = {
+      id: '',
+      name: '',
+      email: '',
+      country_code: this.constant.country_code,
+      dial_code: this.constant.dial_code,
+      phone: '',
+      logo: '',
+      developer_image: ''
+    };
+    this.file5.image = '';
+    this.closeDeveloperListModel.nativeElement.click();
+  }
+
+  setDeveloper(item) {
+    console.log(item);
+    this.canEditdeveloperInfo = false;
+    this.model.developer = {
+      id: '',
+      name: '',
+      email: '',
+      country_code: this.constant.country_code,
+      dial_code: this.constant.dial_code,
+      phone: '',
+      logo: '',
+      developer_image: ''
+    };
+    this.model.developer.id = item.id;
+    this.model.developer_id = item.id;
+    this.model.developer.name = item.name;
+    this.model.developer.email = item.email;
+    this.model.developer.phone = item.phone;
+    this.model.developer.dial_code = item.dial_code;
+    this.model.developer.country_code = item.country_code;
+    this.model.developer.logo = item.image;
+    this.file5.image = item.image;
+    this.closeDeveloperListModel.nativeElement.click();
   }
 }

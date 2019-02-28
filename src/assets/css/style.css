@@ -416,7 +416,7 @@ position: absolute;
 top: -10px;
 right: -10px;
 }
-.green-color, .form-horizontal p a{color:#3EB967; }
+.green-color, .form-horizontal p a{color:#3EB967 !important; }
 .green-color:focus, .form-horizontal p a:focus, .green-color:hover, .form-horizontal p a:hover{color:#000 !important }
 .black-color{color:#000000; }
 .red-color{color:#FF0000; }

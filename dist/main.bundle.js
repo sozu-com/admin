@@ -4963,7 +4963,6 @@ module.exports = "<header>\n  <div class=\"row\">\n    <!-- header -->\n      <d
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_admin_service__ = __webpack_require__("../../../../../src/app/services/admin.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common_constants__ = __webpack_require__("../../../../../src/app/common/constants.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__fire_base_messaging_service__ = __webpack_require__("../../../../../src/app/fire-base/messaging.service.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppHeaderComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -4978,14 +4977,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
 var AppHeaderComponent = /** @class */ (function () {
-    function AppHeaderComponent(admin, router, constant, msg) {
+    function AppHeaderComponent(admin, router, constant) {
         var _this = this;
         this.admin = admin;
         this.router = router;
         this.constant = constant;
-        this.msg = msg;
         this.parameter = {};
         this.msg_count = 0;
         this.scrollbarOptions = { axis: 'yx', theme: 'minimal-dark' };
@@ -4994,13 +4991,13 @@ var AppHeaderComponent = /** @class */ (function () {
             _this.fullName = success['name'];
             _this.image = success['image'];
         });
-        this.msg.currentMessage$.subscribe(function (r) {
-            console.log('push', r);
-            if (r != null && r.data.notification_type !== 100) {
-                /* count if not a push of chat messages */
-                _this.msg_count++;
-            }
-        });
+        // this.msg.currentMessage$.subscribe(r => {
+        //   console.log('push', r);
+        //   if ( r != null && r.data.notification_type !== 100) {
+        //     /* count if not a push of chat messages */
+        //     this.msg_count++;
+        //   }
+        // });
         console.log('msg_count', this.msg_count);
         this.getNotifications();
     }
@@ -5063,14 +5060,14 @@ var AppHeaderComponent = /** @class */ (function () {
         this.msg_count = 0;
         this.router.navigate(['/dashboard/notifications']);
     };
-    var _a, _b, _c, _d;
+    var _a, _b, _c;
     AppHeaderComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-header',
             template: __webpack_require__("../../../../../src/app/shared/app-header/app-header.component.html"),
             styles: [__webpack_require__("../../../../../src/app/shared/app-header/app-header.component.css")]
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */]) === "function" ? _a : Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["Router"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["Router"]) === "function" ? _b : Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__common_constants__["a" /* Constant */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__common_constants__["a" /* Constant */]) === "function" ? _c : Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_4__fire_base_messaging_service__["a" /* MessagingService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__fire_base_messaging_service__["a" /* MessagingService */]) === "function" ? _d : Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */]) === "function" ? _a : Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["Router"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["Router"]) === "function" ? _b : Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__common_constants__["a" /* Constant */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__common_constants__["a" /* Constant */]) === "function" ? _c : Object])
     ], AppHeaderComponent);
     return AppHeaderComponent;
 }());
