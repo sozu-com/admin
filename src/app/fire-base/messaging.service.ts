@@ -18,7 +18,7 @@ export class MessagingService {
   }
 
   getFcmToken() {
-    // console.log(this.getFcmToken);
+    console.log(this.getFcmToken);
     this.getPermission();
     return this.fcmTokens;
   }

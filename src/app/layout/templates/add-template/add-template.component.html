@@ -62,7 +62,23 @@
                     <input type="radio" (change)="post.post_type=3" value="3" [checked]="post.post_type == '3' ? 'checked' : ''" name="post_type">
                     <span class="checkmark">News</span>
                 </label>
+                <label class="cust-radio">
+                    <input type="radio" (change)="showMainTemplatesType(4)" value="4" [checked]="post.post_type == '4' ? 'checked' : ''" name="post_type">
+                    <span class="checkmark">Main Template</span>
+                </label>
             </div>
+
+            <!-- main template types -->
+            <div class="clearfix"></div>
+            <div class="form-group-3" *ngIf="post.post_type==4">
+                <p class="p16-two">Choose Main Template Type<span class="color-red">*</span></p>
+                <label class="cust-radio" *ngFor="let mtt of mainTemplateTypes">
+                    <input type="radio" (change)="post.main_template_id=mtt.id" [value]="mtt.id" [checked]="mtt.id == post.main_template_id ? 'checked' : ''" name="main_template_id">
+                    <span class="checkmark">{{mtt.name}}</span>
+                </label>
+            </div>
+
+            <!-- post status -->
             <div class="clearfix"></div>
             <div class="form-group-3">
                 <p class="p16-two">Post Status<span class="color-red">*</span></p>
@@ -74,7 +90,6 @@
                     <input type="radio" (change)="post.status=2" value="2" [checked]="post.status == '2' ? 'checked' : ''" name="post_status">
                     <span class="checkmark">Publish</span>
                 </label>
-    
             </div>
         </div>
     </div>

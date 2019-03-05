@@ -11,7 +11,7 @@ export const environment = {
   // baseUrl: 'http://45.232.252.136:8002/api/admin/',
   baseIP: 'https://apitest.sozul.com/',
   baseUrl: 'https://apitest.sozul.com/api/admin/',
-  socketUrl: 'http://45.232.252.136:8080',
+  socketUrl: 'http://socket.sozul.com',
   deviceId: 'ADMIN',
 
   firebase: {

@@ -5,6 +5,7 @@ import { HttpInterceptor } from './../../../services/http-interceptor';
 import { FileUpload } from './../../../common/fileUpload';
 import { ActivatedRoute } from '@angular/router';
 import { IProperty } from '../../../common/property';
+import { MainTemplateTypes } from '../../../models/template.model';
 
 declare let swal: any;
 
@@ -16,6 +17,7 @@ declare let swal: any;
 export class AddTemplateComponent implements OnInit {
 
   public parameter: IProperty = {};
+  public mainTemplateTypes: MainTemplateTypes;
   public imageLink = {
     link: ''
   };
@@ -35,6 +37,7 @@ export class AddTemplateComponent implements OnInit {
     meta_description_es: '',
     image: '',
     publish_date: '',
+    main_template_id: ''
   };
 
   file1: any;
@@ -161,6 +164,7 @@ export class AddTemplateComponent implements OnInit {
       }else {
         delete this.post.id;
       }
+      this.getMainTemplatesType();
     });
   }
 
@@ -200,5 +204,19 @@ export class AddTemplateComponent implements OnInit {
 
     url += blog_url;
     window.open(encodeURIComponent(blog_url), '_blank');
+  }
+
+  getMainTemplatesType() {
+    this.admin.postDataApi('getMainTemplatesType', {})
+      .subscribe(
+        success => {
+          this.mainTemplateTypes = success['data'];
+        }
+      );
+  }
+
+  showMainTemplatesType(type: number) {
+    this.post.post_type = type;
+    console.log(this.post);
   }
 }
