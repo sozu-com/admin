@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   baseIP: 'https://apitest.sozul.com/',
   baseUrl: 'https://apitest.sozul.com/api/admin/',
-  socketUrl: 'http://socket.sozul.com',
+  socketUrl: 'https://socket.sozul.com',
   deviceId: 'ADMIN',
 
   firebase: {
