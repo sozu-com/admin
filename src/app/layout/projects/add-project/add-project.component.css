@@ -1,0 +1,26 @@
+.upload-cover-img{
+  background-size:100%;
+  background-repeat: no-repeat;
+}
+agm-map{height:300px;}
+
+.loc-tags-group li{
+  padding:0px;
+  background-color:transparent;
+  margin-right:0px;
+  margin-bottom: 3px;
+}
+.loc-tags-group li span{
+  background-color:rgba(223,223,223,0.5);
+  padding: 8px 10px 8px 16px;
+  border-radius:3px;
+  margin-right:3px;
+  display: inline-block;
+}
+.loc-tags-group li span b{
+  filter:opacity(50%);
+  cursor: pointer;
+}
+.loc-tags-group li span b:hover{
+  filter:opacity(100%);
+}

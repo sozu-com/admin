@@ -1,0 +1,366 @@
+<ngx-loading [show]="parameter.loading"></ngx-loading>
+<div class="container-fluid">
+  <div class="breadcrumb-group">
+      <h5>Settings</h5>
+      <nav class="breadcrumb">
+          <a class="breadcrumb-item">Home</a>
+        <!-- <a class="breadcrumb-item" routerLink="/dashboard">Home</a> -->
+        <a class="breadcrumb-item">Settings</a>
+        <span class="breadcrumb-item active">Project</span>
+      </nav>
+  </div>
+  <div class="white-bg">
+      <div class="page-title">
+        <h3>Project</h3>
+      </div>
+
+      <div class="form-outer">
+          <div class="inline-form-group">
+             <div class="row">
+                <div class="col-md-4">
+                    <label><strong>Possession Status</strong></label>
+                </div>
+                <div class="col-md-8" *ngIf="admin?.admin_acl['Settings']?.can_create==1">
+                   <form role="form" novalidate #addPossessionForm="ngForm" (ngSubmit)="checkIfPossessionSpanishNameEntered(addPossessionForm, '', addPossessionForm.value.name_en, addPossessionForm.value.name_es, 1, 'add')">
+                      <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                          <input type="text" class="form-control" placeholder="Possession status (English)" id="name_en" required [(ngModel)]="project.possession.name_en" name="name_en" #name_en="ngModel">
+                          <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-not-found">
+                            <div [hidden]="!name_en.errors.required">
+                              {{constant.errorMsg.PROPERTY_CONFIG_REQUIRED}}
+                            </div>
+                          </div>       -->
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <input type="text" class="form-control" placeholder="Possession status (Spanish)" [(ngModel)]="project.possession.name_es" name="name_es">
+                        </div>
+                      </div>
+                    <button [disabled]="admin?.admin_acl['Settings']?.can_create==0 || addPossessionForm.invalid" type="submit" class="add-btn btn">
+                       <img src="./../../../../assets/img/add.png" alt="img">
+                     </button>
+                   </form>
+                </div>
+             </div>
+          </div>
+      </div>
+
+      <div class="tabel-section padding40 paddingT0">
+          <div class="table-responsive">
+            <table class="table table-striped">
+                <tr>
+                  <th style="width:40%; text-align:left;">Name (English)</th>
+                  <th style="width:40%; text-align:left;">Name (Spanish)</th>
+                  <th style="width:20%">Action</th>
+                </tr>
+                <tr *ngFor="let item of parameter.items; let i=index">
+                  <td class="text-left">
+                    {{item.name_en}}
+                  </td>
+                  <td class="text-left">
+                    {{item.name_es}}
+                  </td>
+                  <td>
+                      <button title="Edit" [disabled]="admin?.admin_acl['Settings']?.can_update==0" 
+                      (click)="openPossessionStatusModal(addPossessionStatusModal, i, item.id, item.name_en, item.name_es, item.status)" class="action-icon"><img src="./../../../../assets/img/edit.png" alt="img"></button>
+                    
+                      <!-- status = 1 means unblocked -->
+                      <button [disabled]="admin?.admin_acl['Settings']?.can_delete==0"
+                        (click)="addPossessionStatusPopup(i, item.id, item.name_en, item.name_es, item.status==1?0:1, item.status==1?'block':'unblock')" 
+                        title="{{item.status==1?'Block':'Unblock'}}" [ngClass]="{'unblock-bg':item.status==0}"
+                        class="action-icon"><img src="assets/img/block.png" alt="img">
+                      </button>
+                    <!-- <a title="Edit Configuration" (click)="openPossessionStatusModal(addPossessionStatusModal, item.id, item.name_en, item.name_es, item.status)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
+                    <a *ngIf="item.status == 1" (click)="addPossessionStatusPopup(item.id, item.name_en, item.name_es, 0, 'block')" title="Block Configuration" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
+                    <a *ngIf="item.status == 0" (click)="addPossessionStatusPopup(item.id, item.name_en, item.name_es, 1, 'unblock')" title="Unblock Configuration" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a> -->
+                  </td>
+                </tr>
+
+                <div *ngIf="parameter.total == 0">
+                  <p class="show-not-found">
+                    {{constant.errorMsg.NO_POSSESSION_FOUND}}
+                  </p>
+                </div>
+            </table>
+          </div>
+      </div>
+
+
+      <div class="form-outer">
+        <div class="inline-form-group">
+           <div class="row">
+              <div class="col-md-4">
+                  <label><strong>Project Type</strong></label>
+              </div>
+              <div class="col-md-8" *ngIf="admin?.admin_acl['Settings']?.can_create==1">
+                 <form role="form" novalidate #addTypeForm="ngForm" (ngSubmit)="checkIfTypeSpanishNameEntered(addTypeForm, '', addTypeForm.value.name_en, addTypeForm.value.name_es, 1, 'add')">
+
+                  <div class="row">
+                      <div class="col-md-6 col-lg-6">
+                          <input type="text" class="form-control" placeholder="Project type name (English)" id="name_en" required [(ngModel)]="project.type.name_en" name="name_en" #name_en="ngModel">
+                          <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-not-found">
+                            <div [hidden]="!name_en.errors.required">
+                              {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
+                            </div>
+                        </div> -->
+                      </div>
+                    
+                    <div class="col-lg-6 col-md-6">
+                        <input type="text" class="form-control" placeholder="Project type name (Spanish)" [(ngModel)]="project.type.name_es" name="name_es">
+                    </div>
+  
+                  </div>
+                  <button [disabled]="admin?.admin_acl['Settings']?.can_create==0 || addTypeForm.invalid" type="submit" class="add-btn btn">
+                     <img src="./../../../../assets/img/add.png" alt="img">
+                   </button>
+                 </form>
+              </div>
+           </div>
+        </div>
+    </div>
+
+    <div class="tabel-section padding40 paddingT0">
+        <div class="table-responsive">
+          <table class="table table-striped">
+              <tr>
+                <th style="width:40%; text-align:left;">Name (English)</th>
+                <th style="width:40%; text-align:left;">Name (Spanish)</th>
+                <th style="width:20%">Action</th>
+              </tr>
+              <tr *ngFor="let item of parameter.projectTypes; let j=index">
+                <td class="text-left">
+                  {{item.name_en}}
+                </td>
+                <td class="text-left">
+                  {{item.name_es}}
+                </td>
+                <td>
+                    <button title="Edit" [disabled]="admin?.admin_acl['Settings']?.can_update==0" 
+                    (click)="openBuildingTypeModal(addBuildingTypeModal, j, item.id, item.name_en, item.name_es, item.status)" class="action-icon"><img src="./../../../../assets/img/edit.png" alt="img"></button>
+                  
+                    <!-- status = 1 means unblocked -->
+                    <button [disabled]="admin?.admin_acl['Settings']?.can_delete==0"
+                      (click)="addBuildingTypePopup(j, item.id, item.name_en, item.name_es, item.status==1?0:1, item.status==1?'block':'unblock')" 
+                      title="{{item.status==1?'Block':'Unblock'}}" [ngClass]="{'unblock-bg':item.status==0}"
+                      class="action-icon"><img src="assets/img/block.png" alt="img">
+                    </button>
+                  <!-- <a title="Edit Property Type" (click)="openBuildingTypeModal(addBuildingTypeModal, item.id, item.name_en, item.name_es, item.status)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
+                  <a *ngIf="item.status == 1" (click)="addBuildingTypePopup(item.id, item.name_en, item.name_es, 0, 'block')" title="Block Property Type" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
+                  <a *ngIf="item.status == 0" (click)="addBuildingTypePopup(item.id, item.name_en, item.name_es, 1, 'unblock')" title="Unblock Property Type" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a> -->
+                </td>
+              </tr>
+
+              <div *ngIf="parameter.projectTypesCount == 0">
+                <p class="show-not-found">
+                  {{constant.errorMsg.NO_PROJECT_TYPE_FOUND}}
+                </p>
+              </div>
+          </table>
+        </div>
+    </div>
+
+
+
+      <div class="form-outer">
+        <div class="inline-form-group">
+            <div class="row">
+              <div class="col-md-4">
+                  <label>Amenities</label>
+              </div>
+              <div class="col-md-8" *ngIf="admin?.admin_acl['Settings']?.can_create==1">
+                 <form role="form" novalidate #addAmenityForm="ngForm" (ngSubmit)="checkIfAmenitySpanishNameEntered(addAmenityForm, '', '', addAmenityForm.value.name_en, addAmenityForm.value.name_es, 1, 'add')">
+                  <div class="browse-files">
+                    <input accept="image/*" (change)="changeListner($event)" type="file" class="image form-control" placeholder="Amenity" id="icon" required [(ngModel)]="amenityModel.icon" name="icon" #icon="ngModel">
+                    <span>Browse</span>
+                  </div>
+                  <!-- <div *ngIf="icon.errors && (icon.dirty || icon.touched)" class="show-not-found">
+                    <div [hidden]="!icon.errors.required">
+                      {{constant.errorMsg.FILE_REQUIRED}}
+                    </div>
+                  </div> -->
+                  
+                  <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <input type="text" class="form-control" placeholder="Project amenity name (English)" id="name_en" required [(ngModel)]="amenityModel.name_en" name="name_en" #name_en="ngModel">
+                        <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-not-found">
+                          <div [hidden]="!name_en.errors.required">
+                            {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
+                          </div>
+                      </div>     -->
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <input type="text" class="form-control" placeholder="Project amenity name (Spanish)" [(ngModel)]="amenityModel.name_es" name="name_es">
+                    </div>
+                  </div>
+                  <button [disabled]="admin?.admin_acl['Settings']?.can_create==0 || addAmenityForm.invalid" type="submit" class="add-btn btn">
+                     <img src="./../../../../assets/img/add.png" alt="img">
+                   </button>
+                 </form>
+              </div>
+              <!-- <div class="col-md-8">
+                  <div class="browse-files">
+                    <input type="file" name="">
+                    <span>Browse</span>
+                  </div>
+                  <input type="text" name="">
+                  <button class="add-btn" (click)="openAmenitiesModal(addAmenitiesModal, '', '', '', '', 1)">
+                    <img src="./../../../../assets/img/add.png" alt="img">
+                  </button>
+              </div> -->
+            </div>
+        </div>
+      </div>
+
+      <div class="tabel-section padding40">
+        <div class="table-responsive">
+            <table class="table table-striped">
+              <tr>
+                  <th style="width:20%">Image</th>
+                  <th style="width:30%; text-align:left;">Name (English)</th>
+                  <th style="width:30%; text-align:left;">Name (Spanish)</th>
+                  <th style="width:20%">Action</th>
+              </tr>
+              <tr *ngFor="let item of parameter.amenities; let k=index">
+                  <td>
+                    <!-- <i class="fa fa-building"></i> -->
+                    <img alt="image" height="30" width="30" src="{{item.icon}}">
+                  </td>
+                  <td class="text-left">
+                    {{item.name_en}}
+                  </td>
+                  <td class="text-left">
+                    {{item.name_es}}
+                  </td>
+                  <td>
+                      <button title="Edit" [disabled]="admin?.admin_acl['Settings']?.can_update==0" 
+                      (click)="openAmenityModal(addAmenityModal, k, item.id, item.icon, item.name_en, item.name_es, item.status)" class="action-icon"><img src="./../../../../assets/img/edit.png" alt="img"></button>
+                    
+                      <!-- status = 1 means unblocked -->
+                      <button [disabled]="admin?.admin_acl['Settings']?.can_delete==0"
+                        (click)="addAmenityPopup(k ,item.id, item.icon, item.name_en, item.name_es, item.status==1?0:1, item.status==1?'block':'unblock')" 
+                        title="{{item.status==1?'Block':'Unblock'}}" [ngClass]="{'unblock-bg':item.status==0}"
+                        class="action-icon"><img src="assets/img/block.png" alt="img">
+                      </button>
+
+                    <!-- <a title="Edit Amenity" (click)="openAmenityModal(addAmenityModal, item.id, item.icon, item.name_en, item.name_es, item.status)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
+                    <a *ngIf="item.status == 1" (click)="addAmenityPopup(item.id, item.icon, item.name_en, item.name_es, 0, 'block')" title="Block Amenity" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
+                    <a *ngIf="item.status == 0" (click)="addAmenityPopup(item.id, item.icon, item.name_en, item.name_es, 1, 'unblock')" title="Unblock Amenity" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a> -->
+                  </td>
+              </tr>
+
+              <div *ngIf="parameter.amenitiesCount == 0">
+                  <p class="show-not-found">
+                    {{constant.errorMsg.NO_PROJECT_AMENITY_FOUND}}
+                  </p>
+                </div>
+            </table>
+        </div>
+      </div>
+      <!-- <div class="btn-cont text-right padding40 paddingT0">
+        <button class="btn btn-primary">Save</button>
+      </div> -->
+  </div>
+</div>
+
+
+<!-- add possession status modal -->
+<ng-template #addPossessionStatusModal>
+  <div class="modal-content">
+    <div class="modal-header my-modal-header">
+      <h4 class="modal-title">Edit Property Configuration</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <form class="form-horizontal my-modal-form" role="form" novalidate #addForm="ngForm" (ngSubmit)="checkIfPossessionSpanishNameEntered(addForm, project.possession.id, addForm.value.name_en, addForm.value.name_es, project.possession.status, 'edit')">
+      <div class="modal-body my-modal-body">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Project possession status (English)" id="name_en" required [(ngModel)]="project.possession.name_en" name="name_en" #name_en="ngModel">
+          <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-not-found">
+              <div [hidden]="!name_en.errors.required">
+                {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
+              </div>
+          </div> -->
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Project possession status (Spanish)" [(ngModel)]="project.possession.name_es" name="name_es">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" [disabled]="admin?.admin_acl['Settings']?.can_update==0 || addForm.invalid" class="btn btn-info">Submit</button>
+        <button type="button" class="btn btn-default" aria-label="Close" (click)="modalRef.hide()">Close</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+
+<!-- add PropertyTypeModal modal -->
+<ng-template #addBuildingTypeModal>
+  <div class="modal-content">
+    <div class="modal-header my-modal-header">
+      <h4 class="modal-title">Edit Property Type</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <form class="form-horizontal my-modal-form" role="form" novalidate #addForm1="ngForm" (ngSubmit)="checkIfTypeSpanishNameEntered(addForm1, project.type.id, addForm1.value.name_en, addForm1.value.name_es, project.type.status, 'edit')">
+      <div class="modal-body my-modal-body">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Project type (English)" id="name_en" required [(ngModel)]="project.type.name_en" name="name_en" #name_en="ngModel">
+          <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-not-found">
+              <div [hidden]="!name_en.errors.required">
+                {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
+              </div>
+          </div> -->
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Project type (Spanish)" [(ngModel)]="project.type.name_es" name="name_es">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" [disabled]="admin?.admin_acl['Settings']?.can_update==0 || addForm1.invalid" class="btn btn-info">Submit</button>
+        <button type="button" class="btn btn-default" aria-label="Close" (click)="modalRef.hide()">Close</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+
+<!-- addAmenitiesModal -->
+<ng-template #addAmenityModal>
+    <div class="modal-content">
+      <div class="modal-header my-modal-header">
+        <h4 class="modal-title">Edit Amenity</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form class="form-horizontal my-modal-form" role="form" novalidate #addForm2="ngForm" (ngSubmit)="checkIfAmenitySpanishNameEntered(addForm2, amenityModel.id, '', addForm2.value.name_en, addForm2.value.name_es, amenityModel.status, 'edit')">
+        <div class="modal-body my-modal-body">
+          <div class="form-group amenity-img">
+            <img [src]="amenityModel.icon" class="image" width="100" height="100">
+          </div>
+          <div class="form-group">
+            <input accept="image/*" (change)="changeListner($event)" type="file" class="form-control">
+          </div>
+          
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Amenity (English)" id="name_en" required [(ngModel)]="amenityModel.name_en" name="name_en" #name_en="ngModel">
+            <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-not-found">
+                <div [hidden]="!name_en.errors.required">
+                  {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
+                </div>
+            </div> -->
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Amenity (Spanish)" [(ngModel)]="amenityModel.name_es" name="name_es">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" [disabled]="admin?.admin_acl['Settings']?.can_update==0 || addForm2.invalid" class="btn btn-info">Submit</button>
+          <button type="button" class="btn btn-default" aria-label="Close" (click)="closeModal()">Close</button>
+        </div>
+      </form>
+  </div>
+</ng-template>
+  

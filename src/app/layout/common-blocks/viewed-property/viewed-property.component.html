@@ -1,0 +1,88 @@
+<ngx-loading [show]="parameter.loading"></ngx-loading>
+<div class="spacer30"></div>
+<div class="row">
+   <div class="col-6">
+      <p class="p16">Viewed Properties</p>
+   </div>
+ <div class="col-6">
+      <div class="btn-cont text-right">
+        <a style="display: none;" data-toggle="modal" #showPropertyModal data-target="#view-viewed-property" class="btn btn-fourth" href="javascript://">View All</a>
+        <a *ngIf="viewed_properties?.length!=0" class="btn btn-fourth" href="javascript://" (click)="viewProperties(viewed_properties, user_id, 1)">View All</a>
+      </div>
+   </div>
+</div>
+
+<div class="spacer15"></div>
+<div class="row" *ngIf="viewed_properties?.length>0">
+  <div class="col-lg-6 col-md-12 col-sm-12 col-12" *ngFor="let data of viewed_properties; let in=index">
+
+  <div *ngIf="data.building && data && in<2" class="project-des-bx white-bg">
+    <div class="price">{{data.min_price|thousand}}+</div>
+    <div class="fig-block">
+      <img [src]="data.image| img:'thumb'" onerror='src="assets/img/placeholder-img.png"' alt="img">
+    </div>
+    <div class="project-des-content">
+      <small>{{data?.building?.developer?.name ? data?.building?.developer?.name : 'NA'}}</small>
+      <a routerLink="/dashboard/properties/details/{{data.id}}">
+      <h5>{{data.building.name.slice(0, 35)}}</h5>
+      </a>
+      <p class="p12">{{data.building.address.slice(0, 90)}}</p>
+
+      <p class="p13" *ngIf="data">{{data.configuration.name}}, {{data.property_type.name}}</p>
+      <!-- <p class="p13" title="Configuration" *ngIf="!data">NA</p> -->
+      <!-- <p class="p13" title="Property Type" *ngIf="data">{{data.property_type.name}}</p> -->
+      <p class="p13" title="Type"><strong>{{data.for_sale == 1 ? 'Buy' : 'Rent'}}</strong></p>
+    </div>
+  </div>
+
+  </div>
+</div>
+<div *ngIf="viewed_properties?.length == 0">
+  <p class="show-not-found">
+    {{constant.errorMsg.NO_VIEWED_PROPERTY_FOUND}}
+  </p>
+</div>
+
+
+<!-- show viewed_properties -->
+<div class="modal" id="view-viewed-property">
+  <div class="modal-dialog  modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <h3>Viewed Properties</h3>
+          
+          <hr>
+          <pagination-controls id="v-property-1" class="my-pagination" (pageChange)="getPageForViewedProperty($event)"></pagination-controls>
+          
+          <div class="scrollbox fav-prop" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+            <div class="row">
+              <div class="col-lg-6 col-md-12 col-sm-12 col-12"
+                *ngFor="let x of parameter.viewed_properties| paginate: { id:'v-property-1', itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let in=index">
+                  <div class="project-des-bx white-bg-2">
+                      <div class="price">{{x.min_price|thousand}}+</div>
+                    <div class="fig-block">
+                        <img [src]="x.image| img:'thumb'" onerror='src="assets/img/bank.png"' alt="img">
+                    </div>
+                    <div class="project-des-content">
+                        <small>{{x.building?.developer?.name ? x.building?.developer?.name : 'NA'}}</small>
+                        <a routerLink="/dashboard/properties/details/{{x.id}}">
+                          <h5>{{x.building?.name.slice(0, 15)}}</h5>
+                        </a>
+                        <p class="p12">{{x.building.address.slice(0, 45)}}</p>
+                        <p class="p13" *ngIf="x">{{x.configuration.name}}, {{x.property_type.name}}</p>
+                        <!-- <p class="p13" *ngIf="!x">NA</p>
+                        <p class="p13" *ngIf="x">{{x.property_type.name}}</p> -->
+                        <p class="p13" *ngIf="x">{{x.for_sale==1 ? 'Buy' : 'Rent'}}</p>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+  </div>
+</div>

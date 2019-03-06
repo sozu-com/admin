@@ -1,0 +1,295 @@
+<ngx-loading [show]="parameter.loading"></ngx-loading>
+  <div class="spacer30"></div>
+  <div class="row">
+     <div class="col-6">
+        <p class="p16">Interested Properties</p>
+     </div>
+   <div class="col-6">
+        <div class="btn-cont text-right">
+          <!-- add -->
+          <a style="display: none;" class="btn btn-fourth" #showPropertyModal href="javascript://" data-toggle="modal" data-target="#add-property-popup">Add</a>
+          <a *ngIf="(sent_as==constant.userType.csr_buyer && (admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1)) ||
+          sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==1 || admin?.permissions?.can_in_house_broker==1); else noAddPermission" class="btn btn-fourth" href="javascript://" (click)="getCountries(lead_id)">Add</a>
+          
+          <ng-template #noAddPermission>
+            <a class="btn btn-fourth" href="javascript://">Add</a>
+          </ng-template>
+
+          <!-- view  -->
+          <a style="display: none;" data-toggle="modal" #showInterestedProperty data-target="#view-all-property" class="btn btn-fourth" href="javascript://">View All</a>
+          <a *ngIf="interested_properties?.length!=0" class="btn btn-fourth" href="javascript://" (click)="viewProperties(interested_properties, 1)">View All</a>
+        </div>
+     </div>
+  </div>
+  
+  <div class="spacer15"></div>
+  <div class="row" *ngIf="interested_properties?.length>0">
+    <div class="col-lg-6 col-md-12 col-sm-12 col-12" *ngFor="let data of interested_properties; let in=index">
+
+    <div *ngIf="data.property.building && data && in<2" class="project-des-bx white-bg">
+      <div class="price">{{data.property.min_price|thousand}}+</div>
+      <div class="fig-block">
+        <img [src]="data.property.image| img:'thumb'" onerror='src="assets/img/placeholder-img.png"' alt="img">
+      </div>
+      <div class="project-des-content">
+        <small>{{data?.property?.building?.developer?.name}}</small>
+        <a routerLink="/dashboard/properties/details/{{data.property.id}}">
+          <h5>{{data?.property?.building?.name.slice(0, 35)}}</h5>
+        </a>
+        <p class="p12">{{data.property.building.address.slice(0, 90)}}</p>
+        <p class="p13" *ngIf="data && data.property">{{data.property.configuration.name}}, {{data.property.property_type.name}}</p>
+        <!-- <p class="p13" title="Property Type" *ngIf="data && data.property">{{data.property.property_type.name}}</p> -->
+        <p class="p13" title="Type"><strong>{{data.property.for_sale == 1 ? 'Buy' : 'Rent'}}</strong></p>
+        <div class="dropdown threeDots">
+          <button type="button" class="dropdown-toggle" data-toggle="dropdown">
+            ...
+          </button>
+          <div class="dropdown-menu">
+            <a style="display: none;" class="dropdown-item" href="javascript://" #modalOpen data-toggle="modal" data-target="#dealFinalize">Deal Finalized</a>
+            
+            <!-- deal finalised -->
+            <a *ngIf="!is_deal_finalised && sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==1 || admin?.permissions?.can_in_house_broker==1)"
+              class="dropdown-item" href="javascript://" (click)="openModal(data.property.id, data.lead_id)">Deal Finalized</a>
+            
+            <!-- Remove from in-property -->
+            <a *ngIf="(sent_as==constant.userType.csr_buyer && (admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1)) ||
+            sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==1 || admin?.permissions?.can_in_house_broker==1); else noRemovePermission"
+              class="dropdown-item" (click)="deleteLeadInterestedProperty(data.property.id, data.lead_id, in)">Remove Property</a>
+
+            <ng-template #noRemovePermission>
+              <a class="dropdown-item">Remove Property</a>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    </div>
+  </div>
+  <div *ngIf="interested_properties?.length == 0">
+    <p class="show-not-found">
+      {{constant.errorMsg.NO_INTERESTED_PROPERTY_FOUND}}
+    </p>
+  </div>
+
+
+
+<!-- add property to interested_properties -->
+<div class="modal" id="add-property-popup">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content notary-avail">
+        <div class="modal-header popup-header">
+          <h4 class="modal-title">Properties available</h4>
+          <button type="button" class="close" data-dismiss="modal" #hidePropertyModal>&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+              <div class="col-md-3">
+                <div class="form-group">
+                <label>Country</label>
+                <select class="form-control" (change)="onCountryChange($event.target.value)">
+                    <option value="0">All</option>
+                    <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option>
+                </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                <label>State</label>
+                <select class="form-control" (change)="onStateChange($event.target.value)">
+                    <option value="0">All</option>
+                    <option *ngFor="let item of location.states" [value]="item.id">{{item.name}}</option>
+                </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                <label>City</label>
+                    <select class="form-control" (change)="onCityChange($event.target.value)">
+                    <option value="0">All</option>
+                    <option *ngFor="let item of location.cities" [value]="item.id">{{item.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                <label>Locality</label>
+                <select class="form-control" (change)="onLocalityChange($event.target.value)">
+                    <option value="0">All</option>
+                    <option *ngFor="let item of location.localities" [value]="item.id">{{item.name}}</option>
+                </select>
+                </div>
+            </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-3">
+                <div class="form-group btn-cont">
+                <button class="btn btn-primary" (click)="propertySearch()">View Properties</button>
+                </div>
+              </div>
+              <div class="col-md-9 pull-right">
+                <pagination-controls id="page1" *ngIf="parameter.total>constant.p" class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+              </div>
+              <!-- <div class="col-md-3">
+                  <div class="form-group btn-cont">
+                  <button class="btn btn-primary" (click)="addPropertyToInterest()">Add Properties</button>
+                  </div>
+              </div> -->
+            </div>
+
+            <table class="table" *ngIf="parameter?.items?.length!=0">
+              <tbody>
+                <tr *ngFor="let item of parameter.items| paginate: { id:'page1', itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index">
+                  <td>
+                      <div class="n-avail-profile">
+                        <img [src]="item.image| img:'thumb'" onerror='src="assets/img/house.png"' alt="img">
+                        <div class="n-avail-info">
+                            <p class="p12">{{item.building.name}}</p>
+                            <p class="p10 marginB0">{{item.building.address ? item.building.address : 'NA'}}</p>
+                            <p class="p10">{{item.configuration.name}}</p>
+                        </div>
+                      </div>
+                  </td>
+                  <td>
+                      <!-- <label class="cust-check-bx float-right">
+                      <input type="radio" name="bank_id1" (click)="addLeadInterestedProperty(item.id)">
+                      <span class="checkmark"></span>
+                      </label> -->
+                      <label class="cust-check-bx float-right">
+                        <input [checked]="item.checked == true ? 'checked': ''" type="checkbox" name="bank_id1" (click)="addLeadInterestedProperty(item.id)">
+                        <span class="checkmark"></span>
+                      </label>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div *ngIf="parameter?.items?.length==0 && parameter.noResultFound">
+              <p class="show-not-found">No property found for selected filters.</p>
+            </div>
+            <div *ngIf="!parameter.noResultFound && parameter?.items?.length==0">
+              <p class="show-not-found">Select filters to view properties.</p>
+            </div>
+
+            <div *ngIf="property_ids.length>0" class="row pull-right">
+              <div class="form-group btn-cont">
+              <button class="btn btn-primary" (click)="addPropertyToInterest()">Add Properties</button>
+              </div>
+            </div>
+        </div>
+    </div> 
+  </div>
+</div>
+  
+<!-- deal finalize modal -->
+<div class="modal animated" id="dealFinalize">
+  <div class="modal-dialog fadeIndown">
+    <div class="modal-content">
+      <div class="modal-header">
+          <button style="display: none;" type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
+          <button type="button" class="close" (click)="closeModal()">&times;</button>
+      </div>
+
+      <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="attachProperty(addForm)">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group-2">
+                  <label for="token_amount">Amount to be paid by user</label>
+                  <div class="form-group">
+                  <input id="token_amount" #token_amount=ngModel autocomplete="off" name="token_amount" [(ngModel)]="model.token_amount" type="number" class="form-control" required>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group-2">
+                  <label>Commission (in %)</label>
+                  <div class="form-group">
+                    <input autocomplete="off" min="0" max="100" type="number" name="commision" [(ngModel)]="model.commision" class="form-control" required>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group-2">
+                  <label>Total Amount</label>
+                  <div class="form-group">
+                    <input autocomplete="off" name="total_amount" [(ngModel)]="model.total_amount" type="number" class="form-control" required>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="spacer40"></div>
+            </div>
+            <div class="col-12">
+              <div class="btn-cont text-right">
+                  <button style="width: 100%;" type="submit" class="btn btn-primary">Finalize Deal</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- show interested_properties -->
+<div class="modal" id="view-all-property">
+  <div class="modal-dialog  modal-lg">
+     <div class="modal-content">
+        <div class="modal-header">
+           <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <h3>Interested Properties</h3>
+          <hr>
+          <pagination-controls id="page2" class="my-pagination" (pageChange)="getPage2($event)"></pagination-controls>
+
+          <div class="scrollbox fav-prop" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+            <div class="row">
+              <div class="col-lg-6 col-md-12 col-sm-12 col-12"
+                *ngFor="let x of parameter.interested_properties| paginate: { id: 'page2', itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page2, totalItems: parameter.total2 }; let in=index">
+                  <div class="project-des-bx white-bg-2">
+                      <div class="price">{{x.property.min_price|thousand}}+</div>
+                    <div class="fig-block">
+                        <img [src]="x.property.image| img:'thumb'" onerror='src="assets/img/bank.png"' alt="img">
+                    </div>
+                    <div class="project-des-content">
+                        <small>{{x.property?.building?.developer?.name}}</small>
+                        <a routerLink="/dashboard/properties/details/{{x.property.id}}">
+                          <h5>{{x.property?.building?.name.slice(0, 15)}}</h5>
+                        </a>
+                        <p class="p12">{{x.property.building.address.slice(0, 45)}}</p>
+                        <p class="p13" *ngIf="x && x.property">{{x.property.configuration.name}}, {{x.property.property_type.name}}</p>
+                        <!-- <p class="p13" *ngIf="!x && !x.property">NA</p>
+                        <p class="p13" *ngIf="x && x.property">{{x.property.property_type.name}}</p> -->
+                        <p class="p13" *ngIf="x && x.property">{{x.property.for_sale==1 ? 'Buy' : 'Rent'}}</p>
+                        <div class="dropdown threeDots">
+                          <button type="button" class="dropdown-toggle" data-toggle="dropdown">
+                            ...
+                          </button>
+                          <div class="dropdown-menu">
+                            <a style="display: none;" *ngIf="sent_as==2" class="dropdown-item" href="javascript://" #modalOpen data-toggle="modal" data-target="#dealFinalize">Deal Finalized</a>
+                            <!-- dela finalised -->
+                            <a *ngIf="!is_deal_finalised && sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==1 || admin?.permissions?.can_in_house_broker==1)"
+                              class="dropdown-item" href="javascript://" (click)="openModal(x.property.id, x.lead_id)">Deal Finalized</a>
+                            
+                            <!-- remove -->
+                              <a *ngIf="(sent_as==constant.userType.csr_buyer && (admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1)) ||
+                            sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==1 || admin?.permissions?.can_in_house_broker==1); else noRemovePermission"
+                              class="dropdown-item" (click)="deleteLeadInterestedProperty(x.property.id, x.lead_id, in)">Remove Property</a>
+                
+                            <ng-template #noRemovePermission>
+                              <a class="dropdown-item">Remove Property</a>
+                            </ng-template>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+     </div>
+  </div>
+</div>

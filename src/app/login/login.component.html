@@ -1,0 +1,57 @@
+
+<section id="wrapper">
+    <header>
+        <div class="row">
+            <div class="col-6">
+                <a class="logo" href="">
+                <img class="app-logo" src="assets/img/logo.png" alt="img">
+                </a>
+            </div>
+        </div>
+    </header>
+    <ngx-loading [show]="parameter.loading"></ngx-loading>
+    <div class="login">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-8 col-lg-6 col-md-6 col-12">
+                    <h2>One Easy Solution for Your Needs.</h2>
+                    <p class="p18">Neque porro quisquam est qui dolorem ipsum quia dolor sit amet.</p>
+                </div>
+                <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+                    <form class="form-horizontal text-center" role="form" novalidate #loginForm="ngForm" (ngSubmit)="loginUser(loginForm)">
+                        <h3>Login</h3>
+                        <div class="form-group-3">
+                            <input autocomplete="off" [pattern]="constant.emailPattern" class="form-control" placeholder="Username/Email" id="email" required [(ngModel)]="model.email" name="email" #input1 #email="ngModel">
+                            <div *ngIf="email.errors && (email.dirty || email.touched)" class="show-error">
+                                <div [hidden]="!email.errors.required">
+                                    Please enter email.
+                                </div>
+                                <div [hidden]="!email.errors.pattern">
+                                    Please enter valid email.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group-3">
+                            <input autocomplete="off" type="password" class="form-control" placeholder="Password" id="password" required [(ngModel)]="model.password" name="password" #password="ngModel">
+                            <div *ngIf="password.errors && (password.dirty || password.touched)" class="show-error">
+                                <div [hidden]="!password.errors.required">
+                                    Please enter password.
+                                </div>
+                                <!-- <div [hidden]="!password.errors.minlength">
+                                    Password's length must be at least {{8-model.password.length}}.
+                                </div> -->
+                            </div>
+                        </div>
+                        <a class="fgt-pswd" href="/forgot-password">Forgot Password?</a>
+                        <div class="btn-cont text-right">
+                            <button type="submit" [disabled]="loginForm.invalid" class="btn btn-primary login-btn mgt-50">LOGIN</button>
+                        </div>
+
+                        <p class="text-center">By login you are agree to <a href="javascript://"> Terms & Condition </a>
+                        and <a href="javascript://"> Privacy Policy</a> of {{projectName}}.</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

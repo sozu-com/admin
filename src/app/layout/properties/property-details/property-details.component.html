@@ -1,0 +1,118 @@
+<ngx-loading [show]="parameter.loading"></ngx-loading>
+<div class="container-fluid">
+  <div class="white-bg configuration-page">
+      <div class="top-main-img-outer">
+        <div class="avl">Available for
+            <span *ngIf="property?.for_rent">Rent</span>
+            <span *ngIf="property?.for_rent && property?.for_sale">/</span>
+            <span *ngIf="property?.for_sale">Sale</span>
+        </div>
+        <div class="fig-block">
+            <!-- <img class="img-fluid top-main-img" [src]="property?.image" onerror='this.src="assets/img/loading_image_1.gif"'> -->
+            <img class="img-fluid top-main-img" onerror='this.src="constant.propertyPlaceholder"' [defaultImage]="property?.image| img:'thumb'" [lazyLoad]="property?.image">
+      </div> 
+      </div>
+      <div class="padding30">
+        <div class="apart-info ">
+            <p *ngIf="property?.configuration" class="p14">{{property?.configuration.name}} {{property?.property_type.name}}</p>
+            <p class="p12">{{property?.bedroom}} Bed, {{property?.bathroom}} Bath</p>
+
+            <h6 class="float-left">{{property?.max_area}} sqft.</h6> <h6 class="float-right">{{property?.max_price|thousand}}</h6>
+            <div class="clearfix"></div>
+        </div> 
+        <div class="building-name">
+            <div class="float-left">
+                <p *ngIf="property?.building" class="p14">{{property?.building?.name}}</p>
+                <p class="p12 marginB0">Building</p>
+            </div>
+            <div class="float-right"><a href="javascript://">
+                <img src="assets/img/viewfull.png" alt="img"></a></div>
+            <!-- <div *ngIf="property.building" class="float-right" [routerLink]="['/project',property.building.id]"><a href="javascript://"><img src="assets/img/viewfull.png" alt="img"></a></div> -->
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-6 col-12">
+                <h4>Description</h4>
+                <p class="p15 newline">{{property?.description}}</p>
+
+                <h4>Area</h4>
+                <div class="area-table" *ngIf="property?.carpet_areas">
+                    <table class="table table-borderless">
+                       <tbody><tr>
+                       <th>Carpet Area</th>
+                       <th>Base Price</th>
+                       </tr>
+                       <tr *ngFor="let area of property?.carpet_areas " >
+                         <td>{{area.area}} sqft.</td>
+                         <td>{{area.price|thousand}}</td>
+                       </tr>
+
+                    </tbody></table>
+                 </div>
+
+                <h4>Specifications</h4>
+                <div class="spec-table">
+                    <table class="table table-borderless">
+                       <tbody><tr>
+                          <td>
+                          <label>Bedrooms</label>
+                          <span>{{property?.bedroom}}</span>
+                          </td>
+                          <td>
+                          <label>Bathrooms</label>
+                          <span>{{property?.bathroom}}</span>
+                          </td>
+                       </tr>
+                        <tr>
+                          <td>
+                          <label>Parking</label>
+                          <span>{{property?.parking?'Yes':'No'}}</span>
+                          </td>
+                          <td>
+                          <label>Furnished</label>
+                          <span>{{property?.furnished?'Yes':'No'}}</span>
+                          </td>
+                       </tr>
+                        <tr>
+                          <td>
+                          <label>Pets Allowed</label>
+                          <span>{{property?.pets?'Yes':'No'}}</span>
+                          </td>
+                          <td *ngIf="property?.marital_statuses">
+                          <label>Available For</label>
+                          <span *ngFor="let ms of property.marital_statuses; let i=index">
+                              {{ms.name}}
+                              <span *ngIf="i<property?.marital_statuses?.length-1">,</span>
+                            </span>
+                          </td>
+
+                       </tr>
+                    </tbody></table>
+                </div>
+
+                <div *ngIf="property?.amenities?.length > 0">
+                 <h4>Ameneties</h4>
+                 <ul class="green-icon-list">
+                    <li *ngFor="let amenity of property?.amenities">
+                      <span><img src="assets/img/green-icon.png" alt="img"></span>
+                      {{amenity.name}}
+                    </li>
+                 </ul>
+                </div>
+
+            </div>
+            <div class="col-md-6 col-12">
+                <div class="fig-block text-center">
+                    <!-- <img class="img-fluid" [src]="property?.floor_plan" alt="img"> -->
+                    <img class="img-fluid" onerror='this.src="constant.propertyPlaceholder"' [defaultImage]="property?.floor_plan| img:'thumb'" [lazyLoad]="property?.floor_plan">
+                </div>
+            </div>
+
+
+        </div>
+      </div>
+      </div>
+</div>
+  

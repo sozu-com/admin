@@ -1,0 +1,397 @@
+<ngx-loading [show]="parameter.loading"></ngx-loading>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <p class="p16">Manage Notary's Leads</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group" *ngIf="admin?.admin_acl['Notary Lead Management']?.can_read==1 && !this.parameter.assignee_id">
+                <div class="d-flex">
+                <div class="autocomplete">
+                    <input placeholder="Search Notary" style="max-width:200px" list="amenities" [(ngModel)]="parameter.keyword" (input)="getCsrListing()" class="form-control" type="text" name="keyword" (focusout)="closeCsrListing()">
+                    <div id="myInputautocomplete-list" class="autocomplete-items">
+                        <div *ngFor="let item of users" (click)="selectCsrUser(item)">{{item.email}}</div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-12">
+            <div class="cust-tabs-2">
+                <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==1}" (click)="changeFlag(1)" >This Week</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==2}" (click)="changeFlag(2)" >This Month</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==3}" (click)="changeFlag(3)" >Last Month</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==4}" (click)="changeFlag(4)" >Lifetime</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==5}" (click)="parameter.flag=5" >Custom</a>
+                </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12">
+            <div *ngIf="parameter.flag == 5" class="row">
+                <div class="offset-lg-7"></div>
+                <div class="col-lg-2 col-md-2 col-sm-5 col-5">
+                <div class="form-group marginB0">
+                    <label>From:</label>
+                    <p-calendar showIcon="true" [(ngModel)]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+                </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-5 col-5">
+                <div class="form-group marginB0">
+                    <label>To:</label>
+                    <p-calendar showIcon="true" [(ngModel)]="parameter.max" [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+                </div>
+                </div>
+                <div class="col-lg-1 col-md-2 col-sm-2 col-6">
+                <div class="form-group btn-cont">
+                    <label class="addMT3">&nbsp;</label>
+                    <button class="btn btn-calender" href="javascript://" (click)="getListing(); getCSRDashBoardData();"
+                        [disabled]="!parameter.min || !parameter.max">Apply</button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="listingResults" >
+      <div *ngIf="selectedUser as item" class="sigle-row-table">
+            <table class="table table-striped">
+            <tbody><tr>
+                <td><img class="rounded-circle" [src]="item.image| img:'small'" onerror='this.src="assets/img/default_img.png"' alt="img"></td>
+                <td class="text-left">
+                    <span class="name">{{item.name}}</span>
+                </td>
+                <td class="text-left">{{item.phone}}</td>
+                <td class="text-left">{{item.email}}</td>
+                <td>
+                    <a (click)="removeCsrUser()" href="javascript://" class="icon-block edit-icon"><img src="assets/img/remove-icon.png" alt="remove" title="remove" /></a>
+                </td>
+                </tr>
+            </tbody>
+            </table>
+      </div>
+      <div class="spacer30"></div>
+      <div class="row">
+
+            <div class="col-lg-8 col-md-12 col-sm-12 col-12" >
+            <div class="info-box all-leads marginT0">
+                <div class="one-row" [ngClass]="{'active':parameter.count_flag == '1'}" (click)="changeCountFlag(1)">
+                    <div class="o-block">
+                        <h5>All Leads</h5>
+                        <small>Total</small>
+                    </div>
+                    <div class="o-block">
+                        <a class="view-all" href="javascript://">View All</a>
+                        <h4>{{dash.all_count}}</h4>
+                    </div>
+                </div>
+            
+                </div>
+
+                        <div class="info-box all-leads">
+                        <div class="row">
+                        <div class="col-md-6 col-sm-6 col-12" [ngClass]="{'active':parameter.count_flag == '2'}" (click)="changeCountFlag(2)" >
+                <div class="one-row ">
+                    <div class="o-block">
+                        <h5>Leads</h5>
+                        <small>Open</small>
+                    </div>
+                    <div class="o-block">
+                        <a class="view-all" href="javascript://">View All</a>
+                        <h4>{{dash.open_count}}</h4>
+                    </div>
+                </div>
+                </div>
+    
+                    <div class="col-md-6 col-sm-6 col-12" [ngClass]="{'active':parameter.count_flag == '3'}" (click)="changeCountFlag(3)">
+                <div class="one-row">
+                    <div class="o-block">
+                        <h5>Leads</h5>
+                        <small>Closed</small>
+                    </div>
+                    <div class="o-block">
+                        <a class="view-all" href="javascript://">View All</a>
+                        <h4>{{dash.close_count}}</h4>
+                    </div>
+                </div>
+                </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12 col-sm-12 col-12">
+                <div class="chat-msg all-leads marginT0" style="padding:0px">
+                    <div class="padding20" *ngIf="dash.lead_total == 0">No records found</div>
+                    <ngx-charts-pie-chart [results]="chartView"></ngx-charts-pie-chart>
+                </div>
+            </div>
+        </div>
+        <div class="spacer15"></div>
+
+      <div class="row">
+         <div class="col-6">
+            <div class="title-group">
+               <h5>Leads 
+                <span *ngIf="parameter.count_flag == 1">(Total)</span>
+                <span *ngIf="parameter.count_flag == 2">(Open)</span>
+                <span *ngIf="parameter.count_flag == 3">(Closed)</span>
+               </h5>
+               <p>
+                   <!-- Showing {{parameter.page}} out of {{parameter.total_count}} -->
+                </p>
+            </div>
+         </div>
+         <div class="col-6" *ngIf="admin?.admin_acl['Notary Lead Management']?.can_read==1 && !this.parameter.assignee_id">
+            <div class="add-new text-right">
+                <a class="btn" (click)="bulkAssign()" href="javascript://">Bulk Re-assign</a>
+            </div>
+        </div>
+      </div>
+      <div class="white-bg">
+         <div class="tabel-section">
+            <div class="table-responsive">
+                    <table class="table table-striped border-0">
+                            <tbody><tr>
+                            <th *ngIf="admin?.admin_acl['Notary Lead Management']?.can_read==1 && !this.parameter.assignee_id" style="width:6%">
+                                <div class="table-search">
+                                <a (click)="selectAll()"><label>All</label></a>
+                                </div>
+                            </th>
+                            <th style="width:6%; border-top:0">
+                                <div class="table-search">
+                                    <label>Image</label>
+                                </div>
+                            </th>
+                                <th style="width:15%; border-top:0">
+                                    <div class="table-search">
+                                    <label>Name</label>
+                                    <div class="searh-3">
+                                        <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="changeFilter('name',$event.target.value)" name="">
+                                        <button *ngIf="parameter.name" (click)="changeFilter('name', parameter.name)"><i class="fa fa-search"></i></button>
+                                    </div>
+                                    </div>
+                                </th>
+                                <th style="width:20%; text-align:left; border-top:0">
+                                    <div class="table-search">
+                                    <label>Contact Number</label>
+                                    <div class="searh-3">
+                                        <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="changeFilter('phone',$event.target.value)" name="">
+                                        <button *ngIf="parameter.phone" (click)="changeFilter('phone', parameter.phone)"><i class="fa fa-search"></i></button>
+                                    </div>
+                                    </div>
+                                </th>
+                                <th style="width:20%; border-top:0">
+                                    <div class="table-search">
+                                    <label>Email Address</label>
+                                    <div class="searh-3">
+                                        <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="changeFilter('email',$event.target.value)" name="">
+                                        <button *ngIf="parameter.email" (click)="changeFilter('email', parameter.email)"><i class="fa fa-search"></i></button>
+                                    </div>
+                                    </div>
+                                </th>
+                                <th style="width:20%; border-top:0">
+                                    <div class="table-search">
+                                    <label>Assignee</label>
+                                    </div>
+                                </th>
+                                <th style="width:18%; border-top:0">
+                                    &nbsp;  
+                                </th>
+                                <!-- <th style="width:9%; border-top:0">
+                                    &nbsp;
+                                </th> -->
+                            </tr>
+                            <tr class="cursor-pointer" title="Click to view details" *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index"
+                            >
+                                <td *ngIf="admin?.admin_acl['Notary Lead Management']?.can_read==1 && !this.parameter.assignee_id" (click)="$event.stopPropagation()">
+                                    <label class="cust-check-bx" >
+                                    <input type="checkbox" [(ngModel)]="item.selected" name="document">
+                                    <span class="checkmark"></span>
+                                    </label>
+                                    <!-- <i class="fa" [ngClass]="item.selected?'fa-check-square-o':'fa-square-o'" (click)="item.selected = !item.selected" aria-hidden="true"></i> -->
+                                </td>
+                                <td routerLink="/dashboard/notary/notary-leads/{{item.id}}">
+                                    <img class="rounded-circle" [src]="item.image| img:'small'" onerror="this.src='assets/img/default_img.png'" alt="img">
+                                </td>
+                                <td class="text-left" routerLink="/dashboard/notary/notary-leads/{{item.id}}">
+                                    <span routerLink="/dashboard/leads/csr-closers/{{item.id}}" class="name">{{item.name}}</span>
+                                </td>
+                                <td class="text-left" routerLink="/dashboard/notary/notary-leads/{{item.id}}">
+                                    {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}<br>
+                                </td>
+                                <td class="text-left" routerLink="/dashboard/notary/notary-leads/{{item.id}}">
+                                    {{item.email}}
+                                </td>
+                                <td class="text-left" title="Notary" routerLink="/dashboard/notary/notary-leads/{{item.id}}">
+                                    {{item?.selected_properties[0]?.selected_noatary[0]?.noatary?.name}}
+                                </td>
+                                <td (click)="openModal($event, item, i)">
+                                <a style="display:none;" #modalOpen class="green-color fontW500" data-toggle="modal" data-target="#set-availability" href="javascript://">Change Availability</a>
+                                <a class="green-color fontW500" href="javascript://">Change Availability</a>
+                                </td>
+                                <!-- <td>
+                                    <a href="javascript://" routerLink="/dashboard/notary/notary-leads/{{item.id}}" class="icon-block edit-icon"><img src="assets/img/viewfull.png" alt="img"></a> 
+                                </td> -->
+                            </tr>
+                        </tbody></table>
+                    <div class="padding20 center" *ngIf="parameter.noResultFound">
+                        <img src="assets/img/404-error.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="btn-cont marginT15" *ngIf="parameter.total">
+        <div class="row">
+            <div class="col-6">
+                <div class="title-group">
+                    <p>Showing {{items?.length}} out of {{parameter.total}}</p>
+                </div>
+            </div>
+            <div class="col-6 text-right">
+                <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+            </div>
+        </div>
+    </div>
+</div>
+    
+
+    <!-- add inhouse user modal -->
+<div class="modal animated" id="set-availability">
+    <div class="modal-dialog fadeIndown">
+        <div class="modal-content">
+            <div class="modal-header modal-header-new">
+                <h4 class="modal-title">View Availability</h4>
+                <button type="button" style="display: none;" class="close" data-dismiss="modal" #modalClose>&times;</button>
+                <button type="button" class="close" (click)="closeModal()">&times;</button>
+            </div>
+    
+            <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="add()">
+            <div class="modal-body modal-body-new">
+                <div class="row">
+                    <div class="col-8">
+                        <label>Choose Date & Time</label>
+                        <p-calendar title="Click to add" name="app" [(ngModel)]="date" [minDate]="today" showButtonBar="true" showTime="true" hourFormat="12" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+                    </div>
+                    <!-- <div class="col-5">
+                        <div class="form-group-2">
+                            <label>Date</label>
+                            <div class="form-group">
+                            <input type="date" min="{{today|date:'yyyy-MM-dd'}}" max='9999-12-31' [(ngModel)]="date" class="form-control" name="date">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-5">
+                        <div class="form-group-2">
+                            <label>Time</label>
+                            <div class="form-group">
+                            <input type="time" [(ngModel)]="time" class="form-control" name="time">
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="col-2">
+                        <div class="form-group-2">
+                            <label style="display: block; margin-top: 3px;">&nbsp;</label>
+                            <a class="green-color fontW500" href="javascript://" (click)="addDateTime()">Add</a>
+                            <!-- <button type="button" class="btn btn-primary green-bg" (click)="addDateTime()">+</button> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngFor="let d of data; let j=index">
+                    <div class="col-8">
+                        <label class="notary-ava">{{d.date_time | moment}}</label>
+                    </div>
+                    <div class="col-2">
+                        <a class="green-color fontW500" (click)="removeNoataryAvailability(d.id, j)" href="javascript://">
+                            Remove
+                        </a>
+                        <!-- <button type="button" class="btn btn-primary" (click)="removeNoataryAvailability(d.id, j)">
+                            Remove
+                        </button> -->
+                    </div>
+                </div>
+                <div class="row" *ngFor="let a of availability.date_time_array; let i=index">
+                    <div class="col-8">
+                        <label class="notary-ava">{{a.date_time|date:'h:mm a'|lowercase}}, {{a.date_time|date: 'MMM d y'}}</label>
+                    </div>
+                    <div class="col-2">
+                        <a class="green-color fontW500" (click)="removeNoatary(i)" href="javascript://">
+                            Remove
+                        </a>
+                        <!-- <button type="button" class="btn btn-primary" (click)="removeNoatary(i)">*</button> -->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="btn-cont text-right">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </form>
+    
+        </div>
+    </div>
+</div>
+
+
+<!-- Assignment model -->
+<a data-toggle="modal" data-target="#assign-model" #openAssignModel></a>
+<div class="modal" id="assign-model">
+        <div class="modal-dialog ">
+            <div class="modal-content notary-avail">
+                <div class="modal-header popup-header">
+                <h4 class="modal-title">Re Assign to</h4>
+                <button type="button" class="close" data-dismiss="modal" #closeAssignModel>&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <input style="max-width:200px" list="amenities" [(ngModel)]="assign.keyword" (input)="getAssignListing()" class="form-control" type="text" name="keyword" placeholder="Search">
+                        </div>
+                        <div class="col-md-4 btn-cont">
+                            <a class="btn btn-primary pull-right" href="javascript://" (click)="assignNow()">Assign</a>
+                        </div>
+                    </div>
+                    <div class="spacer40"></div>
+                    <table class="table">
+                        <tr *ngFor="let item of assign.items">
+                            <td *ngIf="item.is_blocked!=1">
+                                <div class="n-avail-profile">
+                                <img [src]="item.image" onerror='src="assets/img/default_img.png"' alt="img">
+                                <div class="n-avail-info">
+                                    <p class="p12">{{item.name}}</p>
+                                    <p class="p10">Phone : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
+                                </div>
+                                </div>
+                            </td>
+                            <td *ngIf="item.is_blocked!=1">
+                                <label class="cust-check-bx float-right">
+                                    <input type="radio" name="notary_id" (click)="assignItem = item">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>

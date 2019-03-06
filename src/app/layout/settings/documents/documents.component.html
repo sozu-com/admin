@@ -1,0 +1,70 @@
+<ngx-loading [show]="parameter.loading"></ngx-loading>
+<div class="container-fluid">
+    <div class="breadcrumb-group">
+        <h5>Settings</h5>
+        <nav class="breadcrumb">
+            <a class="breadcrumb-item">Home</a>
+            <!-- <a class="breadcrumb-item" routerLink="/dashboard">Home</a> -->
+          <a class="breadcrumb-item">Settings</a>
+          <span class="breadcrumb-item active">Documents Listing</span>
+        </nav>
+    </div>
+    <div class="white-bg">
+        <div class="page-title">
+          <h3>Documents</h3>
+        </div>
+  
+        <div class="form-outer">
+            <div class="inline-form-group">
+               <div class="row">
+                  <div class="col-md-4">
+                      <label><strong>Document Name</strong></label>
+                  </div>
+                  <div class="col-md-8" *ngIf="admin?.admin_acl['Settings']?.can_create==1">
+                     <form role="form" novalidate #addForm1="ngForm" (ngSubmit)="checkIfSpanishNameEntered(addForm1, '', addForm1.value.name_en, addForm1.value.name_es, 1, 'add');">
+                        <div class="row">
+                          <div class="col-lg-6 col-md-6">
+                            <input type="text" class="form-control" placeholder="Name (English)" id="name_en" required [(ngModel)]="model.name_en" name="name_en">
+                          </div>
+                          <div class="col-lg-6 col-md-6">
+                              <input type="text" class="form-control" placeholder="Name (Spanish)" [(ngModel)]="model.name_es" name="name_es">
+                          </div>
+                        </div>
+                      <button [disabled]="admin?.admin_acl['Settings']?.can_create==0 || addForm1.invalid" type="submit" class="add-btn btn">
+                         <img src="./../../../../assets/img/add.png" alt="img">
+                       </button>
+                     </form>
+                  </div>
+               </div>
+            </div>
+        </div>
+  
+        <div class="tabel-section padding40 paddingT0">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                  <tr>
+                    <th style="width:40%; text-align:left;">Name (English)</th>
+                    <th style="width:40%; text-align:left;">Name (Spanish)</th>
+                    <!-- <th style="width:20%">Action</th> -->
+                  </tr>
+                  <tr *ngFor="let item of parameter.items">
+                    <td class="text-left">
+                      {{item.name_en}}
+                    </td>
+                    <td class="text-left">
+                      {{item.name_es}}
+                    </td>
+                  </tr>
+  
+                  <div *ngIf="parameter.total == 0">
+                    <p class="show-not-found">
+                      {{constant.errorMsg.NO_POSSESSION_FOUND}}
+                    </p>
+                  </div>
+              </table>
+            </div>
+        </div>
+  
+    </div>
+  </div>
+  

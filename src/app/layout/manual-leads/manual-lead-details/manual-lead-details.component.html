@@ -1,0 +1,147 @@
+<ngx-loading [show]="parameter.loading"></ngx-loading>
+<div class="container-fluid">
+    <div class="white-bg padding15">
+        <div class="row">
+            <div class="col-lg-3 col-md-12 col-sm-6 col-12">
+                <div class="df-profile">
+                <a routerLink="/dashboard/manual-leads/view-all"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+                <img [src]="parameter?.data?.image" onerror='src="assets/img/default_img.png"' alt="img">
+                <div class="df-info" *ngIf="parameter?.data">
+                    <p class="p14">{{parameter.data.name}}</p>
+                    <p class="p12">Status: {{parameter?.data?.status.name}}</p>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    <div class="spacer30"></div>
+        <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+                <div class="white-bg padding30">
+                    <div class="row">
+                    <div class="col-md-6">
+                        <h6>Details</h6>
+                    </div>
+                    <!-- <div class="col-md-6">
+                        <div class="edit text-right"><a href="javascript://">Edit</a></div>
+                    </div> -->
+                    </div>
+                    <div class="details-table">
+                    <table class="table">
+                        <tr>
+                            <td style="padding-left:0"><label>Full Name</label></td>
+                            <td colspan="2" *ngIf="parameter?.data?.name">{{parameter.data.name}}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left:0"><label>Contact Number</label></td>
+                            <td colspan="2" *ngIf="parameter?.data?.phone">{{parameter.data.dial_code ? parameter.data.dial_code : constant.dial_code}}-{{parameter.data.phone}}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left:0"><label>Email address</label></td>
+                            <td colspan="2" *ngIf="parameter?.data?.email">{{parameter.data.email}}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left:0"><label>Type</label></td>
+                            <td *ngIf="parameter?.data?.type?.name">{{parameter.data.type.name}}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left:0"><label><strong>Property Selected</strong></label></td>
+                            <td *ngIf="parameter?.data?.property?.length!=0">
+                                <a class="view-all-2" href="javascript://" (click)="viewPropertyDetails(parameter?.data?.property)"> View Property</a>
+                            </td>
+                            <td *ngIf="parameter?.data?.property?.length==0">NA</td>
+                        </tr>
+                        <!-- <tr>
+                            <td  style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
+                            <td colspan="2">
+                                <p class="date">02-Oct-2018, 04:00pm</p>
+                            </td>
+                        </tr> -->
+                    </table>
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+            <div class="white-bg">
+                <div class="white-bg padding15">
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="p16 marginB0">Write a Note</p>
+                        </div>
+                        <div class="col-6 text-right">
+                            <!-- add note -->
+                        <a *ngIf="admin?.admin_acl['Manual Leads']?.can_update==1; else noAddPermission" class="add" href="javascript://" data-toggle="modal" data-target="#addNote" #modalOpen>Add</a>
+                        <ng-template #noAddPermission>
+                            <a class="add" href="javascript://">Add</a>
+                        </ng-template>
+                        </div>
+                    </div>
+                </div>
+                
+                <hr class="margin0">
+
+                <div *ngIf="parameter?.data?.notes?.length!=0" class="write-note white-bg padding40" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+                    <div class="wn-block" *ngFor="let item of parameter?.data?.notes; let i=index">
+                        <div class="circle">
+                        <span></span>
+                        </div>
+                        <!-- delete note -->
+                        <a *ngIf="admin?.admin_acl['Manual Leads']?.can_update==1; else noDeletePermission" class="delete" href="javascript://" (click)="deleteLeadPopup(item.id, i)">Delete</a>
+                        <ng-template #noDeletePermission>
+                            <a class="delete" href="javascript://">Delete</a>
+                        </ng-template>
+                        <p class="time">{{item.updated_at  | chatTime: 'YYYY-MM-DD H:m:s': 2}}</p>
+                        <pre class="p13" *ngIf="!item.show">{{item.note.slice(0, 90)}} <span class="read-more" *ngIf="item.note.length>100" (click)="item.show=true">Read more</span></pre>
+                        <pre class="p13" *ngIf="item.show">{{item.note}}</pre>
+                    </div>
+                </div>
+                <div  *ngIf="parameter?.data?.notes?.length==0" class="write-note white-bg" style="height:230px;">
+                    <p class="show-not-found">
+                        {{constant.errorMsg.NO_NOTE_FOUND}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- add note modal -->
+<div class="modal animated" id="addNote">
+    <div class="modal-dialog fadeIndown">
+        <div class="modal-content">
+        <div class="modal-header modal-header-new">
+            <h4 class="modal-title">Add Note</h4>
+            <button style="display: none;" type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
+            <button type="button" class="close" (click)="closeModal()">&times;</button>
+        </div>
+    
+        <form class="form-horizontal form-model0P form-model-newP" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="addLeadNote(); addForm.reset();">
+            <div class="modal-body modal-body-new">
+            <div class="row">
+                <div class="col-12">
+                <div class="form-group-2">
+                    <div class="form-group">
+                        <textarea rows="4" required class="form-control note" name="note" #note="ngModel" [(ngModel)]="model.note"></textarea>
+                    </div>
+                </div>
+                </div>
+                <div class="col-12">
+                    <div class="btn-cont text-right">
+                        <button type="submit" [disabled]="!addForm.valid" class="btn btn-primary">Add</button>
+                        <!-- <button *ngIf="model.id==0 else UpdateNote" [disabled]="!addForm.valid" type="submit" class="btn btn-primary">ADD</button>
+                        <ng-template #UpdateNote>
+                            <button type="submit" [disabled]="!addForm.valid" class="btn btn-primary">UPDATE</button>
+                        </ng-template> -->
+                    </div>
+                </div>
+            </div>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>

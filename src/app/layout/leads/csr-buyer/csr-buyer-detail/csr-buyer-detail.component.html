@@ -1,0 +1,321 @@
+<ngx-loading [show]="parameter.loading"></ngx-loading>
+<div class="container-fluid">
+  <div class="white-bg padding15">
+     <div class="row">
+         <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+           <div class="df-profile">
+              <a routerLink="../"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+              <img [src]="parameter?.lead?.user?.image" onerror='src="assets/img/default_img.png"' alt="img">
+              <div class="df-info">
+                  <p class="p14 text-ellipsis120">{{parameter?.lead?.user?.name ? parameter?.lead?.user?.name : parameter?.lead?.name}}</p>
+                  <p class="p12">
+                    {{parameter?.lead?.user?.dial_code ? parameter?.lead?.user?.dial_code : parameter?.lead?.dial_code}}-{{parameter?.lead?.user?.phone ? parameter?.lead?.user?.phone : parameter?.lead?.phone}}
+                  </p>
+              </div>
+            </div>
+        </div>
+        <div class="col-lg-7 col-md-12 col-sm-6 col-12">
+            <div class="profile-list">
+            <ul>
+                <li>
+                    <div class="df-info">
+                        <p class="p14 marginB0" *ngIf="parameter.lead?.admin">{{parameter.lead.admin.name}}</p>
+                        <p class="p12">CSR Buyer</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="df-info" *ngIf="parameter.lead?.broker">
+                        <p class="p14 marginB0">{{parameter.lead.broker.name}}</p>
+                        <p class="p12">Inhouse Broker</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="df-info" *ngIf="parameter.lead?.closer">
+                        <p class="p14 marginB0">{{parameter.lead.closer.name}}</p>
+                        <p class="p12">CSR Closure</p>
+                    </div>
+                </li>
+            </ul>
+            </div>
+        </div>
+        
+        <div class="col-lg-2 col-md-12 col-sm-12 col-12" *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1">
+           <div *ngIf="!parameter.lead?.broker && parameter.lead?.user && (admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1)" class="form-group d-flex marginT10 float-right right-side">
+             <div class="dropdown btn-cont">
+              <a (click)="assignToBroker()" class="btn btn-primary" href="javascript://">Assign to broker</a>
+              <!-- <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                 Action
+               </button>
+               <div class="dropdown-menu dropdown-menu-right">
+                 <a (click)="assignToBroker()" *ngIf="!parameter.lead?.broker && parameter.lead?.user" class="dropdown-item" href="javascript://">Assign to broker</a>
+                 <a (click)="blockThisLead()" class="dropdown-item" href="javascript://">Block</a>
+               </div> -->
+            </div>
+           </div>
+           <div *ngIf="is_deal_finalised" class="row">
+              <div class="col-sm-7 btn-cont text-right">
+                  <a style="cursor: auto;" class="btn btn-fourth" href="javascript://">Deal Finalized</a>
+              </div>
+          </div>
+        </div>
+     </div>
+
+  </div>
+  <!-- <ngx-loading [show]="parameter.loading"></ngx-loading> -->
+  <div class="spacer30"></div>
+  <div class="row">
+     <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+        <div class="white-bg padding30">
+
+           <div class="row">
+              <div class="col-md-6">
+                 <h6>Details</h6>
+              </div>
+              <!-- <div class="col-md-6">
+                 <div class="edit text-right"><a href="javascript://">Edit</a></div>
+              </div> -->
+           </div>
+           <div class="details-table">
+             <table class="table">
+                <tbody><tr>
+                   <td style="padding-left:0"><label>Full Name</label></td>
+                   <td *ngIf="parameter.lead?.name">{{parameter?.lead?.user?.name ? parameter?.lead?.user?.name : parameter?.lead?.name}}</td>
+                </tr>
+                <tr>
+                   <td style="padding-left:0"><label>Contact Number</label></td>
+                   <td *ngIf="parameter?.lead?.phone">{{parameter?.lead?.user?.dial_code ? parameter?.lead?.user?.dial_code : parameter?.lead?.dial_code}} - {{parameter?.lead?.user?.phone ? parameter?.lead?.user?.phone : parameter?.lead?.phone}}</td>
+                </tr>
+                <tr>
+                   <td style="padding-left:0"><label>Email address</label></td>
+                   <td *ngIf="parameter?.lead?.email">{{parameter?.lead?.user?.email ? parameter?.lead?.user?.email : parameter?.lead?.email}}</td>
+                </tr>
+                <tr>
+                   <td style="padding-left:0"><label>Interested In</label></td>
+                   <td *ngIf="parameter.lead?.configuration">
+                     <span *ngFor="let conf of parameter.lead.configuration; let ii=index">
+                       {{conf.name}}<span *ngIf="ii<parameter?.lead?.configuration?.length-1">,</span>
+                     </span>
+                     <span *ngIf="parameter.lead.configuration?.length==0">NA</span>
+                   </td>
+                </tr>
+                <tr>
+                   <td style="padding-left:0"><label>Favorite Properties</label></td>
+                   <td>{{parameter.favorites?.length}} 
+                      <a style="display: none;" data-toggle="modal" #showPropertyModal data-target="#view-fav-property" class="view-all" href="javascript://">View All</a>
+                      <a *ngIf="parameter.favorites?.length!=0" class="view-all" href="javascript://" (click)="viewFavProperties()">View All</a>
+                    </td>
+                </tr>
+
+                <!-- Meeting Schedule -->
+                <tr *ngIf="parameter?.lead?.sale_rent==1">
+                    <td  style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
+                    <td colspan="2">
+                        <p style="display:none;" class="date" #modalOpen data-toggle="modal" data-target="#set_appointment">Click to Schedule</p>
+                        <p class="date cursor-pointer" (click)="openModal()">Click to Schedule</p>
+                        <p *ngFor="let na of data; let m=index" class="date">
+                            <span *ngIf="m<2">{{na.appointment_date | moment}}</span>
+                        </p>
+                        <span class="read-more" *ngIf="data.length>2" data-toggle="modal" data-target="#get-availability1">View all</span>
+                    </td>
+                </tr>
+    
+                <!-- Meeting Schedule -->
+                <!-- <tr *ngIf="parameter?.lead?.sale_rent==1">
+                    <td  style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
+                    <td colspan="2" class="cursor-pointer">
+                        <p class="date" *ngIf="appointment.appointment_date; else noAvailability4">
+                            <span>{{appointment.appointment_date | moment}}</span>
+                        </p>
+                        <ng-template #noAvailability4>
+                            <p>Meeting not scheduled by broker.</p>
+                        </ng-template>
+                    </td>
+                </tr>           -->
+
+              </tbody>
+             </table>
+           </div>
+        </div>
+        <div class="spacer30"></div>
+
+        <!-- fill information start -->
+        <app-fill-information [sent_as]="parameter.sent_as" [fillInfo]="fillInfo" [lead_id]="parameter.lead_id"></app-fill-information>
+        <!-- fill information end -->
+
+     </div>
+     <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+        <div *ngIf="!parameter.lead?.user" class="white-bg padding20">
+          User is not registered.
+        </div>
+
+        <!-- chat start -->
+        <div *ngIf="parameter.lead?.user">
+          <app-chat [lead_id]="parameter.lead_id" [sent_as]="parameter.sent_as" [user_id]="parameter.user_id" [admin_id]="parameter.admin_id"></app-chat>
+        </div>
+        <!-- chat end -->
+
+        <!-- notes start -->
+        <app-notes [sent_as]="parameter.sent_as" [lead_id]="parameter.lead_id"></app-notes>
+        <!-- notes end -->
+
+     </div>
+  </div>
+
+  <!-- Interested Properties start -->
+  <app-interested-property [is_deal_finalised]="false" [selected_properties]="parameter?.lead?.selected_properties" [lead_id]="parameter.lead_id" [interested_properties]="parameter.interested_properties" [sent_as]="parameter.sent_as"></app-interested-property>
+  <!-- Interested Properties end -->
+
+  <!-- viewed property start -->
+  <app-viewed-property [user_id]="parameter?.lead?.user_id" [viewed_properties]="parameter.viewed_properties"></app-viewed-property>
+  <!-- viewed property end -->
+
+  <!-- viewed projects start -->
+  <app-viewed-projects [user_id]="parameter?.lead?.user_id" [viewed_projects]="parameter.viewed_projects"></app-viewed-projects>
+  <!-- viewed projects end -->
+</div>
+
+
+
+<!-- show fav properties -->
+<div class="modal" id="view-fav-property">
+  <div class="modal-dialog  modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <h3>Favorite Properties</h3>
+          <hr>
+          <div class="scrollbox fav-prop">
+            <div class="row">
+              <div class="col-lg-6 col-md-12 col-sm-12 col-12" *ngFor="let x of parameter.favorites">
+                  <div class="project-des-bx white-bg-2">
+                      <div class="price">${{x.min_price}}</div>
+                    <div class="fig-block">
+                        <img [src]="x.image" onerror='src="assets/img/bank.png"' alt="img">
+                    </div>
+                    <div class="project-des-content">
+                        <small>{{x?.building?.developer?.name}}</small>
+                        <h5>{{x?.building?.name.slice(0, 15)}}</h5>
+                        <p class="p12">{{x.building.address.slice(0, 60)}}</p>
+                        <p class="p13" *ngIf="x">{{x.configuration.name}}</p>
+                        <p class="p13" *ngIf="!x">NA</p>
+                        <p class="p13" *ngIf="x">{{x.property_type.name}}</p>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+
+<!-- add inhouse user modal -->
+<div class="modal animated" id="set_appointment">
+    <!-- <div class="modal-dialog fadeIndown">
+        <div class="modal-content">
+            <div class="modal-header modal-header-new">
+                <h4 class="modal-title">Schedule Appointment</h4>
+                <button type="button" style="display: none;" class="close" data-dismiss="modal" #modalClose>&times;</button>
+                <button type="button" class="close" (click)="closeModal()">&times;</button>
+            </div>
+    
+            <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="add()">
+            <div class="modal-body modal-body-new">
+                <div class="row">
+                    <div class="col-10">
+                        <p-calendar title="Click to add" name="app" [(ngModel)]="appointment.appointment_date" [minDate]="today" showButtonBar="true" showTime="true" hourFormat="12" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group-2">
+                            <a *ngIf="!appointment.id && appointment.appointment_date" class="green-color fontW500" (click)="add()" href="javascript://">Save</a>
+                            <a *ngIf="appointment.id" class="green-color fontW500" (click)="add()" href="javascript://">Edit</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div> -->
+    <div class="modal-dialog fadeIndown">
+        <div class="modal-dialog fadeIndown">
+            <div class="modal-content">
+                <div class="modal-header modal-header-new">
+                        <h4 class="modal-title">Schedule Meeting</h4>
+                    <button type="button" style="display: none;" class="close" data-dismiss="modal" #modalClose>&times;</button>
+                    <button type="button" class="close" (click)="closeModal()">&times;</button>
+                </div>
+        
+                <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="add()">
+                <div class="modal-body padding0">
+                    <div class="row">
+                        <div class="col-8">
+                            <label>Choose Date & Time</label>
+                            <p-calendar title="Click to add" name="app" [(ngModel)]="date" [minDate]="today" showButtonBar="true" showTime="true" hourFormat="12" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group-2">
+                                <label style="display: block; margin-top: 3px;">&nbsp;</label>
+                                <a class="green-color fontW500" href="javascript://" (click)="addDateTime()">Add</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="row" *ngFor="let d of data; let j=index">
+                        <div class="col-8">
+                            <label class="notary-ava">{{d.appointment_date | moment}}</label>
+                        </div>
+                        <div class="col-2">
+                            <a class="green-color fontW500" (click)="deleteAppointment(d.id, j)" href="javascript://">
+                                Remove
+                            </a>
+                        </div>
+                    </div> -->
+                    <div class="row" *ngFor="let a of appointment.appointment_date_array; let i=index">
+                        <div class="col-8">
+                            <label class="notary-ava">{{a|date:'h:mm a'|lowercase}}, {{a|date: 'MMM d y'}}</label>
+                        </div>
+                        <div class="col-2">
+                            <a class="green-color fontW500" (click)="removeAppointment(i)" href="javascript://">
+                                Remove
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8"></div>
+                        <div class="col-2">
+                            <div class="btn-cont text-right">
+                                <button type="submit" class="btn btn-primary-new">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </form>
+        
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal animated" id="get-availability1">
+    <div class="modal-dialog fadeIndown">
+        <div class="modal-content">
+            <div class="modal-header modal-header-new">
+                <h4 class="modal-title">Meeting Scheduled</h4>
+                <button type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
+                <!-- <button type="button" class="close" (click)="closeModal()">&times;</button> -->
+            </div>
+    
+            <div class="modal-body modal-body-new">
+                <div class="row">
+                    <div class="col-6" *ngFor="let d of data; let j=index">
+                        <label class="notary-ava">{{d.appointment_date | moment}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    

@@ -1,0 +1,127 @@
+<ngx-loading [show]="parameter.loading"></ngx-loading>
+<div class="container-fluid">
+<div class="row">
+    <div class="col-12">
+      <div class="title-group">
+          <h5>My Profile</h5>
+          <div class="spacer30"></div>
+      </div>
+    </div>
+</div>
+<div class="white-bg padding40">
+    <div class="row">
+    <form role="form" ngNativeValidate #addForm="ngForm">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+          <div class="row">
+            <div class="col-6">
+                <div class="add-img" style="display:flex;">
+                    <img *ngIf="image" [src]="image" style="object-fit: cover; width: 100%;">
+                    <label *ngIf="!image">No Image</label>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="spacer40"></div>
+            </div>
+            <div class="col-12">
+                <div class="form-group-2">
+                  <label>Name</label>
+                  <input disabled autocomplete="off" required type="text" class="form-control" [(ngModel)]="model.name" name="name">
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group-2">
+                  <label>Contact number</label>
+                  <input disabled minlength="6" maxlength="16" autocomplete="off" type="text" [pattern]="constant.phonePattern" class="form-control" id="phone" required minlength="1" [(ngModel)]="model.phone" name="phone"
+                        ng2TelInput [ng2TelInputOptions]="initialCountry" />
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group-2">
+                  <label>Email ID</label>
+                  <input disabled autocomplete="off" required [pattern]="constant.emailPattern" type="email" class="form-control" [(ngModel)]="model.email" name="email">
+                </div>
+            </div>
+          </div>
+          <div class="access-controls">
+              <div class="select-controls select-controls-1" *ngFor="let permission of model.admin_acl; let i=index">
+              <label class="cust-check-bx2" [ngClass]="{'access-control11':permission.can_create==1 || permission.can_read==1 || permission.can_update==1 || permission.can_delete==1}">{{permission?.acl?.name}}
+              <input (click)="expandBox(i)" type="checkbox" [checked]="permission.can_create == 1 || permission.can_read==1 || permission.can_update==1 || permission.can_delete==1 ? 'checked': ''">
+              <span class="checkmark"></span>
+              </label>
+              
+              <div class="clearfix"></div>
+              <div *ngIf="permission.show" id="broker-seller-dev" class="inner-select">
+                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_create==1}">Can Create
+                    <input type="checkbox" [checked]="permission.can_create == 1 ? 'checked': ''" >
+                    <span class="checkmark"></span>
+                </label>
+                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_read==1}">Can Read
+                    <input type="checkbox" [checked]="permission.can_read == 1 ? 'checked': ''" >
+                    <span class="checkmark"></span>
+                </label>
+                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_update==1}">Can Update
+                    <input type="checkbox" [checked]="permission.can_update == 1 ? 'checked': ''" >
+                    <span class="checkmark"></span>
+                </label>
+                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_delete==1}">Can Block/Unblock
+                    <input type="checkbox" [checked]="permission.can_delete == 1 ? 'checked': ''" >
+                    <span class="checkmark"></span>
+                </label>
+                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_crud==1}">CRUD
+                    <input type="checkbox" [checked]="permission.can_crud == 1 ? 'checked': ''" >
+                    <span class="checkmark"></span>
+                </label>
+                <br>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+        </div>
+
+
+        <div class="row" *ngFor="let add of model.address; let j=index">
+            <div class="col-sm-2 col-12">
+                <div class="form-group-2">
+                  <label>Country</label>
+                  <select class="form-control">
+                      <option>{{add.countries}}</option>
+                  </select>
+                </div>
+            </div>
+            <div class="col-sm-2 col-12">
+                <div class="form-group-2">
+                  <label>State</label>
+                  <select class="form-control" disabled>
+                      <option>{{add.states}}</option>
+                  </select>
+                </div>
+            </div>
+            <div class="col-sm-2 col-12">
+                <div class="form-group-2">
+                  <label>City</label>
+                  <select class="form-control" disabled>
+                      <option>{{add.cities}}</option>
+                  </select>
+                </div>
+            </div>
+            <div class="col-sm-2 col-12">
+                <div class="form-group-2">
+                  <label>Locality</label>
+                  <select class="form-control" disabled>
+                      <option>{{add.localities}}</option>
+                  </select>
+                </div>
+            </div>
+            <div class="col-sm-2 col-12">
+                <div class="form-group-2">
+                  <label>Building</label>
+                  <select class="form-control" disabled>
+                      <option>{{add.buildings}}</option>
+                  </select>
+                </div>
+            </div>
+          </div>
+                 
+      </div>
+      </form>
+    </div>
+</div>

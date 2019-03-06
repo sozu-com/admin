@@ -1,0 +1,20 @@
+.upload-cover-img{
+    /* background-size: contain;background-repeat: no-repeat; */
+}
+.width100{
+    width: 100%;
+}
+.paddingleft0{
+    padding-left: 0px;
+}
+agm-map {
+    height: 300px;
+}
+.floor-plan{
+    object-fit: cover;
+    width: 100%;
+    height: auto;
+}
+.upload-cover-img{
+    display: flex;
+}

@@ -1,0 +1,202 @@
+<ngx-loading [show]="parameter.loading"></ngx-loading>
+<!--content start-->
+<div class="container-fluid">
+  <div class="breadcrumb-group">
+    <h5>Settings</h5>
+    <nav class="breadcrumb">
+        <a class="breadcrumb-item">Home</a>
+        <!-- <a class="breadcrumb-item" routerLink="/dashboard">Home</a> -->
+        <a class="breadcrumb-item">Settings</a>
+        <span class="breadcrumb-item active">Locality</span>
+    </nav>
+  </div>
+    
+  <div class="white-bg">
+    <div class="page-title">
+        <h3>Locality</h3>
+    </div>
+
+    <!-- add city -->
+    <div class="form-outer marginT15">
+      <div class="inline-form-group">
+        <div class="row">
+          <div class="col-md-12">
+            <label><strong>Add Locality</strong></label>
+            <hr>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-6">
+            <div class="form-group marginB0">
+              <label>Country</label>
+              <select title="Choose Country" class="form-control" (change)="getStates($event.target.value, '')">
+                <option value="" disabled>Select Country</option>
+                <option *ngFor="let country of parameter.countries" value="{{country.id}}" [selected]="country.id == parameter.country_id">{{country.name_en}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-6">
+            <div class="form-group marginB0">
+              <label>State</label>
+              <select title="Choose State" class="form-control" (change)="getCities($event.target.value, '')">
+                <option value="" disabled>Select State</option>
+                <option *ngFor="let state of parameter.states" value="{{state.id}}" [selected]="state.id == parameter.state_id">{{state.name_en}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-6">
+            <div class="form-group marginB0">
+              <label>City</label>
+              <select title="Choose City" class="form-control" (change)="getLocalities($event.target.value)">
+                <option value="" disabled>Select City</option>
+                <option *ngFor="let city of parameter.cities" value="{{city.id}}" [selected]="city.id == parameter.city_id">{{city.name_en}}</option>
+              </select>
+            </div>
+          </div>
+          <!-- <div class="col-lg-3 col-md-3 col-sm-6 col-6">
+            <div class="form-group marginB0">
+              <label>Search Locality</label>
+              <input autocomplete="off" required placeholder="Search Locality" autocorrect="off" autocapitalize="off"
+                spellcheck="off" type="text" class="form-control" style="padding: 8px 25px 8px 15px;
+                height: 40px !important;" #searchLocality (input)="loadPlaces()">
+            </div>
+          </div> -->
+        </div>
+      </div>
+  </div>
+  <hr>
+  
+  <div class="form-outer marginT15 padding40">
+    <div class="row">
+      <div class="col-md-4">
+        <table class="table table-striped">
+          <tr>
+            <th style="width:80%; text-align:left;">
+                <div class="searh-3">
+                    <input autocomplete="off" type="text" style="height:28px; font-size: 14px;" (keyup.enter)="getLocalities(parameter.city_id, $event.target.value)" name="" placeholder="Search here">
+                    <button (click)="getLocalities(parameter.city_id, $event.target.value)"><i class="fa fa-search"></i></button>
+                </div>
+                <!-- <div class="table-search">
+                <input autocomplete="off" type="text" style="height:32px;" (input)="getLocalities(parameter.city_id, $event.target.value)" name="" placeholder="Search here">
+                </div> -->
+            </th>
+            <th style="width:20%">Action</th>
+          </tr>
+          <tr *ngFor="let locality of all_overlays; let index = index" (click)="markLocalityFeatured(index, locality.id, locality.is_featured==1?0:1)" title="{{locality.is_featured==1?'Click to unfeature.':'Click to feature.'}}">
+            <td class="text-left locality-name" [ngClass]="locality.id == selectedLocality ? 'selectedRow' : ''" (click)="setSelection(locality.overlay, locality.id)">
+              {{locality.name_en}}
+            </td>
+            <!-- <td>
+              <a (click)="upadteSelection(locality, index)" title="Unblock State" class="icon-block block-icon"><img src="./../../../../assets/img/top-arrow.png" alt="img"></a>
+            </td> -->
+            <td [ngClass]="locality.id == selectedLocality ? 'selectedRow' : ''">
+              <a *ngIf="locality.status == 0" (click)="blockUnblockLocality(locality, index, 1)" title="Unblock Locality" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a>
+              <a *ngIf="locality.status == 1" (click)="blockUnblockLocality(locality, index, 0)" title="Block Locality" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
+            </td>
+          </tr>
+        </table>
+
+        <div class="error-border" [ngSwitch]="true">
+          <p class="show-not-found" *ngSwitchCase="parameter.states?.length == 0">{{constant.errorMsg.NO_STATE_FOUND}}</p>
+          <p class="show-not-found" *ngSwitchCase="parameter.states?.length != 0 && parameter.cities?.length == 0">{{constant.errorMsg.NO_CITY_FOUND}}</p>
+          <p class="show-not-found" *ngSwitchCase="parameter.states?.length != 0 && parameter.cities?.length != 0 && all_overlays?.length == 0">{{constant.errorMsg.NO_LOCALITY_FOUND}}</p>
+        </div>
+
+        <!-- <div class="error-border" *ngIf="parameter.states?.length == 0; else localityNotFound">
+          <p class="show-not-found">{{constant.errorMsg.NO_STATE_FOUND}}</p>
+        </div>
+        <ng-template #localityNotFound>
+          <div class="error-border" *ngIf="parameter.cities?.length == 0">
+            <p class="show-not-found">{{constant.errorMsg.NO_LOCALITY_FOUND}}</p>
+          </div>
+          <ng-container *ngIf="bar === 99; else elseif2">bar === 99</ng-container>
+        </ng-template> -->
+        <!-- <div class="error-border" *ngIf="all_overlays?.length == 0">
+          <p class="show-not-found">{{constant.errorMsg.NO_LOCALITY_FOUND}}</p>
+        </div> -->
+
+
+      </div>
+
+      <!-- google map -->
+      <div class="col-md-8">
+
+        <!-- add city -->
+        <div class="form-outer marginB10">
+            <!-- <div class="inline-form-group"> -->
+              <div class="row">
+                <div class="offset-lg-3"></div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-6">
+                  <div class="form-group marginB0"></div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-6">
+                  <div class="form-group marginB0">
+                    <!-- <label>Search Locality</label> -->
+                    <input autocomplete="off" required placeholder="Search area you want to mark." autocorrect="off" autocapitalize="off"
+                      spellcheck="off" type="text" class="form-control" style="padding: 8px 25px 8px 15px;
+                      height: 40px !important;" #searchLocality (input)="loadPlaces()">
+                  </div>
+                </div>
+              </div>
+            <!-- </div> -->
+        </div>
+        <div id="mapDiv" style="height: 500px; width: 100%;" #mapDiv></div>
+      </div>
+
+    </div>
+  </div>
+
+  </div>
+</div>
+<!--content end-->
+
+
+<!-- Trigger the modal with a button -->
+<button type="button" style="display: none;" class="btn btn-info" data-toggle="modal" data-target="#myModal" #localityOpen>Open Modal</button>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header my-modal-header">
+        <button type="button" class="close" (click)="closeModal()">&times;</button>
+        <h4 class="modal-title">Add Locality Details</h4>
+      </div>
+      <form class="form-horizontal form-model0P" role="form" novalidate #addForm="ngForm" (ngSubmit)="checkIfLocalitySpanishNameEntered(addForm.value.name_en, addForm.value.name_es, addForm.value.price_per_sqft)">
+        <div class="modal-body model-body10P">
+          <div class="form-group">
+            <input autocomplete="off" type="text" class="form-control" placeholder="Locality name (English)" id="name_en" required [(ngModel)]="model.name_en" name="name_en" #name_en="ngModel">
+            <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-not-found">
+                <div [hidden]="!name_en.errors.required">
+                  {{constant.errorMsg.COUNTRY_NAME_REQUIRED}}
+                </div>
+            </div> -->
+          </div>
+          <div class="form-group">
+            <input autocomplete="off" type="text" name="name_es" class="form-control" placeholder="Locality name (Spanish)" [(ngModel)]="model.name_es">
+          </div>
+
+          <div class="form-group">
+            <input autocomplete="off" type="text" class="form-control" min="1" placeholder="Price per sqft" id="price_per_sqft" required [(ngModel)]="model.price_per_sqft" name="price_per_sqft" #price_per_sqft="ngModel">
+            <!-- <div *ngIf="price_per_sqft.errors && (price_per_sqft.dirty || price_per_sqft.touched)" class="show-not-found">
+                <div [hidden]="!price_per_sqft.errors.required">
+                  {{constant.errorMsg.PRICE_PER_SQFT_REQUIRED}}
+                </div>
+                <div [hidden]="!price_per_sqft.errors.min">
+                  {{constant.errorMsg.PRICE_PER_SQFT_MIN}}
+                </div>
+            </div> -->
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="submit" [disabled]="addForm.invalid" class="btn btn-info">Submit</button>
+          <button style="display:none;" type="button" class="btn btn-default" #localityClose data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-default" (click)="closeModal()">Close</button>
+        </div>
+      </form>
+
+    </div>
+
+  </div>
+</div>

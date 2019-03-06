@@ -1,0 +1,114 @@
+
+<div class="white-bg padding15">
+    <p class="p16 marginB0">Fill in Information</p>
+</div>
+<hr class="margin0" *ngIf="fillInfo">
+<div class="white-bg padding40 fill-info" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+    <!-- <form ngNativeValidate #addForm="ngForm" (ngSubmit)="addPreferences()"> -->
+    <div class="form-group-4">
+        <label>Close proximity needed to</label>
+        <div class="clearfix"></div>
+        <label class="cust-radio" *ngFor="let proximity_place of fillInfo.proximity_places_array; let i=index">
+            <input type="checkbox" (click)="setValue('proximity_places_array', i)" [checked]="proximity_place.is_selected == 0 ? '' : 'checked'" name="radio3">
+            <span class="checkmark">{{proximity_place.name}}</span>
+        </label>
+        <div class="clearfix"></div>
+    </div>
+    <div class="form-group-4 marginT20"></div>
+    <div class="row">
+        <div class="col-sm-12 col-12">
+            <div class="form-group-4">
+                <label>Family Size</label>
+                <input min="1" class="form-control" [(ngModel)]="fillInfo.family_size" type="number" name="family_size">
+            </div>
+        </div>
+    </div>
+    <div class="inline-form-group-2 marginT20">
+        <div class="row">
+            <div class="col-6"><label class="float-left">Do you have pets?</label></div>
+            <div class="col-5">
+                <label class="cust-check-bx">
+                <input type="checkbox" value="{{fillInfo.pets == 1 ? 'true' : 'false'}}" [(ngModel)]="fillInfo.pets" name="pets">
+                <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="inline-form-group-2 marginT20">
+        <div class="row">
+            <div class="col-6"><label class="float-left">Do you have kids?</label></div>
+            <div class="col-5">
+                <label class="cust-check-bx">
+                <input type="checkbox" value="{{fillInfo.kid_count == 1 ? 'true' : 'false'}}" [(ngModel)]="fillInfo.kid_count" name="kid_count">
+                <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group-4 marginT20">
+    <div class="row">
+        <div class="col-sm-12 col-12">
+            <div class="form-group-4">
+                <label>Price range</label>
+                <nouislider *ngIf="fillInfo.price_range" name="price_range" [connect]="true" [min]="constant.minValue" [max]="constant.maxValue" [step]="constant.steps" [tooltips]="true" [(ngModel)]="fillInfo.price_range"></nouislider>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="form-group-4 date-picker marginT20">
+        <label>How soon planning to buy/rent</label>
+        <div class="clearfix"></div>
+        <p-calendar showIcon="true" (onSelect)="onSelect($event)" [(ngModel)]="fillInfo.planning_to_buy" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+        <!-- <input type="date" min="{{today|date:'yyyy-MM-dd'}}" max='9999-12-31' [ngModel]="fillInfo.planning_to_buy  | date:'yyyy-MM-dd' " (ngModelChange)="fillInfo.planning_to_buy = $event;" name="planning_to_but" class="form-control" id="datetimepicker"> -->
+        <!-- <span class="sel-date">Select date</span> -->
+        <!-- <div class="select-date select-date-small">
+            <img *ngIf="model.floor_plan" [src]="model.floor_plan" class="floor-plan">
+            <input type="file" name="" accept="image/*" (change)="onSelectFile('floor_plan', $event)">
+            <div class="select-date-caption">
+                <p class="green-color marginT30">Select date</p>
+            </div> 
+        </div> -->
+        <div class="clearfix"></div>
+    </div>
+    <div class="form-group-4 marginT20">
+        <label>Number of Cars</label>
+        <div class="clearfix"></div>
+        <label class="cust-radio" *ngFor="let car_type of fillInfo.car_types; let i=index">
+            <input type="radio" (click)="setCarType('car_types', i, car_type.id)" [checked]="car_type.is_selected == 0 ? '' : 'checked'" name="radio4">
+        <span class="checkmark">{{car_type.name}}</span>
+        </label>
+        <div class="clearfix"></div>
+    </div>
+    <div class="form-group-4 marginT20">
+        <label>Configuration</label>
+        <div class="clearfix"></div>
+        <label class="cust-radio" *ngFor="let configuration of fillInfo.configurations_array; let i=index">
+            <input type="checkbox" (click)="setValue('configurations_array', i)" [checked]="configuration.is_selected == 0 ? '' : 'checked'" name="radio2">
+            <span class="checkmark">{{configuration.name}}</span>
+        </label>
+        <div class="clearfix"></div>
+    </div>
+    <div class="form-group-4 marginT20">
+        <label>Property Type</label>
+        <div class="clearfix"></div>
+        <label class="cust-radio" *ngFor="let property_type of fillInfo.property_types_array; let i=index">
+            <input type="checkbox" (click)="setValue('property_types_array', i)" [checked]="property_type.is_selected == 0 ? '' : 'checked'" name="radio1">
+            <span class="checkmark">{{property_type.name}}</span>
+        </label>
+        <div class="clearfix"></div>
+    </div>
+
+
+    <div class="btn-cont text-right">
+        <!-- <button type="submit" [disabled]="addForm.invalid" class="btn btn-primary">Save</button> -->
+        <!-- *ngIf="(!parameter.lead?.broker && parameter.lead?.user && admin?.admin_acl['Buyer Lead Management']?.can_update==1) || admin?.permissions?.can_csr_buyer==1" -->
+        <!-- admin?.admin_acl['Buyer Management']?.can_create==1 && parameter.userType=='csr-buyers' ||
+                admin?.admin_acl['Broker Management']?.can_create==1 && parameter.userType=='inhouse-broker' ||
+                admin?.admin_acl['Closer Management']?.can_create==1 && parameter.userType=='csr-closers'" -->
+
+        <button [disabled]="(sent_as==constant.userType.csr_buyer && (admin?.admin_acl['Buyer Lead Management']?.can_update==0 || admin?.permissions?.can_csr_buyer==0)) ||
+                            (sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==0 || admin?.permissions?.can_in_house_broker==0))"
+                type="button" class="btn btn-primary" (click)="addPreferences()">Save</button>
+    </div>
+    <!-- </form> -->
+</div>

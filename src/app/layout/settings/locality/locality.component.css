@@ -1,0 +1,15 @@
+.selectedRow{
+    background: rgb(228, 224, 224)
+}
+.locality-name{
+    cursor: pointer;
+}
+.form-model0P{
+    padding: 0px !important;
+}
+.model-body10P{
+    padding: 10px !important;
+}
+.my-modal-header{
+    display: inline;
+}

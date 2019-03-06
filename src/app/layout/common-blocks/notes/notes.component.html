@@ -1,0 +1,84 @@
+
+<div class="spacer30"></div>
+<div class="white-bg padding15">
+    <div class="row">
+      <div class="col-6">
+          <p class="p16 marginB0">Write a Note</p>
+      </div>
+      <div class="col-6 text-right">
+        <a *ngIf="(sent_as==constant.userType.csr_buyer && (admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1)) ||
+        (sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==1 || admin?.permissions?.can_in_house_broker==1)) ||
+        (sent_as==constant.userType.csr_closer && (admin?.admin_acl['Closer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_closer==1)) ||
+        (sent_as==constant.userType.notary && (admin?.admin_acl['Notary Lead Management']?.can_update==1 || admin?.permissions?.can_noatary==1)) ||
+        (sent_as==constant.userType.bank && (admin?.admin_acl['Bank Lead Management']?.can_update==1 || admin?.permissions?.can_bank==1)); else noAddPermissiom"
+        class="add" href="javascript://" data-toggle="modal" data-target="#addNote" #modalOpen>Add</a>
+
+        <ng-template #noAddPermissiom>
+          <a class="add" href="javascript://">Add</a>
+        </ng-template>
+      </div>
+    </div>
+</div>
+<hr class="margin0">
+
+<div *ngIf="parameter.items?.length!=0" [ngStyle]="{'max-height':sent_as === 1 ? '250px' : '' }" class="write-note white-bg padding40" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+  <div class="wn-block" *ngFor="let item of parameter.items; let i=index">
+      <div class="circle">
+        <span></span>
+      </div>
+      <a *ngIf="(sent_as==constant.userType.csr_buyer && (admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1)) ||
+      sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==1 || admin?.permissions?.can_in_house_broker==1) ||
+      sent_as==constant.userType.csr_closer && (admin?.admin_acl['Closer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_closer==1) ||
+      sent_as==constant.userType.notary && (admin?.admin_acl['Notary Lead Management']?.can_update==1 || admin?.permissions?.can_noatary==1) ||
+      sent_as==constant.userType.bank && (admin?.admin_acl['Bank Lead Management']?.can_update==1 || admin?.permissions?.can_bank==1); else noDeletePermissiom"
+        class="delete" href="javascript://" (click)="deleteLeadPopup(item.id, i)">Delete</a>
+      
+      <ng-template #noDeletePermissiom>
+        <a class="delete" href="javascript://">Delete</a>
+      </ng-template>
+      <p class="time">{{item.updated_at  | chatTime: 'YYYY-MM-DD H:m:s': 2}}</p>
+      <pre class="p13" *ngIf="!item.show">{{item.note.slice(0, 90)}} <span class="read-more" *ngIf="item.note.length>100" (click)="item.show=true">Read more</span></pre>
+      <pre class="p13" *ngIf="item.show">{{item.note}}</pre>
+  </div>
+</div>
+<div  *ngIf="parameter.items?.length==0" class="write-note white-bg" [ngStyle]="{'height':sent_as === 1 ? '230px' : '245px' }">
+  <p class="show-not-found">
+    {{constant.errorMsg.NO_NOTE_FOUND}}
+  </p>
+</div>
+
+
+<!-- add note modal -->
+<div class="modal animated" id="addNote">
+    <div class="modal-dialog fadeIndown">
+      <div class="modal-content">
+        <div class="modal-header modal-header-new">
+            <h4 class="modal-title">Add Note</h4>
+            <button style="display: none;" type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
+            <button type="button" class="close" (click)="closeModal()">&times;</button>
+        </div>
+  
+        <form class="form-horizontal form-model0P form-model-newP" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="addLeadNote(addForm, sent_as); addForm.reset();">
+          <div class="modal-body modal-body-new">
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group-2">
+                    <div class="form-group">
+                      <textarea rows="4" required class="form-control note" name="note" #note="ngModel" [(ngModel)]="model.note"></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                  <div class="btn-cont text-right">
+                      <button *ngIf="model.id==0 else UpdateNote" [disabled]="!addForm.valid" type="submit" class="btn btn-primary">ADD</button>
+                      <ng-template #UpdateNote>
+                          <button type="submit" [disabled]="!addForm.valid" class="btn btn-primary">UPDATE</button>
+                      </ng-template>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

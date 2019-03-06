@@ -1,0 +1,347 @@
+<ngx-loading [show]="parameter.loading"></ngx-loading>
+<div *ngIf="!project" style="margin-top:120px;" class="container" >
+  <img style="width:100%" src="assets/img/loading_content.gif">
+</div>
+<div class="inner-page-wrapper details-page gray-bg-1" *ngIf="project">
+ <div class="container">
+
+    <div class="clearfix"></div>
+    <div class="details-header marginB30">
+       <div class="row">
+          <div class="col-md-6 col-12">
+             <h4>{{project.name}} <span *ngIf="project.building_type" class="new-project">{{project.building_type.name}}</span></h4>
+             <p class="p14" *ngIf="project.developer">By {{project.developer.name}}</p>
+             <p class="p18">{{project.address}}</p>
+          </div>
+          {{fixed}}
+          <div class="col-md-6 col-12">
+             <div class="header-details-right text-right">
+                <p class="p18">
+                  <span>{{ts.lang.Base_Price}}:</span>
+                  {{base_price_min|thousand}}
+                   <b *ngIf="base_price_max">-</b>
+                   <b *ngIf="base_price_max">{{base_price_max|thousand}}</b>
+                </p>
+                <p class="p16">{{ts.lang.Price_on_Request}}</p>
+                <div class="btn-cont float-right">
+                  <!-- <a [ngx-scroll-to]="'#bottomDetails'" class="btn btn-primary btn-lg" href="javascript://">Contact Developer</a> -->
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+    <div class="details-photos">
+       <div class="row cust-row">
+          <div class="col-md-8 cust-col">
+             <!-- <img class="main-photo img-fluid" [src]="project.main_image" onerror='this.src="http://via.placeholder.com/770x416"' alt="img"> -->
+             <img class="main-photo img-fluid" onerror='this.src="constant.propertyPlaceholder"' [defaultImage]="property?.main_image| img:'thumb'" [lazyLoad]="property?.main_image">
+          </div>
+          <div class="col-md-4 cust-col" *ngIf="project.images">
+              <img *ngIf="project.images[0]" class="secondary-photo img-fluid" onerror='this.src="constant.propertyPlaceholder"' [defaultImage]="project.images[0].image| img:'thumb'" [lazyLoad]="project.images[0].image">
+              <img *ngIf="project.images[1]" class="secondary-photo img-fluid" onerror='this.src="constant.propertyPlaceholder"' [defaultImage]="project.images[1].image| img:'thumb'" [lazyLoad]="project.images[1].image">
+             <!-- <img *ngIf="project.images[0]" class="secondary-photo img-fluid" [src]="project.images[0].image" onerror="this.src='http://via.placeholder.com/392x200'" alt="img">
+             <img *ngIf="project.images[1]"class="secondary-photo img-fluid" [src]="project.images[1].image" onerror="this.src='http://via.placeholder.com/392x200'" alt="img"> -->
+          </div>
+       </div>
+
+       <!-- <a *ngIf="project.images.length > 2" class="btn view-photos" href="javascript://">{{ts.lang.View_Photos}}</a> -->
+    </div>
+    <div class="img-des">
+       <div class="row">
+          <div class="col-md-3 col-sm-6 col-12 img-c">
+             <div class="block">
+                <p class="p18">{{project.starting_price| thousand}}</p>
+                <p class="p13">{{ts.lang.Min_Price_per_Sq_feet}}</p>
+             </div>
+          </div>
+          <div class="col-md-3 col-sm-6 col-12 img-c">
+             <div class="block">
+                <p class="p18">{{config_string}}</p>
+                <p class="p13">{{ts.lang.Configuration}}</p>
+             </div>
+          </div>
+          <div class="col-md-3 col-sm-6 col-12 img-c">
+             <div class="block">
+                <p *ngIf="project.launch_date"class="p18">{{project.launch_date| date:"d MMM y"}}</p>
+                <p *ngIf="!project.launch_date" class="p18">{{ts.lang.Not_available}}</p>
+                <p class="p13">{{ts.lang.Possession_Date}}</p>
+             </div>
+          </div>
+          <div class="col-md-3 col-sm-6 col-12 img-c">
+             <div *ngIf="configuration" class="block">
+                <p class="p18">{{carpet_area_string}}</p>
+                <p class="p13">{{ts.lang.Carpet_Area}} <i><img src="assets/img/info.png" alt="img"></i></p>
+             </div>
+          </div>
+       </div>
+    </div>
+ </div>
+ <div class="cust-tabs full-width-tabs marginT20">
+    <hr id="bottomDetails">
+    <div class="container">
+       <ul class="nav nav-pills">
+          <li class="nav-item {{active}}">
+             <a class="nav-link" data-toggle="pill" href="#one">{{ts.lang.Overview}}</a>
+          </li>
+          <li class="nav-item">
+             <a class="nav-link" data-toggle="pill" (click)="active=''" href="#two">{{ts.lang.Configs}}</a>
+          </li>
+          <li class="nav-item">
+             <a class="nav-link" data-toggle="pill" (click)="active=''" href="#three">{{ts.lang.Amenities}}</a>
+          </li>
+          <li class="nav-item">
+             <a class="nav-link" data-toggle="pill" (click)="active=''" href="#four">{{ts.lang.Developer}}</a>
+          </li>
+
+       </ul>
+    </div>
+    <hr>
+    <div class="spacer30"></div>
+    <div class="container">
+       <div class="row">
+          <div class="col-lg-7 col-md-12 col-sm-12 col-12">
+             <div class="white-bg padding40">
+                <div class="tab-content">
+                   <div class="tab-pane active" id="one">
+                      <p class="p14">{{ts.lang.Overview}}</p>
+                      <p class="newline">{{project.description}}</p>
+
+                      <div class="row">
+                        <div *ngIf="project.custom_values" class="overview-table marginT15 col-6">
+                          <table style="width: 100%">
+                            <tbody>
+                               <tr *ngFor="let item of project.custom_values">
+                                  <td><label>{{item.name}}:</label></td>
+                                  <td><label>{{item.value}}</label></td>
+                               </tr>
+                            </tbody>
+                         </table>
+                        </div>
+                      </div>
+
+                      <div class="map-3 marginT30">
+                         <div style="height:200px;" #mapListing>
+                         </div>
+                      </div>
+<!-- 
+                      <div class="spacer30"></div>
+
+                      <p *ngIf="project.configurations.length > 0" class="p14">{{ts.lang.Configs}}</p>
+                      <div *ngFor="let config of project.configurations">
+                        <div class="config-table">
+                           <table style="width:100%;">
+                              <tbody>
+                                 <tr>
+                                    <th>{{ts.lang.Configuration_type}}</th>
+                                    <th>{{ts.lang.Carpet_Area}}</th>
+                                    <th>{{ts.lang.Base_Price}}</th>
+                                 </tr>
+                                 <tr>
+                                    <td>
+                                      <p class="p14 marginB0">{{config.config.name}}</p>
+                                      <p></p>
+                                   </td>
+                                    <td>
+                                       <table style="width:100%;">
+                                          <tbody>
+                                             <tr>
+                                                <td>{{config.carpet_area}} sqft</td>
+                                             </tr>
+
+                                          </tbody>
+                                       </table>
+                                    </td>
+                                    <td>
+                                       <table style="width:100%;">
+                                          <tbody>
+                                             <tr>
+                                                <td>{{config.base_price | thousand}}</td>
+                                             </tr>
+                                          </tbody>
+                                       </table>
+                                    </td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                        <div class="fig-block padding40 text-center">
+                           <img class="img-fluid" [src]="config.floor_map_image" alt="img">
+                        </div>
+                      </div>
+
+
+                      <div class="spacer30"></div>
+                      <p class="p14">{{ts.lang.Amenities}}</p>
+                      <div class="icons-group">
+                         <div *ngFor="let am of project.amenities" class="icons-control">
+                            <div class="fig-block">
+                               <img  class="icon" [src]="am.icon" onerror='src="http://via.placeholder.com/24x24"' alt="img">
+                            </div>
+                            <p class="p13">{{am.name}}</p>
+                         </div>
+                     </div>
+
+                     <div *ngIf="project.banks.length > 0">
+                       <div class="row">
+                           <div class="col-6">
+                              <p class="p14">{{ts.lang.Home_Loans}}</p>
+                           </div>
+                           <div class="col-6" *ngIf="project.banks.length > 3 && bankClicked == false">
+                              <div class="text-right">
+                                 <a class="see-more" (click)="bankLimit = 100; bankClicked = true;" href="javascript://"><span>+{{project.banks.length - 3}} more</span> <i class="fa fa-angle-right"></i></a>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="bank-blocks">
+                          <div  *ngFor="let bank of project.banks | slice : 0 : bankLimit"  class="block">
+                             <div class="fig-block text-center">
+                                <img class="img-fluid" [src]="bank.image" onerror="this.src='http://via.placeholder.com/152x48'" alt="img">
+                             </div>
+                             <div class="d-flex">
+                                <p class="p13">{{ts.lang.Fixed_Interest}}</p>
+                                <p class="p16">{{bank.floating_int}}</p>
+                             </div>
+                          </div>
+                       </div>
+                     </div>
+
+                     <p *ngIf="project.developer" class="p14 marginT30">{{ts.lang.Contact_Developer}}</p>
+                     <div *ngIf="project.developer" class="contact-developer white-bg">
+                        <table class="table">
+                           <tr>
+                              <td style="width:10%">
+                                 <div class="fig-block">
+                                    <img class="img-fluid" [src]="project.developer.developer_image" src="http://via.placeholder.com/56x56" alt="img">
+                                 </div>
+                              </td>
+                              <td style="width:50%">
+                                 <p class="p11">{{ts.lang.Developer}}</p>
+                                 <p class="p16">{{project.developer.name}}</p>
+                                 <p class="p13">{{project.developer.developer_title}}</p>
+                              </td>
+                              <td style="width:40%;">
+                                 <p class="p16">1</p>
+                                 <p class="p13">{{ts.lang.Projects}}</p>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td>
+                                 &nbsp;
+                              </td>
+                              <td>
+                                 <p class="p12">{{ts.lang.Contact}}</p>
+                                 <p>{{project.developer.country_code}} {{project.developer.phone | numberex:2}}</p>
+                              </td>
+                              <td>
+                                 &nbsp;
+                              </td>
+                           </tr>
+                        </table>
+                     </div> -->
+
+                   </div>
+                   <div class="tab-pane" id="two">
+
+                     <p class="p14">{{ts.lang.Configs}}</p>
+                     <div *ngFor="let config of project.configurations">
+                       <div class="config-table">
+                          <table style="width:100%;">
+                             <tbody>
+                                <tr>
+                                   <th>Configuration type</th>
+                                   <th>Carpet Area</th>
+                                   <th>Base Price</th>
+                                </tr>
+                                <tr>
+                                   <td>
+                                      <p class="p14 marginB0">{{config.config.name}}</p>
+
+                                   </td>
+                                   <td>
+                                      <table style="width:100%;">
+                                         <tbody>
+                                            <tr>
+                                               <td>{{config.carpet_area}} sqft</td>
+                                            </tr>
+
+                                         </tbody>
+                                      </table>
+                                   </td>
+                                   <td>
+                                      <table style="width:100%;">
+                                         <tbody>
+                                            <tr>
+                                               <td>{{config.base_price| thousand}}</td>
+                                            </tr>
+
+                                         </tbody>
+                                      </table>
+                                   </td>
+                                </tr>
+                             </tbody>
+                          </table>
+                       </div>
+                       <div class="fig-block padding40 text-center">
+                          <img class="img-fluid" onerror='this.src="constant.propertyPlaceholder"' [defaultImage]="config.floor_map_image| img:'thumb'" [lazyLoad]="config.floor_map_image">
+                          <!-- <img class="img-fluid" [src]="config.floor_map_image" alt="img"> -->
+                       </div>
+                     </div>
+
+                   </div>
+                   <div class="tab-pane" id="three">
+                     <p class="p14">{{ts.lang.Aminities}}</p>
+                     <div class="icons-group">
+                        <div *ngFor="let am of project.amenities" class="icons-control">
+                           <div class="fig-block">
+                              <img class="icon" [src]="am.icon" onerror='src="http://via.placeholder.com/24x24"' alt="img">
+                           </div>
+                           <p class="p13">{{am.name}}</p>
+                        </div>
+                    </div>
+                   </div>
+                   <div class="tab-pane" id="four">
+                     <p class="p14">{{ts.lang.Contact_Developer}}</p>
+                     <div class="contact-developer white-bg">
+                        <table class="table">
+                           <tr>
+                              <td style="width:10%">
+                                 <div class="fig-block">
+                                    <img class="img-fluid" [src]="project?.developer?.developer_image" onerror='src="assets/img/default_img.png"' alt="img">
+                                 </div>
+                              </td>
+                              <td style="width:60%">
+                                 <p class="p11">{{ts.lang.Developer}}</p>
+                                 <p class="p16">{{project?.developer?.name ? project?.developer?.name : 'NA'}}</p>
+                                 <p class="p13">{{project?.developer?.developer_title ? project?.developer?.developer_title : 'NA'}}</p>
+                              </td>
+                              <td style="width:30%;">
+                                 <p class="p16">1</p>
+                                 <p class="p13">Projects</p>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td>
+                                 &nbsp;
+                              </td>
+                              <td>
+                                 <p class="p12">{{ts.lang.Contact_Developer}}</p>
+                                 <p *ngIf="project?.developer?.country_code">{{project?.developer?.country_code}} {{project.developer.phone | numberex:2}}</p>
+                              </td>
+                              <td>
+                                 &nbsp;
+                              </td>
+                           </tr>
+                        </table>
+                     </div>
+                   </div>
+                   <div class="tab-pane" id="five">
+
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+ </div>
+  <div class="spacer60"></div>
+</div>

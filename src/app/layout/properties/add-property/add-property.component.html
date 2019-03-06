@@ -1,0 +1,891 @@
+<ngx-loading [show]="parameter.loading"></ngx-loading>
+<div class="white-bg padding15">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="title-group">
+        <h5 *ngIf="!editMode"><a routerLink="/dashboard/properties/view-properties" href="javascript://"><i class="fa fa-angle-double-left"></i> </a> &nbsp;&nbsp;Add New Property</h5>
+        <h5 *ngIf="editMode"> <a routerLink="/dashboard/properties/view-properties" href="javascript://"><i class="fa fa-angle-double-left"></i> </a> &nbsp;&nbsp;Edit Property {{name}}</h5>
+      </div>
+    </div>
+    <div class="col-md-6 btn-cont">
+        <!-- <app-add-lead *ngIf="this.parameter?.property_id && editMode"  [property_id]="parameter.property_id"></app-add-lead> -->
+    </div>
+  </div>
+</div>
+
+<!-- <ngx-loading [show]="parameter.loading"></ngx-loading> -->
+
+<div class="spacer10"></div>
+
+<div class="white-bg add-property padding20">
+  <div class="steps">
+    <ul class="d-flex">
+      <li [ngClass]="{'current': tab == 1}"><span></span><a (click)="setTab(1)">Create Draft</a></li>
+      <li [ngClass]="{'current': tab == 2}"><span></span><a (click)="setTab(2)">Additional Info</a></li>
+      <li [ngClass]="{'current': tab == 3}"><span></span><a (click)="setTab(3)">Preferable Buyers</a></li>
+      <li [ngClass]="{'current': tab == 4}"><span></span><a (click)="setTab(4)">Custom</a></li>
+      <li [ngClass]="{'current': tab == 5}"><span></span><a (click)="setTab(5)">Tag a Building</a></li>
+      <!-- <li [ngClass]="{'current': tab == 1}" [ngClass]="{'selected': tab > 1}"><span></span><a>Create Draft</a></li>
+      <li [ngClass]="{'current': tab == 2}" [ngClass]="{'selected': tab > 2}"><span></span><a>Additional Info</a></li>
+      <li [ngClass]="{'current': tab == 3}" [ngClass]="{'selected': tab > 3}"><span></span><a>Preferable Buyers</a></li>
+      <li [ngClass]="{'current': tab == 4}" [ngClass]="{'selected': tab > 4}"><span></span><a>Custom</a></li>
+      <li [ngClass]="{'current': tab == 5}" [ngClass]="{'selected': tab > 5}"><span></span><a>Tag a Building</a></li>
+      <li [ngClass]="{'current': tab == 6}" [ngClass]="{'selected': tab > 6}"><span></span><a>Submit</a></li> -->
+    </ul>
+  </div>
+</div>
+
+<div class="spacer10"></div>
+
+<form ngNativeValidate #createDraft="ngForm" (ngSubmit)="addProperty(createDraft, 2)">
+
+  <!-- tab-1 -->
+  <div class="white-bg padding20" *ngIf="tab==1">
+    <div class="page-title">
+      <h3>Create Draft</h3>
+    </div>
+    <div class="padding55 paddingT0">
+    <div class="form-group-3">
+      <label class="p16-two">This Property is available for? <span class="color-red">*</span></label>
+      <div class="clearfix"></div>
+      <label class="cust-radio">
+        <!-- <input type="checkbox" value="{{model.for_sale}}" name="for_sale" checked="{{m.checked}}"> -->
+        <input value="true" name="for_sale"  type="radio" (change)="model.for_sale = true" [checked]="model.for_sale == true ?'checked':''">
+        <span class="checkmark">Buy</span>
+      </label>
+      <label class="cust-radio">
+        <input value="false" name="for_sale" type="radio" (change)="model.for_sale = false" [checked]="model.for_sale == false ?'checked':''">
+        <span class="checkmark">Rent</span>
+      </label>
+      <div class="clearfix"></div>
+    </div>
+      <div class="spacer15"></div>
+      <div class="row">
+        <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+          <div class="form-group-3">
+            <label class="p16-two">Select Country <span class="color-red">*</span></label>
+            <select title="Choose Country" required class="form-control" (change)="getStates($event.target.value)">
+              <option value="" disabled>Select Country</option>
+              <option *ngFor="let country of parameter.countries" value="{{country.id}}" [selected]="country.id == model.country_id">{{country.name_en}}</option>
+            </select>
+            <!-- <select title="Choose Country" required class="form-control" name="country_id" [(ngModel)]="model.country_id">
+              <option value="" disabled>Select Country</option>
+              <option *ngFor="let country of parameter.countries" value="{{country.id}}">{{country.name_en}}</option>
+            </select> -->
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+          <div class="form-group-3">
+            <label class="p16-two">&nbsp;</label>
+            <select title="Choose State" required class="form-control" (change)="getCities($event.target.value)">
+              <option value="" >Select State</option>
+              <option *ngFor="let state of parameter.states" value="{{state.id}}" [selected]="state.id == model.state_id">{{state.name_en}}</option>
+            </select>
+            <!-- <select title="Choose State" required class="form-control" name="state_id" [(ngModel)]="model.state_id">
+              <option value="" disabled>Select State</option>
+              <option *ngFor="let state of parameter.states" value="{{state.id}}">{{state.name_en}}</option>
+            </select> -->
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+          <div class="form-group-3">
+            <label class="p16-two">&nbsp;</label>
+            <select title="Choose City" required class="form-control" (change)="getLocalities($event.target.value)">
+              <option value="" >Select City</option>
+              <option *ngFor="let city of parameter.cities" value="{{city.id}}" [selected]="city.id == model.city_id">{{city.name_en}}</option>
+            </select>
+            <!-- <select title="Choose City" class="form-control" name="city_id" [(ngModel)]="model.city_id">
+              <option value="" disabled>Select City</option>
+              <option *ngFor="let city of parameter.cities" value="{{city.id}}">{{city.name_en}}</option>
+            </select> -->
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+          <div class="form-group-3">
+            <label class="p16-two">&nbsp;</label>
+            <select title="Choose Locality" required class="form-control" (change)="setValue('locality_id', $event.target.value)">
+              <option value="" >Select Locality</option>
+              <option *ngFor="let locality of parameter.localities" value="{{locality.id}}" [selected]="locality.id == model.locality_id">{{locality.name_en}}</option>
+            </select>
+            <!-- <select title="Choose Locality" class="form-control" name="locality_id" [(ngModel)]="model.locality_id">
+              <option value="" disabled>Select Locality</option>
+              <option *ngFor="let locality of parameter.localities" value="{{locality.id}}">{{locality.name_en}}</option>
+            </select> -->
+          </div>
+        </div>
+      </div>
+    <div class="spacer15"></div>
+
+    <div class="form-group-3">
+      <label class="p16-two">Select Configuration? <span class="color-red">*</span></label>
+      <div class="clearfix"></div>
+      <label class="cust-radio" *ngFor="let configuration of parameter.items">
+        <input type="radio" required (change)="setValue('configuration_id', configuration.id)" value="{{configuration.id}}" [checked]="model.configuration_id == configuration.id ? 'checked' : ''" name="configuration_id">
+        <span class="checkmark">{{configuration.name_en}}</span>
+      </label>
+      <div class="clearfix"></div>
+    </div>
+    <div class="spacer15"></div>
+
+    <div class="form-group-3">
+      <label class="p16-two">Select Property Type? <span class="color-red">*</span></label>
+      <div class="clearfix"></div>
+      <label class="cust-radio" *ngFor="let propertyType of parameter.propertyTypes">
+        <input type="radio" (change)="setValue('property_type_id', propertyType.id)" value="{{propertyType.id}}" [checked]="model.property_type_id == propertyType.id ? 'checked' : ''" name="property_type_id">
+        <span class="checkmark">{{propertyType.name_en}}</span>
+      </label>
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="spacer15"></div>
+      <div class="row">
+        
+        <div class="col-md-4 col-sm-12 col-12">
+          <div class="form-group-3 eca">
+            <label class="p16-two">Enter Carpet Area <span class="color-red">*</span></label>
+            <input class="form-control" type="number" name="area[{{c}}]" placeholder="Area should be in Sq/ft." [(ngModel)]="newcarpet_area.area">
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12 col-12">
+          <div class="form-group-3 eap">
+            <label class="p16-two">Enter Average Price <span class="color-red">*</span></label>
+            <input class="form-control" type="number" name="price[{{c}}]" placeholder="Amount should be in $" [(ngModel)]="newcarpet_area.price">
+          </div>
+        </div>
+        <div class="col-md-2 col-sm-12 col-12">
+            <a href="javascript://" class="add-more btn" (click)="addCarpetArea()">Add More</a>
+        </div>
+      </div>
+
+      <div class="row" *ngFor="let carpet_area of model.carpet_areas; let c = index;">
+        <div class="col-md-4 col-sm-12 col-12">
+          <div class="form-group-3 eca">
+            <label class="p16-two">Enter Carpet Area <span class="color-red">*</span></label>
+            <input required class="form-control" required type="number" [value]="carpet_area.area" disabled />
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12 col-12">
+          <div class="form-group-3 eap">
+            <label class="p16-two">Enter Average Price <span class="color-red">*</span></label>
+            <input required class="form-control" required type="number" [value]="carpet_area.price" disabled />
+          </div>
+        </div>
+        <div class="col-md-2 col-sm-12 col-12">
+          <div class="btn-cont form-group-3">
+            <a href="javascript://" class="btn delete-button marginT30" (click)="model.carpet_areas.splice(c, 1)">
+              <img src="assets/img/delete-button.png" width="40" style="width: 20px; margin-top: 10px;">
+            </a>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="row">
+        <div class="col-md-12">
+          <div class="btn-cont text-right">
+            <!-- <a class="btn-third btn" [disabled]="addForm.invalid" type="submit" href="javascript://" (click)="addProperty(addForm, 2)">Next</a> -->
+            <button type="submit" [disabled]="createDraft.invalid" class="btn btn-primary">Next</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  </form>
+
+
+
+  <form  ngNativeValidate #additionalInfo="ngForm" (ngSubmit)="addProperty(additionalInfo, 3)">
+  <!-- tab-2 -->
+  <div class="white-bg" *ngIf="tab==2">
+    <div class="page-title">
+      <h3>Additional Info</h3>
+    </div>
+    <div class="padding40">
+      <div class="form-group-3">
+      <label class="p16-two">Add Images of your Property <span class="color-red">*</span></label>
+        <div class="row">
+          <div class="col-md-7 col-sm-12 col-12">
+            <!-- <div class="upload-cover-img" [style.background-image]="image1"> -->
+            <div class="upload-cover-img">
+
+              <img [src]="model.cover_image" onerror="this.src='assets/img/placeholder.png'" class="floor-plan">
+              <div *ngIf="!model.cover_image" class="upload-caption">
+                <p class="green-color marginT30">+Upload Cover image for the project</p>
+                <p>JPG or PNG. Image size should be 1920 × 1080 pixels (for HiDPI displays).</p>
+              </div>
+              <input type="file" name="" accept="image/*" (change)="onSelectFile('cover_image', $event)">
+            </div>
+          </div>
+          <div class="col-md-5 col-sm-12 col-12">
+            <!-- <div class="upload-cover-img upload-cover-small" [style.background-image]="image3"> -->
+            <div class="upload-cover-img upload-cover-small">
+              <img [src]="model.floor_plan" onerror="this.src='assets/img/placeholder.png'" class="floor-plan">
+              <input type="file" name="" accept="image/*" (change)="onSelectFile('floor_plan', $event)">
+              <div *ngIf="!model.floor_plan"class="upload-caption">
+                <p class="green-color marginT30">+ Add Floor plan</p>
+              </div>
+            </div>
+            <div class="upload-cover-img upload-cover-small" >
+                <img [src]="model.images[0]?.image" onerror="this.src='assets/img/placeholder-img.png'" class="img-fluid">
+                <div class="upload-caption">
+                  <p *ngIf="model?.images?.length > 1" class="number" (click)="modelOpenFun()">+{{model?.images?.length-1}}</p>
+                  <p *ngIf="model?.images?.length <= 1" class="green-color"  (click)="modelOpenFun()">+ Add more images</p>
+                </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    <div class="row">
+      <!-- <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+        <div class="form-group-3">
+          <label>Total Area</label>
+          <input class="form-control" type="number" name="" placeholder="in sq.ft.">
+        </div>
+      </div> -->
+      <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+        <div class="form-group-3">
+          <label>Floors <span class="color-red">*</span></label>
+          <input class="form-control" min="1" [(ngModel)]="model.floor" type="number" name="floor" placeholder="in numbers">
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+        <div class="form-group-3">
+          <label>Bedrooms <span class="color-red">*</span></label>
+          <input class="form-control" min="1" [(ngModel)]="model.bedroom" type="number" name="bedroom" placeholder="in numbers">
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+        <div class="form-group-3">
+          <label>Bathrooms <span class="color-red">*</span></label>
+          <input class="form-control" min="1" [(ngModel)]="model.bathroom" type="number" name="bathroom" placeholder="in numbers">
+        </div>
+      </div>
+    </div>
+    <div class="form-group-3">
+      <label>Is Parking Available? <span class="color-red">*</span></label>
+      <div class="clearfix"></div>
+      <label class="cust-radio">
+        <input type="radio" (change)="setValue('parking', 1)" value="1" [checked]="model.parking == 1 ? 'checked' : ''" name="parking">
+        <span class="checkmark">Yes</span>
+      </label>
+      <label class="cust-radio">
+        <input type="radio" (change)="setValue('parking', 0)" value="0" [checked]="model.parking == 0 ? 'checked' : ''" name="parking">
+        <span class="checkmark">No</span>
+      </label>
+      <div class="clearfix"></div>
+    </div>
+    <div class="spacer15"></div>
+    <div class="form-group-3">
+      <label>Is Property Furnished? <span class="color-red">*</span></label>
+      <div class="clearfix"></div>
+      <label class="cust-radio">
+        <input type="radio" (change)="setValue('furnished', 1)" value="1" [checked]="model.furnished == 1 ? 'checked' : ''" name="furnished">
+        <span class="checkmark">Yes</span>
+      </label>
+      <label class="cust-radio">
+        <input type="radio" (change)="setValue('furnished', 0)" value="0" [checked]="model.furnished == 0 ? 'checked' : ''" name="furnished">
+        <span class="checkmark">No</span>
+      </label>
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="form-group-3">
+      <label>Description <span class="color-red">*</span></label>
+      <textarea required [(ngModel)]="model.description" placeholder="Enter description" name="description" class="form-control"></textarea>
+    </div>
+
+    <div class="spacer15"></div>
+    <div class="form-group-3">
+      <label>How much quantity do you have? <span class="color-red">*</span></label>
+      <div class="clearfix"></div>
+      <!-- <label class="cust-radio">
+        <input type="radio" (change)="setValue('quantity', 1)" [checked]="model.quantity == 1 ? 'checked': ''" name="quantity">
+        <span class="checkmark">1</span>
+      </label>
+      <label class="cust-radio">
+        <input type="radio" (change)="setValue('quantity', 2)" [checked]="model.quantity == 2 ? 'checked': ''" name="quantity">
+        <span class="checkmark">2</span>
+      </label>
+      <label class="cust-radio">
+        <input type="radio" (change)="setValue('quantity', 3)" [checked]="model.quantity == 3 ? 'checked': ''" name="quantity">
+        <span class="checkmark">3</span>
+      </label> -->
+      <label class="cust-input">
+        <input autocomplete="off" type="number" min="1" [(ngModel)]="model.quantity" (change)="setValue('quantity', $event.target.value)" name="quantity" placeholder="Enter">
+      </label>
+      <button type="button" *ngIf="model.quantity>1" class="btn btn-link greenText" (click)="propertyDetails='true'">Add property details</button>
+      <div class="clearfix"></div>
+    </div>
+
+   <div class="clearfix"></div>
+
+   <div *ngIf="propertyDetails" class="expand-collapes-section addpropertydetails">
+      <div class="row">
+         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-6 col-12">
+            <div class="form-group-3">
+               <label>Floor number</label>
+               <input autocomplete="off" [(ngModel)]="details.floor" class="form-control" type="number" name="" [ngModelOptions]="{standalone: true}">
+            </div>
+         </div>
+       <div class="col-xl-3 col-lg-6 col-md-12 col-sm-6 col-12">
+            <div class="form-group-3">
+               <label>Area per Sqft.</label>
+               <input autocomplete="off"  [(ngModel)]="details.area"  class="form-control" type="number" name="" [ngModelOptions]="{standalone: true}" >
+            </div>
+         </div>
+        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-6 col-12">
+            <div class="form-group-3">
+               <label>Price per Sqft.</label>
+               <input autocomplete="off"  [(ngModel)]="details.price"  class="form-control" type="number" name="" [ngModelOptions]="{standalone: true}">
+            </div>
+         </div>
+         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-6 col-12">
+            <div class="form-group-3">
+               <label>Total price</label>
+               <input autocomplete="off"  [(ngModel)]="details.total_price"  class="form-control" type="number" name="" [ngModelOptions]="{standalone: true}">
+            </div>
+         </div>
+        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-6 col-12">
+            <div class="form-group-3">
+               <label>Facing Direction</label>
+               <input autocomplete="off"  [(ngModel)]="details.direction"  class="form-control" type="text" name="" [ngModelOptions]="{standalone: true}">
+            </div>
+         </div>
+         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-6 col-12">
+            <div class="form-group-3">
+               <label>Status</label>
+               <select class="form-control"  [(ngModel)]="details.payment_status_id" [ngModelOptions]="{standalone: true}">
+                  <option *ngFor="let item of parameter.paymentStatuses" [value]="item.id">{{item.name}}</option>
+               </select>
+
+            </div>
+         </div>
+         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-6 col-12">
+            <div class="form-group-3">
+               <label>Building Specific type</label>
+               <select class="form-control" [(ngModel)]="details.building_specific_type_id" [ngModelOptions]="{standalone: true}">
+                  <option *ngFor="let item of parameter.buildingSpecificTypes" [value]="item.id">{{item.name}}</option>
+               </select>
+            </div>
+         </div>
+         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-6 col-12">
+            <div class="form-group-3">
+               <label>Configuration Type</label>
+               <input autocomplete="off" [(ngModel)]="details.conf_type" class="form-control" type="text" name="" [ngModelOptions]="{standalone: true}">
+            </div>
+         </div>
+      </div>
+      <div class="btn-cont">
+        <button (click)="addPropertyDetails()" class="btn btn-primary whiteText" [disabled]="
+        !details.floor
+        || !details.area
+        || !details.price
+        || !details.total_price
+        || !details.direction
+        || !details.payment_status_id
+        || !details.building_specific_type_id
+        || !details.conf_type
+        ">Add Details</button>
+      </div>
+   </div>
+   
+   <div class="spacer15"></div>
+
+   <!-- <div *ngFor="let details of model.property_quantity_details;let i=index" class="expand-collapes-section">
+      <div class="row">
+        <div class="col-md-10">
+          <div class="row">
+         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-6 col-12">
+            <div class="form-group-3">
+               <label>Floor number</label>
+               <input autocomplete="off" [(ngModel)]="details.floor" class="form-control" type="number" name=""  [ngModelOptions]="{standalone: true}" disabled>
+            </div>
+         </div>
+       <div class="col-xl-3 col-lg-6 col-md-12 col-sm-6 col-12">
+            <div class="form-group-3">
+               <label>Area per Sqft.</label>
+               <input autocomplete="off"  [(ngModel)]="details.area"  class="form-control" type="number" name=""  [ngModelOptions]="{standalone: true}" disabled>
+            </div>
+         </div>
+        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-6 col-12">
+            <div class="form-group-3">
+               <label>Price per Sqft.</label>
+               <input autocomplete="off"  [(ngModel)]="details.price"  class="form-control" type="number" name=""  [ngModelOptions]="{standalone: true}" disabled>
+            </div>
+         </div>
+         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-6 col-12">
+            <div class="form-group-3">
+               <label>Total price</label>
+               <input autocomplete="off"  [(ngModel)]="details.total_price"  class="form-control" type="number" name=""  [ngModelOptions]="{standalone: true}" disabled>
+            </div>
+         </div>
+        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-6 col-12">
+            <div class="form-group-3">
+               <label>Facing Direction</label>
+               <input autocomplete="off"  [(ngModel)]="details.direction"  class="form-control" type="text" name=""  [ngModelOptions]="{standalone: true}" disabled>
+            </div>
+         </div>
+         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-6 col-12">
+            <div class="form-group-3">
+               <label>Status</label>
+               <select class="form-control"  [(ngModel)]="details.payment_status_id"  [ngModelOptions]="{standalone: true}" disabled>
+                  <option *ngFor="let item of parameter.paymentStatuses" [value]="item.id">{{item.name}}</option>
+               </select>
+            </div>
+         </div>
+         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-6 col-12">
+            <div class="form-group-3">
+               <label>Building Specific type</label>
+               <select class="form-control" [(ngModel)]="details.building_specific_type_id"  [ngModelOptions]="{standalone: true}" disabled>
+                  <option *ngFor="let item of parameter.buildingSpecificTypes" [value]="item.id">{{item.name}}</option>
+               </select>
+            </div>
+         </div>
+         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-6 col-12">
+            <div class="form-group-3">
+               <label>Configuration type</label>
+               <input autocomplete="off" [(ngModel)]="details.conf_type" class="form-control" type="text" name=""  [ngModelOptions]="{standalone: true}" disabled>
+            </div>
+         </div>
+         </div>
+         </div>
+         <div class="col-md-2">
+          <a style="width: 45px;padding-top: 0px;" (click)="removeDetails(i)" class="btn delete-button" href="javascript://">
+            <img class="img-fluid" src="assets/img/delete-button.png" width="40" >
+          </a>
+         </div>
+      </div>
+   </div> -->
+
+
+   <div class="tabel-section" *ngIf="model?.property_quantity_details?.length > 0">
+      <div class="table-responsive">
+         <table class="table table-striped table-align-left">
+            <tbody>
+              <tr>
+               <th>Floor Number</th>
+               <th>Area per Sqft.</th>
+               <th>Price per Sqft.</th>
+               <th>Facing Direction</th>
+               <th>Status</th>
+               <th>Building Specific Type</th>
+               <th>Configuration Type</th>
+               <th>Total Price</th>               
+              </tr>
+              <tr *ngFor="let details of model?.property_quantity_details;let i=index" >
+               <td>{{details.floor}}</td>
+               <td>{{details.area}}</td>
+               <td>${{details.price}}</td>
+               <td>{{details.direction}}</td>
+               <td>
+                 <span *ngFor="let item of parameter.paymentStatuses | filterById: details.payment_status_id">
+                 {{item.name}}
+                </span>
+                </td>
+               <td>
+                 <span *ngFor="let item of parameter.buildingSpecificTypes | filterById : details.building_specific_type_id">
+                 {{item.name}}
+                 </span>
+               </td>
+               <td>{{details.conf_type}}</td>
+               <td>${{details.total_price}}</td>
+               <td>
+                 <a href="javascript://" (click)="removeDetails(i)" ><img src="assets/img/delete-green.png" alt="img"></a>
+               </td>
+             </tr>
+         </tbody></table>
+      </div>
+   </div>
+
+
+    <div class="spacer15"></div>
+    <div class="form-group-3">
+      <label>List of Amenities with this property (required) <span class="color-red">*</span></label>
+
+      <div class="form-group-3 paddingleft0">
+        <div class="row">
+            <div class="col-12">
+              <!-- <input type="text" list="amenities" (keyup.enter)="addAmenity(amen)" name="amen" [(ngModel)]="amen">
+              <datalist id="amenities">
+                <option *ngFor="let amenity of parameter.amenities" value="{{amenity.name_en}}">
+              </datalist> -->
+
+              <select style="max-width:50%" title="Choose Amenity" class="form-control" name="amen" [(ngModel)]="amen" (click)="addAmenity(amen)">
+                <option value="">Select Amenity</option>
+                <option *ngFor="let amenity of parameter.amenities; let i=index" [ngValue]="amenity">{{amenity.name_en}}</option>
+              </select>
+              <!-- <button type="button" class="add-btn" (click)="addAmenity(amen,i)"><img src="assets/img/add.png" alt="img"></button> -->
+
+              <div class="list-group-items" *ngIf="amenityList">
+                <ul>
+                  <li *ngFor="let a of amenityList; let aIndex=index;">
+                    <a href="javascript://" (click)="removeAmenity(a,aIndex)" class="close">&times;</a>
+                    <div class="fig-block"><img class="width100" src="{{a.icon}}" alt="img"></div>
+                    <p class="p13">{{a.name_en}}</p>
+                  </li>
+                </ul>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="spacer15"></div>
+    <div class="form-group-3">
+      <label>List of Banks <span class="color-red">*</span></label>
+      <div class="form-group-3 paddingleft0">
+        <div class="row">
+            <div class="col-12">
+              <!-- <input type="text" list="banks" (keyup.enter)="addBank(bank)" name="bank" [(ngModel)]="bank">
+              <datalist id="banks">
+                <option *ngFor="let tBank of parameter.banks" value="{{tBank.name}}">
+              </datalist> -->
+              <select style="max-width:50%" title="Choose Bank" class="form-control" name="bank" [(ngModel)]="bank" (change)="addBank(bank)">
+                <option value="">Select Bank</option>
+                <option *ngFor="let tBank of parameter.banks" [ngValue]="tBank">{{tBank.name}}</option>
+              </select>
+              <!-- <button type="button" class="add-btn" (click)="addBank(bank)"><img src="assets/img/add.png" alt="img"></button> -->
+
+              <div class="list-group-items" *ngIf="bankList">
+                <ul>
+                  <li *ngFor="let b of bankList; let bIndex=index;">
+                    <a href="javascript://" (click)="removeBank(b,bIndex)" class="close">&times;</a>
+                    <div class="fig-block">
+                      <img class="width100" [src]="b.image" onerror="this.src='assets/img/bank-building.png'" alt="img">
+                    </div>
+                    <p class="p13">{{b.name}}</p>
+                    <p class="p13">{{b.floating_int}} Floating</p>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="btn-cont text-right">
+          <!-- <a class="btn-third btn" href="javascript://" (click)="addProperty(addForm, 3)">Next</a> -->
+          <button type="button" class="btn btn-primary" (click)="setTab(1)">Previous</button>
+          <button type="submit" class="btn btn-primary" [disabled]="
+          additionalInfo.invalid
+          || !model.cover_image
+          || !model.floor_plan
+          || !model.floor
+          || !model.bedroom
+          || !model.bathroom
+          || model.quantity < 1
+          || model.amenities.length == 0
+          ">Next</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</form>
+
+
+<form  ngNativeValidate #preferableBuyer="ngForm" (ngSubmit)="addProperty(preferableBuyer, 4)">
+  <!-- tab-3 -->
+  <div class="white-bg" *ngIf="tab==3">
+      <div class="page-title">
+        <h3>Preferable Buyers</h3>
+      </div>
+      <div class="padding40">
+      <div class="form-group-3">
+        <label class="p16-two">Marital Status? <span class="color-red">*</span></label>
+        <div class="clearfix"></div>
+        <label class="cust-radio" *ngFor="let m of testMarital; let mi=index">
+          <input value="{{m.checked}}" name="marital_status[{{mi}}]" type="checkbox" (click)="addMaritalStatus(m.checked, mi)" [checked]="m.checked == true ? 'checked': ''">
+          <span class="checkmark">{{m.name}}</span>
+        </label>
+        <div class="clearfix"></div>
+      </div>
+      <div class="spacer15"></div>
+      <div class="form-group-3">
+        <label class="p16-two">Pets Allowed? <span class="color-red">*</span></label>
+        <div class="clearfix"></div>
+        <label class="cust-radio">
+          <input type="radio" (change)="setValue('pets', 1)" value="1" [checked]="model.pets == 1 ? 'checked' : ''" name="pets">
+          <span class="checkmark">Allowed</span>
+        </label>
+        <label class="cust-radio">
+          <input type="radio" (change)="setValue('pets', 0)" value="0" [checked]="model.pets == 0 ? 'checked' : ''" name="pets">
+          <span class="checkmark">Not Allowed</span>
+        </label>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="btn-cont text-right">
+            <!-- <a class="btn-third btn" href="javascript://" (click)="addProperty(addForm, 4)">Next</a> -->
+            <button type="button" class="btn btn-primary" (click)="setTab(2)">Previous</button>
+            <button type="submit" [disabled]="preferableBuyer.invalid" class="btn btn-primary">Next</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</form>
+
+
+
+<form  ngNativeValidate #custom="ngForm" (ngSubmit)="addProperty(custom, 5)">
+  <!-- tab-4 -->
+  <div class="white-bg" *ngIf="tab==4">
+      <div class="page-title">
+        <h3>Custom</h3>
+      </div>
+      <div class="padding40">
+      <h5 class="marginB30">Any information we missed, you want to add custom</h5>
+
+      <div class="row">
+        <div class="col-md-4 col-sm-12 col-12">
+          <div class="form-group-3">
+            <label class="p16-two">Enter Parameter</label>
+            <input autocomplete="off" class="form-control" type="text" [(ngModel)]="newcustom_attribute.name" name="name[{{c}}]" placeholder="Enter parameter">
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12 col-12">
+          <div class="form-group-3">
+            <label class="p16-two">Enter Value</label>
+            <input autocomplete="off" class="form-control" type="text" [(ngModel)]="newcustom_attribute.value" name="value[{{c}}]" placeholder="Enter value">
+          </div>
+        </div>
+        <div class="col-md-2 btn-cont">
+            <a href="javascript://" class="add-more btn" (click)="addCustomAttribute()">Add More</a>
+        </div>
+      </div>
+
+      <div class="row" *ngFor="let custom_attribute of model.custom_attributes; let c = index;">
+        <div class="col-md-4 col-sm-12 col-12">
+          <div class="form-group-3">
+            <label class="p16-two">Enter Parameter</label>
+            <input autocomplete="off" class="form-control" type="text" [value]="custom_attribute.name" disabled />
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12 col-12">
+          <div class="form-group-3">
+            <label class="p16-two">Enter Value</label>
+            <input autocomplete="off" class="form-control" type="text" [value]="custom_attribute.value" disabled />
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12 col-12">
+          <div class="btn-cont ">
+            <a href="javascript://" class="btn delete-button marginT30" (click)="model.custom_attributes.splice(c, 1)">
+              <img src="assets/img/delete-button.png" width="40" style="width: 20px; margin-top: 10px;"> 
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="btn-cont text-right">
+            <!-- <a class="btn-third btn" href="javascript://" (click)="addProperty(addForm, 5)">Next</a> -->
+            <button type="button" class="btn btn-primary" (click)="setTab(3)">Previous</button>
+            <button type="submit" class="btn btn-primary">Next</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</form>
+
+
+
+  <!-- tab-5 -->
+  <div class="white-bg" *ngIf="tab==5">
+    <div class="page-title">
+      <h3>Tag a Building</h3>
+    </div>
+
+    <div class="padding20" *ngIf="building.id && showSearch==false">
+      <div class="row">
+        <div class="col-sm-9 col-lg-9">
+          <p class="p16">Tagged Building Name</p>
+        </div>
+        <div class="col-sm-3 col-lg-3 btn-cont text-right">
+          <button type="button" class="btn btn-primary" (click)="showSearchBox()">Change</button>
+        </div>
+      </div>
+      <p><b>{{building.name}}</b></p>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="btn-cont text-right">
+            <button type="button" (click)="tagBuilding()" class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="padding40" *ngIf="showSearch">
+      <label class="p16-two">Search your building in Our Database</label>
+      <div class="searh d-flex">
+        <input class="border-right-0" autocomplete="off" type="text" #buildingname (keyup.enter)="searchBuilding(buildingname.value)" name="buildingName" [(ngModel)]="buildingName">
+        <button class="btn" type="button" (click)="searchBuilding(buildingname.value)">Search</button>
+      </div>
+      <div class="spacer50"></div>
+      <div *ngIf="buildingLoading">
+        <img src="assets/img/loading_content.gif" />
+      </div>
+      <div *ngIf="!buildingLoading && parameter.buildingCount != 0" class="white-bg">
+      <form  ngNativeValidate #tagABuilding="ngForm" (ngSubmit)="tagBuilding()">
+        <div class="tabel-section">
+          <div class="table-responsive">
+
+          <table class="table table-striped">
+              <tr>
+                <th>Name</th>
+                <th>Choose Building</th>
+              </tr>
+
+              <tr *ngFor="let item of parameter.buildings; let i = index">
+                <td class="text-left">{{item.name}}</td>
+                <td>
+                  <input type="radio" required name="building_id" (change)="setBuildingId(item.id)">
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="btn-cont text-right">
+              <!-- <a class="btn-third btn" href="javascript://" (click)="tagBuilding()">Next</a> -->
+              <!-- <button type="button" class="btn btn-primary" (click)="setTab(4)">Previous</button> -->
+              <button type="submit" [disabled]="tagABuilding.invalid" class="btn btn-primary">Submit</button>
+            </div>
+          </div>
+        </div>
+        </form>
+    </div>
+
+    <p *ngIf="parameter.buildingCount == 0 && showText" class="p18">Didn’t Found your Building? <strong><span (click)="showBuildingDetails(true)" class="green-color cursor-pointer">Generate a Request to add a building by our Data collectors</span></strong></p>
+    <div *ngIf="showBuilding" class="spacer50"></div>
+
+      <form  ngNativeValidate #buildingRequestForm="ngForm" (ngSubmit)="buildingRequest()">
+        <div *ngIf="showBuilding" class="row">
+          <div class="col-lg-7 col-md-12 col-sm-12 col-12">
+            <div class="row">
+              <div class="col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>Name of Building</label>
+                  <input autocomplete="off" required class="form-control" type="text" name="name" [(ngModel)]="building.name" placeholder="Enter name of building">
+                </div>
+              </div>
+              <div class="col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>Where it is located?</label>
+                  <!-- <input class="form-control" type="text" name="address" [(ngModel)]="building.address" placeholder="Enter address"> -->
+                  <input required placeholder="search for location" autocorrect="off" autocapitalize="off"
+                    spellcheck="off" type="text" class="form-control" #search (input)="loadPlaces()"
+                    [formControl]="searchControl" [(ngModel)]="building.address" name="address">
+                </div>
+              </div>
+            </div>
+            <label class="label-optional">Developer Details (optional)</label>
+            <div class="row">
+              <div class="col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>Name of Developer</label>
+                  <input autocomplete="off" class="form-control" type="text" name="dev_name" [(ngModel)]="building.dev_name">
+                </div>
+              </div>
+              <div class="col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>Contact Number</label>
+                  <input minlength="6" maxlength="16" autocomplete="off" type="text" class="form-control" id="dev_phone" [(ngModel)]="building.dev_phone" name="dev_phone"
+                      ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12 col-12">
+                <div class="form-group-3">
+                  <label>Email Address</label>
+                  <input autocomplete="off" class="form-control" type="text" name="dev_email" [(ngModel)]="building.dev_email">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-5 col-md-12 col-sm-12 col-12">
+            <div class="form-group-3 mark-pin-map">
+              <label>Mark Pin on Map</label>
+            </div>
+            <div>
+              <!-- <div id="mapDiv" style="height: 250px; width: 100%;" #mapDiv></div> -->
+              <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" (mapClick)="placeMarker($event)"[zoom]="zoom">
+                <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+              </agm-map>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="showBuilding">
+          <div class="col-md-12">
+            <div class="btn-cont text-right">
+              <!-- <a class="btn-third btn" href="javascript://" (click)="buildingRequest()">Next</a> -->
+              <!-- <button type="button" class="btn btn-primary" (click)="setTab(5)">Previous</button> -->
+              <button type="submit" [disabled]="buildingRequestForm.invalid" class="btn btn-primary">Submit</button>
+            </div>
+          </div>
+        </div>
+
+      </form>
+      <div class="btn-cont text-right">
+          <button type="button" class="btn btn-primary" (click)="setTab(4)" style="margin: 20px 0px;">Previous</button>
+        </div>
+    </div>
+
+  </div>
+
+
+<!-- Add More img -->
+<span data-target="#add-more-img" data-toggle="modal" #modalOpen></span>
+<div class="modal add-more-popup" id="add-more-img">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Images</h4>
+        <button type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="uploaded-img-block">
+          <div class="uploaded-img" *ngFor="let item of file2.files; let i=index">
+            <a class="remove" (click)="file2.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
+            <img *ngIf="item" class="u-img" [src]="item.image" alt="img">
+            <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+          </div>
+        </div>
+
+        <div class="add-more-images">
+          <input type="file" name="add-more" multiple max="6" accept="image/*" (change)="file2Select($event)">
+          <span>+ Add more images</span>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer btn-cont">
+        <button type="button" (click)="saveImages()" class="btn btn-primary">Submit</button>
+      </div>
+
+    </div>
+  </div>
+</div>

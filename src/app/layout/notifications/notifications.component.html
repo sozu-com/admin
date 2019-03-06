@@ -1,0 +1,43 @@
+
+<ngx-loading [show]="parameter.loading"></ngx-loading>
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-md-6">
+        <div class="title-group">
+            <h5>Notifications</h5>
+            <p>Showing {{parameter.items?.length}} out of {{parameter.total ? parameter.total : parameter?.items?.length}}</p>
+        </div>
+      </div>
+  </div>
+
+  <!-- <div class="white-bg padding20 profile-content-outer">
+    <p class="p18">Notifications</p>
+    <ul class="notifications">
+      <li *ngFor="let item of parameter.items">
+        <h5>{{item.notification_text}}</h5>
+        <p>{{item.notification_desc}}</p>
+      </li>
+    </ul>
+  </div> -->
+
+  <div class="white-bg padding20 profile-content-outer">
+    <ul class="notifications">
+      <li *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }" (click)="redirect(item)">
+        <h5>{{item.notification_text}}</h5>
+        <p>{{item.notification_desc}}
+          <span class="pull-right">{{item.updated_at|moment}}</span>
+        </p>
+      </li>
+    </ul>
+
+    <div class="center" *ngIf="parameter.total == 0">
+      <img src="assets/img/404-error.png">
+    </div>
+  </div>
+  
+  <div class="btn-cont text-right marginT15" *ngIf="parameter.total">
+    <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+  </div>
+  
+</div>
+

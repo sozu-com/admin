@@ -1,0 +1,506 @@
+<ngx-loading [show]="parameter.loading"></ngx-loading>
+
+<div class="container-fluid">
+  <div class="white-bg">
+    <div class="page-title">
+      <h3>Add Project</h3>
+    </div>
+
+    <div class="padding40 paddingT0">
+
+      <form #f="ngForm" name="add-project-form" ngNativeValidate>
+        <div class="row">
+          <div class="col-md-5 col-sm-12 col-12">
+            <div class="form-group-3">
+              <label>Add Images
+                <!-- <span class="color-red">*</span> -->
+              </label>
+              <div class="upload-cover-img">
+                <img [src]="file1.image" onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
+                <!-- <img *ngIf="url" [src]="url" height="200"> -->
+                <div *ngIf="!file1.image" class="upload-caption">
+                  <p class="green-color marginT30">+Upload Cover image for the project</p>
+                  <p>JPG or PNG. Image size should be 1920 × 1080 pixels (for HiDPI displays).</p>
+                </div>
+                <input type="file" name="cover_image" accept="image/*" (change)="file1.onSelectFile($event,true)">
+              </div>
+            </div>
+            <div class="add-project-img-more">
+              <img *ngIf="model.images?.length>0" [src]="model.images[0]?.image" onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
+              <div class="upload-caption">
+                <p *ngIf="model?.images?.length > 1" class="number" (click)="modelOpenFun()">+{{model?.images?.length-1}}</p>
+                <p *ngIf="model?.images?.length <= 1" class="green-color"  (click)="modelOpenFun()">+ Add more images</p>
+              </div>
+            </div>
+           </div>
+          <div class="col-md-7 col-sm-12 col-12">
+            <div class="row">
+              <div class="col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>Name of the Building <span class="color-red">*</span></label>
+                  <input class="form-control" type="text" [(ngModel)]="model.name" name="name" placeholder="Enter name of building" autocomplete="off" required>
+                </div>
+              </div>
+              <div class="col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>Location
+                    <!-- <span class="color-red">*</span> -->
+                  </label>
+                  <input placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search (input)="loadPlaces()" name="address" [(ngModel)]="model.address" autocomplete="off">
+                </div>
+              </div>
+            </div>
+            <div class="form-group-3">
+              <label>Location Pin on Map
+                <!-- <span class="color-red">*</span> -->
+              </label>
+              <div style="width: 100%;">
+                <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" (mapClick)="placeMarker($event)" [zoom]="zoom">
+                  <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+                </agm-map>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>Building Age (in yrs)
+                    <!-- <span class="color-red">*</span> -->
+                  </label>
+                  <input placeholder="Building Age" min="0" class="form-control" [(ngModel)]="model.building_age" type="number" name="building_age"/>
+                </div>
+              </div>
+              <div class="col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>Building Type
+                    <!-- <span class="color-red">*</span> -->
+                  </label>
+                  <select [(ngModel)]="model.building_type_id" class="form-control" name="building_type_id">
+                    <option value="" disabled>Choose Building type</option>      
+                    <option *ngFor="let s of all_building_types" [value]="s.id">
+                            {{s.name}}
+                          </option>
+                       </select>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group-3">
+                  <label>Description
+                    <!-- <span class="color-red">*</span> -->
+                  </label>
+                  <textarea [(ngModel)]="model.description" name="model_description" class="form-control" placeholder="Enter project description">
+                       </textarea>
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>Possession Status
+                    <!-- <span class="color-red">*</span> -->
+                  </label>
+                  <select [(ngModel)]="model.possession_status_id" class="form-control" name="possession_status_id">
+                    <option value="">Select status</option>
+                    <option *ngFor="let s of all_possession_statuses" [value]="s.id">
+                      {{s.name}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>Floors
+                    <!-- <span class="color-red">*</span> -->
+                  </label>
+                  <input min="0" class="form-control" [(ngModel)]="model.floors" type="number" name="building_floors" placeholder="Floors">
+                </div>
+                
+              </div>
+              <div class="col-md-6 col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>Average Price
+                    <!-- <span class="color-red">*</span> -->
+                  </label>
+                  <input min="0" class="form-control" [(ngModel)]="model.avg_price" type="number" name="building_avg_price" placeholder="Average price">
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>Launch Date
+                      <!-- <span class="color-red">*</span> -->
+                    </label>
+                    <input class="form-control" [ngModel]="model.launch_date  | date:'yyyy-MM-dd'" (ngModelChange)="model.launch_date  = $event" type="date" name="building_launch_date" placeholder="Launch date">
+                  </div>
+                </div>
+
+              <div class="col-sm-12 col-12">
+                <div class="form-group-3">
+                  <label>Enter Custom Parameter and Value</label>
+                  <div class="row">
+                      <div class="col-sm-5">
+                        <input [(ngModel)]="new_custom.name" class="form-control" name="custom_name" type="text" placeholder="Parameter name"/>
+                      </div>
+                      <div class="col-sm-5">
+                        <input [(ngModel)]="new_custom.value" class="form-control" name="custom_value" type="text" placeholder="Parameter value" />
+                      </div>
+                      <div class="col-sm-2">
+                        <a (click)="addNewCustom()" class="btn-third btn btn-green" href="javascript://">Add</a>
+                      </div>
+                    </div>
+                    <div class="row" *ngFor="let c of model.custom_attributes ;let i=index;">
+                        <div class="col-sm-5">
+                            <div class="paramtext">{{c.name}}</div>                        </div>
+                        <div class="col-sm-5">
+                            <div class="paramtext">{{c.value}}</div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="paramtext"><a (click)="model.custom_attributes.splice(i,1)"><img src="assets/img/remove-icon.png" /></a></div>
+                        </div>
+                      </div>
+
+                </div>
+              </div>
+              <div class="spacer30"></div>
+
+              <div class="col-12">
+                <div class="form-group-3 marginB0">
+                  <label>Amenities available
+                    <!-- <span class="color-red">*</span> -->
+                  </label>
+                  <ul class="loc-tags-group">
+                    <li *ngFor="let a of all_amenities">
+                      <span *ngIf="a.selected==true">{{a.name}} 
+                        <b (click)="a.selected = false" title="remove"><img src="assets/img/close-tag.png" /></b>
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group-3 marginT15">
+                  <div class="btn-cont">
+                    <a class="btn-third btn btn-block" data-toggle="modal" data-target="#amenities" href="javascript://">Add More</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group-3" style="width: 100%;">
+                  <label class="float-left marginB0">Configuration
+                    <!-- <span class="color-red">*</span> -->
+                  </label>
+                  <div class="clearfix"></div>
+                  <hr>
+                  <div *ngFor="let c of model.configurations; let index=index" class="configur">
+                    <div class="float-right marginB0">
+                           <a (click)="editConfiguration(c, index)" title="Edit"><img src="assets/img/edit.png" /></a>
+                           <a (click)="deleteConfiguration(index);" title="Delete"><img src="assets/img/delete-green.png" /></a>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6 col-12">
+                        <p class="p18">{{c?.config?.name}}</p>
+                        <label>Images
+                          <!-- <span class="color-red">*</span> -->
+                        </label>
+                        <!-- <div class="image-group">
+                          <div class="fig-block">
+                            <img class="img-fluid" [src]="c.floor_map_image" onerror='this.src="http://via.placeholder.com/48x48"' alt="img">
+                          </div>
+                        </div> -->
+                        <div class="image-group">
+                            <div class="fig-block">
+                                <img class="img-fluid" [src]="c.floor_map_image" onerror='this.src="http://via.placeholder.com/48x48"' alt="img">
+                            </div>
+                            <div *ngFor="let im of c.images"  class="fig-block">
+                               <img [src]="im.image" onerror="this.src='http://via.placeholder.com/48x48'" alt="img">
+                            </div>
+                         </div>
+                      </div>
+     
+                      <div class="col-md-6 col-12">
+                        <p class="p14 text-right">Average Price
+                          <!-- <span class="color-red">*</span> -->
+                        </p>
+                        <h3 class="text-right">{{c?.base_price}} per sq/ft.</h3>
+                      </div>
+                      <div class="col-12">
+                        <hr>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="form-group-3 marginT15">
+                      <div class="btn-cont">
+                        <a (click)="openConfigPopupFun()" class="btn-third btn btn-block" href="javascript://">Add New</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                <div class="page-title paddingL0">
+                  <h3>Developer Info
+                    <!-- <span class="color-red">*</span> -->
+                  </h3>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-sm-6 col-6">
+                <div class="form-group-3">
+                  <label class="green-color" (click)="selectDeveloper()">Select Developer</label>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-sm-6 col-6">
+                <div class="form-group-3">
+                  <label class="green-color" (click)="addDeveloper()">Add New Developer</label>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>Name</label>
+                  <input autocomplete="off" [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.developer.name" class="form-control" type="text" name="developer_name" placeholder="Developer Name">
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>Email</label>
+                  <input autocomplete="off" [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.developer.email" class="form-control" type="email" name="developer_email" placeholder="Developer Email" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>Phone Number</label>
+                  <input autocomplete="off" [disabled]="!canEditdeveloperInfo" minlength="6" maxlength="16" autocomplete="off" type="text" class="form-control" id="phone" placeholder="Phone Number" minlength="1" [(ngModel)]="model.developer.phone" name="phone" ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)"/>
+
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="form-group-3">
+                  <label>Logo</label>
+
+                  <div class="add-project-img-more">
+                    <input [disabled]="!canEditdeveloperInfo" type="file" accept="image/*" name="sasdsda" (change)="file5.onSelectFile($event, true);">
+                    <img class="img-fluid" *ngIf="file5.image" [src]="file5.image">
+                    <div *ngIf="!file5.image"  class="upload-caption">
+                      <p class="green-color">+ Add more images</p>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="col-12">
+
+                <div class="btn-cont text-right">
+                  <hr>
+                  <button [disabled]="!f.valid" (click)="addProject()" class="btn-primary btn">Submit</button>
+                  <!-- <button  (click)="addProject()" class="btn-primary btn">Submit</button> -->
+                </div>
+
+              </div>
+
+
+
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<!-- Amanities model -->
+<div class="modal" id="amenities" style="display: none;" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content amenities-popup">
+      <div class="modal-header popup-header">
+        <h4 class="modal-title">Amenities</h4>
+        <button type="button" class="close" data-dismiss="modal">×</button>
+      </div>
+      <div class="modal-body">
+        <label *ngFor="let a of all_amenities; " (click)="a.selected = !a.selected" class="cust-check-bx2">
+             {{a.name}}
+           <span *ngIf="a.selected==true" class="checkmark open"></span>
+           </label>
+
+      </div>
+      <div class="modal-footer">
+        <div class="btn-cont">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Add More img -->
+<span data-target="#add-more-img" data-toggle="modal" #modalOpen></span>
+<div class="modal add-more-popup" id="add-more-img">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Images</h4>
+        <button type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="uploaded-img-block">
+          <div class="uploaded-img" *ngFor="let item of file2.files; let i=index">
+            <a class="remove" (click)="file2.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
+            <img *ngIf="item" class="u-img" [src]="item.image" alt="img">
+            <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+          </div>
+        </div>
+        <div class="add-more-images">
+          <input type="file" name="add-more" multiple max="6" accept="image/*" (change)="file2Select($event)">
+          <span>+ Add more images</span>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer btn-cont">
+        <button type="button" (click)="saveImages()" class="btn btn-primary">Submit</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<a #openDeveloperListModel class="btn-third btn btn-block" data-target="#developer-list" data-toggle="modal"></a>
+<div class="modal" id="developer-list">
+  <div class="modal-dialog">
+    <div class="modal-content notary-avail">
+        <div class="modal-header popup-header">
+        <h4 class="modal-title">Select Developer</h4>
+        <button type="button" class="close" data-dismiss="modal" #closeDeveloperListModel>&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-8 col-6">
+                    <input style="max-width:200px" list="amenities" class="form-control" type="text" name="keyword" placeholder="Search">
+                </div>
+            </div>
+            <div class="spacer40"></div>
+            <table class="table">
+                <tr *ngFor="let item of all_developers">
+                    <td *ngIf="item.is_blocked!=1">
+                        <div class="n-avail-profile">
+                        <img [src]="item.image" onerror='src="assets/img/default_img.png"' alt="img">
+                        <div class="n-avail-info">
+                            <p class="p12">{{item.name}}</p>
+                            <p class="p10">Phone : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
+                        </div>
+                        </div>
+                    </td>
+                    <td *ngIf="item.is_blocked!=1">
+                        <label class="cust-check-bx float-right">
+                            <input type="radio" name="notary_id" (click)="setDeveloper(item)">
+                            <span class="checkmark"></span>
+                        </label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+<a #openConfigPopup class="btn-third btn btn-block" data-target="#add-config" data-toggle="modal"></a>
+<div class="modal" id="add-config">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content add-config-popup">
+      <form #addConfig >
+      <div class="modal-header popup-header">
+        <h4 class="modal-title">Add Configuration</h4>
+        <button type="button" class="close" data-dismiss="modal" #closeConfigPopup>×</button>
+      </div>
+      <div *ngIf="new_config" class="modal-body">
+        <div class="row">
+          <div class="col-sm-6 col-12">
+            <div class="form-group-3">
+              <label>Title</label>
+              <select class="form-control" [(ngModel)]="new_config.configuration_id" (change)="selectConfiguration($event.target.value,new_config)" name="config_name">
+                <option value="">Select</option>  
+                <option *ngFor="let c of all_configurations" value="{{c.id}}" daa-model="c">{{c.name}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6 col-12">
+            <div class="form-group-3">
+              <label>Carpet area (sqft)
+              </label>
+              <input min="0" class="form-control" [(ngModel)]="new_config.carpet_area" type="number" name="base_price">
+            </div>
+          </div>
+          <div class="col-sm-6 col-12">
+            <div class="form-group-3">
+              <label>Average Price
+              </label>
+              <input min="0" class="form-control" [(ngModel)]="new_config.base_price" type="number" name="base_price">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group-3">
+              <label>Floor Plan Image
+              </label>
+              <div class="upload-cover-img" style="max-width: 400px; margin: 0px auto;height: 250px;">
+                  <img class="img-fluid" [src]="file3.image" onerror='this.src="assets/img/placeholder.png"' />
+                  <div *ngIf="!file3.image" class="upload-caption">
+                      <p class="green-color marginT30">+Upload Cover image for the project</p>
+                      <p>JPG or PNG. Imae size should be 1920 × 1080 pixels (for HiDPI displays).</p>
+                  </div>
+                  <input type="file" accept="image/*" name="floor_map_image" (change)="file3.onSelectFile($event)">
+              </div>
+              <div class="spacer30"></div>
+              <label>Other Images
+              </label>
+              <div class="spacer30"></div>
+              <div class="uploaded-img-block">
+                <div class="uploaded-img" *ngFor="let item of file4.files; let i=index">
+                  <a class="remove" (click)="file4.remove(i)">
+                    <img src="assets/img/remove-icon.png" alt="img">
+                  </a>
+                  <img *ngIf="item.image" class="u-img" [src]="item.image" alt="img">
+                  <img *ngIf="!item.image" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+                </div>
+              </div>
+              
+              <div class="add-project-img-more">
+                <input type="file" name="add-more-images" multiple max="6" accept="image/*" (change)="file4Select($event)">
+                <div class="upload-caption">
+                  <p class="green-color">+ Add more images</p>
+                </div>
+              </div>
+          
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="btn-cont">
+            <button [disabled]="!new_config.configuration_id
+            || !new_config.carpet_area
+            || !new_config.base_price
+            || !file3.image" (click)="addNewConfig()" type="button" class="btn btn-primary">Save</button>
+          </div>
+        </div>
+      </div>
+      </form>
+
+    </div>
+  </div>
+
+  

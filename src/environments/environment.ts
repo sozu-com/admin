@@ -3,7 +3,20 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  baseIP: 'https://apitest.sozul.com/',
+  baseUrl: 'https://apitest.sozul.com/api/admin/',
+  socketUrl: 'http://socket.sozul.com',
+  deviceId: 'ADMIN',
+
+  firebase: {
+    apiKey: 'AIzaSyAZMJdN4-tFi3vkKLz-c-BoFHMq7eAkoAc',
+    authDomain: 'nequore-user.firebaseapp.com',
+    databaseURL: 'https://nequore-user.firebaseio.com',
+    projectId: 'nequore-user',
+    storageBucket: 'nequore-user.appspot.com',
+    messagingSenderId: '1056655786619'
+  }
 };
 
 /*
