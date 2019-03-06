@@ -113,7 +113,7 @@ export class AclComponent implements OnInit {
         success => {
           if (success.success === '0') {
             swal('Error', success.message, 'error');
-          }else {
+          } else {
             this.modalClose.nativeElement.click();
             formdata.reset();
             const text = this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';

@@ -988,6 +988,7 @@ var MessagingService = /** @class */ (function () {
         console.log('inside request permission');
         this.angularFireMessaging.requestToken.subscribe(function (token) {
             console.log(token);
+            _this.fcmTokens = token;
             _this.updateToken(userId, token);
         }, function (err) {
             console.error('Unable to get permission to notify.', err);
@@ -5507,8 +5508,12 @@ var AppHeaderComponent = /** @class */ (function () {
             _this.fullName = success['name'];
             _this.image = success['image'];
             _this.messagingService.requestPermission(success['id']);
+            console.log('aaaaa', _this.messagingService.fcmTokens);
             _this.messagingService.receiveMessage();
             _this.message = _this.messagingService.currentMessage;
+            // if (this.messagingService.fcmTokens) {
+            //   this.updateDeviceToken();
+            // }
         });
         // this.msg.currentMessage$.subscribe(r => {
         //   console.log('push', r);
@@ -5520,6 +5525,12 @@ var AppHeaderComponent = /** @class */ (function () {
         console.log('msg_count', this.msg_count);
         this.getNotifications();
     }
+    AppHeaderComponent.prototype.updateDeviceToken = function () {
+        this.admin.postDataApi('updateDeviceToken', { device_id: this.admin.deviceId, device_token: this.messagingService.fcmTokens })
+            .subscribe(function (success1) {
+            console.log('suc', success1);
+        });
+    };
     AppHeaderComponent.prototype.setData = function () {
         var _this = this;
         this.admin.postDataApi('get-details', {})
@@ -5610,8 +5621,8 @@ __webpack_require__.r(__webpack_exports__);
 // The list of file replacements can be found in `angular.json`.
 var environment = {
     production: false,
-    baseIP: 'https://apitest.sozul.com/',
-    baseUrl: 'https://apitest.sozul.com/api/admin/',
+    baseIP: 'https://api.sozul.com/',
+    baseUrl: 'https://api.sozul.com/api/admin/',
     socketUrl: 'https://socket.sozul.com',
     deviceId: 'ADMIN',
     firebase: {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AdminService } from './../../services/admin.service';
 import { Router } from '@angular/router';
 import { Constant } from '../../common/constants';
@@ -33,9 +33,12 @@ export class AppHeaderComponent {
       this.image = success['image'];
 
       this.messagingService.requestPermission(success['id']);
+      console.log('aaaaa', this.messagingService.fcmTokens);
       this.messagingService.receiveMessage();
       this.message = this.messagingService.currentMessage;
-
+      // if (this.messagingService.fcmTokens) {
+      //   this.updateDeviceToken();
+      // }
     });
 
     // this.msg.currentMessage$.subscribe(r => {
@@ -47,6 +50,14 @@ export class AppHeaderComponent {
     // });
 console.log('msg_count', this.msg_count);
     this.getNotifications();
+  }
+
+  updateDeviceToken() {
+    this.admin.postDataApi('updateDeviceToken', {device_id: this.admin.deviceId, device_token: this.messagingService.fcmTokens})
+      .subscribe(
+        success1 => {
+          console.log('suc', success1);
+        });
   }
 
   setData() {

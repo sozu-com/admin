@@ -140,7 +140,7 @@ export class AddAclComponent implements OnInit {
           this.parameter.loading = false;
           if (success.success === '0') {
             swal('Error', success.message, 'error');
-          }else {
+          } else {
             const text = this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
             swal('Success', text, 'success');
             if (this.model.id === '') {
