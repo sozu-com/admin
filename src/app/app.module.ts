@@ -10,6 +10,8 @@ import { Ng2TelInputModule } from 'ng2-tel-input';
 import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
+import { ToastrModule } from 'ngx-toastr';
+
 // firebase -start
 import { AngularFireModule} from '@angular/fire';
 import { environment} from '../environments/environment';
@@ -65,6 +67,7 @@ const appRoutes: Routes = [
     }),
     MalihuScrollbarModule.forRoot(),
     Ng2TelInputModule,
+    ToastrModule.forRoot(),
     // AngularFireDatabaseModule,
     // AngularFireAuthModule,
     AngularFireModule.initializeApp(environment.firebase),

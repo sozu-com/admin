@@ -44,6 +44,7 @@
     "ngx-malihu-scrollbar": "^7.0.0",
     "ngx-mydatepicker": "^2.4.9",
     "ngx-pagination": "^3.2.1",
+    "ngx-toastr": "^9.1.2",
     "nouislider": "^11.1.0",
     "primeicons": "^1.0.0",
     "primeng": "^4.1.3",

@@ -32,7 +32,6 @@ export class AppHeaderComponent {
       this.fullName = success['name'];
       this.image = success['image'];
 
-
       this.messagingService.requestPermission(success['id']);
       this.messagingService.receiveMessage();
       this.message = this.messagingService.currentMessage;

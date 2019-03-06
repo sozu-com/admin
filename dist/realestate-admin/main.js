@@ -503,22 +503,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _toverux_ngx_sweetalert2__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @toverux/ngx-sweetalert2 */ "./node_modules/@toverux/ngx-sweetalert2/esm5/toverux-ngx-sweetalert2.js");
 /* harmony import */ var ngx_loading__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ngx-loading */ "./node_modules/ngx-loading/fesm5/ngx-loading.js");
 /* harmony import */ var ngx_malihu_scrollbar__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ngx-malihu-scrollbar */ "./node_modules/ngx-malihu-scrollbar/fesm5/ngx-malihu-scrollbar.js");
-/* harmony import */ var _angular_fire__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/fire */ "./node_modules/@angular/fire/index.js");
-/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../environments/environment */ "./src/environments/environment.ts");
-/* harmony import */ var firebase__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! firebase */ "./node_modules/firebase/dist/index.cjs.js");
-/* harmony import */ var firebase__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(firebase__WEBPACK_IMPORTED_MODULE_14__);
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _page_not_found_page_not_found_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./page-not-found/page-not-found.component */ "./src/app/page-not-found/page-not-found.component.ts");
-/* harmony import */ var _layout_layout_module__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./layout/layout.module */ "./src/app/layout/layout.module.ts");
-/* harmony import */ var _services_http_interceptor__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./services/http-interceptor */ "./src/app/services/http-interceptor.ts");
-/* harmony import */ var _forgot_password_forgot_password_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./forgot-password/forgot-password.component */ "./src/app/forgot-password/forgot-password.component.ts");
-/* harmony import */ var _login_login_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./login/login.component */ "./src/app/login/login.component.ts");
-/* harmony import */ var _services_common_service__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./services/common.service */ "./src/app/services/common.service.ts");
-/* harmony import */ var _common_constants__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./common/constants */ "./src/app/common/constants.ts");
-/* harmony import */ var _models_login_model__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./models/login.model */ "./src/app/models/login.model.ts");
-/* harmony import */ var _modules_shared_module__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./modules/shared.module */ "./src/app/modules/shared.module.ts");
-/* harmony import */ var _lang_translate_service__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./lang/translate.service */ "./src/app/lang/translate.service.ts");
-/* harmony import */ var _angular_fire_messaging__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @angular/fire/messaging */ "./node_modules/@angular/fire/messaging/index.js");
+/* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
+/* harmony import */ var _angular_fire__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/fire */ "./node_modules/@angular/fire/index.js");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../environments/environment */ "./src/environments/environment.ts");
+/* harmony import */ var firebase__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! firebase */ "./node_modules/firebase/dist/index.cjs.js");
+/* harmony import */ var firebase__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(firebase__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
+/* harmony import */ var _page_not_found_page_not_found_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./page-not-found/page-not-found.component */ "./src/app/page-not-found/page-not-found.component.ts");
+/* harmony import */ var _layout_layout_module__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./layout/layout.module */ "./src/app/layout/layout.module.ts");
+/* harmony import */ var _services_http_interceptor__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./services/http-interceptor */ "./src/app/services/http-interceptor.ts");
+/* harmony import */ var _forgot_password_forgot_password_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./forgot-password/forgot-password.component */ "./src/app/forgot-password/forgot-password.component.ts");
+/* harmony import */ var _login_login_component__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./login/login.component */ "./src/app/login/login.component.ts");
+/* harmony import */ var _services_common_service__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./services/common.service */ "./src/app/services/common.service.ts");
+/* harmony import */ var _common_constants__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./common/constants */ "./src/app/common/constants.ts");
+/* harmony import */ var _models_login_model__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./models/login.model */ "./src/app/models/login.model.ts");
+/* harmony import */ var _modules_shared_module__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./modules/shared.module */ "./src/app/modules/shared.module.ts");
+/* harmony import */ var _lang_translate_service__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./lang/translate.service */ "./src/app/lang/translate.service.ts");
+/* harmony import */ var _angular_fire_messaging__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! @angular/fire/messaging */ "./node_modules/@angular/fire/messaging/index.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -537,11 +538,12 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
 // firebase -start
 
 
 
-firebase__WEBPACK_IMPORTED_MODULE_14__["initializeApp"](_environments_environment__WEBPACK_IMPORTED_MODULE_13__["environment"].firebase);
+firebase__WEBPACK_IMPORTED_MODULE_15__["initializeApp"](_environments_environment__WEBPACK_IMPORTED_MODULE_14__["environment"].firebase);
 // firebase -end
 
 
@@ -556,11 +558,11 @@ firebase__WEBPACK_IMPORTED_MODULE_14__["initializeApp"](_environments_environmen
 
 
 var appRoutes = [
-    { path: '', pathMatch: 'full', component: _login_login_component__WEBPACK_IMPORTED_MODULE_20__["LoginComponent"] },
-    { path: 'login', pathMatch: 'full', component: _login_login_component__WEBPACK_IMPORTED_MODULE_20__["LoginComponent"] },
-    { path: 'forgot-password', component: _forgot_password_forgot_password_component__WEBPACK_IMPORTED_MODULE_19__["ForgotPasswordComponent"] },
+    { path: '', pathMatch: 'full', component: _login_login_component__WEBPACK_IMPORTED_MODULE_21__["LoginComponent"] },
+    { path: 'login', pathMatch: 'full', component: _login_login_component__WEBPACK_IMPORTED_MODULE_21__["LoginComponent"] },
+    { path: 'forgot-password', component: _forgot_password_forgot_password_component__WEBPACK_IMPORTED_MODULE_20__["ForgotPasswordComponent"] },
     { path: 'dashboard', canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_7__["AuthGuard"]], loadChildren: './layout/layout.module#LayoutModule' },
-    { path: '**', component: _page_not_found_page_not_found_component__WEBPACK_IMPORTED_MODULE_16__["PageNotFoundComponent"] },
+    { path: '**', component: _page_not_found_page_not_found_component__WEBPACK_IMPORTED_MODULE_17__["PageNotFoundComponent"] },
 ];
 var AppModule = /** @class */ (function () {
     function AppModule() {
@@ -568,10 +570,10 @@ var AppModule = /** @class */ (function () {
     AppModule = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
             declarations: [
-                _app_component__WEBPACK_IMPORTED_MODULE_15__["AppComponent"],
-                _forgot_password_forgot_password_component__WEBPACK_IMPORTED_MODULE_19__["ForgotPasswordComponent"],
-                _login_login_component__WEBPACK_IMPORTED_MODULE_20__["LoginComponent"],
-                _page_not_found_page_not_found_component__WEBPACK_IMPORTED_MODULE_16__["PageNotFoundComponent"],
+                _app_component__WEBPACK_IMPORTED_MODULE_16__["AppComponent"],
+                _forgot_password_forgot_password_component__WEBPACK_IMPORTED_MODULE_20__["ForgotPasswordComponent"],
+                _login_login_component__WEBPACK_IMPORTED_MODULE_21__["LoginComponent"],
+                _page_not_found_page_not_found_component__WEBPACK_IMPORTED_MODULE_17__["PageNotFoundComponent"],
             ],
             imports: [
                 _angular_router__WEBPACK_IMPORTED_MODULE_4__["RouterModule"].forRoot(appRoutes),
@@ -581,33 +583,34 @@ var AppModule = /** @class */ (function () {
                 _angular_http__WEBPACK_IMPORTED_MODULE_6__["HttpModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormsModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_3__["ReactiveFormsModule"],
-                _layout_layout_module__WEBPACK_IMPORTED_MODULE_17__["LayoutModule"],
-                _modules_shared_module__WEBPACK_IMPORTED_MODULE_24__["SharedModule"],
+                _layout_layout_module__WEBPACK_IMPORTED_MODULE_18__["LayoutModule"],
+                _modules_shared_module__WEBPACK_IMPORTED_MODULE_25__["SharedModule"],
                 ngx_loading__WEBPACK_IMPORTED_MODULE_10__["NgxLoadingModule"].forRoot({
                     animationType: ngx_loading__WEBPACK_IMPORTED_MODULE_10__["ngxLoadingAnimationTypes"].rectangleBounce,
                     primaryColour: '#00B96F'
                 }),
                 ngx_malihu_scrollbar__WEBPACK_IMPORTED_MODULE_11__["MalihuScrollbarModule"].forRoot(),
                 ng2_tel_input__WEBPACK_IMPORTED_MODULE_8__["Ng2TelInputModule"],
+                ngx_toastr__WEBPACK_IMPORTED_MODULE_12__["ToastrModule"].forRoot(),
                 // AngularFireDatabaseModule,
                 // AngularFireAuthModule,
-                _angular_fire__WEBPACK_IMPORTED_MODULE_12__["AngularFireModule"].initializeApp(_environments_environment__WEBPACK_IMPORTED_MODULE_13__["environment"].firebase),
+                _angular_fire__WEBPACK_IMPORTED_MODULE_13__["AngularFireModule"].initializeApp(_environments_environment__WEBPACK_IMPORTED_MODULE_14__["environment"].firebase),
             ],
             providers: [
                 _services_admin_service__WEBPACK_IMPORTED_MODULE_5__["AdminService"],
                 // AngularFireDatabase,
                 // AngularFireAuth,
                 // MessagingService,
-                _services_common_service__WEBPACK_IMPORTED_MODULE_21__["CommonService"],
+                _services_common_service__WEBPACK_IMPORTED_MODULE_22__["CommonService"],
                 _guards_auth_guard__WEBPACK_IMPORTED_MODULE_7__["AuthGuard"],
-                _services_http_interceptor__WEBPACK_IMPORTED_MODULE_18__["HttpInterceptor"],
-                _common_constants__WEBPACK_IMPORTED_MODULE_22__["Constant"],
-                _models_login_model__WEBPACK_IMPORTED_MODULE_23__["Login"],
-                _models_login_model__WEBPACK_IMPORTED_MODULE_23__["AdminACL"],
-                _lang_translate_service__WEBPACK_IMPORTED_MODULE_25__["TranslateService"],
-                _angular_fire_messaging__WEBPACK_IMPORTED_MODULE_26__["AngularFireMessaging"]
+                _services_http_interceptor__WEBPACK_IMPORTED_MODULE_19__["HttpInterceptor"],
+                _common_constants__WEBPACK_IMPORTED_MODULE_23__["Constant"],
+                _models_login_model__WEBPACK_IMPORTED_MODULE_24__["Login"],
+                _models_login_model__WEBPACK_IMPORTED_MODULE_24__["AdminACL"],
+                _lang_translate_service__WEBPACK_IMPORTED_MODULE_26__["TranslateService"],
+                _angular_fire_messaging__WEBPACK_IMPORTED_MODULE_27__["AngularFireMessaging"]
             ],
-            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_15__["AppComponent"]]
+            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_16__["AppComponent"]]
         })
     ], AppModule);
     return AppModule;
@@ -888,6 +891,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_fire_messaging__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/fire/messaging */ "./node_modules/@angular/fire/messaging/index.js");
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+/* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
 // import { Injectable } from '@angular/core';
 // import * as firebase from 'firebase';
 // import 'rxjs/add/operator/take';
@@ -947,8 +951,10 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var MessagingService = /** @class */ (function () {
-    function MessagingService(angularFireDB, angularFireAuth, angularFireMessaging) {
+    function MessagingService(toastrService, angularFireDB, angularFireAuth, angularFireMessaging) {
+        this.toastrService = toastrService;
         this.angularFireDB = angularFireDB;
         this.angularFireAuth = angularFireAuth;
         this.angularFireMessaging = angularFireMessaging;
@@ -993,13 +999,17 @@ var MessagingService = /** @class */ (function () {
     MessagingService.prototype.receiveMessage = function () {
         var _this = this;
         this.angularFireMessaging.messages.subscribe(function (payload) {
+            var data = payload['data'];
             console.log('new message received. ', payload);
+            var notificationTitle = data.title;
+            _this.toastrService.success('', notificationTitle);
             _this.currentMessage.next(payload);
         });
     };
     MessagingService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
-        __metadata("design:paramtypes", [_angular_fire_database__WEBPACK_IMPORTED_MODULE_1__["AngularFireDatabase"],
+        __metadata("design:paramtypes", [ngx_toastr__WEBPACK_IMPORTED_MODULE_6__["ToastrService"],
+            _angular_fire_database__WEBPACK_IMPORTED_MODULE_1__["AngularFireDatabase"],
             _angular_fire_auth__WEBPACK_IMPORTED_MODULE_2__["AngularFireAuth"],
             _angular_fire_messaging__WEBPACK_IMPORTED_MODULE_3__["AngularFireMessaging"]])
     ], MessagingService);
@@ -1130,7 +1140,6 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
-// import { Observable } from 'rxjs/Observable';
 
 
 
@@ -1150,8 +1159,8 @@ var AclUserGuard = /** @class */ (function () {
                     return _this.checkData(next, state, _this.admin.admin_acl, _this.admin.permissions);
                 }
             }).catch(function () {
-                // this.location.back();
-                // return Observable.of(false);
+                _this.location.back();
+                // return Observable.of(false); // used for angular4
                 return Object(rxjs__WEBPACK_IMPORTED_MODULE_4__["of"])(false);
             });
         }

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-// import { Observable } from 'rxjs/Observable';
 import { AdminService } from './../services/admin.service';
 import { Location } from '@angular/common';
 import { of, Observable } from 'rxjs';
@@ -19,8 +18,8 @@ export class AclUserGuard implements CanActivate {
             return this.checkData(next, state, this.admin.admin_acl, this.admin.permissions);
           }
         }).catch(() => {
-          // this.location.back();
-          // return Observable.of(false);
+          this.location.back();
+          // return Observable.of(false); // used for angular4
           return of(false);
         });
       } else {

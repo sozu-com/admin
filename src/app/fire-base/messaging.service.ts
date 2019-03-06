@@ -58,6 +58,7 @@ import { AngularFireMessaging } from '@angular/fire/messaging';
 import { mergeMapTo } from 'rxjs/operators';
 import { take } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class MessagingService {
@@ -66,6 +67,7 @@ export class MessagingService {
   currentMessage = new BehaviorSubject(null);
 
   constructor(
+    private toastrService: ToastrService,
     private angularFireDB: AngularFireDatabase,
     private angularFireAuth: AngularFireAuth,
     private angularFireMessaging: AngularFireMessaging) {
@@ -117,7 +119,10 @@ export class MessagingService {
   receiveMessage() {
     this.angularFireMessaging.messages.subscribe(
       (payload) => {
+        const data = payload['data'];
         console.log('new message received. ', payload);
+        const notificationTitle = data.title;
+        this.toastrService.success('', notificationTitle);
         this.currentMessage.next(payload);
       });
   }
