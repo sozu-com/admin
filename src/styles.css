@@ -23,7 +23,7 @@ table tr, table tr td{outline: none !important;}
 .my-pagination{text-align: right;}
 .ngx-pagination .current { background: #00b96f !important; }
 .center{ text-align: center; }
-.app-logo{ padding-top: 7px; }
+.app-logo{ padding-top: 6px; }
 .form-group select.form-control { padding: 8px 25px 8px 15px !important; height: 40px !important; }
 /* p-calender color */
 .ui-widget-header .ui-button, .ui-widget-content .ui-button, .ui-widget.ui-button, .ui-button {
