@@ -52,19 +52,19 @@ export class AddProjectComponent implements OnInit {
   testMarital = [];
   imageEvent = [];
   showText = false;
-  all_possession_statuses: any= [];
-  all_building_types: any= [];
-  all_amenities: any= [];
-  all_configurations: any= [];
+  all_possession_statuses: any = [];
+  all_building_types: any = [];
+  all_amenities: any = [];
+  all_configurations: any = [];
   all_developers: any = [];
-  selected_amenities: any= [];
+  selected_amenities: any = [];
   new_config: any = new Configuration;
-  new_custom: any = {name: '', value: ''};
+  new_custom: any = { name: '', value: '' };
   new_config_edit: any;
-  FU: any= {};
-  initialCountry = {initialCountry: 'mx'};
+  FU: any = {};
+  initialCountry = { initialCountry: 'mx' };
 
-  file1: any; file2: any; file3: any; file4: any; file5: any;
+  file1: any; file2: any; file3: any; file4: any; file5: any; file6: any;
 
   constructor(
     public model: AddProjectModel,
@@ -82,103 +82,108 @@ export class AddProjectComponent implements OnInit {
     this.file3 = new FileUpload(true, this.admin);
     this.file4 = new FileUpload(false, this.admin);
     this.file5 = new FileUpload(true, this.admin);
+    this.file6 = new FileUpload(true, this.admin);
 
-    this.route.params.subscribe( params => {
+    this.route.params.subscribe(params => {
       console.log('paramsssss');
       console.log('param', params);
-        this.id = params.id;
-        if (this.id) {
-          /* if id exists edit mode */
-          this.canEditdeveloperInfo = false;
-          this.parameter.loading = true;
-          this.admin.postDataApi('getProjectById', {building_id: this.id}).subscribe(r => {
-            this.parameter.loading = false;
-            this.model = JSON.parse(JSON.stringify(r.data));
-            if (r.data.developer == null) {
-              this.model.developer = {
-                id: '',
-                name: '',
-                email: '',
-                country_code: this.constant.country_code,
-                dial_code: this.constant.dial_code,
-                phone: '',
-                logo: '',
-                developer_image: ''
-              };
-              this.model.developer.name = r.data.developer != null && r.data.developer.name ? r.data.developer.name : '';
-              this.model.developer.email = r.data.developer != null && r.data.developer.email ? r.data.developer.email : '';
-              this.model.developer.phone = r.data.developer != null && r.data.developer.phone ? r.data.developer.phone : '';
-            }
-            this.file1.image = this.model.main_image;
-            // this.model.configurations.map((item) => {
-            //   item.images = item.images.map(r1 => r1.image);
-            // });
-            this.model.custom_attributes = this.model.custom_values;
-            this.file5.image = this.model.developer.developer_image;
-            this.admin.postDataApi('getAmenities', {}).subscribe(res => {
-              this.all_amenities = res.data.map(item => {item.selected = false; return item; });
-              this.selected_amenities = this.all_amenities.map(item => {
-                if (this.model.amenities.find(am => am.id === item.id)) {
-                  item.selected = true;
-                }
-                return item;
-              });
-            });
-          }, error => {
-            this.parameter.loading = false;
-          });
-        }else if (params.request_id) {
-          /* if request_id exists, building request edit mode */
-          this.canEditdeveloperInfo = false;
-          this.parameter.loading = true;
-          this.admin.postDataApi('getBuildingRequest', {building_request_id: params.request_id}).subscribe(r => {
-            this.parameter.loading = false;
-            this.model = JSON.parse(JSON.stringify(r.data));
-            console.log('--------------', r);
-            console.log('--------------', this.model);
-            if (r.data.developer == null) {
-              this.model.developer = {
-                id: '',
-                name: '',
-                email: '',
-                country_code: this.constant.country_code,
-                dial_code: this.constant.dial_code,
-                phone: '',
-                logo: '',
-                developer_image: ''
-              };
-              this.model.building_request_id = params.request_id;
-              this.model.developer.name = r.data.dev_name ? r.data.dev_name : '';
-              this.model.developer.email = r.data.dev_email ? r.data.dev_email : '';
-              this.model.developer.country_code = r.data.dev_countrycode ? r.data.dev_countrycode : '';
-              this.model.developer.phone = r.data.dev_phone ? r.data.dev_phone : '';
-            }
-            this.file1.image = this.model.main_image;
-            // this.model.configurations.map((item) => {
-            //   item.images = item.images.map(r1 => r1.image);
-            // });
-            this.model.custom_attributes = this.model.custom_values;
-            this.file5.image = this.model.developer.developer_image;
-            this.admin.postDataApi('getAmenities', {}).subscribe(res => {
-              this.all_amenities = res.data.map(item => {item.selected = false; return item; });
-              this.selected_amenities = this.all_amenities.map(item => {
-                if (this.model.amenities && this.model.amenities.find(am => am.id === item.id)) {
-                  item.selected = true;
-                }
-                return item;
-              });
-            });
-          }, error => {
-            this.parameter.loading = false;
-          });
-        }else {
-          this.canEditdeveloperInfo = true;
+      this.id = params.id;
+      if (this.id) {
+        /* if id exists edit mode */
+        this.canEditdeveloperInfo = false;
+        this.parameter.loading = true;
+        this.admin.postDataApi('getProjectById', { building_id: this.id }).subscribe(r => {
+          this.parameter.loading = false;
+          this.model = JSON.parse(JSON.stringify(r.data));
+          if (r.data.developer == null) {
+            this.model.developer = {
+              id: '',
+              name: '',
+              email: '',
+              country_code: this.constant.country_code,
+              dial_code: this.constant.dial_code,
+              phone: '',
+              logo: '',
+              image: '',
+              developer_image: ''
+            };
+            this.model.developer.name = r.data.developer != null && r.data.developer.name ? r.data.developer.name : '';
+            this.model.developer.email = r.data.developer != null && r.data.developer.email ? r.data.developer.email : '';
+            this.model.developer.phone = r.data.developer != null && r.data.developer.phone ? r.data.developer.phone : '';
+          }
+          this.file1.image = this.model.main_image;
+          // this.model.configurations.map((item) => {
+          //   item.images = item.images.map(r1 => r1.image);
+          // });
+          this.model.custom_attributes = this.model.custom_values;
+          this.file5.image = this.model.developer.image;
+          this.file6.image = this.model.developer.developer_image;
           this.admin.postDataApi('getAmenities', {}).subscribe(res => {
-            this.all_amenities = res.data.map(item => {item.selected = false; return item; });
+            this.all_amenities = res.data.map(item => { item.selected = false; return item; });
+            this.selected_amenities = this.all_amenities.map(item => {
+              if (this.model.amenities.find(am => am.id === item.id)) {
+                item.selected = true;
+              }
+              return item;
+            });
           });
-          this.model.dev_countrycode = 'mx';
-          this.model.dev_dialcode = '+52';
-        }
+        }, error => {
+          this.parameter.loading = false;
+        });
+      } else if (params.request_id) {
+        /* if request_id exists, building request edit mode */
+        this.canEditdeveloperInfo = false;
+        this.parameter.loading = true;
+        this.admin.postDataApi('getBuildingRequest', { building_request_id: params.request_id }).subscribe(r => {
+          this.parameter.loading = false;
+          this.model = JSON.parse(JSON.stringify(r.data));
+          console.log('--------------', r);
+          console.log('--------------', this.model);
+          if (r.data.developer == null) {
+            this.model.developer = {
+              id: '',
+              name: '',
+              email: '',
+              country_code: this.constant.country_code,
+              dial_code: this.constant.dial_code,
+              phone: '',
+              logo: '',
+              image: '',
+              developer_image: ''
+            };
+            this.model.building_request_id = params.request_id;
+            this.model.developer.name = r.data.dev_name ? r.data.dev_name : '';
+            this.model.developer.email = r.data.dev_email ? r.data.dev_email : '';
+            this.model.developer.country_code = r.data.dev_countrycode ? r.data.dev_countrycode : '';
+            this.model.developer.phone = r.data.dev_phone ? r.data.dev_phone : '';
+          }
+          this.file1.image = this.model.main_image;
+          // this.model.configurations.map((item) => {
+          //   item.images = item.images.map(r1 => r1.image);
+          // });
+          this.model.custom_attributes = this.model.custom_values;
+          this.file5.image = this.model.developer.image;
+          this.file6.image = this.model.developer.developer_image;
+          this.admin.postDataApi('getAmenities', {}).subscribe(res => {
+            this.all_amenities = res.data.map(item => { item.selected = false; return item; });
+            this.selected_amenities = this.all_amenities.map(item => {
+              if (this.model.amenities && this.model.amenities.find(am => am.id === item.id)) {
+                item.selected = true;
+              }
+              return item;
+            });
+          });
+        }, error => {
+          this.parameter.loading = false;
+        });
+      } else {
+        this.canEditdeveloperInfo = true;
+        this.admin.postDataApi('getAmenities', {}).subscribe(res => {
+          this.all_amenities = res.data.map(item => { item.selected = false; return item; });
+        });
+        this.model.dev_countrycode = 'mx';
+        this.model.dev_dialcode = '+52';
+      }
     });
 
     this.zoom = 4;
@@ -266,20 +271,20 @@ export class AddProjectComponent implements OnInit {
 
   getGeoLocation(lat: number, lng: number) {
     if (navigator.geolocation) {
-        const geocoder = new google.maps.Geocoder();
-        const latlng = new google.maps.LatLng(lat, lng);
-        const request = { latLng: latlng };
+      const geocoder = new google.maps.Geocoder();
+      const latlng = new google.maps.LatLng(lat, lng);
+      const request = { latLng: latlng };
 
-        geocoder.geocode(request, (results, status) => {
-          if (status === google.maps.GeocoderStatus.OK) {
-            const result = results[0];
-            if (result != null) {
-              this.model.address = result.formatted_address;
-            } else {
-              this.model.address = lat + ',' + lng;
-            }
+      geocoder.geocode(request, (results, status) => {
+        if (status === google.maps.GeocoderStatus.OK) {
+          const result = results[0];
+          if (result != null) {
+            this.model.address = result.formatted_address;
+          } else {
+            this.model.address = lat + ',' + lng;
           }
-        });
+        }
+      });
     }
   }
 
@@ -382,18 +387,18 @@ export class AddProjectComponent implements OnInit {
         this.parameter.loading = false;
         this.new_config.floor_map_image = this.file3.image;
         this.new_config.images = this.file4.files;
-        if (this.new_config_edit >= 0 ) {
+        if (this.new_config_edit >= 0) {
           this.model.configurations[this.new_config_edit] = this.new_config;
-        }else {
+        } else {
           this.model.configurations.push(this.new_config);
         }
       }, error => {
         this.parameter.loading = false;
       });
     },
-    error => {
-      this.parameter.loading = false;
-    });
+      error => {
+        this.parameter.loading = false;
+      });
 
   }
 
@@ -487,7 +492,8 @@ export class AddProjectComponent implements OnInit {
     modelSave.dev_countrycode = modelSave.developer.country_code ? modelSave.developer.country_code : this.constant.country_code;
     modelSave.dev_dialcode = modelSave.developer.dial_code ? modelSave.developer.dial_code : this.constant.dial_code;
     modelSave.dev_logo = this.file5.image;
-    modelSave.amenities = this.all_amenities.filter(op => { if (op.selected === true) { return op; }}).map(op => op.id);
+    modelSave.developer_image = this.file6.image;
+    modelSave.amenities = this.all_amenities.filter(op => { if (op.selected === true) { return op; } }).map(op => op.id);
 
     if (modelSave.configurations && modelSave.configurations.length > 0) {
       modelSave.configurations.forEach(item => {
@@ -519,11 +525,11 @@ export class AddProjectComponent implements OnInit {
 
     console.log(modelSave);
     if (modelSave.dev_email) {
-      if (!modelSave.dev_name) {swal('Error', 'Please add developer name', 'error'); return false; }
-      if (!modelSave.dev_countrycode) {swal('Error', 'Please add developer country code', 'error'); return false; }
-      if (!modelSave.dev_email) {swal('Error', 'Please add developer email', 'error'); return false; }
-      if (!modelSave.dev_phone) {swal('Error', 'Please add developer phone', 'error'); return false; }
-      if (!modelSave.dev_logo) {swal('Error', 'Please add developer image', 'error'); return false; }
+      if (!modelSave.dev_name) { swal('Error', 'Please add developer name', 'error'); return false; }
+      if (!modelSave.dev_countrycode) { swal('Error', 'Please add developer country code', 'error'); return false; }
+      if (!modelSave.dev_email) { swal('Error', 'Please add developer email', 'error'); return false; }
+      if (!modelSave.dev_phone) { swal('Error', 'Please add developer phone', 'error'); return false; }
+      if (!modelSave.dev_logo) { swal('Error', 'Please add developer image', 'error'); return false; }
     }
     if (modelSave.building_age) {
       console.log('----', modelSave);
@@ -538,9 +544,9 @@ export class AddProjectComponent implements OnInit {
       modelSave.configurations.length > 0 && modelSave.dev_email && modelSave.dev_email != null
       && modelSave.dev_name && modelSave.dev_name != null
       && modelSave.dev_phone && modelSave.dev_phone != null && modelSave.dev_logo) {
-        console.log('----111');
-        modelSave.is_completed = 1;
-        // swal('Error', 'Please add building name', 'error');
+      console.log('----111');
+      modelSave.is_completed = 1;
+      // swal('Error', 'Please add building name', 'error');
       // return false;
     }
 
@@ -559,7 +565,7 @@ export class AddProjectComponent implements OnInit {
 
     if (this.id) {
       modelSave.building_id = this.id;
-      modelSave.developer_id =  modelSave.developer.id;
+      modelSave.developer_id = modelSave.developer.id;
       this.parameter.loading = true;
       this.admin.postDataApi('updateProject', modelSave).subscribe(success => {
         this.parameter.loading = false;
@@ -571,7 +577,7 @@ export class AddProjectComponent implements OnInit {
         this.parameter.loading = false;
         swal('Error', error.message, 'error');
       });
-    }else {
+    } else {
       delete modelSave.id;
       delete modelSave.building_id;
       this.parameter.loading = true;
@@ -611,41 +617,43 @@ export class AddProjectComponent implements OnInit {
       return false;
     }
     this.model.custom_attributes.unshift(this.new_custom);
-    this.new_custom = {name: '', value: ''};
+    this.new_custom = { name: '', value: '' };
   }
 
   setProjectModel(data) {
     this.model = JSON.parse(JSON.stringify(data));
-      if (data.developer == null) {
-        this.model.developer = {
-          id: '',
-          name: '',
-          email: '',
-          country_code: this.constant.country_code,
-          dial_code: this.constant.dial_code,
-          phone: '',
-          logo: '',
-          developer_image: ''
-        };
-        this.model.developer.name = data.developer != null && data.developer.name ? data.developer.name : '';
-        this.model.developer.email = data.developer != null && data.developer.email ? data.developer.email : '';
-        this.model.developer.phone = data.developer != null && data.developer.phone ? data.developer.phone : '';
-      }
-      this.file1.image = this.model.main_image;
-      // this.model.configurations.map((item) => {
-      //   item.images = item.images.map(r1 => r1.image);
-      // });
-      this.model.custom_attributes = this.model.custom_values;
-      this.file5.image = this.model.developer.developer_image;
-      this.admin.postDataApi('getAmenities', {}).subscribe(res => {
-        this.all_amenities = res.data.map(item => {item.selected = false; return item; });
-        this.selected_amenities = this.all_amenities.map(item => {
-          if (this.model.amenities.find(am => am.id === item.id)) {
-            item.selected = true;
-          }
-          return item;
-        });
+    if (data.developer == null) {
+      this.model.developer = {
+        id: '',
+        name: '',
+        email: '',
+        country_code: this.constant.country_code,
+        dial_code: this.constant.dial_code,
+        phone: '',
+        logo: '',
+        image: '',
+        developer_image: ''
+      };
+      this.model.developer.name = data.developer != null && data.developer.name ? data.developer.name : '';
+      this.model.developer.email = data.developer != null && data.developer.email ? data.developer.email : '';
+      this.model.developer.phone = data.developer != null && data.developer.phone ? data.developer.phone : '';
+    }
+    this.file1.image = this.model.main_image;
+    // this.model.configurations.map((item) => {
+    //   item.images = item.images.map(r1 => r1.image);
+    // });
+    this.model.custom_attributes = this.model.custom_values;
+    this.file5.image = this.model.developer.image;
+    this.file6.image = this.model.developer.developer_image;
+    this.admin.postDataApi('getAmenities', {}).subscribe(res => {
+      this.all_amenities = res.data.map(item => { item.selected = false; return item; });
+      this.selected_amenities = this.all_amenities.map(item => {
+        if (this.model.amenities.find(am => am.id === item.id)) {
+          item.selected = true;
+        }
+        return item;
       });
+    });
   }
 
   selectDeveloper() {
@@ -668,9 +676,11 @@ export class AddProjectComponent implements OnInit {
       dial_code: this.constant.dial_code,
       phone: '',
       logo: '',
+      image: '',
       developer_image: ''
     };
     this.file5.image = '';
+    this.file6.image = '';
     this.closeDeveloperListModel.nativeElement.click();
   }
 
@@ -685,6 +695,7 @@ export class AddProjectComponent implements OnInit {
       dial_code: this.constant.dial_code,
       phone: '',
       logo: '',
+      image: '',
       developer_image: ''
     };
     this.model.developer.id = item.id;
@@ -696,6 +707,7 @@ export class AddProjectComponent implements OnInit {
     this.model.developer.country_code = item.country_code;
     this.model.developer.logo = item.image;
     this.file5.image = item.image;
+    this.file6.image = item.developer_image;
     this.closeDeveloperListModel.nativeElement.click();
   }
 }

@@ -5,6 +5,7 @@ export class Users {
     dial_code: string;
     phone: string;
     image: any;
+    developer_image: any;
     email: string;
     interested_in: string;
     user_type: string;

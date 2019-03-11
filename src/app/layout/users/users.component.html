@@ -142,7 +142,7 @@
       <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="addNewUser(addForm)">
         <div class="modal-body">
           <div class="row">
-            <div class="col-6">
+            <div [ngClass]="parameter.type==1 ? 'col-8' : 'col-4'">
               <!-- <div class="add-img" [style.background-image]="image1">
               <input accept="image/*" name="image" class="image" (change)="changeListner($event)" type="file">
               <label *ngIf="!image1">+ Add Image</label>
@@ -150,16 +150,26 @@
               <div class="add-img" style="display:flex;">
                 <img *ngIf="image" [src]="image" style="object-fit: cover; width: 100%;">
                 <label *ngIf="model.image">
-                  <input accept="image/*" name="image" class="image" (change)="changeListner($event)" type="file">
+                  <input accept="image/*" name="image" class="image" (change)="changeListner($event, 1)" type="file">
                 </label>
                 <label *ngIf="!image">+ Add Image</label>
-                <input *ngIf="!image" accept="image/*" name="image" class="image" (change)="changeListner($event)" type="file">
+                <input *ngIf="!image" accept="image/*" name="image" class="image" (change)="changeListner($event, 1)" type="file">
               </div>
             </div>
-            <div class="col-6">
+            <div *ngIf="parameter.type==2" class="col-4">
+              <div class="add-img" style="display:flex;">
+                <img *ngIf="developer_image" [src]="developer_image" style="object-fit: cover; width: 100%;">
+                <label *ngIf="model.developer_image">
+                  <input accept="image/*" name="developer_image" class="image" (change)="changeListner($event, 2)" type="file">
+                </label>
+                <label *ngIf="!developer_image">+ Add Cover Image</label>
+                <input *ngIf="!developer_image" accept="image/*" name="developer_image" class="image" (change)="changeListner($event, 2)" type="file">
+              </div>
+            </div>
+            <div class="col-4">
               <div class="btn-cont text-right">
-                  <button *ngIf="!model.id" type="submit" class="btn btn-primary">ADD</button>
-                  <button *ngIf="model.id" type="submit" [disabled]="!addForm.valid" class="btn btn-primary">UPDATE</button>
+                  <button *ngIf="!model.id" type="submit" class="btn btn-primary-new">ADD</button>
+                  <button *ngIf="model.id" type="submit" [disabled]="!addForm.valid" class="btn btn-primary-new">UPDATE</button>
               </div>
             </div>
             <div class="col-12">

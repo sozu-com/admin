@@ -34,6 +34,7 @@ export class AddProjectModel {
       dial_code: '',
       phone: '',
       logo: '',
+      image: '',
       developer_image: ''
     };
     developer_id: any;

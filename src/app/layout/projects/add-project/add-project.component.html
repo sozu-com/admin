@@ -247,13 +247,13 @@
 
               <div class="col-md-6 col-sm-6 col-6">
                 <div class="form-group-3">
-                  <label class="green-color" (click)="selectDeveloper()">Select Developer</label>
+                  <label class="green-color cursor-pointer" (click)="selectDeveloper()">Select Developer</label>
                 </div>
               </div>
 
               <div class="col-md-6 col-sm-6 col-6">
                 <div class="form-group-3">
-                  <label class="green-color" (click)="addDeveloper()">Add New Developer</label>
+                  <label class="green-color cursor-pointer" (click)="addDeveloper()">Add New Developer</label>
                 </div>
               </div>
 
@@ -269,7 +269,7 @@
                   <input autocomplete="off" [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.developer.email" class="form-control" type="email" name="developer_email" placeholder="Developer Email" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
                 </div>
               </div>
-              <div class="col-md-6 col-sm-6 col-12">
+              <div class="col-md-12 col-sm-12 col-12">
                 <div class="form-group-3">
                   <label>Phone Number</label>
                   <input autocomplete="off" [disabled]="!canEditdeveloperInfo" minlength="6" maxlength="16" autocomplete="off" type="text" class="form-control" id="phone" placeholder="Phone Number" minlength="1" [(ngModel)]="model.developer.phone" name="phone" ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)"/>
@@ -277,18 +277,29 @@
                 </div>
               </div>
 
-              <div class="col-12">
+              <div class="col-6">
                 <div class="form-group-3">
                   <label>Logo</label>
-
                   <div class="add-project-img-more">
                     <input [disabled]="!canEditdeveloperInfo" type="file" accept="image/*" name="sasdsda" (change)="file5.onSelectFile($event, true);">
                     <img class="img-fluid" *ngIf="file5.image" [src]="file5.image">
                     <div *ngIf="!file5.image"  class="upload-caption">
-                      <p class="green-color">+ Add more images</p>
+                      <p class="green-color">+ Add logo</p>
                     </div>
                   </div>
+                </div>
+              </div>
 
+              <div class="col-6">
+                <div class="form-group-3">
+                  <label>Cover Image</label>
+                  <div class="add-project-img-more">
+                    <input [disabled]="!canEditdeveloperInfo" type="file" accept="image/*" name="developer_image" (change)="file6.onSelectFile($event, true);">
+                    <img class="img-fluid" *ngIf="file6.image" [src]="file6.image">
+                    <div *ngIf="!file6.image"  class="upload-caption">
+                      <p class="green-color">+ Add cover image</p>
+                    </div>
+                  </div>
                 </div>
               </div>
 

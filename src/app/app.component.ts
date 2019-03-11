@@ -3,6 +3,7 @@ import { IProperty } from './common/property';
 import { Router, NavigationEnd, NavigationCancel, NavigationError, NavigationStart } from '@angular/router';
 import { HttpInterceptor } from './services/http-interceptor';
 import { AdminService } from './services/admin.service';
+import { PlatformLocation } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -14,12 +15,12 @@ export class AppComponent implements OnInit {
 
   public parameter: IProperty = {};
   loading: any = false;
-  constructor(private router: Router, private admin: AdminService, public interceptor: HttpInterceptor) {
+  constructor(private router: Router, private location: PlatformLocation, public interceptor: HttpInterceptor) {
 
-    // this.checkData().then(r => {
-    //   console.log('checkkkkk----------------');
-    //     // this.loading = false;
-    // });
+    // close popup if any opened
+    location.onPopState(() => {
+      $('.close').click();
+    });
 
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {

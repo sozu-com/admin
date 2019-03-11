@@ -18,6 +18,7 @@ export class UsersComponent implements OnInit {
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
 
+  developer_image: any;
   image: any;
   public parameter: IProperty = {};
   initialCountry: any;
@@ -35,6 +36,7 @@ export class UsersComponent implements OnInit {
   openModal() {
     this.model = new Users();
     this.image = '';
+    this.developer_image = '';
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
     this.modalOpen.nativeElement.click();
@@ -43,6 +45,7 @@ export class UsersComponent implements OnInit {
   closeModal() {
     this.model = new Users();
     this.image = '';
+    this.developer_image = '';
     this.modalClose.nativeElement.click();
   }
 
@@ -72,11 +75,20 @@ export class UsersComponent implements OnInit {
   }
 
 
-  changeListner(event) {
-    this.model.image = event.target.files[0];
+  changeListner(event, type: number) {
+    if (type === 1) {
+      this.model.image = event.target.files[0];
+    } else {
+      this.model.developer_image = event.target.files[0];
+    }
+
     const reader = new FileReader();
     reader.onload = (e: any) => {
-      this.image = e.target.result;
+      if (type === 1) {
+        this.image = e.target.result;
+      } else {
+        this.developer_image = e.target.result;
+      }
     };
     reader.readAsDataURL(event.target.files[0]);
     console.log(this.model);
@@ -100,6 +112,7 @@ export class UsersComponent implements OnInit {
     input.append('phone', this.model.phone);
     input.append('email', this.model.email);
     if (this.model.image) { input.append('image', this.model.image); }
+    if (this.model.developer_image) { input.append('developer_image', this.model.developer_image); }
     this.parameter.loading = true;
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
@@ -127,7 +140,9 @@ export class UsersComponent implements OnInit {
     this.parameter.index = index;
     this.model = userdata;
     this.image = userdata.image;
+    this.developer_image = userdata.developer_image;
     this.model.image = userdata.image != null ? userdata.image : '';
+    this.model.developer_image = userdata.developer_image != null ? userdata.developer_image : '';
     this.modalOpen.nativeElement.click();
   }
 
