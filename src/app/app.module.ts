@@ -2,7 +2,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
 import { AdminService } from './services/admin.service';
 import { HttpModule } from '@angular/http';
 import { AuthGuard } from './guards/auth.guard';
@@ -52,7 +52,7 @@ const appRoutes: Routes = [
     // NumberWithCommasPipe,
   ],
   imports: [
-    RouterModule.forRoot(appRoutes),
+    RouterModule.forRoot(appRoutes, {preloadingStrategy: PreloadAllModules}),
     SweetAlert2Module.forRoot(),
     BrowserAnimationsModule,
     BrowserModule,

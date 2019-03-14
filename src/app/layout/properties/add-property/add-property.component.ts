@@ -10,6 +10,7 @@ import { Constant } from '../../../common/constants';
 import { FileUpload } from './../../../common/fileUpload';
 import { AddPropertyModel, Building, PropertyDetails } from '../../../models/addProperty.model';
 import { HttpInterceptor } from '../../../services/http-interceptor';
+import { AddProjectModel } from 'src/app/models/addProject.model';
 declare const google;
 declare let swal: any;
 
@@ -49,15 +50,21 @@ export class AddPropertyComponent implements OnInit {
   bankList = [];
   bank = '';
   testMarital = [
-    {id: 1,
-    name: 'Married',
-    checked: false},
-    {id: 2,
-    name: 'Unmarried',
-    checked: false},
-    {id: 3,
-    name: 'Divorced',
-    checked: false}
+    {
+      id: 1,
+      name: 'Married',
+      checked: false
+    },
+    {
+      id: 2,
+      name: 'Unmarried',
+      checked: false
+    },
+    {
+      id: 3,
+      name: 'Divorced',
+      checked: false
+    }
   ];
   imageEvent = [];
   showText = false;
@@ -67,10 +74,10 @@ export class AddPropertyComponent implements OnInit {
   propertyDetails = false;
   details: any;
   editMode = false;
-  newcarpet_area = {area: '', price: ''};
-  newcustom_attribute = {name: '', value: ''};
+  newcarpet_area = { area: '', price: '' };
+  newcustom_attribute = { name: '', value: '' };
   buildingLoading = false;
-
+  buildingData: AddProjectModel;
   constructor(public model: AddPropertyModel, private us: AdminService, private cs: CommonService,
     private router: Router, private sanitization: DomSanitizer, private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone, private building: Building, public constant: Constant,
@@ -78,9 +85,10 @@ export class AddPropertyComponent implements OnInit {
     private http: HttpInterceptor) { }
 
   ngOnInit() {
+    this.buildingData = new AddProjectModel();
     this.parameter.amenities = [];
     this.parameter.banks = [];
-    this.http.loader.next({value: true});
+    this.http.loader.next({ value: true });
     this.details = new PropertyDetails;
 
     this.file2 = new FileUpload(false, this.us);
@@ -98,6 +106,7 @@ export class AddPropertyComponent implements OnInit {
         this.testMarital[0].checked = true;
         this.model.marital_status = [1];
         this.showSearch = true;
+        this.parameter.propertyDetails = new AddPropertyModel();
       } else {
         this.getPropertyById(this.parameter.property_id);
       }
@@ -105,10 +114,10 @@ export class AddPropertyComponent implements OnInit {
     });
 
     this.parameter.buildingCount = 0;
-    this.initialCountry = {initialCountry: this.constant.initialCountry};
+    this.initialCountry = { initialCountry: this.constant.initialCountry };
     this.building.dev_countrycode = this.constant.dial_code;
 
-    this.tab = 1;
+    this.tab = 0;
     this.getCountries('');
     this.getConfigurations();
     this.getPropertyTypes();
@@ -126,7 +135,7 @@ export class AddPropertyComponent implements OnInit {
     // console.log('propertyid', this.parameter.property_id);
   }
 
-  getPropertyById (property_id) {
+  getPropertyById(property_id) {
     this.parameter.loading = true;
     this.parameter.url = 'getPropertyById';
     const input = new FormData();
@@ -145,7 +154,7 @@ export class AddPropertyComponent implements OnInit {
           }
           this.url2 = this.parameter.propertyDetails.images.map(op => op.image);
           if (this.url2.length > 0) {
-            this.image2  = this.url2[0];
+            this.image2 = this.url2[0];
           }
         }, error => {
           this.parameter.loading = false;
@@ -222,14 +231,14 @@ export class AddPropertyComponent implements OnInit {
 
     for (let index = 0; index < data.carpet_areas.length; index++) {
       const element = data.carpet_areas[index];
-      this.model.carpet_areas[index] = {area: element.area, price: element.price};
+      this.model.carpet_areas[index] = { area: element.area, price: element.price };
     }
 
     for (let index = 0; index < data.custom_values.length; index++) {
       const element = data.custom_values[index];
-      this.model.custom_attributes[index] = {name: element.name, value: element.value};
+      this.model.custom_attributes[index] = { name: element.name, value: element.value };
     }
-        console.log(this.showSearch, this.building.id);
+    console.log(this.showSearch, this.building.id);
   }
 
   setTab(tab) {
@@ -254,7 +263,7 @@ export class AddPropertyComponent implements OnInit {
 
   onCountryChange(e) {
     this.building.dev_countrycode = e.dialCode;
-    this.initialCountry = {initialCountry: e.iso2};
+    this.initialCountry = { initialCountry: e.iso2 };
   }
 
   getCountries(keyword) {
@@ -281,9 +290,9 @@ export class AddPropertyComponent implements OnInit {
       this.parameter.states = success['data'];
       // this.parameter.loading = false;
     },
-    error => {
-      // this.parameter.loading = false;
-    });
+      error => {
+        // this.parameter.loading = false;
+      });
   }
 
   getCities(state_id, keyword) {
@@ -300,13 +309,13 @@ export class AddPropertyComponent implements OnInit {
       this.parameter.cities = success['data'];
       // this.parameter.loading = false;
     },
-    error => {
+      error => {
         // this.parameter.loading = false;
-    });
+      });
   }
 
 
-  getLocalities(city_id, keyword= '') {
+  getLocalities(city_id, keyword = '') {
     this.parameter.url = 'getLocalities';
     this.model.city_id = city_id;
     this.model.locality_id = '';
@@ -314,7 +323,7 @@ export class AddPropertyComponent implements OnInit {
     const input = new FormData();
     input.append('city_id', city_id);
 
-    if (keyword) {input.append('keyword', keyword); }
+    if (keyword) { input.append('keyword', keyword); }
 
     this.us.postDataApi(this.parameter.url, input)
       .subscribe(
@@ -344,7 +353,6 @@ export class AddPropertyComponent implements OnInit {
       );
   }
 
-
   getPropertyTypes() {
     this.parameter.url = 'getPropertyTypes';
     const input = new FormData();
@@ -373,7 +381,7 @@ export class AddPropertyComponent implements OnInit {
       return false;
     }
     const index = this.amenityList.findIndex(x => x.id == amen.id);
-    if (index < 0 ) {
+    if (index < 0) {
       this.model.amenities.push(amen.id);
       this.amenityList.push(amen);
 
@@ -386,7 +394,7 @@ export class AddPropertyComponent implements OnInit {
     const r = this.amenityList.find(amenity => amenity.name_en === selectedName);
     if (r) {
       return '';
-    }else {
+    } else {
       return this.parameter.amenities.find(amenity => amenity.name_en === selectedName);
     }
   }
@@ -429,7 +437,7 @@ export class AddPropertyComponent implements OnInit {
       return false;
     }
     const index = this.bankList.findIndex(x => x.id == bank.id);
-    if (index < 0 ) {
+    if (index < 0) {
       this.model.banks.push(bank.id);
       this.bankList.push(bank);
       const removeIndex = this.parameter.banks.findIndex(x => x.id == bank.id);
@@ -437,7 +445,7 @@ export class AddPropertyComponent implements OnInit {
     }
   }
 
-removeBank(bank, index) {
+  removeBank(bank, index) {
     this.parameter.banks.push(bank);
     this.model.banks.splice(index, 1);
     this.bankList.splice(index, 1);
@@ -448,7 +456,7 @@ removeBank(bank, index) {
       swal('Error', 'Please fill carpet area fields', 'error');
     } else {
       this.model.carpet_areas.push(JSON.parse(JSON.stringify(this.newcarpet_area)));
-      this.newcarpet_area = {area: '', price: ''};
+      this.newcarpet_area = { area: '', price: '' };
     }
   }
 
@@ -457,7 +465,7 @@ removeBank(bank, index) {
       swal('Error', 'Please fill custom attribute fields', 'error');
     } else {
       this.model.custom_attributes.push(this.newcustom_attribute);
-      this.newcustom_attribute = {name: '', value: ''};
+      this.newcustom_attribute = { name: '', value: '' };
     }
   }
 
@@ -465,7 +473,7 @@ removeBank(bank, index) {
     const r = this.bankList.find(bank => bank.name === selectedName);
     if (r) {
       return '';
-    }else {
+    } else {
       return this.parameter.banks.find(bank => bank.name === selectedName);
     }
   }
@@ -480,21 +488,21 @@ removeBank(bank, index) {
     this.buildingLoading = true;
     this.parameter.url = 'searchBuilding';
 
-      const input = new FormData();
-      input.append('keyword', keyword);
+    const input = new FormData();
+    input.append('keyword', keyword);
 
-      this.us.postDataApi(this.parameter.url, input)
-        .subscribe(
-          success => {
-            this.parameter.buildings = success['data'];
-            this.parameter.buildingCount = success['data'].length;
-            if (this.parameter.buildingCount === 0) { this.showText = true; }
-            this.buildingLoading = false;
-          },
-          error => {
-            this.buildingLoading = true;
-          }
-        );
+    this.us.postDataApi(this.parameter.url, input)
+      .subscribe(
+        success => {
+          this.parameter.buildings = success['data'];
+          this.parameter.buildingCount = success['data'].length;
+          if (this.parameter.buildingCount === 0) { this.showText = true; }
+          this.buildingLoading = false;
+        },
+        error => {
+          this.buildingLoading = true;
+        }
+      );
 
   }
 
@@ -509,7 +517,7 @@ removeBank(bank, index) {
     if (event.target.files && event.target.files[0]) {
       if ((this.url2.length + event.target.files.length) > 6 || event.target.files.length > 6) {
         swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
-      }else {
+      } else {
         for (let index = 0; index < event.target.files.length; index++) {
           const reader = new FileReader();
           reader.onload = (e: any) => {
@@ -526,20 +534,21 @@ removeBank(bank, index) {
 
   onSelectFile(param, event) {
     //  const dd = this.uploader.onSelectFile(event);
-     if (event.target.files && event.target.files[0]) {
+    if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
-          this.url = e.target.result;
-          this.model[param] = this.url;
+        this.url = e.target.result;
+        this.model[param] = this.url;
       };
       reader.readAsDataURL(event.target.files[0]);
 
       const input = new FormData();
       input.append('image', event.target.files[0]);
       this.us.postDataApi('saveImage', input).subscribe(
-        success => {this.model[param] = success['data'].image;
-        // console.log(this.model);
-      });
+        success => {
+        this.model[param] = success['data'].image;
+          // console.log(this.model);
+        });
 
     }
   }
@@ -554,7 +563,7 @@ removeBank(bank, index) {
   }
 
   saveImages() {
-    this.http.loader.next({value: true});
+    this.http.loader.next({ value: true });
     console.log('sss');
     if (this.file2.files.length < 1) {
       swal('Error', 'Please select atleast one image', 'error'); return false;
@@ -563,7 +572,7 @@ removeBank(bank, index) {
     this.file2.upload().then(r => {
       console.log('resolved');
       this.model.images = this.file2.files;
-      this.http.loader.next({value: false});
+      this.http.loader.next({ value: false });
     });
   }
 
@@ -580,17 +589,17 @@ removeBank(bank, index) {
       const reader = new FileReader();
 
       reader.onload = (e: any) => {
-          this.url = e.target.result;
-          this.image3 = this.sanitization.bypassSecurityTrustStyle(`url(${this.url})`);
+        this.url = e.target.result;
+        this.image3 = this.sanitization.bypassSecurityTrustStyle(`url(${this.url})`);
       };
 
       const input = new FormData();
       input.append('image', event.target.files[0]);
 
       this.us.postDataApi('saveImage', input)
-      .subscribe(
-        success => { this.model.floor_plan = success['data'].image; }
-      );
+        .subscribe(
+          success => { this.model.floor_plan = success['data'].image; }
+        );
 
       reader.readAsDataURL(event.target.files[0]);
     }
@@ -614,15 +623,15 @@ removeBank(bank, index) {
 
     if (this.model.carpet_areas.length < 1 && this.tab == 1) {
       swal('Error', 'Please add carpet area.', 'error');
-    }else if ((this.model.cover_image === null || this.model.cover_image === undefined) && (this.model.step == 2)) {
+    } else if ((this.model.cover_image === null || this.model.cover_image === undefined) && (this.model.step == 2)) {
       swal('Error', 'Please choose cover image.', 'error');
-    }else if ((this.model.floor_plan === null || this.model.floor_plan === undefined) && (this.model.step == 2)) {
+    } else if ((this.model.floor_plan === null || this.model.floor_plan === undefined) && (this.model.step == 2)) {
       swal('Error', 'Please choose floor plan.', 'error');
-    }else if ((this.model.amenities.length === 0) && (this.model.step == 2)) {
+    } else if ((this.model.amenities.length === 0) && (this.model.step == 2)) {
       swal('Error', 'Please choose amenity.', 'error');
-    }else if ((this.model.marital_status.length === 0) && (this.model.step == 3)) {
+    } else if ((this.model.marital_status.length === 0) && (this.model.step == 3)) {
       swal('Error', 'Please choose marital status.', 'error');
-    }else {
+    } else {
       const input = new FormData();
       if (this.parameter.property_id) {
         input.append('property_id', this.parameter.property_id);
@@ -631,7 +640,7 @@ removeBank(bank, index) {
         input.append('seller_id', this.parameter.seller_id);
       }
       input.append('step', this.model.step.toString());
-       if (this.model.step === 1) {
+      if (this.model.step === 1) {
 
         input.append('for_sale', this.model.for_sale === true ? '1' : '0');
         input.append('for_rent', this.model.for_sale === true ? '0' : '1');
@@ -642,9 +651,9 @@ removeBank(bank, index) {
         input.append('configuration_id', this.model.configuration_id);
         input.append('carpet_areas', JSON.stringify(this.model.carpet_areas));
         input.append('property_type_id', this.model.property_type_id);
-       }
+      }
 
-       if (this.model.step === 2) {
+      if (this.model.step === 2) {
         const imagesString = this.model.images.map(r => r.image);
         input.append('images', JSON.stringify(imagesString));
         input.append('cover_image', this.model.cover_image);
@@ -659,14 +668,14 @@ removeBank(bank, index) {
         input.append('amenities', JSON.stringify(this.model.amenities));
         input.append('banks', JSON.stringify(this.model.banks));
         input.append('property_quantity_details', JSON.stringify(this.model.property_quantity_details));
-       }
-       if (this.model.step === 3) {
+      }
+      if (this.model.step === 3) {
         input.append('pets', this.model.pets.toString());
         input.append('marital_status', JSON.stringify(this.model.marital_status));
-       }
-       if (this.model.step === 4) {
+      }
+      if (this.model.step === 4) {
         input.append('custom_attributes', JSON.stringify(this.model.custom_attributes));
-       }
+      }
       console.log('INPUT=>', input);
       this.parameter.loading = true;
       this.us.postDataApi(this.parameter.url, input)
@@ -692,7 +701,7 @@ removeBank(bank, index) {
     this.parameter.url = 'tagBuilding';
 
     const input = new FormData();
-    if (this.parameter.property_id) {input.append('property_id', this.parameter.property_id); }
+    if (this.parameter.property_id) { input.append('property_id', this.parameter.property_id); }
     input.append('building_id', this.building.id);
 
     this.parameter.loading = true;
@@ -701,8 +710,8 @@ removeBank(bank, index) {
         success => {
           this.parameter.loading = false;
           swal('Submitted successfully.',
-          'You will be notified once your property will be reviewed by them, you can view status in your properties.',
-          'success');
+            'You will be notified once your property will be reviewed by them, you can view status in your properties.',
+            'success');
           if (this.router.url.indexOf('/dashboard/properties/edit-property') === -1) {
             this.router.navigate(['/dashboard/properties/view-properties']);
           }
@@ -712,8 +721,39 @@ removeBank(bank, index) {
       );
   }
 
+  getProjectById(step: number) {
+    this.us.postDataApi('getProjectById', { building_id: this.building.id })
+      .subscribe(
+        success => {
+          this.parameter.loading = false;
+          this.buildingData = success['data'];
+          // this.parameter.propertyDetails.building = this.buildingData;
+          this.parameter.propertyDetails.images = this.buildingData.images;
+          this.parameter.propertyDetails.amenities = this.buildingData.amenities;
+          // this.parameter.items = this.buildingData.configurations;
+          this.parameter.items = [];
+          this.buildingData.configurations.forEach(element => {
+            // adding configurations
+            this.parameter.items.push(element.config);
+            // adding carpet area and price
+            const obj = {
+              area: element.carpet_area,
+              price: element.base_price
+            };
+            this.model.carpet_areas.push(obj);
+          });
+          this.parameter.propertyDetails.custom_values = this.buildingData.custom_values;
+          this.tab = step + 1;
+        }, error => {
+          this.parameter.loading = false;
+        }
+      );
+  }
+
   loadPlaces() {
 
+    this.latitude = 0;
+    this.longitude = 0;
     // load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
       const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
@@ -760,22 +800,22 @@ removeBank(bank, index) {
 
   getGeoLocation(lat: number, lng: number) {
     if (navigator.geolocation) {
-        this.parameter.loading = true;
-        const geocoder = new google.maps.Geocoder();
-        const latlng = new google.maps.LatLng(lat, lng);
-        const request = { latLng: latlng };
+      this.parameter.loading = true;
+      const geocoder = new google.maps.Geocoder();
+      const latlng = new google.maps.LatLng(lat, lng);
+      const request = { latLng: latlng };
 
-        geocoder.geocode(request, (results, status) => {
-          if (status === google.maps.GeocoderStatus.OK) {
-            const result = results[0];
-            if (result != null) {
-              this.building.address = result.formatted_address;
-            } else {
-              this.building.address = lat + ',' + lng;
-            }
+      geocoder.geocode(request, (results, status) => {
+        if (status === google.maps.GeocoderStatus.OK) {
+          const result = results[0];
+          if (result != null) {
+            this.building.address = result.formatted_address;
+          } else {
+            this.building.address = lat + ',' + lng;
           }
-          this.parameter.loading = false;
-        });
+        }
+        this.parameter.loading = false;
+      });
     }
   }
 
@@ -784,6 +824,11 @@ removeBank(bank, index) {
 
     if (this.building.dev_name && (!this.building.dev_phone || !this.building.dev_email || !this.building.dev_countrycode)) {
       swal('Error', 'Please fill complete devloper information', 'error'); return false;
+    }
+
+    if (!this.latitude && !this.longitude) {
+      swal('Error', 'Please select location from the dropdown list.', 'error');
+      return false;
     }
 
     this.parameter.url = 'buildingRequest';
@@ -800,8 +845,8 @@ removeBank(bank, index) {
         success => {
           this.parameter.loading = false;
           swal('Submitted successfully.',
-          'You will be notified once your property will be reviewed by them, you can view status in your properties.',
-          'success');
+            'You will be notified once your property will be reviewed by them, you can view status in your properties.',
+            'success');
           if (this.router.url.indexOf('/dashboard/properties/edit-property') === -1) {
             this.router.navigate(['/dashboard/properties/view-properties']);
           }
@@ -817,7 +862,7 @@ removeBank(bank, index) {
   }
 
   checkEmptyDetails() {
-    for (const item of this.details){
+    for (const item of this.details) {
       if (item == '') { return false; }
     }
     return true;
