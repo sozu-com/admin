@@ -501,8 +501,9 @@ export class AddProjectComponent implements OnInit {
       });
     }
     /* remove fields for edit */
-    // if (!modelSave.name) {swal('Error', 'Please add building name', 'error'); return false; }
-    // if (!modelSave.address) {swal('Error', 'Please add address', 'error'); return false; }
+    if (!modelSave.name) {swal('Error', 'Please add building name', 'error'); return false; }
+    if (!modelSave.address) {swal('Error', 'Please add address', 'error'); return false; }
+    if (!modelSave.lat || !modelSave.lng) {swal('Error', 'Please select location from dropdown.', 'error'); return false; }
     // if (!modelSave.cover_image) {swal('Error', 'Please add cover image', 'error'); return false; }
     // if (!modelSave.cover_image) {swal('Error', 'Please add cover image', 'error'); return false; }
     // if (modelSave.building_images.length < 1) {swal('Error', 'Please add atleast one more building image', 'error'); return false; }

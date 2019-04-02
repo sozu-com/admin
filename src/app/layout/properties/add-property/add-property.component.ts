@@ -117,7 +117,7 @@ export class AddPropertyComponent implements OnInit {
     this.initialCountry = { initialCountry: this.constant.initialCountry };
     this.building.dev_countrycode = this.constant.dial_code;
 
-    this.tab = 0;
+    this.tab = 1;
     this.getCountries('');
     this.getConfigurations();
     this.getPropertyTypes();
