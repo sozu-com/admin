@@ -27,15 +27,15 @@ export class AddProjectModel {
     custom_values = [];
     configurations = [];
     developer = {
-      id: '',
-      name: '',
-      email: '',
-      country_code: '',
-      dial_code: '',
-      phone: '',
-      logo: '',
-      image: '',
-      developer_image: ''
+        id: '',
+        name: '',
+        email: '',
+        country_code: '',
+        dial_code: '',
+        phone: '',
+        logo: '',
+        image: '',
+        developer_image: ''
     };
     developer_id: any;
     dev_countrycode: any = '';
@@ -49,35 +49,45 @@ export class AddProjectModel {
     building_type = '';
     building_type_id: any = '';
     possession_status_id: any = '';
-    launch_date: any= '';
-    main_image: any= '';
+    launch_date: any = '';
+    main_image: any = '';
     is_completed: any;
     building_request_id: '';
+    building_towers: Array<Towers>;
 }
 
 
 export class Configuration {
-  base_price: any= '';
-  building_id: any= '';
-  carpet_area: any= '';
-  config: any= {
-      created_at: '',
-      created_by: '',
-      id: '',
-      name: '',
-      name_en: '',
-      name_es: '',
-      status: '',
-      updated_at: ''
-  };
-  configuration_id: any= '';
-  created_at: any= '';
-  created_by: any= '';
-  floor_map_image: any= '';
-  id: any= '';
-  other_images: any= [];
-  images_files: any= [];
-  images_path: any= [];
-  images: any= [];
-  updated_at: any= '';
+    base_price: any = '';
+    building_id: any = '';
+    carpet_area: any = '';
+    config: any = {
+        created_at: '',
+        created_by: '',
+        id: '',
+        name: '',
+        name_en: '',
+        name_es: '',
+        status: '',
+        updated_at: ''
+    };
+    configuration_id: any = '';
+    created_at: any = '';
+    created_by: any = '';
+    floor_map_image: any = '';
+    id: any = '';
+    other_images: any = [];
+    images_files: any = [];
+    images_path: any = [];
+    images: any = [];
+    updated_at: any = '';
+}
+
+export class Towers {
+    building_id: string;
+    tower_name: string;
+    num_of_floors: string;
+    possession_status_id: string;
+    launch_date: string;
+    amenities: Array<string>;
 }

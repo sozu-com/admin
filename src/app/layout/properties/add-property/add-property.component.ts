@@ -191,6 +191,10 @@ export class AddPropertyComponent implements OnInit {
     this.model.property_quantity_details = data.details;
     this.model.images = data.images;
 
+    this.model.for_hold = data.for_hold === 1 ? true : false;
+    this.model.half_bathroom = data.half_bathroom;
+
+
     this.building.id = data.building ? data.building.id : '';
     this.building.name = data.building ? data.building.name : '';
     if (this.building.id === '') {
@@ -641,9 +645,10 @@ export class AddPropertyComponent implements OnInit {
       }
       input.append('step', this.model.step.toString());
       if (this.model.step === 1) {
-
+        input.append('name', this.model.name);
         input.append('for_sale', this.model.for_sale === true ? '1' : '0');
         input.append('for_rent', this.model.for_sale === true ? '0' : '1');
+        input.append('for_hold', this.model.for_sale === true ? '0' : '0');
         input.append('country_id', this.model.country_id);
         input.append('state_id', this.model.state_id);
         input.append('city_id', this.model.city_id);
@@ -660,7 +665,9 @@ export class AddPropertyComponent implements OnInit {
         input.append('floor_plan', this.model.floor_plan);
         input.append('bedroom', this.model.bedroom.toString());
         input.append('bathroom', this.model.bathroom.toString());
+        input.append('half_bathroom', this.model.half_bathroom.toString());
         input.append('floor', this.model.floor.toString());
+        input.append('property_price', this.model.property_price.toString());
         input.append('parking', this.model.parking.toString());
         input.append('furnished', this.model.furnished.toString());
         input.append('description', this.model.description);
@@ -671,6 +678,10 @@ export class AddPropertyComponent implements OnInit {
       }
       if (this.model.step === 3) {
         input.append('pets', this.model.pets.toString());
+        input.append('kids_friendly', this.model.kids_friendly.toString());
+        input.append('students_friendly', this.model.students_friendly.toString());
+        input.append('lgtb_friendly', this.model.lgtb_friendly.toString());
+        input.append('mature_people_friendly', this.model.mature_people_friendly.toString());
         input.append('marital_status', JSON.stringify(this.model.marital_status));
       }
       if (this.model.step === 4) {

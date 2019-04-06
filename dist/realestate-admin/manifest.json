@@ -1,7 +1,7 @@
 {
-    "name": "Sozul",
-    "short_name": "Sozul",
-    "start_url": "https://admin.sozul.com/",
+    "name": "Sozu",
+    "short_name": "Sozu",
+    "start_url": "https://admin.sozu.com/",
     "gcm_sender_id": "103953800507",
     "theme_color": "#00B96F",
     "background_color": "#00B96F",

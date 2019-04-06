@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AdminService } from '../../../services/admin.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IProperty } from '../../../common/property';
-import { AddProjectModel, Configuration } from './../../../models/addProject.model';
+import { AddProjectModel, Configuration, Towers } from './../../../models/addProject.model';
 import { MapsAPILoader } from '@agm/core';
 import { Constant } from './../../../common/constants';
 import { FileUpload } from './../../../common/fileUpload';
@@ -14,7 +14,7 @@ declare let swal: any;
   selector: 'app-add-project',
   templateUrl: './add-project.component.html',
   styleUrls: ['./add-project.component.css'],
-  providers: [AddProjectModel, Constant]
+  providers: [AddProjectModel, Constant, Towers]
 })
 export class AddProjectComponent implements OnInit {
 
@@ -66,6 +66,9 @@ export class AddProjectComponent implements OnInit {
 
   file1: any; file2: any; file3: any; file4: any; file5: any; file6: any;
 
+  newTower: Towers;
+  allTowerAmenities: any = [];
+  selectedTowerAmenities: any = [];
   constructor(
     public model: AddProjectModel,
     private admin: AdminService,
@@ -120,6 +123,7 @@ export class AddProjectComponent implements OnInit {
           this.file6.image = this.model.developer.developer_image;
           this.admin.postDataApi('getAmenities', {}).subscribe(res => {
             this.all_amenities = res.data.map(item => { item.selected = false; return item; });
+            this.allTowerAmenities = res.data.map(item => { item.selected = false; return item; });
             this.selected_amenities = this.all_amenities.map(item => {
               if (this.model.amenities.find(am => am.id === item.id)) {
                 item.selected = true;
@@ -166,6 +170,7 @@ export class AddProjectComponent implements OnInit {
           this.file6.image = this.model.developer.developer_image;
           this.admin.postDataApi('getAmenities', {}).subscribe(res => {
             this.all_amenities = res.data.map(item => { item.selected = false; return item; });
+            this.allTowerAmenities = res.data.map(item => { item.selected = false; return item; });
             this.selected_amenities = this.all_amenities.map(item => {
               if (this.model.amenities && this.model.amenities.find(am => am.id === item.id)) {
                 item.selected = true;
@@ -177,9 +182,11 @@ export class AddProjectComponent implements OnInit {
           this.parameter.loading = false;
         });
       } else {
+        this.newTower = new Towers();
         this.canEditdeveloperInfo = true;
         this.admin.postDataApi('getAmenities', {}).subscribe(res => {
           this.all_amenities = res.data.map(item => { item.selected = false; return item; });
+          this.allTowerAmenities = res.data.map(item => { item.selected = false; return item; });
         });
         this.model.dev_countrycode = 'mx';
         this.model.dev_dialcode = '+52';
@@ -500,6 +507,8 @@ export class AddProjectComponent implements OnInit {
         item.images = item.images.map(x => x.image);
       });
     }
+
+    modelSave.building_towers = this.model.building_towers;
     /* remove fields for edit */
     // if (!modelSave.name) {swal('Error', 'Please add building name', 'error'); return false; }
     // if (!modelSave.address) {swal('Error', 'Please add address', 'error'); return false; }
@@ -647,6 +656,7 @@ export class AddProjectComponent implements OnInit {
     this.file6.image = this.model.developer.developer_image;
     this.admin.postDataApi('getAmenities', {}).subscribe(res => {
       this.all_amenities = res.data.map(item => { item.selected = false; return item; });
+      this.allTowerAmenities = res.data.map(item => { item.selected = false; return item; });
       this.selected_amenities = this.all_amenities.map(item => {
         if (this.model.amenities.find(am => am.id === item.id)) {
           item.selected = true;
@@ -710,4 +720,18 @@ export class AddProjectComponent implements OnInit {
     this.file6.image = item.developer_image;
     this.closeDeveloperListModel.nativeElement.click();
   }
+
+
+  addNewTower() {
+    console.log(this.newTower);
+    if (!this.newTower.tower_name) { swal('Error', 'Please enter tower name.', 'error'); return false; }
+    if (!this.newTower.num_of_floors) { swal('Error', 'Please enter no. of floors.', 'error'); return false; }
+    if (!this.newTower.possession_status_id) { swal('Error', 'Please choose possession status.', 'error'); return false; }
+    if (!this.newTower.launch_date) { swal('Error', 'Please enter launch date.', 'error'); return false; }
+    this.selectedTowerAmenities = this.allTowerAmenities.filter(op => { if (op.selected === true) { return op; } }).map(op => op.id);
+    this.newTower.amenities = this.selectedTowerAmenities;
+    if (this.newTower.amenities.length < 1) { swal('Error', 'Please choose tower amenities.', 'error'); return false; }
+    this.model.building_towers.push(this.newTower);
+  }
+
 }

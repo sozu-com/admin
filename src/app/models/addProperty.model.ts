@@ -10,10 +10,10 @@ export class CarpetAreas {
 export class AddPropertyModel {
     id = '';
     step = 0;
+    name = '';
     for_rent = false;
     for_sale = true;
-    // for_rent: any = '0';
-    // for_sale: any = '1';
+    for_hold = false;
     country_id = '';
     state_id = '';
     city_id = '';
@@ -33,6 +33,7 @@ export class AddPropertyModel {
     floor_plan: File;
     bedroom = 1;
     bathroom = 1;
+    half_bathroom = 1;
     floor = 1;
     parking = 1;
     furnished = 1;
@@ -41,6 +42,11 @@ export class AddPropertyModel {
     amenities: any = [];
     banks: any = [];
     pets = 1;
+    kids_friendly = 1;
+    students_friendly = 1;
+    lgtb_friendly = 1;
+    mature_people_friendly = 1;
+    property_price = 1;
     marital_status: any = [1];
     // custom_attributes: any = [
     //     {
