@@ -44,7 +44,7 @@
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>Location
-                    <!-- <span class="color-red">*</span> -->
+                    <span class="color-red">*</span>
                   </label>
                   <input placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search (input)="loadPlaces()" name="address" [(ngModel)]="model.address" autocomplete="off">
                 </div>
@@ -240,72 +240,148 @@
             <!-- Tower Section -->
             <div class="row">
               <div class="col-12">
-                <div class="page-title paddingL0">
+                <div class="page-title paddingL0 paddingR0">
                   <h3>Tower Details
                     <!-- <span class="color-red">*</span> -->
+                    <span class="tower pull-right" (click)="showAddBtn=false" *ngIf="showAddBtn">+Add New Tower</span>
+                    <span class="tower pull-right" (click)="addNewTower()" *ngIf="!showAddBtn">Save Details</span>
                   </h3>
-                  <span (click)="addNewTower()">+Add</span>
                 </div>
               </div>
 
-              <div class="col-md-6 col-sm-6 col-12">
-                <div class="form-group-3">
-                  <label>Name of the Tower</label>
-                  <input autocomplete="off" [disabled]="!canEditdeveloperInfo" [(ngModel)]="newTower.tower_name" class="form-control" type="text" name="tower_name" placeholder="Enter tower name">
-                </div>
-              </div>
-
-              <div class="col-md-6 col-sm-6 col-12">
-                <div class="form-group-3">
-                  <label>Number of Floors</label>
-                  <input autocomplete="off" [disabled]="!canEditdeveloperInfo" [(ngModel)]="newTower.num_of_floors" class="form-control" type="number" name="num_of_floors" placeholder="Enter number of floors"/>
-                </div>
-              </div>
-
-              <div class="col-md-6 col-sm-6 col-12">
-                <div class="form-group-3">
-                  <label>Possession Status</label>
-                  <select [(ngModel)]="newTower.possession_status_id" class="form-control" name="possession_status_id">
-                    <option value="">Select status</option>
-                    <option *ngFor="let s of all_possession_statuses" [value]="s.id">
-                      {{s.name}}
-                    </option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="col-md-6 col-sm-6 col-12">
-                <div class="form-group-3">
-                  <label>Launch date</label>
-                  <input class="form-control" [ngModel]="newTower.launch_date  | date:'yyyy-MM-dd'" (ngModelChange)="newTower.launch_date  = $event" type="date" name="launch_date" placeholder="Launch date">
-                </div>
-              </div>
-
-              <div class="col-12">
-                <div class="form-group-3 marginB0">
-                  <label>Amenities available
-                    <!-- <span class="color-red">*</span> -->
-                  </label>
-                  <ul class="loc-tags-group">
-                    <li *ngFor="let a of allTowerAmenities">
-                      <span *ngIf="a.selected==true">{{a.name}} 
-                        <b (click)="a.selected = false" title="remove"><img src="assets/img/close-tag.png" /></b>
-                      </span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              <div class="col-12">
-                <div class="form-group-3 marginT15">
-                  <div class="btn-cont">
-                    <a class="btn-third btn btn-block" data-toggle="modal" data-target="#towerAmenities" href="javascript://">Add More</a>
+              <div class="row paddingLR20" *ngIf="!showAddBtn">
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>Name of the Tower</label>
+                    <input autocomplete="off" [(ngModel)]="newTower.tower_name" class="form-control" type="text" name="tower_name" placeholder="Enter tower name">
                   </div>
                 </div>
+
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>Number of Floors</label>
+                    <input autocomplete="off" [(ngModel)]="newTower.num_of_floors" class="form-control" type="number" name="num_of_floors" placeholder="Enter number of floors"/>
+                  </div>
+                </div>
+
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>Possession Status</label>
+                    <select [(ngModel)]="newTower.possession_status_id" class="form-control" name="possession_status_id">
+                      <option value="">Select status</option>
+                      <option *ngFor="let s of all_possession_statuses" [value]="s.id">
+                        {{s.name}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>Launch date</label>
+                    <input class="form-control" [ngModel]="newTower.launch_date  | date:'yyyy-MM-dd'" (ngModelChange)="newTower.launch_date  = $event" type="date" name="launch_date" placeholder="Launch date">
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="form-group-3 marginB0">
+                    <label>Amenities available
+                      <!-- <span class="color-red">*</span> -->
+                    </label>
+                    <ul class="loc-tags-group">
+                      <li *ngFor="let at of allTowerAmenities">
+                        <span *ngIf="at.selected==true">{{at.name}} 
+                          <b (click)="at.selected = false" title="remove"><img src="assets/img/close-tag.png" /></b>
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="form-group-3 marginT15">
+                    <div class="btn-cont">
+                      <a class="btn-third btn btn-block" data-toggle="modal" data-target="#towerAmenities" href="javascript://">Add More</a>
+                    </div>
+                  </div>
+                </div>
+                
               </div>
             </div>
             <!-- End of Tower Section -->
 
+            <!-- listing of added towers -->
+            <div *ngIf="model?.building_towers?.length>0">
+              <div class="row" *ngFor="let btower of model?.building_towers; let i=index">
+                <div class="col-12">
+                  <div class="page-title paddingL0 paddingR0">
+                    <h3>Tower {{i+1}}
+                      <span class="tower pull-right" (click)="deleteTower(i)">Delete</span>
+                      <span class="tower marginR15 pull-right" title="Click to edit Tower{{i+1}}" *ngIf="model?.building_tower_edit_index!=i" (click)="editTower(btower, i)">Edit</span>
+                      <span class="tower pull-right marginR15" title="Click to save Tower{{i+1}}" *ngIf="model?.building_tower_edit_index==i" (click)="saveTower(btower, i)">Save</span>
+                    </h3>
+                  </div>
+                </div>
+
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>Name of the Tower</label>
+                    <input autocomplete="off" [disabled]="model?.building_tower_edit_index!=i" [(ngModel)]="btower.tower_name" class="form-control" type="text" name="tower_name{{i}}" placeholder="Enter tower name">
+                  </div>
+                </div>
+
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>Number of Floors</label>
+                    <input autocomplete="off" [disabled]="model?.building_tower_edit_index!=i" [(ngModel)]="btower.num_of_floors" class="form-control" type="number" name="num_of_floors{{i}}" placeholder="Enter number of floors"/>
+                  </div>
+                </div>
+
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>Possession Status</label>
+                    <select [disabled]="model?.building_tower_edit_index!=i" [(ngModel)]="btower.possession_status_id" class="form-control" name="possession_status_id{{i}}">
+                      <option value="">Select status</option>
+                      <option *ngFor="let s of all_possession_statuses" [value]="s.id">
+                        {{s.name}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>Launch date</label>
+                    <input class="form-control" [disabled]="model?.building_tower_edit_index!=i" [ngModel]="btower.launch_date  | date:'yyyy-MM-dd'" (ngModelChange)="newTower.launch_date  = $event" type="date" name="launch_date{{i}}" placeholder="Launch date">
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="form-group-3 marginB0">
+                    <label>Amenities available
+                      <!-- <span class="color-red">*</span> -->
+                    </label>
+                    <ul class="loc-tags-group">
+                      <li *ngFor="let a of btower?.amenities">
+                        <span *ngIf="a.selected==true">{{a.name}} 
+                          <b *ngIf="model?.building_tower_edit_index==i" (click)="a.selected = false" title="Remove"><img src="assets/img/close-tag.png" /></b>
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="form-group-3 marginT15">
+                    <div class="btn-cont">
+                      <a style="display:none;" #towerEditAmenitiesModal class="btn-third btn btn-block" data-toggle="modal" data-target="#towerEditAmenities" href="javascript://"></a>
+                      <a *ngIf="model?.building_tower_edit_index==i" (click)="editTowerAmenity(btower?.amenities, i)" class="btn-third btn btn-block" href="javascript://">Add More</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- end of listing of added towers -->
 
             <!-- Developer Info Section -->
             <div class="row">
@@ -429,6 +505,31 @@
       </div>
       <div class="modal-body">
         <label *ngFor="let a of allTowerAmenities; " (click)="a.selected = !a.selected" class="cust-check-bx2">
+             {{a.name}}
+           <span *ngIf="a.selected==true" class="checkmark open"></span>
+           </label>
+
+      </div>
+      <div class="modal-footer">
+        <div class="btn-cont">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Tower Amenities model -->
+<div class="modal" id="towerEditAmenities" style="display: none;" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content amenities-popup">
+      <div class="modal-header popup-header">
+        <h4 class="modal-title">Amenitie11s</h4>
+        <button type="button" class="close" data-dismiss="modal">×</button>
+      </div>
+      <div class="modal-body">
+        <label *ngFor="let a of allTowerAmenityForEdit; let m=index " (click)="setTowerAmenity(a, m)" class="cust-check-bx2">
              {{a.name}}
            <span *ngIf="a.selected==true" class="checkmark open"></span>
            </label>

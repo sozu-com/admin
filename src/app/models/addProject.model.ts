@@ -54,6 +54,7 @@ export class AddProjectModel {
     is_completed: any;
     building_request_id: '';
     building_towers: Array<Towers>;
+    building_tower_edit_index: any;
 }
 
 
@@ -84,10 +85,23 @@ export class Configuration {
 }
 
 export class Towers {
+    id?: string;
     building_id: string;
     tower_name: string;
     num_of_floors: string;
     possession_status_id: string;
     launch_date: string;
-    amenities: Array<string>;
+    amenities: Array<AmenitiesShowObj>;
+    amenitiesId: Array<string>;
+    // amenities: Array<any>;
+    // amenitiesId: Array<any>;
+}
+
+export class AmenitiesShowObj {
+    id: string;
+    name_en: string;
+    name_es: string;
+    icon: string;
+    name: string;
+    selected: boolean;
 }

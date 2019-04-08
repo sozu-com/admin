@@ -30,6 +30,7 @@ export class AddProjectComponent implements OnInit {
 
   @ViewChild('openDeveloperListModel') openDeveloperListModel: ElementRef;
   @ViewChild('closeDeveloperListModel') closeDeveloperListModel: ElementRef;
+  @ViewChild('towerEditAmenitiesModal') towerEditAmenitiesModal: ElementRef;
   myform: FormGroup;
   myform2: FormGroup;
 
@@ -68,7 +69,12 @@ export class AddProjectComponent implements OnInit {
 
   newTower: Towers;
   allTowerAmenities: any = [];
-  selectedTowerAmenities: any = [];
+  allTowerAmenityForEdit: any = [];
+  selectedTowerAmenitiesId: any = [];
+  selectedTowerAmenityObj: any = [];
+  selected_amenity_for_tower: any = [];
+  showAddBtn = true;
+  towerAmenityIndex = 0;
   constructor(
     public model: AddProjectModel,
     private admin: AdminService,
@@ -91,6 +97,7 @@ export class AddProjectComponent implements OnInit {
       console.log('paramsssss');
       console.log('param', params);
       this.id = params.id;
+      this.newTower = new Towers();
       if (this.id) {
         /* if id exists edit mode */
         this.canEditdeveloperInfo = false;
@@ -98,6 +105,7 @@ export class AddProjectComponent implements OnInit {
         this.admin.postDataApi('getProjectById', { building_id: this.id }).subscribe(r => {
           this.parameter.loading = false;
           this.model = JSON.parse(JSON.stringify(r.data));
+          this.model.building_tower_edit_index = '-1';
           if (r.data.developer == null) {
             this.model.developer = {
               id: '',
@@ -123,13 +131,32 @@ export class AddProjectComponent implements OnInit {
           this.file6.image = this.model.developer.developer_image;
           this.admin.postDataApi('getAmenities', {}).subscribe(res => {
             this.all_amenities = res.data.map(item => { item.selected = false; return item; });
-            this.allTowerAmenities = res.data.map(item => { item.selected = false; return item; });
+            this.allTowerAmenities = JSON.parse(JSON.stringify(this.all_amenities));
+            this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
+
+            // setting true to selected amenties
             this.selected_amenities = this.all_amenities.map(item => {
               if (this.model.amenities.find(am => am.id === item.id)) {
                 item.selected = true;
               }
               return item;
             });
+
+            // setting true to tower selected amenities
+            this.model.building_towers.map(item => {
+              item.amenities.map(i => { i.selected = true; return i; });
+            });
+
+            // tower amenitites id array only
+            let amid = [];
+            this.model.building_towers.forEach(element => {
+              amid = [];
+              element.amenities.forEach(e => {
+                amid.push(e.id);
+              });
+              element.amenitiesId = amid;
+            });
+
           });
         }, error => {
           this.parameter.loading = false;
@@ -141,6 +168,7 @@ export class AddProjectComponent implements OnInit {
         this.admin.postDataApi('getBuildingRequest', { building_request_id: params.request_id }).subscribe(r => {
           this.parameter.loading = false;
           this.model = JSON.parse(JSON.stringify(r.data));
+          this.model.building_tower_edit_index = '-1';
           console.log('--------------', r);
           console.log('--------------', this.model);
           if (r.data.developer == null) {
@@ -170,26 +198,51 @@ export class AddProjectComponent implements OnInit {
           this.file6.image = this.model.developer.developer_image;
           this.admin.postDataApi('getAmenities', {}).subscribe(res => {
             this.all_amenities = res.data.map(item => { item.selected = false; return item; });
-            this.allTowerAmenities = res.data.map(item => { item.selected = false; return item; });
+            this.allTowerAmenities = JSON.parse(JSON.stringify(this.all_amenities));
+            this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
+
+            // setting true to selected amenties
             this.selected_amenities = this.all_amenities.map(item => {
               if (this.model.amenities && this.model.amenities.find(am => am.id === item.id)) {
                 item.selected = true;
               }
               return item;
             });
+
+
+            // setting true to tower selected amenities
+            this.model.building_towers.map(item => {
+              item.amenities.map(i => { i.selected = true; return i; });
+            });
+
+            // tower amenitites id array only
+            let amid = [];
+            this.model.building_towers.forEach(element => {
+              amid = [];
+              element.amenities.forEach(e => {
+                amid.push(e.id);
+              });
+              element.amenitiesId = amid;
+            });
+
           });
         }, error => {
           this.parameter.loading = false;
         });
       } else {
-        this.newTower = new Towers();
+        this.model = new AddProjectModel();
+        this.model.building_towers = [];
+        this.model.building_tower_edit_index = '-1';
         this.canEditdeveloperInfo = true;
         this.admin.postDataApi('getAmenities', {}).subscribe(res => {
           this.all_amenities = res.data.map(item => { item.selected = false; return item; });
-          this.allTowerAmenities = res.data.map(item => { item.selected = false; return item; });
+          this.allTowerAmenities = JSON.parse(JSON.stringify(this.all_amenities));
+          this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
+
         });
         this.model.dev_countrycode = 'mx';
         this.model.dev_dialcode = '+52';
+        console.log('model', this.model);
       }
     });
 
@@ -230,6 +283,8 @@ export class AddProjectComponent implements OnInit {
   loadPlaces() {
     // console.log('--', this.searchElementRef.nativeElement);
     // load Places Autocomplete
+    this.model.lat = '30.34';
+    this.model.lng = '76.23';
     this.mapsAPILoader.load().then(() => {
       const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
         types: []
@@ -572,6 +627,15 @@ export class AddProjectComponent implements OnInit {
       modelSave.building_request_id = this.model.building_request_id;
     }
 
+    if (modelSave.building_towers.length > 0) {
+      console.log('1');
+      modelSave.building_towers.forEach(element => {
+        console.log('1', element.amenities);
+        console.log('2', element.amenitiesId);
+        element.amenities = element.amenitiesId;
+      });
+    }
+
     if (this.id) {
       modelSave.building_id = this.id;
       modelSave.developer_id = modelSave.developer.id;
@@ -581,6 +645,7 @@ export class AddProjectComponent implements OnInit {
         swal('Success', 'Updated successfully.', 'success');
         // set model to avoid duplication creation of project
         this.setProjectModel(success['data']);
+
         // this.router.navigate(['/dashboard/projects/view-projects']);
       }, error => {
         this.parameter.loading = false;
@@ -656,7 +721,9 @@ export class AddProjectComponent implements OnInit {
     this.file6.image = this.model.developer.developer_image;
     this.admin.postDataApi('getAmenities', {}).subscribe(res => {
       this.all_amenities = res.data.map(item => { item.selected = false; return item; });
-      this.allTowerAmenities = res.data.map(item => { item.selected = false; return item; });
+      this.allTowerAmenities = JSON.parse(JSON.stringify(this.all_amenities));
+      this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
+
       this.selected_amenities = this.all_amenities.map(item => {
         if (this.model.amenities.find(am => am.id === item.id)) {
           item.selected = true;
@@ -664,6 +731,23 @@ export class AddProjectComponent implements OnInit {
         return item;
       });
     });
+
+
+    // setting true to tower selected amenities
+    this.model.building_towers.map(item => {
+      item.amenities.map(i => { i.selected = true; return i; });
+    });
+
+    // tower amenitites id array only
+    let amid = [];
+    this.model.building_towers.forEach(element => {
+      amid = [];
+      element.amenities.forEach(e => {
+        amid.push(e.id);
+      });
+      element.amenitiesId = amid;
+    });
+
   }
 
   selectDeveloper() {
@@ -724,14 +808,108 @@ export class AddProjectComponent implements OnInit {
 
   addNewTower() {
     console.log(this.newTower);
+    // if (this.model.building_tower_edit_index) {
+    //   swal('First save the previous editted tower.');
+    // }
     if (!this.newTower.tower_name) { swal('Error', 'Please enter tower name.', 'error'); return false; }
     if (!this.newTower.num_of_floors) { swal('Error', 'Please enter no. of floors.', 'error'); return false; }
     if (!this.newTower.possession_status_id) { swal('Error', 'Please choose possession status.', 'error'); return false; }
     if (!this.newTower.launch_date) { swal('Error', 'Please enter launch date.', 'error'); return false; }
-    this.selectedTowerAmenities = this.allTowerAmenities.filter(op => { if (op.selected === true) { return op; } }).map(op => op.id);
-    this.newTower.amenities = this.selectedTowerAmenities;
+
+    const tempAmen = JSON.parse(JSON.stringify(this.allTowerAmenities));
+    console.log('aaaaa', tempAmen);
+    this.selectedTowerAmenitiesId = tempAmen.filter(op => { if (op.selected === true) { return op; } }).map(op => op.id);
+    this.selectedTowerAmenityObj = tempAmen.filter(op => { if (op.selected === true) { return op; } });
+    this.newTower.amenities = this.selectedTowerAmenityObj;
+    this.newTower.amenitiesId = this.selectedTowerAmenitiesId;
     if (this.newTower.amenities.length < 1) { swal('Error', 'Please choose tower amenities.', 'error'); return false; }
     this.model.building_towers.push(this.newTower);
+    this.showAddBtn = true;
+
+    // setting tower to empty
+    this.newTower = new Towers();
+    this.allTowerAmenities.map(op => { op.selected = false; });
+    console.log(this.model.building_towers);
   }
 
+
+  editTower(btower: any, index: number) {
+    console.log('model', this.model.building_tower_edit_index);
+    if (this.model.building_tower_edit_index !== '-1') {
+      swal('First save the previous editted tower.');
+      return;
+    }
+    this.model.building_tower_edit_index = index;
+    // this.new_config_edit = index;
+    // this.newTower = JSON.parse(JSON.stringify(btower));
+    // this.file4.files = [];
+    // config.images.forEach((item, i: number) => {
+    //   this.file4.files.push(item);
+    // });
+    // this.openConfigPopup.nativeElement.click();
+  }
+
+  deleteTower(index: number) {
+    swal({
+      title: 'Are you sure?',
+      text: 'Do you want to delete?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes, Delete!'
+    }).then((result) => {
+      if (result.value) {
+        console.log('before', this.model.building_towers);
+        this.model.building_towers.splice(index, 1);
+
+        if (this.model.building_towers[index].id) {
+          this.admin.postDataApi('deleteTower', {building_towers_id: this.model.building_towers[index].id}).subscribe(res => {
+            console.log('sss', res);
+          });
+        }
+        console.log('after', this.model.building_towers);
+      }
+    });
+  }
+
+  saveTower(btower: Towers, index: any) {
+    console.log('save', index);
+    // this.allTowerAmenityForEdit = btower.amenities;
+    if (!this.model.building_towers[index].tower_name) { swal('Error', 'Please enter tower name.', 'error'); return false; }
+    if (!this.model.building_towers[index].num_of_floors) { swal('Error', 'Please enter no. of floors.', 'error'); return false; }
+    if (!this.model.building_towers[index].possession_status_id) {
+      swal('Error', 'Please choose possession status.', 'error'); return false; }
+    if (!this.model.building_towers[index].launch_date) { swal('Error', 'Please enter launch date.', 'error'); return false; }
+    this.selectedTowerAmenitiesId = btower.amenities.filter(op => { if (op.selected === true) { return op; } }).map(op => op.id);
+    this.selectedTowerAmenityObj = btower.amenities.filter(op => { if (op.selected === true) { return op; } });
+    this.model.building_towers[index].amenitiesId = this.selectedTowerAmenitiesId;
+    this.model.building_towers[index].amenities = this.selectedTowerAmenityObj;
+    if (this.model.building_towers[index].amenities.length < 1) { swal('Error', 'Please choose tower amenities.', 'error'); return false; }
+    this.model.building_tower_edit_index = '-1';
+    console.log(this.model.building_towers);
+  }
+
+  editTowerAmenity(btoweramenity, index: any) {
+    this.towerAmenityIndex = index;
+    this.towerEditAmenitiesModal.nativeElement.click();
+    this.allTowerAmenityForEdit.map(item => { item.selected = false; return item; });
+    btoweramenity = btoweramenity.filter(op => { if (op.selected === true) { return op; } });
+      this.allTowerAmenityForEdit.map(item => {
+        if (btoweramenity.find(am => am.id === item.id)) {
+          item.selected = true;
+        }
+        return item;
+      });
+  }
+
+
+  setTowerAmenity(a: any, m: any) {
+    console.log('set ame', this.towerAmenityIndex, m);
+    this.allTowerAmenityForEdit[m].selected = !this.allTowerAmenityForEdit[m].selected;
+    this.model.building_towers[this.towerAmenityIndex].amenities =
+    this.allTowerAmenityForEdit.filter(op => { if (op.selected === true) { return op; } });
+    this.model.building_towers[this.towerAmenityIndex].amenitiesId =
+    this.allTowerAmenityForEdit.filter(op => { if (op.selected === true) { return op; } }).map(op => op.id);
+  }
 }

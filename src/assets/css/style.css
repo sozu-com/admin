@@ -82,6 +82,7 @@ p.p11 { color: #434B52; font-size: 11px; line-height: 18px; }
 .fontW300{font-weight:300 !important }
 .fontW500{font-weight:500 !important }
 .fontW600{font-weight:600 !important }
+.paddingLR20{padding: 0px 20px;}
 .bdr-right{
 border-right:solid 1px #EDEDED; 
 }
@@ -3037,3 +3038,9 @@ position: relative;
     border-left:solid 3px #00B96F;
 }
 /* notifications end */
+h3 .tower{
+    color: #00B96F;
+    font-size: 14px;
+    padding-top: 6px;
+    cursor: pointer;
+}
