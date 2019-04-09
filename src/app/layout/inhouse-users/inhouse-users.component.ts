@@ -41,11 +41,11 @@ export class InhouseUsersComponent implements OnInit {
     public model: UserModel, private route: ActivatedRoute,
     public admin: AdminService, private router: Router,
     private sanitization: DomSanitizer) {
-      this.admin.countryData$.subscribe(success => {
-        this.parameter.allCountry = success;
-        // console.log('allCountry', success);
-      });
-    }
+    this.admin.countryData$.subscribe(success => {
+      this.parameter.allCountry = success;
+      // console.log('allCountry', success);
+    });
+  }
 
   ngOnInit() {
     this.model.country_code = this.constant.country_code;
@@ -62,7 +62,7 @@ export class InhouseUsersComponent implements OnInit {
       this.parameter.items = []; this.parameter.total = 0;
       this.getCountries();
       this.getInhouseUsers();
-      this.initialCountry = {initialCountry: this.constant.initialCountry};
+      this.initialCountry = { initialCountry: this.constant.initialCountry };
     });
   }
 
@@ -81,7 +81,7 @@ export class InhouseUsersComponent implements OnInit {
     this.model.dial_code = this.constant.dial_code;
     this.model = new UserModel();
     this.image1 = '';
-    this.initialCountry = {initialCountry: this.constant.initialCountry};
+    this.initialCountry = { initialCountry: this.constant.initialCountry };
     this.disabledBuildings = [];
 
   }
@@ -102,19 +102,19 @@ export class InhouseUsersComponent implements OnInit {
     this.addressIndex--;
     console.log('==', this.addressIndex);
     console.log(this.model.address, this.addressIndex);
-    if (this.model.address[this.addressIndex].countries !== '' && this.model.address[this.addressIndex].states !== ''  &&
-      this.model.address[this.addressIndex].cities !== ''  && this.model.address[this.addressIndex].localities !== '' &&
+    if (this.model.address[this.addressIndex].countries !== '' && this.model.address[this.addressIndex].states !== '' &&
+      this.model.address[this.addressIndex].cities !== '' && this.model.address[this.addressIndex].localities !== '' &&
       this.model.address[this.addressIndex].buildings !== '') {
       const obj = {
         countries: '',
-        states : '',
+        states: '',
         cities: '',
         localities: '',
         buildings: ''
       };
       this.addressIndex++;
       this.model.address.push(obj);
-    }else {
+    } else {
       swal('Missing fields', 'Complete current row before adding new.', 'error');
     }
   }
@@ -126,7 +126,7 @@ export class InhouseUsersComponent implements OnInit {
   onCountryChange(e) {
     this.model.country_code = e.iso2;
     this.model.dial_code = '+' + e.dialCode;
-    this.initialCountry = {initialCountry: e.iso2};
+    this.initialCountry = { initialCountry: e.iso2 };
   }
 
   openAddModal() {
@@ -135,7 +135,7 @@ export class InhouseUsersComponent implements OnInit {
     // this.parameter.countries ? this.parameter.countries[0].id : 0;
     const obj = {
       countries: this.parameter.countries ? this.parameter.countries[0].id : 0,
-      states : '0',
+      states: '0',
       cities: '0',
       localities: '0',
       buildings: '0'
@@ -144,40 +144,40 @@ export class InhouseUsersComponent implements OnInit {
 
     switch (this.parameter.userType) {
       case 'data-collectors':
-      this.parameter.url = 'getDataCollectors';
-      this.model.is_data_collector = true;
+        this.parameter.url = 'getDataCollectors';
+        this.model.is_data_collector = true;
         break;
 
       case 'csr-sellers':
-      this.parameter.url = 'getCsrSellers';
-      this.model.is_broker_seller_dev = true;
+        this.parameter.url = 'getCsrSellers';
+        this.model.is_broker_seller_dev = true;
         break;
 
       case 'csr-buyers':
-      this.parameter.url = 'getCsrBuyers';
-      this.model.is_buyer_renter = true;
+        this.parameter.url = 'getCsrBuyers';
+        this.model.is_buyer_renter = true;
         break;
 
       case 'inhouse-broker':
-      this.parameter.url = 'getInhouseBroker';
-      this.model.is_broker = true;
+        this.parameter.url = 'getInhouseBroker';
+        this.model.is_broker = true;
         break;
 
       case 'csr-closers':
-      this.parameter.url = 'getCsrClosers';
-      this.model.is_csr_closer = true;
+        this.parameter.url = 'getCsrClosers';
+        this.model.is_csr_closer = true;
         break;
 
       default:
-      this.parameter.url = 'getDataCollectors';
-      this.model.is_data_collector = true;
+        this.parameter.url = 'getDataCollectors';
+        this.model.is_data_collector = true;
         break;
     }
 
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
     console.log('==', this.model);
-    this.initialCountry = {initialCountry: this.constant.initialCountry};
+    this.initialCountry = { initialCountry: this.constant.initialCountry };
 
     this.modalOpen.nativeElement.click();
   }
@@ -186,8 +186,8 @@ export class InhouseUsersComponent implements OnInit {
     obj.intlTelInput('setCountry', 'in');
   }
 
-  initialcountryfunc( ) {
-    return {initialCountry: this.constant.initialCountry};
+  initialcountryfunc() {
+    return { initialCountry: this.constant.initialCountry };
   }
 
   onSelectFile1(event) {
@@ -195,14 +195,14 @@ export class InhouseUsersComponent implements OnInit {
       const reader = new FileReader();
       // this.parameter.image = event.target.files[0];
       reader.onload = (e: any) => {
-          this.url = e.target.result;
-          this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.url})`);
-          this.cs.saveImage(event.target.files[0]).subscribe(
-            success => {
-              this.parameter.image = success['data'].image;
-              console.log('----', this.parameter.image);
-            }
-          );
+        this.url = e.target.result;
+        this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.url})`);
+        this.cs.saveImage(event.target.files[0]).subscribe(
+          success => {
+            this.parameter.image = success['data'].image;
+            console.log('----', this.parameter.image);
+          }
+        );
       };
       reader.readAsDataURL(event.target.files[0]);
     }
@@ -213,8 +213,8 @@ export class InhouseUsersComponent implements OnInit {
     this.parameter.url = this.model.id ? 'updateNewUser' : 'addNewUser';
     this.seenDuplicate = false;
     const input = new FormData();
-console.log('===', formdata);
-    if (this.model.id !== '') {input.append('id', this.model.id); }
+    console.log('===', formdata);
+    if (this.model.id !== '') { input.append('id', this.model.id); }
 
     input.append('name', this.model.name);
     input.append('country_code', this.model.country_code ? this.model.country_code : this.constant.dial_code);
@@ -228,7 +228,7 @@ console.log('===', formdata);
     input.append('is_data_collector', formdata.value.is_data_collector === true ? '1' : '0');
     input.append('is_csr_closer', formdata.value.is_csr_closer === true ? '1' : '0');
 
-    if (this.parameter.image) {input.append('image', this.parameter.image); }
+    if (this.parameter.image) { input.append('image', this.parameter.image); }
 
     // checking if locality is same or not
     this.model.address.map((item) => {
@@ -247,9 +247,9 @@ console.log('===', formdata);
         }
       }
     });
-    if (this.model.address[0].countries === '' || this.model.address[0].states === ''  ||
-      this.model.address[0].cities === '' || this.model.address[0].localities === ''  || this.model.address[0].buildings === '' ) {
-        swal('Error', 'Please choose location.', 'error');
+    if (this.model.address[0].countries === '' || this.model.address[0].states === '' ||
+      this.model.address[0].cities === '' || this.model.address[0].localities === '' || this.model.address[0].buildings === '') {
+      swal('Error', 'Please choose location.', 'error');
     } else if (this.seenDuplicate) {
       this.testObject = [];
       this.seenDuplicate = false;
@@ -260,7 +260,7 @@ console.log('===', formdata);
       (formdata.value.is_broker_seller_dev === null && formdata.value.is_buyer_renter === null &&
         formdata.value.is_broker === null && formdata.value.is_data_collector === null &&
         formdata.value.is_csr_closer === null)) {
-        swal('Error', 'Please choose a role for inhouse user.', 'error');
+      swal('Error', 'Please choose a role for inhouse user.', 'error');
     } else {
       this.parameter.loading = true;
       this.admin.postDataApi(this.parameter.url, input)
@@ -269,7 +269,7 @@ console.log('===', formdata);
             this.parameter.loading = false;
             if (success.success === '0') {
               swal('Error', success.message, 'error');
-            }else {
+            } else {
               this.modalClose.nativeElement.click();
               const text = this.model.id ? 'Updated successfully.' : 'Added successfully.';
               swal('Success', text, 'success');
@@ -280,10 +280,10 @@ console.log('===', formdata);
               } else {
                 // add - push
                 if ((formdata.value.is_broker_seller_dev === true && this.parameter.userType === 'csr-sellers') ||
-                (formdata.value.is_buyer_renter === true && this.parameter.userType === 'csr-buyers') ||
-                (formdata.value.is_broker === true && this.parameter.userType === 'inhouse-broker') ||
-                (formdata.value.is_data_collector === true && this.parameter.userType === 'data-collectors') ||
-                (formdata.value.is_csr_closer === true && this.parameter.userType === 'csr-closers')) {
+                  (formdata.value.is_buyer_renter === true && this.parameter.userType === 'csr-buyers') ||
+                  (formdata.value.is_broker === true && this.parameter.userType === 'inhouse-broker') ||
+                  (formdata.value.is_data_collector === true && this.parameter.userType === 'data-collectors') ||
+                  (formdata.value.is_csr_closer === true && this.parameter.userType === 'csr-closers')) {
                   this.parameter.items.push(success.data);
                 }
                 formdata.reset();
@@ -298,7 +298,7 @@ console.log('===', formdata);
 
   editUser(userdata, index) {
     this.parameter.loading = true;
-    this.admin.postDataApi('getNewUserById', {id: userdata.id}).subscribe(r => {
+    this.admin.postDataApi('getNewUserById', { id: userdata.id }).subscribe(r => {
       this.parameter.loading = false;
       userdata = r['data'];
       this.parameter.index = index;
@@ -556,7 +556,7 @@ console.log('===', formdata);
     this.getInhouseUsers();
   }
 
-  setLeadSort () {
+  setLeadSort() {
     this.lead_sort = this.lead_sort === 1 ? 2 : 1;
     this.getInhouseUsers();
   }
@@ -564,47 +564,47 @@ console.log('===', formdata);
     this.parameter.loading = true;
     switch (this.parameter.userType) {
       case 'data-collectors':
-      this.parameter.url = 'getDataCollectors';
-      this.title = 'Data Collectors';
-      this.parameter.type = 1;
+        this.parameter.url = 'getDataCollectors';
+        this.title = 'Data Collectors';
+        this.parameter.type = 1;
         break;
 
       case 'csr-sellers':
-      this.parameter.url = 'getCsrSellers';
-      this.title = 'CSR Sellers';
-      this.parameter.type = 2;
+        this.parameter.url = 'getCsrSellers';
+        this.title = 'CSR Sellers';
+        this.parameter.type = 2;
         break;
 
       case 'csr-buyers':
-      this.parameter.url = 'getCsrBuyers';
-      this.title = 'CSR Buyers';
-      this.parameter.type = 3;
+        this.parameter.url = 'getCsrBuyers';
+        this.title = 'CSR Buyers';
+        this.parameter.type = 3;
         break;
 
       case 'inhouse-broker':
-      this.parameter.url = 'getInhouseBroker';
-      this.title = 'Inhouse Brokers';
-      this.parameter.type = 4;
+        this.parameter.url = 'getInhouseBroker';
+        this.title = 'Inhouse Brokers';
+        this.parameter.type = 4;
         break;
 
       case 'csr-closers':
-      this.parameter.url = 'getCsrClosers';
-      this.title = 'CSR Closures';
-      this.parameter.type = 5;
+        this.parameter.url = 'getCsrClosers';
+        this.title = 'CSR Closures';
+        this.parameter.type = 5;
         break;
 
       default:
-      this.parameter.url = 'getDataCollectors';
-      this.parameter.type = 1;
+        this.parameter.url = 'getDataCollectors';
+        this.parameter.type = 1;
         break;
     }
 
     const input = new FormData();
     input.append('page', this.parameter.p.toString());
     if (this.lead_sort) { input.append('lead_sort', this.lead_sort.toString()); }
-    if (this.parameter.name) {input.append('name', this.parameter.name); }
-    if (this.parameter.email) {input.append('email', this.parameter.email); }
-    if (this.parameter.phone) {input.append('phone', this.parameter.phone); }
+    if (this.parameter.name) { input.append('name', this.parameter.name); }
+    if (this.parameter.email) { input.append('email', this.parameter.email); }
+    if (this.parameter.phone) { input.append('phone', this.parameter.phone); }
     if (this.parameter.country_id && this.parameter.country_id !== '-1') {
       input.append('countries', JSON.stringify([this.parameter.country_id]));
     }
@@ -638,7 +638,7 @@ console.log('===', formdata);
   addRow() {
     const obj = {
       countries: '',
-      states : '',
+      states: '',
       cities: '',
       localities: '',
       buildings: ''

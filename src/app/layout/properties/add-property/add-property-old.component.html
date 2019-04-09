@@ -751,7 +751,7 @@
                 <th>Choose Building</th>
               </tr>
 
-              <tr *ngFor="let item of parameter.buildings; let i = index">
+              <tr *ngFor="let item of searchedBuildings; let i = index">
                 <td class="text-left">{{item.name}}</td>
                 <td>
                   <input type="radio" required name="building_id" (change)="setBuildingId(item.id)">

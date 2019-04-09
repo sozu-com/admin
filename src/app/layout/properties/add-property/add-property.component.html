@@ -80,6 +80,8 @@
     </div>
     <div *ngIf="!buildingLoading && parameter.buildingCount != 0" class="white-bg">
       <form ngNativeValidate #tagABuilding="ngForm" (ngSubmit)="getProjectById(0)">
+        
+        <!-- buildings listing -->
         <div class="tabel-section">
           <div class="table-responsive">
 
@@ -89,15 +91,44 @@
                 <th>Choose Building</th>
               </tr>
 
-              <tr *ngFor="let item of parameter.buildings; let i = index">
+              <tr *ngFor="let item of searchedBuildings; let i = index">
                 <td class="text-left">{{item.name}}</td>
                 <td>
-                  <input type="radio" required name="building_id" (change)="setBuildingId(item.id)">
+                  <input type="radio" required name="building_id" (change)="setBuildingId(item)">
                 </td>
               </tr>
             </table>
           </div>
         </div>
+
+        <!-- towers listing wrt building id -->
+        <diV class="row marginT20" *ngIf="building.id">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="form-group-3">
+              <label class="p16-two">Select tower in {{selectedBuilding.name}} <span class="color-red">*</span></label>
+              <select title="Choose Country" required class="form-control" (change)="setTower($event.target.value)">
+                <option value="" disabled>Select Tower</option>
+                <option *ngFor="let bt of selectedBuilding?.building_towers" value="{{bt.id}}">
+                  {{bt.tower_name}}</option>
+              </select>
+            </div>
+          </div>  
+        </diV>
+
+        <!-- floor listing wrt tower id -->
+        <diV class="row marginT20" *ngIf="building.id">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="form-group-3">
+              <label class="p16-two">Select floor in {{selectedTower.tower_name}} <span class="color-red">*</span></label>
+              <select title="Choose Country" required class="form-control" (change)="setTower($event.target.value)">
+                <option value="" disabled>Select Floor</option>
+                <option *ngFor="let bt of selectedBuilding?.building_towers" value="{{bt.id}}">
+                  {{bt.tower_name}}</option>
+              </select>
+            </div>
+          </div>  
+        </diV>
+  
 
         <div class="row">
           <div class="col-md-12">

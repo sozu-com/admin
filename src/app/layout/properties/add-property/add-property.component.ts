@@ -10,7 +10,7 @@ import { Constant } from '../../../common/constants';
 import { FileUpload } from './../../../common/fileUpload';
 import { AddPropertyModel, Building, PropertyDetails } from '../../../models/addProperty.model';
 import { HttpInterceptor } from '../../../services/http-interceptor';
-import { AddProjectModel } from 'src/app/models/addProject.model';
+import { AddProjectModel, Towers } from 'src/app/models/addProject.model';
 declare const google;
 declare let swal: any;
 
@@ -78,6 +78,10 @@ export class AddPropertyComponent implements OnInit {
   newcustom_attribute = { name: '', value: '' };
   buildingLoading = false;
   buildingData: AddProjectModel;
+  searchedBuildings: Array<AddProjectModel>;
+  selectedBuilding: AddProjectModel;
+  selectedTower: Towers;
+
   constructor(public model: AddPropertyModel, private us: AdminService, private cs: CommonService,
     private router: Router, private sanitization: DomSanitizer, private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone, private building: Building, public constant: Constant,
@@ -498,7 +502,7 @@ export class AddPropertyComponent implements OnInit {
     this.us.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          this.parameter.buildings = success['data'];
+          this.searchedBuildings = success['data'];
           this.parameter.buildingCount = success['data'].length;
           if (this.parameter.buildingCount === 0) { this.showText = true; }
           this.buildingLoading = false;
@@ -550,7 +554,7 @@ export class AddPropertyComponent implements OnInit {
       input.append('image', event.target.files[0]);
       this.us.postDataApi('saveImage', input).subscribe(
         success => {
-        this.model[param] = success['data'].image;
+          this.model[param] = success['data'].image;
           // console.log(this.model);
         });
 
@@ -703,8 +707,13 @@ export class AddPropertyComponent implements OnInit {
     }
   }
 
-  setBuildingId(building_id) {
-    this.building.id = building_id;
+  setBuildingId(building: any) {
+    this.selectedBuilding = building;
+    this.building.id = building.id;
+  }
+
+  setTower(tower: Towers) {
+    this.selectedTower = tower;
   }
 
   tagBuilding() {

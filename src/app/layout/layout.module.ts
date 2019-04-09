@@ -50,7 +50,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
         NgxMyDatePickerModule.forRoot(),
         MalihuScrollbarModule.forRoot(),
         AgmCoreModule.forRoot({
-            apiKey: 'AIzaSyCYv_zELZGVo2Ehzgp8eh8UeSIidhMCmH8',
+            apiKey: 'AIzaSyB8PJ9XH3biyg7bM2I6q6jkoR9JnCgfzVU',
             libraries: ['drawing']
           }),
         Ng2TelInputModule,

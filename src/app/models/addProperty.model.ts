@@ -55,7 +55,7 @@ export class AddPropertyModel {
     //     }
     // ];
     custom_attributes: any = [];
-    property_quantity_details: any= [];
+    property_quantity_details: any = [];
 }
 
 export class Building {
