@@ -1,6 +1,7 @@
 export class Constant {
     public projectName = 'Kanguroo';
     public itemsPerPage = 10;
+    public limit4 = 4;
     public p = 1;
     public country_code = 'mx';
     public dial_code = '+52';

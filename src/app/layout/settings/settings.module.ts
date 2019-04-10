@@ -67,7 +67,7 @@ const routes: Routes = [
       primaryColour: '#00B96F'
     }),
     AgmCoreModule.forRoot({
-        apiKey: 'AIzaSyB8PJ9XH3biyg7bM2I6q6jkoR9JnCgfzVU',
+        apiKey: 'AIzaSyDykCJGMqHIwJluSmSiqKTJBVN2KauM_uQ',
         libraries: ['drawing', 'places']
       }),
     Ng2TelInputModule

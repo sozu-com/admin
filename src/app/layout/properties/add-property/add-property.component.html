@@ -82,9 +82,25 @@
       <form ngNativeValidate #tagABuilding="ngForm" (ngSubmit)="getProjectById(0)">
         
         <!-- buildings listing -->
-        <div class="tabel-section">
-          <div class="table-responsive">
+        <div class="row">
+          <div class="col-lg-6 col-md-12 col-sm-12 col-12" 
+          *ngFor="let item of searchedBuildings| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.buildingCount }; let i = index">
+            <app-project-block (setBuilding)="setBuildingId($event)" [data]="item" [index]="i"></app-project-block>
+          </div>
+        </div>
 
+        <div class="row" *ngIf="searchedBuildings?.length>0">
+          <div class="col-lg-6 col-md-12 col-sm-12 col-12"></div>
+          <div class="col-lg-6 col-md-12 col-sm-12 col-12 btn-cont text-right marginT15">
+            <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+          </div>
+        </div>
+
+
+
+        <!-- <div class="tabel-section">
+          <div class="table-responsive">
+            
             <table class="table table-striped">
               <tr>
                 <th>Name</th>
@@ -99,16 +115,16 @@
               </tr>
             </table>
           </div>
-        </div>
+        </div> -->
 
         <!-- towers listing wrt building id -->
         <diV class="row marginT20" *ngIf="building.id">
           <div class="col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="form-group-3">
               <label class="p16-two">Select tower in {{selectedBuilding.name}} <span class="color-red">*</span></label>
-              <select title="Choose Country" required class="form-control" (change)="setTower($event.target.value)">
+              <select title="Choose Tower" name="tower" [(ngModel)]="selectedTower" required class="form-control" (change)="setTower(selectedTower)">
                 <option value="" disabled>Select Tower</option>
-                <option *ngFor="let bt of selectedBuilding?.building_towers" value="{{bt.id}}">
+                <option *ngFor="let bt of selectedBuilding?.building_towers" [ngValue]="bt">
                   {{bt.tower_name}}</option>
               </select>
             </div>
@@ -116,14 +132,14 @@
         </diV>
 
         <!-- floor listing wrt tower id -->
-        <diV class="row marginT20" *ngIf="building.id">
+        <diV class="row marginT20" *ngIf="selectedTower">
           <div class="col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="form-group-3">
               <label class="p16-two">Select floor in {{selectedTower.tower_name}} <span class="color-red">*</span></label>
-              <select title="Choose Country" required class="form-control" (change)="setTower($event.target.value)">
+              <select title="Choose Floor" required class="form-control" (change)="setFloor($event.target.value)">
                 <option value="" disabled>Select Floor</option>
-                <option *ngFor="let bt of selectedBuilding?.building_towers" value="{{bt.id}}">
-                  {{bt.tower_name}}</option>
+                <option *ngFor="let fa of selectedTower?.floor_array; let j=index" [value]="fa">
+                  {{j == 0 ? 'Ground Floor': 'Floor '+j}}</option>
               </select>
             </div>
           </div>  
@@ -135,7 +151,7 @@
             <div class="btn-cont text-right">
               <!-- <a class="btn-third btn" href="javascript://" (click)="tagBuilding()">Next</a> -->
               <!-- <button type="button" class="btn btn-primary" (click)="setTab(4)">Previous</button> -->
-              <button type="submit" [disabled]="tagABuilding.invalid" class="btn btn-primary">Submit</button>
+              <button type="submit" [disabled]="tagABuilding.invalid" class="btn btn-primary">Next</button>
             </div>
           </div>
         </div>
@@ -215,15 +231,15 @@
           <div class="btn-cont text-right">
             <!-- <a class="btn-third btn" href="javascript://" (click)="buildingRequest()">Next</a> -->
             <!-- <button type="button" class="btn btn-primary" (click)="setTab(5)">Previous</button> -->
-            <button type="submit" [disabled]="buildingRequestForm.invalid" class="btn btn-primary">Submit</button>
+            <button type="submit" [disabled]="buildingRequestForm.invalid" class="btn btn-primary">Next</button>
           </div>
         </div>
       </div>
 
     </form>
-    <div class="btn-cont text-right">
+    <!-- <div class="btn-cont text-right">
       <button type="button" class="btn btn-primary" (click)="setTab(4)" style="margin: 20px 0px;">Previous</button>
-    </div>
+    </div> -->
   </div>
 
 </div>

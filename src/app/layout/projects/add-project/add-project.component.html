@@ -46,7 +46,7 @@
                   <label>Location
                     <span class="color-red">*</span>
                   </label>
-                  <input placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search (input)="loadPlaces()" name="address" [(ngModel)]="model.address" autocomplete="off">
+                  <input placeholder="Search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search (input)="loadPlaces()" name="address" [(ngModel)]="model.address" autocomplete="off">
                 </div>
               </div>
             </div>
@@ -66,7 +66,7 @@
                   <label>Building Age (in yrs)
                     <!-- <span class="color-red">*</span> -->
                   </label>
-                  <input placeholder="Building Age" min="0" class="form-control" [(ngModel)]="model.building_age" type="number" name="building_age"/>
+                  <input placeholder="Building age" min="0" class="form-control" [(ngModel)]="model.building_age" type="number" name="building_age"/>
                 </div>
               </div>
               <div class="col-sm-6 col-12">
@@ -260,7 +260,7 @@
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>Number of Floors</label>
-                    <input autocomplete="off" [(ngModel)]="newTower.num_of_floors" class="form-control" type="number" name="num_of_floors" placeholder="Enter number of floors"/>
+                    <input min="0" autocomplete="off" [(ngModel)]="newTower.num_of_floors" class="form-control" type="number" name="num_of_floors" placeholder="(0 for Ground Floor)"/>
                   </div>
                 </div>
 

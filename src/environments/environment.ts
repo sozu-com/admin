@@ -4,10 +4,10 @@
 
 export const environment = {
   production: false,
-  // baseIP: 'https://apitest.sozul.com/',
-  // baseUrl: 'https://apitest.sozul.com/api/admin/',
-  baseIP: 'http://localhost:8000/',
-  baseUrl: 'http://localhost:8000/api/admin/',
+  baseIP: 'https://apitest.sozul.com/',
+  baseUrl: 'https://apitest.sozul.com/api/admin/',
+  // baseIP: 'http://localhost:8000/',
+  // baseUrl: 'http://localhost:8000/api/admin/',
   socketUrl: 'https://socket.sozul.com',
   deviceId: 'ADMIN',
 

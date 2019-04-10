@@ -812,7 +812,8 @@ export class AddProjectComponent implements OnInit {
     //   swal('First save the previous editted tower.');
     // }
     if (!this.newTower.tower_name) { swal('Error', 'Please enter tower name.', 'error'); return false; }
-    if (!this.newTower.num_of_floors) { swal('Error', 'Please enter no. of floors.', 'error'); return false; }
+    if (!this.newTower.num_of_floors && this.newTower.num_of_floors !== 0) {
+      swal('Error', 'Please enter no. of floors.', 'error'); return false; }
     if (!this.newTower.possession_status_id) { swal('Error', 'Please choose possession status.', 'error'); return false; }
     if (!this.newTower.launch_date) { swal('Error', 'Please enter launch date.', 'error'); return false; }
 

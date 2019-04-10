@@ -18,6 +18,7 @@ import { FilterByIdPipe } from '../../pipes/filter-by-id.pipe';
 import { FilterByNamePipe } from '../../pipes/filter-by-name.pipe';
 import { SharedModule } from '../../modules/shared.module';
 import { CalendarModule } from 'primeng/primeng';
+import { ProjectBlockComponent } from '../common-blocks/project-block/project-block.component';
 
 const routes: Routes = [
   { path: 'details/:property_id', component: PropertyDetailsComponent },
@@ -44,7 +45,7 @@ const routes: Routes = [
       primaryColour: '#00B96F'
     }),
     AgmCoreModule.forRoot({
-        apiKey: 'AIzaSyB8PJ9XH3biyg7bM2I6q6jkoR9JnCgfzVU',
+        apiKey: 'AIzaSyDykCJGMqHIwJluSmSiqKTJBVN2KauM_uQ',
         libraries: ['drawing', 'places']
       }),
     Ng2TelInputModule,
@@ -58,7 +59,8 @@ const routes: Routes = [
     AddPropertyComponent,
     PropertyDetailsComponent,
     FilterByIdPipe,
-    FilterByNamePipe
+    FilterByNamePipe,
+    ProjectBlockComponent
   ]
 })
 

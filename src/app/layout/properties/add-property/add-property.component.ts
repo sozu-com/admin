@@ -40,10 +40,10 @@ export class AddPropertyComponent implements OnInit {
   url: File;
   url2 = [];
   tab: number;
-  selectedGuest;
-  image1;
-  image2;
-  image3;
+  selectedGuest: any;
+  image1: any;
+  image2: any;
+  image3: any;
   showBuilding = false;
   amenityList = [];
   amen = '';
@@ -89,6 +89,8 @@ export class AddPropertyComponent implements OnInit {
     private http: HttpInterceptor) { }
 
   ngOnInit() {
+    this.parameter.page = 1;
+    this.parameter.itemsPerPage = this.constant.limit4;
     this.buildingData = new AddProjectModel();
     this.parameter.amenities = [];
     this.parameter.banks = [];
@@ -487,10 +489,8 @@ export class AddPropertyComponent implements OnInit {
   }
 
 
-  searchBuilding(keyword) {
-    if (!keyword) {
-      swal('Error', 'Please enter some text.', 'error'); return false;
-    }
+  searchBuilding(keyword: string) {
+    if (!keyword) { swal('Error', 'Please enter some text.', 'error'); return false; }
 
     this.showBuilding = false;
     this.buildingLoading = true;
@@ -511,14 +511,16 @@ export class AddPropertyComponent implements OnInit {
           this.buildingLoading = true;
         }
       );
+  }
 
+  getPage(page: number) {
+    this.parameter.page = page;
   }
 
   showBuildingDetails(showBuilding) {
     this.showBuilding = showBuilding;
     this.buildingName = '';
     this.loadPlaces();
-
   }
 
   onSelectFile2(event) {
@@ -714,6 +716,14 @@ export class AddPropertyComponent implements OnInit {
 
   setTower(tower: Towers) {
     this.selectedTower = tower;
+    this.selectedTower.floor_array = [];
+    for (let index = 0; index <= this.selectedTower.num_of_floors; index++) {
+        this.selectedTower.floor_array.push(index);
+    }
+  }
+
+  setFloor(floor_num: number) {
+
   }
 
   tagBuilding() {

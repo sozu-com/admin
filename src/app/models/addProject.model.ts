@@ -88,11 +88,12 @@ export class Towers {
     id?: string;
     building_id: string;
     tower_name: string;
-    num_of_floors: string;
+    num_of_floors: number;
     possession_status_id: string;
     launch_date: string;
     amenities: Array<AmenitiesShowObj>;
     amenitiesId: Array<string>;
+    floor_array?: Array<number>;
     // amenities: Array<any>;
     // amenitiesId: Array<any>;
 }
