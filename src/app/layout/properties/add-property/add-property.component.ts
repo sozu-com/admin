@@ -171,6 +171,20 @@ export class AddPropertyComponent implements OnInit {
   setModelData(data) {
     console.log(data);
     this.model.id = data.id;
+    this.model.name = data.name;
+    this.model.property_price = data.property_price;
+
+
+    this.model.building_id = data.building_id;
+    this.model.building_towers_id = data.building_towers_id;
+    this.model.floor_num = data.floor_num;
+
+    this.model.pets = data.pets;
+    this.model.kids_friendly = data.kids_friendly;
+    this.model.students_friendly = data.students_friendly;
+    this.model.lgtb_friendly = data.lgtb_friendly;
+    this.model.mature_people_friendly = data.mature_people_friendly;
+
     this.model.for_rent = data.for_rent === 1 ? true : false;
     this.model.for_sale = data.for_sale === 1 ? true : false;
     this.getStates(data.locality.city.state.country.id, '');
@@ -620,7 +634,8 @@ export class AddPropertyComponent implements OnInit {
   }
 
   addProperty(formdata: NgForm, tab) {
-
+    console.log('tab', tab);
+    this.model.floor = 0; // now static
     this.model.marital_status = [];
     for (let index = 0; index < this.testMarital.length; index++) {
       if (this.testMarital[index].checked === true) {
@@ -662,6 +677,9 @@ export class AddPropertyComponent implements OnInit {
         input.append('configuration_id', this.model.configuration_id);
         input.append('carpet_areas', JSON.stringify(this.model.carpet_areas));
         input.append('property_type_id', this.model.property_type_id);
+        input.append('building_id', this.model.building_id);
+        input.append('building_towers_id', this.model.building_towers_id);
+        input.append('floor_num', this.model.floor_num);
       }
 
       if (this.model.step === 2) {
@@ -700,6 +718,15 @@ export class AddPropertyComponent implements OnInit {
           success => {
             this.parameter.loading = false;
             console.log(success);
+            this.parameter.loading = false;
+            if (this.model.step.toString() === '4') {
+              swal('Submitted successfully.',
+              'You will be notified once your property will be reviewed by them, you can view status in your properties.',
+              'success');
+              if (this.router.url.indexOf('/dashboard/properties/edit-property') === -1) {
+                this.router.navigate(['/dashboard/properties/view-properties']);
+              }
+            }
             this.parameter.property_id = success['data'].id;
             this.tab = tab;
           }, error => {
@@ -712,18 +739,20 @@ export class AddPropertyComponent implements OnInit {
   setBuildingId(building: any) {
     this.selectedBuilding = building;
     this.building.id = building.id;
+    this.model.building_id = building.id;
   }
 
   setTower(tower: Towers) {
     this.selectedTower = tower;
+    this.model.building_towers_id = tower.id;
     this.selectedTower.floor_array = [];
     for (let index = 0; index <= this.selectedTower.num_of_floors; index++) {
         this.selectedTower.floor_array.push(index);
     }
   }
 
-  setFloor(floor_num: number) {
-
+  setFloor(floor_num: any) {
+    this.model.floor_num = floor_num;
   }
 
   tagBuilding() {
@@ -752,7 +781,7 @@ export class AddPropertyComponent implements OnInit {
   }
 
   getProjectById(step: number) {
-    this.us.postDataApi('getProjectById', { building_id: this.building.id })
+    this.us.postDataApi('getProjectByIdWithCSC', { building_id: this.building.id })
       .subscribe(
         success => {
           this.parameter.loading = false;
@@ -771,6 +800,16 @@ export class AddPropertyComponent implements OnInit {
               price: element.base_price
             };
             this.model.carpet_areas.push(obj);
+            if (success['data'].locality.id) {
+              this.getStates(success['data'].locality.city.state.country.id, '');
+              this.getCities(success['data'].locality.city.state.id, '');
+              this.getLocalities(success['data'].locality.city.id, '');
+
+              this.model.country_id = success['data'].locality.city.state.country.id;
+              this.model.state_id = success['data'].locality.city.state.id;
+              this.model.city_id = success['data'].locality.city.id;
+              this.model.locality_id = success['data'].locality.id;
+            }
           });
           this.parameter.propertyDetails.custom_values = this.buildingData.custom_values;
           this.tab = step + 1;

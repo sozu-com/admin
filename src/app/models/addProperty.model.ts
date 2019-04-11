@@ -56,6 +56,9 @@ export class AddPropertyModel {
     // ];
     custom_attributes: any = [];
     property_quantity_details: any = [];
+    building_id: string;
+    building_towers_id: string;
+    floor_num: string;
 }
 
 export class Building {

@@ -26,7 +26,7 @@
       <li [ngClass]="{'current': tab == 1}"><span></span><a (click)="setTab(1)">Create Draft</a></li>
       <li [ngClass]="{'current': tab == 2}"><span></span><a (click)="setTab(2)">Additional Info</a></li>
       <li [ngClass]="{'current': tab == 3}"><span></span><a (click)="setTab(3)">Preferable Buyers</a></li>
-      <li [ngClass]="{'current': tab == 4}"><span></span><a (click)="setTab(4)">Custom</a></li>
+      <li [ngClass]="{'current': (tab == 4) || (tab == 5)}"><span></span><a (click)="setTab(4)">Custom</a></li>
       <!-- <li [ngClass]="{'current': tab == 1}" [ngClass]="{'selected': tab > 1}"><span></span><a>Create Draft</a></li>
       <li [ngClass]="{'current': tab == 2}" [ngClass]="{'selected': tab > 2}"><span></span><a>Additional Info</a></li>
       <li [ngClass]="{'current': tab == 3}" [ngClass]="{'selected': tab > 3}"><span></span><a>Preferable Buyers</a></li>
@@ -121,7 +121,7 @@
         <diV class="row marginT20" *ngIf="building.id">
           <div class="col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="form-group-3">
-              <label class="p16-two">Select tower in {{selectedBuilding.name}} <span class="color-red">*</span></label>
+              <label class="p16-two">Select tower in {{selectedBuilding?.name}} <span class="color-red">*</span></label>
               <select title="Choose Tower" name="tower" [(ngModel)]="selectedTower" required class="form-control" (change)="setTower(selectedTower)">
                 <option value="" disabled>Select Tower</option>
                 <option *ngFor="let bt of selectedBuilding?.building_towers" [ngValue]="bt">
@@ -135,7 +135,7 @@
         <diV class="row marginT20" *ngIf="selectedTower">
           <div class="col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="form-group-3">
-              <label class="p16-two">Select floor in {{selectedTower.tower_name}} <span class="color-red">*</span></label>
+              <label class="p16-two">Select floor in {{selectedTower?.tower_name}} <span class="color-red">*</span></label>
               <select title="Choose Floor" required class="form-control" (change)="setFloor($event.target.value)">
                 <option value="" disabled>Select Floor</option>
                 <option *ngFor="let fa of selectedTower?.floor_array; let j=index" [value]="fa">
@@ -258,7 +258,7 @@
 
       <div class="form-group-3">
         <label class="p16-two">Name <span class="color-red">*</span></label>
-        <input class="form-control" type="test" name="name" placeholder="Apartment name" [(ngModel)]="name">
+        <input class="form-control" required type="test" name="name" placeholder="Apartment name" [(ngModel)]="model.name">
         <div class="clearfix"></div>
       </div>
 
@@ -296,10 +296,6 @@
               <option *ngFor="let country of parameter.countries" value="{{country.id}}"
                 [selected]="country.id == model.country_id">{{country.name_en}}</option>
             </select>
-            <!-- <select title="Choose Country" required class="form-control" name="country_id" [(ngModel)]="model.country_id">
-              <option value="" disabled>Select Country</option>
-              <option *ngFor="let country of parameter.countries" value="{{country.id}}">{{country.name_en}}</option>
-            </select> -->
           </div>
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-12">
@@ -310,10 +306,6 @@
               <option *ngFor="let state of parameter.states" value="{{state.id}}"
                 [selected]="state.id == model.state_id">{{state.name_en}}</option>
             </select>
-            <!-- <select title="Choose State" required class="form-control" name="state_id" [(ngModel)]="model.state_id">
-              <option value="" disabled>Select State</option>
-              <option *ngFor="let state of parameter.states" value="{{state.id}}">{{state.name_en}}</option>
-            </select> -->
           </div>
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-12">
@@ -324,10 +316,6 @@
               <option *ngFor="let city of parameter.cities" value="{{city.id}}" [selected]="city.id == model.city_id">
                 {{city.name_en}}</option>
             </select>
-            <!-- <select title="Choose City" class="form-control" name="city_id" [(ngModel)]="model.city_id">
-              <option value="" disabled>Select City</option>
-              <option *ngFor="let city of parameter.cities" value="{{city.id}}">{{city.name_en}}</option>
-            </select> -->
           </div>
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-12">
@@ -339,10 +327,6 @@
               <option *ngFor="let locality of parameter.localities" value="{{locality.id}}"
                 [selected]="locality.id == model.locality_id">{{locality.name_en}}</option>
             </select>
-            <!-- <select title="Choose Locality" class="form-control" name="locality_id" [(ngModel)]="model.locality_id">
-              <option value="" disabled>Select Locality</option>
-              <option *ngFor="let locality of parameter.localities" value="{{locality.id}}">{{locality.name_en}}</option>
-            </select> -->
           </div>
         </div>
       </div>
@@ -477,13 +461,13 @@
       </div>
 
       <div class="row">
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+        <!-- <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
             <label>Floors <span class="color-red">*</span></label>
             <input class="form-control" min="1" [(ngModel)]="model.floor" type="number" name="floor"
               placeholder="in numbers">
           </div>
-        </div>
+        </div> -->
 
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
@@ -511,8 +495,8 @@
       <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
-            <label>Price <span class="color-red">*</span></label>
-            <input class="form-control" min="1" [(ngModel)]="model.property_price" type="number" name="property_price"
+            <label>Suggested Price <span class="color-red">*</span></label>
+            <input class="form-control" required min="1" [(ngModel)]="model.property_price" type="number" name="property_price"
               placeholder="in numbers">
           </div>
         </div>
@@ -851,7 +835,7 @@
           additionalInfo.invalid
           || !model.cover_image
           || !model.floor_plan
-          || !model.floor
+          || !model.property_price
           || !model.bedroom
           || !model.bathroom
           || model.quantity < 1
@@ -990,9 +974,9 @@
 
 
 
-<form ngNativeValidate #custom="ngForm" (ngSubmit)="addProperty(custom, 2)">
+<form ngNativeValidate #custom="ngForm" (ngSubmit)="addProperty(custom, 5)">
   <!-- tab-4 -->
-  <div class="white-bg" *ngIf="tab==4">
+  <div class="white-bg" *ngIf="tab==4 || tab==5">
     <div class="page-title">
       <h3>Custom</h3>
     </div>
