@@ -678,12 +678,16 @@ export class AddPropertyComponent implements OnInit {
         input.append('carpet_areas', JSON.stringify(this.model.carpet_areas));
         input.append('property_type_id', this.model.property_type_id);
         input.append('building_id', this.model.building_id);
+        input.append('step', this.model.step.toString());
         input.append('building_towers_id', this.model.building_towers_id);
         input.append('floor_num', this.model.floor_num);
       }
 
       if (this.model.step === 2) {
         const imagesString = this.model.images.map(r => r.image);
+        // added building_id and step cuz need to update sttaus and step
+        input.append('building_id', this.model.building_id);
+        input.append('step', this.model.step.toString());
         input.append('images', JSON.stringify(imagesString));
         input.append('cover_image', this.model.cover_image);
         input.append('floor_plan', this.model.floor_plan);
@@ -701,6 +705,9 @@ export class AddPropertyComponent implements OnInit {
         input.append('property_quantity_details', JSON.stringify(this.model.property_quantity_details));
       }
       if (this.model.step === 3) {
+        // added building_id and step cuz need to update sttaus and step
+        input.append('building_id', this.model.building_id);
+        input.append('step', this.model.step.toString());
         input.append('pets', this.model.pets.toString());
         input.append('kids_friendly', this.model.kids_friendly.toString());
         input.append('students_friendly', this.model.students_friendly.toString());
@@ -709,6 +716,9 @@ export class AddPropertyComponent implements OnInit {
         input.append('marital_status', JSON.stringify(this.model.marital_status));
       }
       if (this.model.step === 4) {
+        // added building_id and step cuz need to update sttaus and step
+        input.append('building_id', this.model.building_id);
+        input.append('step', this.model.step.toString());
         input.append('custom_attributes', JSON.stringify(this.model.custom_attributes));
       }
       console.log('INPUT=>', input);

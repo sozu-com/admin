@@ -106,6 +106,7 @@ export class AddProjectComponent implements OnInit {
           this.parameter.loading = false;
           this.model = JSON.parse(JSON.stringify(r.data));
           this.model.building_tower_edit_index = '-1';
+          this.model.floors = 0;
           if (r.data.developer == null) {
             this.model.developer = {
               id: '',
@@ -169,6 +170,7 @@ export class AddProjectComponent implements OnInit {
           this.parameter.loading = false;
           this.model = JSON.parse(JSON.stringify(r.data));
           this.model.building_tower_edit_index = '-1';
+          this.model.floors = 0;
           console.log('--------------', r);
           console.log('--------------', this.model);
           if (r.data.developer == null) {
@@ -231,6 +233,7 @@ export class AddProjectComponent implements OnInit {
         });
       } else {
         this.model = new AddProjectModel();
+        this.model.floors = 0;
         this.model.building_towers = [];
         this.model.building_tower_edit_index = '-1';
         this.canEditdeveloperInfo = true;
@@ -603,7 +606,8 @@ export class AddProjectComponent implements OnInit {
     if (modelSave.name && modelSave.address && modelSave.address != null && modelSave.cover_image &&
       modelSave.building_images.length > 0 && modelSave.building_age && modelSave.building_age != null && modelSave.building_type_id &&
       modelSave.description && modelSave.description != null && modelSave.possession_status_id &&
-      modelSave.floors && modelSave.floors != null && modelSave.launch_date && modelSave.launch_date != null &&
+      // modelSave.floors && modelSave.floors != null &&
+      modelSave.launch_date && modelSave.launch_date != null &&
       modelSave.avg_price && modelSave.avg_price != null && modelSave.amenities.length > 0 &&
       modelSave.configurations.length > 0 && modelSave.dev_email && modelSave.dev_email != null
       && modelSave.dev_name && modelSave.dev_name != null

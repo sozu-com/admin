@@ -1,3 +1,5 @@
+import { User } from "./inhouse-users.model";
+
 export class CarpetAreas {
     carpet_areas: Array<object> = [
         {
@@ -82,4 +84,11 @@ export class PropertyDetails {
     payment_status_id: any;
     building_specific_type_id: any;
     direction: any;
+}
+
+export class SellerSelections {
+    id: string;
+    property_id: string;
+    status: number;
+    user: User;
 }

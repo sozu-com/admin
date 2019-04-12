@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
 import { IProperty } from '../../common/property';
 import { Constant } from './../../common/constants';
 import * as moment from 'moment';
+import { SellerSelections } from './../../models/addProperty.model';
 declare let swal: any;
 
 @Component({
@@ -15,15 +16,19 @@ export class PropertiesComponent implements OnInit {
   public parameter: IProperty = {};
   public location: IProperty = {};
 
-  items: any= [];
-  total: any= 0;
-  configurations: any= [];
+  items: any = [];
+  total: any = 0;
+  configurations: any = [];
   countries: any;
 
   price_sort = 1;
   availability_sort = 1;
   lead_sort = 1;
-
+  keyword: string;
+  selecter_seller: SellerSelections;
+  allSellers: Array<SellerSelections>;
+  @ViewChild('linkSellerModal') linkSellerModal: ElementRef;
+  @ViewChild('closeLinkSellerModal') closeLinkSellerModal: ElementRef;
   constructor(
     public constant: Constant,
     public admin: AdminService
@@ -176,7 +181,7 @@ export class PropertiesComponent implements OnInit {
     if (this.parameter.sort_by !== sort_by) {
       this.parameter.sort_by = sort_by;
       this.parameter.sort_by_order = 1;
-    }else {
+    } else {
       this.parameter.sort_by_order = this.parameter.sort_by_order ? 0 : 1;
     }
     this.getListing();
@@ -189,32 +194,32 @@ export class PropertiesComponent implements OnInit {
 
   block(item) {
     item.is_blocked = true;
-    this.admin.postDataApi('blockProperty', {property_id: item.id, flag: 1}).subscribe(r => {
+    this.admin.postDataApi('blockProperty', { property_id: item.id, flag: 1 }).subscribe(r => {
       swal('Success', 'Property blocked successfully', 'success');
     },
-    error => {
-      swal('Error', error.error.message, 'error');
-    });
+      error => {
+        swal('Error', error.error.message, 'error');
+      });
   }
 
   unblock(item) {
     item.is_blocked = false;
-    this.admin.postDataApi('blockProperty', {property_id: item.id, flag: 0 }).subscribe(r => {
+    this.admin.postDataApi('blockProperty', { property_id: item.id, flag: 0 }).subscribe(r => {
       swal('Success', 'Property unblocked successfully', 'success');
     },
-    error => {
-      swal('Error', error.error.message, 'error');
-    });
+      error => {
+        swal('Error', error.error.message, 'error');
+      });
   }
 
   changeStatus(item, status) {
     item.status = status;
-    this.admin.postDataApi('updatePropertyStatus', {property_id: item.id, status_id: status }).subscribe(r => {
+    this.admin.postDataApi('updatePropertyStatus', { property_id: item.id, status_id: status }).subscribe(r => {
       swal('Success', 'Property status changed', 'success');
     },
-    error => {
-      swal('Error', error.error.message, 'error');
-    });
+      error => {
+        swal('Error', error.error.message, 'error');
+      });
   }
 
   resetFilters() {
@@ -236,13 +241,56 @@ export class PropertiesComponent implements OnInit {
 
   markPropertyFeatured(item, is_featured: number) {
     item.is_featured = is_featured;
-    this.admin.postDataApi('markPropertyFeatured', {property_id: item.id, flag: is_featured }).subscribe(r => {
+    this.admin.postDataApi('markPropertyFeatured', { property_id: item.id, flag: is_featured }).subscribe(r => {
       const msg = is_featured === 1 ? 'Featured successfully.' : 'Unfeatured successfully.';
       swal('Success', msg, 'success');
     },
-    error => {
+      error => {
+        swal('Error', error.error.message, 'error');
+      });
+  }
+
+
+  showAllSellers(property_id: any) {
+    this.parameter.loading = true;
+    this.admin.postDataApi('getSellerSelections', { property_id: property_id }).subscribe(r => {
+      this.parameter.loading = false;
+      this.linkSellerModal.nativeElement.click();
+      this.allSellers = r['data'];
+      this.selecter_seller = r['selecter_seller'];
+    }, error => {
+      this.parameter.loading = false;
       swal('Error', error.error.message, 'error');
     });
+  }
+
+  changeStatusPopUp(property_id: any, user_id: string, status: number) {
+    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    this.parameter.text = 'You want to link this seller?';
+    this.parameter.successText = 'Linked successfully.';
+
+    swal({
+      html: this.parameter.title + '<br>' + this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.changeStatusSellerSelection(property_id, user_id, status);
+      }
+    });
+  }
+
+  changeStatusSellerSelection(property_id: any, user_id: string, status: number) {
+    this.admin.postDataApi('changeStatusSellerSelection', { property_id: property_id, user_id: user_id, status: status }).subscribe(r => {
+      this.closeLinkSellerModal.nativeElement.click();
+      swal('Success', 'Linked successfully.', 'success');
+    },
+      error => {
+        swal('Error', error.error.message, 'error');
+      });
   }
 
 }
