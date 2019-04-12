@@ -1,16 +1,15 @@
 <div *ngIf="data" class="project-des-bx white-bg" (click)="setBuildingId(data)">
-  <div class="price">
-    <!-- {{data?.starting_price|thousand}}+ -->
+  <!-- <div class="price">
     <input type="radio" [(ngModel)]="buildingId" name="buildingId" (change)="setBuildingId(data)">
-  </div>
+  </div> -->
   <div class="fig-block" (click)="setBuildingId(data)">
     <img [src]="data?.main_image| img:'thumb'" onerror='src="assets/img/placeholder-img.png"' alt="img">
   </div>
   <div class="project-des-content">
     <small title="Developer Name">{{data?.developer?.name ? data?.developer?.name : 'NA'}}</small>
-    <a routerLink="/dashboard/projects/details/{{data.id}}">
+    <!-- <a routerLink="/dashboard/projects/details/{{data.id}}"> -->
     <h5 title="Building Name">{{data?.name.slice(0, 35)}}</h5>
-    </a>
+    <!-- </a> -->
     <p class="p12">{{data?.address.slice(0, 90)}}</p>
 
     <p class="p13">
