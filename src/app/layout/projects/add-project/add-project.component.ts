@@ -143,21 +143,24 @@ export class AddProjectComponent implements OnInit {
               return item;
             });
 
-            // setting true to tower selected amenities
-            this.model.building_towers.map(item => {
-              item.amenities.map(i => { i.selected = true; return i; });
-            });
-
-            // tower amenitites id array only
-            let amid = [];
-            this.model.building_towers.forEach(element => {
-              amid = [];
-              element.amenities.forEach(e => {
-                amid.push(e.id);
+            if (this.model.building_towers && this.model.building_towers.length > 0) {
+              // setting true to tower selected amenities
+              this.model.building_towers.map(item => {
+                item.amenities.map(i => { i.selected = true; return i; });
               });
-              element.amenitiesId = amid;
-            });
 
+              // tower amenitites id array only
+              let amid = [];
+              this.model.building_towers.forEach(element => {
+                amid = [];
+                element.amenities.forEach(e => {
+                  amid.push(e.id);
+                });
+                element.amenitiesId = amid;
+              });
+            } else {
+              this.model.building_towers = [];
+            }
           });
         }, error => {
           this.parameter.loading = false;
@@ -212,21 +215,24 @@ export class AddProjectComponent implements OnInit {
             });
 
 
-            // setting true to tower selected amenities
-            this.model.building_towers.map(item => {
-              item.amenities.map(i => { i.selected = true; return i; });
-            });
-
-            // tower amenitites id array only
-            let amid = [];
-            this.model.building_towers.forEach(element => {
-              amid = [];
-              element.amenities.forEach(e => {
-                amid.push(e.id);
+            if (this.model.building_towers && this.model.building_towers.length > 0) {
+              // setting true to tower selected amenities
+              this.model.building_towers.map(item => {
+                item.amenities.map(i => { i.selected = true; return i; });
               });
-              element.amenitiesId = amid;
-            });
 
+              // tower amenitites id array only
+              let amid = [];
+              this.model.building_towers.forEach(element => {
+                amid = [];
+                element.amenities.forEach(e => {
+                  amid.push(e.id);
+                });
+                element.amenitiesId = amid;
+              });
+            } else {
+              this.model.building_towers = [];
+            }
           });
         }, error => {
           this.parameter.loading = false;
@@ -631,7 +637,7 @@ export class AddProjectComponent implements OnInit {
       modelSave.building_request_id = this.model.building_request_id;
     }
 
-    if (modelSave.building_towers.length > 0) {
+    if (modelSave.building_towers && modelSave.building_towers.length > 0) {
       console.log('1');
       modelSave.building_towers.forEach(element => {
         console.log('1', element.amenities);
@@ -737,20 +743,24 @@ export class AddProjectComponent implements OnInit {
     });
 
 
-    // setting true to tower selected amenities
-    this.model.building_towers.map(item => {
-      item.amenities.map(i => { i.selected = true; return i; });
-    });
-
-    // tower amenitites id array only
-    let amid = [];
-    this.model.building_towers.forEach(element => {
-      amid = [];
-      element.amenities.forEach(e => {
-        amid.push(e.id);
+    if (this.model.building_towers && this.model.building_towers.length > 0) {
+      // setting true to tower selected amenities
+      this.model.building_towers.map(item => {
+        item.amenities.map(i => { i.selected = true; return i; });
       });
-      element.amenitiesId = amid;
-    });
+
+      // tower amenitites id array only
+      let amid = [];
+      this.model.building_towers.forEach(element => {
+        amid = [];
+        element.amenities.forEach(e => {
+          amid.push(e.id);
+        });
+        element.amenitiesId = amid;
+      });
+    } else {
+      this.model.building_towers = [];
+    }
 
   }
 
@@ -866,10 +876,11 @@ export class AddProjectComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         console.log('before', this.model.building_towers);
+        const btid = this.model.building_towers[index].id;
         this.model.building_towers.splice(index, 1);
 
-        if (this.model.building_towers[index].id) {
-          this.admin.postDataApi('deleteTower', {building_towers_id: this.model.building_towers[index].id}).subscribe(res => {
+        if (btid) {
+          this.admin.postDataApi('deleteTower', {building_towers_id: btid}).subscribe(res => {
             console.log('sss', res);
           });
         }
