@@ -2,9 +2,9 @@ export const environment = {
   production: true,
   // baseIP: 'https://api.sozul.com/',
   // baseUrl: 'https://api.sozul.com/api/admin/',
-  baseIP: 'https://apitest.sozul.com/',
-  baseUrl: 'https://apitest.sozul.com/api/admin/',
-  socketUrl: 'https://socket.sozul.com',
+  baseIP: 'https://api.sozu.com/',
+  baseUrl: 'https://api.sozu.com/api/admin/',
+  socketUrl: 'https://socket.sozu.com',
   deviceId: 'ADMIN',
 
   firebase: {
