@@ -830,8 +830,8 @@
         <div class="col-md-12">
           <div class="btn-cont text-right">
             <!-- <a class="btn-third btn" href="javascript://" (click)="addProperty(addForm, 3)">Next</a> -->
-            <button type="button" class="btn btn-primary marginL15" (click)="setTab(1)">Previous</button>
-            <button type="submit" class="btn btn-primary" [disabled]="
+            <button type="button" class="btn btn-primary" (click)="setTab(1)">Previous</button>
+            <button type="submit" class="btn btn-primary marginL15" [disabled]="
           additionalInfo.invalid
           || !model.cover_image
           || !model.floor_plan
