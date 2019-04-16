@@ -143,11 +143,10 @@ export class AddPropertyComponent implements OnInit {
 
   getPropertyById(property_id) {
     this.parameter.loading = true;
-    this.parameter.url = 'getPropertyById';
     const input = new FormData();
     input.append('property_id', property_id);
     this.parameter.loading = true;
-    this.us.postDataApi(this.parameter.url, input)
+    this.us.postDataApi('getPropertyById', input)
       .subscribe(
         success => {
           this.parameter.loading = false;
@@ -291,8 +290,7 @@ export class AddPropertyComponent implements OnInit {
   }
 
   getCountries(keyword) {
-    this.parameter.url = 'getCountries';
-    this.us.postDataApi(this.parameter.url, {})
+    this.us.postDataApi('getCountries', {})
       .subscribe(
         success => { this.parameter.countries = success['data']; }
       );
@@ -300,7 +298,6 @@ export class AddPropertyComponent implements OnInit {
 
   getStates(country_id, keyword) {
     // this.parameter.loading = true;
-    this.parameter.url = 'country/getStates';
     this.model.country_id = country_id;
     this.model.state_id = '';
     this.model.city_id = '';
@@ -310,7 +307,7 @@ export class AddPropertyComponent implements OnInit {
     const input = new FormData();
     input.append('country_id', country_id);
 
-    this.us.postDataApi(this.parameter.url, input).subscribe(success => {
+    this.us.postDataApi('country/getStates', input).subscribe(success => {
       this.parameter.states = success['data'];
       // this.parameter.loading = false;
     },
@@ -321,7 +318,6 @@ export class AddPropertyComponent implements OnInit {
 
   getCities(state_id, keyword) {
     // this.parameter.loading = true;
-    this.parameter.url = 'getCities';
     this.model.state_id = state_id;
     this.model.city_id = '';
     this.model.locality_id = '';
@@ -329,7 +325,7 @@ export class AddPropertyComponent implements OnInit {
     const input = new FormData();
     input.append('state_id', state_id);
 
-    this.us.postDataApi(this.parameter.url, input).subscribe(success => {
+    this.us.postDataApi('getCities', input).subscribe(success => {
       this.parameter.cities = success['data'];
       // this.parameter.loading = false;
     },
@@ -340,7 +336,6 @@ export class AddPropertyComponent implements OnInit {
 
 
   getLocalities(city_id, keyword = '') {
-    this.parameter.url = 'getLocalities';
     this.model.city_id = city_id;
     this.model.locality_id = '';
 
@@ -349,7 +344,7 @@ export class AddPropertyComponent implements OnInit {
 
     if (keyword) { input.append('keyword', keyword); }
 
-    this.us.postDataApi(this.parameter.url, input)
+    this.us.postDataApi('getLocalities', input)
       .subscribe(
         success => { this.parameter.localities = success['data']; }
       );
@@ -364,9 +359,8 @@ export class AddPropertyComponent implements OnInit {
   }
 
   getConfigurations() {
-    this.parameter.url = 'getConfigurations';
     const input = new FormData();
-    this.us.postDataApi(this.parameter.url, input)
+    this.us.postDataApi('getConfigurations', input)
       .subscribe(
         success => {
           this.parameter.items = success['data'];
@@ -378,9 +372,8 @@ export class AddPropertyComponent implements OnInit {
   }
 
   getPropertyTypes() {
-    this.parameter.url = 'getPropertyTypes';
     const input = new FormData();
-    this.us.postDataApi(this.parameter.url, input)
+    this.us.postDataApi('getPropertyTypes', input)
       .subscribe(
         success => {
           this.parameter.propertyTypes = success['data'];
@@ -392,9 +385,8 @@ export class AddPropertyComponent implements OnInit {
   }
 
   getAmenities() {
-    this.parameter.url = 'getPropertyAmenities';
     const input = new FormData();
-    this.us.postDataApi(this.parameter.url, input)
+    this.us.postDataApi('getPropertyAmenities', input)
       .subscribe(
         success => { this.parameter.amenities = success['data']; }
       );
@@ -431,27 +423,24 @@ export class AddPropertyComponent implements OnInit {
 
 
   getBanks() {
-    this.parameter.url = 'getBanks';
     const input = new FormData();
-    this.us.postDataApi(this.parameter.url, input)
+    this.us.postDataApi('getBanks', input)
       .subscribe(
         success => { this.parameter.banks = success['data']; }
       );
   }
 
   getBuildingSpecificTypes() {
-    this.parameter.url = 'getBuildingSpecificTypes';
     const input = new FormData();
-    this.us.postDataApi(this.parameter.url, input)
+    this.us.postDataApi('getBuildingSpecificTypes', input)
       .subscribe(
         success => { this.parameter.buildingSpecificTypes = success['data']; }
       );
   }
 
   getPaymentStatuses() {
-    this.parameter.url = 'getPaymentStatuses';
     const input = new FormData();
-    this.us.postDataApi(this.parameter.url, input)
+    this.us.postDataApi('getPaymentStatuses', input)
       .subscribe(
         success => { this.parameter.paymentStatuses = success['data']; }
       );
@@ -508,12 +497,11 @@ export class AddPropertyComponent implements OnInit {
 
     this.showBuilding = false;
     this.buildingLoading = true;
-    this.parameter.url = 'searchBuilding';
 
     const input = new FormData();
     input.append('keyword', keyword);
 
-    this.us.postDataApi(this.parameter.url, input)
+    this.us.postDataApi('searchBuilding', input)
       .subscribe(
         success => {
           this.searchedBuildings = success['data'];
@@ -643,7 +631,6 @@ export class AddPropertyComponent implements OnInit {
       }
     }
 
-    this.parameter.url = this.model.id !== '' ? 'addProperty' : 'addProperty';
     this.model.step = tab - 1;
 
     if (this.model.carpet_areas.length < 1 && this.tab == 1) {
@@ -724,7 +711,7 @@ export class AddPropertyComponent implements OnInit {
       }
       console.log('INPUT=>', input);
       this.parameter.loading = true;
-      this.us.postDataApi(this.parameter.url, input)
+      this.us.postDataApi('addProperty', input)
         .subscribe(
           success => {
             this.parameter.loading = false;
@@ -768,14 +755,12 @@ export class AddPropertyComponent implements OnInit {
 
   tagBuilding() {
 
-    this.parameter.url = 'tagBuilding';
-
     const input = new FormData();
     if (this.parameter.property_id) { input.append('property_id', this.parameter.property_id); }
     input.append('building_id', this.building.id);
 
     this.parameter.loading = true;
-    this.us.postDataApi(this.parameter.url, input)
+    this.us.postDataApi('tagBuilding', input)
       .subscribe(
         success => {
           this.parameter.loading = false;
@@ -911,7 +896,6 @@ export class AddPropertyComponent implements OnInit {
       return false;
     }
 
-    this.parameter.url = 'buildingRequest';
     this.building.lat = this.latitude;
     this.building.lng = this.longitude;
 
@@ -920,16 +904,23 @@ export class AddPropertyComponent implements OnInit {
     }
     console.log(this.building);
     this.parameter.loading = true;
-    this.us.postDataApi(this.parameter.url, this.building)
+    this.us.postDataApi('buildingRequest', this.building)
       .subscribe(
         success => {
           this.parameter.loading = false;
-          swal('Submitted successfully.',
-            'You will be notified once your property will be reviewed by them, you can view status in your properties.',
+          // swal('Submitted successfully.',
+          //   'You will be notified once your property will be reviewed by them, you can view status in your properties.',
+          //   'success');
+          // if (this.router.url.indexOf('/dashboard/properties/edit-property') === -1) {
+          //   this.router.navigate(['/dashboard/properties/view-properties']);
+          // }
+          // update tab=1 because we need to save property details, after adding property details
+          // data collector will create project template and then edit property and tag that
+          // particular project
+          swal('Success',
+            'You can add property details and data-collector will link this property to the building.',
             'success');
-          if (this.router.url.indexOf('/dashboard/properties/edit-property') === -1) {
-            this.router.navigate(['/dashboard/properties/view-properties']);
-          }
+          this.tab = 1;
         }, error => {
           this.parameter.loading = false;
         }

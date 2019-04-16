@@ -252,7 +252,7 @@
                                  </div>
                               </div>
                            </th>
-                           <th style="width:20%; text-align:left;">
+                           <th style="width:15%; text-align:left;">
                               <div class="table-search">
                                  <label>Configuration</label>
                                  <select [(ngModel)]="parameter.configuration_id" (change)="getListing()">
@@ -263,7 +263,7 @@
                                  </select>
                               </div>
                            </th>
-                           <th style="width:15%;vertical-align:top;">
+                           <th style="width:10%;vertical-align:top;">
                               <div (click)="sort_by(1)" class="d-flex table-search">
                                  <label>Price</label>
                                  <a href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by==1 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a></div>
@@ -286,15 +286,21 @@
                            </th>
                            <th style="width:10%;vertical-align:top;">
                               <div class="d-flex table-search">
-                                 <label>Link Seller</label>
+                                 <label>Link seller <br> to property</label>
+                              </div>
+                           </th>
+                           <th style="width:10%;vertical-align:top;">
+                              <div class="d-flex table-search">
+                                 <label>Change property <br> sold status</label>
                               </div>
                            </th>
                            <th style="width:20%;">&nbsp;</th>
                         </tr>
                   
-                        <tr *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }">
+                        <tr *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
                               <td class="cursor-pointer" title="Click to view details" routerLink="/dashboard/properties/details/{{p.id}}">
                               <strong>{{p?.building?.name?p?.building?.name:'NA'}}</strong>
+                              <!-- <strong>{{p?.name ? p?.name : 'NA'}}</strong> -->
                               <div class="clearfix"></div>
                               <small *ngIf="p.quantity > 0">
                                  {{p.quantity}} 
@@ -305,13 +311,28 @@
                               </td>
                               <td><span *ngIf="p && p.configuration">{{p.configuration?.name}}</span></td>
                               <td><span>{{p.min_price}}</span></td>
-                              <!-- <td><span>{{p.property_price}}</span></td> -->
                               <td><span class="green-color">
                               <span *ngIf="p.for_sale">Sell</span>
                               <span *ngIf="p.for_rent">Rent</span></span>
                               </td>
                               <td><span>{{p.lead_properties_count}}</span></td>
-                              <td (click)="showAllSellers(p?.id)"><span>Link Seller</span></td>
+                              
+                              <td class="cursor-pointer" title="Link Seller to Property" (click)="showAllSellers(p?.id)">
+                                 <span class="green-color"><span>Link</span></span>
+                              </td>
+                              
+                              <td class="cursor-pointer" (click)="changeSoldStatusPopup(p, i)" *ngIf="p.for_sale">
+                                 <span class="green-color">
+                                    <span title="Click to mark property sold." *ngIf="p.for_sale && !p.is_property_sold">Mark Sold</span>
+                                    <span title="Click to made available for sale." *ngIf="p.for_sale && p.is_property_sold">Mark Available</span>
+                                 </span>
+                              </td>
+                              <td *ngIf="p.for_rent">
+                                 <span class="green-color">
+                                    <span>Available for rent out</span>
+                                 </span>
+                              </td>
+
                               <td>
                               <div class="message">
                                  <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="parameter?.flag!=3" routerLink="../edit-property/{{p.id}}" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>

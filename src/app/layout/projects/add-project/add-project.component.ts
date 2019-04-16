@@ -377,12 +377,12 @@ export class AddProjectComponent implements OnInit {
       building_type: new FormControl('', [
         Validators.required
       ]),
-      floors: new FormControl('', [
-        Validators.required
-      ]),
-      avg_price: new FormControl('', [
-        Validators.required
-      ]),
+      // floors: new FormControl('', [
+      //   Validators.required
+      // ]),
+      // avg_price: new FormControl('', [
+      //   Validators.required
+      // ]),
       description: new FormControl('', [
         Validators.required
       ]),
@@ -614,7 +614,8 @@ export class AddProjectComponent implements OnInit {
       modelSave.description && modelSave.description != null && modelSave.possession_status_id &&
       // modelSave.floors && modelSave.floors != null &&
       modelSave.launch_date && modelSave.launch_date != null &&
-      modelSave.avg_price && modelSave.avg_price != null && modelSave.amenities.length > 0 &&
+      // modelSave.avg_price && modelSave.avg_price != null &&
+      modelSave.amenities.length > 0 &&
       modelSave.configurations.length > 0 && modelSave.dev_email && modelSave.dev_email != null
       && modelSave.dev_name && modelSave.dev_name != null
       && modelSave.dev_phone && modelSave.dev_phone != null && modelSave.dev_logo) {

@@ -82,6 +82,7 @@
                        </select>
                 </div>
               </div>
+
               <div class="col-12">
                 <div class="form-group-3">
                   <label>Description
@@ -91,6 +92,7 @@
                        </textarea>
                 </div>
               </div>
+
               <div class="col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>Possession Status
@@ -111,22 +113,21 @@
                   <input min="0" class="form-control" [(ngModel)]="model.floors" type="number" name="building_floors" placeholder="Floors">
                 </div>
               </div> -->
-              <div class="col-md-6 col-sm-6 col-12">
+              <!-- <div class="col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>Average Price
-                    <!-- <span class="color-red">*</span> -->
                   </label>
                   <input min="0" class="form-control" [(ngModel)]="model.avg_price" type="number" name="building_avg_price" placeholder="Average price">
                 </div>
-              </div>
+              </div> -->
               <div class="col-md-6 col-sm-6 col-12">
-                  <div class="form-group-3">
-                    <label>Launch Date
-                      <!-- <span class="color-red">*</span> -->
-                    </label>
-                    <input class="form-control" [ngModel]="model.launch_date  | date:'yyyy-MM-dd'" (ngModelChange)="model.launch_date  = $event" type="date" name="building_launch_date" placeholder="Launch date">
-                  </div>
+                <div class="form-group-3">
+                  <label>Launch Date
+                    <!-- <span class="color-red">*</span> -->
+                  </label>
+                  <input class="form-control" [ngModel]="model.launch_date  | date:'yyyy-MM-dd'" (ngModelChange)="model.launch_date  = $event" type="date" name="building_launch_date" placeholder="Launch date">
                 </div>
+              </div>
 
               <div class="col-sm-12 col-12">
                 <div class="form-group-3">
@@ -152,9 +153,9 @@
                             <div class="paramtext"><a (click)="model.custom_attributes.splice(i,1)"><img src="assets/img/remove-icon.png" /></a></div>
                         </div>
                       </div>
-
                 </div>
               </div>
+
               <div class="spacer30"></div>
 
               <div class="col-12">
@@ -178,6 +179,7 @@
                   </div>
                 </div>
               </div>
+              
               <div class="col-12">
                 <div class="form-group-3" style="width: 100%;">
                   <label class="float-left marginB0">Configuration

@@ -293,4 +293,34 @@ export class PropertiesComponent implements OnInit {
       });
   }
 
+  changeSoldStatusPopup(property: any, index: number) {
+    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    this.parameter.text = 'You want to change the status?';
+    this.parameter.successText = 'Changed successfully.';
+
+    swal({
+      html: this.parameter.title + '<br>' + this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.changePropertySoldStatus(property, index);
+      }
+    });
+  }
+
+  changePropertySoldStatus(property: any, index: number) {
+    this.admin.postDataApi('changePropertySoldStatus',
+    { property_id: property.id, is_property_sold: property.is_property_sold === 0 ? 1 : 0 }).subscribe(r => {
+      this.items[index].is_property_sold = this.items[index].is_property_sold === 1 ? 0 : 1;
+      swal('Success', 'Changed successfully.', 'success');
+    },
+      error => {
+        swal('Error', error.error.message, 'error');
+      });
+  }
+
 }
