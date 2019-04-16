@@ -34,7 +34,7 @@
        <div class="row cust-row">
           <div class="col-md-8 cust-col">
              <!-- <img class="main-photo img-fluid" [src]="project.main_image" onerror='this.src="http://via.placeholder.com/770x416"' alt="img"> -->
-             <img class="main-photo img-fluid" onerror='this.src="assets/img/placeholder.png"' [defaultImage]="property?.main_image| img:'thumb'" [lazyLoad]="property?.main_image">
+             <img class="main-photo img-fluid" onerror='this.src="assets/img/placeholder.png"' [defaultImage]="project?.main_image| img:'thumb'" [lazyLoad]="project?.main_image">
           </div>
           <div class="col-md-4 cust-col" *ngIf="project.images">
               <img *ngIf="project.images[0]" class="secondary-photo img-fluid" onerror='this.src="assets/img/placeholder.png"' [defaultImage]="project.images[0].image| img:'thumb'" [lazyLoad]="project.images[0].image">
