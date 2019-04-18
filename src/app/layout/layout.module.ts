@@ -71,18 +71,12 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
         InhouseUsersComponent,
         AddressComponent,
         GenerateThumbComponent,
-        AclPermissionDirective,
-        // ProjectBlockComponent,
-        // NotificationsComponent
+        AclPermissionDirective
     ],
     providers: [
-        // AdminService,
-        // CommonService,
         MessagingService,
         AuthGuard,
-        AclUserGuard,
-        // HttpInterceptor,
-        // Constant
+        AclUserGuard
     ],
     bootstrap: [LayoutComponent],
 })

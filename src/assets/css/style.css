@@ -83,6 +83,7 @@ p.p11 { color: #434B52; font-size: 11px; line-height: 18px; }
 .fontW500{font-weight:500 !important }
 .fontW600{font-weight:600 !important }
 .paddingLR20{padding: 0px 20px;}
+.height200{height: 200px !important; }
 .bdr-right{
 border-right:solid 1px #EDEDED; 
 }

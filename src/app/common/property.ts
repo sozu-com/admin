@@ -152,4 +152,5 @@ export interface IProperty {
   developer?: any;
   page2?: any;
   total2?: any;
+  developer_company?: string;
 }

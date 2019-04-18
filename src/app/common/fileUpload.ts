@@ -2,7 +2,7 @@ export class FileUpload {
 
     http: any; env: any; us: any;
 
-    single= true;
+    single = true;
     file: any;
     image: any;
     files: any;
@@ -30,7 +30,7 @@ export class FileUpload {
              if (this.single == true) {
                this.image = e.target.result;
                this.file = event.target.files[index];
-             }else {
+             } else {
                const model: any = {};
                model.image = e.target.result;
                model.file = event.target.files[index];

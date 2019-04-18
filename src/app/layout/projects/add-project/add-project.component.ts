@@ -767,7 +767,7 @@ export class AddProjectComponent implements OnInit {
 
   selectDeveloper() {
     this.parameter.loading = true;
-    this.admin.postDataApi('getDevelopers', {}).subscribe(r => {
+    this.admin.postDataApi('getDevelopersFrAdmin', {}).subscribe(r => {
       this.parameter.loading = false;
       console.log('=========developers======', r);
       this.all_developers = r.data;

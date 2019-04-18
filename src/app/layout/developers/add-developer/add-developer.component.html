@@ -1,0 +1,129 @@
+<ngx-loading [show]="parameter.loading"></ngx-loading>
+<div class="container-fluid">
+<div class="row">
+    <div class="col-12">
+      <div class="title-group">
+          <h5>{{model.id ? 'Edit' : 'Add'}} Developer</h5>
+          <div class="spacer30"></div>
+      </div>
+    </div>
+</div>
+
+<div class="white-bg padding40">
+    <div class="row">
+    <form role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="add(addForm)">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+          <div class="row">
+            <div class="col-2">
+                <div class="add-img" style="display:flex;">
+                    <img *ngIf="image" [src]="image" style="object-fit: cover; width: 100%;">
+                    <label *ngIf="model?.image">
+                      <input accept="image/*" name="image" class="image" (change)="changeListner($event, 'image')" type="file">
+                    </label>
+                    <label *ngIf="!image">+ Add Image</label>
+                    <input *ngIf="!image" accept="image/*" name="image" class="image" (change)="changeListner($event, 'image')" type="file">
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="add-img" style="display:flex;">
+                    <img *ngIf="developer_image" [src]="developer_image" style="object-fit: cover; width: 100%;">
+                    <label *ngIf="model?.developer_image">
+                      <input accept="image/*" name="image" class="image" (change)="changeListner($event, 'developer_image')" type="file">
+                    </label>
+                    <label *ngIf="!developer_image">+ Add Cover Image</label>
+                    <input *ngIf="!developer_image" accept="image/*" name="image" class="image" (change)="changeListner($event, 'developer_image')" type="file">
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="btn-cont text-right">
+                    <button *ngIf="!model?.id" type="submit" [disabled]="!addForm.valid" class="btn btn-primary">ADD</button>
+                    <button *ngIf="model?.id" type="submit" class="btn btn-primary">UPDATE</button>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="spacer40"></div>
+            </div>
+            <div class="col-12">
+                <div class="form-group-2">
+                  <label>Name <span class="color-red">*</span></label>
+                  <input autocomplete="off" required type="text" class="form-control" [(ngModel)]="model.name" name="name">
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group-2">
+                  <label>Contact number <span class="color-red">*</span></label>
+                  <input minlength="6" maxlength="16" autocomplete="off" type="text" [pattern]="constant.phonePattern" class="form-control" id="phone" required minlength="1" [(ngModel)]="model.phone" name="phone"
+                        ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group-2">
+                  <label>Email ID <span class="color-red">*</span></label>
+                  <input autocomplete="off" required [pattern]="constant.emailPattern" type="email" class="form-control" [(ngModel)]="model.email" name="email">
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group-2">
+                  <label>Company Name <span class="color-red">*</span></label>
+                  <input autocomplete="off" required type="text" class="form-control" [(ngModel)]="model.developer_company" name="developer_company">
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group-2">
+                  <label>Address <span class="color-red">*</span></label>
+                  <input placeholder="Search for address" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search (input)="loadPlaces('developer_address', 'lat', 'lng', 'searchElementRef')" name="developer_address" [(ngModel)]="model.developer_address" autocomplete="off">
+                </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group-2">
+                  <label>Location Pin on Map<span class="color-red">*</span></label>
+                  <agm-map class="height200" [latitude]="model.lat" [longitude]="model.lng" [scrollwheel]="false" (mapClick)="placeMarker($event, 'lat', 'lng')" [zoom]="constant.zoom">
+                    <agm-marker [latitude]="model.lat" [longitude]="model.lng"></agm-marker>
+                  </agm-map>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group-2">
+                <label>Description <span class="color-red">*</span></label>
+                <textarea autocomplete="off" required rows="3" class="form-control" name="developer_desc" [(ngModel)]="model.developer_desc"></textarea>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group-2">
+                <label>Branch Office</label>
+                <input placeholder="Search for branch office" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search1 (input)="loadPlaces('branch_office', 'branch_lat', 'branch_lng', 'search1ElementRef')" name="branch_office" [(ngModel)]="model.branch_office" autocomplete="off">
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group-2">
+                  <label>Location Pin on Map</label>
+                  <agm-map class="height200" [latitude]="model.branch_lat" [longitude]="model.branch_lng" [scrollwheel]="false" (mapClick)="placeMarker($event, 'branch_lat', 'branch_lng')" [zoom]="constant.zoom">
+                    <agm-marker [latitude]="model.branch_lat" [longitude]="model.branch_lng"></agm-marker>
+                  </agm-map>
+              </div>
+            </div>
+
+
+
+            <!-- <div class="uploaded-img-block" *ngIf="model?.images?.length > 0">
+              <div class="uploaded-img" *ngFor="let item of model?.images; let i=index">
+                <a class="remove" (click)="file4.remove(i)">
+                  <img src="assets/img/remove-icon.png" alt="img">
+                </a>
+                <img *ngIf="item.image" class="u-img" [src]="item.image" alt="img">
+                <img *ngIf="!item.image" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+              </div>
+            </div>
+            
+            <div class="add-project-img-more">
+              <input type="file" name="add-more-images" multiple max="6" accept="image/*" (change)="file4Select($event)">
+              <div class="upload-caption">
+                <p class="green-color">+ Add more images</p>
+              </div>
+            </div> -->
+            
+          </div>
+      </div>
+      </form>
+    </div>
+</div>

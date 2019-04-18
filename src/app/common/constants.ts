@@ -13,6 +13,7 @@ export class Constant {
     public maxValue = 1000000; // 1000000000;
     public fileSizeLimit = 25000000; // 25MB
     public steps = 1000;
+    public zoom = 16;
     public months = [
         {id: 1, name: 'JAN'},
         {id: 2, name: 'FEB'},
@@ -140,6 +141,8 @@ export class Constant {
         UNBLOCK_PROJECT_POSSESSION : 'You want to unblock this project possession status?',
         BLOCK_USER : 'You want to block this user?',
         UNBLOCK_USER : 'You want to unblock this user?',
+        BLOCK_DEVELOPER : 'You want to block this developer?',
+        UNBLOCK_DEVELOPER : 'You want to unblock this developer?',
         BLOCK_LEAD : 'You want to block this lead?',
         UNBLOCK_LEAD : 'You want to unblock this lead?',
         DELETE_BLOG: 'You want to delete this template?'

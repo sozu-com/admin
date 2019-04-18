@@ -13,9 +13,10 @@ export class AuthGuard implements CanActivate {
 
   canActivate () {
     this.interceptor.loader.next({value: true});
-    // console.log('auth guard');
+    console.log('auth guard');
     const token =  localStorage.getItem('token');
     if (token) {
+console.log('1');
       // return new Promise(resolve => {
       //   this.admin.login.subscribe(success => {
       //     this.interceptor.loader.next({value: true});
