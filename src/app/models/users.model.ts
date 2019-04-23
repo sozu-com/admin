@@ -22,6 +22,6 @@ export class Users {
     branch_lng?: any;
     page?: number;
     buildings_sort?: number;
-    images?: Array<string>;
+    images?: Array<any>;
     videos?: Array<string>;
 }

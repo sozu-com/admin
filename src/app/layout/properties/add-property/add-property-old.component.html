@@ -143,7 +143,7 @@
         <div class="col-md-4 col-sm-12 col-12">
           <div class="form-group-3 eca">
             <label class="p16-two">Enter Carpet Area <span class="color-red">*</span></label>
-            <input class="form-control" type="number" name="area[{{c}}]" placeholder="Area should be in Sq/ft." [(ngModel)]="newcarpet_area.area">
+            <input class="form-control" type="number" name="area[{{c}}]" placeholder="Area should be in Sq/mt." [(ngModel)]="newcarpet_area.area">
           </div>
         </div>
         <div class="col-md-4 col-sm-12 col-12">
@@ -242,7 +242,7 @@
       <!-- <div class="col-lg-3 col-md-6 col-sm-6 col-12">
         <div class="form-group-3">
           <label>Total Area</label>
-          <input class="form-control" type="number" name="" placeholder="in sq.ft.">
+          <input class="form-control" type="number" name="" placeholder="in sq.mt.">
         </div>
       </div> -->
       <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -333,13 +333,13 @@
          </div>
        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-6 col-12">
             <div class="form-group-3">
-               <label>Area per Sqft.</label>
+               <label>Area per Sqmt.</label>
                <input autocomplete="off"  [(ngModel)]="details.area"  class="form-control" type="number" name="" [ngModelOptions]="{standalone: true}" >
             </div>
          </div>
         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-6 col-12">
             <div class="form-group-3">
-               <label>Price per Sqft.</label>
+               <label>Price per Sqmt.</label>
                <input autocomplete="off"  [(ngModel)]="details.price"  class="form-control" type="number" name="" [ngModelOptions]="{standalone: true}">
             </div>
          </div>
@@ -407,13 +407,13 @@
          </div>
        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-6 col-12">
             <div class="form-group-3">
-               <label>Area per Sqft.</label>
+               <label>Area per Sqmt.</label>
                <input autocomplete="off"  [(ngModel)]="details.area"  class="form-control" type="number" name=""  [ngModelOptions]="{standalone: true}" disabled>
             </div>
          </div>
         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-6 col-12">
             <div class="form-group-3">
-               <label>Price per Sqft.</label>
+               <label>Price per Sqmt.</label>
                <input autocomplete="off"  [(ngModel)]="details.price"  class="form-control" type="number" name=""  [ngModelOptions]="{standalone: true}" disabled>
             </div>
          </div>
@@ -468,8 +468,8 @@
             <tbody>
               <tr>
                <th>Floor Number</th>
-               <th>Area per Sqft.</th>
-               <th>Price per Sqft.</th>
+               <th>Area per Sqmt.</th>
+               <th>Price per Sqmt.</th>
                <th>Facing Direction</th>
                <th>Status</th>
                <th>Building Specific Type</th>

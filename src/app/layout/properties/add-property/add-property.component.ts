@@ -22,11 +22,14 @@ declare let swal: any;
 })
 export class AddPropertyComponent implements OnInit {
 
-  file2: any;
+  file2: FileUpload;
+  file360: FileUpload;
 
   public parameter: IProperty = {};
   @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('modalOpen') modalOpen: ElementRef;
+  @ViewChild('modalOpen360Img') modalOpen360Img: ElementRef;
+  @ViewChild('modalClose360Img') modalClose360Img: ElementRef;
   @ViewChild('mapDiv') mapDiv: ElementRef;
   @ViewChild('search') searchElementRef: ElementRef;
 
@@ -39,6 +42,7 @@ export class AddPropertyComponent implements OnInit {
 
   url: File;
   url2 = [];
+  urlImg360 = [];
   tab: number;
   selectedGuest: any;
   image1: any;
@@ -98,6 +102,7 @@ export class AddPropertyComponent implements OnInit {
     this.details = new PropertyDetails;
 
     this.file2 = new FileUpload(false, this.us);
+    this.file360 = new FileUpload(false, this.us);
 
     this.parameter.sub = this.route.params.subscribe(params => {
       if (params['seller_id'] !== '0') {
@@ -111,6 +116,10 @@ export class AddPropertyComponent implements OnInit {
         this.parameter.property_id = '';
         this.testMarital[0].checked = true;
         this.model.marital_status = [1];
+        // set 0 bcz optional
+        this.model.quantity = 0;
+        this.model.half_bathroom = 0;
+        this.model.property_price = 0;
         this.showSearch = true;
         this.parameter.propertyDetails = new AddPropertyModel();
       } else {
@@ -161,6 +170,56 @@ export class AddPropertyComponent implements OnInit {
           if (this.url2.length > 0) {
             this.image2 = this.url2[0];
           }
+          // set 360 images
+          this.urlImg360 = this.parameter.propertyDetails.images360.map(op => op.image);
+          if (this.urlImg360.length > 0) {
+            this.image2 = this.urlImg360[0];
+          }
+          // set configuarations
+          this.parameter.items = [];
+          success['data'].building.configurations.forEach(element => {
+            // adding configurations
+            this.parameter.items.push(element.config);
+          });
+        }, error => {
+          this.parameter.loading = false;
+        }
+      );
+  }
+
+  getProjectById(step: number) {
+    this.us.postDataApi('getProjectByIdWithCSC', { building_id: this.building.id })
+      .subscribe(
+        success => {
+          this.parameter.loading = false;
+          this.buildingData = success['data'];
+          // this.parameter.propertyDetails.building = this.buildingData;
+          this.parameter.propertyDetails.images = this.buildingData.images;
+          this.parameter.propertyDetails.amenities = this.buildingData.amenities;
+          // this.parameter.items = this.buildingData.configurations;
+          this.parameter.items = [];
+          this.buildingData.configurations.forEach(element => {
+            // adding configurations
+            this.parameter.items.push(element.config);
+            // adding carpet area and price
+            const obj = {
+              area: element.carpet_area,
+              price: element.base_price
+            };
+            this.model.carpet_areas.push(obj);
+          });
+          if (success['data'].locality.id) {
+            this.getStates(success['data'].locality.city.state.country.id, '');
+            this.getCities(success['data'].locality.city.state.id, '');
+            this.getLocalities(success['data'].locality.city.id, '');
+
+            this.model.country_id = success['data'].locality.city.state.country.id;
+            this.model.state_id = success['data'].locality.city.state.id;
+            this.model.city_id = success['data'].locality.city.id;
+            this.model.locality_id = success['data'].locality.id;
+          }
+          this.parameter.propertyDetails.custom_values = this.buildingData.custom_values;
+          this.tab = step + 1;
         }, error => {
           this.parameter.loading = false;
         }
@@ -178,11 +237,11 @@ export class AddPropertyComponent implements OnInit {
     this.model.building_towers_id = data.building_towers_id;
     this.model.floor_num = data.floor_num;
 
-    this.model.pets = data.pets;
-    this.model.kids_friendly = data.kids_friendly;
-    this.model.students_friendly = data.students_friendly;
-    this.model.lgtb_friendly = data.lgtb_friendly;
-    this.model.mature_people_friendly = data.mature_people_friendly;
+    this.model.pets = data.pets !== null ? data.pets : '1';
+    this.model.kids_friendly = data.kids_friendly !== null ? data.kids_friendly : '1';
+    this.model.students_friendly = data.students_friendly !== null ? data.students_friendly : '1';
+    this.model.lgtb_friendly = data.lgtb_friendly !== null ? data.lgtb_friendly : '1';
+    this.model.mature_people_friendly = data.mature_people_friendly !== null ? data.mature_people_friendly : '1';
 
     this.model.for_rent = data.for_rent === 1 ? true : false;
     this.model.for_sale = data.for_sale === 1 ? true : false;
@@ -213,19 +272,17 @@ export class AddPropertyComponent implements OnInit {
     this.model.for_hold = data.for_hold === 1 ? true : false;
     this.model.half_bathroom = data.half_bathroom;
 
-
     this.building.id = data.building ? data.building.id : '';
     this.building.name = data.building ? data.building.name : '';
+    this.model.building_towers = data.building_towers ? data.building_towers : {};
     if (this.building.id === '') {
       this.showSearch = true;
     }
     for (let index = 0; index < data.amenities.length; index++) {
-      console.log(data.amenities[index]);
       this.addAmenity(data.amenities[index]);
     }
 
     for (let index = 0; index < data.banks.length; index++) {
-      console.log(data.banks[index]);
       this.addBank(data.banks[index]);
     }
 
@@ -255,16 +312,16 @@ export class AddPropertyComponent implements OnInit {
     for (let index = 0; index < data.carpet_areas.length; index++) {
       const element = data.carpet_areas[index];
       this.model.carpet_areas[index] = { area: element.area, price: element.price };
+      this.newcarpet_area = { area: element.area, price: element.price };
     }
 
     for (let index = 0; index < data.custom_values.length; index++) {
       const element = data.custom_values[index];
       this.model.custom_attributes[index] = { name: element.name, value: element.value };
     }
-    console.log(this.showSearch, this.building.id);
   }
 
-  setTab(tab) {
+  setTab(tab: any) {
     swal({
       title: 'Are you sure?',
       text: 'Moving back can reset information entered on current tab.',
@@ -289,14 +346,14 @@ export class AddPropertyComponent implements OnInit {
     this.initialCountry = { initialCountry: e.iso2 };
   }
 
-  getCountries(keyword) {
+  getCountries(keyword: string) {
     this.us.postDataApi('getCountries', {})
       .subscribe(
         success => { this.parameter.countries = success['data']; }
       );
   }
 
-  getStates(country_id, keyword) {
+  getStates(country_id: any, keyword: string) {
     // this.parameter.loading = true;
     this.model.country_id = country_id;
     this.model.state_id = '';
@@ -316,7 +373,7 @@ export class AddPropertyComponent implements OnInit {
       });
   }
 
-  getCities(state_id, keyword) {
+  getCities(state_id: any, keyword: string) {
     // this.parameter.loading = true;
     this.model.state_id = state_id;
     this.model.city_id = '';
@@ -335,7 +392,7 @@ export class AddPropertyComponent implements OnInit {
   }
 
 
-  getLocalities(city_id, keyword = '') {
+  getLocalities(city_id: any, keyword = '') {
     this.model.city_id = city_id;
     this.model.locality_id = '';
 
@@ -350,11 +407,11 @@ export class AddPropertyComponent implements OnInit {
       );
   }
 
-  setAmenity(id) {
+  setAmenity(id: any) {
     this.model.amenities = [id];
   }
 
-  setValue(key, value) {
+  setValue(key: any, value: any) {
     this.model[key] = value;
   }
 
@@ -544,6 +601,25 @@ export class AddPropertyComponent implements OnInit {
     }
   }
 
+  onSelect360File(event) {
+    if (event.target.files && event.target.files[0]) {
+      if ((this.urlImg360.length + event.target.files.length) > 6 || event.target.files.length > 6) {
+        swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
+      } else {
+        for (let index = 0; index < event.target.files.length; index++) {
+          const reader = new FileReader();
+          reader.onload = (e: any) => {
+            this.imageEvent.push(event.target.files[index]);
+            this.urlImg360.push(e.target.result);
+            const tempurl = e.target.result;
+            this.image2 = tempurl;
+          };
+          reader.readAsDataURL(event.target.files[index]);
+        }
+      }
+    }
+  }
+
   onSelectFile(param, event) {
     //  const dd = this.uploader.onSelectFile(event);
     if (event.target.files && event.target.files[0]) {
@@ -570,6 +646,11 @@ export class AddPropertyComponent implements OnInit {
     this.file2.backup(JSON.parse(JSON.stringify(this.model.images)));
   }
 
+  modelOpen360ImgFun() {
+    this.modalOpen360Img.nativeElement.click();
+    this.file360.backup(JSON.parse(JSON.stringify(this.model.images360)));
+  }
+
   modelCloseFun() {
     this.modalClose.nativeElement.click();
   }
@@ -588,6 +669,20 @@ export class AddPropertyComponent implements OnInit {
     });
   }
 
+  save360Images() {
+    this.http.loader.next({ value: true });
+    console.log('sss');
+    if (this.file360.files.length < 1) {
+      swal('Error', 'Please select atleast one image', 'error'); return false;
+    }
+    this.modalClose360Img.nativeElement.click();
+    this.file360.upload().then(r => {
+      console.log('resolved');
+      this.model.images360 = this.file360.files;
+      this.http.loader.next({ value: false });
+    });
+  }
+
   file2Select($event) {
     if ((this.file2.files.length + $event.target.files.length) > 6) {
       swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
@@ -596,6 +691,13 @@ export class AddPropertyComponent implements OnInit {
     this.file2.onSelectFile($event);
   }
 
+  file360Select($event) {
+    if ((this.file360.files.length + $event.target.files.length) > 6) {
+      swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
+      return false;
+    }
+    this.file360.onSelectFile($event);
+  }
   onSelectFile3(event) { // called each time file input changes
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
@@ -633,15 +735,21 @@ export class AddPropertyComponent implements OnInit {
 
     this.model.step = tab - 1;
 
+    // setting newcarpert area to carpert_areas bcz ealier it was array => now single carpertarea
+    this.model.carpet_areas = [];
+    this.model.carpet_areas.push(JSON.parse(JSON.stringify(this.newcarpet_area)));
+
     if (this.model.carpet_areas.length < 1 && this.tab == 1) {
       swal('Error', 'Please add carpet area.', 'error');
     } else if ((this.model.cover_image === null || this.model.cover_image === undefined) && (this.model.step == 2)) {
       swal('Error', 'Please choose cover image.', 'error');
     } else if ((this.model.floor_plan === null || this.model.floor_plan === undefined) && (this.model.step == 2)) {
       swal('Error', 'Please choose floor plan.', 'error');
-    } else if ((this.model.amenities.length === 0) && (this.model.step == 2)) {
-      swal('Error', 'Please choose amenity.', 'error');
-    } else if ((this.model.marital_status.length === 0) && (this.model.step == 3)) {
+    }
+    // else if ((this.model.amenities.length === 0) && (this.model.step == 2)) {
+    //   swal('Error', 'Please choose amenity.', 'error');
+    // }
+    else if ((this.model.marital_status.length === 0) && (this.model.step == 3)) {
       swal('Error', 'Please choose marital status.', 'error');
     } else {
       const input = new FormData();
@@ -670,7 +778,7 @@ export class AddPropertyComponent implements OnInit {
         input.append('building_towers_id', this.model.building_towers_id);
         input.append('floor_num', this.model.floor_num);
       }
-
+console.log(this.model);
       if (this.model.step === 2) {
         const imagesString = this.model.images.map(r => r.image);
         // added building_id and step cuz need to update sttaus and step
@@ -681,16 +789,17 @@ export class AddPropertyComponent implements OnInit {
         input.append('floor_plan', this.model.floor_plan);
         input.append('bedroom', this.model.bedroom.toString());
         input.append('bathroom', this.model.bathroom.toString());
-        input.append('half_bathroom', this.model.half_bathroom.toString());
+        input.append('half_bathroom', this.model.half_bathroom ? this.model.half_bathroom.toString() : '0');
         input.append('floor', this.model.floor.toString());
-        input.append('property_price', this.model.property_price.toString());
+        input.append('property_price', this.model.property_price ? this.model.property_price.toString() : '0');
         input.append('parking', this.model.parking.toString());
         input.append('furnished', this.model.furnished.toString());
         input.append('description', this.model.description);
-        input.append('quantity', this.model.quantity.toString());
-        input.append('amenities', JSON.stringify(this.model.amenities));
-        input.append('banks', JSON.stringify(this.model.banks));
-        input.append('property_quantity_details', JSON.stringify(this.model.property_quantity_details));
+        input.append('quantity', this.model.quantity ? this.model.quantity.toString() : '0');
+        input.append('amenities', JSON.stringify(this.model.amenities ? this.model.amenities : []));
+        input.append('banks', JSON.stringify(this.model.banks ? this.model.banks : []));
+        input.append('property_quantity_details',
+          JSON.stringify(this.model.property_quantity_details ? this.model.property_quantity_details : []));
       }
       if (this.model.step === 3) {
         // added building_id and step cuz need to update sttaus and step
@@ -718,9 +827,14 @@ export class AddPropertyComponent implements OnInit {
             console.log(success);
             this.parameter.loading = false;
             if (this.model.step.toString() === '4') {
-              swal('Submitted successfully.',
-              'You will be notified once your property will be reviewed by them, you can view status in your properties.',
-              'success');
+              swal({
+                html: 'Submitted successfully.' + '<br>' +
+                'You will be notified once your property will be reviewed by them, you can view status in your properties.',
+                type: 'success'
+              });
+              // swal('Submitted successfully.',
+              //   'You will be notified once your property will be reviewed by them, you can view status in your properties.',
+              //   'success');
               if (this.router.url.indexOf('/dashboard/properties/edit-property') === -1) {
                 this.router.navigate(['/dashboard/properties/view-properties']);
               }
@@ -745,7 +859,7 @@ export class AddPropertyComponent implements OnInit {
     this.model.building_towers_id = tower.id;
     this.selectedTower.floor_array = [];
     for (let index = 0; index <= this.selectedTower.num_of_floors; index++) {
-        this.selectedTower.floor_array.push(index);
+      this.selectedTower.floor_array.push(index);
     }
   }
 
@@ -764,9 +878,14 @@ export class AddPropertyComponent implements OnInit {
       .subscribe(
         success => {
           this.parameter.loading = false;
-          swal('Submitted successfully.',
+          swal({
+            html: 'Submitted successfully.' + '<br>' +
             'You will be notified once your property will be reviewed by them, you can view status in your properties.',
-            'success');
+            type: 'success'
+          });
+          // swal('Submitted successfully.',
+          //   'You will be notified once your property will be reviewed by them, you can view status in your properties.',
+          //   'success');
           if (this.router.url.indexOf('/dashboard/properties/edit-property') === -1) {
             this.router.navigate(['/dashboard/properties/view-properties']);
           }
@@ -776,44 +895,6 @@ export class AddPropertyComponent implements OnInit {
       );
   }
 
-  getProjectById(step: number) {
-    this.us.postDataApi('getProjectByIdWithCSC', { building_id: this.building.id })
-      .subscribe(
-        success => {
-          this.parameter.loading = false;
-          this.buildingData = success['data'];
-          // this.parameter.propertyDetails.building = this.buildingData;
-          this.parameter.propertyDetails.images = this.buildingData.images;
-          this.parameter.propertyDetails.amenities = this.buildingData.amenities;
-          // this.parameter.items = this.buildingData.configurations;
-          this.parameter.items = [];
-          this.buildingData.configurations.forEach(element => {
-            // adding configurations
-            this.parameter.items.push(element.config);
-            // adding carpet area and price
-            const obj = {
-              area: element.carpet_area,
-              price: element.base_price
-            };
-            this.model.carpet_areas.push(obj);
-            if (success['data'].locality.id) {
-              this.getStates(success['data'].locality.city.state.country.id, '');
-              this.getCities(success['data'].locality.city.state.id, '');
-              this.getLocalities(success['data'].locality.city.id, '');
-
-              this.model.country_id = success['data'].locality.city.state.country.id;
-              this.model.state_id = success['data'].locality.city.state.id;
-              this.model.city_id = success['data'].locality.city.id;
-              this.model.locality_id = success['data'].locality.id;
-            }
-          });
-          this.parameter.propertyDetails.custom_values = this.buildingData.custom_values;
-          this.tab = step + 1;
-        }, error => {
-          this.parameter.loading = false;
-        }
-      );
-  }
 
   loadPlaces() {
 
@@ -917,9 +998,11 @@ export class AddPropertyComponent implements OnInit {
           // update tab=1 because we need to save property details, after adding property details
           // data collector will create project template and then edit property and tag that
           // particular project
-          swal('Success',
+          swal({
+            html: 'Success' + '<br>' +
             'You can add property details and data-collector will link this property to the building.',
-            'success');
+            type: 'success'
+          });
           this.tab = 1;
         }, error => {
           this.parameter.loading = false;

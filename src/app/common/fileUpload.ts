@@ -71,6 +71,7 @@ export class FileUpload {
                  const total = this.files.length; let i = 1;
                  this.files.map((item) => {
                    if (item.file) {
+                    console.log('1111', item.file, item.file.type);
                     const formData = new FormData();
                     formData.append('image', item.file);
                     // console.log(item);
@@ -80,18 +81,18 @@ export class FileUpload {
                       item.image = res['data'].image;
                       if (i == total) {resolve(); }/* resolve on last loop */
                       i++;
-                    },
-                    error => {
+                    }, error => {
                       if (i === total) { reject(error); }/* reject on last loop */
                       i++;
                     });
-                   }else {
+                   } else {
                      if (i >= total) {console.log(this.files); resolve(); }
                      i++;
                    }
                  });
                }
                if (this.single === true && this.file) {
+                console.log('22222', this.file);
                  const formData = new FormData();
                  formData.append('image', this.file);
                  this.us.postDataApi('saveImage', formData).subscribe(res => {
@@ -108,11 +109,11 @@ export class FileUpload {
         });
   }
 
-  remove(index) {
+  remove(index: any) {
     this.files.splice(index, 1);
   }
 
-  backup(files) {
+  backup(files: any) {
     this.backupArray = files;
     this.files = files;
   }

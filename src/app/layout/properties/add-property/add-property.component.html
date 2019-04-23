@@ -47,7 +47,7 @@
     <h3>Tag a Building</h3>
   </div>
 
-  <div class="padding20" *ngIf="building.id && showSearch==false">
+  <div class="padding40" *ngIf="building.id && showSearch==false">
     <div class="row">
       <div class="col-sm-9 col-lg-9">
         <p class="p16">Tagged Building Name</p>
@@ -59,9 +59,23 @@
     <p><b>{{building.name}}</b></p>
 
     <div class="row">
+      <div class="col-sm-9 col-lg-9">
+        <p class="p16">Tagged Tower Name</p>
+      </div>
+    </div>
+    <p><b>{{model?.building_towers?.tower_name}}</b></p>
+
+    <div class="row">
+      <div class="col-sm-9 col-lg-9">
+        <p class="p16">Tagged Floor</p>
+      </div>
+    </div>
+    <p><b>{{model?.floor_num == 0 ? 'Ground Floor' : 'Floor ' + model?.floor_num}}</b></p>
+    
+    <div class="row">
       <div class="col-md-12">
         <div class="btn-cont text-right">
-          <button type="button" (click)="tagBuilding()" class="btn btn-primary">Submit</button>
+          <button type="button" (click)="tagBuilding()" class="btn btn-primary">Next</button>
         </div>
       </div>
     </div>
@@ -353,17 +367,35 @@
 
       <div class="spacer15"></div>
       <div class="row">
-
         <div class="col-md-4 col-sm-12 col-12">
           <div class="form-group-3 eca">
             <label class="p16-two">Enter Carpet Area <span class="color-red">*</span></label>
-            <input class="form-control" type="number" name="area[{{c}}]" placeholder="Area should be in Sq/ft."
+            <input required class="form-control" type="number" name="area[{{c}}]" placeholder="Area should be in Sq/mt."
               [(ngModel)]="newcarpet_area.area">
           </div>
         </div>
         <div class="col-md-4 col-sm-12 col-12">
           <div class="form-group-3 eap">
-            <label class="p16-two">Enter Average Price <span class="color-red">*</span></label>
+            <label class="p16-two">Enter Price <span class="color-red">*</span></label>
+            <input required class="form-control" type="number" name="price[{{c}}]" placeholder="Amount should be in $"
+              [(ngModel)]="newcarpet_area.price">
+          </div>
+        </div>
+        <!-- <div class="col-md-2 col-sm-12 col-12">
+          <a href="javascript://" class="add-more btn" (click)="addCarpetArea()">Add More</a>
+        </div> -->
+      </div>
+      <!-- <div class="row">
+        <div class="col-md-4 col-sm-12 col-12">
+          <div class="form-group-3 eca">
+            <label class="p16-two">Enter Carpet Area <span class="color-red">*</span></label>
+            <input class="form-control" type="number" name="area[{{c}}]" placeholder="Area should be in Sq/mt."
+              [(ngModel)]="newcarpet_area.area">
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12 col-12">
+          <div class="form-group-3 eap">
+            <label class="p16-two">Enter Price <span class="color-red">*</span></label>
             <input class="form-control" type="number" name="price[{{c}}]" placeholder="Amount should be in $"
               [(ngModel)]="newcarpet_area.price">
           </div>
@@ -371,9 +403,9 @@
         <div class="col-md-2 col-sm-12 col-12">
           <a href="javascript://" class="add-more btn" (click)="addCarpetArea()">Add More</a>
         </div>
-      </div>
+      </div> -->
 
-      <div class="row" *ngFor="let carpet_area of model.carpet_areas; let c = index;">
+      <!-- <div class="row" *ngFor="let carpet_area of model.carpet_areas; let c = index;">
         <div class="col-md-4 col-sm-12 col-12">
           <div class="form-group-3 eca">
             <label class="p16-two">Enter Carpet Area <span class="color-red">*</span></label>
@@ -393,7 +425,7 @@
             </a>
           </div>
         </div>
-      </div>
+      </div> -->
 
 
       <div class="row">
@@ -450,10 +482,36 @@
                 <p *ngIf="model?.images?.length <= 1" class="green-color" (click)="modelOpenFun()">+ Add more images</p>
               </div>
             </div>
-
           </div>
         </div>
       </div>
+
+
+      <!-- 360 image and videos -->
+      <!-- <div class="form-group-3">
+        <label class="p16-two">Add 360 Images and Video of your property <span class="color-red">*</span></label>
+        <div class="row">
+          <div class="col-md-5 col-sm-12 col-12">
+            <div class="upload-cover-img upload-cover-small">
+              <img [src]="model.floor_plan" onerror="this.src='assets/img/placeholder.png'" class="floor-plan">
+              <input type="file" name="" accept="image/*" (change)="onSelectFile('floor_plan', $event)">
+              <div *ngIf="!model.floor_plan" class="upload-caption">
+                <p class="green-color marginT30">+ Add video</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5 col-sm-12 col-12">
+            <div class="upload-cover-img upload-cover-small">
+              <img [src]="model.images360[0]?.image" onerror="this.src='assets/img/placeholder-img.png'" class="img-fluid">
+              <div class="upload-caption">
+                <p *ngIf="model?.images360?.length > 1" class="number" (click)="modelOpen360ImgFun()">
+                  +{{model?.images360?.length-1}}</p>
+                <p *ngIf="model?.images360?.length <= 1" class="green-color" (click)="modelOpen360ImgFun()">+ Add 360 images</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
 
       <div class="row">
         <!-- <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -480,8 +538,8 @@
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
-            <label>Half Bathrooms <span class="color-red">*</span></label>
-            <input class="form-control" min="1" [(ngModel)]="model.half_bathroom" type="number" name="half_bathroom"
+            <label>Half Bathrooms</label>
+            <input class="form-control" min="0" [(ngModel)]="model.half_bathroom" type="number" name="half_bathroom"
               placeholder="in numbers">
           </div>
         </div>
@@ -490,8 +548,8 @@
       <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
-            <label>Suggested Price <span class="color-red">*</span></label>
-            <input class="form-control" required min="1" [(ngModel)]="model.property_price" type="number" name="property_price"
+            <label>Suggested Price</label>
+            <input class="form-control" min="0" [(ngModel)]="model.property_price" type="number" name="property_price"
               placeholder="in numbers">
           </div>
         </div>
@@ -535,22 +593,10 @@
           class="form-control"></textarea>
       </div>
 
-      <div class="spacer15"></div>
+      <!-- <div class="spacer15"></div>
       <div class="form-group-3">
         <label>How much quantity do you have? <span class="color-red">*</span></label>
         <div class="clearfix"></div>
-        <!-- <label class="cust-radio">
-        <input type="radio" (change)="setValue('quantity', 1)" [checked]="model.quantity == 1 ? 'checked': ''" name="quantity">
-        <span class="checkmark">1</span>
-      </label>
-      <label class="cust-radio">
-        <input type="radio" (change)="setValue('quantity', 2)" [checked]="model.quantity == 2 ? 'checked': ''" name="quantity">
-        <span class="checkmark">2</span>
-      </label>
-      <label class="cust-radio">
-        <input type="radio" (change)="setValue('quantity', 3)" [checked]="model.quantity == 3 ? 'checked': ''" name="quantity">
-        <span class="checkmark">3</span>
-      </label> -->
         <label class="cust-input">
           <input autocomplete="off" type="number" min="1" [(ngModel)]="model.quantity"
             (change)="setValue('quantity', $event.target.value)" name="quantity" placeholder="Enter">
@@ -558,8 +604,8 @@
         <button type="button" *ngIf="model.quantity>1" class="btn btn-link greenText"
           (click)="propertyDetails='true'">Add property details</button>
         <div class="clearfix"></div>
-      </div>
-
+      </div> -->
+<!-- 
       <div class="clearfix"></div>
 
       <div *ngIf="propertyDetails" class="expand-collapes-section addpropertydetails">
@@ -573,14 +619,14 @@
           </div>
           <div class="col-xl-3 col-lg-6 col-md-12 col-sm-6 col-12">
             <div class="form-group-3">
-              <label>Area per Sqft.</label>
+              <label>Area per Sqmt.</label>
               <input autocomplete="off" [(ngModel)]="details.area" class="form-control" type="number" name=""
                 [ngModelOptions]="{standalone: true}">
             </div>
           </div>
           <div class="col-xl-3 col-lg-6 col-md-12 col-sm-6 col-12">
             <div class="form-group-3">
-              <label>Price per Sqft.</label>
+              <label>Price per Sqmt.</label>
               <input autocomplete="off" [(ngModel)]="details.price" class="form-control" type="number" name=""
                 [ngModelOptions]="{standalone: true}">
             </div>
@@ -638,9 +684,9 @@
         || !details.conf_type
         ">Add Details</button>
         </div>
-      </div>
+      </div> -->
 
-      <div class="spacer15"></div>
+      <!-- <div class="spacer15"></div> -->
 
       <!-- <div *ngFor="let details of model.property_quantity_details;let i=index" class="expand-collapes-section">
       <div class="row">
@@ -654,13 +700,13 @@
          </div>
        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-6 col-12">
             <div class="form-group-3">
-               <label>Area per Sqft.</label>
+               <label>Area per Sqmt.</label>
                <input autocomplete="off"  [(ngModel)]="details.area"  class="form-control" type="number" name=""  [ngModelOptions]="{standalone: true}" disabled>
             </div>
          </div>
         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-6 col-12">
             <div class="form-group-3">
-               <label>Price per Sqft.</label>
+               <label>Price per Sqmt.</label>
                <input autocomplete="off"  [(ngModel)]="details.price"  class="form-control" type="number" name=""  [ngModelOptions]="{standalone: true}" disabled>
             </div>
          </div>
@@ -707,7 +753,7 @@
          </div>
       </div>
    </div> -->
-
+<!-- 
 
       <div class="tabel-section" *ngIf="model?.property_quantity_details?.length > 0">
         <div class="table-responsive">
@@ -715,8 +761,8 @@
             <tbody>
               <tr>
                 <th>Floor Number</th>
-                <th>Area per Sqft.</th>
-                <th>Price per Sqft.</th>
+                <th>Area per Sqmt.</th>
+                <th>Price per Sqmt.</th>
                 <th>Facing Direction</th>
                 <th>Status</th>
                 <th>Building Specific Type</th>
@@ -749,12 +795,14 @@
             </tbody>
           </table>
         </div>
-      </div>
+      </div> -->
 
 
       <div class="spacer15"></div>
       <div class="form-group-3">
-        <label>List of Amenities with this property (required) <span class="color-red">*</span></label>
+        <label>List of Amenities with this property 
+          <!-- <span class="color-red">*</span> -->
+        </label>
 
         <div class="form-group-3 paddingleft0">
           <div class="row">
@@ -786,23 +834,17 @@
         </div>
       </div>
 
-      <div class="spacer15"></div>
+      <!-- <div class="spacer15"></div>
       <div class="form-group-3">
         <label>List of Banks <span class="color-red">*</span></label>
         <div class="form-group-3 paddingleft0">
           <div class="row">
             <div class="col-12">
-              <!-- <input type="text" list="banks" (keyup.enter)="addBank(bank)" name="bank" [(ngModel)]="bank">
-              <datalist id="banks">
-                <option *ngFor="let tBank of parameter.banks" value="{{tBank.name}}">
-              </datalist> -->
               <select style="max-width:50%" title="Choose Bank" class="form-control" name="bank" [(ngModel)]="bank"
                 (change)="addBank(bank)">
                 <option value="">Select Bank</option>
                 <option *ngFor="let tBank of parameter.banks" [ngValue]="tBank">{{tBank.name}}</option>
               </select>
-              <!-- <button type="button" class="add-btn" (click)="addBank(bank)"><img src="assets/img/add.png" alt="img"></button> -->
-
               <div class="list-group-items" *ngIf="bankList">
                 <ul>
                   <li *ngFor="let b of bankList; let bIndex=index;">
@@ -815,11 +857,10 @@
                   </li>
                 </ul>
               </div>
-
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <div class="row">
         <div class="col-md-12">
@@ -830,12 +871,9 @@
           additionalInfo.invalid
           || !model.cover_image
           || !model.floor_plan
-          || !model.property_price
           || !model.bedroom
           || !model.bathroom
-          || model.quantity < 1
-          || model.amenities.length == 0
-          ">Next</button>
+          || !model.description">Next</button>
           </div>
         </div>
       </div>
@@ -1025,7 +1063,7 @@
           <div class="btn-cont text-right">
             <!-- <a class="btn-third btn" href="javascript://" (click)="addProperty(addForm, 5)">Next</a> -->
             <button type="button" class="btn btn-primary" (click)="setTab(3)">Previous</button>
-            <button type="submit" class="btn btn-primary marginL15">Next</button>
+            <button type="submit" class="btn btn-primary marginL15">Submit</button>
           </div>
         </div>
       </div>
@@ -1067,6 +1105,44 @@
       <!-- Modal footer -->
       <div class="modal-footer btn-cont">
         <button type="button" (click)="saveImages()" class="btn btn-primary">Submit</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- Add 360 images -->
+<span data-target="#add-more-360-img" data-toggle="modal" #modalOpen360Img></span>
+<div class="modal add-more-popup" id="add-more-360-img">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">360 Images</h4>
+        <button type="button" class="close" data-dismiss="modal" #modalClose360Img>&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="uploaded-img-block">
+          <div class="uploaded-img" *ngFor="let item of file360.files; let i=index">
+            <a class="remove" (click)="file360.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
+            <img *ngIf="item" class="u-img" [src]="item.image" alt="img">
+            <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+          </div>
+        </div>
+
+        <div class="add-more-images">
+          <input type="file" name="add-more" multiple max="6" accept="image/*" (change)="file360Select($event)">
+          <span>+ Add more 360 images</span>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer btn-cont">
+        <button type="button" (click)="save360Images()" class="btn btn-primary">Submit</button>
       </div>
 
     </div>

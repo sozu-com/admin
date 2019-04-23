@@ -31,7 +31,7 @@ export const locale = {
       'Base_Price': 'Base Price',
       'Price_on_Request': 'Price on Request',
       'View_Photos': 'View Photos',
-      'Min_Price_per_Sq_feet': 'Min. Price per Sq. feet',
+      'Min_Price_per_Sq_feet': 'Min. Price per Sq. meters',
       'Carpet_Area': 'Carpet Area',
       'Overview': 'Overview',
       'Amenities': 'Amenities',

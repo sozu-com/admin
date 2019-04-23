@@ -1,7 +1,7 @@
 
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AdminService } from './../../../services/admin.service';
-import { Building , Property} from './../../../models/global.model';
+import { Building, Property } from './../../../models/global.model';
 import { MapsAPILoader } from '@agm/core';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from './../../../lang/translate.service';
@@ -41,7 +41,7 @@ export class ProjectDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.params.subscribe( params => {
+    this.route.params.subscribe(params => {
       this.id = params['project_id'];
       this.getListing();
     });
@@ -50,32 +50,32 @@ export class ProjectDetailsComponent implements OnInit {
 
   getListing() {
     this.parameter.loading = true;
-    this.admin.postDataApi('getProjectDetail', {project_id: this.id}).subscribe(res => {
+    this.admin.postDataApi('getProjectDetail', { project_id: this.id }).subscribe(res => {
       console.log(res);
       this.parameter.loading = false;
       this.project = res['data'].building;
       this.properties = res['data'].properties;
-      this.configurations =  this.project.configurations;
+      this.configurations = this.project.configurations;
       this.configuration = this.configurations[0];
       this.config_string = this.project.configurations.map(r => r.config.name).join(', ');
 
       const config_carpet_areas = this.project.configurations.map(r => parseInt(r.carpet_area));
       if (config_carpet_areas.length < 1) {
         this.carpet_area_string = 'Not Available';
-      }else if (config_carpet_areas.length === 1) {
-        this.carpet_area_string = config_carpet_areas[0] + ' sqft';
-      }else {
+      } else if (config_carpet_areas.length === 1) {
+        this.carpet_area_string = config_carpet_areas[0] + ' sqmt';
+      } else {
         const min = Math.min.apply(null, config_carpet_areas);
         const max = Math.max.apply(null, config_carpet_areas);
-        this.carpet_area_string = min + ' sqft - ' + max + ' sqft';
+        this.carpet_area_string = min + ' sqmt - ' + max + ' sqmt';
       }
 
       const config_prices = this.project.configurations.map(r => parseInt(r.base_price));
       if (config_prices.length < 1) {
         this.base_price_string = 'Not Available';
-      }else if (config_prices.length === 1) {
+      } else if (config_prices.length === 1) {
         this.base_price_min = config_prices[0];
-      }else {
+      } else {
         this.base_price_min = Math.min.apply(null, config_prices);
         this.base_price_max = Math.max.apply(null, config_prices);
 
@@ -91,11 +91,11 @@ export class ProjectDetailsComponent implements OnInit {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(position => {
           const map = new google.maps.Map(this.mapListing.nativeElement, {
-              center: {
-                  lat: position.coords.latitude,
-                  lng: position.coords.longitude
-              },
-              zoom: 15
+            center: {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            },
+            zoom: 15
           });
 
           const infowindow = new google.maps.InfoWindow();

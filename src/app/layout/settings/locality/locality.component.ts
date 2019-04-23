@@ -48,7 +48,7 @@ export class LocalityComponent implements OnInit {
     private ngZone: NgZone,
     private constant: Constant,
     public model: Locality
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.parameter.localities = [];
@@ -101,7 +101,7 @@ export class LocalityComponent implements OnInit {
           if (this.parameter.states.length) {
             this.parameter.state_id = this.parameter.states[0].id;
             this.getCities(this.parameter.states[0].id, '');
-          }else {
+          } else {
             this.parameter.city_id = '0';
             this.parameter.localityCount = 0;
             this.parameter.cities = [];
@@ -138,7 +138,7 @@ export class LocalityComponent implements OnInit {
             // console.log('cityid', this.parameter.city_id);
             this.getLatLan(this.parameter.cities[0].name_en);
             this.getLocalities(this.parameter.city_id, '');
-          }else {
+          } else {
             this.parameter.localityCount = 0;
             this.parameter.cities = [];
             this.parameter.localities = [];
@@ -155,7 +155,7 @@ export class LocalityComponent implements OnInit {
   }
 
 
-  getLocalities(city_id, keyword= '') {
+  getLocalities(city_id, keyword = '') {
     // console.log('mm', city_id, keyword);
     this.parameter.loading = true;
     this.parameter.url = 'getLocalities';
@@ -178,7 +178,7 @@ export class LocalityComponent implements OnInit {
           this.parameter.localityCount = success.data.length;
           if (this.parameter.localities.length) {
             this.selectedLocality = this.parameter.localities[0].id;
-          }else {
+          } else {
             this.all_overlays = [];
           }
           this.init();
@@ -190,16 +190,16 @@ export class LocalityComponent implements OnInit {
 
   init() {
 
-      // Wait for the google maps script to be loaded before using the "google" keyword
-      this.loader.load().then(() => {
+    // Wait for the google maps script to be loaded before using the "google" keyword
+    this.loader.load().then(() => {
       if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
+        navigator.geolocation.getCurrentPosition(position => {
           const map = new google.maps.Map(this.mapDiv.nativeElement, {
-              center: {
-                  lat: position.coords.latitude,
-                  lng: position.coords.longitude
-              },
-              zoom: 18
+            center: {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            },
+            zoom: 18
           });
           this.map = map;
 
@@ -214,7 +214,7 @@ export class LocalityComponent implements OnInit {
               const coord = new google.maps.LatLng(parseFloat(latlng[0]), parseFloat(latlng[1]));
               // console.log(coord);
               return coord;
-              }
+            }
             );
 
 
@@ -231,7 +231,7 @@ export class LocalityComponent implements OnInit {
             locality.overlay = singlePolygon;
 
             // showing selected first locality
-            if (all_overlays_index === 0) {this.setSelection(singlePolygon, locality.id); }
+            if (all_overlays_index === 0) { this.setSelection(singlePolygon, locality.id); }
             all_overlays_index++;
 
             // this.all_overlays.push(singlePolygon);
@@ -251,38 +251,38 @@ export class LocalityComponent implements OnInit {
 
 
           google.maps.event.addListener(map, 'click', event => {
-              // console.log(event);
-              this.placeMarker(event.latLng);
-              // console.log(event.latLng.toUrlValue(5));
+            // console.log(event);
+            this.placeMarker(event.latLng);
+            // console.log(event.latLng.toUrlValue(5));
           });
 
           const drawingManager = new google.maps.drawing.DrawingManager({
 
-              drawingControl: true,
-              drawingControlOptions: {
-                  position: google.maps.ControlPosition.TOP_CENTER,
-                  drawingModes: [
-                      // google.maps.drawing.OverlayType.MARKER,
-                      // google.maps.drawing.OverlayType.CIRCLE,
-                      google.maps.drawing.OverlayType.POLYGON,
-                      google.maps.drawing.OverlayType.RECTANGLE
-                  ]
-              },
-              polygonOptions: {
-                  clickable: true,
-                  draggable: true,
-                  editable: true,
-                  fillColor: '#00b96e',
-                  fillOpacity: 0.5,
+            drawingControl: true,
+            drawingControlOptions: {
+              position: google.maps.ControlPosition.TOP_CENTER,
+              drawingModes: [
+                // google.maps.drawing.OverlayType.MARKER,
+                // google.maps.drawing.OverlayType.CIRCLE,
+                google.maps.drawing.OverlayType.POLYGON,
+                google.maps.drawing.OverlayType.RECTANGLE
+              ]
+            },
+            polygonOptions: {
+              clickable: true,
+              draggable: true,
+              editable: true,
+              fillColor: '#00b96e',
+              fillOpacity: 0.5,
 
-              },
-              rectangleOptions: {
-                  clickable: true,
-                  draggable: true,
-                  editable: true,
-                  fillColor: '#ffff00',
-                  fillOpacity: 0.5,
-              }
+            },
+            rectangleOptions: {
+              clickable: true,
+              draggable: true,
+              editable: true,
+              fillColor: '#ffff00',
+              fillOpacity: 0.5,
+            }
           });
 
 
@@ -290,19 +290,19 @@ export class LocalityComponent implements OnInit {
 
           google.maps.event.addListener(drawingManager, 'polygoncomplete', event => {
 
-              event.getPath().getLength();
-              google.maps.event.addListener(event.getPath(), 'insert_at', () => {
-                  const len = event.getPath().getLength();
-                  for (let i = 0; i < len; i++) {
-                      console.log(event.getPath().getAt(i).toUrlValue(5));
-                  }
-              });
-              google.maps.event.addListener(event.getPath(), 'set_at', () => {
-                  const len = event.getPath().getLength();
-                  for (let i = 0; i < len; i++) {
-                      console.log(event.getPath().getAt(i).toUrlValue(5));
-                  }
-              });
+            event.getPath().getLength();
+            google.maps.event.addListener(event.getPath(), 'insert_at', () => {
+              const len = event.getPath().getLength();
+              for (let i = 0; i < len; i++) {
+                console.log(event.getPath().getAt(i).toUrlValue(5));
+              }
+            });
+            google.maps.event.addListener(event.getPath(), 'set_at', () => {
+              const len = event.getPath().getLength();
+              for (let i = 0; i < len; i++) {
+                console.log(event.getPath().getAt(i).toUrlValue(5));
+              }
+            });
           });
 
           google.maps.event.addListener(drawingManager, 'overlaycomplete', event => {
@@ -310,7 +310,7 @@ export class LocalityComponent implements OnInit {
             this.parameter.overlay = this.getPolygonCoords(event.overlay);
             this.localityOpen.nativeElement.click();
 
-console.log('xx', typeof this.getPolygonCoords(event.overlay));
+            console.log('xx', typeof this.getPolygonCoords(event.overlay));
             // this.swal.prompt({
             //   text:''
             // }).then(f=>{
@@ -347,19 +347,19 @@ console.log('xx', typeof this.getPolygonCoords(event.overlay));
 
 
 
-              if (event.type !== google.maps.drawing.OverlayType.MARKER) {
-                  drawingManager.setDrawingMode(null);
-                  // Write code to select the newly selected object.
+            if (event.type !== google.maps.drawing.OverlayType.MARKER) {
+              drawingManager.setDrawingMode(null);
+              // Write code to select the newly selected object.
 
-                  const newShape = event.overlay;
-                  newShape.type = event.type;
-                  google.maps.event.addListener(newShape, 'click', () => {
-                      this.setSelection(newShape);
-                  });
+              const newShape = event.overlay;
+              newShape.type = event.type;
+              google.maps.event.addListener(newShape, 'click', () => {
+                this.setSelection(newShape);
+              });
 
-                  this.setSelection(newShape);
+              this.setSelection(newShape);
 
-              }
+            }
           });
 
 
@@ -369,9 +369,9 @@ console.log('xx', typeof this.getPolygonCoords(event.overlay));
 
           // centerControlDiv.index = 1;
           // map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(centerControlDiv);
-      });
+        });
       }
-      });
+    });
   }
 
 
@@ -390,7 +390,7 @@ console.log('xx', typeof this.getPolygonCoords(event.overlay));
           this.addLocality(name_en, name_en, price_per_sqft);
         }
       });
-    }else {
+    } else {
       self.addLocality(name_en, name_es, price_per_sqft);
     }
   }
@@ -416,109 +416,109 @@ console.log('xx', typeof this.getPolygonCoords(event.overlay));
     delete locality.overlay;
 
     this.admin.postDataApi('addLocality', locality).subscribe(
-        r => {
-          // this.all_overlays.push(r.data);
-          this.closeModal();
-          // this.init();
-        });
+      r => {
+        // this.all_overlays.push(r.data);
+        this.closeModal();
+        // this.init();
+      });
   }
 
 
   getPolygonCoords(newShape) {
     // console.log('new', newShape);
     // console.log('IN');
-      const coordinates_array = [];
-      const len = newShape.getPath().getLength();
-      for (let i = 0; i < len; i++) {
-          // console.log(newShape.getPath().getAt(i).toUrlValue(6));
-          coordinates_array.push(newShape.getPath().getAt(i).toUrlValue(6));
-      }
-      // console.log(coordinates_array);
-      return coordinates_array;
+    const coordinates_array = [];
+    const len = newShape.getPath().getLength();
+    for (let i = 0; i < len; i++) {
+      // console.log(newShape.getPath().getAt(i).toUrlValue(6));
+      coordinates_array.push(newShape.getPath().getAt(i).toUrlValue(6));
+    }
+    // console.log(coordinates_array);
+    return coordinates_array;
   }
 
   getLatLngFromString(ll) {
-      const latlng = ll.split(/, ?/);
-      return new google.maps.LatLng(parseFloat(latlng[0]), parseFloat(latlng[1]));
+    const latlng = ll.split(/, ?/);
+    return new google.maps.LatLng(parseFloat(latlng[0]), parseFloat(latlng[1]));
   }
 
   placeMarker(location) {
-      const marker = new google.maps.Marker({
-          position: location,
-          map: this.map
-      });
+    const marker = new google.maps.Marker({
+      position: location,
+      map: this.map
+    });
 
   }
 
   clearSelection() {
-      if (this.selectedShape) {
-          this.selectedShape.setEditable(false);
-          this.selectedShape = null;
-      }
+    if (this.selectedShape) {
+      this.selectedShape.setEditable(false);
+      this.selectedShape = null;
+    }
   }
 
-  setSelection(shape, locality= '') {
-console.log('zzzzzzzzzzzz', shape);
-      this.clearSelection();
-      this.selectedLocality = locality;
+  setSelection(shape, locality = '') {
+    console.log('zzzzzzzzzzzz', shape);
+    this.clearSelection();
+    this.selectedLocality = locality;
 
-      this.selectedShape = shape;
-      shape.setEditable(true);
-      const coords = this.getPolygonCoords(shape);
+    this.selectedShape = shape;
+    shape.setEditable(true);
+    const coords = this.getPolygonCoords(shape);
 
-      const latlng = coords[0].split(',');
-      const coord = new google.maps.LatLng(parseFloat(latlng[0]), parseFloat(latlng[1]));
+    const latlng = coords[0].split(',');
+    const coord = new google.maps.LatLng(parseFloat(latlng[0]), parseFloat(latlng[1]));
 
 
-      // console.log(coords);
-      // var center = new google.maps.LatLngBounds(shape).getCenter();
-      // let center = shape.my_getBounds().getCenter()
+    // console.log(coords);
+    // var center = new google.maps.LatLngBounds(shape).getCenter();
+    // let center = shape.my_getBounds().getCenter()
 
-      this.map.setCenter(coord);
+    this.map.setCenter(coord);
 
-      // google.maps.event.addListener(selectedShape.getPath(), 'insert_at', getPolygonCoords(shape));
-      // google.maps.event.addListener(shape.getPath(), 'set_at', this.getPolygonCoords(shape));
+    // google.maps.event.addListener(selectedShape.getPath(), 'insert_at', getPolygonCoords(shape));
+    // google.maps.event.addListener(shape.getPath(), 'set_at', this.getPolygonCoords(shape));
   }
 
-  setSelectionNonEditable(shape, locality= '') {
-console.log('zzzzzzzzzzzz', shape);
-      this.clearSelection();
-      this.selectedLocality = locality;
+  setSelectionNonEditable(shape, locality = '') {
+    console.log('zzzzzzzzzzzz', shape);
+    this.clearSelection();
+    this.selectedLocality = locality;
 
-      this.selectedShape = shape;
-      shape.setEditable(false);
-      const coords = this.getPolygonCoords(shape);
+    this.selectedShape = shape;
+    shape.setEditable(false);
+    const coords = this.getPolygonCoords(shape);
 
-      const latlng = coords[0].split(',');
-      const coord = new google.maps.LatLng(parseFloat(latlng[0]), parseFloat(latlng[1]));
+    const latlng = coords[0].split(',');
+    const coord = new google.maps.LatLng(parseFloat(latlng[0]), parseFloat(latlng[1]));
 
 
-      // console.log(coords);
-      // var center = new google.maps.LatLngBounds(shape).getCenter();
-      // let center = shape.my_getBounds().getCenter()
+    // console.log(coords);
+    // var center = new google.maps.LatLngBounds(shape).getCenter();
+    // let center = shape.my_getBounds().getCenter()
 
-      this.map.setCenter(coord);
+    this.map.setCenter(coord);
 
-      // google.maps.event.addListener(selectedShape.getPath(), 'insert_at', getPolygonCoords(shape));
-      // google.maps.event.addListener(shape.getPath(), 'set_at', this.getPolygonCoords(shape));
+    // google.maps.event.addListener(selectedShape.getPath(), 'insert_at', getPolygonCoords(shape));
+    // google.maps.event.addListener(shape.getPath(), 'set_at', this.getPolygonCoords(shape));
   }
 
   deleteSelectedShape() {
-      if (this.selectedShape) {
-          this.selectedShape.setMap(null);
-      }
+    if (this.selectedShape) {
+      this.selectedShape.setMap(null);
+    }
   }
 
   deleteAllShape() {
-      for (let i = 0; i < this.all_overlays.length; i++) {
-          this.all_overlays[i].overlay.setMap(null);
-      }
-      this.all_overlays = [];
+    for (let i = 0; i < this.all_overlays.length; i++) {
+      this.all_overlays[i].overlay.setMap(null);
+    }
+    this.all_overlays = [];
   }
 
   getPolygons() {
     // console.log(this.all_overlays);
-    this.all_overlays.forEach( (item, count) => {
+    this.all_overlays.forEach((item, count) => {
       // console.log('overlay' + count);
       this.getPolygonCoords(item.overlay.overlay);
     });
@@ -556,12 +556,12 @@ console.log('zzzzzzzzzzzz', shape);
   }
 
   removeSelection(locality, index, status) {
-      // console.log('Removing...', locality);
-      locality.status = status;
-      // this.all_overlays.splice(index,1);
-      // locality.overlay.setMap(null);
-      delete locality.overlay;
-      this.admin.postDataApi('addLocality', locality).subscribe(
+    // console.log('Removing...', locality);
+    locality.status = status;
+    // this.all_overlays.splice(index,1);
+    // locality.overlay.setMap(null);
+    delete locality.overlay;
+    this.admin.postDataApi('addLocality', locality).subscribe(
       r => {
         // console.log(r);
         // this.all_overlays.push(r.data);
@@ -573,7 +573,7 @@ console.log('zzzzzzzzzzzz', shape);
 
   }
 
-  markLocalityFeatured (index, locality_id, flag) {
+  markLocalityFeatured(index, locality_id, flag) {
     let title = '';
     if (flag === 1) {
       title = 'You want to feature this locality?';
@@ -589,7 +589,7 @@ console.log('zzzzzzzzzzzz', shape);
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.admin.postDataApi('markLocalityFeatured', {locality_id: locality_id, flag: flag}).subscribe(
+        this.admin.postDataApi('markLocalityFeatured', { locality_id: locality_id, flag: flag }).subscribe(
           r => {
             this.parameter.localities[index] = r.data;
             swal('Success', this.parameter.successText, 'success');
@@ -615,19 +615,19 @@ console.log('zzzzzzzzzzzz', shape);
       console.log('zz');
       console.log(geocoder);
       return Observable.create(observer => {
-        geocoder.geocode( { 'address': address}, function(results, status) {
+        geocoder.geocode({ 'address': address }, function (results, status) {
           console.log('090090');
           console.log('status', status, google.maps.GeocoderStatus);
-            if (status === google.maps.GeocoderStatus.OK) {
-                observer.next(results[0].geometry.location);
-                observer.complete();
-            } else {
-                console.log('Error - ', results, ' & Status - ', status);
-                observer.next({});
-                observer.complete();
-            }
+          if (status === google.maps.GeocoderStatus.OK) {
+            observer.next(results[0].geometry.location);
+            observer.complete();
+          } else {
+            console.log('Error - ', results, ' & Status - ', status);
+            observer.next({});
+            observer.complete();
+          }
         });
-    });
+      });
       // const geocoder = new google.maps.Geocode();
     });
   }
@@ -645,7 +645,7 @@ console.log('zzzzzzzzzzzz', shape);
           // get the place result
           // const place: google.maps.places.PlaceResult = autocomplete.getPlace();
           const place = autocomplete.getPlace();
-console.log('place', place);
+          console.log('place', place);
           // verify result
           if (place.geometry === undefined || place.geometry === null) {
             return;
@@ -662,8 +662,8 @@ console.log('place', place);
 
           const map = new google.maps.Map(this.mapDiv.nativeElement, {
             center: {
-                lat: this.latitude,
-                lng: this.longitude
+              lat: this.latitude,
+              lng: this.longitude
             },
             zoom: 18
           });

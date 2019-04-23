@@ -44,6 +44,8 @@ export class DevelopersComponent implements OnInit {
         success => {
           this.parameter.loading = false;
           this.parameter.items = success.data;
+          // this.parameter.items[0].developer_image = 'https://s3-ap-southeast-2.amazonaws.com/hyrit/Pic_352055028839.jpg';
+          // this.parameter.items[1].developer_image = 'https://s3-us-west-2.amazonaws.com/livehyritbucket/Pic_813786977653.jpg';
           this.parameter.total = success.total;
         }, error => {
           this.parameter.loading = false;

@@ -102,28 +102,60 @@
                   </agm-map>
               </div>
             </div>
-
-
-
-            <!-- <div class="uploaded-img-block" *ngIf="model?.images?.length > 0">
-              <div class="uploaded-img" *ngFor="let item of model?.images; let i=index">
-                <a class="remove" (click)="file4.remove(i)">
-                  <img src="assets/img/remove-icon.png" alt="img">
-                </a>
-                <img *ngIf="item.image" class="u-img" [src]="item.image" alt="img">
-                <img *ngIf="!item.image" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+            <div class="col-12">
+              <div class="form-group-2">
+                  <label>More images</label>
+                  <div class="add-project-img-more marginT0">
+                    <img *ngIf="model.images?.length>0" [src]="model.images[0]?.image" onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
+                    <div class="upload-caption">
+                      <p *ngIf="model?.images?.length > 1" class="number" (click)="modelOpenFun()">+{{model?.images?.length-1}}</p>
+                      <p *ngIf="model?.images?.length <= 1" class="green-color"  (click)="modelOpenFun()">+ Add more images</p>
+                    </div>
+                  </div>
               </div>
             </div>
+
             
-            <div class="add-project-img-more">
-              <input type="file" name="add-more-images" multiple max="6" accept="image/*" (change)="file4Select($event)">
-              <div class="upload-caption">
-                <p class="green-color">+ Add more images</p>
-              </div>
-            </div> -->
-            
+
+
           </div>
       </div>
       </form>
     </div>
+</div>
+
+
+<span data-target="#add-more-img" data-toggle="modal" #modalOpen></span>
+<div class="modal add-more-popup" id="add-more-img">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Images</h4>
+        <button type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="uploaded-img-block" *ngIf="file4.files?.length > 0">
+          <div class="uploaded-img" *ngFor="let item of file4.files; let i=index">
+            <a class="remove" (click)="file4.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
+            <img *ngIf="item" class="u-img" [src]="item.image" alt="img">
+            <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+          </div>
+        </div>
+        <div class="add-more-images">
+          <input type="file" name="add-more" multiple max="6" accept="image/*" (change)="file4Select($event)">
+          <span>+ Add more images</span>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer btn-cont">
+        <button type="button" (click)="saveImages()" class="btn btn-primary">Submit</button>
+      </div>
+
+    </div>
+  </div>
 </div>

@@ -1,4 +1,5 @@
-import { User } from "./inhouse-users.model";
+import { User } from './inhouse-users.model';
+import { Towers } from './addProject.model';
 
 export class CarpetAreas {
     carpet_areas: Array<object> = [
@@ -32,6 +33,8 @@ export class AddPropertyModel {
     property_id = '';
     cover_image: File;
     images: any = [];
+    images360: any = [];
+    videos: any = [];
     floor_plan: File;
     bedroom = 1;
     bathroom = 1;
@@ -61,6 +64,7 @@ export class AddPropertyModel {
     building_id: string;
     building_towers_id: string;
     floor_num: string;
+    building_towers: Towers;
 }
 
 export class Building {

@@ -9,6 +9,7 @@ import { NgForm } from '@angular/forms';
 import { Users } from 'src/app/models/users.model';
 import { MapsAPILoader } from '@agm/core';
 import { FileUpload } from 'src/app/common/fileUpload';
+import { Developer } from 'src/app/models/global.model';
 declare const google;
 declare let swal: any;
 
@@ -22,11 +23,13 @@ export class AddDeveloperComponent implements OnInit {
   @ViewChild('mapDiv') mapDiv: ElementRef;
   @ViewChild('search') searchElementRef: ElementRef;
   @ViewChild('search1') search1ElementRef: ElementRef;
+  @ViewChild('modalClose') modalClose: ElementRef;
+  @ViewChild('modalOpen') modalOpen: ElementRef;
   public parameter: IProperty = {};
   initialCountry: any;
   show = false;
   image: any;
-  file4: any;
+  file4: FileUpload;
   developer_image: any;
   model: Users;
   constructor(
@@ -55,6 +58,7 @@ export class AddDeveloperComponent implements OnInit {
         } else {
           console.log('aaa', this.model);
           this.model.id = '';
+          this.model.images = [];
         }
       });
   }
@@ -67,6 +71,7 @@ export class AddDeveloperComponent implements OnInit {
         this.parameter.loading = false;
         this.model = success.data;
         this.image = this.model.image;
+        this.developer_image = this.model.developer_image;
         console.log('==', this.model);
       }, error => {
         this.parameter.loading = false;
@@ -100,12 +105,16 @@ export class AddDeveloperComponent implements OnInit {
   }
 
   add(formData: NgForm) {
-    if (!this.model.lat || !this.model.lng) {
+    const modelSave: Users = JSON.parse(JSON.stringify(this.model));
+    if (!modelSave.lat || !modelSave.lng) {
       swal('Error', 'Please choose address from dropdown.', 'error');
       return;
     }
+    if (modelSave.images) {
+      modelSave.images = modelSave.images.map(r => r.image);
+    }
     this.parameter.loading = true;
-    this.admin.postDataApi('addDeveloper', this.model)
+    this.admin.postDataApi('addDeveloper', modelSave)
       .subscribe(
         success => {
           this.parameter.loading = false;
@@ -200,4 +209,26 @@ export class AddDeveloperComponent implements OnInit {
   file4Select($event) {
     this.file4.onSelectFile($event);
   }
+
+  modelOpenFun() {
+    this.modalOpen.nativeElement.click();
+    this.file4.backup(JSON.parse(JSON.stringify(this.model.images)));
+  }
+
+  modelCloseFun() {
+    this.modalClose.nativeElement.click();
+  }
+
+  saveImages() {
+    if (this.file4.files.length < 1) {
+      swal('Error', 'Please select atleast one image', 'error'); return false;
+    }
+    this.modalClose.nativeElement.click();
+    this.file4.upload().then(r => {
+      console.log(this.file4.files);
+      this.model.images = this.file4.files;
+    });
+    console.log('model', this.model);
+  }
+
 }

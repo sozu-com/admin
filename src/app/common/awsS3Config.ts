@@ -19,7 +19,7 @@ export class S3Uploader {
       this.config = config;
     }
 
-    upload(file: any, fileName): Promise<any> {
+    upload(file: any, fileName: string): Promise<any> {
       const date = this.generateTimestamp();
       const datetime = date + 'T000000Z';
 
@@ -73,6 +73,20 @@ export class S3Uploader {
           console.log('error');
           reject();
         });
+      });
+    }
+
+    getImage() {
+      const bucket = new CryptoJS.S3({params: {Bucket: this.config.bucket}});
+      bucket.listObjects(function (err, data) {
+        if (err) {
+          console.log('errr');
+          console.log(err);
+        } else {
+          console.log('resss');
+          console.log(data);
+          // $scope.allImageData = data.Contents;
+        }
       });
     }
 
