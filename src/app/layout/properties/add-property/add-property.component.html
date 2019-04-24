@@ -22,17 +22,16 @@
 <div class="white-bg add-property padding20">
   <div class="steps">
     <ul class="d-flex">
+      <!-- <li [ngClass]="{'current': tab == 0}"><span></span><a>Tag a Building</a></li>
+      <li [ngClass]="{'current': tab == 1}"><span></span><a>Create Draft</a></li>
+      <li [ngClass]="{'current': tab == 2}"><span></span><a>Additional Info</a></li>
+      <li [ngClass]="{'current': tab == 3}"><span></span><a>Preferable Buyers</a></li>
+      <li [ngClass]="{'current': (tab == 4) || (tab == 5)}"><span></span><a>Custom</a></li> -->
       <li [ngClass]="{'current': tab == 0}"><span></span><a (click)="setTab(0)">Tag a Building</a></li>
       <li [ngClass]="{'current': tab == 1}"><span></span><a (click)="setTab(1)">Create Draft</a></li>
       <li [ngClass]="{'current': tab == 2}"><span></span><a (click)="setTab(2)">Additional Info</a></li>
       <li [ngClass]="{'current': tab == 3}"><span></span><a (click)="setTab(3)">Preferable Buyers</a></li>
       <li [ngClass]="{'current': (tab == 4) || (tab == 5)}"><span></span><a (click)="setTab(4)">Custom</a></li>
-      <!-- <li [ngClass]="{'current': tab == 1}" [ngClass]="{'selected': tab > 1}"><span></span><a>Create Draft</a></li>
-      <li [ngClass]="{'current': tab == 2}" [ngClass]="{'selected': tab > 2}"><span></span><a>Additional Info</a></li>
-      <li [ngClass]="{'current': tab == 3}" [ngClass]="{'selected': tab > 3}"><span></span><a>Preferable Buyers</a></li>
-      <li [ngClass]="{'current': tab == 4}" [ngClass]="{'selected': tab > 4}"><span></span><a>Custom</a></li>
-      <li [ngClass]="{'current': tab == 5}" [ngClass]="{'selected': tab > 5}"><span></span><a>Tag a Building</a></li>
-      <li [ngClass]="{'current': tab == 6}" [ngClass]="{'selected': tab > 6}"><span></span><a>Submit</a></li> -->
     </ul>
   </div>
 </div>
@@ -63,14 +62,14 @@
         <p class="p16">Tagged Tower Name</p>
       </div>
     </div>
-    <p><b>{{model?.building_towers?.tower_name}}</b></p>
+    <p><b>{{model?.building_towers?.tower_name ? model?.building_towers?.tower_name : 'NA'}}</b></p>
 
-    <div class="row">
+    <div class="row" *ngIf="model?.building_towers">
       <div class="col-sm-9 col-lg-9">
         <p class="p16">Tagged Floor</p>
       </div>
     </div>
-    <p><b>{{model?.floor_num == 0 ? 'Ground Floor' : 'Floor ' + model?.floor_num}}</b></p>
+    <p><b>{{model?.building_towers?.tower_name ? (model?.floor_num == 0 ? 'Ground Floor' : 'Floor ' + model?.floor_num) : 'NA'}}</b></p>
     
     <div class="row">
       <div class="col-md-12">
@@ -488,30 +487,38 @@
 
 
       <!-- 360 image and videos -->
-      <!-- <div class="form-group-3">
-        <label class="p16-two">Add 360 Images and Video of your property <span class="color-red">*</span></label>
+      <div class="form-group-3">
+        <label class="p16-two">Add 360<span>&#176;</span> Images and Video of your property </label>
         <div class="row">
-          <div class="col-md-5 col-sm-12 col-12">
-            <div class="upload-cover-img upload-cover-small">
-              <img [src]="model.floor_plan" onerror="this.src='assets/img/placeholder.png'" class="floor-plan">
-              <input type="file" name="" accept="image/*" (change)="onSelectFile('floor_plan', $event)">
-              <div *ngIf="!model.floor_plan" class="upload-caption">
-                <p class="green-color marginT30">+ Add video</p>
-              </div>
-            </div>
-          </div>
           <div class="col-md-5 col-sm-12 col-12">
             <div class="upload-cover-img upload-cover-small">
               <img [src]="model.images360[0]?.image" onerror="this.src='assets/img/placeholder-img.png'" class="img-fluid">
               <div class="upload-caption">
                 <p *ngIf="model?.images360?.length > 1" class="number" (click)="modelOpen360ImgFun()">
                   +{{model?.images360?.length-1}}</p>
-                <p *ngIf="model?.images360?.length <= 1" class="green-color" (click)="modelOpen360ImgFun()">+ Add 360 images</p>
+                <p *ngIf="model?.images360?.length <= 1" class="green-color" (click)="modelOpen360ImgFun()">+ Add 360<span>&#176;</span> images</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5 col-sm-12 col-12">
+
+            <div class="upload-cover-img upload-cover-small">
+              <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'" src="{{videoSrc}}" class="video55 floor-plan" autoplay type="video/mp4" controls></video>
+              
+              <!-- if want to give play option -->
+              <img *ngIf="model?.videos && model?.videos[0]" class="ui bordered small image" [src]="model?.videos[0]?.thumb" onerror="this.src='assets/img/placeholder.png'">
+              <!-- <img *ngIf="model.videoLoader==false" class="vid-icon" (click)="playVideo(i)" src="assets/img/play-button.png" /> -->
+
+              <canvas width="800" height="600" id="canvas"></canvas>
+              <div *ngIf="model.videoLoader" class="loaderr"></div>
+              <input type="file" name="" accept="video/*" (change)="showCanvas($event)">
+              <div class="upload-caption">
+                <p class="green-color marginT30">+ Add Video</p>
               </div>
             </div>
           </div>
         </div>
-      </div> -->
+      </div>
 
       <div class="row">
         <!-- <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -555,6 +562,7 @@
         </div>
       </div>
 
+      <!-- parking -->
       <div class="form-group-3">
         <label>Is Parking Available? <span class="color-red">*</span></label>
         <div class="clearfix"></div>
@@ -569,7 +577,25 @@
           <span class="checkmark">No</span>
         </label>
         <div class="clearfix"></div>
+
+        <!-- <label>No. Of Parkings? <span class="color-red">*</span></label>
+        <div class="clearfix"></div>
+        <label class="cust-radio">
+          <input type="radio" (change)="setValue('parking', 1)" value="1"
+            [checked]="model.parking == 1 ? 'checked' : ''" name="parking">
+          <span class="checkmark">Yes</span>
+        </label>
+
+        <label>How many Parkings are for Sale? <span class="color-red">*</span></label>
+        <div class="clearfix"></div>
+        <label class="cust-radio">
+          <input type="radio" (change)="setValue('parking', 1)" value="1"
+            [checked]="model.parking == 1 ? 'checked' : ''" name="parking">
+          <span class="checkmark">Yes</span>
+        </label> -->
       </div>
+
+      <!-- furnished -->
       <div class="spacer15"></div>
       <div class="form-group-3">
         <label>Is Property Furnished? <span class="color-red">*</span></label>
@@ -871,6 +897,8 @@
           additionalInfo.invalid
           || !model.cover_image
           || !model.floor_plan
+          || !model.parking
+          || !model.furnished
           || !model.bedroom
           || !model.bathroom
           || !model.description">Next</button>
@@ -1120,7 +1148,7 @@
 
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">360 Images</h4>
+        <h4 class="modal-title">360<span>&#176;</span> Images</h4>
         <button type="button" class="close" data-dismiss="modal" #modalClose360Img>&times;</button>
       </div>
 
@@ -1136,7 +1164,7 @@
 
         <div class="add-more-images">
           <input type="file" name="add-more" multiple max="6" accept="image/*" (change)="file360Select($event)">
-          <span>+ Add more 360 images</span>
+          <span>+ Add more 360<span>&#176;</span> images</span>
         </div>
       </div>
 

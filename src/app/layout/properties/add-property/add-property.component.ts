@@ -86,11 +86,20 @@ export class AddPropertyComponent implements OnInit {
   selectedBuilding: AddProjectModel;
   selectedTower: Towers;
 
+  video: any;
+  image: any;
+  videoObj: Object = {
+    thumbnail: '',
+    original: ''
+  };
+  videoSrc: any;
+
   constructor(public model: AddPropertyModel, private us: AdminService, private cs: CommonService,
     private router: Router, private sanitization: DomSanitizer, private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone, private building: Building, public constant: Constant,
     private route: ActivatedRoute,
-    private http: HttpInterceptor) { }
+    private http: HttpInterceptor,
+    private element: ElementRef) { }
 
   ngOnInit() {
     this.parameter.page = 1;
@@ -268,6 +277,8 @@ export class AddPropertyComponent implements OnInit {
     this.model.furnished = data.furnished;
     this.model.property_quantity_details = data.details;
     this.model.images = data.images;
+    this.model.images360 = data.images360;
+    this.model.videos = data.videos;
 
     this.model.for_hold = data.for_hold === 1 ? true : false;
     this.model.half_bathroom = data.half_bathroom;
@@ -727,6 +738,10 @@ export class AddPropertyComponent implements OnInit {
     console.log('tab', tab);
     this.model.floor = 0; // now static
     this.model.marital_status = [];
+    if (this.model.videoLoader) {
+      swal('Error', 'Uploading video.', 'error');
+      return;
+    }
     for (let index = 0; index < this.testMarital.length; index++) {
       if (this.testMarital[index].checked === true) {
         this.model.marital_status.push(this.testMarital[index].id);
@@ -781,10 +796,14 @@ export class AddPropertyComponent implements OnInit {
 console.log(this.model);
       if (this.model.step === 2) {
         const imagesString = this.model.images.map(r => r.image);
+        const imagesString360 = this.model.images360.map(r => r.image);
+        // const videoString = this.model.videos.map(r => r.image);
         // added building_id and step cuz need to update sttaus and step
         input.append('building_id', this.model.building_id);
         input.append('step', this.model.step.toString());
         input.append('images', JSON.stringify(imagesString));
+        input.append('images360', JSON.stringify(imagesString360));
+        input.append('videos', JSON.stringify(this.model.videos));
         input.append('cover_image', this.model.cover_image);
         input.append('floor_plan', this.model.floor_plan);
         input.append('bedroom', this.model.bedroom.toString());
@@ -1022,11 +1041,80 @@ console.log(this.model);
     return true;
   }
 
-  removeDetails(i) {
+  removeDetails(i: any) {
     this.model.property_quantity_details.splice(i, 1);
   }
 
   clickOnSale() {
     console.log(this.model.for_sale);
+  }
+
+  onSelectVideo(event) {
+
+  }
+
+
+  showCanvas(event) {
+    if (event.target.files[0].size > this.constant.fileSizeLimit) {
+      swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+    } else {
+
+      setTimeout(() => {
+        this.model.videoLoader = true;
+        this.video = document.getElementById('video1');
+        const reader = new FileReader();
+        const videoTest = this.element.nativeElement.querySelector('.video55');
+        reader.onload = function(e) {
+          const src = e.target['result'];
+          videoTest.src = src;
+          const timer = setInterval( () => {
+            // find duration of video only of video is in ready state
+            if (videoTest.readyState === 4) {
+              setTimeout(() => {
+                // create canvas at middle of video
+                this.newcanvas(videoTest, event.target.files[0]);
+              }, 3000);
+              clearInterval(timer);
+            }
+          }, 100);
+        }.bind(this);
+        reader.readAsDataURL(event.target.files[0]);
+      }, 100);
+    }
+  }
+
+  newcanvas(video: any, videoFile: File) {
+    const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+    const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
+                                                      0, 0, canvas.width, canvas.height);
+    const ImageURL = canvas.toDataURL('image/jpeg');
+    // model.image = ImageURL;
+    const fileToUpload = this.dataURLtoFile(ImageURL, 'tempFile.png');
+    this.cs.saveVideo(videoFile, fileToUpload).subscribe(
+      success => {
+        this.model.videoLoader = false;
+        this.model.videos = [];
+        const videoObj = {
+          video: '', thumb: ''
+        };
+        videoObj.video = success['data'].video;
+        videoObj.thumb = success['data'].thumb;
+        this.model.videos = [videoObj];
+      }, error => {
+        // console.log(error);
+      }
+    );
+  }
+
+  dataURLtoFile(dataurl, filename) {
+    const arr = dataurl.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, {type: mime});
   }
 }

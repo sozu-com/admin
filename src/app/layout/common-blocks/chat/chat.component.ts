@@ -183,8 +183,6 @@ export class ChatComponent implements OnInit {
       model.updated_at = d.toUTCString();
       this.parameter.messages.push(model);
 
-
-
       setTimeout(() => {
         this.scrollToBottom();
       }, 100);
@@ -377,7 +375,7 @@ export class ChatComponent implements OnInit {
       this.admin.postDataApi('conversation/sendMessage', model).subscribe(r => {
         console.log('sendMessage', r);
 
-        if (model.loading == true){
+        if (model.loading == true) {
           model.loading = false;
           const foundIndex = this.parameter.messages.findIndex(x => x.uid == model.uid);
           this.parameter.messages[foundIndex] = r['data'];

@@ -65,6 +65,7 @@ export class AddPropertyModel {
     building_towers_id: string;
     floor_num: string;
     building_towers: Towers;
+    videoLoader: boolean;
 }
 
 export class Building {
