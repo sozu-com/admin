@@ -250,7 +250,7 @@
                                 </div>
                               </div>
                             </th>
-                            <th style="width:25%">
+                            <th style="width:20%">
                               <div class="table-search">
                                   <label>Address</label>
                                   <div class="searh-3">
@@ -272,7 +272,7 @@
                               <div class="d-flex table-search"><span><label>Avg Price</label></span></div>
                           </th>
                           
-                          <th style="vertical-align:top;width:100px;width:19%">
+                          <th style="vertical-align:top;width:100px;width:24%">
                             <div class="d-flex table-search"><span><label>Actions</label></span>
                             </div>
                           </th>
@@ -298,9 +298,11 @@
                                 <button [disabled]="admin?.admin_acl['Building Management']?.can_delete==0" *ngIf="p.is_blocked == true" (click)="unblock(p);" class="action-icon unblock-bg" title="UnBlock"><img src="assets/img/unblock.png" alt="img"></button>
                                 <!-- unapprove => when status=2(pending), 1(approved)-->
                                 <a style="display:none;" #modalOpen data-toggle="modal" data-target="#addNote"></a>
-                                <button (click)="openCancellationModal(p, i)" [disabled]="admin?.admin_acl['Building Management']?.can_update==0" *ngIf="p.status == 1 || p.status==2" class="action-icon" title="Unapprove"><img src="assets/img/tick-selected.png" alt="img"></button>
+                                <button (click)="openCancellationModal(p, i)" [disabled]="admin?.admin_acl['Building Management']?.can_update==0" *ngIf="p.status == 1 || p.status==2" class="action-icon" title="Unapprove"><img src="assets/img/ic_disapprove.png" alt="img"></button>
                                 <!-- approve => when status=2(pending), 4(rejected)-->
                                 <button [disabled]="admin?.admin_acl['Building Management']?.can_update==0" *ngIf="p.status == 2 || p.status == 4"  (click)="approveProject(p, 1);" class="action-icon" title="Approve"><img src="assets/img/tick.png" alt="img"></button>
+                                <!-- delete project -->
+                                <button [disabled]="admin?.admin_acl['Building Management']?.can_delete==0" (click)="deletePopup(p, i);" class="action-icon" title="Delete Project"><img src="assets/img/ic_delete.png" alt="img"></button>
                               </div>
 
                             </td>

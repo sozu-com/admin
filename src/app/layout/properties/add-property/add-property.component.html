@@ -552,6 +552,7 @@
         </div>
       </div>
 
+      <div class="spacer15"></div>
       <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
@@ -563,36 +564,41 @@
       </div>
 
       <!-- parking -->
-      <div class="form-group-3">
-        <label>Is Parking Available? <span class="color-red">*</span></label>
-        <div class="clearfix"></div>
-        <label class="cust-radio">
-          <input type="radio" (change)="setValue('parking', 1)" value="1"
-            [checked]="model.parking == 1 ? 'checked' : ''" name="parking">
-          <span class="checkmark">Yes</span>
-        </label>
-        <label class="cust-radio">
-          <input type="radio" (change)="setValue('parking', 0)" value="0"
-            [checked]="model.parking == 0 ? 'checked' : ''" name="parking">
-          <span class="checkmark">No</span>
-        </label>
-        <div class="clearfix"></div>
-
-        <!-- <label>No. Of Parkings? <span class="color-red">*</span></label>
-        <div class="clearfix"></div>
-        <label class="cust-radio">
-          <input type="radio" (change)="setValue('parking', 1)" value="1"
-            [checked]="model.parking == 1 ? 'checked' : ''" name="parking">
-          <span class="checkmark">Yes</span>
-        </label>
-
-        <label>How many Parkings are for Sale? <span class="color-red">*</span></label>
-        <div class="clearfix"></div>
-        <label class="cust-radio">
-          <input type="radio" (change)="setValue('parking', 1)" value="1"
-            [checked]="model.parking == 1 ? 'checked' : ''" name="parking">
-          <span class="checkmark">Yes</span>
-        </label> -->
+      <div class="spacer15"></div>
+      <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>Is Parking Available? <span class="color-red">*</span></label>
+            <div class="clearfix"></div>
+            <label class="cust-radio">
+              <input type="radio" (change)="setValue('parking', 1)" value="1"
+                [checked]="model.parking == 1 ? 'checked' : ''" name="parking">
+              <span class="checkmark">Yes</span>
+            </label>
+            <label class="cust-radio">
+              <input type="radio" (change)="setValue('parking', 0)" value="0"
+                [checked]="model.parking == 0 ? 'checked' : ''" name="parking">
+              <span class="checkmark">No</span>
+            </label>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+          <div class="form-group-3">
+            <label>Total no. of Parkings?</label>
+            <div class="clearfix"></div>
+            <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
+                name="parking_count">
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1 && model.for_sale">
+          <div class="form-group-3">
+            <label>No. of Parkings for Sale?</label>
+            <div class="clearfix"></div>
+            <input class="form-control" type="number" [(ngModel)]="model.parking_for_sale" min="0"
+                name="parking_for_sale">
+          </div>
+        </div>
       </div>
 
       <!-- furnished -->
@@ -897,8 +903,6 @@
           additionalInfo.invalid
           || !model.cover_image
           || !model.floor_plan
-          || !model.parking
-          || !model.furnished
           || !model.bedroom
           || !model.bathroom
           || !model.description">Next</button>

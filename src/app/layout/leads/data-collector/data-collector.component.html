@@ -366,7 +366,7 @@
                         <!-- unapprove => when status=2(pending), 1(approved) && not in draft-->
                         <a style="display:none;" #modalOpen data-toggle="modal" data-target="#addNote"></a>
                         <button (click)="openCancellationModal(item, i)" [disabled]="admin?.admin_acl['Data Collector Lead Management']?.can_update==0" 
-                        *ngIf="(item.status == 1 || item.status==2) && parameter.count_flag!=7" class="action-icon" title="Unapprove"><img src="assets/img/tick-selected.png" alt="img"></button>
+                        *ngIf="(item.status == 1 || item.status==2) && parameter.count_flag!=7" class="action-icon" title="Unapprove"><img src="assets/img/ic_disapprove.png" alt="img"></button>
                         <!-- approve => when status=2(pending), 4(rejected) && not in draft-->
                         <button [disabled]="admin?.admin_acl['Data Collector Lead Management']?.can_update==0" 
                         *ngIf="(item.status == 2 || item.status == 4) && parameter.count_flag!=7" (click)="approveProject(item, 1);" class="action-icon" title="Approve"><img src="assets/img/tick.png" alt="img"></button>

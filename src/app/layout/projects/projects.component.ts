@@ -18,9 +18,9 @@ export class ProjectsComponent implements OnInit {
   public parameter: IProperty = {};
   public location: IProperty = {};
 
-  items: any= [];
-  total: any= 0;
-  configurations: any= [];
+  items: any = [];
+  total: any = 0;
+  configurations: any = [];
   countries: any;
   reason: string;
   price_sort = 1;
@@ -34,7 +34,7 @@ export class ProjectsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.params.subscribe( params => {
+    this.route.params.subscribe(params => {
       this.parameter.data_collector_id = params.id;
     });
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
@@ -183,7 +183,7 @@ export class ProjectsComponent implements OnInit {
   toggleAndSort(sort_by, sort_by_order) {
     if (this[sort_by_order] == 1) {
       this[sort_by_order] = 2;
-    }else {
+    } else {
       this[sort_by_order] = 1;
     }
 
@@ -200,22 +200,22 @@ export class ProjectsComponent implements OnInit {
 
   block(item) {
     item.is_blocked = true;
-    this.admin.postDataApi('blockProject', {building_id: item.id, flag: 1}).subscribe(r => {
+    this.admin.postDataApi('blockProject', { building_id: item.id, flag: 1 }).subscribe(r => {
       swal('Success', 'Project blocked successfully.', 'success');
     },
-    error => {
-      swal('Error', error.error.message, 'error');
-    });
+      error => {
+        swal('Error', error.error.message, 'error');
+      });
   }
 
   unblock(item) {
     item.is_blocked = false;
-    this.admin.postDataApi('blockProject', {building_id: item.id, flag: 0 }).subscribe(r => {
+    this.admin.postDataApi('blockProject', { building_id: item.id, flag: 0 }).subscribe(r => {
       swal('Success', 'Project unblocked successfully.', 'success');
     },
-    error => {
-      swal('Error', error.error.message, 'error');
-    });
+      error => {
+        swal('Error', error.error.message, 'error');
+      });
   }
 
   approveProject(item, status) {
@@ -224,23 +224,23 @@ export class ProjectsComponent implements OnInit {
       return false;
     }
     item.status = status;
-    this.admin.postDataApi('approveProject', {building_id: item.id }).subscribe(r => {
+    this.admin.postDataApi('approveProject', { building_id: item.id }).subscribe(r => {
       swal('Success', 'Project approved successfully.', 'success');
     },
-    error => {
-      swal('Error', error.error.message, 'error');
-    });
+      error => {
+        swal('Error', error.error.message, 'error');
+      });
   }
 
   rejectProject(status) {
     this.items[this.parameter.index].status = status;
-    this.admin.postDataApi('rejectProject', {building_id: this.parameter.building_id, reason: this.reason }).subscribe(r => {
+    this.admin.postDataApi('rejectProject', { building_id: this.parameter.building_id, reason: this.reason }).subscribe(r => {
       swal('Success', 'Project unapproved successfully.', 'success');
       this.closeModal();
     },
-    error => {
-      swal('Error', error.error.message, 'error');
-    });
+      error => {
+        swal('Error', error.error.message, 'error');
+      });
   }
 
   openCancellationModal(item, index) {
@@ -270,5 +270,34 @@ export class ProjectsComponent implements OnInit {
   resetDates() {
     this.parameter.min = '';
     this.parameter.max = '';
+  }
+
+  deletePopup(item: any, index: number) {
+    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    this.parameter.text = 'You want to delete this project?';
+
+    swal({
+      html: this.parameter.title + '<br>' + this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteProject(item, index);
+      }
+    });
+  }
+
+  deleteProject(item: any, index: number) {
+    this.admin.postDataApi('deleteProject',
+    { building_id: item.id }).subscribe(r => {
+      swal('Success', 'Deleted successfully.', 'success');
+      this.items.splice(index, 1);
+    },
+    error => {
+      swal('Error', error.error.message, 'error');
+    });
   }
 }

@@ -7,6 +7,7 @@ import { AddProjectModel, Configuration, Towers } from './../../../models/addPro
 import { MapsAPILoader } from '@agm/core';
 import { Constant } from './../../../common/constants';
 import { FileUpload } from './../../../common/fileUpload';
+import { CommonService } from 'src/app/services/common.service';
 declare const google;
 declare let swal: any;
 
@@ -21,6 +22,8 @@ export class AddProjectComponent implements OnInit {
   public parameter: IProperty = {};
   @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('modalOpen') modalOpen: ElementRef;
+  @ViewChild('modal360ImageClose') modal360ImageClose: ElementRef;
+  @ViewChild('modal360ImageOpen') modal360ImageOpen: ElementRef;
   @ViewChild('mapDiv') mapDiv: ElementRef;
   @ViewChild('search') searchElementRef: ElementRef;
 
@@ -65,7 +68,7 @@ export class AddProjectComponent implements OnInit {
   FU: any = {};
   initialCountry = { initialCountry: 'mx' };
 
-  file1: any; file2: any; file3: any; file4: any; file5: any; file6: any;
+  file1: any; file2: any; file3: any; file4: any; file5: any; file6: any; file7: any;
 
   newTower: Towers;
   allTowerAmenities: any = [];
@@ -75,6 +78,15 @@ export class AddProjectComponent implements OnInit {
   selected_amenity_for_tower: any = [];
   showAddBtn = true;
   towerAmenityIndex = 0;
+  name: string;
+  video: any;
+  image: any;
+  videoObj: Object = {
+    thumbnail: '',
+    original: ''
+  };
+  videoSrc: any;
+
   constructor(
     public model: AddProjectModel,
     private admin: AdminService,
@@ -82,16 +94,20 @@ export class AddProjectComponent implements OnInit {
     private router: Router,
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
-    private constant: Constant
+    private constant: Constant,
+    private cs: CommonService,
+    private element: ElementRef
   ) { }
 
   ngOnInit() {
+    this.name = '';
     this.file1 = new FileUpload(true, this.admin);
     this.file2 = new FileUpload(false, this.admin);
     this.file3 = new FileUpload(true, this.admin);
     this.file4 = new FileUpload(false, this.admin);
     this.file5 = new FileUpload(true, this.admin);
     this.file6 = new FileUpload(true, this.admin);
+    this.file7 = new FileUpload(false, this.admin);
 
     this.route.params.subscribe(params => {
       console.log('paramsssss');
@@ -286,6 +302,25 @@ export class AddProjectComponent implements OnInit {
     this.modalClose.nativeElement.click();
     this.file2.upload().then(r => {
       this.model.images = this.file2.files;
+    });
+  }
+
+  modelOpen360ImgFun() {
+    this.modal360ImageOpen.nativeElement.click();
+    this.file7.backup(JSON.parse(JSON.stringify(this.model.images360)));
+  }
+
+  modelClose360ImgFun() {
+    this.modal360ImageClose.nativeElement.click();
+  }
+
+  save360Images() {
+    if (this.file7.files.length < 1) {
+      swal('Error', 'Please select atleast one image', 'error'); return false;
+    }
+    this.modal360ImageClose.nativeElement.click();
+    this.file7.upload().then(r => {
+      this.model.images360 = this.file7.files;
     });
   }
 
@@ -551,12 +586,17 @@ export class AddProjectComponent implements OnInit {
     console.log('modelsave', modelSave);
     modelSave.is_completed = 0;
     modelSave.cover_image = this.file1.image;
+    if (this.model.videoLoader) {
+      swal('Error', 'Uploading video.', 'error');
+      return;
+    }
     if (modelSave.images) {
       modelSave.building_images = modelSave.images.map(r => r.image);
     }
-    if (modelSave.images) {
-      modelSave.images = modelSave.images.map(r => r.image);
+    if (modelSave.images360) {
+      modelSave.images360 = modelSave.images360.map(r => r.image);
     }
+    modelSave.videos = modelSave.videos ? JSON.stringify(modelSave.videos) : JSON.stringify([]);
     modelSave.dev_name = modelSave.developer.name;
     modelSave.dev_email = modelSave.developer.email;
     modelSave.dev_phone = modelSave.developer.phone;
@@ -696,6 +736,10 @@ export class AddProjectComponent implements OnInit {
     this.file4.onSelectFile($event);
   }
 
+  file7Select($event) {
+    this.file7.onSelectFile($event);
+  }
+
   addNewCustom() {
     if (!this.new_custom.name || !this.new_custom.value) {
       swal('Error', 'Please add parameter name and value', 'error');
@@ -762,16 +806,17 @@ export class AddProjectComponent implements OnInit {
     } else {
       this.model.building_towers = [];
     }
-
   }
 
-  selectDeveloper() {
+  selectDeveloper(name: string) {
     this.parameter.loading = true;
-    this.admin.postDataApi('getDevelopersFrAdmin', {}).subscribe(r => {
+    this.admin.postDataApi('getDevelopersFrAdmin', {name: name}).subscribe(r => {
       this.parameter.loading = false;
       console.log('=========developers======', r);
       this.all_developers = r.data;
-      this.openDeveloperListModel.nativeElement.click();
+      if (!name) {
+        this.openDeveloperListModel.nativeElement.click();
+      }
     });
   }
 
@@ -928,5 +973,70 @@ export class AddProjectComponent implements OnInit {
     this.allTowerAmenityForEdit.filter(op => { if (op.selected === true) { return op; } });
     this.model.building_towers[this.towerAmenityIndex].amenitiesId =
     this.allTowerAmenityForEdit.filter(op => { if (op.selected === true) { return op; } }).map(op => op.id);
+  }
+
+
+  showCanvas(event) {
+    if (event.target.files[0].size > this.constant.fileSizeLimit) {
+      swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+    } else {
+
+      setTimeout(() => {
+        this.model.videoLoader = true;
+        this.video = document.getElementById('video1');
+        const reader = new FileReader();
+        const videoTest = this.element.nativeElement.querySelector('.video55');
+        reader.onload = function(e) {
+          const src = e.target['result'];
+          videoTest.src = src;
+          const timer = setInterval( () => {
+            // find duration of video only of video is in ready state
+            if (videoTest.readyState === 4) {
+              setTimeout(() => {
+                // create canvas at middle of video
+                this.newcanvas(videoTest, event.target.files[0]);
+              }, 3000);
+              clearInterval(timer);
+            }
+          }, 100);
+        }.bind(this);
+        reader.readAsDataURL(event.target.files[0]);
+      }, 100);
+    }
+  }
+
+  newcanvas(video: any, videoFile: File) {
+    const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+    const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
+                                                      0, 0, canvas.width, canvas.height);
+    const ImageURL = canvas.toDataURL('image/jpeg');
+    // model.image = ImageURL;
+    const fileToUpload = this.dataURLtoFile(ImageURL, 'tempFile.png');
+    this.cs.saveVideo(videoFile, fileToUpload).subscribe(
+      success => {
+        this.model.videoLoader = false;
+        this.model.videos = [];
+        const videoObj = {
+          video: '', thumb: ''
+        };
+        videoObj.video = success['data'].video;
+        videoObj.thumb = success['data'].thumb;
+        this.model.videos = [videoObj];
+      }, error => {
+        // console.log(error);
+      }
+    );
+  }
+
+  dataURLtoFile(dataurl: any, filename: string) {
+    const arr = dataurl.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, {type: mime});
   }
 }

@@ -118,8 +118,6 @@ export class UsersComponent implements OnInit {
       .subscribe(
         success => {
           this.parameter.loading = false;
-          console.log('success', success);
-          // this.parameter.loading = false;
           this.modalClose.nativeElement.click();
           const text = this.model.id ? 'Updated successfully.' : 'Added successfully.';
           swal('Success', text, 'success');
@@ -147,7 +145,7 @@ export class UsersComponent implements OnInit {
   }
 
 
-  blockUnblockPopup(index, id, flag, user_type) {
+  blockUnblockPopup(index: number, id: string, flag: any, user_type: string) {
     this.parameter.index = index;
     this.parameter.title = this.constant.title.ARE_YOU_SURE;
     switch (flag) {
@@ -162,8 +160,6 @@ export class UsersComponent implements OnInit {
     }
 
     swal({
-      // title: this.parameter.title,
-      // text: this.parameter.text,
       html: this.parameter.title + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
@@ -178,21 +174,51 @@ export class UsersComponent implements OnInit {
   }
 
 
-  blockAdmin(index, id, flag, user_type) {
-    // this.parameter.loading = true;
+  blockAdmin(index: number, id: string, flag: string, user_type: string) {
     this.parameter.index = index;
-    this.parameter.url = 'blockBuyerSeller';
     const input = new FormData();
     input.append('id', id);
     input.append('flag', flag);
     input.append('user_type', user_type);
 
-    this.admin.postDataApi(this.parameter.url, input)
+    this.admin.postDataApi('blockBuyerSeller', input)
       .subscribe(
         success => {
-          console.log('success', success);
-          // this.parameter.loading = false;
-          swal('Success', success.message, 'success');
+          swal('Success', this.parameter.successText, 'success');
+          this.parameter.items[this.parameter.index] = success.data;
+        });
+  }
+
+
+  deletePopup(index: number, id: string, user_type: string) {
+    this.parameter.index = index;
+    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    this.parameter.text = 'You want to delete user?';
+
+    swal({
+      html: this.parameter.title + '<br>' + this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteBuyerSeller(index, id, user_type);
+      }
+    });
+  }
+
+  deleteBuyerSeller(index: number, id: string, user_type: string) {
+    this.parameter.index = index;
+    const input = new FormData();
+    input.append('id', id);
+    input.append('user_type', user_type);
+
+    this.admin.postDataApi('deleteBuyerSeller', input)
+      .subscribe(
+        success => {
+          swal('Success', 'Deleted successfully.', 'success');
           this.parameter.items[this.parameter.index] = success.data;
         });
   }

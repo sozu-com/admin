@@ -41,6 +41,8 @@ export class AddPropertyModel {
     half_bathroom = 1;
     floor = 1;
     parking = 1;
+    parking_count = 0;
+    parking_for_sale = 0;
     furnished = 1;
     description = '';
     quantity = 1;

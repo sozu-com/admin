@@ -17,7 +17,9 @@ export class AddProjectModel {
     address = '';
     avg_price = '';
     cover_image: File;
-    images = [];
+    images: any = [];
+    images360: any = [];
+    videos: any = [];
     building_images: any = [];
     description = '';
     amenities = [];
@@ -55,6 +57,7 @@ export class AddProjectModel {
     building_request_id: '';
     building_towers: Array<Towers>;
     building_tower_edit_index: any;
+    videoLoader: boolean;
 }
 
 
@@ -82,6 +85,7 @@ export class Configuration {
     images_path: any = [];
     images: any = [];
     updated_at: any = '';
+    name: any = '';
 }
 
 export class Towers {

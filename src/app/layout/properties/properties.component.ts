@@ -267,7 +267,6 @@ export class PropertiesComponent implements OnInit {
   changeStatusPopUp(property_id: any, user_id: string, status: number) {
     this.parameter.title = this.constant.title.ARE_YOU_SURE;
     this.parameter.text = 'You want to link this seller?';
-    this.parameter.successText = 'Linked successfully.';
 
     swal({
       html: this.parameter.title + '<br>' + this.parameter.text,
@@ -296,7 +295,6 @@ export class PropertiesComponent implements OnInit {
   changeSoldStatusPopup(property: any, index: number) {
     this.parameter.title = this.constant.title.ARE_YOU_SURE;
     this.parameter.text = 'You want to change the status?';
-    this.parameter.successText = 'Changed successfully.';
 
     swal({
       html: this.parameter.title + '<br>' + this.parameter.text,
@@ -323,4 +321,32 @@ export class PropertiesComponent implements OnInit {
       });
   }
 
+  deletePopup(property: any, index: number) {
+    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    this.parameter.text = 'You want to delete this property?';
+
+    swal({
+      html: this.parameter.title + '<br>' + this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteProperty(property, index);
+      }
+    });
+  }
+
+  deleteProperty(property: any, index: number) {
+    this.admin.postDataApi('deleteProperty',
+    { property_id: property.id }).subscribe(r => {
+      swal('Success', 'Deleted successfully.', 'success');
+      this.items.splice(index, 1);
+    },
+    error => {
+      swal('Error', error.error.message, 'error');
+    });
+  }
 }

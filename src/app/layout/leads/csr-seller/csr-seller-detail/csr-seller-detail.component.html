@@ -196,7 +196,7 @@
                                 <button [disabled]="admin?.admin_acl['Seller Lead Management']?.can_update==0 || admin?.permissions?.can_csr_seller==0" 
                                     *ngIf="p.is_blocked == true" (click)="unblock(p);" class="action-icon unblock-bg" title="UnBlock"><img src="assets/img/unblock.png" alt="img"></button>
                                 <button [disabled]="admin?.admin_acl['Seller Lead Management']?.can_update==0 || admin?.permissions?.can_csr_seller==0" 
-                                    *ngIf="p.status == 3" (click)="changeStatus(p,2);" class="action-icon" title="Unapprove"><img src="assets/img/tick-selected.png" alt="img"></button>
+                                    *ngIf="p.status == 3" (click)="changeStatus(p,2);" class="action-icon" title="Unapprove"><img src="assets/img/ic_disapprove.png" alt="img"></button>
                                 <button [disabled]="admin?.admin_acl['Seller Lead Management']?.can_update==0 || admin?.permissions?.can_csr_seller==0" 
                                     *ngIf="p.status == 2" (click)="changeStatus(p,3);" class="action-icon" title="Approve"><img src="assets/img/tick.png" alt="img"></button>
                               </div>

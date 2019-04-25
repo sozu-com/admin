@@ -274,6 +274,9 @@ export class AddPropertyComponent implements OnInit {
     this.model.bedroom = data.bedroom;
     this.model.bathroom = data.bathroom;
     this.model.parking = data.parking;
+
+    this.model.parking_count = data.parking_count;
+    this.model.parking_for_sale = data.parking_for_sale;
     this.model.furnished = data.furnished;
     this.model.property_quantity_details = data.details;
     this.model.images = data.images;
@@ -798,6 +801,10 @@ console.log(this.model);
         const imagesString = this.model.images.map(r => r.image);
         const imagesString360 = this.model.images360.map(r => r.image);
         // const videoString = this.model.videos.map(r => r.image);
+        if (this.model.parking === 0) {
+          this.model.parking_count = 0;
+          this.model.parking_for_sale = 0;
+        }
         // added building_id and step cuz need to update sttaus and step
         input.append('building_id', this.model.building_id);
         input.append('step', this.model.step.toString());
@@ -812,6 +819,8 @@ console.log(this.model);
         input.append('floor', this.model.floor.toString());
         input.append('property_price', this.model.property_price ? this.model.property_price.toString() : '0');
         input.append('parking', this.model.parking.toString());
+        input.append('parking_count', this.model.parking_count ? this.model.parking_count.toString() : '0');
+        input.append('parking_for_sale', this.model.parking_for_sale ? this.model.parking_for_sale.toString() : '0');
         input.append('furnished', this.model.furnished.toString());
         input.append('description', this.model.description);
         input.append('quantity', this.model.quantity ? this.model.quantity.toString() : '0');

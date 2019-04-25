@@ -108,6 +108,11 @@
                     title="{{item.is_blocked==1?'Unblock User':'Block User'}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"
                     class="action-icon"><img src="assets/img/block.png" alt="img">
                   </button>
+                  <button [disabled]="admin?.admin_acl['User Management']?.can_delete==0"
+                    (click)="deletePopup(i, item.id, parameter.type)" 
+                    title="Delete User"
+                    class="action-icon"><img src="assets/img/ic_delete.png" alt="img">
+                  </button>
                 </td>
               </tr>
 
