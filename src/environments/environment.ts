@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  baseIP: 'https://api.sozu.com/',
-  baseUrl: 'https://api.sozu.com/api/admin/',
+  baseIP: 'https://apitest.sozu.com/',
+  baseUrl: 'https://apitest.sozu.com/api/admin/',
   // baseIP: 'http://localhost:8000/',
   // baseUrl: 'http://localhost:8000/api/admin/',
   socketUrl: 'https://socket.sozu.com',
