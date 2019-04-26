@@ -821,21 +821,22 @@ export class AddProjectComponent implements OnInit {
   }
 
   addDeveloper() {
-    this.canEditdeveloperInfo = true;
-    this.model.developer = {
-      id: '',
-      name: '',
-      email: '',
-      country_code: this.constant.country_code,
-      dial_code: this.constant.dial_code,
-      phone: '',
-      logo: '',
-      image: '',
-      developer_image: ''
-    };
-    this.file5.image = '';
-    this.file6.image = '';
-    this.closeDeveloperListModel.nativeElement.click();
+    this.router.navigate(['/dashboard/developers/add-developer/0']);
+    // this.canEditdeveloperInfo = true;
+    // this.model.developer = {
+    //   id: '',
+    //   name: '',
+    //   email: '',
+    //   country_code: this.constant.country_code,
+    //   dial_code: this.constant.dial_code,
+    //   phone: '',
+    //   logo: '',
+    //   image: '',
+    //   developer_image: ''
+    // };
+    // this.file5.image = '';
+    // this.file6.image = '';
+    // this.closeDeveloperListModel.nativeElement.click();
   }
 
   setDeveloper(item) {

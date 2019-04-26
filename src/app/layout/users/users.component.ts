@@ -219,7 +219,7 @@ export class UsersComponent implements OnInit {
       .subscribe(
         success => {
           swal('Success', 'Deleted successfully.', 'success');
-          this.parameter.items[this.parameter.index] = success.data;
+          this.parameter.items.splice(index, 1);
         });
   }
 }
