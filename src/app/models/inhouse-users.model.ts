@@ -41,6 +41,21 @@ export class UserModel {
     is_broker: boolean;
     is_data_collector: boolean;
     is_csr_closer: boolean;
+    // keys added for external broker
+    is_external_broker?: string;
+    company_name?: string;
+    company_logo?: string;
+    description?: string;
+    adr?: string;   // address string
+    lat?: any;
+    lng?: any;
+    branches?: Array<Branches>;
+}
+
+export class Branches {
+    address: string;
+    lat: string;
+    lng: string;
 }
 
 export class User {

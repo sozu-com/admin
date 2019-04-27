@@ -58,8 +58,8 @@
           </div>
           <div class="access-controls">
               <div class="select-controls select-controls-1" *ngFor="let permission of model.admin_acl; let i=index">
-              <label class="cust-check-bx2" [ngClass]="{'access-control11':permission.can_create==1 || permission.can_read==1 || permission.can_update==1 || permission.can_delete==1}">{{permission?.acl?.name}}
-              <input (click)="expandBox(i)" type="checkbox" [checked]="permission.can_create == 1 || permission.can_read==1 || permission.can_update==1 || permission.can_delete==1 ? 'checked': ''">
+              <label class="cust-check-bx2" [ngClass]="{'access-control11':permission.can_create==1 || permission.can_read==1 || permission.can_update==1 || permission.can_delete==1 || permission.can_purge==1}">{{permission?.acl?.name}}
+              <input (click)="expandBox(i)" type="checkbox" [checked]="permission.can_create == 1 || permission.can_read==1 || permission.can_update==1 || permission.can_delete==1 || permission.can_purge==1 ? 'checked': ''">
               <span class="checkmark"></span>
               </label>
               
@@ -79,6 +79,11 @@
                 </label>
                 <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_delete==1}">Can Block/Unblock
                     <input type="checkbox" [checked]="permission.can_delete == 1 ? 'checked': ''"  (click)="setPermission('can_delete', i)">
+                    <span class="checkmark"></span>
+                </label>
+                <label *ngIf="permission?.acl?.name == 'User Management' || permission?.acl?.name == 'Property Management' || permission?.acl?.name == 'Building Management'" 
+                  class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_purge==1}">Can Delete
+                    <input type="checkbox" [checked]="permission.can_purge == 1 ? 'checked': ''"  (click)="setPermission('can_purge', i)">
                     <span class="checkmark"></span>
                 </label>
                 <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_crud==1}">CRUD

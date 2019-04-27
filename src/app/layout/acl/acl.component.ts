@@ -19,7 +19,7 @@ import { Location } from '@angular/common';
 export class AclComponent implements OnInit {
 
   url: any[];
-  image1;
+  image1: any;
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
   public parameter: IProperty = {};
@@ -65,7 +65,7 @@ export class AclComponent implements OnInit {
           success.data.forEach(element => {
             const e = new Permission();
             e.acl_id = element.id; const acl = {name: element.name}; e.acl = acl;
-            e.can_create = 1; e.can_update = 1; e.can_read = 1; e.can_delete = 1;
+            e.can_create = 1; e.can_update = 1; e.can_read = 1; e.can_delete = 1; e.can_purge = 1;
             this.model.admin_acl.push(e);
           });
         });

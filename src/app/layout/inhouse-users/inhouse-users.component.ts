@@ -1,5 +1,5 @@
 
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IProperty } from '../../common/property';
@@ -8,8 +8,9 @@ import { NgForm } from '@angular/forms';
 import { Constant } from './../../common/constants';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CommonService } from '../../services/common.service';
+import { MapsAPILoader } from '@agm/core';
 declare let swal: any;
-
+declare const google;
 @Component({
   selector: 'app-inhouse-users',
   templateUrl: './inhouse-users.component.html',
@@ -19,6 +20,9 @@ declare let swal: any;
 
 export class InhouseUsersComponent implements OnInit {
 
+  @ViewChild('mapDiv') mapDiv: ElementRef;
+  @ViewChild('search2') searchElementRef: ElementRef;
+  @ViewChild('search1') search1ElementRef: ElementRef;
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('viewModalOpen') viewModalOpen: ElementRef;
@@ -40,6 +44,8 @@ export class InhouseUsersComponent implements OnInit {
   constructor(public constant: Constant, private cs: CommonService,
     public model: UserModel, private route: ActivatedRoute,
     public admin: AdminService, private router: Router,
+    private mapsAPILoader: MapsAPILoader,
+    private ngZone: NgZone,
     private sanitization: DomSanitizer) {
     this.admin.countryData$.subscribe(success => {
       this.parameter.allCountry = success;
@@ -54,7 +60,7 @@ export class InhouseUsersComponent implements OnInit {
     this.parameter.p = this.constant.p;
     this.parameter.routeName = this.router.url;
     this.tempAdd = this.model.address;
-
+    this.setCurrentPosition();
     this.parameter.sub = this.route.params.subscribe(params => {
       this.parameter.p = this.constant.p;
       this.parameter.userType = params['userType'];
@@ -755,4 +761,76 @@ export class InhouseUsersComponent implements OnInit {
     // let selectedLocation = this.location.localities.filter(x=>x.id == id);
     // this.location.locality = selectedLocation[0];
   }
+
+
+  loadPlaces(paramAdd: string, paramLat: string, paramLng: string, searchRef: any) {
+    // load Places Autocomplete
+    this.model[paramLat] = null;
+    this.model[paramLng] = null;
+    this.mapsAPILoader.load().then(() => {
+      const autocomplete = new google.maps.places.Autocomplete(this[searchRef].nativeElement, {
+        types: []
+      });
+      autocomplete.addListener('place_changed', () => {
+        this.ngZone.run(() => {
+          // get the place result
+          // const place: google.maps.places.PlaceResult = autocomplete.getPlace();
+          const place = autocomplete.getPlace();
+
+          // verify result
+          if (place.geometry === undefined || place.geometry === null) {
+            return;
+          }
+
+          // set latitude, longitude and zoom
+          this.model[paramLat] = place.geometry.location.lat();
+          this.model[paramLng] = place.geometry.location.lng();
+          if (place.formatted_address) {
+            this.model[paramAdd] = place.formatted_address;
+          }
+        });
+      });
+    });
+  }
+
+  setCurrentPosition() {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        // setting address lat lng
+        this.model.lat = position.coords.latitude;
+        this.model.lng = position.coords.longitude;
+
+        // setting branch office lat lng
+        // this.model.branches = position.coords.latitude;
+        // this.model.branches = position.coords.longitude;
+      });
+    }
+  }
+
+  placeMarker($event: any, paramLat: string, paramLng: string) {
+    this.model[paramLat] = $event.coords.lat;
+    this.model[paramLng] = $event.coords.lng;
+    this.getGeoLocation(this.model[paramLat], this.model[paramLng]);
+  }
+
+
+  getGeoLocation(lat: number, lng: number) {
+    if (navigator.geolocation) {
+      const geocoder = new google.maps.Geocoder();
+      const latlng = new google.maps.LatLng(lat, lng);
+      const request = { latLng: latlng };
+
+      geocoder.geocode(request, (results, status) => {
+        if (status === google.maps.GeocoderStatus.OK) {
+          const result = results[0];
+          if (result != null) {
+            this.model.adr = result.formatted_address;
+          } else {
+            this.model.adr = lat + ',' + lng;
+          }
+        }
+      });
+    }
+  }
+
 }

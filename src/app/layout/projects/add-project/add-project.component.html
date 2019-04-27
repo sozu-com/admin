@@ -449,15 +449,14 @@
                 </div>
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
-                    <label>Email</label>
-                    <input autocomplete="off" [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.developer.email" class="form-control" type="email" name="developer_email" placeholder="Developer Email" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
+                    <label>Phone Number</label>
+                    <input autocomplete="off" [disabled]="!canEditdeveloperInfo" minlength="6" maxlength="16" autocomplete="off" type="text" class="form-control" id="phone" placeholder="Phone Number" minlength="1" [(ngModel)]="model.developer.phone" name="phone" ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)"/>
                   </div>
                 </div>
                 <div class="col-md-12 col-sm-12 col-12">
                   <div class="form-group-3">
-                    <label>Phone Number</label>
-                    <input autocomplete="off" [disabled]="!canEditdeveloperInfo" minlength="6" maxlength="16" autocomplete="off" type="text" class="form-control" id="phone" placeholder="Phone Number" minlength="1" [(ngModel)]="model.developer.phone" name="phone" ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)"/>
-  
+                    <label>Email</label>
+                    <input autocomplete="off" [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.developer.email" class="form-control" type="email" name="developer_email" placeholder="Developer Email" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
                   </div>
                 </div>
   

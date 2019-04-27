@@ -268,30 +268,90 @@
                   </div>
                </div>
               
-              <div class="access-controls">
-                 <label [ngClass]="{'access-control11': model.is_broker_seller_dev == true}" class="cust-check-bx2">CSR Seller/Developer
-                   <input type="checkbox" name="is_broker_seller_dev" [(ngModel)]="model.is_broker_seller_dev">
-                   <span class="checkmark"></span>
-                 </label>
-   
-                 <label [ngClass]="{'access-control11': model.is_buyer_renter == true}" class="cust-check-bx2">CSR Buyer/Renter
-                   <input type="checkbox" [(ngModel)]="model.is_buyer_renter" name="is_buyer_renter">
-                   <span class="checkmark"></span>
-                 </label>
-   
-                 <label [ngClass]="{'access-control11': model.is_broker == true}" class="cust-check-bx2">Inhouse Broker
-                   <input type="checkbox" [(ngModel)]="model.is_broker" name="is_broker">
-                   <span class="checkmark"></span>
-                 </label>
-   
-                 <label [ngClass]="{'access-control11': model.is_data_collector == true}" class="cust-check-bx2">Data Collector
-                   <input type="checkbox" [(ngModel)]="model.is_data_collector" name="is_data_collector">
-                   <span class="checkmark"></span>
-                 </label>
-                 <label [ngClass]="{'access-control11': model.is_csr_closer == true}" class="cust-check-bx2">CSR Closure
-                   <input type="checkbox" [(ngModel)]="model.is_csr_closer" name="is_csr_closer">
-                   <span class="checkmark"></span>
-                 </label>
+              <div class="row">
+                <div class="col-12">
+                  <div class="access-controls">
+                    <label [ngClass]="{'access-control11': model.is_broker_seller_dev == true}" class="cust-check-bx2">CSR Seller/Developer
+                      <input type="checkbox" name="is_broker_seller_dev" [(ngModel)]="model.is_broker_seller_dev">
+                      <span class="checkmark"></span>
+                    </label>
+      
+                    <label [ngClass]="{'access-control11': model.is_buyer_renter == true}" class="cust-check-bx2">CSR Buyer/Renter
+                      <input type="checkbox" [(ngModel)]="model.is_buyer_renter" name="is_buyer_renter">
+                      <span class="checkmark"></span>
+                    </label>
+      
+                    <label [ngClass]="{'access-control11': model.is_broker == true}" class="cust-check-bx2">Inhouse Broker
+                      <input type="checkbox" [(ngModel)]="model.is_broker" name="is_broker">
+                      <span class="checkmark"></span>
+                    </label>
+      
+                    <label [ngClass]="{'access-control11': model.is_external_broker == true}" class="cust-check-bx2">Outside Broker
+                      <input type="checkbox" [(ngModel)]="model.is_external_broker" name="is_external_broker">
+                      <span class="checkmark"></span>
+                    </label>
+      
+                    <label [ngClass]="{'access-control11': model.is_data_collector == true}" class="cust-check-bx2">Data Collector
+                      <input type="checkbox" [(ngModel)]="model.is_data_collector" name="is_data_collector">
+                      <span class="checkmark"></span>
+                    </label>
+                    <label [ngClass]="{'access-control11': model.is_csr_closer == true}" class="cust-check-bx2">CSR Closure
+                      <input type="checkbox" [(ngModel)]="model.is_csr_closer" name="is_csr_closer">
+                      <span class="checkmark"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="spacer30"></div>
+              <div class="row" *ngIf="model.is_external_broker">
+                <div class="col-12">
+                  <div class="form-group-2">
+                     <label>Company Name <span class="color-red">*</span></label>
+                     <div class="form-group">
+                      <input autocomplete="off" type="text" class="form-control" required [(ngModel)]="model.name" name="name">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group-2">
+                     <label>Description <span class="color-red">*</span></label>
+                     <div class="form-group">
+                      <textarea autocomplete="off" required rows="3" class="form-control" name="description" [(ngModel)]="model.description"></textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group-2">
+                     <label>Address <span class="color-red">*</span></label>
+                     <div class="form-group">
+                      <input placeholder="Search for address" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search2 (input)="loadPlaces('adr', 'lat', 'lng', 'searchElementRef')" name="adr" [(ngModel)]="model.adr" autocomplete="off">
+                    </div>
+                  </div>
+                  <div class="form-group-2">
+                      <label>Location Pin on Map<span class="color-red">*</span></label>
+                     <div class="form-group">
+                      <agm-map class="height200" [latitude]="model.lat" [longitude]="model.lng" [scrollwheel]="false" (mapClick)="placeMarker($event, 'lat', 'lng')" [zoom]="constant.zoom">
+                        <agm-marker [latitude]="model.lat" [longitude]="model.lng"></agm-marker>
+                      </agm-map>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group-2">
+                     <label>Branch <span class="color-red">*</span></label>
+                     <div class="form-group">
+                      <input placeholder="Search for branch office" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search1 (input)="loadPlaces('branch_office', 'branch_lat', 'branch_lng', 'search1ElementRef')" name="branch" [(ngModel)]="model.branch" autocomplete="off">
+                    </div>
+                  </div>
+                  <div class="form-group-2">
+                     <label>Location Pin on Map <span class="color-red">*</span></label>
+                     <div class="form-group">
+                      <agm-map class="height200" [latitude]="model.branch_lat" [longitude]="model.branch_lng" [scrollwheel]="false" (mapClick)="placeMarker($event, 'branch_lat', 'branch_lng')" [zoom]="constant.zoom">
+                        <agm-marker [latitude]="model.branch_lat" [longitude]="model.branch_lng"></agm-marker>
+                      </agm-map>
+                    </div>
+                  </div>
+                </div>
               </div>
            </div>
           </form>

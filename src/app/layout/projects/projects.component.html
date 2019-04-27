@@ -302,7 +302,7 @@
                                 <!-- approve => when status=2(pending), 4(rejected)-->
                                 <button [disabled]="admin?.admin_acl['Building Management']?.can_update==0" *ngIf="p.status == 2 || p.status == 4"  (click)="approveProject(p, 1);" class="action-icon" title="Approve"><img src="assets/img/tick.png" alt="img"></button>
                                 <!-- delete project -->
-                                <button [disabled]="admin?.admin_acl['Building Management']?.can_delete==0" (click)="deletePopup(p, i);" class="action-icon" title="Delete Project"><img src="assets/img/ic_delete.png" alt="img"></button>
+                                <button [disabled]="admin?.admin_acl['Building Management']?.can_purge==0" (click)="deletePopup(p, i);" class="action-icon" title="Delete Project"><img src="assets/img/ic_delete.png" alt="img"></button>
                               </div>
 
                             </td>

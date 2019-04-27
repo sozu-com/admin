@@ -20,7 +20,8 @@ export class Permission {
     can_create: number;
     can_read: number;
     can_update: number;
-    can_delete: number;
+    can_delete: number;   // used for block/unblock
+    can_purge: number;  // used for delete
     can_crud: number;
 }
 

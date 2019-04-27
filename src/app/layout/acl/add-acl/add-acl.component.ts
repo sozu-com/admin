@@ -41,7 +41,7 @@ export class AddAclComponent implements OnInit {
       });
   }
 
-  getAclUserById(id) {
+  getAclUserById(id: string) {
     this.parameter.loading = true;
     this.admin.postDataApi('getAclUserById', {'id': id})
     .subscribe(
@@ -103,7 +103,7 @@ export class AddAclComponent implements OnInit {
             const e = new Permission();
             const acl = {name: element.name};
             e.acl_id = element.id; e.acl = acl; e.show = false;
-            e.can_create = 1; e.can_update = 1; e.can_read = 1; e.can_delete = 1; e.can_crud = 1;
+            e.can_create = 1; e.can_update = 1; e.can_read = 1; e.can_delete = 1; e.can_purge = 1; e.can_crud = 1;
             this.model.admin_acl.push(e);
           });
         }, error => {
@@ -111,23 +111,24 @@ export class AddAclComponent implements OnInit {
         });
   }
 
-  expandBox(index) {
+  expandBox(index: any) {
     this.model.admin_acl[index].show = this.model.admin_acl[index].show === true ? false : true;
   }
 
-  setPermission(param, index) {
+  setPermission(param: any, index: any) {
     if (param === 'can_crud') {
       this.model.admin_acl[index]['can_create'] = this.model.admin_acl[index]['can_crud'] === 1 ? 0 : 1;
       this.model.admin_acl[index]['can_read'] = this.model.admin_acl[index]['can_crud'] === 1 ? 0 : 1;
       this.model.admin_acl[index]['can_update'] = this.model.admin_acl[index]['can_crud'] === 1 ? 0 : 1;
       this.model.admin_acl[index]['can_delete'] = this.model.admin_acl[index]['can_crud'] === 1 ? 0 : 1;
+      this.model.admin_acl[index]['can_purge'] = this.model.admin_acl[index]['can_crud'] === 1 ? 0 : 1;
       this.model.admin_acl[index]['can_crud'] = this.model.admin_acl[index]['can_crud'] === 1 ? 0 : 1;
     } else {
       this.model.admin_acl[index][param] = this.model.admin_acl[index][param] &&
       this.model.admin_acl[index][param] === 1 ? 0 : 1;
       this.model.admin_acl[index]['can_crud'] = this.model.admin_acl[index]['can_create'] === 1 &&
       this.model.admin_acl[index]['can_read'] === 1 && this.model.admin_acl[index]['can_update'] === 1 &&
-      this.model.admin_acl[index]['can_delete'] === 1 ? 1 : 0;
+      this.model.admin_acl[index]['can_delete'] === 1 && this.model.admin_acl[index]['can_purge'] === 1 ? 1 : 0;
     }
   }
 
