@@ -42,7 +42,7 @@ export class UserModel {
     is_data_collector: boolean;
     is_csr_closer: boolean;
     // keys added for external broker
-    is_external_broker?: string;
+    is_external_agent?: string;
     company_name?: string;
     company_logo?: string;
     description?: string;
@@ -50,6 +50,11 @@ export class UserModel {
     lat?: any;
     lng?: any;
     branches?: Array<Branches>;
+    branch_office?: string;
+    branch_lat?: any;
+    branch_lng?: any;
+    company_images?: Array<any>;
+    company_videos?: Array<any>;
 }
 
 export class Branches {

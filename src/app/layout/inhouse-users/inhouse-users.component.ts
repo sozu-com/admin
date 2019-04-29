@@ -9,6 +9,7 @@ import { Constant } from './../../common/constants';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CommonService } from '../../services/common.service';
 import { MapsAPILoader } from '@agm/core';
+import { FileUpload } from 'src/app/common/fileUpload';
 declare let swal: any;
 declare const google;
 @Component({
@@ -27,6 +28,8 @@ export class InhouseUsersComponent implements OnInit {
   @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('viewModalOpen') viewModalOpen: ElementRef;
   @ViewChild('viewModalClose') viewModalClose: ElementRef;
+  @ViewChild('moreImgModalOpen') moreImgModalOpen: ElementRef;
+  @ViewChild('moreImgModalClose') moreImgModalClose: ElementRef;
 
   public parameter: IProperty = {};
   lead_sort = 1;
@@ -34,13 +37,15 @@ export class InhouseUsersComponent implements OnInit {
   addressIndex = 0;
   tempAdd: Object;
   url: any[];
-  image1: any;
+  image: any;
+  company_logo: any;
   title: string;
   // disabledLocalities = [];
   disabledBuildings = [];
   seenDuplicate = false;
+  is_external_agent: string;
   testObject = [];
-
+  file1: FileUpload;
   constructor(public constant: Constant, private cs: CommonService,
     public model: UserModel, private route: ActivatedRoute,
     public admin: AdminService, private router: Router,
@@ -54,6 +59,8 @@ export class InhouseUsersComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.is_external_agent = '0';
+    this.file1 = new FileUpload(false, this.admin);
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
@@ -86,7 +93,8 @@ export class InhouseUsersComponent implements OnInit {
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
     this.model = new UserModel();
-    this.image1 = '';
+    this.image = '';
+    this.company_logo = '';
     this.initialCountry = { initialCountry: this.constant.initialCountry };
     this.disabledBuildings = [];
 
@@ -196,17 +204,16 @@ export class InhouseUsersComponent implements OnInit {
     return { initialCountry: this.constant.initialCountry };
   }
 
-  onSelectFile1(event) {
+  onSelectFile1(event: any, paramUrl: string, paramFile: string) {
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
       // this.parameter.image = event.target.files[0];
       reader.onload = (e: any) => {
-        this.url = e.target.result;
-        this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.url})`);
+        this[paramUrl] = e.target.result;
+        this[paramFile] = this.sanitization.bypassSecurityTrustStyle(`url(${this[paramUrl]})`);
         this.cs.saveImage(event.target.files[0]).subscribe(
           success => {
-            this.parameter.image = success['data'].image;
-            console.log('----', this.parameter.image);
+            this.model[paramFile] = success['data'].image;
           }
         );
       };
@@ -233,8 +240,42 @@ export class InhouseUsersComponent implements OnInit {
     input.append('is_broker', formdata.value.is_broker === true ? '1' : '0');
     input.append('is_data_collector', formdata.value.is_data_collector === true ? '1' : '0');
     input.append('is_csr_closer', formdata.value.is_csr_closer === true ? '1' : '0');
+    input.append('is_external_agent', this.model.is_external_agent);
+    if (this.model.is_external_agent) {
+      input.append('company_name', this.model.company_name);
+      input.append('company_logo', this.model.company_logo);
+      input.append('description', this.model.description);
+      input.append('adr', this.model.adr);
+      input.append('lat', this.model.lat);
+      input.append('lat', this.model.lat);
 
-    if (this.parameter.image) { input.append('image', this.parameter.image); }
+      // if branch address
+      if (this.model.branch_office) {
+        this.model.branches = [];
+        this.model.branches = [
+          {'address': this.model.branch_office,
+          'lat': this.model.branch_lat,
+          'lng': this.model.branch_lng}
+          ];
+          input.append('branches', JSON.stringify(this.model.branches));
+      }
+
+      // images videos
+      input.append('company_images', JSON.stringify([]));
+      input.append('company_videos', JSON.stringify([]));
+    } else {
+      input.append('is_broker', '1');
+      input.append('is_external_agent', '0');
+      input.append('company_name', '');
+      input.append('company_logo', '');
+      input.append('description', '');
+      input.append('adr', '');
+      input.append('lat', '');
+      input.append('lat', '');
+      input.append('branches', JSON.stringify([]));
+    }
+    if (this.model.image) { input.append('image', this.model.image); }
+    if (this.model.company_logo) { input.append('company_logo', this.model.company_logo); }
 
     // checking if locality is same or not
     this.model.address.map((item) => {
@@ -315,11 +356,29 @@ export class InhouseUsersComponent implements OnInit {
       this.model.phone = userdata.phone;
       this.model.country_code = userdata.country_code;
 
-      this.model.image = userdata.image != null ? userdata.image : '';
-      if (this.model.image) {
-        this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.model.image})`);
+      this.model.company_name = userdata.company_name;
+      this.model.description = userdata.description;
+      this.model.is_external_agent = userdata.is_external_agent;
+      this.model.adr = userdata.adr;
+      this.model.lat = userdata.lat;
+      this.model.lng = userdata.lng;
+
+      // branch
+      if (userdata.branches.length > 0) {
+        this.model.branch_office = userdata.branches[0].address;
+        this.model.branch_lat = userdata.branches[0].lat;
+        this.model.branch_lng = userdata.branches[0].lng;
       }
 
+      this.model.image = userdata.image != null ? userdata.image : '';
+      if (this.model.image) {
+        this.image = this.sanitization.bypassSecurityTrustStyle(`url(${this.model.image})`);
+      }
+
+      this.model.company_logo = userdata.company_logo != null ? userdata.company_logo : '';
+      if (this.model.company_logo) {
+        this.company_logo = this.sanitization.bypassSecurityTrustStyle(`url(${this.model.company_logo})`);
+      }
       this.model.is_broker_seller_dev = userdata.permissions && userdata.permissions.can_csr_seller === 1 ? true : false;
       this.model.is_buyer_renter = userdata.permissions && userdata.permissions.can_csr_buyer === 1 ? true : false;
       this.model.is_broker = userdata.permissions && userdata.permissions.can_in_house_broker === 1 ? true : false;
@@ -566,6 +625,16 @@ export class InhouseUsersComponent implements OnInit {
     this.lead_sort = this.lead_sort === 1 ? 2 : 1;
     this.getInhouseUsers();
   }
+  setBrokerType(is_external_agent: string) {
+    console.log('aa', is_external_agent);
+    this.is_external_agent = is_external_agent;
+    this.model.is_external_agent = is_external_agent;
+    this.getInhouseUsers();
+  }
+  setBrokerForModel(is_external_agent: string) {
+    this.model.is_external_agent = is_external_agent;
+    console.log(this.model.is_external_agent);
+  }
   getInhouseUsers() {
     this.parameter.loading = true;
     switch (this.parameter.userType) {
@@ -625,6 +694,9 @@ export class InhouseUsersComponent implements OnInit {
     }
     if (this.parameter.building_id && this.parameter.building_id !== '-1') {
       input.append('buildings', JSON.stringify([this.parameter.building_id]));
+    }
+    if (this.is_external_agent) {
+      input.append('is_external_agent', this.is_external_agent);
     }
 
     this.admin.postDataApi(this.parameter.url, input)
@@ -765,6 +837,7 @@ export class InhouseUsersComponent implements OnInit {
 
   loadPlaces(paramAdd: string, paramLat: string, paramLng: string, searchRef: any) {
     // load Places Autocomplete
+    console.log('aaa', searchRef, this[searchRef].nativeElement);
     this.model[paramLat] = null;
     this.model[paramLng] = null;
     this.mapsAPILoader.load().then(() => {
@@ -807,14 +880,14 @@ export class InhouseUsersComponent implements OnInit {
     }
   }
 
-  placeMarker($event: any, paramLat: string, paramLng: string) {
+  placeMarker($event: any, paramLat: string, paramLng: string, param: string) {
     this.model[paramLat] = $event.coords.lat;
     this.model[paramLng] = $event.coords.lng;
-    this.getGeoLocation(this.model[paramLat], this.model[paramLng]);
+    this.getGeoLocation(this.model[paramLat], this.model[paramLng], param);
   }
 
 
-  getGeoLocation(lat: number, lng: number) {
+  getGeoLocation(lat: number, lng: number, param: string) {
     if (navigator.geolocation) {
       const geocoder = new google.maps.Geocoder();
       const latlng = new google.maps.LatLng(lat, lng);
@@ -824,13 +897,39 @@ export class InhouseUsersComponent implements OnInit {
         if (status === google.maps.GeocoderStatus.OK) {
           const result = results[0];
           if (result != null) {
-            this.model.adr = result.formatted_address;
+            this.model[param] = result.formatted_address;
           } else {
-            this.model.adr = lat + ',' + lng;
+            this.model[param] = lat + ',' + lng;
           }
+          console.log('1', this.model[param]);
         }
       });
     }
   }
 
+
+  // file1Select($event) {
+  //   this.file1.onSelectFile($event);
+  // }
+
+  // modelOpenFun() {
+  //   this.moreImgModalOpen.nativeElement.click();
+  //   this.file1.backup(JSON.parse(JSON.stringify(this.model.company_images)));
+  // }
+
+  // modelCloseFun() {
+  //   this.moreImgModalClose.nativeElement.click();
+  // }
+
+  // saveImages() {
+  //   if (this.file1.files.length < 1) {
+  //     swal('Error', 'Please select atleast one image', 'error'); return false;
+  //   }
+  //   this.moreImgModalClose.nativeElement.click();
+  //   this.file1.upload().then(r => {
+  //     console.log(this.file1.files);
+  //     this.model.company_images = this.file1.files;
+  //   });
+  //   console.log('model', this.model);
+  // }
 }
