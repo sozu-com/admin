@@ -281,6 +281,7 @@
                                 <li *ngIf="admin?.admin_acl['Seller Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/csr-sellers">CSR Seller</a></li>
                                 <li *ngIf="admin?.admin_acl['Buyer Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/csr-buyers">CSR Buyer</a></li>
                                 <li *ngIf="admin?.admin_acl['Broker Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/inhouse-broker">Inhouse Broker</a></li>
+                                <li *ngIf="admin?.admin_acl['Outside Broker Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/outside-broker">Outside Broker</a></li>
                                 <li *ngIf="admin?.admin_acl['Closer Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/csr-closers">CSR Closure</a></li>
                              </ul>
                           </div>

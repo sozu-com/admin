@@ -43,11 +43,11 @@ export class AclUserGuard implements CanActivate {
     if (permissions || admin_acl) {
       console.log('66666');
       const obj = admin_acl[key];
-      if (((state.url === '/dashboard/view-inhouse-users/data-collectors') &&
-          (admin_acl['Data Collector Management']['can_read'] === 1)) ||
+      if (((state.url === '/dashboard/view-inhouse-users/data-collectors') && (admin_acl['Data Collector Management']['can_read'] === 1)) ||
         ((state.url === '/dashboard/view-inhouse-users/csr-sellers') && (admin_acl['Seller Management']['can_read'] === 1)) ||
         ((state.url === '/dashboard/view-inhouse-users/csr-buyers') && (admin_acl['Buyer Management']['can_read'] === 1)) ||
         ((state.url === '/dashboard/view-inhouse-users/inhouse-broker') && (admin_acl['Broker Management']['can_read'] === 1)) ||
+        ((state.url === '/dashboard/view-inhouse-users/outside-broker') && (admin_acl['Outside Broker Management']['can_read'] === 1)) ||
         ((state.url === '/dashboard/view-inhouse-users/csr-closers') && (admin_acl['Closer Management']['can_read'] === 1))) {
           console.log('77777');
           return true;

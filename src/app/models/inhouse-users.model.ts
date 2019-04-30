@@ -42,7 +42,7 @@ export class UserModel {
     is_data_collector: boolean;
     is_csr_closer: boolean;
     // keys added for external broker
-    is_external_agent?: string;
+    is_external_agent?: boolean;
     company_name?: string;
     company_logo?: string;
     description?: string;

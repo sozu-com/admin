@@ -9,7 +9,7 @@ export class FileUpload {
     loading = false;
     backupArray: any;
 
-    constructor(single, us) {
+    constructor(single: any, us) {
       this.us = us;
       this.single = single;
       if (this.single != true) {

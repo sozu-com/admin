@@ -71,7 +71,7 @@ export class AclComponent implements OnInit {
         });
   }
 
-  getAclUsers(page, name, phone, email) {
+  getAclUsers(page: any, name: string, phone: string, email: string) {
     this.parameter.loading = true;
     this.admin.postDataApi('getAclUsers', this.parameter)
       .subscribe(
@@ -84,7 +84,7 @@ export class AclComponent implements OnInit {
         });
   }
 
-  setPermission(param, index) {
+  setPermission(param: any, index: any) {
     this.model.admin_acl[index][param] = this.model.admin_acl[index][param] &&
     this.model.admin_acl[index][param] === 1 ? 0 : 1;
   }

@@ -43,7 +43,7 @@ export class InhouseUsersComponent implements OnInit {
   // disabledLocalities = [];
   disabledBuildings = [];
   seenDuplicate = false;
-  is_external_agent: string;
+  // is_external_agent: string;
   testObject = [];
   file1: FileUpload;
   constructor(public constant: Constant, private cs: CommonService,
@@ -59,7 +59,7 @@ export class InhouseUsersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.is_external_agent = '0';
+    // this.is_external_agent = '0';
     this.file1 = new FileUpload(false, this.admin);
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
@@ -79,7 +79,7 @@ export class InhouseUsersComponent implements OnInit {
     });
   }
 
-  getPage(page) {
+  getPage(page: any) {
     this.parameter.p = page;
     this.getInhouseUsers();
   }
@@ -175,6 +175,13 @@ export class InhouseUsersComponent implements OnInit {
       case 'inhouse-broker':
         this.parameter.url = 'getInhouseBroker';
         this.model.is_broker = true;
+        this.model.is_external_agent = false;
+        break;
+
+      case 'outside-broker':
+        this.parameter.url = 'getInhouseBroker';
+        this.model.is_broker = true;
+        this.model.is_external_agent = true;
         break;
 
       case 'csr-closers':
@@ -240,7 +247,7 @@ export class InhouseUsersComponent implements OnInit {
     input.append('is_broker', formdata.value.is_broker === true ? '1' : '0');
     input.append('is_data_collector', formdata.value.is_data_collector === true ? '1' : '0');
     input.append('is_csr_closer', formdata.value.is_csr_closer === true ? '1' : '0');
-    input.append('is_external_agent', this.model.is_external_agent);
+    input.append('is_external_agent', this.model.is_external_agent === true ? '1' : '0');
     if (this.model.is_external_agent.toString() === '1') {
       input.append('company_name', this.model.company_name);
       input.append('company_logo', this.model.company_logo);
@@ -627,12 +634,12 @@ export class InhouseUsersComponent implements OnInit {
   }
   setBrokerType(is_external_agent: string) {
     console.log('aa', is_external_agent);
-    this.is_external_agent = is_external_agent;
-    this.model.is_external_agent = is_external_agent;
+    // this.is_external_agent = is_external_agent;
+    this.model.is_external_agent = is_external_agent === '1' ? true : false;
     this.getInhouseUsers();
   }
   setBrokerForModel(is_external_agent: string) {
-    this.model.is_external_agent = is_external_agent;
+    this.model.is_external_agent = is_external_agent === '1' ? true : false;
     console.log(this.model.is_external_agent);
   }
   getInhouseUsers() {
@@ -660,6 +667,16 @@ export class InhouseUsersComponent implements OnInit {
         this.parameter.url = 'getInhouseBroker';
         this.title = 'Inhouse Brokers';
         this.parameter.type = 4;
+        this.model.is_external_agent = false;
+        // this.is_external_agent = '0';
+        break;
+
+      case 'outside-broker':
+        this.parameter.url = 'getInhouseBroker';
+        this.title = 'Outside Brokers';
+        this.parameter.type = 4;
+        this.model.is_external_agent = true;
+        // this.is_external_agent = '1';
         break;
 
       case 'csr-closers':
@@ -695,8 +712,8 @@ export class InhouseUsersComponent implements OnInit {
     if (this.parameter.building_id && this.parameter.building_id !== '-1') {
       input.append('buildings', JSON.stringify([this.parameter.building_id]));
     }
-    if (this.is_external_agent) {
-      input.append('is_external_agent', this.is_external_agent);
+    if (this.model.is_external_agent) {
+      input.append('is_external_agent', this.model.is_external_agent === true ? '1' : '0');
     }
 
     this.admin.postDataApi(this.parameter.url, input)

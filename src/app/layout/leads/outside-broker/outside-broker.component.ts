@@ -7,13 +7,14 @@ import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 declare let swal: any;
 
+
 @Component({
-  selector: 'app-inhouse-broker',
-  templateUrl: './inhouse-broker.component.html',
-  styleUrls: ['./inhouse-broker.component.css'],
+  selector: 'app-outside-broker',
+  templateUrl: './outside-broker.component.html',
+  styleUrls: ['./outside-broker.component.css'],
   providers: [Constant]
 })
-export class InhouseBrokerComponent implements OnInit {
+export class OutsideBrokerComponent implements OnInit {
 
   @ViewChild('openAssignModel') openAssignModel: ElementRef;
   @ViewChild('closeAssignModel') closeAssignModel: ElementRef;

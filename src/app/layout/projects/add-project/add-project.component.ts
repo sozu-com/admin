@@ -68,7 +68,8 @@ export class AddProjectComponent implements OnInit {
   FU: any = {};
   initialCountry = { initialCountry: 'mx' };
 
-  file1: any; file2: any; file3: any; file4: any; file5: any; file6: any; file7: any;
+  file1: FileUpload; file2: FileUpload; file3: FileUpload; file4: FileUpload; file5: FileUpload; file6: FileUpload; file7: FileUpload;
+  file8: FileUpload;
 
   newTower: Towers;
   allTowerAmenities: any = [];
@@ -108,6 +109,7 @@ export class AddProjectComponent implements OnInit {
     this.file5 = new FileUpload(true, this.admin);
     this.file6 = new FileUpload(true, this.admin);
     this.file7 = new FileUpload(false, this.admin);
+    this.file8 = new FileUpload(false, this.admin);
 
     this.route.params.subscribe(params => {
       console.log('paramsssss');
@@ -747,6 +749,10 @@ console.log('.......', modelSave.amenities);
     this.file7.onSelectFile($event);
   }
 
+  file8Select($event) {
+    const uu = this.file8.onSelectFile($event);
+  }
+
   addNewCustom() {
     if (!this.new_custom.name || !this.new_custom.value) {
       swal('Error', 'Please add parameter name and value', 'error');
@@ -903,19 +909,11 @@ console.log('.......', modelSave.amenities);
 
 
   editTower(btower: any, index: number) {
-    console.log('model', this.model.building_tower_edit_index);
     if (this.model.building_tower_edit_index !== '-1') {
       swal('First save the previous editted tower.');
       return;
     }
     this.model.building_tower_edit_index = index;
-    // this.new_config_edit = index;
-    // this.newTower = JSON.parse(JSON.stringify(btower));
-    // this.file4.files = [];
-    // config.images.forEach((item, i: number) => {
-    //   this.file4.files.push(item);
-    // });
-    // this.openConfigPopup.nativeElement.click();
   }
 
   deleteTower(index: number) {
@@ -1050,5 +1048,50 @@ console.log('.......', modelSave.amenities);
         u8arr[n] = bstr.charCodeAt(n);
     }
     return new File([u8arr], filename, {type: mime});
+  }
+
+  onMultipleFileSelect(event, i: number) {
+    if (event.target.files && event.target.files[0]) {
+      const filearray = Array.from(event.target.files);
+      console.log('filearay', filearray);
+      console.log('model', this.model.amenities);
+      // this.model.amenities
+      // if (this.model.file.length !== 0) {
+      //   this.model.file = this.model.file.concat(filearray);
+      // } else {
+      //   this.model.file = filearray;
+      // }
+      // file type checks
+      // if ((event.target.files[0].type.indexOf('video') === -1) && (event.target.files[0].type.indexOf('image') === -1)) {
+      //   this.toastrService.error('Please choose image or video file.');
+      //   return;
+      // }
+      // file size check
+      if (event.target.files[0].size > this.constant.fileSizeLimit) {
+        swal('Error', 'The file you have selected is too large. The maximum size is 25MB.', 'error');
+        return;
+      }
+
+      return new Promise(async(resolve, reject) => {
+        for (let index = 0; index < event.target.files.length; index++) {
+          console.log('1');
+          const element = event.target.files[index];
+            const reader = new FileReader();
+            reader.onload = (e: any) => {
+              const obj = {
+                url: e.target.result,
+                type: 'image'
+              };
+              // this.model.fileBase64.push(obj);
+            };
+            reader.readAsDataURL(element);
+        }
+      });
+
+    } else {
+      // if (!this.model.file) {
+      //   this.toastrService.error('Please choose file');
+      // }
+    }
   }
 }

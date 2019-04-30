@@ -28,6 +28,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ViewedProjectsComponent } from '../common-blocks/viewed-projects/viewed-projects.component';
 import { CalendarModule } from 'primeng/primeng';
 import { SellerChatComponent } from './csr-seller/csr-seller-detail/seller-chat/seller-chat.component';
+import { OutsideBrokerComponent } from './outside-broker/outside-broker.component';
+import { OutsideBrokerDetailComponent } from './outside-broker/outside-broker-detail/outside-broker-detail.component';
 
 const routes: Routes = [
   { path: 'data-collectors', component: DataCollectorComponent,
@@ -63,6 +65,17 @@ const routes: Routes = [
     canActivate: [AclUserGuard], data: {roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker']}},
   { path: 'chat-with-developer/:id', component: MyChatComponent,
     canActivate: [AclUserGuard], data: {roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker']}},
+
+  { path: 'outside-broker', component: OutsideBrokerComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Outside Broker Lead Management', 'can_read', 'can_in_house_broker']}},
+  // leads wrt inhouse broker
+  { path: 'outside-broker-leads/:id', component: OutsideBrokerComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Outside Broker Lead Management', 'can_read', 'can_in_house_broker']}},
+  // lead details
+  { path: 'outside-broker/:id', component: OutsideBrokerDetailComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Outside Broker Lead Management', 'can_read', 'can_in_house_broker']}},
+  { path: 'chat-with-developer/:id', component: MyChatComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Outside Broker Lead Management', 'can_read', 'can_in_house_broker']}},
 
   { path: 'csr-closers', component: CsrCloserComponent,
     canActivate: [AclUserGuard], data: {roles: ['Closer Lead Management', 'can_read', 'can_csr_closer']}},
@@ -112,7 +125,9 @@ const routes: Routes = [
     RemoveCommaPipe,
     FillInformationComponent,
     MyChatComponent,
-    SellerChatComponent
+    SellerChatComponent,
+    OutsideBrokerComponent,
+    OutsideBrokerDetailComponent
   ],
   // providers: [NgBoxService]
 })
