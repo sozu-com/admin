@@ -241,7 +241,7 @@ export class InhouseUsersComponent implements OnInit {
     input.append('is_data_collector', formdata.value.is_data_collector === true ? '1' : '0');
     input.append('is_csr_closer', formdata.value.is_csr_closer === true ? '1' : '0');
     input.append('is_external_agent', this.model.is_external_agent);
-    if (this.model.is_external_agent) {
+    if (this.model.is_external_agent.toString() === '1') {
       input.append('company_name', this.model.company_name);
       input.append('company_logo', this.model.company_logo);
       input.append('description', this.model.description);
@@ -908,28 +908,28 @@ export class InhouseUsersComponent implements OnInit {
   }
 
 
-  // file1Select($event) {
-  //   this.file1.onSelectFile($event);
-  // }
+  file1Select($event) {
+    this.file1.onSelectFile($event);
+  }
 
-  // modelOpenFun() {
-  //   this.moreImgModalOpen.nativeElement.click();
-  //   this.file1.backup(JSON.parse(JSON.stringify(this.model.company_images)));
-  // }
+  modelOpenFun() {
+    this.moreImgModalOpen.nativeElement.click();
+    this.file1.backup(JSON.parse(JSON.stringify(this.model.company_images)));
+  }
 
-  // modelCloseFun() {
-  //   this.moreImgModalClose.nativeElement.click();
-  // }
+  modelCloseFun() {
+    this.moreImgModalClose.nativeElement.click();
+  }
 
-  // saveImages() {
-  //   if (this.file1.files.length < 1) {
-  //     swal('Error', 'Please select atleast one image', 'error'); return false;
-  //   }
-  //   this.moreImgModalClose.nativeElement.click();
-  //   this.file1.upload().then(r => {
-  //     console.log(this.file1.files);
-  //     this.model.company_images = this.file1.files;
-  //   });
-  //   console.log('model', this.model);
-  // }
+  saveImages() {
+    if (this.file1.files.length < 1) {
+      swal('Error', 'Please select atleast one image', 'error'); return false;
+    }
+    this.moreImgModalClose.nativeElement.click();
+    this.file1.upload().then(r => {
+      console.log(this.file1.files);
+      this.model.company_images = this.file1.files;
+    });
+    console.log('model', this.model);
+  }
 }

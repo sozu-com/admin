@@ -220,13 +220,13 @@
           <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="addNewUser(addForm)">
           <div class="modal-body">
               <div class="row">
-                 <div [ngClass]="model.is_external_agent ? 'col-3' : 'col-6'">
+                 <div [ngClass]="model.is_external_agent=='1' ? 'col-3' : 'col-6'">
                     <div class="add-img" style="background-size: cover;" [style.background-image]="image">
                     <input accept="image/*" type="file" name="" (change)="onSelectFile1($event, 'url', 'image')">
                     <label *ngIf="!image">+ Add Image</label>
                     </div>
                  </div>
-                 <div class="col-3" *ngIf="model.is_external_agent">
+                 <div class="col-3" *ngIf="model.is_external_agent=='1'">
                     <div class="add-img" style="background-size: cover;" [style.background-image]="company_logo">
                     <input accept="image/*" type="file" name="" (change)="onSelectFile1($event, 'url2', 'company_logo')">
                     <label *ngIf="!company_logo">+ Add Logo</label>
@@ -326,14 +326,14 @@
                   <div class="form-group-2">
                     <label>Type Of Broker</label>
                     <select title="Choose Broker Type" class="form-control" (change)="setBrokerForModel($event.target.value)">
-                      <option value="0" [selected]="model.is_broker == 1 && model.is_external_agent == 0">Inhouse Broker</option>
-                      <option value="1" [selected]="model.is_broker == 1 && model.is_external_agent == 1">Outside Broker</option>
+                      <option value="0" [selected]="model.is_broker == 1 && model.is_external_agent == '0'">Inhouse Broker</option>
+                      <option value="1" [selected]="model.is_broker == 1 && model.is_external_agent == '1'">Outside Broker</option>
                     </select>
                   </div>
                 </div>
               </div>
               
-              <div class="row" *ngIf="model.is_external_agent==1">
+              <div class="row" *ngIf="model.is_external_agent=='1'">
                 <div class="col-12">
                   <div class="form-group-2">
                      <label>Company Name <span class="color-red">*</span></label>

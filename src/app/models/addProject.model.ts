@@ -109,4 +109,5 @@ export class AmenitiesShowObj {
     icon: string;
     name: string;
     selected: boolean;
+    images: Array<string>;
 }

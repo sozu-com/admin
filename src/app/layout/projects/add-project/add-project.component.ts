@@ -147,7 +147,7 @@ export class AddProjectComponent implements OnInit {
           this.file5.image = this.model.developer.image;
           this.file6.image = this.model.developer.developer_image;
           this.admin.postDataApi('getAmenities', {}).subscribe(res => {
-            this.all_amenities = res.data.map(item => { item.selected = false; return item; });
+            this.all_amenities = res.data.map(item => { item.selected = false; item.images = []; return item; });
             this.allTowerAmenities = JSON.parse(JSON.stringify(this.all_amenities));
             this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
 
@@ -449,7 +449,7 @@ export class AddProjectComponent implements OnInit {
     this.file4.files = [];
   }
 
-  selectConfiguration(id, parentModel) {
+  selectConfiguration(id: string, parentModel: any) {
     const childModel = this.all_configurations.filter(r => r.id === id);
     parentModel.config = childModel[0];
   }
@@ -604,8 +604,15 @@ export class AddProjectComponent implements OnInit {
     modelSave.dev_dialcode = modelSave.developer.dial_code ? modelSave.developer.dial_code : this.constant.dial_code;
     modelSave.dev_logo = this.file5.image;
     modelSave.developer_image = this.file6.image;
-    modelSave.amenities = this.all_amenities.filter(op => { if (op.selected === true) { return op; } }).map(op => op.id);
-
+    console.log('.....111..', this.all_amenities);
+    // modelSave.amenities = this.all_amenities.filter(op => { if (op.selected === true) { return op; } }).map(op => op.id);
+    modelSave.amenities = this.all_amenities.filter(op => { if (op.selected === true) { return op; } });
+    // if (modelSave.amenities && modelSave.amenities.length > 0) {
+    //   modelSave.amenities.forEach(element => {
+    //     element.images = [];
+    //   });
+    // }
+console.log('.......', modelSave.amenities);
     if (modelSave.configurations && modelSave.configurations.length > 0) {
       modelSave.configurations.forEach(item => {
         item.images = item.images.map(x => x.image);
@@ -944,11 +951,13 @@ export class AddProjectComponent implements OnInit {
     if (!this.model.building_towers[index].possession_status_id) {
       swal('Error', 'Please choose possession status.', 'error'); return false; }
     if (!this.model.building_towers[index].launch_date) { swal('Error', 'Please enter launch date.', 'error'); return false; }
-    this.selectedTowerAmenitiesId = btower.amenities.filter(op => { if (op.selected === true) { return op; } }).map(op => op.id);
+    // this.selectedTowerAmenitiesId = btower.amenities.filter(op => { if (op.selected === true) { return op; } }).map(op => op.id);
+    this.selectedTowerAmenitiesId = btower.amenities.filter(op => { if (op.selected === true) { return op; } });
     this.selectedTowerAmenityObj = btower.amenities.filter(op => { if (op.selected === true) { return op; } });
     this.model.building_towers[index].amenitiesId = this.selectedTowerAmenitiesId;
     this.model.building_towers[index].amenities = this.selectedTowerAmenityObj;
     if (this.model.building_towers[index].amenities.length < 1) { swal('Error', 'Please choose tower amenities.', 'error'); return false; }
+    // btower.amenities.map(item => { item.images = []; return item; });
     this.model.building_tower_edit_index = '-1';
     console.log(this.model.building_towers);
   }
@@ -972,8 +981,10 @@ export class AddProjectComponent implements OnInit {
     this.allTowerAmenityForEdit[m].selected = !this.allTowerAmenityForEdit[m].selected;
     this.model.building_towers[this.towerAmenityIndex].amenities =
     this.allTowerAmenityForEdit.filter(op => { if (op.selected === true) { return op; } });
+    // this.model.building_towers[this.towerAmenityIndex].amenitiesId =
+    // this.allTowerAmenityForEdit.filter(op => { if (op.selected === true) { return op; } }).map(op => op.id);
     this.model.building_towers[this.towerAmenityIndex].amenitiesId =
-    this.allTowerAmenityForEdit.filter(op => { if (op.selected === true) { return op; } }).map(op => op.id);
+    this.allTowerAmenityForEdit.filter(op => { if (op.selected === true) { return op; } });
   }
 
 
