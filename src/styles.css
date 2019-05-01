@@ -15,6 +15,10 @@
         display: block; margin-top: 3px;
     }
 }
+/* dropdown locations */
+.pac-container {
+    z-index: 10000 !important;
+}
 table tr, table tr td{outline: none !important;}
 #wrapper{ background: #f4f4f4 !important; }
 .backdrop{ position: fixed !important; }

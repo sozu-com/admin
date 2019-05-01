@@ -133,24 +133,10 @@ export class OutsideBrokerComponent implements OnInit {
     this.initSelection = true;
     this.users = [];
     const input = new FormData();
+    input.append('is_external_agent', '1');
     if (this.parameter.keyword) {
       input.append('keyword', this.parameter.keyword);
     }
-    // if (this.parameter.country_id && this.parameter.country_id !== '-1') {
-    //   input.append('countries', JSON.stringify([this.parameter.country_id]));
-    // }
-
-    // if (this.parameter.state_id && this.parameter.state_id !== '-1') {
-    //   input.append('states', JSON.stringify([this.parameter.state_id]));
-    // }
-
-    // if (this.parameter.city_id && this.parameter.city_id !== '-1') {
-    //   input.append('cities', JSON.stringify([this.parameter.city_id]));
-    // }
-
-    // if (this.parameter.locality_id && this.parameter.locality_id !== '-1') {
-    //   input.append('localities', JSON.stringify([this.parameter.locality_id]));
-    // }
     this.admin.postDataApi('getInhouseBroker', input).subscribe(
       success => {
         this.users = success.data;
@@ -205,15 +191,6 @@ export class OutsideBrokerComponent implements OnInit {
   }
 
   getCSRDashBoardData() {
-    // const input = new FormData();
-    // if (this.selectedUser) {
-    //   input.append('assignee_id', this.selectedUser.id);
-    // } else if (this.parameter.assignee_id) {
-    //   input.append('assignee_id', this.parameter.assignee_id);
-    // }
-    // if (this.parameter.flag) {
-    //   input.append('flag', this.parameter.flag.toString());
-    // }
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');
@@ -230,7 +207,7 @@ export class OutsideBrokerComponent implements OnInit {
     } else if (this.parameter.assignee_id) {
       input.assignee_id = this.parameter.assignee_id;
     }
-
+    input.append('is_external_agent', '1');
     this.admin.postDataApi('leads/in-house-broker-dash-count', input).subscribe(r => {
       this.dash = r.data;
       this.chartView = [
@@ -270,6 +247,7 @@ export class OutsideBrokerComponent implements OnInit {
     } else if (this.parameter.assignee_id) {
       input.assignee_id = this.parameter.assignee_id;
     }
+    input.append('is_external_agent', '1');
     this.parameter.loading = true;
     this.admin.postDataApi('leads/in-house-broker', input).subscribe(
       success => {
@@ -348,7 +326,8 @@ export class OutsideBrokerComponent implements OnInit {
   getAssignListing() {
     // this.assign.items = [];
     const input = {
-      keyword: this.assign.keyword
+      keyword: this.assign.keyword,
+      is_external_agent: 1
     };
     this.admin.postDataApi('getInhouseBroker', input).subscribe(
       success => {

@@ -739,6 +739,12 @@ export class AddPropertyComponent implements OnInit {
 
   addProperty(formdata: NgForm, tab) {
     console.log('tab', tab);
+    if (this.model.parking_for_sale && this.model.parking_count) {
+      if (this.model.parking_for_sale > this.model.parking_count) {
+        swal('Error', 'Parking for sale cannot be greater than total parkings available.', 'error');
+        return;
+      }
+    }
     this.model.floor = 0; // now static
     this.model.marital_status = [];
     if (this.model.videoLoader) {

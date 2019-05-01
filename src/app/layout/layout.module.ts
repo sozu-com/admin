@@ -51,8 +51,8 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
         MalihuScrollbarModule.forRoot(),
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyDykCJGMqHIwJluSmSiqKTJBVN2KauM_uQ',
-            libraries: ['drawing']
-          }),
+            libraries: ['drawing', 'places']
+        }),
         Ng2TelInputModule,
         NgxChartsModule,
         SharedModule,

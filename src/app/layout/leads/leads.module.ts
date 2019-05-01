@@ -74,8 +74,6 @@ const routes: Routes = [
   // lead details
   { path: 'outside-broker/:id', component: OutsideBrokerDetailComponent,
     canActivate: [AclUserGuard], data: {roles: ['Outside Broker Lead Management', 'can_read', 'can_in_house_broker']}},
-  { path: 'chat-with-developer/:id', component: MyChatComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Outside Broker Lead Management', 'can_read', 'can_in_house_broker']}},
 
   { path: 'csr-closers', component: CsrCloserComponent,
     canActivate: [AclUserGuard], data: {roles: ['Closer Lead Management', 'can_read', 'can_csr_closer']}},

@@ -43,7 +43,6 @@ export class InhouseUsersComponent implements OnInit {
   // disabledLocalities = [];
   disabledBuildings = [];
   seenDuplicate = false;
-  // is_external_agent: string;
   testObject = [];
   file1: FileUpload;
   constructor(public constant: Constant, private cs: CommonService,
@@ -54,12 +53,10 @@ export class InhouseUsersComponent implements OnInit {
     private sanitization: DomSanitizer) {
     this.admin.countryData$.subscribe(success => {
       this.parameter.allCountry = success;
-      // console.log('allCountry', success);
     });
   }
 
   ngOnInit() {
-    // this.is_external_agent = '0';
     this.file1 = new FileUpload(false, this.admin);
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
@@ -111,11 +108,8 @@ export class InhouseUsersComponent implements OnInit {
   }
 
   addEmptyObj() {
-    console.log('aaaa', this.model.address, this.model.address.length);
     this.addressIndex = this.model.address.length;
     this.addressIndex--;
-    console.log('==', this.addressIndex);
-    console.log(this.model.address, this.addressIndex);
     if (this.model.address[this.addressIndex].countries !== '' && this.model.address[this.addressIndex].states !== '' &&
       this.model.address[this.addressIndex].cities !== '' && this.model.address[this.addressIndex].localities !== '' &&
       this.model.address[this.addressIndex].buildings !== '') {
@@ -144,7 +138,6 @@ export class InhouseUsersComponent implements OnInit {
   }
 
   openAddModal() {
-    console.log(this.parameter.countries);
     this.model.address = [];
     // this.parameter.countries ? this.parameter.countries[0].id : 0;
     const obj = {
@@ -175,12 +168,12 @@ export class InhouseUsersComponent implements OnInit {
       case 'inhouse-broker':
         this.parameter.url = 'getInhouseBroker';
         this.model.is_broker = true;
-        this.model.is_external_agent = false;
+        // this.model.is_external_agent = false;
         break;
 
       case 'outside-broker':
         this.parameter.url = 'getInhouseBroker';
-        this.model.is_broker = false;
+        // this.model.is_broker = false;
         this.model.is_external_agent = true;
         break;
 
@@ -197,7 +190,6 @@ export class InhouseUsersComponent implements OnInit {
 
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
-    console.log('==', this.model);
     this.initialCountry = { initialCountry: this.constant.initialCountry };
 
     this.modalOpen.nativeElement.click();
@@ -230,10 +222,17 @@ export class InhouseUsersComponent implements OnInit {
 
 
   addNewUser(formdata: NgForm) {
+    if (this.model.adr && !this.model.lat && !this.model.lng) {
+      swal('Error', 'Please choose address from dropdown.', 'error');
+      return;
+    }
+    if (this.model.branch_office && !this.model.branch_lat && !this.model.branch_lng) {
+      swal('Error', 'Please choose branch address from dropdown.', 'error');
+      return;
+    }
     this.parameter.url = this.model.id ? 'updateNewUser' : 'addNewUser';
     this.seenDuplicate = false;
     const input = new FormData();
-    console.log('===', formdata);
     if (this.model.id !== '') { input.append('id', this.model.id); }
 
     input.append('name', this.model.name);
@@ -248,14 +247,15 @@ export class InhouseUsersComponent implements OnInit {
     input.append('is_data_collector', formdata.value.is_data_collector === true ? '1' : '0');
     input.append('is_csr_closer', formdata.value.is_csr_closer === true ? '1' : '0');
     input.append('is_external_agent', this.model.is_external_agent === true ? '1' : '0');
-    if (this.model.is_external_agent.toString() === '1') {
+    if (this.model.is_external_agent) {
+      // input.append('is_broker', '1');
       input.append('company_name', this.model.company_name);
       input.append('company_logo', this.model.company_logo);
       input.append('description', this.model.description);
       input.append('adr', this.model.adr);
       input.append('lat', this.model.lat);
       input.append('lat', this.model.lat);
-
+console.log('model', this.model);
       // if branch address
       if (this.model.branch_office) {
         this.model.branches = [];
@@ -271,7 +271,7 @@ export class InhouseUsersComponent implements OnInit {
       input.append('company_images', JSON.stringify([]));
       input.append('company_videos', JSON.stringify([]));
     } else {
-      input.append('is_external_agent', '0');
+      // input.append('is_broker', '1');
       input.append('company_name', '');
       input.append('company_logo', '');
       input.append('description', '');
@@ -281,19 +281,15 @@ export class InhouseUsersComponent implements OnInit {
       input.append('branches', JSON.stringify([]));
     }
     if (this.model.image) { input.append('image', this.model.image); }
-    if (this.model.company_logo) { input.append('company_logo', this.model.company_logo); }
 
     // checking if locality is same or not
     this.model.address.map((item) => {
       let value = item['buildings'];
       value = value.toString();
-      console.log('value', value);
       if (value === '0') {
-        console.log('zz');
         this.testObject.push(value);
       } else {
         if (this.testObject.indexOf(value) === -1) {
-          console.log('ssssss', this.testObject.indexOf(value));
           this.testObject.push(value);
         } else {
           this.seenDuplicate = true;
@@ -309,10 +305,10 @@ export class InhouseUsersComponent implements OnInit {
       swal('Error', 'Please choose different localities.', 'error');
     } else if ((formdata.value.is_broker_seller_dev === false && formdata.value.is_buyer_renter === false &&
       formdata.value.is_broker === false && formdata.value.is_data_collector === false &&
-      formdata.value.is_csr_closer === false) ||
+      formdata.value.is_csr_closer === false && formdata.value.is_external_agent === false) ||
       (formdata.value.is_broker_seller_dev === null && formdata.value.is_buyer_renter === null &&
         formdata.value.is_broker === null && formdata.value.is_data_collector === null &&
-        formdata.value.is_csr_closer === null)) {
+        formdata.value.is_csr_closer === null && formdata.value.is_external_agent === null)) {
       swal('Error', 'Please choose a role for inhouse user.', 'error');
     } else {
       this.parameter.loading = true;
@@ -335,6 +331,7 @@ export class InhouseUsersComponent implements OnInit {
                 if ((formdata.value.is_broker_seller_dev === true && this.parameter.userType === 'csr-sellers') ||
                   (formdata.value.is_buyer_renter === true && this.parameter.userType === 'csr-buyers') ||
                   (formdata.value.is_broker === true && this.parameter.userType === 'inhouse-broker') ||
+                  (formdata.value.is_external_agent === true && this.parameter.userType === 'outside-broker') ||
                   (formdata.value.is_data_collector === true && this.parameter.userType === 'data-collectors') ||
                   (formdata.value.is_csr_closer === true && this.parameter.userType === 'csr-closers')) {
                   this.parameter.items.push(success.data);
@@ -365,7 +362,7 @@ export class InhouseUsersComponent implements OnInit {
       this.model.company_name = userdata.company_name;
       this.model.description = userdata.description;
       this.model.is_external_agent = userdata.is_external_agent;
-      this.model.adr = userdata.adr;
+      this.model.adr = userdata.address;
       this.model.lat = userdata.lat;
       this.model.lng = userdata.lng;
 
@@ -390,6 +387,7 @@ export class InhouseUsersComponent implements OnInit {
       this.model.is_broker = userdata.permissions && userdata.permissions.can_in_house_broker === 1 ? true : false;
       this.model.is_data_collector = userdata.permissions && userdata.permissions.can_data_collector === 1 ? true : false;
       this.model.is_csr_closer = userdata.permissions && userdata.permissions.can_csr_closer === 1 ? true : false;
+      this.model.is_external_agent = userdata.is_external_agent.toString() === '1' ? true : false;
 
       for (let ind = 0; ind < userdata.countries.length; ind++) {
         const tempAdd = {
@@ -534,7 +532,6 @@ export class InhouseUsersComponent implements OnInit {
     this.parameter.state_id = '-1'; this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
 
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
-      console.log('Country', r);
       this.parameter.countries = r['data'];
     });
   }
@@ -594,23 +591,7 @@ export class InhouseUsersComponent implements OnInit {
         });
   }
 
-  // getLocalityBuildings(locality_id) {
-  //   console.log(locality_id);
-
-  //   this.parameter.buildings = [];
-  //   this.parameter.building_id = '-1';
-
-  //   if (!locality_id || locality_id === '-1') {
-  //     return false;
-  //   }
-  //   this.parameter.locality_id = locality_id;
-  //   const selectedCountry = this.parameter.cities.filter(x => x.id.toString() === locality_id);
-  //   this.parameter.buildings = selectedCountry[0].localities;
-  // }
-
-
   setBuilding(building_id) {
-    console.log(building_id);
     this.parameter.building_id = building_id;
   }
 
@@ -632,14 +613,11 @@ export class InhouseUsersComponent implements OnInit {
     this.getInhouseUsers();
   }
   setBrokerType(is_external_agent: string) {
-    console.log('aa', is_external_agent);
-    // this.is_external_agent = is_external_agent;
     this.model.is_external_agent = is_external_agent === '1' ? true : false;
     this.getInhouseUsers();
   }
   setBrokerForModel(is_external_agent: string) {
     this.model.is_external_agent = is_external_agent === '1' ? true : false;
-    console.log(this.model.is_external_agent);
   }
   getInhouseUsers() {
     this.parameter.loading = true;
@@ -667,6 +645,7 @@ export class InhouseUsersComponent implements OnInit {
         this.title = 'Inhouse Brokers';
         this.parameter.type = 4;
         this.model.is_external_agent = false;
+        // this.model.is_external_agent = false;
         // this.is_external_agent = '0';
         break;
 
@@ -711,18 +690,14 @@ export class InhouseUsersComponent implements OnInit {
     if (this.parameter.building_id && this.parameter.building_id !== '-1') {
       input.append('buildings', JSON.stringify([this.parameter.building_id]));
     }
-    if (this.model.is_external_agent) {
-      input.append('is_external_agent', this.model.is_external_agent === true ? '1' : '0');
-    }
+    input.append('is_external_agent', this.model.is_external_agent === true ? '1' : '0');
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
           this.parameter.loading = false;
-          // console.log('data', success);
           this.parameter.items = success.data;
           this.parameter.total = success.total;
-          // this.parameter.items.reverse();
         }, error => {
           this.parameter.loading = false;
         });
@@ -794,14 +769,12 @@ export class InhouseUsersComponent implements OnInit {
 
   getCountryLocality() {
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
-      console.log('Country', r);
       this.parameter.countries = r['data'];
     });
   }
 
 
   onCountryChange1(id) {
-    console.log(id);
     this.parameter.cities = []; this.parameter.city_id = '0';
     this.parameter.localities = []; this.parameter.locality_id = '0';
     if (!id || id === 0) {
@@ -815,7 +788,6 @@ export class InhouseUsersComponent implements OnInit {
   }
 
   onStateChange(id) {
-    console.log(id);
     this.parameter.localities = []; this.parameter.locality_id = '0';
     if (!id || id === 0) {
       this.parameter.city_id = '0';
@@ -828,7 +800,6 @@ export class InhouseUsersComponent implements OnInit {
   }
 
   onCityChange(id) {
-    console.log(id);
     if (!id || id === 0) {
       this.parameter.locality_id = '0';
       return false;
@@ -840,7 +811,6 @@ export class InhouseUsersComponent implements OnInit {
   }
 
   onLocalityChange(id) {
-    console.log(id);
     if (!id || id === 0) {
       return false;
     }
@@ -882,6 +852,7 @@ export class InhouseUsersComponent implements OnInit {
     });
   }
 
+
   setCurrentPosition() {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -890,8 +861,8 @@ export class InhouseUsersComponent implements OnInit {
         this.model.lng = position.coords.longitude;
 
         // setting branch office lat lng
-        // this.model.branches = position.coords.latitude;
-        // this.model.branches = position.coords.longitude;
+        this.model.branch_lat = position.coords.latitude;
+        this.model.branch_lng = position.coords.longitude;
       });
     }
   }
@@ -943,9 +914,7 @@ export class InhouseUsersComponent implements OnInit {
     }
     this.moreImgModalClose.nativeElement.click();
     this.file1.upload().then(r => {
-      console.log(this.file1.files);
       this.model.company_images = this.file1.files;
     });
-    console.log('model', this.model);
   }
 }

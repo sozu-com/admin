@@ -3,17 +3,17 @@
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-                <p class="p16">Manage Inhouse Broker's Lead</p>
+                <p class="p16">Manage Outside Broker's Lead</p>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-4">
-            <div class="form-group" *ngIf="admin?.admin_acl['Broker Lead Management']?.can_read==1 && !this.parameter.assignee_id">
+            <div class="form-group" *ngIf="admin?.admin_acl['Outside Broker Lead Management']?.can_read==1 && !this.parameter.assignee_id">
                 <div class="d-flex">
                 <!-- <button (click)="removeCsrUser()" class="all-btn">All</button> -->
                 <div class="autocomplete">
-                    <input placeholder="Search Inhouse Broker" style="max-width:200px" list="amenities" [(ngModel)]="parameter.keyword" (input)="getCsrListing()" class="form-control" type="text" name="keyword" (focusout)="closeCsrListing()">
+                    <input placeholder="Search Outside Broker" style="max-width:200px" list="amenities" [(ngModel)]="parameter.keyword" (input)="getCsrListing()" class="form-control" type="text" name="keyword" (focusout)="closeCsrListing()">
                     <div id="myInputautocomplete-list" class="autocomplete-items">
                         <div *ngFor="let item of users" (click)="selectCsrUser(item)">{{item.email}}</div>
                     </div>
@@ -72,7 +72,7 @@
         </div>
     </div>
     <div class="listingResults" >
-        <div class="row" *ngIf="admin?.admin_acl['Broker Lead Management']?.can_read==1 && !this.parameter.assignee_id">
+        <div class="row" *ngIf="admin?.admin_acl['Outside Broker Lead Management']?.can_read==1 && !this.parameter.assignee_id">
             <div class="col-md-2">
                 <div class="form-group">
                     <label>Country</label>
@@ -229,7 +229,7 @@
                 </h5>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-5" *ngIf="admin?.admin_acl['Broker Lead Management']?.can_read==1 && !this.parameter.assignee_id">
+            <div class="col-lg-6 col-md-6 col-5" *ngIf="admin?.admin_acl['Outside Broker Lead Management']?.can_read==1 && !this.parameter.assignee_id">
                 <div class="add-new text-right">
                     <a class="btn" (click)="bulkAssign()" href="javascript://">Bulk Re-assign</a>
                 </div>
@@ -240,7 +240,7 @@
                 <div class="table-responsive">
                     <table class="table table-striped table-align-left vertical-align-top">
                         <tr>
-                            <th *ngIf="admin?.admin_acl['Broker Lead Management']?.can_read==1 && !this.parameter.assignee_id" style="width:6%">
+                            <th *ngIf="admin?.admin_acl['Outside Broker Lead Management']?.can_read==1 && !this.parameter.assignee_id" style="width:6%">
                                 <div class="table-search">
                                     <label>All</label>
                                     <div>
@@ -306,7 +306,7 @@
                         </tr>
                         <tr class="cursor-pointer" title="Click to view details" *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let in=index"
                             routerLink="/dashboard/leads/inhouse-broker/{{item.id}}">
-                        <td *ngIf="admin?.admin_acl['Broker Lead Management']?.can_read==1 && !this.parameter.assignee_id" (click)="$event.stopPropagation()">
+                        <td *ngIf="admin?.admin_acl['Outside Broker Lead Management']?.can_read==1 && !this.parameter.assignee_id" (click)="$event.stopPropagation()">
                             <label class="cust-check-bx" >
                             <input type="checkbox" [(ngModel)]="item.selected" name="document">
                             <span class="checkmark"></span>
@@ -333,10 +333,10 @@
                         <td class="text-left" *ngIf="!item?.admin?.name">Not Assigned</td>
                         <td class="text-left" *ngIf="item.sale_rent">{{item.sale_rent==1 ? 'Buy' : 'Rent'}}</td>
                         <td class="text-left">
-                            <a *ngIf="admin?.admin_acl['Broker Lead Management']?.can_update==0" class="green-color fontW500" href="javascript://">
+                            <a *ngIf="admin?.admin_acl['Outside Broker Lead Management']?.can_update==0" class="green-color fontW500" href="javascript://">
                                 Change to {{item.sale_rent==1 ? 'Rent' : 'Buy'}}
                             </a>
-                            <a *ngIf="admin?.admin_acl['Broker Lead Management']?.can_update==1" class="green-color fontW500" (click)="updateLeadType($event, item.sale_rent==1?'2':'1', item.id, in)" href="javascript://">
+                            <a *ngIf="admin?.admin_acl['Outside Broker Lead Management']?.can_update==1" class="green-color fontW500" (click)="updateLeadType($event, item.sale_rent==1?'2':'1', item.id, in)" href="javascript://">
                                 Change to {{item.sale_rent==1 ? 'Rent' : 'Buy'}}
                             </a>
                         </td>
