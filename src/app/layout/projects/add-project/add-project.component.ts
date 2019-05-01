@@ -262,7 +262,7 @@ export class AddProjectComponent implements OnInit {
         this.model.building_tower_edit_index = '-1';
         this.canEditdeveloperInfo = true;
         this.admin.postDataApi('getAmenities', {}).subscribe(res => {
-          this.all_amenities = res.data.map(item => { item.selected = false; return item; });
+          this.all_amenities = res.data.map(item => { item.selected = false; item.images = []; return item; });
           this.allTowerAmenities = JSON.parse(JSON.stringify(this.all_amenities));
           this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
 
@@ -788,7 +788,7 @@ console.log('.......', modelSave.amenities);
     this.file5.image = this.model.developer.image;
     this.file6.image = this.model.developer.developer_image;
     this.admin.postDataApi('getAmenities', {}).subscribe(res => {
-      this.all_amenities = res.data.map(item => { item.selected = false; return item; });
+      this.all_amenities = res.data.map(item => { item.selected = false; item.images = []; return item; });
       this.allTowerAmenities = JSON.parse(JSON.stringify(this.all_amenities));
       this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
 
@@ -893,7 +893,8 @@ console.log('.......', modelSave.amenities);
 
     const tempAmen = JSON.parse(JSON.stringify(this.allTowerAmenities));
     console.log('aaaaa', tempAmen);
-    this.selectedTowerAmenitiesId = tempAmen.filter(op => { if (op.selected === true) { return op; } }).map(op => op.id);
+    this.selectedTowerAmenitiesId = tempAmen.filter(op => { if (op.selected === true) { return op; } });
+    // this.selectedTowerAmenitiesId = tempAmen.filter(op => { if (op.selected === true) { return op; } }).map(op => op.id);
     this.selectedTowerAmenityObj = tempAmen.filter(op => { if (op.selected === true) { return op; } });
     this.newTower.amenities = this.selectedTowerAmenityObj;
     this.newTower.amenitiesId = this.selectedTowerAmenitiesId;

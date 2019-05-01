@@ -271,7 +271,6 @@ export class InhouseUsersComponent implements OnInit {
       input.append('company_images', JSON.stringify([]));
       input.append('company_videos', JSON.stringify([]));
     } else {
-      input.append('is_broker', '1');
       input.append('is_external_agent', '0');
       input.append('company_name', '');
       input.append('company_logo', '');
