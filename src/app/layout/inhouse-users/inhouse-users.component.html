@@ -309,7 +309,7 @@
                       <span class="checkmark"></span>
                     </label>
       
-                    <label [ngClass]="{'access-control11': model.is_external_agent == true}" class="cust-check-bx2">Outside Broker
+                    <label [ngClass]="{'access-control11': (model.is_broker == true && model.is_external_agent == true)}" class="cust-check-bx2">Outside Broker
                       <input type="checkbox" [(ngModel)]="model.is_external_agent" name="is_external_agent">
                       <span class="checkmark"></span>
                     </label>

@@ -180,7 +180,7 @@ export class InhouseUsersComponent implements OnInit {
 
       case 'outside-broker':
         this.parameter.url = 'getInhouseBroker';
-        this.model.is_broker = true;
+        this.model.is_broker = false;
         this.model.is_external_agent = true;
         break;
 
