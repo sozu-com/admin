@@ -4,6 +4,7 @@ import { IProperty } from '../../common/property';
 import { Constant } from './../../common/constants';
 import * as moment from 'moment';
 import { SellerSelections } from './../../models/addProperty.model';
+import { UserModel } from 'src/app/models/inhouse-users.model';
 declare let swal: any;
 
 @Component({
@@ -27,8 +28,12 @@ export class PropertiesComponent implements OnInit {
   keyword: string;
   selecter_seller: SellerSelections;
   allSellers: Array<SellerSelections>;
+  allExtBrokers: Array<UserModel>;
+  property: any;
   @ViewChild('linkSellerModal') linkSellerModal: ElementRef;
   @ViewChild('closeLinkSellerModal') closeLinkSellerModal: ElementRef;
+  @ViewChild('linkExtBrokerModal') linkExtBrokerModal: ElementRef;
+  @ViewChild('closeExtBrokerModal') closeExtBrokerModal: ElementRef;
   constructor(
     public constant: Constant,
     public admin: AdminService
@@ -348,5 +353,52 @@ export class PropertiesComponent implements OnInit {
     error => {
       swal('Error', error.error.message, 'error');
     });
+  }
+
+
+  getInhouseBroker(property: any, keyword: string) {
+    this.parameter.loading = true;
+    if (property) { this.property = property; }
+    const input = {keyword: ''};
+    input.keyword = keyword;
+    this.admin.postDataApi('getExternalBroker', input).subscribe(r => {
+      this.parameter.loading = false;
+      if (property) {this.linkExtBrokerModal.nativeElement.click(); }
+      this.allExtBrokers = r['data'];
+    }, error => {
+      this.parameter.loading = false;
+      swal('Error', error.error.message, 'error');
+    });
+  }
+
+
+  attachExternalBrokerPopUp(broker: any) {
+    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    this.parameter.text = 'You want to assign this broker?';
+
+    swal({
+      html: this.parameter.title + '<br>' + this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.attachExternalBroker(broker);
+      }
+    });
+  }
+
+  attachExternalBroker(broker: any) {
+    this.admin.postDataApi('attachExternalBroker', { property_id: this.property.id,
+      broker_id: broker.id }).subscribe(r => {
+      this.closeExtBrokerModal.nativeElement.click();
+      this.property.external_broker = broker;
+      swal('Success', 'Assigned successfully.', 'success');
+    },
+      error => {
+        swal('Error', error.error.message, 'error');
+      });
   }
 }

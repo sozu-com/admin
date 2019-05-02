@@ -136,7 +136,7 @@
             <div class="form-group-3">
               <label class="p16-two">Select tower in {{selectedBuilding?.name}} <span class="color-red">*</span></label>
               <select title="Choose Tower" name="tower" [(ngModel)]="selectedTower" required class="form-control" (change)="setTower(selectedTower)">
-                <option value="" disabled>Select Tower</option>
+                <option value="">Select Tower</option>
                 <option *ngFor="let bt of selectedBuilding?.building_towers" [ngValue]="bt">
                   {{bt.tower_name}}</option>
               </select>
@@ -150,7 +150,7 @@
             <div class="form-group-3">
               <label class="p16-two">Select floor in {{selectedTower?.tower_name}} <span class="color-red">*</span></label>
               <select title="Choose Floor" required class="form-control" (change)="setFloor($event.target.value)">
-                <option value="" disabled>Select Floor</option>
+                <option value="">Select Floor</option>
                 <option *ngFor="let fa of selectedTower?.floor_array; let j=index" [value]="fa">
                   {{j == 0 ? 'Ground Floor': 'Floor '+j}}</option>
               </select>

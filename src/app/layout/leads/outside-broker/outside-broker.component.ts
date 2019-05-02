@@ -137,7 +137,7 @@ export class OutsideBrokerComponent implements OnInit {
     if (this.parameter.keyword) {
       input.append('keyword', this.parameter.keyword);
     }
-    this.admin.postDataApi('getInhouseBroker', input).subscribe(
+    this.admin.postDataApi('getExternalBroker', input).subscribe(
       success => {
         this.users = success.data;
       });
@@ -207,7 +207,7 @@ export class OutsideBrokerComponent implements OnInit {
     } else if (this.parameter.assignee_id) {
       input.assignee_id = this.parameter.assignee_id;
     }
-    input.append('is_external_agent', '1');
+    input.is_external_agent = 1;
     this.admin.postDataApi('leads/in-house-broker-dash-count', input).subscribe(r => {
       this.dash = r.data;
       this.chartView = [
@@ -247,7 +247,7 @@ export class OutsideBrokerComponent implements OnInit {
     } else if (this.parameter.assignee_id) {
       input.assignee_id = this.parameter.assignee_id;
     }
-    input.append('is_external_agent', '1');
+    input.is_external_agent = 1;
     this.parameter.loading = true;
     this.admin.postDataApi('leads/in-house-broker', input).subscribe(
       success => {

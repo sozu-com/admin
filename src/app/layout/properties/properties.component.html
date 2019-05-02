@@ -252,7 +252,7 @@
                                  </div>
                               </div>
                            </th>
-                           <th style="width:15%; text-align:left;">
+                           <th style="width:10%; text-align:left;">
                               <div class="table-search">
                                  <label>Configuration</label>
                                  <select [(ngModel)]="parameter.configuration_id" (change)="getListing()">
@@ -274,7 +274,7 @@
                               <a href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by==2 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a>
                               </div>
                            </th>
-                           <th style="width:10%;vertical-align:top;">
+                           <th style="width:8%;vertical-align:top;">
                               <div (click)="sort_by(3)" class="d-flex table-search">
                                  <label>Leads</label>
                                  <a href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by==3 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a>
@@ -284,14 +284,14 @@
                                  <label>Leads</label>
                                  <a href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by==3 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a></div> -->
                            </th>
-                           <th style="width:10%;vertical-align:top;">
+                           <th style="width:8%;vertical-align:top;">
                               <div class="d-flex table-search">
-                                 <label>Link seller <br> to property</label>
+                                 <label>Link seller</label>
                               </div>
                            </th>
-                           <th style="width:10%;vertical-align:top;">
+                           <th style="width:8%;vertical-align:top;">
                               <div class="d-flex table-search">
-                                 <label>Assign Outside<br>Broker</label>
+                                 <label>Assign outside<br>broker</label>
                               </div>
                            </th>
                            <th style="width:10%;vertical-align:top;">
@@ -326,6 +326,11 @@
                                  <span class="green-color"><span>Link</span></span>
                               </td>
                               
+                              <td class="cursor-pointer" (click)="getInhouseBroker(p, '')">
+                                 <span class="green-color">
+                                    <span title="Click to {{p?.external_broker?.id ? 'change' : 'assign'}}">{{p?.external_broker?.id ? 'Change' : 'Assign'}}</span>
+                                 </span>
+                              </td>
                               <td class="cursor-pointer" (click)="changeSoldStatusPopup(p, i)" *ngIf="p.for_sale">
                                  <span class="green-color">
                                     <span title="Click to mark property sold." *ngIf="p.for_sale && !p.is_property_sold">Mark Sold</span>
@@ -429,6 +434,54 @@
                      <p class="show-not-found">
                         No seller found.
                      </p>
+                  </tr>
+               </table>
+            </div>
+      </div>
+   </div>
+</div>
+
+<!-- Link External Broker -->
+<a data-toggle="modal" data-target="#link-broker-model" #linkExtBrokerModal></a>
+<div class="modal" id="link-broker-model">
+   <div class="modal-dialog ">
+      <div class="modal-content notary-avail">
+            <div class="modal-header popup-header">
+            <h4 class="modal-title">{{property?.id ? 'Change' : 'Assign'}} External Broker</h4>
+            <button type="button" class="close" #closeExtBrokerModal data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+
+               <p class="modal-title" *ngIf="property?.external_broker?.id">Currently assigned to Broker - <b>{{property?.external_broker?.name}}</b></p>
+
+               <div class="spacer30"></div>
+               <input style="max-width:200px" [(ngModel)]="keyword" (input)="getInhouseBroker('', keyword)" class="form-control" type="text" name="keyword" placeholder="Search">
+
+               <div class="spacer40"></div>
+               <table class="table">
+                  <tr *ngFor="let item of allExtBrokers">
+                        <td>
+                           <div class="n-avail-profile">
+                           <img [src]="item?.image| img:'small'" onerror='src="assets/img/default_img.png"' alt="img">
+                           <div class="n-avail-info">
+                              <p class="p12">{{item?.name}}</p>
+                              <p class="p10">Phone : {{item?.dial_code ? item?.dial_code : constant.dial_code}}-{{item?.phone}}</p>
+                           </div>
+                           </div>
+                        </td>
+                        <td>
+                           <!-- <label class="cust-check-bx float-right">
+                              <input type="radio" name="user_id" (click)="assignItem = item">
+                              <span class="checkmark"></span>
+                           </label> -->
+                           <!-- <button *ngIf="item.status == 0" (click)="changeStatusSellerSelection(item.property_id, item.user_id, 2)" class="action-icon" title="Reject">
+                              <img src="assets/img/tick-selected.png" alt="img"></button> -->
+                           <button (click)="attachExternalBrokerPopUp(item)" class="action-icon" title="Accept">
+                              <img src="assets/img/tick.png" alt="img"></button>
+                        </td>
+                  </tr>
+                  <tr *ngIf="allExtBrokers?.length==0">
+                     <p class="show-not-found">No external broker found.</p>
                   </tr>
                </table>
             </div>
