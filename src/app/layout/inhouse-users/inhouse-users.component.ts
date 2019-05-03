@@ -222,11 +222,11 @@ export class InhouseUsersComponent implements OnInit {
 
 
   addNewUser(formdata: NgForm) {
-    if (this.model.adr && !this.model.lat && !this.model.lng) {
+    if (this.model.adr && this.model.adr.trim() && !this.model.lat && !this.model.lng) {
       swal('Error', 'Please choose address from dropdown.', 'error');
       return;
     }
-    if (this.model.branch_office && !this.model.branch_lat && !this.model.branch_lng) {
+    if (this.model.branch_office && this.model.branch_office.trim() && !this.model.branch_lat && !this.model.branch_lng) {
       swal('Error', 'Please choose branch address from dropdown.', 'error');
       return;
     }
@@ -257,7 +257,7 @@ export class InhouseUsersComponent implements OnInit {
       input.append('lat', this.model.lat);
 console.log('model', this.model);
       // if branch address
-      if (this.model.branch_office) {
+      if (this.model.branch_office && this.model.branch_office.trim()) {
         this.model.branches = [];
         this.model.branches = [
           {'address': this.model.branch_office,
@@ -651,7 +651,7 @@ console.log('model', this.model);
 
       case 'outside-broker':
         this.parameter.url = 'getInhouseBroker';
-        this.title = 'Outside Brokers';
+        this.title = 'Outside Agents';
         this.parameter.type = 4;
         this.model.is_external_agent = true;
         // this.is_external_agent = '1';

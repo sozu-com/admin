@@ -22,6 +22,8 @@ export class AddProjectComponent implements OnInit {
   public parameter: IProperty = {};
   @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('modalOpen') modalOpen: ElementRef;
+  @ViewChild('modalAmenClose') modalAmenClose: ElementRef;
+  @ViewChild('modalAmenOpen') modalAmenOpen: ElementRef;
   @ViewChild('modal360ImageClose') modal360ImageClose: ElementRef;
   @ViewChild('modal360ImageOpen') modal360ImageOpen: ElementRef;
   @ViewChild('mapDiv') mapDiv: ElementRef;
@@ -61,6 +63,8 @@ export class AddProjectComponent implements OnInit {
   all_amenities: any = [];
   all_configurations: any = [];
   all_developers: any = [];
+  amenity_index: number;
+  amenity_obj: any;
   selected_amenities: any = [];
   new_config: any = new Configuration;
   new_custom: any = { name: '', value: '' };
@@ -154,12 +158,23 @@ export class AddProjectComponent implements OnInit {
             this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
 
             // setting true to selected amenties
-            this.selected_amenities = this.all_amenities.map(item => {
-              if (this.model.amenities.find(am => am.id === item.id)) {
-                item.selected = true;
+            console.log('aaa3', this.model.amenities);
+            // this.selected_amenities = this.all_amenities.map(item => {
+            //   if (this.model.amenities.find(am => am.id === item.id)) {
+            //     item.selected = true;
+            //   }
+            //   return item;
+            // });
+            for (let index = 0; index < this.all_amenities.length; index++) {
+              for (let i = 0; i < this.model.amenities.length; i++) {
+                if (this.model.amenities[i].id === this.all_amenities[index].id) {
+                  this.all_amenities[index].selected = true;
+                  console.log('pibot ', this.model.amenities);
+                  const pivot = this.model.amenities[i]['pivot'];
+                  this.all_amenities[index].images = pivot.images;
+                }
               }
-              return item;
-            });
+            }
 
             if (this.model.building_towers && this.model.building_towers.length > 0) {
               // setting true to tower selected amenities
@@ -225,12 +240,24 @@ export class AddProjectComponent implements OnInit {
             this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
 
             // setting true to selected amenties
-            this.selected_amenities = this.all_amenities.map(item => {
-              if (this.model.amenities && this.model.amenities.find(am => am.id === item.id)) {
-                item.selected = true;
+            console.log('aaa1', this.model.amenities);
+            // this.selected_amenities = this.all_amenities.map(item => {
+            //   if (this.model.amenities && this.model.amenities.find(am => am.id === item.id)) {
+            //     item.selected = true;
+            //   }
+            //   return item;
+            // });
+
+            for (let index = 0; index < this.all_amenities.length; index++) {
+              for (let i = 0; i < this.model.amenities.length; i++) {
+                if (this.model.amenities[i].id === this.all_amenities[index].id) {
+                  this.all_amenities[index].selected = true;
+                  console.log('pibot ', this.model.amenities);
+                  const pivot = this.model.amenities[i]['pivot'];
+                  this.all_amenities[index].images = pivot.images;
+                }
               }
-              return item;
-            });
+            }
 
 
             if (this.model.building_towers && this.model.building_towers.length > 0) {
@@ -325,6 +352,36 @@ export class AddProjectComponent implements OnInit {
       this.model.images360 = this.file7.files;
     });
   }
+
+  modelAmenityOpenFun(amenityObj: any, index: number) {
+    console.log('======', this.all_amenities);
+    this.amenity_index = index;
+    this.amenity_obj = amenityObj;
+    this.modalAmenOpen.nativeElement.click();
+    this.file2.backup(JSON.parse(JSON.stringify(this.all_amenities[index].images)));
+  }
+
+  modelAmenityCloseFun() {
+    this.modalAmenClose.nativeElement.click();
+  }
+
+  saveAmenityImages() {
+    if (this.file2.files.length < 1) {
+      swal('Error', 'Please select atleast one image', 'error'); return false;
+    }
+    this.modalAmenClose.nativeElement.click();
+    console.log('===, meity index', this.amenity_index, this.all_amenities);
+    this.file2.upload().then(r => {
+      console.log('response', this.file2.files);
+      const am_img = [];
+      // this.file2.files.forEach(element => {
+      //   am_img.push(element.image);
+      // });
+      // this.all_amenities[this.amenity_index].images = am_img;
+      this.all_amenities[this.amenity_index].images = this.file2.files;
+    });
+  }
+
 
   loadPlaces() {
     // console.log('--', this.searchElementRef.nativeElement);
@@ -606,14 +663,16 @@ export class AddProjectComponent implements OnInit {
     modelSave.dev_dialcode = modelSave.developer.dial_code ? modelSave.developer.dial_code : this.constant.dial_code;
     modelSave.dev_logo = this.file5.image;
     modelSave.developer_image = this.file6.image;
-    console.log('.....111..', this.all_amenities);
-    // modelSave.amenities = this.all_amenities.filter(op => { if (op.selected === true) { return op; } }).map(op => op.id);
     modelSave.amenities = this.all_amenities.filter(op => { if (op.selected === true) { return op; } });
-    // if (modelSave.amenities && modelSave.amenities.length > 0) {
-    //   modelSave.amenities.forEach(element => {
-    //     element.images = [];
-    //   });
-    // }
+    if (modelSave.amenities && modelSave.amenities.length > 0) {
+      modelSave.amenities.forEach(element => {
+        const img = [];
+        element.images.forEach(e => {
+          img.push(e.image);
+        });
+        element.images = img;
+      });
+    }
 console.log('.......', modelSave.amenities);
     if (modelSave.configurations && modelSave.configurations.length > 0) {
       modelSave.configurations.forEach(item => {
@@ -792,12 +851,23 @@ console.log('.......', modelSave.amenities);
       this.allTowerAmenities = JSON.parse(JSON.stringify(this.all_amenities));
       this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
 
-      this.selected_amenities = this.all_amenities.map(item => {
-        if (this.model.amenities.find(am => am.id === item.id)) {
-          item.selected = true;
+      console.log('aaa2', this.model.amenities);
+      // this.selected_amenities = this.all_amenities.map(item => {
+      //   if (this.model.amenities.find(am => am.id === item.id)) {
+      //     item.selected = true;
+      //   }
+      //   return item;
+      // });
+      for (let index = 0; index < this.all_amenities.length; index++) {
+        for (let i = 0; i < this.model.amenities.length; i++) {
+          if (this.model.amenities[i].id === this.all_amenities[index].id) {
+            this.all_amenities[index].selected = true;
+            console.log('pibot ', this.model.amenities);
+            const pivot = this.model.amenities[i]['pivot'];
+            this.all_amenities[index].images = pivot.images;
+          }
         }
-        return item;
-      });
+      }
     });
 
 
@@ -1051,48 +1121,48 @@ console.log('.......', modelSave.amenities);
     return new File([u8arr], filename, {type: mime});
   }
 
-  onMultipleFileSelect(event, i: number) {
-    if (event.target.files && event.target.files[0]) {
-      const filearray = Array.from(event.target.files);
-      console.log('filearay', filearray);
-      console.log('model', this.model.amenities);
-      // this.model.amenities
-      // if (this.model.file.length !== 0) {
-      //   this.model.file = this.model.file.concat(filearray);
-      // } else {
-      //   this.model.file = filearray;
-      // }
-      // file type checks
-      // if ((event.target.files[0].type.indexOf('video') === -1) && (event.target.files[0].type.indexOf('image') === -1)) {
-      //   this.toastrService.error('Please choose image or video file.');
-      //   return;
-      // }
-      // file size check
-      if (event.target.files[0].size > this.constant.fileSizeLimit) {
-        swal('Error', 'The file you have selected is too large. The maximum size is 25MB.', 'error');
-        return;
-      }
+  // onMultipleFileSelect(event, i: number) {
+  //   if (event.target.files && event.target.files[0]) {
+  //     const filearray = Array.from(event.target.files);
+  //     console.log('filearay', filearray);
+  //     console.log('model', this.model.amenities);
+  //     // this.model.amenities
+  //     // if (this.model.file.length !== 0) {
+  //     //   this.model.file = this.model.file.concat(filearray);
+  //     // } else {
+  //     //   this.model.file = filearray;
+  //     // }
+  //     // file type checks
+  //     // if ((event.target.files[0].type.indexOf('video') === -1) && (event.target.files[0].type.indexOf('image') === -1)) {
+  //     //   this.toastrService.error('Please choose image or video file.');
+  //     //   return;
+  //     // }
+  //     // file size check
+  //     if (event.target.files[0].size > this.constant.fileSizeLimit) {
+  //       swal('Error', 'The file you have selected is too large. The maximum size is 25MB.', 'error');
+  //       return;
+  //     }
 
-      return new Promise(async(resolve, reject) => {
-        for (let index = 0; index < event.target.files.length; index++) {
-          console.log('1');
-          const element = event.target.files[index];
-            const reader = new FileReader();
-            reader.onload = (e: any) => {
-              const obj = {
-                url: e.target.result,
-                type: 'image'
-              };
-              // this.model.fileBase64.push(obj);
-            };
-            reader.readAsDataURL(element);
-        }
-      });
+  //     return new Promise(async(resolve, reject) => {
+  //       for (let index = 0; index < event.target.files.length; index++) {
+  //         console.log('1');
+  //         const element = event.target.files[index];
+  //           const reader = new FileReader();
+  //           reader.onload = (e: any) => {
+  //             const obj = {
+  //               url: e.target.result,
+  //               type: 'image'
+  //             };
+  //             // this.model.fileBase64.push(obj);
+  //           };
+  //           reader.readAsDataURL(element);
+  //       }
+  //     });
 
-    } else {
-      // if (!this.model.file) {
-      //   this.toastrService.error('Please choose file');
-      // }
-    }
-  }
+  //   } else {
+  //     // if (!this.model.file) {
+  //     //   this.toastrService.error('Please choose file');
+  //     // }
+  //   }
+  // }
 }
