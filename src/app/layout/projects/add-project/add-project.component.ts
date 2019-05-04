@@ -24,6 +24,8 @@ export class AddProjectComponent implements OnInit {
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalAmenClose') modalAmenClose: ElementRef;
   @ViewChild('modalAmenOpen') modalAmenOpen: ElementRef;
+  @ViewChild('modalTowerAmenClose') modalTowerAmenClose: ElementRef;
+  @ViewChild('modalTowerAmenOpen') modalTowerAmenOpen: ElementRef;
   @ViewChild('modal360ImageClose') modal360ImageClose: ElementRef;
   @ViewChild('modal360ImageOpen') modal360ImageOpen: ElementRef;
   @ViewChild('mapDiv') mapDiv: ElementRef;
@@ -182,8 +184,8 @@ export class AddProjectComponent implements OnInit {
 
               // tower amenitites id array only
               this.model.building_towers.forEach(element => {
-                const ele_ame = JSON.parse(JSON.stringify(element.amenities));
-                element.amenitiesId = ele_ame.map(op => {
+                // const ele_ame = JSON.parse(JSON.stringify(element.amenities));
+                element.amenitiesId = element.amenities.map(op => {
                   const pivot = op['pivot'];
                   op.images = pivot.images ? pivot.images : [];
                   return op.id;
@@ -256,10 +258,10 @@ export class AddProjectComponent implements OnInit {
                 item.amenities.map(i => { i.selected = true; return i; });
               });
 
-              // tower amenitites images
+              // tower amenitites id array only
               this.model.building_towers.forEach(element => {
-                const ele_ame = JSON.parse(JSON.stringify(element.amenities));
-                element.amenitiesId = ele_ame.map(op => {
+                // const ele_ame = JSON.parse(JSON.stringify(element.amenities));
+                element.amenitiesId = element.amenities.map(op => {
                   const pivot = op['pivot'];
                   op.images = pivot.images ? pivot.images : [];
                   return op.id;
@@ -370,6 +372,41 @@ export class AddProjectComponent implements OnInit {
     });
     console.log('img ', this.all_amenities[this.amenity_index].images);
     this.modalAmenClose.nativeElement.click();
+  }
+
+  modelTowerAmenityOpenFun(amenityObj: any, index: number) {
+    this.amenity_index = index;
+    this.amenity_obj = amenityObj;
+    this.allTowerAmenities[index] = amenityObj;
+    // this.allTowerAmenityForEdit[index] = amenityObj;
+    this.modalTowerAmenOpen.nativeElement.click();
+    // console.log('allTowerAmenities', this.allTowerAmenities);
+    this.file2.backup(JSON.parse(JSON.stringify(this.allTowerAmenities[index].images)));
+  }
+
+  modelTowerAmenityCloseFun() {
+    this.modalTowerAmenClose.nativeElement.click();
+  }
+
+  saveTowerAmenityImages() {
+    if (this.file2.files.length > 6) {
+      swal('Error', 'You can choose maximum of 6 images.', 'error'); return false;
+    }
+    if (this.file2.files.length < 1) {
+      // swal('Error', 'Please select atleast one image', 'error'); return false;
+      this.allTowerAmenities[this.amenity_index].images = [];
+      // this.allTowerAmenityForEdit[this.amenity_index].images = [];
+      this.modalTowerAmenClose.nativeElement.click();
+      return false;
+    }
+
+    this.file2.upload().then(r => {
+      console.log('img ', r, this.file2.files);
+      this.allTowerAmenities[this.amenity_index].images = this.file2.files;
+      // this.allTowerAmenityForEdit[this.amenity_index].images = this.file2.files;
+    });
+    console.log('img ', this.allTowerAmenities[this.amenity_index].images);
+    this.modalTowerAmenClose.nativeElement.click();
   }
 
 
@@ -668,7 +705,20 @@ export class AddProjectComponent implements OnInit {
       });
     }
 
+    console.log('tower mamrn', modelSave.building_towers);
     modelSave.building_towers = this.model.building_towers;
+    if (modelSave.building_towers && modelSave.building_towers.length > 0) {
+      modelSave.building_towers.forEach(element1 => {
+        element1.amenities.forEach(element => {
+          const img = [];
+          element.images.forEach(e => {
+            img.push(e.image);
+          });
+          element.images = img;
+        });
+      });
+    }
+console.log('tower mamrn', modelSave.building_towers);
     /* remove fields for edit */
     // if (!modelSave.name) {swal('Error', 'Please add building name', 'error'); return false; }
     // if (!modelSave.address) {swal('Error', 'Please add address', 'error'); return false; }
@@ -796,6 +846,7 @@ export class AddProjectComponent implements OnInit {
 
   setProjectModel(data) {
     this.model = JSON.parse(JSON.stringify(data));
+    this.model.building_tower_edit_index = '-1';
     if (data.developer == null) {
       this.model.developer = {
         id: '', name: '', email: '',
@@ -848,15 +899,9 @@ export class AddProjectComponent implements OnInit {
       });
 
       // tower amenitites id array only
-      let amid = [];
       this.model.building_towers.forEach(element => {
-        amid = [];
-        // element.amenities.forEach(e => {
-        //   amid.push(e.id);
-        // });
-        // element.amenitiesId = amid;
-        const ele_ame = JSON.parse(JSON.stringify(element.amenities));
-        element.amenitiesId = ele_ame.map(op => {
+        // const ele_ame = JSON.parse(JSON.stringify(element.amenities));
+        element.amenitiesId = element.amenities.map(op => {
           const pivot = op['pivot'];
           op.images = pivot.images ? pivot.images : [];
           return op.id;
@@ -933,16 +978,17 @@ export class AddProjectComponent implements OnInit {
     if (!this.newTower.launch_date) { swal('Error', 'Please enter launch date.', 'error'); return false; }
 
     const tempAmen = JSON.parse(JSON.stringify(this.allTowerAmenities));
-
+console.log('tempamane', tempAmen);
     this.selectedTowerAmenitiesId = tempAmen.filter(op => { if (op.selected === true) { return op; } });
     // this.selectedTowerAmenitiesId = tempAmen.filter(op => { if (op.selected === true) { return op; } }).map(op => op.id);
     this.selectedTowerAmenityObj = tempAmen.filter(op => { if (op.selected === true) { return op; } });
+    console.log(this.selectedTowerAmenityObj);
     this.newTower.amenities = this.selectedTowerAmenityObj;
     this.newTower.amenitiesId = this.selectedTowerAmenitiesId;
     if (this.newTower.amenities.length < 1) { swal('Error', 'Please choose tower amenities.', 'error'); return false; }
     this.model.building_towers.push(this.newTower);
     this.showAddBtn = true;
-
+console.log('this.model.building_towers', this.model.building_towers);
     // setting tower to empty
     this.newTower = new Towers();
     this.allTowerAmenities.map(op => { op.selected = false; });
@@ -950,11 +996,23 @@ export class AddProjectComponent implements OnInit {
 
 
   editTower(btower: any, index: number) {
+    console.log('edit', btower, index);
     if (this.model.building_tower_edit_index !== '-1') {
       swal('First save the previous editted tower.');
       return;
     }
     this.model.building_tower_edit_index = index;
+    // setting allTowerAmenityForEdit images
+    for (let index1 = 0; index1 < this.allTowerAmenityForEdit.length; index1++) {
+      for (let i = 0; i < btower.amenities.length; i++) {
+        if (btower.amenities[i].id === this.allTowerAmenityForEdit[index1].id) {
+          this.allTowerAmenityForEdit[index1].selected = btower.amenities[i].selected;
+          const pivot = btower.amenities[i]['pivot'];
+          this.allTowerAmenityForEdit[index1].images = pivot.images ? pivot.images : [];
+        }
+      }
+    }
+    console.log('aaa222222222', this.allTowerAmenityForEdit);
   }
 
   deleteTower(index: number) {
@@ -999,9 +1057,10 @@ export class AddProjectComponent implements OnInit {
   }
 
   editTowerAmenity(btoweramenity, index: any) {
+    console.log('btoweramenity', btoweramenity);
     this.towerAmenityIndex = index;
     this.towerEditAmenitiesModal.nativeElement.click();
-    this.allTowerAmenityForEdit.map(item => { item.selected = false; return item; });
+    // this.allTowerAmenityForEdit.map(item => { item.selected = false; return item; });
     btoweramenity = btoweramenity.filter(op => { if (op.selected === true) { return op; } });
       this.allTowerAmenityForEdit.map(item => {
         if (btoweramenity.find(am => am.id === item.id)) {
@@ -1009,10 +1068,13 @@ export class AddProjectComponent implements OnInit {
         }
         return item;
       });
+      console.log('aaaaaa', this.allTowerAmenityForEdit);
   }
 
 
   setTowerAmenity(a: any, m: any) {
+    console.log('allTowerAmenityForEdit', this.allTowerAmenityForEdit);
+    console.log('a', a);
     this.allTowerAmenityForEdit[m].selected = !this.allTowerAmenityForEdit[m].selected;
     this.model.building_towers[this.towerAmenityIndex].amenities =
     this.allTowerAmenityForEdit.filter(op => { if (op.selected === true) { return op; } });

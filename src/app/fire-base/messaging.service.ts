@@ -6,10 +6,11 @@ import { mergeMapTo } from 'rxjs/operators';
 import { take } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { AdminService } from '../services/admin.service';
 
 @Injectable()
 export class MessagingService {
-
+  id: number;
   fcmTokens: any;
   currentMessage = new BehaviorSubject(null);
 
@@ -24,6 +25,11 @@ export class MessagingService {
         _messaging.onTokenRefresh = _messaging.onTokenRefresh.bind(_messaging);
       }
     );
+
+    // this.admin.loginData$.subscribe(success => {
+    //   console.log(success);
+    //   this.id = success['name'];
+    // });
   }
 
   /**
@@ -68,10 +74,13 @@ export class MessagingService {
     this.angularFireMessaging.messages.subscribe(
       (payload) => {
         const data = payload['data'];
+        const notification = payload['notification'];
         console.log('new message received. ', payload);
-        const notificationTitle = data.title;
-        this.toastrService.success('', notificationTitle);
-        this.currentMessage.next(payload);
+        const notificationTitle = data.title ? data.title : notification.title;
+        if (notificationTitle) {
+          // this.toastrService.success('', notificationTitle);
+          // this.currentMessage.next(payload);
+        }
       });
   }
 }

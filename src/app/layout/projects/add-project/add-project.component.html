@@ -202,6 +202,7 @@
                         <b class="pull-right" (click)="a.selected = false" title="Remove"><img src="assets/img/close-tag.png" /></b>
                       </span>
                       <div *ngIf="a.selected==true" class="spacer30"></div>
+                      
                       <div *ngIf="a.selected==true">
                         <div class="uploaded-img-block">
                           <div class="uploaded-img2">
@@ -214,29 +215,11 @@
                             <img *ngIf="item && j<4" onerror="this.src='assets/img/placeholder.png'" class="u-img" [src]="item.image" alt="img">
                             <div class="upload-caption">
                               <p *ngIf="a.images?.length > 3 && j==2" class="number" (click)="modelAmenityOpenFun(a, i)">+{{a?.images?.length-3}}</p>
-                              <!-- <p *ngIf="a.images?.length <= 4 && j==a?.images?.length-1" class="green-color"  (click)="modelAmenityOpenFun(a, i)">+ Add more images</p> -->
                             </div>
                           </div>
                         </div>
-                        
-                        <!-- <div class="upload-cover-img">
-                          <img [src]="file1.image" onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
-                          <div *ngIf="!file1.image" class="upload-caption">
-                            <p class="green-color marginT30">+Upload Cover image for the project</p>
-                            <p>JPG or PNG. Image size should be 1920 × 1080 pixels (for HiDPI displays).</p>
-                          </div>
-                          <input type="file" name="cover_image" accept="image/*" (change)="file1.onSelectFile($event,true)">
-                        </div> -->
-
-                        <!-- <div class="add-project-img-more">
-                          <img *ngIf="a.images?.length>0" [src]="a.images[0]?.image" onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
-                          <div class="upload-caption">
-                            <p *ngIf="a?.images?.length > 1" class="number" (click)="modelAmenityOpenFun(a, i)">+{{a?.images?.length-1}}</p>
-                            <p *ngIf="a?.images?.length <= 1" class="green-color"  (click)="modelAmenityOpenFun(a, i)">+ Add more images</p>
-                          </div>
-                        </div> -->
-
                       </div>
+
                     </li>
                   </ul>
                 </div>
@@ -313,7 +296,6 @@
               <div class="col-12">
                 <div class="page-title paddingL0 paddingR0">
                   <h3>Tower Details
-                    <!-- <span class="color-red">*</span> -->
                     <span class="tower pull-right" (click)="showAddBtn=false" *ngIf="showAddBtn">+Add New Tower</span>
                     <span class="tower pull-right" (click)="addNewTower()" *ngIf="!showAddBtn">Save Details</span>
                   </h3>
@@ -356,16 +338,41 @@
 
                 <div class="col-12">
                   <div class="form-group-3 marginB0">
-                    <label>Amenities available
-                      <!-- <span class="color-red">*</span> -->
-                    </label>
-                    <ul class="loc-tags-group">
+                    <label>Amenities available</label>
+                    <!-- <ul class="loc-tags-group">
                       <li *ngFor="let at of allTowerAmenities">
                         <span *ngIf="at.selected==true">{{at.name}} 
                           <b (click)="at.selected = false" title="remove"><img src="assets/img/close-tag.png" /></b>
                         </span>
                       </li>
+                    </ul> -->
+
+                    <ul class="loc-tags-group">
+                      <li *ngFor="let at of allTowerAmenities; let j=index" [ngClass]="at.selected==true ? 'width100' : ''">
+                        <span *ngIf="at.selected==true" class="width100 amen-img">{{at.name}} 
+                          <b class="pull-right" (click)="at.selected = false" title="Remove"><img src="assets/img/close-tag.png" /></b>
+                        </span>
+                        <div *ngIf="at.selected==true" class="spacer30"></div>
+                        
+                        <div *ngIf="at.selected==true">
+                          <div class="uploaded-img-block">
+                            <div class="uploaded-img2">
+                              <img src="assets/img/placeholder.png" class="u-img" alt="img">
+                              <div class="upload-caption">
+                                <p class="green-color" (click)="modelTowerAmenityOpenFun(at, j)">+ Add more images</p>
+                              </div>
+                            </div>
+                            <div class="uploaded-img2" *ngFor="let item of at.images.slice(0,3); let j=index">
+                              <img *ngIf="j<4" onerror="this.src='assets/img/placeholder.png'" class="u-img" [src]="item.image" alt="img">
+                              <div class="upload-caption">
+                                <p *ngIf="at.images?.length > 3 && j==2" class="number" (click)="modelTowerAmenityOpenFun(at, i)">+{{at?.images?.length-3}}</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
                     </ul>
+
                   </div>
                 </div>
 
@@ -429,16 +436,41 @@
 
                 <div class="col-12">
                   <div class="form-group-3 marginB0">
-                    <label>Amenities available
-                      <!-- <span class="color-red">*</span> -->
-                    </label>
-                    <ul class="loc-tags-group">
+                    <label>Amenities available</label>
+                    <ul class="loc-tags-group" *ngIf="model?.building_tower_edit_index!=i">
                       <li *ngFor="let a of btower?.amenities">
                         <span *ngIf="a.selected==true">{{a.name}} 
-                          <b *ngIf="model?.building_tower_edit_index==i" (click)="a.selected = false" title="Remove"><img src="assets/img/close-tag.png" /></b>
+                          <!-- <b (click)="a.selected = false" title="Remove"><img src="assets/img/close-tag.png" /></b> -->
                         </span>
                       </li>
                     </ul>
+
+                    <ul class="loc-tags-group" *ngIf="model?.building_tower_edit_index==i">
+                      <li *ngFor="let at of btower?.amenities; let j=index" [ngClass]="at.selected==true ? 'width100' : ''">
+                        <span *ngIf="at.selected==true" class="width100 amen-img">{{at.name}} 
+                          <b class="pull-right" (click)="at.selected = false" title="Remove"><img src="assets/img/close-tag.png" /></b>
+                        </span>
+                        <div *ngIf="at.selected==true" class="spacer30"></div>
+                        
+                        <div *ngIf="at.selected==true">
+                          <div class="uploaded-img-block">
+                            <div class="uploaded-img2">
+                              <img src="assets/img/placeholder.png" class="u-img" alt="img">
+                              <div class="upload-caption">
+                                <p class="green-color" (click)="modelTowerAmenityOpenFun(at, j)">+ Add more images</p>
+                              </div>
+                            </div>
+                            <div class="uploaded-img2" *ngFor="let item of at.images.slice(0,3); let j=index">
+                              <img *ngIf="j<4" onerror="this.src='assets/img/placeholder.png'" class="u-img" [src]="item.image" alt="img">
+                              <div class="upload-caption">
+                                <p *ngIf="at.images?.length > 3 && j==2" class="number" (click)="modelTowerAmenityOpenFun(at, i)">+{{at?.images?.length-3}}</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+
                   </div>
                 </div>
 
@@ -593,7 +625,6 @@
              {{a.name}}
            <span *ngIf="a.selected==true" class="checkmark open"></span>
            </label>
-
       </div>
       <div class="modal-footer">
         <div class="btn-cont">
@@ -605,7 +636,7 @@
 </div>
 
 
-<!-- Tower Amenities model -->
+<!-- Tower Amenities edit model -->
 <div class="modal" id="towerEditAmenities" style="display: none;" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content amenities-popup">
@@ -618,7 +649,6 @@
              {{a.name}}
            <span *ngIf="a.selected==true" class="checkmark open"></span>
            </label>
-
       </div>
       <div class="modal-footer">
         <div class="btn-cont">
@@ -703,6 +733,7 @@
   </div>
 </div>
 
+
 <!-- Add amenities img -->
 <span data-target="#add-amenity-more-img" data-toggle="modal" #modalAmenOpen></span>
 <div class="modal add-more-popup" id="add-amenity-more-img">
@@ -733,6 +764,43 @@
       <!-- Modal footer -->
       <div class="modal-footer btn-cont">
         <button type="button" (click)="saveAmenityImages()" class="btn btn-primary">Submit</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- Add tower amenities img -->
+<span data-target="#add-tower-amenity-more-img" data-toggle="modal" #modalTowerAmenOpen></span>
+<div class="modal add-more-popup" id="add-tower-amenity-more-img">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">{{amenity_obj?.name}} Images</h4>
+        <button type="button" class="close" data-dismiss="modal" #modalTowerAmenClose>&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="uploaded-img-block">
+          <div class="uploaded-img" *ngFor="let item of file2.files; let i=index">
+            <a class="remove" (click)="file2.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
+            <img *ngIf="item" class="u-img" [src]="item.image" alt="img">
+            <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+          </div>
+        </div>
+        <div class="add-more-images">
+          <input type="file" name="add-more" multiple max="6" accept="image/*" (change)="file2Select($event)">
+          <span>+ Add more images</span>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer btn-cont">
+        <button type="button" (click)="saveTowerAmenityImages()" class="btn btn-primary">Submit</button>
       </div>
 
     </div>
