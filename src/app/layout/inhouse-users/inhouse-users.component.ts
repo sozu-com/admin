@@ -367,7 +367,7 @@ console.log('model', this.model);
       this.model.lng = userdata.lng;
 
       // branch
-      if (userdata.branches.length > 0) {
+      if (userdata.branches && userdata.branches.length > 0) {
         this.model.branch_office = userdata.branches[0].address;
         this.model.branch_lat = userdata.branches[0].lat;
         this.model.branch_lng = userdata.branches[0].lng;
@@ -387,7 +387,7 @@ console.log('model', this.model);
       this.model.is_broker = userdata.permissions && userdata.permissions.can_in_house_broker === 1 ? true : false;
       this.model.is_data_collector = userdata.permissions && userdata.permissions.can_data_collector === 1 ? true : false;
       this.model.is_csr_closer = userdata.permissions && userdata.permissions.can_csr_closer === 1 ? true : false;
-      this.model.is_external_agent = userdata.is_external_agent.toString() === '1' ? true : false;
+      this.model.is_external_agent = userdata.is_external_agent && userdata.is_external_agent.toString() === '1' ? true : false;
 
       for (let ind = 0; ind < userdata.countries.length; ind++) {
         const tempAdd = {

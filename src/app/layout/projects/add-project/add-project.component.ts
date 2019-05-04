@@ -169,7 +169,7 @@ export class AddProjectComponent implements OnInit {
                 if (this.model.amenities[i].id === this.all_amenities[index].id) {
                   this.all_amenities[index].selected = true;
                   const pivot = this.model.amenities[i]['pivot'];
-                  this.all_amenities[index].images = pivot.images;
+                  this.all_amenities[index].images = pivot.images ? pivot.images : [];
                 }
               }
             }
@@ -181,16 +181,11 @@ export class AddProjectComponent implements OnInit {
               });
 
               // tower amenitites id array only
-              let amid = [];
               this.model.building_towers.forEach(element => {
-                amid = [];
-
-                // element.amenitiesId = this.model.amenities.find(am => am.id === item.id)
-                // element.amenitiesId = element.amenities.filter(op => { if (op.selected === true) { return op; } }).map(op => op.id);
                 const ele_ame = JSON.parse(JSON.stringify(element.amenities));
                 element.amenitiesId = ele_ame.map(op => {
                   const pivot = op['pivot'];
-                  op.images = pivot.images;
+                  op.images = pivot.images ? pivot.images : [];
                   return op.id;
                 });
               });
@@ -249,7 +244,7 @@ export class AddProjectComponent implements OnInit {
                 if (this.model.amenities[i].id === this.all_amenities[index].id) {
                   this.all_amenities[index].selected = true;
                   const pivot = this.model.amenities[i]['pivot'];
-                  this.all_amenities[index].images = pivot.images;
+                  this.all_amenities[index].images = pivot.images ? pivot.images : [];
                 }
               }
             }
@@ -266,7 +261,7 @@ export class AddProjectComponent implements OnInit {
                 const ele_ame = JSON.parse(JSON.stringify(element.amenities));
                 element.amenitiesId = ele_ame.map(op => {
                   const pivot = op['pivot'];
-                  op.images = pivot.images;
+                  op.images = pivot.images ? pivot.images : [];
                   return op.id;
                 });
               });
@@ -839,7 +834,7 @@ export class AddProjectComponent implements OnInit {
           if (this.model.amenities[i].id === this.all_amenities[index].id) {
             this.all_amenities[index].selected = true;
             const pivot = this.model.amenities[i]['pivot'];
-            this.all_amenities[index].images = pivot.images;
+            this.all_amenities[index].images = pivot.images ? pivot.images : [];
           }
         }
       }
@@ -863,7 +858,7 @@ export class AddProjectComponent implements OnInit {
         const ele_ame = JSON.parse(JSON.stringify(element.amenities));
         element.amenitiesId = ele_ame.map(op => {
           const pivot = op['pivot'];
-          op.images = pivot.images;
+          op.images = pivot.images ? pivot.images : [];
           return op.id;
         });
       });

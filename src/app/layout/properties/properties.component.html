@@ -289,11 +289,11 @@
                                  <label>Link seller</label>
                               </div>
                            </th>
-                           <th style="width:8%;vertical-align:top;">
+                           <!-- <th style="width:8%;vertical-align:top;">
                               <div class="d-flex table-search">
-                                 <label>Assign outside<br>broker</label>
+                                 <label>Assign outside<br>agent</label>
                               </div>
-                           </th>
+                           </th> -->
                            <th style="width:10%;vertical-align:top;">
                               <div class="d-flex table-search">
                                  <label>Change property <br> sold status</label>
@@ -326,11 +326,11 @@
                                  <span class="green-color"><span>Link</span></span>
                               </td>
                               
-                              <td class="cursor-pointer" (click)="getInhouseBroker(p, '')">
+                              <!-- <td class="cursor-pointer" (click)="getInhouseBroker(p, '')">
                                  <span class="green-color">
                                     <span title="Click to {{p?.external_broker?.id ? 'change' : 'assign'}}">{{p?.external_broker?.id ? 'Change' : 'Assign'}}</span>
                                  </span>
-                              </td>
+                              </td> -->
                               <td class="cursor-pointer" (click)="changeSoldStatusPopup(p, i)" *ngIf="p.for_sale">
                                  <span class="green-color">
                                     <span title="Click to mark property sold." *ngIf="p.for_sale && !p.is_property_sold">Mark Sold</span>
@@ -447,12 +447,12 @@
    <div class="modal-dialog ">
       <div class="modal-content notary-avail">
             <div class="modal-header popup-header">
-            <h4 class="modal-title">{{property?.id ? 'Change' : 'Assign'}} External Broker</h4>
+            <h4 class="modal-title">{{property?.external_broker?.id ? 'Change' : 'Assign'}} External Agent</h4>
             <button type="button" class="close" #closeExtBrokerModal data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
 
-               <p class="modal-title" *ngIf="property?.external_broker?.id">Currently assigned to Broker - <b>{{property?.external_broker?.name}}</b></p>
+               <p class="modal-title" *ngIf="property?.external_broker?.id">Currently assigned to Agent - <b>{{property?.external_broker?.name}}</b></p>
 
                <div class="spacer30"></div>
                <input style="max-width:200px" [(ngModel)]="keyword" (input)="getInhouseBroker('', keyword)" class="form-control" type="text" name="keyword" placeholder="Search">
@@ -481,7 +481,7 @@
                         </td>
                   </tr>
                   <tr *ngIf="allExtBrokers?.length==0">
-                     <p class="show-not-found">No external broker found.</p>
+                     <p class="show-not-found">No external agent found.</p>
                   </tr>
                </table>
             </div>
