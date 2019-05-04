@@ -37,7 +37,9 @@ export class AddProjectModel {
         phone: '',
         logo: '',
         image: '',
-        developer_image: ''
+        developer_image: '',
+        developer_company: '',
+        developer_desc: ''
     };
     developer_id: any;
     dev_countrycode: any = '';

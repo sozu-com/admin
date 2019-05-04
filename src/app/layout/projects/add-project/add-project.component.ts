@@ -116,8 +116,6 @@ export class AddProjectComponent implements OnInit {
     this.file8 = new FileUpload(false, this.admin);
 
     this.route.params.subscribe(params => {
-      console.log('paramsssss');
-      console.log('param', params);
       this.id = params.id;
       this.newTower = new Towers();
       if (this.id) {
@@ -139,7 +137,9 @@ export class AddProjectComponent implements OnInit {
               phone: '',
               logo: '',
               image: '',
-              developer_image: ''
+              developer_image: '',
+              developer_desc: '',
+              developer_company: ''
             };
             this.model.developer.name = r.data.developer != null && r.data.developer.name ? r.data.developer.name : '';
             this.model.developer.email = r.data.developer != null && r.data.developer.email ? r.data.developer.email : '';
@@ -158,7 +158,6 @@ export class AddProjectComponent implements OnInit {
             this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
 
             // setting true to selected amenties
-            console.log('aaa3', this.model.amenities);
             // this.selected_amenities = this.all_amenities.map(item => {
             //   if (this.model.amenities.find(am => am.id === item.id)) {
             //     item.selected = true;
@@ -169,7 +168,6 @@ export class AddProjectComponent implements OnInit {
               for (let i = 0; i < this.model.amenities.length; i++) {
                 if (this.model.amenities[i].id === this.all_amenities[index].id) {
                   this.all_amenities[index].selected = true;
-                  console.log('pibot ', this.model.amenities);
                   const pivot = this.model.amenities[i]['pivot'];
                   this.all_amenities[index].images = pivot.images;
                 }
@@ -186,10 +184,15 @@ export class AddProjectComponent implements OnInit {
               let amid = [];
               this.model.building_towers.forEach(element => {
                 amid = [];
-                element.amenities.forEach(e => {
-                  amid.push(e.id);
+
+                // element.amenitiesId = this.model.amenities.find(am => am.id === item.id)
+                // element.amenitiesId = element.amenities.filter(op => { if (op.selected === true) { return op; } }).map(op => op.id);
+                const ele_ame = JSON.parse(JSON.stringify(element.amenities));
+                element.amenitiesId = ele_ame.map(op => {
+                  const pivot = op['pivot'];
+                  op.images = pivot.images;
+                  return op.id;
                 });
-                element.amenitiesId = amid;
               });
             } else {
               this.model.building_towers = [];
@@ -207,19 +210,13 @@ export class AddProjectComponent implements OnInit {
           this.model = JSON.parse(JSON.stringify(r.data));
           this.model.building_tower_edit_index = '-1';
           this.model.floors = 0;
-          console.log('--------------', r);
-          console.log('--------------', this.model);
           if (r.data.developer == null) {
             this.model.developer = {
-              id: '',
-              name: '',
-              email: '',
+              id: '', name: '', email: '',
               country_code: this.constant.country_code,
               dial_code: this.constant.dial_code,
-              phone: '',
-              logo: '',
-              image: '',
-              developer_image: ''
+              phone: '', logo: '', image: '', developer_image: '', developer_desc: '',
+              developer_company: ''
             };
             this.model.building_request_id = params.request_id;
             this.model.developer.name = r.data.dev_name ? r.data.dev_name : '';
@@ -240,7 +237,6 @@ export class AddProjectComponent implements OnInit {
             this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
 
             // setting true to selected amenties
-            console.log('aaa1', this.model.amenities);
             // this.selected_amenities = this.all_amenities.map(item => {
             //   if (this.model.amenities && this.model.amenities.find(am => am.id === item.id)) {
             //     item.selected = true;
@@ -252,7 +248,6 @@ export class AddProjectComponent implements OnInit {
               for (let i = 0; i < this.model.amenities.length; i++) {
                 if (this.model.amenities[i].id === this.all_amenities[index].id) {
                   this.all_amenities[index].selected = true;
-                  console.log('pibot ', this.model.amenities);
                   const pivot = this.model.amenities[i]['pivot'];
                   this.all_amenities[index].images = pivot.images;
                 }
@@ -266,14 +261,14 @@ export class AddProjectComponent implements OnInit {
                 item.amenities.map(i => { i.selected = true; return i; });
               });
 
-              // tower amenitites id array only
-              let amid = [];
+              // tower amenitites images
               this.model.building_towers.forEach(element => {
-                amid = [];
-                element.amenities.forEach(e => {
-                  amid.push(e.id);
+                const ele_ame = JSON.parse(JSON.stringify(element.amenities));
+                element.amenitiesId = ele_ame.map(op => {
+                  const pivot = op['pivot'];
+                  op.images = pivot.images;
+                  return op.id;
                 });
-                element.amenitiesId = amid;
               });
             } else {
               this.model.building_towers = [];
@@ -296,7 +291,6 @@ export class AddProjectComponent implements OnInit {
         });
         this.model.dev_countrycode = 'mx';
         this.model.dev_dialcode = '+52';
-        console.log('model', this.model);
       }
     });
 
@@ -354,7 +348,6 @@ export class AddProjectComponent implements OnInit {
   }
 
   modelAmenityOpenFun(amenityObj: any, index: number) {
-    console.log('======', this.all_amenities);
     this.amenity_index = index;
     this.amenity_obj = amenityObj;
     this.modalAmenOpen.nativeElement.click();
@@ -366,25 +359,26 @@ export class AddProjectComponent implements OnInit {
   }
 
   saveAmenityImages() {
-    if (this.file2.files.length < 1) {
-      swal('Error', 'Please select atleast one image', 'error'); return false;
+    if (this.file2.files.length > 6) {
+      swal('Error', 'You can choose maximum of 6 images.', 'error'); return false;
     }
-    this.modalAmenClose.nativeElement.click();
-    console.log('===, meity index', this.amenity_index, this.all_amenities);
+    if (this.file2.files.length < 1) {
+      // swal('Error', 'Please select atleast one image', 'error'); return false;
+      this.all_amenities[this.amenity_index].images = [];
+      this.modalAmenClose.nativeElement.click();
+      return false;
+    }
+
     this.file2.upload().then(r => {
-      console.log('response', this.file2.files);
-      const am_img = [];
-      // this.file2.files.forEach(element => {
-      //   am_img.push(element.image);
-      // });
-      // this.all_amenities[this.amenity_index].images = am_img;
+      console.log('img ', r, this.file2.files);
       this.all_amenities[this.amenity_index].images = this.file2.files;
     });
+    console.log('img ', this.all_amenities[this.amenity_index].images);
+    this.modalAmenClose.nativeElement.click();
   }
 
 
   loadPlaces() {
-    // console.log('--', this.searchElementRef.nativeElement);
     // load Places Autocomplete
     this.model.lat = '30.34';
     this.model.lng = '76.23';
@@ -642,7 +636,6 @@ export class AddProjectComponent implements OnInit {
 
   addProject() {
     const modelSave = JSON.parse(JSON.stringify(this.model));
-    console.log('modelsave', modelSave);
     modelSave.is_completed = 0;
     modelSave.cover_image = this.file1.image;
     if (this.model.videoLoader) {
@@ -673,7 +666,7 @@ export class AddProjectComponent implements OnInit {
         element.images = img;
       });
     }
-console.log('.......', modelSave.amenities);
+
     if (modelSave.configurations && modelSave.configurations.length > 0) {
       modelSave.configurations.forEach(item => {
         item.images = item.images.map(x => x.image);
@@ -704,18 +697,12 @@ console.log('.......', modelSave.amenities);
     //   if (!modelSave.dev_logo) {swal('Error', 'Please add developer image', 'error'); return false; }
     // }
 
-    console.log(modelSave);
     if (modelSave.dev_email) {
       if (!modelSave.dev_name) { swal('Error', 'Please add developer name', 'error'); return false; }
       if (!modelSave.dev_countrycode) { swal('Error', 'Please add developer country code', 'error'); return false; }
       if (!modelSave.dev_email) { swal('Error', 'Please add developer email', 'error'); return false; }
       if (!modelSave.dev_phone) { swal('Error', 'Please add developer phone', 'error'); return false; }
       if (!modelSave.dev_logo) { swal('Error', 'Please add developer image', 'error'); return false; }
-    }
-    if (modelSave.building_age) {
-      console.log('----', modelSave);
-    } else {
-      console.log('-=====', modelSave);
     }
     if (modelSave.name && modelSave.address && modelSave.address != null && modelSave.cover_image &&
       modelSave.building_images.length > 0 && modelSave.building_age && modelSave.building_age != null && modelSave.building_type_id &&
@@ -727,7 +714,7 @@ console.log('.......', modelSave.amenities);
       modelSave.configurations.length > 0 && modelSave.dev_email && modelSave.dev_email != null
       && modelSave.dev_name && modelSave.dev_name != null
       && modelSave.dev_phone && modelSave.dev_phone != null && modelSave.dev_logo) {
-      console.log('----111');
+
       modelSave.is_completed = 1;
       // swal('Error', 'Please add building name', 'error');
       // return false;
@@ -744,15 +731,6 @@ console.log('.......', modelSave.amenities);
 
     if (this.model.building_request_id) {
       modelSave.building_request_id = this.model.building_request_id;
-    }
-
-    if (modelSave.building_towers && modelSave.building_towers.length > 0) {
-      console.log('1');
-      modelSave.building_towers.forEach(element => {
-        console.log('1', element.amenities);
-        console.log('2', element.amenitiesId);
-        element.amenities = element.amenitiesId;
-      });
     }
 
     if (this.id) {
@@ -825,19 +803,18 @@ console.log('.......', modelSave.amenities);
     this.model = JSON.parse(JSON.stringify(data));
     if (data.developer == null) {
       this.model.developer = {
-        id: '',
-        name: '',
-        email: '',
+        id: '', name: '', email: '',
         country_code: this.constant.country_code,
         dial_code: this.constant.dial_code,
-        phone: '',
-        logo: '',
-        image: '',
-        developer_image: ''
+        phone: '', logo: '', image: '',
+        developer_image: '', developer_desc: '', developer_company: ''
       };
       this.model.developer.name = data.developer != null && data.developer.name ? data.developer.name : '';
       this.model.developer.email = data.developer != null && data.developer.email ? data.developer.email : '';
       this.model.developer.phone = data.developer != null && data.developer.phone ? data.developer.phone : '';
+      this.model.developer.developer_company = data.developer != null &&
+      data.developer.developer_company ? data.developer.developer_company : '';
+      this.model.developer.developer_desc = data.developer != null && data.developer.developer_desc ? data.developer.developer_desc : '';
     }
     this.file1.image = this.model.main_image;
     // this.model.configurations.map((item) => {
@@ -851,7 +828,6 @@ console.log('.......', modelSave.amenities);
       this.allTowerAmenities = JSON.parse(JSON.stringify(this.all_amenities));
       this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
 
-      console.log('aaa2', this.model.amenities);
       // this.selected_amenities = this.all_amenities.map(item => {
       //   if (this.model.amenities.find(am => am.id === item.id)) {
       //     item.selected = true;
@@ -862,7 +838,6 @@ console.log('.......', modelSave.amenities);
         for (let i = 0; i < this.model.amenities.length; i++) {
           if (this.model.amenities[i].id === this.all_amenities[index].id) {
             this.all_amenities[index].selected = true;
-            console.log('pibot ', this.model.amenities);
             const pivot = this.model.amenities[i]['pivot'];
             this.all_amenities[index].images = pivot.images;
           }
@@ -881,10 +856,16 @@ console.log('.......', modelSave.amenities);
       let amid = [];
       this.model.building_towers.forEach(element => {
         amid = [];
-        element.amenities.forEach(e => {
-          amid.push(e.id);
+        // element.amenities.forEach(e => {
+        //   amid.push(e.id);
+        // });
+        // element.amenitiesId = amid;
+        const ele_ame = JSON.parse(JSON.stringify(element.amenities));
+        element.amenitiesId = ele_ame.map(op => {
+          const pivot = op['pivot'];
+          op.images = pivot.images;
+          return op.id;
         });
-        element.amenitiesId = amid;
       });
     } else {
       this.model.building_towers = [];
@@ -895,7 +876,6 @@ console.log('.......', modelSave.amenities);
     this.parameter.loading = true;
     this.admin.postDataApi('getDevelopersFrAdmin', {name: name}).subscribe(r => {
       this.parameter.loading = false;
-      console.log('=========developers======', r);
       this.all_developers = r.data;
       if (!name) {
         this.openDeveloperListModel.nativeElement.click();
@@ -923,18 +903,13 @@ console.log('.......', modelSave.amenities);
   }
 
   setDeveloper(item) {
-    console.log(item);
     this.canEditdeveloperInfo = false;
     this.model.developer = {
-      id: '',
-      name: '',
-      email: '',
+      id: '', name: '', email: '',
       country_code: this.constant.country_code,
       dial_code: this.constant.dial_code,
-      phone: '',
-      logo: '',
-      image: '',
-      developer_image: ''
+      phone: '', logo: '', image: '', developer_image: '',
+      developer_company: '', developer_desc: ''
     };
     this.model.developer.id = item.id;
     this.model.developer_id = item.id;
@@ -944,6 +919,8 @@ console.log('.......', modelSave.amenities);
     this.model.developer.dial_code = item.dial_code;
     this.model.developer.country_code = item.country_code;
     this.model.developer.logo = item.image;
+    this.model.developer.developer_company = item.developer_company;
+    this.model.developer.developer_desc = item.developer_desc;
     this.file5.image = item.image;
     this.file6.image = item.developer_image;
     this.closeDeveloperListModel.nativeElement.click();
@@ -951,7 +928,6 @@ console.log('.......', modelSave.amenities);
 
 
   addNewTower() {
-    console.log(this.newTower);
     // if (this.model.building_tower_edit_index) {
     //   swal('First save the previous editted tower.');
     // }
@@ -962,7 +938,7 @@ console.log('.......', modelSave.amenities);
     if (!this.newTower.launch_date) { swal('Error', 'Please enter launch date.', 'error'); return false; }
 
     const tempAmen = JSON.parse(JSON.stringify(this.allTowerAmenities));
-    console.log('aaaaa', tempAmen);
+
     this.selectedTowerAmenitiesId = tempAmen.filter(op => { if (op.selected === true) { return op; } });
     // this.selectedTowerAmenitiesId = tempAmen.filter(op => { if (op.selected === true) { return op; } }).map(op => op.id);
     this.selectedTowerAmenityObj = tempAmen.filter(op => { if (op.selected === true) { return op; } });
@@ -975,7 +951,6 @@ console.log('.......', modelSave.amenities);
     // setting tower to empty
     this.newTower = new Towers();
     this.allTowerAmenities.map(op => { op.selected = false; });
-    console.log(this.model.building_towers);
   }
 
 
@@ -998,22 +973,20 @@ console.log('.......', modelSave.amenities);
       confirmButtonText: 'Yes, Delete!'
     }).then((result) => {
       if (result.value) {
-        console.log('before', this.model.building_towers);
         const btid = this.model.building_towers[index].id;
         this.model.building_towers.splice(index, 1);
 
         if (btid) {
           this.admin.postDataApi('deleteTower', {building_towers_id: btid}).subscribe(res => {
-            console.log('sss', res);
+            // console.log('sss', res);
           });
         }
-        console.log('after', this.model.building_towers);
       }
     });
   }
 
   saveTower(btower: Towers, index: any) {
-    console.log('save', index);
+
     // this.allTowerAmenityForEdit = btower.amenities;
     if (!this.model.building_towers[index].tower_name) { swal('Error', 'Please enter tower name.', 'error'); return false; }
     if (!this.model.building_towers[index].num_of_floors) { swal('Error', 'Please enter no. of floors.', 'error'); return false; }
@@ -1028,7 +1001,6 @@ console.log('.......', modelSave.amenities);
     if (this.model.building_towers[index].amenities.length < 1) { swal('Error', 'Please choose tower amenities.', 'error'); return false; }
     // btower.amenities.map(item => { item.images = []; return item; });
     this.model.building_tower_edit_index = '-1';
-    console.log(this.model.building_towers);
   }
 
   editTowerAmenity(btoweramenity, index: any) {
@@ -1046,7 +1018,6 @@ console.log('.......', modelSave.amenities);
 
 
   setTowerAmenity(a: any, m: any) {
-    console.log('set ame', this.towerAmenityIndex, m);
     this.allTowerAmenityForEdit[m].selected = !this.allTowerAmenityForEdit[m].selected;
     this.model.building_towers[this.towerAmenityIndex].amenities =
     this.allTowerAmenityForEdit.filter(op => { if (op.selected === true) { return op; } });
@@ -1121,48 +1092,4 @@ console.log('.......', modelSave.amenities);
     return new File([u8arr], filename, {type: mime});
   }
 
-  // onMultipleFileSelect(event, i: number) {
-  //   if (event.target.files && event.target.files[0]) {
-  //     const filearray = Array.from(event.target.files);
-  //     console.log('filearay', filearray);
-  //     console.log('model', this.model.amenities);
-  //     // this.model.amenities
-  //     // if (this.model.file.length !== 0) {
-  //     //   this.model.file = this.model.file.concat(filearray);
-  //     // } else {
-  //     //   this.model.file = filearray;
-  //     // }
-  //     // file type checks
-  //     // if ((event.target.files[0].type.indexOf('video') === -1) && (event.target.files[0].type.indexOf('image') === -1)) {
-  //     //   this.toastrService.error('Please choose image or video file.');
-  //     //   return;
-  //     // }
-  //     // file size check
-  //     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-  //       swal('Error', 'The file you have selected is too large. The maximum size is 25MB.', 'error');
-  //       return;
-  //     }
-
-  //     return new Promise(async(resolve, reject) => {
-  //       for (let index = 0; index < event.target.files.length; index++) {
-  //         console.log('1');
-  //         const element = event.target.files[index];
-  //           const reader = new FileReader();
-  //           reader.onload = (e: any) => {
-  //             const obj = {
-  //               url: e.target.result,
-  //               type: 'image'
-  //             };
-  //             // this.model.fileBase64.push(obj);
-  //           };
-  //           reader.readAsDataURL(element);
-  //       }
-  //     });
-
-  //   } else {
-  //     // if (!this.model.file) {
-  //     //   this.toastrService.error('Please choose file');
-  //     // }
-  //   }
-  // }
 }

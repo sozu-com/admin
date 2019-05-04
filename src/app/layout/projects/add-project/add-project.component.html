@@ -24,17 +24,21 @@
             </div>
 
             <!-- more images -->
-            <div class="add-project-img-more">
-              <img *ngIf="model.images?.length>0" [src]="model.images[0]?.image" onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
-              <div class="upload-caption">
-                <p *ngIf="model?.images?.length > 1" class="number" (click)="modelOpenFun()">+{{model?.images?.length-1}}</p>
-                <p *ngIf="model?.images?.length <= 1" class="green-color"  (click)="modelOpenFun()">+ Add more images</p>
+            <hr>
+            <div class="form-group-3">
+              <label>Add More Images</label>
+              <div class="add-project-img-more marginT0">
+                <img *ngIf="model.images?.length>0" [src]="model.images[0]?.image" onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
+                <div class="upload-caption">
+                  <p *ngIf="model?.images?.length > 1" class="number" (click)="modelOpenFun()">+{{model?.images?.length-1}}</p>
+                  <p *ngIf="model?.images?.length <= 1" class="green-color"  (click)="modelOpenFun()">+ Add more images</p>
+                </div>
               </div>
             </div>
-
+            <hr>
             <div class="form-group-3">
               <label>Add 360<span>&#176;</span> Images</label>
-              <div class="add-project-img-more">
+              <div class="add-project-img-more marginT0">
                 <img *ngIf="model.images360?.length>0" [src]="model.images360[0]?.image" onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
                 <div class="upload-caption">
                   <p *ngIf="model?.images360?.length > 1" class="number" (click)="modelOpen360ImgFun()">+{{model?.images360?.length-1}}</p>
@@ -42,10 +46,10 @@
                 </div>
               </div>
             </div>
-
+            <hr>
             <div class="form-group-3">
               <label>Add Video</label>
-              <div class="add-project-img-more">
+              <div class="add-project-img-more marginT0">
                 <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'" src="{{videoSrc}}" class="video55 floor-plan" autoplay type="video/mp4" controls></video>
                 
                 <!-- if want to give play option -->
@@ -193,18 +197,24 @@
                     <!-- <span class="color-red">*</span> -->
                   </label>
                   <ul class="loc-tags-group">
-                    <li *ngFor="let a of all_amenities; let i=index" class="width100">
-                      <span *ngIf="a.selected==true" class="width100">{{a.name}} 
-                        <b (click)="a.selected = false" title="remove"><img src="assets/img/close-tag.png" /></b>
+                    <li *ngFor="let a of all_amenities; let i=index" [ngClass]="a.selected==true ? 'width100' : ''">
+                      <span *ngIf="a.selected==true" class="width100 amen-img">{{a.name}} 
+                        <b class="pull-right" (click)="a.selected = false" title="Remove"><img src="assets/img/close-tag.png" /></b>
                       </span>
-                      <div class="spacer30"></div>
+                      <div *ngIf="a.selected==true" class="spacer30"></div>
                       <div *ngIf="a.selected==true">
                         <div class="uploaded-img-block">
-                          <div class="uploaded-img2" *ngFor="let item of a.images; let j=index">
+                          <div class="uploaded-img2">
+                            <img src="assets/img/placeholder.png" class="u-img" alt="img">
+                            <div class="upload-caption">
+                              <p class="green-color" (click)="modelAmenityOpenFun(a, i)">+ Add more images</p>
+                            </div>
+                          </div>
+                          <div class="uploaded-img2" *ngFor="let item of a.images.slice(0,3); let j=index">
                             <img *ngIf="item && j<4" onerror="this.src='assets/img/placeholder.png'" class="u-img" [src]="item.image" alt="img">
-                            <div class="upload-caption" *ngIf="j==a?.images?.length-1">
-                              <p *ngIf="a.images?.length > 4" class="number" (click)="modelAmenityOpenFun(a, i)">+{{a?.images?.length-5}}</p>
-                              <p *ngIf="a.images?.length <= 4" class="green-color"  (click)="modelAmenityOpenFun(a, i)">+ Add more images</p>
+                            <div class="upload-caption">
+                              <p *ngIf="a.images?.length > 3 && j==2" class="number" (click)="modelAmenityOpenFun(a, i)">+{{a?.images?.length-3}}</p>
+                              <!-- <p *ngIf="a.images?.length <= 4 && j==a?.images?.length-1" class="green-color"  (click)="modelAmenityOpenFun(a, i)">+ Add more images</p> -->
                             </div>
                           </div>
                         </div>
@@ -483,12 +493,24 @@
                     <input autocomplete="off" [disabled]="!canEditdeveloperInfo" minlength="6" maxlength="16" autocomplete="off" type="text" class="form-control" id="phone" placeholder="Phone Number" minlength="1" [(ngModel)]="model.developer.phone" name="phone" ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)"/>
                   </div>
                 </div>
-                <div class="col-md-12 col-sm-12 col-12">
+                <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>Email</label>
                     <input autocomplete="off" [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.developer.email" class="form-control" type="email" name="developer_email" placeholder="Developer Email" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
                   </div>
                 </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>Company Name</label>
+                    <input autocomplete="off" [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.developer.developer_company" class="form-control" type="text" name="developer_company" placeholder="Company Name"/>
+                  </div>
+                </div>
+                <!-- <div class="col-md-12 col-sm-12 col-12">
+                  <div class="form-group-3">
+                    <label>Description</label>
+                    <input autocomplete="off" [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.developer.developer_desc" class="form-control" type="text" name="developer_desc" placeholder="Description"/>
+                  </div>
+                </div> -->
   
                 <div class="col-6">
                   <div class="form-group-3">

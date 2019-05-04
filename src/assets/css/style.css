@@ -1713,6 +1713,7 @@ position: absolute;
 right: -12px;
 top: -12px;
 }
+.pull-left{text-align: left;}
 .add-more-images input[type=file] {
 text-indent: 1000px;
 overflow: hidden;
@@ -3059,4 +3060,10 @@ h3 .tower{
     font-size: 14px;
     padding-top: 6px;
     cursor: pointer;
+}
+.amen-img{
+    background-color: #e0f6ed !important;
+    text-align: left;
+    color: #00B96F;
+    border: 1px solid #00B96F;
 }
