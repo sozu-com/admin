@@ -20,6 +20,7 @@ export interface IProperty {
   searchKey?: string;
   fullName?: string;
   email?: string;
+  company_name?: string;
   countryCode?: string;
   dialCode?: string;
   phoneNumber?: string;

@@ -591,19 +591,23 @@ console.log('model', this.model);
         });
   }
 
-  setBuilding(building_id) {
+  setBuilding(building_id: string) {
     this.parameter.building_id = building_id;
   }
 
-  searchUserByName(name) {
+  searchUserByName(name: string) {
     this.parameter.name = name;
     this.getInhouseUsers();
   }
-  searchUserByEmail(email) {
+  searchUserByCompanyName(company_name: string) {
+    this.parameter.company_name = company_name;
+    this.getInhouseUsers();
+  }
+  searchUserByEmail(email: string) {
     this.parameter.email = email;
     this.getInhouseUsers();
   }
-  searchUserByPhone(phone) {
+  searchUserByPhone(phone: string) {
     this.parameter.phone = phone;
     this.getInhouseUsers();
   }
@@ -675,6 +679,7 @@ console.log('model', this.model);
     if (this.parameter.name) { input.append('name', this.parameter.name); }
     if (this.parameter.email) { input.append('email', this.parameter.email); }
     if (this.parameter.phone) { input.append('phone', this.parameter.phone); }
+    if (this.parameter.company_name) { input.append('company_name', this.parameter.company_name); }
     if (this.parameter.country_id && this.parameter.country_id !== '-1') {
       input.append('countries', JSON.stringify([this.parameter.country_id]));
     }

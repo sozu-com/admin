@@ -106,6 +106,15 @@
         <table class="table table-striped">
           <tr>
             <th style="width:6%">&nbsp;</th>
+            <th style="width:15%" *ngIf="parameter.userType == 'outside-broker'">
+              <div class="table-search">
+                  <label>Company Name</label>
+                  <div class="searh-3">
+                    <input type="text" [(ngModel)]="parameter.company_name" (keyup.enter)="searchUserByCompanyName(parameter.company_name)" name="">
+                    <button type="button" *ngIf="parameter.company_name" (click)="searchUserByCompanyName(parameter.company_name)"><i class="fa fa-search"></i></button>
+                  </div>
+              </div>
+            </th>
             <th style="width:15%">
               <div class="table-search">
                   <label>Name</label>
@@ -149,6 +158,9 @@
               <td> 
                   <img [src]="item.image" class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
                 <!-- <img [src]="item.image| img:'small'" class="rounded-circle" onerror='src="constant.userPlaceholder"' alt="img"> -->
+              </td>
+              <td class="text-left" *ngIf="parameter.userType == 'outside-broker'">
+                <span class="name">{{item.company_name ? item.company_name : 'NA'}}</span>
               </td>
               <td class="text-left text-ellipsis120">
                 <span class="name">{{item.name}}</span>

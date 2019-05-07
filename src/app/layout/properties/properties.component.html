@@ -289,11 +289,11 @@
                                  <label>Link seller</label>
                               </div>
                            </th>
-                           <!-- <th style="width:8%;vertical-align:top;">
+                           <th style="width:8%;vertical-align:top;">
                               <div class="d-flex table-search">
                                  <label>Assign outside<br>agent</label>
                               </div>
-                           </th> -->
+                           </th>
                            <th style="width:10%;vertical-align:top;">
                               <div class="d-flex table-search">
                                  <label>Change property <br> sold status</label>
@@ -326,11 +326,11 @@
                                  <span class="green-color"><span>Link</span></span>
                               </td>
                               
-                              <!-- <td class="cursor-pointer" (click)="getInhouseBroker(p, '')">
+                              <td class="cursor-pointer" (click)="getInhouseBroker(p, '')">
                                  <span class="green-color">
                                     <span title="Click to {{p?.external_broker?.id ? 'change' : 'assign'}}">{{p?.external_broker?.id ? 'Change' : 'Assign'}}</span>
                                  </span>
-                              </td> -->
+                              </td>
                               <td class="cursor-pointer" (click)="changeSoldStatusPopup(p, i)" *ngIf="p.for_sale">
                                  <span class="green-color">
                                     <span title="Click to mark property sold." *ngIf="p.for_sale && !p.is_property_sold">Mark Sold</span>
