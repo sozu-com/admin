@@ -254,27 +254,36 @@
                            </th>
                            <th style="width:10%; text-align:left;">
                               <div class="table-search">
+                                 <label>Name of Apartment</label>
+                                 <div class="searh-3">
+                                    <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getListing()" >
+                                    <button *ngIf="parameter.name" (click)="getListing()"><i class="fa fa-search"></i></button>
+                                 </div>
+                              </div>
+                           </th>
+                           <th style="width:10%; text-align:left;">
+                              <div class="table-search">
                                  <label>Configuration</label>
                                  <select [(ngModel)]="parameter.configuration_id" (change)="getListing()">
-                                    <option value="0">All configuration</option>
+                                    <option value="0">All</option>
                                     <option *ngFor="let c of configurations" value="{{c.id}}" >
                                        {{c.name}}
                                     </option>
                                  </select>
                               </div>
                            </th>
-                           <th style="width:10%;vertical-align:top;">
+                           <th style="width:8%;vertical-align:top;">
                               <div (click)="sort_by(1)" class="d-flex table-search">
                                  <label>Price</label>
                                  <a href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by==1 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a></div>
                            </th>
-                           <th style="width:10%;vertical-align:top;">
+                           <th style="width:5%;vertical-align:top;">
                               <div (click)="sort_by(2)" class="d-flex table-search">
                                  <label>Availability</label>
                               <a href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by==2 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a>
                               </div>
                            </th>
-                           <th style="width:8%;vertical-align:top;">
+                           <th style="width:5%;vertical-align:top;">
                               <div (click)="sort_by(3)" class="d-flex table-search">
                                  <label>Leads</label>
                                  <a href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by==3 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a>
@@ -304,16 +313,15 @@
                   
                         <tr *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
                               <td class="cursor-pointer" title="Click to view details" routerLink="/dashboard/properties/details/{{p.id}}">
-                              <strong>{{p?.building?.name?p?.building?.name:'NA'}}</strong>
-                              <!-- <strong>{{p?.name ? p?.name : 'NA'}}</strong> -->
-                              <div class="clearfix"></div>
-                              <small *ngIf="p.quantity > 0">
-                                 {{p.quantity}} 
-                                 <span *ngIf="p.quantity == 1">property</span>
-                                 <span *ngIf="p.quantity > 1">properties</span>
-                              </small>                                     
-
+                                 <strong>{{p?.building?.name?p?.building?.name:'NA'}}</strong>
+                                 <div class="clearfix"></div>
+                                 <small *ngIf="p.quantity > 0">
+                                    {{p.quantity}} 
+                                    <span *ngIf="p.quantity == 1">property</span>
+                                    <span *ngIf="p.quantity > 1">properties</span>
+                                 </small>
                               </td>
+                              <td><span>{{p?.name ? p?.name : 'NA'}}</span></td>
                               <td><span *ngIf="p && p.configuration">{{p.configuration?.name}}</span></td>
                               <td><span>{{p.min_price}}</span></td>
                               <td><span class="green-color">
@@ -455,7 +463,14 @@
                <p class="modal-title" *ngIf="property?.external_broker?.id">Currently assigned to Agent - <b>{{property?.external_broker?.name}}</b></p>
 
                <div class="spacer30"></div>
-               <input style="max-width:200px" [(ngModel)]="keyword" (input)="getInhouseBroker('', keyword)" class="form-control" type="text" name="keyword" placeholder="Search">
+               <div class="row">
+                  <div class="col-md-8 col-6">
+                     <input style="max-width:200px" [(ngModel)]="keyword" class="form-control" type="text" name="keyword" placeholder="Search">
+                 </div>
+                 <div class="col-md-4 col-5 btn-cont">
+                     <a class="btn btn-primary pull-right" href="javascript://" (click)="getInhouseBroker('', keyword)">Search</a>
+                 </div>
+               </div>
 
                <div class="spacer40"></div>
                <table class="table">

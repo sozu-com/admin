@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, NgZone, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AdminService } from '../../../services/admin.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -93,7 +93,7 @@ export class AddProjectComponent implements OnInit {
     original: ''
   };
   videoSrc: any;
-
+  keyword: string;
   constructor(
     public model: AddProjectModel,
     private admin: AdminService,
@@ -179,6 +179,7 @@ export class AddProjectComponent implements OnInit {
             if (this.model.building_towers && this.model.building_towers.length > 0) {
               // setting true to tower selected amenities
               this.model.building_towers.map(item => {
+                item.amenitiesCount = item.amenities.length;
                 item.amenities.map(i => { i.selected = true; return i; });
               });
 
@@ -255,6 +256,7 @@ export class AddProjectComponent implements OnInit {
             if (this.model.building_towers && this.model.building_towers.length > 0) {
               // setting true to tower selected amenities
               this.model.building_towers.map(item => {
+                item.amenitiesCount = item.amenities.length;
                 item.amenities.map(i => { i.selected = true; return i; });
               });
 
@@ -303,6 +305,17 @@ export class AddProjectComponent implements OnInit {
 
     this.admin.postDataApi('getConfigurations', {}).subscribe(r => {
       this.all_configurations = r.data;
+    });
+  }
+
+  searchAmenity(keyword: string) {
+    const input = {keyword: ''};
+    input.keyword = keyword;
+    this.admin.postDataApi('getAmenities', input).subscribe(res => {
+      this.all_amenities = res.data.map(item => { item.selected = false; item.images = []; return item; });
+      this.allTowerAmenities = JSON.parse(JSON.stringify(this.all_amenities));
+      this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
+
     });
   }
 
@@ -895,6 +908,7 @@ console.log('tower mamrn', modelSave.building_towers);
     if (this.model.building_towers && this.model.building_towers.length > 0) {
       // setting true to tower selected amenities
       this.model.building_towers.map(item => {
+        item.amenitiesCount = item.amenities.length;
         item.amenities.map(i => { i.selected = true; return i; });
       });
 
@@ -985,7 +999,11 @@ console.log('tempamane', tempAmen);
     console.log(this.selectedTowerAmenityObj);
     this.newTower.amenities = this.selectedTowerAmenityObj;
     this.newTower.amenitiesId = this.selectedTowerAmenitiesId;
-    if (this.newTower.amenities.length < 1) { swal('Error', 'Please choose tower amenities.', 'error'); return false; }
+    this.newTower.amenitiesCount = this.newTower.amenities.length;
+    if (this.newTower.amenities.length < 1) {
+      // swal('Error', 'Please choose tower amenities.', 'error'); return false;
+      this.newTower.amenities = [];
+    }
     this.model.building_towers.push(this.newTower);
     this.showAddBtn = true;
 console.log('this.model.building_towers', this.model.building_towers);
@@ -998,7 +1016,7 @@ console.log('this.model.building_towers', this.model.building_towers);
   editTower(btower: any, index: number) {
     console.log('edit', btower, index);
     if (this.model.building_tower_edit_index !== '-1') {
-      swal('First save the previous editted tower.');
+      swal('Warning', 'First save the previous editted tower.', 'warning');
       return;
     }
     this.model.building_tower_edit_index = index;
@@ -1051,8 +1069,15 @@ console.log('this.model.building_towers', this.model.building_towers);
     this.selectedTowerAmenityObj = btower.amenities.filter(op => { if (op.selected === true) { return op; } });
     this.model.building_towers[index].amenitiesId = this.selectedTowerAmenitiesId;
     this.model.building_towers[index].amenities = this.selectedTowerAmenityObj;
-    if (this.model.building_towers[index].amenities.length < 1) { swal('Error', 'Please choose tower amenities.', 'error'); return false; }
+    if (this.model.building_towers[index].amenities.length < 1) {
+      // swal('Error', 'Please choose tower amenities.', 'error'); return false;
+      this.model.building_towers[index].amenities = [];
+      this.allTowerAmenityForEdit.map(i => { i.selected = false; return i; });
+    }
+    console.log('aaaaaaaaa', this.model.building_towers);
+    console.log('pppppppppp', this.allTowerAmenityForEdit);
     // btower.amenities.map(item => { item.images = []; return item; });
+    this.model.building_towers[index].amenitiesCount = this.model.building_towers[index].amenities.length;
     this.model.building_tower_edit_index = '-1';
   }
 
@@ -1082,6 +1107,7 @@ console.log('this.model.building_towers', this.model.building_towers);
     // this.allTowerAmenityForEdit.filter(op => { if (op.selected === true) { return op; } }).map(op => op.id);
     this.model.building_towers[this.towerAmenityIndex].amenitiesId =
     this.allTowerAmenityForEdit.filter(op => { if (op.selected === true) { return op; } });
+    this.model.building_towers[this.towerAmenityIndex].amenitiesCount = this.model.building_towers[this.towerAmenityIndex].amenities.length;
   }
 
 

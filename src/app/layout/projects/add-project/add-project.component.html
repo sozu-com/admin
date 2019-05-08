@@ -74,6 +74,11 @@
                   <input class="form-control" type="text" [(ngModel)]="model.name" name="name" placeholder="Enter name of building" autocomplete="off" required>
                 </div>
               </div>
+
+
+              
+
+
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>Location
@@ -438,6 +443,7 @@
                   <div class="form-group-3 marginB0">
                     <label>Amenities available</label>
                     <ul class="loc-tags-group" *ngIf="model?.building_tower_edit_index!=i">
+                      <span *ngIf="btower.amenitiesCount==0">No amenity added for this tower.</span>
                       <li *ngFor="let a of btower?.amenities">
                         <span *ngIf="a.selected==true">{{a.name}} 
                           <!-- <b (click)="a.selected = false" title="Remove"><img src="assets/img/close-tag.png" /></b> -->
@@ -588,7 +594,7 @@
   </div>
 </div>
 
-<!-- Amanities model -->
+<!-- Amenities model -->
 <div class="modal" id="amenities" style="display: none;" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content amenities-popup">
@@ -597,11 +603,23 @@
         <button type="button" class="close" data-dismiss="modal">×</button>
       </div>
       <div class="modal-body">
-        <label *ngFor="let a of all_amenities; " (click)="a.selected = !a.selected" class="cust-check-bx2">
-             {{a.name}}
-           <span *ngIf="a.selected==true" class="checkmark open"></span>
-           </label>
-
+        <!-- searching -->
+        <!-- <div class="row">
+          <div class="col-md-8 col-6">
+              <input style="max-width:200px" [(ngModel)]="keyword" class="form-control" type="text" name="keyword" placeholder="Search">
+          </div>
+          <div class="col-md-4 col-5 btn-cont">
+              <a class="btn btn-primary pull-right" href="javascript://" (click)="getInhouseBroker('', keyword)">Search</a>
+          </div>
+        </div>
+        <div class="spacer30"></div> -->
+          
+        <div>
+          <label *ngFor="let a of all_amenities; " (click)="a.selected = !a.selected" class="cust-check-bx2">
+            {{a.name}}
+          <span *ngIf="a.selected==true" class="checkmark open"></span>
+          </label>
+        </div>
       </div>
       <div class="modal-footer">
         <div class="btn-cont">

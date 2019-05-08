@@ -100,6 +100,7 @@ export class Towers {
     amenities: Array<AmenitiesShowObj>;
     amenitiesId: Array<string>;
     floor_array?: Array<number>;
+    amenitiesCount?: number;
     // amenities: Array<any>;
     // amenitiesId: Array<any>;
 }
