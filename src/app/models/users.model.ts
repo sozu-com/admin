@@ -1,5 +1,6 @@
 export class Users {
     id: string;
+    company_name?: string;
     name: string;
     country_code: string;
     dial_code: string;

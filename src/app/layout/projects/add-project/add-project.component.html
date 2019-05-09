@@ -68,7 +68,7 @@
            </div>
           <div class="col-md-7 col-sm-12 col-12">
             <div class="row">
-              <div class="col-sm-6 col-12">
+              <div class="col-sm-12 col-12">
                 <div class="form-group-3">
                   <label>Name of the Building <span class="color-red">*</span></label>
                   <input class="form-control" type="text" [(ngModel)]="model.name" name="name" placeholder="Enter name of building" autocomplete="off" required>
@@ -76,10 +76,50 @@
               </div>
 
 
-              
+              <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                <div class="form-group-3">
+                  <label class="p16-two">Select Country <span class="color-red">*</span></label>
+                  <select title="Choose Country" required class="form-control" (change)="getStates($event.target.value, '')">
+                    <option value="" disabled>Select Country</option>
+                    <option *ngFor="let country of parameter.countries" value="{{country.id}}"
+                      [selected]="country.id == model.country_id">{{country.name_en}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                <div class="form-group-3">
+                  <label class="p16-two">&nbsp;</label>
+                  <select title="Choose State" required class="form-control" (change)="getCities($event.target.value, '')">
+                    <option value="">Select State</option>
+                    <option *ngFor="let state of parameter.states" value="{{state.id}}"
+                      [selected]="state.id == model.state_id">{{state.name_en}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                <div class="form-group-3">
+                  <!-- <label class="p16-two">&nbsp;</label> -->
+                  <select title="Choose City" required class="form-control" (change)="getLocalities($event.target.value)">
+                    <option value="">Select City</option>
+                    <option *ngFor="let city of parameter.cities" value="{{city.id}}" [selected]="city.id == model.city_id">
+                      {{city.name_en}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                <div class="form-group-3">
+                  <!-- <label class="p16-two">&nbsp;</label> -->
+                  <select title="Choose Locality" required class="form-control"
+                    (change)="setValue('locality_id', $event.target.value)">
+                    <option value="">Select Locality</option>
+                    <option *ngFor="let locality of parameter.localities" value="{{locality.id}}"
+                      [selected]="locality.id == model.locality_id">{{locality.name_en}}</option>
+                  </select>
+                </div>
+              </div>
 
 
-              <div class="col-sm-6 col-12">
+              <div class="col-sm-12 col-12">
                 <div class="form-group-3">
                   <label>Location
                     <span class="color-red">*</span>
@@ -89,12 +129,10 @@
               </div>
             </div>
             <div class="form-group-3">
-              <label>Location Pin on Map
-                <!-- <span class="color-red">*</span> -->
-              </label>
+              <label>Location Pin on Map<span class="color-red">*</span></label>
               <div style="width: 100%;">
-                <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" (mapClick)="placeMarker($event)" [zoom]="zoom">
-                  <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+                <agm-map [latitude]="model.lat" [longitude]="model.lng" [scrollwheel]="false" (mapClick)="placeMarker($event)" [zoom]="zoom">
+                  <agm-marker [latitude]="model.lng" [longitude]="model.lat"></agm-marker>
                 </agm-map>
               </div>
             </div>
@@ -295,6 +333,121 @@
               </div>
             </div>
 
+
+            <!-- Preferable Buyers Section -->
+            <div class="row">
+                <div class="col-12">
+                  <div class="page-title paddingL0 paddingR0">
+                      <h3>Preferable Buyers
+                        <span class="tower pull-right" (click)="showPreferableBuyer=!showPreferableBuyer">{{showPreferableBuyer?'Hide':'Show'}}</span>
+                      </h3>
+                  </div>
+                </div>
+                <div class="padding20T10" *ngIf="showPreferableBuyer">
+                  <div class="form-group-3">
+                    <label class="p16-two">Marital Status? <span class="color-red">*</span></label>
+                    <div class="clearfix"></div>
+                    <label class="cust-radio" *ngFor="let m of testMarital; let mi=index">
+                      <input value="{{m.checked}}" name="marital_status[{{mi}}]" type="checkbox"
+                        (click)="addMaritalStatus(m.checked, mi)" [checked]="m.checked == true ? 'checked': ''">
+                      <span class="checkmark">{{m.name}}</span>
+                    </label>
+                    <div class="clearfix"></div>
+                  </div>
+            
+                  <div class="spacer15"></div>
+                  <div class="form-group-3">
+                    <label class="p16-two">Pets Allowed? <span class="color-red">*</span></label>
+                    <div class="clearfix"></div>
+                    <label class="cust-radio">
+                      <input type="radio" (change)="setValue('pets', 1)" value="1" [checked]="model.pets == 1 ? 'checked' : ''"
+                        name="pets">
+                      <span class="checkmark">Allowed</span>
+                    </label>
+                    <label class="cust-radio">
+                      <input type="radio" (change)="setValue('pets', 0)" value="0" [checked]="model.pets == 0 ? 'checked' : ''"
+                        name="pets">
+                      <span class="checkmark">Not Allowed</span>
+                    </label>
+                    <div class="clearfix"></div>
+                  </div>
+            
+            
+                  <div class="spacer15"></div>
+                  <div class="form-group-3">
+                    <label class="p16-two">Kids Friendly? <span class="color-red">*</span></label>
+                    <div class="clearfix"></div>
+                    <label class="cust-radio">
+                      <input type="radio" (change)="setValue('kids_friendly', 1)" value="1" [checked]="model.kids_friendly == 1 ? 'checked' : ''"
+                        name="kids_friendly">
+                      <span class="checkmark">Yes</span>
+                    </label>
+                    <label class="cust-radio">
+                      <input type="radio" (change)="setValue('kids_friendly', 0)" value="0" [checked]="model.kids_friendly == 0 ? 'checked' : ''"
+                        name="kids_friendly">
+                      <span class="checkmark">No</span>
+                    </label>
+                    <div class="clearfix"></div>
+                  </div>
+            
+            
+                  <div class="spacer15"></div>
+                  <div class="form-group-3">
+                    <label class="p16-two">Students Friendly? <span class="color-red">*</span></label>
+                    <div class="clearfix"></div>
+                    <label class="cust-radio">
+                      <input type="radio" (change)="setValue('students_friendly', 1)" value="1" [checked]="model.students_friendly == 1 ? 'checked' : ''"
+                        name="students_friendly">
+                      <span class="checkmark">Yes</span>
+                    </label>
+                    <label class="cust-radio">
+                      <input type="radio" (change)="setValue('students_friendly', 0)" value="0" [checked]="model.students_friendly == 0 ? 'checked' : ''"
+                        name="students_friendly">
+                      <span class="checkmark">No</span>
+                    </label>
+                    <div class="clearfix"></div>
+                  </div>
+            
+            
+                  <div class="spacer15"></div>
+                  <div class="form-group-3">
+                    <label class="p16-two">LGBT Friendly? <span class="color-red">*</span></label>
+                    <div class="clearfix"></div>
+                    <label class="cust-radio">
+                      <input type="radio" (change)="setValue('lgtb_friendly', 1)" value="1" [checked]="model.lgtb_friendly == 1 ? 'checked' : ''"
+                        name="lgtb_friendly">
+                      <span class="checkmark">Yes</span>
+                    </label>
+                    <label class="cust-radio">
+                      <input type="radio" (change)="setValue('lgtb_friendly', 0)" value="0" [checked]="model.lgtb_friendly == 0 ? 'checked' : ''"
+                        name="lgtb_friendly">
+                      <span class="checkmark">No</span>
+                    </label>
+                    <div class="clearfix"></div>
+                  </div>
+            
+            
+                  <div class="spacer15"></div>
+                  <div class="form-group-3">
+                    <label class="p16-two">Mature People Friendly? <span class="color-red">*</span></label>
+                    <div class="clearfix"></div>
+                    <label class="cust-radio">
+                      <input type="radio" (change)="setValue('mature_people_friendly', 1)" value="1" [checked]="model.mature_people_friendly == 1 ? 'checked' : ''"
+                        name="mature_people_friendly">
+                      <span class="checkmark">Yes</span>
+                    </label>
+                    <label class="cust-radio">
+                      <input type="radio" (change)="setValue('mature_people_friendly', 0)" value="0" [checked]="model.mature_people_friendly == 0 ? 'checked' : ''"
+                        name="mature_people_friendly">
+                      <span class="checkmark">No</span>
+                    </label>
+                    <div class="clearfix"></div>
+                  </div>
+            
+                </div>
+              </div>
+              <!-- End Of Preferable Buyers Section -->
+  
 
             <!-- Tower Section -->
             <div class="row">
@@ -580,7 +733,6 @@
               <div class="col-12">
                 <div class="btn-cont text-right">
                   <button [disabled]="!f.valid" (click)="addProject()" class="btn-primary btn">Submit</button>
-                  <!-- <button  (click)="addProject()" class="btn-primary btn">Submit</button> -->
                 </div>
               </div>
 

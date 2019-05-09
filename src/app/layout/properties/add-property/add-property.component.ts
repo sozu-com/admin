@@ -134,7 +134,6 @@ export class AddPropertyComponent implements OnInit {
       } else {
         this.getPropertyById(this.parameter.property_id);
       }
-      console.log(params);
     });
 
     this.parameter.buildingCount = 0;
@@ -156,7 +155,6 @@ export class AddPropertyComponent implements OnInit {
     this.searchControl = new FormControl();
     // set current position
     this.setCurrentPosition();
-    // console.log('propertyid', this.parameter.property_id);
   }
 
   getPropertyById(property_id) {
@@ -168,7 +166,6 @@ export class AddPropertyComponent implements OnInit {
       .subscribe(
         success => {
           this.parameter.loading = false;
-          console.log(success);
           this.parameter.loading = false;
           this.parameter.propertyDetails = success['data'];
           this.setModelData(success['data']);
@@ -236,7 +233,6 @@ export class AddPropertyComponent implements OnInit {
   }
 
   setModelData(data) {
-    console.log(data);
     this.model.id = data.id;
     this.model.name = data.name;
     this.model.property_price = data.property_price;
@@ -302,11 +298,9 @@ export class AddPropertyComponent implements OnInit {
 
 
     for (let index = 0; index < this.testMarital.length; index++) {
-      // console.log('data.marital_status', this.testMarital, data.marital_statuses);
       if (data.marital_statuses.length !== 0) {
         for (let i = 0; i < data.marital_statuses.length; i++) {
           if (this.testMarital[index].name === data.marital_statuses[i].name_en) {
-            // console.log('check', this.testMarital, data.marital_statuses);
             this.testMarital[index].checked = true;
           }
         }
@@ -649,7 +643,6 @@ export class AddPropertyComponent implements OnInit {
       this.us.postDataApi('saveImage', input).subscribe(
         success => {
           this.model[param] = success['data'].image;
-          // console.log(this.model);
         });
 
     }
@@ -671,13 +664,11 @@ export class AddPropertyComponent implements OnInit {
 
   saveImages() {
     this.http.loader.next({ value: true });
-    console.log('sss');
     if (this.file2.files.length < 1) {
       swal('Error', 'Please select atleast one image', 'error'); return false;
     }
     this.modalClose.nativeElement.click();
     this.file2.upload().then(r => {
-      console.log('resolved');
       this.model.images = this.file2.files;
       this.http.loader.next({ value: false });
     });
@@ -685,13 +676,11 @@ export class AddPropertyComponent implements OnInit {
 
   save360Images() {
     this.http.loader.next({ value: true });
-    console.log('sss');
     if (this.file360.files.length < 1) {
       swal('Error', 'Please select atleast one image', 'error'); return false;
     }
     this.modalClose360Img.nativeElement.click();
     this.file360.upload().then(r => {
-      console.log('resolved');
       this.model.images360 = this.file360.files;
       this.http.loader.next({ value: false });
     });
@@ -738,7 +727,6 @@ export class AddPropertyComponent implements OnInit {
   }
 
   addProperty(formdata: NgForm, tab) {
-    console.log('tab', tab);
     if (this.model.parking_for_sale && this.model.parking_count) {
       if (this.model.parking_for_sale > this.model.parking_count) {
         swal('Error', 'Parking for sale cannot be greater than total parkings available.', 'error');
@@ -802,7 +790,7 @@ export class AddPropertyComponent implements OnInit {
         input.append('building_towers_id', this.model.building_towers_id);
         input.append('floor_num', this.model.floor_num);
       }
-console.log(this.model);
+
       if (this.model.step === 2) {
         const imagesString = this.model.images.map(r => r.image);
         const imagesString360 = this.model.images360.map(r => r.image);
@@ -852,13 +840,12 @@ console.log(this.model);
         input.append('step', this.model.step.toString());
         input.append('custom_attributes', JSON.stringify(this.model.custom_attributes));
       }
-      console.log('INPUT=>', input);
       this.parameter.loading = true;
       this.us.postDataApi('addProperty', input)
         .subscribe(
           success => {
             this.parameter.loading = false;
-            console.log(success);
+
             this.parameter.loading = false;
             if (this.model.step.toString() === '4') {
               swal({
@@ -1017,7 +1004,6 @@ console.log(this.model);
     if (!this.building.lat || !this.building.lng) {
       swal('Error', 'Please select location', 'error'); return false;
     }
-    console.log(this.building);
     this.parameter.loading = true;
     this.us.postDataApi('buildingRequest', this.building)
       .subscribe(

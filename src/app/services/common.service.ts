@@ -44,7 +44,7 @@ export class CommonService {
           this.parameter.loading = false;
           if (error.statusCode === 401) {
             this.router.navigate(['']);
-          }else {
+          } else {
             swal('Error', error.message, 'error');
           }
         });
@@ -71,7 +71,7 @@ export class CommonService {
           this.parameter.loading = false;
           if (error.statusCode === 401) {
             this.router.navigate(['']);
-          }else {
+          } else {
             swal('Error', error.message, 'error');
           }
         });
@@ -100,7 +100,7 @@ export class CommonService {
           this.parameter.loading = false;
           if (error.statusCode === 401) {
             this.router.navigate(['']);
-          }else {
+          } else {
             swal('Error', error.message, 'error');
           }
         });

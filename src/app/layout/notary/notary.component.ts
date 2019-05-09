@@ -16,18 +16,22 @@ export class NotaryComponent implements OnInit {
 
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
+  @ViewChild('fileInput') fileInput: ElementRef;
 
   public parameter: IProperty = {};
   initialCountry: any;
+  downloadLink: string;
+  label: string;
 
   constructor(public constant: Constant, public model: Users, public admin: AdminService) { }
 
   ngOnInit() {
+    this.label = 'Choose Notaries File';
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.parameter.type = 1;
     this.initialCountry = {initialCountry: this.constant.country_code};
-    this.getNoatariesListing(this.parameter.page, '', '', '');
+    this.getNoatariesListing(this.parameter.page, '', '', '', '');
   }
 
   closeModal() {
@@ -42,15 +46,17 @@ export class NotaryComponent implements OnInit {
     this.modalOpen.nativeElement.click();
   }
 
-  getPage(page) {
+  getPage(page: any) {
     this.parameter.page = page;
-    this.getNoatariesListing(this.parameter.page, this.parameter.name, this.parameter.phone, this.parameter.email);
+    this.getNoatariesListing(this.parameter.page, this.parameter.company_name,
+      this.parameter.name, this.parameter.phone, this.parameter.email);
   }
 
-  getNoatariesListing(page, name, phone, email) {
+  getNoatariesListing(page: any, company_name: string, name: string, phone: string, email: string) {
     this.parameter.loading = true;
     this.parameter.page = page;
     this.parameter.name = name;
+    this.parameter.company_name = company_name;
     this.parameter.phone = phone;
     this.parameter.email = email;
 
@@ -80,6 +86,35 @@ export class NotaryComponent implements OnInit {
     this.model.country_code = e.iso2;
     this.model.dial_code = '+' + e.dialCode;
     this.initialCountry = {initialCountry: e.iso2};
+  }
+
+  importNoatary() {
+    const file = this.fileInput.nativeElement;
+    let attachment: File;
+    if (file.files && file.files[0]) {
+      attachment = file.files[0];
+      if (attachment.size > this.constant.fileSizeLimit) {
+        swal('Error', 'File size is more than 25MB.', 'error');
+        return false;
+      }
+    this.parameter.loading = true;
+    const input = new FormData();
+    input.append('attachment', attachment);
+    this.admin.postDataApi('importNoatary', input)
+      .subscribe(
+        success => {
+          console.log('aa', success);
+          this.parameter.loading = false;
+          this.fileInput.nativeElement.value = '';
+          this.label = 'Choose Notaries File';
+          swal('Success', 'Imported successfully.', 'success');
+        }, error => {
+          this.parameter.loading = false;
+        });
+    } else {
+      swal('Error', 'Please choose file', 'error');
+      return false;
+    }
   }
 
   addNewUser(formData: NgForm) {
@@ -140,8 +175,7 @@ export class NotaryComponent implements OnInit {
     });
   }
 
-
-  blockNoatary(index, id, flag) {
+  blockNoatary(index: any, id: string, flag: any) {
     this.parameter.index = index;
     this.admin.postDataApi('blockNoatary', {id: id, flag: flag})
       .subscribe(
@@ -149,5 +183,11 @@ export class NotaryComponent implements OnInit {
           swal('Success', success.message, 'success');
           this.parameter.items[this.parameter.index] = success.data;
         });
+  }
+
+  getFileName() {
+    const fi = this.fileInput.nativeElement;
+    const uploadedFile = fi.files[0];
+    this.label = uploadedFile.name;
   }
 }

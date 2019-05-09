@@ -55,12 +55,6 @@ export class AddPropertyModel {
     mature_people_friendly = 1;
     property_price = 1;
     marital_status: any = [1];
-    // custom_attributes: any = [
-    //     {
-    //         name: '',
-    //         value: ''
-    //     }
-    // ];
     custom_attributes: any = [];
     property_quantity_details: any = [];
     building_id: string;

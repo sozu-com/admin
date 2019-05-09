@@ -1,3 +1,6 @@
+import { Locality } from "./locality.model";
+import { City } from "./location.model";
+
 export class CarpetAreas {
     carpet_areas: Array<object> = [
         {
@@ -10,6 +13,10 @@ export class CarpetAreas {
 export class AddProjectModel {
     id = '';
     building_id = '';
+    country_id = '';
+    state_id = '';
+    city_id = '';
+    locality_id = '';
     name = '';
     for_rent = false;
     for_sale = true;
@@ -28,6 +35,15 @@ export class AddProjectModel {
     custom_attributes = [];
     custom_values = [];
     configurations = [];
+
+    // Preferable buyers
+    pets = 1;
+    kids_friendly = 1;
+    students_friendly = 1;
+    lgtb_friendly = 1;
+    mature_people_friendly = 1;
+    marital_status: any = [1];
+
     developer = {
         id: '',
         name: '',
@@ -60,6 +76,7 @@ export class AddProjectModel {
     building_towers: Array<Towers>;
     building_tower_edit_index: any;
     videoLoader: boolean;
+    locality: LocalityToCountry;
 }
 
 
@@ -113,4 +130,15 @@ export class AmenitiesShowObj {
     name: string;
     selected: boolean;
     images: Array<string>;
+}
+
+export class LocalityToCountry {
+    id: any;
+    name_es: string;
+    name_en: string;
+    status: any;
+    city_id: any;
+    poly_coordinates: any;
+    price_per_sqft: any;
+    city: City;
 }

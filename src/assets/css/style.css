@@ -62,6 +62,7 @@ p.p11 { color: #434B52; font-size: 11px; line-height: 18px; }
 .marginL15{margin-left:15px !important; }
 .marginT25{margin-top:25px !important;}
 .paddingT0{padding-top:0 !important }
+.padding20T10{padding:10px 20px;}
 .padding15{padding:15px;}
 .padding20{padding:20px;}
 .padding25{padding:25px;}
@@ -3066,4 +3067,20 @@ h3 .tower{
     text-align: left;
     color: #00B96F;
     border: 1px solid #00B96F;
+}
+
+
+/* excel file upload */
+.upload-excel label{
+    color: #00B96F;
+    border: 1px solid #00B96F;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 8px 15px;
+}
+.upload-excel a{
+    color: #00B96F;
+}
+.upload-excel input{
+    display: none; text-align: center;
 }

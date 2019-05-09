@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AdminService } from '../../../services/admin.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IProperty } from '../../../common/property';
-import { AddProjectModel, Configuration, Towers } from './../../../models/addProject.model';
+import { AddProjectModel, Configuration, Towers, LocalityToCountry } from './../../../models/addProject.model';
 import { MapsAPILoader } from '@agm/core';
 import { Constant } from './../../../common/constants';
 import { FileUpload } from './../../../common/fileUpload';
@@ -41,8 +41,6 @@ export class AddProjectComponent implements OnInit {
   myform: FormGroup;
   myform2: FormGroup;
 
-  public latitude: number;
-  public longitude: number;
   public zoom: number;
 
   canEditdeveloperInfo: boolean;
@@ -57,7 +55,7 @@ export class AddProjectComponent implements OnInit {
   amen = '';
   bankList = [];
   bank = '';
-  testMarital = [];
+  // testMarital = [];
   imageEvent = [];
   showText = false;
   all_possession_statuses: any = [];
@@ -94,6 +92,24 @@ export class AddProjectComponent implements OnInit {
   };
   videoSrc: any;
   keyword: string;
+  testMarital = [
+    {
+      id: 1,
+      name: 'Married',
+      checked: false
+    },
+    {
+      id: 2,
+      name: 'Unmarried',
+      checked: false
+    },
+    {
+      id: 3,
+      name: 'Divorced',
+      checked: false
+    }
+  ];
+  showPreferableBuyer = false;
   constructor(
     public model: AddProjectModel,
     private admin: AdminService,
@@ -116,7 +132,6 @@ export class AddProjectComponent implements OnInit {
     this.file6 = new FileUpload(true, this.admin);
     this.file7 = new FileUpload(false, this.admin);
     this.file8 = new FileUpload(false, this.admin);
-
     this.route.params.subscribe(params => {
       this.id = params.id;
       this.newTower = new Towers();
@@ -127,6 +142,9 @@ export class AddProjectComponent implements OnInit {
         this.admin.postDataApi('getProjectById', { building_id: this.id }).subscribe(r => {
           this.parameter.loading = false;
           this.model = JSON.parse(JSON.stringify(r.data));
+          if (r.data['locality']) {
+            this.setCountryToLocality(r.data['locality']);
+          }
           this.model.building_tower_edit_index = '-1';
           this.model.floors = 0;
           if (r.data.developer == null) {
@@ -159,13 +177,6 @@ export class AddProjectComponent implements OnInit {
             this.allTowerAmenities = JSON.parse(JSON.stringify(this.all_amenities));
             this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
 
-            // setting true to selected amenties
-            // this.selected_amenities = this.all_amenities.map(item => {
-            //   if (this.model.amenities.find(am => am.id === item.id)) {
-            //     item.selected = true;
-            //   }
-            //   return item;
-            // });
             for (let index = 0; index < this.all_amenities.length; index++) {
               for (let i = 0; i < this.model.amenities.length; i++) {
                 if (this.model.amenities[i].id === this.all_amenities[index].id) {
@@ -206,6 +217,9 @@ export class AddProjectComponent implements OnInit {
         this.admin.postDataApi('getBuildingRequest', { building_request_id: params.request_id }).subscribe(r => {
           this.parameter.loading = false;
           this.model = JSON.parse(JSON.stringify(r.data));
+          if (r.data['locality']) {
+            this.setCountryToLocality(r.data['locality']);
+          }
           this.model.building_tower_edit_index = '-1';
           this.model.floors = 0;
           if (r.data.developer == null) {
@@ -233,14 +247,6 @@ export class AddProjectComponent implements OnInit {
             this.all_amenities = res.data.map(item => { item.selected = false; return item; });
             this.allTowerAmenities = JSON.parse(JSON.stringify(this.all_amenities));
             this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
-
-            // setting true to selected amenties
-            // this.selected_amenities = this.all_amenities.map(item => {
-            //   if (this.model.amenities && this.model.amenities.find(am => am.id === item.id)) {
-            //     item.selected = true;
-            //   }
-            //   return item;
-            // });
 
             for (let index = 0; index < this.all_amenities.length; index++) {
               for (let i = 0; i < this.model.amenities.length; i++) {
@@ -278,6 +284,7 @@ export class AddProjectComponent implements OnInit {
         });
       } else {
         this.model = new AddProjectModel();
+        this.testMarital[0].checked = true;
         this.model.floors = 0;
         this.model.building_towers = [];
         this.model.building_tower_edit_index = '-1';
@@ -295,6 +302,7 @@ export class AddProjectComponent implements OnInit {
 
     this.zoom = 4;
     this.setCurrentPosition();
+    this.getCountries('');
     this.initForm();
     this.admin.postDataApi('getPossessionStatuses', {}).subscribe(r => {
       this.all_possession_statuses = r.data;
@@ -306,6 +314,79 @@ export class AddProjectComponent implements OnInit {
     this.admin.postDataApi('getConfigurations', {}).subscribe(r => {
       this.all_configurations = r.data;
     });
+  }
+
+  setCountryToLocality(locality: LocalityToCountry) {
+    console.log('loca', locality);
+    this.getStates(locality.city.state.country.id, '');
+    this.getCities(locality.city.state.id, '');
+    this.getLocalities(locality.city.id, '');
+    this.setValue('locality_id', locality.id);
+  }
+
+  getCountries(keyword: string) {
+    this.admin.postDataApi('getCountries', {})
+      .subscribe(
+        success => { this.parameter.countries = success['data']; }
+      );
+  }
+
+  getStates(country_id: any, keyword: string) {
+    // this.parameter.loading = true;
+    this.model.country_id = country_id;
+    this.model.state_id = '';
+    this.model.city_id = '';
+    this.model.locality_id = '';
+    this.parameter.cities = [];
+    this.parameter.localities = [];
+    const input = new FormData();
+    input.append('country_id', country_id);
+
+    this.admin.postDataApi('country/getStates', input).subscribe(success => {
+      this.parameter.states = success['data'];
+      // this.parameter.loading = false;
+    },
+      error => {
+        // this.parameter.loading = false;
+      });
+  }
+
+  getCities(state_id: any, keyword: string) {
+    // this.parameter.loading = true;
+    this.model.state_id = state_id;
+    this.model.city_id = '';
+    this.model.locality_id = '';
+    this.parameter.localities = [];
+    const input = new FormData();
+    input.append('state_id', state_id);
+
+    this.admin.postDataApi('getCities', input).subscribe(success => {
+      this.parameter.cities = success['data'];
+      // this.parameter.loading = false;
+    },
+      error => {
+        // this.parameter.loading = false;
+      });
+  }
+
+
+  getLocalities(city_id: any, keyword = '') {
+    this.model.city_id = city_id;
+    this.model.locality_id = '';
+
+    const input = new FormData();
+    input.append('city_id', city_id);
+
+    if (keyword) { input.append('keyword', keyword); }
+
+    this.admin.postDataApi('getLocalities', input)
+      .subscribe(
+        success => { this.parameter.localities = success['data']; }
+      );
+  }
+
+  setValue(key: any, value: any) {
+    this.model[key] = value;
   }
 
   searchAmenity(keyword: string) {
@@ -380,10 +461,8 @@ export class AddProjectComponent implements OnInit {
     }
 
     this.file2.upload().then(r => {
-      console.log('img ', r, this.file2.files);
       this.all_amenities[this.amenity_index].images = this.file2.files;
     });
-    console.log('img ', this.all_amenities[this.amenity_index].images);
     this.modalAmenClose.nativeElement.click();
   }
 
@@ -393,7 +472,6 @@ export class AddProjectComponent implements OnInit {
     this.allTowerAmenities[index] = amenityObj;
     // this.allTowerAmenityForEdit[index] = amenityObj;
     this.modalTowerAmenOpen.nativeElement.click();
-    // console.log('allTowerAmenities', this.allTowerAmenities);
     this.file2.backup(JSON.parse(JSON.stringify(this.allTowerAmenities[index].images)));
   }
 
@@ -414,11 +492,9 @@ export class AddProjectComponent implements OnInit {
     }
 
     this.file2.upload().then(r => {
-      console.log('img ', r, this.file2.files);
       this.allTowerAmenities[this.amenity_index].images = this.file2.files;
       // this.allTowerAmenityForEdit[this.amenity_index].images = this.file2.files;
     });
-    console.log('img ', this.allTowerAmenities[this.amenity_index].images);
     this.modalTowerAmenClose.nativeElement.click();
   }
 
@@ -443,10 +519,8 @@ export class AddProjectComponent implements OnInit {
           }
 
           // set latitude, longitude and zoom
-          this.latitude = place.geometry.location.lat();
-          this.longitude = place.geometry.location.lng();
-          this.model.lat = this.latitude;
-          this.model.lng = this.longitude;
+          this.model.lat = place.geometry.location.lat();
+          this.model.lng = place.geometry.location.lng();
           if (place.formatted_address) {
             this.model.address = place.formatted_address;
           }
@@ -459,17 +533,17 @@ export class AddProjectComponent implements OnInit {
   setCurrentPosition() {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
-        this.latitude = position.coords.latitude;
-        this.longitude = position.coords.longitude;
+        this.model.lat = position.coords.latitude;
+        this.model.lng = position.coords.longitude;
         this.zoom = 16;
       });
     }
   }
 
   placeMarker($event) {
-    this.model.lat = this.latitude = $event.coords.lat;
-    this.model.lng = this.longitude = $event.coords.lng;
-    this.getGeoLocation(this.latitude, this.longitude);
+    this.model.lat = $event.coords.lat;
+    this.model.lng = $event.coords.lng;
+    this.getGeoLocation(this.model.lat, this.model.lng);
   }
 
 
@@ -613,71 +687,6 @@ export class AddProjectComponent implements OnInit {
     this.model.developer.country_code = this.model.dev_countrycode;
   }
 
-  // addProject() {
-  //   const modelSave = JSON.parse(JSON.stringify(this.model));
-  //   modelSave.cover_image = this.file1.image;
-  //   modelSave.building_images = modelSave.images.map(r => r.image);
-  //   modelSave.images = modelSave.images.map(r => r.image);
-  //   modelSave.dev_name = modelSave.developer.name;
-  //   modelSave.dev_email = modelSave.developer.email;
-  //   modelSave.dev_phone = modelSave.developer.phone;
-  //   modelSave.dev_logo = this.file5.image;
-  //   modelSave.amenities = this.all_amenities.filter(op => { if (op.selected === true) { return op; }}).map(op => op.id);
-
-  //   modelSave.configurations.forEach(item => {
-  //     item.images = item.images.map(x => x.image);
-  //   });
-  //   /* remove fields for edit */
-  //   if (!modelSave.name) {swal('Error', 'Please add building name', 'error'); return false; }
-  //   if (!modelSave.address) {swal('Error', 'Please add address', 'error'); return false; }
-  //   if (!modelSave.cover_image) {swal('Error', 'Please add cover image', 'error'); return false; }
-  //   if (!modelSave.cover_image) {swal('Error', 'Please add cover image', 'error'); return false; }
-  //   if (modelSave.building_images.length < 1) {swal('Error', 'Please add atleast one more building image', 'error'); return false; }
-  //   if (!modelSave.building_age) {swal('Error', 'Please add building age', 'error'); return false; }
-  //   if (!modelSave.building_type_id) {swal('Error', 'Please add building type', 'error'); return false; }
-  //   if (!modelSave.description) {swal('Error', 'Please add building description', 'error'); return false; }
-  //   if (!modelSave.possession_status_id) {swal('Error', 'Please add possession status', 'error'); return false; }
-  //   if (!modelSave.floors) {swal('Error', 'Please add floors', 'error'); return false; }
-  //   if (!modelSave.launch_date) {swal('Error', 'Please add building launch date', 'error'); return false; }
-  //   if (!modelSave.avg_price) {swal('Error', 'Please add building average price', 'error'); return false; }
-  //   if (modelSave.amenities.length < 1) {swal('Error', 'Please add amenities', 'error'); return false; }
-  //   if (modelSave.configurations.length < 1) {swal('Error', 'Please add building configuration', 'error'); return false; }
-  //   if (!this.id) {
-  //     if (!modelSave.dev_name) {swal('Error', 'Please add developer name', 'error'); return false; }
-  //     if (!modelSave.dev_countrycode) {swal('Error', 'Please add developer country code', 'error'); return false; }
-  //     if (!modelSave.dev_email) {swal('Error', 'Please add developer email', 'error'); return false; }
-  //     if (!modelSave.dev_phone) {swal('Error', 'Please add developer phone', 'error'); return false; }
-  //     if (!modelSave.dev_logo) {swal('Error', 'Please add developer image', 'error'); return false; }
-  //   }
-
-  //   if (this.id) {
-  //     modelSave.building_id = this.id;
-  //     modelSave.developer_id =  modelSave.developer.id;
-  //     this.parameter.loading = true;
-  //     this.admin.postDataApi('updateProject', modelSave).subscribe(success => {
-  //       this.parameter.loading = false;
-  //       swal('Success', success.message, 'success');
-  //       this.router.navigate(['/dashboard/projects/view-projects']);
-  //     }, error => {
-  //       this.parameter.loading = false;
-  //       swal('Error', error.message, 'error');
-  //     });
-  //   }else {
-  //     delete modelSave.id;
-  //     delete modelSave.building_id;
-  //     this.parameter.loading = true;
-  //     this.admin.postDataApi('addProject', modelSave).subscribe(success => {
-  //       this.parameter.loading = false;
-  //       swal('Success', success.message, 'success');
-  //       this.router.navigate(['/dashboard/projects/view-projects']);
-  //     }, error => {
-  //       this.parameter.loading = false;
-  //       swal('Error', error.message, 'error');
-  //     });
-  //   }
-
-  // }
-
 
   addProject() {
     const modelSave = JSON.parse(JSON.stringify(this.model));
@@ -718,7 +727,6 @@ export class AddProjectComponent implements OnInit {
       });
     }
 
-    console.log('tower mamrn', modelSave.building_towers);
     modelSave.building_towers = this.model.building_towers;
     if (modelSave.building_towers && modelSave.building_towers.length > 0) {
       modelSave.building_towers.forEach(element1 => {
@@ -731,7 +739,6 @@ export class AddProjectComponent implements OnInit {
         });
       });
     }
-console.log('tower mamrn', modelSave.building_towers);
     /* remove fields for edit */
     // if (!modelSave.name) {swal('Error', 'Please add building name', 'error'); return false; }
     // if (!modelSave.address) {swal('Error', 'Please add address', 'error'); return false; }
@@ -887,12 +894,6 @@ console.log('tower mamrn', modelSave.building_towers);
       this.allTowerAmenities = JSON.parse(JSON.stringify(this.all_amenities));
       this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
 
-      // this.selected_amenities = this.all_amenities.map(item => {
-      //   if (this.model.amenities.find(am => am.id === item.id)) {
-      //     item.selected = true;
-      //   }
-      //   return item;
-      // });
       for (let index = 0; index < this.all_amenities.length; index++) {
         for (let i = 0; i < this.model.amenities.length; i++) {
           if (this.model.amenities[i].id === this.all_amenities[index].id) {
@@ -992,11 +993,9 @@ console.log('tower mamrn', modelSave.building_towers);
     if (!this.newTower.launch_date) { swal('Error', 'Please enter launch date.', 'error'); return false; }
 
     const tempAmen = JSON.parse(JSON.stringify(this.allTowerAmenities));
-console.log('tempamane', tempAmen);
     this.selectedTowerAmenitiesId = tempAmen.filter(op => { if (op.selected === true) { return op; } });
     // this.selectedTowerAmenitiesId = tempAmen.filter(op => { if (op.selected === true) { return op; } }).map(op => op.id);
     this.selectedTowerAmenityObj = tempAmen.filter(op => { if (op.selected === true) { return op; } });
-    console.log(this.selectedTowerAmenityObj);
     this.newTower.amenities = this.selectedTowerAmenityObj;
     this.newTower.amenitiesId = this.selectedTowerAmenitiesId;
     this.newTower.amenitiesCount = this.newTower.amenities.length;
@@ -1006,7 +1005,7 @@ console.log('tempamane', tempAmen);
     }
     this.model.building_towers.push(this.newTower);
     this.showAddBtn = true;
-console.log('this.model.building_towers', this.model.building_towers);
+
     // setting tower to empty
     this.newTower = new Towers();
     this.allTowerAmenities.map(op => { op.selected = false; });
@@ -1014,7 +1013,6 @@ console.log('this.model.building_towers', this.model.building_towers);
 
 
   editTower(btower: any, index: number) {
-    console.log('edit', btower, index);
     if (this.model.building_tower_edit_index !== '-1') {
       swal('Warning', 'First save the previous editted tower.', 'warning');
       return;
@@ -1030,7 +1028,6 @@ console.log('this.model.building_towers', this.model.building_towers);
         }
       }
     }
-    console.log('aaa222222222', this.allTowerAmenityForEdit);
   }
 
   deleteTower(index: number) {
@@ -1074,15 +1071,12 @@ console.log('this.model.building_towers', this.model.building_towers);
       this.model.building_towers[index].amenities = [];
       this.allTowerAmenityForEdit.map(i => { i.selected = false; return i; });
     }
-    console.log('aaaaaaaaa', this.model.building_towers);
-    console.log('pppppppppp', this.allTowerAmenityForEdit);
     // btower.amenities.map(item => { item.images = []; return item; });
     this.model.building_towers[index].amenitiesCount = this.model.building_towers[index].amenities.length;
     this.model.building_tower_edit_index = '-1';
   }
 
   editTowerAmenity(btoweramenity, index: any) {
-    console.log('btoweramenity', btoweramenity);
     this.towerAmenityIndex = index;
     this.towerEditAmenitiesModal.nativeElement.click();
     // this.allTowerAmenityForEdit.map(item => { item.selected = false; return item; });
@@ -1093,13 +1087,10 @@ console.log('this.model.building_towers', this.model.building_towers);
         }
         return item;
       });
-      console.log('aaaaaa', this.allTowerAmenityForEdit);
   }
 
 
   setTowerAmenity(a: any, m: any) {
-    console.log('allTowerAmenityForEdit', this.allTowerAmenityForEdit);
-    console.log('a', a);
     this.allTowerAmenityForEdit[m].selected = !this.allTowerAmenityForEdit[m].selected;
     this.model.building_towers[this.towerAmenityIndex].amenities =
     this.allTowerAmenityForEdit.filter(op => { if (op.selected === true) { return op; } });
@@ -1173,6 +1164,10 @@ console.log('this.model.building_towers', this.model.building_towers);
         u8arr[n] = bstr.charCodeAt(n);
     }
     return new File([u8arr], filename, {type: mime});
+  }
+
+  addMaritalStatus(checked: boolean, i: number) {
+    this.testMarital[i].checked = this.testMarital[i].checked === true ? false : true;
   }
 
 }
