@@ -692,6 +692,7 @@ export class AddProjectComponent implements OnInit {
 
   addProject() {
     const modelSave = JSON.parse(JSON.stringify(this.model));
+    console.log('modelsae', modelSave);
     modelSave.is_completed = 0;
     modelSave.cover_image = this.file1.image;
     if (this.model.videoLoader) {
@@ -1195,6 +1196,7 @@ console.log('aaaa', this.model.building_towers[index]);
 
   addMaritalStatus(checked: boolean, i: number) {
     this.testMarital[i].checked = this.testMarital[i].checked === true ? false : true;
+    console.log('aaa', this.testMarital);
   }
 
 }
