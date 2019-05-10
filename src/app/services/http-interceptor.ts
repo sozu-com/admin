@@ -46,7 +46,6 @@ export class HttpInterceptor extends Http {
     }
 
     public handleError = (error: Response) => {
-        console.log('=============', error);
         this.loader.next({value: false});
         let body = error['_body'];
         body = JSON.parse(body);

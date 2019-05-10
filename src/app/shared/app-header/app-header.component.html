@@ -195,7 +195,7 @@
                          <i><img src="assets/img/stamp.png"></i><span>Manage Notary</span></a>
                          <div class="dropdown-menu">
                             <ul>
-                               <li *ngIf="admin?.admin_acl['Noataries Management']?.acl_id==5 && admin?.admin_acl['Noataries Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="notary/view-notary">Notary</a></li>
+                               <li *ngIf="admin?.admin_acl['Notaries Management']?.acl_id==5 && admin?.admin_acl['Notaries Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="notary/view-notary">Notary</a></li>
                                <li *ngIf="admin?.admin_acl['Notary Lead Management']?.acl_id==17 && admin?.admin_acl['Notary Lead Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="notary/notary-leads">Leads</a></li>
                             </ul>
                          </div>
@@ -287,14 +287,14 @@
                           </div>
                        </li>
 
-                       <li *ngIf="admin?.admin_acl['Noataries Management']?.can_read==1 ||
+                       <li *ngIf="admin?.admin_acl['Notaries Management']?.can_read==1 ||
                                   admin?.admin_acl['Notary Lead Management']?.can_read==1 ||
                                   admin?.permissions?.can_noatary==1" class="nav-item dropdown" [routerLinkActive]="'active'">
                          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
                          <i><img src="assets/img/stamp.png"></i><span>Manage Notaries</span></a>
                          <div class="dropdown-menu">
                             <ul>
-                               <li *ngIf="admin?.admin_acl['Noataries Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="notary/view-notary">Notary</a></li>
+                               <li *ngIf="admin?.admin_acl['Notaries Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="notary/view-notary">Notary</a></li>
                                <li *ngIf="admin?.admin_acl['Notary Lead Management']?.can_read==1 || admin?.permissions?.can_noatary==1" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="notary/notary-leads">Leads</a></li>
                             </ul>
                          </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit , ViewChild, ElementRef, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { Constant } from '../../../common/constants';
 import { AdminService } from '../../../services/admin.service';
 import { IProperty } from '../../../common/property';
@@ -16,7 +16,7 @@ export class BlockGetPropertyComponent implements OnInit {
   @Output() itemSelect = new EventEmitter();
 
   parameter: IProperty = {};
-  location: IProperty= {};
+  location: IProperty = {};
   items: any = [];
   loading = false;
 
@@ -41,10 +41,10 @@ export class BlockGetPropertyComponent implements OnInit {
       this.parameter.total = r['total'];
 
     },
-    error => {
-      this.loading = false;
-      this.parameter.total = 0;
-    });
+      error => {
+        this.loading = false;
+        this.parameter.total = 0;
+      });
   }
 
   getPage(page) {

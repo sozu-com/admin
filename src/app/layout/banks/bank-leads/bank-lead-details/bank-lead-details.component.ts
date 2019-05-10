@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { Router, ActivatedRoute} from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AdminService } from '../../../../services/admin.service';
 import { CommonService } from '../../../../services/common.service';
 import { IProperty } from '../../../../common/property';
@@ -36,10 +36,10 @@ export class BankLeadDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.parameter.sent_as = this.constant.userType.bank;
-    this.route.params.subscribe( params => {
+    this.route.params.subscribe(params => {
       this.parameter.lead_id = params.id;
       this.parameter.loading = true;
-      this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
+      this.admin.postDataApi('leads/details', { lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as }).subscribe(r => {
         this.getDocumentOptions();
         this.parameter.loading = false;
         this.parameter.lead = r.data.lead;
@@ -54,7 +54,7 @@ export class BankLeadDetailsComponent implements OnInit {
 
   setValue(i) {
     this.selectedProperties.allDocuments[i].is_selected =
-    this.selectedProperties.allDocuments[i].is_selected && this.selectedProperties.allDocuments[i].is_selected === 1 ? 0 : 1;
+      this.selectedProperties.allDocuments[i].is_selected && this.selectedProperties.allDocuments[i].is_selected === 1 ? 0 : 1;
   }
 
   getDocumentOptions() {
@@ -68,7 +68,7 @@ export class BankLeadDetailsComponent implements OnInit {
         });
       });
     }
-  );
+    );
   }
 
 
@@ -87,7 +87,7 @@ export class BankLeadDetailsComponent implements OnInit {
     }, error => {
       this.parameter.loading = false;
     }
-  );
+    );
   }
 
   noDocumentUploaded() {
@@ -110,7 +110,7 @@ export class BankLeadDetailsComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.parameter.loading = true;
-        this.admin.postDataApi('leads/bank-mark-lead-closed', {lead_id: this.parameter.lead_id}).subscribe(r => {
+        this.admin.postDataApi('leads/bank-mark-lead-closed', { lead_id: this.parameter.lead_id }).subscribe(r => {
           this.parameter.loading = false;
           this.parameter.lead.lead_status_bank = 1;
           swal('Success', 'Lead closed successfully.', 'success');

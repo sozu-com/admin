@@ -190,4 +190,34 @@ export class NotaryComponent implements OnInit {
     const uploadedFile = fi.files[0];
     this.label = uploadedFile.name;
   }
+
+  deletePopup(item: any, index: number) {
+    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    this.parameter.text = 'You want to delete this notary?';
+
+    swal({
+      html: this.parameter.title + '<br>' + this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteNoatary(item, index);
+      }
+    });
+  }
+
+  deleteNoatary(item: any, index: number) {
+    this.admin.postDataApi('deleteNoatary',
+    { id: item.id }).subscribe(r => {
+      swal('Success', 'Deleted successfully.', 'success');
+      this.parameter.items.splice(index, 1);
+      this.parameter.total--;
+    },
+    error => {
+      swal('Error', error.error.message, 'error');
+    });
+  }
 }

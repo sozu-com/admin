@@ -6,8 +6,6 @@ export const environment = {
   production: false,
   baseIP: 'https://apitest.sozu.com/',
   baseUrl: 'https://apitest.sozu.com/api/admin/',
-  // baseIP: 'http://localhost:8000/',
-  // baseUrl: 'http://localhost:8000/api/admin/',
   socketUrl: 'https://socket.sozu.com',
   deviceId: 'ADMIN',
 

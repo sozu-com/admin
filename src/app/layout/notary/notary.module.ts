@@ -16,7 +16,7 @@ import { CalendarModule } from 'primeng/primeng';
 
 const routes: Routes = [
   { path: 'view-notary', component: NotaryComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Noataries Management', 'can_read', 'can_noatary']}},
+    canActivate: [AclUserGuard], data: {roles: ['Notaries Management', 'can_read', 'can_noatary']}},
 
   // all leads
   { path: 'notary-leads', component: NotaryLeadsComponent,

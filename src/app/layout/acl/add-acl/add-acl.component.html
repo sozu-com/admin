@@ -81,7 +81,8 @@
                     <input type="checkbox" [checked]="permission.can_delete == 1 ? 'checked': ''"  (click)="setPermission('can_delete', i)">
                     <span class="checkmark"></span>
                 </label>
-                <label *ngIf="permission?.acl?.name == 'User Management' || permission?.acl?.name == 'Property Management' || permission?.acl?.name == 'Building Management'" 
+                <label *ngIf="permission?.acl?.name == 'User Management' || permission?.acl?.name == 'Property Management'
+                 || permission?.acl?.name == 'Building Management' || permission?.acl?.name == 'Notaries Management'" 
                   class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_purge==1}">Can Delete
                     <input type="checkbox" [checked]="permission.can_purge == 1 ? 'checked': ''"  (click)="setPermission('can_purge', i)">
                     <span class="checkmark"></span>

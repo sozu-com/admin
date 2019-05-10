@@ -19,7 +19,7 @@
       <div class="col-md-3 col-6">
         <div class="btn-cont text-right">
             <a style="display: none;" class="btn btn-primary" href="javascript://" data-toggle="modal" data-target="#add" #modalOpen>Add New</a>
-            <a *ngIf="admin?.admin_acl['Noataries Management']?.can_create==1" (click)="openModal()" class="btn btn-primary" href="javascript://">Add New</a>
+            <a *ngIf="admin?.admin_acl['Notaries Management']?.can_create==1" (click)="openModal()" class="btn btn-primary" href="javascript://">Add New</a>
         </div>
       </div>
   </div>
@@ -99,13 +99,13 @@
                   routerLink="/dashboard/notary/view-notary-leads/{{item.id}}" class="icon-block edit-icon">
                   <img src="assets/img/ic_leads.png" alt="img">
                 </a>
-                <button title="Edit Details" [disabled]="admin?.admin_acl['Noataries Management']?.can_update==0" (click)="editUser(item, i)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
-                <button [disabled]="admin?.admin_acl['Noataries Management']?.can_delete==0"
+                <button title="Edit Details" [disabled]="admin?.admin_acl['Notaries Management']?.can_update==0" (click)="editUser(item, i)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                <button [disabled]="admin?.admin_acl['Notaries Management']?.can_delete==0"
                   (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1)" 
                   title="{{item.is_blocked==1?'Unblock Notary':'Block Notary'}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"
                   class="action-icon"><img src="assets/img/block.png" alt="img">
                 </button>
-
+                <button [disabled]="admin?.admin_acl['Notaries Management']?.can_purge==0" (click)="deletePopup(item, i);" class="action-icon" title="Delete Notary"><img src="assets/img/ic_delete.png" alt="img"></button>
               </td>
             </tr>
 

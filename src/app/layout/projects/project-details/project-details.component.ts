@@ -51,7 +51,6 @@ export class ProjectDetailsComponent implements OnInit {
   getListing() {
     this.parameter.loading = true;
     this.admin.postDataApi('getProjectDetail', { project_id: this.id }).subscribe(res => {
-      console.log(res);
       this.parameter.loading = false;
       this.project = res['data'].building;
       this.properties = res['data'].properties;

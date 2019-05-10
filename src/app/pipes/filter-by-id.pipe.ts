@@ -9,7 +9,6 @@ export class FilterByIdPipe implements PipeTransform {
     if (args) {
 
       return value.filter(data => {
-        console.log(data);
         if (data.id == args) {
           return data;
         }

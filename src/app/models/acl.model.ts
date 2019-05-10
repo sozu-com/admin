@@ -12,7 +12,6 @@ export class ACL {
 
 export class Permission {
     show: boolean;
-    // name: string;
     acl: {
         name: string;
     };

@@ -14,10 +14,10 @@ declare let swal: any;
 export class TemplatesComponent implements OnInit {
 
   public parameter: IProperty = {};
-  items: any= [];
-  total: any= 0;
+  items: any = [];
+  total: any = 0;
 
-  public status= {
+  public status = {
     1: 'draft',
     2: 'publish'
   };
@@ -30,7 +30,7 @@ export class TemplatesComponent implements OnInit {
 
 
   ngOnInit() {
-    this.http.loader.next({value: false});
+    this.http.loader.next({ value: false });
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.parameter.post_type = '1';
@@ -65,7 +65,7 @@ export class TemplatesComponent implements OnInit {
     if (this.parameter.sort_by_flag !== sort_by_flag) {
       this.parameter.sort_by_flag = sort_by_flag;
       this.parameter.sort_by_order = 0;
-    }else {
+    } else {
       this.parameter.sort_by_order = this.parameter.sort_by_order ? 0 : 1;
     }
     this.getListing();
@@ -93,7 +93,7 @@ export class TemplatesComponent implements OnInit {
   }
 
   deleteBlog(id: any, index: number) {
-    this.admin.postDataApi('deleteBlog', {id: id}).subscribe(
+    this.admin.postDataApi('deleteBlog', { id: id }).subscribe(
       success => {
         swal('Success', 'Deleted successfully.', 'success');
       },

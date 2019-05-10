@@ -72,11 +72,11 @@ export class AddTemplateComponent implements OnInit {
 
     // Allow to upload PNG and JPG.
     imageAllowedTypes: ['jpeg', 'jpg', 'png'],
-    events:  {
-      'froalaEditor.initialized':  function () {
-        console.log('initialized');
+    events: {
+      'froalaEditor.initialized': function () {
+        // console.log('initialized');
       },
-      'froalaEditor.image.beforeUpload':  function  (e,  editor,  images) {
+      'froalaEditor.image.beforeUpload': function (e, editor, images) {
         // Your code
         // if  (images.length) {
         //   console.log('image length');
@@ -96,20 +96,20 @@ export class AddTemplateComponent implements OnInit {
         // Stop default upload chain.
         // return  false;
       },
-      'froalaEditor.image.inserted':  function  (e,  editor, file, response) {
+      'froalaEditor.image.inserted': function (e, editor, file, response) {
         // console.log('inserted');
         // console.log('e', e);
         // console.log('editor', editor);
         // console.log('file', file);
         // console.log('response', response);
       },
-      'froalaEditor.image.uploaded':  function  (e,  editor,  response) {
+      'froalaEditor.image.uploaded': function (e, editor, response) {
         // console.log('uploaded', JSON.parse(response));
         // response = JSON.parse(response);
         // this.imageLink = {link: response.data.image};
         // console.log('new response', this.imageLink);
       },
-      'froalaEditor.image.error':  function  (e,  editor, error, response) {
+      'froalaEditor.image.error': function (e, editor, error, response) {
         // console.log('error');
         // console.log('e', e);
         // console.log('editor', editor);
@@ -145,23 +145,22 @@ export class AddTemplateComponent implements OnInit {
 
 
   ngOnInit() {
-    this.http.loader.next({value: false});
+    this.http.loader.next({ value: false });
     this.file1 = new FileUpload(true, this.admin);
 
-    this.route.params.subscribe( params => {
+    this.route.params.subscribe(params => {
       this.post.id = params.id;
       if (this.post.id > 0) {
         this.parameter.loading = true;
-        this.admin.postDataApi('getBlogById', {id: this.post.id}).subscribe(r => {
+        this.admin.postDataApi('getBlogById', { id: this.post.id }).subscribe(r => {
           this.parameter.loading = false;
-          console.log(r);
           this.post = r['data'];
           this.file1.image = this.post.image;
         }, error => {
           this.parameter.loading = false;
           swal('Error', error, 'error');
         });
-      }else {
+      } else {
         delete this.post.id;
       }
       this.getMainTemplatesType();
@@ -169,17 +168,17 @@ export class AddTemplateComponent implements OnInit {
   }
 
   submitAll() {
-    console.log(this.post);
 
-    if (!this.post.post_type) {swal('Error', 'Please enter post type', 'error'); return false; }
-    if (!this.post.title_en) {swal('Error', 'Please enter title in english', 'error'); return false; }
-    if (!this.post.description_en && !this.post.description_es) {swal('Error', 'Please enter description', 'error'); return false; }
-    if (!this.post.meta_title_en && !this.post.meta_title_es) {swal('Error', 'Please enter post type', 'error'); return false; }
-    if (!this.post.meta_description_en && !this.post.meta_description_es) {swal('Error', 'Please enter post type', 'error'); return false; }
+    if (!this.post.post_type) { swal('Error', 'Please enter post type', 'error'); return false; }
+    if (!this.post.title_en) { swal('Error', 'Please enter title in english', 'error'); return false; }
+    if (!this.post.description_en && !this.post.description_es) { swal('Error', 'Please enter description', 'error'); return false; }
+    if (!this.post.meta_title_en && !this.post.meta_title_es) { swal('Error', 'Please enter post type', 'error'); return false; }
+    if (!this.post.meta_description_en && !this.post.meta_description_es) {
+      swal('Error', 'Please enter post type', 'error'); return false; }
 
     this.post.image = this.file1.image;
     if (this.post.id) {
-      if (!this.post.slug) {swal('Error', 'Please enter slug', 'error'); return false; }
+      if (!this.post.slug) { swal('Error', 'Please enter slug', 'error'); return false; }
       this.post.blog_id = this.post.id;
     }
     this.parameter.loading = true;
@@ -188,18 +187,17 @@ export class AddTemplateComponent implements OnInit {
       this.post.id ? swal('Success', 'Updated successfully.', 'success') : swal('Sucsess', 'Added successfully.', 'success');
       this.post = r['data'];
     },
-    error => {
-      console.log('errorrrr', error);
-      this.parameter.loading = false;
-      // swal('Error', error.message, 'error');
-    });
+      error => {
+        this.parameter.loading = false;
+        // swal('Error', error.message, 'error');
+      });
   }
 
   previewPost(blog_url: string) {
     // window.open(encodeURI(blog_url), '_blank');
     let url = '';
     if (!/^http[s]?:\/\//.test(blog_url)) {
-        url += 'http://';
+      url += 'http://';
     }
 
     url += blog_url;
@@ -217,6 +215,5 @@ export class AddTemplateComponent implements OnInit {
 
   showMainTemplatesType(type: number) {
     this.post.post_type = type;
-    console.log(this.post);
   }
 }

@@ -131,8 +131,6 @@ export class PropertiesComponent implements OnInit {
       return false;
     }
     this.parameter.locality_id = id;
-    // let selectedLocation = this.location.localities.filter(x=>x.id == id);
-    // this.location.locality = selectedLocation[0];
   }
 
   getLocalityBuildings(id) {
@@ -168,19 +166,6 @@ export class PropertiesComponent implements OnInit {
     this.parameter.flag = flag;
     this.getListing();
   }
-
-  // toggleAndSort(sort_by, sort_by_order) {
-  //   if (this[sort_by_order] == 1) {
-  //     this[sort_by_order] = 0;
-  //   }else {
-  //     this[sort_by_order] = 1;
-  //   }
-
-  //   this.parameter.sort_by = sort_by;
-  //   this.parameter.sort_by_order = sort_by_order;
-  //   console.log(this.parameter);
-  //   this.getListing();
-  // }
 
   sort_by(sort_by) {
     if (this.parameter.sort_by !== sort_by) {
@@ -254,7 +239,6 @@ export class PropertiesComponent implements OnInit {
         swal('Error', error.error.message, 'error');
       });
   }
-
 
   showAllSellers(property_id: any) {
     this.parameter.loading = true;
@@ -355,7 +339,6 @@ export class PropertiesComponent implements OnInit {
     });
   }
 
-
   getInhouseBroker(property: any, keyword: string) {
     this.parameter.loading = true;
     if (property) { this.property = property; }
@@ -370,7 +353,6 @@ export class PropertiesComponent implements OnInit {
       swal('Error', error.error.message, 'error');
     });
   }
-
 
   attachExternalBrokerPopUp(broker: any) {
     this.parameter.title = this.constant.title.ARE_YOU_SURE;

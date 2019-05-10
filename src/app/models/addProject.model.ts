@@ -1,5 +1,4 @@
-import { Locality } from "./locality.model";
-import { City } from "./location.model";
+import { City } from './location.model';
 
 export class CarpetAreas {
     carpet_areas: Array<object> = [

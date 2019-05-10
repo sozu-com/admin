@@ -34,6 +34,7 @@ import { NumberWithCommasPipe } from './pipes/number-with-commas.pipe';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireMessaging } from '@angular/fire/messaging';
+import { ApiConstants } from './common/api-constants';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent},
@@ -81,6 +82,7 @@ const appRoutes: Routes = [
     AuthGuard,
     HttpInterceptor,
     Constant,
+    ApiConstants,
     Login,
     AdminACL,
     TranslateService,

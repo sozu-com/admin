@@ -39,7 +39,6 @@ export class BanksComponent implements OnInit {
     this.model = new Bank();
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
-    console.log(this.model);
     this.modalOpen.nativeElement.click();
   }
 
@@ -92,7 +91,7 @@ export class BanksComponent implements OnInit {
           this.parameter.loading = false;
           if (success.success === '0') {
             swal('Error', success.message, 'error');
-          }else {
+          } else {
             this.modalClose.nativeElement.click();
             const text = this.model.id ? 'Updated successfully.' : 'Added successfully.';
             swal('Success', text, 'success');
@@ -116,7 +115,6 @@ export class BanksComponent implements OnInit {
 
   editUser(userdata, index) {
     this.model = JSON.parse(JSON.stringify(userdata));
-    console.log(this.model);
     this.parameter.index = index;
     this.modalOpen.nativeElement.click();
   }

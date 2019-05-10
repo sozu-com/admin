@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AdminService } from '../../../services/admin.service';
 import { IProperty } from '../../../common/property';
 import { Constant } from './../../../common/constants';
@@ -28,13 +28,13 @@ export class BankLeadsComponent implements OnInit {
   selectedUser: any;
   initSelection = false;
 
-  dash: any= {
+  dash: any = {
     all_count: 0,
     open_count: 0,
     close_count: 0
   };
 
-  chartView: any= [];
+  chartView: any = [];
 
   constructor(
     public admin: AdminService,
@@ -49,7 +49,7 @@ export class BankLeadsComponent implements OnInit {
     this.parameter.flag = 2;
     this.parameter.total = 0;
     this.parameter.count_flag = 1;
-    this.route.params.subscribe( params => {
+    this.route.params.subscribe(params => {
       this.parameter.assignee_id = params.id;
     });
     this.getListing();
@@ -206,14 +206,14 @@ export class BankLeadsComponent implements OnInit {
     }
     this.parameter.loading = true;
     this.admin.postDataApi('leads/banks', input).subscribe(
-    success => {
-      this.parameter.loading = false;
-      this.items = success.data;
-      if (this.items.length <= 0) { this.parameter.noResultFound = true; }
-      this.parameter.total = success.total_count;
-    }, error => {
-      this.parameter.loading = false;
-    });
+      success => {
+        this.parameter.loading = false;
+        this.items = success.data;
+        if (this.items.length <= 0) { this.parameter.noResultFound = true; }
+        this.parameter.total = success.total_count;
+      }, error => {
+        this.parameter.loading = false;
+      });
   }
 
   getPage(page) {
@@ -225,7 +225,7 @@ export class BankLeadsComponent implements OnInit {
     if (this.parameter.sort_by_flag !== sort_by_flag) {
       this.parameter.sort_by_flag = sort_by_flag;
       this.parameter.sort_by_order = 0;
-    }else {
+    } else {
       this.parameter.sort_by_order = this.parameter.sort_by_order ? 0 : 1;
     }
     this.getListing();
@@ -258,18 +258,18 @@ export class BankLeadsComponent implements OnInit {
     };
     this.parameter.loading = true;
     this.admin.postDataApi('getBanks', input).subscribe(
-    success => {
-      this.parameter.loading = false;
-      this.assign.items = success.data;
-    }, error => {
-      this.parameter.loading = false;
-    });
+      success => {
+        this.parameter.loading = false;
+        this.assign.items = success.data;
+      }, error => {
+        this.parameter.loading = false;
+      });
   }
 
   assignNow() {
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     const input = {
-      bank_id	: this.assignItem.id,
+      bank_id: this.assignItem.id,
       leads: leads_ids
     };
     // this.parameter.loading = true;
@@ -279,9 +279,9 @@ export class BankLeadsComponent implements OnInit {
       this.closeAssignModel.nativeElement.click();
       this.getListing();
     },
-    error => {
-      this.closeAssignModel.nativeElement.click();
-      swal('Error', error.error.message, 'error');
-    });
+      error => {
+        this.closeAssignModel.nativeElement.click();
+        swal('Error', error.error.message, 'error');
+      });
   }
 }

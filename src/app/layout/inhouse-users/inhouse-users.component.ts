@@ -430,93 +430,6 @@ console.log('model', this.model);
     // updateNewUser
   }
 
-
-  // getCountries() {
-  //   this.parameter.url = 'getCountries';
-  //   const input = new FormData();
-  //   this.parameter.states = []; this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
-  //   this.parameter.state_id = '-1'; this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
-  //   this.admin.postDataApi(this.parameter.url, input)
-  //     .subscribe(
-  //       success => {
-  //         this.parameter.countries = success.data;
-  //       });
-  // }
-
-
-  // getStates(country_id) {
-
-  //   this.parameter.url = 'country/getStates';
-  //   this.parameter.country_id = country_id;
-
-  //   this.parameter.states = []; this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
-  //   this.parameter.state_id = '-1'; this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
-
-  //   const input = new FormData();
-  //   input.append('country_id', country_id);
-
-  //   this.admin.postDataApi(this.parameter.url, input)
-  //     .subscribe(
-  //       success => {
-  //         this.parameter.states = success.data;
-  //       });
-  // }
-
-  // getCities(state_id) {
-
-  //   this.parameter.url = 'getCities';
-  //   this.parameter.state_id = state_id;
-
-  //   this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
-  //   this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
-
-  //   const input = new FormData();
-  //   input.append('state_id', state_id);
-
-  //   this.admin.postDataApi(this.parameter.url, input)
-  //     .subscribe(
-  //       success => {
-  //         this.parameter.cities = success.data;
-  //       });
-  // }
-
-
-  // getLocalities(city_id) {
-
-  //   this.parameter.url = 'getLocalities';
-  //   this.parameter.city_id = city_id;
-
-  //   this.parameter.localities = []; this.parameter.buildings = [];
-  //   this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
-
-  //   const input = new FormData();
-  //   input.append('city_id', city_id);
-
-  //   this.admin.postDataApi(this.parameter.url, input)
-  //     .subscribe(
-  //       success => {
-  //         this.parameter.localities = success.data;
-  //       });
-  // }
-
-
-  // getLocalityBuildings(locality_id) {
-  //   this.parameter.url = 'getLocalityBuildings';
-  //   this.parameter.locality_id = locality_id;
-
-  //   this.parameter.buildings = [];
-  //   this.parameter.building_id = '-1';
-
-  //   const input = new FormData();
-  //   input.append('locality_id', locality_id);
-
-  //   this.admin.postDataApi(this.parameter.url, input)
-  //     .subscribe(
-  //       success => {
-  //         this.parameter.buildings = success.data;
-  //       });
-  // }
-
   resetFilters() {
     this.parameter.countries = JSON.parse(JSON.stringify(this.parameter.countries));
     this.getStates('-1');
@@ -920,6 +833,36 @@ console.log('model', this.model);
     this.moreImgModalClose.nativeElement.click();
     this.file1.upload().then(r => {
       this.model.company_images = this.file1.files;
+    });
+  }
+
+  deletePopup(item: any, index: number) {
+    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    this.parameter.text = 'You want to delete this agent?';
+
+    swal({
+      html: this.parameter.title + '<br>' + this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteNewUser(item, index);
+      }
+    });
+  }
+
+  deleteNewUser(item: any, index: number) {
+    this.admin.postDataApi('deleteNewUser',
+    { id: item.id }).subscribe(r => {
+      swal('Success', 'Deleted successfully.', 'success');
+      this.parameter.items.splice(index, 1);
+      this.parameter.total--;
+    },
+    error => {
+      swal('Error', error.error.message, 'error');
     });
   }
 }

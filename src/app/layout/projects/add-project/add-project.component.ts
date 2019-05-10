@@ -8,6 +8,7 @@ import { MapsAPILoader } from '@agm/core';
 import { Constant } from './../../../common/constants';
 import { FileUpload } from './../../../common/fileUpload';
 import { CommonService } from 'src/app/services/common.service';
+import { ApiConstants } from 'src/app/common/api-constants';
 declare const google;
 declare let swal: any;
 
@@ -118,6 +119,7 @@ export class AddProjectComponent implements OnInit {
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
     private constant: Constant,
+    private apiConstants: ApiConstants,
     private cs: CommonService,
     private element: ElementRef
   ) { }
@@ -696,6 +698,13 @@ export class AddProjectComponent implements OnInit {
       swal('Error', 'Uploading video.', 'error');
       return;
     }
+    // launch date to be mandatory possession_status == presale
+    if (modelSave.possession_status_id &&
+      (modelSave.possession_status_id.toString() === this.apiConstants.possession_status_id) &&
+      !modelSave.launch_date) {
+        swal('Error', 'Please select launch date.', 'error');
+      return false;
+    }
     if (modelSave.images) {
       modelSave.building_images = modelSave.images.map(r => r.image);
     }
@@ -990,7 +999,15 @@ export class AddProjectComponent implements OnInit {
     if (!this.newTower.num_of_floors && this.newTower.num_of_floors !== 0) {
       swal('Error', 'Please enter no. of floors.', 'error'); return false; }
     if (!this.newTower.possession_status_id) { swal('Error', 'Please choose possession status.', 'error'); return false; }
-    if (!this.newTower.launch_date) { swal('Error', 'Please enter launch date.', 'error'); return false; }
+    // if (!this.newTower.launch_date) { swal('Error', 'Please enter launch date.', 'error'); return false; }
+
+    // launch date to be mandatory possession_status == presale
+    if (this.newTower.possession_status_id &&
+      (this.newTower.possession_status_id.toString() === this.apiConstants.possession_status_id) &&
+      !this.newTower.launch_date) {
+        swal('Error', 'Please select launch date.', 'error');
+      return false;
+    }
 
     const tempAmen = JSON.parse(JSON.stringify(this.allTowerAmenities));
     this.selectedTowerAmenitiesId = tempAmen.filter(op => { if (op.selected === true) { return op; } });
@@ -1054,13 +1071,23 @@ export class AddProjectComponent implements OnInit {
   }
 
   saveTower(btower: Towers, index: any) {
-
+    console.log('btower', btower);
+    this.model.building_towers[index].launch_date = btower.launch_date;
     // this.allTowerAmenityForEdit = btower.amenities;
     if (!this.model.building_towers[index].tower_name) { swal('Error', 'Please enter tower name.', 'error'); return false; }
     if (!this.model.building_towers[index].num_of_floors) { swal('Error', 'Please enter no. of floors.', 'error'); return false; }
     if (!this.model.building_towers[index].possession_status_id) {
       swal('Error', 'Please choose possession status.', 'error'); return false; }
-    if (!this.model.building_towers[index].launch_date) { swal('Error', 'Please enter launch date.', 'error'); return false; }
+    // if (!this.model.building_towers[index].launch_date) { swal('Error', 'Please enter launch date.', 'error'); return false; }
+console.log('aaaa', this.model.building_towers[index]);
+    // launch date to be mandatory possession_status == presale
+    if (this.model.building_towers[index].possession_status_id &&
+      (this.model.building_towers[index].possession_status_id.toString() === this.apiConstants.possession_status_id) &&
+      !this.model.building_towers[index].launch_date) {
+        swal('Error', 'Please select launch date.', 'error');
+      return false;
+    }
+
     // this.selectedTowerAmenitiesId = btower.amenities.filter(op => { if (op.selected === true) { return op; } }).map(op => op.id);
     this.selectedTowerAmenitiesId = btower.amenities.filter(op => { if (op.selected === true) { return op; } });
     this.selectedTowerAmenityObj = btower.amenities.filter(op => { if (op.selected === true) { return op; } });

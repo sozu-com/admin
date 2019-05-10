@@ -31,7 +31,6 @@ export class PropertyDetailsComponent implements OnInit {
       .subscribe(success => {
         this.parameter.loading = false;
         this.property = success.data;
-        // console.log('getPropertyById', this.property);
       }, error => {
         this.parameter.loading = false;
       });

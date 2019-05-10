@@ -295,6 +295,7 @@ export class ProjectsComponent implements OnInit {
     { building_id: item.id }).subscribe(r => {
       swal('Success', 'Deleted successfully.', 'success');
       this.items.splice(index, 1);
+      this.total--;
     },
     error => {
       swal('Error', error.error.message, 'error');

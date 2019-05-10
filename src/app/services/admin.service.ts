@@ -55,9 +55,7 @@ export class AdminService {
   }
 
   errorHandler(error: Response) {
-    // console.log('error handler');
     return Observable.throw(error || 'Server error');
-    // return Observable.throw(error.json() || 'Server error');
   }
 
   getCountries() {
@@ -125,7 +123,6 @@ export class AdminService {
     const input = new FormData();
     return this.http.post(this.baseUrl + url, input, {headers: headers})
           .map(response => {
-            // console.log('country', response);
             const r = response.json();
             this.country.next(r.data);
             return r;
@@ -136,7 +133,6 @@ export class AdminService {
   logoutApi() {
     const headers = this.getHeaders();
     return this.http.put(this.baseUrl + 'logout', {headers: headers})
-              // .map(response => {response.json(); })
               .map((res: Response) => {
                 this.http.loader.next({value: false});
                 return res.json();
@@ -147,7 +143,6 @@ export class AdminService {
   getDataApi(url) {
     const headers = this.getHeaders();
     return this.http.get(this.baseUrl + url, {headers: headers})
-              // .map(response => response.json())
               .map((response: Response) => {
                 const r = response.json();
                 this.login.next(r.data);
@@ -157,7 +152,6 @@ export class AdminService {
                   const key =  Object.keys(obj)[0];
                   this.admin_acl[key] =  obj[key];
                 });
-                // console.log(this.admin_acl, this.permissions);
                 return response.json();
               })
               .catch(this.errorHandler);
@@ -166,7 +160,6 @@ export class AdminService {
   getApi(url) {
     const headers = this.getHeaders();
     return this.http.get(this.baseUrl + url, {headers: headers})
-              // .map(response => response.json())
               .map((res: Response) => {
                 return res.json();
               })
@@ -185,7 +178,6 @@ export class AdminService {
   putDataApi(url, input) {
     const headers = this.getHeadersForMultipart();
     return this.http.put(this.baseUrl + url, input, {headers: headers})
-          // .map(response => response.json())
           .map((res: Response) => {
             this.http.loader.next({value: false});
             return res.json();
@@ -216,7 +208,6 @@ export class AdminService {
   deleteDataApi(url) {
     const headers = this.getHeaders();
     return this.http.delete(this.baseUrl + url, {headers: headers})
-          // .map(response => response.json())
           .map((res: Response) => {
             this.http.loader.next({value: false});
             return res.json();
