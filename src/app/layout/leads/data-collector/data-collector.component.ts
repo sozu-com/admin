@@ -247,11 +247,11 @@ export class DataCollectorComponent implements OnInit {
           'value': parseInt(this.dash.request_pending_admin, 10)
         },
         {
-          'name': 'Leads (With broker assigned)',
+          'name': 'Leads (With agent assigned)',
           'value': parseInt(this.dash.request_pending_csr, 10)
         },
         {
-          'name': 'Leads (Without broker assigned)',
+          'name': 'Leads (Without agent assigned)',
           'value': parseInt(this.dash.request_pending_user, 10)
         }
       ];

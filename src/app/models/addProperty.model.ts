@@ -17,6 +17,8 @@ export class AddPropertyModel {
     for_rent = false;
     for_sale = true;
     for_hold = false;
+    availabilityStatusId = '';
+    is_property_sold = false;
     country_id = '';
     state_id = '';
     city_id = '';

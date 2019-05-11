@@ -128,7 +128,7 @@ console.log('-------------------', r.data.lead.prefs);
   assignToBroker() {
     this.admin.postDataApi('conversation/assignBroker', {lead_id: this.parameter.lead_id}).subscribe(r => {
       this.parameter.lead = r.data;
-      swal('Success', 'Broker assigned successfully', 'success');
+      swal('Success', 'Agent assigned successfully', 'success');
     }
   );
   }

@@ -559,7 +559,7 @@ console.log('model', this.model);
 
       case 'inhouse-broker':
         this.parameter.url = 'getInhouseBroker';
-        this.title = 'Inhouse Brokers';
+        this.title = 'Inhouse Agents';
         this.parameter.type = 4;
         this.model.is_external_agent = false;
         // this.model.is_external_agent = false;

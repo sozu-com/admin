@@ -237,11 +237,11 @@ export class CsrBuyerComponent implements OnInit {
           'value': parseInt(this.dash.lead_information_filled, 10)
         },
         {
-          'name': 'Leads (With broker assigned)',
+          'name': 'Leads (With agent assigned)',
           'value': parseInt(this.dash.lead_broker_assigned, 10)
         },
         {
-          'name': 'Leads (Without broker assigned)',
+          'name': 'Leads (Without agent assigned)',
           'value': parseInt(this.dash.lead_without_broker, 10)
         }
       ];

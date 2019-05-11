@@ -26,7 +26,7 @@
                 <li>
                     <div class="df-info" *ngIf="parameter.lead?.broker">
                         <p class="p14 marginB0">{{parameter.lead.broker.name}}</p>
-                        <p class="p12">Inhouse Broker</p>
+                        <p class="p12">Inhouse Agent</p>
                     </div>
                 </li>
                 <li>
@@ -42,7 +42,7 @@
         <div class="col-lg-2 col-md-12 col-sm-12 col-12" *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1">
            <div *ngIf="!parameter.lead?.broker && parameter.lead?.user && (admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1)" class="form-group d-flex marginT10 float-right right-side">
              <div class="dropdown btn-cont">
-              <a (click)="assignToBroker()" class="btn btn-primary" href="javascript://">Assign to broker</a>
+              <a (click)="assignToBroker()" class="btn btn-primary" href="javascript://">Assign to agent</a>
               <!-- <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                  Action
                </button>

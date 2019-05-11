@@ -70,6 +70,10 @@ export class AddPropertyComponent implements OnInit {
       checked: false
     }
   ];
+  availabilityStatus = [
+    {id: '1', name: 'Buy', checked: true},
+    {id: '2', name: 'Rent', checked: false},
+    {id: '3', name: 'Inventory', checked: false}];
   imageEvent = [];
   showText = false;
   showSearch = false;
@@ -125,6 +129,7 @@ export class AddPropertyComponent implements OnInit {
         this.parameter.property_id = '';
         this.testMarital[0].checked = true;
         this.model.marital_status = [1];
+        this.model.availabilityStatusId = '1';
         // set 0 bcz optional
         this.model.quantity = 0;
         this.model.half_bathroom = 0;
@@ -155,6 +160,27 @@ export class AddPropertyComponent implements OnInit {
     this.searchControl = new FormControl();
     // set current position
     this.setCurrentPosition();
+  }
+
+  setAvailableStatus(aindex: number) {
+    // this.availabilityStatus[aindex].checked = !this.availabilityStatus[aindex].checked;
+    // handling this way because data already added in db
+    if (aindex === 0) {
+      this.availabilityStatus[0].checked = true;
+      this.availabilityStatus[1].checked = false;
+      this.availabilityStatus[2].checked = false;
+      this.model.availabilityStatusId = this.availabilityStatus[0].id;
+    } else if (aindex === 1) {
+      this.availabilityStatus[0].checked = false;
+      this.availabilityStatus[1].checked = true;
+      this.availabilityStatus[2].checked = false;
+      this.model.availabilityStatusId = this.availabilityStatus[1].id;
+    } else {
+      this.availabilityStatus[0].checked = false;
+      this.availabilityStatus[1].checked = false;
+      this.availabilityStatus[2].checked = true;
+      this.model.availabilityStatusId = this.availabilityStatus[2].id;
+    }
   }
 
   getPropertyById(property_id) {
@@ -236,20 +262,26 @@ export class AddPropertyComponent implements OnInit {
     this.model.id = data.id;
     this.model.name = data.name;
     this.model.property_price = data.property_price;
-
-
+    this.model.is_property_sold = data.is_property_sold;
+    if (this.model.is_property_sold) {
+      this.model.availabilityStatusId = this.availabilityStatus[2].id;
+    } else if (this.model.for_sale) {
+      this.model.availabilityStatusId = this.availabilityStatus[0].id;
+    } else {
+      this.model.availabilityStatusId = this.availabilityStatus[1].id;
+    }
     this.model.building_id = data.building_id;
     this.model.building_towers_id = data.building_towers_id;
     this.model.floor_num = data.floor_num;
-
+console.log('model', this.model);
     this.model.pets = data.pets !== null ? data.pets : '1';
     this.model.kids_friendly = data.kids_friendly !== null ? data.kids_friendly : '1';
     this.model.students_friendly = data.students_friendly !== null ? data.students_friendly : '1';
     this.model.lgtb_friendly = data.lgtb_friendly !== null ? data.lgtb_friendly : '1';
     this.model.mature_people_friendly = data.mature_people_friendly !== null ? data.mature_people_friendly : '1';
 
-    this.model.for_rent = data.for_rent === 1 ? true : false;
-    this.model.for_sale = data.for_sale === 1 ? true : false;
+    // this.model.for_rent = data.for_rent === 1 ? true : false;
+    // this.model.for_sale = data.for_sale === 1 ? true : false;
     this.getStates(data.locality.city.state.country.id, '');
     this.getCities(data.locality.city.state.id, '');
     this.getLocalities(data.locality.city.id, '');
@@ -772,11 +804,14 @@ export class AddPropertyComponent implements OnInit {
         input.append('seller_id', this.parameter.seller_id);
       }
       input.append('step', this.model.step.toString());
+      console.log('this.availabilityStatus', this.availabilityStatus);
       if (this.model.step === 1) {
         input.append('name', this.model.name);
-        input.append('for_sale', this.model.for_sale === true ? '1' : '0');
-        input.append('for_rent', this.model.for_sale === true ? '0' : '1');
-        // input.append('for_hold', this.model.for_sale === true ? '0' : '0');
+        // input.append('for_sale', this.model.for_sale === true ? '1' : '0');
+        // input.append('for_rent', this.model.for_sale === true ? '0' : '1');
+        input.append('for_sale', this.availabilityStatus[0].checked === true ? '1' : '0');
+        input.append('for_rent', this.availabilityStatus[1].checked === true ? '1' : '0');
+        input.append('is_property_sold', this.availabilityStatus[2].checked === true ? '1' : '0');
         input.append('for_hold', '0');
         input.append('country_id', this.model.country_id);
         input.append('state_id', this.model.state_id);

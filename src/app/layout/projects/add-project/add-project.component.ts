@@ -147,6 +147,7 @@ export class AddProjectComponent implements OnInit {
           if (r.data['locality']) {
             this.setCountryToLocality(r.data['locality']);
           }
+          this.setMaritalStatus(r.data);
           this.model.building_tower_edit_index = '-1';
           this.model.floors = 0;
           if (r.data.developer == null) {
@@ -222,6 +223,7 @@ export class AddProjectComponent implements OnInit {
           if (r.data['locality']) {
             this.setCountryToLocality(r.data['locality']);
           }
+          this.setMaritalStatus(r.data);
           this.model.building_tower_edit_index = '-1';
           this.model.floors = 0;
           if (r.data.developer == null) {
@@ -287,6 +289,7 @@ export class AddProjectComponent implements OnInit {
       } else {
         this.model = new AddProjectModel();
         this.testMarital[0].checked = true;
+        this.model.marital_status = [1];
         this.model.floors = 0;
         this.model.building_towers = [];
         this.model.building_tower_edit_index = '-1';
@@ -324,6 +327,22 @@ export class AddProjectComponent implements OnInit {
     this.getCities(locality.city.state.id, '');
     this.getLocalities(locality.city.id, '');
     this.setValue('locality_id', locality.id);
+  }
+
+  setMaritalStatus(data) {
+    for (let index = 0; index < this.testMarital.length; index++) {
+      if (data.marital_statuses.length !== 0) {
+        for (let i = 0; i < data.marital_statuses.length; i++) {
+          if (this.testMarital[index].name === data.marital_statuses[i].name_en) {
+            this.testMarital[index].checked = true;
+          }
+        }
+      } else {
+        this.testMarital[0].checked = true;
+        this.model.marital_status = [1];
+      }
+      // this.model.marital_status[index] = data.marital_status[index].id;
+    }
   }
 
   getCountries(keyword: string) {
@@ -691,14 +710,25 @@ export class AddProjectComponent implements OnInit {
 
 
   addProject() {
+    for (let index = 0; index < this.testMarital.length; index++) {
+      if (this.testMarital[index].checked === true) {
+        this.model.marital_status.push(this.testMarital[index].id);
+      }
+    }
     const modelSave = JSON.parse(JSON.stringify(this.model));
-    console.log('modelsae', modelSave);
+
+    modelSave.marital_status = JSON.stringify(this.model.marital_status);
     modelSave.is_completed = 0;
     modelSave.cover_image = this.file1.image;
     if (this.model.videoLoader) {
       swal('Error', 'Uploading video.', 'error');
       return;
     }
+    if (!modelSave.country_id) {swal('Error', 'Please select country.', 'error'); return false; }
+    if (!modelSave.state_id) {swal('Error', 'Please select state.', 'error'); return false; }
+    if (!modelSave.city_id) {swal('Error', 'Please select city.', 'error'); return false; }
+    if (!modelSave.locality_id) {swal('Error', 'Please select locality.', 'error'); return false; }
+
     // launch date to be mandatory possession_status == presale
     if (modelSave.possession_status_id &&
       (modelSave.possession_status_id.toString() === this.apiConstants.possession_status_id) &&
@@ -712,6 +742,7 @@ export class AddProjectComponent implements OnInit {
     if (modelSave.images360) {
       modelSave.images360 = modelSave.images360.map(r => r.image);
     }
+
     modelSave.videos = modelSave.videos ? JSON.stringify(modelSave.videos) : JSON.stringify([]);
     modelSave.dev_name = modelSave.developer.name;
     modelSave.dev_email = modelSave.developer.email;

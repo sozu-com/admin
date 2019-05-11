@@ -62,7 +62,7 @@ export class BuyerComponent implements OnInit {
               'name': 'Added Information',
               'value': element.info_count
             }, {
-              'name': 'Brokers Assigned',
+              'name': 'Inhouse Agents Assigned',
               'value': element.broker_count
             }, {
               'name': 'Sold',

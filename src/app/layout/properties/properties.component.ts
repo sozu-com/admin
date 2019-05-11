@@ -356,7 +356,7 @@ export class PropertiesComponent implements OnInit {
 
   attachExternalBrokerPopUp(broker: any) {
     this.parameter.title = this.constant.title.ARE_YOU_SURE;
-    this.parameter.text = 'You want to assign this broker?';
+    this.parameter.text = 'You want to assign this agent?';
 
     swal({
       html: this.parameter.title + '<br>' + this.parameter.text,
