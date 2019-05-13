@@ -303,11 +303,11 @@
                                  <label>Assign<br>agent</label>
                               </div>
                            </th>
-                           <th style="width:10%;vertical-align:top;">
+                           <!-- <th style="width:10%;vertical-align:top;">
                               <div class="d-flex table-search">
                                  <label>Change property <br> sold status</label>
                               </div>
-                           </th>
+                           </th> -->
                            <th style="width:20%;">&nbsp;</th>
                         </tr>
                   
@@ -325,8 +325,9 @@
                               <td><span *ngIf="p && p.configuration">{{p.configuration?.name}}</span></td>
                               <td><span>{{p.min_price}}</span></td>
                               <td><span class="green-color">
-                              <span *ngIf="p.for_sale">Sell</span>
-                              <span *ngIf="p.for_rent">Rent</span></span>
+                                 <span *ngIf="p.for_sale">Sell</span>
+                                 <span *ngIf="p.for_rent">Rent</span>
+                                 <span *ngIf="p.is_property_sold">Inventory</span></span>
                               </td>
                               <td><span>{{p.lead_properties_count}}</span></td>
                               
@@ -339,17 +340,16 @@
                                     <span title="Click to {{p?.external_broker?.id ? 'change' : 'assign'}}">{{p?.external_broker?.id ? 'Change' : 'Assign'}}</span>
                                  </span>
                               </td>
-                              <td class="cursor-pointer" (click)="changeSoldStatusPopup(p, i)" *ngIf="p.for_sale">
+                              <!-- <td class="cursor-pointer" (click)="changeSoldStatusPopup(p, i)" *ngIf="p.for_rent || p.for_sale">
                                  <span class="green-color">
-                                    <span title="Click to mark property sold." *ngIf="p.for_sale && !p.is_property_sold">Mark Sold</span>
-                                    <span title="Click to made available for sale." *ngIf="p.for_sale && p.is_property_sold">Mark Available</span>
+                                    <span title="Click to mark property sold." *ngIf="p.for_sale && !p.is_property_sold">Move to Inventory</span>
                                  </span>
                               </td>
                               <td *ngIf="p.for_rent">
                                  <span class="green-color">
                                     <span>Available for rent out</span>
                                  </span>
-                              </td>
+                              </td> -->
 
                               <td>
                               <div class="message">

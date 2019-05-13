@@ -90,6 +90,9 @@ export class Configuration {
         name: '',
         name_en: '',
         name_es: '',
+        bedroom: 0,
+        bathroom: 0,
+        half_bathroom: 0,
         status: '',
         updated_at: ''
     };
@@ -102,6 +105,8 @@ export class Configuration {
     images_files: any = [];
     images_path: any = [];
     images: any = [];
+    images360: any = [];
+    videos: any = [];
     updated_at: any = '';
     name: any = '';
 }

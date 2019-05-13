@@ -1,5 +1,5 @@
 import { User } from './inhouse-users.model';
-import { Towers } from './addProject.model';
+import { Towers, Configuration } from './addProject.model';
 
 export class CarpetAreas {
     carpet_areas: Array<object> = [
@@ -64,6 +64,7 @@ export class AddPropertyModel {
     floor_num: string;
     building_towers: Towers;
     videoLoader: boolean;
+    configuration: Configuration;
 }
 
 export class Building {

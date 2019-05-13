@@ -10,7 +10,7 @@ import { Constant } from '../../../common/constants';
 import { FileUpload } from './../../../common/fileUpload';
 import { AddPropertyModel, Building, PropertyDetails } from '../../../models/addProperty.model';
 import { HttpInterceptor } from '../../../services/http-interceptor';
-import { AddProjectModel, Towers } from 'src/app/models/addProject.model';
+import { AddProjectModel, Towers, Configuration } from 'src/app/models/addProject.model';
 declare const google;
 declare let swal: any;
 
@@ -71,7 +71,7 @@ export class AddPropertyComponent implements OnInit {
     }
   ];
   availabilityStatus = [
-    {id: '1', name: 'Buy', checked: true},
+    {id: '1', name: 'Buy', checked: false},
     {id: '2', name: 'Rent', checked: false},
     {id: '3', name: 'Inventory', checked: false}];
   imageEvent = [];
@@ -129,7 +129,9 @@ export class AddPropertyComponent implements OnInit {
         this.parameter.property_id = '';
         this.testMarital[0].checked = true;
         this.model.marital_status = [1];
-        this.model.availabilityStatusId = '1';
+        console.log('modeleeeee', this.model);
+        this.model.availabilityStatusId = this.availabilityStatus[0].id;
+        this.availabilityStatus[0].checked = true;
         // set 0 bcz optional
         this.model.quantity = 0;
         this.model.half_bathroom = 0;
@@ -147,12 +149,12 @@ export class AddPropertyComponent implements OnInit {
 
     this.tab = 0;
     this.getCountries('');
-    this.getConfigurations();
+    // this.getConfigurations();
     this.getPropertyTypes();
     this.getAmenities();
-    this.getBanks();
-    this.getBuildingSpecificTypes();
-    this.getPaymentStatuses();
+    // this.getBanks();
+    // this.getBuildingSpecificTypes();
+    // this.getPaymentStatuses();
 
     // set google maps defaults
     this.zoom = 4;
@@ -194,6 +196,7 @@ export class AddPropertyComponent implements OnInit {
           this.parameter.loading = false;
           this.parameter.loading = false;
           this.parameter.propertyDetails = success['data'];
+          console.log('getdata', success['data']);
           this.setModelData(success['data']);
           if (this.parameter.propertyDetails.step < 5) {
             this.tab = this.parameter.propertyDetails.step;
@@ -211,7 +214,7 @@ export class AddPropertyComponent implements OnInit {
           this.parameter.items = [];
           success['data'].building.configurations.forEach(element => {
             // adding configurations
-            this.parameter.items.push(element.config);
+            this.parameter.items.push(element);
           });
         }, error => {
           this.parameter.loading = false;
@@ -225,14 +228,12 @@ export class AddPropertyComponent implements OnInit {
         success => {
           this.parameter.loading = false;
           this.buildingData = success['data'];
-          // this.parameter.propertyDetails.building = this.buildingData;
           this.parameter.propertyDetails.images = this.buildingData.images;
           this.parameter.propertyDetails.amenities = this.buildingData.amenities;
-          // this.parameter.items = this.buildingData.configurations;
           this.parameter.items = [];
           this.buildingData.configurations.forEach(element => {
             // adding configurations
-            this.parameter.items.push(element.config);
+            this.parameter.items.push(element);
             // adding carpet area and price
             const obj = {
               area: element.carpet_area,
@@ -240,10 +241,11 @@ export class AddPropertyComponent implements OnInit {
             };
             this.model.carpet_areas.push(obj);
           });
+          // this.model.cover_image = this.buildingData.main_image;
           if (success['data'].locality.id) {
-            this.getStates(success['data'].locality.city.state.country.id, '');
-            this.getCities(success['data'].locality.city.state.id, '');
-            this.getLocalities(success['data'].locality.city.id, '');
+            // this.getStates(success['data'].locality.city.state.country.id, '');
+            // this.getCities(success['data'].locality.city.state.id, '');
+            // this.getLocalities(success['data'].locality.city.id, '');
 
             this.model.country_id = success['data'].locality.city.state.country.id;
             this.model.state_id = success['data'].locality.city.state.id;
@@ -263,17 +265,16 @@ export class AddPropertyComponent implements OnInit {
     this.model.name = data.name;
     this.model.property_price = data.property_price;
     this.model.is_property_sold = data.is_property_sold;
-    if (this.model.is_property_sold) {
+    if (data.is_property_sold) {
       this.model.availabilityStatusId = this.availabilityStatus[2].id;
-    } else if (this.model.for_sale) {
-      this.model.availabilityStatusId = this.availabilityStatus[0].id;
-    } else {
+    } else if (data.for_rent) {
       this.model.availabilityStatusId = this.availabilityStatus[1].id;
+    } else {
+      this.model.availabilityStatusId = this.availabilityStatus[0].id;
     }
     this.model.building_id = data.building_id;
     this.model.building_towers_id = data.building_towers_id;
     this.model.floor_num = data.floor_num;
-console.log('model', this.model);
     this.model.pets = data.pets !== null ? data.pets : '1';
     this.model.kids_friendly = data.kids_friendly !== null ? data.kids_friendly : '1';
     this.model.students_friendly = data.students_friendly !== null ? data.students_friendly : '1';
@@ -282,9 +283,9 @@ console.log('model', this.model);
 
     // this.model.for_rent = data.for_rent === 1 ? true : false;
     // this.model.for_sale = data.for_sale === 1 ? true : false;
-    this.getStates(data.locality.city.state.country.id, '');
-    this.getCities(data.locality.city.state.id, '');
-    this.getLocalities(data.locality.city.id, '');
+    // this.getStates(data.locality.city.state.country.id, '');
+    // this.getCities(data.locality.city.state.id, '');
+    // this.getLocalities(data.locality.city.id, '');
 
     this.model.locality_id = data.locality.id;
     this.model.city_id = data.locality.city.id;
@@ -294,25 +295,27 @@ console.log('model', this.model);
     this.model.configuration_id = data.configuration.id;
     this.model.property_type_id = data.property_type.id;
 
+    // images
     this.model.floor_plan = data.floor_plan;
     this.model.cover_image = data.image;
+    this.model.images = data.images;
+    this.model.images360 = data.images360;
+    this.model.videos = data.videos;
+
     this.model.description = data.description;
     this.model.quantity = data.quantity;
     this.model.floor = data.floor;
-    this.model.bedroom = data.bedroom;
-    this.model.bathroom = data.bathroom;
+    this.model.bedroom = data.configuration.bedroom ? data.configuration.bedroom : data.bedroom;
+    this.model.bathroom = data.configuration.bathroom ? data.configuration.bathroom : data.bathroom;
+    this.model.half_bathroom = data.configuration.bathroom ? data.configuration.half_bathroom : data.half_bathroom;
     this.model.parking = data.parking;
 
     this.model.parking_count = data.parking_count;
     this.model.parking_for_sale = data.parking_for_sale;
     this.model.furnished = data.furnished;
     this.model.property_quantity_details = data.details;
-    this.model.images = data.images;
-    this.model.images360 = data.images360;
-    this.model.videos = data.videos;
 
     this.model.for_hold = data.for_hold === 1 ? true : false;
-    this.model.half_bathroom = data.half_bathroom;
 
     this.building.id = data.building ? data.building.id : '';
     this.building.name = data.building ? data.building.name : '';
@@ -449,6 +452,18 @@ console.log('model', this.model);
 
   setAmenity(id: any) {
     this.model.amenities = [id];
+  }
+
+  setConfiguration(con: Configuration) {
+    console.log('set conf', con);
+    this.model.configuration_id = con.configuration_id;
+    this.model.floor_plan = con.floor_map_image;
+    this.model.images = con.images;
+    this.model.images360 = con.images360;
+    this.model.videos = con.videos;
+    this.model.bedroom = con.config.bedroom;
+    this.model.bathroom = con.config.bathroom;
+    this.model.half_bathroom = con.config.half_bathroom;
   }
 
   setValue(key: any, value: any) {
@@ -804,7 +819,7 @@ console.log('model', this.model);
         input.append('seller_id', this.parameter.seller_id);
       }
       input.append('step', this.model.step.toString());
-      console.log('this.availabilityStatus', this.availabilityStatus);
+      console.log('this.availabilityStatus', this.model);
       if (this.model.step === 1) {
         input.append('name', this.model.name);
         // input.append('for_sale', this.model.for_sale === true ? '1' : '0');
@@ -908,6 +923,25 @@ console.log('model', this.model);
     this.selectedBuilding = building;
     this.building.id = building.id;
     this.model.building_id = building.id;
+
+    this.model.pets = building.pets !== null ? building.pets : '1';
+    this.model.kids_friendly = building.kids_friendly !== null ? building.kids_friendly : '1';
+    this.model.students_friendly = building.students_friendly !== null ? building.students_friendly : '1';
+    this.model.lgtb_friendly = building.lgtb_friendly !== null ? building.lgtb_friendly : '1';
+    this.model.mature_people_friendly = building.mature_people_friendly !== null ? building.mature_people_friendly : '1';
+
+
+    for (let index = 0; index < this.testMarital.length; index++) {
+      if (building.marital_statuses.length !== 0) {
+        for (let i = 0; i < building.marital_statuses.length; i++) {
+          if (this.testMarital[index].name === building.marital_statuses[i].name_en) {
+            this.testMarital[index].checked = true;
+          }
+        }
+      } else {
+        this.testMarital[0].checked = true;
+      }
+    }
   }
 
   setTower(tower: Towers) {
@@ -939,9 +973,6 @@ console.log('model', this.model);
             'You will be notified once your property will be reviewed by them, you can view status in your properties.',
             type: 'success'
           });
-          // swal('Submitted successfully.',
-          //   'You will be notified once your property will be reviewed by them, you can view status in your properties.',
-          //   'success');
           if (this.router.url.indexOf('/dashboard/properties/edit-property') === -1) {
             this.router.navigate(['/dashboard/properties/view-properties']);
           }

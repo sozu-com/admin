@@ -36,11 +36,14 @@ export class PropertyComponent implements OnInit {
     this.getAmenities();
   }
 
-  public openPropertyConfigModal(template: TemplateRef<any>, index, id, name_en, name_es, status) {
+  public openPropertyConfigModal(template: TemplateRef<any>, index, id, name_en, name_es, bedroom, bathroom, half_bathroom, status) {
     this.parameter.index = index;
     this.property.configuration.id = id;
     this.property.configuration.name_en = name_en;
     this.property.configuration.name_es = name_es == null ? name_en : name_es;
+    this.property.configuration.bedroom = bedroom;
+    this.property.configuration.bathroom = bathroom;
+    this.property.configuration.half_bathroom = half_bathroom;
     this.property.configuration.status = status;
     this.modalRef = this.modalService.show(template);
   }
@@ -65,15 +68,18 @@ export class PropertyComponent implements OnInit {
   }
 
 
-  addPropertyConfiguration(id, name_en, name_es, status, type) {
-    if (type === 'edit') {this.modalRef.hide(); }
+  addPropertyConfiguration(id, name_en, name_es, bedroom, bathroom, half_bathroom, status, type) {
+    if (type === 'edit') { this.modalRef.hide(); }
     this.parameter.url = 'addConfiguration';
     const input = new FormData();
     input.append('name_en', name_en);
     input.append('name_es', name_es);
+    input.append('bedroom', bedroom);
+    input.append('bathroom', bathroom);
+    input.append('half_bathroom', half_bathroom);
     input.append('status', status);
 
-    if (id) {input.append('id', id); }
+    if (id) { input.append('id', id); }
     this.parameter.loading = true;
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
@@ -100,14 +106,14 @@ export class PropertyComponent implements OnInit {
   }
 
   addPropertyType(id, name_en, name_es, status, type) {
-    if (type === 'edit') {this.modalRef.hide(); }
+    if (type === 'edit') { this.modalRef.hide(); }
     this.parameter.url = 'addPropertyType';
     const input = new FormData();
     input.append('name_en', name_en);
     input.append('name_es', name_es);
     input.append('status', status);
 
-    if (id) {input.append('id', id); }
+    if (id) { input.append('id', id); }
     this.parameter.loading = true;
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
@@ -134,7 +140,7 @@ export class PropertyComponent implements OnInit {
 
 
   addAmenity(id, icon, name_en, name_es, status, type) {
-    if (type === 'edit') {this.modalRef.hide(); }
+    if (type === 'edit') { this.modalRef.hide(); }
     const iconNew = this.icon ? this.icon : this.property.amenities.icon;
     this.parameter.url = 'addPropertyAmenity';
     const input = new FormData();
@@ -142,17 +148,17 @@ export class PropertyComponent implements OnInit {
     input.append('name_es', name_es);
     input.append('status', status);
 
-    if (this.icon) {input.append('icon', iconNew); }
+    if (this.icon) { input.append('icon', iconNew); }
 
-    if (id) {input.append('id', id); }
+    if (id) { input.append('id', id); }
     this.parameter.loading = true;
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
           this.parameter.loading = false;
           const text = id ?
-          this.constant.successMsg.AMENITY_UPDATED_SUCCESSFULLY :
-          this.constant.successMsg.AMENITY_ADDED_SUCCESSFULLY;
+            this.constant.successMsg.AMENITY_UPDATED_SUCCESSFULLY :
+            this.constant.successMsg.AMENITY_ADDED_SUCCESSFULLY;
           swal('Success', text, 'success');
           this.property.amenities.id = '';
           this.property.amenities.name_en = '';
@@ -222,7 +228,7 @@ export class PropertyComponent implements OnInit {
       );
   }
 
-  addPropertyConfigurationPopup(index, id, name_en, name_es, status, type) {
+  addPropertyConfigurationPopup(index, id, name_en, name_es, bedroom, bathroom, half_bathroom, status, type) {
     this.parameter.index = index;
     const self = this;
     const text = status === 1 ? this.constant.title.UNBLOCK_PROPERTY_CONFIG : this.constant.title.BLOCK_PROPERTY_CONFIG;
@@ -237,7 +243,7 @@ export class PropertyComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.addPropertyConfiguration(id, name_en, name_es, status, type);
+        this.addPropertyConfiguration(id, name_en, name_es, bedroom, bathroom, half_bathroom, status, type);
       }
     });
   }
@@ -282,7 +288,7 @@ export class PropertyComponent implements OnInit {
     });
   }
 
-  checkIfConfigSpanishNameEntered(formdata: NgForm, id, name_en, name_es, status, type) {
+  checkIfConfigSpanishNameEntered(formdata: NgForm, id, name_en, name_es, bedroom, bathroom, half_bathroom, status, type) {
     const self = this;
     formdata.reset();
     if (name_es === '') {
@@ -295,11 +301,11 @@ export class PropertyComponent implements OnInit {
         confirmButtonText: 'Yes'
       }).then((result) => {
         if (result.value) {
-          this.addPropertyConfiguration(id, name_en, name_en, status, type);
+          this.addPropertyConfiguration(id, name_en, name_en, bedroom, bathroom, half_bathroom, status, type);
         }
       });
-    }else {
-      self.addPropertyConfiguration(id, name_en, name_es, status, type);
+    } else {
+      self.addPropertyConfiguration(id, name_en, name_es, bedroom, bathroom, half_bathroom, status, type);
     }
   }
 
@@ -320,7 +326,7 @@ export class PropertyComponent implements OnInit {
           this.addPropertyType(id, name_en, name_en, status, type);
         }
       });
-    }else {
+    } else {
       self.addPropertyType(id, name_en, name_es, status, type);
     }
   }
@@ -342,7 +348,7 @@ export class PropertyComponent implements OnInit {
           this.addAmenity(id, icon, name_en, name_en, status, type);
         }
       });
-    }else {
+    } else {
       self.addAmenity(id, icon, name_en, name_es, status, type);
     }
   }
@@ -354,9 +360,9 @@ export class PropertyComponent implements OnInit {
     const fileToUpload = event.target.files[0];
     this.icon = fileToUpload;
 
-    reader.onload = function(e) {
-        const src = e.target['result'];
-        image.src = src;
+    reader.onload = function (e) {
+      const src = e.target['result'];
+      image.src = src;
     };
 
     reader.readAsDataURL(event.target.files[0]);
@@ -371,9 +377,9 @@ export class PropertyComponent implements OnInit {
     const fileToUpload = event.target.files[0];
     this.icon = fileToUpload;
 
-    reader.onload = function(e) {
-        const src = e.target['result'];
-        image.src = src;
+    reader.onload = function (e) {
+      const src = e.target['result'];
+      image.src = src;
     };
 
     reader.readAsDataURL(event.target.files[0]);

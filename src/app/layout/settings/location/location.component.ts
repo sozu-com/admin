@@ -170,7 +170,7 @@ export class LocationComponent implements OnInit {
   }
 
 
-  checkIfCountrySpanishNameEntered(name_en, name_es= '') {
+  checkIfCountrySpanishNameEntered(name_en, name_es = '') {
     const self = this;
     if (name_es === '') {
       swal({
@@ -185,14 +185,14 @@ export class LocationComponent implements OnInit {
           this.addCountry(name_en, name_en, self.location.countryModel.status, '');
         }
       });
-    }else {
+    } else {
       self.addCountry(name_en, name_es, self.location.countryModel.status, '');
     }
   }
 
 
   addCountry(name_en: string, name_es: string, status, country_id) {
-    if (country_id === '') {this.modalRef.hide(); }    // hide only when open
+    if (country_id === '') { this.modalRef.hide(); }    // hide only when open
 
     const input = new FormData();
     input.append('name_es', name_es);
@@ -201,7 +201,7 @@ export class LocationComponent implements OnInit {
 
     if (this.location.countryModel.country_id) {
       input.append('country_id', this.location.countryModel.country_id);
-    }else if (country_id) {
+    } else if (country_id) {
       input.append('country_id', country_id);
     }
 
@@ -225,7 +225,7 @@ export class LocationComponent implements OnInit {
   }
 
 
-  checkIfStateSpanishNameEntered(country_id, name_en, name_es= '') {
+  checkIfStateSpanishNameEntered(country_id, name_en, name_es = '') {
     const self = this;
     if (name_es === '') {
       swal({
@@ -240,7 +240,7 @@ export class LocationComponent implements OnInit {
           this.addState(country_id, name_en, name_en, self.location.stateModel.status, '');
         }
       });
-    }else {
+    } else {
       self.addState(country_id, name_en, name_es, self.location.stateModel.status, '');
     }
   }
@@ -248,7 +248,7 @@ export class LocationComponent implements OnInit {
 
   addState(country_id, name_en, name_es, status, state_id) {
 
-    if (state_id === '') {this.modalRef.hide(); }
+    if (state_id === '') { this.modalRef.hide(); }
 
     const input = new FormData();
     input.append('name_es', name_es);
@@ -257,13 +257,13 @@ export class LocationComponent implements OnInit {
 
     if (this.location.stateModel.country_id) {
       input.append('country_id', this.location.stateModel.country_id);  // edit
-    }else {
+    } else {
       input.append('country_id', country_id);  // add
     }
 
     if (this.location.stateModel.state_id) {
       input.append('state_id', this.location.stateModel.state_id);
-    }else if (state_id) {
+    } else if (state_id) {
       input.append('state_id', state_id);
     }
 
@@ -271,8 +271,8 @@ export class LocationComponent implements OnInit {
       .subscribe(
         success => {
           const text = this.location.stateModel.state_id || state_id ?
-          this.constant.successMsg.STATE_UPDATED_SUCCESSFULLY :
-          this.constant.successMsg.STATE_ADDED_SUCCESSFULLY;
+            this.constant.successMsg.STATE_UPDATED_SUCCESSFULLY :
+            this.constant.successMsg.STATE_ADDED_SUCCESSFULLY;
           swal('Success', text, 'success');
           this.getStates(this.parameter.country_id1, '', 1);
           this.getStates(this.parameter.country_id2, '', 2);
@@ -286,7 +286,7 @@ export class LocationComponent implements OnInit {
   }
 
 
-  checkIfCitySpanishNameEntered(state_id, name_en, name_es= '') {
+  checkIfCitySpanishNameEntered(state_id, name_en, name_es = '') {
     const self = this;
     if (name_es === '') {
       swal({
@@ -301,14 +301,14 @@ export class LocationComponent implements OnInit {
           this.addCity(state_id, name_en, name_en, self.location.cityModel.status, '');
         }
       });
-    }else {
+    } else {
       self.addCity(state_id, name_en, name_es, self.location.cityModel.status, '');
     }
   }
 
 
   addCity(state_id, name_en, name_es, status, city_id) {
-    if (city_id === '') {this.modalRef.hide(); }
+    if (city_id === '') { this.modalRef.hide(); }
     const input = new FormData();
     input.append('name_es', name_es);
     input.append('name_en', name_en);
@@ -316,13 +316,13 @@ export class LocationComponent implements OnInit {
 
     if (this.location.cityModel.state_id) {
       input.append('state_id', this.location.cityModel.state_id);   // edit
-    }else {
+    } else {
       input.append('state_id', state_id);   // add
     }
 
     if (this.location.cityModel.city_id) {
       input.append('city_id', this.location.cityModel.city_id);   // edit
-    }else if (city_id) {
+    } else if (city_id) {
       input.append('city_id', city_id);   // edit
     }
 
@@ -330,7 +330,7 @@ export class LocationComponent implements OnInit {
       .subscribe(
         success => {
           const text = this.location.cityModel.city_id || city_id ?
-          this.constant.successMsg.CITY_UPDATED_SUCCESSFULLY : this.constant.successMsg.CITY_ADDED_SUCCESSFULLY;
+            this.constant.successMsg.CITY_UPDATED_SUCCESSFULLY : this.constant.successMsg.CITY_ADDED_SUCCESSFULLY;
           swal('Success', text, 'success');
           this.getCities(this.parameter.state_id1, '', 1);
 

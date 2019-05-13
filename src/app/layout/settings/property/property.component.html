@@ -22,15 +22,10 @@
                     <label><strong>Property Configuration</strong></label>
                 </div>
                 <div class="col-md-8" *ngIf="admin?.admin_acl['Settings']?.can_create==1" >
-                   <form role="form" novalidate #addConfigForm="ngForm" (ngSubmit)="checkIfConfigSpanishNameEntered(addConfigForm, '', addConfigForm.value.name_en, addConfigForm.value.name_es, 1, 'add')">
+                   <!-- <form role="form" novalidate #addConfigForm="ngForm" (ngSubmit)="checkIfConfigSpanishNameEntered(addConfigForm, '', addConfigForm.value.name_en, addConfigForm.value.name_es, 1, 'add')">
                     <div class="row">
                         <div class="col-lg-6 col-md-6">
                             <input type="text" class="form-control" placeholder="Configuration name (English)" id="name_en" required [(ngModel)]="property.configuration.name_en" name="name_en" #name_en="ngModel">
-                            <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-not-found">
-                              <div [hidden]="!name_en.errors.required">
-                                {{constant.errorMsg.PROPERTY_CONFIG_REQUIRED}}
-                              </div>
-                          </div>       -->
                         </div>
                         <div class="col-lg-6 col-md-6">
                             <input type="text" class="form-control" placeholder="Configuration name (Spanish)" [(ngModel)]="property.configuration.name_es" name="name_es">
@@ -39,7 +34,18 @@
                     <button [disabled]="admin?.admin_acl['Settings']?.can_create==0 || addConfigForm.invalid" type="submit" class="add-btn btn">
                        <img src="./../../../../assets/img/add.png" alt="img">
                      </button>
-                   </form>
+                   </form> -->
+
+                    <div class="form-group marginB0">
+                      <div class="btn-cont text-right">
+                          <a *ngIf="admin?.admin_acl['Settings']?.can_create==1" class="btn btn-primary" href="javascript://" (click)="openPropertyConfigModal(addPropertyConfigModal, -1, '', '', '', '', '', '', 1)">
+                            + Add New</a>
+                      </div>
+                    </div>
+                   <!-- <button [disabled]="admin?.admin_acl['Settings']?.can_create==0" type="button" class="add-btn btn"
+                      (click)="openPropertyConfigModal(addPropertyConfigModal, -1, '', '', '', '', '', '', 1)">
+                      <img src="./../../../../assets/img/add.png" alt="img">
+                    </button> -->
                 </div>
              </div>
           </div>
@@ -49,8 +55,11 @@
           <div class="table-responsive">
             <table class="table table-striped">
                 <tr>
-                  <th style="width:40%; text-align:left;">Name (English)</th>
-                  <th style="width:40%; text-align:left;">Name (Spanish)</th>
+                  <th style="width:25%; text-align:left;">Name (English)</th>
+                  <th style="width:25%; text-align:left;">Name (Spanish)</th>
+                  <th style="width:10%; text-align:left;">Bedrooms</th>
+                  <th style="width:10%; text-align:left;">Bathrooms</th>
+                  <th style="width:10%; text-align:left;">Half Bathrooms</th>
                   <th style="width:20%">Action</th>
                 </tr>
                 <tr *ngFor="let item of parameter.items; let i=index">
@@ -60,13 +69,22 @@
                   <td class="text-left">
                     {{item.name_es}}
                   </td>
+                  <td class="text-left">
+                    {{item.bedroom}}
+                  </td>
+                  <td class="text-left">
+                    {{item.bathroom}}
+                  </td>
+                  <td class="text-left">
+                    {{item.half_bathroom}}
+                  </td>
                   <td>
                     <button title="Edit" [disabled]="admin?.admin_acl['Settings']?.can_update==0" 
-                      (click)="openPropertyConfigModal(addPropertyConfigModal, i, item.id, item.name_en, item.name_es, item.status)" class="action-icon"><img src="./../../../../assets/img/edit.png" alt="img"></button>
+                      (click)="openPropertyConfigModal(addPropertyConfigModal, i, item.id, item.name_en, item.name_es, item.bedroom, item.bathroom, item.half_bathroom, item.status)" class="action-icon"><img src="./../../../../assets/img/edit.png" alt="img"></button>
                     
                       <!-- status = 1 means unblocked -->
                     <button [disabled]="admin?.admin_acl['Settings']?.can_delete==0"
-                      (click)="addPropertyConfigurationPopup(i, item.id, item.name_en, item.name_es, item.status==1?0:1, item.status==1?'block':'unblock')" 
+                      (click)="addPropertyConfigurationPopup(i, item.id, item.name_en, item.name_es, item.bedroom, item.bathroom, item.half_bathroom, item.status==1?0:1, item.status==1?'block':'unblock')" 
                       title="{{item.status==1?'Block':'Unblock'}}" [ngClass]="{'unblock-bg':item.status==0}"
                       class="action-icon"><img src="assets/img/block.png" alt="img">
                     </button>
@@ -263,12 +281,12 @@
 <ng-template #addPropertyConfigModal>
   <div class="modal-content">
     <div class="modal-header my-modal-header">
-      <h4 class="modal-title">Edit Property Configuration</h4>
+      <h4 class="modal-title">{{parameter.index!='-1' ? 'Edit' : 'Add'}} Property Configuration</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <form class="form-horizontal my-modal-form" role="form" novalidate #addForm="ngForm" (ngSubmit)="checkIfConfigSpanishNameEntered(addForm, property.configuration.id, addForm.value.name_en, addForm.value.name_es, property.configuration.status, 'edit')">
+    <form class="form-horizontal my-modal-form" role="form" novalidate #addForm="ngForm" (ngSubmit)="checkIfConfigSpanishNameEntered(addForm, property.configuration.id, addForm.value.name_en, addForm.value.name_es, addForm.value.bedroom, addForm.value.bathroom, addForm.value.half_bathroom, property.configuration.status, 'edit')">
       <div class="modal-body my-modal-body">
         <div class="form-group">
           <input autocomplete="off" type="text" class="form-control" placeholder="Property Configuration (English)" id="name_en" required [(ngModel)]="property.configuration.name_en" name="name_en" #name_en="ngModel">
@@ -280,6 +298,15 @@
         </div>
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Property Configuration (Spanish)" [(ngModel)]="property.configuration.name_es" name="name_es">
+        </div>
+        <div class="form-group">
+          <input type="number" class="form-control" required placeholder="Bedrooms" [(ngModel)]="property.configuration.bedroom" name="bedroom" #bedroom="ngModel">
+        </div>
+        <div class="form-group">
+          <input type="number" class="form-control" required placeholder="Bathrooms" [(ngModel)]="property.configuration.bathroom" name="bathroom" #bathroom="ngModel">
+        </div>
+        <div class="form-group">
+          <input type="number" class="form-control" required placeholder="Half Bathrooms" [(ngModel)]="property.configuration.half_bathroom" name="half_bathroom" #half_bathroom="ngModel">
         </div>
       </div>
       <div class="modal-footer">

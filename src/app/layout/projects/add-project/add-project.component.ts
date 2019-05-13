@@ -322,7 +322,6 @@ export class AddProjectComponent implements OnInit {
   }
 
   setCountryToLocality(locality: LocalityToCountry) {
-    console.log('loca', locality);
     this.getStates(locality.city.state.country.id, '');
     this.getCities(locality.city.state.id, '');
     this.getLocalities(locality.city.id, '');
@@ -331,7 +330,7 @@ export class AddProjectComponent implements OnInit {
 
   setMaritalStatus(data) {
     for (let index = 0; index < this.testMarital.length; index++) {
-      if (data.marital_statuses.length !== 0) {
+      if (data.marital_statuses.length > 0) {
         for (let i = 0; i < data.marital_statuses.length; i++) {
           if (this.testMarital[index].name === data.marital_statuses[i].name_en) {
             this.testMarital[index].checked = true;
@@ -341,7 +340,6 @@ export class AddProjectComponent implements OnInit {
         this.testMarital[0].checked = true;
         this.model.marital_status = [1];
       }
-      // this.model.marital_status[index] = data.marital_status[index].id;
     }
   }
 
@@ -698,7 +696,6 @@ export class AddProjectComponent implements OnInit {
       error => {
         this.parameter.loading = false;
       });
-
   }
 
   onCountryChange(obj) {
@@ -708,8 +705,8 @@ export class AddProjectComponent implements OnInit {
     this.model.developer.country_code = this.model.dev_countrycode;
   }
 
-
   addProject() {
+    this.model.marital_status = [];
     for (let index = 0; index < this.testMarital.length; index++) {
       if (this.testMarital[index].checked === true) {
         this.model.marital_status.push(this.testMarital[index].id);
@@ -930,6 +927,11 @@ export class AddProjectComponent implements OnInit {
     this.model.custom_attributes = this.model.custom_values;
     this.file5.image = this.model.developer.image;
     this.file6.image = this.model.developer.developer_image;
+
+    if (data['locality']) {
+      this.setCountryToLocality(data['locality']);
+    }
+
     this.admin.postDataApi('getAmenities', {}).subscribe(res => {
       this.all_amenities = res.data.map(item => { item.selected = false; item.images = []; return item; });
       this.allTowerAmenities = JSON.parse(JSON.stringify(this.all_amenities));
