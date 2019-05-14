@@ -128,7 +128,7 @@
         <tbody><tr>
             <td><img class="rounded-circle" [src]="item.image| img:'small'" onerror='this.src="assets/img/default_img.png"' alt="img"></td>
             <td class="text-left">
-                <span class="name">{{item.name}}</span>
+                <span class="name">{{item.name | titlecase}}</span>
             </td>
             <td class="text-left">{{item.phone}}</td>
             <td class="text-left">{{item.email}}</td>
@@ -334,7 +334,7 @@
                     <img *ngIf="!item.image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
                 </td>
                 <td class="text-left" routerLink="{{item.id}}">
-                  <span class="name">{{item.name}}</span>
+                  <span class="name">{{item.name | titlecase}}</span>
                  </td>
                  <td routerLink="{{item.id}}" class="text-left" *ngIf="item.phone">{{item.dial_code}}-{{item.phone.trim()}}</td>
                  <td routerLink="{{item.id}}" class="text-left" *ngIf="!item.phone">NA</td>
@@ -408,25 +408,27 @@
                     </div>
                 </div>
                 <div class="spacer40"></div>
-                <table class="table">
-                    <tr *ngFor="let item of assign.items">
-                        <td *ngIf="item.is_blocked!=1">
-                            <div class="n-avail-profile">
-                            <img [src]="item.image" onerror='src="assets/img/default_img.png"' alt="img">
-                            <div class="n-avail-info">
-                                <p class="p12">{{item.name}}</p>
-                                <p class="p10">Phone : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
-                            </div>
-                            </div>
-                        </td>
-                        <td *ngIf="item.is_blocked!=1">
-                            <label class="cust-check-bx float-right">
-                                <input type="radio" name="notary_id" (click)="assignItem = item">
-                                <span class="checkmark"></span>
-                            </label>
-                        </td>
-                    </tr>
-                </table>
+                <div class="modal-data">
+                    <table class="table">
+                        <tr *ngFor="let item of assign.items">
+                            <td *ngIf="item.is_blocked!=1">
+                                <div class="n-avail-profile">
+                                <img [src]="item.image" onerror='src="assets/img/default_img.png"' alt="img">
+                                <div class="n-avail-info">
+                                    <p class="p12">{{item.name | titlecase}}</p>
+                                    <p class="p10">Phone : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
+                                </div>
+                                </div>
+                            </td>
+                            <td *ngIf="item.is_blocked!=1">
+                                <label class="cust-check-bx float-right">
+                                    <input type="radio" name="notary_id" (click)="assignItem = item">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

@@ -65,7 +65,7 @@
               <td class="text-left">{{item.developer_company ? item.developer_company : 'NA'}}</td>
               <td class="text-left">
                 <span class="name">
-                  <a data-toggle="popover" data-placement="top" title="{{item.name}}">{{item.name}}</a>
+                  <a data-toggle="popover" data-placement="top" title="{{item.name}}">{{item.name | titlecase}}</a>
                 </span>
               </td>
               <td class="text-left" *ngIf="item.phone">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>

@@ -651,7 +651,7 @@
                 <div class="page-title paddingL0 paddingR0">
                   <h3>Developer Info
                     <!-- <span class="color-red">*</span> -->
-                    <span class="tower pull-right" (click)="selectDeveloper('')">{{model?.developer?.id ? 'Change' : 'Select'}} Developer</span>
+                    <span class="tower pull-right" (click)="selectDeveloper('', 1)">{{model?.developer?.id ? 'Change' : 'Select'}} Developer</span>
                   </h3>
                 </div>
               </div>
@@ -662,7 +662,7 @@
 
               <!-- <div class="col-md-12 col-sm-12 col-12">
                 <div class="form-group-3 pull-right">
-                  <label class="green-color cursor-pointer" (click)="selectDeveloper('')">Select Developer</label>
+                  <label class="green-color cursor-pointer" (click)="selectDeveloper('', 1)">Select Developer</label>
                 </div>
               </div> -->
 
@@ -992,11 +992,12 @@
                     <input style="max-width:200px" [(ngModel)]="name" class="form-control" type="text" name="keyword" placeholder="Search">
                 </div>
                 <div class="col-md-4 col-5 btn-cont">
-                  <a class="btn btn-primary pull-right" href="javascript://" (click)="selectDeveloper(name)">Search</a>
+                  <a class="btn btn-primary pull-right" href="javascript://" (click)="selectDeveloper(name, 2)">Search</a>
               </div>
             </div>
             <div class="spacer40"></div>
-            <table class="table">
+            <div class="modal-data">
+              <table class="table">
                 <tr *ngFor="let item of all_developers">
                     <td *ngIf="item.is_blocked!=1">
                         <div class="n-avail-profile">
@@ -1014,7 +1015,11 @@
                         </label>
                     </td>
                 </tr>
+                <tr *ngIf="all_developers?.length<1">
+                    <p class="show-not-found">No developer found.</p>
+                </tr>
             </table>
+            </div>
         </div>
     </div>
 </div>

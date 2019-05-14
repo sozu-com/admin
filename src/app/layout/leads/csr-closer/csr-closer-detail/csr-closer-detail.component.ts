@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { Router, ActivatedRoute} from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AdminService } from '../../../../services/admin.service';
 import { CommonService } from '../../../../services/common.service';
 import { IProperty } from '../../../../common/property';
@@ -60,7 +60,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     original: ''
   };
   image: any;
-  imgArray= [];
+  imgArray = [];
   durationInSec = 0;
   showVideo = true;
   video: any;
@@ -77,11 +77,12 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   chat_seller: any;
   chat_buyer: any;
   chat_admin_sent_as = this.constant.userType.user_buyer;
-  loadmore= true;
+  loadmore = true;
   loadmoring: any = false;
   admin_id: string;
   showInput: false;
   pen_amount = 0;
+  keyword: string;
   @ViewChild('chatWin') chatWin: ElementRef;
   @ViewChild('optionsButton') optionsButton: ElementRef;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
@@ -111,22 +112,23 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.keyword = '';
     this.parameter.sent_as = this.constant.userType.csr_closer;
 
     this.admin.loginData$.subscribe(success => {
       this.admin_id = success['id'];
     });
-    this.route.params.subscribe( params => {
+    this.route.params.subscribe(params => {
       this.parameter.lead_id = params.id;
       this.parameter.loading = true;
-      this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
+      this.admin.postDataApi('leads/details', { lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as }).subscribe(r => {
         this.parameter.loading = false;
         this.getDocumentOptions();
         this.parameter.lead = r.data.lead;
         this.selectedProperties = r.data.lead.selected_properties[0];
         this.pen_amount = this.selectedProperties.pending_amount ?
-                          this.selectedProperties.pending_amount :
-                          (this.selectedProperties.total_amount - this.selectedProperties.token_money);
+          this.selectedProperties.pending_amount :
+          (this.selectedProperties.total_amount - this.selectedProperties.token_money);
         this.parameter.user_id = this.parameter.lead.user.id;
 
         if (this.parameter.lead.appointments.length !== 0) {
@@ -149,7 +151,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
         this.chat_buyer = r.data.lead.user;
         this.chat_seller = r.data.lead.selected_properties[0].property.creator;
         this.chat_notary = r.data.lead.selected_properties[0].selected_noatary[0] ?
-                            r.data.lead.selected_properties[0].selected_noatary[0].noatary : [];
+          r.data.lead.selected_properties[0].selected_noatary[0].noatary : [];
         this.chat_bank = r.data.lead.selected_properties[0].banks ? r.data.lead.selected_properties[0].banks[0] : [];
 
         this.getLeadConversation(this.constant.userType.user_buyer);
@@ -173,11 +175,19 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     // this.parameter.subscriber.uns
   }
 
-  getNotaries(property_id) {
-    this.notaryModel.property_id = property_id;
+  getNotaries(property_id: any, keyword: string, type: number) {
+    if (property_id) {
+      this.notaryModel.property_id = property_id;
+    }
     this.notaryModel.lead_id = this.parameter.lead_id;
-    this.admin.postDataApi('getNoataries', {}).subscribe(r => {
-      this.showNotaries.nativeElement.click();
+    const input = {keyword: ''};
+    if (keyword) {
+      input.keyword = keyword;
+    }
+    this.admin.postDataApi('getNoataries', input).subscribe(r => {
+      if (type === 1) {
+        this.showNotaries.nativeElement.click();
+      }
       this.parameter.items = r.data;
       for (let index = 0; index < this.parameter.items.length; index++) {
         const element = this.parameter.items[index];
@@ -218,23 +228,31 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
         });
       } else if (result.dismiss === 'cancel') {
         // alert('c');
-     }else {
-      // alert('ca');
+      } else {
+        // alert('ca');
       }
-    }, function(dismiss){
+    }, function (dismiss) {
       // alert('csfd');
     }
       // if(dismiss == 'cancel'){
       //     // function when cancel button is clicked
       // }
-      );
+    );
   }
 
-  getBanks(property_id) {
-    this.bankModel.property_id = property_id;
+  getBanks(property_id: any, keyword: string, type: number) {
+    if (property_id) {
+      this.bankModel.property_id = property_id;
+    }
     this.bankModel.lead_id = this.parameter.lead_id;
-    this.admin.postDataApi('getBanks', {}).subscribe(r => {
-      this.showBanks.nativeElement.click();
+    const input = {keyword: ''};
+    if (keyword) {
+      input.keyword = keyword;
+    }
+    this.admin.postDataApi('getBanks', input).subscribe(r => {
+      if (type === 1) {
+        this.showBanks.nativeElement.click();
+      }
       this.parameter.banks = r.data;
       for (let index = 0; index < this.parameter.banks.length; index++) {
         const element = this.parameter.banks[index];
@@ -274,7 +292,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
 
   setValue(i) {
     this.selectedProperties.allDocuments[i].is_selected =
-    this.selectedProperties.allDocuments[i].is_selected && this.selectedProperties.allDocuments[i].is_selected === 1 ? 0 : 1;
+      this.selectedProperties.allDocuments[i].is_selected && this.selectedProperties.allDocuments[i].is_selected === 1 ? 0 : 1;
   }
 
   getDocumentOptions() {
@@ -288,11 +306,11 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
         });
       });
     }
-  );
+    );
   }
 
   blockThisLead() {
-    this.admin.postDataApi('conversation/block', {lead_id: this.id}).subscribe(r => {
+    this.admin.postDataApi('conversation/block', { lead_id: this.id }).subscribe(r => {
       // console.log(r);
     });
   }
@@ -311,7 +329,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       // console.log('updateDocumentChecklist', r);
       swal('Success', 'Updated successfully.', 'success');
     }
-  );
+    );
   }
 
   noDocumentUploaded() {
@@ -333,7 +351,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.admin.postDataApi('leads/closer-mark-lead-closed', {lead_id: this.parameter.lead_id}).subscribe(r => {
+        this.admin.postDataApi('leads/closer-mark-lead-closed', { lead_id: this.parameter.lead_id }).subscribe(r => {
           console.log('r', r);
           this.parameter.lead.lead_status_closer = 1;
           swal('Success', 'Lead closed successfully.', 'success');
@@ -360,7 +378,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     });
 
     this.conversation = conversation;
-console.log('con id', this.conversation_id);
+    console.log('con id', this.conversation_id);
     const data = {
       conversation_id: this.conversation_id
     };
@@ -374,56 +392,56 @@ console.log('con id', this.conversation_id);
         this.scrollToBottom();
       }, 200);
     },
-    error => {
-      this.loadingMessages = false;
-    });
+      error => {
+        this.loadingMessages = false;
+      });
 
   }
 
   public initSocket(): void {
-      this.socket = io.connect(this.admin.socketUrl);
+    this.socket = io.connect(this.admin.socketUrl);
 
-      // this.parameter.socket.on('connect', fun => {
-      //   console.log('connect');
-      //   console.log('connect', this.parameter.socket);
-      //   this.parameter.socket_id = this.parameter.socket.id;
-      //   this.parameter.connected = this.parameter.socket.connected;
+    // this.parameter.socket.on('connect', fun => {
+    //   console.log('connect');
+    //   console.log('connect', this.parameter.socket);
+    //   this.parameter.socket_id = this.parameter.socket.id;
+    //   this.parameter.connected = this.parameter.socket.connected;
 
-      //   const data = {
-      //     admin_id: this.admin_id,
-      //     socket_id: this.parameter.socket_id,
-      //     device_id: this.admin.deviceId + '_' + this.admin_id
-      //   };
-      //   if (this.parameter.connected) {
-      //     this.parameter.socket.emit('add-admin', data, (res: any) => {
-      //     });
-      //     this.parameter.socket.on('message', (response: any) => {
-      //       if (response.data.conversation_id === this.parameter.conversation_id) {
-      //         this.scrollToBottom();
-      //         this.parameter.messages.push(response.data);
-      //       }
-      //     });
-      //   }
-      // });
+    //   const data = {
+    //     admin_id: this.admin_id,
+    //     socket_id: this.parameter.socket_id,
+    //     device_id: this.admin.deviceId + '_' + this.admin_id
+    //   };
+    //   if (this.parameter.connected) {
+    //     this.parameter.socket.emit('add-admin', data, (res: any) => {
+    //     });
+    //     this.parameter.socket.on('message', (response: any) => {
+    //       if (response.data.conversation_id === this.parameter.conversation_id) {
+    //         this.scrollToBottom();
+    //         this.parameter.messages.push(response.data);
+    //       }
+    //     });
+    //   }
+    // });
 
 
-      this.socket.on('connect', fun => {
-        this.socket_id = this.socket.id;
-        this.connected = this.socket.connected;
+    this.socket.on('connect', fun => {
+      this.socket_id = this.socket.id;
+      this.connected = this.socket.connected;
 
-        const data = {
-          admin_id: this.admin_id,
-          socket_id: this.socket_id,
-          device_id: this.admin.deviceId + '_' + this.admin_id
-        };
-        if (this.connected) {
-          console.log('Socket Connected', this.socket_id);
+      const data = {
+        admin_id: this.admin_id,
+        socket_id: this.socket_id,
+        device_id: this.admin.deviceId + '_' + this.admin_id
+      };
+      if (this.connected) {
+        console.log('Socket Connected', this.socket_id);
 
-          this.socket.emit('add-admin', data, (res: any) => {
-            console.log('res', res);
-          });
+        this.socket.emit('add-admin', data, (res: any) => {
+          console.log('res', res);
+        });
 
-          this.socket.on('message', (response: any) => {
+        this.socket.on('message', (response: any) => {
           if (response.data.conversation_id === this.conversation_id) {
             console.log('Socket conversation_id');
             console.log('Socket conversation_id', this.conversation_id);
@@ -432,14 +450,14 @@ console.log('con id', this.conversation_id);
               this.scrollToBottom();
             }, 200);
           }
-          });
-        }
-      });
+        });
+      }
+    });
   }
 
   scrollToBottom() {
     if (this.chatWin) {
-      $('.chat-area').mCustomScrollbar('scrollTo', 'bottom', {scrollInertia: 0});
+      $('.chat-area').mCustomScrollbar('scrollTo', 'bottom', { scrollInertia: 0 });
     }
   }
 
@@ -455,8 +473,8 @@ console.log('con id', this.conversation_id);
     model.message_type = 2;
     model.loading = true;
     // model.uid = Math.random().toString(36).substr(2, 15);
-    model.conversation_id =  this.conversation_id;
-    model.conversation_user = {admin_id: this.admin_id};
+    model.conversation_id = this.conversation_id;
+    model.conversation_user = { admin_id: this.admin_id };
     model.updated_at = new Date();
     this.messages.push(model);
 
@@ -466,17 +484,17 @@ console.log('con id', this.conversation_id);
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
-          this.image = e.target.result;
-          model[param] = e.target.result;
-          setTimeout(() => {
-            this.scrollToBottom();
-          }, 100);
-          this.cs.saveImage(event.target.files[0]).subscribe(
-            success => {
-              model.image = success['data'].image;
-              this.sendMessage(model);
-            }
-          );
+        this.image = e.target.result;
+        model[param] = e.target.result;
+        setTimeout(() => {
+          this.scrollToBottom();
+        }, 100);
+        this.cs.saveImage(event.target.files[0]).subscribe(
+          success => {
+            model.image = success['data'].image;
+            this.sendMessage(model);
+          }
+        );
       };
       reader.readAsDataURL(event.target.files[0]);
 
@@ -496,8 +514,8 @@ console.log('con id', this.conversation_id);
     model.message_type = 4;
     model.loading = true;
     model.uid = Math.random().toString(36).substr(2, 15);
-    model.conversation_id =  this.conversation_id;
-    model.conversation_user = {admin_id: this.admin_id};
+    model.conversation_id = this.conversation_id;
+    model.conversation_user = { admin_id: this.admin_id };
     model.attachment_name = event.target.files[0].name;
     const date = new Date();
     model.updated_at = date;
@@ -535,8 +553,8 @@ console.log('con id', this.conversation_id);
     model.message_type = 3;
     model.loading = true;
     model.uid = Math.random().toString(36).substr(2, 15);
-    model.conversation_id =  this.conversation_id;
-    model.conversation_user = {admin_id: this.admin_id};
+    model.conversation_id = this.conversation_id;
+    model.conversation_user = { admin_id: this.admin_id };
     const date = new Date();
     model.updated_at = date;
     this.messages.push(model);
@@ -549,10 +567,10 @@ console.log('con id', this.conversation_id);
       this.video = document.getElementById('video1');
       const reader = new FileReader();
       const videoTest = this.element.nativeElement.querySelector('.video55');
-      reader.onload = function(e) {
+      reader.onload = function (e) {
         const src = e.target['result'];
         videoTest.src = src;
-        const timer = setInterval( () => {
+        const timer = setInterval(() => {
           // find duration of video only of video is in ready state
           if (videoTest.readyState === 4) {
             this.durationInSec = videoTest.duration.toFixed(0);
@@ -582,7 +600,7 @@ console.log('con id', this.conversation_id);
     const canvas = document.getElementById('canvas') as HTMLCanvasElement;
     // console.log(canvas);
     const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
-                                                      0, 0, canvas.width, canvas.height);
+      0, 0, canvas.width, canvas.height);
 
     const ImageURL = canvas.toDataURL('image/jpeg');
     model.image = ImageURL;
@@ -608,9 +626,9 @@ console.log('con id', this.conversation_id);
     let n = bstr.length;
     const u8arr = new Uint8Array(n);
     while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
+      u8arr[n] = bstr.charCodeAt(n);
     }
-    return new File([u8arr], filename, {type: mime});
+    return new File([u8arr], filename, { type: mime });
   }
 
   setText() {
@@ -626,8 +644,8 @@ console.log('con id', this.conversation_id);
       model.message_type = 1;
       model.loading = true;
       model.uid = Math.random().toString(36).substr(2, 15);
-      model.conversation_id =  this.conversation_id;
-      model.conversation_user = {admin_id: this.admin_id};
+      model.conversation_id = this.conversation_id;
+      model.conversation_user = { admin_id: this.admin_id };
       const d = new Date();
       model.updated_at = d.toUTCString();
       this.messages.push(model);
@@ -697,14 +715,14 @@ console.log('con id', this.conversation_id);
     if (admin_sent_as === this.constant.userType.bank) {
       this.chat_admin = this.chat_bank;
     }
-console.log('chat_admin', this.chat_admin);
+    console.log('chat_admin', this.chat_admin);
     const data = {
       lead_id: this.parameter.lead_id,
       other_sent_as: admin_sent_as,
       other_id: this.chat_admin.id,
       sent_as: this.constant.userType.csr_closer
     };
-console.log('=========', data);
+    console.log('=========', data);
     this.parameter.loading = true;
     this.admin.postDataApi('conversation/getLeadConversation', data).subscribe(r => {
       this.parameter.loading = false;
@@ -735,10 +753,10 @@ console.log('=========', data);
     this.admin.postDataApi('conversation/getMessages', data).subscribe(res => {
       // console.log(res);
       this.loadmoring = false;
-      if (res['data'].length < 30) {this.loadmore = false; }
+      if (res['data'].length < 30) { this.loadmore = false; }
       this.messages = res['data'].concat(this.messages);
     }
-    // error => {}
+      // error => {}
     );
   }
 
@@ -752,8 +770,8 @@ console.log('=========', data);
     model.loading = true;
     model.updated_at = new Date();
     model.uid = Math.random().toString(36).substr(2, 15);
-    model.conversation_id =  this.conversation_id;
-    model.conversation_user = {admin_id: this.admin_id};
+    model.conversation_id = this.conversation_id;
+    model.conversation_user = { admin_id: this.admin_id };
     this.messages.push(model);
     this.sendMessage(model);
   }

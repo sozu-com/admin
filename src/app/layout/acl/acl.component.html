@@ -10,8 +10,6 @@
         <div class="col-md-6 col-6">
           <div class="btn-cont text-right">
               <a *ngIf="admin?.admin_acl['Access Controls']?.can_create==1" class="btn btn-primary" href="javascript://" routerLink="/dashboard/access-control-mgt/add-acl-user/0">+Add New</a>
-              <!-- <a *ngIf="admin?.admin_acl['Access Controls']?.can_create==1" class="btn btn-primary" href="javascript://" routerLink="/dashboard/access-control-mgt/add-acl-user/0">+Add New</a> -->
-              <!-- <a class="btn btn-primary" href="javascript://" data-toggle="modal" data-target="#add" #modalOpen>Add Popup</a> -->
           </div>
         </div>
     </div>
@@ -68,7 +66,7 @@
                 <td class="text-left">
                   <span class="name">
                     <a data-toggle="popover" data-placement="top" title="{{item.name}}">
-                      {{item.name}}
+                      {{item.name | titlecase}}
                       <!-- {{admin?.admin_acl['Access Controls']?.can_delete}} -->
                     </a>
                   </span>
@@ -106,92 +104,3 @@
     
   </div>
   
-  
-  
-  <!-- add inhouse user modal -->
-  <div class="modal animated" id="add">
-    <div class="modal-dialog fadeIndown modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-            <button style="display: none;" type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
-            <button type="button" class="close" (click)="closeModal()">&times;</button>
-        </div>
-  
-        <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="add(addForm)">
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-6">
-                <div class="add-img" [style.background-image]="image1">
-                <input accept="image/*" name="image" class="image" (change)="changeListner($event)" type="file">
-                <label *ngIf="!image1">+ Add Image</label>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="btn-cont text-right">
-                    <button *ngIf="model.id==''" type="submit" class="btn btn-primary">ADD</button>
-                    <button *ngIf="model.id!=''"  type="submit" [disabled]="!addForm.valid" class="btn btn-primary">UPDATE</button>
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="spacer40"></div>
-              </div>
-              <div class="col-12">
-                <div class="form-group-2">
-                    <label>Name</label>
-                    <div class="form-group">
-                    <input autocomplete="off" required type="text" class="form-control" [(ngModel)]="model.name" name="name">
-                  </div>
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group-2">
-                    <label>Contact number</label>
-                    <div class="form-group">
-                    <input minlength="6" maxlength="16" autocomplete="off" type="text" [pattern]="constant.phonePattern" class="form-control" id="phone" required minlength="1" [(ngModel)]="model.phone" name="phone"
-                        ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
-                  </div>
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group-2">
-                    <label>Email ID</label>
-                    <div class="form-group">
-                    <input autocomplete="off" required [pattern]="constant.emailPattern" type="email" class="form-control" [(ngModel)]="model.email" name="email">
-                  </div>
-                </div>
-              </div>
-
-              <!-- <div class="access-controls">
-                <label *ngFor="let permission of model.acl; let i=index" class="cust-check-bx2">{{permission.name}}
-                  <input (click)="setPermission(permission.id, i)" type="checkbox" name="acl{{i}}">
-                  <span class="checkmark"></span>
-                </label>
-              </div> -->
-
-              <div class="row">
-                <div class="col-12" *ngFor="let permission of model.admin_acl; let i=index">
-                  <label><strong>{{permission?.acl?.name}}</strong></label><br>
-                  <label>Can Create
-                    <input type="checkbox" [checked]="permission.can_create == 1 ? 'checked': ''" (click)="setPermission('can_create', i)" name="can_create{{i}}">
-                  </label>
-                  <label>Can Read
-                    <input type="checkbox" [checked]="permission.can_read == 1 ? 'checked': ''" (click)="setPermission('can_read', i)" name="can_read{{i}}">
-                  </label>
-                  <label>Can Update
-                    <input type="checkbox" [checked]="permission.can_update == 1 ? 'checked': ''" (click)="setPermission('can_update', i)" name="can_update{{i}}">
-                  </label>
-                  <label>Can Block/Unblock
-                    <input type="checkbox" [checked]="permission.can_delete == 1 ? 'checked': ''" (click)="setPermission('can_delete', i)" name="can_delete{{i}}">
-                  </label>
-                  <label>Can Delete
-                    <input type="checkbox" [checked]="permission.can_purge == 1 ? 'checked': ''" (click)="setPermission('can_purge', i)" name="can_purge{{i}}">
-                  </label>
-                </div>
-                <br>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>

@@ -130,7 +130,7 @@
         <tbody><tr>
             <td><img class="rounded-circle" [src]="item.image| img:'small'" onerror='this.src="assets/img/default_img.png"' alt="img"></td>
             <td class="text-left">
-                <span class="name">{{item.name}}</span>
+                <span class="name">{{item.name | titlecase}}</span>
             </td>
             <td class="text-left">
                 {{item.phone}}
@@ -321,7 +321,7 @@
                         <span class="checkmark"></span>
                         </label>
                     </td>
-                    <td><strong>{{item?.name}}</strong></td>
+                    <td><strong>{{item?.name | titlecase}}</strong></td>
                     <td>{{item?.address}}
                     </td>
                     <!-- dev name -->
@@ -330,7 +330,7 @@
                         <span *ngIf="!item?.dev_name" >NA</span>
                     </td>
                     <td *ngIf="parameter.count_flag==4 || parameter.count_flag==5 || parameter.count_flag==6 || parameter.count_flag==7">
-                        <span>{{item?.developer?.name}}</span>
+                        <span>{{item?.developer?.name | titlecase}}</span>
                         <span *ngIf="!item?.developer?.name" >NA</span>
                     </td>
                     <!-- dev phone & email -->
@@ -350,7 +350,7 @@
                     </td>
                     <!-- show collector name in case of 1,2,3 -->
                     <td *ngIf="parameter.count_flag==1 || parameter.count_flag==2 || parameter.count_flag==3">
-                        {{item?.collector?.name}}
+                        {{item?.collector?.name | titlecase}}
                     </td>
                     <td style="vertical-align:middle;" *ngIf="parameter.count_flag==1 || parameter.count_flag==2 || parameter.count_flag==3">
                         <a title="Completed" *ngIf="item.status==1" style="cursor:auto;" class="green-color fontW500" href="javascript://">Completed</a>
@@ -416,25 +416,27 @@
                         </div>
                     </div>
                     <div class="spacer40"></div>
-                    <table class="table">
-                        <tr *ngFor="let item of assign.items">
-                            <td *ngIf="item.is_blocked!=1">
-                                <div class="n-avail-profile">
-                                <img [src]="item.image" onerror='src="assets/img/default_img.png"' alt="img">
-                                <div class="n-avail-info">
-                                    <p class="p12">{{item.name}}</p>
-                                    <p class="p10">Phone : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
-                                </div>
-                                </div>
-                            </td>
-                            <td *ngIf="item.is_blocked!=1">
-                                <label class="cust-check-bx float-right">
-                                    <input type="radio" name="notary_id" (click)="assignItem = item">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </td>
-                        </tr>
-                    </table>
+                    <div class="modal-data">
+                        <table class="table">
+                            <tr *ngFor="let item of assign.items">
+                                <td *ngIf="item.is_blocked!=1">
+                                    <div class="n-avail-profile">
+                                    <img [src]="item.image" onerror='src="assets/img/default_img.png"' alt="img">
+                                    <div class="n-avail-info">
+                                        <p class="p12">{{item.name | titlecase}}</p>
+                                        <p class="p10">Phone : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
+                                    </div>
+                                    </div>
+                                </td>
+                                <td *ngIf="item.is_blocked!=1">
+                                    <label class="cust-check-bx float-right">
+                                        <input type="radio" name="notary_id" (click)="assignItem = item">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

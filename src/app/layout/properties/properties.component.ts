@@ -339,12 +339,12 @@ export class PropertiesComponent implements OnInit {
     });
   }
 
-  getInhouseBroker(property: any, keyword: string) {
+  getBothBroker(property: any, keyword: string) {
     this.parameter.loading = true;
     if (property) { this.property = property; }
     const input = {keyword: ''};
     input.keyword = keyword;
-    this.admin.postDataApi('getExternalBroker', input).subscribe(r => {
+    this.admin.postDataApi('getBothBroker', input).subscribe(r => {
       this.parameter.loading = false;
       if (property) {this.linkExtBrokerModal.nativeElement.click(); }
       this.allExtBrokers = r['data'];

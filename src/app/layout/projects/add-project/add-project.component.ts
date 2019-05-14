@@ -970,12 +970,12 @@ export class AddProjectComponent implements OnInit {
     }
   }
 
-  selectDeveloper(name: string) {
+  selectDeveloper(name: string, type: number) {
     this.parameter.loading = true;
     this.admin.postDataApi('getDevelopersFrAdmin', {name: name}).subscribe(r => {
       this.parameter.loading = false;
       this.all_developers = r.data;
-      if (!name) {
+      if (type !== 2) {
         this.openDeveloperListModel.nativeElement.click();
       }
     });

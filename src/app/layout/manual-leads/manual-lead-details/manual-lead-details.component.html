@@ -7,7 +7,7 @@
                 <a routerLink="/dashboard/manual-leads/view-all"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
                 <img [src]="parameter?.data?.image" onerror='src="assets/img/default_img.png"' alt="img">
                 <div class="df-info" *ngIf="parameter?.data">
-                    <p class="p14">{{parameter.data.name}}</p>
+                    <p class="p14">{{parameter.data.name | titlecase}}</p>
                     <p class="p12">Status: {{parameter?.data?.status.name}}</p>
                 </div>
                 </div>
@@ -31,7 +31,7 @@
                     <table class="table">
                         <tr>
                             <td style="padding-left:0"><label>Full Name</label></td>
-                            <td colspan="2" *ngIf="parameter?.data?.name">{{parameter.data.name}}</td>
+                            <td colspan="2" *ngIf="parameter?.data?.name">{{parameter.data.name | titlecase}}</td>
                         </tr>
                         <tr>
                             <td style="padding-left:0"><label>Contact Number</label></td>

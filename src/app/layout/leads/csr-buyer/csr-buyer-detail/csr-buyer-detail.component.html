@@ -19,19 +19,19 @@
             <ul>
                 <li>
                     <div class="df-info">
-                        <p class="p14 marginB0" *ngIf="parameter.lead?.admin">{{parameter.lead.admin.name}}</p>
+                        <p class="p14 marginB0" *ngIf="parameter.lead?.admin">{{parameter.lead.admin.name | titlecase}}</p>
                         <p class="p12">CSR Buyer</p>
                     </div>
                 </li>
                 <li>
                     <div class="df-info" *ngIf="parameter.lead?.broker">
-                        <p class="p14 marginB0">{{parameter.lead.broker.name}}</p>
+                        <p class="p14 marginB0">{{parameter.lead.broker.name | titlecase}}</p>
                         <p class="p12">Inhouse Agent</p>
                     </div>
                 </li>
                 <li>
                     <div class="df-info" *ngIf="parameter.lead?.closer">
-                        <p class="p14 marginB0">{{parameter.lead.closer.name}}</p>
+                        <p class="p14 marginB0">{{parameter.lead.closer.name | titlecase}}</p>
                         <p class="p12">CSR Closure</p>
                     </div>
                 </li>
@@ -195,7 +195,7 @@
                         <img [src]="x.image" onerror='src="assets/img/bank.png"' alt="img">
                     </div>
                     <div class="project-des-content">
-                        <small>{{x?.building?.developer?.name}}</small>
+                        <small>{{x?.building?.developer?.name | titlecase}}</small>
                         <h5>{{x?.building?.name.slice(0, 15)}}</h5>
                         <p class="p12">{{x.building.address.slice(0, 60)}}</p>
                         <p class="p13" *ngIf="x">{{x.configuration.name}}</p>

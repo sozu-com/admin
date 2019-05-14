@@ -42,7 +42,7 @@
                     <p class="no-show">{{item?.status?.name}}</p>
                  </div>
                  <div class="ap-col">
-                    <p class="a-text">{{item?.lead?.user.name}}</p>
+                    <p class="a-text">{{item?.lead?.user.name | titlecase}}</p>
                     <p class="a-text">{{item?.lead?.user.dial_code}} {{item?.lead?.user.phone}}</p>
                  </div>
                  <div class="ap-col">
@@ -78,7 +78,7 @@
                   </div>
               </div>
               <div class="col-sm-12 col-12 text-center" >
-                  <p class="p18">{{appointmentNew?.lead?.user?.name}}</p>
+                  <p class="p18">{{appointmentNew?.lead?.user?.name | titlecase}}</p>
                   <p class="p14">{{appointmentNew?.lead?.user?.dial_code}} {{appointmentNew?.lead?.user?.phone}}</p>
               </div>
 

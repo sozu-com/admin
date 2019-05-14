@@ -163,7 +163,7 @@
                 <span class="name">{{item.company_name ? item.company_name : 'NA'}}</span>
               </td>
               <td class="text-left text-ellipsis120">
-                <span class="name">{{item.name}}</span>
+                <span class="name">{{item.name | titlecase}}</span>
               </td>
               <td class="text-left" *ngIf="item.phone">{{item.dial_code && item.dial_code!=undefined ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
               <td class="text-left" *ngIf="!item.phone">NA</td>

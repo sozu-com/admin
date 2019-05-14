@@ -32,7 +32,7 @@
         <img [src]="data.property.image| img:'thumb'" onerror='src="assets/img/placeholder-img.png"' alt="img">
       </div>
       <div class="project-des-content">
-        <small>{{data?.property?.building?.developer?.name}}</small>
+        <small>{{data?.property?.building?.developer?.name | titlecase}}</small>
         <a routerLink="/dashboard/properties/details/{{data.property.id}}">
           <h5>{{data?.property?.building?.name.slice(0, 35)}}</h5>
         </a>
@@ -255,7 +255,7 @@
                         <img [src]="x.property.image| img:'thumb'" onerror='src="assets/img/bank.png"' alt="img">
                     </div>
                     <div class="project-des-content">
-                        <small>{{x.property?.building?.developer?.name}}</small>
+                        <small>{{x.property?.building?.developer?.name | titlecase}}</small>
                         <a routerLink="/dashboard/properties/details/{{x.property.id}}">
                           <h5>{{x.property?.building?.name.slice(0, 15)}}</h5>
                         </a>

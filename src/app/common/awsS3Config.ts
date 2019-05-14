@@ -28,13 +28,7 @@ export class S3Uploader {
       this.config.secretAccessKey = 'Hri6awV+eDOhUIzL7hD77aaW3JO0XgFv5fGML68h';
       this.config.region = 'ap-southeast-2';
 
-      // this.config.bucket = 'cbdevs3';
-      // this.config.accessKey = 'AKIAJNMP5L4BZ6S4LSFQ';
-      // this.config.secretAccessKey = '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';
-      // this.config.region = 'us-west-2';
-
       const credential = `${this.config.accessKey}/${date}/${this.config.region}/s3/aws4_request`;
-
 
       const policy = JSON.stringify({
         'expiration': (new Date(Date.now() + 100000)).toISOString(),
