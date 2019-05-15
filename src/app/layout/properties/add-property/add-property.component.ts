@@ -97,7 +97,8 @@ export class AddPropertyComponent implements OnInit {
     original: ''
   };
   videoSrc: any;
-
+  num_of_property: any;
+  property_names: Array<any>;
   constructor(public model: AddPropertyModel, private us: AdminService, private cs: CommonService,
     private router: Router, private sanitization: DomSanitizer, private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone, private building: Building, public constant: Constant,
@@ -130,8 +131,8 @@ export class AddPropertyComponent implements OnInit {
         this.testMarital[0].checked = true;
         this.model.marital_status = [1];
         console.log('modeleeeee', this.model);
-        this.model.availabilityStatusId = this.availabilityStatus[0].id;
-        this.availabilityStatus[0].checked = true;
+        this.model.availabilityStatusId = this.availabilityStatus[2].id;
+        this.availabilityStatus[2].checked = true;
         // set 0 bcz optional
         this.model.quantity = 0;
         this.model.half_bathroom = 0;
@@ -223,6 +224,14 @@ export class AddPropertyComponent implements OnInit {
   }
 
   getProjectById(step: number) {
+    if (!this.building.id) {
+      swal('Error', 'Please select building.', 'error');
+      return false;
+    }
+    if (!this.model.floor_num) {
+      swal('Error', 'Please select floor.', 'error');
+      return false;
+    }
     this.us.postDataApi('getProjectByIdWithCSC', { building_id: this.building.id })
       .subscribe(
         success => {
@@ -900,7 +909,7 @@ export class AddPropertyComponent implements OnInit {
             if (this.model.step.toString() === '4') {
               swal({
                 html: 'Submitted successfully.' + '<br>' +
-                'You will be notified once your property will be reviewed by them, you can view status in your properties.',
+                'You will be notified once your property will be reviewed by Admin, you can view status in your properties.',
                 type: 'success'
               });
               // swal('Submitted successfully.',
@@ -932,7 +941,7 @@ export class AddPropertyComponent implements OnInit {
 
 
     for (let index = 0; index < this.testMarital.length; index++) {
-      if (building.marital_statuses.length !== 0) {
+      if (building.marital_statuses && building.marital_statuses.length !== 0) {
         for (let i = 0; i < building.marital_statuses.length; i++) {
           if (this.testMarital[index].name === building.marital_statuses[i].name_en) {
             this.testMarital[index].checked = true;
@@ -970,7 +979,7 @@ export class AddPropertyComponent implements OnInit {
           this.parameter.loading = false;
           swal({
             html: 'Submitted successfully.' + '<br>' +
-            'You will be notified once your property will be reviewed by them, you can view status in your properties.',
+            'You will be notified once your property will be reviewed by Admin, you can view status in your properties.',
             type: 'success'
           });
           if (this.router.url.indexOf('/dashboard/properties/edit-property') === -1) {
@@ -1183,5 +1192,14 @@ export class AddPropertyComponent implements OnInit {
         u8arr[n] = bstr.charCodeAt(n);
     }
     return new File([u8arr], filename, {type: mime});
+  }
+
+  onEnteringNumOfProperty (e: any) {
+    // this.property_names = Array(e).fill(1);
+    this.property_names = [];
+    console.log(this.property_names, e);
+    for (let index = 0; index < e; index++) {
+      this.property_names.push();
+    }
   }
 }

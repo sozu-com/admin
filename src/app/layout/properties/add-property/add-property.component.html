@@ -22,16 +22,16 @@
 <div class="white-bg add-property padding20">
   <div class="steps">
     <ul class="d-flex">
-      <!-- <li [ngClass]="{'current': tab == 0}"><span></span><a>Tag a Building</a></li>
+      <li [ngClass]="{'current': tab == 0}"><span></span><a>Tag a Building</a></li>
       <li [ngClass]="{'current': tab == 1}"><span></span><a>Create Draft</a></li>
       <li [ngClass]="{'current': tab == 2}"><span></span><a>Additional Info</a></li>
       <li [ngClass]="{'current': tab == 3}"><span></span><a>Preferable Buyers</a></li>
-      <li [ngClass]="{'current': (tab == 4) || (tab == 5)}"><span></span><a>Custom</a></li> -->
-      <li [ngClass]="{'current': tab == 0}"><span></span><a (click)="setTab(0)">Tag a Building</a></li>
+      <li [ngClass]="{'current': (tab == 4) || (tab == 5)}"><span></span><a>Custom</a></li>
+      <!-- <li [ngClass]="{'current': tab == 0}"><span></span><a (click)="setTab(0)">Tag a Building</a></li>
       <li [ngClass]="{'current': tab == 1}"><span></span><a (click)="setTab(1)">Create Draft</a></li>
       <li [ngClass]="{'current': tab == 2}"><span></span><a (click)="setTab(2)">Additional Info</a></li>
       <li [ngClass]="{'current': tab == 3}"><span></span><a (click)="setTab(3)">Preferable Buyers</a></li>
-      <li [ngClass]="{'current': (tab == 4) || (tab == 5)}"><span></span><a (click)="setTab(4)">Custom</a></li>
+      <li [ngClass]="{'current': (tab == 4) || (tab == 5)}"><span></span><a (click)="setTab(4)">Custom</a></li> -->
     </ul>
   </div>
 </div>
@@ -40,7 +40,7 @@
 
 
 
-<!-- tab-1 -->
+<!-- Tag a building start -->
 <div class="white-bg" *ngIf="tab==0">
   <div class="page-title">
     <h3>Tag a Building</h3>
@@ -92,7 +92,7 @@
       <img src="assets/img/loading_content.gif" />
     </div>
     <div *ngIf="!buildingLoading && parameter.buildingCount != 0" class="white-bg">
-      <form ngNativeValidate #tagABuilding="ngForm" (ngSubmit)="getProjectById(0)">
+      <form ngNativeValidate #tagABuilding="ngForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)="getProjectById(0)">
         
         <!-- buildings listing -->
         <div class="row">
@@ -136,13 +136,34 @@
             </div>
           </div>  
         </diV>
-  
+        
+        <!-- add number of properties -->
+        <!-- <diV class="row marginT20" *ngIf="model?.floor_num">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="form-group-3">
+              <label class="p16-two">Number of properties per floor <span class="color-red">*</span></label>
+              <input autocomplete="off" required class="form-control" type="number" name="num_of_property"
+                  (change)="onEnteringNumOfProperty($event.target.value)" placeholder="Enter number of properties">
+            </div>
+          </div>  
+        </diV> -->
+
+        <!-- name of properties -->
+        <!-- <diV class="row marginT20" *ngIf="property_names?.length>0">
+          <div class="col-lg-3 col-md-3 col-sm-12 col-12" *ngFor="let pname of property_names; let p=index">
+            <div class="form-group-3">
+              <label class="p16-two">Name of property<span class="color-red">*</span></label>
+              <input autocomplete="off" required class="form-control" type="text" name="pname{{p}}"
+                  placeholder="Enter name of properties" [(ngModel)]="property_names">
+            </div>
+          </div>  
+        </diV> -->
+
+
 
         <div class="row">
           <div class="col-md-12">
             <div class="btn-cont text-right">
-              <!-- <a class="btn-third btn" href="javascript://" (click)="tagBuilding()">Next</a> -->
-              <!-- <button type="button" class="btn btn-primary" (click)="setTab(4)">Previous</button> -->
               <button type="submit" [disabled]="tagABuilding.invalid" class="btn btn-primary">Next</button>
             </div>
           </div>
@@ -169,7 +190,6 @@
             <div class="col-sm-6 col-12">
               <div class="form-group-3">
                 <label>Where it is located?</label>
-                <!-- <input class="form-control" type="text" name="address" [(ngModel)]="building.address" placeholder="Enter address"> -->
                 <input required placeholder="search for location" autocorrect="off" autocapitalize="off"
                   spellcheck="off" type="text" class="form-control" #search (input)="loadPlaces()"
                   [formControl]="searchControl" [(ngModel)]="building.address" name="address">
@@ -209,7 +229,6 @@
             <label>Mark Pin on Map</label>
           </div>
           <div>
-            <!-- <div id="mapDiv" style="height: 250px; width: 100%;" #mapDiv></div> -->
             <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false"
               (mapClick)="placeMarker($event)" [zoom]="zoom">
               <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
@@ -221,27 +240,18 @@
       <div class="row" *ngIf="showBuilding">
         <div class="col-md-12">
           <div class="btn-cont text-right">
-            <!-- <a class="btn-third btn" href="javascript://" (click)="buildingRequest()">Next</a> -->
-            <!-- <button type="button" class="btn btn-primary" (click)="setTab(5)">Previous</button> -->
             <button type="submit" [disabled]="buildingRequestForm.invalid" class="btn btn-primary">Next</button>
           </div>
         </div>
       </div>
-
     </form>
-    <!-- <div class="btn-cont text-right">
-      <button type="button" class="btn btn-primary" (click)="setTab(4)" style="margin: 20px 0px;">Previous</button>
-    </div> -->
   </div>
-
 </div>
-
+<!-- Tag a building end -->
 
 
 
 <form ngNativeValidate #createDraft="ngForm" (ngSubmit)="addProperty(createDraft, 2)">
-
-  <!-- tab-1 -->
   <div class="white-bg" *ngIf="tab==1">
     <div class="page-title">
       <h3>Create Draft</h3>
