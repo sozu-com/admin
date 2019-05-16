@@ -30,6 +30,10 @@ export class PropertiesComponent implements OnInit {
   allSellers: Array<SellerSelections>;
   allExtBrokers: Array<UserModel>;
   property: any;
+  reason: string;
+  item: any;
+  @ViewChild('modalOpen') modalOpen: ElementRef;
+  @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('linkSellerModal') linkSellerModal: ElementRef;
   @ViewChild('closeLinkSellerModal') closeLinkSellerModal: ElementRef;
   @ViewChild('linkExtBrokerModal') linkExtBrokerModal: ElementRef;
@@ -202,10 +206,25 @@ export class PropertiesComponent implements OnInit {
       });
   }
 
+  openCancellationModal(item, status) {
+    this.item = item;
+    this.parameter.status = status;
+    this.modalOpen.nativeElement.click();
+  }
+
+  closeModal() {
+    this.modalClose.nativeElement.click();
+  }
+
   changeStatus(item, status) {
     item.status = status;
-    this.admin.postDataApi('updatePropertyStatus', { property_id: item.id, status_id: status }).subscribe(r => {
+    const input = { property_id: item.id, status_id: status, reason: '' };
+    if (this.reason) {
+      input.reason = this.reason;
+    }
+    this.admin.postDataApi('updatePropertyStatus', input).subscribe(r => {
       swal('Success', 'Property status changed', 'success');
+      this.closeModal();
     },
       error => {
         swal('Error', error.error.message, 'error');

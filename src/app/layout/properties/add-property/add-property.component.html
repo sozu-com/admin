@@ -92,7 +92,7 @@
       <img src="assets/img/loading_content.gif" />
     </div>
     <div *ngIf="!buildingLoading && parameter.buildingCount != 0" class="white-bg">
-      <form ngNativeValidate #tagABuilding="ngForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)="getProjectById(0)">
+      <form ngNativeValidate #tagABuilding="ngForm" (ngSubmit)="getProjectById(0)">
         
         <!-- buildings listing -->
         <div class="row">
@@ -154,8 +154,9 @@
             <div class="form-group-3">
               <label class="p16-two">Name of property<span class="color-red">*</span></label>
               <input autocomplete="off" required class="form-control" type="text" name="pname{{p}}"
-                  placeholder="Enter name of properties" [(ngModel)]="property_names">
+                  placeholder="Enter name of properties" [(ngModel)]="pname.name">
             </div>
+            (change)="setPropertyName($event.target.vaue, p)"
           </div>  
         </diV> -->
 
@@ -425,7 +426,8 @@
         <div class="col-md-12">
           <div class="btn-cont text-right">
             <!-- <a class="btn-third btn" [disabled]="addForm.invalid" type="submit" href="javascript://" (click)="addProperty(addForm, 2)">Next</a> -->
-            <button type="submit" [disabled]="createDraft.invalid" class="btn btn-primary">Next</button>
+            <button type="button" class="btn btn-primary" (click)="setTab(0)">Previous</button>
+            <button type="submit" [disabled]="createDraft.invalid" class="btn btn-primary marginL15">Next</button>
           </div>
         </div>
       </div>

@@ -357,7 +357,11 @@
                                  <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="parameter?.flag==3" routerLink="../edit-property/{{p.id}}/edit" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                                  <button [disabled]="admin?.admin_acl['Property Management']?.can_delete==0" *ngIf="!p.is_blocked" (click)="block(p);" class="action-icon" title="Block"><img src="assets/img/block.png" alt="img"></button>
                                  <button [disabled]="admin?.admin_acl['Property Management']?.can_delete==0" *ngIf="p.is_blocked == true" (click)="unblock(p);" class="action-icon unblock-bg" title="UnBlock"><img src="assets/img/unblock.png" alt="img"></button>
-                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="p.status == 3" (click)="changeStatus(p,2);" class="action-icon" title="Unapprove"><img src="assets/img/ic_disapprove.png" alt="img"></button>
+                                 
+                                 <!-- unapprove -->
+                                 <a style="display:none;" #modalOpen data-toggle="modal" data-target="#addPropertyReason"></a>
+                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="p.status == 3" (click)="openCancellationModal(p, 4);" class="action-icon" title="Unapprove"><img src="assets/img/ic_disapprove.png" alt="img"></button>
+
                                  <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="p.status == 2" (click)="changeStatus(p,3);" class="action-icon" title="Approve"><img src="assets/img/tick.png" alt="img"></button>
                                  <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="p.status == 3 && p.is_featured==0" (click)="markPropertyFeatured(p,1);" class="action-icon" title="Mark feature"><img src="assets/img/ic_featured.png" alt="img"></button>
                                  <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="p.status == 3 && p.is_featured==1" (click)="markPropertyFeatured(p,0);" class="action-icon" title="Mark unfeature"><img src="assets/img/tick-selected.png" alt="img"></button>
@@ -493,6 +497,39 @@
                   </table>
                </div>
             </div>
+      </div>
+   </div>
+</div>
+
+
+
+<div class="modal animated" id="addPropertyReason">
+   <div class="modal-dialog fadeIndown">
+      <div class="modal-content">
+         <div class="modal-header modal-header-new">
+            <h4 class="modal-title">Add Reason</h4>
+            <button style="display: none;" type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
+            <button type="button" class="close" (click)="closeModal()">&times;</button>
+         </div>
+   
+         <form class="form-horizontal form-model0P form-model-newP" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="changeStatus(item, parameter.status); addForm.reset();">
+         <div class="modal-body modal-body-new">
+            <div class="row">
+               <div class="col-12">
+               <div class="form-group-2">
+                     <div class="form-group">
+                     <textarea rows="4" required class="form-control note" name="reason" [(ngModel)]="reason"></textarea>
+                  </div>
+               </div>
+               </div>
+               <div class="col-12">
+                  <div class="btn-cont text-right">
+                     <button type="submit" [disabled]="!addForm.valid" class="btn btn-primary">Add</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+         </form>
       </div>
    </div>
 </div>

@@ -232,6 +232,8 @@ export class AddPropertyComponent implements OnInit {
       swal('Error', 'Please select floor.', 'error');
       return false;
     }
+    // console.log('property names', this.property_names);
+    // return;
     this.us.postDataApi('getProjectByIdWithCSC', { building_id: this.building.id })
       .subscribe(
         success => {
@@ -1197,9 +1199,14 @@ export class AddPropertyComponent implements OnInit {
   onEnteringNumOfProperty (e: any) {
     // this.property_names = Array(e).fill(1);
     this.property_names = [];
-    console.log(this.property_names, e);
+    const pn = {name: ''};
     for (let index = 0; index < e; index++) {
-      this.property_names.push();
+      this.property_names.push(pn);
     }
+    console.log(this.property_names, e);
+  }
+
+  setPropertyName(value: string, index: number) {
+    this.property_names[index] = value;
   }
 }
