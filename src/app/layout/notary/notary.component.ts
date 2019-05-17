@@ -103,11 +103,11 @@ export class NotaryComponent implements OnInit {
     this.admin.postDataApi('importNoatary', input)
       .subscribe(
         success => {
-          console.log('aa', success);
           this.parameter.loading = false;
           this.fileInput.nativeElement.value = '';
           this.label = 'Choose Notaries File';
           swal('Success', 'Imported successfully.', 'success');
+          this.getNoatariesListing(this.parameter.page, '', '', '', '');
         }, error => {
           this.parameter.loading = false;
         });
