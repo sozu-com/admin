@@ -785,6 +785,8 @@ export class AddPropertyComponent implements OnInit {
   }
 
   addProperty(formdata: NgForm, tab) {
+    console.log('=======', this.property_names);
+    // return;
     if (this.model.parking_for_sale && this.model.parking_count) {
       if (this.model.parking_for_sale > this.model.parking_count) {
         swal('Error', 'Parking for sale cannot be greater than total parkings available.', 'error');
@@ -1201,7 +1203,7 @@ export class AddPropertyComponent implements OnInit {
     this.property_names = [];
     const pn = {name: ''};
     for (let index = 0; index < e; index++) {
-      this.property_names.push(pn);
+      this.property_names.push('');
     }
     console.log(this.property_names, e);
   }
