@@ -217,26 +217,33 @@
          <div class="cust-tabs">
          <div class="row flex-wrap-reverse">
             
-         <div class="col-xl-10 col-lg-12 col-md-12 col-sm-12 col-12">
-         <ul class="nav nav-tabs">
-            <li class="nav-item">
-               <a [ngClass]="{'active':parameter.flag==3}" (click)="changePropertyFlag(3)" class="nav-link" >Approved</a>
-            </li>
-            <li class="nav-item">
-               <a [ngClass]="{'active':parameter.flag==4}" (click)="changePropertyFlag(4)" class="nav-link" >Unapproved</a>
-            </li>
+            <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12">
+            <ul class="nav nav-tabs">
                <li class="nav-item">
-               <a [ngClass]="{'active':parameter.flag==2}" (click)="changePropertyFlag(2)" class="nav-link" >Pending Review</a>
-            </li>
+                  <a [ngClass]="{'active':parameter.flag==3}" (click)="changePropertyFlag(3)" class="nav-link" >Approved</a>
+               </li>
                <li class="nav-item">
-               <a [ngClass]="{'active':parameter.flag==1}" (click)="changePropertyFlag(1)" class="nav-link" >In Draft</a>
-            </li>
-         </ul>
-         </div>
-         <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12"><div class="add-new text-left">
-               <a *ngIf="admin?.admin_acl['Property Management']?.can_create==1" class="btn" href="javascript://" routerLink="/dashboard/properties/add-property/0/0">+Add New Property</a>
-            </div></div>
+                  <a [ngClass]="{'active':parameter.flag==4}" (click)="changePropertyFlag(4)" class="nav-link" >Unapproved</a>
+               </li>
+                  <li class="nav-item">
+                  <a [ngClass]="{'active':parameter.flag==2}" (click)="changePropertyFlag(2)" class="nav-link" >Pending Review</a>
+               </li>
+                  <li class="nav-item">
+                  <a [ngClass]="{'active':parameter.flag==1}" (click)="changePropertyFlag(1)" class="nav-link" >In Draft</a>
+               </li>
+            </ul>
             </div>
+            <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
+               <div class="add-new text-left">
+                  <a *ngIf="admin?.admin_acl['Property Management']?.can_create==1" class="btn" href="javascript://" routerLink="/dashboard/properties/add-bulk-property/0/0">+Add Bulk Property</a>
+               </div>
+            </div>
+            <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
+               <div class="add-new text-left">
+                  <a *ngIf="admin?.admin_acl['Property Management']?.can_create==1" class="btn" href="javascript://" routerLink="/dashboard/properties/add-property/0/0">+Add New Property</a>
+               </div>
+            </div>
+         </div>
          <div class="tab-content white-bg">
             <div class="tab-pane active">
                <div class="tabel-section">
@@ -295,19 +302,19 @@
                            </th>
                            <th style="width:8%;vertical-align:top;">
                               <div class="d-flex table-search">
-                                 <label>Link seller</label>
+                                 <label>Seller <br> request</label>
                               </div>
                            </th>
                            <th style="width:8%;vertical-align:top;">
                               <div class="d-flex table-search">
-                                 <label>Assign<br>agent</label>
+                                 <label>Link / <br>Unlink<br>agent</label>
                               </div>
                            </th>
-                           <!-- <th style="width:10%;vertical-align:top;">
+                           <th style="width:10%;vertical-align:top;">
                               <div class="d-flex table-search">
-                                 <label>Change property <br> sold status</label>
+                                 <label>Change availability <br> status</label>
                               </div>
-                           </th> -->
+                           </th>
                            <th style="width:20%;">&nbsp;</th>
                         </tr>
                   
@@ -332,20 +339,23 @@
                               <td><span>{{p.lead_properties_count}}</span></td>
                               
                               <td class="cursor-pointer" title="Link Seller to Property" (click)="showAllSellers(p?.id)">
-                                 <span class="green-color"><span>Link</span></span>
+                                 <span class="green-color"><span>Change</span></span>
                               </td>
                               
                               <td class="cursor-pointer" (click)="getBothBroker(p, '')">
                                  <span class="green-color">
-                                    <span title="Click to {{p?.external_broker?.id ? 'change' : 'assign'}}">{{p?.external_broker?.id ? 'Change' : 'Assign'}}</span>
+                                    <span title="Click to {{p?.external_broker?.id ? 'change' : 'assign'}}">{{p?.external_broker?.id ? 'Change' : 'Link'}}</span>
                                  </span>
                               </td>
-                              <!-- <td class="cursor-pointer" (click)="changeSoldStatusPopup(p, i)" *ngIf="p.for_rent || p.for_sale">
-                                 <span class="green-color">
-                                    <span title="Click to mark property sold." *ngIf="p.for_sale && !p.is_property_sold">Move to Inventory</span>
-                                 </span>
+                              <!-- (click)="changeSoldStatusPopup(p, i)" *ngIf="p.for_rent || p.for_sale" -->
+                              <td class="cursor-pointer" >
+                                 <select [(ngModel)]="parameter.configuration_id" (change)="changeSoldStatusPopup(p, i, $event.target.value)">
+                                    <option [selected]="for_sale==1" value="1">Buy</option>
+                                    <option [selected]="for_rent==1" value="2">Rent</option>
+                                    <option [selected]="is_property_sold==1" value="3">Inventory</option>
+                                 </select>
                               </td>
-                              <td *ngIf="p.for_rent">
+                              <!-- <td *ngIf="p.for_rent">
                                  <span class="green-color">
                                     <span>Available for rent out</span>
                                  </span>
@@ -409,7 +419,7 @@
    <div class="modal-dialog ">
       <div class="modal-content notary-avail">
             <div class="modal-header popup-header">
-            <h4 class="modal-title">Link Seller</h4>
+            <h4 class="modal-title">Seller's Requests</h4>
             <button type="button" class="close" #closeLinkSellerModal data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
@@ -425,7 +435,8 @@
                      <tr *ngFor="let item of allSellers">
                         <td *ngIf="item?.user?.is_blocked!=1">
                            <div class="n-avail-profile">
-                           <img [src]="item?.user?.image| img:'small'" onerror='src="assets/img/default_img.png"' alt="img">
+                           <img [src]="item?.user?.image| img:'small'" onerror='src="assets/img/default_img.png"' alt="img"
+                              [defaultImage]="item?.user?.image| img:'thumb'" [lazyLoad]="item?.user?.image">
                            <div class="n-avail-info">
                               <p class="p12">{{item?.user?.name}}</p>
                               <p class="p10">Phone : {{item?.user?.dial_code ? item?.user?.dial_code : constant.dial_code}}-{{item?.user?.phone}}</p>
@@ -433,8 +444,10 @@
                            </div>
                         </td>
                         <td *ngIf="item.is_blocked!=1">
-                           <button (click)="changeStatusPopUp(item.property_id, item.user_id, 1)" class="action-icon" title="Accept">
+                           <button (click)="changeStatusPopUp(item.property_id, item.user_id, 1)" class="action-icon" title="Accept Request">
                               <img src="assets/img/tick.png" alt="img"></button>
+                           <button (click)="showRejectSellerRequestModal(item.property_id, item.user_id, 2)" class="action-icon" title="Reject Request">
+                                 <img src="assets/img/ic_disapprove.png" alt="img"></button>
                         </td>
                      </tr>
                      <tr *ngIf="allSellers?.length==0">
@@ -455,12 +468,12 @@
    <div class="modal-dialog ">
       <div class="modal-content notary-avail">
             <div class="modal-header popup-header">
-            <h4 class="modal-title">{{property?.external_broker?.id ? 'Change' : 'Assign'}} Agent</h4>
+            <h4 class="modal-title">{{property?.external_broker?.id ? 'Change' : 'Link'}} Agent</h4>
             <button type="button" class="close" #closeExtBrokerModal data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
 
-               <p class="modal-title" *ngIf="property?.external_broker?.id">Currently assigned to Agent - <b>{{property?.external_broker?.name}}</b></p>
+               <p class="modal-title" *ngIf="property?.external_broker?.id">Currently linked to Agent - <b>{{property?.external_broker?.name}}</b></p>
 
                <div class="spacer30"></div>
                <div class="row">
@@ -478,7 +491,8 @@
                      <tr *ngFor="let item of allExtBrokers">
                         <td>
                            <div class="n-avail-profile">
-                           <img [src]="item?.image| img:'small'" onerror='src="assets/img/default_img.png"' alt="img">
+                           <img [src]="item?.image| img:'small'" onerror='src="assets/img/default_img.png"' alt="img"
+                              [defaultImage]="item?.image| img:'thumb'" [lazyLoad]="item?.image">
                            <div class="n-avail-info">
                               <p class="p12">{{item?.name | titlecase}}</p>
                               <p class="p10 marginB0">{{item?.is_external_agent ? 'OUTSIDE AGENT' : 'IN-HOUSE AGENT'}}</p>
@@ -487,8 +501,11 @@
                            </div>
                         </td>
                         <td>
-                           <button (click)="attachExternalBrokerPopUp(item)" class="action-icon" title="Accept">
+                           <button *ngIf="property?.external_broker?.id!=item.id" (click)="attachExternalBrokerPopUp(item, 1)" class="action-icon" title="Link agent">
                               <img src="assets/img/tick.png" alt="img"></button>
+                           
+                           <button *ngIf="property?.external_broker?.id==item.id" (click)="attachExternalBrokerPopUp(item, 2)" class="action-icon" title="Unlink agent">
+                              <img src="assets/img/ic_disapprove.png" alt="img"></button>
                         </td>
                      </tr>
                      <tr *ngIf="allExtBrokers?.length==0">
@@ -513,6 +530,38 @@
          </div>
    
          <form class="form-horizontal form-model0P form-model-newP" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="changeStatus(item, parameter.status); addForm.reset();">
+         <div class="modal-body modal-body-new">
+            <div class="row">
+               <div class="col-12">
+               <div class="form-group-2">
+                     <div class="form-group">
+                     <textarea rows="4" required class="form-control note" name="reason" [(ngModel)]="reason"></textarea>
+                  </div>
+               </div>
+               </div>
+               <div class="col-12">
+                  <div class="btn-cont text-right">
+                     <button type="submit" [disabled]="!addForm.valid" class="btn btn-primary">Add</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+         </form>
+      </div>
+   </div>
+</div>
+
+<a style="display:none;" #rejectModalOpen data-toggle="modal" data-target="#addSellerRejectReason"></a>                           
+<div class="modal animated" id="addSellerRejectReason">
+   <div class="modal-dialog fadeIndown">
+      <div class="modal-content">
+         <div class="modal-header modal-header-new">
+            <h4 class="modal-title">Add Reason for Rejection</h4>
+            <button style="display: none;" type="button" class="close" data-dismiss="modal" #rejectModalClose>&times;</button>
+            <button type="button" class="close" (click)="closeReasonModal()">&times;</button>
+         </div>
+   
+         <form class="form-horizontal form-model0P form-model-newP" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="changeStatusSellerSelection(); addForm.reset();">
          <div class="modal-body modal-body-new">
             <div class="row">
                <div class="col-12">

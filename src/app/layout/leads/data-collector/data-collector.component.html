@@ -338,8 +338,8 @@
                         <span *ngIf="item.dev_phone">{{item?.dev_countrycode ? item.dev_countrycode : constant.dial_code}}-{{item?.dev_phone}}</span>
                         <span *ngIf="!item.dev_phone">NA</span>
                         <br>
-                        <span *ngIf="item.dev_mail">{{item?.dev_mail}}</span>
-                        <span *ngIf="!item.dev_mail">NA</span>
+                        <span *ngIf="item.dev_email">{{item?.dev_email}}</span>
+                        <span *ngIf="!item.dev_email">NA</span>
                     </td>
                     <td *ngIf="parameter.count_flag==4 || parameter.count_flag==5 || parameter.count_flag==6 || parameter.count_flag==7">
                         <span *ngIf="item?.developer?.phone">{{item?.developer?.dial_code ? item?.developer?.dial_code : constant.dial_code}}-{{item?.developer?.phone}}</span>

@@ -3,7 +3,8 @@
     <input type="radio" [(ngModel)]="buildingId" name="buildingId" (change)="setBuildingId(data)">
   </div> -->
   <div class="fig-block" (click)="setBuildingId(data)">
-    <img [src]="data?.main_image| img:'thumb'" onerror='src="assets/img/placeholder-img.png"' alt="img">
+      <img onerror='this.src="assets/img/placeholder-img.png"' [defaultImage]="data?.main_image| img:'thumb'" [lazyLoad]="data?.main_image" [src]="data?.main_image| img:'thumb'">
+    <!-- <img [src]="data?.main_image| img:'thumb'" onerror='src="assets/img/placeholder-img.png"' alt="img"> -->
   </div>
   <div class="project-des-content">
     <small title="Developer Name">{{data?.developer?.name ? data?.developer?.name : 'NA'}}</small>

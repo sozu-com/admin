@@ -838,7 +838,7 @@ console.log('model', this.model);
 
   deletePopup(item: any, index: number) {
     this.parameter.title = this.constant.title.ARE_YOU_SURE;
-    this.parameter.text = 'You want to delete this agent?';
+    this.parameter.text = 'You want to delete this inhouse user?';
 
     swal({
       html: this.parameter.title + '<br>' + this.parameter.text,

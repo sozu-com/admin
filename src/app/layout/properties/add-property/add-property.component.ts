@@ -99,6 +99,7 @@ export class AddPropertyComponent implements OnInit {
   videoSrc: any;
   num_of_property: any;
   property_names: Array<any>;
+
   constructor(public model: AddPropertyModel, private us: AdminService, private cs: CommonService,
     private router: Router, private sanitization: DomSanitizer, private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone, private building: Building, public constant: Constant,
@@ -107,6 +108,7 @@ export class AddPropertyComponent implements OnInit {
     private element: ElementRef) { }
 
   ngOnInit() {
+    this.property_names = [];
     this.parameter.page = 1;
     this.parameter.itemsPerPage = this.constant.limit4;
     this.buildingData = new AddProjectModel();
@@ -232,8 +234,6 @@ export class AddPropertyComponent implements OnInit {
       swal('Error', 'Please select floor.', 'error');
       return false;
     }
-    // console.log('property names', this.property_names);
-    // return;
     this.us.postDataApi('getProjectByIdWithCSC', { building_id: this.building.id })
       .subscribe(
         success => {
@@ -277,11 +277,14 @@ export class AddPropertyComponent implements OnInit {
     this.model.property_price = data.property_price;
     this.model.is_property_sold = data.is_property_sold;
     if (data.is_property_sold) {
-      this.model.availabilityStatusId = this.availabilityStatus[2].id;
+      this.setAvailableStatus(2);
+      // this.model.availabilityStatusId = this.availabilityStatus[2].id;
     } else if (data.for_rent) {
-      this.model.availabilityStatusId = this.availabilityStatus[1].id;
+      this.setAvailableStatus(1);
+      // this.model.availabilityStatusId = this.availabilityStatus[1].id;
     } else {
-      this.model.availabilityStatusId = this.availabilityStatus[0].id;
+      this.setAvailableStatus(0);
+      // this.model.availabilityStatusId = this.availabilityStatus[0].id;
     }
     this.model.building_id = data.building_id;
     this.model.building_towers_id = data.building_towers_id;
@@ -303,8 +306,8 @@ export class AddPropertyComponent implements OnInit {
     this.model.state_id = data.locality.city.state.id;
     this.model.country_id = data.locality.city.state.country.id;
 
-    this.model.configuration_id = data.configuration.id;
-    this.model.property_type_id = data.property_type.id;
+    this.model.configuration_id = data.configuration ? data.configuration.id : '';
+    this.model.property_type_id = data.property_type ? data.property_type.id : '';
 
     // images
     this.model.floor_plan = data.floor_plan;
@@ -316,9 +319,9 @@ export class AddPropertyComponent implements OnInit {
     this.model.description = data.description;
     this.model.quantity = data.quantity;
     this.model.floor = data.floor;
-    this.model.bedroom = data.configuration.bedroom ? data.configuration.bedroom : data.bedroom;
-    this.model.bathroom = data.configuration.bathroom ? data.configuration.bathroom : data.bathroom;
-    this.model.half_bathroom = data.configuration.bathroom ? data.configuration.half_bathroom : data.half_bathroom;
+    this.model.bedroom = data.configuration && data.configuration.bedroom ? data.configuration.bedroom : data.bedroom;
+    this.model.bathroom = data.configuration && data.configuration.bathroom ? data.configuration.bathroom : data.bathroom;
+    this.model.half_bathroom = data.configuration && data.configuration.bathroom ? data.configuration.half_bathroom : data.half_bathroom;
     this.model.parking = data.parking;
 
     this.model.parking_count = data.parking_count;
@@ -785,7 +788,6 @@ export class AddPropertyComponent implements OnInit {
   }
 
   addProperty(formdata: NgForm, tab) {
-    console.log('=======', this.property_names);
     // return;
     if (this.model.parking_for_sale && this.model.parking_count) {
       if (this.model.parking_for_sale > this.model.parking_count) {
@@ -855,8 +857,8 @@ export class AddPropertyComponent implements OnInit {
       }
 
       if (this.model.step === 2) {
-        const imagesString = this.model.images.map(r => r.image);
-        const imagesString360 = this.model.images360.map(r => r.image);
+        const imagesString = this.model.images ? this.model.images.map(r => r.image) : [];
+        const imagesString360 = this.model.images360 ? this.model.images360.map(r => r.image) : [];
         // const videoString = this.model.videos.map(r => r.image);
         if (this.model.parking === 0) {
           this.model.parking_count = 0;
@@ -1201,14 +1203,16 @@ export class AddPropertyComponent implements OnInit {
   onEnteringNumOfProperty (e: any) {
     // this.property_names = Array(e).fill(1);
     this.property_names = [];
-    const pn = {name: ''};
     for (let index = 0; index < e; index++) {
-      this.property_names.push('');
+      const pn = {name: 0};
+      pn.name = index;
+      this.property_names.push(pn);
     }
-    console.log(this.property_names, e);
   }
 
   setPropertyName(value: string, index: number) {
+    console.log(this.property_names, 'e');
+    console.log(value, index, 'valueidnex');
     this.property_names[index] = value;
   }
 }

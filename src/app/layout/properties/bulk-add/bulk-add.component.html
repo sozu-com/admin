@@ -1,0 +1,230 @@
+<ngx-loading [show]="parameter.loading"></ngx-loading>
+<div class="white-bg padding15">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="title-group">
+        <h5><a routerLink="/dashboard/properties/view-properties" href="javascript://"><i
+              class="fa fa-angle-double-left"></i> </a> &nbsp;&nbsp;Add Bulk Property</h5>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="spacer10"></div>
+
+<!-- Tag a building start -->
+<div class="white-bg">
+    <div class="page-title">
+      <h3>Tag a Building</h3>
+    </div>
+  
+    <div class="padding40" *ngIf="building.id && showSearch==false">
+      <div class="row">
+        <div class="col-sm-9 col-lg-9">
+          <p class="p16">Tagged Building Name</p>
+        </div>
+        <div class="col-sm-3 col-lg-3 btn-cont text-right">
+          <button type="button" class="btn btn-primary" (click)="showSearchBox()">Change</button>
+        </div>
+      </div>
+      <p><b>{{building.name}}</b></p>
+  
+      <div class="row">
+        <div class="col-sm-9 col-lg-9">
+          <p class="p16">Tagged Tower Name</p>
+        </div>
+      </div>
+      <p><b>{{model?.building_towers?.tower_name ? model?.building_towers?.tower_name : 'NA'}}</b></p>
+  
+      <div class="row" *ngIf="model?.building_towers">
+        <div class="col-sm-9 col-lg-9">
+          <p class="p16">Tagged Floor</p>
+        </div>
+      </div>
+      <p><b>{{model?.building_towers?.tower_name ? (model?.floor_num == 0 ? 'Ground Floor' : 'Floor ' + model?.floor_num) : 'NA'}}</b></p>
+      
+      <div class="row">
+        <div class="col-md-12">
+          <div class="btn-cont text-right">
+            <button type="button" (click)="tab=1" class="btn btn-primary">Next</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="padding40" *ngIf="showSearch">
+      <label class="p16-two">Search your building in Our Database</label>
+      <div class="searh d-flex">
+        <input class="border-right-0" autocomplete="off" type="text" #buildingname
+          (keyup.enter)="searchBuilding(buildingname.value)" name="buildingName" [(ngModel)]="buildingName">
+        <button class="btn" type="button" (click)="searchBuilding(buildingname.value)">Search</button>
+      </div>
+      <div class="spacer50"></div>
+      <div *ngIf="buildingLoading">
+        <img src="assets/img/loading_content.gif" />
+      </div>
+      <div *ngIf="!buildingLoading && parameter.buildingCount != 0" class="white-bg">
+        <form ngNativeValidate #tagABuilding="ngForm" (ngSubmit)="addPropertyMultiple(tagABuilding)">
+          
+          <!-- buildings listing -->
+          <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12 col-12" 
+            *ngFor="let item of searchedBuildings| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.buildingCount }; let i = index">
+              <app-project-block (setBuilding)="setBuildingId($event)" [data]="item" [index]="i"></app-project-block>
+            </div>
+          </div>
+  
+          <div class="row" *ngIf="searchedBuildings?.length>0">
+            <div class="col-lg-6 col-md-12 col-sm-12 col-12"></div>
+            <div class="col-lg-6 col-md-12 col-sm-12 col-12 btn-cont text-right marginT15">
+              <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+            </div>
+          </div>
+  
+          <!-- towers listing wrt building id -->
+          <diV class="row marginT20" *ngIf="building.id">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+              <div class="form-group-3">
+                <label class="p16-two">Select tower in {{selectedBuilding?.name}} <span class="color-red">*</span></label>
+                <select title="Choose Tower" name="tower" [(ngModel)]="selectedTower" required class="form-control" (change)="setTower(selectedTower)">
+                  <option value="">Select Tower</option>
+                  <option *ngFor="let bt of selectedBuilding?.building_towers" [ngValue]="bt">
+                    {{bt.tower_name}}</option>
+                </select>
+              </div>
+            </div>  
+          </diV>
+  
+          <!-- floor listing wrt tower id -->
+          <div class="row marginT20" *ngIf="selectedTower">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+              <div class="form-group-3">
+                <label class="p16-two">Select floor in {{selectedTower?.tower_name}} <span class="color-red">*</span></label>
+                <select title="Choose Floor" required class="form-control" (change)="setFloor($event.target.value)">
+                  <option value="">Select Floor</option>
+                  <option *ngFor="let fa of selectedTower?.floor_array; let j=index" [value]="fa">
+                    {{j == 0 ? 'Ground Floor': 'Floor '+j}}</option>
+                </select>
+              </div>
+            </div>  
+          </div>
+          
+          <!-- add number of properties -->
+          <div class="row marginT20" *ngIf="model?.floor_num">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+              <div class="form-group-3">
+                <label class="p16-two">Number of properties per floor <span class="color-red">*</span></label>
+                <input min="1" autocomplete="off" required class="form-control" type="number" name="num_of_property"
+                    (change)="onEnteringNumOfProperty($event.target.value)" placeholder="Enter number of properties">
+              </div>
+            </div>  
+          </div>
+  
+          <!-- name of properties -->
+          <div class="row marginT20" *ngIf="property_names?.length>0">
+            <div class="col-lg-3 col-md-3 col-sm-12 col-12" *ngFor="let pname of property_names; let p=index">
+              <div class="form-group-3">
+                <label class="p16-two">Name of property<span class="color-red">*</span></label>
+                
+                <div class="input-group mb-3">
+                  <!-- <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2"> -->
+                  <input autocomplete="off" required class="form-control" type="text" 
+                    placeholder="Enter name of properties" [(ngModel)]="pname.name" name="name_{{p}}" >
+                  <div class="input-group-append">
+                    <span (click)="property_names.splice(p, 1);" class="input-group-text"><img src="assets/img/close-tag.png" title="Remove"></span>
+                  </div>
+                </div>
+
+              </div>
+            </div>  
+          </div>
+  
+  
+          <div class="row">
+            <div class="col-md-12">
+              <div class="btn-cont text-right">
+                <button type="submit" [disabled]="tagABuilding.invalid" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+  
+      <p *ngIf="parameter.buildingCount == 0 && showText" class="p18">Didn’t Found your Building? <strong><span
+            (click)="showBuildingDetails(true)" class="green-color cursor-pointer">Generate a Request to add a building by
+            our Data collectors</span></strong></p>
+      <div *ngIf="showBuilding" class="spacer50"></div>
+  
+      <form ngNativeValidate #buildingRequestForm="ngForm" (ngSubmit)="buildingRequest()">
+        <div *ngIf="showBuilding" class="row">
+          <div class="col-lg-7 col-md-12 col-sm-12 col-12">
+            <div class="row">
+              <div class="col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>Name of Building</label>
+                  <input autocomplete="off" required class="form-control" type="text" name="name"
+                    [(ngModel)]="building.name" placeholder="Enter name of building">
+                </div>
+              </div>
+              <div class="col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>Where it is located?</label>
+                  <input autocomplete="off" required placeholder="Search for Location" autocorrect="off" autocapitalize="off"
+                    spellcheck="off" type="text" class="form-control" #search (input)="loadPlaces()"
+                    [formControl]="searchControl" [(ngModel)]="building.address" name="address">
+                </div>
+              </div>
+            </div>
+            <label class="label-optional">Developer Details (optional)</label>
+            <div class="row">
+              <div class="col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>Name of Developer</label>
+                  <input autocomplete="off" class="form-control" type="text" name="dev_name"
+                    [(ngModel)]="building.dev_name">
+                </div>
+              </div>
+              <div class="col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>Contact Number</label>
+                  <input minlength="6" maxlength="16" autocomplete="off" type="text" class="form-control" id="dev_phone"
+                    [(ngModel)]="building.dev_phone" name="dev_phone" ng2TelInput [ng2TelInputOptions]="initialCountry"
+                    (countryChange)="onCountryChange($event)" />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12 col-12">
+                <div class="form-group-3">
+                  <label>Email Address</label>
+                  <input autocomplete="off" class="form-control" type="text" name="dev_email"
+                    [(ngModel)]="building.dev_email">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-5 col-md-12 col-sm-12 col-12">
+            <div class="form-group-3 mark-pin-map">
+              <label>Mark Pin on Map</label>
+            </div>
+            <div>
+              <agm-map [latitude]="building.lat" [longitude]="building.lng" [scrollwheel]="false"
+                (mapClick)="placeMarker($event)" [zoom]="zoom">
+                <agm-marker [latitude]="building.lat" [longitude]="building.lng"></agm-marker>
+              </agm-map>
+            </div>
+          </div>
+        </div>
+  
+        <div class="row" *ngIf="showBuilding">
+          <div class="col-md-12">
+            <div class="btn-cont text-right">
+              <button type="submit" [disabled]="buildingRequestForm.invalid" class="btn btn-primary">Next</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Tag a building end -->
+  

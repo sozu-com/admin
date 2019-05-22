@@ -19,11 +19,14 @@ import { FilterByNamePipe } from '../../pipes/filter-by-name.pipe';
 import { SharedModule } from '../../modules/shared.module';
 import { CalendarModule } from 'primeng/primeng';
 import { ProjectBlockComponent } from '../common-blocks/project-block/project-block.component';
+import { BulkAddComponent } from './bulk-add/bulk-add.component';
 
 const routes: Routes = [
   { path: 'details/:property_id', component: PropertyDetailsComponent },
   // { path: 'details/:property_id', component: PropertyDetailsComponent,
   //   canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_read', '']}},
+  { path: 'add-bulk-property/:property_id/:seller_id', component: BulkAddComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_create', 'can_csr_seller']}},
   { path: 'add-property/:property_id/:seller_id', component: AddPropertyComponent,
     canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_create', 'can_csr_seller']}},
   { path: 'edit-property/:property_id', component: AddPropertyComponent,
@@ -60,7 +63,8 @@ const routes: Routes = [
     PropertyDetailsComponent,
     FilterByIdPipe,
     FilterByNamePipe,
-    ProjectBlockComponent
+    ProjectBlockComponent,
+    BulkAddComponent
   ]
 })
 

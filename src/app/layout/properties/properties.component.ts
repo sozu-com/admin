@@ -34,6 +34,9 @@ export class PropertiesComponent implements OnInit {
   item: any;
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
+  @ViewChild('rejectModalOpen') rejectModalOpen: ElementRef;
+  @ViewChild('rejectModalClose') rejectModalClose: ElementRef;
+
   @ViewChild('linkSellerModal') linkSellerModal: ElementRef;
   @ViewChild('closeLinkSellerModal') closeLinkSellerModal: ElementRef;
   @ViewChild('linkExtBrokerModal') linkExtBrokerModal: ElementRef;
@@ -216,6 +219,10 @@ export class PropertiesComponent implements OnInit {
     this.modalClose.nativeElement.click();
   }
 
+  closeReasonModal() {
+    this.rejectModalClose.nativeElement.click();
+  }
+
   changeStatus(item, status) {
     item.status = status;
     const input = { property_id: item.id, status_id: status, reason: '' };
@@ -272,9 +279,21 @@ export class PropertiesComponent implements OnInit {
     });
   }
 
-  changeStatusPopUp(property_id: any, user_id: string, status: number) {
+  showRejectSellerRequestModal(property_id: any, user_id: any, status: number) {
+    this.parameter.property_id = property_id;
+    this.parameter.user_id = user_id;
+    this.parameter.status = status;
+    this.closeLinkSellerModal.nativeElement.click();
+    this.rejectModalOpen.nativeElement.click();
+  }
+
+  changeStatusPopUp(property_id: any, user_id: any, status: number) {
+    this.parameter.property_id = property_id;
+    this.parameter.user_id = user_id;
+    this.parameter.status = status;
     this.parameter.title = this.constant.title.ARE_YOU_SURE;
-    this.parameter.text = 'You want to link this seller?';
+    const text = status === 1 ? 'accept' : 'reject';
+    this.parameter.text = 'You want to ' + text + ' this request?';
 
     swal({
       html: this.parameter.title + '<br>' + this.parameter.text,
@@ -285,22 +304,32 @@ export class PropertiesComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.changeStatusSellerSelection(property_id, user_id, status);
+        this.changeStatusSellerSelection();
       }
     });
   }
 
-  changeStatusSellerSelection(property_id: any, user_id: string, status: number) {
-    this.admin.postDataApi('changeStatusSellerSelection', { property_id: property_id, user_id: user_id, status: status }).subscribe(r => {
-      this.closeLinkSellerModal.nativeElement.click();
-      swal('Success', 'Linked successfully.', 'success');
+  changeStatusSellerSelection() {
+    const input = { property_id: this.parameter.property_id, user_id: this.parameter.user_id, status: this.parameter.status, reason: '' };
+    if (this.reason) {
+      input.reason = this.reason;
+    }
+    this.admin.postDataApi('changeStatusSellerSelection', input).subscribe(r => {
+      const text = this.parameter.status === 1 ? 'accepted' : 'rejected';
+      swal('Success', 'Request ' + text + ' successfully.', 'success');
+      // accept => then close listing modal
+      if (this.parameter.status === 1) {
+        this.closeLinkSellerModal.nativeElement.click();
+      }
+      // else reason modal
+      this.rejectModalClose.nativeElement.click();
     },
       error => {
         swal('Error', error.error.message, 'error');
       });
   }
 
-  changeSoldStatusPopup(property: any, index: number) {
+  changeSoldStatusPopup(property: any, index: number, value: number) {
     this.parameter.title = this.constant.title.ARE_YOU_SURE;
     this.parameter.text = 'You want to change the status?';
 
@@ -313,14 +342,17 @@ export class PropertiesComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.changePropertySoldStatus(property, index);
+        this.changePropertySoldStatus(property, index, value);
       }
     });
   }
 
-  changePropertySoldStatus(property: any, index: number) {
-    this.admin.postDataApi('changePropertySoldStatus',
-    { property_id: property.id, is_property_sold: property.is_property_sold === 0 ? 1 : 0 }).subscribe(r => {
+  changePropertySoldStatus(property: any, index: number, value: number) {
+    const input = {
+      property_id: property.id,
+      is_property_sold: property.is_property_sold === 0 ? 1 : 0
+    };
+    this.admin.postDataApi('changePropertySoldStatus', input).subscribe(r => {
       this.items[index].is_property_sold = this.items[index].is_property_sold === 1 ? 0 : 1;
       swal('Success', 'Changed successfully.', 'success');
     },
@@ -373,9 +405,10 @@ export class PropertiesComponent implements OnInit {
     });
   }
 
-  attachExternalBrokerPopUp(broker: any) {
+  attachExternalBrokerPopUp(broker: any, flag: number) {
     this.parameter.title = this.constant.title.ARE_YOU_SURE;
-    this.parameter.text = 'You want to assign this agent?';
+    const text = flag === 1 ? 'link' : 'unlink';
+    this.parameter.text = 'You want to ' + text + ' this agent?';
 
     swal({
       html: this.parameter.title + '<br>' + this.parameter.text,
@@ -386,17 +419,18 @@ export class PropertiesComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.attachExternalBroker(broker);
+        this.attachExternalBroker(broker, flag);
       }
     });
   }
 
-  attachExternalBroker(broker: any) {
+  attachExternalBroker(broker: any, flag: number) {
     this.admin.postDataApi('attachExternalBroker', { property_id: this.property.id,
-      broker_id: broker.id }).subscribe(r => {
+      broker_id: broker.id, flag: flag }).subscribe(r => {
       this.closeExtBrokerModal.nativeElement.click();
-      this.property.external_broker = broker;
-      swal('Success', 'Assigned successfully.', 'success');
+      this.property.external_broker = flag === 1 ? broker : null;
+      const text = flag === 1 ? 'Linked' : 'Unlinked';
+      swal('Success', text + ' successfully.', 'success');
     },
       error => {
         swal('Error', error.error.message, 'error');

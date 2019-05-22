@@ -124,7 +124,7 @@
         </diV>
 
         <!-- floor listing wrt tower id -->
-        <diV class="row marginT20" *ngIf="selectedTower">
+        <div class="row marginT20" *ngIf="selectedTower">
           <div class="col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="form-group-3">
               <label class="p16-two">Select floor in {{selectedTower?.tower_name}} <span class="color-red">*</span></label>
@@ -135,33 +135,8 @@
               </select>
             </div>
           </div>  
-        </diV>
+        </div>
         
-        <!-- add number of properties -->
-        <!-- <diV class="row marginT20" *ngIf="model?.floor_num">
-          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-            <div class="form-group-3">
-              <label class="p16-two">Number of properties per floor <span class="color-red">*</span></label>
-              <input autocomplete="off" required class="form-control" type="number" name="num_of_property"
-                  (change)="onEnteringNumOfProperty($event.target.value)" placeholder="Enter number of properties">
-            </div>
-          </div>  
-        </diV> -->
-
-        <!-- name of properties -->
-        <!-- <diV class="row marginT20" *ngIf="property_names?.length>0">
-          <div class="col-lg-3 col-md-3 col-sm-12 col-12" *ngFor="let pname of property_names; let p=index">
-            <div class="form-group-3">
-              <label class="p16-two">Name of property<span class="color-red">*</span></label>
-              <input autocomplete="off" required class="form-control" type="text" name="pname{{p}}"
-                  placeholder="Enter name of properties" [(ngModel)]="pname.name">
-            </div>
-            (change)="setPropertyName($event.target.vaue, p)"
-          </div>  
-        </diV> -->
-
-
-
         <div class="row">
           <div class="col-md-12">
             <div class="btn-cont text-right">
@@ -191,7 +166,7 @@
             <div class="col-sm-6 col-12">
               <div class="form-group-3">
                 <label>Where it is located?</label>
-                <input required placeholder="search for location" autocorrect="off" autocapitalize="off"
+                <input required placeholder="Search for Location" autocorrect="off" autocapitalize="off"
                   spellcheck="off" type="text" class="form-control" #search (input)="loadPlaces()"
                   [formControl]="searchControl" [(ngModel)]="building.address" name="address">
               </div>

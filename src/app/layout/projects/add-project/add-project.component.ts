@@ -253,11 +253,13 @@ export class AddProjectComponent implements OnInit {
             this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
 
             for (let index = 0; index < this.all_amenities.length; index++) {
-              for (let i = 0; i < this.model.amenities.length; i++) {
-                if (this.model.amenities[i].id === this.all_amenities[index].id) {
-                  this.all_amenities[index].selected = true;
-                  const pivot = this.model.amenities[i]['pivot'];
-                  this.all_amenities[index].images = pivot.images ? pivot.images : [];
+              if (this.model.amenities && this.model.amenities.length > 0) {
+                for (let i = 0; i < this.model.amenities.length; i++) {
+                  if (this.model.amenities[i].id === this.all_amenities[index].id) {
+                    this.all_amenities[index].selected = true;
+                    const pivot = this.model.amenities[i]['pivot'];
+                    this.all_amenities[index].images = pivot.images ? pivot.images : [];
+                  }
                 }
               }
             }
@@ -330,7 +332,7 @@ export class AddProjectComponent implements OnInit {
 
   setMaritalStatus(data) {
     for (let index = 0; index < this.testMarital.length; index++) {
-      if (data.marital_statuses.length > 0) {
+      if (data.marital_statuses && data.marital_statuses.length > 0) {
         for (let i = 0; i < data.marital_statuses.length; i++) {
           if (this.testMarital[index].name === data.marital_statuses[i].name_en) {
             this.testMarital[index].checked = true;
@@ -679,6 +681,7 @@ export class AddProjectComponent implements OnInit {
     }
     this.closeConfigPopup.nativeElement.click();
     this.parameter.loading = true;
+    console.log('===', this.new_config);
     this.file3.upload().then(r => {
       this.file4.upload().then(r1 => {
         this.parameter.loading = false;
@@ -689,6 +692,8 @@ export class AddProjectComponent implements OnInit {
         } else {
           this.model.configurations.push(this.new_config);
         }
+        this.new_config = new Configuration();
+        console.log('conssss', this.model.configurations);
       }, error => {
         this.parameter.loading = false;
       });

@@ -33,8 +33,8 @@ export class AddProjectModel {
     lng: any = '';
     custom_attributes = [];
     custom_values = [];
-    configurations = [];
-
+    // configurations = [];
+    configurations: Array<Configuration>;
     // Preferable buyers
     pets = 1;
     kids_friendly = 1;
