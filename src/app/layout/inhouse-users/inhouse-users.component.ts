@@ -24,7 +24,7 @@ export class InhouseUsersComponent implements OnInit {
   @ViewChild('mapDiv') mapDiv: ElementRef;
   @ViewChild('search2') searchElementRef: ElementRef;
   @ViewChild('search1') search1ElementRef: ElementRef;
-  @ViewChild('modalOpen') modalOpen: ElementRef;
+  @ViewChild('inhouseUserModalOpen') inhouseUserModalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('viewModalOpen') viewModalOpen: ElementRef;
   @ViewChild('viewModalClose') viewModalClose: ElementRef;
@@ -192,7 +192,7 @@ export class InhouseUsersComponent implements OnInit {
     this.model.dial_code = this.constant.dial_code;
     this.initialCountry = { initialCountry: this.constant.initialCountry };
 
-    this.modalOpen.nativeElement.click();
+    this.inhouseUserModalOpen.nativeElement.click();
   }
 
   telInputObject(obj) {
@@ -400,7 +400,7 @@ console.log('model', this.model);
         this.model.address[ind] = tempAdd;
       }
 
-      this.modalOpen.nativeElement.click();
+      this.inhouseUserModalOpen.nativeElement.click();
     }, erorr => {
       this.parameter.loading = false;
     });

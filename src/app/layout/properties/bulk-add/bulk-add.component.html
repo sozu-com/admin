@@ -115,7 +115,7 @@
               <div class="form-group-3">
                 <label class="p16-two">Number of properties per floor <span class="color-red">*</span></label>
                 <input min="1" autocomplete="off" required class="form-control" type="number" name="num_of_property"
-                    (change)="onEnteringNumOfProperty($event.target.value)" placeholder="Enter number of properties">
+                    (change)="onEnteringNumOfProperty($event.target.value)" [(ngModel)]="num_of_property" placeholder="Enter number of properties">
               </div>
             </div>  
           </div>
@@ -131,7 +131,7 @@
                   <input autocomplete="off" required class="form-control" type="text" 
                     placeholder="Enter name of properties" [(ngModel)]="pname.name" name="name_{{p}}" >
                   <div class="input-group-append">
-                    <span (click)="property_names.splice(p, 1);" class="input-group-text"><img src="assets/img/close-tag.png" title="Remove"></span>
+                    <span (click)="property_names.splice(p, 1);" class="cursor-pointer input-group-text"><img src="assets/img/close-tag.png" title="Remove"></span>
                   </div>
                 </div>
 

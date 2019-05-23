@@ -29,6 +29,7 @@ export class PropertiesComponent implements OnInit {
   selecter_seller: SellerSelections;
   allSellers: Array<SellerSelections>;
   allExtBrokers: Array<UserModel>;
+  allUsers: Array<UserModel>;
   property: any;
   reason: string;
   item: any;
@@ -37,6 +38,8 @@ export class PropertiesComponent implements OnInit {
   @ViewChild('rejectModalOpen') rejectModalOpen: ElementRef;
   @ViewChild('rejectModalClose') rejectModalClose: ElementRef;
 
+  @ViewChild('linkUserModal') linkUserModal: ElementRef;
+  @ViewChild('closeLinkUserModal') closeLinkUserModal: ElementRef;
   @ViewChild('linkSellerModal') linkSellerModal: ElementRef;
   @ViewChild('closeLinkSellerModal') closeLinkSellerModal: ElementRef;
   @ViewChild('linkExtBrokerModal') linkExtBrokerModal: ElementRef;
@@ -266,8 +269,9 @@ export class PropertiesComponent implements OnInit {
       });
   }
 
-  showAllSellers(property_id: any) {
+  showAllSellers(property_id: any, index: number) {
     this.parameter.loading = true;
+    this.parameter.index = index;
     this.admin.postDataApi('getSellerSelections', { property_id: property_id }).subscribe(r => {
       this.parameter.loading = false;
       this.linkSellerModal.nativeElement.click();
@@ -279,15 +283,27 @@ export class PropertiesComponent implements OnInit {
     });
   }
 
-  showRejectSellerRequestModal(property_id: any, user_id: any, status: number) {
-    this.parameter.property_id = property_id;
-    this.parameter.user_id = user_id;
-    this.parameter.status = status;
-    this.closeLinkSellerModal.nativeElement.click();
-    this.rejectModalOpen.nativeElement.click();
+  getAllSellers (property: any, keyword: string, index: number) {
+    this.parameter.loading = true;
+    if (index) {this.parameter.index = index; }
+    if (property) {
+      this.parameter.property_id = property.id;
+      this.parameter.seller_id = property.selected_seller_id;
+    }
+    const input = {name: ''};
+    input.name = keyword;
+    this.admin.postDataApi('getAllSellers', input).subscribe(r => {
+      this.parameter.loading = false;
+      if (property) {this.linkUserModal.nativeElement.click(); }
+      this.allUsers = r['data'];
+      // this.selecter_seller = r['selecter_seller'];
+    }, error => {
+      this.parameter.loading = false;
+      swal('Error', error.error.message, 'error');
+    });
   }
 
-  changeStatusPopUp(property_id: any, user_id: any, status: number) {
+  linkSellerPopUp(property_id: any, user_id: any, status: number) {
     this.parameter.property_id = property_id;
     this.parameter.user_id = user_id;
     this.parameter.status = status;
@@ -309,17 +325,58 @@ export class PropertiesComponent implements OnInit {
     });
   }
 
+  showRejectSellerRequestModal(property_id: any, user_id: any, status: number) {
+    this.parameter.property_id = property_id;
+    this.parameter.user_id = user_id;
+    this.parameter.status = status;
+    this.closeLinkSellerModal.nativeElement.click();
+    this.closeLinkUserModal.nativeElement.click();
+    this.rejectModalOpen.nativeElement.click();
+  }
+
+  changeStatusPopUp(property_id: any, user_id: any, status: number, type: string) {
+    this.parameter.property_id = property_id;
+    this.parameter.user_id = user_id;
+    this.parameter.status = status;
+    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    if (type === 'request') {
+      const text = status === 1 ? 'accept' : 'reject';
+      this.parameter.text = 'You want to ' + text + ' this request?';
+    } else {
+      const text = status === 1 ? 'link' : 'unlink';
+      this.parameter.text = 'You want to ' + text + ' this seller?';
+    }
+
+    swal({
+      html: this.parameter.title + '<br>' + this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.changeStatusSellerSelection();
+      }
+    });
+  }
+
   changeStatusSellerSelection() {
     const input = { property_id: this.parameter.property_id, user_id: this.parameter.user_id, status: this.parameter.status, reason: '' };
     if (this.reason) {
       input.reason = this.reason;
     }
     this.admin.postDataApi('changeStatusSellerSelection', input).subscribe(r => {
-      const text = this.parameter.status === 1 ? 'accepted' : 'rejected';
-      swal('Success', 'Request ' + text + ' successfully.', 'success');
+      if (this.parameter.status === 1) {
+        this.parameter.seller_id = this.parameter.user_id;
+        this.items[this.parameter.index].selected_seller_id = this.parameter.user_id;
+      }
+      // const text = this.parameter.status === 1 ? 'accepted' : 'rejected';
+      swal('Success', 'Done successfully.', 'success');
       // accept => then close listing modal
       if (this.parameter.status === 1) {
         this.closeLinkSellerModal.nativeElement.click();
+        this.closeLinkUserModal.nativeElement.click();
       }
       // else reason modal
       this.rejectModalClose.nativeElement.click();
@@ -329,7 +386,8 @@ export class PropertiesComponent implements OnInit {
       });
   }
 
-  changeSoldStatusPopup(property: any, index: number, value: number) {
+  changeSoldStatusPopup(property: any, index: number, value: string) {
+    console.log(property, index, value);
     this.parameter.title = this.constant.title.ARE_YOU_SURE;
     this.parameter.text = 'You want to change the status?';
 
@@ -347,13 +405,24 @@ export class PropertiesComponent implements OnInit {
     });
   }
 
-  changePropertySoldStatus(property: any, index: number, value: number) {
+  changePropertySoldStatus(property: any, index: number, value: string) {
     const input = {
       property_id: property.id,
-      is_property_sold: property.is_property_sold === 0 ? 1 : 0
+      is_property_sold: 0,
+      for_sale: 0,
+      for_rent: 0
     };
+    if (value === '1') {
+      this.items[index].for_sale = 1;
+      input.for_sale = 1;
+    } else if (value === '2') {
+      this.items[index].for_rent = 1;
+      input.for_rent = 1;
+    } else {
+      this.items[index].is_property_sold = 1;
+      input.is_property_sold = 1;
+    }
     this.admin.postDataApi('changePropertySoldStatus', input).subscribe(r => {
-      this.items[index].is_property_sold = this.items[index].is_property_sold === 1 ? 0 : 1;
       swal('Success', 'Changed successfully.', 'success');
     },
       error => {

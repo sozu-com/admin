@@ -25,7 +25,7 @@
         
         <div class="col-lg-2 col-md-4 col-4">
           <div class="btn-cont text-right">
-              <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#add" #modalOpen>Add New</a>
+              <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#addInhouseUser" #inhouseUserModalOpen>Add New</a>
               <a *ngIf="admin?.admin_acl['Data Collector Management']?.can_create==1 && parameter.userType=='data-collectors' ||
                 admin?.admin_acl['Seller Management']?.can_create==1 && parameter.userType=='csr-sellers' ||
                 admin?.admin_acl['Buyer Management']?.can_create==1 && parameter.userType=='csr-buyers' ||
@@ -233,7 +233,7 @@
 </div>
 
 
-<div class="modal animated" id="add">
+<div class="modal animated" id="addInhouseUser">
     <div class="modal-dialog fadeIndown modal-lg">
        <div class="modal-content">
           <div class="modal-header">

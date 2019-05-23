@@ -263,6 +263,26 @@ export class AddPropertyComponent implements OnInit {
             this.model.city_id = success['data'].locality.city.id;
             this.model.locality_id = success['data'].locality.id;
           }
+          this.model.pets = success['data'].pets !== null ? success['data'].pets : '1';
+          this.model.kids_friendly = success['data'].kids_friendly !== null ? success['data'].kids_friendly : '1';
+          this.model.students_friendly = success['data'].students_friendly !== null ? success['data'].students_friendly : '1';
+          this.model.lgtb_friendly = success['data'].lgtb_friendly !== null ? success['data'].lgtb_friendly : '1';
+          this.model.mature_people_friendly = success['data'].mature_people_friendly !== null ?
+                                                success['data'].mature_people_friendly : '1';
+
+          for (let index = 0; index < this.testMarital.length; index++) {
+            if (success['data'].marital_statuses.length !== 0) {
+              for (let i = 0; i < success['data'].marital_statuses.length; i++) {
+                if (this.testMarital[index].name === success['data'].marital_statuses[i].name_en) {
+                  this.testMarital[index].checked = true;
+                }
+              }
+            } else {
+              this.testMarital[0].checked = true;
+            }
+            // this.model.marital_status[index] = data.marital_status[index].id;
+          }
+
           this.parameter.propertyDetails.custom_values = this.buildingData.custom_values;
           this.tab = step + 1;
         }, error => {

@@ -1,16 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { AdminService } from '../../../services/admin.service';
-import { CommonService } from '../../../services/common.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { IProperty } from '../../../common/property';
-import { DomSanitizer } from '@angular/platform-browser';
 import { NgForm, FormControl } from '@angular/forms';
 import { MapsAPILoader } from '@agm/core';
 import { Constant } from '../../../common/constants';
-import { FileUpload } from './../../../common/fileUpload';
-import { AddPropertyModel, Building, PropertyDetails } from '../../../models/addProperty.model';
-import { HttpInterceptor } from '../../../services/http-interceptor';
-import { AddProjectModel, Towers, Configuration } from 'src/app/models/addProject.model';
+import { AddPropertyModel, Building } from '../../../models/addProperty.model';
+import { AddProjectModel, Towers } from 'src/app/models/addProject.model';
 declare const google;
 declare let swal: any;
 
@@ -19,7 +15,7 @@ declare let swal: any;
   selector: 'app-bulk-add',
   templateUrl: './bulk-add.component.html',
   styleUrls: ['./bulk-add.component.css'],
-  providers: [AddPropertyModel, Building, Constant, HttpInterceptor]
+  providers: [AddPropertyModel, Building, Constant]
 })
 export class BulkAddComponent implements OnInit {
 
@@ -50,12 +46,9 @@ export class BulkAddComponent implements OnInit {
   num_of_property: any;
   property_names: Array<any>;
   initialCountry: any;
-  constructor(public model: AddPropertyModel, private us: AdminService, private cs: CommonService,
-    private router: Router, private sanitization: DomSanitizer, private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone, private building: Building, public constant: Constant,
-    private route: ActivatedRoute,
-    private http: HttpInterceptor,
-    private element: ElementRef) { }
+  constructor(public model: AddPropertyModel, private us: AdminService,
+    private router: Router, private mapsAPILoader: MapsAPILoader,
+    private ngZone: NgZone, private building: Building, public constant: Constant) { }
 
   ngOnInit() {
     this.showSearch = true;
@@ -63,40 +56,14 @@ export class BulkAddComponent implements OnInit {
     this.parameter.page = 1;
     this.parameter.itemsPerPage = this.constant.limit4;
     this.buildingData = new AddProjectModel();
-    this.http.loader.next({ value: true });
     this.building.dev_countrycode = this.constant.dial_code;
-
     this.parameter.buildingCount = 0;
     this.initialCountry = { initialCountry: this.constant.initialCountry };
-    // set google maps defaults
+    // map
     this.zoom = 4;
-    // create search FormControl
     this.searchControl = new FormControl();
-    // set current position
     this.setCurrentPosition();
   }
-
-
-  getProjectById(step: number) {
-    if (!this.building.id) {
-      swal('Error', 'Please select building.', 'error');
-      return false;
-    }
-    if (!this.model.floor_num) {
-      swal('Error', 'Please select floor.', 'error');
-      return false;
-    }
-    this.us.postDataApi('getProjectByIdWithCSC', { building_id: this.building.id })
-      .subscribe(
-        success => {
-          this.parameter.loading = false;
-          this.buildingData = success['data'];
-        }, error => {
-          this.parameter.loading = false;
-        }
-      );
-  }
-
 
   loadPlaces() {
     this.building.lat = 0;
@@ -214,6 +181,7 @@ export class BulkAddComponent implements OnInit {
             type: 'success'
           });
           this.property_names = [];
+          // this.num_of_property = '';
         }, error => {
           this.parameter.loading = false;
         }
@@ -306,15 +274,8 @@ export class BulkAddComponent implements OnInit {
     // this.property_names = Array(e).fill(1);
     this.property_names = [];
     for (let index = 0; index < e; index++) {
-      const pn = {name: 0};
-      pn.name = index;
+      const pn = {name: ''};
       this.property_names.push(pn);
     }
-  }
-
-  setPropertyName(value: string, index: number) {
-    console.log(this.property_names, 'e');
-    console.log(value, index, 'valueidnex');
-    this.property_names[index] = value;
   }
 }

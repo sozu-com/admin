@@ -284,35 +284,36 @@
                                  <label>Price</label>
                                  <a href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by==1 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a></div>
                            </th>
-                           <th style="width:5%;vertical-align:top;">
+                           <!-- <th style="width:5%;vertical-align:top;">
                               <div (click)="sort_by(2)" class="d-flex table-search">
                                  <label>Availability</label>
                               <a href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by==2 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a>
                               </div>
-                           </th>
+                           </th> -->
                            <th style="width:5%;vertical-align:top;">
                               <div (click)="sort_by(3)" class="d-flex table-search">
                                  <label>Leads</label>
                                  <a href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by==3 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a>
                               </div>
-
-                              <!-- <div (click)="sort_by(3)" class="-d-flex table-search">
-                                 <label>Leads</label>
-                                 <a href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by==3 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a></div> -->
                            </th>
                            <th style="width:8%;vertical-align:top;">
                               <div class="d-flex table-search">
-                                 <label>Seller <br> request</label>
+                                 <label>View Seller's <br> Request</label>
                               </div>
                            </th>
                            <th style="width:8%;vertical-align:top;">
                               <div class="d-flex table-search">
-                                 <label>Link / <br>Unlink<br>agent</label>
+                                 <label>Change <br> Seller</label>
+                              </div>
+                           </th>
+                           <th style="width:8%;vertical-align:top;">
+                              <div class="d-flex table-search">
+                                 <label>Link / <br>Unlink<br>Agent</label>
                               </div>
                            </th>
                            <th style="width:10%;vertical-align:top;">
-                              <div class="d-flex table-search">
-                                 <label>Change availability <br> status</label>
+                              <div (click)="sort_by(2)" class="d-flex table-search">
+                                 <label>Change <br> Availability</label>
                               </div>
                            </th>
                            <th style="width:20%;">&nbsp;</th>
@@ -331,14 +332,18 @@
                               <td><span>{{p?.name ? p?.name : 'NA'}}</span></td>
                               <td><span *ngIf="p && p.configuration">{{p.configuration?.name}}</span></td>
                               <td><span>{{p.min_price}}</span></td>
-                              <td><span class="green-color">
+                              <!-- <td><span class="green-color">
                                  <span *ngIf="p.for_sale">Sell</span>
                                  <span *ngIf="p.for_rent">Rent</span>
                                  <span *ngIf="p.is_property_sold">Inventory</span></span>
-                              </td>
+                              </td> -->
                               <td><span>{{p.lead_properties_count}}</span></td>
                               
-                              <td class="cursor-pointer" title="Link Seller to Property" (click)="showAllSellers(p?.id)">
+                              <td class="cursor-pointer" title="View Seller's Request" (click)="showAllSellers(p?.id, i)">
+                                 <span class="green-color"><span>View</span></span>
+                              </td>
+                              
+                              <td class="cursor-pointer" title="Change Seller" (click)="getAllSellers(p, '', i)">
                                  <span class="green-color"><span>Change</span></span>
                               </td>
                               
@@ -347,20 +352,13 @@
                                     <span title="Click to {{p?.external_broker?.id ? 'change' : 'assign'}}">{{p?.external_broker?.id ? 'Change' : 'Link'}}</span>
                                  </span>
                               </td>
-                              <!-- (click)="changeSoldStatusPopup(p, i)" *ngIf="p.for_rent || p.for_sale" -->
                               <td class="cursor-pointer" >
-                                 <select [(ngModel)]="parameter.configuration_id" (change)="changeSoldStatusPopup(p, i, $event.target.value)">
-                                    <option [selected]="for_sale==1" value="1">Buy</option>
-                                    <option [selected]="for_rent==1" value="2">Rent</option>
-                                    <option [selected]="is_property_sold==1" value="3">Inventory</option>
+                                 <select id="avaStatus" #avaStatus  (change)="avaStatus.value == changeSoldStatusPopup(p, i, $event.target.value)">
+                                    <option [selected]="p.for_sale==1" value="1">Sell</option>
+                                    <option [selected]="p.for_rent==1" value="2">Rent</option>
+                                    <option [selected]="p.is_property_sold==1" value="3">Inventory</option>
                                  </select>
                               </td>
-                              <!-- <td *ngIf="p.for_rent">
-                                 <span class="green-color">
-                                    <span>Available for rent out</span>
-                                 </span>
-                              </td> -->
-
                               <td>
                               <div class="message">
                                  <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="parameter?.flag!=3" routerLink="../edit-property/{{p.id}}" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
@@ -413,6 +411,60 @@
 
 
 
+<!-- All Sellers -->
+<a data-toggle="modal" data-target="#link-user-model" #linkUserModal></a>
+<div class="modal" id="link-user-model">
+   <div class="modal-dialog ">
+      <div class="modal-content notary-avail">
+            <div class="modal-header popup-header">
+            <h4 class="modal-title">Link/Unlink Seller</h4>
+            <button type="button" class="close" #closeLinkUserModal data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+
+               <div class="row">
+                  <div class="col-md-8 col-6">
+                     <input style="max-width:200px" (keyup.enter)="getAllSellers('', keyword, '')" [(ngModel)]="keyword" class="form-control" type="text" name="keyword" placeholder="Search">
+                 </div>
+                 <div class="col-md-4 col-5 btn-cont">
+                     <a class="btn btn-primary pull-right" href="javascript://" (click)="getAllSellers('', keyword, '')">Search</a>
+                 </div>
+               </div>
+
+               <div class="spacer40"></div>
+               <div class="modal-data">
+                  <table class="table">
+                     <tr *ngFor="let item of allUsers">
+                        <td>
+                           <div class="n-avail-profile">
+                           <img [src]="item?.image| img:'small'" onerror='src="assets/img/default_img.png"' alt="img"
+                              [defaultImage]="item?.image| img:'thumb'" [lazyLoad]="item?.image">
+                           <div class="n-avail-info">
+                              <p class="p12">{{item?.name}}</p>
+                              <p class="p10">Phone : {{item?.dial_code ? item?.dial_code : constant.dial_code}}-{{item?.phone}}</p>
+                           </div>
+                           </div>
+                        </td>
+                        <td>
+                           <button *ngIf="parameter.seller_id!=item.id" (click)="changeStatusPopUp(parameter.property_id, item.id, 1, 'link')" class="action-icon" title="Accept Request">
+                              <img src="assets/img/green-icon.png" alt="img"></button>
+                           <button *ngIf="parameter.seller_id==item.id" (click)="showRejectSellerRequestModal(parameter.property_id, item.id, 2)" class="action-icon" title="Reject Request">
+                                 <img src="assets/img/ic_disapprove.png" alt="img"></button>
+                        </td>
+                     </tr>
+                     <tr *ngIf="allUsers?.length==0">
+                        <p class="show-not-found">
+                           No seller found.
+                        </p>
+                     </tr>
+                  </table>
+               </div>
+            </div>
+      </div>
+   </div>
+</div>
+
+
 <!-- Link Seller -->
 <a data-toggle="modal" data-target="#link-seller-model" #linkSellerModal></a>
 <div class="modal" id="link-seller-model">
@@ -444,15 +496,15 @@
                            </div>
                         </td>
                         <td *ngIf="item.is_blocked!=1">
-                           <button (click)="changeStatusPopUp(item.property_id, item.user_id, 1)" class="action-icon" title="Accept Request">
-                              <img src="assets/img/tick.png" alt="img"></button>
+                           <button (click)="changeStatusPopUp(item.property_id, item.user_id, 1, 'request')" class="action-icon" title="Accept Request">
+                              <img src="assets/img/green-icon.png" alt="img"></button>
                            <button (click)="showRejectSellerRequestModal(item.property_id, item.user_id, 2)" class="action-icon" title="Reject Request">
                                  <img src="assets/img/ic_disapprove.png" alt="img"></button>
                         </td>
                      </tr>
                      <tr *ngIf="allSellers?.length==0">
                         <p class="show-not-found">
-                           No seller found.
+                           No seller has requested for the property.
                         </p>
                      </tr>
                   </table>
@@ -502,7 +554,7 @@
                         </td>
                         <td>
                            <button *ngIf="property?.external_broker?.id!=item.id" (click)="attachExternalBrokerPopUp(item, 1)" class="action-icon" title="Link agent">
-                              <img src="assets/img/tick.png" alt="img"></button>
+                              <img src="assets/img/green-icon.png" alt="img"></button>
                            
                            <button *ngIf="property?.external_broker?.id==item.id" (click)="attachExternalBrokerPopUp(item, 2)" class="action-icon" title="Unlink agent">
                               <img src="assets/img/ic_disapprove.png" alt="img"></button>
