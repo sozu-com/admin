@@ -283,7 +283,7 @@ export class PropertiesComponent implements OnInit {
     });
   }
 
-  getAllSellers (property: any, keyword: string, index: number) {
+  getAllSellers (property: any, keyword: string, index: any) {
     this.parameter.loading = true;
     if (index) {this.parameter.index = index; }
     if (property) {

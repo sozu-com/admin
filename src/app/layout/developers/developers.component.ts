@@ -21,6 +21,7 @@ export class DevelopersComponent implements OnInit {
 
   ngOnInit() {
     this.model = new Users();
+    this.model.buildings_sort = 2;  // 2 means desc
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.getDevelopersFrAdmin();

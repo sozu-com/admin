@@ -48,7 +48,7 @@ export class BulkAddComponent implements OnInit {
   initialCountry: any;
   constructor(public model: AddPropertyModel, private us: AdminService,
     private router: Router, private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone, private building: Building, public constant: Constant) { }
+    private ngZone: NgZone, public building: Building, public constant: Constant) { }
 
   ngOnInit() {
     this.showSearch = true;

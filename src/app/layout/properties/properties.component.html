@@ -527,7 +527,6 @@
 
                <p class="modal-title" *ngIf="property?.external_broker?.id">Currently linked to Agent - <b>{{property?.external_broker?.name}}</b></p>
 
-               <div class="spacer30"></div>
                <div class="row">
                   <div class="col-md-8 col-6">
                      <input style="max-width:200px" (keyup.enter)="getBothBroker('', keyword)" [(ngModel)]="keyword" class="form-control" type="text" name="keyword" placeholder="Search">

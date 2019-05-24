@@ -32,7 +32,7 @@ export class InhouseUsersComponent implements OnInit {
   @ViewChild('moreImgModalClose') moreImgModalClose: ElementRef;
 
   public parameter: IProperty = {};
-  lead_sort = 1;
+  lead_sort = 2;
   initialCountry: any;
   addressIndex = 0;
   tempAdd: Object;
