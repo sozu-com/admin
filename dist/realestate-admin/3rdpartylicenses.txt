@@ -513,11 +513,7 @@ MIT
 
 froala-editor@2.9.3
 https://www.froala.com/wysiwyg-editor/pricing
-Froala WYSIWYG Editor
-================
-
-In order to use Froala Editor you have to purchase a license from: https://www.froala.com/wysiwyg-editor/pricing.
-For more informations regarding the license please read https://www.froala.com/wysiwyg-editor/terms.
+https://www.froala.com/wysiwyg-editor/pricing
 
 font-awesome@4.7.0
 (OFL-1.1 AND MIT)
