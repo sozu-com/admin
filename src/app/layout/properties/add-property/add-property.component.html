@@ -803,27 +803,18 @@
 
 
       <div class="spacer15"></div>
-      <div class="form-group-3">
-        <label>List of Amenities with this property 
-          <!-- <span class="color-red">*</span> -->
-        </label>
+      <!-- <div class="form-group-3">
+        <label>List of Amenities with this property </label>
 
         <div class="form-group-3 paddingleft0">
           <div class="row">
             <div class="col-12">
-              <!-- <input type="text" list="amenities" (keyup.enter)="addAmenity(amen)" name="amen" [(ngModel)]="amen">
-              <datalist id="amenities">
-                <option *ngFor="let amenity of parameter.amenities" value="{{amenity.name_en}}">
-              </datalist> -->
-
               <select style="max-width:50%" title="Choose Amenity" class="form-control" name="amen" [(ngModel)]="amen"
                 (click)="addAmenity(amen)">
                 <option value="">Select Amenity</option>
                 <option *ngFor="let amenity of parameter.amenities; let i=index" [ngValue]="amenity">{{amenity.name_en}}
                 </option>
               </select>
-              <!-- <button type="button" class="add-btn" (click)="addAmenity(amen,i)"><img src="assets/img/add.png" alt="img"></button> -->
-
               <div class="list-group-items" *ngIf="amenityList">
                 <ul>
                   <li *ngFor="let a of amenityList; let aIndex=index;">
@@ -836,7 +827,37 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
+
+
+        <div class="form-group-3 marginB0">
+          <label>Amenities available</label>
+          <ul class="loc-tags-group">
+            <li *ngFor="let a of parameter.amenities; let i=index" [ngClass]="a.selected==true ? 'width100' : ''">
+              <span *ngIf="a.selected==true" class="width100 amen-img">{{a.name}} 
+                <b class="pull-right" (click)="a.selected = false" title="Remove"><img src="assets/img/close-tag.png" /></b>
+              </span>
+              <div *ngIf="a.selected==true" class="spacer30"></div>
+              
+              <div *ngIf="a.selected==true">
+                <div class="uploaded-img-block">
+                  <div class="uploaded-img2">
+                    <img src="assets/img/placeholder.png" class="u-img" alt="img">
+                    <div class="upload-caption">
+                      <p class="green-color" (click)="modelAmenityOpenFun(a, i)">+ Add more images</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </li>
+          </ul>
+        </div>
+        <div class="form-group-3 marginT15">
+          <div class="btn-cont">
+            <a class="btn-third btn btn-block" data-toggle="modal" data-target="#amenities" href="javascript://">Add More</a>
+          </div>
+        </div>
 
       <!-- <div class="spacer15"></div>
       <div class="form-group-3">
@@ -1145,6 +1166,101 @@
       <!-- Modal footer -->
       <div class="modal-footer btn-cont">
         <button type="button" (click)="save360Images()" class="btn btn-primary">Submit</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Amenities model -->
+<div class="modal" id="amenities" style="display: none;" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content amenities-popup">
+      <div class="modal-header popup-header">
+        <h4 class="modal-title">Amenities</h4>
+        <button type="button" class="close" data-dismiss="modal">×</button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <label *ngFor="let a of parameter.amenities; " (click)="a.selected = !a.selected" class="cust-check-bx2">
+            {{a.name}}
+          <span *ngIf="a.selected==true" class="checkmark open"></span>
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="btn-cont">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Add amenities img -->
+<span data-target="#add-amenity-more-img" data-toggle="modal" #modalAmenOpen></span>
+<div class="modal add-more-popup" id="add-amenity-more-img">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">{{amenity_obj?.name}}</h4>
+        <button type="button" class="close" data-dismiss="modal" #modalAmenClose>&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+
+        <!-- images -->
+        <div class="uploaded-img-block">
+          Images
+          <div class="uploaded-img" *ngFor="let item of file2.files; let i=index">
+            <a class="remove" (click)="file2.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
+            <img *ngIf="item" class="u-img" [src]="item.image" alt="img">
+            <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+          </div>
+        </div>
+        <div class="add-more-images">
+          <input type="file" name="add-more" multiple max="6" accept="image/*" (change)="file2Select($event)">
+          <span>+ Add more images</span>
+        </div>
+
+        <!-- 360 images -->
+        <div class="uploaded-img-block">
+          360 Images
+          <div class="uploaded-img" *ngFor="let item of file2.files; let i=index">
+            <a class="remove" (click)="file2.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
+            <img *ngIf="item" class="u-img" [src]="item.image" alt="img">
+            <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+          </div>
+        </div>
+        <div class="add-more-images">
+          <input type="file" name="add-more" multiple max="6" accept="image/*" (change)="file2Select($event)">
+          <span>+ Add more images</span>
+        </div>
+
+        <!-- videos -->
+        <div class="uploaded-img-block">
+          Videos
+          <div class="uploaded-img" *ngFor="let item of file2.files; let i=index">
+            <a class="remove" (click)="file2.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
+            <img *ngIf="item" class="u-img" [src]="item.image" alt="img">
+            <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+          </div>
+        </div>
+        <div class="add-more-images">
+          <input type="file" name="add-more" multiple max="6" accept="image/*" (change)="file2Select($event)">
+          <span>+ Add more images</span>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer btn-cont">
+        <button type="button" (click)="saveAmenityImages()" class="btn btn-primary">Submit</button>
       </div>
 
     </div>

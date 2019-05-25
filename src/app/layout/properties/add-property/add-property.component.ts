@@ -24,6 +24,9 @@ export class AddPropertyComponent implements OnInit {
 
   file2: FileUpload;
   file360: FileUpload;
+  amenMoreImg: FileUpload;
+  amen360Img: FileUpload;
+  amenVideo: FileUpload;
 
   public parameter: IProperty = {};
   @ViewChild('modalClose') modalClose: ElementRef;
@@ -32,6 +35,8 @@ export class AddPropertyComponent implements OnInit {
   @ViewChild('modalClose360Img') modalClose360Img: ElementRef;
   @ViewChild('mapDiv') mapDiv: ElementRef;
   @ViewChild('search') searchElementRef: ElementRef;
+  @ViewChild('modalAmenClose') modalAmenClose: ElementRef;
+  @ViewChild('modalAmenOpen') modalAmenOpen: ElementRef;
 
   public latitude: number;
   public longitude: number;
@@ -99,7 +104,8 @@ export class AddPropertyComponent implements OnInit {
   videoSrc: any;
   num_of_property: any;
   property_names: Array<any>;
-
+  amenity_index: number;
+  amenity_obj: any;
   constructor(public model: AddPropertyModel, private us: AdminService, private cs: CommonService,
     private router: Router, private sanitization: DomSanitizer, private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone, private building: Building, public constant: Constant,
@@ -119,6 +125,9 @@ export class AddPropertyComponent implements OnInit {
 
     this.file2 = new FileUpload(false, this.us);
     this.file360 = new FileUpload(false, this.us);
+    this.amenMoreImg = new FileUpload(false, this.us);
+    this.amen360Img = new FileUpload(false, this.us);
+    this.amenVideo = new FileUpload(false, this.us);
 
     this.parameter.sub = this.route.params.subscribe(params => {
       if (params['seller_id'] !== '0') {
@@ -534,8 +543,23 @@ export class AddPropertyComponent implements OnInit {
     const input = new FormData();
     this.us.postDataApi('getPropertyAmenities', input)
       .subscribe(
-        success => { this.parameter.amenities = success['data']; }
+        success => {
+          this.parameter.amenities = success['data'].map(item => {
+            item.selected = false; item.images = []; item.images360 = []; item.videos = []; return item;
+          });
+        }
       );
+  }
+
+  modelAmenityOpenFun(amenityObj: any, index: number) {
+    this.amenity_index = index;
+    this.amenity_obj = amenityObj;
+    this.modalAmenOpen.nativeElement.click();
+    this.amenMoreImg.backup(JSON.parse(JSON.stringify(this.parameter.amenities[index].images)));
+  }
+
+  modelAmenityCloseFun() {
+    this.modalAmenClose.nativeElement.click();
   }
 
   addAmenity(amen) {
