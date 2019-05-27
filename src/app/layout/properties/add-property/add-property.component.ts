@@ -1259,4 +1259,68 @@ export class AddPropertyComponent implements OnInit {
     console.log(value, index, 'valueidnex');
     this.property_names[index] = value;
   }
+
+
+
+  amenMoreImgSelect($event) {
+    if ((this.amenMoreImg.files.length + $event.target.files.length) > 6) {
+      swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
+      return false;
+    }
+    this.amenMoreImg.onSelectFile($event);
+  }
+
+  amen360ImagesSelect($event) {
+    if ((this.amen360Img.files.length + $event.target.files.length) > 6) {
+      swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
+      return false;
+    }
+    this.amen360Img.onSelectFile($event);
+  }
+
+  amenVideosSelect($event) {
+    if ((this.amenVideo.files.length + $event.target.files.length) > 6) {
+      swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
+      return false;
+    }
+    this.amenVideo.onSelectFile($event);
+  }
+
+  async saveAmenitiesMedia() {
+    let count = 0;
+    const totalFilesCount = this.amenMoreImg.files.length + this.amen360Img.files.length + this.amenVideo.files.length;
+    if (totalFilesCount < 1) {
+      swal('Error', 'Please select atleast one image', 'error'); return false;
+    }
+    this.amenMoreImg.upload().then(r => {
+      console.log('amen imag');
+      this.model.amenities.images = this.amenMoreImg.files;
+    });
+    this.amen360Img.upload().then(r => {
+      console.log('amen 360 imag');
+      this.model.amenities.images360 = this.amen360Img.files;
+    });
+    this.amenVideo.upload().then(r => {
+      console.log('amen video');
+      this.model.amenities.videos = this.amenVideo.files;
+    });
+
+    // this.modalAmenClose.nativeElement.click();
+    console.log('===', this.amenMoreImg, this.amen360Img, this.amenVideo);
+
+    this.amenMoreImg.files.forEach(element => {
+      if (element.loading === false) { console.log('==1111=='); count++; }
+    });
+    this.amen360Img.files.forEach(element => {
+      if (element.loading === false) { console.log('==2222=='); count++; }
+    });
+    this.amenVideo.files.forEach(element => {
+      if (element.loading === false) { console.log('==3333=='); count++; }
+    });
+
+    console.log('===totalFilesCount===', totalFilesCount, count);
+    if (count === totalFilesCount) {
+      this.modalAmenClose.nativeElement.click();
+    }
+  }
 }

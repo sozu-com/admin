@@ -1738,6 +1738,7 @@ font-size: 16px;
 .add-more-popup .modal-body{
 padding:20px; 
 }
+.add-more-images.dimensions{margin-top: 10px; margin-bottom: 20px;}
 .add-more-popup .modal-header {
 padding: 20px 20px 0;
 }

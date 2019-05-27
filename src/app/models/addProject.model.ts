@@ -134,6 +134,8 @@ export class AmenitiesShowObj {
     name: string;
     selected: boolean;
     images: Array<string>;
+    images_360: Array<string>;
+    videos: Array<string>;
 }
 
 export class LocalityToCountry {

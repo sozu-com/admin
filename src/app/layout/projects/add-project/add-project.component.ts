@@ -7,6 +7,7 @@ import { AddProjectModel, Configuration, Towers, LocalityToCountry } from './../
 import { MapsAPILoader } from '@agm/core';
 import { Constant } from './../../../common/constants';
 import { FileUpload } from './../../../common/fileUpload';
+import { VideoUpload } from './../../../common/videoUpload';
 import { CommonService } from 'src/app/services/common.service';
 import { ApiConstants } from 'src/app/common/api-constants';
 declare const google;
@@ -75,6 +76,10 @@ export class AddProjectComponent implements OnInit {
 
   file1: FileUpload; file2: FileUpload; file3: FileUpload; file4: FileUpload; file5: FileUpload; file6: FileUpload; file7: FileUpload;
   file8: FileUpload;
+  amen360Img: FileUpload;
+  amenVideo: VideoUpload;
+  config360Img: FileUpload;
+  configVideo: FileUpload;
 
   newTower: Towers;
   allTowerAmenities: any = [];
@@ -134,6 +139,11 @@ export class AddProjectComponent implements OnInit {
     this.file6 = new FileUpload(true, this.admin);
     this.file7 = new FileUpload(false, this.admin);
     this.file8 = new FileUpload(false, this.admin);
+    this.amen360Img = new FileUpload(false, this.admin);
+    this.amenVideo = new VideoUpload(false, this.admin);
+    this.config360Img = new FileUpload(false, this.admin);
+    this.configVideo = new FileUpload(false, this.admin);
+
     this.route.params.subscribe(params => {
       this.id = params.id;
       this.newTower = new Towers();
@@ -186,6 +196,8 @@ export class AddProjectComponent implements OnInit {
                   this.all_amenities[index].selected = true;
                   const pivot = this.model.amenities[i]['pivot'];
                   this.all_amenities[index].images = pivot.images ? pivot.images : [];
+                  this.all_amenities[index].images_360 = pivot.images_360 ? pivot.images_360 : [];
+                  this.all_amenities[index].videos = pivot.videos ? pivot.videos : [];
                 }
               }
             }
@@ -203,6 +215,8 @@ export class AddProjectComponent implements OnInit {
                 element.amenitiesId = element.amenities.map(op => {
                   const pivot = op['pivot'];
                   op.images = pivot.images ? pivot.images : [];
+                  op.images_360 = pivot.images_360 ? pivot.images_360 : [];
+                  op.videos = pivot.videos ? pivot.videos : [];
                   return op.id;
                 });
               });
@@ -259,6 +273,8 @@ export class AddProjectComponent implements OnInit {
                     this.all_amenities[index].selected = true;
                     const pivot = this.model.amenities[i]['pivot'];
                     this.all_amenities[index].images = pivot.images ? pivot.images : [];
+                    this.all_amenities[index].images_360 = pivot.images_360 ? pivot.images_360 : [];
+                    this.all_amenities[index].videos = pivot.videos ? pivot.videos : [];
                   }
                 }
               }
@@ -278,6 +294,8 @@ export class AddProjectComponent implements OnInit {
                 element.amenitiesId = element.amenities.map(op => {
                   const pivot = op['pivot'];
                   op.images = pivot.images ? pivot.images : [];
+                  op.images_360 = pivot.images_360 ? pivot.images_360 : [];
+                  op.videos = pivot.videos ? pivot.videos : [];
                   return op.id;
                 });
               });
@@ -464,6 +482,8 @@ export class AddProjectComponent implements OnInit {
     this.amenity_obj = amenityObj;
     this.modalAmenOpen.nativeElement.click();
     this.file2.backup(JSON.parse(JSON.stringify(this.all_amenities[index].images)));
+    this.amen360Img.backup(JSON.parse(JSON.stringify(this.all_amenities[index].images_360)));
+    this.amenVideo.backup(JSON.parse(JSON.stringify(this.all_amenities[index].videos)));
   }
 
   modelAmenityCloseFun() {
@@ -471,20 +491,67 @@ export class AddProjectComponent implements OnInit {
   }
 
   saveAmenityImages() {
-    if (this.file2.files.length > 6) {
-      swal('Error', 'You can choose maximum of 6 images.', 'error'); return false;
+    // if (this.file2.files.length > 6) {
+    //   swal('Error', 'You can choose maximum of 6 images.', 'error'); return false;
+    // }
+    // if (this.file2.files.length < 1) {
+    //   // swal('Error', 'Please select atleast one image', 'error'); return false;
+    //   this.all_amenities[this.amenity_index].images = [];
+    //   this.modalAmenClose.nativeElement.click();
+    //   return false;
+    // }
+
+    // this.file2.upload().then(r => {
+    //   this.all_amenities[this.amenity_index].images = this.file2.files;
+    // });
+    // this.modalAmenClose.nativeElement.click();
+
+    let count = 0;
+    const totalFilesCount = this.file2.files.length + this.amen360Img.files.length + this.amenVideo.files.length;
+    if (totalFilesCount < 1) {
+      swal('Error', 'Please select atleast one image', 'error'); return false;
     }
+    console.log('this.file2.files', this.file2.files);
     if (this.file2.files.length < 1) {
       // swal('Error', 'Please select atleast one image', 'error'); return false;
       this.all_amenities[this.amenity_index].images = [];
       this.modalAmenClose.nativeElement.click();
       return false;
     }
-
     this.file2.upload().then(r => {
+      console.log('amen imag');
       this.all_amenities[this.amenity_index].images = this.file2.files;
     });
-    this.modalAmenClose.nativeElement.click();
+    this.amen360Img.upload().then(r => {
+      console.log('amen 360 imag');
+      this.all_amenities[this.amenity_index].images_360 = this.amen360Img.files;
+    });
+    this.amenVideo.upload().then(r => {
+      console.log('amen video');
+      this.all_amenities[this.amenity_index].videos = this.amenVideo.files;
+    });
+
+    // this.modalAmenClose.nativeElement.click();
+    console.log('===', this.file2, this.amen360Img, this.amenVideo);
+    console.log('==1=', this.file2);
+    console.log('===2', this.amen360Img);
+    console.log('===3', this.amenVideo);
+
+    this.file2.files.forEach(element => {
+      if (element.loading !== true) { console.log('==1111=='); count++; }
+    });
+    this.amen360Img.files.forEach(element => {
+      if (element.loading !== true) { console.log('==2222=='); count++; }
+    });
+    this.amenVideo.files.forEach(element => {
+      if (element.loading !== true) { console.log('==3333=='); count++; }
+    });
+
+    console.log('===totalFilesCount===', totalFilesCount, count);
+    if (count === totalFilesCount) {
+      console.log(this.all_amenities);
+      this.modalAmenClose.nativeElement.click();
+    }
   }
 
   modelTowerAmenityOpenFun(amenityObj: any, index: number) {
@@ -494,6 +561,8 @@ export class AddProjectComponent implements OnInit {
     // this.allTowerAmenityForEdit[index] = amenityObj;
     this.modalTowerAmenOpen.nativeElement.click();
     this.file2.backup(JSON.parse(JSON.stringify(this.allTowerAmenities[index].images)));
+    this.amen360Img.backup(JSON.parse(JSON.stringify(this.allTowerAmenities[index].images_360)));
+    this.amenVideo.backup(JSON.parse(JSON.stringify(this.allTowerAmenities[index].videos)));
   }
 
   modelTowerAmenityCloseFun() {
@@ -501,22 +570,74 @@ export class AddProjectComponent implements OnInit {
   }
 
   saveTowerAmenityImages() {
+    // if (this.file2.files.length > 6) {
+    //   swal('Error', 'You can choose maximum of 6 images.', 'error'); return false;
+    // }
+    // if (this.file2.files.length < 1) {
+    //   // swal('Error', 'Please select atleast one image', 'error'); return false;
+    //   this.allTowerAmenities[this.amenity_index].images = [];
+    //   // this.allTowerAmenityForEdit[this.amenity_index].images = [];
+    //   this.modalTowerAmenClose.nativeElement.click();
+    //   return false;
+    // }
+
+    // this.file2.upload().then(r => {
+    //   this.allTowerAmenities[this.amenity_index].images = this.file2.files;
+    //   // this.allTowerAmenityForEdit[this.amenity_index].images = this.file2.files;
+    // });
+    // this.modalTowerAmenClose.nativeElement.click();
+
+
+
+    let count = 0;
+    const totalFilesCount = this.file2.files.length + this.amen360Img.files.length + this.amenVideo.files.length;
     if (this.file2.files.length > 6) {
       swal('Error', 'You can choose maximum of 6 images.', 'error'); return false;
+    }
+    if (this.amen360Img.files.length > 6) {
+      swal('Error', 'You can choose maximum of 6 360 images.', 'error'); return false;
+    }
+    if (this.amenVideo.files.length > 6) {
+      swal('Error', 'You can choose maximum of 6 videos.', 'error'); return false;
     }
     if (this.file2.files.length < 1) {
       // swal('Error', 'Please select atleast one image', 'error'); return false;
       this.allTowerAmenities[this.amenity_index].images = [];
-      // this.allTowerAmenityForEdit[this.amenity_index].images = [];
       this.modalTowerAmenClose.nativeElement.click();
       return false;
     }
-
     this.file2.upload().then(r => {
+      console.log('amen imag');
       this.allTowerAmenities[this.amenity_index].images = this.file2.files;
-      // this.allTowerAmenityForEdit[this.amenity_index].images = this.file2.files;
     });
-    this.modalTowerAmenClose.nativeElement.click();
+    this.amen360Img.upload().then(r => {
+      console.log('amen 360 imag');
+      this.allTowerAmenities[this.amenity_index].images_360 = this.amen360Img.files;
+    });
+    this.amenVideo.upload().then(r => {
+      console.log('amen video');
+      this.allTowerAmenities[this.amenity_index].videos = this.amenVideo.files;
+    });
+
+    // this.modalAmenClose.nativeElement.click();
+    console.log('==1=', this.file2);
+    console.log('===2', this.amen360Img);
+    console.log('===3', this.amenVideo);
+
+    this.file2.files.forEach(element => {
+      if (element.loading !== true) { console.log('==1111=='); count++; }
+    });
+    this.amen360Img.files.forEach(element => {
+      if (element.loading !== true) { console.log('==2222=='); count++; }
+    });
+    this.amenVideo.files.forEach(element => {
+      if (element.loading !== true) { console.log('==3333=='); count++; }
+    });
+
+    console.log('===totalFilesCount===', totalFilesCount, count);
+    if (count === totalFilesCount) {
+      this.modalTowerAmenClose.nativeElement.click();
+    }
   }
 
 
@@ -648,12 +769,22 @@ export class AddProjectComponent implements OnInit {
   }
 
   editConfiguration(config, index) {
+    console.log('config', config);
     this.new_config_edit = index;
     this.new_config = JSON.parse(JSON.stringify(config));
     this.file3.image = config.floor_map_image;
     this.file4.files = [];
+    this.config360Img.files = [];
+    this.configVideo.files = [];
+
     config.images.forEach((item, i: number) => {
       this.file4.files.push(item);
+    });
+    config.images360.forEach((item, i: number) => {
+      this.config360Img.files.push(item);
+    });
+    config.videos.forEach((item, i: number) => {
+      this.configVideo.files.push(item);
     });
     this.openConfigPopup.nativeElement.click();
   }
@@ -675,32 +806,84 @@ export class AddProjectComponent implements OnInit {
 
   }
 
+  // addNewConfig() {
+  //   if (this.file4.files.length < 1) {
+  //     swal('Error', 'Please choose atleast one image for other images', 'error'); return false;
+  //   }
+  //   this.closeConfigPopup.nativeElement.click();
+  //   this.parameter.loading = true;
+  //   console.log('===', this.new_config);
+  //   this.file3.upload().then(r => {
+  //     this.file4.upload().then(r1 => {
+  //       this.parameter.loading = false;
+  //       this.new_config.floor_map_image = this.file3.image;
+  //       this.new_config.images = this.file4.files;
+  //       this.new_config.images360 = this.config360Img.files;
+  //       this.new_config.videos = this.configVideo.files;
+  //       if (this.new_config_edit >= 0) {
+  //         this.model.configurations[this.new_config_edit] = this.new_config;
+  //       } else {
+  //         this.model.configurations.push(this.new_config);
+  //       }
+  //       this.new_config = new Configuration();
+  //       console.log('conssss', this.model.configurations);
+  //     }, error => {
+  //       this.parameter.loading = false;
+  //     });
+  //   },
+  //     error => {
+  //       this.parameter.loading = false;
+  //     });
+  // }
+
   addNewConfig() {
+    let count = 0;
+    const totalFilesCount = this.file4.files.length + this.config360Img.files.length + this.configVideo.files.length;
     if (this.file4.files.length < 1) {
       swal('Error', 'Please choose atleast one image for other images', 'error'); return false;
     }
-    this.closeConfigPopup.nativeElement.click();
     this.parameter.loading = true;
     console.log('===', this.new_config);
     this.file3.upload().then(r => {
-      this.file4.upload().then(r1 => {
-        this.parameter.loading = false;
-        this.new_config.floor_map_image = this.file3.image;
-        this.new_config.images = this.file4.files;
-        if (this.new_config_edit >= 0) {
-          this.model.configurations[this.new_config_edit] = this.new_config;
-        } else {
-          this.model.configurations.push(this.new_config);
-        }
-        this.new_config = new Configuration();
-        console.log('conssss', this.model.configurations);
-      }, error => {
-        this.parameter.loading = false;
-      });
-    },
-      error => {
-        this.parameter.loading = false;
-      });
+      this.new_config.floor_map_image = this.file3.image;
+    });
+
+    this.file4.upload().then(r1 => {
+      this.new_config.images = this.file4.files;
+    });
+
+    this.config360Img.upload().then(r1 => {
+      this.new_config.images360 = this.config360Img.files;
+    });
+
+    this.configVideo.upload().then(r1 => {
+      this.new_config.videos = this.configVideo.files;
+    });
+    this.parameter.loading = false;
+    console.log('newconfig', this.new_config);
+    if (this.new_config_edit >= 0) {
+      this.model.configurations[this.new_config_edit] = this.new_config;
+    } else {
+      this.model.configurations.push(this.new_config);
+    }
+    console.log('conssss', this.model.configurations);
+
+    this.file4.files.forEach(element => {
+      if (element.loading !== true) { console.log('==1111=='); count++; }
+    });
+    this.config360Img.files.forEach(element => {
+      if (element.loading !== true) { console.log('==2222=='); count++; }
+    });
+    this.configVideo.files.forEach(element => {
+      if (element.loading !== true) { console.log('==3333=='); count++; }
+    });
+
+    console.log('===totalFilesCount===', totalFilesCount, count);
+    if (count === totalFilesCount) {
+      console.log(this.all_amenities);
+      this.new_config = new Configuration();
+      this.closeConfigPopup.nativeElement.click();
+    }
   }
 
   onCountryChange(obj) {
@@ -754,19 +937,40 @@ export class AddProjectComponent implements OnInit {
     modelSave.dev_logo = this.file5.image;
     modelSave.developer_image = this.file6.image;
     modelSave.amenities = this.all_amenities.filter(op => { if (op.selected === true) { return op; } });
+
+    console.log('addprorrrr', modelSave.amenities);
     if (modelSave.amenities && modelSave.amenities.length > 0) {
       modelSave.amenities.forEach(element => {
         const img = [];
+        const img_360 = [];
+        const vid = [];
+        // amenities images
+        console.log('modelSave.amenities', modelSave.amenities);
         element.images.forEach(e => {
           img.push(e.image);
         });
         element.images = img;
+
+        // amenities 360 images
+        element.images_360.forEach(e => {
+          img_360.push(e.image);
+        });
+        element.images360 = img_360;
+
+        // amenities videos
+        element.videos.forEach(e => {
+          vid.push(e.video);
+        });
+        element.videos = vid;
       });
     }
 
     if (modelSave.configurations && modelSave.configurations.length > 0) {
       modelSave.configurations.forEach(item => {
+        console.log('condddd', item);
         item.images = item.images.map(x => x.image);
+        item.images360 = item.images360.map(x => x.image);
+        item.videos = item.videos.map(x => x.video);
       });
     }
 
@@ -775,10 +979,22 @@ export class AddProjectComponent implements OnInit {
       modelSave.building_towers.forEach(element1 => {
         element1.amenities.forEach(element => {
           const img = [];
+          const img_360 = [];
+          const vid = [];
           element.images.forEach(e => {
             img.push(e.image);
           });
           element.images = img;
+
+          element.images_360.forEach(e => {
+            img_360.push(e.image);
+          });
+          element.images360 = img_360;
+
+          element.videos.forEach(e => {
+            vid.push(e.video);
+          });
+          element.videos = vid;
         });
       });
     }
@@ -890,6 +1106,20 @@ export class AddProjectComponent implements OnInit {
     this.file4.onSelectFile($event);
   }
 
+  config360ImgSelect($event) {
+    // if ((this.file4.files.length + $event.target.files.length) > 6) {
+    //   swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
+    //   return false;
+    // }
+    this.config360Img.onSelectFile($event);
+  }
+  configVideosSelect($event) {
+    // if ((this.file4.files.length + $event.target.files.length) > 6) {
+    //   swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
+    //   return false;
+    // }
+    this.configVideo.onSelectFile($event);
+  }
   file7Select($event) {
     this.file7.onSelectFile($event);
   }
@@ -948,6 +1178,8 @@ export class AddProjectComponent implements OnInit {
             this.all_amenities[index].selected = true;
             const pivot = this.model.amenities[i]['pivot'];
             this.all_amenities[index].images = pivot.images ? pivot.images : [];
+            this.all_amenities[index].images_360 = pivot.images_360 ? pivot.images_360 : [];
+            this.all_amenities[index].videos = pivot.videos ? pivot.videos : [];
           }
         }
       }
@@ -967,6 +1199,8 @@ export class AddProjectComponent implements OnInit {
         element.amenitiesId = element.amenities.map(op => {
           const pivot = op['pivot'];
           op.images = pivot.images ? pivot.images : [];
+          op.images_360 = pivot.images_360 ? pivot.images_360 : [];
+          op.videos = pivot.videos ? pivot.videos : [];
           return op.id;
         });
       });
@@ -1036,7 +1270,7 @@ export class AddProjectComponent implements OnInit {
     // }
     if (!this.newTower.tower_name) { swal('Error', 'Please enter tower name.', 'error'); return false; }
     if (!this.newTower.num_of_floors && this.newTower.num_of_floors !== 0) {
-      swal('Error', 'Please enter no. of floors.', 'error'); return false; }
+      swal('Error', 'Please enter number of floors.', 'error'); return false; }
     if (!this.newTower.possession_status_id) { swal('Error', 'Please choose possession status.', 'error'); return false; }
     // if (!this.newTower.launch_date) { swal('Error', 'Please enter launch date.', 'error'); return false; }
 
@@ -1081,6 +1315,8 @@ export class AddProjectComponent implements OnInit {
           this.allTowerAmenityForEdit[index1].selected = btower.amenities[i].selected;
           const pivot = btower.amenities[i]['pivot'];
           this.allTowerAmenityForEdit[index1].images = pivot.images ? pivot.images : [];
+          this.allTowerAmenityForEdit[index1].images_360 = pivot.images_360 ? pivot.images_360 : [];
+          this.allTowerAmenityForEdit[index1].videos = pivot.videos ? pivot.videos : [];
         }
       }
     }
@@ -1114,7 +1350,7 @@ export class AddProjectComponent implements OnInit {
     this.model.building_towers[index].launch_date = btower.launch_date;
     // this.allTowerAmenityForEdit = btower.amenities;
     if (!this.model.building_towers[index].tower_name) { swal('Error', 'Please enter tower name.', 'error'); return false; }
-    if (!this.model.building_towers[index].num_of_floors) { swal('Error', 'Please enter no. of floors.', 'error'); return false; }
+    if (!this.model.building_towers[index].num_of_floors) { swal('Error', 'Please enter number of floors.', 'error'); return false; }
     if (!this.model.building_towers[index].possession_status_id) {
       swal('Error', 'Please choose possession status.', 'error'); return false; }
     // if (!this.model.building_towers[index].launch_date) { swal('Error', 'Please enter launch date.', 'error'); return false; }
@@ -1235,6 +1471,22 @@ console.log('aaaa', this.model.building_towers[index]);
   addMaritalStatus(checked: boolean, i: number) {
     this.testMarital[i].checked = this.testMarital[i].checked === true ? false : true;
     console.log('aaa', this.testMarital);
+  }
+
+  amen360ImagesSelect($event) {
+    if ((this.amen360Img.files.length + $event.target.files.length) > 6) {
+      swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
+      return false;
+    }
+    this.amen360Img.onSelectFile($event);
+  }
+
+  amenVideosSelect($event) {
+    if ((this.amenVideo.files.length + $event.target.files.length) > 6) {
+      swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
+      return false;
+    }
+    this.amenVideo.onSelectFile($event);
   }
 
 }

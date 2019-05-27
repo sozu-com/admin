@@ -1,4 +1,4 @@
-export class FileUpload {
+export class VideoUpload {
 
     http: any; env: any; us: any;
 
@@ -40,10 +40,6 @@ export class FileUpload {
              }
 
              this.loading = false;
-             // if(upload == true && index== (total-1)){
-             //   console.log('uploading');
-             //   this.upload();
-             // }
              if (index == (event.target.files.length - 1) && upload == true) {
                  this.upload().then(r => {
                      this.loading = false;
@@ -52,9 +48,7 @@ export class FileUpload {
            };
            reader.readAsDataURL(event.target.files[index]);
          }
-
        }
-
      }
 
      getFile() {
