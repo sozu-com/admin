@@ -138,6 +138,13 @@ export class AddPropertyComponent implements OnInit {
       }
       this.parameter.property_id = params['property_id'];
       if (this.parameter.property_id === '0') {
+
+        this.us.postDataApi('getPropertyAmenities', {}).subscribe(res => {
+          this.parameter.amenities = res.data.map(item => {
+            item.selected = false; item.images = []; item.images_360 = []; item.images_360 = []; item.videos = []; return item;
+          });
+        });
+
         this.parameter.property_id = '';
         this.testMarital[0].checked = true;
         this.model.marital_status = [1];
@@ -163,7 +170,7 @@ export class AddPropertyComponent implements OnInit {
     this.getCountries('');
     // this.getConfigurations();
     this.getPropertyTypes();
-    this.getAmenities();
+    this.getPropertyAmenities();
     // this.getBanks();
     // this.getBuildingSpecificTypes();
     // this.getPaymentStatuses();
@@ -315,6 +322,7 @@ export class AddPropertyComponent implements OnInit {
       this.setAvailableStatus(0);
       // this.model.availabilityStatusId = this.availabilityStatus[0].id;
     }
+    this.model.amenities = data.amenities;
     this.model.building_id = data.building_id;
     this.model.building_towers_id = data.building_towers_id;
     this.model.floor_num = data.floor_num;
@@ -366,9 +374,32 @@ export class AddPropertyComponent implements OnInit {
     if (this.building.id === '') {
       this.showSearch = true;
     }
-    for (let index = 0; index < data.amenities.length; index++) {
-      this.addAmenity(data.amenities[index]);
-    }
+
+
+    this.us.postDataApi('getPropertyAmenities', {}).subscribe(res => {
+      this.parameter.amenities = res.data.map(item => {
+        item.selected = false; item.images = []; item.images_360 = []; item.images_360 = []; item.videos = []; return item;
+      });
+
+      for (let index = 0; index < this.parameter.amenities.length; index++) {
+        console.log('222222');
+        if (this.model.amenities && this.model.amenities.length > 0) {
+          console.log('modeleeee', this.model.amenities, this.parameter.amenities);
+          for (let i = 0; i < this.model.amenities.length; i++) {
+            if (this.model.amenities[i].id === this.parameter.amenities[index].id) {
+              this.parameter.amenities[index].selected = true;
+              const pivot = this.model.amenities[i]['pivot'];
+              this.parameter.amenities[index].images = pivot.images ? pivot.images : [];
+              this.parameter.amenities[index].images_360 = pivot.images_360 ? pivot.images_360 : [];
+              this.parameter.amenities[index].videos = pivot.videos ? pivot.videos : [];
+            }
+          }
+        }
+      }
+    });
+    // for (let index = 0; index < data.amenities.length; index++) {
+    //   this.addAmenity(data.amenities[index]);
+    // }
 
     for (let index = 0; index < data.banks.length; index++) {
       this.addBank(data.banks[index]);
@@ -539,13 +570,13 @@ export class AddPropertyComponent implements OnInit {
       );
   }
 
-  getAmenities() {
+  getPropertyAmenities() {
     const input = new FormData();
     this.us.postDataApi('getPropertyAmenities', input)
       .subscribe(
         success => {
           this.parameter.amenities = success['data'].map(item => {
-            item.selected = false; item.images = []; item.images360 = []; item.videos = []; return item;
+            item.selected = false; item.images = []; item.images_360 = []; item.videos = []; return item;
           });
         }
       );
@@ -555,7 +586,11 @@ export class AddPropertyComponent implements OnInit {
     this.amenity_index = index;
     this.amenity_obj = amenityObj;
     this.modalAmenOpen.nativeElement.click();
-    this.amenMoreImg.backup(JSON.parse(JSON.stringify(this.parameter.amenities[index].images)));
+    this.amenMoreImg.backup(JSON.parse(JSON.stringify(this.parameter.amenities[index].images ?
+      this.parameter.amenities[index].images : [])));
+    this.amen360Img.backup(JSON.parse(JSON.stringify(this.parameter.amenities[index].images_360 ?
+      this.parameter.amenities[index].images_360 : [])));
+    this.amenVideo.backup(JSON.parse(JSON.stringify(this.parameter.amenities[index].videos ? this.parameter.amenities[index].videos : [])));
   }
 
   modelAmenityCloseFun() {
@@ -574,6 +609,24 @@ export class AddPropertyComponent implements OnInit {
       const removeIndex = this.parameter.amenities.findIndex(x => x.id == amen.id);
       this.parameter.amenities.splice(removeIndex, 1);
     }
+    // this.all_amenities = res.data.map(item => {
+    //   item.selected = false; item.images = []; item.images360 = []; item.images_360 = []; item.videos = []; return item;
+    // });
+    // this.allTowerAmenities = JSON.parse(JSON.stringify(this.all_amenities));
+    // this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
+
+    // for (let index = 0; index < this.all_amenities.length; index++) {
+    //   for (let i = 0; i < this.model.amenities.length; i++) {
+    //     if (this.model.amenities[i].id === this.all_amenities[index].id) {
+    //       this.all_amenities[index].selected = true;
+    //       const pivot = this.model.amenities[i]['pivot'];
+    //       this.all_amenities[index].images = pivot.images ? pivot.images : [];
+    //       this.all_amenities[index].images_360 = pivot.images_360 ? pivot.images_360 : [];
+    //       this.all_amenities[index].videos = pivot.videos ? pivot.videos : [];
+    //     }
+    //   }
+    // }
+
   }
 
   getSelectedAmenityByName(selectedName: string) {
@@ -907,6 +960,43 @@ export class AddPropertyComponent implements OnInit {
         if (this.model.parking === 0) {
           this.model.parking_count = 0;
           this.model.parking_for_sale = 0;
+        }
+
+        // amemnities images
+        if (this.parameter.amenities && this.parameter.amenities.length > 0) {
+          this.parameter.amenities.forEach(element => {
+            const img = [];
+            const img_360 = [];
+            const vid = [];
+            // amenities images
+            console.log('modelSave.amenities', this.parameter.amenities);
+            if (element.images && element.images.length > 0) {
+              element.images.forEach(e => {
+                img.push(e.image);
+              });
+            }
+            element.images = img;
+
+            // amenities 360 images
+            if (element.images_360 && element.images_360.length > 0) {
+              element.images_360.forEach(e => {
+                img_360.push(e.image);
+              });
+            }
+            element.images360 = img_360;
+
+            // amenities videos
+            if (element.videos && element.videos.length > 0) {
+              element.videos.forEach(e => {
+                let s = {};
+                s = {'video': e.video, 'thumb': e.thumb};
+                vid.push(s);
+              });
+            }
+            element.videos = vid;
+          });
+
+          this.model.amenities = this.parameter.amenities.filter(op => { if (op.selected === true) { return op; } });
         }
         // added building_id and step cuz need to update sttaus and step
         input.append('building_id', this.model.building_id);
@@ -1294,15 +1384,15 @@ export class AddPropertyComponent implements OnInit {
     }
     this.amenMoreImg.upload().then(r => {
       console.log('amen imag');
-      this.model.amenities.images = this.amenMoreImg.files;
+      this.parameter.amenities[this.amenity_index].images = this.amenMoreImg.files;
     });
     this.amen360Img.upload().then(r => {
       console.log('amen 360 imag');
-      this.model.amenities.images360 = this.amen360Img.files;
+      this.parameter.amenities[this.amenity_index].images_360 = this.amen360Img.files;
     });
     this.amenVideo.upload().then(r => {
       console.log('amen video');
-      this.model.amenities.videos = this.amenVideo.files;
+      this.parameter.amenities[this.amenity_index].videos = this.amenVideo.files;
     });
 
     // this.modalAmenClose.nativeElement.click();

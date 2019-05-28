@@ -33,7 +33,8 @@ export class VideoUpload {
              } else {
                const model: any = {};
                model.image = e.target.result;
-               model.file = event.target.files[index];
+               model.video = event.target.files[index];
+               model.thumb = event.target.files[index];
                model.loading = false;
                this.files.push(model);
                console.log(this.files);
@@ -68,13 +69,15 @@ export class VideoUpload {
                    if (item.file) {
                     console.log('1111', item.file, item.file.type);
                     const formData = new FormData();
-                    formData.append('image', item.file);
+                    formData.append('video', item.file);
+                    formData.append('thumb', item.file);
                     // console.log(item);
                     item.loading = true;
-                    await this.us.postDataApi('saveImage', formData).subscribe(res => {
+                    await this.us.postDataApi('saveVideo', formData).subscribe(res => {
                       // console.log(res);
                       delete item.file;
-                      item.image = res['data'].image;
+                      item.video = res['data'].video;
+                      item.image = res['data'].thumb;
                       item.loading = false;
                       if (i == total) {resolve(); }/* resolve on last loop */
                       i++;
@@ -91,7 +94,8 @@ export class VideoUpload {
                if (this.single === true && this.file) {
                 console.log('22222', this.file);
                  const formData = new FormData();
-                 formData.append('image', this.file);
+                 formData.append('video', this.file);
+                 formData.append('thumb', this.file);
                  this.image.loading = true;
                  this.us.postDataApi('saveImage', formData).subscribe(res => {
                    this.file = '';

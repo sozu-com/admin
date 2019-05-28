@@ -98,11 +98,11 @@ export class FileUpload {
                 console.log('22222', this.file);
                  const formData = new FormData();
                  formData.append('image', this.file);
-                 this.image.loading = true;
+                //  this.image.loading = true;
                  this.us.postDataApi('saveImage', formData).subscribe(res => {
                    this.file = '';
                    this.image = res['data'].image;
-                   this.image.loading = false;
+                  //  this.image.loading = false;
                    resolve();
                  },
                  error => {

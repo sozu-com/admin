@@ -86,6 +86,10 @@ p.p11 { color: #434B52; font-size: 11px; line-height: 18px; }
 .paddingLR20{padding: 0px 20px;}
 .height200{height: 200px !important; }
 .width100{width: 100% !important;}
+.width80{width: 80% !important;}
+.width87{width: 87% !important;}
+.width78{width: 78% !important;}
+.width15{width: 15% !important;}
 .bdr-right{
 border-right:solid 1px #EDEDED; 
 }
@@ -1760,6 +1764,21 @@ font-size: 18px;
 }
 .add-project-img-more {position:relative; background-color:#f9f9f9; width: 232px; height:144px; margin-top:30px;   }
 .add-project-img-more input[type=file]{
+text-indent:1000px; 
+overflow: hidden;
+position: absolute;
+width: 100%;
+height:100%;
+left:0;
+right:0;
+top:0;
+bottom:0; 
+z-index:2;  
+font-size:0;
+cursor:pointer;     
+}
+.add-config-media {position:relative; background-color:#f9f9f9;}
+.add-config-media input[type=file]{
 text-indent:1000px; 
 overflow: hidden;
 position: absolute;

@@ -236,17 +236,16 @@
 
               <div class="col-12">
                 <div class="form-group-3 marginB0">
-                  <label>Amenities available
-                    <!-- <span class="color-red">*</span> -->
-                  </label>
+                  <label>Amenities available</label>
                   <ul class="loc-tags-group">
                     <li *ngFor="let a of all_amenities; let i=index" [ngClass]="a.selected==true ? 'width100' : ''">
-                      <span *ngIf="a.selected==true" class="width100 amen-img">{{a.name}} 
+                      <span *ngIf="a.selected==true" class="width78 amen-img">{{a.name}} 
                         <b class="pull-right" (click)="a.selected = false" title="Remove"><img src="assets/img/close-tag.png" /></b>
                       </span>
+                      <a *ngIf="a.selected==true" (click)="modelAmenityOpenFun(a, i)" class="btn-third btn btn-green" href="javascript://">Add/View</a>
                       <div *ngIf="a.selected==true" class="spacer30"></div>
                       
-                      <div *ngIf="a.selected==true">
+                      <!-- <div *ngIf="a.selected==true">
                         <div class="uploaded-img-block">
                           <div class="uploaded-img2">
                             <img src="assets/img/placeholder.png" class="u-img" alt="img">
@@ -254,14 +253,14 @@
                               <p class="green-color" (click)="modelAmenityOpenFun(a, i)">+ Add more images</p>
                             </div>
                           </div>
-                          <!-- <div class="uploaded-img2" *ngFor="let item of a.images.slice(0,3); let j=index">
+                          <div class="uploaded-img2" *ngFor="let item of a.images.slice(0,3); let j=index">
                             <img *ngIf="item && j<4" onerror="this.src='assets/img/placeholder.png'" class="u-img" [src]="item.image" alt="img">
                             <div class="upload-caption">
                               <p *ngIf="a.images?.length > 3 && j==2" class="number" (click)="modelAmenityOpenFun(a, i)">+{{a?.images?.length-3}}</p>
                             </div>
-                          </div> -->
+                          </div>
                         </div>
-                      </div>
+                      </div> -->
 
                     </li>
                   </ul>
@@ -507,12 +506,14 @@
 
                     <ul class="loc-tags-group">
                       <li *ngFor="let at of allTowerAmenities; let j=index" [ngClass]="at.selected==true ? 'width100' : ''">
-                        <span *ngIf="at.selected==true" class="width100 amen-img">{{at.name}} 
+                        <span *ngIf="at.selected==true" class="width78 amen-img">{{at.name}} 
                           <b class="pull-right" (click)="at.selected = false" title="Remove"><img src="assets/img/close-tag.png" /></b>
                         </span>
+                        <a *ngIf="at.selected==true" (click)="modelTowerAmenityOpenFun(at, j)" class="btn-third btn btn-green" href="javascript://">Add/View</a>
                         <div *ngIf="at.selected==true" class="spacer30"></div>
                         
-                        <div *ngIf="at.selected==true">
+                        
+                        <!-- <div *ngIf="at.selected==true">
                           <div class="uploaded-img-block">
                             <div class="uploaded-img2">
                               <img src="assets/img/placeholder.png" class="u-img" alt="img">
@@ -527,7 +528,7 @@
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </div> -->
                       </li>
                     </ul>
 
@@ -606,12 +607,13 @@
 
                     <ul class="loc-tags-group" *ngIf="model?.building_tower_edit_index==i">
                       <li *ngFor="let at of btower?.amenities; let j=index" [ngClass]="at.selected==true ? 'width100' : ''">
-                        <span *ngIf="at.selected==true" class="width100 amen-img">{{at.name}} 
+                        <span *ngIf="at.selected==true" class="width78 amen-img">{{at.name}} 
                           <b class="pull-right" (click)="at.selected = false" title="Remove"><img src="assets/img/close-tag.png" /></b>
                         </span>
+                        <a *ngIf="at.selected==true" (click)="modelTowerAmenityOpenFun(at, j)" class="btn-third btn btn-green" href="javascript://">Add/View</a>
                         <div *ngIf="at.selected==true" class="spacer30"></div>
                         
-                        <div *ngIf="at.selected==true">
+                        <!-- <div *ngIf="at.selected==true">
                           <div class="uploaded-img-block">
                             <div class="uploaded-img2">
                               <img src="assets/img/placeholder.png" class="u-img" alt="img">
@@ -626,7 +628,7 @@
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </div> -->
                       </li>
                     </ul>
 
@@ -967,7 +969,7 @@
         </div>
 
         <!-- videos -->
-        <div class="uploaded-img-block">
+        <!-- <div class="uploaded-img-block">
           <p>Videos</p>
           <div class="uploaded-img" *ngFor="let item of amenVideo.files; let i=index">
             <a class="remove" (click)="amenVideo.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
@@ -979,7 +981,7 @@
         <div class="add-more-images dimensions">
           <input type="file" name="add-more" multiple max="6" accept="video/*" (change)="amenVideosSelect($event)">
           <span>+ Add more videos</span>
-        </div>
+        </div> -->
       </div>
 
       <!-- Modal footer -->
@@ -1054,7 +1056,7 @@
         </div>
 
         <!-- videos -->
-        <div class="uploaded-img-block">
+        <!-- <div class="uploaded-img-block">
           <p>Videos</p>
           <div class="uploaded-img" *ngFor="let item of amenVideo.files; let i=index">
             <a class="remove" (click)="amenVideo.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
@@ -1066,7 +1068,7 @@
         <div class="add-more-images dimensions">
           <input type="file" name="add-more" multiple max="6" accept="video/*" (change)="amenVideosSelect($event)">
           <span>+ Add more videos</span>
-        </div>
+        </div> -->
       </div>
 
       <!-- Modal footer -->
@@ -1188,6 +1190,14 @@
               <label>Other Images</label>
               <div class="spacer30"></div>
               <div class="uploaded-img-block">
+                <!-- showing add more image for selection -->
+                <div class="uploaded-img add-config-media">
+                  <input type="file" name="add-more-images" multiple max="6" accept="image/*" (change)="file4Select($event)">
+                  <div class="upload-caption">
+                    <p class="green-color">+ Add more images</p>
+                  </div>
+                </div>
+                <!-- showing all selected images -->
                 <div class="uploaded-img" *ngFor="let item of file4.files; let i=index">
                   <a class="remove" (click)="file4.remove(i)">
                     <img src="assets/img/remove-icon.png" alt="img">
@@ -1198,17 +1208,25 @@
                 </div>
               </div>
               
-              <div class="add-project-img-more">
+              <!-- <div class="add-project-img-more">
                 <input type="file" name="add-more-images" multiple max="6" accept="image/*" (change)="file4Select($event)">
                 <div class="upload-caption">
                   <p class="green-color">+ Add more images</p>
                 </div>
-              </div>
+              </div> -->
 
 
-              <label>360 Images</label>
+              <label>360<span>&#176;</span> Images</label>
               <div class="spacer30"></div>
               <div class="uploaded-img-block">
+                <!-- showing add more image for selection -->
+                <div class="uploaded-img add-config-media">
+                  <input type="file" name="add-more-images" multiple max="6" accept="image/*" (change)="config360ImgSelect($event)">
+                  <div class="upload-caption">
+                      <p class="green-color">+ Add more 360<span>&#176;</span> images</p>
+                  </div>
+                </div>
+                <!-- showing all selected images -->
                 <div class="uploaded-img" *ngFor="let item of config360Img.files; let i=index">
                   <a class="remove" (click)="config360Img.remove(i)">
                     <img src="assets/img/remove-icon.png" alt="img">
@@ -1219,17 +1237,23 @@
                 </div>
               </div>
               
-              <div class="add-project-img-more">
+              <!-- <div class="add-project-img-more">
                 <input type="file" name="add-more-images" multiple max="6" accept="image/*" (change)="config360ImgSelect($event)">
                 <div class="upload-caption">
-                  <p class="green-color">+ Add more 360 images</p>
+                  <p class="green-color">+ Add more 360<span>&#176;</span> images</p>
                 </div>
-              </div>
+              </div> -->
 
 
-              <label>Videos</label>
+              <!-- <label>Videos</label>
               <div class="spacer30"></div>
               <div class="uploaded-img-block">
+                <div class="uploaded-img add-config-media">
+                  <input type="file" name="add-more-images" multiple max="6" accept="image/*" (change)="config360ImgSelect($event)">
+                  <div class="upload-caption">
+                      <p class="green-color">+ Add more videos</p>
+                  </div>
+                </div>
                 <div class="uploaded-img" *ngFor="let item of configVideo.files; let i=index">
                   <a class="remove" (click)="configVideo.remove(i)">
                     <img src="assets/img/remove-icon.png" alt="img">
@@ -1238,14 +1262,14 @@
                   <img *ngIf="!item.image" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
                   <div *ngIf="item.loading" class="loaderr"></div>
                 </div>
-              </div>
+              </div> -->
               
-              <div class="add-project-img-more">
+              <!-- <div class="add-project-img-more">
                 <input type="file" name="add-more-images" multiple max="6" accept="image/*" (change)="configVideosSelect($event)">
                 <div class="upload-caption">
                   <p class="green-color">+ Add more videos</p>
                 </div>
-              </div>
+              </div> -->
           
             </div>
           </div>

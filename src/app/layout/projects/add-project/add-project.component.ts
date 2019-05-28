@@ -154,6 +154,7 @@ export class AddProjectComponent implements OnInit {
         this.admin.postDataApi('getProjectById', { building_id: this.id }).subscribe(r => {
           this.parameter.loading = false;
           this.model = JSON.parse(JSON.stringify(r.data));
+          // this.model.videos = this.model.videos && this.model.videos.length > 0 ? JSON.parse(this.model.videos) : [];
           if (r.data['locality']) {
             this.setCountryToLocality(r.data['locality']);
           }
@@ -186,7 +187,9 @@ export class AddProjectComponent implements OnInit {
           this.file5.image = this.model.developer.image;
           this.file6.image = this.model.developer.developer_image;
           this.admin.postDataApi('getAmenities', {}).subscribe(res => {
-            this.all_amenities = res.data.map(item => { item.selected = false; item.images = []; return item; });
+            this.all_amenities = res.data.map(item => {
+              item.selected = false; item.images = []; item.images360 = []; item.images_360 = []; item.videos = []; return item;
+            });
             this.allTowerAmenities = JSON.parse(JSON.stringify(this.all_amenities));
             this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
 
@@ -262,7 +265,9 @@ export class AddProjectComponent implements OnInit {
           this.file5.image = this.model.developer.image;
           this.file6.image = this.model.developer.developer_image;
           this.admin.postDataApi('getAmenities', {}).subscribe(res => {
-            this.all_amenities = res.data.map(item => { item.selected = false; return item; });
+            this.all_amenities = res.data.map(item => {
+              item.selected = false; item.images = []; item.images360 = []; item.images_360 = []; item.videos = []; return item;
+            });
             this.allTowerAmenities = JSON.parse(JSON.stringify(this.all_amenities));
             this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
 
@@ -315,7 +320,9 @@ export class AddProjectComponent implements OnInit {
         this.model.building_tower_edit_index = '-1';
         this.canEditdeveloperInfo = true;
         this.admin.postDataApi('getAmenities', {}).subscribe(res => {
-          this.all_amenities = res.data.map(item => { item.selected = false; item.images = []; return item; });
+          this.all_amenities = res.data.map(item => {
+            item.selected = false; item.images = []; item.images360 = []; item.images_360 = []; item.videos = []; return item;
+          });
           this.allTowerAmenities = JSON.parse(JSON.stringify(this.all_amenities));
           this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
 
@@ -432,7 +439,10 @@ export class AddProjectComponent implements OnInit {
     const input = {keyword: ''};
     input.keyword = keyword;
     this.admin.postDataApi('getAmenities', input).subscribe(res => {
-      this.all_amenities = res.data.map(item => { item.selected = false; item.images = []; return item; });
+      // this.all_amenities = res.data.map(item => { item.selected = false; item.images = []; return item; });
+      this.all_amenities = res.data.map(item => {
+        item.selected = false; item.images = []; item.images360 = []; item.images_360 = []; item.videos = []; return item;
+      });
       this.allTowerAmenities = JSON.parse(JSON.stringify(this.all_amenities));
       this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
 
@@ -481,9 +491,10 @@ export class AddProjectComponent implements OnInit {
     this.amenity_index = index;
     this.amenity_obj = amenityObj;
     this.modalAmenOpen.nativeElement.click();
-    this.file2.backup(JSON.parse(JSON.stringify(this.all_amenities[index].images)));
-    this.amen360Img.backup(JSON.parse(JSON.stringify(this.all_amenities[index].images_360)));
-    this.amenVideo.backup(JSON.parse(JSON.stringify(this.all_amenities[index].videos)));
+    this.file2.backup(JSON.parse(JSON.stringify(this.all_amenities[index].images ? this.all_amenities[index].images : [])));
+    this.amen360Img.backup(JSON.parse(JSON.stringify(this.all_amenities[index].images_360 ?
+      this.all_amenities[index].images_360 : [])));
+    this.amenVideo.backup(JSON.parse(JSON.stringify(this.all_amenities[index].videos ? this.all_amenities[index].videos : [])));
   }
 
   modelAmenityCloseFun() {
@@ -512,12 +523,12 @@ export class AddProjectComponent implements OnInit {
       swal('Error', 'Please select atleast one image', 'error'); return false;
     }
     console.log('this.file2.files', this.file2.files);
-    if (this.file2.files.length < 1) {
-      // swal('Error', 'Please select atleast one image', 'error'); return false;
-      this.all_amenities[this.amenity_index].images = [];
-      this.modalAmenClose.nativeElement.click();
-      return false;
-    }
+    // if (this.file2.files.length < 1) {
+    //   // swal('Error', 'Please select atleast one image', 'error'); return false;
+    //   this.all_amenities[this.amenity_index].images = [];
+    //   this.modalAmenClose.nativeElement.click();
+    //   return false;
+    // }
     this.file2.upload().then(r => {
       console.log('amen imag');
       this.all_amenities[this.amenity_index].images = this.file2.files;
@@ -560,9 +571,11 @@ export class AddProjectComponent implements OnInit {
     this.allTowerAmenities[index] = amenityObj;
     // this.allTowerAmenityForEdit[index] = amenityObj;
     this.modalTowerAmenOpen.nativeElement.click();
-    this.file2.backup(JSON.parse(JSON.stringify(this.allTowerAmenities[index].images)));
-    this.amen360Img.backup(JSON.parse(JSON.stringify(this.allTowerAmenities[index].images_360)));
-    this.amenVideo.backup(JSON.parse(JSON.stringify(this.allTowerAmenities[index].videos)));
+    console.log('this.allTowerAmenities[index]', this.allTowerAmenities[index]);
+    this.file2.backup(JSON.parse(JSON.stringify(this.allTowerAmenities[index].images ? this.allTowerAmenities[index].images : [])));
+    this.amen360Img.backup(JSON.parse(JSON.stringify(this.allTowerAmenities[index].images_360 ?
+      this.allTowerAmenities[index].images_360 : [])));
+    this.amenVideo.backup(JSON.parse(JSON.stringify(this.allTowerAmenities[index].videos ? this.allTowerAmenities[index].videos : [])));
   }
 
   modelTowerAmenityCloseFun() {
@@ -600,12 +613,12 @@ export class AddProjectComponent implements OnInit {
     if (this.amenVideo.files.length > 6) {
       swal('Error', 'You can choose maximum of 6 videos.', 'error'); return false;
     }
-    if (this.file2.files.length < 1) {
-      // swal('Error', 'Please select atleast one image', 'error'); return false;
-      this.allTowerAmenities[this.amenity_index].images = [];
-      this.modalTowerAmenClose.nativeElement.click();
-      return false;
-    }
+    // if (this.file2.files.length < 1) {
+    //   // swal('Error', 'Please select atleast one image', 'error'); return false;
+    //   this.allTowerAmenities[this.amenity_index].images = [];
+    //   this.modalTowerAmenClose.nativeElement.click();
+    //   return false;
+    // }
     this.file2.upload().then(r => {
       console.log('amen imag');
       this.allTowerAmenities[this.amenity_index].images = this.file2.files;
@@ -761,6 +774,8 @@ export class AddProjectComponent implements OnInit {
     this.new_config_edit = -1;
     this.file3.image = '';
     this.file4.files = [];
+    this.config360Img.files = [];
+    this.configVideo.files = [];
   }
 
   selectConfiguration(id: string, parentModel: any) {
@@ -842,7 +857,7 @@ export class AddProjectComponent implements OnInit {
     if (this.file4.files.length < 1) {
       swal('Error', 'Please choose atleast one image for other images', 'error'); return false;
     }
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
     console.log('===', this.new_config);
     this.file3.upload().then(r => {
       this.new_config.floor_map_image = this.file3.image;
@@ -859,14 +874,6 @@ export class AddProjectComponent implements OnInit {
     this.configVideo.upload().then(r1 => {
       this.new_config.videos = this.configVideo.files;
     });
-    this.parameter.loading = false;
-    console.log('newconfig', this.new_config);
-    if (this.new_config_edit >= 0) {
-      this.model.configurations[this.new_config_edit] = this.new_config;
-    } else {
-      this.model.configurations.push(this.new_config);
-    }
-    console.log('conssss', this.model.configurations);
 
     this.file4.files.forEach(element => {
       if (element.loading !== true) { console.log('==1111=='); count++; }
@@ -881,6 +888,15 @@ export class AddProjectComponent implements OnInit {
     console.log('===totalFilesCount===', totalFilesCount, count);
     if (count === totalFilesCount) {
       console.log(this.all_amenities);
+      this.parameter.loading = false;
+      console.log('newconfig', this.new_config);
+      if (this.new_config_edit >= 0) {
+        this.model.configurations[this.new_config_edit] = this.new_config;
+      } else {
+        this.model.configurations.push(this.new_config);
+      }
+      console.log('conssss', this.model.configurations);
+
       this.new_config = new Configuration();
       this.closeConfigPopup.nativeElement.click();
     }
@@ -928,7 +944,8 @@ export class AddProjectComponent implements OnInit {
       modelSave.images360 = modelSave.images360.map(r => r.image);
     }
 
-    modelSave.videos = modelSave.videos ? JSON.stringify(modelSave.videos) : JSON.stringify([]);
+    // modelSave.videos = modelSave.videos ? JSON.stringify(modelSave.videos) : JSON.stringify([]);
+    modelSave.videos = modelSave.videos ? modelSave.videos : JSON.stringify([]);
     modelSave.dev_name = modelSave.developer.name;
     modelSave.dev_email = modelSave.developer.email;
     modelSave.dev_phone = modelSave.developer.phone;
@@ -946,21 +963,29 @@ export class AddProjectComponent implements OnInit {
         const vid = [];
         // amenities images
         console.log('modelSave.amenities', modelSave.amenities);
-        element.images.forEach(e => {
-          img.push(e.image);
-        });
+        if (element.images && element.images.length > 0) {
+          element.images.forEach(e => {
+            img.push(e.image);
+          });
+        }
         element.images = img;
 
         // amenities 360 images
-        element.images_360.forEach(e => {
-          img_360.push(e.image);
-        });
+        if (element.images_360 && element.images_360.length > 0) {
+          element.images_360.forEach(e => {
+            img_360.push(e.image);
+          });
+        }
         element.images360 = img_360;
 
         // amenities videos
-        element.videos.forEach(e => {
-          vid.push(e.video);
-        });
+        if (element.videos && element.videos.length > 0) {
+          element.videos.forEach(e => {
+            let s = {};
+            s = {'video': e.video, 'thumb': e.thumb};
+            vid.push(s);
+          });
+        }
         element.videos = vid;
       });
     }
@@ -970,7 +995,14 @@ export class AddProjectComponent implements OnInit {
         console.log('condddd', item);
         item.images = item.images.map(x => x.image);
         item.images360 = item.images360.map(x => x.image);
-        item.videos = item.videos.map(x => x.video);
+        // item.videos = item.videos.map(x => x.video);
+        const vid = [];
+        item.videos.forEach(e => {
+          let s = {};
+          s = {'video': e.video, 'thumb': e.thumb};
+          vid.push(s);
+        });
+        item.videos = vid;
       });
     }
 
@@ -978,22 +1010,31 @@ export class AddProjectComponent implements OnInit {
     if (modelSave.building_towers && modelSave.building_towers.length > 0) {
       modelSave.building_towers.forEach(element1 => {
         element1.amenities.forEach(element => {
+          console.log('element', element);
           const img = [];
           const img_360 = [];
           const vid = [];
-          element.images.forEach(e => {
-            img.push(e.image);
-          });
+          if (element.images && element.images.length > 0) {
+            element.images.forEach(e => {
+              img.push(e.image);
+            });
+          }
           element.images = img;
 
-          element.images_360.forEach(e => {
-            img_360.push(e.image);
-          });
+          if (element.images_360 && element.images_360.length > 0) {
+            element.images_360.forEach(e => {
+              img_360.push(e.image);
+            });
+          }
           element.images360 = img_360;
 
-          element.videos.forEach(e => {
-            vid.push(e.video);
-          });
+          if (element.videos && element.videos.length > 0) {
+            element.videos.forEach(e => {
+              let s = {};
+              s = {'video': e.video, 'thumb': e.thumb};
+              vid.push(s);
+            });
+          }
           element.videos = vid;
         });
       });

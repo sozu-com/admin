@@ -834,12 +834,13 @@
           <label>Amenities available</label>
           <ul class="loc-tags-group">
             <li *ngFor="let a of parameter.amenities; let i=index" [ngClass]="a.selected==true ? 'width100' : ''">
-              <span *ngIf="a.selected==true" class="width100 amen-img">{{a.name}} 
+              <span *ngIf="a.selected==true" class="width87 amen-img">{{a.name}} 
                 <b class="pull-right" (click)="a.selected = false" title="Remove"><img src="assets/img/close-tag.png" /></b>
               </span>
+              <a *ngIf="a.selected==true" (click)="modelAmenityOpenFun(a, i)" class="btn-third btn btn-green" href="javascript://">Add/View</a>
               <div *ngIf="a.selected==true" class="spacer30"></div>
               
-              <div *ngIf="a.selected==true">
+              <!-- <div *ngIf="a.selected==true">
                 <div class="uploaded-img-block">
                   <div class="uploaded-img2">
                     <img src="assets/img/placeholder.png" class="u-img" alt="img">
@@ -848,7 +849,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
 
             </li>
           </ul>
@@ -1246,7 +1247,7 @@
         </div>
 
         <!-- videos -->
-        <div class="uploaded-img-block">
+        <!-- <div class="uploaded-img-block">
           <p>Videos</p>
           <div class="uploaded-img" *ngFor="let item of amenVideo.files; let i=index">
             <a class="remove" (click)="amenVideo.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
@@ -1258,7 +1259,7 @@
         <div class="add-more-images dimensions">
           <input type="file" name="add-more" multiple max="6" accept="video/*" (change)="amenVideosSelect($event)">
           <span>+ Add more videos</span>
-        </div>
+        </div> -->
       </div>
 
       <!-- Modal footer -->
