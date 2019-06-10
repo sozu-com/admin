@@ -97,6 +97,7 @@ export class Configuration {
         updated_at: ''
     };
     configuration_id: any = '';
+    building_configuration_id: any = '';
     created_at: any = '';
     created_by: any = '';
     floor_map_image: any = '';

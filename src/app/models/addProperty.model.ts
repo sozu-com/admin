@@ -23,6 +23,7 @@ export class AddPropertyModel {
     state_id = '';
     city_id = '';
     locality_id = '';
+    building_configuration_id = '';
     configuration_id = '';
     property_type_id = '';
     // carpet_areas: any = [

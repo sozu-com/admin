@@ -343,7 +343,9 @@ export class AddPropertyComponent implements OnInit {
     this.model.state_id = data.locality.city.state.id;
     this.model.country_id = data.locality.city.state.country.id;
 
+    console.log('===============building_configuration_id', data);
     this.model.configuration_id = data.configuration ? data.configuration.id : '';
+    this.model.building_configuration_id = data.building_configuration_id ? data.building_configuration_id : '';
     this.model.property_type_id = data.property_type ? data.property_type.id : '';
 
     // images
@@ -530,6 +532,7 @@ export class AddPropertyComponent implements OnInit {
 
   setConfiguration(con: Configuration) {
     console.log('set conf', con);
+    this.model.building_configuration_id = con.id;
     this.model.configuration_id = con.configuration_id;
     this.model.floor_plan = con.floor_map_image;
     this.model.images = con.images;
@@ -945,6 +948,9 @@ export class AddPropertyComponent implements OnInit {
         input.append('city_id', this.model.city_id);
         input.append('locality_id', this.model.locality_id);
         input.append('configuration_id', this.model.configuration_id);
+        if (this.model.building_configuration_id) {
+          input.append('building_configuration_id', this.model.building_configuration_id);
+        }
         input.append('carpet_areas', JSON.stringify(this.model.carpet_areas));
         input.append('property_type_id', this.model.property_type_id);
         input.append('building_id', this.model.building_id);

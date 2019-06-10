@@ -315,7 +315,7 @@
         <div class="clearfix"></div>
         <label class="cust-radio" *ngFor="let configuration of parameter.items">
           <input type="radio" required (change)="setConfiguration(configuration)"
-            value="{{configuration.configuration_id}}" [checked]="model.configuration_id == configuration.configuration_id ? 'checked' : ''"
+            value="{{configuration.id}}" [checked]="model.building_configuration_id == configuration.id ? 'checked' : ''"
             name="configuration_id">
           <span class="checkmark">{{configuration.name ? configuration.name : configuration.config.name}}</span>
         </label>

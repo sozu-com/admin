@@ -180,9 +180,11 @@ export class AddProjectComponent implements OnInit {
             this.model.developer.phone = r.data.developer != null && r.data.developer.phone ? r.data.developer.phone : '';
           }
           this.file1.image = this.model.main_image;
-          // this.model.configurations.map((item) => {
-          //   item.images = item.images.map(r1 => r1.image);
-          // });
+
+          this.model.configurations.map((item) => {
+            item.building_configuration_id = item.id;
+          });
+
           this.model.custom_attributes = this.model.custom_values;
           this.file5.image = this.model.developer.image;
           this.file6.image = this.model.developer.developer_image;
@@ -258,9 +260,9 @@ export class AddProjectComponent implements OnInit {
             this.model.developer.phone = r.data.dev_phone ? r.data.dev_phone : '';
           }
           this.file1.image = this.model.main_image;
-          // this.model.configurations.map((item) => {
-          //   item.images = item.images.map(r1 => r1.image);
-          // });
+          this.model.configurations.map((item) => {
+            item.building_configuration_id = item.id;
+          });
           this.model.custom_attributes = this.model.custom_values;
           this.file5.image = this.model.developer.image;
           this.file6.image = this.model.developer.developer_image;
@@ -787,6 +789,7 @@ export class AddProjectComponent implements OnInit {
     console.log('config', config);
     this.new_config_edit = index;
     this.new_config = JSON.parse(JSON.stringify(config));
+    this.new_config.building_configuration_id = this.new_config.id;
     this.file3.image = config.floor_map_image;
     this.file4.files = [];
     this.config360Img.files = [];
@@ -1197,9 +1200,9 @@ export class AddProjectComponent implements OnInit {
       this.model.developer.developer_desc = data.developer != null && data.developer.developer_desc ? data.developer.developer_desc : '';
     }
     this.file1.image = this.model.main_image;
-    // this.model.configurations.map((item) => {
-    //   item.images = item.images.map(r1 => r1.image);
-    // });
+    this.model.configurations.map((item) => {
+      item.building_configuration_id = item.id;
+    });
     this.model.custom_attributes = this.model.custom_values;
     this.file5.image = this.model.developer.image;
     this.file6.image = this.model.developer.developer_image;
