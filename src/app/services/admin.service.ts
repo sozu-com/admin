@@ -237,6 +237,7 @@ export class AdminService {
     const options = new RequestOptions({responseType: ResponseContentType.Blob });
     return this.http.get(this.baseUrl + url, options)
               .map((response: Response) => {
+                console.log(response);
                 this.http.loader.next({value: false});
                 return response.blob();
               })

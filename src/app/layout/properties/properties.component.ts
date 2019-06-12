@@ -72,6 +72,7 @@ export class PropertiesComponent implements OnInit {
     } else {
       delete input.max;
     }
+    delete input.seller_id;
     this.admin.postDataApi('propertyHome', input).subscribe(
       success => {
         this.items = success.data;
@@ -269,9 +270,9 @@ export class PropertiesComponent implements OnInit {
       });
   }
 
-  showAllSellers(property_id: any, index: number) {
+  showAllSellers(property_id: any, index: any) {
     this.parameter.loading = true;
-    this.parameter.index = index;
+    if (index !== '') {this.parameter.index = index; }
     this.admin.postDataApi('getSellerSelections', { property_id: property_id }).subscribe(r => {
       this.parameter.loading = false;
       this.linkSellerModal.nativeElement.click();
@@ -283,20 +284,26 @@ export class PropertiesComponent implements OnInit {
     });
   }
 
-  getAllSellers (property: any, keyword: string, index: any) {
+  getAllSellers (property: any, keyword: string, index) {
     this.parameter.loading = true;
-    if (index) {this.parameter.index = index; }
+    if (index !== '') { console.log('11ddddd999111', index); this.parameter.index = index; }
+    console.log('11999111', index);
+    console.log('11111', this.parameter.index);
     if (property) {
       this.parameter.property_id = property.id;
       this.parameter.seller_id = property.selected_seller_id;
+      this.admin.postDataApi('getSellerSelections', { property_id: property.id }).subscribe(r => {
+        this.allSellers = r['data'];
+        this.selecter_seller = r['selecter_seller'];
+      });
     }
     const input = {name: ''};
-    input.name = keyword;
+    input.name = keyword !== '1' ? keyword : '';
+
     this.admin.postDataApi('getAllSellers', input).subscribe(r => {
       this.parameter.loading = false;
       if (property) {this.linkUserModal.nativeElement.click(); }
       this.allUsers = r['data'];
-      // this.selecter_seller = r['selecter_seller'];
     }, error => {
       this.parameter.loading = false;
       swal('Error', error.error.message, 'error');
@@ -335,6 +342,7 @@ export class PropertiesComponent implements OnInit {
   }
 
   changeStatusPopUp(property_id: any, user_id: any, status: number, type: string) {
+    console.log('111', this.parameter.index);
     this.parameter.property_id = property_id;
     this.parameter.user_id = user_id;
     this.parameter.status = status;
@@ -369,6 +377,8 @@ export class PropertiesComponent implements OnInit {
     this.admin.postDataApi('changeStatusSellerSelection', input).subscribe(r => {
       if (this.parameter.status === 1) {
         this.parameter.seller_id = this.parameter.user_id;
+        console.log('111', this.parameter.index);
+        console.log('----', this.items);
         this.items[this.parameter.index].selected_seller_id = this.parameter.user_id;
       }
       // const text = this.parameter.status === 1 ? 'accepted' : 'rejected';
