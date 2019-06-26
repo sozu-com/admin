@@ -1,15 +1,16 @@
-import { Component, OnInit, ViewChild, ElementRef, NgZone, Input } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AdminService } from '../../../services/admin.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { IProperty } from '../../../common/property';
-import { AddProjectModel, Configuration, Towers, LocalityToCountry } from './../../../models/addProject.model';
-import { MapsAPILoader } from '@agm/core';
-import { Constant } from './../../../common/constants';
-import { FileUpload } from './../../../common/fileUpload';
-import { VideoUpload } from './../../../common/videoUpload';
-import { CommonService } from 'src/app/services/common.service';
-import { ApiConstants } from 'src/app/common/api-constants';
+import {Component, OnInit, ViewChild, ElementRef, NgZone, Input} from '@angular/core';
+import {FormGroup, FormControl, Validators} from '@angular/forms';
+import {AdminService} from '../../../services/admin.service';
+import {Router, ActivatedRoute} from '@angular/router';
+import {IProperty} from '../../../common/property';
+import {AddProjectModel, Configuration, Towers, LocalityToCountry} from './../../../models/addProject.model';
+import {MapsAPILoader} from '@agm/core';
+import {Constant} from './../../../common/constants';
+import {FileUpload} from './../../../common/fileUpload';
+import {VideoUpload} from './../../../common/videoUpload';
+import {CommonService} from 'src/app/services/common.service';
+import {ApiConstants} from 'src/app/common/api-constants';
+
 declare const google;
 declare let swal: any;
 
@@ -44,7 +45,7 @@ export class AddProjectComponent implements OnInit {
   myform2: FormGroup;
 
   public zoom: number;
-
+  imgCount = 0;
   canEditdeveloperInfo: boolean;
   id: any;
   url: any[];
@@ -69,12 +70,18 @@ export class AddProjectComponent implements OnInit {
   amenity_obj: any;
   selected_amenities: any = [];
   new_config: any = new Configuration;
-  new_custom: any = { name: '', value: '' };
+  new_custom: any = {name: '', value: ''};
   new_config_edit: any;
   FU: any = {};
-  initialCountry = { initialCountry: 'mx' };
+  initialCountry = {initialCountry: 'mx'};
 
-  file1: FileUpload; file2: FileUpload; file3: FileUpload; file4: FileUpload; file5: FileUpload; file6: FileUpload; file7: FileUpload;
+  file1: FileUpload;
+  file2: FileUpload;
+  file3: FileUpload;
+  file4: FileUpload;
+  file5: FileUpload;
+  file6: FileUpload;
+  file7: FileUpload;
   file8: FileUpload;
   amen360Img: FileUpload;
   amenVideo: VideoUpload;
@@ -116,6 +123,7 @@ export class AddProjectComponent implements OnInit {
     }
   ];
   showPreferableBuyer = false;
+
   constructor(
     public model: AddProjectModel,
     private admin: AdminService,
@@ -127,7 +135,8 @@ export class AddProjectComponent implements OnInit {
     private apiConstants: ApiConstants,
     private cs: CommonService,
     private element: ElementRef
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.name = '';
@@ -151,7 +160,7 @@ export class AddProjectComponent implements OnInit {
         /* if id exists edit mode */
         this.canEditdeveloperInfo = false;
         this.parameter.loading = true;
-        this.admin.postDataApi('getProjectById', { building_id: this.id }).subscribe(r => {
+        this.admin.postDataApi('getProjectById', {building_id: this.id}).subscribe(r => {
           this.parameter.loading = false;
           this.model = JSON.parse(JSON.stringify(r.data));
           // this.model.videos = this.model.videos && this.model.videos.length > 0 ? JSON.parse(this.model.videos) : [];
@@ -190,7 +199,12 @@ export class AddProjectComponent implements OnInit {
           this.file6.image = this.model.developer.developer_image;
           this.admin.postDataApi('getAmenities', {}).subscribe(res => {
             this.all_amenities = res.data.map(item => {
-              item.selected = false; item.images = []; item.images360 = []; item.images_360 = []; item.videos = []; return item;
+              item.selected = false;
+              item.images = [];
+              item.images360 = [];
+              item.images_360 = [];
+              item.videos = [];
+              return item;
             });
             this.allTowerAmenities = JSON.parse(JSON.stringify(this.all_amenities));
             this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
@@ -211,7 +225,10 @@ export class AddProjectComponent implements OnInit {
               // setting true to tower selected amenities
               this.model.building_towers.map(item => {
                 item.amenitiesCount = item.amenities.length;
-                item.amenities.map(i => { i.selected = true; return i; });
+                item.amenities.map(i => {
+                  i.selected = true;
+                  return i;
+                });
               });
 
               // tower amenitites id array only
@@ -236,7 +253,7 @@ export class AddProjectComponent implements OnInit {
         /* if request_id exists, building request edit mode */
         this.canEditdeveloperInfo = false;
         this.parameter.loading = true;
-        this.admin.postDataApi('getBuildingRequest', { building_request_id: params.request_id }).subscribe(r => {
+        this.admin.postDataApi('getBuildingRequest', {building_request_id: params.request_id}).subscribe(r => {
           this.parameter.loading = false;
           this.model = JSON.parse(JSON.stringify(r.data));
           if (r.data['locality']) {
@@ -268,7 +285,12 @@ export class AddProjectComponent implements OnInit {
           this.file6.image = this.model.developer.developer_image;
           this.admin.postDataApi('getAmenities', {}).subscribe(res => {
             this.all_amenities = res.data.map(item => {
-              item.selected = false; item.images = []; item.images360 = []; item.images_360 = []; item.videos = []; return item;
+              item.selected = false;
+              item.images = [];
+              item.images360 = [];
+              item.images_360 = [];
+              item.videos = [];
+              return item;
             });
             this.allTowerAmenities = JSON.parse(JSON.stringify(this.all_amenities));
             this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
@@ -292,7 +314,10 @@ export class AddProjectComponent implements OnInit {
               // setting true to tower selected amenities
               this.model.building_towers.map(item => {
                 item.amenitiesCount = item.amenities.length;
-                item.amenities.map(i => { i.selected = true; return i; });
+                item.amenities.map(i => {
+                  i.selected = true;
+                  return i;
+                });
               });
 
               // tower amenitites id array only
@@ -323,7 +348,12 @@ export class AddProjectComponent implements OnInit {
         this.canEditdeveloperInfo = true;
         this.admin.postDataApi('getAmenities', {}).subscribe(res => {
           this.all_amenities = res.data.map(item => {
-            item.selected = false; item.images = []; item.images360 = []; item.images_360 = []; item.videos = []; return item;
+            item.selected = false;
+            item.images = [];
+            item.images360 = [];
+            item.images_360 = [];
+            item.videos = [];
+            return item;
           });
           this.allTowerAmenities = JSON.parse(JSON.stringify(this.all_amenities));
           this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
@@ -375,7 +405,9 @@ export class AddProjectComponent implements OnInit {
   getCountries(keyword: string) {
     this.admin.postDataApi('getCountries', {})
       .subscribe(
-        success => { this.parameter.countries = success['data']; }
+        success => {
+          this.parameter.countries = success['data'];
+        }
       );
   }
 
@@ -391,9 +423,9 @@ export class AddProjectComponent implements OnInit {
     input.append('country_id', country_id);
 
     this.admin.postDataApi('country/getStates', input).subscribe(success => {
-      this.parameter.states = success['data'];
-      // this.parameter.loading = false;
-    },
+        this.parameter.states = success['data'];
+        // this.parameter.loading = false;
+      },
       error => {
         // this.parameter.loading = false;
       });
@@ -409,9 +441,9 @@ export class AddProjectComponent implements OnInit {
     input.append('state_id', state_id);
 
     this.admin.postDataApi('getCities', input).subscribe(success => {
-      this.parameter.cities = success['data'];
-      // this.parameter.loading = false;
-    },
+        this.parameter.cities = success['data'];
+        // this.parameter.loading = false;
+      },
       error => {
         // this.parameter.loading = false;
       });
@@ -425,11 +457,15 @@ export class AddProjectComponent implements OnInit {
     const input = new FormData();
     input.append('city_id', city_id);
 
-    if (keyword) { input.append('keyword', keyword); }
+    if (keyword) {
+      input.append('keyword', keyword);
+    }
 
     this.admin.postDataApi('getLocalities', input)
       .subscribe(
-        success => { this.parameter.localities = success['data']; }
+        success => {
+          this.parameter.localities = success['data'];
+        }
       );
   }
 
@@ -443,7 +479,12 @@ export class AddProjectComponent implements OnInit {
     this.admin.postDataApi('getAmenities', input).subscribe(res => {
       // this.all_amenities = res.data.map(item => { item.selected = false; item.images = []; return item; });
       this.all_amenities = res.data.map(item => {
-        item.selected = false; item.images = []; item.images360 = []; item.images_360 = []; item.videos = []; return item;
+        item.selected = false;
+        item.images = [];
+        item.images360 = [];
+        item.images_360 = [];
+        item.videos = [];
+        return item;
       });
       this.allTowerAmenities = JSON.parse(JSON.stringify(this.all_amenities));
       this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
@@ -462,7 +503,8 @@ export class AddProjectComponent implements OnInit {
 
   saveImages() {
     if (this.file2.files.length < 1) {
-      swal('Error', 'Please select atleast one image', 'error'); return false;
+      swal('Error', 'Please select atleast one image', 'error');
+      return false;
     }
     this.modalClose.nativeElement.click();
     this.file2.upload().then(r => {
@@ -481,7 +523,8 @@ export class AddProjectComponent implements OnInit {
 
   save360Images() {
     if (this.file7.files.length < 1) {
-      swal('Error', 'Please select atleast one image', 'error'); return false;
+      swal('Error', 'Please select atleast one image', 'error');
+      return false;
     }
     this.modal360ImageClose.nativeElement.click();
     this.file7.upload().then(r => {
@@ -522,7 +565,8 @@ export class AddProjectComponent implements OnInit {
     let count = 0;
     const totalFilesCount = this.file2.files.length + this.amen360Img.files.length + this.amenVideo.files.length;
     if (totalFilesCount < 1) {
-      swal('Error', 'Please select atleast one image', 'error'); return false;
+      swal('Error', 'Please select atleast one image', 'error');
+      return false;
     }
     // if (this.file2.files.length < 1) {
     //   // swal('Error', 'Please select atleast one image', 'error'); return false;
@@ -543,13 +587,22 @@ export class AddProjectComponent implements OnInit {
     // this.modalAmenClose.nativeElement.click();
 
     this.file2.files.forEach(element => {
-      if (element.loading !== true) { console.log('==1111=='); count++; }
+      if (element.loading !== true) {
+        console.log('==1111==');
+        count++;
+      }
     });
     this.amen360Img.files.forEach(element => {
-      if (element.loading !== true) { console.log('==2222=='); count++; }
+      if (element.loading !== true) {
+        console.log('==2222==');
+        count++;
+      }
     });
     this.amenVideo.files.forEach(element => {
-      if (element.loading !== true) { console.log('==3333=='); count++; }
+      if (element.loading !== true) {
+        console.log('==3333==');
+        count++;
+      }
     });
 
     if (count === totalFilesCount) {
@@ -592,17 +645,19 @@ export class AddProjectComponent implements OnInit {
     // this.modalTowerAmenClose.nativeElement.click();
 
 
-
     let count = 0;
     const totalFilesCount = this.file2.files.length + this.amen360Img.files.length + this.amenVideo.files.length;
     if (this.file2.files.length > 6) {
-      swal('Error', 'You can choose maximum of 6 images.', 'error'); return false;
+      swal('Error', 'You can choose maximum of 6 images.', 'error');
+      return false;
     }
     if (this.amen360Img.files.length > 6) {
-      swal('Error', 'You can choose maximum of 6 360 images.', 'error'); return false;
+      swal('Error', 'You can choose maximum of 6 360 images.', 'error');
+      return false;
     }
     if (this.amenVideo.files.length > 6) {
-      swal('Error', 'You can choose maximum of 6 videos.', 'error'); return false;
+      swal('Error', 'You can choose maximum of 6 videos.', 'error');
+      return false;
     }
     // if (this.file2.files.length < 1) {
     //   // swal('Error', 'Please select atleast one image', 'error'); return false;
@@ -624,13 +679,22 @@ export class AddProjectComponent implements OnInit {
     // this.modalAmenClose.nativeElement.click();
 
     this.file2.files.forEach(element => {
-      if (element.loading !== true) { console.log('==1111=='); count++; }
+      if (element.loading !== true) {
+        console.log('==1111==');
+        count++;
+      }
     });
     this.amen360Img.files.forEach(element => {
-      if (element.loading !== true) { console.log('==2222=='); count++; }
+      if (element.loading !== true) {
+        console.log('==2222==');
+        count++;
+      }
     });
     this.amenVideo.files.forEach(element => {
-      if (element.loading !== true) { console.log('==3333=='); count++; }
+      if (element.loading !== true) {
+        console.log('==3333==');
+        count++;
+      }
     });
 
     if (count === totalFilesCount) {
@@ -691,7 +755,7 @@ export class AddProjectComponent implements OnInit {
     if (navigator.geolocation) {
       const geocoder = new google.maps.Geocoder();
       const latlng = new google.maps.LatLng(lat, lng);
-      const request = { latLng: latlng };
+      const request = {latLng: latlng};
 
       geocoder.geocode(request, (results, status) => {
         if (status === google.maps.GeocoderStatus.OK) {
@@ -752,6 +816,7 @@ export class AddProjectComponent implements OnInit {
     this.closeConfigPopup.nativeElement.click();
     this.file4.reset();
   }
+
   openConfigPopupFun() {
     this.openConfigPopup.nativeElement.click();
     this.addConfig.nativeElement.reset();
@@ -840,7 +905,8 @@ export class AddProjectComponent implements OnInit {
     let count = 0;
     const totalFilesCount = this.file4.files.length + this.config360Img.files.length + this.configVideo.files.length;
     if (this.file4.files.length < 1) {
-      swal('Error', 'Please choose atleast one image for other images', 'error'); return false;
+      swal('Error', 'Please choose atleast one image for other images', 'error');
+      return false;
     }
     // this.parameter.loading = true;
     this.file3.upload().then(r => {
@@ -860,13 +926,22 @@ export class AddProjectComponent implements OnInit {
     });
 
     this.file4.files.forEach(element => {
-      if (element.loading !== true) { console.log('==1111=='); count++; }
+      if (element.loading !== true) {
+        console.log('==1111==');
+        count++;
+      }
     });
     this.config360Img.files.forEach(element => {
-      if (element.loading !== true) { console.log('==2222=='); count++; }
+      if (element.loading !== true) {
+        console.log('==2222==');
+        count++;
+      }
     });
     this.configVideo.files.forEach(element => {
-      if (element.loading !== true) { console.log('==3333=='); count++; }
+      if (element.loading !== true) {
+        console.log('==3333==');
+        count++;
+      }
     });
 
     if (count === totalFilesCount) {
@@ -905,16 +980,28 @@ export class AddProjectComponent implements OnInit {
       swal('Error', 'Uploading video.', 'error');
       return;
     }
-    if (!modelSave.country_id) {swal('Error', 'Please select country.', 'error'); return false; }
-    if (!modelSave.state_id) {swal('Error', 'Please select state.', 'error'); return false; }
-    if (!modelSave.city_id) {swal('Error', 'Please select city.', 'error'); return false; }
-    if (!modelSave.locality_id) {swal('Error', 'Please select locality.', 'error'); return false; }
+    if (!modelSave.country_id) {
+      swal('Error', 'Please select country.', 'error');
+      return false;
+    }
+    if (!modelSave.state_id) {
+      swal('Error', 'Please select state.', 'error');
+      return false;
+    }
+    if (!modelSave.city_id) {
+      swal('Error', 'Please select city.', 'error');
+      return false;
+    }
+    if (!modelSave.locality_id) {
+      swal('Error', 'Please select locality.', 'error');
+      return false;
+    }
 
     // launch date to be mandatory possession_status == presale
     if (modelSave.possession_status_id &&
       (modelSave.possession_status_id.toString() === this.apiConstants.possession_status_id) &&
       !modelSave.launch_date) {
-        swal('Error', 'Please select launch date.', 'error');
+      swal('Error', 'Please select launch date.', 'error');
       return false;
     }
     if (modelSave.images) {
@@ -933,7 +1020,11 @@ export class AddProjectComponent implements OnInit {
     modelSave.dev_dialcode = modelSave.developer.dial_code ? modelSave.developer.dial_code : this.constant.dial_code;
     modelSave.dev_logo = this.file5.image;
     modelSave.developer_image = this.file6.image;
-    modelSave.amenities = this.all_amenities.filter(op => { if (op.selected === true) { return op; } });
+    modelSave.amenities = this.all_amenities.filter(op => {
+      if (op.selected === true) {
+        return op;
+      }
+    });
 
     if (modelSave.amenities && modelSave.amenities.length > 0) {
       modelSave.amenities.forEach(element => {
@@ -1039,11 +1130,26 @@ export class AddProjectComponent implements OnInit {
     // }
 
     if (modelSave.dev_email) {
-      if (!modelSave.dev_name) { swal('Error', 'Please add developer name', 'error'); return false; }
-      if (!modelSave.dev_countrycode) { swal('Error', 'Please add developer country code', 'error'); return false; }
-      if (!modelSave.dev_email) { swal('Error', 'Please add developer email', 'error'); return false; }
-      if (!modelSave.dev_phone) { swal('Error', 'Please add developer phone', 'error'); return false; }
-      if (!modelSave.dev_logo) { swal('Error', 'Please add developer image', 'error'); return false; }
+      if (!modelSave.dev_name) {
+        swal('Error', 'Please add developer name', 'error');
+        return false;
+      }
+      if (!modelSave.dev_countrycode) {
+        swal('Error', 'Please add developer country code', 'error');
+        return false;
+      }
+      if (!modelSave.dev_email) {
+        swal('Error', 'Please add developer email', 'error');
+        return false;
+      }
+      if (!modelSave.dev_phone) {
+        swal('Error', 'Please add developer phone', 'error');
+        return false;
+      }
+      if (!modelSave.dev_logo) {
+        swal('Error', 'Please add developer image', 'error');
+        return false;
+      }
     }
     if (modelSave.name && modelSave.address && modelSave.address != null && modelSave.cover_image &&
       modelSave.building_images.length > 0 && modelSave.building_age && modelSave.building_age != null && modelSave.building_type_id &&
@@ -1130,6 +1236,7 @@ export class AddProjectComponent implements OnInit {
     // }
     this.config360Img.onSelectFile($event);
   }
+
   configVideosSelect($event) {
     // if ((this.file4.files.length + $event.target.files.length) > 6) {
     //   swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
@@ -1137,6 +1244,7 @@ export class AddProjectComponent implements OnInit {
     // }
     this.configVideo.onSelectFile($event);
   }
+
   file7Select($event) {
     this.file7.onSelectFile($event);
   }
@@ -1151,7 +1259,7 @@ export class AddProjectComponent implements OnInit {
       return false;
     }
     this.model.custom_attributes.unshift(this.new_custom);
-    this.new_custom = { name: '', value: '' };
+    this.new_custom = {name: '', value: ''};
   }
 
   setProjectModel(data) {
@@ -1185,7 +1293,11 @@ export class AddProjectComponent implements OnInit {
     }
 
     this.admin.postDataApi('getAmenities', {}).subscribe(res => {
-      this.all_amenities = res.data.map(item => { item.selected = false; item.images = []; return item; });
+      this.all_amenities = res.data.map(item => {
+        item.selected = false;
+        item.images = [];
+        return item;
+      });
       this.allTowerAmenities = JSON.parse(JSON.stringify(this.all_amenities));
       this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
 
@@ -1207,7 +1319,10 @@ export class AddProjectComponent implements OnInit {
       // setting true to tower selected amenities
       this.model.building_towers.map(item => {
         item.amenitiesCount = item.amenities.length;
-        item.amenities.map(i => { i.selected = true; return i; });
+        item.amenities.map(i => {
+          i.selected = true;
+          return i;
+        });
       });
 
       // tower amenitites id array only
@@ -1285,24 +1400,40 @@ export class AddProjectComponent implements OnInit {
     // if (this.model.building_tower_edit_index) {
     //   swal('First save the previous editted tower.');
     // }
-    if (!this.newTower.tower_name) { swal('Error', 'Please enter tower name.', 'error'); return false; }
+    if (!this.newTower.tower_name) {
+      swal('Error', 'Please enter tower name.', 'error');
+      return false;
+    }
     if (!this.newTower.num_of_floors && this.newTower.num_of_floors !== 0) {
-      swal('Error', 'Please enter number of floors.', 'error'); return false; }
-    if (!this.newTower.possession_status_id) { swal('Error', 'Please choose possession status.', 'error'); return false; }
+      swal('Error', 'Please enter number of floors.', 'error');
+      return false;
+    }
+    if (!this.newTower.possession_status_id) {
+      swal('Error', 'Please choose possession status.', 'error');
+      return false;
+    }
     // if (!this.newTower.launch_date) { swal('Error', 'Please enter launch date.', 'error'); return false; }
 
     // launch date to be mandatory possession_status == presale
     if (this.newTower.possession_status_id &&
       (this.newTower.possession_status_id.toString() === this.apiConstants.possession_status_id) &&
       !this.newTower.launch_date) {
-        swal('Error', 'Please select launch date.', 'error');
+      swal('Error', 'Please select launch date.', 'error');
       return false;
     }
 
     const tempAmen = JSON.parse(JSON.stringify(this.allTowerAmenities));
-    this.selectedTowerAmenitiesId = tempAmen.filter(op => { if (op.selected === true) { return op; } });
+    this.selectedTowerAmenitiesId = tempAmen.filter(op => {
+      if (op.selected === true) {
+        return op;
+      }
+    });
     // this.selectedTowerAmenitiesId = tempAmen.filter(op => { if (op.selected === true) { return op; } }).map(op => op.id);
-    this.selectedTowerAmenityObj = tempAmen.filter(op => { if (op.selected === true) { return op; } });
+    this.selectedTowerAmenityObj = tempAmen.filter(op => {
+      if (op.selected === true) {
+        return op;
+      }
+    });
     this.newTower.amenities = this.selectedTowerAmenityObj;
     this.newTower.amenitiesId = this.selectedTowerAmenitiesId;
     this.newTower.amenitiesCount = this.newTower.amenities.length;
@@ -1315,7 +1446,9 @@ export class AddProjectComponent implements OnInit {
 
     // setting tower to empty
     this.newTower = new Towers();
-    this.allTowerAmenities.map(op => { op.selected = false; });
+    this.allTowerAmenities.map(op => {
+      op.selected = false;
+    });
   }
 
 
@@ -1366,29 +1499,48 @@ export class AddProjectComponent implements OnInit {
     console.log('btower', btower);
     this.model.building_towers[index].launch_date = btower.launch_date;
     // this.allTowerAmenityForEdit = btower.amenities;
-    if (!this.model.building_towers[index].tower_name) { swal('Error', 'Please enter tower name.', 'error'); return false; }
-    if (!this.model.building_towers[index].num_of_floors) { swal('Error', 'Please enter number of floors.', 'error'); return false; }
+    if (!this.model.building_towers[index].tower_name) {
+      swal('Error', 'Please enter tower name.', 'error');
+      return false;
+    }
+    if (!this.model.building_towers[index].num_of_floors) {
+      swal('Error', 'Please enter number of floors.', 'error');
+      return false;
+    }
     if (!this.model.building_towers[index].possession_status_id) {
-      swal('Error', 'Please choose possession status.', 'error'); return false; }
+      swal('Error', 'Please choose possession status.', 'error');
+      return false;
+    }
     // if (!this.model.building_towers[index].launch_date) { swal('Error', 'Please enter launch date.', 'error'); return false; }
 
     // launch date to be mandatory possession_status == presale
     if (this.model.building_towers[index].possession_status_id &&
       (this.model.building_towers[index].possession_status_id.toString() === this.apiConstants.possession_status_id) &&
       !this.model.building_towers[index].launch_date) {
-        swal('Error', 'Please select launch date.', 'error');
+      swal('Error', 'Please select launch date.', 'error');
       return false;
     }
 
     // this.selectedTowerAmenitiesId = btower.amenities.filter(op => { if (op.selected === true) { return op; } }).map(op => op.id);
-    this.selectedTowerAmenitiesId = btower.amenities.filter(op => { if (op.selected === true) { return op; } });
-    this.selectedTowerAmenityObj = btower.amenities.filter(op => { if (op.selected === true) { return op; } });
+    this.selectedTowerAmenitiesId = btower.amenities.filter(op => {
+      if (op.selected === true) {
+        return op;
+      }
+    });
+    this.selectedTowerAmenityObj = btower.amenities.filter(op => {
+      if (op.selected === true) {
+        return op;
+      }
+    });
     this.model.building_towers[index].amenitiesId = this.selectedTowerAmenitiesId;
     this.model.building_towers[index].amenities = this.selectedTowerAmenityObj;
     if (this.model.building_towers[index].amenities.length < 1) {
       // swal('Error', 'Please choose tower amenities.', 'error'); return false;
       this.model.building_towers[index].amenities = [];
-      this.allTowerAmenityForEdit.map(i => { i.selected = false; return i; });
+      this.allTowerAmenityForEdit.map(i => {
+        i.selected = false;
+        return i;
+      });
     }
     // btower.amenities.map(item => { item.images = []; return item; });
     this.model.building_towers[index].amenitiesCount = this.model.building_towers[index].amenities.length;
@@ -1399,24 +1551,36 @@ export class AddProjectComponent implements OnInit {
     this.towerAmenityIndex = index;
     this.towerEditAmenitiesModal.nativeElement.click();
     // this.allTowerAmenityForEdit.map(item => { item.selected = false; return item; });
-    btoweramenity = btoweramenity.filter(op => { if (op.selected === true) { return op; } });
-      this.allTowerAmenityForEdit.map(item => {
-        if (btoweramenity.find(am => am.id === item.id)) {
-          item.selected = true;
-        }
-        return item;
-      });
+    btoweramenity = btoweramenity.filter(op => {
+      if (op.selected === true) {
+        return op;
+      }
+    });
+    this.allTowerAmenityForEdit.map(item => {
+      if (btoweramenity.find(am => am.id === item.id)) {
+        item.selected = true;
+      }
+      return item;
+    });
   }
 
 
   setTowerAmenity(a: any, m: any) {
     this.allTowerAmenityForEdit[m].selected = !this.allTowerAmenityForEdit[m].selected;
     this.model.building_towers[this.towerAmenityIndex].amenities =
-    this.allTowerAmenityForEdit.filter(op => { if (op.selected === true) { return op; } });
+      this.allTowerAmenityForEdit.filter(op => {
+        if (op.selected === true) {
+          return op;
+        }
+      });
     // this.model.building_towers[this.towerAmenityIndex].amenitiesId =
     // this.allTowerAmenityForEdit.filter(op => { if (op.selected === true) { return op; } }).map(op => op.id);
     this.model.building_towers[this.towerAmenityIndex].amenitiesId =
-    this.allTowerAmenityForEdit.filter(op => { if (op.selected === true) { return op; } });
+      this.allTowerAmenityForEdit.filter(op => {
+        if (op.selected === true) {
+          return op;
+        }
+      });
     this.model.building_towers[this.towerAmenityIndex].amenitiesCount = this.model.building_towers[this.towerAmenityIndex].amenities.length;
   }
 
@@ -1430,11 +1594,11 @@ export class AddProjectComponent implements OnInit {
         this.model.videoLoader = true;
         this.video = document.getElementById('video1');
         const reader = new FileReader();
-        const videoTest = this.element.nativeElement.querySelector('.video55');
-        reader.onload = function(e) {
+        const videoTest = this.element.nativeElement.querySelector('.video' + this.imgCount);
+        reader.onload = function (e) {
           const src = e.target['result'];
           videoTest.src = src;
-          const timer = setInterval( () => {
+          const timer = setInterval(() => {
             // find duration of video only of video is in ready state
             if (videoTest.readyState === 4) {
               setTimeout(() => {
@@ -1453,7 +1617,7 @@ export class AddProjectComponent implements OnInit {
   newcanvas(video: any, videoFile: File) {
     const canvas = document.getElementById('canvas') as HTMLCanvasElement;
     const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
-                                                      0, 0, canvas.width, canvas.height);
+      0, 0, canvas.width, canvas.height);
     const ImageURL = canvas.toDataURL('image/jpeg');
     // model.image = ImageURL;
     const fileToUpload = this.dataURLtoFile(ImageURL, 'tempFile.png');
@@ -1480,7 +1644,7 @@ export class AddProjectComponent implements OnInit {
     let n = bstr.length;
     const u8arr = new Uint8Array(n);
     while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
+      u8arr[n] = bstr.charCodeAt(n);
     }
     return new File([u8arr], filename, {type: mime});
   }
@@ -1499,7 +1663,7 @@ export class AddProjectComponent implements OnInit {
 
   amenVideosSelect($event) {
     if ((this.amenVideo.files.length + $event.target.files.length) > 6) {
-      swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
+      swal('Limit exceeded', 'You can upload maximum of 6 videos', 'error');
       return false;
     }
     this.amenVideo.onSelectFile($event);

@@ -48,9 +48,9 @@
             </div>
             <hr>
             <div class="form-group-3">
-              <label>Add Video</label>
+              <label>Add Video 126</label>
               <div class="add-project-img-more marginT0">
-                <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'" src="{{videoSrc}}" class="video55 floor-plan" autoplay type="video/mp4" controls></video>
+                <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'" src="{{videoSrc}}" class="video{{imgCount}} floor-plan" autoplay type="video/mp4" controls></video>
                 
                 <!-- if want to give play option -->
                 <img *ngIf="model?.videos && model?.videos[0]" class="ui bordered small image" [src]="model?.videos[0]?.thumb" onerror="this.src='assets/img/placeholder.png'">
@@ -906,6 +906,8 @@
 </div>
 
 
+
+
 <!-- Add amenities img -->
 <span data-target="#add-amenity-more-img" data-toggle="modal" #modalAmenOpen></span>
 <div class="modal add-more-popup" id="add-amenity-more-img">
@@ -970,7 +972,7 @@
 
         <!-- videos -->
         <div class="uploaded-img-block">
-          <p>Videos</p>
+          <p>Videos111</p>
           <div class="uploaded-img" *ngFor="let item of amenVideo.files; let i=index">
             <a class="remove" (click)="amenVideo.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
             <img *ngIf="item" class="u-img" [src]="item.image" alt="img">
@@ -979,6 +981,7 @@
           </div>
         </div>
         <div class="add-more-images dimensions">
+          <input type="file" name="add-more" multiple max="6" accept="video/*" (change)="amenVideosSelect($event)">
           <input type="file" name="add-more" multiple max="6" accept="video/*" (change)="amenVideosSelect($event)">
           <span>+ Add more videos</span>
         </div>
@@ -1287,4 +1290,3 @@
     </div>
   </div>
 
-  
