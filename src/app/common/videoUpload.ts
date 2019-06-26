@@ -28,7 +28,7 @@ export class VideoUpload {
         reader.onload = (e: any) => {
           const src = e.target['result'];
           // videoTest.src = src;
-          const timer = setInterval( () => {
+          const timer = setInterval(() => {
             // find duration of video only of video is in ready state
             // if (videoTest.readyState === 4) {
             //   setTimeout(() => {
@@ -92,9 +92,9 @@ export class VideoUpload {
     let n = bstr.length;
     const u8arr = new Uint8Array(n);
     while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
+      u8arr[n] = bstr.charCodeAt(n);
     }
-    return new File([u8arr], filename, {type: mime});
+    return new File([u8arr], filename, { type: mime });
   }
 
   getFile() {

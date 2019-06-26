@@ -524,7 +524,6 @@ export class AddProjectComponent implements OnInit {
     if (totalFilesCount < 1) {
       swal('Error', 'Please select atleast one image', 'error'); return false;
     }
-    console.log('this.file2.files', this.file2.files);
     // if (this.file2.files.length < 1) {
     //   // swal('Error', 'Please select atleast one image', 'error'); return false;
     //   this.all_amenities[this.amenity_index].images = [];
@@ -532,23 +531,16 @@ export class AddProjectComponent implements OnInit {
     //   return false;
     // }
     this.file2.upload().then(r => {
-      console.log('amen imag');
       this.all_amenities[this.amenity_index].images = this.file2.files;
     });
     this.amen360Img.upload().then(r => {
-      console.log('amen 360 imag');
       this.all_amenities[this.amenity_index].images_360 = this.amen360Img.files;
     });
     this.amenVideo.upload().then(r => {
-      console.log('amen video');
       this.all_amenities[this.amenity_index].videos = this.amenVideo.files;
     });
 
     // this.modalAmenClose.nativeElement.click();
-    console.log('===', this.file2, this.amen360Img, this.amenVideo);
-    console.log('==1=', this.file2);
-    console.log('===2', this.amen360Img);
-    console.log('===3', this.amenVideo);
 
     this.file2.files.forEach(element => {
       if (element.loading !== true) { console.log('==1111=='); count++; }
@@ -560,9 +552,7 @@ export class AddProjectComponent implements OnInit {
       if (element.loading !== true) { console.log('==3333=='); count++; }
     });
 
-    console.log('===totalFilesCount===', totalFilesCount, count);
     if (count === totalFilesCount) {
-      console.log(this.all_amenities);
       this.modalAmenClose.nativeElement.click();
     }
   }
@@ -573,7 +563,6 @@ export class AddProjectComponent implements OnInit {
     this.allTowerAmenities[index] = amenityObj;
     // this.allTowerAmenityForEdit[index] = amenityObj;
     this.modalTowerAmenOpen.nativeElement.click();
-    console.log('this.allTowerAmenities[index]', this.allTowerAmenities[index]);
     this.file2.backup(JSON.parse(JSON.stringify(this.allTowerAmenities[index].images ? this.allTowerAmenities[index].images : [])));
     this.amen360Img.backup(JSON.parse(JSON.stringify(this.allTowerAmenities[index].images_360 ?
       this.allTowerAmenities[index].images_360 : [])));
@@ -622,11 +611,9 @@ export class AddProjectComponent implements OnInit {
     //   return false;
     // }
     this.file2.upload().then(r => {
-      console.log('amen imag');
       this.allTowerAmenities[this.amenity_index].images = this.file2.files;
     });
     this.amen360Img.upload().then(r => {
-      console.log('amen 360 imag');
       this.allTowerAmenities[this.amenity_index].images_360 = this.amen360Img.files;
     });
     this.amenVideo.upload().then(r => {
@@ -635,9 +622,6 @@ export class AddProjectComponent implements OnInit {
     });
 
     // this.modalAmenClose.nativeElement.click();
-    console.log('==1=', this.file2);
-    console.log('===2', this.amen360Img);
-    console.log('===3', this.amenVideo);
 
     this.file2.files.forEach(element => {
       if (element.loading !== true) { console.log('==1111=='); count++; }
@@ -649,7 +633,6 @@ export class AddProjectComponent implements OnInit {
       if (element.loading !== true) { console.log('==3333=='); count++; }
     });
 
-    console.log('===totalFilesCount===', totalFilesCount, count);
     if (count === totalFilesCount) {
       this.modalTowerAmenClose.nativeElement.click();
     }
@@ -786,7 +769,6 @@ export class AddProjectComponent implements OnInit {
   }
 
   editConfiguration(config, index) {
-    console.log('config', config);
     this.new_config_edit = index;
     this.new_config = JSON.parse(JSON.stringify(config));
     this.new_config.building_configuration_id = this.new_config.id;
@@ -861,7 +843,6 @@ export class AddProjectComponent implements OnInit {
       swal('Error', 'Please choose atleast one image for other images', 'error'); return false;
     }
     // this.parameter.loading = true;
-    console.log('===', this.new_config);
     this.file3.upload().then(r => {
       this.new_config.floor_map_image = this.file3.image;
     });
@@ -888,17 +869,13 @@ export class AddProjectComponent implements OnInit {
       if (element.loading !== true) { console.log('==3333=='); count++; }
     });
 
-    console.log('===totalFilesCount===', totalFilesCount, count);
     if (count === totalFilesCount) {
-      console.log(this.all_amenities);
       this.parameter.loading = false;
-      console.log('newconfig', this.new_config);
       if (this.new_config_edit >= 0) {
         this.model.configurations[this.new_config_edit] = this.new_config;
       } else {
         this.model.configurations.push(this.new_config);
       }
-      console.log('conssss', this.model.configurations);
 
       this.new_config = new Configuration();
       this.closeConfigPopup.nativeElement.click();
@@ -958,14 +935,12 @@ export class AddProjectComponent implements OnInit {
     modelSave.developer_image = this.file6.image;
     modelSave.amenities = this.all_amenities.filter(op => { if (op.selected === true) { return op; } });
 
-    console.log('addprorrrr', modelSave.amenities);
     if (modelSave.amenities && modelSave.amenities.length > 0) {
       modelSave.amenities.forEach(element => {
         const img = [];
         const img_360 = [];
         const vid = [];
         // amenities images
-        console.log('modelSave.amenities', modelSave.amenities);
         if (element.images && element.images.length > 0) {
           element.images.forEach(e => {
             img.push(e.image);
@@ -995,7 +970,6 @@ export class AddProjectComponent implements OnInit {
 
     if (modelSave.configurations && modelSave.configurations.length > 0) {
       modelSave.configurations.forEach(item => {
-        console.log('condddd', item);
         item.images = item.images.map(x => x.image);
         item.images360 = item.images360.map(x => x.image);
         // item.videos = item.videos.map(x => x.video);
@@ -1013,7 +987,6 @@ export class AddProjectComponent implements OnInit {
     if (modelSave.building_towers && modelSave.building_towers.length > 0) {
       modelSave.building_towers.forEach(element1 => {
         element1.amenities.forEach(element => {
-          console.log('element', element);
           const img = [];
           const img_360 = [];
           const vid = [];
@@ -1398,7 +1371,7 @@ export class AddProjectComponent implements OnInit {
     if (!this.model.building_towers[index].possession_status_id) {
       swal('Error', 'Please choose possession status.', 'error'); return false; }
     // if (!this.model.building_towers[index].launch_date) { swal('Error', 'Please enter launch date.', 'error'); return false; }
-console.log('aaaa', this.model.building_towers[index]);
+
     // launch date to be mandatory possession_status == presale
     if (this.model.building_towers[index].possession_status_id &&
       (this.model.building_towers[index].possession_status_id.toString() === this.apiConstants.possession_status_id) &&
@@ -1514,7 +1487,6 @@ console.log('aaaa', this.model.building_towers[index]);
 
   addMaritalStatus(checked: boolean, i: number) {
     this.testMarital[i].checked = this.testMarital[i].checked === true ? false : true;
-    console.log('aaa', this.testMarital);
   }
 
   amen360ImagesSelect($event) {

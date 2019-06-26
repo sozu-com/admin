@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { IProperty } from './common/property';
 import { Router, NavigationEnd, NavigationCancel, NavigationError, NavigationStart } from '@angular/router';
 import { HttpInterceptor } from './services/http-interceptor';
-import { AdminService } from './services/admin.service';
 import { PlatformLocation } from '@angular/common';
+
+declare var $: any;
 
 @Component({
   selector: 'app-root',
@@ -82,4 +83,5 @@ export class AppComponent implements OnInit {
   //     });
   //   });
   // }
+
 }

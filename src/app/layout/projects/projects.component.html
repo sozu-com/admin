@@ -290,7 +290,7 @@
                                 <strong>{{p.address?p.address:'NA'}}</strong>
                             </td>
                             <td><span *ngIf="p.developer">{{p?.developer?.email}}</span></td>
-                            <td><span>{{p.avg_price}}</span></td>
+                            <td><span>{{ p.avg_price | number : '1.2-2'}}</span></td>
                             <td>
                               <div class="message">
                                 <button [disabled]="admin?.admin_acl['Building Management']?.can_update==0" routerLink="/dashboard/projects/edit-project/{{p.id}}" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>

@@ -72,22 +72,22 @@ export class ProjectComponent implements OnInit {
 
 
   addPossessionStatus(id, name_en, name_es, status, type) {
-    if (type === 'edit') {this.modalRef.hide(); }
+    if (type === 'edit') { this.modalRef.hide(); }
     this.parameter.url = 'addPossessionStatus';
     const input = new FormData();
     input.append('name_en', name_en);
     input.append('name_es', name_es);
     input.append('status', status);
 
-    if (id) {input.append('id', id); }
+    if (id) { input.append('id', id); }
     this.parameter.loading = true;
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
           this.parameter.loading = false;
           const text = id ?
-          this.constant.successMsg.PROJECT_POSSESSION_UPDATED_SUCCESSFULLY :
-          this.constant.successMsg.PROJECT_POSSESSION_ADDED_SUCCESSFULLY;
+            this.constant.successMsg.PROJECT_POSSESSION_UPDATED_SUCCESSFULLY :
+            this.constant.successMsg.PROJECT_POSSESSION_ADDED_SUCCESSFULLY;
           swal('Success', text, 'success');
           this.project.possession.name_en = '';
           this.project.possession.name_es = '';
@@ -104,7 +104,7 @@ export class ProjectComponent implements OnInit {
   }
 
   addBuildingType(id, name_en, name_es, status, type) {
-    if (type === 'edit') {this.modalRef.hide(); }
+    if (type === 'edit') { this.modalRef.hide(); }
     this.parameter.url = 'addBuildingType';
 
     const input = new FormData();
@@ -112,7 +112,7 @@ export class ProjectComponent implements OnInit {
     input.append('name_es', name_es);
     input.append('status', status);
 
-    if (id) {input.append('id', id); }
+    if (id) { input.append('id', id); }
     this.parameter.loading = true;
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
@@ -121,8 +121,8 @@ export class ProjectComponent implements OnInit {
           const text = id ?
             this.constant.successMsg.PROJECT_TYPE_UPDATED_SUCCESSFULLY :
             this.constant.successMsg.PROJECT_TYPE_ADDED_SUCCESSFULLY;
-            this.project.type.name_en = '';
-            this.project.type.name_es = '';
+          this.project.type.name_en = '';
+          this.project.type.name_es = '';
           swal('Success', text, 'success');
           if (this.parameter.index !== -1) {
             this.parameter.projectTypes[this.parameter.index] = success.data;
@@ -138,7 +138,7 @@ export class ProjectComponent implements OnInit {
 
 
   addAmenity(id, icon, name_en, name_es, status, type) {
-    if (type === 'edit') {this.modalRef.hide(); }
+    if (type === 'edit') { this.modalRef.hide(); }
     const iconNew = this.icon ? this.icon : this.amenityModel.icon;
     this.parameter.url = 'addAmenity';
 
@@ -148,9 +148,9 @@ export class ProjectComponent implements OnInit {
     input.append('name_es', name_es);
     input.append('status', status);
 
-    if (this.icon) {input.append('icon', iconNew); }
+    if (this.icon) { input.append('icon', iconNew); }
 
-    if (id) {input.append('id', id); }
+    if (id) { input.append('id', id); }
     this.parameter.loading = true;
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
@@ -294,7 +294,7 @@ export class ProjectComponent implements OnInit {
           this.addPossessionStatus(id, name_en, name_en, status, type);
         }
       });
-    }else {
+    } else {
       self.addPossessionStatus(id, name_en, name_es, status, type);
     }
   }
@@ -316,7 +316,7 @@ export class ProjectComponent implements OnInit {
           this.addBuildingType(id, name_en, name_en, status, type);
         }
       });
-    }else {
+    } else {
       self.addBuildingType(id, name_en, name_es, status, type);
     }
   }
@@ -338,12 +338,10 @@ export class ProjectComponent implements OnInit {
           this.addAmenity(id, icon, name_en, name_en, status, type);
         }
       });
-    }else {
+    } else {
       self.addAmenity(id, icon, name_en, name_es, status, type);
     }
   }
-
-
 
   changeListner(event) {
     const reader = new FileReader();
@@ -351,9 +349,9 @@ export class ProjectComponent implements OnInit {
     const fileToUpload = event.target.files[0];
     this.icon = fileToUpload;
 
-    reader.onload = function(e) {
+    reader.onload = function (e) {
       const src = e.target['result'];
-        image.src = src;
+      image.src = src;
     };
 
     reader.readAsDataURL(event.target.files[0]);
