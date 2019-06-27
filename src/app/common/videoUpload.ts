@@ -25,19 +25,18 @@ export class VideoUpload {
       for (let index = 0; index < event.target.files.length; index++) {
         this.loading = true;
         const reader = new FileReader();
-        // const videoTest = this.element.nativeElement.querySelector('.video55');
         reader.onload = (e: any) => {
           const src = e.target['result'];
-          videoTest.src = src;
+          // videoTest.src = src;
           const timer = setInterval(() => {
             // find duration of video only of video is in ready state
-            if (videoTest.readyState === 4) {
-              setTimeout(() => {
-                // create canvas at middle of video
-                this.newcanvas(videoTest, event.target.files[0]);
-              }, 3000);
-              clearInterval(timer);
-            }
+            // if (videoTest.readyState === 4) {
+            //   setTimeout(() => {
+            //     // create canvas at middle of video
+            //     this.newcanvas(videoTest, event.target.files[0]);
+            //   }, 3000);
+            //   clearInterval(timer);
+            // }
           }, 100);
           if (this.single == true) {
             this.image = e.target.result;
@@ -63,62 +62,6 @@ export class VideoUpload {
       }
     }
   }
-
-
-
-  showCanvas(event) {
-    // if (event.target.files[0].size > this.constant.fileSizeLimit) {
-    //   swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
-    // } else {
-
-      setTimeout(() => {
-        this.model.videoLoader = true;
-        this.video = document.getElementById('video1');
-        const reader = new FileReader();
-        const videoTest = this.element.nativeElement.querySelector('.video55');
-        reader.onload = function (e) {
-          const src = e.target['result'];
-          videoTest.src = src;
-          const timer = setInterval(() => {
-            // find duration of video only of video is in ready state
-            if (videoTest.readyState === 4) {
-              setTimeout(() => {
-                // create canvas at middle of video
-                this.newcanvas(videoTest, event.target.files[0]);
-              }, 3000);
-              clearInterval(timer);
-            }
-          }, 100);
-        }.bind(this);
-        reader.readAsDataURL(event.target.files[0]);
-      }, 100);
-    // }
-  }
-
-  // newcanvas(video: any, videoFile: File) {
-  //   const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-  //   const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
-  //     0, 0, canvas.width, canvas.height);
-  //   const ImageURL = canvas.toDataURL('image/jpeg');
-  //   // model.image = ImageURL;
-  //   const fileToUpload = this.dataURLtoFile(ImageURL, 'tempFile.png');
-  //   this.cs.saveVideo(videoFile, fileToUpload).subscribe(
-  //     success => {
-  //       this.model.videoLoader = false;
-  //       this.model.videos = [];
-  //       const videoObj = {
-  //         video: '', thumb: ''
-  //       };
-  //       videoObj.video = success['data'].video;
-  //       videoObj.thumb = success['data'].thumb;
-  //       this.model.videos = [videoObj];
-  //     }, error => {
-  //       // console.log(error);
-  //     }
-  //   );
-  // }
-
-
 
 
   newcanvas(video: any, videoFile: File) {

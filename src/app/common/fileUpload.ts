@@ -24,7 +24,7 @@ export class FileUpload {
 
     if (event.target.files && event.target.files[0]) {
       const total = event.target.files.length;
-      for (let index = 0; index < event.target.files.length; index++) {
+      for (let index = 0; index < event.target.files.length; index++) {          //111
         this.loading = true;
         const reader = new FileReader();
         reader.onload = (e: any) => {
