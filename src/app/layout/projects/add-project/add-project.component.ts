@@ -103,6 +103,7 @@ export class AddProjectComponent implements OnInit {
     thumbnail: '',
     original: ''
   };
+  allAmenvideos = [];
   videoSrc: any;
   keyword: string;
   testMarital = [
@@ -123,6 +124,7 @@ export class AddProjectComponent implements OnInit {
     }
   ];
   showPreferableBuyer = false;
+  private single: boolean = false;
 
   constructor(
     public model: AddProjectModel,
@@ -139,6 +141,7 @@ export class AddProjectComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.name = '';
     this.file1 = new FileUpload(true, this.admin);
     this.file2 = new FileUpload(false, this.admin);
@@ -546,7 +549,7 @@ export class AddProjectComponent implements OnInit {
     this.modalAmenClose.nativeElement.click();
   }
 
-  saveAmenityImages() {
+  async saveAmenityImages() {
     // if (this.file2.files.length > 6) {
     //   swal('Error', 'You can choose maximum of 6 images.', 'error'); return false;
     // }
@@ -580,9 +583,12 @@ export class AddProjectComponent implements OnInit {
     this.amen360Img.upload().then(r => {
       this.all_amenities[this.amenity_index].images_360 = this.amen360Img.files;
     });
-    this.amenVideo.upload().then(r => {
-      this.all_amenities[this.amenity_index].videos = this.amenVideo.files;
-    });
+    if (this.amenVideo.files.length) {
+      const data = await this.upload();
+    }
+    // this.amenVideo.upload().then(r => {
+    //   this.all_amenities[this.amenity_index].videos = this.amenVideo.files;
+    // });
 
     // this.modalAmenClose.nativeElement.click();
 
@@ -1610,7 +1616,7 @@ export class AddProjectComponent implements OnInit {
             }
           }, 100);
         }.bind(this);
-        reader.readAsDataURL(event.target.files[0]);
+
       }, 100);
     }
   }
@@ -1676,13 +1682,12 @@ export class AddProjectComponent implements OnInit {
     // } else {
     let length;
     const videoObj = {
-      video: '', thumb: '', loading: false
+      video: '', thumb: '', loading: false, valid: false
     };
     setTimeout(() => {
-      if (this.amenVideo.files.length === 0 && (event.target.files.length === 1) || event.target.files.length !== 1) {
+      if (this.amenVideo.files.length === 0) {
         for (let i = 0; i < event.target.files.length; i++) {
           this.amenVideo.files.push(videoObj);
-
         }
       } else if (this.amenVideo.files.length !== 0) {
         length = this.amenVideo.files.length;
@@ -1696,72 +1701,121 @@ export class AddProjectComponent implements OnInit {
     }, 100);
 
 
-    // this.video = document.getElementById('video1');
+      setTimeout(async () => {
 
-    setTimeout(() => {
-      for (let index = 0; index < event.target.files.length; index++) {
-        console.log('second');
-        this.amenVideo.files[index].loading = true;
-        const reader = new FileReader();
-        const videoTest = this.element.nativeElement.querySelector('.video' + index);
-        reader.onload = async function (e) {
-          console.log(e.target, 'target file');
-          const src = e.target['result'];
-          videoTest.src = src;
-          const timer = setTimeout(async () => {
-            // find duration of video only of video is in ready state
-            if (videoTest.readyState === 4) {
-              // setTimeout(() => {
-              //   // create canvas at middle of video
+        for (let index = 0; index < event.target.files.length; index++) {
+          this.amenVideo.files[index].loading = true;
+          const reader = new FileReader();
+          const videoTest = this.element.nativeElement.querySelector('.video' + index);
 
-              const data = await this.newcanvasamenVideo(videoTest, event.target.files[index], index);
-              // }, 3000);
-              // clearInterval(timer);
-            }
-          }, 1000);
-        }.bind(this);
-        reader.readAsDataURL(event.target.files[0]);
-      }
-    }, 1000);
+          reader.onload = function (e) {
+            console.log(e.target, 'target file');
+            const src = e.target['result'];
+            videoTest.src = src;
+            const timer = setTimeout(async () => {
+              // find duration of video only of video is in ready state
+              if (videoTest.readyState === 4) {
+                // setTimeout(() => {
+                //   // create canvas at middle of video
 
-    // }
-  };
+                const data = await this.newcanvasamenVideo(videoTest, event.target.files[index], index);
+                // }, 3000);
+                // clearInterval(timer);
+              }
+            }, 1000);
+          }.bind(this);
+          reader.readAsDataURL(event.target.files[index]);
+
+        }
+      }, 1000);
+
+      // }
+  }
 
 
-  newcanvasamenVideo(video: any, videoFile: File, index): Promise<any> {
-    let length;
+  // @ts-ignore
+  newcanvasamenVideo(video: any, videoFile: File): Promise<any> {
+    let length, myIndex;
     length = this.amenVideo.files.length;
-    const canvas = document.getElementById('canvas' + (length - 1)) as HTMLCanvasElement;
-    const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
-      0, 0, canvas.width, canvas.height);
-    const ImageURL = canvas.toDataURL('image/jpeg');
-    // model.image = ImageURL;
-    this.amenVideo.files[length - 1]['canvasImage'] = ImageURL;
-    console.log(this.amenVideo.files);
-    const fileToUpload = this.dataURLtoFile(ImageURL, 'tempFile.png');
-    // this.model.allAmenvideos.push(fileToUpload);
+    for (let i = 0; i < this.amenVideo.files.length; i++) {
+      if (!this.amenVideo.files[i].valid) {
+        myIndex = i;
+        break;
+      }
+    }
+    console.log(myIndex, 'myIndex');
+    if (myIndex !== undefined) {
+      const canvas = document.getElementById('canvas' + (myIndex)) as HTMLCanvasElement;
+      const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
+        0, 0, canvas.width, canvas.height);
+      const ImageURL = canvas.toDataURL('image/jpeg');
+      // model.image = ImageURL;
+      this.amenVideo.files[myIndex].canvasImage = ImageURL;
+      console.log(this.amenVideo.files);
+      this.amenVideo.files[myIndex]['valid'] = true;
+      console.log(this.amenVideo.files);
+      const fileToUpload = this.dataURLtoFile(ImageURL, 'tempFile.png');
+      const model: any = {};
+      model.fileToUpload = fileToUpload;
+      model.videoFile = videoFile;
+      this.allAmenvideos.push(model);
+
+    }
+
     for (let i = 0; i < this.amenVideo.files.length; i++) {
       this.amenVideo.files[i].loading = false;
     }
-    return new Promise((resolve, reject) => {
-      // this.cs.saveVideo(videoFile, fileToUpload).subscribe(
-      //   success => {
-      //     console.log( this.model.amenvideos,' this.model.amenvideos')
-      //     this.amenVideo.files[length-1].loading = false;
-      //     this.model.videoLoader = false;
-      //     this.model.amenvideos = [];
-      //     const videoObj = {
-      //       video: '', thumb: ''
-      //     };
-      //     videoObj.video = success['data'].video;
-      //     videoObj.thumb = success['data'].thumb;
-      //     this.model.amenvideos.push(videoObj);
-      //     resolve();
-      //   }, error => {
-      //     reject();
-      //     console.log(error);
-      //   }
-      // );
+    console.log(this.allAmenvideos, 'allAmenvideos');
+    // return new Promise((resolve, reject) => {
+    //   // this.cs.saveVideo(videoFile, fileToUpload).subscribe(
+    //   //   success => {
+    //   //     console.log( this.model.amenvideos,' this.model.amenvideos')
+    //   //     this.amenVideo.files[length-1].loading = false;
+    //   //     this.model.videoLoader = false;
+    //   //     this.model.amenvideos = [];
+    //   //     const videoObj = {
+    //   //       video: '', thumb: ''
+    //   //     };
+    //   //     videoObj.video = success['data'].video;
+    //   //     videoObj.thumb = success['data'].thumb;
+    //   //     this.model.amenvideos.push(videoObj);
+    //   //     resolve();
+    //   //   }, error => {
+    //   //     reject();
+    //   //     console.log(error);
+    //   //   }
+    //   // );
+    // });
+  }
+
+  remove(index: any) {
+    this.amenVideo.files.splice(index, 1);
+    this.allAmenvideos.splice(index, 1);
+    console.log(this.amenVideo, this.allAmenvideos);
+  }
+
+  // @ts-ignore
+  upload(): Promise<any> {
+    this.allAmenvideos.forEach((ele, index) => {
+      return new Promise((resolve, reject) => {
+        this.cs.saveVideo(ele.videoFile, ele.fileToUpload).subscribe(
+          success => {
+            console.log(this.model.amenvideos, ' this.model.amenvideos');
+            // this.amenVideo.files[length-1].loading = false;
+            this.model.videoLoader = false;
+            this.model.amenvideos = [];
+            const videoObj = {
+              video: '', thumb: ''
+            };
+            videoObj.video = success['data'].video;
+            videoObj.thumb = success['data'].thumb;
+            this.model.amenvideos.push(videoObj);
+            resolve();
+          }, error => {
+            reject();
+            console.log(error);
+          });
+      });
     });
   }
 
