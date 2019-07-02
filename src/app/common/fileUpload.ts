@@ -68,7 +68,7 @@ export class FileUpload {
   }
 
   upload(): Promise<any> {
-    // console.log(this.single);
+    console.log(this.files, 'this.files');
     return new Promise((resolve, reject) => {
       if (this.single == false) {
         const total = this.files.length;

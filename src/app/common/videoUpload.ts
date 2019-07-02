@@ -106,23 +106,23 @@ export class VideoUpload {
   }
 
   upload(): Promise<any> {
-    // console.log(this.single);
+    console.log(this.files, 'video-filesssssssssss');
     return new Promise((resolve, reject) => {
       if (this.single == false) {
         const total = this.files.length; let i = 1;
         this.files.map(async (item) => {
-          if (item.file) {
-            console.log('1111', item.file, item.file.type);
+          if (item.fileToUpload) {
+            // console.log('1111', item.file, item.file.type);
             const formData = new FormData();
-            formData.append('video', item.file);
-            formData.append('thumb', item.file);
+            formData.append('video', item.videoFile);
+            formData.append('thumb', item.fileToUpload);
             // console.log(item);
             item.loading = true;
             await this.us.postDataApi('saveVideo', formData).subscribe(res => {
-              // console.log(res);
-              delete item.file;
+              console.log(res.data);
+              delete item.fileToUpload;
               item.video = res['data'].video;
-              item.image = res['data'].thumb;
+              item.thumb = res['data'].thumb;
               item.loading = false;
               if (i == total) { resolve(); }/* resolve on last loop */
               i++;
@@ -136,24 +136,24 @@ export class VideoUpload {
           }
         });
       }
-      if (this.single === true && this.file) {
-        console.log('22222', this.file);
-        const formData = new FormData();
-        formData.append('video', this.file);
-        formData.append('thumb', this.file);
-        this.image.loading = true;
-        this.us.postDataApi('saveImage', formData).subscribe(res => {
-          this.file = '';
-          this.image = res['data'].image;
-          this.image.loading = false;
-          resolve();
-        },
-          error => {
-            reject(error);
-          });
-      } else {
-        resolve();
-      }
+      // if (this.single === true && this.file) {
+      //   console.log('22222', this.file);
+      //   const formData = new FormData();
+      //   formData.append('video', this.file);
+      //   formData.append('thumb', this.file);
+      //   this.image.loading = true;
+      //   this.us.postDataApi('saveImage', formData).subscribe(res => {
+      //     this.file = '';
+      //     this.image = res['data'].image;
+      //     this.image.loading = false;
+      //     resolve();
+      //   },
+      //     error => {
+      //       reject(error);
+      //     });
+      // } else {
+      //   resolve();
+      // }
     });
   }
 

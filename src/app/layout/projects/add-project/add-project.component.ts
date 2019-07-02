@@ -124,7 +124,7 @@ export class AddProjectComponent implements OnInit {
     }
   ];
   showPreferableBuyer = false;
-  private single: boolean = false;
+  private single = false;
 
   constructor(
     public model: AddProjectModel,
@@ -579,13 +579,19 @@ export class AddProjectComponent implements OnInit {
     // }
     this.file2.upload().then(r => {
       this.all_amenities[this.amenity_index].images = this.file2.files;
+      console.log(this.file2.files);
     });
     this.amen360Img.upload().then(r => {
       this.all_amenities[this.amenity_index].images_360 = this.amen360Img.files;
     });
-    if (this.amenVideo.files.length) {
-      const data = await this.upload();
-    }
+    this.amenVideo.upload().then(r => {
+      this.all_amenities[this.amenity_index].videos = this.amenVideo.files;
+    });
+    // if (this.amenVideo.files.length) {
+    //   const data = await this.upload();
+    // }
+
+    console.log(this.file2.files, 'this.file2.files-images');
     // this.amenVideo.upload().then(r => {
     //   this.all_amenities[this.amenity_index].videos = this.amenVideo.files;
     // });
@@ -1220,6 +1226,7 @@ export class AddProjectComponent implements OnInit {
   }
 
   file2Select($event) {
+    console.log($event);
     // if ((this.file2.files.length + $event.target.files.length) > 6) {
     //   swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
     //   return false;
@@ -1669,129 +1676,95 @@ export class AddProjectComponent implements OnInit {
   }
 
   amenVideosSelect($event) {
-    if ((this.amenVideo.files.length + $event.target.files.length) > 3) {
-      swal('Limit exceeded', 'You can upload maximum of 3 videos', 'error');
+    if ((this.amenVideo.files.length + $event.target.files.length) > 6) {
+      swal('Limit exceeded', 'You can upload maximum of 6 videos', 'error');
       return false;
     }
     this.showamenVideo($event);
   }
 
-  showamenVideo(event) {
-    // if (event.target.files[0].size > this.constant.fileSizeLimit) {
-    //   swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
-    // } else {
-    let length;
-    const videoObj = {
-      video: '', thumb: '', loading: false, valid: false
-    };
-    setTimeout(() => {
-      if (this.amenVideo.files.length === 0) {
-        for (let i = 0; i < event.target.files.length; i++) {
-          this.amenVideo.files.push(videoObj);
-        }
-      } else if (this.amenVideo.files.length !== 0) {
-        length = this.amenVideo.files.length;
+  async showamenVideo(event) {
 
-        for (let index = 0; index < event.target.files.length; index++) {
-          this.amenVideo.files.splice(length, 0, videoObj);
+      const videoObj = {
+        video: '', thumb: '', loading: false, valid: false
+      };
+      // setTimeout(() => {
+      // if (this.amenVideo.files.length === 0) {
+      //   for (let i = 0; i < event.target.files.length; i++) {
+      //     this.amenVideo.files.push(videoObj);
+      //   }
+      // } else if (this.amenVideo.files.length !== 0) {
+      //   length = this.amenVideo.files.length;
+      //
+      //   // for (let index = 0; index < event.target.files.length; index++) {
+      //   this.amenVideo.files.splice(length, 0, videoObj);
+      //   // }
+      // }
+      //
+      // }, 100);
+
+      const arr = [];
+
+      for (let index = 0; index < event.target.files.length; index++) {
+        if (event.target.files[index].size < this.constant.fileSizeLimit) {
+          this.amenVideo.files.push(event.target.files[index]);
+        } else {
+          swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
         }
       }
 
-      console.log(this.amenVideo.files);
-    }, 100);
-
-
       setTimeout(async () => {
+        this.amenVideo.files.forEach(async (item, index) => {
+          if (!item.id) {
+            const reader = new FileReader();
+            const videoTest = this.element.nativeElement.querySelector('.video' + index);
 
-        for (let index = 0; index < event.target.files.length; index++) {
-          this.amenVideo.files[index].loading = true;
-          const reader = new FileReader();
-          const videoTest = this.element.nativeElement.querySelector('.video' + index);
-
-          reader.onload = function (e) {
-            console.log(e.target, 'target file');
-            const src = e.target['result'];
-            videoTest.src = src;
-            const timer = setTimeout(async () => {
-              // find duration of video only of video is in ready state
-              if (videoTest.readyState === 4) {
-                // setTimeout(() => {
-                //   // create canvas at middle of video
-
-                const data = await this.newcanvasamenVideo(videoTest, event.target.files[index], index);
-                // }, 3000);
-                // clearInterval(timer);
-              }
-            }, 1000);
-          }.bind(this);
-          reader.readAsDataURL(event.target.files[index]);
-
-        }
+            reader.onload = function (e) {
+              const src = e.target['result'];
+              videoTest.src = src;
+              const timer = setTimeout(async () => {
+                // find duration of video only of video is in ready state
+                if (videoTest.readyState === 4) {
+                  // setTimeout(() => {
+                  //   // create canvas at middle of video
+                  const data = await this.newcanvasamenVideo(videoTest, this.amenVideo.files[index], index);
+                  // }, 3000);
+                  // clearInterval(timer);
+                }
+              }, 1000);
+            }.bind(this);
+            reader.readAsDataURL(this.amenVideo.files[index]);
+            // await func(item);
+          }
+        });
       }, 1000);
 
       // }
+
   }
 
 
   // @ts-ignore
-  newcanvasamenVideo(video: any, videoFile: File): Promise<any> {
-    let length, myIndex;
-    length = this.amenVideo.files.length;
-    for (let i = 0; i < this.amenVideo.files.length; i++) {
-      if (!this.amenVideo.files[i].valid) {
-        myIndex = i;
-        break;
-      }
-    }
-    console.log(myIndex, 'myIndex');
+  newcanvasamenVideo(video: any, videoFile: File, myIndex): Promise<any> {
     if (myIndex !== undefined) {
       const canvas = document.getElementById('canvas' + (myIndex)) as HTMLCanvasElement;
       const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
         0, 0, canvas.width, canvas.height);
       const ImageURL = canvas.toDataURL('image/jpeg');
-      // model.image = ImageURL;
       this.amenVideo.files[myIndex].canvasImage = ImageURL;
-      console.log(this.amenVideo.files);
-      this.amenVideo.files[myIndex]['valid'] = true;
-      console.log(this.amenVideo.files);
       const fileToUpload = this.dataURLtoFile(ImageURL, 'tempFile.png');
       const model: any = {};
       model.fileToUpload = fileToUpload;
       model.videoFile = videoFile;
-      this.allAmenvideos.push(model);
+      this.amenVideo.files[myIndex].fileToUpload = fileToUpload;
+      this.amenVideo.files[myIndex].videoFile = videoFile;
 
     }
-
-    for (let i = 0; i < this.amenVideo.files.length; i++) {
-      this.amenVideo.files[i].loading = false;
-    }
-    console.log(this.allAmenvideos, 'allAmenvideos');
-    // return new Promise((resolve, reject) => {
-    //   // this.cs.saveVideo(videoFile, fileToUpload).subscribe(
-    //   //   success => {
-    //   //     console.log( this.model.amenvideos,' this.model.amenvideos')
-    //   //     this.amenVideo.files[length-1].loading = false;
-    //   //     this.model.videoLoader = false;
-    //   //     this.model.amenvideos = [];
-    //   //     const videoObj = {
-    //   //       video: '', thumb: ''
-    //   //     };
-    //   //     videoObj.video = success['data'].video;
-    //   //     videoObj.thumb = success['data'].thumb;
-    //   //     this.model.amenvideos.push(videoObj);
-    //   //     resolve();
-    //   //   }, error => {
-    //   //     reject();
-    //   //     console.log(error);
-    //   //   }
-    //   // );
-    // });
   }
 
   remove(index: any) {
     this.amenVideo.files.splice(index, 1);
     this.allAmenvideos.splice(index, 1);
-    console.log(this.amenVideo, this.allAmenvideos);
   }
 
   // @ts-ignore
