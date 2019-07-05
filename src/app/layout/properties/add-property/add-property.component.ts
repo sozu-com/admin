@@ -1,16 +1,18 @@
-import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
-import { AdminService } from '../../../services/admin.service';
-import { CommonService } from '../../../services/common.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { IProperty } from '../../../common/property';
-import { DomSanitizer } from '@angular/platform-browser';
-import { NgForm, FormControl } from '@angular/forms';
-import { MapsAPILoader } from '@agm/core';
-import { Constant } from '../../../common/constants';
-import { FileUpload } from './../../../common/fileUpload';
-import { AddPropertyModel, Building, PropertyDetails } from '../../../models/addProperty.model';
-import { HttpInterceptor } from '../../../services/http-interceptor';
-import { AddProjectModel, Towers, Configuration } from 'src/app/models/addProject.model';
+import {Component, OnInit, ViewChild, ElementRef, NgZone} from '@angular/core';
+import {AdminService} from '../../../services/admin.service';
+import {CommonService} from '../../../services/common.service';
+import {Router, ActivatedRoute} from '@angular/router';
+import {IProperty} from '../../../common/property';
+import {DomSanitizer} from '@angular/platform-browser';
+import {NgForm, FormControl} from '@angular/forms';
+import {MapsAPILoader} from '@agm/core';
+import {Constant} from '../../../common/constants';
+import {FileUpload} from './../../../common/fileUpload';
+import {AddPropertyModel, Building, PropertyDetails} from '../../../models/addProperty.model';
+import {HttpInterceptor} from '../../../services/http-interceptor';
+import {AddProjectModel, Towers, Configuration} from 'src/app/models/addProject.model';
+import {VideoUpload} from '../../../common/videoUpload';
+
 declare const google;
 declare let swal: any;
 
@@ -26,7 +28,7 @@ export class AddPropertyComponent implements OnInit {
   file360: FileUpload;
   amenMoreImg: FileUpload;
   amen360Img: FileUpload;
-  amenVideo: FileUpload;
+  amenVideo: VideoUpload;
 
   public parameter: IProperty = {};
   @ViewChild('modalClose') modalClose: ElementRef;
@@ -87,8 +89,8 @@ export class AddPropertyComponent implements OnInit {
   propertyDetails = false;
   details: any;
   editMode = false;
-  newcarpet_area = { area: '', price: '' };
-  newcustom_attribute = { name: '', value: '' };
+  newcarpet_area = {area: '', price: ''};
+  newcustom_attribute = {name: '', value: ''};
   buildingLoading = false;
   buildingData: AddProjectModel;
   searchedBuildings: Array<AddProjectModel>;
@@ -106,12 +108,14 @@ export class AddPropertyComponent implements OnInit {
   property_names: Array<any>;
   amenity_index: number;
   amenity_obj: any;
+
   constructor(public model: AddPropertyModel, private us: AdminService, private cs: CommonService,
-    private router: Router, private sanitization: DomSanitizer, private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone, private building: Building, public constant: Constant,
-    private route: ActivatedRoute,
-    private http: HttpInterceptor,
-    private element: ElementRef) { }
+              private router: Router, private sanitization: DomSanitizer, private mapsAPILoader: MapsAPILoader,
+              private ngZone: NgZone, private building: Building, public constant: Constant,
+              private route: ActivatedRoute,
+              private http: HttpInterceptor,
+              private element: ElementRef) {
+  }
 
   ngOnInit() {
     this.property_names = [];
@@ -120,14 +124,14 @@ export class AddPropertyComponent implements OnInit {
     this.buildingData = new AddProjectModel();
     this.parameter.amenities = [];
     this.parameter.banks = [];
-    this.http.loader.next({ value: true });
+    this.http.loader.next({value: true});
     this.details = new PropertyDetails;
 
     this.file2 = new FileUpload(false, this.us);
     this.file360 = new FileUpload(false, this.us);
     this.amenMoreImg = new FileUpload(false, this.us);
     this.amen360Img = new FileUpload(false, this.us);
-    this.amenVideo = new FileUpload(false, this.us);
+    this.amenVideo = new VideoUpload(false, this.us);
 
     this.parameter.sub = this.route.params.subscribe(params => {
       if (params['seller_id'] !== '0') {
@@ -141,7 +145,12 @@ export class AddPropertyComponent implements OnInit {
 
         this.us.postDataApi('getPropertyAmenities', {}).subscribe(res => {
           this.parameter.amenities = res.data.map(item => {
-            item.selected = false; item.images = []; item.images_360 = []; item.images_360 = []; item.videos = []; return item;
+            item.selected = false;
+            item.images = [];
+            item.images_360 = [];
+            item.images_360 = [];
+            item.videos = [];
+            return item;
           });
         });
 
@@ -163,7 +172,7 @@ export class AddPropertyComponent implements OnInit {
     });
 
     this.parameter.buildingCount = 0;
-    this.initialCountry = { initialCountry: this.constant.initialCountry };
+    this.initialCountry = {initialCountry: this.constant.initialCountry};
     this.building.dev_countrycode = this.constant.dial_code;
 
     this.tab = 0;
@@ -250,7 +259,7 @@ export class AddPropertyComponent implements OnInit {
       swal('Error', 'Please select floor.', 'error');
       return false;
     }
-    this.us.postDataApi('getProjectByIdWithCSC', { building_id: this.building.id })
+    this.us.postDataApi('getProjectByIdWithCSC', {building_id: this.building.id})
       .subscribe(
         success => {
           this.parameter.loading = false;
@@ -284,7 +293,7 @@ export class AddPropertyComponent implements OnInit {
           this.model.students_friendly = success['data'].students_friendly !== null ? success['data'].students_friendly : '1';
           this.model.lgtb_friendly = success['data'].lgtb_friendly !== null ? success['data'].lgtb_friendly : '1';
           this.model.mature_people_friendly = success['data'].mature_people_friendly !== null ?
-                                                success['data'].mature_people_friendly : '1';
+            success['data'].mature_people_friendly : '1';
 
           for (let index = 0; index < this.testMarital.length; index++) {
             if (success['data'].marital_statuses.length !== 0) {
@@ -380,7 +389,12 @@ export class AddPropertyComponent implements OnInit {
 
     this.us.postDataApi('getPropertyAmenities', {}).subscribe(res => {
       this.parameter.amenities = res.data.map(item => {
-        item.selected = false; item.images = []; item.images_360 = []; item.images_360 = []; item.videos = []; return item;
+        item.selected = false;
+        item.images = [];
+        item.images_360 = [];
+        item.images_360 = [];
+        item.videos = [];
+        return item;
       });
 
       for (let index = 0; index < this.parameter.amenities.length; index++) {
@@ -430,13 +444,13 @@ export class AddPropertyComponent implements OnInit {
 
     for (let index = 0; index < data.carpet_areas.length; index++) {
       const element = data.carpet_areas[index];
-      this.model.carpet_areas[index] = { area: element.area, price: element.price };
-      this.newcarpet_area = { area: element.area, price: element.price };
+      this.model.carpet_areas[index] = {area: element.area, price: element.price};
+      this.newcarpet_area = {area: element.area, price: element.price};
     }
 
     for (let index = 0; index < data.custom_values.length; index++) {
       const element = data.custom_values[index];
-      this.model.custom_attributes[index] = { name: element.name, value: element.value };
+      this.model.custom_attributes[index] = {name: element.name, value: element.value};
     }
   }
 
@@ -462,13 +476,15 @@ export class AddPropertyComponent implements OnInit {
 
   onCountryChange(e) {
     this.building.dev_countrycode = e.dialCode;
-    this.initialCountry = { initialCountry: e.iso2 };
+    this.initialCountry = {initialCountry: e.iso2};
   }
 
   getCountries(keyword: string) {
     this.us.postDataApi('getCountries', {})
       .subscribe(
-        success => { this.parameter.countries = success['data']; }
+        success => {
+          this.parameter.countries = success['data'];
+        }
       );
   }
 
@@ -484,9 +500,9 @@ export class AddPropertyComponent implements OnInit {
     input.append('country_id', country_id);
 
     this.us.postDataApi('country/getStates', input).subscribe(success => {
-      this.parameter.states = success['data'];
-      // this.parameter.loading = false;
-    },
+        this.parameter.states = success['data'];
+        // this.parameter.loading = false;
+      },
       error => {
         // this.parameter.loading = false;
       });
@@ -502,9 +518,9 @@ export class AddPropertyComponent implements OnInit {
     input.append('state_id', state_id);
 
     this.us.postDataApi('getCities', input).subscribe(success => {
-      this.parameter.cities = success['data'];
-      // this.parameter.loading = false;
-    },
+        this.parameter.cities = success['data'];
+        // this.parameter.loading = false;
+      },
       error => {
         // this.parameter.loading = false;
       });
@@ -518,11 +534,15 @@ export class AddPropertyComponent implements OnInit {
     const input = new FormData();
     input.append('city_id', city_id);
 
-    if (keyword) { input.append('keyword', keyword); }
+    if (keyword) {
+      input.append('keyword', keyword);
+    }
 
     this.us.postDataApi('getLocalities', input)
       .subscribe(
-        success => { this.parameter.localities = success['data']; }
+        success => {
+          this.parameter.localities = success['data'];
+        }
       );
   }
 
@@ -579,7 +599,11 @@ export class AddPropertyComponent implements OnInit {
       .subscribe(
         success => {
           this.parameter.amenities = success['data'].map(item => {
-            item.selected = false; item.images = []; item.images_360 = []; item.videos = []; return item;
+            item.selected = false;
+            item.images = [];
+            item.images_360 = [];
+            item.videos = [];
+            return item;
           });
         }
       );
@@ -652,7 +676,9 @@ export class AddPropertyComponent implements OnInit {
     const input = new FormData();
     this.us.postDataApi('getBanks', input)
       .subscribe(
-        success => { this.parameter.banks = success['data']; }
+        success => {
+          this.parameter.banks = success['data'];
+        }
       );
   }
 
@@ -660,7 +686,9 @@ export class AddPropertyComponent implements OnInit {
     const input = new FormData();
     this.us.postDataApi('getBuildingSpecificTypes', input)
       .subscribe(
-        success => { this.parameter.buildingSpecificTypes = success['data']; }
+        success => {
+          this.parameter.buildingSpecificTypes = success['data'];
+        }
       );
   }
 
@@ -668,9 +696,12 @@ export class AddPropertyComponent implements OnInit {
     const input = new FormData();
     this.us.postDataApi('getPaymentStatuses', input)
       .subscribe(
-        success => { this.parameter.paymentStatuses = success['data']; }
+        success => {
+          this.parameter.paymentStatuses = success['data'];
+        }
       );
   }
+
   addBank(bank) {
     if (!bank) {
       return false;
@@ -695,7 +726,7 @@ export class AddPropertyComponent implements OnInit {
       swal('Error', 'Please fill carpet area fields', 'error');
     } else {
       this.model.carpet_areas.push(JSON.parse(JSON.stringify(this.newcarpet_area)));
-      this.newcarpet_area = { area: '', price: '' };
+      this.newcarpet_area = {area: '', price: ''};
     }
   }
 
@@ -704,7 +735,7 @@ export class AddPropertyComponent implements OnInit {
       swal('Error', 'Please fill custom attribute fields', 'error');
     } else {
       this.model.custom_attributes.push(this.newcustom_attribute);
-      this.newcustom_attribute = { name: '', value: '' };
+      this.newcustom_attribute = {name: '', value: ''};
     }
   }
 
@@ -719,7 +750,10 @@ export class AddPropertyComponent implements OnInit {
 
 
   searchBuilding(keyword: string) {
-    if (!keyword) { swal('Error', 'Please enter some text.', 'error'); return false; }
+    if (!keyword) {
+      swal('Error', 'Please enter some text.', 'error');
+      return false;
+    }
 
     this.showBuilding = false;
     this.buildingLoading = true;
@@ -732,7 +766,9 @@ export class AddPropertyComponent implements OnInit {
         success => {
           this.searchedBuildings = success['data'];
           this.parameter.buildingCount = success['data'].length;
-          if (this.parameter.buildingCount === 0) { this.showText = true; }
+          if (this.parameter.buildingCount === 0) {
+            this.showText = true;
+          }
           this.buildingLoading = false;
         },
         error => {
@@ -824,26 +860,28 @@ export class AddPropertyComponent implements OnInit {
   }
 
   saveImages() {
-    this.http.loader.next({ value: true });
+    this.http.loader.next({value: true});
     if (this.file2.files.length < 1) {
-      swal('Error', 'Please select atleast one image', 'error'); return false;
+      swal('Error', 'Please select atleast one image', 'error');
+      return false;
     }
     this.modalClose.nativeElement.click();
     this.file2.upload().then(r => {
       this.model.images = this.file2.files;
-      this.http.loader.next({ value: false });
+      this.http.loader.next({value: false});
     });
   }
 
   save360Images() {
-    this.http.loader.next({ value: true });
+    this.http.loader.next({value: true});
     if (this.file360.files.length < 1) {
-      swal('Error', 'Please select atleast one image', 'error'); return false;
+      swal('Error', 'Please select atleast one image', 'error');
+      return false;
     }
     this.modalClose360Img.nativeElement.click();
     this.file360.upload().then(r => {
       this.model.images360 = this.file360.files;
-      this.http.loader.next({ value: false });
+      this.http.loader.next({value: false});
     });
   }
 
@@ -862,6 +900,7 @@ export class AddPropertyComponent implements OnInit {
     }
     this.file360.onSelectFile($event);
   }
+
   onSelectFile3(event) { // called each time file input changes
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
@@ -876,7 +915,9 @@ export class AddPropertyComponent implements OnInit {
 
       this.us.postDataApi('saveImage', input)
         .subscribe(
-          success => { this.model.floor_plan = success['data'].image; }
+          success => {
+            this.model.floor_plan = success['data'].image;
+          }
         );
 
       reader.readAsDataURL(event.target.files[0]);
@@ -1002,7 +1043,11 @@ export class AddPropertyComponent implements OnInit {
             element.videos = vid;
           });
 
-          this.model.amenities = this.parameter.amenities.filter(op => { if (op.selected === true) { return op; } });
+          this.model.amenities = this.parameter.amenities.filter(op => {
+            if (op.selected === true) {
+              return op;
+            }
+          });
         }
         // added building_id and step cuz need to update sttaus and step
         input.append('building_id', this.model.building_id);
@@ -1055,7 +1100,7 @@ export class AddPropertyComponent implements OnInit {
             if (this.model.step.toString() === '4') {
               swal({
                 html: 'Submitted successfully.' + '<br>' +
-                'You will be notified once your property will be reviewed by Admin, you can view status in your properties.',
+                  'You will be notified once your property will be reviewed by Admin, you can view status in your properties.',
                 type: 'success'
               });
               // swal('Submitted successfully.',
@@ -1115,7 +1160,9 @@ export class AddPropertyComponent implements OnInit {
   tagBuilding() {
 
     const input = new FormData();
-    if (this.parameter.property_id) { input.append('property_id', this.parameter.property_id); }
+    if (this.parameter.property_id) {
+      input.append('property_id', this.parameter.property_id);
+    }
     input.append('building_id', this.building.id);
 
     this.parameter.loading = true;
@@ -1125,7 +1172,7 @@ export class AddPropertyComponent implements OnInit {
           this.parameter.loading = false;
           swal({
             html: 'Submitted successfully.' + '<br>' +
-            'You will be notified once your property will be reviewed by Admin, you can view status in your properties.',
+              'You will be notified once your property will be reviewed by Admin, you can view status in your properties.',
             type: 'success'
           });
           if (this.router.url.indexOf('/dashboard/properties/edit-property') === -1) {
@@ -1163,7 +1210,9 @@ export class AddPropertyComponent implements OnInit {
           this.longitude = place.geometry.location.lng();
           this.zoom = 12;
 
-          if (place.formatted_address) { this.building.address = place.formatted_address; }
+          if (place.formatted_address) {
+            this.building.address = place.formatted_address;
+          }
         });
       });
     });
@@ -1191,7 +1240,7 @@ export class AddPropertyComponent implements OnInit {
       this.parameter.loading = true;
       const geocoder = new google.maps.Geocoder();
       const latlng = new google.maps.LatLng(lat, lng);
-      const request = { latLng: latlng };
+      const request = {latLng: latlng};
 
       geocoder.geocode(request, (results, status) => {
         if (status === google.maps.GeocoderStatus.OK) {
@@ -1211,7 +1260,8 @@ export class AddPropertyComponent implements OnInit {
   buildingRequest() {
 
     if (this.building.dev_name && (!this.building.dev_phone || !this.building.dev_email || !this.building.dev_countrycode)) {
-      swal('Error', 'Please fill complete devloper information', 'error'); return false;
+      swal('Error', 'Please fill complete devloper information', 'error');
+      return false;
     }
 
     if (!this.latitude && !this.longitude) {
@@ -1223,7 +1273,8 @@ export class AddPropertyComponent implements OnInit {
     this.building.lng = this.longitude;
 
     if (!this.building.lat || !this.building.lng) {
-      swal('Error', 'Please select location', 'error'); return false;
+      swal('Error', 'Please select location', 'error');
+      return false;
     }
     this.parameter.loading = true;
     this.us.postDataApi('buildingRequest', this.building)
@@ -1241,7 +1292,7 @@ export class AddPropertyComponent implements OnInit {
           // particular project
           swal({
             html: 'Success' + '<br>' +
-            'You can add property details and data-collector will link this property to the building.',
+              'You can add property details and data-collector will link this property to the building.',
             type: 'success'
           });
           this.tab = 1;
@@ -1258,7 +1309,9 @@ export class AddPropertyComponent implements OnInit {
 
   checkEmptyDetails() {
     for (const item of this.details) {
-      if (item == '') { return false; }
+      if (item == '') {
+        return false;
+      }
     }
     return true;
   }
@@ -1286,10 +1339,10 @@ export class AddPropertyComponent implements OnInit {
         this.video = document.getElementById('video1');
         const reader = new FileReader();
         const videoTest = this.element.nativeElement.querySelector('.video55');
-        reader.onload = function(e) {
+        reader.onload = function (e) {
           const src = e.target['result'];
           videoTest.src = src;
-          const timer = setInterval( () => {
+          const timer = setInterval(() => {
             // find duration of video only of video is in ready state
             if (videoTest.readyState === 4) {
               setTimeout(() => {
@@ -1308,7 +1361,7 @@ export class AddPropertyComponent implements OnInit {
   newcanvas(video: any, videoFile: File) {
     const canvas = document.getElementById('canvas') as HTMLCanvasElement;
     const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
-                                                      0, 0, canvas.width, canvas.height);
+      0, 0, canvas.width, canvas.height);
     const ImageURL = canvas.toDataURL('image/jpeg');
     // model.image = ImageURL;
     const fileToUpload = this.dataURLtoFile(ImageURL, 'tempFile.png');
@@ -1335,12 +1388,12 @@ export class AddPropertyComponent implements OnInit {
     let n = bstr.length;
     const u8arr = new Uint8Array(n);
     while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
+      u8arr[n] = bstr.charCodeAt(n);
     }
     return new File([u8arr], filename, {type: mime});
   }
 
-  onEnteringNumOfProperty (e: any) {
+  onEnteringNumOfProperty(e: any) {
     // this.property_names = Array(e).fill(1);
     this.property_names = [];
     for (let index = 0; index < e; index++) {
@@ -1355,7 +1408,6 @@ export class AddPropertyComponent implements OnInit {
     console.log(value, index, 'valueidnex');
     this.property_names[index] = value;
   }
-
 
 
   amenMoreImgSelect($event) {
@@ -1374,49 +1426,239 @@ export class AddPropertyComponent implements OnInit {
     this.amen360Img.onSelectFile($event);
   }
 
-  amenVideosSelect($event) {
-    if ((this.amenVideo.files.length + $event.target.files.length) > 6) {
-      swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
-      return false;
-    }
-    this.amenVideo.onSelectFile($event);
-  }
+  // amenVideosSelect($event) {
+  //   if ((this.amenVideo.files.length + $event.target.files.length) > 6) {
+  //     swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
+  //     return false;
+  //   }
+  //   this.amenVideo.onSelectFile($event);
+  // }
+
+
+  // saveAmenitiesMedia
+
+  // async saveAmenitiesMedia() {
+  //   let count = 0;
+  //   const totalFilesCount = this.amenMoreImg.files.length + this.amen360Img.files.length + this.amenVideo.files.length;
+  //   if (totalFilesCount < 1) {
+  //     swal('Error', 'Please select atleast one image', 'error');
+  //     return false;
+  //   }
+  //   this.amenMoreImg.upload().then(r => {
+  //     console.log('amen imag');
+  //     this.parameter.amenities[this.amenity_index].images = this.amenMoreImg.files;
+  //   });
+  //   this.amen360Img.upload().then(r => {
+  //     console.log('amen 360 imag');
+  //     this.parameter.amenities[this.amenity_index].images_360 = this.amen360Img.files;
+  //   });
+  //   this.amenVideo.upload().then(r => {
+  //     console.log('amen video');
+  //     this.parameter.amenities[this.amenity_index].videos = this.amenVideo.files;
+  //   });
+  //
+  //   // this.modalAmenClose.nativeElement.click();
+  //   console.log('===', this.amenMoreImg, this.amen360Img, this.amenVideo);
+  //
+  //   this.amenMoreImg.files.forEach(element => {
+  //     if (element.loading === false) {
+  //       console.log('==1111==');
+  //       count++;
+  //     }
+  //   });
+  //   this.amen360Img.files.forEach(element => {
+  //     if (element.loading === false) {
+  //       console.log('==2222==');
+  //       count++;
+  //     }
+  //   });
+  //
+  //
+  //   this.amenVideo.files.forEach(element => {
+  //     if (element.loading !== true) {
+  //       console.log('==3333==');
+  //       count++;
+  //     }
+  //   });
+  //
+  //   console.log('===totalFilesCount===', totalFilesCount, count);
+  //   if (count === totalFilesCount) {
+  //     this.modalAmenClose.nativeElement.click();
+  //   }
+  // }
+
 
   async saveAmenitiesMedia() {
+    // if (this.file2.files.length > 6) {
+    //   swal('Error', 'You can choose maximum of 6 images.', 'error'); return false;
+    // }
+    // if (this.file2.files.length < 1) {
+    //   // swal('Error', 'Please select atleast one image', 'error'); return false;
+    //   this.all_amenities[this.amenity_index].images = [];
+    //   this.modalAmenClose.nativeElement.click();
+    //   return false;
+    // }
+
+    // this.file2.upload().then(r => {
+    //   this.all_amenities[this.amenity_index].images = this.file2.files;
+    // });
+    // this.modalAmenClose.nativeElement.click();
+
     let count = 0;
     const totalFilesCount = this.amenMoreImg.files.length + this.amen360Img.files.length + this.amenVideo.files.length;
     if (totalFilesCount < 1) {
-      swal('Error', 'Please select atleast one image', 'error'); return false;
+      swal('Error', 'Please select atleast one image', 'error');
+      return false;
     }
+    // if (this.file2.files.length < 1) {
+    //   // swal('Error', 'Please select atleast one image', 'error'); return false;
+    //   this.all_amenities[this.amenity_index].images = [];
+    //   this.modalAmenClose.nativeElement.click();
+    //   return false;
+    // }
     this.amenMoreImg.upload().then(r => {
-      console.log('amen imag');
       this.parameter.amenities[this.amenity_index].images = this.amenMoreImg.files;
+      console.log(this.amenMoreImg.files);
     });
     this.amen360Img.upload().then(r => {
-      console.log('amen 360 imag');
       this.parameter.amenities[this.amenity_index].images_360 = this.amen360Img.files;
     });
     this.amenVideo.upload().then(r => {
-      console.log('amen video');
       this.parameter.amenities[this.amenity_index].videos = this.amenVideo.files;
     });
 
+
+
+
+    // if (this.amenVideo.files.length) {
+    //   const data = await this.upload();
+    // }
+
+
+    // this.amenVideo.upload().then(r => {
+    //   this.all_amenities[this.amenity_index].videos = this.amenVideo.files;
+    // });
+
     // this.modalAmenClose.nativeElement.click();
-    console.log('===', this.amenMoreImg, this.amen360Img, this.amenVideo);
 
     this.amenMoreImg.files.forEach(element => {
-      if (element.loading === false) { console.log('==1111=='); count++; }
+      if (element.loading !== true) {
+        console.log('==1111==');
+        count++;
+      }
     });
     this.amen360Img.files.forEach(element => {
-      if (element.loading === false) { console.log('==2222=='); count++; }
+      if (element.loading !== true) {
+        console.log('==2222==');
+        count++;
+      }
     });
     this.amenVideo.files.forEach(element => {
-      if (element.loading === false) { console.log('==3333=='); count++; }
+      if (element.loading !== true) {
+        console.log('==3333==');
+        count++;
+      }
     });
 
-    console.log('===totalFilesCount===', totalFilesCount, count);
     if (count === totalFilesCount) {
       this.modalAmenClose.nativeElement.click();
     }
+  }
+
+  amenVideosSelect($event) {
+    if ((this.amenVideo.files.length + $event.target.files.length) > 6) {
+      swal('Limit exceeded', 'You can upload maximum of 6 videos', 'error');
+      return false;
+    }
+
+    console.log(this.amenVideo.files);
+    this.showamenVideo($event);
+  }
+
+  async showamenVideo(event) {
+
+    const videoObj = {
+      video: '', thumb: '', loading: false, valid: false
+    };
+    // setTimeout(() => {
+    // if (this.amenVideo.files.length === 0) {
+    //   for (let i = 0; i < event.target.files.length; i++) {
+    //     this.amenVideo.files.push(videoObj);
+    //   }
+    // } else if (this.amenVideo.files.length !== 0) {
+    //   length = this.amenVideo.files.length;
+    //
+    //   // for (let index = 0; index < event.target.files.length; index++) {
+    //   this.amenVideo.files.splice(length, 0, videoObj);
+    //   // }
+    // }
+    //
+    // }, 100);
+
+    const arr = [];
+
+    for (let index = 0; index < event.target.files.length; index++) {
+      if (event.target.files[index].size < this.constant.fileSizeLimit) {
+        this.amenVideo.files.push(event.target.files[index]);
+      } else {
+        swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+      }
+    }
+
+    setTimeout(async () => {
+      this.amenVideo.files.forEach(async (item, index) => {
+        if (!item.id) {
+          const reader = new FileReader();
+          const videoTest = this.element.nativeElement.querySelector('.video' + index);
+
+          reader.onload = function (e) {
+            const src = e.target['result'];
+            videoTest.src = src;
+            const timer = setTimeout(async () => {
+              // find duration of video only of video is in ready state
+              if (videoTest.readyState === 4) {
+                // setTimeout(() => {
+                //   // create canvas at middle of video
+                const data = await this.newcanvasamenVideo(videoTest, this.amenVideo.files[index], index);
+                // }, 3000);
+                // clearInterval(timer);
+              }
+            }, 1000);
+          }.bind(this);
+          reader.readAsDataURL(this.amenVideo.files[index]);
+          // await func(item);
+        }
+      });
+    }, 1000);
+
+    // }
+
+  }
+
+
+  // @ts-ignore
+  newcanvasamenVideo(video: any, videoFile: File, myIndex): Promise<any> {
+
+    if (myIndex !== undefined) {
+      const canvas = document.getElementById('canvas' + (myIndex)) as HTMLCanvasElement;
+      const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
+        0, 0, canvas.width, canvas.height);
+      const ImageURL = canvas.toDataURL('image/jpeg');
+      this.amenVideo.files[myIndex].canvasImage = ImageURL;
+      const fileToUpload = this.dataURLtoFile(ImageURL, 'tempFile.png');
+      const model: any = {};
+      model.fileToUpload = fileToUpload;
+      model.videoFile = videoFile;
+      this.amenVideo.files[myIndex].loading = false;
+      this.amenVideo.files[myIndex]['fileToUpload'] = fileToUpload;
+      console.log(videoFile, 'videoFile');
+      // this.amenVideo.files[myIndex]['videoFile'].push(videoFile);
+      console.log(this.amenVideo.files, 'amenVideo.files');
+    }
+  }
+
+  remove(index: any) {
+    this.amenVideo.files.splice(index, 1);
+    // this.allAmenvideos.splice(index, 1);
   }
 }

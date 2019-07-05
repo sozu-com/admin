@@ -31,6 +31,8 @@ export class AddProjectComponent implements OnInit {
   @ViewChild('modalTowerAmenOpen') modalTowerAmenOpen: ElementRef;
   @ViewChild('modal360ImageClose') modal360ImageClose: ElementRef;
   @ViewChild('modal360ImageOpen') modal360ImageOpen: ElementRef;
+  @ViewChild('modalAddMoreVideos') modalAddMoreVideos: ElementRef;
+  @ViewChild('modalVideosClose') modalVideosClose: ElementRef;
   @ViewChild('mapDiv') mapDiv: ElementRef;
   @ViewChild('search') searchElementRef: ElementRef;
 
@@ -83,6 +85,7 @@ export class AddProjectComponent implements OnInit {
   file6: FileUpload;
   file7: FileUpload;
   file8: FileUpload;
+  file9: VideoUpload;
   amen360Img: FileUpload;
   amenVideo: VideoUpload;
   config360Img: FileUpload;
@@ -151,6 +154,7 @@ export class AddProjectComponent implements OnInit {
     this.file6 = new FileUpload(true, this.admin);
     this.file7 = new FileUpload(false, this.admin);
     this.file8 = new FileUpload(false, this.admin);
+    this.file9 = new VideoUpload(false, this.admin);
     this.amen360Img = new FileUpload(false, this.admin);
     this.amenVideo = new VideoUpload(false, this.admin);
     this.config360Img = new FileUpload(false, this.admin);
@@ -520,6 +524,11 @@ export class AddProjectComponent implements OnInit {
     this.file7.backup(JSON.parse(JSON.stringify(this.model.images360)));
   }
 
+  modelOpenVideos() {
+    this.modalAddMoreVideos.nativeElement.click();
+    this.file9.backup(JSON.parse(JSON.stringify(this.model.videos)));
+  }
+
   modelClose360ImgFun() {
     this.modal360ImageClose.nativeElement.click();
   }
@@ -534,6 +543,21 @@ export class AddProjectComponent implements OnInit {
       this.model.images360 = this.file7.files;
     });
   }
+
+
+  async saveVideos() {
+    if (this.amenVideo.files.length < 1) {
+      swal('Error', 'Please select atleast one image', 'error');
+      return false;
+    }
+    // this.modalVideosClose.nativeElement.click();
+    await this.amenVideo.upload().then(r => {
+      this.model.videos = this.amenVideo.files;
+    });
+    console.log( this.model.videos);
+    this.modalVideosClose.nativeElement.click();
+  }
+
 
   modelAmenityOpenFun(amenityObj: any, index: number) {
     this.amenity_index = index;
@@ -585,13 +609,15 @@ export class AddProjectComponent implements OnInit {
       this.all_amenities[this.amenity_index].images_360 = this.amen360Img.files;
     });
     this.amenVideo.upload().then(r => {
-      this.all_amenities[this.amenity_index].videos = this.amenVideo.files;
+      this.parameter.amenities[this.amenity_index].videos = this.amenVideo.files;
     });
+
+
     // if (this.amenVideo.files.length) {
     //   const data = await this.upload();
     // }
 
-    console.log(this.file2.files, 'this.file2.files-images');
+
     // this.amenVideo.upload().then(r => {
     //   this.all_amenities[this.amenity_index].videos = this.amenVideo.files;
     // });
@@ -671,12 +697,8 @@ export class AddProjectComponent implements OnInit {
       swal('Error', 'You can choose maximum of 6 videos.', 'error');
       return false;
     }
-    // if (this.file2.files.length < 1) {
-    //   // swal('Error', 'Please select atleast one image', 'error'); return false;
-    //   this.allTowerAmenities[this.amenity_index].images = [];
-    //   this.modalTowerAmenClose.nativeElement.click();
-    //   return false;
-    // }
+
+
     this.file2.upload().then(r => {
       this.allTowerAmenities[this.amenity_index].images = this.file2.files;
     });
@@ -684,8 +706,9 @@ export class AddProjectComponent implements OnInit {
       this.allTowerAmenities[this.amenity_index].images_360 = this.amen360Img.files;
     });
     this.amenVideo.upload().then(r => {
-      console.log('amen video');
+      console.log(this.amenVideo.files, 'amen video');
       this.allTowerAmenities[this.amenity_index].videos = this.amenVideo.files;
+      console.log(this.allTowerAmenities[this.amenity_index], 'alltowerrrrrrrrr');
     });
 
     // this.modalAmenClose.nativeElement.click();
@@ -983,6 +1006,8 @@ export class AddProjectComponent implements OnInit {
         this.model.marital_status.push(this.testMarital[index].id);
       }
     }
+
+    console.log(this.model, 'this.model');
     const modelSave = JSON.parse(JSON.stringify(this.model));
 
     modelSave.marital_status = JSON.stringify(this.model.marital_status);
@@ -1675,79 +1700,74 @@ export class AddProjectComponent implements OnInit {
     this.amen360Img.onSelectFile($event);
   }
 
-  amenVideosSelect($event) {
+  amenVideosSelect($event, type) {
     if ((this.amenVideo.files.length + $event.target.files.length) > 6) {
       swal('Limit exceeded', 'You can upload maximum of 6 videos', 'error');
       return false;
     }
-    this.showamenVideo($event);
+    this.showamenVideo($event, type);
   }
 
-  async showamenVideo(event) {
+  async showamenVideo(event, type) {
 
-      const videoObj = {
-        video: '', thumb: '', loading: false, valid: false
-      };
-      // setTimeout(() => {
-      // if (this.amenVideo.files.length === 0) {
-      //   for (let i = 0; i < event.target.files.length; i++) {
-      //     this.amenVideo.files.push(videoObj);
-      //   }
-      // } else if (this.amenVideo.files.length !== 0) {
-      //   length = this.amenVideo.files.length;
-      //
-      //   // for (let index = 0; index < event.target.files.length; index++) {
-      //   this.amenVideo.files.splice(length, 0, videoObj);
-      //   // }
-      // }
-      //
-      // }, 100);
+    const videoObj = {
+      video: '', thumb: '', loading: false, valid: false
+    };
 
-      const arr = [];
+    const arr = [];
 
-      for (let index = 0; index < event.target.files.length; index++) {
-        if (event.target.files[index].size < this.constant.fileSizeLimit) {
-          this.amenVideo.files.push(event.target.files[index]);
-        } else {
-          swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
-        }
+    for (let index = 0; index < event.target.files.length; index++) {
+      if (event.target.files[index].size < this.constant.fileSizeLimit) {
+        this.amenVideo.files.push(event.target.files[index]);
+      } else {
+        swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
       }
+    }
 
-      setTimeout(async () => {
-        this.amenVideo.files.forEach(async (item, index) => {
-          if (!item.id) {
-            const reader = new FileReader();
-            const videoTest = this.element.nativeElement.querySelector('.video' + index);
+    setTimeout(async () => {
+      this.amenVideo.files.forEach(async (item, index) => {
+        if (!item.id) {
+          const reader = new FileReader();
+          const videoTest = this.element.nativeElement.querySelector('.video' + index);
 
-            reader.onload = function (e) {
-              const src = e.target['result'];
-              videoTest.src = src;
-              const timer = setTimeout(async () => {
-                // find duration of video only of video is in ready state
-                if (videoTest.readyState === 4) {
-                  // setTimeout(() => {
-                  //   // create canvas at middle of video
-                  const data = await this.newcanvasamenVideo(videoTest, this.amenVideo.files[index], index);
-                  // }, 3000);
-                  // clearInterval(timer);
-                }
-              }, 1000);
-            }.bind(this);
-            reader.readAsDataURL(this.amenVideo.files[index]);
-            // await func(item);
-          }
-        });
-      }, 1000);
+          reader.onload = function (e) {
+            const src = e.target['result'];
+            videoTest.src = src;
+            const timer = setTimeout(async () => {
+              // find duration of video only of video is in ready state
+              if (videoTest.readyState === 4) {
+                // setTimeout(() => {
+                //   // create canvas at middle of video
+                const data = await this.newcanvasamenVideo(videoTest, this.amenVideo.files[index], index, type);
+                // }, 3000);
+                // clearInterval(timer);
+              }
+            }, 1000);
+          }.bind(this);
+          reader.readAsDataURL(this.amenVideo.files[index]);
+          // await func(item);
+        }
+      });
+    }, 1000);
 
-      // }
+    // }
 
   }
 
 
   // @ts-ignore
-  newcanvasamenVideo(video: any, videoFile: File, myIndex): Promise<any> {
+  newcanvasamenVideo(video: any, videoFile: File, myIndex, type): Promise<any> {
+    let canvasID: any;
+    if (type === 'amenity') {
+      canvasID = 'canvas';
+    } else if (type == 'tower') {
+      canvasID = 'canvas2';
+    }
+    else if (type == 'videos') {
+      canvasID = 'canvas3';
+    }
     if (myIndex !== undefined) {
-      const canvas = document.getElementById('canvas' + (myIndex)) as HTMLCanvasElement;
+      const canvas = document.getElementById(canvasID + (myIndex)) as HTMLCanvasElement;
       const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
         0, 0, canvas.width, canvas.height);
       const ImageURL = canvas.toDataURL('image/jpeg');
@@ -1756,9 +1776,11 @@ export class AddProjectComponent implements OnInit {
       const model: any = {};
       model.fileToUpload = fileToUpload;
       model.videoFile = videoFile;
-      this.amenVideo.files[myIndex].fileToUpload = fileToUpload;
-      this.amenVideo.files[myIndex].videoFile = videoFile;
-
+      this.amenVideo.files[myIndex].loading = false;
+      this.amenVideo.files[myIndex]['fileToUpload'] = fileToUpload;
+      console.log(videoFile, 'videoFile');
+      // this.amenVideo.files[myIndex]['videoFile'].push(videoFile);
+      console.log(this.amenVideo.files, 'amenVideo.files');
     }
   }
 

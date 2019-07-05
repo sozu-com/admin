@@ -114,7 +114,7 @@ export class VideoUpload {
           if (item.fileToUpload) {
             // console.log('1111', item.file, item.file.type);
             const formData = new FormData();
-            formData.append('video', item.videoFile);
+            formData.append('video', item);
             formData.append('thumb', item.fileToUpload);
             // console.log(item);
             item.loading = true;
