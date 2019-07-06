@@ -159,6 +159,7 @@ export class VideoUpload {
 
   remove(index: any) {
     this.files.splice(index, 1);
+    console.log(this.files, 'after-splice')
   }
 
   backup(files: any) {

@@ -85,7 +85,6 @@ export class AddProjectComponent implements OnInit {
   file6: FileUpload;
   file7: FileUpload;
   file8: FileUpload;
-  file9: VideoUpload;
   amen360Img: FileUpload;
   amenVideo: VideoUpload;
   config360Img: FileUpload;
@@ -154,7 +153,6 @@ export class AddProjectComponent implements OnInit {
     this.file6 = new FileUpload(true, this.admin);
     this.file7 = new FileUpload(false, this.admin);
     this.file8 = new FileUpload(false, this.admin);
-    this.file9 = new VideoUpload(false, this.admin);
     this.amen360Img = new FileUpload(false, this.admin);
     this.amenVideo = new VideoUpload(false, this.admin);
     this.config360Img = new FileUpload(false, this.admin);
@@ -369,6 +367,7 @@ export class AddProjectComponent implements OnInit {
         this.model.dev_countrycode = 'mx';
         this.model.dev_dialcode = '+52';
       }
+      console.log(this.amenVideo.files, 'this.amenVideo.files');
     });
 
     this.zoom = 4;
@@ -526,7 +525,8 @@ export class AddProjectComponent implements OnInit {
 
   modelOpenVideos() {
     this.modalAddMoreVideos.nativeElement.click();
-    this.file9.backup(JSON.parse(JSON.stringify(this.model.videos)));
+    console.log(this.model.videos);
+    this.amenVideo.backup(JSON.parse(JSON.stringify(this.model.videos)));
   }
 
   modelClose360ImgFun() {
@@ -545,17 +545,24 @@ export class AddProjectComponent implements OnInit {
   }
 
 
-  async saveVideos() {
+   saveVideos() {
+    let count = 0;
     if (this.amenVideo.files.length < 1) {
       swal('Error', 'Please select atleast one image', 'error');
       return false;
     }
-    // this.modalVideosClose.nativeElement.click();
-    await this.amenVideo.upload().then(r => {
+     this.amenVideo.upload().then(r => {
       this.model.videos = this.amenVideo.files;
     });
-    console.log( this.model.videos);
-    this.modalVideosClose.nativeElement.click();
+    this.amenVideo.files.forEach(element => {
+      if (element.loading !== true) {
+        console.log('==3333==');
+        count++;
+      }
+    });
+    if (count === this.amenVideo.files.length) {
+      this.modalAddMoreVideos.nativeElement.click();
+    }
   }
 
 
@@ -609,18 +616,9 @@ export class AddProjectComponent implements OnInit {
       this.all_amenities[this.amenity_index].images_360 = this.amen360Img.files;
     });
     this.amenVideo.upload().then(r => {
-      this.parameter.amenities[this.amenity_index].videos = this.amenVideo.files;
+      this.all_amenities[this.amenity_index].videos = this.amenVideo.files;
     });
 
-
-    // if (this.amenVideo.files.length) {
-    //   const data = await this.upload();
-    // }
-
-
-    // this.amenVideo.upload().then(r => {
-    //   this.all_amenities[this.amenity_index].videos = this.amenVideo.files;
-    // });
 
     // this.modalAmenClose.nativeElement.click();
 
@@ -1710,12 +1708,6 @@ export class AddProjectComponent implements OnInit {
 
   async showamenVideo(event, type) {
 
-    const videoObj = {
-      video: '', thumb: '', loading: false, valid: false
-    };
-
-    const arr = [];
-
     for (let index = 0; index < event.target.files.length; index++) {
       if (event.target.files[index].size < this.constant.fileSizeLimit) {
         this.amenVideo.files.push(event.target.files[index]);
@@ -1727,6 +1719,10 @@ export class AddProjectComponent implements OnInit {
     setTimeout(async () => {
       this.amenVideo.files.forEach(async (item, index) => {
         if (!item.id) {
+          if (!this.amenVideo.files[index]['fileToUpload'] && !this.amenVideo.files[index]['thumb']) {                 //check file if not then loader will show
+            this.amenVideo.files[index].loading = true;
+          }
+
           const reader = new FileReader();
           const videoTest = this.element.nativeElement.querySelector('.video' + index);
 
@@ -1736,16 +1732,11 @@ export class AddProjectComponent implements OnInit {
             const timer = setTimeout(async () => {
               // find duration of video only of video is in ready state
               if (videoTest.readyState === 4) {
-                // setTimeout(() => {
-                //   // create canvas at middle of video
                 const data = await this.newcanvasamenVideo(videoTest, this.amenVideo.files[index], index, type);
-                // }, 3000);
-                // clearInterval(timer);
               }
             }, 1000);
           }.bind(this);
           reader.readAsDataURL(this.amenVideo.files[index]);
-          // await func(item);
         }
       });
     }, 1000);
@@ -1754,39 +1745,29 @@ export class AddProjectComponent implements OnInit {
 
   }
 
-
-  // @ts-ignore
-  newcanvasamenVideo(video: any, videoFile: File, myIndex, type): Promise<any> {
+  newcanvasamenVideo(video: any, videoFile: File, myIndex, type) {
     let canvasID: any;
-    if (type === 'amenity') {
-      canvasID = 'canvas';
-    } else if (type == 'tower') {
-      canvasID = 'canvas2';
-    }
-    else if (type == 'videos') {
-      canvasID = 'canvas3';
-    }
-    if (myIndex !== undefined) {
-      const canvas = document.getElementById(canvasID + (myIndex)) as HTMLCanvasElement;
-      const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
-        0, 0, canvas.width, canvas.height);
-      const ImageURL = canvas.toDataURL('image/jpeg');
-      this.amenVideo.files[myIndex].canvasImage = ImageURL;
-      const fileToUpload = this.dataURLtoFile(ImageURL, 'tempFile.png');
-      const model: any = {};
-      model.fileToUpload = fileToUpload;
-      model.videoFile = videoFile;
-      this.amenVideo.files[myIndex].loading = false;
-      this.amenVideo.files[myIndex]['fileToUpload'] = fileToUpload;
-      console.log(videoFile, 'videoFile');
-      // this.amenVideo.files[myIndex]['videoFile'].push(videoFile);
-      console.log(this.amenVideo.files, 'amenVideo.files');
-    }
+    if (type === 'amenity' ? canvasID = 'canvas' : (type === 'tower' ? canvasID = 'canvas2' : canvasID = 'canvas3'))
+
+      if (myIndex !== undefined) {
+        const canvas = document.getElementById(canvasID + (myIndex)) as HTMLCanvasElement;
+        const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
+          0, 0, canvas.width, canvas.height);
+        const ImageURL = canvas.toDataURL('image/jpeg');
+        this.amenVideo.files[myIndex].canvasImage = ImageURL;
+        const fileToUpload = this.dataURLtoFile(ImageURL, 'tempFile.png');
+        const model: any = {};
+        model.fileToUpload = fileToUpload;
+        model.videoFile = videoFile;
+        this.amenVideo.files[myIndex].loading = false;
+        this.amenVideo.files[myIndex]['fileToUpload'] = fileToUpload;
+        console.log(this.amenVideo.files, 'amenVideo.files');
+      }
   }
+
 
   remove(index: any) {
     this.amenVideo.files.splice(index, 1);
-    this.allAmenvideos.splice(index, 1);
   }
 
   // @ts-ignore

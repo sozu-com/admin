@@ -474,17 +474,10 @@
           <div class="col-md-5 col-sm-12 col-12">
 
             <div class="upload-cover-img upload-cover-small">
-              <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'" src="{{videoSrc}}" class="video55 floor-plan" autoplay type="video/mp4" controls></video>
-              
-              <!-- if want to give play option -->
-              <img *ngIf="model?.videos && model?.videos[0]" class="ui bordered small image" [src]="model?.videos[0]?.thumb" onerror="this.src='assets/img/placeholder.png'">
-              <!-- <img *ngIf="model.videoLoader==false" class="vid-icon" (click)="playVideo(i)" src="assets/img/play-button.png" /> -->
-
-              <canvas width="800" height="600" id="canvas"></canvas>
-              <div *ngIf="model.videoLoader" class="loaderr"></div>
-              <input type="file" name="" accept="video/*" (change)="showCanvas($event)">
+              <img [src]="model?.videos?.length>0 ? model?.videos[0]?.thumb : ''" onerror="this.src='assets/img/placeholder-img.png'" class="img-fluid">
               <div class="upload-caption">
-                <p class="green-color marginT30">+ Add Video</p>
+                <p *ngIf="model?.videos?.length > 1" class="number" (click)="modelOpenVideos()">+{{model?.videos?.length-1}}</p>
+                <p *ngIf="model?.videos?.length <= 1" class="green-color"  (click)="modelOpenVideos()">+ Add more videos</p>
               </div>
             </div>
           </div>
@@ -1250,7 +1243,7 @@
         <div class="uploaded-img-block">
           <p>Videos</p>
           <div class="uploaded-img" *ngFor="let item of amenVideo.files; let i=index">
-            <a class="remove" (click)="remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
+            <a class="remove" (click)="amenVideo.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
             <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'" src="{{videoSrc}}" class="video{{i}} floor-plan" autoplay type="video/mp4" controls></video>
             <canvas *ngIf="!item?.thumb" width="72" height="72" id="canvas{{i}}"></canvas>
             <!--<img *ngIf="item.thumb" class="ui bordered small image" [src]="item.thumb" onerror="this.src='assets/img/placeholder.png'">-->
@@ -1260,7 +1253,7 @@
           </div>
         </div>
         <div class="add-more-images dimensions">
-          <input type="file" name="add-more" multiple max="6" accept="video/*" (change)="amenVideosSelect($event)">
+          <input type="file" name="add-more" multiple max="6" accept="video/*" (change)="amenVideosSelect($event,'amenity')">
           <span>+ Add more videos </span>
         </div>
 
@@ -1285,6 +1278,47 @@
         <button type="button" (click)="saveAmenitiesMedia()" class="btn btn-primary">Submit</button>
       </div>
 
+    </div>
+  </div>
+</div>
+
+<!--Add More video -->
+<span data-target="#add-more-videos" data-toggle="modal" #modalAddMoreVideos></span>
+<div class="modal add-more-popup" id="add-more-videos">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Videos</h4>
+        <button type="button" class="close" data-dismiss="modal" #modalVideosClose>&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="uploaded-img-block">
+          <p>Videos</p>
+          <div class="uploaded-img" *ngFor="let item of amenVideo.files; let i=index">
+            <a class="remove" (click)="remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
+            <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'" src="{{videoSrc}}" class="video{{i}} floor-plan" autoplay type="video/mp4" controls></video>
+            <canvas *ngIf="!item?.thumb" width="72" height="72" id="canvas3{{i}}"></canvas>
+            <!--<img *ngIf="item.thumb" class="ui bordered small image" [src]="item.thumb" onerror="this.src='assets/img/placeholder.png'">-->
+            <img *ngIf="item.thumb" class="u-img" [src]="item.thumb" alt="img">
+            <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+            <div *ngIf="item.loading" class="loaderr"></div>
+          </div>
+        </div>
+        <div class="add-more-images dimensions">
+          <input type="file" name="add-more" multiple max="6" accept="video/*" (change)="amenVideosSelect($event, 'videos')">
+          <span>+ Add more videos </span>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer btn-cont">
+          <button type="button" (click)="saveVideos()" class="btn btn-primary">Submit</button>
+        </div>
+
+      </div>
     </div>
   </div>
 </div>

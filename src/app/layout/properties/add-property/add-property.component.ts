@@ -39,6 +39,8 @@ export class AddPropertyComponent implements OnInit {
   @ViewChild('search') searchElementRef: ElementRef;
   @ViewChild('modalAmenClose') modalAmenClose: ElementRef;
   @ViewChild('modalAmenOpen') modalAmenOpen: ElementRef;
+  @ViewChild('modalAddMoreVideos') modalAddMoreVideos: ElementRef;
+  @ViewChild('modalVideosClose') modalVideosClose: ElementRef;
 
   public latitude: number;
   public longitude: number;
@@ -1487,6 +1489,31 @@ export class AddPropertyComponent implements OnInit {
   //   }
   // }
 
+  modelOpenVideos() {
+    this.modalAddMoreVideos.nativeElement.click();
+    this.amenVideo.backup(JSON.parse(JSON.stringify(this.model.videos)));
+  }
+
+   saveVideos() {
+    let count = 0;
+    if (this.amenVideo.files.length < 1) {
+      swal('Error', 'Please select atleast one image', 'error');
+      return false;
+    }
+     this.amenVideo.upload().then(r => {
+      this.model.videos = this.amenVideo.files;
+    });
+    this.amenVideo.files.forEach(element => {
+      if (element.loading !== true) {
+        console.log('==3333==');
+        count++;
+      }
+    });
+    if (count === this.amenVideo.files.length) {
+      this.modalAddMoreVideos.nativeElement.click();
+    }
+  }
+
 
   async saveAmenitiesMedia() {
     // if (this.file2.files.length > 6) {
@@ -1528,8 +1555,6 @@ export class AddPropertyComponent implements OnInit {
     });
 
 
-
-
     // if (this.amenVideo.files.length) {
     //   const data = await this.upload();
     // }
@@ -1559,41 +1584,23 @@ export class AddPropertyComponent implements OnInit {
         count++;
       }
     });
-
+    console.log(count, totalFilesCount, '---------------------------');
     if (count === totalFilesCount) {
       this.modalAmenClose.nativeElement.click();
     }
   }
 
-  amenVideosSelect($event) {
+  amenVideosSelect($event, type) {
     if ((this.amenVideo.files.length + $event.target.files.length) > 6) {
       swal('Limit exceeded', 'You can upload maximum of 6 videos', 'error');
       return false;
     }
 
     console.log(this.amenVideo.files);
-    this.showamenVideo($event);
+    this.showamenVideo($event, type);
   }
 
-  async showamenVideo(event) {
-
-    const videoObj = {
-      video: '', thumb: '', loading: false, valid: false
-    };
-    // setTimeout(() => {
-    // if (this.amenVideo.files.length === 0) {
-    //   for (let i = 0; i < event.target.files.length; i++) {
-    //     this.amenVideo.files.push(videoObj);
-    //   }
-    // } else if (this.amenVideo.files.length !== 0) {
-    //   length = this.amenVideo.files.length;
-    //
-    //   // for (let index = 0; index < event.target.files.length; index++) {
-    //   this.amenVideo.files.splice(length, 0, videoObj);
-    //   // }
-    // }
-    //
-    // }, 100);
+  async showamenVideo(event, type) {
 
     const arr = [];
 
@@ -1608,6 +1615,10 @@ export class AddPropertyComponent implements OnInit {
     setTimeout(async () => {
       this.amenVideo.files.forEach(async (item, index) => {
         if (!item.id) {
+          if (!this.amenVideo.files[index]['fileToUpload'] && !this.amenVideo.files[index]['thumb']) {                 //check file if not then loader will show
+            this.amenVideo.files[index].loading = true;
+          }
+
           const reader = new FileReader();
           const videoTest = this.element.nativeElement.querySelector('.video' + index);
 
@@ -1617,11 +1628,7 @@ export class AddPropertyComponent implements OnInit {
             const timer = setTimeout(async () => {
               // find duration of video only of video is in ready state
               if (videoTest.readyState === 4) {
-                // setTimeout(() => {
-                //   // create canvas at middle of video
-                const data = await this.newcanvasamenVideo(videoTest, this.amenVideo.files[index], index);
-                // }, 3000);
-                // clearInterval(timer);
+                const data = await this.newcanvasamenVideo(videoTest, this.amenVideo.files[index], index, type);
               }
             }, 1000);
           }.bind(this);
@@ -1637,24 +1644,25 @@ export class AddPropertyComponent implements OnInit {
 
 
   // @ts-ignore
-  newcanvasamenVideo(video: any, videoFile: File, myIndex): Promise<any> {
-
-    if (myIndex !== undefined) {
-      const canvas = document.getElementById('canvas' + (myIndex)) as HTMLCanvasElement;
-      const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
-        0, 0, canvas.width, canvas.height);
-      const ImageURL = canvas.toDataURL('image/jpeg');
-      this.amenVideo.files[myIndex].canvasImage = ImageURL;
-      const fileToUpload = this.dataURLtoFile(ImageURL, 'tempFile.png');
-      const model: any = {};
-      model.fileToUpload = fileToUpload;
-      model.videoFile = videoFile;
-      this.amenVideo.files[myIndex].loading = false;
-      this.amenVideo.files[myIndex]['fileToUpload'] = fileToUpload;
-      console.log(videoFile, 'videoFile');
-      // this.amenVideo.files[myIndex]['videoFile'].push(videoFile);
-      console.log(this.amenVideo.files, 'amenVideo.files');
-    }
+  newcanvasamenVideo(video: any, videoFile: File, myIndex, type): Promise<any> {
+    let canvasID: any;
+    if (type === 'amenity' ? canvasID = 'canvas' : (type === 'tower' ? canvasID = 'canvas2' : canvasID = 'canvas3'))
+      if (myIndex !== undefined) {
+        const canvas = document.getElementById(canvasID + (myIndex)) as HTMLCanvasElement;
+        const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
+          0, 0, canvas.width, canvas.height);
+        const ImageURL = canvas.toDataURL('image/jpeg');
+        this.amenVideo.files[myIndex].canvasImage = ImageURL;
+        const fileToUpload = this.dataURLtoFile(ImageURL, 'tempFile.png');
+        const model: any = {};
+        model.fileToUpload = fileToUpload;
+        model.videoFile = videoFile;
+        this.amenVideo.files[myIndex].loading = false;
+        this.amenVideo.files[myIndex]['fileToUpload'] = fileToUpload;
+        console.log(videoFile, 'videoFile');
+        // this.amenVideo.files[myIndex]['videoFile'].push(videoFile);
+        console.log(this.amenVideo.files, 'amenVideo.files');
+      }
   }
 
   remove(index: any) {
