@@ -59,7 +59,7 @@
                   <div class="table-search">
                       <label>Email Address</label>
                       <div class="searh-3">
-                        <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email)" name="">
+                        <input (keydown.space)="$event.preventDefault();" type="text" [(ngModel)]="parameter.email" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email)" name="">
                         <button *ngIf="parameter.email" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
                       </div>
                   </div>
@@ -201,7 +201,7 @@
               <div class="form-group-2">
                   <label>Email ID <span class="color-red">*</span></label>
                   <div class="form-group">
-                  <input autocomplete="off" required [pattern]="constant.emailPattern" type="email" class="form-control" [(ngModel)]="model.email" name="email">
+                  <input (keydown.space)="$event.preventDefault();" autocomplete="off" required [pattern]="constant.emailPattern" type="email" class="form-control" [(ngModel)]="model.email" name="email">
                 </div>
               </div>
             </div>

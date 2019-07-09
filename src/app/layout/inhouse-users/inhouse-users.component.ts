@@ -141,7 +141,7 @@ export class InhouseUsersComponent implements OnInit {
     this.model.address = [];
     // this.parameter.countries ? this.parameter.countries[0].id : 0;
     const obj = {
-      countries: this.parameter.countries ? this.parameter.countries[0].id : 0,
+      countries: this.parameter.countries && this.parameter.countries[0] ? this.parameter.countries[0].id : 0,
       states: '0',
       cities: '0',
       localities: '0',

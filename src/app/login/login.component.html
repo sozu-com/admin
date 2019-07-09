@@ -21,7 +21,7 @@
                     <form class="form-horizontal text-center" role="form" novalidate #loginForm="ngForm" (ngSubmit)="loginUser(loginForm)">
                         <h3>Login</h3>
                         <div class="form-group-3">
-                            <input autocomplete="off" [pattern]="constant.emailPattern" class="form-control" placeholder="Username/Email" id="email" required [(ngModel)]="model.email" name="email" #input1 #email="ngModel">
+                            <input (keydown.space)="$event.preventDefault();" autocomplete="off" [pattern]="constant.emailPattern" class="form-control" placeholder="Username/Email" id="email" required [(ngModel)]="model.email" name="email" #input1 #email="ngModel">
                             <div *ngIf="email.errors && (email.dirty || email.touched)" class="show-error">
                                 <div [hidden]="!email.errors.required">
                                     Please enter email.
