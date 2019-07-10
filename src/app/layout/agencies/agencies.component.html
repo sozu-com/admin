@@ -1,13 +1,22 @@
 <ngx-loading [show]="parameter.loading"></ngx-loading>
 <div class="container-fluid">
   <div class="row">
-      <div class="col-md-6 col-6">
+      <div class="col-md-4 col-6">
         <div class="title-group">
             <h5>Agencies</h5>
             <p>Showing {{parameter.items?.length}} out of {{parameter.total}}</p>
         </div>
       </div>
-      <div class="col-md-6 col-6">
+      <div class="col-md-5 col-6">
+        <div class="btn-cont upload-excel pull-right">
+            <a title="Download Sample File" href="assets/docx/Sozu_Agencies_Sample.xlsx" class="btn"><span class="fa fa-download"></span></a>
+            <label title="Choose Excel File" class="img_label">{{label}}
+                <input type="file" #fileInput accept=".xls,.xlsx" (change)="getFileName()">
+            </label>
+            <a title="Upload Selected File" (click)="importAgency()" href="javascript://" class="btn"><span class="fa fa-upload"></span></a>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
         <div class="btn-cont text-right">
             <a *ngIf="admin?.admin_acl['Developers Management']?.can_create==1" class="btn btn-primary" href="javascript://" routerLink="/dashboard/agencies/add-agency/0">+Add New</a>
         </div>

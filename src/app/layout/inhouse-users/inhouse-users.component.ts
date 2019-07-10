@@ -10,6 +10,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { CommonService } from '../../services/common.service';
 import { MapsAPILoader } from '@agm/core';
 import { FileUpload } from 'src/app/common/fileUpload';
+import { Agency } from 'src/app/models/agency.model';
 declare let swal: any;
 declare const google;
 @Component({
@@ -21,9 +22,9 @@ declare const google;
 
 export class InhouseUsersComponent implements OnInit {
 
-  @ViewChild('mapDiv') mapDiv: ElementRef;
-  @ViewChild('search2') searchElementRef: ElementRef;
-  @ViewChild('search1') search1ElementRef: ElementRef;
+  // @ViewChild('mapDiv') mapDiv: ElementRef;
+  // @ViewChild('search2') searchElementRef: ElementRef;
+  // @ViewChild('search1') search1ElementRef: ElementRef;
   @ViewChild('inhouseUserModalOpen') inhouseUserModalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('viewModalOpen') viewModalOpen: ElementRef;
@@ -45,6 +46,7 @@ export class InhouseUsersComponent implements OnInit {
   seenDuplicate = false;
   testObject = [];
   file1: FileUpload;
+  agencies: Agency;
   constructor(public constant: Constant, private cs: CommonService,
     public model: UserModel, private route: ActivatedRoute,
     public admin: AdminService, private router: Router,
@@ -57,6 +59,7 @@ export class InhouseUsersComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.agencies = new Agency();
     this.file1 = new FileUpload(false, this.admin);
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
@@ -64,7 +67,7 @@ export class InhouseUsersComponent implements OnInit {
     this.parameter.p = this.constant.p;
     this.parameter.routeName = this.router.url;
     this.tempAdd = this.model.address;
-    this.setCurrentPosition();
+    // this.setCurrentPosition();
     this.parameter.sub = this.route.params.subscribe(params => {
       this.parameter.p = this.constant.p;
       this.parameter.userType = params['userType'];
@@ -72,6 +75,9 @@ export class InhouseUsersComponent implements OnInit {
       this.parameter.items = []; this.parameter.total = 0;
       this.getCountries();
       this.getInhouseUsers();
+      if (this.parameter.userType === 'inhouse-broker' || this.parameter.userType === 'outside-broker') {
+        this.getAllAgencies();
+      }
       this.initialCountry = { initialCountry: this.constant.initialCountry };
     });
   }
@@ -203,33 +209,33 @@ export class InhouseUsersComponent implements OnInit {
     return { initialCountry: this.constant.initialCountry };
   }
 
-  onSelectFile1(event: any, paramUrl: string, paramFile: string) {
-    if (event.target.files && event.target.files[0]) {
-      const reader = new FileReader();
-      // this.parameter.image = event.target.files[0];
-      reader.onload = (e: any) => {
-        this[paramUrl] = e.target.result;
-        this[paramFile] = this.sanitization.bypassSecurityTrustStyle(`url(${this[paramUrl]})`);
-        this.cs.saveImage(event.target.files[0]).subscribe(
-          success => {
-            this.model[paramFile] = success['data'].image;
-          }
-        );
-      };
-      reader.readAsDataURL(event.target.files[0]);
-    }
-  }
+  // onSelectFile1(event: any, paramUrl: string, paramFile: string) {
+  //   if (event.target.files && event.target.files[0]) {
+  //     const reader = new FileReader();
+  //     // this.parameter.image = event.target.files[0];
+  //     reader.onload = (e: any) => {
+  //       this[paramUrl] = e.target.result;
+  //       this[paramFile] = this.sanitization.bypassSecurityTrustStyle(`url(${this[paramUrl]})`);
+  //       this.cs.saveImage(event.target.files[0]).subscribe(
+  //         success => {
+  //           this.model[paramFile] = success['data'].image;
+  //         }
+  //       );
+  //     };
+  //     reader.readAsDataURL(event.target.files[0]);
+  //   }
+  // }
 
 
   addNewUser(formdata: NgForm) {
-    if (this.model.adr && this.model.adr.trim() && !this.model.lat && !this.model.lng) {
-      swal('Error', 'Please choose address from dropdown.', 'error');
-      return;
-    }
-    if (this.model.branch_office && this.model.branch_office.trim() && !this.model.branch_lat && !this.model.branch_lng) {
-      swal('Error', 'Please choose branch address from dropdown.', 'error');
-      return;
-    }
+    // if (this.model.adr && this.model.adr.trim() && !this.model.lat && !this.model.lng) {
+    //   swal('Error', 'Please choose address from dropdown.', 'error');
+    //   return;
+    // }
+    // if (this.model.branch_office && this.model.branch_office.trim() && !this.model.branch_lat && !this.model.branch_lng) {
+    //   swal('Error', 'Please choose branch address from dropdown.', 'error');
+    //   return;
+    // }
     this.parameter.url = this.model.id ? 'updateNewUser' : 'addNewUser';
     this.seenDuplicate = false;
     const input = new FormData();
@@ -248,28 +254,27 @@ export class InhouseUsersComponent implements OnInit {
     input.append('is_csr_closer', formdata.value.is_csr_closer === true ? '1' : '0');
     input.append('is_external_agent', this.model.is_external_agent === true ? '1' : '0');
     if (this.model.is_external_agent) {
-      // input.append('is_broker', '1');
-      input.append('company_name', this.model.company_name);
-      input.append('company_logo', this.model.company_logo);
-      input.append('description', this.model.description);
-      input.append('adr', this.model.adr);
-      input.append('lat', this.model.lat);
-      input.append('lat', this.model.lat);
-console.log('model', this.model);
-      // if branch address
-      if (this.model.branch_office && this.model.branch_office.trim()) {
-        this.model.branches = [];
-        this.model.branches = [
-          {'address': this.model.branch_office,
-          'lat': this.model.branch_lat,
-          'lng': this.model.branch_lng}
-          ];
-          input.append('branches', JSON.stringify(this.model.branches));
-      }
+      input.append('agency_id', this.model.agency_id);
+      // input.append('company_name', this.model.company_name);
+      // input.append('company_logo', this.model.company_logo);
+      // input.append('description', this.model.description);
+      // input.append('adr', this.model.adr);
+      // input.append('lat', this.model.lat);
+      // input.append('lat', this.model.lat);
+      // // if branch address
+      // if (this.model.branch_office && this.model.branch_office.trim()) {
+      //   this.model.branches = [];
+      //   this.model.branches = [
+      //     {'address': this.model.branch_office,
+      //     'lat': this.model.branch_lat,
+      //     'lng': this.model.branch_lng}
+      //     ];
+      //     input.append('branches', JSON.stringify(this.model.branches));
+      // }
 
-      // images videos
-      input.append('company_images', JSON.stringify([]));
-      input.append('company_videos', JSON.stringify([]));
+      // // images videos
+      // input.append('company_images', JSON.stringify([]));
+      // input.append('company_videos', JSON.stringify([]));
     } else {
       // input.append('is_broker', '1');
       input.append('company_name', '');
@@ -359,29 +364,29 @@ console.log('model', this.model);
       this.model.phone = userdata.phone;
       this.model.country_code = userdata.country_code;
 
-      this.model.company_name = userdata.company_name;
-      this.model.description = userdata.description;
+      // this.model.company_name = userdata.company_name;
+      // this.model.description = userdata.description;
       this.model.is_external_agent = userdata.is_external_agent;
-      this.model.adr = userdata.address;
-      this.model.lat = userdata.lat;
-      this.model.lng = userdata.lng;
+      // this.model.adr = userdata.address;
+      // this.model.lat = userdata.lat;
+      // this.model.lng = userdata.lng;
 
       // branch
-      if (userdata.branches && userdata.branches.length > 0) {
-        this.model.branch_office = userdata.branches[0].address;
-        this.model.branch_lat = userdata.branches[0].lat;
-        this.model.branch_lng = userdata.branches[0].lng;
-      }
+      // if (userdata.branches && userdata.branches.length > 0) {
+      //   this.model.branch_office = userdata.branches[0].address;
+      //   this.model.branch_lat = userdata.branches[0].lat;
+      //   this.model.branch_lng = userdata.branches[0].lng;
+      // }
 
       this.model.image = userdata.image != null ? userdata.image : '';
       if (this.model.image) {
         this.image = this.sanitization.bypassSecurityTrustStyle(`url(${this.model.image})`);
       }
 
-      this.model.company_logo = userdata.company_logo != null ? userdata.company_logo : '';
-      if (this.model.company_logo) {
-        this.company_logo = this.sanitization.bypassSecurityTrustStyle(`url(${this.model.company_logo})`);
-      }
+      // this.model.company_logo = userdata.company_logo != null ? userdata.company_logo : '';
+      // if (this.model.company_logo) {
+      //   this.company_logo = this.sanitization.bypassSecurityTrustStyle(`url(${this.model.company_logo})`);
+      // }
       this.model.is_broker_seller_dev = userdata.permissions && userdata.permissions.can_csr_seller === 1 ? true : false;
       this.model.is_buyer_renter = userdata.permissions && userdata.permissions.can_csr_buyer === 1 ? true : false;
       this.model.is_broker = userdata.permissions && userdata.permissions.can_in_house_broker === 1 ? true : false;
@@ -536,6 +541,7 @@ console.log('model', this.model);
   setBrokerForModel(is_external_agent: string) {
     this.model.is_external_agent = is_external_agent === '1' ? true : false;
   }
+
   getInhouseUsers() {
     this.parameter.loading = true;
     switch (this.parameter.userType) {
@@ -618,6 +624,14 @@ console.log('model', this.model);
           this.parameter.total = success.total;
         }, error => {
           this.parameter.loading = false;
+        });
+  }
+
+  getAllAgencies() {
+    this.admin.postDataApi('getAllAgencies', {})
+      .subscribe(
+        success => {
+          this.agencies = success.data;
         });
   }
 
@@ -739,78 +753,78 @@ console.log('model', this.model);
   }
 
 
-  loadPlaces(paramAdd: string, paramLat: string, paramLng: string, searchRef: any) {
-    // load Places Autocomplete
-    console.log('aaa', searchRef, this[searchRef].nativeElement);
-    this.model[paramLat] = null;
-    this.model[paramLng] = null;
-    this.mapsAPILoader.load().then(() => {
-      const autocomplete = new google.maps.places.Autocomplete(this[searchRef].nativeElement, {
-        types: []
-      });
-      autocomplete.addListener('place_changed', () => {
-        this.ngZone.run(() => {
-          // get the place result
-          // const place: google.maps.places.PlaceResult = autocomplete.getPlace();
-          const place = autocomplete.getPlace();
+  // loadPlaces(paramAdd: string, paramLat: string, paramLng: string, searchRef: any) {
+  //   // load Places Autocomplete
+  //   console.log('aaa', searchRef, this[searchRef].nativeElement);
+  //   this.model[paramLat] = null;
+  //   this.model[paramLng] = null;
+  //   this.mapsAPILoader.load().then(() => {
+  //     const autocomplete = new google.maps.places.Autocomplete(this[searchRef].nativeElement, {
+  //       types: []
+  //     });
+  //     autocomplete.addListener('place_changed', () => {
+  //       this.ngZone.run(() => {
+  //         // get the place result
+  //         // const place: google.maps.places.PlaceResult = autocomplete.getPlace();
+  //         const place = autocomplete.getPlace();
 
-          // verify result
-          if (place.geometry === undefined || place.geometry === null) {
-            return;
-          }
+  //         // verify result
+  //         if (place.geometry === undefined || place.geometry === null) {
+  //           return;
+  //         }
 
-          // set latitude, longitude and zoom
-          this.model[paramLat] = place.geometry.location.lat();
-          this.model[paramLng] = place.geometry.location.lng();
-          if (place.formatted_address) {
-            this.model[paramAdd] = place.formatted_address;
-          }
-        });
-      });
-    });
-  }
-
-
-  setCurrentPosition() {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        // setting address lat lng
-        this.model.lat = position.coords.latitude;
-        this.model.lng = position.coords.longitude;
-
-        // setting branch office lat lng
-        this.model.branch_lat = position.coords.latitude;
-        this.model.branch_lng = position.coords.longitude;
-      });
-    }
-  }
-
-  placeMarker($event: any, paramLat: string, paramLng: string, param: string) {
-    this.model[paramLat] = $event.coords.lat;
-    this.model[paramLng] = $event.coords.lng;
-    this.getGeoLocation(this.model[paramLat], this.model[paramLng], param);
-  }
+  //         // set latitude, longitude and zoom
+  //         this.model[paramLat] = place.geometry.location.lat();
+  //         this.model[paramLng] = place.geometry.location.lng();
+  //         if (place.formatted_address) {
+  //           this.model[paramAdd] = place.formatted_address;
+  //         }
+  //       });
+  //     });
+  //   });
+  // }
 
 
-  getGeoLocation(lat: number, lng: number, param: string) {
-    if (navigator.geolocation) {
-      const geocoder = new google.maps.Geocoder();
-      const latlng = new google.maps.LatLng(lat, lng);
-      const request = { latLng: latlng };
+  // setCurrentPosition() {
+  //   if ('geolocation' in navigator) {
+  //     navigator.geolocation.getCurrentPosition((position) => {
+  //       // setting address lat lng
+  //       // this.model.lat = position.coords.latitude;
+  //       // this.model.lng = position.coords.longitude;
 
-      geocoder.geocode(request, (results, status) => {
-        if (status === google.maps.GeocoderStatus.OK) {
-          const result = results[0];
-          if (result != null) {
-            this.model[param] = result.formatted_address;
-          } else {
-            this.model[param] = lat + ',' + lng;
-          }
-          console.log('1', this.model[param]);
-        }
-      });
-    }
-  }
+  //       // setting branch office lat lng
+  //       // this.model.branch_lat = position.coords.latitude;
+  //       // this.model.branch_lng = position.coords.longitude;
+  //     });
+  //   }
+  // }
+
+  // placeMarker($event: any, paramLat: string, paramLng: string, param: string) {
+  //   this.model[paramLat] = $event.coords.lat;
+  //   this.model[paramLng] = $event.coords.lng;
+  //   this.getGeoLocation(this.model[paramLat], this.model[paramLng], param);
+  // }
+
+
+  // getGeoLocation(lat: number, lng: number, param: string) {
+  //   if (navigator.geolocation) {
+  //     const geocoder = new google.maps.Geocoder();
+  //     const latlng = new google.maps.LatLng(lat, lng);
+  //     const request = { latLng: latlng };
+
+  //     geocoder.geocode(request, (results, status) => {
+  //       if (status === google.maps.GeocoderStatus.OK) {
+  //         const result = results[0];
+  //         if (result != null) {
+  //           this.model[param] = result.formatted_address;
+  //         } else {
+  //           this.model[param] = lat + ',' + lng;
+  //         }
+  //         console.log('1', this.model[param]);
+  //       }
+  //     });
+  //   }
+  // }
 
 
   file1Select($event) {
@@ -819,7 +833,7 @@ console.log('model', this.model);
 
   modelOpenFun() {
     this.moreImgModalOpen.nativeElement.click();
-    this.file1.backup(JSON.parse(JSON.stringify(this.model.company_images)));
+    // this.file1.backup(JSON.parse(JSON.stringify(this.model.company_images)));
   }
 
   modelCloseFun() {
@@ -832,7 +846,7 @@ console.log('model', this.model);
     }
     this.moreImgModalClose.nativeElement.click();
     this.file1.upload().then(r => {
-      this.model.company_images = this.file1.files;
+      // this.model.company_images = this.file1.files;
     });
   }
 

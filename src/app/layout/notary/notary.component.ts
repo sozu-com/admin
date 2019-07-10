@@ -180,7 +180,7 @@ export class NotaryComponent implements OnInit {
     this.admin.postDataApi('blockNoatary', {id: id, flag: flag})
       .subscribe(
         success => {
-          swal('Success', success.message, 'success');
+          swal('Success', this.parameter.successText, 'success');
           this.parameter.items[this.parameter.index] = success.data;
         });
   }

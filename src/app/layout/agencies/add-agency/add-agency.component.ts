@@ -8,10 +8,8 @@ import { Constant } from './../../../common/constants';
 import { NgForm } from '@angular/forms';
 import { Users } from 'src/app/models/users.model';
 import { MapsAPILoader } from '@agm/core';
-import { FileUpload } from 'src/app/common/fileUpload';
-import { Developer } from 'src/app/models/global.model';
 import { Agency } from 'src/app/models/agency.model';
-declare const google;
+declare const google: any;
 declare let swal: any;
 
 @Component({
@@ -25,7 +23,6 @@ export class AddAgencyComponent implements OnInit {
   @ViewChild('search') searchElementRef: ElementRef;
   @ViewChild('search1') search1ElementRef: ElementRef;
   public parameter: IProperty = {};
-  public location: IProperty = {};
   initialCountry: any;
   show = false;
   image: any;
@@ -43,7 +40,6 @@ export class AddAgencyComponent implements OnInit {
   ngOnInit() {
     this.model = new Agency();
     this.setCurrentPosition();
-    this.getCountries();
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
@@ -53,7 +49,7 @@ export class AddAgencyComponent implements OnInit {
         if (params['id'] !== '0') {
           console.log('aaa', this.model);
           this.model.id = params['id'];
-          this.getUserById(this.model.id);
+          this.getAgencyById(this.model.id);
         } else {
           console.log('aaa', this.model);
           this.model.id = '';
@@ -61,59 +57,9 @@ export class AddAgencyComponent implements OnInit {
       });
   }
 
-  getCountries() {
-    this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
-      this.location.countries = r['data'];
-    });
-  }
-
-  onCountryChange(id) {
-    this.model.country_id = id;
-    this.location.states = []; this.model.state_id = '0';
-    this.location.cities = []; this.model.city_id = '0';
-    this.location.localities = []; this.model.locality_id = '0';
-    if (!id || id.toString() === '0') {
-      return false;
-    }
-
-    this.model.country_id = id;
-    const selectedCountry = this.location.countries.filter(x => x.id.toString() === id);
-    this.location.states = selectedCountry[0].states;
-  }
-
-  onStateChange(id) {
-    this.location.cities = []; this.model.city_id = '0';
-    this.location.localities = []; this.model.locality_id = '0';
-    if (!id || id.toString() === '0') {
-      return false;
-    }
-
-    this.model.state_id = id;
-    const selectedState = this.location.states.filter(x => x.id.toString() === id);
-    this.location.cities = selectedState[0].cities;
-  }
-
-  onCityChange(id) {
-    this.location.localities = []; this.model.locality_id = '0';
-    if (!id || id.toString() === '0') {
-      return false;
-    }
-
-    this.model.city_id = id;
-    const selectedCountry = this.location.cities.filter(x => x.id.toString() === id);
-    this.location.localities = selectedCountry[0].localities;
-  }
-
-  onLocalityChange(id) {
-    if (!id || id.toString() === '0') {
-      return false;
-    }
-    this.model.locality_id = id;
-  }
-
-  getUserById(id: string) {
+  getAgencyById(id: string) {
     this.parameter.loading = true;
-    this.admin.postDataApi('getUserById', {'user_id': id})
+    this.admin.postDataApi('getAgencyById', {'id': id})
     .subscribe(
       success => {
         this.parameter.loading = false;

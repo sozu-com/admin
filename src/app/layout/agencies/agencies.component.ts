@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
 import { IProperty } from '../../common/property';
 import { Users } from './../../models/users.model';
@@ -14,11 +14,14 @@ declare let swal: any;
 })
 export class AgenciesComponent implements OnInit {
 
+  @ViewChild('fileInput') fileInput: ElementRef;
   public parameter: IProperty = {};
   model: Users;
+  label: string;
   constructor(public constant: Constant, public admin: AdminService, private router: Router) { }
 
   ngOnInit() {
+    this.label = 'Choose Agencies File';
     this.model = new Users();
     this.model.buildings_sort = 2;  // 2 means desc
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
@@ -31,6 +34,12 @@ export class AgenciesComponent implements OnInit {
     this.getAgencies();
   }
 
+  getFileName() {
+    const fi = this.fileInput.nativeElement;
+    const uploadedFile = fi.files[0];
+    this.label = uploadedFile.name;
+  }
+
   setBuildingsSort(buildings_sort: number) {
     this.model.buildings_sort = buildings_sort;
     this.getAgencies();
@@ -38,15 +47,15 @@ export class AgenciesComponent implements OnInit {
 
   getAgencies() {
     this.model.page = this.parameter.page;
-    this.parameter.loading = true;
+    // this.parameter.loading = true;
     this.admin.postDataApi('getAgencies', this.model)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          // this.parameter.loading = false;
           this.parameter.items = success.data;
           this.parameter.total = success.total_count;
         }, error => {
-          this.parameter.loading = false;
+          // this.parameter.loading = false;
         });
   }
 
@@ -54,16 +63,16 @@ export class AgenciesComponent implements OnInit {
     this.router.navigate(['/dashboard/agencies/add-agency', item.id]);
   }
 
-  blockUnblockPopup(index: any, id: string, flag: number, user_type: string = '3') {
+  blockUnblockPopup(index: any, id: string, flag: number) {
     this.parameter.index = index;
     this.parameter.title = this.constant.title.ARE_YOU_SURE;
     switch (flag) {
       case 0:
-        this.parameter.text = this.constant.title.UNBLOCK_DEVELOPER;
+        this.parameter.text = this.constant.title.UNBLOCK_AGENCY;
         this.parameter.successText = this.constant.successMsg.UNBLOCKED_SUCCESSFULLY;
         break;
       case 1:
-        this.parameter.text = this.constant.title.BLOCK_DEVELOPER;
+        this.parameter.text = this.constant.title.BLOCK_AGENCY;
         this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
         break;
     }
@@ -77,26 +86,55 @@ export class AgenciesComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.blockAdmin(index, id, flag, user_type);
+        this.blockAgency(index, id, flag);
       }
     });
   }
 
 
-  blockAdmin(index: number, id: any, flag: any, user_type: any) {
+  blockAgency(index: number, id: any, flag: any) {
     this.parameter.index = index;
-    this.parameter.url = 'blockBuyerSeller';
+    this.parameter.url = 'blockAgency';
     const input = new FormData();
-    input.append('id', id);
+    input.append('agency_id', id);
     input.append('flag', flag);
-    input.append('user_type', user_type);
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
           console.log('success', success);
-          swal('Success', success.message, 'success');
+          swal('Success', this.parameter.successText, 'success');
           this.parameter.items[this.parameter.index] = success.data;
         });
+  }
+
+
+  importAgency() {
+    const file = this.fileInput.nativeElement;
+    let attachment: File;
+    if (file.files && file.files[0]) {
+      attachment = file.files[0];
+      if (attachment.size > this.constant.fileSizeLimit) {
+        swal('Error', 'File size is more than 25MB.', 'error');
+        return false;
+      }
+    this.parameter.loading = true;
+    const input = new FormData();
+    input.append('attachment', attachment);
+    this.admin.postDataApi('importAgency', input)
+      .subscribe(
+        success => {
+          this.parameter.loading = false;
+          this.fileInput.nativeElement.value = '';
+          this.label = 'Choose Agencies File';
+          swal('Success', 'Imported successfully.', 'success');
+          this.getAgencies();
+        }, error => {
+          this.parameter.loading = false;
+        });
+    } else {
+      swal('Error', 'Please choose file', 'error');
+      return false;
+    }
   }
 }

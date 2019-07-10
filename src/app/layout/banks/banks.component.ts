@@ -156,7 +156,7 @@ export class BanksComponent implements OnInit {
       .subscribe(
         success => {
           this.parameter.loading = false;
-          swal('Success', success.message, 'success');
+          swal('Success', this.parameter.successText, 'success');
           this.parameter.items[this.parameter.index] = success.data;
         }, error => {
           this.parameter.loading = false;

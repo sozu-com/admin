@@ -18,6 +18,7 @@ const routes: Routes = [
             // { path: 'change-password', component: ChangePasswordComponent},
             { path: 'notary', loadChildren: './notary/notary.module#NotaryModule'},
             { path: 'banks', loadChildren: './banks/banks.module#BanksModule'},
+            { path: 'developers', loadChildren: './developers/developers.module#DevelopersModule'},
             { path: 'agencies', loadChildren: './agencies/agencies.module#AgenciesModule'},
             { path: 'agents', loadChildren: './agents/agents.module#AgentsModule'},
             { path: 'users', loadChildren: './users/users.module#UsersModule'},

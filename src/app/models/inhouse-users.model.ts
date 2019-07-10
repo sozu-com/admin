@@ -43,18 +43,19 @@ export class UserModel {
     is_csr_closer: boolean;
     // keys added for external broker
     is_external_agent?: boolean;
-    company_name?: string;
-    company_logo?: string;
-    description?: string;
-    adr?: string;   // address string
-    lat?: any;
-    lng?: any;
-    branches?: Array<Branches>;
-    branch_office?: string;
-    branch_lat?: any;
-    branch_lng?: any;
-    company_images?: Array<any>;
-    company_videos?: Array<any>;
+    agency_id?: string;
+    // company_name?: string;
+    // company_logo?: string;
+    // description?: string;
+    // adr?: string;   // address string
+    // lat?: any;
+    // lng?: any;
+    // branches?: Array<Branches>;
+    // branch_office?: string;
+    // branch_lat?: any;
+    // branch_lng?: any;
+    // company_images?: Array<any>;
+    // company_videos?: Array<any>;
 }
 
 export class Branches {

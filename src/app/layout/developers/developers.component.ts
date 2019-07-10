@@ -97,8 +97,7 @@ export class DevelopersComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('success', success);
-          swal('Success', success.message, 'success');
+          swal('Success', this.parameter.successText, 'success');
           this.parameter.items[this.parameter.index] = success.data;
         });
   }
