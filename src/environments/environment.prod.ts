@@ -3,8 +3,8 @@ export const environment = {
   // baseIP: 'https://api.sozu.com/',
   // baseUrl: 'https://api.sozu.com/api/admin/',
   // socketUrl: 'https://socket.sozu.com',
-  baseIP: 'https://api.sozu.com/',
-  baseUrl: 'https://api.sozu.com/api/admin/',
+  baseIP: 'https://apitest.sozu.com/',
+  baseUrl: 'https://apitest.sozu.com/api/admin/',
   socketUrl: 'https://sockettest.sozu.com',
   deviceId: 'ADMIN',
 
