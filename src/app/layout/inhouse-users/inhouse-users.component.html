@@ -160,7 +160,7 @@
                 <!-- <img [src]="item.image| img:'small'" class="rounded-circle" onerror='src="constant.userPlaceholder"' alt="img"> -->
               </td>
               <td class="text-left" *ngIf="parameter.userType == 'outside-broker'">
-                <span class="name">{{item.company_name ? item.company_name : 'NA'}}</span>
+                <span class="name">{{item?.agency?.name ? item?.agency?.name : 'NA'}}</span>
               </td>
               <td class="text-left text-ellipsis120">
                 <span class="name">{{item.name | titlecase}}</span>
@@ -295,7 +295,19 @@
                       </div>
                     </div>
                  </div>
+                 <div class="col-12" *ngIf="parameter.userType=='outside-broker'">
+                  <div class="form-group-2">
+                    <label>Agency</label>
+                    
+                    <!-- [(ngModel)]="model.agency.id" -->
+                    <select title="Choose Agency" name="agency" class="form-control" (change)="setAgency($event.target.value)">
+                      <option value="">Select Agency</option>
+                      <option *ngFor="let agency of agencies" value="{{agency.id}}" [selected]="model?.agency?.id == agency.id">{{agency.name}}</option>
+                    </select>
+                  </div>
+                </div>
               </div>
+
               <div *ngFor="let add of model.address; let j=index">
                 <app-address [countries]="parameter.countries" [address]="add" [index]="j" [status]="false" [disabledBuildings]="disabledBuildings" (disabledBuilding)="disabledBuildingId(j)" (removeAddress)="removeAddressObj($event)"></app-address>
               </div>
@@ -344,18 +356,8 @@
                 </div>
               </div>
               
-              <div class="spacer30"></div>
+              <!-- <div class="spacer30"></div> -->
 
-              <div class="row" *ngIf="parameter.userType=='inhouse-broker' && parameter.userType=='outside-broker'">
-                <div class="col-12">
-                  <div class="form-group marginB0">
-                    <label>Agency</label>
-                    <select title="Choose Agency" class="form-control" [(ngModel)]="model.agency_id">
-                      <option *ngFor="let agency of agencies" value="{{agency.id}}">{{agency.name}}</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
               <!-- <div class="row" *ngIf="model.is_broker">
                 <div class="col-12">
                   <div class="form-group-2">

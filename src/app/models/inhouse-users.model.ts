@@ -1,3 +1,5 @@
+import { Agency } from './agency.model';
+
 export class InhouseUsers {
 
     public address = [
@@ -43,7 +45,7 @@ export class UserModel {
     is_csr_closer: boolean;
     // keys added for external broker
     is_external_agent?: boolean;
-    agency_id?: string;
+    agency?: Agency;
     // company_name?: string;
     // company_logo?: string;
     // description?: string;

@@ -46,7 +46,7 @@ export class InhouseUsersComponent implements OnInit {
   seenDuplicate = false;
   testObject = [];
   file1: FileUpload;
-  agencies: Agency;
+  agencies: Array<Agency>;
   constructor(public constant: Constant, private cs: CommonService,
     public model: UserModel, private route: ActivatedRoute,
     public admin: AdminService, private router: Router,
@@ -59,10 +59,10 @@ export class InhouseUsersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.agencies = new Agency();
     this.file1 = new FileUpload(false, this.admin);
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
+    this.model.agency = new Agency();
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.p = this.constant.p;
     this.parameter.routeName = this.router.url;
@@ -209,22 +209,26 @@ export class InhouseUsersComponent implements OnInit {
     return { initialCountry: this.constant.initialCountry };
   }
 
-  // onSelectFile1(event: any, paramUrl: string, paramFile: string) {
-  //   if (event.target.files && event.target.files[0]) {
-  //     const reader = new FileReader();
-  //     // this.parameter.image = event.target.files[0];
-  //     reader.onload = (e: any) => {
-  //       this[paramUrl] = e.target.result;
-  //       this[paramFile] = this.sanitization.bypassSecurityTrustStyle(`url(${this[paramUrl]})`);
-  //       this.cs.saveImage(event.target.files[0]).subscribe(
-  //         success => {
-  //           this.model[paramFile] = success['data'].image;
-  //         }
-  //       );
-  //     };
-  //     reader.readAsDataURL(event.target.files[0]);
-  //   }
-  // }
+  setAgency(id: string) {
+    this.model.agency.id = id;
+  }
+
+  onSelectFile1(event: any, paramUrl: string, paramFile: string) {
+    if (event.target.files && event.target.files[0]) {
+      const reader = new FileReader();
+      // this.parameter.image = event.target.files[0];
+      reader.onload = (e: any) => {
+        this[paramUrl] = e.target.result;
+        this[paramFile] = this.sanitization.bypassSecurityTrustStyle(`url(${this[paramUrl]})`);
+        this.cs.saveImage(event.target.files[0]).subscribe(
+          success => {
+            this.model[paramFile] = success['data'].image;
+          }
+        );
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  }
 
 
   addNewUser(formdata: NgForm) {
@@ -253,8 +257,10 @@ export class InhouseUsersComponent implements OnInit {
     input.append('is_data_collector', formdata.value.is_data_collector === true ? '1' : '0');
     input.append('is_csr_closer', formdata.value.is_csr_closer === true ? '1' : '0');
     input.append('is_external_agent', this.model.is_external_agent === true ? '1' : '0');
+    console.log('--');
+    console.log(this.model);
     if (this.model.is_external_agent) {
-      input.append('agency_id', this.model.agency_id);
+      input.append('agency_id', this.model.agency.id);
       // input.append('company_name', this.model.company_name);
       // input.append('company_logo', this.model.company_logo);
       // input.append('description', this.model.description);
@@ -330,6 +336,8 @@ export class InhouseUsersComponent implements OnInit {
               if (this.model.id) {
                 // edit -- replace
                 this.parameter.items[this.parameter.index] = success.data;
+                console.log('ssssss');
+                console.log(this.parameter.items[this.parameter.index]);
                 formdata.reset();
               } else {
                 // add - push
@@ -367,6 +375,9 @@ export class InhouseUsersComponent implements OnInit {
       // this.model.company_name = userdata.company_name;
       // this.model.description = userdata.description;
       this.model.is_external_agent = userdata.is_external_agent;
+      this.model.agency = userdata.agency ? userdata.agency  : new Agency();
+      console.log('sss');
+      console.log(this.model);
       // this.model.adr = userdata.address;
       // this.model.lat = userdata.lat;
       // this.model.lng = userdata.lng;
