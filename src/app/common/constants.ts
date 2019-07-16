@@ -145,6 +145,8 @@ export class Constant {
         UNBLOCK_DEVELOPER : 'You want to unblock this developer?',
         BLOCK_AGENCY : 'You want to block this agency?',
         UNBLOCK_AGENCY : 'You want to unblock this agency?',
+        BLOCK_COMPANY : 'You want to block this company?',
+        UNBLOCK_COMPANY : 'You want to unblock this company?',
         BLOCK_LEAD : 'You want to block this lead?',
         UNBLOCK_LEAD : 'You want to unblock this lead?',
         DELETE_BLOG: 'You want to delete this template?'

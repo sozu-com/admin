@@ -331,6 +331,16 @@
                         </div>
                      </li>
 
+                    <!-- *ngIf="admin?.admin_acl['Companies Management']?.can_read==1"  -->
+                    <li class="nav-item" [routerLinkActive]="'active'">
+                      <a class="nav-link" href="javascript://" routerLink="companies"><i><img src="assets/img/users.png"></i><span>Manage Companies</span></a>
+                    </li>
+
+                    <!-- *ngIf="admin?.admin_acl['Agencies Management']?.can_read==1"  -->
+                    <li class="nav-item" [routerLinkActive]="'active'">
+                      <a class="nav-link" href="javascript://" routerLink="managers"><i><img src="assets/img/users.png"></i><span>Manage Managers</span></a>
+                    </li>
+
                       <li *ngIf="admin?.admin_acl['User Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
                         <a class="nav-link" href="javascript://" routerLink="users"><i><img src="assets/img/users.png"></i><span>Manage Users</span></a>
                       </li>
