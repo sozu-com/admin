@@ -1,14 +1,22 @@
 <ngx-loading [show]="parameter.loading"></ngx-loading>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-10 col-md-8 col-8">
+      <div class="col-md-4 col-6">
           <div class="title-group">
               <h5>Managers</h5>
               <p>Showing {{items?.length}} out of {{parameter.total}}</p>
           </div>
         </div>
-
-        <div class="col-lg-2 col-md-4 col-4">
+        <div class="col-md-5 col-6">
+          <div class="btn-cont upload-excel pull-right">
+            <a title="Download Sample File" href="assets/docx/BD_TowerManagerPerson_Sozu.xlsx" class="btn"><span class="fa fa-download"></span></a>
+            <label title="Choose Excel File" class="img_label">{{label}}
+                <input type="file" #fileInput accept=".xls,.xlsx" (change)="getFileName()">
+            </label>
+            <a title="Upload Selected File" (click)="importData()" href="javascript://" class="btn"><span class="fa fa-upload"></span></a>
+        </div>
+        </div>
+        <div class="col-md-3 col-6">
           <div class="btn-cont text-right">
               <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#addInhouseUser" #inhouseUserModalOpen>Add New</a>
               <a *ngIf="admin?.admin_acl['Data Collector Management']?.can_create==1 || parameter.userType=='data-collectors' || 1" class="btn btn-primary-new width100P" href="javascript://" (click)="openAddModal()">Add New</a>
@@ -71,8 +79,7 @@
 
             <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }; let i = index">
               <td> 
-                  <img [src]="item.image" class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
-                <!-- <img [src]="item.image| img:'small'" class="rounded-circle" onerror='src="constant.userPlaceholder"' alt="img"> -->
+                  <img [src]="item.image" [defaultImage]="item.image| img:'thumb'" [lazyLoad]="item.image" class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
               </td>
               <td class="text-left">
                 <span class="name">{{item?.company?.name ? item?.company?.name : 'NA'}}</span>
@@ -100,7 +107,7 @@
                 class="action-icon">
                 <img src="assets/img/block.png" alt="img">
               </button>
-              <button [disabled]="admin?.admin_acl['Outside Broker Management']?.can_purge==0" (click)="deletePopup(item, i);" class="action-icon" title="Delete Agent"><img src="assets/img/ic_delete.png" alt="img"></button>
+              <!-- <button [disabled]="admin?.admin_acl['Outside Broker Management']?.can_purge==0" (click)="deletePopup(item, i);" class="action-icon" title="Delete Agent"><img src="assets/img/ic_delete.png" alt="img"></button> -->
               </td>
             </tr>
           </table>
@@ -131,15 +138,25 @@
           <div class="modal-body">
               <div class="row">
                  <div class="col-3">
-                    <div class="add-img" style="background-size: cover;" [style.background-image]="image">
-                    <input accept="image/*" type="file" name="" (change)="onFileChange($event, 'url', 'image')">
-                    <label *ngIf="!image">+ Add Image</label>
+                    <div class="add-img" style="display:flex;">
+                      <img *ngIf="image" [src]="image" [defaultImage]="image| img:'thumb'" [lazyLoad]="image" style="object-fit: cover; width: 100%;">
+                      <label *ngIf="model.image">
+                        <input accept="image/*" name="image" class="image" (change)="onFileChange($event, 'img_loader', 'image')" type="file">
+                      </label>
+                      <label *ngIf="!image">+ Add Image</label>
+                      <input *ngIf="!image" accept="image/*" name="image" class="image" (change)="onFileChange($event, 'img_loader', 'image')" type="file">
+                      <div *ngIf="model.img_loader" class="loaderr"></div>
                     </div>
                  </div>
                  <div class="col-3">
-                    <div class="add-img" style="background-size: cover;" [style.background-image]="logo">
-                    <input accept="image/*" type="file" name="" (change)="onFileChange($event, 'url2', 'logo')">
-                    <label *ngIf="!logo">+ Add Logo</label>
+                    <div class="add-img" style="display:flex;">
+                      <img *ngIf="logo" [src]="logo" [defaultImage]="logo| img:'thumb'" [lazyLoad]="logo" style="object-fit: cover; width: 100%;">
+                      <label *ngIf="model.logo">
+                        <input accept="image/*" name="logo" class="image" (change)="onFileChange($event, 'logo_loader', 'logo')" type="file">
+                      </label>
+                      <label *ngIf="!logo">+ Add Image</label>
+                      <input *ngIf="!logo" accept="image/*" name="logo" class="image" (change)="onFileChange($event, 'logo_loader', 'logo')" type="file">
+                      <div *ngIf="model.logo_loader" class="loaderr"></div>
                     </div>
                  </div>
                  <div class="col-6">

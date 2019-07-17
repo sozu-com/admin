@@ -8,11 +8,12 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { AgmCoreModule } from '@agm/core';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
 
-import { AclUserGuard } from '../../guards/acl-user.guard';
-import { SharedModule } from '../../modules/shared.module';
-import { AddCompanyComponent } from './add-company/add-company.component';
+import { SharedModule } from 'src/app/modules/shared.module';
 import { CompaniesComponent } from './companies.component';
+import { AclUserGuard } from 'src/app/guards/acl-user.guard';
+import { AddCompanyComponent } from './add-company/add-company.component';
 
 const routes: Routes = [
   { path: '', component: CompaniesComponent,
@@ -35,6 +36,7 @@ const routes: Routes = [
       libraries: ['drawing', 'places']
     }),
     NgxPaginationModule,
+    LazyLoadImageModule,
     FormsModule,
     ReactiveFormsModule,
     Ng2TelInputModule,

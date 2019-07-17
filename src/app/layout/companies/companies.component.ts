@@ -1,11 +1,10 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AdminService } from '../../services/admin.service';
-import { IProperty } from '../../common/property';
-import { Users } from './../../models/users.model';
-import { Constant } from './../../common/constants';
-import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Company } from 'src/app/models/company';
+import { IProperty } from 'src/app/common/property';
+import { Constant } from 'src/app/common/constants';
+import { AdminService } from 'src/app/services/admin.service';
+import { Users } from 'src/app/models/users.model';
 declare let swal: any;
 
 @Component({
@@ -49,14 +48,15 @@ export class CompaniesComponent implements OnInit {
 
   getTowerManagerCompany() {
     this.model.page = this.parameter.page;
-    // this.parameter.loading = true;
+    this.parameter.loading = true;
     this.admin.postDataApi('getTowerManagerCompany', this.model)
       .subscribe(
         success => {
+          this.parameter.loading = false;
           this.items = success.data;
           this.parameter.total = success.total;
         }, error => {
-          // this.parameter.loading = false;
+          this.parameter.loading = false;
         });
   }
 

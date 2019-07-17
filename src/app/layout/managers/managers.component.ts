@@ -1,15 +1,13 @@
 
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
-import { AdminService } from '../../services/admin.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { IProperty } from '../../common/property';
+import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import { Constant } from './../../common/constants';
-import { DomSanitizer } from '@angular/platform-browser';
-import { CommonService } from '../../services/common.service';
 import { FileUpload } from 'src/app/common/fileUpload';
-import { Agency } from 'src/app/models/agency.model';
 import { Manager, Company } from 'src/app/models/company';
+import { CommonService } from 'src/app/services/common.service';
+import { Constant } from 'src/app/common/constants';
+import { IProperty } from 'src/app/common/property';
+import { AdminService } from 'src/app/services/admin.service';
 declare let swal: any;
 
 @Component({
@@ -36,9 +34,8 @@ export class ManagersComponent implements OnInit {
   companies: Array<Company>;
   constructor(public constant: Constant, private cs: CommonService,
     private route: ActivatedRoute,
-    public admin: AdminService, private router: Router,
-    private ngZone: NgZone,
-    private sanitization: DomSanitizer) {
+    public admin: AdminService,
+    private ngZone: NgZone) {
     this.admin.countryData$.subscribe(success => {
       this.parameter.allCountry = success;
     });
@@ -69,6 +66,12 @@ export class ManagersComponent implements OnInit {
     this.getTowerManager();
   }
 
+  getFileName() {
+    const fi = this.fileInput.nativeElement;
+    const uploadedFile = fi.files[0];
+    this.label = uploadedFile.name;
+  }
+
   closeModal() {
     this.modalClose.nativeElement.click();
     this.emptyModel();
@@ -91,9 +94,10 @@ export class ManagersComponent implements OnInit {
   }
 
   openAddModal() {
-
+    this.model = new Manager();
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
+    this.model.company = new Company();
     this.initialCountry = { initialCountry: this.constant.initialCountry };
 
     this.inhouseUserModalOpen.nativeElement.click();
@@ -111,15 +115,15 @@ export class ManagersComponent implements OnInit {
     this.model.company.id = id;
   }
 
-  onFileChange(event: any, paramUrl: string, paramFile: string) {
+  onFileChange(event: any, paramLoader: string, paramFile: string) {
     if (event.target.files && event.target.files[0]) {
+      this.model[paramLoader] = true;
       const reader = new FileReader();
-      // this.parameter.image = event.target.files[0];
       reader.onload = (e: any) => {
-        this[paramUrl] = e.target.result;
-        this[paramFile] = this.sanitization.bypassSecurityTrustStyle(`url(${this[paramUrl]})`);
+        this[paramFile] = e.target.result;
         this.cs.saveImage(event.target.files[0]).subscribe(
           success => {
+            this.model[paramLoader] = false;
             this.model[paramFile] = success['data'].image;
           }
         );
@@ -130,6 +134,11 @@ export class ManagersComponent implements OnInit {
 
 
   addNewUser(formdata: NgForm) {
+
+    if (this.model.img_loader || this.model.logo_loader) {
+      swal('Error', 'Uploading images', 'error');
+      return false;
+    }
     const input = new FormData();
     if (this.model.id) { input.append('id', this.model.id); }
 
@@ -155,16 +164,12 @@ export class ManagersComponent implements OnInit {
               const text = this.model.id ? 'Updated successfully.' : 'Added successfully.';
               swal('Success', text, 'success');
               if (this.model.id) {
-                // edit -- replace
                 this.items[this.parameter.index] = success.data;
-                console.log('ssssss');
-                console.log(this.items[this.parameter.index]);
-                formdata.reset();
               } else {
-                // add - push
                 this.items.push(success.data);
-                formdata.reset();
+                this.parameter.total++;
               }
+              formdata.reset();
               this.emptyModel();
             }
           }, error => {
@@ -173,32 +178,13 @@ export class ManagersComponent implements OnInit {
   }
 
   editUser(userdata: Manager, index: any) {
-    // this.parameter.loading = true;
     this.parameter.index = index;
     this.model = userdata;
     this.model.company = userdata.company ? userdata.company : new Company();
-    console.log('sss', userdata);
+    this.image = userdata.image;
+    this.logo = userdata.logo;
+    this.model.img_loader = false; this.model.logo_loader = false;
     this.inhouseUserModalOpen.nativeElement.click();
-    // this.admin.postDataApi('getNewUserById', { id: userdata.id }).subscribe(r => {
-    //   this.parameter.loading = false;
-    //   userdata = r['data'];
-    //   this.parameter.index = index;
-    //   this.model.id = userdata.id;
-    //   this.model.name = userdata.name;
-    //   this.model.email = userdata.email;
-    //   this.model.phone = userdata.phone;
-    //   this.model.country_code = userdata.country_code;
-    //   // this.model.company = userdata.country_code;
-
-    //   this.model.image = userdata.image != null ? userdata.image : '';
-    //   if (this.model.image) {
-    //     this.image = this.sanitization.bypassSecurityTrustStyle(`url(${this.model.image})`);
-    //   }
-
-    //   this.inhouseUserModalOpen.nativeElement.click();
-    // }, erorr => {
-    //   this.parameter.loading = false;
-    // });
   }
 
   resetFilters() {
@@ -274,8 +260,6 @@ export class ManagersComponent implements OnInit {
     }
 
     swal({
-      // title: this.parameter.title,
-      // text: this.parameter.text,
       html: this.parameter.title + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
@@ -284,23 +268,23 @@ export class ManagersComponent implements OnInit {
       confirmButtonText: 'Yes!'
     }).then((result) => {
       if (result.value) {
-        this.blockAdmin(index, id, flag, user_type);
+        this.blockAdmin(id, flag);
       }
     });
   }
 
 
-  blockAdmin(index, id, flag, user_type) {
-    // this.parameter.loading = true;
-    this.parameter.url = 'blockTowerManager';
-    const input = new FormData();
-    input.append('id', id);
-    input.append('flag', flag);
+  blockAdmin(id, flag) {
+    // const input = new FormData();
+    // input.append('id', id);
+    // input.append('flag', flag);
+    const input = {
+      id: id, flag: flag
+    };
 
-    this.admin.postDataApi(this.parameter.url, input)
+    this.admin.postDataApi('blockTowerManager', input)
       .subscribe(
         success => {
-          // this.parameter.loading = false;
           swal('Success', this.parameter.successText, 'success');
           this.items[this.parameter.index] = success.data;
 
@@ -353,7 +337,7 @@ export class ManagersComponent implements OnInit {
     this.parameter.loading = true;
     const input = new FormData();
     input.append('attachment', attachment);
-    this.admin.postDataApi('importTowerManagerCompany', input)
+    this.admin.postDataApi('importTowerManager', input)
       .subscribe(
         success => {
           this.parameter.loading = false;

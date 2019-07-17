@@ -9,6 +9,8 @@ export class Company {
     phone: string;
     image: any;
     logo: any;
+    img_loader: boolean;
+    logo_loader: boolean;
     email: string;
     address: string;
     lat?: any;
@@ -35,4 +37,6 @@ export class Manager {
     image: any;
     logo: any;
     email: string;
+    img_loader: boolean;
+    logo_loader: boolean;
 }

@@ -7,7 +7,7 @@ import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2TelInputModule } from 'ng2-tel-input';
-
+import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { AclUserGuard } from '../../guards/acl-user.guard';
 import { SharedModule } from '../../modules/shared.module';
 import { ManagersComponent } from './managers.component';
@@ -26,6 +26,7 @@ const routes: Routes = [
       primaryColour: '#00B96F'
     }),
     NgxPaginationModule,
+    LazyLoadImageModule,
     FormsModule,
     ReactiveFormsModule,
     Ng2TelInputModule,

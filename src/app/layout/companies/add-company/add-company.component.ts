@@ -1,14 +1,13 @@
 import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
-import { AdminService } from './../../../services/admin.service';
-import { CommonService } from './../../../services/common.service';
-import { IProperty } from './../../../common/property';
-import { ACL, Permission } from './../../../models/acl.model';
 import { ActivatedRoute } from '@angular/router';
-import { Constant } from './../../../common/constants';
 import { NgForm } from '@angular/forms';
 import { Users } from 'src/app/models/users.model';
 import { MapsAPILoader } from '@agm/core';
 import { Company } from 'src/app/models/company';
+import { IProperty } from 'src/app/common/property';
+import { Constant } from 'src/app/common/constants';
+import { CommonService } from 'src/app/services/common.service';
+import { AdminService } from 'src/app/services/admin.service';
 declare const google: any;
 declare let swal: any;
 
@@ -65,14 +64,14 @@ export class AddCompanyComponent implements OnInit {
       });
   }
 
-  changeListner(event: any, param: any) {
+  changeListner(event: any, paramLoader: string, param: any) {
+    this.model[paramLoader] = true;
     const reader = new FileReader();
     reader.onload = (e: any) => {
       this[param] = e.target.result;
-      this.parameter.loading = true;
       this.cs.saveImage(event.target.files[0]).subscribe(
         success => {
-          this.parameter.loading = false;
+          this.model[paramLoader] = false;
           this.model[param] = success['data'].image;
         }
       );
@@ -94,6 +93,10 @@ export class AddCompanyComponent implements OnInit {
     }
     if (!modelSave.branch_lat || !modelSave.branch_lng) {
       swal('Error', 'Please choose branch address from dropdown.', 'error');
+      return;
+    }
+    if (this.model.img_loader || this.model.logo_loader) {
+      swal('Error', 'Uploading images.', 'error');
       return;
     }
     this.parameter.loading = true;
