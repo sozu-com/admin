@@ -15,26 +15,28 @@
       <div class="col-xl-12 col-lg-12 col-md-12 col-12">
           <div class="row">
             <div class="col-2">
+              <div class="add-img" style="display:flex;">
+                  <img *ngIf="model?.image" [src]="model?.image" [defaultImage]="model?.image| img:'thumb'" [lazyLoad]="model?.image" style="object-fit: cover; width: 100%;">
+                  <label *ngIf="model?.image">
+                    <input accept="image/*" name="image" class="image" (change)="changeListner($event, 'img_loader', 'image')" type="file">
+                  </label>
+                  <label *ngIf="!model?.image">+ Add Image</label>
+                  <input *ngIf="!model?.image" accept="image/*" name="image" class="image" (change)="changeListner($event, 'img_loader', 'image')" type="file">
+                  <div *ngIf="model.img_loader" class="loaderr"></div>
+              </div>
+            </div>
+            <div class="col-2">
                 <div class="add-img" style="display:flex;">
-                    <img *ngIf="image" [src]="image" style="object-fit: cover; width: 100%;">
-                    <label *ngIf="model?.image">
-                      <input accept="image/*" name="image" class="image" (change)="changeListner($event, 'image')" type="file">
+                    <img *ngIf="model?.logo" [src]="model?.logo" [defaultImage]="model?.logo| img:'thumb'" [lazyLoad]="model?.logo" style="object-fit: cover; width: 100%;">
+                    <label *ngIf="model?.logo">
+                      <input accept="image/*" name="image" class="image" (change)="changeListner($event, 'logo_loader', 'logo')" type="file">
                     </label>
-                    <label *ngIf="!image">+ Add Image</label>
-                    <input *ngIf="!image" accept="image/*" name="image" class="image" (change)="changeListner($event, 'image')" type="file">
+                    <label *ngIf="!model?.logo">+ Add Logo</label>
+                    <input *ngIf="!model?.logo" accept="image/*" name="image" class="image" (change)="changeListner($event, 'logo_loader', 'logo')" type="file">
+                    <div *ngIf="model.logo_loader" class="loaderr"></div>
                 </div>
             </div>
-            <!-- <div class="col-2">
-                <div class="add-img" style="display:flex;">
-                    <img *ngIf="developer_image" [src]="developer_image" style="object-fit: cover; width: 100%;">
-                    <label *ngIf="model?.developer_image">
-                      <input accept="image/*" name="image" class="image" (change)="changeListner($event, 'developer_image')" type="file">
-                    </label>
-                    <label *ngIf="!developer_image">+ Add Cover Image</label>
-                    <input *ngIf="!developer_image" accept="image/*" name="image" class="image" (change)="changeListner($event, 'developer_image')" type="file">
-                </div>
-            </div> -->
-            <div class="col-10">
+            <div class="col-8">
                 <div class="btn-cont text-right">
                     <button *ngIf="!model?.id" type="submit" [disabled]="!addForm.valid" class="btn btn-primary">ADD</button>
                     <button *ngIf="model?.id" type="submit" class="btn btn-primary">UPDATE</button>
@@ -43,11 +45,30 @@
             <div class="col-12">
                 <div class="spacer40"></div>
             </div>
+
             <div class="col-12">
-                <div class="form-group-2">
-                  <label>Company Name <span class="color-red">*</span></label>
-                  <input autocomplete="off" required type="text" class="form-control" [(ngModel)]="model.name" name="name">
-                </div>
+              <div class="form-group-2">
+                <label>Company Name (Commercial Name)<span class="color-red">*</span></label>
+                <input autocomplete="off" required type="text" class="form-control" [(ngModel)]="model.name" name="name">
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group-2">
+                <label>RFC (Legal ID)<span class="color-red">*</span></label>
+                <input autocomplete="off" required type="text" class="form-control" [(ngModel)]="model.rfc" name="rfc">
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group-2">
+                <label>Razon Social (Legal Name)<span class="color-red">*</span></label>
+                <input autocomplete="off" required type="text" class="form-control" [(ngModel)]="model.razon_social" name="razon_social">
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group-2">
+                <label>Name<span class="color-red">*</span></label>
+                <input autocomplete="off" required type="text" class="form-control" [(ngModel)]="model.person_in_charge" name="person_in_charge">
+              </div>
             </div>
             <div class="col-12">
                 <div class="form-group-2">
@@ -62,13 +83,6 @@
                   <input (keydown.space)="$event.preventDefault();" autocomplete="off" required [pattern]="constant.emailPattern" type="email" class="form-control" [(ngModel)]="model.email" name="email">
                 </div>
             </div>
-            <!-- <div class="col-12">
-                <div class="form-group-2">
-                  <label>Company Name <span class="color-red">*</span></label>
-                  <input autocomplete="off" required type="text" class="form-control" [(ngModel)]="model.developer_company" name="developer_company">
-                </div>
-            </div> -->
-
             <div class="col-12">
                 <div class="form-group-2">
                   <label>Address <span class="color-red">*</span></label>
@@ -78,7 +92,7 @@
             <div class="col-12">
               <div class="form-group-2">
                   <label>Location Pin on Map<span class="color-red">*</span></label>
-                  <agm-map class="height200" [latitude]="model.lat" [longitude]="model.lng" [scrollwheel]="false" (mapClick)="placeMarker($event, 'lat', 'lng')" [zoom]="constant.zoom">
+                  <agm-map class="height200" [latitude]="model.lat" [longitude]="model.lng" [scrollwheel]="false" (mapClick)="placeMarker($event, 'address', 'lat', 'lng')" [zoom]="constant.zoom">
                     <agm-marker [latitude]="model.lat" [longitude]="model.lng"></agm-marker>
                   </agm-map>
               </div>
@@ -98,14 +112,12 @@
             <div class="col-12">
               <div class="form-group-2">
                   <label>Location Pin on Map</label>
-                  <agm-map class="height200" [latitude]="model.branch_lat" [longitude]="model.branch_lng" [scrollwheel]="false" (mapClick)="placeMarker($event, 'branch_lat', 'branch_lng')" [zoom]="constant.zoom">
+                  <agm-map class="height200" [latitude]="model.branch_lat" [longitude]="model.branch_lng" [scrollwheel]="false" (mapClick)="placeMarker($event, 'branch_office', 'branch_lat', 'branch_lng')" [zoom]="constant.zoom">
                     <agm-marker [latitude]="model.branch_lat" [longitude]="model.branch_lng"></agm-marker>
                   </agm-map>
               </div>
             </div>
             
-
-
           </div>
       </div>
       </form>

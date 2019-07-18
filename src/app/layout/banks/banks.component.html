@@ -4,7 +4,7 @@
       <div class="col-md-6 col-6">
         <div class="title-group">
             <h5>Banks</h5>
-            <p>Showing {{parameter.items?.length}} out of {{parameter.total ? parameter.total : parameter?.items?.length}}</p>
+            <p>Showing {{items?.length}} out of {{parameter.total ? parameter.total : parameter?.items?.length}}</p>
         </div>
       </div>
       <div class="col-md-6 col-6">
@@ -59,7 +59,7 @@
               </th>
             </tr>
       
-            <tr *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index">
+            <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index">
               <td> 
                   <img [src]="item.image| img:'small'" class="rounded-circle" onerror='src="assets/img/bank.png"' alt="img">
               </td>
@@ -118,12 +118,13 @@
           <div class="row">
             <div class="col-6">
               <div class="add-img" style="display:flex;">
-                <img *ngIf="model.image" [src]="model.image" style="object-fit: cover; width: 100%;">
-                <label *ngIf="model.image">
-                  <input accept="image/*" name="image" class="image" (change)="changeListner($event)" type="file">
-                </label>
-                <label *ngIf="!model.image">+ Add Image</label>
-                <input *ngIf="!model.image" accept="image/*" name="image" class="image" (change)="changeListner($event)" type="file">
+                  <img *ngIf="model?.image" [src]="model?.image" [defaultImage]="model?.image| img:'thumb'" [lazyLoad]="model?.image" style="object-fit: cover; width: 100%;">
+                  <label *ngIf="model?.image">
+                    <input accept="image/*" name="image" class="image" (change)="changeListner($event, 'img_loader', 'image')" type="file">
+                  </label>
+                  <label *ngIf="!model?.image">+ Add Image</label>
+                  <input *ngIf="!model?.image" accept="image/*" name="image" class="image" (change)="changeListner($event, 'img_loader', 'image')" type="file">
+                  <div *ngIf="model.img_loader" class="loaderr"></div>
               </div>
             </div>
             <div class="col-6">

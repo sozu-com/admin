@@ -5,6 +5,8 @@ import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2TelInputModule } from 'ng2-tel-input';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+
 import { BanksComponent } from './banks.component';
 import { AclUserGuard } from '../../guards/acl-user.guard';
 import { BankLeadsComponent } from './bank-leads/bank-leads.component';
@@ -38,6 +40,7 @@ const routes: Routes = [
       animationType: ngxLoadingAnimationTypes.rectangleBounce,
       primaryColour: '#00B96F'
     }),
+    LazyLoadImageModule,
     NgxPaginationModule,
     FormsModule,
     ReactiveFormsModule,

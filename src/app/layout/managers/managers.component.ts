@@ -3,7 +3,7 @@ import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core'
 import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { FileUpload } from 'src/app/common/fileUpload';
-import { Manager, Company } from 'src/app/models/company';
+import { Manager, Company } from 'src/app/models/company.model';
 import { CommonService } from 'src/app/services/common.service';
 import { Constant } from 'src/app/common/constants';
 import { IProperty } from 'src/app/common/property';

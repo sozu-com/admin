@@ -36,6 +36,7 @@ export class UserModel {
     dial_code: string;
     phone: string;
     image: string;
+    img_loader: boolean;
     email: string;
     address: Array<NewAddress>;
     is_broker_seller_dev: boolean;

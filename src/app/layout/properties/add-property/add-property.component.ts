@@ -1297,7 +1297,7 @@ export class AddPropertyComponent implements OnInit {
               'You can add property details and data-collector will link this property to the building.',
             type: 'success'
           });
-          this.tab = 1;
+          // this.tab = 1;
         }, error => {
           this.parameter.loading = false;
         }

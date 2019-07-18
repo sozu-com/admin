@@ -5,7 +5,7 @@ import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2TelInputModule } from 'ng2-tel-input';
-
+import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { NotaryLeadsComponent } from './notary-leads/notary-leads.component';
 import { NotaryComponent } from './notary.component';
 import { NotaryLeadsDetailsComponent } from './notary-leads/notary-leads-details/notary-leads-details.component';
@@ -39,6 +39,7 @@ const routes: Routes = [
       animationType: ngxLoadingAnimationTypes.rectangleBounce,
       primaryColour: '#00B96F'
     }),
+    LazyLoadImageModule,
     NgxPaginationModule,
     FormsModule,
     ReactiveFormsModule,

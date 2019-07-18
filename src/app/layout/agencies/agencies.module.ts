@@ -7,7 +7,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { AgmCoreModule } from '@agm/core';
-
+import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { AclUserGuard } from '../../guards/acl-user.guard';
 import { SharedModule } from '../../modules/shared.module';
 import { AgenciesComponent } from './agencies.component';
@@ -33,6 +33,7 @@ const routes: Routes = [
       apiKey: 'AIzaSyDykCJGMqHIwJluSmSiqKTJBVN2KauM_uQ',
       libraries: ['drawing', 'places']
     }),
+    LazyLoadImageModule,
     NgxPaginationModule,
     FormsModule,
     ReactiveFormsModule,

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { Company } from 'src/app/models/company';
+import { Company } from 'src/app/models/company.model';
 import { IProperty } from 'src/app/common/property';
 import { Constant } from 'src/app/common/constants';
 import { AdminService } from 'src/app/services/admin.service';

@@ -1,9 +1,9 @@
 export class Company {
     id: number;
-    name: string;
     person_in_charge: string;   // incharge of company
     rfc: string;    // legal id => unique company id
     razon_social: string;   // legal company name
+    name: string;
     country_code: string;
     dial_code: string;
     phone: string;
@@ -19,10 +19,6 @@ export class Company {
     branch_lat?: any;
     branch_lng?: any;
     page?: number;
-    country_id?: string;
-    state_id?: string;
-    city_id?: string;
-    locality_id?: string;
     description?: string;
     managers_count?: number;
 }

@@ -35,7 +35,7 @@
             <th style="width:6%">&nbsp;</th>
             <th style="width:15%">
               <div class="table-search">
-                  <label>Company Name</label>
+                  <label>Company Name <br> (Commercial Name)</label>
                   <div class="searh-3">
                     <input type="text" [(ngModel)]="parameter.company_name" (keyup.enter)="searchUserByCompanyName(parameter.company_name)" name="">
                     <button type="button" *ngIf="parameter.company_name" (click)="searchUserByCompanyName(parameter.company_name)"><i class="fa fa-search"></i></button>

@@ -25,8 +25,6 @@ export class AddAgencyComponent implements OnInit {
   public parameter: IProperty = {};
   initialCountry: any;
   show = false;
-  image: any;
-  developer_image: any;
   model: Agency;
   constructor(
     public constant: Constant,
@@ -64,7 +62,6 @@ export class AddAgencyComponent implements OnInit {
       success => {
         this.parameter.loading = false;
         this.model = success.data;
-        this.image = this.model.image;
         console.log('==', this.model);
       }, error => {
         this.parameter.loading = false;
@@ -75,20 +72,19 @@ export class AddAgencyComponent implements OnInit {
     this.show = true;
   }
 
-  changeListner(event: any, param: any) {
+  changeListner(event: any, paramLoader: string, param: any) {
+    this.model[paramLoader] = true;
     const reader = new FileReader();
     reader.onload = (e: any) => {
-      this[param] = e.target.result;
-      this.parameter.loading = true;
+      this.model[param] = e.target.result;
       this.cs.saveImage(event.target.files[0]).subscribe(
         success => {
-          this.parameter.loading = false;
+          this.model[paramLoader] = false;
           this.model[param] = success['data'].image;
         }
       );
     };
     reader.readAsDataURL(event.target.files[0]);
-    console.log(this.model);
   }
 
   onCountryCodeChange(e) {
@@ -98,9 +94,13 @@ export class AddAgencyComponent implements OnInit {
   }
 
   add(formData: NgForm) {
-    const modelSave: Users = JSON.parse(JSON.stringify(this.model));
+    const modelSave: Agency = JSON.parse(JSON.stringify(this.model));
     if (!modelSave.lat || !modelSave.lng) {
       swal('Error', 'Please choose address from dropdown.', 'error');
+      return;
+    }
+    if (modelSave.img_loader || modelSave.logo_loader) {
+      swal('Error', 'Uploading image.', 'error');
       return;
     }
     this.parameter.loading = true;
@@ -116,14 +116,12 @@ export class AddAgencyComponent implements OnInit {
             swal('Success', text, 'success');
             if (this.model.id === '') {
               formData.reset();
-              this.image = ''; this.developer_image = '';
             }
           }
         }, error => {
           this.parameter.loading = false;
         });
   }
-
 
   loadPlaces(paramAdd: string, paramLat: string, paramLng: string, searchRef: any) {
     // load Places Autocomplete
@@ -169,14 +167,14 @@ export class AddAgencyComponent implements OnInit {
     }
   }
 
-  placeMarker($event: any, paramLat: string, paramLng: string) {
+  placeMarker($event: any, param: string, paramLat: string, paramLng: string) {
     this.model[paramLat] = $event.coords.lat;
     this.model[paramLng] = $event.coords.lng;
-    this.getGeoLocation(this.model[paramLat], this.model[paramLng]);
+    this.getGeoLocation(param, this.model[paramLat], this.model[paramLng]);
   }
 
 
-  getGeoLocation(lat: number, lng: number) {
+  getGeoLocation(param: string, lat: number, lng: number) {
     if (navigator.geolocation) {
       const geocoder = new google.maps.Geocoder();
       const latlng = new google.maps.LatLng(lat, lng);
@@ -185,10 +183,11 @@ export class AddAgencyComponent implements OnInit {
       geocoder.geocode(request, (results, status) => {
         if (status === google.maps.GeocoderStatus.OK) {
           const result = results[0];
+          console.log('para,', param);
           if (result != null) {
-            this.model.address = result.formatted_address;
+            this.model[param] = result.formatted_address;
           } else {
-            this.model.address = lat + ',' + lng;
+            this.model[param] = lat + ',' + lng;
           }
         }
       });

@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Users } from 'src/app/models/users.model';
 import { MapsAPILoader } from '@agm/core';
-import { Company } from 'src/app/models/company';
+import { Company } from 'src/app/models/company.model';
 import { IProperty } from 'src/app/common/property';
 import { Constant } from 'src/app/common/constants';
 import { CommonService } from 'src/app/services/common.service';

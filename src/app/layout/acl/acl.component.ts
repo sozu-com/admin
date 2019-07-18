@@ -1,23 +1,23 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AdminService } from '../../services/admin.service';
-import { IProperty } from '../../common/property';
-import { ACL, Permission } from './../../models/acl.model';
 import { NgForm } from '@angular/forms';
-import { Constant } from './../../common/constants';
 import { DomSanitizer } from '@angular/platform-browser';
-import { CommonService } from './../../services/common.service';
 import { Router } from '@angular/router';
-declare let swal: any;
 import { Location } from '@angular/common';
+import { ACL, Permission } from 'src/app/models/acl.model';
+import { IProperty } from 'src/app/common/property';
+import { Constant } from 'src/app/common/constants';
+import { AdminService } from 'src/app/services/admin.service';
+import { CommonService } from 'src/app/services/common.service';
+declare let swal: any;
 
 @Component({
   selector: 'app-acl',
   templateUrl: './acl.component.html',
-  styleUrls: ['./acl.component.css'],
-  providers: [ACL]
+  styleUrls: ['./acl.component.css']
 })
 export class AclComponent implements OnInit {
 
+  model: ACL;
   url: any[];
   image1: any;
   @ViewChild('modalOpen') modalOpen: ElementRef;
@@ -25,7 +25,7 @@ export class AclComponent implements OnInit {
   public parameter: IProperty = {};
   initialCountry: any;
 
-  constructor(public constant: Constant, public model: ACL,
+  constructor(public constant: Constant,
     public admin: AdminService, private cs: CommonService,
     public sanitization: DomSanitizer, private router: Router,
     private location: Location
@@ -37,7 +37,7 @@ export class AclComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.model = new ACL();
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
     this.parameter.itemsPerPage = this.constant.itemsPerPage;

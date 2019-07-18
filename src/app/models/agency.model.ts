@@ -1,10 +1,16 @@
 export class Agency {
     id: string;
-    name: string;
+    person_in_charge: string;   // incharge of company
+    rfc: string;    // legal id => unique company id
+    razon_social: string;   // legal company name
+    name: string;   // commercial name
     country_code: string;
     dial_code: string;
     phone: string;
     image: any;
+    logo: any;
+    img_loader: boolean;
+    logo_loader: boolean;
     email: string;
     address: string;
     lat?: any;
@@ -13,9 +19,9 @@ export class Agency {
     branch_lat?: any;
     branch_lng?: any;
     page?: number;
-    country_id?: string;
-    state_id?: string;
-    city_id?: string;
-    locality_id?: string;
     description?: string;
+    agents_count?: number;
+    property_count?: number;
+    property_sort?: number;     // for sorting
+    agent_sort?: number;     // for sorting
 }

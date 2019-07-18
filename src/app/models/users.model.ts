@@ -6,6 +6,7 @@ export class Users {
     dial_code: string;
     phone: string;
     image: any;
+    img_loader: boolean;
     developer_image?: any;      // cover image of dev
     email: string;
     interested_in: string;

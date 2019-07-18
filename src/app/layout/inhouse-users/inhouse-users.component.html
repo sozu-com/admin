@@ -108,7 +108,7 @@
             <th style="width:6%">&nbsp;</th>
             <th style="width:15%" *ngIf="parameter.userType == 'outside-broker'">
               <div class="table-search">
-                  <label>Company Name</label>
+                  <label>Agency Name <br> (Commercial Name) </label>
                   <div class="searh-3">
                     <input type="text" [(ngModel)]="parameter.company_name" (keyup.enter)="searchUserByCompanyName(parameter.company_name)" name="">
                     <button type="button" *ngIf="parameter.company_name" (click)="searchUserByCompanyName(parameter.company_name)"><i class="fa fa-search"></i></button>
@@ -124,7 +124,7 @@
                   </div>
               </div>
             </th>
-            <th style="width:18%; text-align:left;">
+            <th style="width:15%; text-align:left;">
               <div class="table-search">
                   <label>Contact Number</label>
                   <div class="searh-3">
@@ -143,13 +143,16 @@
               </div>
             </th>
             <th *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'outside-broker' || parameter.userType == 'csr-closers' ||
-            parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers'" style="width:8%; vertical-align: top;">
+            parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers'" style="width:5%; vertical-align: top;">
               Leads<a (click)="setLeadSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.lead_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
             </th>
-            <th *ngIf="parameter.userType == 'data-collectors'" style="width:22%; vertical-align: top;">
+            <th *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'outside-broker'" style="width:5%; vertical-align: top;">
+              Linked <br> Properties<a (click)="setPropertiesSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.property_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
+            </th>
+            <th *ngIf="parameter.userType == 'data-collectors'" style="width:15%; vertical-align: top;">
               Building<a (click)="setLeadSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.lead_sort==2}" [ngClass]="{'upsidedown':this.price_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
             </th>
-            <th style="width:19%">
+            <th style="width:20%">
               &nbsp;
             </th>
           </tr>
@@ -171,6 +174,7 @@
               <td *ngIf="parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers' ||
                     parameter.userType == 'inhouse-broker' || parameter.userType == 'outside-broker' || parameter.userType == 'csr-closers'; else showBuildings">{{item.lead_count?item.lead_count:'0'}}</td>
               <td *ngIf="parameter.userType == 'data-collectors'" >{{item.added_buildings_count?item.added_buildings_count:'0'}}</td>
+              <td *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'outside-broker'" >{{item.properties_linked?item.properties_linked:'0'}}</td>
               <td>
                 <a *ngIf="admin?.admin_acl['Building Management']?.can_read==1 && parameter.userType == 'data-collectors'" title="View Projects" href="javascript://" routerLink="/dashboard/projects/view-projects/{{item.id}}" class="icon-block edit-icon">
                   <img src="assets/img/ic_projects_manage.png" alt="img">
@@ -245,17 +249,16 @@
           <div class="modal-body">
               <div class="row">
                  <div class="col-6">
-                    <div class="add-img" style="background-size: cover;" [style.background-image]="image">
-                    <input accept="image/*" type="file" name="" (change)="onSelectFile1($event, 'url', 'image')">
-                    <label *ngIf="!image">+ Add Image</label>
-                    </div>
+                  <div class="add-img" style="display:flex;">
+                    <img *ngIf="model?.image" [src]="model?.image" [defaultImage]="model?.image| img:'thumb'" [lazyLoad]="model?.image" style="object-fit: cover; width: 100%;">
+                    <label *ngIf="model?.image">
+                      <input accept="image/*" name="image" class="image" (change)="changeListner($event, 'img_loader', 'image')" type="file">
+                    </label>
+                    <label *ngIf="!model?.image">+ Add Image</label>
+                    <input *ngIf="!model?.image" accept="image/*" name="image" class="image" (change)="changeListner($event, 'img_loader', 'image')" type="file">
+                    <div *ngIf="model.img_loader" class="loaderr"></div>
+                </div>
                  </div>
-                 <!-- <div class="col-3" *ngIf="model.is_external_agent">
-                    <div class="add-img" style="background-size: cover;" [style.background-image]="company_logo">
-                    <input accept="image/*" type="file" name="" (change)="onSelectFile1($event, 'url2', 'company_logo')">
-                    <label *ngIf="!company_logo">+ Add Logo</label>
-                    </div>
-                 </div> -->
                  <div class="col-6">
                     <div class="btn-cont text-right">
                       <button *ngIf="!model.id" type="submit" [disabled]="addForm.invalid" class="btn btn-primary">ADD</button>
@@ -297,7 +300,7 @@
                  </div>
                  <div class="col-12" *ngIf="parameter.userType=='outside-broker'">
                   <div class="form-group-2">
-                    <label>Agency</label>
+                    <label>Agency Name (Commercial Name)</label>
                     
                     <!-- [(ngModel)]="model.agency.id" -->
                     <select title="Choose Agency" name="agency" class="form-control" (change)="setAgency($event.target.value)">

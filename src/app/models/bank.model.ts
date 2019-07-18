@@ -5,6 +5,7 @@ export class Bank {
     dial_code: string;
     phone: string;
     image: string;
+    img_loader: boolean;
     email: string;
     branch: string;
     floating_int: string;

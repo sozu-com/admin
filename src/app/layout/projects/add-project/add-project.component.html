@@ -15,7 +15,7 @@
             <div class="form-group-3">
               <label>Add Images</label>
               <div class="upload-cover-img">
-                <img [src]="file1.image" onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
+                <img [src]="file1.image" [defaultImage]="file1.image | img:'thumb'" [lazyLoad]="file1.image" onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
                 <div *ngIf="!file1.image" class="upload-caption">
                   <p class="green-color marginT30">+Upload Cover image for the project</p>
                   <p>JPG or PNG. Image size should be 1920 × 1080 pixels (for HiDPI displays).</p>
@@ -308,10 +308,10 @@
                         </div> -->
                         <div class="image-group">
                             <div class="fig-block">
-                                <img class="img-fluid" [src]="c.floor_map_image" onerror='this.src="http://via.placeholder.com/48x48"' alt="img">
+                                <img class="img-fluid" [src]="c.floor_map_image" [defaultImage]="c?.floor_map_image| img:'thumb'" [lazyLoad]="c?.floor_map_image" onerror='this.src="http://via.placeholder.com/48x48"' alt="img">
                             </div>
                             <div *ngFor="let im of c.images"  class="fig-block">
-                               <img [src]="im.image" onerror="this.src='http://via.placeholder.com/48x48'" alt="img">
+                               <img [src]="im.image" [defaultImage]="im?.image| img:'thumb'" [lazyLoad]="im?.image" onerror="this.src='http://via.placeholder.com/48x48'" alt="img">
                             </div>
                          </div>
                       </div>

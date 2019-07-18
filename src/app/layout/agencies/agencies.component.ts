@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
 import { IProperty } from '../../common/property';
-import { Users } from './../../models/users.model';
 import { Constant } from './../../common/constants';
-import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Agency } from 'src/app/models/agency.model';
 declare let swal: any;
 
 @Component({
@@ -16,14 +15,15 @@ export class AgenciesComponent implements OnInit {
 
   @ViewChild('fileInput') fileInput: ElementRef;
   public parameter: IProperty = {};
-  model: Users;
+  model: Agency;
   label: string;
   constructor(public constant: Constant, public admin: AdminService, private router: Router) { }
 
   ngOnInit() {
     this.label = 'Choose Agencies File';
-    this.model = new Users();
-    this.model.buildings_sort = 2;  // 2 means desc
+    this.model = new Agency();
+    this.model.property_sort = 2; // desc
+    this.model.agent_sort = 2; // desc
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.getAgencies();
@@ -40,26 +40,31 @@ export class AgenciesComponent implements OnInit {
     this.label = uploadedFile.name;
   }
 
-  setBuildingsSort(buildings_sort: number) {
-    this.model.buildings_sort = buildings_sort;
+  sortData(value: number, param: string) {
+    this.model[param] = value;
+    if (param === 'property_sort') {
+      this.model.agent_sort = null;
+    } else {
+      this.model.property_sort = null;
+    }
     this.getAgencies();
   }
 
   getAgencies() {
     this.model.page = this.parameter.page;
-    // this.parameter.loading = true;
+    this.parameter.loading = true;
     this.admin.postDataApi('getAgencies', this.model)
       .subscribe(
         success => {
-          // this.parameter.loading = false;
+          this.parameter.loading = false;
           this.parameter.items = success.data;
           this.parameter.total = success.total_count;
         }, error => {
-          // this.parameter.loading = false;
+          this.parameter.loading = false;
         });
   }
 
-  editUser(item: Users) {
+  editUser(item: Agency) {
     this.router.navigate(['/dashboard/agencies/add-agency', item.id]);
   }
 

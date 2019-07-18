@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { AdminService } from '../../../services/admin.service';
-import { IProperty } from '../../../common/property';
+import { IProperty } from 'src/app/common/property';
+import { AdminService } from 'src/app/services/admin.service';
 
 @Component({
   selector: 'app-address',

@@ -1,16 +1,16 @@
 
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
-import { AdminService } from '../../services/admin.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { IProperty } from '../../common/property';
-import { User, Address, UserModel, NewAddress } from './../../models/inhouse-users.model';
 import { NgForm } from '@angular/forms';
-import { Constant } from './../../common/constants';
-import { DomSanitizer } from '@angular/platform-browser';
-import { CommonService } from '../../services/common.service';
+// import { DomSanitizer } from '@angular/platform-browser';
 import { MapsAPILoader } from '@agm/core';
 import { FileUpload } from 'src/app/common/fileUpload';
 import { Agency } from 'src/app/models/agency.model';
+import { Constant } from 'src/app/common/constants';
+import { User, Address, UserModel } from 'src/app/models/inhouse-users.model';
+import { IProperty } from 'src/app/common/property';
+import { CommonService } from 'src/app/services/common.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AdminService } from 'src/app/services/admin.service';
 declare let swal: any;
 declare const google;
 @Component({
@@ -34,6 +34,7 @@ export class InhouseUsersComponent implements OnInit {
 
   public parameter: IProperty = {};
   lead_sort = 2;
+  property_sort = 2;
   initialCountry: any;
   addressIndex = 0;
   tempAdd: Object;
@@ -51,8 +52,7 @@ export class InhouseUsersComponent implements OnInit {
     public model: UserModel, private route: ActivatedRoute,
     public admin: AdminService, private router: Router,
     private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone,
-    private sanitization: DomSanitizer) {
+    private ngZone: NgZone) {
     this.admin.countryData$.subscribe(success => {
       this.parameter.allCountry = success;
     });
@@ -96,8 +96,6 @@ export class InhouseUsersComponent implements OnInit {
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
     this.model = new UserModel();
-    this.image = '';
-    this.company_logo = '';
     this.initialCountry = { initialCountry: this.constant.initialCountry };
     this.disabledBuildings = [];
 
@@ -145,6 +143,7 @@ export class InhouseUsersComponent implements OnInit {
 
   openAddModal() {
     this.model.address = [];
+    this.model.img_loader = false;
     // this.parameter.countries ? this.parameter.countries[0].id : 0;
     const obj = {
       countries: this.parameter.countries && this.parameter.countries[0] ? this.parameter.countries[0].id : 0,
@@ -213,23 +212,37 @@ export class InhouseUsersComponent implements OnInit {
     this.model.agency.id = id;
   }
 
-  onSelectFile1(event: any, paramUrl: string, paramFile: string) {
-    if (event.target.files && event.target.files[0]) {
-      const reader = new FileReader();
-      // this.parameter.image = event.target.files[0];
-      reader.onload = (e: any) => {
-        this[paramUrl] = e.target.result;
-        this[paramFile] = this.sanitization.bypassSecurityTrustStyle(`url(${this[paramUrl]})`);
-        this.cs.saveImage(event.target.files[0]).subscribe(
-          success => {
-            this.model[paramFile] = success['data'].image;
-          }
-        );
-      };
-      reader.readAsDataURL(event.target.files[0]);
-    }
-  }
+  // onSelectFile1(event: any, paramUrl: string, paramFile: string) {
+  //   if (event.target.files && event.target.files[0]) {
+  //     const reader = new FileReader();
+  //     // this.parameter.image = event.target.files[0];
+  //     reader.onload = (e: any) => {
+  //       this[paramUrl] = e.target.result;
+  //       this[paramFile] = this.sanitization.bypassSecurityTrustStyle(`url(${this[paramUrl]})`);
+  //       this.cs.saveImage(event.target.files[0]).subscribe(
+  //         success => {
+  //           this.model[paramFile] = success['data'].image;
+  //         }
+  //       );
+  //     };
+  //     reader.readAsDataURL(event.target.files[0]);
+  //   }
+  // }
 
+  changeListner(event: any, paramLoader: string, param: any) {
+    this.model[paramLoader] = true;
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.model[param] = e.target.result;
+      this.cs.saveImage(event.target.files[0]).subscribe(
+        success => {
+          this.model[paramLoader] = false;
+          this.model[param] = success['data'].image;
+        }
+      );
+    };
+    reader.readAsDataURL(event.target.files[0]);
+  }
 
   addNewUser(formdata: NgForm) {
     // if (this.model.adr && this.model.adr.trim() && !this.model.lat && !this.model.lng) {
@@ -240,6 +253,10 @@ export class InhouseUsersComponent implements OnInit {
     //   swal('Error', 'Please choose branch address from dropdown.', 'error');
     //   return;
     // }
+    if (this.model.img_loader) {
+      swal('Error', 'Uploading image.', 'error');
+      return false;
+    }
     this.parameter.url = this.model.id ? 'updateNewUser' : 'addNewUser';
     this.seenDuplicate = false;
     const input = new FormData();
@@ -361,6 +378,7 @@ export class InhouseUsersComponent implements OnInit {
 
   editUser(userdata, index) {
     this.parameter.loading = true;
+    this.model.img_loader = false;
     this.admin.postDataApi('getNewUserById', { id: userdata.id }).subscribe(r => {
       this.parameter.loading = false;
       userdata = r['data'];
@@ -390,14 +408,6 @@ export class InhouseUsersComponent implements OnInit {
       // }
 
       this.model.image = userdata.image != null ? userdata.image : '';
-      if (this.model.image) {
-        this.image = this.sanitization.bypassSecurityTrustStyle(`url(${this.model.image})`);
-      }
-
-      // this.model.company_logo = userdata.company_logo != null ? userdata.company_logo : '';
-      // if (this.model.company_logo) {
-      //   this.company_logo = this.sanitization.bypassSecurityTrustStyle(`url(${this.model.company_logo})`);
-      // }
       this.model.is_broker_seller_dev = userdata.permissions && userdata.permissions.can_csr_seller === 1 ? true : false;
       this.model.is_buyer_renter = userdata.permissions && userdata.permissions.can_csr_buyer === 1 ? true : false;
       this.model.is_broker = userdata.permissions && userdata.permissions.can_in_house_broker === 1 ? true : false;
@@ -543,6 +553,12 @@ export class InhouseUsersComponent implements OnInit {
 
   setLeadSort() {
     this.lead_sort = this.lead_sort === 1 ? 2 : 1;
+    this.property_sort = null;
+    this.getInhouseUsers();
+  }
+  setPropertiesSort() {
+    this.property_sort = this.property_sort === 1 ? 2 : 1;
+    this.lead_sort = null;
     this.getInhouseUsers();
   }
   setBrokerType(is_external_agent: string) {
@@ -606,6 +622,7 @@ export class InhouseUsersComponent implements OnInit {
     const input = new FormData();
     input.append('page', this.parameter.p.toString());
     if (this.lead_sort) { input.append('lead_sort', this.lead_sort.toString()); }
+    if (this.property_sort) { input.append('property_sort', this.property_sort.toString()); }
     if (this.parameter.name) { input.append('name', this.parameter.name); }
     if (this.parameter.email) { input.append('email', this.parameter.email); }
     if (this.parameter.phone) { input.append('phone', this.parameter.phone); }
