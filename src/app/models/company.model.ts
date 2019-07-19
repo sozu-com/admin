@@ -21,6 +21,9 @@ export class Company {
     page?: number;
     description?: string;
     managers_count?: number;
+    project_count?: number;
+    sort_manager?: number;
+    project_sort?: number;
 }
 
 export class Manager {
@@ -35,4 +38,5 @@ export class Manager {
     email: string;
     img_loader: boolean;
     logo_loader: boolean;
+    project_sort: number;
 }

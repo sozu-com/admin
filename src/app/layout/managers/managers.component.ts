@@ -45,6 +45,7 @@ export class ManagersComponent implements OnInit {
     this.label = 'Choose Managers File';
     this.file1 = new FileUpload(false, this.admin);
     this.model = new Manager();
+    this.model.project_sort = 2;
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
     this.model.company = new Company();
@@ -210,16 +211,16 @@ export class ManagersComponent implements OnInit {
     this.getTowerManager();
   }
 
-  setLeadSort() {
-    this.lead_sort = this.lead_sort === 1 ? 2 : 1;
+  sortData(value: number) {
+    this.model.project_sort = value;
     this.getTowerManager();
   }
 
   getTowerManager() {
     this.parameter.loading = true;
     const input = new FormData();
+    input.append('project_sort', this.model.project_sort.toString());
     input.append('page', this.parameter.p.toString());
-    if (this.lead_sort) { input.append('lead_sort', this.lead_sort.toString()); }
     if (this.parameter.name) { input.append('name', this.parameter.name); }
     if (this.parameter.email) { input.append('email', this.parameter.email); }
     if (this.parameter.phone) { input.append('phone', this.parameter.phone); }
@@ -297,7 +298,7 @@ export class ManagersComponent implements OnInit {
 
   deletePopup(item: any, index: number) {
     this.parameter.title = this.constant.title.ARE_YOU_SURE;
-    this.parameter.text = 'You want to delete this inhouse user?';
+    this.parameter.text = 'You want to delete this manager?';
 
     swal({
       html: this.parameter.title + '<br>' + this.parameter.text,

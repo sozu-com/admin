@@ -16,6 +16,7 @@ export class AgenciesComponent implements OnInit {
   @ViewChild('fileInput') fileInput: ElementRef;
   public parameter: IProperty = {};
   model: Agency;
+  items: Array<Agency>;
   label: string;
   constructor(public constant: Constant, public admin: AdminService, private router: Router) { }
 
@@ -111,6 +112,36 @@ export class AgenciesComponent implements OnInit {
           swal('Success', this.parameter.successText, 'success');
           this.parameter.items[this.parameter.index] = success.data;
         });
+  }
+
+  deletePopup(item: any, index: number) {
+    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    this.parameter.text = 'You want to delete this agency?';
+
+    swal({
+      html: this.parameter.title + '<br>' + this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteNewUser(item, index);
+      }
+    });
+  }
+
+  deleteNewUser(item: any, index: number) {
+    this.admin.postDataApi('deleteNewUser',
+    { id: item.id }).subscribe(r => {
+      swal('Success', 'Deleted successfully.', 'success');
+      this.items.splice(index, 1);
+      this.parameter.total--;
+    },
+    error => {
+      swal('Error', error.error.message, 'error');
+    });
   }
 
 

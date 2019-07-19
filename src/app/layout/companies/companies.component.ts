@@ -24,7 +24,8 @@ export class CompaniesComponent implements OnInit {
   ngOnInit() {
     this.label = 'Choose Companies File';
     this.model = new Company();
-    this.model.managers_count = 2;  // 2 means desc
+    this.model.project_sort = 2;  // 2 means desc
+    this.model.sort_manager = null;
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.getTowerManagerCompany();
@@ -41,8 +42,13 @@ export class CompaniesComponent implements OnInit {
     this.label = uploadedFile.name;
   }
 
-  managerCountSort(managers_count: number) {
-    this.model.managers_count = managers_count;
+  sortData(value: number, param: string) {
+    this.model[param] = value;
+    if (param === 'sort_manager') {
+      this.model.project_sort = null;
+    } else {
+      this.model.sort_manager = null;
+    }
     this.getTowerManagerCompany();
   }
 
@@ -108,6 +114,35 @@ export class CompaniesComponent implements OnInit {
         });
   }
 
+  deletePopup(item: any, index: number) {
+    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    this.parameter.text = 'You want to delete this company?';
+
+    swal({
+      html: this.parameter.title + '<br>' + this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteNewUser(item, index);
+      }
+    });
+  }
+
+  deleteNewUser(item: any, index: number) {
+    this.admin.postDataApi('deleteNewUser',
+    { id: item.id }).subscribe(r => {
+      swal('Success', 'Deleted successfully.', 'success');
+      this.items.splice(index, 1);
+      this.parameter.total--;
+    },
+    error => {
+      swal('Error', error.error.message, 'error');
+    });
+  }
 
   importData() {
     const file = this.fileInput.nativeElement;
