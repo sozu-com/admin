@@ -78,7 +78,7 @@
           </tr>
             <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }; let i = index">
               <td> 
-                  <img [src]="item.image" [defaultImage]="item.image| img:'thumb'" [lazyLoad]="item.image" class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
+                  <img [defaultImage]="item.image| img:'thumb'" [lazyLoad]="item.image" class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
               </td>
               <td class="text-left">
                 <span class="name">{{item?.company?.name ? item?.company?.name : 'NA'}}</span>
@@ -108,7 +108,7 @@
                 <img src="assets/img/block.png" alt="img">
               </button>
               <!-- [disabled]="admin?.admin_acl['Outside Broker Management']?.can_purge==0" -->
-              <!-- <button (click)="deletePopup(item, i);" class="action-icon" title="Delete Manager"><img src="assets/img/ic_delete.png" alt="img"></button> -->
+              <button (click)="deletePopup(item, i);" class="action-icon" title="Delete Manager"><img src="assets/img/ic_delete.png" alt="img"></button>
               </td>
             </tr>
           </table>

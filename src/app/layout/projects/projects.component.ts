@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { IProperty } from '../../common/property';
 import { Constant } from './../../common/constants';
 import * as moment from 'moment';
+import { ApiConstants } from 'src/app/common/api-constants';
 declare let swal: any;
 
 @Component({
@@ -29,6 +30,7 @@ export class ProjectsComponent implements OnInit {
 
   constructor(
     public constant: Constant,
+    public apiConstant: ApiConstants,
     private route: ActivatedRoute,
     public admin: AdminService
   ) { }

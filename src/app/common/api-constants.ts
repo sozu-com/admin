@@ -1,5 +1,9 @@
 export class ApiConstants {
     public possession_status_id = '9'; // pre-sale
+    public possessionStatus = {
+        preSale: 9,
+        sale: 8
+    };
     public projectStatus = {
         approved: 1,
         rejected: 2

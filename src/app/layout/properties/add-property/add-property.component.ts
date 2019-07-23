@@ -875,16 +875,34 @@ export class AddPropertyComponent implements OnInit {
   }
 
   save360Images() {
-    this.http.loader.next({value: true});
+    // this.http.loader.next({value: true});
+    // if (this.file360.files.length < 1) {
+    //   swal('Error', 'Please select atleast one image', 'error');
+    //   return false;
+    // }
+    // this.modalClose360Img.nativeElement.click();
+    // this.file360.upload().then(r => {
+    //   this.model.images360 = this.file360.files;
+    //   this.http.loader.next({value: false});
+    // });
+    let count = 0;
     if (this.file360.files.length < 1) {
       swal('Error', 'Please select atleast one image', 'error');
       return false;
     }
-    this.modalClose360Img.nativeElement.click();
-    this.file360.upload().then(r => {
+     this.file360.upload().then(r => {
       this.model.images360 = this.file360.files;
-      this.http.loader.next({value: false});
     });
+    this.file360.files.forEach(element => {
+      if (element.loading !== true) {
+        console.log('==3333==');
+        count++;
+      }
+    });
+
+    if (count === this.file360.files.length) {
+      this.modalClose360Img.nativeElement.click();
+    }
   }
 
   file2Select($event) {

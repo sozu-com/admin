@@ -309,13 +309,13 @@ export class ManagersComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.deleteNewUser(item, index);
+        this.deleteData(item, index);
       }
     });
   }
 
-  deleteNewUser(item: any, index: number) {
-    this.admin.postDataApi('deleteNewUser',
+  deleteData(item: any, index: number) {
+    this.admin.postDataApi('deleteTowerManager',
     { id: item.id }).subscribe(r => {
       swal('Success', 'Deleted successfully.', 'success');
       this.items.splice(index, 1);

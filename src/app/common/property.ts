@@ -154,4 +154,5 @@ export interface IProperty {
   page2?: any;
   total2?: any;
   developer_company?: string;
+  tower_name?: string;
 }

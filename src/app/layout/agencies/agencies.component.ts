@@ -127,14 +127,14 @@ export class AgenciesComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.deleteNewUser(item, index);
+        this.deleteData(item, index);
       }
     });
   }
 
-  deleteNewUser(item: any, index: number) {
-    this.admin.postDataApi('deleteNewUser',
-    { id: item.id }).subscribe(r => {
+  deleteData(item: any, index: number) {
+    this.admin.postDataApi('deleteAgency',
+    { agency_id: item.id }).subscribe(r => {
       swal('Success', 'Deleted successfully.', 'success');
       this.items.splice(index, 1);
       this.parameter.total--;

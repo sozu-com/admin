@@ -508,14 +508,31 @@ export class AddProjectComponent implements OnInit {
   }
 
   saveImages() {
+    // if (this.file2.files.length < 1) {
+    //   swal('Error', 'Please select atleast one image', 'error');
+    //   return false;
+    // }
+    // this.modalClose.nativeElement.click();
+    // this.file2.upload().then(r => {
+    //   this.model.images = this.file2.files;
+    // });
+    let count = 0;
     if (this.file2.files.length < 1) {
       swal('Error', 'Please select atleast one image', 'error');
       return false;
     }
-    this.modalClose.nativeElement.click();
-    this.file2.upload().then(r => {
+     this.file2.upload().then(r => {
       this.model.images = this.file2.files;
     });
+    this.file2.files.forEach(element => {
+      if (element.loading !== true) {
+        console.log('==3333==');
+        count++;
+      }
+    });
+    if (count === this.file2.files.length) {
+      this.modalClose.nativeElement.click();
+    }
   }
 
   modelOpen360ImgFun() {
@@ -534,18 +551,26 @@ export class AddProjectComponent implements OnInit {
   }
 
   save360Images() {
+    let count = 0;
     if (this.file7.files.length < 1) {
       swal('Error', 'Please select atleast one image', 'error');
       return false;
     }
-    this.modal360ImageClose.nativeElement.click();
-    this.file7.upload().then(r => {
+     this.file7.upload().then(r => {
       this.model.images360 = this.file7.files;
     });
+    this.file7.files.forEach(element => {
+      if (element.loading !== true) {
+        console.log('==3333==');
+        count++;
+      }
+    });
+    if (count === this.file7.files.length) {
+      this.modal360ImageClose.nativeElement.click();
+    }
   }
 
-
-   saveVideos() {
+  saveVideos() {
     let count = 0;
     if (this.amenVideo.files.length < 1) {
       swal('Error', 'Please select atleast one image', 'error');

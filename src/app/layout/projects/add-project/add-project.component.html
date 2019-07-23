@@ -308,10 +308,10 @@
                         </div> -->
                         <div class="image-group">
                             <div class="fig-block">
-                                <img class="img-fluid" [src]="c.floor_map_image" [defaultImage]="c?.floor_map_image| img:'thumb'" [lazyLoad]="c?.floor_map_image" onerror='this.src="http://via.placeholder.com/48x48"' alt="img">
+                                <img class="img-fluid" [defaultImage]="c?.floor_map_image| img:'thumb'" [lazyLoad]="c?.floor_map_image" onerror='this.src="http://via.placeholder.com/48x48"' alt="img">
                             </div>
                             <div *ngFor="let im of c.images"  class="fig-block">
-                               <img [src]="im.image" [defaultImage]="im?.image| img:'thumb'" [lazyLoad]="im?.image" onerror="this.src='http://via.placeholder.com/48x48'" alt="img">
+                               <img [src]="im.image| img:'thumb'" onerror="this.src='http://via.placeholder.com/48x48'" alt="img">
                             </div>
                          </div>
                       </div>
@@ -858,8 +858,9 @@
         <div class="uploaded-img-block">
           <div class="uploaded-img" *ngFor="let item of file2.files; let i=index">
             <a class="remove" (click)="file2.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
-            <img *ngIf="item" class="u-img" [src]="item.image" alt="img">
+            <img *ngIf="item" class="u-img" [src]="item.image| img:'thumb'" alt="img">
             <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+            <div *ngIf="item.loading" class="loaderr"></div>
           </div>
         </div>
         <div class="add-more-images">
@@ -895,8 +896,9 @@
         <div class="uploaded-img-block">
           <div class="uploaded-img" *ngFor="let item of file7.files; let i=index">
             <a class="remove" (click)="file7.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
-            <img *ngIf="item" class="u-img" [src]="item.image" alt="img">
+            <img *ngIf="item" class="u-img" [src]="item.image| img:'thumb'" alt="img">
             <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+            <div *ngIf="item.loading" class="loaderr"></div>
           </div>
         </div>
         <div class="add-more-images">
@@ -937,7 +939,7 @@
             <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'" src="{{videoSrc}}" class="video{{i}} floor-plan" autoplay type="video/mp4" controls></video>
             <canvas *ngIf="!item?.thumb" width="72" height="72" id="canvas3{{i}}"></canvas>
             <!--<img *ngIf="item.thumb" class="ui bordered small image" [src]="item.thumb" onerror="this.src='assets/img/placeholder.png'">-->
-            <img *ngIf="item.thumb" class="u-img" [src]="item.thumb" alt="img">
+            <img *ngIf="item.thumb" class="u-img" [src]="item.thumb| img:'thumb'" alt="img">
             <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
             <div *ngIf="item.loading" class="loaderr"></div>
           </div>
@@ -995,7 +997,7 @@
           <p>Images</p>
           <div class="uploaded-img" *ngFor="let item of file2.files; let i=index">
             <a class="remove" (click)="file2.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
-            <img *ngIf="item" class="u-img" [src]="item.image" alt="img">
+            <img *ngIf="item" class="u-img" [src]="item.image| img:'thumb'" alt="img">
             <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
             <div *ngIf="item.loading" class="loaderr"></div>
           </div>
@@ -1010,7 +1012,7 @@
           <p>360<span>&#176;</span> Images </p>
           <div class="uploaded-img" *ngFor="let item of amen360Img.files; let i=index">
             <a class="remove" (click)="amen360Img.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
-            <img *ngIf="item" class="u-img" [src]="item.image" alt="img">
+            <img *ngIf="item" class="u-img" [src]="item.image| img:'thumb'" alt="img">
             <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
             <div *ngIf="item.loading" class="loaderr"></div>
           </div>
@@ -1028,7 +1030,7 @@
             <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'" src="{{videoSrc}}" class="video{{i}} floor-plan" autoplay type="video/mp4" controls></video>
             <canvas *ngIf="!item?.thumb" width="72" height="72" id="canvas{{i}}"></canvas>
             <!--<img *ngIf="item.thumb" class="ui bordered small image" [src]="item.thumb" onerror="this.src='assets/img/placeholder.png'">-->
-            <img *ngIf="item.thumb" class="u-img" [src]="item.thumb" alt="img">
+            <img *ngIf="item.thumb" class="u-img" [src]="item.thumb| img:'thumb'" alt="img">
             <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
             <div *ngIf="item.loading" class="loaderr"></div>
           </div>
@@ -1086,7 +1088,7 @@
           <p>Images</p>
           <div class="uploaded-img" *ngFor="let item of file2.files; let i=index">
             <a class="remove" (click)="file2.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
-            <img *ngIf="item" class="u-img" [src]="item.image" alt="img">
+            <img *ngIf="item" class="u-img" [src]="item.image| img:'thumb'" alt="img">
             <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
             <div *ngIf="item.loading" class="loaderr"></div>
           </div>
@@ -1101,7 +1103,7 @@
           <p>360<span>&#176;</span> Images </p>
           <div class="uploaded-img" *ngFor="let item of amen360Img.files; let i=index">
             <a class="remove" (click)="amen360Img.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
-            <img *ngIf="item" class="u-img" [src]="item.image" alt="img">
+            <img *ngIf="item" class="u-img" [src]="item.image| img:'thumb'" alt="img">
             <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
             <div *ngIf="item.loading" class="loaderr"></div>
           </div>
@@ -1118,7 +1120,7 @@
             <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'" src="{{videoSrc}}" class="video{{j}} floor-plan" autoplay type="video/mp4" controls></video>
             <canvas *ngIf="!item?.thumb" width="72" height="72" id="canvas2{{j}}"></canvas>
             <!--<img *ngIf="item.thumb" class="ui bordered small image" [src]="item.thumb" onerror="this.src='assets/img/placeholder.png'">-->
-            <img *ngIf="item.thumb" class="u-img" [src]="item.thumb" alt="img">
+            <img *ngIf="item.thumb" class="u-img" [src]="item.thumb| img:'thumb'" alt="img">
             <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
             <div *ngIf="item.loading" class="loaderr"></div>
           </div>
@@ -1176,7 +1178,7 @@
                 <tr *ngFor="let item of all_developers">
                     <td *ngIf="item.is_blocked!=1">
                         <div class="n-avail-profile">
-                        <img [src]="item.image" onerror='src="assets/img/default_img.png"' alt="img">
+                        <img [src]="item.image| img:'thumb'" onerror='src="assets/img/default_img.png"' alt="img">
                         <div class="n-avail-info">
                             <p class="p12">{{item.name}}</p>
                             <p class="p10">Phone : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
@@ -1274,7 +1276,7 @@
                   <a class="remove" (click)="file4.remove(i)">
                     <img src="assets/img/remove-icon.png" alt="img">
                   </a>
-                  <img *ngIf="item.image" class="u-img" [src]="item.image" alt="img">
+                  <img *ngIf="item.image" class="u-img" [src]="item.image| img:'thumb'" alt="img">
                   <img *ngIf="!item.image" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
                   <div *ngIf="item.loading" class="loaderr"></div>
                 </div>
@@ -1303,7 +1305,7 @@
                   <a class="remove" (click)="config360Img.remove(i)">
                     <img src="assets/img/remove-icon.png" alt="img">
                   </a>
-                  <img *ngIf="item.image" class="u-img" [src]="item.image" alt="img">
+                  <img *ngIf="item.image" class="u-img" [src]="item.image| img:'thumb'" alt="img">
                   <img *ngIf="!item.image" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
                   <div *ngIf="item.loading" class="loaderr"></div>
                 </div>
