@@ -251,6 +251,7 @@ export class AddProjectComponent implements OnInit {
               this.model.building_towers = [];
             }
           });
+          this.zoom = 18;
         }, error => {
           this.parameter.loading = false;
         });
@@ -340,6 +341,7 @@ export class AddProjectComponent implements OnInit {
               this.model.building_towers = [];
             }
           });
+          this.zoom = 18;
         }, error => {
           this.parameter.loading = false;
         });
@@ -368,9 +370,9 @@ export class AddProjectComponent implements OnInit {
         this.model.dev_dialcode = '+52';
       }
       console.log(this.amenVideo.files, 'this.amenVideo.files');
+      this.zoom = 6;
     });
 
-    this.zoom = 4;
     this.setCurrentPosition();
     this.getCountries('');
     this.initForm();
@@ -761,10 +763,77 @@ export class AddProjectComponent implements OnInit {
   }
 
 
+  // loadPlaces() {
+  //   // load Places Autocomplete
+  //   this.model.lat = '30.34';
+  //   this.model.lng = '76.23';
+  //   this.mapsAPILoader.load().then(() => {
+  //     const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
+  //       types: []
+  //     });
+  //     autocomplete.addListener('place_changed', () => {
+  //       this.ngZone.run(() => {
+  //         // get the place result
+  //         // const place: google.maps.places.PlaceResult = autocomplete.getPlace();
+  //         const place = autocomplete.getPlace();
+
+  //         // verify result
+  //         if (place.geometry === undefined || place.geometry === null) {
+  //           return;
+  //         }
+
+  //         // set latitude, longitude and zoom
+  //         this.model.lat = place.geometry.location.lat();
+  //         this.model.lng = place.geometry.location.lng();
+  //         if (place.formatted_address) {
+  //           this.model.address = place.formatted_address;
+  //         }
+  //         this.zoom = 16;
+  //       });
+  //     });
+  //   });
+  // }
+
+  // setCurrentPosition() {
+  //   if ('geolocation' in navigator) {
+  //     navigator.geolocation.getCurrentPosition((position) => {
+  //       this.model.lat = position.coords.latitude;
+  //       this.model.lng = position.coords.longitude;
+  //       this.zoom = 16;
+  //     });
+  //   }
+  // }
+
+  // placeMarker($event) {
+  //   this.model.lat = $event.coords.lat;
+  //   this.model.lng = $event.coords.lng;
+  //   this.getGeoLocation(this.model.lat, this.model.lng);
+  // }
+
+
+  // getGeoLocation(lat: number, lng: number) {
+  //   if (navigator.geolocation) {
+  //     const geocoder = new google.maps.Geocoder();
+  //     const latlng = new google.maps.LatLng(lat, lng);
+  //     const request = {latLng: latlng};
+
+  //     geocoder.geocode(request, (results, status) => {
+  //       if (status === google.maps.GeocoderStatus.OK) {
+  //         const result = results[0];
+  //         if (result != null) {
+  //           this.model.address = result.formatted_address;
+  //         } else {
+  //           this.model.address = lat + ',' + lng;
+  //         }
+  //       }
+  //     });
+  //   }
+  // }
+
   loadPlaces() {
     // load Places Autocomplete
-    this.model.lat = '30.34';
-    this.model.lng = '76.23';
+    this.model.lat = null;
+    this.model.lng = null;
     this.mapsAPILoader.load().then(() => {
       const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
         types: []
@@ -786,7 +855,6 @@ export class AddProjectComponent implements OnInit {
           if (place.formatted_address) {
             this.model.address = place.formatted_address;
           }
-          this.zoom = 16;
         });
       });
     });
@@ -795,14 +863,14 @@ export class AddProjectComponent implements OnInit {
   setCurrentPosition() {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
-        this.model.lat = position.coords.latitude;
-        this.model.lng = position.coords.longitude;
-        this.zoom = 16;
+        // setting address lat lng
+        this.model.lat = this.model.lat ? this.model.lat : position.coords.latitude;
+        this.model.lng = this.model.lng ? this.model.lng : position.coords.longitude;
       });
     }
   }
 
-  placeMarker($event) {
+  placeMarker($event: any) {
     this.model.lat = $event.coords.lat;
     this.model.lng = $event.coords.lng;
     this.getGeoLocation(this.model.lat, this.model.lng);
@@ -813,7 +881,7 @@ export class AddProjectComponent implements OnInit {
     if (navigator.geolocation) {
       const geocoder = new google.maps.Geocoder();
       const latlng = new google.maps.LatLng(lat, lng);
-      const request = {latLng: latlng};
+      const request = { latLng: latlng };
 
       geocoder.geocode(request, (results, status) => {
         if (status === google.maps.GeocoderStatus.OK) {

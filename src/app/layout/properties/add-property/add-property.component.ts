@@ -1241,8 +1241,8 @@ export class AddPropertyComponent implements OnInit {
   setCurrentPosition() {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
-        this.latitude = position.coords.latitude;
-        this.longitude = position.coords.longitude;
+        this.latitude = this.latitude ? this.latitude : position.coords.latitude;
+        this.longitude = this.longitude ? this.longitude : position.coords.longitude;
         this.zoom = 12;
       });
     }

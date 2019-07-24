@@ -15,7 +15,7 @@
             <div class="form-group-3">
               <label>Add Images</label>
               <div class="upload-cover-img">
-                <img [src]="file1.image" [defaultImage]="file1.image | img:'thumb'" [lazyLoad]="file1.image" onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
+                <img [src]="file1.image" [defaultImage]="file1.image| img:'thumb'" [lazyLoad]="file1.image" onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
                 <div *ngIf="!file1.image" class="upload-caption">
                   <p class="green-color marginT30">+Upload Cover image for the project</p>
                   <p>JPG or PNG. Image size should be 1920 × 1080 pixels (for HiDPI displays).</p>
@@ -141,7 +141,7 @@
               <label>Location Pin on Map<span class="color-red">*</span></label>
               <div style="width: 100%;">
                 <agm-map [latitude]="model.lat" [longitude]="model.lng" [scrollwheel]="false" (mapClick)="placeMarker($event)" [zoom]="zoom">
-                  <agm-marker [latitude]="model.lng" [longitude]="model.lat"></agm-marker>
+                  <agm-marker [latitude]="model.lat" [longitude]="model.lng"></agm-marker>
                 </agm-map>
               </div>
             </div>

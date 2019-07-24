@@ -169,12 +169,12 @@ export class AddDeveloperComponent implements OnInit {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         // setting address lat lng
-        this.model.lat = position.coords.latitude;
-        this.model.lng = position.coords.longitude;
+        this.model.lat = this.model.lat ? this.model.lat : position.coords.latitude;
+        this.model.lng = this.model.lng ? this.model.lng : position.coords.longitude;
 
         // setting branch office lat lng
-        this.model.branch_lat = position.coords.latitude;
-        this.model.branch_lng = position.coords.longitude;
+        this.model.branch_lat = this.model.branch_lat ? this.model.branch_lat : position.coords.latitude;
+        this.model.branch_lng = this.model.branch_lng ? this.model.branch_lng : position.coords.longitude;
       });
     }
   }
