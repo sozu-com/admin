@@ -283,9 +283,11 @@ export class AddProjectComponent implements OnInit {
             this.model.developer.phone = r.data.dev_phone ? r.data.dev_phone : '';
           }
           this.file1.image = this.model.main_image;
-          this.model.configurations.map((item) => {
-            item.building_configuration_id = item.id;
-          });
+          if (this.model.configurations) {
+            this.model.configurations.map((item) => {
+              item.building_configuration_id = item.id;
+            });
+          }
           this.model.custom_attributes = this.model.custom_values;
           this.file5.image = this.model.developer.image;
           this.file6.image = this.model.developer.developer_image;

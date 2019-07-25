@@ -19,7 +19,7 @@ export class ForgotPasswordComponent implements OnInit {
     email: ''
   };
   projectName: string;
-  constructor(private admin: AdminService, private router: Router, public constant: Constant) {
+  constructor(public admin: AdminService, private router: Router, public constant: Constant) {
     const token =  localStorage.getItem('token');
     if (token) {
       this.router.navigate(['dashboard/view-inhouse-users/data-collectors']);

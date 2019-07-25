@@ -18,6 +18,8 @@ export class AdminService {
   public baseIP: string = environment.baseIP;
   public deviceId: string = environment.deviceId;
   public socketUrl: string = environment.socketUrl;
+  public termConditionUrl: string = environment.termConditionUrl;
+  public privacyPolicyUrl: string = environment.privacyPolicyUrl;
 
   public permissions: any = {};
   public admin_acl: any = {};
