@@ -4,7 +4,7 @@
       <div class="col-md-6 col-6">
         <div class="title-group">
             <h5>Developers</h5>
-            <p>Showing {{parameter.items?.length}} out of {{parameter.total}}</p>
+            <p>Showing {{items?.length}} out of {{parameter.total}}</p>
         </div>
       </div>
       <div class="col-md-6 col-6">
@@ -58,7 +58,7 @@
               </th>
             </tr>
       
-            <tr *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index">
+            <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index">
               <td> 
                   <img [src]="item.developer_image| img:'small'" class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
               </td>
@@ -72,17 +72,19 @@
               <td class="text-left" *ngIf="!item.phone">NA</td>
               <td class="text-left">{{item.buildings_count}}</td>
               <td>
-                <!-- <a *ngIf="admin?.admin_acl['Notary Lead Management']?.can_read==1" title="View Leads" href="javascript://"
-                  routerLink="/dashboard/notary/view-notary-leads/{{item.id}}" class="icon-block edit-icon">
-                  <img src="assets/img/ic_leads.png" alt="img">
-                </a> -->
-                <button title="Edit Details" [disabled]="admin?.admin_acl['Developers Management']?.can_update==0" (click)="editUser(item)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
-                <button [disabled]="admin?.admin_acl['Developers Management']?.can_delete==0"
-                  (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1)" 
-                  title="{{item.is_blocked==1?'Unblock Developer':'Block Developer'}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"
-                  class="action-icon"><img src="assets/img/block.png" alt="img">
-                </button>
-
+                <div class="table-actions">
+                    <!-- <a *ngIf="admin?.admin_acl['Notary Lead Management']?.can_read==1" title="View Leads" href="javascript://"
+                    routerLink="/dashboard/notary/view-notary-leads/{{item.id}}" class="icon-block edit-icon">
+                    <img src="assets/img/ic_leads.png" alt="img">
+                  </a> -->
+                  <button title="Edit Details" [disabled]="admin?.admin_acl['Developers Management']?.can_update==0" (click)="editUser(item)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                  <button [disabled]="admin?.admin_acl['Developers Management']?.can_delete==0"
+                    (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1)" 
+                    title="{{item.is_blocked==1?'Unblock Developer':'Block Developer'}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"
+                    class="action-icon"><img src="assets/img/block.png" alt="img">
+                  </button>
+                  <button (click)="deletePopup(item, i);" class="action-icon" title="Delete Developer"><img src="assets/img/ic_delete.png" alt="img"></button>
+                </div>
               </td>
             </tr>
 

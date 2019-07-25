@@ -311,19 +311,20 @@
                             <td><span>{{p?.sale_count}}</span></td>
                             <td><span>{{ p.avg_price | number : '1.2-2'}}</span></td>
                             <td>
-                              <div class="message">
-                                <button [disabled]="admin?.admin_acl['Building Management']?.can_update==0" routerLink="/dashboard/projects/edit-project/{{p.id}}" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
-                                <button [disabled]="admin?.admin_acl['Building Management']?.can_delete==0" *ngIf="!p.is_blocked" (click)="block(p);" class="action-icon" title="Block"><img src="assets/img/block.png" alt="img"></button>
-                                <button [disabled]="admin?.admin_acl['Building Management']?.can_delete==0" *ngIf="p.is_blocked == true" (click)="unblock(p);" class="action-icon unblock-bg" title="UnBlock"><img src="assets/img/unblock.png" alt="img"></button>
-                                <!-- unapprove => when status=2(pending), 1(approved)-->
-                                <a style="display:none;" #modalOpen data-toggle="modal" data-target="#addNote"></a>
-                                <button (click)="openCancellationModal(p, i)" [disabled]="admin?.admin_acl['Building Management']?.can_update==0" *ngIf="p.status == 1 || p.status==2" class="action-icon" title="Unapprove"><img src="assets/img/ic_disapprove.png" alt="img"></button>
-                                <!-- approve => when status=2(pending), 4(rejected)-->
-                                <button [disabled]="admin?.admin_acl['Building Management']?.can_update==0" *ngIf="p.status == 2 || p.status == 4"  (click)="approveProject(p, 1);" class="action-icon" title="Approve"><img src="assets/img/tick.png" alt="img"></button>
-                                <!-- delete project -->
-                                <button [disabled]="admin?.admin_acl['Building Management']?.can_purge==0" (click)="deletePopup(p, i);" class="action-icon" title="Delete Project"><img src="assets/img/ic_delete.png" alt="img"></button>
+                              <div class="table-actions">
+                                <!-- <div class="message"> -->
+                                  <button [disabled]="admin?.admin_acl['Building Management']?.can_update==0" routerLink="/dashboard/projects/edit-project/{{p.id}}" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                                  <button [disabled]="admin?.admin_acl['Building Management']?.can_delete==0" *ngIf="!p.is_blocked" (click)="block(p);" class="action-icon" title="Block"><img src="assets/img/block.png" alt="img"></button>
+                                  <button [disabled]="admin?.admin_acl['Building Management']?.can_delete==0" *ngIf="p.is_blocked == true" (click)="unblock(p);" class="action-icon unblock-bg" title="UnBlock"><img src="assets/img/unblock.png" alt="img"></button>
+                                  <!-- unapprove => when status=2(pending), 1(approved)-->
+                                  <a style="display:none;" #modalOpen data-toggle="modal" data-target="#addNote"></a>
+                                  <button (click)="openCancellationModal(p, i)" [disabled]="admin?.admin_acl['Building Management']?.can_update==0" *ngIf="p.status == 1 || p.status==2" class="action-icon" title="Unapprove"><img src="assets/img/ic_disapprove.png" alt="img"></button>
+                                  <!-- approve => when status=2(pending), 4(rejected)-->
+                                  <button [disabled]="admin?.admin_acl['Building Management']?.can_update==0" *ngIf="p.status == 2 || p.status == 4"  (click)="approveProject(p, 1);" class="action-icon" title="Approve"><img src="assets/img/tick.png" alt="img"></button>
+                                  <!-- delete project -->
+                                  <button [disabled]="admin?.admin_acl['Building Management']?.can_purge==0" (click)="deletePopup(p, i);" class="action-icon" title="Delete Project"><img src="assets/img/ic_delete.png" alt="img"></button>
+                                <!-- </div> -->
                               </div>
-
                             </td>
                         </tr>
                         <!-- <tr *ngIf="parameter.loading == false && total == 0">

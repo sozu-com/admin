@@ -515,4 +515,41 @@ export class PropertiesComponent implements OnInit {
         swal('Error', error.error.message, 'error');
       });
   }
+
+  editPricePopup(item: any, index: number) {
+    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    swal({
+      text: 'Do you want to change the price?',
+      type: 'question',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        swal({
+          text: 'Please enter new property price -',
+          input: 'number',
+          showCancelButton: true,
+          confirmButtonColor: this.constant.confirmButtonColor,
+          cancelButtonColor: this.constant.cancelButtonColor,
+          confirmButtonText: 'Update',
+          inputValidator: (value) => {
+            if (!value) {
+              return 'Please enter new price!';
+            }
+          }
+        }).then((r) => {
+          if (r.value) {
+            this.admin.postDataApi('updatePrice', {id: item.id, price: r.value}).subscribe(success => {
+              this.items[index].min_price = r.value;
+              swal('Success', 'Updated successfully.', 'success');
+            }, error => {
+              swal('Error', error.error.message, 'error');
+            });
+          }
+        });
+      }
+    });
+  }
 }

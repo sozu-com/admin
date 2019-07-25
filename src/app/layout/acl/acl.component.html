@@ -77,16 +77,18 @@
                 <td class="text-left" *ngIf="!item.email">NA</td>
                 <td>{{item.id}}</td>
                 <td>
-                  <!-- <a href="javascript://" routerLink="/dashboard/access-control-mgt/add-acl-user/{{item.id}}" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a> -->
-                  <!-- <a [ngClass]="{'display-none':admin?.admin_acl['Access Controls']?.can_update==0}" href="javascript://" (click)="editData(item, item.id)" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a> -->
-                  <!-- <a href="javascript://" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png" alt="img"></a>
-                  <a href="javascript://" class="icon-block block-icon"><img src="assets/img/unblock.png" alt="img"></a> -->
-                  <button title="Edit Details" [disabled]="admin?.admin_acl['Access Controls']?.can_update==0" (click)="editData(item, item.id)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
-                  <button [disabled]="admin?.admin_acl['Access Controls']?.can_delete==0"
-                      (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1, parameter.type)" 
-                      title="{{item.is_blocked==1?'Unblock User':'Block User'}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"
-                      class="action-icon"><img src="assets/img/block.png" alt="img">
-                  </button>
+                  <div class="table-actions">
+                    <!-- <a href="javascript://" routerLink="/dashboard/access-control-mgt/add-acl-user/{{item.id}}" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a> -->
+                    <!-- <a [ngClass]="{'display-none':admin?.admin_acl['Access Controls']?.can_update==0}" href="javascript://" (click)="editData(item, item.id)" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a> -->
+                    <!-- <a href="javascript://" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png" alt="img"></a>
+                    <a href="javascript://" class="icon-block block-icon"><img src="assets/img/unblock.png" alt="img"></a> -->
+                    <button title="Edit Details" [disabled]="admin?.admin_acl['Access Controls']?.can_update==0" (click)="editData(item, item.id)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                    <button [disabled]="admin?.admin_acl['Access Controls']?.can_delete==0"
+                        (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1, parameter.type)" 
+                        title="{{item.is_blocked==1?'Unblock User':'Block User'}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"
+                        class="action-icon"><img src="assets/img/block.png" alt="img">
+                    </button>
+                  </div>
                 </td>
               </tr>
             </table>

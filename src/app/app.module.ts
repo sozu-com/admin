@@ -54,7 +54,10 @@ const appRoutes: Routes = [
   ],
   imports: [
     RouterModule.forRoot(appRoutes, {preloadingStrategy: PreloadAllModules}),
-    SweetAlert2Module.forRoot(),
+    SweetAlert2Module.forRoot({
+      // confirmButtonClass: 'btn btn-primary',
+      // cancelButtonClass: 'btn'
+    }),
     BrowserAnimationsModule,
     BrowserModule,
     HttpModule,

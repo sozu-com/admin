@@ -74,16 +74,18 @@
               <td>{{item.branch ? item.branch : 'NA'}}</td>
               <td>{{item.floating_int ? item.floating_int+'%' : '0 %'}}</td>
               <td>
-                <a *ngIf="admin?.admin_acl['Bank Lead Management']?.can_read==1" title="View Leads" href="javascript://"
-                  routerLink="/dashboard/banks/view-bank-leads/{{item.id}}" class="icon-block edit-icon">
-                  <img src="assets/img/ic_leads.png" alt="img">
-                </a>
-                <button title="Edit Details" [disabled]="admin?.admin_acl['Bank Management']?.can_update==0" (click)="editUser(item, i)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
-                <button [disabled]="admin?.admin_acl['Bank Management']?.can_delete==0"
-                  (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1)" 
-                  title="{{item.is_blocked==1?'Unblock Bank':'Block Bank'}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"
-                  class="action-icon"><img src="assets/img/block.png" alt="img">
-                </button>
+                <div class="table-actions">
+                  <a *ngIf="admin?.admin_acl['Bank Lead Management']?.can_read==1" title="View Leads" href="javascript://"
+                    routerLink="/dashboard/banks/view-bank-leads/{{item.id}}" class="icon-block edit-icon">
+                    <img src="assets/img/ic_leads.png" alt="img">
+                  </a>
+                  <button title="Edit Details" [disabled]="admin?.admin_acl['Bank Management']?.can_update==0" (click)="editUser(item, i)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                  <button [disabled]="admin?.admin_acl['Bank Management']?.can_delete==0"
+                    (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1)" 
+                    title="{{item.is_blocked==1?'Unblock Bank':'Block Bank'}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"
+                    class="action-icon"><img src="assets/img/block.png" alt="img">
+                  </button>
+                </div>
               </td>
             </tr>
 

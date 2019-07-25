@@ -17,6 +17,7 @@ export class DevelopersComponent implements OnInit {
 
   public parameter: IProperty = {};
   model: Users;
+  items: Array<Users>;
   constructor(public constant: Constant, public admin: AdminService, private router: Router) { }
 
   ngOnInit() {
@@ -44,9 +45,7 @@ export class DevelopersComponent implements OnInit {
       .subscribe(
         success => {
           this.parameter.loading = false;
-          this.parameter.items = success.data;
-          // this.parameter.items[0].developer_image = 'https://s3-ap-southeast-2.amazonaws.com/hyrit/Pic_352055028839.jpg';
-          // this.parameter.items[1].developer_image = 'https://s3-us-west-2.amazonaws.com/livehyritbucket/Pic_813786977653.jpg';
+          this.items = success.data;
           this.parameter.total = success.total;
         }, error => {
           this.parameter.loading = false;
@@ -98,7 +97,37 @@ export class DevelopersComponent implements OnInit {
       .subscribe(
         success => {
           swal('Success', this.parameter.successText, 'success');
-          this.parameter.items[this.parameter.index] = success.data;
+          this.items[this.parameter.index] = success.data;
         });
+  }
+
+  deletePopup(item: any, index: number) {
+    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    this.parameter.text = 'You want to delete this developer?';
+
+    swal({
+      html: this.parameter.title + '<br>' + this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteData(item, index);
+      }
+    });
+  }
+
+  deleteData(item: any, index: number) {
+    this.admin.postDataApi('deleteBuyerSeller',
+    { id: item.id, user_type: 3 }).subscribe(r => {
+      swal('Success', 'Deleted successfully.', 'success');
+      this.items.splice(index, 1);
+      this.parameter.total--;
+    },
+    error => {
+      swal('Error', error.error.message, 'error');
+    });
   }
 }

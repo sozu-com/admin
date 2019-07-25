@@ -148,7 +148,10 @@ export class ManagersComponent implements OnInit {
     input.append('dial_code', this.model.dial_code ? this.model.dial_code : this.constant.dial_code);
     input.append('phone', this.model.phone);
     input.append('email', this.model.email);
-    input.append('company_id', this.model.company.id.toString());
+
+    if (this.model.company.id) {
+      input.append('company_id', this.model.company.id.toString());
+    }
 
     if (this.model.image) { input.append('image', this.model.image); }
     if (this.model.logo) { input.append('logo', this.model.logo); }

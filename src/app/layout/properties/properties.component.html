@@ -296,11 +296,11 @@
                                  <label>Price</label>
                                  <a href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by==1 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a></div>
                            </th>
-                           <!-- <th style="width:4%;vertical-align:top;">
+                           <th style="width:4%;vertical-align:top;">
                               <div class="d-flex table-search">
                                  <label>Edit <br> Price</label>
                               </div>
-                           </th> -->
+                           </th>
                            <th style="width:4%;vertical-align:top;">
                               <div (click)="sort_by(3)" class="d-flex table-search">
                                  <label>Leads</label>
@@ -343,10 +343,10 @@
                               <td><span>{{p?.building_towers ? p?.building_towers?.tower_name : 'NA'}}</span></td>
                               <td><span>{{p?.name ? p?.name : 'NA'}}</span></td>
                               <td><span *ngIf="p && p.configuration">{{p.configuration?.name}}</span></td>
-                              <td><span>{{p.min_price}}</span></td>
-                              <!-- <td><span>
-                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" title="Edit Price" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
-                              </span></td> -->
+                              <td><span>{{p.min_price | number : '1.2-2'}}</span></td>
+                              <td><span>
+                                 <button (click)="editPricePopup(p, i)" [disabled]="admin?.admin_acl['Property Management']?.can_update==0" title="Edit Price" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                              </span></td>
                               <td><span>{{p.lead_properties_count}}</span></td>
                               
                               <td class="cursor-pointer" title="View Seller's Request" (click)="showAllSellers(p?.id, i)">
@@ -370,7 +370,7 @@
                                  </select>
                               </td>
                               <td>
-                              <div class="message">
+                              <div class="table-actions">
                                  <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="parameter?.flag!=3" routerLink="../edit-property/{{p.id}}" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                                  <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="parameter?.flag==3" routerLink="../edit-property/{{p.id}}/edit" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                                  <button [disabled]="admin?.admin_acl['Property Management']?.can_delete==0" *ngIf="!p.is_blocked" (click)="block(p);" class="action-icon" title="Block"><img src="assets/img/block.png" alt="img"></button>

@@ -3112,3 +3112,6 @@ h3 .tower{
 .upload-excel input{
     display: none; text-align: center;
 }
+.table-actions{
+    display: flex;
+}
