@@ -5,6 +5,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Constant } from './../../../common/constants';
 import { Document } from './../../../models/document.model';
 import { NgForm } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 
@@ -25,7 +26,7 @@ export class DocumentsComponent implements OnInit {
     public constant: Constant,
     private modalService: BsModalService,
     public admin: AdminService,
-    public model: Document
+    public model: Document, private spinner: NgxSpinnerService
   ) {
   }
 
@@ -49,9 +50,9 @@ export class DocumentsComponent implements OnInit {
 
   addDocumentOptions(id, name_en, name_es, status, type) {
 
-    if (type !== 'add') {this.modalRef.hide(); }
+    if (type !== 'add') { this.modalRef.hide(); }
 
-    // this.parameter.loading = true;
+    // this.spinner.show();
     this.parameter.url = 'addDocumentOptions';
 
     const input = new FormData();
@@ -59,7 +60,7 @@ export class DocumentsComponent implements OnInit {
     input.append('name_es', name_es);
     input.append('status', status);
 
-    if (id) {input.append('id', id); }
+    if (id) { input.append('id', id); }
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
@@ -67,8 +68,8 @@ export class DocumentsComponent implements OnInit {
           this.model = new Document();
           // console.log('addDocumentOptions', success);
           const text = id ?
-          this.constant.successMsg.DOCUMENT_NAME_UPDATED_SUCCESSFULLY :
-          this.constant.successMsg.DOCUMENT_NAME_ADDED_SUCCESSFULLY;
+            this.constant.successMsg.DOCUMENT_NAME_UPDATED_SUCCESSFULLY :
+            this.constant.successMsg.DOCUMENT_NAME_ADDED_SUCCESSFULLY;
           swal('Success', text, 'success');
           this.parameter.items.push(success.data);
         }
@@ -78,16 +79,16 @@ export class DocumentsComponent implements OnInit {
 
   getDocumentOptions() {
     this.parameter.url = 'getDocumentOptions';
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi(this.parameter.url, {})
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           // console.log('getDocumentOptions', success);
           this.parameter.items = success.data;
           this.parameter.total = success.data.length;
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         }
       );
   }
@@ -130,7 +131,7 @@ export class DocumentsComponent implements OnInit {
           this.addDocumentOptions(id, name_en, name_en, status, type);
         }
       });
-    }else {
+    } else {
       self.addDocumentOptions(id, name_en, name_es, status, type);
     }
   }

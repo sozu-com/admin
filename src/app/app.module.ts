@@ -8,9 +8,9 @@ import { HttpModule } from '@angular/http';
 import { AuthGuard } from './guards/auth.guard';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
-import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 import { ToastrModule } from 'ngx-toastr';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 // firebase -start
 import { AngularFireModule} from '@angular/fire';
@@ -65,10 +65,7 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     LayoutModule,
     SharedModule,
-    NgxLoadingModule.forRoot({
-      animationType: ngxLoadingAnimationTypes.rectangleBounce,
-      primaryColour: '#00B96F'
-    }),
+    NgxSpinnerModule,
     MalihuScrollbarModule.forRoot(),
     Ng2TelInputModule,
     ToastrModule.forRoot(),

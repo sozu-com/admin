@@ -5,6 +5,7 @@ import { Constant } from './../../common/constants';
 import * as moment from 'moment';
 import { SellerSelections } from './../../models/addProperty.model';
 import { UserModel } from 'src/app/models/inhouse-users.model';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -46,7 +47,8 @@ export class PropertiesComponent implements OnInit {
   @ViewChild('closeExtBrokerModal') closeExtBrokerModal: ElementRef;
   constructor(
     public constant: Constant,
-    public admin: AdminService
+    public admin: AdminService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -60,7 +62,7 @@ export class PropertiesComponent implements OnInit {
   }
 
   getListing() {
-    this.parameter.loading = true;
+    this.spinner.show();
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');
@@ -77,10 +79,10 @@ export class PropertiesComponent implements OnInit {
       success => {
         this.items = success.data;
         this.total = success.total_count;
-        this.parameter.loading = false;
+        this.spinner.hide();
       },
       error => {
-        this.parameter.loading = false;
+        this.spinner.hide();
       });
   }
 
@@ -149,14 +151,14 @@ export class PropertiesComponent implements OnInit {
       return false;
     }
     this.parameter.locality_id = id;
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('getLocalityBuildings', this.parameter)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.parameter.buildings = success.data;
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 
@@ -271,21 +273,21 @@ export class PropertiesComponent implements OnInit {
   }
 
   showAllSellers(property_id: any, index: any) {
-    this.parameter.loading = true;
+    this.spinner.show();
     if (index !== '') {this.parameter.index = index; }
     this.admin.postDataApi('getSellerSelections', { property_id: property_id }).subscribe(r => {
-      this.parameter.loading = false;
+      this.spinner.hide();
       this.linkSellerModal.nativeElement.click();
       this.allSellers = r['data'];
       this.selecter_seller = r['selecter_seller'];
     }, error => {
-      this.parameter.loading = false;
+      this.spinner.hide();
       swal('Error', error.error.message, 'error');
     });
   }
 
   getAllSellers (property: any, keyword: string, index) {
-    this.parameter.loading = true;
+    this.spinner.show();
     if (index !== '') { console.log('11ddddd999111', index); this.parameter.index = index; }
     console.log('11999111', index);
     console.log('11111', this.parameter.index);
@@ -301,11 +303,11 @@ export class PropertiesComponent implements OnInit {
     input.name = keyword !== '1' ? keyword : '';
 
     this.admin.postDataApi('getAllSellers', input).subscribe(r => {
-      this.parameter.loading = false;
+      this.spinner.hide();
       if (property) {this.linkUserModal.nativeElement.click(); }
       this.allUsers = r['data'];
     }, error => {
-      this.parameter.loading = false;
+      this.spinner.hide();
       swal('Error', error.error.message, 'error');
     });
   }
@@ -470,16 +472,16 @@ export class PropertiesComponent implements OnInit {
   }
 
   getBothBroker(property: any, keyword: string) {
-    this.parameter.loading = true;
+    this.spinner.show();
     if (property) { this.property = property; }
     const input = {keyword: ''};
     input.keyword = keyword;
     this.admin.postDataApi('getBothBroker', input).subscribe(r => {
-      this.parameter.loading = false;
+      this.spinner.hide();
       if (property) {this.linkExtBrokerModal.nativeElement.click(); }
       this.allExtBrokers = r['data'];
     }, error => {
-      this.parameter.loading = false;
+      this.spinner.hide();
       swal('Error', error.error.message, 'error');
     });
   }

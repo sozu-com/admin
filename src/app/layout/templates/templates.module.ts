@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { Routes, RouterModule } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -13,6 +12,7 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { AclUserGuard } from '../../guards/acl-user.guard';
 import { AddTemplateComponent } from './add-template/add-template.component';
 import { TemplatesComponent } from './templates.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 const routes: Routes = [
 { path: 'view-all', component: TemplatesComponent,
@@ -35,10 +35,7 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     ModalModule.forRoot(),
-    NgxLoadingModule.forRoot({
-      animationType: ngxLoadingAnimationTypes.rectangleBounce,
-      primaryColour: '#00B96F'
-    }),
+    NgxSpinnerModule,
     NgxPaginationModule,
     FroalaEditorModule.forRoot(),
     FroalaViewModule.forRoot()

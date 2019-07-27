@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AdminService } from './../../services/admin.service';
 import * as jquery from 'jquery';
 import { HttpInterceptor } from '../../services/http-interceptor';
 import { IProperty } from '../../common/property';
 import { Constant } from '../../common/constants';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -25,7 +26,8 @@ export class TemplatesComponent implements OnInit {
   constructor(
     public admin: AdminService,
     public constant: Constant,
-    private http: HttpInterceptor
+    private http: HttpInterceptor,
+    private spinner: NgxSpinnerService
   ) { }
 
 
@@ -38,16 +40,16 @@ export class TemplatesComponent implements OnInit {
   }
 
   getListing() {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('getBlogs', this.parameter).subscribe(
       success => {
         console.log('LIST', success);
         this.items = success.data;
         this.total = success.total_count;
-        this.parameter.loading = false;
+        this.spinner.hide();
       },
       error => {
-        this.parameter.loading = false;
+        this.spinner.hide();
       });
   }
 

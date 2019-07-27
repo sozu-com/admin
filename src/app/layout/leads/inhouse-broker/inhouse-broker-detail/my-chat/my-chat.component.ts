@@ -6,6 +6,7 @@ import { IProperty } from './../../../../../common/property';
 import { Constant } from './../../../../../common/constants';
 import { Chat } from './../../../../../models/chat.model';
 import * as io from 'socket.io-client';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -22,7 +23,7 @@ export class MyChatComponent implements OnInit {
   conversation_id: any;
   conversation_user_id: any;
 
-  messages: any= [];
+  messages: any = [];
   message: any;
   textMessage: any;
   videoSrc: any;
@@ -47,7 +48,7 @@ export class MyChatComponent implements OnInit {
     original: ''
   };
   image: any;
-  imgArray= [];
+  imgArray = [];
   durationInSec: any = 0;
   showVideo = true;
   video: any;
@@ -55,8 +56,8 @@ export class MyChatComponent implements OnInit {
     thumbnail: '',
     original: ''
   };
-  loadmore: any= true;
-  loadmoring: any= false;
+  loadmore: any = true;
+  loadmoring: any = false;
   lead_id: any;
 
   @ViewChild('chatWin') chatWin: ElementRef;
@@ -69,19 +70,20 @@ export class MyChatComponent implements OnInit {
     public admin: AdminService,
     private cs: CommonService,
     public constant: Constant,
-    private route: ActivatedRoute
-    // private ts:TranslateService
+    private route: ActivatedRoute,
+    private spinner: NgxSpinnerService
+    // private ts:TranslateServiceprivate spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
-    this.route.params.subscribe( params => {
+    this.route.params.subscribe(params => {
       this.lead_id = params.id;
     });
     this.loginData$$ = this.admin.loginData$.subscribe(success => {
       this.admin_id = success['id'];
     });
     this.loadingConversation = true;
-    this.admin.postDataApi('leads/developers', {lead_id: this.lead_id}).subscribe(r => {
+    this.admin.postDataApi('leads/developers', { lead_id: this.lead_id }).subscribe(r => {
       this.conversations = r['data'];
       if (this.conversations.length > 0) {
         this.initSocket();
@@ -104,9 +106,9 @@ export class MyChatComponent implements OnInit {
       other_sent_as: this.constant.userType.user_seller_dev,
       sent_as: this.constant.userType.inhouse_broker
     };
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('conversation/getLeadConversation', data1).subscribe(res => {
-      this.parameter.loading = false;
+      this.spinner.hide();
       console.log('===========', res);
       if (res.data) {
 
@@ -124,56 +126,56 @@ export class MyChatComponent implements OnInit {
 
 
         const data = {
-            sent_as: this.constant.userType.inhouse_broker,
-            lead_id: this.lead_id,
-            conversation_id: this.conversation_id
-          };
+          sent_as: this.constant.userType.inhouse_broker,
+          lead_id: this.lead_id,
+          conversation_id: this.conversation_id
+        };
 
-          this.loadingMessages = true;
-          this.admin.postDataApi('conversation/getMessages', data).subscribe(r => {
-            console.log(r);
-            this.messages = r.data[0].messages;
-            // this.messages.map(r=>{
-            //   r.loading = true;
-            //   return r;
-            // });
-            if (this.messages.length < 30) {this.loadmore = false; }
-            this.loadingMessages = false;
-            setTimeout(() => {
-              this.scrollToBottom();
-            }, 200);
-          });
+        this.loadingMessages = true;
+        this.admin.postDataApi('conversation/getMessages', data).subscribe(r => {
+          console.log(r);
+          this.messages = r.data[0].messages;
+          // this.messages.map(r=>{
+          //   r.loading = true;
+          //   return r;
+          // });
+          if (this.messages.length < 30) { this.loadmore = false; }
+          this.loadingMessages = false;
+          setTimeout(() => {
+            this.scrollToBottom();
+          }, 200);
+        });
       }
     }, error => {
-      this.parameter.loading = false;
+      this.spinner.hide();
     });
   }
 
 
   public initSocket(): void {
-      // this.socket = io.connect(environment.socket_url,{
-      //   extraHeaders: {
-      //     Authorization: "Bearer authorization_token_here"
-      //   }
-      // });
-      this.socket = io.connect(this.admin.socketUrl);
-      this.socket.on('connect', fun => {
-        this.socket_id = this.socket.id;
-        this.connected = this.socket.connected;
+    // this.socket = io.connect(environment.socket_url,{
+    //   extraHeaders: {
+    //     Authorization: "Bearer authorization_token_here"
+    //   }
+    // });
+    this.socket = io.connect(this.admin.socketUrl);
+    this.socket.on('connect', fun => {
+      this.socket_id = this.socket.id;
+      this.connected = this.socket.connected;
 
-        const data = {
-          admin_id: this.admin_id,
-          socket_id: this.socket_id,
-          device_id: this.admin.deviceId + '_' + this.admin_id
-        };
-        if (this.connected) {
-          // console.log('Socket Connected', this.socket_id, data);
+      const data = {
+        admin_id: this.admin_id,
+        socket_id: this.socket_id,
+        device_id: this.admin.deviceId + '_' + this.admin_id
+      };
+      if (this.connected) {
+        // console.log('Socket Connected', this.socket_id, data);
 
-          this.socket.emit('add-admin', data, (res: any) => {
-            // console.log('res', res);
-          });
+        this.socket.emit('add-admin', data, (res: any) => {
+          // console.log('res', res);
+        });
 
-          this.socket.on('message', (response: any) => {
+        this.socket.on('message', (response: any) => {
           if (response.data.conversation_id === this.conversation_id) {
             // console.log('Message received');
             this.messages.push(response.data);
@@ -181,14 +183,14 @@ export class MyChatComponent implements OnInit {
               this.scrollToBottom();
             }, 200);
           }
-          });
-        }
-      });
+        });
+      }
+    });
   }
 
   scrollToBottom() {
     if (this.chatWin) {
-      $('.chat-area').mCustomScrollbar('scrollTo', 'bottom', {scrollInertia: 0});
+      $('.chat-area').mCustomScrollbar('scrollTo', 'bottom', { scrollInertia: 0 });
     }
   }
 
@@ -204,8 +206,8 @@ export class MyChatComponent implements OnInit {
     model.message_type = 2;
     model.loading = true;
     model.uid = Math.random().toString(36).substr(2, 15);
-    model.conversation_id =  this.conversation_id;
-    model.conversation_user = {admin_id: this.admin_id};
+    model.conversation_id = this.conversation_id;
+    model.conversation_user = { admin_id: this.admin_id };
     const d = new Date();
     model.updated_at = d.toUTCString();
     this.messages.push(model);
@@ -217,14 +219,14 @@ export class MyChatComponent implements OnInit {
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
-          this.image = e.target.result;
-          model[param] = e.target.result;
-          this.cs.saveImage(event.target.files[0]).subscribe(
-            success => {
-              model.image = success['data'].image;
-              this.sendMessage(model);
-            }
-          );
+        this.image = e.target.result;
+        model[param] = e.target.result;
+        this.cs.saveImage(event.target.files[0]).subscribe(
+          success => {
+            model.image = success['data'].image;
+            this.sendMessage(model);
+          }
+        );
       };
       reader.readAsDataURL(event.target.files[0]);
 
@@ -244,8 +246,8 @@ export class MyChatComponent implements OnInit {
     model.message_type = 4;
     model.loading = true;
     model.uid = Math.random().toString(36).substr(2, 15);
-    model.conversation_id =  this.conversation_id;
-    model.conversation_user = {admin_id: this.admin_id};
+    model.conversation_id = this.conversation_id;
+    model.conversation_user = { admin_id: this.admin_id };
     model.attachment_name = event.target.files[0].name;
     const d = new Date();
     model.updated_at = d.toUTCString();
@@ -283,8 +285,8 @@ export class MyChatComponent implements OnInit {
     model.message_type = 3;
     model.loading = true;
     model.uid = Math.random().toString(36).substr(2, 15);
-    model.conversation_id =  this.conversation_id;
-    model.conversation_user = {admin_id: this.admin_id};
+    model.conversation_id = this.conversation_id;
+    model.conversation_user = { admin_id: this.admin_id };
     const d = new Date();
     model.updated_at = d.toUTCString();
     this.messages.push(model);
@@ -298,10 +300,10 @@ export class MyChatComponent implements OnInit {
       this.video = document.getElementById('video1');
       const reader = new FileReader();
       const videoTest = this.element.nativeElement.querySelector('.video55');
-      reader.onload = function(e) {
+      reader.onload = function (e) {
         const src = e.target['result'];
         videoTest.src = src;
-        const timer = setInterval( () => {
+        const timer = setInterval(() => {
           // find duration of video only of video is in ready state
           if (videoTest.readyState === 4) {
             this.durationInSec = videoTest.duration.toFixed(0);
@@ -329,7 +331,7 @@ export class MyChatComponent implements OnInit {
     const canvas = document.getElementById('canvas') as HTMLCanvasElement;
     // console.log(canvas);
     const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
-                                                      0, 0, canvas.width, canvas.height);
+      0, 0, canvas.width, canvas.height);
 
     const ImageURL = canvas.toDataURL('image/jpeg');
     model.image = ImageURL;
@@ -355,25 +357,25 @@ export class MyChatComponent implements OnInit {
     let n = bstr.length;
     const u8arr = new Uint8Array(n);
     while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
+      u8arr[n] = bstr.charCodeAt(n);
     }
-    return new File([u8arr], filename, {type: mime});
+    return new File([u8arr], filename, { type: mime });
   }
 
   setText() {
     if (!this.textMessage) {
       return false;
     } else if ((Object.keys(this.admin.admin_acl).length !== 0 && this.admin.admin_acl['Broker Lead Management'].can_update === 0) ||
-    this.admin.permissions.can_in_house_broker === 0) {
-        return false;
+      this.admin.permissions.can_in_house_broker === 0) {
+      return false;
     } else {
       const model = new Chat;
       model.message = this.textMessage;
       model.message_type = 1;
       model.loading = true;
       model.uid = Math.random().toString(36).substr(2, 15);
-      model.conversation_id =  this.conversation_id;
-      model.conversation_user = {admin_id: this.admin_id};
+      model.conversation_id = this.conversation_id;
+      model.conversation_user = { admin_id: this.admin_id };
       const d = new Date();
       model.updated_at = d.toUTCString();
       this.messages.push(model);
@@ -419,14 +421,14 @@ export class MyChatComponent implements OnInit {
     this.admin.postDataApi('conversation/getMessages', data).subscribe(res => {
       // console.log(res);
       this.loadmoring = false;
-      if (res['data'].length < 30) {this.loadmore = false; }
+      if (res['data'].length < 30) { this.loadmore = false; }
       this.messages = res['data'].concat(this.messages);
     }
-    // error => {}
+      // error => {}
     );
   }
 
-  sendProperty(property){
+  sendProperty(property) {
     console.log('M=>', property);
     const model = new Chat;
     model.message = property.configuration.name + ' in ' + property.building.name;
@@ -437,14 +439,14 @@ export class MyChatComponent implements OnInit {
     model.loading = true;
     model.updated_at = new Date();
     model.uid = Math.random().toString(36).substr(2, 15);
-    model.conversation_id =  this.conversation_id;
-    model.conversation_user = {admin_id: this.admin_id};
+    model.conversation_id = this.conversation_id;
+    model.conversation_user = { admin_id: this.admin_id };
     this.messages.push(model);
     this.sendMessage(model);
   }
 
-  onDestroy(){
-    if (this.loginData$$){
+  onDestroy() {
+    if (this.loginData$$) {
       this.loginData$$.unsubscribe();
     }
   }

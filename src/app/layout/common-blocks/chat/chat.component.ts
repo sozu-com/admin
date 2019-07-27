@@ -5,6 +5,7 @@ import { IProperty } from './../../../common/property';
 import { Constant } from './../../../common/constants';
 import { Chat } from './../../../models/chat.model';
 import * as io from 'socket.io-client';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -41,7 +42,8 @@ export class ChatComponent implements OnInit {
     public admin: AdminService,
     private cs: CommonService,
     public model: Chat,
-    public constant: Constant
+    public constant: Constant,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -69,9 +71,9 @@ export class ChatComponent implements OnInit {
       sent_as: this.sent_as
     };
 
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('conversation/getLeadConversation', data).subscribe(r => {
-      this.parameter.loading = false;
+      this.spinner.hide();
       console.log('conversation/getLeadConversation', r);
       if (r['data']) {
         this.parameter.messages = r.data[0].messages;
@@ -80,7 +82,7 @@ export class ChatComponent implements OnInit {
         this.scrollToBottom();
       }
     }, error => {
-      this.parameter.loading = false;
+      this.spinner.hide();
     });
   }
 

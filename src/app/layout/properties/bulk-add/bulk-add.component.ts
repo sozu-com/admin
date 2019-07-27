@@ -7,6 +7,7 @@ import { MapsAPILoader } from '@agm/core';
 import { Constant } from '../../../common/constants';
 import { AddPropertyModel, Building } from '../../../models/addProperty.model';
 import { AddProjectModel, Towers } from 'src/app/models/addProject.model';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare const google;
 declare let swal: any;
 
@@ -48,7 +49,8 @@ export class BulkAddComponent implements OnInit {
   initialCountry: any;
   constructor(public model: AddPropertyModel, private us: AdminService,
     private router: Router, private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone, public building: Building, public constant: Constant) { }
+    private ngZone: NgZone, public building: Building, public constant: Constant,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.showSearch = true;
@@ -114,7 +116,7 @@ export class BulkAddComponent implements OnInit {
 
   getGeoLocation(lat: number, lng: number) {
     if (navigator.geolocation) {
-      this.parameter.loading = true;
+      this.spinner.show();
       const geocoder = new google.maps.Geocoder();
       const latlng = new google.maps.LatLng(lat, lng);
       const request = { latLng: latlng };
@@ -128,7 +130,7 @@ export class BulkAddComponent implements OnInit {
             this.building.address = lat + ',' + lng;
           }
         }
-        this.parameter.loading = false;
+        this.spinner.hide();
       });
     }
   }
@@ -169,12 +171,12 @@ export class BulkAddComponent implements OnInit {
     input.append('tower_id', this.model.building_towers_id);
     input.append('floor_num', this.model.floor_num);
 
-    this.parameter.loading = true;
+    this.spinner.show();
 
     this.us.postDataApi('addPropertyMultiple', input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           swal({
             html: 'Submitted successfully.' + '<br>' +
             'You will be notified once your property will be reviewed by Admin, you can view status in your properties.',
@@ -183,7 +185,7 @@ export class BulkAddComponent implements OnInit {
           this.property_names = [];
           // this.num_of_property = '';
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         }
       );
   }
@@ -220,11 +222,11 @@ export class BulkAddComponent implements OnInit {
     if (this.parameter.property_id) { input.append('property_id', this.parameter.property_id); }
     input.append('building_id', this.building.id);
 
-    this.parameter.loading = true;
+    this.spinner.show();
     this.us.postDataApi('tagBuilding', input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           swal({
             html: 'Submitted successfully.' + '<br>' +
             'You will be notified once your property will be reviewed by Admin, you can view status in your properties.',
@@ -234,7 +236,7 @@ export class BulkAddComponent implements OnInit {
             this.router.navigate(['/dashboard/properties/view-properties']);
           }
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         }
       );
   }
@@ -254,18 +256,18 @@ export class BulkAddComponent implements OnInit {
     if (!this.building.lat || !this.building.lng) {
       swal('Error', 'Please select location', 'error'); return false;
     }
-    this.parameter.loading = true;
+    this.spinner.show();
     this.us.postDataApi('buildingRequest', this.building)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           swal({
             html: 'Success' + '<br>' +
             'You can add property details and data-collector will link this property to the building.',
             type: 'success'
           });
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         }
       );
   }

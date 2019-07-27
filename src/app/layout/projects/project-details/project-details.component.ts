@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from './../../../lang/translate.service';
 import { IProperty } from '../../../common/property';
 import { Constant } from '../../../common/constants';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 declare const google;
 
@@ -37,7 +38,8 @@ export class ProjectDetailsComponent implements OnInit {
     private admin: AdminService,
     private route: ActivatedRoute,
     public ts: TranslateService,
-    public constant: Constant
+    public constant: Constant,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -49,9 +51,9 @@ export class ProjectDetailsComponent implements OnInit {
 
 
   getListing() {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('getProjectDetail', { project_id: this.id }).subscribe(res => {
-      this.parameter.loading = false;
+      this.spinner.hide();
       this.project = res['data'].building;
       this.properties = res['data'].properties;
       this.configurations = this.project.configurations;
@@ -81,7 +83,7 @@ export class ProjectDetailsComponent implements OnInit {
       }
       this.initMapLocations();
     }, error => {
-      this.parameter.loading = false;
+      this.spinner.hide();
     });
   }
 

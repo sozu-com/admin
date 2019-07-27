@@ -3,6 +3,7 @@ import { IProperty } from './common/property';
 import { Router, NavigationEnd, NavigationCancel, NavigationError, NavigationStart } from '@angular/router';
 import { HttpInterceptor } from './services/http-interceptor';
 import { PlatformLocation } from '@angular/common';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 declare var $: any;
 
@@ -16,7 +17,9 @@ export class AppComponent implements OnInit {
 
   public parameter: IProperty = {};
   loading: any = false;
-  constructor(private router: Router, private location: PlatformLocation, public interceptor: HttpInterceptor) {
+  constructor(private router: Router, private location: PlatformLocation,
+    public interceptor: HttpInterceptor,
+    private spinner: NgxSpinnerService) {
 
     // close popup if any opened
     location.onPopState(() => {
@@ -25,17 +28,17 @@ export class AppComponent implements OnInit {
 
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
-        this.parameter.loading = true;
+        this.spinner.show();
       }
       if (event instanceof NavigationEnd) {
-        this.parameter.loading = false;
+        this.spinner.hide();
         window.scrollTo(0, 0);
       }
       if (event instanceof NavigationCancel) {
-        this.parameter.loading = false;
+        this.spinner.hide();
       }
       if (event instanceof NavigationError) {
-        this.parameter.loading = false;
+        this.spinner.hide();
       }
     });
   }

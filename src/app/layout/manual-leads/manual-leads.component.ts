@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
 import { IProperty } from '../../common/property';
 import { Constant } from './../../common/constants';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -17,7 +18,8 @@ export class ManualLeadsComponent implements OnInit {
 
   constructor(
     private admin: AdminService,
-    private constant: Constant
+    private constant: Constant,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -43,16 +45,16 @@ export class ManualLeadsComponent implements OnInit {
 
   getListing() {
     this.parameter.url = 'getManualLeads';
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi(this.parameter.url, this.parameter)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           console.log('suceess', success);
           this.items = success.data;
           this.parameter.total = success.total_count;
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 }

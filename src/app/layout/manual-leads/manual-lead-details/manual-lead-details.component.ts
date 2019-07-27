@@ -5,6 +5,7 @@ import { CommonService } from '../../../services/common.service';
 import { IProperty } from '../../../common/property';
 import { Constant } from './../../../common/constants';
 import { Notes } from './../../../models/leads.model';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -27,7 +28,8 @@ export class ManualLeadDetailsComponent implements OnInit {
     private router: Router,
     private cs: CommonService,
     public constant: Constant,
-    public model: Notes
+    public model: Notes,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -38,13 +40,13 @@ export class ManualLeadDetailsComponent implements OnInit {
     });
     this.route.params.subscribe( params => {
       this.parameter.lead_id = params.id;
-      this.parameter.loading = true;
+      this.spinner.show();
       this.admin.postDataApi('getManualLeadById', {id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
-        this.parameter.loading = false;
+        this.spinner.hide();
         this.parameter.data = r.data;
         this.parameter.user_id = this.parameter.data.user.id;
       }, error => {
-        this.parameter.loading = false;
+        this.spinner.hide();
       });
     });
   }

@@ -8,6 +8,7 @@ import { CommonService } from 'src/app/services/common.service';
 import { Constant } from 'src/app/common/constants';
 import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -35,6 +36,7 @@ export class ManagersComponent implements OnInit {
   constructor(public constant: Constant, private cs: CommonService,
     private route: ActivatedRoute,
     public admin: AdminService,
+    private spinner: NgxSpinnerService,
     private ngZone: NgZone) {
     this.admin.countryData$.subscribe(success => {
       this.parameter.allCountry = success;
@@ -156,11 +158,11 @@ export class ManagersComponent implements OnInit {
     if (this.model.image) { input.append('image', this.model.image); }
     if (this.model.logo) { input.append('logo', this.model.logo); }
 
-    this.parameter.loading = true;
+    this.spinner.show();
       this.admin.postDataApi('addTowerManager', input)
         .subscribe(
           success => {
-            this.parameter.loading = false;
+            this.spinner.hide();
             if (success.success === '0') {
               swal('Error', success.message, 'error');
             } else {
@@ -177,7 +179,7 @@ export class ManagersComponent implements OnInit {
               this.emptyModel();
             }
           }, error => {
-            this.parameter.loading = false;
+            this.spinner.hide();
           });
   }
 
@@ -220,7 +222,7 @@ export class ManagersComponent implements OnInit {
   }
 
   getTowerManager() {
-    this.parameter.loading = true;
+    this.spinner.show();
     const input = new FormData();
     input.append('project_sort', this.model.project_sort.toString());
     input.append('page', this.parameter.p.toString());
@@ -232,11 +234,11 @@ export class ManagersComponent implements OnInit {
     this.admin.postDataApi('getTowerManager', input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.items = success.data;
           this.parameter.total = success.total;
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 
@@ -338,19 +340,19 @@ export class ManagersComponent implements OnInit {
         swal('Error', 'File size is more than 25MB.', 'error');
         return false;
       }
-    this.parameter.loading = true;
+    this.spinner.show();
     const input = new FormData();
     input.append('attachment', attachment);
     this.admin.postDataApi('importTowerManager', input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.fileInput.nativeElement.value = '';
           this.label = 'Choose Managers File';
           swal('Success', 'Imported successfully.', 'success');
           this.getTowerManager();
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
     } else {
       swal('Error', 'Please choose file', 'error');

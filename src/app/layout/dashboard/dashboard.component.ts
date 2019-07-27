@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IProperty } from '../../common/property';
 import { AdminService } from '../../services/admin.service';
 import * as moment from 'moment';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,7 +26,7 @@ export class DashboardComponent {
   };
 
   public parameter: IProperty = {};
-  constructor (private admin: AdminService) {
+  constructor (private admin: AdminService, private spinner: NgxSpinnerService) {
     const date = new Date();
     // this.parameter.min = new Date(date.getFullYear() + '-' + (date.getMonth() - 4) + '-' + '01');
     // this.parameter.max = date;
@@ -41,13 +42,13 @@ export class DashboardComponent {
 
 
   getReportData() {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.parameter.noResultFound = false;
    // const input = {start_date: this.parameter.min, end_date: this.parameter.max};
     const input = {start_date: moment(this.parameter.min).format('YYYY-MM-DD'), end_date: moment(this.parameter.max).format('YYYY-MM-DD')};
     this.admin.postDataApi('dashboard', input).subscribe(
     success => {
-      this.parameter.loading = false;
+      this.spinner.hide();
       this.all_properties_count = success.data.all_properties_count;
       this.rent_properties_count = success.data.rent_properties_count;
       this.sale_properties_count = success.data.sale_properties_count;
@@ -77,7 +78,7 @@ export class DashboardComponent {
         series: data1
       }];
     }, error => {
-      this.parameter.loading = false;
+      this.spinner.hide();
     });
   }
 }

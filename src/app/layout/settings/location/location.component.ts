@@ -4,6 +4,7 @@ import { IProperty } from '../../../common/property';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Location } from './../../../models/location.model';
 import { Constant } from './../../../common/constants';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -23,7 +24,7 @@ export class LocationComponent implements OnInit {
   searchCity: string;
 
   constructor(private location: Location, private constant: Constant,
-    private modalService: BsModalService, public admin: AdminService,
+    private modalService: BsModalService, public admin: AdminService, private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -97,7 +98,7 @@ export class LocationComponent implements OnInit {
             this.parameter.countries5 = success.data.reverse();
           }
         }, error => {
-          // this.parameter.loading = false;
+          // this.spinner.hide();
         });
   }
 
@@ -165,7 +166,7 @@ export class LocationComponent implements OnInit {
             this.parameter.cities2 = success.data.reverse();
           }
         }, error => {
-          // this.parameter.loading = false;
+          // this.spinner.hide();
         });
   }
 

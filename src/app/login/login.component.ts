@@ -5,6 +5,7 @@ import { NgForm } from '@angular/forms';
 import { IProperty } from '../common/property';
 import { Constant } from './../common/constants';
 import swal from 'sweetalert2';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-login',
@@ -22,9 +23,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
   projectName: string;
   public parameter: IProperty = {};
 
-  constructor(private router: Router, public admin: AdminService, public constant: Constant) {
+  constructor(private router: Router, public admin: AdminService, public constant: Constant,
+    private spinner: NgxSpinnerService) {
     // this.loginForm.reset();
-    this.parameter.loading = false;
+    this.spinner.hide();
     this.projectName = this.constant.projectName;
 
     // const token =  localStorage.getItem('token');
@@ -42,13 +44,13 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   loginUser(formData: NgForm) {
-    this.parameter.loading = true;
+    this.spinner.show();
     const email = formData.value.email;
     const password = formData.value.password;
 
 //     this.admin.adminLogin1(email.toLowerCase(), password)
 //     .subscribe(success => {
-//         this.parameter.loading = false;
+//         this.spinner.hide();
 //         const responseData1 = success[0];
 //         const responseData2 = success[1];
 //         const loginReponse = responseData1.json();
@@ -60,14 +62,14 @@ export class LoginComponent implements OnInit, AfterViewInit {
 //         this.router.navigate(['dashboard/view-inhouse-users/data-collectors']);
 //       },
 //       error => {
-//         this.parameter.loading = false;
+//         this.spinner.hide();
 //       }
 //     );
 
     this.admin.adminLogin(email.toLowerCase(), password)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           if (success.data.is_blocked === 1) {
             swal('Error', 'You are blocked by admin.', 'error');
             return false;
@@ -102,17 +104,17 @@ export class LoginComponent implements OnInit, AfterViewInit {
           }
         },
         error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         }
       );
     // this.admin.adminLogin(email.toLowerCase(), password)
     // .then((data: any) => {
     //   this.admin.setUserLoggedIn();
     //   this.router.navigate(['dashboard/view-inhouse-users/data-collectors']);
-    //   this.parameter.loading = false;
+    //   this.spinner.hide();
     // })
     // .catch((error: any) => {
-    //   this.parameter.loading = false;
+    //   this.spinner.hide();
     // });
   }
 }

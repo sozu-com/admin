@@ -3,6 +3,7 @@ import { AdminService } from './admin.service';
 import { Router } from '@angular/router';
 import { IProperty } from './../common/property';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Injectable()
@@ -22,12 +23,12 @@ export class CommonService {
   propertyDetailsData$ = this.propertyDetails.asObservable();
 
   public parameter: IProperty = {};
-  constructor(public admin: AdminService, private router: Router) { }
+  constructor(public admin: AdminService, private router: Router, private spinner: NgxSpinnerService) { }
 
 
   getCountries(keyword) {
 
-    this.parameter.loading = true;
+    this.spinner.show();
     this.parameter.url = 'getCountries';
     const input = new FormData();
 
@@ -37,11 +38,11 @@ export class CommonService {
       .subscribe(
         success => {
           // console.log('countries', success);
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.country.next(success.data);
         },
         error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           } else {
@@ -51,7 +52,7 @@ export class CommonService {
   }
 
   getStates(country_id, keyword) {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.parameter.url = 'country/getStates';
     this.parameter.country_id = country_id;
 
@@ -64,11 +65,11 @@ export class CommonService {
       .subscribe(
         success => {
           // console.log('states', success);
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.state.next(success.data);
         },
         error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           } else {
@@ -78,7 +79,7 @@ export class CommonService {
   }
 
   getCities(state_id, keyword) {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.parameter.url = 'getCities';
     this.parameter.state_id = state_id;
 
@@ -93,11 +94,11 @@ export class CommonService {
       .subscribe(
         success => {
           // console.log('cities', success);
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.city.next(success.data);
         },
         error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           } else {

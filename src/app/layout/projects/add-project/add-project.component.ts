@@ -10,6 +10,7 @@ import {FileUpload} from './../../../common/fileUpload';
 import {VideoUpload} from './../../../common/videoUpload';
 import {CommonService} from 'src/app/services/common.service';
 import {ApiConstants} from 'src/app/common/api-constants';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 declare const google;
 declare let swal: any;
@@ -138,7 +139,8 @@ export class AddProjectComponent implements OnInit {
     private constant: Constant,
     private apiConstants: ApiConstants,
     private cs: CommonService,
-    private element: ElementRef
+    private element: ElementRef,
+    private spinner: NgxSpinnerService
   ) {
   }
 
@@ -164,9 +166,9 @@ export class AddProjectComponent implements OnInit {
       if (this.id) {
         /* if id exists edit mode */
         this.canEditdeveloperInfo = false;
-        this.parameter.loading = true;
+        this.spinner.show();
         this.admin.postDataApi('getProjectById', {building_id: this.id}).subscribe(r => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.model = JSON.parse(JSON.stringify(r.data));
           // this.model.videos = this.model.videos && this.model.videos.length > 0 ? JSON.parse(this.model.videos) : [];
           if (r.data['locality']) {
@@ -253,14 +255,14 @@ export class AddProjectComponent implements OnInit {
           });
           this.zoom = 18;
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
       } else if (params.request_id) {
         /* if request_id exists, building request edit mode */
         this.canEditdeveloperInfo = false;
-        this.parameter.loading = true;
+        this.spinner.show();
         this.admin.postDataApi('getBuildingRequest', {building_request_id: params.request_id}).subscribe(r => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.model = JSON.parse(JSON.stringify(r.data));
           if (r.data['locality']) {
             this.setCountryToLocality(r.data['locality']);
@@ -345,7 +347,7 @@ export class AddProjectComponent implements OnInit {
           });
           this.zoom = 18;
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
       } else {
         this.model = new AddProjectModel();
@@ -422,7 +424,7 @@ export class AddProjectComponent implements OnInit {
   }
 
   getStates(country_id: any, keyword: string) {
-    // this.parameter.loading = true;
+    // this.spinner.show();
     this.model.country_id = country_id;
     this.model.state_id = '';
     this.model.city_id = '';
@@ -434,15 +436,15 @@ export class AddProjectComponent implements OnInit {
 
     this.admin.postDataApi('country/getStates', input).subscribe(success => {
         this.parameter.states = success['data'];
-        // this.parameter.loading = false;
+        // this.spinner.hide();
       },
       error => {
-        // this.parameter.loading = false;
+        // this.spinner.hide();
       });
   }
 
   getCities(state_id: any, keyword: string) {
-    // this.parameter.loading = true;
+    // this.spinner.show();
     this.model.state_id = state_id;
     this.model.city_id = '';
     this.model.locality_id = '';
@@ -452,10 +454,10 @@ export class AddProjectComponent implements OnInit {
 
     this.admin.postDataApi('getCities', input).subscribe(success => {
         this.parameter.cities = success['data'];
-        // this.parameter.loading = false;
+        // this.spinner.hide();
       },
       error => {
-        // this.parameter.loading = false;
+        // this.spinner.hide();
       });
   }
 
@@ -1004,11 +1006,11 @@ export class AddProjectComponent implements OnInit {
   //     swal('Error', 'Please choose atleast one image for other images', 'error'); return false;
   //   }
   //   this.closeConfigPopup.nativeElement.click();
-  //   this.parameter.loading = true;
+  //   this.spinner.show();
   //   console.log('===', this.new_config);
   //   this.file3.upload().then(r => {
   //     this.file4.upload().then(r1 => {
-  //       this.parameter.loading = false;
+  //       this.spinner.hide();
   //       this.new_config.floor_map_image = this.file3.image;
   //       this.new_config.images = this.file4.files;
   //       this.new_config.images360 = this.config360Img.files;
@@ -1021,11 +1023,11 @@ export class AddProjectComponent implements OnInit {
   //       this.new_config = new Configuration();
   //       console.log('conssss', this.model.configurations);
   //     }, error => {
-  //       this.parameter.loading = false;
+  //       this.spinner.hide();
   //     });
   //   },
   //     error => {
-  //       this.parameter.loading = false;
+  //       this.spinner.hide();
   //     });
   // }
 
@@ -1036,7 +1038,7 @@ export class AddProjectComponent implements OnInit {
       swal('Error', 'Please choose atleast one image for other images', 'error');
       return false;
     }
-    // this.parameter.loading = true;
+    // this.spinner.show();
     this.file3.upload().then(r => {
       this.new_config.floor_map_image = this.file3.image;
     });
@@ -1073,7 +1075,7 @@ export class AddProjectComponent implements OnInit {
     });
 
     if (count === totalFilesCount) {
-      this.parameter.loading = false;
+      this.spinner.hide();
       if (this.new_config_edit >= 0) {
         this.model.configurations[this.new_config_edit] = this.new_config;
       } else {
@@ -1313,31 +1315,31 @@ export class AddProjectComponent implements OnInit {
     if (this.id) {
       modelSave.building_id = this.id;
       modelSave.developer_id = modelSave.developer.id;
-      this.parameter.loading = true;
+      this.spinner.show();
       this.admin.postDataApi('updateProject', modelSave).subscribe(success => {
-        this.parameter.loading = false;
+        this.spinner.hide();
         swal('Success', 'Updated successfully.', 'success');
         // set model to avoid duplication creation of project
         this.setProjectModel(success['data']);
 
         // this.router.navigate(['/dashboard/projects/view-projects']);
       }, error => {
-        this.parameter.loading = false;
+        this.spinner.hide();
         swal('Error', error.message, 'error');
       });
     } else {
       delete modelSave.id;
       delete modelSave.building_id;
-      this.parameter.loading = true;
+      this.spinner.show();
       this.admin.postDataApi('addProject', modelSave).subscribe(success => {
-        this.parameter.loading = false;
+        this.spinner.hide();
         swal('Success', 'Added successfully.', 'success');
         // set model to avoid duplication creation of project
         this.id = success['data'].id;
         this.setProjectModel(success['data']);
         // this.router.navigate(['/dashboard/projects/view-projects']);
       }, error => {
-        this.parameter.loading = false;
+        this.spinner.hide();
         swal('Error', error.message, 'error');
       });
     }
@@ -1473,9 +1475,9 @@ export class AddProjectComponent implements OnInit {
   }
 
   selectDeveloper(name: string, type: number) {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('getDevelopersFrAdmin', {name: name}).subscribe(r => {
-      this.parameter.loading = false;
+      this.spinner.hide();
       this.all_developers = r.data;
       if (type !== 2) {
         this.openDeveloperListModel.nativeElement.click();

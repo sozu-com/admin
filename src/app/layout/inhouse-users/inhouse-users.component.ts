@@ -11,6 +11,7 @@ import { IProperty } from 'src/app/common/property';
 import { CommonService } from 'src/app/services/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdminService } from 'src/app/services/admin.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 declare const google;
 @Component({
@@ -50,6 +51,7 @@ export class InhouseUsersComponent implements OnInit {
   agencies: Array<Agency>;
   constructor(public constant: Constant, private cs: CommonService,
     public model: UserModel, private route: ActivatedRoute,
+    private spinner: NgxSpinnerService,
     public admin: AdminService, private router: Router,
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone) {
@@ -339,11 +341,11 @@ export class InhouseUsersComponent implements OnInit {
         formdata.value.is_csr_closer === null && formdata.value.is_external_agent === null)) {
       swal('Error', 'Please choose a role for inhouse user.', 'error');
     } else {
-      this.parameter.loading = true;
+      this.spinner.show();
       this.admin.postDataApi(this.parameter.url, input)
         .subscribe(
           success => {
-            this.parameter.loading = false;
+            this.spinner.hide();
             if (success.success === '0') {
               swal('Error', success.message, 'error');
             } else {
@@ -371,16 +373,16 @@ export class InhouseUsersComponent implements OnInit {
               this.emptyModel();
             }
           }, error => {
-            this.parameter.loading = false;
+            this.spinner.hide();
           });
     }
   }
 
   editUser(userdata, index) {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.model.img_loader = false;
     this.admin.postDataApi('getNewUserById', { id: userdata.id }).subscribe(r => {
-      this.parameter.loading = false;
+      this.spinner.hide();
       userdata = r['data'];
       this.parameter.index = index;
       this.model.address = [];
@@ -428,7 +430,7 @@ export class InhouseUsersComponent implements OnInit {
 
       this.inhouseUserModalOpen.nativeElement.click();
     }, erorr => {
-      this.parameter.loading = false;
+      this.spinner.hide();
     });
   }
 
@@ -570,7 +572,7 @@ export class InhouseUsersComponent implements OnInit {
   }
 
   getInhouseUsers() {
-    this.parameter.loading = true;
+    this.spinner.show();
     switch (this.parameter.userType) {
       case 'data-collectors':
         this.parameter.url = 'getDataCollectors';
@@ -647,11 +649,11 @@ export class InhouseUsersComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.parameter.items = success.data;
           this.parameter.total = success.total;
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 
@@ -709,7 +711,7 @@ export class InhouseUsersComponent implements OnInit {
 
 
   blockAdmin(index, id, flag, user_type) {
-    // this.parameter.loading = true;
+    // this.spinner.show();
     this.parameter.url = 'blockAdmin';
     const input = new FormData();
     input.append('id', id);
@@ -719,7 +721,7 @@ export class InhouseUsersComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          // this.parameter.loading = false;
+          this.spinner.hide();
           swal('Success', this.parameter.successText, 'success');
           this.parameter.items[this.parameter.index] = success.data;
 

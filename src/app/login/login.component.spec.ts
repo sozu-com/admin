@@ -6,8 +6,8 @@ import { HttpInterceptor } from './../services/http-interceptor';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, RequestOptions, XHRBackend, Http } from '@angular/http';
-import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { Constant } from './../common/constants';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -20,10 +20,7 @@ describe('LoginComponent', () => {
         HttpModule,
         FormsModule,
         RouterTestingModule.withRoutes([]),
-        LoadingModule.forRoot({
-          animationType: ANIMATION_TYPES.rectangleBounce,
-          primaryColour: '#00B96F'
-        }),
+        NgxSpinnerModule
       ],
       providers: [
         {provide: Http, useFactory: (backend: XHRBackend, defaultOptions: RequestOptions) => new Http(backend, defaultOptions),

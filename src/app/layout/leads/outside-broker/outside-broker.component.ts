@@ -5,8 +5,8 @@ import { IProperty } from '../../../common/property';
 import { Constant } from './../../../common/constants';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
-
 
 @Component({
   selector: 'app-outside-broker',
@@ -41,7 +41,8 @@ export class OutsideBrokerComponent implements OnInit {
   constructor(
     public admin: AdminService,
     private constant: Constant,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -248,15 +249,15 @@ export class OutsideBrokerComponent implements OnInit {
       input.assignee_id = this.parameter.assignee_id;
     }
     input.is_external_agent = 1;
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('leads/in-house-broker', input).subscribe(
       success => {
-        this.parameter.loading = false;
+        this.spinner.hide();
         this.items = success.data;
         if (this.items.length <= 0) { this.parameter.noResultFound = true; }
         this.parameter.total = success.total_count;
       }, error => {
-        this.parameter.loading = false;
+        this.spinner.hide();
       });
   }
 
@@ -288,15 +289,15 @@ export class OutsideBrokerComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.parameter.loading = true;
+        this.spinner.show();
         this.admin.postDataApi(this.parameter.url, { sale_rent: sale_rent, lead_id: lead_id })
           .subscribe(
             success => {
-              this.parameter.loading = false;
+              this.spinner.hide();
               this.items[index].sale_rent = sale_rent;
               swal('Success', 'Availability for this property changed successfully.', 'success');
             }, error => {
-              this.parameter.loading = false;
+              this.spinner.hide();
             });
       }
     });
@@ -341,15 +342,15 @@ export class OutsideBrokerComponent implements OnInit {
       broker_id: this.assignItem.id,
       leads: leads_ids
     };
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('leads/bulkAssignBroker', input).subscribe(r => {
-      this.parameter.loading = false;
+      this.spinner.hide();
       swal('Success', 'Assigned successfully', 'success');
       this.closeAssignModel.nativeElement.click();
       this.getListing();
     },
       error => {
-        this.parameter.loading = false;
+        this.spinner.hide();
         this.closeAssignModel.nativeElement.click();
         swal('Error', error.error.message, 'error');
       });

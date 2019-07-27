@@ -4,6 +4,7 @@ import { IProperty } from '../../../common/property';
 import { Constant } from './../../../common/constants';
 import { Users } from '../../../models/users.model';
 import * as moment from 'moment';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -25,13 +26,13 @@ export class DataCollectorComponent implements OnInit {
   assignItem: any;
   reason: string;
   // items: Array<Users> = [];
-  items: any= [];
+  items: any = [];
   today = new Date();
   users: any = [];
   selectedUser: any;
   initSelection = false;
 
-  dash: any= {
+  dash: any = {
     request_pending_total: 0,
     request_pending_admin: 0,
     request_pending_csr: 0,
@@ -41,11 +42,12 @@ export class DataCollectorComponent implements OnInit {
     building_pending: 0,
     building_unapproved: 0
   };
-  chartView: any= [];
+  chartView: any = [];
 
   constructor(
     public admin: AdminService,
-    private constant: Constant
+    private constant: Constant,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -275,17 +277,17 @@ export class DataCollectorComponent implements OnInit {
     if (this.selectedUser) {
       input.assignee_id = this.selectedUser.id;
     }
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('leads/data-collector', input).subscribe(
-    success => {
-      this.parameter.loading = false;
-      this.items = success.data;
-      if (this.items.length <= 0) { this.parameter.noResultFound = true; }
-      console.log('listing', success);
-      this.parameter.total = success.total_count;
-    }, error => {
-      this.parameter.loading = false;
-    });
+      success => {
+        this.spinner.hide();
+        this.items = success.data;
+        if (this.items.length <= 0) { this.parameter.noResultFound = true; }
+        console.log('listing', success);
+        this.parameter.total = success.total_count;
+      }, error => {
+        this.spinner.hide();
+      });
   }
 
 
@@ -306,17 +308,17 @@ export class DataCollectorComponent implements OnInit {
     if (this.selectedUser) {
       input.assignee_id = this.selectedUser.id;
     }
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('leads/data-collector-buildings', input).subscribe(
-    success => {
-      this.parameter.loading = false;
-      this.items = success.data;
-      if (this.items.length <= 0) { this.parameter.noResultFound = true; }
-      console.log('listing', success);
-      this.parameter.total = success.total_count;
-    }, error => {
-      this.parameter.loading = false;
-    });
+      success => {
+        this.spinner.hide();
+        this.items = success.data;
+        if (this.items.length <= 0) { this.parameter.noResultFound = true; }
+        console.log('listing', success);
+        this.parameter.total = success.total_count;
+      }, error => {
+        this.spinner.hide();
+      });
   }
 
 
@@ -329,22 +331,22 @@ export class DataCollectorComponent implements OnInit {
     if (this.parameter.sort_by_flag !== sort_by_flag) {
       this.parameter.sort_by_flag = sort_by_flag;
       this.parameter.sort_by_order = 0;
-    }else {
+    } else {
       this.parameter.sort_by_order = this.parameter.sort_by_order ? 0 : 1;
     }
     this.getListing();
   }
 
   changeStatus(item) {
-    this.parameter.loading = true;
-    this.admin.postDataApi('leads/markBuildingRequestComplete', {id: item.id}).subscribe(r => {
-      this.parameter.loading = false;
+    this.spinner.show();
+    this.admin.postDataApi('leads/markBuildingRequestComplete', { id: item.id }).subscribe(r => {
+      this.spinner.hide();
       item.status = 1;
     },
-    error => {
-      this.parameter.loading = false;
-      swal('Error', error.error.message, 'error');
-    });
+      error => {
+        this.spinner.hide();
+        swal('Error', error.error.message, 'error');
+      });
   }
 
   selectAll(is_selected) {
@@ -374,9 +376,9 @@ export class DataCollectorComponent implements OnInit {
       keyword: this.assign.keyword
     };
     this.admin.postDataApi('getDataCollectors ', input).subscribe(
-    success => {
-      this.assign.items = success.data;
-    });
+      success => {
+        this.assign.items = success.data;
+      });
   }
 
   assignNow() {
@@ -385,19 +387,19 @@ export class DataCollectorComponent implements OnInit {
       data_collector_id: this.assignItem.id,
       leads: leads_ids
     };
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('leads/bulkAssignCollector', input).subscribe(r => {
-      this.parameter.loading = false;
+      this.spinner.hide();
       swal('Success', 'Assigned successfully', 'success');
       this.closeAssignModel.nativeElement.click();
       console.log(r);
       this.getListing();
     },
-    error => {
-      this.parameter.loading = false;
-      this.closeAssignModel.nativeElement.click();
-      swal('Error', error.error.message, 'error');
-    });
+      error => {
+        this.spinner.hide();
+        this.closeAssignModel.nativeElement.click();
+        swal('Error', error.error.message, 'error');
+      });
 
   }
 
@@ -413,25 +415,25 @@ export class DataCollectorComponent implements OnInit {
       return false;
     }
     item.status = status;
-    this.admin.postDataApi('approveProject', {building_id: item.id }).subscribe(r => {
+    this.admin.postDataApi('approveProject', { building_id: item.id }).subscribe(r => {
       this.getCSRDashBoardData();
       swal('Success', 'Project approved successfully.', 'success');
     },
-    error => {
-      swal('Error', error.error.message, 'error');
-    });
+      error => {
+        swal('Error', error.error.message, 'error');
+      });
   }
 
   rejectProject(status) {
     this.items[this.parameter.index].status = status;
-    this.admin.postDataApi('rejectProject', {building_id: this.parameter.building_id, reason: this.reason }).subscribe(r => {
+    this.admin.postDataApi('rejectProject', { building_id: this.parameter.building_id, reason: this.reason }).subscribe(r => {
       swal('Success', 'Project unapproved successfully.', 'success');
       this.getCSRDashBoardData();
       this.closeModal();
     },
-    error => {
-      swal('Error', error.error.message, 'error');
-    });
+      error => {
+        swal('Error', error.error.message, 'error');
+      });
   }
 
   closeModal() {

@@ -5,6 +5,7 @@ import { Constant } from 'src/app/common/constants';
 import { AdminService } from 'src/app/services/admin.service';
 import { IProperty } from 'src/app/common/property';
 import { CommonService } from 'src/app/services/common.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -25,6 +26,7 @@ export class NotaryComponent implements OnInit {
   model: Users;
   items: Array<Users>;
   constructor(public constant: Constant,
+    private spinner: NgxSpinnerService,
     public admin: AdminService,
     public cs: CommonService) { }
 
@@ -57,7 +59,7 @@ export class NotaryComponent implements OnInit {
   }
 
   getNoatariesListing(page: any, company_name: string, name: string, phone: string, email: string) {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.parameter.page = page;
     this.parameter.name = name;
     this.parameter.company_name = company_name;
@@ -67,11 +69,11 @@ export class NotaryComponent implements OnInit {
     this.admin.postDataApi('getNoatariesListing', this.parameter)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.items = success.data;
           this.parameter.total = success.total;
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 
@@ -116,19 +118,19 @@ export class NotaryComponent implements OnInit {
         swal('Error', 'File size is more than 25MB.', 'error');
         return false;
       }
-    this.parameter.loading = true;
+      this.spinner.show();
     const input = new FormData();
     input.append('attachment', attachment);
     this.admin.postDataApi('importNoatary', input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.fileInput.nativeElement.value = '';
           this.label = 'Choose Notaries File';
           swal('Success', 'Imported successfully.', 'success');
           this.getNoatariesListing(this.parameter.page, '', '', '', '');
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
     } else {
       swal('Error', 'Please choose file', 'error');
@@ -142,11 +144,11 @@ export class NotaryComponent implements OnInit {
       return false;
     }
     this.model.img_loader = false;
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('addNoatary', this.model)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.modalClose.nativeElement.click();
           const text = this.model.id ? 'Updated successfully.' : 'Added successfully.';
           swal('Success', text, 'success');
@@ -161,7 +163,7 @@ export class NotaryComponent implements OnInit {
           this.model = new Users();
           formData.reset();
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 

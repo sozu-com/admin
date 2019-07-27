@@ -6,6 +6,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Constant } from './../../../common/constants';
 import { Project, Amenities } from './../../../models/project.model';
 import { NgForm } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -23,7 +24,7 @@ export class ProjectComponent implements OnInit {
 
   constructor(private element: ElementRef, private constant: Constant, public project: Project,
     private modalService: BsModalService, public admin: AdminService,
-    public amenityModel: Amenities
+    public amenityModel: Amenities, private spinner: NgxSpinnerService
   ) {
     this.parameter.index = -1;
     this.parameter.countryCount = 0;
@@ -80,11 +81,11 @@ export class ProjectComponent implements OnInit {
     input.append('status', status);
 
     if (id) { input.append('id', id); }
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           const text = id ?
             this.constant.successMsg.PROJECT_POSSESSION_UPDATED_SUCCESSFULLY :
             this.constant.successMsg.PROJECT_POSSESSION_ADDED_SUCCESSFULLY;
@@ -99,7 +100,7 @@ export class ProjectComponent implements OnInit {
           this.parameter.index = -1;
           // this.getPossessionStatuses();
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 
@@ -113,11 +114,11 @@ export class ProjectComponent implements OnInit {
     input.append('status', status);
 
     if (id) { input.append('id', id); }
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           const text = id ?
             this.constant.successMsg.PROJECT_TYPE_UPDATED_SUCCESSFULLY :
             this.constant.successMsg.PROJECT_TYPE_ADDED_SUCCESSFULLY;
@@ -132,7 +133,7 @@ export class ProjectComponent implements OnInit {
           this.parameter.index = -1;
           // this.getBuildingTypes();
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 
@@ -151,11 +152,11 @@ export class ProjectComponent implements OnInit {
     if (this.icon) { input.append('icon', iconNew); }
 
     if (id) { input.append('id', id); }
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           const text = id ? this.constant.successMsg.AMENITY_UPDATED_SUCCESSFULLY : this.constant.successMsg.AMENITY_ADDED_SUCCESSFULLY;
           swal('Success', text, 'success');
           if (this.parameter.index !== -1) {
@@ -167,56 +168,56 @@ export class ProjectComponent implements OnInit {
           this.amenityModel = new Amenities;
           // this.getAmenities();
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 
 
   getPossessionStatuses() {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.parameter.url = 'getPossessionStatuses';
     const input = new FormData();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.parameter.items = success.data;
           this.parameter.total = success.data.length;
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         }
       );
   }
 
 
   getBuildingTypes() {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.parameter.url = 'getBuildingTypes';
     const input = new FormData();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.parameter.projectTypes = success.data;
           this.parameter.projectTypesCount = success.data.length;
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         }
       );
   }
 
   getAmenities() {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.parameter.url = 'getAmenities';
     const input = new FormData();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.parameter.amenities = success.data;
           this.parameter.amenitiesCount = success.data.length;
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         }
       );
   }

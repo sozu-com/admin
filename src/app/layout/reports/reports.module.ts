@@ -2,12 +2,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { CalendarModule } from 'primeng/primeng';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 // general components
 import { ReportsComponent } from './reports.component';
@@ -32,10 +32,7 @@ const routes: Routes = [
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
-    NgxLoadingModule.forRoot({
-      animationType: ngxLoadingAnimationTypes.rectangleBounce,
-      primaryColour: '#00B96F'
-    }),
+    NgxSpinnerModule,
     NgxPaginationModule,
     FormsModule,
     ReactiveFormsModule,

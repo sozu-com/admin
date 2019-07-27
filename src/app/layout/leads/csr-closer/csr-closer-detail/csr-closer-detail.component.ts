@@ -7,6 +7,7 @@ import * as io from 'socket.io-client';
 import { Constant } from './../../../../common/constants';
 import { SelectedProperties, BankAssigned, NotaryAssigned, ScheduleMeeting } from './../../../../models/leads.model';
 import { Chat } from '../../../../models/chat.model';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -98,7 +99,8 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     public bankModel: BankAssigned,
     public notaryModel: NotaryAssigned,
     public model: Chat,
-    private element: ElementRef
+    private element: ElementRef,
+    private spinner: NgxSpinnerService
   ) { }
 
   closeModal1() {
@@ -120,9 +122,9 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     });
     this.route.params.subscribe(params => {
       this.parameter.lead_id = params.id;
-      this.parameter.loading = true;
+      this.spinner.show();
       this.admin.postDataApi('leads/details', { lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as }).subscribe(r => {
-        this.parameter.loading = false;
+        this.spinner.hide();
         this.getDocumentOptions();
         this.parameter.lead = r.data.lead;
         this.selectedProperties = r.data.lead.selected_properties[0];
@@ -166,7 +168,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
         // });
 
       }, error => {
-        this.parameter.loading = false;
+        this.spinner.hide();
       });
     });
   }
@@ -211,7 +213,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.parameter.loading = true;
+        this.spinner.show();
         this.selectedProperties.noataries = [notary];
         this.chat_notary = notary;
         // this.chat_notary = r.data.lead.selected_properties[0].selected_noatary[0] ?
@@ -219,12 +221,12 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
         // this.chat_bank = r.data.lead.selected_properties[0].banks ? r.data.lead.selected_properties[0].banks[0] : [];
 
         this.admin.postDataApi('leads/assignNoatary', this.notaryModel).subscribe(r => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           swal('Success', 'Notary is assigned successfully.', 'success');
           this.notaryModel = new NotaryAssigned();
           this.hideNotaries.nativeElement.click();
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
       } else if (result.dismiss === 'cancel') {
         // alert('c');
@@ -275,16 +277,16 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.parameter.loading = true;
+        this.spinner.show();
         this.selectedProperties.banks = [bank];
         this.chat_bank = bank;
         this.admin.postDataApi('leads/assignBank', this.bankModel).subscribe(r => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           swal('Success', 'Bank is assigned successfully.', 'success');
           this.bankModel = new BankAssigned();
           this.hideBanks.nativeElement.click();
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
       }
     });
@@ -723,9 +725,9 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       sent_as: this.constant.userType.csr_closer
     };
     console.log('=========', data);
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('conversation/getLeadConversation', data).subscribe(r => {
-      this.parameter.loading = false;
+      this.spinner.hide();
       console.log('conversation/getLeadConversation', r);
       if (r['data']) {
         this.conversation_id = r['data'][0].id;
@@ -737,7 +739,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
         }, 100);
       }
     }, error => {
-      this.parameter.loading = false;
+      this.spinner.hide();
     });
   }
 

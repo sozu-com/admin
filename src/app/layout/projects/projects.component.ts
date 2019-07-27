@@ -5,6 +5,7 @@ import { IProperty } from '../../common/property';
 import { Constant } from './../../common/constants';
 import * as moment from 'moment';
 import { ApiConstants } from 'src/app/common/api-constants';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -32,7 +33,8 @@ export class ProjectsComponent implements OnInit {
     public constant: Constant,
     public apiConstant: ApiConstants,
     private route: ActivatedRoute,
-    public admin: AdminService
+    public admin: AdminService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -48,7 +50,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   getListing() {
-    this.parameter.loading = true;
+    this.spinner.show();
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');
@@ -64,10 +66,10 @@ export class ProjectsComponent implements OnInit {
       success => {
         this.items = success.data;
         this.total = success.total_count;
-        this.parameter.loading = false;
+        this.spinner.hide();
       },
       error => {
-        this.parameter.loading = false;
+        this.spinner.hide();
       });
   }
 
@@ -294,13 +296,13 @@ export class ProjectsComponent implements OnInit {
 
   deleteProject(item: any, index: number) {
     this.admin.postDataApi('deleteProject',
-    { building_id: item.id }).subscribe(r => {
-      swal('Success', 'Deleted successfully.', 'success');
-      this.items.splice(index, 1);
-      this.total--;
-    },
-    error => {
-      swal('Error', error.error.message, 'error');
-    });
+      { building_id: item.id }).subscribe(r => {
+        swal('Success', 'Deleted successfully.', 'success');
+        this.items.splice(index, 1);
+        this.total--;
+      },
+        error => {
+          swal('Error', error.error.message, 'error');
+        });
   }
 }

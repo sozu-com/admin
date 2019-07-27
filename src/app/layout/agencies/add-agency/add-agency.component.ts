@@ -9,6 +9,7 @@ import { NgForm } from '@angular/forms';
 import { Users } from 'src/app/models/users.model';
 import { MapsAPILoader } from '@agm/core';
 import { Agency } from 'src/app/models/agency.model';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare const google: any;
 declare let swal: any;
 
@@ -32,7 +33,8 @@ export class AddAgencyComponent implements OnInit {
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
     private admin: AdminService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -56,15 +58,15 @@ export class AddAgencyComponent implements OnInit {
   }
 
   getAgencyById(id: string) {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('getAgencyById', {'id': id})
     .subscribe(
       success => {
-        this.parameter.loading = false;
+        this.spinner.hide();
         this.model = success.data;
         console.log('==', this.model);
       }, error => {
-        this.parameter.loading = false;
+        this.spinner.hide();
       });
   }
 
@@ -103,11 +105,11 @@ export class AddAgencyComponent implements OnInit {
       swal('Error', 'Uploading image.', 'error');
       return;
     }
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('addAgency', modelSave)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           if (success.success === '0') {
             swal('Error', success.message, 'error');
             return;
@@ -119,7 +121,7 @@ export class AddAgencyComponent implements OnInit {
             }
           }
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 

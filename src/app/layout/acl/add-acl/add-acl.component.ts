@@ -6,6 +6,7 @@ import { ACL, Permission } from './../../../models/acl.model';
 import { ActivatedRoute } from '@angular/router';
 import { Constant } from './../../../common/constants';
 import { NgForm } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -21,7 +22,8 @@ export class AddAclComponent implements OnInit {
   show = false;
   image: any;
   constructor(public constant: Constant, public model: ACL, private cs: CommonService,
-    private admin: AdminService, private route: ActivatedRoute
+    private admin: AdminService, private route: ActivatedRoute,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -42,17 +44,17 @@ export class AddAclComponent implements OnInit {
   }
 
   getAclUserById(id: string) {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('getAclUserById', {'id': id})
     .subscribe(
       success => {
-        this.parameter.loading = false;
+        this.spinner.hide();
         this.model = success.data;
         this.image = this.model.image;
         console.log('==', this.model);
         this.model.admin_acl = success.data.admin_acl;
       }, error => {
-        this.parameter.loading = false;
+        this.spinner.hide();
       });
   }
 
@@ -75,10 +77,10 @@ export class AddAclComponent implements OnInit {
     const reader = new FileReader();
     reader.onload = (e: any) => {
       this.image = e.target.result;
-      this.parameter.loading = true;
+      this.spinner.show();
       this.cs.saveImage(event.target.files[0]).subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.model.image = success['data'].image;
         }
       );
@@ -94,11 +96,11 @@ export class AddAclComponent implements OnInit {
   }
 
   getAclList() {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('getAclList', {})
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           success.data.forEach(element => {
             const e = new Permission();
             const acl = {name: element.name};
@@ -107,7 +109,7 @@ export class AddAclComponent implements OnInit {
             this.model.admin_acl.push(e);
           });
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 
@@ -134,11 +136,11 @@ export class AddAclComponent implements OnInit {
 
 
   add(formData: NgForm) {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('addAclUser', this.model)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           if (success.success === '0') {
             swal('Error', success.message, 'error');
           } else {
@@ -149,7 +151,7 @@ export class AddAclComponent implements OnInit {
             }
           }
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 }

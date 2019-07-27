@@ -6,6 +6,7 @@ import { FileUpload } from './../../../common/fileUpload';
 import { ActivatedRoute } from '@angular/router';
 import { IProperty } from '../../../common/property';
 import { MainTemplateTypes } from '../../../models/template.model';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 declare let swal: any;
 
@@ -45,6 +46,7 @@ export class AddTemplateComponent implements OnInit {
   constructor(
     private admin: AdminService,
     private route: ActivatedRoute,
+    private spinner: NgxSpinnerService,
     private http: HttpInterceptor) {
   }
 
@@ -151,13 +153,13 @@ export class AddTemplateComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.post.id = params.id;
       if (this.post.id > 0) {
-        this.parameter.loading = true;
+        this.spinner.show();
         this.admin.postDataApi('getBlogById', { id: this.post.id }).subscribe(r => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.post = r['data'];
           this.file1.image = this.post.image;
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           swal('Error', error, 'error');
         });
       } else {
@@ -181,14 +183,14 @@ export class AddTemplateComponent implements OnInit {
       if (!this.post.slug) { swal('Error', 'Please enter slug', 'error'); return false; }
       this.post.blog_id = this.post.id;
     }
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('addBlog', this.post).subscribe(r => {
-      this.parameter.loading = false;
+      this.spinner.hide();
       this.post.id ? swal('Success', 'Updated successfully.', 'success') : swal('Sucsess', 'Added successfully.', 'success');
       this.post = r['data'];
     },
       error => {
-        this.parameter.loading = false;
+        this.spinner.hide();
         // swal('Error', error.message, 'error');
       });
   }

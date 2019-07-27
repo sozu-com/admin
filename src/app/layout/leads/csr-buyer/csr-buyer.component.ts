@@ -6,6 +6,7 @@ import { Constant } from './../../../common/constants';
 import { Users } from '../../../models/users.model';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -40,7 +41,8 @@ export class CsrBuyerComponent implements OnInit {
   constructor(
     public admin: AdminService,
     private constant: Constant,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -267,15 +269,15 @@ export class CsrBuyerComponent implements OnInit {
     } else if (this.parameter.assignee_id) {
       input.assignee_id = this.parameter.assignee_id;
     }
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('leads/csr-buyer', input).subscribe(
       success => {
-        this.parameter.loading = false;
+        this.spinner.hide();
         this.items = success.data;
         if (this.items.length <= 0) { this.parameter.noResultFound = true; }
         this.parameter.total = success.total_count;
       }, error => {
-        this.parameter.loading = false;
+        this.spinner.hide();
       });
   }
 
@@ -327,15 +329,15 @@ export class CsrBuyerComponent implements OnInit {
       csr_buyer_id: this.assignItem.id,
       leads: leads_ids
     };
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('leads/bulkAssignBuyer', input).subscribe(r => {
-      this.parameter.loading = false;
+      this.spinner.hide();
       swal('Success', 'Assigned successfully', 'success');
       this.closeAssignModel.nativeElement.click();
       this.getListing();
     },
       error => {
-        this.parameter.loading = false;
+        this.spinner.hide();
         this.closeAssignModel.nativeElement.click();
         swal('Error', error.error.message, 'error');
       });

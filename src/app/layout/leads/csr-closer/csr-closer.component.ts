@@ -6,6 +6,7 @@ import { Constant } from './../../../common/constants';
 import { Users } from '../../../models/users.model';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -30,7 +31,7 @@ export class CsrCloserComponent implements OnInit {
   selectedUser: any;
   initSelection = false;
 
-  dash: any= {
+  dash: any = {
     lead_total: 0,
     noatary_pending: 0,
     bank_pending: 0,
@@ -42,7 +43,8 @@ export class CsrCloserComponent implements OnInit {
   constructor(
     public admin: AdminService,
     private constant: Constant,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -53,7 +55,7 @@ export class CsrCloserComponent implements OnInit {
     this.parameter.flag = 2;
     this.parameter.total = 0;
     this.parameter.count_flag = 1;
-    this.route.params.subscribe( params => {
+    this.route.params.subscribe(params => {
       this.parameter.assignee_id = params.id;
     });
     this.getCountries();
@@ -277,16 +279,16 @@ export class CsrCloserComponent implements OnInit {
     } else if (this.parameter.assignee_id) {
       input.assignee_id = this.parameter.assignee_id;
     }
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('leads/csr-closer', input).subscribe(
-    success => {
-      this.parameter.loading = false;
-      this.items = success.data;
-      if (this.items.length <= 0) { this.parameter.noResultFound = true; }
-      this.parameter.total = success.total_count;
-    }, error => {
-      this.parameter.loading = false;
-    });
+      success => {
+        this.spinner.hide();
+        this.items = success.data;
+        if (this.items.length <= 0) { this.parameter.noResultFound = true; }
+        this.parameter.total = success.total_count;
+      }, error => {
+        this.spinner.hide();
+      });
   }
 
 
@@ -299,7 +301,7 @@ export class CsrCloserComponent implements OnInit {
     if (this.parameter.sort_by_flag !== sort_by_flag) {
       this.parameter.sort_by_flag = sort_by_flag;
       this.parameter.sort_by_order = 0;
-    }else {
+    } else {
       this.parameter.sort_by_order = this.parameter.sort_by_order ? 0 : 1;
     }
     this.getListing();
@@ -326,9 +328,9 @@ export class CsrCloserComponent implements OnInit {
       keyword: this.assign.keyword
     };
     this.admin.postDataApi('getCsrClosers', input).subscribe(
-    success => {
-      this.assign.items = success.data;
-    });
+      success => {
+        this.assign.items = success.data;
+      });
   }
 
   assignNow() {
@@ -342,9 +344,9 @@ export class CsrCloserComponent implements OnInit {
       this.closeAssignModel.nativeElement.click();
       this.getListing();
     },
-    error => {
-      this.closeAssignModel.nativeElement.click();
-      swal('Error', error.error.message, 'error');
-    });
+      error => {
+        this.closeAssignModel.nativeElement.click();
+        swal('Error', error.error.message, 'error');
+      });
   }
 }

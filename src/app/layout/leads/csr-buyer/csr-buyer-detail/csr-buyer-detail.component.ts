@@ -6,6 +6,7 @@ import { Constant } from './../../../../common/constants';
 import { FillInformation, AddAppointmentMultiple } from './../../../../models/leads.model';
 import { ChatTimePipe } from './../../../../pipes/chat-time.pipe';
 import * as moment from 'moment';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -30,7 +31,8 @@ export class CsrBuyerDetailComponent implements OnInit {
     public admin: AdminService,
     public constant: Constant,
     public fillInfo: FillInformation,
-    public appointment: AddAppointmentMultiple
+    public appointment: AddAppointmentMultiple,
+    private spinner: NgxSpinnerService
   ) {
     this.admin.loginData$.subscribe(success => {
       this.parameter.admin_id = success['id'];
@@ -41,9 +43,9 @@ export class CsrBuyerDetailComponent implements OnInit {
     this.parameter.sent_as = this.constant.userType.csr_buyer;
     this.route.params.subscribe( params => {
       this.parameter.lead_id = params.id;
-      this.parameter.loading = true;
+      this.spinner.show();
         this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.parameter.lead = r.data.lead;
           if (r.data.lead.appointments.length !== 0) {
             this.data = r.data.lead.appointments;
@@ -58,7 +60,7 @@ export class CsrBuyerDetailComponent implements OnInit {
           this.parameter.viewed_projects = r.data.viewed_projects;
           this.parameter.user_id = this.parameter.lead.user ? this.parameter.lead.user.id : 0;
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
     });
   }
@@ -165,7 +167,7 @@ console.log('-------------------', r.data.lead.prefs);
       swal('Error', 'Choose atleast one date.', 'error');
       return false;
     }
-    this.parameter.loading = true;
+    this.spinner.show();
     console.log('data', this.appointment);
     this.admin.postDataApi('leads/addAppointmentMultiple', this.appointment)
       .subscribe(
@@ -175,11 +177,11 @@ console.log('-------------------', r.data.lead.prefs);
           // this.app_date = this.appointment.appointment_date;
           // this.appointment.appointment_date =
           // new Date(moment(this.appointment.appointment_date).utc(true).local().format('YYYY-MM-DD, h:mm a'));
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.closeModal();
           swal('Success', 'Appointment scheduled successfully.', 'success');
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         }
       );
   }

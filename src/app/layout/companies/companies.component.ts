@@ -5,6 +5,7 @@ import { IProperty } from 'src/app/common/property';
 import { Constant } from 'src/app/common/constants';
 import { AdminService } from 'src/app/services/admin.service';
 import { Users } from 'src/app/models/users.model';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -19,7 +20,9 @@ export class CompaniesComponent implements OnInit {
   model: Company;
   items: Array<Company>;
   label: string;
-  constructor(public constant: Constant, public admin: AdminService, private router: Router) { }
+  constructor(public constant: Constant, public admin: AdminService,
+    private spinner: NgxSpinnerService,
+    private router: Router) { }
 
   ngOnInit() {
     this.label = 'Choose Companies File';
@@ -54,15 +57,15 @@ export class CompaniesComponent implements OnInit {
 
   getTowerManagerCompany() {
     this.model.page = this.parameter.page;
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('getTowerManagerCompany', this.model)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.items = success.data;
           this.parameter.total = success.total;
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 
@@ -153,19 +156,19 @@ export class CompaniesComponent implements OnInit {
         swal('Error', 'File size is more than 25MB.', 'error');
         return false;
       }
-    this.parameter.loading = true;
+    this.spinner.show();
     const input = new FormData();
     input.append('attachment', attachment);
     this.admin.postDataApi('importTowerManagerCompany', input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.fileInput.nativeElement.value = '';
           this.label = 'Choose Companies File';
           swal('Success', 'Imported successfully.', 'success');
           this.getTowerManagerCompany();
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
     } else {
       swal('Error', 'Please choose file', 'error');

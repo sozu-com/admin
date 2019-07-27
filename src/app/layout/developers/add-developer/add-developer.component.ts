@@ -9,7 +9,7 @@ import { NgForm } from '@angular/forms';
 import { Users } from 'src/app/models/users.model';
 import { MapsAPILoader } from '@agm/core';
 import { FileUpload } from 'src/app/common/fileUpload';
-import { Developer } from 'src/app/models/global.model';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare const google;
 declare let swal: any;
 
@@ -38,7 +38,8 @@ export class AddDeveloperComponent implements OnInit {
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
     private admin: AdminService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -64,17 +65,17 @@ export class AddDeveloperComponent implements OnInit {
   }
 
   getUserById(id: string) {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('getUserById', {'user_id': id})
     .subscribe(
       success => {
-        this.parameter.loading = false;
+        this.spinner.hide();
         this.model = success.data;
         this.image = this.model.image;
         this.developer_image = this.model.developer_image;
         console.log('==', this.model);
       }, error => {
-        this.parameter.loading = false;
+        this.spinner.hide();
       });
   }
 
@@ -86,10 +87,10 @@ export class AddDeveloperComponent implements OnInit {
     const reader = new FileReader();
     reader.onload = (e: any) => {
       this[param] = e.target.result;
-      this.parameter.loading = true;
+      this.spinner.show();
       this.cs.saveImage(event.target.files[0]).subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.model[param] = success['data'].image;
         }
       );
@@ -113,11 +114,11 @@ export class AddDeveloperComponent implements OnInit {
     if (modelSave.images) {
       modelSave.images = modelSave.images.map(r => r.image);
     }
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('addDeveloper', modelSave)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           if (success.success === '0') {
             swal('Error', success.message, 'error');
             return;
@@ -130,7 +131,7 @@ export class AddDeveloperComponent implements OnInit {
             }
           }
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 

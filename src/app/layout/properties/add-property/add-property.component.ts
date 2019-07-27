@@ -12,6 +12,7 @@ import {AddPropertyModel, Building, PropertyDetails} from '../../../models/addPr
 import {HttpInterceptor} from '../../../services/http-interceptor';
 import {AddProjectModel, Towers, Configuration} from 'src/app/models/addProject.model';
 import {VideoUpload} from '../../../common/videoUpload';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 declare const google;
 declare let swal: any;
@@ -116,6 +117,7 @@ export class AddPropertyComponent implements OnInit {
               private ngZone: NgZone, private building: Building, public constant: Constant,
               private route: ActivatedRoute,
               private http: HttpInterceptor,
+              private spinner: NgxSpinnerService,
               private element: ElementRef) {
   }
 
@@ -216,15 +218,15 @@ export class AddPropertyComponent implements OnInit {
   }
 
   getPropertyById(property_id) {
-    this.parameter.loading = true;
+    this.spinner.show();
     const input = new FormData();
     input.append('property_id', property_id);
-    this.parameter.loading = true;
+    this.spinner.show();
     this.us.postDataApi('getPropertyById', input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
-          this.parameter.loading = false;
+          this.spinner.hide();
+          this.spinner.hide();
           this.parameter.propertyDetails = success['data'];
           console.log('getdata', success['data']);
           this.setModelData(success['data']);
@@ -247,7 +249,7 @@ export class AddPropertyComponent implements OnInit {
             this.parameter.items.push(element);
           });
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         }
       );
   }
@@ -264,7 +266,7 @@ export class AddPropertyComponent implements OnInit {
     this.us.postDataApi('getProjectByIdWithCSC', {building_id: this.building.id})
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.buildingData = success['data'];
           this.parameter.propertyDetails.images = this.buildingData.images;
           this.parameter.propertyDetails.amenities = this.buildingData.amenities;
@@ -313,7 +315,7 @@ export class AddPropertyComponent implements OnInit {
           this.parameter.propertyDetails.custom_values = this.buildingData.custom_values;
           this.tab = step + 1;
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         }
       );
   }
@@ -491,7 +493,7 @@ export class AddPropertyComponent implements OnInit {
   }
 
   getStates(country_id: any, keyword: string) {
-    // this.parameter.loading = true;
+    // this.spinner.show();
     this.model.country_id = country_id;
     this.model.state_id = '';
     this.model.city_id = '';
@@ -503,15 +505,15 @@ export class AddPropertyComponent implements OnInit {
 
     this.us.postDataApi('country/getStates', input).subscribe(success => {
         this.parameter.states = success['data'];
-        // this.parameter.loading = false;
+        // this.spinner.hide();
       },
       error => {
-        // this.parameter.loading = false;
+        // this.spinner.hide();
       });
   }
 
   getCities(state_id: any, keyword: string) {
-    // this.parameter.loading = true;
+    // this.spinner.show();
     this.model.state_id = state_id;
     this.model.city_id = '';
     this.model.locality_id = '';
@@ -521,10 +523,10 @@ export class AddPropertyComponent implements OnInit {
 
     this.us.postDataApi('getCities', input).subscribe(success => {
         this.parameter.cities = success['data'];
-        // this.parameter.loading = false;
+        // this.spinner.hide();
       },
       error => {
-        // this.parameter.loading = false;
+        // this.spinner.hide();
       });
   }
 
@@ -1110,13 +1112,13 @@ export class AddPropertyComponent implements OnInit {
         input.append('step', this.model.step.toString());
         input.append('custom_attributes', JSON.stringify(this.model.custom_attributes));
       }
-      this.parameter.loading = true;
+      this.spinner.show();
       this.us.postDataApi('addProperty', input)
         .subscribe(
           success => {
-            this.parameter.loading = false;
+            this.spinner.hide();
 
-            this.parameter.loading = false;
+            this.spinner.hide();
             if (this.model.step.toString() === '4') {
               swal({
                 html: 'Submitted successfully.' + '<br>' +
@@ -1133,7 +1135,7 @@ export class AddPropertyComponent implements OnInit {
             this.parameter.property_id = success['data'].id;
             this.tab = tab;
           }, error => {
-            this.parameter.loading = false;
+            this.spinner.hide();
           }
         );
     }
@@ -1185,11 +1187,11 @@ export class AddPropertyComponent implements OnInit {
     }
     input.append('building_id', this.building.id);
 
-    this.parameter.loading = true;
+    this.spinner.show();
     this.us.postDataApi('tagBuilding', input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           swal({
             html: 'Submitted successfully.' + '<br>' +
               'You will be notified once your property will be reviewed by Admin, you can view status in your properties.',
@@ -1199,7 +1201,7 @@ export class AddPropertyComponent implements OnInit {
             this.router.navigate(['/dashboard/properties/view-properties']);
           }
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         }
       );
   }
@@ -1257,7 +1259,7 @@ export class AddPropertyComponent implements OnInit {
 
   getGeoLocation(lat: number, lng: number) {
     if (navigator.geolocation) {
-      this.parameter.loading = true;
+      this.spinner.show();
       const geocoder = new google.maps.Geocoder();
       const latlng = new google.maps.LatLng(lat, lng);
       const request = {latLng: latlng};
@@ -1271,7 +1273,7 @@ export class AddPropertyComponent implements OnInit {
             this.building.address = lat + ',' + lng;
           }
         }
-        this.parameter.loading = false;
+        this.spinner.hide();
       });
     }
   }
@@ -1296,11 +1298,11 @@ export class AddPropertyComponent implements OnInit {
       swal('Error', 'Please select location', 'error');
       return false;
     }
-    this.parameter.loading = true;
+    this.spinner.show();
     this.us.postDataApi('buildingRequest', this.building)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           // swal('Submitted successfully.',
           //   'You will be notified once your property will be reviewed by them, you can view status in your properties.',
           //   'success');
@@ -1317,7 +1319,7 @@ export class AddPropertyComponent implements OnInit {
           });
           // this.tab = 1;
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         }
       );
   }

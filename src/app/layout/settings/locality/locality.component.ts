@@ -7,6 +7,7 @@ import { Constant } from './../../../common/constants';
 import { Locality } from './../../../models/locality.model';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 declare const google;
 
@@ -47,7 +48,8 @@ export class LocalityComponent implements OnInit {
     public admin: AdminService,
     private ngZone: NgZone,
     private constant: Constant,
-    public model: Locality
+    public model: Locality,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -57,7 +59,7 @@ export class LocalityComponent implements OnInit {
 
   getCountries(keyword) {
 
-    this.parameter.loading = true;
+    this.spinner.show();
     this.parameter.url = 'getCountries';
     const input = new FormData();
 
@@ -68,20 +70,20 @@ export class LocalityComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.parameter.countries = success.data;
           if (this.parameter.countries.length !== 0) {
             this.parameter.country_id = this.parameter.countries[0].id;
             this.getStates(this.parameter.countries[0].id, '');
           }
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         }
       );
   }
 
   getStates(country_id, keyword) {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.parameter.url = 'country/getStates';
     this.parameter.country_id = country_id;
 
@@ -96,7 +98,7 @@ export class LocalityComponent implements OnInit {
       .subscribe(
         success => {
           // console.log('states', success);
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.parameter.states = success.data;
           if (this.parameter.states.length) {
             this.parameter.state_id = this.parameter.states[0].id;
@@ -110,13 +112,13 @@ export class LocalityComponent implements OnInit {
             this.init();
           }
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 
   getCities(state_id, keyword) {
     // console.log('mm', state_id, keyword);
-    this.parameter.loading = true;
+    this.spinner.show();
     this.parameter.url = 'getCities';
     this.parameter.state_id = state_id;
 
@@ -131,7 +133,7 @@ export class LocalityComponent implements OnInit {
       .subscribe(
         success => {
           // console.log('cities', success);
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.parameter.cities = success.data;
           if (this.parameter.cities.length) {
             this.parameter.city_id = this.parameter.cities[0].id;
@@ -146,7 +148,7 @@ export class LocalityComponent implements OnInit {
             this.init();
           }
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 
@@ -157,7 +159,7 @@ export class LocalityComponent implements OnInit {
 
   getLocalities(city_id, keyword = '') {
     // console.log('mm', city_id, keyword);
-    this.parameter.loading = true;
+    this.spinner.show();
     this.parameter.url = 'getLocalities';
     this.parameter.city_id = city_id;
 
@@ -172,7 +174,7 @@ export class LocalityComponent implements OnInit {
       .subscribe(
         success => {
           // console.log('Localities', success);
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.parameter.localities = success.data;
           this.all_overlays = this.parameter.localities;
           this.parameter.localityCount = success.data.length;
@@ -183,7 +185,7 @@ export class LocalityComponent implements OnInit {
           }
           this.init();
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 
@@ -606,7 +608,7 @@ export class LocalityComponent implements OnInit {
     //     success => {
     //       console.log('-----', success);
     //     }, error => {
-    //       this.parameter.loading = false;
+    //       this.spinner.hide();
     //     });
 
     this.loader.load().then(() => {

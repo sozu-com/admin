@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IProperty } from '../../../common/property';
 import { AdminService } from './../../../services/admin.service';
 import * as moment from 'moment';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-notary',
@@ -19,7 +20,7 @@ export class NotaryComponent implements OnInit {
     domain: ['#4eb96f', '#4a85ff']
   };
 
-  constructor(public admin: AdminService) {
+  constructor(public admin: AdminService, private spinner: NgxSpinnerService) {
     // Object.assign(this, this.chartView);
   }
 
@@ -40,9 +41,9 @@ export class NotaryComponent implements OnInit {
     this.totalSignUpCount = 0; this.totalPropertyCount = 0;
     // const input = {start_date: this.parameter.min, end_date: this.parameter.max};
     const input = {start_date: moment(this.parameter.min).format('YYYY-MM-DD'), end_date: moment(this.parameter.max).format('YYYY-MM-DD')};
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('reports/noatary', input).subscribe(r => {
-      this.parameter.loading = false;
+      this.spinner.hide();
       this.parameter.items = r.data;
       const data = [];
       this.parameter.items.forEach(element => {
@@ -65,7 +66,7 @@ export class NotaryComponent implements OnInit {
       this.chartView = data;
       // Object.assign(this, this.chartView);
     }, error => {
-      this.parameter.loading = false;
+      this.spinner.hide();
     });
   }
 }

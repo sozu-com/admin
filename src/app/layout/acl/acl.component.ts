@@ -8,6 +8,7 @@ import { IProperty } from 'src/app/common/property';
 import { Constant } from 'src/app/common/constants';
 import { AdminService } from 'src/app/services/admin.service';
 import { CommonService } from 'src/app/services/common.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -28,6 +29,7 @@ export class AclComponent implements OnInit {
   constructor(public constant: Constant,
     public admin: AdminService, private cs: CommonService,
     public sanitization: DomSanitizer, private router: Router,
+    private spinner: NgxSpinnerService,
     private location: Location
   ) {
     const dd = this.cs.checkAccess('Broker Management', 'can_read');
@@ -72,15 +74,15 @@ export class AclComponent implements OnInit {
   }
 
   getAclUsers(page: any, name: string, phone: string, email: string) {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('getAclUsers', this.parameter)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.parameter.items = success.data;
           this.parameter.total = success.total;
         }, error =>  {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 

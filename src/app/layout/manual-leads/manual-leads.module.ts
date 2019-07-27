@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2TelInputModule } from 'ng2-tel-input';
@@ -11,6 +10,7 @@ import { ManualLeadDetailsComponent } from './manual-lead-details/manual-lead-de
 import { SharedModule } from '../../modules/shared.module';
 import { AclUserGuard } from '../../guards/acl-user.guard';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 const routes: Routes = [
   // { path: '', component: ManualLeadsComponent }
@@ -24,10 +24,7 @@ const routes: Routes = [
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
-    NgxLoadingModule.forRoot({
-      animationType: ngxLoadingAnimationTypes.rectangleBounce,
-      primaryColour: '#00B96F'
-    }),
+    NgxSpinnerModule,
     NgxPaginationModule,
     FormsModule,
     ReactiveFormsModule,

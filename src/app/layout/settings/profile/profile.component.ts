@@ -4,6 +4,7 @@ import { CommonService } from './../../../services/common.service';
 import { IProperty } from './../../../common/property';
 import { ACL } from './../../../models/acl.model';
 import { Constant } from './../../../common/constants';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -19,7 +20,7 @@ export class ProfileComponent implements OnInit {
   initialCountry: any;
   show = false;
   constructor(public constant: Constant, public model: ACL,
-    private admin: AdminService
+    private admin: AdminService, private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -33,11 +34,11 @@ export class ProfileComponent implements OnInit {
   }
 
   loginData(id) {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('loginData', {})
     .subscribe(
       success => {
-        this.parameter.loading = false;
+        this.spinner.hide();
         this.model = success.data;
         this.image = this.model.image;
         this.model.admin_acl = success.data.admin_acl;
@@ -59,7 +60,7 @@ export class ProfileComponent implements OnInit {
           console.log('model', this.model);
         }
       }, error => {
-        this.parameter.loading = false;
+        this.spinner.hide();
       });
   }
 

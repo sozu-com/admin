@@ -1,14 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-// import { AdminService } from '../../services/admin.service';
-// import { IProperty } from '../../common/property';
-// import { Bank } from './../../models/bank.model';
-// import { Constant } from './../../common/constants';
 import { NgForm } from '@angular/forms';
 import { CommonService } from 'src/app/services/common.service';
 import { Bank } from 'src/app/models/bank.model';
 import { IProperty } from 'src/app/common/property';
 import { Constant } from 'src/app/common/constants';
 import { AdminService } from 'src/app/services/admin.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -28,6 +25,7 @@ export class BanksComponent implements OnInit {
   items: Array<Bank>;
   constructor(public constant: Constant,
     public admin: AdminService,
+    private spinner: NgxSpinnerService,
     public cs: CommonService) { }
 
   ngOnInit() {
@@ -56,7 +54,7 @@ export class BanksComponent implements OnInit {
   }
 
   getBanks(page, name, phone, email) {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.parameter.page = page;
     this.parameter.name = name;
     this.parameter.phone = phone;
@@ -65,11 +63,11 @@ export class BanksComponent implements OnInit {
     this.admin.postDataApi('getBanksListing', this.parameter)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.items = success.data;
           this.parameter.total = success.total_count;
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 
@@ -101,11 +99,11 @@ export class BanksComponent implements OnInit {
       swal('Error', 'Uploading image.', 'error');
       return false;
     }
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('addBank', this.model)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           if (success.success === '0') {
             swal('Error', success.message, 'error');
           } else {
@@ -124,7 +122,7 @@ export class BanksComponent implements OnInit {
             this.model = new Bank();
           }
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 
@@ -168,15 +166,15 @@ export class BanksComponent implements OnInit {
 
   blockNoatary(index, id, flag) {
     this.parameter.index = index;
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('blockNoatary', {id: id, flag: flag})
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           swal('Success', this.parameter.successText, 'success');
           this.items[this.parameter.index] = success.data;
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 }

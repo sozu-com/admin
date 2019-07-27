@@ -4,6 +4,7 @@ import { IProperty } from '../../common/property';
 import { Users } from './../../models/users.model';
 import { NgForm } from '@angular/forms';
 import { Constant } from './../../common/constants';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -23,7 +24,8 @@ export class UsersComponent implements OnInit {
   public parameter: IProperty = {};
   initialCountry: any;
 
-  constructor(public constant: Constant, public model: Users, public admin: AdminService) { }
+  constructor(public constant: Constant, public model: Users, public admin: AdminService,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
@@ -62,15 +64,15 @@ export class UsersComponent implements OnInit {
     this.parameter.phone = phone;
     this.parameter.email = email;
     this.parameter.url = this.parameter.type === 1 ? 'getBuyers' : 'getSellers';
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi(this.parameter.url, this.parameter)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.parameter.items = success.data;
           this.parameter.total = success.total;
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 
@@ -113,11 +115,11 @@ export class UsersComponent implements OnInit {
     input.append('email', this.model.email);
     if (this.model.image) { input.append('image', this.model.image); }
     if (this.model.developer_image) { input.append('developer_image', this.model.developer_image); }
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.modalClose.nativeElement.click();
           const text = this.model.id ? 'Updated successfully.' : 'Added successfully.';
           swal('Success', text, 'success');
@@ -129,7 +131,7 @@ export class UsersComponent implements OnInit {
           }
           formdata.reset();
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 

@@ -5,6 +5,7 @@ import { Users } from './../../models/users.model';
 import { Constant } from './../../common/constants';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -18,7 +19,8 @@ export class DevelopersComponent implements OnInit {
   public parameter: IProperty = {};
   model: Users;
   items: Array<Users>;
-  constructor(public constant: Constant, public admin: AdminService, private router: Router) { }
+  constructor(public constant: Constant, public admin: AdminService, private router: Router,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.model = new Users();
@@ -40,15 +42,15 @@ export class DevelopersComponent implements OnInit {
 
   getDevelopersFrAdmin() {
     this.model.page = this.parameter.page;
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('getDevelopersFrAdmin', this.model)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.items = success.data;
           this.parameter.total = success.total;
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 

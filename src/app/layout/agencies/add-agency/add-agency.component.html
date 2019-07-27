@@ -1,4 +1,4 @@
-<ngx-loading [show]="parameter.loading"></ngx-loading>
+
 <div class="container-fluid">
 <div class="row">
     <div class="col-12">
@@ -105,7 +105,7 @@
             </div>
             <div class="col-12">
               <div class="form-group-2">
-                <label>Branch Office</label>
+                <label>Branch Office<span class="color-red">*</span></label>
                 <input placeholder="Search for branch office" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search1 (input)="loadPlaces('branch_office', 'branch_lat', 'branch_lng', 'search1ElementRef')" name="branch_office" [(ngModel)]="model.branch_office" autocomplete="off">
               </div>
             </div>

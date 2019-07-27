@@ -5,6 +5,7 @@ import { AdminService } from './../../../services/admin.service';
 import { Constant } from './../../../common/constants';
 import { EventEmitter } from 'events';
 import { NgForm } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -34,7 +35,8 @@ export class InterestedPropertyComponent implements OnInit {
   public location: IProperty = {};
   property_ids = [];
   public scrollbarOptions = { axis: 'y', theme: 'dark', scrollbarPosition: 'inside'};
-  constructor(public model: DealFinalize, public admin: AdminService, public constant: Constant) { }
+  constructor(public model: DealFinalize, public admin: AdminService, public constant: Constant,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
@@ -70,18 +72,18 @@ export class InterestedPropertyComponent implements OnInit {
       return false;
     }
     this.modalClose.nativeElement.click();
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('leads/attach-property', this.model)
       .subscribe(
         success => {
           formdata.reset();
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.is_deal_finalised = true;
           this.modalClose.nativeElement.click();
           swal('Success', 'Deal has been finalized successfully.', 'success');
           this.deal_finalised_success.emit('true');
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 
@@ -169,9 +171,9 @@ export class InterestedPropertyComponent implements OnInit {
 
   viewProperties(data, page) {
     // this.parameter.interested_properties = data;
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('leads/getLeadInterestedProperty', {lead_id: this.lead_id, page: page}).subscribe(r => {
-      this.parameter.loading = false;
+      this.spinner.hide();
       console.log('Country', r);
       this.parameter.interested_properties = r['data'];
       this.parameter.total2 = r.total;
@@ -180,7 +182,7 @@ export class InterestedPropertyComponent implements OnInit {
         this.showInterestedProperty.nativeElement.click();
       }
     }, error => {
-      this.parameter.loading = false;
+      this.spinner.hide();
     });
   }
 

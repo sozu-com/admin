@@ -6,6 +6,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Constant } from './../../../common/constants';
 import { Property } from './../../../models/property.model';
 import { NgForm } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -22,7 +23,8 @@ export class PropertyComponent implements OnInit {
   icon: any;
 
   constructor(private element: ElementRef, private constant: Constant, public property: Property,
-    private modalService: BsModalService, public admin: AdminService, private router: Router
+    private modalService: BsModalService, public admin: AdminService, private router: Router,
+    private spinner: NgxSpinnerService
   ) {
     this.parameter.index = -1;
     this.parameter.countryCount = 0;
@@ -80,11 +82,11 @@ export class PropertyComponent implements OnInit {
     input.append('status', status);
 
     if (id) { input.append('id', id); }
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           const text = id ?
             this.constant.successMsg.PROPERTY_CONFIG_UPDATED_SUCCESSFULLY :
             this.constant.successMsg.PROPERTY_CONFIG_ADDED_SUCCESSFULLY;
@@ -100,7 +102,7 @@ export class PropertyComponent implements OnInit {
           }
           this.parameter.index = -1;
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         }
       );
   }
@@ -114,11 +116,11 @@ export class PropertyComponent implements OnInit {
     input.append('status', status);
 
     if (id) { input.append('id', id); }
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           const text = id ?
             this.constant.successMsg.PROPERTY_TYPE_UPDATED_SUCCESSFULLY :
             this.constant.successMsg.PROPERTY_TYPE_ADDED_SUCCESSFULLY;
@@ -133,7 +135,7 @@ export class PropertyComponent implements OnInit {
           }
           this.parameter.index = -1;
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         }
       );
   }
@@ -151,11 +153,11 @@ export class PropertyComponent implements OnInit {
     if (this.icon) { input.append('icon', iconNew); }
 
     if (id) { input.append('id', id); }
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           const text = id ?
             this.constant.successMsg.AMENITY_UPDATED_SUCCESSFULLY :
             this.constant.successMsg.AMENITY_ADDED_SUCCESSFULLY;
@@ -171,59 +173,59 @@ export class PropertyComponent implements OnInit {
           }
           this.parameter.index = -1;
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         }
       );
   }
 
 
   getConfigurations() {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.parameter.url = 'getConfigurations';
     const input = new FormData();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.parameter.items = success.data;
           this.parameter.total = success.data.length;
         },
         error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         }
       );
   }
 
 
   getPropertyTypes() {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.parameter.url = 'getPropertyTypes';
     const input = new FormData();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.parameter.propertyTypes = success.data;
           this.parameter.propertyTypesCount = success.data.length;
         },
         error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         }
       );
   }
 
   getAmenities() {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.parameter.url = 'getPropertyAmenities';
     const input = new FormData();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.parameter.amenities = success.data;
           this.parameter.amenitiesCount = success.data.length;
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         }
       );
   }

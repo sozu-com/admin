@@ -7,6 +7,7 @@ import * as io from 'socket.io-client';
 import { Constant } from './../../../../common/constants';
 import { SelectedProperties, BankAssigned, NotaryAssigned } from './../../../../models/leads.model';
 import { Chat } from '../../../../models/chat.model';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -26,6 +27,7 @@ export class BankLeadDetailsComponent implements OnInit {
     public admin: AdminService,
     private cs: CommonService,
     public constant: Constant,
+    private spinner: NgxSpinnerService,
     public selectedProperties: SelectedProperties,
     public model: Chat
   ) {
@@ -38,16 +40,16 @@ export class BankLeadDetailsComponent implements OnInit {
     this.parameter.sent_as = this.constant.userType.bank;
     this.route.params.subscribe(params => {
       this.parameter.lead_id = params.id;
-      this.parameter.loading = true;
+      this.spinner.show();
       this.admin.postDataApi('leads/details', { lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as }).subscribe(r => {
         this.getDocumentOptions();
-        this.parameter.loading = false;
+        this.spinner.hide();
         this.parameter.lead = r.data.lead;
         this.selectedProperties = r.data.lead.selected_properties[0];
         // bank will chat with closer only
         this.parameter.user_id = this.parameter.lead.closer.id;
       }, error => {
-        this.parameter.loading = false;
+        this.spinner.hide();
       });
     });
   }
@@ -80,12 +82,12 @@ export class BankLeadDetailsComponent implements OnInit {
       property_id: this.selectedProperties.property_id,
       documents: documents_ids
     };
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('leads/updateDocumentChecklist', input).subscribe(r => {
-      this.parameter.loading = false;
+      this.spinner.hide();
       swal('Success', 'Successfully saved', 'success');
     }, error => {
-      this.parameter.loading = false;
+      this.spinner.hide();
     }
     );
   }
@@ -109,13 +111,13 @@ export class BankLeadDetailsComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.parameter.loading = true;
+        this.spinner.show();
         this.admin.postDataApi('leads/bank-mark-lead-closed', { lead_id: this.parameter.lead_id }).subscribe(r => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.parameter.lead.lead_status_bank = 1;
           swal('Success', 'Lead closed successfully.', 'success');
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
       }
     });

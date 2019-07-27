@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../../services/admin.service';
 import { IProperty } from '../../../common/property';
 import { Settings } from '../../../models/settings.model';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -14,7 +15,7 @@ export class DefaultSettingsComponent implements OnInit {
 
   public parameter: IProperty = {};
 
-  constructor(private admin: AdminService, public model: Settings) { }
+  constructor(private admin: AdminService, public model: Settings, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.getGlobalSetting();
@@ -28,24 +29,22 @@ export class DefaultSettingsComponent implements OnInit {
     this.admin.postDataApi('getGlobalSetting', {})
       .subscribe(
         success => {
-          this.parameter.loading = false;
           this.model = success.data;
         },
         error => {
-          this.parameter.loading = false;
         });
   }
 
   updateGlobalSetting() {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('updateGlobalSetting', this.model)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           swal('Success', 'Details updated successfully!', 'success');
         },
         error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 }

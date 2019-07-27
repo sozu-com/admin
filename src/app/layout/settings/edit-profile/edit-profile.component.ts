@@ -4,6 +4,7 @@ import { AdminService } from '../../../services/admin.service';
 // import { SweetAlertService } from 'ngx-sweetalert2';
 import { IProperty } from '../../../common/property';
 import { NgForm } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -21,7 +22,8 @@ export class EditProfileComponent implements OnInit {
     image: ''
   };
 
-  constructor(private element: ElementRef, private admin: AdminService) { }
+  constructor(private element: ElementRef, private admin: AdminService,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {}
 
@@ -55,15 +57,15 @@ export class EditProfileComponent implements OnInit {
     input.append('phone', formData.value.phone);
     // input.append("country_code", this.parameter.countryCode);
     input.append('image', this.parameter.image);
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.admin.login.next(success.data);
           swal('Success', success.message, 'success');
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         }
       );
   }

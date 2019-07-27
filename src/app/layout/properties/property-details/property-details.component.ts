@@ -3,6 +3,7 @@ import { AdminService } from './../../../services/admin.service';
 import { ActivatedRoute} from '@angular/router';
 import { IProperty } from './../../../common/property';
 import { Constant } from '../../../common/constants';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-property-details',
@@ -13,7 +14,9 @@ export class PropertyDetailsComponent implements OnInit {
 
   public parameter: IProperty = {};
   property: any;
-  constructor(public admin: AdminService, private route: ActivatedRoute, public constant: Constant) { }
+  constructor(public admin: AdminService, private route: ActivatedRoute,
+    private spinner: NgxSpinnerService,
+    public constant: Constant) { }
 
   ngOnInit() {
     this.route.params.subscribe( params => {
@@ -26,13 +29,13 @@ export class PropertyDetailsComponent implements OnInit {
   }
 
   getPropertyDetails(property_id) {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('getPropertyById', {property_id: property_id})
       .subscribe(success => {
-        this.parameter.loading = false;
+        this.spinner.hide();
         this.property = success.data;
       }, error => {
-        this.parameter.loading = false;
+        this.spinner.hide();
       });
   }
 }

@@ -7,6 +7,7 @@ import * as io from 'socket.io-client';
 import { Constant } from './../../../../common/constants';
 import { SelectedProperties, BankAssigned, NotaryAssigned, ScheduleMeeting } from './../../../../models/leads.model';
 import { Chat } from '../../../../models/chat.model';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -32,7 +33,8 @@ export class NotaryLeadsDetailsComponent implements OnInit {
     public constant: Constant,
     public selectedProperties: SelectedProperties,
     public model: Chat,
-    public scheduleMeeting: ScheduleMeeting
+    public scheduleMeeting: ScheduleMeeting,
+    private spinner: NgxSpinnerService
   ) {
     this.admin.loginData$.subscribe(success => {
       this.parameter.admin_id = success['id'];
@@ -47,9 +49,9 @@ export class NotaryLeadsDetailsComponent implements OnInit {
     this.parameter.sent_as = this.constant.userType.notary;
     this.route.params.subscribe( params => {
       this.parameter.lead_id = params.id;
-      this.parameter.loading = true;
+      this.spinner.show();
       this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
-        this.parameter.loading = false;
+        this.spinner.hide();
         // console.log('lead details', r);
         this.getDocumentOptions();
         this.parameter.lead = r.data.lead;
@@ -72,7 +74,7 @@ export class NotaryLeadsDetailsComponent implements OnInit {
         // notary will chat with closer
         this.parameter.user_id = this.parameter.lead.closer.id;
       }, error => {
-        this.parameter.loading = false;
+        this.spinner.hide();
       });
     });
   }
@@ -105,12 +107,12 @@ export class NotaryLeadsDetailsComponent implements OnInit {
       property_id: this.selectedProperties.property_id,
       documents: documents_ids
     };
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('leads/updateDocumentChecklist', input).subscribe(r => {
-      this.parameter.loading = false;
+      this.spinner.hide();
       swal('Success', 'Successfully saved', 'success');
     }, error => {
-      this.parameter.loading = false;
+      this.spinner.hide();
     }
   );
   }

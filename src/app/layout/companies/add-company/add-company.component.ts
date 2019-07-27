@@ -8,6 +8,7 @@ import { IProperty } from 'src/app/common/property';
 import { Constant } from 'src/app/common/constants';
 import { CommonService } from 'src/app/services/common.service';
 import { AdminService } from 'src/app/services/admin.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare const google: any;
 declare let swal: any;
 
@@ -33,7 +34,8 @@ export class AddCompanyComponent implements OnInit {
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
     private admin: AdminService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -51,16 +53,16 @@ export class AddCompanyComponent implements OnInit {
   }
 
   getTowerManagerCompanyById(id: number) {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('getTowerManagerCompanyById', {'id': id})
     .subscribe(
       success => {
-        this.parameter.loading = false;
+        this.spinner.hide();
         this.model = success.data;
         this.image = this.model.image;
         this.logo = this.model.logo;
       }, error => {
-        this.parameter.loading = false;
+        this.spinner.hide();
       });
   }
 
@@ -99,11 +101,11 @@ export class AddCompanyComponent implements OnInit {
       swal('Error', 'Uploading images.', 'error');
       return;
     }
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('addTowerManagerCompany', modelSave)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           if (success.success === '0') {
             swal('Error', success.message, 'error');
             return;
@@ -116,7 +118,7 @@ export class AddCompanyComponent implements OnInit {
             }
           }
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 

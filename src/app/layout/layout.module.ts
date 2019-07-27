@@ -13,7 +13,7 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { CalendarModule } from 'primeng/primeng';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 // importing shared components
 import { LayoutRoutingModule } from './layout-routing.module';
@@ -43,10 +43,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
         ReactiveFormsModule,
         ModalModule.forRoot(),
         NgxPaginationModule,
-        NgxLoadingModule.forRoot({
-          animationType: ngxLoadingAnimationTypes.rectangleBounce,
-          primaryColour: '#00B96F'
-        }),
+        NgxSpinnerModule,
         NgxMyDatePickerModule.forRoot(),
         MalihuScrollbarModule.forRoot(),
         AgmCoreModule.forRoot({

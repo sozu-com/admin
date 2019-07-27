@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { AgmCoreModule } from '@agm/core';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -43,10 +43,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxLoadingModule.forRoot({
-      animationType: ngxLoadingAnimationTypes.rectangleBounce,
-      primaryColour: '#00B96F'
-    }),
+    NgxSpinnerModule,
     AgmCoreModule.forRoot({
         apiKey: 'AIzaSyDykCJGMqHIwJluSmSiqKTJBVN2KauM_uQ',
         libraries: ['drawing', 'places']

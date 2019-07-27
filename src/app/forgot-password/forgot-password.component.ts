@@ -4,6 +4,7 @@ import { AdminService } from './../services/admin.service';
 import { NgForm } from '@angular/forms';
 import { IProperty } from './../common/property';
 import { Constant } from './../common/constants';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -19,7 +20,8 @@ export class ForgotPasswordComponent implements OnInit {
     email: ''
   };
   projectName: string;
-  constructor(public admin: AdminService, private router: Router, public constant: Constant) {
+  constructor(public admin: AdminService, private router: Router, public constant: Constant,
+    private spinner: NgxSpinnerService) {
     const token =  localStorage.getItem('token');
     if (token) {
       this.router.navigate(['dashboard/view-inhouse-users/data-collectors']);
@@ -31,13 +33,13 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   forgotPassword(formData: NgForm) {
-    this.parameter.loading = true;
+    this.spinner.show();
     const input = new FormData();
     input.append('email', formData.value.email);
     this.admin.postDataApi('forgotPassword', input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           swal('Success', success.message, 'success');
           formData.reset();
           this.router.navigate(['']);

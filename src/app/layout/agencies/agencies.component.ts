@@ -4,6 +4,7 @@ import { IProperty } from '../../common/property';
 import { Constant } from './../../common/constants';
 import { Router } from '@angular/router';
 import { Agency } from 'src/app/models/agency.model';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -18,7 +19,9 @@ export class AgenciesComponent implements OnInit {
   model: Agency;
   items: Array<Agency>;
   label: string;
-  constructor(public constant: Constant, public admin: AdminService, private router: Router) { }
+  constructor(public constant: Constant,
+    private spinner: NgxSpinnerService,
+    public admin: AdminService, private router: Router) { }
 
   ngOnInit() {
     this.label = 'Choose Agencies File';
@@ -53,15 +56,15 @@ export class AgenciesComponent implements OnInit {
 
   getAgencies() {
     this.model.page = this.parameter.page;
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('getAgencies', this.model)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.parameter.items = success.data;
           this.parameter.total = success.total_count;
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 
@@ -154,19 +157,19 @@ export class AgenciesComponent implements OnInit {
         swal('Error', 'File size is more than 25MB.', 'error');
         return false;
       }
-    this.parameter.loading = true;
+      this.spinner.show();
     const input = new FormData();
     input.append('attachment', attachment);
     this.admin.postDataApi('importAgency', input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.fileInput.nativeElement.value = '';
           this.label = 'Choose Agencies File';
           swal('Success', 'Imported successfully.', 'success');
           this.getAgencies();
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
     } else {
       swal('Error', 'Please choose file', 'error');

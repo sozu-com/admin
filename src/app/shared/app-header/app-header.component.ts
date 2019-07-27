@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Constant } from '../../common/constants';
 import { IProperty } from '../../common/property';
 import { MessagingService } from 'src/app/fire-base/messaging.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 // import { MessagingService } from '../../fire-base/messaging.service';
 
 declare let swal: any;
@@ -25,7 +26,8 @@ export class AppHeaderComponent {
   public scrollbarOptions = { axis: 'yx', theme: 'minimal-dark' };
 
   constructor(public admin: AdminService, private router: Router, private constant: Constant,
-    private messagingService: MessagingService
+    private messagingService: MessagingService,
+    private spinner: NgxSpinnerService
     ) {
     this.admin.loginData$.subscribe(success => {
       // console.log('success1', success);
@@ -91,9 +93,9 @@ console.log('msg_count', this.msg_count);
 
 
   logout() {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('logout', {}).subscribe(r => {
-      this.parameter.loading = false;
+      this.spinner.hide();
       if (r) {
         swal('Success', 'Logout successfully.', 'success');
         localStorage.removeItem('token');
@@ -106,7 +108,7 @@ console.log('msg_count', this.msg_count);
         this.router.navigate(['']);
       }
     }, error => {
-      this.parameter.loading = false;
+      this.spinner.hide();
     });
   }
 
