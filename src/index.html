@@ -39,8 +39,40 @@
   <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase-messaging.js"></script>
 
-<style>
+  <style>
+.lds-dual-ring {
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 46px;
+  height: 46px;
+  margin: 1px;
+  border-radius: 50%;
+  border: 5px solid #222;
+  border-color: #222 transparent #222 transparent;
+  /* border: 5px solid #fff;
+  border-color: #fff transparent #fff transparent; */
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 
+  </style>
+
+<!-- <style>
     .loading {
       position: absolute;
       top: 50%;
@@ -82,7 +114,7 @@
         transform: scale(1);
       }
     }
-  </style>
+  </style> -->
   
   <script>
     $(document).ready(function () {
@@ -108,12 +140,13 @@
 </head>
 <body>
   <app-root>
-    <div class="loading">
+      <div class="lds-dual-ring"></div>
+    <!-- <div class="loading">
       <div class="loading-bar"></div>
       <div class="loading-bar"></div>
       <div class="loading-bar"></div>
       <div class="loading-bar"></div>
-    </div>
+    </div> -->
   </app-root>
 </body>
 </html>

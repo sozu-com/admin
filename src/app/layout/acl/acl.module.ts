@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2TelInputModule } from 'ng2-tel-input';
@@ -25,6 +26,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     CommonModule,
     NgxSpinnerModule,
+    LazyLoadImageModule,
     NgxPaginationModule,
     FormsModule,
     ReactiveFormsModule,

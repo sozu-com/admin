@@ -271,10 +271,11 @@
                           <th style="width:10%">
                             <div class="table-search">
                               <label>Possesion</label>
-                              <div class="searh-3">
-                                <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="getListing()" >
-                                <button *ngIf="parameter.email" (click)="getListing()"><i class="fa fa-search"></i></button>
-                              </div>
+                              <select [(ngModel)]="parameter.possession_filter" (change)="getListing()">
+                                <option value="0">All</option>
+                                <option value="{{apiConstant.possessionStatus.sale}}">Sale</option>
+                                <option value="{{apiConstant.possessionStatus.preSale}}">Presale</option>
+                              </select>
                             </div>
                           </th>
                           <th style="vertical-align:top;width:5%">

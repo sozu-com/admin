@@ -27,7 +27,7 @@ export class Company {
 }
 
 export class Manager {
-    id: string;
+    id: number;
     company?: Company;
     name: string;
     country_code: string;

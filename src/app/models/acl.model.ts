@@ -5,6 +5,7 @@ export class ACL {
     dial_code: string;
     phone: string;
     image: string;
+    img_loader: boolean;
     email: string;
     admin_acl: Array<Permission> = [];
     address: Array<NewAddress>;

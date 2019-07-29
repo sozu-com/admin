@@ -44,6 +44,7 @@ export class ProjectsComponent implements OnInit {
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.parameter.dash_flag = 2;
+    this.parameter.possession_filter = 0; // 0-all, 9-presale, 8-sale
     this.getCountries();
     this.getPropertyConfigurations();
     this.getListing();
@@ -84,51 +85,6 @@ export class ProjectsComponent implements OnInit {
       this.configurations = r['data'];
     });
   }
-
-  // onCountryChange(id) {
-  //   this.location.cities = []; this.parameter.city_id = '0';
-  //   this.location.localities = []; this.parameter.locality_id = '0';
-  //   if (!id || id === 0) {
-  //     this.parameter.state_id = '0';
-  //     return false;
-  //   }
-
-  //   this.parameter.country_id = id;
-  //   const selectedCountry = this.location.countries.filter(x => x.id == id);
-  //   this.location.states = selectedCountry[0].states;
-  // }
-
-  // onStateChange(id) {
-  //   this.location.localities = []; this.parameter.locality_id = '0';
-  //   if (!id || id === 0) {
-  //     this.parameter.city_id = '0';
-  //     return false;
-  //   }
-
-  //   this.parameter.state_id = id;
-  //   const selectedState = this.location.states.filter(x => x.id == id);
-  //   this.location.cities = selectedState[0].cities;
-  // }
-
-  // onCityChange(id) {
-  //   if (!id || id == 0) {
-  //     this.parameter.locality_id = '0';
-  //     return false;
-  //   }
-
-  //   this.parameter.city_id = id;
-  //   const selectedCountry = this.location.cities.filter(x => x.id == id);
-  //   this.location.localities = selectedCountry[0].localities;
-  // }
-
-  // onLocalityChange(id) {
-  //   if (!id || id == 0) {
-  //     return false;
-  //   }
-  //   this.parameter.locality_id = id;
-  //   // let selectedLocation = this.location.localities.filter(x=>x.id == id);
-  //   // this.location.locality = selectedLocation[0];
-  // }
 
   onCountryChange(id) {
     this.parameter.country_id = id;

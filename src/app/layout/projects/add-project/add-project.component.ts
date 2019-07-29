@@ -11,6 +11,8 @@ import {VideoUpload} from './../../../common/videoUpload';
 import {CommonService} from 'src/app/services/common.service';
 import {ApiConstants} from 'src/app/common/api-constants';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Manager, Company } from 'src/app/models/company.model';
+import { Developer } from 'src/app/models/global.model';
 
 declare const google;
 declare let swal: any;
@@ -43,6 +45,10 @@ export class AddProjectComponent implements OnInit {
 
   @ViewChild('openDeveloperListModel') openDeveloperListModel: ElementRef;
   @ViewChild('closeDeveloperListModel') closeDeveloperListModel: ElementRef;
+
+  @ViewChild('openManagedByModel') openManagedByModel: ElementRef;
+  @ViewChild('closeManagedByModel') closeManagedByModel: ElementRef;
+
   @ViewChild('towerEditAmenitiesModal') towerEditAmenitiesModal: ElementRef;
   myform: FormGroup;
   myform2: FormGroup;
@@ -68,7 +74,9 @@ export class AddProjectComponent implements OnInit {
   all_building_types: any = [];
   all_amenities: any = [];
   all_configurations: any = [];
-  all_developers: any = [];
+  all_developers: Array<Developer>;
+  all_managers: Array<Manager>;
+  all_companies: Array<Company>;
   amenity_index: number;
   amenity_obj: any;
   selected_amenities: any = [];
@@ -170,6 +178,8 @@ export class AddProjectComponent implements OnInit {
         this.admin.postDataApi('getProjectById', {building_id: this.id}).subscribe(r => {
           this.spinner.hide();
           this.model = JSON.parse(JSON.stringify(r.data));
+          this.model.manager = r.data.manager ? r.data.manager : new Manager();
+          this.model.company = r.data.company ? r.data.company : new Company();
           // this.model.videos = this.model.videos && this.model.videos.length > 0 ? JSON.parse(this.model.videos) : [];
           if (r.data['locality']) {
             this.setCountryToLocality(r.data['locality']);
@@ -264,6 +274,8 @@ export class AddProjectComponent implements OnInit {
         this.admin.postDataApi('getBuildingRequest', {building_request_id: params.request_id}).subscribe(r => {
           this.spinner.hide();
           this.model = JSON.parse(JSON.stringify(r.data));
+          this.model.manager = r.data.manager ? r.data.manager : new Manager();
+          this.model.company = r.data.company ? r.data.company : new Company();
           if (r.data['locality']) {
             this.setCountryToLocality(r.data['locality']);
           }
@@ -1315,6 +1327,8 @@ export class AddProjectComponent implements OnInit {
     if (this.id) {
       modelSave.building_id = this.id;
       modelSave.developer_id = modelSave.developer.id;
+      modelSave.manager_id = modelSave.manager && modelSave.manager.id ? modelSave.manager.id : null;
+      modelSave.company_id = modelSave.company && modelSave.company.id ? modelSave.company.id : null;
       this.spinner.show();
       this.admin.postDataApi('updateProject', modelSave).subscribe(success => {
         this.spinner.hide();
@@ -1476,7 +1490,7 @@ export class AddProjectComponent implements OnInit {
 
   selectDeveloper(name: string, type: number) {
     this.spinner.show();
-    this.admin.postDataApi('getDevelopersFrAdmin', {name: name}).subscribe(r => {
+    this.admin.postDataApi('getUnblockedDevelopers', {name: name}).subscribe(r => {
       this.spinner.hide();
       this.all_developers = r.data;
       if (type !== 2) {
@@ -1816,7 +1830,8 @@ export class AddProjectComponent implements OnInit {
     setTimeout(async () => {
       this.amenVideo.files.forEach(async (item, index) => {
         if (!item.id) {
-          if (!this.amenVideo.files[index]['fileToUpload'] && !this.amenVideo.files[index]['thumb']) {                 //check file if not then loader will show
+          if (!this.amenVideo.files[index]['fileToUpload'] &&
+          !this.amenVideo.files[index]['thumb']) {          // check file if not then loader will show
             this.amenVideo.files[index].loading = true;
           }
 
@@ -1892,5 +1907,62 @@ export class AddProjectComponent implements OnInit {
     });
   }
 
+  removeManagerCompany() {
+    this.model.manager = new Manager();
+    this.model.company = new Company();
+  }
 
+  selectManagedBy(name: string, type: number, managedBy: number) {
+    this.parameter.managedBy = managedBy;
+    if (managedBy === 1) {
+      if (this.model.company && this.model.company.id) {
+        swal('Company is linked to this project', 'Please remove Company to link Manager.', 'error');
+      }
+    }
+    if (managedBy === 2) {
+      if (this.model.manager && this.model.manager.id) {
+        swal('Manager is linked to this project', 'Please remove Manager to link Company.', 'error');
+      }
+    }
+    this.spinner.show();
+    this.admin.postDataApi(managedBy === 1 ? 'getUnBlockedTowerManager' : 'getUnBlockedTowerManagerCompany',
+      {name: name}).subscribe(r => {
+      this.spinner.hide();
+      this.all_managers = r.data;
+      this.name = '';
+      if (type !== 2) {
+        this.openManagedByModel.nativeElement.click();
+      }
+    });
+  }
+
+  setManagedBy(item: any) {
+    this.canEditdeveloperInfo = false;
+    // this.model.developer = {
+    //   id: '', name: '', email: '',
+    //   country_code: this.constant.country_code,
+    //   dial_code: this.constant.dial_code,
+    //   phone: '', logo: '', image: '', developer_image: '',
+    //   developer_company: '', developer_desc: ''
+    // };
+    // this.model.developer.id = item.id;
+    if (this.parameter.managedBy === 1) {
+      this.model.manager = item;
+      this.model.manager_id = item.id;
+    } else {
+      this.model.company = item;
+      this.model.company_id = item.id;
+    }
+    // this.model.developer.name = item.name;
+    // this.model.developer.email = item.email;
+    // this.model.developer.phone = item.phone;
+    // this.model.developer.dial_code = item.dial_code;
+    // this.model.developer.country_code = item.country_code;
+    // this.model.developer.logo = item.image;
+    // this.model.developer.developer_company = item.developer_company;
+    // this.model.developer.developer_desc = item.developer_desc;
+    // this.file5.image = item.image;
+    // this.file6.image = item.developer_image;
+    this.closeManagedByModel.nativeElement.click();
+  }
 }

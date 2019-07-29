@@ -1,4 +1,5 @@
 import {City} from './location.model';
+import { Manager, Company } from './company.model';
 
 export class CarpetAreas {
   carpet_areas: Array<object> = [
@@ -78,6 +79,10 @@ export class AddProjectModel {
   building_tower_edit_index: any;
   videoLoader: boolean;
   locality: LocalityToCountry;
+  manager?: Manager;
+  manager_id: number;
+  company?: Company;
+  company_id: number;
 }
 
 

@@ -143,7 +143,7 @@ export class ManagersComponent implements OnInit {
       return false;
     }
     const input = new FormData();
-    if (this.model.id) { input.append('id', this.model.id); }
+    if (this.model.id) { input.append('id', this.model.id.toString()); }
 
     input.append('name', this.model.name);
     input.append('country_code', this.model.country_code ? this.model.country_code : this.constant.dial_code);

@@ -21,12 +21,15 @@ export class AddAclComponent implements OnInit {
   initialCountry: any;
   show = false;
   image: any;
-  constructor(public constant: Constant, public model: ACL, private cs: CommonService,
+  model: ACL;
+  constructor(public constant: Constant, private cs: CommonService,
     private admin: AdminService, private route: ActivatedRoute,
     private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
+    this.model = new ACL();
+    this.model.img_loader = false;
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
@@ -62,32 +65,36 @@ export class AddAclComponent implements OnInit {
     this.show = true;
   }
 
-  // changeListner(event) {
-  //   this.parameter.image = event.target.files[0];
-  //   this.parameter.icon = this.parameter.image;
-  //   const reader = new FileReader();
-  //   reader.onload = (e: any) => {
-  //       // this.url = e.target.result;
-  //   };
-  //   reader.readAsDataURL(event.target.files[0]);
-  // }
-
-  changeListner(event) {
-    // this.model.image = event.target.files[0];
+  changeListner(event: any, paramLoader: string, param: any) {
+    this.model[paramLoader] = true;
     const reader = new FileReader();
     reader.onload = (e: any) => {
-      this.image = e.target.result;
-      this.spinner.show();
+      this.model[param] = e.target.result;
       this.cs.saveImage(event.target.files[0]).subscribe(
         success => {
-          this.spinner.hide();
-          this.model.image = success['data'].image;
+          this.model[paramLoader] = false;
+          this.model[param] = success['data'].image;
         }
       );
     };
     reader.readAsDataURL(event.target.files[0]);
-    console.log(this.model);
   }
+  // changeListner(event) {
+  //   // this.model.image = event.target.files[0];
+  //   const reader = new FileReader();
+  //   reader.onload = (e: any) => {
+  //     this.image = e.target.result;
+  //     this.spinner.show();
+  //     this.cs.saveImage(event.target.files[0]).subscribe(
+  //       success => {
+  //         this.spinner.hide();
+  //         this.model.image = success['data'].image;
+  //       }
+  //     );
+  //   };
+  //   reader.readAsDataURL(event.target.files[0]);
+  //   console.log(this.model);
+  // }
 
   onCountryChange(e) {
     this.model.country_code = e.iso2;
@@ -136,6 +143,10 @@ export class AddAclComponent implements OnInit {
 
 
   add(formData: NgForm) {
+    if (this.model.img_loader) {
+      swal('Error', 'Uploading image.', 'error');
+      return;
+    }
     this.spinner.show();
     this.admin.postDataApi('addAclUser', this.model)
       .subscribe(
@@ -147,6 +158,7 @@ export class AddAclComponent implements OnInit {
             const text = this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
             swal('Success', text, 'success');
             if (this.model.id === '') {
+              this.model.image = '';
               formData.reset();
             }
           }

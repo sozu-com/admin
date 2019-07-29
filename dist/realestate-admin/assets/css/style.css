@@ -94,6 +94,7 @@ p.p11 { color: #434B52; font-size: 11px; line-height: 18px; }
 .bdr-right{
 border-right:solid 1px #EDEDED; 
 }
+.black-overlay {position: fixed !important;}
 ol, ul{list-style-type:none; padding:0; margin:0;   }
 header {
 width: 100%;

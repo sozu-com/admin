@@ -155,4 +155,6 @@ export interface IProperty {
   total2?: any;
   developer_company?: string;
   tower_name?: string;
+  managedBy?: number;
+  possession_filter?: number;
 }

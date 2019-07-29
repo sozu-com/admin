@@ -683,7 +683,7 @@
 
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
-                    <label>Name</label>
+                    <label>Developer Name</label>
                     <input autocomplete="off" [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.developer.name" class="form-control" type="text" name="developer_name" placeholder="Developer Name">
                   </div>
                 </div>
@@ -739,13 +739,132 @@
                 </div>
               </div>
 
-              <div class="col-12">
-                <div class="btn-cont text-right">
-                  <button [disabled]="!f.valid" (click)="addProject()" class="btn-primary btn">Submit</button>
+              <!-- End of Developer Info Section -->
+
+
+              <!-- Managed By Section -->
+              <div class="row">
+                <div class="col-12">
+                  <div class="page-title paddingL0 paddingR0">
+                    <h3>Managed By {{model?.manager?.id ? '(Manager)' : ''}} {{model?.company?.id ? '(Campany)' : ''}}
+                      <span class="tower pull-right" *ngIf="model?.manager?.id || model?.company?.id" (click)="removeManagerCompany('', 1)">Remove</span>
+                    </h3>
+                  </div>
                 </div>
               </div>
 
-            <!-- End of Developer Info Section -->
+              <div *ngIf="!model?.manager?.id && !model?.company?.id" class="row">
+                <div class="col-12">
+                  <ul class="loc-tags-group">
+                    <li class="width100">
+                      <span class="width100 amen-img">Manager
+                        <a class="pull-right" title="Select Manager" (click)="selectManagedBy('', 1, 1)">
+                          <img src="assets/img/add.png" /></a>
+                      </span>
+                    </li>
+                    <li class="width100">
+                      <span class="width100 amen-img">Company
+                        <a class="pull-right" title="Select Company" (click)="selectManagedBy('', 1, 2)"><img src="assets/img/add.png" /></a>
+                      </span>
+                    </li>
+                  </ul>
+              </div>
+
+              <div class="col-12" *ngIf="!model?.manager?.id || !model?.manager?.id">
+                <label class="width100 cust-check-bx2">
+                    Note: You can add one from above either
+                    Manager or Company to manage the things.
+                    But you can change at anytime.
+                </label>
+              </div>
+              </div>
+  
+
+              <div class="row" *ngIf="model?.manager?.id">
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>Manager Name</label>
+                    <input autocomplete="off" [disabled]="true" [(ngModel)]="model.manager.name" class="form-control" type="text" name="developer_name">
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>Phone Number</label>
+                    <input autocomplete="off" [disabled]="true" type="text" class="form-control" id="phone" placeholder="Phone Number" minlength="1" [(ngModel)]="model.manager.phone" name="phone" ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)"/>
+                  </div>
+                </div>
+                <div class="col-md-12 col-sm-12 col-12">
+                  <div class="form-group-3">
+                    <label>Email</label>
+                    <input autocomplete="off" [disabled]="true" [(ngModel)]="model.manager.email" class="form-control" type="email" name="developer_email" placeholder="Manager Email" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group-3">
+                    <label>Logo</label>
+                    <div class="add-project-img-more">
+                      <img class="img-fluid" onerror="this.src='assets/img/placeholder.png'" [src]="manager?.image">
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="col-6">
+                  <div class="form-group-3">
+                    <label>Cover Image</label>
+                    <div class="add-project-img-more">
+                        <img class="img-fluid" onerror="this.src='assets/img/placeholder.png'" [src]="manager?.image">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row" *ngIf="model?.company?.id">
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>Company Name</label>
+                    <input autocomplete="off" [disabled]="true" [(ngModel)]="model.company.name" class="form-control" type="text" name="developer_name">
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>Phone Number</label>
+                    <input autocomplete="off" [disabled]="true" type="text" class="form-control" id="phone" placeholder="Phone Number" minlength="1" [(ngModel)]="model.company.phone" name="phone" ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)"/>
+                  </div>
+                </div>
+                <div class="col-md-12 col-sm-12 col-12">
+                  <div class="form-group-3">
+                    <label>Email</label>
+                    <input autocomplete="off" [disabled]="true" [(ngModel)]="model.company.email" class="form-control" type="email" name="developer_email" placeholder="Manager Email" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group-3">
+                    <label>Logo</label>
+                    <div class="add-project-img-more">
+                      <img class="img-fluid" onerror="this.src='assets/img/placeholder.png'" [src]="company?.image">
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="col-6">
+                  <div class="form-group-3">
+                    <label>Cover Image</label>
+                    <div class="add-project-img-more">
+                        <img class="img-fluid" onerror="this.src='assets/img/placeholder.png'" [src]="company?.image">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- End of Managed By Section -->
+  
+              <div class="row">
+                <div class="col-12">
+                  <div class="btn-cont text-right">
+                    <button [disabled]="!f.valid" (click)="addProject()" class="btn-primary btn">Submit</button>
+                  </div>
+                </div>
+              </div>
 
           </div>
         </div>
@@ -1192,6 +1311,54 @@
                 </tr>
                 <tr *ngIf="all_developers?.length<1">
                     <p class="show-not-found">No developer found.</p>
+                </tr>
+            </table>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<a #openManagedByModel class="btn-third btn btn-block" data-target="#managed-by-list" data-toggle="modal"></a>
+<div class="modal" id="managed-by-list">
+  <div class="modal-dialog">
+    <div class="modal-content notary-avail">
+        <div class="modal-header popup-header">
+        <h4 class="modal-title">Select {{parameter.managedBy == 1 ? 'Manager' : 'Company'}}</h4>
+        <button type="button" class="close" data-dismiss="modal" #closeManagedByModel>&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-8 col-6">
+                    <input style="max-width:200px" [(ngModel)]="name" class="form-control" type="text" name="keyword" placeholder="Search">
+                </div>
+                <div class="col-md-4 col-5 btn-cont">
+                  <a class="btn btn-primary pull-right" href="javascript://" (click)="selectManagedBy(name, 2, parameter.managedBy)">Search</a>
+              </div>
+            </div>
+            <div class="spacer40"></div>
+            <div class="modal-data">
+              <table class="table">
+                <tr *ngFor="let item of all_managers">
+                    <td *ngIf="item.is_blocked!=1">
+                        <div class="n-avail-profile">
+                        <img [src]="item.image| img:'thumb'" onerror='src="assets/img/default_img.png"' alt="img">
+                        <div class="n-avail-info">
+                            <p class="p12">{{item.name}}</p>
+                            <p class="p10">Phone : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
+                        </div>
+                        </div>
+                    </td>
+                    <td *ngIf="item.is_blocked!=1">
+                        <label class="cust-check-bx float-right">
+                            <input type="radio" name="id" (click)="setManagedBy(item)">
+                            <span class="checkmark"></span>
+                        </label>
+                    </td>
+                </tr>
+                <tr *ngIf="all_managers?.length<1">
+                    <p class="show-not-found">No {{parameter.managedBy == 1 ? 'manager' : 'company'}} added in database.</p>
                 </tr>
             </table>
             </div>
