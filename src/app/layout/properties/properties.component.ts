@@ -34,6 +34,8 @@ export class PropertiesComponent implements OnInit {
   property: any;
   reason: string;
   item: any;
+  public scrollbarOptions = { axis: 'y', theme: 'dark'};
+
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('rejectModalOpen') rejectModalOpen: ElementRef;
@@ -45,6 +47,7 @@ export class PropertiesComponent implements OnInit {
   @ViewChild('closeLinkSellerModal') closeLinkSellerModal: ElementRef;
   @ViewChild('linkExtBrokerModal') linkExtBrokerModal: ElementRef;
   @ViewChild('closeExtBrokerModal') closeExtBrokerModal: ElementRef;
+
   constructor(
     public constant: Constant,
     public admin: AdminService,

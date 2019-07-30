@@ -758,20 +758,25 @@
                   <ul class="loc-tags-group">
                     <li class="width100">
                       <span class="width100 amen-img">Manager
-                        <a class="pull-right" title="Select Manager" (click)="selectManagedBy('', 1, 1)">
-                          <img src="assets/img/add.png" /></a>
+                        <a class="pull-right cursor-pointer" title="Select Manager" (click)="selectManagedBy('', 1, 1)">
+                          <!-- <img src="assets/img/add.png" /> -->
+                          Add
+                        </a>
                       </span>
                     </li>
                     <li class="width100">
                       <span class="width100 amen-img">Company
-                        <a class="pull-right" title="Select Company" (click)="selectManagedBy('', 1, 2)"><img src="assets/img/add.png" /></a>
+                        <a class="pull-right cursor-pointer" title="Select Company" (click)="selectManagedBy('', 1, 2)">
+                          <!-- <img src="assets/img/add.png" /> -->
+                          Add
+                        </a>
                       </span>
                     </li>
                   </ul>
               </div>
 
-              <div class="col-12" *ngIf="!model?.manager?.id || !model?.manager?.id">
-                <label class="width100 cust-check-bx2">
+              <div class="col-12" *ngIf="!model?.manager?.id || !model?.company?.id">
+                <label class="width100 cust-check-bx2 marginB15">
                     Note: You can add one from above either
                     Manager or Company to manage the things.
                     But you can change at anytime.
@@ -803,7 +808,7 @@
                   <div class="form-group-3">
                     <label>Logo</label>
                     <div class="add-project-img-more">
-                      <img class="img-fluid" onerror="this.src='assets/img/placeholder.png'" [src]="manager?.image">
+                      <img class="img-fluid" onerror="this.src='assets/img/placeholder.png'" [src]="model?.manager?.image">
                     </div>
                   </div>
                 </div>
@@ -812,7 +817,7 @@
                   <div class="form-group-3">
                     <label>Cover Image</label>
                     <div class="add-project-img-more">
-                        <img class="img-fluid" onerror="this.src='assets/img/placeholder.png'" [src]="manager?.image">
+                        <img class="img-fluid" onerror="this.src='assets/img/placeholder.png'" [src]="model?.manager?.logo">
                     </div>
                   </div>
                 </div>
@@ -834,14 +839,14 @@
                 <div class="col-md-12 col-sm-12 col-12">
                   <div class="form-group-3">
                     <label>Email</label>
-                    <input autocomplete="off" [disabled]="true" [(ngModel)]="model.company.email" class="form-control" type="email" name="developer_email" placeholder="Manager Email" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
+                    <input autocomplete="off" [disabled]="true" [(ngModel)]="model.company.email" class="form-control" type="email" name="developer_email" placeholder="Company Email" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group-3">
                     <label>Logo</label>
                     <div class="add-project-img-more">
-                      <img class="img-fluid" onerror="this.src='assets/img/placeholder.png'" [src]="company?.image">
+                      <img class="img-fluid" onerror="this.src='assets/img/placeholder.png'" [src]="model?.company?.image">
                     </div>
                   </div>
                 </div>
@@ -850,7 +855,7 @@
                   <div class="form-group-3">
                     <label>Cover Image</label>
                     <div class="add-project-img-more">
-                        <img class="img-fluid" onerror="this.src='assets/img/placeholder.png'" [src]="company?.image">
+                        <img class="img-fluid" onerror="this.src='assets/img/placeholder.png'" [src]="model?.company?.logo">
                     </div>
                   </div>
                 </div>
@@ -1290,7 +1295,7 @@
               </div>
             </div>
             <div class="spacer40"></div>
-            <div class="modal-data">
+            <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
               <table class="table">
                 <tr *ngFor="let item of all_developers">
                     <td *ngIf="item.is_blocked!=1">
@@ -1338,8 +1343,8 @@
               </div>
             </div>
             <div class="spacer40"></div>
-            <div class="modal-data">
-              <table class="table">
+            <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+              <table class="table scrollbox">
                 <tr *ngFor="let item of all_managers">
                     <td *ngIf="item.is_blocked!=1">
                         <div class="n-avail-profile">

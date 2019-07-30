@@ -20,6 +20,7 @@ import { SharedModule } from '../../modules/shared.module';
 import { CalendarModule } from 'primeng/primeng';
 import { ProjectBlockComponent } from '../common-blocks/project-block/project-block.component';
 import { BulkAddComponent } from './bulk-add/bulk-add.component';
+import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 
 const routes: Routes = [
   { path: 'details/:property_id', component: PropertyDetailsComponent },
@@ -52,7 +53,8 @@ const routes: Routes = [
     NgxPaginationModule,
     CalendarModule,
     SharedModule,
-    LazyLoadImageModule
+    LazyLoadImageModule,
+    MalihuScrollbarModule.forRoot()
   ],
   declarations: [
     PropertiesComponent,

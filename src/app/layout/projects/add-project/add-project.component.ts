@@ -136,7 +136,7 @@ export class AddProjectComponent implements OnInit {
   ];
   showPreferableBuyer = false;
   private single = false;
-
+  public scrollbarOptions = { axis: 'y', theme: 'dark'};
   constructor(
     public model: AddProjectModel,
     private admin: AdminService,
@@ -1946,6 +1946,7 @@ export class AddProjectComponent implements OnInit {
     //   developer_company: '', developer_desc: ''
     // };
     // this.model.developer.id = item.id;
+    console.log(item);
     if (this.parameter.managedBy === 1) {
       this.model.manager = item;
       this.model.manager_id = item.id;

@@ -586,6 +586,7 @@ margin-top: -12px;
 }
 .modal-body{ padding-left:50px; padding-right:50px; padding-bottom: 50px;   }
 .modal-data{ height: 340px; overflow-y: scroll; overflow-x: hidden;}
+.modal-table-data{ height: 340px; overflow-x: hidden;}
 .add-img {
 position:relative; 
 width: 92px;
@@ -2518,7 +2519,7 @@ position: relative;
 
 
 .n-avail-profile{display: flex;}
-.n-avail-profile img{ width:48px; height:48px; object-fit: cover; margin-right:15px; border-radius: 4px;    }
+.n-avail-profile img{ width:48px; height:48px; object-fit: cover; margin-right:15px; border-radius: 4px;     border: 1px solid #0c0c0c1a;   }
 
 .n-avail-profile .n-avail-info .p12{
     margin:0; 

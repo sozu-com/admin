@@ -17,6 +17,7 @@ import { ProjectDetailsComponent } from './project-details/project-details.compo
 import { SharedModule } from '../../modules/shared.module';
 import { NumberexPipe } from '../../pipes/numberex.pipe';
 import { CalendarModule } from 'primeng/primeng';
+import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 // import { ImgPipe } from '../../pipes/img.pipe';
 
 
@@ -50,7 +51,8 @@ const routes: Routes = [
     NgxPaginationModule,
     CalendarModule,
     SharedModule,
-    LazyLoadImageModule
+    LazyLoadImageModule,
+    MalihuScrollbarModule.forRoot()
   ],
   declarations: [
     ProjectsComponent,

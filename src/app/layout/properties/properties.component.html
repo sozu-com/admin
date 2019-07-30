@@ -444,7 +444,7 @@
                </div>
 
                <div class="spacer40"></div>
-               <div class="modal-data">
+               <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
                   <table class="table">
                      <tr *ngFor="let item of allUsers">
                         <td>
@@ -494,7 +494,7 @@
                      <input style="max-width:200px" [(ngModel)]="keyword" (input)="showAllSellers()" class="form-control" type="text" name="keyword" placeholder="Search">
                </div> -->
                <div class="spacer40"></div>
-               <div class="modal-data">
+               <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
                   <table class="table">
                      <tr *ngFor="let item of allSellers">
                         <td *ngIf="item?.user?.is_blocked!=1">
@@ -549,7 +549,7 @@
                </div>
 
                <div class="spacer40"></div>
-               <div class="modal-data">
+               <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
                   <table class="table">
                      <tr *ngFor="let item of allExtBrokers">
                         <td>
