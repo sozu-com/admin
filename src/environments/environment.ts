@@ -11,6 +11,8 @@ export const environment = {
   privacyPolicyUrl : 'https://api.sozu.com/privacyPolicy/es',
   deviceId: 'ADMIN',
 
+  versionCheckURL : 'https://admintest.sozu.com/version.json',
+
   firebase: {
     apiKey: 'AIzaSyAZMJdN4-tFi3vkKLz-c-BoFHMq7eAkoAc',
     authDomain: 'nequore-user.firebaseapp.com',

@@ -4,6 +4,8 @@ import { Router, NavigationEnd, NavigationCancel, NavigationError, NavigationSta
 import { HttpInterceptor } from './services/http-interceptor';
 import { PlatformLocation } from '@angular/common';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { VersionCheckService } from './services/version-check.service';
+import { environment } from 'src/environments/environment';
 
 declare var $: any;
 
@@ -19,6 +21,7 @@ export class AppComponent implements OnInit {
   loading: any = false;
   constructor(private router: Router, private location: PlatformLocation,
     public interceptor: HttpInterceptor,
+    private versionCheckService: VersionCheckService,
     private spinner: NgxSpinnerService) {
 
     // close popup if any opened
@@ -44,6 +47,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.versionCheckService.initVersionCheck(environment.versionCheckURL);
     this.interceptor.loaderValue$.subscribe(res => {
       setTimeout(() => {
         this.loading = Object.keys(res).length !== 0 ? res['value'] : false;
