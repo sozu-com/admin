@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class VersionCheckService {
     // this will be replaced by actual hash post-build.js
-    private currentHash = '1.1.1';
+    private currentHash = '{{POST_BUILD_ENTERS_HASH_HERE}}';
 
     constructor(private http: HttpClient) {}
 
@@ -57,7 +57,7 @@ export class VersionCheckService {
      * @returns {boolean}
      */
     private hasHashChanged(currentHash, newHash) {
-        if (!currentHash || currentHash === '1.1.1') {
+        if (!currentHash || currentHash === '{{POST_BUILD_ENTERS_HASH_HERE}}') {
             return false;
         }
 

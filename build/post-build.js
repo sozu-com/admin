@@ -22,13 +22,13 @@ let mainBundleFile = '';
 let mainBundleRegexp = /^main.?([a-z0-9]*)?(\.bundle)?.js$/;
 
 // read the dist folder files and find the one we're looking for
-readDir(path.join(__dirname, '../dist/realestate-admin'))
+readDir(path.join(__dirname, '../dist/realestate-admin/'))
   .then(files => {
     mainBundleFile = files.find(f => mainBundleRegexp.test(f));
-console.log('mainBundleFile', mainBundleFile);
+
     if (mainBundleFile) {
       let matchHash = mainBundleFile.match(mainBundleRegexp);
-console.log('matchHash', matchHash);
+
       // if it has a hash in it's name, mark it down
       if (matchHash.length > 1 && !!matchHash[1]) {
         mainHash = matchHash[1];
@@ -52,7 +52,7 @@ console.log('matchHash', matchHash);
     const mainFilepath = path.join(__dirname, '../dist/realestate-admin/', mainBundleFile);
     return readFile(mainFilepath, 'utf8')
       .then(mainFileData => {
-        const replacedFile = mainFileData.replace('1.1.1', mainHash);
+        const replacedFile = mainFileData.replace('{{POST_BUILD_ENTERS_HASH_HERE}}', mainHash);
         return writeFile(mainFilepath, replacedFile);
       });
   }).catch(err => {
