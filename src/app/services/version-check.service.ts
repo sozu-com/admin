@@ -1,13 +1,14 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Http } from '@angular/http';
 
 @Injectable()
 export class VersionCheckService {
     // this will be replaced by actual hash post-build.js
     private currentHash = '{{POST_BUILD_ENTERS_HASH_HERE}}';
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: Http) {}
 
     /**
      * Checks in every set frequency the version of frontend application
