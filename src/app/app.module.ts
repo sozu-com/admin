@@ -36,11 +36,13 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireMessaging } from '@angular/fire/messaging';
 import { ApiConstants } from './common/api-constants';
 import { VersionCheckService } from './services/version-check.service';
+import { Img360viewerComponent } from './layout/img360viewer/img360viewer.component';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent},
   { path: 'login', pathMatch: 'full', component: LoginComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'img-36-viewer', component: Img360viewerComponent},
   { path: 'dashboard', canActivate: [AuthGuard], loadChildren: './layout/layout.module#LayoutModule'},
   { path: '**', component: PageNotFoundComponent },
 ];

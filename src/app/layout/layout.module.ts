@@ -33,6 +33,7 @@ import { MessagingService } from '../fire-base/messaging.service';
 import { SharedModule } from '../modules/shared.module';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { Img360viewerComponent } from './img360viewer/img360viewer.component';
 
 @NgModule({
     imports: [
@@ -68,7 +69,8 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
         InhouseUsersComponent,
         AddressComponent,
         GenerateThumbComponent,
-        AclPermissionDirective
+        AclPermissionDirective,
+        Img360viewerComponent
     ],
     providers: [
         MessagingService,

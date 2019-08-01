@@ -262,7 +262,12 @@
                          </div>
                        </li> -->
 
-
+                       <li class="nav-item"
+                       [routerLinkActive]="'active'"
+                       [routerLinkActiveOptions]="{exact:true}">
+                         <a class="nav-link" href="javascript://" routerLink="/img-36-viewer"><i><img src="assets/img/dashboard.png"></i><span>Dashboard</span></a>
+                       </li>
+                       
                        <li *ngIf="admin?.admin_acl['Dashboard']?.can_read==1" class="nav-item"
                         [routerLinkActive]="'active'"
                         [routerLinkActiveOptions]="{exact:true}">
