@@ -4,7 +4,7 @@
       <div class="col-md-4 col-6">
         <div class="title-group">
             <h5>Agencies</h5>
-            <p>Showing {{parameter.items?.length}} out of {{parameter.total}}</p>
+            <p>Showing {{items?.length}} out of {{parameter.total}}</p>
         </div>
       </div>
       <div class="col-md-5 col-6">
@@ -40,7 +40,7 @@
               </th>
               <th style="width:20%; text-align:left;">
                 <div class="table-search">
-                    <label>Contact Number</label>
+                    <label><br>&nbsp;Contact Number</label>
                     <div class="searh-3">
                       <input type="text" [(ngModel)]="model.phone" (keyup.enter)="getAgencies()" name="">
                       <button *ngIf="model.phone" (click)="getAgencies()"><i class="fa fa-search"></i></button>
@@ -49,7 +49,7 @@
               </th>
               <th style="width:20%">
                 <div class="table-search">
-                    <label>Email</label>
+                    <label><br>&nbsp;Email</label>
                     <div class="searh-3">
                       <input type="text" [(ngModel)]="model.email" (keyup.enter)="getAgencies()" name="">
                       <button *ngIf="model.email" (click)="getAgencies()"><i class="fa fa-search"></i></button>
@@ -69,7 +69,7 @@
               </th>
             </tr>
       
-            <tr *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index">
+            <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index">
               <td> 
                   <img [src]="item.image| img:'small'" class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
               </td>

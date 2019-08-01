@@ -33,7 +33,7 @@
         <table class="table table-striped">
           <tr>
             <th style="width:6%">&nbsp;</th>
-            <th style="width:15%">
+            <th style="width:20%">
               <div class="table-search">
                   <label>Company Name <br> (Commercial Name)</label>
                   <div class="searh-3">
@@ -44,16 +44,16 @@
             </th>
             <th style="width:15%">
               <div class="table-search">
-                  <label>Name</label>
+                  <label><br>&nbsp;Name</label>
                   <div class="searh-3">
                     <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="searchUserByName(parameter.name)" name="">
                     <button type="button" *ngIf="parameter.name" (click)="searchUserByName(parameter.name)"><i class="fa fa-search"></i></button>
                   </div>
               </div>
             </th>
-            <th style="width:20%; text-align:left;">
+            <th style="width:15%; text-align:left;">
               <div class="table-search">
-                  <label>Contact Number</label>
+                  <label><br>&nbsp;Contact Number</label>
                   <div class="searh-3">
                     <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="searchUserByPhone(parameter.phone)" name="">
                     <button type="button" *ngIf="parameter.phone" (click)="searchUserByPhone(parameter.phone)"><i class="fa fa-search"></i></button>
@@ -62,7 +62,7 @@
             </th>
             <th style="width:20%">
               <div class="table-search">
-                  <label>Email Address</label>
+                  <label><br>&nbsp;Email Address</label>
                   <div class="searh-3">
                     <input (keydown.space)="$event.preventDefault();" type="text" [(ngModel)]="parameter.email" (keyup.enter)="searchUserByEmail(parameter.email)" name="">
                     <button type="button" *ngIf="parameter.email" (click)="searchUserByEmail(parameter.email)"><i class="fa fa-search"></i></button>
@@ -78,7 +78,8 @@
           </tr>
             <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }; let i = index">
               <td> 
-                  <img [defaultImage]="item.image| img:'thumb'" [lazyLoad]="item.image" class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
+                  <img *ngIf="item.image" [defaultImage]="item.image| img:'thumb'" [lazyLoad]="item.image" class="rounded-circle" alt="img">
+                  <img *ngIf="!item.image" class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
               </td>
               <td class="text-left">
                 <span class="name">{{item?.company?.name ? item?.company?.name : 'Freelancer'}}</span>

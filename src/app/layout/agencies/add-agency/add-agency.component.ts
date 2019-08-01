@@ -3,7 +3,7 @@ import { AdminService } from './../../../services/admin.service';
 import { CommonService } from './../../../services/common.service';
 import { IProperty } from './../../../common/property';
 import { ACL, Permission } from './../../../models/acl.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Constant } from './../../../common/constants';
 import { NgForm } from '@angular/forms';
 import { Users } from 'src/app/models/users.model';
@@ -28,6 +28,7 @@ export class AddAgencyComponent implements OnInit {
   show = false;
   model: Agency;
   constructor(
+    private router: Router,
     public constant: Constant,
     private cs: CommonService,
     private mapsAPILoader: MapsAPILoader,
@@ -116,7 +117,9 @@ export class AddAgencyComponent implements OnInit {
           } else {
             const text = this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
             swal('Success', text, 'success');
+            this.router.navigate(['/dashboard/agencies']);
             if (this.model.id === '') {
+              this.model.image = ''; this.model.logo = '';
               formData.reset();
             }
           }

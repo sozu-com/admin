@@ -259,15 +259,11 @@
                               </div>
                             </div>
                           </th>
-                          <!-- <th style="width:15%">
+                          <th style="width:15%">
                             <div class="table-search">
-                              <label>Tower Manager</label>
-                              <div class="searh-3">
-                                <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="getListing()" >
-                                <button *ngIf="parameter.email" (click)="getListing()"><i class="fa fa-search"></i></button>
-                              </div>
+                              <label>Managed By<br>Company/Manager</label>
                             </div>
-                          </th> -->
+                          </th>
                           <th style="width:10%">
                             <div class="table-search">
                               <label>Possesion</label>
@@ -305,7 +301,13 @@
                               <strong>{{p?.name}}</strong>
                             </td>
                             <td><span>{{p?.developer?.name ? p?.developer?.name : 'NA'}}</span></td>
-                            <!-- <td><span>{{p?.developer?.name ? p?.developer?.name : 'NA'}}</span></td> -->
+                            <td>
+                              <span>{{p?.manager?.id ? p?.manager?.name : p?.company?.id ? p?.company?.name : 'NA'}}</span>
+                              <div class="clearfix"></div>
+                              <small>
+                                  {{p?.manager?.id ? '(Manager)' : p?.company?.id ? '(Company)' : ''}}
+                              </small>
+                            </td>
                             <td><span>{{p?.possession_status_id == apiConstant.possessionStatus.sale ? 'Sale' : 'Presale'}}</span></td>
                             <td><span>{{p?.properties_count}}</span></td>
                             <td><span>{{p?.rent_count}}</span></td>

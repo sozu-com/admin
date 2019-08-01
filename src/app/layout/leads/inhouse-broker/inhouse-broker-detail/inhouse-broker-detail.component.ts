@@ -1,17 +1,16 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AdminService } from '../../../../services/admin.service';
-import { IProperty } from '../../../../common/property';
 import * as io from 'socket.io-client';
-import { Constant } from './../../../../common/constants';
-import { DealFinalize, AddAppointment, AddAppointmentMultiple } from './../../../../models/leads.model';
-import { FillInformation } from './../../../../models/leads.model';
-import { ChatTimePipe } from './../../../../pipes/chat-time.pipe';
 declare let swal: any;
 import { saveAs as importedSaveAs } from 'file-saver';
 import { Http } from '@angular/http';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { DealFinalize, FillInformation, AddAppointment, AddAppointmentMultiple } from 'src/app/models/leads.model';
+import { IProperty } from 'src/app/common/property';
+import { AdminService } from 'src/app/services/admin.service';
+import { Constant } from 'src/app/common/constants';
+import { ChatTimePipe } from 'src/app/pipes/chat-time.pipe';
 
 @Component({
   selector: 'app-inhouse-broker-detail',

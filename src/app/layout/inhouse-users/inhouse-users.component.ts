@@ -355,7 +355,6 @@ export class InhouseUsersComponent implements OnInit {
               if (this.model.id) {
                 // edit -- replace
                 this.parameter.items[this.parameter.index] = success.data;
-                console.log('ssssss');
                 console.log(this.parameter.items[this.parameter.index]);
                 formdata.reset();
               } else {
@@ -367,6 +366,7 @@ export class InhouseUsersComponent implements OnInit {
                   (formdata.value.is_data_collector === true && this.parameter.userType === 'data-collectors') ||
                   (formdata.value.is_csr_closer === true && this.parameter.userType === 'csr-closers')) {
                   this.parameter.items.push(success.data);
+                  this.parameter.total++;
                 }
                 formdata.reset();
               }

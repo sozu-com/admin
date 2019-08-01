@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewChild, ElementRef, Pipe } from '@angular/core';
 import { ActivatedRoute} from '@angular/router';
-import { AdminService } from '../../../../services/admin.service';
-import { IProperty } from '../../../../common/property';
-import { Constant } from './../../../../common/constants';
-import { FillInformation, AddAppointmentMultiple } from './../../../../models/leads.model';
-import { ChatTimePipe } from './../../../../pipes/chat-time.pipe';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { FillInformation, AddAppointmentMultiple } from 'src/app/models/leads.model';
+import { IProperty } from 'src/app/common/property';
+import { AdminService } from 'src/app/services/admin.service';
+import { Constant } from 'src/app/common/constants';
+import { ChatTimePipe } from 'src/app/pipes/chat-time.pipe';
+import { from } from 'rxjs';
 declare let swal: any;
 
 @Component({
@@ -128,7 +129,9 @@ console.log('-------------------', r.data.lead.prefs);
   }
 
   assignToBroker() {
+    this.spinner.show();
     this.admin.postDataApi('conversation/assignBroker', {lead_id: this.parameter.lead_id}).subscribe(r => {
+      this.spinner.hide();
       this.parameter.lead = r.data;
       swal('Success', 'Agent assigned successfully', 'success');
     }

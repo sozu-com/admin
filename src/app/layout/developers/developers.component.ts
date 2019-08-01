@@ -124,9 +124,9 @@ export class DevelopersComponent implements OnInit {
   deleteData(item: any, index: number) {
     this.admin.postDataApi('deleteBuyerSeller',
     { id: item.id, user_type: 3 }).subscribe(r => {
-      swal('Success', 'Deleted successfully.', 'success');
       this.items.splice(index, 1);
       this.parameter.total--;
+      swal('Success', 'Deleted successfully.', 'success');
     },
     error => {
       swal('Error', error.error.message, 'error');

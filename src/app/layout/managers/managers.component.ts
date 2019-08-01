@@ -322,9 +322,9 @@ export class ManagersComponent implements OnInit {
   deleteData(item: any, index: number) {
     this.admin.postDataApi('deleteTowerManager',
     { id: item.id }).subscribe(r => {
-      swal('Success', 'Deleted successfully.', 'success');
       this.items.splice(index, 1);
       this.parameter.total--;
+      swal('Success', 'Deleted successfully.', 'success');
     },
     error => {
       swal('Error', error.error.message, 'error');
@@ -352,6 +352,7 @@ export class ManagersComponent implements OnInit {
           swal('Success', 'Imported successfully.', 'success');
           this.getTowerManager();
         }, error => {
+          this.fileInput.nativeElement.value = '';
           this.spinner.hide();
         });
     } else {
