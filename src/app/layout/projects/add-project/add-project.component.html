@@ -1344,28 +1344,30 @@
             </div>
             <div class="spacer40"></div>
             <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
-              <table class="table scrollbox">
-                <tr *ngFor="let item of all_managers">
-                    <td *ngIf="item.is_blocked!=1">
-                        <div class="n-avail-profile">
-                        <img [src]="item.image| img:'thumb'" onerror='src="assets/img/default_img.png"' alt="img">
-                        <div class="n-avail-info">
-                            <p class="p12">{{item.name}}</p>
-                            <p class="p10">Phone : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
-                        </div>
-                        </div>
-                    </td>
-                    <td *ngIf="item.is_blocked!=1">
-                        <label class="cust-check-bx float-right">
-                            <input type="radio" name="id" (click)="setManagedBy(item)">
-                            <span class="checkmark"></span>
-                        </label>
-                    </td>
-                </tr>
-                <tr *ngIf="all_managers?.length<1">
-                    <p class="show-not-found">No {{parameter.managedBy == 1 ? 'manager' : 'company'}} added in database.</p>
-                </tr>
-            </table>
+              <div class="table-scroll">
+                  <table class="table">
+                      <tr *ngFor="let item of all_managers">
+                          <td *ngIf="item.is_blocked!=1">
+                              <div class="n-avail-profile">
+                              <img [src]="item.image| img:'thumb'" onerror='src="assets/img/default_img.png"' alt="img">
+                              <div class="n-avail-info">
+                                  <p class="p12">{{item.name}}</p>
+                                  <p class="p10">Phone : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
+                              </div>
+                              </div>
+                          </td>
+                          <td *ngIf="item.is_blocked!=1">
+                              <label class="cust-check-bx float-right">
+                                  <input type="radio" name="id" (click)="setManagedBy(item)">
+                                  <span class="checkmark"></span>
+                              </label>
+                          </td>
+                      </tr>
+                      <tr *ngIf="all_managers?.length<1">
+                          <p class="show-not-found">No {{parameter.managedBy == 1 ? 'manager' : 'company'}} added in database.</p>
+                      </tr>
+                  </table>
+              </div>
             </div>
         </div>
     </div>

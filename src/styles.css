@@ -99,6 +99,11 @@ ngx-my-date-picker .ngxmdp .headertodaybtn { padding: 0px 14px; min-width: 100px
     height: 550px !important;
     /* padding-right: 0 !important; */
 }
+.table-scroll{
+    overflow: auto;
+    width: 100% !important;
+    /* height: 550px !important; */
+}
 .access-control11{ background-color: rgba(0,185,111,0.22); color: #00b96f; }
 /* slider css start */
 nouislider{ padding-left: 50px; padding-right: 50px;}
