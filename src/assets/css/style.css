@@ -3117,3 +3117,4 @@ h3 .tower{
 .table-actions{
     display: flex;
 }
+.viewer-body{padding: 2px !important;}
