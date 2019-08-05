@@ -145,20 +145,36 @@
 
         <div class="spacer30"></div>
         <div *ngIf="parameter.lead?.user">
-          <app-chat [lead_id]="parameter.lead_id" [sent_as]="parameter.sent_as" [user_id]="parameter.user_id" [admin_id]="parameter.admin_id"></app-chat>
+          <app-chat-tabs [lead_id]="parameter.lead_id" [sent_as]="parameter.sent_as" [user_id]="parameter.user_id" [admin_id]="parameter.admin_id"
+          [data]="leadData"></app-chat-tabs>
         </div>
 
      </div>
      <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+        <!-- chat with developer -->
         <div class="white-bg chat-with-developer padding15">
            <i class="float-left marginR15"><img src="assets/img/chat-icon.png" alt="img"></i>
-           <a href="javascript://" routerLink="/dashboard/leads/chat-with-developer/{{parameter.lead_id}}">Chat with Developers <i class="fa fa-angle-right"></i></a>
+           <a href="javascript://" routerLink="/dashboard/leads/chat-with-developer/{{parameter.lead_id}}">Chat with Seller <i class="fa fa-angle-right"></i></a>
+        </div>
+
+        <!-- chat with csr seller -->
+        <div class="white-bg chat-with-developer padding15">
+            <i class="float-left marginR15"><img src="assets/img/chat-icon.png" alt="img"></i>
+            <a href="javascript://" routerLink="/dashboard/leads/chat-with-developer/{{parameter.lead_id}}">Chat with CSR Seller<i class="fa fa-angle-right"></i></a>
         </div>
         
         <app-fill-information [sent_as]="parameter.sent_as" [fillInfo]="fillInfo" [lead_id]="parameter.lead_id"></app-fill-information>
 
         <app-notes [sent_as]="parameter.sent_as" [lead_id]="parameter.lead_id"></app-notes>
 
+        <!-- <div class="spacer30"></div>
+        <div class="white-bg padding15">
+            <p class="p16 marginB0">Chat with CSR Buyer</p>
+        </div>
+        <hr class="margin0">
+        <div *ngIf="parameter.lead?.user">
+            <app-chat [lead_id]="parameter.lead_id" [sent_as]="parameter.sent_as" [user_id]="parameter.user_id" [admin_id]="parameter.admin_id"></app-chat>
+        </div> -->
      </div>
   </div>
 

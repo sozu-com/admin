@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, ElementRef, ViewChild, AfterContentInit } from '@angular/core';
-import { AdminService } from './../../../services/admin.service';
-import { CommonService } from './../../../services/common.service';
-import { IProperty } from './../../../common/property';
-import { Constant } from './../../../common/constants';
-import { Chat } from './../../../models/chat.model';
 import * as io from 'socket.io-client';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Chat } from 'src/app/models/chat.model';
+import { IProperty } from 'src/app/common/property';
+import { AdminService } from 'src/app/services/admin.service';
+import { CommonService } from 'src/app/services/common.service';
+import { Constant } from 'src/app/common/constants';
 declare let swal: any;
 
 @Component({
@@ -20,6 +20,7 @@ export class ChatComponent implements OnInit {
   @Input('lead_id') lead_id;
   @Input('user_id') user_id;
   @Input('sent_as') sent_as;
+  @Input('other_sent_as') other_sent_as;
   // loadingMessages = false;
   textMessage: any;
   durationInSec = 0;
@@ -66,7 +67,7 @@ export class ChatComponent implements OnInit {
 
     const data = {
       lead_id: this.lead_id,
-      other_sent_as: this.constant.userType.csr_closer, // closure with chat with notary/bank
+      other_sent_as: this.other_sent_as, // closure chat with notary/bank
       other_id: this.user_id,
       sent_as: this.sent_as
     };

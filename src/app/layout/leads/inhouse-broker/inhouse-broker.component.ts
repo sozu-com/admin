@@ -1,11 +1,11 @@
 
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AdminService } from '../../../services/admin.service';
-import { IProperty } from '../../../common/property';
-import { Constant } from './../../../common/constants';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Constant } from 'src/app/common/constants';
+import { IProperty } from 'src/app/common/property';
+import { AdminService } from 'src/app/services/admin.service';
 declare let swal: any;
 
 @Component({

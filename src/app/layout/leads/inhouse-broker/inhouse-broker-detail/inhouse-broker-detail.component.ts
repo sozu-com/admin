@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as io from 'socket.io-client';
-declare let swal: any;
 import { saveAs as importedSaveAs } from 'file-saver';
 import { Http } from '@angular/http';
 import * as moment from 'moment';
@@ -11,6 +10,7 @@ import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
 import { Constant } from 'src/app/common/constants';
 import { ChatTimePipe } from 'src/app/pipes/chat-time.pipe';
+declare let swal: any;
 
 @Component({
   selector: 'app-inhouse-broker-detail',
@@ -26,6 +26,7 @@ export class InhouseBrokerDetailComponent implements OnInit {
   app_date: any;
   date: any;
   data = [];
+  leadData: any = [];
   public parameter: IProperty = {};
   public selected_prop_ids = [];
   is_deal_finalised: boolean;
@@ -52,6 +53,7 @@ export class InhouseBrokerDetailComponent implements OnInit {
       this.spinner.show();
       this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
         this.spinner.hide();
+        this.leadData = r.data;
         this.parameter.lead = r.data.lead;
         if (r.data.lead.appointments.length !== 0) {
           // this.appointment = r.data.lead.appointments;

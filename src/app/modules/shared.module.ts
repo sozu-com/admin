@@ -11,6 +11,7 @@ import { BlockGetPropertyComponent } from '../layout/common-blocks/block-get-pro
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ImgPipe } from '../pipes/img.pipe';
 import { NumberWithCommasPipe } from '../pipes/number-with-commas.pipe';
+import { ChatTabsComponent } from '../layout/common-blocks/chat-tabs/chat-tabs.component';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { NumberWithCommasPipe } from '../pipes/number-with-commas.pipe';
   ],
   declarations: [
     ChatComponent,
+    ChatTabsComponent,
     ChatTimePipe,
     NotesComponent,
     MomentPipe,
@@ -32,6 +34,7 @@ import { NumberWithCommasPipe } from '../pipes/number-with-commas.pipe';
   ],
   exports: [
     ChatComponent,
+    ChatTabsComponent,
     ChatTimePipe,
     NotesComponent,
     MomentPipe,

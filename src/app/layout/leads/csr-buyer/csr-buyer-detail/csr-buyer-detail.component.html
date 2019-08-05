@@ -149,6 +149,10 @@
         </div>
 
         <!-- chat start -->
+        <div class="white-bg padding15">
+            <p class="p16 marginB0">Chat with Buyer</p>
+        </div>
+        <hr class="margin0">
         <div *ngIf="parameter.lead?.user">
           <app-chat [lead_id]="parameter.lead_id" [sent_as]="parameter.sent_as" [user_id]="parameter.user_id" [admin_id]="parameter.admin_id"></app-chat>
         </div>

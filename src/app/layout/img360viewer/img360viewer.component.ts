@@ -45,7 +45,8 @@ export class Img360viewerComponent implements OnInit {
 
     const PSV = new PhotoSphereViewer({
       // Path to the panorama
-      panorama: 'assets/img/sun.jpg',
+      panorama: 'https://apitest.sozu.com/storage/uploads/1563271998YCSRW26Nxb0OS2RGdlh3NiIBcGefRL.jpg',
+      // panorama: 'assets/img/sun.jpg',
 
       // Container
       container: div,

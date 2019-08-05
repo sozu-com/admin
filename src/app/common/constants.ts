@@ -43,7 +43,8 @@ export class Constant {
         bank: 5,
         notary: 6,
         user_buyer: 7,
-        user_seller_dev: 8
+        user_seller_dev: 8,
+        user: 0 // just for frontend
     };
 
     public buildingStatus = {

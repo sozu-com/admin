@@ -231,9 +231,9 @@
                <li class="nav-item">
                   <a [ngClass]="{'active':parameter.flag==1}" (click)="changePropertyFlag(1)" class="nav-link" >In Draft</a>
                </li>
-               <!-- <li class="nav-item">
-                  <a [ngClass]="{'active':parameter.flag==1}" (click)="changePropertyFlag(1)" class="nav-link" >Seller's Request</a>
-               </li> -->
+               <li class="nav-item">
+                  <a [ngClass]="{'active':parameter.flag==5}" (click)="changePropertyFlag(5)" class="nav-link" >Seller's Request</a>
+               </li>
             </ul>
             </div>
             <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -312,22 +312,22 @@
                                  <label>View Seller's <br> Request</label>
                               </div>
                            </th>
-                           <th style="width:5%;vertical-align:top;">
+                           <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
                               <div class="d-flex table-search">
                                  <label>Change <br> Seller</label>
                               </div>
                            </th>
-                           <th style="width:6%;vertical-align:top;">
+                           <th *ngIf="parameter.flag!=5" style="width:6%;vertical-align:top;">
                               <div class="d-flex table-search">
                                  <label>Link / <br>Unlink<br>Agent</label>
                               </div>
                            </th>
-                           <th style="width:10%;vertical-align:top;">
+                           <th *ngIf="parameter.flag!=5" style="width:10%;vertical-align:top;">
                               <div (click)="sort_by(2)" class="d-flex table-search">
                                  <label>Change <br> Availability</label>
                               </div>
                            </th>
-                           <th style="width:20%;">&nbsp;</th>
+                           <th style="width:20%;" *ngIf="parameter.flag!=5">&nbsp;</th>
                         </tr>
                   
                         <tr *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
@@ -353,23 +353,23 @@
                                  <span class="green-color"><span>View</span></span>
                               </td>
                               
-                              <td class="cursor-pointer" title="Change Seller" (click)="getAllSellers(p, '1', i)">
+                              <td *ngIf="parameter.flag!=5" class="cursor-pointer" title="Change Seller" (click)="getAllSellers(p, '1', i)">
                                  <span class="green-color"><span>Change</span></span>
                               </td>
                               
-                              <td class="cursor-pointer" (click)="getBothBroker(p, '')">
+                              <td *ngIf="parameter.flag!=5" class="cursor-pointer" (click)="getBothBroker(p, '')">
                                  <span class="green-color">
                                     <span title="Click to {{p?.external_broker?.id ? 'change' : 'assign'}}">{{p?.external_broker?.id ? 'Change' : 'Link'}}</span>
                                  </span>
                               </td>
-                              <td class="cursor-pointer" >
+                              <td *ngIf="parameter.flag!=5" class="cursor-pointer" >
                                  <select id="avaStatus" #avaStatus  (change)="avaStatus.value == changeSoldStatusPopup(p, i, $event.target.value)">
                                     <option [selected]="p.for_sale==1" value="1">Sell</option>
                                     <option [selected]="p.for_rent==1" value="2">Rent</option>
                                     <option [selected]="p.is_property_sold==1" value="3">Inventory</option>
                                  </select>
                               </td>
-                              <td>
+                              <td *ngIf="parameter.flag!=5">
                               <div class="table-actions">
                                  <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="parameter?.flag!=3" routerLink="../edit-property/{{p.id}}" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                                  <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="parameter?.flag==3" routerLink="../edit-property/{{p.id}}/edit" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
@@ -502,7 +502,7 @@
                            <img [src]="item?.user?.image| img:'small'" onerror='src="assets/img/default_img.png"' alt="img"
                               [defaultImage]="item?.user?.image| img:'thumb'" [lazyLoad]="item?.user?.image">
                            <div class="n-avail-info">
-                              <p class="p12">{{item?.user?.name}}</p>
+                              <p class="p12">{{item?.user?.name ? item?.user?.name : 'NA'}}</p>
                               <p class="p10">Phone : {{item?.user?.dial_code ? item?.user?.dial_code : constant.dial_code}}-{{item?.user?.phone}}</p>
                            </div>
                            </div>
