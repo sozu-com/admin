@@ -1,3 +1,43 @@
+import { UserModel } from './inhouse-users.model';
+import { Users } from './users.model';
+import { AddProjectModel } from './addProject.model';
+
+export class Leads {
+    id: number;
+    user_id: number;
+    admin_id: number;
+    name: string;
+    email: string;
+    country_code: string;
+    dial_code: string;
+    phone: string;
+    broker_id: number;
+    closer_id: number;
+    building_id: number;
+    sale_rent: number;
+    is_blocked: number;
+    is_finalized: number;
+    lead_status_closer: number;
+    lead_status_bank: number;
+    lead_status_noatary: number;
+    broker_assign_action: number;
+    closer_assign_action: number;
+    bank_assigned_at: Date;
+    noatary_assigned_at: Date;
+    property_id: number;
+    admin: UserModel;
+    user: Users;
+    broker: UserModel;
+    closer: UserModel;
+    building: AddProjectModel;
+    prefs: any;
+    proximity_places: Array<ProximityPlaces>;
+    property_types: Array<PropertyTypes>;
+    configurations: Array<Configuration>;
+    selected_properties: Array<SelectedProperties>;
+    appointments: Array<AddAppointment>;
+}
+
 export class DealFinalize {
     lead_id: number;
     property_id: number;
@@ -180,7 +220,7 @@ export class AddAppointment {
 export class AddAppointmentMultiple {
     id: any;
     sent_as: any;
-    property_id: string;
+    property_id: number;
     lead_id: any;
     appointment_date_array: Array<any> = [];
     appointment_date: Array<any> = [];

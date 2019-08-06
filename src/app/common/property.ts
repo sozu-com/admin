@@ -110,7 +110,7 @@ export interface IProperty {
   socket_id?: any;
   connected?: any;
   lead_id?: number;
-  user_id?: number;
+  user_id?: any;
   adminType?: number;
   allCountry?: any;
   message_type?: number;

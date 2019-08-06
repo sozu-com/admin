@@ -32,57 +32,96 @@ import { OutsideBrokerComponent } from './outside-broker/outside-broker.componen
 import { OutsideBrokerDetailComponent } from './outside-broker/outside-broker-detail/outside-broker-detail.component';
 
 const routes: Routes = [
-  { path: 'data-collectors', component: DataCollectorComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Data Collector Lead Management', 'can_read', 'can_data_collector']}},
+  {
+    path: 'data-collectors', component: DataCollectorComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Data Collector Lead Management', 'can_read', 'can_data_collector'] }
+  },
 
-  { path: 'csr-sellers', component: CsrSellerComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Seller Lead Management', 'can_read', 'can_csr_seller']}},
+  {
+    path: 'csr-sellers', component: CsrSellerComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Seller Lead Management', 'can_read', 'can_csr_seller'] }
+  },
   // lead wrt seller
-  { path: 'csr-sellers-leads/:id', component: CsrSellerComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Seller Lead Management', 'can_read', 'can_csr_seller']}},
+  {
+    path: 'csr-sellers-leads/:id', component: CsrSellerComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Seller Lead Management', 'can_read', 'can_csr_seller'] }
+  },
   // lead details
-  { path: 'csr-sellers/:id', component: CsrSellerDetailComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Seller Lead Management', 'can_read', 'can_csr_seller']}},
-  { path: 'chat-with-seller/:id/:user_id', component: SellerChatComponent,
-  canActivate: [AclUserGuard], data: {roles: ['Seller Lead Management', 'can_read', 'can_csr_seller']}},
+  {
+    path: 'csr-sellers/:id', component: CsrSellerDetailComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Seller Lead Management', 'can_read', 'can_csr_seller'] }
+  },
+  {
+    path: 'chat-with-seller/:id/:user_id', component: SellerChatComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Seller Lead Management', 'can_read', 'can_csr_seller'] }
+  },
 
-  { path: 'csr-buyers', component: CsrBuyerComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Buyer Lead Management', 'can_read', 'can_csr_buyer']}},
+  {
+    path: 'csr-buyers', component: CsrBuyerComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Buyer Lead Management', 'can_read', 'can_csr_buyer'] }
+  },
   // lead wrt buyer
-  { path: 'csr-buyers-leads/:id', component: CsrBuyerComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Buyer Lead Management', 'can_read', 'can_csr_buyer']}},
+  {
+    path: 'csr-buyers-leads/:id', component: CsrBuyerComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Buyer Lead Management', 'can_read', 'can_csr_buyer'] }
+  },
   // lead details
-  { path: 'csr-buyers/:id', component: CsrBuyerDetailComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Buyer Lead Management', 'can_read', 'can_csr_buyer']}},
+  {
+    path: 'csr-buyers/:id', component: CsrBuyerDetailComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Buyer Lead Management', 'can_read', 'can_csr_buyer'] }
+  },
 
-  { path: 'inhouse-broker', component: InhouseBrokerComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker']}},
+  {
+    path: 'inhouse-broker', component: InhouseBrokerComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker'] }
+  },
   // leads wrt inhouse broker
-  { path: 'inhouse-broker-leads/:id', component: InhouseBrokerComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker']}},
+  {
+    path: 'inhouse-broker-leads/:id', component: InhouseBrokerComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker'] }
+  },
   // lead details
-  { path: 'inhouse-broker/:id', component: InhouseBrokerDetailComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker']}},
-  { path: 'chat-with-developer/:id', component: MyChatComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker']}},
-
-  { path: 'outside-broker', component: OutsideBrokerComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Outside Broker Lead Management', 'can_read', 'can_in_house_broker']}},
+  {
+    path: 'inhouse-broker/:id', component: InhouseBrokerDetailComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker'] }
+  },
+  {
+    path: 'chat-list/:type/:id', component: MyChatComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker'] }
+  },
+  // {
+  //   path: 'chat-with-csr-seller/:type/:id', component: MyChatComponent,
+  //   canActivate: [AclUserGuard], data: { roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker'] }
+  // },
+  {
+    path: 'outside-broker', component: OutsideBrokerComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Outside Broker Lead Management', 'can_read', 'can_in_house_broker'] }
+  },
   // leads wrt inhouse broker
-  { path: 'outside-broker-leads/:id', component: OutsideBrokerComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Outside Broker Lead Management', 'can_read', 'can_in_house_broker']}},
+  {
+    path: 'outside-broker-leads/:id', component: OutsideBrokerComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Outside Broker Lead Management', 'can_read', 'can_in_house_broker'] }
+  },
   // lead details
-  { path: 'outside-broker/:id', component: OutsideBrokerDetailComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Outside Broker Lead Management', 'can_read', 'can_in_house_broker']}},
+  {
+    path: 'outside-broker/:id', component: OutsideBrokerDetailComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Outside Broker Lead Management', 'can_read', 'can_in_house_broker'] }
+  },
 
-  { path: 'csr-closers', component: CsrCloserComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Closer Lead Management', 'can_read', 'can_csr_closer']}},
+  {
+    path: 'csr-closers', component: CsrCloserComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Closer Lead Management', 'can_read', 'can_csr_closer'] }
+  },
   // leads wrt closure
-  { path: 'csr-closers-leads/:id', component: CsrCloserComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Closer Lead Management', 'can_read', 'can_csr_closer']}},
+  {
+    path: 'csr-closers-leads/:id', component: CsrCloserComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Closer Lead Management', 'can_read', 'can_csr_closer'] }
+  },
   // lead details
-  { path: 'csr-closers/:id', component: CsrCloserDetailComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Closer Lead Management', 'can_read', 'can_csr_closer']}}
+  {
+    path: 'csr-closers/:id', component: CsrCloserDetailComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Closer Lead Management', 'can_read', 'can_csr_closer'] }
+  }
 ];
 
 

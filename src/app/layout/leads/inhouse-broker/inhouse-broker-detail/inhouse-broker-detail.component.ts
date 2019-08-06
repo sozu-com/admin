@@ -5,7 +5,7 @@ import { saveAs as importedSaveAs } from 'file-saver';
 import { Http } from '@angular/http';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { DealFinalize, FillInformation, AddAppointment, AddAppointmentMultiple } from 'src/app/models/leads.model';
+import { DealFinalize, FillInformation, AddAppointment, AddAppointmentMultiple, Leads } from 'src/app/models/leads.model';
 import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
 import { Constant } from 'src/app/common/constants';
@@ -26,7 +26,7 @@ export class InhouseBrokerDetailComponent implements OnInit {
   app_date: any;
   date: any;
   data = [];
-  leadData: any = [];
+  leadData: Leads;
   public parameter: IProperty = {};
   public selected_prop_ids = [];
   is_deal_finalised: boolean;
@@ -47,14 +47,14 @@ export class InhouseBrokerDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.leadData = new Leads();
     this.parameter.sent_as = this.constant.userType.inhouse_broker;
     this.route.params.subscribe( params => {
       this.parameter.lead_id = params.id;
       this.spinner.show();
       this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
         this.spinner.hide();
-        this.leadData = r.data;
-        this.parameter.lead = r.data.lead;
+        this.leadData = r.data.lead;
         if (r.data.lead.appointments.length !== 0) {
           // this.appointment = r.data.lead.appointments;
           // this.app_date = this.appointment.appointment_date;
@@ -69,10 +69,10 @@ console.log('apoiinn', this.appointment);
         this.setFillInformationData(r);
         this.parameter.favorites = r.data.favorites;
         this.parameter.interested_properties = r.data.interested_properties;
-        this.is_deal_finalised = this.parameter.lead.selected_properties.length !== 0 ? true : false;
+        this.is_deal_finalised = this.leadData.selected_properties.length !== 0 ? true : false;
         this.parameter.viewed_properties = r.data.viewed_properties;
         this.parameter.viewed_projects = r.data.viewed_projects;
-        this.parameter.user_id = this.parameter.lead.user.id;
+        this.parameter.user_id = this.leadData.user.id;
       }, error => {
         this.spinner.hide();
       });
@@ -174,7 +174,7 @@ console.log('apoiinn', this.appointment);
     // const f = moment(d).utc().format('YYYY-MM-DD HH:mm:ss');
     // this.input = {
     //   lead_id: this.parameter.lead_id,
-    //   // property_id: this.parameter.lead.selected_properties[0].property_id,
+    //   // property_id: this.leadData.selected_properties[0].property_id,
     //   appointment_date: f,
     //   sent_as: this.parameter.sent_as
     // };
@@ -231,7 +231,7 @@ console.log('apoiinn', this.appointment);
   openModal () {
     this.appointment = new AddAppointmentMultiple();
     this.appointment.lead_id = this.parameter.lead_id;
-    this.appointment.property_id = this.parameter.lead.selected_properties[0].property_id;
+    this.appointment.property_id = this.leadData.selected_properties[0].property_id;
     this.appointment.sent_as = this.constant.userType.inhouse_broker;
     this.modalOpen.nativeElement.click();
   }

@@ -8,7 +8,7 @@
         <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.user_buyer}"
           (click)="getLeadConversation(constant.userType.user_buyer)" class="nav-link">Buyer</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="sent_as!=constant.userType.inhouse_broker">
         <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.user_seller_dev}"
           (click)="getLeadConversation(constant.userType.user_seller_dev)" class="nav-link">Seller</a>
       </li>

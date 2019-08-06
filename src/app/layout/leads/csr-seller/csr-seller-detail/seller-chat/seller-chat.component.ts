@@ -1,12 +1,12 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AdminService } from './../../../../../services/admin.service';
-import { CommonService } from './../../../../../services/common.service';
-import { IProperty } from './../../../../../common/property';
-import { Constant } from './../../../../../common/constants';
-import { Chat } from './../../../../../models/chat.model';
 import * as io from 'socket.io-client';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { IProperty } from 'src/app/common/property';
+import { AdminService } from 'src/app/services/admin.service';
+import { CommonService } from 'src/app/services/common.service';
+import { Constant } from 'src/app/common/constants';
+import { Chat } from 'src/app/models/chat.model';
 declare let swal: any;
 
 @Component({

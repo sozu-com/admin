@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, Pipe } from '@angular/core';
 import { ActivatedRoute} from '@angular/router';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { FillInformation, AddAppointmentMultiple } from 'src/app/models/leads.model';
+import { FillInformation, AddAppointmentMultiple, Leads } from 'src/app/models/leads.model';
 import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
 import { Constant } from 'src/app/common/constants';
@@ -27,6 +27,7 @@ export class CsrBuyerDetailComponent implements OnInit {
   data = [];
   public selected_prop_ids = [];
   is_deal_finalised: boolean;
+  leadData: Leads;
   constructor(
     private route: ActivatedRoute,
     public admin: AdminService,
@@ -47,7 +48,7 @@ export class CsrBuyerDetailComponent implements OnInit {
       this.spinner.show();
         this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
           this.spinner.hide();
-          this.parameter.lead = r.data.lead;
+          this.leadData = r.data.lead;
           if (r.data.lead.appointments.length !== 0) {
             this.data = r.data.lead.appointments;
             // this.appointment = r.data.lead.appointments[0];
@@ -56,10 +57,10 @@ export class CsrBuyerDetailComponent implements OnInit {
           this.setFillInformationData(r);
           this.parameter.proximity_places = r.data.lead.proximity_places;
           this.parameter.interested_properties = r.data.interested_properties;
-          this.is_deal_finalised = this.parameter.lead.selected_properties.length !== 0 ? true : false;
+          this.is_deal_finalised = this.leadData.selected_properties.length !== 0 ? true : false;
           this.parameter.viewed_properties = r.data.viewed_properties;
           this.parameter.viewed_projects = r.data.viewed_projects;
-          this.parameter.user_id = this.parameter.lead.user ? this.parameter.lead.user.id : 0;
+          this.parameter.user_id = this.leadData.user ? this.leadData.user.id : 0;
         }, error => {
           this.spinner.hide();
         });
@@ -132,7 +133,7 @@ console.log('-------------------', r.data.lead.prefs);
     this.spinner.show();
     this.admin.postDataApi('conversation/assignBroker', {lead_id: this.parameter.lead_id}).subscribe(r => {
       this.spinner.hide();
-      this.parameter.lead = r.data;
+      this.leadData = r.data;
       swal('Success', 'Agent assigned successfully', 'success');
     }
   );
@@ -192,7 +193,7 @@ console.log('-------------------', r.data.lead.prefs);
   openModal () {
     this.appointment = new AddAppointmentMultiple();
     this.appointment.lead_id = this.parameter.lead_id;
-    this.appointment.property_id = this.parameter.lead.selected_properties[0].property_id;
+    this.appointment.property_id = this.leadData.selected_properties[0].property_id;
     this.appointment.sent_as = this.constant.userType.inhouse_broker;
     this.modalOpen.nativeElement.click();
   }

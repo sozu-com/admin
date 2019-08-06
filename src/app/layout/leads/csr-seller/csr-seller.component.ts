@@ -354,7 +354,6 @@ export class CsrSellerComponent implements OnInit {
         this.closeAssignModel.nativeElement.click();
         swal('Error', error.error.message, 'error');
       });
-
   }
 
   getCSRSellerChat($event, csr_seller_id, user_id) {

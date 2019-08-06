@@ -5,11 +5,11 @@
       <div class="col-lg-3 col-md-12 col-sm-12 col-12">
          <div class="df-profile">
             <a routerLink="../"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
-            <img [src]="parameter?.lead?.user?.image" onerror='src="assets/img/default_img.png"' alt="img">
+            <img [src]="leadData?.user?.image" onerror='src="assets/img/default_img.png"' alt="img">
             <div class="df-info">
-                <p class="p14 text-ellipsis120">{{parameter?.lead?.user?.name ? parameter?.lead?.user?.name : parameter?.lead?.name}}</p>
+                <p class="p14 text-ellipsis120">{{leadData?.user?.name ? leadData?.user?.name : leadData?.name}}</p>
                 <p class="p12">
-                    {{parameter?.lead?.user?.dial_code ? parameter?.lead?.user?.dial_code : parameter?.lead?.dial_code}}-{{parameter?.lead?.user?.phone ? parameter?.lead?.user?.phone : parameter?.lead?.phone}}
+                    {{leadData?.user?.dial_code ? leadData?.user?.dial_code : leadData?.dial_code}}-{{leadData?.user?.phone ? leadData?.user?.phone : leadData?.phone}}
                 </p>
             </div>
         </div>
@@ -19,19 +19,19 @@
           <ul>
               <li>
                   <div class="df-info">
-                      <p class="p14 marginB0" *ngIf="parameter.lead?.admin">{{parameter.lead.admin.name | titlecase}}</p>
+                      <p class="p14 marginB0" *ngIf="leadData?.admin">{{leadData.admin.name | titlecase}}</p>
                       <p class="p12">CSR Buyer</p>
                   </div>
               </li>
               <li>
-                  <div class="df-info" *ngIf="parameter.lead?.broker">
-                      <p class="p14 marginB0">{{parameter.lead.broker.name | titlecase}}</p>
+                  <div class="df-info" *ngIf="leadData?.broker">
+                      <p class="p14 marginB0">{{leadData.broker.name | titlecase}}</p>
                       <p class="p12">Inhouse Agent</p>
                   </div>
               </li>
               <li>
-                  <div class="df-info" *ngIf="parameter.lead?.closer">
-                      <p class="p14 marginB0">{{parameter.lead.closer.name | titlecase}}</p>
+                  <div class="df-info" *ngIf="leadData?.closer">
+                      <p class="p14 marginB0">{{leadData?.closer?.name | titlecase}}</p>
                       <p class="p12">CSR Closure</p>
                   </div>
               </li>
@@ -88,23 +88,23 @@
              <table class="table">
                 <tbody><tr>
                    <td style="padding-left:0"><label>Full Name</label></td>
-                   <td *ngIf="parameter?.lead?.name">{{parameter.lead.user.name | titlecase}}</td>
+                   <td *ngIf="leadData?.name">{{leadData.user.name | titlecase}}</td>
                 </tr>
                 <tr>
                    <td style="padding-left:0"><label>Contact Number</label></td>
-                   <td *ngIf="parameter?.lead?.phone">{{parameter.lead.user.dial_code ? parameter.lead.user.dial_code : constant.dial_code}}-{{parameter.lead.phone}}</td>
+                   <td *ngIf="leadData?.phone">{{leadData.user.dial_code ? leadData.user.dial_code : constant.dial_code}}-{{leadData.phone}}</td>
                 </tr>
                 <tr>
                    <td style="padding-left:0"><label>Email address</label></td>
-                   <td *ngIf="parameter?.lead?.email">{{parameter.lead.user.email}}</td>
+                   <td *ngIf="leadData?.email">{{leadData.user.email}}</td>
                 </tr>
                 <tr>
                    <td style="padding-left:0"><label>Interested In</label></td>
-                   <td *ngIf="parameter?.lead?.configuration">
-                     <span *ngFor="let conf of parameter.lead.configuration; let ii=index">
-                       {{conf.name}}<span *ngIf="ii<parameter?.lead?.configuration.length-1">,</span>
+                   <td *ngIf="leadData?.configuration">
+                     <span *ngFor="let conf of leadData.configuration; let ii=index">
+                       {{conf.name}}<span *ngIf="ii<leadData?.configuration.length-1">,</span>
                      </span>
-                     <span *ngIf="parameter.lead.configuration?.length==0">NA</span>
+                     <span *ngIf="leadData.configuration?.length==0">NA</span>
                    </td>
                 </tr>
                 <tr>
@@ -116,7 +116,7 @@
                 </tr>
 
                 <!-- Meeting Schedule -->
-                <tr *ngIf="parameter?.lead?.sale_rent==1">
+                <tr *ngIf="leadData?.sale_rent==1">
                     <td  style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
                     <td colspan="2">
                         <p style="display:none;" class="date" #modalOpen data-toggle="modal" data-target="#set_appointment">Click to Schedule</p>
@@ -131,7 +131,7 @@
                     </ng-template> -->
                 </tr>
 
-                <!-- <tr *ngIf="parameter?.lead?.sale_rent==1">
+                <!-- <tr *ngIf="leadData?.sale_rent==1">
                     <td  style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
                     <td colspan="2" class="cursor-pointer">
                         <p style="display:none;" class="date" #modalOpen data-toggle="modal" data-target="#set_appointment">Click to Schedule</p>
@@ -144,9 +144,9 @@
         </div>
 
         <div class="spacer30"></div>
-        <div *ngIf="parameter.lead?.user">
+        <div *ngIf="leadData?.user">
           <app-chat-tabs [lead_id]="parameter.lead_id" [sent_as]="parameter.sent_as" [user_id]="parameter.user_id" [admin_id]="parameter.admin_id"
-          [data]="leadData"></app-chat-tabs>
+          [leadData]="leadData"></app-chat-tabs>
         </div>
 
      </div>
@@ -154,13 +154,13 @@
         <!-- chat with developer -->
         <div class="white-bg chat-with-developer padding15">
            <i class="float-left marginR15"><img src="assets/img/chat-icon.png" alt="img"></i>
-           <a href="javascript://" routerLink="/dashboard/leads/chat-with-developer/{{parameter.lead_id}}">Chat with Seller <i class="fa fa-angle-right"></i></a>
+           <a href="javascript://" routerLink="/dashboard/leads/chat-list/1/{{parameter.lead_id}}">Chat with Seller <i class="fa fa-angle-right"></i></a>
         </div>
 
         <!-- chat with csr seller -->
         <div class="white-bg chat-with-developer padding15">
             <i class="float-left marginR15"><img src="assets/img/chat-icon.png" alt="img"></i>
-            <a href="javascript://" routerLink="/dashboard/leads/chat-with-developer/{{parameter.lead_id}}">Chat with CSR Seller<i class="fa fa-angle-right"></i></a>
+            <a href="javascript://" routerLink="/dashboard/leads/chat-list/2/{{parameter.lead_id}}">Chat with CSR Seller<i class="fa fa-angle-right"></i></a>
         </div>
         
         <app-fill-information [sent_as]="parameter.sent_as" [fillInfo]="fillInfo" [lead_id]="parameter.lead_id"></app-fill-information>
@@ -172,23 +172,23 @@
             <p class="p16 marginB0">Chat with CSR Buyer</p>
         </div>
         <hr class="margin0">
-        <div *ngIf="parameter.lead?.user">
+        <div *ngIf="leadData?.user">
             <app-chat [lead_id]="parameter.lead_id" [sent_as]="parameter.sent_as" [user_id]="parameter.user_id" [admin_id]="parameter.admin_id"></app-chat>
         </div> -->
      </div>
   </div>
 
   <!-- Interested Properties start -->
-  <!-- <app-interested-property (deal_finalised_success)="dealFinalisedReceived(v)" [is_deal_finalised]="is_deal_finalised" [selected_properties]="parameter?.lead?.selected_properties" [lead_id]="parameter.lead_id" [interested_properties]="parameter.interested_properties" [sent_as]="parameter.sent_as"></app-interested-property> -->
-  <app-interested-property [is_deal_finalised]="is_deal_finalised" [selected_properties]="parameter?.lead?.selected_properties" [lead_id]="parameter.lead_id" [interested_properties]="parameter.interested_properties" [sent_as]="parameter.sent_as"></app-interested-property>
+  <!-- <app-interested-property (deal_finalised_success)="dealFinalisedReceived(v)" [is_deal_finalised]="is_deal_finalised" [selected_properties]="leadData?.selected_properties" [lead_id]="parameter.lead_id" [interested_properties]="parameter.interested_properties" [sent_as]="parameter.sent_as"></app-interested-property> -->
+  <app-interested-property [is_deal_finalised]="is_deal_finalised" [selected_properties]="leadData?.selected_properties" [lead_id]="parameter.lead_id" [interested_properties]="parameter.interested_properties" [sent_as]="parameter.sent_as"></app-interested-property>
   <!-- Interested Properties end -->
 
   <!-- viewed property or projects start -->
-  <app-viewed-property [user_id]="parameter?.lead?.user_id" [viewed_properties]="parameter.viewed_properties"></app-viewed-property>
+  <app-viewed-property [user_id]="leadData?.user_id" [viewed_properties]="parameter.viewed_properties"></app-viewed-property>
   <!-- viewed property or projects end -->
 
   <!-- viewed projects start -->
-  <app-viewed-projects [user_id]="parameter?.lead?.user_id" [viewed_projects]="parameter.viewed_projects"></app-viewed-projects>
+  <app-viewed-projects [user_id]="leadData?.user_id" [viewed_projects]="parameter.viewed_projects"></app-viewed-projects>
   <!-- viewed projects end -->
 </div>
 

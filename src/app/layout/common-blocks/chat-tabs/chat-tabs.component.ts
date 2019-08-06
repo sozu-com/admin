@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 import * as io from 'socket.io-client';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { IProperty } from 'src/app/common/property';
@@ -71,6 +70,7 @@ export class ChatTabsComponent implements OnInit {
   chat_admin: any;
   chat_seller: any;
   chat_buyer: any;
+  chat_csr_buyer: any;
   chat_admin_sent_as = this.constant.userType.user_buyer;
   loadmore = true;
   loadmoring: any = false;
@@ -105,12 +105,12 @@ export class ChatTabsComponent implements OnInit {
     setTimeout(() => {
       const input = {lead_id: this.lead_id, user_id: this.user_id, sent_as: this.sent_as};
       this.initSocket();
-      this.chat_buyer = this.leadData.lead.user;
-      this.chat_seller = this.leadData.lead.selected_properties[0].property.creator;
-      this.chat_notary = this.leadData.lead.selected_properties[0].selected_noatary[0] ?
-      this.leadData.lead.selected_properties[0].selected_noatary[0].noatary : [];
-      this.chat_bank = this.leadData.lead.selected_properties[0].banks ? this.leadData.lead.selected_properties[0].banks[0] : [];
-
+      this.chat_buyer = this.leadData.user;
+      this.chat_seller = this.leadData.selected_properties[0].property.creator;
+      this.chat_notary = this.leadData.selected_properties[0].selected_noatary[0] ?
+      this.leadData.selected_properties[0].selected_noatary[0].noatary : [];
+      this.chat_bank = this.leadData.selected_properties[0].banks ? this.leadData.selected_properties[0].banks[0] : [];
+      this.chat_csr_buyer = this.leadData.admin;
       this.getLeadConversation(this.constant.userType.user_buyer);
     }, 100);
 
@@ -437,7 +437,7 @@ export class ChatTabsComponent implements OnInit {
     });
   }
 
-  getLeadConversation(admin_sent_as) {
+  getLeadConversation(admin_sent_as: any) {
     this.chat_admin_sent_as = admin_sent_as;
     if (admin_sent_as === this.constant.userType.user_buyer) {
       this.chat_admin = this.chat_buyer;
@@ -446,7 +446,7 @@ export class ChatTabsComponent implements OnInit {
       this.chat_admin = this.chat_seller;
     }
     if (admin_sent_as === this.constant.userType.csr_buyer) {
-      this.chat_admin = this.chat_seller;
+      this.chat_admin = this.chat_csr_buyer;
     }
     if (admin_sent_as === this.constant.userType.notary) {
       this.chat_admin = this.chat_notary;

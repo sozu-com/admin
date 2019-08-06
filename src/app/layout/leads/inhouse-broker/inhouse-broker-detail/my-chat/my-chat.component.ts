@@ -18,6 +18,7 @@ declare let swal: any;
 export class MyChatComponent implements OnInit {
 
   public parameter: IProperty = {};
+  type: string;
   conversations: any = [];
   conversation: any;
   conversation_id: any;
@@ -75,20 +76,35 @@ export class MyChatComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.lead_id = params.id;
-    });
     this.loginData$$ = this.admin.loginData$.subscribe(success => {
       this.admin_id = success['id'];
     });
-    this.loadingConversation = true;
-    this.admin.postDataApi('leads/developers', { lead_id: this.lead_id }).subscribe(r => {
-      this.conversations = r['data'];
-      if (this.conversations.length > 0) {
-        this.initSocket();
-        this.selectConversation(this.conversations[0]);
+    this.route.params.subscribe(params => {
+      this.lead_id = params.id;
+      this.type = params.type;
+      console.log(this.type, typeof(this.type));
+      this.loadingConversation = true;
+      // chat with seller
+      if (this.type === '1') {
+        this.admin.postDataApi('leads/developers', { lead_id: this.lead_id }).subscribe(r => {
+          this.conversations = r['data'];
+          if (this.conversations.length > 0) {
+            this.initSocket();
+            this.selectConversation(this.conversations[0]);
+          }
+          this.loadingConversation = false;
+        });
+      } else {
+        // chat with csr seller
+        this.admin.postDataApi('leads/leadCsrSellers', { lead_id: this.lead_id }).subscribe(r => {
+          this.conversations = r['data'];
+          if (this.conversations.length > 0) {
+            this.initSocket();
+            this.selectConversation(this.conversations[0]);
+          }
+          this.loadingConversation = false;
+        });
       }
-      this.loadingConversation = false;
     });
   }
 

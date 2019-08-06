@@ -7,7 +7,7 @@
          <a *ngFor="let con of conversations" [ngClass]="{'active':con.selected == true}" href="javascript://">
             <div class="profile" (click)="selectConversation(con)">
                <div class="fig-block">
-                  <img [src]="con.image" onerror='src="http://via.placeholder.com/62x62"' alt="img" />
+                  <img [src]="con.image" onerror='src="assets/img/default_img.png"' alt="img" />
                </div>
                <div class="profile-info">
                   <h6>{{con.name | titlecase}}</h6>
@@ -27,7 +27,7 @@
              <a href="javascript://">
                <div class="profile">
                   <div class="fig-block">
-                     <img [src]="parameter.image" onerror='src="http://via.placeholder.com/62x62"' alt="img">
+                     <img [src]="parameter.image" onerror='src="assets/img/default_img.png"' alt="img">
                   </div>
                   <div class="profile-info">
                      <h6>{{parameter.name | titlecase}}</h6>

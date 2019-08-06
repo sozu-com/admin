@@ -4,7 +4,7 @@ import * as io from 'socket.io-client';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { IProperty } from 'src/app/common/property';
 import { Chat } from 'src/app/models/chat.model';
-import { ScheduleMeeting, NotaryAssigned, BankAssigned, SelectedProperties } from 'src/app/models/leads.model';
+import { ScheduleMeeting, NotaryAssigned, BankAssigned, SelectedProperties, Leads } from 'src/app/models/leads.model';
 import { AdminService } from 'src/app/services/admin.service';
 import { CommonService } from 'src/app/services/common.service';
 import { Constant } from 'src/app/common/constants';
@@ -83,6 +83,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   admin_id: string;
   showInput: false;
   pen_amount = 0;
+  leadData: Leads;
   keyword: string;
   @ViewChild('chatWin') chatWin: ElementRef;
   @ViewChild('optionsButton') optionsButton: ElementRef;
@@ -104,12 +105,10 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   ) { }
 
   closeModal1() {
-    console.log('close');
     this.modalClose1.nativeElement.click();
   }
 
   closeModal2() {
-    console.log('close');
     this.modalClose2.nativeElement.click();
   }
 
@@ -121,24 +120,26 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       this.admin_id = success['id'];
     });
     this.route.params.subscribe(params => {
+      this.leadData = new Leads();
+      this.leadData.selected_properties = [new SelectedProperties()];
       this.parameter.lead_id = params.id;
       this.spinner.show();
       this.admin.postDataApi('leads/details', { lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as }).subscribe(r => {
         this.spinner.hide();
+        this.leadData = r.data.lead;
         this.getDocumentOptions();
-        this.parameter.lead = r.data.lead;
         this.selectedProperties = r.data.lead.selected_properties[0];
         this.pen_amount = this.selectedProperties.pending_amount ?
           this.selectedProperties.pending_amount :
           (this.selectedProperties.total_amount - this.selectedProperties.token_money);
-        this.parameter.user_id = this.parameter.lead.user.id;
+        this.parameter.user_id = this.leadData.user.id;
 
-        if (this.parameter.lead.appointments.length !== 0) {
-          this.scheduleMeeting = this.parameter.lead.appointments[0];
+        if (this.leadData.appointments.length !== 0) {
+          this.scheduleMeeting = this.leadData.appointments[0];
         }
-        // if (this.parameter.lead.appointments && this.parameter.lead.appointments.length !== 0) {
-        //   for (let index = 0; index < this.parameter.lead.appointments.length; index++) {
-        //     const element = this.parameter.lead.appointments[index];
+        // if (this.leadData.appointments && this.leadData.appointments.length !== 0) {
+        //   for (let index = 0; index < this.leadData.appointments.length; index++) {
+        //     const element = this.leadData.appointments[index];
         //     if (element.sent_as === this.constant.userType.csr_closer) {
         //       this.meetingDate = {
         //         appointment_date: element.appointment_date,
@@ -202,7 +203,6 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   }
 
   assignNoatary(notary) {
-    console.log('assignNoatary=', notary);
     this.notaryModel.noatary_id = notary.id;
     swal({
       html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to assign this notary?',
@@ -313,22 +313,18 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
 
   blockThisLead() {
     this.admin.postDataApi('conversation/block', { lead_id: this.id }).subscribe(r => {
-      // console.log(r);
     });
   }
 
   updateDocumentChecklist() {
     const ids = this.selectedProperties.allDocuments.filter(d => d.is_selected === 1);
     const documents_ids = ids.map(d => d.id);
-    // console.log('selected', this.selectedProperties);
-    // console.log('ids', ids, documents_ids);
     const input = {
       lead_id: this.parameter.lead_id,
       property_id: this.selectedProperties.property_id,
       documents: documents_ids
     };
     this.admin.postDataApi('leads/updateDocumentChecklist', input).subscribe(r => {
-      // console.log('updateDocumentChecklist', r);
       swal('Success', 'Updated successfully.', 'success');
     }
     );
@@ -354,8 +350,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     }).then((result) => {
       if (result.value) {
         this.admin.postDataApi('leads/closer-mark-lead-closed', { lead_id: this.parameter.lead_id }).subscribe(r => {
-          console.log('r', r);
-          this.parameter.lead.lead_status_closer = 1;
+          this.leadData.lead_status_closer = 1;
           swal('Success', 'Lead closed successfully.', 'success');
         });
       }
@@ -370,7 +365,6 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
 
 
   selectConversation(conversation) {
-    console.log('con', conversation);
     this.conversations.map(con => {
       con.selected = false;
       if (con === conversation) {
@@ -380,14 +374,12 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     });
 
     this.conversation = conversation;
-    console.log('con id', this.conversation_id);
     const data = {
       conversation_id: this.conversation_id
     };
 
     this.loadingMessages = true;
     this.admin.postDataApi('conversation/getMessages', data).subscribe(res => {
-      // console.log(res);
       this.messages = res['data'];
       this.loadingMessages = false;
       setTimeout(() => {
@@ -404,8 +396,6 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     this.socket = io.connect(this.admin.socketUrl);
 
     // this.parameter.socket.on('connect', fun => {
-    //   console.log('connect');
-    //   console.log('connect', this.parameter.socket);
     //   this.parameter.socket_id = this.parameter.socket.id;
     //   this.parameter.connected = this.parameter.socket.connected;
 
@@ -437,16 +427,13 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
         device_id: this.admin.deviceId + '_' + this.admin_id
       };
       if (this.connected) {
-        console.log('Socket Connected', this.socket_id);
 
         this.socket.emit('add-admin', data, (res: any) => {
-          console.log('res', res);
+          // console.log('res', res);
         });
 
         this.socket.on('message', (response: any) => {
           if (response.data.conversation_id === this.conversation_id) {
-            console.log('Socket conversation_id');
-            console.log('Socket conversation_id', this.conversation_id);
             this.messages.push(response.data);
             setTimeout(() => {
               this.scrollToBottom();
@@ -530,7 +517,6 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     this.cs.saveAttachment(event.target.files[0]).subscribe(
       success => {
         model.attachment = success['data'].name;
-        // console.log('==>', model);
         this.sendMessage(model);
       }
     );
@@ -600,25 +586,18 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   newcanvas(video, videoFile, model) {
 
     const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-    // console.log(canvas);
     const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
       0, 0, canvas.width, canvas.height);
 
     const ImageURL = canvas.toDataURL('image/jpeg');
     model.image = ImageURL;
-    // console.log(model);
     const fileToUpload = this.dataURLtoFile(ImageURL, 'tempFile.png');
     this.cs.saveVideo(videoFile, fileToUpload).subscribe(
       success => {
-        // console.log('image', success);
         model.video = success['data'].video;
         model.image = success['data'].thumb;
         this.sendMessage(model);
-      }
-      //  error => {
-      //   console.log(error);
-      // }
-    );
+      });
   }
 
   dataURLtoFile(dataurl, filename) {
@@ -717,18 +696,16 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     if (admin_sent_as === this.constant.userType.bank) {
       this.chat_admin = this.chat_bank;
     }
-    console.log('chat_admin', this.chat_admin);
     const data = {
       lead_id: this.parameter.lead_id,
       other_sent_as: admin_sent_as,
       other_id: this.chat_admin.id,
       sent_as: this.constant.userType.csr_closer
     };
-    console.log('=========', data);
+
     this.spinner.show();
     this.admin.postDataApi('conversation/getLeadConversation', data).subscribe(r => {
       this.spinner.hide();
-      console.log('conversation/getLeadConversation', r);
       if (r['data']) {
         this.conversation_id = r['data'][0].id;
         this.initSocket();
@@ -751,15 +728,11 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       lead_id: this.parameter.lead_id,
       last_message_id: this.messages[0].id
     };
-    // console.log(data);
     this.admin.postDataApi('conversation/getMessages', data).subscribe(res => {
-      // console.log(res);
       this.loadmoring = false;
       if (res['data'].length < 30) { this.loadmore = false; }
       this.messages = res['data'].concat(this.messages);
-    }
-      // error => {}
-    );
+    });
   }
 
   sendProperty(property) {
@@ -798,7 +771,6 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
           this.scheduleMeeting.id = this.scheduleMeeting.id;
         }
         this.admin.postDataApi('leads/addAppointment', this.scheduleMeeting).subscribe(r => {
-          console.log('r', r);
           this.scheduleMeeting = r.data;
           this.closeModal2();
           swal('Success', 'Meeting scheduled successfully.', 'success');
@@ -808,7 +780,6 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   }
 
   updatePropertyAmount() {
-    console.log('11');
     if (this.pen_amount > this.selectedProperties.total_amount && this.pen_amount < 0) {
       swal('Error', 'Incorrect amount entered', 'error');
       return false;
@@ -819,10 +790,9 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       pending_amount: this.pen_amount
     };
     this.admin.postDataApi('leads/updatePropertyAmount', input).subscribe(r => {
-      console.log('r', r);
       this.showInput = false;
       this.selectedProperties.pending_amount = this.pen_amount;
-      // this.parameter.lead.lead_status_closer = 1;
+      // this.leadData.lead_status_closer = 1;
       swal('Success', 'Amount updated successfully.', 'success');
     });
   }

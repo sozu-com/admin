@@ -5,12 +5,12 @@
         <div class="col-lg-3 col-md-12 col-sm-6 col-12">
             <div class="df-profile">
             <a routerLink="../"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
-            <img [src]="parameter.lead?.user?.image" onerror='src="assets/img/default_img.png"' alt="img">
-            <div class="df-info" *ngIf="parameter.lead?.user">
-                <p class="p14 text-ellipsis120">{{parameter.lead.user.name | titlecase}}</p>
+            <img [src]="leadData?.user?.image" onerror='src="assets/img/default_img.png"' alt="img">
+            <div class="df-info" *ngIf="leadData?.user">
+                <p class="p14 text-ellipsis120">{{leadData.user.name | titlecase}}</p>
                 <!-- <p class="p12">Status: Open</p> -->
                 <p class="p12">
-                    {{parameter?.lead?.user?.dial_code ? parameter?.lead?.user?.dial_code : parameter?.lead?.dial_code}}-{{parameter?.lead?.user?.phone ? parameter?.lead?.user?.phone : parameter?.lead?.phone}}
+                    {{leadData?.user?.dial_code ? leadData?.user?.dial_code : leadData?.dial_code}}-{{leadData?.user?.phone ? leadData?.user?.phone : leadData?.phone}}
                 </p>
             </div>
             </div>
@@ -20,19 +20,19 @@
             <ul>
                 <li>
                     <div class="df-info">
-                        <p class="p14 marginB0" *ngIf="parameter.lead?.admin">{{parameter.lead.admin.name | titlecase}}</p>
+                        <p class="p14 marginB0" *ngIf="leadData?.admin">{{leadData.admin.name | titlecase}}</p>
                         <p class="p12">CSR Buyer</p>
                     </div>
                 </li>
                 <li>
-                    <div class="df-info" *ngIf="parameter.lead?.broker">
-                        <p class="p14 marginB0">{{parameter.lead.broker.name | titlecase}}</p>
+                    <div class="df-info" *ngIf="leadData?.broker">
+                        <p class="p14 marginB0">{{leadData.broker.name | titlecase}}</p>
                         <p class="p12">Inhouse Agent</p>
                     </div>
                 </li>
                 <li>
-                    <div class="df-info" *ngIf="parameter.lead?.closer">
-                        <p class="p14 marginB0">{{parameter.lead.closer.name | titlecase}}</p>
+                    <div class="df-info" *ngIf="leadData?.closer">
+                        <p class="p14 marginB0">{{leadData.closer.name | titlecase}}</p>
                         <p class="p12">CSR Closure</p>
                     </div>
                 </li>
@@ -42,11 +42,11 @@
         <div class="col-lg-2 col-md-12 col-sm-12 col-12">
             <div class="row">
                 <div class="col-sm-12 btn-cont text-right">
-                    <a *ngIf="parameter?.lead?.lead_status_closer!=1 &&
+                    <a *ngIf="leadData?.lead_status_closer!=1 &&
                     (admin?.admin_acl['Closer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_closer==1)" (click)="markLeadClose()" class="btn btn-fourth" href="javascript://">
                         Close Lead
                     </a>
-                    <a *ngIf="parameter?.lead?.lead_status_closer==1" style="cursor: auto;" class="btn btn-fourth" href="javascript://">
+                    <a *ngIf="leadData?.lead_status_closer==1" style="cursor: auto;" class="btn btn-fourth" href="javascript://">
                         Lead Closed
                     </a>
                 </div>
@@ -71,48 +71,48 @@
             <table class="table">
                 <tr>
                     <td style="padding-left:0"><label>Full Name</label></td>
-                    <td colspan="2" *ngIf="parameter?.lead?.name">{{parameter.lead.user.name | titlecase}}</td>
+                    <td colspan="2" *ngIf="leadData?.name">{{leadData.user.name | titlecase}}</td>
                 </tr>
                 <tr>
                     <td style="padding-left:0"><label>Contact Number</label></td>
-                    <td colspan="2" *ngIf="parameter?.lead?.phone">{{parameter.lead.user.dial_code ? parameter.lead.user.dial_code : constant.dial_code}}-{{parameter.lead.user.phone}}</td>
+                    <td colspan="2" *ngIf="leadData?.phone">{{leadData.user.dial_code ? leadData.user.dial_code : constant.dial_code}}-{{leadData.user.phone}}</td>
                 </tr>
                 <tr>
                     <td style="padding-left:0"><label>Email address</label></td>
-                    <td colspan="2" *ngIf="parameter?.lead?.email">{{parameter.lead.user.email}}</td>
+                    <td colspan="2" *ngIf="leadData?.email">{{leadData.user.email}}</td>
                 </tr>
                 <tr>
                     <td style="padding-left:0"><label>Interested In</label></td>
-                    <td *ngIf="parameter?.lead?.configuration">
-                        <span *ngFor="let conf of parameter.lead.configuration; let ii=index">
-                        {{conf.name}}<span *ngIf="ii<parameter?.lead?.configuration?.length-1">,</span>
+                    <td *ngIf="leadData?.configuration">
+                        <span *ngFor="let conf of leadData.configuration; let ii=index">
+                        {{conf.name}}<span *ngIf="ii<leadData?.configuration?.length-1">,</span>
                         </span>
-                        <span *ngIf="parameter.lead.configuration?.length == 0">NA</span>
+                        <span *ngIf="leadData.configuration?.length == 0">NA</span>
                     </td>
                 </tr>
                 <tr>
                     <td style="padding-left:0"><label><strong>Property Selected</strong></label></td>
-                    <td *ngIf="parameter?.lead?.selected_properties?.length!=0">
+                    <td *ngIf="leadData?.selected_properties?.length!=0">
                         <p class="p14 marginB0">
-                            {{parameter.lead?.selected_properties[0]?.property?.configuration.name}}
+                            {{leadData?.selected_properties[0]?.property?.configuration.name}}
                         </p>
-                        <p class="p12 marginB0"><strong>{{parameter.lead?.selected_properties[0]?.property?.building?.name}}</strong></p>
-                        <p class="p11"><i>{{parameter.lead?.selected_properties[0]?.property?.building?.developer?.name | titlecase}}</i></p>
+                        <p class="p12 marginB0"><strong>{{leadData?.selected_properties[0]?.property?.building?.name}}</strong></p>
+                        <p class="p11"><i>{{leadData?.selected_properties[0]?.property?.building?.developer?.name | titlecase}}</i></p>
                     </td>
-                    <td *ngIf="parameter?.lead?.selected_properties?.length!=0">
-                        <a class="view-all-2" href="javascript://" (click)="viewPropertyDetails(parameter?.lead?.selected_properties[0])"> View Property</a>
+                    <td *ngIf="leadData?.selected_properties?.length!=0">
+                        <a class="view-all-2" href="javascript://" (click)="viewPropertyDetails(leadData?.selected_properties[0])"> View Property</a>
                     </td>
-                    <td *ngIf="parameter?.lead?.selected_properties?.length==0">NA</td>
+                    <td *ngIf="leadData?.selected_properties?.length==0">NA</td>
                 </tr>
                 
                 <!-- Notary Availabilities -->
-                <tr *ngIf="parameter?.lead?.sale_rent==1">
+                <tr *ngIf="leadData?.sale_rent==1">
                     <td  style="padding-left:0"><label><strong>Notary Availabilities</strong></label></td>
-                    <td colspan="2" *ngIf="parameter?.lead?.selected_properties[0]?.selected_noatary!=0 && parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability?.length!=0; else noAvailability3">
-                        <p *ngFor="let na of parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability; let m=index" class="date">
+                    <td colspan="2" *ngIf="leadData?.selected_properties[0]?.selected_noatary!=0 && leadData?.selected_properties[0]?.selected_noatary[0]?.noatary_availability?.length!=0; else noAvailability3">
+                        <p *ngFor="let na of leadData?.selected_properties[0]?.selected_noatary[0]?.noatary_availability; let m=index" class="date">
                             <span *ngIf="m<2">{{na.date_time | moment}}</span>
                         </p>
-                        <span class="read-more" *ngIf="parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability.length>2" data-toggle="modal" data-target="#get-availability1">Read more</span>
+                        <span class="read-more" *ngIf="leadData?.selected_properties[0]?.selected_noatary[0]?.noatary_availability.length>2" data-toggle="modal" data-target="#get-availability1">Read more</span>
                     </td>
                     <ng-template #noAvailability3>
                         <td colspan="2"><p>No availability given by notary yet.</p></td>
@@ -120,7 +120,7 @@
                 </tr>
 
                 <!-- Meeting Schedule -->
-                <tr *ngIf="parameter?.lead?.sale_rent==1">
+                <tr *ngIf="leadData?.sale_rent==1">
                     <td  style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
                     <td colspan="2" class="cursor-pointer">
                         <p class="date" *ngIf="scheduleMeeting.appointment_date; else noAvailability4" data-toggle="modal" data-target="#get-availability2">
@@ -141,7 +141,7 @@
         <!-- notes end -->
 
         <!-- <div class="spacer15"></div> -->
-        <div *ngIf="parameter?.lead?.sale_rent==1" class="bank-assigned-now white-bg">
+        <div *ngIf="leadData?.sale_rent==1" class="bank-assigned-now white-bg">
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-12 b-left">
                 <p class="p13" *ngIf="selectedProperties?.noataries && selectedProperties.noataries.length==0">No Notary assigned yet </p>
@@ -201,7 +201,7 @@
         </div>
 
         <!-- <div class="spacer15"></div> -->
-        <!-- *ngIf="parameter?.lead?.sale_rent==1" -->
+        <!-- *ngIf="leadData?.sale_rent==1" -->
         <div class="payment-status-table white-bg">
             <div class="page-title-2 marginB0 border-0">
                 <div class="row">
@@ -271,11 +271,11 @@
                     <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.user_seller_dev}" (click)="getLeadConversation(constant.userType.user_seller_dev)" class="nav-link">Seller</a>
                 </li>
                 <!-- show only if notary is assigned and property is available for sale -->
-                <li class="nav-item" *ngIf="selectedProperties.noataries && selectedProperties.noataries.length!=0 && parameter?.lead?.sale_rent==1">
+                <li class="nav-item" *ngIf="selectedProperties.noataries && selectedProperties.noataries.length!=0 && leadData?.sale_rent==1">
                     <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.notary}" (click)="getLeadConversation(constant.userType.notary)" class="nav-link">Notary</a>
                 </li>
                 <!-- show only if bank is assigned and property is available for sale -->
-                <li class="nav-item" *ngIf="selectedProperties.banks && selectedProperties.banks.length!=0 && parameter?.lead?.sale_rent==1">
+                <li class="nav-item" *ngIf="selectedProperties.banks && selectedProperties.banks.length!=0 && leadData?.sale_rent==1">
                     <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.bank}" (click)="getLeadConversation(constant.userType.bank)" class="nav-link">Bank</a>
                 </li>
                 </ul>
@@ -401,7 +401,7 @@
 
 
     <div class="clearfix"></div>
-    <div *ngIf="parameter?.lead?.sale_rent==1" class="upload-document-block white-bg">
+    <div *ngIf="leadData?.sale_rent==1" class="upload-document-block white-bg">
         <div class="page-title-2 border-0">
             <div class="row">
                 <div class="col-9">
@@ -426,7 +426,7 @@
             </table>
         </div>
     </div>
-    <div *ngIf="parameter?.lead?.sale_rent==1" class="all-document-block white-bg">
+    <div *ngIf="leadData?.sale_rent==1" class="all-document-block white-bg">
         <div class="page-title-2 border-0">
         <div class="row">
         <div class="col-9">
@@ -564,7 +564,7 @@
                                 </label>
                             </td>
                         </tr>
-                        <div  *ngIf="parameter.items?.length==0" class="write-note white-bg">
+                        <div  *ngIf="parameter?.items?.length==0" class="write-note white-bg">
                             <p class="show-not-found">
                                 No notary is available.
                             </p>
@@ -587,8 +587,8 @@
             </div>
     
             <div class="modal-body modal-body-new">
-                <div class="row">
-                    <div class="col-6" *ngFor="let d of parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability; let j=index">
+                <div class="row" *ngIf="leadData?.selected_properties && leadData?.selected_properties[0]?.selected_noatary">
+                    <div class="col-6" *ngFor="let d of leadData?.selected_properties[0]?.selected_noatary[0]?.noatary_availability; let j=index">
                         <label class="notary-ava">{{d.date_time | moment}}</label>
                     </div>
                 </div>
@@ -608,8 +608,8 @@
             </div>
     
             <div class="modal-body modal-body-new">
-                <table class="table">
-                    <tr *ngFor="let d of parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability; let j=index">
+                <table class="table" *ngIf="leadData?.selected_properties[0]?.selected_noatary">
+                    <tr *ngFor="let d of leadData?.selected_properties[0]?.selected_noatary[0]?.noatary_availability; let j=index">
                         <td>
                             <label class="notary-ava">{{d.date_time | moment}}</label>
                         </td>
@@ -620,7 +620,7 @@
                             </label>
                         </td>
                     </tr>
-                    <div *ngIf="parameter?.lead?.selected_properties[0]?.selected_noatary[0]?.noatary_availability==null" class="write-note white-bg">
+                    <div *ngIf="leadData?.selected_properties[0]?.selected_noatary[0]?.noatary_availability==null" class="write-note white-bg">
                         <p class="show-not-found">
                             No availability given by notary yet.
                         </p>
