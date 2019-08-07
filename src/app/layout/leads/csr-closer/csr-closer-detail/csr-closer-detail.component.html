@@ -27,7 +27,7 @@
                 <li>
                     <div class="df-info" *ngIf="leadData?.broker">
                         <p class="p14 marginB0">{{leadData.broker.name | titlecase}}</p>
-                        <p class="p12">Inhouse Agent</p>
+                        <p class="p12">{{leadData?.broker?.is_external_agent==1 ? 'Outside Agent' : 'Inhouse Agent'}}</p>
                     </div>
                 </li>
                 <li>

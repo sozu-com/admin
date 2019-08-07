@@ -3,7 +3,7 @@ import * as io from 'socket.io-client';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { IProperty } from 'src/app/common/property';
 import { Chat } from 'src/app/models/chat.model';
-import { ScheduleMeeting, NotaryAssigned, BankAssigned, SelectedProperties } from 'src/app/models/leads.model';
+import { ScheduleMeeting, NotaryAssigned, BankAssigned, SelectedProperties, Leads } from 'src/app/models/leads.model';
 import { AdminService } from 'src/app/services/admin.service';
 import { CommonService } from 'src/app/services/common.service';
 import { Constant } from 'src/app/common/constants';
@@ -21,7 +21,7 @@ export class ChatTabsComponent implements OnInit {
   @Input('user_id') user_id;
   @Input('sent_as') sent_as;
   @Input('other_sent_as') other_sent_as;
-  @Input('leadData') leadData;
+  @Input('leadData') leadData: Leads;
 
   public parameter: IProperty = {};
   show = false;
@@ -106,10 +106,11 @@ export class ChatTabsComponent implements OnInit {
       const input = {lead_id: this.lead_id, user_id: this.user_id, sent_as: this.sent_as};
       this.initSocket();
       this.chat_buyer = this.leadData.user;
-      this.chat_seller = this.leadData.selected_properties[0].property.creator;
-      this.chat_notary = this.leadData.selected_properties[0].selected_noatary[0] ?
+      this.chat_seller = this.leadData.selected_properties[0] ? this.leadData.selected_properties[0].property.creator :
+      this.leadData.user;
+      this.chat_notary = this.leadData.selected_properties[0] && this.leadData.selected_properties[0].selected_noatary[0] ?
       this.leadData.selected_properties[0].selected_noatary[0].noatary : [];
-      this.chat_bank = this.leadData.selected_properties[0].banks ? this.leadData.selected_properties[0].banks[0] : [];
+      this.chat_bank = this.leadData.selected_properties[0] ? this.leadData.selected_properties[0].banks[0] : [];
       this.chat_csr_buyer = this.leadData.admin;
       this.getLeadConversation(this.constant.userType.user_buyer);
     }, 100);
@@ -380,13 +381,15 @@ export class ChatTabsComponent implements OnInit {
   }
 
   setText() {
-    if (!this.textMessage) {
+    console.log('---', this.textMessage);
+    console.log('xx', this.textMessage.trim().length, 'ss');
+    if (!this.textMessage || !this.textMessage.trim()) {
       return false;
     } else if ((Object.keys(this.admin.admin_acl).length !== 0 && this.admin.admin_acl['Closer Lead Management'].can_update === 0)
       || this.admin.permissions.can_csr_closer === 0) {
       return false;
     } else {
-
+console.log('zzz');
       const model = new Chat;
       model.message = this.textMessage;
       model.message_type = 1;

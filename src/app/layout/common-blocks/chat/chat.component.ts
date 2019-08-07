@@ -332,7 +332,7 @@ export class ChatComponent implements OnInit {
   }
 
   setText() {
-    console.log('====', this.sent_as, this.admin.admin_acl);
+    console.log('====', this.sent_as, this.admin.admin_acl, this.textMessage);
     if (!this.textMessage) {
       return false;
     } else if ((this.sent_as === this.constant.userType.csr_buyer &&

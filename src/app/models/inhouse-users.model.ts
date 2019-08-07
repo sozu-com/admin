@@ -47,6 +47,7 @@ export class UserModel {
     // keys added for external broker
     is_external_agent?: boolean;
     agency?: Agency;
+    is_inhouse_agent?: boolean; // for frontend use only
     // company_name?: string;
     // company_logo?: string;
     // description?: string;

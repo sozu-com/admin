@@ -33,7 +33,7 @@ export class Leads {
     prefs: any;
     proximity_places: Array<ProximityPlaces>;
     property_types: Array<PropertyTypes>;
-    configurations: Array<Configuration>;
+    configuration: Array<Configuration>;
     selected_properties: Array<SelectedProperties>;
     appointments: Array<AddAppointment>;
 }
@@ -117,6 +117,7 @@ export class SelectedProperties {
     commision: number;
     banks: Array<BankAssigned>;
     noataries: Array<NotaryAssigned>;
+    selected_noatary?: Array<NotaryAssigned>;
     selected_documents: Array<Documents>;
     allDocuments: Array<Documents>;
     uploaded_documents: Array<UploadedDocuments>;
@@ -152,6 +153,7 @@ export class NotaryAssigned {
     image: string;
     property_id: number;
     noatary_id: number;
+    noatary?: any;
     // is_selected: number;
     // status: number;
 }

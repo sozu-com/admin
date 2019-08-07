@@ -9,7 +9,7 @@
               <div class="df-info">
                   <p class="p14 text-ellipsis120">{{leadData?.user?.name ? leadData?.user?.name : leadData?.name}}</p>
                   <p class="p12">
-                    {{leadData?.user?.dial_code ? leadData?.user?.dial_code : leadData?.dial_code}}-{{leadData?.user?.phone ? leadData?.user?.phone : leadData?.phone}}
+                    {{leadData?.user?.dial_code?leadData?.user?.dial_code:leadData?.dial_code}}-{{leadData?.user?.phone ? leadData?.user?.phone:leadData?.phone}}
                   </p>
               </div>
             </div>
@@ -26,7 +26,7 @@
                 <li>
                     <div class="df-info" *ngIf="leadData?.broker">
                         <p class="p14 marginB0">{{leadData.broker.name | titlecase}}</p>
-                        <p class="p12">Inhouse Agent</p>
+                        <p class="p12">{{leadData?.broker?.is_external_agent==1 ? 'Outside Agent' : 'Inhouse Agent'}}</p>
                     </div>
                 </li>
                 <li>
@@ -149,10 +149,10 @@
         </div>
 
         <!-- chat start -->
-        <div class="white-bg padding15">
-            <p class="p16 marginB0">Chat with Buyer</p>
+        <div *ngIf="leadData?.user" class="white-bg padding15">
+            <p class="p16 marginB0">Chat with Buyer <span>({{leadData?.user?.name ? leadData?.user?.name : leadData?.name}})</span></p>
         </div>
-        <hr class="margin0">
+        <hr *ngIf="leadData?.user" class="margin0">
         <div *ngIf="leadData?.user">
           <app-chat [lead_id]="parameter.lead_id" [sent_as]="parameter.sent_as" [user_id]="parameter.user_id" [admin_id]="parameter.admin_id"></app-chat>
         </div>
