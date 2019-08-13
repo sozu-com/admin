@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, Output } from '@angular/core';
-import { DealFinalize } from './../../../models/leads.model';
-import { IProperty } from './../../../common/property';
-import { AdminService } from './../../../services/admin.service';
-import { Constant } from './../../../common/constants';
+import { DealFinalize } from 'src/app/models/leads.model';
+import { IProperty } from 'src/app/common/property';
+import { AdminService } from 'src/app/services/admin.service';
+import { Constant } from 'src/app/common/constants';
 import { EventEmitter } from 'events';
 import { NgForm } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';

@@ -1240,10 +1240,11 @@ margin-right:10px;
 .chat-top {
 border-bottom: solid 1px #f1f1f1;
 }
-.chat-area {
+.chat-area, .chat-area.scrollbox {
 padding: 15px !important;
-overflow-y: scroll;
-height: 376px;
+/* overflow-y: scroll; */
+/* height: 376px !important; */
+height: 435px !important;
 }
 #side-menu-bar .scrollbox {
 overflow: auto;
@@ -1681,6 +1682,8 @@ font-family: 'sf_ui_textbold';
 margin-bottom: 0;
 }
 .project-des-content .p13 {
+max-height: 40px;
+overflow: hidden;
 margin-bottom: 0;
 color: rgba(0,0,0,0.5);
 font-size: 14px;

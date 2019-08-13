@@ -4,27 +4,39 @@
   </div>
   <div class="cust-tabs-4">
     <ul class="nav nav-tabs">
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="sent_as==constant.userType.csr_buyer || sent_as==constant.userType.inhouse_broker">
         <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.user_buyer}"
           (click)="getLeadConversation(constant.userType.user_buyer)" class="nav-link">Buyer</a>
       </li>
-      <li class="nav-item" *ngIf="sent_as!=constant.userType.inhouse_broker">
+      <li class="nav-item" *ngIf="sent_as==constant.userType.csr_closer">
+        <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.user_buyer}"
+          (click)="getLeadConversation(constant.userType.user_buyer)" class="nav-link">Buyer</a>
+      </li>
+      <li class="nav-item" *ngIf="sent_as==constant.userType.csr_closer">
         <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.user_seller_dev}"
           (click)="getLeadConversation(constant.userType.user_seller_dev)" class="nav-link">Seller</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="sent_as==constant.userType.inhouse_broker">
         <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.csr_buyer}"
           (click)="getLeadConversation(constant.userType.csr_buyer)" class="nav-link">CSR Buyer</a>
       </li>
+      <li class="nav-item" *ngIf="sent_as==constant.userType.csr_buyer">
+        <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.inhouse_broker}"
+          (click)="getLeadConversation(constant.userType.inhouse_broker)" class="nav-link">Inhouse Agent</a>
+      </li>
       <!-- show only if notary is assigned and property is available for sale -->
       <li class="nav-item"
-        *ngIf="selectedProperties.noataries && selectedProperties.noataries.length!=0 && parameter?.lead?.sale_rent==1">
+        *ngIf="selectedProperties.noataries && 
+        selectedProperties.noataries.length!=0 && parameter?.lead?.sale_rent==1 &&
+        sent_as==constant.userType.csr_closer">
         <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.notary}"
           (click)="getLeadConversation(constant.userType.notary)" class="nav-link">Notary</a>
       </li>
       <!-- show only if bank is assigned and property is available for sale -->
       <li class="nav-item"
-        *ngIf="selectedProperties.banks && selectedProperties.banks.length!=0 && parameter?.lead?.sale_rent==1">
+        *ngIf="selectedProperties.banks && 
+        selectedProperties.banks.length!=0 && parameter?.lead?.sale_rent==1 &&
+        sent_as==constant.userType.csr_closer">
         <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.bank}"
           (click)="getLeadConversation(constant.userType.bank)" class="nav-link">Bank</a>
       </li>
@@ -47,7 +59,7 @@
             </div>
           </a>
         </div>
-        <div malihu-scrollbar [scrollbarOptions]="scrollbarOptions" class="chat-area scrollbox" #chatWin>
+        <div malihu-scrollbar [scrollbarOptions]="scrollbarOptions" class="scrollbox chat-area" #chatWin>
           <div *ngFor="let m of messages; let i=index"
             [ngClass]="m.conversation_user.admin_id == admin_id ? 'chat-user-one' :'chat-user-two'" class="chat-user">
             <p *ngIf="m.message_type == 1" style="word-wrap: break-word;">
@@ -98,7 +110,9 @@
             <span class="time" *ngIf="m.id">{{m.updated_at| moment}}</span>
             <span class="time" *ngIf="!m.id">{{m.updated_at|date:'h:mm a'|lowercase}},
               {{m.updated_at|date: 'MMM d y'}}</span>
-
+            <span class="time" *ngIf="m?.conversation_user?.admin_id != admin_id">
+                <strong>By - {{m?.conversation_user?.user?.name?m?.conversation_user?.user?.name:m?.conversation_user?.admin?.name | titlecase}}</strong>
+              </span>
           </div>
         </div>
 

@@ -332,8 +332,7 @@ export class ChatComponent implements OnInit {
   }
 
   setText() {
-    console.log('====', this.sent_as, this.admin.admin_acl, this.textMessage);
-    if (!this.textMessage) {
+    if (!this.textMessage || !this.textMessage.trim()) {
       return false;
     } else if ((this.sent_as === this.constant.userType.csr_buyer &&
         ((Object.keys(this.admin.admin_acl).length !== 0 && this.admin.admin_acl['Buyer Lead Management'].can_update === 0)

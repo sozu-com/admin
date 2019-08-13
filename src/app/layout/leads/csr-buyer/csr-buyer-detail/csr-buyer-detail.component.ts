@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Pipe } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute} from '@angular/router';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -7,7 +7,6 @@ import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
 import { Constant } from 'src/app/common/constants';
 import { ChatTimePipe } from 'src/app/pipes/chat-time.pipe';
-import { from } from 'rxjs';
 declare let swal: any;
 
 @Component({
@@ -106,7 +105,7 @@ export class CsrBuyerDetailComponent implements OnInit {
         });
       });
     });
-    console.log('-------435453453------------', r.data.lead.prefs);
+
     if (r.data.lead.prefs !== null) {
       this.fillInfo.family_size = r.data.lead.prefs.family_size;
       this.fillInfo.pets = r.data.lead.prefs.pets;
@@ -114,7 +113,7 @@ export class CsrBuyerDetailComponent implements OnInit {
       this.fillInfo.min_price = r.data.lead.prefs.min_price ? r.data.lead.prefs.min_price : this.constant.minValue;
       this.fillInfo.max_price = r.data.lead.prefs.max_price ? r.data.lead.prefs.max_price : this.constant.maxValue;
       this.fillInfo.price_range = [this.fillInfo.min_price, this.fillInfo.max_price];
-console.log('-------------------', r.data.lead.prefs);
+
       if (r.data.lead.prefs.planning_to_buy !== null) {
         this.fillInfo.planning_to_buy = moment.utc(r.data.lead.prefs.planning_to_buy).toDate();
         // this.fillInfo.planning_to_buy = new ChatTimePipe().transform(r.data.lead.prefs.planning_to_buy, 'YYYY-MM-DD HH:MM:SS', 4);
@@ -133,6 +132,7 @@ console.log('-------------------', r.data.lead.prefs);
     this.spinner.show();
     this.admin.postDataApi('conversation/assignBroker', {lead_id: this.parameter.lead_id}).subscribe(r => {
       this.spinner.hide();
+      console.log('sss', r.data);
       this.leadData = r.data;
       swal('Success', 'Agent assigned successfully', 'success');
     }
@@ -172,12 +172,10 @@ console.log('-------------------', r.data.lead.prefs);
       return false;
     }
     this.spinner.show();
-    console.log('data', this.appointment);
     this.admin.postDataApi('leads/addAppointmentMultiple', this.appointment)
       .subscribe(
         success => {
           this.data.push.apply(this.data, success.data);
-          console.log(this.data);
           // this.app_date = this.appointment.appointment_date;
           // this.appointment.appointment_date =
           // new Date(moment(this.appointment.appointment_date).utc(true).local().format('YYYY-MM-DD, h:mm a'));

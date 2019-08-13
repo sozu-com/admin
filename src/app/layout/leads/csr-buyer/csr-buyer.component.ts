@@ -1,12 +1,12 @@
 
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AdminService } from '../../../services/admin.service';
-import { IProperty } from '../../../common/property';
-import { Constant } from './../../../common/constants';
-import { Users } from '../../../models/users.model';
+import { AdminService } from 'src/app/services/admin.service';
+import { IProperty } from 'src/app/common/property';
+import { Constant } from 'src/app/common/constants';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { CSRBuyerLeads } from 'src/app/models/leads.model';
 declare let swal: any;
 
 @Component({
@@ -24,7 +24,7 @@ export class CsrBuyerComponent implements OnInit {
   public assign: IProperty = {};
   assignItem: any;
 
-  items: Array<Users> = [];
+  items: Array<CSRBuyerLeads> = [];
   today = new Date();
   users: any = [];
   selectedUser: any;
@@ -136,21 +136,6 @@ export class CsrBuyerComponent implements OnInit {
     if (this.parameter.keyword) {
       input.append('keyword', this.parameter.keyword);
     }
-    // if (this.parameter.country_id && this.parameter.country_id !== '-1') {
-    //   input.append('countries', JSON.stringify([this.parameter.country_id]));
-    // }
-
-    // if (this.parameter.state_id && this.parameter.state_id !== '-1') {
-    //   input.append('states', JSON.stringify([this.parameter.state_id]));
-    // }
-
-    // if (this.parameter.city_id && this.parameter.city_id !== '-1') {
-    //   input.append('cities', JSON.stringify([this.parameter.city_id]));
-    // }
-
-    // if (this.parameter.locality_id && this.parameter.locality_id !== '-1') {
-    //   input.append('localities', JSON.stringify([this.parameter.locality_id]));
-    // }
     this.admin.postDataApi('getCsrBuyers', input).subscribe(
       success => {
         this.users = success.data;
@@ -204,15 +189,6 @@ export class CsrBuyerComponent implements OnInit {
   }
 
   getCSRDashBoardData() {
-    // const input = new FormData();
-    // if (this.selectedUser) {
-    //   input.append('assignee_id', this.selectedUser.id);
-    // } else if (this.parameter.assignee_id) {
-    //   input.append('assignee_id', this.parameter.assignee_id);
-    // }
-    // if (this.parameter.flag) {
-    //   input.append('flag', this.parameter.flag.toString());
-    // }
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');
@@ -317,8 +293,10 @@ export class CsrBuyerComponent implements OnInit {
     const input = {
       keyword: this.assign.keyword
     };
+    this.spinner.show();
     this.admin.postDataApi('getCsrBuyers', input).subscribe(
       success => {
+        this.spinner.hide();
         this.assign.items = success.data;
       });
   }

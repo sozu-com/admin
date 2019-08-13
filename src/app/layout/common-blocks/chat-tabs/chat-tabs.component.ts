@@ -67,6 +67,7 @@ export class ChatTabsComponent implements OnInit {
   chat_closer: any;
   chat_notary: any;
   chat_bank: any;
+  chat_broker: any;
   chat_admin: any;
   chat_seller: any;
   chat_buyer: any;
@@ -106,6 +107,7 @@ export class ChatTabsComponent implements OnInit {
       const input = {lead_id: this.lead_id, user_id: this.user_id, sent_as: this.sent_as};
       this.initSocket();
       this.chat_buyer = this.leadData.user;
+      this.chat_broker = this.leadData.broker ? this.leadData.broker : [];
       this.chat_seller = this.leadData.selected_properties[0] ? this.leadData.selected_properties[0].property.creator :
       this.leadData.user;
       this.chat_notary = this.leadData.selected_properties[0] && this.leadData.selected_properties[0].selected_noatary[0] ?
@@ -381,8 +383,6 @@ export class ChatTabsComponent implements OnInit {
   }
 
   setText() {
-    console.log('---', this.textMessage);
-    console.log('xx', this.textMessage.trim().length, 'ss');
     if (!this.textMessage || !this.textMessage.trim()) {
       return false;
     } else if ((Object.keys(this.admin.admin_acl).length !== 0 && this.admin.admin_acl['Closer Lead Management'].can_update === 0)
@@ -445,6 +445,14 @@ console.log('zzz');
     if (admin_sent_as === this.constant.userType.user_buyer) {
       this.chat_admin = this.chat_buyer;
     }
+    if (admin_sent_as === this.constant.userType.inhouse_broker) {
+      if (this.chat_broker) {
+        this.chat_admin = this.chat_broker;
+      } else {
+        swal('Error', 'Please assign agent to continue.', 'error');
+        return false;
+      }
+    }
     if (admin_sent_as === this.constant.userType.user_seller_dev) {
       this.chat_admin = this.chat_seller;
     }
@@ -482,6 +490,7 @@ console.log('zzz');
       }
     }, error => {
       this.spinner.hide();
+      this.messages = [];
     });
   }
 

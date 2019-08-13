@@ -7,8 +7,8 @@
    <div class="col-6">
         <div class="btn-cont text-right">
           <!-- add -->
-          <a style="display: none;" class="btn btn-fourth" #showPropertyModal href="javascript://" data-toggle="modal" data-target="#add-property-popup">Add</a>
-          <a *ngIf="(sent_as==constant.userType.csr_buyer && (admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1)) ||
+          <a style="display: none;" #showPropertyModal href="javascript://" data-toggle="modal" data-target="#add-property-popup">Add</a>
+          <a style="margin-right:10px;" *ngIf="(sent_as==constant.userType.csr_buyer && (admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1)) ||
           sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==1 || admin?.permissions?.can_in_house_broker==1); else noAddPermission" class="btn btn-fourth" href="javascript://" (click)="getCountries(lead_id)">Add</a>
           
           <ng-template #noAddPermission>

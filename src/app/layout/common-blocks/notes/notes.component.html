@@ -20,7 +20,6 @@
     </div>
 </div>
 <hr class="margin0">
-
 <div *ngIf="parameter.items?.length!=0" [ngStyle]="{'max-height':sent_as === 1 ? '250px' : '' }" class="write-note white-bg padding40" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
   <div class="wn-block" *ngFor="let item of parameter.items; let i=index">
       <div class="circle">

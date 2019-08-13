@@ -32,7 +32,10 @@
                   <div class="profile-info">
                      <h6>{{parameter.name | titlecase}}</h6>
                      <!-- <p class="p12">{{conversation.other.phone}}</p> -->
-                     <p class="p12">{{parameter.phone}}</p>
+                     <p class="p12">
+                       <!-- {{parameter.phone}} -->
+                       {{parameter?.dialCode ? parameter?.dialCode : constant.dial_code}}-{{parameter?.phone}}
+                      </p>
                   </div>
                </div>
             </a>

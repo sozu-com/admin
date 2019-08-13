@@ -159,6 +159,7 @@ console.log('apoiinn', this.appointment);
       }
     }, error => {
       this.spinner.hide();
+      swal('Error', 'Deal is not finalised.', 'error');
     });
   }
 

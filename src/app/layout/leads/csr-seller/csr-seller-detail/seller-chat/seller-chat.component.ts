@@ -364,7 +364,7 @@ export class SellerChatComponent implements OnInit {
   }
 
   setText() {
-    if (!this.textMessage) {
+    if (!this.textMessage || !this.textMessage.trim()) {
       return false;
     } else if ((Object.keys(this.admin.admin_acl).length !== 0 && this.admin.admin_acl['Broker Lead Management'].can_update === 0) ||
       this.admin.permissions.can_in_house_broker === 0) {

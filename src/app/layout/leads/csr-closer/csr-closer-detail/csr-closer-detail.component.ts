@@ -187,7 +187,9 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     if (keyword) {
       input.keyword = keyword;
     }
+    this.spinner.show();
     this.admin.postDataApi('getNoataries', input).subscribe(r => {
+      this.spinner.hide();
       if (type === 1) {
         this.showNotaries.nativeElement.click();
       }
@@ -251,7 +253,9 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     if (keyword) {
       input.keyword = keyword;
     }
+    this.spinner.show();
     this.admin.postDataApi('getBanks', input).subscribe(r => {
+      this.spinner.hide();
       if (type === 1) {
         this.showBanks.nativeElement.click();
       }
@@ -613,7 +617,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   }
 
   setText() {
-    if (!this.textMessage) {
+    if (!this.textMessage || !this.textMessage.trim()) {
       return false;
     } else if ((Object.keys(this.admin.admin_acl).length !== 0 && this.admin.admin_acl['Closer Lead Management'].can_update === 0)
       || this.admin.permissions.can_csr_closer === 0) {

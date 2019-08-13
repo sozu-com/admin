@@ -1,18 +1,28 @@
-import {Component, OnInit, ViewChild, ElementRef, NgZone} from '@angular/core';
-import {AdminService} from '../../../services/admin.service';
-import {CommonService} from '../../../services/common.service';
-import {Router, ActivatedRoute} from '@angular/router';
-import {IProperty} from '../../../common/property';
-import {DomSanitizer} from '@angular/platform-browser';
-import {NgForm, FormControl} from '@angular/forms';
-import {MapsAPILoader} from '@agm/core';
-import {Constant} from '../../../common/constants';
-import {FileUpload} from './../../../common/fileUpload';
-import {AddPropertyModel, Building, PropertyDetails} from '../../../models/addProperty.model';
-import {HttpInterceptor} from '../../../services/http-interceptor';
-import {AddProjectModel, Towers, Configuration} from 'src/app/models/addProject.model';
-import {VideoUpload} from '../../../common/videoUpload';
+import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
+// import {AdminService} from '../../../services/admin.service';
+// import {CommonService} from '../../../services/common.service';
+// import {Router, ActivatedRoute} from '@angular/router';
+// import {IProperty} from '../../../common/property';
+import { DomSanitizer } from '@angular/platform-browser';
+import { NgForm, FormControl } from '@angular/forms';
+import { MapsAPILoader } from '@agm/core';
+// import {Constant} from '../../../common/constants';
+// import {FileUpload} from './../../../common/fileUpload';
+// import {AddPropertyModel, Building, PropertyDetails} from '../../../models/addProperty.model';
+// import {HttpInterceptor} from '../../../services/http-interceptor';
+import { AddProjectModel, Towers, Configuration } from 'src/app/models/addProject.model';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { AddPropertyModel, PropertyDetails, Building } from 'src/app/models/addProperty.model';
+// import { Building } from 'src/app/models/global.model';
+import { Constant } from 'src/app/common/constants';
+import { FileUpload } from 'src/app/common/fileUpload';
+import { VideoUpload } from 'src/app/common/videoUpload';
+import { IProperty } from 'src/app/common/property';
+import { AdminService } from 'src/app/services/admin.service';
+import { CommonService } from 'src/app/services/common.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { HttpInterceptor } from 'src/app/services/http-interceptor';
+import { from } from 'rxjs';
 
 declare const google;
 declare let swal: any;
@@ -81,9 +91,9 @@ export class AddPropertyComponent implements OnInit {
     }
   ];
   availabilityStatus = [
-    {id: '1', name: 'Buy', checked: false},
-    {id: '2', name: 'Rent', checked: false},
-    {id: '3', name: 'Inventory', checked: false}];
+    { id: '1', name: 'Buy', checked: false },
+    { id: '2', name: 'Rent', checked: false },
+    { id: '3', name: 'Inventory', checked: false }];
   imageEvent = [];
   showText = false;
   showSearch = false;
@@ -92,8 +102,8 @@ export class AddPropertyComponent implements OnInit {
   propertyDetails = false;
   details: any;
   editMode = false;
-  newcarpet_area = {area: '', price: ''};
-  newcustom_attribute = {name: '', value: ''};
+  newcarpet_area = { area: '', price: '' };
+  newcustom_attribute = { name: '', value: '' };
   buildingLoading = false;
   buildingData: AddProjectModel;
   searchedBuildings: Array<AddProjectModel>;
@@ -113,12 +123,12 @@ export class AddPropertyComponent implements OnInit {
   amenity_obj: any;
 
   constructor(public model: AddPropertyModel, private us: AdminService, private cs: CommonService,
-              private router: Router, private sanitization: DomSanitizer, private mapsAPILoader: MapsAPILoader,
-              private ngZone: NgZone, private building: Building, public constant: Constant,
-              private route: ActivatedRoute,
-              private http: HttpInterceptor,
-              private spinner: NgxSpinnerService,
-              private element: ElementRef) {
+    private router: Router, private sanitization: DomSanitizer, private mapsAPILoader: MapsAPILoader,
+    private ngZone: NgZone, private building: Building, public constant: Constant,
+    private route: ActivatedRoute,
+    private http: HttpInterceptor,
+    private spinner: NgxSpinnerService,
+    private element: ElementRef) {
   }
 
   ngOnInit() {
@@ -128,7 +138,7 @@ export class AddPropertyComponent implements OnInit {
     this.buildingData = new AddProjectModel();
     this.parameter.amenities = [];
     this.parameter.banks = [];
-    this.http.loader.next({value: true});
+    this.http.loader.next({ value: true });
     this.details = new PropertyDetails;
 
     this.file2 = new FileUpload(false, this.us);
@@ -161,7 +171,6 @@ export class AddPropertyComponent implements OnInit {
         this.parameter.property_id = '';
         this.testMarital[0].checked = true;
         this.model.marital_status = [1];
-        console.log('modeleeeee', this.model);
         this.model.availabilityStatusId = this.availabilityStatus[2].id;
         this.availabilityStatus[2].checked = true;
         // set 0 bcz optional
@@ -176,7 +185,7 @@ export class AddPropertyComponent implements OnInit {
     });
 
     this.parameter.buildingCount = 0;
-    this.initialCountry = {initialCountry: this.constant.initialCountry};
+    this.initialCountry = { initialCountry: this.constant.initialCountry };
     this.building.dev_countrycode = this.constant.dial_code;
 
     this.tab = 0;
@@ -228,7 +237,6 @@ export class AddPropertyComponent implements OnInit {
           this.spinner.hide();
           this.spinner.hide();
           this.parameter.propertyDetails = success['data'];
-          console.log('getdata', success['data']);
           this.setModelData(success['data']);
           if (this.parameter.propertyDetails.step < 5) {
             this.tab = this.parameter.propertyDetails.step;
@@ -263,7 +271,7 @@ export class AddPropertyComponent implements OnInit {
       swal('Error', 'Please select floor.', 'error');
       return false;
     }
-    this.us.postDataApi('getProjectByIdWithCSC', {building_id: this.building.id})
+    this.us.postDataApi('getProjectByIdWithCSC', { building_id: this.building.id })
       .subscribe(
         success => {
           this.spinner.hide();
@@ -356,7 +364,6 @@ export class AddPropertyComponent implements OnInit {
     this.model.state_id = data.locality.city.state.id;
     this.model.country_id = data.locality.city.state.country.id;
 
-    console.log('===============building_configuration_id', data);
     this.model.configuration_id = data.configuration ? data.configuration.id : '';
     this.model.building_configuration_id = data.building_configuration_id ? data.building_configuration_id : '';
     this.model.property_type_id = data.property_type ? data.property_type.id : '';
@@ -402,9 +409,7 @@ export class AddPropertyComponent implements OnInit {
       });
 
       for (let index = 0; index < this.parameter.amenities.length; index++) {
-        console.log('222222');
         if (this.model.amenities && this.model.amenities.length > 0) {
-          console.log('modeleeee', this.model.amenities, this.parameter.amenities);
           for (let i = 0; i < this.model.amenities.length; i++) {
             if (this.model.amenities[i].id === this.parameter.amenities[index].id) {
               this.parameter.amenities[index].selected = true;
@@ -448,13 +453,13 @@ export class AddPropertyComponent implements OnInit {
 
     for (let index = 0; index < data.carpet_areas.length; index++) {
       const element = data.carpet_areas[index];
-      this.model.carpet_areas[index] = {area: element.area, price: element.price};
-      this.newcarpet_area = {area: element.area, price: element.price};
+      this.model.carpet_areas[index] = { area: element.area, price: element.price };
+      this.newcarpet_area = { area: element.area, price: element.price };
     }
 
     for (let index = 0; index < data.custom_values.length; index++) {
       const element = data.custom_values[index];
-      this.model.custom_attributes[index] = {name: element.name, value: element.value};
+      this.model.custom_attributes[index] = { name: element.name, value: element.value };
     }
   }
 
@@ -480,7 +485,7 @@ export class AddPropertyComponent implements OnInit {
 
   onCountryChange(e) {
     this.building.dev_countrycode = e.dialCode;
-    this.initialCountry = {initialCountry: e.iso2};
+    this.initialCountry = { initialCountry: e.iso2 };
   }
 
   getCountries(keyword: string) {
@@ -504,9 +509,9 @@ export class AddPropertyComponent implements OnInit {
     input.append('country_id', country_id);
 
     this.us.postDataApi('country/getStates', input).subscribe(success => {
-        this.parameter.states = success['data'];
-        // this.spinner.hide();
-      },
+      this.parameter.states = success['data'];
+      // this.spinner.hide();
+    },
       error => {
         // this.spinner.hide();
       });
@@ -522,9 +527,9 @@ export class AddPropertyComponent implements OnInit {
     input.append('state_id', state_id);
 
     this.us.postDataApi('getCities', input).subscribe(success => {
-        this.parameter.cities = success['data'];
-        // this.spinner.hide();
-      },
+      this.parameter.cities = success['data'];
+      // this.spinner.hide();
+    },
       error => {
         // this.spinner.hide();
       });
@@ -555,7 +560,6 @@ export class AddPropertyComponent implements OnInit {
   }
 
   setConfiguration(con: Configuration) {
-    console.log('set conf', con);
     this.model.building_configuration_id = con.id;
     this.model.configuration_id = con.configuration_id;
     this.model.floor_plan = con.floor_map_image;
@@ -730,7 +734,7 @@ export class AddPropertyComponent implements OnInit {
       swal('Error', 'Please fill carpet area fields', 'error');
     } else {
       this.model.carpet_areas.push(JSON.parse(JSON.stringify(this.newcarpet_area)));
-      this.newcarpet_area = {area: '', price: ''};
+      this.newcarpet_area = { area: '', price: '' };
     }
   }
 
@@ -739,7 +743,7 @@ export class AddPropertyComponent implements OnInit {
       swal('Error', 'Please fill custom attribute fields', 'error');
     } else {
       this.model.custom_attributes.push(this.newcustom_attribute);
-      this.newcustom_attribute = {name: '', value: ''};
+      this.newcustom_attribute = { name: '', value: '' };
     }
   }
 
@@ -864,7 +868,7 @@ export class AddPropertyComponent implements OnInit {
   }
 
   saveImages() {
-    this.http.loader.next({value: true});
+    this.http.loader.next({ value: true });
     if (this.file2.files.length < 1) {
       swal('Error', 'Please select atleast one image', 'error');
       return false;
@@ -872,7 +876,7 @@ export class AddPropertyComponent implements OnInit {
     this.modalClose.nativeElement.click();
     this.file2.upload().then(r => {
       this.model.images = this.file2.files;
-      this.http.loader.next({value: false});
+      this.http.loader.next({ value: false });
     });
   }
 
@@ -892,12 +896,11 @@ export class AddPropertyComponent implements OnInit {
       swal('Error', 'Please select atleast one image', 'error');
       return false;
     }
-     this.file360.upload().then(r => {
+    this.file360.upload().then(r => {
       this.model.images360 = this.file360.files;
     });
     this.file360.files.forEach(element => {
       if (element.loading !== true) {
-        console.log('==3333==');
         count++;
       }
     });
@@ -997,7 +1000,6 @@ export class AddPropertyComponent implements OnInit {
         input.append('seller_id', this.parameter.seller_id);
       }
       input.append('step', this.model.step.toString());
-      console.log('this.availabilityStatus', this.model);
       if (this.model.step === 1) {
         input.append('name', this.model.name);
         // input.append('for_sale', this.model.for_sale === true ? '1' : '0');
@@ -1038,7 +1040,6 @@ export class AddPropertyComponent implements OnInit {
             const img_360 = [];
             const vid = [];
             // amenities images
-            console.log('modelSave.amenities', this.parameter.amenities);
             if (element.images && element.images.length > 0) {
               element.images.forEach(e => {
                 img.push(e.image);
@@ -1058,7 +1059,7 @@ export class AddPropertyComponent implements OnInit {
             if (element.videos && element.videos.length > 0) {
               element.videos.forEach(e => {
                 let s = {};
-                s = {'video': e.video, 'thumb': e.thumb};
+                s = { 'video': e.video, 'thumb': e.thumb };
                 vid.push(s);
               });
             }
@@ -1262,7 +1263,7 @@ export class AddPropertyComponent implements OnInit {
       this.spinner.show();
       const geocoder = new google.maps.Geocoder();
       const latlng = new google.maps.LatLng(lat, lng);
-      const request = {latLng: latlng};
+      const request = { latLng: latlng };
 
       geocoder.geocode(request, (results, status) => {
         if (status === google.maps.GeocoderStatus.OK) {
@@ -1343,7 +1344,7 @@ export class AddPropertyComponent implements OnInit {
   }
 
   clickOnSale() {
-    console.log(this.model.for_sale);
+    // console.log(this.model.for_sale);
   }
 
   onSelectVideo(event) {
@@ -1412,22 +1413,20 @@ export class AddPropertyComponent implements OnInit {
     while (n--) {
       u8arr[n] = bstr.charCodeAt(n);
     }
-    return new File([u8arr], filename, {type: mime});
+    return new File([u8arr], filename, { type: mime });
   }
 
   onEnteringNumOfProperty(e: any) {
     // this.property_names = Array(e).fill(1);
     this.property_names = [];
     for (let index = 0; index < e; index++) {
-      const pn = {name: 0};
+      const pn = { name: 0 };
       pn.name = index;
       this.property_names.push(pn);
     }
   }
 
   setPropertyName(value: string, index: number) {
-    console.log(this.property_names, 'e');
-    console.log(value, index, 'valueidnex');
     this.property_names[index] = value;
   }
 
@@ -1514,18 +1513,17 @@ export class AddPropertyComponent implements OnInit {
     this.amenVideo.backup(JSON.parse(JSON.stringify(this.model.videos)));
   }
 
-   saveVideos() {
+  saveVideos() {
     let count = 0;
     if (this.amenVideo.files.length < 1) {
       swal('Error', 'Please select atleast one image', 'error');
       return false;
     }
-     this.amenVideo.upload().then(r => {
+    this.amenVideo.upload().then(r => {
       this.model.videos = this.amenVideo.files;
     });
     this.amenVideo.files.forEach(element => {
       if (element.loading !== true) {
-        console.log('==3333==');
         count++;
       }
     });
@@ -1565,7 +1563,6 @@ export class AddPropertyComponent implements OnInit {
     // }
     this.amenMoreImg.upload().then(r => {
       this.parameter.amenities[this.amenity_index].images = this.amenMoreImg.files;
-      console.log(this.amenMoreImg.files);
     });
     this.amen360Img.upload().then(r => {
       this.parameter.amenities[this.amenity_index].images_360 = this.amen360Img.files;
@@ -1588,23 +1585,19 @@ export class AddPropertyComponent implements OnInit {
 
     this.amenMoreImg.files.forEach(element => {
       if (element.loading !== true) {
-        console.log('==1111==');
         count++;
       }
     });
     this.amen360Img.files.forEach(element => {
       if (element.loading !== true) {
-        console.log('==2222==');
         count++;
       }
     });
     this.amenVideo.files.forEach(element => {
       if (element.loading !== true) {
-        console.log('==3333==');
         count++;
       }
     });
-    console.log(count, totalFilesCount, '---------------------------');
     if (count === totalFilesCount) {
       this.modalAmenClose.nativeElement.click();
     }
@@ -1616,7 +1609,6 @@ export class AddPropertyComponent implements OnInit {
       return false;
     }
 
-    console.log(this.amenVideo.files);
     this.showamenVideo($event, type);
   }
 
@@ -1635,7 +1627,8 @@ export class AddPropertyComponent implements OnInit {
     setTimeout(async () => {
       this.amenVideo.files.forEach(async (item, index) => {
         if (!item.id) {
-          if (!this.amenVideo.files[index]['fileToUpload'] && !this.amenVideo.files[index]['thumb']) {                 //check file if not then loader will show
+          if (!this.amenVideo.files[index]['fileToUpload'] &&
+            !this.amenVideo.files[index]['thumb']) {           // check file if not then loader will show
             this.amenVideo.files[index].loading = true;
           }
 
@@ -1679,9 +1672,9 @@ export class AddPropertyComponent implements OnInit {
         model.videoFile = videoFile;
         this.amenVideo.files[myIndex].loading = false;
         this.amenVideo.files[myIndex]['fileToUpload'] = fileToUpload;
-        console.log(videoFile, 'videoFile');
+        // console.log(videoFile, 'videoFile');
         // this.amenVideo.files[myIndex]['videoFile'].push(videoFile);
-        console.log(this.amenVideo.files, 'amenVideo.files');
+        // console.log(this.amenVideo.files, 'amenVideo.files');
       }
   }
 

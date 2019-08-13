@@ -227,3 +227,32 @@ export class AddAppointmentMultiple {
     appointment_date_array: Array<any> = [];
     appointment_date: Array<any> = [];
 }
+
+export class CSRBuyerLeads {
+    id: number;
+    user_id: number;
+    admin_id: number;
+    name: string;
+    email: string;
+    country_code: string;
+    dial_code: string;
+    phone: string;
+    broker_id: number;
+    closer_id: number;
+    building_id: number;
+    sale_rent: number;
+    is_blocked: number;
+    is_finalized: number;
+    lead_status_closer: number;
+    lead_status_bank: number;
+    lead_status_noatary: number;
+    broker_assign_action: number;
+    closer_assign_action: number;
+    bank_assigned_at: Date;
+    noatary_assigned_at: Date;
+    property_id: number;
+    configuration: Array<Configuration>;
+    admin: UserModel;
+    user: Users;
+    selected?: any;
+}
