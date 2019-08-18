@@ -82,7 +82,12 @@
                       <td style="padding-left:0"><label>Interested In</label></td>
                       <td *ngIf="parameter?.lead?.configuration">
                           <span *ngFor="let conf of parameter.lead.configuration; let ii=index">
-                          {{conf.name}}<span *ngIf="ii<parameter?.lead?.configuration?.length-1">,</span>
+                          <!-- {{conf.name}} -->
+                        <span *ngIf="conf.bedroom!=0">{{conf.bedroom}} Bed </span>
+                        <span *ngIf="conf.bathroom!=0">&middot; {{conf?.bathroom}} Bath</span>
+                        <span *ngIf="conf.half_bathroom!=0">&middot; {{conf.half_bathroom}}Half </span>
+                                
+                          <span *ngIf="ii<parameter?.lead?.configuration?.length-1">,</span>
                           </span>
                           <span *ngIf="parameter.lead.configuration?.length == 0">NA</span>
                       </td>

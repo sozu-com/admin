@@ -12,7 +12,10 @@
                <div class="profile-info">
                   <h6>{{con.name | titlecase}}</h6>
                   <!-- <p class="p12">{{con.phone}}</p> -->
-                  <p class="p12">{{con.phone}}</p>
+                  <p class="p12">
+                    {{con?.dialCode ? con?.dialCode : con.dial_code}}-{{con?.phone}}
+                  </p>
+                  <p *ngIf="type==1" class="p13">({{con?.is_developer==1 ? 'Developer' : 'Seller'}})</p>
                   <i class="fa fa-angle-right float-right"></i>
                </div>
             </div>

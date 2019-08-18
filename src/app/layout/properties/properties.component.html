@@ -453,7 +453,8 @@
                               [defaultImage]="item?.image| img:'thumb'" [lazyLoad]="item?.image">
                            <div class="n-avail-info">
                               <p class="p12">{{item?.name}}</p>
-                              <p class="p10">Phone : {{item?.dial_code ? item?.dial_code : constant.dial_code}}-{{item?.phone}}</p>
+                              <p class="p10 marginB0">Phone : {{item?.dial_code ? item?.dial_code : constant.dial_code}}-{{item?.phone}}</p>
+                              <p class="p10">{{item?.is_developer==1 ? 'Developer' : 'Seller'}}</p>
                            </div>
                            </div>
                         </td>

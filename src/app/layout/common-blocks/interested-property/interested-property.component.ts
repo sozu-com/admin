@@ -250,7 +250,9 @@ export class InterestedPropertyComponent implements OnInit {
   }
 
   propertySearch() {
+    this.spinner.show();
     this.admin.postDataApi('propertySearch', this.parameter).subscribe(r => {
+      this.spinner.hide();
       this.parameter.items = r.data;
       if (this.property_ids.length > 0) {
         this.parameter.items.forEach(element => {

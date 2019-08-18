@@ -96,9 +96,21 @@
                       <div class="n-avail-profile">
                         <img [src]="item.image" onerror='src="assets/img/house.png"' alt="img">
                         <div class="n-avail-info">
-                            <p class="p12">{{item?.building?.name}}</p>
+                            <!-- <p class="p12">{{item?.building?.name}}</p>
                             <p class="p10 marginB0">{{item?.building?.address ? item?.building?.address : 'NA'}}</p>
-                            <p class="p10">{{item?.configuration?.name}}</p>
+                            <p class="p10">{{item?.configuration?.name}}</p> -->
+                            <p title="Apartment" class="p12">{{item.name}}</p>
+                            <p class="p13">{{item.building.name}} &middot; {{item.building_towers.tower_name}} &middot;
+                                {{item.building_towers.num_of_floors == 0 ? 'Ground Floor' : 'Floor ' + item.building_towers.num_of_floors}}
+                            </p>
+                            <!-- <p class="p10 marginB0">{{item.building.address ? item.building.address : 'NA'}}</p> -->
+                            <p class="p10">
+                                <span *ngIf="item.configuration.bedroom!=0">{{item.configuration.bedroom}} Bed </span>
+                                <span *ngIf="item.configuration.bathroom!=0">&middot; {{item?.configuration?.bathroom}} Bath
+                                </span>
+                                <span *ngIf="item.configuration.half_bathroom!=0">&middot; {{item.configuration.half_bathroom}}
+                                Half </span>
+                            </p>
                         </div>
                       </div>
                   </td>

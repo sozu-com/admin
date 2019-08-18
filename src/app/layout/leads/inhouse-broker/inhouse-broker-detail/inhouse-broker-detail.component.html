@@ -102,7 +102,11 @@
                    <td style="padding-left:0"><label>Interested In</label></td>
                    <td *ngIf="leadData?.configuration">
                      <span *ngFor="let conf of leadData.configuration; let ii=index">
-                       {{conf.name}}<span *ngIf="ii<leadData?.configuration.length-1">,</span>
+                       <!-- {{conf.name}} -->
+                       <span *ngIf="conf.bedroom!=0">{{conf.bedroom}} Bed </span>
+                        <span *ngIf="conf.bathroom!=0">&middot; {{conf?.bathroom}} Bath </span>
+                        <span *ngIf="conf.half_bathroom!=0">&middot; {{conf.half_bathroom}} Half </span>
+                        <span *ngIf="ii<leadData?.configuration?.length-1"> | </span> <br>
                      </span>
                      <span *ngIf="leadData.configuration?.length==0">NA</span>
                    </td>
@@ -217,7 +221,12 @@
                             <h5>{{x?.building?.name.slice(0, 15)}}</h5>
                         </a>
                         <p class="p12">{{x.building.address.slice(0, 50)}}</p>
-                        <p class="p13" *ngIf="x">{{x.configuration.name}}, {{x.property_type.name}}</p>
+                        <p class="p13" *ngIf="x">
+                            <span *ngIf="x.configuration.bedroom!=0">{{x.configuration.bedroom}} Bed </span>
+                            <span *ngIf="x.configuration.bathroom!=0">&middot; {{x.configuration?.bathroom}} Bath </span>
+                            <span *ngIf="x.configuration.half_bathroom!=0">&middot; {{x.configuration.half_bathroom}} Half </span> |
+                            <span>{{x.property_type.name}} </span>
+                        </p>
                         <p class="p13" *ngIf="x">{{x.for_sale==1 ? 'Buy': 'Rent'}}</p>
                         <!-- <p class="p13" *ngIf="x">{{x.property_type.name}}</p>
                         <p class="p13" *ngIf="!x">NA</p> -->
