@@ -59,6 +59,7 @@ export class SellerChatComponent implements OnInit {
   loadmoring: any = false;
   lead_id: any;
   csr_seller_id: any;
+  chat_with: number;
 
   @ViewChild('chatWin') chatWin: ElementRef;
   @ViewChild('optionsButton') optionsButton: ElementRef;
@@ -75,27 +76,33 @@ export class SellerChatComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.csr_seller_id = params.id;
-      this.lead_id = params.user_id;
-    });
     this.loginData$$ = this.admin.loginData$.subscribe(success => {
       this.admin_id = success['id'];
     });
+
     this.loadingConversation = true;
-    this.admin.postDataApi('leads/sellers', { csr_seller_id: this.csr_seller_id }).subscribe(r => {
-      console.log('seelers', r);
-      this.conversations = r['data'];
-      if (this.conversations.length > 0) {
-        this.initSocket();
-        this.selectConversation(this.conversations[0], this.lead_id);
-      }
-      this.loadingConversation = false;
+
+    this.route.params.subscribe(params => {
+      this.chat_with = params['chat_with'];
+      this.csr_seller_id = params.id;
+      this.lead_id = params.user_id;
+      this.parameter.url = params['chat_with'] === '1' ? 'leads/sellers' : 'leads/seller-broker';
+      this.admin.postDataApi(this.parameter.url, { csr_seller_id: this.csr_seller_id }).subscribe(r => {
+        this.conversations = r['data'];
+        if (this.conversations.length > 0) {
+          this.initSocket();
+          for (let index = 0; index < this.conversations.length; index++) {
+            if (this.conversations[index].id.toString() === this.lead_id) {
+              this.selectConversation(this.conversations[index], this.lead_id);
+            }
+          }
+        }
+        this.loadingConversation = false;
+      });
     });
   }
 
   selectConversation(conversation, user_id) {
-
     this.parameter.name = conversation.name;
     this.parameter.image = conversation.image;
     this.parameter.dialCode = conversation.dial_code;
@@ -397,7 +404,7 @@ export class SellerChatComponent implements OnInit {
       // console.log('Appending', model);
       this.admin.postDataApi('conversation/sendMessage', model).subscribe(r => {
         // console.log('sendMessage', r);
-        if (model.loading == true) {
+        if (model.loading === true) {
           model.loading = false;
           const foundIndex = this.messages.findIndex(x => x.uid == model.uid);
           this.messages[foundIndex] = r['data'];

@@ -90,7 +90,11 @@ export class MyChatComponent implements OnInit {
           this.conversations = r['data'];
           if (this.conversations.length > 0) {
             this.initSocket();
-            this.selectConversation(this.conversations[0]);
+            for (let index = 0; index < this.conversations.length; index++) {
+              if (this.conversations[index].id.toString() === this.lead_id) {
+                this.selectConversation(this.conversations[index]);
+              }
+            }
           }
           this.loadingConversation = false;
         });
