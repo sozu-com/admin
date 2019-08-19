@@ -52,7 +52,7 @@ const routes: Routes = [
     canActivate: [AclUserGuard], data: { roles: ['Seller Lead Management', 'can_read', 'can_csr_seller'] }
   },
   {
-    path: 'chat-with-seller/:chat_with/:id/:user_id', component: SellerChatComponent,
+    path: 'chat-with-seller/:chat_with/:assigned_csr_seller_id/:seller_id', component: SellerChatComponent,
     canActivate: [AclUserGuard], data: { roles: ['Seller Lead Management', 'can_read', 'can_csr_seller'] }
   },
 

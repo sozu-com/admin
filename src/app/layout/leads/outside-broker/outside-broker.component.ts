@@ -15,7 +15,7 @@ declare let swal: any;
   providers: [Constant]
 })
 export class OutsideBrokerComponent implements OnInit {
-
+  public scrollbarOptions = { axis: 'y', theme: 'dark'};
   @ViewChild('openAssignModel') openAssignModel: ElementRef;
   @ViewChild('closeAssignModel') closeAssignModel: ElementRef;
 

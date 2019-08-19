@@ -122,9 +122,10 @@ export class MyChatComponent implements OnInit {
     const data1 = {
       lead_id: this.lead_id,
       other_id: conversation.id,
-      other_sent_as: this.constant.userType.user_seller_dev,
+      other_sent_as: this.type === '1' ? this.constant.userType.user_seller_dev : this.constant.userType.csr_seller,
       sent_as: this.constant.userType.inhouse_broker
     };
+    console.log('aaaselect conv', data1);
     this.spinner.show();
     this.admin.postDataApi('conversation/getLeadConversation', data1).subscribe(res => {
       this.spinner.hide();

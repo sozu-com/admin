@@ -19,7 +19,7 @@ export class CsrCloserComponent implements OnInit {
 
   @ViewChild('openAssignModel') openAssignModel: ElementRef;
   @ViewChild('closeAssignModel') closeAssignModel: ElementRef;
-
+  public scrollbarOptions = { axis: 'y', theme: 'dark'};
   public parameter: IProperty = {};
   public location: IProperty = {};
   public assign: IProperty = {};

@@ -37,7 +37,7 @@ export class CsrBuyerComponent implements OnInit {
     lead_broker_assigned: 0
   };
   chartView: any = [];
-
+  public scrollbarOptions = { axis: 'y', theme: 'dark'};
   constructor(
     public admin: AdminService,
     private constant: Constant,

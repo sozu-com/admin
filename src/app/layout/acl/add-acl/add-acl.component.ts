@@ -1,19 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from './../../../services/admin.service';
-import { CommonService } from './../../../services/common.service';
-import { IProperty } from './../../../common/property';
-import { ACL, Permission } from './../../../models/acl.model';
-import { ActivatedRoute } from '@angular/router';
-import { Constant } from './../../../common/constants';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { IProperty } from 'src/app/common/property';
+import { Constant } from 'src/app/common/constants';
+import { CommonService } from 'src/app/services/common.service';
+import { AdminService } from 'src/app/services/admin.service';
+import { ACL, Permission } from 'src/app/models/acl.model';
 declare let swal: any;
 
 @Component({
   selector: 'app-add-acl',
   templateUrl: './add-acl.component.html',
-  styleUrls: ['./add-acl.component.css'],
-  providers: [ACL]
+  styleUrls: ['./add-acl.component.css']
 })
 export class AddAclComponent implements OnInit {
 
@@ -22,9 +21,11 @@ export class AddAclComponent implements OnInit {
   show = false;
   image: any;
   model: ACL;
+  allAcl = [];
   constructor(public constant: Constant, private cs: CommonService,
     private admin: AdminService, private route: ActivatedRoute,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -79,22 +80,6 @@ export class AddAclComponent implements OnInit {
     };
     reader.readAsDataURL(event.target.files[0]);
   }
-  // changeListner(event) {
-  //   // this.model.image = event.target.files[0];
-  //   const reader = new FileReader();
-  //   reader.onload = (e: any) => {
-  //     this.image = e.target.result;
-  //     this.spinner.show();
-  //     this.cs.saveImage(event.target.files[0]).subscribe(
-  //       success => {
-  //         this.spinner.hide();
-  //         this.model.image = success['data'].image;
-  //       }
-  //     );
-  //   };
-  //   reader.readAsDataURL(event.target.files[0]);
-  //   console.log(this.model);
-  // }
 
   onCountryChange(e) {
     this.model.country_code = e.iso2;
@@ -107,6 +92,7 @@ export class AddAclComponent implements OnInit {
     this.admin.postDataApi('getAclList', {})
       .subscribe(
         success => {
+          this.allAcl = success.data;
           this.spinner.hide();
           success.data.forEach(element => {
             const e = new Permission();
@@ -158,8 +144,10 @@ export class AddAclComponent implements OnInit {
             const text = this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
             swal('Success', text, 'success');
             if (this.model.id === '') {
-              this.model.image = '';
-              formData.reset();
+              // this.model.image = '';
+              // formData.reset();
+              // this.getAclList();
+              this.router.navigate(['/dashboard/access-control-mgt']);
             }
           }
         }, error => {

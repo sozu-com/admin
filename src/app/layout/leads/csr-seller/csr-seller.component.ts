@@ -16,7 +16,7 @@ declare let swal: any;
   providers: [Constant]
 })
 export class CsrSellerComponent implements OnInit {
-
+  public scrollbarOptions = { axis: 'y', theme: 'dark'};
   @ViewChild('openAssignModel') openAssignModel: ElementRef;
   @ViewChild('closeAssignModel') closeAssignModel: ElementRef;
 
@@ -356,10 +356,10 @@ export class CsrSellerComponent implements OnInit {
       });
   }
 
-  getCSRSellerChat($event: any, chat_with: number, csr_seller_id, user_id) {
+  getCSRSellerChat($event: any, chat_with: number, csr_seller_id: number, lead_id: number) {
     // chat_with = 1 means chat with seller, 2 means chat with agent
     if (csr_seller_id) {
-      this.router.navigate(['/dashboard/leads/chat-with-seller', chat_with, csr_seller_id, user_id]);
+      this.router.navigate(['/dashboard/leads/chat-with-seller', chat_with, csr_seller_id, lead_id]);
     } else {
       swal('Error', 'No CSR Seller is assigned.', 'error');
     }

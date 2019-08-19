@@ -13,7 +13,7 @@ declare let swal: any;
   providers: [Constant]
 })
 export class DataCollectorComponent implements OnInit {
-
+  public scrollbarOptions = { axis: 'y', theme: 'dark'};
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('openAssignModel') openAssignModel: ElementRef;

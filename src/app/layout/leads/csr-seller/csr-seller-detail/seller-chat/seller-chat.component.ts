@@ -59,7 +59,7 @@ export class SellerChatComponent implements OnInit {
   loadmoring: any = false;
   lead_id: any;
   csr_seller_id: any;
-  chat_with: number;
+  chat_with: string;
 
   @ViewChild('chatWin') chatWin: ElementRef;
   @ViewChild('optionsButton') optionsButton: ElementRef;
@@ -84,16 +84,23 @@ export class SellerChatComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       this.chat_with = params['chat_with'];
-      this.csr_seller_id = params.id;
-      this.lead_id = params.user_id;
+      this.csr_seller_id = params.assigned_csr_seller_id;
+      this.lead_id = params.seller_id;  // lead_id is basically seller id here for csr_seller
       this.parameter.url = params['chat_with'] === '1' ? 'leads/sellers' : 'leads/seller-broker';
       this.admin.postDataApi(this.parameter.url, { csr_seller_id: this.csr_seller_id }).subscribe(r => {
         this.conversations = r['data'];
         if (this.conversations.length > 0) {
           this.initSocket();
           for (let index = 0; index < this.conversations.length; index++) {
-            if (this.conversations[index].id.toString() === this.lead_id) {
-              this.selectConversation(this.conversations[index], this.lead_id);
+            console.log('==', this.conversations[index].id.toString(), this.csr_seller_id);
+            if (this.chat_with === '1') {
+              if (this.conversations[index].id.toString() === this.lead_id) {
+                this.selectConversation(this.conversations[index], this.lead_id);
+              }
+            } else {
+              if (this.conversations[index].id.toString() === this.csr_seller_id) {
+                this.selectConversation(this.conversations[index], this.lead_id);
+              }
             }
           }
         }
@@ -111,9 +118,10 @@ export class SellerChatComponent implements OnInit {
     const data1 = {
       lead_id: this.lead_id,
       other_id: conversation.id,
-      other_sent_as: this.constant.userType.user_seller_dev,
+      other_sent_as: this.chat_with === '1' ? this.constant.userType.user_seller_dev : this.constant.userType.inhouse_broker,
       sent_as: this.constant.userType.csr_seller
     };
+    console.log('zzzz', data1);
     this.spinner.show();
     this.admin.postDataApi('conversation/getLeadConversation', data1).subscribe(res => {
       this.spinner.hide();
