@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "post-build": "node ./build/post-build.js"
+    "prod": "node ./build/post-build.js"
   },
   "private": true,
   "dependencies": {
