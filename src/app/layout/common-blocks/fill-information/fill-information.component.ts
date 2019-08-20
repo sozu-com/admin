@@ -60,7 +60,6 @@ export class FillInformationComponent implements OnInit {
   }
 
   onSelect(e) {
-    console.log('eee', e);
     // this.leadData.planning_to_buy = e;
   }
 
