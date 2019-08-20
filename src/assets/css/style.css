@@ -1405,7 +1405,6 @@ margin-right: 8px;
 }
 .form-group-4 .cust-radio .checkmark {
 font-size: 12px;
- 
 }
 .inline-form-group-2 label {
 float: right;
@@ -3121,3 +3120,45 @@ h3 .tower{
     display: flex;
 }
 .viewer-body{padding: 2px !important;}
+
+.form-group-5{
+    margin-bottom:15px; 
+}
+.form-group-5 label, .inline-form-group-2 label {
+    color: #000000;
+    font-size: 16px;
+}
+.form-group-5 .form-control {
+    height: auto;
+    border-radius: 0;
+    color: #000;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,0.11);
+    box-shadow: none;
+    padding: 0 0 5px;
+}
+.form-group-5 .cust-radio {
+    /* width: 128px; */
+    height: 24px;
+    display: inline-block;
+    margin-right: 8px;
+}
+.form-group-5 .cust-radio .checkmark {
+    font-size: 12px;
+    min-width: 30px;
+    padding: 1.5px 10px;
+}
+.multiselect-dropdown .dropdown-btn .selected-item {
+    border: 1px solid #4eb96f !important;
+    background: #4eb96f !important;
+    margin-top: 4px;
+}
+.multiselect-item-checkbox input[type=checkbox]:checked + div:before {
+    background: #4eb96f !important;
+}
+.multiselect-item-checkbox input[type=checkbox] + div:before {
+    color: #4eb96f !important;
+    border: 2px solid #4eb96f !important;
+}

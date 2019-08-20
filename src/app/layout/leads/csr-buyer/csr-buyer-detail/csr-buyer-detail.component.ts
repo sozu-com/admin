@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute} from '@angular/router';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { FillInformation, AddAppointmentMultiple, Leads } from 'src/app/models/leads.model';
+import { FillInformation, AddAppointmentMultiple, Leads, Prefs, BuyerAmenities } from 'src/app/models/leads.model';
 import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
 import { Constant } from 'src/app/common/constants';
@@ -27,6 +27,8 @@ export class CsrBuyerDetailComponent implements OnInit {
   public selected_prop_ids = [];
   is_deal_finalised: boolean;
   leadData: Leads;
+  allAmenities: Array<BuyerAmenities> = [];
+  selectedAmenities: Array<BuyerAmenities> = [];
   constructor(
     private route: ActivatedRoute,
     public admin: AdminService,
@@ -41,6 +43,11 @@ export class CsrBuyerDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    // Initialising
+    this.leadData = new Leads();
+    this.leadData.prefs = new Prefs();
+
     this.parameter.sent_as = this.constant.userType.csr_buyer;
     this.route.params.subscribe( params => {
       this.parameter.lead_id = params.id;
@@ -53,7 +60,7 @@ export class CsrBuyerDetailComponent implements OnInit {
             // this.appointment = r.data.lead.appointments[0];
           }
           this.parameter.favorites = r.data.favorites;
-          this.setFillInformationData(r);
+          this.setFillInformationData(this.leadData);
           this.parameter.proximity_places = r.data.lead.proximity_places;
           this.parameter.interested_properties = r.data.interested_properties;
           this.is_deal_finalised = this.leadData.selected_properties.length !== 0 ? true : false;
@@ -66,65 +73,77 @@ export class CsrBuyerDetailComponent implements OnInit {
     });
   }
 
-  setFillInformationData(r) {
-    this.admin.postDataApi('leads/getPrefOptions', {lead_id: this.parameter.lead_id}).subscribe(res => {
-      this.fillInfo.lead_id = this.parameter.lead_id;
-      this.fillInfo.proximity_places_array = res.data.proximity_places;
-      this.fillInfo.car_types = res.data.car_types;
-      this.fillInfo.property_types_array = res.data.property_types;
-      this.fillInfo.configurations_array = res.data.configurations;
-      this.fillInfo.configurations = [];
-      this.fillInfo.proximity_place_ids = [];
-      this.fillInfo.property_types = [];
-      this.fillInfo.proximity_places_array.forEach(element => {
-        r.data.lead.proximity_places.forEach(p => {
-          if (p.id === element.id) {
-            element.is_selected = 1;
-          }
-        });
-      });
+  setFillInformationData(leadData: Leads) {
+    // this.admin.postDataApi('leads/getPrefOptions', {lead_id: this.parameter.lead_id}).subscribe(res => {
+    //   this.fillInfo.lead_id = this.parameter.lead_id;
+    //   this.fillInfo.proximity_places_array = res.data.proximity_places;
+    //   this.fillInfo.car_types = res.data.car_types;
+    //   this.fillInfo.property_types_array = res.data.property_types;
+    //   this.fillInfo.configurations_array = res.data.configurations;
+    //   this.fillInfo.configurations = [];
+    //   this.fillInfo.proximity_place_ids = [];
+    //   this.fillInfo.property_types = [];
+    //   this.fillInfo.proximity_places_array.forEach(element => {
+    //     r.data.lead.proximity_places.forEach(p => {
+    //       if (p.id === element.id) {
+    //         element.is_selected = 1;
+    //       }
+    //     });
+    //   });
 
-      this.fillInfo.car_types.forEach(element => {
-        element.is_selected = (r.data.lead.prefs != null) &&
-        r.data.lead.prefs.car_type_id && (r.data.lead.prefs.car_type_id === element.id) ? 1 : 0;
-      });
+    //   this.fillInfo.car_types.forEach(element => {
+    //     element.is_selected = (r.data.lead.prefs != null) &&
+    //     r.data.lead.prefs.car_type_id && (r.data.lead.prefs.car_type_id === element.id) ? 1 : 0;
+    //   });
 
-      this.fillInfo.property_types_array.forEach(element => {
-        r.data.lead.property_types.forEach(pt => {
-          if (pt.id === element.id) {
-            element.is_selected = 1;
-          }
-        });
-      });
+    //   this.fillInfo.property_types_array.forEach(element => {
+    //     r.data.lead.property_types.forEach(pt => {
+    //       if (pt.id === element.id) {
+    //         element.is_selected = 1;
+    //       }
+    //     });
+    //   });
 
-      this.fillInfo.configurations_array.forEach(element => {
-        r.data.lead.configuration.forEach(c => {
-          if (c.id === element.id) {
-            element.is_selected = 1;
-          }
-        });
-      });
+    //   this.fillInfo.configurations_array.forEach(element => {
+    //     r.data.lead.configuration.forEach(c => {
+    //       if (c.id === element.id) {
+    //         element.is_selected = 1;
+    //       }
+    //     });
+    //   });
+    // });
+
+    leadData.buyer_amenities.forEach(element => {
+      if (element.is_selected) {
+        this.selectedAmenities.push(element);
+      } else {
+        this.allAmenities.push(element);
+      }
     });
+    if (leadData.prefs !== null) {
+      // this.fillInfo.family_size = leadData.prefs.family_size;
+      // this.fillInfo.pets = leadData.prefs.pets;
+      // this.fillInfo.kid_count = leadData.prefs.kid_count;
+      // this.fillInfo.min_price = leadData.prefs.min_price ? leadData.prefs.min_price : this.constant.minValue;
+      // this.fillInfo.max_price = leadData.prefs.max_price ? leadData.prefs.max_price : this.constant.maxValue;
+      // this.fillInfo.price_range = [this.fillInfo.min_price, this.fillInfo.max_price];
 
-    if (r.data.lead.prefs !== null) {
-      this.fillInfo.family_size = r.data.lead.prefs.family_size;
-      this.fillInfo.pets = r.data.lead.prefs.pets;
-      this.fillInfo.kid_count = r.data.lead.prefs.kid_count;
-      this.fillInfo.min_price = r.data.lead.prefs.min_price ? r.data.lead.prefs.min_price : this.constant.minValue;
-      this.fillInfo.max_price = r.data.lead.prefs.max_price ? r.data.lead.prefs.max_price : this.constant.maxValue;
-      this.fillInfo.price_range = [this.fillInfo.min_price, this.fillInfo.max_price];
-
-      if (r.data.lead.prefs.planning_to_buy !== null) {
-        this.fillInfo.planning_to_buy = moment.utc(r.data.lead.prefs.planning_to_buy).toDate();
-        // this.fillInfo.planning_to_buy = new ChatTimePipe().transform(r.data.lead.prefs.planning_to_buy, 'YYYY-MM-DD HH:MM:SS', 4);
+      if (leadData.prefs.planning_to_buy !== null) {
+        this.leadData.prefs.planning_to_buy = moment.utc(leadData.prefs.planning_to_buy).toDate();
+        // this.fillInfo.planning_to_buy = moment.utc(leadData.prefs.planning_to_buy).toDate();
       }
     } else {
-      this.fillInfo.family_size = 1;
-      this.fillInfo.pets = '';
-      this.fillInfo.kid_count = '';
-      this.fillInfo.min_price = this.constant.minValue;
-      this.fillInfo.max_price = this.constant.maxValue;
-      this.fillInfo.price_range = [this.constant.minValue, this.constant.maxValue];
+      console.log(this.leadData.prefs);
+      this.leadData.prefs = new Prefs();
+      this.leadData.prefs.looking_for = 1;
+      this.leadData.prefs.min_price = 0;
+      this.leadData.prefs.max_price = 0;
+      // this.fillInfo.family_size = 1;
+      // this.fillInfo.pets = '';
+      // this.fillInfo.kid_count = '';
+      // this.fillInfo.min_price = this.constant.minValue;
+      // this.fillInfo.max_price = this.constant.maxValue;
+      // this.fillInfo.price_range = [this.constant.minValue, this.constant.maxValue];
     }
   }
 

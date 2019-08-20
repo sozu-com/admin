@@ -7,6 +7,8 @@ import { Ng2TelInputModule } from 'ng2-tel-input';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 import { NouisliderModule } from 'ng2-nouislider';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+
 import { RemoveCommaPipe } from './../../pipes/remove-comma.pipe';
 import { LeadsComponent } from './leads.component';
 import { DataCollectorComponent } from './data-collector/data-collector.component';
@@ -136,6 +138,7 @@ const routes: Routes = [
     Ng2TelInputModule,
     MalihuScrollbarModule.forRoot(),
     NouisliderModule,
+    NgMultiSelectDropDownModule.forRoot(),
     NgxChartsModule,
     SharedModule,
     CalendarModule

@@ -25,17 +25,60 @@ export class Leads {
     bank_assigned_at: Date;
     noatary_assigned_at: Date;
     property_id: number;
+    payment_modes: Array<PaymentModes>;
+    property_purposes: Array<PaymentModes>;
+    buyer_amenities: Array<BuyerAmenities>;
+    buyer_car_type: Array<CarTypes>;
+    buyer_proximity: Array<ProximityPlaces>;
+    buyer_property_type: Array<PropertyTypes>;
     admin: UserModel;
     user: Users;
     broker: UserModel;
     closer: UserModel;
     building: AddProjectModel;
-    prefs: any;
+    prefs: Prefs;
     proximity_places: Array<ProximityPlaces>;
     property_types: Array<PropertyTypes>;
     configuration: Array<Configuration>;
     selected_properties: Array<SelectedProperties>;
     appointments: Array<AddAppointment>;
+}
+
+export class PaymentModes {
+    id: number;
+    name_en: string;
+    name_es: string;
+    is_blocked: number;
+    is_selected: number;
+    name: string;
+}
+
+export class Prefs {
+    id: number;
+    lead_id: number;
+    family_size: number;
+    kid_count: number;
+    car_type_id: number;
+    pets: number;
+    planning_to_buy: Date;
+    min_price: number;
+    max_price: number;
+    looking_for: number;
+    bedroom: number;
+    bathroom: number;
+    half_bathroom: number;
+    proximity_other: string;
+}
+
+export class BuyerAmenities {
+    id: number;
+    name_en: string;
+    name_es: string;
+    icon: string;
+    status: number;
+    is_blocked: number;
+    is_selected: number;
+    name: string;
 }
 
 export class DealFinalize {
@@ -255,4 +298,25 @@ export class CSRBuyerLeads {
     admin: UserModel;
     user: Users;
     selected?: any;
+}
+
+export class AddPrefrences {
+    lead_id: string;
+    family_size: number;
+    kid_count: number;
+    car_type_id: number;
+    pets: number;
+    planning_to_buy: Date;
+    min_price: number;
+    max_price: number;
+    looking_for: number;
+    bedroom: number;
+    bathroom: number;
+    half_bathroom: number;
+    proximity_other: string;
+    payment_plans: Array<number>;
+    property_purpose: Array<number>;
+    amenities: Array<number>;
+    proximity_place_ids: Array<number>;
+    property_types: Array<number>;
 }

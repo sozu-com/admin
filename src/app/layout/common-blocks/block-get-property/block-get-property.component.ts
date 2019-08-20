@@ -35,7 +35,6 @@ export class BlockGetPropertyComponent implements OnInit {
   getListing() {
     this.loading = true;
     this.admin.postDataApi('propertySearch', this.parameter).subscribe(r => {
-      console.log(r);
       this.loading = false;
       this.items = r['data'];
       this.parameter.total = r['total'];
@@ -58,7 +57,6 @@ export class BlockGetPropertyComponent implements OnInit {
 
   getCountries() {
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
-      console.log(r);
       this.location.countries = r['data'];
     });
   }

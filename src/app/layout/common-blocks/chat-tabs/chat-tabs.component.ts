@@ -143,7 +143,7 @@ export class ChatTabsComponent implements OnInit {
 
 
   selectConversation(conversation) {
-    console.log('con', conversation);
+    // console.log('con', conversation);
     this.conversations.map(con => {
       con.selected = false;
       if (con === conversation) {
@@ -153,7 +153,7 @@ export class ChatTabsComponent implements OnInit {
     });
 
     this.conversation = conversation;
-    console.log('con id', this.conversation_id);
+    // console.log('con id', this.conversation_id);
     const data = {
       conversation_id: this.conversation_id
     };
@@ -186,16 +186,16 @@ export class ChatTabsComponent implements OnInit {
         device_id: this.admin.deviceId + '_' + this.admin_id
       };
       if (this.connected) {
-        console.log('Socket Connected', this.socket_id);
+        // console.log('Socket Connected', this.socket_id);
 
         this.socket.emit('add-admin', data, (res: any) => {
-          console.log('res', res);
+          // console.log('res', res);
         });
 
         this.socket.on('message', (response: any) => {
           if (response.data.conversation_id === this.conversation_id) {
-            console.log('Socket conversation_id');
-            console.log('Socket conversation_id', this.conversation_id);
+            // console.log('Socket conversation_id');
+            // console.log('Socket conversation_id', this.conversation_id);
             this.messages.push(response.data);
             setTimeout(() => {
               this.scrollToBottom();
@@ -389,7 +389,7 @@ export class ChatTabsComponent implements OnInit {
       || this.admin.permissions.can_csr_closer === 0) {
       return false;
     } else {
-console.log('zzz');
+
       const model = new Chat;
       model.message = this.textMessage;
       model.message_type = 1;
@@ -465,7 +465,6 @@ console.log('zzz');
     if (admin_sent_as === this.constant.userType.bank) {
       this.chat_admin = this.chat_bank;
     }
-    console.log('chat_admin', this.chat_admin);
     const data = {
       // other_id: this.chat_admin.id,
       // sent_as: this.constant.userType.csr_closer,
@@ -474,11 +473,10 @@ console.log('zzz');
       other_id: this.chat_admin && this.chat_admin.id ? this.chat_admin.id : this.user_id,
       sent_as: this.sent_as
     };
-    console.log('=========', data);
+
     this.spinner.show();
     this.admin.postDataApi('conversation/getLeadConversation', data).subscribe(r => {
       this.spinner.hide();
-      console.log('conversation/getLeadConversation', r);
       if (r['data']) {
         this.conversation_id = r['data'][0].id;
         this.initSocket();

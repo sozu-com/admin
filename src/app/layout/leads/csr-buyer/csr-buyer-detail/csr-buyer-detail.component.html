@@ -157,7 +157,9 @@
             <div class="spacer30"></div>
 
             <!-- fill information start -->
-            <app-fill-information [sent_as]="parameter.sent_as" [fillInfo]="fillInfo" [lead_id]="parameter.lead_id">
+            <app-fill-information [sent_as]="parameter.sent_as" [leadData]="leadData"
+                [selectedAmenities]="selectedAmenities" [allAmenities]="allAmenities"
+                [lead_id]="parameter.lead_id">
             </app-fill-information>
             <!-- fill information end -->
 
