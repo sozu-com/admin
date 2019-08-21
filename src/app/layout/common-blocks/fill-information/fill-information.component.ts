@@ -76,8 +76,8 @@ export class FillInformationComponent implements OnInit {
   }
 
   setProximityValue(value: string, showOtherTextBox: boolean) {
-    console.log(value);
-    this.showOtherTextBox = this.showOtherTextBox ? false : true;
+    console.log(value, showOtherTextBox);
+    // this.showOtherTextBox = this.showOtherTextBox ? false : true;
   }
 
   setPrefValue (param: string, value: number) {

@@ -215,7 +215,8 @@ export class CsrBuyerDetailComponent implements OnInit {
   openModal () {
     this.appointment = new AddAppointmentMultiple();
     this.appointment.lead_id = this.parameter.lead_id;
-    this.appointment.property_id = this.leadData.selected_properties[0].property_id;
+    this.appointment.property_id = this.leadData.selected_properties[0] && this.leadData.selected_properties[0].property_id ?
+                this.leadData.selected_properties[0].property_id : '';
     this.appointment.sent_as = this.constant.userType.inhouse_broker;
     this.modalOpen.nativeElement.click();
   }

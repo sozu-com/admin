@@ -265,7 +265,7 @@ export class AddAppointment {
 export class AddAppointmentMultiple {
     id: any;
     sent_as: any;
-    property_id: number;
+    property_id: any;
     lead_id: any;
     appointment_date_array: Array<any> = [];
     appointment_date: Array<any> = [];

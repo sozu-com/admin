@@ -232,7 +232,8 @@ console.log('apoiinn', this.appointment);
   openModal () {
     this.appointment = new AddAppointmentMultiple();
     this.appointment.lead_id = this.parameter.lead_id;
-    this.appointment.property_id = this.leadData.selected_properties[0].property_id;
+    this.appointment.property_id = this.leadData.selected_properties[0] && this.leadData.selected_properties[0].property_id ?
+                this.leadData.selected_properties[0].property_id : '';
     this.appointment.sent_as = this.constant.userType.inhouse_broker;
     this.modalOpen.nativeElement.click();
   }
@@ -241,8 +242,9 @@ console.log('apoiinn', this.appointment);
     this.modalClose.nativeElement.click();
   }
 
-  dealFinalisedReceived(value) {
+  dealFinalisedReceived(e, response) {
     this.is_deal_finalised = true;
+    this.leadData.selected_properties[0].property_id = response.property_id;
   }
 
 
