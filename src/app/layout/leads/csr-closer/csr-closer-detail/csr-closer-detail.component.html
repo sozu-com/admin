@@ -258,6 +258,17 @@
 
     <!-- chatting -->
     <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+        <!-- <div class="white-bg move-below">
+            <div class="page-title-3 marginB0">
+                <h4><i><img src="assets/img/chat-icon.png" alt="img"></i> Chat</h4>
+            </div>
+            <div class="cust-tabs-4">
+                <app-chat-tabs *ngIf="leadData?.user" [lead_id]="parameter.lead_id" [sent_as]="parameter.sent_as"
+                    [user_id]="parameter.user_id" [admin_id]="parameter.admin_id" [leadData]="leadData">
+                </app-chat-tabs>
+            </div>
+        </div> -->
+        
         <div class="white-bg move-below">
             <div class="page-title-3 marginB0">
                 <h4><i><img src="assets/img/chat-icon.png" alt="img"></i> Chat</h4>
@@ -270,11 +281,9 @@
                 <li class="nav-item">
                     <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.user_seller_dev}" (click)="getLeadConversation(constant.userType.user_seller_dev)" class="nav-link">Seller</a>
                 </li>
-                <!-- show only if notary is assigned and property is available for sale -->
                 <li class="nav-item" *ngIf="selectedProperties.noataries && selectedProperties.noataries.length!=0 && leadData?.sale_rent==1">
                     <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.notary}" (click)="getLeadConversation(constant.userType.notary)" class="nav-link">Notary</a>
                 </li>
-                <!-- show only if bank is assigned and property is available for sale -->
                 <li class="nav-item" *ngIf="selectedProperties.banks && selectedProperties.banks.length!=0 && leadData?.sale_rent==1">
                     <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.bank}" (click)="getLeadConversation(constant.userType.bank)" class="nav-link">Bank</a>
                 </li>
@@ -301,17 +310,12 @@
                         <div *ngFor="let m of messages; let i=index" [ngClass]="m.conversation_user.admin_id == admin_id ? 'chat-user-one' :'chat-user-two'" class="chat-user">
                             <p *ngIf="m.message_type == 1" style="word-wrap: break-word;">
                                 <span>{{m.message}}</span>
-                                <!-- <span *ngIf="m.loading" class="m-loader">
-                                    <img class="text-message" src="assets/img/loading-p.gif">
-                                </span>
-                                <span *ngIf="!m.loading">{{m.message}}</span> -->
                             </p>
 
                             <a *ngIf="m.message_type == 2" href="{{m.image}}" data-lightbox="image">
                                 <span *ngIf="!m.loading">
                                     <img class="ui bordered small image" src="{{m.image}}">
                                 </span>
-                                <!-- <div *ngIf="m.loading" class="loaderr"></div> -->
                                 <span *ngIf="m.loading" class="m-loader">
                                     <img src="assets/img/loading_image_1.gif">
                                 </span>

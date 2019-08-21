@@ -59,9 +59,8 @@
         
               <tr *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index">
                 <td> 
-                  <!-- <img *ngIf="item.image && item.image!='image'" class="rounded-circle" [src]="item.image" alt="img">
-                  <img *ngIf="!item.image || item.image=='image'" class="rounded-circle" src="assets/img/default_img.png" alt="img"> -->
-                  <img [src]="item.image| img:'small'" class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
+                    <img *ngIf="item.image" [defaultImage]="item.image| img:'thumb'" [lazyLoad]="item.image" class="rounded-circle" alt="img">
+                    <img *ngIf="!item.image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
                 </td>
                 <td class="text-left">
                   <span class="name">

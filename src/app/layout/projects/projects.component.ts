@@ -1,11 +1,14 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { AdminService } from '../../services/admin.service';
+// import { AdminService } from '../../services/admin.service';
 import { ActivatedRoute } from '@angular/router';
-import { IProperty } from '../../common/property';
-import { Constant } from './../../common/constants';
+// import { IProperty } from '../../common/property';
+// import { Constant } from './../../common/constants';
 import * as moment from 'moment';
 import { ApiConstants } from 'src/app/common/api-constants';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { IProperty } from 'src/app/common/property';
+import { Constant } from 'src/app/common/constants';
+import { AdminService } from 'src/app/services/admin.service';
 declare let swal: any;
 
 @Component({
@@ -158,24 +161,46 @@ export class ProjectsComponent implements OnInit {
     this.getListing();
   }
 
-  block(item) {
-    item.is_blocked = true;
-    this.admin.postDataApi('blockProject', { building_id: item.id, flag: 1 }).subscribe(r => {
-      swal('Success', 'Project blocked successfully.', 'success');
-    },
-      error => {
-        swal('Error', error.error.message, 'error');
-      });
+
+
+  blockUnblock(item, flag: number) {
+    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    switch (flag) {
+      case 0:
+        this.parameter.text = 'You want to unblock this Project?';
+        this.parameter.successText = this.constant.successMsg.UNBLOCKED_SUCCESSFULLY;
+        break;
+      case 1:
+        this.parameter.text = 'You want to block this Project?';
+        this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
+        break;
+    }
+
+    swal({
+      html: this.parameter.title + '<br>' + this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.blockProject(item, flag);
+      }
+    });
   }
 
-  unblock(item) {
-    item.is_blocked = false;
-    this.admin.postDataApi('blockProject', { building_id: item.id, flag: 0 }).subscribe(r => {
-      swal('Success', 'Project unblocked successfully.', 'success');
-    },
-      error => {
-        swal('Error', error.error.message, 'error');
-      });
+  blockProject(item, flag: number) {
+    this.admin.postDataApi('blockProject', { building_id: item.id, flag: flag })
+      .subscribe(
+        success => {
+          swal('Success', this.parameter.successText, 'success');
+          item.is_blocked = flag;
+          // this.items[this.parameter.index] = success.data;
+        },
+        error => {
+          swal('Error', error.error.message, 'error');
+        });
   }
 
   approveProject(item, status) {

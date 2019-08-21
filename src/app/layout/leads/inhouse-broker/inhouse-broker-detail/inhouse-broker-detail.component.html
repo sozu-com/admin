@@ -148,9 +148,17 @@
         </div>
 
         <div class="spacer30"></div>
-        <div *ngIf="leadData?.user">
-          <app-chat-tabs [lead_id]="parameter.lead_id" [sent_as]="parameter.sent_as" [user_id]="parameter.user_id" [admin_id]="parameter.admin_id"
-          [leadData]="leadData"></app-chat-tabs>
+        <div>
+            <div class="white-bg move-below">
+                <div class="page-title-3 marginB0">
+                    <h4><i><img src="assets/img/chat-icon.png" alt="img"></i> Chat</h4>
+                </div>
+                <div class="cust-tabs-4">
+                    <app-chat-tabs *ngIf="leadData?.user" [lead_id]="parameter.lead_id" [sent_as]="parameter.sent_as"
+                        [user_id]="parameter.user_id" [admin_id]="parameter.admin_id" [leadData]="leadData">
+                    </app-chat-tabs>
+                </div>
+            </div>
         </div>
 
      </div>
@@ -168,7 +176,11 @@
         </div>
         
         <!-- <app-fill-information [sent_as]="parameter.sent_as" [fillInfo]="fillInfo" [lead_id]="parameter.lead_id"></app-fill-information> -->
-
+        <app-fill-information [sent_as]="parameter.sent_as" [leadData]="leadData"
+                [selectedAmenities]="selectedAmenities" [allAmenities]="allAmenities"
+                [lead_id]="parameter.lead_id" [showOtherTextBox]="showOtherTextBox">
+        </app-fill-information>
+        
         <app-notes [sent_as]="parameter.sent_as" [lead_id]="parameter.lead_id"></app-notes>
 
         <!-- <div class="spacer30"></div>

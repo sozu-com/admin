@@ -66,6 +66,7 @@ export class AddPropertyModel {
     building_towers: Towers;
     videoLoader: boolean;
     configuration: Configuration;
+    creator: User;
 }
 
 export class Building {

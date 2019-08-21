@@ -295,7 +295,8 @@
                   
                         <tr *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
                             <td>
-                                <img class="rounded-circle" onerror='this.src="assets/img/placeholder-img.png"' [defaultImage]="p.main_image| img:'thumb'" [lazyLoad]="p.main_image">
+                                <img *ngIf="p.main_image" [defaultImage]="p.main_image| img:'thumb'" [lazyLoad]="p.main_image" class="rounded-circle" alt="img">
+                                <img *ngIf="!p.main_image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
                             </td>
                             <td class="cursor-pointer" title="Click to view details" routerLink="/dashboard/projects/details/{{p.id}}">
                               <strong>{{p?.name}}</strong>
@@ -317,8 +318,8 @@
                               <div class="table-actions">
                                 <!-- <div class="message"> -->
                                   <button [disabled]="admin?.admin_acl['Building Management']?.can_update==0" routerLink="/dashboard/projects/edit-project/{{p.id}}" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
-                                  <button [disabled]="admin?.admin_acl['Building Management']?.can_delete==0" *ngIf="!p.is_blocked" (click)="block(p);" class="action-icon" title="Block"><img src="assets/img/block.png" alt="img"></button>
-                                  <button [disabled]="admin?.admin_acl['Building Management']?.can_delete==0" *ngIf="p.is_blocked == true" (click)="unblock(p);" class="action-icon unblock-bg" title="UnBlock"><img src="assets/img/unblock.png" alt="img"></button>
+                                  <button [disabled]="admin?.admin_acl['Building Management']?.can_delete==0" *ngIf="!p.is_blocked" (click)="blockUnblock(p, 1);" class="action-icon" title="Block"><img src="assets/img/block.png" alt="img"></button>
+                                  <button [disabled]="admin?.admin_acl['Building Management']?.can_delete==0" *ngIf="p.is_blocked == true" (click)="blockUnblock(p, 0);" class="action-icon unblock-bg" title="UnBlock"><img src="assets/img/unblock.png" alt="img"></button>
                                   <!-- unapprove => when status=2(pending), 1(approved)-->
                                   <a style="display:none;" #modalOpen data-toggle="modal" data-target="#addNote"></a>
                                   <button (click)="openCancellationModal(p, i)" [disabled]="admin?.admin_acl['Building Management']?.can_update==0" *ngIf="p.status == 1 || p.status==2" class="action-icon" title="Unapprove"><img src="assets/img/ic_disapprove.png" alt="img"></button>

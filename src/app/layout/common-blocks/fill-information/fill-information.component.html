@@ -91,6 +91,7 @@
             [data]="allAmenities"
             [(ngModel)]="selectedAmenities"
             [settings]="dropdownSettings"
+            (onDeSelect)="onItemDeSelect($event)"
             (onSelect)="onItemSelect($event)"
             (onSelectAll)="onSelectAll($event)">
         </ng-multiselect-dropdown>
@@ -106,7 +107,7 @@
             <span class="checkmark">{{proximity_place.name}}</span>
         </label>
         <label class="cust-radio">
-            <input type="checkbox" (click)="setProximityValue($event, showOtherTextBox == true ? false : true)"
+            <input type="checkbox" (click)="setProximityValue($event, showOtherTextBox ? false : true)"
                 [checked]="showOtherTextBox ? 'checked' : ''" name="radio3">
             <span class="checkmark">Other</span>
         </label>
@@ -118,7 +119,7 @@
         <label>How many cars do you have?</label>
         <div class="clearfix"></div>
         <label class="cust-radio" *ngFor="let car_type of leadData.buyer_car_type; let i=index">
-            <input type="radio" (click)="setCarType('buyer_car_type', i, car_type.id)"
+            <input type="radio" (click)="setCarType(car_type.id)"
                 [checked]="car_type.is_selected == 0 ? '' : 'checked'" name="radio4">
             <span class="checkmark">{{car_type.name}}</span>
         </label>
@@ -173,7 +174,7 @@
         <label>How do you plan to do your payment?</label>
         <div class="clearfix"></div>
         <label class="cust-radio" *ngFor="let payment_mode of leadData.payment_modes; let i=index">
-            <input type="radio" (click)="setValue('payment_modes', i)"
+            <input type="radio" (click)="setPaymentMode(payment_mode.id)"
                 [checked]="payment_mode.is_selected == 0 ? '' : 'checked'" name="radio3">
             <span class="checkmark">{{payment_mode.name}}</span>
         </label>

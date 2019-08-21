@@ -1,28 +1,28 @@
-<div class="white-bg move-below">
+<!-- <div class="white-bg move-below">
   <div class="page-title-3 marginB0">
     <h4><i><img src="assets/img/chat-icon.png" alt="img"></i> Chat</h4>
-  </div>
-  <div class="cust-tabs-4">
+  </div> -->
+  <!-- <div class="cust-tabs-4"> -->
     <ul class="nav nav-tabs">
       <li class="nav-item" *ngIf="sent_as==constant.userType.csr_buyer || sent_as==constant.userType.inhouse_broker">
         <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.user_buyer}"
-          (click)="getLeadConversation(constant.userType.user_buyer)" class="nav-link">Buyer</a>
+          (click)="getLeadConversation(constant.userType.user_buyer, true)" class="nav-link">Buyer</a>
       </li>
       <li class="nav-item" *ngIf="sent_as==constant.userType.csr_closer">
         <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.user_buyer}"
-          (click)="getLeadConversation(constant.userType.user_buyer)" class="nav-link">Buyer</a>
+          (click)="getLeadConversation(constant.userType.user_buyer, true)" class="nav-link">Buyer</a>
       </li>
       <li class="nav-item" *ngIf="sent_as==constant.userType.csr_closer">
         <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.user_seller_dev}"
-          (click)="getLeadConversation(constant.userType.user_seller_dev)" class="nav-link">Seller</a>
+          (click)="getLeadConversation(constant.userType.user_seller_dev, true)" class="nav-link">Seller</a>
       </li>
       <li class="nav-item" *ngIf="sent_as==constant.userType.inhouse_broker">
         <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.csr_buyer}"
-          (click)="getLeadConversation(constant.userType.csr_buyer)" class="nav-link">CSR Buyer</a>
+          (click)="getLeadConversation(constant.userType.csr_buyer, true)" class="nav-link">CSR Buyer</a>
       </li>
       <li class="nav-item" *ngIf="sent_as==constant.userType.csr_buyer">
         <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.inhouse_broker}"
-          (click)="getLeadConversation(constant.userType.inhouse_broker)" class="nav-link">Inhouse Agent</a>
+          (click)="getLeadConversation(constant.userType.inhouse_broker, true)" class="nav-link">Inhouse Agent</a>
       </li>
       <!-- show only if notary is assigned and property is available for sale -->
       <li class="nav-item"
@@ -30,7 +30,7 @@
         selectedProperties.noataries.length!=0 && parameter?.lead?.sale_rent==1 &&
         sent_as==constant.userType.csr_closer">
         <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.notary}"
-          (click)="getLeadConversation(constant.userType.notary)" class="nav-link">Notary</a>
+          (click)="getLeadConversation(constant.userType.notary, true)" class="nav-link">Notary</a>
       </li>
       <!-- show only if bank is assigned and property is available for sale -->
       <li class="nav-item"
@@ -38,7 +38,7 @@
         selectedProperties.banks.length!=0 && parameter?.lead?.sale_rent==1 &&
         sent_as==constant.userType.csr_closer">
         <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.bank}"
-          (click)="getLeadConversation(constant.userType.bank)" class="nav-link">Bank</a>
+          (click)="getLeadConversation(constant.userType.bank, true)" class="nav-link">Bank</a>
       </li>
     </ul>
 
@@ -172,8 +172,8 @@
       </div>
 
     </div>
-  </div>
-</div>
+  <!-- </div> -->
+<!-- </div> -->
 
 
 <app-block-get-property #blockGetProperty (itemSelect)="sendProperty($event)"></app-block-get-property>

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
-import { Constant } from './../../../common/constants';
-import { IProperty } from './../../../common/property';
-import { AdminService } from '../../../services/admin.service';
+import { IProperty } from 'src/app/common/property';
+import { Constant } from 'src/app/common/constants';
+import { AdminService } from 'src/app/services/admin.service';
 
 @Component({
   selector: 'app-project-block',
@@ -21,10 +21,7 @@ export class ProjectBlockComponent implements OnInit {
     this.parameter.page = this.constant.p;
   }
 
-
   setBuildingId(data: any) {
-    console.log('aaaaaa');
     this.setBuilding.emit(data);
-    console.log('1', data);
   }
 }

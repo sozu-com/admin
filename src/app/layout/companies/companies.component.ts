@@ -113,7 +113,8 @@ export class CompaniesComponent implements OnInit {
       .subscribe(
         success => {
           swal('Success', this.parameter.successText, 'success');
-          this.items[this.parameter.index] = success.data;
+          // this.items[this.parameter.index] = success.data;
+          this.items[this.parameter.index]['is_blocked'] = flag;
         });
   }
 
@@ -137,14 +138,14 @@ export class CompaniesComponent implements OnInit {
 
   deleteData(item: any, index: number) {
     this.admin.postDataApi('deleteTowerManagerCompany',
-    { id: item.id }).subscribe(r => {
-      this.items.splice(index, 1);
-      this.parameter.total--;
-      swal('Success', 'Deleted successfully.', 'success');
-    },
-    error => {
-      swal('Error', error.error.message, 'error');
-    });
+      { id: item.id }).subscribe(r => {
+        this.items.splice(index, 1);
+        this.parameter.total--;
+        swal('Success', 'Deleted successfully.', 'success');
+      },
+        error => {
+          swal('Error', error.error.message, 'error');
+        });
   }
 
   importData() {
@@ -156,21 +157,21 @@ export class CompaniesComponent implements OnInit {
         swal('Error', 'File size is more than 25MB.', 'error');
         return false;
       }
-    this.spinner.show();
-    const input = new FormData();
-    input.append('attachment', attachment);
-    this.admin.postDataApi('importTowerManagerCompany', input)
-      .subscribe(
-        success => {
-          this.spinner.hide();
-          this.fileInput.nativeElement.value = '';
-          this.label = 'Choose Companies File';
-          swal('Success', 'Imported successfully.', 'success');
-          this.getTowerManagerCompany();
-        }, error => {
-          this.fileInput.nativeElement.value = '';
-          this.spinner.hide();
-        });
+      this.spinner.show();
+      const input = new FormData();
+      input.append('attachment', attachment);
+      this.admin.postDataApi('importTowerManagerCompany', input)
+        .subscribe(
+          success => {
+            this.spinner.hide();
+            this.fileInput.nativeElement.value = '';
+            this.label = 'Choose Companies File';
+            swal('Success', 'Imported successfully.', 'success');
+            this.getTowerManagerCompany();
+          }, error => {
+            this.fileInput.nativeElement.value = '';
+            this.spinner.hide();
+          });
     } else {
       swal('Error', 'Please choose file', 'error');
       return false;

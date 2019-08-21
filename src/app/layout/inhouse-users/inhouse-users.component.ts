@@ -276,8 +276,6 @@ export class InhouseUsersComponent implements OnInit {
     input.append('is_data_collector', formdata.value.is_data_collector === true ? '1' : '0');
     input.append('is_csr_closer', formdata.value.is_csr_closer === true ? '1' : '0');
     input.append('is_external_agent', this.model.is_external_agent === true ? '1' : '0');
-    console.log('--');
-    console.log(this.model);
     if (this.model.is_external_agent) {
       input.append('agency_id', this.model.agency.id);
       // input.append('company_name', this.model.company_name);
@@ -355,7 +353,6 @@ export class InhouseUsersComponent implements OnInit {
               if (this.model.id) {
                 // edit -- replace
                 this.parameter.items[this.parameter.index] = success.data;
-                console.log(this.parameter.items[this.parameter.index]);
                 formdata.reset();
               } else {
                 // add - push
@@ -395,9 +392,7 @@ export class InhouseUsersComponent implements OnInit {
       // this.model.company_name = userdata.company_name;
       // this.model.description = userdata.description;
       this.model.is_external_agent = userdata.is_external_agent;
-      this.model.agency = userdata.agency ? userdata.agency  : new Agency();
-      console.log('sss');
-      console.log(this.model);
+      this.model.agency = userdata.agency ? userdata.agency : new Agency();
       // this.model.adr = userdata.address;
       // this.model.lat = userdata.lat;
       // this.model.lng = userdata.lng;
@@ -723,8 +718,8 @@ export class InhouseUsersComponent implements OnInit {
         success => {
           this.spinner.hide();
           swal('Success', this.parameter.successText, 'success');
-          this.parameter.items[this.parameter.index] = success.data;
-
+          this.parameter.items[this.parameter.index]['is_blocked'] = flag;
+          // this.parameter.items[this.parameter.index] = success.data;
         });
   }
 
@@ -900,13 +895,13 @@ export class InhouseUsersComponent implements OnInit {
 
   deleteNewUser(item: any, index: number) {
     this.admin.postDataApi('deleteNewUser',
-    { id: item.id }).subscribe(r => {
-      swal('Success', 'Deleted successfully.', 'success');
-      this.parameter.items.splice(index, 1);
-      this.parameter.total--;
-    },
-    error => {
-      swal('Error', error.error.message, 'error');
-    });
+      { id: item.id }).subscribe(r => {
+        swal('Success', 'Deleted successfully.', 'success');
+        this.parameter.items.splice(index, 1);
+        this.parameter.total--;
+      },
+        error => {
+          swal('Error', error.error.message, 'error');
+        });
   }
 }

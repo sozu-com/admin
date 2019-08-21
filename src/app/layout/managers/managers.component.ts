@@ -224,7 +224,7 @@ export class ManagersComponent implements OnInit {
   getTowerManager() {
     this.spinner.show();
     const input = new FormData();
-    input.append('project_sort', this.model.project_sort.toString());
+    input.append('project_sort', this.model.project_sort);
     input.append('page', this.parameter.p.toString());
     if (this.parameter.name) { input.append('name', this.parameter.name); }
     if (this.parameter.email) { input.append('email', this.parameter.email); }
@@ -281,9 +281,6 @@ export class ManagersComponent implements OnInit {
 
 
   blockAdmin(id, flag) {
-    // const input = new FormData();
-    // input.append('id', id);
-    // input.append('flag', flag);
     const input = {
       id: id, flag: flag
     };
@@ -292,8 +289,8 @@ export class ManagersComponent implements OnInit {
       .subscribe(
         success => {
           swal('Success', this.parameter.successText, 'success');
-          this.items[this.parameter.index] = success.data;
-
+          // this.items[this.parameter.index] = success.data;
+          this.items[this.parameter.index]['is_blocked'] = flag;
         });
   }
 

@@ -7,6 +7,9 @@ import { ScheduleMeeting, NotaryAssigned, BankAssigned, SelectedProperties, Lead
 import { AdminService } from 'src/app/services/admin.service';
 import { CommonService } from 'src/app/services/common.service';
 import { Constant } from 'src/app/common/constants';
+import { AddPropertyModel } from 'src/app/models/addProperty.model';
+import { UserModel } from 'src/app/models/inhouse-users.model';
+import { Users } from 'src/app/models/users.model';
 declare let swal: any;
 
 @Component({
@@ -75,7 +78,9 @@ export class ChatTabsComponent implements OnInit {
   chat_admin_sent_as = this.constant.userType.user_buyer;
   loadmore = true;
   loadmoring: any = false;
-  // admin_id: string;
+  selectedProperties: SelectedProperties;
+  property: AddPropertyModel;
+  noatary: UserModel;
   showInput: false;
   pen_amount = 0;
   keyword: string;
@@ -84,7 +89,7 @@ export class ChatTabsComponent implements OnInit {
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
 
   model: Chat;
-  selectedProperties: SelectedProperties;
+  // selectedProperties: SelectedProperties;
   constructor(
     public admin: AdminService,
     private cs: CommonService,
@@ -100,44 +105,29 @@ export class ChatTabsComponent implements OnInit {
   ngOnInit() {
     this.model = new Chat();
     this.selectedProperties = new SelectedProperties();
+    this.property = new AddPropertyModel();
+    this.noatary = new UserModel();
     this.keyword = '';
     this.parameter.sent_as = this.constant.userType.inhouse_broker;
 
     setTimeout(() => {
-      const input = {lead_id: this.lead_id, user_id: this.user_id, sent_as: this.sent_as};
+      // const input = {lead_id: this.lead_id, user_id: this.user_id, sent_as: this.sent_as};
       this.initSocket();
-      this.chat_buyer = this.leadData.user;
+      this.selectedProperties = this.leadData.selected_properties[0] ? this.leadData.selected_properties[0] : new SelectedProperties();
+      this.chat_buyer = this.leadData.user ? this.leadData.user : new Users();
       this.chat_broker = this.leadData.broker ? this.leadData.broker : [];
-      this.chat_seller = this.leadData.selected_properties[0] ? this.leadData.selected_properties[0].property.creator :
-      this.leadData.user;
-      this.chat_notary = this.leadData.selected_properties[0] && this.leadData.selected_properties[0].selected_noatary[0] ?
-      this.leadData.selected_properties[0].selected_noatary[0].noatary : [];
-      this.chat_bank = this.leadData.selected_properties[0] ? this.leadData.selected_properties[0].banks[0] : [];
       this.chat_csr_buyer = this.leadData.admin;
-      this.getLeadConversation(this.constant.userType.user_buyer);
-    }, 100);
-
-    // this.route.params.subscribe(params => {
-    //   this.parameter.lead_id = params.id;
-    //   this.spinner.show();
-    //   this.admin.postDataApi('leads/details', { lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as }).subscribe(r => {
-    //     this.spinner.hide();
-    //     // chatting
-    //     this.chat_buyer = r.data.lead.user;
-    //     this.chat_seller = r.data.lead.selected_properties[0].property.creator;
-    //     this.chat_notary = r.data.lead.selected_properties[0].selected_noatary[0] ?
-    //       r.data.lead.selected_properties[0].selected_noatary[0].noatary : [];
-    //     this.chat_bank = r.data.lead.selected_properties[0].banks ? r.data.lead.selected_properties[0].banks[0] : [];
-
-    //     this.getLeadConversation(this.constant.userType.user_buyer);
-
-    //   }, error => {
-    //     this.spinner.hide();
-    //   });
-    // });
+      if (this.selectedProperties) {
+        this.property = this.selectedProperties ? this.selectedProperties.property : new AddPropertyModel();
+        // this.chat_seller = this.property ? this.property.creator : this.leadData.user;
+        this.chat_seller = this.property ? this.property.creator : {};
+        this.chat_notary = this.selectedProperties.selected_noatary && this.selectedProperties.selected_noatary[0] ?
+        this.selectedProperties.selected_noatary[0].noatary : [];
+        this.chat_bank = this.selectedProperties.banks ? this.selectedProperties.banks[0] : [];
+      }
+      this.getLeadConversation(this.constant.userType.user_buyer, false);
+    }, 1000);
   }
-
-
 
 
 
@@ -440,7 +430,7 @@ export class ChatTabsComponent implements OnInit {
     });
   }
 
-  getLeadConversation(admin_sent_as: any) {
+  getLeadConversation(admin_sent_as: any, showLoader: boolean) {
     this.chat_admin_sent_as = admin_sent_as;
     if (admin_sent_as === this.constant.userType.user_buyer) {
       this.chat_admin = this.chat_buyer;
@@ -465,6 +455,7 @@ export class ChatTabsComponent implements OnInit {
     if (admin_sent_as === this.constant.userType.bank) {
       this.chat_admin = this.chat_bank;
     }
+    console.log('chat admin', this.chat_admin);
     const data = {
       // other_id: this.chat_admin.id,
       // sent_as: this.constant.userType.csr_closer,
@@ -474,7 +465,9 @@ export class ChatTabsComponent implements OnInit {
       sent_as: this.sent_as
     };
 
-    this.spinner.show();
+    if (showLoader) {
+      this.spinner.show();
+    }
     this.admin.postDataApi('conversation/getLeadConversation', data).subscribe(r => {
       this.spinner.hide();
       if (r['data']) {

@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-import { AdminService } from './../../../services/admin.service';
-import { IProperty } from './../../../common/property';
-import { Notes } from './../../../models/leads.model';
-import { Constant } from './../../../common/constants';
 import { NgForm } from '@angular/forms';
+import { Notes } from 'src/app/models/leads.model';
+import { IProperty } from 'src/app/common/property';
+import { AdminService } from 'src/app/services/admin.service';
+import { Constant } from 'src/app/common/constants';
 declare let swal: any;
 
 @Component({

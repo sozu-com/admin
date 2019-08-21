@@ -7,7 +7,7 @@
     <div class="btn-cont text-right">
       <a style="display: none;" data-toggle="modal" #showProjectModal data-target="#view-viewed-projects"
         class="btn btn-fourth" href="javascript://">View All</a>
-      <a *ngIf="viewed_projects?.length!=0" class="btn btn-fourth" href="javascript://"
+      <a *ngIf="viewed_projects?.length>1" class="btn btn-fourth" href="javascript://"
         (click)="viewProjects(viewed_properties, 1, user_id)">View All</a>
     </div>
   </div>

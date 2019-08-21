@@ -111,9 +111,9 @@ export class AgenciesComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          console.log('success', success);
           swal('Success', this.parameter.successText, 'success');
-          this.items[this.parameter.index] = success.data;
+          this.items[this.parameter.index]['is_blocked'] = flag;
+          // this.items[this.parameter.index] = success.data;
         });
   }
 
@@ -137,14 +137,14 @@ export class AgenciesComponent implements OnInit {
 
   deleteData(item: any, index: number) {
     this.admin.postDataApi('deleteAgency',
-    { agency_id: item.id }).subscribe(r => {
-      this.items.splice(index, 1);
-      this.parameter.total--;
-      swal('Success', 'Deleted successfully.', 'success');
-    },
-    error => {
-      swal('Error', error.error.message, 'error');
-    });
+      { agency_id: item.id }).subscribe(r => {
+        this.items.splice(index, 1);
+        this.parameter.total--;
+        swal('Success', 'Deleted successfully.', 'success');
+      },
+        error => {
+          swal('Error', error.error.message, 'error');
+        });
   }
 
 
@@ -158,20 +158,20 @@ export class AgenciesComponent implements OnInit {
         return false;
       }
       this.spinner.show();
-    const input = new FormData();
-    input.append('attachment', attachment);
-    this.admin.postDataApi('importAgency', input)
-      .subscribe(
-        success => {
-          this.spinner.hide();
-          this.fileInput.nativeElement.value = '';
-          this.label = 'Choose Agencies File';
-          swal('Success', 'Imported successfully.', 'success');
-          this.getAgencies();
-        }, error => {
-          this.fileInput.nativeElement.value = '';
-          this.spinner.hide();
-        });
+      const input = new FormData();
+      input.append('attachment', attachment);
+      this.admin.postDataApi('importAgency', input)
+        .subscribe(
+          success => {
+            this.spinner.hide();
+            this.fileInput.nativeElement.value = '';
+            this.label = 'Choose Agencies File';
+            swal('Success', 'Imported successfully.', 'success');
+            this.getAgencies();
+          }, error => {
+            this.fileInput.nativeElement.value = '';
+            this.spinner.hide();
+          });
     } else {
       swal('Error', 'Please choose file', 'error');
       return false;

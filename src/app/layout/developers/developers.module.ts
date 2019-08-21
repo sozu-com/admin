@@ -12,6 +12,7 @@ import { AclUserGuard } from '../../guards/acl-user.guard';
 import { SharedModule } from '../../modules/shared.module';
 import { DevelopersComponent } from './developers.component';
 import { AddDeveloperComponent } from './add-developer/add-developer.component';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 const routes: Routes = [
   { path: '', component: DevelopersComponent,
@@ -25,6 +26,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     CommonModule,
     NgxSpinnerModule,
+    LazyLoadImageModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDykCJGMqHIwJluSmSiqKTJBVN2KauM_uQ',
       libraries: ['drawing', 'places']

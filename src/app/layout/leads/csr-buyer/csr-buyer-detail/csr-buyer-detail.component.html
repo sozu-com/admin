@@ -158,8 +158,8 @@
 
             <!-- fill information start -->
             <app-fill-information [sent_as]="parameter.sent_as" [leadData]="leadData"
-                [selectedAmenities]="selectedAmenities" [allAmenities]="allAmenities"
-                [lead_id]="parameter.lead_id" [showOtherTextBox]="showOtherTextBox">
+                [selectedAmenities]="selectedAmenities" [allAmenities]="allAmenities" [lead_id]="parameter.lead_id"
+                [showOtherTextBox]="showOtherTextBox">
             </app-fill-information>
             <!-- fill information end -->
 
@@ -173,8 +173,16 @@
             <div *ngIf="leadData?.user">
                 <!-- <app-chat [lead_id]="parameter.lead_id" [sent_as]="parameter.sent_as" [user_id]="parameter.user_id"
                     [admin_id]="parameter.admin_id"></app-chat> -->
-                <app-chat-tabs [lead_id]="parameter.lead_id" [sent_as]="parameter.sent_as" [user_id]="parameter.user_id"
-                    [admin_id]="parameter.admin_id" [leadData]="leadData"></app-chat-tabs>
+                <div class="white-bg move-below">
+                    <div class="page-title-3 marginB0">
+                        <h4><i><img src="assets/img/chat-icon.png" alt="img"></i> Chat</h4>
+                    </div>
+                    <div class="cust-tabs-4">
+                        <app-chat-tabs *ngIf="leadData?.user" [lead_id]="parameter.lead_id" [sent_as]="parameter.sent_as"
+                            [user_id]="parameter.user_id" [admin_id]="parameter.admin_id" [leadData]="leadData">
+                        </app-chat-tabs>
+                    </div>
+                </div>
             </div>
             <!-- chat end -->
 
@@ -231,8 +239,10 @@
                                     <!-- <p class="p13" *ngIf="x">{{x.configuration.name}}</p> -->
                                     <p class="p13" title="Configuration" *ngIf="x">
                                         <span *ngIf="x.configuration.bedroom!=0">{{x.configuration.bedroom}} Bed </span>
-                                        <span *ngIf="x.configuration.bathroom!=0">&middot; {{x.configuration?.bathroom}} Bath </span>
-                                        <span *ngIf="x.configuration.half_bathroom!=0">&middot; {{x.configuration.half_bathroom}} Half </span>
+                                        <span *ngIf="x.configuration.bathroom!=0">&middot; {{x.configuration?.bathroom}}
+                                            Bath </span>
+                                        <span *ngIf="x.configuration.half_bathroom!=0">&middot;
+                                            {{x.configuration.half_bathroom}} Half </span>
                                     </p>
                                     <p class="p13" title="Property type" *ngIf="x">{{x.property_type.name}}</p>
                                     <p class="p13">$ {{x.min_price|number}}</p>

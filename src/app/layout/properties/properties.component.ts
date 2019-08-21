@@ -1,11 +1,15 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AdminService } from '../../services/admin.service';
-import { IProperty } from '../../common/property';
-import { Constant } from './../../common/constants';
+// import { AdminService } from '../../services/admin.service';
+// import { IProperty } from '../../common/property';
+// import { Constant } from './../../common/constants';
 import * as moment from 'moment';
-import { SellerSelections } from './../../models/addProperty.model';
+// import { SellerSelections } from './../../models/addProperty.model';
 import { UserModel } from 'src/app/models/inhouse-users.model';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { IProperty } from 'src/app/common/property';
+import { SellerSelections } from 'src/app/models/addProperty.model';
+import { Constant } from 'src/app/common/constants';
+import { AdminService } from 'src/app/services/admin.service';
 declare let swal: any;
 
 @Component({
@@ -34,7 +38,7 @@ export class PropertiesComponent implements OnInit {
   property: any;
   reason: string;
   item: any;
-  public scrollbarOptions = { axis: 'y', theme: 'dark'};
+  public scrollbarOptions = { axis: 'y', theme: 'dark' };
 
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
@@ -198,25 +202,65 @@ export class PropertiesComponent implements OnInit {
     this.getListing();
   }
 
-  block(item) {
-    item.is_blocked = true;
-    this.admin.postDataApi('blockProperty', { property_id: item.id, flag: 1 }).subscribe(r => {
-      swal('Success', 'Property blocked successfully', 'success');
-    },
-      error => {
-        swal('Error', error.error.message, 'error');
-      });
+  blockUnblock(item, flag: number) {
+    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    switch (flag) {
+      case 0:
+        this.parameter.text = 'You want to unblock this Property?';
+        this.parameter.successText = this.constant.successMsg.UNBLOCKED_SUCCESSFULLY;
+        break;
+      case 1:
+      this.parameter.text = 'You want to block this Property?';
+        this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
+        break;
+    }
+
+    swal({
+      html: this.parameter.title + '<br>' + this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.blockProperty(item, flag);
+      }
+    });
   }
 
-  unblock(item) {
-    item.is_blocked = false;
-    this.admin.postDataApi('blockProperty', { property_id: item.id, flag: 0 }).subscribe(r => {
-      swal('Success', 'Property unblocked successfully', 'success');
-    },
-      error => {
-        swal('Error', error.error.message, 'error');
-      });
+  blockProperty(item, flag: number) {
+    this.admin.postDataApi('blockProperty', { property_id: item.id, flag: flag })
+      .subscribe(
+        success => {
+          swal('Success', this.parameter.successText, 'success');
+          item.is_blocked = flag;
+          // this.items[this.parameter.index] = success.data;
+        },
+        error => {
+          swal('Error', error.error.message, 'error');
+        });
   }
+
+  // block(item) {
+  //   item.is_blocked = true;
+  //   this.admin.postDataApi('blockProperty', { property_id: item.id, flag: 1 }).subscribe(r => {
+  //     swal('Success', 'Property blocked successfully', 'success');
+  //   },
+  //     error => {
+  //       swal('Error', error.error.message, 'error');
+  //     });
+  // }
+
+  // unblock(item) {
+  //   item.is_blocked = false;
+  //   this.admin.postDataApi('blockProperty', { property_id: item.id, flag: 0 }).subscribe(r => {
+  //     swal('Success', 'Property unblocked successfully', 'success');
+  //   },
+  //     error => {
+  //       swal('Error', error.error.message, 'error');
+  //     });
+  // }
 
   openCancellationModal(item, status) {
     this.item = item;
@@ -277,7 +321,7 @@ export class PropertiesComponent implements OnInit {
 
   showAllSellers(property_id: any, index: any) {
     this.spinner.show();
-    if (index !== '') {this.parameter.index = index; }
+    if (index !== '') { this.parameter.index = index; }
     this.admin.postDataApi('getSellerSelections', { property_id: property_id }).subscribe(r => {
       this.spinner.hide();
       this.linkSellerModal.nativeElement.click();
@@ -289,7 +333,7 @@ export class PropertiesComponent implements OnInit {
     });
   }
 
-  getAllSellers (property: any, keyword: string, index) {
+  getAllSellers(property: any, keyword: string, index) {
     this.spinner.show();
     if (index !== '') { console.log('11ddddd999111', index); this.parameter.index = index; }
     console.log('11999111', index);
@@ -302,12 +346,12 @@ export class PropertiesComponent implements OnInit {
         this.selecter_seller = r['selecter_seller'];
       });
     }
-    const input = {name: ''};
+    const input = { name: '' };
     input.name = keyword !== '1' ? keyword : '';
 
     this.admin.postDataApi('getAllSellers', input).subscribe(r => {
       this.spinner.hide();
-      if (property) {this.linkUserModal.nativeElement.click(); }
+      if (property) { this.linkUserModal.nativeElement.click(); }
       this.allUsers = r['data'];
     }, error => {
       this.spinner.hide();
@@ -465,23 +509,23 @@ export class PropertiesComponent implements OnInit {
 
   deleteProperty(property: any, index: number) {
     this.admin.postDataApi('deleteProperty',
-    { property_id: property.id }).subscribe(r => {
-      swal('Success', 'Deleted successfully.', 'success');
-      this.items.splice(index, 1);
-    },
-    error => {
-      swal('Error', error.error.message, 'error');
-    });
+      { property_id: property.id }).subscribe(r => {
+        swal('Success', 'Deleted successfully.', 'success');
+        this.items.splice(index, 1);
+      },
+        error => {
+          swal('Error', error.error.message, 'error');
+        });
   }
 
   getBothBroker(property: any, keyword: string) {
     this.spinner.show();
     if (property) { this.property = property; }
-    const input = {keyword: ''};
+    const input = { keyword: '' };
     input.keyword = keyword;
     this.admin.postDataApi('getBothBroker', input).subscribe(r => {
       this.spinner.hide();
-      if (property) {this.linkExtBrokerModal.nativeElement.click(); }
+      if (property) { this.linkExtBrokerModal.nativeElement.click(); }
       this.allExtBrokers = r['data'];
     }, error => {
       this.spinner.hide();
@@ -509,8 +553,10 @@ export class PropertiesComponent implements OnInit {
   }
 
   attachExternalBroker(broker: any, flag: number) {
-    this.admin.postDataApi('attachExternalBroker', { property_id: this.property.id,
-      broker_id: broker.id, flag: flag }).subscribe(r => {
+    this.admin.postDataApi('attachExternalBroker', {
+      property_id: this.property.id,
+      broker_id: broker.id, flag: flag
+    }).subscribe(r => {
       this.closeExtBrokerModal.nativeElement.click();
       this.property.external_broker = flag === 1 ? broker : null;
       const text = flag === 1 ? 'Linked' : 'Unlinked';
@@ -546,7 +592,7 @@ export class PropertiesComponent implements OnInit {
           }
         }).then((r) => {
           if (r.value) {
-            this.admin.postDataApi('updatePrice', {id: item.id, price: r.value}).subscribe(success => {
+            this.admin.postDataApi('updatePrice', { id: item.id, price: r.value }).subscribe(success => {
               this.items[index].min_price = r.value;
               swal('Success', 'Updated successfully.', 'success');
             }, error => {

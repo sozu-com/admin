@@ -102,7 +102,11 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     public model: Chat,
     private element: ElementRef,
     private spinner: NgxSpinnerService
-  ) { }
+  ) {
+    this.admin.loginData$.subscribe(success => {
+      this.parameter.admin_id = success['id'];
+    });
+  }
 
   closeModal1() {
     this.modalClose1.nativeElement.click();
@@ -114,14 +118,11 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.keyword = '';
+    this.leadData = new Leads();
+    this.leadData.selected_properties = [new SelectedProperties()];
     this.parameter.sent_as = this.constant.userType.csr_closer;
 
-    this.admin.loginData$.subscribe(success => {
-      this.admin_id = success['id'];
-    });
     this.route.params.subscribe(params => {
-      this.leadData = new Leads();
-      this.leadData.selected_properties = [new SelectedProperties()];
       this.parameter.lead_id = params.id;
       this.spinner.show();
       this.admin.postDataApi('leads/details', { lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as }).subscribe(r => {
@@ -157,7 +158,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
           r.data.lead.selected_properties[0].selected_noatary[0].noatary : [];
         this.chat_bank = r.data.lead.selected_properties[0].banks ? r.data.lead.selected_properties[0].banks[0] : [];
 
-        this.getLeadConversation(this.constant.userType.user_buyer);
+        // this.getLeadConversation(this.constant.userType.user_buyer);
         // this.chat_bank = r.data.lead.banks[0];
 
         // this.lead.all_documents.map(item=>{
@@ -426,9 +427,9 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       this.connected = this.socket.connected;
 
       const data = {
-        admin_id: this.admin_id,
+        admin_id: this.parameter.admin_id,
         socket_id: this.socket_id,
-        device_id: this.admin.deviceId + '_' + this.admin_id
+        device_id: this.admin.deviceId + '_' + this.parameter.admin_id
       };
       if (this.connected) {
 
@@ -467,7 +468,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     model.loading = true;
     // model.uid = Math.random().toString(36).substr(2, 15);
     model.conversation_id = this.conversation_id;
-    model.conversation_user = { admin_id: this.admin_id };
+    model.conversation_user = { admin_id: this.parameter.admin_id };
     model.updated_at = new Date();
     this.messages.push(model);
 
@@ -508,7 +509,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     model.loading = true;
     model.uid = Math.random().toString(36).substr(2, 15);
     model.conversation_id = this.conversation_id;
-    model.conversation_user = { admin_id: this.admin_id };
+    model.conversation_user = { admin_id: this.parameter.admin_id };
     model.attachment_name = event.target.files[0].name;
     const date = new Date();
     model.updated_at = date;
@@ -546,7 +547,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     model.loading = true;
     model.uid = Math.random().toString(36).substr(2, 15);
     model.conversation_id = this.conversation_id;
-    model.conversation_user = { admin_id: this.admin_id };
+    model.conversation_user = { admin_id: this.parameter.admin_id };
     const date = new Date();
     model.updated_at = date;
     this.messages.push(model);
@@ -630,7 +631,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       model.loading = true;
       model.uid = Math.random().toString(36).substr(2, 15);
       model.conversation_id = this.conversation_id;
-      model.conversation_user = { admin_id: this.admin_id };
+      model.conversation_user = { admin_id: this.parameter.admin_id };
       const d = new Date();
       model.updated_at = d.toUTCString();
       this.messages.push(model);
@@ -750,7 +751,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     model.updated_at = new Date();
     model.uid = Math.random().toString(36).substr(2, 15);
     model.conversation_id = this.conversation_id;
-    model.conversation_user = { admin_id: this.admin_id };
+    model.conversation_user = { admin_id: this.parameter.admin_id };
     this.messages.push(model);
     this.sendMessage(model);
   }

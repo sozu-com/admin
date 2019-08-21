@@ -38,5 +38,5 @@ export class Manager {
     email: string;
     img_loader: boolean;
     logo_loader: boolean;
-    project_sort: number;
+    project_sort: any;
 }

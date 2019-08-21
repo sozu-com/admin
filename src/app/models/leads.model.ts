@@ -1,6 +1,7 @@
 import { UserModel } from './inhouse-users.model';
 import { Users } from './users.model';
 import { AddProjectModel } from './addProject.model';
+import { AddPropertyModel } from './addProperty.model';
 
 export class Leads {
     id: number;
@@ -95,25 +96,25 @@ export class Notes {
     note: string;
 }
 
-export class FillInformation {
-    lead_id: number;
-    family_size: number;
-    car_type_id: string;
-    pets: string;
-    kid_count: string;
-    min_price: number;
-    max_price: number;
-    price_range: Array<number>;
-    planning_to_buy: Date;
-    proximity_place_ids: Array<number>;
-    car_types: Array<CarTypes>;
-    proximity_places: Array<number>;
-    property_types: Array<number>;
-    configurations: Array<number>;
-    proximity_places_array: Array<ProximityPlaces>;
-    property_types_array: Array<PropertyTypes>;
-    configurations_array: Array<Configuration>;
-}
+// export class FillInformation {
+//     lead_id: number;
+//     family_size: number;
+//     car_type_id: string;
+//     pets: string;
+//     kid_count: string;
+//     min_price: number;
+//     max_price: number;
+//     price_range: Array<number>;
+//     planning_to_buy: Date;
+//     proximity_place_ids: Array<number>;
+//     car_types: Array<CarTypes>;
+//     proximity_places: Array<number>;
+//     property_types: Array<number>;
+//     configurations: Array<number>;
+//     proximity_places_array: Array<ProximityPlaces>;
+//     property_types_array: Array<PropertyTypes>;
+//     configurations_array: Array<Configuration>;
+// }
 
 export class ProximityPlaces {
     id: number;
@@ -164,7 +165,7 @@ export class SelectedProperties {
     selected_documents: Array<Documents>;
     allDocuments: Array<Documents>;
     uploaded_documents: Array<UploadedDocuments>;
-    property: any;
+    property: AddPropertyModel;
 }
 
 export class Documents {

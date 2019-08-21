@@ -7,7 +7,7 @@
     <div class="btn-cont text-right">
       <a style="display: none;" data-toggle="modal" #showPropertyModal data-target="#view-viewed-property"
         class="btn btn-fourth" href="javascript://">View All</a>
-      <a *ngIf="viewed_properties?.length!=0" class="btn btn-fourth" href="javascript://"
+      <a *ngIf="viewed_properties?.length>1" class="btn btn-fourth" href="javascript://"
         (click)="viewProperties(viewed_properties, user_id, 1)">View All</a>
     </div>
   </div>

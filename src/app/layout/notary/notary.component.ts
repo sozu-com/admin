@@ -36,7 +36,7 @@ export class NotaryComponent implements OnInit {
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.parameter.type = 1;
-    this.initialCountry = {initialCountry: this.constant.country_code};
+    this.initialCountry = { initialCountry: this.constant.country_code };
     this.getNoatariesListing(this.parameter.page, '', '', '', '');
   }
 
@@ -106,7 +106,7 @@ export class NotaryComponent implements OnInit {
   onCountryChange(e) {
     this.model.country_code = e.iso2;
     this.model.dial_code = '+' + e.dialCode;
-    this.initialCountry = {initialCountry: e.iso2};
+    this.initialCountry = { initialCountry: e.iso2 };
   }
 
   importNoatary() {
@@ -119,19 +119,19 @@ export class NotaryComponent implements OnInit {
         return false;
       }
       this.spinner.show();
-    const input = new FormData();
-    input.append('attachment', attachment);
-    this.admin.postDataApi('importNoatary', input)
-      .subscribe(
-        success => {
-          this.spinner.hide();
-          this.fileInput.nativeElement.value = '';
-          this.label = 'Choose Notaries File';
-          swal('Success', 'Imported successfully.', 'success');
-          this.getNoatariesListing(this.parameter.page, '', '', '', '');
-        }, error => {
-          this.spinner.hide();
-        });
+      const input = new FormData();
+      input.append('attachment', attachment);
+      this.admin.postDataApi('importNoatary', input)
+        .subscribe(
+          success => {
+            this.spinner.hide();
+            this.fileInput.nativeElement.value = '';
+            this.label = 'Choose Notaries File';
+            swal('Success', 'Imported successfully.', 'success');
+            this.getNoatariesListing(this.parameter.page, '', '', '', '');
+          }, error => {
+            this.spinner.hide();
+          });
     } else {
       swal('Error', 'Please choose file', 'error');
       return false;
@@ -168,7 +168,6 @@ export class NotaryComponent implements OnInit {
   }
 
   editUser(userdata: Users, index: any) {
-    console.log(userdata);
     this.model = JSON.parse(JSON.stringify(userdata));
     this.model.img_loader = false;
     this.parameter.index = index;
@@ -180,11 +179,11 @@ export class NotaryComponent implements OnInit {
     this.parameter.title = this.constant.title.ARE_YOU_SURE;
     switch (flag) {
       case 0:
-        this.parameter.text = this.constant.title.UNBLOCK_USER;
+        this.parameter.text = 'You want to unblock this Notary?';
         this.parameter.successText = this.constant.successMsg.UNBLOCKED_SUCCESSFULLY;
         break;
       case 1:
-        this.parameter.text = this.constant.title.BLOCK_USER;
+      this.parameter.text = 'You want to block this Notary?';
         this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
         break;
     }
@@ -205,11 +204,12 @@ export class NotaryComponent implements OnInit {
 
   blockNoatary(index: any, id: string, flag: any) {
     this.parameter.index = index;
-    this.admin.postDataApi('blockNoatary', {id: id, flag: flag})
+    this.admin.postDataApi('blockNoatary', { id: id, flag: flag })
       .subscribe(
         success => {
           swal('Success', this.parameter.successText, 'success');
-          this.items[this.parameter.index] = success.data;
+          this.items[this.parameter.index]['is_blocked'] = flag;
+          // this.items[this.parameter.index] = success.data;
         });
   }
 
@@ -239,13 +239,13 @@ export class NotaryComponent implements OnInit {
 
   deleteNoatary(item: any, index: number) {
     this.admin.postDataApi('deleteNoatary',
-    { id: item.id }).subscribe(r => {
-      swal('Success', 'Deleted successfully.', 'success');
-      this.items.splice(index, 1);
-      this.parameter.total--;
-    },
-    error => {
-      swal('Error', error.error.message, 'error');
-    });
+      { id: item.id }).subscribe(r => {
+        swal('Success', 'Deleted successfully.', 'success');
+        this.items.splice(index, 1);
+        this.parameter.total--;
+      },
+        error => {
+          swal('Error', error.error.message, 'error');
+        });
   }
 }

@@ -45,7 +45,7 @@ export class AclComponent implements OnInit {
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.model.id = '';
-    this.initialCountry = {initialCountry: this.constant.country_code};
+    this.initialCountry = { initialCountry: this.constant.country_code };
     // this.getAclList();
     this.getAclUsers(this.parameter.page, '', '', '');
   }
@@ -66,7 +66,7 @@ export class AclComponent implements OnInit {
         success => {
           success.data.forEach(element => {
             const e = new Permission();
-            e.acl_id = element.id; const acl = {name: element.name}; e.acl = acl;
+            e.acl_id = element.id; const acl = { name: element.name }; e.acl = acl;
             e.can_create = 1; e.can_update = 1; e.can_read = 1; e.can_delete = 1; e.can_purge = 1;
             this.model.admin_acl.push(e);
           });
@@ -81,14 +81,14 @@ export class AclComponent implements OnInit {
           this.spinner.hide();
           this.parameter.items = success.data;
           this.parameter.total = success.total;
-        }, error =>  {
+        }, error => {
           this.spinner.hide();
         });
   }
 
   setPermission(param: any, index: any) {
     this.model.admin_acl[index][param] = this.model.admin_acl[index][param] &&
-    this.model.admin_acl[index][param] === 1 ? 0 : 1;
+      this.model.admin_acl[index][param] === 1 ? 0 : 1;
   }
 
   changeListner(event) {
@@ -96,8 +96,8 @@ export class AclComponent implements OnInit {
     this.parameter.icon = this.parameter.image;
     const reader = new FileReader();
     reader.onload = (e: any) => {
-        this.url = e.target.result;
-        this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.url})`);
+      this.url = e.target.result;
+      this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.url})`);
     };
     reader.readAsDataURL(event.target.files[0]);
   }
@@ -105,7 +105,7 @@ export class AclComponent implements OnInit {
   onCountryChange(e) {
     this.model.country_code = e.iso2;
     this.model.dial_code = '+' + e.dialCode;
-    this.initialCountry = {initialCountry: e.iso2};
+    this.initialCountry = { initialCountry: e.iso2 };
   }
 
   add(formdata: NgForm) {
@@ -167,11 +167,11 @@ export class AclComponent implements OnInit {
 
   blockAdmin(index, id, flag, user_type) {
     this.parameter.index = index;
-    this.admin.postDataApi('blockAclUser', {id: id, flag: flag})
+    this.admin.postDataApi('blockAclUser', { id: id, flag: flag })
       .subscribe(
         success => {
           swal('Success', this.parameter.successText, 'success');
-          this.parameter.items[this.parameter.index] = success.data;
+          this.parameter.items[this.parameter.index]['is_blocked'] = flag;
         });
   }
 }

@@ -4,6 +4,7 @@ import { Leads, Prefs, BuyerAmenities, AddPrefrences } from 'src/app/models/lead
 import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
 import { Constant } from 'src/app/common/constants';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
 @Component({
@@ -29,7 +30,8 @@ export class FillInformationComponent implements OnInit {
   model: AddPrefrences;
   configurationCount: Array<string>;
 
-  constructor(public admin: AdminService, public constant: Constant) { }
+  constructor(public admin: AdminService, public constant: Constant,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.today = new Date();
@@ -60,7 +62,7 @@ export class FillInformationComponent implements OnInit {
     // this.leadData.planning_to_buy = e;
   }
 
-  setCarType(param: string, i: number, id: number) {
+  setCarType(id: number) {
     this.leadData.buyer_car_type.forEach(element => {
       if (element.id === id) {
         element.is_selected = 1;
@@ -68,7 +70,16 @@ export class FillInformationComponent implements OnInit {
         element.is_selected = 0;
       }
     });
-    // this.leadData[param][i].is_selected = this.leadData[param][i].is_selected === 1 ? 0 : 1;
+  }
+
+  setPaymentMode(id: number) {
+    this.leadData.payment_modes.forEach(element => {
+      if (element.id === id) {
+        element.is_selected = 1;
+      } else {
+        element.is_selected = 0;
+      }
+    });
   }
 
   setValue(param: string, i: any) {
@@ -76,18 +87,19 @@ export class FillInformationComponent implements OnInit {
   }
 
   setProximityValue(value: string, showOtherTextBox: boolean) {
-    console.log(value, showOtherTextBox);
-    // this.showOtherTextBox = this.showOtherTextBox ? false : true;
+    this.showOtherTextBox = showOtherTextBox;
   }
 
   setPrefValue (param: string, value: number) {
-    console.log(param, value);
     this.leadData.prefs[param] = value;
+  }
+
+  onItemDeSelect(amenity: BuyerAmenities) {
+    this.allAmenities.push(amenity);
   }
 
   onItemSelect(amenity: BuyerAmenities) {
     this.selectedAmenities.push(amenity);
-    console.log(amenity);
   }
 
   onSelectAll(amenity: BuyerAmenities) {
@@ -95,8 +107,6 @@ export class FillInformationComponent implements OnInit {
   }
 
   addPreferences() {
-    console.log(this.selectedAmenities);
-    console.log(this.leadData);
     if (this.leadData.prefs.min_price > this.leadData.prefs.max_price) {
       swal('Error', 'Maximum price should be greater than minimum price.', 'error');
       return false;
@@ -133,7 +143,8 @@ export class FillInformationComponent implements OnInit {
         this.model.car_type_id = element.id;
       }
     });
-    this.model.proximity_other = this.leadData.prefs.proximity_other;
+    this.model.proximity_other = this.showOtherTextBox ? this.leadData.prefs.proximity_other : '';
+    this.leadData.prefs.proximity_other = this.showOtherTextBox ? this.leadData.prefs.proximity_other : '';
     this.model.family_size = this.leadData.prefs.family_size;
     this.model.kid_count = this.leadData.prefs.kid_count;
     this.model.pets = this.leadData.prefs.pets;
@@ -157,7 +168,9 @@ export class FillInformationComponent implements OnInit {
       this.model.property_purpose = [];
       this.model.payment_plans = [];
     }
+    this.spinner.show();
     this.admin.postDataApi('leads/addPreferences', this.model).subscribe(r => {
+      this.spinner.hide();
       swal('Success', this.constant.successMsg.DETAILS_UPDATED_SUCCESSFULLY, 'success');
     });
   }

@@ -32,7 +32,7 @@ export class BanksComponent implements OnInit {
     this.model = new Bank();
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
-    this.initialCountry = {initialCountry: this.constant.country_code};
+    this.initialCountry = { initialCountry: this.constant.country_code };
     this.getBanks(this.parameter.page, '', '', '');
   }
 
@@ -91,7 +91,7 @@ export class BanksComponent implements OnInit {
   onCountryChange(e) {
     this.model.country_code = e.iso2;
     this.model.dial_code = '+' + e.dialCode;
-    this.initialCountry = {initialCountry: e.iso2};
+    this.initialCountry = { initialCountry: e.iso2 };
   }
 
   addBank(formData: NgForm) {
@@ -167,12 +167,13 @@ export class BanksComponent implements OnInit {
   blockNoatary(index, id, flag) {
     this.parameter.index = index;
     this.spinner.show();
-    this.admin.postDataApi('blockNoatary', {id: id, flag: flag})
+    this.admin.postDataApi('blockNoatary', { id: id, flag: flag })
       .subscribe(
         success => {
           this.spinner.hide();
           swal('Success', this.parameter.successText, 'success');
-          this.items[this.parameter.index] = success.data;
+          // this.items[this.parameter.index] = success.data;
+          this.items[this.parameter.index]['is_blocked'] = flag;
         }, error => {
           this.spinner.hide();
         });

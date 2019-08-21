@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-import { Constant } from './../../../common/constants';
-import { IProperty } from './../../../common/property';
-import { AdminService } from '../../../services/admin.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { IProperty } from 'src/app/common/property';
+import { Constant } from 'src/app/common/constants';
+import { AdminService } from 'src/app/services/admin.service';
 
 @Component({
   selector: 'app-viewed-projects',
@@ -31,14 +31,11 @@ export class ViewedProjectsComponent implements OnInit {
   }
 
   viewProjects(data, page, user_id) {
-    // this.parameter.viewed_projects = data;
-    // this.showProjectModal.nativeElement.click();
     this.spinner.show();
     this.admin.postDataApi('leads/viewedProjects', {user_id: user_id, page: page}).subscribe(r => {
       this.spinner.hide();
       this.parameter.total = r.total;
       this.parameter.viewed_projects = r.data;
-      console.log('Country', this.parameter.viewed_projects);
       if (this.parameter.page === 1) {
         this.showProjectModal.nativeElement.click();
       }

@@ -121,7 +121,6 @@ export class InterestedPropertyComponent implements OnInit {
   addLeadInterestedProperty(property_id) {
     const ids = this.interested_properties.map(d => d.property.id);
     const ff = ids.filter(p => p === property_id);
-    console.log(property_id, ids, ff);
     if (ff.length !== 0) {
       swal('Error', 'This property is already added in your interests.', 'error');
     } else {
@@ -135,7 +134,6 @@ export class InterestedPropertyComponent implements OnInit {
   }
 
   addPropertyToInterest() {
-    console.log(this.property_ids);
     if (this.property_ids.length > 0) {
       swal({
         html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to add selected properties to your interested properties?',
@@ -174,10 +172,8 @@ export class InterestedPropertyComponent implements OnInit {
     this.spinner.show();
     this.admin.postDataApi('leads/getLeadInterestedProperty', {lead_id: this.lead_id, page: page}).subscribe(r => {
       this.spinner.hide();
-      console.log('Country', r);
       this.parameter.interested_properties = r['data'];
       this.parameter.total2 = r.total;
-      console.log('--', this.parameter.page, page);
       if (page === 1) {
         this.showInterestedProperty.nativeElement.click();
       }
@@ -196,7 +192,6 @@ export class InterestedPropertyComponent implements OnInit {
     this.parameter.lead_id = lead_id;
     this.showPropertyModal.nativeElement.click();
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
-      console.log('Country', r);
       this.location.countries = r['data'];
     });
   }
@@ -211,13 +206,11 @@ export class InterestedPropertyComponent implements OnInit {
     }
     this.parameter.country_id = id;
     const selectedCountry = this.location.countries.filter(x => x.id.toString() === id);
-    console.log(selectedCountry);
     this.location.states = selectedCountry[0].states;
 
   }
 
   onStateChange(id) {
-    console.log(id);
     this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
     if (!id || id.toString() === '0') {
@@ -230,7 +223,6 @@ export class InterestedPropertyComponent implements OnInit {
   }
 
   onCityChange(id) {
-    console.log(id);
     this.location.localities = []; this.parameter.locality_id = '0';
     if (!id || id.toString() === '0') {
       this.parameter.locality_id = '0';
@@ -242,7 +234,6 @@ export class InterestedPropertyComponent implements OnInit {
   }
 
   onLocalityChange(id) {
-    console.log(id);
     if (!id || id.toString() === '0') {
       return false;
     }

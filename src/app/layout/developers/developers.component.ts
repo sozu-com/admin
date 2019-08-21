@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from '../../services/admin.service';
-import { IProperty } from '../../common/property';
-import { Users } from './../../models/users.model';
-import { Constant } from './../../common/constants';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Users } from 'src/app/models/users.model';
+import { IProperty } from 'src/app/common/property';
+import { Constant } from 'src/app/common/constants';
+import { AdminService } from 'src/app/services/admin.service';
 declare let swal: any;
 
 @Component({
@@ -99,7 +99,8 @@ export class DevelopersComponent implements OnInit {
       .subscribe(
         success => {
           swal('Success', this.parameter.successText, 'success');
-          this.items[this.parameter.index] = success.data;
+          // this.items[this.parameter.index] = success.data;
+          this.items[this.parameter.index]['is_blocked'] = flag;
         });
   }
 

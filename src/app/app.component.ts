@@ -27,6 +27,7 @@ export class AppComponent implements OnInit {
     // close popup if any opened
     location.onPopState(() => {
       $('.close').click();
+      // this.spinner.hide();
     });
 
     this.router.events.subscribe(event => {
