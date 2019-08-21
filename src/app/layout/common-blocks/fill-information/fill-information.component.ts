@@ -20,8 +20,8 @@ export class FillInformationComponent implements OnInit {
   @Input('selectedAmenities') selectedAmenities: Array<BuyerAmenities>;
   @Input('fillInfo') fillInfo;
   @Input('sent_as') sent_as: number;
+  @Input('showOtherTextBox') showOtherTextBox: boolean;
 
-  showOtherTextBox: boolean;
   today: any;
   dropdownSettings: any;
   public parameter: IProperty = {};
@@ -43,9 +43,6 @@ export class FillInformationComponent implements OnInit {
       // itemsShowLimit: 3,
       allowSearchFilter: true
     };
-    if (this.leadData.prefs.proximity_other) {
-      this.showOtherTextBox = true;
-    }
     // if (this.leadData.planning_to_buy) {
     //   this.leadData.planning_to_buy = moment.utc(this.leadData.planning_to_buy).toDate();
     // }
@@ -78,7 +75,7 @@ export class FillInformationComponent implements OnInit {
     this.leadData[param][i].is_selected = this.leadData[param][i].is_selected === 1 ? 0 : 1;
   }
 
-  setProximityValue(value: string) {
+  setProximityValue(value: string, showOtherTextBox: boolean) {
     console.log(value);
     this.showOtherTextBox = this.showOtherTextBox ? false : true;
   }

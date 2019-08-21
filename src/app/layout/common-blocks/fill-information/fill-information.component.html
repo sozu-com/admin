@@ -106,11 +106,11 @@
             <span class="checkmark">{{proximity_place.name}}</span>
         </label>
         <label class="cust-radio">
-            <input type="checkbox" (click)="setProximityValue($event)"
-                [checked]="leadData.prefs.proximity_other ? 'checked' : ''" name="radio3">
+            <input type="checkbox" (click)="setProximityValue($event, showOtherTextBox == true ? false : true)"
+                [checked]="showOtherTextBox ? 'checked' : ''" name="radio3">
             <span class="checkmark">Other</span>
         </label>
-        <textarea *ngIf="leadData.prefs.proximity_other" [(ngModel)]="leadData.prefs.proximity_other" class="form-control" rows="3" name="proximity_other">{{leadData.prefs.proximity_other}}</textarea>
+        <textarea *ngIf="showOtherTextBox" [(ngModel)]="leadData.prefs.proximity_other" class="form-control" rows="3" name="proximity_other">{{leadData.prefs.proximity_other}}</textarea>
         <div class="clearfix"></div>
     </div>
 

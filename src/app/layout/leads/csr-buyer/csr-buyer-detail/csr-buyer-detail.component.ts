@@ -20,11 +20,13 @@ export class CsrBuyerDetailComponent implements OnInit {
   @ViewChild('showPropertyModal') showPropertyModal: ElementRef;
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
+
   public parameter: IProperty = {};
   today = new Date();
   date: any;
   data = [];
-  public selected_prop_ids = [];
+  selected_prop_ids = [];
+  showOtherTextBox: boolean;
   is_deal_finalised: boolean;
   leadData: Leads;
   allAmenities: Array<BuyerAmenities> = [];
@@ -127,7 +129,7 @@ export class CsrBuyerDetailComponent implements OnInit {
       // this.fillInfo.min_price = leadData.prefs.min_price ? leadData.prefs.min_price : this.constant.minValue;
       // this.fillInfo.max_price = leadData.prefs.max_price ? leadData.prefs.max_price : this.constant.maxValue;
       // this.fillInfo.price_range = [this.fillInfo.min_price, this.fillInfo.max_price];
-
+      this.showOtherTextBox = leadData.prefs.proximity_other ? true : false;
       if (leadData.prefs.planning_to_buy !== null) {
         this.leadData.prefs.planning_to_buy = moment.utc(leadData.prefs.planning_to_buy).toDate();
         // this.fillInfo.planning_to_buy = moment.utc(leadData.prefs.planning_to_buy).toDate();
@@ -138,6 +140,7 @@ export class CsrBuyerDetailComponent implements OnInit {
       this.leadData.prefs.looking_for = 1;
       this.leadData.prefs.min_price = 0;
       this.leadData.prefs.max_price = 0;
+      this.showOtherTextBox = false;
       // this.fillInfo.family_size = 1;
       // this.fillInfo.pets = '';
       // this.fillInfo.kid_count = '';
@@ -152,7 +155,9 @@ export class CsrBuyerDetailComponent implements OnInit {
     this.admin.postDataApi('conversation/assignBroker', {lead_id: this.parameter.lead_id}).subscribe(r => {
       this.spinner.hide();
       console.log('sss', r.data);
-      this.leadData = r.data;
+      this.leadData.user = r.data['user'];
+      this.leadData.broker = r.data['broker'];
+      this.leadData.admin = r.data['admin'];
       swal('Success', 'Agent assigned successfully', 'success');
     }
   );
