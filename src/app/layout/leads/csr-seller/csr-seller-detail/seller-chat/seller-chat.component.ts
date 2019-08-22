@@ -63,6 +63,7 @@ export class SellerChatComponent implements OnInit {
 
   @ViewChild('chatWin') chatWin: ElementRef;
   @ViewChild('optionsButton') optionsButton: ElementRef;
+  @ViewChild('msgInput') msgInput: ElementRef;
 
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
 
@@ -76,6 +77,7 @@ export class SellerChatComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.msgInput.nativeElement.focus();
     this.loginData$$ = this.admin.loginData$.subscribe(success => {
       this.admin_id = success['id'];
     });

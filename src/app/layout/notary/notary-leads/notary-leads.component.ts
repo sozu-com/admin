@@ -1,13 +1,12 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { AdminService } from '../../../services/admin.service';
-import { IProperty } from '../../../common/property';
-import { Constant } from './../../../common/constants';
-import { AddNotaryAvailabilty, NotaryLeads } from '../../../models/leads.model';
 declare let swal: any;
-import { } from './../../../services/http-interceptor';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { AddNotaryAvailabilty, NotaryLeads } from 'src/app/models/leads.model';
+import { IProperty } from 'src/app/common/property';
+import { AdminService } from 'src/app/services/admin.service';
+import { Constant } from 'src/app/common/constants';
 
 @Component({
   selector: 'app-notary-leads',
@@ -260,7 +259,6 @@ export class NotaryLeadsComponent implements OnInit {
   }
 
   openModal($event, item, index) {
-    console.log($event);
     // $event.stopPropagation();
     // this.availability.date_time_array = item.selected_properties[0].selected_noatary[0].noatary_availability;
     this.availability.property_id = item.selected_properties[0].property_id;
@@ -289,7 +287,6 @@ export class NotaryLeadsComponent implements OnInit {
       return false;
     }
     this.spinner.show();
-    console.log('data', this.availability);
     this.admin.postDataApi('leads/addNoataryAvailability', this.availability)
       .subscribe(
         success => {

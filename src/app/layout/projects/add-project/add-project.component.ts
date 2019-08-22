@@ -1,15 +1,15 @@
-import {Component, OnInit, ViewChild, ElementRef, NgZone, Input} from '@angular/core';
-import {FormGroup, FormControl, Validators} from '@angular/forms';
-import {AdminService} from '../../../services/admin.service';
-import {Router, ActivatedRoute} from '@angular/router';
-import {IProperty} from '../../../common/property';
-import {AddProjectModel, Configuration, Towers, LocalityToCountry} from './../../../models/addProject.model';
-import {MapsAPILoader} from '@agm/core';
-import {Constant} from './../../../common/constants';
-import {FileUpload} from './../../../common/fileUpload';
-import {VideoUpload} from './../../../common/videoUpload';
-import {CommonService} from 'src/app/services/common.service';
-import {ApiConstants} from 'src/app/common/api-constants';
+import { Component, OnInit, ViewChild, ElementRef, NgZone, Input } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { AdminService } from '../../../services/admin.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { IProperty } from '../../../common/property';
+import { AddProjectModel, Configuration, Towers, LocalityToCountry } from './../../../models/addProject.model';
+import { MapsAPILoader } from '@agm/core';
+import { Constant } from './../../../common/constants';
+import { FileUpload } from './../../../common/fileUpload';
+import { VideoUpload } from './../../../common/videoUpload';
+import { CommonService } from 'src/app/services/common.service';
+import { ApiConstants } from 'src/app/common/api-constants';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Manager, Company } from 'src/app/models/company.model';
 import { Developer } from 'src/app/models/global.model';
@@ -81,10 +81,10 @@ export class AddProjectComponent implements OnInit {
   amenity_obj: any;
   selected_amenities: any = [];
   new_config: any = new Configuration;
-  new_custom: any = {name: '', value: ''};
+  new_custom: any = { name: '', value: '' };
   new_config_edit: any;
   FU: any = {};
-  initialCountry = {initialCountry: 'mx'};
+  initialCountry = { initialCountry: 'mx' };
 
   file1: FileUpload;
   file2: FileUpload;
@@ -136,7 +136,7 @@ export class AddProjectComponent implements OnInit {
   ];
   showPreferableBuyer = false;
   private single = false;
-  public scrollbarOptions = { axis: 'y', theme: 'dark'};
+  public scrollbarOptions = { axis: 'y', theme: 'dark' };
   constructor(
     public model: AddProjectModel,
     private admin: AdminService,
@@ -175,7 +175,7 @@ export class AddProjectComponent implements OnInit {
         /* if id exists edit mode */
         this.canEditdeveloperInfo = false;
         this.spinner.show();
-        this.admin.postDataApi('getProjectById', {building_id: this.id}).subscribe(r => {
+        this.admin.postDataApi('getProjectById', { building_id: this.id }).subscribe(r => {
           this.spinner.hide();
           this.model = JSON.parse(JSON.stringify(r.data));
           this.model.manager = r.data.manager ? r.data.manager : new Manager();
@@ -271,7 +271,7 @@ export class AddProjectComponent implements OnInit {
         /* if request_id exists, building request edit mode */
         this.canEditdeveloperInfo = false;
         this.spinner.show();
-        this.admin.postDataApi('getBuildingRequest', {building_request_id: params.request_id}).subscribe(r => {
+        this.admin.postDataApi('getBuildingRequest', { building_request_id: params.request_id }).subscribe(r => {
           this.spinner.hide();
           this.model = JSON.parse(JSON.stringify(r.data));
           this.model.manager = r.data.manager ? r.data.manager : new Manager();
@@ -385,7 +385,6 @@ export class AddProjectComponent implements OnInit {
         this.model.dev_countrycode = 'mx';
         this.model.dev_dialcode = '+52';
       }
-      console.log(this.amenVideo.files, 'this.amenVideo.files');
       this.zoom = 6;
     });
 
@@ -447,9 +446,9 @@ export class AddProjectComponent implements OnInit {
     input.append('country_id', country_id);
 
     this.admin.postDataApi('country/getStates', input).subscribe(success => {
-        this.parameter.states = success['data'];
-        // this.spinner.hide();
-      },
+      this.parameter.states = success['data'];
+      // this.spinner.hide();
+    },
       error => {
         // this.spinner.hide();
       });
@@ -465,9 +464,9 @@ export class AddProjectComponent implements OnInit {
     input.append('state_id', state_id);
 
     this.admin.postDataApi('getCities', input).subscribe(success => {
-        this.parameter.cities = success['data'];
-        // this.spinner.hide();
-      },
+      this.parameter.cities = success['data'];
+      // this.spinner.hide();
+    },
       error => {
         // this.spinner.hide();
       });
@@ -498,7 +497,7 @@ export class AddProjectComponent implements OnInit {
   }
 
   searchAmenity(keyword: string) {
-    const input = {keyword: ''};
+    const input = { keyword: '' };
     input.keyword = keyword;
     this.admin.postDataApi('getAmenities', input).subscribe(res => {
       // this.all_amenities = res.data.map(item => { item.selected = false; item.images = []; return item; });
@@ -539,12 +538,11 @@ export class AddProjectComponent implements OnInit {
       swal('Error', 'Please select atleast one image', 'error');
       return false;
     }
-     this.file2.upload().then(r => {
+    this.file2.upload().then(r => {
       this.model.images = this.file2.files;
     });
     this.file2.files.forEach(element => {
       if (element.loading !== true) {
-        console.log('==3333==');
         count++;
       }
     });
@@ -560,7 +558,6 @@ export class AddProjectComponent implements OnInit {
 
   modelOpenVideos() {
     this.modalAddMoreVideos.nativeElement.click();
-    console.log(this.model.videos);
     this.amenVideo.backup(JSON.parse(JSON.stringify(this.model.videos)));
   }
 
@@ -574,12 +571,11 @@ export class AddProjectComponent implements OnInit {
       swal('Error', 'Please select atleast one image', 'error');
       return false;
     }
-     this.file7.upload().then(r => {
+    this.file7.upload().then(r => {
       this.model.images360 = this.file7.files;
     });
     this.file7.files.forEach(element => {
       if (element.loading !== true) {
-        console.log('==3333==');
         count++;
       }
     });
@@ -594,12 +590,11 @@ export class AddProjectComponent implements OnInit {
       swal('Error', 'Please select atleast one image', 'error');
       return false;
     }
-     this.amenVideo.upload().then(r => {
+    this.amenVideo.upload().then(r => {
       this.model.videos = this.amenVideo.files;
     });
     this.amenVideo.files.forEach(element => {
       if (element.loading !== true) {
-        console.log('==3333==');
         count++;
       }
     });
@@ -653,7 +648,6 @@ export class AddProjectComponent implements OnInit {
     // }
     this.file2.upload().then(r => {
       this.all_amenities[this.amenity_index].images = this.file2.files;
-      console.log(this.file2.files);
     });
     this.amen360Img.upload().then(r => {
       this.all_amenities[this.amenity_index].images_360 = this.amen360Img.files;
@@ -667,19 +661,16 @@ export class AddProjectComponent implements OnInit {
 
     this.file2.files.forEach(element => {
       if (element.loading !== true) {
-        console.log('==1111==');
         count++;
       }
     });
     this.amen360Img.files.forEach(element => {
       if (element.loading !== true) {
-        console.log('==2222==');
         count++;
       }
     });
     this.amenVideo.files.forEach(element => {
       if (element.loading !== true) {
-        console.log('==3333==');
         count++;
       }
     });
@@ -747,28 +738,23 @@ export class AddProjectComponent implements OnInit {
       this.allTowerAmenities[this.amenity_index].images_360 = this.amen360Img.files;
     });
     this.amenVideo.upload().then(r => {
-      console.log(this.amenVideo.files, 'amen video');
       this.allTowerAmenities[this.amenity_index].videos = this.amenVideo.files;
-      console.log(this.allTowerAmenities[this.amenity_index], 'alltowerrrrrrrrr');
     });
 
     // this.modalAmenClose.nativeElement.click();
 
     this.file2.files.forEach(element => {
       if (element.loading !== true) {
-        console.log('==1111==');
         count++;
       }
     });
     this.amen360Img.files.forEach(element => {
       if (element.loading !== true) {
-        console.log('==2222==');
         count++;
       }
     });
     this.amenVideo.files.forEach(element => {
       if (element.loading !== true) {
-        console.log('==3333==');
         count++;
       }
     });
@@ -1069,19 +1055,16 @@ export class AddProjectComponent implements OnInit {
 
     this.file4.files.forEach(element => {
       if (element.loading !== true) {
-        console.log('==1111==');
         count++;
       }
     });
     this.config360Img.files.forEach(element => {
       if (element.loading !== true) {
-        console.log('==2222==');
         count++;
       }
     });
     this.configVideo.files.forEach(element => {
       if (element.loading !== true) {
-        console.log('==3333==');
         count++;
       }
     });
@@ -1114,7 +1097,6 @@ export class AddProjectComponent implements OnInit {
       }
     }
 
-    console.log(this.model, 'this.model');
     const modelSave = JSON.parse(JSON.stringify(this.model));
 
     modelSave.marital_status = JSON.stringify(this.model.marital_status);
@@ -1195,7 +1177,7 @@ export class AddProjectComponent implements OnInit {
         if (element.videos && element.videos.length > 0) {
           element.videos.forEach(e => {
             let s = {};
-            s = {'video': e.video, 'thumb': e.thumb};
+            s = { 'video': e.video, 'thumb': e.thumb };
             vid.push(s);
           });
         }
@@ -1211,7 +1193,7 @@ export class AddProjectComponent implements OnInit {
         const vid = [];
         item.videos.forEach(e => {
           let s = {};
-          s = {'video': e.video, 'thumb': e.thumb};
+          s = { 'video': e.video, 'thumb': e.thumb };
           vid.push(s);
         });
         item.videos = vid;
@@ -1242,7 +1224,7 @@ export class AddProjectComponent implements OnInit {
           if (element.videos && element.videos.length > 0) {
             element.videos.forEach(e => {
               let s = {};
-              s = {'video': e.video, 'thumb': e.thumb};
+              s = { 'video': e.video, 'thumb': e.thumb };
               vid.push(s);
             });
           }
@@ -1360,7 +1342,6 @@ export class AddProjectComponent implements OnInit {
   }
 
   file2Select($event) {
-    console.log($event);
     // if ((this.file2.files.length + $event.target.files.length) > 6) {
     //   swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
     //   return false;
@@ -1406,7 +1387,7 @@ export class AddProjectComponent implements OnInit {
       return false;
     }
     this.model.custom_attributes.unshift(this.new_custom);
-    this.new_custom = {name: '', value: ''};
+    this.new_custom = { name: '', value: '' };
   }
 
   setProjectModel(data) {
@@ -1424,7 +1405,7 @@ export class AddProjectComponent implements OnInit {
       this.model.developer.email = data.developer != null && data.developer.email ? data.developer.email : '';
       this.model.developer.phone = data.developer != null && data.developer.phone ? data.developer.phone : '';
       this.model.developer.developer_company = data.developer != null &&
-      data.developer.developer_company ? data.developer.developer_company : '';
+        data.developer.developer_company ? data.developer.developer_company : '';
       this.model.developer.developer_desc = data.developer != null && data.developer.developer_desc ? data.developer.developer_desc : '';
     }
     this.file1.image = this.model.main_image;
@@ -1490,7 +1471,7 @@ export class AddProjectComponent implements OnInit {
 
   selectDeveloper(name: string, type: number) {
     this.spinner.show();
-    this.admin.postDataApi('getUnblockedDevelopers', {name: name}).subscribe(r => {
+    this.admin.postDataApi('getUnblockedDevelopers', { name: name }).subscribe(r => {
       this.spinner.hide();
       this.all_developers = r.data;
       if (type !== 2) {
@@ -1634,7 +1615,7 @@ export class AddProjectComponent implements OnInit {
         this.model.building_towers.splice(index, 1);
 
         if (btid) {
-          this.admin.postDataApi('deleteTower', {building_towers_id: btid}).subscribe(res => {
+          this.admin.postDataApi('deleteTower', { building_towers_id: btid }).subscribe(res => {
             // console.log('sss', res);
           });
         }
@@ -1643,7 +1624,7 @@ export class AddProjectComponent implements OnInit {
   }
 
   saveTower(btower: Towers, index: any) {
-    console.log('btower', btower);
+    // console.log('btower', btower);
     this.model.building_towers[index].launch_date = btower.launch_date;
     // this.allTowerAmenityForEdit = btower.amenities;
     if (!this.model.building_towers[index].tower_name) {
@@ -1745,7 +1726,6 @@ export class AddProjectComponent implements OnInit {
         reader.onload = function (e) {
           const src = e.target['result'];
           videoTest.src = src;
-          console.log(src, 'srcccccccc');
           const timer = setInterval(() => {
             // find duration of video only of video is in ready state
             if (videoTest.readyState === 4) {
@@ -1794,7 +1774,7 @@ export class AddProjectComponent implements OnInit {
     while (n--) {
       u8arr[n] = bstr.charCodeAt(n);
     }
-    return new File([u8arr], filename, {type: mime});
+    return new File([u8arr], filename, { type: mime });
   }
 
   addMaritalStatus(checked: boolean, i: number) {
@@ -1831,7 +1811,7 @@ export class AddProjectComponent implements OnInit {
       this.amenVideo.files.forEach(async (item, index) => {
         if (!item.id) {
           if (!this.amenVideo.files[index]['fileToUpload'] &&
-          !this.amenVideo.files[index]['thumb']) {          // check file if not then loader will show
+            !this.amenVideo.files[index]['thumb']) {          // check file if not then loader will show
             this.amenVideo.files[index].loading = true;
           }
 
@@ -1873,7 +1853,7 @@ export class AddProjectComponent implements OnInit {
         model.videoFile = videoFile;
         this.amenVideo.files[myIndex].loading = false;
         this.amenVideo.files[myIndex]['fileToUpload'] = fileToUpload;
-        console.log(this.amenVideo.files, 'amenVideo.files');
+        // console.log(this.amenVideo.files, 'amenVideo.files');
       }
   }
 
@@ -1888,7 +1868,7 @@ export class AddProjectComponent implements OnInit {
       return new Promise((resolve, reject) => {
         this.cs.saveVideo(ele.videoFile, ele.fileToUpload).subscribe(
           success => {
-            console.log(this.model.amenvideos, ' this.model.amenvideos');
+            // console.log(this.model.amenvideos, ' this.model.amenvideos');
             // this.amenVideo.files[length-1].loading = false;
             this.model.videoLoader = false;
             this.model.amenvideos = [];
@@ -1901,7 +1881,6 @@ export class AddProjectComponent implements OnInit {
             resolve();
           }, error => {
             reject();
-            console.log(error);
           });
       });
     });
@@ -1926,14 +1905,14 @@ export class AddProjectComponent implements OnInit {
     }
     this.spinner.show();
     this.admin.postDataApi(managedBy === 1 ? 'getUnBlockedTowerManager' : 'getUnBlockedTowerManagerCompany',
-      {name: name}).subscribe(r => {
-      this.spinner.hide();
-      this.all_managers = r.data;
-      this.name = '';
-      if (type !== 2) {
-        this.openManagedByModel.nativeElement.click();
-      }
-    });
+      { name: name }).subscribe(r => {
+        this.spinner.hide();
+        this.all_managers = r.data;
+        this.name = '';
+        if (type !== 2) {
+          this.openManagedByModel.nativeElement.click();
+        }
+      });
   }
 
   setManagedBy(item: any) {
@@ -1946,7 +1925,6 @@ export class AddProjectComponent implements OnInit {
     //   developer_company: '', developer_desc: ''
     // };
     // this.model.developer.id = item.id;
-    console.log(item);
     if (this.parameter.managedBy === 1) {
       this.model.manager = item;
       this.model.manager_id = item.id;

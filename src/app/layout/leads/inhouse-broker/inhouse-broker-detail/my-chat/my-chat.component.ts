@@ -63,7 +63,7 @@ export class MyChatComponent implements OnInit {
 
   @ViewChild('chatWin') chatWin: ElementRef;
   @ViewChild('optionsButton') optionsButton: ElementRef;
-
+  @ViewChild('msgInput') msgInput: ElementRef;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
 
   constructor(
@@ -76,13 +76,13 @@ export class MyChatComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.msgInput.nativeElement.focus();
     this.loginData$$ = this.admin.loginData$.subscribe(success => {
       this.admin_id = success['id'];
     });
     this.route.params.subscribe(params => {
       this.lead_id = params.id;
       this.type = params.type;
-      console.log(this.type, typeof(this.type));
       this.loadingConversation = true;
       // chat with seller
       if (this.type === '1') {
@@ -125,11 +125,9 @@ export class MyChatComponent implements OnInit {
       other_sent_as: this.type === '1' ? this.constant.userType.user_seller_dev : this.constant.userType.csr_seller,
       sent_as: this.constant.userType.inhouse_broker
     };
-    console.log('aaaselect conv', data1);
     this.spinner.show();
     this.admin.postDataApi('conversation/getLeadConversation', data1).subscribe(res => {
       this.spinner.hide();
-      console.log('===========', res);
       if (res.data) {
 
         this.conversation = res.data;
@@ -152,7 +150,6 @@ export class MyChatComponent implements OnInit {
 
         this.loadingMessages = true;
         this.admin.postDataApi('conversation/getMessages', data).subscribe(r => {
-          console.log(r);
           this.messages = r.data[0].messages;
           // this.messages.map(r=>{
           //   r.loading = true;

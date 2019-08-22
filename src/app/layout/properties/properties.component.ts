@@ -467,7 +467,7 @@ export class PropertiesComponent implements OnInit {
   changePropertySoldStatus(property: any, index: number, value: string) {
     const input = {
       property_id: property.id,
-      is_property_sold: 0,
+      for_hold: 0,
       for_sale: 0,
       for_rent: 0
     };
@@ -478,8 +478,8 @@ export class PropertiesComponent implements OnInit {
       this.items[index].for_rent = 1;
       input.for_rent = 1;
     } else {
-      this.items[index].is_property_sold = 1;
-      input.is_property_sold = 1;
+      this.items[index].for_hold = 1;
+      input.for_hold = 1;
     }
     this.admin.postDataApi('changePropertySoldStatus', input).subscribe(r => {
       swal('Success', 'Changed successfully.', 'success');

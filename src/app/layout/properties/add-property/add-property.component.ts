@@ -332,8 +332,8 @@ export class AddPropertyComponent implements OnInit {
     this.model.id = data.id;
     this.model.name = data.name;
     this.model.property_price = data.property_price;
-    this.model.is_property_sold = data.is_property_sold;
-    if (data.is_property_sold) {
+    this.model.for_hold = data.for_hold;
+    if (data.for_hold) {
       this.setAvailableStatus(2);
       // this.model.availabilityStatusId = this.availabilityStatus[2].id;
     } else if (data.for_rent) {
@@ -1006,7 +1006,7 @@ export class AddPropertyComponent implements OnInit {
         // input.append('for_rent', this.model.for_sale === true ? '0' : '1');
         input.append('for_sale', this.availabilityStatus[0].checked === true ? '1' : '0');
         input.append('for_rent', this.availabilityStatus[1].checked === true ? '1' : '0');
-        input.append('is_property_sold', this.availabilityStatus[2].checked === true ? '1' : '0');
+        input.append('for_hold', this.availabilityStatus[2].checked === true ? '1' : '0');
         input.append('for_hold', '0');
         input.append('country_id', this.model.country_id);
         input.append('state_id', this.model.state_id);

@@ -309,7 +309,8 @@
                                 <img class="img-fluid" [defaultImage]="c?.floor_map_image| img:'thumb'" [lazyLoad]="c?.floor_map_image" onerror='this.src="http://via.placeholder.com/48x48"' alt="img">
                             </div>
                             <div *ngFor="let im of c.images"  class="fig-block">
-                               <img [src]="im.image| img:'thumb'" onerror="this.src='http://via.placeholder.com/48x48'" alt="img">
+                                <img *ngIf="im.image" class="img-fluid" [defaultImage]="im.image| img:'thumb'" [lazyLoad]="im.image" onerror='this.src="http://via.placeholder.com/48x48"' alt="img">
+                                <img *ngIf="!im.image" class="img-fluid" src="http://via.placeholder.com/48x48" alt="img">
                             </div>
                          </div>
                       </div>

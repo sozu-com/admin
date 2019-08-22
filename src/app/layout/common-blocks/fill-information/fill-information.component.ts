@@ -19,7 +19,6 @@ export class FillInformationComponent implements OnInit {
   @Input('leadData') leadData: Leads;
   @Input('allAmenities') allAmenities: Array<BuyerAmenities>;
   @Input('selectedAmenities') selectedAmenities: Array<BuyerAmenities>;
-  @Input('fillInfo') fillInfo;
   @Input('sent_as') sent_as: number;
   @Input('showOtherTextBox') showOtherTextBox: boolean;
 
@@ -148,7 +147,6 @@ export class FillInformationComponent implements OnInit {
     this.model.family_size = this.leadData.prefs.family_size;
     this.model.kid_count = this.leadData.prefs.kid_count;
     this.model.pets = this.leadData.prefs.pets;
-    // this.leadData.kid_count = this.leadData.kid_count === true || this.leadData.kid_count.toString() === '1' ? '1' : '0';
     if (this.leadData.prefs.planning_to_buy) {
       this.model.planning_to_buy = moment.utc(this.leadData.prefs.planning_to_buy).toDate();
       // this.leadData.planning_to_buy = new ChatTimePipe().transform(this.leadData.planning_to_buy, 'YYYY-MM-DD HH:MM:SS', 3);

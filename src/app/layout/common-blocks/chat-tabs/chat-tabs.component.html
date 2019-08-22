@@ -158,7 +158,7 @@
               </a>
             </div>
           </div>
-          <input id="message" autocomplete="off" [(ngModel)]="textMessage" (keyup.enter)="setText()" class="chat-input"
+          <input id="message" #msgInput autocomplete="off" [(ngModel)]="textMessage" (keyup.enter)="setText()" class="chat-input"
             type="text" name="message" placeholder="Type your message here …">
           <video style="width: 100%; height: 100%;" src="{{videoSrc}}" class="video55" autoplay type="video/mp4"
             controls></video>

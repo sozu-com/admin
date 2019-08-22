@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ElementRef, ViewChild, AfterContentInit } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
 import * as io from 'socket.io-client';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Chat } from 'src/app/models/chat.model';
@@ -21,7 +21,6 @@ export class ChatComponent implements OnInit {
   @Input('user_id') user_id;
   @Input('sent_as') sent_as;
   @Input('other_sent_as') other_sent_as;
-  // loadingMessages = false;
   textMessage: any;
   durationInSec = 0;
   video: any;
@@ -36,6 +35,7 @@ export class ChatComponent implements OnInit {
   public scrollbarOptions = { axis: 'y', theme: 'dark'};
   public parameter: IProperty = {};
   @ViewChild('optionsButton') optionsButton: ElementRef;
+  @ViewChild('msgInput') msgInput: ElementRef;
   text: string;
 
   constructor(
@@ -51,19 +51,20 @@ export class ChatComponent implements OnInit {
     // this.admin.loginData$.subscribe(success => {
     //   this.model.conversation_user = {admin_id: success['id']};
     // });
+    this.msgInput.nativeElement.focus();
     this.parameter.messages = [];
     setTimeout(() => {
       const input = {lead_id: this.lead_id, user_id: this.user_id, sent_as: this.sent_as};
       this.initSocket();
       if ((this.sent_as === this.constant.userType.notary) || (this.sent_as === this.constant.userType.bank)) {
-        this.getLeadConversation();
+        this.getLeadConversation(false);
       } else {
         this.getMessages();
       }
     }, 100);
   }
 
-  getLeadConversation () {
+  getLeadConversation (showLoader: boolean) {
 
     const data = {
       lead_id: this.lead_id,
@@ -72,10 +73,11 @@ export class ChatComponent implements OnInit {
       sent_as: this.sent_as
     };
 
-    this.spinner.show();
+    if (showLoader) {
+      this.spinner.show();
+    }
     this.admin.postDataApi('conversation/getLeadConversation', data).subscribe(r => {
       this.spinner.hide();
-      console.log('conversation/getLeadConversation', r);
       if (r['data']) {
         this.parameter.messages = r.data[0].messages;
         if (this.parameter.messages.length < 30) {this.loadmore = false; }
@@ -109,7 +111,6 @@ export class ChatComponent implements OnInit {
       //   r.loading = true;
       //   return r;
       // });
-      console.log('messages', this.parameter.messages);
       if (this.parameter.messages.length < 30) {this.loadmore = false; }
       this.parameter.conversation_id = res.data[0].id;
       this.scrollToBottom();
@@ -123,8 +124,6 @@ export class ChatComponent implements OnInit {
     //   console.log('disconnect', this.parameter.socket);
     // });
     this.parameter.socket.on('connect', fun => {
-      console.log('connect');
-      console.log('connect', this.parameter.socket);
       this.parameter.socket_id = this.parameter.socket.id;
       this.parameter.connected = this.parameter.socket.connected;
 
@@ -356,9 +355,7 @@ export class ChatComponent implements OnInit {
       model.conversation_id =  this.parameter.conversation_id;
       model.conversation_user = {admin_id: this.admin_id};
       const d = new Date();
-      console.log('11', d);
       model.updated_at = d.toUTCString();
-      console.log('22', model.updated_at);
       model.admin_id = this.admin_id;
       this.parameter.messages.push(model);
       this.textMessage = '';
@@ -373,10 +370,7 @@ export class ChatComponent implements OnInit {
     if (model.message_type == 1 && !model.message) {
       swal('Error', 'Please enter some text.', 'error');
     } else {
-      console.log('Appending', model);
       this.admin.postDataApi('conversation/sendMessage', model).subscribe(r => {
-        console.log('sendMessage', r);
-
         if (model.loading == true) {
           model.loading = false;
           const foundIndex = this.parameter.messages.findIndex(x => x.uid == model.uid);

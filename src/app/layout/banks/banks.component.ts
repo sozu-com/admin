@@ -140,11 +140,11 @@ export class BanksComponent implements OnInit {
     this.parameter.title = this.constant.title.ARE_YOU_SURE;
     switch (flag) {
       case 0:
-        this.parameter.text = this.constant.title.UNBLOCK_USER;
+        this.parameter.text = 'You want to unblock this bank?';
         this.parameter.successText = this.constant.successMsg.UNBLOCKED_SUCCESSFULLY;
         break;
       case 1:
-        this.parameter.text = this.constant.title.BLOCK_USER;
+      this.parameter.text = 'You want to block this bank?';
         this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
         break;
     }

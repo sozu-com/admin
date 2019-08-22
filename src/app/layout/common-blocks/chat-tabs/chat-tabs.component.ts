@@ -84,8 +84,11 @@ export class ChatTabsComponent implements OnInit {
   showInput: false;
   pen_amount = 0;
   keyword: string;
+
   @ViewChild('chatWin') chatWin: ElementRef;
   @ViewChild('optionsButton') optionsButton: ElementRef;
+  @ViewChild('msgInput') msgInput: ElementRef;
+
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
 
   model: Chat;
@@ -103,6 +106,7 @@ export class ChatTabsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.msgInput.nativeElement.focus();
     this.model = new Chat();
     this.selectedProperties = new SelectedProperties();
     this.property = new AddPropertyModel();
@@ -133,7 +137,6 @@ export class ChatTabsComponent implements OnInit {
 
 
   selectConversation(conversation) {
-    // console.log('con', conversation);
     this.conversations.map(con => {
       con.selected = false;
       if (con === conversation) {
@@ -143,14 +146,12 @@ export class ChatTabsComponent implements OnInit {
     });
 
     this.conversation = conversation;
-    // console.log('con id', this.conversation_id);
     const data = {
       conversation_id: this.conversation_id
     };
 
     this.loadingMessages = true;
     this.admin.postDataApi('conversation/getMessages', data).subscribe(res => {
-      // console.log(res);
       this.messages = res['data'];
       this.loadingMessages = false;
       setTimeout(() => {
@@ -176,7 +177,6 @@ export class ChatTabsComponent implements OnInit {
         device_id: this.admin.deviceId + '_' + this.admin_id
       };
       if (this.connected) {
-        // console.log('Socket Connected', this.socket_id);
 
         this.socket.emit('add-admin', data, (res: any) => {
           // console.log('res', res);
@@ -184,8 +184,6 @@ export class ChatTabsComponent implements OnInit {
 
         this.socket.on('message', (response: any) => {
           if (response.data.conversation_id === this.conversation_id) {
-            // console.log('Socket conversation_id');
-            // console.log('Socket conversation_id', this.conversation_id);
             this.messages.push(response.data);
             setTimeout(() => {
               this.scrollToBottom();
@@ -269,7 +267,6 @@ export class ChatTabsComponent implements OnInit {
     this.cs.saveAttachment(event.target.files[0]).subscribe(
       success => {
         model.attachment = success['data'].name;
-        // console.log('==>', model);
         this.sendMessage(model);
       }
     );
@@ -339,25 +336,18 @@ export class ChatTabsComponent implements OnInit {
   newcanvas(video, videoFile, model) {
 
     const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-    // console.log(canvas);
     const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
       0, 0, canvas.width, canvas.height);
 
     const ImageURL = canvas.toDataURL('image/jpeg');
     model.image = ImageURL;
-    // console.log(model);
     const fileToUpload = this.dataURLtoFile(ImageURL, 'tempFile.png');
     this.cs.saveVideo(videoFile, fileToUpload).subscribe(
       success => {
-        // console.log('image', success);
         model.video = success['data'].video;
         model.image = success['data'].thumb;
         this.sendMessage(model);
-      }
-      //  error => {
-      //   console.log(error);
-      // }
-    );
+      });
   }
 
   dataURLtoFile(dataurl, filename) {
@@ -455,7 +445,6 @@ export class ChatTabsComponent implements OnInit {
     if (admin_sent_as === this.constant.userType.bank) {
       this.chat_admin = this.chat_bank;
     }
-    console.log('chat admin', this.chat_admin);
     const data = {
       // other_id: this.chat_admin.id,
       // sent_as: this.constant.userType.csr_closer,
@@ -493,15 +482,11 @@ export class ChatTabsComponent implements OnInit {
       lead_id: this.parameter.lead_id,
       last_message_id: this.messages[0].id
     };
-    // console.log(data);
     this.admin.postDataApi('conversation/getMessages', data).subscribe(res => {
-      // console.log(res);
       this.loadmoring = false;
       if (res['data'].length < 30) { this.loadmore = false; }
       this.messages = res['data'].concat(this.messages);
-    }
-      // error => {}
-    );
+    });
   }
 
   sendProperty(property) {

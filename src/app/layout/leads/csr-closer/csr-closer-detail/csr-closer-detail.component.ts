@@ -25,7 +25,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
 
   @ViewChild('showNotaries') showNotaries: ElementRef;
   @ViewChild('hideNotaries') hideNotaries: ElementRef;
-
+  @ViewChild('msgInput') msgInput: ElementRef;
   public parameter: IProperty = {};
   // meetingDate: any = {
   //   appointment_date: '',
@@ -117,6 +117,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.msgInput.nativeElement.focus();
     this.keyword = '';
     this.leadData = new Leads();
     this.leadData.selected_properties = [new SelectedProperties()];

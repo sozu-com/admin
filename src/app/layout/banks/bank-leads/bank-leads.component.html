@@ -73,7 +73,10 @@
         <div *ngIf="selectedUser as item" class="sigle-row-table">
             <table class="table table-striped">
             <tbody><tr>
-                <td><img class="rounded-circle" [src]="item.image| img:'small'" onerror='this.src="assets/img/default_img.png"' alt="img"></td>
+                <td>
+                    <img *ngIf="item.image" [defaultImage]="item.image| img:'thumb'" [lazyLoad]="item.image" class="rounded-circle" alt="img">
+                    <img *ngIf="!item.image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
+                </td>
                 <td class="text-left">
                     <span class="name">{{item.name | titlecase}}</span>
                 </td>

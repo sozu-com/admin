@@ -287,6 +287,9 @@
                                     <option value="0">All</option>
                                     <option *ngFor="let c of configurations" value="{{c.id}}" >
                                        {{c.name}}
+                                       <!-- <span *ngIf="c.bedroom!=0">{{c.bedroom}} Bed </span>
+                                       <span *ngIf="c.bathroom!=0">&middot; {{c.bathroom}} Bath </span>
+                                       <span *ngIf="c.half_bathroom!=0">&middot; {{c.half_bathroom}} Half </span> -->
                                     </option>
                                  </select>
                               </div>
@@ -342,7 +345,15 @@
                               </td>
                               <td><span>{{p?.building_towers ? p?.building_towers?.tower_name : 'NA'}}</span></td>
                               <td><span>{{p?.name ? p?.name : 'NA'}}</span></td>
-                              <td><span *ngIf="p && p.configuration">{{p.configuration?.name}}</span></td>
+                              <td>
+                                 <!-- <span *ngIf="p && p.configuration">{{p.configuration?.name}}</span> -->
+                                 <span *ngIf="p.configuration.bedroom!=0">{{p.configuration.bedroom}} Bed </span>
+                                 <span *ngIf="p.configuration.bathroom!=0">&middot; {{p.configuration.bathroom}} Bath </span>
+                                 <span *ngIf="p.configuration.half_bathroom!=0">&middot; {{p.configuration.half_bathroom}} Half </span>
+
+                                 <div class="clearfix"></div>
+                                 <small>({{p?.configuration?.name}})</small>
+                              </td>
                               <td><span>{{p.min_price | number : '1.2-2'}}</span></td>
                               <td><span>
                                  <button (click)="editPricePopup(p, i)" [disabled]="admin?.admin_acl['Property Management']?.can_update==0" title="Edit Price" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
@@ -353,8 +364,10 @@
                                  <span class="green-color"><span>View</span></span>
                               </td>
                               
-                              <td *ngIf="parameter.flag!=5" class="cursor-pointer" title="Change Seller" (click)="getAllSellers(p, '1', i)">
-                                 <span class="green-color"><span>Change</span></span>
+                              <td *ngIf="parameter.flag!=5" class="cursor-pointer" title="{{p?.selected_seller?.user?.name ? 'Click to change Seller' : 'Click to add Seller'}}" (click)="getAllSellers(p, '1', i)">
+                                 <span class="green-color"><span>
+                                       {{p?.selected_seller?.user?.name ? p?.selected_seller?.user?.name : 'Add'}}
+                                 </span></span>
                               </td>
                               
                               <td *ngIf="parameter.flag!=5" class="cursor-pointer" (click)="getBothBroker(p, '')">
@@ -366,7 +379,7 @@
                                  <select id="avaStatus" #avaStatus  (change)="avaStatus.value == changeSoldStatusPopup(p, i, $event.target.value)">
                                     <option [selected]="p.for_sale==1" value="1">Sell</option>
                                     <option [selected]="p.for_rent==1" value="2">Rent</option>
-                                    <option [selected]="p.is_property_sold==1" value="3">Inventory</option>
+                                    <option [selected]="p.for_hold==1" value="3">Inventory</option>
                                  </select>
                               </td>
                               <td *ngIf="parameter.flag!=5">
@@ -449,8 +462,10 @@
                      <tr *ngFor="let item of allUsers">
                         <td>
                            <div class="n-avail-profile">
-                           <img [src]="item?.image| img:'small'" onerror='src="assets/img/default_img.png"' alt="img"
+                           <img *ngIf="item?.image" onerror='src="assets/img/default_img.png"' alt="img"
                               [defaultImage]="item?.image| img:'thumb'" [lazyLoad]="item?.image">
+                           <img *ngIf="!item?.image" src="assets/img/default_img.png" alt="img">
+                           
                            <div class="n-avail-info">
                               <p class="p12">{{item?.name}}</p>
                               <p class="p10 marginB0">Phone : {{item?.dial_code ? item?.dial_code : constant.dial_code}}-{{item?.phone}}</p>
@@ -500,8 +515,10 @@
                      <tr *ngFor="let item of allSellers">
                         <td *ngIf="item?.user?.is_blocked!=1">
                            <div class="n-avail-profile">
-                           <img [src]="item?.user?.image| img:'small'" onerror='src="assets/img/default_img.png"' alt="img"
+                           <img *ngIf="item?.user?.image" onerror='src="assets/img/default_img.png"' alt="img"
                               [defaultImage]="item?.user?.image| img:'thumb'" [lazyLoad]="item?.user?.image">
+                           <img *ngIf="!item?.user?.image" src="assets/img/default_img.png" alt="img">
+                           
                            <div class="n-avail-info">
                               <p class="p12">{{item?.user?.name ? item?.user?.name : 'NA'}}</p>
                               <p class="p10">Phone : {{item?.user?.dial_code ? item?.user?.dial_code : constant.dial_code}}-{{item?.user?.phone}}</p>
@@ -555,8 +572,10 @@
                      <tr *ngFor="let item of allExtBrokers">
                         <td>
                            <div class="n-avail-profile">
-                           <img [src]="item?.image| img:'small'" onerror='src="assets/img/default_img.png"' alt="img"
+                           <img *ngIf="item?.image" onerror='src="assets/img/default_img.png"' alt="img"
                               [defaultImage]="item?.image| img:'thumb'" [lazyLoad]="item?.image">
+                           <img *ngIf="!item?.image" src="assets/img/default_img.png" alt="img">
+                           
                            <div class="n-avail-info">
                               <p class="p12">{{item?.name | titlecase}}</p>
                               <p class="p10 marginB0">{{item?.is_external_agent ? 'OUTSIDE AGENT' : 'IN-HOUSE AGENT'}}</p>
