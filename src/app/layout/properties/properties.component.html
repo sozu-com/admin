@@ -286,10 +286,10 @@
                                  <select [(ngModel)]="parameter.configuration_id" (change)="getListing()">
                                     <option value="0">All</option>
                                     <option *ngFor="let c of configurations" value="{{c.id}}" >
-                                       {{c.name}}
-                                       <!-- <span *ngIf="c.bedroom!=0">{{c.bedroom}} Bed </span>
+                                       <!-- {{c.name}} -->
+                                       <span *ngIf="c.bedroom!=0">{{c.bedroom}} Bed </span>
                                        <span *ngIf="c.bathroom!=0">&middot; {{c.bathroom}} Bath </span>
-                                       <span *ngIf="c.half_bathroom!=0">&middot; {{c.half_bathroom}} Half </span> -->
+                                       <span *ngIf="c.half_bathroom!=0">&middot; {{c.half_bathroom}} Half </span>
                                     </option>
                                  </select>
                               </div>
