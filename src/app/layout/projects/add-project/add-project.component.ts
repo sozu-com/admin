@@ -214,7 +214,7 @@ export class AddProjectComponent implements OnInit {
           this.model.custom_attributes = this.model.custom_values;
           this.file5.image = this.model.developer.image;
           this.file6.image = this.model.developer.developer_image;
-          this.admin.postDataApi('getAmenities', {}).subscribe(res => {
+          this.admin.postDataApi('getAmenities', {hide_blocked: 1}).subscribe(res => {
             this.all_amenities = res.data.map(item => {
               item.selected = false;
               item.images = [];
@@ -305,7 +305,7 @@ export class AddProjectComponent implements OnInit {
           this.model.custom_attributes = this.model.custom_values;
           this.file5.image = this.model.developer.image;
           this.file6.image = this.model.developer.developer_image;
-          this.admin.postDataApi('getAmenities', {}).subscribe(res => {
+          this.admin.postDataApi('getAmenities', {hide_blocked: 1}).subscribe(res => {
             this.all_amenities = res.data.map(item => {
               item.selected = false;
               item.images = [];
@@ -369,7 +369,7 @@ export class AddProjectComponent implements OnInit {
         this.model.building_towers = [];
         this.model.building_tower_edit_index = '-1';
         this.canEditdeveloperInfo = true;
-        this.admin.postDataApi('getAmenities', {}).subscribe(res => {
+        this.admin.postDataApi('getAmenities', {hide_blocked: 1}).subscribe(res => {
           this.all_amenities = res.data.map(item => {
             item.selected = false;
             item.images = [];
@@ -391,14 +391,14 @@ export class AddProjectComponent implements OnInit {
     this.setCurrentPosition();
     this.getCountries('');
     this.initForm();
-    this.admin.postDataApi('getPossessionStatuses', {}).subscribe(r => {
+    this.admin.postDataApi('getPossessionStatuses', {hide_blocked: 1}).subscribe(r => {
       this.all_possession_statuses = r.data;
     });
-    this.admin.postDataApi('getBuildingTypes', {}).subscribe(r => {
+    this.admin.postDataApi('getBuildingTypes', {hide_blocked: 1}).subscribe(r => {
       this.all_building_types = r.data;
     });
 
-    this.admin.postDataApi('getConfigurations', {}).subscribe(r => {
+    this.admin.postDataApi('getConfigurations', {hide_blocked: 1}).subscribe(r => {
       this.all_configurations = r.data;
     });
   }
@@ -497,7 +497,7 @@ export class AddProjectComponent implements OnInit {
   }
 
   searchAmenity(keyword: string) {
-    const input = { keyword: '' };
+    const input = { keyword: '', hide_blocked: 1 };
     input.keyword = keyword;
     this.admin.postDataApi('getAmenities', input).subscribe(res => {
       // this.all_amenities = res.data.map(item => { item.selected = false; item.images = []; return item; });
@@ -1420,7 +1420,7 @@ export class AddProjectComponent implements OnInit {
       this.setCountryToLocality(data['locality']);
     }
 
-    this.admin.postDataApi('getAmenities', {}).subscribe(res => {
+    this.admin.postDataApi('getAmenities', {hide_blocked: 1}).subscribe(res => {
       this.all_amenities = res.data.map(item => {
         item.selected = false;
         item.images = [];

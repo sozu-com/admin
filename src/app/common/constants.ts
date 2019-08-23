@@ -1,5 +1,5 @@
 export class Constant {
-    public projectName = 'Kanguroo';
+    public projectName = 'Sozu';
     public itemsPerPage = 10;
     public limit4 = 4;
     public p = 1;

@@ -1,8 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-// import { AdminService } from '../../services/admin.service';
 import { ActivatedRoute } from '@angular/router';
-// import { IProperty } from '../../common/property';
-// import { Constant } from './../../common/constants';
 import * as moment from 'moment';
 import { ApiConstants } from 'src/app/common/api-constants';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -49,7 +46,7 @@ export class ProjectsComponent implements OnInit {
     this.parameter.dash_flag = 2;
     this.parameter.possession_filter = 0; // 0-all, 9-presale, 8-sale
     this.getCountries();
-    this.getPropertyConfigurations();
+    // this.getPropertyConfigurations();
     this.getListing();
   }
 
@@ -84,7 +81,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   getPropertyConfigurations() {
-    this.admin.postDataApi('getConfigurations', {}).subscribe(r => {
+    this.admin.postDataApi('getConfigurations', {hide_blocked: 1}).subscribe(r => {
       this.configurations = r['data'];
     });
   }

@@ -1393,7 +1393,14 @@
               <label>Title</label>
               <select class="form-control" [(ngModel)]="new_config.configuration_id" (change)="selectConfiguration($event.target.value,new_config)" name="config_name">
                 <option value="">Select</option>  
-                <option *ngFor="let c of all_configurations" value="{{c.id}}" daa-model="c">{{c.name}}</option>
+                <option *ngFor="let c of all_configurations" value="{{c.id}}" daa-model="c">
+                  <!-- {{c.name}} -->
+                  <span *ngIf="c.status">
+                    <span *ngIf="c.bedroom!=0">{{c.bedroom}} Bed </span>
+                    <span *ngIf="c.bathroom!=0">&middot; {{c.bathroom}} Bath </span>
+                    <span *ngIf="c.half_bathroom!=0">&middot; {{c.half_bathroom}} Half </span>
+                  </span>
+                </option>
               </select>
             </div>
           </div>

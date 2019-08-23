@@ -157,7 +157,7 @@ export class AddPropertyComponent implements OnInit {
       this.parameter.property_id = params['property_id'];
       if (this.parameter.property_id === '0') {
 
-        this.us.postDataApi('getPropertyAmenities', {}).subscribe(res => {
+        this.us.postDataApi('getPropertyAmenities', {hide_blocked: 1}).subscribe(res => {
           this.parameter.amenities = res.data.map(item => {
             item.selected = false;
             item.images = [];
@@ -189,7 +189,7 @@ export class AddPropertyComponent implements OnInit {
     this.building.dev_countrycode = this.constant.dial_code;
 
     this.tab = 0;
-    this.getCountries('');
+    // this.getCountries('');
     // this.getConfigurations();
     this.getPropertyTypes();
     this.getPropertyAmenities();
@@ -398,7 +398,7 @@ export class AddPropertyComponent implements OnInit {
     }
 
 
-    this.us.postDataApi('getPropertyAmenities', {}).subscribe(res => {
+    this.us.postDataApi('getPropertyAmenities', {hide_blocked: 1}).subscribe(res => {
       this.parameter.amenities = res.data.map(item => {
         item.selected = false;
         item.images = [];
@@ -576,8 +576,7 @@ export class AddPropertyComponent implements OnInit {
   }
 
   getConfigurations() {
-    const input = new FormData();
-    this.us.postDataApi('getConfigurations', input)
+    this.us.postDataApi('getConfigurations', {hide_blocked: 1})
       .subscribe(
         success => {
           this.parameter.items = success['data'];
@@ -589,8 +588,7 @@ export class AddPropertyComponent implements OnInit {
   }
 
   getPropertyTypes() {
-    const input = new FormData();
-    this.us.postDataApi('getPropertyTypes', input)
+    this.us.postDataApi('getPropertyTypes', {hide_blocked: 1})
       .subscribe(
         success => {
           this.parameter.propertyTypes = success['data'];
@@ -602,8 +600,7 @@ export class AddPropertyComponent implements OnInit {
   }
 
   getPropertyAmenities() {
-    const input = new FormData();
-    this.us.postDataApi('getPropertyAmenities', input)
+    this.us.postDataApi('getPropertyAmenities', {hide_blocked: 1})
       .subscribe(
         success => {
           this.parameter.amenities = success['data'].map(item => {

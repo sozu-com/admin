@@ -1,13 +1,13 @@
 
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AdminService } from './../../../services/admin.service';
-import { Building, Property } from './../../../models/global.model';
 import { MapsAPILoader } from '@agm/core';
 import { ActivatedRoute } from '@angular/router';
-import { TranslateService } from './../../../lang/translate.service';
-import { IProperty } from '../../../common/property';
-import { Constant } from '../../../common/constants';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { IProperty } from 'src/app/common/property';
+import { Property, Building } from 'src/app/models/global.model';
+import { AdminService } from 'src/app/services/admin.service';
+import { TranslateService } from 'src/app/lang/translate.service';
+import { Constant } from 'src/app/common/constants';
 declare let swal: any;
 declare const google;
 
@@ -58,7 +58,7 @@ export class ProjectDetailsComponent implements OnInit {
       this.properties = res['data'].properties;
       this.configurations = this.project.configurations;
       this.configuration = this.configurations[0];
-      this.config_string = this.project.configurations.map(r => r.config.name).join(', ');
+      this.config_string = this.project.configurations.map(r => r.name ? r.name : r.config.name).join(', ');
 
       const config_carpet_areas = this.project.configurations.map(r => parseInt(r.carpet_area));
       if (config_carpet_areas.length < 1) {

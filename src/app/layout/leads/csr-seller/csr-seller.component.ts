@@ -1,12 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AdminService } from '../../../services/admin.service';
-import { IProperty } from '../../../common/property';
-import { Constant } from './../../../common/constants';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Users } from '../../../models/users.model';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
-
+import { Constant } from 'src/app/common/constants';
+import { IProperty } from 'src/app/common/property';
+import { Users } from 'src/app/models/users.model';
+import { AdminService } from 'src/app/services/admin.service';
 declare let swal: any;
 
 @Component({
@@ -156,7 +155,6 @@ export class CsrSellerComponent implements OnInit {
     // }
     this.admin.postDataApi('getCsrSellers', input).subscribe(
       success => {
-        console.log(success.data);
         this.users = success.data;
       });
   }
@@ -236,7 +234,6 @@ export class CsrSellerComponent implements OnInit {
     }
 
     this.admin.postDataApi('leads/csr-seller-dash-count', input).subscribe(r => {
-      console.log('dash', r);
       this.dash = r.data;
       this.chartView = [
         {
@@ -280,7 +277,6 @@ export class CsrSellerComponent implements OnInit {
         this.spinner.hide();
         this.items = success.data;
         if (this.items.length <= 0) { this.parameter.noResultFound = true; }
-        console.log(success);
         this.parameter.total = success.total_count;
       }, error => {
         this.spinner.hide();
@@ -346,7 +342,6 @@ export class CsrSellerComponent implements OnInit {
       this.spinner.hide();
       swal('Success', 'Assigned successfully', 'success');
       this.closeAssignModel.nativeElement.click();
-      console.log(r);
       this.getListing();
     },
       error => {

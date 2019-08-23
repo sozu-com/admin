@@ -1,9 +1,9 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { AdminService } from '../../../../services/admin.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IProperty } from '../../../../common/property';
-import { Constant } from '../../../../common/constants';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { IProperty } from 'src/app/common/property';
+import { Constant } from 'src/app/common/constants';
+import { AdminService } from 'src/app/services/admin.service';
 declare let swal: any;
 
 @Component({

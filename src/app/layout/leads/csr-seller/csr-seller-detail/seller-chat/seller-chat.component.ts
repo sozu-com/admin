@@ -94,7 +94,6 @@ export class SellerChatComponent implements OnInit {
         if (this.conversations.length > 0) {
           this.initSocket();
           for (let index = 0; index < this.conversations.length; index++) {
-            console.log('==', this.conversations[index].id.toString(), this.csr_seller_id);
             if (this.chat_with === '1') {
               if (this.conversations[index].id.toString() === this.lead_id) {
                 this.selectConversation(this.conversations[index], this.lead_id);
@@ -123,11 +122,9 @@ export class SellerChatComponent implements OnInit {
       other_sent_as: this.chat_with === '1' ? this.constant.userType.user_seller_dev : this.constant.userType.inhouse_broker,
       sent_as: this.constant.userType.csr_seller
     };
-    console.log('zzzz', data1);
     this.spinner.show();
     this.admin.postDataApi('conversation/getLeadConversation', data1).subscribe(res => {
       this.spinner.hide();
-      console.log('===========', res);
       if (res.data) {
 
         this.conversation = res.data;
@@ -151,7 +148,6 @@ export class SellerChatComponent implements OnInit {
 
         this.loadingMessages = true;
         this.admin.postDataApi('conversation/getMessages', data).subscribe(r => {
-          console.log(r);
           this.messages = r.data[0].messages;
           // this.messages.map(r=>{
           //   r.loading = true;
@@ -447,7 +443,6 @@ export class SellerChatComponent implements OnInit {
   }
 
   sendProperty(property) {
-    console.log('M=>', property);
     const model = new Chat;
     model.message = property.configuration.name + ' in ' + property.building.name;
     model.message_type = 5;

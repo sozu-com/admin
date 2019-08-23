@@ -1,9 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-// import { AdminService } from '../../services/admin.service';
-// import { IProperty } from '../../common/property';
-// import { Constant } from './../../common/constants';
 import * as moment from 'moment';
-// import { SellerSelections } from './../../models/addProperty.model';
 import { UserModel } from 'src/app/models/inhouse-users.model';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { IProperty } from 'src/app/common/property';
@@ -336,8 +332,6 @@ export class PropertiesComponent implements OnInit {
   getAllSellers(property: any, keyword: string, index) {
     this.spinner.show();
     if (index !== '') { console.log('11ddddd999111', index); this.parameter.index = index; }
-    console.log('11999111', index);
-    console.log('11111', this.parameter.index);
     if (property) {
       this.parameter.property_id = property.id;
       this.parameter.seller_id = property.selected_seller_id;
@@ -391,7 +385,6 @@ export class PropertiesComponent implements OnInit {
   }
 
   changeStatusPopUp(property_id: any, user_id: any, status: number, type: string) {
-    console.log('111', this.parameter.index);
     this.parameter.property_id = property_id;
     this.parameter.user_id = user_id;
     this.parameter.status = status;
@@ -426,8 +419,6 @@ export class PropertiesComponent implements OnInit {
     this.admin.postDataApi('changeStatusSellerSelection', input).subscribe(r => {
       if (this.parameter.status === 1) {
         this.parameter.seller_id = this.parameter.user_id;
-        console.log('111', this.parameter.index);
-        console.log('----', this.items);
         this.items[this.parameter.index].selected_seller_id = this.parameter.user_id;
       }
       // const text = this.parameter.status === 1 ? 'accepted' : 'rejected';
@@ -446,7 +437,6 @@ export class PropertiesComponent implements OnInit {
   }
 
   changeSoldStatusPopup(property: any, index: number, value: string) {
-    console.log(property, index, value);
     this.parameter.title = this.constant.title.ARE_YOU_SURE;
     this.parameter.text = 'You want to change the status?';
 

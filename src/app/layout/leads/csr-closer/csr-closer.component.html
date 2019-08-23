@@ -337,7 +337,10 @@
                     <td class="text-left">
                     <div class="property-selected">
                         <p class="p14 marginB0">
-                            {{item?.selected_properties[0]?.property?.configuration.name}}
+                            <!-- {{item?.selected_properties[0]?.property?.configuration.name}} -->
+                            <span *ngIf="item?.selected_properties[0]?.property?.configuration.bedroom!=0">{{item?.selected_properties[0]?.property?.configuration.bedroom}} Bed </span>
+                            <span *ngIf="item?.selected_properties[0]?.property?.configuration.bathroom!=0">&middot; {{item?.selected_properties[0]?.property?.configuration?.bathroom}} Bath </span>
+                            <span *ngIf="item?.selected_properties[0]?.property?.configuration.half_bathroom!=0">&middot; {{item?.selected_properties[0]?.property?.configuration.half_bathroom}} Half </span>
                         </p>
                         <p class="p12 marginB0"><strong>{{item?.selected_properties[0]?.property?.building?.name}}</strong></p>
                         <p class="p11"><i>{{item?.selected_properties[0]?.property?.building?.developer?.name}}</i></p>

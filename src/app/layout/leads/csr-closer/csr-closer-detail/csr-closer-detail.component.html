@@ -84,25 +84,34 @@
                 <tr>
                     <td style="padding-left:0"><label>Interested In</label></td>
                     <td *ngIf="leadData?.configuration">
-                        <span *ngFor="let conf of leadData.configuration; let ii=index">
-                        {{conf.name}}<span *ngIf="ii<leadData?.configuration?.length-1">,</span>
+                        <span *ngFor="let conf of leadData?.configuration; let ii=index">
+                            <span *ngIf="conf.bedroom!=0">{{conf.bedroom}} Bed </span>
+                            <span *ngIf="conf.bathroom!=0">&middot; {{conf?.bathroom}} Bath </span>
+                            <span *ngIf="conf.half_bathroom!=0">&middot; {{conf.half_bathroom}} Half </span>
+
+                            <span *ngIf="ii<leadData?.configuration?.length-1"> | </span><br>
                         </span>
-                        <span *ngIf="leadData.configuration?.length == 0">NA</span>
+                        <span *ngIf="leadData?.configuration?.length==0">NA</span>
                     </td>
                 </tr>
                 <tr>
                     <td style="padding-left:0"><label><strong>Property Selected</strong></label></td>
                     <td *ngIf="leadData?.selected_properties?.length!=0">
                         <p class="p14 marginB0">
-                            {{leadData?.selected_properties[0]?.property?.configuration.name}}
+                            <!-- {{leadData?.selected_properties[0]?.property?.configuration.name}} -->
+                            <span *ngIf="leadData?.selected_properties[0]?.property?.configuration.bedroom!=0">{{leadData?.selected_properties[0]?.property?.configuration.bedroom}} Bed </span>
+                            <span *ngIf="leadData?.selected_properties[0]?.property?.configuration.bathroom!=0">&middot; {{leadData?.selected_properties[0]?.property?.configuration?.bathroom}} Bath </span>
+                            <span *ngIf="leadData?.selected_properties[0]?.property?.configuration.half_bathroom!=0">&middot; {{leadData?.selected_properties[0]?.property?.configuration.half_bathroom}} Half </span>
                         </p>
-                        <p class="p12 marginB0"><strong>{{leadData?.selected_properties[0]?.property?.building?.name}}</strong></p>
-                        <p class="p11"><i>{{leadData?.selected_properties[0]?.property?.building?.developer?.name | titlecase}}</i></p>
+                        <p title="Building" class="p12 marginB0"><strong>{{leadData?.selected_properties[0]?.property?.building?.name}}</strong></p>
+                        <p title="Developer" class="p11"><i>{{leadData?.selected_properties[0]?.property?.building?.developer?.name | titlecase}}</i></p>
+                        <p class="marginB0" *ngIf="leadData?.selected_properties?.length!=0">
+                            <a class="view-all-2" href="javascript://" (click)="viewPropertyDetails(leadData?.selected_properties[0])"> View Property</a>
+                        </p>
                     </td>
-                    <td *ngIf="leadData?.selected_properties?.length!=0">
+                    <!-- <td *ngIf="leadData?.selected_properties?.length!=0">
                         <a class="view-all-2" href="javascript://" (click)="viewPropertyDetails(leadData?.selected_properties[0])"> View Property</a>
-                    </td>
-                    <td *ngIf="leadData?.selected_properties?.length==0">NA</td>
+                    </td> -->
                 </tr>
                 
                 <!-- Notary Availabilities -->

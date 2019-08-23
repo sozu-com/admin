@@ -18,9 +18,9 @@
              <div class="header-details-right text-right">
                 <p class="p18">
                   <span>{{ts.lang.Base_Price}}:</span>
-                  {{base_price_min|thousand}}
+                  ${{base_price_min|number}}
                    <b *ngIf="base_price_max">-</b>
-                   <b *ngIf="base_price_max">{{base_price_max|thousand}}</b>
+                   <b *ngIf="base_price_max">${{base_price_max|number}}</b>
                 </p>
                 <p class="p16">{{ts.lang.Price_on_Request}}</p>
                 <div class="btn-cont float-right">
@@ -50,7 +50,7 @@
        <div class="row">
           <div class="col-md-3 col-sm-6 col-12 img-c">
              <div class="block">
-                <p class="p18">{{project.starting_price| thousand}}</p>
+                <p class="p18">{{project.starting_price| number}}</p>
                 <p class="p13">{{ts.lang.Min_Price_per_Sq_feet}}</p>
              </div>
           </div>
@@ -155,7 +155,7 @@
                                        <table style="width:100%;">
                                           <tbody>
                                              <tr>
-                                                <td>{{config.base_price | thousand}}</td>
+                                                <td>{{config.base_price | number}}</td>
                                              </tr>
                                           </tbody>
                                        </table>
@@ -254,7 +254,7 @@
                                 </tr>
                                 <tr>
                                    <td>
-                                      <p class="p14 marginB0">{{config.config.name}}</p>
+                                      <p class="p14 marginB0">{{config?.name ? config?.name : config.config.name}}</p>
 
                                    </td>
                                    <td>
@@ -271,7 +271,7 @@
                                       <table style="width:100%;">
                                          <tbody>
                                             <tr>
-                                               <td>{{config.base_price| thousand}}</td>
+                                               <td>{{config.base_price| number}}</td>
                                             </tr>
 
                                          </tbody>

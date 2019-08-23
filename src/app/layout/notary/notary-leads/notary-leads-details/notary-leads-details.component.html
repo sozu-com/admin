@@ -68,38 +68,47 @@
                     <table class="table">
                         <tr>
                             <td style="padding-left:0"><label>Full Name</label></td>
-                            <td colspan="2" *ngIf="parameter?.lead?.name">{{parameter.lead.name | titlecase}}</td>
+                            <td colspan="2" *ngIf="parameter.lead?.name">{{parameter.lead.user.name | titlecase}}</td>
                         </tr>
                         <tr>
                             <td style="padding-left:0"><label>Contact Number</label></td>
-                            <td colspan="2" *ngIf="parameter?.lead?.phone">{{parameter.lead.dial_code ? parameter.lead.dial_code : constant.dial_code}}-{{parameter.lead.phone}}</td>
+                            <td colspan="2" *ngIf="parameter.lead?.phone">{{parameter.lead.user.dial_code ? parameter.lead.user.dial_code : constant.dial_code}}-{{parameter.lead.user.phone}}</td>
                         </tr>
                         <tr>
                             <td style="padding-left:0"><label>Email address</label></td>
-                            <td colspan="2" *ngIf="parameter?.lead?.email">{{parameter.lead.email}}</td>
+                            <td colspan="2" *ngIf="parameter.lead?.email">{{parameter.lead.user.email}}</td>
                         </tr>
                         <tr>
                             <td style="padding-left:0"><label>Interested In</label></td>
-                            <td *ngIf="parameter?.lead?.configuration">
-                                <span *ngFor="let conf of parameter.lead.configuration; let ii=index">
-                                {{conf.name}}<span *ngIf="ii<parameter?.lead?.configuration?.length-1">,</span>
+                            <td *ngIf="parameter.lead?.configuration">
+                                <span *ngFor="let conf of parameter?.lead?.configuration; let ii=index">
+                                    <span *ngIf="conf.bedroom!=0">{{conf.bedroom}} Bed </span>
+                                    <span *ngIf="conf.bathroom!=0">&middot; {{conf?.bathroom}} Bath </span>
+                                    <span *ngIf="conf.half_bathroom!=0">&middot; {{conf.half_bathroom}} Half </span>
+    
+                                    <span *ngIf="ii<parameter?.lead?.configuration?.length-1"> | </span><br>
                                 </span>
-                                <span *ngIf="parameter.lead.configuration?.length == 0">NA</span>
+                                <span *ngIf="parameter?.lead?.configuration?.length==0">NA</span>
                             </td>
                         </tr>
                         <tr>
                             <td style="padding-left:0"><label><strong>Property Selected</strong></label></td>
-                            <td *ngIf="parameter?.lead?.selected_properties?.length!=0">
+                            <td *ngIf="parameter.lead?.selected_properties?.length!=0">
                                 <p class="p14 marginB0">
-                                    {{parameter.lead?.selected_properties[0]?.property?.configuration.name}}
+                                    <!-- {{parameter.lead?.selected_properties[0]?.property?.configuration.name}} -->
+                                    <span *ngIf="parameter.lead?.selected_properties[0]?.property?.configuration.bedroom!=0">{{parameter.lead?.selected_properties[0]?.property?.configuration.bedroom}} Bed </span>
+                                    <span *ngIf="parameter.lead?.selected_properties[0]?.property?.configuration.bathroom!=0">&middot; {{parameter.lead?.selected_properties[0]?.property?.configuration?.bathroom}} Bath </span>
+                                    <span *ngIf="parameter.lead?.selected_properties[0]?.property?.configuration.half_bathroom!=0">&middot; {{parameter.lead?.selected_properties[0]?.property?.configuration.half_bathroom}} Half </span>
                                 </p>
-                                <p class="p12 marginB0"><strong>{{parameter.lead?.selected_properties[0]?.property?.building?.name}}</strong></p>
-                                <p class="p11"><i>{{parameter.lead?.selected_properties[0]?.property?.building?.developer?.name}}</i></p>
+                                <p title="Building" class="p12 marginB0"><strong>{{parameter.lead?.selected_properties[0]?.property?.building?.name}}</strong></p>
+                                <p title="Developer" class="p11"><i>{{parameter.lead?.selected_properties[0]?.property?.building?.developer?.name | titlecase}}</i></p>
+                                <p class="marginB0" *ngIf="parameter.lead?.selected_properties?.length!=0">
+                                    <a class="view-all-2" href="javascript://" (click)="viewPropertyDetails(parameter.lead?.selected_properties[0])"> View Property</a>
+                                </p>
                             </td>
-                            <td *ngIf="parameter?.lead?.selected_properties?.length!=0">
-                                <a class="view-all-2" href="javascript://" (click)="viewPropertyDetails(parameter?.lead?.selected_properties[0])"> View Property</a>
-                            </td>
-                            <td *ngIf="parameter?.lead?.selected_properties?.length==0">NA</td>
+                            <!-- <td *ngIf="parameter.lead?.selected_properties?.length!=0">
+                                <a class="view-all-2" href="javascript://" (click)="viewPropertyDetails(parameter.lead?.selected_properties[0])"> View Property</a>
+                            </td> -->
                         </tr>
                         
                         <!-- My Availabilities -->
