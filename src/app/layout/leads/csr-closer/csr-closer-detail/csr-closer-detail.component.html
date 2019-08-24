@@ -285,16 +285,16 @@
             <div class="cust-tabs-4">
                 <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.user_buyer}" (click)="getLeadConversation(constant.userType.user_buyer)" class="nav-link">Buyer</a>
+                    <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.user_buyer}" (click)="getLeadConversation(constant.userType.user_buyer, true)" class="nav-link">Buyer</a>
                 </li>
                 <li class="nav-item">
-                    <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.user_seller_dev}" (click)="getLeadConversation(constant.userType.user_seller_dev)" class="nav-link">Seller</a>
+                    <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.user_seller_dev}" (click)="getLeadConversation(constant.userType.user_seller_dev, true)" class="nav-link">Seller</a>
                 </li>
                 <li class="nav-item" *ngIf="selectedProperties.noataries && selectedProperties.noataries.length!=0 && leadData?.sale_rent==1">
-                    <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.notary}" (click)="getLeadConversation(constant.userType.notary)" class="nav-link">Notary</a>
+                    <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.notary}" (click)="getLeadConversation(constant.userType.notary, true)" class="nav-link">Notary</a>
                 </li>
                 <li class="nav-item" *ngIf="selectedProperties.banks && selectedProperties.banks.length!=0 && leadData?.sale_rent==1">
-                    <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.bank}" (click)="getLeadConversation(constant.userType.bank)" class="nav-link">Bank</a>
+                    <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.bank}" (click)="getLeadConversation(constant.userType.bank, true)" class="nav-link">Bank</a>
                 </li>
                 </ul>
                 

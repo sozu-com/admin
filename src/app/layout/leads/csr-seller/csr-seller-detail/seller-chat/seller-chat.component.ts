@@ -444,7 +444,21 @@ export class SellerChatComponent implements OnInit {
 
   sendProperty(property) {
     const model = new Chat;
-    model.message = property.configuration.name + ' in ' + property.building.name;
+    model.message = property.name + ' with ';
+    if (property.configuration.bedroom) {
+      model.message += property.configuration.bedroom + ' Bed ';
+    }
+    if (property.configuration.bathroom) {
+      model.message += '<span>&#183;</span>' + property.configuration.bathroom + ' Bath';
+    }
+    if (property.configuration.half_bathroom) {
+      model.message += '<span>&#183;</span>' + property.configuration.half_bathroom + ' Half Bath';
+    }
+    if (property.property_type.name) {
+      model.message += '<span>&#183;</span>' + property.property_type.name;
+    }
+    model.message += ' in ' + property.building.name;
+
     model.message_type = 5;
     model.property_id = property.id;
     model.image = property.image;

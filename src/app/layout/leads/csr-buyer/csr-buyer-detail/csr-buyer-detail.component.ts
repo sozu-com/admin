@@ -162,7 +162,7 @@ export class CsrBuyerDetailComponent implements OnInit {
     this.appointment.lead_id = this.parameter.lead_id;
     this.appointment.property_id = this.leadData.selected_properties[0] && this.leadData.selected_properties[0].property_id ?
                 this.leadData.selected_properties[0].property_id : '';
-    this.appointment.sent_as = this.constant.userType.inhouse_broker;
+    this.appointment.sent_as = this.constant.userType.csr_buyer;
     this.modalOpen.nativeElement.click();
   }
 

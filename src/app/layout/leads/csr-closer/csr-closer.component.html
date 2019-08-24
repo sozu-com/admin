@@ -305,9 +305,14 @@
                             <div class="searh-3"></div>
                         </div>
                     </th>
-                    <th style="width:10%">
+                    <th style="width:5%">
                         <div class="table-search">
                             <label>Property For</label>
+                        </div>
+                    </th>
+                    <th style="width:5%">
+                        <div class="table-search">
+                            <label>Lead Status</label>
                         </div>
                     </th>
                     <!-- <th style="width:14%">
@@ -350,6 +355,9 @@
                         {{item.closer.name | titlecase}}
                     </td>
                     <td class="text-left" *ngIf="item.sale_rent">{{item.sale_rent==1 ? 'Buy' : 'Rent'}}</td>
+                    <td class="text-left" title="CSR Closer">
+                        Lead Status
+                    </td>
                     <!-- <td>
                         <a href="javascript://" title="View Details" routerLink="/dashboard/leads/csr-closers/{{item.id}}" class="icon-block edit-icon"><img src="assets/img/viewfull.png" alt="img"></a>
                     </td> -->

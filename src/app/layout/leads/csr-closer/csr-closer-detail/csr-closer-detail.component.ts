@@ -159,7 +159,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
           r.data.lead.selected_properties[0].selected_noatary[0].noatary : [];
         this.chat_bank = r.data.lead.selected_properties[0].banks ? r.data.lead.selected_properties[0].banks[0] : [];
 
-        // this.getLeadConversation(this.constant.userType.user_buyer);
+        this.getLeadConversation(this.constant.userType.user_buyer, false);
         // this.chat_bank = r.data.lead.banks[0];
 
         // this.lead.all_documents.map(item=>{
@@ -688,7 +688,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  getLeadConversation(admin_sent_as) {
+  getLeadConversation(admin_sent_as, showLoader: boolean) {
     this.chat_admin_sent_as = admin_sent_as;
     if (admin_sent_as === this.constant.userType.user_buyer) {
       this.chat_admin = this.chat_buyer;
@@ -709,7 +709,9 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       sent_as: this.constant.userType.csr_closer
     };
 
-    this.spinner.show();
+    if (showLoader) {
+      this.spinner.show();
+    }
     this.admin.postDataApi('conversation/getLeadConversation', data).subscribe(r => {
       this.spinner.hide();
       if (r['data']) {
@@ -743,7 +745,21 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
 
   sendProperty(property) {
     const model = new Chat;
-    model.message = property.configuration.name + ' in ' + property.building.name;
+    model.message = property.name + ' with ';
+    if (property.configuration.bedroom) {
+      model.message += property.configuration.bedroom + ' Bed ';
+    }
+    if (property.configuration.bathroom) {
+      model.message += '<span>&#183;</span>' + property.configuration.bathroom + ' Bath';
+    }
+    if (property.configuration.half_bathroom) {
+      model.message += '<span>&#183;</span>' + property.configuration.half_bathroom + ' Half Bath';
+    }
+    if (property.property_type.name) {
+      model.message += '<span>&#183;</span>' + property.property_type.name;
+    }
+    model.message += ' in ' + property.building.name;
+
     model.message_type = 5;
     model.property_id = property.id;
     model.image = property.image;
