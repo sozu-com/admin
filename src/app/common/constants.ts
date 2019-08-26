@@ -14,6 +14,7 @@ export class Constant {
     public fileSizeLimit = 25000000; // 25MB
     public steps = 1000;
     public zoom = 16;
+    public middleDot = ' · ';
     public months = [
         {id: 1, name: 'JAN'},
         {id: 2, name: 'FEB'},

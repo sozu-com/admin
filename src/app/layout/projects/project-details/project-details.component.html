@@ -14,7 +14,7 @@
              <p class="p18">{{project.address}}</p>
           </div>
           {{fixed}}
-          <div class="col-md-6 col-12">
+          <!-- <div class="col-md-6 col-12">
              <div class="header-details-right text-right">
                 <p class="p18">
                   <span>{{ts.lang.Base_Price}}:</span>
@@ -24,10 +24,9 @@
                 </p>
                 <p class="p16">{{ts.lang.Price_on_Request}}</p>
                 <div class="btn-cont float-right">
-                  <!-- <a [ngx-scroll-to]="'#bottomDetails'" class="btn btn-primary btn-lg" href="javascript://">Contact Developer</a> -->
                 </div>
              </div>
-          </div>
+          </div> -->
        </div>
     </div>
     <div class="details-photos">
@@ -50,6 +49,12 @@
        <div class="row">
           <div class="col-md-3 col-sm-6 col-12 img-c">
              <div class="block">
+                <p class="p18">{{project?.building_towers?.length}} Tower - {{project?.properties_count > 1 ? project?.properties_count+' Units' : project?.properties_count+' Unit'}}</p>
+                <p class="p13">Project Size</p>
+             </div>
+          </div>
+          <div class="col-md-3 col-sm-6 col-12 img-c">
+             <div class="block">
                 <p class="p18">{{project.starting_price| number}}</p>
                 <p class="p13">{{ts.lang.Min_Price_per_Sq_feet}}</p>
              </div>
@@ -62,17 +67,17 @@
           </div>
           <div class="col-md-3 col-sm-6 col-12 img-c">
              <div class="block">
-                <p *ngIf="project.launch_date"class="p18">{{project.launch_date| date:"d MMM y"}}</p>
+                <p *ngIf="project.launch_date"class="p18">{{project.launch_date| date:"d MMM, y"}}</p>
                 <p *ngIf="!project.launch_date" class="p18">{{ts.lang.Not_available}}</p>
                 <p class="p13">{{ts.lang.Possession_Date}}</p>
              </div>
           </div>
-          <div class="col-md-3 col-sm-6 col-12 img-c">
+          <!-- <div class="col-md-3 col-sm-6 col-12 img-c">
              <div *ngIf="configuration" class="block">
                 <p class="p18">{{carpet_area_string}}</p>
                 <p class="p13">{{ts.lang.Carpet_Area}} <i><img src="assets/img/info.png" alt="img"></i></p>
              </div>
-          </div>
+          </div> -->
        </div>
     </div>
  </div>

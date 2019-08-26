@@ -384,9 +384,10 @@ export class PropertiesComponent implements OnInit {
     this.rejectModalOpen.nativeElement.click();
   }
 
-  changeStatusPopUp(property_id: any, user_id: any, status: number, type: string) {
+  changeStatusPopUp(property_id: any, user_id: any, name: string, status: number, type: string) {
     this.parameter.property_id = property_id;
     this.parameter.user_id = user_id;
+    this.parameter.fullName = name;
     this.parameter.status = status;
     this.parameter.title = this.constant.title.ARE_YOU_SURE;
     if (type === 'request') {
@@ -420,6 +421,7 @@ export class PropertiesComponent implements OnInit {
       if (this.parameter.status === 1) {
         this.parameter.seller_id = this.parameter.user_id;
         this.items[this.parameter.index].selected_seller_id = this.parameter.user_id;
+        this.items[this.parameter.index].selected_seller.user.name = this.parameter.fullName;
       }
       // const text = this.parameter.status === 1 ? 'accepted' : 'rejected';
       swal('Success', 'Done successfully.', 'success');

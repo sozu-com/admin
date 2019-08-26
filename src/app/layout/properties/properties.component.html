@@ -312,7 +312,7 @@
                                  <a href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by==3 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a>
                               </div>
                            </th>
-                           <th style="width:5%;vertical-align:top;">
+                           <th style="width:5%;vertical-align:top;" *ngIf="parameter.flag==5">
                               <div class="d-flex table-search">
                                  <label>View Seller's <br> Request</label>
                               </div>
@@ -360,7 +360,7 @@
                               </span></td>
                               <td><span>{{p.lead_properties_count}}</span></td>
                               
-                              <td class="cursor-pointer" title="View Seller's Request" (click)="showAllSellers(p?.id, i)">
+                              <td *ngIf="parameter.flag==5" class="cursor-pointer" title="View Seller's Request" (click)="showAllSellers(p?.id, i)">
                                  <span class="green-color"><span>View</span></span>
                               </td>
                               
@@ -474,7 +474,7 @@
                            </div>
                         </td>
                         <td>
-                           <button *ngIf="parameter.seller_id!=item.id" (click)="changeStatusPopUp(parameter.property_id, item.id, 1, 'link')" class="action-icon" title="Accept Request">
+                           <button *ngIf="parameter.seller_id!=item.id" (click)="changeStatusPopUp(parameter.property_id, item.id, item.name, 1, 'link')" class="action-icon" title="Accept Request">
                               <img src="assets/img/green-icon.png" alt="img"></button>
                            <button *ngIf="parameter.seller_id==item.id" (click)="showRejectSellerRequestModal(parameter.property_id, item.id, 2)" class="action-icon" title="Reject Request">
                                  <img src="assets/img/ic_disapprove.png" alt="img"></button>
@@ -513,7 +513,7 @@
                <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
                   <table class="table">
                      <tr *ngFor="let item of allSellers">
-                        <td *ngIf="item?.user?.is_blocked!=1">
+                        <td *ngIf="item?.user && item?.user?.is_blocked!=1">
                            <div class="n-avail-profile">
                            <img *ngIf="item?.user?.image" onerror='src="assets/img/default_img.png"' alt="img"
                               [defaultImage]="item?.user?.image| img:'thumb'" [lazyLoad]="item?.user?.image">
@@ -525,8 +525,8 @@
                            </div>
                            </div>
                         </td>
-                        <td *ngIf="item.is_blocked!=1">
-                           <button (click)="changeStatusPopUp(item.property_id, item.user_id, 1, 'request')" class="action-icon" title="Accept Request">
+                        <td *ngIf="item?.user && item?.user?.is_blocked!=1">
+                           <button (click)="changeStatusPopUp(item.property_id, item.user_id, item.user.name, 1, 'request')" class="action-icon" title="Accept Request">
                               <img src="assets/img/green-icon.png" alt="img"></button>
                            <button (click)="showRejectSellerRequestModal(item.property_id, item.user_id, 2)" class="action-icon" title="Reject Request">
                                  <img src="assets/img/ic_disapprove.png" alt="img"></button>

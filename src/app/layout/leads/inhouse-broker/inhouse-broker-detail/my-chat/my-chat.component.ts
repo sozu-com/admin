@@ -437,13 +437,13 @@ export class MyChatComponent implements OnInit {
       model.message += property.configuration.bedroom + ' Bed ';
     }
     if (property.configuration.bathroom) {
-      model.message += '<span>&#183;</span>' + property.configuration.bathroom + ' Bath';
+      model.message += this.constant.middleDot + property.configuration.bathroom + ' Bath';
     }
     if (property.configuration.half_bathroom) {
-      model.message += '<span>&#183;</span>' + property.configuration.half_bathroom + ' Half Bath';
+      model.message += this.constant.middleDot + property.configuration.half_bathroom + ' Half Bath';
     }
     if (property.property_type.name) {
-      model.message += '<span>&#183;</span>' + property.property_type.name;
+      model.message += this.constant.middleDot + property.property_type.name;
     }
     model.message += ' in ' + property.building.name;
 
