@@ -109,9 +109,9 @@ export class MyChatComponent implements OnInit {
         });
       }
     });
-    setTimeout(() => {
-    this.msgInput1.nativeElement.focus();
-    }, 1000);
+    // setTimeout(() => {
+    // this.msgInput1.nativeElement.focus();
+    // }, 1000);
   }
 
   selectConversation(conversation) {

@@ -106,7 +106,7 @@ export class ChatTabsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.msgInput.nativeElement.focus();
+    // this.msgInput.nativeElement.focus();
     this.model = new Chat();
     this.selectedProperties = new SelectedProperties();
     this.property = new AddPropertyModel();

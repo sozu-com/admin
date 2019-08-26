@@ -126,7 +126,12 @@
         <div *ngIf="selectedUser as item" class="sigle-row-table">
         <table class="table table-striped">
         <tbody><tr>
-            <td><img class="rounded-circle" [src]="item.image| img:'small'" onerror='this.src="assets/img/default_img.png"' alt="img"></td>
+            <td>
+                <!-- <img class="rounded-circle" [src]="item.image| img:'small'" onerror='this.src="assets/img/default_img.png"' alt="img"> -->
+                <img *ngIf="item.image" class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img"
+                              [defaultImage]="item.image| img:'thumb'" [lazyLoad]="item.image">
+                <img *ngIf="!item.image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
+            </td>
             <td class="text-left">
                 <span class="name">{{item.name | titlecase}}</span>
             </td>
@@ -335,8 +340,9 @@
                     <!-- <i class="fa" [ngClass]="item.selected?'fa-check-square-o':'fa-square-o'" (click)="item.selected = !item.selected" aria-hidden="true"></i> -->
                 </td>
                 <td routerLink="{{item.id}}">
-                    <img *ngIf="item.image" class="rounded-circle" [src]="item.image" alt="img">
-                    <img *ngIf="!item.image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
+                    <img class="rounded-circle" *ngIf="item.image" onerror='src="assets/img/default_img.png"' alt="img"
+                              [defaultImage]="item.image| img:'thumb'" [lazyLoad]="item.image">
+                    <img class="rounded-circle" *ngIf="!item.image" src="assets/img/default_img.png" alt="img">
                 </td>
                 <td class="text-left" routerLink="{{item.id}}">
                   <span class="name">{{item.name | titlecase}}</span>
@@ -421,7 +427,10 @@
                         <tr *ngFor="let item of assign.items">
                             <td *ngIf="item.is_blocked!=1">
                                 <div class="n-avail-profile">
-                                <img [src]="item.image" onerror='src="assets/img/default_img.png"' alt="img">
+                                <!-- <img [src]="item.image" onerror='src="assets/img/default_img.png"' alt="img"> -->
+                                <img *ngIf="item.image" onerror='src="assets/img/default_img.png"' alt="img"
+                                    [defaultImage]="item.image| img:'thumb'" [lazyLoad]="item.image">
+                                <img *ngIf="!item.image" src="assets/img/default_img.png" alt="img">
                                 <div class="n-avail-info">
                                     <p class="p12">{{item.name | titlecase}}</p>
                                     <p class="p10">Phone : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>

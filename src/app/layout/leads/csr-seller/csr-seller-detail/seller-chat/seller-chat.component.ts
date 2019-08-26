@@ -77,7 +77,7 @@ export class SellerChatComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.msgInput.nativeElement.focus();
+    // this.msgInput.nativeElement.focus();
     this.loginData$$ = this.admin.loginData$.subscribe(success => {
       this.admin_id = success['id'];
     });

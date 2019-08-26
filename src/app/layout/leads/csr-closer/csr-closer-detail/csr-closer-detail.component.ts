@@ -117,7 +117,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.msgInput.nativeElement.focus();
+    // this.msgInput.nativeElement.focus();
     this.keyword = '';
     this.leadData = new Leads();
     this.leadData.selected_properties = [new SelectedProperties()];

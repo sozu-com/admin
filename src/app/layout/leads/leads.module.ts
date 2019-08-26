@@ -8,6 +8,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 import { NouisliderModule } from 'ng2-nouislider';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 import { RemoveCommaPipe } from './../../pipes/remove-comma.pipe';
 import { LeadsComponent } from './leads.component';
@@ -137,6 +138,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     Ng2TelInputModule,
     MalihuScrollbarModule.forRoot(),
+    LazyLoadImageModule,
     NouisliderModule,
     NgMultiSelectDropDownModule.forRoot(),
     NgxChartsModule,

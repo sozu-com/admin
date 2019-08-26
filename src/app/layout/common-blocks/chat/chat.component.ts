@@ -51,7 +51,7 @@ export class ChatComponent implements OnInit {
     // this.admin.loginData$.subscribe(success => {
     //   this.model.conversation_user = {admin_id: success['id']};
     // });
-    this.msgInput.nativeElement.focus();
+    // this.msgInput.nativeElement.focus();
     this.parameter.messages = [];
     setTimeout(() => {
       const input = {lead_id: this.lead_id, user_id: this.user_id, sent_as: this.sent_as};
