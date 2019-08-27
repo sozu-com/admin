@@ -13,6 +13,7 @@ import { BlockGetPropertyComponent } from '../layout/common-blocks/block-get-pro
 import { ImgPipe } from '../pipes/img.pipe';
 import { NumberWithCommasPipe } from '../pipes/number-with-commas.pipe';
 import { ChatTabsComponent } from '../layout/common-blocks/chat-tabs/chat-tabs.component';
+import { PricePipe } from '../pipes/price.pipe';
 
 @NgModule({
   imports: [
@@ -32,7 +33,8 @@ import { ChatTabsComponent } from '../layout/common-blocks/chat-tabs/chat-tabs.c
     ThousandPipe,
     ImgPipe,
     BlockGetPropertyComponent,
-    NumberWithCommasPipe
+    NumberWithCommasPipe,
+    PricePipe
   ],
   exports: [
     ChatComponent,
@@ -43,7 +45,8 @@ import { ChatTabsComponent } from '../layout/common-blocks/chat-tabs/chat-tabs.c
     ThousandPipe,
     ImgPipe,
     BlockGetPropertyComponent,
-    NumberWithCommasPipe
+    NumberWithCommasPipe,
+    PricePipe
   ]
 })
 export class SharedModule { }

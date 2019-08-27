@@ -71,7 +71,10 @@
               </td>
               <td class="text-left" *ngIf="item.phone">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
               <td class="text-left" *ngIf="!item.phone">NA</td>
-              <td class="text-left">{{item.buildings_count}}</td>
+              <td class="text-left">
+                <a title="Click to view Buildings" routerLink="/dashboard/projects/view-projects/developer/{{item.id}}">
+                  <span class="green-color">{{item.buildings_count}}</span></a>
+              </td>
               <td>
                 <div class="table-actions">
                     <!-- <a *ngIf="admin?.admin_acl['Notary Lead Management']?.can_read==1" title="View Leads" href="javascript://"

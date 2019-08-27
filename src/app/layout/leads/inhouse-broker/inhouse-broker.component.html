@@ -302,11 +302,6 @@
                                     <label>Change Property For</label>
                                 </div>
                             </th>
-                            <th style="width:10%">
-                                <div class="table-search">
-                                    <label>Lead Status</label>
-                                </div>
-                            </th>
                             <!-- <th style="width:4%"></th> -->
                         </tr>
                         <tr class="cursor-pointer" title="Click to view details" *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let in=index"
@@ -333,7 +328,7 @@
                                 <!-- {{conf.name}} -->
                                 <span *ngIf="conf.bedroom!=0">{{conf.bedroom}} Bed </span>
                                 <span *ngIf="conf.bathroom!=0">&middot; {{conf?.bathroom}} Bath </span>
-                                <span *ngIf="conf.half_bathroom!=0">&middot; {{conf.half_bathroom}} Half </span>
+                                <span *ngIf="conf.half_bathroom!=0">&middot; {{conf.half_bathroom}} Half Bath </span>
                                 <span *ngIf="ii<item?.configuration?.length-1"> | </span> <br>
                             </span>
                             <span *ngIf="item.configuration?.length==0">NA</span>
@@ -348,9 +343,6 @@
                             <a *ngIf="admin?.admin_acl['Broker Lead Management']?.can_update==1" class="green-color fontW500" (click)="updateLeadType($event, item.sale_rent==1?'2':'1', item.id, in)" href="javascript://">
                                 Change to {{item.sale_rent==1 ? 'Rent' : 'Buy'}}
                             </a>
-                        </td>
-                        <td class="text-left">
-                            <span class="name">Lead Status</span>
                         </td>
                         <!-- <td>
                             <a href="javascript://" title="View Details" routerLink="/dashboard/leads/inhouse-broker/{{item.id}}" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>

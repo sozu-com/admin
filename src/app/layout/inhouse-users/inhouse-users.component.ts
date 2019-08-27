@@ -23,9 +23,6 @@ declare const google;
 
 export class InhouseUsersComponent implements OnInit {
 
-  // @ViewChild('mapDiv') mapDiv: ElementRef;
-  // @ViewChild('search2') searchElementRef: ElementRef;
-  // @ViewChild('search1') search1ElementRef: ElementRef;
   @ViewChild('inhouseUserModalOpen') inhouseUserModalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('viewModalOpen') viewModalOpen: ElementRef;
@@ -53,7 +50,6 @@ export class InhouseUsersComponent implements OnInit {
     public model: UserModel, private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
     public admin: AdminService, private router: Router,
-    private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone) {
     this.admin.countryData$.subscribe(success => {
       this.parameter.allCountry = success;
@@ -78,6 +74,7 @@ export class InhouseUsersComponent implements OnInit {
       this.getCountries();
       this.getInhouseUsers();
       if (this.parameter.userType === 'inhouse-broker' || this.parameter.userType === 'outside-broker') {
+        this.property_sort = null;
         this.getAllAgencies();
       }
       this.initialCountry = { initialCountry: this.constant.initialCountry };
@@ -549,12 +546,12 @@ export class InhouseUsersComponent implements OnInit {
   }
 
   setLeadSort() {
-    this.lead_sort = this.lead_sort === 1 ? 2 : 1;
+    this.lead_sort = this.lead_sort === 2 ? 1 : 2;
     this.property_sort = null;
     this.getInhouseUsers();
   }
   setPropertiesSort() {
-    this.property_sort = this.property_sort === 1 ? 2 : 1;
+    this.property_sort = this.property_sort === 2 ? 1 : 2;
     this.lead_sort = null;
     this.getInhouseUsers();
   }

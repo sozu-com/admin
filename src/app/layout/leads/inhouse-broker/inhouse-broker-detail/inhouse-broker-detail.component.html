@@ -105,7 +105,7 @@
                        <!-- {{conf.name}} -->
                        <span *ngIf="conf.bedroom!=0">{{conf.bedroom}} Bed </span>
                         <span *ngIf="conf.bathroom!=0">&middot; {{conf?.bathroom}} Bath </span>
-                        <span *ngIf="conf.half_bathroom!=0">&middot; {{conf.half_bathroom}} Half </span>
+                        <span *ngIf="conf.half_bathroom!=0">&middot; {{conf.half_bathroom}} Half Bath </span>
                         <span *ngIf="ii<leadData?.configuration?.length-1"> | </span> <br>
                      </span>
                      <span *ngIf="leadData.configuration?.length==0">NA</span>
@@ -113,9 +113,9 @@
                 </tr>
                 <tr>
                    <td style="padding-left:0"><label>Favorite Projects</label></td>
-                   <td>{{parameter.favorites?.length}} 
+                   <td>{{parameter.fav_properties_count}} 
                       <a style="display: none;" data-toggle="modal" #showPropertyModal data-target="#view-fav-property" class="view-all" href="javascript://">View All</a>
-                      <a *ngIf="parameter.favorites?.length!=0" class="view-all" href="javascript://" (click)="viewFavProperties()">View All</a>
+                      <a *ngIf="parameter.fav_properties_count" class="view-all" href="javascript://" (click)="viewFavProperties()">View All</a>
                     </td>
                 </tr>
 
@@ -223,7 +223,7 @@
             <div class="row">
               <div class="col-lg-6 col-md-12 col-sm-12 col-12" *ngFor="let x of parameter.favorites">
                   <div class="project-des-bx white-bg-2">
-                      <div class="price">${{x.min_price}}</div>
+                      <div class="price">{{x.min_price|price}}</div>
                     <div class="fig-block">
                         <img [src]="x.image" onerror='src="assets/img/bank.png"' alt="img">
                     </div>
@@ -236,8 +236,8 @@
                         <p class="p13" *ngIf="x">
                             <span *ngIf="x.configuration.bedroom!=0">{{x.configuration.bedroom}} Bed </span>
                             <span *ngIf="x.configuration.bathroom!=0">&middot; {{x.configuration?.bathroom}} Bath </span>
-                            <span *ngIf="x.configuration.half_bathroom!=0">&middot; {{x.configuration.half_bathroom}} Half </span> |
-                            <span>{{x.property_type.name}} </span>
+                            <span *ngIf="x.configuration.half_bathroom!=0">&middot; {{x.configuration.half_bathroom}} Half Bath </span>
+                            <span>&middot; {{x.property_type.name}} </span>
                         </p>
                         <p class="p13" *ngIf="x">{{x.for_sale==1 ? 'Buy': 'Rent'}}</p>
                         <!-- <p class="p13" *ngIf="x">{{x.property_type.name}}</p>

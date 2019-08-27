@@ -57,12 +57,16 @@
                 </div>
               </th>
               <th style="width:7%; vertical-align: top;">
-                <label>Linked Properties</label>
-                <a (click)="sortData(model.property_sort==1?2:1, 'property_sort')" href="javascript://"><img [ngClass]="{'upsidedown':model.property_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
+                  <div class="table-search">
+                <label>Linked Agent</label>
+                <a (click)="sortData(model.agent_sort==2?1:2, 'agent_sort')" href="javascript://"><img [ngClass]="{'upsidedown':model.agent_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
+                </div>
               </th>
               <th style="width:7%; vertical-align: top;">
-                <label>Linked Agent</label>
-                <a (click)="sortData(model.agent_sort==1?2:1, 'agent_sort')" href="javascript://"><img [ngClass]="{'upsidedown':model.agent_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
+                <div class="table-search">
+                <label>Linked Properties</label>
+                <a (click)="sortData(model.property_sort==2?1:2, 'property_sort')" href="javascript://"><img [ngClass]="{'upsidedown':model.property_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
+                  </div>
               </th>
               <th style="width:20%">
                 &nbsp;
@@ -82,8 +86,8 @@
               <td class="text-left" *ngIf="item.phone">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
               <td class="text-left" *ngIf="!item.phone">NA</td>
               <td class="text-left">{{item.email}}</td>
-              <td class="text-left">{{item.property_count}}</td>
               <td class="text-left">{{item.agents_count}}</td>
+              <td class="text-left">{{item.property_count}}</td>
               <td>
                 <div class="table-actions">
                   <button title="Edit Details" [disabled]="admin?.admin_acl['Developers Management']?.can_update==0" (click)="editUser(item)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>

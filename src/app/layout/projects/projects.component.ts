@@ -25,9 +25,6 @@ export class ProjectsComponent implements OnInit {
   configurations: any = [];
   countries: any;
   reason: string;
-  price_sort = 1;
-  availability_sort = 1;
-  lead_sort = 1;
 
   constructor(
     public constant: Constant,
@@ -39,14 +36,21 @@ export class ProjectsComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.parameter.data_collector_id = params.id;
+      this.parameter.userType = params.type;
+      this.parameter.id = params.id;
     });
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.parameter.dash_flag = 2;
+    this.parameter.property_sort = 2;
     this.parameter.possession_filter = 0; // 0-all, 9-presale, 8-sale
     this.getCountries();
     // this.getPropertyConfigurations();
+    this.getListing();
+  }
+
+  sortData(value: number) {
+    this.parameter.property_sort = value;
     this.getListing();
   }
 
@@ -62,6 +66,12 @@ export class ProjectsComponent implements OnInit {
       input.max = moment(this.parameter.max).format('YYYY-MM-DD');
     } else {
       delete input.max;
+    }
+    if (this.parameter.userType === 'developer') {
+      input.developer_id = this.parameter.id;
+    }
+    if (this.parameter.userType === 'data-collector') {
+      input.data_collector_id = this.parameter.id;
     }
     this.admin.postDataApi('projectHome', input).subscribe(
       success => {

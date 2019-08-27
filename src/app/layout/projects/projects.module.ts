@@ -18,7 +18,6 @@ import { SharedModule } from '../../modules/shared.module';
 import { NumberexPipe } from '../../pipes/numberex.pipe';
 import { CalendarModule } from 'primeng/primeng';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
-// import { ImgPipe } from '../../pipes/img.pipe';
 
 
 const routes: Routes = [
@@ -26,8 +25,10 @@ const routes: Routes = [
     canActivate: [AclUserGuard], data: {roles: ['Building Management', 'can_read', '']}},
   { path: 'view-projects', component: ProjectsComponent,
     canActivate: [AclUserGuard], data: {roles: ['Building Management', 'can_read', '']}},
-  { path: 'view-projects/:id', component: ProjectsComponent,
+  { path: 'view-projects/:type/:id', component: ProjectsComponent,
     canActivate: [AclUserGuard], data: {roles: ['Building Management', 'can_read', '']}},
+  // { path: 'view-projects/:developer_id', component: ProjectsComponent,
+  //     canActivate: [AclUserGuard], data: {roles: ['Building Management', 'can_read', '']}},
   { path: 'add-project', component: AddProjectComponent,
     canActivate: [AclUserGuard], data: {roles: ['Building Management', 'can_create', '']}},
   { path: 'edit-project/:id', component: AddProjectComponent,

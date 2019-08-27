@@ -26,7 +26,7 @@ export class AgenciesComponent implements OnInit {
   ngOnInit() {
     this.label = 'Choose Agencies File';
     this.model = new Agency();
-    this.model.property_sort = 2; // desc
+    this.model.property_sort = null; // desc
     this.model.agent_sort = 2; // desc
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;

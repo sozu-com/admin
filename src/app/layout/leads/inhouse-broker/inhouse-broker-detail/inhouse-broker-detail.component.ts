@@ -77,6 +77,7 @@ export class InhouseBrokerDetailComponent implements OnInit {
 
         }
         this.parameter.favorites = r.data.favorites;
+        this.parameter.fav_properties_count = r.data.fav_properties_count;
         this.parameter.interested_properties = r.data.interested_properties;
         this.is_deal_finalised = this.leadData.selected_properties.length !== 0 ? true : false;
         this.parameter.viewed_properties = r.data.viewed_properties;

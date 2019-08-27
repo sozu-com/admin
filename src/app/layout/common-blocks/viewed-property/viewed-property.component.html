@@ -44,13 +44,13 @@
           <span *ngIf="data.configuration.bathroom!=0">&middot; {{data.configuration?.bathroom}} Bath
           </span>
           <span *ngIf="data.configuration.half_bathroom!=0">&middot;
-            {{data.configuration.half_bathroom}} Half </span> |
-          <span>{{data.property_type.name}}</span>
+            {{data.configuration.half_bathroom}} Half Bath </span>
+          <span>&middot; {{data.property_type.name}}</span>
         </p>
         <!-- <p class="p13" title="Configuration" *ngIf="!data">NA</p> -->
         <!-- <p class="p13" title="Property Type" *ngIf="data">{{data.property_type.name}}</p> -->
         <p class="p13" title="Type"><strong>
-            $ {{data.min_price|number}}</strong></p>
+            {{data.min_price|price}}</strong></p>
       </div>
     </div>
 
@@ -101,13 +101,13 @@
                     <span *ngIf="x.configuration.bathroom!=0">&middot; {{x.configuration?.bathroom}} Bath
                     </span>
                     <span *ngIf="x.configuration.half_bathroom!=0">&middot;
-                      {{x.configuration.half_bathroom}} Half </span> |
-                    <span>{{x.property_type.name}}</span>
+                      {{x.configuration.half_bathroom}} Half Bath </span>
+                    <span>&middot; {{x.property_type.name}}</span>
                   </p>
                   <!-- <p class="p13" *ngIf="!x">NA</p>
                         <p class="p13" *ngIf="x">{{x.property_type.name}}</p> -->
                   <p class="p13" *ngIf="x">
-                    $ {{x.min_price|number}}</p>
+                    {{x.min_price|price}}</p>
                 </div>
               </div>
             </div>

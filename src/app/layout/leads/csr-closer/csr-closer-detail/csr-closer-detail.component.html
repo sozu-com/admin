@@ -87,7 +87,7 @@
                         <span *ngFor="let conf of leadData?.configuration; let ii=index">
                             <span *ngIf="conf.bedroom!=0">{{conf.bedroom}} Bed </span>
                             <span *ngIf="conf.bathroom!=0">&middot; {{conf?.bathroom}} Bath </span>
-                            <span *ngIf="conf.half_bathroom!=0">&middot; {{conf.half_bathroom}} Half </span>
+                            <span *ngIf="conf.half_bathroom!=0">&middot; {{conf.half_bathroom}} Half Bath </span>
 
                             <span *ngIf="ii<leadData?.configuration?.length-1"> | </span><br>
                         </span>
@@ -101,7 +101,7 @@
                             <!-- {{leadData?.selected_properties[0]?.property?.configuration.name}} -->
                             <span *ngIf="leadData?.selected_properties[0]?.property?.configuration.bedroom!=0">{{leadData?.selected_properties[0]?.property?.configuration.bedroom}} Bed </span>
                             <span *ngIf="leadData?.selected_properties[0]?.property?.configuration.bathroom!=0">&middot; {{leadData?.selected_properties[0]?.property?.configuration?.bathroom}} Bath </span>
-                            <span *ngIf="leadData?.selected_properties[0]?.property?.configuration.half_bathroom!=0">&middot; {{leadData?.selected_properties[0]?.property?.configuration.half_bathroom}} Half </span>
+                            <span *ngIf="leadData?.selected_properties[0]?.property?.configuration.half_bathroom!=0">&middot; {{leadData?.selected_properties[0]?.property?.configuration.half_bathroom}} Half Bath </span>
                         </p>
                         <p title="Building" class="p12 marginB0"><strong>{{leadData?.selected_properties[0]?.property?.building?.name}}</strong></p>
                         <p title="Developer" class="p11"><i>{{leadData?.selected_properties[0]?.property?.building?.developer?.name | titlecase}}</i></p>
@@ -316,7 +316,7 @@
                         </a>
                     </div>
                     <div malihu-scrollbar [scrollbarOptions]="scrollbarOptions" class="chat-area scrollbox" #chatWin>
-                        <div *ngFor="let m of messages; let i=index" [ngClass]="m.conversation_user.admin_id == admin_id ? 'chat-user-one' :'chat-user-two'" class="chat-user">
+                        <div *ngFor="let m of messages; let i=index" [ngClass]="m.conversation_user.admin_id == parameter.admin_id ? 'chat-user-one' :'chat-user-two'" class="chat-user">
                             <p *ngIf="m.message_type == 1" style="word-wrap: break-word;">
                                 <span>{{m.message}}</span>
                             </p>

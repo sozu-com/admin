@@ -61,6 +61,7 @@ export class CsrBuyerDetailComponent implements OnInit {
             // this.appointment = r.data.lead.appointments[0];
           }
           this.parameter.favorites = r.data.favorites;
+          this.parameter.fav_properties_count = r.data.fav_properties_count;
           this.setFillInformationData(this.leadData);
           this.parameter.proximity_places = r.data.lead.proximity_places;
           this.parameter.interested_properties = r.data.interested_properties;

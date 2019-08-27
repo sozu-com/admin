@@ -290,7 +290,7 @@
                                        <span *ngIf="c.status">
                                           <span *ngIf="c.bedroom!=0">{{c.bedroom}} Bed </span>
                                           <span *ngIf="c.bathroom!=0">&middot; {{c.bathroom}} Bath </span>
-                                          <span *ngIf="c.half_bathroom!=0">&middot; {{c.half_bathroom}} Half </span>
+                                          <span *ngIf="c.half_bathroom!=0">&middot; {{c.half_bathroom}} Half Bath </span>
                                        </span>
                                     </option>
                                  </select>
@@ -332,7 +332,12 @@
                                  <label>Change <br> Availability</label>
                               </div>
                            </th>
-                           <th style="width:20%;" *ngIf="parameter.flag!=5">&nbsp;</th>
+                           <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
+                              <div class="d-flex table-search">
+                                 <label>Is Property <br> Sold</label>
+                              </div>
+                           </th>
+                           <th style="width:15%;" *ngIf="parameter.flag!=5">&nbsp;</th>
                         </tr>
                   
                         <tr *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
@@ -351,9 +356,9 @@
                                  <!-- <span *ngIf="p && p.configuration">{{p.configuration?.name}}</span> -->
                                  <span *ngIf="p.configuration.bedroom!=0">{{p.configuration.bedroom}} Bed </span>
                                  <span *ngIf="p.configuration.bathroom!=0">&middot; {{p.configuration.bathroom}} Bath </span>
-                                 <span *ngIf="p.configuration.half_bathroom!=0">&middot; {{p.configuration.half_bathroom}} Half </span>
+                                 <span *ngIf="p.configuration.half_bathroom!=0">&middot; {{p.configuration.half_bathroom}} Half Bath </span>
                               </td>
-                              <td><span>{{p.min_price | number}}</span></td>
+                              <td><span>{{p.min_price | price}}</span></td>
                               <!-- <td><span>{{p.min_price | number : '1.2-2'}}</span></td> -->
                               <td><span>
                                  <button (click)="editPricePopup(p, i)" [disabled]="admin?.admin_acl['Property Management']?.can_update==0" title="Edit Price" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
@@ -381,6 +386,9 @@
                                     <option [selected]="p.for_rent==1" value="2">Rent</option>
                                     <option [selected]="p.for_hold==1" value="3">Inventory</option>
                                  </select>
+                              </td>
+                              <td *ngIf="parameter.flag!=5">
+                                 {{p?.is_property_sold ? 'Yes' : 'No'}}
                               </td>
                               <td *ngIf="parameter.flag!=5">
                               <div class="table-actions">

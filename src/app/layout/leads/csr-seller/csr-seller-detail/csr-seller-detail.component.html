@@ -123,7 +123,7 @@
                                     <!-- {{c.name}} -->
                                     <span *ngIf="c.bedroom!=0">{{c.bedroom}} Bed </span>
                                     <span *ngIf="c.bathroom!=0">&middot; {{c.bathroom}} Bath </span>
-                                    <span *ngIf="c.half_bathroom!=0">&middot; {{c.half_bathroom}} Half </span>
+                                    <span *ngIf="c.half_bathroom!=0">&middot; {{c.half_bathroom}} Half Bath </span>
                                   </option>
                                 </select>
                               </div>
@@ -178,14 +178,14 @@
                               <!-- {{p.configuration?.name}} -->
                               <span *ngIf="p.configuration?.bedroom!=0">{{p.configuration?.bedroom}} Bed </span>
                               <span *ngIf="p.configuration?.bathroom!=0">&middot; {{p.configuration?.bathroom}} Bath </span>
-                              <span *ngIf="p.configuration?.half_bathroom!=0">&middot; {{p.configuration?.half_bathroom}} Half </span>
+                              <span *ngIf="p.configuration?.half_bathroom!=0">&middot; {{p.configuration?.half_bathroom}} Half Bath </span>
                             </span></td>
                             <td><span>{{p?.building?.address ? p?.building?.address : 'NA'}}</span></td>
                             <td>
                               <span *ngIf="p.for_sale">Sell</span>
                               <span *ngIf="p.for_rent">Rent</span>
                             </td>
-                            <td><span>{{p.min_price}}</span></td>
+                            <td><span>{{p.min_price|price}}</span></td>
                             <td><span class="green-color">
                               <span *ngIf="p.for_sale">Sell</span>
                               <span *ngIf="p.for_rent">Rent</span></span>

@@ -84,7 +84,7 @@
                                 <span *ngFor="let conf of parameter?.lead?.configuration; let ii=index">
                                     <span *ngIf="conf.bedroom!=0">{{conf.bedroom}} Bed </span>
                                     <span *ngIf="conf.bathroom!=0">&middot; {{conf?.bathroom}} Bath </span>
-                                    <span *ngIf="conf.half_bathroom!=0">&middot; {{conf.half_bathroom}} Half </span>
+                                    <span *ngIf="conf.half_bathroom!=0">&middot; {{conf.half_bathroom}} Half Bath </span>
     
                                     <span *ngIf="ii<parameter?.lead?.configuration?.length-1"> | </span><br>
                                 </span>
@@ -98,7 +98,7 @@
                                     <!-- {{parameter.lead?.selected_properties[0]?.property?.configuration.name}} -->
                                     <span *ngIf="parameter.lead?.selected_properties[0]?.property?.configuration.bedroom!=0">{{parameter.lead?.selected_properties[0]?.property?.configuration.bedroom}} Bed </span>
                                     <span *ngIf="parameter.lead?.selected_properties[0]?.property?.configuration.bathroom!=0">&middot; {{parameter.lead?.selected_properties[0]?.property?.configuration?.bathroom}} Bath </span>
-                                    <span *ngIf="parameter.lead?.selected_properties[0]?.property?.configuration.half_bathroom!=0">&middot; {{parameter.lead?.selected_properties[0]?.property?.configuration.half_bathroom}} Half </span>
+                                    <span *ngIf="parameter.lead?.selected_properties[0]?.property?.configuration.half_bathroom!=0">&middot; {{parameter.lead?.selected_properties[0]?.property?.configuration.half_bathroom}} Half Bath </span>
                                 </p>
                                 <p title="Building" class="p12 marginB0"><strong>{{parameter.lead?.selected_properties[0]?.property?.building?.name}}</strong></p>
                                 <p title="Developer" class="p11"><i>{{parameter.lead?.selected_properties[0]?.property?.building?.developer?.name | titlecase}}</i></p>

@@ -57,12 +57,16 @@
                 </div>
               </th>
               <th style="width:7%; vertical-align: top;">
-                Linked Projects
-                <a (click)="sortData(model.project_sort==1?2:1, 'project_sort')" href="javascript://"><img [ngClass]="{'upsidedown':model.project_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
+                  <div class="table-search">
+                <label>Linked Projects</label>
+                <a (click)="sortData(model.project_sort==2?1:2, 'project_sort')" href="javascript://"><img [ngClass]="{'upsidedown':model.project_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
+              </div>
               </th>
               <th style="width:7%; vertical-align: top;">
-                Linked Managers
-                <a (click)="sortData(model.sort_manager==1?2:1, 'sort_manager')" href="javascript://"><img [ngClass]="{'upsidedown':model.sort_manager==2}" src="assets/img/top-arrow.png" alt="img"></a>
+                  <div class="table-search">
+                <label>Linked Managers</label>
+                <a (click)="sortData(model.sort_manager==2?1:2, 'sort_manager')" href="javascript://"><img [ngClass]="{'upsidedown':model.sort_manager==2}" src="assets/img/top-arrow.png" alt="img"></a>
+                </div>
               </th>
               <th style="width:20%">
                 &nbsp;

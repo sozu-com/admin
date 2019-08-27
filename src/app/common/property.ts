@@ -97,7 +97,6 @@ export interface IProperty {
   bankCount?: string;
   flag?: number;
   page?: number;
-
   admin_id?: any;
   id?: any;
   lead?: any;
@@ -126,6 +125,7 @@ export interface IProperty {
   allDocuments?: any;
   subscriber?: any;
   favorites?: any;
+  fav_properties_count?: number;
   buildingSpecificTypes?: any;
   paymentStatuses?: any;
   keyword?: string;
@@ -158,4 +158,7 @@ export interface IProperty {
   tower_name?: string;
   managedBy?: number;
   possession_filter?: number;
+  developer_id?: number;
+  project_id?: number;
+  property_sort?: number;
 }

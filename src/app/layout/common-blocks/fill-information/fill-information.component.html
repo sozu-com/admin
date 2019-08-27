@@ -56,7 +56,12 @@
         <label>Price expectations</label>
         <div class="row">
             <div class="col-md-4 col-sm-12 col-12">
-                <div class="form-group-3 eca">
+                <!-- <div class="form-group-3 eca">
+                    <span class="input-group-addon">$</span>
+                    <input class="form-control" type="number" name="min_price" [(ngModel)]="leadData.prefs.min_price">
+                </div> -->
+                <div class="input-group m-b">
+                    <span class="input-group-addon marginR2">$</span>
                     <input class="form-control" type="number" name="min_price" [(ngModel)]="leadData.prefs.min_price">
                 </div>
             </div>
@@ -64,9 +69,14 @@
                 To
             </div>
             <div class="col-md-4 col-sm-12 col-12">
-                <div class="form-group-3 eap">
+                <div class="input-group m-b">
+                    <span class="input-group-addon marginR2">$</span>
                     <input class="form-control" type="number" name="max_price" [(ngModel)]="leadData.prefs.max_price">
                 </div>
+                <!-- <div class="form-group-3 eap">
+                    <span class="input-group-addon">$</span>
+                    <input class="form-control" type="number" name="max_price" [(ngModel)]="leadData.prefs.max_price">
+                </div> -->
             </div>
         </div>
     </div>

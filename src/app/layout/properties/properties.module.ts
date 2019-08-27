@@ -35,6 +35,8 @@ const routes: Routes = [
   { path: 'edit-property/:property_id/:edit', component: AddPropertyComponent,
     canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_update', 'can_csr_seller']}},
   { path: 'view-properties', component: PropertiesComponent,
+    canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_read', '']}},
+  { path: 'view-properties/:project_id', component: PropertiesComponent,
     canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_read', '']}}
 ];
 

@@ -37,6 +37,7 @@ import { AngularFireMessaging } from '@angular/fire/messaging';
 import { ApiConstants } from './common/api-constants';
 import { VersionCheckService } from './services/version-check.service';
 import { Img360viewerComponent } from './layout/img360viewer/img360viewer.component';
+import { PricePipe } from './pipes/price.pipe';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent},
@@ -53,6 +54,7 @@ const appRoutes: Routes = [
     ForgotPasswordComponent,
     LoginComponent,
     PageNotFoundComponent,
+    // PricePipe,
     // NumberWithCommasPipe,
   ],
   imports: [

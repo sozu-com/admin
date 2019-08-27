@@ -275,13 +275,17 @@
                             </div>
                           </th>
                           <th style="vertical-align:top;width:5%">
-                            <div class="d-flex table-search"><span><label>Properties</label></span></div>
+                            <div class="d-flex table-search">
+                              <span><label>Properties</label></span>
+                              <a (click)="sortData(parameter.property_sort==2?1:2)" href="javascript://"><img
+                                [ngClass]="{'upsidedown':parameter.property_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
+                            </div>
                           </th>
                           <th style="vertical-align:top;width:5%">
-                            <div class="d-flex table-search"><span><label>Available Rent</label></span></div>
+                            <div class="d-flex table-search"><span><label>Properties <br>Available <br> For Rent</label></span></div>
                           </th>
                           <th style="vertical-align:top;width:5%">
-                            <div class="d-flex table-search"><span><label>Available Sell</label></span></div>
+                            <div class="d-flex table-search"><span><label>Properties <br>Available <br> For Sale</label></span></div>
                           </th>
                           <th style="vertical-align:top;width:5%">
                               <div class="d-flex table-search"><span><label>Avg Price</label></span></div>
@@ -310,10 +314,12 @@
                               </small>
                             </td>
                             <td><span>{{p?.possession_status_id == apiConstant.possessionStatus.sale ? 'Sale' : 'Presale'}}</span></td>
-                            <td><span>{{p?.properties_count}}</span></td>
-                            <td><span>{{p?.rent_count}}</span></td>
-                            <td><span>{{p?.sale_count}}</span></td>
-                            <td><span>{{ p.avg_price | number : '1.2-2'}}</span></td>
+                            <td>
+                              <a title="Click to view properties" routerLink="/dashboard/properties/view-properties/{{p.id}}"><span class="green-color">{{p?.properties_count_all}}</span></a>
+                            </td>
+                            <td><span>{{p?.rent_count_all}}</span></td>
+                            <td><span>{{p?.sale_count_all}}</span></td>
+                            <td><span>${{ p.avg_price | number : '1.2-2'}}</span></td>
                             <td>
                               <div class="table-actions">
                                 <!-- <div class="message"> -->

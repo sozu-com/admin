@@ -1,4 +1,9 @@
 <div class="white-bg move-below">
+
+  <div class="page-title-3 marginB0">
+      <h4><i><img src="assets/img/chat-icon.png" alt="img"></i> Chat with {{other_sent_as==3 ? 'CSR Closure' : ''}}</h4>
+  </div>
+  <div class="cust-tabs-4">
     <div class="chat-area scrollbox" malihu-scrollbar [scrollbarOptions]="scrollbarOptions" style="height: 704px; width: 429px; padding-right: 17px; outline: none; overflow: hidden;">
       <div *ngIf="loadmore" class="chat-load-more" (click)="loadMore(admin_id)" >
         Previous Messages <img *ngIf="loadmoring" src="assets/img/loading-p.gif">
@@ -77,6 +82,7 @@
           <strong>By - {{m?.conversation_user?.user?.name?m?.conversation_user?.user?.name:m?.conversation_user?.admin?.name | titlecase}}</strong>
         </span>
       </div>
+  </div>
   </div>
 
   <div style="position: absolute; z-index: 1; margin: 0px; padding: 0px; other: block; left: 581px; top: 91px;"><div class="enscroll-track track3" style="position: relative; height: 367px;"><a href="" class="handle3" style="position: absolute; z-index: 1; height: 199.244px; top: 0px;"><div class="top"></div><div class="bottom"></div></a></div></div>

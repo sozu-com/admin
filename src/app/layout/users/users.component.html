@@ -71,7 +71,8 @@
                 </th>
                 <th style="width:20%; vertical-align: top;" *ngIf="parameter.type==2">
                   <div class="table-search">
-                    <label>Building</label>
+                    <label>Properties</label>
+                    <a (click)="sortData(parameter.property_sort==2?1:2, 'property_sort')" href="javascript://"><img [ngClass]="{'upsidedown':parameter.property_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
                   </div>
                 </th>
                 <th style="width:14%">
@@ -98,7 +99,7 @@
                   </span>
                   <span *ngIf="item.interests?.length == 0">NA</span>
                 </td>
-                <td *ngIf="parameter.type==2">{{item.buildings_count?item.buildings_count:'0'}}</td>
+                <td *ngIf="parameter.type==2">{{item.properties_count}}</td>
                 <td>
                   <div class="table-actions">
                       <!-- <a href="javascript://" (click)="editUser(item, i)" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>

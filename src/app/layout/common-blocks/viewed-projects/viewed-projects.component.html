@@ -37,7 +37,7 @@
           </span>
           <span *ngIf="data.configurations?.length==0">NA</span>
         </p>
-        <p class="p13"><strong>$ {{data.starting_price|number}}</strong></p>
+        <p class="p13"><strong>{{data.starting_price|price}}</strong></p>
       </div>
     </div>
 
@@ -83,7 +83,7 @@
                     </span>
                     <span *ngIf="x.configurations?.length==0">NA</span>
                   </p>
-                  <p class="p13">$ {{x.starting_price|number}}</p>
+                  <p class="p13">{{x.starting_price|price}}</p>
                 </div>
               </div>
             </div>

@@ -6,6 +6,7 @@ import { IProperty } from 'src/app/common/property';
 import { SellerSelections } from 'src/app/models/addProperty.model';
 import { Constant } from 'src/app/common/constants';
 import { AdminService } from 'src/app/services/admin.service';
+import { ActivatedRoute } from '@angular/router';
 declare let swal: any;
 
 @Component({
@@ -51,10 +52,14 @@ export class PropertiesComponent implements OnInit {
   constructor(
     public constant: Constant,
     public admin: AdminService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.parameter.project_id = params.project_id;
+    });
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.parameter.dash_flag = 2;

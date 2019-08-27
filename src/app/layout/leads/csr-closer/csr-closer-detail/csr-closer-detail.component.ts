@@ -406,9 +406,9 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     //   this.parameter.connected = this.parameter.socket.connected;
 
     //   const data = {
-    //     admin_id: this.admin_id,
+    //     admin_id: this.parameter.admin_id,
     //     socket_id: this.parameter.socket_id,
-    //     device_id: this.admin.deviceId + '_' + this.admin_id
+    //     device_id: this.admin.deviceId + '_' + this.parameter.admin_id
     //   };
     //   if (this.parameter.connected) {
     //     this.parameter.socket.emit('add-admin', data, (res: any) => {

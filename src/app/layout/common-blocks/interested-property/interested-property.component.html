@@ -49,13 +49,13 @@
           <span *ngIf="data.property.configuration.bathroom!=0">&middot; {{data.property?.configuration?.bathroom}} Bath
           </span>
           <span *ngIf="data.property.configuration.half_bathroom!=0">&middot;
-            {{data.property.configuration.half_bathroom}} Half </span> |
-          <span>{{data.property.property_type.name}}</span>
+            {{data.property.configuration.half_bathroom}} Half Bath</span>
+          <span>&middot; {{data.property.property_type.name}}</span>
         </p>
         <!-- <p class="p13" *ngIf="data && data.property">{{data.property.configuration.name}}, {{data.property.property_type.name}}</p> -->
         <!-- <p class="p13" title="Property Type" *ngIf="data && data.property">{{data.property.property_type.name}}</p> -->
         <p class="p13"><strong>
-            $ {{data.property.min_price| number}}
+            {{data.property.min_price| price}}
           </strong></p>
         <div class="dropdown threeDots">
           <button type="button" class="dropdown-toggle" data-toggle="dropdown">
@@ -177,7 +177,7 @@
                       <span *ngIf="item.configuration.bathroom!=0">&middot; {{item?.configuration?.bathroom}} Bath
                       </span>
                       <span *ngIf="item.configuration.half_bathroom!=0">&middot; {{item.configuration.half_bathroom}}
-                        Half </span>
+                        Half Bath </span>
                     </p>
                     <!-- <p class="p10">{{item.configuration.name}}</p> -->
                   </div>
@@ -305,14 +305,14 @@
                     <span *ngIf="x.property.configuration.bathroom!=0">&middot; {{x.property?.configuration?.bathroom}}
                       Bath </span>
                     <span *ngIf="x.property.configuration.half_bathroom!=0">&middot;
-                      {{x.property.configuration.half_bathroom}} Half </span> |
-                    <span>{{x.property.property_type.name}}</span>
+                      {{x.property.configuration.half_bathroom}} Half Bath </span>
+                    <span>&middot; {{x.property.property_type.name}}</span>
                   </p>
                   <!-- <p class="p13" *ngIf="x && x.property">{{x.property.configuration.name}}, {{x.property.property_type.name}}</p> -->
                   <!-- <p class="p13" *ngIf="!x && !x.property">NA</p>
                         <p class="p13" *ngIf="x && x.property">{{x.property.property_type.name}}</p> -->
                   <p class="p13">
-                    $ {{x.property.min_price | number}}
+                    {{x.property.min_price | price}}
                   </p>
                   <div class="dropdown threeDots">
                     <button type="button" class="dropdown-toggle" data-toggle="dropdown">

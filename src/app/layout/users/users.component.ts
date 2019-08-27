@@ -28,6 +28,7 @@ export class UsersComponent implements OnInit {
     private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
+    this.parameter.property_sort = 2;
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.parameter.type = 1;
@@ -56,8 +57,12 @@ export class UsersComponent implements OnInit {
     this.getBuyers(this.parameter.type, this.parameter.page, this.parameter.name, this.parameter.phone, this.parameter.email);
   }
 
-  getBuyers(type, page, name, phone, email) {
+  sortData(value: number, param: string) {
+    this.parameter.property_sort = value;
+    this.getBuyers(this.parameter.type, this.parameter.page, this.parameter.name, this.parameter.phone, this.parameter.email);
+  }
 
+  getBuyers(type, page, name, phone, email) {
     this.parameter.page = page;
     this.parameter.type = type;
     this.parameter.name = name;

@@ -104,7 +104,7 @@
                                         <!-- {{conf.name}} -->
                                         <span *ngIf="conf.bedroom!=0">{{conf.bedroom}} Bed </span>
                                         <span *ngIf="conf.bathroom!=0">&middot; {{conf?.bathroom}} Bath </span>
-                                        <span *ngIf="conf.half_bathroom!=0">&middot; {{conf.half_bathroom}} Half </span>
+                                        <span *ngIf="conf.half_bathroom!=0">&middot; {{conf.half_bathroom}} Half Bath </span>
 
                                         <span *ngIf="ii<leadData?.configuration?.length-1"> | </span><br>
                                     </span>
@@ -113,11 +113,11 @@
                             </tr>
                             <tr>
                                 <td style="padding-left:0"><label>Favorite Properties</label></td>
-                                <td>{{parameter.favorites?.length}}
+                                <td>{{parameter.fav_properties_count}}
                                     <a style="display: none;" data-toggle="modal" #showPropertyModal
                                         data-target="#view-fav-property" class="view-all" href="javascript://">View
                                         All</a>
-                                    <a *ngIf="parameter.favorites?.length!=0" class="view-all" href="javascript://"
+                                    <a *ngIf="parameter.fav_properties_count" class="view-all" href="javascript://"
                                         (click)="viewFavProperties()">View All</a>
                                 </td>
                             </tr>
@@ -243,10 +243,10 @@
                                         <span *ngIf="x.configuration.bathroom!=0">&middot; {{x.configuration?.bathroom}}
                                             Bath </span>
                                         <span *ngIf="x.configuration.half_bathroom!=0">&middot;
-                                            {{x.configuration.half_bathroom}} Half </span>
+                                            {{x.configuration.half_bathroom}} Half Bath </span>
                                     </p>
                                     <p class="p13" title="Property type" *ngIf="x">{{x.property_type.name}}</p>
-                                    <p class="p13">$ {{x.min_price|number}}</p>
+                                    <p class="p13">{{x.min_price|price}}</p>
                                 </div>
                             </div>
                         </div>
