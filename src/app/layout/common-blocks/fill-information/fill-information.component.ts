@@ -115,7 +115,7 @@ export class FillInformationComponent implements OnInit {
     this.model.amenities = [];
     this.model.proximity_place_ids = [];
     this.model.property_purpose = [];
-    this.model.payment_plans = [];
+    // this.model.payment_plans = [];
 
     this.model.lead_id = this.lead_id;
     this.model.looking_for = this.leadData.prefs.looking_for;
@@ -157,14 +157,14 @@ export class FillInformationComponent implements OnInit {
           this.model.property_purpose.push(element.id);
         }
       });
-      this.leadData.payment_modes.forEach(element => {
-        if (element.is_selected === 1) {
-          this.model.payment_plans.push(element.id);
-        }
-      });
+      // this.leadData.payment_modes.forEach(element => {
+      //   if (element.is_selected === 1) {
+      //     this.model.payment_plans.push(element.id);
+      //   }
+      // });
     } else {
       this.model.property_purpose = [];
-      this.model.payment_plans = [];
+      // this.model.payment_plans = [];
     }
     this.spinner.show();
     this.admin.postDataApi('leads/addPreferences', this.model).subscribe(r => {

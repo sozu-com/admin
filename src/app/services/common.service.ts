@@ -37,7 +37,6 @@ export class CommonService {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          // console.log('countries', success);
           this.spinner.hide();
           this.country.next(success.data);
         },
@@ -64,7 +63,6 @@ export class CommonService {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          // console.log('states', success);
           this.spinner.hide();
           this.state.next(success.data);
         },
@@ -93,7 +91,6 @@ export class CommonService {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          // console.log('cities', success);
           this.spinner.hide();
           this.city.next(success.data);
         },
@@ -128,7 +125,6 @@ export class CommonService {
   }
 
   setPropertyDetails(data) {
-    // console.log('data', data);
     this.propertyDetails.next(data);
   }
 
@@ -137,7 +133,6 @@ export class CommonService {
   }
 
   checkAccess(key, subkey) {
-    console.log(key, subkey);
     const obj = this.admin.admin_acl[key];
     return obj ? obj[subkey] : 0;
   }
