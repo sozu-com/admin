@@ -5,15 +5,15 @@
             <div class="df-profile">
             <a routerLink="../"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
             
-            <img *ngIf="leadsService?.leadData?.user?.image" onerror='src="assets/img/default_img.png"' alt="img"
-                    [defaultImage]="leadsService?.leadData?.user?.image| img:'thumb'" [lazyLoad]="leadsService?.leadData?.user?.image">
-            <img *ngIf="!leadsService?.leadData?.user?.image" src="assets/img/default_img.png" alt="img">
+            <img *ngIf="leadData?.user?.image" onerror='src="assets/img/default_img.png"' alt="img"
+                    [defaultImage]="leadData?.user?.image| img:'thumb'" [lazyLoad]="leadData?.user?.image">
+            <img *ngIf="!leadData?.user?.image" src="assets/img/default_img.png" alt="img">
     
-                    <div class="df-info" *ngIf="leadsService?.leadData?.user">
-                <p class="p14 text-ellipsis120">{{leadsService?.leadData.user.name | titlecase}}</p>
+                    <div class="df-info" *ngIf="leadData?.user">
+                <p class="p14 text-ellipsis120">{{leadData.user.name | titlecase}}</p>
                 <!-- <p class="p12">Status: Open</p> -->
                 <p class="p12">
-                    {{leadsService?.leadData?.user?.dial_code ? leadsService?.leadData?.user?.dial_code : leadsService?.leadData?.dial_code}}-{{leadsService?.leadData?.user?.phone ? leadsService?.leadData?.user?.phone : leadsService?.leadData?.phone}}
+                    {{leadData?.user?.dial_code ? leadData?.user?.dial_code : leadData?.dial_code}}-{{leadData?.user?.phone ? leadData?.user?.phone : leadData?.phone}}
                 </p>
             </div>
             </div>
@@ -23,19 +23,19 @@
             <ul>
                 <li>
                     <div class="df-info">
-                        <p class="p14 marginB0" *ngIf="leadsService?.leadData?.admin">{{leadsService?.leadData.admin.name | titlecase}}</p>
+                        <p class="p14 marginB0" *ngIf="leadData?.admin">{{leadData.admin.name | titlecase}}</p>
                         <p class="p12">CSR Buyer</p>
                     </div>
                 </li>
                 <li>
-                    <div class="df-info" *ngIf="leadsService?.leadData?.broker">
-                        <p class="p14 marginB0">{{leadsService?.leadData.broker.name | titlecase}}</p>
-                        <p class="p12">{{leadsService?.leadData?.broker?.is_external_agent==1 ? 'Outside Agent' : 'Inhouse Agent'}}</p>
+                    <div class="df-info" *ngIf="leadData?.broker">
+                        <p class="p14 marginB0">{{leadData.broker.name | titlecase}}</p>
+                        <p class="p12">{{leadData?.broker?.is_external_agent==1 ? 'Outside Agent' : 'Inhouse Agent'}}</p>
                     </div>
                 </li>
                 <li>
-                    <div class="df-info" *ngIf="leadsService?.leadData?.closer">
-                        <p class="p14 marginB0">{{leadsService?.leadData.closer.name | titlecase}}</p>
+                    <div class="df-info" *ngIf="leadData?.closer">
+                        <p class="p14 marginB0">{{leadData.closer.name | titlecase}}</p>
                         <p class="p12">CSR Closure</p>
                     </div>
                 </li>
@@ -45,11 +45,11 @@
         <div class="col-lg-2 col-md-12 col-sm-12 col-12">
             <div class="row">
                 <div class="col-sm-12 btn-cont text-right">
-                    <a *ngIf="leadsService?.leadData?.lead_status_closer!=1 &&
+                    <a *ngIf="leadData?.lead_status_closer!=1 &&
                     (admin?.admin_acl['Closer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_closer==1)" (click)="markLeadClose()" class="btn btn-fourth" href="javascript://">
                         Close Lead
                     </a>
-                    <a *ngIf="leadsService?.leadData?.lead_status_closer==1" style="cursor: auto;" class="btn btn-fourth" href="javascript://">
+                    <a *ngIf="leadData?.lead_status_closer==1" style="cursor: auto;" class="btn btn-fourth" href="javascript://">
                         Lead Closed
                     </a>
                 </div>
@@ -74,57 +74,57 @@
             <table class="table">
                 <tr>
                     <td style="padding-left:0"><label>Full Name</label></td>
-                    <td colspan="2" *ngIf="leadsService?.leadData?.name">{{leadsService?.leadData.user.name | titlecase}}</td>
+                    <td colspan="2" *ngIf="leadData?.name">{{leadData.user.name | titlecase}}</td>
                 </tr>
                 <tr>
                     <td style="padding-left:0"><label>Contact Number</label></td>
-                    <td colspan="2" *ngIf="leadsService?.leadData?.phone">{{leadsService?.leadData.user.dial_code ? leadsService?.leadData.user.dial_code : constant.dial_code}}-{{leadsService?.leadData.user.phone}}</td>
+                    <td colspan="2" *ngIf="leadData?.phone">{{leadData.user.dial_code ? leadData.user.dial_code : constant.dial_code}}-{{leadData.user.phone}}</td>
                 </tr>
                 <tr>
                     <td style="padding-left:0"><label>Email address</label></td>
-                    <td colspan="2" *ngIf="leadsService?.leadData?.email">{{leadsService?.leadData.user.email}}</td>
+                    <td colspan="2" *ngIf="leadData?.email">{{leadData.user.email}}</td>
                 </tr>
                 <tr>
                     <td style="padding-left:0"><label>Interested In</label></td>
-                    <td *ngIf="leadsService?.leadData?.configuration">
-                        <span *ngFor="let conf of leadsService?.leadData?.configuration; let ii=index">
+                    <td *ngIf="leadData?.configuration">
+                        <span *ngFor="let conf of leadData?.configuration; let ii=index">
                             <span *ngIf="conf.bedroom!=0">{{conf.bedroom}} Bed </span>
                             <span *ngIf="conf.bathroom!=0">&middot; {{conf?.bathroom}} Bath </span>
                             <span *ngIf="conf.half_bathroom!=0">&middot; {{conf.half_bathroom}} Half Bath </span>
 
-                            <span *ngIf="ii<leadsService?.leadData?.configuration?.length-1"> | </span><br>
+                            <span *ngIf="ii<leadData?.configuration?.length-1"> | </span><br>
                         </span>
-                        <span *ngIf="leadsService?.leadData?.configuration?.length==0">NA</span>
+                        <span *ngIf="leadData?.configuration?.length==0">NA</span>
                     </td>
                 </tr>
                 <tr>
                     <td style="padding-left:0"><label><strong>Property Selected</strong></label></td>
-                    <td *ngIf="leadsService?.leadData?.selected_properties?.length!=0">
+                    <td *ngIf="leadData?.selected_properties?.length!=0">
                         <p class="p14 marginB0">
-                            <!-- {{leadsService?.leadData?.selected_properties[0]?.property?.configuration.name}} -->
-                            <span *ngIf="leadsService?.leadData?.selected_properties[0]?.property?.configuration.bedroom!=0">{{leadsService?.leadData?.selected_properties[0]?.property?.configuration.bedroom}} Bed </span>
-                            <span *ngIf="leadsService?.leadData?.selected_properties[0]?.property?.configuration.bathroom!=0">&middot; {{leadsService?.leadData?.selected_properties[0]?.property?.configuration?.bathroom}} Bath </span>
-                            <span *ngIf="leadsService?.leadData?.selected_properties[0]?.property?.configuration.half_bathroom!=0">&middot; {{leadsService?.leadData?.selected_properties[0]?.property?.configuration.half_bathroom}} Half Bath </span>
+                            <!-- {{leadData?.selected_properties[0]?.property?.configuration.name}} -->
+                            <span *ngIf="leadData?.selected_properties[0]?.property?.configuration.bedroom!=0">{{leadData?.selected_properties[0]?.property?.configuration.bedroom}} Bed </span>
+                            <span *ngIf="leadData?.selected_properties[0]?.property?.configuration.bathroom!=0">&middot; {{leadData?.selected_properties[0]?.property?.configuration?.bathroom}} Bath </span>
+                            <span *ngIf="leadData?.selected_properties[0]?.property?.configuration.half_bathroom!=0">&middot; {{leadData?.selected_properties[0]?.property?.configuration.half_bathroom}} Half Bath </span>
                         </p>
-                        <p title="Building" class="p12 marginB0"><strong>{{leadsService?.leadData?.selected_properties[0]?.property?.building?.name}}</strong></p>
-                        <p title="Developer" class="p11"><i>{{leadsService?.leadData?.selected_properties[0]?.property?.building?.developer?.name | titlecase}}</i></p>
-                        <p class="marginB0" *ngIf="leadsService?.leadData?.selected_properties?.length!=0">
-                            <a class="view-all-2" href="javascript://" (click)="viewPropertyDetails(leadsService?.leadData?.selected_properties[0])"> View Property</a>
+                        <p title="Building" class="p12 marginB0"><strong>{{leadData?.selected_properties[0]?.property?.building?.name}}</strong></p>
+                        <p title="Developer" class="p11"><i>{{leadData?.selected_properties[0]?.property?.building?.developer?.name | titlecase}}</i></p>
+                        <p class="marginB0" *ngIf="leadData?.selected_properties?.length!=0">
+                            <a class="view-all-2" href="javascript://" (click)="viewPropertyDetails(leadData?.selected_properties[0])"> View Property</a>
                         </p>
                     </td>
-                    <!-- <td *ngIf="leadsService?.leadData?.selected_properties?.length!=0">
-                        <a class="view-all-2" href="javascript://" (click)="viewPropertyDetails(leadsService?.leadData?.selected_properties[0])"> View Property</a>
+                    <!-- <td *ngIf="leadData?.selected_properties?.length!=0">
+                        <a class="view-all-2" href="javascript://" (click)="viewPropertyDetails(leadData?.selected_properties[0])"> View Property</a>
                     </td> -->
                 </tr>
                 
                 <!-- Notary Availabilities -->
-                <tr *ngIf="leadsService?.leadData?.sale_rent==1">
+                <tr *ngIf="leadData?.sale_rent==1">
                     <td  style="padding-left:0"><label><strong>Notary Availabilities</strong></label></td>
-                    <td colspan="2" *ngIf="leadsService?.leadData?.selected_properties[0]?.selected_noatary && leadsService?.leadData?.selected_properties[0]?.selected_noatary[0]?.noatary_availability?.length!=0; else noAvailability3">
-                        <p *ngFor="let na of leadsService?.leadData?.selected_properties[0]?.selected_noatary[0]?.noatary_availability; let m=index" class="date">
+                    <td colspan="2" *ngIf="leadData?.selected_properties[0]?.selected_noatary && leadData?.selected_properties[0]?.selected_noatary[0]?.noatary_availability?.length!=0; else noAvailability3">
+                        <p *ngFor="let na of leadData?.selected_properties[0]?.selected_noatary[0]?.noatary_availability; let m=index" class="date">
                             <span *ngIf="m<2">{{na.date_time | moment}}</span>
                         </p>
-                        <span class="read-more" *ngIf="leadsService?.leadData?.selected_properties[0]?.selected_noatary[0]?.noatary_availability.length>2" data-toggle="modal" data-target="#get-availability1">Read more</span>
+                        <span class="read-more" *ngIf="leadData?.selected_properties[0]?.selected_noatary[0]?.noatary_availability.length>2" data-toggle="modal" data-target="#get-availability1">Read more</span>
                     </td>
                     <ng-template #noAvailability3>
                         <td colspan="2"><p>No availability given by notary yet.</p></td>
@@ -132,7 +132,7 @@
                 </tr>
 
                 <!-- Meeting Schedule -->
-                <tr *ngIf="leadsService?.leadData?.sale_rent==1">
+                <tr *ngIf="leadData?.sale_rent==1">
                     <td  style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
                     <td colspan="2" class="cursor-pointer">
                         <p class="date" *ngIf="scheduleMeeting.appointment_date; else noAvailability4" data-toggle="modal" data-target="#get-availability2">
@@ -153,7 +153,7 @@
         <!-- notes end -->
 
         <!-- <div class="spacer15"></div> -->
-        <div *ngIf="leadsService?.leadData?.sale_rent==1" class="bank-assigned-now white-bg">
+        <div *ngIf="leadData?.sale_rent==1" class="bank-assigned-now white-bg">
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-12 b-left">
                 <p class="p13" *ngIf="selectedProperties?.noataries && selectedProperties.noataries.length==0">No Notary assigned yet </p>
@@ -225,7 +225,7 @@
         </div>
 
         <!-- <div class="spacer15"></div> -->
-        <!-- *ngIf="leadsService?.leadData?.sale_rent==1" -->
+        <!-- *ngIf="leadData?.sale_rent==1" -->
         <div class="payment-status-table white-bg">
             <div class="page-title-2 marginB0 border-0">
                 <div class="row">
@@ -287,8 +287,8 @@
                 <h4><i><img src="assets/img/chat-icon.png" alt="img"></i> Chat</h4>
             </div>
             <div class="cust-tabs-4">
-                <app-chat-tabs *ngIf="leadsService?.leadData?.user" [lead_id]="parameter.lead_id" [sent_as]="parameter.sent_as"
-                    [user_id]="parameter.user_id" [admin_id]="parameter.admin_id" [leadsService?.leadData]="leadsService?.leadData">
+                <app-chat-tabs *ngIf="leadData?.user" [lead_id]="parameter.lead_id" [sent_as]="parameter.sent_as"
+                    [user_id]="parameter.user_id" [admin_id]="parameter.admin_id" [leadData]="leadData">
                 </app-chat-tabs>
             </div>
         </div> -->
@@ -305,10 +305,10 @@
                 <li class="nav-item">
                     <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.user_seller_dev}" (click)="getLeadConversation(constant.userType.user_seller_dev, true)" class="nav-link">Seller</a>
                 </li>
-                <li class="nav-item" *ngIf="selectedProperties.noataries && selectedProperties.noataries.length!=0 && leadsService?.leadData?.sale_rent==1">
+                <li class="nav-item" *ngIf="selectedProperties.noataries && selectedProperties.noataries.length!=0 && leadData?.sale_rent==1">
                     <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.notary}" (click)="getLeadConversation(constant.userType.notary, true)" class="nav-link">Notary</a>
                 </li>
-                <li class="nav-item" *ngIf="selectedProperties.banks && selectedProperties.banks.length!=0 && leadsService?.leadData?.sale_rent==1">
+                <li class="nav-item" *ngIf="selectedProperties.banks && selectedProperties.banks.length!=0 && leadData?.sale_rent==1">
                     <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.bank}" (click)="getLeadConversation(constant.userType.bank, true)" class="nav-link">Bank</a>
                 </li>
                 </ul>
@@ -434,7 +434,7 @@
 
 
     <div class="clearfix"></div>
-    <div *ngIf="leadsService?.leadData?.sale_rent==1" class="upload-document-block white-bg">
+    <div *ngIf="leadData?.sale_rent==1" class="upload-document-block white-bg">
         <div class="page-title-2 border-0">
             <div class="row">
                 <div class="col-9">
@@ -459,7 +459,7 @@
             </table>
         </div>
     </div>
-    <div *ngIf="leadsService?.leadData?.sale_rent==1" class="all-document-block white-bg">
+    <div *ngIf="leadData?.sale_rent==1" class="all-document-block white-bg">
         <div class="page-title-2 border-0">
         <div class="row">
         <div class="col-9">
@@ -630,8 +630,8 @@
             </div>
     
             <div class="modal-body modal-body-new">
-                <div class="row" *ngIf="leadsService?.leadData?.selected_properties && leadsService?.leadData?.selected_properties[0]?.selected_noatary">
-                    <div class="col-6" *ngFor="let d of leadsService?.leadData?.selected_properties[0]?.selected_noatary[0]?.noatary_availability; let j=index">
+                <div class="row" *ngIf="leadData?.selected_properties && leadData?.selected_properties[0]?.selected_noatary">
+                    <div class="col-6" *ngFor="let d of leadData?.selected_properties[0]?.selected_noatary[0]?.noatary_availability; let j=index">
                         <label class="notary-ava">{{d.date_time | moment}}</label>
                     </div>
                 </div>
@@ -651,8 +651,8 @@
             </div>
     
             <div class="modal-body modal-body-new">
-                <table class="table" *ngIf="leadsService?.leadData?.selected_properties[0]?.selected_noatary">
-                    <tr *ngFor="let d of leadsService?.leadData?.selected_properties[0]?.selected_noatary[0]?.noatary_availability; let j=index">
+                <table class="table" *ngIf="leadData?.selected_properties[0]?.selected_noatary">
+                    <tr *ngFor="let d of leadData?.selected_properties[0]?.selected_noatary[0]?.noatary_availability; let j=index">
                         <td>
                             <label class="notary-ava">{{d.date_time | moment}}</label>
                         </td>
@@ -663,7 +663,7 @@
                             </label>
                         </td>
                     </tr>
-                    <div *ngIf="leadsService?.leadData?.selected_properties[0]?.selected_noatary[0]?.noatary_availability==null" class="write-note white-bg">
+                    <div *ngIf="leadData?.selected_properties[0]?.selected_noatary[0]?.noatary_availability==null" class="write-note white-bg">
                         <p class="show-not-found">
                             No availability given by notary yet.
                         </p>

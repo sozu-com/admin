@@ -121,9 +121,9 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // this.msgInput.nativeElement.focus();
     this.keyword = '';
-    // this.leadData = new Leads();
+    this.leadData = new Leads();
     // this.leadsService.leadData = this.leadsService.leadData;
-    // this.leadsService.leadData.selected_properties = [new SelectedProperties()];
+    this.leadData.selected_properties = [new SelectedProperties()];
     this.parameter.sent_as = this.constant.userType.csr_closer;
 
     this.route.params.subscribe(params => {
@@ -131,16 +131,16 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       this.spinner.show();
       this.admin.postDataApi('leads/details', { lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as }).subscribe(r => {
         this.spinner.hide();
-        this.leadsService.leadData = r.data.lead;
+        this.leadData = r.data.lead;
         this.getDocumentOptions();
         this.selectedProperties = r.data.lead.selected_properties[0];
         this.pen_amount = this.selectedProperties.pending_amount ?
           this.selectedProperties.pending_amount :
           (this.selectedProperties.total_amount - this.selectedProperties.token_money);
-        this.parameter.user_id = this.leadsService.leadData.user.id;
+        this.parameter.user_id = this.leadData.user.id;
 
-        if (this.leadsService.leadData.appointments.length !== 0) {
-          this.scheduleMeeting = this.leadsService.leadData.appointments[0];
+        if (this.leadData.appointments.length !== 0) {
+          this.scheduleMeeting = this.leadData.appointments[0];
         }
         // if (this.leadData.appointments && this.leadData.appointments.length !== 0) {
         //   for (let index = 0; index < this.leadData.appointments.length; index++) {
@@ -359,7 +359,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     }).then((result) => {
       if (result.value) {
         this.admin.postDataApi('leads/closer-mark-lead-closed', { lead_id: this.parameter.lead_id }).subscribe(r => {
-          this.leadsService.leadData.lead_status_closer = 1;
+          this.leadData.lead_status_closer = 1;
           swal('Success', 'Lead closed successfully.', 'success');
         });
       }
