@@ -3,6 +3,8 @@
     <h4><i><img src="assets/img/chat-icon.png" alt="img"></i> Chat</h4>
   </div> -->
   <!-- <div class="cust-tabs-4"> -->
+
+
     <ul class="nav nav-tabs">
       <li class="nav-item" *ngIf="sent_as==constant.userType.csr_buyer || sent_as==constant.userType.inhouse_broker">
         <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.user_buyer}"

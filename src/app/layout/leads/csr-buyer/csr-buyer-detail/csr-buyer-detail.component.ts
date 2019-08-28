@@ -48,8 +48,8 @@ export class CsrBuyerDetailComponent implements OnInit {
   ngOnInit() {
 
     // Initialising
-    // this.leadsService.leadData = new Leads();
-    // this.leadsService.leadData.prefs = new Prefs();
+    this.leadData = new Leads();
+    this.leadData.prefs = new Prefs();
 
     this.parameter.sent_as = this.constant.userType.csr_buyer;
     this.route.params.subscribe( params => {
@@ -58,20 +58,21 @@ export class CsrBuyerDetailComponent implements OnInit {
       this.spinner.show();
         this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
           this.spinner.hide();
-          this.leadsService.leadData = r.data.lead;
+          this.leadData = r.data.lead;
+          this.leadData.broker = r.data.lead.broker;
           if (r.data.lead.appointments.length !== 0) {
             this.data = r.data.lead.appointments;
             // this.appointment = r.data.lead.appointments[0];
           }
           this.parameter.favorites = r.data.favorites;
           this.parameter.fav_properties_count = r.data.fav_properties_count;
-          this.setFillInformationData(this.leadsService.leadData);
+          this.setFillInformationData(this.leadData);
           this.parameter.proximity_places = r.data.lead.proximity_places;
           this.parameter.interested_properties = r.data.interested_properties;
-          this.is_deal_finalised = this.leadsService.leadData.selected_properties.length !== 0 ? true : false;
+          this.is_deal_finalised = this.leadData.selected_properties.length !== 0 ? true : false;
           this.parameter.viewed_properties = r.data.viewed_properties;
           this.parameter.viewed_projects = r.data.viewed_projects;
-          this.parameter.user_id = this.leadsService.leadData.user ? this.leadsService.leadData.user.id : 0;
+          this.parameter.user_id = this.leadData.user ? this.leadData.user.id : 0;
         }, error => {
           this.spinner.hide();
         });
@@ -88,14 +89,14 @@ export class CsrBuyerDetailComponent implements OnInit {
     if (leadData.prefs !== null) {
       this.showOtherTextBox = leadData.prefs.proximity_other ? true : false;
       if (leadData.prefs.planning_to_buy !== null) {
-        this.leadsService.leadData.prefs.planning_to_buy = moment.utc(leadData.prefs.planning_to_buy).toDate();
+        this.leadData.prefs.planning_to_buy = moment.utc(leadData.prefs.planning_to_buy).toDate();
         // this.fillInfo.planning_to_buy = moment.utc(leadData.prefs.planning_to_buy).toDate();
       }
     } else {
-      this.leadsService.leadData.prefs = new Prefs();
-      this.leadsService.leadData.prefs.looking_for = 1;
-      this.leadsService.leadData.prefs.min_price = 0;
-      this.leadsService.leadData.prefs.max_price = 0;
+      this.leadData.prefs = new Prefs();
+      this.leadData.prefs.looking_for = 1;
+      this.leadData.prefs.min_price = 0;
+      this.leadData.prefs.max_price = 0;
       this.showOtherTextBox = false;
     }
   }
@@ -104,9 +105,9 @@ export class CsrBuyerDetailComponent implements OnInit {
     this.spinner.show();
     this.admin.postDataApi('conversation/assignBroker', {lead_id: this.parameter.lead_id}).subscribe(r => {
       this.spinner.hide();
-      this.leadsService.leadData.user = r.data['user'];
-      this.leadsService.leadData.broker = r.data['broker'];
-      this.leadsService.leadData.admin = r.data['admin'];
+      this.leadData.user = r.data['user'];
+      this.leadData.broker = r.data['broker'];
+      this.leadData.admin = r.data['admin'];
       swal('Success', 'Agent assigned successfully', 'success');
     }
   );
@@ -164,9 +165,9 @@ export class CsrBuyerDetailComponent implements OnInit {
   openModal () {
     this.appointment = new AddAppointmentMultiple();
     this.appointment.lead_id = this.parameter.lead_id;
-    this.appointment.property_id = this.leadsService.leadData.selected_properties[0] &&
-                this.leadsService.leadData.selected_properties[0].property_id ?
-                this.leadsService.leadData.selected_properties[0].property_id : '';
+    this.appointment.property_id = this.leadData.selected_properties[0] &&
+                this.leadData.selected_properties[0].property_id ?
+                this.leadData.selected_properties[0].property_id : '';
     this.appointment.sent_as = this.constant.userType.csr_buyer;
     this.modalOpen.nativeElement.click();
   }
