@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from './../../../services/admin.service';
 import { ActivatedRoute} from '@angular/router';
-import { IProperty } from './../../../common/property';
-import { Constant } from '../../../common/constants';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { IProperty } from 'src/app/common/property';
+import { AdminService } from 'src/app/services/admin.service';
+import { Constant } from 'src/app/common/constants';
+import { PropertyService } from 'src/app/services/property.service';
 
 @Component({
   selector: 'app-property-details',
@@ -16,9 +17,12 @@ export class PropertyDetailsComponent implements OnInit {
   property: any;
   constructor(public admin: AdminService, private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
-    public constant: Constant) { }
+    public constant: Constant,
+    private propertyService: PropertyService) { }
 
   ngOnInit() {
+    this.property = this.propertyService.property;
+    console.log(this.property);
     this.route.params.subscribe( params => {
       this.getPropertyDetails(params.property_id);
     });
@@ -28,8 +32,8 @@ export class PropertyDetailsComponent implements OnInit {
     // });
   }
 
-  getPropertyDetails(property_id) {
-    this.spinner.show();
+  getPropertyDetails(property_id: string) {
+    // this.spinner.show();
     this.admin.postDataApi('getPropertyById', {property_id: property_id})
       .subscribe(success => {
         this.spinner.hide();

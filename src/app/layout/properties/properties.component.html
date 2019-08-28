@@ -341,7 +341,8 @@
                         </tr>
                   
                         <tr *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
-                              <td class="cursor-pointer" title="Click to view details" routerLink="/dashboard/properties/details/{{p.id}}">
+                              <td class="cursor-pointer" title="Click to view details" (click)="viewPropertyDetails(p.id, p)">
+                                    <!-- routerLink="/dashboard/properties/details/{{p.id}}" -->
                                  <strong>{{p?.building?.name?p?.building?.name:'NA'}}</strong>
                                  <div class="clearfix"></div>
                                  <small *ngIf="p.quantity > 0">
@@ -363,7 +364,7 @@
                               <td><span>
                                  <button (click)="editPricePopup(p, i)" [disabled]="admin?.admin_acl['Property Management']?.can_update==0" title="Edit Price" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                               </span></td>
-                              <td><span>{{p.lead_properties_count}}</span></td>
+                              <td><span>{{p.lead_properties_count | numberWithCommas}}</span></td>
                               
                               <td *ngIf="parameter.flag==5" class="cursor-pointer" title="View Seller's Request" (click)="showAllSellers(p?.id, i)">
                                  <span class="green-color"><span>View</span></span>

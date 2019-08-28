@@ -73,7 +73,7 @@
               <td class="text-left" *ngIf="!item.phone">NA</td>
               <td class="text-left">
                 <a title="Click to view Buildings" routerLink="/dashboard/projects/view-projects/developer/{{item.id}}">
-                  <span class="green-color">{{item.buildings_count}}</span></a>
+                  <span class="green-color">{{item.buildings_count | numberWithCommas}}</span></a>
               </td>
               <td>
                 <div class="table-actions">

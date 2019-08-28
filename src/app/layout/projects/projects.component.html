@@ -315,10 +315,10 @@
                             </td>
                             <td><span>{{p?.possession_status_id == apiConstant.possessionStatus.sale ? 'Sale' : 'Presale'}}</span></td>
                             <td>
-                              <a title="Click to view properties" routerLink="/dashboard/properties/view-properties/{{p.id}}"><span class="green-color">{{p?.properties_count_all}}</span></a>
+                              <a title="Click to view properties" routerLink="/dashboard/properties/view-properties/{{p.id}}"><span class="green-color">{{p?.properties_count_all | numberWithCommas}}</span></a>
                             </td>
-                            <td><span>{{p?.rent_count_all}}</span></td>
-                            <td><span>{{p?.sale_count_all}}</span></td>
+                            <td><span>{{p?.rent_count_all | numberWithCommas}}</span></td>
+                            <td><span>{{p?.sale_count_all | numberWithCommas}}</span></td>
                             <td><span>${{ p.avg_price | number : '1.2-2'}}</span></td>
                             <td>
                               <div class="table-actions">

@@ -108,7 +108,7 @@
               {{item.dial_code && item.dial_code!=undefined ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
             <td class="text-left" *ngIf="!item.phone">NA</td>
             <td class="text-left">{{item.email}}</td>
-            <td class="text-left">{{item.project_count}}</td>
+            <td class="text-left">{{item.project_count | numberWithCommas}}</td>
             <td>
               <div class="table-actions">
                 <!-- [disabled]="admin?.admin_acl['Data Collector Management']?.can_update==0" -->

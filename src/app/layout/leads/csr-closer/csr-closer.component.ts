@@ -1,12 +1,13 @@
 
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Constant } from 'src/app/common/constants';
 import { IProperty } from 'src/app/common/property';
 import { Users } from 'src/app/models/users.model';
 import { AdminService } from 'src/app/services/admin.service';
+import { LeadsService } from 'src/app/services/leads.service';
 declare let swal: any;
 
 @Component({
@@ -44,7 +45,9 @@ export class CsrCloserComponent implements OnInit {
     public admin: AdminService,
     private constant: Constant,
     private route: ActivatedRoute,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    public leadsService: LeadsService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -348,5 +351,10 @@ export class CsrCloserComponent implements OnInit {
         this.closeAssignModel.nativeElement.click();
         swal('Error', error.error.message, 'error');
       });
+  }
+
+  viewLeadDetails(lead_id: string, data: any) {
+    this.leadsService.setLeadDetailData(data);
+    this.router.navigate(['/dashboard/leads/csr-closers', lead_id]);
   }
 }

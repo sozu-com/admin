@@ -86,8 +86,8 @@
               <td class="text-left" *ngIf="item.phone">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
               <td class="text-left" *ngIf="!item.phone">NA</td>
               <td class="text-left">{{item.email}}</td>
-              <td class="text-left">{{item.agents_count}}</td>
-              <td class="text-left">{{item.property_count}}</td>
+              <td class="text-left">{{item.agents_count | numberWithCommas}}</td>
+              <td class="text-left">{{item.property_count | numberWithCommas}}</td>
               <td>
                 <div class="table-actions">
                   <button title="Edit Details" [disabled]="admin?.admin_acl['Developers Management']?.can_update==0" (click)="editUser(item)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>

@@ -3,10 +3,11 @@ import * as moment from 'moment';
 import { UserModel } from 'src/app/models/inhouse-users.model';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { IProperty } from 'src/app/common/property';
-import { SellerSelections } from 'src/app/models/addProperty.model';
+import { SellerSelections, AddPropertyModel } from 'src/app/models/addProperty.model';
 import { Constant } from 'src/app/common/constants';
 import { AdminService } from 'src/app/services/admin.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PropertyService } from 'src/app/services/property.service';
 declare let swal: any;
 
 @Component({
@@ -52,8 +53,10 @@ export class PropertiesComponent implements OnInit {
   constructor(
     public constant: Constant,
     public admin: AdminService,
+    private propertyService: PropertyService,
     private spinner: NgxSpinnerService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -599,5 +602,11 @@ export class PropertiesComponent implements OnInit {
         });
       }
     });
+  }
+
+  viewPropertyDetails(property_id: string, data: AddPropertyModel) {
+    // this.propertyService.property = data;
+    this.propertyService.setPropertyData(data);
+    this.router.navigate(['/dashboard/properties/details', property_id]);
   }
 }

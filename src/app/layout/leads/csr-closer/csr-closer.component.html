@@ -315,7 +315,8 @@
                     </th> -->
                 </tr>
                 <tr class="cursor-pointer" title="Click to view details" *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }"
-                    routerLink="/dashboard/leads/csr-closers/{{item.id}}">
+                    (click)="viewLeadDetails(item.id, item)">
+                    <!-- routerLink="/dashboard/leads/csr-closers/{{item.id}}"  -->
                     <!-- only inhouse users can do this -->
                     <td *ngIf="admin?.admin_acl['Closer Lead Management']?.can_read==1 && !this.parameter.assignee_id" (click)="$event.stopPropagation()">
                         <label class="cust-check-bx" >
@@ -325,7 +326,9 @@
                         <!-- <i class="fa" [ngClass]="item.selected?'fa-check-square-o':'fa-square-o'" (click)="item.selected = !item.selected" aria-hidden="true"></i> -->
                     </td>
                     <td>
-                        <img class="rounded-circle" [src]="item.image" onerror="this.src='assets/img/default_img.png'" alt="img">
+                        <img class="rounded-circle" *ngIf="item?.image" onerror='src="assets/img/default_img.png"' alt="img"
+                              [defaultImage]="item?.image| img:'thumb'" [lazyLoad]="item?.image">
+                        <img class="rounded-circle" *ngIf="!item?.image" src="assets/img/default_img.png" alt="img">
                     </td>
                     <td class="text-left">
                         <span class="name">{{item.name | titlecase}}</span>
@@ -404,7 +407,9 @@
                             <tr *ngFor="let item of assign.items">
                                 <td *ngIf="item.is_blocked!=1">
                                     <div class="n-avail-profile">
-                                    <img [src]="item.image" onerror='src="assets/img/default_img.png"' alt="img">
+                                    <img *ngIf="item?.image" onerror='src="assets/img/default_img.png"' alt="img"
+                                        [defaultImage]="item?.image| img:'thumb'" [lazyLoad]="item?.image">
+                                    <img *ngIf="!item?.image" src="assets/img/default_img.png" alt="img">
                                     <div class="n-avail-info">
                                         <p class="p12">{{item.name | titlecase}}</p>
                                         <p class="p10">Phone : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>

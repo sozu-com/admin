@@ -3,10 +3,11 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AdminService } from 'src/app/services/admin.service';
 import { IProperty } from 'src/app/common/property';
 import { Constant } from 'src/app/common/constants';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CSRBuyerLeads } from 'src/app/models/leads.model';
+import { LeadsService } from 'src/app/services/leads.service';
 declare let swal: any;
 
 @Component({
@@ -42,7 +43,9 @@ export class CsrBuyerComponent implements OnInit {
     public admin: AdminService,
     private constant: Constant,
     private route: ActivatedRoute,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    public leadsService: LeadsService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -319,5 +322,10 @@ export class CsrBuyerComponent implements OnInit {
         this.closeAssignModel.nativeElement.click();
         swal('Error', error.error.message, 'error');
       });
+  }
+
+  viewLeadDetails(lead_id: string, data: any) {
+    this.leadsService.setLeadDetailData(data);
+    this.router.navigate(['/dashboard/leads/csr-buyers', lead_id]);
   }
 }

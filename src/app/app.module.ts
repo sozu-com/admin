@@ -38,6 +38,9 @@ import { ApiConstants } from './common/api-constants';
 import { VersionCheckService } from './services/version-check.service';
 import { Img360viewerComponent } from './layout/img360viewer/img360viewer.component';
 import { PricePipe } from './pipes/price.pipe';
+import { PropertyService } from './services/property.service';
+import { ProjectService } from './services/project.service';
+import { LeadsService } from './services/leads.service';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent},
@@ -80,6 +83,9 @@ const appRoutes: Routes = [
   ],
   providers: [
     AdminService,
+    PropertyService,
+    ProjectService,
+    LeadsService,
     VersionCheckService,
     // AngularFireDatabase,
     // AngularFireAuth,
