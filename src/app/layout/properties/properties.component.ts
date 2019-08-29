@@ -429,6 +429,10 @@ export class PropertiesComponent implements OnInit {
       if (this.parameter.status === 1) {
         this.parameter.seller_id = this.parameter.user_id;
         this.items[this.parameter.index].selected_seller_id = this.parameter.user_id;
+        const sel_user = {
+          user: {name: ''}
+        };
+        this.items[this.parameter.index].selected_seller = sel_user;
         this.items[this.parameter.index].selected_seller.user.name = this.parameter.fullName;
       }
       // const text = this.parameter.status === 1 ? 'accepted' : 'rejected';

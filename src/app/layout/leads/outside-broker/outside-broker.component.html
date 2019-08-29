@@ -314,8 +314,8 @@
                             <!-- <i class="fa" [ngClass]="item.selected?'fa-check-square-o':'fa-square-o'" (click)="item.selected = !item.selected" aria-hidden="true"></i> -->
                         </td>
                         <td>
-                            <img *ngIf="item.image" class="rounded-circle" [src]="item.image" alt="img">
-                            <img *ngIf="!item.image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
+                            <img [src]="item?.user?.image ? item?.user?.image : item?.image| img:'small'" class="rounded-circle"
+                                    onerror='src="assets/img/default_img.png"' alt="img">
                         </td>
                         <td class="text-left">
                             <span class="name">{{item.name | titlecase}}</span>

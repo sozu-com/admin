@@ -426,9 +426,11 @@ export class ChatTabsComponent implements OnInit {
       this.chat_admin = this.chat_buyer;
     }
     if (admin_sent_as === this.constant.userType.inhouse_broker) {
-      if (this.chat_broker) {
+      if (this.chat_broker && this.chat_broker.length) {
         this.chat_admin = this.chat_broker;
       } else {
+        this.chat_admin = {};
+        this.messages = [];
         swal('Error', 'Please assign agent to continue.', 'error');
         return false;
       }
