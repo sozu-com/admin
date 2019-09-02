@@ -102,10 +102,7 @@
                    <td style="padding-left:0"><label>Interested In</label></td>
                    <td *ngIf="leadData?.configuration">
                      <span *ngFor="let conf of leadData.configuration; let ii=index">
-                       <!-- {{conf.name}} -->
-                       <span *ngIf="conf.bedroom!=0">{{conf.bedroom}} Bed </span>
-                        <span *ngIf="conf.bathroom!=0">&middot; {{conf?.bathroom}} Bath </span>
-                        <span *ngIf="conf.half_bathroom!=0">&middot; {{conf.half_bathroom}} Half Bath </span>
+                        <app-property-configuration *ngIf="conf" [configuration]="conf"></app-property-configuration>
                         <span *ngIf="ii<leadData?.configuration?.length-1"> | </span> <br>
                      </span>
                      <span *ngIf="leadData.configuration?.length==0">NA</span>
@@ -211,45 +208,48 @@
 
 <!-- show fav properties -->
 <div class="modal" id="view-fav-property">
-  <div class="modal-dialog  modal-lg">
-      <div class="modal-content">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
-          <h3>Favorite Properties</h3>
-          <hr>
-          <div class="scrollbox fav-prop">
+            <h3>Favorite Properties</h3>
+            <hr>
+            <pagination-controls id="page2" class="my-pagination" (pageChange)="getPage2($event)"></pagination-controls>
+    
+            <div class="scrollbox fav-prop" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
             <div class="row">
-              <div class="col-lg-6 col-md-12 col-sm-12 col-12" *ngFor="let x of parameter.favorites">
-                  <div class="project-des-bx white-bg-2">
-                      <div class="price">{{x.min_price|price}}</div>
+                <div class="col-lg-6 col-md-12 col-sm-12 col-12"
+                *ngFor="let x of parameter.favorites| paginate: { id: 'page2', itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page2, totalItems: parameter.total2 }; let in=index">
+                <div class="project-des-bx white-bg-2">
+                    <div class="price" *ngIf="x">
+                    <p class="p10">{{x.for_sale==1 ? 'Buy' : 'Rent'}}</p>
+                    </div>
                     <div class="fig-block">
-                        <img [src]="x.image" onerror='src="assets/img/bank.png"' alt="img">
+                    <img [src]="x.image| img:'thumb'" onerror='src="assets/img/bank.png"' alt="img">
                     </div>
                     <div class="project-des-content">
-                        <small>{{x?.building?.developer?.name ? x?.building?.developer?.name : 'NA'}}</small>
-                        <a routerLink="/dashboard/properties/details/{{x.id}}">
-                            <h5>{{x?.building?.name.slice(0, 15)}}</h5>
-                        </a>
-                        <p class="p12">{{x.building.address.slice(0, 50)}}</p>
-                        <p class="p13" *ngIf="x">
-                            <span *ngIf="x.configuration.bedroom!=0">{{x.configuration.bedroom}} Bed </span>
-                            <span *ngIf="x.configuration.bathroom!=0">&middot; {{x.configuration?.bathroom}} Bath </span>
-                            <span *ngIf="x.configuration.half_bathroom!=0">&middot; {{x.configuration.half_bathroom}} Half Bath </span>
-                            <span>&middot; {{x.property_type.name}} </span>
-                        </p>
-                        <p class="p13" *ngIf="x">{{x.for_sale==1 ? 'Buy': 'Rent'}}</p>
-                        <!-- <p class="p13" *ngIf="x">{{x.property_type.name}}</p>
-                        <p class="p13" *ngIf="!x">NA</p> -->
+                        <small title="Apartment">{{x?.name}}</small>
+                    <a title="Building" routerLink="/dashboard/properties/details/{{x?.id}}">
+                        <h5>{{x?.building?.name.slice(0, 15)}}</h5>
+                    </a>
+                    <p class="p12">{{x.building.address.slice(0, 40)}}</p>
+                    <p class="p13" *ngIf="x">
+                        <app-property-configuration *ngIf="x.configuration" [configuration]="x.configuration"></app-property-configuration>
+                        <span>&middot; {{x.property_type.name}}</span>
+                    </p>
+                    <p class="p13">
+                        {{x.min_price | price}}
+                    </p>
                     </div>
-                  </div>
-              </div>
+                </div>
+                </div>
             </div>
-          </div>
+            </div>
         </div>
-      </div>
-  </div>
+        </div>
+    </div>
 </div>
 
 

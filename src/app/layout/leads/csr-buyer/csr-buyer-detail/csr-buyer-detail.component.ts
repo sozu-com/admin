@@ -32,6 +32,7 @@ export class CsrBuyerDetailComponent implements OnInit {
   leadData: Leads;
   allAmenities: Array<BuyerAmenities> = [];
   selectedAmenities: Array<BuyerAmenities> = [];
+  public scrollbarOptions = { axis: 'y', theme: 'dark' };
   constructor(
     private route: ActivatedRoute,
     public admin: AdminService,
@@ -46,6 +47,10 @@ export class CsrBuyerDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.parameter.itemsPerPage = this.constant.itemsPerPage;
+    this.parameter.page2 = this.constant.p;
+    this.parameter.total2 = 0;
 
     // Initialising
     this.leadData = new Leads();
@@ -77,6 +82,11 @@ export class CsrBuyerDetailComponent implements OnInit {
           this.spinner.hide();
         });
     });
+  }
+
+  getPage2(page) {
+    this.parameter.page2 = page;
+    this.viewFavProperties();
   }
 
   setFillInformationData(leadData: Leads) {
@@ -120,7 +130,17 @@ export class CsrBuyerDetailComponent implements OnInit {
   }
 
   viewFavProperties() {
-    this.showPropertyModal.nativeElement.click();
+    this.spinner.show();
+    this.admin.postDataApi('leads/favoriteProperties', {lead_id: this.parameter.lead_id, page: this.parameter.page2}).subscribe(r => {
+      this.spinner.hide();
+      this.parameter.favorites = r.data;
+      this.parameter.total2 = r.total;
+      if (this.parameter.page2 === 1) {
+        this.showPropertyModal.nativeElement.click();
+      }
+    }, error => {
+      this.spinner.hide();
+    });
   }
 
   dealFinalisedReceived(value) {

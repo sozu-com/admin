@@ -45,11 +45,7 @@
         </a>
         <p class="p12">{{data.property.building.address.slice(0, 90)}}</p>
         <p class="p13" *ngIf="data && data.property">
-          <span *ngIf="data.property.configuration.bedroom!=0">{{data.property.configuration.bedroom}} Bed </span>
-          <span *ngIf="data.property.configuration.bathroom!=0">&middot; {{data.property?.configuration?.bathroom}} Bath
-          </span>
-          <span *ngIf="data.property.configuration.half_bathroom!=0">&middot;
-            {{data.property.configuration.half_bathroom}} Half Bath</span>
+          <app-property-configuration *ngIf="data.property.configuration" [configuration]="data.property.configuration"></app-property-configuration>
           <span>&middot; {{data.property.property_type.name}}</span>
         </p>
         <!-- <p class="p13" *ngIf="data && data.property">{{data.property.configuration.name}}, {{data.property.property_type.name}}</p> -->
@@ -173,11 +169,8 @@
                     </p>
                     <!-- <p class="p10 marginB0">{{item.building.address ? item.building.address : 'NA'}}</p> -->
                     <p class="p10">
-                      <span *ngIf="item.configuration.bedroom!=0">{{item.configuration.bedroom}} Bed </span>
-                      <span *ngIf="item.configuration.bathroom!=0">&middot; {{item?.configuration?.bathroom}} Bath
-                      </span>
-                      <span *ngIf="item.configuration.half_bathroom!=0">&middot; {{item.configuration.half_bathroom}}
-                        Half Bath </span>
+                      <app-property-configuration *ngIf="item.configuration" [configuration]="item.configuration"></app-property-configuration>
+                      <span>&middot; {{item.property_type.name}}</span>
                     </p>
                     <!-- <p class="p10">{{item.configuration.name}}</p> -->
                   </div>
@@ -301,11 +294,7 @@
                   </a>
                   <p class="p12">{{x.property.building.address.slice(0, 40)}}</p>
                   <p class="p13" *ngIf="x && x.property">
-                    <span *ngIf="x.property.configuration.bedroom!=0">{{x.property.configuration.bedroom}} Bed </span>
-                    <span *ngIf="x.property.configuration.bathroom!=0">&middot; {{x.property?.configuration?.bathroom}}
-                      Bath </span>
-                    <span *ngIf="x.property.configuration.half_bathroom!=0">&middot;
-                      {{x.property.configuration.half_bathroom}} Half Bath </span>
+                    <app-property-configuration *ngIf="x.property.configuration" [configuration]="x.property.configuration"></app-property-configuration>
                     <span>&middot; {{x.property.property_type.name}}</span>
                   </p>
                   <!-- <p class="p13" *ngIf="x && x.property">{{x.property.configuration.name}}, {{x.property.property_type.name}}</p> -->

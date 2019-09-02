@@ -38,6 +38,7 @@ export class InhouseBrokerDetailComponent implements OnInit {
   is_deal_finalised: boolean;
   today = new Date();
   input: any;
+  public scrollbarOptions = { axis: 'y', theme: 'dark' };
   constructor(
     private route: ActivatedRoute,
     public admin: AdminService,
@@ -52,6 +53,10 @@ export class InhouseBrokerDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.parameter.itemsPerPage = this.constant.itemsPerPage;
+    this.parameter.page2 = this.constant.p;
+    this.parameter.total2 = 0;
 
     // Initialising
     this.leadData = new Leads();
@@ -89,6 +94,10 @@ export class InhouseBrokerDetailComponent implements OnInit {
     });
   }
 
+  getPage2(page) {
+    this.parameter.page2 = page;
+    this.viewFavProperties();
+  }
 
   setFillInformationData(leadData: Leads) {
     this.allAmenities = leadData.buyer_amenities;
@@ -178,7 +187,17 @@ export class InhouseBrokerDetailComponent implements OnInit {
   // }
 
   viewFavProperties() {
-    this.showPropertyModal.nativeElement.click();
+    this.spinner.show();
+    this.admin.postDataApi('leads/favoriteProperties', {lead_id: this.parameter.lead_id, page: this.parameter.page2}).subscribe(r => {
+      this.spinner.hide();
+      this.parameter.favorites = r.data;
+      this.parameter.total2 = r.total;
+      if (this.parameter.page2 === 1) {
+        this.showPropertyModal.nativeElement.click();
+      }
+    }, error => {
+      this.spinner.hide();
+    });
   }
 
   getInvoice() {

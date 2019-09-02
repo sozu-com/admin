@@ -18,10 +18,7 @@
               {{property?.name}}
             </p>
             <p class="p12">
-              <!-- {{property?.bedroom}} Bed, {{property?.bathroom}} Bath -->
-              <span *ngIf="property?.configuration?.bedroom!=0">{{property?.configuration?.bedroom}} Bed </span>
-              <span *ngIf="property?.configuration?.bathroom!=0">&middot; {{property?.configuration?.bathroom}} Bath </span>
-              <span *ngIf="property?.configuration?.half_bathroom!=0">&middot; {{property?.configuration?.half_bathroom}} Half Bath </span>
+              <app-property-configuration *ngIf="property?.configuration" [configuration]="property?.configuration"></app-property-configuration>
               <span>&middot; {{property?.property_type?.name}} </span>
             </p>
 

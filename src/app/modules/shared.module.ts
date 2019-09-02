@@ -14,6 +14,7 @@ import { ImgPipe } from '../pipes/img.pipe';
 import { NumberWithCommasPipe } from '../pipes/number-with-commas.pipe';
 import { ChatTabsComponent } from '../layout/common-blocks/chat-tabs/chat-tabs.component';
 import { PricePipe } from '../pipes/price.pipe';
+import { PropertyConfigurationComponent } from '../layout/common-blocks/property-configuration/property-configuration.component';
 
 @NgModule({
   imports: [
@@ -27,24 +28,26 @@ import { PricePipe } from '../pipes/price.pipe';
   declarations: [
     ChatComponent,
     ChatTabsComponent,
-    ChatTimePipe,
     NotesComponent,
+    PropertyConfigurationComponent,
+    BlockGetPropertyComponent,
+    ChatTimePipe,
     MomentPipe,
     ThousandPipe,
     ImgPipe,
-    BlockGetPropertyComponent,
     NumberWithCommasPipe,
     PricePipe
   ],
   exports: [
     ChatComponent,
     ChatTabsComponent,
-    ChatTimePipe,
     NotesComponent,
+    PropertyConfigurationComponent,
+    BlockGetPropertyComponent,
+    ChatTimePipe,
     MomentPipe,
     ThousandPipe,
     ImgPipe,
-    BlockGetPropertyComponent,
     NumberWithCommasPipe,
     PricePipe
   ]

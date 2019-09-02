@@ -48,6 +48,9 @@ export class FillInformationComponent implements OnInit {
     //   this.leadData.planning_to_buy = moment.utc(this.leadData.planning_to_buy).toDate();
     // }
     // this.getPrefOptions();
+    $('.section-section2').scroll(function(e) {
+      e.stopPropagation();
+    });
   }
 
   getPrefOptions() {

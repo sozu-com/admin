@@ -4,7 +4,8 @@
 
 <hr class="margin0" *ngIf="leadData">
 
-<div class="white-bg padding40 fill-info" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+<!-- <div class="white-bg padding40 fill-info" malihu-scrollbar [scrollbarOptions]="scrollbarOptions"> -->
+        <div class="white-bg padding40 fill-info" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
 
     <div class="form-group-5">
         <label>What your are looking for?</label>
@@ -96,7 +97,7 @@
         <label>Amenities that you are expecting</label>
         <div class="clearfix"></div>
         
-        <ng-multiselect-dropdown *ngIf="leadData.buyer_amenities"
+        <ng-multiselect-dropdown class="section-section2" *ngIf="leadData.buyer_amenities"
             [placeholder]="'Choose Amenities'"
             [data]="allAmenities"
             [(ngModel)]="selectedAmenities"
