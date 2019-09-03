@@ -119,7 +119,7 @@ export class ChatTabsComponent implements OnInit {
       this.initSocket();
       this.selectedProperties = this.leadData.selected_properties[0] ? this.leadData.selected_properties[0] : new SelectedProperties();
       this.chat_buyer = this.leadData.user ? this.leadData.user : new Users();
-      this.chat_broker = this.leadData.broker ? this.leadData.broker : [];
+      this.chat_broker = this.leadData.broker ? this.leadData.broker : {};
       this.chat_csr_buyer = this.leadData.admin;
       if (this.selectedProperties) {
         this.property = this.selectedProperties ? this.selectedProperties.property : new AddPropertyModel();
@@ -426,7 +426,7 @@ export class ChatTabsComponent implements OnInit {
       this.chat_admin = this.chat_buyer;
     }
     if (admin_sent_as === this.constant.userType.inhouse_broker) {
-      if (this.chat_broker && this.chat_broker.length) {
+      if (this.chat_broker) {
         this.chat_admin = this.chat_broker;
       } else {
         this.chat_admin = {};
