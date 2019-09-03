@@ -97,7 +97,7 @@
         <div class="row">
           <div class="col-lg-6 col-md-12 col-sm-12 col-12" 
           *ngFor="let item of searchedBuildings| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.buildingCount }; let i = index">
-            <app-project-block (setBuilding)="setBuildingId($event)" [data]="item" [index]="i"></app-project-block>
+            <app-project-block (setBuilding)="setBuildingId($event)" (buildingIndex)="getBuildingIndex($event)" [data]="item" [index]="i"></app-project-block>
           </div>
         </div>
 

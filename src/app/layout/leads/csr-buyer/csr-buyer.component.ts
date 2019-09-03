@@ -38,6 +38,8 @@ export class CsrBuyerComponent implements OnInit {
     lead_broker_assigned: 0
   };
   chartView: any = [];
+  showSearchText: boolean;
+
   public scrollbarOptions = { axis: 'y', theme: 'dark'};
   constructor(
     public admin: AdminService,
@@ -49,6 +51,7 @@ export class CsrBuyerComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.showSearchText = true;
     this.parameter.is_selected = false;
     this.parameter.keyword = '';
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
@@ -284,8 +287,10 @@ export class CsrBuyerComponent implements OnInit {
   }
 
   bulkAssign() {
+    this.showSearchText = false;
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     if (leads_ids.length === 0) {
+      this.showSearchText = true;
       swal('Error', 'Please choose atleast one lead.', 'error');
       return false;
     }

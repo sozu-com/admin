@@ -190,6 +190,19 @@ export class BulkAddComponent implements OnInit {
       );
   }
 
+  getPage(page: number) {
+    this.parameter.page = page;
+  }
+
+
+  getBuildingIndex(i: number) {
+    this.searchedBuildings.forEach(e => {
+      e.selected = false;
+    });
+    const searchindex = (this.parameter.page - 1) * 4 + i;
+    this.searchedBuildings[searchindex].selected = true;
+  }
+
   setBuildingId(building: any) {
     this.selectedBuilding = building;
     this.building.id = building.id;

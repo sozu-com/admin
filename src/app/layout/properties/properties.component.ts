@@ -464,6 +464,10 @@ export class PropertiesComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.changePropertySoldStatus(property, index, value);
+      } else {
+        console.log(this.items[index]);
+        this.items[index] = property;
+        console.log(this.items[index]);
       }
     });
   }

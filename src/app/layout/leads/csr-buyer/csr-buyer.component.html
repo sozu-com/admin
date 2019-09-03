@@ -399,6 +399,10 @@
                     </div>
                 </div>
                 <div class="spacer40"></div>
+                {{showSearchText}}
+                <div *ngIf="showSearchText">
+                    <p class="show-not-found">Search the CSR Buyer you want to assign.</p>
+                </div>
                 <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
                     <table class="table">
                         <tr *ngFor="let item of assign.items">

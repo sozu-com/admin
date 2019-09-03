@@ -83,6 +83,7 @@ export class AddProjectModel {
   manager_id: number;
   company?: Company;
   company_id: number;
+  selected?: boolean;
 }
 
 

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AdminService } from './../services/admin.service';
 import { NgForm } from '@angular/forms';
-import { IProperty } from './../common/property';
-import { Constant } from './../common/constants';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { IProperty } from '../common/property';
+import { AdminService } from '../services/admin.service';
+import { Constant } from '../common/constants';
 declare let swal: any;
 
 @Component({
@@ -22,10 +22,10 @@ export class ForgotPasswordComponent implements OnInit {
   projectName: string;
   constructor(public admin: AdminService, private router: Router, public constant: Constant,
     private spinner: NgxSpinnerService) {
-    const token =  localStorage.getItem('token');
-    if (token) {
-      this.router.navigate(['dashboard/view-inhouse-users/data-collectors']);
-    }
+    // const token =  localStorage.getItem('token');
+    // if (token) {
+    //   this.router.navigate(['dashboard/view-inhouse-users/data-collectors']);
+    // }
   }
 
   ngOnInit() {

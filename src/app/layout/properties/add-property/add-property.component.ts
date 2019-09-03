@@ -1,15 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
-// import {AdminService} from '../../../services/admin.service';
-// import {CommonService} from '../../../services/common.service';
-// import {Router, ActivatedRoute} from '@angular/router';
-// import {IProperty} from '../../../common/property';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgForm, FormControl } from '@angular/forms';
 import { MapsAPILoader } from '@agm/core';
-// import {Constant} from '../../../common/constants';
-// import {FileUpload} from './../../../common/fileUpload';
-// import {AddPropertyModel, Building, PropertyDetails} from '../../../models/addProperty.model';
-// import {HttpInterceptor} from '../../../services/http-interceptor';
 import { AddProjectModel, Towers, Configuration } from 'src/app/models/addProject.model';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AddPropertyModel, PropertyDetails, Building } from 'src/app/models/addProperty.model';
@@ -121,7 +113,7 @@ export class AddPropertyComponent implements OnInit {
   property_names: Array<any>;
   amenity_index: number;
   amenity_obj: any;
-
+  // @ViewChild('scrollToTower') scrollToTower: ElementRef;
   constructor(public model: AddPropertyModel, private us: AdminService, private cs: CommonService,
     private router: Router, private sanitization: DomSanitizer, private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone, private building: Building, public constant: Constant,
@@ -1139,7 +1131,16 @@ export class AddPropertyComponent implements OnInit {
     }
   }
 
+  getBuildingIndex(i: number) {
+    this.searchedBuildings.forEach(e => {
+      e.selected = false;
+    });
+    const searchindex = (this.parameter.page - 1) * 4 + i;
+    this.searchedBuildings[searchindex].selected = true;
+  }
+
   setBuildingId(building: any) {
+    // this.scrollToTower.nativeElement.scrollTop = this.scrollToTower.nativeElement.scrollHeight;
     this.selectedBuilding = building;
     this.building.id = building.id;
     this.model.building_id = building.id;

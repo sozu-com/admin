@@ -1433,6 +1433,7 @@ padding-top: 0 !important;
 position: absolute;
 opacity: 0;
 cursor: pointer;
+right: 0;
 }
 .cust-check-bx .checkmark {
 position: absolute;

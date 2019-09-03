@@ -1,14 +1,20 @@
-<div *ngIf="data" class="project-des-bx white-bg" (click)="setBuildingId(data)">
-  <!-- <div class="price">
-    <input type="radio" [(ngModel)]="buildingId" name="buildingId" (change)="setBuildingId(data)">
-  </div> -->
-  <div class="fig-block" (click)="setBuildingId(data)">
+<div *ngIf="data" class="project-des-bx white-bg">
+  <div class="fig-block">
     <img *ngIf="data?.main_image" onerror='this.src="assets/img/placeholder-img.png"'
       [defaultImage]="data?.main_image| img:'thumb'" [lazyLoad]="data?.main_image">
     <img *ngIf="!data?.main_image" src="assets/img/placeholder-img.png">
   </div>
   <div class="project-des-content">
-    <small title="Developer Name">{{data?.developer?.name ? data?.developer?.name : 'NA'}}</small>
+    <div>
+      <small title="Developer Name">{{data?.developer?.name ? data?.developer?.name : 'NA'}}</small>
+      <!-- <div class="price"> -->
+          <!-- [(ngModel)]="buildingId" -->
+        <!-- <input type="radio" name="buildingId" (change)="setBuildingId(data)"> -->
+        <label class="cust-check-bx float-right">
+            <input type="radio" (click)="setBuildingId(data, index)" [checked]="data.selected ? 'checked' : ''" name="notary_id">
+            <span class="checkmark"></span>
+        </label>
+    </div>
     <!-- <a routerLink="/dashboard/projects/details/{{data.id}}"> -->
     <h5 title="Building Name">{{data?.name.slice(0, 35)}}</h5>
     <!-- </a> -->

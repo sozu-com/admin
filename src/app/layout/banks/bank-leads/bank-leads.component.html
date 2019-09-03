@@ -283,7 +283,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-8">
-                            <input style="max-width:200px" list="amenities" [(ngModel)]="assign.keyword" (input)="getAssignListing()" class="form-control" type="text" name="keyword" placeholder="Search">
+                            <input style="max-width:200px" list="amenities" [(ngModel)]="assign.keyword" (keyup.enter)="getAssignListing()" class="form-control" type="text" name="keyword" placeholder="Search">
                         </div>
                         <div class="col-md-4 btn-cont">
                             <a class="btn btn-primary pull-right" href="javascript://" (click)="assignNow()">Assign</a>

@@ -119,6 +119,8 @@ export class CsrBuyerDetailComponent implements OnInit {
       this.leadData.broker = r.data['broker'];
       this.leadData.admin = r.data['admin'];
       swal('Success', 'Agent assigned successfully', 'success');
+    }, error => {
+      swal('Error', 'No Agent is available', 'error');
     }
   );
   }

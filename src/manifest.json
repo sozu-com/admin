@@ -1,7 +1,7 @@
 {
     "name": "Sozu | Real Estate in Mexico",
     "short_name": "Sozu",
-    "start_url": "https://admintest.sozu.com/",
+    "start_url": "https://admin.sozu.com/",
     "gcm_sender_id": "103953800507",
     "theme_color": "#222",
     "background_color": "#222",

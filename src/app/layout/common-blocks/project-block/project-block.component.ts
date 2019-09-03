@@ -10,18 +10,17 @@ import { AdminService } from 'src/app/services/admin.service';
 })
 export class ProjectBlockComponent implements OnInit {
 
-  buildingId: string;
   @Input('data') data: any;
   @Input('index') index: number;
   @Output('setBuilding') setBuilding = new EventEmitter();
-  public parameter: IProperty = {};
+  @Output('buildingIndex') buildingIndex = new EventEmitter();
   constructor(public constant: Constant, private admin: AdminService) { }
 
-  ngOnInit() {
-    this.parameter.page = this.constant.p;
-  }
+  ngOnInit() {}
 
-  setBuildingId(data: any) {
+  setBuildingId(data: any, i: number) {
+    // data.selected = true;
     this.setBuilding.emit(data);
+    this.buildingIndex.emit(i);
   }
 }
