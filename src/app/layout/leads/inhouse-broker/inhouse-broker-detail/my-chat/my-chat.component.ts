@@ -392,6 +392,7 @@ export class MyChatComponent implements OnInit {
   }
 
   sendMessage(model) {
+    model.sent_as = this.constant.userType.inhouse_broker;
     if (model.message_type === 1 && !model.message) {
       swal('Error', 'Please enter some text.', 'error');
     } else {
@@ -417,7 +418,7 @@ export class MyChatComponent implements OnInit {
   loadMore() {
     this.loadmoring = true;
     const data = {
-      sent_as: 2,
+      sent_as: this.constant.userType.inhouse_broker,
       conversation_id: this.conversation_id,
       lead_id: this.lead_id,
       last_message_id: this.messages[0].id

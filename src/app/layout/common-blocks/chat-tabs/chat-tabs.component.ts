@@ -389,6 +389,7 @@ export class ChatTabsComponent implements OnInit {
   }
 
   sendMessage(model) {
+    model.sent_as = this.sent_as;
     if (model.message_type === 1 && !model.message) {
       swal('Error', 'Please enter some text.', 'error');
     } else {

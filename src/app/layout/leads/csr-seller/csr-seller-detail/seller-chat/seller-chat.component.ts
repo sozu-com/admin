@@ -141,7 +141,7 @@ export class SellerChatComponent implements OnInit {
 
 
         const data = {
-          sent_as: this.constant.userType.inhouse_broker,
+          sent_as: this.constant.userType.csr_seller,
           // lead_id: this.lead_id,
           conversation_id: this.conversation_id
         };
@@ -399,6 +399,7 @@ export class SellerChatComponent implements OnInit {
   }
 
   sendMessage(model) {
+    model.sent_as = this.constant.userType.csr_seller;
     if (model.message_type === 1 && !model.message) {
       swal('Error', 'Please enter some text.', 'error');
     } else {
@@ -426,7 +427,7 @@ export class SellerChatComponent implements OnInit {
   loadMore() {
     this.loadmoring = true;
     const data = {
-      sent_as: 2,
+      sent_as: this.constant.userType.csr_seller,
       conversation_id: this.conversation_id,
       lead_id: this.lead_id,
       last_message_id: this.messages[0].id

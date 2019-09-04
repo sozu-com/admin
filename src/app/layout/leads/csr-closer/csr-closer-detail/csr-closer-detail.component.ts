@@ -660,6 +660,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   }
 
   sendMessage(model) {
+    model.sent_as = this.parameter.sent_as;
     if (model.message_type === 1 && !model.message) {
       swal('Error', 'Please enter some text.', 'error');
     } else {
@@ -734,7 +735,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   loadMore() {
     this.loadmoring = true;
     const data = {
-      sent_as: 2,
+      sent_as: this.constant.userType.csr_closer,
       conversation_id: this.conversation_id,
       lead_id: this.parameter.lead_id,
       last_message_id: this.messages[0].id

@@ -83,6 +83,10 @@ export class UsersComponent implements OnInit {
 
 
   changeListner(event, type: number) {
+    if (event.target.files[0].size > this.constant.fileSizeLimit) {
+      swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+      return false;
+    }
     if (type === 1) {
       this.model.image = event.target.files[0];
     } else {

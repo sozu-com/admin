@@ -73,6 +73,10 @@ export class BanksComponent implements OnInit {
 
 
   changeListner(event: any, paramLoader: string, param: any) {
+    if (event.target.files[0].size > this.constant.fileSizeLimit) {
+      swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+      return false;
+    }
     this.model[paramLoader] = true;
     const reader = new FileReader();
     reader.onload = (e: any) => {

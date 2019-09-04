@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AdminService } from '../../../services/admin.service';
+import { AdminService } from 'src/app/services/admin.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IProperty } from '../../../common/property';
-import { AddProjectModel, Configuration, Towers, LocalityToCountry } from './../../../models/addProject.model';
+import { IProperty } from 'src/app/common/property';
+import { AddProjectModel, Configuration, Towers, LocalityToCountry } from 'src/app/models/addProject.model';
 import { MapsAPILoader } from '@agm/core';
-import { Constant } from './../../../common/constants';
-import { FileUpload } from './../../../common/fileUpload';
-import { VideoUpload } from './../../../common/videoUpload';
+import { Constant } from 'src/app/common/constants';
+import { FileUpload } from 'src/app/common/fileUpload';
+import { VideoUpload } from 'src/app/common/videoUpload';
 import { CommonService } from 'src/app/services/common.service';
 import { ApiConstants } from 'src/app/common/api-constants';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -905,6 +905,18 @@ export class AddProjectComponent implements OnInit {
   initForm() {
     this.myform = new FormGroup({
       name: new FormControl('', [
+        Validators.required
+      ]),
+      country: new FormControl('', [
+        Validators.required
+      ]),
+      state: new FormControl('', [
+        Validators.required
+      ]),
+      city: new FormControl('', [
+        Validators.required
+      ]),
+      locality: new FormControl('', [
         Validators.required
       ]),
       address: new FormControl('', [

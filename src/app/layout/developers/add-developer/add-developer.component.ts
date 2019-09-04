@@ -1,15 +1,15 @@
 import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
-import { AdminService } from './../../../services/admin.service';
-import { CommonService } from './../../../services/common.service';
-import { IProperty } from './../../../common/property';
 import { ACL, Permission } from './../../../models/acl.model';
 import { ActivatedRoute } from '@angular/router';
-import { Constant } from './../../../common/constants';
 import { NgForm } from '@angular/forms';
 import { Users } from 'src/app/models/users.model';
 import { MapsAPILoader } from '@agm/core';
 import { FileUpload } from 'src/app/common/fileUpload';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { IProperty } from 'src/app/common/property';
+import { Constant } from 'src/app/common/constants';
+import { CommonService } from 'src/app/services/common.service';
+import { AdminService } from 'src/app/services/admin.service';
 declare const google;
 declare let swal: any;
 
@@ -53,11 +53,9 @@ export class AddDeveloperComponent implements OnInit {
     this.initialCountry = {initialCountry: this.constant.country_code};
       this.parameter.sub = this.route.params.subscribe(params => {
         if (params['id'] !== '0') {
-          console.log('aaa', this.model);
           this.model.id = params['id'];
           this.getUserById(this.model.id);
         } else {
-          console.log('aaa', this.model);
           this.model.id = '';
           this.model.images = [];
         }
@@ -73,7 +71,6 @@ export class AddDeveloperComponent implements OnInit {
         this.model = success.data;
         this.image = this.model.image;
         this.developer_image = this.model.developer_image;
-        console.log('==', this.model);
       }, error => {
         this.spinner.hide();
       });
@@ -84,6 +81,10 @@ export class AddDeveloperComponent implements OnInit {
   }
 
   changeListner(event: any, param: any) {
+    if (event.target.files[0].size > this.constant.fileSizeLimit) {
+      swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+      return false;
+    }
     const reader = new FileReader();
     reader.onload = (e: any) => {
       this[param] = e.target.result;
@@ -96,7 +97,6 @@ export class AddDeveloperComponent implements OnInit {
       );
     };
     reader.readAsDataURL(event.target.files[0]);
-    console.log(this.model);
   }
 
   onCountryChange(e) {
@@ -226,10 +226,8 @@ export class AddDeveloperComponent implements OnInit {
     }
     this.modalClose.nativeElement.click();
     this.file4.upload().then(r => {
-      console.log(this.file4.files);
       this.model.images = this.file4.files;
     });
-    console.log('model', this.model);
   }
 
 }

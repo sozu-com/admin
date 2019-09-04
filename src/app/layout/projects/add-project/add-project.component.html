@@ -86,7 +86,7 @@
               <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                 <div class="form-group-3">
                   <label class="p16-two">Select Country <span class="color-red">*</span></label>
-                  <select title="Choose Country" required class="form-control" (change)="getStates($event.target.value, '')">
+                  <select title="Choose Country" name="country" required class="form-control" (change)="getStates($event.target.value, '')">
                     <option value="" disabled>Select Country</option>
                     <option *ngFor="let country of parameter.countries" value="{{country.id}}"
                       [selected]="country.id == model.country_id">{{country.name_en}}</option>
@@ -96,7 +96,7 @@
               <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                 <div class="form-group-3">
                   <label class="p16-two">&nbsp;</label>
-                  <select title="Choose State" required class="form-control" (change)="getCities($event.target.value, '')">
+                  <select title="Choose State" name="state" required class="form-control" (change)="getCities($event.target.value, '')">
                     <option value="">Select State</option>
                     <option *ngFor="let state of parameter.states" value="{{state.id}}"
                       [selected]="state.id == model.state_id">{{state.name_en}}</option>
@@ -106,7 +106,7 @@
               <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                 <div class="form-group-3">
                   <!-- <label class="p16-two">&nbsp;</label> -->
-                  <select title="Choose City" required class="form-control" (change)="getLocalities($event.target.value)">
+                  <select title="Choose City" name="city" required class="form-control" (change)="getLocalities($event.target.value)">
                     <option value="">Select City</option>
                     <option *ngFor="let city of parameter.cities" value="{{city.id}}" [selected]="city.id == model.city_id">
                       {{city.name_en}}</option>
@@ -116,7 +116,7 @@
               <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                 <div class="form-group-3">
                   <!-- <label class="p16-two">&nbsp;</label> -->
-                  <select title="Choose Locality" required class="form-control"
+                  <select title="Choose Locality" name="locality" required class="form-control"
                     (change)="setValue('locality_id', $event.target.value)">
                     <option value="">Select Locality</option>
                     <option *ngFor="let locality of parameter.localities" value="{{locality.id}}"
@@ -131,7 +131,7 @@
                   <label>Location
                     <span class="color-red">*</span>
                   </label>
-                  <input placeholder="Search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search (input)="loadPlaces()" name="address" [(ngModel)]="model.address" autocomplete="off">
+                  <input required placeholder="Search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search (input)="loadPlaces()" name="address" [(ngModel)]="model.address" autocomplete="off">
                 </div>
               </div>
             </div>
@@ -217,10 +217,10 @@
                   <label>Enter Custom Parameter and Value</label>
                   <div class="row">
                       <div class="col-sm-5">
-                        <input [(ngModel)]="new_custom.name" class="form-control" name="custom_name" type="text" placeholder="Parameter name"/>
+                        <input [(ngModel)]="new_custom.name" class="form-control" autocomplete="off" name="custom_name" type="text" placeholder="Parameter name"/>
                       </div>
                       <div class="col-sm-5">
-                        <input [(ngModel)]="new_custom.value" class="form-control" name="custom_value" type="text" placeholder="Parameter value" />
+                        <input [(ngModel)]="new_custom.value" class="form-control" autocomplete="off" name="custom_value" type="text" placeholder="Parameter value" />
                       </div>
                       <div class="col-sm-2">
                         <a (click)="addNewCustom()" class="btn-third btn btn-green" href="javascript://">Add</a>
@@ -471,7 +471,7 @@
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>Name of the Tower</label>
-                    <input autocomplete="off" [(ngModel)]="newTower.tower_name" class="form-control" type="text" name="tower_name" placeholder="Enter tower name">
+                    <input autocomplete="off" [(ngModel)]="newTower.tower_name" autocomplete="off" class="form-control" type="text" name="tower_name" placeholder="Enter tower name">
                   </div>
                 </div>
 
@@ -571,7 +571,7 @@
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>Name of the Tower</label>
-                    <input autocomplete="off" [disabled]="model?.building_tower_edit_index!=i" [(ngModel)]="btower.tower_name" class="form-control" type="text" name="tower_name{{i}}" placeholder="Enter tower name">
+                    <input autocomplete="off" [disabled]="model?.building_tower_edit_index!=i" autocomplete="off" [(ngModel)]="btower.tower_name" class="form-control" type="text" name="tower_name{{i}}" placeholder="Enter tower name">
                   </div>
                 </div>
 
@@ -1289,7 +1289,7 @@
         <div class="modal-body">
             <div class="row">
                 <div class="col-md-8 col-6">
-                    <input style="max-width:200px" [(ngModel)]="name" class="form-control" type="text" name="keyword" placeholder="Search">
+                    <input style="max-width:200px" autocomplete="off" [(ngModel)]="name" class="form-control" type="text" name="keyword" placeholder="Search">
                 </div>
                 <div class="col-md-4 col-5 btn-cont">
                   <a class="btn btn-primary pull-right" href="javascript://" (click)="selectDeveloper(name, 2)">Search</a>

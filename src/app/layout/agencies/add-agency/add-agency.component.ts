@@ -1,15 +1,13 @@
 import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
-import { AdminService } from './../../../services/admin.service';
-import { CommonService } from './../../../services/common.service';
-import { IProperty } from './../../../common/property';
-import { ACL, Permission } from './../../../models/acl.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Constant } from './../../../common/constants';
 import { NgForm } from '@angular/forms';
-import { Users } from 'src/app/models/users.model';
 import { MapsAPILoader } from '@agm/core';
 import { Agency } from 'src/app/models/agency.model';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { IProperty } from 'src/app/common/property';
+import { Constant } from 'src/app/common/constants';
+import { CommonService } from 'src/app/services/common.service';
+import { AdminService } from 'src/app/services/admin.service';
 declare const google: any;
 declare let swal: any;
 
@@ -48,11 +46,9 @@ export class AddAgencyComponent implements OnInit {
     this.initialCountry = {initialCountry: this.constant.country_code};
       this.parameter.sub = this.route.params.subscribe(params => {
         if (params['id'] !== '0') {
-          console.log('aaa', this.model);
           this.model.id = params['id'];
           this.getAgencyById(this.model.id);
         } else {
-          console.log('aaa', this.model);
           this.model.id = '';
         }
       });
@@ -65,7 +61,6 @@ export class AddAgencyComponent implements OnInit {
       success => {
         this.spinner.hide();
         this.model = success.data;
-        console.log('==', this.model);
       }, error => {
         this.spinner.hide();
       });
@@ -76,6 +71,10 @@ export class AddAgencyComponent implements OnInit {
   }
 
   changeListner(event: any, paramLoader: string, param: any) {
+    if (event.target.files[0].size > this.constant.fileSizeLimit) {
+      swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+      return false;
+    }
     this.model[paramLoader] = true;
     const reader = new FileReader();
     reader.onload = (e: any) => {
@@ -188,7 +187,6 @@ export class AddAgencyComponent implements OnInit {
       geocoder.geocode(request, (results, status) => {
         if (status === google.maps.GeocoderStatus.OK) {
           const result = results[0];
-          console.log('para,', param);
           if (result != null) {
             this.model[param] = result.formatted_address;
           } else {
