@@ -339,11 +339,10 @@ export class InhouseBrokerComponent implements OnInit {
       swal('Error', 'Please choose atleast one lead.', 'error');
       return false;
     }
+    if (!this.assign.items) {
+      this.getAssignListing();
+    }
     this.openAssignModel.nativeElement.click();
-    // this.admin.postDataApi('getInhouseBroker', {}).subscribe(
-    //   success => {
-    //     this.assign.items = success.data;
-    //   });
   }
 
   getAssignListing() {
@@ -351,8 +350,10 @@ export class InhouseBrokerComponent implements OnInit {
     const input = {
       keyword: this.assign.keyword
     };
+    this.spinner.show();
     this.admin.postDataApi('getInhouseBroker', input).subscribe(
       success => {
+        this.spinner.hide();
         this.assign.items = success.data;
       });
   }

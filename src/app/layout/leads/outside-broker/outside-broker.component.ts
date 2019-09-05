@@ -1,8 +1,8 @@
 
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AdminService } from '../../../services/admin.service';
-import { IProperty } from '../../../common/property';
-import { Constant } from './../../../common/constants';
+import { AdminService } from 'src/app/services/admin.service';
+import { IProperty } from 'src/app/common/property';
+import { Constant } from 'src/app/common/constants';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -278,7 +278,6 @@ export class OutsideBrokerComponent implements OnInit {
 
   updateLeadType($event, sale_rent, lead_id, index) {
     $event.stopPropagation();
-    console.log('----');
     this.parameter.url = 'leads/updateLeadType';
     swal({
       html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to change availability for this property?',
@@ -317,11 +316,10 @@ export class OutsideBrokerComponent implements OnInit {
       swal('Error', 'Please choose atleast one lead.', 'error');
       return false;
     }
+    if (!this.assign.items) {
+      this.getAssignListing();
+    }
     this.openAssignModel.nativeElement.click();
-    // this.admin.postDataApi('getInhouseBroker', {}).subscribe(
-    //   success => {
-    //     this.assign.items = success.data;
-    //   });
   }
 
   getAssignListing() {
@@ -330,8 +328,10 @@ export class OutsideBrokerComponent implements OnInit {
       keyword: this.assign.keyword,
       is_external_agent: 1
     };
+    this.spinner.show();
     this.admin.postDataApi('getInhouseBroker', input).subscribe(
       success => {
+        this.spinner.hide();
         this.assign.items = success.data;
       });
   }

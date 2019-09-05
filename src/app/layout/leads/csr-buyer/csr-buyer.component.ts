@@ -294,6 +294,9 @@ export class CsrBuyerComponent implements OnInit {
       swal('Error', 'Please choose atleast one lead.', 'error');
       return false;
     }
+    if (!this.assign.items) {
+      this.getAssignListing();
+    }
     this.openAssignModel.nativeElement.click();
   }
 

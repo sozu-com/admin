@@ -307,26 +307,25 @@ export class CsrSellerComponent implements OnInit {
   }
 
   bulkAssign() {
-    // this.assign.keyword = '';
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     if (leads_ids.length === 0) {
       swal('Error', 'Please choose atleast one lead.', 'error');
       return false;
     }
+    if (!this.assign.items) {
+      this.getAssignListing();
+    }
     this.openAssignModel.nativeElement.click();
-    // this.admin.postDataApi('getCsrSellers', {}).subscribe(
-    //   success => {
-    //     this.assign.items = success.data;
-    //   });
   }
 
   getAssignListing() {
-    // this.assign.items = [];
     const input = {
       keyword: this.assign.keyword
     };
+    this.spinner.show();
     this.admin.postDataApi('getCsrSellers', input).subscribe(
       success => {
+        this.spinner.hide();
         this.assign.items = success.data;
       });
   }

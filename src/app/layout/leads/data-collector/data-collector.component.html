@@ -408,7 +408,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-8 col-6">
-                            <input style="max-width:200px" list="amenities" [(ngModel)]="assign.keyword" (input)="getAssignListing()" class="form-control" type="text" name="keyword" placeholder="Search">
+                            <input style="max-width:200px" list="amenities" [(ngModel)]="assign.keyword" (keyup.enter)="getAssignListing()" class="form-control" type="text" name="keyword" placeholder="Search">
                         </div>
                         <div class="col-md-4 col-6 btn-cont">
                             <a class="btn btn-primary pull-right" href="javascript://" (click)="assignNow()">Assign</a>
@@ -433,6 +433,9 @@
                                         <span class="checkmark"></span>
                                     </label>
                                 </td>
+                            </tr>
+                            <tr *ngIf="assign?.items?.length==0">
+                                <p class="show-not-found">No Data Collector found.</p>
                             </tr>
                         </table>
                     </div>

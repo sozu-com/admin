@@ -208,7 +208,10 @@ export class InhouseUsersComponent implements OnInit {
   }
 
   setAgency(id: string) {
+    console.log(id);
+    this.model.agency = new Agency();
     this.model.agency.id = id;
+    console.log(this.model);
   }
 
   // onSelectFile1(event: any, paramUrl: string, paramFile: string) {
@@ -273,10 +276,13 @@ export class InhouseUsersComponent implements OnInit {
     input.append('address', JSON.stringify(this.model.address));
     input.append('is_broker_seller_dev', formdata.value.is_broker_seller_dev === true ? '1' : '0');
     input.append('is_buyer_renter', formdata.value.is_buyer_renter === true ? '1' : '0');
-    input.append('is_broker', formdata.value.is_broker === true ? '1' : '0');
+    // input.append('is_broker', formdata.value.is_broker === true ? '1' : '0');
+    input.append('is_broker', this.model.is_broker ? '1' : '0');
     input.append('is_data_collector', formdata.value.is_data_collector === true ? '1' : '0');
     input.append('is_csr_closer', formdata.value.is_csr_closer === true ? '1' : '0');
-    input.append('is_external_agent', this.model.is_external_agent === true ? '1' : '0');
+    input.append('is_external_agent', this.model.is_external_agent ? '1' : '0');
+
+    console.log(this.model);
     if (this.model.is_external_agent) {
       input.append('agency_id', this.model.agency.id);
       // input.append('company_name', this.model.company_name);
@@ -438,6 +444,7 @@ export class InhouseUsersComponent implements OnInit {
     this.model.is_broker_seller_dev = userdata.permissions && userdata.permissions.can_csr_seller === 1 ? true : false;
     this.model.is_buyer_renter = userdata.permissions && userdata.permissions.can_csr_buyer === 1 ? true : false;
     this.model.is_broker = userdata.permissions && userdata.permissions.can_in_house_broker === 1 ? true : false;
+    this.model.is_external_agent = userdata.permissions && userdata.permissions.can_outside_broker === 1 ? true : false;
     this.model.is_data_collector = userdata.permissions && userdata.permissions.can_data_collector === 1 ? true : false;
     this.model.is_csr_closer = userdata.permissions && userdata.permissions.can_csr_closer === 1 ? true : false;
 
@@ -566,9 +573,11 @@ export class InhouseUsersComponent implements OnInit {
   setBrokerForModel(is_external_agent: string) {
     this.model.is_external_agent = is_external_agent === '1' ? true : false;
   }
-
+  setAgentType(key: string, key2: string, value: number) {
+    this.model[key] = this.model[key] ? false : true;
+    this.model[key2] = false;
+  }
   getInhouseUsers() {
-    this.spinner.show();
     switch (this.parameter.userType) {
       case 'data-collectors':
         this.parameter.url = 'getDataCollectors';
@@ -641,7 +650,7 @@ export class InhouseUsersComponent implements OnInit {
       input.append('buildings', JSON.stringify([this.parameter.building_id]));
     }
     input.append('is_external_agent', this.model.is_external_agent === true ? '1' : '0');
-
+    this.spinner.show();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {

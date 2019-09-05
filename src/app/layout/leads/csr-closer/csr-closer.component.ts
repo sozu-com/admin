@@ -323,6 +323,9 @@ export class CsrCloserComponent implements OnInit {
       swal('Error', 'Please choose atleast one lead.', 'error');
       return false;
     }
+    if (!this.assign.items) {
+      this.getAssignListing();
+    }
     this.openAssignModel.nativeElement.click();
   }
 
@@ -330,8 +333,10 @@ export class CsrCloserComponent implements OnInit {
     const input = {
       keyword: this.assign.keyword
     };
+    this.spinner.show();
     this.admin.postDataApi('getCsrClosers', input).subscribe(
       success => {
+        this.spinner.hide();
         this.assign.items = success.data;
       });
   }

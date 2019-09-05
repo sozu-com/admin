@@ -121,8 +121,7 @@ export class CsrBuyerDetailComponent implements OnInit {
       swal('Success', 'Agent assigned successfully', 'success');
     }, error => {
       swal('Error', 'No Agent is available', 'error');
-    }
-  );
+    });
   }
 
   blockThisLead() {
