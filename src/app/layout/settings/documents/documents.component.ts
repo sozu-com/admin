@@ -66,7 +66,6 @@ export class DocumentsComponent implements OnInit {
       .subscribe(
         success => {
           this.model = new Document();
-          // console.log('addDocumentOptions', success);
           const text = id ?
             this.constant.successMsg.DOCUMENT_NAME_UPDATED_SUCCESSFULLY :
             this.constant.successMsg.DOCUMENT_NAME_ADDED_SUCCESSFULLY;
@@ -84,7 +83,6 @@ export class DocumentsComponent implements OnInit {
       .subscribe(
         success => {
           this.spinner.hide();
-          // console.log('getDocumentOptions', success);
           this.parameter.items = success.data;
           this.parameter.total = success.data.length;
         }, error => {
@@ -115,7 +113,6 @@ export class DocumentsComponent implements OnInit {
 
 
   checkIfSpanishNameEntered(formdata: NgForm, id, name_en, name_es, status, type) {
-    // console.log('id, name_en, name_es, status, type', id, name_en, name_es, status, type);
     formdata.reset();
     const self = this;
     if (name_es === undefined) {

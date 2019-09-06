@@ -11,8 +11,6 @@ export class AclPermissionDirective {
   // @Input('admin_acl') admin_acl;
   admin_acl: any;
   constructor() {
-    // console.log('yess');
-    // console.log('aa', this.admin_acl);
     // this.admin_acl.forEach(element => {
     //   if (element.can_read === 0) {
     //     el.nativeElement.style.display = 'none';
@@ -20,12 +18,9 @@ export class AclPermissionDirective {
     // });
 
     // this.admin.loginData$.subscribe(success => {
-    //   // console.log('succccccc', success);
     //   setTimeout(() => {
     //     this.admin_acl = success['admin_acl'];
     //     this.admin_acl.forEach(element => {
-    //       // console.log(element);
-    //       // console.log('aclId', this.aclId, element.acl_id);
     //       if (element.acl_id === this.aclId && element.can_read === 0) {
     //         el.nativeElement.style.display = 'none';
     //       }

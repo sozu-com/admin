@@ -52,7 +52,6 @@ export class NotaryLeadsDetailsComponent implements OnInit {
       this.spinner.show();
       this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
         this.spinner.hide();
-        // console.log('lead details', r);
         this.getDocumentOptions();
         this.parameter.lead = r.data.lead;
         this.selectedProperties = r.data.lead.selected_properties[0];
@@ -122,7 +121,6 @@ export class NotaryLeadsDetailsComponent implements OnInit {
   }
 
   viewPropertyDetails(property) {
-    console.log('--', property.property_id);
     this.cs.setPropertyDetails(property);
     this.router.navigate(['/dashboard/properties/details/' + property.property_id]);
   }
@@ -138,7 +136,6 @@ export class NotaryLeadsDetailsComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.admin.postDataApi('leads/noatary-mark-lead-closed', {lead_id: this.parameter.lead_id}).subscribe(r => {
-          console.log('r', r);
           this.parameter.lead.lead_status_noatary = 1;
           swal('Success', 'Lead closed successfully.', 'success');
         });

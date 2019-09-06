@@ -30,12 +30,10 @@ export class AppHeaderComponent {
     private spinner: NgxSpinnerService
     ) {
     this.admin.loginData$.subscribe(success => {
-      // console.log('success1', success);
       this.fullName = success['name'];
       this.image = success['image'];
 
       this.messagingService.requestPermission(success['id']);
-      console.log('aaaaa', this.messagingService.fcmTokens);
       this.messagingService.receiveMessage();
       this.message = this.messagingService.currentMessage;
       // if (this.messagingService.fcmTokens) {
@@ -44,13 +42,11 @@ export class AppHeaderComponent {
     });
 
     // this.msg.currentMessage$.subscribe(r => {
-    //   console.log('push', r);
     //   if ( r != null && r.data.notification_type !== 100) {
     //     /* count if not a push of chat messages */
     //     this.msg_count++;
     //   }
     // });
-console.log('msg_count', this.msg_count);
     this.getNotifications();
   }
 
@@ -58,7 +54,7 @@ console.log('msg_count', this.msg_count);
     this.admin.postDataApi('updateDeviceToken', {device_id: this.admin.deviceId, device_token: this.messagingService.fcmTokens})
       .subscribe(
         success1 => {
-          console.log('suc', success1);
+          // console.log('suc', success1);
         });
   }
 

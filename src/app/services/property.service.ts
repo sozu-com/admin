@@ -11,6 +11,5 @@ export class PropertyService {
 
   setPropertyData(data: AddPropertyModel) {
     this.property = data;
-    console.log(this.property);
   }
 }

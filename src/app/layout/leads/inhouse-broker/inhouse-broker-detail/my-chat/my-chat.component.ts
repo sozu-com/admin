@@ -195,7 +195,6 @@ export class MyChatComponent implements OnInit {
 
         this.socket.on('message', (response: any) => {
           if (response.data.conversation_id === this.conversation_id) {
-            // console.log('Message received');
             this.messages.push(response.data);
             setTimeout(() => {
               this.scrollToBottom();
@@ -278,7 +277,6 @@ export class MyChatComponent implements OnInit {
     this.cs.saveAttachment(event.target.files[0]).subscribe(
       success => {
         model.attachment = success['data'].name;
-        // console.log('==>', model);
         this.sendMessage(model);
       }
     );
@@ -424,7 +422,6 @@ export class MyChatComponent implements OnInit {
       last_message_id: this.messages[0].id
     };
     this.admin.postDataApi('conversation/getMessages', data).subscribe(res => {
-      // console.log(res);
       this.loadmoring = false;
       if (res['data'].length < 30) { this.loadmore = false; }
       this.messages = res['data'].concat(this.messages);

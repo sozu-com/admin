@@ -187,7 +187,6 @@ export class AddCompanyComponent implements OnInit {
       geocoder.geocode(request, (results, status) => {
         if (status === google.maps.GeocoderStatus.OK) {
           const result = results[0];
-          console.log('para,', param);
           if (result != null) {
             this.model[param] = result.formatted_address;
           } else {

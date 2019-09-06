@@ -183,7 +183,6 @@ export class SellerChatComponent implements OnInit {
         device_id: this.admin.deviceId + '_' + this.admin_id
       };
       if (this.connected) {
-        // console.log('Socket Connected', this.socket_id, data);
 
         this.socket.emit('add-admin', data, (res: any) => {
           // console.log('res', res);
@@ -191,7 +190,6 @@ export class SellerChatComponent implements OnInit {
 
         this.socket.on('message', (response: any) => {
           if (response.data.conversation_id === this.conversation_id) {
-            // console.log('Message received');
             this.messages.push(response.data);
             setTimeout(() => {
               this.scrollToBottom();
@@ -274,7 +272,6 @@ export class SellerChatComponent implements OnInit {
     this.cs.saveAttachment(event.target.files[0]).subscribe(
       success => {
         model.attachment = success['data'].name;
-        // console.log('==>', model);
         this.sendMessage(model);
       }
     );
@@ -343,24 +340,18 @@ export class SellerChatComponent implements OnInit {
   newcanvas(video, videoFile, model) {
 
     const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-    // console.log(canvas);
     const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
       0, 0, canvas.width, canvas.height);
 
     const ImageURL = canvas.toDataURL('image/jpeg');
     model.image = ImageURL;
-    // console.log(model);
     const fileToUpload = this.dataURLtoFile(ImageURL, 'tempFile.png');
     this.cs.saveVideo(videoFile, fileToUpload).subscribe(
       success => {
-        // console.log('image', success);
         model.video = success['data'].video;
         model.image = success['data'].thumb;
         this.sendMessage(model);
       }
-      //  error => {
-      //   console.log(error);
-      // }
     );
   }
 
@@ -408,9 +399,7 @@ export class SellerChatComponent implements OnInit {
         this.scrollToBottom();
       }, 100);
 
-      // console.log('Appending', model);
       this.admin.postDataApi('conversation/sendMessage', model).subscribe(r => {
-        // console.log('sendMessage', r);
         if (model.loading === true) {
           model.loading = false;
           const foundIndex = this.messages.findIndex(x => x.uid == model.uid);
@@ -432,15 +421,11 @@ export class SellerChatComponent implements OnInit {
       lead_id: this.lead_id,
       last_message_id: this.messages[0].id
     };
-    // console.log(data);
     this.admin.postDataApi('conversation/getMessages', data).subscribe(res => {
-      // console.log(res);
       this.loadmoring = false;
       if (res['data'].length < 30) { this.loadmore = false; }
       this.messages = res['data'].concat(this.messages);
-    }
-      // error => {}
-    );
+    });
   }
 
   sendProperty(property) {

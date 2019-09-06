@@ -89,7 +89,6 @@ export class AdminService {
                     const key =  Object.keys(obj)[0];
                     this.admin_acl[key] =  obj[key];
                   });
-                  // console.log(this.admin_acl, this.permissions);
                   // localStorage.setItem('permissions', r.data.permissions);
                   // localStorage.setItem('admin_acl', this.admin_acl);
                   return r;
@@ -101,7 +100,6 @@ export class AdminService {
     //   .subscribe((response: any) => {
     //     const r = response.json();
     //     this.login.next(r.data);
-    //     console.log('response', r.data);
     //     localStorage.setItem('token', r.data.token);
     //     resolve(response);
     //   }, (error: any) => {
@@ -239,7 +237,6 @@ export class AdminService {
     const options = new RequestOptions({responseType: ResponseContentType.Blob });
     return this.http.get(this.baseUrl + url, options)
               .map((response: Response) => {
-                console.log(response);
                 this.http.loader.next({value: false});
                 return response.blob();
               })

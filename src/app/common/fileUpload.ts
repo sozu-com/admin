@@ -28,7 +28,6 @@ export class FileUpload {
         this.loading = true;
         const reader = new FileReader();
         reader.onload = (e: any) => {
-          // console.log('single',this.single,' index',index);
           if (this.single == true) {
             this.image = e.target.result;
             this.file = event.target.files[index];
@@ -38,7 +37,6 @@ export class FileUpload {
             model.file = event.target.files[index];
             model.loading = false;
             this.files.push(model);
-            console.log(this.files);
           }
 
           this.loading = false;
@@ -68,20 +66,16 @@ export class FileUpload {
   }
 
   upload(): Promise<any> {
-    console.log(this.files, 'this.files');
     return new Promise((resolve, reject) => {
       if (this.single == false) {
         const total = this.files.length;
         let i = 1;
         this.files.map(async (item) => {
           if (item.file) {
-            console.log('1111', item.file, item.file.type);
             const formData = new FormData();
             formData.append('image', item.file);
-            // console.log(item);
             item.loading = true;
             await this.us.postDataApi('saveImage', formData).subscribe(res => {
-              // console.log(res);
               delete item.file;
               item.image = res['data'].image;
               item.loading = false;
@@ -99,7 +93,6 @@ export class FileUpload {
             });
           } else {
             if (i >= total) {
-              console.log(this.files);
               resolve();
             }
             i++;
@@ -107,7 +100,6 @@ export class FileUpload {
         });
       }
       if (this.single === true && this.file) {
-        console.log('22222', this.file);
         const formData = new FormData();
         formData.append('image', this.file);
         //  this.image.loading = true;

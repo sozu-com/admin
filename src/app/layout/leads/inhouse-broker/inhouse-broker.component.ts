@@ -300,7 +300,6 @@ export class InhouseBrokerComponent implements OnInit {
 
   updateLeadType($event, sale_rent, lead_id, index) {
     $event.stopPropagation();
-    console.log('----');
     this.parameter.url = 'leads/updateLeadType';
     swal({
       html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to change availability for this property?',

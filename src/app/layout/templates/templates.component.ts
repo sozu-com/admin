@@ -43,7 +43,6 @@ export class TemplatesComponent implements OnInit {
     this.spinner.show();
     this.admin.postDataApi('getBlogs', this.parameter).subscribe(
       success => {
-        console.log('LIST', success);
         this.items = success.data;
         this.total = success.total_count;
         this.spinner.hide();

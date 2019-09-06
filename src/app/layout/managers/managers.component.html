@@ -216,7 +216,7 @@
                   <input minlength="6" maxlength="16" autocomplete="off" type="text" [pattern]="constant.phonePattern"
                     class="form-control" id="phone" required minlength="1" [(ngModel)]="model.phone" name="phone"
                     ng2TelInput #phonetest (intlTelInputObject)="telInputObject($event)"
-                    [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
+                    (countryChange)="onCountryChange($event)" />
                 </div>
               </div>
             </div>

@@ -50,7 +50,6 @@ export class ManualLeadsComponent implements OnInit {
       .subscribe(
         success => {
           this.spinner.hide();
-          console.log('suceess', success);
           this.items = success.data;
           this.parameter.total = success.total_count;
         }, error => {

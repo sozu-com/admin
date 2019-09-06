@@ -48,7 +48,6 @@ export class VideoUpload {
             model.thumb = event.target.files[index];
             model.loading = false;
             this.files.push(model);
-            console.log(this.files);
           }
 
           this.loading = false;
@@ -106,20 +105,16 @@ export class VideoUpload {
   }
 
   upload(): Promise<any> {
-    console.log(this.files, 'video-filesssssssssss');
     return new Promise((resolve, reject) => {
       if (this.single == false) {
         const total = this.files.length; let i = 1;
         this.files.map(async (item) => {
           if (item.fileToUpload) {
-            // console.log('1111', item.file, item.file.type);
             const formData = new FormData();
             formData.append('video', item);
             formData.append('thumb', item.fileToUpload);
-            // console.log(item);
             item.loading = true;
             await this.us.postDataApi('saveVideo', formData).subscribe(res => {
-              console.log(res.data);
               delete item.fileToUpload;
               item.video = res['data'].video;
               item.thumb = res['data'].thumb;
@@ -131,13 +126,12 @@ export class VideoUpload {
               i++;
             });
           } else {
-            if (i >= total) { console.log(this.files); resolve(); }
+            if (i >= total) { resolve(); }
             i++;
           }
         });
       }
       // if (this.single === true && this.file) {
-      //   console.log('22222', this.file);
       //   const formData = new FormData();
       //   formData.append('video', this.file);
       //   formData.append('thumb', this.file);
@@ -159,7 +153,6 @@ export class VideoUpload {
 
   remove(index: any) {
     this.files.splice(index, 1);
-    console.log(this.files, 'after-splice')
   }
 
   backup(files: any) {

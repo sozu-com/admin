@@ -57,7 +57,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
 //         const countryResponse = responseData2.json();
 //         this.admin.login.next(loginReponse.data);
 //         this.admin.country.next(countryResponse.data);
-// console.log('login success', success);
 //         this.admin.setUserLoggedIn();
 //         this.router.navigate(['dashboard/view-inhouse-users/data-collectors']);
 //       },

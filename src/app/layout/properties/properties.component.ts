@@ -339,7 +339,7 @@ export class PropertiesComponent implements OnInit {
 
   getAllSellers(property: any, keyword: string, index) {
     this.spinner.show();
-    if (index !== '') { console.log('11ddddd999111', index); this.parameter.index = index; }
+    if (index !== '') { this.parameter.index = index; }
     if (property) {
       this.parameter.property_id = property.id;
       this.parameter.seller_id = property.selected_seller_id;
@@ -465,9 +465,7 @@ export class PropertiesComponent implements OnInit {
       if (result.value) {
         this.changePropertySoldStatus(property, index, value);
       } else {
-        console.log(this.items[index]);
         this.items[index] = property;
-        console.log(this.items[index]);
       }
     });
   }

@@ -55,7 +55,6 @@ export class AddAclComponent implements OnInit {
         this.spinner.hide();
         this.model = success.data;
         this.image = this.model.image;
-        console.log('==', this.model);
         this.model.admin_acl = success.data.admin_acl;
       }, error => {
         this.spinner.hide();

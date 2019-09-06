@@ -197,7 +197,8 @@
                   <label>Contact number <span class="color-red">*</span></label>
                   <div class="form-group">
                   <input minlength="6" maxlength="16" autocomplete="off" type="text" [pattern]="constant.phonePattern" class="form-control" id="phone" required minlength="1" [(ngModel)]="model.phone" name="phone"
-                      ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
+                      ng2TelInput
+                      (intlTelInputObject)="telInputObject($event)" [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
                 </div>
               </div>
             </div>

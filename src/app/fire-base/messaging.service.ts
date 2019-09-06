@@ -27,7 +27,6 @@ export class MessagingService {
     );
 
     // this.admin.loginData$.subscribe(success => {
-    //   console.log(success);
     //   this.id = success['name'];
     // });
   }
@@ -54,7 +53,6 @@ export class MessagingService {
    * @param userId userId
    */
   requestPermission(userId) {
-    console.log('inside request permission');
     this.angularFireMessaging.requestToken.subscribe(
       (token) => {
         console.log(token);

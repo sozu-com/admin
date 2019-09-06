@@ -95,12 +95,10 @@ export class AddressComponent implements OnInit {
     //   this.address.localities = '0';
     //   this.address.buildings = '0';
     // }
-    console.log('pppp', this.address);
     if (country_id === '' || country_id === '0') {
       return false;
     } else {
       this.parameter.country_id = country_id;
-      // console.log('this', this.countries);
       if (this.countries) {
         const selectedCountry = this.countries.filter(x => x.id.toString() === country_id.toString());
         this.parameter.statesAdd = selectedCountry[0].states;

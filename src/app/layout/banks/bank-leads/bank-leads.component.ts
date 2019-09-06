@@ -186,8 +186,6 @@ export class BankLeadsComponent implements OnInit {
           'value': parseInt(this.dash.close_count, 10)
         }
       ];
-      console.log('data', this.dash);
-      console.log('chart', this.chartView);
     });
   }
 

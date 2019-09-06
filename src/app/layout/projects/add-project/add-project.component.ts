@@ -1017,7 +1017,6 @@ export class AddProjectComponent implements OnInit {
   //   }
   //   this.closeConfigPopup.nativeElement.click();
   //   this.spinner.show();
-  //   console.log('===', this.new_config);
   //   this.file3.upload().then(r => {
   //     this.file4.upload().then(r1 => {
   //       this.spinner.hide();
@@ -1031,7 +1030,6 @@ export class AddProjectComponent implements OnInit {
   //         this.model.configurations.push(this.new_config);
   //       }
   //       this.new_config = new Configuration();
-  //       console.log('conssss', this.model.configurations);
   //     }, error => {
   //       this.spinner.hide();
   //     });
@@ -1636,7 +1634,6 @@ export class AddProjectComponent implements OnInit {
   }
 
   saveTower(btower: Towers, index: any) {
-    // console.log('btower', btower);
     this.model.building_towers[index].launch_date = btower.launch_date;
     // this.allTowerAmenityForEdit = btower.amenities;
     if (!this.model.building_towers[index].tower_name) {
@@ -1865,7 +1862,6 @@ export class AddProjectComponent implements OnInit {
         model.videoFile = videoFile;
         this.amenVideo.files[myIndex].loading = false;
         this.amenVideo.files[myIndex]['fileToUpload'] = fileToUpload;
-        // console.log(this.amenVideo.files, 'amenVideo.files');
       }
   }
 
@@ -1880,7 +1876,6 @@ export class AddProjectComponent implements OnInit {
       return new Promise((resolve, reject) => {
         this.cs.saveVideo(ele.videoFile, ele.fileToUpload).subscribe(
           success => {
-            // console.log(this.model.amenvideos, ' this.model.amenvideos');
             // this.amenVideo.files[length-1].loading = false;
             this.model.videoLoader = false;
             this.model.amenvideos = [];

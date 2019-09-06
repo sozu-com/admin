@@ -20,6 +20,7 @@ export class NotaryComponent implements OnInit {
   @ViewChild('fileInput') fileInput: ElementRef;
 
   public parameter: IProperty = {};
+  obj: any;
   initialCountry: any;
   downloadLink: string;
   label: string;
@@ -38,6 +39,10 @@ export class NotaryComponent implements OnInit {
     this.parameter.type = 1;
     this.initialCountry = { initialCountry: this.constant.country_code };
     this.getNoatariesListing(this.parameter.page, '', '', '', '');
+  }
+
+  telInputObject(obj) {
+    this.obj = obj;
   }
 
   closeModal() {
@@ -175,6 +180,9 @@ export class NotaryComponent implements OnInit {
     this.model = JSON.parse(JSON.stringify(userdata));
     this.model.img_loader = false;
     this.parameter.index = index;
+    if (this.obj) {
+      this.obj.intlTelInput('setCountry', this.model.country_code ? this.model.country_code : this.constant.country_code);
+    }
     this.modalOpen.nativeElement.click();
   }
 

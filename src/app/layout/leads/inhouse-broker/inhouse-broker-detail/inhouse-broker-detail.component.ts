@@ -237,7 +237,6 @@ export class InhouseBrokerDetailComponent implements OnInit {
     // this.admin.postDataApi('leads/addAppointment', this.input)
     //   .subscribe(
     //     success => {
-    //       console.log(success.data);
     //       this.appointment = success.data;
     //       this.app_date = this.appointment.appointment_date;
     //       this.appointment.appointment_date =
@@ -262,12 +261,10 @@ export class InhouseBrokerDetailComponent implements OnInit {
       return false;
     }
     this.spinner.show();
-    console.log('data', this.appointment);
     this.admin.postDataApi('leads/addAppointmentMultiple', this.appointment)
       .subscribe(
         success => {
           this.data.push.apply(this.data, success.data);
-          console.log(this.data);
           // this.app_date = this.appointment.appointment_date;
           // this.appointment.appointment_date =
           // new Date(moment(this.appointment.appointment_date).utc(true).local().format('YYYY-MM-DD, h:mm a'));

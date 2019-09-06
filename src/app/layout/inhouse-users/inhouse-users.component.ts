@@ -1,7 +1,6 @@
 
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { NgForm } from '@angular/forms';
-// import { DomSanitizer } from '@angular/platform-browser';
 import { MapsAPILoader } from '@agm/core';
 import { FileUpload } from 'src/app/common/fileUpload';
 import { Agency } from 'src/app/models/agency.model';
@@ -14,6 +13,7 @@ import { AdminService } from 'src/app/services/admin.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 declare const google;
+
 @Component({
   selector: 'app-inhouse-users',
   templateUrl: './inhouse-users.component.html',
@@ -30,6 +30,7 @@ export class InhouseUsersComponent implements OnInit {
   @ViewChild('moreImgModalOpen') moreImgModalOpen: ElementRef;
   @ViewChild('moreImgModalClose') moreImgModalClose: ElementRef;
 
+  obj: any;
   public parameter: IProperty = {};
   lead_sort = 2;
   property_sort = 2;
@@ -77,7 +78,7 @@ export class InhouseUsersComponent implements OnInit {
         this.property_sort = null;
         this.getAllAgencies();
       }
-      this.initialCountry = { initialCountry: this.constant.initialCountry };
+      this.initialCountry = { initialCountry: '' };
     });
   }
 
@@ -194,24 +195,18 @@ export class InhouseUsersComponent implements OnInit {
 
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
-    this.initialCountry = { initialCountry: this.constant.initialCountry };
+    // this.initialCountry = { initialCountry: this.constant.initialCountry };
 
     this.inhouseUserModalOpen.nativeElement.click();
   }
 
   telInputObject(obj) {
-    obj.intlTelInput('setCountry', 'in');
-  }
-
-  initialcountryfunc() {
-    return { initialCountry: this.constant.initialCountry };
+    this.obj = obj;
   }
 
   setAgency(id: string) {
-    console.log(id);
     this.model.agency = new Agency();
     this.model.agency.id = id;
-    console.log(this.model);
   }
 
   // onSelectFile1(event: any, paramUrl: string, paramFile: string) {
@@ -282,7 +277,6 @@ export class InhouseUsersComponent implements OnInit {
     input.append('is_csr_closer', formdata.value.is_csr_closer === true ? '1' : '0');
     input.append('is_external_agent', this.model.is_external_agent ? '1' : '0');
 
-    console.log(this.model);
     if (this.model.is_external_agent) {
       input.append('agency_id', this.model.agency.id);
       // input.append('company_name', this.model.company_name);
@@ -395,7 +389,9 @@ export class InhouseUsersComponent implements OnInit {
       this.model.email = userdata.email;
       this.model.phone = userdata.phone;
       this.model.country_code = userdata.country_code;
-
+      if (this.obj) {
+        this.obj.intlTelInput('setCountry', this.model.country_code ? this.model.country_code : this.constant.country_code);
+      }
       // this.model.company_name = userdata.company_name;
       // this.model.description = userdata.description;
       this.model.is_external_agent = userdata.is_external_agent;
@@ -790,7 +786,6 @@ export class InhouseUsersComponent implements OnInit {
 
   // loadPlaces(paramAdd: string, paramLat: string, paramLng: string, searchRef: any) {
   //   // load Places Autocomplete
-  //   console.log('aaa', searchRef, this[searchRef].nativeElement);
   //   this.model[paramLat] = null;
   //   this.model[paramLng] = null;
   //   this.mapsAPILoader.load().then(() => {

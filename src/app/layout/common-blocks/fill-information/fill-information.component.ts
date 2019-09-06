@@ -105,7 +105,6 @@ export class FillInformationComponent implements OnInit {
   }
 
   onSelectAll(amenity: BuyerAmenities) {
-    console.log(amenity);
   }
 
   addPreferences() {

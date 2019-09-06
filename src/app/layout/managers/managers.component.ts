@@ -23,6 +23,7 @@ export class ManagersComponent implements OnInit {
   @ViewChild('modalClose') modalClose: ElementRef;
 
   public parameter: IProperty = {};
+  obj: any;
   lead_sort = 2;
   initialCountry: any;
   image: any;
@@ -64,6 +65,10 @@ export class ManagersComponent implements OnInit {
     });
   }
 
+  telInputObject(obj) {
+    this.obj = obj;
+  }
+
   getPage(page: any) {
     this.parameter.p = page;
     this.getTowerManager();
@@ -87,7 +92,6 @@ export class ManagersComponent implements OnInit {
     this.image = '';
     this.logo = '';
     this.initialCountry = { initialCountry: this.constant.initialCountry };
-
   }
 
   onCountryChange(e) {
@@ -104,10 +108,6 @@ export class ManagersComponent implements OnInit {
     this.initialCountry = { initialCountry: this.constant.initialCountry };
 
     this.inhouseUserModalOpen.nativeElement.click();
-  }
-
-  telInputObject(obj) {
-    obj.intlTelInput('setCountry', 'in');
   }
 
   initialcountryfunc() {
@@ -190,6 +190,9 @@ export class ManagersComponent implements OnInit {
     this.image = userdata.image;
     this.logo = userdata.logo;
     this.model.img_loader = false; this.model.logo_loader = false;
+    if (this.obj) {
+      this.obj.intlTelInput('setCountry', this.model.country_code);
+    }
     this.inhouseUserModalOpen.nativeElement.click();
   }
 

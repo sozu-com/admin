@@ -28,7 +28,6 @@ export class AppointmentsComponent implements OnInit {
     public constant: Constant
   ) {
     const d = new Date();
-    console.log(d);
     this.parameter.year = d.getFullYear();
     this.parameter.month = d.getMonth() + 1;
     this.getAppointments();
@@ -37,7 +36,6 @@ export class AppointmentsComponent implements OnInit {
     this.yearList.push(this.parameter.year + 1);
     // this.yearList.push(this.parameter.year + 2);
     this.yearList.unshift(this.parameter.year - 1);
-    console.log(this.parameter);
   }
 
   ngOnInit() {
@@ -45,7 +43,6 @@ export class AppointmentsComponent implements OnInit {
   }
   getAppointmentStatuses() {
     this.admin.postDataApi('getAppointmentStatuses', {}).subscribe(r => {
-      console.log('Status', r);
       this.appointStatuses = r['data'];
     });
 
@@ -55,7 +52,6 @@ export class AppointmentsComponent implements OnInit {
     this.meetings = [];
     this.spinner.show();
     this.admin.postDataApi('leads/getAllAppointments', this.parameter).subscribe(r => {
-      console.log('appointments', r);
       this.spinner.hide();
       this.appointmentDates = r['data'];
     }, error => {
@@ -75,7 +71,6 @@ export class AppointmentsComponent implements OnInit {
     this.meetings = [];
 
     this.modalClose.nativeElement.click();
-    console.log(this.appointmentNew);
     const input = {
       appointment_id: this.appointmentNew.id,
       status_id: this.appointmentNew.status_id,
@@ -84,11 +79,9 @@ export class AppointmentsComponent implements OnInit {
     this.spinner.show();
     this.admin.postDataApi('leads/updateAppointmentStatus', input).subscribe(r => {
       // this.spinner.hide();
-      console.log('Updated', r);
       this.getAppointments();
     }, error => {
       this.spinner.hide();
-      console.log(error);
     });
   }
 

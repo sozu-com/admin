@@ -74,8 +74,6 @@ export class LocationComponent implements OnInit {
     this.admin.postDataApi('getCountries', input)
       .subscribe(
         success => {
-          // console.log(success.data);
-          // console.log('keyname', keyname);
           if (keyname === '') {
             this.parameter.countries1 = success.data.reverse();
             this.parameter.countries2 = success.data.reverse();
@@ -161,7 +159,6 @@ export class LocationComponent implements OnInit {
           } else if (keyname === 1) {
             this.parameter.state_id1 = state_id;
             this.parameter.cities1 = success.data.reverse();
-            // console.log('cities1', this.parameter.cities1);
           } else if (keyname === 2) {
             this.parameter.cities2 = success.data.reverse();
           }

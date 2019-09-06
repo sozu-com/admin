@@ -22,12 +22,10 @@ export class PropertyDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.property = this.propertyService.property;
-    console.log(this.property);
     this.route.params.subscribe( params => {
       this.getPropertyDetails(params.property_id);
     });
     // this.cs.propertyDetailsData$.subscribe(res => {
-    //   console.log('ress', res);
     //   this.data = res;
     // });
   }

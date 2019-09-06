@@ -60,11 +60,9 @@ export class S3Uploader {
 
       return new Promise((resolve, reject) => {
         this.http.post(`https://s3-ap-southeast-2.amazonaws.com/${this.config.bucket}/`, formData).subscribe(x => {
-        console.log('sucesss');
         resolve(x.headers.get('Location'));
 
         }, x => {
-          console.log('error');
           reject();
         });
       });
@@ -74,11 +72,7 @@ export class S3Uploader {
       const bucket = new CryptoJS.S3({params: {Bucket: this.config.bucket}});
       bucket.listObjects(function (err, data) {
         if (err) {
-          console.log('errr');
-          console.log(err);
         } else {
-          console.log('resss');
-          console.log(data);
           // $scope.allImageData = data.Contents;
         }
       });

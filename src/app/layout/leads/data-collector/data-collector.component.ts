@@ -161,7 +161,6 @@ export class DataCollectorComponent implements OnInit {
     // }
     this.admin.postDataApi('getDataCollectors', input).subscribe(
       success => {
-        console.log(success.data);
         this.users = success.data;
       });
   }
@@ -239,7 +238,6 @@ export class DataCollectorComponent implements OnInit {
     }
 
     this.admin.postDataApi('leads/data-collector-dash-count', input).subscribe(r => {
-      console.log('dash', r);
       this.dash = r.data;
 
       this.chartView = [
@@ -282,7 +280,6 @@ export class DataCollectorComponent implements OnInit {
         this.spinner.hide();
         this.items = success.data;
         if (this.items.length <= 0) { this.parameter.noResultFound = true; }
-        console.log('listing', success);
         this.parameter.total = success.total_count;
       }, error => {
         this.spinner.hide();
@@ -313,7 +310,6 @@ export class DataCollectorComponent implements OnInit {
         this.spinner.hide();
         this.items = success.data;
         if (this.items.length <= 0) { this.parameter.noResultFound = true; }
-        console.log('listing', success);
         this.parameter.total = success.total_count;
       }, error => {
         this.spinner.hide();
@@ -392,7 +388,6 @@ export class DataCollectorComponent implements OnInit {
       this.spinner.hide();
       swal('Success', 'Assigned successfully', 'success');
       this.closeAssignModel.nativeElement.click();
-      console.log(r);
       this.getListing();
     },
       error => {

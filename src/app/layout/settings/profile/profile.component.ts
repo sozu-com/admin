@@ -43,9 +43,7 @@ export class ProfileComponent implements OnInit {
         this.image = this.model.image;
         this.model.admin_acl = success.data.admin_acl;
         this.model.address = [];
-        console.log('success.data.countries.length', success.data.countries, success.data.countries.length);
         for (let ind = 0; ind < success.data.countries.length; ind++) {
-          console.log('success.data.countries.length', success.data.countries[ind].name_en, success.data.countries.length);
           const tempAdd = {
             countries: success.data.countries[ind].name_en,
             states: success.data.states !== null && success.data.states[ind] ? success.data.states[ind].name_en : 'All',
@@ -53,11 +51,7 @@ export class ProfileComponent implements OnInit {
             localities: success.data.localities !== null && success.data.localities[ind] ? success.data.localities[ind].name_en : 'All',
             buildings: success.data.buildings !== null && success.data.buildings[ind] ? success.data.buildings[ind].name_en : 'All'
           };
-          console.log('temp', tempAdd);
-          console.log('model', this.model);
-          console.log('in', ind);
           this.model.address[ind] = tempAdd;
-          console.log('model', this.model);
         }
       }, error => {
         this.spinner.hide();

@@ -1464,30 +1464,23 @@ export class AddPropertyComponent implements OnInit {
   //     return false;
   //   }
   //   this.amenMoreImg.upload().then(r => {
-  //     console.log('amen imag');
   //     this.parameter.amenities[this.amenity_index].images = this.amenMoreImg.files;
   //   });
   //   this.amen360Img.upload().then(r => {
-  //     console.log('amen 360 imag');
   //     this.parameter.amenities[this.amenity_index].images_360 = this.amen360Img.files;
   //   });
   //   this.amenVideo.upload().then(r => {
-  //     console.log('amen video');
   //     this.parameter.amenities[this.amenity_index].videos = this.amenVideo.files;
   //   });
   //
   //   // this.modalAmenClose.nativeElement.click();
-  //   console.log('===', this.amenMoreImg, this.amen360Img, this.amenVideo);
-  //
   //   this.amenMoreImg.files.forEach(element => {
   //     if (element.loading === false) {
-  //       console.log('==1111==');
   //       count++;
   //     }
   //   });
   //   this.amen360Img.files.forEach(element => {
   //     if (element.loading === false) {
-  //       console.log('==2222==');
   //       count++;
   //     }
   //   });
@@ -1495,12 +1488,10 @@ export class AddPropertyComponent implements OnInit {
   //
   //   this.amenVideo.files.forEach(element => {
   //     if (element.loading !== true) {
-  //       console.log('==3333==');
   //       count++;
   //     }
   //   });
   //
-  //   console.log('===totalFilesCount===', totalFilesCount, count);
   //   if (count === totalFilesCount) {
   //     this.modalAmenClose.nativeElement.click();
   //   }
@@ -1670,9 +1661,7 @@ export class AddPropertyComponent implements OnInit {
         model.videoFile = videoFile;
         this.amenVideo.files[myIndex].loading = false;
         this.amenVideo.files[myIndex]['fileToUpload'] = fileToUpload;
-        // console.log(videoFile, 'videoFile');
         // this.amenVideo.files[myIndex]['videoFile'].push(videoFile);
-        // console.log(this.amenVideo.files, 'amenVideo.files');
       }
   }
 

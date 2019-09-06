@@ -19,6 +19,7 @@ export class UsersComponent implements OnInit {
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
 
+  obj: any;
   developer_image: any;
   image: any;
   public parameter: IProperty = {};
@@ -34,6 +35,10 @@ export class UsersComponent implements OnInit {
     this.parameter.type = 1;
     this.initialCountry = {initialCountry: this.constant.country_code};
     this.getBuyers(this.parameter.type, this.parameter.page, '', '', '');
+  }
+
+  telInputObject(obj) {
+    this.obj = obj;
   }
 
   openModal() {
@@ -102,7 +107,6 @@ export class UsersComponent implements OnInit {
       }
     };
     reader.readAsDataURL(event.target.files[0]);
-    console.log(this.model);
   }
 
   onCountryChange(e) {
@@ -144,7 +148,6 @@ export class UsersComponent implements OnInit {
         });
   }
 
-
   editUser(userdata, index) {
     this.parameter.index = index;
     this.model = userdata;
@@ -152,6 +155,9 @@ export class UsersComponent implements OnInit {
     this.developer_image = userdata.developer_image;
     this.model.image = userdata.image != null ? userdata.image : '';
     this.model.developer_image = userdata.developer_image != null ? userdata.developer_image : '';
+    if (this.obj) {
+      this.obj.intlTelInput('setCountry', this.model.country_code);
+    }
     this.modalOpen.nativeElement.click();
   }
 

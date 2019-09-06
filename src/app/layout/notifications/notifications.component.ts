@@ -39,7 +39,6 @@ export class NotificationsComponent implements OnInit {
   }
 
   redirect(item) {
-    console.log('redirect', item.notification_type, item.notification_data);
     let redirectPath;
     switch (item.notification_type) {
       case 4:

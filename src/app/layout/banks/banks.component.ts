@@ -20,6 +20,7 @@ export class BanksComponent implements OnInit {
   @ViewChild('modalClose') modalClose: ElementRef;
 
   public parameter: IProperty = {};
+  obj: any;
   initialCountry: any;
   model: Bank;
   items: Array<Bank>;
@@ -34,6 +35,10 @@ export class BanksComponent implements OnInit {
     this.parameter.page = this.constant.p;
     this.initialCountry = { initialCountry: this.constant.country_code };
     this.getBanks(this.parameter.page, '', '', '');
+  }
+
+  telInputObject(obj) {
+    this.obj = obj;
   }
 
   closeModal() {
@@ -135,6 +140,9 @@ export class BanksComponent implements OnInit {
     this.model = JSON.parse(JSON.stringify(userdata));
     this.model.img_loader = false;
     this.parameter.index = index;
+    if (this.obj) {
+      this.obj.intlTelInput('setCountry', this.model.country_code ? this.model.country_code : this.constant.country_code);
+    }
     this.modalOpen.nativeElement.click();
   }
 
