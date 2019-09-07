@@ -144,7 +144,7 @@ export class AddProjectComponent implements OnInit {
     private router: Router,
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
-    private constant: Constant,
+    public constant: Constant,
     private apiConstants: ApiConstants,
     private cs: CommonService,
     private element: ElementRef,

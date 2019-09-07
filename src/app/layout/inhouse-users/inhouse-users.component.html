@@ -108,7 +108,7 @@
             <th style="width:6%">&nbsp;</th>
             <th style="width:15%" *ngIf="parameter.userType == 'outside-broker'">
               <div class="table-search">
-                  <label>Agency Name <br> (Commercial Name) </label>
+                  <label>Agency <br> (Commercial Name) </label>
                   <div class="searh-3">
                     <input type="text" [(ngModel)]="parameter.company_name" (keyup.enter)="searchUserByCompanyName(parameter.company_name)" name="">
                     <button type="button" *ngIf="parameter.company_name" (click)="searchUserByCompanyName(parameter.company_name)"><i class="fa fa-search"></i></button>
@@ -144,10 +144,14 @@
             </th>
             <th *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'outside-broker' || parameter.userType == 'csr-closers' ||
             parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers'" style="width:5%; vertical-align: top;">
-              Leads<a (click)="setLeadSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.lead_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
+              <div class="d-flex table-search">
+                <label>Leads<a (click)="setLeadSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.lead_sort==2}" src="assets/img/top-arrow.png" alt="img"></a></label>
+              </div>
             </th>
             <th *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'outside-broker'" style="width:5%; vertical-align: top;">
-              Linked <br> Properties<a (click)="setPropertiesSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.property_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
+              <div class="d-flex table-search">
+                <label style="display: flex;">Linked <br> Properties<a (click)="setPropertiesSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.property_sort==2}" src="assets/img/top-arrow.png" alt="img"></a></label>
+              </div>
             </th>
             <th *ngIf="parameter.userType == 'data-collectors'" style="width:15%; vertical-align: top;">
               Building<a (click)="setLeadSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.lead_sort==2}" [ngClass]="{'upsidedown':this.price_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
@@ -274,7 +278,7 @@
                     <div class="form-group-2">
                        <label>Name <span class="color-red">*</span></label>
                        <div class="form-group">
-                        <input autocomplete="off" type="text" class="form-control" required [(ngModel)]="model.name" name="name">
+                        <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" type="text" class="form-control" required [(ngModel)]="model.name" name="name">
                       </div>
                     </div>
                  </div>

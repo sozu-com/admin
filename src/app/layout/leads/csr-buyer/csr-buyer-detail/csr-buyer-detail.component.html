@@ -119,7 +119,7 @@
                             </tr>
 
                             <!-- Meeting Schedule -->
-                            <tr *ngIf="leadData?.sale_rent==1">
+                            <!-- <tr *ngIf="leadData?.sale_rent==1">
                                 <td style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
                                 <td colspan="2">
                                     <p style="display:none;" class="date" #modalOpen data-toggle="modal"
@@ -131,20 +131,7 @@
                                     <span class="read-more" *ngIf="data.length>2" data-toggle="modal"
                                         data-target="#get-availability1">View all</span>
                                 </td>
-                            </tr>
-
-                            <!-- Meeting Schedule -->
-                            <!-- <tr *ngIf="leadData?.sale_rent==1">
-                    <td  style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
-                    <td colspan="2" class="cursor-pointer">
-                        <p class="date" *ngIf="appointment.appointment_date; else noAvailability4">
-                            <span>{{appointment.appointment_date | moment}}</span>
-                        </p>
-                        <ng-template #noAvailability4>
-                            <p>Meeting not scheduled by broker.</p>
-                        </ng-template>
-                    </td>
-                </tr>           -->
+                            </tr> -->
 
                         </tbody>
                     </table>

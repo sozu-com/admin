@@ -377,7 +377,7 @@
                                  </span>
                               </td>
                               <td *ngIf="parameter.flag!=5" class="cursor-pointer">
-                                 <select id="avaStatus" #avaStatus  (change)="avaStatus.value == changeSoldStatusPopup(p, i, $event.target.value)">
+                                 <select (change)="changeSoldStatusPopup(p, i, $event)">
                                     <option [selected]="p.for_sale==1" value="1">Sell</option>
                                     <option [selected]="p.for_rent==1" value="2">Rent</option>
                                     <option [selected]="p.for_hold==1" value="3">Inventory</option>

@@ -158,7 +158,7 @@
             <div class="col-sm-6 col-12">
               <div class="form-group-3">
                 <label>Name of Building</label>
-                <input autocomplete="off" required class="form-control" type="text" name="name"
+                <input autocomplete="off" required class="form-control" [pattern]="constant.onlyWhiteSpaces" type="text" name="name"
                   [(ngModel)]="building.name" placeholder="Enter name of building">
               </div>
             </div>
@@ -176,7 +176,7 @@
             <div class="col-sm-6 col-12">
               <div class="form-group-3">
                 <label>Name of Developer</label>
-                <input autocomplete="off" class="form-control" type="text" name="dev_name"
+                <input autocomplete="off" class="form-control" [pattern]="constant.onlyWhiteSpaces" type="text" name="dev_name"
                   [(ngModel)]="building.dev_name">
               </div>
             </div>
@@ -193,7 +193,7 @@
             <div class="col-sm-12 col-12">
               <div class="form-group-3">
                 <label>Email Address</label>
-                <input autocomplete="off" class="form-control" type="text" name="dev_email"
+                <input autocomplete="off" class="form-control" type="email" name="dev_email"
                   [(ngModel)]="building.dev_email">
               </div>
             </div>
@@ -235,7 +235,7 @@
 
       <div class="form-group-3">
         <label class="p16-two">Name <span class="color-red">*</span></label>
-        <input class="form-control" required type="test" name="name" placeholder="Apartment name" [(ngModel)]="model.name">
+        <input class="form-control" required type="text" [pattern]="constant.onlyWhiteSpaces" name="name" placeholder="Apartment name" [(ngModel)]="model.name">
         <div class="clearfix"></div>
       </div>
 
@@ -585,7 +585,7 @@
 
       <div class="form-group-3">
         <label>Description <span class="color-red">*</span></label>
-        <textarea required [(ngModel)]="model.description" placeholder="Enter description" name="description"
+        <textarea required [pattern]="constant.onlyWhiteSpaces" [(ngModel)]="model.description" placeholder="Enter description" name="description"
           class="form-control"></textarea>
       </div>
 
@@ -1036,14 +1036,14 @@
         <div class="col-md-4 col-sm-12 col-12">
           <div class="form-group-3">
             <label class="p16-two">Enter Parameter</label>
-            <input autocomplete="off" class="form-control" type="text" [(ngModel)]="newcustom_attribute.name"
+            <input autocomplete="off" class="form-control" [pattern]="constant.onlyWhiteSpaces" type="text" [(ngModel)]="newcustom_attribute.name"
               name="name[{{c}}]" placeholder="Enter parameter">
           </div>
         </div>
         <div class="col-md-4 col-sm-12 col-12">
           <div class="form-group-3">
             <label class="p16-two">Enter Value</label>
-            <input autocomplete="off" class="form-control" type="text" [(ngModel)]="newcustom_attribute.value"
+            <input autocomplete="off" class="form-control" [pattern]="constant.onlyWhiteSpaces" type="text" [(ngModel)]="newcustom_attribute.value"
               name="value[{{c}}]" placeholder="Enter value">
           </div>
         </div>
@@ -1056,13 +1056,13 @@
         <div class="col-md-4 col-sm-12 col-12">
           <div class="form-group-3">
             <label class="p16-two">Enter Parameter</label>
-            <input autocomplete="off" class="form-control" type="text" [value]="custom_attribute.name" disabled />
+            <input autocomplete="off" class="form-control" [pattern]="constant.onlyWhiteSpaces" type="text" [value]="custom_attribute.name" disabled />
           </div>
         </div>
         <div class="col-md-4 col-sm-12 col-12">
           <div class="form-group-3">
             <label class="p16-two">Enter Value</label>
-            <input autocomplete="off" class="form-control" type="text" [value]="custom_attribute.value" disabled />
+            <input autocomplete="off" class="form-control" [pattern]="constant.onlyWhiteSpaces" type="text" [value]="custom_attribute.value" disabled />
           </div>
         </div>
         <div class="col-md-4 col-sm-12 col-12">

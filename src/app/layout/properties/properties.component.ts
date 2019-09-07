@@ -24,7 +24,7 @@ export class PropertiesComponent implements OnInit {
   total: any = 0;
   configurations: any = [];
   countries: any;
-
+  property_status: string;
   price_sort = 1;
   availability_sort = 1;
   lead_sort = 1;
@@ -450,7 +450,7 @@ export class PropertiesComponent implements OnInit {
       });
   }
 
-  changeSoldStatusPopup(property: any, index: number, value: string) {
+  changeSoldStatusPopup(property: any, index: number, event) {
     this.parameter.title = this.constant.title.ARE_YOU_SURE;
     this.parameter.text = 'You want to change the status?';
 
@@ -463,14 +463,24 @@ export class PropertiesComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.changePropertySoldStatus(property, index, value);
+        this.changePropertySoldStatus(property, index, event.target.value);
       } else {
-        this.items[index] = property;
+        if (property.for_sale === 1) {
+          event.target.value = 1;
+        } else if (property.for_rent === 1) {
+          event.target.value = 2;
+        } else {
+          event.target.value = 3;
+        }
       }
     });
   }
 
   changePropertySoldStatus(property: any, index: number, value: string) {
+    this.property_status = value;
+    this.items[index].for_sale = 0;
+    this.items[index].for_rent = 0;
+    this.items[index].for_hold = 0;
     const input = {
       property_id: property.id,
       for_hold: 0,

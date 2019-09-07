@@ -319,7 +319,7 @@
                             </td>
                             <td><span>{{p?.rent_count_all | numberWithCommas}}</span></td>
                             <td><span>{{p?.sale_count_all | numberWithCommas}}</span></td>
-                            <td><span>${{ p.avg_price | number : '1.2-2'}}</span></td>
+                            <td><span>${{ p.avg_price ? (p.avg_price | number : '1.2-2') : 0.00}}</span></td>
                             <td>
                               <div class="table-actions">
                                 <!-- <div class="message"> -->

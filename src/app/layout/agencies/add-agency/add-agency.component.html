@@ -49,25 +49,25 @@
             <div class="col-12">
               <div class="form-group-2">
                 <label>Company Name (Commercial Name)<span class="color-red">*</span></label>
-                <input autocomplete="off" required type="text" class="form-control" [(ngModel)]="model.name" name="name">
+                <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" [(ngModel)]="model.name" name="name">
               </div>
             </div>
             <div class="col-12">
               <div class="form-group-2">
                 <label>RFC (Legal ID)<span class="color-red">*</span></label>
-                <input autocomplete="off" required type="text" class="form-control" [(ngModel)]="model.rfc" name="rfc">
+                <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" [(ngModel)]="model.rfc" name="rfc">
               </div>
             </div>
             <div class="col-12">
               <div class="form-group-2">
                 <label>Razon Social (Legal Name)<span class="color-red">*</span></label>
-                <input autocomplete="off" required type="text" class="form-control" [(ngModel)]="model.razon_social" name="razon_social">
+                <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" [(ngModel)]="model.razon_social" name="razon_social">
               </div>
             </div>
             <div class="col-12">
               <div class="form-group-2">
                 <label>Name<span class="color-red">*</span></label>
-                <input autocomplete="off" required type="text" class="form-control" [(ngModel)]="model.person_in_charge" name="person_in_charge">
+                <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" [(ngModel)]="model.person_in_charge" name="person_in_charge">
               </div>
             </div>
             <div class="col-12">
@@ -100,7 +100,7 @@
             <div class="col-12">
               <div class="form-group-2">
                 <label>Description <span class="color-red">*</span></label>
-                <textarea autocomplete="off" required rows="3" class="form-control" name="description" [(ngModel)]="model.description"></textarea>
+                <textarea autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required rows="3" class="form-control" name="description" [(ngModel)]="model.description"></textarea>
               </div>
             </div>
             <div class="col-12">
