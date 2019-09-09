@@ -105,6 +105,8 @@ export class AddCompanyComponent implements OnInit {
       swal('Error', 'Uploading images.', 'error');
       return;
     }
+    delete this.model.logo_loader;
+    delete this.model.img_loader;
     this.spinner.show();
     this.admin.postDataApi('addTowerManagerCompany', modelSave)
       .subscribe(

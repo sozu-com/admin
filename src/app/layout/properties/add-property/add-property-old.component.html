@@ -49,7 +49,7 @@
       <label class="cust-radio">
         <!-- <input type="checkbox" value="{{model.for_sale}}" name="for_sale" checked="{{m.checked}}"> -->
         <input value="true" name="for_sale"  type="radio" (change)="model.for_sale = true" [checked]="model.for_sale == true ?'checked':''">
-        <span class="checkmark">Buy</span>
+        <span class="checkmark">{{ts.lang.Buy}}</span>
       </label>
       <label class="cust-radio">
         <input value="false" name="for_sale" type="radio" (change)="model.for_sale = false" [checked]="model.for_sale == false ?'checked':''">

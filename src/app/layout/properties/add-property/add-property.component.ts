@@ -15,6 +15,7 @@ import { CommonService } from 'src/app/services/common.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpInterceptor } from 'src/app/services/http-interceptor';
 import { from } from 'rxjs';
+import { TranslateService } from 'src/app/lang/translate.service';
 
 declare const google;
 declare let swal: any;
@@ -83,7 +84,7 @@ export class AddPropertyComponent implements OnInit {
     }
   ];
   availabilityStatus = [
-    { id: '1', name: 'Buy', checked: false },
+    { id: '1', name: this.ts.lang.Buy, checked: false },
     { id: '2', name: 'Rent', checked: false },
     { id: '3', name: 'Inventory', checked: false }];
   imageEvent = [];
@@ -120,7 +121,8 @@ export class AddPropertyComponent implements OnInit {
     private route: ActivatedRoute,
     private http: HttpInterceptor,
     private spinner: NgxSpinnerService,
-    private element: ElementRef) {
+    private element: ElementRef,
+    public ts: TranslateService) {
   }
 
   ngOnInit() {
@@ -263,6 +265,7 @@ export class AddPropertyComponent implements OnInit {
       swal('Error', 'Please select floor.', 'error');
       return false;
     }
+    this.spinner.show();
     this.us.postDataApi('getProjectByIdWithCSC', { building_id: this.building.id })
       .subscribe(
         success => {

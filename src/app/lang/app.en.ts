@@ -48,7 +48,7 @@ export const locale = {
       'Archived': 'Archived',
       'Inactive': 'Inactive',
       'Delete': 'Delete',
-      'Buy': 'Buy',
+      'Buy': 'For Sale',
       'Rent': 'Rent',
       'Sale': 'Sale',
       'i_want_to': 'I want to',

@@ -6,6 +6,7 @@ import { Constant } from 'src/app/common/constants';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from 'src/app/lang/translate.service';
 declare let swal: any;
 
 @Component({
@@ -42,7 +43,8 @@ export class OutsideBrokerComponent implements OnInit {
     public admin: AdminService,
     private constant: Constant,
     private route: ActivatedRoute,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    public ts: TranslateService
   ) { }
 
   ngOnInit() {

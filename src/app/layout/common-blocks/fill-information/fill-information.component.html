@@ -13,7 +13,7 @@
         <label class="cust-radio">
             <input name="looking_for" type="radio" (change)="leadData.prefs.looking_for = 1"
                 [checked]="leadData.prefs.looking_for == 1 ?'checked':''">
-            <span class="checkmark">Buy</span>
+            <span class="checkmark">{{ts.lang.Buy}}</span>
         </label>
         <label class="cust-radio">
             <input name="looking_for" type="radio" (change)="leadData.prefs.looking_for = 2"

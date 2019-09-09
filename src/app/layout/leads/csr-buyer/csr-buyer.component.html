@@ -353,7 +353,7 @@
                                 <span *ngIf="item.configuration?.length==0">NA</span>
                             </td>
                             <td class="text-left" title="CSR Buyer">{{item?.admin?.name ? item?.admin?.name : 'NA'}}</td>
-                            <td class="text-left" *ngIf="item.sale_rent">{{item.sale_rent==1 ? 'Buy' : 'Rent'}}</td>
+                            <td class="text-left" *ngIf="item.sale_rent">{{item.sale_rent==1 ? ts.lang.Buy : 'Rent'}}</td>
                         </tr>
                     </table>
                     <div class="padding20 center" *ngIf="parameter.noResultFound">

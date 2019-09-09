@@ -119,7 +119,7 @@
                             </tr>
 
                             <!-- Meeting Schedule -->
-                            <!-- <tr *ngIf="leadData?.sale_rent==1">
+                            <tr *ngIf="leadData?.sale_rent==1">
                                 <td style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
                                 <td colspan="2">
                                     <p style="display:none;" class="date" #modalOpen data-toggle="modal"
@@ -131,7 +131,7 @@
                                     <span class="read-more" *ngIf="data.length>2" data-toggle="modal"
                                         data-target="#get-availability1">View all</span>
                                 </td>
-                            </tr> -->
+                            </tr>
 
                         </tbody>
                     </table>
@@ -214,7 +214,7 @@
                 *ngFor="let x of parameter.favorites| paginate: { id: 'page2', itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page2, totalItems: parameter.total2 }; let in=index">
                 <div class="project-des-bx white-bg-2">
                     <div class="price" *ngIf="x">
-                    <p class="p10">{{x.for_sale==1 ? 'Buy' : 'Rent'}}</p>
+                    <p class="p10">{{x.for_sale==1 ? ts.lang.Buy : 'Rent'}}</p>
                     </div>
                     <div class="fig-block">
                     <img [src]="x.image| img:'thumb'" onerror='src="assets/img/bank.png"' alt="img">
@@ -285,9 +285,9 @@
                         <div class="row">
                             <div class="col-8">
                                 <label>Choose Date & Time</label>
-                                <p-calendar title="Click to add" name="app" [(ngModel)]="date" [minDate]="today"
+                                <p-calendar autocomplete="off" title="Click to add" name="app" [(ngModel)]="date" [minDate]="today"
                                     showButtonBar="true" showTime="true" hourFormat="12" [monthNavigator]="true"
-                                    [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+                                    [yearNavigator]="true" yearRange="2000:2030" hideOnDateTimeSelect="true"></p-calendar>
                             </div>
                             <div class="col-2">
                                 <div class="form-group-2">

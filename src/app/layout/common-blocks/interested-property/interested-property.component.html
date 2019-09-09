@@ -32,7 +32,7 @@
 
     <div *ngIf="data.property.building && data && in<2" class="project-des-bx white-bg">
       <div class="price">
-        <p class="p10">{{data.property.for_sale == 1 ? 'Buy' : 'Rent'}}</p>
+        <p class="p10">{{data.property.for_sale == 1 ? ts.lang.Buy : 'Rent'}}</p>
       </div>
       <div class="fig-block">
         <img [src]="data.property.image| img:'thumb'" onerror='src="assets/img/placeholder-img.png"' alt="img">
@@ -281,7 +281,7 @@
               *ngFor="let x of parameter.interested_properties| paginate: { id: 'page2', itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page2, totalItems: parameter.total2 }; let in=index">
               <div class="project-des-bx white-bg-2">
                 <div class="price" *ngIf="x && x.property">
-                  <p class="p10">{{x.property.for_sale==1 ? 'Buy' : 'Rent'}}</p>
+                  <p class="p10">{{x.property.for_sale==1 ? ts.lang.Buy : 'Rent'}}</p>
                 </div>
                 <div class="fig-block">
                   <img [src]="x.property.image| img:'thumb'" onerror='src="assets/img/bank.png"' alt="img">

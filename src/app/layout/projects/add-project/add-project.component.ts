@@ -921,25 +921,25 @@ export class AddProjectComponent implements OnInit {
       ]),
       address: new FormControl('', [
         Validators.required
-      ]),
-      building_age: new FormControl('', [
-        Validators.required
-      ]),
-      building_type: new FormControl('', [
-        Validators.required
-      ]),
+      ])
+      // building_age: new FormControl('', [
+      //   Validators.required
+      // ]),
+      // building_type: new FormControl('', [
+      //   Validators.required
+      // ]),
       // floors: new FormControl('', [
       //   Validators.required
       // ]),
       // avg_price: new FormControl('', [
       //   Validators.required
       // ]),
-      description: new FormControl('', [
-        Validators.required
-      ]),
-      possession_status_id: new FormControl('', [
-        Validators.required
-      ])
+      // description: new FormControl('', [
+      //   Validators.required
+      // ]),
+      // possession_status_id: new FormControl('', [
+      //   Validators.required
+      // ])
     });
 
     this.myform2 = new FormGroup({

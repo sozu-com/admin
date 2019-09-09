@@ -20,7 +20,7 @@
     <div *ngIf="data.building && data && in<2" class="project-des-bx white-bg">
       <div class="price">
         <p class="p10">
-          {{data.for_sale == 1 ? 'Buy' : 'Rent'}}
+          {{data.for_sale == 1 ? ts.lang.Buy : 'Rent'}}
         </p>
       </div>
       <div class="fig-block">
@@ -79,7 +79,7 @@
               *ngFor="let x of parameter.viewed_properties| paginate: { id:'v-property-1', itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let in=index">
               <div class="project-des-bx white-bg-2">
                 <div class="price">
-                  <p class="p10">{{x.for_sale==1 ? 'Buy' : 'Rent'}}</p>
+                  <p class="p10">{{x.for_sale==1 ? ts.lang.Buy : 'Rent'}}</p>
                 </div>
                 <div class="fig-block">
                   <img [src]="x.image| img:'thumb'" onerror='src="assets/img/bank.png"' alt="img">

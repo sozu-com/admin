@@ -5,6 +5,7 @@ import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
 import { Constant } from 'src/app/common/constants';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from 'src/app/lang/translate.service';
 declare let swal: any;
 
 @Component({
@@ -30,7 +31,8 @@ export class FillInformationComponent implements OnInit {
   configurationCount: Array<string>;
 
   constructor(public admin: AdminService, public constant: Constant,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService,
+    public ts: TranslateService) { }
 
   ngOnInit() {
     this.today = new Date();
