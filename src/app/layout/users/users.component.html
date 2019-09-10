@@ -95,7 +95,8 @@
                 <td class="text-left">{{item.email}}</td>
                 <td *ngIf="parameter.type==1">
                   <span *ngFor="let interest of item.interests; let ii=index">
-                    {{interest.name}}<span *ngIf="ii<item.interests?.length-1">,</span>
+                    <app-property-configuration *ngIf="interest" [configuration]="interest"></app-property-configuration>
+                    <span *ngIf="ii<item.interests?.length-1">, </span>
                   </span>
                   <span *ngIf="item.interests?.length == 0">NA</span>
                 </td>
@@ -151,7 +152,7 @@
       <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="addNewUser(addForm)">
         <div class="modal-body">
           <div class="row">
-            <div [ngClass]="parameter.type==1 ? 'col-8' : 'col-4'">
+            <div class="col-8">
               <!-- <div class="add-img" [style.background-image]="image1">
               <input accept="image/*" name="image" class="image" (change)="changeListner($event)" type="file">
               <label *ngIf="!image1">+ Add Image</label>
@@ -165,7 +166,7 @@
                 <input *ngIf="!image" accept="image/*" name="image" class="image" (change)="changeListner($event, 1)" type="file">
               </div>
             </div>
-            <div *ngIf="parameter.type==2" class="col-4">
+            <!-- <div *ngIf="parameter.type==2" class="col-4">
               <div class="add-img" style="display:flex;">
                 <img *ngIf="developer_image" [src]="developer_image" style="object-fit: cover; width: 100%;">
                 <label *ngIf="model.developer_image">
@@ -174,7 +175,7 @@
                 <label *ngIf="!developer_image">+ Add Cover Image</label>
                 <input *ngIf="!developer_image" accept="image/*" name="developer_image" class="image" (change)="changeListner($event, 2)" type="file">
               </div>
-            </div>
+            </div> -->
             <div class="col-4">
               <div class="btn-cont text-right">
                   <button *ngIf="!model.id" type="submit" class="btn btn-primary-new">ADD</button>
