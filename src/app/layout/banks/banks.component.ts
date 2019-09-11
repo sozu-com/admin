@@ -33,6 +33,7 @@ export class BanksComponent implements OnInit {
     this.model = new Bank();
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
+    this.parameter.lead_sort = 2;
     this.initialCountry = { initialCountry: this.constant.country_code };
     this.getBanks(this.parameter.page, '', '', '');
   }
@@ -74,6 +75,12 @@ export class BanksComponent implements OnInit {
         }, error => {
           this.spinner.hide();
         });
+  }
+
+  setLeadSort() {
+    this.parameter.lead_sort = this.parameter.lead_sort === 2 ? 1 : 2;
+    this.getBanks(this.parameter.page, this.parameter.name,
+      this.parameter.phone, this.parameter.email);
   }
 
 

@@ -156,9 +156,7 @@ export class AddAclComponent implements OnInit {
               // this.getAclList();
               this.router.navigate(['/dashboard/access-control-mgt']);
             } else {
-              console.log(this.parameter.admin_id, this.model.id);
               if (this.parameter.admin_id === this.model.id) {
-                console.log('1');
                 this.admin.login.next(success.data);
                 this.admin.permissions = success.data.permissions ? success.data.permissions : {};
                 const dd = success.data.m.map((obj, index) => {

@@ -37,6 +37,7 @@ export class NotaryComponent implements OnInit {
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.parameter.type = 1;
+    this.parameter.lead_sort = 2;
     this.initialCountry = { initialCountry: this.constant.country_code };
     this.getNoatariesListing(this.parameter.page, '', '', '', '');
   }
@@ -80,6 +81,12 @@ export class NotaryComponent implements OnInit {
         }, error => {
           this.spinner.hide();
         });
+  }
+
+  setLeadSort() {
+    this.parameter.lead_sort = this.parameter.lead_sort === 2 ? 1 : 2;
+    this.getNoatariesListing(this.parameter.page, this.parameter.company_name, this.parameter.name,
+      this.parameter.phone, this.parameter.email);
   }
 
   // changeListner(event) {
