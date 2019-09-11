@@ -11,6 +11,8 @@ import { AclUserGuard } from '../guards/acl-user.guard';
 const routes: Routes = [
     {
         path: 'dashboard', component: LayoutComponent, canActivate: [AuthGuard],
+        // path: 'dashboard', component: LayoutComponent, canActivate: [AclUserGuard],
+        // data: {roles: ['Dashboard', 'can_read', '']},
         children: [
             { path: '', component: DashboardComponent },
             { path: 'view-inhouse-users/:userType', component: InhouseUsersComponent,

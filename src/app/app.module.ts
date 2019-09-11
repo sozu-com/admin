@@ -41,13 +41,17 @@ import { PricePipe } from './pipes/price.pipe';
 import { PropertyService } from './services/property.service';
 import { ProjectService } from './services/project.service';
 import { LeadsService } from './services/leads.service';
+import { AclUserGuard } from './guards/acl-user.guard';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent},
   { path: 'login', pathMatch: 'full', component: LoginComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'img-36-viewer', component: Img360viewerComponent},
-  { path: 'dashboard', canActivate: [AuthGuard], loadChildren: './layout/layout.module#LayoutModule'},
+  { path: 'dashboard', canActivate: [AuthGuard],
+   loadChildren: './layout/layout.module#LayoutModule'},
+  // { path: 'dashboard', canActivate: [AclUserGuard], data: {roles: ['Dashboard', 'can_read', '']},
+  //  loadChildren: './layout/layout.module#LayoutModule'},
   { path: '**', component: PageNotFoundComponent },
 ];
 

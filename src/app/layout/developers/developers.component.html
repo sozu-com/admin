@@ -87,7 +87,8 @@
                     title="{{item.is_blocked==1?'Unblock Developer':'Block Developer'}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"
                     class="action-icon"><img src="assets/img/block.png" alt="img">
                   </button>
-                  <button (click)="deletePopup(item, i);" class="action-icon" title="Delete Developer"><img src="assets/img/ic_delete.png" alt="img"></button>
+                  <button [disabled]="admin?.admin_acl['Developers Management']?.can_purge==0"
+                    (click)="deletePopup(item, i);" class="action-icon" title="Delete Developer"><img src="assets/img/ic_delete.png" alt="img"></button>
                 </div>
               </td>
             </tr>

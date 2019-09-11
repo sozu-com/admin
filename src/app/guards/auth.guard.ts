@@ -15,32 +15,6 @@ export class AuthGuard implements CanActivate {
     this.interceptor.loader.next({value: true});
     const token =  localStorage.getItem('token');
     if (token) {
-      // return new Promise(resolve => {
-      //   this.admin.login.subscribe(success => {
-      //     this.interceptor.loader.next({value: true});
-      //     if (success['name'] === undefined) {
-      //       this.interceptor.loader.next({value: true});
-      //       this.admin.postDataApi('get-details', {})
-      //       .subscribe(
-      //         success1 => {
-      //           this.interceptor.loader.next({value: true});
-      //           this.admin.login.next(success1.data);
-      //           this.admin.permissions = success1.data.permissions ? success1.data.permissions : {};
-      //           const aclData: any = {};
-      //           const dd = success1.data.m.map((obj, index) => {
-      //             const key =  Object.keys(obj)[0];
-      //             this.admin.admin_acl[key] =  obj[key];
-      //           });
-      //           this.interceptor.loader.next({value: false});
-      //           resolve();
-      //           return true;
-      //         });
-      //     } else {
-      //       resolve();
-      //       return true;
-      //     }
-      //   });
-      // });
 
       this.admin.login.subscribe(success => {
         this.interceptor.loader.next({value: true});

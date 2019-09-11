@@ -79,6 +79,10 @@
                     <span class="checkmark"></span>
                 </label>
                 <label *ngIf="permission?.acl?.name == 'User Management' || permission?.acl?.name == 'Property Management'
+                || permission?.acl?.name == 'Agencies Management'
+                || permission?.acl?.name == 'Companies Management'
+                || permission?.acl?.name == 'Managers Management'
+                || permission?.acl?.name == 'Developers Management'
                 || permission?.acl?.name == 'Outside Broker Management'
                 || permission?.acl?.name == 'Seller Management'
                 || permission?.acl?.name == 'Buyer Management'

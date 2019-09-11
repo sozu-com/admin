@@ -26,7 +26,11 @@ export class AddAclComponent implements OnInit {
     private admin: AdminService, private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
     private router: Router
-  ) { }
+  ) {
+    this.admin.loginData$.subscribe(res => {
+      this.parameter.admin_id = res['id'];
+    });
+  }
 
   ngOnInit() {
     this.model = new ACL();
@@ -151,6 +155,17 @@ export class AddAclComponent implements OnInit {
               // formData.reset();
               // this.getAclList();
               this.router.navigate(['/dashboard/access-control-mgt']);
+            } else {
+              console.log(this.parameter.admin_id, this.model.id);
+              if (this.parameter.admin_id === this.model.id) {
+                console.log('1');
+                this.admin.login.next(success.data);
+                this.admin.permissions = success.data.permissions ? success.data.permissions : {};
+                const dd = success.data.m.map((obj, index) => {
+                  const key =  Object.keys(obj)[0];
+                  this.admin.admin_acl[key] =  obj[key];
+                });
+              }
             }
           }
         }, error => {

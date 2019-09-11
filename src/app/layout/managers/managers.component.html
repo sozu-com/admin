@@ -111,24 +111,19 @@
             <td class="text-left">{{item.project_count | numberWithCommas}}</td>
             <td>
               <div class="table-actions">
-                <!-- [disabled]="admin?.admin_acl['Data Collector Management']?.can_update==0" -->
-                <button title="Edit Details" (click)="editUser(item, i)" class="action-icon"><img
+                <button 
+                  [disabled]="admin?.admin_acl['Managers Management']?.can_update==0"
+                  title="Edit Details" (click)="editUser(item, i)" class="action-icon"><img
                     src="assets/img/edit.png" alt="img"></button>
-
                 <button
-                  [disabled]="admin?.admin_acl['Data Collector Management']?.can_delete==0 && parameter.userType=='data-collectors' ||
-                    admin?.admin_acl['Seller Management']?.can_delete==0 && parameter.userType=='csr-sellers' ||
-                    admin?.admin_acl['Buyer Management']?.can_delete==0 && parameter.userType=='csr-buyers' ||
-                    admin?.admin_acl['Broker Management']?.can_delete==0 && parameter.userType=='inhouse-broker' ||
-                    admin?.admin_acl['Closer Management']?.can_delete==0 && parameter.userType=='csr-closers' ||
-                    admin?.admin_acl['Outside Broker Management']?.can_delete==0 && parameter.userType=='outside-broker'"
+                  [disabled]="admin?.admin_acl['Managers Management']?.can_delete==0"
                   (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1)"
                   title="{{item.is_blocked==1?'Unblock Manager':'Block Manager'}}"
                   [ngClass]="{'unblock-bg':item.is_blocked==1}" class="action-icon">
                   <img src="assets/img/block.png" alt="img">
                 </button>
-                <!-- [disabled]="admin?.admin_acl['Outside Broker Management']?.can_purge==0" -->
-                <button (click)="deletePopup(item, i);" class="action-icon" title="Delete Manager"><img
+                <button [disabled]="admin?.admin_acl['Managers Management']?.can_purge==0"
+                  (click)="deletePopup(item, i);" class="action-icon" title="Delete Manager"><img
                     src="assets/img/ic_delete.png" alt="img"></button>
               </div>
             </td>
