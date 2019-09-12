@@ -288,11 +288,24 @@
                             <div class="d-flex table-search"><span><label>Properties <br>Available <br> For Sale</label></span></div>
                           </th>
                           <th style="vertical-align:top;width:5%">
-                              <div class="d-flex table-search"><span><label>Avg Price</label></span></div>
+                            <div class="d-flex table-search">
+                              <span><label>Avg Price</label></span>
+                              <a (click)="sortData(parameter.property_sort==2?1:2)" href="javascript://"><img
+                                [ngClass]="{'upsidedown':parameter.property_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
+                            </div>
                           </th>
                           
                           <th style="vertical-align:top;width:100px;width:20%">
-                            <div class="d-flex table-search"><span><label>Actions</label></span>
+                            <div class="table-search">
+                              <label>Actions</label>
+                              <select [(ngModel)]="parameter.actions" (change)="getListing()">
+                                  <option value="0">All</option>
+                                  <option value="2">Pending</option>
+                                  <option value="2">Approved</option>
+                                  <option value="1">Unapproved</option>
+                                  <option value="1">Blocked</option>
+                                  <option value="2">Unblocked</option>
+                                </select>
                             </div>
                           </th>
                         </tr>

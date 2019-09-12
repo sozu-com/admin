@@ -161,4 +161,5 @@ export interface IProperty {
   developer_id?: number;
   project_id?: number;
   property_sort?: number;
+  actions?: number;
 }

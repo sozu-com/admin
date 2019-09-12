@@ -11,12 +11,12 @@
         <label>What your are looking for?</label>
         <div class="clearfix"></div>
         <label class="cust-radio">
-            <input name="looking_for" type="radio" (change)="leadData.prefs.looking_for = 1"
+            <input [disabled]="sent_as==2" name="looking_for" type="radio" (change)="leadData.prefs.looking_for = 1"
                 [checked]="leadData.prefs.looking_for == 1 ?'checked':''">
             <span class="checkmark">{{ts.lang.Buy}}</span>
         </label>
         <label class="cust-radio">
-            <input name="looking_for" type="radio" (change)="leadData.prefs.looking_for = 2"
+            <input [disabled]="sent_as==2" name="looking_for" type="radio" (change)="leadData.prefs.looking_for = 2"
                 [checked]="leadData.prefs.looking_for == 2 ?'checked':''">
             <span class="checkmark">Rent</span>
         </label>
@@ -30,7 +30,7 @@
 
         <p class="p11">Bedroom</p>
         <label class="cust-radio" *ngFor="let count of configurationCount">
-            <input name="bedroom" type="radio" (change)="setPrefValue('bedroom', count)"
+            <input [disabled]="sent_as==2" name="bedroom" type="radio" (change)="setPrefValue('bedroom', count)"
                 [checked]="leadData.prefs.bedroom == count ?'checked':''">
             <span class="checkmark">{{count}}</span>
         </label>
@@ -38,7 +38,7 @@
 
         <p class="p11">Bathroom</p>
         <label class="cust-radio" *ngFor="let count of configurationCount">
-            <input name="bathroom" type="radio" (change)="setPrefValue('bathroom', count)"
+            <input [disabled]="sent_as==2" name="bathroom" type="radio" (change)="setPrefValue('bathroom', count)"
                 [checked]="leadData.prefs.bathroom == count ?'checked':''">
             <span class="checkmark">{{count}}</span>
         </label>
@@ -46,7 +46,7 @@
 
         <p class="p11">Half Bathroom</p>
         <label class="cust-radio" *ngFor="let count of configurationCount">
-            <input name="half_bathroom" type="radio" (change)="setPrefValue('half_bathroom', count)"
+            <input [disabled]="sent_as==2" name="half_bathroom" type="radio" (change)="setPrefValue('half_bathroom', count)"
                 [checked]="leadData.prefs.half_bathroom == count ?'checked':''">
             <span class="checkmark">{{count}}</span>
         </label>
@@ -63,7 +63,7 @@
                 </div> -->
                 <div class="input-group m-b">
                     <span class="input-group-addon marginR2">$</span>
-                    <input class="form-control" type="number" name="min_price" [(ngModel)]="leadData.prefs.min_price">
+                    <input [disabled]="sent_as==2" class="form-control" type="number" name="min_price" [(ngModel)]="leadData.prefs.min_price">
                 </div>
             </div>
             <div class="col-md-2 col-sm-12 col-12">
@@ -72,7 +72,7 @@
             <div class="col-md-4 col-sm-12 col-12">
                 <div class="input-group m-b">
                     <span class="input-group-addon marginR2">$</span>
-                    <input class="form-control" type="number" name="max_price" [(ngModel)]="leadData.prefs.max_price">
+                    <input [disabled]="sent_as==2" class="form-control" type="number" name="max_price" [(ngModel)]="leadData.prefs.max_price">
                 </div>
                 <!-- <div class="form-group-3 eap">
                     <span class="input-group-addon">$</span>
@@ -86,7 +86,7 @@
         <label>What type of property you are looking for?</label>
         <div class="clearfix"></div>
         <label class="cust-radio" *ngFor="let property_type of leadData.buyer_property_type; let i=index">
-            <input type="checkbox" (click)="setValue('buyer_property_type', i)"
+            <input [disabled]="sent_as==2" type="checkbox" (click)="setValue('buyer_property_type', i)"
                 [checked]="property_type.is_selected == 0 ? '' : 'checked'" name="radio1">
             <span class="checkmark">{{property_type.name}}</span>
         </label>
@@ -97,7 +97,7 @@
         <label>Amenities that you are expecting</label>
         <div class="clearfix"></div>
         
-        <ng-multiselect-dropdown class="section-section2" *ngIf="leadData.buyer_amenities"
+        <ng-multiselect-dropdown [disabled]="sent_as==2" class="section-section2" *ngIf="leadData.buyer_amenities"
             [placeholder]="'Choose Amenities'"
             [data]="allAmenities"
             [(ngModel)]="selectedAmenities"
@@ -113,16 +113,16 @@
         <label>Close proximity needed to</label>
         <div class="clearfix"></div>
         <label class="cust-radio" *ngFor="let proximity_place of leadData.buyer_proximity; let i=index">
-            <input type="checkbox" (click)="setValue('buyer_proximity', i)"
+            <input [disabled]="sent_as==2" type="checkbox" (click)="setValue('buyer_proximity', i)"
                 [checked]="proximity_place.is_selected == 0 ? '' : 'checked'" name="radio3">
             <span class="checkmark">{{proximity_place.name}}</span>
         </label>
         <label class="cust-radio">
-            <input type="checkbox" (click)="setProximityValue($event, showOtherTextBox ? false : true)"
+            <input [disabled]="sent_as==2" type="checkbox" (click)="setProximityValue($event, showOtherTextBox ? false : true)"
                 [checked]="showOtherTextBox ? 'checked' : ''" name="radio3">
             <span class="checkmark">Other</span>
         </label>
-        <textarea *ngIf="showOtherTextBox" [(ngModel)]="leadData.prefs.proximity_other" class="form-control" rows="3" name="proximity_other">{{leadData.prefs.proximity_other}}</textarea>
+        <textarea [disabled]="sent_as==2" *ngIf="showOtherTextBox" [(ngModel)]="leadData.prefs.proximity_other" class="form-control" rows="3" name="proximity_other">{{leadData.prefs.proximity_other}}</textarea>
         <div class="clearfix"></div>
     </div>
 
@@ -130,7 +130,7 @@
         <label>How many cars do you have?</label>
         <div class="clearfix"></div>
         <label class="cust-radio" *ngFor="let car_type of leadData.buyer_car_type; let i=index">
-            <input type="radio" (click)="setCarType(car_type.id)"
+            <input [disabled]="sent_as==2" type="radio" (click)="setCarType(car_type.id)"
                 [checked]="car_type.is_selected == 0 ? '' : 'checked'" name="radio4">
             <span class="checkmark">{{car_type.name}}</span>
         </label>
@@ -140,7 +140,7 @@
     <div class="form-group-5 marginT20">
         <label>Family Size</label> <br>
         <label class="cust-radio" *ngFor="let count of configurationCount">
-            <input name="family_size" type="radio" (change)="setPrefValue('family_size', count)"
+            <input [disabled]="sent_as==2" name="family_size" type="radio" (change)="setPrefValue('family_size', count)"
                 [checked]="leadData.prefs.family_size == count ?'checked':''">
             <span class="checkmark">{{count}}</span>
         </label>
@@ -152,7 +152,7 @@
             <div class="col-6"><label class="float-left">Do you have pets?</label></div>
             <div class="col-5">
                 <label class="cust-check-bx">
-                    <input type="checkbox" value="{{leadData.prefs.pets == 1 ? 'true' : 'false'}}" [(ngModel)]="leadData.prefs.pets"
+                    <input [disabled]="sent_as==2" type="checkbox" value="{{leadData.prefs.pets == 1 ? 'true' : 'false'}}" [(ngModel)]="leadData.prefs.pets"
                         name="pets">
                     <span class="checkmark"></span>
                 </label>
@@ -165,7 +165,7 @@
             <div class="col-6"><label class="float-left">Do you have kids?</label></div>
             <div class="col-5">
                 <label class="cust-check-bx">
-                    <input type="checkbox" value="{{leadData.prefs.kid_count == 1 ? 'true' : 'false'}}"
+                    <input [disabled]="sent_as==2" type="checkbox" value="{{leadData.prefs.kid_count == 1 ? 'true' : 'false'}}"
                         [(ngModel)]="leadData.prefs.kid_count" name="kid_count">
                     <span class="checkmark"></span>
                 </label>
@@ -176,7 +176,7 @@
     <div class="form-group-5 date-picker marginT20">
         <label>How soon are you planning to buy/rent</label>
         <div class="clearfix"></div>
-        <p-calendar showIcon="true" (onSelect)="onSelect($event)" [(ngModel)]="leadData.prefs.planning_to_buy"
+        <p-calendar [disabled]="sent_as==2" showIcon="true" (onSelect)="onSelect($event)" [(ngModel)]="leadData.prefs.planning_to_buy"
             showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
         <div class="clearfix"></div>
     </div>
@@ -196,7 +196,7 @@
         <label>You are looking for</label>
         <div class="clearfix"></div>
         <label class="cust-radio" *ngFor="let property_purpose of leadData.property_purposes; let i=index">
-            <input type="checkbox" (click)="setValue('property_purposes', i)"
+            <input [disabled]="sent_as==2" type="checkbox" (click)="setValue('property_purposes', i)"
                 [checked]="property_purpose.is_selected == 0 ? '' : 'checked'" name="radio3">
             <span class="checkmark">{{property_purpose.name}}</span>
         </label>
@@ -205,7 +205,7 @@
     
     
     <div class="btn-cont text-right">
-        <button [disabled]="(sent_as==constant.userType.csr_buyer && (admin?.admin_acl['Buyer Lead Management']?.can_update==0 || admin?.permissions?.can_csr_buyer==0)) ||
+        <button *ngIf="sent_as!=2" [disabled]="(sent_as==constant.userType.csr_buyer && (admin?.admin_acl['Buyer Lead Management']?.can_update==0 || admin?.permissions?.can_csr_buyer==0)) ||
                             (sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==0 || admin?.permissions?.can_in_house_broker==0))"
             type="button" class="btn btn-primary" (click)="addPreferences()">Save</button>
     </div>

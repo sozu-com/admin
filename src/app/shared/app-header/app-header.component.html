@@ -51,7 +51,7 @@
               <img (click)="onLoggedout()" class="rounded-circle" [src]="image" onerror='src="assets/img/default_img.png"' alt="img">
            </a> -->
            <a class="dropdown-toggle count-info color-white animation" data-toggle="dropdown" href="#" aria-expanded="true">
-              <h4>{{fullName.slice(0,20)}}</h4>
+              <h4>{{fullName ? fullName.slice(0,20) : ''}}</h4>
               <img class="rounded-circle" [src]="image" onerror='src="assets/img/default_img.png"' alt="img">
           </a>
           <ul class="dropdown-menu animated slideInDown">
