@@ -32,7 +32,7 @@ export class Constant {
     public confirmButtonColor = '#00b96f';
     public cancelButtonColor = '#ee7b7c';
     public phonePattern = '^[0-9]{5,15}$';
-    public onlyWhiteSpaces = '^[a-zA-Z1-9].*'; // [\w,./_=?-]+
+    public onlyWhiteSpaces = '.*\\S.*[a-zA-z0-9 ]'; // '^[a-zA-Z1-9].*'; // [\w,./_=?-]+
     public emailPattern = '^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$';
     // public emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
     // ^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@(([0-9a-zA-Z])+([-\w]*[0-9a-zA-Z])*\.)+[a-zA-Z]{2,9})$
