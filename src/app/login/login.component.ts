@@ -88,6 +88,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
               this.router.navigate(['dashboard/banks/bank-leads']);
             } else if (success.data.permissions.can_noatary === 1) {
               this.router.navigate(['dashboard/notary/notary-leads']);
+            } else {
+              swal('Error', "You don't have permission to access the panel. Kindly contact Admin to proceed.", 'error');
             }
           } else if (success.data.admin_acl) {
             let check = true;

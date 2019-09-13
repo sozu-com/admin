@@ -161,5 +161,8 @@ export interface IProperty {
   developer_id?: number;
   project_id?: number;
   property_sort?: number;
-  actions?: number;
+  action_filter?: number;
+  seller_name?: string;
+  availability_filter?: number;
+  sold_filter?: number;
 }

@@ -298,14 +298,14 @@
                           <th style="vertical-align:top;width:100px;width:20%">
                             <div class="table-search">
                               <label>Actions</label>
-                              <!-- <select [(ngModel)]="parameter.actions" (change)="getListing()">
-                                  <option value="0">All</option>
-                                  <option value="2">Pending</option>
-                                  <option value="2">Approved</option>
-                                  <option value="1">Unapproved</option>
-                                  <option value="1">Blocked</option>
-                                  <option value="2">Unblocked</option>
-                                </select> -->
+                              <select [(ngModel)]="parameter.action_filter" (change)="getListing()">
+                                <option value="0">All</option>
+                                <!-- <option value="2">Pending</option> -->
+                                <option value="3">Approved</option>
+                                <option value="4">Unapproved</option>
+                                <option value="1">Blocked</option>
+                                <option value="2">Unblocked</option>
+                              </select>
                             </div>
                           </th>
                         </tr>
