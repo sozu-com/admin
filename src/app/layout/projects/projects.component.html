@@ -245,7 +245,7 @@
                             <div class="table-search">
                                 <label>Name of Building</label>
                                 <div class="searh-3">
-                                <input type="text" [(ngModel)]="parameter.keyword" (keyup.enter)="getListing()" >
+                                <input class="width100px" type="text" [(ngModel)]="parameter.keyword" (keyup.enter)="getListing()" >
                                 <button *ngIf="parameter.keyword" (click)="getListing()"><i class="fa fa-search"></i></button>
                               </div>
                             </div>
@@ -254,7 +254,7 @@
                             <div class="table-search">
                               <label>Developer</label>
                               <div class="searh-3">
-                                <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="getListing()" >
+                                <input class="width100px" type="text" [(ngModel)]="parameter.email" (keyup.enter)="getListing()" >
                                 <button *ngIf="parameter.email" (click)="getListing()"><i class="fa fa-search"></i></button>
                               </div>
                             </div>
@@ -298,14 +298,14 @@
                           <th style="vertical-align:top;width:100px;width:20%">
                             <div class="table-search">
                               <label>Actions</label>
-                              <select [(ngModel)]="parameter.actions" (change)="getListing()">
+                              <!-- <select [(ngModel)]="parameter.actions" (change)="getListing()">
                                   <option value="0">All</option>
                                   <option value="2">Pending</option>
                                   <option value="2">Approved</option>
                                   <option value="1">Unapproved</option>
                                   <option value="1">Blocked</option>
                                   <option value="2">Unblocked</option>
-                                </select>
+                                </select> -->
                             </div>
                           </th>
                         </tr>

@@ -257,7 +257,7 @@
                               <div class="table-search">
                                  <label>Name of Building</label>
                                  <div class="searh-3">
-                                    <input type="text" [(ngModel)]="parameter.keyword" (keyup.enter)="getListing()" >
+                                    <input class="width100px" type="text" [(ngModel)]="parameter.keyword" (keyup.enter)="getListing()" >
                                     <button *ngIf="parameter.keyword" (click)="getListing()"><i class="fa fa-search"></i></button>
                                  </div>
                               </div>
@@ -266,7 +266,7 @@
                               <div class="table-search">
                                  <label>Name of Tower</label>
                                  <div class="searh-3">
-                                    <input type="text" [(ngModel)]="parameter.tower_name" (keyup.enter)="getListing()" >
+                                    <input class="width100px" type="text" [(ngModel)]="parameter.tower_name" (keyup.enter)="getListing()" >
                                     <button *ngIf="parameter.tower_name" (click)="getListing()"><i class="fa fa-search"></i></button>
                                  </div>
                               </div>
@@ -275,7 +275,7 @@
                               <div class="table-search">
                                  <label>Name of Apartment</label>
                                  <div class="searh-3">
-                                    <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getListing()" >
+                                    <input class="width120px" type="text" [(ngModel)]="parameter.name" (keyup.enter)="getListing()" >
                                     <button *ngIf="parameter.name" (click)="getListing()"><i class="fa fa-search"></i></button>
                                  </div>
                               </div>
@@ -318,50 +318,50 @@
                            <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
                               <div class="table-search">
                                  <label>Change <br> Seller</label>
-                                 <div class="searh-3">
+                                 <!-- <div class="searh-3">
                                     <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getListing()" >
                                     <button *ngIf="parameter.name" (click)="getListing()"><i class="fa fa-search"></i></button>
-                                 </div>
+                                 </div> -->
                               </div>
                            </th>
                            <th *ngIf="parameter.flag!=5" style="width:6%;vertical-align:top;">
                               <div class="table-search">
                                  <label>Link / <br>Unlink<br>Agent</label>
-                                 <div class="searh-3">
+                                 <!-- <div class="searh-3">
                                     <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getListing()" >
                                     <button *ngIf="parameter.name" (click)="getListing()"><i class="fa fa-search"></i></button>
-                                 </div>
+                                 </div> -->
                               </div>
                            </th>
                            <th *ngIf="parameter.flag!=5" style="width:10%;vertical-align:top;">
                               <div (click)="sort_by(2)" class="table-search">
                                  <label>Change <br> Availability</label>
-                                 <select [(ngModel)]="parameter.actions" (change)="getListing()">
+                                 <!-- <select [(ngModel)]="parameter.actions" (change)="getListing()">
                                     <option value="0">For Sale</option>
                                     <option value="2">Rent</option>
                                     <option value="1">Inventory</option>
-                                 </select>
+                                 </select> -->
                               </div>
                            </th>
                            <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
                               <div class="table-search">
                                  <label>Is Property <br> Sold</label>
-                                 <select [(ngModel)]="parameter.actions" (change)="getListing()">
+                                 <!-- <select [(ngModel)]="parameter.actions" (change)="getListing()">
                                     <option value="0">All</option>
                                     <option value="2">Yes</option>
                                     <option value="1">No</option>
-                                 </select>
+                                 </select> -->
                               </div>
                            </th>
                            <th style="width:15%;" *ngIf="parameter.flag!=5">
                               <div class="table-search">
                                  <label>Actions</label>
-                                 <select [(ngModel)]="parameter.actions" (change)="getListing()">
+                                 <!-- <select [(ngModel)]="parameter.actions" (change)="getListing()">
                                     <option value="0">All</option>
                                     <option value="2">Featured</option>
                                     <option value="1">Blocked</option>
                                     <option value="2">Unblocked</option>
-                                 </select>
+                                 </select> -->
                               </div>
                            </th>
                         </tr>

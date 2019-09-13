@@ -10,7 +10,8 @@ export const environment = {
   socketUrl: 'https://sockettest.sozu.com',
   deviceId: 'ADMIN',
 
-  versionCheckURL : 'https://admin.sozu.com/version.json',
+  // versionCheckURL : 'https://admin.sozu.com/version.json',
+  versionCheckURL : 'http://admintest.sozu.com/version.json',
 
   firebase: {
     apiKey: 'AIzaSyAZMJdN4-tFi3vkKLz-c-BoFHMq7eAkoAc',
