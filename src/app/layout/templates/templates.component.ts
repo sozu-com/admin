@@ -75,7 +75,6 @@ export class TemplatesComponent implements OnInit {
 
   deleteBlogPopUp(id: any, index: number) {
     this.parameter.title = this.constant.title.ARE_YOU_SURE;
-    this.items.splice(1, index);
     this.parameter.text = this.constant.title.DELETE_BLOG;
     this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
 
@@ -94,6 +93,7 @@ export class TemplatesComponent implements OnInit {
   }
 
   deleteBlog(id: any, index: number) {
+    this.items.splice(index, 1);
     this.admin.postDataApi('deleteBlog', { id: id }).subscribe(
       success => {
         swal('Success', 'Deleted successfully.', 'success');

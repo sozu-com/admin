@@ -7,6 +7,7 @@ import { AddNotaryAvailabilty, NotaryLeads } from 'src/app/models/leads.model';
 import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
 import { Constant } from 'src/app/common/constants';
+import { LeadsService } from 'src/app/services/leads.service';
 
 @Component({
   selector: 'app-notary-leads',
@@ -46,6 +47,7 @@ export class NotaryLeadsComponent implements OnInit {
   chartView: any = [];
   constructor(
     public admin: AdminService,
+    public leadsService: LeadsService,
     private constant: Constant,
     public availability: AddNotaryAvailabilty,
     public route: ActivatedRoute,
@@ -57,9 +59,10 @@ export class NotaryLeadsComponent implements OnInit {
     this.parameter.keyword = '';
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
-    this.parameter.flag = 2;
+    this.parameter.flag = this.leadsService.notaryLeadsFlag ? this.leadsService.notaryLeadsFlag : this.constant.flag;
     this.parameter.total = 0;
-    this.parameter.count_flag = 1;
+    this.parameter.count_flag = this.leadsService.notaryLeadsCountFlag ?
+      this.leadsService.notaryLeadsCountFlag : this.constant.count_flag;
     this.route.params.subscribe(params => {
       this.parameter.assignee_id = params.id;
     });
@@ -68,8 +71,9 @@ export class NotaryLeadsComponent implements OnInit {
     Object.assign(this, this.chartView);
   }
 
-  changeFlag(flag) {
+  changeFlag(flag: number) {
     this.parameter.flag = flag;
+    this.leadsService.notaryLeadsFlag = flag;
     this.parameter.count_flag = 1;
     this.resetDates();
     this.getListing();
@@ -81,8 +85,9 @@ export class NotaryLeadsComponent implements OnInit {
     this.getListing();
   }
 
-  changeCountFlag(flag) {
+  changeCountFlag(flag: number) {
     this.parameter.count_flag = flag;
+    this.leadsService.notaryLeadsCountFlag = flag;
     this.getListing();
   }
 

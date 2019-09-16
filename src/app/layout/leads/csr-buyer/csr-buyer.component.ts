@@ -58,9 +58,9 @@ export class CsrBuyerComponent implements OnInit {
     this.parameter.keyword = '';
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
-    this.parameter.flag = 2;
+    this.parameter.flag = this.leadsService.buyerLeadsFlag ? this.leadsService.buyerLeadsFlag : this.constant.flag;
     this.parameter.total = 0;
-    this.parameter.count_flag = 1;
+    this.parameter.count_flag = this.leadsService.buyerLeadsCountFlag ? this.leadsService.buyerLeadsCountFlag : this.constant.count_flag;
     this.route.params.subscribe(params => {
       this.parameter.assignee_id = params.id;
     });
@@ -119,9 +119,10 @@ export class CsrBuyerComponent implements OnInit {
     this.parameter.locality_id = id;
   }
 
-  changeFlag(flag) {
+  changeFlag(flag: number) {
     this.parameter.flag = flag;
     this.parameter.count_flag = 1;
+    this.leadsService.buyerLeadsFlag = flag;
     this.resetDates();
     this.getListing();
     this.getCSRDashBoardData();
@@ -132,8 +133,9 @@ export class CsrBuyerComponent implements OnInit {
     this.getListing();
   }
 
-  changeCountFlag(flag) {
+  changeCountFlag(flag: number) {
     this.parameter.count_flag = flag;
+    this.leadsService.buyerLeadsCountFlag = flag;
     this.getListing();
   }
 

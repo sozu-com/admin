@@ -7,6 +7,7 @@ import { Constant } from 'src/app/common/constants';
 import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from 'src/app/lang/translate.service';
+import { LeadsService } from 'src/app/services/leads.service';
 declare let swal: any;
 
 @Component({
@@ -41,6 +42,7 @@ export class InhouseBrokerComponent implements OnInit {
 
   constructor(
     public admin: AdminService,
+    public leadsService: LeadsService,
     private constant: Constant,
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
@@ -52,9 +54,10 @@ export class InhouseBrokerComponent implements OnInit {
     this.parameter.keyword = '';
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
-    this.parameter.flag = 2;
+    this.parameter.flag = this.leadsService.inhouseAgentLeadsFlag ? this.leadsService.inhouseAgentLeadsFlag : this.constant.flag;
     this.parameter.total = 0;
-    this.parameter.count_flag = 1;
+    this.parameter.count_flag = this.leadsService.inhouseAgentLeadsCountFlag ?
+    this.leadsService.inhouseAgentLeadsCountFlag : this.constant.count_flag;
     this.route.params.subscribe(params => {
       this.parameter.assignee_id = params.id;
     });
@@ -114,8 +117,9 @@ export class InhouseBrokerComponent implements OnInit {
     // this.getCsrListing();
   }
 
-  changeFlag(flag) {
+  changeFlag(flag: number) {
     this.parameter.flag = flag;
+    this.leadsService.inhouseAgentLeadsFlag = flag;
     this.parameter.count_flag = 1;
     this.resetDates();
     this.getListing();
@@ -127,8 +131,9 @@ export class InhouseBrokerComponent implements OnInit {
     this.getListing();
   }
 
-  changeCountFlag(flag) {
+  changeCountFlag(flag: number) {
     this.parameter.count_flag = flag;
+    this.leadsService.inhouseAgentLeadsCountFlag = flag;
     this.getListing();
   }
 

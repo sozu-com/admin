@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AdminService } from '../../../services/admin.service';
-import { IProperty } from '../../../common/property';
-import { Constant } from './../../../common/constants';
-import { Users } from '../../../models/users.model';
+import { AdminService } from 'src/app/services/admin.service';
+import { IProperty } from 'src/app/common/property';
+import { Constant } from 'src/app/common/constants';
+import { Users } from 'src/app/models/users.model';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { LeadsService } from 'src/app/services/leads.service';
 declare let swal: any;
 
 @Component({
@@ -39,6 +40,7 @@ export class BankLeadsComponent implements OnInit {
 
   constructor(
     public admin: AdminService,
+    public leadsService: LeadsService,
     private constant: Constant,
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService
@@ -48,9 +50,9 @@ export class BankLeadsComponent implements OnInit {
     this.parameter.keyword = '';
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
-    this.parameter.flag = 2;
+    this.parameter.flag = this.leadsService.bankLeadsFlag ? this.leadsService.bankLeadsFlag : this.constant.flag;
     this.parameter.total = 0;
-    this.parameter.count_flag = 1;
+    this.parameter.count_flag = this.leadsService.bankLeadsCountFlag ? this.leadsService.bankLeadsCountFlag : this.constant.count_flag;
     this.route.params.subscribe(params => {
       this.parameter.assignee_id = params.id;
     });
@@ -59,8 +61,9 @@ export class BankLeadsComponent implements OnInit {
     Object.assign(this, this.chartView);
   }
 
-  changeFlag(flag) {
+  changeFlag(flag: number) {
     this.parameter.flag = flag;
+    this.leadsService.bankLeadsFlag = flag;
     this.parameter.count_flag = 1;
     this.resetDates();
     this.getListing();
@@ -72,8 +75,9 @@ export class BankLeadsComponent implements OnInit {
     this.getListing();
   }
 
-  changeCountFlag(flag) {
+  changeCountFlag(flag: number) {
     this.parameter.count_flag = flag;
+    this.leadsService.bankLeadsCountFlag = flag;
     this.getListing();
   }
 

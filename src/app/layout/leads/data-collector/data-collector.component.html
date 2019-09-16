@@ -149,7 +149,7 @@
   <div class="row">
       <div class="col-lg-4 col-md-12 col-sm-12 col-12">
         <div class="info-box">
-            <div class="one-row" [ngClass]="{'active':parameter.count_flag == '1'}" (click)="changeCountFlag(1)">
+            <div class="one-row" [ngClass]="{'active':parameter.count_flag == 1}" (click)="changeCountFlag(1)">
               <div class="o-block">
                   <h5>Buildings</h5>
                   <small>Requests Pending</small>
@@ -164,11 +164,11 @@
                   <p><strong>{{dash.request_pending_admin}}</strong></p>
                   <p>Admin</p>
               </div> -->
-              <div class="t-block" [ngClass]="{'active':parameter.count_flag == '2'}" (click)="changeCountFlag(2)">
+              <div class="t-block" [ngClass]="{'active':parameter.count_flag == 2}" (click)="changeCountFlag(2)">
                   <p><strong>{{dash.request_pending_admin}}</strong></p>
                   <p>Admin/Data Collector</p>
               </div>
-              <div class="t-block" [ngClass]="{'active':parameter.count_flag == '3'}" (click)="changeCountFlag(3)">
+              <div class="t-block" [ngClass]="{'active':parameter.count_flag == 3}" (click)="changeCountFlag(3)">
                   <p><strong>{{dash.request_pending_user}}</strong></p>
                   <p>User</p>
               </div>
@@ -178,21 +178,21 @@
     <div class="col-lg-4 col-md-12 col-sm-12 col-12">
         <div class="four-block">
             <div class="d-flex">
-              <div class="f-block approved" [ngClass]="{'active':parameter.count_flag == '4'}" (click)="changeCountFlagForBuilding(4)">
+              <div class="f-block approved" [ngClass]="{'active':parameter.count_flag == 4}" (click)="changeCountFlagForBuilding(4)">
                   <h5>Approved</h5>
                   <h3>{{dash.building_approved}}</h3>
               </div>
-              <div class="f-block unapproved" [ngClass]="{'active':parameter.count_flag == '5'}" (click)="changeCountFlagForBuilding(5)">
+              <div class="f-block unapproved" [ngClass]="{'active':parameter.count_flag == 5}" (click)="changeCountFlagForBuilding(5)">
                   <h5>Unapproved</h5>
                   <h3>{{dash.building_unapproved}}</h3>
               </div>
             </div>
             <div class="d-flex">
-              <div class="f-block pending" [ngClass]="{'active':parameter.count_flag == '6'}" (click)="changeCountFlagForBuilding(6)">
+              <div class="f-block pending" [ngClass]="{'active':parameter.count_flag == 6}" (click)="changeCountFlagForBuilding(6)">
                   <h5>Pending</h5>
                   <h3>{{dash.building_pending}}</h3>
               </div>
-              <div class="f-block unapproved" [ngClass]="{'active':parameter.count_flag == '7'}" (click)="changeCountFlagForBuilding(7)">
+              <div class="f-block unapproved" [ngClass]="{'active':parameter.count_flag == 7}" (click)="changeCountFlagForBuilding(7)">
                   <h5>In Draft</h5>
                   <h3>{{dash.building_draft}}</h3>
               </div>

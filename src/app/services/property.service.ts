@@ -6,6 +6,7 @@ import { AddPropertyModel } from '../models/addProperty.model';
 })
 export class PropertyService {
 
+  dash_flag: number;
   property: any;
   constructor() { }
 

@@ -149,7 +149,7 @@
          <div class="col-lg-8 col-md-12 col-sm-12 col-12">
             <div class="info-box all-leads">
                <div class="row">
-                  <div class="col-md-6 col-sm-6 col-12 bdr-right" [ngClass]="{'active':parameter.count_flag == '1'}" (click)="changeCountFlag(1)">
+                  <div class="col-md-6 col-sm-6 col-12 bdr-right" [ngClass]="{'active':parameter.count_flag == 1}" (click)="changeCountFlag(1)">
                      <div class="one-row ">
                         <div class="o-block">
                            <h5>All Leads</h5>
@@ -164,12 +164,12 @@
                   <div class="col-md-6 col-sm-6 col-12 paddingL0">
                     <div class="two-block">
                         <div class="d-flex">
-                            <div class="f-block" [ngClass]="{'active':parameter.count_flag == '2'}" (click)="changeCountFlag(2)">
+                            <div class="f-block" [ngClass]="{'active':parameter.count_flag == 2}" (click)="changeCountFlag(2)">
                                 <h5>Notary</h5>
                                 <small>Not Assigned</small>
                                 <h3>{{dash?.noatary_pending}}</h3>
                             </div>
-                            <div class="f-block" [ngClass]="{'active':parameter.count_flag == '3'}" (click)="changeCountFlag(3)">
+                            <div class="f-block" [ngClass]="{'active':parameter.count_flag == 3}" (click)="changeCountFlag(3)">
                                 <h5>Bank</h5>
                                 <small>Not Assigned</small>
                                 <h3>{{dash?.bank_pending}}</h3>
@@ -182,7 +182,7 @@
             </div>
             <div class="info-box all-leads">
                <div class="row">
-                  <div class="col-md-6 col-sm-6 col-12 bdr-right" [ngClass]="{'active':parameter.count_flag == '4'}" (click)="changeCountFlag(4)">
+                  <div class="col-md-6 col-sm-6 col-12 bdr-right" [ngClass]="{'active':parameter.count_flag == 4}" (click)="changeCountFlag(4)">
                      <div class="one-row ">
                         <div class="o-block">
                            <h5>Leads</h5>
@@ -194,7 +194,7 @@
                         </div>
                      </div>
                   </div>
-                  <div class="col-md-6 col-sm-6 col-12" [ngClass]="{'active':parameter.count_flag == '5'}" (click)="changeCountFlag(5)">
+                  <div class="col-md-6 col-sm-6 col-12" [ngClass]="{'active':parameter.count_flag == 5}" (click)="changeCountFlag(5)">
                      <div class="one-row">
                         <div class="o-block">
                            <h5>Leads</h5>

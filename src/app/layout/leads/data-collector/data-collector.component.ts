@@ -4,6 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Constant } from 'src/app/common/constants';
 import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
+import { LeadsService } from 'src/app/services/leads.service';
 declare let swal: any;
 
 @Component({
@@ -45,6 +46,7 @@ export class DataCollectorComponent implements OnInit {
 
   constructor(
     public admin: AdminService,
+    public leadsService: LeadsService,
     private constant: Constant,
     private spinner: NgxSpinnerService
   ) { }
@@ -54,9 +56,10 @@ export class DataCollectorComponent implements OnInit {
     this.parameter.keyword = '';
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
-    this.parameter.flag = 2;
+    this.parameter.flag = this.leadsService.dataCollectorLeadsFlag ? this.leadsService.dataCollectorLeadsFlag : this.constant.flag;
     this.parameter.total = 0;
-    this.parameter.count_flag = 1;
+    this.parameter.count_flag = this.leadsService.dataCollectorLeadsCountFlag ?
+      this.leadsService.dataCollectorLeadsCountFlag : this.constant.count_flag;
     this.getCountries();
     this.getListing();
     this.getCSRDashBoardData();
@@ -114,8 +117,9 @@ export class DataCollectorComponent implements OnInit {
     // this.getCsrListing();
   }
 
-  changeFlag(flag) {
+  changeFlag(flag: number) {
     this.parameter.flag = flag;
+    this.leadsService.dataCollectorLeadsFlag = flag;
     this.parameter.count_flag = 1;
     this.resetDates();
     this.getListing();
@@ -127,8 +131,9 @@ export class DataCollectorComponent implements OnInit {
     this.getListing();
   }
 
-  changeCountFlag(flag) {
+  changeCountFlag(flag: number) {
     this.parameter.count_flag = flag;
+    this.leadsService.dataCollectorLeadsCountFlag = flag;
     this.getListing();
   }
 

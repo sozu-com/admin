@@ -57,9 +57,10 @@ export class CsrCloserComponent implements OnInit {
     this.parameter.keyword = '';
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
-    this.parameter.flag = 2;
+    this.parameter.flag = this.leadsService.closureLeadsFlag ? this.leadsService.closureLeadsFlag : this.constant.flag;
     this.parameter.total = 0;
-    this.parameter.count_flag = 1;
+    this.parameter.count_flag = this.leadsService.closureLeadsCountFlag ?
+      this.leadsService.closureLeadsCountFlag : this.constant.count_flag;
     this.route.params.subscribe(params => {
       this.parameter.assignee_id = params.id;
     });
@@ -121,8 +122,9 @@ export class CsrCloserComponent implements OnInit {
     // this.getCsrListing();
   }
 
-  changeFlag(flag) {
+  changeFlag(flag: number) {
     this.parameter.flag = flag;
+    this.leadsService.closureLeadsFlag = flag;
     this.parameter.count_flag = 1;
     this.resetDates();
     this.getListing();
@@ -134,8 +136,9 @@ export class CsrCloserComponent implements OnInit {
     this.getListing();
   }
 
-  changeCountFlag(flag) {
+  changeCountFlag(flag: number) {
     this.parameter.count_flag = flag;
+    this.leadsService.closureLeadsCountFlag = flag;
     this.getListing();
   }
 

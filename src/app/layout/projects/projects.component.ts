@@ -6,6 +6,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { IProperty } from 'src/app/common/property';
 import { Constant } from 'src/app/common/constants';
 import { AdminService } from 'src/app/services/admin.service';
+import { ProjectService } from 'src/app/services/project.service';
 declare let swal: any;
 
 @Component({
@@ -31,6 +32,7 @@ export class ProjectsComponent implements OnInit {
     public apiConstant: ApiConstants,
     private route: ActivatedRoute,
     public admin: AdminService,
+    public projectService: ProjectService,
     private spinner: NgxSpinnerService
   ) { }
 
@@ -41,7 +43,7 @@ export class ProjectsComponent implements OnInit {
     });
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
-    this.parameter.dash_flag = 2;
+    this.parameter.dash_flag = this.projectService.dash_flag ? this.projectService.dash_flag : this.constant.dash_flag;
     this.parameter.property_sort = 2;
     this.parameter.possession_filter = 0; // 0-all, 9-presale, 8-sale
     this.getCountries();
@@ -141,9 +143,10 @@ export class ProjectsComponent implements OnInit {
     this.parameter.locality_id = id;
   }
 
-  changeFlag(flag) {
+  changeFlag(flag: number) {
     this.parameter.dash_flag = flag;
-    if (flag.toString() === '5') {
+    this.projectService.dash_flag = flag;
+    if (flag === 5) {
       return false;
     }
     this.resetDates();

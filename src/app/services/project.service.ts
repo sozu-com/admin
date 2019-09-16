@@ -5,5 +5,6 @@ import { Injectable } from '@angular/core';
 })
 export class ProjectService {
 
+  dash_flag: number;
   constructor() { }
 }

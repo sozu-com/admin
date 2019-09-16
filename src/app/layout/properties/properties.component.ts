@@ -65,7 +65,7 @@ export class PropertiesComponent implements OnInit {
     });
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
-    this.parameter.dash_flag = 2;
+    this.parameter.dash_flag = this.propertyService.dash_flag ? this.propertyService.dash_flag : this.constant.dash_flag;
     this.parameter.flag = 3;
     this.getCountries();
     this.getPropertyConfigurations();
@@ -177,8 +177,9 @@ export class PropertiesComponent implements OnInit {
     this.parameter.building_id = building_id;
   }
 
-  changeFlag(flag) {
+  changeFlag(flag: number) {
     this.parameter.dash_flag = flag;
+    this.propertyService.dash_flag = flag;
     if (flag === 5) {
       return false;
     }
