@@ -276,8 +276,8 @@
           <input autocomplete="off" type="text" class="form-control" placeholder="Country (Spanish)" [(ngModel)]="location.countryModel.name_es" name="name_es">
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="submit" [disabled]="admin?.admin_acl['Settings']?.can_create==0 || addForm.invalid" class="btn btn-info">Submit</button>
+      <div class="modal-footer btn-cont">
+        <button type="submit" [disabled]="admin?.admin_acl['Settings']?.can_create==0 || addForm.invalid" class="btn btn-primary-new">Submit</button>
         <button type="button" class="btn btn-default" aria-label="Close" (click)="modalRef.hide()">Close</button>
       </div>
     </form>
@@ -319,8 +319,8 @@
           <input autocomplete="off" type="text" class="form-control" placeholder="State (Spanish)" [(ngModel)]="location.stateModel.name_es" name="name_es">
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="submit" [disabled]="admin?.admin_acl['Settings']?.can_create==0 || addForm.invalid" class="btn btn-info">Submit</button>
+      <div class="modal-footer btn-cont">
+        <button type="submit" [disabled]="admin?.admin_acl['Settings']?.can_create==0 || addForm.invalid" class="btn btn-primary-new">Submit</button>
         <button type="button" class="btn btn-default" aria-label="Close" (click)="modalRef.hide()">Close</button>
       </div>
     </form>
@@ -373,8 +373,8 @@
           <input autocomplete="off" type="text" class="form-control" placeholder="City (Spanish)" [(ngModel)]="location.cityModel.name_es" name="name_es">
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="submit" [disabled]="admin?.admin_acl['Settings']?.can_create==0 || addForm.invalid" class="btn btn-info">Submit</button>
+      <div class="modal-footer btn-cont">
+        <button type="submit" [disabled]="admin?.admin_acl['Settings']?.can_create==0 || addForm.invalid" class="btn btn-primary-new">Submit</button>
         <button type="button" class="btn btn-default" aria-label="Close" (click)="modalRef.hide()">Close</button>
       </div>
     </form>

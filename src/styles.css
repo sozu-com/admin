@@ -19,6 +19,10 @@
 .pac-container {
     z-index: 10000 !important;
 }
+.ui-calendar .ui-calendar-button {
+    margin-right: 0px;
+    right: 0px;
+}
 table tr, table tr td{outline: none !important;}
 #wrapper{ background: #f4f4f4 !important; }
 .backdrop{ position: fixed !important; }

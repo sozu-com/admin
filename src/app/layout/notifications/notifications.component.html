@@ -22,7 +22,7 @@
 
   <div class="white-bg padding20 profile-content-outer">
     <ul class="notifications">
-      <li *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }" (click)="redirect(item)">
+      <li class="cursor-pointer" *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }" (click)="redirect(item)">
         <h5>{{item.notification_text}}</h5>
         <p>{{item.notification_desc}}
           <span class="pull-right">{{item.updated_at|moment}}</span>

@@ -110,7 +110,7 @@
               <div class="table-search">
                   <label>Agency <br> (Commercial Name) </label>
                   <div class="searh-3">
-                    <input type="text" [(ngModel)]="parameter.company_name" (keyup.enter)="searchUserByCompanyName(parameter.company_name)" name="">
+                    <input class="width120px" type="text" [(ngModel)]="parameter.company_name" (keyup.enter)="searchUserByCompanyName(parameter.company_name)" name="">
                     <button type="button" *ngIf="parameter.company_name" (click)="searchUserByCompanyName(parameter.company_name)"><i class="fa fa-search"></i></button>
                   </div>
               </div>
@@ -128,7 +128,7 @@
               <div class="table-search">
                   <label>Contact Number</label>
                   <div class="searh-3">
-                    <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="searchUserByPhone(parameter.phone)" name="">
+                    <input class="width100px" type="text" [(ngModel)]="parameter.phone" (keyup.enter)="searchUserByPhone(parameter.phone)" name="">
                     <button type="button" *ngIf="parameter.phone" (click)="searchUserByPhone(parameter.phone)"><i class="fa fa-search"></i></button>
                   </div>
               </div>

@@ -28,7 +28,7 @@
      <li class="cursor-pointer" *ngFor="let item of appointmentDates" title="Click to view list" (click)="meetings = item.meetings">
       <span>{{item.day}}</span>
       <b>{{item.date}}</b>
-      <span class="meeting-count" [ngClass]="{'green':item.meeting_count > 0}">{{item.meeting_count}}</span>
+      <span *ngIf="item.meeting_count>0" class="meeting-count" [ngClass]="{'green':item.meeting_count > 0}">{{item.meeting_count}}</span>
      </li>
    </ul>
    <div class="spacer30 clearfix"></div>

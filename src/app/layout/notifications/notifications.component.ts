@@ -39,8 +39,16 @@ export class NotificationsComponent implements OnInit {
   }
 
   redirect(item) {
-    let redirectPath;
+    let redirectPath: string;
     switch (item.notification_type) {
+      case 2:
+        // building request accepted
+        redirectPath = '/dashboard/projects/details';
+        break;
+      case 3:
+        // building request rejected
+        redirectPath = '/dashboard/projects/details';
+        break;
       case 4:
         // new lead assigned to csr seller
         redirectPath = '/dashboard/leads/csr-sellers';
@@ -64,6 +72,10 @@ export class NotificationsComponent implements OnInit {
       case 14:
         // token amount paid by user
         redirectPath = '/dashboard/leads/inhouse-broker';
+        break;
+      case 21:
+        // data collector mark as complete
+        redirectPath = '/dashboard/projects/details';
         break;
       case 25:
         // new lead assigned to bank
