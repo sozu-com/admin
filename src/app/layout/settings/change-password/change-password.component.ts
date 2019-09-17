@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AdminService } from '../../../services/admin.service';
-// import { SweetAlertService } from 'ngx-sweetalert2';
-import { IProperty } from '../../../common/property';
+import { AdminService } from 'src/app/services/admin.service';
+import { IProperty } from 'src/app/common/property';
 import { NgForm } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
@@ -32,7 +31,7 @@ export class ChangePasswordComponent implements OnInit {
       .subscribe(
         success => {
           this.spinner.hide();
-          swal('Success', 'Password is changed successfully!', 'success');
+          swal('Success', 'Password changed Successfully.', 'success');
           localStorage.removeItem('token');
           this.router.navigate(['']);
         },

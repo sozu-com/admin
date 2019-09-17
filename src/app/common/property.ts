@@ -165,4 +165,6 @@ export interface IProperty {
   seller_name?: string;
   availability_filter?: number;
   sold_filter?: number;
+  bulk_approve_property?: number;
+  bulk_approve_project?: number;
 }

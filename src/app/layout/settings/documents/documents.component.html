@@ -31,7 +31,7 @@
                           </div>
                         </div>
                       <button [disabled]="admin?.admin_acl['Settings']?.can_create==0 || addForm1.invalid" type="submit" class="add-btn btn">
-                         <img src="./../../../../assets/img/add.png" alt="img">
+                         <img src="assets/img/add.png" alt="img">
                        </button>
                      </form>
                   </div>
@@ -47,13 +47,24 @@
                     <th style="width:40%; text-align:left;">Name (Spanish)</th>
                     <!-- <th style="width:20%">Action</th> -->
                   </tr>
-                  <tr *ngFor="let item of parameter.items">
+                  <tr *ngFor="let item of parameter.items; let i=index">
                     <td class="text-left">
                       {{item.name_en}}
                     </td>
                     <td class="text-left">
                       {{item.name_es}}
                     </td>
+                  <td>
+                      <!-- <button title="Edit" [disabled]="admin?.admin_acl['Settings']?.can_update==0" 
+                      (click)="openModal(addDocumentModal, item.id, item.name_en, item.name_es, item.status, i)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button> -->
+                    
+                      <!-- status = 1 means unblocked -->
+                      <!-- <button [disabled]="admin?.admin_acl['Settings']?.can_delete==0"
+                        (click)="blockUnblockCountry(item.id, item.name_en, item.name_es, item.status==1?0:1, i)" 
+                        title="{{item.status==1?'Block':'Unblock'}}" [ngClass]="{'unblock-bg':item.status==0}"
+                        class="action-icon"><img src="assets/img/block.png" alt="img">
+                      </button> -->
+                  </td>
                   </tr>
   
                   <div *ngIf="parameter.total == 0">
@@ -68,3 +79,29 @@
     </div>
   </div>
   
+
+<!-- add document modal -->
+<ng-template #addDocumentModal>
+  <div class="modal-content">
+    <div class="modal-header my-modal-header">
+      <h4 class="modal-title">Edit Document Name</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <form class="form-horizontal my-modal-form" role="form" novalidate #addForm="ngForm" (ngSubmit)="checkIfSpanishNameEntered(addForm.value.name_en, addForm.value.name_es)">
+      <div class="modal-body my-modal-body">
+        <div class="form-group">
+          <input autocomplete="off" type="text" class="form-control" placeholder="Name (English)" id="name_en" required [(ngModel)]="model.name_en" name="name_en" #name_en="ngModel">
+        </div>
+        <div class="form-group">
+          <input autocomplete="off" type="text" class="form-control" placeholder="Name (Spanish)" [(ngModel)]="model.name_es" name="name_es">
+        </div>
+      </div>
+      <div class="modal-footer btn-cont">
+        <button type="submit" [disabled]="admin?.admin_acl['Settings']?.can_create==0 || addForm.invalid" class="btn btn-primary-new">Submit</button>
+        <button type="button" class="btn btn-default" aria-label="Close" (click)="modalRef.hide()">Close</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

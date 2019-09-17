@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from '../../../services/admin.service';
-import { IProperty } from '../../../common/property';
-import { Settings } from '../../../models/settings.model';
+import { AdminService } from 'src/app/services/admin.service';
+import { IProperty } from 'src/app/common/property';
+import { Settings } from 'src/app/models/settings.model';
 import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
@@ -41,6 +41,7 @@ export class DefaultSettingsComponent implements OnInit {
       .subscribe(
         success => {
           this.spinner.hide();
+          this.admin.globalSettings.next(success.data);
           swal('Success', 'Details updated successfully!', 'success');
         },
         error => {

@@ -123,6 +123,10 @@ export class AddPropertyComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private element: ElementRef,
     public ts: TranslateService) {
+
+    this.us.globalSettings$.subscribe(suc1 => {
+      this.parameter.bulk_approve_property = suc1['bulk_approve_property'];
+    });
   }
 
   ngOnInit() {
@@ -1113,10 +1117,10 @@ export class AddPropertyComponent implements OnInit {
 
             this.spinner.hide();
             if (this.model.step.toString() === '4') {
+              const successText = this.parameter.bulk_approve_property ? '' :
+                'You will be notified once your property will be reviewed by Admin, you can view status in your properties.';
               swal({
-                html: 'Submitted successfully.' + '<br>' +
-                  'You will be notified once your property will be reviewed by Admin, you can view status in your properties.',
-                type: 'success'
+                html: 'Submitted successfully.' + '<br>' + successText, type: 'success'
               });
               // swal('Submitted successfully.',
               //   'You will be notified once your property will be reviewed by them, you can view status in your properties.',

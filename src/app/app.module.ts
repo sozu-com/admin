@@ -42,6 +42,7 @@ import { PropertyService } from './services/property.service';
 import { ProjectService } from './services/project.service';
 import { LeadsService } from './services/leads.service';
 import { AclUserGuard } from './guards/acl-user.guard';
+import { MatchValueDirective } from './directives/match-value.directive';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent},

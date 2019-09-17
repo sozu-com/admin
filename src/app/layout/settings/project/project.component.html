@@ -36,7 +36,7 @@
                         </div>
                       </div>
                     <button [disabled]="admin?.admin_acl['Settings']?.can_create==0 || addPossessionForm.invalid" type="submit" class="add-btn btn">
-                       <img src="./../../../../assets/img/add.png" alt="img">
+                       <img src="assets/img/add.png" alt="img">
                      </button>
                    </form>
                 </div>
@@ -61,7 +61,7 @@
                   </td>
                   <td>
                       <button title="Edit" [disabled]="admin?.admin_acl['Settings']?.can_update==0" 
-                      (click)="openPossessionStatusModal(addPossessionStatusModal, i, item.id, item.name_en, item.name_es, item.status)" class="action-icon"><img src="./../../../../assets/img/edit.png" alt="img"></button>
+                      (click)="openPossessionStatusModal(addPossessionStatusModal, i, item.id, item.name_en, item.name_es, item.status)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                     
                       <!-- status = 1 means unblocked -->
                       <button [disabled]="admin?.admin_acl['Settings']?.can_delete==0"
@@ -69,9 +69,9 @@
                         title="{{item.status==1?'Block':'Unblock'}}" [ngClass]="{'unblock-bg':item.status==0}"
                         class="action-icon"><img src="assets/img/block.png" alt="img">
                       </button>
-                    <!-- <a title="Edit Configuration" (click)="openPossessionStatusModal(addPossessionStatusModal, item.id, item.name_en, item.name_es, item.status)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
-                    <a *ngIf="item.status == 1" (click)="addPossessionStatusPopup(item.id, item.name_en, item.name_es, 0, 'block')" title="Block Configuration" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
-                    <a *ngIf="item.status == 0" (click)="addPossessionStatusPopup(item.id, item.name_en, item.name_es, 1, 'unblock')" title="Unblock Configuration" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a> -->
+                    <!-- <a title="Edit Configuration" (click)="openPossessionStatusModal(addPossessionStatusModal, item.id, item.name_en, item.name_es, item.status)" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
+                    <a *ngIf="item.status == 1" (click)="addPossessionStatusPopup(item.id, item.name_en, item.name_es, 0, 'block')" title="Block Configuration" class="icon-block block-icon"><img src="assets/img/unblock.png" alt="img"></a>
+                    <a *ngIf="item.status == 0" (click)="addPossessionStatusPopup(item.id, item.name_en, item.name_es, 1, 'unblock')" title="Unblock Configuration" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png" alt="img"></a> -->
                   </td>
                 </tr>
 
@@ -110,7 +110,7 @@
   
                   </div>
                   <button [disabled]="admin?.admin_acl['Settings']?.can_create==0 || addTypeForm.invalid" type="submit" class="add-btn btn">
-                     <img src="./../../../../assets/img/add.png" alt="img">
+                     <img src="assets/img/add.png" alt="img">
                    </button>
                  </form>
               </div>
@@ -135,7 +135,7 @@
                 </td>
                 <td>
                     <button title="Edit" [disabled]="admin?.admin_acl['Settings']?.can_update==0" 
-                    (click)="openBuildingTypeModal(addBuildingTypeModal, j, item.id, item.name_en, item.name_es, item.status)" class="action-icon"><img src="./../../../../assets/img/edit.png" alt="img"></button>
+                    (click)="openBuildingTypeModal(addBuildingTypeModal, j, item.id, item.name_en, item.name_es, item.status)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                   
                     <!-- status = 1 means unblocked -->
                     <button [disabled]="admin?.admin_acl['Settings']?.can_delete==0"
@@ -143,9 +143,9 @@
                       title="{{item.status==1?'Block':'Unblock'}}" [ngClass]="{'unblock-bg':item.status==0}"
                       class="action-icon"><img src="assets/img/block.png" alt="img">
                     </button>
-                  <!-- <a title="Edit Property Type" (click)="openBuildingTypeModal(addBuildingTypeModal, item.id, item.name_en, item.name_es, item.status)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
-                  <a *ngIf="item.status == 1" (click)="addBuildingTypePopup(item.id, item.name_en, item.name_es, 0, 'block')" title="Block Property Type" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
-                  <a *ngIf="item.status == 0" (click)="addBuildingTypePopup(item.id, item.name_en, item.name_es, 1, 'unblock')" title="Unblock Property Type" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a> -->
+                  <!-- <a title="Edit Property Type" (click)="openBuildingTypeModal(addBuildingTypeModal, item.id, item.name_en, item.name_es, item.status)" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
+                  <a *ngIf="item.status == 1" (click)="addBuildingTypePopup(item.id, item.name_en, item.name_es, 0, 'block')" title="Block Property Type" class="icon-block block-icon"><img src="assets/img/unblock.png" alt="img"></a>
+                  <a *ngIf="item.status == 0" (click)="addBuildingTypePopup(item.id, item.name_en, item.name_es, 1, 'unblock')" title="Unblock Property Type" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png" alt="img"></a> -->
                 </td>
               </tr>
 
@@ -192,7 +192,7 @@
                     </div>
                   </div>
                   <button [disabled]="admin?.admin_acl['Settings']?.can_create==0 || addAmenityForm.invalid" type="submit" class="add-btn btn">
-                     <img src="./../../../../assets/img/add.png" alt="img">
+                     <img src="assets/img/add.png" alt="img">
                    </button>
                  </form>
               </div>
@@ -203,7 +203,7 @@
                   </div>
                   <input type="text" name="">
                   <button class="add-btn" (click)="openAmenitiesModal(addAmenitiesModal, '', '', '', '', 1)">
-                    <img src="./../../../../assets/img/add.png" alt="img">
+                    <img src="assets/img/add.png" alt="img">
                   </button>
               </div> -->
             </div>
@@ -232,7 +232,7 @@
                   </td>
                   <td>
                       <button title="Edit" [disabled]="admin?.admin_acl['Settings']?.can_update==0" 
-                      (click)="openAmenityModal(addAmenityModal, k, item.id, item.icon, item.name_en, item.name_es, item.status)" class="action-icon"><img src="./../../../../assets/img/edit.png" alt="img"></button>
+                      (click)="openAmenityModal(addAmenityModal, k, item.id, item.icon, item.name_en, item.name_es, item.status)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                     
                       <!-- status = 1 means unblocked -->
                       <button [disabled]="admin?.admin_acl['Settings']?.can_delete==0"
@@ -241,9 +241,9 @@
                         class="action-icon"><img src="assets/img/block.png" alt="img">
                       </button>
 
-                    <!-- <a title="Edit Amenity" (click)="openAmenityModal(addAmenityModal, item.id, item.icon, item.name_en, item.name_es, item.status)" class="icon-block edit-icon"><img src="./../../../../assets/img/edit.png" alt="img"></a>
-                    <a *ngIf="item.status == 1" (click)="addAmenityPopup(item.id, item.icon, item.name_en, item.name_es, 0, 'block')" title="Block Amenity" class="icon-block block-icon"><img src="./../../../../assets/img/unblock.png" alt="img"></a>
-                    <a *ngIf="item.status == 0" (click)="addAmenityPopup(item.id, item.icon, item.name_en, item.name_es, 1, 'unblock')" title="Unblock Amenity" class="icon-block block-icon unblock-bg"><img src="./../../../../assets/img/block.png" alt="img"></a> -->
+                    <!-- <a title="Edit Amenity" (click)="openAmenityModal(addAmenityModal, item.id, item.icon, item.name_en, item.name_es, item.status)" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
+                    <a *ngIf="item.status == 1" (click)="addAmenityPopup(item.id, item.icon, item.name_en, item.name_es, 0, 'block')" title="Block Amenity" class="icon-block block-icon"><img src="assets/img/unblock.png" alt="img"></a>
+                    <a *ngIf="item.status == 0" (click)="addAmenityPopup(item.id, item.icon, item.name_en, item.name_es, 1, 'unblock')" title="Unblock Amenity" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png" alt="img"></a> -->
                   </td>
               </tr>
 

@@ -21,6 +21,7 @@ import { AclUserGuard } from '../../guards/acl-user.guard';
 import { ProfileComponent } from './profile/profile.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { DefaultSettingsComponent } from './default-settings/default-settings.component';
+import { MatchValueDirective } from 'src/app/directives/match-value.directive';
 
 const routes: Routes = [
   { path: 'view-profile', component: ProfileComponent },
@@ -53,7 +54,8 @@ const routes: Routes = [
     DocumentsComponent,
     ProfileComponent,
     ChangePasswordComponent,
-    DefaultSettingsComponent
+    DefaultSettingsComponent,
+    MatchValueDirective
   ],
   imports: [
     RouterModule.forChild(routes),

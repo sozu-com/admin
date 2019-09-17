@@ -1,9 +1,9 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { AdminService } from '../../../services/admin.service';
-import { IProperty } from '../../../common/property';
+import { AdminService } from 'src/app/services/admin.service';
+import { IProperty } from 'src/app/common/property';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { Location } from './../../../models/location.model';
-import { Constant } from './../../../common/constants';
+import { Location } from 'src/app/models/location.model';
+import { Constant } from 'src/app/common/constants';
 import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 

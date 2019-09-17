@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AdminService } from '../services/admin.service';
+import { AdminService } from 'src/app/services/admin.service';
 import { NgForm } from '@angular/forms';
-import { IProperty } from '../common/property';
-import { Constant } from './../common/constants';
+import { IProperty } from 'src/app/common/property';
+import { Constant } from 'src/app/common/constants';
 import swal from 'sweetalert2';
 import { NgxSpinnerService } from 'ngx-spinner';
 

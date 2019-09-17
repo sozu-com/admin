@@ -1,9 +1,9 @@
 import { Component, OnInit, TemplateRef, ElementRef } from '@angular/core';
-import { AdminService } from '../../../services/admin.service';
-import { IProperty } from '../../../common/property';
+import { AdminService } from 'src/app/services/admin.service';
+import { IProperty } from 'src/app/common/property';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { Constant } from './../../../common/constants';
-import { Document } from './../../../models/document.model';
+import { Constant } from 'src/app/common/constants';
+import { Document } from 'src/app/models/document.model';
 import { NgForm } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
@@ -39,13 +39,13 @@ export class DocumentsComponent implements OnInit {
     this.modalRef.hide();
   }
 
-  // public openPossessionStatusModal(template: TemplateRef<any>, id, name_en, name_es, status) {
-  //   this.project.possession.id = id;
-  //   this.project.possession.name_en = name_en;
-  //   this.project.possession.name_es = name_es == null ? name_en : name_es;
-  //   this.project.possession.status = status;
-  //   this.modalRef = this.modalService.show(template);
-  // }
+  public openModal(template: TemplateRef<any>, id, name_en, name_es, status) {
+    this.model.id = id;
+    this.model.name_en = name_en;
+    this.model.name_es = name_es;
+    this.model.status = status;
+    this.modalRef = this.modalService.show(template);
+  }
 
 
   addDocumentOptions(id, name_en, name_es, status, type) {

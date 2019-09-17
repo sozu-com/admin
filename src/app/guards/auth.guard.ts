@@ -25,6 +25,7 @@ export class AuthGuard implements CanActivate {
             success1 => {
               this.interceptor.loader.next({value: true});
               this.admin.login.next(success1.data);
+              this.admin.globalSettings.next(success1.data.global_settings);
               this.admin.permissions = success1.data.permissions ? success1.data.permissions : {};
               const aclData: any = {};
               const dd = success1.data.m.map((obj, index) => {

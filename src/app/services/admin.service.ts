@@ -27,6 +27,9 @@ export class AdminService {
   public login = new BehaviorSubject({});
   loginData$ = this.login.asObservable();
 
+  public globalSettings = new BehaviorSubject({});
+  globalSettings$ = this.globalSettings.asObservable();
+
   public country = new BehaviorSubject({});
   countryData$ = this.country.asObservable();
 
@@ -57,7 +60,6 @@ export class AdminService {
   }
 
   errorHandler(error: Response) {
-    console.log('error');
     return Observable.throw(error || 'Server error');
   }
 
@@ -84,6 +86,7 @@ export class AdminService {
                   const r = response.json();
                   localStorage.setItem('token', r.data.token);
                   this.login.next(r.data);
+                  this.globalSettings.next(r.data.global_settings);
                   this.permissions = r.data.permissions;
                   this.admin_acl_array = r.data.m;
                   const dd = r.data.m.map((obj, index) => {
@@ -101,6 +104,7 @@ export class AdminService {
     //   .subscribe((response: any) => {
     //     const r = response.json();
     //     this.login.next(r.data);
+    // this.globalSettings.next(r.data.global_settings);
     //     localStorage.setItem('token', r.data.token);
     //     resolve(response);
     //   }, (error: any) => {
@@ -147,6 +151,7 @@ export class AdminService {
               .map((response: Response) => {
                 const r = response.json();
                 this.login.next(r.data);
+                this.globalSettings.next(r.data.global_settings);
                 this.permissions = r.data.permissions;
                 this.admin_acl_array = r.data.m;
                 const dd = r.data.m.map((obj, index) => {
@@ -217,22 +222,19 @@ export class AdminService {
   }
 
   getDetails (): Observable<any> {
-    console.log('a');
     const headers = this.getHeadersForMultipart();
     return this.http.post(this.baseUrl + 'get-details', {}, {headers: headers})
         .map((response: Response) => {
-          console.log('b');
           this.http.loader.next({value: false});
           const r = response.json();
           this.login.next(r.data);
+          this.globalSettings.next(r.data.global_settings);
           this.permissions = r.data.permissions ? r.data.permissions : {};
-          console.log('c');
           const aclData: any = {};
           const dd = r.data.m.map((obj, index) => {
             const key =  Object.keys(obj)[0];
             this.admin_acl[key] =  obj[key];
           });
-          console.log('d');
           return true;
           // return Observable.of(true);
         })

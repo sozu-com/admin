@@ -60,7 +60,7 @@
                   </td>
                   <td>
                       <button title="Edit" [disabled]="admin?.admin_acl['Settings']?.can_update==0" 
-                      (click)="openCountryModal(addCountryModal, country.id, country.name_en, country.name_es, country.status, c)" class="action-icon"><img src="./../../../../assets/img/edit.png" alt="img"></button>
+                      (click)="openCountryModal(addCountryModal, country.id, country.name_en, country.name_es, country.status, c)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                     
                       <!-- status = 1 means unblocked -->
                       <button [disabled]="admin?.admin_acl['Settings']?.can_delete==0"
@@ -136,7 +136,7 @@
                   </td>
                 <td>
                     <button title="Edit" [disabled]="admin?.admin_acl['Settings']?.can_update==0" 
-                    (click)="openStateModal(addStateModal, state.country_id, state.id, state.name_en, state.name_es, state.status, s)" class="action-icon"><img src="./../../../../assets/img/edit.png" alt="img"></button>
+                    (click)="openStateModal(addStateModal, state.country_id, state.id, state.name_en, state.name_es, state.status, s)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                   
                     <!-- status = 1 means unblocked -->
                     <button [disabled]="admin?.admin_acl['Settings']?.can_delete==0"
@@ -220,7 +220,7 @@
                 </td>
               <td>
                   <button title="Edit" [disabled]="admin?.admin_acl['Settings']?.can_update==0" 
-                  (click)="openCityModal(addCityModal, city.country_id, city.state_id, city.id, city.name_en, city.name_es, city.status, ci)" class="action-icon"><img src="./../../../../assets/img/edit.png" alt="img"></button>
+                  (click)="openCityModal(addCityModal, city.country_id, city.state_id, city.id, city.name_en, city.name_es, city.status, ci)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                 
                   <!-- status = 1 means unblocked -->
                   <button [disabled]="admin?.admin_acl['Settings']?.can_delete==0"
