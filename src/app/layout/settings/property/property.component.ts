@@ -1,10 +1,10 @@
 import { Component, OnInit, TemplateRef, ElementRef } from '@angular/core';
-import { AdminService } from '../../../services/admin.service';
+import { AdminService } from 'src/app/services/admin.service';
 import { Router } from '@angular/router';
-import { IProperty } from '../../../common/property';
+import { IProperty } from 'src/app/common/property';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { Constant } from './../../../common/constants';
-import { Property } from './../../../models/property.model';
+import { Constant } from 'src/app/common/constants';
+import { Property } from 'src/app/models/property.model';
 import { NgForm } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
@@ -183,7 +183,7 @@ export class PropertyComponent implements OnInit {
     this.spinner.show();
     this.parameter.url = 'getConfigurations';
     const input = new FormData();
-    this.admin.postDataApi(this.parameter.url, input)
+    this.admin.postDataApi(this.parameter.url, {hide_blocked: 0})
       .subscribe(
         success => {
           this.spinner.hide();
@@ -201,7 +201,7 @@ export class PropertyComponent implements OnInit {
     this.spinner.show();
     this.parameter.url = 'getPropertyTypes';
     const input = new FormData();
-    this.admin.postDataApi(this.parameter.url, input)
+    this.admin.postDataApi(this.parameter.url, {hide_blocked: 0})
       .subscribe(
         success => {
           this.spinner.hide();
@@ -218,7 +218,7 @@ export class PropertyComponent implements OnInit {
     this.spinner.show();
     this.parameter.url = 'getPropertyAmenities';
     const input = new FormData();
-    this.admin.postDataApi(this.parameter.url, input)
+    this.admin.postDataApi(this.parameter.url, {hide_blocked: 0})
       .subscribe(
         success => {
           this.spinner.hide();

@@ -285,8 +285,8 @@
           <input type="text" class="form-control" placeholder="Project possession status (Spanish)" [(ngModel)]="project.possession.name_es" name="name_es">
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="submit" [disabled]="admin?.admin_acl['Settings']?.can_update==0 || addForm.invalid" class="btn btn-info">Submit</button>
+      <div class="modal-footer btn-cont">
+        <button type="submit" [disabled]="admin?.admin_acl['Settings']?.can_update==0 || addForm.invalid" class="btn btn-primary-new">Submit</button>
         <button type="button" class="btn btn-default" aria-label="Close" (click)="modalRef.hide()">Close</button>
       </div>
     </form>
@@ -317,8 +317,8 @@
           <input type="text" class="form-control" placeholder="Project type (Spanish)" [(ngModel)]="project.type.name_es" name="name_es">
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="submit" [disabled]="admin?.admin_acl['Settings']?.can_update==0 || addForm1.invalid" class="btn btn-info">Submit</button>
+      <div class="modal-footer btn-cont">
+        <button type="submit" [disabled]="admin?.admin_acl['Settings']?.can_update==0 || addForm1.invalid" class="btn btn-primary-new">Submit</button>
         <button type="button" class="btn btn-default" aria-label="Close" (click)="modalRef.hide()">Close</button>
       </div>
     </form>
@@ -356,8 +356,8 @@
             <input type="text" class="form-control" placeholder="Amenity (Spanish)" [(ngModel)]="amenityModel.name_es" name="name_es">
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="submit" [disabled]="admin?.admin_acl['Settings']?.can_update==0 || addForm2.invalid" class="btn btn-info">Submit</button>
+        <div class="modal-footer btn-cont">
+          <button type="submit" [disabled]="admin?.admin_acl['Settings']?.can_update==0 || addForm2.invalid" class="btn btn-primary-new">Submit</button>
           <button type="button" class="btn btn-default" aria-label="Close" (click)="closeModal()">Close</button>
         </div>
       </form>

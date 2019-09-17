@@ -1,10 +1,10 @@
 import { Component, OnInit, TemplateRef, ElementRef } from '@angular/core';
-import { AdminService } from '../../../services/admin.service';
+import { AdminService } from 'src/app/services/admin.service';
 import { Router } from '@angular/router';
-import { IProperty } from '../../../common/property';
+import { IProperty } from 'src/app/common/property';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { Constant } from './../../../common/constants';
-import { Project, Amenities } from './../../../models/project.model';
+import { Constant } from 'src/app/common/constants';
+import { Project, Amenities } from 'src/app/models/project.model';
 import { NgForm } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
@@ -177,7 +177,7 @@ export class ProjectComponent implements OnInit {
     this.spinner.show();
     this.parameter.url = 'getPossessionStatuses';
     const input = new FormData();
-    this.admin.postDataApi(this.parameter.url, input)
+    this.admin.postDataApi(this.parameter.url, {hide_blocked: 0})
       .subscribe(
         success => {
           this.spinner.hide();
@@ -194,7 +194,7 @@ export class ProjectComponent implements OnInit {
     this.spinner.show();
     this.parameter.url = 'getBuildingTypes';
     const input = new FormData();
-    this.admin.postDataApi(this.parameter.url, input)
+    this.admin.postDataApi(this.parameter.url, {hide_blocked: 0})
       .subscribe(
         success => {
           this.spinner.hide();
@@ -210,7 +210,7 @@ export class ProjectComponent implements OnInit {
     this.spinner.show();
     this.parameter.url = 'getAmenities';
     const input = new FormData();
-    this.admin.postDataApi(this.parameter.url, input)
+    this.admin.postDataApi(this.parameter.url, {hide_blocked: 0})
       .subscribe(
         success => {
           this.spinner.hide();
