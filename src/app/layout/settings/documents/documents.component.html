@@ -24,10 +24,10 @@
                      <form role="form" novalidate #addForm1="ngForm" (ngSubmit)="checkIfSpanishNameEntered(addForm1, '', addForm1.value.name_en, addForm1.value.name_es, 1, 'add');">
                         <div class="row">
                           <div class="col-lg-6 col-md-6">
-                            <input type="text" class="form-control" placeholder="Name (English)" id="name_en" required [(ngModel)]="model.name_en" name="name_en">
+                            <input type="text" autocomplete="off" class="form-control" placeholder="Name (English)" id="name_en" required [(ngModel)]="model.name_en" name="name_en">
                           </div>
                           <div class="col-lg-6 col-md-6">
-                              <input type="text" class="form-control" placeholder="Name (Spanish)" [(ngModel)]="model.name_es" name="name_es">
+                              <input type="text" autocomplete="off" class="form-control" placeholder="Name (Spanish)" [(ngModel)]="model.name_es" name="name_es">
                           </div>
                         </div>
                       <button [disabled]="admin?.admin_acl['Settings']?.can_create==0 || addForm1.invalid" type="submit" class="add-btn btn">
@@ -45,7 +45,7 @@
                   <tr>
                     <th style="width:40%; text-align:left;">Name (English)</th>
                     <th style="width:40%; text-align:left;">Name (Spanish)</th>
-                    <!-- <th style="width:20%">Action</th> -->
+                    <th style="width:20%">Action</th>
                   </tr>
                   <tr *ngFor="let item of parameter.items; let i=index">
                     <td class="text-left">
@@ -55,15 +55,15 @@
                       {{item.name_es}}
                     </td>
                   <td>
-                      <!-- <button title="Edit" [disabled]="admin?.admin_acl['Settings']?.can_update==0" 
-                      (click)="openModal(addDocumentModal, item.id, item.name_en, item.name_es, item.status, i)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button> -->
+                      <button title="Edit" [disabled]="admin?.admin_acl['Settings']?.can_update==0" 
+                      (click)="openModal(addDocumentModal, item.id, item.name_en, item.name_es, item.status, i)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                     
                       <!-- status = 1 means unblocked -->
-                      <!-- <button [disabled]="admin?.admin_acl['Settings']?.can_delete==0"
-                        (click)="blockUnblockCountry(item.id, item.name_en, item.name_es, item.status==1?0:1, i)" 
+                      <button [disabled]="admin?.admin_acl['Settings']?.can_delete==0"
+                        (click)="blockUnblock(item.id, item.name_en, item.name_es, item.status==1?0:1, i)" 
                         title="{{item.status==1?'Block':'Unblock'}}" [ngClass]="{'unblock-bg':item.status==0}"
                         class="action-icon"><img src="assets/img/block.png" alt="img">
-                      </button> -->
+                      </button>
                   </td>
                   </tr>
   
@@ -89,7 +89,7 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <form class="form-horizontal my-modal-form" role="form" novalidate #addForm="ngForm" (ngSubmit)="checkIfSpanishNameEntered(addForm.value.name_en, addForm.value.name_es)">
+    <form class="form-horizontal my-modal-form" role="form" novalidate #addForm="ngForm" (ngSubmit)="checkIfSpanishNameEntered(addForm, model.id, addForm.value.name_en, addForm.value.name_es, model.status, 'edit')">
       <div class="modal-body my-modal-body">
         <div class="form-group">
           <input autocomplete="off" type="text" class="form-control" placeholder="Name (English)" id="name_en" required [(ngModel)]="model.name_en" name="name_en" #name_en="ngModel">

@@ -12,25 +12,23 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 // general components
 import { ProjectsComponent } from './projects.component';
 import { AddProjectComponent } from './add-project/add-project.component';
-import { AclUserGuard } from '../../guards/acl-user.guard';
+import { AclUserGuard } from 'src/app/guards/acl-user.guard';
 import { ProjectDetailsComponent } from './project-details/project-details.component';
-import { SharedModule } from '../../modules/shared.module';
-import { NumberexPipe } from '../../pipes/numberex.pipe';
+import { SharedModule } from 'src/app/modules/shared.module';
+import { NumberexPipe } from 'src/app/pipes/numberex.pipe';
 import { CalendarModule } from 'primeng/primeng';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 
 
 const routes: Routes = [
   { path: 'details/:project_id', component: ProjectDetailsComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Building Management', 'can_read', '']}},
+    canActivate: [AclUserGuard], data: {roles: ['Building Management', 'can_read', 'can_data_collector']}},
   { path: 'view-projects', component: ProjectsComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Building Management', 'can_read', '']}},
+    canActivate: [AclUserGuard], data: {roles: ['Building Management', 'can_read', 'can_data_collector']}},
   { path: 'view-projects/:type/:id', component: ProjectsComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Building Management', 'can_read', '']}},
-  // { path: 'view-projects/:developer_id', component: ProjectsComponent,
-  //     canActivate: [AclUserGuard], data: {roles: ['Building Management', 'can_read', '']}},
+    canActivate: [AclUserGuard], data: {roles: ['Building Management', 'can_read', 'can_data_collector']}},
   { path: 'add-project', component: AddProjectComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Building Management', 'can_create', '']}},
+    canActivate: [AclUserGuard], data: {roles: ['Building Management', 'can_create', 'can_data_collector']}},
   { path: 'edit-project/:id', component: AddProjectComponent,
     canActivate: [AclUserGuard], data: {roles: ['Building Management', 'can_update', 'can_data_collector']}},
   { path: 'edit-building-request/:request_id', component: AddProjectComponent,

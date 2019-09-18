@@ -456,7 +456,6 @@ export class ChatTabsComponent implements OnInit {
       other_id: this.chat_admin && this.chat_admin.id ? this.chat_admin.id : this.user_id,
       sent_as: this.sent_as
     };
-console.log('aaa', data, this.chat_admin);
     if (showLoader) {
       this.spinner.show();
     }

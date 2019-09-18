@@ -850,7 +850,6 @@ export class InhouseUsersComponent implements OnInit {
   //         } else {
   //           this.model[param] = lat + ',' + lng;
   //         }
-  //         console.log('1', this.model[param]);
   //       }
   //     });
   //   }

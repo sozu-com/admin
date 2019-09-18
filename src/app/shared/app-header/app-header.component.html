@@ -57,7 +57,7 @@
           <ul class="dropdown-menu animated slideInDown">
             <li><a class="dropdown-item" routerLink="/dashboard/settings/view-profile"><i class="ti-user"></i>Profile</a></li>
             <li><a class="dropdown-item" routerLink="/dashboard/settings/change-password"><i class="ti-pencil"></i>Change Password</a></li>
-            <!-- <li><a class="dropdown-item" routerLink="/dashboard/settings/default-settings"><i class="ti-settings"></i>Default Settings</a></li> -->
+            <li><a class="dropdown-item" routerLink="/dashboard/settings/edit-profile"><i class="ti-settings"></i>Default Settings</a></li>
             <li class="dropdown-divider"></li>
             <li><a class="dropdown-item cursor-pointer" (click)="onLoggedout()"><i class="ti-power-off"></i>Logout</a></li>
           </ul>
@@ -386,7 +386,8 @@
                              </ul>
                           </div>
                        </li>
-                       <li *ngIf="admin?.admin_acl['Building Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
+                       <li *ngIf="admin?.admin_acl['Data Collector Lead Management']?.can_read==1 || admin?.permissions?.can_data_collector==1 ||
+                                admin?.admin_acl['Building Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
                          <a class="nav-link" href="javascript://" routerLink="projects/view-projects"><i><img src="assets/img/ic_projects_manage.png"></i><span>Manage Projects</span></a>
                        </li>
                        <li *ngIf="admin?.admin_acl['Property Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">

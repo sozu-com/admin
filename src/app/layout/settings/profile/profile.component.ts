@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from './../../../services/admin.service';
-import { CommonService } from './../../../services/common.service';
-import { IProperty } from './../../../common/property';
-import { ACL } from './../../../models/acl.model';
-import { Constant } from './../../../common/constants';
+import { AdminService } from 'src/app/services/admin.service';
+import { IProperty } from 'src/app/common/property';
+import { ACL } from 'src/app/models/acl.model';
+import { Constant } from 'src/app/common/constants';
 import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
@@ -29,11 +28,10 @@ export class ProfileComponent implements OnInit {
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.p = this.constant.p;
     this.initialCountry = {initialCountry: this.constant.country_code};
-    // this.model.id = params['id'];
-    this.loginData(this.model.id);
+    this.loginData();
   }
 
-  loginData(id) {
+  loginData() {
     this.spinner.show();
     this.admin.postDataApi('loginData', {})
     .subscribe(
@@ -58,7 +56,7 @@ export class ProfileComponent implements OnInit {
       });
   }
 
-  expandBox(index) {
+  expandBox(index: number) {
     this.model.admin_acl[index].show = this.model.admin_acl[index].show === true ? false : true;
   }
 }

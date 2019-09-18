@@ -1,14 +1,14 @@
 export class ACL {
-    id: string;
-    name: string;
-    country_code: string;
-    dial_code: string;
-    phone: string;
-    image: string;
-    img_loader: boolean;
-    email: string;
-    admin_acl: Array<Permission> = [];
-    address: Array<NewAddress>;
+    id?: string;
+    name?: string;
+    country_code?: string;
+    dial_code?: string;
+    phone?: string;
+    image?: string;
+    img_loader?: boolean;
+    email?: string;
+    admin_acl?: Array<Permission> = [];
+    address?: Array<NewAddress>;
 }
 
 export class Permission {

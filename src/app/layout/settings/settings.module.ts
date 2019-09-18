@@ -25,10 +25,10 @@ import { MatchValueDirective } from 'src/app/directives/match-value.directive';
 
 const routes: Routes = [
   { path: 'view-profile', component: ProfileComponent },
-  { path: 'change-password', component: ChangePasswordComponent },
-  { path: 'default-settings', component: DefaultSettingsComponent },
-  { path: 'edit-profile', component: EditProfileComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Settings', 'can_read', '']}},
+  { path: 'change-password', component: ChangePasswordComponent},
+  { path: 'default-settings', component: DefaultSettingsComponent,
+  canActivate: [AclUserGuard], data: {roles: ['Settings', 'can_read', '']} },
+  { path: 'edit-profile', component: EditProfileComponent},
   { path: 'setting-location', component: LocationComponent,
     canActivate: [AclUserGuard], data: {roles: ['Settings', 'can_read', '']}},
   { path: 'setting-locality', component: LocalityComponent,

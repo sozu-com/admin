@@ -40,15 +40,15 @@ export class AddAclComponent implements OnInit {
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.p = this.constant.p;
     this.initialCountry = {initialCountry: this.constant.country_code};
-      this.parameter.sub = this.route.params.subscribe(params => {
-        if (params['id'] !== '0') {
-          this.model.id = params['id'];
-          this.getAclUserById(this.model.id);
-        } else {
-          this.model.id = '';
-          this.getAclList();
-        }
-      });
+    this.parameter.sub = this.route.params.subscribe(params => {
+      if (params['id'] !== '0') {
+        this.model.id = params['id'];
+        this.getAclUserById(this.model.id);
+      } else {
+        this.model.id = '';
+        this.getAclList();
+      }
+    });
   }
 
   getAclUserById(id: string) {

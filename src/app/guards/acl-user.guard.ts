@@ -32,8 +32,6 @@ export class AclUserGuard implements CanActivate {
     const key = roles ? roles[0] : '';
     const subkey = roles ? roles[1] : '';
     const inhouseUserRole = roles ? roles[2] : '';
-    // const admin_acl = JSON.parse(localStorage.getItem('admin_acl'));
-    // const permissions = JSON.parse(localStorage.getItem('permissions'));
     if (permissions || admin_acl) {
       const obj = admin_acl[key];
       if (((state.url === '/dashboard/view-inhouse-users/data-collectors') && (admin_acl['Data Collector Management']['can_read'] === 1)) ||
