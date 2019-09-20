@@ -17,9 +17,9 @@ import { AddCompanyComponent } from './add-company/add-company.component';
 
 const routes: Routes = [
   { path: '', component: CompaniesComponent,
-    canActivate: [AclUserGuard], data: {roles: ['User Management', 'can_read', '']}},
+    canActivate: [AclUserGuard], data: {roles: ['Companies Management', 'can_read', '']}},
   { path: 'add-company/:id', component: AddCompanyComponent,
-    canActivate: [AclUserGuard], data: {roles: ['User Management', 'can_read', '']}}
+    canActivate: [AclUserGuard], data: {roles: ['Companies Management', 'can_read', '']}}
 ];
 
 @NgModule({

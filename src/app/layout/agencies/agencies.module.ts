@@ -15,9 +15,9 @@ import { AddAgencyComponent } from './add-agency/add-agency.component';
 
 const routes: Routes = [
   { path: '', component: AgenciesComponent,
-    canActivate: [AclUserGuard], data: {roles: ['User Management', 'can_read', '']}},
+    canActivate: [AclUserGuard], data: {roles: ['Agencies Management', 'can_read', '']}},
   { path: 'add-agency/:id', component: AddAgencyComponent,
-    canActivate: [AclUserGuard], data: {roles: ['User Management', 'can_read', '']}}
+    canActivate: [AclUserGuard], data: {roles: ['Agencies Management', 'can_read', '']}}
 ];
 
 @NgModule({

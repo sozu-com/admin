@@ -14,7 +14,7 @@ import { ManagersComponent } from './managers.component';
 
 const routes: Routes = [
   { path: '', component: ManagersComponent,
-    canActivate: [AclUserGuard], data: {roles: ['User Management', 'can_read', '']}}
+    canActivate: [AclUserGuard], data: {roles: ['Managers Management', 'can_read', '']}}
 ];
 
 @NgModule({

@@ -16,9 +16,9 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 const routes: Routes = [
   { path: '', component: DevelopersComponent,
-    canActivate: [AclUserGuard], data: {roles: ['User Management', 'can_read', '']}},
+    canActivate: [AclUserGuard], data: {roles: ['Developers Management', 'can_read', '']}},
   { path: 'add-developer/:id', component: AddDeveloperComponent,
-    canActivate: [AclUserGuard], data: {roles: ['User Management', 'can_read', '']}}
+    canActivate: [AclUserGuard], data: {roles: ['Developers Management', 'can_read', '']}}
 ];
 
 @NgModule({
