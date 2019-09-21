@@ -21,7 +21,7 @@
       <div class="btn-cont text-right">
         <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#addInhouseUser"
           #inhouseUserModalOpen>Add New</a>
-        <a *ngIf="admin?.admin_acl['Data Collector Management']?.can_create==1 || parameter.userType=='data-collectors' || 1"
+        <a *ngIf="admin?.admin_acl['Managers Management']?.can_create==1"
           class="btn btn-primary-new width100P" href="javascript://" (click)="openAddModal()">Add New</a>
       </div>
     </div>

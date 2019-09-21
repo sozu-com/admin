@@ -8,8 +8,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
-import { AclUserGuard } from '../../guards/acl-user.guard';
-import { SharedModule } from '../../modules/shared.module';
+import { AclUserGuard } from 'src/app/guards/acl-user.guard';
+import { SharedModule } from 'src/app/modules/shared.module';
 import { ManagersComponent } from './managers.component';
 
 const routes: Routes = [
