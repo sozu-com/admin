@@ -1003,7 +1003,6 @@ export class AddPropertyComponent implements OnInit {
         input.append('for_sale', this.availabilityStatus[0].checked === true ? '1' : '0');
         input.append('for_rent', this.availabilityStatus[1].checked === true ? '1' : '0');
         input.append('for_hold', this.availabilityStatus[2].checked === true ? '1' : '0');
-        input.append('for_hold', '0');
         input.append('country_id', this.model.country_id);
         input.append('state_id', this.model.state_id);
         input.append('city_id', this.model.city_id);
