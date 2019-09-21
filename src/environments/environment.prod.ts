@@ -3,15 +3,15 @@ export const environment = {
   baseIP: 'https://api.sozu.com/',
   baseUrl: 'https://api.sozu.com/api/admin/',
   socketUrl: 'https://socket.sozu.com',
+  versionCheckURL : 'https://admin.sozu.com/version.json',
   termConditionUrl: 'https://api.sozu.com/termCondition/es',
   privacyPolicyUrl : 'https://api.sozu.com/privacyPolicy/es',
   // baseIP: 'https://apitest.sozu.com/',
   // baseUrl: 'https://apitest.sozu.com/api/admin/',
   // socketUrl: 'https://sockettest.sozu.com',
+  // versionCheckURL : 'http://admintest.sozu.com/version.json',
   deviceId: 'ADMIN',
 
-  // versionCheckURL : 'https://admin.sozu.com/version.json',
-  versionCheckURL : 'http://admintest.sozu.com/version.json',
 
   firebase: {
     apiKey: 'AIzaSyAZMJdN4-tFi3vkKLz-c-BoFHMq7eAkoAc',
