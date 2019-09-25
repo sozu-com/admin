@@ -8,10 +8,10 @@ export const environment = {
   baseUrl: 'https://apitest.sozu.com/api/admin/',
   socketUrl: 'https://sockettest.sozu.com',
   termConditionUrl: 'https://api.sozu.com/termCondition/es',
-  privacyPolicyUrl : 'https://api.sozu.com/privacyPolicy/es',
+  privacyPolicyUrl: 'https://api.sozu.com/privacyPolicy/es',
   deviceId: 'ADMIN',
 
-  versionCheckURL : 'https://admintest.sozu.com/version.json',
+  versionCheckURL: 'https://admintest.sozu.com/version.json',
 
   firebase: {
     apiKey: 'AIzaSyAZMJdN4-tFi3vkKLz-c-BoFHMq7eAkoAc',

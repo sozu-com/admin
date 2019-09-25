@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from './../../../services/admin.service';
+import { AdminService } from 'src/app/services/admin.service';
 import * as jquery from 'jquery';
-import { HttpInterceptor } from './../../../services/http-interceptor';
-import { FileUpload } from './../../../common/fileUpload';
+import { HttpInterceptor } from 'src/app/services/http-interceptor';
+import { FileUpload } from 'src/app/common/fileUpload';
 import { ActivatedRoute } from '@angular/router';
-import { IProperty } from '../../../common/property';
-import { MainTemplateTypes } from '../../../models/template.model';
+import { IProperty } from 'src/app/common/property';
+import { MainTemplateTypes } from 'src/app/models/template.model';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 declare let swal: any;

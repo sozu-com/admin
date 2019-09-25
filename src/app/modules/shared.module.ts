@@ -15,6 +15,7 @@ import { NumberWithCommasPipe } from '../pipes/number-with-commas.pipe';
 import { ChatTabsComponent } from '../layout/common-blocks/chat-tabs/chat-tabs.component';
 import { PricePipe } from '../pipes/price.pipe';
 import { PropertyConfigurationComponent } from '../layout/common-blocks/property-configuration/property-configuration.component';
+import { PercentagePipe } from '../pipes/percentage.pipe';
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import { PropertyConfigurationComponent } from '../layout/common-blocks/property
     ThousandPipe,
     ImgPipe,
     NumberWithCommasPipe,
-    PricePipe
+    PricePipe,
+    PercentagePipe
   ],
   exports: [
     ChatComponent,
@@ -49,7 +51,8 @@ import { PropertyConfigurationComponent } from '../layout/common-blocks/property
     ThousandPipe,
     ImgPipe,
     NumberWithCommasPipe,
-    PricePipe
+    PricePipe,
+    PercentagePipe
   ]
 })
 export class SharedModule { }

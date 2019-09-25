@@ -25,20 +25,32 @@ import { MatchValueDirective } from 'src/app/directives/match-value.directive';
 
 const routes: Routes = [
   { path: 'view-profile', component: ProfileComponent },
-  { path: 'change-password', component: ChangePasswordComponent},
-  { path: 'default-settings', component: DefaultSettingsComponent,
-  canActivate: [AclUserGuard], data: {roles: ['Settings', 'can_read', '']} },
-  { path: 'edit-profile', component: EditProfileComponent},
-  { path: 'setting-location', component: LocationComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Settings', 'can_read', '']}},
-  { path: 'setting-locality', component: LocalityComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Settings', 'can_read', '']}},
-  { path: 'setting-property', component: PropertyComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Settings', 'can_read', '']}},
-  { path: 'setting-project', component: ProjectComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Settings', 'can_read', '']}},
-  { path: 'documents-listing', component: DocumentsComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Settings', 'can_read', '']}}
+  { path: 'change-password', component: ChangePasswordComponent },
+  {
+    path: 'default-settings', component: DefaultSettingsComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Settings', 'can_read', ''] }
+  },
+  { path: 'edit-profile', component: EditProfileComponent },
+  {
+    path: 'setting-location', component: LocationComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Settings', 'can_read', ''] }
+  },
+  {
+    path: 'setting-locality', component: LocalityComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Settings', 'can_read', ''] }
+  },
+  {
+    path: 'setting-property', component: PropertyComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Settings', 'can_read', ''] }
+  },
+  {
+    path: 'setting-project', component: ProjectComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Settings', 'can_read', ''] }
+  },
+  {
+    path: 'documents-listing', component: DocumentsComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Settings', 'can_read', ''] }
+  }
 ];
 
 
@@ -66,9 +78,9 @@ const routes: Routes = [
     ModalModule.forRoot(),      // modal
     NgxSpinnerModule,
     AgmCoreModule.forRoot({
-        apiKey: 'AIzaSyDykCJGMqHIwJluSmSiqKTJBVN2KauM_uQ',
-        libraries: ['drawing', 'places']
-      }),
+      apiKey: 'AIzaSyDykCJGMqHIwJluSmSiqKTJBVN2KauM_uQ',
+      libraries: ['drawing', 'places']
+    }),
     Ng2TelInputModule
   ],
   exports: [RouterModule]

@@ -67,6 +67,7 @@ export class AddPropertyModel {
     videoLoader: boolean;
     configuration: Configuration;
     creator: User;
+    broker_commision = 0;
 }
 
 export class Building {

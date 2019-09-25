@@ -517,6 +517,17 @@
       <div class="spacer15"></div> -->
 
       <!-- To be shown only incase of sale/buy property -->
+      <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>Agent Commission (in %)</label>
+            <input class="form-control" min="0" type="number" [(ngModel)]="model.broker_commision" name="broker_commision"
+              placeholder="in %">
+          </div>
+        </div>
+      </div>
+
+
       <div class="row" *ngIf="model.availabilityStatusId==1">
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">

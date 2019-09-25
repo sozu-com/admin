@@ -8,16 +8,22 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { AgmCoreModule } from '@agm/core';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
+
+// general components
 import { AclUserGuard } from '../../guards/acl-user.guard';
 import { SharedModule } from '../../modules/shared.module';
 import { AgenciesComponent } from './agencies.component';
 import { AddAgencyComponent } from './add-agency/add-agency.component';
 
 const routes: Routes = [
-  { path: '', component: AgenciesComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Agencies Management', 'can_read', '']}},
-  { path: 'add-agency/:id', component: AddAgencyComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Agencies Management', 'can_read', '']}}
+  {
+    path: '', component: AgenciesComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Agencies Management', 'can_read', ''] }
+  },
+  {
+    path: 'add-agency/:id', component: AddAgencyComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Agencies Management', 'can_read', ''] }
+  }
 ];
 
 @NgModule({

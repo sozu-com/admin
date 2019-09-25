@@ -10,16 +10,21 @@ import { Ng2TelInputModule } from 'ng2-tel-input';
 import { AgmCoreModule } from '@agm/core';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 
+// general components
 import { SharedModule } from 'src/app/modules/shared.module';
 import { CompaniesComponent } from './companies.component';
 import { AclUserGuard } from 'src/app/guards/acl-user.guard';
 import { AddCompanyComponent } from './add-company/add-company.component';
 
 const routes: Routes = [
-  { path: '', component: CompaniesComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Companies Management', 'can_read', '']}},
-  { path: 'add-company/:id', component: AddCompanyComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Companies Management', 'can_read', '']}}
+  {
+    path: '', component: CompaniesComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Companies Management', 'can_read', ''] }
+  },
+  {
+    path: 'add-company/:id', component: AddCompanyComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Companies Management', 'can_read', ''] }
+  }
 ];
 
 @NgModule({

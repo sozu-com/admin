@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from './../../services/admin.service';
+import { AdminService } from 'src/app/services/admin.service';
 import * as jquery from 'jquery';
-import { HttpInterceptor } from '../../services/http-interceptor';
-import { IProperty } from '../../common/property';
-import { Constant } from '../../common/constants';
+import { HttpInterceptor } from 'src/app/services/http-interceptor';
+import { IProperty } from 'src/app/common/property';
+import { Constant } from 'src/app/common/constants';
 import { NgxSpinnerService } from 'ngx-spinner';
 declare let swal: any;
 
@@ -52,17 +52,17 @@ export class TemplatesComponent implements OnInit {
       });
   }
 
-  getPage(page) {
+  getPage(page: number) {
     this.parameter.page = page;
     this.getListing();
   }
 
-  changeFlag(post_type) {
+  changeFlag(post_type: string) {
     this.parameter.post_type = post_type;
     this.getListing();
   }
 
-  sort_by(sort_by_flag) {
+  sort_by(sort_by_flag: number) {
     if (this.parameter.sort_by_flag !== sort_by_flag) {
       this.parameter.sort_by_flag = sort_by_flag;
       this.parameter.sort_by_order = 0;

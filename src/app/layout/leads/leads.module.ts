@@ -1,3 +1,4 @@
+// third party libraries
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
@@ -9,7 +10,10 @@ import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 import { NouisliderModule } from 'ng2-nouislider';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { CalendarModule } from 'primeng/primeng';
 
+// general components
 import { RemoveCommaPipe } from './../../pipes/remove-comma.pipe';
 import { LeadsComponent } from './leads.component';
 import { DataCollectorComponent } from './data-collector/data-collector.component';
@@ -27,9 +31,7 @@ import { MyChatComponent } from './inhouse-broker/inhouse-broker-detail/my-chat/
 import { AclUserGuard } from '../../guards/acl-user.guard';
 import { SharedModule } from '../../modules/shared.module';
 import { CsrSellerDetailComponent } from './csr-seller/csr-seller-detail/csr-seller-detail.component';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ViewedProjectsComponent } from '../common-blocks/viewed-projects/viewed-projects.component';
-import { CalendarModule } from 'primeng/primeng';
 import { SellerChatComponent } from './csr-seller/csr-seller-detail/seller-chat/seller-chat.component';
 import { OutsideBrokerComponent } from './outside-broker/outside-broker.component';
 import { OutsideBrokerDetailComponent } from './outside-broker/outside-broker-detail/outside-broker-detail.component';

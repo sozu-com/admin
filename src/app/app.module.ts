@@ -13,8 +13,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
 // firebase -start
-import { AngularFireModule} from '@angular/fire';
-import { environment} from '../environments/environment';
+import { AngularFireModule } from '@angular/fire';
+import { environment } from '../environments/environment';
 import * as firebase from 'firebase';
 firebase.initializeApp(environment.firebase);
 // firebase -end
@@ -30,27 +30,23 @@ import { Constant } from './common/constants';
 import { Login, AdminACL } from './models/login.model';
 import { SharedModule } from './modules/shared.module';
 import { TranslateService } from './lang/translate.service';
-import { NumberWithCommasPipe } from './pipes/number-with-commas.pipe';
-import { AngularFireDatabaseModule } from '@angular/fire/database';
-import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireMessaging } from '@angular/fire/messaging';
 import { ApiConstants } from './common/api-constants';
 import { VersionCheckService } from './services/version-check.service';
 import { Img360viewerComponent } from './layout/img360viewer/img360viewer.component';
-import { PricePipe } from './pipes/price.pipe';
 import { PropertyService } from './services/property.service';
 import { ProjectService } from './services/project.service';
 import { LeadsService } from './services/leads.service';
-import { AclUserGuard } from './guards/acl-user.guard';
-import { MatchValueDirective } from './directives/match-value.directive';
 
 const appRoutes: Routes = [
-  { path: '', pathMatch: 'full', component: LoginComponent},
+  { path: '', pathMatch: 'full', component: LoginComponent },
   { path: 'login', pathMatch: 'full', component: LoginComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: 'img-36-viewer', component: Img360viewerComponent},
-  { path: 'dashboard', canActivate: [AuthGuard],
-   loadChildren: './layout/layout.module#LayoutModule'},
+  { path: 'img-36-viewer', component: Img360viewerComponent },
+  {
+    path: 'dashboard', canActivate: [AuthGuard],
+    loadChildren: './layout/layout.module#LayoutModule'
+  },
   // { path: 'dashboard', canActivate: [AclUserGuard], data: {roles: ['Dashboard', 'can_read', '']},
   //  loadChildren: './layout/layout.module#LayoutModule'},
   { path: '**', component: PageNotFoundComponent },
@@ -61,12 +57,10 @@ const appRoutes: Routes = [
     AppComponent,
     ForgotPasswordComponent,
     LoginComponent,
-    PageNotFoundComponent,
-    // PricePipe,
-    // NumberWithCommasPipe,
+    PageNotFoundComponent
   ],
   imports: [
-    RouterModule.forRoot(appRoutes, {preloadingStrategy: PreloadAllModules}),
+    RouterModule.forRoot(appRoutes, { preloadingStrategy: PreloadAllModules }),
     SweetAlert2Module.forRoot({
       // confirmButtonClass: 'btn btn-primary',
       // cancelButtonClass: 'btn'
@@ -82,8 +76,6 @@ const appRoutes: Routes = [
     MalihuScrollbarModule.forRoot(),
     Ng2TelInputModule,
     ToastrModule.forRoot(),
-    // AngularFireDatabaseModule,
-    // AngularFireAuthModule,
     AngularFireModule.initializeApp(environment.firebase),
   ],
   providers: [
@@ -92,9 +84,6 @@ const appRoutes: Routes = [
     ProjectService,
     LeadsService,
     VersionCheckService,
-    // AngularFireDatabase,
-    // AngularFireAuth,
-    // MessagingService,
     CommonService,
     AuthGuard,
     HttpInterceptor,

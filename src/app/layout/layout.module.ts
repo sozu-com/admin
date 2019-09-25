@@ -14,6 +14,8 @@ import { CalendarModule } from 'primeng/primeng';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 
 // importing shared components
 import { LayoutRoutingModule } from './layout-routing.module';
@@ -31,8 +33,6 @@ import { AclPermissionDirective } from '../directives/acl-permission.directive';
 import { AclUserGuard } from '../guards/acl-user.guard';
 import { MessagingService } from '../fire-base/messaging.service';
 import { SharedModule } from '../modules/shared.module';
-import { AngularFireDatabaseModule } from '@angular/fire/database';
-import { AngularFireAuthModule } from '@angular/fire/auth';
 import { Img360viewerComponent } from './img360viewer/img360viewer.component';
 
 @NgModule({

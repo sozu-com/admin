@@ -621,6 +621,43 @@ export class PropertiesComponent implements OnInit {
     });
   }
 
+  editAgentCommissionPopup(item: any, index: number) {
+    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    swal({
+      text: 'Do you want to change the commission?',
+      type: 'question',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        swal({
+          text: 'Please enter new commision (in %) -',
+          input: 'number',
+          showCancelButton: true,
+          confirmButtonColor: this.constant.confirmButtonColor,
+          cancelButtonColor: this.constant.cancelButtonColor,
+          confirmButtonText: 'Update',
+          inputValidator: (value) => {
+            if (!value) {
+              return 'Please enter new commission!';
+            }
+          }
+        }).then((r) => {
+          if (r.value) {
+            this.admin.postDataApi('updateBrokerCommision', { id: item.id, broker_commision: r.value }).subscribe(success => {
+              this.items[index].broker_commision = r.value;
+              swal('Success', 'Updated successfully.', 'success');
+            }, error => {
+              swal('Error', error.error.message, 'error');
+            });
+          }
+        });
+      }
+    });
+  }
+
   viewPropertyDetails(property_id: string, data: AddPropertyModel) {
     // this.propertyService.property = data;
     this.propertyService.setPropertyData(data);

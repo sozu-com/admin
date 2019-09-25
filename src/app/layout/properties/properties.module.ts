@@ -8,6 +8,7 @@ import { AgmCoreModule } from '@agm/core';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 
 // general components
 import { PropertiesComponent } from './properties.component';
@@ -20,24 +21,35 @@ import { SharedModule } from '../../modules/shared.module';
 import { CalendarModule } from 'primeng/primeng';
 import { ProjectBlockComponent } from '../common-blocks/project-block/project-block.component';
 import { BulkAddComponent } from './bulk-add/bulk-add.component';
-import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 
 const routes: Routes = [
   { path: 'details/:property_id', component: PropertyDetailsComponent },
   // { path: 'details/:property_id', component: PropertyDetailsComponent,
   //   canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_read', '']}},
-  { path: 'add-bulk-property/:property_id/:seller_id', component: BulkAddComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_create', 'can_csr_seller']}},
-  { path: 'add-property/:property_id/:seller_id', component: AddPropertyComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_create', 'can_csr_seller']}},
-  { path: 'edit-property/:property_id', component: AddPropertyComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_update', 'can_csr_seller']}},
-  { path: 'edit-property/:property_id/:edit', component: AddPropertyComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_update', 'can_csr_seller']}},
-  { path: 'view-properties', component: PropertiesComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_read', '']}},
-  { path: 'view-properties/:project_id', component: PropertiesComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_read', '']}}
+  {
+    path: 'add-bulk-property/:property_id/:seller_id', component: BulkAddComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Property Management', 'can_create', 'can_csr_seller'] }
+  },
+  {
+    path: 'add-property/:property_id/:seller_id', component: AddPropertyComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Property Management', 'can_create', 'can_csr_seller'] }
+  },
+  {
+    path: 'edit-property/:property_id', component: AddPropertyComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Property Management', 'can_update', 'can_csr_seller'] }
+  },
+  {
+    path: 'edit-property/:property_id/:edit', component: AddPropertyComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Property Management', 'can_update', 'can_csr_seller'] }
+  },
+  {
+    path: 'view-properties', component: PropertiesComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Property Management', 'can_read', ''] }
+  },
+  {
+    path: 'view-properties/:project_id', component: PropertiesComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Property Management', 'can_read', ''] }
+  }
 ];
 
 @NgModule({
@@ -48,9 +60,9 @@ const routes: Routes = [
     ReactiveFormsModule,
     NgxSpinnerModule,
     AgmCoreModule.forRoot({
-        apiKey: 'AIzaSyDykCJGMqHIwJluSmSiqKTJBVN2KauM_uQ',
-        libraries: ['drawing', 'places']
-      }),
+      apiKey: 'AIzaSyDykCJGMqHIwJluSmSiqKTJBVN2KauM_uQ',
+      libraries: ['drawing', 'places']
+    }),
     Ng2TelInputModule,
     NgxPaginationModule,
     CalendarModule,

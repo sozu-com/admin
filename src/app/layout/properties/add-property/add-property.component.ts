@@ -1079,6 +1079,7 @@ export class AddPropertyComponent implements OnInit {
         input.append('bathroom', this.model.bathroom.toString());
         input.append('half_bathroom', this.model.half_bathroom ? this.model.half_bathroom.toString() : '0');
         input.append('floor', this.model.floor.toString());
+        input.append('broker_commision', this.model.broker_commision.toString());
         input.append('property_price', this.model.property_price ? this.model.property_price.toString() : '0');
         input.append('parking', this.model.parking.toString());
         input.append('parking_count', this.model.parking_count ? this.model.parking_count.toString() : '0');

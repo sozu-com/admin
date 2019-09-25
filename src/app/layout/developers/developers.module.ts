@@ -7,18 +7,23 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { AgmCoreModule } from '@agm/core';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
 
+// general components
 import { AclUserGuard } from '../../guards/acl-user.guard';
 import { SharedModule } from '../../modules/shared.module';
 import { DevelopersComponent } from './developers.component';
 import { AddDeveloperComponent } from './add-developer/add-developer.component';
-import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 const routes: Routes = [
-  { path: '', component: DevelopersComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Developers Management', 'can_read', '']}},
-  { path: 'add-developer/:id', component: AddDeveloperComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Developers Management', 'can_read', '']}}
+  {
+    path: '', component: DevelopersComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Developers Management', 'can_read', ''] }
+  },
+  {
+    path: 'add-developer/:id', component: AddDeveloperComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Developers Management', 'can_read', ''] }
+  }
 ];
 
 @NgModule({

@@ -220,19 +220,19 @@
             <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12">
             <ul class="nav nav-tabs">
                <li class="nav-item">
-                  <a [ngClass]="{'active':parameter.flag==3}" (click)="changePropertyFlag(3)" class="nav-link" >Approved</a>
+                  <a [ngClass]="{'active':parameter.flag==3}" (click)="changePropertyFlag(3)" class="nav-link cursor-pointer" >Approved</a>
                </li>
                <li class="nav-item">
-                  <a [ngClass]="{'active':parameter.flag==4}" (click)="changePropertyFlag(4)" class="nav-link" >Unapproved</a>
+                  <a [ngClass]="{'active':parameter.flag==4}" (click)="changePropertyFlag(4)" class="nav-link cursor-pointer" >Unapproved</a>
                </li>
                <li class="nav-item">
-                  <a [ngClass]="{'active':parameter.flag==2}" (click)="changePropertyFlag(2)" class="nav-link" >Pending Review</a>
+                  <a [ngClass]="{'active':parameter.flag==2}" (click)="changePropertyFlag(2)" class="nav-link cursor-pointer" >Pending Review</a>
                </li>
                <li class="nav-item">
-                  <a [ngClass]="{'active':parameter.flag==1}" (click)="changePropertyFlag(1)" class="nav-link" >In Draft</a>
+                  <a [ngClass]="{'active':parameter.flag==1}" (click)="changePropertyFlag(1)" class="nav-link cursor-pointer" >In Draft</a>
                </li>
                <li class="nav-item">
-                  <a [ngClass]="{'active':parameter.flag==5}" (click)="changePropertyFlag(5)" class="nav-link" >Seller's Request</a>
+                  <a [ngClass]="{'active':parameter.flag==5}" (click)="changePropertyFlag(5)" class="nav-link cursor-pointer" >Seller's Request</a>
                </li>
             </ul>
             </div>
@@ -304,6 +304,15 @@
                                  <label>Edit <br> Price</label>
                               </div>
                            </th>
+                           <th style="width:8%;vertical-align:top;">
+                              <div (click)="sort_by(1)" class="d-flex table-search">
+                                 <label>Agent <br>Commission (%)</label></div>
+                           </th>
+                           <th style="width:4%;vertical-align:top;">
+                              <div class="d-flex table-search">
+                                 <label>Edit <br> Commission</label>
+                              </div>
+                           </th>
                            <th style="width:4%;vertical-align:top;">
                               <div (click)="sort_by(3)" class="d-flex table-search">
                                  <label>Leads</label>
@@ -333,7 +342,7 @@
                                  </div> -->
                               </div>
                            </th>
-                           <th *ngIf="parameter.flag!=5" style="width:10%;vertical-align:top;">
+                           <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
                               <div (click)="sort_by(2)" class="table-search">
                                  <label>Change <br> Availability</label>
                                  <select [(ngModel)]="parameter.availability_filter" (change)="getListing()">
@@ -354,7 +363,7 @@
                                  </select>
                               </div>
                            </th>
-                           <th style="width:15%;" *ngIf="parameter.flag!=5">
+                           <th style="width:10%;" *ngIf="parameter.flag!=5">
                               <div class="table-search">
                                  <label>Actions</label>
                                  <select [(ngModel)]="parameter.action_filter" (change)="getListing()">
@@ -384,9 +393,12 @@
                                  <app-property-configuration *ngIf="p.configuration" [configuration]="p.configuration"></app-property-configuration>
                               </td>
                               <td><span>{{p.min_price | price}}</span></td>
-                              <!-- <td><span>{{p.min_price | number : '1.2-2'}}</span></td> -->
                               <td><span>
                                  <button (click)="editPricePopup(p, i)" [disabled]="admin?.admin_acl['Property Management']?.can_update==0" title="Edit Price" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                              </span></td>
+                              <td><span>{{p.broker_commision | percentage}}</span></td>
+                              <td><span>
+                                 <button (click)="editAgentCommissionPopup(p, i)" [disabled]="admin?.admin_acl['Property Management']?.can_update==0" title="Edit Price" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                               </span></td>
                               <td><span>{{p.lead_properties_count | numberWithCommas}}</span></td>
                               

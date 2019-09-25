@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { AclUserGuard } from '../../guards/acl-user.guard';
 import { SharedModule } from '../../modules/shared.module';
 import { NotificationsComponent } from './notifications.component';
-import { NgxSpinnerModule } from 'ngx-spinner';
 
 const routes: Routes = [
   { path: '', component: NotificationsComponent }

@@ -76,8 +76,8 @@
               <tr
                 *ngFor="let item of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
                 <td>
-                  <img class="rounded-circle" [src]="item.image" onerror="this.src='assets/img/default_img.png'"
-                    alt="img">
+                    <img *ngIf="item.image" [defaultImage]="item.image| img:'thumb'" [lazyLoad]="item.image" class="rounded-circle" alt="img">
+                    <img *ngIf="!item.image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
                 </td>
                 <td>
                   <strong>{{item.title}}</strong>
@@ -90,9 +90,9 @@
                     <button [disabled]="admin?.admin_acl['Templates']?.can_update==0"
                       routerLink="/dashboard/templates/edit-template/{{item.id}}" title="Edit Template"
                       class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
-                    <button [disabled]="admin?.admin_acl['Templates']?.can_update==0"
+                    <button [disabled]="admin?.admin_acl['Templates']?.can_purge==0"
                       (click)="deleteBlogPopUp(item.id, i)" title="Delete Template" class="action-icon"><img
-                        src="assets/img/remove-icon.png" alt="img"></button>
+                        src="assets/img/ic_delete.png" alt="img"></button>
                   </div>
                 </td>
               </tr>
