@@ -16,6 +16,7 @@ import { NotaryComponent } from './notary.component';
 import { NotaryLeadsDetailsComponent } from './notary-leads/notary-leads-details/notary-leads-details.component';
 import { AclUserGuard } from '../../guards/acl-user.guard';
 import { SharedModule } from '../../modules/shared.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 const routes: Routes = [
   {
@@ -54,7 +55,8 @@ const routes: Routes = [
     Ng2TelInputModule,
     NgxChartsModule,
     SharedModule,
-    CalendarModule
+    CalendarModule,
+    TranslateModule
   ],
   declarations: [
     NotaryComponent,

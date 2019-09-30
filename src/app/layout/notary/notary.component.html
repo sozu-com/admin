@@ -3,23 +3,23 @@
   <div class="row">
       <div class="col-md-4 col-6">
         <div class="title-group">
-            <h5>Notaries</h5>
-            <p>Showing {{items?.length}} out of {{parameter.total}}</p>
+            <h5>{{'viewNotary.label' | translate}}</h5>
+            <p>{{'table.pagination.showing' | translate}} {{items?.length}} {{'table.pagination.outof' | translate}} {{parameter.total}}</p>
         </div>
       </div>
       <div class="col-md-5 col-6">
         <div class="btn-cont upload-excel pull-right">
-            <a title="Download Sample File" href="assets/docx/Sozu_Notaries_Sample.xlsx" class="btn"><span class="fa fa-download"></span></a>
-            <label title="Choose Excel File" class="img_label">{{label}}
+            <a title="{{'table.title.downloadSampleFile' | translate}}" href="assets/docx/Sozu_Notaries_Sample.xlsx" class="btn"><span class="fa fa-download"></span></a>
+            <label title="{{'table.title.chooseExcelFile' | translate}}" class="img_label">{{label}}
                 <input type="file" #fileInput accept=".xls,.xlsx" (change)="getFileName()">
             </label>
-            <a title="Upload Selected File" (click)="importNoatary()" href="javascript://" class="btn"><span class="fa fa-upload"></span></a>
+            <a title="{{'table.title.uploadSelectedFile' | translate}}" (click)="importNoatary()" href="javascript://" class="btn"><span class="fa fa-upload"></span></a>
         </div>
       </div>
       <div class="col-md-3 col-6">
         <div class="btn-cont text-right">
-            <a style="display: none;" class="btn btn-primary" href="javascript://" data-toggle="modal" data-target="#add" #modalOpen>Add New</a>
-            <a *ngIf="admin?.admin_acl['Notaries Management']?.can_create==1" (click)="openModal()" class="btn btn-primary" href="javascript://">Add New</a>
+            <a style="display: none;" class="btn btn-primary" href="javascript://" data-toggle="modal" data-target="#add" #modalOpen>{{'viewNotary.addBtn' | translate}}</a>
+            <a *ngIf="admin?.admin_acl['Notaries Management']?.can_create==1" (click)="openModal()" class="btn btn-primary" href="javascript://">{{'viewNotary.addBtn' | translate}}</a>
         </div>
       </div>
   </div>
@@ -32,7 +32,7 @@
               <th style="width:5%">&nbsp;</th>
               <th style="width:15%">
                 <div class="table-search">
-                    <label>Company Name</label>
+                    <label>{{'table.th.companyName' | translate}}</label>
                     <div class="searh-3">
                       <input type="text" [(ngModel)]="parameter.company_name" (keyup.enter)="getNoatariesListing(parameter.p, parameter.company_name, parameter.name, parameter.phone, parameter.email)" name="">
                       <button *ngIf="parameter.company_name" (click)="getNoatariesListing(parameter.p, parameter.company_name, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
@@ -41,7 +41,7 @@
               </th>
               <th style="width:15%">
                 <div class="table-search">
-                    <label>Name</label>
+                    <label>{{'table.th.name' | translate}}</label>
                     <div class="searh-3">
                       <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getNoatariesListing(parameter.p, parameter.company_name, parameter.name, parameter.phone, parameter.email)" name="">
                       <button *ngIf="parameter.name" (click)="getNoatariesListing(parameter.p, parameter.company_name, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
@@ -50,7 +50,7 @@
               </th>
               <th style="width:15%; text-align:left;">
                 <div class="table-search">
-                    <label>Contact Number</label>
+                    <label>{{'table.th.contactNumber' | translate}}</label>
                     <div class="searh-3">
                       <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="getNoatariesListing(parameter.p, parameter.company_name, parameter.name, parameter.phone, parameter.email)" name="">
                       <button *ngIf="parameter.phone" (click)="getNoatariesListing(parameter.p, parameter.company_name, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
@@ -59,7 +59,7 @@
               </th>
               <th style="width:15%">
                 <div class="table-search">
-                    <label>Email Address</label>
+                    <label>{{'table.th.emailAddress' | translate}}</label>
                     <div class="searh-3">
                       <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="getNoatariesListing(parameter.p, parameter.company_name, parameter.name, parameter.phone, parameter.email)" name="">
                       <button *ngIf="parameter.email" (click)="getNoatariesListing(parameter.p, parameter.company_name, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
@@ -68,12 +68,12 @@
               </th>
               <th style="width:15%; vertical-align: top;">
                 <div class="table-search">
-                    <label>Address</label>
+                    <label>{{'table.th.address' | translate}}</label>
                 </div>
               </th>
               <th style="width:5%; vertical-align: top;">
                 <div class="d-flex table-search">
-                  <label>Leads<a (click)="setLeadSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.parameter.lead_sort==2}" src="assets/img/top-arrow.png" alt="img"></a></label>
+                  <label>{{'table.th.leads' | translate}}<a (click)="setLeadSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.parameter.lead_sort==2}" src="assets/img/top-arrow.png" alt="img"></a></label>
                 </div>
               </th>
               <th style="width:15%">
@@ -97,23 +97,23 @@
                 </span>
               </td>
               <td class="text-left" *ngIf="item.phone">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
-              <td class="text-left" *ngIf="!item.phone">NA</td>
+              <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
               <td class="text-left">{{item.email}}</td>
-              <td class="text-left">{{item.address?item.address:'NA'}}</td>
+              <td class="text-left">{{item.address?item.address: ('table.tr.td.NA' | translate)}}</td>
               <td class="text-left">{{item.lead_count}}</td>
               <td>
                 <div class="table-actions">
-                  <a *ngIf="admin?.admin_acl['Notary Lead Management']?.can_read==1" title="View Leads" href="javascript://"
+                  <a *ngIf="admin?.admin_acl['Notary Lead Management']?.can_read==1" title="{{'table.title.viewLeads' | translate}}" href="javascript://"
                     routerLink="/dashboard/notary/view-notary-leads/{{item.id}}" class="icon-block edit-icon">
                     <img src="assets/img/ic_leads.png" alt="img">
                   </a>
-                  <button title="Edit Details" [disabled]="admin?.admin_acl['Notaries Management']?.can_update==0" (click)="editUser(item, i)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                  <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Notaries Management']?.can_update==0" (click)="editUser(item, i)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                   <button [disabled]="admin?.admin_acl['Notaries Management']?.can_delete==0"
                     (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1)" 
-                    title="{{item.is_blocked==1?'Unblock Notary':'Block Notary'}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"
+                    title="{{item.is_blocked==1 ? ('table.title.unblock' | translate) : ('table.title.block' | translate)}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"
                     class="action-icon"><img src="assets/img/block.png" alt="img">
                   </button>
-                  <button [disabled]="admin?.admin_acl['Notaries Management']?.can_purge==0" (click)="deletePopup(item, i);" class="action-icon" title="Delete Notary"><img src="assets/img/ic_delete.png" alt="img"></button>
+                  <button [disabled]="admin?.admin_acl['Notaries Management']?.can_purge==0" (click)="deletePopup(item, i);" class="action-icon" title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png" alt="img"></button>
                 </div>
               </td>
             </tr>
@@ -130,7 +130,6 @@
   <div class="btn-cont text-right marginT15" *ngIf="parameter.total">
     <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
   </div>
-  
 </div>
 
 
@@ -160,15 +159,15 @@
                   <label *ngIf="model?.image">
                     <input accept="image/*" name="image" class="image" (change)="changeListner($event, 'img_loader', 'image')" type="file">
                   </label>
-                  <label *ngIf="!model?.image">+ Add Image</label>
+                  <label *ngIf="!model?.image">{{'addForm.image' | translate}}</label>
                   <input *ngIf="!model?.image" accept="image/*" name="image" class="image" (change)="changeListner($event, 'img_loader', 'image')" type="file">
                   <div *ngIf="model.img_loader" class="loaderr"></div>
               </div>
             </div>
             <div class="col-6">
               <div class="btn-cont text-right">
-                  <button *ngIf="!model.id" type="submit" class="btn btn-primary">ADD</button>
-                  <button *ngIf="model.id" type="submit" [disabled]="!addForm.valid" class="btn btn-primary">UPDATE</button>
+                  <button *ngIf="!model.id" type="submit" class="btn btn-primary">{{'addForm.addBtn' | translate}}</button>
+                  <button *ngIf="model.id" type="submit" [disabled]="!addForm.valid" class="btn btn-primary">{{'addForm.updateBtn' | translate}}</button>
               </div>
             </div>
             <div class="col-12">
@@ -176,7 +175,7 @@
             </div>
             <div class="col-12">
               <div class="form-group-2">
-                  <label>Company Name <span class="color-red">*</span></label>
+                  <label>{{'addForm.companyName' | translate}} <span class="color-red">*</span></label>
                   <div class="form-group">
                   <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" [(ngModel)]="model.company_name" name="company_name">
                 </div>
@@ -184,7 +183,7 @@
             </div>
             <div class="col-12">
               <div class="form-group-2">
-                  <label>Name <span class="color-red">*</span></label>
+                  <label>{{'addForm.name' | translate}} <span class="color-red">*</span></label>
                   <div class="form-group">
                   <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" [(ngModel)]="model.name" name="name">
                 </div>
@@ -192,7 +191,7 @@
             </div>
             <div class="col-12">
               <div class="form-group-2">
-                  <label>Contact number <span class="color-red">*</span></label>
+                  <label>{{'addForm.contactNumber' | translate}} <span class="color-red">*</span></label>
                   <div class="form-group">
                   <input minlength="6" maxlength="16" autocomplete="off" type="text" [pattern]="constant.phonePattern" class="form-control" id="phone" required minlength="1" [(ngModel)]="model.phone" name="phone"
                       ng2TelInput 
@@ -203,7 +202,7 @@
             </div>
             <div class="col-12">
               <div class="form-group-2">
-                  <label>Email ID <span class="color-red">*</span></label>
+                  <label>{{'addForm.emailId' | translate}} <span class="color-red">*</span></label>
                   <div class="form-group">
                   <input autocomplete="off" required [pattern]="constant.emailPattern" type="email" class="form-control" [(ngModel)]="model.email" name="email">
                 </div>
@@ -211,7 +210,7 @@
             </div>
             <div class="col-12">
               <div class="form-group-2">
-                  <label>Address <span class="color-red">*</span></label>
+                  <label>{{'addForm.address' | translate}} <span class="color-red">*</span></label>
                   <div class="form-group">
                   <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" [(ngModel)]="model.address" name="address">
                 </div>

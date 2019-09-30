@@ -7,6 +7,7 @@ import { IProperty } from 'src/app/common/property';
 import { Constant } from 'src/app/common/constants';
 import { AdminService } from 'src/app/services/admin.service';
 import { ProjectService } from 'src/app/services/project.service';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -33,7 +34,8 @@ export class ProjectsComponent implements OnInit {
     private route: ActivatedRoute,
     public admin: AdminService,
     public projectService: ProjectService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -174,15 +176,15 @@ export class ProjectsComponent implements OnInit {
 
 
   blockUnblock(item, flag: number) {
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    this.parameter.title = this.translate.instant('message.areYouSure');
     switch (flag) {
       case 0:
-        this.parameter.text = 'You want to unblock this Project?';
-        this.parameter.successText = this.constant.successMsg.UNBLOCKED_SUCCESSFULLY;
+        this.parameter.text = this.translate.instant('message.wantToUnBlockProject');
+        this.parameter.successText = this.translate.instant('message.unblockedSuccessfully');
         break;
       case 1:
-        this.parameter.text = 'You want to block this Project?';
-        this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
+        this.parameter.text = this.translate.instant('message.wantToBlockProject');
+        this.parameter.successText = this.translate.instant('message.blockedSuccessfully');
         break;
     }
 
@@ -215,12 +217,12 @@ export class ProjectsComponent implements OnInit {
 
   approveProject(item, status) {
     if (item.is_completed !== 1) {
-      swal('Error', 'You cannot approve the building as some of details are missing.', 'error');
+      swal('Error', this.translate.instant('message.cannotApproveBuilding'), 'error');
       return false;
     }
     item.status = status;
     this.admin.postDataApi('approveProject', { building_id: item.id }).subscribe(r => {
-      swal('Success', 'Project approved successfully.', 'success');
+      swal('Success', this.translate.instant('message.projectApprovedSuccessfully'), 'success');
     },
       error => {
         swal('Error', error.error.message, 'error');
@@ -230,7 +232,7 @@ export class ProjectsComponent implements OnInit {
   rejectProject(status) {
     this.items[this.parameter.index].status = status;
     this.admin.postDataApi('rejectProject', { building_id: this.parameter.building_id, reason: this.reason }).subscribe(r => {
-      swal('Success', 'Project unapproved successfully.', 'success');
+      swal('Success', this.translate.instant('message.projectUnapprovedSuccessfully'), 'success');
       this.closeModal();
     },
       error => {
@@ -268,8 +270,8 @@ export class ProjectsComponent implements OnInit {
   }
 
   deletePopup(item: any, index: number) {
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
-    this.parameter.text = 'You want to delete this project?';
+    this.parameter.title = this.translate.instant('message.areYouSure');
+    this.parameter.text = this.translate.instant('message.wantToDeleteProject');
 
     swal({
       html: this.parameter.title + '<br>' + this.parameter.text,
@@ -288,7 +290,7 @@ export class ProjectsComponent implements OnInit {
   deleteProject(item: any, index: number) {
     this.admin.postDataApi('deleteProject',
       { building_id: item.id }).subscribe(r => {
-        swal('Success', 'Deleted successfully.', 'success');
+        swal('Success', this.translate.instant('message.deletedSuccessfully'), 'success');
         this.items.splice(index, 1);
         this.total--;
       },

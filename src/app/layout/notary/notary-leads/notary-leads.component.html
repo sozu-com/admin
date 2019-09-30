@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-                <p class="p16">Manage Notary's Leads</p>
+                <p class="p16">{{'viewNotaryLeads.label' | translate}}</p>
             </div>
         </div>
     </div>
@@ -12,7 +12,7 @@
             <div class="form-group" *ngIf="admin?.admin_acl['Notary Lead Management']?.can_read==1 && !this.parameter.assignee_id">
                 <div class="d-flex">
                 <div class="autocomplete">
-                    <input placeholder="Search Notary" style="max-width:200px" list="amenities" [(ngModel)]="parameter.keyword" (input)="getCsrListing()" class="form-control" type="text" name="keyword" (focusout)="closeCsrListing()">
+                    <input placeholder="{{'viewNotaryLeads.searchNotary' | translate}}" style="max-width:200px" list="amenities" [(ngModel)]="parameter.keyword" (input)="getCsrListing()" class="form-control" type="text" name="keyword" (focusout)="closeCsrListing()">
                     <div id="myInputautocomplete-list" class="autocomplete-items">
                         <div *ngFor="let item of users" (click)="selectCsrUser(item)">{{item.email}}</div>
                     </div>
@@ -368,7 +368,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-8">
-                            <input style="max-width:200px" list="amenities" [(ngModel)]="assign.keyword" (input)="getAssignListing()" class="form-control" type="text" name="keyword" placeholder="Search">
+                            <input style="max-width:200px" list="amenities" [(ngModel)]="assign.keyword" (keyup.enter)="getAssignListing()" class="form-control" type="text" name="keyword" placeholder="{{'viewNotaryLeads.searchNotary' | translate}}">
                         </div>
                         <div class="col-md-4 btn-cont">
                             <a class="btn btn-primary pull-right" href="javascript://" (click)="assignNow()">Assign</a>

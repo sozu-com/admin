@@ -6,6 +6,7 @@ import { AdminService } from 'src/app/services/admin.service';
 import { IProperty } from 'src/app/common/property';
 import { CommonService } from 'src/app/services/common.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -29,11 +30,12 @@ export class NotaryComponent implements OnInit {
   constructor(public constant: Constant,
     private spinner: NgxSpinnerService,
     public admin: AdminService,
-    public cs: CommonService) { }
+    public cs: CommonService,
+    private translate: TranslateService) { }
 
   ngOnInit() {
     this.model = new Users();
-    this.label = 'Choose Notaries File';
+    this.label = this.translate.instant('table.title.chooseNotariesFile');
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.parameter.type = 1;
@@ -89,20 +91,9 @@ export class NotaryComponent implements OnInit {
       this.parameter.phone, this.parameter.email);
   }
 
-  // changeListner(event) {
-  //   const reader = new FileReader();
-  //   reader.onload = (e: any) => {
-  //       // this.model.image = e.target.result;
-  //   };
-  //   const input = new FormData();
-  //   input.append('image', event.target.files[0]);
-  //   this.admin.postDataApi('saveImage', input).subscribe(res => {this.model.image = res['data'].image; });
-  //   reader.readAsDataURL(event.target.files[0]);
-  // }
-
   changeListner(event: any, paramLoader: string, param: any) {
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+      swal('Error', this.translate.instant('message.fileSizeLimit'), 'error');
       return false;
     }
     this.model[paramLoader] = true;
@@ -131,7 +122,7 @@ export class NotaryComponent implements OnInit {
     if (file.files && file.files[0]) {
       attachment = file.files[0];
       if (attachment.size > this.constant.fileSizeLimit) {
-        swal('Error', 'File size is more than 25MB.', 'error');
+        swal('Error', this.translate.instant('message.fileSizeLimit'), 'error');
         return false;
       }
       this.spinner.show();
@@ -142,21 +133,21 @@ export class NotaryComponent implements OnInit {
           success => {
             this.spinner.hide();
             this.fileInput.nativeElement.value = '';
-            this.label = 'Choose Notaries File';
-            swal('Success', 'Imported successfully.', 'success');
+            this.label = this.translate.instant('table.title.chooseNotariesFile');
+            swal('Success', this.translate.instant('message.importedSuccessfully'), 'success');
             this.getNoatariesListing(this.parameter.page, '', '', '', '');
           }, error => {
             this.spinner.hide();
           });
     } else {
-      swal('Error', 'Please choose file', 'error');
+      swal('Error', this.translate.instant('message.pleaseChooseFile'), 'error');
       return false;
     }
   }
 
   addNewUser(formData: NgForm) {
     if (this.model.img_loader) {
-      swal('Error', 'Uploading image.', 'error');
+      swal('Error', this.translate.instant('message.uploadingImage'), 'error');
       return false;
     }
     this.model.img_loader = false;
@@ -166,7 +157,8 @@ export class NotaryComponent implements OnInit {
         success => {
           this.spinner.hide();
           this.modalClose.nativeElement.click();
-          const text = this.model.id ? 'Updated successfully.' : 'Added successfully.';
+          const text = this.model.id ? this.translate.instant('message.updatedSuccessfully') :
+                                        this.translate.instant('message.addedSuccessfully');
           swal('Success', text, 'success');
           if (this.model.id) {
             this.items[this.parameter.index] = success.data;
@@ -195,15 +187,15 @@ export class NotaryComponent implements OnInit {
 
   blockUnblockPopup(index, id, flag) {
     this.parameter.index = index;
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    this.parameter.title = this.translate.instant('message.areYouSure');
     switch (flag) {
       case 0:
-        this.parameter.text = 'You want to unblock this Notary?';
-        this.parameter.successText = this.constant.successMsg.UNBLOCKED_SUCCESSFULLY;
+        this.parameter.text = this.translate.instant('message.wantToUnblockNotary');
+        this.parameter.successText = this.translate.instant('message.unblockedSuccessfully');
         break;
       case 1:
-      this.parameter.text = 'You want to block this Notary?';
-        this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
+      this.parameter.text = this.translate.instant('message.wantToBlockNotary');
+        this.parameter.successText = this.translate.instant('message.blockedSuccessfully');
         break;
     }
 
@@ -239,8 +231,8 @@ export class NotaryComponent implements OnInit {
   }
 
   deletePopup(item: any, index: number) {
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
-    this.parameter.text = 'You want to delete this notary?';
+    this.parameter.title = this.translate.instant('message.areYouSure');
+    this.parameter.text = this.translate.instant('message.wantToDeleteNotary');
 
     swal({
       html: this.parameter.title + '<br>' + this.parameter.text,
@@ -259,7 +251,7 @@ export class NotaryComponent implements OnInit {
   deleteNoatary(item: any, index: number) {
     this.admin.postDataApi('deleteNoatary',
       { id: item.id }).subscribe(r => {
-        swal('Success', 'Deleted successfully.', 'success');
+        swal('Success', this.translate.instant('message.deletedSuccessfully'), 'success');
         this.items.splice(index, 1);
         this.parameter.total--;
       },

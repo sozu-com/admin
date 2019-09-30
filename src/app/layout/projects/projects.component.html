@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-                <p class="p16">Manage Projects</p>
+                <p class="p16">{{'viewProjects.label' | translate}}</p>
             </div>
         </div>
     </div>
@@ -14,19 +14,19 @@
             <div class="cust-tabs-2">
                 <ul class="nav nav-tabs float-right">
                     <li class="nav-item">
-                      <a [ngClass]="{'active':parameter.dash_flag == 1}" (click)="changeFlag(1)" class="nav-link" data-toggle="tab" href="#tw">This Week</a>
+                      <a [ngClass]="{'active':parameter.dash_flag == 1}" (click)="changeFlag(1)" class="nav-link" data-toggle="tab" href="#tw">{{'filters.time.thisWeek' | translate}}</a>
                     </li>
                     <li class="nav-item">
-                      <a [ngClass]="{'active':parameter.dash_flag == 2}" (click)="changeFlag(2)" class="nav-link" data-toggle="tab" href="#tm">This Month</a>
+                      <a [ngClass]="{'active':parameter.dash_flag == 2}" (click)="changeFlag(2)" class="nav-link" data-toggle="tab" href="#tm">{{'filters.time.thisMonth' | translate}}</a>
                     </li>
                     <li class="nav-item">
-                      <a [ngClass]="{'active':parameter.dash_flag == 3}" (click)="changeFlag(3)" class="nav-link" data-toggle="tab" href="#lm">Last Month</a>
+                      <a [ngClass]="{'active':parameter.dash_flag == 3}" (click)="changeFlag(3)" class="nav-link" data-toggle="tab" href="#lm">{{'filters.time.lastMonth' | translate}}</a>
                     </li>
                     <li class="nav-item">
-                      <a [ngClass]="{'active':parameter.dash_flag == 4}" (click)="changeFlag(4)" class="nav-link" data-toggle="tab" href="#lt">Lifetime</a>
+                      <a [ngClass]="{'active':parameter.dash_flag == 4}" (click)="changeFlag(4)" class="nav-link" data-toggle="tab" href="#lt">{{'filters.time.lifetime' | translate}}</a>
                     </li>
                     <li class="nav-item">
-                      <a [ngClass]="{'active':parameter.dash_flag == 5}" (click)="changeFlag(5)" class="nav-link" data-toggle="tab" href="#cust">Custom</a>
+                      <a [ngClass]="{'active':parameter.dash_flag == 5}" (click)="changeFlag(5)" class="nav-link" data-toggle="tab" href="#cust">{{'filters.time.custom.label' | translate}}</a>
                     </li>
                 </ul>
             </div>
@@ -39,13 +39,13 @@
                 <div class="offset-lg-7"></div>
                 <div class="col-lg-2 col-md-2 col-sm-5 col-5">
                 <div class="form-group marginB0">
-                    <label>From:</label>
+                    <label>{{'filters.time.custom.from' | translate}}</label>
                     <p-calendar showIcon="true" [(ngModel)]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
                 </div>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-5 col-5">
                 <div class="form-group marginB0">
-                    <label>To:</label>
+                    <label>{{'filters.time.custom.to' | translate}}</label>
                     <p-calendar showIcon="true" [(ngModel)]="parameter.max" [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
                 </div>
                 </div>
@@ -53,7 +53,7 @@
                 <div class="form-group btn-cont">
                     <label class="addMT3">&nbsp;</label>
                     <button class="btn btn-calender" href="javascript://" (click)="getListing()"
-                        [disabled]="!parameter.min || !parameter.max">Apply</button>
+                        [disabled]="!parameter.min || !parameter.max">{{'filters.time.custom.applyBtn' | translate}}</button>
                 </div>
                 </div>
             </div>
@@ -63,27 +63,27 @@
     <div class="row">
         <div class="col-md-2">
             <div class="form-group">
-            <label>Country</label>
+            <label>{{'filters.location.country' | translate}}</label>
             <select class="form-control" (change)="onCountryChange($event.target.value)">
-                <option value="0">All</option>
+                <option value="0">{{'filters.location.allOption' | translate}}</option>
                 <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option>
             </select>
             </div>
         </div>
         <div class="col-md-2">
             <div class="form-group">
-            <label>State</label>
+            <label>{{'filters.location.state' | translate}}</label>
             <select class="form-control" (change)="onStateChange($event.target.value)">
-                <option value="0">All</option>
+                <option value="0">{{'filters.location.allOption' | translate}}</option>
                 <option *ngFor="let item of location.states" [value]="item.id">{{item.name}}</option>
             </select>
             </div>
         </div>
         <div class="col-md-2">
             <div class="form-group">
-            <label>City</label>
+            <label>{{'filters.location.city' | translate}}</label>
                 <select class="form-control" (change)="onCityChange($event.target.value)">
-                <option value="0">All</option>
+                <option value="0">{{'filters.location.allOption' | translate}}</option>
                 <option *ngFor="let item of location.cities" [value]="item.id">{{item.name}}</option>
                 </select>
             </div>
@@ -91,9 +91,9 @@
 
         <div class="col-md-2">
             <div class="form-group">
-            <label>Locality</label>
+            <label>{{'filters.location.locality' | translate}}</label>
             <select class="form-control" (change)="onLocalityChange($event.target.value)">
-                <option value="0">All</option>
+                <option value="0">{{'filters.location.allOption' | translate}}</option>
                 <option *ngFor="let item of location.localities" [value]="item.id">{{item.name}}</option>
             </select>
             </div>
@@ -102,14 +102,14 @@
         <div class="col-md-2">
             <div class="form-group btn-cont">
             <label style="display: block; margin-top: 3px;">&nbsp;</label>
-            <button type="button" (click)="getListing()" class="btn btn-primary-new width100P">Apply</button>
+            <button type="button" (click)="getListing()" class="btn btn-primary-new width100P">{{'filters.location.applyBtn' | translate}}</button>
             </div>
         </div>
 
         <div class="col-md-2">
             <div class="form-group btn-cont">
             <label style="display: block; margin-top: 3px;">&nbsp;</label>
-            <button type="button" (click)="resetFilters()" class="btn btn-primary-new width100P">Reset</button>
+            <button type="button" (click)="resetFilters()" class="btn btn-primary-new width100P">{{'filters.location.resetBtn' | translate}}</button>
             </div>
         </div>
     </div>
@@ -228,7 +228,7 @@
 
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"><div class="add-new pull-right">
               <a *ngIf="admin?.admin_acl['Building Management']?.can_create==1 || admin?.permissions?.can_data_collector==1" 
-                class="btn" href="javascript://" routerLink="/dashboard/projects/add-project">+Add New Project</a>
+                class="btn" href="javascript://" routerLink="/dashboard/projects/add-project">{{'viewProjects.addBtn' | translate}}</a>
             </div></div>
             </div>
         <div class="tab-content white-bg">
@@ -239,12 +239,12 @@
                         <tr>
                           <th style="vertical-align:top;width:6%">
                               <div class="d-flex table-search">
-                                <label>Image</label>
+                                <label>{{'table.th.image' | translate}}</label>
                               </div>
                           </th>
                           <th style="width:15%">
                             <div class="table-search">
-                                <label>Name of Building</label>
+                                <label>{{'table.th.nameOfBuilding' | translate}}</label>
                                 <div class="searh-3">
                                 <input class="width100px" type="text" [(ngModel)]="parameter.keyword" (keyup.enter)="getListing()" >
                                 <button *ngIf="parameter.keyword" (click)="getListing()"><i class="fa fa-search"></i></button>
@@ -253,7 +253,7 @@
                           </th>
                           <th style="width:14%">
                             <div class="table-search">
-                              <label>Developer</label>
+                              <label>{{'table.th.developer' | translate}}</label>
                               <div class="searh-3">
                                 <input class="width100px" type="text" [(ngModel)]="parameter.email" (keyup.enter)="getListing()" >
                                 <button *ngIf="parameter.email" (click)="getListing()"><i class="fa fa-search"></i></button>
@@ -262,35 +262,35 @@
                           </th>
                           <th style="width:15%">
                             <div class="table-search">
-                              <label>Managed By<br>Company/Manager</label>
+                              <label>{{'table.th.managedBy' | translate}}</label>
                             </div>
                           </th>
                           <th style="width:10%">
                             <div class="table-search">
-                              <label>Possesion</label>
+                              <label>{{'table.th.possesion.label' | translate}}</label>
                               <select [(ngModel)]="parameter.possession_filter" (change)="getListing()">
-                                <option value="0">All</option>
-                                <option value="{{apiConstant.possessionStatus.sale}}">Sale</option>
-                                <option value="{{apiConstant.possessionStatus.preSale}}">Presale</option>
+                                <option value="0">{{'table.th.possesion.all' | translate}}</option>
+                                <option value="{{apiConstant.possessionStatus.sale}}">{{'table.th.possesion.sale' | translate}}</option>
+                                <option value="{{apiConstant.possessionStatus.preSale}}">{{'table.th.possesion.presale' | translate}}</option>
                               </select>
                             </div>
                           </th>
                           <th style="vertical-align:top;width:5%">
                             <div class="d-flex table-search">
-                              <span><label>Properties</label></span>
+                              <span><label>{{'table.th.properties' | translate}}</label></span>
                               <a (click)="sortData(parameter.property_sort==2?1:2)" href="javascript://"><img
                                 [ngClass]="{'upsidedown':parameter.property_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
                             </div>
                           </th>
                           <th style="vertical-align:top;width:5%">
-                            <div class="d-flex table-search"><span><label>Properties <br>Available <br> For Rent</label></span></div>
+                            <div class="d-flex table-search"><span><label>{{'table.th.propertiesForRent' | translate}}</label></span></div>
                           </th>
                           <th style="vertical-align:top;width:5%">
-                            <div class="d-flex table-search"><span><label>Properties <br>Available <br> For Sale</label></span></div>
+                            <div class="d-flex table-search"><span><label>{{'table.th.propertiesForSale' | translate}}</label></span></div>
                           </th>
                           <th style="vertical-align:top;width:5%">
                             <div class="d-flex table-search">
-                              <span><label>Avg Price</label></span>
+                              <span><label>{{'table.th.avgPrice' | translate}}</label></span>
                               <a (click)="sortData(parameter.property_sort==2?1:2)" href="javascript://"><img
                                 [ngClass]="{'upsidedown':parameter.property_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
                             </div>
@@ -298,14 +298,14 @@
                           
                           <th style="vertical-align:top;width:100px;width:20%">
                             <div class="table-search">
-                              <label>Actions</label>
+                              <label>{{'table.th.actions.label' | translate}}</label>
                               <select [(ngModel)]="parameter.action_filter" (change)="getListing()">
-                                <option value="0">All</option>
+                                <option value="0">{{'table.th.actions.all' | translate}}</option>
                                 <!-- <option value="2">Pending</option> -->
-                                <option value="3">Approved</option>
-                                <option value="4">Unapproved</option>
-                                <option value="1">Blocked</option>
-                                <option value="2">Unblocked</option>
+                                <option value="3">{{'table.th.actions.approved' | translate}}</option>
+                                <option value="4">{{'table.th.actions.unapproved' | translate}}</option>
+                                <option value="1">{{'table.th.actions.blocked' | translate}}</option>
+                                <option value="2">{{'table.th.actions.unblocked' | translate}}</option>
                               </select>
                             </div>
                           </th>
@@ -316,20 +316,20 @@
                                 <img *ngIf="p.main_image" [defaultImage]="p.main_image| img:'thumb'" [lazyLoad]="p.main_image" class="rounded-circle" alt="img">
                                 <img *ngIf="!p.main_image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
                             </td>
-                            <td class="cursor-pointer" title="Click to view details" routerLink="/dashboard/projects/details/{{p.id}}">
+                            <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}" routerLink="/dashboard/projects/details/{{p.id}}">
                               <strong>{{p?.name}}</strong>
                             </td>
-                            <td><span>{{p?.developer?.name ? p?.developer?.name : 'NA'}}</span></td>
+                            <td><span>{{p?.developer?.name ? p?.developer?.name : ('table.tr.td.NA' | translate)}}</span></td>
                             <td>
-                              <span>{{p?.manager?.id ? p?.manager?.name : p?.company?.id ? p?.company?.name : 'NA'}}</span>
+                              <span>{{p?.manager?.id ? p?.manager?.name : p?.company?.id ? p?.company?.name : ('table.tr.td.NA' | translate)}}</span>
                               <div class="clearfix"></div>
                               <small>
-                                  {{p?.manager?.id ? '(Manager)' : p?.company?.id ? '(Company)' : ''}}
+                                  {{p?.manager?.id ? ('table.tr.td.manager' | translate) : p?.company?.id ? ('table.tr.td.company' | translate) : ''}}
                               </small>
                             </td>
-                            <td><span>{{p?.possession_status_id == apiConstant.possessionStatus.sale ? 'Sale' : 'Presale'}}</span></td>
+                            <td><span>{{p?.possession_status_id == apiConstant.possessionStatus.sale ? ('table.tr.td.sale' | translate) : ('table.tr.td.presale' | translate)}}</span></td>
                             <td>
-                              <a title="Click to view properties" routerLink="/dashboard/properties/view-properties/{{p.id}}"><span class="green-color">{{p?.properties_count_all | numberWithCommas}}</span></a>
+                              <a title="{{'table.title.clickToViewProperties' | translate}}" routerLink="/dashboard/properties/view-properties/{{p.id}}"><span class="green-color">{{p?.properties_count_all | numberWithCommas}}</span></a>
                             </td>
                             <td><span>{{p?.rent_count_all | numberWithCommas}}</span></td>
                             <td><span>{{p?.sale_count_all | numberWithCommas}}</span></td>
@@ -337,17 +337,17 @@
                             <td>
                               <div class="table-actions">
                                 <!-- <div class="message"> -->
-                                  <button [disabled]="admin?.admin_acl['Building Management']?.can_update==0 || admin?.permissions?.can_data_collector==0" routerLink="/dashboard/projects/edit-project/{{p.id}}" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
-                                  <button [disabled]="admin?.admin_acl['Building Management']?.can_delete==0" *ngIf="!p.is_blocked" (click)="blockUnblock(p, 1);" class="action-icon" title="Block"><img src="assets/img/block.png" alt="img"></button>
-                                  <button [disabled]="admin?.admin_acl['Building Management']?.can_delete==0" *ngIf="p.is_blocked == true" (click)="blockUnblock(p, 0);" class="action-icon unblock-bg" title="UnBlock"><img src="assets/img/unblock.png" alt="img"></button>
+                                  <button [disabled]="admin?.admin_acl['Building Management']?.can_update==0 || admin?.permissions?.can_data_collector==0" routerLink="/dashboard/projects/edit-project/{{p.id}}" title="{{'table.title.editDetails' | translate}}" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                                  <button [disabled]="admin?.admin_acl['Building Management']?.can_delete==0" *ngIf="!p.is_blocked" (click)="blockUnblock(p, 1);" class="action-icon" title="{{'table.title.block' | translate}}"><img src="assets/img/block.png" alt="img"></button>
+                                  <button [disabled]="admin?.admin_acl['Building Management']?.can_delete==0" *ngIf="p.is_blocked == true" (click)="blockUnblock(p, 0);" class="action-icon unblock-bg" title="{{'table.title.unblock' | translate}}"><img src="assets/img/unblock.png" alt="img"></button>
                                   <!-- unapprove => when status=2(pending), 1(approved)-->
                                   <a style="display:none;" #modalOpen data-toggle="modal" data-target="#addNote"></a>
                                   <button (click)="openCancellationModal(p, i)" 
-                                    [disabled]="admin?.admin_acl['Building Management']?.can_update==0" *ngIf="p.status == 1 || p.status==2" class="action-icon" title="Unapprove"><img src="assets/img/ic_disapprove.png" alt="img"></button>
+                                    [disabled]="admin?.admin_acl['Building Management']?.can_update==0" *ngIf="p.status == 1 || p.status==2" class="action-icon" title="{{'table.title.unapprove' | translate}}"><img src="assets/img/ic_disapprove.png" alt="img"></button>
                                   <!-- approve => when status=2(pending), 4(rejected)-->
-                                  <button [disabled]="admin?.admin_acl['Building Management']?.can_update==0" *ngIf="p.status == 2 || p.status == 4"  (click)="approveProject(p, 1);" class="action-icon" title="Approve"><img src="assets/img/tick.png" alt="img"></button>
+                                  <button [disabled]="admin?.admin_acl['Building Management']?.can_update==0" *ngIf="p.status == 2 || p.status == 4"  (click)="approveProject(p, 1);" class="action-icon" title="{{'table.title.approve' | translate}}"><img src="assets/img/tick.png" alt="img"></button>
                                   <!-- delete project -->
-                                  <button [disabled]="admin?.admin_acl['Building Management']?.can_purge==0" (click)="deletePopup(p, i);" class="action-icon" title="Delete Project"><img src="assets/img/ic_delete.png" alt="img"></button>
+                                  <button [disabled]="admin?.admin_acl['Building Management']?.can_purge==0" (click)="deletePopup(p, i);" class="action-icon" title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png" alt="img"></button>
                                 <!-- </div> -->
                               </div>
                             </td>
@@ -365,7 +365,7 @@
                   </div>
               </div>
             </div>
-            <div class="tab-pane container fade" id="seller">Seller tab on</div>
+            <div class="tab-pane container fade" id="seller">{{'viewProjects.sellerTabOn' | translate}}</div>
         </div>
       </div>
 
@@ -373,7 +373,7 @@
           <div class="row">
               <div class="col-6">
                   <div class="title-group">
-                      <p>Showing {{items?.length}} out of {{total}}</p>
+                      <p>{{'table.pagination.showing' | translate}} {{items?.length}} {{'table.pagination.outof' | translate}} {{total}}</p>
                   </div>
               </div>
               <div class="col-6 text-right">
@@ -389,7 +389,7 @@
   <div class="modal-dialog fadeIndown">
     <div class="modal-content">
       <div class="modal-header modal-header-new">
-          <h4 class="modal-title">Add Reason</h4>
+          <h4 class="modal-title">{{'viewProjects.addReason' | translate}}</h4>
           <button style="display: none;" type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
           <button type="button" class="close" (click)="closeModal()">&times;</button>
       </div>
@@ -406,7 +406,7 @@
             </div>
             <div class="col-12">
                 <div class="btn-cont text-right">
-                    <button type="submit" [disabled]="!addForm.valid" class="btn btn-primary">Add</button>
+                    <button type="submit" [disabled]="!addForm.valid" class="btn btn-primary">{{'viewProjects.addReasonBtn' | translate}}</button>
                 </div>
             </div>
           </div>

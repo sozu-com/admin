@@ -28,9 +28,7 @@ export class ForgotPasswordComponent implements OnInit {
     // }
   }
 
-  ngOnInit() {
-    this.projectName = this.constant.projectName;
-  }
+  ngOnInit() {}
 
   forgotPassword(formData: NgForm) {
     this.spinner.show();

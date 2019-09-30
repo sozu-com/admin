@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { IProperty } from '../../common/property';
-import { AdminService } from '../../services/admin.service';
+import { IProperty } from 'src/app/common/property';
+import { AdminService } from 'src/app/services/admin.service';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -26,7 +27,9 @@ export class DashboardComponent {
   };
 
   public parameter: IProperty = {};
-  constructor (private admin: AdminService, private spinner: NgxSpinnerService) {
+  constructor (private admin: AdminService,
+    private spinner: NgxSpinnerService,
+    public ts: TranslateService) {
     const date = new Date();
     // this.parameter.min = new Date(date.getFullYear() + '-' + (date.getMonth() - 4) + '-' + '01');
     // this.parameter.max = date;

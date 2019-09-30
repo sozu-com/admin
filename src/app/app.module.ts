@@ -11,6 +11,9 @@ import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 // firebase -start
 import { AngularFireModule } from '@angular/fire';
@@ -77,6 +80,14 @@ const appRoutes: Routes = [
     Ng2TelInputModule,
     ToastrModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
+    HttpClientModule,
+    TranslateModule.forRoot({
+        loader: {
+            provide: TranslateLoader,
+            useFactory: HttpLoaderFactory,
+            deps: [HttpClient]
+        }
+    })
   ],
   providers: [
     AdminService,
@@ -97,3 +108,7 @@ const appRoutes: Routes = [
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}

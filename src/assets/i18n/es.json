@@ -1,0 +1,226 @@
+{
+  "login": {
+    "topHeader": "One Easy Solution for Your Needs.",
+    "middleHeader": "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet.",
+    "form": {
+      "label": "Login",
+      "emailPlaceHolder": "Email",
+      "passwordPlaceHolder": "Password",
+      "validations": {
+        "emailRequired": "Please enter email.",
+        "emailValid": "Please enter valid email.",
+        "passwordRequired": "Please enter password."
+      },
+      "forgotPasswordLabel": "Forgot Password?",
+      "submitBtn": "LOGIN",
+      "byLoginYouAreAgreeTo": "By login you are agree to",
+      "termsCondition": "Terms & Condition",
+      "of": "of",
+      "and": "and",
+      "privacyPolicy": "Privacy Policy"
+    },
+    "apiMessages": {
+      "blockedByAdmin": "You are blocked by admin.",
+      "noAccess": "You don't have permission to access the panel. Kindly contact Admin to proceed."
+    }
+  },
+  "forgotPassword": {
+    "form": {
+      "header": "Enter your email",
+      "label": "Don't worry. Resetting your password is easy, just tell us the email address you registered with us.",
+      "emailPlaceHolder": "Registered Email",
+      "validations": {
+        "emailRequired": "Please enter email.",
+        "emailValid": "Please enter valid email."
+      },
+      "loginLabel": "Back to login.",
+      "submitBtn": "LOGIN",
+      "byLoginYouAreAgreeTo": "By login you are agree to",
+      "send": "SEND",
+      "termsCondition": "Terms & Condition",
+      "of": "of",
+      "and": "and",
+      "privacyPolicy": "Privacy Policy"
+    },
+    "apiMessages": {
+      "blockedByAdmin": "You are blocked by admin.",
+      "noAccess": "You don't have permission to access the panel. Kindly contact Admin to proceed."
+    }
+  },
+  "pageNotFound": {
+    "header": "Page Not Found",
+    "subHeader": "Sorry, but the page you are looking for has not been found. Try checking the URL for error, then hit the refresh button on your browser or click below button to navigate to home page.",
+    "home": "HOME"
+  },
+  "dashboard": {
+    "hello": "Hello",
+    "allProperties": "All Properties",
+    "propertiesForSale": "Properties for Sale",
+    "propertiesForRent": "Properties for Rent",
+    "statsAndTrendAnalytics": "Stats and Trend Analytics",
+    "totalCommissionOnPlatform": "Total Commission on platform",
+    "yourSales": "Your Sales"
+  },
+  "filters": {
+    "time": {
+      "thisWeek": "This Week",
+      "thisMonth": "This Month",
+      "lastMonth": "Last Month",
+      "lifetime": "Lifetime",
+      "custom": {
+        "label": "Custom",
+        "from": "From:",
+        "to": "To:",
+        "applyBtn": "Apply"
+      }
+    },
+    "location": {
+      "country": "Country",
+      "state": "State",
+      "city": "City",
+      "locality": "Locality",
+      "building": "Building",
+      "selectCountry": "Select Country",
+      "selectState": "Select State",
+      "selectCity": "Select City",
+      "selectLocality": "Select Locality",
+      "selectBuilding": "Select Building",
+      "allOption": "All",
+      "applyBtn": "Apply",
+      "resetBtn": "Reset"
+    }
+  },
+  "addForm": {
+    "image": "+ Add Image",
+    "addBtn": "Add",
+    "updateBtn": "Update",
+    "companyName": "Company Name",
+    "name": "Name",
+    "contactNumber": "Contact Number",
+    "emailId": "Email ID",
+    "address": "Address",
+    "agencyCommercialName": "Agency Name (Commercial Name)",
+    "selectAgency": "Select Agency",
+    "CSRSeller": "CSR Seller/Developer",
+    "CSRBuyer": "CSR Buyer/Renter",
+    "inhouseAgent": "Inhouse Agent",
+    "outSideAgent": "Outside Agent",
+    "dataCollector": "Data Collector",
+    "CSRClosure": "CSR Closure",
+    "moreImages": {
+      "label": "Images",
+      "addMoreBtn": "+ Add more images",
+      "submitBtn": "Submit"
+    }
+  },
+  "table": {
+    "addNewBtn": "+Add New",
+    "th": {
+      "agencyCommercialName": "Agency (Commercial Name)",
+      "name": "Name",
+      "contactNumber": "Contact Number",
+      "emailAddress": "Email Address",
+      "leads": "Leads",
+      "linkedProperties": "Linked Properties",
+      "building": "Building",
+      "companyName": "Company Name",
+      "address": "Address",
+      "image": "Image",
+      "nameOfBuilding": "Name of Building",
+      "developer": "Developer",
+      "managedBy": "Managed By Company/Manager",
+      "possesion": {
+        "label": "Possesion",
+        "all": "All",
+        "sale": "Sale",
+        "presale": "Presale"
+      },
+      "properties": "Properties",
+      "propertiesForRent": "Properties Available For Rent",
+      "propertiesForSale": "Properties Available For Sale",
+      "avgPrice": "Avg Price",
+      "actions": {
+        "label": "Actions",
+        "all": "All",
+        "approved": "Approved",
+        "unapproved": "Unapproved",
+        "blocked": "Blocked",
+        "unblocked": "Unblocked"
+      }
+    },
+    "tr": {
+      "label": "",
+      "td": {
+        "NA": "NA",
+        "manager": "(Manager)",
+        "company": "(Company)",
+        "sale": "Sale",
+        "presale": "Presale"
+      }
+    },
+    "title": {
+      "downloadSampleFile": "Download Sample File",
+      "chooseExcelFile": "Choose Excel File",
+      "uploadSelectedFile": "Upload Selected File",
+      "chooseNotariesFile": "Choose Notaries File",
+      "viewProjects": "View Projects",
+      "viewLeads": "View Leads",
+      "viewRoles": "View Roles",
+      "chooseAgency": "Choose Agency",
+      "clickToViewDetails": "Click to view details",
+      "clickToViewProperties": "Click to view properties",
+      "editDetails": "Edit Details",
+      "block": "Block",
+      "unblock": "Unblock",
+      "approve": "Approve",
+      "unapprove": "Unapprove",
+      "delete": "Delete"
+    },
+    "pagination": {
+      "showing": "Showing",
+      "outof": "out of"
+    }
+  },
+  "message": {
+    "areYouSure": "Are you sure",
+    "wantToUnBlockProject": "¿Quieres desbloquear este proyecto?",
+    "wantToBlockProject": "¿Quieres bloquear este proyecto?",
+    "unblockedSuccessfully": "Unblocked Successfully.",
+    "blockedSuccessfully": "Blocked Successfully.",
+    "addedSuccessfully": "Added Successfully.",
+    "updatedSuccessfully": "Updated Successfully.",
+    "importedSuccessfully": "Imported successfully.",
+    "deletedSuccessfully": "Delete Successfully.",
+    "cannotApproveBuilding" : "You cannot approve the building as some of details are missing.",
+    "projectApprovedSuccessfully" : "Project approved successfully.",
+    "projectUnapprovedSuccessfully" : "Project unapproved successfully.",
+    "wantToDeleteProject": "You want to delete this project?",
+    "wantToDeleteNotary": "You want to delete this notary?",
+    "wantToUnblockNotary": "You want to unblock this Notary?",
+    "wantToBlockNotary": "You want to block this Notary?",
+    "uploadingImage": "Uploading Image",
+    "pleaseChooseFile": "Please Choose File",
+    "fileSizeLimit": "File size is more than 25MB."
+  },
+  "inhouseUsers": {
+    "assignedRoles": "Assigned Roles"
+  },
+  "viewProjects": {
+    "label": "Manage Projects",
+    "addBtn": "+Add New Project",
+    "sellerTabOn": "Seller tab on",
+    "addReason": "Add Reason",
+    "addReasonBtn": "Add"
+  },
+  "viewNotary": {
+    "label": "Manage Notaries",
+    "addBtn": "+Add New",
+    "sellerTabOn": "Seller tab on",
+    "addReason": "Add Reason",
+    "addReasonBtn": "Add"
+  },
+  "viewNotaryLeads": {
+    "label": "Manage Notary's Leads",
+    "searchNotary": "Search Notary"
+  }
+}

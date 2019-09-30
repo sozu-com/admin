@@ -18,6 +18,7 @@ import { AclUserGuard } from 'src/app/guards/acl-user.guard';
 import { ProjectDetailsComponent } from './project-details/project-details.component';
 import { SharedModule } from 'src/app/modules/shared.module';
 import { NumberexPipe } from 'src/app/pipes/numberex.pipe';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 const routes: Routes = [
@@ -63,7 +64,8 @@ const routes: Routes = [
     CalendarModule,
     SharedModule,
     LazyLoadImageModule,
-    MalihuScrollbarModule.forRoot()
+    MalihuScrollbarModule.forRoot(),
+    TranslateModule
   ],
   declarations: [
     ProjectsComponent,

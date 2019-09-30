@@ -6,6 +6,7 @@ import { PlatformLocation } from '@angular/common';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { VersionCheckService } from './services/version-check.service';
 import { environment } from 'src/environments/environment';
+import { TranslateService } from '@ngx-translate/core';
 
 declare var $: any;
 
@@ -22,7 +23,11 @@ export class AppComponent implements OnInit {
   constructor(private router: Router, private location: PlatformLocation,
     public interceptor: HttpInterceptor,
     private versionCheckService: VersionCheckService,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService) {
+
+    // translate
+    this.translate.setDefaultLang('es');
 
     // close popup if any opened
     location.onPopState(() => {
@@ -55,4 +60,5 @@ export class AppComponent implements OnInit {
       }, 0);
     });
   }
+
 }

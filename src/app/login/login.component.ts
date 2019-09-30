@@ -6,6 +6,8 @@ import { IProperty } from 'src/app/common/property';
 import { Constant } from 'src/app/common/constants';
 import swal from 'sweetalert2';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
+// import { TranslateService } from '../lang/translate.service';
 
 @Component({
   selector: 'app-login',
@@ -24,10 +26,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
   public parameter: IProperty = {};
 
   constructor(private router: Router, public admin: AdminService, public constant: Constant,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService,
+    public ts: TranslateService) {
     // this.loginForm.reset();
     this.spinner.hide();
-    this.projectName = this.constant.projectName;
 
     // const token =  localStorage.getItem('token');
     // if (token) {
@@ -70,7 +72,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         success => {
           this.spinner.hide();
           if (success.data.is_blocked === 1) {
-            swal('Error', 'You are blocked by admin.', 'error');
+            swal('Error', this.ts.instant('login.blockedByAdmin'), 'error');
             return false;
           }
           if (success.data.permissions) {
@@ -89,7 +91,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
             } else if (success.data.permissions.can_noatary === 1) {
               this.router.navigate(['dashboard/notary/notary-leads']);
             } else {
-              swal('Error', "You don't have permission to access the panel. Kindly contact Admin to proceed.", 'error');
+              swal('Error', this.ts.lang.login.apiMessages.noAccess, 'error');
             }
           } else if (success.data.admin_acl) {
             let check = true;

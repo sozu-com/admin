@@ -38,13 +38,10 @@ export class AddressComponent implements OnInit {
   }
 
 
-
-
   getCountriesNew1(index) {
     this.parameter.statesAdd = []; this.parameter.citiesAdd = []; this.parameter.localitiesAdd = [];
     this.parameter.buildingsAdd = [];
-    this.parameter.url = 'getCountries';
-    this.admin.postDataApi(this.parameter.url, {})
+    this.admin.postDataApi('getCountries', {})
       .subscribe(success => { this.parameter.countriesAdd = success.data; });
   }
 
@@ -55,19 +52,14 @@ export class AddressComponent implements OnInit {
 
   getStatesNew1(country_id, index) {
     this.parameter.citiesAdd = []; this.parameter.localitiesAdd = []; this.parameter.buildingsAdd = [];
-    this.parameter.url = 'country/getStates';
     this.parameter.country_id = country_id;
 
     if (country_id !== '' && country_id !== '0') {
-      this.admin.postDataApi(this.parameter.url, {country_id: country_id})
+      this.admin.postDataApi('country/getStates', {country_id: country_id})
       .subscribe(
         success => {
           this.parameter.statesAdd = success.data;
           this.address.countries = country_id;
-          // this.parameter.statesAdd.push({id: '0', name: 'All', status: 1});
-          // this.parameter.citiesAdd.push({id: '0', name: 'All', status: 1});
-          // this.parameter.localitiesAdd.push({id: '0', name: 'All', status: 1});
-          // this.parameter.buildingsAdd.push({id: '0', name: 'All', status: 1});
           this.address.states = '0'; this.address.cities = '0';
           this.address.localities = '0'; this.address.buildings = '0';
         });
@@ -89,12 +81,6 @@ export class AddressComponent implements OnInit {
     this.address.localities = this.address.localities && setZero === 1 ? '0' : this.address.localities;
     this.address.buildings = this.address.buildings && setZero === 1 ? '0' : this.address.buildings;
 
-    // if (setZero === 1) {
-    //   this.address.states = '0';
-    //   this.address.cities = '0';
-    //   this.address.localities = '0';
-    //   this.address.buildings = '0';
-    // }
     if (country_id === '' || country_id === '0') {
       return false;
     } else {
@@ -109,17 +95,13 @@ export class AddressComponent implements OnInit {
   getCitiesNew1(state_id, index) {
 
     this.parameter.localitiesAdd = [];
-    this.parameter.url = 'getCities';
     this.parameter.state_id = state_id;
 
     if (state_id !== '' && state_id !== '0') {
-      this.admin.postDataApi(this.parameter.url, {state_id: state_id})
+      this.admin.postDataApi('getCities', {state_id: state_id})
       .subscribe(
         success => {
           this.parameter.citiesAdd = success.data;
-          // this.parameter.citiesAdd.push({id: '0', name: 'All', status: 1});
-          // this.parameter.localitiesAdd.push({id: '0', name: 'All', status: 1});
-          // this.parameter.buildingsAdd.push({id: '0', name: 'All', status: 1});
           this.address.states = state_id; this.address.cities = '0';
           this.address.localities = '0'; this.address.buildings = '0';
         });
@@ -139,15 +121,6 @@ export class AddressComponent implements OnInit {
     this.address.localities = this.address.localities && setZero === 1 ? '0' : this.address.localities;
     this.address.buildings = this.address.buildings && setZero === 1 ? '0' : this.address.buildings;
 
-    // this.address.cities = this.address.cities ? this.address.cities : '0';
-    // this.address.localities = this.address.localities ? this.address.localities : '0';
-    // this.address.buildings = this.address.buildings ? this.address.buildings : '0';
-
-    // if (setZero === 1) {
-    //   this.address.cities = '0';
-    //   this.address.localities = '0';
-    //   this.address.buildings = '0';
-    // }
     if (state_id === '' || state_id === '0') {
       return false;
     }
@@ -159,16 +132,13 @@ export class AddressComponent implements OnInit {
 
   getLocalitiesNew1(city_id, index) {
 
-    this.parameter.url = 'getLocalities';
     this.parameter.city_id = city_id;
 
     if (city_id !== '' && city_id !== '0') {
-      this.admin.postDataApi(this.parameter.url, {city_id: city_id})
+      this.admin.postDataApi('getLocalities', {city_id: city_id})
       .subscribe(
         success => {
           this.parameter.localitiesAdd = success.data;
-          // this.parameter.localitiesAdd.push({id: '0', name: 'All', status: 1});
-          // this.parameter.buildingsAdd.push({id: '0', name: 'All', status: 1});
           this.address.cities = city_id; this.address.localities = '0'; this.address.buildings = '0';
         });
     } else {
@@ -185,13 +155,6 @@ export class AddressComponent implements OnInit {
     this.address.localities = this.address.localities && setZero === 1 ? '0' : this.address.localities;
     this.address.buildings = this.address.buildings && setZero === 1 ? '0' : this.address.buildings;
 
-    // this.address.localities = this.address.localities ? this.address.localities : '0';
-    // this.address.buildings = this.address.buildings ? this.address.buildings : '0';
-
-    // if (setZero === 1) {
-    //   this.address.localities = '0';
-    //   this.address.buildings = '0';
-    // }
     if (city_id === '' || city_id === '0') {
       return false;
     }
@@ -203,10 +166,9 @@ export class AddressComponent implements OnInit {
   }
 
   getLocalityBuildings(locality_id, setZero) {
-    this.parameter.url = 'getLocalityBuildings';
     this.parameter.locality_id = locality_id;
     this.parameter.buildingsAdd = [];
-    this.admin.postDataApi(this.parameter.url, {locality_id: locality_id})
+    this.admin.postDataApi('getLocalityBuildings', {locality_id: locality_id})
       .subscribe(
         success => {
           this.parameter.buildingsAdd = success.data;
@@ -214,11 +176,6 @@ export class AddressComponent implements OnInit {
           // this.address.buildings = '0';
 
           this.address.buildings = this.address.buildings && setZero === 1 ? '0' : this.address.buildings;
-
-          // if (setZero === 1) {
-          //   this.address.buildings = '0';
-          // }
-    // this.address.buildings = this.address.buildings ? this.address.buildings : '0';
 
           // this.parameter.buildingsAdd.push({id: '0', name: 'All', status: 1});
           for (let c = 0; c < this.parameter.buildingsAdd.length; c++) {
