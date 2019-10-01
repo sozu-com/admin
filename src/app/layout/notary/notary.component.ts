@@ -93,7 +93,7 @@ export class NotaryComponent implements OnInit {
 
   changeListner(event: any, paramLoader: string, param: any) {
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.translate.instant('message.fileSizeLimit'), 'error');
+      swal('Error', this.translate.instant('message.info.fileSizeLimit'), 'error');
       return false;
     }
     this.model[paramLoader] = true;
@@ -122,7 +122,7 @@ export class NotaryComponent implements OnInit {
     if (file.files && file.files[0]) {
       attachment = file.files[0];
       if (attachment.size > this.constant.fileSizeLimit) {
-        swal('Error', this.translate.instant('message.fileSizeLimit'), 'error');
+        swal('Error', this.translate.instant('message.info.fileSizeLimit'), 'error');
         return false;
       }
       this.spinner.show();
@@ -134,20 +134,20 @@ export class NotaryComponent implements OnInit {
             this.spinner.hide();
             this.fileInput.nativeElement.value = '';
             this.label = this.translate.instant('table.title.chooseNotariesFile');
-            swal('Success', this.translate.instant('message.importedSuccessfully'), 'success');
+            swal('Success', this.translate.instant('message.success.importedSuccessfully'), 'success');
             this.getNoatariesListing(this.parameter.page, '', '', '', '');
           }, error => {
             this.spinner.hide();
           });
     } else {
-      swal('Error', this.translate.instant('message.pleaseChooseFile'), 'error');
+      swal('Error', this.translate.instant('message.info.pleaseChooseFile'), 'error');
       return false;
     }
   }
 
   addNewUser(formData: NgForm) {
     if (this.model.img_loader) {
-      swal('Error', this.translate.instant('message.uploadingImage'), 'error');
+      swal('Error', this.translate.instant('message.error.uploadingImage'), 'error');
       return false;
     }
     this.model.img_loader = false;
@@ -157,8 +157,8 @@ export class NotaryComponent implements OnInit {
         success => {
           this.spinner.hide();
           this.modalClose.nativeElement.click();
-          const text = this.model.id ? this.translate.instant('message.updatedSuccessfully') :
-                                        this.translate.instant('message.addedSuccessfully');
+          const text = this.model.id ? this.translate.instant('message.success.updatedSuccessfully') :
+                                        this.translate.instant('message.success.addedSuccessfully');
           swal('Success', text, 'success');
           if (this.model.id) {
             this.items[this.parameter.index] = success.data;
@@ -187,15 +187,15 @@ export class NotaryComponent implements OnInit {
 
   blockUnblockPopup(index, id, flag) {
     this.parameter.index = index;
-    this.parameter.title = this.translate.instant('message.areYouSure');
+    this.parameter.title = this.translate.instant('message.question.areYouSure');
     switch (flag) {
       case 0:
-        this.parameter.text = this.translate.instant('message.wantToUnblockNotary');
-        this.parameter.successText = this.translate.instant('message.unblockedSuccessfully');
+        this.parameter.text = this.translate.instant('message.question.wantToUnblockNotary');
+        this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
         break;
       case 1:
-      this.parameter.text = this.translate.instant('message.wantToBlockNotary');
-        this.parameter.successText = this.translate.instant('message.blockedSuccessfully');
+      this.parameter.text = this.translate.instant('message.question.wantToBlockNotary');
+        this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
     }
 
@@ -231,8 +231,8 @@ export class NotaryComponent implements OnInit {
   }
 
   deletePopup(item: any, index: number) {
-    this.parameter.title = this.translate.instant('message.areYouSure');
-    this.parameter.text = this.translate.instant('message.wantToDeleteNotary');
+    this.parameter.title = this.translate.instant('message.question.areYouSure');
+    this.parameter.text = this.translate.instant('message.question.wantToDeleteNotary');
 
     swal({
       html: this.parameter.title + '<br>' + this.parameter.text,
@@ -251,7 +251,7 @@ export class NotaryComponent implements OnInit {
   deleteNoatary(item: any, index: number) {
     this.admin.postDataApi('deleteNoatary',
       { id: item.id }).subscribe(r => {
-        swal('Success', this.translate.instant('message.deletedSuccessfully'), 'success');
+        swal('Success', this.translate.instant('message.success.deletedSuccessfully'), 'success');
         this.items.splice(index, 1);
         this.parameter.total--;
       },

@@ -1,7 +1,7 @@
 export const locale = {
-  lang: 'en',
-  data: {
-    app: { // <= namespace for module/component translations
+  'lang': 'en',
+  'data': {
+    'app': { // <= namespace for module/component translations
       // 'Properties': 'Properties',
       // 'Property': 'Property',
       // 'Building': 'Building',
@@ -151,13 +151,13 @@ export const locale = {
         },
         'apiMessages': {
           'blockedByAdmin': 'You are blocked by admin.',
-          'noAccess': "You don't have permission to access the panel. Kindly contact Admin to proceed."
+          'noAccess': `You don't have permission to access the panel. Kindly contact Admin to proceed.`
         }
       },
       'forgotPassword': {
         'form': {
           'header': 'Enter your email',
-          'label': "Don't worry. Resetting your password is easy, just tell us the email address you registered with us.",
+          'label': `Don't worry. Resetting your password is easy, just tell us the email address you registered with us.`,
           'emailPlaceHolder': 'Registered Email',
           'validations': {
             'emailRequired': 'Please enter email.',
@@ -174,12 +174,13 @@ export const locale = {
         },
         'apiMessages': {
           'blockedByAdmin': 'You are blocked by admin.',
-          'noAccess': "You don't have permission to access the panel. Kindly contact Admin to proceed."
+          'noAccess': `You don't have permission to access the panel. Kindly contact Admin to proceed.`
         }
       },
       'pageNotFound': {
         'header': 'Page Not Found',
-        'subHeader': "Sorry, but the page you are looking for has not been found. Try checking the URL for error, then hit the refresh button on your browser or click below button to navigate to home page.",
+        'subHeader': `Sorry, but the page you are looking for has not been found. Try checking the URL for error, then hit the refresh
+        button on your browser or click below button to navigate to home page.`,
         'home': 'HOME'
       },
       'dashboard': {

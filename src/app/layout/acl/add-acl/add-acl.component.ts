@@ -7,6 +7,7 @@ import { Constant } from 'src/app/common/constants';
 import { CommonService } from 'src/app/services/common.service';
 import { AdminService } from 'src/app/services/admin.service';
 import { ACL, Permission } from 'src/app/models/acl.model';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -25,7 +26,8 @@ export class AddAclComponent implements OnInit {
   constructor(public constant: Constant, private cs: CommonService,
     private admin: AdminService, private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService
   ) {
     this.admin.loginData$.subscribe(res => {
       this.parameter.admin_id = res['id'];
@@ -71,7 +73,7 @@ export class AddAclComponent implements OnInit {
 
   changeListner(event: any, paramLoader: string, param: any) {
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
     this.model[paramLoader] = true;

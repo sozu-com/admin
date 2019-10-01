@@ -7,6 +7,7 @@ import { Constant } from 'src/app/common/constants';
 import { Property } from 'src/app/models/property.model';
 import { NgForm } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -24,7 +25,8 @@ export class PropertyComponent implements OnInit {
 
   constructor(private element: ElementRef, private constant: Constant, public property: Property,
     private modalService: BsModalService, public admin: AdminService, private router: Router,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) {
     this.parameter.index = -1;
     this.parameter.countryCount = 0;
@@ -295,7 +297,7 @@ export class PropertyComponent implements OnInit {
     formdata.reset();
     if (name_es === '') {
       swal({
-        text: this.constant.errorMsg.SAVE_ENGLISH_PROPERTY_CONFIG,
+        text: this.translate.instant('message.info.saveEngPropertyConfig'),
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,
@@ -317,7 +319,7 @@ export class PropertyComponent implements OnInit {
     formdata.reset();
     if (name_es === '') {
       swal({
-        text: this.constant.errorMsg.SAVE_ENGLISH_PROPERTY_TYPE,
+        text: this.translate.instant('message.info.saveEngPropertyType'),
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,
@@ -339,7 +341,7 @@ export class PropertyComponent implements OnInit {
     formdata.reset();
     if (name_es === '') {
       swal({
-        text: this.constant.errorMsg.SAVE_ENGLISH_AMENITY,
+        text: this.translate.instant('message.info.saveEngAmenity'),
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,

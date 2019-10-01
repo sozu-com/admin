@@ -13,7 +13,7 @@
         <label class="cust-radio">
             <input [disabled]="sent_as==2" name="looking_for" type="radio" (change)="leadData.prefs.looking_for = 1"
                 [checked]="leadData.prefs.looking_for == 1 ?'checked':''">
-            <span class="checkmark">{{ts.lang.Buy}}</span>
+            <span class="checkmark">{{'leadDetails.buy' | translate}}</span>
         </label>
         <label class="cust-radio">
             <input [disabled]="sent_as==2" name="looking_for" type="radio" (change)="leadData.prefs.looking_for = 2"

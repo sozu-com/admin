@@ -10,6 +10,7 @@ import { IProperty } from 'src/app/common/property';
 import { Constant } from 'src/app/common/constants';
 import { CommonService } from 'src/app/services/common.service';
 import { AdminService } from 'src/app/services/admin.service';
+import { TranslateService } from '@ngx-translate/core';
 declare const google;
 declare let swal: any;
 
@@ -39,7 +40,8 @@ export class AddDeveloperComponent implements OnInit {
     private ngZone: NgZone,
     private admin: AdminService,
     private route: ActivatedRoute,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -82,7 +84,7 @@ export class AddDeveloperComponent implements OnInit {
 
   changeListner(event: any, param: any) {
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
     const reader = new FileReader();

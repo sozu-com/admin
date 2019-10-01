@@ -13,6 +13,7 @@ import { ApiConstants } from 'src/app/common/api-constants';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Manager, Company } from 'src/app/models/company.model';
 import { Developer } from 'src/app/models/global.model';
+import { TranslateService } from '@ngx-translate/core';
 
 declare const google;
 declare let swal: any;
@@ -134,6 +135,8 @@ export class AddProjectComponent implements OnInit {
       checked: false
     }
   ];
+  showPolicy = false;
+  showMaintenance = false;
   showPreferableBuyer = false;
   private single = false;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
@@ -148,7 +151,8 @@ export class AddProjectComponent implements OnInit {
     private apiConstants: ApiConstants,
     private cs: CommonService,
     private element: ElementRef,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) {
   }
 
@@ -184,6 +188,7 @@ export class AddProjectComponent implements OnInit {
           if (r.data['locality']) {
             this.setCountryToLocality(r.data['locality']);
           }
+          this.setMaintenanceAndPolicy(r.data);
           this.setMaritalStatus(r.data);
           this.model.building_tower_edit_index = '-1';
           this.model.floors = 0;
@@ -279,6 +284,7 @@ export class AddProjectComponent implements OnInit {
           if (r.data['locality']) {
             this.setCountryToLocality(r.data['locality']);
           }
+          this.setMaintenanceAndPolicy(r.data);
           this.setMaritalStatus(r.data);
           this.model.building_tower_edit_index = '-1';
           this.model.floors = 0;
@@ -408,6 +414,12 @@ export class AddProjectComponent implements OnInit {
     this.getCities(locality.city.state.id, '');
     this.getLocalities(locality.city.id, '');
     this.setValue('locality_id', locality.id);
+  }
+
+  setMaintenanceAndPolicy(data) {
+    this.model.policies = data.policies;
+    this.model.maintenance = data.maintenance;
+    this.model.maintenance_cost = data.maintenance_cost;
   }
 
   setMaritalStatus(data) {
@@ -1724,7 +1736,7 @@ export class AddProjectComponent implements OnInit {
 
   showCanvas(event) {
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
     } else {
 
       setTimeout(() => {
@@ -1812,7 +1824,7 @@ export class AddProjectComponent implements OnInit {
       if (event.target.files[index].size < this.constant.fileSizeLimit) {
         this.amenVideo.files.push(event.target.files[index]);
       } else {
-        swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+        swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
       }
     }
 

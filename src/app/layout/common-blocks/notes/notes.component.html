@@ -42,7 +42,7 @@
 </div>
 <div  *ngIf="parameter.items?.length==0" class="write-note white-bg" [ngStyle]="{'height':sent_as === 1 ? '230px' : '245px' }">
   <p class="show-not-found">
-    {{constant.errorMsg.NO_NOTE_FOUND}}
+      {{'message.error.noNoteFound' | translate}}
   </p>
 </div>
 

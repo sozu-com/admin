@@ -349,7 +349,7 @@
                     <td class="text-left" title="CSR Closer">
                         {{item.closer.name | titlecase}}
                     </td>
-                    <td class="text-left" *ngIf="item.sale_rent">{{item.sale_rent==1 ? ts.lang.Buy : 'Rent'}}</td>
+                    <td class="text-left" *ngIf="item.sale_rent">{{item.sale_rent==1 ? ('leadDetails.buy' | translate) : 'Rent'}}</td>
                     <!-- <td>
                         <a href="javascript://" title="View Details" routerLink="/dashboard/leads/csr-closers/{{item.id}}" class="icon-block edit-icon"><img src="assets/img/viewfull.png" alt="img"></a>
                     </td> -->

@@ -6,6 +6,7 @@ import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
 import { CommonService } from 'src/app/services/common.service';
 import { Constant } from 'src/app/common/constants';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -44,7 +45,8 @@ export class ChatComponent implements OnInit {
     private cs: CommonService,
     public model: Chat,
     public constant: Constant,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -169,7 +171,7 @@ export class ChatComponent implements OnInit {
 
   onSelectFile(param, event) {
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
     } else {
       this.optionsButton.nativeElement.click();
 
@@ -212,7 +214,7 @@ export class ChatComponent implements OnInit {
   saveAttachment(event) {
 
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
     } else {
       this.optionsButton.nativeElement.click();
       const model = new Chat;
@@ -247,7 +249,7 @@ export class ChatComponent implements OnInit {
 
   showCanvas(event) {
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
     } else {
       this.optionsButton.nativeElement.click();
       const model = new Chat;

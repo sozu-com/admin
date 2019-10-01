@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   constructor(private router: Router, public admin: AdminService, public constant: Constant,
     private spinner: NgxSpinnerService,
-    public ts: TranslateService) {
+    public translate: TranslateService) {
     // this.loginForm.reset();
     this.spinner.hide();
 
@@ -72,7 +72,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         success => {
           this.spinner.hide();
           if (success.data.is_blocked === 1) {
-            swal('Error', this.ts.instant('login.blockedByAdmin'), 'error');
+            swal('Error', this.translate.instant('login.blockedByAdmin'), 'error');
             return false;
           }
           if (success.data.permissions) {
@@ -91,7 +91,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
             } else if (success.data.permissions.can_noatary === 1) {
               this.router.navigate(['dashboard/notary/notary-leads']);
             } else {
-              swal('Error', this.ts.lang.login.apiMessages.noAccess, 'error');
+              swal('Error', this.translate.instant('login.apiMessages.noAccess'), 'error');
             }
           } else if (success.data.admin_acl) {
             let check = true;

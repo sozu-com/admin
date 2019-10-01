@@ -11,6 +11,7 @@ import { CommonService } from 'src/app/services/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdminService } from 'src/app/services/admin.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 declare const google;
 
@@ -51,7 +52,8 @@ export class InhouseUsersComponent implements OnInit {
     public model: UserModel, private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
     public admin: AdminService, private router: Router,
-    private ngZone: NgZone) {
+    private ngZone: NgZone,
+    private translate: TranslateService) {
     this.admin.countryData$.subscribe(success => {
       this.parameter.allCountry = success;
     });
@@ -228,7 +230,7 @@ export class InhouseUsersComponent implements OnInit {
 
   changeListner(event: any, paramLoader: string, param: any) {
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
     this.model[paramLoader] = true;

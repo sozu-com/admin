@@ -97,7 +97,7 @@
 
                 <div *ngIf="parameter.total == 0">
                   <p class="show-not-found">
-                    {{constant.errorMsg.NO_CONFIGURATION_FOUND}}
+                      {{'message.error.noPropertyConfigFound' | translate}}
                   </p>
                 </div>
             </table>
@@ -168,7 +168,7 @@
 
               <div *ngIf="parameter.total == 0">
                 <p class="show-not-found">
-                  {{constant.errorMsg.NO_PROPERTY_TYPE_FOUND}}
+                    {{'message.error.noPropertyTypeFound' | translate}}
                 </p>
               </div>
           </table>

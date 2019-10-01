@@ -100,7 +100,7 @@
                 </div>
                 <div  *ngIf="parameter?.data?.notes?.length==0" class="write-note white-bg" style="height:230px;">
                     <p class="show-not-found">
-                        {{constant.errorMsg.NO_NOTE_FOUND}}
+                            {{'message.error.noNoteFound' | translate}}
                     </p>
                 </div>
             </div>

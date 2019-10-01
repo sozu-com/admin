@@ -6,6 +6,7 @@ import { Constant } from 'src/app/common/constants';
 import { Document } from 'src/app/models/document.model';
 import { NgForm } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -24,7 +25,8 @@ export class DocumentsComponent implements OnInit {
     public constant: Constant,
     private modalService: BsModalService,
     public admin: AdminService,
-    public model: Document, private spinner: NgxSpinnerService
+    public model: Document, private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) {
   }
 
@@ -117,7 +119,7 @@ export class DocumentsComponent implements OnInit {
     const self = this;
     if (name_es === undefined) {
       swal({
-        text: this.constant.errorMsg.SAVE_ENGLISH_DOCUMENT_NAME,
+        text: this.translate.instant('message.info.saveEngDocumentName'),
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,

@@ -45,10 +45,10 @@ export class DashboardComponent {
 
 
   getReportData() {
-    this.spinner.show();
     this.parameter.noResultFound = false;
    // const input = {start_date: this.parameter.min, end_date: this.parameter.max};
     const input = {start_date: moment(this.parameter.min).format('YYYY-MM-DD'), end_date: moment(this.parameter.max).format('YYYY-MM-DD')};
+    this.spinner.show();
     this.admin.postDataApi('dashboard', input).subscribe(
     success => {
       this.spinner.hide();

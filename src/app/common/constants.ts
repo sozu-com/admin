@@ -63,43 +63,6 @@ export class Constant {
         7: 'Deleted'
     };
 
-    public errorMsg: any = {
-        COUNTRY_NAME_REQUIRED : 'Please enter country.',
-        STATE_NAME_REQUIRED : 'Please enter state.',
-        CITY_NAME_REQUIRED : 'Please enter city.',
-        PROPERTY_TYPE_REQUIRED : 'Please enter name.',
-        PRICE_PER_SQFT_REQUIRED: 'Please enter price per sqmt.',
-        PRICE_PER_SQFT_MIN: 'Price per sqmt must be greater than 1',
-        FILE_REQUIRED : 'Please choose file.',
-        PROPERTY_CONFIG_REQUIRED : 'Please enter name.',
-        MISSING_COUNTRY_NAME_ES : 'Country name is missing in spanish.',
-        SAVE_ENGLISH_COUNTRY_NAME : 'Please add country name in Spanish or we will update it same as in English.',
-        SAVE_ENGLISH_STATE_NAME : 'Please add state name in Spanish or we will update it same as in English.',
-        SAVE_ENGLISH_CITY_NAME : 'Please add city name in Spanish or we will update it same as in English.',
-        SAVE_ENGLISH_PROPERTY_CONFIG : 'Please add property configuration in Spanish or we will update it same as in English.',
-        SAVE_ENGLISH_PROPERTY_TYPE : 'Please add property type in Spanish or we will update it same as in English.',
-        SAVE_ENGLISH_AMENITY : 'Please add amenity in Spanish or we will update it same as in English.',
-        SAVE_ENGLISH_PROJECT_POSSESION : 'Please add possession status in Spanish or we will update it same as in English.',
-        SAVE_ENGLISH_PROJECT_TYPE : 'Please add property type in Spanish or we will update it same as in English.',
-        SAVE_ENGLISH_PROJECT_AMENITY : 'Please add amenity in Spanish or we will update it same as in English.',
-        SAVE_ENGLISH_DOCUMENT_NAME : 'Please add document name in Spanish or we will update it same as in English.',
-        NO_COUNTRY_FOUND : 'No country found!',
-        NO_STATE_FOUND : 'No state found!',
-        NO_CITY_FOUND : 'No city found!',
-        NO_LOCATION_FOUND: 'No location found!',
-        NO_LOCALITY_FOUND: 'No locality found!',
-        NO_CONFIGURATION_FOUND : 'No property configuration found!',
-        NO_PROPERTY_TYPE_FOUND : 'No property type found!',
-        NO_AMENITY_FOUND : 'No amenity found!',
-        NO_POSSESSION_FOUND : 'No project possession status found!',
-        NO_PROJECT_TYPE_FOUND : 'No project type found!',
-        NO_PROJECT_AMENITY_FOUND : 'No amenity found!',
-        NO_USER_FOUND : 'No user found!',
-        NO_INTERESTED_PROPERTY_FOUND : 'No interests added by user.',
-        NO_VIEWED_PROPERTY_FOUND : 'No property or project viewed by you.',
-        NO_NOTE_FOUND : 'No notes to show.',
-        FILE_SIZE_EXCEEDS : 'The file you have selected is too large. The maximum size is 25MB.'
-    };
     public successMsg: any = {
         COUNTRY_ADDED_SUCCESSFULLY : 'Country added successfully',
         COUNTRY_UPDATED_SUCCESSFULLY: 'Country updated successfully',

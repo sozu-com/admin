@@ -8,6 +8,7 @@ import { Locality } from 'src/app/models/locality.model';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 declare const google;
 
@@ -49,7 +50,8 @@ export class LocalityComponent implements OnInit {
     private ngZone: NgZone,
     private constant: Constant,
     public model: Locality,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -297,6 +299,7 @@ export class LocalityComponent implements OnInit {
           google.maps.event.addListener(drawingManager, 'overlaycomplete', event => {
 
             this.parameter.overlay = this.getPolygonCoords(event.overlay);
+            this.model.status = '1';
             this.localityOpen.nativeElement.click();
 
             // this.swal.prompt({
@@ -358,12 +361,21 @@ export class LocalityComponent implements OnInit {
     });
   }
 
+  editLocality(id: string, name_en: string, name_es: string, price_per_sqft: string, status: string, poly_coordinates: string) {
+    this.model.id = id;
+    this.model.name_en = name_en;
+    this.model.name_es = name_es;
+    this.model.price_per_sqft = price_per_sqft;
+    this.model.status = status;
+    this.parameter.overlay = JSON.parse(poly_coordinates);
+    this.localityOpen.nativeElement.click();
+  }
 
-  checkIfLocalitySpanishNameEntered(name_en, name_es, price_per_sqft) {
+  checkIfLocalitySpanishNameEntered(name_en: string, name_es: string, price_per_sqft: string) {
     const self = this;
     if (name_es === '') {
       swal({
-        text: this.constant.errorMsg.SAVE_ENGLISH_COUNTRY_NAME,
+        text: this.translate.instant('message.info.saveEngCountryName'),
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,
@@ -385,25 +397,29 @@ export class LocalityComponent implements OnInit {
     this.getLocalities(this.parameter.city_id, '');
   }
 
-  addLocality(name_en, name_es, price_per_sqft) {
+  addLocality(name_en: string, name_es: string, price_per_sqft: string) {
     // this.localityClose.nativeElement.click();
+    this.spinner.show();
     const locality = {
       name_en: name_en,
       name_es: name_es,
       price_per_sqft: price_per_sqft,
       coordinates: this.parameter.overlay,
       poly_coordinates: JSON.stringify(this.parameter.overlay),
-      status: '1',
+      status: this.model.status,
       city_id: this.parameter.city_id,
-      overlay: this.parameter.overlay
+      overlay: this.parameter.overlay,
+      id: this.model.id ? this.model.id : ''
     };
     delete locality.overlay;
-
+    this.spinner.show();
     this.admin.postDataApi('addLocality', locality).subscribe(
       r => {
-        // this.all_overlays.push(r.data);
+        this.spinner.hide();
         this.closeModal();
         // this.init();
+      }, error => {
+        this.spinner.hide();
       });
   }
 
@@ -414,6 +430,7 @@ export class LocalityComponent implements OnInit {
     for (let i = 0; i < len; i++) {
       coordinates_array.push(newShape.getPath().getAt(i).toUrlValue(6));
     }
+    console.log('--array', coordinates_array);
     return coordinates_array;
   }
 
@@ -529,6 +546,27 @@ export class LocalityComponent implements OnInit {
     });
   }
 
+  deleteLocality(locality, index: number) {
+    this.parameter.index = index;
+    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    swal({
+      html: this.parameter.title + '<br>' + 'You want to delete this locality?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.admin.postDataApi('deleteLocality', {id: locality.id}).subscribe(
+          r => {
+            this.parameter.localities.splice(index, 1);
+            swal('Success', 'Deleted successfully.', 'success');
+          });
+      }
+    });
+  }
+
   removeSelection(locality, index, status) {
     locality.status = status;
     // this.all_overlays.splice(index,1);
@@ -598,12 +636,13 @@ export class LocalityComponent implements OnInit {
   }
 
   loadPlaces() {
-
+console.log('---');
     // load Places Autocomplete
     this.loader.load().then(() => {
       const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
         types: []
       });
+      console.log('aaautpc');
       autocomplete.addListener('place_changed', () => {
         this.ngZone.run(() => {
           // get the place result

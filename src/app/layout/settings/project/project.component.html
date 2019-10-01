@@ -77,7 +77,7 @@
 
                 <div *ngIf="parameter.total == 0">
                   <p class="show-not-found">
-                    {{constant.errorMsg.NO_POSSESSION_FOUND}}
+                      {{'message.error.noPossessionFound' | translate}}
                   </p>
                 </div>
             </table>
@@ -151,7 +151,7 @@
 
               <div *ngIf="parameter.projectTypesCount == 0">
                 <p class="show-not-found">
-                  {{constant.errorMsg.NO_PROJECT_TYPE_FOUND}}
+                    {{'message.error.noProjectTypeFound' | translate}}
                 </p>
               </div>
           </table>
@@ -249,7 +249,7 @@
 
               <div *ngIf="parameter.amenitiesCount == 0">
                   <p class="show-not-found">
-                    {{constant.errorMsg.NO_PROJECT_AMENITY_FOUND}}
+                      {{'message.error.noProjectAmenityFound' | translate}}
                   </p>
                 </div>
             </table>

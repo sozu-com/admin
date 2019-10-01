@@ -84,6 +84,9 @@ export class AddProjectModel {
   company?: Company;
   company_id: number;
   selected?: boolean;
+  policies?: string;
+  maintenance_cost?: string;
+  maintenance?: string;
 }
 
 

@@ -7,6 +7,7 @@ import { Constant } from 'src/app/common/constants';
 import { Project, Amenities } from 'src/app/models/project.model';
 import { NgForm } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -24,7 +25,8 @@ export class ProjectComponent implements OnInit {
 
   constructor(private element: ElementRef, private constant: Constant, public project: Project,
     private modalService: BsModalService, public admin: AdminService,
-    public amenityModel: Amenities, private spinner: NgxSpinnerService
+    public amenityModel: Amenities, private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) {
     this.parameter.index = -1;
     this.parameter.countryCount = 0;
@@ -284,7 +286,7 @@ export class ProjectComponent implements OnInit {
     formdata.reset();
     if (name_es === '') {
       swal({
-        text: this.constant.errorMsg.SAVE_ENGLISH_PROJECT_POSSESION,
+        text: this.translate.instant('message.info.saveEngProjectPossession'),
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,
@@ -306,7 +308,7 @@ export class ProjectComponent implements OnInit {
     formdata.reset();
     if (name_es === '') {
       swal({
-        text: this.constant.errorMsg.SAVE_ENGLISH_PROJECT_TYPE,
+        text: this.translate.instant('message.info.saveEngProjectType'),
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,
@@ -328,7 +330,7 @@ export class ProjectComponent implements OnInit {
     formdata.reset();
     if (name_es === '') {
       swal({
-        text: this.constant.errorMsg.SAVE_ENGLISH_AMENITY,
+        text: this.translate.instant('message.info.saveEngAmenity'),
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,

@@ -6,6 +6,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Constant } from 'src/app/common/constants';
 import { CommonService } from 'src/app/services/common.service';
 import { ACL } from 'src/app/models/acl.model';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -23,7 +24,8 @@ export class EditProfileComponent implements OnInit {
     public constant: Constant,
     private admin: AdminService,
     private cs: CommonService,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService) { }
 
   ngOnInit() {
     this.model = new ACL();
@@ -61,7 +63,7 @@ export class EditProfileComponent implements OnInit {
 
   changeListner(event: any, paramLoader: string, param: any) {
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
     this.model[paramLoader] = true;

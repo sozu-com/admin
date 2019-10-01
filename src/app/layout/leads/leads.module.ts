@@ -35,6 +35,7 @@ import { ViewedProjectsComponent } from '../common-blocks/viewed-projects/viewed
 import { SellerChatComponent } from './csr-seller/csr-seller-detail/seller-chat/seller-chat.component';
 import { OutsideBrokerComponent } from './outside-broker/outside-broker.component';
 import { OutsideBrokerDetailComponent } from './outside-broker/outside-broker-detail/outside-broker-detail.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 const routes: Routes = [
   {
@@ -145,7 +146,8 @@ const routes: Routes = [
     NgMultiSelectDropDownModule.forRoot(),
     NgxChartsModule,
     SharedModule,
-    CalendarModule
+    CalendarModule,
+    TranslateModule
     // LayoutModule
     // NgBoxModule
   ],

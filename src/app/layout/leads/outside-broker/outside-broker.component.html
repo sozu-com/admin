@@ -332,13 +332,13 @@
                         </td>
                         <td class="text-left" title="Outside Broker" *ngIf="item?.broker?.name">{{item.broker.name | titlecase}}</td>
                         <td class="text-left" *ngIf="!item?.admin?.name">Not Assigned</td>
-                        <td class="text-left" *ngIf="item.sale_rent">{{item.sale_rent==1 ? ts.lang.Buy : 'Rent'}}</td>
+                        <td class="text-left" *ngIf="item.sale_rent">{{item.sale_rent==1 ? ('leadDetails.buy' | translate) : 'Rent'}}</td>
                         <td class="text-left">
                             <a *ngIf="admin?.admin_acl['Outside Broker Lead Management']?.can_update==0" class="green-color fontW500" href="javascript://">
-                                Change to {{item.sale_rent==1 ? 'Rent' : ts.lang.Buy}}
+                                Change to {{item.sale_rent==1 ? 'Rent' : ('leadDetails.buy' | translate)}}
                             </a>
                             <a *ngIf="admin?.admin_acl['Outside Broker Lead Management']?.can_update==1" class="green-color fontW500" (click)="updateLeadType($event, item.sale_rent==1?'2':'1', item.id, in)" href="javascript://">
-                                Change to {{item.sale_rent==1 ? 'Rent' : ts.lang.Buy}}
+                                Change to {{item.sale_rent==1 ? 'Rent' : ('leadDetails.buy' | translate)}}
                             </a>
                         </td>
                         <!-- <td>

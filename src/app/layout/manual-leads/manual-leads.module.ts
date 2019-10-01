@@ -13,6 +13,7 @@ import { ManualLeadsComponent } from './manual-leads.component';
 import { ManualLeadDetailsComponent } from './manual-lead-details/manual-lead-details.component';
 import { SharedModule } from '../../modules/shared.module';
 import { AclUserGuard } from '../../guards/acl-user.guard';
+import { TranslateModule } from '@ngx-translate/core';
 
 const routes: Routes = [
   // { path: '', component: ManualLeadsComponent }
@@ -36,7 +37,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     Ng2TelInputModule,
     MalihuScrollbarModule.forRoot(),
-    SharedModule
+    SharedModule,
+    TranslateModule
   ],
   declarations: [
     ManualLeadsComponent,

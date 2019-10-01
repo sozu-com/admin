@@ -3,13 +3,14 @@ import * as io from 'socket.io-client';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { IProperty } from 'src/app/common/property';
 import { Chat } from 'src/app/models/chat.model';
-import { ScheduleMeeting, NotaryAssigned, BankAssigned, SelectedProperties, Leads } from 'src/app/models/leads.model';
+import { SelectedProperties, Leads } from 'src/app/models/leads.model';
 import { AdminService } from 'src/app/services/admin.service';
 import { CommonService } from 'src/app/services/common.service';
 import { Constant } from 'src/app/common/constants';
 import { AddPropertyModel } from 'src/app/models/addProperty.model';
 import { UserModel } from 'src/app/models/inhouse-users.model';
 import { Users } from 'src/app/models/users.model';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -92,17 +93,13 @@ export class ChatTabsComponent implements OnInit {
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
 
   model: Chat;
-  // selectedProperties: SelectedProperties;
   constructor(
     public admin: AdminService,
     private cs: CommonService,
     public constant: Constant,
-    // public scheduleMeeting: ScheduleMeeting,
-    // public bankModel: BankAssigned,
-    // public notaryModel: NotaryAssigned,
-    // public model: Chat,
     private element: ElementRef,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -203,7 +200,7 @@ export class ChatTabsComponent implements OnInit {
   onSelectFile(param, event) {
     this.optionsButton.nativeElement.click();
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
 
@@ -244,7 +241,7 @@ export class ChatTabsComponent implements OnInit {
     this.optionsButton.nativeElement.click();
 
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
 
@@ -281,7 +278,7 @@ export class ChatTabsComponent implements OnInit {
     this.optionsButton.nativeElement.click();
 
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
 

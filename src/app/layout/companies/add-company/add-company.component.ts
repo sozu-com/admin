@@ -9,6 +9,7 @@ import { Constant } from 'src/app/common/constants';
 import { CommonService } from 'src/app/services/common.service';
 import { AdminService } from 'src/app/services/admin.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 declare const google: any;
 declare let swal: any;
 
@@ -35,7 +36,8 @@ export class AddCompanyComponent implements OnInit {
     private ngZone: NgZone,
     private admin: AdminService,
     private route: ActivatedRoute,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -68,7 +70,7 @@ export class AddCompanyComponent implements OnInit {
 
   changeListner(event: any, paramLoader: string, param: any) {
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
     this.model[paramLoader] = true;

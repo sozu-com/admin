@@ -16,6 +16,7 @@ import { ChatTabsComponent } from '../layout/common-blocks/chat-tabs/chat-tabs.c
 import { PricePipe } from '../pipes/price.pipe';
 import { PropertyConfigurationComponent } from '../layout/common-blocks/property-configuration/property-configuration.component';
 import { PercentagePipe } from '../pipes/percentage.pipe';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import { PercentagePipe } from '../pipes/percentage.pipe';
     ReactiveFormsModule,
     MalihuScrollbarModule.forRoot(),
     NgxPaginationModule,
-    LazyLoadImageModule
+    LazyLoadImageModule,
+    TranslateModule
   ],
   declarations: [
     ChatComponent,

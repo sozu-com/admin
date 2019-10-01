@@ -9,6 +9,7 @@ import { AdminService } from 'src/app/services/admin.service';
 import { CommonService } from 'src/app/services/common.service';
 import { Constant } from 'src/app/common/constants';
 import { LeadsService } from 'src/app/services/leads.service';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -103,7 +104,8 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     public model: Chat,
     private element: ElementRef,
     private spinner: NgxSpinnerService,
-    public leadsService: LeadsService
+    public leadsService: LeadsService,
+    private translate: TranslateService
   ) {
     this.admin.loginData$.subscribe(success => {
       this.parameter.admin_id = success['id'];
@@ -462,7 +464,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   onSelectFile(param, event) {
     this.optionsButton.nativeElement.click();
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
 
@@ -503,7 +505,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     this.optionsButton.nativeElement.click();
 
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
 
@@ -540,7 +542,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     this.optionsButton.nativeElement.click();
 
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
 

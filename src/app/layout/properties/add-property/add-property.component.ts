@@ -15,7 +15,7 @@ import { CommonService } from 'src/app/services/common.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpInterceptor } from 'src/app/services/http-interceptor';
 import { from } from 'rxjs';
-import { TranslateService } from 'src/app/lang/translate.service';
+import { TranslateService } from '@ngx-translate/core';
 
 declare const google;
 declare let swal: any;
@@ -84,7 +84,7 @@ export class AddPropertyComponent implements OnInit {
     }
   ];
   availabilityStatus = [
-    { id: '1', name: this.ts.lang.Buy, checked: false },
+    { id: '1', name: this.translate.instant('leadDetails.buy'), checked: false },
     { id: '2', name: 'Rent', checked: false },
     { id: '3', name: 'Inventory', checked: false }];
   imageEvent = [];
@@ -122,7 +122,7 @@ export class AddPropertyComponent implements OnInit {
     private http: HttpInterceptor,
     private spinner: NgxSpinnerService,
     private element: ElementRef,
-    public ts: TranslateService) {
+    private translate: TranslateService) {
 
     this.us.globalSettings$.subscribe(suc1 => {
       this.parameter.bulk_approve_property = suc1['bulk_approve_property'];
@@ -1359,7 +1359,7 @@ export class AddPropertyComponent implements OnInit {
 
   showCanvas(event) {
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
     } else {
 
       setTimeout(() => {
@@ -1616,7 +1616,7 @@ export class AddPropertyComponent implements OnInit {
       if (event.target.files[index].size < this.constant.fileSizeLimit) {
         this.amenVideo.files.push(event.target.files[index]);
       } else {
-        swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+        swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
       }
     }
 

@@ -6,6 +6,7 @@ import { IProperty } from 'src/app/common/property';
 import { Constant } from 'src/app/common/constants';
 import { AdminService } from 'src/app/services/admin.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -27,7 +28,8 @@ export class BanksComponent implements OnInit {
   constructor(public constant: Constant,
     public admin: AdminService,
     private spinner: NgxSpinnerService,
-    public cs: CommonService) { }
+    public cs: CommonService,
+    private translate: TranslateService) { }
 
   ngOnInit() {
     this.model = new Bank();
@@ -86,7 +88,7 @@ export class BanksComponent implements OnInit {
 
   changeListner(event: any, paramLoader: string, param: any) {
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
     this.model[paramLoader] = true;

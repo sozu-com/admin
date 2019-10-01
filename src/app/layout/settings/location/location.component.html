@@ -74,7 +74,7 @@
 
             <div class="error-border" *ngIf="parameter.countries1?.length == 0">
               <p class="show-not-found">
-                {{constant.errorMsg.NO_COUNTRY_FOUND}}
+                  {{'message.error.noCountryFound' | translate}}
               </p>
             </div>
           </div>
@@ -150,7 +150,7 @@
 
             <div class="error-border" *ngIf="parameter.states1?.length == 0">
               <p class="show-not-found">
-                {{constant.errorMsg.NO_STATE_FOUND}}
+                  {{'message.error.noStateFound' | translate}}
               </p>
             </div>
           </div>
@@ -234,14 +234,14 @@
 
           <div class="error-border" *ngIf="parameter.states2?.length == 0; else cityNotFound">
             <p class="show-not-found">
-              {{constant.errorMsg.NO_STATE_FOUND}}
+                {{'message.error.noStateFound' | translate}}
             </p>
           </div>
 
           <ng-template #cityNotFound>
             <div class="error-border" *ngIf="parameter.cities1?.length == 0">
               <p class="show-not-found">
-                {{constant.errorMsg.NO_CITY_FOUND}}
+                  {{'message.error.noCityFound' | translate}}
               </p>
             </div>
           </ng-template>

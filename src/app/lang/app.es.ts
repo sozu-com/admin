@@ -1,7 +1,7 @@
 export const locale = {
-  lang: 'es',
-  data: {
-    app: { // <= namespace for module/component translations
+  'lang': 'es',
+  'data': {
+    'app': { // <= namespace for module/component translations
       // 'Properties': 'Properties',
       // 'Property': 'Property',
       // 'Building': 'Building',

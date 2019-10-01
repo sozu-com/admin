@@ -5,6 +5,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Location } from 'src/app/models/location.model';
 import { Constant } from 'src/app/common/constants';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -24,7 +25,8 @@ export class LocationComponent implements OnInit {
   searchCity: string;
 
   constructor(private location: Location, private constant: Constant,
-    private modalService: BsModalService, public admin: AdminService, private spinner: NgxSpinnerService
+    private modalService: BsModalService, public admin: AdminService, private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -172,7 +174,7 @@ export class LocationComponent implements OnInit {
     const self = this;
     if (name_es === '') {
       swal({
-        text: this.constant.errorMsg.SAVE_ENGLISH_COUNTRY_NAME,
+        text: this.translate.instant('message.info.saveEngCountryName'),
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,
@@ -227,7 +229,7 @@ export class LocationComponent implements OnInit {
     const self = this;
     if (name_es === '') {
       swal({
-        text: this.constant.errorMsg.SAVE_ENGLISH_STATE_NAME,
+        text: this.translate.instant('message.info.saveEngStateName'),
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,
@@ -288,7 +290,7 @@ export class LocationComponent implements OnInit {
     const self = this;
     if (name_es === '') {
       swal({
-        text: this.constant.errorMsg.SAVE_ENGLISH_CITY_NAME,
+        text: this.translate.instant('message.info.saveEngCityName'),
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,

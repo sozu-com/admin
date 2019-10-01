@@ -13,7 +13,8 @@
             <div class="form-group-3">
               <label>Add Images</label>
               <div class="upload-cover-img">
-                <img [src]="file1.image" [defaultImage]="file1.image| img:'thumb'" [lazyLoad]="file1.image" onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
+                <img [src]="file1.image" [defaultImage]="file1.image| img:'thumb'" [lazyLoad]="file1.image"
+                  onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
                 <div *ngIf="!file1.image" class="upload-caption">
                   <p class="green-color marginT30">+Upload Cover image for the project</p>
                   <p>JPG or PNG. Image size should be 1920 × 1080 pixels (for HiDPI displays).</p>
@@ -27,10 +28,13 @@
             <div class="form-group-3">
               <label>Add More Images</label>
               <div class="add-project-img-more marginT0">
-                <img *ngIf="model.images?.length>0" [src]="model.images[0]?.image" onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
+                <img *ngIf="model.images?.length>0" [src]="model.images[0]?.image"
+                  onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
                 <div class="upload-caption">
-                  <p *ngIf="model?.images?.length > 1" class="number" (click)="modelOpenFun()">+{{model?.images?.length-1}}</p>
-                  <p *ngIf="model?.images?.length <= 1" class="green-color"  (click)="modelOpenFun()">+ Add more images</p>
+                  <p *ngIf="model?.images?.length > 1" class="number" (click)="modelOpenFun()">
+                    +{{model?.images?.length-1}}</p>
+                  <p *ngIf="model?.images?.length <= 1" class="green-color" (click)="modelOpenFun()">+ Add more images
+                  </p>
                 </div>
               </div>
             </div>
@@ -38,10 +42,13 @@
             <div class="form-group-3">
               <label>Add 360<span>&#176;</span> Images</label>
               <div class="add-project-img-more marginT0">
-                <img *ngIf="model.images360?.length>0" [src]="model.images360[0]?.image" onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
+                <img *ngIf="model.images360?.length>0" [src]="model.images360[0]?.image"
+                  onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
                 <div class="upload-caption">
-                  <p *ngIf="model?.images360?.length > 1" class="number" (click)="modelOpen360ImgFun()">+{{model?.images360?.length-1}}</p>
-                  <p *ngIf="model?.images360?.length <= 1" class="green-color"  (click)="modelOpen360ImgFun()">+ Add more 360<span>&#176;</span> images</p>
+                  <p *ngIf="model?.images360?.length > 1" class="number" (click)="modelOpen360ImgFun()">
+                    +{{model?.images360?.length-1}}</p>
+                  <p *ngIf="model?.images360?.length <= 1" class="green-color" (click)="modelOpen360ImgFun()">+ Add more
+                    360<span>&#176;</span> images</p>
                 </div>
               </div>
             </div>
@@ -50,10 +57,13 @@
               <label>Add Videos </label>
               <div class="add-project-img-more marginT0">
                 <div class="add-project-img-more marginT0">
-                  <img *ngIf="model.videos?.length>0" [src]="model.videos[0]?.thumb" onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
+                  <img *ngIf="model.videos?.length>0" [src]="model.videos[0]?.thumb"
+                    onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
                   <div class="upload-caption">
-                    <p *ngIf="model?.videos?.length > 1" class="number" (click)="modelOpenVideos()">+{{model?.videos?.length-1}}</p>
-                    <p *ngIf="model?.videos?.length <= 1" class="green-color"  (click)="modelOpenVideos()">+ Add more videos</p>
+                    <p *ngIf="model?.videos?.length > 1" class="number" (click)="modelOpenVideos()">
+                      +{{model?.videos?.length-1}}</p>
+                    <p *ngIf="model?.videos?.length <= 1" class="green-color" (click)="modelOpenVideos()">+ Add more
+                      videos</p>
                   </div>
                 </div>
                 <!--<video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'" src="{{videoSrc}}" class="video55 floor-plan" autoplay type="video/mp4" controls></video>-->
@@ -61,24 +71,25 @@
                 <!--&lt;!&ndash; if want to give play option &ndash;&gt;-->
                 <!--<img *ngIf="model?.videos && model?.videos[0]" class="ui bordered small image" [src]="model?.videos[0]?.thumb" onerror="this.src='assets/img/placeholder.png'">-->
                 <!--&lt;!&ndash; <img *ngIf="model.videoLoader==false" class="vid-icon" (click)="playVideo(i)" src="assets/img/play-button.png" /> &ndash;&gt;-->
-  <!---->
+                <!---->
 
                 <!--<div *ngIf="model.videoLoader" class="loaderr"></div>-->
                 <!--<input type="file" name="" accept="video/*" (change)="showCanvas($event)">-->
                 <!--<div class="upload-caption">-->
-                  <!--<p class="green-color marginT30">+ Add Video</p>-->
+                <!--<p class="green-color marginT30">+ Add Video</p>-->
                 <!--</div>-->
                 <!--<canvas width="800" height="600" id="canvas"></canvas>-->
               </div>
             </div>
-            
-           </div>
+
+          </div>
           <div class="col-md-7 col-sm-12 col-12">
             <div class="row">
               <div class="col-sm-12 col-12">
                 <div class="form-group-3">
                   <label>Name of the Building <span class="color-red">*</span></label>
-                  <input class="form-control" type="text" [pattern]="constant.onlyWhiteSpaces" [(ngModel)]="model.name" name="name" placeholder="Enter name of building" autocomplete="off" required>
+                  <input class="form-control" type="text" [pattern]="constant.onlyWhiteSpaces" [(ngModel)]="model.name"
+                    name="name" placeholder="Enter name of building" autocomplete="off" required>
                 </div>
               </div>
 
@@ -86,7 +97,8 @@
               <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                 <div class="form-group-3">
                   <label class="p16-two">Select Country <span class="color-red">*</span></label>
-                  <select title="Choose Country" name="country" required class="form-control" (change)="getStates($event.target.value, '')">
+                  <select title="Choose Country" name="country" required class="form-control"
+                    (change)="getStates($event.target.value, '')">
                     <option value="" disabled>Select Country</option>
                     <option *ngFor="let country of parameter.countries" value="{{country.id}}"
                       [selected]="country.id == model.country_id">{{country.name_en}}</option>
@@ -96,7 +108,8 @@
               <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                 <div class="form-group-3">
                   <label class="p16-two">&nbsp;</label>
-                  <select title="Choose State" name="state" required class="form-control" (change)="getCities($event.target.value, '')">
+                  <select title="Choose State" name="state" required class="form-control"
+                    (change)="getCities($event.target.value, '')">
                     <option value="">Select State</option>
                     <option *ngFor="let state of parameter.states" value="{{state.id}}"
                       [selected]="state.id == model.state_id">{{state.name_en}}</option>
@@ -106,9 +119,11 @@
               <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                 <div class="form-group-3">
                   <!-- <label class="p16-two">&nbsp;</label> -->
-                  <select title="Choose City" name="city" required class="form-control" (change)="getLocalities($event.target.value)">
+                  <select title="Choose City" name="city" required class="form-control"
+                    (change)="getLocalities($event.target.value)">
                     <option value="">Select City</option>
-                    <option *ngFor="let city of parameter.cities" value="{{city.id}}" [selected]="city.id == model.city_id">
+                    <option *ngFor="let city of parameter.cities" value="{{city.id}}"
+                      [selected]="city.id == model.city_id">
                       {{city.name_en}}</option>
                   </select>
                 </div>
@@ -131,14 +146,17 @@
                   <label>Location
                     <span class="color-red">*</span>
                   </label>
-                  <input required [pattern]="constant.onlyWhiteSpaces" placeholder="Search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search (input)="loadPlaces()" name="address" [(ngModel)]="model.address" autocomplete="off">
+                  <input required [pattern]="constant.onlyWhiteSpaces" placeholder="Search for location"
+                    autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search
+                    (input)="loadPlaces()" name="address" [(ngModel)]="model.address" autocomplete="off">
                 </div>
               </div>
             </div>
             <div class="form-group-3">
               <label>Location Pin on Map<span class="color-red">*</span></label>
               <div style="width: 100%;">
-                <agm-map [latitude]="model.lat" [longitude]="model.lng" [scrollwheel]="false" (mapClick)="placeMarker($event)" [zoom]="zoom">
+                <agm-map [latitude]="model.lat" [longitude]="model.lng" [scrollwheel]="false"
+                  (mapClick)="placeMarker($event)" [zoom]="zoom">
                   <agm-marker [latitude]="model.lat" [longitude]="model.lng"></agm-marker>
                 </agm-map>
               </div>
@@ -149,7 +167,8 @@
                   <label>Building Age (in yrs)
                     <!-- <span class="color-red">*</span> -->
                   </label>
-                  <input placeholder="Building age" min="0" class="form-control" [(ngModel)]="model.building_age" type="number" name="building_age"/>
+                  <input placeholder="Building age" min="0" class="form-control" [(ngModel)]="model.building_age"
+                    type="number" name="building_age" />
                 </div>
               </div>
               <div class="col-sm-6 col-12">
@@ -158,11 +177,11 @@
                     <!-- <span class="color-red">*</span> -->
                   </label>
                   <select [(ngModel)]="model.building_type_id" class="form-control" name="building_type_id">
-                    <option value="" disabled>Choose Building type</option>      
+                    <option value="" disabled>Choose Building type</option>
                     <option *ngFor="let s of all_building_types" [value]="s.id">
-                            {{s.name}}
-                          </option>
-                       </select>
+                      {{s.name}}
+                    </option>
+                  </select>
                 </div>
               </div>
 
@@ -171,7 +190,8 @@
                   <label>Description
                     <!-- <span class="color-red">*</span> -->
                   </label>
-                  <textarea [(ngModel)]="model.description" name="model_description" class="form-control" placeholder="Enter project description">
+                  <textarea [(ngModel)]="model.description" name="model_description" class="form-control"
+                    placeholder="Enter project description">
                        </textarea>
                 </div>
               </div>
@@ -208,7 +228,9 @@
                   <label>Launch Date
                     <!-- <span class="color-red">*</span> -->
                   </label>
-                  <input class="form-control" [ngModel]="model.launch_date  | date:'yyyy-MM-dd'" (ngModelChange)="model.launch_date  = $event" type="date" name="building_launch_date" placeholder="Launch date">
+                  <input class="form-control" [ngModel]="model.launch_date  | date:'yyyy-MM-dd'"
+                    (ngModelChange)="model.launch_date  = $event" type="date" name="building_launch_date"
+                    placeholder="Launch date">
                 </div>
               </div>
 
@@ -216,26 +238,30 @@
                 <div class="form-group-3">
                   <label>Enter Custom Parameter and Value</label>
                   <div class="row">
-                      <div class="col-sm-5">
-                        <input [pattern]="constant.onlyWhiteSpaces" [(ngModel)]="new_custom.name" class="form-control" autocomplete="off" name="custom_name" type="text" placeholder="Parameter name"/>
-                      </div>
-                      <div class="col-sm-5">
-                        <input [pattern]="constant.onlyWhiteSpaces" [(ngModel)]="new_custom.value" class="form-control" autocomplete="off" name="custom_value" type="text" placeholder="Parameter value" />
-                      </div>
-                      <div class="col-sm-2">
-                        <a (click)="addNewCustom()" class="btn-third btn btn-green" href="javascript://">Add</a>
-                      </div>
+                    <div class="col-sm-5">
+                      <input [pattern]="constant.onlyWhiteSpaces" [(ngModel)]="new_custom.name" class="form-control"
+                        autocomplete="off" name="custom_name" type="text" placeholder="Parameter name" />
                     </div>
-                    <div class="row" *ngFor="let c of model.custom_attributes ;let i=index;">
-                        <div class="col-sm-5">
-                            <div class="paramtext">{{c.name}}</div>                        </div>
-                        <div class="col-sm-5">
-                            <div class="paramtext">{{c.value}}</div>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="paramtext"><a (click)="model.custom_attributes.splice(i,1)"><img src="assets/img/remove-icon.png" /></a></div>
-                        </div>
-                      </div>
+                    <div class="col-sm-5">
+                      <input [pattern]="constant.onlyWhiteSpaces" [(ngModel)]="new_custom.value" class="form-control"
+                        autocomplete="off" name="custom_value" type="text" placeholder="Parameter value" />
+                    </div>
+                    <div class="col-sm-2">
+                      <a (click)="addNewCustom()" class="btn-third btn btn-green" href="javascript://">Add</a>
+                    </div>
+                  </div>
+                  <div class="row" *ngFor="let c of model.custom_attributes ;let i=index;">
+                    <div class="col-sm-5">
+                      <div class="paramtext">{{c.name}}</div>
+                    </div>
+                    <div class="col-sm-5">
+                      <div class="paramtext">{{c.value}}</div>
+                    </div>
+                    <div class="col-sm-2">
+                      <div class="paramtext"><a (click)="model.custom_attributes.splice(i,1)"><img
+                            src="assets/img/remove-icon.png" /></a></div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -246,12 +272,14 @@
                   <label>Amenities available</label>
                   <ul class="loc-tags-group">
                     <li *ngFor="let a of all_amenities; let i=index" [ngClass]="a.selected==true ? 'width100' : ''">
-                      <span *ngIf="a.selected==true" class="width78 amen-img">{{a.name}} 
-                        <b class="pull-right" (click)="a.selected = false" title="Remove"><img src="assets/img/close-tag.png" /></b>
+                      <span *ngIf="a.selected==true" class="width78 amen-img">{{a.name}}
+                        <b class="pull-right" (click)="a.selected = false" title="Remove"><img
+                            src="assets/img/close-tag.png" /></b>
                       </span>
-                      <a *ngIf="a.selected==true" (click)="modelAmenityOpenFun(a, i)" class="btn-third btn btn-green" href="javascript://">Add/View</a>
+                      <a *ngIf="a.selected==true" (click)="modelAmenityOpenFun(a, i)" class="btn-third btn btn-green"
+                        href="javascript://">Add/View</a>
                       <div *ngIf="a.selected==true" class="spacer30"></div>
-                      
+
                       <!-- <div *ngIf="a.selected==true">
                         <div class="uploaded-img-block">
                           <div class="uploaded-img2">
@@ -276,11 +304,12 @@
               <div class="col-12">
                 <div class="form-group-3 marginT15">
                   <div class="btn-cont">
-                    <a class="btn-third btn btn-block" data-toggle="modal" data-target="#amenities" href="javascript://">Add More</a>
+                    <a class="btn-third btn btn-block" data-toggle="modal" data-target="#amenities"
+                      href="javascript://">Add More</a>
                   </div>
                 </div>
               </div>
-              
+
               <div class="col-12">
                 <div class="form-group-3" style="width: 100%;">
                   <label class="float-left marginB0">Configuration
@@ -290,8 +319,9 @@
                   <hr>
                   <div *ngFor="let c of model.configurations; let index=index" class="configur">
                     <div class="float-right marginB0">
-                           <a (click)="editConfiguration(c, index)" title="Edit"><img src="assets/img/edit.png" /></a>
-                           <a (click)="deleteConfiguration(index);" title="Delete"><img src="assets/img/delete-green.png" /></a>
+                      <a (click)="editConfiguration(c, index)" title="Edit"><img src="assets/img/edit.png" /></a>
+                      <a (click)="deleteConfiguration(index);" title="Delete"><img
+                          src="assets/img/delete-green.png" /></a>
                     </div>
                     <div class="row">
                       <div class="col-md-6 col-12">
@@ -305,16 +335,19 @@
                           </div>
                         </div> -->
                         <div class="image-group">
-                            <div class="fig-block">
-                                <img class="img-fluid" [defaultImage]="c?.floor_map_image| img:'thumb'" [lazyLoad]="c?.floor_map_image" onerror='this.src="http://via.placeholder.com/48x48"' alt="img">
-                            </div>
-                            <div *ngFor="let im of c.images"  class="fig-block">
-                                <img *ngIf="im.image" class="img-fluid" [defaultImage]="im.image| img:'thumb'" [lazyLoad]="im.image" onerror='this.src="http://via.placeholder.com/48x48"' alt="img">
-                                <img *ngIf="!im.image" class="img-fluid" src="http://via.placeholder.com/48x48" alt="img">
-                            </div>
-                         </div>
+                          <div class="fig-block">
+                            <img class="img-fluid" [defaultImage]="c?.floor_map_image| img:'thumb'"
+                              [lazyLoad]="c?.floor_map_image" onerror='this.src="http://via.placeholder.com/48x48"'
+                              alt="img">
+                          </div>
+                          <div *ngFor="let im of c.images" class="fig-block">
+                            <img *ngIf="im.image" class="img-fluid" [defaultImage]="im.image| img:'thumb'"
+                              [lazyLoad]="im.image" onerror='this.src="http://via.placeholder.com/48x48"' alt="img">
+                            <img *ngIf="!im.image" class="img-fluid" src="http://via.placeholder.com/48x48" alt="img">
+                          </div>
+                        </div>
                       </div>
-     
+
                       <div class="col-md-6 col-12">
                         <p class="p14 text-right">Name</p>
                         <h3 class="text-right">{{c?.name}}</h3>
@@ -332,7 +365,8 @@
                   <div>
                     <div class="form-group-3 marginT15">
                       <div class="btn-cont">
-                        <a (click)="openConfigPopupFun()" class="btn-third btn btn-block" href="javascript://">Add New</a>
+                        <a (click)="openConfigPopupFun()" class="btn-third btn btn-block" href="javascript://">Add
+                          New</a>
                       </div>
                     </div>
                   </div>
@@ -341,13 +375,63 @@
             </div>
 
 
-            <!-- Preferable Buyers Section -->
-            <div class="row">
+              <!-- Regulations & Policies Section -->
+              <div class="row">
                 <div class="col-12">
                   <div class="page-title paddingL0 paddingR0">
-                      <h3>Preferable Buyers
-                        <span class="tower pull-right" (click)="showPreferableBuyer=!showPreferableBuyer">{{showPreferableBuyer?'Hide':'Show'}}</span>
-                      </h3>
+                    <h3>Regulations & Policies
+                      <span class="tower pull-right"
+                        (click)="showPolicy=!showPolicy">{{showPolicy?'Hide':'Show'}}</span>
+                    </h3>
+                  </div>
+                </div>
+                <div class="col-12" *ngIf="showPolicy">
+                  <div class="form-group-3">
+                      <textarea [(ngModel)]="model.policies" name="policies" class="form-control"
+                      placeholder="Enter regulations & policies"></textarea>
+                    <div class="clearfix"></div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Of Regulations & Policies Section -->
+
+
+              <!-- Maintenance Section -->
+              <div class="row">
+                <div class="col-12">
+                  <div class="page-title paddingL0 paddingR0">
+                    <h3>Maintenance
+                      <span class="tower pull-right"
+                        (click)="showMaintenance=!showMaintenance">{{showMaintenance?'Hide':'Show'}}</span>
+                    </h3>
+                  </div>
+                </div>
+                <div class="col-12" *ngIf="showMaintenance">
+                    <div class="form-group-3">
+                      <label>Maintenance Cost</label>
+                      <input placeholder="Maintenance cost" min="0" class="form-control" [(ngModel)]="model.maintenance_cost"
+                    type="number" name="maintenance_cost" />
+                      <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group-3">
+                      <label>Features</label>
+                      <textarea [(ngModel)]="model.maintenance" name="maintenance" class="form-control"
+                        placeholder="Provided features"></textarea>
+                      <div class="clearfix"></div>
+                    </div>
+                </div>
+              </div>
+              <!-- End Of Maintenance Section -->
+
+
+              <!-- Preferable Buyers Section -->
+              <div class="row">
+                <div class="col-12">
+                  <div class="page-title paddingL0 paddingR0">
+                    <h3>Preferable Buyers
+                      <span class="tower pull-right"
+                        (click)="showPreferableBuyer=!showPreferableBuyer">{{showPreferableBuyer?'Hide':'Show'}}</span>
+                    </h3>
                   </div>
                 </div>
                 <div class="padding20T10" *ngIf="showPreferableBuyer">
@@ -361,150 +445,156 @@
                     </label>
                     <div class="clearfix"></div>
                   </div>
-            
+
                   <div class="spacer15"></div>
                   <div class="form-group-3">
                     <label class="p16-two">Pets Allowed? <span class="color-red">*</span></label>
                     <div class="clearfix"></div>
                     <label class="cust-radio">
-                      <input type="radio" (change)="setValue('pets', 1)" value="1" [checked]="model.pets == 1 ? 'checked' : ''"
-                        name="pets">
+                      <input type="radio" (change)="setValue('pets', 1)" value="1"
+                        [checked]="model.pets == 1 ? 'checked' : ''" name="pets">
                       <span class="checkmark">Allowed</span>
                     </label>
                     <label class="cust-radio">
-                      <input type="radio" (change)="setValue('pets', 0)" value="0" [checked]="model.pets == 0 ? 'checked' : ''"
-                        name="pets">
+                      <input type="radio" (change)="setValue('pets', 0)" value="0"
+                        [checked]="model.pets == 0 ? 'checked' : ''" name="pets">
                       <span class="checkmark">Not Allowed</span>
                     </label>
                     <div class="clearfix"></div>
                   </div>
-            
-            
+
+
                   <div class="spacer15"></div>
                   <div class="form-group-3">
                     <label class="p16-two">Kids Friendly? <span class="color-red">*</span></label>
                     <div class="clearfix"></div>
                     <label class="cust-radio">
-                      <input type="radio" (change)="setValue('kids_friendly', 1)" value="1" [checked]="model.kids_friendly == 1 ? 'checked' : ''"
-                        name="kids_friendly">
+                      <input type="radio" (change)="setValue('kids_friendly', 1)" value="1"
+                        [checked]="model.kids_friendly == 1 ? 'checked' : ''" name="kids_friendly">
                       <span class="checkmark">Yes</span>
                     </label>
                     <label class="cust-radio">
-                      <input type="radio" (change)="setValue('kids_friendly', 0)" value="0" [checked]="model.kids_friendly == 0 ? 'checked' : ''"
-                        name="kids_friendly">
+                      <input type="radio" (change)="setValue('kids_friendly', 0)" value="0"
+                        [checked]="model.kids_friendly == 0 ? 'checked' : ''" name="kids_friendly">
                       <span class="checkmark">No</span>
                     </label>
                     <div class="clearfix"></div>
                   </div>
-            
-            
+
+
                   <div class="spacer15"></div>
                   <div class="form-group-3">
                     <label class="p16-two">Students Friendly? <span class="color-red">*</span></label>
                     <div class="clearfix"></div>
                     <label class="cust-radio">
-                      <input type="radio" (change)="setValue('students_friendly', 1)" value="1" [checked]="model.students_friendly == 1 ? 'checked' : ''"
-                        name="students_friendly">
+                      <input type="radio" (change)="setValue('students_friendly', 1)" value="1"
+                        [checked]="model.students_friendly == 1 ? 'checked' : ''" name="students_friendly">
                       <span class="checkmark">Yes</span>
                     </label>
                     <label class="cust-radio">
-                      <input type="radio" (change)="setValue('students_friendly', 0)" value="0" [checked]="model.students_friendly == 0 ? 'checked' : ''"
-                        name="students_friendly">
+                      <input type="radio" (change)="setValue('students_friendly', 0)" value="0"
+                        [checked]="model.students_friendly == 0 ? 'checked' : ''" name="students_friendly">
                       <span class="checkmark">No</span>
                     </label>
                     <div class="clearfix"></div>
                   </div>
-            
-            
+
+
                   <div class="spacer15"></div>
                   <div class="form-group-3">
                     <label class="p16-two">LGBT Friendly? <span class="color-red">*</span></label>
                     <div class="clearfix"></div>
                     <label class="cust-radio">
-                      <input type="radio" (change)="setValue('lgtb_friendly', 1)" value="1" [checked]="model.lgtb_friendly == 1 ? 'checked' : ''"
-                        name="lgtb_friendly">
+                      <input type="radio" (change)="setValue('lgtb_friendly', 1)" value="1"
+                        [checked]="model.lgtb_friendly == 1 ? 'checked' : ''" name="lgtb_friendly">
                       <span class="checkmark">Yes</span>
                     </label>
                     <label class="cust-radio">
-                      <input type="radio" (change)="setValue('lgtb_friendly', 0)" value="0" [checked]="model.lgtb_friendly == 0 ? 'checked' : ''"
-                        name="lgtb_friendly">
+                      <input type="radio" (change)="setValue('lgtb_friendly', 0)" value="0"
+                        [checked]="model.lgtb_friendly == 0 ? 'checked' : ''" name="lgtb_friendly">
                       <span class="checkmark">No</span>
                     </label>
                     <div class="clearfix"></div>
                   </div>
-            
-            
+
+
                   <div class="spacer15"></div>
                   <div class="form-group-3">
                     <label class="p16-two">Mature People Friendly? <span class="color-red">*</span></label>
                     <div class="clearfix"></div>
                     <label class="cust-radio">
-                      <input type="radio" (change)="setValue('mature_people_friendly', 1)" value="1" [checked]="model.mature_people_friendly == 1 ? 'checked' : ''"
-                        name="mature_people_friendly">
+                      <input type="radio" (change)="setValue('mature_people_friendly', 1)" value="1"
+                        [checked]="model.mature_people_friendly == 1 ? 'checked' : ''" name="mature_people_friendly">
                       <span class="checkmark">Yes</span>
                     </label>
                     <label class="cust-radio">
-                      <input type="radio" (change)="setValue('mature_people_friendly', 0)" value="0" [checked]="model.mature_people_friendly == 0 ? 'checked' : ''"
-                        name="mature_people_friendly">
+                      <input type="radio" (change)="setValue('mature_people_friendly', 0)" value="0"
+                        [checked]="model.mature_people_friendly == 0 ? 'checked' : ''" name="mature_people_friendly">
                       <span class="checkmark">No</span>
                     </label>
                     <div class="clearfix"></div>
                   </div>
-            
+
                 </div>
               </div>
               <!-- End Of Preferable Buyers Section -->
-  
 
-            <!-- Tower Section -->
-            <div class="row">
-              <div class="col-12">
-                <div class="page-title paddingL0 paddingR0">
-                  <h3>Tower Details
-                    <span class="tower pull-right" (click)="showAddBtn=false" *ngIf="showAddBtn">+Add New Tower</span>
-                    <span class="tower pull-right" (click)="addNewTower()" *ngIf="!showAddBtn">Save Details</span>
-                  </h3>
-                </div>
-              </div>
 
-              <div class="row paddingLR20" *ngIf="!showAddBtn">
-                <div class="col-md-6 col-sm-6 col-12">
-                  <div class="form-group-3">
-                    <label>Name of the Tower</label>
-                    <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" [(ngModel)]="newTower.tower_name" autocomplete="off" class="form-control" type="text" name="tower_name" placeholder="Enter tower name">
-                  </div>
-                </div>
-
-                <div class="col-md-6 col-sm-6 col-12">
-                  <div class="form-group-3">
-                    <label>Number of Floors</label>
-                    <input min="0" autocomplete="off" [(ngModel)]="newTower.num_of_floors" class="form-control" type="number" name="num_of_floors" placeholder="(0 for Ground Floor)"/>
-                  </div>
-                </div>
-
-                <div class="col-md-6 col-sm-6 col-12">
-                  <div class="form-group-3">
-                    <label>Possession Status</label>
-                    <select [(ngModel)]="newTower.possession_status_id" class="form-control" name="possession_status_id">
-                      <option value="">Select status</option>
-                      <option *ngFor="let s of all_possession_statuses" [value]="s.id">
-                        {{s.name}}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-
-                <div class="col-md-6 col-sm-6 col-12">
-                  <div class="form-group-3">
-                    <label>Launch date</label>
-                    <input class="form-control" [ngModel]="newTower.launch_date  | date:'yyyy-MM-dd'" (ngModelChange)="newTower.launch_date  = $event" type="date" name="launch_date" placeholder="Launch date">
-                  </div>
-                </div>
-
+              <!-- Tower Section -->
+              <div class="row">
                 <div class="col-12">
-                  <div class="form-group-3 marginB0">
-                    <label>Amenities available</label>
-                    <!-- <ul class="loc-tags-group">
+                  <div class="page-title paddingL0 paddingR0">
+                    <h3>Tower Details
+                      <span class="tower pull-right" (click)="showAddBtn=false" *ngIf="showAddBtn">+Add New Tower</span>
+                      <span class="tower pull-right" (click)="addNewTower()" *ngIf="!showAddBtn">Save Details</span>
+                    </h3>
+                  </div>
+                </div>
+
+                <div class="row paddingLR20" *ngIf="!showAddBtn">
+                  <div class="col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>Name of the Tower</label>
+                      <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" [(ngModel)]="newTower.tower_name"
+                        autocomplete="off" class="form-control" type="text" name="tower_name"
+                        placeholder="Enter tower name">
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>Number of Floors</label>
+                      <input min="0" autocomplete="off" [(ngModel)]="newTower.num_of_floors" class="form-control"
+                        type="number" name="num_of_floors" placeholder="(0 for Ground Floor)" />
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>Possession Status</label>
+                      <select [(ngModel)]="newTower.possession_status_id" class="form-control"
+                        name="possession_status_id">
+                        <option value="">Select status</option>
+                        <option *ngFor="let s of all_possession_statuses" [value]="s.id">
+                          {{s.name}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>Launch date</label>
+                      <input class="form-control" [ngModel]="newTower.launch_date  | date:'yyyy-MM-dd'"
+                        (ngModelChange)="newTower.launch_date  = $event" type="date" name="launch_date"
+                        placeholder="Launch date">
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="form-group-3 marginB0">
+                      <label>Amenities available</label>
+                      <!-- <ul class="loc-tags-group">
                       <li *ngFor="let at of allTowerAmenities">
                         <span *ngIf="at.selected==true">{{at.name}} 
                           <b (click)="at.selected = false" title="remove"><img src="assets/img/close-tag.png" /></b>
@@ -512,16 +602,19 @@
                       </li>
                     </ul> -->
 
-                    <ul class="loc-tags-group">
-                      <li *ngFor="let at of allTowerAmenities; let j=index" [ngClass]="at.selected==true ? 'width100' : ''">
-                        <span *ngIf="at.selected==true" class="width78 amen-img">{{at.name}} 
-                          <b class="pull-right" (click)="at.selected = false" title="Remove"><img src="assets/img/close-tag.png" /></b>
-                        </span>
-                        <a *ngIf="at.selected==true" (click)="modelTowerAmenityOpenFun(at, j)" class="btn-third btn btn-green" href="javascript://">Add/View</a>
-                        <div *ngIf="at.selected==true" class="spacer30"></div>
-                        
-                        
-                        <!-- <div *ngIf="at.selected==true">
+                      <ul class="loc-tags-group">
+                        <li *ngFor="let at of allTowerAmenities; let j=index"
+                          [ngClass]="at.selected==true ? 'width100' : ''">
+                          <span *ngIf="at.selected==true" class="width78 amen-img">{{at.name}}
+                            <b class="pull-right" (click)="at.selected = false" title="Remove"><img
+                                src="assets/img/close-tag.png" /></b>
+                          </span>
+                          <a *ngIf="at.selected==true" (click)="modelTowerAmenityOpenFun(at, j)"
+                            class="btn-third btn btn-green" href="javascript://">Add/View</a>
+                          <div *ngIf="at.selected==true" class="spacer30"></div>
+
+
+                          <!-- <div *ngIf="at.selected==true">
                           <div class="uploaded-img-block">
                             <div class="uploaded-img2">
                               <img src="assets/img/placeholder.png" class="u-img" alt="img">
@@ -537,146 +630,163 @@
                             </div>
                           </div>
                         </div> -->
-                      </li>
-                    </ul>
+                        </li>
+                      </ul>
 
+                    </div>
                   </div>
-                </div>
 
-                <div class="col-12">
-                  <div class="form-group-3 marginT15">
-                    <div class="btn-cont">
-                      <a class="btn-third btn btn-block" data-toggle="modal" data-target="#towerAmenities" href="javascript://">Add More</a>
+                  <div class="col-12">
+                    <div class="form-group-3 marginT15">
+                      <div class="btn-cont">
+                        <a class="btn-third btn btn-block" data-toggle="modal" data-target="#towerAmenities"
+                          href="javascript://">Add More</a>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <!-- End of Tower Section -->
+
+              <!-- listing of added towers -->
+              <div *ngIf="model?.building_towers?.length>0">
+                <div class="row" *ngFor="let btower of model?.building_towers; let i=index">
+                  <div class="col-12">
+                    <div class="page-title paddingL0 paddingR0">
+                      <h3>Tower {{i+1}}
+                        <span class="tower pull-right" (click)="deleteTower(i)">Delete</span>
+                        <span class="tower marginR15 pull-right" title="Click to edit Tower{{i+1}}"
+                          *ngIf="model?.building_tower_edit_index!=i" (click)="editTower(btower, i)">Edit</span>
+                        <span class="tower pull-right marginR15" title="Click to save Tower{{i+1}}"
+                          *ngIf="model?.building_tower_edit_index==i" (click)="saveTower(btower, i)">Save</span>
+                      </h3>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>Name of the Tower</label>
+                      <input autocomplete="off" [disabled]="model?.building_tower_edit_index!=i" autocomplete="off"
+                        [(ngModel)]="btower.tower_name" class="form-control" type="text" name="tower_name{{i}}"
+                        placeholder="Enter tower name">
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>Number of Floors</label>
+                      <input autocomplete="off" [disabled]="model?.building_tower_edit_index!=i"
+                        [(ngModel)]="btower.num_of_floors" class="form-control" type="number" name="num_of_floors{{i}}"
+                        placeholder="Enter number of floors" />
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>Possession Status</label>
+                      <select [disabled]="model?.building_tower_edit_index!=i" [(ngModel)]="btower.possession_status_id"
+                        class="form-control" name="possession_status_id{{i}}">
+                        <option value="">Select status</option>
+                        <option *ngFor="let s of all_possession_statuses" [value]="s.id">
+                          {{s.name}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>Launch date</label>
+                      <input class="form-control" [disabled]="model?.building_tower_edit_index!=i"
+                        [ngModel]="btower.launch_date  | date:'yyyy-MM-dd'"
+                        (ngModelChange)="newTower.launch_date  = $event" type="date" name="launch_date{{i}}"
+                        placeholder="Launch date">
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="form-group-3 marginB0">
+                      <label>Amenities available</label>
+                      <ul class="loc-tags-group" *ngIf="model?.building_tower_edit_index!=i">
+                        <span *ngIf="btower.amenitiesCount==0">No amenity added for this tower.</span>
+                        <li *ngFor="let a of btower?.amenities">
+                          <span *ngIf="a.selected==true">{{a.name}}
+                            <!-- <b (click)="a.selected = false" title="Remove"><img src="assets/img/close-tag.png" /></b> -->
+                          </span>
+                        </li>
+                      </ul>
+
+                      <ul class="loc-tags-group" *ngIf="model?.building_tower_edit_index==i">
+                        <li *ngFor="let at of btower?.amenities; let j=index"
+                          [ngClass]="at.selected==true ? 'width100' : ''">
+                          <span *ngIf="at.selected==true" class="width78 amen-img">{{at.name}}
+                            <b class="pull-right" (click)="at.selected = false" title="Remove"><img
+                                src="assets/img/close-tag.png" /></b>
+                          </span>
+                          <a *ngIf="at.selected==true" (click)="modelTowerAmenityOpenFun(at, j)"
+                            class="btn-third btn btn-green" href="javascript://">Add/View</a>
+                          <div *ngIf="at.selected==true" class="spacer30"></div>
+
+                          <!-- <div *ngIf="at.selected==true">
+                          <div class="uploaded-img-block">
+                            <div class="uploaded-img2">
+                              <img src="assets/img/placeholder.png" class="u-img" alt="img">
+                              <div class="upload-caption">
+                                <p class="green-color" (click)="modelTowerAmenityOpenFun(at, j)">+ Add more images</p>
+                              </div>
+                            </div>
+                            <div class="uploaded-img2" *ngFor="let item of at.images.slice(0,3); let j=index">
+                              <img *ngIf="j<4" onerror="this.src='assets/img/placeholder.png'" class="u-img" [src]="item.image" alt="img">
+                              <div class="upload-caption">
+                                <p *ngIf="at.images?.length > 3 && j==2" class="number" (click)="modelTowerAmenityOpenFun(at, i)">+{{at?.images?.length-3}}</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div> -->
+                        </li>
+                      </ul>
+
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="form-group-3 marginT15">
+                      <div class="btn-cont">
+                        <a style="display:none;" #towerEditAmenitiesModal class="btn-third btn btn-block"
+                          data-toggle="modal" data-target="#towerEditAmenities" href="javascript://"></a>
+                        <a *ngIf="model?.building_tower_edit_index==i" (click)="editTowerAmenity(btower?.amenities, i)"
+                          class="btn-third btn btn-block" href="javascript://">Add More</a>
+                      </div>
                     </div>
                   </div>
                 </div>
-                
               </div>
-            </div>
-            <!-- End of Tower Section -->
+              <!-- end of listing of added towers -->
 
-            <!-- listing of added towers -->
-            <div *ngIf="model?.building_towers?.length>0">
-              <div class="row" *ngFor="let btower of model?.building_towers; let i=index">
+              <!-- Developer Info Section -->
+              <div class="row">
                 <div class="col-12">
                   <div class="page-title paddingL0 paddingR0">
-                    <h3>Tower {{i+1}}
-                      <span class="tower pull-right" (click)="deleteTower(i)">Delete</span>
-                      <span class="tower marginR15 pull-right" title="Click to edit Tower{{i+1}}" *ngIf="model?.building_tower_edit_index!=i" (click)="editTower(btower, i)">Edit</span>
-                      <span class="tower pull-right marginR15" title="Click to save Tower{{i+1}}" *ngIf="model?.building_tower_edit_index==i" (click)="saveTower(btower, i)">Save</span>
+                    <h3>Developer Info
+                      <!-- <span class="color-red">*</span> -->
+                      <span class="tower pull-right"
+                        (click)="selectDeveloper('', 1)">{{model?.developer?.id ? 'Change' : 'Select'}} Developer</span>
                     </h3>
                   </div>
                 </div>
-
-                <div class="col-md-6 col-sm-6 col-12">
-                  <div class="form-group-3">
-                    <label>Name of the Tower</label>
-                    <input autocomplete="off" [disabled]="model?.building_tower_edit_index!=i" autocomplete="off" [(ngModel)]="btower.tower_name" class="form-control" type="text" name="tower_name{{i}}" placeholder="Enter tower name">
-                  </div>
-                </div>
-
-                <div class="col-md-6 col-sm-6 col-12">
-                  <div class="form-group-3">
-                    <label>Number of Floors</label>
-                    <input autocomplete="off" [disabled]="model?.building_tower_edit_index!=i" [(ngModel)]="btower.num_of_floors" class="form-control" type="number" name="num_of_floors{{i}}" placeholder="Enter number of floors"/>
-                  </div>
-                </div>
-
-                <div class="col-md-6 col-sm-6 col-12">
-                  <div class="form-group-3">
-                    <label>Possession Status</label>
-                    <select [disabled]="model?.building_tower_edit_index!=i" [(ngModel)]="btower.possession_status_id" class="form-control" name="possession_status_id{{i}}">
-                      <option value="">Select status</option>
-                      <option *ngFor="let s of all_possession_statuses" [value]="s.id">
-                        {{s.name}}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-
-                <div class="col-md-6 col-sm-6 col-12">
-                  <div class="form-group-3">
-                    <label>Launch date</label>
-                    <input class="form-control" [disabled]="model?.building_tower_edit_index!=i" [ngModel]="btower.launch_date  | date:'yyyy-MM-dd'" (ngModelChange)="newTower.launch_date  = $event" type="date" name="launch_date{{i}}" placeholder="Launch date">
-                  </div>
-                </div>
-
-                <div class="col-12">
-                  <div class="form-group-3 marginB0">
-                    <label>Amenities available</label>
-                    <ul class="loc-tags-group" *ngIf="model?.building_tower_edit_index!=i">
-                      <span *ngIf="btower.amenitiesCount==0">No amenity added for this tower.</span>
-                      <li *ngFor="let a of btower?.amenities">
-                        <span *ngIf="a.selected==true">{{a.name}} 
-                          <!-- <b (click)="a.selected = false" title="Remove"><img src="assets/img/close-tag.png" /></b> -->
-                        </span>
-                      </li>
-                    </ul>
-
-                    <ul class="loc-tags-group" *ngIf="model?.building_tower_edit_index==i">
-                      <li *ngFor="let at of btower?.amenities; let j=index" [ngClass]="at.selected==true ? 'width100' : ''">
-                        <span *ngIf="at.selected==true" class="width78 amen-img">{{at.name}} 
-                          <b class="pull-right" (click)="at.selected = false" title="Remove"><img src="assets/img/close-tag.png" /></b>
-                        </span>
-                        <a *ngIf="at.selected==true" (click)="modelTowerAmenityOpenFun(at, j)" class="btn-third btn btn-green" href="javascript://">Add/View</a>
-                        <div *ngIf="at.selected==true" class="spacer30"></div>
-                        
-                        <!-- <div *ngIf="at.selected==true">
-                          <div class="uploaded-img-block">
-                            <div class="uploaded-img2">
-                              <img src="assets/img/placeholder.png" class="u-img" alt="img">
-                              <div class="upload-caption">
-                                <p class="green-color" (click)="modelTowerAmenityOpenFun(at, j)">+ Add more images</p>
-                              </div>
-                            </div>
-                            <div class="uploaded-img2" *ngFor="let item of at.images.slice(0,3); let j=index">
-                              <img *ngIf="j<4" onerror="this.src='assets/img/placeholder.png'" class="u-img" [src]="item.image" alt="img">
-                              <div class="upload-caption">
-                                <p *ngIf="at.images?.length > 3 && j==2" class="number" (click)="modelTowerAmenityOpenFun(at, i)">+{{at?.images?.length-3}}</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div> -->
-                      </li>
-                    </ul>
-
-                  </div>
-                </div>
-
-                <div class="col-12">
-                  <div class="form-group-3 marginT15">
-                    <div class="btn-cont">
-                      <a style="display:none;" #towerEditAmenitiesModal class="btn-third btn btn-block" data-toggle="modal" data-target="#towerEditAmenities" href="javascript://"></a>
-                      <a *ngIf="model?.building_tower_edit_index==i" (click)="editTowerAmenity(btower?.amenities, i)" class="btn-third btn btn-block" href="javascript://">Add More</a>
-                    </div>
-                  </div>
-                </div>
               </div>
-            </div>
-            <!-- end of listing of added towers -->
-
-            <!-- Developer Info Section -->
-            <div class="row">
-              <div class="col-12">
-                <div class="page-title paddingL0 paddingR0">
-                  <h3>Developer Info
-                    <!-- <span class="color-red">*</span> -->
-                    <span class="tower pull-right" (click)="selectDeveloper('', 1)">{{model?.developer?.id ? 'Change' : 'Select'}} Developer</span>
-                  </h3>
-                </div>
-              </div>
-            </div>
 
 
               <div class="row" *ngIf="model?.developer?.id">
 
-              <!-- <div class="col-md-12 col-sm-12 col-12">
+                <!-- <div class="col-md-12 col-sm-12 col-12">
                 <div class="form-group-3 pull-right">
                   <label class="green-color cursor-pointer" (click)="selectDeveloper('', 1)">Select Developer</label>
                 </div>
               </div> -->
 
-              <!-- <div class="col-md-6 col-sm-6 col-6">
+                <!-- <div class="col-md-6 col-sm-6 col-6">
                 <div class="form-group-3">
                   <label class="green-color cursor-pointer" (click)="addDeveloper()">Add New Developer</label>
                 </div>
@@ -685,25 +795,33 @@
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>Developer Name</label>
-                    <input autocomplete="off" [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.developer.name" class="form-control" type="text" name="developer_name" placeholder="Developer Name">
+                    <input autocomplete="off" [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.developer.name"
+                      class="form-control" type="text" name="developer_name" placeholder="Developer Name">
                   </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>Phone Number</label>
-                    <input autocomplete="off" [disabled]="!canEditdeveloperInfo" minlength="6" maxlength="16" autocomplete="off" type="text" class="form-control" id="phone" placeholder="Phone Number" minlength="1" [(ngModel)]="model.developer.phone" name="phone" ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)"/>
+                    <input autocomplete="off" [disabled]="!canEditdeveloperInfo" minlength="6" maxlength="16"
+                      autocomplete="off" type="text" class="form-control" id="phone" placeholder="Phone Number"
+                      minlength="1" [(ngModel)]="model.developer.phone" name="phone" ng2TelInput
+                      [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
                   </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>Email</label>
-                    <input autocomplete="off" [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.developer.email" class="form-control" type="email" name="developer_email" placeholder="Developer Email" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
+                    <input autocomplete="off" [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.developer.email"
+                      class="form-control" type="email" name="developer_email" placeholder="Developer Email"
+                      pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
                   </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>Company Name</label>
-                    <input autocomplete="off" [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.developer.developer_company" class="form-control" type="text" name="developer_company" placeholder="Company Name"/>
+                    <input autocomplete="off" [disabled]="!canEditdeveloperInfo"
+                      [(ngModel)]="model.developer.developer_company" class="form-control" type="text"
+                      name="developer_company" placeholder="Company Name" />
                   </div>
                 </div>
                 <!-- <div class="col-md-12 col-sm-12 col-12">
@@ -712,27 +830,29 @@
                     <input autocomplete="off" [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.developer.developer_desc" class="form-control" type="text" name="developer_desc" placeholder="Description"/>
                   </div>
                 </div> -->
-  
+
                 <div class="col-6">
                   <div class="form-group-3">
                     <label>Logo</label>
                     <div class="add-project-img-more">
-                      <input [disabled]="!canEditdeveloperInfo" type="file" accept="image/*" name="sasdsda" (change)="file5.onSelectFile($event, true);">
+                      <input [disabled]="!canEditdeveloperInfo" type="file" accept="image/*" name="sasdsda"
+                        (change)="file5.onSelectFile($event, true);">
                       <img class="img-fluid" *ngIf="file5.image" [src]="file5.image">
-                      <div *ngIf="!file5.image"  class="upload-caption">
+                      <div *ngIf="!file5.image" class="upload-caption">
                         <p class="green-color">+ Add logo</p>
                       </div>
                     </div>
                   </div>
                 </div>
-  
+
                 <div class="col-6">
                   <div class="form-group-3">
                     <label>Cover Image</label>
                     <div class="add-project-img-more">
-                      <input [disabled]="!canEditdeveloperInfo" type="file" accept="image/*" name="developer_image" (change)="file6.onSelectFile($event, true);">
+                      <input [disabled]="!canEditdeveloperInfo" type="file" accept="image/*" name="developer_image"
+                        (change)="file6.onSelectFile($event, true);">
                       <img class="img-fluid" *ngIf="file6.image" [src]="file6.image">
-                      <div *ngIf="!file6.image"  class="upload-caption">
+                      <div *ngIf="!file6.image" class="upload-caption">
                         <p class="green-color">+ Add cover image</p>
                       </div>
                     </div>
@@ -748,7 +868,8 @@
                 <div class="col-12">
                   <div class="page-title paddingL0 paddingR0">
                     <h3>Managed By {{model?.manager?.id ? '(Manager)' : ''}} {{model?.company?.id ? '(Company)' : ''}}
-                      <span class="tower pull-right" *ngIf="model?.manager?.id || model?.company?.id" (click)="removeManagerCompany('', 1)">Remove</span>
+                      <span class="tower pull-right" *ngIf="model?.manager?.id || model?.company?.id"
+                        (click)="removeManagerCompany('', 1)">Remove</span>
                     </h3>
                   </div>
                 </div>
@@ -774,51 +895,58 @@
                       </span>
                     </li>
                   </ul>
-              </div>
+                </div>
 
-              <div class="col-12" *ngIf="!model?.manager?.id || !model?.company?.id">
-                <label class="width100 cust-check-bx2 marginB15">
+                <div class="col-12" *ngIf="!model?.manager?.id || !model?.company?.id">
+                  <label class="width100 cust-check-bx2 marginB15">
                     Note: You can add one from above either
                     Manager or Company to manage the things.
                     But you can change at anytime.
-                </label>
+                  </label>
+                </div>
               </div>
-              </div>
-  
+
 
               <div class="row" *ngIf="model?.manager?.id">
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>Manager Name</label>
-                    <input autocomplete="off" [disabled]="true" [(ngModel)]="model.manager.name" class="form-control" type="text" name="developer_name">
+                    <input autocomplete="off" [disabled]="true" [(ngModel)]="model.manager.name" class="form-control"
+                      type="text" name="developer_name">
                   </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>Phone Number</label>
-                    <input autocomplete="off" [disabled]="true" type="text" class="form-control" id="phone" placeholder="Phone Number" minlength="1" [(ngModel)]="model.manager.phone" name="phone" ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)"/>
+                    <input autocomplete="off" [disabled]="true" type="text" class="form-control" id="phone"
+                      placeholder="Phone Number" minlength="1" [(ngModel)]="model.manager.phone" name="phone"
+                      ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
                   </div>
                 </div>
                 <div class="col-md-12 col-sm-12 col-12">
                   <div class="form-group-3">
                     <label>Email</label>
-                    <input autocomplete="off" [disabled]="true" [(ngModel)]="model.manager.email" class="form-control" type="email" name="developer_email" placeholder="Manager Email" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
+                    <input autocomplete="off" [disabled]="true" [(ngModel)]="model.manager.email" class="form-control"
+                      type="email" name="developer_email" placeholder="Manager Email"
+                      pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group-3">
                     <label>Logo</label>
                     <div class="add-project-img-more">
-                      <img class="img-fluid" onerror="this.src='assets/img/placeholder.png'" [src]="model?.manager?.image">
+                      <img class="img-fluid" onerror="this.src='assets/img/placeholder.png'"
+                        [src]="model?.manager?.image">
                     </div>
                   </div>
                 </div>
-  
+
                 <div class="col-6">
                   <div class="form-group-3">
                     <label>Cover Image</label>
                     <div class="add-project-img-more">
-                        <img class="img-fluid" onerror="this.src='assets/img/placeholder.png'" [src]="model?.manager?.logo">
+                      <img class="img-fluid" onerror="this.src='assets/img/placeholder.png'"
+                        [src]="model?.manager?.logo">
                     </div>
                   </div>
                 </div>
@@ -828,42 +956,49 @@
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>Company Name</label>
-                    <input autocomplete="off" [disabled]="true" [(ngModel)]="model.company.name" class="form-control" type="text" name="developer_name">
+                    <input autocomplete="off" [disabled]="true" [(ngModel)]="model.company.name" class="form-control"
+                      type="text" name="developer_name">
                   </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>Phone Number</label>
-                    <input autocomplete="off" [disabled]="true" type="text" class="form-control" id="phone" placeholder="Phone Number" minlength="1" [(ngModel)]="model.company.phone" name="phone" ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)"/>
+                    <input autocomplete="off" [disabled]="true" type="text" class="form-control" id="phone"
+                      placeholder="Phone Number" minlength="1" [(ngModel)]="model.company.phone" name="phone"
+                      ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
                   </div>
                 </div>
                 <div class="col-md-12 col-sm-12 col-12">
                   <div class="form-group-3">
                     <label>Email</label>
-                    <input autocomplete="off" [disabled]="true" [(ngModel)]="model.company.email" class="form-control" type="email" name="developer_email" placeholder="Company Email" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
+                    <input autocomplete="off" [disabled]="true" [(ngModel)]="model.company.email" class="form-control"
+                      type="email" name="developer_email" placeholder="Company Email"
+                      pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group-3">
                     <label>Logo</label>
                     <div class="add-project-img-more">
-                      <img class="img-fluid" onerror="this.src='assets/img/placeholder.png'" [src]="model?.company?.image">
+                      <img class="img-fluid" onerror="this.src='assets/img/placeholder.png'"
+                        [src]="model?.company?.image">
                     </div>
                   </div>
                 </div>
-  
+
                 <div class="col-6">
                   <div class="form-group-3">
                     <label>Cover Image</label>
                     <div class="add-project-img-more">
-                        <img class="img-fluid" onerror="this.src='assets/img/placeholder.png'" [src]="model?.company?.logo">
+                      <img class="img-fluid" onerror="this.src='assets/img/placeholder.png'"
+                        [src]="model?.company?.logo">
                     </div>
                   </div>
                 </div>
               </div>
 
               <!-- End of Managed By Section -->
-  
+
               <div class="row">
                 <div class="col-12">
                   <div class="btn-cont text-right">
@@ -872,8 +1007,8 @@
                 </div>
               </div>
 
+            </div>
           </div>
-        </div>
       </form>
     </div>
 
@@ -899,11 +1034,11 @@
           </div>
         </div>
         <div class="spacer30"></div> -->
-          
+
         <div>
           <label *ngFor="let a of all_amenities; " (click)="a.selected = !a.selected" class="cust-check-bx2">
             {{a.name}}
-          <span *ngIf="a.selected==true" class="checkmark open"></span>
+            <span *ngIf="a.selected==true" class="checkmark open"></span>
           </label>
         </div>
       </div>
@@ -926,9 +1061,9 @@
       </div>
       <div class="modal-body">
         <label *ngFor="let a of allTowerAmenities; " (click)="a.selected = !a.selected" class="cust-check-bx2">
-             {{a.name}}
-           <span *ngIf="a.selected==true" class="checkmark open"></span>
-           </label>
+          {{a.name}}
+          <span *ngIf="a.selected==true" class="checkmark open"></span>
+        </label>
       </div>
       <div class="modal-footer">
         <div class="btn-cont">
@@ -949,10 +1084,11 @@
         <button type="button" class="close" data-dismiss="modal">×</button>
       </div>
       <div class="modal-body">
-        <label *ngFor="let a of allTowerAmenityForEdit; let m=index " (click)="setTowerAmenity(a, m)" class="cust-check-bx2">
-             {{a.name}}
-           <span *ngIf="a.selected==true" class="checkmark open"></span>
-           </label>
+        <label *ngFor="let a of allTowerAmenityForEdit; let m=index " (click)="setTowerAmenity(a, m)"
+          class="cust-check-bx2">
+          {{a.name}}
+          <span *ngIf="a.selected==true" class="checkmark open"></span>
+        </label>
       </div>
       <div class="modal-footer">
         <div class="btn-cont">
@@ -1041,7 +1177,7 @@
 
 
 
- <!--Add More video -->
+<!--Add More video -->
 <span data-target="#add-more-videos" data-toggle="modal" #modalAddMoreVideos></span>
 <div class="modal add-more-popup" id="add-more-videos">
   <div class="modal-dialog modal-lg">
@@ -1059,7 +1195,8 @@
           <p>Videos</p>
           <div class="uploaded-img" *ngFor="let item of amenVideo.files; let i=index">
             <a class="remove" (click)="remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
-            <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'" src="{{videoSrc}}" class="video{{i}} floor-plan" autoplay type="video/mp4" controls></video>
+            <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'"
+              src="{{videoSrc}}" class="video{{i}} floor-plan" autoplay type="video/mp4" controls></video>
             <canvas *ngIf="!item?.thumb" width="72" height="72" id="canvas3{{i}}"></canvas>
             <!--<img *ngIf="item.thumb" class="ui bordered small image" [src]="item.thumb" onerror="this.src='assets/img/placeholder.png'">-->
             <img *ngIf="item.thumb" class="u-img" [src]="item.thumb| img:'thumb'" alt="img">
@@ -1068,18 +1205,19 @@
           </div>
         </div>
         <div class="add-more-images dimensions">
-          <input type="file" name="add-more" multiple max="6" accept="video/*" (change)="amenVideosSelect($event, 'videos')">
+          <input type="file" name="add-more" multiple max="6" accept="video/*"
+            (change)="amenVideosSelect($event, 'videos')">
           <span>+ Add more videos </span>
         </div>
 
-      <!-- Modal footer -->
-      <div class="modal-footer btn-cont">
-        <button type="button" (click)="saveVideos()" class="btn btn-primary">Submit</button>
-      </div>
+        <!-- Modal footer -->
+        <div class="modal-footer btn-cont">
+          <button type="button" (click)="saveVideos()" class="btn btn-primary">Submit</button>
+        </div>
 
+      </div>
     </div>
   </div>
-</div>
 </div>
 
 
@@ -1150,7 +1288,8 @@
           <p>Videos</p>
           <div class="uploaded-img" *ngFor="let item of amenVideo.files; let i=index">
             <a class="remove" (click)="remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
-            <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'" src="{{videoSrc}}" class="video{{i}} floor-plan" autoplay type="video/mp4" controls></video>
+            <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'"
+              src="{{videoSrc}}" class="video{{i}} floor-plan" autoplay type="video/mp4" controls></video>
             <canvas *ngIf="!item?.thumb" width="72" height="72" id="canvas{{i}}"></canvas>
             <!--<img *ngIf="item.thumb" class="ui bordered small image" [src]="item.thumb" onerror="this.src='assets/img/placeholder.png'">-->
             <img *ngIf="item.thumb" class="u-img" [src]="item.thumb| img:'thumb'" alt="img">
@@ -1159,7 +1298,8 @@
           </div>
         </div>
         <div class="add-more-images dimensions">
-          <input type="file" name="add-more" multiple max="6" accept="video/*" (change)="amenVideosSelect($event, 'amenity')">
+          <input type="file" name="add-more" multiple max="6" accept="video/*"
+            (change)="amenVideosSelect($event, 'amenity')">
           <span>+ Add more videos </span>
         </div>
 
@@ -1240,7 +1380,8 @@
           <p>Videos</p>
           <div class="uploaded-img" *ngFor="let item of amenVideo.files; let j=index">
             <a class="remove" (click)="remove(j)"><img src="assets/img/remove-icon.png" alt="img"></a>
-            <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'" src="{{videoSrc}}" class="video{{j}} floor-plan" autoplay type="video/mp4" controls></video>
+            <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'"
+              src="{{videoSrc}}" class="video{{j}} floor-plan" autoplay type="video/mp4" controls></video>
             <canvas *ngIf="!item?.thumb" width="72" height="72" id="canvas2{{j}}"></canvas>
             <!--<img *ngIf="item.thumb" class="ui bordered small image" [src]="item.thumb" onerror="this.src='assets/img/placeholder.png'">-->
             <img *ngIf="item.thumb" class="u-img" [src]="item.thumb| img:'thumb'" alt="img">
@@ -1249,7 +1390,8 @@
           </div>
         </div>
         <div class="add-more-images dimensions">
-          <input type="file" name="add-more" multiple max="3" accept="video/*" (change)="amenVideosSelect($event, 'tower')">
+          <input type="file" name="add-more" multiple max="3" accept="video/*"
+            (change)="amenVideosSelect($event, 'tower')">
           <span>+ Add more videos</span>
         </div>
         <!-- videos -->
@@ -1282,47 +1424,48 @@
 <div class="modal" id="developer-list">
   <div class="modal-dialog">
     <div class="modal-content notary-avail">
-        <div class="modal-header popup-header">
+      <div class="modal-header popup-header">
         <h4 class="modal-title">Select Developer</h4>
         <button type="button" class="close" data-dismiss="modal" #closeDeveloperListModel>&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-8 col-6">
+            <input style="max-width:200px" autocomplete="off" [(ngModel)]="name" class="form-control" type="text"
+              name="keyword" placeholder="Search">
+          </div>
+          <div class="col-md-4 col-5 btn-cont">
+            <a class="btn btn-primary pull-right" href="javascript://" (click)="selectDeveloper(name, 2)">Search</a>
+          </div>
         </div>
-        <div class="modal-body">
-            <div class="row">
-                <div class="col-md-8 col-6">
-                    <input style="max-width:200px" autocomplete="off" [(ngModel)]="name" class="form-control" type="text" name="keyword" placeholder="Search">
+        <div class="spacer40"></div>
+        <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+          <table class="table">
+            <tr *ngFor="let item of all_developers">
+              <td *ngIf="item.is_blocked!=1">
+                <div class="n-avail-profile">
+                  <img [src]="item.image| img:'thumb'" onerror='src="assets/img/default_img.png"' alt="img">
+                  <div class="n-avail-info">
+                    <p class="p12">{{item.name}}</p>
+                    <p class="p10">Phone : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
+                  </div>
                 </div>
-                <div class="col-md-4 col-5 btn-cont">
-                  <a class="btn btn-primary pull-right" href="javascript://" (click)="selectDeveloper(name, 2)">Search</a>
-              </div>
-            </div>
-            <div class="spacer40"></div>
-            <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
-              <table class="table">
-                <tr *ngFor="let item of all_developers">
-                    <td *ngIf="item.is_blocked!=1">
-                        <div class="n-avail-profile">
-                        <img [src]="item.image| img:'thumb'" onerror='src="assets/img/default_img.png"' alt="img">
-                        <div class="n-avail-info">
-                            <p class="p12">{{item.name}}</p>
-                            <p class="p10">Phone : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
-                        </div>
-                        </div>
-                    </td>
-                    <td *ngIf="item.is_blocked!=1">
-                        <label class="cust-check-bx float-right">
-                            <input type="radio" name="notary_id" (click)="setDeveloper(item)">
-                            <span class="checkmark"></span>
-                        </label>
-                    </td>
-                </tr>
-                <tr *ngIf="all_developers?.length<1">
-                    <p class="show-not-found">No developer found.</p>
-                </tr>
-            </table>
-            </div>
+              </td>
+              <td *ngIf="item.is_blocked!=1">
+                <label class="cust-check-bx float-right">
+                  <input type="radio" name="notary_id" (click)="setDeveloper(item)">
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+            </tr>
+            <tr *ngIf="all_developers?.length<1">
+              <p class="show-not-found">No developer found.</p>
+            </tr>
+          </table>
         </div>
+      </div>
     </div>
-</div>
+  </div>
 </div>
 
 
@@ -1330,49 +1473,51 @@
 <div class="modal" id="managed-by-list">
   <div class="modal-dialog">
     <div class="modal-content notary-avail">
-        <div class="modal-header popup-header">
+      <div class="modal-header popup-header">
         <h4 class="modal-title">Select {{parameter.managedBy == 1 ? 'Manager' : 'Company'}}</h4>
         <button type="button" class="close" data-dismiss="modal" #closeManagedByModel>&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-8 col-6">
+            <input style="max-width:200px" [(ngModel)]="name" class="form-control" type="text" name="keyword"
+              placeholder="Search">
+          </div>
+          <div class="col-md-4 col-5 btn-cont">
+            <a class="btn btn-primary pull-right" href="javascript://"
+              (click)="selectManagedBy(name, 2, parameter.managedBy)">Search</a>
+          </div>
         </div>
-        <div class="modal-body">
-            <div class="row">
-                <div class="col-md-8 col-6">
-                    <input style="max-width:200px" [(ngModel)]="name" class="form-control" type="text" name="keyword" placeholder="Search">
-                </div>
-                <div class="col-md-4 col-5 btn-cont">
-                  <a class="btn btn-primary pull-right" href="javascript://" (click)="selectManagedBy(name, 2, parameter.managedBy)">Search</a>
-              </div>
-            </div>
-            <div class="spacer40"></div>
-            <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
-              <div class="table-scroll">
-                  <table class="table">
-                      <tr *ngFor="let item of all_managers">
-                          <td *ngIf="item.is_blocked!=1">
-                              <div class="n-avail-profile">
-                              <img [src]="item.image| img:'thumb'" onerror='src="assets/img/default_img.png"' alt="img">
-                              <div class="n-avail-info">
-                                  <p class="p12">{{item.name}}</p>
-                                  <p class="p10">Phone : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
-                              </div>
-                              </div>
-                          </td>
-                          <td *ngIf="item.is_blocked!=1">
-                              <label class="cust-check-bx float-right">
-                                  <input type="radio" name="id" (click)="setManagedBy(item)">
-                                  <span class="checkmark"></span>
-                              </label>
-                          </td>
-                      </tr>
-                      <tr *ngIf="all_managers?.length<1">
-                          <p class="show-not-found">No {{parameter.managedBy == 1 ? 'manager' : 'company'}} added in database.</p>
-                      </tr>
-                  </table>
-              </div>
-            </div>
+        <div class="spacer40"></div>
+        <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+          <div class="table-scroll">
+            <table class="table">
+              <tr *ngFor="let item of all_managers">
+                <td *ngIf="item.is_blocked!=1">
+                  <div class="n-avail-profile">
+                    <img [src]="item.image| img:'thumb'" onerror='src="assets/img/default_img.png"' alt="img">
+                    <div class="n-avail-info">
+                      <p class="p12">{{item.name}}</p>
+                      <p class="p10">Phone : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
+                    </div>
+                  </div>
+                </td>
+                <td *ngIf="item.is_blocked!=1">
+                  <label class="cust-check-bx float-right">
+                    <input type="radio" name="id" (click)="setManagedBy(item)">
+                    <span class="checkmark"></span>
+                  </label>
+                </td>
+              </tr>
+              <tr *ngIf="all_managers?.length<1">
+                <p class="show-not-found">No {{parameter.managedBy == 1 ? 'manager' : 'company'}} added in database.</p>
+              </tr>
+            </table>
+          </div>
         </div>
+      </div>
     </div>
-</div>
+  </div>
 </div>
 
 
@@ -1381,35 +1526,37 @@
 <div class="modal" id="add-config">
   <div class="modal-dialog modal-lg">
     <div class="modal-content add-config-popup">
-      <form #addConfig >
-      <div class="modal-header popup-header">
-        <h4 class="modal-title">Add Configuration</h4>
-        <button type="button" class="close" data-dismiss="modal" #closeConfigPopup>×</button>
-      </div>
-      <div *ngIf="new_config" class="modal-body">
-        <div class="row">
-          <div class="col-sm-6 col-12">
-            <div class="form-group-3">
-              <label>Title</label>
-              <select class="form-control" [(ngModel)]="new_config.configuration_id" (change)="selectConfiguration($event.target.value,new_config)" name="config_name">
-                <option value="">Select</option>  
-                <option *ngFor="let c of all_configurations" value="{{c.id}}" daa-model="c">
-                  <!-- {{c.name}} -->
-                  <span *ngIf="c.status">
-                    <app-property-configuration *ngIf="c" [configuration]="c"></app-property-configuration>
-                  </span>
-                </option>
-              </select>
-            </div>
-          </div>
-          <div class="col-sm-6 col-12">
-            <div class="form-group-3">
-              <label>Name</label>
-              <input required [pattern]="constant.onlyWhiteSpaces" class="form-control" [(ngModel)]="new_config.name" type="text" name="name">
-            </div>
-          </div>
+      <form #addConfig>
+        <div class="modal-header popup-header">
+          <h4 class="modal-title">Add Configuration</h4>
+          <button type="button" class="close" data-dismiss="modal" #closeConfigPopup>×</button>
         </div>
-        <!-- <div class="row">
+        <div *ngIf="new_config" class="modal-body">
+          <div class="row">
+            <div class="col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>Title</label>
+                <select class="form-control" [(ngModel)]="new_config.configuration_id"
+                  (change)="selectConfiguration($event.target.value,new_config)" name="config_name">
+                  <option value="">Select</option>
+                  <option *ngFor="let c of all_configurations" value="{{c.id}}" daa-model="c">
+                    <!-- {{c.name}} -->
+                    <span *ngIf="c.status">
+                      <app-property-configuration *ngIf="c" [configuration]="c"></app-property-configuration>
+                    </span>
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>Name</label>
+                <input required [pattern]="constant.onlyWhiteSpaces" class="form-control" [(ngModel)]="new_config.name"
+                  type="text" name="name">
+              </div>
+            </div>
+          </div>
+          <!-- <div class="row">
           <div class="col-sm-6 col-12">
             <div class="form-group-3">
               <label>Carpet area (sqmt)
@@ -1425,42 +1572,43 @@
             </div>
           </div>
         </div> -->
-        <div class="row">
-          <div class="col-12">
-            <div class="form-group-3">
-              <label>Floor Plan Image
-              </label>
-              <div class="upload-cover-img" style="max-width: 400px; margin: 0px auto;height: 250px;">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group-3">
+                <label>Floor Plan Image
+                </label>
+                <div class="upload-cover-img" style="max-width: 400px; margin: 0px auto;height: 250px;">
                   <img class="img-fluid" [src]="file3.image" onerror='this.src="assets/img/placeholder.png"' />
                   <div *ngIf="!file3.image" class="upload-caption">
-                      <p class="green-color marginT30">+Upload Cover image for the project</p>
-                      <p>JPG or PNG. Imae size should be 1920 × 1080 pixels (for HiDPI displays).</p>
+                    <p class="green-color marginT30">+Upload Cover image for the project</p>
+                    <p>JPG or PNG. Imae size should be 1920 × 1080 pixels (for HiDPI displays).</p>
                   </div>
                   <input type="file" accept="image/*" name="floor_map_image" (change)="file3.onSelectFile($event)">
-              </div>
-              <div class="spacer30"></div>
-              <label>Other Images</label>
-              <div class="spacer30"></div>
-              <div class="uploaded-img-block">
-                <!-- showing add more image for selection -->
-                <div class="uploaded-img add-config-media">
-                  <input type="file" name="add-more-images" multiple max="6" accept="image/*" (change)="file4Select($event)">
-                  <div class="upload-caption">
-                    <p class="green-color">+ Add more images</p>
+                </div>
+                <div class="spacer30"></div>
+                <label>Other Images</label>
+                <div class="spacer30"></div>
+                <div class="uploaded-img-block">
+                  <!-- showing add more image for selection -->
+                  <div class="uploaded-img add-config-media">
+                    <input type="file" name="add-more-images" multiple max="6" accept="image/*"
+                      (change)="file4Select($event)">
+                    <div class="upload-caption">
+                      <p class="green-color">+ Add more images</p>
+                    </div>
+                  </div>
+                  <!-- showing all selected images -->
+                  <div class="uploaded-img" *ngFor="let item of file4.files; let i=index">
+                    <a class="remove" (click)="file4.remove(i)">
+                      <img src="assets/img/remove-icon.png" alt="img">
+                    </a>
+                    <img *ngIf="item.image" class="u-img" [src]="item.image| img:'thumb'" alt="img">
+                    <img *ngIf="!item.image" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+                    <div *ngIf="item.loading" class="loaderr"></div>
                   </div>
                 </div>
-                <!-- showing all selected images -->
-                <div class="uploaded-img" *ngFor="let item of file4.files; let i=index">
-                  <a class="remove" (click)="file4.remove(i)">
-                    <img src="assets/img/remove-icon.png" alt="img">
-                  </a>
-                  <img *ngIf="item.image" class="u-img" [src]="item.image| img:'thumb'" alt="img">
-                  <img *ngIf="!item.image" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
-                  <div *ngIf="item.loading" class="loaderr"></div>
-                </div>
-              </div>
-              
-              <!-- <div class="add-project-img-more">
+
+                <!-- <div class="add-project-img-more">
                 <input type="file" name="add-more-images" multiple max="6" accept="image/*" (change)="file4Select($event)">
                 <div class="upload-caption">
                   <p class="green-color">+ Add more images</p>
@@ -1468,28 +1616,29 @@
               </div> -->
 
 
-              <label>360<span>&#176;</span> Images</label>
-              <div class="spacer30"></div>
-              <div class="uploaded-img-block">
-                <!-- showing add more image for selection -->
-                <div class="uploaded-img add-config-media">
-                  <input type="file" name="add-more-images" multiple max="6" accept="image/*" (change)="config360ImgSelect($event)">
-                  <div class="upload-caption">
+                <label>360<span>&#176;</span> Images</label>
+                <div class="spacer30"></div>
+                <div class="uploaded-img-block">
+                  <!-- showing add more image for selection -->
+                  <div class="uploaded-img add-config-media">
+                    <input type="file" name="add-more-images" multiple max="6" accept="image/*"
+                      (change)="config360ImgSelect($event)">
+                    <div class="upload-caption">
                       <p class="green-color">+ Add more 360<span>&#176;</span> images</p>
+                    </div>
+                  </div>
+                  <!-- showing all selected images -->
+                  <div class="uploaded-img" *ngFor="let item of config360Img.files; let i=index">
+                    <a class="remove" (click)="config360Img.remove(i)">
+                      <img src="assets/img/remove-icon.png" alt="img">
+                    </a>
+                    <img *ngIf="item.image" class="u-img" [src]="item.image| img:'thumb'" alt="img">
+                    <img *ngIf="!item.image" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+                    <div *ngIf="item.loading" class="loaderr"></div>
                   </div>
                 </div>
-                <!-- showing all selected images -->
-                <div class="uploaded-img" *ngFor="let item of config360Img.files; let i=index">
-                  <a class="remove" (click)="config360Img.remove(i)">
-                    <img src="assets/img/remove-icon.png" alt="img">
-                  </a>
-                  <img *ngIf="item.image" class="u-img" [src]="item.image| img:'thumb'" alt="img">
-                  <img *ngIf="!item.image" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
-                  <div *ngIf="item.loading" class="loaderr"></div>
-                </div>
-              </div>
-              
-              <!-- <div class="add-project-img-more">
+
+                <!-- <div class="add-project-img-more">
                 <input type="file" name="add-more-images" multiple max="6" accept="image/*" (change)="config360ImgSelect($event)">
                 <div class="upload-caption">
                   <p class="green-color">+ Add more 360<span>&#176;</span> images</p>
@@ -1497,7 +1646,7 @@
               </div> -->
 
 
-              <!-- <label>Videos</label>
+                <!-- <label>Videos</label>
               <div class="spacer30"></div>
               <div class="uploaded-img-block">
                 <div class="uploaded-img add-config-media">
@@ -1515,27 +1664,26 @@
                   <div *ngIf="item.loading" class="loaderr"></div>
                 </div>
               </div> -->
-              
-              <!-- <div class="add-project-img-more">
+
+                <!-- <div class="add-project-img-more">
                 <input type="file" name="add-more-images" multiple max="6" accept="image/*" (change)="configVideosSelect($event)">
                 <div class="upload-caption">
                   <p class="green-color">+ Add more videos</p>
                 </div>
               </div> -->
-          
+
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div class="btn-cont">
+              <button [disabled]="!new_config.configuration_id
+            || !new_config.name
+            || !file3.image" (click)="addNewConfig()" type="button" class="btn btn-primary">Save</button>
             </div>
           </div>
         </div>
-        <div class="modal-footer">
-          <div class="btn-cont">
-            <button [disabled]="!new_config.configuration_id
-            || !new_config.name
-            || !file3.image" (click)="addNewConfig()" type="button" class="btn btn-primary">Save</button>
-          </div>
-        </div>
-      </div>
       </form>
 
     </div>
   </div>
-
