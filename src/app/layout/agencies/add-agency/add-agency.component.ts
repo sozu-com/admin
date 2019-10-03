@@ -100,11 +100,11 @@ export class AddAgencyComponent implements OnInit {
   add(formData: NgForm) {
     const modelSave: Agency = JSON.parse(JSON.stringify(this.model));
     if (!modelSave.lat || !modelSave.lng) {
-      swal('Error', 'Please choose address from dropdown.', 'error');
+      swal('Error', this.translate.instant('message.info.pleaseChooseAddressFromDropdown'), 'error');
       return;
     }
     if (modelSave.img_loader || modelSave.logo_loader) {
-      swal('Error', 'Uploading image.', 'error');
+      swal('Error', this.translate.instant('message.error.uploadingImage'), 'error');
       return;
     }
     this.spinner.show();
@@ -116,7 +116,9 @@ export class AddAgencyComponent implements OnInit {
             swal('Error', success.message, 'error');
             return;
           } else {
-            const text = this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
+            const text = this.model.id === '' ?
+                    this.translate.instant('message.success.addedSuccessfully') :
+                    this.translate.instant('message.success.updatedSuccessfully');
             swal('Success', text, 'success');
             this.router.navigate(['/dashboard/agencies']);
             if (this.model.id === '') {

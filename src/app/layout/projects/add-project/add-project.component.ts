@@ -121,17 +121,17 @@ export class AddProjectComponent implements OnInit {
   testMarital = [
     {
       id: 1,
-      name: 'Married',
+      name: this.translate.instant('viewProjects.maritalStatus.married'),
       checked: false
     },
     {
       id: 2,
-      name: 'Unmarried',
+      name: this.translate.instant('viewProjects.maritalStatus.unmarried'),
       checked: false
     },
     {
       id: 3,
-      name: 'Divorced',
+      name: this.translate.instant('viewProjects.maritalStatus.divorced'),
       checked: false
     }
   ];
@@ -447,7 +447,6 @@ export class AddProjectComponent implements OnInit {
   }
 
   getStates(country_id: any, keyword: string) {
-    // this.spinner.show();
     this.model.country_id = country_id;
     this.model.state_id = '';
     this.model.city_id = '';
@@ -459,15 +458,10 @@ export class AddProjectComponent implements OnInit {
 
     this.admin.postDataApi('country/getStates', input).subscribe(success => {
       this.parameter.states = success['data'];
-      // this.spinner.hide();
-    },
-      error => {
-        // this.spinner.hide();
-      });
+    });
   }
 
   getCities(state_id: any, keyword: string) {
-    // this.spinner.show();
     this.model.state_id = state_id;
     this.model.city_id = '';
     this.model.locality_id = '';
@@ -477,11 +471,7 @@ export class AddProjectComponent implements OnInit {
 
     this.admin.postDataApi('getCities', input).subscribe(success => {
       this.parameter.cities = success['data'];
-      // this.spinner.hide();
-    },
-      error => {
-        // this.spinner.hide();
-      });
+    });
   }
 
 
@@ -537,14 +527,6 @@ export class AddProjectComponent implements OnInit {
   }
 
   saveImages() {
-    // if (this.file2.files.length < 1) {
-    //   swal('Error', 'Please select atleast one image', 'error');
-    //   return false;
-    // }
-    // this.modalClose.nativeElement.click();
-    // this.file2.upload().then(r => {
-    //   this.model.images = this.file2.files;
-    // });
     let count = 0;
     if (this.file2.files.length < 1) {
       swal('Error', 'Please select atleast one image', 'error');
@@ -580,7 +562,7 @@ export class AddProjectComponent implements OnInit {
   save360Images() {
     let count = 0;
     if (this.file7.files.length < 1) {
-      swal('Error', 'Please select atleast one image', 'error');
+      swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
       return false;
     }
     this.file7.upload().then(r => {
@@ -599,7 +581,7 @@ export class AddProjectComponent implements OnInit {
   saveVideos() {
     let count = 0;
     if (this.amenVideo.files.length < 1) {
-      swal('Error', 'Please select atleast one image', 'error');
+      swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
       return false;
     }
     this.amenVideo.upload().then(r => {
@@ -649,7 +631,7 @@ export class AddProjectComponent implements OnInit {
     let count = 0;
     const totalFilesCount = this.file2.files.length + this.amen360Img.files.length + this.amenVideo.files.length;
     if (totalFilesCount < 1) {
-      swal('Error', 'Please select atleast one image', 'error');
+      swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
       return false;
     }
     // if (this.file2.files.length < 1) {
@@ -730,15 +712,15 @@ export class AddProjectComponent implements OnInit {
     let count = 0;
     const totalFilesCount = this.file2.files.length + this.amen360Img.files.length + this.amenVideo.files.length;
     if (this.file2.files.length > 6) {
-      swal('Error', 'You can choose maximum of 6 images.', 'error');
+      swal('Error', this.translate.instant('message.info.chooseMax6Images'), 'error');
       return false;
     }
     if (this.amen360Img.files.length > 6) {
-      swal('Error', 'You can choose maximum of 6 360 images.', 'error');
+      swal('Error', this.translate.instant('message.info.chooseMax6360Images'), 'error');
       return false;
     }
     if (this.amenVideo.files.length > 6) {
-      swal('Error', 'You can choose maximum of 6 videos.', 'error');
+      swal('Error', this.translate.instant('message.info.chooseMax6Videos'), 'error');
       return false;
     }
 
@@ -1008,8 +990,7 @@ export class AddProjectComponent implements OnInit {
 
   deleteConfiguration(index) {
     swal({
-      title: 'Are you sure?',
-      text: 'Do you want to Delete?',
+      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.translate.instant('message.question.wantToDeleteConf'),
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -1055,7 +1036,7 @@ export class AddProjectComponent implements OnInit {
     let count = 0;
     const totalFilesCount = this.file4.files.length + this.config360Img.files.length + this.configVideo.files.length;
     if (this.file4.files.length < 1) {
-      swal('Error', 'Please choose atleast one image for other images', 'error');
+      swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
       return false;
     }
     // this.spinner.show();
@@ -1125,23 +1106,23 @@ export class AddProjectComponent implements OnInit {
     modelSave.is_completed = 0;
     modelSave.cover_image = this.file1.image;
     if (this.model.videoLoader) {
-      swal('Error', 'Uploading video.', 'error');
+      swal('Error', this.translate.instant('message.error.uploadingVideo'), 'error');
       return;
     }
     if (!modelSave.country_id) {
-      swal('Error', 'Please select country.', 'error');
+      swal('Error', this.translate.instant('message.error.pleaseSelectCountry'), 'error');
       return false;
     }
     if (!modelSave.state_id) {
-      swal('Error', 'Please select state.', 'error');
+      swal('Error', this.translate.instant('message.error.pleaseSelectState'), 'error');
       return false;
     }
     if (!modelSave.city_id) {
-      swal('Error', 'Please select city.', 'error');
+      swal('Error', this.translate.instant('message.error.pleaseSelectCity'), 'error');
       return false;
     }
     if (!modelSave.locality_id) {
-      swal('Error', 'Please select locality.', 'error');
+      swal('Error', this.translate.instant('message.error.pleaseSelectLocality'), 'error');
       return false;
     }
 
@@ -1149,7 +1130,7 @@ export class AddProjectComponent implements OnInit {
     if (modelSave.possession_status_id &&
       (modelSave.possession_status_id.toString() === this.apiConstants.possession_status_id) &&
       !modelSave.launch_date) {
-      swal('Error', 'Please select launch date.', 'error');
+        swal('Error', this.translate.instant('message.info.pleaseSelectLaunchDate'), 'error');
       return false;
     }
     if (modelSave.images) {

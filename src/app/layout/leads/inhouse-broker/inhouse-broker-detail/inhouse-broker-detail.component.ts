@@ -11,7 +11,6 @@ import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
 import { Constant } from 'src/app/common/constants';
 import { ChatTimePipe } from 'src/app/pipes/chat-time.pipe';
-import { TranslateService } from 'src/app/lang/translate.service';
 declare let swal: any;
 
 @Component({
@@ -46,8 +45,7 @@ export class InhouseBrokerDetailComponent implements OnInit {
     public constant: Constant,
     private http: Http,
     public appointment: AddAppointmentMultiple,
-    private spinner: NgxSpinnerService,
-    public ts: TranslateService
+    private spinner: NgxSpinnerService
   ) {
     this.admin.loginData$.subscribe(success => {
       this.parameter.admin_id = success['id'];

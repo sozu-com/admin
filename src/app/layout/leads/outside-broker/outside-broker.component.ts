@@ -6,7 +6,7 @@ import { Constant } from 'src/app/common/constants';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { TranslateService } from 'src/app/lang/translate.service';
+// import { TranslateService } from 'src/app/lang/translate.service';
 import { LeadsService } from 'src/app/services/leads.service';
 declare let swal: any;
 
@@ -45,8 +45,7 @@ export class OutsideBrokerComponent implements OnInit {
     public leadsService: LeadsService,
     private constant: Constant,
     private route: ActivatedRoute,
-    private spinner: NgxSpinnerService,
-    public ts: TranslateService
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {

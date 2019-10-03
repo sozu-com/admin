@@ -6,7 +6,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Constant } from 'src/app/common/constants';
 import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
-import { TranslateService } from 'src/app/lang/translate.service';
+// import { TranslateService } from 'src/app/lang/translate.service';
 import { LeadsService } from 'src/app/services/leads.service';
 declare let swal: any;
 
@@ -45,8 +45,8 @@ export class InhouseBrokerComponent implements OnInit {
     public leadsService: LeadsService,
     private constant: Constant,
     private route: ActivatedRoute,
-    private spinner: NgxSpinnerService,
-    public ts: TranslateService
+    private spinner: NgxSpinnerService
+    // public ts: TranslateService
   ) { }
 
   ngOnInit() {

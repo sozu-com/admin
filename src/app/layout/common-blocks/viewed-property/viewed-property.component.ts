@@ -3,7 +3,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { IProperty } from 'src/app/common/property';
 import { Constant } from 'src/app/common/constants';
 import { AdminService } from 'src/app/services/admin.service';
-import { TranslateService } from 'src/app/lang/translate.service';
 
 @Component({
   selector: 'app-viewed-property',
@@ -18,8 +17,7 @@ export class ViewedPropertyComponent implements OnInit {
 
   public parameter: IProperty = {};
   public scrollbarOptions = { axis: 'y', theme: 'dark', scrollbarPosition: 'inside'};
-  constructor(public constant: Constant, private admin: AdminService, private spinner: NgxSpinnerService,
-    public ts: TranslateService) { }
+  constructor(public constant: Constant, private admin: AdminService, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.parameter.page = this.constant.p;

@@ -6,7 +6,6 @@ import { Constant } from 'src/app/common/constants';
 import { EventEmitter } from 'events';
 import { NgForm } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { TranslateService } from 'src/app/lang/translate.service';
 declare let swal: any;
 
 @Component({
@@ -37,8 +36,7 @@ export class InterestedPropertyComponent implements OnInit {
   property_ids = [];
   public scrollbarOptions = { axis: 'y', theme: 'dark', scrollbarPosition: 'inside'};
   constructor(public model: DealFinalize, public admin: AdminService, public constant: Constant,
-    private spinner: NgxSpinnerService,
-    public ts: TranslateService) { }
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.parameter.itemsPerPage = this.constant.itemsPerPage;

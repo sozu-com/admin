@@ -8,6 +8,7 @@ import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
 import { CommonService } from 'src/app/services/common.service';
 import { Constant } from 'src/app/common/constants';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -34,7 +35,8 @@ export class NotaryLeadsDetailsComponent implements OnInit {
     public selectedProperties: SelectedProperties,
     public model: Chat,
     public scheduleMeeting: ScheduleMeeting,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) {
     this.admin.loginData$.subscribe(success => {
       this.parameter.admin_id = success['id'];
@@ -109,7 +111,7 @@ export class NotaryLeadsDetailsComponent implements OnInit {
     this.spinner.show();
     this.admin.postDataApi('leads/updateDocumentChecklist', input).subscribe(r => {
       this.spinner.hide();
-      swal('Success', 'Successfully saved', 'success');
+      swal('Success', this.translate.instant('message.success.savedSuccessfully'), 'success');
     }, error => {
       this.spinner.hide();
     }
@@ -117,7 +119,7 @@ export class NotaryLeadsDetailsComponent implements OnInit {
   }
 
   noDocumentUploaded() {
-    swal('Error', 'No document uploaded yet.', 'error');
+    swal('Error', this.translate.instant('message.error.noDocumentUploadedYet'), 'error');
   }
 
   viewPropertyDetails(property) {
@@ -127,7 +129,8 @@ export class NotaryLeadsDetailsComponent implements OnInit {
 
   markLeadClose() {
     swal({
-      html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to close this lead?',
+      html: this.translate.instant('message.question.areYouSure') + '<br>' +
+            this.translate.instant('message.question.wantTocloseLead'),
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -137,7 +140,7 @@ export class NotaryLeadsDetailsComponent implements OnInit {
       if (result.value) {
         this.admin.postDataApi('leads/noatary-mark-lead-closed', {lead_id: this.parameter.lead_id}).subscribe(r => {
           this.parameter.lead.lead_status_noatary = 1;
-          swal('Success', 'Lead closed successfully.', 'success');
+          swal('Success', this.translate.instant('message.success.leadClosedSuccessfully'), 'success');
         });
       }
     });

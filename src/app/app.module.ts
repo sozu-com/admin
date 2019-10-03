@@ -32,7 +32,7 @@ import { CommonService } from './services/common.service';
 import { Constant } from './common/constants';
 import { Login, AdminACL } from './models/login.model';
 import { SharedModule } from './modules/shared.module';
-import { TranslateService } from './lang/translate.service';
+// import { TranslateService } from './lang/translate.service';
 import { AngularFireMessaging } from '@angular/fire/messaging';
 import { ApiConstants } from './common/api-constants';
 import { VersionCheckService } from './services/version-check.service';
@@ -102,7 +102,7 @@ const appRoutes: Routes = [
     ApiConstants,
     Login,
     AdminACL,
-    TranslateService,
+    // TranslateService,
     AngularFireMessaging
   ],
   bootstrap: [AppComponent]

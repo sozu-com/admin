@@ -139,7 +139,7 @@ export class AddAclComponent implements OnInit {
 
   add(formData: NgForm) {
     if (this.model.img_loader) {
-      swal('Error', 'Uploading image.', 'error');
+      swal('Error', this.translate.instant('message.error.uploadingImage'), 'error');
       return;
     }
     this.spinner.show();
@@ -150,7 +150,9 @@ export class AddAclComponent implements OnInit {
           if (success.success === '0') {
             swal('Error', success.message, 'error');
           } else {
-            const text = this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
+            const text = this.model.id === '' ?
+                    this.translate.instant('message.success.addedSuccessfully') :
+                    this.translate.instant('message.success.updatedSuccessfully');
             swal('Success', text, 'success');
             if (this.model.id === '') {
               // this.model.image = '';

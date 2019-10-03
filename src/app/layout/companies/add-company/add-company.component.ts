@@ -96,15 +96,16 @@ export class AddCompanyComponent implements OnInit {
   add(formData: NgForm) {
     const modelSave: Users = JSON.parse(JSON.stringify(this.model));
     if (!modelSave.lat || !modelSave.lng) {
-      swal('Error', 'Please choose address from dropdown.', 'error');
+      swal('Error', this.translate.instant('message.info.pleaseChooseAddressFromDropdown'), 'error');
       return;
     }
     if (!modelSave.branch_lat || !modelSave.branch_lng) {
-      swal('Error', 'Please choose branch address from dropdown.', 'error');
+      swal('Error', this.translate.instant('message.info.pleaseChooseBranchAddressFromDropdown'), 'error');
+      swal('Error', '', 'error');
       return;
     }
     if (this.model.img_loader || this.model.logo_loader) {
-      swal('Error', 'Uploading images.', 'error');
+      swal('Error', this.translate.instant('message.error.uploadingImage'), 'error');
       return;
     }
     delete this.model.logo_loader;
@@ -118,7 +119,9 @@ export class AddCompanyComponent implements OnInit {
             swal('Error', success.message, 'error');
             return;
           } else {
-            const text = this.model.id ? 'Updated successfully.' : 'Added successfully.';
+            const text = this.model.id ?
+                    this.translate.instant('message.success.updatedSuccessfully') :
+                    this.translate.instant('message.success.addedSuccessfully');
             swal('Success', text, 'success');
             if (!this.model.id) {
               formData.reset();

@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AdminService } from '../../services/admin.service';
-import { IProperty } from '../../common/property';
-import { Constant } from './../../common/constants';
+import { AdminService } from 'src/app/services/admin.service';
+import { IProperty } from 'src/app/common/property';
+import { Constant } from 'src/app/common/constants';
 import { Router } from '@angular/router';
 import { Agency } from 'src/app/models/agency.model';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -21,10 +22,11 @@ export class AgenciesComponent implements OnInit {
   label: string;
   constructor(public constant: Constant,
     private spinner: NgxSpinnerService,
-    public admin: AdminService, private router: Router) { }
+    public admin: AdminService, private router: Router,
+    private translate: TranslateService) { }
 
   ngOnInit() {
-    this.label = 'Choose Agencies File';
+    this.label = this.translate.instant('table.title.chooseAgenciesFile');
     this.model = new Agency();
     this.model.property_sort = null; // desc
     this.model.agent_sort = 2; // desc
@@ -74,15 +76,15 @@ export class AgenciesComponent implements OnInit {
 
   blockUnblockPopup(index: any, id: string, flag: number) {
     this.parameter.index = index;
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    this.parameter.title = this.translate.instant('message.question.areYouSure');
     switch (flag) {
       case 0:
-        this.parameter.text = this.constant.title.UNBLOCK_AGENCY;
-        this.parameter.successText = this.constant.successMsg.UNBLOCKED_SUCCESSFULLY;
-        break;
-      case 1:
-        this.parameter.text = this.constant.title.BLOCK_AGENCY;
-        this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
+      this.parameter.text = this.translate.instant('message.question.wantToUnblockAgency');
+      this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
+      break;
+    case 1:
+      this.parameter.text = this.translate.instant('message.question.wantToBlockAgency');
+      this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
     }
 
@@ -113,13 +115,12 @@ export class AgenciesComponent implements OnInit {
         success => {
           swal('Success', this.parameter.successText, 'success');
           this.items[this.parameter.index]['is_blocked'] = flag;
-          // this.items[this.parameter.index] = success.data;
         });
   }
 
   deletePopup(item: any, index: number) {
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
-    this.parameter.text = 'You want to delete this agency?';
+    this.parameter.title = this.translate.instant('message.question.areYouSure');
+    this.parameter.text = this.translate.instant('message.question.wantToDeleteAgency');
 
     swal({
       html: this.parameter.title + '<br>' + this.parameter.text,
@@ -140,7 +141,7 @@ export class AgenciesComponent implements OnInit {
       { agency_id: item.id }).subscribe(r => {
         this.items.splice(index, 1);
         this.parameter.total--;
-        swal('Success', 'Deleted successfully.', 'success');
+        swal('Success', this.translate.instant('message.success.deletedSuccessfully'), 'success');
       },
         error => {
           swal('Error', error.error.message, 'error');
@@ -154,7 +155,7 @@ export class AgenciesComponent implements OnInit {
     if (file.files && file.files[0]) {
       attachment = file.files[0];
       if (attachment.size > this.constant.fileSizeLimit) {
-        swal('Error', 'File size is more than 25MB.', 'error');
+        swal('Error', this.translate.instant('message.info.fileSizeLimit'), 'error');
         return false;
       }
       this.spinner.show();
@@ -165,15 +166,15 @@ export class AgenciesComponent implements OnInit {
           success => {
             this.spinner.hide();
             this.fileInput.nativeElement.value = '';
-            this.label = 'Choose Agencies File';
-            swal('Success', 'Imported successfully.', 'success');
+            this.label = this.translate.instant('table.title.chooseAgenciesFile');
+            swal('Success', this.translate.instant('message.success.importedSuccessfully'), 'success');
             this.getAgencies();
           }, error => {
             this.fileInput.nativeElement.value = '';
             this.spinner.hide();
           });
     } else {
-      swal('Error', 'Please choose file', 'error');
+      swal('Error', this.translate.instant('message.info.pleaseChooseFile'), 'error');
       return false;
     }
   }

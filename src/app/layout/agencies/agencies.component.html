@@ -3,22 +3,22 @@
   <div class="row">
       <div class="col-md-4 col-6">
         <div class="title-group">
-            <h5>Agencies</h5>
-            <p>Showing {{items?.length}} out of {{parameter.total}}</p>
+            <h5>{{'viewAgency.label' | translate}}</h5>
+            <p>{{'table.pagination.showing' | translate}} {{items?.length}} {{'table.pagination.outof' | translate}} {{parameter.total}}</p>
         </div>
       </div>
       <div class="col-md-5 col-6">
         <div class="btn-cont upload-excel pull-right">
-            <a title="Download Sample File" href="assets/docx/Sozu_Agencies_Sample.xlsx" class="btn"><span class="fa fa-download"></span></a>
-            <label title="Choose Excel File" class="img_label">{{label}}
+            <a title="{{'table.title.downloadSampleFile' | translate}}" href="assets/docx/Sozu_Agencies_Sample.xlsx" class="btn"><span class="fa fa-download"></span></a>
+            <label title="{{'table.title.chooseExcelFile' | translate}}" class="img_label">{{label}}
                 <input type="file" #fileInput accept=".xls,.xlsx" (change)="getFileName()">
             </label>
-            <a title="Upload Selected File" (click)="importAgency()" href="javascript://" class="btn"><span class="fa fa-upload"></span></a>
+            <a title="{{'table.title.uploadSelectedFile' | translate}}" (click)="importAgency()" href="javascript://" class="btn"><span class="fa fa-upload"></span></a>
         </div>
       </div>
       <div class="col-md-3 col-6">
         <div class="btn-cont text-right">
-            <a *ngIf="admin?.admin_acl['Agencies Management']?.can_create==1" class="btn btn-primary" href="javascript://" routerLink="/dashboard/agencies/add-agency/0">+Add New</a>
+            <a *ngIf="admin?.admin_acl['Agencies Management']?.can_create==1" class="btn btn-primary" href="javascript://" routerLink="/dashboard/agencies/add-agency/0">{{'table.addNewBtn' | translate}}</a>
         </div>
       </div>
   </div>
@@ -31,7 +31,7 @@
               <th style="width:6%">&nbsp;</th>
               <th style="width:20%">
                 <div class="table-search">
-                    <label>Company Name <br> (Commercial Name)</label>
+                    <label>{{'table.th.companyCommercialName' | translate}}</label>
                     <div class="searh-3">
                       <input type="text" [(ngModel)]="model.name" (keyup.enter)="getAgencies()" name="">
                       <button *ngIf="model.name" (click)="getAgencies()"><i class="fa fa-search"></i></button>
@@ -40,7 +40,7 @@
               </th>
               <th style="width:20%; text-align:left;">
                 <div class="table-search">
-                    <label><br>&nbsp;Contact Number</label>
+                  <label>{{'table.th.contactNumber' | translate}}</label>
                     <div class="searh-3">
                       <input type="text" [(ngModel)]="model.phone" (keyup.enter)="getAgencies()" name="">
                       <button *ngIf="model.phone" (click)="getAgencies()"><i class="fa fa-search"></i></button>
@@ -49,7 +49,7 @@
               </th>
               <th style="width:20%">
                 <div class="table-search">
-                    <label><br>&nbsp;Email</label>
+                  <label>{{'table.th.emailId' | translate}}</label>
                     <div class="searh-3">
                       <input type="text" [(ngModel)]="model.email" (keyup.enter)="getAgencies()" name="">
                       <button *ngIf="model.email" (click)="getAgencies()"><i class="fa fa-search"></i></button>
@@ -58,13 +58,13 @@
               </th>
               <th style="width:7%; vertical-align: top;">
                   <div class="table-search">
-                <label>Linked Agent</label>
+                    <label>{{'table.th.linkedAgent' | translate}}</label>
                 <a (click)="sortData(model.agent_sort==2?1:2, 'agent_sort')" href="javascript://"><img [ngClass]="{'upsidedown':model.agent_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
                 </div>
               </th>
               <th style="width:7%; vertical-align: top;">
                 <div class="table-search">
-                <label>Linked Properties</label>
+                  <label>{{'table.th.linkedProperties' | translate}}</label>
                 <a (click)="sortData(model.property_sort==2?1:2, 'property_sort')" href="javascript://"><img [ngClass]="{'upsidedown':model.property_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
                   </div>
               </th>
@@ -84,19 +84,19 @@
                 </span>
               </td>
               <td class="text-left" *ngIf="item.phone">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
-              <td class="text-left" *ngIf="!item.phone">NA</td>
+              <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
               <td class="text-left">{{item.email}}</td>
               <td class="text-left">{{item.agents_count | numberWithCommas}}</td>
               <td class="text-left">{{item.property_count | numberWithCommas}}</td>
               <td>
                 <div class="table-actions">
-                  <button title="Edit Details" [disabled]="admin?.admin_acl['Agencies Management']?.can_update==0" (click)="editUser(item)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                  <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Agencies Management']?.can_update==0" (click)="editUser(item)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                   <button [disabled]="admin?.admin_acl['Agencies Management']?.can_delete==0"
                     (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1)" 
-                    title="{{item.is_blocked==1?'Unblock Agency':'Block Agency'}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"
+                    title="{{item.is_blocked==1 ? ('table.title.unblock' | translate) : ('table.title.block' | translate)}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"
                     class="action-icon"><img src="assets/img/block.png" alt="img">
                   </button>
-                  <button [disabled]="admin?.admin_acl['Agencies Management']?.can_purge==0" (click)="deletePopup(item, i);" class="action-icon" title="Delete Agency"><img src="assets/img/ic_delete.png" alt="img"></button>
+                  <button [disabled]="admin?.admin_acl['Agencies Management']?.can_purge==0" (click)="deletePopup(item, i);" class="action-icon" title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png" alt="img"></button>
                 </div>
               </td>
             </tr>

@@ -362,7 +362,7 @@
         <div class="modal-dialog ">
             <div class="modal-content notary-avail">
                 <div class="modal-header popup-header">
-                <h4 class="modal-title">Re Assign to</h4>
+                <h4 class="modal-title">{{'viewNotaryLeads.reAssisgnTo' | translate}}</h4>
                 <button type="button" class="close" data-dismiss="modal" #closeAssignModel>&times;</button>
                 </div>
                 <div class="modal-body">
@@ -371,7 +371,7 @@
                             <input style="max-width:200px" list="amenities" [(ngModel)]="assign.keyword" (keyup.enter)="getAssignListing()" class="form-control" type="text" name="keyword" placeholder="{{'viewNotaryLeads.searchNotary' | translate}}">
                         </div>
                         <div class="col-md-4 btn-cont">
-                            <a class="btn btn-primary pull-right" href="javascript://" (click)="assignNow()">Assign</a>
+                            <a class="btn btn-primary pull-right" href="javascript://" (click)="assignNow()">{{'viewNotaryLeads.assign' | translate}}</a>
                         </div>
                     </div>
                     <div class="spacer40"></div>
@@ -383,7 +383,7 @@
                                     <img [src]="item.image" onerror='src="assets/img/default_img.png"' alt="img">
                                     <div class="n-avail-info">
                                         <p class="p12">{{item.name}}</p>
-                                        <p class="p10">Phone : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
+                                        <p class="p10">{{'viewNotaryLeads.phone' | translate}} : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
                                     </div>
                                     </div>
                                 </td>

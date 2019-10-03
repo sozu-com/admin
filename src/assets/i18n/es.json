@@ -92,6 +92,8 @@
   },
   "addForm": {
     "image": "+ Add Image",
+    "logo": "+ Add Logo",
+    "coverImage": "+ Add Cover Image",
     "addBtn": "Add",
     "updateBtn": "Update",
     "companyName": "Company Name",
@@ -107,11 +109,41 @@
     "outSideAgent": "Outside Agent",
     "dataCollector": "Data Collector",
     "CSRClosure": "CSR Closure",
+    "addMoreImages": "More images",
     "moreImages": {
       "label": "Images",
       "addMoreBtn": "+ Add more images",
       "submitBtn": "Submit"
+    },
+    "canCreate": "Can Create",
+    "canRead": "Can Read",
+    "canUpdate": "Can Update",
+    "canBlockUnblock": "Can Block/Unblock",
+    "canDelete": "Can Delete",
+    "canCRUD": "CRUD",
+    "companyCommercialName": "Company Name (Commercial Name)",
+    "rfcLegalId": "RFC (Legal ID)",
+    "razonSocial": "Razon Social (Legal Name)",
+    "locationPinOnMap": "Location Pin on Map",
+    "description": "Description",
+    "branchOffice": "Branch Office",
+    "linkedAgent": "Linked Agent",
+    "linkedProperties": "Linked Properties",
+    "linkedProjects": "Linked Projects",
+    "linkedManagers": "Linked Managers",
+    "branch": "Branch",
+    "floatingInt": "Floating value (%)",
+    "buildings": "Buildings",
+    "selectCompany": "Select Company",
+    "placeholder": {
+      "searchForAddress": "Search for address",
+      "searchForBranch": "Search for Branch Office"
     }
+  },
+  "charts": {
+    "label": "",
+    "leadsOpen": "Leads (Open)",
+    "leadsClosed": "Leads (Closed)"
   },
   "table": {
     "addNewBtn": "+Add New",
@@ -139,17 +171,26 @@
       "nameOfBuilding": "Name of Building",
       "developer": "Developer",
       "managedBy": "Managed By Company/Manager",
+      "companyCommercialName": "Company Name (Commercial Name)",
       "possesion": {
         "label": "Possesion",
         "all": "All",
         "sale": "Sale",
         "presale": "Presale"
       },
+      "empId": "Emp ID",
       "properties": "Properties",
       "propertiesForRent": "Properties Available For Rent",
       "propertiesForSale": "Properties Available For Sale",
       "avgPrice": "Avg Price",
       "assignee": "Assignee",
+      "branch": "Branch",
+      "floatingInt": "Floating Int. (%)",
+      "freelancer": "Freelancer",
+      "selectCompany": "Select Company",
+      "linkedProjects": "Linked Projects",
+      "status": "Status",
+      "type": "Type",
       "actions": {
         "label": "Actions",
         "all": "All",
@@ -174,6 +215,9 @@
       "chooseExcelFile": "Choose Excel File",
       "uploadSelectedFile": "Upload Selected File",
       "chooseNotariesFile": "Choose Notaries File",
+      "chooseAgenciesFile": "Choose Agencies File",
+      "chooseCompaniesFile": "Choose Companies File",
+      "chooseManagersFile": "Choose Managers File",
       "viewProjects": "View Projects",
       "viewLeads": "View Leads",
       "viewRoles": "View Roles",
@@ -181,6 +225,7 @@
       "clickToAdd": "Click to Add",
       "clickToViewDetails": "Click to view details",
       "clickToViewProperties": "Click to view properties",
+      "clickToViewBuildings": "Click to view buildings",
       "notary": "Notary",
       "editDetails": "Edit Details",
       "block": "Block",
@@ -204,10 +249,19 @@
       "addedSuccessfully": "Added Successfully.",
       "updatedSuccessfully": "Updated Successfully.",
       "importedSuccessfully": "Imported successfully.",
-      "deletedSuccessfully": "Delete Successfully."
+      "deletedSuccessfully": "Delete Successfully.",
+      "assignedSuccessfully": "Assigned Successfully.",
+      "savedSuccessfully": "Saved Successfully.",
+      "availabilityAddedSuccessfully": "Availability added successfully.",
+      "leadClosedSuccessfully": "Lead closed Successfully."
     }, 
     "error": {
       "uploadingImage": "Uploading Image",
+      "uploadingVideo": "Uploading video.",
+      "pleaseSelectCountry": "Please select country.",
+      "pleaseSelectState": "Please select state.",
+      "pleaseSelectCity": "Please select city.",
+      "pleaseSelectLocality": "Please select locality.",
       "cannotApproveBuilding" : "You cannot approve the building as some of details are missing.",
       "countryNameRequired": "Please enter country.",
       "noCountryFound": "No country found!",
@@ -227,7 +281,8 @@
       "noViewedPropertyFound": "No property or project viewed by you.",
       "noNoteFound": "No notes to show.",
       "noRecordFound": "No record found",
-      "fileSizeExceeds": "The file you have selected is too large. The maximum size is 25MB."
+      "fileSizeExceeds": "The file you have selected is too large. The maximum size is 25MB.",
+      "noDocumentUploadedYet": "No document uploaded yet."
     }, 
     "info": {
       "pleaseChooseFile": "Please Choose File",
@@ -241,16 +296,46 @@
       "saveEngProjectPossession": "Please add possession status in Spanish or we will update it same as in English.",
       "saveEngProjectType": "Please add property type in Spanish or we will update it same as in English.",
       "saveEngProjectAmenity": "Please add amenity in Spanish or we will update it same as in English.",
-      "saveEngDocumentName": "Please add document name in Spanish or we will update it same as in English."
+      "saveEngDocumentName": "Please add document name in Spanish or we will update it same as in English.",
+      "pleaseChooseAddressFromDropdown": "Please choose address from dropdown",
+      "pleaseChooseBranchAddressFromDropdown": "Please choose branch address from dropdown.",
+      "pleaseChooseAtleastOneLead": "Please choose atleast one lead",
+      "pleaseChooseAtleastOneDate": "Please choose atleast one date",
+      "pleaseChooseAtleastOneImage": "Please select atleast one image",
+      "chooseMax6Images": "You can choose maximum of 6 images.",
+      "chooseMax6360Images": "You can choose maximum of 6 360 images.",
+      "chooseMax6Videos": "You can choose maximum of 6 videos.",
+      "pleaseSelectLaunchDate": "Please select launch date."
     },
     "question": {
       "areYouSure": "Are you sure",
-      "wantToDeleteProject": "You want to delete this project?",
-      "wantToDeleteNotary": "You want to delete this notary?",
-      "wantToUnblockNotary": "You want to unblock this Notary?",
       "wantToBlockNotary": "You want to block this Notary?",
+      "wantToUnblockNotary": "You want to unblock this Notary?",
+      "wantToDeleteNotary": "You want to delete this Notary?",
+      "wantToBlockUser": "You want to block this User?",
+      "wantToUnblockUser": "You want to unblock this User?",
+      "wantToDeleteUser": "You want to delete this User?",
+      "wantToBlockAgency": "You want to block this Agency?",
+      "wantToUnblockAgency": "You want to unblock this Agency?",
+      "wantToDeleteAgency": "You want to delete this Agency?",
+      "wantToBlockBank": "You want to block this Bank?",
+      "wantToUnblockBank": "You want to unblock this Bank?",
+      "wantToDeleteBank": "You want to delete this Bank?",
+      "wantToBlockProject": "¿Quieres bloquear este proyecto?",
       "wantToUnBlockProject": "¿Quieres desbloquear este proyecto?",
-      "wantToBlockProject": "¿Quieres bloquear este proyecto?"
+      "wantToDeleteProject": "You want to delete this project?",
+      "wantTocloseLead": "You want to close this lead?",
+      "wantToBlockCompany": "You want to block this Company?",
+      "wantToUnblockCompany": "You want to unblock this Company?",
+      "wantToDeleteCompany": "You want to delete this Company?",
+      "wantToBlockDeveloper": "You want to block this Developer?",
+      "wantToUnblockDeveloper": "You want to unblock this Developer?",
+      "wantToDeleteDeveloper": "You want to delete this Developer?",
+      "wantToBlockManager": "You want to block this Manager?",
+      "wantToUnblockManager": "You want to unblock this Manager?",
+      "wantToDeleteManager": "You want to delete this Manager?",
+      "wantToDeleteNote": "You want to delete this Note?",
+      "wantToDelete": "You want to delete?"
     }
   },
   "inhouseUsers": {
@@ -261,7 +346,12 @@
     "addBtn": "+Add New Project",
     "sellerTabOn": "Seller tab on",
     "addReason": "Add Reason",
-    "addReasonBtn": "Add"
+    "addReasonBtn": "Add",
+    "maritalStatus": {
+      "married": "Married",
+      "unmarried": "Unmarried",
+      "divorced": "Divorced"
+    }
   },
   "viewNotary": {
     "label": "Manage Notaries",
@@ -278,10 +368,77 @@
     "chooseDateTime": "Choose Date & Time",
     "add": "Add",
     "remove": "Remove",
-    "save": "Save"
+    "save": "Save",
+    "reAssisgnTo": "Re Assign to",
+    "assign": "Assign",
+    "phone": "Phone"
   },
   "leadDetails": {
     "buy": "For Sale",
-    "rent": "Rent"
+    "rent": "Rent",
+    "status": "Status",
+    "details": "Details",
+    "fullName": "Full Name",
+    "contactNumber": "Contact Number",
+    "emailAddress": "Email Address",
+    "type": "Type",
+    "propertySelected": "Property Selected",
+    "NA": "NA",
+    "note": {
+      "writeANote": "Write a Note",
+      "add": "Add",
+      "delete": "Delete",
+      "addNote": "Add Note"
+    }
+  },
+  "viewACL": {
+    "label": "Access Control Mgt.",
+    "addACLUser": "Add ACL User",
+    "editACLUser": "Edit ACL User"
+  },
+  "viewAgency": {
+    "label": "Agencies",
+    "addAgency": "Add Agency",
+    "editAgency": "Edit Agency"
+  },
+  "viewAppointments": {
+    "label": "Appointments",
+    "appointment": "Appointment",
+    "dateTime": "Date and Time",
+    "status": "Status",
+    "saveApp": "Save Appointment"
+  },
+  "viewBanks": {
+    "label": "Manage Banks"
+  },
+  "viewBanksLeads": {
+    "label": "Manage Bank's Leads",
+    "reAssisgnTo": "Re Assign to",
+    "assign": "Assign",
+    "phone": "Phone"
+  },
+  "viewCompanies": {
+    "label": "Manage Companies",
+    "addCompany": "Add Company",
+    "editCompany": "Edit Company"
+  },
+  "viewDevelopers": {
+    "label": "Manage Developers",
+    "addDeveloper": "Add Developer",
+    "editDeveloper": "Edit Developer"
+  },
+  "viewManagers": {
+    "label": "Managers",
+    "addDeveloper": "Add Developer",
+    "editDeveloper": "Edit Developer"
+  },
+  "viewManualLeads": {
+    "label": "Manage Manual Leads"
+  },
+  "viewNotifications": {
+    "label": "Notifications"
+  },
+  "leads": {
+
   }
 }

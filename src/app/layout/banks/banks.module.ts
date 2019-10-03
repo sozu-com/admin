@@ -12,10 +12,11 @@ import { CalendarModule } from 'primeng/primeng';
 
 // general components
 import { BanksComponent } from './banks.component';
-import { AclUserGuard } from '../../guards/acl-user.guard';
+import { AclUserGuard } from 'src/app/guards/acl-user.guard';
 import { BankLeadsComponent } from './bank-leads/bank-leads.component';
 import { BankLeadDetailsComponent } from './bank-leads/bank-lead-details/bank-lead-details.component';
-import { SharedModule } from '../../modules/shared.module';
+import { SharedModule } from 'src/app/modules/shared.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 const routes: Routes = [
@@ -54,7 +55,8 @@ const routes: Routes = [
     Ng2TelInputModule,
     NgxChartsModule,
     SharedModule,
-    CalendarModule
+    CalendarModule,
+    TranslateModule
   ],
   declarations: [
     BanksComponent,

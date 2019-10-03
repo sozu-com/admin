@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-12">
       <div class="title-group">
-          <h5>{{model.id ? 'Edit' : 'Add'}} Developer</h5>
+          <h5>{{model.id ? ('viewDevelopers.editDeveloper' | translate) : ('viewDevelopers.addDeveloper' | translate)}}</h5>
           <div class="spacer30"></div>
       </div>
     </div>
@@ -20,7 +20,7 @@
                     <label *ngIf="model?.image">
                       <input accept="image/*" name="image" class="image" (change)="changeListner($event, 'image')" type="file">
                     </label>
-                    <label *ngIf="!image">+ Add Image</label>
+                    <label *ngIf="!image">{{'addForm.image' | translate}}</label>
                     <input *ngIf="!image" accept="image/*" name="image" class="image" (change)="changeListner($event, 'image')" type="file">
                 </div>
             </div>
@@ -30,14 +30,14 @@
                     <label *ngIf="model?.developer_image">
                       <input accept="image/*" name="image" class="image" (change)="changeListner($event, 'developer_image')" type="file">
                     </label>
-                    <label *ngIf="!developer_image">+ Add Cover Image</label>
+                    <label *ngIf="!developer_image">{{'addForm.coverImage' | translate}}</label>
                     <input *ngIf="!developer_image" accept="image/*" name="image" class="image" (change)="changeListner($event, 'developer_image')" type="file">
                 </div>
             </div>
             <div class="col-8">
                 <div class="btn-cont text-right">
-                    <button *ngIf="!model?.id" type="submit" [disabled]="!addForm.valid" class="btn btn-primary">ADD</button>
-                    <button *ngIf="model?.id" type="submit" class="btn btn-primary">UPDATE</button>
+                    <button *ngIf="!model?.id" type="submit" [disabled]="!addForm.valid" class="btn btn-primary">{{'addForm.addBtn' | translate}}</button>
+                    <button *ngIf="model?.id" type="submit" class="btn btn-primary">{{'addForm.updateBtn' | translate}}</button>
                 </div>
             </div>
             <div class="col-12">
@@ -45,38 +45,38 @@
             </div>
             <div class="col-12">
                 <div class="form-group-2">
-                  <label>Name <span class="color-red">*</span></label>
+                  <label>{{'addForm.name' | translate}} <span class="color-red">*</span></label>
                   <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" [(ngModel)]="model.name" name="name">
                 </div>
             </div>
             <div class="col-12">
                 <div class="form-group-2">
-                  <label>Contact number <span class="color-red">*</span></label>
+                  <label>{{'addForm.contactNumber' | translate}} <span class="color-red">*</span></label>
                   <input minlength="6" maxlength="16" autocomplete="off" type="text" [pattern]="constant.phonePattern" class="form-control" id="phone" required minlength="1" [(ngModel)]="model.phone" name="phone"
                         ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
                 </div>
             </div>
             <div class="col-12">
                 <div class="form-group-2">
-                  <label>Email ID <span class="color-red">*</span></label>
+                  <label>{{'addForm.emailId' | translate}} <span class="color-red">*</span></label>
                   <input (keydown.space)="$event.preventDefault();" autocomplete="off" required [pattern]="constant.emailPattern" type="email" class="form-control" [(ngModel)]="model.email" name="email">
                 </div>
             </div>
             <div class="col-12">
                 <div class="form-group-2">
-                  <label>Company Name <span class="color-red">*</span></label>
+                  <label>{{'addForm.companyName' | translate}} <span class="color-red">*</span></label>
                   <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" [(ngModel)]="model.developer_company" name="developer_company">
                 </div>
             </div>
             <div class="col-12">
                 <div class="form-group-2">
-                  <label>Address <span class="color-red">*</span></label>
-                  <input placeholder="Search for address" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search (input)="loadPlaces('developer_address', 'lat', 'lng', 'searchElementRef')" name="developer_address" [(ngModel)]="model.developer_address" autocomplete="off">
+                  <label>{{'addForm.address' | translate}} <span class="color-red">*</span></label>
+                  <input placeholder="{{'addForm.placeholder.searchForAddress' | translate}}" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search (input)="loadPlaces('developer_address', 'lat', 'lng', 'searchElementRef')" name="developer_address" [(ngModel)]="model.developer_address" autocomplete="off">
                 </div>
             </div>
             <div class="col-12">
               <div class="form-group-2">
-                  <label>Location Pin on Map<span class="color-red">*</span></label>
+                  <label>{{'addForm.locationPinOnMap' | translate}} <span class="color-red">*</span></label>
                   <agm-map class="height200" [latitude]="model.lat" [longitude]="model.lng" [scrollwheel]="false" (mapClick)="placeMarker($event, 'lat', 'lng')" [zoom]="constant.zoom">
                     <agm-marker [latitude]="model.lat" [longitude]="model.lng"></agm-marker>
                   </agm-map>
@@ -84,19 +84,19 @@
             </div>
             <div class="col-12">
               <div class="form-group-2">
-                <label>Description <span class="color-red">*</span></label>
+                <label>{{'addForm.description' | translate}} <span class="color-red">*</span></label>
                 <textarea autocomplete="off" required rows="3" class="form-control" name="developer_desc" [(ngModel)]="model.developer_desc"></textarea>
               </div>
             </div>
             <div class="col-12">
               <div class="form-group-2">
-                <label>Branch Office</label>
-                <input placeholder="Search for branch office" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search1 (input)="loadPlaces('branch_office', 'branch_lat', 'branch_lng', 'search1ElementRef')" name="branch_office" [(ngModel)]="model.branch_office" autocomplete="off">
+                <label>{{'addForm.branchOffice' | translate}}</label>
+                <input placeholder="{{'addForm.placeholder.searchForBranch' | translate}}" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search1 (input)="loadPlaces('branch_office', 'branch_lat', 'branch_lng', 'search1ElementRef')" name="branch_office" [(ngModel)]="model.branch_office" autocomplete="off">
               </div>
             </div>
             <div class="col-12">
               <div class="form-group-2">
-                  <label>Location Pin on Map</label>
+                  <label>{{'addForm.locationPinOnMap' | translate}}</label>
                   <agm-map class="height200" [latitude]="model.branch_lat" [longitude]="model.branch_lng" [scrollwheel]="false" (mapClick)="placeMarker($event, 'branch_lat', 'branch_lng')" [zoom]="constant.zoom">
                     <agm-marker [latitude]="model.branch_lat" [longitude]="model.branch_lng"></agm-marker>
                   </agm-map>
@@ -104,12 +104,12 @@
             </div>
             <div class="col-12">
               <div class="form-group-2">
-                  <label>More images</label>
+                  <label>{{'addForm.addMoreImages' | translate}}</label>
                   <div class="add-project-img-more marginT0">
                     <img *ngIf="model.images?.length>0" [src]="model.images[0]?.image" onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
                     <div class="upload-caption">
                       <p *ngIf="model?.images?.length > 1" class="number" (click)="modelOpenFun()">+{{model?.images?.length-1}}</p>
-                      <p *ngIf="model?.images?.length <= 1" class="green-color"  (click)="modelOpenFun()">+ Add more images</p>
+                      <p *ngIf="model?.images?.length <= 1" class="green-color"  (click)="modelOpenFun()">{{'addForm.moreImages.addMoreBtn' | translate}}</p>
                     </div>
                   </div>
               </div>
@@ -132,7 +132,7 @@
 
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">Images</h4>
+        <h4 class="modal-title">{{'addForm.moreImages.label' | translate}}</h4>
         <button type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
       </div>
 
@@ -147,13 +147,13 @@
         </div>
         <div class="add-more-images">
           <input type="file" name="add-more" multiple max="6" accept="image/*" (change)="file4Select($event)">
-          <span>+ Add more images</span>
+          <span>{{'addForm.moreImages.addMoreBtn' | translate}}</span>
         </div>
       </div>
 
       <!-- Modal footer -->
       <div class="modal-footer btn-cont">
-        <button type="button" (click)="saveImages()" class="btn btn-primary">Submit</button>
+        <button type="button" (click)="saveImages()" class="btn btn-primary">{{'addForm.moreImages.submitBtn' | translate}}</button>
       </div>
 
     </div>

@@ -6,7 +6,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { IProperty } from 'src/app/common/property';
 import { Property, Building } from 'src/app/models/global.model';
 import { AdminService } from 'src/app/services/admin.service';
-import { TranslateService } from 'src/app/lang/translate.service';
+// import { TranslateService } from 'src/app/lang/translate.service';
 import { Constant } from 'src/app/common/constants';
 declare let swal: any;
 declare const google;
@@ -37,7 +37,6 @@ export class ProjectDetailsComponent implements OnInit {
     private loader: MapsAPILoader,
     private admin: AdminService,
     private route: ActivatedRoute,
-    public ts: TranslateService,
     public constant: Constant,
     private spinner: NgxSpinnerService
   ) { }

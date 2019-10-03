@@ -8,7 +8,7 @@
                 <img [src]="parameter?.data?.image" onerror='src="assets/img/default_img.png"' alt="img">
                 <div class="df-info" *ngIf="parameter?.data">
                     <p class="p14">{{parameter.data.name | titlecase}}</p>
-                    <p class="p12">Status: {{parameter?.data?.status.name}}</p>
+                    <p class="p12">{{'leadDetails.status' | translate}}: {{parameter?.data?.status.name}}</p>
                 </div>
                 </div>
             </div>
@@ -21,7 +21,7 @@
                 <div class="white-bg padding30">
                     <div class="row">
                     <div class="col-md-6">
-                        <h6>Details</h6>
+                        <h6>{{'leadDetails.details' | translate}}</h6>
                     </div>
                     <!-- <div class="col-md-6">
                         <div class="edit text-right"><a href="javascript://">Edit</a></div>
@@ -30,27 +30,27 @@
                     <div class="details-table">
                     <table class="table">
                         <tr>
-                            <td style="padding-left:0"><label>Full Name</label></td>
+                            <td style="padding-left:0"><label>{{'leadDetails.fullName' | translate}}</label></td>
                             <td colspan="2" *ngIf="parameter?.data?.name">{{parameter.data.name | titlecase}}</td>
                         </tr>
                         <tr>
-                            <td style="padding-left:0"><label>Contact Number</label></td>
+                            <td style="padding-left:0"><label>{{'leadDetails.contactNumber' | translate}}</label></td>
                             <td colspan="2" *ngIf="parameter?.data?.phone">{{parameter.data.dial_code ? parameter.data.dial_code : constant.dial_code}}-{{parameter.data.phone}}</td>
                         </tr>
                         <tr>
-                            <td style="padding-left:0"><label>Email address</label></td>
+                            <td style="padding-left:0"><label>{{'leadDetails.emailAddress' | translate}}</label></td>
                             <td colspan="2" *ngIf="parameter?.data?.email">{{parameter.data.email}}</td>
                         </tr>
                         <tr>
-                            <td style="padding-left:0"><label>Type</label></td>
+                            <td style="padding-left:0"><label>{{'leadDetails.type' | translate}}</label></td>
                             <td *ngIf="parameter?.data?.type?.name">{{parameter.data.type.name}}</td>
                         </tr>
                         <tr>
-                            <td style="padding-left:0"><label><strong>Property Selected</strong></label></td>
+                            <td style="padding-left:0"><label><strong>{{'leadDetails.propertySelected' | translate}}</strong></label></td>
                             <td *ngIf="parameter?.data?.property?.length!=0">
                                 <a class="view-all-2" href="javascript://" (click)="viewPropertyDetails(parameter?.data?.property)"> View Property</a>
                             </td>
-                            <td *ngIf="parameter?.data?.property?.length==0">NA</td>
+                            <td *ngIf="parameter?.data?.property?.length==0">{{'leadDetails.NA' | translate}}</td>
                         </tr>
                         <!-- <tr>
                             <td  style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
@@ -69,13 +69,13 @@
                 <div class="white-bg padding15">
                     <div class="row">
                         <div class="col-6">
-                            <p class="p16 marginB0">Write a Note</p>
+                            <p class="p16 marginB0">{{'leadDetails.note.writeANote' | translate}}</p>
                         </div>
                         <div class="col-6 text-right">
                             <!-- add note -->
-                        <a *ngIf="admin?.admin_acl['Manual Leads']?.can_update==1; else noAddPermission" class="add" href="javascript://" data-toggle="modal" data-target="#addNote" #modalOpen>Add</a>
+                        <a *ngIf="admin?.admin_acl['Manual Leads']?.can_update==1; else noAddPermission" class="add" href="javascript://" data-toggle="modal" data-target="#addNote" #modalOpen>{{'leadDetails.note.add' | translate}}</a>
                         <ng-template #noAddPermission>
-                            <a class="add" href="javascript://">Add</a>
+                            <a class="add" href="javascript://">{{'leadDetails.note.add' | translate}}</a>
                         </ng-template>
                         </div>
                     </div>
@@ -91,7 +91,7 @@
                         <!-- delete note -->
                         <a *ngIf="admin?.admin_acl['Manual Leads']?.can_update==1; else noDeletePermission" class="delete" href="javascript://" (click)="deleteLeadPopup(item.id, i)">Delete</a>
                         <ng-template #noDeletePermission>
-                            <a class="delete" href="javascript://">Delete</a>
+                            <a class="delete" href="javascript://">{{'leadDetails.note.delete' | translate}}</a>
                         </ng-template>
                         <p class="time">{{item.updated_at  | chatTime: 'YYYY-MM-DD H:m:s': 2}}</p>
                         <pre class="p13" *ngIf="!item.show">{{item.note.slice(0, 90)}} <span class="read-more" *ngIf="item.note.length>100" (click)="item.show=true">Read more</span></pre>
@@ -115,7 +115,7 @@
     <div class="modal-dialog fadeIndown">
         <div class="modal-content">
         <div class="modal-header modal-header-new">
-            <h4 class="modal-title">Add Note</h4>
+            <h4 class="modal-title">{{'leadDetails.note.addNote' | translate}}</h4>
             <button style="display: none;" type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
             <button type="button" class="close" (click)="closeModal()">&times;</button>
         </div>
@@ -132,7 +132,7 @@
                 </div>
                 <div class="col-12">
                     <div class="btn-cont text-right">
-                        <button type="submit" [disabled]="!addForm.valid" class="btn btn-primary">Add</button>
+                        <button type="submit" [disabled]="!addForm.valid" class="btn btn-primary">{{'leadDetails.note.add' | translate}}</button>
                         <!-- <button *ngIf="model.id==0 else UpdateNote" [disabled]="!addForm.valid" type="submit" class="btn btn-primary">ADD</button>
                         <ng-template #UpdateNote>
                             <button type="submit" [disabled]="!addForm.valid" class="btn btn-primary">UPDATE</button>

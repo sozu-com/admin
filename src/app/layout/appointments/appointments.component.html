@@ -3,8 +3,8 @@
   <div class="row">
       <div class="col-md-6">
         <div class="title-group">
-            <h5>Appointments</h5>
-            <p></p>
+          <h5>{{'viewAppointments.label' | translate}}</h5>
+          <p></p>
         </div>
       </div>
   </div>
@@ -25,7 +25,7 @@
    </div>
    <div class="spacer30 clearfix"></div>
    <ul class="month-date">
-     <li class="cursor-pointer" *ngFor="let item of appointmentDates" title="Click to view list" (click)="meetings = item.meetings">
+     <li class="cursor-pointer" *ngFor="let item of appointmentDates" title="{{'table.title.clickToViewDetails' | translate}}" (click)="meetings = item.meetings">
       <span>{{item.day}}</span>
       <b>{{item.date}}</b>
       <span *ngIf="item.meeting_count>0" class="meeting-count" [ngClass]="{'green':item.meeting_count > 0}">{{item.meeting_count}}</span>
@@ -46,7 +46,7 @@
                     <p class="a-text">{{item?.lead?.user.dial_code}} {{item?.lead?.user.phone}}</p>
                  </div>
                  <div class="ap-col">
-                    <button title="Edit Appointment" [disabled]="admin?.admin_acl['Appointments']?.can_update==0" (click)="openAppintment(item)" class="action-icon float-right">
+                    <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Appointments']?.can_update==0" (click)="openAppintment(item)" class="action-icon float-right">
                       <img src="assets/img/edit.png" alt="img">
                     </button>
                  </div>
@@ -65,7 +65,7 @@
     <div class="modal-dialog fadeIndown">
       <div class="modal-content">
         <div class="modal-header modal-header-new">
-            <h4 class="modal-title">Appointment</h4>
+            <h4 class="modal-title">{{'viewAppointments.appointment' | translate}}</h4>
             <button type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
         </div>
           <div class="modal-body modal-body-new model-appointment">
@@ -85,7 +85,7 @@
               <div class="col-12">
                 <div class="form-group-2">
                    <div class="form-group">
-                    <label>Date and Time</label>
+                    <label>{{'viewAppointments.dateTime' | translate}}</label>
                     <input class="form-control" type="datetime-local" [ngModel] ="appointmentNew.appointment_date | date:'yyyy-MM-ddTHH:mm'" (ngModelChange)="appointmentNew.appointment_date = $event">
                   </div>
                 </div>
@@ -93,7 +93,7 @@
               <div class="col-12">
                 <div class="form-group-2">
                     <div class="form-group">
-                      <label>Status</label>
+                      <label>{{'viewAppointments.status' | translate}}</label>
                       <select class="form-control" [(ngModel)]="appointmentNew.status_id">
                         <option *ngFor="let item of appointStatuses" [value]="item.id">{{item.name}}</option>
                       </select>
@@ -102,7 +102,7 @@
               </div>
               <div class="col-12">
                   <div class="btn-cont text-right">
-                      <button (click)="saveAppointment()" type="submit" class="btn btn-primary">Save Appointment</button>
+                      <button (click)="saveAppointment()" type="submit" class="btn btn-primary">{{'viewAppointments.saveApp' | translate}}</button>
                   </div>
               </div>
             </div>

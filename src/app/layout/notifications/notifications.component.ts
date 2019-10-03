@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { IProperty } from '../../common/property';
-import { AdminService } from '../../services/admin.service';
-import { Constant } from '../../common/constants';
+import { IProperty } from 'src/app/common/property';
+import { AdminService } from 'src/app/services/admin.service';
+import { Constant } from 'src/app/common/constants';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 

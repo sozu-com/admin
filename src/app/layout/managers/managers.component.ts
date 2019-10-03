@@ -9,6 +9,7 @@ import { Constant } from 'src/app/common/constants';
 import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -38,14 +39,15 @@ export class ManagersComponent implements OnInit {
     private route: ActivatedRoute,
     public admin: AdminService,
     private spinner: NgxSpinnerService,
-    private ngZone: NgZone) {
+    private ngZone: NgZone,
+    private translate: TranslateService) {
     this.admin.countryData$.subscribe(success => {
       this.parameter.allCountry = success;
     });
   }
 
   ngOnInit() {
-    this.label = 'Choose Managers File';
+    this.label = this.translate.instant('table.title.chooseManagersFile');
     this.file1 = new FileUpload(false, this.admin);
     this.model = new Manager();
     this.model.project_sort = 2;
@@ -139,7 +141,7 @@ export class ManagersComponent implements OnInit {
   addNewUser(formdata: NgForm) {
 
     if (this.model.img_loader || this.model.logo_loader) {
-      swal('Error', 'Uploading images', 'error');
+      swal('Error', this.translate.instant('message.error.uploadingImage'), 'error');
       return false;
     }
     const input = new FormData();
@@ -167,7 +169,9 @@ export class ManagersComponent implements OnInit {
               swal('Error', success.message, 'error');
             } else {
               this.modalClose.nativeElement.click();
-              const text = this.model.id ? 'Updated successfully.' : 'Added successfully.';
+              const text = this.model.id ?
+                    this.translate.instant('message.success.updatedSuccessfully') :
+                    this.translate.instant('message.success.addedSuccessfully');
               swal('Success', text, 'success');
               if (this.model.id) {
                 this.items[this.parameter.index] = success.data;
@@ -256,15 +260,15 @@ export class ManagersComponent implements OnInit {
 
   blockUnblockPopup(index, id, flag, user_type) {
     this.parameter.index = index;
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    this.parameter.title = this.translate.instant('message.question.areYouSure');
     switch (flag) {
       case 0:
-        this.parameter.text = this.constant.title.UNBLOCK_USER;
-        this.parameter.successText = this.constant.successMsg.UNBLOCKED_SUCCESSFULLY;
-        break;
-      case 1:
-        this.parameter.text = this.constant.title.BLOCK_USER;
-        this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
+      this.parameter.text = this.translate.instant('message.question.wantToUnblockManager');
+      this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
+      break;
+    case 1:
+      this.parameter.text = this.translate.instant('message.question.wantToBlockManager');
+      this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
     }
 
@@ -302,8 +306,8 @@ export class ManagersComponent implements OnInit {
   }
 
   deletePopup(item: any, index: number) {
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
-    this.parameter.text = 'You want to delete this manager?';
+    this.parameter.title = this.translate.instant('message.question.areYouSure');
+    this.parameter.text = this.translate.instant('message.question.wantToDeleteManager');
 
     swal({
       html: this.parameter.title + '<br>' + this.parameter.text,
@@ -324,7 +328,7 @@ export class ManagersComponent implements OnInit {
     { id: item.id }).subscribe(r => {
       this.items.splice(index, 1);
       this.parameter.total--;
-      swal('Success', 'Deleted successfully.', 'success');
+      swal('Success', this.translate.instant('message.success.deletedSuccessfully'), 'success');
     },
     error => {
       swal('Error', error.error.message, 'error');
@@ -337,7 +341,7 @@ export class ManagersComponent implements OnInit {
     if (file.files && file.files[0]) {
       attachment = file.files[0];
       if (attachment.size > this.constant.fileSizeLimit) {
-        swal('Error', 'File size is more than 25MB.', 'error');
+        swal('Error', this.translate.instant('message.info.fileSizeLimit'), 'error');
         return false;
       }
     this.spinner.show();
@@ -348,15 +352,15 @@ export class ManagersComponent implements OnInit {
         success => {
           this.spinner.hide();
           this.fileInput.nativeElement.value = '';
-          this.label = 'Choose Managers File';
-          swal('Success', 'Imported successfully.', 'success');
+          this.label = this.translate.instant('table.title.chooseManagersFile');
+          swal('Success', this.translate.instant('message.success.importedSuccessfully'), 'success');
           this.getTowerManager();
         }, error => {
           this.fileInput.nativeElement.value = '';
           this.spinner.hide();
         });
     } else {
-      swal('Error', 'Please choose file', 'error');
+      swal('Error', this.translate.instant('message.info.pleaseChooseFile'), 'error');
       return false;
     }
   }

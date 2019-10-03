@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-                <p class="p16">Manage Bank's Leads</p>
+                    <p class="p16">{{'viewBanksLeads.label' | translate}}</p>
             </div>
         </div>
     </div>
@@ -24,19 +24,19 @@
             <div class="cust-tabs-2">
                 <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==1}" (click)="changeFlag(1)" >This Week</a>
+                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==1}" (click)="changeFlag(1)" >{{'filters.time.thisWeek' | translate}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==2}" (click)="changeFlag(2)" >This Month</a>
+                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==2}" (click)="changeFlag(2)" >{{'filters.time.thisMonth' | translate}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==3}" (click)="changeFlag(3)" >Last Month</a>
+                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==3}" (click)="changeFlag(3)" >{{'filters.time.lastMonth' | translate}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==4}" (click)="changeFlag(4)" >Lifetime</a>
+                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==4}" (click)="changeFlag(4)" >{{'filters.time.lifetime' | translate}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==5}" (click)="parameter.flag=5" >Custom</a>
+                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==5}" (click)="parameter.flag=5" >{{'filters.time.custom.label' | translate}}</a>
                 </li>
                 </ul>
             </div>
@@ -49,13 +49,13 @@
                 <div class="offset-lg-7"></div>
                 <div class="col-lg-2 col-md-2 col-sm-5 col-5">
                 <div class="form-group marginB0">
-                    <label>From:</label>
+                    <label>{{'filters.time.custom.from' | translate}}</label>
                     <p-calendar showIcon="true" [(ngModel)]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
                 </div>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-5 col-5">
                 <div class="form-group marginB0">
-                    <label>To:</label>
+                    <label>{{'filters.time.custom.to' | translate}}</label>
                     <p-calendar showIcon="true" [(ngModel)]="parameter.max" [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
                 </div>
                 </div>
@@ -63,7 +63,7 @@
                 <div class="form-group btn-cont">
                     <label class="addMT3">&nbsp;</label>
                     <button class="btn btn-calender" href="javascript://" (click)="getListing(); getCSRDashBoardData();"
-                        [disabled]="!parameter.min || !parameter.max">Apply</button>
+                        [disabled]="!parameter.min || !parameter.max">{{'filters.time.custom.applyBtn' | translate}}</button>
                 </div>
                 </div>
             </div>
@@ -83,7 +83,7 @@
                 <td class="text-left">{{item.phone}}</td>
                 <td class="text-left">{{item.email}}</td>
                 <td>
-                    <a (click)="removeCsrUser()" href="javascript://" class="icon-block edit-icon"><img src="assets/img/remove-icon.png" alt="remove" title="remove" /></a>
+                    <a (click)="removeCsrUser()" href="javascript://" class="icon-block edit-icon"><img src="assets/img/remove-icon.png" alt="remove" title="{{'table.title.remove' | translate}}" /></a>
                 </td>
                 </tr>
             </tbody>
@@ -95,11 +95,11 @@
             <div class="info-box all-leads marginT0">
                 <div class="one-row" [ngClass]="{'active':parameter.count_flag == '1'}" (click)="changeCountFlag(1)">
                     <div class="o-block">
-                        <h5>All Leads</h5>
-                        <small>Total</small>
+                        <h5>{{'table.dashboard.allLeads' | translate}}</h5>
+                        <small>{{'table.dashboard.total' | translate}}</small>
                     </div>
                     <div class="o-block">
-                        <a class="view-all" href="javascript://">View All</a>
+                        <a class="view-all" href="javascript://">{{'table.dashboard.viewAll' | translate}}</a>
                         <h4>{{dash.all_count | numberWithCommas}}</h4>
                     </div>
                 </div>
@@ -109,11 +109,11 @@
                     <div class="col-md-6 col-sm-6 col-12" [ngClass]="{'active':parameter.count_flag == '2'}" (click)="changeCountFlag(2)" >
                     <div class="one-row ">
                         <div class="o-block">
-                            <h5>Leads</h5>
-                            <small>Open</small>
+                            <h5>{{'table.dashboard.leads' | translate}}</h5>
+                            <small>{{'table.dashboard.open' | translate}}</small>
                         </div>
                         <div class="o-block">
-                            <a class="view-all" href="javascript://">View All</a>
+                            <a class="view-all" href="javascript://">{{'table.dashboard.viewAll' | translate}}</a>
                             <h4>{{dash.open_count | numberWithCommas}}</h4>
                         </div>
                     </div>
@@ -121,11 +121,11 @@
                     <div class="col-md-6 col-sm-6 col-12" [ngClass]="{'active':parameter.count_flag == '3'}" (click)="changeCountFlag(3)">
                     <div class="one-row">
                         <div class="o-block">
-                            <h5>Leads</h5>
-                            <small>Closed</small>
+                            <h5>{{'table.dashboard.leads' | translate}}</h5>
+                            <small>{{'table.dashboard.closed' | translate}}</small>
                         </div>
                         <div class="o-block">
-                            <a class="view-all" href="javascript://">View All</a>
+                            <a class="view-all" href="javascript://">{{'table.dashboard.viewAll' | translate}}</a>
                             <h4>{{dash.close_count | numberWithCommas}}</h4>
                         </div>
                     </div>
@@ -135,7 +135,7 @@
             </div>
             <div class="col-lg-4 col-md-12 col-sm-12 col-12">
                 <div class="chat-msg all-leads marginT0" style="padding:0px">
-                    <div class="padding20" *ngIf="dash.lead_total == 0">No records found</div>
+                    <div class="padding20" *ngIf="dash.lead_total == 0">{{'message.error.noRecordFound' | translate}}</div>
                     <ngx-charts-pie-chart [results]="chartView"></ngx-charts-pie-chart>
                 </div>
             </div>
@@ -148,10 +148,10 @@
       <div class="row">
          <div class="col-6">
             <div class="title-group">
-                <h5>Leads 
-                    <span *ngIf="parameter.count_flag == 1">(Total)</span>
-                    <span *ngIf="parameter.count_flag == 2">(Open)</span>
-                    <span *ngIf="parameter.count_flag == 3">(Closed)</span>
+                <h5>{{'table.dashboard.leads' | translate}} 
+                    <span *ngIf="parameter.count_flag == 1">({{'table.dashboard.total' | translate}})</span>
+                    <span *ngIf="parameter.count_flag == 2">({{'table.dashboard.open' | translate}})</span>
+                    <span *ngIf="parameter.count_flag == 3">({{'table.dashboard.closed' | translate}})</span>
                 </h5>
                <p>
                    <!-- Showing {{parameter.page}} out of {{parameter.total_count}} -->
@@ -160,7 +160,7 @@
          </div>
          <div class="col-6" *ngIf="admin?.admin_acl['Bank Lead Management']?.can_read==1 && !this.parameter.assignee_id">
             <div class="add-new text-right">
-                <a class="btn" (click)="bulkAssign()" href="javascript://">Bulk Re-assign</a>
+                <a class="btn" (click)="bulkAssign()" href="javascript://">{{'table.bulkReAssign' | translate}}</a>
             </div>
         </div>
       </div>
@@ -171,17 +171,17 @@
                     <tbody><tr>
                     <th *ngIf="admin?.admin_acl['Bank Lead Management']?.can_read==1 && !this.parameter.assignee_id" style="width:6%">
                         <div class="table-search">
-                        <a (click)="selectAll()"><label>All</label></a>
+                        <a (click)="selectAll()"><label>{{'table.th.all' | translate}}</label></a>
                         </div>
                     </th>
                     <th style="width:6%;">
                         <div class="table-search">
-                            <label>Image</label>
+                            <label>{{'table.th.image' | translate}}</label>
                         </div>
                     </th>
                         <th style="width:20%;">
                             <div class="table-search">
-                            <label>Name</label>
+                            <label>{{'table.th.name' | translate}}</label>
                             <div class="searh-3">
                                 <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="changeFilter('name',$event.target.value)" name="">
                                 <button *ngIf="parameter.name" (click)="changeFilter('name', parameter.name)"><i class="fa fa-search"></i></button>
@@ -190,7 +190,7 @@
                         </th>
                         <th style="width:20%; text-align:left;">
                             <div class="table-search">
-                            <label>Contact Number</label>
+                            <label>{{'table.th.contactNumber' | translate}}</label>
                             <div class="searh-3">
                                 <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="changeFilter('phone',$event.target.value)" name="">
                                 <button *ngIf="parameter.phone" (click)="changeFilter('phone', parameter.phone)"><i class="fa fa-search"></i></button>
@@ -199,7 +199,7 @@
                         </th>
                         <th style="width:25%;">
                             <div class="table-search">
-                            <label>Email Address</label>
+                            <label>{{'table.th.emailAddress' | translate}}</label>
                             <div class="searh-3">
                                 <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="changeFilter('email',$event.target.value)" name="">
                                 <button *ngIf="parameter.email" (click)="changeFilter('email', parameter.email)"><i class="fa fa-search"></i></button>
@@ -208,11 +208,11 @@
                         </th>
                         <th style="width:20%;">
                             <div class="table-search">
-                            <label>Assignee</label>
+                            <label>{{'table.th.assignee' | translate}}</label>
                             </div>
                         </th>
                     </tr>
-                    <tr class="cursor-pointer" title="Click to view details" *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index"
+                    <tr class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}" *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index"
                         routerLink="/dashboard/banks/bank-leads/{{item.id}}">
                         <td *ngIf="admin?.admin_acl['Bank Lead Management']?.can_read==1 && !this.parameter.assignee_id" (click)="$event.stopPropagation()">
                             <label class="cust-check-bx" >
@@ -260,7 +260,7 @@
         <div class="row">
             <div class="col-6">
                 <div class="title-group">
-                    <p>Showing {{items?.length}} out of {{parameter.total}}</p>
+                    <p>{{'table.pagination.showing' | translate}} {{items?.length}} {{'table.pagination.outof' | translate}} {{parameter.total}}</p>
                 </div>
             </div>
             <div class="col-6 text-right">
@@ -277,7 +277,7 @@
         <div class="modal-dialog ">
             <div class="modal-content notary-avail">
                 <div class="modal-header popup-header">
-                <h4 class="modal-title">Re Assign to</h4>
+                <h4 class="modal-title">{{'viewBanksLeads.reAssisgnTo' | translate}}</h4>
                 <button type="button" class="close" data-dismiss="modal" #closeAssignModel>&times;</button>
                 </div>
                 <div class="modal-body">
@@ -286,7 +286,7 @@
                             <input style="max-width:200px" list="amenities" [(ngModel)]="assign.keyword" (keyup.enter)="getAssignListing()" class="form-control" type="text" name="keyword" placeholder="Search">
                         </div>
                         <div class="col-md-4 btn-cont">
-                            <a class="btn btn-primary pull-right" href="javascript://" (click)="assignNow()">Assign</a>
+                            <a class="btn btn-primary pull-right" href="javascript://" (click)="assignNow()">{{'viewBanksLeads.assign' | translate}}</a>
                         </div>
                     </div>
                     <div class="spacer40"></div>
@@ -298,7 +298,7 @@
                                     <img [src]="item.image" onerror='src="assets/img/default_img.png"' alt="img">
                                     <div class="n-avail-info">
                                         <p class="p12">{{item.name | titlecase}}</p>
-                                        <p class="p10">Phone : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
+                                        <p class="p10">{{'viewBanksLeads.phone' | translate}} : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
                                     </div>
                                     </div>
                                 </td>

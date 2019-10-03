@@ -14,6 +14,7 @@ import { AclUserGuard } from '../../guards/acl-user.guard';
 import { SharedModule } from '../../modules/shared.module';
 import { AgenciesComponent } from './agencies.component';
 import { AddAgencyComponent } from './add-agency/add-agency.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 const routes: Routes = [
   {
@@ -40,7 +41,8 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     Ng2TelInputModule,
-    SharedModule
+    SharedModule,
+    TranslateModule
   ],
   declarations: [
     AgenciesComponent,

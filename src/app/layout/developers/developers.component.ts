@@ -6,6 +6,7 @@ import { Users } from 'src/app/models/users.model';
 import { IProperty } from 'src/app/common/property';
 import { Constant } from 'src/app/common/constants';
 import { AdminService } from 'src/app/services/admin.service';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -20,7 +21,8 @@ export class DevelopersComponent implements OnInit {
   model: Users;
   items: Array<Users>;
   constructor(public constant: Constant, public admin: AdminService, private router: Router,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService) { }
 
   ngOnInit() {
     this.model = new Users();
@@ -60,15 +62,15 @@ export class DevelopersComponent implements OnInit {
 
   blockUnblockPopup(index: any, id: string, flag: number, user_type: string = '3') {
     this.parameter.index = index;
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    this.parameter.title = this.translate.instant('message.question.areYouSure');
     switch (flag) {
       case 0:
-        this.parameter.text = this.constant.title.UNBLOCK_DEVELOPER;
-        this.parameter.successText = this.constant.successMsg.UNBLOCKED_SUCCESSFULLY;
-        break;
-      case 1:
-        this.parameter.text = this.constant.title.BLOCK_DEVELOPER;
-        this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
+      this.parameter.text = this.translate.instant('message.question.wantToUnblockDeveloper');
+      this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
+      break;
+    case 1:
+      this.parameter.text = this.translate.instant('message.question.wantToBlockDeveloper');
+      this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
     }
 
@@ -99,14 +101,13 @@ export class DevelopersComponent implements OnInit {
       .subscribe(
         success => {
           swal('Success', this.parameter.successText, 'success');
-          // this.items[this.parameter.index] = success.data;
           this.items[this.parameter.index]['is_blocked'] = flag;
         });
   }
 
   deletePopup(item: any, index: number) {
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
-    this.parameter.text = 'You want to delete this developer?';
+    this.parameter.title = this.translate.instant('message.question.areYouSure');
+    this.parameter.text = this.translate.instant('message.question.wantToDeleteDeveloper');
 
     swal({
       html: this.parameter.title + '<br>' + this.parameter.text,
@@ -127,7 +128,7 @@ export class DevelopersComponent implements OnInit {
     { id: item.id, user_type: 3 }).subscribe(r => {
       this.items.splice(index, 1);
       this.parameter.total--;
-      swal('Success', 'Deleted successfully.', 'success');
+      swal('Success', this.translate.instant('message.success.deletedSuccessfully'), 'success');
     },
     error => {
       swal('Error', error.error.message, 'error');

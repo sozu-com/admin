@@ -8,7 +8,7 @@ import { IProperty } from 'src/app/common/property';
 import { Users } from 'src/app/models/users.model';
 import { AdminService } from 'src/app/services/admin.service';
 import { LeadsService } from 'src/app/services/leads.service';
-import { TranslateService } from 'src/app/lang/translate.service';
+// import { TranslateService } from 'src/app/lang/translate.service';
 declare let swal: any;
 
 @Component({
@@ -48,8 +48,7 @@ export class CsrCloserComponent implements OnInit {
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
     public leadsService: LeadsService,
-    private router: Router,
-    public ts: TranslateService
+    private router: Router
   ) { }
 
   ngOnInit() {

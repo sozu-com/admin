@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-12">
       <div class="title-group">
-          <h5>{{model.id!='' ? 'Edit' : 'Add'}} ACL User</h5>
+          <h5>{{model.id!='' ? ('viewACL.editACLUser' | translate) : ('viewACL.addACLUser' | translate)}}</h5>
           <div class="spacer30"></div>
       </div>
     </div>
@@ -19,15 +19,15 @@
                     <label *ngIf="model?.image">
                       <input accept="image/*" name="image" class="image" (change)="changeListner($event, 'img_loader', 'image')" type="file">
                     </label>
-                    <label *ngIf="!model?.image">+ Add Image</label>
+                    <label *ngIf="!model?.image">{{'addForm.image' | translate}}</label>
                     <input *ngIf="!model?.image" accept="image/*" name="image" class="image" (change)="changeListner($event, 'img_loader', 'image')" type="file">
                     <div *ngIf="model.img_loader" class="loaderr"></div>
                 </div>
             </div>
             <div class="col-6">
                 <div class="btn-cont text-right">
-                    <button *ngIf="model.id==''" type="submit" [disabled]="!addForm.valid" class="btn btn-primary">ADD</button>
-                    <button *ngIf="model.id!=''" type="submit" class="btn btn-primary">UPDATE</button>
+                    <button *ngIf="model.id==''" type="submit" [disabled]="!addForm.valid" class="btn btn-primary">{{'addForm.addBtn' | translate}}</button>
+                    <button *ngIf="model.id!=''" type="submit" class="btn btn-primary">{{'addForm.updateBtn' | translate}}</button>
                 </div>
             </div>
             <div class="col-12">
@@ -35,20 +35,20 @@
             </div>
             <div class="col-12">
                 <div class="form-group-2">
-                  <label>Name <span class="color-red">*</span></label>
+                  <label>{{'addForm.name' | translate}} <span class="color-red">*</span></label>
                   <input [pattern]="constant.onlyWhiteSpaces" autocomplete="off" required type="text" class="form-control" [(ngModel)]="model.name" name="name">
                 </div>
             </div>
             <div class="col-12">
                 <div class="form-group-2">
-                  <label>Contact number <span class="color-red">*</span></label>
+                  <label>{{'addForm.contactNumber' | translate}} <span class="color-red">*</span></label>
                   <input minlength="6" maxlength="16" autocomplete="off" type="text" [pattern]="constant.phonePattern" class="form-control" id="phone" required minlength="1" [(ngModel)]="model.phone" name="phone"
                         ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
                 </div>
             </div>
             <div class="col-12">
                 <div class="form-group-2">
-                  <label>Email ID <span class="color-red">*</span></label>
+                  <label>{{'addForm.emailId' | translate}} <span class="color-red">*</span></label>
                   <input (keydown.space)="$event.preventDefault();" autocomplete="off" required [pattern]="constant.emailPattern" type="email" class="form-control" [(ngModel)]="model.email" name="email">
                 </div>
             </div>
@@ -62,19 +62,19 @@
               
               <div class="clearfix"></div>
               <div *ngIf="permission.show" id="broker-seller-dev" class="inner-select">
-                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_create==1}">Can Create
+                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_create==1}">{{'addForm.canCreate' | translate}}
                     <input type="checkbox" [checked]="permission.can_create == 1 ? 'checked': ''"  (click)="setPermission('can_create', i)">
                     <span class="checkmark"></span>
                 </label>
-                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_read==1}">Can Read
+                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_read==1}">{{'addForm.canRead' | translate}}
                     <input type="checkbox" [checked]="permission.can_read == 1 ? 'checked': ''"  (click)="setPermission('can_read', i)">
                     <span class="checkmark"></span>
                 </label>
-                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_update==1}">Can Update
+                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_update==1}">{{'addForm.canUpdate' | translate}}
                     <input type="checkbox" [checked]="permission.can_update == 1 ? 'checked': ''"  (click)="setPermission('can_update', i)">
                     <span class="checkmark"></span>
                 </label>
-                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_delete==1}">Can Block/Unblock
+                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_delete==1}">{{'addForm.canBlockUnblock' | translate}}
                     <input type="checkbox" [checked]="permission.can_delete == 1 ? 'checked': ''"  (click)="setPermission('can_delete', i)">
                     <span class="checkmark"></span>
                 </label>
@@ -92,11 +92,11 @@
                 || permission?.acl?.name == 'Bank Management'
                 || permission?.acl?.name == 'Templates'
                 || permission?.acl?.name == 'Building Management' || permission?.acl?.name == 'Notaries Management'" 
-                  class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_purge==1}">Can Delete
+                  class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_purge==1}">{{'addForm.canDelete' | translate}}
                     <input type="checkbox" [checked]="permission.can_purge == 1 ? 'checked': ''"  (click)="setPermission('can_purge', i)">
                     <span class="checkmark"></span>
                 </label>
-                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_crud==1}">CRUD
+                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_crud==1}">{{'addForm.canCRUD' | translate}}
                     <input type="checkbox" [checked]="permission.can_crud == 1 ? 'checked': ''"  (click)="setPermission('can_crud', i)">
                     <span class="checkmark"></span>
                 </label>

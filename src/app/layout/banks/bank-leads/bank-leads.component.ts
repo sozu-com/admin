@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { LeadsService } from 'src/app/services/leads.service';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -43,7 +44,8 @@ export class BankLeadsComponent implements OnInit {
     public leadsService: LeadsService,
     private constant: Constant,
     private route: ActivatedRoute,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -88,21 +90,6 @@ export class BankLeadsComponent implements OnInit {
     if (this.parameter.keyword) {
       input.append('keyword', this.parameter.keyword);
     }
-    // if (this.parameter.country_id && this.parameter.country_id !== '-1') {
-    //   input.append('countries', JSON.stringify([this.parameter.country_id]));
-    // }
-
-    // if (this.parameter.state_id && this.parameter.state_id !== '-1') {
-    //   input.append('states', JSON.stringify([this.parameter.state_id]));
-    // }
-
-    // if (this.parameter.city_id && this.parameter.city_id !== '-1') {
-    //   input.append('cities', JSON.stringify([this.parameter.city_id]));
-    // }
-
-    // if (this.parameter.locality_id && this.parameter.locality_id !== '-1') {
-    //   input.append('localities', JSON.stringify([this.parameter.locality_id]));
-    // }
     this.admin.postDataApi('getBanks', input).subscribe(
       success => {
         this.users = success.data;
@@ -148,7 +135,6 @@ export class BankLeadsComponent implements OnInit {
     this.parameter.keyword = '';
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
-    // this.parameter.flag = 2;
     this.parameter.total = 0;
     this.parameter.count_flag = 1;
     this.getListing();
@@ -156,15 +142,6 @@ export class BankLeadsComponent implements OnInit {
   }
 
   getCSRDashBoardData() {
-    // const input = new FormData();
-    // if (this.selectedUser) {
-    //   input.append('assignee_id', this.selectedUser.id);
-    // } else if (this.parameter.assignee_id) {
-    //   input.append('assignee_id', this.parameter.assignee_id);
-    // }
-    // if (this.parameter.flag) {
-    //   input.append('flag', this.parameter.flag.toString());
-    // }
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');
@@ -182,11 +159,11 @@ export class BankLeadsComponent implements OnInit {
       this.dash = r.data;
       this.chartView = [
         {
-          'name': 'Leads (Open)',
+          'name': this.translate.instant('charts.leadsOpen'),
           'value': parseInt(this.dash.open_count, 10)
         },
         {
-          'name': 'Leads (Closed)',
+          'name': this.translate.instant('charts.leadsClosed'),
           'value': parseInt(this.dash.close_count, 10)
         }
       ];
@@ -242,21 +219,15 @@ export class BankLeadsComponent implements OnInit {
   }
 
   bulkAssign() {
-    // this.assign.keyword = '';
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     if (leads_ids.length === 0) {
-      swal('Error', 'Please choose atleast one lead.', 'error');
+      swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneDate'), 'error');
       return false;
     }
     this.openAssignModel.nativeElement.click();
-    // this.admin.postDataApi('getBanks', {}).subscribe(
-    //   success => {
-    //     this.assign.items = success.data;
-    //   });
   }
 
   getAssignListing() {
-    // this.assign.items = [];
     const input = {
       keyword: this.assign.keyword
     };
@@ -276,14 +247,15 @@ export class BankLeadsComponent implements OnInit {
       bank_id: this.assignItem.id,
       leads: leads_ids
     };
-    // this.spinner.show();
+    this.spinner.show();
     this.admin.postDataApi('leads/bulkAssignBank', input).subscribe(r => {
-      // this.spinner.hide();
-      swal('Success', 'Assigned successfully', 'success');
+      this.spinner.hide();
+      swal('Success', this.translate.instant('message.success.assignedSuccessfully'), 'success');
       this.closeAssignModel.nativeElement.click();
       this.getListing();
     },
       error => {
+        this.spinner.hide();
         this.closeAssignModel.nativeElement.click();
         swal('Error', error.error.message, 'error');
       });

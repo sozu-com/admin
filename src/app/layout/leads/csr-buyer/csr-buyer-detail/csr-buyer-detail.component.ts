@@ -8,7 +8,6 @@ import { AdminService } from 'src/app/services/admin.service';
 import { Constant } from 'src/app/common/constants';
 import { ChatTimePipe } from 'src/app/pipes/chat-time.pipe';
 import { LeadsService } from 'src/app/services/leads.service';
-import { TranslateService } from 'src/app/lang/translate.service';
 declare let swal: any;
 
 @Component({
@@ -40,8 +39,7 @@ export class CsrBuyerDetailComponent implements OnInit {
     public constant: Constant,
     public appointment: AddAppointmentMultiple,
     private spinner: NgxSpinnerService,
-    public leadsService: LeadsService,
-    public ts: TranslateService
+    public leadsService: LeadsService
   ) {
     this.admin.loginData$.subscribe(success => {
       this.parameter.admin_id = success['id'];

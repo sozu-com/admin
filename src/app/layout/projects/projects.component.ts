@@ -208,7 +208,6 @@ export class ProjectsComponent implements OnInit {
         success => {
           swal('Success', this.parameter.successText, 'success');
           item.is_blocked = flag;
-          // this.items[this.parameter.index] = success.data;
         },
         error => {
           swal('Error', error.error.message, 'error');
@@ -270,11 +269,10 @@ export class ProjectsComponent implements OnInit {
   }
 
   deletePopup(item: any, index: number) {
-    this.parameter.title = this.translate.instant('message.question.areYouSure');
     this.parameter.text = this.translate.instant('message.question.wantToDeleteProject');
 
     swal({
-      html: this.parameter.title + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,

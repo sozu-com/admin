@@ -4,21 +4,11 @@
   <div class="row">
       <div class="col-md-6">
         <div class="title-group">
-            <h5>Notifications</h5>
-            <p>Showing {{parameter.items?.length}} out of {{parameter.total ? parameter.total : parameter?.items?.length}}</p>
+            <h5>{{'viewNotifications.label' | translate}}</h5>
+            <p>{{'table.pagination.showing' | translate}} {{parameter.items?.length}} {{'table.pagination.outof' | translate}} {{parameter.total ? parameter.total : parameter?.items?.length}}</p>
         </div>
       </div>
   </div>
-
-  <!-- <div class="white-bg padding20 profile-content-outer">
-    <p class="p18">Notifications</p>
-    <ul class="notifications">
-      <li *ngFor="let item of parameter.items">
-        <h5>{{item.notification_text}}</h5>
-        <p>{{item.notification_desc}}</p>
-      </li>
-    </ul>
-  </div> -->
 
   <div class="white-bg padding20 profile-content-outer">
     <ul class="notifications">

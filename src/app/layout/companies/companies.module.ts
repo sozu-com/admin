@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { AgmCoreModule } from '@agm/core';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { TranslateModule } from '@ngx-translate/core';
 
 // general components
 import { SharedModule } from 'src/app/modules/shared.module';
@@ -41,7 +42,8 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     Ng2TelInputModule,
-    SharedModule
+    SharedModule,
+    TranslateModule
   ],
   declarations: [
     CompaniesComponent,

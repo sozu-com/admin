@@ -8,7 +8,7 @@ import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CSRBuyerLeads } from 'src/app/models/leads.model';
 import { LeadsService } from 'src/app/services/leads.service';
-import { TranslateService } from 'src/app/lang/translate.service';
+// import { TranslateService } from 'src/app/lang/translate.service';
 declare let swal: any;
 
 @Component({
@@ -48,8 +48,7 @@ export class CsrBuyerComponent implements OnInit {
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
     public leadsService: LeadsService,
-    private router: Router,
-    public ts: TranslateService
+    private router: Router
   ) { }
 
   ngOnInit() {

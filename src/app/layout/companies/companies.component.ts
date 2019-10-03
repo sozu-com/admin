@@ -6,6 +6,7 @@ import { Constant } from 'src/app/common/constants';
 import { AdminService } from 'src/app/services/admin.service';
 import { Users } from 'src/app/models/users.model';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -22,10 +23,11 @@ export class CompaniesComponent implements OnInit {
   label: string;
   constructor(public constant: Constant, public admin: AdminService,
     private spinner: NgxSpinnerService,
-    private router: Router) { }
+    private router: Router,
+    private translate: TranslateService) { }
 
   ngOnInit() {
-    this.label = 'Choose Companies File';
+    this.label = this.translate.instant('table.title.chooseCompaniesFile');
     this.model = new Company();
     this.model.project_sort = 2;  // 2 means desc
     this.model.sort_manager = null;
@@ -75,15 +77,15 @@ export class CompaniesComponent implements OnInit {
 
   blockUnblockPopup(index: any, id: string, flag: number) {
     this.parameter.index = index;
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    this.parameter.title = this.translate.instant('message.question.areYouSure');
     switch (flag) {
       case 0:
-        this.parameter.text = this.constant.title.UNBLOCK_COMPANY;
-        this.parameter.successText = this.constant.successMsg.UNBLOCKED_SUCCESSFULLY;
-        break;
-      case 1:
-        this.parameter.text = this.constant.title.BLOCK_COMPANY;
-        this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
+      this.parameter.text = this.translate.instant('message.question.wantToUnblockCompany');
+      this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
+      break;
+    case 1:
+      this.parameter.text = this.translate.instant('message.question.wantToBlockCompany');
+      this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
     }
 
@@ -113,14 +115,13 @@ export class CompaniesComponent implements OnInit {
       .subscribe(
         success => {
           swal('Success', this.parameter.successText, 'success');
-          // this.items[this.parameter.index] = success.data;
           this.items[this.parameter.index]['is_blocked'] = flag;
         });
   }
 
   deletePopup(item: any, index: number) {
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
-    this.parameter.text = 'You want to delete this company?';
+    this.parameter.title = this.translate.instant('message.question.areYouSure');
+    this.parameter.text = this.translate.instant('message.question.wantToDeleteCompany');
 
     swal({
       html: this.parameter.title + '<br>' + this.parameter.text,
@@ -141,7 +142,7 @@ export class CompaniesComponent implements OnInit {
       { id: item.id }).subscribe(r => {
         this.items.splice(index, 1);
         this.parameter.total--;
-        swal('Success', 'Deleted successfully.', 'success');
+        swal('Success', this.translate.instant('message.success.deletedSuccessfully'), 'success');
       },
         error => {
           swal('Error', error.error.message, 'error');
@@ -154,7 +155,7 @@ export class CompaniesComponent implements OnInit {
     if (file.files && file.files[0]) {
       attachment = file.files[0];
       if (attachment.size > this.constant.fileSizeLimit) {
-        swal('Error', 'File size is more than 25MB.', 'error');
+        swal('Error', this.translate.instant('message.info.fileSizeLimit'), 'error');
         return false;
       }
       this.spinner.show();
@@ -165,15 +166,15 @@ export class CompaniesComponent implements OnInit {
           success => {
             this.spinner.hide();
             this.fileInput.nativeElement.value = '';
-            this.label = 'Choose Companies File';
-            swal('Success', 'Imported successfully.', 'success');
+            this.label = this.translate.instant('table.title.chooseCompaniesFile');
+            swal('Success', this.translate.instant('message.success.importedSuccessfully'), 'success');
             this.getTowerManagerCompany();
           }, error => {
             this.fileInput.nativeElement.value = '';
             this.spinner.hide();
           });
     } else {
-      swal('Error', 'Please choose file', 'error');
+      swal('Error', this.translate.instant('message.info.pleaseChooseFile'), 'error');
       return false;
     }
   }

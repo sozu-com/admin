@@ -114,7 +114,7 @@ export class BanksComponent implements OnInit {
 
   addBank(formData: NgForm) {
     if (this.model.img_loader) {
-      swal('Error', 'Uploading image.', 'error');
+      swal('Error', this.translate.instant('message.error.uploadingImage'), 'error');
       return false;
     }
     this.spinner.show();
@@ -126,7 +126,8 @@ export class BanksComponent implements OnInit {
             swal('Error', success.message, 'error');
           } else {
             this.modalClose.nativeElement.click();
-            const text = this.model.id ? 'Updated successfully.' : 'Added successfully.';
+            const text = this.model.id ? this.translate.instant('message.success.updatedSuccessfully') :
+                                        this.translate.instant('message.success.addedSuccessfully');
             swal('Success', text, 'success');
             if (this.model.id) {
               this.items[this.parameter.index] = success.data;
@@ -161,12 +162,12 @@ export class BanksComponent implements OnInit {
     this.parameter.title = this.constant.title.ARE_YOU_SURE;
     switch (flag) {
       case 0:
-        this.parameter.text = 'You want to unblock this bank?';
-        this.parameter.successText = this.constant.successMsg.UNBLOCKED_SUCCESSFULLY;
+        this.parameter.text = this.translate.instant('message.question.wantToUnblockBank');
+        this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
         break;
       case 1:
-      this.parameter.text = 'You want to block this bank?';
-        this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
+        this.parameter.text = this.translate.instant('message.question.wantToBlockBank');
+        this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
     }
 
@@ -193,7 +194,6 @@ export class BanksComponent implements OnInit {
         success => {
           this.spinner.hide();
           swal('Success', this.parameter.successText, 'success');
-          // this.items[this.parameter.index] = success.data;
           this.items[this.parameter.index]['is_blocked'] = flag;
         }, error => {
           this.spinner.hide();
@@ -201,8 +201,8 @@ export class BanksComponent implements OnInit {
   }
 
   deletePopup(item: any, index: number) {
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
-    this.parameter.text = 'You want to delete this bank?';
+    this.parameter.title = this.translate.instant('message.question.areYouSure');
+    this.parameter.text = this.translate.instant('message.question.wantToDeleteBank');
 
     swal({
       html: this.parameter.title + '<br>' + this.parameter.text,
@@ -221,7 +221,7 @@ export class BanksComponent implements OnInit {
   deleteBank(item: any, index: number) {
     this.admin.postDataApi('deleteBank',
       { bank_id: item.id }).subscribe(r => {
-        swal('Success', 'Deleted successfully.', 'success');
+        swal('Success', this.translate.instant('message.success.deletedSuccessfully'), 'success');
         this.items.splice(index, 1);
         this.parameter.total--;
       },

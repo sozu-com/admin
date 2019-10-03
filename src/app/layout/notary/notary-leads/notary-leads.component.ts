@@ -8,6 +8,7 @@ import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
 import { Constant } from 'src/app/common/constants';
 import { LeadsService } from 'src/app/services/leads.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-notary-leads',
@@ -51,7 +52,8 @@ export class NotaryLeadsComponent implements OnInit {
     private constant: Constant,
     public availability: AddNotaryAvailabilty,
     public route: ActivatedRoute,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -98,21 +100,6 @@ export class NotaryLeadsComponent implements OnInit {
     if (this.parameter.keyword) {
       input.append('keyword', this.parameter.keyword);
     }
-    // if (this.parameter.country_id && this.parameter.country_id !== '-1') {
-    //   input.append('countries', JSON.stringify([this.parameter.country_id]));
-    // }
-
-    // if (this.parameter.state_id && this.parameter.state_id !== '-1') {
-    //   input.append('states', JSON.stringify([this.parameter.state_id]));
-    // }
-
-    // if (this.parameter.city_id && this.parameter.city_id !== '-1') {
-    //   input.append('cities', JSON.stringify([this.parameter.city_id]));
-    // }
-
-    // if (this.parameter.locality_id && this.parameter.locality_id !== '-1') {
-    //   input.append('localities', JSON.stringify([this.parameter.locality_id]));
-    // }
     this.admin.postDataApi('getNoataries', input).subscribe(
       success => {
         this.users = success.data;
@@ -124,7 +111,6 @@ export class NotaryLeadsComponent implements OnInit {
     this.parameter.page = this.constant.p;
     this.parameter.flag = 2;
     this.parameter.total = 0;
-    // this.selectedUser = '';
     this.parameter.keyword = '';
     this.parameter.count_flag = 1;
     this.resetDates();
@@ -157,7 +143,6 @@ export class NotaryLeadsComponent implements OnInit {
     this.parameter.keyword = '';
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
-    // this.parameter.flag = 2;
     this.parameter.total = 0;
     this.parameter.count_flag = 1;
     this.getListing();
@@ -165,15 +150,6 @@ export class NotaryLeadsComponent implements OnInit {
   }
 
   getCSRDashBoardData() {
-    // const input = new FormData();
-    // if (this.selectedUser) {
-    //   input.append('assignee_id', this.selectedUser.id);
-    // } else if (this.parameter.assignee_id) {
-    //   input.append('assignee_id', this.parameter.assignee_id);
-    // }
-    // if (this.parameter.flag) {
-    //   input.append('flag', this.parameter.flag.toString());
-    // }
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');
@@ -195,11 +171,11 @@ export class NotaryLeadsComponent implements OnInit {
         //   "value": parseInt(this.dash.all_count,10)
         // },
         {
-          'name': 'Leads (Open)',
+          'name': this.translate.instant('charts.leadsOpen'),
           'value': parseInt(this.dash.open_count, 10)
         },
         {
-          'name': 'Leads (Closed)',
+          'name': this.translate.instant('charts.leadsClosed'),
           'value': parseInt(this.dash.close_count, 10)
         }
       ];
@@ -288,7 +264,7 @@ export class NotaryLeadsComponent implements OnInit {
       this.availability.date_time.push(element1.date_time);
     });
     if (this.availability.date_time.length === 0) {
-      swal('Error', 'Choose atleast one date.', 'error');
+      swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneLead'), 'error');
       return false;
     }
     this.spinner.show();
@@ -298,9 +274,7 @@ export class NotaryLeadsComponent implements OnInit {
           this.items[this.parameter.index] = success.data;
           this.spinner.hide();
           this.closeModal();
-          swal('Success', 'Availability added successfully.', 'success');
-          // this.items = success.data;
-          // this.parameter.total = success.total_count;
+          swal('Success', this.translate.instant('message.success.availabilityAddedSuccessfully'), 'success');
         }, error => {
           this.spinner.hide();
         }
@@ -322,7 +296,6 @@ export class NotaryLeadsComponent implements OnInit {
     this.availability.date_time_array.splice(i, 1);
   }
 
-
   selectAll() {
     this.items.forEach(item => {
       item.selected = true;
@@ -332,14 +305,13 @@ export class NotaryLeadsComponent implements OnInit {
   bulkAssign() {
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     if (leads_ids.length === 0) {
-      swal('Error', 'Please choose atleast one lead.', 'error');
+      swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneLead'), 'error');
       return false;
     }
     this.openAssignModel.nativeElement.click();
   }
 
   getAssignListing() {
-    // this.assign.items = [];
     const input = {
       keyword: this.assign.keyword
     };
@@ -358,7 +330,7 @@ export class NotaryLeadsComponent implements OnInit {
     this.spinner.show();
     this.admin.postDataApi('leads/bulkAssignNoatary', input).subscribe(r => {
       this.spinner.hide();
-      swal('Success', 'Assigned successfully', 'success');
+      swal('Success', this.translate.instant('message.success.assignedSuccessfully'), 'success');
       this.closeAssignModel.nativeElement.click();
       this.getListing();
     },

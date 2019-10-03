@@ -3,13 +3,13 @@
     <div class="row">
         <div class="col-md-6 col-6">
           <div class="title-group">
-              <h5>Access Control Mgt.</h5>
-              <p>Showing {{parameter.items?.length}} out of {{parameter.total}}</p>
+            <h5>{{'viewACL.label' | translate}}</h5>
+            <p>{{'table.pagination.showing' | translate}} {{parameter?.items?.length}} {{'table.pagination.outof' | translate}} {{parameter.total}}</p>
           </div>
         </div>
         <div class="col-md-6 col-6">
           <div class="btn-cont text-right">
-              <a *ngIf="admin?.admin_acl['Access Controls']?.can_create==1" class="btn btn-primary" href="javascript://" routerLink="/dashboard/access-control-mgt/add-acl-user/0">+Add New</a>
+              <a *ngIf="admin?.admin_acl['Access Controls']?.can_create==1" class="btn btn-primary" href="javascript://" routerLink="/dashboard/access-control-mgt/add-acl-user/0">{{'table.addNewBtn' | translate}}</a>
           </div>
         </div>
     </div>
@@ -22,7 +22,7 @@
                 <th style="width:6%">&nbsp;</th>
                 <th style="width:20%">
                   <div class="table-search">
-                      <label>Name</label>
+                      <label>{{'table.th.name' | translate}}</label>
                       <div class="searh-3">
                         <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getAclUsers(parameter.page, parameter.name, parameter.phone, parameter.email)" name="">
                         <button *ngIf="parameter.name" (click)="getAclUsers(parameter.page, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
@@ -31,7 +31,7 @@
                 </th>
                 <th style="width:20%; text-align:left;">
                   <div class="table-search">
-                      <label>Contact Number</label>
+                      <label>{{'table.th.contactNumber' | translate}}</label>
                       <div class="searh-3">
                         <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="getAclUsers(parameter.page, parameter.name, parameter.phone, parameter.email)" name="">
                         <button *ngIf="parameter.phone" (click)="getAclUsers(parameter.page, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
@@ -40,7 +40,7 @@
                 </th>
                 <th style="width:20%">
                   <div class="table-search">
-                      <label>Email Address</label>
+                    <label>{{'table.th.emailAddress' | translate}}</label>
                       <div class="searh-3">
                         <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="getAclUsers(parameter.page, parameter.name, parameter.phone, parameter.email)" name="">
                         <button *ngIf="parameter.email" (click)="getAclUsers(parameter.page, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
@@ -49,7 +49,7 @@
                 </th>
                 <th style="width:10%; vertical-align: top;">
                   <div class="table-search">
-                    <label>Emp. ID</label>
+                    <label>{{'table.th.empId' | translate}}</label>
                   </div>
                 </th>
                 <th style="width:14%">
@@ -71,9 +71,9 @@
                   </span>
                 </td>
                 <td class="text-left" *ngIf="item.phone">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
-                <td class="text-left" *ngIf="!item.phone">NA</td>
+                <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
                 <td class="text-left" *ngIf="item.email">{{item.email}}</td>
-                <td class="text-left" *ngIf="!item.email">NA</td>
+                <td class="text-left" *ngIf="!item.email">{{'table.tr.td.NA' | translate}}</td>
                 <td>{{item.id}}</td>
                 <td>
                   <div class="table-actions">
@@ -81,10 +81,10 @@
                     <!-- <a [ngClass]="{'display-none':admin?.admin_acl['Access Controls']?.can_update==0}" href="javascript://" (click)="editData(item, item.id)" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a> -->
                     <!-- <a href="javascript://" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png" alt="img"></a>
                     <a href="javascript://" class="icon-block block-icon"><img src="assets/img/unblock.png" alt="img"></a> -->
-                    <button title="Edit Details" [disabled]="admin?.admin_acl['Access Controls']?.can_update==0" (click)="editData(item, item.id)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                    <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Access Controls']?.can_update==0" (click)="editData(item, item.id)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                     <button [disabled]="admin?.admin_acl['Access Controls']?.can_delete==0"
                         (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1, parameter.type)" 
-                        title="{{item.is_blocked==1?'Unblock User':'Block User'}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"
+                        title="{{item.is_blocked==1 ? ('table.title.unblock' | translate) : ('table.title.block' | translate)}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"
                         class="action-icon"><img src="assets/img/block.png" alt="img">
                     </button>
                   </div>

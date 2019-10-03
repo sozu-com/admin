@@ -8,10 +8,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { AgmCoreModule } from '@agm/core';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { TranslateModule } from '@ngx-translate/core';
 
 // general components
-import { AclUserGuard } from '../../guards/acl-user.guard';
-import { SharedModule } from '../../modules/shared.module';
+import { AclUserGuard } from 'src/app/guards/acl-user.guard';
+import { SharedModule } from 'src/app/modules/shared.module';
 import { DevelopersComponent } from './developers.component';
 import { AddDeveloperComponent } from './add-developer/add-developer.component';
 
@@ -40,7 +41,8 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     Ng2TelInputModule,
-    SharedModule
+    SharedModule,
+    TranslateModule
   ],
   declarations: [
     DevelopersComponent,

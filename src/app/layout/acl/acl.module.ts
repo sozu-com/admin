@@ -11,9 +11,10 @@ import { Ng2TelInputModule } from 'ng2-tel-input';
 // general componets
 import { AclComponent } from './acl.component';
 import { AddAclComponent } from './add-acl/add-acl.component';
-import { AclUserGuard } from '../../guards/acl-user.guard';
-import { ImgPipe } from '../../pipes/img.pipe';
-import { SharedModule } from '../../modules/shared.module';
+import { AclUserGuard } from 'src/app/guards/acl-user.guard';
+import { ImgPipe } from 'src/app/pipes/img.pipe';
+import { SharedModule } from 'src/app/modules/shared.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 const routes: Routes = [
@@ -36,7 +37,8 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     Ng2TelInputModule,
-    SharedModule
+    SharedModule,
+    TranslateModule
   ],
   declarations: [
     AclComponent,

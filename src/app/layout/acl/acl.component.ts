@@ -9,6 +9,7 @@ import { Constant } from 'src/app/common/constants';
 import { AdminService } from 'src/app/services/admin.service';
 import { CommonService } from 'src/app/services/common.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -30,7 +31,8 @@ export class AclComponent implements OnInit {
     public admin: AdminService, private cs: CommonService,
     public sanitization: DomSanitizer, private router: Router,
     private spinner: NgxSpinnerService,
-    private location: Location
+    private location: Location,
+    private translate: TranslateService
   ) {
     const dd = this.cs.checkAccess('Broker Management', 'can_read');
     if (dd === 0) {
@@ -118,7 +120,9 @@ export class AclComponent implements OnInit {
           } else {
             this.modalClose.nativeElement.click();
             formdata.reset();
-            const text = this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
+            const text = this.model.id === '' ?
+                    this.translate.instant('message.success.addedSuccessfully') :
+                    this.translate.instant('message.success.updatedSuccessfully');
             swal('Success', text, 'success');
             if (this.parameter.items.length < 10) {
               if (this.model.id !== '') {
@@ -138,15 +142,15 @@ export class AclComponent implements OnInit {
 
   blockUnblockPopup(index, id, flag, user_type) {
     this.parameter.index = index;
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    this.parameter.title = this.translate.instant('message.question.areYouSure');
     switch (flag) {
       case 0:
-        this.parameter.text = this.constant.title.UNBLOCK_USER;
-        this.parameter.successText = this.constant.successMsg.UNBLOCKED_SUCCESSFULLY;
+      this.parameter.text = this.translate.instant('message.question.wantToUnblockUser');
+      this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
         break;
       case 1:
-        this.parameter.text = this.constant.title.BLOCK_USER;
-        this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
+      this.parameter.text = this.translate.instant('message.question.wantToBlockUser');
+      this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
     }
 

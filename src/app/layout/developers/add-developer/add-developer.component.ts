@@ -110,7 +110,7 @@ export class AddDeveloperComponent implements OnInit {
   add(formData: NgForm) {
     const modelSave: Users = JSON.parse(JSON.stringify(this.model));
     if (!modelSave.lat || !modelSave.lng) {
-      swal('Error', 'Please choose address from dropdown.', 'error');
+      swal('Error', this.translate.instant('message.info.pleaseChooseAddressFromDropdown'), 'error');
       return;
     }
     if (modelSave.images) {
@@ -125,7 +125,9 @@ export class AddDeveloperComponent implements OnInit {
             swal('Error', success.message, 'error');
             return;
           } else {
-            const text = this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
+            const text = this.model.id === '' ?
+                    this.translate.instant('message.success.addedSuccessfully') :
+                    this.translate.instant('message.success.updatedSuccessfully');
             swal('Success', text, 'success');
             if (this.model.id === '') {
               formData.reset();
@@ -224,7 +226,7 @@ export class AddDeveloperComponent implements OnInit {
 
   saveImages() {
     if (this.file4.files.length < 1) {
-      swal('Error', 'Please select atleast one image', 'error'); return false;
+      swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error'); return false;
     }
     this.modalClose.nativeElement.click();
     this.file4.upload().then(r => {
