@@ -6,8 +6,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { IProperty } from 'src/app/common/property';
 import { Property, Building } from 'src/app/models/global.model';
 import { AdminService } from 'src/app/services/admin.service';
-// import { TranslateService } from 'src/app/lang/translate.service';
 import { Constant } from 'src/app/common/constants';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 declare const google;
 
@@ -38,7 +38,8 @@ export class ProjectDetailsComponent implements OnInit {
     private admin: AdminService,
     private route: ActivatedRoute,
     public constant: Constant,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -61,18 +62,19 @@ export class ProjectDetailsComponent implements OnInit {
 
       const config_carpet_areas = this.project.configurations.map(r => parseInt(r.carpet_area));
       if (config_carpet_areas.length < 1) {
-        this.carpet_area_string = 'Not Available';
+        this.carpet_area_string = this.translate.instant('addForm.notAvailable');
       } else if (config_carpet_areas.length === 1) {
-        this.carpet_area_string = config_carpet_areas[0] + ' sqmt';
+        this.carpet_area_string = config_carpet_areas[0] + ' ' + this.translate.instant('addForm.sqmt');
       } else {
         const min = Math.min.apply(null, config_carpet_areas);
         const max = Math.max.apply(null, config_carpet_areas);
-        this.carpet_area_string = min + ' sqmt - ' + max + ' sqmt';
+        this.carpet_area_string = min + ' ' + this.translate.instant('addForm.sqmt') +
+        ' - ' + max + ' ' + this.translate.instant('addForm.sqmt');
       }
 
       const config_prices = this.project.configurations.map(r => parseInt(r.base_price));
       if (config_prices.length < 1) {
-        this.base_price_string = 'Not Available';
+        this.base_price_string = this.translate.instant('addForm.notAvailable');
       } else if (config_prices.length === 1) {
         this.base_price_min = config_prices[0];
       } else {

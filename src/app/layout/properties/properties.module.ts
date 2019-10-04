@@ -9,15 +9,16 @@ import { Ng2TelInputModule } from 'ng2-tel-input';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
+import { TranslateModule } from '@ngx-translate/core';
 
 // general components
 import { PropertiesComponent } from './properties.component';
 import { AddPropertyComponent } from './add-property/add-property.component';
 import { PropertyDetailsComponent } from './property-details/property-details.component';
-import { AclUserGuard } from '../../guards/acl-user.guard';
-import { FilterByIdPipe } from '../../pipes/filter-by-id.pipe';
-import { FilterByNamePipe } from '../../pipes/filter-by-name.pipe';
-import { SharedModule } from '../../modules/shared.module';
+import { AclUserGuard } from 'src/app/guards/acl-user.guard';
+import { FilterByIdPipe } from 'src/app/pipes/filter-by-id.pipe';
+import { FilterByNamePipe } from 'src/app/pipes/filter-by-name.pipe';
+import { SharedModule } from 'src/app/modules/shared.module';
 import { CalendarModule } from 'primeng/primeng';
 import { ProjectBlockComponent } from '../common-blocks/project-block/project-block.component';
 import { BulkAddComponent } from './bulk-add/bulk-add.component';
@@ -68,7 +69,8 @@ const routes: Routes = [
     CalendarModule,
     SharedModule,
     LazyLoadImageModule,
-    MalihuScrollbarModule.forRoot()
+    MalihuScrollbarModule.forRoot(),
+    TranslateModule
   ],
   declarations: [
     PropertiesComponent,

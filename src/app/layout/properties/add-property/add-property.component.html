@@ -4,9 +4,9 @@
     <div class="col-md-6">
       <div class="title-group">
         <h5 *ngIf="!editMode"><a routerLink="/dashboard/properties/view-properties" href="javascript://"><i
-              class="fa fa-angle-double-left"></i> </a> &nbsp;&nbsp;Add New Property</h5>
+              class="fa fa-angle-double-left"></i> </a> &nbsp;&nbsp;{{'addForm.addProperty' | translate}}</h5>
         <h5 *ngIf="editMode"> <a routerLink="/dashboard/properties/view-properties" href="javascript://"><i
-              class="fa fa-angle-double-left"></i> </a> &nbsp;&nbsp;Edit Property {{name}}</h5>
+              class="fa fa-angle-double-left"></i> </a> &nbsp;&nbsp;{{'addForm.editProperty' | translate}}: {{model?.name}}</h5>
       </div>
     </div>
     <div class="col-md-6 btn-cont">
@@ -26,11 +26,11 @@
       <li [ngClass]="{'current': tab == 2}"><span></span><a>Additional Info</a></li>
       <li [ngClass]="{'current': tab == 3}"><span></span><a>Preferable Buyers</a></li>
       <li [ngClass]="{'current': (tab == 4) || (tab == 5)}"><span></span><a>Custom</a></li> -->
-      <li [ngClass]="{'current': tab == 0}"><span></span><a (click)="setTab(0)">Tag a Building</a></li>
-      <li [ngClass]="{'current': tab == 1}"><span></span><a (click)="setTab(1)">Create Draft</a></li>
-      <li [ngClass]="{'current': tab == 2}"><span></span><a (click)="setTab(2)">Additional Info</a></li>
-      <li [ngClass]="{'current': tab == 3}"><span></span><a (click)="setTab(3)">Preferable Buyers</a></li>
-      <li [ngClass]="{'current': (tab == 4) || (tab == 5)}"><span></span><a (click)="setTab(4)">Custom</a></li>
+      <li [ngClass]="{'current': tab == 0}"><span></span><a (click)="setTab(0)">{{'addForm.tabs.tagABuilding' | translate}}</a></li>
+      <li [ngClass]="{'current': tab == 1}"><span></span><a (click)="setTab(1)">{{'addForm.tabs.createDraft' | translate}}</a></li>
+      <li [ngClass]="{'current': tab == 2}"><span></span><a (click)="setTab(2)">{{'addForm.tabs.additionalInfo' | translate}}</a></li>
+      <li [ngClass]="{'current': tab == 3}"><span></span><a (click)="setTab(3)">{{'addForm.tabs.PreferableBuyers' | translate}}</a></li>
+      <li [ngClass]="{'current': (tab == 4) || (tab == 5)}"><span></span><a (click)="setTab(4)">{{'addForm.tabs.Custom' | translate}}</a></li>
     </ul>
   </div>
 </div>
@@ -42,49 +42,49 @@
 <!-- Tag a building start -->
 <div class="white-bg" *ngIf="tab==0">
   <div class="page-title">
-    <h3>Tag a Building</h3>
+    <h3>{{'addForm.tabs.tagABuilding' | translate}}</h3>
   </div>
 
   <div class="padding40" *ngIf="building.id && showSearch==false">
     <div class="row">
       <div class="col-sm-9 col-lg-9">
-        <p class="p16">Tagged Building Name</p>
+        <p class="p16">{{'addForm.taggedBuildingName' | translate}}</p>
       </div>
       <div class="col-sm-3 col-lg-3 btn-cont text-right">
-        <button type="button" class="btn btn-primary" (click)="showSearchBox()">Change</button>
+        <button type="button" class="btn btn-primary" (click)="showSearchBox()">{{'addForm.change' | translate}}</button>
       </div>
     </div>
     <p><b>{{building.name}}</b></p>
 
     <div class="row">
       <div class="col-sm-9 col-lg-9">
-        <p class="p16">Tagged Tower Name</p>
+        <p class="p16">{{'addForm.taggedTowerName' | translate}}</p>
       </div>
     </div>
-    <p><b>{{model?.building_towers?.tower_name ? model?.building_towers?.tower_name : 'NA'}}</b></p>
+    <p><b>{{model?.building_towers?.tower_name ? model?.building_towers?.tower_name : ('table.tr.td.NA' | translate)}}</b></p>
 
     <div class="row" *ngIf="model?.building_towers">
       <div class="col-sm-9 col-lg-9">
-        <p class="p16">Tagged Floor</p>
+        <p class="p16">{{'addForm.taggedFloor' | translate}}</p>
       </div>
     </div>
-    <p><b>{{model?.building_towers?.tower_name ? (model?.floor_num == 0 ? 'Ground Floor' : 'Floor ' + model?.floor_num) : 'NA'}}</b></p>
+    <p><b>{{model?.building_towers?.tower_name ? (model?.floor_num == 0 ? ('addForm.groundFloor' | translate) : ('addForm.floor' | translate) + ' ' + model?.floor_num) : 'NA'}}</b></p>
     
     <div class="row">
       <div class="col-md-12">
         <div class="btn-cont text-right">
-          <button type="button" (click)="tab=1" class="btn btn-primary">Next</button>
+          <button type="button" (click)="tab=1" class="btn btn-primary">{{'addForm.next' | translate}}</button>
         </div>
       </div>
     </div>
   </div>
 
   <div class="padding40" *ngIf="showSearch">
-    <label class="p16-two">Search your building in Our Database</label>
+    <label class="p16-two">{{'addForm.SearchYourBuildingInOurDatabase' | translate}}</label>
     <div class="searh d-flex">
       <input class="border-right-0" autocomplete="off" type="text" #buildingname
         (keyup.enter)="searchBuilding(buildingname.value)" name="buildingName" [(ngModel)]="buildingName">
-      <button class="btn" type="button" (click)="searchBuilding(buildingname.value)">Search</button>
+      <button class="btn" type="button" (click)="searchBuilding(buildingname.value)">{{'addForm.search' | translate}}</button>
     </div>
     <div class="spacer50"></div>
     <div *ngIf="buildingLoading">
@@ -112,9 +112,9 @@
         <diV class="row marginT20" *ngIf="building.id">
           <div class="col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="form-group-3">
-              <label class="p16-two">Select tower in {{selectedBuilding?.name}} <span class="color-red">*</span></label>
-              <select title="Choose Tower" name="tower" [(ngModel)]="selectedTower" required class="form-control" (change)="setTower(selectedTower)">
-                <option value="">Select Tower</option>
+              <label class="p16-two">{{'addForm.selectTowerIn' | translate}} {{selectedBuilding?.name}} <span class="color-red">*</span></label>
+              <select name="tower" [(ngModel)]="selectedTower" required class="form-control" (change)="setTower(selectedTower)">
+                <option value="">{{'addForm.selectTower' | translate}}</option>
                 <option *ngFor="let bt of selectedBuilding?.building_towers" [ngValue]="bt">
                   {{bt.tower_name}}</option>
               </select>
@@ -126,11 +126,11 @@
         <div class="row marginT20" *ngIf="selectedTower">
           <div class="col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="form-group-3">
-              <label class="p16-two">Select floor in {{selectedTower?.tower_name}} <span class="color-red">*</span></label>
-              <select title="Choose Floor" required class="form-control" (change)="setFloor($event.target.value)">
-                <option value="">Select Floor</option>
+              <label class="p16-two">{{'addForm.selectFloorIn' | translate}} {{selectedTower?.tower_name}} <span class="color-red">*</span></label>
+              <select required class="form-control" (change)="setFloor($event.target.value)">
+                <option value="">{{'addForm.selectFloor' | translate}}</option>
                 <option *ngFor="let fa of selectedTower?.floor_array; let j=index" [value]="fa">
-                  {{j == 0 ? 'Ground Floor': 'Floor '+j}}</option>
+                  {{j == 0 ? ('addForm.groundFloor' | translate): ('addForm.floor' | translate) + ' '+j}}</option>
               </select>
             </div>
           </div>  
@@ -139,16 +139,15 @@
         <div class="row">
           <div class="col-md-12">
             <div class="btn-cont text-right">
-              <button type="submit" [disabled]="tagABuilding.invalid" class="btn btn-primary">Next</button>
+              <button type="submit" [disabled]="tagABuilding.invalid" class="btn btn-primary">{{'addForm.next' | translate}}</button>
             </div>
           </div>
         </div>
       </form>
     </div>
 
-    <p *ngIf="parameter.buildingCount == 0 && showText" class="p18">Didn’t Found your Building? <strong><span
-          (click)="showBuildingDetails(true)" class="green-color cursor-pointer">Generate a Request to add a building by
-          our Data collectors</span></strong></p>
+    <p *ngIf="parameter.buildingCount == 0 && showText" class="p18">{{'addForm.didntFoundyourBuilding' | translate}} <strong><span
+          (click)="showBuildingDetails(true)" class="green-color cursor-pointer">{{'addForm.GenerateARequesttoAddABuildingByOurDataCollectors' | translate}}</span></strong></p>
     <div *ngIf="showBuilding" class="spacer50"></div>
 
     <form ngNativeValidate #buildingRequestForm="ngForm" (ngSubmit)="buildingRequest()">
@@ -157,32 +156,32 @@
           <div class="row">
             <div class="col-sm-6 col-12">
               <div class="form-group-3">
-                <label>Name of Building</label>
+                <label>{{'addForm.nameBuilding' | translate}}</label>
                 <input autocomplete="off" required class="form-control" [pattern]="constant.onlyWhiteSpaces" type="text" name="name"
-                  [(ngModel)]="building.name" placeholder="Enter name of building">
+                  [(ngModel)]="building.name" placeholder="{{'addForm.placeholder.nameOfBuilding' | translate}}">
               </div>
             </div>
             <div class="col-sm-6 col-12">
               <div class="form-group-3">
-                <label>Where it is located?</label>
-                <input required placeholder="Search for Location" autocorrect="off" autocapitalize="off"
+                <label>{{'addForm.whereItIsLocated' | translate}}</label>
+                <input required placeholder="{{'addForm.placeholder.searchForLocation' | translate}}" autocorrect="off" autocapitalize="off"
                   spellcheck="off" type="text" class="form-control" #search (input)="loadPlaces()"
                   [formControl]="searchControl" [(ngModel)]="building.address" name="address">
               </div>
             </div>
           </div>
-          <label class="label-optional">Developer Details (optional)</label>
+          <label class="label-optional">{{'addForm.developerDetails' | translate}}</label>
           <div class="row">
             <div class="col-sm-6 col-12">
               <div class="form-group-3">
-                <label>Name of Developer</label>
+                <label>{{'addForm.nameOfDeveloper' | translate}}</label>
                 <input autocomplete="off" class="form-control" [pattern]="constant.onlyWhiteSpaces" type="text" name="dev_name"
                   [(ngModel)]="building.dev_name">
               </div>
             </div>
             <div class="col-sm-6 col-12">
               <div class="form-group-3">
-                <label>Contact Number</label>
+                <label>{{'addForm.contactNumber' | translate}}</label>
                 <input minlength="6" maxlength="16" autocomplete="off" type="text" class="form-control" id="dev_phone"
                   [(ngModel)]="building.dev_phone" name="dev_phone" ng2TelInput [ng2TelInputOptions]="initialCountry"
                   (countryChange)="onCountryChange($event)" />
@@ -192,7 +191,7 @@
           <div class="row">
             <div class="col-sm-12 col-12">
               <div class="form-group-3">
-                <label>Email Address</label>
+                <label>{{'addForm.emailId' | translate}}</label>
                 <input autocomplete="off" class="form-control" type="email" name="dev_email"
                   [(ngModel)]="building.dev_email">
               </div>
@@ -201,7 +200,7 @@
         </div>
         <div class="col-lg-5 col-md-12 col-sm-12 col-12">
           <div class="form-group-3 mark-pin-map">
-            <label>Mark Pin on Map</label>
+            <label>{{'addForm.markPinonMap' | translate}}</label>
           </div>
           <div>
             <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false"
@@ -215,7 +214,7 @@
       <div class="row" *ngIf="showBuilding">
         <div class="col-md-12">
           <div class="btn-cont text-right">
-            <button type="submit" [disabled]="buildingRequestForm.invalid" class="btn btn-primary">Submit Request</button>
+            <button type="submit" [disabled]="buildingRequestForm.invalid" class="btn btn-primary">{{'addForm.submitRequest' | translate}}</button>
           </div>
         </div>
       </div>
@@ -229,20 +228,20 @@
 <form ngNativeValidate #createDraft="ngForm" (ngSubmit)="addProperty(createDraft, 2)">
   <div class="white-bg" *ngIf="tab==1">
     <div class="page-title">
-      <h3>Create Draft</h3>
+      <h3>{{'addForm.tabs.createDraft' | translate}}</h3>
     </div>
     <div class="paddingT0 padding40">
 
       <div class="form-group-3">
-        <label class="p16-two">Name <span class="color-red">*</span></label>
-        <input class="form-control" required type="text" [pattern]="constant.onlyWhiteSpaces" name="name" placeholder="Apartment name" [(ngModel)]="model.name">
+        <label class="p16-two">{{'addForm.name' | translate}} <span class="color-red">*</span></label>
+        <input class="form-control" required type="text" [pattern]="constant.onlyWhiteSpaces" name="name" placeholder="{{'addForm.placeholder.apartmentName' | translate}}" [(ngModel)]="model.name">
         <div class="clearfix"></div>
       </div>
 
       <div class="spacer15"></div>
 
       <div class="form-group-3">
-        <label class="p16-two">This Property is available for? <span class="color-red">*</span></label>
+        <label class="p16-two">{{'addForm.thisPropertyIsAvailableFor' | translate}} <span class="color-red">*</span></label>
         <div class="clearfix"></div>
         <!-- <label class="cust-radio">
           <input value="true" name="for_sale" type="radio" (change)="model.for_sale = true"
@@ -310,7 +309,7 @@
       <div class="spacer15"></div>
 
       <div class="form-group-3">
-        <label class="p16-two">Select Configuration? <span class="color-red">*</span></label>
+        <label class="p16-two">{{'addForm.selectConfiguration' | translate}} <span class="color-red">*</span></label>
         <div class="clearfix"></div>
         <label class="cust-radio" *ngFor="let configuration of parameter.items">
           <input type="radio" required (change)="setConfiguration(configuration)"
@@ -323,7 +322,7 @@
       <div class="spacer15"></div>
 
       <div class="form-group-3">
-        <label class="p16-two">Select Property Type? <span class="color-red">*</span></label>
+        <label class="p16-two">{{'addForm.selectPropertyType' | translate}} <span class="color-red">*</span></label>
         <div class="clearfix"></div>
         <label class="cust-radio" *ngFor="let propertyType of parameter.propertyTypes">
           <input type="radio" (change)="setValue('property_type_id', propertyType.id)" value="{{propertyType.id}}"
@@ -337,15 +336,15 @@
       <div class="row">
         <div class="col-md-4 col-sm-12 col-12">
           <div class="form-group-3 eca">
-            <label class="p16-two">Enter Carpet Area <span class="color-red">*</span></label>
-            <input required class="form-control" type="number" name="area[{{c}}]" placeholder="Area should be in Sq/mt."
+            <label class="p16-two">{{'addForm.enterCarpetArea' | translate}} <span class="color-red">*</span></label>
+            <input required class="form-control" type="number" name="area[{{c}}]" placeholder="{{'addForm.placeholder.areaShouldBeInSqmt' | translate}}"
               [(ngModel)]="newcarpet_area.area">
           </div>
         </div>
         <div class="col-md-4 col-sm-12 col-12">
           <div class="form-group-3 eap">
-            <label class="p16-two">Enter Price <span class="color-red">*</span></label>
-            <input required class="form-control" type="number" name="price[{{c}}]" placeholder="Amount should be in $"
+            <label class="p16-two">{{'addForm.enterPrice' | translate}} <span class="color-red">*</span></label>
+            <input required class="form-control" type="number" name="price[{{c}}]" placeholder="{{'addForm.placeholder.amountShouldBeIn' | translate}}"
               [(ngModel)]="newcarpet_area.price">
           </div>
         </div>
@@ -400,8 +399,8 @@
         <div class="col-md-12">
           <div class="btn-cont text-right">
             <!-- <a class="btn-third btn" [disabled]="addForm.invalid" type="submit" href="javascript://" (click)="addProperty(addForm, 2)">Next</a> -->
-            <button type="button" class="btn btn-primary" (click)="setTab(0)">Previous</button>
-            <button type="submit" [disabled]="createDraft.invalid" class="btn btn-primary marginL15">Next</button>
+            <button type="button" class="btn btn-primary" (click)="setTab(0)">{{'addForm.previous' | translate}}</button>
+            <button type="submit" [disabled]="createDraft.invalid" class="btn btn-primary marginL15">{{'addForm.next' | translate}}</button>
           </div>
         </div>
       </div>
@@ -416,11 +415,11 @@
   <!-- tab-2 -->
   <div class="white-bg" *ngIf="tab==2">
     <div class="page-title">
-      <h3>Additional Info</h3>
+      <h3>{{'addForm.tabs.additionalInfo' | translate}}</h3>
     </div>
     <div class="padding40">
       <div class="form-group-3">
-        <label class="p16-two">Add Images of your property <span class="color-red">*</span></label>
+        <label class="p16-two">{{'addForm.addImagesofYourProperty' | translate}} <span class="color-red">*</span></label>
         <div class="row">
           <div class="col-md-7 col-sm-12 col-12">
             <!-- <div class="upload-cover-img" [style.background-image]="image1"> -->
@@ -428,8 +427,8 @@
 
               <img [src]="model.cover_image" onerror="this.src='assets/img/placeholder.png'" class="floor-plan">
               <div *ngIf="!model.cover_image" class="upload-caption">
-                <p class="green-color marginT30">+Upload Cover image for the property</p>
-                <p>JPG or PNG. Image size should be 1920 × 1080 pixels (for HiDPI displays).</p>
+                <p class="green-color marginT30">{{'addForm.uploadCoverImageForProperty' | translate}}</p>
+                <p>{{'addForm.imageSizeForCover' | translate}}</p>
               </div>
               <input type="file" name="" accept="image/*" (change)="onSelectFile('cover_image', $event)">
             </div>
@@ -440,7 +439,7 @@
               <img [src]="model.floor_plan" onerror="this.src='assets/img/placeholder.png'" class="floor-plan">
               <input type="file" name="" accept="image/*" (change)="onSelectFile('floor_plan', $event)">
               <div *ngIf="!model.floor_plan" class="upload-caption">
-                <p class="green-color marginT30">+ Add Floor plan</p>
+                <p class="green-color marginT30">{{'addForm.addfloorPlan' | translate}}</p>
               </div>
             </div>
             <div class="upload-cover-img upload-cover-small">
@@ -448,7 +447,7 @@
               <div class="upload-caption">
                 <p *ngIf="model?.images?.length > 1" class="number" (click)="modelOpenFun()">
                   +{{model?.images?.length-1}}</p>
-                <p *ngIf="model?.images?.length <= 1" class="green-color" (click)="modelOpenFun()">+ Add more images</p>
+                <p *ngIf="model?.images?.length <= 1" class="green-color" (click)="modelOpenFun()">{{'addForm.moreImages.addMoreBtn' | translate}}</p>
               </div>
             </div>
           </div>
@@ -458,7 +457,7 @@
 
       <!-- 360 image and videos -->
       <div class="form-group-3">
-        <label class="p16-two">Add 360<span>&#176;</span> Images and Video of your property </label>
+        <label class="p16-two">{{'addForm.add360.label1' | translate}}<span>&#176;</span> {{'addForm.add360.label3' | translate}} </label>
         <div class="row">
           <div class="col-md-5 col-sm-12 col-12">
             <div class="upload-cover-img upload-cover-small">
@@ -466,7 +465,7 @@
               <div class="upload-caption">
                 <p *ngIf="model?.images360?.length > 1" class="number" (click)="modelOpen360ImgFun()">
                   +{{model?.images360?.length-1}}</p>
-                <p *ngIf="model?.images360?.length <= 1" class="green-color" (click)="modelOpen360ImgFun()">+ Add 360<span>&#176;</span> images</p>
+                <p *ngIf="model?.images360?.length <= 1" class="green-color" (click)="modelOpen360ImgFun()">{{'addForm.add360.addBtn1' | translate}}<span>&#176;</span> {{'addForm.add360.addBtn2' | translate}}</p>
               </div>
             </div>
           </div>
@@ -476,7 +475,7 @@
               <img [src]="model?.videos?.length>0 ? model?.videos[0]?.thumb : ''" onerror="this.src='assets/img/placeholder-img.png'" class="img-fluid">
               <div class="upload-caption">
                 <p *ngIf="model?.videos?.length > 1" class="number" (click)="modelOpenVideos()">+{{model?.videos?.length-1}}</p>
-                <p *ngIf="model?.videos?.length <= 1" class="green-color"  (click)="modelOpenVideos()">+ Add more videos</p>
+                <p *ngIf="model?.videos?.length <= 1" class="green-color"  (click)="modelOpenVideos()">{{'addForm.addVideo.addBtn' | translate}}</p>
               </div>
             </div>
           </div>
@@ -522,7 +521,7 @@
           <div class="form-group-3">
             <label>Agent Commission (in %)</label>
             <input class="form-control" min="0" type="number" [(ngModel)]="model.broker_commision" name="broker_commision"
-              placeholder="in %">
+              placeholder="{{'addForm.placeholder.inPercent' | translate}}">
           </div>
         </div>
       </div>
@@ -533,7 +532,7 @@
           <div class="form-group-3">
             <label>Suggested Price</label>
             <input class="form-control" min="0" [(ngModel)]="model.property_price" type="number" name="property_price"
-              placeholder="in numbers">
+              placeholder="{{'addForm.placeholder.inNumbers' | translate}}">
           </div>
         </div>
       </div>
@@ -596,7 +595,7 @@
 
       <div class="form-group-3">
         <label>Description <span class="color-red">*</span></label>
-        <textarea required [(ngModel)]="model.description" placeholder="Enter description" name="description"
+        <textarea required [(ngModel)]="model.description" placeholder="{{'addForm.placeholder.enterDescription' | translate}}" name="description"
           class="form-control"></textarea>
       </div>
 
@@ -838,7 +837,7 @@
           <ul class="loc-tags-group">
             <li *ngFor="let a of parameter.amenities; let i=index" [ngClass]="a.selected==true ? 'width100' : ''">
               <span *ngIf="a.selected==true" class="width87 amen-img">{{a.name}} 
-                <b class="pull-right" (click)="a.selected = false" title="Remove"><img src="assets/img/close-tag.png" /></b>
+                <b class="pull-right" (click)="a.selected = false" title="{{'table.title.remove' | translate}}"><img src="assets/img/close-tag.png" /></b>
               </span>
               <a *ngIf="a.selected==true" (click)="modelAmenityOpenFun(a, i)" class="btn-third btn btn-green" href="javascript://">Add/View</a>
               <div *ngIf="a.selected==true" class="spacer30"></div>
@@ -1048,14 +1047,14 @@
           <div class="form-group-3">
             <label class="p16-two">Enter Parameter</label>
             <input autocomplete="off" class="form-control" [pattern]="constant.onlyWhiteSpaces" type="text" [(ngModel)]="newcustom_attribute.name"
-              name="name[{{c}}]" placeholder="Enter parameter">
+              name="name[{{c}}]" placeholder="{{'addForm.placeholder.enterParameter' | translate}}">
           </div>
         </div>
         <div class="col-md-4 col-sm-12 col-12">
           <div class="form-group-3">
             <label class="p16-two">Enter Value</label>
             <input autocomplete="off" class="form-control" [pattern]="constant.onlyWhiteSpaces" type="text" [(ngModel)]="newcustom_attribute.value"
-              name="value[{{c}}]" placeholder="Enter value">
+              name="value[{{c}}]" placeholder="{{'addForm.placeholder.enterValue' | translate}}">
           </div>
         </div>
         <div class="col-md-2 btn-cont">

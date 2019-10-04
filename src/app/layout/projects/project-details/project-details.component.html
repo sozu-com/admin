@@ -10,7 +10,7 @@
        <div class="row">
           <div class="col-md-6 col-12">
              <h4>{{project.name}} <span *ngIf="project.building_type" class="new-project">{{project.building_type.name}}</span></h4>
-             <p class="p14" *ngIf="project.developer">By {{project.developer.name}}</p>
+             <p class="p14" *ngIf="project.developer">{{'addForm.by' | translate}} {{project.developer.name}}</p>
              <p class="p18">{{project.address}}</p>
           </div>
           {{fixed}}
@@ -49,27 +49,28 @@
        <div class="row">
           <div class="col-md-3 col-sm-6 col-12 img-c">
              <div class="block">
-                <p class="p18">{{project?.building_towers?.length}} Tower - {{project?.properties_count > 1 ? project?.properties_count+' Units' : project?.properties_count+' Unit'}}</p>
-                <p class="p13">Project Size</p>
+                <p class="p18">{{project?.building_towers?.length}} {{'addForm.tower.tower' | translate}} - 
+                   {{project?.properties_count > 1 ? project?.properties_count+ ('addForm.units' | translate) : project?.properties_count+ ('addForm.unit' | translate)}}</p>
+                <p class="p13">{{'addForm.projectSize' | translate}}</p>
              </div>
           </div>
           <div class="col-md-3 col-sm-6 col-12 img-c">
              <div class="block">
                 <p class="p18">{{project.starting_price|price}}</p>
-                <p class="p13">{{ts.lang.Min_Price_per_Sq_feet}}</p>
+                <p class="p13">{{'addForm.MinPricePerSqMtrs' | translate}}</p>
              </div>
           </div>
           <div class="col-md-3 col-sm-6 col-12 img-c">
              <div class="block">
                 <p class="p18">{{config_string}}</p>
-                <p class="p13">{{ts.lang.Configuration}}</p>
+                <p class="p13">{{'addForm.configuration' | translate}}</p>
              </div>
           </div>
           <div class="col-md-3 col-sm-6 col-12 img-c">
              <div class="block">
                 <p *ngIf="project.launch_date"class="p18">{{project.launch_date| date:"d MMM, y"}}</p>
-                <p *ngIf="!project.launch_date" class="p18">{{ts.lang.Not_available}}</p>
-                <p class="p13">{{ts.lang.Possession_Date}}</p>
+                <p *ngIf="!project.launch_date" class="p18">{{'addForm.notAvailable' | translate}}</p>
+                <p class="p13">{{'addForm.possessionDate' | translate}}</p>
              </div>
           </div>
           <!-- <div class="col-md-3 col-sm-6 col-12 img-c">
@@ -86,16 +87,16 @@
     <div class="container">
        <ul class="nav nav-pills">
           <li class="nav-item {{active}}">
-             <a class="nav-link" data-toggle="pill" href="#one">{{ts.lang.Overview}}</a>
+             <a class="nav-link" data-toggle="pill" href="#one">{{'addForm.overview' | translate}}</a>
           </li>
           <li class="nav-item">
-             <a class="nav-link" data-toggle="pill" (click)="active=''" href="#two">{{ts.lang.Configs}}</a>
+             <a class="nav-link" data-toggle="pill" (click)="active=''" href="#two">{{'addForm.configs' | translate}}</a>
           </li>
           <li class="nav-item">
-             <a class="nav-link" data-toggle="pill" (click)="active=''" href="#three">{{ts.lang.Amenities}}</a>
+             <a class="nav-link" data-toggle="pill" (click)="active=''" href="#three">{{'addForm.amenities' | translate}}</a>
           </li>
           <li class="nav-item">
-             <a class="nav-link" data-toggle="pill" (click)="active=''" href="#four">{{ts.lang.Developer}}</a>
+             <a class="nav-link" data-toggle="pill" (click)="active=''" href="#four">{{'addForm.developer.developer' | translate}}</a>
           </li>
 
        </ul>
@@ -108,7 +109,7 @@
              <div class="white-bg padding40">
                 <div class="tab-content">
                    <div class="tab-pane active" id="one">
-                      <p class="p14">{{ts.lang.Overview}}</p>
+                      <p class="p14">{{'addForm.overview' | translate}}</p>
                       <p class="newline">{{project.description}}</p>
 
                       <div class="row">
@@ -247,15 +248,15 @@
                    </div>
                    <div class="tab-pane" id="two">
 
-                     <p class="p14">{{ts.lang.Configs}}</p>
+                     <p class="p14">{{'addForm.configs' | translate}}</p>
                      <div *ngFor="let config of project.configurations">
                        <div class="config-table">
                           <table style="width:100%;">
                              <tbody>
                                 <tr>
-                                   <th>Configuration type</th>
-                                   <th>Carpet Area</th>
-                                   <th>Base Price</th>
+                                   <th>{{'addForm.configurationType' | translate}}</th>
+                                   <th>{{'addForm.carpetArea' | translate}}</th>
+                                   <th>{{'addForm.basePrice' | translate}}</th>
                                 </tr>
                                 <tr>
                                    <td>
@@ -266,7 +267,7 @@
                                       <table style="width:100%;">
                                          <tbody>
                                             <tr>
-                                               <td>{{config.carpet_area}} sqmt</td>
+                                               <td>{{config.carpet_area}} {{'addForm.sqmt' | translate}}</td>
                                             </tr>
 
                                          </tbody>
@@ -294,7 +295,7 @@
 
                    </div>
                    <div class="tab-pane" id="three">
-                     <p class="p14">{{ts.lang.Aminities}}</p>
+                     <p class="p14">{{'addForm.amenities' | translate}}</p>
                      <div class="icons-group">
                         <div *ngFor="let am of project.amenities" class="icons-control">
                            <div class="fig-block">
@@ -305,7 +306,7 @@
                     </div>
                    </div>
                    <div class="tab-pane" id="four">
-                     <p class="p14">{{ts.lang.Contact_Developer}}</p>
+                     <p class="p14">{{'addForm.contactDeveloper' | translate}}</p>
                      <div class="contact-developer white-bg">
                         <table class="table">
                            <tr>
@@ -315,13 +316,13 @@
                                  </div>
                               </td>
                               <td style="width:60%">
-                                 <p class="p11">{{ts.lang.Developer}}</p>
-                                 <p class="p16">{{project?.developer?.name ? project?.developer?.name : 'NA'}}</p>
-                                 <p class="p13">{{project?.developer?.developer_title ? project?.developer?.developer_title : 'NA'}}</p>
+                                 <p class="p11">{{'addForm.developer.developer' | translate}}</p>
+                                 <p class="p16">{{project?.developer?.name ? project?.developer?.name : ('table.tr.td.NA' | translate)}}</p>
+                                 <p class="p13">{{project?.developer?.developer_title ? project?.developer?.developer_title : ('table.tr.td.NA' | translate)}}</p>
                               </td>
                               <td style="width:30%;">
                                  <p class="p16">1</p>
-                                 <p class="p13">Projects</p>
+                                 <p class="p13">{{'addForm.projects' | translate}}</p>
                               </td>
                            </tr>
                            <tr>
@@ -329,7 +330,7 @@
                                  &nbsp;
                               </td>
                               <td>
-                                 <p class="p12">{{ts.lang.Contact_Developer}}</p>
+                                 <p class="p12">{{'addForm.contactDeveloper' | translate}}</p>
                                  <p *ngIf="project?.developer?.country_code">{{project?.developer?.country_code}} {{project.developer.phone | numberex:2}}</p>
                               </td>
                               <td>
