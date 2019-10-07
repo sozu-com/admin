@@ -1189,7 +1189,7 @@
       <!-- Modal body -->
       <div class="modal-body">
         <div class="uploaded-img-block">
-          <p>{{'addForm.videos' | translate}}</p>
+          <!-- <p>{{'addForm.videos' | translate}}</p> -->
           <div class="uploaded-img" *ngFor="let item of amenVideo.files; let i=index">
             <a class="remove" (click)="remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
             <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'"

@@ -9,7 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // general components
 import { AclUserGuard } from '../../guards/acl-user.guard';
 import { AppointmentsComponent } from './appointments.component';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 const routes: Routes = [
   {
@@ -26,7 +26,7 @@ const routes: Routes = [
     NgxPaginationModule,
     FormsModule,
     ReactiveFormsModule,
-    TranslateService
+    TranslateModule
   ],
   declarations: [
     AppointmentsComponent

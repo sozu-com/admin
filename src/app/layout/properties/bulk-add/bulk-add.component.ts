@@ -1,13 +1,14 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
-import { AdminService } from '../../../services/admin.service';
+import { AdminService } from 'src/app/services/admin.service';
 import { Router } from '@angular/router';
-import { IProperty } from '../../../common/property';
+import { IProperty } from 'src/app/common/property';
 import { NgForm, FormControl } from '@angular/forms';
 import { MapsAPILoader } from '@agm/core';
-import { Constant } from '../../../common/constants';
-import { AddPropertyModel, Building } from '../../../models/addProperty.model';
+import { Constant } from 'src/app/common/constants';
+import { AddPropertyModel, Building } from 'src/app/models/addProperty.model';
 import { AddProjectModel, Towers } from 'src/app/models/addProject.model';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 declare const google;
 declare let swal: any;
 
@@ -50,7 +51,8 @@ export class BulkAddComponent implements OnInit {
   constructor(public model: AddPropertyModel, private us: AdminService,
     private router: Router, private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone, public building: Building, public constant: Constant,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService) { }
 
   ngOnInit() {
     this.showSearch = true;
@@ -136,7 +138,7 @@ export class BulkAddComponent implements OnInit {
   }
 
   searchBuilding(keyword: string) {
-    if (!keyword) { swal('Error', 'Please enter some text.', 'error'); return false; }
+    if (!keyword) { swal('Error', this.translate.instant('message.info.pleaseEnterSomeText'), 'error'); return false; }
 
     this.showBuilding = false;
     this.buildingLoading = true;
@@ -178,8 +180,8 @@ export class BulkAddComponent implements OnInit {
         success => {
           this.spinner.hide();
           swal({
-            html: 'Submitted successfully.' + '<br>' +
-            'You will be notified once your property will be reviewed by Admin, you can view status in your properties.',
+            html: this.translate.instant('message.success.submittedSccessfully') + '<br>' +
+            this.translate.instant('message.info.notifiedWhenAdminReview'),
             type: 'success'
           });
           this.property_names = [];
@@ -241,8 +243,8 @@ export class BulkAddComponent implements OnInit {
         success => {
           this.spinner.hide();
           swal({
-            html: 'Submitted successfully.' + '<br>' +
-            'You will be notified once your property will be reviewed by Admin, you can view status in your properties.',
+            html: this.translate.instant('message.success.submittedSccessfully') + '<br>' +
+            this.translate.instant('message.info.notifiedWhenAdminReview'),
             type: 'success'
           });
           if (this.router.url.indexOf('/dashboard/properties/edit-property') === -1) {
@@ -258,16 +260,17 @@ export class BulkAddComponent implements OnInit {
   buildingRequest() {
 
     if (this.building.dev_name && (!this.building.dev_phone || !this.building.dev_email || !this.building.dev_countrycode)) {
-      swal('Error', 'Please fill complete devloper information', 'error'); return false;
+      swal('Error', this.translate.instant('message.error.pleaseFillCompleteDevloperInformation'), 'error');
+      return false;
     }
 
     if (!this.building.lat && !this.building.lng) {
-      swal('Error', 'Please select location from the dropdown list.', 'error');
+      swal('Error', this.translate.instant('message.error.pleaseSelectLocationFromTheDropdownList'), 'error');
       return false;
     }
 
     if (!this.building.lat || !this.building.lng) {
-      swal('Error', 'Please select location', 'error'); return false;
+      swal('Error', this.translate.instant('message.error.pleaseSelectLocation'), 'error');
     }
     this.spinner.show();
     this.us.postDataApi('buildingRequest', this.building)
@@ -276,7 +279,7 @@ export class BulkAddComponent implements OnInit {
           this.spinner.hide();
           swal({
             html: 'Success' + '<br>' +
-            'You can add property details and data-collector will link this property to the building.',
+            this.translate.instant('message.success.dataCollectorWillLinkPropertyToBuilding'),
             type: 'success'
           });
         }, error => {

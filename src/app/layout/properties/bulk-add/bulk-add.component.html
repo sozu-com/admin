@@ -4,7 +4,7 @@
     <div class="col-md-6">
       <div class="title-group">
         <h5><a routerLink="/dashboard/properties/view-properties" href="javascript://"><i
-              class="fa fa-angle-double-left"></i> </a> &nbsp;&nbsp;Add Bulk Property</h5>
+              class="fa fa-angle-double-left"></i> </a> &nbsp;&nbsp;{{'addForm.addBulkProperty' | translate}}</h5>
       </div>
     </div>
   </div>
@@ -15,33 +15,33 @@
 <!-- Tag a building start -->
 <div class="white-bg">
     <div class="page-title">
-      <h3>Tag a Building</h3>
+      <h3>{{'addForm.tabs.tagABuilding' | translate}}</h3>
     </div>
   
     <div class="padding40" *ngIf="building.id && showSearch==false">
       <div class="row">
         <div class="col-sm-9 col-lg-9">
-          <p class="p16">Tagged Building Name</p>
+          <p class="p16">{{'addForm.taggedBuildingName' | translate}}</p>
         </div>
         <div class="col-sm-3 col-lg-3 btn-cont text-right">
-          <button type="button" class="btn btn-primary" (click)="showSearchBox()">Change</button>
+          <button type="button" class="btn btn-primary" (click)="showSearchBox()">{{'addForm.change' | translate}}</button>
         </div>
       </div>
       <p><b>{{building.name}}</b></p>
   
       <div class="row">
         <div class="col-sm-9 col-lg-9">
-          <p class="p16">Tagged Tower Name</p>
+          <p class="p16">{{'addForm.taggedTowerName' | translate}}</p>
         </div>
       </div>
-      <p><b>{{model?.building_towers?.tower_name ? model?.building_towers?.tower_name : 'NA'}}</b></p>
+      <p><b>{{model?.building_towers?.tower_name ? model?.building_towers?.tower_name : ('table.tr.td.NA' | translate)}}</b></p>
   
       <div class="row" *ngIf="model?.building_towers">
         <div class="col-sm-9 col-lg-9">
-          <p class="p16">Tagged Floor</p>
+          <p class="p16">{{'addForm.taggedFloor' | translate}}</p>
         </div>
       </div>
-      <p><b>{{model?.building_towers?.tower_name ? (model?.floor_num == 0 ? 'Ground Floor' : 'Floor ' + model?.floor_num) : 'NA'}}</b></p>
+      <p><b>{{model?.building_towers?.tower_name ? (model?.floor_num == 0 ? ('addForm.groundFloor' | translate) : ('addForm.floor' | translate) + ' ' + model?.floor_num) : 'NA'}}</b></p>
       
       <div class="row">
         <div class="col-md-12">
@@ -53,11 +53,11 @@
     </div>
   
     <div class="padding40" *ngIf="showSearch">
-      <label class="p16-two">Search your building in Our Database</label>
+      <label class="p16-two">{{'addForm.SearchYourBuildingInOurDatabase' | translate}}</label>
       <div class="searh d-flex">
         <input class="border-right-0" autocomplete="off" type="text" #buildingname
           (keyup.enter)="searchBuilding(buildingname.value)" name="buildingName" [(ngModel)]="buildingName">
-        <button class="btn" type="button" (click)="searchBuilding(buildingname.value)">Search</button>
+        <button class="btn" type="button" (click)="searchBuilding(buildingname.value)">{{'addForm.search' | translate}}</button>
       </div>
       <div class="spacer50"></div>
       <div *ngIf="buildingLoading">
@@ -85,9 +85,9 @@
           <diV class="row marginT20" *ngIf="building.id">
             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
               <div class="form-group-3">
-                <label class="p16-two">Select tower in {{selectedBuilding?.name}} <span class="color-red">*</span></label>
-                <select title="Choose Tower" name="tower" [(ngModel)]="selectedTower" required class="form-control" (change)="setTower(selectedTower)">
-                  <option value="">Select Tower</option>
+                <label class="p16-two">{{'addForm.selectTowerIn' | translate}} {{selectedBuilding?.name}} <span class="color-red">*</span></label>
+                <select name="tower" [(ngModel)]="selectedTower" required class="form-control" (change)="setTower(selectedTower)">
+                  <option value="">{{'addForm.selectTower' | translate}}</option>
                   <option *ngFor="let bt of selectedBuilding?.building_towers" [ngValue]="bt">
                     {{bt.tower_name}}</option>
                 </select>
@@ -99,11 +99,11 @@
           <div class="row marginT20" *ngIf="selectedTower">
             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
               <div class="form-group-3">
-                <label class="p16-two">Select floor in {{selectedTower?.tower_name}} <span class="color-red">*</span></label>
-                <select title="Choose Floor" required class="form-control" (change)="setFloor($event.target.value)">
-                  <option value="">Select Floor</option>
+                <label class="p16-two">{{'addForm.selectFloorIn' | translate}} {{selectedTower?.tower_name}} <span class="color-red">*</span></label>
+                <select required class="form-control" (change)="setFloor($event.target.value)">
+                  <option value="">{{'addForm.selectFloor' | translate}}</option>
                   <option *ngFor="let fa of selectedTower?.floor_array; let j=index" [value]="fa">
-                    {{j == 0 ? 'Ground Floor': 'Floor '+j}}</option>
+                    {{j == 0 ? ('addForm.groundFloor' | translate): ('addForm.floor' | translate) + ' '+j}}</option>
                 </select>
               </div>
             </div>  
@@ -113,9 +113,9 @@
           <div class="row marginT20" *ngIf="model?.floor_num">
             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
               <div class="form-group-3">
-                <label class="p16-two">Number of properties per floor <span class="color-red">*</span></label>
+                <label class="p16-two">{{'addForm.numberOfPropertiesPerFloor' | translate}} <span class="color-red">*</span></label>
                 <input min="1" autocomplete="off" required class="form-control" type="number" name="num_of_property"
-                    (change)="onEnteringNumOfProperty($event.target.value)" [(ngModel)]="num_of_property" placeholder="Enter number of properties">
+                    (change)="onEnteringNumOfProperty($event.target.value)" [(ngModel)]="num_of_property" placeholder="{{'addForm.placeholder.enterNoOfProperty' | translate}}">
               </div>
             </div>  
           </div>
@@ -124,14 +124,14 @@
           <div class="row marginT20" *ngIf="property_names?.length>0">
             <div class="col-lg-3 col-md-3 col-sm-12 col-12" *ngFor="let pname of property_names; let p=index">
               <div class="form-group-3">
-                <label class="p16-two">Name of property<span class="color-red">*</span></label>
+                <label class="p16-two">{{'addForm.nameOfProperty' | translate}}<span class="color-red">*</span></label>
                 
                 <div class="input-group mb-3">
                   <!-- <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2"> -->
                   <input autocomplete="off" required class="form-control" type="text" 
-                    placeholder="Enter name of properties" [(ngModel)]="pname.name" name="name_{{p}}" >
+                    placeholder="{{'addForm.placeholder.enterNameOfProperties' | translate}}" [(ngModel)]="pname.name" name="name_{{p}}" >
                   <div class="input-group-append">
-                    <span (click)="property_names.splice(p, 1);" class="cursor-pointer input-group-text"><img src="assets/img/close-tag.png" title="Remove"></span>
+                    <span (click)="property_names.splice(p, 1);" class="cursor-pointer input-group-text"><img src="assets/img/close-tag.png" title="{{'table.title.remove' | translate}}"></span>
                   </div>
                 </div>
 
@@ -143,16 +143,15 @@
           <div class="row">
             <div class="col-md-12">
               <div class="btn-cont text-right">
-                <button type="submit" [disabled]="tagABuilding.invalid" class="btn btn-primary">Submit</button>
+                <button type="submit" [disabled]="tagABuilding.invalid" class="btn btn-primary">{{'addForm.submit' | translate}}</button>
               </div>
             </div>
           </div>
         </form>
       </div>
   
-      <p *ngIf="parameter.buildingCount == 0 && showText" class="p18">Didn’t Found your Building? <strong><span
-            (click)="showBuildingDetails(true)" class="green-color cursor-pointer">Generate a Request to add a building by
-            our Data collectors</span></strong></p>
+      <p *ngIf="parameter.buildingCount == 0 && showText" class="p18">{{'addForm.didntFoundyourBuilding' | translate}} <strong><span
+            (click)="showBuildingDetails(true)" class="green-color cursor-pointer">{{'addForm.GenerateARequesttoAddABuildingByOurDataCollectors' | translate}}</span></strong></p>
       <div *ngIf="showBuilding" class="spacer50"></div>
   
       <form ngNativeValidate #buildingRequestForm="ngForm" (ngSubmit)="buildingRequest()">
@@ -161,32 +160,32 @@
             <div class="row">
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
-                  <label>Name of Building</label>
+                  <label>{{'addForm.nameBuilding' | translate}}</label>
                   <input autocomplete="off" required class="form-control" type="text" name="name"
-                    [(ngModel)]="building.name" placeholder="Enter name of building">
+                    [(ngModel)]="building.name" placeholder="{{'addForm.placeholder.nameOfBuilding' | translate}}">
                 </div>
               </div>
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
-                  <label>Where it is located?</label>
-                  <input autocomplete="off" required placeholder="Search for Location" autocorrect="off" autocapitalize="off"
+                  <label>{{'addForm.whereItIsLocated' | translate}}</label>
+                  <input autocomplete="off" required placeholder="{{'addForm.placeholder.searchForLocation' | translate}}" autocorrect="off" autocapitalize="off"
                     spellcheck="off" type="text" class="form-control" #search (input)="loadPlaces()"
                     [formControl]="searchControl" [(ngModel)]="building.address" name="address">
                 </div>
               </div>
             </div>
-            <label class="label-optional">Developer Details (optional)</label>
+            <label class="label-optional">{{'addForm.developerDetails' | translate}}</label>
             <div class="row">
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
-                  <label>Name of Developer</label>
+                  <label>{{'addForm.nameOfDeveloper' | translate}}</label>
                   <input autocomplete="off" class="form-control" type="text" name="dev_name"
                     [(ngModel)]="building.dev_name">
                 </div>
               </div>
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
-                  <label>Contact Number</label>
+                  <label>{{'addForm.contactNumber' | translate}}</label>
                   <input minlength="6" maxlength="16" autocomplete="off" type="text" class="form-control" id="dev_phone"
                     [(ngModel)]="building.dev_phone" name="dev_phone" ng2TelInput [ng2TelInputOptions]="initialCountry"
                     (countryChange)="onCountryChange($event)" />
@@ -196,7 +195,7 @@
             <div class="row">
               <div class="col-sm-12 col-12">
                 <div class="form-group-3">
-                  <label>Email Address</label>
+                  <label>{{'addForm.emailId' | translate}}</label>
                   <input autocomplete="off" class="form-control" type="text" name="dev_email"
                     [(ngModel)]="building.dev_email">
                 </div>
@@ -205,7 +204,7 @@
           </div>
           <div class="col-lg-5 col-md-12 col-sm-12 col-12">
             <div class="form-group-3 mark-pin-map">
-              <label>Mark Pin on Map</label>
+              <label>{{'addForm.markPinonMap' | translate}}</label>
             </div>
             <div>
               <agm-map [latitude]="building.lat" [longitude]="building.lng" [scrollwheel]="false"
@@ -219,7 +218,7 @@
         <div class="row" *ngIf="showBuilding">
           <div class="col-md-12">
             <div class="btn-cont text-right">
-              <button type="submit" [disabled]="buildingRequestForm.invalid" class="btn btn-primary">Next</button>
+              <button type="submit" [disabled]="buildingRequestForm.invalid" class="btn btn-primary">{{'addForm.next' | translate}}</button>
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 export class Company {
-    id: number;
+    id: any;
     person_in_charge: string;   // incharge of company
     rfc: string;    // legal id => unique company id
     razon_social: string;   // legal company name

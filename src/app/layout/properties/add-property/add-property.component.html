@@ -519,7 +519,7 @@
       <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
-            <label>Agent Commission (in %)</label>
+            <label>{{'addForm.agentCommission' | translate}}</label>
             <input class="form-control" min="0" type="number" [(ngModel)]="model.broker_commision" name="broker_commision"
               placeholder="{{'addForm.placeholder.inPercent' | translate}}">
           </div>
@@ -530,7 +530,7 @@
       <div class="row" *ngIf="model.availabilityStatusId==1">
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
-            <label>Suggested Price</label>
+            <label>{{'addForm.suggestedPrice' | translate}}</label>
             <input class="form-control" min="0" [(ngModel)]="model.property_price" type="number" name="property_price"
               placeholder="{{'addForm.placeholder.inNumbers' | translate}}">
           </div>
@@ -542,24 +542,24 @@
       <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
-            <label>Is Parking Available? <span class="color-red">*</span></label>
+            <label>{{'addForm.isParkingAvailable' | translate}} <span class="color-red">*</span></label>
             <div class="clearfix"></div>
             <label class="cust-radio">
               <input type="radio" (change)="setValue('parking', 1)" value="1"
                 [checked]="model.parking == 1 ? 'checked' : ''" name="parking">
-              <span class="checkmark">Yes</span>
+              <span class="checkmark">{{'addForm.yes' | translate}}</span>
             </label>
             <label class="cust-radio">
               <input type="radio" (change)="setValue('parking', 0)" value="0"
                 [checked]="model.parking == 0 ? 'checked' : ''" name="parking">
-              <span class="checkmark">No</span>
+              <span class="checkmark">{{'addForm.no' | translate}}</span>
             </label>
             <div class="clearfix"></div>
           </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
           <div class="form-group-3">
-            <label>Total no. of Parkings?</label>
+            <label>{{'addForm.totaNoofParkings' | translate}}</label>
             <div class="clearfix"></div>
             <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
                 name="parking_count">
@@ -567,7 +567,7 @@
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1 && model.for_sale">
           <div class="form-group-3">
-            <label>No. of Parkings for Sale?</label>
+            <label>{{'addForm.noofParkingsForSale' | translate}}</label>
             <div class="clearfix"></div>
             <input class="form-control" type="number" [(ngModel)]="model.parking_for_sale" min="0"
                 name="parking_for_sale">
@@ -578,23 +578,23 @@
       <!-- furnished -->
       <div class="spacer15"></div>
       <div class="form-group-3">
-        <label>Is Property Furnished? <span class="color-red">*</span></label>
+        <label>{{'addForm.IsPropertyFurnished' | translate}} <span class="color-red">*</span></label>
         <div class="clearfix"></div>
         <label class="cust-radio">
           <input type="radio" (change)="setValue('furnished', 1)" value="1"
             [checked]="model.furnished == 1 ? 'checked' : ''" name="furnished">
-          <span class="checkmark">Yes</span>
+          <span class="checkmark">{{'addForm.yes' | translate}}</span>
         </label>
         <label class="cust-radio">
           <input type="radio" (change)="setValue('furnished', 0)" value="0"
             [checked]="model.furnished == 0 ? 'checked' : ''" name="furnished">
-          <span class="checkmark">No</span>
+          <span class="checkmark">{{'addForm.no' | translate}}</span>
         </label>
         <div class="clearfix"></div>
       </div>
 
       <div class="form-group-3">
-        <label>Description <span class="color-red">*</span></label>
+        <label>{{'addForm.description' | translate}} <span class="color-red">*</span></label>
         <textarea required [(ngModel)]="model.description" placeholder="{{'addForm.placeholder.enterDescription' | translate}}" name="description"
           class="form-control"></textarea>
       </div>
@@ -833,7 +833,7 @@
 
 
         <div class="form-group-3 marginB0">
-          <label>Amenities available</label>
+          <label>{{'addForm.amenitiesAvailable' | translate}}</label>
           <ul class="loc-tags-group">
             <li *ngFor="let a of parameter.amenities; let i=index" [ngClass]="a.selected==true ? 'width100' : ''">
               <span *ngIf="a.selected==true" class="width87 amen-img">{{a.name}} 
@@ -858,7 +858,7 @@
         </div>
         <div class="form-group-3 marginT15">
           <div class="btn-cont">
-            <a class="btn-third btn btn-block" data-toggle="modal" data-target="#amenities" href="javascript://">Add More</a>
+            <a class="btn-third btn btn-block" data-toggle="modal" data-target="#amenities" href="javascript://">{{'addForm.addMore' | translate}}</a>
           </div>
         </div>
 
@@ -894,12 +894,12 @@
         <div class="col-md-12">
           <div class="btn-cont text-right">
             <!-- <a class="btn-third btn" href="javascript://" (click)="addProperty(addForm, 3)">Next</a> -->
-            <button type="button" class="btn btn-primary" (click)="setTab(1)">Previous</button>
+            <button type="button" class="btn btn-primary" (click)="setTab(1)">{{'addForm.previous' | translate}}</button>
             <button type="submit" class="btn btn-primary marginL15" [disabled]="
           additionalInfo.invalid
           || !model.cover_image
           || !model.floor_plan
-          || !model.description">Next</button>
+          || !model.description">{{'addForm.next' | translate}}</button>
           </div>
         </div>
       </div>
@@ -913,11 +913,11 @@
   <!-- tab-3 -->
   <div class="white-bg" *ngIf="tab==3">
     <div class="page-title">
-      <h3>Preferable Buyers</h3>
+      <h3>{{'addForm.preferableBuyers.label' | translate}}</h3>
     </div>
     <div class="padding40">
       <div class="form-group-3">
-        <label class="p16-two">Marital Status? <span class="color-red">*</span></label>
+        <label class="p16-two">{{'addForm.preferableBuyers.maritalStatus' | translate}} <span class="color-red">*</span></label>
         <div class="clearfix"></div>
         <label class="cust-radio" *ngFor="let m of testMarital; let mi=index">
           <input value="{{m.checked}}" name="marital_status[{{mi}}]" type="checkbox"
@@ -929,17 +929,17 @@
 
       <div class="spacer15"></div>
       <div class="form-group-3">
-        <label class="p16-two">Pets Allowed? <span class="color-red">*</span></label>
+        <label class="p16-two">{{'addForm.preferableBuyers.petsAllowed' | translate}} <span class="color-red">*</span></label>
         <div class="clearfix"></div>
         <label class="cust-radio">
           <input type="radio" (change)="setValue('pets', 1)" value="1" [checked]="model.pets == 1 ? 'checked' : ''"
             name="pets">
-          <span class="checkmark">Allowed</span>
+          <span class="checkmark">{{'addForm.preferableBuyers.allowed' | translate}}</span>
         </label>
         <label class="cust-radio">
           <input type="radio" (change)="setValue('pets', 0)" value="0" [checked]="model.pets == 0 ? 'checked' : ''"
             name="pets">
-          <span class="checkmark">Not Allowed</span>
+          <span class="checkmark">{{'addForm.preferableBuyers.notAllowed' | translate}}</span>
         </label>
         <div class="clearfix"></div>
       </div>
@@ -947,17 +947,17 @@
 
       <div class="spacer15"></div>
       <div class="form-group-3">
-        <label class="p16-two">Kids Friendly? <span class="color-red">*</span></label>
+        <label class="p16-two">{{'addForm.preferableBuyers.kidsFriendly' | translate}} <span class="color-red">*</span></label>
         <div class="clearfix"></div>
         <label class="cust-radio">
           <input type="radio" (change)="setValue('kids_friendly', 1)" value="1" [checked]="model.kids_friendly == 1 ? 'checked' : ''"
             name="kids_friendly">
-          <span class="checkmark">Yes</span>
+          <span class="checkmark">{{'addForm.yes' | translate}}</span>
         </label>
         <label class="cust-radio">
           <input type="radio" (change)="setValue('kids_friendly', 0)" value="0" [checked]="model.kids_friendly == 0 ? 'checked' : ''"
             name="kids_friendly">
-          <span class="checkmark">No</span>
+          <span class="checkmark">{{'addForm.no' | translate}}</span>
         </label>
         <div class="clearfix"></div>
       </div>
@@ -965,17 +965,17 @@
 
       <div class="spacer15"></div>
       <div class="form-group-3">
-        <label class="p16-two">Students Friendly? <span class="color-red">*</span></label>
+        <label class="p16-two">{{'addForm.preferableBuyers.studentsFriendly' | translate}} <span class="color-red">*</span></label>
         <div class="clearfix"></div>
         <label class="cust-radio">
           <input type="radio" (change)="setValue('students_friendly', 1)" value="1" [checked]="model.students_friendly == 1 ? 'checked' : ''"
             name="students_friendly">
-          <span class="checkmark">Yes</span>
+          <span class="checkmark">{{'addForm.yes' | translate}}</span>
         </label>
         <label class="cust-radio">
           <input type="radio" (change)="setValue('students_friendly', 0)" value="0" [checked]="model.students_friendly == 0 ? 'checked' : ''"
             name="students_friendly">
-          <span class="checkmark">No</span>
+          <span class="checkmark">{{'addForm.no' | translate}}</span>
         </label>
         <div class="clearfix"></div>
       </div>
@@ -983,17 +983,17 @@
 
       <div class="spacer15"></div>
       <div class="form-group-3">
-        <label class="p16-two">LGBT Friendly? <span class="color-red">*</span></label>
+        <label class="p16-two">{{'addForm.preferableBuyers.LGBTFriendly' | translate}} <span class="color-red">*</span></label>
         <div class="clearfix"></div>
         <label class="cust-radio">
           <input type="radio" (change)="setValue('lgtb_friendly', 1)" value="1" [checked]="model.lgtb_friendly == 1 ? 'checked' : ''"
             name="lgtb_friendly">
-          <span class="checkmark">Yes</span>
+          <span class="checkmark">{{'addForm.yes' | translate}}</span>
         </label>
         <label class="cust-radio">
           <input type="radio" (change)="setValue('lgtb_friendly', 0)" value="0" [checked]="model.lgtb_friendly == 0 ? 'checked' : ''"
             name="lgtb_friendly">
-          <span class="checkmark">No</span>
+          <span class="checkmark">{{'addForm.no' | translate}}</span>
         </label>
         <div class="clearfix"></div>
       </div>
@@ -1001,17 +1001,17 @@
 
       <div class="spacer15"></div>
       <div class="form-group-3">
-        <label class="p16-two">Mature People Friendly? <span class="color-red">*</span></label>
+        <label class="p16-two">{{'addForm.preferableBuyers.MaturePeopleFriendly' | translate}} <span class="color-red">*</span></label>
         <div class="clearfix"></div>
         <label class="cust-radio">
           <input type="radio" (change)="setValue('mature_people_friendly', 1)" value="1" [checked]="model.mature_people_friendly == 1 ? 'checked' : ''"
             name="mature_people_friendly">
-          <span class="checkmark">Yes</span>
+          <span class="checkmark">{{'addForm.yes' | translate}}</span>
         </label>
         <label class="cust-radio">
           <input type="radio" (change)="setValue('mature_people_friendly', 0)" value="0" [checked]="model.mature_people_friendly == 0 ? 'checked' : ''"
             name="mature_people_friendly">
-          <span class="checkmark">No</span>
+          <span class="checkmark">{{'addForm.no' | translate}}</span>
         </label>
         <div class="clearfix"></div>
       </div>
@@ -1021,8 +1021,8 @@
         <div class="col-md-12">
           <div class="btn-cont text-right">
             <!-- <a class="btn-third btn" href="javascript://" (click)="addProperty(addForm, 4)">Next</a> -->
-            <button type="button" class="btn btn-primary" (click)="setTab(2)">Previous</button>
-            <button type="submit" [disabled]="preferableBuyer.invalid" class="btn btn-primary marginL15">Next</button>
+            <button type="button" class="btn btn-primary" (click)="setTab(2)">{{'addForm.previous' | translate}}</button>
+            <button type="submit" [disabled]="preferableBuyer.invalid" class="btn btn-primary marginL15">{{'addForm.next' | translate}}</button>
           </div>
         </div>
       </div>
@@ -1037,22 +1037,22 @@
   <!-- tab-4 -->
   <div class="white-bg" *ngIf="tab==4 || tab==5">
     <div class="page-title">
-      <h3>Custom</h3>
+      <h3>{{'addForm.tabs.custom' | translate}}</h3>
     </div>
     <div class="padding40">
-      <h5 class="marginB30">Any information we missed, you want to add custom</h5>
+      <h5 class="marginB30">{{'addForm.anyInformationWeMissedYouWantToAdd' | translate}}</h5>
 
       <div class="row">
         <div class="col-md-4 col-sm-12 col-12">
           <div class="form-group-3">
-            <label class="p16-two">Enter Parameter</label>
+            <label class="p16-two">{{'addForm.enterParameter' | translate}}</label>
             <input autocomplete="off" class="form-control" [pattern]="constant.onlyWhiteSpaces" type="text" [(ngModel)]="newcustom_attribute.name"
               name="name[{{c}}]" placeholder="{{'addForm.placeholder.enterParameter' | translate}}">
           </div>
         </div>
         <div class="col-md-4 col-sm-12 col-12">
           <div class="form-group-3">
-            <label class="p16-two">Enter Value</label>
+            <label class="p16-two">{{'addForm.enterValue' | translate}}</label>
             <input autocomplete="off" class="form-control" [pattern]="constant.onlyWhiteSpaces" type="text" [(ngModel)]="newcustom_attribute.value"
               name="value[{{c}}]" placeholder="{{'addForm.placeholder.enterValue' | translate}}">
           </div>
@@ -1065,13 +1065,13 @@
       <div class="row" *ngFor="let custom_attribute of model.custom_attributes; let c = index;">
         <div class="col-md-4 col-sm-12 col-12">
           <div class="form-group-3">
-            <label class="p16-two">Enter Parameter</label>
+            <label class="p16-two">{{'addForm.enterParameter' | translate}}</label>
             <input autocomplete="off" class="form-control" [pattern]="constant.onlyWhiteSpaces" type="text" [value]="custom_attribute.name" disabled />
           </div>
         </div>
         <div class="col-md-4 col-sm-12 col-12">
           <div class="form-group-3">
-            <label class="p16-two">Enter Value</label>
+            <label class="p16-two">{{'addForm.enterValue' | translate}}</label>
             <input autocomplete="off" class="form-control" [pattern]="constant.onlyWhiteSpaces" type="text" [value]="custom_attribute.value" disabled />
           </div>
         </div>
@@ -1088,8 +1088,8 @@
         <div class="col-md-12">
           <div class="btn-cont text-right">
             <!-- <a class="btn-third btn" href="javascript://" (click)="addProperty(addForm, 5)">Next</a> -->
-            <button type="button" class="btn btn-primary" (click)="setTab(3)">Previous</button>
-            <button type="submit" class="btn btn-primary marginL15">Submit</button>
+            <button type="button" class="btn btn-primary" (click)="setTab(3)">{{'addForm.previous' | translate}}</button>
+            <button type="submit" class="btn btn-primary marginL15">{{'addForm.submit' | translate}}</button>
           </div>
         </div>
       </div>
@@ -1108,7 +1108,7 @@
 
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">Images</h4>
+        <h4 class="modal-title">{{'addForm.moreImages.label' | translate}}</h4>
         <button type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
       </div>
 
@@ -1124,13 +1124,13 @@
 
         <div class="add-more-images">
           <input type="file" name="add-more" multiple max="6" accept="image/*" (change)="file2Select($event)">
-          <span>+ Add more images</span>
+          <span>{{'addForm.moreImages.addMoreBtn' | translate}}</span>
         </div>
       </div>
 
       <!-- Modal footer -->
       <div class="modal-footer btn-cont">
-        <button type="button" (click)="saveImages()" class="btn btn-primary">Submit</button>
+        <button type="button" (click)="saveImages()" class="btn btn-primary">{{'addForm.submit' | translate}}</button>
       </div>
 
     </div>
@@ -1146,7 +1146,7 @@
 
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">360<span>&#176;</span> Images</h4>
+        <h4 class="modal-title">{{'addForm.moreImages.addMoreBtn' | translate}}<span>&#176;</span> Images</h4>
         <button type="button" class="close" data-dismiss="modal" #modalClose360Img>&times;</button>
       </div>
 
@@ -1163,13 +1163,13 @@
 
         <div class="add-more-images">
           <input type="file" name="add-more" multiple max="6" accept="image/*" (change)="file360Select($event)">
-          <span>+ Add more 360<span>&#176;</span> images</span>
+          <span>{{'addForm.moreImages.addBtn1' | translate}}<span>&#176;</span> {{'addForm.moreImages.addBtn2' | translate}}</span>
         </div>
       </div>
 
       <!-- Modal footer -->
       <div class="modal-footer btn-cont">
-        <button type="button" (click)="save360Images()" class="btn btn-primary">Submit</button>
+        <button type="button" (click)="save360Images()" class="btn btn-primary">{{'addForm.submit' | translate}}</button>
       </div>
 
     </div>
@@ -1183,7 +1183,7 @@
   <div class="modal-dialog">
     <div class="modal-content amenities-popup">
       <div class="modal-header popup-header">
-        <h4 class="modal-title">Amenities</h4>
+        <h4 class="modal-title">{{'addForm.amenities' | translate}}</h4>
         <button type="button" class="close" data-dismiss="modal">×</button>
       </div>
       <div class="modal-body">
@@ -1196,7 +1196,7 @@
       </div>
       <div class="modal-footer">
         <div class="btn-cont">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">{{'addForm.close' | translate}}</button>
         </div>
       </div>
     </div>
@@ -1221,7 +1221,7 @@
 
         <!-- images -->
         <div class="uploaded-img-block">
-          <p>Images</p>
+          <p>{{'addForm.moreImages.label' | translate}}</p>
           <div class="uploaded-img" *ngFor="let item of amenMoreImg.files; let i=index">
             <a class="remove" (click)="amenMoreImg.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
             <img *ngIf="item" class="u-img" [src]="item.image" alt="img">
@@ -1231,12 +1231,12 @@
         </div>
         <div class="add-more-images dimensions">
           <input type="file" name="add-more" multiple max="6" accept="image/*" (change)="amenMoreImgSelect($event)">
-          <span>+ Add more images</span>
+          <span>{{'addForm.moreImages.addMoreBtn' | translate}}</span>
         </div>
 
         <!-- 360 images -->
         <div class="uploaded-img-block">
-          <p>360<span>&#176;</span> Images </p>
+          <p>360<span>&#176;</span> {{'addForm.add360.label2' | translate}} </p>
           <div class="uploaded-img" *ngFor="let item of amen360Img.files; let i=index">
             <a class="remove" (click)="amen360Img.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
             <img *ngIf="item" class="u-img" [src]="item.image" alt="img">
@@ -1246,12 +1246,12 @@
         </div>
         <div class="add-more-images dimensions">
           <input type="file" name="add-more" multiple max="6" accept="image/*" (change)="amen360ImagesSelect($event)">
-          <span>+ Add more 360<span>&#176;</span> images</span>
+          <span>{{'addForm.add360.addBtn1' | translate}}<span>&#176;</span> {{'addForm.add360.addBtn2' | translate}}</span>
         </div>
 
 
         <div class="uploaded-img-block">
-          <p>Videos</p>
+          <p>{{'addForm.addVideo.label1' | translate}}</p>
           <div class="uploaded-img" *ngFor="let item of amenVideo.files; let i=index">
             <a class="remove" (click)="amenVideo.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
             <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'" src="{{videoSrc}}" class="video{{i}} floor-plan" autoplay type="video/mp4" controls></video>
@@ -1264,7 +1264,7 @@
         </div>
         <div class="add-more-images dimensions">
           <input type="file" name="add-more" multiple max="6" accept="video/*" (change)="amenVideosSelect($event,'amenity')">
-          <span>+ Add more videos </span>
+          <span>{{'addForm.addVideo.addBtn' | translate}} </span>
         </div>
 
         <!-- videos -->
@@ -1285,7 +1285,7 @@
 
       <!-- Modal footer -->
       <div class="modal-footer btn-cont">
-        <button type="button" (click)="saveAmenitiesMedia()" class="btn btn-primary">Submit</button>
+        <button type="button" (click)="saveAmenitiesMedia()" class="btn btn-primary">{{'addForm.submit' | translate}}</button>
       </div>
 
     </div>
@@ -1300,14 +1300,14 @@
 
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">Videos</h4>
+        <h4 class="modal-title">{{'addForm.addVideo.label1' | translate}}</h4>
         <button type="button" class="close" data-dismiss="modal" #modalVideosClose>&times;</button>
       </div>
 
       <!-- Modal body -->
       <div class="modal-body">
         <div class="uploaded-img-block">
-          <p>Videos</p>
+          <!-- <p>Videos</p> -->
           <div class="uploaded-img" *ngFor="let item of amenVideo.files; let i=index">
             <a class="remove" (click)="remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
             <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'" src="{{videoSrc}}" class="video{{i}} floor-plan" autoplay type="video/mp4" controls></video>
@@ -1320,12 +1320,12 @@
         </div>
         <div class="add-more-images dimensions">
           <input type="file" name="add-more" multiple max="6" accept="video/*" (change)="amenVideosSelect($event, 'videos')">
-          <span>+ Add more videos </span>
+          <span>{{'addForm.addVideo.addBtn' | translate}} </span>
         </div>
 
         <!-- Modal footer -->
         <div class="modal-footer btn-cont">
-          <button type="button" (click)="saveVideos()" class="btn btn-primary">Submit</button>
+          <button type="button" (click)="saveVideos()" class="btn btn-primary">{{'addForm.submit' | translate}}</button>
         </div>
 
       </div>

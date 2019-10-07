@@ -69,24 +69,24 @@ export class AddPropertyComponent implements OnInit {
   testMarital = [
     {
       id: 1,
-      name: 'Married',
+      name: this.translate.instant('addForm.maritalStatus.married'),
       checked: false
     },
     {
       id: 2,
-      name: 'Unmarried',
+      name: this.translate.instant('addForm.maritalStatus.unmarried'),
       checked: false
     },
     {
       id: 3,
-      name: 'Divorced',
+      name: this.translate.instant('addForm.maritalStatus.divorced'),
       checked: false
     }
   ];
   availabilityStatus = [
     { id: '1', name: this.translate.instant('leadDetails.buy'), checked: false },
-    { id: '2', name: 'Rent', checked: false },
-    { id: '3', name: 'Inventory', checked: false }];
+    { id: '2', name: this.translate.instant('leadDetails.rent'), checked: false },
+    { id: '3', name: this.translate.instant('leadDetails.inventory'), checked: false }];
   imageEvent = [];
   showText = false;
   showSearch = false;
@@ -262,11 +262,11 @@ export class AddPropertyComponent implements OnInit {
 
   getProjectById(step: number) {
     if (!this.building.id) {
-      swal('Error', 'Please select building.', 'error');
+      swal('Error', this.translate.instant('message.info.pleaseSelectBuilding'), 'error');
       return false;
     }
     if (!this.model.floor_num) {
-      swal('Error', 'Please select floor.', 'error');
+      swal('Error', this.translate.instant('message.info.pleaseSelectFloor'), 'error');
       return false;
     }
     this.spinner.show();
@@ -464,8 +464,8 @@ export class AddPropertyComponent implements OnInit {
 
   setTab(tab: any) {
     swal({
-      title: 'Are you sure?',
-      text: 'Moving back can reset information entered on current tab.',
+      html: this.translate.instant('message.question.areYouSure') + '<br>' +
+        this.translate.instant('message.question.movingBackCanResetInformationEnteredOnCurrentTab'),
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -727,7 +727,7 @@ export class AddPropertyComponent implements OnInit {
 
   addCarpetArea() {
     if (!this.newcarpet_area.area || !this.newcarpet_area.price) {
-      swal('Error', 'Please fill carpet area fields', 'error');
+      swal('Error', this.translate.instant('message.info.pleaseFillCarpetAreaFields'), 'error');
     } else {
       this.model.carpet_areas.push(JSON.parse(JSON.stringify(this.newcarpet_area)));
       this.newcarpet_area = { area: '', price: '' };
@@ -736,7 +736,7 @@ export class AddPropertyComponent implements OnInit {
 
   addCustomAttribute() {
     if (!this.newcustom_attribute.name || !this.newcustom_attribute.value) {
-      swal('Error', 'Please fill custom attribute fields', 'error');
+      swal('Error', this.translate.instant('message.info.pleaseFillCustomAttributeFields'), 'error');
     } else {
       this.model.custom_attributes.push(this.newcustom_attribute);
       this.newcustom_attribute = { name: '', value: '' };
@@ -755,7 +755,7 @@ export class AddPropertyComponent implements OnInit {
 
   searchBuilding(keyword: string) {
     if (!keyword) {
-      swal('Error', 'Please enter some text.', 'error');
+      swal('Error', this.translate.instant('message.info.pleaseEnterSomeText'), 'error');
       return false;
     }
 
@@ -794,7 +794,7 @@ export class AddPropertyComponent implements OnInit {
   onSelectFile2(event) {
     if (event.target.files && event.target.files[0]) {
       if ((this.url2.length + event.target.files.length) > 6 || event.target.files.length > 6) {
-        swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
+        swal('Error', this.translate.instant('message.info.youCanUploadMaximumof6Images'), 'error');
       } else {
         for (let index = 0; index < event.target.files.length; index++) {
           const reader = new FileReader();
@@ -813,7 +813,8 @@ export class AddPropertyComponent implements OnInit {
   onSelect360File(event) {
     if (event.target.files && event.target.files[0]) {
       if ((this.urlImg360.length + event.target.files.length) > 6 || event.target.files.length > 6) {
-        swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
+        swal(this.translate.instant('message.info.limitExceeded'),
+          this.translate.instant('message.info.youCanUploadMaximumof6Images'), 'error');
       } else {
         for (let index = 0; index < event.target.files.length; index++) {
           const reader = new FileReader();
@@ -866,7 +867,7 @@ export class AddPropertyComponent implements OnInit {
   saveImages() {
     this.http.loader.next({ value: true });
     if (this.file2.files.length < 1) {
-      swal('Error', 'Please select atleast one image', 'error');
+      swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
       return false;
     }
     this.modalClose.nativeElement.click();
@@ -889,7 +890,7 @@ export class AddPropertyComponent implements OnInit {
     // });
     let count = 0;
     if (this.file360.files.length < 1) {
-      swal('Error', 'Please select atleast one image', 'error');
+      swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
       return false;
     }
     this.file360.upload().then(r => {
@@ -908,7 +909,8 @@ export class AddPropertyComponent implements OnInit {
 
   file2Select($event) {
     if ((this.file2.files.length + $event.target.files.length) > 6) {
-      swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
+      swal(this.translate.instant('message.info.limitExceeded'),
+          this.translate.instant('message.info.youCanUploadMaximumof6Images'), 'error');
       return false;
     }
     this.file2.onSelectFile($event);
@@ -916,7 +918,8 @@ export class AddPropertyComponent implements OnInit {
 
   file360Select($event) {
     if ((this.file360.files.length + $event.target.files.length) > 6) {
-      swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
+      swal(this.translate.instant('message.info.limitExceeded'),
+          this.translate.instant('message.info.youCanUploadMaximumof6Images'), 'error');
       return false;
     }
     this.file360.onSelectFile($event);
@@ -953,14 +956,14 @@ export class AddPropertyComponent implements OnInit {
     // return;
     if (this.model.parking_for_sale && this.model.parking_count) {
       if (this.model.parking_for_sale > this.model.parking_count) {
-        swal('Error', 'Parking for sale cannot be greater than total parkings available.', 'error');
+        swal('Error', this.translate.instant('message.info.parkingForSaleCannotGreaterThanTotalParking'), 'error');
         return;
       }
     }
     this.model.floor = 0; // now static
     this.model.marital_status = [];
     if (this.model.videoLoader) {
-      swal('Error', 'Uploading video.', 'error');
+      swal('Error', this.translate.instant('message.error.uploadingVideo'), 'error');
       return;
     }
     for (let index = 0; index < this.testMarital.length; index++) {
@@ -976,17 +979,17 @@ export class AddPropertyComponent implements OnInit {
     this.model.carpet_areas.push(JSON.parse(JSON.stringify(this.newcarpet_area)));
 
     if (this.model.carpet_areas.length < 1 && this.tab == 1) {
-      swal('Error', 'Please add carpet area.', 'error');
+      swal('Error', this.translate.instant('message.error.pleaseAddCarpetArea'), 'error');
     } else if ((this.model.cover_image === null || this.model.cover_image === undefined) && (this.model.step == 2)) {
-      swal('Error', 'Please choose cover image.', 'error');
+      swal('Error', this.translate.instant('message.error.pleaseChooseCoverImage'), 'error');
     } else if ((this.model.floor_plan === null || this.model.floor_plan === undefined) && (this.model.step == 2)) {
-      swal('Error', 'Please choose floor plan.', 'error');
+      swal('Error', this.translate.instant('message.error.pleaseChooseFloorPlan'), 'error');
     }
     // else if ((this.model.amenities.length === 0) && (this.model.step == 2)) {
     //   swal('Error', 'Please choose amenity.', 'error');
     // }
     else if ((this.model.marital_status.length === 0) && (this.model.step == 3)) {
-      swal('Error', 'Please choose marital status.', 'error');
+      swal('Error', this.translate.instant('message.error.pleaseChooseMaritalStatus'), 'error');
     } else {
       const input = new FormData();
       if (this.parameter.property_id) {
@@ -1118,9 +1121,9 @@ export class AddPropertyComponent implements OnInit {
             this.spinner.hide();
             if (this.model.step.toString() === '4') {
               const successText = this.parameter.bulk_approve_property ? '' :
-                'You will be notified once your property will be reviewed by Admin, you can view status in your properties.';
+              this.translate.instant('message.info.notifiedWhenAdminReview');
               swal({
-                html: 'Submitted successfully.' + '<br>' + successText, type: 'success'
+                html: this.translate.instant('message.success.submittedSccessfully') + '<br>' + successText, type: 'success'
               });
               // swal('Submitted successfully.',
               //   'You will be notified once your property will be reviewed by them, you can view status in your properties.',
@@ -1199,8 +1202,8 @@ export class AddPropertyComponent implements OnInit {
         success => {
           this.spinner.hide();
           swal({
-            html: 'Submitted successfully.' + '<br>' +
-              'You will be notified once your property will be reviewed by Admin, you can view status in your properties.',
+            html: this.translate.instant('message.success.submittedSccessfully') + '<br>' +
+            this.translate.instant('message.info.notifiedWhenAdminReview'),
             type: 'success'
           });
           if (this.router.url.indexOf('/dashboard/properties/edit-property') === -1) {
@@ -1288,12 +1291,12 @@ export class AddPropertyComponent implements OnInit {
   buildingRequest() {
 
     if (this.building.dev_name && (!this.building.dev_phone || !this.building.dev_email || !this.building.dev_countrycode)) {
-      swal('Error', 'Please fill complete devloper information', 'error');
+      swal('Error', this.translate.instant('message.error.pleaseFillCompleteDevloperInformation'), 'error');
       return false;
     }
 
     if (!this.latitude && !this.longitude) {
-      swal('Error', 'Please select location from the dropdown list.', 'error');
+      swal('Error', this.translate.instant('message.error.pleaseSelectLocationFromTheDropdownList'), 'error');
       return false;
     }
 
@@ -1301,7 +1304,7 @@ export class AddPropertyComponent implements OnInit {
     this.building.lng = this.longitude;
 
     if (!this.building.lat || !this.building.lng) {
-      swal('Error', 'Please select location', 'error');
+      swal('Error', this.translate.instant('message.error.pleaseSelectLocation'), 'error');
       return false;
     }
     this.spinner.show();
@@ -1320,7 +1323,7 @@ export class AddPropertyComponent implements OnInit {
           // particular project
           swal({
             html: 'Success' + '<br>' +
-              'You can add property details and data-collector will link this property to the building.',
+            this.translate.instant('message.success.dataCollectorWillLinkPropertyToBuilding'),
             type: 'success'
           });
           // this.tab = 1;
@@ -1438,7 +1441,8 @@ export class AddPropertyComponent implements OnInit {
 
   amenMoreImgSelect($event) {
     if ((this.amenMoreImg.files.length + $event.target.files.length) > 6) {
-      swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
+      swal(this.translate.instant('message.info.limitExceeded'),
+          this.translate.instant('message.info.youCanUploadMaximumof6Images'), 'error');
       return false;
     }
     this.amenMoreImg.onSelectFile($event);
@@ -1446,7 +1450,8 @@ export class AddPropertyComponent implements OnInit {
 
   amen360ImagesSelect($event) {
     if ((this.amen360Img.files.length + $event.target.files.length) > 6) {
-      swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
+      swal(this.translate.instant('message.info.limitExceeded'),
+          this.translate.instant('message.info.youCanUploadMaximumof6Images'), 'error');
       return false;
     }
     this.amen360Img.onSelectFile($event);
@@ -1512,7 +1517,7 @@ export class AddPropertyComponent implements OnInit {
   saveVideos() {
     let count = 0;
     if (this.amenVideo.files.length < 1) {
-      swal('Error', 'Please select atleast one image', 'error');
+      swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
       return false;
     }
     this.amenVideo.upload().then(r => {
@@ -1548,7 +1553,7 @@ export class AddPropertyComponent implements OnInit {
     let count = 0;
     const totalFilesCount = this.amenMoreImg.files.length + this.amen360Img.files.length + this.amenVideo.files.length;
     if (totalFilesCount < 1) {
-      swal('Error', 'Please select atleast one image', 'error');
+      swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
       return false;
     }
     // if (this.file2.files.length < 1) {
@@ -1601,7 +1606,8 @@ export class AddPropertyComponent implements OnInit {
 
   amenVideosSelect($event, type) {
     if ((this.amenVideo.files.length + $event.target.files.length) > 6) {
-      swal('Limit exceeded', 'You can upload maximum of 6 videos', 'error');
+      swal(this.translate.instant('message.info.limitExceeded'),
+          this.translate.instant('message.info.youCanUploadMaximumof6Videos'), 'error');
       return false;
     }
 
