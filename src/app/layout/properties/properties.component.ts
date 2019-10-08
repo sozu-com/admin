@@ -8,6 +8,7 @@ import { Constant } from 'src/app/common/constants';
 import { AdminService } from 'src/app/services/admin.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PropertyService } from 'src/app/services/property.service';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -56,7 +57,8 @@ export class PropertiesComponent implements OnInit {
     private propertyService: PropertyService,
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -208,20 +210,19 @@ export class PropertiesComponent implements OnInit {
   }
 
   blockUnblock(item, flag: number) {
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
     switch (flag) {
       case 0:
-        this.parameter.text = 'You want to unblock this Property?';
-        this.parameter.successText = this.constant.successMsg.UNBLOCKED_SUCCESSFULLY;
+        this.parameter.text = this.translate.instant('message.question.wantToUnblockProperty');
+        this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
         break;
       case 1:
-      this.parameter.text = 'You want to block this Property?';
-        this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
+      this.parameter.text = this.translate.instant('message.question.wantToBlockProperty');
+        this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
     }
 
     swal({
-      html: this.parameter.title + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -247,26 +248,6 @@ export class PropertiesComponent implements OnInit {
         });
   }
 
-  // block(item) {
-  //   item.is_blocked = true;
-  //   this.admin.postDataApi('blockProperty', { property_id: item.id, flag: 1 }).subscribe(r => {
-  //     swal('Success', 'Property blocked successfully', 'success');
-  //   },
-  //     error => {
-  //       swal('Error', error.error.message, 'error');
-  //     });
-  // }
-
-  // unblock(item) {
-  //   item.is_blocked = false;
-  //   this.admin.postDataApi('blockProperty', { property_id: item.id, flag: 0 }).subscribe(r => {
-  //     swal('Success', 'Property unblocked successfully', 'success');
-  //   },
-  //     error => {
-  //       swal('Error', error.error.message, 'error');
-  //     });
-  // }
-
   openCancellationModal(item, status) {
     this.item = item;
     this.parameter.status = status;
@@ -288,7 +269,7 @@ export class PropertiesComponent implements OnInit {
       input.reason = this.reason;
     }
     this.admin.postDataApi('updatePropertyStatus', input).subscribe(r => {
-      swal('Success', 'Property status changed', 'success');
+      swal('Success', this.translate.instant('message.success.propertyStatusChanged'), 'success');
       this.closeModal();
     },
       error => {
@@ -316,7 +297,8 @@ export class PropertiesComponent implements OnInit {
   markPropertyFeatured(item, is_featured: number) {
     item.is_featured = is_featured;
     this.admin.postDataApi('markPropertyFeatured', { property_id: item.id, flag: is_featured }).subscribe(r => {
-      const msg = is_featured === 1 ? 'Featured successfully.' : 'Unfeatured successfully.';
+      const msg = is_featured === 1 ? this.translate.instant('message.success.featuredSuccessfully') :
+      this.translate.instant('message.success.unfeaturedSuccessfully');
       swal('Success', msg, 'success');
     },
       error => {
@@ -366,10 +348,9 @@ export class PropertiesComponent implements OnInit {
     this.parameter.property_id = property_id;
     this.parameter.user_id = user_id;
     this.parameter.status = status;
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
-    const text = status === 1 ? 'accept' : 'reject';
-    this.parameter.text = 'You want to ' + text + ' this request?';
-
+    this.parameter.title = this.translate.instant('message.question.areYouSure');
+    this.parameter.text = status === 1 ? this.translate.instant('message.question.wantToAccessThisRequest') :
+                          this.translate.instant('message.question.wantToRejectThisRequest');
     swal({
       html: this.parameter.title + '<br>' + this.parameter.text,
       type: 'warning',
@@ -398,13 +379,13 @@ export class PropertiesComponent implements OnInit {
     this.parameter.user_id = user_id;
     this.parameter.fullName = name;
     this.parameter.status = status;
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    this.parameter.title = this.translate.instant('message.question.areYouSure');
     if (type === 'request') {
-      const text = status === 1 ? 'accept' : 'reject';
-      this.parameter.text = 'You want to ' + text + ' this request?';
+      this.parameter.text = status === 1 ? this.translate.instant('message.question.wantToAccessThisRequest') :
+                          this.translate.instant('message.question.wantToRejectThisRequest');
     } else {
-      const text = status === 1 ? 'link' : 'unlink';
-      this.parameter.text = 'You want to ' + text + ' this seller?';
+      this.parameter.text = status === 1 ? this.translate.instant('message.question.wantToLinkSeller') :
+                          this.translate.instant('message.question.wantToUnLinkSeller');
     }
 
     swal({
@@ -437,7 +418,7 @@ export class PropertiesComponent implements OnInit {
         this.items[this.parameter.index].selected_seller.user.name = this.parameter.fullName;
       }
       // const text = this.parameter.status === 1 ? 'accepted' : 'rejected';
-      swal('Success', 'Done successfully.', 'success');
+      swal('Success', this.translate.instant('message.success.doneSuccessfully'), 'success');
       // accept => then close listing modal
       if (this.parameter.status === 1) {
         this.closeLinkSellerModal.nativeElement.click();
@@ -452,11 +433,9 @@ export class PropertiesComponent implements OnInit {
   }
 
   changeSoldStatusPopup(property: any, index: number, event) {
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
-    this.parameter.text = 'You want to change the status?';
 
     swal({
-      html: this.parameter.title + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.translate.instant('message.question.wantToChangeStatus'),
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -499,7 +478,7 @@ export class PropertiesComponent implements OnInit {
       input.for_hold = 1;
     }
     this.admin.postDataApi('changePropertySoldStatus', input).subscribe(r => {
-      swal('Success', 'Changed successfully.', 'success');
+      swal('Success', this.translate.instant('message.success.changedSuccessfully'), 'success');
     },
       error => {
         swal('Error', error.error.message, 'error');
@@ -507,11 +486,10 @@ export class PropertiesComponent implements OnInit {
   }
 
   deletePopup(property: any, index: number) {
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
-    this.parameter.text = 'You want to delete this property?';
 
     swal({
-      html: this.parameter.title + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.question.areYouSure') + '<br>' +
+        this.translate.instant('message.question.wantToDeleteProperty'),
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -527,7 +505,7 @@ export class PropertiesComponent implements OnInit {
   deleteProperty(property: any, index: number) {
     this.admin.postDataApi('deleteProperty',
       { property_id: property.id }).subscribe(r => {
-        swal('Success', 'Deleted successfully.', 'success');
+        swal('Success', this.translate.instant('message.success.deletedSuccessfully'), 'success');
         this.items.splice(index, 1);
       },
         error => {
@@ -551,12 +529,11 @@ export class PropertiesComponent implements OnInit {
   }
 
   attachExternalBrokerPopUp(broker: any, flag: number) {
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
-    const text = flag === 1 ? 'link' : 'unlink';
-    this.parameter.text = 'You want to ' + text + ' this agent?';
 
+    this.parameter.text = flag === 1 ? this.translate.instant('message.question.wantToLinkAgent') :
+    this.translate.instant('message.question.wantToUnLinkAgent');
     swal({
-      html: this.parameter.title + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -576,8 +553,9 @@ export class PropertiesComponent implements OnInit {
     }).subscribe(r => {
       this.closeExtBrokerModal.nativeElement.click();
       this.property.external_broker = flag === 1 ? broker : null;
-      const text = flag === 1 ? 'Linked' : 'Unlinked';
-      swal('Success', text + ' successfully.', 'success');
+      const text = flag === 1 ? this.translate.instant('message.success.linkedSuccessfully') :
+                    this.translate.instant('message.success.unlinkedSuccessfully');
+      swal('Success', text, 'success');
     },
       error => {
         swal('Error', error.error.message, 'error');
@@ -585,9 +563,9 @@ export class PropertiesComponent implements OnInit {
   }
 
   editPricePopup(item: any, index: number) {
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    this.parameter.title = this.translate.instant('message.question.areYouSure');
     swal({
-      text: 'Do you want to change the price?',
+      text: this.translate.instant('message.question.doYouWantToChangeThePrice'),
       type: 'question',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -596,7 +574,7 @@ export class PropertiesComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         swal({
-          text: 'Please enter new property price -',
+          text: this.translate.instant('message.question.pleaseEnterNewPropertyPrice'),
           input: 'number',
           showCancelButton: true,
           confirmButtonColor: this.constant.confirmButtonColor,
@@ -604,14 +582,14 @@ export class PropertiesComponent implements OnInit {
           confirmButtonText: 'Update',
           inputValidator: (value) => {
             if (!value) {
-              return 'Please enter new price!';
+              return this.translate.instant('message.error.pleaseEnterNewPrice');
             }
           }
         }).then((r) => {
           if (r.value) {
             this.admin.postDataApi('updatePrice', { id: item.id, price: r.value }).subscribe(success => {
               this.items[index].min_price = r.value;
-              swal('Success', 'Updated successfully.', 'success');
+              swal('Success', this.translate.instant('message.success.updatedSuccessfully'), 'success');
             }, error => {
               swal('Error', error.error.message, 'error');
             });
@@ -622,9 +600,9 @@ export class PropertiesComponent implements OnInit {
   }
 
   editAgentCommissionPopup(item: any, index: number) {
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    this.parameter.title = this.translate.instant('message.question.areYouSure');
     swal({
-      text: 'Do you want to change the commission?',
+      text: this.translate.instant('message.question.doYouWantToChangeTheCommission'),
       type: 'question',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -633,7 +611,7 @@ export class PropertiesComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         swal({
-          text: 'Please enter new commision (in %) -',
+          text: this.translate.instant('message.question.pleaseEnterNewCommission') + ' -',
           input: 'number',
           showCancelButton: true,
           confirmButtonColor: this.constant.confirmButtonColor,
@@ -641,14 +619,14 @@ export class PropertiesComponent implements OnInit {
           confirmButtonText: 'Update',
           inputValidator: (value) => {
             if (!value) {
-              return 'Please enter new commission!';
+              return this.translate.instant('message.question.pleaseEnterNewCommission');
             }
           }
         }).then((r) => {
           if (r.value) {
             this.admin.postDataApi('updateBrokerCommision', { id: item.id, broker_commision: r.value }).subscribe(success => {
               this.items[index].broker_commision = r.value;
-              swal('Success', 'Updated successfully.', 'success');
+              swal('Success', this.translate.instant('message.success.updatedSuccessfully'), 'success');
             }, error => {
               swal('Error', error.error.message, 'error');
             });

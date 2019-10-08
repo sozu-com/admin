@@ -343,7 +343,7 @@
                               </div>
                            </th>
                            <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
-                              <div (click)="sort_by(2)" class="table-search">
+                              <div class="table-search">
                                  <label>{{'table.th.changeAvailability' | translate}}</label>
                                  <select [(ngModel)]="parameter.availability_filter" (change)="getListing()">
                                     <option value="0">{{'table.th.all' | translate}}</option>
@@ -544,12 +544,12 @@
    <div class="modal-dialog ">
       <div class="modal-content notary-avail">
             <div class="modal-header popup-header">
-            <h4 class="modal-title">Requests</h4>
+            <h4 class="modal-title">{{'viewProperty.requests' | translate}}</h4>
             <button type="button" class="close" #closeLinkSellerModal data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
 
-               <p class="modal-title" *ngIf="selecter_seller">Currently linked to Seller - <b>{{selecter_seller?.user?.name}}</b></p>
+               <p class="modal-title" *ngIf="selecter_seller">{{'viewProperty.currentlyLinkedToSeller' | translate}} - <b>{{selecter_seller?.user?.name}}</b></p>
 
                <!-- <div class="row">
                      <input style="max-width:200px" [(ngModel)]="keyword" (input)="showAllSellers()" class="form-control" type="text" name="keyword" placeholder="Search">
@@ -565,8 +565,8 @@
                            <img *ngIf="!item?.user?.image" src="assets/img/default_img.png" alt="img">
                            
                            <div class="n-avail-info">
-                              <p class="p12">{{item?.user?.name ? item?.user?.name : 'NA'}}</p>
-                              <p class="p10">Phone : {{item?.user?.dial_code ? item?.user?.dial_code : constant.dial_code}}-{{item?.user?.phone}}</p>
+                              <p class="p12">{{item?.user?.name ? item?.user?.name : ('viewProperty.NA' | translate)}}</p>
+                              <p class="p10">{{'viewProperty.phone' | translate}} : {{item?.user?.dial_code ? item?.user?.dial_code : constant.dial_code}}-{{item?.user?.phone}}</p>
                            </div>
                            </div>
                         </td>
@@ -579,7 +579,7 @@
                      </tr>
                      <tr *ngIf="allSellers?.length==0">
                         <p class="show-not-found">
-                           No seller has requested for the property.
+                           {{'viewProperty.noSellerHasRequestedForTheProperty' | translate}}
                         </p>
                      </tr>
                   </table>
@@ -595,19 +595,19 @@
    <div class="modal-dialog ">
       <div class="modal-content notary-avail">
             <div class="modal-header popup-header">
-            <h4 class="modal-title">{{property?.external_broker?.id ? 'Change' : 'Link'}} Agent</h4>
+            <h4 class="modal-title">{{property?.external_broker?.id ? ('viewProperty.changeAgent' | translate) : ('viewProperty.linkAgent' | translate)}}</h4>
             <button type="button" class="close" #closeExtBrokerModal data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
 
-               <p class="modal-title" *ngIf="property?.external_broker?.id">Currently linked to Agent - <b>{{property?.external_broker?.name}}</b></p>
+               <p class="modal-title" *ngIf="property?.external_broker?.id">{{'viewProperty.currentlyLinkedToAgent' | translate}} - <b>{{property?.external_broker?.name}}</b></p>
 
                <div class="row">
                   <div class="col-md-8 col-6">
                      <input style="max-width:200px" (keyup.enter)="getBothBroker('', keyword)" [(ngModel)]="keyword" class="form-control" type="text" name="keyword" placeholder="{{'addForm.placeholder.search' | translate}}">
                  </div>
                  <div class="col-md-4 col-5 btn-cont">
-                     <a class="btn btn-primary pull-right" href="javascript://" (click)="getBothBroker('', keyword)">Search</a>
+                     <a class="btn btn-primary pull-right" href="javascript://" (click)="getBothBroker('', keyword)">{{'viewProperty.search' | translate}}</a>
                  </div>
                </div>
 
@@ -624,7 +624,7 @@
                            <div class="n-avail-info">
                               <p class="p12">{{item?.name | titlecase}}</p>
                               <p class="p10 marginB0">{{item?.is_external_agent ? 'OUTSIDE AGENT' : 'IN-HOUSE AGENT'}}</p>
-                              <p class="p10">Phone : {{item?.dial_code ? item?.dial_code : constant.dial_code}}-{{item?.phone}}</p>
+                              <p class="p10">{{'viewProperty.phone' | translate}} : {{item?.dial_code ? item?.dial_code : constant.dial_code}}-{{item?.phone}}</p>
                            </div>
                            </div>
                         </td>
@@ -637,7 +637,7 @@
                         </td>
                      </tr>
                      <tr *ngIf="allExtBrokers?.length==0">
-                        <p class="show-not-found">No external agent found.</p>
+                        <p class="show-not-found">{{'viewProperty.noExternalAgentFound' | translate}}</p>
                      </tr>
                   </table>
                </div>
@@ -652,7 +652,7 @@
    <div class="modal-dialog fadeIndown">
       <div class="modal-content">
          <div class="modal-header modal-header-new">
-            <h4 class="modal-title">Add Reason</h4>
+            <h4 class="modal-title">{{'viewProperty.addReason' | translate}}</h4>
             <button style="display: none;" type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
             <button type="button" class="close" (click)="closeModal()">&times;</button>
          </div>
@@ -669,7 +669,7 @@
                </div>
                <div class="col-12">
                   <div class="btn-cont text-right">
-                     <button type="submit" [disabled]="!addForm.valid" class="btn btn-primary">Add</button>
+                     <button type="submit" [disabled]="!addForm.valid" class="btn btn-primary">{{'viewProperty.add' | translate}}</button>
                   </div>
                </div>
             </div>
@@ -684,7 +684,7 @@
    <div class="modal-dialog fadeIndown">
       <div class="modal-content">
          <div class="modal-header modal-header-new">
-            <h4 class="modal-title">Add Reason for Rejection</h4>
+            <h4 class="modal-title">{{'viewProperty.addReasonForRejection' | translate}}</h4>
             <button style="display: none;" type="button" class="close" data-dismiss="modal" #rejectModalClose>&times;</button>
             <button type="button" class="close" (click)="closeReasonModal()">&times;</button>
          </div>
@@ -701,7 +701,7 @@
                </div>
                <div class="col-12">
                   <div class="btn-cont text-right">
-                     <button type="submit" [disabled]="!addForm.valid" class="btn btn-primary">Add</button>
+                     <button type="submit" [disabled]="!addForm.valid" class="btn btn-primary">{{'viewProperty.add' | translate}}</button>
                   </div>
                </div>
             </div>

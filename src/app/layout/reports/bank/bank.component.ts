@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { IProperty } from '../../../common/property';
-import { AdminService } from './../../../services/admin.service';
+import { IProperty } from 'src/app/common/property';
+import { AdminService } from 'src/app/services/admin.service';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-bank',
@@ -20,7 +21,8 @@ export class BankComponent implements OnInit {
     domain: ['#ee7b7c', '#f5d05c']
   };
 
-  constructor(public admin: AdminService, private spinner: NgxSpinnerService) {
+  constructor(public admin: AdminService, private spinner: NgxSpinnerService,
+    private translate: TranslateService) {
     // Object.assign(this, this.chartView);
   }
 
@@ -53,10 +55,10 @@ export class BankComponent implements OnInit {
           'name' : element.month_name + ', ' + element.year,
           'series': [
             {
-              'name': 'Sign Up',
+              'name': this.translate.instant('reports.signUp'),
               'value': element.signup_count
             }, {
-              'name': 'Properties',
+              'name': this.translate.instant('reports.properties'),
               'value': element.property_count
             }
           ]

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { IProperty } from '../../../common/property';
-import { AdminService } from './../../../services/admin.service';
+import { IProperty } from 'src/app/common/property';
+import { AdminService } from 'src/app/services/admin.service';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-buyer',
@@ -22,7 +23,8 @@ export class BuyerComponent implements OnInit {
     domain: ['#4eb96f', '#4a85ff', '#ee7b7c', '#f5d05c']
   };
 
-  constructor(public admin: AdminService, private spinner: NgxSpinnerService) {
+  constructor(public admin: AdminService, private spinner: NgxSpinnerService,
+    private translate: TranslateService) {
     // Object.assign(this, this.chartView);
   }
 
@@ -57,16 +59,16 @@ export class BuyerComponent implements OnInit {
           'name' : element.month_name + ', ' + element.year,
           'series': [
             {
-              'name': 'Sign Up',
+              'name': this.translate.instant('reports.signUp'),
               'value': element.signup_count
             }, {
-              'name': 'Added Information',
+              'name': this.translate.instant('reports.addedInformation'),
               'value': element.info_count
             }, {
-              'name': 'Inhouse Agents Assigned',
+              'name': this.translate.instant('reports.inhouseAgentsAssigned'),
               'value': element.broker_count
             }, {
-              'name': 'Sold',
+              'name': this.translate.instant('reports.sold'),
               'value': element.property_sold
             }
           ]

@@ -3,14 +3,14 @@
     <div class="row">
         <div class="col-12">
           <div class="title-group">
-              <h5>Report - Notary</h5>
+            <h5>{{'reports.label' | translate}} - {{'reports.notary' | translate}}</h5>
           </div>
         </div>
     </div>
   
   <div class="white-bg marginT15 padding15">
       <div class="page-title-4">
-          <h3>Stats and Trend Analytics</h3>
+        <h3>{{'reports.statsAndTrendAnalytics' | translate}}</h3>
       </div>
       <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-4 col-12"></div>
@@ -30,13 +30,13 @@
             <div class="pull-right row">
                 <div class="col-lg-4 col-md-4 col-sm-5 col-5">
                   <div class="form-group marginB0">
-                      <label>From:</label>
+                      <label>{{'reports.from' | translate}}:</label>
                       <p-calendar showIcon="true" [(ngModel)]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
                   </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-5 col-5">
                   <div class="form-group marginB0">
-                      <label>To:</label>
+                      <label>{{'reports.to' | translate}}:</label>
                       <p-calendar showIcon="true" [(ngModel)]="parameter.max" [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
                   </div>
                 </div>
@@ -44,7 +44,7 @@
                   <div class="form-group btn-cont">
                     <label class="addMT3">&nbsp;</label>
                     <button class="btn btn-calender" href="javascript://" (click)="getReportData()"
-                  [disabled]="!parameter.min || !parameter.max">Apply</button>
+                  [disabled]="!parameter.min || !parameter.max">{{'reports.apply' | translate}}</button>
                   </div>
                 </div>
             </div>
@@ -53,16 +53,16 @@
 
       <div class="row report-data">
         <div class="col-sm-5">
-          <p class="report-data-title">Total {{parameter.total>0 ? 'Notaries' : 'Notary'}} On Platform</p>
+          <p class="report-data-title">{{parameter.total>0 ? ('reports.totalNotariesOnPlatform' | translate) : ('reports.totalNotaryOnPlatform' | translate) }}</p>
           <p class="report-data-value">{{parameter.total}}</p>
         </div>
         <div class="col-sm-7">
             <div class="row">
                 <div class="col-sm-6">
-                    <span class="report-label report-green">&nbsp;</span> <span> Sign Up ({{totalSignUpCount}})</span>
+                    <span class="report-label report-green">&nbsp;</span> <span> {{'reports.signUp' | translate}} ({{totalSignUpCount}})</span>
                 </div>
                 <div class="col-sm-6">
-                    <span class="report-label report-blue">&nbsp;</span> <span> Properties ({{totalPropertyCount}})</span>
+                    <span class="report-label report-blue">&nbsp;</span> <span> {{'reports.properties' | translate}} ({{totalPropertyCount}})</span>
                 </div>
             </div>
         </div>

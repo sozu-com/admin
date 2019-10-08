@@ -16,6 +16,7 @@ import { BuyerComponent } from './buyer/buyer.component';
 import { NotaryComponent } from './notary/notary.component';
 import { BankComponent } from './bank/bank.component';
 import { AclUserGuard } from '../../guards/acl-user.guard';
+import { TranslateModule } from '@ngx-translate/core';
 
 const routes: Routes = [
   {
@@ -46,7 +47,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     NgxChartsModule,
     Ng2TelInputModule,
-    CalendarModule
+    CalendarModule,
+    TranslateModule
   ],
   declarations: [
     ReportsComponent,
