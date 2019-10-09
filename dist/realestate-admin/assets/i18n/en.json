@@ -228,11 +228,11 @@
       "noViewedPropertyFound": "No property or project viewed by you.",
       "noNoteFound": "No notes to show.",
       "noRecordFound": "No record found",
-      "fileSizeExceeds": "The file you have selected is too large. The maximum size is 25MB."
+      "fileSizeExceeds": "The file you have selected is too large. The maximum size is 50MB."
     }, 
     "info": {
       "pleaseChooseFile": "Please Choose File",
-      "fileSizeLimit": "File size is more than 25MB.",
+      "fileSizeLimit": "File size is more than 50MB.",
       "saveEngCountryName": "Please add country name in Spanish or we will update it same as in English.",
       "saveEngStateName": "Please add state name in Spanish or we will update it same as in English.",
       "saveEngCityName": "Please add city name in Spanish or we will update it same as in English.",

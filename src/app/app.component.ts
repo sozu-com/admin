@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
     private translate: TranslateService) {
 
     // translate
-    this.translate.setDefaultLang('es');
+    this.translate.setDefaultLang('en');
 
     // close popup if any opened
     location.onPopState(() => {
