@@ -5,6 +5,7 @@ import { HttpInterceptor } from 'src/app/services/http-interceptor';
 import { IProperty } from 'src/app/common/property';
 import { Constant } from 'src/app/common/constants';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -19,15 +20,16 @@ export class TemplatesComponent implements OnInit {
   total: any = 0;
 
   public status = {
-    1: 'draft',
-    2: 'publish'
+    1: this.translate.instant('templates.status.draft'),
+    2: this.translate.instant('templates.status.publish')
   };
 
   constructor(
     public admin: AdminService,
     public constant: Constant,
     private http: HttpInterceptor,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) { }
 
 
@@ -74,12 +76,10 @@ export class TemplatesComponent implements OnInit {
 
 
   deleteBlogPopUp(id: any, index: number) {
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
-    this.parameter.text = this.constant.title.DELETE_BLOG;
-    this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
+    this.parameter.text = this.translate.instant('message.question.wantToDeleteTemplate');
 
     swal({
-      html: this.parameter.title + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -96,10 +96,10 @@ export class TemplatesComponent implements OnInit {
     this.items.splice(index, 1);
     this.admin.postDataApi('deleteBlog', { id: id }).subscribe(
       success => {
-        swal('Success', 'Deleted successfully.', 'success');
+        swal('Success', this.translate.instant('message.success.deletedSuccessfully'), 'success');
       },
       error => {
-        swal('Error', 'Error while deleting.', 'error');
+        swal('Error', this.translate.instant('message.error.errorWhileDeleting'), 'error');
       });
   }
 

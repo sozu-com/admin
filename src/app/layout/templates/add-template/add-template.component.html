@@ -3,13 +3,13 @@
 <div class="row">
     <div class="col-md-6 col-6">
         <div class="title-group">
-            <h5>Templates</h5>
+            <h5>{{'templates.label' | translate}}</h5>
         </div>
     </div>
     <div class="col-md-6 col-6">
         <div class="btn-cont pull-right">
-            <button *ngIf="!post.id" (click)="submitAll()" class="btn btn-primary">Save</button>
-            <button *ngIf="post.id" (click)="submitAll()" class="btn btn-primary">Update</button>
+            <button *ngIf="!post.id" (click)="submitAll()" class="btn btn-primary">{{'addForm.saveBtn' | translate}}</button>
+            <button *ngIf="post.id" (click)="submitAll()" class="btn btn-primary">{{'addForm.updateBtn' | translate}}</button>
         </div>
     </div>
 </div>
@@ -18,12 +18,12 @@
     <div class="row" *ngIf="post.id">
         <div class="col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="form-group-3">
-            <p class="p16-two">Slug</p>
+            <p class="p16-two">{{'templates.slug' | translate}}</p>
             </div>
         </div>
         <div class="col-lg-10 col-md-12 col-sm-12 col-12">
             <div class="form-group-3">
-                <input [(ngModel)]="post.slug" placeholder="Enter slug" class="form-control" type="text" />
+                <input [(ngModel)]="post.slug" placeholder="{{'addForm.placeholder.enterSlug' | translate}}" class="form-control" type="text" />
             </div>
         </div>
         <div class="col-lg-2 col-md-12 col-sm-12 col-12">
@@ -37,41 +37,41 @@
             <div class="upload-cover-img white-bg" style="height: 200px;">
                 <img [src]="file1.image" onerror="this.src='assets/img/placeholder.png'" class="floor-plan">
                 <div *ngIf="!file1.image" class="upload-caption">
-                    <p class="green-color marginT30">+Upload Cover image for the post</p>
-                    <p>JPG or PNG. Image size should be 1920 × 1080 pixels (for HiDPI displays).</p>
+                    <p class="green-color marginT30">{{'addForm.uploadCoverImageForPost' | translate}}</p>
+                    <p>{{'addForm.imageSizeForCover' | translate}}</p>
                 </div>
                 <input type="file" name="" accept="image/*" (change)="file1.onSelectFile($event,true)">
             </div>
         </div>
         <div class="col-lg-6 col-md-12 col-sm-12 col-12">
             <div class="form-group-3">
-                <p class="p16-two">Publish Date<span class="color-red">*</span></p>
+                <p class="p16-two">{{'addForm.publishDate' | translate}}<span class="color-red">*</span></p>
                 <input class="form-control" type="date" [ngModel] ="post.publish_date | date:'yyyy-MM-dd'" (ngModelChange)="post.publish_date = $event"/>
             </div>
             <div class="form-group-3">
-                <p class="p16-two">Post type<span class="color-red">*</span></p>
+                <p class="p16-two">{{'addForm.postType' | translate}}<span class="color-red">*</span></p>
                 <label class="cust-radio">
                     <input type="radio" (change)="post.post_type=1" value="1" [checked]="post.post_type == '1' ? 'checked' : ''" name="post_type">
-                    <span class="checkmark">Post</span>
+                    <span class="checkmark">{{'addForm.type.post' | translate}}</span>
                 </label>
                 <label class="cust-radio">
                     <input type="radio" (change)="post.post_type=2" value="2" [checked]="post.post_type == '2' ? 'checked' : ''" name="post_type">
-                    <span class="checkmark">Page</span>
+                    <span class="checkmark">{{'addForm.type.page' | translate}}</span>
                 </label>
                 <label class="cust-radio">
                     <input type="radio" (change)="post.post_type=3" value="3" [checked]="post.post_type == '3' ? 'checked' : ''" name="post_type">
-                    <span class="checkmark">News</span>
+                    <span class="checkmark">{{'addForm.type.news' | translate}}</span>
                 </label>
                 <label class="cust-radio">
                     <input type="radio" (change)="showMainTemplatesType(4)" value="4" [checked]="post.post_type == '4' ? 'checked' : ''" name="post_type">
-                    <span class="checkmark">Main Template</span>
+                    <span class="checkmark">{{'addForm.type.mainTemplates' | translate}}</span>
                 </label>
             </div>
 
             <!-- main template types -->
             <div class="clearfix"></div>
             <div class="form-group-3" *ngIf="post.post_type==4">
-                <p class="p16-two">Choose Main Template Type<span class="color-red">*</span></p>
+                <p class="p16-two">{{'addForm.chooseMainTemplateType' | translate}}<span class="color-red">*</span></p>
                 <label class="cust-radio" *ngFor="let mtt of mainTemplateTypes">
                     <input type="radio" (change)="post.main_template_id=mtt.id" [value]="mtt.id" [checked]="mtt.id == post.main_template_id ? 'checked' : ''" name="main_template_id">
                     <span class="checkmark">{{mtt.name}}</span>
@@ -81,14 +81,14 @@
             <!-- post status -->
             <div class="clearfix"></div>
             <div class="form-group-3">
-                <p class="p16-two">Post Status<span class="color-red">*</span></p>
+                <p class="p16-two">{{'addForm.postStatus' | translate}}<span class="color-red">*</span></p>
                 <label class="cust-radio">
                     <input type="radio" (change)="post.status=1" value="1" [checked]="post.status == '1' ? 'checked' : ''" name="post_status">
-                    <span class="checkmark">Draft</span>
+                    <span class="checkmark">{{'addForm.draft' | translate}}</span>
                 </label>
                 <label class="cust-radio">
                     <input type="radio" (change)="post.status=2" value="2" [checked]="post.status == '2' ? 'checked' : ''" name="post_status">
-                    <span class="checkmark">Publish</span>
+                    <span class="checkmark">{{'addForm.publish' | translate}}</span>
                 </label>
             </div>
         </div>
@@ -101,10 +101,10 @@
         <div class="col-xl-10 col-lg-12 col-md-12 col-sm-12 col-12">
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link active show" data-toggle="tab" href="#english">English</a>
+                <a class="nav-link active show" data-toggle="tab" href="#english">{{'addForm.english' | translate}}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#spanish">Spanish</a>
+                <a class="nav-link" data-toggle="tab" href="#spanish">{{'addForm.spanish' | translate}}</a>
             </li>
         </ul>
         </div>
@@ -114,8 +114,8 @@
             <div class="row marginT20">
                 <div class="col-lg-6 col-md-12 col-sm-12 col-12">
                     <div class="form-group-3">
-                        <label class="p16-two">Enter title<span class="color-red">*</span></label>
-                        <input [(ngModel)]="post.title_en" placeholder="Enter title" class="form-control" type="text" />
+                        <label class="p16-two">{{'addForm.enterTitle' | translate}}<span class="color-red">*</span></label>
+                        <input [(ngModel)]="post.title_en" placeholder="{{'addForm.placeholder.enterTitle' | translate}}" class="form-control" type="text" />
                     </div>
                 </div>
             </div>
@@ -124,14 +124,14 @@
             <div class="row">
                 <div class="col-lg-6 col-md-12 col-sm-12 col-12">
                     <div class="form-group-3">
-                        <label class="p16-two">Enter meta title<span class="color-red">*</span></label>
-                        <input [(ngModel)]="post.meta_title_en" placeholder="Enter meta title" class="form-control" type="text" />
+                        <label class="p16-two">{{'addForm.enterMetaTitle' | translate}}<span class="color-red">*</span></label>
+                        <input [(ngModel)]="post.meta_title_en" placeholder="{{'addForm.placeholder.enterMetaTitle' | translate}}" class="form-control" type="text" />
                     </div>
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="form-group-3">
-                        <label class="p16-two">Enter meta description<span class="color-red">*</span></label>
-                        <textarea  [(ngModel)]="post.meta_description_en" placeholder="Enter meta description" class="form-control"></textarea>
+                        <label class="p16-two">{{'addForm.enterMetaDescr' | translate}}<span class="color-red">*</span></label>
+                        <textarea  [(ngModel)]="post.meta_description_en" placeholder="{{'addForm.placeholder.enterMetaDescr' | translate}}" class="form-control"></textarea>
                     </div>
                 </div>
             </div>
@@ -140,8 +140,8 @@
             <div class="row marginT20">
                 <div class="col-lg-6 col-md-12 col-sm-12 col-12">
                     <div class="form-group-3">
-                        <label class="p16-two">Enter title<span class="color-red">*</span></label>
-                        <input  [(ngModel)]="post.title_es" placeholder="Enter title" class="form-control" type="text" />
+                        <label class="p16-two">{{'addForm.enterTitle' | translate}}<span class="color-red">*</span></label>
+                        <input  [(ngModel)]="post.title_es" placeholder="{{'addForm.placeholder.enterTitle' | translate}}" class="form-control" type="text" />
                     </div>
                 </div>
             </div>
@@ -150,14 +150,14 @@
             <div class="row">
                 <div class="col-lg-6 col-md-12 col-sm-12 col-12">
                     <div class="form-group-3">
-                        <label class="p16-two">Enter meta title<span class="color-red">*</span></label>
-                        <input  [(ngModel)]="post.meta_title_es" placeholder="Enter meta title" class="form-control" type="text" />
+                        <label class="p16-two">{{'addForm.enterMetaTitle' | translate}}<span class="color-red">*</span></label>
+                        <input  [(ngModel)]="post.meta_title_es" placeholder="{{'addForm.placeholder.enterMetaTitle' | translate}}" class="form-control" type="text" />
                     </div>
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="form-group-3">
-                        <label class="p16-two">Enter meta description<span class="color-red">*</span></label>
-                        <textarea  [(ngModel)]="post.meta_description_es" placeholder="Enter meta description" class="form-control"></textarea>
+                        <label class="p16-two">{{'addForm.enterMetaDescr' | translate}}<span class="color-red">*</span></label>
+                        <textarea  [(ngModel)]="post.meta_description_es" placeholder="{{'addForm.placeholder.enterMetaDescr' | translate}}" class="form-control"></textarea>
                     </div>
                 </div>
             </div>

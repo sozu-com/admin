@@ -2,13 +2,13 @@
   <div class="row">
     <div class="col-md-6 col-6">
       <div class="title-group">
-        <h5>Templates</h5>
+        <h5>{{'templates.label' | translate}}</h5>
       </div>
     </div>
     <div class="col-md-6 col-6">
       <div class="btn-cont text-right">
         <a *ngIf="admin?.admin_acl['Templates']?.can_create==1" routerLink="/dashboard/templates/add-template/0"
-          class="btn btn-primary" href="javascript://">Add New</a>
+          class="btn btn-primary" href="javascript://">{{'templates.addBtn' | translate}}</a>
       </div>
     </div>
   </div>
@@ -19,17 +19,16 @@
       <div class="col-xl-10 col-lg-12 col-md-12 col-sm-12 col-12">
         <ul class="nav nav-tabs">
           <li class="nav-item cursor-pointer">
-            <a [ngClass]="{'active':parameter.post_type=='1'}" (click)="changeFlag('1')" class="nav-link">Post</a>
+            <a [ngClass]="{'active':parameter.post_type=='1'}" (click)="changeFlag('1')" class="nav-link">{{'filters.post' | translate}}</a>
           </li>
           <li class="nav-item cursor-pointer">
-            <a [ngClass]="{'active':parameter.post_type=='2'}" (click)="changeFlag('2')" class="nav-link">Page</a>
+            <a [ngClass]="{'active':parameter.post_type=='2'}" (click)="changeFlag('2')" class="nav-link">{{'filters.page' | translate}}</a>
           </li>
           <li class="nav-item cursor-pointer">
-            <a [ngClass]="{'active':parameter.post_type=='3'}" (click)="changeFlag('3')" class="nav-link">News</a>
+            <a [ngClass]="{'active':parameter.post_type=='3'}" (click)="changeFlag('3')" class="nav-link">{{'filters.news' | translate}}</a>
           </li>
           <li class="nav-item cursor-pointer">
-            <a [ngClass]="{'active':parameter.post_type=='4'}" (click)="changeFlag('4')" class="nav-link">Main
-              Templates</a>
+            <a [ngClass]="{'active':parameter.post_type=='4'}" (click)="changeFlag('4')" class="nav-link">{{'filters.mainTemplates' | translate}}</a>
           </li>
         </ul>
       </div>
@@ -43,7 +42,7 @@
                 <th style="vertical-align:top; width: 6%;"></th>
                 <th style="width:20%; text-align:left;">
                   <div class="table-search">
-                    <label>Title</label>
+                    <label>{{'table.th.title' | translate}}</label>
                     <div class="searh-3">
                       <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getListing()">
                       <button *ngIf="parameter.name" (click)="getListing()"><i class="fa fa-search"></i></button>
@@ -52,7 +51,7 @@
                 </th>
                 <th style="width:25%; text-align:left;">
                   <div class="table-search">
-                    <label>Description</label>
+                    <label>{{'table.th.description' | translate}}</label>
                     <div class="searh-3">
                       <input type="text" [(ngModel)]="parameter.keyword" (keyup.enter)="getListing()">
                       <button *ngIf="parameter.keyword" (click)="getListing()"><i class="fa fa-search"></i></button>
@@ -61,12 +60,12 @@
                 </th>
                 <th style="width:15%;vertical-align:top;">
                   <div class="table-search">
-                    <label>Status</label>
+                    <label>{{'table.th.status' | translate}}</label>
                   </div>
                 </th>
                 <th style="width:15%;vertical-align:top;">
                   <div (click)="sort_by(1)" class="d-flex table-search">
-                    <label>Publish Date</label>
+                    <label>{{'table.th.publishDate' | translate}}</label>
                     <a href="javascript://"><img [ngClass]="{'upsidedown':this.parameter.sort_by_order==0}"
                         src="assets/img/top-arrow.png" alt="img"></a>
                   </div>
@@ -88,10 +87,10 @@
                 <td>
                   <div class="message">
                     <button [disabled]="admin?.admin_acl['Templates']?.can_update==0"
-                      routerLink="/dashboard/templates/edit-template/{{item.id}}" title="Edit Template"
+                      routerLink="/dashboard/templates/edit-template/{{item.id}}" title="{{'table.title.editDetails' | translate}}"
                       class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                     <button [disabled]="admin?.admin_acl['Templates']?.can_purge==0"
-                      (click)="deleteBlogPopUp(item.id, i)" title="Delete Template" class="action-icon"><img
+                      (click)="deleteBlogPopUp(item.id, i)" title="{{'table.title.delete' | translate}}" class="action-icon"><img
                         src="assets/img/ic_delete.png" alt="img"></button>
                   </div>
                 </td>

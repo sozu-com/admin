@@ -9,9 +9,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
-
 // general components
-import { AclUserGuard } from '../../guards/acl-user.guard';
+import { AclUserGuard } from 'src/app/guards/acl-user.guard';
 import { AddTemplateComponent } from './add-template/add-template.component';
 import { TemplatesComponent } from './templates.component';
 import { SharedModule } from 'src/app/modules/shared.module';
@@ -44,6 +43,7 @@ const routes: Routes = [
     NgxPaginationModule,
     FroalaEditorModule.forRoot(),
     FroalaViewModule.forRoot(),
+    TranslateModule,
     SharedModule
   ],
   declarations: [

@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { IProperty } from 'src/app/common/property';
 import { MainTemplateTypes } from 'src/app/models/template.model';
 import { NgxSpinnerService } from 'ngx-spinner';
-
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -26,8 +26,8 @@ export class AddTemplateComponent implements OnInit {
   public post: any = {
     id: '',
     url: '',
-    post_type: 'post',
-    status: 'publish',
+    post_type: this.translate.instant('templates.post'),
+    status: this.translate.instant('templates.publish'),
     title_en: '',
     title_es: '',
     description_en: '',
@@ -47,7 +47,8 @@ export class AddTemplateComponent implements OnInit {
     private admin: AdminService,
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
-    private http: HttpInterceptor) {
+    private http: HttpInterceptor,
+    private translate: TranslateService) {
   }
 
   public editorContent = 'My Document\'s Title';
@@ -171,22 +172,22 @@ export class AddTemplateComponent implements OnInit {
 
   submitAll() {
 
-    if (!this.post.post_type) { swal('Error', 'Please enter post type', 'error'); return false; }
-    if (!this.post.title_en) { swal('Error', 'Please enter title in english', 'error'); return false; }
-    if (!this.post.description_en && !this.post.description_es) { swal('Error', 'Please enter description', 'error'); return false; }
-    if (!this.post.meta_title_en && !this.post.meta_title_es) { swal('Error', 'Please enter post type', 'error'); return false; }
+    if (!this.post.post_type) { swal('Error', this.translate.instant('message.error.pleaseEnterPostType'), 'error'); return false; }
+    if (!this.post.title_en) { swal('Error', this.translate.instant('message.error.pleaseEnterTitleEng'), 'error'); return false; }
+    if (!this.post.description_en && !this.post.description_es) { swal('Error', this.translate.instant('message.error.pleaseEnterDesc'), 'error'); return false; }
+    if (!this.post.meta_title_en && !this.post.meta_title_es) { swal('Error', this.translate.instant('message.error.pleaseEnterMetaTitle'), 'error'); return false; }
     if (!this.post.meta_description_en && !this.post.meta_description_es) {
-      swal('Error', 'Please enter post type', 'error'); return false; }
+      swal('Error', this.translate.instant('message.error.pleaseEnterMetaDesc'), 'error'); return false; }
 
     this.post.image = this.file1.image;
     if (this.post.id) {
-      if (!this.post.slug) { swal('Error', 'Please enter slug', 'error'); return false; }
+      if (!this.post.slug) { swal('Error', this.translate.instant('message.error.pleaseEnterSlug'), 'error'); return false; }
       this.post.blog_id = this.post.id;
     }
     this.spinner.show();
     this.admin.postDataApi('addBlog', this.post).subscribe(r => {
       this.spinner.hide();
-      this.post.id ? swal('Success', 'Updated successfully.', 'success') : swal('Sucsess', 'Added successfully.', 'success');
+      this.post.id ? swal('Success', this.translate.instant('message.success.updatedSuccessfully'), 'success') : swal('Sucsess', this.translate.instant('message.success.addedSuccessfully'), 'success');
       this.post = r['data'];
     },
       error => {
