@@ -3,6 +3,7 @@ import { AdminService } from 'src/app/services/admin.service';
 import { IProperty } from 'src/app/common/property';
 import { Settings } from 'src/app/models/settings.model';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -15,7 +16,8 @@ export class DefaultSettingsComponent implements OnInit {
 
   public parameter: IProperty = {};
 
-  constructor(private admin: AdminService, public model: Settings, private spinner: NgxSpinnerService) { }
+  constructor(private admin: AdminService, public model: Settings, private spinner: NgxSpinnerService,
+    private translate: TranslateService) { }
 
   ngOnInit() {
     this.getGlobalSetting();
@@ -42,7 +44,7 @@ export class DefaultSettingsComponent implements OnInit {
         success => {
           this.spinner.hide();
           this.admin.globalSettings.next(success.data);
-          swal('Success', 'Details updated successfully!', 'success');
+          swal('Success', this.translate.instant('message.success.updatedSuccessfully'), 'success');
         },
         error => {
           this.spinner.hide();

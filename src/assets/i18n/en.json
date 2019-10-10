@@ -391,7 +391,11 @@
       "enterSlug": "Enter Slug",
       "enterTitle": "Enter Title",
       "enterMetaTitle": "Enter meta title",
-      "enterMetaDescr": "Enter meta description"
+      "enterMetaDescr": "Enter meta description",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm Password",
+      "nameEn": "Name (English)",
+      "nameEs": "Name (Spanish)"
     }
   },
   "charts": {
@@ -468,6 +472,8 @@
       "type": "Type",
       "title": "Title",
       "publishDate": "Publish Date",
+      "nameEn": "Name (English)",
+      "nameEs": "Name (Spanish)",
       "actions": {
         "label": "Actions",
         "all": "All",
@@ -690,6 +696,9 @@
       "wantToUnblockTemplate": "You want to unblock this Template?",
       "wantToDeleteTemplate": "You want to delete this Template?",
       "wantToDeleteNote": "You want to delete this Note?",
+      "wantToBlockDocument": "You want to block this Document?",
+      "wantToUnblockDocument": "You want to unblock this Document?",
+      "wantToDeleteDocument": "You want to delete this Document?",
       "wantToDelete": "You want to delete?",
       "wantToAccessThisRequest": "You want to accept this request?",
       "wantToRejectThisRequest": "You want to reject this request?",
@@ -878,5 +887,34 @@
     },
     "post": "post",
     "publish": "publish"
+  },
+  "settings": {
+    "home": "Home",
+    "label": "Settings"
+  },
+  "changePass": {
+    "label": "Change Password",
+    "newPassword": "New Password",
+    "passwordRequired": "Password is required!",
+    "passwordMinLength": "Password's length must be at least",
+    "confirmPassword": "Confirm Password",
+    "confirmPasswordRequired": "Confirm Password is required!",
+    "confirmPasswordMinLength": "Confirm Password's length must be at least",
+    "samePassAndConfirmPass": "Confirm Password & Password must be same.",
+    "updatePass": "Update Password"
+  },
+  "defaultSettings": {
+    "label": "Default Settings",
+    "propertyWillBMarkedApproved": "By default, added property will be marked approved",
+    "projectWillBMarkedApproved": "By default, added project will be marked approved",
+    "yes": "Yes",
+    "no":"No",
+    "updateSettings": "Update Settings"
+  },
+  "documents": {
+    "label": "Documents Listing",
+    "documents": "Documents",
+    "name": "Document Name",
+    "editDocumentName": "Edit Document Name"
   }
 }

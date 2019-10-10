@@ -1,33 +1,32 @@
 
 <div class="container-fluid">
     <div class="breadcrumb-group">
-        <h5>Settings</h5>
+      <h5>{{'settings.label' | translate}}</h5>
         <nav class="breadcrumb">
-            <a class="breadcrumb-item">Home</a>
-            <!-- <a class="breadcrumb-item" routerLink="/dashboard">Home</a> -->
-          <a class="breadcrumb-item">Settings</a>
-          <span class="breadcrumb-item active">Documents Listing</span>
+          <a class="breadcrumb-item">{{'settings.home' | translate}}</a>
+          <a class="breadcrumb-item">{{'settings.label' | translate}}</a>
+          <span class="breadcrumb-item active">{{'documents.label' | translate}}</span>
         </nav>
     </div>
     <div class="white-bg">
         <div class="page-title">
-          <h3>Documents</h3>
+          <h3>{{'documents.documents' | translate}}</h3>
         </div>
   
         <div class="form-outer">
             <div class="inline-form-group">
                <div class="row">
                   <div class="col-md-4">
-                      <label><strong>Document Name</strong></label>
+                      <label><strong>{{'documents.name' | translate}}</strong></label>
                   </div>
                   <div class="col-md-8" *ngIf="admin?.admin_acl['Settings']?.can_create==1">
                      <form role="form" novalidate #addForm1="ngForm" (ngSubmit)="checkIfSpanishNameEntered(addForm1, '', addForm1.value.name_en, addForm1.value.name_es, 1, 'add');">
                         <div class="row">
                           <div class="col-lg-6 col-md-6">
-                            <input type="text" autocomplete="off" class="form-control" placeholder="Name (English)" id="name_en" required [(ngModel)]="model.name_en" name="name_en">
+                            <input type="text" autocomplete="off" class="form-control" placeholder="{{'addForm.placeholder.nameEn' | translate}}" id="name_en" required [(ngModel)]="model.name_en" name="name_en">
                           </div>
                           <div class="col-lg-6 col-md-6">
-                              <input type="text" autocomplete="off" class="form-control" placeholder="Name (Spanish)" [(ngModel)]="model.name_es" name="name_es">
+                              <input type="text" autocomplete="off" class="form-control" placeholder="{{'addForm.placeholder.nameEs' | translate}}" [(ngModel)]="model.name_es" name="name_es">
                           </div>
                         </div>
                       <button [disabled]="admin?.admin_acl['Settings']?.can_create==0 || addForm1.invalid" type="submit" class="add-btn btn">
@@ -43,9 +42,9 @@
             <div class="table-responsive">
               <table class="table table-striped">
                   <tr>
-                    <th style="width:40%; text-align:left;">Name (English)</th>
-                    <th style="width:40%; text-align:left;">Name (Spanish)</th>
-                    <th style="width:20%">Action</th>
+                    <th style="width:40%; text-align:left;">{{'table.th.nameEn' | translate}}</th>
+                    <th style="width:40%; text-align:left;">{{'table.th.nameEs' | translate}}</th>
+                    <th style="width:20%">{{'table.th.actions.label' | translate}}</th>
                   </tr>
                   <tr *ngFor="let item of parameter.items; let i=index">
                     <td class="text-left">
@@ -55,13 +54,13 @@
                       {{item.name_es}}
                     </td>
                   <td>
-                      <button title="Edit" [disabled]="admin?.admin_acl['Settings']?.can_update==0" 
+                      <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Settings']?.can_update==0" 
                       (click)="openModal(addDocumentModal, item.id, item.name_en, item.name_es, item.status, i)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                     
                       <!-- status = 1 means unblocked -->
                       <button [disabled]="admin?.admin_acl['Settings']?.can_delete==0"
                         (click)="blockUnblock(item.id, item.name_en, item.name_es, item.status==1?0:1, i)" 
-                        title="{{item.status==1?'Block':'Unblock'}}" [ngClass]="{'unblock-bg':item.status==0}"
+                        title="{{item.status==1 ? ('table.title.block' | translate) : ('table.title.unblock' | translate)}}" [ngClass]="{'unblock-bg':item.status==0}"
                         class="action-icon"><img src="assets/img/block.png" alt="img">
                       </button>
                   </td>
@@ -84,7 +83,7 @@
 <ng-template #addDocumentModal>
   <div class="modal-content">
     <div class="modal-header my-modal-header">
-      <h4 class="modal-title">Edit Document Name</h4>
+      <h4 class="modal-title">{{'documents.editDocumentName' | translate}}</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -92,10 +91,10 @@
     <form class="form-horizontal my-modal-form" role="form" novalidate #addForm="ngForm" (ngSubmit)="checkIfSpanishNameEntered(addForm, model.id, addForm.value.name_en, addForm.value.name_es, model.status, 'edit')">
       <div class="modal-body my-modal-body">
         <div class="form-group">
-          <input autocomplete="off" type="text" class="form-control" placeholder="Name (English)" id="name_en" required [(ngModel)]="model.name_en" name="name_en" #name_en="ngModel">
+          <input autocomplete="off" type="text" class="form-control" placeholder="{{'addForm.placeholder.nameEn' | translate}}" id="name_en" required [(ngModel)]="model.name_en" name="name_en" #name_en="ngModel">
         </div>
         <div class="form-group">
-          <input autocomplete="off" type="text" class="form-control" placeholder="Name (Spanish)" [(ngModel)]="model.name_es" name="name_es">
+          <input autocomplete="off" type="text" class="form-control" placeholder="{{'addForm.placeholder.nameEs' | translate}}" [(ngModel)]="model.name_es" name="name_es">
         </div>
       </div>
       <div class="modal-footer btn-cont">

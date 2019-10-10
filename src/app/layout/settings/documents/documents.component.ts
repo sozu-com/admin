@@ -65,8 +65,8 @@ export class DocumentsComponent implements OnInit {
         success => {
           this.model = new Document();
           const text = id ?
-            this.constant.successMsg.DOCUMENT_NAME_UPDATED_SUCCESSFULLY :
-            this.constant.successMsg.DOCUMENT_NAME_ADDED_SUCCESSFULLY;
+          this.translate.instant('message.success.updatedSuccessfully') :
+          this.translate.instant('message.success.addedSuccessfully');
           swal('Success', text, 'success');
           if (id === '') {
             this.parameter.items.push(success.data);
@@ -95,23 +95,23 @@ export class DocumentsComponent implements OnInit {
 
 
 
-  addPossessionStatusPopup(id: string, name_en: string, name_es: string, status: number, type: string) {
-    const text = status === 1 ? this.constant.title.UNBLOCK_PROJECT_POSSESSION : this.constant.title.BLOCK_PROJECT_POSSESSION;
-    swal({
-      // title: this.constant.title.ARE_YOU_SURE,
-      // text: status === 1 ? this.constant.title.UNBLOCK_PROJECT_POSSESSION : this.constant.title.BLOCK_PROJECT_POSSESSION,
-      html: this.constant.title.ARE_YOU_SURE + '<br>' + text,
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: this.constant.confirmButtonColor,
-      cancelButtonColor: this.constant.cancelButtonColor,
-      confirmButtonText: 'Yes'
-    }).then((result) => {
-      if (result.value) {
-        this.addDocumentOptions(id, name_en, name_es, status, type);
-      }
-    });
-  }
+  // addPossessionStatusPopup(id: string, name_en: string, name_es: string, status: number, type: string) {
+  //   const text = status === 1 ? this.constant.title.UNBLOCK_PROJECT_POSSESSION : this.constant.title.BLOCK_PROJECT_POSSESSION;
+  //   swal({
+  //     // title: this.constant.title.ARE_YOU_SURE,
+  //     // text: status === 1 ? this.constant.title.UNBLOCK_PROJECT_POSSESSION : this.constant.title.BLOCK_PROJECT_POSSESSION,
+  //     html: this.translate.instant('message.question.areYouSure') + '<br>' + text,
+  //     type: 'warning',
+  //     showCancelButton: true,
+  //     confirmButtonColor: this.constant.confirmButtonColor,
+  //     cancelButtonColor: this.constant.cancelButtonColor,
+  //     confirmButtonText: 'Yes'
+  //   }).then((result) => {
+  //     if (result.value) {
+  //       this.addDocumentOptions(id, name_en, name_es, status, type);
+  //     }
+  //   });
+  // }
 
 
   checkIfSpanishNameEntered(formdata: NgForm, id: string, name_en: string, name_es: string, status: number, type: string) {
@@ -137,20 +137,19 @@ export class DocumentsComponent implements OnInit {
 
   blockUnblock(id: string, name_en: string, name_es: string, status: number, index: number) {
     this.parameter.index = index;
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
     switch (status) {
       case 0:
-        this.parameter.text = 'You want to block this document?';
-        this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
+        this.parameter.text = this.translate.instant('message.question.wantToBlockDocument');
+        this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
       case 1:
-        this.parameter.text = 'You want to unblock this document?';
-        this.parameter.successText = this.constant.successMsg.UNBLOCKED_SUCCESSFULLY;
+        this.parameter.text = this.translate.instant('message.question.wantToUnblockDocument');
+        this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
         break;
     }
 
     swal({
-      html: this.parameter.title + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
