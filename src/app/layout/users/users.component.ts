@@ -69,7 +69,7 @@ export class UsersComponent implements OnInit {
     this.getBuyers(this.parameter.type, this.parameter.page, this.parameter.name, this.parameter.phone, this.parameter.email);
   }
 
-  getBuyers(type, page, name, phone, email) {
+  getBuyers(type: any, page: any, name: string, phone: string, email: string) {
     this.parameter.page = page;
     this.parameter.type = type;
     this.parameter.name = name;

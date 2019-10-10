@@ -4,6 +4,7 @@ import { AdminService } from 'src/app/services/admin.service';
 import { IProperty } from 'src/app/common/property';
 import { NgForm } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -21,7 +22,8 @@ export class ChangePasswordComponent implements OnInit {
     c_password: ''
   };
 
-  constructor(private router: Router, private admin: AdminService, private spinner: NgxSpinnerService) { }
+  constructor(private router: Router, private admin: AdminService, private spinner: NgxSpinnerService,
+    private translate: TranslateService) { }
 
   ngOnInit() {}
 
@@ -31,7 +33,7 @@ export class ChangePasswordComponent implements OnInit {
       .subscribe(
         success => {
           this.spinner.hide();
-          swal('Success', 'Password changed Successfully.', 'success');
+          swal('Success', this.translate.instant('message.success.updatedSuccessfully'), 'success');
           localStorage.removeItem('token');
           this.router.navigate(['']);
         },

@@ -90,7 +90,7 @@
             </th>
             <th style="width:10%; text-align:left;">
               <div class="table-search">
-                  <label>Price per sqmt</label>
+                  <label>Avg Price</label>
               </div>
             </th>
             <th style="width:30%">Action</th>
@@ -105,7 +105,7 @@
               {{locality.name_es}}
             </td>
             <td class="text-left locality-name" [ngClass]="locality.id == selectedLocality ? 'selectedRow' : ''">
-              {{locality.price_per_sqft}}
+              {{locality.avg_price | price}}
             </td>
             <!-- <td>
               <a (click)="upadteSelection(locality, index)" title="Unblock State" class="icon-block block-icon"><img src="assets/img/top-arrow.png" alt="img"></a>
@@ -115,11 +115,11 @@
                 (click)="markLocalityFeatured(index, locality.id, locality.is_featured==1?0:1)" class="action-icon" title="Mark feature"><img src="assets/img/ic_featured.png" alt="img"></button>
               <button [disabled]="admin?.admin_acl['Settings']?.can_update==0" *ngIf="locality.is_featured==1" 
                 (click)="markLocalityFeatured(index, locality.id, locality.is_featured==1?0:1)" class="action-icon" title="Mark unfeature"><img src="assets/img/tick-selected.png" alt="img"></button>
-              <a *ngIf="locality.status == 0" (click)="blockUnblockLocality(locality, index, 1)"
+              <!-- <a *ngIf="locality.status == 0" (click)="blockUnblockLocality(locality, index, 1)"
                 title="Unblock Locality" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png"
                   alt="img"></a>
               <a *ngIf="locality.status == 1" (click)="blockUnblockLocality(locality, index, 0)" title="Block Locality"
-                class="icon-block block-icon"><img src="assets/img/unblock.png" alt="img"></a>
+                class="icon-block block-icon"><img src="assets/img/unblock.png" alt="img"></a> -->
               <a (click)="editLocality(locality.id, locality.name_en, locality.name_es, locality.price_per_sqft, locality.status, locality.poly_coordinates)"
                 title="Edit" class="action-icon"><img src="assets/img/edit.png" alt="img"></a>
               <a (click)="deleteLocality(locality, index)" title="Delete" class="action-icon"><img
@@ -210,19 +210,11 @@
               placeholder="Locality name (Spanish)" [(ngModel)]="model.name_es">
           </div>
 
-          <div class="form-group">
+          <!-- <div class="form-group">
             <input autocomplete="off" type="text" class="form-control" min="1" placeholder="Price per sqmt"
               id="price_per_sqft" required [(ngModel)]="model.price_per_sqft" name="price_per_sqft"
               #price_per_sqft="ngModel">
-            <!-- <div *ngIf="price_per_sqft.errors && (price_per_sqft.dirty || price_per_sqft.touched)" class="show-not-found">
-                <div [hidden]="!price_per_sqft.errors.required">
-                  {{constant.errorMsg.PRICE_PER_SQFT_REQUIRED}}
-                </div>
-                <div [hidden]="!price_per_sqft.errors.min">
-                  {{constant.errorMsg.PRICE_PER_SQFT_MIN}}
-                </div>
-            </div> -->
-          </div>
+          </div> -->
 
         </div>
         <div class="modal-footer btn-cont">

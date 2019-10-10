@@ -22,6 +22,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { DefaultSettingsComponent } from './default-settings/default-settings.component';
 import { MatchValueDirective } from 'src/app/directives/match-value.directive';
+import { SharedModule } from 'src/app/modules/shared.module';
 
 const routes: Routes = [
   { path: 'view-profile', component: ProfileComponent },
@@ -81,7 +82,8 @@ const routes: Routes = [
       apiKey: 'AIzaSyDykCJGMqHIwJluSmSiqKTJBVN2KauM_uQ',
       libraries: ['drawing', 'places']
     }),
-    Ng2TelInputModule
+    Ng2TelInputModule,
+    SharedModule
   ],
   exports: [RouterModule]
 })

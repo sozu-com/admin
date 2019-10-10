@@ -430,7 +430,6 @@ export class LocalityComponent implements OnInit {
     for (let i = 0; i < len; i++) {
       coordinates_array.push(newShape.getPath().getAt(i).toUrlValue(6));
     }
-    console.log('--array', coordinates_array);
     return coordinates_array;
   }
 
@@ -636,13 +635,11 @@ export class LocalityComponent implements OnInit {
   }
 
   loadPlaces() {
-console.log('---');
     // load Places Autocomplete
     this.loader.load().then(() => {
       const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
         types: []
       });
-      console.log('aaautpc');
       autocomplete.addListener('place_changed', () => {
         this.ngZone.run(() => {
           // get the place result

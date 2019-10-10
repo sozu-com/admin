@@ -167,4 +167,5 @@ export interface IProperty {
   sold_filter?: number;
   bulk_approve_property?: number;
   bulk_approve_project?: number;
+  hide_blocked?: number;
 }
