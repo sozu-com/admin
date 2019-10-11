@@ -1,12 +1,12 @@
 <div class="white-bg move-below">
 
   <div class="page-title-3 marginB0">
-      <h4><i><img src="assets/img/chat-icon.png" alt="img"></i> Chat with {{other_sent_as==3 ? 'CSR Closure' : ''}}</h4>
+      <h4><i><img src="assets/img/chat-icon.png" alt="img"></i> {{'commonBlock.chatWith' | translate}} {{other_sent_as==3 ? ('commonBlock.CSRClosure' | translate) : ''}}</h4>
   </div>
   <div class="cust-tabs-4">
     <div class="chat-area scrollbox" malihu-scrollbar [scrollbarOptions]="scrollbarOptions" style="height: 704px; width: 429px; padding-right: 17px; outline: none; overflow: hidden;">
       <div *ngIf="loadmore" class="chat-load-more" (click)="loadMore(admin_id)" >
-        Previous Messages <img *ngIf="loadmoring" src="assets/img/loading-p.gif">
+        {{'commonBlock.previousMessages' | translate}} <img *ngIf="loadmoring" src="assets/img/loading-p.gif">
       </div> 
 
       <div *ngFor="let m of parameter.messages; let i=index" class="chat-user" [ngClass]="m?.conversation_user?.admin_id == admin_id ? 'chat-user-one' : 'chat-user-two'">
@@ -79,7 +79,7 @@
         <span class="time" *ngIf="m.updated_at && m.id">{{m.updated_at| moment}}</span>
         <span class="time" *ngIf="m.updated_at && !m.id">{{m.updated_at|date:'h:mm a'|lowercase}}, {{m.updated_at|date: 'MMM d y'}}</span>
         <span class="time" *ngIf="m?.conversation_user?.admin_id != admin_id">
-          <strong>By - {{m?.conversation_user?.user?.name?m?.conversation_user?.user?.name:m?.conversation_user?.admin?.name | titlecase}}</strong>
+          <strong>{{'commonBlock.by' | translate}} - {{m?.conversation_user?.user?.name?m?.conversation_user?.user?.name:m?.conversation_user?.admin?.name | titlecase}}</strong>
         </span>
       </div>
   </div>
@@ -106,27 +106,27 @@
         <div class="dropdown-item">
           <input type="file" name="image" accept="image/*" (change)="onSelectFile('image', $event)">
           <i class="fa fa-camera" aria-hidden="true"></i>
-          <span>Photo</span>
+          <span>{{'commonBlock.photo' | translate}}</span>
         </div>
         <a class="dropdown-item"> 
           <input type="file" name="video1" accept="video/mp4,video/x-m4v,video/*" (change)="showCanvas($event)">
           <i class="fa fa-video-camera" aria-hidden="true"></i>
-          <span>Video</span>
+          <span>{{'commonBlock.video' | translate}}</span>
         </a>
         <a class="dropdown-item">    
             <input type="file" name="attachment" accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf" (change)="saveAttachment($event)">
           <i class="fa fa-file" aria-hidden="true"></i>
-          <span>Document</span>
+          <span>{{'commonBlock.document' | translate}}</span>
         </a>
         <a class="dropdown-item cursor-pointer" (click)="blockGetProperty.showModal()">    
           <i class="fa fa-file" aria-hidden="true"></i>
-          <span>Property</span>
+          <span>{{'commonBlock.property' | translate}}</span>
         </a>
       </div>
     </div>
 
     <!-- <input id="message" autocomplete="off" (change)="setText($event.target.value, 1)" [(ngModel)]="model.message" (keyup.enter)="sendMessage()" class="chat-input" type="text" name="message" placeholder="Type your message here …"> -->
-    <input id="message" #msgInput autocomplete="off" [(ngModel)]="textMessage" (keyup.enter)="setText()" class="chat-input" type="text" name="message" placeholder="Type your message here …">
+    <input id="message" #msgInput autocomplete="off" [(ngModel)]="textMessage" (keyup.enter)="setText()" class="chat-input" type="text" name="message" placeholder="{{'addForm.placeholder.typeMsgHere' | translate}}">
 <!-- 
     <div class="chat-attached-file" *ngIf="model.message_type == 2">
       <div class="attached-inner">
@@ -160,7 +160,7 @@
     <button [disabled]="(sent_as==constant.userType.csr_buyer && (admin?.admin_acl['Buyer Lead Management']?.can_update==0 || admin?.permissions?.can_csr_buyer==0)) ||
     (sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==0 || admin?.permissions?.can_in_house_broker==0)) ||
     (sent_as==constant.userType.notary && (admin?.admin_acl['Notary Lead Management']?.can_update==0 || admin?.permissions?.can_noatary==0)) ||
-    (sent_as==constant.userType.bank && (admin?.admin_acl['Bank Lead Management']?.can_update==0 || admin?.permissions?.can_bank==0))" (click)="setText()" class="btn">Send</button>
+    (sent_as==constant.userType.bank && (admin?.admin_acl['Bank Lead Management']?.can_update==0 || admin?.permissions?.can_bank==0))" (click)="setText()" class="btn">{{'commonBlock.send' | translate}}</button>
  </div>
 </div>
 

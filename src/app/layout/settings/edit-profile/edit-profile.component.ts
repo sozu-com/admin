@@ -82,7 +82,7 @@ export class EditProfileComponent implements OnInit {
 
   updateProfile(formData: NgForm) {
     if (this.model.img_loader) {
-      swal('Error', 'Uploading image.', 'error');
+      swal('Error', this.translate.instant('message.error.uploadingImage'), 'error');
       return;
     }
 

@@ -136,7 +136,9 @@ export class UsersComponent implements OnInit {
         success => {
           this.spinner.hide();
           this.modalClose.nativeElement.click();
-          const text = this.model.id ? 'Updated successfully.' : 'Added successfully.';
+          const text = this.model.id ?
+              this.translate.instant('message.success.updatedSuccessfully') :
+              this.translate.instant('message.success.addedSuccessfully');
           swal('Success', text, 'success');
           if (this.model.id) {
             this.parameter.items[this.parameter.index] = success.data;
@@ -166,20 +168,19 @@ export class UsersComponent implements OnInit {
 
   blockUnblockPopup(index: number, id: string, flag: any, user_type: string) {
     this.parameter.index = index;
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
     switch (flag) {
       case 0:
-        this.parameter.text = this.constant.title.UNBLOCK_USER;
-        this.parameter.successText = this.constant.successMsg.UNBLOCKED_SUCCESSFULLY;
+        this.parameter.text = this.translate.instant('message.question.wantToUnblockUser');
+        this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
         break;
       case 1:
-        this.parameter.text = this.constant.title.BLOCK_USER;
-        this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
+        this.parameter.text = this.translate.instant('message.question.wantToBlockUser');
+        this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
     }
 
     swal({
-      html: this.parameter.title + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -211,11 +212,10 @@ export class UsersComponent implements OnInit {
 
   deletePopup(index: number, id: string, user_type: string) {
     this.parameter.index = index;
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
-    this.parameter.text = 'You want to delete user?';
+    this.parameter.text = this.translate.instant('message.question.wantToDeleteUser');
 
     swal({
-      html: this.parameter.title + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -237,7 +237,7 @@ export class UsersComponent implements OnInit {
     this.admin.postDataApi('deleteBuyerSeller', input)
       .subscribe(
         success => {
-          swal('Success', 'Deleted successfully.', 'success');
+          swal('Success', this.translate.instant('message.success.deletedSuccessfully'), 'success');
           this.parameter.items.splice(index, 1);
         });
   }

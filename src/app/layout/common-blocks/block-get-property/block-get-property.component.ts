@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
-import { Constant } from '../../../common/constants';
-import { AdminService } from '../../../services/admin.service';
-import { IProperty } from '../../../common/property';
+import { Constant } from 'src/app/common/constants';
+import { AdminService } from 'src/app/services/admin.service';
+import { IProperty } from 'src/app/common/property';
 
 @Component({
   selector: 'app-block-get-property',

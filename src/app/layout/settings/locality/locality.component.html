@@ -1,18 +1,17 @@
 <!--content start-->
 <div class="container-fluid">
   <div class="breadcrumb-group">
-    <h5>Settings</h5>
+    <h5>{{'settings.label' | translate}}</h5>
     <nav class="breadcrumb">
-      <a class="breadcrumb-item">Home</a>
-      <!-- <a class="breadcrumb-item" routerLink="/dashboard">Home</a> -->
-      <a class="breadcrumb-item">Settings</a>
-      <span class="breadcrumb-item active">Locality</span>
+      <a class="breadcrumb-item">{{'settings.home' | translate}}</a>
+      <a class="breadcrumb-item">{{'settings.label' | translate}}</a>
+      <span class="breadcrumb-item active">{{'location.locality' | translate}}</span>
     </nav>
   </div>
 
   <div class="white-bg">
     <div class="page-title">
-      <h3>Locality</h3>
+      <h3>{{'location.locality' | translate}}</h3>
     </div>
 
     <!-- add city -->
@@ -20,14 +19,14 @@
       <div class="inline-form-group">
         <div class="row">
           <div class="col-md-12">
-            <label><strong>Add Locality</strong></label>
+            <label><strong>{{'location.addLocality' | translate}}</strong></label>
             <hr>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-6">
             <div class="form-group marginB0">
-              <label>Country</label>
-              <select title="Choose Country" class="form-control" (change)="getStates($event.target.value, '')">
-                <option value="" disabled>Select Country</option>
+              <label>{{'filters.location.country' | translate}}</label>
+              <select title="{{'filters.location.selectCountry' | translate}}" class="form-control" (change)="getStates($event.target.value, '')">
+                <option value="" disabled>{{'filters.location.selectCountry' | translate}}</option>
                 <option *ngFor="let country of parameter.countries" value="{{country.id}}"
                   [selected]="country.id == parameter.country_id">{{country.name_en}}</option>
               </select>
@@ -35,9 +34,9 @@
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-6">
             <div class="form-group marginB0">
-              <label>State</label>
-              <select title="Choose State" class="form-control" (change)="getCities($event.target.value, '')">
-                <option value="" disabled>Select State</option>
+              <label>{{'filters.location.state' | translate}}</label>
+              <select title="{{'filters.location.selectState' | translate}}" class="form-control" (change)="getCities($event.target.value, '')">
+                <option value="" disabled>{{'filters.location.selectState' | translate}}</option>
                 <option *ngFor="let state of parameter.states" value="{{state.id}}"
                   [selected]="state.id == parameter.state_id">{{state.name_en}}</option>
               </select>
@@ -45,9 +44,9 @@
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-6">
             <div class="form-group marginB0">
-              <label>City</label>
-              <select title="Choose City" class="form-control" (change)="getLocalities($event.target.value)">
-                <option value="" disabled>Select City</option>
+              <label>{{'filters.location.city' | translate}}</label>
+              <select title="{{'filters.location.selectCity' | translate}}" class="form-control" (change)="getLocalities($event.target.value)">
+                <option value="" disabled>{{'filters.location.selectCity' | translate}}</option>
                 <option *ngFor="let city of parameter.cities" value="{{city.id}}"
                   [selected]="city.id == parameter.city_id">{{city.name_en}}</option>
               </select>
@@ -55,8 +54,8 @@
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-6">
             <div class="form-group marginB0">
-              <label>Search Locality</label>
-              <input autocomplete="off" required placeholder="Search Locality" autocapitalize="off"
+              <label>{{'filters.location.searchLocality' | translate}}</label>
+              <input autocomplete="off" required placeholder="{{'filters.location.searchLocality' | translate}}" autocapitalize="off"
                 spellcheck="off" type="text" class="form-control" style="padding: 8px 25px 8px 15px;
                 height: 40px !important;" (keyup.enter)="getLocalities(parameter.city_id, $event.target.value)">
             </div>
@@ -73,7 +72,7 @@
           <tr>
             <th style="width:30%; text-align:left;">
               <div class="table-search">
-                  <label>Name (English)</label>
+                  <label>{{'table.th.nameEn' | translate}}</label>
                   <!-- <div class="searh-3">
                     <input autocomplete="off" type="text" style="height:28px; font-size: 14px;"
                       (keyup.enter)="getLocalities(parameter.city_id, $event.target.value)" name=""
@@ -85,19 +84,19 @@
             </th>
             <th style="width:30%; text-align:left;">
               <div class="table-search">
-                  <label>Name (Spanish)</label>
+                  <label>{{'table.th.nameEs' | translate}}</label>
               </div>
             </th>
             <th style="width:10%; text-align:left;">
               <div class="table-search">
-                  <label>Avg Price</label>
+                  <label>{{'table.th.avgPrice' | translate}}</label>
               </div>
             </th>
-            <th style="width:30%">Action</th>
+            <th style="width:30%">{{'table.th.actions.label' | translate}}</th>
           </tr>
           <!-- (click)="markLocalityFeatured(index, locality.id, locality.is_featured==1?0:1)" -->
           <tr *ngFor="let locality of all_overlays; let index = index" 
-            title="Click to view locality" (click)="setSelection(locality.overlay, locality.id)">
+            (click)="setSelection(locality.overlay, locality.id)">
             <td class="text-left locality-name" [ngClass]="locality.id == selectedLocality ? 'selectedRow' : ''">
               {{locality.name_en}}
             </td>
@@ -112,17 +111,17 @@
             </td> -->
             <td [ngClass]="locality.id == selectedLocality ? 'selectedRow' : ''">
               <button [disabled]="admin?.admin_acl['Settings']?.can_update==0" *ngIf="locality.is_featured==0" 
-                (click)="markLocalityFeatured(index, locality.id, locality.is_featured==1?0:1)" class="action-icon" title="Mark feature"><img src="assets/img/ic_featured.png" alt="img"></button>
+                (click)="markLocalityFeatured(index, locality.id, locality.is_featured==1?0:1)" class="action-icon" title="{{'table.title.markFeauture' | translate}}"><img src="assets/img/ic_featured.png" alt="img"></button>
               <button [disabled]="admin?.admin_acl['Settings']?.can_update==0" *ngIf="locality.is_featured==1" 
-                (click)="markLocalityFeatured(index, locality.id, locality.is_featured==1?0:1)" class="action-icon" title="Mark unfeature"><img src="assets/img/tick-selected.png" alt="img"></button>
+                (click)="markLocalityFeatured(index, locality.id, locality.is_featured==1?0:1)" class="action-icon" title="{{'table.title.markUnfeauture' | translate}}"><img src="assets/img/tick-selected.png" alt="img"></button>
               <!-- <a *ngIf="locality.status == 0" (click)="blockUnblockLocality(locality, index, 1)"
                 title="Unblock Locality" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png"
                   alt="img"></a>
               <a *ngIf="locality.status == 1" (click)="blockUnblockLocality(locality, index, 0)" title="Block Locality"
                 class="icon-block block-icon"><img src="assets/img/unblock.png" alt="img"></a> -->
               <a (click)="editLocality(locality.id, locality.name_en, locality.name_es, locality.price_per_sqft, locality.status, locality.poly_coordinates)"
-                title="Edit" class="action-icon"><img src="assets/img/edit.png" alt="img"></a>
-              <a (click)="deleteLocality(locality, index)" title="Delete" class="action-icon"><img
+                title="{{'table.title.editDetails' | translate}}" class="action-icon"><img src="assets/img/edit.png" alt="img"></a>
+              <a (click)="deleteLocality(locality, index)" title="{{'table.title.delete' | translate}}" class="action-icon"><img
                   src="assets/img/ic_delete.png" alt="img"></a>
             </td>
           </tr>
@@ -164,7 +163,7 @@
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-6">
           <div class="form-group marginB10">
-              <input autocomplete="off" required placeholder="Search area you want to mark." autocorrect="off" autocapitalize="off"
+              <input autocomplete="off" required placeholder="{{'addForm.placeholder.searchTheAreaUWantToMark' | translate}}" autocorrect="off" autocapitalize="off"
               spellcheck="off" type="text" class="form-control" style="padding: 8px 25px 8px 15px;
               height: 40px !important;" #searchLocality (input)="loadPlaces()">
           </div>
@@ -191,13 +190,13 @@
     <div class="modal-content">
       <div class="modal-header my-modal-header">
         <button type="button" class="close" (click)="closeModal()">&times;</button>
-        <h4 class="modal-title">{{model.id ? 'Edit' : 'Add'}} Locality Details</h4>
+        <h4 class="modal-title">{{model.id ? ('location.editLocalityDetails' | translate) : ('location.addLocalityDetails' | translate)}}</h4>
       </div>
       <form class="form-horizontal form-model0P" role="form" novalidate #addForm="ngForm"
         (ngSubmit)="checkIfLocalitySpanishNameEntered(addForm.value.name_en, addForm.value.name_es, addForm.value.price_per_sqft)">
         <div class="modal-body model-body10P">
           <div class="form-group">
-            <input autocomplete="off" type="text" class="form-control" placeholder="Locality name (English)"
+            <input autocomplete="off" type="text" class="form-control" placeholder="{{'addForm.placeholder.localityNameEn' | translate}}"
               id="name_en" required [(ngModel)]="model.name_en" name="name_en" #name_en="ngModel">
             <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-not-found">
                 <div [hidden]="!name_en.errors.required">
@@ -207,7 +206,7 @@
           </div>
           <div class="form-group">
             <input autocomplete="off" type="text" name="name_es" class="form-control"
-              placeholder="Locality name (Spanish)" [(ngModel)]="model.name_es">
+              placeholder="{{'addForm.placeholder.localityNameEs' | translate}}" [(ngModel)]="model.name_es">
           </div>
 
           <!-- <div class="form-group">
@@ -218,10 +217,10 @@
 
         </div>
         <div class="modal-footer btn-cont">
-          <button type="submit" [disabled]="addForm.invalid" class="btn btn-primary-new">Submit</button>
+          <button type="submit" [disabled]="addForm.invalid" class="btn btn-primary-new">{{'addForm.submit' | translate}}</button>
           <button style="display:none;" type="button" class="btn btn-default" #localityClose
-            data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-default" (click)="closeModal()">Close</button>
+            data-dismiss="modal">{{'addForm.close' | translate}}</button>
+          <button type="button" class="btn btn-default" (click)="closeModal()">{{'addForm.close' | translate}}</button>
         </div>
       </form>
 

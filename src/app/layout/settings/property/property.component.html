@@ -1,17 +1,16 @@
 
 <div class="container-fluid">
   <div class="breadcrumb-group">
-      <h5>Settings</h5>
+    <h5>{{'settings.label' | translate}}</h5>
       <nav class="breadcrumb">
-          <a class="breadcrumb-item">Home</a>
-          <!-- <a class="breadcrumb-item" routerLink="/dashboard">Home</a> -->
-        <a class="breadcrumb-item">Settings</a>
-        <span class="breadcrumb-item active">Property</span>
+        <a class="breadcrumb-item">{{'settings.home' | translate}}</a>
+        <a class="breadcrumb-item">{{'settings.label' | translate}}</a>
+        <span class="breadcrumb-item active">{{'property.label' | translate}}</span>
       </nav>
   </div>
   <div class="white-bg">
       <div class="page-title">
-        <h3>Property</h3>
+        <h3>{{'property.label' | translate}}</h3>
       </div>
 
 
@@ -19,7 +18,7 @@
           <div class="inline-form-group">
              <div class="row">
                 <div class="col-md-4">
-                    <label><strong>Property Configuration</strong></label>
+                    <label><strong>{{'property.propertyConfiguration' | translate}}</strong></label>
                 </div>
                 <div class="col-md-8" *ngIf="admin?.admin_acl['Settings']?.can_create==1" >
                    <!-- <form role="form" novalidate #addConfigForm="ngForm" (ngSubmit)="checkIfConfigSpanishNameEntered(addConfigForm, '', addConfigForm.value.name_en, addConfigForm.value.name_es, 1, 'add')">
@@ -39,7 +38,7 @@
                     <div class="form-group marginB0">
                       <div class="btn-cont text-right">
                           <a *ngIf="admin?.admin_acl['Settings']?.can_create==1" class="btn btn-primary" href="javascript://" (click)="openPropertyConfigModal(addPropertyConfigModal, -1, '', '', '', '', '', '', 1)">
-                            + Add New</a>
+                            {{'location.addNew' | translate}}</a>
                       </div>
                     </div>
                    <!-- <button [disabled]="admin?.admin_acl['Settings']?.can_create==0" type="button" class="add-btn btn"
@@ -55,12 +54,12 @@
           <div class="table-responsive">
             <table class="table table-striped">
                 <tr>
-                  <th style="width:25%; text-align:left;">Name (English)</th>
-                  <th style="width:25%; text-align:left;">Name (Spanish)</th>
-                  <th style="width:10%; text-align:left;">Bedrooms</th>
-                  <th style="width:10%; text-align:left;">Bathrooms</th>
-                  <th style="width:10%; text-align:left;">Half Bathrooms</th>
-                  <th style="width:20%">Action</th>
+                  <th style="width:25%; text-align:left;">{{'table.th.nameEn' | translate}}</th>
+                  <th style="width:25%; text-align:left;">{{'table.th.nameEn' | translate}}</th>
+                  <th style="width:10%; text-align:left;">{{'table.th.bedrooms' | translate}}</th>
+                  <th style="width:10%; text-align:left;">{{'table.th.bathrooms' | translate}}</th>
+                  <th style="width:10%; text-align:left;">{{'table.th.halfBathrooms' | translate}}</th>
+                  <th style="width:20%">{{'table.th.actions.label' | translate}}</th>
                 </tr>
                 <tr *ngFor="let item of parameter.items; let i=index">
                   <td class="text-left">
@@ -79,19 +78,15 @@
                     {{item.half_bathroom}}
                   </td>
                   <td>
-                    <button title="Edit" [disabled]="admin?.admin_acl['Settings']?.can_update==0" 
+                    <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Settings']?.can_update==0" 
                       (click)="openPropertyConfigModal(addPropertyConfigModal, i, item.id, item.name_en, item.name_es, item.bedroom, item.bathroom, item.half_bathroom, item.status)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                     
                       <!-- status = 1 means unblocked -->
                     <button [disabled]="admin?.admin_acl['Settings']?.can_delete==0"
                       (click)="addPropertyConfigurationPopup(i, item.id, item.name_en, item.name_es, item.bedroom, item.bathroom, item.half_bathroom, item.status==1?0:1, item.status==1?'block':'unblock')" 
-                      title="{{item.status==1?'Block':'Unblock'}}" [ngClass]="{'unblock-bg':item.status==0}"
+                      title="{{item.status==1 ? ('table.title.block' | translate) : ('table.title.unblock' | translate)}}" [ngClass]="{'unblock-bg':item.status==0}"
                       class="action-icon"><img src="assets/img/block.png" alt="img">
                     </button>
-
-                    <!-- <a title="Edit Configuration" (click)="openPropertyConfigModal(addPropertyConfigModal, item.id, item.name_en, item.name_es, item.status)" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
-                    <a *ngIf="item.status == 1" (click)="addPropertyConfigurationPopup(item.id, item.name_en, item.name_es, 0, 'block')" title="Block Configuration" class="icon-block block-icon"><img src="assets/img/unblock.png" alt="img"></a>
-                    <a *ngIf="item.status == 0" (click)="addPropertyConfigurationPopup(item.id, item.name_en, item.name_es, 1, 'unblock')" title="Unblock Configuration" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png" alt="img"></a> -->
                   </td>
                 </tr>
 
@@ -109,13 +104,13 @@
         <div class="inline-form-group">
            <div class="row">
               <div class="col-md-4">
-                  <label><strong>Property Type</strong></label>
+                  <label><strong>{{'property.propertyType' | translate}}</strong></label>
               </div>
               <div class="col-md-8" *ngIf="admin?.admin_acl['Settings']?.can_create==1">
                  <form role="form" novalidate #addTypeForm="ngForm" (ngSubmit)="checkIfTypeSpanishNameEntered(addTypeForm, '', addTypeForm.value.name_en, addTypeForm.value.name_es, 1, 'add')">
                   <div class="row">
                     <div class="col-lg-6 col-md-6">
-                        <input type="text" class="form-control" placeholder="Property type name (English)" id="name_en" required [(ngModel)]="property.type.name_en" name="name_en" #name_en="ngModel">
+                        <input type="text" class="form-control" placeholder="{{'addForm.placeholder.propertyTypeEn' | translate}}" id="name_en" required [(ngModel)]="property.type.name_en" name="name_en" #name_en="ngModel">
                         <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-not-found">
                           <div [hidden]="!name_en.errors.required">
                             {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
@@ -123,7 +118,7 @@
                       </div>     -->
                     </div>
                     <div class="col-lg-6 col-md-6">
-                      <input type="text" class="form-control" placeholder="Property type name (Spanish)" [(ngModel)]="property.type.name_es" name="name_es">
+                      <input type="text" class="form-control" placeholder="{{'addForm.placeholder.propertyTypeEs' | translate}}" [(ngModel)]="property.type.name_es" name="name_es">
                     </div>
                   </div>
                   <button [disabled]="admin?.admin_acl['Settings']?.can_create==0 || addTypeForm.invalid" type="submit" class="add-btn btn">
@@ -139,9 +134,9 @@
         <div class="table-responsive">
           <table class="table table-striped">
               <tr>
-                <th style="width:40%; text-align:left;">Name (English)</th>
-                <th style="width:40%; text-align:left;">Name (Spanish)</th>
-                <th style="width:20%">Action</th>
+                <th style="width:40%; text-align:left;">{{'table.th.nameEn' | translate}}</th>
+                <th style="width:40%; text-align:left;">{{'table.th.nameEs' | translate}}</th>
+                <th style="width:20%">{{'table.th.actions.label' | translate}}</th>
               </tr>
               <tr *ngFor="let item of parameter.propertyTypes; let j=index">
                 <td class="text-left">
@@ -151,18 +146,15 @@
                   {{item.name_es}}
                 </td>
                 <td>
-                  <button title="Edit" [disabled]="admin?.admin_acl['Settings']?.can_update==0" 
+                  <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Settings']?.can_update==0" 
                   (click)="openPropertyTypeModal(addPropertyTypeModal, j, item.id, item.name_en, item.name_es, item.status)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                 
                   <!-- status = 1 means unblocked -->
                   <button [disabled]="admin?.admin_acl['Settings']?.can_delete==0"
                     (click)="addPropertyTypePopup(j, item.id, item.name_en, item.name_es, item.status==1?0:1, item.status==1?'block':'unblock')" 
-                    title="{{item.status==1?'Block':'Unblock'}}" [ngClass]="{'unblock-bg':item.status==0}"
+                    title="{{item.status==1 ? ('table.title.block' | translate) : ('table.title.unblock' | translate)}}" [ngClass]="{'unblock-bg':item.status==0}"
                     class="action-icon"><img src="assets/img/block.png" alt="img">
                   </button>
-                  <!-- <a title="Edit Property Type" (click)="openPropertyTypeModal(addPropertyTypeModal, item.id, item.name_en, item.name_es, item.status)" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
-                  <a *ngIf="item.status == 1" (click)="addPropertyTypePopup(item.id, item.name_en, item.name_es, 0, 'block')" title="Block Property Type" class="icon-block block-icon"><img src="assets/img/unblock.png" alt="img"></a>
-                  <a *ngIf="item.status == 0" (click)="addPropertyTypePopup(item.id, item.name_en, item.name_es, 1, 'unblock')" title="Unblock Property Type" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png" alt="img"></a> -->
                 </td>
               </tr>
 
@@ -180,13 +172,13 @@
         <div class="inline-form-group">
             <div class="row">
               <div class="col-md-4">
-                  <label>Amenities</label>
+                  <label>{{'property.amenities' | translate}}</label>
               </div>
               <div class="col-md-8" *ngIf="admin?.admin_acl['Settings']?.can_create==1">
                  <form role="form" novalidate #addAmenityForm="ngForm" (ngSubmit)="checkIfAmenitySpanishNameEntered(addAmenityForm, '', '', addAmenityForm.value.name_en, addAmenityForm.value.name_es, 1, 'add')">
                   <div class="browse-files">
-                    <input accept="image/*" (change)="changeListner($event)" type="file" class="image form-control" placeholder="Amenity" id="icon" required [(ngModel)]="property.amenities.icon" name="icon" #icon="ngModel">
-                    <span>Browse</span>
+                    <input accept="image/*" (change)="changeListner($event)" type="file" class="image form-control" placeholder="{{'addForm.placeholder.amenity' | translate}}" id="icon" required [(ngModel)]="property.amenities.icon" name="icon" #icon="ngModel">
+                    <span>{{'property.amenities' | translate}}</span>
                     <!-- <div *ngIf="icon.errors && (icon.dirty || icon.touched)" class="show-not-found">
                       <div [hidden]="!icon.errors.required">
                         {{constant.errorMsg.FILE_REQUIRED}}
@@ -202,7 +194,7 @@
                   
                   <div class="row">
                     <div class="col-lg-6 col-md-6">
-                        <input type="text" class="form-control" placeholder="Amenity name (English)" id="name_en" required [(ngModel)]="property.amenities.name_en" name="name_en" #name_en="ngModel">
+                        <input type="text" class="form-control" placeholder="{{'addForm.placeholder.amenityEn' | translate}}" id="name_en" required [(ngModel)]="property.amenities.name_en" name="name_en" #name_en="ngModel">
                         <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-not-found">
                           <div [hidden]="!name_en.errors.required">
                             {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
@@ -210,7 +202,7 @@
                       </div>     -->
                     </div>
                     <div class="col-lg-6 col-md-6">
-                        <input type="text" class="form-control" placeholder="Amenity name (Spanish)" [(ngModel)]="property.amenities.name_es" name="name_es">
+                        <input type="text" class="form-control" placeholder="{{'addForm.placeholder.amenityEs' | translate}}" [(ngModel)]="property.amenities.name_es" name="name_es">
                     </div>
                   </div>
                   <button [disabled]="admin?.admin_acl['Settings']?.can_create==0 || addAmenityForm.invalid" type="submit" class="add-btn btn">
@@ -236,10 +228,10 @@
         <div class="table-responsive">
             <table class="table table-striped">
               <tr>
-                  <th style="width:20%">Image</th>
-                  <th style="width:30%; text-align:left;">Name (English)</th>
-                  <th style="width:30%; text-align:left;">Name (Spanish)</th>
-                  <th style="width:20%">Action</th>
+                  <th style="width:20%">{{'table.th.image' | translate}}</th>
+                  <th style="width:30%; text-align:left;">{{'table.th.nameEn' | translate}}</th>
+                  <th style="width:30%; text-align:left;">{{'table.th.nameEs' | translate}}</th>
+                  <th style="width:20%">{{'table.th.actions.label' | translate}}</th>
               </tr>
               <tr *ngFor="let item of parameter.amenities; let k=index">
                   <td>
@@ -253,18 +245,15 @@
                     {{item.name_es}}
                   </td>
                   <td>
-                      <button title="Edit" [disabled]="admin?.admin_acl['Settings']?.can_update==0" 
+                      <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Settings']?.can_update==0" 
                       (click)="openAmenityModal(addAmenityModal, k, item.id, item.icon, item.name_en, item.name_es, item.status)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                     
                       <!-- status = 1 means unblocked -->
                       <button [disabled]="admin?.admin_acl['Settings']?.can_delete==0"
                         (click)="addAmenityPopup(k, item.id, item.icon, item.name_en, item.name_es, item.status==1?0:1, item.status==1?'block':'unblock')" 
-                        title="{{item.status==1?'Block':'Unblock'}}" [ngClass]="{'unblock-bg':item.status==0}"
+                        title="{{item.status==1 ? ('table.title.block' | translate) : ('table.title.unblock' | translate)}}" [ngClass]="{'unblock-bg':item.status==0}"
                         class="action-icon"><img src="assets/img/block.png" alt="img">
                       </button>
-                    <!-- <a title="Edit Amenity" (click)="openAmenityModal(addAmenityModal, item.id, item.icon, item.name_en, item.name_es, item.status)" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
-                    <a *ngIf="item.status == 1" (click)="addAmenityPopup(item.id, item.icon, item.name_en, item.name_es, 0, 'block')" title="Block Amenity" class="icon-block block-icon"><img src="assets/img/unblock.png" alt="img"></a>
-                    <a *ngIf="item.status == 0" (click)="addAmenityPopup(item.id, item.icon, item.name_en, item.name_es, 1, 'unblock')" title="Unblock Amenity" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png" alt="img"></a> -->
                   </td>
               </tr>
             </table>
@@ -281,7 +270,7 @@
 <ng-template #addPropertyConfigModal>
   <div class="modal-content">
     <div class="modal-header my-modal-header">
-      <h4 class="modal-title">{{parameter.index!='-1' ? 'Edit' : 'Add'}} Property Configuration</h4>
+      <h4 class="modal-title">{{parameter.index!='-1' ? ('property.editPropertyConfig' | translate) : ('property.addPropertyConfig' | translate)}}</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -289,7 +278,7 @@
     <form class="form-horizontal my-modal-form" role="form" novalidate #addForm="ngForm" (ngSubmit)="checkIfConfigSpanishNameEntered(addForm, property.configuration.id, addForm.value.name_en, addForm.value.name_es, addForm.value.bedroom, addForm.value.bathroom, addForm.value.half_bathroom, property.configuration.status, 'edit')">
       <div class="modal-body my-modal-body">
         <div class="form-group">
-          <input autocomplete="off" type="text" class="form-control" placeholder="Property Configuration (English)" id="name_en" required [(ngModel)]="property.configuration.name_en" name="name_en" #name_en="ngModel">
+          <input autocomplete="off" type="text" class="form-control" placeholder="{{'addForm.placeholder.propertyConfigEn' | translate}}" id="name_en" required [(ngModel)]="property.configuration.name_en" name="name_en" #name_en="ngModel">
           <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-not-found">
               <div [hidden]="!name_en.errors.required">
                 {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
@@ -297,21 +286,21 @@
           </div> -->
         </div>
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Property Configuration (Spanish)" [(ngModel)]="property.configuration.name_es" name="name_es">
+          <input type="text" class="form-control" placeholder="{{'addForm.placeholder.propertyConfigEs' | translate}}" [(ngModel)]="property.configuration.name_es" name="name_es">
         </div>
         <div class="form-group">
-          <input type="number" class="form-control" required placeholder="Bedrooms" [(ngModel)]="property.configuration.bedroom" name="bedroom" #bedroom="ngModel">
+          <input type="number" class="form-control" required placeholder="{{'addForm.placeholder.bedrooms' | translate}}" [(ngModel)]="property.configuration.bedroom" name="bedroom" #bedroom="ngModel">
         </div>
         <div class="form-group">
-          <input type="number" class="form-control" required placeholder="Bathrooms" [(ngModel)]="property.configuration.bathroom" name="bathroom" #bathroom="ngModel">
+          <input type="number" class="form-control" required placeholder="{{'addForm.placeholder.bathrooms' | translate}}" [(ngModel)]="property.configuration.bathroom" name="bathroom" #bathroom="ngModel">
         </div>
         <div class="form-group">
-          <input type="number" class="form-control" required placeholder="Half Bathrooms" [(ngModel)]="property.configuration.half_bathroom" name="half_bathroom" #half_bathroom="ngModel">
+          <input type="number" class="form-control" required placeholder="{{'addForm.placeholder.halfBathrooms' | translate}}" [(ngModel)]="property.configuration.half_bathroom" name="half_bathroom" #half_bathroom="ngModel">
         </div>
       </div>
       <div class="modal-footer btn-cont">
-        <button type="submit" [disabled]="admin?.admin_acl['Settings']?.can_update==0 || addForm.invalid" class="btn btn-primary-new">Submit</button>
-        <button type="button" class="btn btn-default" aria-label="Close" (click)="modalRef.hide()">Close</button>
+        <button type="submit" [disabled]="admin?.admin_acl['Settings']?.can_update==0 || addForm.invalid" class="btn btn-primary-new">{{'addForm.submit' | translate}}</button>
+        <button type="button" class="btn btn-default" aria-label="Close" (click)="modalRef.hide()">{{'addForm.close' | translate}}</button>
       </div>
     </form>
   </div>
@@ -322,7 +311,7 @@
 <ng-template #addPropertyTypeModal>
   <div class="modal-content">
     <div class="modal-header my-modal-header">
-      <h4 class="modal-title">Edit Property Type</h4>
+      <h4 class="modal-title">{{'property.editPropertyType' | translate}}</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -330,7 +319,7 @@
     <form class="form-horizontal my-modal-form" role="form" novalidate #addForm1="ngForm" (ngSubmit)="checkIfTypeSpanishNameEntered(addForm1, property.type.id, addForm1.value.name_en, addForm1.value.name_es, property.type.status, 'edit')">
       <div class="modal-body my-modal-body">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Property type (English)" id="name_en" required [(ngModel)]="property.type.name_en" name="name_en" #name_en="ngModel">
+          <input type="text" class="form-control" placeholder="{{'addForm.placeholder.propertyTypeEn' | translate}}" id="name_en" required [(ngModel)]="property.type.name_en" name="name_en" #name_en="ngModel">
           <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-not-found">
               <div [hidden]="!name_en.errors.required">
                 {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
@@ -338,12 +327,12 @@
           </div> -->
         </div>
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Property type (Spanish)" [(ngModel)]="property.type.name_es" name="name_es">
+          <input type="text" class="form-control" placeholder="{{'addForm.placeholder.propertyTypeEs' | translate}}" [(ngModel)]="property.type.name_es" name="name_es">
         </div>
       </div>
       <div class="modal-footer btn-cont">
-        <button type="submit" [disabled]="admin?.admin_acl['Settings']?.can_update==0 || addForm1.invalid" class="btn btn-primary-new">Submit</button>
-        <button type="button" class="btn btn-default" aria-label="Close" (click)="modalRef.hide()">Close</button>
+        <button type="submit" [disabled]="admin?.admin_acl['Settings']?.can_update==0 || addForm1.invalid" class="btn btn-primary-new">{{'addForm.submit' | translate}}</button>
+        <button type="button" class="btn btn-default" aria-label="Close" (click)="modalRef.hide()">{{'addForm.close' | translate}}</button>
       </div>
     </form>
   </div>
@@ -354,7 +343,7 @@
 <ng-template #addAmenityModal>
     <div class="modal-content">
       <div class="modal-header my-modal-header">
-        <h4 class="modal-title">Edit Amenity</h4>
+        <h4 class="modal-title">{{'property.editAmenity' | translate}}</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -368,7 +357,7 @@
             <input accept="image/*" (change)="changeListner1($event)" type="file" class="form-control">
           </div>
           <div class="form-group">
-            <input type="text" class="form-control" placeholder="Amenity (English)" id="name_en" required [(ngModel)]="property.amenities.name_en" name="name_en" #name_en="ngModel">
+            <input type="text" class="form-control" placeholder="{{'addForm.placeholder.amenityEn' | translate}}" id="name_en" required [(ngModel)]="property.amenities.name_en" name="name_en" #name_en="ngModel">
             <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-not-found">
                 <div [hidden]="!name_en.errors.required">
                   {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
@@ -376,12 +365,12 @@
             </div> -->
           </div>
           <div class="form-group">
-            <input type="text" class="form-control" placeholder="Amenity (Spanish)" [(ngModel)]="property.amenities.name_es" name="name_es">
+            <input type="text" class="form-control" placeholder="{{'addForm.placeholder.amenityEs' | translate}}" [(ngModel)]="property.amenities.name_es" name="name_es">
           </div>
         </div>
         <div class="modal-footer btn-cont">
-          <button type="submit" [disabled]="admin?.admin_acl['Settings']?.can_update==0 || addForm2.invalid" class="btn btn-primary-new">Submit</button>
-          <button type="button" class="btn btn-default" aria-label="Close" (click)="modalRef.hide()">Close</button>
+          <button type="submit" [disabled]="admin?.admin_acl['Settings']?.can_update==0 || addForm2.invalid" class="btn btn-primary-new">{{'addForm.submit' | translate}}</button>
+          <button type="button" class="btn btn-default" aria-label="Close" (click)="modalRef.hide()">{{'addForm.close' | translate}}</button>
         </div>
       </form>
   </div>

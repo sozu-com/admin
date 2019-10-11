@@ -209,8 +209,8 @@ export class LocationComponent implements OnInit {
       .subscribe(
         success => {
           const text = this.location.countryModel.country_id || country_id ?
-            this.constant.successMsg.COUNTRY_UPDATED_SUCCESSFULLY :
-            this.constant.successMsg.COUNTRY_ADDED_SUCCESSFULLY;
+          this.translate.instant('message.success.updatedSuccessfully') :
+          this.translate.instant('message.success.addedSuccessfully');
           swal('Success', text, 'success');
           this.getCountries('', '');
           // this.getAllCountries('', 'added-country');   // loading dropdown
@@ -271,8 +271,8 @@ export class LocationComponent implements OnInit {
       .subscribe(
         success => {
           const text = this.location.stateModel.state_id || state_id ?
-            this.constant.successMsg.STATE_UPDATED_SUCCESSFULLY :
-            this.constant.successMsg.STATE_ADDED_SUCCESSFULLY;
+          this.translate.instant('message.success.updatedSuccessfully') :
+          this.translate.instant('message.success.addedSuccessfully');
           swal('Success', text, 'success');
           this.getStates(this.parameter.country_id1, '', 1);
           this.getStates(this.parameter.country_id2, '', 2);
@@ -330,37 +330,29 @@ export class LocationComponent implements OnInit {
       .subscribe(
         success => {
           const text = this.location.cityModel.city_id || city_id ?
-            this.constant.successMsg.CITY_UPDATED_SUCCESSFULLY : this.constant.successMsg.CITY_ADDED_SUCCESSFULLY;
+          this.translate.instant('message.success.updatedSuccessfully') :
+          this.translate.instant('message.success.addedSuccessfully');
           swal('Success', text, 'success');
           this.getCities(this.parameter.state_id1, '', 1);
-
-          // if (this.parameter.index === -1) {
-          //   this.parameter.cities.push(success.data);
-          // }else {
-          //   this.parameter.cities[this.parameter.index] = success.data;
-          // }
         });
   }
 
 
   blockUnblockCountry(country_id, name_en, name_es, type, index) {
     this.parameter.index = index;
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
     switch (type) {
       case 0:
-        this.parameter.text = this.constant.title.BLOCK_COUNTRY;
-        this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
+      this.parameter.text = this.translate.instant('message.question.wantToBlockCountry');
+      this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
       case 1:
-        this.parameter.text = this.constant.title.UNBLOCK_COUNTRY;
-        this.parameter.successText = this.constant.successMsg.UNBLOCKED_SUCCESSFULLY;
+      this.parameter.text = this.translate.instant('message.question.wantToUnblockCountry');
+      this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
         break;
     }
 
     swal({
-      // title: this.parameter.title,
-      // text: this.parameter.text,
-      html: this.parameter.title + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -379,12 +371,12 @@ export class LocationComponent implements OnInit {
     this.parameter.title = this.constant.title.ARE_YOU_SURE;
     switch (type) {
       case 0:
-        this.parameter.text = this.constant.title.BLOCK_STATE;
-        this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
+      this.parameter.text = this.translate.instant('message.question.wantToBlockState');
+      this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
       case 1:
-        this.parameter.text = this.constant.title.UNBLOCK_STATE;
-        this.parameter.successText = this.constant.successMsg.UNBLOCKED_SUCCESSFULLY;
+      this.parameter.text = this.translate.instant('message.question.wantToUnblockState');
+      this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
         break;
     }
 
@@ -392,7 +384,7 @@ export class LocationComponent implements OnInit {
     swal({
       // title: this.parameter.title,
       // text: this.parameter.text,
-      html: this.parameter.title + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -411,19 +403,19 @@ export class LocationComponent implements OnInit {
     this.parameter.title = this.constant.title.ARE_YOU_SURE;
     switch (type) {
       case 0:
-        this.parameter.text = this.constant.title.BLOCK_CITY;
-        this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
+      this.parameter.text = this.translate.instant('message.question.wantToBlockCity');
+      this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
       case 1:
-        this.parameter.text = this.constant.title.UNBLOCK_CITY;
-        this.parameter.successText = this.constant.successMsg.UNBLOCKED_SUCCESSFULLY;
+      this.parameter.text = this.translate.instant('message.question.wantToUnblockCity');
+      this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
         break;
     }
 
     swal({
       // title: this.parameter.title,
       // text: this.parameter.text,
-      html: this.parameter.title + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,

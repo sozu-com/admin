@@ -516,22 +516,19 @@ export class LocalityComponent implements OnInit {
 
   blockUnblockLocality(locality, index, type) {
     this.parameter.index = index;
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
     switch (type) {
       case 0:
-        this.parameter.text = this.constant.title.BLOCK_LOCALITY;
-        this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
+        this.parameter.text = this.translate.instant('message.question.wantToBlockLocality');
+        this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
       case 1:
-        this.parameter.text = this.constant.title.UNBLOCK_LOCALITY;
-        this.parameter.successText = this.constant.successMsg.UNBLOCKED_SUCCESSFULLY;
+        this.parameter.text = this.translate.instant('message.question.wantToUnblockLocality');
+        this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
         break;
     }
 
     swal({
-      // title: this.parameter.title,
-      // text: this.parameter.text,
-      html: this.parameter.title + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -547,9 +544,9 @@ export class LocalityComponent implements OnInit {
 
   deleteLocality(locality, index: number) {
     this.parameter.index = index;
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    this.parameter.text = this.translate.instant('message.question.wantToDeleteLocality');
     swal({
-      html: this.parameter.title + '<br>' + 'You want to delete this locality?',
+      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -560,7 +557,7 @@ export class LocalityComponent implements OnInit {
         this.admin.postDataApi('deleteLocality', {id: locality.id}).subscribe(
           r => {
             this.parameter.localities.splice(index, 1);
-            swal('Success', 'Deleted successfully.', 'success');
+            swal('Success', this.translate.instant('message.success.deletedSuccessfully'), 'success');
           });
       }
     });
@@ -585,12 +582,12 @@ export class LocalityComponent implements OnInit {
   markLocalityFeatured(index, locality_id, flag) {
     let title = '';
     if (flag === 1) {
-      title = 'You want to feature this locality?';
+      title = this.translate.instant('message.question.wantToFeatureLocality');
     } else {
-      title = 'You want to unfeature this locality?';
+      title = this.translate.instant('message.question.wantToUnFeatureLocality');
     }
     swal({
-      html: 'Are you sure' + '<br>' + title,
+      html: this.translate.instant('message.question.areYouSure') + '<br>' + title,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,

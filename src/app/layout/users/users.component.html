@@ -3,14 +3,14 @@
   <div class="row">
       <div class="col-md-6 col-6">
         <div class="title-group">
-            <h5>Users</h5>
-            <p>Showing {{parameter.items?.length}} out of {{parameter.total}}</p>
+            <h5>{{'viewUsers.label' | translate}}</h5>
+            <p>{{'table.pagination.showing' | translate}} {{parameter.items?.length}} {{'table.pagination.outof' | translate}} {{parameter.total}}</p>
         </div>
       </div>
       <div class="col-md-6 col-6">
         <div class="btn-cont text-right">
-            <a style="display: none;" class="btn btn-primary" href="javascript://" data-toggle="modal" data-target="#add" #modalOpen>Add New</a>
-            <a *ngIf="admin?.admin_acl['User Management']?.can_create==1" (click)="openModal()" class="btn btn-primary" href="javascript://">Add New</a>
+            <a style="display: none;" class="btn btn-primary" href="javascript://" data-toggle="modal" data-target="#add" #modalOpen>{{'table.addNewBtn' | translate}}</a>
+            <a *ngIf="admin?.admin_acl['User Management']?.can_create==1" (click)="openModal()" class="btn btn-primary" href="javascript://">{{'table.addNewBtn' | translate}}</a>
             <!-- <a *ngIf="admin?.admin_acl['User Management']?.can_create==1" class="btn btn-primary" href="javascript://" data-toggle="modal" data-target="#add" #modalOpen>Add New</a> -->
         </div>
       </div>
@@ -39,7 +39,7 @@
                 <th style="width:6%">&nbsp;</th>
                 <th style="width:20%">
                   <div class="table-search">
-                      <label>Name</label>
+                      <label>{{'table.th.name' | translate}}</label>
                       <div class="searh-3">
                         <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email)" name="">
                         <button *ngIf="parameter.name" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
@@ -48,7 +48,7 @@
                 </th>
                 <th style="width:20%; text-align:left;">
                   <div class="table-search">
-                      <label>Contact Number</label>
+                      <label>{{'table.th.contactNumber' | translate}}</label>
                       <div class="searh-3">
                         <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email)" name="">
                         <button *ngIf="parameter.phone" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
@@ -57,7 +57,7 @@
                 </th>
                 <th style="width:20%">
                   <div class="table-search">
-                      <label>Email Address</label>
+                      <label>{{'table.th.emailAddress' | translate}}</label>
                       <div class="searh-3">
                         <input (keydown.space)="$event.preventDefault();" type="text" [(ngModel)]="parameter.email" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email)" name="">
                         <button *ngIf="parameter.email" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
@@ -66,12 +66,12 @@
                 </th>
                 <th style="width:20%; vertical-align: top;" *ngIf="parameter.type==1">
                   <div class="table-search">
-                    <label>Interested In</label>
+                    <label>{{'table.th.interestedIn' | translate}}</label>
                   </div>
                 </th>
                 <th style="width:20%; vertical-align: top;" *ngIf="parameter.type==2">
                   <div class="table-search">
-                    <label>Properties</label>
+                    <label>{{'table.th.properties' | translate}}</label>
                     <a (click)="sortData(parameter.property_sort==2?1:2, 'property_sort')" href="javascript://"><img [ngClass]="{'upsidedown':parameter.property_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
                   </div>
                 </th>
@@ -91,14 +91,14 @@
                     </a>
                 </td>
                 <td class="text-left" *ngIf="item.phone">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
-                <td class="text-left" *ngIf="!item.phone">NA</td>
+                <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
                 <td class="text-left">{{item.email}}</td>
                 <td *ngIf="parameter.type==1">
                   <span *ngFor="let interest of item.interests; let ii=index">
                     <app-property-configuration *ngIf="interest" [configuration]="interest"></app-property-configuration>
                     <span *ngIf="ii<item.interests?.length-1">, </span>
                   </span>
-                  <span *ngIf="item.interests?.length == 0">NA</span>
+                  <span *ngIf="item.interests?.length == 0">{{'table.tr.td.NA' | translate}}</span>
                 </td>
                 <td *ngIf="parameter.type==2">{{item.properties_count}}</td>
                 <td>
@@ -106,15 +106,15 @@
                       <!-- <a href="javascript://" (click)="editUser(item, i)" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
                       <a href="javascript://" *ngIf="item.is_blocked == 1" (click)="blockUnblockPopup(i, item.id, 0, parameter.type)" title="Unblock user" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png" alt="img"></a>
                       <a href="javascript://" *ngIf="item.is_blocked == 0" (click)="blockUnblockPopup(i, item.id, 1, parameter.type)" title="Block user" class="icon-block block-icon"><img src="assets/img/unblock.png" alt="img"></a> -->
-                      <button title="Edit Details" [disabled]="admin?.admin_acl['User Management']?.can_update==0" (click)="editUser(item, i)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                      <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['User Management']?.can_update==0" (click)="editUser(item, i)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                       <button [disabled]="admin?.admin_acl['User Management']?.can_delete==0"
                         (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1, parameter.type)" 
-                        title="{{item.is_blocked==1?'Unblock User':'Block User'}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"
+                        title="{{item.is_blocked==1 ? ('table.title.unblock' | translate) : ('table.title.block' | translate)}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"
                         class="action-icon"><img src="assets/img/block.png" alt="img">
                       </button>
                       <button [disabled]="admin?.admin_acl['User Management']?.can_purge==0"
                         (click)="deletePopup(i, item.id, parameter.type)" 
-                        title="Delete User"
+                        title="{{'table.title.delete' | translate}}"
                         class="action-icon"><img src="assets/img/ic_delete.png" alt="img">
                       </button>
                   </div>
@@ -162,7 +162,7 @@
                 <label *ngIf="model.image">
                   <input accept="image/*" name="image" class="image" (change)="changeListner($event, 1)" type="file">
                 </label>
-                <label *ngIf="!image">+ Add Image</label>
+                <label *ngIf="!image">{{'addForm.image' | translate}}</label>
                 <input *ngIf="!image" accept="image/*" name="image" class="image" (change)="changeListner($event, 1)" type="file">
               </div>
             </div>
@@ -178,8 +178,8 @@
             </div> -->
             <div class="col-4">
               <div class="btn-cont text-right">
-                  <button *ngIf="!model.id" type="submit" class="btn btn-primary-new">ADD</button>
-                  <button *ngIf="model.id" type="submit" [disabled]="!addForm.valid" class="btn btn-primary-new">UPDATE</button>
+                  <button *ngIf="!model.id" type="submit" class="btn btn-primary-new">{{'addForm.addBtn' | translate}}</button>
+                  <button *ngIf="model.id" type="submit" [disabled]="!addForm.valid" class="btn btn-primary-new">{{'addForm.updateBtn' | translate}}</button>
               </div>
             </div>
             <div class="col-12">
@@ -187,7 +187,7 @@
             </div>
             <div class="col-12">
               <div class="form-group-2">
-                  <label>Name <span class="color-red">*</span></label>
+                  <label>{{'addForm.name' | translate}} <span class="color-red">*</span></label>
                   <div class="form-group">
                   <input autocomplete="off" required type="text" class="form-control" #name="ngModel" [(ngModel)]="model.name" name="name">
                 </div>
@@ -195,7 +195,7 @@
             </div>
             <div class="col-12">
               <div class="form-group-2">
-                  <label>Contact number <span class="color-red">*</span></label>
+                  <label>{{'addForm.contactNumber' | translate}} <span class="color-red">*</span></label>
                   <div class="form-group">
                   <input minlength="6" maxlength="16" autocomplete="off" type="text" [pattern]="constant.phonePattern" class="form-control" id="phone" required minlength="1" [(ngModel)]="model.phone" name="phone"
                       ng2TelInput
@@ -205,7 +205,7 @@
             </div>
             <div class="col-12">
               <div class="form-group-2">
-                  <label>Email ID <span class="color-red">*</span></label>
+                  <label>{{'addForm.emailId' | translate}} <span class="color-red">*</span></label>
                   <div class="form-group">
                   <input (keydown.space)="$event.preventDefault();" autocomplete="off" required [pattern]="constant.emailPattern" type="email" class="form-control" [(ngModel)]="model.email" name="email">
                 </div>

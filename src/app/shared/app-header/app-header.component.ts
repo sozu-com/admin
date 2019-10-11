@@ -5,6 +5,7 @@ import { Constant } from '../../common/constants';
 import { IProperty } from '../../common/property';
 import { MessagingService } from 'src/app/fire-base/messaging.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 // import { MessagingService } from '../../fire-base/messaging.service';
 
 declare let swal: any;
@@ -27,7 +28,8 @@ export class AppHeaderComponent {
 
   constructor(public admin: AdminService, private router: Router, private constant: Constant,
     private messagingService: MessagingService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
     ) {
     this.admin.loginData$.subscribe(success => {
       this.fullName = success['name'];
@@ -73,13 +75,13 @@ export class AppHeaderComponent {
 
   onLoggedout() {
     swal({
-      title: 'Are you sure?',
-      text: 'You want to logout?',
+      html: this.translate.instant('message.question.areYouSure') + '<br>' +
+      this.translate.instant('message.question.wantToLogout'),
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
       cancelButtonColor: this.constant.cancelButtonColor,
-      confirmButtonText: 'Logout!'
+      confirmButtonText: this.translate.instant('message.question.logoutBtn')
     }).then((result) => {
       if (result.value) {
         this.logout();
@@ -93,7 +95,7 @@ export class AppHeaderComponent {
     this.admin.postDataApi('logout', {}).subscribe(r => {
       this.spinner.hide();
       if (r) {
-        swal('Success', 'Logout successfully.', 'success');
+        swal('Success', this.translate.instant('message.success.logoutSuccessfully'), 'success');
         localStorage.removeItem('token');
         localStorage.removeItem('isLoggedin');
         localStorage.removeItem('permissions');

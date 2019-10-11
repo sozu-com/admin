@@ -109,10 +109,6 @@ export class ChatComponent implements OnInit {
     this.admin.postDataApi('conversation/getMessages', i).subscribe(res => {
 
       this.parameter.messages = res.data[0].messages;
-      // this.parameter.messages.map(r=>{
-      //   r.loading = true;
-      //   return r;
-      // });
       if (this.parameter.messages.length < 30) {this.loadmore = false; }
       this.parameter.conversation_id = res.data[0].id;
       this.scrollToBottom();
@@ -371,7 +367,7 @@ export class ChatComponent implements OnInit {
   sendMessage(model) {
     model.sent_as = this.sent_as;
     if (model.message_type == 1 && !model.message) {
-      swal('Error', 'Please enter some text.', 'error');
+      swal('Error', this.translate.instant('message.error.pleaseEnterText'), 'error');
     } else {
       this.admin.postDataApi('conversation/sendMessage', model).subscribe(r => {
         if (model.loading == true) {
@@ -387,23 +383,6 @@ export class ChatComponent implements OnInit {
         swal('Error', error.error.message, 'error');
       });
     }
-
-    // if (model.message_type === 1 && !model.message) {
-    //   swal('Error', 'Please enter some text.', 'error');
-    // } else {
-    //   model.conversation_id =  this.parameter.conversation_id;
-    //   this.admin.postDataApi('conversation/sendMessage', model).subscribe(r => {
-    //     setTimeout(() => {
-    //       this.scrollToBottom();
-    //     }, 100);
-    //     if (model.loading === true) {
-    //       model.loading = false;
-    //     }
-    //   },
-    //   error => {
-    //     swal('Error', error.error.message, 'error');
-    //   });
-    // }
   }
 
   loadMore(admin_id) {
@@ -422,15 +401,16 @@ export class ChatComponent implements OnInit {
 
   sendProperty(property) {
     const model = new Chat;
-    model.message = property.name + ' with ';
+    model.message = property.name + ' ' + this.translate.instant('commonBlock.with') + ' ';
     if (property.configuration.bedroom) {
-      model.message += property.configuration.bedroom + ' Bed ';
+      model.message += property.configuration.bedroom + ' ' + this.translate.instant('commonBlock.bed') + ' ';
     }
     if (property.configuration.bathroom) {
-      model.message += this.constant.middleDot + property.configuration.bathroom + ' Bath';
+      model.message += this.constant.middleDot + property.configuration.bathroom + ' ' + this.translate.instant('commonBlock.bath') + ' ';
     }
     if (property.configuration.half_bathroom) {
-      model.message += this.constant.middleDot + property.configuration.half_bathroom + ' Half Bath';
+      model.message += this.constant.middleDot + property.configuration.half_bathroom + ' ' +
+      this.translate.instant('commonBlock.halfBath') + ' ';
     }
     if (property.property_type.name) {
       model.message += this.constant.middleDot + property.property_type.name;

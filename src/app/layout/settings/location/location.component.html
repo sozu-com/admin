@@ -1,17 +1,17 @@
 
 <div class="container-fluid">
     <div class="breadcrumb-group">
-      <h5>Settings</h5>
+      <h5>{{'settings.label' | translate}}</h5>
       <nav class="breadcrumb">
-          <a class="breadcrumb-item">Home</a>
-          <a class="breadcrumb-item">Settings</a>
-          <span class="breadcrumb-item active">Location</span>
+        <a class="breadcrumb-item">{{'settings.home' | translate}}</a>
+        <a class="breadcrumb-item">{{'settings.label' | translate}}</a>
+        <span class="breadcrumb-item active">{{'location.location' | translate}}</span>
       </nav>
     </div>
 
     <div class="white-bg">
       <div class="page-title">
-          <h3>Location</h3>
+          <h3>{{'location.location' | translate}}</h3>
       </div>
 
       <!-- add country -->
@@ -19,13 +19,13 @@
           <div class="inline-form-group">
           <div class="row">
               <div class="col-md-12">
-                <label><strong>Country</strong></label>
+                <label><strong>{{'filters.location.country' | translate}}</strong></label>
               </div>
 
               <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-6 table-search">
                   <div class="form-group marginB0">
                     <div class="searh-2">
-                        <input autocomplete="off" type="text" name="keyword" [(ngModel)]="searchCountry" (keyup.enter)="getCountries(searchCountry, 1)" placeholder="Search here">
+                        <input autocomplete="off" type="text" name="keyword" [(ngModel)]="searchCountry" (keyup.enter)="getCountries(searchCountry, 1)" placeholder="{{'addForm.placeholder.searchHere' | translate}}">
                         <button (click)="getCountries(searchCountry, 1)"><i class="fa fa-search"></i></button>
                     </div>
                   </div>
@@ -33,7 +33,7 @@
               <div class="col-xl-9 col-lg-3 col-md-3 col-sm-6 col-6">
                  <div class="form-group marginB0">
                     <div class="btn-cont text-right">
-                        <a *ngIf="admin?.admin_acl['Settings']?.can_create==1" class="btn btn-primary" href="javascript://" (click)="openCountryModal(addCountryModal, '', '', '', '1', -1)">+ Add New</a>
+                        <a *ngIf="admin?.admin_acl['Settings']?.can_create==1" class="btn btn-primary" href="javascript://" (click)="openCountryModal(addCountryModal, '', '', '', '1', -1)">{{'location.addNew' | translate}}</a>
                     </div>
                  </div>
               </div>
@@ -47,9 +47,9 @@
           <div class="table-responsive">
             <table class="table table-striped">
                 <tr>
-                  <th style="width:40%; text-align:left;">Country (English)</th>
-                  <th style="width:40%; text-align:left;">Country (Spanish)</th>
-                  <th style="width:20%">Action</th>
+                  <th style="width:40%; text-align:left;">{{'table.th.countryEn' | translate}}</th>
+                  <th style="width:40%; text-align:left;">{{'table.th.countryEs' | translate}}</th>
+                  <th style="width:20%">{{'table.th.actions.label' | translate}}</th>
                 </tr>
                 <tr *ngFor="let country of parameter.countries1; let c=index">
                   <td class="text-left">
@@ -59,13 +59,13 @@
                     {{country.name_es}}
                   </td>
                   <td>
-                      <button title="Edit" [disabled]="admin?.admin_acl['Settings']?.can_update==0" 
+                      <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Settings']?.can_update==0" 
                       (click)="openCountryModal(addCountryModal, country.id, country.name_en, country.name_es, country.status, c)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                     
                       <!-- status = 1 means unblocked -->
                       <button [disabled]="admin?.admin_acl['Settings']?.can_delete==0"
                         (click)="blockUnblockCountry(country.id, country.name_en, country.name_es, country.status==1?0:1, c)" 
-                        title="{{country.status==1?'Block':'Unblock'}}" [ngClass]="{'unblock-bg':country.status==0}"
+                        title="{{country.status==1 ? ('table.title.block' | translate) : ('table.title.unblock' | translate)}}" [ngClass]="{'unblock-bg':country.status==0}"
                         class="action-icon"><img src="assets/img/block.png" alt="img">
                       </button>
                   </td>
@@ -85,12 +85,12 @@
           <div class="inline-form-group">
           <div class="row">
               <div class="col-md-12">
-                <label><strong>State</strong></label>
+                <label><strong>{{'filters.location.state' | translate}}</strong></label>
                 <hr>
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-6">
                  <div class="form-group marginB0">
-                    <label>Country</label>
+                    <label>{{'filters.location.country' | translate}}</label>
                     <select class="form-control" (change)="getStates($event.target.value, '', 1)">
                        <option *ngFor="let country of parameter.countries2" value="{{country.id}}">{{country.name_en}}</option>
                     </select>
@@ -98,9 +98,9 @@
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-6 table-search">
                 <div class="form-group marginB0">
-                  <label>Search</label>
+                  <label>{{'filters.location.search' | translate}}</label>
                   <div class="searh-2">
-                      <input autocomplete="off" type="text" [(ngModel)]="searchState" (keyup.enter)="getStates(parameter.country_id, searchState, 1)" name="keyword" placeholder="Search here">
+                      <input autocomplete="off" type="text" [(ngModel)]="searchState" (keyup.enter)="getStates(parameter.country_id, searchState, 1)" name="keyword" placeholder="{{'addForm.placeholder.searchHere' | translate}}">
                       <button (click)="getStates(parameter.country_id, searchState, 1)"><i class="fa fa-search"></i></button>
                   </div>
                 </div>
@@ -110,7 +110,7 @@
                  <div class="form-group marginB0">
                     <label style="display: block;">&nbsp;</label>
                     <div class="btn-cont pull-right">
-                        <a *ngIf="admin?.admin_acl['Settings']?.can_create==1" class="btn btn-primary" href="javascript://" (click)="openStateModal(addStateModal, '', '', '', '', '1', -1)">+ Add New</a>
+                        <a *ngIf="admin?.admin_acl['Settings']?.can_create==1" class="btn btn-primary" href="javascript://" (click)="openStateModal(addStateModal, '', '', '', '', '1', -1)">{{'location.addNew' | translate}}</a>
                     </div>
                  </div>
               </div>
@@ -123,9 +123,9 @@
           <div class="table-responsive">
             <table class="table table-striped">
                 <tr>
-                  <th style="width:40%; text-align:left;">State (English)</th>
-                  <th style="width:40%; text-align:left;">State (Spanish)</th>
-                  <th style="width:20%">Action</th>
+                  <th style="width:40%; text-align:left;">{{'table.th.stateEn' | translate}}</th>
+                  <th style="width:40%; text-align:left;">{{'table.th.stateEs' | translate}}</th>
+                  <th style="width:20%">{{'table.th.actions.label' | translate}}</th>
                 </tr>
                 <tr *ngFor="let state of parameter.states1; let s = index">
                   <td class="text-left">
@@ -135,13 +135,13 @@
                     {{state.name_es}}
                   </td>
                 <td>
-                    <button title="Edit" [disabled]="admin?.admin_acl['Settings']?.can_update==0" 
+                    <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Settings']?.can_update==0" 
                     (click)="openStateModal(addStateModal, state.country_id, state.id, state.name_en, state.name_es, state.status, s)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                   
                     <!-- status = 1 means unblocked -->
                     <button [disabled]="admin?.admin_acl['Settings']?.can_delete==0"
                       (click)="blockUnblockState(state.country_id, state.name_en, state.name_es, state.status==1?0:1, state.id, s)" 
-                      title="{{state.status==1?'Block':'Unblock'}}" [ngClass]="{'unblock-bg':state.status==0}"
+                      title="{{state.status==1 ? ('table.title.block' | translate) : ('table.title.unblock' | translate)}}" [ngClass]="{'unblock-bg':state.status==0}"
                       class="action-icon"><img src="assets/img/block.png" alt="img">
                     </button>
                   </td>
@@ -162,12 +162,12 @@
         <div class="inline-form-group">
           <div class="row">
             <div class="col-md-12">
-              <label><strong>City</strong></label>
+              <label><strong>{{'filters.location.city' | translate}}</strong></label>
               <hr>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-6">
                <div class="form-group marginB0">
-                  <label>Country</label>
+                  <label>{{'filters.location.country' | translate}}</label>
                   <select class="form-control" (change)="getStates($event.target.value, '', 2)">
                     <option *ngFor="let country of parameter.countries3" value="{{country.id}}">{{country.name_en}}</option>
                  </select>
@@ -175,7 +175,7 @@
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-6">
                <div class="form-group marginB0">
-                  <label>State</label>
+                  <label>{{'filters.location.state' | translate}}</label>
                   <select class="form-control" (change)="getCities($event.target.value, '', 1)">
                     <option *ngFor="let state of parameter.states2" value="{{state.id}}">{{state.name_en}}</option>
                  </select>
@@ -183,9 +183,9 @@
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-6 table-search">
               <div class="form-group marginB0">
-                <label>Search</label>
+                <label>{{'filters.location.search' | translate}}</label>
                 <div class="searh-2">
-                    <input autocomplete="off" type="text" [(ngModel)]="searchCity" (keyup.enter)="getCities(parameter.state_id, searchCity, 1)" name="keyword" placeholder="Search here">
+                    <input autocomplete="off" type="text" [(ngModel)]="searchCity" (keyup.enter)="getCities(parameter.state_id, searchCity, 1)" name="keyword" placeholder="{{'addForm.placeholder.searchHere' | translate}}">
                     <button (click)="getCities(parameter.state_id, searchCity, 1)"><i class="fa fa-search"></i></button>
                 </div>
               </div>
@@ -194,7 +194,7 @@
                <div class="form-group marginB0">
                   <label style="display: block;">&nbsp;</label>
                   <div class="btn-cont pull-right">
-                      <a *ngIf="admin?.admin_acl['Settings']?.can_create==1" class="btn btn-primary" href="javascript://" (click)="openCityModal(addCityModal, '', '', '', '', '', 1, -1)">+ Add New</a>
+                      <a *ngIf="admin?.admin_acl['Settings']?.can_create==1" class="btn btn-primary" href="javascript://" (click)="openCityModal(addCityModal, '', '', '', '', '', 1, -1)">{{'location.addNew' | translate}}</a>
                   </div>
                </div>
             </div>
@@ -207,9 +207,9 @@
         <div class="table-responsive">
           <table class="table table-striped">
               <tr>
-                <th style="width:40%; text-align:left;">City (English)</th>
-                <th style="width:40%; text-align:left;">City (Spanish)</th>
-                <th style="width:20%">Action</th>
+                <th style="width:40%; text-align:left;">{{'table.th.cityEn' | translate}}</th>
+                <th style="width:40%; text-align:left;">{{'table.th.cityEs' | translate}}</th>
+                <th style="width:20%">{{'table.th.actions.label' | translate}}</th>
               </tr>
               <tr *ngFor="let city of parameter.cities1; let ci=index">
                 <td class="text-left">
@@ -219,13 +219,13 @@
                   {{city.name_es}}
                 </td>
               <td>
-                  <button title="Edit" [disabled]="admin?.admin_acl['Settings']?.can_update==0" 
+                  <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Settings']?.can_update==0" 
                   (click)="openCityModal(addCityModal, city.country_id, city.state_id, city.id, city.name_en, city.name_es, city.status, ci)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                 
                   <!-- status = 1 means unblocked -->
                   <button [disabled]="admin?.admin_acl['Settings']?.can_delete==0"
                     (click)="blockUnblockCity(city.state_id, city.name_en, city.name_es, city.status==1?0:1, city.id, ci)" 
-                    title="{{city.status==1?'Block':'Unblock'}}" [ngClass]="{'unblock-bg':city.status==0}"
+                    title="{{city.status==1 ? ('table.title.block' | translate) : ('table.title.unblock' | translate)}}" [ngClass]="{'unblock-bg':city.status==0}"
                     class="action-icon"><img src="assets/img/block.png" alt="img">
                   </button>
               </td>
@@ -257,7 +257,7 @@
 <ng-template #addCountryModal>
   <div class="modal-content">
     <div class="modal-header my-modal-header">
-      <h4 class="modal-title">Add Country</h4>
+      <h4 class="modal-title">{{'location.addCountry' | translate}}</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -265,7 +265,7 @@
     <form class="form-horizontal my-modal-form" role="form" novalidate #addForm="ngForm" (ngSubmit)="checkIfCountrySpanishNameEntered(addForm.value.name_en, addForm.value.name_es)">
       <div class="modal-body my-modal-body">
         <div class="form-group">
-          <input autocomplete="off" type="text" class="form-control" placeholder="Country (English)" id="name_en" required [(ngModel)]="location.countryModel.name_en" name="name_en" #name_en="ngModel">
+          <input autocomplete="off" type="text" class="form-control" placeholder="{{'addForm.placeholder.countryEn' | translate}}" id="name_en" required [(ngModel)]="location.countryModel.name_en" name="name_en" #name_en="ngModel">
           <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-not-found">
               <div [hidden]="!name_en.errors.required">
                 {{constant.errorMsg.COUNTRY_NAME_REQUIRED}}
@@ -273,12 +273,12 @@
           </div> -->
         </div>
         <div class="form-group">
-          <input autocomplete="off" type="text" class="form-control" placeholder="Country (Spanish)" [(ngModel)]="location.countryModel.name_es" name="name_es">
+          <input autocomplete="off" type="text" class="form-control" placeholder="{{'addForm.placeholder.countryEs' | translate}}" [(ngModel)]="location.countryModel.name_es" name="name_es">
         </div>
       </div>
       <div class="modal-footer btn-cont">
-        <button type="submit" [disabled]="admin?.admin_acl['Settings']?.can_create==0 || addForm.invalid" class="btn btn-primary-new">Submit</button>
-        <button type="button" class="btn btn-default" aria-label="Close" (click)="modalRef.hide()">Close</button>
+        <button type="submit" [disabled]="admin?.admin_acl['Settings']?.can_create==0 || addForm.invalid" class="btn btn-primary-new">{{'addForm.submit' | translate}}</button>
+        <button type="button" class="btn btn-default" aria-label="Close" (click)="modalRef.hide()">{{'addForm.close' | translate}}</button>
       </div>
     </form>
   </div>
@@ -289,7 +289,7 @@
 <ng-template #addStateModal>
   <div class="modal-content">
     <div class="modal-header my-modal-header">
-      <h4 class="modal-title">Add State</h4>
+      <h4 class="modal-title">{{'location.addState' | translate}}</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -297,8 +297,8 @@
     <form class="form-horizontal my-modal-form" role="form" novalidate #addForm="ngForm" (ngSubmit)="checkIfStateSpanishNameEntered(addForm.value.country_id, addForm.value.name_en, addForm.value.name_es)">
       <div class="modal-body my-modal-body">
         <div class="form-group" *ngIf="location.stateModel.state_id == ''">
-          <select title="Select Country" id="country_id" required [(ngModel)]="location.stateModel.country_id" name="country_id" #country_id="ngModel" class="form-control" required>
-            <option value="" disabled>Select Country</option>
+          <select title="{{'filters.location.selectCountry' | translate}}" id="country_id" required [(ngModel)]="location.stateModel.country_id" name="country_id" #country_id="ngModel" class="form-control" required>
+            <option value="" disabled>{{'filters.location.selectCountry' | translate}}</option>
             <option *ngFor="let c of parameter.countries4" value="{{c.id}}">{{c.name}}</option>
           </select>
           <!-- <div *ngIf="country_id.errors && (country_id.dirty || country_id.touched)" class="show-not-found">
@@ -308,7 +308,7 @@
           </div> -->
         </div>
         <div class="form-group">
-          <input autocomplete="off" type="text" class="form-control" placeholder="State (English)" id="name_en" required [(ngModel)]="location.stateModel.name_en" name="name_en" #name_en="ngModel">
+          <input autocomplete="off" type="text" class="form-control" placeholder="{{'addForm.placeholder.stateEn' | translate}}" id="name_en" required [(ngModel)]="location.stateModel.name_en" name="name_en" #name_en="ngModel">
           <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-not-found">
               <div [hidden]="!name_en.errors.required">
                 {{constant.errorMsg.STATE_NAME_REQUIRED}}
@@ -316,12 +316,12 @@
           </div> -->
         </div>
         <div class="form-group">
-          <input autocomplete="off" type="text" class="form-control" placeholder="State (Spanish)" [(ngModel)]="location.stateModel.name_es" name="name_es">
+          <input autocomplete="off" type="text" class="form-control" placeholder="{{'addForm.placeholder.stateEs' | translate}}" [(ngModel)]="location.stateModel.name_es" name="name_es">
         </div>
       </div>
       <div class="modal-footer btn-cont">
-        <button type="submit" [disabled]="admin?.admin_acl['Settings']?.can_create==0 || addForm.invalid" class="btn btn-primary-new">Submit</button>
-        <button type="button" class="btn btn-default" aria-label="Close" (click)="modalRef.hide()">Close</button>
+        <button type="submit" [disabled]="admin?.admin_acl['Settings']?.can_create==0 || addForm.invalid" class="btn btn-primary-new">{{'addForm.submit' | translate}}</button>
+        <button type="button" class="btn btn-default" aria-label="Close" (click)="modalRef.hide()">{{'addForm.close' | translate}}</button>
       </div>
     </form>
   </div>
@@ -332,7 +332,7 @@
 <ng-template #addCityModal>
   <div class="modal-content">
     <div class="modal-header my-modal-header">
-      <h4 class="modal-title">Add City</h4>
+      <h4 class="modal-title">{{'location.addCity' | translate}}</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -340,8 +340,8 @@
     <form class="form-horizontal my-modal-form" role="form" novalidate #addForm="ngForm" (ngSubmit)="checkIfCitySpanishNameEntered(addForm.value.state_id, addForm.value.name_en, addForm.value.name_es)">
       <div class="modal-body my-modal-body">
         <div class="form-group" *ngIf="location.cityModel.city_id == ''">
-          <select title="Select Country" id="country_id" (change)="getStates($event.target.value, '', 3)" required [(ngModel)]="location.cityModel.country_id" name="country_id" #country_id="ngModel" class="form-control" required>
-            <option value="" disabled>Select Country</option>
+          <select title="{{'filters.location.selectCountry' | translate}}" id="country_id" (change)="getStates($event.target.value, '', 3)" required [(ngModel)]="location.cityModel.country_id" name="country_id" #country_id="ngModel" class="form-control" required>
+            <option value="" disabled>{{'filters.location.selectCountry' | translate}}</option>
             <option *ngFor="let c of parameter.countries5" value="{{c.id}}">{{c.name}}</option>
           </select>
           <!-- <div *ngIf="country_id.errors && (country_id.dirty || country_id.touched)" class="show-not-found">
@@ -351,8 +351,8 @@
           </div> -->
         </div>
         <div class="form-group" *ngIf="location.cityModel.city_id == ''">
-          <select title="Select State" id="state_id" required [(ngModel)]="location.cityModel.state_id" name="state_id" #state_id="ngModel" class="form-control" required>
-            <option value="" disabled>Select State</option>
+          <select title="{{'filters.location.selectState' | translate}}" id="state_id" required [(ngModel)]="location.cityModel.state_id" name="state_id" #state_id="ngModel" class="form-control" required>
+            <option value="" disabled>{{'filters.location.selectState' | translate}}</option>
             <option *ngFor="let s of parameter.states3" value="{{s.id}}">{{s.name}}</option>
           </select>
           <!-- <div *ngIf="state_id.errors && (state_id.dirty || state_id.touched)" class="show-not-found">
@@ -362,7 +362,7 @@
           </div> -->
         </div>
         <div class="form-group">
-          <input autocomplete="off" type="text" class="form-control" placeholder="City (English)" id="name_en" required [(ngModel)]="location.cityModel.name_en" name="name_en" #name_en="ngModel">
+          <input autocomplete="off" type="text" class="form-control" placeholder="{{'addForm.placeholder.cityEn' | translate}}" id="name_en" required [(ngModel)]="location.cityModel.name_en" name="name_en" #name_en="ngModel">
           <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-not-found">
               <div [hidden]="!name_en.errors.required">
                 {{constant.errorMsg.CITY_NAME_REQUIRED}}
@@ -370,12 +370,12 @@
           </div> -->
         </div>
         <div class="form-group">
-          <input autocomplete="off" type="text" class="form-control" placeholder="City (Spanish)" [(ngModel)]="location.cityModel.name_es" name="name_es">
+          <input autocomplete="off" type="text" class="form-control" placeholder="{{'addForm.placeholder.cityEs' | translate}}" [(ngModel)]="location.cityModel.name_es" name="name_es">
         </div>
       </div>
       <div class="modal-footer btn-cont">
-        <button type="submit" [disabled]="admin?.admin_acl['Settings']?.can_create==0 || addForm.invalid" class="btn btn-primary-new">Submit</button>
-        <button type="button" class="btn btn-default" aria-label="Close" (click)="modalRef.hide()">Close</button>
+        <button type="submit" [disabled]="admin?.admin_acl['Settings']?.can_create==0 || addForm.invalid" class="btn btn-primary-new">{{'addForm.submit' | translate}}</button>
+        <button type="button" class="btn btn-default" aria-label="Close" (click)="modalRef.hide()">{{'addForm.close' | translate}}</button>
       </div>
     </form>
   </div>

@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-12">
       <div class="title-group">
-          <h5>My Profile</h5>
+          <h5>{{'myProfile.label' | translate}}</h5>
           <div class="spacer30"></div>
       </div>
     </div>
@@ -16,7 +16,7 @@
             <div class="col-6">
                 <div class="add-img" style="display:flex;">
                     <img *ngIf="image" [src]="image" style="object-fit: cover; width: 100%;">
-                    <label *ngIf="!image">No Image</label>
+                    <label *ngIf="!image">{{'myProfile.noImage' | translate}}</label>
                 </div>
             </div>
             <div class="col-12">
@@ -24,20 +24,20 @@
             </div>
             <div class="col-12">
                 <div class="form-group-2">
-                  <label>Name</label>
+                  <label>{{'addForm.name' | translate}}</label>
                   <input disabled autocomplete="off" required type="text" class="form-control" [(ngModel)]="model.name" name="name">
                 </div>
             </div>
             <div class="col-12">
                 <div class="form-group-2">
-                  <label>Contact number</label>
+                  <label>{{'addForm.contactNumber' | translate}}</label>
                   <input disabled minlength="6" maxlength="16" autocomplete="off" type="text" [pattern]="constant.phonePattern" class="form-control" id="phone" required minlength="1" [(ngModel)]="model.phone" name="phone"
                         ng2TelInput [ng2TelInputOptions]="initialCountry" />
                 </div>
             </div>
             <div class="col-12">
                 <div class="form-group-2">
-                  <label>Email ID</label>
+                  <label>{{'addForm.emailId' | translate}}</label>
                   <input disabled autocomplete="off" required [pattern]="constant.emailPattern" type="email" class="form-control" [(ngModel)]="model.email" name="email">
                 </div>
             </div>
@@ -51,23 +51,23 @@
               
               <div class="clearfix"></div>
               <div *ngIf="permission.show" id="broker-seller-dev" class="inner-select">
-                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_create==1}">Can Create
+                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_create==1}">{{'addForm.canCreate' | translate}}
                     <input [disabled]="true" type="checkbox" [checked]="permission.can_create == 1 ? 'checked': ''" >
                     <span class="checkmark"></span>
                 </label>
-                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_read==1}">Can Read
+                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_read==1}">{{'addForm.canRead' | translate}}
                     <input [disabled]="true" type="checkbox" [checked]="permission.can_read == 1 ? 'checked': ''" >
                     <span class="checkmark"></span>
                 </label>
-                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_update==1}">Can Update
+                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_update==1}">{{'addForm.canUpdate' | translate}}
                     <input [disabled]="true" type="checkbox" [checked]="permission.can_update == 1 ? 'checked': ''" >
                     <span class="checkmark"></span>
                 </label>
-                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_delete==1}">Can Block/Unblock
+                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_delete==1}">{{'addForm.canBlockUnblock' | translate}}
                     <input [disabled]="true" type="checkbox" [checked]="permission.can_delete == 1 ? 'checked': ''" >
                     <span class="checkmark"></span>
                 </label>
-                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_crud==1}">CRUD
+                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_crud==1}">{{'addForm.canCRUD' | translate}}
                     <input [disabled]="true" type="checkbox" [checked]="permission.can_crud == 1 ? 'checked': ''" >
                     <span class="checkmark"></span>
                 </label>
@@ -81,7 +81,7 @@
         <div class="row" *ngFor="let add of model.address; let j=index">
             <div class="col-sm-2 col-12">
                 <div class="form-group-2">
-                  <label>Country</label>
+                  <label>{{'filters.location.country' | translate}}</label>
                   <select class="form-control">
                       <option>{{add.countries}}</option>
                   </select>
@@ -89,7 +89,7 @@
             </div>
             <div class="col-sm-2 col-12">
                 <div class="form-group-2">
-                  <label>State</label>
+                  <label>{{'filters.location.state' | translate}}</label>
                   <select class="form-control" disabled>
                       <option>{{add.states}}</option>
                   </select>
@@ -97,7 +97,7 @@
             </div>
             <div class="col-sm-2 col-12">
                 <div class="form-group-2">
-                  <label>City</label>
+                  <label>{{'filters.location.city' | translate}}</label>
                   <select class="form-control" disabled>
                       <option>{{add.cities}}</option>
                   </select>
@@ -105,7 +105,7 @@
             </div>
             <div class="col-sm-2 col-12">
                 <div class="form-group-2">
-                  <label>Locality</label>
+                  <label>{{'filters.location.locality' | translate}}</label>
                   <select class="form-control" disabled>
                       <option>{{add.localities}}</option>
                   </select>
@@ -113,7 +113,7 @@
             </div>
             <div class="col-sm-2 col-12">
                 <div class="form-group-2">
-                  <label>Building</label>
+                  <label>{{'filters.location.building' | translate}}</label>
                   <select class="form-control" disabled>
                       <option>{{add.buildings}}</option>
                   </select>
