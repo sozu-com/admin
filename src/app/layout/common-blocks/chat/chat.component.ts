@@ -415,7 +415,7 @@ export class ChatComponent implements OnInit {
     if (property.property_type.name) {
       model.message += this.constant.middleDot + property.property_type.name;
     }
-    model.message += ' in ' + property.building.name;
+    model.message += ' ' + this.translate.instant('commonBlock.in') + ' ' + property.building.name;
 
     model.message_type = 5;
     model.property_id = property.id;

@@ -5,6 +5,7 @@ import { Constant } from 'src/app/common/constants';
 import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
 import { LeadsService } from 'src/app/services/leads.service';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -48,7 +49,8 @@ export class DataCollectorComponent implements OnInit {
     public admin: AdminService,
     public leadsService: LeadsService,
     private constant: Constant,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -247,15 +249,15 @@ export class DataCollectorComponent implements OnInit {
 
       this.chartView = [
         {
-          'name': 'Leads (Information filled)',
+          'name': this.translate.instant('leads.infoFilled'),
           'value': parseInt(this.dash.request_pending_admin, 10)
         },
         {
-          'name': 'Leads (With agent assigned)',
+          'name': this.translate.instant('leads.withAgentAssigned'),
           'value': parseInt(this.dash.request_pending_csr, 10)
         },
         {
-          'name': 'Leads (Without agent assigned)',
+          'name': this.translate.instant('leads.withoutAgentAssigned'),
           'value': parseInt(this.dash.request_pending_user, 10)
         }
       ];
@@ -360,7 +362,7 @@ export class DataCollectorComponent implements OnInit {
     // this.assign.keyword = '';
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     if (leads_ids.length === 0) {
-      swal('Error', 'Please choose atleast one lead.', 'error');
+      swal('Error', this.translate.instant('message.error.pleaseChooseAtleast1Lead'), 'error');
       return false;
     }
     if (!this.assign.items) {
@@ -391,7 +393,7 @@ export class DataCollectorComponent implements OnInit {
     this.spinner.show();
     this.admin.postDataApi('leads/bulkAssignCollector', input).subscribe(r => {
       this.spinner.hide();
-      swal('Success', 'Assigned successfully', 'success');
+      swal('Success', this.translate.instant('message.success.assignedSuccessfully'), 'success');
       this.closeAssignModel.nativeElement.click();
       this.getListing();
     },
@@ -411,13 +413,13 @@ export class DataCollectorComponent implements OnInit {
 
   approveProject(item, status) {
     if (item.is_completed !== 1) {
-      swal('Error', 'You cannot approve the building as some of details are missing.', 'error');
+      swal('Error', this.translate.instant('message.error.cannotApproveBuilding'), 'error');
       return false;
     }
     item.status = status;
     this.admin.postDataApi('approveProject', { building_id: item.id }).subscribe(r => {
       this.getCSRDashBoardData();
-      swal('Success', 'Project approved successfully.', 'success');
+      swal('Success', this.translate.instant('message.success.projectApprovedSuccessfully'), 'success');
     },
       error => {
         swal('Error', error.error.message, 'error');
@@ -427,7 +429,7 @@ export class DataCollectorComponent implements OnInit {
   rejectProject(status) {
     this.items[this.parameter.index].status = status;
     this.admin.postDataApi('rejectProject', { building_id: this.parameter.building_id, reason: this.reason }).subscribe(r => {
-      swal('Success', 'Project unapproved successfully.', 'success');
+      swal('Success', this.translate.instant('message.success.projectUnapprovedSuccessfully'), 'success');
       this.getCSRDashBoardData();
       this.closeModal();
     },

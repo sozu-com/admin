@@ -1,3 +1,3 @@
-<span *ngIf="configuration.bedroom!=0">{{configuration.bedroom}} Bed </span>
-<span *ngIf="configuration.bathroom!=0">&middot; {{configuration?.bathroom}} Bath </span>
-<span *ngIf="configuration.half_bathroom!=0">&middot; {{configuration.half_bathroom}} Half Bath </span>
+<span *ngIf="configuration.bedroom!=0">{{configuration.bedroom}} {{'commonBlock.bed' | translate}} </span>
+<span *ngIf="configuration.bathroom!=0">&middot; {{configuration?.bathroom}} {{'commonBlock.bath' | translate}} </span>
+<span *ngIf="configuration.half_bathroom!=0">&middot; {{configuration.half_bathroom}} {{'commonBlock.halfBath' | translate}} </span>

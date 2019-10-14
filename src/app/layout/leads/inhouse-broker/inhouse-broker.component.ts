@@ -6,8 +6,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Constant } from 'src/app/common/constants';
 import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
-// import { TranslateService } from 'src/app/lang/translate.service';
 import { LeadsService } from 'src/app/services/leads.service';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -45,8 +45,8 @@ export class InhouseBrokerComponent implements OnInit {
     public leadsService: LeadsService,
     private constant: Constant,
     private route: ActivatedRoute,
-    private spinner: NgxSpinnerService
-    // public ts: TranslateService
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -247,15 +247,15 @@ export class InhouseBrokerComponent implements OnInit {
         //   'value': parseInt(this.dash.lead_total, 10)
         // },
         {
-          'name': 'Lead (Properties)',
+          'name': this.translate.instant('leads.properties'),
           'value': parseInt(this.dash.lead_properties, 10)
         },
         {
-          'name': 'Lead (Open)',
+          'name': this.translate.instant('leads.leadsOpen'),
           'value': parseInt(this.dash.lead_open, 10)
         },
         {
-          'name': 'Leads (Deal finalized)',
+          'name': this.translate.instant('leads.dealFinalised'),
           'value': parseInt(this.dash.lead_closed, 10)
         }
       ];
@@ -309,7 +309,8 @@ export class InhouseBrokerComponent implements OnInit {
     $event.stopPropagation();
     this.parameter.url = 'leads/updateLeadType';
     swal({
-      html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to change availability for this property?',
+      html: this.translate.instant('message.question.areYouSure') + '<br>' +
+        this.translate.instant('message.question.wantToChangeAvailablity'),
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -323,7 +324,7 @@ export class InhouseBrokerComponent implements OnInit {
             success => {
               this.spinner.hide();
               this.items[index].sale_rent = sale_rent;
-              swal('Success', 'Availability for this property changed successfully.', 'success');
+              swal('Success', this.translate.instant('message.success.availablityChangedSuccessfully'), 'success');
             }, error => {
               this.spinner.hide();
             });
@@ -342,7 +343,7 @@ export class InhouseBrokerComponent implements OnInit {
     // this.assign.keyword = '';
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     if (leads_ids.length === 0) {
-      swal('Error', 'Please choose atleast one lead.', 'error');
+      swal('Error', this.translate.instant('message.error.pleaseChooseAtleast1Lead'), 'error');
       return false;
     }
     if (!this.assign.items) {
@@ -373,7 +374,7 @@ export class InhouseBrokerComponent implements OnInit {
     this.spinner.show();
     this.admin.postDataApi('leads/bulkAssignBroker', input).subscribe(r => {
       this.spinner.hide();
-      swal('Success', 'Assigned successfully', 'success');
+      swal('Success', this.translate.instant('message.success.assignedSuccessfully'), 'success');
       this.closeAssignModel.nativeElement.click();
       this.getListing();
     },

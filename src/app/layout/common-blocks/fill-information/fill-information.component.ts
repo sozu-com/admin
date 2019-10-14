@@ -5,6 +5,7 @@ import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
 import { Constant } from 'src/app/common/constants';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 // import { TranslateService } from 'src/app/lang/translate.service';
 declare let swal: any;
 
@@ -31,7 +32,8 @@ export class FillInformationComponent implements OnInit {
   configurationCount: Array<string>;
 
   constructor(public admin: AdminService, public constant: Constant,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService) { }
 
   ngOnInit() {
     this.today = new Date();
@@ -40,8 +42,8 @@ export class FillInformationComponent implements OnInit {
       singleSelection: false,
       idField: 'id',
       textField: 'name',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
+      selectAllText: this.translate.instant('commonBlock.selectAll'),
+      unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
       // itemsShowLimit: 3,
       allowSearchFilter: true
     };
@@ -110,7 +112,7 @@ export class FillInformationComponent implements OnInit {
 
   addPreferences() {
     if (this.leadData.prefs.min_price > this.leadData.prefs.max_price) {
-      swal('Error', 'Maximum price should be greater than minimum price.', 'error');
+      swal('Error', this.translate.instant('message.error.maximumPriceLimit'), 'error');
       return false;
     }
     this.model = new AddPrefrences();
@@ -172,7 +174,7 @@ export class FillInformationComponent implements OnInit {
     this.spinner.show();
     this.admin.postDataApi('leads/addPreferences', this.model).subscribe(r => {
       this.spinner.hide();
-      swal('Success', this.constant.successMsg.DETAILS_UPDATED_SUCCESSFULLY, 'success');
+      swal('Success', this.translate.instant('message.success.updatedSuccessfully'), 'success');
     });
   }
 }

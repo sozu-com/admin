@@ -684,22 +684,19 @@ export class InhouseUsersComponent implements OnInit {
 
   blockUnblockPopup(index, id, flag, user_type) {
     this.parameter.index = index;
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
     switch (flag) {
       case 0:
-        this.parameter.text = this.constant.title.UNBLOCK_USER;
-        this.parameter.successText = this.constant.successMsg.UNBLOCKED_SUCCESSFULLY;
+        this.parameter.text = this.translate.instant('message.question.wantToUnblockUser');
+        this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
         break;
       case 1:
-        this.parameter.text = this.constant.title.BLOCK_USER;
-        this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
+        this.parameter.text = this.translate.instant('message.question.wantToBlockUser');
+        this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
     }
 
     swal({
-      // title: this.parameter.title,
-      // text: this.parameter.text,
-      html: this.parameter.title + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -882,11 +879,10 @@ export class InhouseUsersComponent implements OnInit {
   }
 
   deletePopup(item: any, index: number) {
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
-    this.parameter.text = 'You want to delete this inhouse user?';
+    this.parameter.text = this.translate.instant('message.question.wantToDeleteUser');
 
     swal({
-      html: this.parameter.title + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,

@@ -1,5 +1,5 @@
 <div class="white-bg padding15">
-    <p class="p16 marginB0">Fill in Information</p>
+    <p class="p16 marginB0">{{'commonBlock.fillInInformation' | translate}}</p>
 </div>
 
 <hr class="margin0" *ngIf="leadData">
@@ -8,7 +8,7 @@
         <div class="white-bg padding40 fill-info" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
 
     <div class="form-group-5">
-        <label>What your are looking for?</label>
+        <label>{{'commonBlock.whatYouAreLookingFor' | translate}}</label>
         <div class="clearfix"></div>
         <label class="cust-radio">
             <input [disabled]="sent_as==2" name="looking_for" type="radio" (change)="leadData.prefs.looking_for = 1"
@@ -18,17 +18,17 @@
         <label class="cust-radio">
             <input [disabled]="sent_as==2" name="looking_for" type="radio" (change)="leadData.prefs.looking_for = 2"
                 [checked]="leadData.prefs.looking_for == 2 ?'checked':''">
-            <span class="checkmark">Rent</span>
+            <span class="checkmark">{{'commonBlock.rent' | translate}}</span>
         </label>
         <div class="clearfix"></div>
     </div>
 
     <div class="form-group-5 marginT20">
-        <label>Configuration</label>
+        <label>{{'commonBlock.configuration' | translate}}</label>
         <div class="clearfix"></div>
-        <p class="p10">I would like to know more about</p>
+        <p class="p10">{{'commonBlock.iWouldLikeToKnwMoreAbtYou' | translate}}</p>
 
-        <p class="p11">Bedroom</p>
+        <p class="p11">{{'commonBlock.bedroom' | translate}}</p>
         <label class="cust-radio" *ngFor="let count of configurationCount">
             <input [disabled]="sent_as==2" name="bedroom" type="radio" (change)="setPrefValue('bedroom', count)"
                 [checked]="leadData.prefs.bedroom == count ?'checked':''">
@@ -36,7 +36,7 @@
         </label>
         <div class="clearfix"></div>
 
-        <p class="p11">Bathroom</p>
+        <p class="p11">{{'commonBlock.bathroom' | translate}}</p>
         <label class="cust-radio" *ngFor="let count of configurationCount">
             <input [disabled]="sent_as==2" name="bathroom" type="radio" (change)="setPrefValue('bathroom', count)"
                 [checked]="leadData.prefs.bathroom == count ?'checked':''">
@@ -44,7 +44,7 @@
         </label>
         <div class="clearfix"></div>
 
-        <p class="p11">Half Bathroom</p>
+        <p class="p11">{{'commonBlock.halfBathroom' | translate}}</p>
         <label class="cust-radio" *ngFor="let count of configurationCount">
             <input [disabled]="sent_as==2" name="half_bathroom" type="radio" (change)="setPrefValue('half_bathroom', count)"
                 [checked]="leadData.prefs.half_bathroom == count ?'checked':''">
@@ -54,7 +54,7 @@
     </div>
 
     <div class="form-group-4 marginT20">
-        <label>Price expectations</label>
+        <label>{{'commonBlock.priceExpectations' | translate}}</label>
         <div class="row">
             <div class="col-md-4 col-sm-12 col-12">
                 <!-- <div class="form-group-3 eca">
@@ -67,7 +67,7 @@
                 </div>
             </div>
             <div class="col-md-2 col-sm-12 col-12">
-                To
+                {{'commonBlock.to' | translate}}
             </div>
             <div class="col-md-4 col-sm-12 col-12">
                 <div class="input-group m-b">
@@ -83,7 +83,7 @@
     </div>
 
     <div class="form-group-5 marginT20">
-        <label>What type of property you are looking for?</label>
+        <label>{{'commonBlock.whatTypeOfPropertyYouAreLookingFor' | translate}}</label>
         <div class="clearfix"></div>
         <label class="cust-radio" *ngFor="let property_type of leadData.buyer_property_type; let i=index">
             <input [disabled]="sent_as==2" type="checkbox" (click)="setValue('buyer_property_type', i)"
@@ -94,7 +94,7 @@
     </div>
 
     <div class="form-group-5 marginT20">
-        <label>Amenities that you are expecting</label>
+        <label>{{'commonBlock.expectedAmenity' | translate}}</label>
         <div class="clearfix"></div>
         
         <ng-multiselect-dropdown [disabled]="sent_as==2" class="section-section2" *ngIf="leadData.buyer_amenities"
@@ -110,7 +110,7 @@
     </div>
 
     <div class="form-group-5 marginT20">
-        <label>Close proximity needed to</label>
+        <label>{{'commonBlock.closeProximity' | translate}}</label>
         <div class="clearfix"></div>
         <label class="cust-radio" *ngFor="let proximity_place of leadData.buyer_proximity; let i=index">
             <input [disabled]="sent_as==2" type="checkbox" (click)="setValue('buyer_proximity', i)"
@@ -120,14 +120,14 @@
         <label class="cust-radio">
             <input [disabled]="sent_as==2" type="checkbox" (click)="setProximityValue($event, showOtherTextBox ? false : true)"
                 [checked]="showOtherTextBox ? 'checked' : ''" name="radio3">
-            <span class="checkmark">Other</span>
+            <span class="checkmark">{{'commonBlock.other' | translate}}</span>
         </label>
         <textarea [disabled]="sent_as==2" *ngIf="showOtherTextBox" [(ngModel)]="leadData.prefs.proximity_other" class="form-control" rows="3" name="proximity_other">{{leadData.prefs.proximity_other}}</textarea>
         <div class="clearfix"></div>
     </div>
 
     <div class="form-group-5 marginT20">
-        <label>How many cars do you have?</label>
+        <label>{{'commonBlock.carsYouHave' | translate}}</label>
         <div class="clearfix"></div>
         <label class="cust-radio" *ngFor="let car_type of leadData.buyer_car_type; let i=index">
             <input [disabled]="sent_as==2" type="radio" (click)="setCarType(car_type.id)"
@@ -138,7 +138,7 @@
     </div>
 
     <div class="form-group-5 marginT20">
-        <label>Family Size</label> <br>
+        <label>{{'commonBlock.familySize' | translate}}</label> <br>
         <label class="cust-radio" *ngFor="let count of configurationCount">
             <input [disabled]="sent_as==2" name="family_size" type="radio" (change)="setPrefValue('family_size', count)"
                 [checked]="leadData.prefs.family_size == count ?'checked':''">
@@ -149,7 +149,7 @@
 
     <div class="inline-form-group-2 marginT20">
         <div class="row">
-            <div class="col-6"><label class="float-left">Do you have pets?</label></div>
+            <div class="col-6"><label class="float-left">{{'commonBlock.doYouHavePets' | translate}}</label></div>
             <div class="col-5">
                 <label class="cust-check-bx">
                     <input [disabled]="sent_as==2" type="checkbox" value="{{leadData.prefs.pets == 1 ? 'true' : 'false'}}" [(ngModel)]="leadData.prefs.pets"
@@ -162,7 +162,7 @@
 
     <div class="inline-form-group-2 marginT20">
         <div class="row">
-            <div class="col-6"><label class="float-left">Do you have kids?</label></div>
+            <div class="col-6"><label class="float-left">{{'commonBlock.doYouHaveKids' | translate}}</label></div>
             <div class="col-5">
                 <label class="cust-check-bx">
                     <input [disabled]="sent_as==2" type="checkbox" value="{{leadData.prefs.kid_count == 1 ? 'true' : 'false'}}"
@@ -174,7 +174,7 @@
     </div>
 
     <div class="form-group-5 date-picker marginT20">
-        <label>How soon are you planning to buy/rent</label>
+        <label>{{'commonBlock.planningDate' | translate}}</label>
         <div class="clearfix"></div>
         <p-calendar [disabled]="sent_as==2" showIcon="true" (onSelect)="onSelect($event)" [(ngModel)]="leadData.prefs.planning_to_buy"
             showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
@@ -193,7 +193,7 @@
     </div> -->
 
     <div class="form-group-5 marginT20" *ngIf="leadData.prefs.looking_for==1">
-        <label>You are looking for</label>
+        <label>{{'commonBlock.youAreLookingFor' | translate}}</label>
         <div class="clearfix"></div>
         <label class="cust-radio" *ngFor="let property_purpose of leadData.property_purposes; let i=index">
             <input [disabled]="sent_as==2" type="checkbox" (click)="setValue('property_purposes', i)"
@@ -207,7 +207,7 @@
     <div class="btn-cont text-right">
         <button *ngIf="sent_as!=2" [disabled]="(sent_as==constant.userType.csr_buyer && (admin?.admin_acl['Buyer Lead Management']?.can_update==0 || admin?.permissions?.can_csr_buyer==0)) ||
                             (sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==0 || admin?.permissions?.can_in_house_broker==0))"
-            type="button" class="btn btn-primary" (click)="addPreferences()">Save</button>
+            type="button" class="btn btn-primary" (click)="addPreferences()">{{'commonBlock.save' | translate}}</button>
     </div>
 </div>
 

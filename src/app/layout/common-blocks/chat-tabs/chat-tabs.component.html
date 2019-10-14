@@ -8,23 +8,23 @@
     <ul class="nav nav-tabs">
       <li class="nav-item" *ngIf="sent_as==constant.userType.csr_buyer || sent_as==constant.userType.inhouse_broker">
         <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.user_buyer}"
-          (click)="getLeadConversation(constant.userType.user_buyer, true)" class="nav-link">Buyer</a>
+          (click)="getLeadConversation(constant.userType.user_buyer, true)" class="nav-link">{{'commonBlock.buyer' | translate}}</a>
       </li>
       <li class="nav-item" *ngIf="sent_as==constant.userType.csr_closer">
         <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.user_buyer}"
-          (click)="getLeadConversation(constant.userType.user_buyer, true)" class="nav-link">Buyer</a>
+          (click)="getLeadConversation(constant.userType.user_buyer, true)" class="nav-link">{{'commonBlock.buyer' | translate}}</a>
       </li>
       <li class="nav-item" *ngIf="sent_as==constant.userType.csr_closer">
         <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.user_seller_dev}"
-          (click)="getLeadConversation(constant.userType.user_seller_dev, true)" class="nav-link">Seller</a>
+          (click)="getLeadConversation(constant.userType.user_seller_dev, true)" class="nav-link">{{'commonBlock.seller' | translate}}</a>
       </li>
       <li class="nav-item" *ngIf="sent_as==constant.userType.inhouse_broker">
         <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.csr_buyer}"
-          (click)="getLeadConversation(constant.userType.csr_buyer, true)" class="nav-link">CSR Buyer</a>
+          (click)="getLeadConversation(constant.userType.csr_buyer, true)" class="nav-link">{{'commonBlock.CSRBuyer' | translate}}</a>
       </li>
       <li class="nav-item" *ngIf="sent_as==constant.userType.csr_buyer">
         <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.inhouse_broker}"
-          (click)="getLeadConversation(constant.userType.inhouse_broker, true)" class="nav-link">Inhouse Agent</a>
+          (click)="getLeadConversation(constant.userType.inhouse_broker, true)" class="nav-link">{{'commonBlock.inhouseAgent' | translate}}</a>
       </li>
       <!-- show only if notary is assigned and property is available for sale -->
       <li class="nav-item"
@@ -32,7 +32,7 @@
         selectedProperties.noataries.length!=0 && parameter?.lead?.sale_rent==1 &&
         sent_as==constant.userType.csr_closer">
         <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.notary}"
-          (click)="getLeadConversation(constant.userType.notary, true)" class="nav-link">Notary</a>
+          (click)="getLeadConversation(constant.userType.notary, true)" class="nav-link">{{'commonBlock.notary' | translate}}</a>
       </li>
       <!-- show only if bank is assigned and property is available for sale -->
       <li class="nav-item"
@@ -40,7 +40,7 @@
         selectedProperties.banks.length!=0 && parameter?.lead?.sale_rent==1 &&
         sent_as==constant.userType.csr_closer">
         <a [ngClass]="{'active':chat_admin_sent_as==constant.userType.bank}"
-          (click)="getLeadConversation(constant.userType.bank, true)" class="nav-link">Bank</a>
+          (click)="getLeadConversation(constant.userType.bank, true)" class="nav-link">{{'commonBlock.bank' | translate}}</a>
       </li>
     </ul>
 
@@ -54,9 +54,9 @@
               </div>
               <div class="profile-info">
                 <h6>{{chat_admin?.name | titlecase}}</h6>
-                <p *ngIf="chat_admin_sent_as == 3" class="p12">CSR Closure</p>
-                <p *ngIf="chat_admin_sent_as == 6" class="p12">Notary</p>
-                <p *ngIf="chat_admin_sent_as == 5" class="p12">Bank</p>
+                <p *ngIf="chat_admin_sent_as == 3" class="p12">{{'commonBlock.CSRClosure' | translate}}</p>
+                <p *ngIf="chat_admin_sent_as == 6" class="p12">{{'commonBlock.notary' | translate}}</p>
+                <p *ngIf="chat_admin_sent_as == 5" class="p12">{{'commonBlock.bank' | translate}}</p>
               </div>
             </div>
           </a>
@@ -113,7 +113,7 @@
             <span class="time" *ngIf="!m.id">{{m.updated_at|date:'h:mm a'|lowercase}},
               {{m.updated_at|date: 'MMM d y'}}</span>
             <span class="time" *ngIf="m?.conversation_user?.admin_id != admin_id">
-                <strong>By - {{m?.conversation_user?.user?.name?m?.conversation_user?.user?.name:m?.conversation_user?.admin?.name | titlecase}}</strong>
+                <strong>{{'commonBlock.by' | translate}} - {{m?.conversation_user?.user?.name?m?.conversation_user?.user?.name:m?.conversation_user?.admin?.name | titlecase}}</strong>
               </span>
           </div>
         </div>
@@ -140,23 +140,23 @@
               <div class="dropdown-item">
                 <input type="file" name="image" accept="image/*" (change)="onSelectFile('image', $event)">
                 <i class="fa fa-camera" aria-hidden="true"></i>
-                <span>Photo</span>
+                <span>{{'commonBlock.photo' | translate}}</span>
               </div>
               <a class="dropdown-item">
                 <input type="file" name="video1" accept="video/mp4,video/x-m4v,video/*" (change)="showCanvas($event)">
                 <i class="fa fa-video-camera" aria-hidden="true"></i>
-                <span>Video</span>
+                <span>{{'commonBlock.video' | translate}}</span>
               </a>
               <a class="dropdown-item">
                 <input type="file" name="attachment"
                   accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf"
                   (change)="saveAttachment($event)">
                 <i class="fa fa-file" aria-hidden="true"></i>
-                <span>Document</span>
+                <span>{{'commonBlock.document' | translate}}</span>
               </a>
               <a class="dropdown-item cursor-pointer" (click)="blockGetProperty.showModal()">
                 <i class="fa fa-file" aria-hidden="true"></i>
-                <span>Property</span>
+                <span>{{'commonBlock.property' | translate}}</span>
               </a>
             </div>
           </div>
@@ -168,7 +168,7 @@
 
           <button
             [disabled]="(admin?.admin_acl['Closer Lead Management']?.can_update==0 || admin?.permissions?.can_csr_closer==0)"
-            (click)="setText()" class="btn">Send</button>
+            (click)="setText()" class="btn">{{'commonBlock.send' | translate}}</button>
 
         </div>
       </div>

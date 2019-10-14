@@ -11,6 +11,7 @@ import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
 import { Constant } from 'src/app/common/constants';
 import { ChatTimePipe } from 'src/app/pipes/chat-time.pipe';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -45,7 +46,8 @@ export class InhouseBrokerDetailComponent implements OnInit {
     public constant: Constant,
     private http: Http,
     public appointment: AddAppointmentMultiple,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) {
     this.admin.loginData$.subscribe(success => {
       this.parameter.admin_id = success['id'];
@@ -210,7 +212,7 @@ export class InhouseBrokerDetailComponent implements OnInit {
       }
     }, error => {
       this.spinner.hide();
-      swal('Error', 'Deal is not finalised.', 'error');
+      swal('Error', this.translate.instant('message.error.dealIsNotFinalised'), 'error');
     });
   }
 
@@ -257,7 +259,7 @@ export class InhouseBrokerDetailComponent implements OnInit {
       this.appointment.appointment_date.push(f);
     });
     if (this.appointment.appointment_date.length === 0) {
-      swal('Error', 'Choose atleast one date.', 'error');
+      swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneDate'), 'error');
       return false;
     }
     this.spinner.show();
@@ -270,7 +272,7 @@ export class InhouseBrokerDetailComponent implements OnInit {
           // new Date(moment(this.appointment.appointment_date).utc(true).local().format('YYYY-MM-DD, h:mm a'));
           this.spinner.hide();
           this.closeModal();
-          swal('Success', 'Appointment scheduled successfully.', 'success');
+          swal('Success', this.translate.instant('message.success.appointmentScheduledSuccessfully'), 'success');
         }, error => {
           this.spinner.hide();
         }

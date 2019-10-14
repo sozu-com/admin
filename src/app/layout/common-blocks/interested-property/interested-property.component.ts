@@ -6,6 +6,7 @@ import { Constant } from 'src/app/common/constants';
 import { EventEmitter } from 'events';
 import { NgForm } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -36,7 +37,8 @@ export class InterestedPropertyComponent implements OnInit {
   property_ids = [];
   public scrollbarOptions = { axis: 'y', theme: 'dark', scrollbarPosition: 'inside'};
   constructor(public model: DealFinalize, public admin: AdminService, public constant: Constant,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService) { }
 
   ngOnInit() {
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
@@ -68,7 +70,7 @@ export class InterestedPropertyComponent implements OnInit {
 
   attachProperty(formdata: NgForm) {
     if (this.model.total_amount < this.model.token_amount) {
-      swal('Error', 'Total amount must be greater than token amount.', 'error');
+      swal('Error', this.translate.instant('message.error.totalAmountcheck'), 'error');
       return false;
     }
     this.modalClose.nativeElement.click();
@@ -80,7 +82,7 @@ export class InterestedPropertyComponent implements OnInit {
           this.spinner.hide();
           this.is_deal_finalised = true;
           this.modalClose.nativeElement.click();
-          swal('Success', 'Deal has been finalized successfully.', 'success');
+          swal('Success', this.translate.instant('message.success.dealFinalisedSucc'), 'success');
           this.deal_finalised_success.emit('true');
         }, error => {
           this.spinner.hide();
@@ -89,11 +91,12 @@ export class InterestedPropertyComponent implements OnInit {
 
   deleteLeadInterestedProperty(property_id, lead_id, index) {
     const test = this.selected_properties.map(i => i.property_id === property_id);
+    this.parameter.text = this.translate.instant('message.question.wantToRemoveProperty');
     if (test[0]) {
-      swal('Error', 'You cannot remove this property as this is finalized property.', 'error');
+      swal('Error', this.translate.instant('message.error.cannotRemoveAsItsFinalised'), 'error');
     } else {
       swal({
-        html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to remove this property?',
+        html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,
@@ -107,7 +110,7 @@ export class InterestedPropertyComponent implements OnInit {
               success => {
                 this.parameter.interested_properties.splice(index, 1);
                 this.interested_properties = this.parameter.interested_properties;
-                swal('Success', 'Interested property removed successfully.', 'success');
+                swal('Success', this.translate.instant('message.success.intestredRemovedSuccessfully'), 'success');
               });
         }
       });
@@ -122,7 +125,7 @@ export class InterestedPropertyComponent implements OnInit {
     const ids = this.interested_properties.map(d => d.property.id);
     const ff = ids.filter(p => p === property_id);
     if (ff.length !== 0) {
-      swal('Error', 'This property is already added in your interests.', 'error');
+      swal('Error', this.translate.instant('message.error.alreadyAddedInInterests'), 'error');
     } else {
       const check_id = this.property_ids.indexOf(property_id);
       if (check_id === -1) {
@@ -134,9 +137,10 @@ export class InterestedPropertyComponent implements OnInit {
   }
 
   addPropertyToInterest() {
+    this.parameter.text = this.translate.instant('message.question.wantToAddToInterested');
     if (this.property_ids.length > 0) {
       swal({
-        html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to add selected properties to your interested properties?',
+        html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,
@@ -148,13 +152,13 @@ export class InterestedPropertyComponent implements OnInit {
           this.admin.postDataApi('leads/addLeadInterestedProperty', input).subscribe(r => {
             this.showPropertyModal.nativeElement.click();
             this.property_ids = [];
-            swal('Success', 'Added Successfully', 'success');
+            swal('Success', this.translate.instant('message.success.addedSuccessfully'), 'success');
             this.interested_properties.push(r.data);
           });
         }
       });
     } else {
-      swal('Error', 'Please choose any property.', 'error');
+      swal('Error', this.translate.instant('message.error.chooseAnyProperty'), 'error');
     }
   }
 

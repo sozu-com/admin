@@ -8,6 +8,7 @@ import { AdminService } from 'src/app/services/admin.service';
 import { Constant } from 'src/app/common/constants';
 import { ChatTimePipe } from 'src/app/pipes/chat-time.pipe';
 import { LeadsService } from 'src/app/services/leads.service';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -39,7 +40,8 @@ export class CsrBuyerDetailComponent implements OnInit {
     public constant: Constant,
     public appointment: AddAppointmentMultiple,
     private spinner: NgxSpinnerService,
-    public leadsService: LeadsService
+    public leadsService: LeadsService,
+    private translate: TranslateService
   ) {
     this.admin.loginData$.subscribe(success => {
       this.parameter.admin_id = success['id'];
@@ -117,9 +119,9 @@ export class CsrBuyerDetailComponent implements OnInit {
       this.leadData.user = r.data['user'];
       this.leadData.broker = r.data['broker'];
       this.leadData.admin = r.data['admin'];
-      swal('Success', 'Agent assigned successfully', 'success');
+      swal('Success', this.translate.instant('message.success.assignedSuccessfully'), 'success');
     }, error => {
-      swal('Error', 'No Agent is available', 'error');
+      swal('Error', this.translate.instant('message.error.noAgentAvailable'), 'error');
     });
   }
 
@@ -162,7 +164,7 @@ export class CsrBuyerDetailComponent implements OnInit {
       this.appointment.appointment_date.push(f);
     });
     if (this.appointment.appointment_date.length === 0) {
-      swal('Error', 'Choose atleast one date.', 'error');
+      swal('Error', this.translate.instant('message.error.chooseAtleastOneDate'), 'error');
       return false;
     }
     this.spinner.show();
@@ -175,7 +177,7 @@ export class CsrBuyerDetailComponent implements OnInit {
           // new Date(moment(this.appointment.appointment_date).utc(true).local().format('YYYY-MM-DD, h:mm a'));
           this.spinner.hide();
           this.closeModal();
-          swal('Success', 'Appointment scheduled successfully.', 'success');
+          swal('Success', this.translate.instant('message.success.appointmentScheduledSuccessfully'), 'success');
         }, error => {
           this.spinner.hide();
         }

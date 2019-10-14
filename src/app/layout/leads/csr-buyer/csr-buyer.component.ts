@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CSRBuyerLeads } from 'src/app/models/leads.model';
 import { LeadsService } from 'src/app/services/leads.service';
+import { TranslateService } from '@ngx-translate/core';
 // import { TranslateService } from 'src/app/lang/translate.service';
 declare let swal: any;
 
@@ -48,7 +49,8 @@ export class CsrBuyerComponent implements OnInit {
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
     public leadsService: LeadsService,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -220,15 +222,15 @@ export class CsrBuyerComponent implements OnInit {
 
       this.chartView = [
         {
-          'name': 'Leads (Information filled)',
+          'name': this.translate.instant('leads.infoFilled'),
           'value': parseInt(this.dash.lead_information_filled, 10)
         },
         {
-          'name': 'Leads (With agent assigned)',
+          'name': this.translate.instant('leads.withAgentAssigned'),
           'value': parseInt(this.dash.lead_broker_assigned, 10)
         },
         {
-          'name': 'Leads (Without agent assigned)',
+          'name': this.translate.instant('leads.withoutAgentAssigned'),
           'value': parseInt(this.dash.lead_without_broker, 10)
         }
       ];
@@ -294,7 +296,7 @@ export class CsrBuyerComponent implements OnInit {
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     if (leads_ids.length === 0) {
       this.showSearchText = true;
-      swal('Error', 'Please choose atleast one lead.', 'error');
+      swal('Error', this.translate.instant('message.error.pleaseChooseAtleast1Lead'), 'error');
       return false;
     }
     if (!this.assign.items) {
@@ -324,7 +326,7 @@ export class CsrBuyerComponent implements OnInit {
     this.spinner.show();
     this.admin.postDataApi('leads/bulkAssignBuyer', input).subscribe(r => {
       this.spinner.hide();
-      swal('Success', 'Assigned successfully', 'success');
+      swal('Success', this.translate.instant('message.success.assignedSuccessfully'), 'success');
       this.closeAssignModel.nativeElement.click();
       this.getListing();
     },

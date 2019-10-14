@@ -1,27 +1,27 @@
 <div class="spacer30"></div>
 <div class="row">
   <div class="col-6">
-    <p class="p16">Interested Properties</p>
+    <p class="p16">{{'commonBlock.interestedProperties' | translate}}</p>
   </div>
   <div class="col-6">
     <div class="btn-cont text-right">
       <!-- add -->
       <a style="display: none;" #showPropertyModal href="javascript://" data-toggle="modal"
-        data-target="#add-property-popup">Add</a>
+        data-target="#add-property-popup">{{'commonBlock.add' | translate}}</a>
       <a style="margin-right:10px;"
         *ngIf="(sent_as==constant.userType.csr_buyer && (admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1)) ||
           sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==1 || admin?.permissions?.can_in_house_broker==1); else noAddPermission"
-        class="btn btn-fourth" href="javascript://" (click)="getCountries(lead_id)">Add</a>
+        class="btn btn-fourth" href="javascript://" (click)="getCountries(lead_id)">{{'commonBlock.add' | translate}}</a>
 
       <ng-template #noAddPermission>
-        <a class="btn btn-fourth" href="javascript://">Add</a>
+        <a class="btn btn-fourth" href="javascript://">{{'commonBlock.add' | translate}}</a>
       </ng-template>
 
       <!-- view  -->
       <a style="display: none;" data-toggle="modal" #showInterestedProperty data-target="#view-all-property"
-        class="btn btn-fourth" href="javascript://">View All</a>
+        class="btn btn-fourth" href="javascript://">{{'commonBlock.viewAll' | translate}}</a>
       <a *ngIf="interested_properties?.length>1" class="btn btn-fourth" href="javascript://"
-        (click)="viewProperties(interested_properties, 1)">View All</a>
+        (click)="viewProperties(interested_properties, 1)">{{'commonBlock.viewAll' | translate}}</a>
     </div>
   </div>
 </div>
@@ -32,7 +32,7 @@
 
     <div *ngIf="data.property.building && data && in<2" class="project-des-bx white-bg">
       <div class="price">
-        <p class="p10">{{data.property.for_sale == 1 ? ('leadDetails.buy' | translate) : 'Rent'}}</p>
+        <p class="p10">{{data.property.for_sale == 1 ? ('leadDetails.buy' | translate) : ('commonBlock.rent' | translate)}}</p>
       </div>
       <div class="fig-block">
         <img [src]="data.property.image| img:'thumb'" onerror='src="assets/img/placeholder-img.png"' alt="img">
@@ -59,21 +59,21 @@
           </button>
           <div class="dropdown-menu">
             <a style="display: none;" class="dropdown-item" href="javascript://" #modalOpen data-toggle="modal"
-              data-target="#dealFinalize">Deal Finalized</a>
+              data-target="#dealFinalize">{{'commonBlock.dealFinalized' | translate}}</a>
 
             <!-- deal finalised -->
             <a *ngIf="!is_deal_finalised && sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==1 || admin?.permissions?.can_in_house_broker==1)"
-              class="dropdown-item" href="javascript://" (click)="openModal(data.property.id, data.lead_id)">Deal
-              Finalized</a>
+              class="dropdown-item" href="javascript://" (click)="openModal(data.property.id, data.lead_id)">
+              {{'commonBlock.dealFinalized' | translate}}</a>
 
             <!-- Remove from in-property -->
             <a *ngIf="(sent_as==constant.userType.csr_buyer && (admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1)) ||
             sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==1 || admin?.permissions?.can_in_house_broker==1); else noRemovePermission"
-              class="dropdown-item" (click)="deleteLeadInterestedProperty(data.property.id, data.lead_id, in)">Remove
-              Property</a>
+              class="dropdown-item" (click)="deleteLeadInterestedProperty(data.property.id, data.lead_id, in)">
+              {{'commonBlock.removeProperty' | translate}}</a>
 
             <ng-template #noRemovePermission>
-              <a class="dropdown-item">Remove Property</a>
+              <a class="dropdown-item">{{'commonBlock.removeProperty' | translate}}</a>
             </ng-template>
           </div>
         </div>
@@ -95,43 +95,43 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content notary-avail">
       <div class="modal-header popup-header">
-        <h4 class="modal-title">Properties available</h4>
+        <h4 class="modal-title">{{'commonBlock.propertiesAvailable' | translate}}</h4>
         <button type="button" class="close" data-dismiss="modal" #hidePropertyModal>&times;</button>
       </div>
       <div class="modal-body">
         <div class="row">
           <div class="col-md-3">
             <div class="form-group">
-              <label>Country</label>
+              <label>{{'filters.location.country' | translate}}</label>
               <select class="form-control" (change)="onCountryChange($event.target.value)">
-                <option value="0">All</option>
+                <option value="0">{{'filters.location.allOption' | translate}}</option>
                 <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option>
               </select>
             </div>
           </div>
           <div class="col-md-3">
             <div class="form-group">
-              <label>State</label>
+              <label>{{'filters.location.state' | translate}}</label>
               <select class="form-control" (change)="onStateChange($event.target.value)">
-                <option value="0">All</option>
+                <option value="0">{{'filters.location.allOption' | translate}}</option>
                 <option *ngFor="let item of location.states" [value]="item.id">{{item.name}}</option>
               </select>
             </div>
           </div>
           <div class="col-md-3">
             <div class="form-group">
-              <label>City</label>
+              <label>{{'filters.location.city' | translate}}</label>
               <select class="form-control" (change)="onCityChange($event.target.value)">
-                <option value="0">All</option>
+                <option value="0">{{'filters.location.allOption' | translate}}</option>
                 <option *ngFor="let item of location.cities" [value]="item.id">{{item.name}}</option>
               </select>
             </div>
           </div>
           <div class="col-md-3">
             <div class="form-group">
-              <label>Locality</label>
+              <label>{{'filters.location.locality' | translate}}</label>
               <select class="form-control" (change)="onLocalityChange($event.target.value)">
-                <option value="0">All</option>
+                <option value="0">{{'filters.location.allOption' | translate}}</option>
                 <option *ngFor="let item of location.localities" [value]="item.id">{{item.name}}</option>
               </select>
             </div>
@@ -141,7 +141,7 @@
         <div class="row">
           <div class="col-md-3">
             <div class="form-group btn-cont">
-              <button class="btn btn-primary" (click)="propertySearch()">View Properties</button>
+              <button class="btn btn-primary" (click)="propertySearch()">{{'commonBlock.viewProperties' | translate}}</button>
             </div>
           </div>
           <div class="col-md-9 pull-right">
@@ -165,7 +165,7 @@
                   <div class="n-avail-info">
                     <p title="Apartment" class="p12">{{item.name}}</p>
                     <p class="p13">{{item.building.name}} &middot; {{item.building_towers.tower_name}} &middot;
-                      {{item.building_towers.num_of_floors == 0 ? 'Ground Floor' : 'Floor ' + item.building_towers.num_of_floors}}
+                      {{item.building_towers.num_of_floors == 0 ? ('commonBlock.groundFloor' | translate) : ('commonBlock.floor' | translate) + ' ' + item.building_towers.num_of_floors}}
                     </p>
                     <!-- <p class="p10 marginB0">{{item.building.address ? item.building.address : 'NA'}}</p> -->
                     <p class="p10">
@@ -191,15 +191,15 @@
           </tbody>
         </table>
         <div *ngIf="parameter?.items?.length==0 && parameter.noResultFound">
-          <p class="show-not-found">No property found for selected filters.</p>
+          <p class="show-not-found">{{'message.error.noPropertyFoundForFilters' | translate}}</p>
         </div>
         <div *ngIf="!parameter.noResultFound && parameter?.items?.length==0">
-          <p class="show-not-found">Select filters to view properties.</p>
+          <p class="show-not-found">{{'message.error.selectFilters' | translate}}</p>
         </div>
 
         <div *ngIf="property_ids.length>0" class="row pull-right">
           <div class="form-group btn-cont">
-            <button class="btn btn-primary" (click)="addPropertyToInterest()">Add Properties</button>
+            <button class="btn btn-primary" (click)="addPropertyToInterest()">{{'commonBlock.addProperties' | translate}}</button>
           </div>
         </div>
       </div>
@@ -222,7 +222,7 @@
           <div class="row">
             <div class="col-12">
               <div class="form-group-2">
-                <label for="token_amount">Amount to be paid by user</label>
+                <label for="token_amount">{{'commonBlock.amountToBePaid' | translate}}</label>
                 <div class="form-group">
                   <input id="token_amount" #token_amount=ngModel autocomplete="off" name="token_amount"
                     [(ngModel)]="model.token_amount" type="number" class="form-control" required>
@@ -231,7 +231,7 @@
             </div>
             <div class="col-12">
               <div class="form-group-2">
-                <label>Commission (in %)</label>
+                <label>{{'commonBlock.commissionInPercent' | translate}}</label>
                 <div class="form-group">
                   <input autocomplete="off" min="0" max="100" type="number" name="commision"
                     [(ngModel)]="model.commision" class="form-control" required>
@@ -240,7 +240,7 @@
             </div>
             <div class="col-12">
               <div class="form-group-2">
-                <label>Total Amount</label>
+                <label>{{'commonBlock.totalAmount' | translate}}</label>
                 <div class="form-group">
                   <input autocomplete="off" name="total_amount" [(ngModel)]="model.total_amount" type="number"
                     class="form-control" required>
@@ -252,7 +252,7 @@
             </div>
             <div class="col-12">
               <div class="btn-cont text-right">
-                <button style="width: 100%;" type="submit" class="btn btn-primary">Finalize Deal</button>
+                <button style="width: 100%;" type="submit" class="btn btn-primary">{{'commonBlock.finalizeDeal' | translate}}</button>
               </div>
             </div>
           </div>
@@ -271,7 +271,7 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <div class="modal-body">
-        <h3>Interested Properties</h3>
+        <h3>{{'commonBlock.interestedProperties' | translate}}</h3>
         <hr>
         <pagination-controls id="page2" class="my-pagination" (pageChange)="getPage2($event)"></pagination-controls>
 
@@ -281,7 +281,7 @@
               *ngFor="let x of parameter.interested_properties| paginate: { id: 'page2', itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page2, totalItems: parameter.total2 }; let in=index">
               <div class="project-des-bx white-bg-2">
                 <div class="price" *ngIf="x && x.property">
-                  <p class="p10">{{x.property.for_sale==1 ? ('leadDetails.buy' | translate) : 'Rent'}}</p>
+                  <p class="p10">{{x.property.for_sale==1 ? ('leadDetails.buy' | translate) : ('commonBlock.rent' | translate)}}</p>
                 </div>
                 <div class="fig-block">
                   <img [src]="x.property.image| img:'thumb'" onerror='src="assets/img/bank.png"' alt="img">
@@ -309,20 +309,19 @@
                     </button>
                     <div class="dropdown-menu">
                       <a style="display: none;" *ngIf="sent_as==2" class="dropdown-item" href="javascript://" #modalOpen
-                        data-toggle="modal" data-target="#dealFinalize">Deal Finalized</a>
+                        data-toggle="modal" data-target="#dealFinalize">{{'commonBlock.dealFinalized' | translate}}</a>
                       <!-- dela finalised -->
                       <a *ngIf="!is_deal_finalised && sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==1 || admin?.permissions?.can_in_house_broker==1)"
-                        class="dropdown-item" href="javascript://" (click)="openModal(x.property.id, x.lead_id)">Deal
-                        Finalized</a>
+                        class="dropdown-item" href="javascript://" (click)="openModal(x.property.id, x.lead_id)">{{'commonBlock.dealFinalized' | translate}}</a>
 
                       <!-- remove -->
                       <a *ngIf="(sent_as==constant.userType.csr_buyer && (admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1)) ||
                             sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==1 || admin?.permissions?.can_in_house_broker==1); else noRemovePermission"
                         class="dropdown-item"
-                        (click)="deleteLeadInterestedProperty(x.property.id, x.lead_id, in)">Remove Property</a>
+                        (click)="deleteLeadInterestedProperty(x.property.id, x.lead_id, in)">{{'commonBlock.removeProperty' | translate}}</a>
 
                       <ng-template #noRemovePermission>
-                        <a class="dropdown-item">Remove Property</a>
+                        <a class="dropdown-item">{{'commonBlock.removeProperty' | translate}}</a>
                       </ng-template>
                     </div>
                   </div>

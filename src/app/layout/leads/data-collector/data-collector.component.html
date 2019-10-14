@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-                <p class="p16">Manage Data Collector's Leads</p>
+                    <p class="p16">{{'leads.dataCollectorLeads' | translate}}</p>
             </div>
         </div>
     </div>
@@ -14,7 +14,7 @@
                 <div class="d-flex">
                 <!-- <button (click)="removeCsrUser()" class="all-btn">All</button> -->
                 <div class="autocomplete">
-                    <input placeholder="Search Data Collector" style="max-width:200px" list="amenities" [(ngModel)]="parameter.keyword" (input)="getCsrListing()" class="form-control" type="text" name="keyword" (focusout)="closeCsrListing()">
+                    <input placeholder="{{'addForm.placeholder.searchDataCollector' | translate}}" style="max-width:200px" list="amenities" [(ngModel)]="parameter.keyword" (input)="getCsrListing()" class="form-control" type="text" name="keyword" (focusout)="closeCsrListing()">
                     <div id="myInputautocomplete-list" class="autocomplete-items">
                         <div *ngFor="let item of users" (click)="selectCsrUser(item)">{{item.email}}</div>
                     </div>
@@ -26,19 +26,19 @@
             <div class="cust-tabs-2">
                 <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==1}" (click)="changeFlag(1)" >This Week</a>
+                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==1}" (click)="changeFlag(1)" >{{'filters.time.thisWeek' | translate}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==2}" (click)="changeFlag(2)" >This Month</a>
+                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==2}" (click)="changeFlag(2)" >{{'filters.time.thisMonth' | translate}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==3}" (click)="changeFlag(3)" >Last Month</a>
+                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==3}" (click)="changeFlag(3)" >{{'filters.time.lastMonth' | translate}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==4}" (click)="changeFlag(4)" >Lifetime</a>
+                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==4}" (click)="changeFlag(4)" >{{'filters.time.lifetime' | translate}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==5}" (click)="parameter.flag=5" >Custom</a>
+                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==5}" (click)="parameter.flag=5" >{{'filters.time.custom.label' | translate}}</a>
                 </li>
                 </ul>
             </div>
@@ -51,13 +51,13 @@
                 <div class="offset-lg-7"></div>
                 <div class="col-lg-2 col-md-2 col-sm-5 col-5">
                 <div class="form-group marginB0">
-                    <label>From:</label>
+                        <label>{{'filters.time.custom.from' | translate}}:</label>
                     <p-calendar showIcon="true" [(ngModel)]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
                 </div>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-5 col-5">
                 <div class="form-group marginB0">
-                    <label>To:</label>
+                        <label>{{'filters.time.custom.to' | translate}}:</label>
                     <p-calendar showIcon="true" [(ngModel)]="parameter.max" [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
                 </div>
                 </div>
@@ -65,7 +65,7 @@
                 <div class="form-group btn-cont">
                     <label class="addMT3">&nbsp;</label>
                     <button class="btn btn-calender" href="javascript://" (click)="getListing(); getCSRDashBoardData();"
-                        [disabled]="!parameter.min || !parameter.max">Apply</button>
+                        [disabled]="!parameter.min || !parameter.max">{{'filters.time.custom.applyBtn' | translate}}</button>
                 </div>
                 </div>
             </div>
@@ -74,27 +74,27 @@
     <div class="row">
         <div class="col-md-2">
             <div class="form-group">
-            <label>Country</label>
+                    <label>{{'filters.location.country' | translate}}</label>
             <select class="form-control" (change)="onCountryChange($event.target.value)">
-                <option value="0">All</option>
+                    <option value="0">{{'filters.location.allOption' | translate}}</option>
                 <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option>
             </select>
             </div>
         </div>
         <div class="col-md-2">
             <div class="form-group">
-            <label>State</label>
+                    <label>{{'filters.location.state' | translate}}</label>
             <select class="form-control" (change)="onStateChange($event.target.value)">
-                <option value="0">All</option>
+                    <option value="0">{{'filters.location.allOption' | translate}}</option>
                 <option *ngFor="let item of location.states" [value]="item.id">{{item.name}}</option>
             </select>
             </div>
         </div>
         <div class="col-md-2">
             <div class="form-group">
-            <label>City</label>
+                    <label>{{'filters.location.city' | translate}}</label>
                 <select class="form-control" (change)="onCityChange($event.target.value)">
-                <option value="0">All</option>
+                        <option value="0">{{'filters.location.allOption' | translate}}</option>
                 <option *ngFor="let item of location.cities" [value]="item.id">{{item.name}}</option>
                 </select>
             </div>
@@ -102,9 +102,9 @@
 
         <div class="col-md-2">
             <div class="form-group">
-            <label>Locality</label>
+                    <label>{{'filters.location.locality' | translate}}</label>
             <select class="form-control" (change)="onLocalityChange($event.target.value)">
-                <option value="0">All</option>
+                    <option value="0">{{'filters.location.allOption' | translate}}</option>
                 <option *ngFor="let item of location.localities" [value]="item.id">{{item.name}}</option>
             </select>
             </div>
@@ -113,14 +113,14 @@
         <div class="col-md-2">
             <div class="form-group btn-cont">
             <label style="display: block; margin-top: 3px;">&nbsp;</label>
-            <button type="button" (click)="getListing(); getCSRDashBoardData();" class="btn btn-primary-new width100P">Apply</button>
+            <button type="button" (click)="getListing(); getCSRDashBoardData();" class="btn btn-primary-new width100P">{{'filters.location.applyBtn' | translate}}</button>
             </div>
         </div>
 
         <div class="col-md-2">
             <div class="form-group btn-cont">
             <label style="display: block; margin-top: 3px;">&nbsp;</label>
-            <button type="button" (click)="resetFilters()" class="btn btn-primary-new width100P">Reset</button>
+            <button type="button" (click)="resetFilters()" class="btn btn-primary-new width100P">{{'filters.location.resetBtn' | translate}}</button>
             </div>
         </div>
     </div>
@@ -139,7 +139,7 @@
                 {{item.email}}
             </td>
             <td>
-                <a (click)="removeCsrUser()" href="javascript://" class="icon-block edit-icon"><img src="assets/img/remove-icon.png" alt="remove" title="remove" /></a>
+                <a (click)="removeCsrUser()" href="javascript://" class="icon-block edit-icon"><img src="assets/img/remove-icon.png" alt="remove" title="{{'table.title.remove' | translate}}" /></a>
             </td>
             </tr>
         </tbody>
@@ -151,11 +151,11 @@
         <div class="info-box">
             <div class="one-row" [ngClass]="{'active':parameter.count_flag == 1}" (click)="changeCountFlag(1)">
               <div class="o-block">
-                  <h5>Buildings</h5>
-                  <small>Requests Pending</small>
+                  <h5>{{'table.th.buildings' | translate}}</h5>
+                  <small>{{'table.th.requestsPending' | translate}}</small>
               </div>
               <div class="o-block">
-                  <a class="view-all" href="javascript://">View All</a>
+                  <a class="view-all" href="javascript://">{{'table.th.viewAll' | translate}}</a>
                   <h4>{{dash.request_pending_total}}</h4>
               </div>
             </div>
@@ -166,11 +166,11 @@
               </div> -->
               <div class="t-block" [ngClass]="{'active':parameter.count_flag == 2}" (click)="changeCountFlag(2)">
                   <p><strong>{{dash.request_pending_admin}}</strong></p>
-                  <p>Admin/Data Collector</p>
+                  <p>{{'table.th.adminDataCollector' | translate}}</p>
               </div>
               <div class="t-block" [ngClass]="{'active':parameter.count_flag == 3}" (click)="changeCountFlag(3)">
                   <p><strong>{{dash.request_pending_user}}</strong></p>
-                  <p>User</p>
+                  <p>{{'table.th.user' | translate}}</p>
               </div>
             </div>
         </div>
@@ -179,21 +179,21 @@
         <div class="four-block">
             <div class="d-flex">
               <div class="f-block approved" [ngClass]="{'active':parameter.count_flag == 4}" (click)="changeCountFlagForBuilding(4)">
-                  <h5>Approved</h5>
+                  <h5>{{'table.th.approved' | translate}}</h5>
                   <h3>{{dash.building_approved}}</h3>
               </div>
               <div class="f-block unapproved" [ngClass]="{'active':parameter.count_flag == 5}" (click)="changeCountFlagForBuilding(5)">
-                  <h5>Unapproved</h5>
+                  <h5>{{'table.th.unapproved' | translate}}</h5>
                   <h3>{{dash.building_unapproved}}</h3>
               </div>
             </div>
             <div class="d-flex">
               <div class="f-block pending" [ngClass]="{'active':parameter.count_flag == 6}" (click)="changeCountFlagForBuilding(6)">
-                  <h5>Pending</h5>
+                  <h5>{{'table.th.pendingReview' | translate}}</h5>
                   <h3>{{dash.building_pending}}</h3>
               </div>
               <div class="f-block unapproved" [ngClass]="{'active':parameter.count_flag == 7}" (click)="changeCountFlagForBuilding(7)">
-                  <h5>In Draft</h5>
+                  <h5>{{'table.th.inDraft' | translate}}</h5>
                   <h3>{{dash.building_draft}}</h3>
               </div>
             </div>
@@ -201,7 +201,7 @@
       </div>
       <div class="col-lg-4 col-md-12 col-sm-12 col-12">
             <div class="chat-msg all-leads" style="padding:0px;height:185px;">
-                <div class="padding20" *ngIf="dash?.request_pending_total == 0">No records found</div>
+                <div class="padding20" *ngIf="dash?.request_pending_total == 0">{{'message.error.noRecordFound' | translate}}</div>
                 <ngx-charts-pie-chart [results]="chartView"></ngx-charts-pie-chart>
             </div>
       </div>
@@ -213,14 +213,14 @@
       </div>
       <div class="col-lg-6 col-md-6 col-6">
         <div class="title-group">
-            <h5>Leads
-                <span *ngIf="parameter.count_flag == 1">(Total Request)</span>
-                <span *ngIf="parameter.count_flag == 2">(Admin Request)</span>
-                <span *ngIf="parameter.count_flag == 3">(User Request)</span>
-                <span *ngIf="parameter.count_flag == 4">(Approved)</span>
-                <span *ngIf="parameter.count_flag == 5">(Unapproved)</span>
-                <span *ngIf="parameter.count_flag == 6">(Pending)</span>
-                <span *ngIf="parameter.count_flag == 7">(In Draft)</span>
+            <h5>{{'table.th.leads' | translate}}
+                <span *ngIf="parameter.count_flag == 1">({{'table.th.totalRequest' | translate}})</span>
+                <span *ngIf="parameter.count_flag == 2">({{'table.th.adminRequest' | translate}})</span>
+                <span *ngIf="parameter.count_flag == 3">({{'table.th.userRequest' | translate}})</span>
+                <span *ngIf="parameter.count_flag == 4">({{'table.th.approved' | translate}})</span>
+                <span *ngIf="parameter.count_flag == 5">({{'table.th.unapproved' | translate}})</span>
+                <span *ngIf="parameter.count_flag == 6">({{'table.th.pending' | translate}})</span>
+                <span *ngIf="parameter.count_flag == 7">({{'table.th.inDraft' | translate}})</span>
             </h5>
             <p>
             <!-- Showing {{parameter.page}} out of {{parameter.total_count}} -->
@@ -229,7 +229,7 @@
       </div>
       <div class="col-lg-6 col-md-6 col-5" *ngIf="admin?.admin_acl['Data Collector Lead Management']?.can_read==1 && !this.parameter.assignee_id">
             <div class="add-new text-right">
-                <a class="btn" (click)="bulkAssign()" href="javascript://">Bulk Re-assign</a>
+                <a class="btn" (click)="bulkAssign()" href="javascript://">{{'table.th.bulkReassign' | translate}}</a>
             </div>
         </div>
   </div>
@@ -242,7 +242,7 @@
                         <!-- class="border-top-0" -->
                     <th *ngIf="admin?.admin_acl['Data Collector Lead Management']?.can_read==1 && !this.parameter.assignee_id" style="width:6%">
                         <div class="table-search">
-                            <label>All</label>
+                                <label>{{'table.th.all' | translate}}</label>
                             <div>
                                 <label class="cust-check-bx" >
                                     <input class="width1" type="checkbox" (click)="selectAll(parameter.is_selected)" name="document">
@@ -255,7 +255,7 @@
                     <!-- <th>Image</th> -->
                     <th style="width:15%">
                         <div class="table-search">
-                        <label>Name of Building</label>
+                                <label>{{'table.th.nameOfBuilding' | translate}}</label>
                         <div class="searh-3">
                             <input autocomplete="off" type="text" name="name" [(ngModel)]="parameter.name" (keyup.enter)="getListing()">
                             <button *ngIf="parameter.name" (click)="getListing()"><i class="fa fa-search"></i></button>
@@ -264,7 +264,7 @@
                     </th>
                     <th style="width:20%; text-align:left;">
                         <div class="table-search">
-                        <label>Address</label>
+                                <label>{{'table.th.address' | translate}}</label>
                         <div class="searh-3">
                             <input autocomplete="off" type="text" name="name" [(ngModel)]="parameter.location" (keyup.enter)="getListing()">
                             <button *ngIf="parameter.address" (click)="getListing()"><i class="fa fa-search"></i></button>
@@ -273,7 +273,7 @@
                     </th>
                     <th style="width:15%">
                         <div class="table-search">
-                        <label>Developer</label>
+                                <label>{{'table.th.developer' | translate}}</label>
                         <div class="searh-3">
                             <input autocomplete="off" type="text" name="name" [(ngModel)]="parameter.developer" (keyup.enter)="getListing()">
                             <button *ngIf="parameter.email" (click)="getListing()"><i class="fa fa-search"></i></button>
@@ -282,30 +282,30 @@
                     </th>
                     <th style="width:20%;">
                         <div class="table-search">
-                            <label>Contact <br>Email</label>
+                                <label>{{'table.th.emailAddress' | translate}}</label>
                         </div>
                     </th>
                     <!-- show collector name in case of 1,2,3 -->
                     <th style="width:14%" *ngIf="parameter.count_flag==1 || parameter.count_flag==2 || parameter.count_flag==3">
                         <div class="table-search">
-                            <label>Assignee</label>
+                            <label>{{'table.th.assignee' | translate}}</label>
                         </div>
                     </th>
                     <!-- mark complete only when it is request - 1,2,3 -->
                     <th style="width:15%" *ngIf="parameter.count_flag==1 || parameter.count_flag==2 || parameter.count_flag==3">
                         <div class="table-search">
-                            <label>Mark<br>Complete</label>
+                            <label>{{'table.th.markComplete' | translate}}</label>
                         </div>
                     </th>
                     <!-- use request details to create project -->
                     <th style="width:4%" *ngIf="parameter.count_flag==1 || parameter.count_flag==2 || parameter.count_flag==3">
                         <div class="table-search">
-                            <label>Use template</label>
+                            <label>{{'table.th.useTemplate' | translate}}</label>
                         </div>
                     </th>
                     <th style="width:9%" *ngIf="parameter.count_flag==4 || parameter.count_flag==5 || parameter.count_flag==6 || parameter.count_flag==7">
                         <div class="table-search">
-                            <label>Edit<br>Details</label>
+                            <label>{{'table.th.editDetails' | translate}}</label>
                         </div>
                     </th>
                  </tr>
@@ -326,50 +326,50 @@
                     <!-- dev name -->
                     <td *ngIf="parameter.count_flag==1 || parameter.count_flag==2 || parameter.count_flag==3">
                         <span>{{item?.dev_name}}</span>
-                        <span *ngIf="!item?.dev_name" >NA</span>
+                        <span *ngIf="!item?.dev_name" >{{'table.tr.td.NA' | translate}}</span>
                     </td>
                     <td *ngIf="parameter.count_flag==4 || parameter.count_flag==5 || parameter.count_flag==6 || parameter.count_flag==7">
                         <span>{{item?.developer?.name | titlecase}}</span>
-                        <span *ngIf="!item?.developer?.name" >NA</span>
+                        <span *ngIf="!item?.developer?.name" >{{'table.tr.td.NA' | translate}}</span>
                     </td>
                     <!-- dev phone & email -->
                     <td *ngIf="parameter.count_flag==1 || parameter.count_flag==2 || parameter.count_flag==3">
                         <span *ngIf="item.dev_phone">{{item?.dev_countrycode ? item.dev_countrycode : constant.dial_code}}-{{item?.dev_phone}}</span>
-                        <span *ngIf="!item.dev_phone">NA</span>
+                        <span *ngIf="!item.dev_phone">{{'table.tr.td.NA' | translate}}</span>
                         <br>
                         <span *ngIf="item.dev_email">{{item?.dev_email}}</span>
-                        <span *ngIf="!item.dev_email">NA</span>
+                        <span *ngIf="!item.dev_email">{{'table.tr.td.NA' | translate}}</span>
                     </td>
                     <td *ngIf="parameter.count_flag==4 || parameter.count_flag==5 || parameter.count_flag==6 || parameter.count_flag==7">
                         <span *ngIf="item?.developer?.phone">{{item?.developer?.dial_code ? item?.developer?.dial_code : constant.dial_code}}-{{item?.developer?.phone}}</span>
-                        <span *ngIf="!item?.developer?.phone">NA</span>
+                        <span *ngIf="!item?.developer?.phone">{{'table.tr.td.NA' | translate}}</span>
                         <br>
                         <span *ngIf="item?.developer?.email">{{item?.developer?.email}}</span>
-                        <span *ngIf="!item?.developer?.email">NA</span>
+                        <span *ngIf="!item?.developer?.email">{{'table.tr.td.NA' | translate}}</span>
                     </td>
                     <!-- show collector name in case of 1,2,3 -->
                     <td *ngIf="parameter.count_flag==1 || parameter.count_flag==2 || parameter.count_flag==3">
                         {{item?.collector?.name | titlecase}}
                     </td>
                     <td style="vertical-align:middle;" *ngIf="parameter.count_flag==1 || parameter.count_flag==2 || parameter.count_flag==3">
-                        <a title="Completed" *ngIf="item.status==1" style="cursor:auto;" class="green-color fontW500" href="javascript://">Completed</a>
+                        <a title="{{'table.title.completed' | translate}}" *ngIf="item.status==1" style="cursor:auto;" class="green-color fontW500" href="javascript://">Completed</a>
                         <a style="cursor:auto;" *ngIf="admin?.admin_acl['Data Collector Lead Management']?.can_update==0 || admin?.permissions?.can_data_collector==0" class="green-color fontW500" href="javascript://">Mark Complete</a>
-                        <a title="Mark Complete" *ngIf="item.status==0 && (admin?.admin_acl['Data Collector Lead Management']?.can_update==1 || admin?.permissions?.can_data_collector==1)" class="green-color fontW500" (click)="changeStatus(item, 1)" href="javascript://">Mark Complete</a>
+                        <a title="{{'table.title.markComplete' | translate}}" *ngIf="item.status==0 && (admin?.admin_acl['Data Collector Lead Management']?.can_update==1 || admin?.permissions?.can_data_collector==1)" class="green-color fontW500" (click)="changeStatus(item, 1)" href="javascript://">Mark Complete</a>
                     </td>
                     <!-- add project - use request details as template -->
                     <td *ngIf="parameter.count_flag==1 || parameter.count_flag==2 || parameter.count_flag==3">
-                        <button [disabled]="admin?.admin_acl['Data Collector Lead Management']?.can_update==0 || admin?.permissions?.can_data_collector==0" routerLink="/dashboard/projects/edit-building-request/{{item.id}}" title="Create Project" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                        <button [disabled]="admin?.admin_acl['Data Collector Lead Management']?.can_update==0 || admin?.permissions?.can_data_collector==0" routerLink="/dashboard/projects/edit-building-request/{{item.id}}" title="{{'table.title.createProject' | translate}}" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                     </td>
                     <!-- edit project in case of 4,5,6,7 -->
                     <td *ngIf="parameter.count_flag==4 || parameter.count_flag==5 || parameter.count_flag==6 || parameter.count_flag==7">
                         <!-- unapprove => when status=2(pending), 1(approved) && not in draft-->
                         <a style="display:none;" #modalOpen data-toggle="modal" data-target="#addNote"></a>
                         <button (click)="openCancellationModal(item, i)" [disabled]="admin?.admin_acl['Data Collector Lead Management']?.can_update==0" 
-                        *ngIf="(item.status == 1 || item.status==2) && parameter.count_flag!=7" class="action-icon" title="Unapprove"><img src="assets/img/ic_disapprove.png" alt="img"></button>
+                        *ngIf="(item.status == 1 || item.status==2) && parameter.count_flag!=7" class="action-icon" title="{{'table.title.unapprove' | translate}}"><img src="assets/img/ic_disapprove.png" alt="img"></button>
                         <!-- approve => when status=2(pending), 4(rejected) && not in draft-->
                         <button [disabled]="admin?.admin_acl['Data Collector Lead Management']?.can_update==0" 
-                        *ngIf="(item.status == 2 || item.status == 4) && parameter.count_flag!=7" (click)="approveProject(item, 1);" class="action-icon" title="Approve"><img src="assets/img/tick.png" alt="img"></button>
-                        <button [disabled]="admin?.admin_acl['Data Collector Lead Management']?.can_update==0 || admin?.permissions?.can_data_collector==0" routerLink="/dashboard/projects/edit-project/{{item.id}}" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                        *ngIf="(item.status == 2 || item.status == 4) && parameter.count_flag!=7" (click)="approveProject(item, 1);" class="action-icon" title="{{'table.title.approve' | translate}}"><img src="assets/img/tick.png" alt="img"></button>
+                        <button [disabled]="admin?.admin_acl['Data Collector Lead Management']?.can_update==0 || admin?.permissions?.can_data_collector==0" routerLink="/dashboard/projects/edit-project/{{item.id}}" title="{{'table.title.editDetails' | translate}}" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                     </td>
                  </tr>
               </table>
@@ -385,7 +385,7 @@
         <div class="row">
             <div class="col-6">
                 <div class="title-group">
-                    <p>Showing {{items?.length}} out of {{parameter.total}}</p>
+                        <p>{{'table.pagination.showing' | translate}} {{items?.length}} {{'table.pagination.outof' | translate}} {{parameter.total}}</p>
                 </div>
             </div>
             <div class="col-6 text-right">
@@ -402,16 +402,16 @@
         <div class="modal-dialog ">
             <div class="modal-content notary-avail">
                 <div class="modal-header popup-header">
-                <h4 class="modal-title">Re Assign to</h4>
+                <h4 class="modal-title">{{'leads.reAssignTo' | translate}}</h4>
                 <button type="button" class="close" data-dismiss="modal" #closeAssignModel>&times;</button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-8 col-6">
-                            <input style="max-width:200px" list="amenities" [(ngModel)]="assign.keyword" (keyup.enter)="getAssignListing()" class="form-control" type="text" name="keyword" placeholder="Search">
+                            <input style="max-width:200px" list="amenities" [(ngModel)]="assign.keyword" (keyup.enter)="getAssignListing()" class="form-control" type="text" name="keyword" placeholder="{{'addForm.placeholder.search' | translate}}">
                         </div>
                         <div class="col-md-4 col-6 btn-cont">
-                            <a class="btn btn-primary pull-right" href="javascript://" (click)="assignNow()">Assign</a>
+                            <a class="btn btn-primary pull-right" href="javascript://" (click)="assignNow()">{{'leads.assign' | translate}}</a>
                         </div>
                     </div>
                     <div class="spacer40"></div>
@@ -423,7 +423,7 @@
                                     <img [src]="item.image" onerror='src="assets/img/default_img.png"' alt="img">
                                     <div class="n-avail-info">
                                         <p class="p12">{{item.name | titlecase}}</p>
-                                        <p class="p10">Phone : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
+                                        <p class="p10">{{'leads.phone' | translate}} : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
                                     </div>
                                     </div>
                                 </td>
@@ -435,7 +435,7 @@
                                 </td>
                             </tr>
                             <tr *ngIf="assign?.items?.length==0">
-                                <p class="show-not-found">No Data Collector found.</p>
+                                <p class="show-not-found">{{'leads.noDataCollector' | translate}}</p>
                             </tr>
                         </table>
                     </div>
@@ -450,7 +450,7 @@
     <div class="modal-dialog fadeIndown">
         <div class="modal-content">
         <div class="modal-header modal-header-new">
-            <h4 class="modal-title">Add Reason</h4>
+            <h4 class="modal-title">{{'leads.addReason' | translate}}</h4>
             <button style="display: none;" type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
             <button type="button" class="close" (click)="closeModal()">&times;</button>
         </div>
@@ -467,7 +467,7 @@
                 </div>
                 <div class="col-12">
                     <div class="btn-cont text-right">
-                        <button type="submit" [disabled]="!addForm.valid" class="btn btn-primary">Add</button>
+                        <button type="submit" [disabled]="!addForm.valid" class="btn btn-primary">{{'leads.add' | translate}}</button>
                     </div>
                 </div>
             </div>

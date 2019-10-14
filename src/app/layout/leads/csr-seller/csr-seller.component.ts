@@ -7,6 +7,7 @@ import { IProperty } from 'src/app/common/property';
 import { Users } from 'src/app/models/users.model';
 import { AdminService } from 'src/app/services/admin.service';
 import { LeadsService } from 'src/app/services/leads.service';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -46,7 +47,8 @@ export class CsrSellerComponent implements OnInit {
     private constant: Constant,
     private route: ActivatedRoute,
     private router: Router,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -241,15 +243,15 @@ export class CsrSellerComponent implements OnInit {
       this.dash = r.data;
       this.chartView = [
         {
-          'name': 'Lead Property pending',
+          'name': this.translate.instant('leads.propertyPending'),
           'value': parseInt(this.dash.lead_property_pending, 10)
         },
         {
-          'name': 'Lead with Property',
+          'name': this.translate.instant('leads.leadWithProperty'),
           'value': parseInt(this.dash.lead_with_property, 10)
         },
         {
-          'name': 'Lead without Property',
+          'name': this.translate.instant('leads.leadWithoutProperty'),
           'value': parseInt(this.dash.lead_without_property, 10)
         }
       ];
@@ -313,7 +315,7 @@ export class CsrSellerComponent implements OnInit {
   bulkAssign() {
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     if (leads_ids.length === 0) {
-      swal('Error', 'Please choose atleast one lead.', 'error');
+      swal('Error', this.translate.instant('message.error.pleaseChooseAtleast1Lead'), 'error');
       return false;
     }
     if (!this.assign.items) {
@@ -343,7 +345,7 @@ export class CsrSellerComponent implements OnInit {
     this.spinner.show();
     this.admin.postDataApi('leads/bulkAssignSeller', input).subscribe(r => {
       this.spinner.hide();
-      swal('Success', 'Assigned successfully', 'success');
+      swal('Success', this.translate.instant('message.success.assignedSuccessfully'), 'success');
       this.closeAssignModel.nativeElement.click();
       this.getListing();
     },
@@ -359,7 +361,7 @@ export class CsrSellerComponent implements OnInit {
     if (csr_seller_id) {
       this.router.navigate(['/dashboard/leads/chat-with-seller', chat_with, csr_seller_id, lead_id]);
     } else {
-      swal('Error', 'No CSR Seller is assigned.', 'error');
+      swal('Error', this.translate.instant('message.error.noCSRSellerAssigned'), 'error');
     }
   }
 }

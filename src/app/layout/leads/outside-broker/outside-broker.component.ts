@@ -6,8 +6,8 @@ import { Constant } from 'src/app/common/constants';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
-// import { TranslateService } from 'src/app/lang/translate.service';
 import { LeadsService } from 'src/app/services/leads.service';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -45,7 +45,8 @@ export class OutsideBrokerComponent implements OnInit {
     public leadsService: LeadsService,
     private constant: Constant,
     private route: ActivatedRoute,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -223,15 +224,15 @@ export class OutsideBrokerComponent implements OnInit {
         //   'value': parseInt(this.dash.lead_total, 10)
         // },
         {
-          'name': 'Lead (Properties)',
+          'name': this.translate.instant('leads.properties'),
           'value': parseInt(this.dash.lead_properties, 10)
         },
         {
-          'name': 'Lead (Open)',
+          'name': this.translate.instant('leads.leadsOpen'),
           'value': parseInt(this.dash.lead_open, 10)
         },
         {
-          'name': 'Leads (Deal finalized)',
+          'name': this.translate.instant('leads.dealFinalised'),
           'value': parseInt(this.dash.lead_closed, 10)
         }
       ];
@@ -286,7 +287,8 @@ export class OutsideBrokerComponent implements OnInit {
     $event.stopPropagation();
     this.parameter.url = 'leads/updateLeadType';
     swal({
-      html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to change availability for this property?',
+      html: this.translate.instant('message.question.areYouSure') + '<br>' +
+        this.translate.instant('message.question.wantToChangeAvailablity'),
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -300,7 +302,7 @@ export class OutsideBrokerComponent implements OnInit {
             success => {
               this.spinner.hide();
               this.items[index].sale_rent = sale_rent;
-              swal('Success', 'Availability for this property changed successfully.', 'success');
+              swal('Success', this.translate.instant('message.success.availablityChangedSuccessfully'), 'success');
             }, error => {
               this.spinner.hide();
             });
@@ -319,7 +321,7 @@ export class OutsideBrokerComponent implements OnInit {
     // this.assign.keyword = '';
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     if (leads_ids.length === 0) {
-      swal('Error', 'Please choose atleast one lead.', 'error');
+      swal('Error', this.translate.instant('message.error.pleaseChooseAtleast1Lead'), 'error');
       return false;
     }
     if (!this.assign.items) {
@@ -351,7 +353,7 @@ export class OutsideBrokerComponent implements OnInit {
     this.spinner.show();
     this.admin.postDataApi('leads/bulkAssignBroker', input).subscribe(r => {
       this.spinner.hide();
-      swal('Success', 'Assigned successfully', 'success');
+      swal('Success', this.translate.instant('message.success.assignedSuccessfully'), 'success');
       this.closeAssignModel.nativeElement.click();
       this.getListing();
     },

@@ -8,7 +8,7 @@ import { IProperty } from 'src/app/common/property';
 import { Users } from 'src/app/models/users.model';
 import { AdminService } from 'src/app/services/admin.service';
 import { LeadsService } from 'src/app/services/leads.service';
-// import { TranslateService } from 'src/app/lang/translate.service';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -48,7 +48,8 @@ export class CsrCloserComponent implements OnInit {
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
     public leadsService: LeadsService,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -247,19 +248,19 @@ export class CsrCloserComponent implements OnInit {
       this.dash = r.data;
       this.chartView = [
         {
-          'name': 'Noatary (Not assigned)',
+          'name': this.translate.instant('leads.notaryNotAssigned'),
           'value': parseInt(this.dash.noatary_pending, 10)
         },
         {
-          'name': 'Bank (Not assigned)',
+          'name': this.translate.instant('leads.notaryNotAssigned'),
           'value': parseInt(this.dash.bank_pending, 10)
         },
         {
-          'name': 'Lead (Open)',
+          'name': this.translate.instant('leads.leadsOpen'),
           'value': parseInt(this.dash.lead_open, 10)
         },
         {
-          'name': 'Lead (Closed)',
+          'name': this.translate.instant('leads.leadsClosed'),
           'value': parseInt(this.dash.lead_closed, 10)
         }
       ];
@@ -324,7 +325,7 @@ export class CsrCloserComponent implements OnInit {
   bulkAssign() {
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     if (leads_ids.length === 0) {
-      swal('Error', 'Please choose atleast one lead.', 'error');
+      swal('Error', this.translate.instant('message.error.pleaseChooseAtleast1Lead'), 'error');
       return false;
     }
     if (!this.assign.items) {
@@ -352,7 +353,7 @@ export class CsrCloserComponent implements OnInit {
       leads: leads_ids
     };
     this.admin.postDataApi('leads/bulkAssignCloser', input).subscribe(r => {
-      swal('Success', 'Assigned successfully', 'success');
+      swal('Success', this.translate.instant('message.success.assignedSuccessfully'), 'success');
       this.closeAssignModel.nativeElement.click();
       this.getListing();
     },

@@ -4,6 +4,7 @@ import { Notes } from 'src/app/models/leads.model';
 import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
 import { Constant } from 'src/app/common/constants';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -23,7 +24,8 @@ export class NotesComponent implements OnInit {
   public parameter: IProperty = {};
   public scrollbarOptions = { axis: 'y', theme: 'dark'};
 
-  constructor(public admin: AdminService, public model: Notes, public constant: Constant) { }
+  constructor(public admin: AdminService, public model: Notes, public constant: Constant,
+    private translate: TranslateService) { }
 
   ngOnInit() {
     this.model.id = 0;
@@ -39,14 +41,14 @@ export class NotesComponent implements OnInit {
       this.closeModal();
       // this.parameter.items.push(r.data);
       this.parameter.items = r.data;
-      swal('Success', this.constant.successMsg.NOTE_ADDED_SUCCESSFULLY, 'success');
+      swal('Success', this.translate.instant('message.success.addedSuccessfully'), 'success');
     });
   }
 
   deleteLeadPopup(note_id, index) {
+    this.parameter.text = this.translate.instant('message.question.wantToDeleteNote');
     swal({
-      title: 'Are you sure?',
-      text: 'You want to delete this note?',
+      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -62,7 +64,7 @@ export class NotesComponent implements OnInit {
   deleteLeadNote(note_id, index) {
     this.admin.postDataApi('leads/deleteLeadNote', {note_id: note_id}).subscribe(r => {
       this.parameter.items.splice(index, 1);
-      swal('Success', this.constant.successMsg.NOTE_DELETED_SUCCESSFULLY, 'success');
+      swal('Success', this.translate.instant('message.success.deletedSuccessfully'), 'success');
     });
   }
 

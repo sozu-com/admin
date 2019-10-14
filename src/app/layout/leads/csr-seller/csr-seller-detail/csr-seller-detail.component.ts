@@ -4,6 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { IProperty } from 'src/app/common/property';
 import { Constant } from 'src/app/common/constants';
 import { AdminService } from 'src/app/services/admin.service';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -31,7 +32,8 @@ export class CsrSellerDetailComponent implements OnInit {
     public constant: Constant,
     private route: ActivatedRoute,
     public admin: AdminService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -152,7 +154,7 @@ export class CsrSellerDetailComponent implements OnInit {
   block(item) {
     item.is_blocked = true;
     this.admin.postDataApi('blockProperty', { property_id: item.id, flag: 1 }).subscribe(r => {
-      swal('Success', 'Property blocked successfully', 'success');
+      swal('Success', this.translate.instant('message.success.propertyBlockedSuccessfully'), 'success');
     },
       error => {
         swal('Error', error.error.message, 'error');
@@ -162,7 +164,7 @@ export class CsrSellerDetailComponent implements OnInit {
   unblock(item) {
     item.is_blocked = false;
     this.admin.postDataApi('blockProperty', { property_id: item.id, flag: 0 }).subscribe(r => {
-      swal('Success', 'Property unblocked successfully', 'success');
+      swal('Success', this.translate.instant('message.success.propertyUnblockedSuccessfully'), 'success');
     },
       error => {
         swal('Error', error.error.message, 'error');
@@ -172,7 +174,7 @@ export class CsrSellerDetailComponent implements OnInit {
   changeStatus(item, status) {
     item.status = status;
     this.admin.postDataApi('updatePropertyStatus', { property_id: item.id, status_id: status }).subscribe(r => {
-      swal('Success', 'Property status changed', 'success');
+      swal('Success', this.translate.instant('message.success.propertyStatusChanged'), 'success');
     },
       error => {
         swal('Error', error.error.message, 'error');

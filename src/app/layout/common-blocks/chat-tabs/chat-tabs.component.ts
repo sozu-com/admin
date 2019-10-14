@@ -388,7 +388,7 @@ export class ChatTabsComponent implements OnInit {
   sendMessage(model) {
     model.sent_as = this.sent_as;
     if (model.message_type === 1 && !model.message) {
-      swal('Error', 'Please enter some text.', 'error');
+      swal('Error', this.translate.instant('message.error.pleaseEnterText'), 'error');
     } else {
       // setTimeout(() => {
       //   this.scrollToBottom();
@@ -414,7 +414,7 @@ export class ChatTabsComponent implements OnInit {
     input.append('attachment_name', file.name);
 
     this.admin.postDataApi('uploadDealDocument', input).subscribe(r => {
-      swal('Success', 'Successfully uploaded the document', 'success');
+      swal('Success', this.translate.instant('message.success.uploadedSuccessfully'), 'success');
     });
   }
 
@@ -429,7 +429,7 @@ export class ChatTabsComponent implements OnInit {
       } else {
         this.chat_admin = {};
         this.messages = [];
-        swal('Error', 'Please assign agent to continue.', 'error');
+        swal('Error', this.translate.instant('message.error.pleaseAssignAgentToContinue'), 'error');
         return false;
       }
     }
@@ -490,20 +490,21 @@ export class ChatTabsComponent implements OnInit {
 
   sendProperty(property) {
     const model = new Chat;
-    model.message = property.name + ' with ';
+    model.message = property.name + ' ' + this.translate.instant('commonBlock.with') + ' ';
     if (property.configuration.bedroom) {
-      model.message += property.configuration.bedroom + ' Bed ';
+      model.message += property.configuration.bedroom + ' ' + this.translate.instant('commonBlock.bed') + ' ';
     }
     if (property.configuration.bathroom) {
-      model.message += this.constant.middleDot + property.configuration.bathroom + ' Bath';
+      model.message += this.constant.middleDot + property.configuration.bathroom + ' ' + this.translate.instant('commonBlock.bath') + ' ';
     }
     if (property.configuration.half_bathroom) {
-      model.message += this.constant.middleDot + property.configuration.half_bathroom + ' Half Bath';
+      model.message += this.constant.middleDot + property.configuration.half_bathroom + ' ' +
+      this.translate.instant('commonBlock.halfBath') + ' ';
     }
     if (property.property_type.name) {
       model.message += this.constant.middleDot + property.property_type.name;
     }
-    model.message += ' in ' + property.building.name;
+    model.message += ' ' + this.translate.instant('commonBlock.in') + ' ' + property.building.name;
 
     model.message_type = 5;
     model.property_id = property.id;

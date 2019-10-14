@@ -1,14 +1,14 @@
 <div class="spacer30"></div>
 <div class="row">
   <div class="col-6">
-    <p class="p16">Viewed Projects</p>
+    <p class="p16">{{'commonBlock.viewedProjects' | translate}}</p>
   </div>
   <div class="col-6">
     <div class="btn-cont text-right">
       <a style="display: none;" data-toggle="modal" #showProjectModal data-target="#view-viewed-projects"
-        class="btn btn-fourth" href="javascript://">View All</a>
+        class="btn btn-fourth" href="javascript://">{{'commonBlock.viewAll' | translate}}</a>
       <a *ngIf="viewed_projects?.length>1" class="btn btn-fourth" href="javascript://"
-        (click)="viewProjects(viewed_properties, 1, user_id)">View All</a>
+        (click)="viewProjects(viewed_properties, 1, user_id)">{{'commonBlock.viewAll' | translate}}</a>
     </div>
   </div>
 </div>
@@ -23,7 +23,7 @@
         <img [src]="data.main_image| img:'thumb'" onerror='src="assets/img/placeholder-img.png"' alt="img">
       </div>
       <div class="project-des-content">
-        <small title="Developer">{{data?.developer?.name ? data?.developer?.name : 'NA'}}</small>
+        <small title="Developer">{{data?.developer?.name ? data?.developer?.name : ('commonBlock.NA' | translate)}}</small>
         <a title="Building Name" routerLink="/dashboard/projects/details/{{data.id}}">
           <h5>{{data.name.slice(0, 35)}}</h5>
         </a>
@@ -58,7 +58,7 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <div class="modal-body">
-        <h3>Viewed Projects</h3>
+        <h3>{{'commonBlock.viewedProjects' | translate}}</h3>
         <hr>
         <pagination-controls id="v-projects-1" class="my-pagination" (pageChange)="getPage($event)">
         </pagination-controls>
@@ -72,7 +72,7 @@
                   <img [src]="x.main_image| img:'thumb'" onerror='src="assets/img/bank.png"' alt="img">
                 </div>
                 <div class="project-des-content">
-                  <small title="Developer">{{x?.developer?.name ? x?.developer?.name : 'NA'}}</small>
+                  <small title="Developer">{{x?.developer?.name ? x?.developer?.name : ('commonBlock.NA' | translate)}}</small>
                   <a title="Building Name" routerLink="/dashboard/projects/details/{{x.id}}">
                     <h5>{{x.name.slice(0, 15)}}</h5>
                   </a>
@@ -81,7 +81,7 @@
                     <span *ngFor="let conf of x.configurations; let ii=index">
                       {{conf.name ? conf.name : conf.config.name}}<span *ngIf="ii<x?.configurations?.length-1">,</span>
                     </span>
-                    <span *ngIf="x.configurations?.length==0">NA</span>
+                    <span *ngIf="x.configurations?.length==0">{{'commonBlock.NA' | translate}}</span>
                   </p>
                   <p class="p13">{{x.starting_price|price}}</p>
                 </div>
