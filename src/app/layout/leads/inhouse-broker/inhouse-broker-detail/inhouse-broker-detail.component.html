@@ -20,19 +20,19 @@
               <li>
                   <div class="df-info">
                       <p class="p14 marginB0" *ngIf="leadData?.admin">{{leadData.admin.name | titlecase}}</p>
-                      <p class="p12">CSR Buyer</p>
+                      <p class="p12">{{'leadDetails.CSRBuyer' | translate}}</p>
                   </div>
               </li>
               <li>
                   <div class="df-info" *ngIf="leadData?.broker">
                       <p class="p14 marginB0">{{leadData.broker.name | titlecase}}</p>
-                      <p class="p12">{{leadData?.broker?.is_external_agent==1 ? 'Outside Agent' : 'Inhouse Agent'}}</p>
+                      <p class="p12">{{leadData?.broker?.is_external_agent==1 ? ('leadDetails.outsideAgent' | translate) : ('leadDetails.inhouseAgent' | translate)}}</p>
                   </div>
               </li>
               <li>
                   <div class="df-info" *ngIf="leadData?.closer">
                       <p class="p14 marginB0">{{leadData?.closer?.name | titlecase}}</p>
-                      <p class="p12">CSR Closure</p>
+                      <p class="p12">{{'leadDetails.CSRClosure' | translate}}</p>
                   </div>
               </li>
           </ul>
@@ -55,7 +55,7 @@
     <div class="col-lg-2 col-md-12 col-sm-12 col-12">
         <div class="row">
             <div class="col-sm-12 col-6 btn-cont">
-                <a (click)="getInvoice()" class="btn btn-fourth" href="javascript://">Invoice</a>
+                <a (click)="getInvoice()" class="btn btn-fourth" href="javascript://">{{'leadDetails.invoice' | translate}}</a>
                 <!-- <button type="button" class="btn btn-primary-new dropdown-toggle" data-toggle="dropdown">
                  Action
                </button>
@@ -74,10 +74,10 @@
         <div class="white-bg padding30">
            <div class="row">
               <div class="col-md-6">
-                 <h6>Details</h6>
+                 <h6>{{'leadDetails.details' | translate}}</h6>
               </div>
               <div class="col-md-6">
-                <h6 class="pull-right greenh6" *ngIf="is_deal_finalised">Deal Finalized</h6>
+                <h6 class="pull-right greenh6" *ngIf="is_deal_finalised">{{'leadDetails.dealFinalized' | translate}}</h6>
                     <!-- <div class="btn-cont">
                         <a *ngIf="is_deal_finalised" style="cursor: auto;" class="btn btn-fourth" href="javascript://">Deal Finalized</a>
                     </div> -->
@@ -87,45 +87,45 @@
            <div class="details-table">
              <table class="table">
                 <tbody><tr>
-                   <td style="padding-left:0"><label>Full Name</label></td>
+                   <td style="padding-left:0"><label>{{'leadDetails.fullName' | translate}}</label></td>
                    <td *ngIf="leadData?.name">{{leadData.user.name | titlecase}}</td>
                 </tr>
                 <tr>
-                   <td style="padding-left:0"><label>Contact Number</label></td>
+                   <td style="padding-left:0"><label>{{'leadDetails.contactNumber' | translate}}</label></td>
                    <td *ngIf="leadData?.phone">{{leadData.user.dial_code ? leadData.user.dial_code : constant.dial_code}}-{{leadData.phone}}</td>
                 </tr>
                 <tr>
-                   <td style="padding-left:0"><label>Email address</label></td>
+                   <td style="padding-left:0"><label>{{'leadDetails.emailAddress' | translate}}</label></td>
                    <td *ngIf="leadData?.email">{{leadData.user.email}}</td>
                 </tr>
                 <tr>
-                   <td style="padding-left:0"><label>Interested In</label></td>
+                   <td style="padding-left:0"><label>{{'leadDetails.interestedIn' | translate}}</label></td>
                    <td *ngIf="leadData?.configuration">
                      <span *ngFor="let conf of leadData.configuration; let ii=index">
                         <app-property-configuration *ngIf="conf" [configuration]="conf"></app-property-configuration>
                         <span *ngIf="ii<leadData?.configuration?.length-1"> | </span> <br>
                      </span>
-                     <span *ngIf="leadData.configuration?.length==0">NA</span>
+                     <span *ngIf="leadData.configuration?.length==0">{{'leadDetails.NA' | translate}}</span>
                    </td>
                 </tr>
                 <tr>
-                   <td style="padding-left:0"><label>Favorite Properties</label></td>
+                   <td style="padding-left:0"><label>{{'leadDetails.favoriteProperties' | translate}}</label></td>
                    <td>{{parameter.fav_properties_count}} 
                       <a style="display: none;" data-toggle="modal" #showPropertyModal data-target="#view-fav-property" class="view-all" href="javascript://">View All</a>
-                      <a *ngIf="parameter.fav_properties_count" class="view-all" href="javascript://" (click)="viewFavProperties()">View All</a>
+                      <a *ngIf="parameter.fav_properties_count" class="view-all" href="javascript://" (click)="viewFavProperties()">{{'leadDetails.viewAll' | translate}}</a>
                     </td>
                 </tr>
 
                 <!-- Meeting Schedule -->
                 <tr *ngIf="leadData?.sale_rent==1">
-                    <td  style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
+                    <td  style="padding-left:0"><label><strong>{{'leadDetails.meetingSchedule' | translate}}</strong></label></td>
                     <td colspan="2">
                         <p style="display:none;" class="date" #modalOpen data-toggle="modal" data-target="#set_appointment">Click to Schedule</p>
-                        <p class="date cursor-pointer" (click)="openModal()">Click to Schedule</p>
+                        <p class="date cursor-pointer" (click)="openModal()">{{'leadDetails.clickToSchedule' | translate}}</p>
                         <p *ngFor="let na of data; let m=index" class="date">
                             <span *ngIf="m<2">{{na.appointment_date | moment}}</span>
                         </p>
-                        <span class="read-more" *ngIf="data.length>2" data-toggle="modal" data-target="#get-availability1">View all</span>
+                        <span class="read-more" *ngIf="data.length>2" data-toggle="modal" data-target="#get-availability1">{{'leadDetails.viewAll' | translate}}</span>
                     </td>
                     <!-- <ng-template #noAvailability1>
                         <td colspan="2"><p>No meeting scheduled by you.</p></td>
@@ -148,7 +148,7 @@
         <div>
             <div class="white-bg move-below">
                 <div class="page-title-3 marginB0">
-                    <h4><i><img src="assets/img/chat-icon.png" alt="img"></i> Chat</h4>
+                    <h4><i><img src="assets/img/chat-icon.png" alt="img"></i> {{'leadDetails.chat' | translate}}</h4>
                 </div>
                 <div class="cust-tabs-4">
                     <app-chat-tabs *ngIf="leadData?.user" [lead_id]="parameter.lead_id" [sent_as]="parameter.sent_as"
@@ -163,13 +163,13 @@
         <!-- chat with developer -->
         <div class="white-bg chat-with-developer padding15">
            <i class="float-left marginR15"><img src="assets/img/chat-icon.png" alt="img"></i>
-           <a href="javascript://" routerLink="/dashboard/leads/chat-list/1/{{parameter.lead_id}}">Chat with Seller <i class="fa fa-angle-right"></i></a>
+           <a href="javascript://" routerLink="/dashboard/leads/chat-list/1/{{parameter.lead_id}}">{{'leadDetails.chatWithSeller' | translate}} <i class="fa fa-angle-right"></i></a>
         </div>
 
         <!-- chat with csr seller -->
         <div class="white-bg chat-with-developer padding15">
             <i class="float-left marginR15"><img src="assets/img/chat-icon.png" alt="img"></i>
-            <a href="javascript://" routerLink="/dashboard/leads/chat-list/2/{{parameter.lead_id}}">Chat with CSR Seller<i class="fa fa-angle-right"></i></a>
+            <a href="javascript://" routerLink="/dashboard/leads/chat-list/2/{{parameter.lead_id}}">{{'leadDetails.chatWithCSRSeller' | translate}}<i class="fa fa-angle-right"></i></a>
         </div>
         
         <!-- <app-fill-information [sent_as]="parameter.sent_as" [fillInfo]="fillInfo" [lead_id]="parameter.lead_id"></app-fill-information> -->
@@ -214,7 +214,7 @@
             <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
-            <h3>Favorite Properties</h3>
+            <h3>{{'leadDetails.favoriteProperties' | translate}}</h3>
             <hr>
             <pagination-controls id="page2" class="my-pagination" (pageChange)="getPage2($event)"></pagination-controls>
     
@@ -224,14 +224,14 @@
                 *ngFor="let x of parameter.favorites| paginate: { id: 'page2', itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page2, totalItems: parameter.total2 }; let in=index">
                 <div class="project-des-bx white-bg-2">
                     <div class="price" *ngIf="x">
-                    <p class="p10">{{x.for_sale==1 ? ('leadDetails.buy' | translate) : 'Rent'}}</p>
+                    <p class="p10">{{x.for_sale==1 ? ('leadDetails.buy' | translate) : ('leadDetails.rent' | translate)}}</p>
                     </div>
                     <div class="fig-block">
                     <img [src]="x.image| img:'thumb'" onerror='src="assets/img/bank.png"' alt="img">
                     </div>
                     <div class="project-des-content">
-                        <small title="Apartment">{{x?.name}}</small>
-                    <a title="Building" routerLink="/dashboard/properties/details/{{x?.id}}">
+                        <small title="{{'table.title.apartment' | translate}}">{{x?.name}}</small>
+                    <a title="{{'table.title.building' | translate}}" routerLink="/dashboard/properties/details/{{x?.id}}">
                         <h5>{{x?.building?.name.slice(0, 15)}}</h5>
                     </a>
                     <p class="p12">{{x.building.address.slice(0, 40)}}</p>
@@ -284,7 +284,7 @@
         <div class="modal-dialog fadeIndown">
             <div class="modal-content">
                 <div class="modal-header modal-header-new">
-                        <h4 class="modal-title">Schedule Meeting</h4>
+                        <h4 class="modal-title">{{'leadDetails.scheduleMeeting' | translate}}</h4>
                     <button type="button" style="display: none;" class="close" data-dismiss="modal" #modalClose>&times;</button>
                     <button type="button" class="close" (click)="closeModal()">&times;</button>
                 </div>
@@ -293,13 +293,13 @@
                 <div class="modal-body padding0">
                     <div class="row">
                         <div class="col-8">
-                            <label>Choose Date & Time</label>
-                            <p-calendar title="Click to add" name="app" [(ngModel)]="date" [minDate]="today" showButtonBar="true" showTime="true" hourFormat="12" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+                            <label>{{'leadDetails.chooseDateTime' | translate}}</label>
+                            <p-calendar title="{{'table.title.clickToAdd' | translate}}" name="app" [(ngModel)]="date" [minDate]="today" showButtonBar="true" showTime="true" hourFormat="12" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
                         </div>
                         <div class="col-2">
                             <div class="form-group-2">
                                 <label style="display: block; margin-top: 3px;">&nbsp;</label>
-                                <a class="green-color fontW500" href="javascript://" (click)="addDateTime()">Add</a>
+                                <a class="green-color fontW500" href="javascript://" (click)="addDateTime()">{{'leadDetails.add' | translate}}</a>
                             </div>
                         </div>
                     </div>
@@ -319,7 +319,7 @@
                         </div>
                         <div class="col-2">
                             <a class="green-color fontW500" (click)="removeAppointment(i)" href="javascript://">
-                                Remove
+                                {{'leadDetails.remove' | translate}}
                             </a>
                         </div>
                     </div>
@@ -327,7 +327,7 @@
                         <div class="col-8"></div>
                         <div class="col-2">
                             <div class="btn-cont text-right">
-                                <button type="submit" class="btn btn-primary-new">Save</button>
+                                <button type="submit" class="btn btn-primary-new">{{'leadDetails.save' | translate}}</button>
                             </div>
                         </div>
                     </div>
@@ -344,7 +344,7 @@
     <div class="modal-dialog fadeIndown">
         <div class="modal-content">
             <div class="modal-header modal-header-new">
-                <h4 class="modal-title">Meeting Scheduled</h4>
+                <h4 class="modal-title">{{'leadDetails.chooseDateTime' | translate}}</h4>
                 <button type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
                 <!-- <button type="button" class="close" (click)="closeModal()">&times;</button> -->
             </div>

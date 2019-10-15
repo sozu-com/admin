@@ -284,7 +284,7 @@
                               <div class="table-search">
                                  <label>{{'table.th.configuration' | translate}}</label>
                                  <select [(ngModel)]="parameter.configuration_id" (change)="getListing()">
-                                    <option value="0">All</option>
+                                    <option value="0">{{'table.th.allConfiguration' | translate}}</option>
                                     <option *ngFor="let c of configurations" value="{{c.id}}" >
                                        <!-- {{c.name}} -->
                                        <span *ngIf="c.status">

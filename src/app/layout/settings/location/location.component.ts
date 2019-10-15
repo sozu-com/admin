@@ -368,7 +368,6 @@ export class LocationComponent implements OnInit {
 
   blockUnblockState(country_id, name_en, name_es, type, state_id, index) {
     this.parameter.index = index;
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
     switch (type) {
       case 0:
       this.parameter.text = this.translate.instant('message.question.wantToBlockState');
@@ -400,7 +399,6 @@ export class LocationComponent implements OnInit {
 
   blockUnblockCity(state_id, name_en, name_es, type, city_id, index) {
     this.parameter.index = index;
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
     switch (type) {
       case 0:
       this.parameter.text = this.translate.instant('message.question.wantToBlockCity');

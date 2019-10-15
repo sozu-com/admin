@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-md-4">
       <div class="form-group">
-      <p class="p16">Manage Properties</p>
+      <p class="p16">{{'leadDetails.manageProperties' | translate}}</p>
       <!-- <div class="d-flex">
       <button class="all-btn">All</button>
       <input style="max-width:200px" class="form-control" type="text" name="">
@@ -12,27 +12,27 @@
     </div>
     <div class="col-md-2">
   <div class="form-group">
-  <label>Country</label>
+  <label>{{'filters.location.country' | translate}}</label>
     <select class="form-control" (change)="onCountryChange($event.target.value)">
-      <option value="0">All</option>
+      <option value="0">{{'filters.location.allOption' | translate}}</option>
       <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option>
     </select>
   </div>
   </div>
   <div class="col-md-2">
   <div class="form-group">
-  <label>State</label>
+  <label>{{'filters.location.state' | translate}}</label>
     <select class="form-control" (change)="onStateChange($event.target.value)">
-      <option value="0">All</option>
+      <option value="0">{{'filters.location.allOption' | translate}}</option>
       <option *ngFor="let item of location.states" [value]="item.id">{{item.name}}</option>
     </select>
   </div>
   </div>
   <div class="col-md-2">
     <div class="form-group">
-    <label>City</label>
+    <label>{{'filters.location.city' | translate}}</label>
       <select class="form-control" (change)="onCityChange($event.target.value)">
-        <option value="0">All</option>
+        <option value="0">{{'filters.location.allOption' | translate}}</option>
         <option *ngFor="let item of location.cities" [value]="item.id">{{item.name}}</option>
       </select>
     </div>
@@ -40,9 +40,9 @@
 
   <div class="col-md-2">
   <div class="form-group">
-  <label>Locality</label>
+  <label>{{'filters.location.locality' | translate}}</label>
   <select class="form-control" (change)="onLocalityChange($event.target.value)">
-      <option value="0">All</option>
+      <option value="0">{{'filters.location.allOption' | translate}}</option>
       <option *ngFor="let item of location.localities" [value]="item.id">{{item.name}}</option>
     </select>
   </div>
@@ -54,19 +54,19 @@
             <div class="cust-tabs-2">
               <ul class="nav nav-tabs float-right">
                   <li class="nav-item">
-                    <a [ngClass]="{'active':parameter.dash_flag == 1}" (click)="parameter.dash_flag=1;getListing()" class="nav-link" data-toggle="tab" href="#tw">This Week</a>
+                    <a [ngClass]="{'active':parameter.dash_flag == 1}" (click)="parameter.dash_flag=1;getListing()" class="nav-link" data-toggle="tab" href="#tw">{{'filters.time.thisWeek' | translate}}</a>
                   </li>
                   <li class="nav-item">
-                    <a [ngClass]="{'active':parameter.dash_flag == 2}" (click)="parameter.dash_flag=2;getListing()" class="nav-link" data-toggle="tab" href="#tm">This Month</a>
+                    <a [ngClass]="{'active':parameter.dash_flag == 2}" (click)="parameter.dash_flag=2;getListing()" class="nav-link" data-toggle="tab" href="#tm">{{'filters.time.thisMonth' | translate}}</a>
                   </li>
                   <li class="nav-item">
-                    <a [ngClass]="{'active':parameter.dash_flag == 3}" (click)="parameter.dash_flag=3;getListing()" class="nav-link" data-toggle="tab" href="#lm">Last Month</a>
+                    <a [ngClass]="{'active':parameter.dash_flag == 3}" (click)="parameter.dash_flag=3;getListing()" class="nav-link" data-toggle="tab" href="#lm">{{'filters.time.lastMonth' | translate}}</a>
                   </li>
                   <li class="nav-item">
-                    <a [ngClass]="{'active':parameter.dash_flag == 4}" (click)="parameter.dash_flag=4;getListing()" class="nav-link" data-toggle="tab" href="#lt">Lifetime</a>
+                    <a [ngClass]="{'active':parameter.dash_flag == 4}" (click)="parameter.dash_flag=4;getListing()" class="nav-link" data-toggle="tab" href="#lt">{{'filters.time.lifetime' | translate}}</a>
                   </li>
                   <li class="nav-item">
-                    <a [ngClass]="{'active':parameter.dash_flag == 5}" (click)="parameter.dash_flag=5;getListing()" class="nav-link" data-toggle="tab" href="#cust">Custom</a>
+                    <a [ngClass]="{'active':parameter.dash_flag == 5}" (click)="parameter.dash_flag=5;getListing()" class="nav-link" data-toggle="tab" href="#cust">{{'filters.time.custom.label' | translate}}</a>
                   </li>
               </ul>
             </div>
@@ -82,21 +82,21 @@
       <div class="col-xl-10 col-lg-12 col-md-12 col-sm-12 col-12">
         <ul class="nav nav-tabs">
             <li class="nav-item">
-              <a [ngClass]="{'active':parameter.flag==3}" (click)="changeFlag(3)" class="nav-link" >Approved</a>
+              <a [ngClass]="{'active':parameter.flag==3}" (click)="changeFlag(3)" class="nav-link" >{{'filters.flag.approved' | translate}}</a>
             </li>
             <li class="nav-item">
-              <a [ngClass]="{'active':parameter.flag==4}" (click)="changeFlag(4)" class="nav-link" >Unapproved</a>
+              <a [ngClass]="{'active':parameter.flag==4}" (click)="changeFlag(4)" class="nav-link" >{{'filters.flag.unapproved' | translate}}</a>
             </li>
             <li class="nav-item">
-              <a [ngClass]="{'active':parameter.flag==2}" (click)="changeFlag(2)" class="nav-link" >Pending Review</a>
+              <a [ngClass]="{'active':parameter.flag==2}" (click)="changeFlag(2)" class="nav-link" >{{'filters.flag.pendingReview' | translate}}</a>
             </li>
             <li class="nav-item">
-              <a [ngClass]="{'active':parameter.flag==1}" (click)="changeFlag(1)" class="nav-link" >In Draft</a>
+              <a [ngClass]="{'active':parameter.flag==1}" (click)="changeFlag(1)" class="nav-link" >{{'filters.flag.inDraft' | translate}}</a>
             </li>
         </ul>
         </div>
         <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12"><div class="add-new text-left">
-              <a *ngIf="admin?.admin_acl['Seller Lead Management']?.can_create==1 || admin?.permissions?.can_csr_seller==1" class="btn" href="javascript://" routerLink="/dashboard/properties/add-property/0/{{parameter.seller_id}}">+Add New Property</a>
+              <a *ngIf="admin?.admin_acl['Seller Lead Management']?.can_create==1 || admin?.permissions?.can_csr_seller==1" class="btn" href="javascript://" routerLink="/dashboard/properties/add-property/0/{{parameter.seller_id}}">{{'leadDetails.addNewProperty' | translate}}</a>
             </div></div>
             </div>
         <div class="tab-content white-bg">
@@ -107,7 +107,7 @@
                         <tr>
                           <th style="width:20%; text-align:left;">
                               <div class="table-search">
-                                <label>Name of Building</label>
+                                <label>{{'table.th.nameOfBuilding' | translate}}</label>
                                 <div class="searh-3">
                                   <input type="text" [(ngModel)]="parameter.keyword" (keyup.enter)="getListing()" >
                                   <button *ngIf="parameter.keyword" (click)="getListing()"><i class="fa fa-search"></i></button>
@@ -116,9 +116,9 @@
                           </th>
                           <th style="width:15%; text-align:left;">
                               <div class="table-search">
-                                <label>Configuration</label>
+                                <label>{{'table.th.configuration' | translate}}</label>
                                 <select [(ngModel)]="parameter.configuration_id" (change)="getListing()">
-                                  <option value="0">All configuration</option>
+                                  <option value="0">{{'table.th.allConfiguration' | translate}}</option>
                                   <option *ngFor="let c of configurations" value="{{c.id}}">
                                     <app-property-configuration *ngIf="c" [configuration]="c"></app-property-configuration>
                                   </option>
@@ -127,7 +127,7 @@
                           </th>
                           <th style="width:20%; text-align:left;">
                               <div class="table-search">
-                                  <label>Address</label>
+                                  <label>{{'table.th.address' | translate}}</label>
                                   <div class="searh-3">
                                     <input type="text" [(ngModel)]="parameter.address" (keyup.enter)="getListing()" >
                                     <button *ngIf="parameter.address" (click)="getListing()"><i class="fa fa-search"></i></button>
@@ -136,25 +136,25 @@
                           </th>
                           <th style="width:10%; text-align:left;">
                               <div class="table-search">
-                                <label>Sell / Rent</label>
+                                <label>{{'table.th.sellRent' | translate}}</label>
                                 <select [(ngModel)]="parameter.property_for" (change)="getListing()" style="width:100px;">
-                                  <option value="">All</option>
-                                  <option value="1">Sell</option>
-                                  <option value="2">Rent</option>
+                                  <option value="">{{'table.th.all' | translate}}</option>
+                                  <option value="1">{{'table.th.buy' | translate}}</option>
+                                  <option value="2">{{'table.th.rent' | translate}}</option>
                                 </select>
                               </div>
                           </th>
                           <th style="width:6%; vertical-align:top;">
-                              <div (click)="sort_by(1)" class="d-flex pointer"><span>Price</span>
+                              <div (click)="sort_by(1)" class="d-flex pointer"><span>{{'table.th.price' | translate}}</span>
                               <a href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by==1 && parameter.sort_by_order==1}" src="assets/img/top-arrow.png" alt="img"></a></div>
                           </th>
                           <th style="width:6%; vertical-align:top;">
-                              <div (click)="sort_by(2)" class="d-flex pointer"><span>Availability</span>
+                              <div (click)="sort_by(2)" class="d-flex pointer"><span>{{'table.th.availability' | translate}}</span>
                               <a href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by==2 && parameter.sort_by_order==1}" src="assets/img/top-arrow.png" alt="img"></a>
                               </div>
                           </th>
                           <th style="width:6%; vertical-align:top;">
-                              <div (click)="sort_by(3)" class="d-flex pointer"><span>Leads</span>
+                              <div (click)="sort_by(3)" class="d-flex pointer"><span>{{'table.th.leads' | translate}}</span>
                               <a href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by==3 && parameter.sort_by_order==1}" src="assets/img/top-arrow.png" alt="img"></a></div>
                           </th>
                           <th style="width:17%">&nbsp;</th>
@@ -162,27 +162,27 @@
                   
                         <tr *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }">
                             <td>
-                              <strong>{{p?.building?.name ? p?.building?.name : 'NA'}}</strong>
+                              <strong>{{p?.building?.name ? p?.building?.name : ('table.th.NA' | translate)}}</strong>
                               <div class="clearfix"></div>
                               <small *ngIf="p.quantity > 0">
                               {{p.quantity}} 
-                              <span *ngIf="p.quantity == 1">property</span>
-                              <span *ngIf="p.quantity > 1">properties</span>
+                              <span *ngIf="p.quantity == 1">{{'table.th.property' | translate}}</span>
+                              <span *ngIf="p.quantity > 1">{{'table.th.properties' | translate}}</span>
                             </small>                                     
 
                             </td>
                             <td><span *ngIf="p && p.configuration">
                               <app-property-configuration *ngIf="p.configuration" [configuration]="p.configuration"></app-property-configuration>
                             </span></td>
-                            <td><span>{{p?.building?.address ? p?.building?.address : 'NA'}}</span></td>
+                            <td><span>{{p?.building?.address ? p?.building?.address : ('table.th.NA' | translate)}}</span></td>
                             <td>
-                              <span *ngIf="p.for_sale">Sell</span>
-                              <span *ngIf="p.for_rent">Rent</span>
+                              <span *ngIf="p.for_sale">{{'table.th.buy' | translate}}</span>
+                              <span *ngIf="p.for_rent">{{'table.th.rent' | translate}}</span>
                             </td>
                             <td><span>{{p.min_price|price}}</span></td>
                             <td><span class="green-color">
-                              <span *ngIf="p.for_sale">Sell</span>
-                              <span *ngIf="p.for_rent">Rent</span></span>
+                              <span *ngIf="p.for_sale">{{'table.th.buy' | translate}}</span>
+                              <span *ngIf="p.for_rent">{{'table.th.rent' | translate}}</span></span>
                             </td>
                             <td><span>{{p.lead_properties_count}}</span></td>
                             <td>
@@ -190,17 +190,17 @@
                                   <!-- admin?.admin_acl['Property Management']?.can_update!=1 ||  -->
                                 <!-- <button [disabled]="true" routerLink="/dashboard/properties/edit-property/{{p.id}}" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button> -->
                                 <button [disabled]="admin?.admin_acl['Seller Lead Management']?.can_update==0 || admin?.permissions?.can_csr_seller==0" 
-                                    *ngIf="parameter?.flag!=3" routerLink="/dashboard/properties/edit-property/{{p.id}}" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                                    *ngIf="parameter?.flag!=3" routerLink="/dashboard/properties/edit-property/{{p.id}}" title="{{'table.title.editPrice' | translate}}" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                                 <button [disabled]="admin?.admin_acl['Seller Lead Management']?.can_update==0 || admin?.permissions?.can_csr_seller==0" 
-                                    *ngIf="parameter?.flag==3" routerLink="/dashboard/properties/edit-property/{{p.id}}/edit" title="Edit Details" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                                    *ngIf="parameter?.flag==3" routerLink="/dashboard/properties/edit-property/{{p.id}}/edit" title="{{'table.title.editPrice' | translate}}" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                                 <button [disabled]="admin?.admin_acl['Seller Lead Management']?.can_update==0 || admin?.permissions?.can_csr_seller==0" 
-                                    *ngIf="!p.is_blocked" (click)="block(p);" class="action-icon" title="Block"><img src="assets/img/block.png" alt="img"></button>
+                                    *ngIf="!p.is_blocked" (click)="block(p);" class="action-icon" title="{{'table.title.block' | translate}}"><img src="assets/img/block.png" alt="img"></button>
                                 <button [disabled]="admin?.admin_acl['Seller Lead Management']?.can_update==0 || admin?.permissions?.can_csr_seller==0" 
-                                    *ngIf="p.is_blocked == true" (click)="unblock(p);" class="action-icon unblock-bg" title="UnBlock"><img src="assets/img/unblock.png" alt="img"></button>
+                                    *ngIf="p.is_blocked == true" (click)="unblock(p);" class="action-icon unblock-bg" title="{{'table.title.unblock' | translate}}"><img src="assets/img/unblock.png" alt="img"></button>
                                 <button [disabled]="admin?.admin_acl['Seller Lead Management']?.can_update==0 || admin?.permissions?.can_csr_seller==0" 
-                                    *ngIf="p.status == 3" (click)="changeStatus(p,2);" class="action-icon" title="Unapprove"><img src="assets/img/ic_disapprove.png" alt="img"></button>
+                                    *ngIf="p.status == 3" (click)="changeStatus(p,2);" class="action-icon" title="{{'table.title.unapprove' | translate}}"><img src="assets/img/ic_disapprove.png" alt="img"></button>
                                 <button [disabled]="admin?.admin_acl['Seller Lead Management']?.can_update==0 || admin?.permissions?.can_csr_seller==0" 
-                                    *ngIf="p.status == 2" (click)="changeStatus(p,3);" class="action-icon" title="Approve"><img src="assets/img/tick.png" alt="img"></button>
+                                    *ngIf="p.status == 2" (click)="changeStatus(p,3);" class="action-icon" title="{{'table.title.approve' | translate}}"><img src="assets/img/tick.png" alt="img"></button>
                               </div>
 
                             </td>
@@ -225,7 +225,7 @@
 
 
             </div>
-            <div class="tab-pane container fade" id="seller">Seller tab on</div>
+            <div class="tab-pane container fade" id="seller">{{'table.th.sellerTabOn' | translate}}</div>
         </div>
       </div>
       <div class="btn-cont text-right marginT15" *ngIf="parameter.total">

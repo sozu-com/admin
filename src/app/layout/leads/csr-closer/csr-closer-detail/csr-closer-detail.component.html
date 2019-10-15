@@ -100,8 +100,8 @@
                         <p class="p14 marginB0">
                             <app-property-configuration *ngIf="leadData?.selected_properties[0]?.property?.configuration" [configuration]="leadData?.selected_properties[0]?.property?.configuration"></app-property-configuration>
                         </p>
-                        <p title="Building" class="p12 marginB0"><strong>{{leadData?.selected_properties[0]?.property?.building?.name}}</strong></p>
-                        <p title="Developer" class="p11"><i>{{leadData?.selected_properties[0]?.property?.building?.developer?.name | titlecase}}</i></p>
+                        <p title="{{'table.title.building' | translate}}" class="p12 marginB0"><strong>{{leadData?.selected_properties[0]?.property?.building?.name}}</strong></p>
+                        <p title="{{'table.title.developer' | translate}}" class="p11"><i>{{leadData?.selected_properties[0]?.property?.building?.developer?.name | titlecase}}</i></p>
                         <p class="marginB0" *ngIf="leadData?.selected_properties?.length!=0">
                             <a class="view-all-2" href="javascript://" (click)="viewPropertyDetails(leadData?.selected_properties[0])"> {{'leadDetails.viewProperty' | translate}}</a>
                         </p>
@@ -130,10 +130,10 @@
                     <td  style="padding-left:0"><label><strong>{{'leadDetails.meetingSchedule' | translate}}</strong></label></td>
                     <td colspan="2" class="cursor-pointer">
                         <p class="date" *ngIf="scheduleMeeting.appointment_date; else noAvailability4" data-toggle="modal" data-target="#get-availability2">
-                            <span title="Reschedule meeting">{{scheduleMeeting.appointment_date | moment}}</span>
+                            <span title="{{'table.title.rescheduleMeeting' | translate}}">{{scheduleMeeting.appointment_date | moment}}</span>
                         </p>
                         <ng-template #noAvailability4>
-                            <p title="Schedule meeting" data-toggle="modal" data-target="#get-availability2">{{'leadDetails.meetingNotSchedule' | translate}}</p>
+                            <p title="{{'table.title.scheduleMeeting' | translate}}" data-toggle="modal" data-target="#get-availability2">{{'leadDetails.meetingNotSchedule' | translate}}</p>
                         </ng-template>
                     </td>
                 </tr>
@@ -170,7 +170,7 @@
                     <img *ngIf="!selectedProperties.noataries[0].image" src="assets/img/house.png" alt="img">
                     
                     <div class="bank-info">
-                        <p title="Notary" class="p14">{{selectedProperties.noataries[0].name | titlecase}}</p>
+                        <p title="{{'table.title.notary' | translate}}" class="p14">{{selectedProperties.noataries[0].name | titlecase}}</p>
                         <p class="p11 marginB10">{{selectedProperties.noataries[0].dial_code ? selectedProperties.noataries[0].dial_code : constant.dial_code}}-{{selectedProperties.noataries[0].phone}}</p>
                         
                         <!-- change notary -->
@@ -203,7 +203,7 @@
                     <img *ngIf="!selectedProperties.banks[0].image" src="assets/img/house.png" alt="img">
 
                     <div class="bank-info">
-                        <p title="Bank" class="p14">{{selectedProperties.banks[0].name | titlecase}}</p>
+                        <p title="{{'table.title.bank' | translate}}" class="p14">{{selectedProperties.banks[0].name | titlecase}}</p>
                         <p class="p11 marginB10">{{selectedProperties?.banks[0]?.branch ? selectedProperties?.banks[0]?.branch : ('leadDetails.NA' | translate)}}</p>
                         
                         <!-- change bank -->
@@ -257,8 +257,8 @@
                             <input style="width: 90%;" [(ngModel)]="pen_amount" *ngIf="showInput" type="number" value="{{selectedProperties.total_amount - selectedProperties.token_money}}">
                         </td>
                         <td style="width:20%">
-                            <a *ngIf="!showInput" title="Edit Amount" (click)="showInput=true" class="green-color fontW500" href="javascript://">{{'leadDetails.edit' | translate}}</a>
-                            <a *ngIf="showInput" title="Save Amount" (click)="updatePropertyAmount()" class="green-color fontW500" href="javascript://">{{'leadDetails.save' | translate}}</a>
+                            <a *ngIf="!showInput" title="{{'table.title.editAmount' | translate}}" (click)="showInput=true" class="green-color fontW500" href="javascript://">{{'leadDetails.edit' | translate}}</a>
+                            <a *ngIf="showInput" title="{{'table.title.saveAmount' | translate}}" (click)="updatePropertyAmount()" class="green-color fontW500" href="javascript://">{{'leadDetails.save' | translate}}</a>
                             <!-- <button *ngIf="!showInput" title="Edit Amount" (click)="showInput=true">
                                 <img src="assets/img/edit.png" alt="img">
                             </button>
@@ -363,7 +363,7 @@
                                 </span>
                             </div>
 
-                            <a *ngIf="m.message_type == 5" href="{{m.property_url}}" target="_blank" title="Property Image" >
+                            <a *ngIf="m.message_type == 5" href="{{m.property_url}}" target="_blank" title="{{'table.title.propertyImage' | translate}}" >
                                 <span>
                                     <img class="ui bordered small image" src="{{m.image}}">
                                     <div *ngIf="m.loading" class="loaderr"></div>
@@ -458,12 +458,12 @@
         <div class="row">
         <div class="col-9">
             <h4>{{'leadDetails.save' | translate}}</h4>
-            <p class="p11 marginB0">From both seller and buyer</p>
+            <p class="p11 marginB0">{{'leadDetails.fromBothSellerAndBuyer' | translate}}</p>
 
             </div>
             <div class="col-3 text-right">
-                <a *ngIf="selectedProperties?.uploaded_documents?.length==0" (click)="noDocumentUploaded()" class="view" href="javascript://" >View</a>
-                <a *ngIf="selectedProperties?.uploaded_documents?.length!=0" class="view" data-toggle="modal" data-target="#uploaded-documents" href="javascript://" >View</a>
+                <a *ngIf="selectedProperties?.uploaded_documents?.length==0" (click)="noDocumentUploaded()" class="view" href="javascript://" >{{'leadDetails.view' | translate}}</a>
+                <a *ngIf="selectedProperties?.uploaded_documents?.length!=0" class="view" data-toggle="modal" data-target="#uploaded-documents" href="javascript://" >{{'leadDetails.view' | translate}}</a>
             </div>
         </div>
         </div>
@@ -478,7 +478,7 @@
     <div class="modal-content notary-avail">
         <!-- <div class="modal-header modal-header-new"> -->
             <div class="modal-header modal-header-new">
-            <h4 class="modal-title">Uploaded Documents</h4>
+            <h4 class="modal-title">{{'leadDetails.uploadedDocuments' | translate}}</h4>
             <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
@@ -489,12 +489,12 @@
                         <div class="n-avail-info">
                             <p class="p14 marginB0" *ngIf="upDocument.attachment_name">{{upDocument.attachment_name}}</p>
                             <!-- <p class="p12" *ngIf="!upDocument.attachment_name">{{upDocument.attachment.substring(upDocument.attachment.lastIndexOf('/'), upDocument.attachment.length)}}</p> -->
-                            <p class="p14 marginB0" *ngIf="!upDocument.attachment_name">No name</p>
+                            <p class="p14 marginB0" *ngIf="!upDocument.attachment_name">{{'leadDetails.noName' | translate}}</p>
                         </div>
                     </div>
                 </td>
                 <td class="text-right">
-                    <a class="green-color" target="_blank" href="{{upDocument.attachment}}">Download</a>
+                    <a class="green-color" target="_blank" href="{{upDocument.attachment}}">{{'leadDetails.download' | translate}}</a>
                 </td>
                 </tr>
             </table>
@@ -507,7 +507,7 @@
     <div class="modal-dialog ">
     <div class="modal-content notary-avail">
         <div class="modal-header popup-header">
-            <h4 class="modal-title">Banks available</h4>
+            <h4 class="modal-title">{{'leadDetails.banksAvailable' | translate}}</h4>
             <button type="button" class="close" data-dismiss="modal" #hideBanks>&times;</button>
         </div>
         <div class="modal-body">
@@ -518,7 +518,7 @@
                     <input style="max-width:200px" (keyup.enter)="getBanks('', keyword, 2)" [(ngModel)]="keyword" class="form-control" type="text" name="keyword" placeholder="Search">
                 </div>
                 <div class="col-md-4 col-5 btn-cont">
-                    <a class="btn btn-primary pull-right" href="javascript://" (click)="getBanks('', keyword, 2)">Search</a>
+                    <a class="btn btn-primary pull-right" href="javascript://" (click)="getBanks('', keyword, 2)">{{'leadDetails.search' | translate}}</a>
                 </div>
             </div>
             <div class="spacer30"></div>
@@ -535,7 +535,7 @@
 
                             <div class="n-avail-info">
                                 <p class="p12">{{bank.name | titlecase}}</p>
-                                <p class="p10">Branch : {{bank.branch ? bank.branch : 'NA'}}</p>
+                                <p class="p10">{{'leadDetails.branch' | translate}} : {{bank.branch ? bank.branch : ('leadDetails.NA' | translate)}}</p>
                             </div>
                         </div>
                     </td>
@@ -548,7 +548,7 @@
                     </tr>
                     <div  *ngIf="parameter.banks?.length==0" class="write-note white-bg">
                         <p class="show-not-found">
-                            No bank is available.
+                            {{'leadDetails.noBankAvailable' | translate}}
                         </p>
                     </div>
                 </table>

@@ -159,7 +159,7 @@ export class BanksComponent implements OnInit {
 
   blockUnblockPopup(index, id, flag) {
     this.parameter.index = index;
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
+    this.parameter.title = this.translate.instant('message.question.areYouSure');
     switch (flag) {
       case 0:
         this.parameter.text = this.translate.instant('message.question.wantToUnblockBank');

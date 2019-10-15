@@ -59,7 +59,7 @@
             <!-- <a *ngIf="m.message_type == 2" ng-box width="800" height="800" target="_blank" href="{{m.image}}">
                 <img src="{{m.image}}">
             </a> -->
-            <a *ngIf="m.message_type == 2" href="{{m.image}}" data-lightbox="image" title="image" >
+            <a *ngIf="m.message_type == 2" href="{{m.image}}" data-lightbox="image" title="{{'table.title.image' | translate}}" >
               <span>
                 <img class="ui bordered small image" src="{{m.image}}">
                 <div *ngIf="m.loading" class="loaderr"></div>
@@ -107,7 +107,7 @@
               </span>
             </div>
               
-            <a *ngIf="m.message_type == 5" href="{{m.property_url}}" target="_blank" title="image" >
+            <a *ngIf="m.message_type == 5" href="{{m.property_url}}" target="_blank" title="{{'table.title.image' | translate}}" >
               <span>
                 <img class="ui bordered small image" src="{{m.image}}">
                 <div *ngIf="m.loading" class="loaderr"></div>
