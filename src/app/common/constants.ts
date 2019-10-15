@@ -18,6 +18,16 @@ export class Constant {
     public steps = 1000;
     public zoom = 16;
     public middleDot = ' · ';
+    public language = [
+        {
+            code: 'en',
+            label: 'English'
+        },
+        {
+            code: 'es',
+            label: 'Español'
+        }
+    ];
     public months = [
         {id: 1, name: 'JAN'},
         {id: 2, name: 'FEB'},

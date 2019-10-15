@@ -7,7 +7,6 @@ import { Constant } from 'src/app/common/constants';
 import swal from 'sweetalert2';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
-// import { TranslateService } from '../lang/translate.service';
 
 @Component({
   selector: 'app-login',

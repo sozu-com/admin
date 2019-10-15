@@ -7,6 +7,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { VersionCheckService } from './services/version-check.service';
 import { environment } from 'src/environments/environment';
 import { TranslateService } from '@ngx-translate/core';
+import { AdminService } from './services/admin.service';
+import { Constant } from './common/constants';
 
 declare var $: any;
 
@@ -24,10 +26,8 @@ export class AppComponent implements OnInit {
     public interceptor: HttpInterceptor,
     private versionCheckService: VersionCheckService,
     private spinner: NgxSpinnerService,
-    private translate: TranslateService) {
-
-    // translate
-    this.translate.setDefaultLang('en');
+    private admin: AdminService,
+    private constant: Constant) {
 
     // close popup if any opened
     location.onPopState(() => {
@@ -59,6 +59,9 @@ export class AppComponent implements OnInit {
         this.loading = Object.keys(res).length !== 0 ? res['value'] : false;
       }, 0);
     });
+
+    // translate
+    this.admin.setLanguage(this.constant.language[0].code);
   }
 
 }

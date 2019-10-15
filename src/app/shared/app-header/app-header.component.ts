@@ -20,17 +20,20 @@ export class AppHeaderComponent {
 
   message: any;
   public parameter: IProperty = {};
-  fullName: any;
-  image: any;
+  fullName: string;
+  image: string;
   admin_acl: any;
   msg_count = 0;
   public scrollbarOptions = { axis: 'yx', theme: 'minimal-dark' };
 
-  constructor(public admin: AdminService, private router: Router, private constant: Constant,
+  constructor(public admin: AdminService,
+    private router: Router,
+    public constant: Constant,
     private messagingService: MessagingService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService
     ) {
+
     this.admin.loginData$.subscribe(success => {
       this.fullName = success['name'];
       this.image = success['image'];

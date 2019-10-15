@@ -10,6 +10,8 @@ import { HttpInterceptor } from './http-interceptor';
 import { CommonService } from './common.service';
 import { Login, AdminACL } from './../models/login.model';
 import { MessagingService } from '../fire-base/messaging.service';
+import { TranslateService } from '@ngx-translate/core';
+import { Constant } from '../common/constants';
 @Injectable()
 export class AdminService {
 
@@ -21,6 +23,7 @@ export class AdminService {
   public termConditionUrl: string = environment.termConditionUrl;
   public privacyPolicyUrl: string = environment.privacyPolicyUrl;
 
+  public language_code: string;
   public permissions: any = {};
   public admin_acl: any = {};
   public admin_acl_array: any = [];
@@ -36,7 +39,9 @@ export class AdminService {
   constructor(public http: HttpInterceptor,
     public msg: MessagingService,
     public loginModel: Login,
-    public aclModel: AdminACL) { }
+    public aclModel: AdminACL,
+    private translate: TranslateService,
+    private constant: Constant) { }
 
 
   getHeadersForLogin() {
@@ -67,6 +72,12 @@ export class AdminService {
     return this.http.get('assets/countries.json')
               .map(response => response.json())
               .catch(this.errorHandler);
+  }
+
+  setLanguage (language_code: string) {
+    this.language_code = language_code === this.constant.language[0].code ?
+            this.constant.language[0].label : this.constant.language[1].label;
+    this.translate.setDefaultLang(language_code);
   }
 // ending of general functions
 
