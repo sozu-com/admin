@@ -14,7 +14,7 @@ export class Constant {
     public initialCountry = 'mx';
     public minValue = 0;
     public maxValue = 1000000; // 1000000000;
-    public fileSizeLimit = 50000000; // 25MB
+    public fileSizeLimit = 60000000; // 25MB
     public steps = 1000;
     public zoom = 16;
     public middleDot = ' · ';
