@@ -27,7 +27,7 @@ export class ProjectsComponent implements OnInit {
   configurations: any = [];
   countries: any;
   reason: string;
-
+  locale: any;
   constructor(
     public constant: Constant,
     public apiConstant: ApiConstants,
@@ -39,6 +39,21 @@ export class ProjectsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    this.locale = {
+      firstDayOfWeek: 0,
+      dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
+      dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+      dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+      monthNames: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+        'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
+      monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun',
+        'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+      today: 'Hoy',
+      clear: 'Clara',
+      dateFormat: 'mm/dd/yy',
+      weekHeader: 'Wk'
+    };
     this.route.params.subscribe(params => {
       this.parameter.userType = params.type;
       this.parameter.id = params.id;

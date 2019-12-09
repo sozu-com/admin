@@ -176,7 +176,7 @@
     <div class="form-group-5 date-picker marginT20">
         <label>{{'commonBlock.planningDate' | translate}}</label>
         <div class="clearfix"></div>
-        <p-calendar [disabled]="sent_as==2" showIcon="true" (onSelect)="onSelect($event)" [(ngModel)]="leadData.prefs.planning_to_buy"
+        <p-calendar [disabled]="sent_as==2" [locale]="locale" showIcon="true" (onSelect)="onSelect($event)" [(ngModel)]="leadData.prefs.planning_to_buy"
             showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
         <div class="clearfix"></div>
     </div>

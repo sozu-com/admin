@@ -10,7 +10,6 @@ export const environment = {
   termConditionUrl: 'https://api.sozu.com/termCondition/es',
   privacyPolicyUrl: 'https://api.sozu.com/privacyPolicy/es',
   deviceId: 'ADMIN',
-
   versionCheckURL: 'https://admintest.sozu.com/version.json',
 
   firebase: {

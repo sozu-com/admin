@@ -294,7 +294,7 @@
                     <div class="row">
                         <div class="col-8">
                             <label>{{'leadDetails.chooseDateTime' | translate}}</label>
-                            <p-calendar title="{{'table.title.clickToAdd' | translate}}" name="app" [(ngModel)]="date" [minDate]="today" showButtonBar="true" showTime="true" hourFormat="12" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+                            <p-calendar [locale]="locale" title="{{'table.title.clickToAdd' | translate}}" name="app" [(ngModel)]="date" [minDate]="today" showButtonBar="true" showTime="true" hourFormat="12" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
                         </div>
                         <div class="col-2">
                             <div class="form-group-2">

@@ -284,7 +284,7 @@
                         <div class="row">
                             <div class="col-8">
                                 <label>{{'leadDetails.chooseDateTime' | translate}}</label>
-                                <p-calendar autocomplete="off" title="{{'table.title.clickToAdd' | translate}}" name="app" [(ngModel)]="date" [minDate]="today"
+                                <p-calendar autocomplete="off" [locale]="locale" title="{{'table.title.clickToAdd' | translate}}" name="app" [(ngModel)]="date" [minDate]="today"
                                     showButtonBar="true" showTime="true" hourFormat="12" [monthNavigator]="true"
                                     [yearNavigator]="true" yearRange="2000:2030" hideOnDateTimeSelect="true"></p-calendar>
                             </div>

@@ -52,13 +52,13 @@
                 <div class="col-lg-2 col-md-2 col-sm-5 col-5">
                 <div class="form-group marginB0">
                         <label>{{'filters.time.custom.from' | translate}}:</label>
-                    <p-calendar showIcon="true" [(ngModel)]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+                    <p-calendar showIcon="true" [locale]="locale" [(ngModel)]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
                 </div>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-5 col-5">
                 <div class="form-group marginB0">
                         <label>{{'filters.time.custom.to' | translate}}:</label>
-                    <p-calendar showIcon="true" [(ngModel)]="parameter.max" [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+                    <p-calendar showIcon="true" [locale]="locale" [(ngModel)]="parameter.max" [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
                 </div>
                 </div>
                 <div class="col-lg-1 col-md-2 col-sm-2 col-6">

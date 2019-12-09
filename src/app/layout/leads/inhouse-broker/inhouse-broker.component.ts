@@ -31,7 +31,7 @@ export class InhouseBrokerComponent implements OnInit {
   users: any = [];
   selectedUser: any;
   initSelection = false;
-
+  locale: any;
   dash: any = {
     lead_total: 0,
     lead_lead_properties: 0,
@@ -50,6 +50,21 @@ export class InhouseBrokerComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    this.locale = {
+      firstDayOfWeek: 0,
+      dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
+      dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+      dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+      monthNames: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+        'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
+      monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun',
+        'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+      today: 'Hoy',
+      clear: 'Clara',
+      dateFormat: 'mm/dd/yy',
+      weekHeader: 'Wk'
+    };
     this.parameter.is_selected = false;
     this.parameter.keyword = '';
     this.parameter.itemsPerPage = this.constant.itemsPerPage;

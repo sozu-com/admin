@@ -14,7 +14,6 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-
 // firebase -start
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';

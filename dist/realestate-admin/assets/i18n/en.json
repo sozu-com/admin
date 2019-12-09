@@ -1,7 +1,7 @@
 {
   "login": {
-    "topHeader": "One Easy Solution for Your Needs.",
-    "middleHeader": "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet.",
+    "topHeader": "WE CONNECT REAL ESTATE SUPPLY AND DEMAND.",
+    "middleHeader": "We are the digital platform that connects supply and demand of properties in vertical housing in the second market, through high quality content.",
     "form": {
       "label": "Login",
       "emailPlaceHolder": "Email",
@@ -455,8 +455,11 @@
       "name": "Name",
       "contactNumber": "Contact Number",
       "emailAddress": "Email Address",
+      "emailId": "Email ID",
       "leads": "Leads",
       "linkedProperties": "Linked Properties",
+      "linkedAgent": "Linked Agent",
+      "linkedManagers": "Linked Managers",
       "building": "Building",
       "companyName": "Company Name",
       "address": "Address",
@@ -723,7 +726,7 @@
       "noViewedPropertyFound": "No property or project viewed by you.",
       "noNoteFound": "No notes to show.",
       "noRecordFound": "No record found",
-      "fileSizeExceeds": "The file you have selected is too large. The maximum size is 60MB.",
+      "fileSizeExceeds": "The file you have selected is too large. The maximum size is 50MB.",
       "noDocumentUploadedYet": "No document uploaded yet.",
       "pleaseSelectLocationFromTheDropdownList": "Please select location from the dropdown list.",
       "pleaseFillCompleteDevloperInformation": "Please fill complete devloper information",
@@ -749,13 +752,13 @@
       "pleaseChooseAtleast1Lead": "Please choose atleast one lead.",
       "noCSRSellerAssigned": "No CSR Seller is assigned.",
       "noAgentAvailable": "No Agent is available",
-      "chooseAtleastOneDate": "Choose atleast one date",
+      "chooseAtleastOneDate": "Choose at least one date",
       "incorrectAmountEntered": "Incorrect amount entered",
       "dealIsNotFinalised": "Deal is not finalised."
     },
     "info": {
       "pleaseChooseFile": "Please Choose File",
-      "fileSizeLimit": "File size is more than 60MB.",
+      "fileSizeLimit": "File size is more than 50MB.",
       "saveEngCountryName": "Please add country name in Spanish or we will update it same as in English.",
       "saveEngStateName": "Please add state name in Spanish or we will update it same as in English.",
       "saveEngCityName": "Please add city name in Spanish or we will update it same as in English.",
@@ -768,9 +771,9 @@
       "saveEngDocumentName": "Please add document name in Spanish or we will update it same as in English.",
       "pleaseChooseAddressFromDropdown": "Please choose address from dropdown",
       "pleaseChooseBranchAddressFromDropdown": "Please choose branch address from dropdown.",
-      "pleaseChooseAtleastOneLead": "Please choose atleast one lead",
-      "pleaseChooseAtleastOneDate": "Please choose atleast one date",
-      "pleaseChooseAtleastOneImage": "Please select atleast one image",
+      "pleaseChooseAtleastOneLead": "Please choose at least one lead",
+      "pleaseChooseAtleastOneDate": "Please choose at least one date",
+      "pleaseChooseAtleastOneImage": "Please select at least one image",
       "chooseMax6Images": "You can choose maximum of 6 images.",
       "chooseMax6360Images": "You can choose maximum of 6 360 images.",
       "chooseMax6Videos": "You can choose maximum of 6 videos.",
@@ -1344,6 +1347,7 @@
     "updateBtn": "UPDATE",
     "NA": "NA",
     "viewedProjects": "Viewed Projects",
-    "viewedProperties": "Viewed Properties"
+    "viewedProperties": "Viewed Properties",
+    "search": "Search"
   }
 }

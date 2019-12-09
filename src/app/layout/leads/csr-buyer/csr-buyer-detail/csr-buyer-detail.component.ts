@@ -34,6 +34,7 @@ export class CsrBuyerDetailComponent implements OnInit {
   allAmenities: Array<BuyerAmenities> = [];
   selectedAmenities: Array<BuyerAmenities> = [];
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
+  locale: any;
   constructor(
     private route: ActivatedRoute,
     public admin: AdminService,
@@ -50,6 +51,20 @@ export class CsrBuyerDetailComponent implements OnInit {
 
   ngOnInit() {
 
+    this.locale = {
+      firstDayOfWeek: 0,
+      dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
+      dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+      dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+      monthNames: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+        'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
+      monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun',
+        'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+      today: 'Hoy',
+      clear: 'Clara',
+      dateFormat: 'mm/dd/yy',
+      weekHeader: 'Wk'
+    };
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page2 = this.constant.p;
     this.parameter.total2 = 0;

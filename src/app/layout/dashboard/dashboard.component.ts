@@ -13,6 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 export class DashboardComponent {
 
+  locale: any;
   today = new Date();
   chartCommision: any = [];
   chartSales: any = [];
@@ -31,6 +32,21 @@ export class DashboardComponent {
     private spinner: NgxSpinnerService,
     public ts: TranslateService) {
     const date = new Date();
+
+    this.locale = {
+      firstDayOfWeek: 0,
+      dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
+      dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+      dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+      monthNames: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+        'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
+      monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun',
+        'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+      today: 'Hoy',
+      clear: 'Clara',
+      dateFormat: 'mm/dd/yy',
+      weekHeader: 'Wk'
+    };
     // this.parameter.min = new Date(date.getFullYear() + '-' + (date.getMonth() - 4) + '-' + '01');
     // this.parameter.max = date;
     this.parameter.min = moment().subtract(6, 'months').toDate();

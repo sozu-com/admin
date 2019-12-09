@@ -54,6 +54,7 @@ export class AdminService {
     const headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
     headers.append('Authorization', 'Bearer ' + token);
+    // headers.append('Authorization', 'language_code ' + this.language_code);
     return headers;
   }
 
@@ -61,6 +62,7 @@ export class AdminService {
     const token = localStorage.getItem('token');
     const headers = new Headers();
     headers.append('Authorization', 'Bearer ' + token);
+    // headers.append('Authorization', 'language_code ' + this.language_code);
     return headers;
   }
 
@@ -78,6 +80,7 @@ export class AdminService {
     this.language_code = language_code === this.constant.language[0].code ?
             this.constant.language[0].label : this.constant.language[1].label;
     this.translate.setDefaultLang(language_code);
+    // localStorage.setItem('language_code', language_code);
   }
 // ending of general functions
 

@@ -20,7 +20,7 @@ export class NotaryComponent implements OnInit {
   colorScheme = {
     domain: ['#4eb96f', '#4a85ff']
   };
-
+  locale: any;
   constructor(public admin: AdminService, private spinner: NgxSpinnerService,
     private translate: TranslateService) {
     // Object.assign(this, this.chartView);
@@ -29,6 +29,21 @@ export class NotaryComponent implements OnInit {
   onSelect(event) {}
 
   ngOnInit() {
+
+    this.locale = {
+      firstDayOfWeek: 0,
+      dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
+      dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+      dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+      monthNames: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+        'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
+      monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun',
+        'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+      today: 'Hoy',
+      clear: 'Clara',
+      dateFormat: 'mm/dd/yy',
+      weekHeader: 'Wk'
+    };
     const date = new Date();
     // this.parameter.min = new Date(date.getFullYear() + '-' + '01' + '-' + '01');
     // this.parameter.max = date;

@@ -61,7 +61,7 @@ export class AppComponent implements OnInit {
     });
 
     // translate
-    this.admin.setLanguage(this.constant.language[0].code);
+    this.admin.setLanguage(this.constant.language[1].code);
   }
 
 }
