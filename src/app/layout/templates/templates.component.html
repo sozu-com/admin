@@ -19,16 +19,16 @@
       <div class="col-xl-10 col-lg-12 col-md-12 col-sm-12 col-12">
         <ul class="nav nav-tabs">
           <li class="nav-item cursor-pointer">
-            <a [ngClass]="{'active':parameter.post_type=='1'}" (click)="changeFlag('1')" class="nav-link">{{'filters.post' | translate}}</a>
+            <a [ngClass]="{'active':parameter.post_type=='1'}" (click)="changeFlag('1')" class="nav-link">{{'filters.type.post' | translate}}</a>
           </li>
           <li class="nav-item cursor-pointer">
-            <a [ngClass]="{'active':parameter.post_type=='2'}" (click)="changeFlag('2')" class="nav-link">{{'filters.page' | translate}}</a>
+            <a [ngClass]="{'active':parameter.post_type=='2'}" (click)="changeFlag('2')" class="nav-link">{{'filters.type.page' | translate}}</a>
           </li>
           <li class="nav-item cursor-pointer">
-            <a [ngClass]="{'active':parameter.post_type=='3'}" (click)="changeFlag('3')" class="nav-link">{{'filters.news' | translate}}</a>
+            <a [ngClass]="{'active':parameter.post_type=='3'}" (click)="changeFlag('3')" class="nav-link">{{'filters.type.news' | translate}}</a>
           </li>
           <li class="nav-item cursor-pointer">
-            <a [ngClass]="{'active':parameter.post_type=='4'}" (click)="changeFlag('4')" class="nav-link">{{'filters.mainTemplates' | translate}}</a>
+            <a [ngClass]="{'active':parameter.post_type=='4'}" (click)="changeFlag('4')" class="nav-link">{{'filters.type.mainTemplates' | translate}}</a>
           </li>
         </ul>
       </div>

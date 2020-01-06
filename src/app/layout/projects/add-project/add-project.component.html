@@ -1193,7 +1193,7 @@
           <div class="uploaded-img" *ngFor="let item of amenVideo.files; let i=index">
             <a class="remove" (click)="remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
             <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'"
-              src="{{videoSrc}}" class="video{{i}} floor-plan" autoplay type="video/mp4" controls></video>
+              src="{{videoSrc}}" class="video{{i}} floor-plan" type="video/mp4" controls></video>
             <canvas *ngIf="!item?.thumb" width="72" height="72" id="canvas3{{i}}"></canvas>
             <!--<img *ngIf="item.thumb" class="ui bordered small image" [src]="item.thumb" onerror="this.src='assets/img/placeholder.png'">-->
             <img *ngIf="item.thumb" class="u-img" [src]="item.thumb| img:'thumb'" alt="img">
@@ -1286,7 +1286,7 @@
           <div class="uploaded-img" *ngFor="let item of amenVideo.files; let i=index">
             <a class="remove" (click)="remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
             <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'"
-              src="{{videoSrc}}" class="video{{i}} floor-plan" autoplay type="video/mp4" controls></video>
+              src="{{videoSrc}}" class="video{{i}} floor-plan" type="video/mp4" controls></video>
             <canvas *ngIf="!item?.thumb" width="72" height="72" id="canvas{{i}}"></canvas>
             <!--<img *ngIf="item.thumb" class="ui bordered small image" [src]="item.thumb" onerror="this.src='assets/img/placeholder.png'">-->
             <img *ngIf="item.thumb" class="u-img" [src]="item.thumb| img:'thumb'" alt="img">
@@ -1378,7 +1378,7 @@
           <div class="uploaded-img" *ngFor="let item of amenVideo.files; let j=index">
             <a class="remove" (click)="remove(j)"><img src="assets/img/remove-icon.png" alt="img"></a>
             <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'"
-              src="{{videoSrc}}" class="video{{j}} floor-plan" autoplay type="video/mp4" controls></video>
+              src="{{videoSrc}}" class="video{{j}} floor-plan" type="video/mp4" controls></video>
             <canvas *ngIf="!item?.thumb" width="72" height="72" id="canvas2{{j}}"></canvas>
             <!--<img *ngIf="item.thumb" class="ui bordered small image" [src]="item.thumb" onerror="this.src='assets/img/placeholder.png'">-->
             <img *ngIf="item.thumb" class="u-img" [src]="item.thumb| img:'thumb'" alt="img">

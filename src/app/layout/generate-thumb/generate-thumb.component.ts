@@ -37,7 +37,7 @@ export class GenerateThumbComponent implements OnInit {
   constructor(private element: ElementRef, private cs: CommonService) { }
 
   ngOnInit() {
-    this.gf = new GeneralFunctions();
+    // this.gf = new GeneralFunctions();
   }
 
 

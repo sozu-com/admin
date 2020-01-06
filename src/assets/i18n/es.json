@@ -356,7 +356,7 @@
     "spanish": "Español",
     "enterTitle": "Ingresas título",
     "enterMetaTitle": "Ingresa meta título",
-    "enterMetaDescr": "Enter meta description",
+    "enterMetaDescr": "Enter meta descripción",
     "placeholder": {
       "searchForAddress": "Buscar dirección",
       "searchForBranch": "Buscar sucursal",
@@ -470,6 +470,7 @@
       "configuration": "Configuración",
       "allConfiguration": "Toda la configuración",
       "sellRent": "Vender / Rentar",
+      "description": "Descripción",
       "price": "Precio",
       "editPrice": "Editar precio",
       "agentCommission": "Comisión del agente (en %)",
@@ -1049,7 +1050,7 @@
     "label": "Notificaciones"
   },
   "viewUsers": {
-    "label": "Administrar proyectos",
+    "label": "Administrar usuarios",
     "addBtn": "+Agregar nuevo proyecto",
     "sellerTabOn": "Pestaña de vendedor",
     "addReason": "Agregar razón",
@@ -1107,8 +1108,8 @@
   },
   "viewProperty": {
     "label": "Administrar Propiedades",
-    "addBulkProperty": "+Agregar departamentos masivamente",
-    "addNewProperty": "+Agregar nuevo departamento",
+    "addBulkProperty": "+Agregar masivamente",
+    "addNewProperty": "+Agregar nuevo",
     "phone": "Telefono",
     "developer": "Desarrollador",
     "seller": "Vendedor",

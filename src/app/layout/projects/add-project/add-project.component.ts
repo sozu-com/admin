@@ -860,6 +860,7 @@ export class AddProjectComponent implements OnInit {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         // setting address lat lng
+        console.log('position', position);
         this.model.lat = this.model.lat ? this.model.lat : position.coords.latitude;
         this.model.lng = this.model.lng ? this.model.lng : position.coords.longitude;
       });
@@ -878,7 +879,7 @@ export class AddProjectComponent implements OnInit {
       const geocoder = new google.maps.Geocoder();
       const latlng = new google.maps.LatLng(lat, lng);
       const request = { latLng: latlng };
-
+console.log('geocoder', geocoder);
       geocoder.geocode(request, (results, status) => {
         if (status === google.maps.GeocoderStatus.OK) {
           const result = results[0];

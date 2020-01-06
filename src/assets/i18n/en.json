@@ -470,6 +470,7 @@
       "configuration": "Configuration",
       "allConfiguration": "All configuration",
       "sellRent": "Sell / Rent",
+      "description": "Description",
       "price": "Price",
       "editPrice": "Edit Price",
       "agentCommission": "Agent Commission (in %)",
@@ -1049,7 +1050,7 @@
     "label": "Notifications"
   },
   "viewUsers": {
-    "label": "Manage Projects",
+    "label": "Manage Users",
     "addBtn": "+Add New Project",
     "sellerTabOn": "Seller tab on",
     "addReason": "Add Reason",
@@ -1107,8 +1108,8 @@
   },
   "viewProperty": {
     "label": "Manage Properties",
-    "addBulkProperty": "+Add Bulk Property",
-    "addNewProperty": "+Add New Property",
+    "addBulkProperty": "+Add Bulk",
+    "addNewProperty": "+Add New",
     "phone": "Phone",
     "developer": "Developer",
     "seller": "Seller",
