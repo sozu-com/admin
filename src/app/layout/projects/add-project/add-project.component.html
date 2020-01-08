@@ -144,7 +144,7 @@
                   <label>{{'addForm.location.label' | translate}}
                     <span class="color-red">*</span>
                   </label>
-                  <input required [pattern]="constant.onlyWhiteSpaces" placeholder="{{'addForm.placeholder.searchForLocation' | translate}}"
+                  <input required placeholder="{{'addForm.placeholder.searchForLocation' | translate}}"
                     autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search
                     (input)="loadPlaces()" name="address" [(ngModel)]="model.address" autocomplete="off">
                 </div>
