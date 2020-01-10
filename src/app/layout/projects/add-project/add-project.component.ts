@@ -1837,9 +1837,6 @@ console.log('geocoder', geocoder);
         }
       });
     }, 1000);
-
-    // }
-
   }
 
   newcanvasamenVideo(video: any, videoFile: File, myIndex, type) {
