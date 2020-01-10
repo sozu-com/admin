@@ -160,6 +160,7 @@ export interface IProperty {
   possession_filter?: number;
   developer_id?: number;
   project_id?: number;
+  agent_id?: string;
   property_sort?: number;
   action_filter?: number;
   seller_name?: string;

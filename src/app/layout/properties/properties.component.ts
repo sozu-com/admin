@@ -80,6 +80,8 @@ export class PropertiesComponent implements OnInit {
     };
     this.route.params.subscribe(params => {
       this.parameter.project_id = params.project_id;
+      this.parameter.agent_id = params.agent_id;
+      this.parameter.type = params.type;
     });
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
@@ -102,6 +104,11 @@ export class PropertiesComponent implements OnInit {
       input.max = moment(this.parameter.max).format('YYYY-MM-DD');
     } else {
       delete input.max;
+    }
+    if (this.parameter.agent_id && this.parameter.type) {
+      input.agent_id = this.parameter.agent_id;
+    } else {
+      delete input.agent_id;
     }
     delete input.seller_id;
     this.admin.postDataApi('propertyHome', input).subscribe(

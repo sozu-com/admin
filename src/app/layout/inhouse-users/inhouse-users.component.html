@@ -175,10 +175,17 @@
               <td class="text-left" *ngIf="item.phone">{{item.dial_code && item.dial_code!=undefined ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
               <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
               <td class="text-left">{{item.email}}</td>
-              <td *ngIf="parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers' ||
+              <td class="text-left" *ngIf="parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers' ||
                     parameter.userType == 'inhouse-broker' || parameter.userType == 'outside-broker' || parameter.userType == 'csr-closers'; else showBuildings">{{item.lead_count?item.lead_count:'0'}}</td>
-              <td *ngIf="parameter.userType == 'data-collectors'" >{{item.added_buildings_count?item.added_buildings_count:'0'}}</td>
-              <td *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'outside-broker'" >{{item.properties_linked?item.properties_linked:'0'}}</td>
+              <td class="text-left" *ngIf="parameter.userType == 'data-collectors'" >{{item.added_buildings_count?item.added_buildings_count:'0'}}</td>
+              <td class="text-left" *ngIf="item.properties_linked && parameter.userType == 'inhouse-broker' || parameter.userType == 'outside-broker'">
+                <a routerLink="/dashboard/properties/view-properties/{{item.id}}/agent">
+                  <span class="green-color">{{item.properties_linked?item.properties_linked:'0'}}</span>
+                </a>
+              </td>
+              <td class="text-left" *ngIf="!item.properties_linked && parameter.userType == 'inhouse-broker' || parameter.userType == 'outside-broker'">
+                <span class="green-color">{{item.properties_linked?item.properties_linked:'0'}}</span>
+              </td>
               <td>
                 <div class="table-actions">
                   <a *ngIf="(admin?.admin_acl['Building Management']?.can_read==1 || admin?.permissions?.can_data_collector==1)&& 

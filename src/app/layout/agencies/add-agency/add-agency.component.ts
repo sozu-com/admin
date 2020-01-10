@@ -99,10 +99,10 @@ export class AddAgencyComponent implements OnInit {
 
   add(formData: NgForm) {
     const modelSave: Agency = JSON.parse(JSON.stringify(this.model));
-    if (!modelSave.lat || !modelSave.lng) {
-      swal('Error', this.translate.instant('message.info.pleaseChooseAddressFromDropdown'), 'error');
-      return;
-    }
+    // if (!modelSave.lat || !modelSave.lng) {
+    //   swal('Error', this.translate.instant('message.info.pleaseChooseAddressFromDropdown'), 'error');
+    //   return;
+    // }
     if (modelSave.img_loader || modelSave.logo_loader) {
       swal('Error', this.translate.instant('message.error.uploadingImage'), 'error');
       return;

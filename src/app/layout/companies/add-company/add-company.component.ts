@@ -95,15 +95,21 @@ export class AddCompanyComponent implements OnInit {
 
   add(formData: NgForm) {
     const modelSave: Users = JSON.parse(JSON.stringify(this.model));
-    if (!modelSave.lat || !modelSave.lng) {
-      swal('Error', this.translate.instant('message.info.pleaseChooseAddressFromDropdown'), 'error');
-      return;
-    }
-    if (!modelSave.branch_lat || !modelSave.branch_lng) {
-      swal('Error', this.translate.instant('message.info.pleaseChooseBranchAddressFromDropdown'), 'error');
-      swal('Error', '', 'error');
-      return;
-    }
+    // if (modelSave.address) {
+    //   if (!modelSave.lat || !modelSave.lng) {
+    //     swal('Error', this.translate.instant('message.info.pleaseChooseAddressFromDropdown'), 'error');
+    //     return;
+    //   }
+    // }
+
+    // if (modelSave.branch) {
+    //   if (!modelSave.branch_lat || !modelSave.branch_lng) {
+    //     swal('Error', this.translate.instant('message.info.pleaseChooseBranchAddressFromDropdown'), 'error');
+    //     swal('Error', '', 'error');
+    //     return;
+    //   }
+    // }
+
     if (this.model.img_loader || this.model.logo_loader) {
       swal('Error', this.translate.instant('message.error.uploadingImage'), 'error');
       return;

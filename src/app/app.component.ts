@@ -61,7 +61,8 @@ export class AppComponent implements OnInit {
     });
 
     // translate
-    this.admin.setLanguage(this.constant.language[1].code);
+    const code = localStorage.getItem('language_code');
+    this.admin.setLanguage(code ? code : this.constant.language[1].code);
   }
 
 }
