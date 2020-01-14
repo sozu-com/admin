@@ -1010,7 +1010,8 @@
   "viewAgency": {
     "label": "Agencies",
     "addAgency": "Add Agency",
-    "editAgency": "Edit Agency"
+    "editAgency": "Edit Agency",
+    "noAgentsFound": "No Agents linked to this Agency"
   },
   "viewAppointments": {
     "label": "Appointments",

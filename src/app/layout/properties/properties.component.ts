@@ -80,8 +80,12 @@ export class PropertiesComponent implements OnInit {
     };
     this.route.params.subscribe(params => {
       this.parameter.project_id = params.project_id;
-      this.parameter.agent_id = params.agent_id;
-      this.parameter.type = params.type;
+      console.log(params);
+      if (params.type === 'agent') {
+        this.parameter.agent_id = params.id;
+      } else if (params.type === 'agency') {
+        this.parameter.agency_id = params.id;
+      }
     });
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
@@ -105,10 +109,15 @@ export class PropertiesComponent implements OnInit {
     } else {
       delete input.max;
     }
-    if (this.parameter.agent_id && this.parameter.type) {
+    if (this.parameter.agent_id) {
       input.agent_id = this.parameter.agent_id;
     } else {
       delete input.agent_id;
+    }
+    if (this.parameter.agency_id) {
+      input.agency_id = this.parameter.agency_id;
+    } else {
+      delete input.agency_id;
     }
     delete input.seller_id;
     this.admin.postDataApi('propertyHome', input).subscribe(

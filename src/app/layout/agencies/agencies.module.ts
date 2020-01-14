@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { AgmCoreModule } from '@agm/core';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 
 // general components
 import { AclUserGuard } from '../../guards/acl-user.guard';
@@ -41,6 +42,7 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     Ng2TelInputModule,
+    MalihuScrollbarModule.forRoot(),
     SharedModule,
     TranslateModule
   ],

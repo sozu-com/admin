@@ -86,8 +86,22 @@
               <td class="text-left" *ngIf="item.phone">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
               <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
               <td class="text-left">{{item.email}}</td>
-              <td class="text-left">{{item.agents_count | numberWithCommas}}</td>
-              <td class="text-left">{{item.property_count | numberWithCommas}}</td>
+              <td class="text-left">
+                <a class="cursor-pointer" *ngIf="item.agents_count; else noAgentsLinked" (click)="getAgencyAgents(item.id)">
+                  <span class="green-color">{{item.agents_count | numberWithCommas}}</span>
+                </a>
+                <ng-template #noAgentsLinked>
+                  {{item.agents_count | numberWithCommas}}
+                </ng-template>
+              </td>
+              <td class="text-left">
+                <a *ngIf="item.property_count; else noPropertyLinked" routerLink="/dashboard/properties/view-properties/{{item.id}}/agency">
+                  <span class="green-color">{{item.property_count | numberWithCommas}}</span>
+                </a>
+                <ng-template #noPropertyLinked>
+                    {{item.property_count | numberWithCommas}}
+                </ng-template>
+              </td>
               <td>
                 <div class="table-actions">
                   <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Agencies Management']?.can_update==0" (click)="editUser(item)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
@@ -114,4 +128,63 @@
     <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
   </div>
   
+</div>
+
+
+
+
+
+<a data-toggle="modal" data-target="#view-agents-model" #viewAgentsModel></a>
+<div class="modal" id="view-agents-model">
+    <div class="modal-dialog ">
+        <div class="modal-content notary-avail">
+            <div class="modal-header popup-header">
+                <h4 class="modal-title">{{'addForm.linkedAgent' | translate}}</h4>
+                <button type="button" class="close" data-dismiss="modal" #closeViewAgentsModel>&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-8 col-6">
+                        <!-- <input title="{{'table.title.clickEnterForSearch' | translate}}" style="max-width:200px" list="amenities"
+                            class="form-control" type="text" name="keyword"
+                            placeholder="{{'addForm.placeholder.search' | translate}}"> -->
+                    </div>
+                    <!-- <div class="col-md-4 col-5 btn-cont">
+                        <a class="btn btn-primary pull-right" href="javascript://" (click)="assignNow()">{{'leads.assign' | translate}}</a>
+                    </div> -->
+                </div>
+                <!-- <div class="spacer40"></div>
+                <div *ngIf="showSearchText">
+                    <p class="show-not-found">{{'leads.searchCSRBuyer' | translate}}</p>
+                </div> -->
+                <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+                    <table class="table">
+                        <tr *ngFor="let item of parameter.items">
+                            <td *ngIf="item.is_blocked!=1">
+                                <div class="n-avail-profile">
+                                    <img [src]="item.image| img:'small'" onerror='src="assets/img/default_img.png"'
+                                        alt="img">
+                                    <div class="n-avail-info">
+                                        <p class="p12">{{item.name | titlecase}}</p>
+                                        <p class="p10">{{'leads.phone' | translate}} :
+                                            {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone.trim()}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </td>
+                            <!-- <td *ngIf="item.is_blocked!=1">
+                                <label class="cust-check-bx float-right">
+                                    <input type="radio" name="notary_id" (click)="assignItem = item">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </td> -->
+                        </tr>
+                        <tr *ngIf="parameter?.items?.length==0">
+                            <p class="show-not-found">{{'viewAgency.noAgentsFound' | translate}}</p>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

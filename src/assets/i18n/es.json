@@ -1010,7 +1010,8 @@
   "viewAgency": {
     "label": "Agencias",
     "addAgency": "Agregar agencia",
-    "editAgency": "Editar agencia"
+    "editAgency": "Editar agencia",
+    "noAgentsFound": "No hay agentes vinculados a esta agencia"
   },
   "viewAppointments": {
     "label": "Citas",

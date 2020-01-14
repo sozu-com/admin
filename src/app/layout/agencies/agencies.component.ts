@@ -15,11 +15,14 @@ declare let swal: any;
 })
 export class AgenciesComponent implements OnInit {
 
+  @ViewChild('viewAgentsModel') viewAgentsModel: ElementRef;
   @ViewChild('fileInput') fileInput: ElementRef;
   public parameter: IProperty = {};
   model: Agency;
   items: Array<Agency>;
   label: string;
+  public scrollbarOptions = { axis: 'y', theme: 'dark'};
+
   constructor(public constant: Constant,
     private spinner: NgxSpinnerService,
     public admin: AdminService, private router: Router,
@@ -177,5 +180,18 @@ export class AgenciesComponent implements OnInit {
       swal('Error', this.translate.instant('message.info.pleaseChooseFile'), 'error');
       return false;
     }
+  }
+
+  getAgencyAgents(agency_id: string) {
+    this.spinner.show();
+    this.admin.postDataApi('getAgencyAgents', {agency_id: agency_id})
+      .subscribe(
+        success => {
+          this.spinner.hide();
+          this.viewAgentsModel.nativeElement.click();
+          this.parameter.items = success.data;
+        }, error => {
+          this.spinner.hide();
+        });
   }
 }
