@@ -640,24 +640,6 @@ export class AddPropertyComponent implements OnInit {
       const removeIndex = this.parameter.amenities.findIndex(x => x.id == amen.id);
       this.parameter.amenities.splice(removeIndex, 1);
     }
-    // this.all_amenities = res.data.map(item => {
-    //   item.selected = false; item.images = []; item.images360 = []; item.images_360 = []; item.videos = []; return item;
-    // });
-    // this.allTowerAmenities = JSON.parse(JSON.stringify(this.all_amenities));
-    // this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
-
-    // for (let index = 0; index < this.all_amenities.length; index++) {
-    //   for (let i = 0; i < this.model.amenities.length; i++) {
-    //     if (this.model.amenities[i].id === this.all_amenities[index].id) {
-    //       this.all_amenities[index].selected = true;
-    //       const pivot = this.model.amenities[i]['pivot'];
-    //       this.all_amenities[index].images = pivot.images ? pivot.images : [];
-    //       this.all_amenities[index].images_360 = pivot.images_360 ? pivot.images_360 : [];
-    //       this.all_amenities[index].videos = pivot.videos ? pivot.videos : [];
-    //     }
-    //   }
-    // }
-
   }
 
   getSelectedAmenityByName(selectedName: string) {
@@ -865,34 +847,31 @@ export class AddPropertyComponent implements OnInit {
   }
 
   saveImages() {
-    this.http.loader.next({ value: true });
-    if (this.file2.files.length < 1) {
-      swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
-      return false;
-    }
-    this.modalClose.nativeElement.click();
+    let count = 0;
+    // if (this.file2.files.length < 1) {
+    //   swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
+    //   return false;
+    // }
     this.file2.upload().then(r => {
       this.model.images = this.file2.files;
-      this.http.loader.next({ value: false });
     });
+    this.file2.files.forEach(element => {
+      if (element.loading !== true) {
+        count++;
+      }
+    });
+
+    if (count === this.file2.files.length) {
+      this.modalClose.nativeElement.click();
+    }
   }
 
   save360Images() {
-    // this.http.loader.next({value: true});
+    let count = 0;
     // if (this.file360.files.length < 1) {
-    //   swal('Error', 'Please select atleast one image', 'error');
+    //   swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
     //   return false;
     // }
-    // this.modalClose360Img.nativeElement.click();
-    // this.file360.upload().then(r => {
-    //   this.model.images360 = this.file360.files;
-    //   this.http.loader.next({value: false});
-    // });
-    let count = 0;
-    if (this.file360.files.length < 1) {
-      swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
-      return false;
-    }
     this.file360.upload().then(r => {
       this.model.images360 = this.file360.files;
     });
@@ -1457,58 +1436,6 @@ export class AddPropertyComponent implements OnInit {
     this.amen360Img.onSelectFile($event);
   }
 
-  // amenVideosSelect($event) {
-  //   if ((this.amenVideo.files.length + $event.target.files.length) > 6) {
-  //     swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
-  //     return false;
-  //   }
-  //   this.amenVideo.onSelectFile($event);
-  // }
-
-
-  // saveAmenitiesMedia
-
-  // async saveAmenitiesMedia() {
-  //   let count = 0;
-  //   const totalFilesCount = this.amenMoreImg.files.length + this.amen360Img.files.length + this.amenVideo.files.length;
-  //   if (totalFilesCount < 1) {
-  //     swal('Error', 'Please select atleast one image', 'error');
-  //     return false;
-  //   }
-  //   this.amenMoreImg.upload().then(r => {
-  //     this.parameter.amenities[this.amenity_index].images = this.amenMoreImg.files;
-  //   });
-  //   this.amen360Img.upload().then(r => {
-  //     this.parameter.amenities[this.amenity_index].images_360 = this.amen360Img.files;
-  //   });
-  //   this.amenVideo.upload().then(r => {
-  //     this.parameter.amenities[this.amenity_index].videos = this.amenVideo.files;
-  //   });
-  //
-  //   // this.modalAmenClose.nativeElement.click();
-  //   this.amenMoreImg.files.forEach(element => {
-  //     if (element.loading === false) {
-  //       count++;
-  //     }
-  //   });
-  //   this.amen360Img.files.forEach(element => {
-  //     if (element.loading === false) {
-  //       count++;
-  //     }
-  //   });
-  //
-  //
-  //   this.amenVideo.files.forEach(element => {
-  //     if (element.loading !== true) {
-  //       count++;
-  //     }
-  //   });
-  //
-  //   if (count === totalFilesCount) {
-  //     this.modalAmenClose.nativeElement.click();
-  //   }
-  // }
-
   modelOpenVideos() {
     this.modalAddMoreVideos.nativeElement.click();
     this.amenVideo.backup(JSON.parse(JSON.stringify(this.model.videos)));
@@ -1516,10 +1443,10 @@ export class AddPropertyComponent implements OnInit {
 
   saveVideos() {
     let count = 0;
-    if (this.amenVideo.files.length < 1) {
-      swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
-      return false;
-    }
+    // if (this.amenVideo.files.length < 1) {
+    //   swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
+    //   return false;
+    // }
     this.amenVideo.upload().then(r => {
       this.model.videos = this.amenVideo.files;
     });
@@ -1535,31 +1462,10 @@ export class AddPropertyComponent implements OnInit {
 
 
   async saveAmenitiesMedia() {
-    // if (this.file2.files.length > 6) {
-    //   swal('Error', 'You can choose maximum of 6 images.', 'error'); return false;
-    // }
-    // if (this.file2.files.length < 1) {
-    //   // swal('Error', 'Please select atleast one image', 'error'); return false;
-    //   this.all_amenities[this.amenity_index].images = [];
-    //   this.modalAmenClose.nativeElement.click();
-    //   return false;
-    // }
-
-    // this.file2.upload().then(r => {
-    //   this.all_amenities[this.amenity_index].images = this.file2.files;
-    // });
-    // this.modalAmenClose.nativeElement.click();
-
     let count = 0;
     const totalFilesCount = this.amenMoreImg.files.length + this.amen360Img.files.length + this.amenVideo.files.length;
-    if (totalFilesCount < 1) {
-      swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
-      return false;
-    }
-    // if (this.file2.files.length < 1) {
-    //   // swal('Error', 'Please select atleast one image', 'error'); return false;
-    //   this.all_amenities[this.amenity_index].images = [];
-    //   this.modalAmenClose.nativeElement.click();
+    // if (totalFilesCount < 1) {
+    //   swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
     //   return false;
     // }
     this.amenMoreImg.upload().then(r => {
@@ -1571,18 +1477,6 @@ export class AddPropertyComponent implements OnInit {
     this.amenVideo.upload().then(r => {
       this.parameter.amenities[this.amenity_index].videos = this.amenVideo.files;
     });
-
-
-    // if (this.amenVideo.files.length) {
-    //   const data = await this.upload();
-    // }
-
-
-    // this.amenVideo.upload().then(r => {
-    //   this.all_amenities[this.amenity_index].videos = this.amenVideo.files;
-    // });
-
-    // this.modalAmenClose.nativeElement.click();
 
     this.amenMoreImg.files.forEach(element => {
       if (element.loading !== true) {
@@ -1652,9 +1546,6 @@ export class AddPropertyComponent implements OnInit {
         }
       });
     }, 1000);
-
-    // }
-
   }
 
 
@@ -1680,6 +1571,5 @@ export class AddPropertyComponent implements OnInit {
 
   remove(index: any) {
     this.amenVideo.files.splice(index, 1);
-    // this.allAmenvideos.splice(index, 1);
   }
 }

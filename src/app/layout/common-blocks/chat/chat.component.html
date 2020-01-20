@@ -154,7 +154,7 @@
         </div>
       </div>
     </div> -->
-    <video style="width: 100%; height: 100%;" src="{{videoSrc}}" class="video55" autoplay type="video/mp4" controls></video>
+    <video style="width: 100%; height: 100%;" src="{{videoSrc}}" class="video55" type="video/mp4" controls></video>
     <canvas style="display: none;" width="800" height="600" id="canvas"></canvas>
 
     <button [disabled]="(sent_as==constant.userType.csr_buyer && (admin?.admin_acl['Buyer Lead Management']?.can_update==0 || admin?.permissions?.can_csr_buyer==0)) ||

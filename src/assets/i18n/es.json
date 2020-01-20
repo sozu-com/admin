@@ -1105,7 +1105,9 @@
     "petsAllowed": "Mascotas permitidas",
     "Furnished": "Amueblado",
     "Parking": "Estacionamiento",
-    "Bathrooms": "Baños"
+    "Bathrooms": "Baños",
+    "yes": "si",
+    "no": "No"
   },
   "viewProperty": {
     "label": "Administrar Propiedades",

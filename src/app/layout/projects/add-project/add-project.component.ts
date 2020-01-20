@@ -528,10 +528,10 @@ export class AddProjectComponent implements OnInit {
 
   saveImages() {
     let count = 0;
-    if (this.file2.files.length < 1) {
-      swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
-      return false;
-    }
+    // if (this.file2.files.length < 1) {
+    //   swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
+    //   return false;
+    // }
     this.file2.upload().then(r => {
       this.model.images = this.file2.files;
     });
@@ -561,10 +561,10 @@ export class AddProjectComponent implements OnInit {
 
   save360Images() {
     let count = 0;
-    if (this.file7.files.length < 1) {
-      swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
-      return false;
-    }
+    // if (this.file7.files.length < 1) {
+    //   swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
+    //   return false;
+    // }
     this.file7.upload().then(r => {
       this.model.images360 = this.file7.files;
     });
@@ -580,10 +580,10 @@ export class AddProjectComponent implements OnInit {
 
   saveVideos() {
     let count = 0;
-    if (this.amenVideo.files.length < 1) {
-      swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
-      return false;
-    }
+    // if (this.amenVideo.files.length < 1) {
+    //   swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
+    //   return false;
+    // }
     this.amenVideo.upload().then(r => {
       this.model.videos = this.amenVideo.files;
     });

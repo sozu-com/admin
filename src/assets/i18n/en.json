@@ -1105,7 +1105,9 @@
     "petsAllowed": "Pets Allowed",
     "Furnished": "Furnished",
     "Parking": "Parking",
-    "Bathrooms": "Bathrooms"
+    "Bathrooms": "Bathrooms",
+    "yes": "Yes",
+    "no": "No"
   },
   "viewProperty": {
     "label": "Manage Properties",

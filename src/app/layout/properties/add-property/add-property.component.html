@@ -1119,6 +1119,7 @@
             <a class="remove" (click)="file2.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
             <img *ngIf="item" class="u-img" [src]="item.image" alt="img">
             <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+            <div *ngIf="item.loading" class="loaderr"></div>
           </div>
         </div>
 
@@ -1146,7 +1147,7 @@
 
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">{{'addForm.moreImages.addMoreBtn' | translate}}<span>&#176;</span> Images</h4>
+        <h4 class="modal-title">{{'addForm.add360.addBtn1' | translate}}<span>&#176;</span> {{'addForm.add360.addBtn2' | translate}}</h4>
         <button type="button" class="close" data-dismiss="modal" #modalClose360Img>&times;</button>
       </div>
 
@@ -1163,7 +1164,7 @@
 
         <div class="add-more-images">
           <input type="file" name="add-more" multiple max="6" accept="image/*" (change)="file360Select($event)">
-          <span>{{'addForm.moreImages.addBtn1' | translate}}<span>&#176;</span> {{'addForm.moreImages.addBtn2' | translate}}</span>
+          <span>{{'addForm.add360.addBtn1' | translate}}<span>&#176;</span> {{'addForm.add360.addBtn2' | translate}}</span>
         </div>
       </div>
 
@@ -1254,7 +1255,7 @@
           <p>{{'addForm.addVideo.label1' | translate}}</p>
           <div class="uploaded-img" *ngFor="let item of amenVideo.files; let i=index">
             <a class="remove" (click)="amenVideo.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
-            <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'" src="{{videoSrc}}" class="video{{i}} floor-plan" autoplay type="video/mp4" controls></video>
+            <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'" src="{{videoSrc}}" class="video{{i}} floor-plan" type="video/mp4" controls></video>
             <canvas *ngIf="!item?.thumb" width="72" height="72" id="canvas{{i}}"></canvas>
             <!--<img *ngIf="item.thumb" class="ui bordered small image" [src]="item.thumb" onerror="this.src='assets/img/placeholder.png'">-->
             <img *ngIf="item.thumb" class="u-img" [src]="item.thumb" alt="img">
@@ -1310,7 +1311,7 @@
           <!-- <p>Videos</p> -->
           <div class="uploaded-img" *ngFor="let item of amenVideo.files; let i=index">
             <a class="remove" (click)="remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
-            <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'" src="{{videoSrc}}" class="video{{i}} floor-plan" autoplay type="video/mp4" controls></video>
+            <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'" src="{{videoSrc}}" class="video{{i}} floor-plan" type="video/mp4" controls></video>
             <canvas *ngIf="!item?.thumb" width="72" height="72" id="canvas3{{i}}"></canvas>
             <!--<img *ngIf="item.thumb" class="ui bordered small image" [src]="item.thumb" onerror="this.src='assets/img/placeholder.png'">-->
             <img *ngIf="item.thumb" class="u-img" [src]="item.thumb" alt="img">
