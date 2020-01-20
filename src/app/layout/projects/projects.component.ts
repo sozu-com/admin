@@ -92,6 +92,12 @@ export class ProjectsComponent implements OnInit {
     if (this.parameter.userType === 'data-collector') {
       input.data_collector_id = this.parameter.id;
     }
+    if (this.parameter.userType === 'manager') {
+      input.manager_id = this.parameter.id;
+    }
+    if (this.parameter.userType === 'company') {
+      input.company_id = this.parameter.id;
+    }
     this.admin.postDataApi('projectHome', input).subscribe(
       success => {
         this.items = success.data;

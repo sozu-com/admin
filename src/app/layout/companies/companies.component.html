@@ -86,6 +86,11 @@
               <td class="text-left" *ngIf="item.phone">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
               <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
               <td class="text-left">{{item.email}}</td>
+              <!-- <td class="text-left">
+                <a routerLink="/dashboard/projects/view-projects/company/{{item.id}}">
+                  <span class="green-color">{{item.project_count | numberWithCommas}}</span>
+                </a>
+              </td> -->
               <td class="text-left">{{item.project_count | numberWithCommas}}</td>
               <td class="text-left">{{item.managers_count | numberWithCommas}}</td>
               <td>

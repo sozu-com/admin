@@ -175,8 +175,10 @@
               <td class="text-left" *ngIf="item.phone">{{item.dial_code && item.dial_code!=undefined ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
               <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
               <td class="text-left">{{item.email}}</td>
-              <td class="text-left" *ngIf="parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers' ||
-                    parameter.userType == 'inhouse-broker' || parameter.userType == 'outside-broker' || parameter.userType == 'csr-closers'; else showBuildings">{{item.lead_count?item.lead_count:'0'}}</td>
+              <td class="text-left" (click)="showLeads(item.id)" *ngIf="parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers' ||
+                    parameter.userType == 'inhouse-broker' || parameter.userType == 'outside-broker' || parameter.userType == 'csr-closers'; else showBuildings">
+                <span class="green-color cursor-pointer">{{item.lead_count?item.lead_count:'0'}}</span>
+              </td>
               <td class="text-left" *ngIf="parameter.userType == 'data-collectors'" >{{item.added_buildings_count?item.added_buildings_count:'0'}}</td>
               <td class="text-left" *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'outside-broker'">
                 <a *ngIf="item.properties_linked; else noPropertyLinked" routerLink="/dashboard/properties/view-properties/{{item.id}}/agent">

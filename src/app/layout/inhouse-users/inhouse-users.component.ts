@@ -906,4 +906,20 @@ export class InhouseUsersComponent implements OnInit {
           swal('Error', error.error.message, 'error');
         });
   }
+
+  showLeads(id: string) {
+    let url = '';
+    if (this.parameter.userType === 'csr-sellers') {
+      url = '/dashboard/leads/csr-sellers-leads';
+    } else if (this.parameter.userType === 'csr-buyers') {
+      url = '/dashboard/leads/csr-buyers-leads';
+    } else if (this.parameter.userType === 'inhouse-broker') {
+      url = '/dashboard/leads/inhouse-broker-leads';
+    } else if (this.parameter.userType === 'outside-broker') {
+      url = '/dashboard/leads/outside-broker-leads';
+    } else if (this.parameter.userType === 'csr-closers') {
+      url = '/dashboard/leads/csr-closers-leads';
+    }
+    this.router.navigate([url, id]);
+  }
 }
