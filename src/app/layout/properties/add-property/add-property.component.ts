@@ -1010,7 +1010,8 @@ export class AddPropertyComponent implements OnInit {
           this.model.parking_for_sale = 0;
         }
 
-        // amemnities images
+        // amenities images
+          console.log(this.parameter.amenities);
         if (this.parameter.amenities && this.parameter.amenities.length > 0) {
           this.parameter.amenities.forEach(element => {
             const img = [];
@@ -1019,7 +1020,7 @@ export class AddPropertyComponent implements OnInit {
             // amenities images
             if (element.images && element.images.length > 0) {
               element.images.forEach(e => {
-                img.push(e.image);
+                img.push(e);
               });
             }
             element.images = img;
@@ -1027,7 +1028,7 @@ export class AddPropertyComponent implements OnInit {
             // amenities 360 images
             if (element.images_360 && element.images_360.length > 0) {
               element.images_360.forEach(e => {
-                img_360.push(e.image);
+                img_360.push(e);
               });
             }
             element.images360 = img_360;
@@ -1508,7 +1509,45 @@ export class AddPropertyComponent implements OnInit {
     this.showamenVideo($event, type);
   }
 
+
   async showamenVideo(event, type) {
+
+    for (let index = 0; index < event.target.files.length; index++) {
+      if (event.target.files[index].size < this.constant.fileSizeLimit) {
+        this.amenVideo.files.push(event.target.files[index]);
+      } else {
+        swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
+      }
+    }
+
+    setTimeout(async () => {
+      this.amenVideo.files.forEach(async (item, index) => {
+        if (!item.id) {
+          if (!this.amenVideo.files[index]['fileToUpload'] &&
+            !this.amenVideo.files[index]['thumb']) {          // check file if not then loader will show
+            this.amenVideo.files[index].loading = true;
+          }
+
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            const timer = setTimeout(async () => {
+              const data = await this.setVideoStaticThumb(index);
+            }, 1000);
+          }.bind(this);
+          reader.readAsDataURL(this.amenVideo.files[index]);
+        }
+      });
+    }, 1000);
+  }
+
+  setVideoStaticThumb(myIndex) {
+    const fileToUpload = 'assets/img/video-file.svg';
+    this.amenVideo.files[myIndex].loading = false;
+    this.amenVideo.files[myIndex]['thumb'] = fileToUpload;
+    this.amenVideo.files[myIndex]['fileToUpload'] = fileToUpload;
+  }
+
+  async showamenVideoOld(event, type) {
 
     const arr = [];
 

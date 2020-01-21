@@ -1250,14 +1250,13 @@
           <span>{{'addForm.add360.addBtn1' | translate}}<span>&#176;</span> {{'addForm.add360.addBtn2' | translate}}</span>
         </div>
 
-
+        <!-- videos -->
         <div class="uploaded-img-block">
           <p>{{'addForm.addVideo.label1' | translate}}</p>
           <div class="uploaded-img" *ngFor="let item of amenVideo.files; let i=index">
             <a class="remove" (click)="amenVideo.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
-            <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'" src="{{videoSrc}}" class="video{{i}} floor-plan" type="video/mp4" controls></video>
-            <canvas *ngIf="!item?.thumb" width="72" height="72" id="canvas{{i}}"></canvas>
-            <!--<img *ngIf="item.thumb" class="ui bordered small image" [src]="item.thumb" onerror="this.src='assets/img/placeholder.png'">-->
+            <!-- <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'" src="{{videoSrc}}" class="video{{i}} floor-plan" type="video/mp4" controls></video>
+            <canvas *ngIf="!item?.thumb" width="72" height="72" id="canvas{{i}}"></canvas> -->
             <img *ngIf="item.thumb" class="u-img" [src]="item.thumb" alt="img">
             <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
             <div *ngIf="item.loading" class="loaderr"></div>
@@ -1267,24 +1266,8 @@
           <input type="file" name="add-more" multiple max="6" accept="video/*" (change)="amenVideosSelect($event,'amenity')">
           <span>{{'addForm.addVideo.addBtn' | translate}} </span>
         </div>
-
-        <!-- videos -->
-        <!-- <div class="uploaded-img-block">
-          <p>Videos</p>
-          <div class="uploaded-img" *ngFor="let item of amenVideo.files; let i=index">
-            <a class="remove" (click)="amenVideo.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
-            <img *ngIf="item" class="u-img" [src]="item.image" alt="img">
-            <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
-            <div *ngIf="item.loading" class="loaderr"></div>
-          </div>
-        </div>
-        <div class="add-more-images dimensions">
-          <input type="file" name="add-more" multiple max="6" accept="video/*" (change)="amenVideosSelect($event)">
-          <span>+ Add more videos</span>
-        </div> -->
       </div>
 
-      <!-- Modal footer -->
       <div class="modal-footer btn-cont">
         <button type="button" (click)="saveAmenitiesMedia()" class="btn btn-primary">{{'addForm.submit' | translate}}</button>
       </div>
@@ -1311,9 +1294,8 @@
           <!-- <p>Videos</p> -->
           <div class="uploaded-img" *ngFor="let item of amenVideo.files; let i=index">
             <a class="remove" (click)="remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
-            <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'" src="{{videoSrc}}" class="video{{i}} floor-plan" type="video/mp4" controls></video>
-            <canvas *ngIf="!item?.thumb" width="72" height="72" id="canvas3{{i}}"></canvas>
-            <!--<img *ngIf="item.thumb" class="ui bordered small image" [src]="item.thumb" onerror="this.src='assets/img/placeholder.png'">-->
+            <!-- <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'" src="{{videoSrc}}" class="video{{i}} floor-plan" type="video/mp4" controls></video>
+            <canvas *ngIf="!item?.thumb" width="72" height="72" id="canvas3{{i}}"></canvas> -->
             <img *ngIf="item.thumb" class="u-img" [src]="item.thumb" alt="img">
             <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
             <div *ngIf="item.loading" class="loaderr"></div>

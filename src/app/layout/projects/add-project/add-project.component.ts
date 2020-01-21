@@ -588,13 +588,17 @@ export class AddProjectComponent implements OnInit {
       this.model.videos = this.amenVideo.files;
     });
     this.amenVideo.files.forEach(element => {
+      console.log('1');
       if (element.loading !== true) {
+        console.log('1434');
         count++;
       }
     });
     if (count === this.amenVideo.files.length) {
+      console.log('154435');
       this.modalAddMoreVideos.nativeElement.click();
     }
+    console.log('153345');
   }
 
 
@@ -613,31 +617,10 @@ export class AddProjectComponent implements OnInit {
   }
 
   async saveAmenityImages() {
-    // if (this.file2.files.length > 6) {
-    //   swal('Error', 'You can choose maximum of 6 images.', 'error'); return false;
-    // }
-    // if (this.file2.files.length < 1) {
-    //   // swal('Error', 'Please select atleast one image', 'error'); return false;
-    //   this.all_amenities[this.amenity_index].images = [];
-    //   this.modalAmenClose.nativeElement.click();
-    //   return false;
-    // }
-
-    // this.file2.upload().then(r => {
-    //   this.all_amenities[this.amenity_index].images = this.file2.files;
-    // });
-    // this.modalAmenClose.nativeElement.click();
-
     let count = 0;
     const totalFilesCount = this.file2.files.length + this.amen360Img.files.length + this.amenVideo.files.length;
-    if (totalFilesCount < 1) {
-      swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
-      return false;
-    }
-    // if (this.file2.files.length < 1) {
-    //   // swal('Error', 'Please select atleast one image', 'error'); return false;
-    //   this.all_amenities[this.amenity_index].images = [];
-    //   this.modalAmenClose.nativeElement.click();
+    // if (totalFilesCount < 1) {
+    //   swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
     //   return false;
     // }
     this.file2.upload().then(r => {
@@ -649,9 +632,6 @@ export class AddProjectComponent implements OnInit {
     this.amenVideo.upload().then(r => {
       this.all_amenities[this.amenity_index].videos = this.amenVideo.files;
     });
-
-
-    // this.modalAmenClose.nativeElement.click();
 
     this.file2.files.forEach(element => {
       if (element.loading !== true) {
@@ -691,24 +671,6 @@ export class AddProjectComponent implements OnInit {
   }
 
   saveTowerAmenityImages() {
-    // if (this.file2.files.length > 6) {
-    //   swal('Error', 'You can choose maximum of 6 images.', 'error'); return false;
-    // }
-    // if (this.file2.files.length < 1) {
-    //   // swal('Error', 'Please select atleast one image', 'error'); return false;
-    //   this.allTowerAmenities[this.amenity_index].images = [];
-    //   // this.allTowerAmenityForEdit[this.amenity_index].images = [];
-    //   this.modalTowerAmenClose.nativeElement.click();
-    //   return false;
-    // }
-
-    // this.file2.upload().then(r => {
-    //   this.allTowerAmenities[this.amenity_index].images = this.file2.files;
-    //   // this.allTowerAmenityForEdit[this.amenity_index].images = this.file2.files;
-    // });
-    // this.modalTowerAmenClose.nativeElement.click();
-
-
     let count = 0;
     const totalFilesCount = this.file2.files.length + this.amen360Img.files.length + this.amenVideo.files.length;
     if (this.file2.files.length > 6) {
@@ -724,7 +686,6 @@ export class AddProjectComponent implements OnInit {
       return false;
     }
 
-
     this.file2.upload().then(r => {
       this.allTowerAmenities[this.amenity_index].images = this.file2.files;
     });
@@ -734,8 +695,6 @@ export class AddProjectComponent implements OnInit {
     this.amenVideo.upload().then(r => {
       this.allTowerAmenities[this.amenity_index].videos = this.amenVideo.files;
     });
-
-    // this.modalAmenClose.nativeElement.click();
 
     this.file2.files.forEach(element => {
       if (element.loading !== true) {
@@ -757,74 +716,6 @@ export class AddProjectComponent implements OnInit {
       this.modalTowerAmenClose.nativeElement.click();
     }
   }
-
-
-  // loadPlaces() {
-  //   // load Places Autocomplete
-  //   this.model.lat = '30.34';
-  //   this.model.lng = '76.23';
-  //   this.mapsAPILoader.load().then(() => {
-  //     const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-  //       types: []
-  //     });
-  //     autocomplete.addListener('place_changed', () => {
-  //       this.ngZone.run(() => {
-  //         // get the place result
-  //         // const place: google.maps.places.PlaceResult = autocomplete.getPlace();
-  //         const place = autocomplete.getPlace();
-
-  //         // verify result
-  //         if (place.geometry === undefined || place.geometry === null) {
-  //           return;
-  //         }
-
-  //         // set latitude, longitude and zoom
-  //         this.model.lat = place.geometry.location.lat();
-  //         this.model.lng = place.geometry.location.lng();
-  //         if (place.formatted_address) {
-  //           this.model.address = place.formatted_address;
-  //         }
-  //         this.zoom = 16;
-  //       });
-  //     });
-  //   });
-  // }
-
-  // setCurrentPosition() {
-  //   if ('geolocation' in navigator) {
-  //     navigator.geolocation.getCurrentPosition((position) => {
-  //       this.model.lat = position.coords.latitude;
-  //       this.model.lng = position.coords.longitude;
-  //       this.zoom = 16;
-  //     });
-  //   }
-  // }
-
-  // placeMarker($event) {
-  //   this.model.lat = $event.coords.lat;
-  //   this.model.lng = $event.coords.lng;
-  //   this.getGeoLocation(this.model.lat, this.model.lng);
-  // }
-
-
-  // getGeoLocation(lat: number, lng: number) {
-  //   if (navigator.geolocation) {
-  //     const geocoder = new google.maps.Geocoder();
-  //     const latlng = new google.maps.LatLng(lat, lng);
-  //     const request = {latLng: latlng};
-
-  //     geocoder.geocode(request, (results, status) => {
-  //       if (status === google.maps.GeocoderStatus.OK) {
-  //         const result = results[0];
-  //         if (result != null) {
-  //           this.model.address = result.formatted_address;
-  //         } else {
-  //           this.model.address = lat + ',' + lng;
-  //         }
-  //       }
-  //     });
-  //   }
-  // }
 
   loadPlaces() {
     // load Places Autocomplete
@@ -860,7 +751,6 @@ export class AddProjectComponent implements OnInit {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         // setting address lat lng
-        console.log('position', position);
         this.model.lat = this.model.lat ? this.model.lat : position.coords.latitude;
         this.model.lng = this.model.lng ? this.model.lng : position.coords.longitude;
       });
@@ -879,7 +769,6 @@ export class AddProjectComponent implements OnInit {
       const geocoder = new google.maps.Geocoder();
       const latlng = new google.maps.LatLng(lat, lng);
       const request = { latLng: latlng };
-console.log('geocoder', geocoder);
       geocoder.geocode(request, (results, status) => {
         if (status === google.maps.GeocoderStatus.OK) {
           const result = results[0];
@@ -1821,6 +1710,43 @@ console.log('geocoder', geocoder);
           }
 
           const reader = new FileReader();
+          reader.onload = function (e) {
+            const timer = setTimeout(async () => {
+              const data = await this.setVideoStaticThumb(index);
+            }, 1000);
+          }.bind(this);
+          reader.readAsDataURL(this.amenVideo.files[index]);
+        }
+      });
+    }, 1000);
+  }
+
+  setVideoStaticThumb(myIndex) {
+    const fileToUpload = 'assets/img/video-file.svg';
+    this.amenVideo.files[myIndex].loading = false;
+    this.amenVideo.files[myIndex]['thumb'] = fileToUpload;
+    this.amenVideo.files[myIndex]['fileToUpload'] = fileToUpload;
+  }
+
+  async showamenVideoOld(event, type) {
+
+    for (let index = 0; index < event.target.files.length; index++) {
+      if (event.target.files[index].size < this.constant.fileSizeLimit) {
+        this.amenVideo.files.push(event.target.files[index]);
+      } else {
+        swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
+      }
+    }
+
+    setTimeout(async () => {
+      this.amenVideo.files.forEach(async (item, index) => {
+        if (!item.id) {
+          if (!this.amenVideo.files[index]['fileToUpload'] &&
+            !this.amenVideo.files[index]['thumb']) {          // check file if not then loader will show
+            this.amenVideo.files[index].loading = true;
+          }
+
+          const reader = new FileReader();
           const videoTest = this.element.nativeElement.querySelector('.video' + index);
 
           reader.onload = function (e) {
@@ -1829,7 +1755,7 @@ console.log('geocoder', geocoder);
             const timer = setTimeout(async () => {
               // find duration of video only of video is in ready state
               if (videoTest.readyState === 4) {
-                const data = await this.newcanvasamenVideo(videoTest, this.amenVideo.files[index], index, type);
+                const data = await this.newcanvasamenVideo('videoTest', this.amenVideo.files[index], index, type);
               }
             }, 1000);
           }.bind(this);
