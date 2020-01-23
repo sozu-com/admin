@@ -1043,7 +1043,8 @@
   "viewManagers": {
     "label": "Managers",
     "addDeveloper": "Add Developer",
-    "editDeveloper": "Edit Developer"
+    "editDeveloper": "Edit Developer",
+    "noManagerLinked": "No Manager linked to this Company"
   },
   "viewManualLeads": {
     "label": "Manage Manual Leads"

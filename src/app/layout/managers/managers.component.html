@@ -108,12 +108,12 @@
               {{item.dial_code && item.dial_code!=undefined ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
             <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
             <td class="text-left">{{item.email}}</td>
-            <!-- <td class="text-left">
+            <td class="text-left">
               <a routerLink="/dashboard/projects/view-projects/manager/{{item.id}}">
                 <span class="green-color">{{item.project_count | numberWithCommas}}</span>
               </a>
-            </td> -->
-            <td class="text-left">{{item.project_count | numberWithCommas}}</td>
+            </td>
+            <!-- <td class="text-left">{{item.project_count | numberWithCommas}}</td> -->
             <td>
               <div class="table-actions">
                 <button 

@@ -16,7 +16,9 @@ declare let swal: any;
 })
 export class CompaniesComponent implements OnInit {
 
+  @ViewChild('viewManagersModal') viewManagersModal: ElementRef;
   @ViewChild('fileInput') fileInput: ElementRef;
+  public scrollbarOptions = { axis: 'y', theme: 'dark'};
   public parameter: IProperty = {};
   model: Company;
   items: Array<Company>;
@@ -177,5 +179,18 @@ export class CompaniesComponent implements OnInit {
       swal('Error', this.translate.instant('message.info.pleaseChooseFile'), 'error');
       return false;
     }
+  }
+
+  getManagers(company_id: string) {
+    this.spinner.show();
+    this.admin.postDataApi('getCompanyMangers', {company_id: company_id})
+      .subscribe(
+        success => {
+          this.spinner.hide();
+          this.viewManagersModal.nativeElement.click();
+          this.parameter.items = success.data;
+        }, error => {
+          this.spinner.hide();
+        });
   }
 }

@@ -85,14 +85,22 @@
               </td>
               <td class="text-left" *ngIf="item.phone">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
               <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
-              <td class="text-left">{{item.email}}</td>
-              <!-- <td class="text-left">
+              <td class="text-left">{{item.email ? item.email : ('table.tr.td.NA' | translate)}}</td>
+              <td class="text-left">
                 <a routerLink="/dashboard/projects/view-projects/company/{{item.id}}">
                   <span class="green-color">{{item.project_count | numberWithCommas}}</span>
                 </a>
-              </td> -->
-              <td class="text-left">{{item.project_count | numberWithCommas}}</td>
-              <td class="text-left">{{item.managers_count | numberWithCommas}}</td>
+              </td>
+              <td class="text-left">
+                <a class="cursor-pointer" *ngIf="item.managers_count; else noManagersLinked" (click)="getManagers(item.id)">
+                  <span class="green-color">{{item.managers_count | numberWithCommas}}</span>
+                </a>
+                <ng-template #noManagersLinked>
+                  {{item.managers_count | numberWithCommas}}
+                </ng-template>
+              </td>
+              <!-- <td class="text-left">{{item.project_count | numberWithCommas}}</td> -->
+              <!-- <td class="text-left">{{item.managers_count | numberWithCommas}}</td> -->
               <td>
                 <div class="table-actions">
                     <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Companies Management']?.can_update==0" (click)="editUser(item)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
@@ -120,4 +128,45 @@
     <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
   </div>
   
+</div>
+
+
+
+<a data-toggle="modal" data-target="#view-managers-modal" #viewManagersModal></a>
+<div class="modal" id="view-managers-modal">
+    <div class="modal-dialog ">
+        <div class="modal-content notary-avail">
+            <div class="modal-header popup-header">
+                <h4 class="modal-title">{{'addForm.linkedManagers' | translate}}</h4>
+                <button type="button" class="close" data-dismiss="modal" #closeviewManagersModal>&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-8 col-6">
+                    </div>
+                </div>
+                <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+                    <table class="table">
+                        <tr *ngFor="let item of parameter.items">
+                            <td *ngIf="item.is_blocked!=1">
+                                <div class="n-avail-profile">
+                                    <img [src]="item.image| img:'small'" onerror='src="assets/img/default_img.png"'
+                                        alt="img">
+                                    <div class="n-avail-info">
+                                        <p class="p12">{{item.name | titlecase}}</p>
+                                        <p class="p10">{{'leads.phone' | translate}} :
+                                            {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone.trim()}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="parameter?.items?.length==0">
+                            <p class="show-not-found">{{'viewManagers.noManagerLinked' | translate}}</p>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

@@ -1043,7 +1043,8 @@
   "viewManagers": {
     "label": "Gerentes",
     "addDeveloper": "Agregar desarrollador",
-    "editDeveloper": "Editar desarrollador"
+    "editDeveloper": "Editar desarrollador",
+    "noManagerLinked": "Ningún gerente vinculado a esta empresa"
   },
   "viewManualLeads": {
     "label": "Administrar Leads manualmente"

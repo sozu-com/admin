@@ -16,6 +16,7 @@ import { SharedModule } from 'src/app/modules/shared.module';
 import { CompaniesComponent } from './companies.component';
 import { AclUserGuard } from 'src/app/guards/acl-user.guard';
 import { AddCompanyComponent } from './add-company/add-company.component';
+import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 
 const routes: Routes = [
   {
@@ -43,7 +44,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     Ng2TelInputModule,
     SharedModule,
-    TranslateModule
+    TranslateModule,
+    MalihuScrollbarModule.forRoot(),
   ],
   declarations: [
     CompaniesComponent,
