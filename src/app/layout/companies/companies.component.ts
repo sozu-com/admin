@@ -183,7 +183,7 @@ export class CompaniesComponent implements OnInit {
 
   getManagers(company_id: string) {
     this.spinner.show();
-    this.admin.postDataApi('getCompanyMangers', {company_id: company_id})
+    this.admin.postDataApi('getCompanyManagers', {company_id: company_id})
       .subscribe(
         success => {
           this.spinner.hide();
