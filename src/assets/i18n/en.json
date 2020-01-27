@@ -1159,6 +1159,7 @@
     "totalNotaryOnPlatform": "Total Notary on Platform"
   },
   "templates": {
+    "slug": "Slug",
     "label": "Templates",
     "addBtn": "+Add New",
     "status": {

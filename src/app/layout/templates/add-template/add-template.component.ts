@@ -174,8 +174,10 @@ export class AddTemplateComponent implements OnInit {
 
     if (!this.post.post_type) { swal('Error', this.translate.instant('message.error.pleaseEnterPostType'), 'error'); return false; }
     if (!this.post.title_en) { swal('Error', this.translate.instant('message.error.pleaseEnterTitleEng'), 'error'); return false; }
-    if (!this.post.description_en && !this.post.description_es) { swal('Error', this.translate.instant('message.error.pleaseEnterDesc'), 'error'); return false; }
-    if (!this.post.meta_title_en && !this.post.meta_title_es) { swal('Error', this.translate.instant('message.error.pleaseEnterMetaTitle'), 'error'); return false; }
+    if (!this.post.description_en && !this.post.description_es) {
+      swal('Error', this.translate.instant('message.error.pleaseEnterDesc'), 'error'); return false; }
+    if (!this.post.meta_title_en && !this.post.meta_title_es) {
+      swal('Error', this.translate.instant('message.error.pleaseEnterMetaTitle'), 'error'); return false; }
     if (!this.post.meta_description_en && !this.post.meta_description_es) {
       swal('Error', this.translate.instant('message.error.pleaseEnterMetaDesc'), 'error'); return false; }
 
@@ -187,7 +189,9 @@ export class AddTemplateComponent implements OnInit {
     this.spinner.show();
     this.admin.postDataApi('addBlog', this.post).subscribe(r => {
       this.spinner.hide();
-      this.post.id ? swal('Success', this.translate.instant('message.success.updatedSuccessfully'), 'success') : swal('Sucsess', this.translate.instant('message.success.addedSuccessfully'), 'success');
+      this.post.id ? swal('Success',
+      this.translate.instant('message.success.updatedSuccessfully'), 'success') :
+      swal('Sucsess', this.translate.instant('message.success.addedSuccessfully'), 'success');
       this.post = r['data'];
     },
       error => {

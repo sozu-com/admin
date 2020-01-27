@@ -1159,6 +1159,7 @@
     "totalNotaryOnPlatform": "Notario total en plataforma"
   },
   "templates": {
+    "slug": "Babosa",
     "label": "Templates",
     "addBtn": "+Agregar nuevo",
     "status": {
