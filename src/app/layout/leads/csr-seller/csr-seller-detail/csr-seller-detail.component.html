@@ -141,6 +141,7 @@
                                   <option value="">{{'table.th.all' | translate}}</option>
                                   <option value="1">{{'table.th.buy' | translate}}</option>
                                   <option value="2">{{'table.th.rent' | translate}}</option>
+                                  <option value="3">{{'table.th.inventory' | translate}}</option>
                                 </select>
                               </div>
                           </th>
@@ -162,7 +163,7 @@
                   
                         <tr *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }">
                             <td>
-                              <strong>{{p?.building?.name ? p?.building?.name : ('table.th.NA' | translate)}}</strong>
+                              <strong>{{p?.building?.name ? p?.building?.name : ('table.tr.td.NA' | translate)}}</strong>
                               <div class="clearfix"></div>
                               <small *ngIf="p.quantity > 0">
                               {{p.quantity}} 
@@ -174,15 +175,17 @@
                             <td><span *ngIf="p && p.configuration">
                               <app-property-configuration *ngIf="p.configuration" [configuration]="p.configuration"></app-property-configuration>
                             </span></td>
-                            <td><span>{{p?.building?.address ? p?.building?.address : ('table.th.NA' | translate)}}</span></td>
+                            <td><span>{{p?.building?.address ? p?.building?.address : ('table.tr.td.NA' | translate)}}</span></td>
                             <td>
                               <span *ngIf="p.for_sale">{{'table.th.buy' | translate}}</span>
                               <span *ngIf="p.for_rent">{{'table.th.rent' | translate}}</span>
+                              <span *ngIf="p.for_hold">{{'table.th.inventory' | translate}}</span>
                             </td>
                             <td><span>{{p.min_price|price}}</span></td>
                             <td><span class="green-color">
                               <span *ngIf="p.for_sale">{{'table.th.buy' | translate}}</span>
-                              <span *ngIf="p.for_rent">{{'table.th.rent' | translate}}</span></span>
+                              <span *ngIf="p.for_rent">{{'table.th.rent' | translate}}</span>
+                              <span *ngIf="p.for_hold">{{'table.th.inventory' | translate}}</span></span>
                             </td>
                             <td><span>{{p.lead_properties_count}}</span></td>
                             <td>
