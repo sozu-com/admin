@@ -461,9 +461,11 @@ export class LocalityComponent implements OnInit {
     shape.setEditable(true);
     const coords = this.getPolygonCoords(shape);
 
-    const latlng = coords[0].split(',');
+    let latlng = coords[0].split(',');
+    if (this.latitude && this.longitude) {
+      latlng = [this.latitude, this.longitude];
+    }
     const coord = new google.maps.LatLng(parseFloat(latlng[0]), parseFloat(latlng[1]));
-
 
     // var center = new google.maps.LatLngBounds(shape).getCenter();
     // let center = shape.my_getBounds().getCenter()
