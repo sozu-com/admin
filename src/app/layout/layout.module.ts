@@ -21,7 +21,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
 import { AppHeaderComponent } from '../shared/app-header/app-header.component';
-import { DashboardComponent} from './dashboard/dashboard.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { AppFooterComponent } from '../shared/app-footer/app-footer.component';
 
 // importing general component
@@ -36,47 +36,43 @@ import { SharedModule } from '../modules/shared.module';
 import { Img360viewerComponent } from './img360viewer/img360viewer.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        LayoutRoutingModule,
-        TranslateModule,
-        FormsModule,
-        ReactiveFormsModule,
-        ModalModule.forRoot(),
-        NgxPaginationModule,
-        NgxSpinnerModule,
-        NgxMyDatePickerModule.forRoot(),
-        MalihuScrollbarModule.forRoot(),
-        AgmCoreModule.forRoot({
-            apiKey: 'AIzaSyDykCJGMqHIwJluSmSiqKTJBVN2KauM_uQ',
-            libraries: ['drawing', 'places']
-        }),
-        Ng2TelInputModule,
-        NgxChartsModule,
-        SharedModule,
-        FroalaEditorModule.forRoot(),
-        FroalaViewModule.forRoot(),
-        CalendarModule,
-        LazyLoadImageModule,
-        AngularFireDatabaseModule,
-        AngularFireAuthModule,
-    ],
-    declarations: [
-        LayoutComponent,
-        AppHeaderComponent,
-        DashboardComponent,
-        AppFooterComponent,
-        InhouseUsersComponent,
-        AddressComponent,
-        GenerateThumbComponent,
-        AclPermissionDirective,
-        Img360viewerComponent
-    ],
-    providers: [
-        MessagingService,
-        AuthGuard,
-        AclUserGuard
-    ],
-    bootstrap: [LayoutComponent],
+  imports: [
+    CommonModule,
+    LayoutRoutingModule,
+    TranslateModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ModalModule.forRoot(),
+    NgxPaginationModule,
+    NgxSpinnerModule,
+    NgxMyDatePickerModule.forRoot(),
+    MalihuScrollbarModule.forRoot(),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDykCJGMqHIwJluSmSiqKTJBVN2KauM_uQ',
+      libraries: ['drawing', 'places']
+    }),
+    Ng2TelInputModule,
+    NgxChartsModule,
+    SharedModule,
+    FroalaEditorModule.forRoot(),
+    FroalaViewModule.forRoot(),
+    CalendarModule,
+    LazyLoadImageModule,
+    AngularFireDatabaseModule,
+    AngularFireAuthModule
+  ],
+  declarations: [
+    LayoutComponent,
+    AppHeaderComponent,
+    DashboardComponent,
+    AppFooterComponent,
+    InhouseUsersComponent,
+    AddressComponent,
+    GenerateThumbComponent,
+    AclPermissionDirective,
+    Img360viewerComponent
+  ],
+  providers: [MessagingService, AuthGuard, AclUserGuard],
+  bootstrap: [LayoutComponent]
 })
 export class LayoutModule {}

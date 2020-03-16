@@ -17,6 +17,7 @@ import { PricePipe } from '../pipes/price.pipe';
 import { PropertyConfigurationComponent } from '../layout/common-blocks/property-configuration/property-configuration.component';
 import { PercentagePipe } from '../pipes/percentage.pipe';
 import { TranslateModule } from '@ngx-translate/core';
+import { ProjectBlockComponent } from '../layout/common-blocks/project-block/project-block.component';
 
 @NgModule({
   imports: [
@@ -40,7 +41,8 @@ import { TranslateModule } from '@ngx-translate/core';
     ImgPipe,
     NumberWithCommasPipe,
     PricePipe,
-    PercentagePipe
+    PercentagePipe,
+    ProjectBlockComponent
   ],
   exports: [
     ChatComponent,
@@ -54,7 +56,8 @@ import { TranslateModule } from '@ngx-translate/core';
     ImgPipe,
     NumberWithCommasPipe,
     PricePipe,
-    PercentagePipe
+    PercentagePipe,
+    ProjectBlockComponent
   ]
 })
 export class SharedModule { }

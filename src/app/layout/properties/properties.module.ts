@@ -20,7 +20,6 @@ import { FilterByIdPipe } from 'src/app/pipes/filter-by-id.pipe';
 import { FilterByNamePipe } from 'src/app/pipes/filter-by-name.pipe';
 import { SharedModule } from 'src/app/modules/shared.module';
 import { CalendarModule } from 'primeng/primeng';
-import { ProjectBlockComponent } from '../common-blocks/project-block/project-block.component';
 import { BulkAddComponent } from './bulk-add/bulk-add.component';
 
 const routes: Routes = [
@@ -82,7 +81,6 @@ const routes: Routes = [
     PropertyDetailsComponent,
     FilterByIdPipe,
     FilterByNamePipe,
-    ProjectBlockComponent,
     BulkAddComponent
   ]
 })

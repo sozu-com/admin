@@ -1,0 +1,441 @@
+
+<div class="container-fluid">
+  <div class="row">
+     <div class="col-md-4">
+           <div class="form-group">
+              <p class="p16">{{'viewCollections.label' | translate}}</p>
+           </div>
+     </div>
+  </div>
+  <div class="row">
+     <div class="offset-md-4"></div>
+     <div class="col-md-8 col-12">
+           <div class="cust-tabs-2">
+              <ul class="nav nav-tabs float-right">
+                 <li class="nav-item">
+                    <a [ngClass]="{'active':parameter.dash_flag == 1}" (click)="changeFlag(1)" class="nav-link" data-toggle="tab" href="#tw">{{'filters.time.thisWeek' | translate}}</a>
+                 </li>
+                 <li class="nav-item">
+                    <a [ngClass]="{'active':parameter.dash_flag == 2}" (click)="changeFlag(2)" class="nav-link" data-toggle="tab" href="#tm">{{'filters.time.thisMonth' | translate}}</a>
+                 </li>
+                 <li class="nav-item">
+                    <a [ngClass]="{'active':parameter.dash_flag == 3}" (click)="changeFlag(3)" class="nav-link" data-toggle="tab" href="#lm">{{'filters.time.lastMonth' | translate}}</a>
+                 </li>
+                 <li class="nav-item">
+                    <a [ngClass]="{'active':parameter.dash_flag == 4}" (click)="changeFlag(4)" class="nav-link" data-toggle="tab" href="#lt">{{'filters.time.lifetime' | translate}}</a>
+                 </li>
+                 <li class="nav-item">
+                    <a [ngClass]="{'active':parameter.dash_flag == 5}" (click)="changeFlag(5)" class="nav-link" data-toggle="tab" href="#cust">{{'filters.time.custom.label' | translate}}</a>
+                 </li>
+              </ul>
+           </div>
+     </div>
+  </div>
+
+  <div class="row">
+  <div class="col-12">
+        <div *ngIf="parameter.dash_flag == 5" class="row">
+           <div class="offset-lg-7"></div>
+           <div class="col-lg-2 col-md-2 col-sm-5 col-5">
+           <div class="form-group marginB0">
+              <label>{{'filters.time.custom.from' | translate}}</label>
+              <p-calendar [locale]="locale" showIcon="true" [(ngModel)]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+           </div>
+           </div>
+           <div class="col-lg-2 col-md-2 col-sm-5 col-5">
+           <div class="form-group marginB0">
+              <label>{{'filters.time.custom.to' | translate}}</label>
+              <p-calendar [locale]="locale" showIcon="true" [(ngModel)]="parameter.max" [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+           </div>
+           </div>
+           <div class="col-lg-1 col-md-2 col-sm-2 col-6">
+           <div class="form-group btn-cont">
+              <label class="addMT3">&nbsp;</label>
+              <button class="btn btn-calender" href="javascript://" (click)="getListing()"
+              [disabled]="!parameter.min || !parameter.max">{{'filters.time.custom.applyBtn' | translate}}</button>
+           </div>
+           </div>
+        </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-2 col-md-2">
+        <div class="form-group">
+        <label>{{'filters.location.country' | translate}}</label>
+        <select class="form-control" (change)="onCountryChange($event.target.value)">
+           <option value="0">{{'filters.location.allOption' | translate}}</option>
+           <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option>
+        </select>
+        </div>
+  </div>
+  <div class="col-lg-2 col-md-2">
+        <div class="form-group">
+        <label>{{'filters.location.state' | translate}}</label>
+        <select class="form-control" (change)="onStateChange($event.target.value)">
+           <option value="0">{{'filters.location.allOption' | translate}}</option>
+           <option *ngFor="let item of location.states" [value]="item.id">{{item.name}}</option>
+        </select>
+        </div>
+  </div>
+  <div class="col-lg-2 col-md-2">
+        <div class="form-group">
+           <label>{{'filters.location.city' | translate}}</label>
+           <select class="form-control" (change)="onCityChange($event.target.value)">
+              <option value="0">{{'filters.location.allOption' | translate}}</option>
+           <option *ngFor="let item of location.cities" [value]="item.id">{{item.name}}</option>
+           </select>
+        </div>
+  </div>
+
+  <div class="col-lg-2 col-md-2">
+        <div class="form-group">
+           <label>{{'filters.location.locality' | translate}}</label>
+        <select class="form-control" (change)="getLocalityBuildings($event.target.value)">
+           <option value="0">{{'filters.location.allOption' | translate}}</option>
+           <option *ngFor="let item of location.localities" [value]="item.id">{{item.name}}</option>
+        </select>
+        </div>
+  </div>
+
+  <div class="col-lg-2 col-md-2">
+     <div class="form-group marginB0">
+        <label>{{'filters.location.building' | translate}}</label>
+           <select class="form-control" (change)="setBuilding($event.target.value)">
+              <option value="0">{{'filters.location.allOption' | translate}}</option>
+           <option *ngFor="let building of parameter.buildings" value="{{building.id}}">{{building.name}}</option>
+           </select>
+     </div>
+  </div>
+  
+  <div class="col-lg-1 col-md-2">
+        <div class="form-group btn-cont">
+        <label style="display: block; margin-top: 3px;">&nbsp;</label>
+        <button type="button" (click)="getListing()" class="btn btn-primary-new width100P P86">{{'filters.location.applyBtn' | translate}}</button>
+        </div>
+  </div>
+
+  <div class="col-lg-1 col-md-2">
+        <div class="form-group btn-cont">
+        <label style="display: block; margin-top: 3px;">&nbsp;</label>
+        <button type="button" (click)="resetFilters()" class="btn btn-primary-new width100P P86">{{'filters.location.resetBtn' | translate}}</button>
+        </div>
+  </div>
+</div>
+
+     <div class="cust-tabs">
+         <div class="row flex-wrap-reverse">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+               <div class="add-new pull-right">
+                     <!-- *ngIf="admin?.admin_acl['Building Management']?.can_create==1 || admin?.permissions?.can_data_collector==1"  -->
+                  <a 
+                     class="btn" href="javascript://" routerLink="/dashboard/collections/add-collection/0">{{'viewCollections.addNew' | translate}}</a>
+               </div>
+            </div>
+         </div>
+     <div class="tab-content white-bg">
+        <div class="tab-pane active">
+           <div class="tabel-section">
+              <div class="table-responsive">
+                 <table class="table table-striped table-align-left">
+                    <tr>
+                       <th style="width:10%; text-align:left;">
+                          <div class="table-search">
+                             <label>{{'table.th.iDAccount' | translate}}</label>
+                             <div class="searh-3">
+                                <input class="width100px" type="text" [(ngModel)]="parameter.keyword" (keyup.enter)="getListing()" >
+                                <button *ngIf="parameter.keyword" (click)="getListing()"><i class="fa fa-search"></i></button>
+                             </div>
+                          </div>
+                       </th>
+                       <th style="width:10%; text-align:left;">
+                          <div class="table-search">
+                             <label>{{'table.th.buyerName' | translate}}</label>
+                             <div class="searh-3">
+                                <input class="width100px" type="text" [(ngModel)]="parameter.keyword" (keyup.enter)="getListing()" >
+                                <button *ngIf="parameter.keyword" (click)="getListing()"><i class="fa fa-search"></i></button>
+                             </div>
+                          </div>
+                       </th>
+                       <th style="width:10%; text-align:left;">
+                          <div class="table-search">
+                             <label>{{'table.th.buyerLegalRepresentative' | translate}}</label>
+                             <div class="searh-3">
+                                <input class="width100px" type="text" [(ngModel)]="parameter.keyword" (keyup.enter)="getListing()" >
+                                <button *ngIf="parameter.keyword" (click)="getListing()"><i class="fa fa-search"></i></button>
+                             </div>
+                          </div>
+                       </th>
+                       <th style="width:10%; text-align:left;">
+                          <div class="table-search">
+                             <label>{{'table.th.sellerName' | translate}}</label>
+                             <div class="searh-3">
+                                <input class="width100px" type="text" [(ngModel)]="parameter.keyword" (keyup.enter)="getListing()" >
+                                <button *ngIf="parameter.keyword" (click)="getListing()"><i class="fa fa-search"></i></button>
+                             </div>
+                          </div>
+                       </th>
+                       <th style="width:10%; text-align:left;">
+                          <div class="table-search">
+                             <label>{{'table.th.nameOfBuilding' | translate}}</label>
+                             <div class="searh-3">
+                                <input class="width100px" type="text" [(ngModel)]="parameter.keyword" (keyup.enter)="getListing()" >
+                                <button *ngIf="parameter.keyword" (click)="getListing()"><i class="fa fa-search"></i></button>
+                             </div>
+                          </div>
+                       </th>
+                       <th style="width:10%; text-align:left;">
+                          <div class="table-search">
+                             <label>{{'table.th.nameOfTower' | translate}}</label>
+                             <div class="searh-3">
+                                <input class="width100px" type="text" [(ngModel)]="parameter.tower_name" (keyup.enter)="getListing()" >
+                                <button *ngIf="parameter.tower_name" (click)="getListing()"><i class="fa fa-search"></i></button>
+                             </div>
+                          </div>
+                       </th>
+                       <th style="width:10%; text-align:left;">
+                          <div class="table-search">
+                             <label>{{'table.th.nameOfApartment' | translate}}</label>
+                             <div class="searh-3">
+                                <input class="width120px" type="text" [(ngModel)]="parameter.name" (keyup.enter)="getListing()" >
+                                <button *ngIf="parameter.name" (click)="getListing()"><i class="fa fa-search"></i></button>
+                             </div>
+                          </div>
+                       </th>
+                       <th style="width:10%; text-align:left;">
+                          <div class="table-search">
+                             <label>{{'table.th.configuration' | translate}}</label>
+                             <select [(ngModel)]="parameter.configuration_id" (change)="getListing()">
+                                <option value="0">{{'table.th.allConfiguration' | translate}}</option>
+                                <option *ngFor="let c of configurations" value="{{c.id}}" >
+                                   <!-- {{c.name}} -->
+                                   <span *ngIf="c.status">
+                                      <app-property-configuration *ngIf="c" [configuration]="c"></app-property-configuration>
+                                   </span>
+                                </option>
+                             </select>
+                          </div>
+                       </th>
+                       <th style="width:10%; text-align:left;">
+                          <div class="table-search">
+                             <label>{{'table.th.locality' | translate}}</label>
+                             <div class="searh-3">
+                                <input class="width100px" type="text" [(ngModel)]="parameter.keyword" (keyup.enter)="getListing()" >
+                                <button *ngIf="parameter.keyword" (click)="getListing()"><i class="fa fa-search"></i></button>
+                             </div>
+                          </div>
+                       </th>
+                       <th style="width:8%;vertical-align:top;">
+                          <div (click)="sort_by(1)" class="d-flex table-search">
+                             <label>{{'table.th.purchaseDate' | translate}}</label>
+                             <a href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by==1 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a></div>
+                       </th>
+                       <th style="width:4%;vertical-align:top;">
+                          <div class="d-flex table-search">
+                             <label>{{'table.th.concept' | translate}}</label>
+                          </div>
+                       </th>
+                       <th style="width:8%;vertical-align:top;">
+                          <div (click)="sort_by(1)" class="d-flex table-search">
+                             <label>{{'table.th.dateOfPayment' | translate}}</label></div>
+                       </th>
+                       <th style="width:4%;vertical-align:top;">
+                          <div class="d-flex table-search">
+                             <label>{{'table.th.amount' | translate}}</label>
+                          </div>
+                       </th>
+                       <th style="width:4%;vertical-align:top;">
+                          <div (click)="sort_by(3)" class="d-flex table-search">
+                             <label>{{'table.th.concept' | translate}}</label>
+                             <a href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by==3 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a>
+                          </div>
+                       </th>
+                       <th style="width:5%;vertical-align:top;" *ngIf="parameter.flag==5">
+                          <div class="d-flex table-search">
+                             <label>{{'table.th.dateOfPayment' | translate}}</label>
+                          </div>
+                       </th>
+                       <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
+                          <div class="table-search">
+                             <label>{{'table.th.amount' | translate}}</label>
+                             <div class="searh-3">
+                                <input class="width100px" type="text" [(ngModel)]="parameter.seller_name" (keyup.enter)="getListing()" >
+                                <button *ngIf="parameter.seller_name" (click)="getListing()"><i class="fa fa-search"></i></button>
+                             </div>
+                          </div>
+                       </th>
+                       <th *ngIf="parameter.flag!=5" style="width:6%;vertical-align:top;">
+                          <div class="table-search">
+                             <label>{{'table.th.totalCommission' | translate}}</label>
+                             <!-- <div class="searh-3">
+                                <input class="width100px" type="text" [(ngModel)]="parameter.name" (keyup.enter)="getListing()" >
+                                <button *ngIf="parameter.name" (click)="getListing()"><i class="fa fa-search"></i></button>
+                             </div> -->
+                          </div>
+                       </th>
+                       <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
+                          <div class="table-search">
+                             <label>{{'table.th.sharedCommission' | translate}}</label>
+                             <select [(ngModel)]="parameter.availability_filter" (change)="getListing()">
+                                <option value="0">{{'table.th.all' | translate}}</option>
+                                <option value="1">{{'table.th.buy' | translate}}</option>
+                                <option value="2">{{'table.th.rent' | translate}}</option>
+                                <option value="3">{{'table.th.inventory' | translate}}</option>
+                             </select>
+                          </div>
+                       </th>
+                       <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
+                          <div class="table-search">
+                             <label>{{'table.th.commissionAgent' | translate}}</label>
+                             <select class="width100px" [(ngModel)]="parameter.sold_filter" (change)="getListing()">
+                                <option value="0">{{'table.th.all' | translate}}</option>
+                                <option value="1">{{'table.th.yes' | translate}}</option>
+                                <option value="2">{{'table.th.no' | translate}}</option>
+                             </select>
+                          </div>
+                       </th>
+                       <th style="width:10%; text-align:left;">
+                          <div class="table-search">
+                             <label>{{'table.th.amountPaid' | translate}}</label>
+                             <div class="searh-3">
+                                <input class="width100px" type="text" [(ngModel)]="parameter.keyword" (keyup.enter)="getListing()" >
+                                <button *ngIf="parameter.keyword" (click)="getListing()"><i class="fa fa-search"></i></button>
+                             </div>
+                          </div>
+                       </th>
+                       <th style="width:10%; text-align:left;">
+                           <div class="table-search">
+                              <label>{{'table.th.remaniningAmount' | translate}}</label>
+                              <div class="searh-3">
+                                 <input class="width100px" type="text" [(ngModel)]="parameter.keyword" (keyup.enter)="getListing()" >
+                                 <button *ngIf="parameter.keyword" (click)="getListing()"><i class="fa fa-search"></i></button>
+                              </div>
+                           </div>
+                        </th>
+                        <th style="width:10%; text-align:left;">
+                        <div class="table-search">
+                           <label>{{'table.th.statusAmount' | translate}}</label>
+                           <div class="searh-3">
+                              <input class="width100px" type="text" [(ngModel)]="parameter.keyword" (keyup.enter)="getListing()" >
+                              <button *ngIf="parameter.keyword" (click)="getListing()"><i class="fa fa-search"></i></button>
+                           </div>
+                        </div>
+                     </th>
+                       <th style="width:10%;" *ngIf="parameter.flag!=5">
+                          <div class="table-search">
+                             <label>{{'table.th.actions.label' | translate}}</label>
+                             <select [(ngModel)]="parameter.action_filter" (change)="getListing()">
+                                <option value="0">{{'table.th.actions.all' | translate}}</option>
+                                <option value="3">{{'table.th.actions.featured' | translate}}</option>
+                                <option value="1">{{'table.th.actions.blocked' | translate}}</option>
+                                <option value="2">{{'table.th.actions.unblocked' | translate}}</option>
+                             </select>
+                          </div>
+                       </th>
+                    </tr>
+              
+                    <tr *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
+                     <td><span>{{p?.name ? p?.name : ('table.tr.td.NA' | translate)}}</span></td>
+                     <td><span>{{p?.name ? p?.name : ('table.tr.td.NA' | translate)}}</span></td>
+                     <td><span>{{p?.name ? p?.name : ('table.tr.td.NA' | translate)}}</span></td>
+                     <td><span>{{p?.name ? p?.name : ('table.tr.td.NA' | translate)}}</span></td>     
+                     <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}" (click)="viewPropertyDetails(p.id, p)">
+                                <!-- routerLink="/dashboard/properties/details/{{p.id}}" -->
+                             <strong>{{p?.building?.name?p?.building?.name: ('table.tr.td.NA' | translate)}}</strong>
+                             <div class="clearfix"></div>
+                             <small *ngIf="p.quantity > 0">
+                                {{p.quantity}} 
+                                <span *ngIf="p.quantity == 1">property</span>
+                                <span *ngIf="p.quantity > 1">properties</span>
+                             </small>
+                          </td>
+                          <td><span>{{p?.building_towers ? p?.building_towers?.tower_name : ('table.tr.td.NA' | translate)}}</span></td>
+                          <td><span>{{p?.name ? p?.name : ('table.tr.td.NA' | translate)}}</span></td>
+                          <td>
+                             <app-property-configuration *ngIf="p.configuration" [configuration]="p.configuration"></app-property-configuration>
+                          </td>
+                          <td><span>{{p?.name ? p?.name : ('table.tr.td.NA' | translate)}}</span></td>
+                          <td><span>{{p.min_price | price}}</span></td>
+                          <td><span>
+                             <button (click)="editPricePopup(p, i)" [disabled]="admin?.admin_acl['Property Management']?.can_update==0" title="{{'table.title.editPrice' | translate}}" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                          </span></td>
+                          <td><span>{{p.broker_commision | percentage}}</span></td>
+                          <td><span>
+                             <button (click)="editAgentCommissionPopup(p, i)" [disabled]="admin?.admin_acl['Property Management']?.can_update==0" title="{{'table.title.editPrice' | translate}}" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                          </span></td>
+                          <td><span>{{p.lead_properties_count | numberWithCommas}}</span></td>
+                          
+                          <td *ngIf="parameter.flag==5" class="cursor-pointer" title="{{'table.title.viewSellerRequest' | translate}}" (click)="showAllSellers(p?.id, i)">
+                             <span class="green-color"><span>{{'table.tr.td.view' | translate}}</span></span>
+                          </td>
+                          
+                          <td *ngIf="parameter.flag!=5" class="cursor-pointer" title="{{p?.selected_seller?.user?.name ? ('table.title.clickToChangeSeller' | translate) : ('table.title.clickToAddSeller' | translate)}}" (click)="getAllSellers(p, '1', i)">
+                             <span class="green-color"><span>
+                                   {{p?.selected_seller?.user?.name ? p?.selected_seller?.user?.name : ('table.tr.td.add' | translate)}}
+                             </span></span>
+                          </td>
+                          
+                          <td *ngIf="parameter.flag!=5" class="cursor-pointer" (click)="getBothBroker(p, '')">
+                             <span class="green-color">
+                                <span title="{{p?.external_broker?.id ? ('table.title.clickToChange' | translate) : ('table.title.clickToAssign' | translate) }}">{{p?.external_broker?.id ? ('table.tr.td.change' | translate) : ('table.tr.td.link' | translate)}}</span>
+                             </span>
+                          </td>
+                          <td *ngIf="parameter.flag!=5" class="cursor-pointer">
+                             <select (change)="changeSoldStatusPopup(p, i, $event)">
+                                <option [selected]="p.for_sale==1" value="1">{{'table.th.buy' | translate}}</option>
+                                <option [selected]="p.for_rent==1" value="2">{{'table.th.rent' | translate}}</option>
+                                <option [selected]="p.for_hold==1" value="3">{{'table.th.inventory' | translate}}</option>
+                             </select>
+                          </td>
+                          <td *ngIf="parameter.flag!=5">
+                             {{p?.is_property_sold ? ('table.th.yes' | translate) : ('table.th.no' | translate)}}
+                          </td>
+                          <td><span>{{p?.name ? p?.name : ('table.tr.td.NA' | translate)}}</span></td>
+                          <td><span>{{p?.name ? p?.name : ('table.tr.td.NA' | translate)}}</span></td>
+                          <td><span>{{p?.name ? p?.name : ('table.tr.td.NA' | translate)}}</span></td>
+                          <td *ngIf="parameter.flag!=5">
+                          <div class="table-actions">
+                             <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="parameter?.flag!=3" routerLink="../edit-property/{{p.id}}" title="{{'table.title.editDetails' | translate}}" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                             <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="parameter?.flag==3" routerLink="../edit-property/{{p.id}}/edit" title="{{'table.title.editDetails' | translate}}" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                             <button [disabled]="admin?.admin_acl['Property Management']?.can_delete==0" *ngIf="!p.is_blocked" (click)="blockUnblock(p, 1);" class="action-icon" title="{{'table.title.block' | translate}}"><img src="assets/img/block.png" alt="img"></button>
+                             <button [disabled]="admin?.admin_acl['Property Management']?.can_delete==0" *ngIf="p.is_blocked == true" (click)="blockUnblock(p, 0);" class="action-icon unblock-bg" title="{{'table.title.unblock' | translate}}"><img src="assets/img/unblock.png" alt="img"></button>
+                             
+                             <!-- unapprove -->
+                             <a style="display:none;" #modalOpen data-toggle="modal" data-target="#addPropertyReason"></a>
+                             <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="p.status == 3" (click)="openCancellationModal(p, 4);" class="action-icon" title="{{'table.title.unapprove' | translate}}"><img src="assets/img/ic_disapprove.png" alt="img"></button>
+
+                             <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="p.status == 2" (click)="changeStatus(p,3);" class="action-icon" title="{{'table.title.approve' | translate}}"><img src="assets/img/tick.png" alt="img"></button>
+                             <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="p.status == 3 && p.is_featured==0" (click)="markPropertyFeatured(p,1);" class="action-icon" title="{{'table.title.markFeauture' | translate}}"><img src="assets/img/ic_featured.png" alt="img"></button>
+                             <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="p.status == 3 && p.is_featured==1" (click)="markPropertyFeatured(p,0);" class="action-icon" title="{{'table.title.markUnfeauture' | translate}}"><img src="assets/img/tick-selected.png" alt="img"></button>
+                             <!-- delete -->
+                             <button [disabled]="admin?.admin_acl['Property Management']?.can_purge==0" (click)="deletePopup(p, i)" class="action-icon" 
+                                title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png" alt="img"></button>
+                          </div>
+
+                          </td>
+                    </tr>
+                 </table>
+                 <div class="padding20 center" *ngIf="total == 0">
+                       <img src="assets/img/404-error.png">
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class="tab-pane container fade" id="seller">{{'table.th.sellerTabOn' | translate}}</div>
+     </div>
+  </div>
+  
+<div class="btn-cont marginT15" *ngIf="total">
+     <div class="row">
+         <div class="col-6">
+             <div class="title-group">
+                 <p>{{'table.pagination.showing' | translate}} {{items?.length}} {{'table.pagination.outof' | translate}} {{total}}</p>
+             </div>
+         </div>
+         <div class="col-6 text-right">
+             <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+         </div>
+     </div>
+ </div>
+</div>
+
