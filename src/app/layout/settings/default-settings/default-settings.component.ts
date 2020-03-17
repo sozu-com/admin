@@ -44,7 +44,7 @@ export class DefaultSettingsComponent implements OnInit {
         success => {
           this.spinner.hide();
           this.admin.globalSettings.next(success.data);
-          swal('Success', this.translate.instant('message.success.updatedSuccessfully'), 'success');
+          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.updatedSuccessfully'), 'success');
         },
         error => {
           this.spinner.hide();

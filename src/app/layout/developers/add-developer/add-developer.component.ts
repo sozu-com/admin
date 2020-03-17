@@ -84,7 +84,7 @@ export class AddDeveloperComponent implements OnInit {
 
   changeListner(event: any, param: any) {
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
     const reader = new FileReader();
@@ -110,7 +110,7 @@ export class AddDeveloperComponent implements OnInit {
   add(formData: NgForm) {
     const modelSave: Users = JSON.parse(JSON.stringify(this.model));
     if (!modelSave.lat || !modelSave.lng) {
-      swal('Error', this.translate.instant('message.info.pleaseChooseAddressFromDropdown'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAddressFromDropdown'), 'error');
       return;
     }
     if (modelSave.images) {
@@ -122,13 +122,13 @@ export class AddDeveloperComponent implements OnInit {
         success => {
           this.spinner.hide();
           if (success.success === '0') {
-            swal('Error', success.message, 'error');
+            swal(this.translate.instant('swal.error'), success.message, 'error');
             return;
           } else {
             const text = this.model.id === '' ?
                     this.translate.instant('message.success.addedSuccessfully') :
                     this.translate.instant('message.success.updatedSuccessfully');
-            swal('Success', text, 'success');
+            swal(this.translate.instant('swal.success'), text, 'success');
             if (this.model.id === '') {
               formData.reset();
               this.image = ''; this.developer_image = '';
@@ -226,7 +226,7 @@ export class AddDeveloperComponent implements OnInit {
 
   saveImages() {
     if (this.file4.files.length < 1) {
-      swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error'); return false;
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAtleastOneImage'), 'error'); return false;
     }
     this.modalClose.nativeElement.click();
     this.file4.upload().then(r => {

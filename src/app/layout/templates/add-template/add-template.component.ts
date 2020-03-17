@@ -119,10 +119,10 @@ export class AddTemplateComponent implements OnInit {
         // console.log('error', error);
         // console.log('response', response);
 
-        swal('Error', error.message, 'error');
+        swal(this.translate.instant('swal.error'), error.message, 'error');
         // if (error.code === 1) {
         //   console.log('No link in upload response.');
-        //   swal('Error', 'No link in upload response.', 'error');
+        //   swal(this.translate.instant('swal.error'), 'No link in upload response.', 'error');
         // }
 
         // // No link in upload response.
@@ -161,7 +161,7 @@ export class AddTemplateComponent implements OnInit {
           this.file1.image = this.post.image;
         }, error => {
           this.spinner.hide();
-          swal('Error', error, 'error');
+          swal(this.translate.instant('swal.error'), error, 'error');
         });
       } else {
         delete this.post.id;
@@ -172,31 +172,31 @@ export class AddTemplateComponent implements OnInit {
 
   submitAll() {
 
-    if (!this.post.post_type) { swal('Error', this.translate.instant('message.error.pleaseEnterPostType'), 'error'); return false; }
-    if (!this.post.title_en) { swal('Error', this.translate.instant('message.error.pleaseEnterTitleEng'), 'error'); return false; }
+    if (!this.post.post_type) { swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPostType'), 'error'); return false; }
+    if (!this.post.title_en) { swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterTitleEng'), 'error'); return false; }
     if (!this.post.description_en && !this.post.description_es) {
-      swal('Error', this.translate.instant('message.error.pleaseEnterDesc'), 'error'); return false; }
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterDesc'), 'error'); return false; }
     if (!this.post.meta_title_en && !this.post.meta_title_es) {
-      swal('Error', this.translate.instant('message.error.pleaseEnterMetaTitle'), 'error'); return false; }
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterMetaTitle'), 'error'); return false; }
     if (!this.post.meta_description_en && !this.post.meta_description_es) {
-      swal('Error', this.translate.instant('message.error.pleaseEnterMetaDesc'), 'error'); return false; }
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterMetaDesc'), 'error'); return false; }
 
     this.post.image = this.file1.image;
     if (this.post.id) {
-      if (!this.post.slug) { swal('Error', this.translate.instant('message.error.pleaseEnterSlug'), 'error'); return false; }
+      if (!this.post.slug) { swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterSlug'), 'error'); return false; }
       this.post.blog_id = this.post.id;
     }
     this.spinner.show();
     this.admin.postDataApi('addBlog', this.post).subscribe(r => {
       this.spinner.hide();
-      this.post.id ? swal('Success',
+      this.post.id ? swal(this.translate.instant('swal.success'),
       this.translate.instant('message.success.updatedSuccessfully'), 'success') :
       swal('Sucsess', this.translate.instant('message.success.addedSuccessfully'), 'success');
       this.post = r['data'];
     },
       error => {
         this.spinner.hide();
-        // swal('Error', error.message, 'error');
+        // swal(this.translate.instant('swal.error'), error.message, 'error');
       });
   }
 

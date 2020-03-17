@@ -529,7 +529,7 @@ export class AddProjectComponent implements OnInit {
   saveImages() {
     let count = 0;
     // if (this.file2.files.length < 1) {
-    //   swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
+    //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAtleastOneImage'), 'error');
     //   return false;
     // }
     this.file2.upload().then(r => {
@@ -562,7 +562,7 @@ export class AddProjectComponent implements OnInit {
   save360Images() {
     let count = 0;
     // if (this.file7.files.length < 1) {
-    //   swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
+    //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAtleastOneImage'), 'error');
     //   return false;
     // }
     this.file7.upload().then(r => {
@@ -581,7 +581,7 @@ export class AddProjectComponent implements OnInit {
   saveVideos() {
     let count = 0;
     // if (this.amenVideo.files.length < 1) {
-    //   swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
+    //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAtleastOneImage'), 'error');
     //   return false;
     // }
     this.amenVideo.upload().then(r => {
@@ -620,7 +620,7 @@ export class AddProjectComponent implements OnInit {
     let count = 0;
     const totalFilesCount = this.file2.files.length + this.amen360Img.files.length + this.amenVideo.files.length;
     // if (totalFilesCount < 1) {
-    //   swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
+    //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAtleastOneImage'), 'error');
     //   return false;
     // }
     this.file2.upload().then(r => {
@@ -674,15 +674,15 @@ export class AddProjectComponent implements OnInit {
     let count = 0;
     const totalFilesCount = this.file2.files.length + this.amen360Img.files.length + this.amenVideo.files.length;
     if (this.file2.files.length > 6) {
-      swal('Error', this.translate.instant('message.info.chooseMax6Images'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.chooseMax6Images'), 'error');
       return false;
     }
     if (this.amen360Img.files.length > 6) {
-      swal('Error', this.translate.instant('message.info.chooseMax6360Images'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.chooseMax6360Images'), 'error');
       return false;
     }
     if (this.amenVideo.files.length > 6) {
-      swal('Error', this.translate.instant('message.info.chooseMax6Videos'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.chooseMax6Videos'), 'error');
       return false;
     }
 
@@ -880,7 +880,7 @@ export class AddProjectComponent implements OnInit {
 
   deleteConfiguration(index) {
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.translate.instant('message.question.wantToDeleteConf'),
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.translate.instant('message.error.wantToDeleteConf'),
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -896,7 +896,7 @@ export class AddProjectComponent implements OnInit {
 
   // addNewConfig() {
   //   if (this.file4.files.length < 1) {
-  //     swal('Error', 'Please choose atleast one image for other images', 'error'); return false;
+  //     swal(this.translate.instant('swal.error'), 'Please choose atleast one image for other images', 'error'); return false;
   //   }
   //   this.closeConfigPopup.nativeElement.click();
   //   this.spinner.show();
@@ -926,7 +926,7 @@ export class AddProjectComponent implements OnInit {
     let count = 0;
     const totalFilesCount = this.file4.files.length + this.config360Img.files.length + this.configVideo.files.length;
     if (this.file4.files.length < 1) {
-      swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAtleastOneImage'), 'error');
       return false;
     }
     // this.spinner.show();
@@ -996,23 +996,23 @@ export class AddProjectComponent implements OnInit {
     modelSave.is_completed = 0;
     modelSave.cover_image = this.file1.image;
     if (this.model.videoLoader) {
-      swal('Error', this.translate.instant('message.error.uploadingVideo'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.uploadingVideo'), 'error');
       return;
     }
     if (!modelSave.country_id) {
-      swal('Error', this.translate.instant('message.error.pleaseSelectCountry'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectCountry'), 'error');
       return false;
     }
     if (!modelSave.state_id) {
-      swal('Error', this.translate.instant('message.error.pleaseSelectState'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectState'), 'error');
       return false;
     }
     if (!modelSave.city_id) {
-      swal('Error', this.translate.instant('message.error.pleaseSelectCity'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectCity'), 'error');
       return false;
     }
     if (!modelSave.locality_id) {
-      swal('Error', this.translate.instant('message.error.pleaseSelectLocality'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectLocality'), 'error');
       return false;
     }
 
@@ -1020,7 +1020,7 @@ export class AddProjectComponent implements OnInit {
     if (modelSave.possession_status_id &&
       (modelSave.possession_status_id.toString() === this.apiConstants.possession_status_id) &&
       !modelSave.launch_date) {
-        swal('Error', this.translate.instant('message.info.pleaseSelectLaunchDate'), 'error');
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectLaunchDate'), 'error');
       return false;
     }
     if (modelSave.images) {
@@ -1126,47 +1126,47 @@ export class AddProjectComponent implements OnInit {
       });
     }
     /* remove fields for edit */
-    // if (!modelSave.name) {swal('Error', 'Please add building name', 'error'); return false; }
-    // if (!modelSave.address) {swal('Error', 'Please add address', 'error'); return false; }
-    // if (!modelSave.cover_image) {swal('Error', 'Please add cover image', 'error'); return false; }
-    // if (!modelSave.cover_image) {swal('Error', 'Please add cover image', 'error'); return false; }
-    // if (modelSave.building_images.length < 1) {swal('Error', 'Please add atleast one more building image', 'error'); return false; }
-    // if (!modelSave.building_age) {swal('Error', 'Please add building age', 'error'); return false; }
-    // if (!modelSave.building_type_id) {swal('Error', 'Please add building type', 'error'); return false; }
-    // if (!modelSave.description) {swal('Error', 'Please add building description', 'error'); return false; }
-    // if (!modelSave.possession_status_id) {swal('Error', 'Please add possession status', 'error'); return false; }
-    // if (!modelSave.floors) {swal('Error', 'Please add floors', 'error'); return false; }
-    // if (!modelSave.launch_date) {swal('Error', 'Please add building launch date', 'error'); return false; }
-    // if (!modelSave.avg_price) {swal('Error', 'Please add building average price', 'error'); return false; }
-    // if (modelSave.amenities.length < 1) {swal('Error', 'Please add amenities', 'error'); return false; }
-    // if (modelSave.configurations.length < 1) {swal('Error', 'Please add building configuration', 'error'); return false; }
+    // if (!modelSave.name) {swal(this.translate.instant('swal.error'), 'Please add building name', 'error'); return false; }
+    // if (!modelSave.address) {swal(this.translate.instant('swal.error'), 'Please add address', 'error'); return false; }
+    // if (!modelSave.cover_image) {swal(this.translate.instant('swal.error'), 'Please add cover image', 'error'); return false; }
+    // if (!modelSave.cover_image) {swal(this.translate.instant('swal.error'), 'Please add cover image', 'error'); return false; }
+    // if (modelSave.building_images.length < 1) {swal(this.translate.instant('swal.error'), 'Please add atleast one more building image', 'error'); return false; }
+    // if (!modelSave.building_age) {swal(this.translate.instant('swal.error'), 'Please add building age', 'error'); return false; }
+    // if (!modelSave.building_type_id) {swal(this.translate.instant('swal.error'), 'Please add building type', 'error'); return false; }
+    // if (!modelSave.description) {swal(this.translate.instant('swal.error'), 'Please add building description', 'error'); return false; }
+    // if (!modelSave.possession_status_id) {swal(this.translate.instant('swal.error'), 'Please add possession status', 'error'); return false; }
+    // if (!modelSave.floors) {swal(this.translate.instant('swal.error'), 'Please add floors', 'error'); return false; }
+    // if (!modelSave.launch_date) {swal(this.translate.instant('swal.error'), 'Please add building launch date', 'error'); return false; }
+    // if (!modelSave.avg_price) {swal(this.translate.instant('swal.error'), 'Please add building average price', 'error'); return false; }
+    // if (modelSave.amenities.length < 1) {swal(this.translate.instant('swal.error'), 'Please add amenities', 'error'); return false; }
+    // if (modelSave.configurations.length < 1) {swal(this.translate.instant('swal.error'), 'Please add building configuration', 'error'); return false; }
     // if (!this.id) {
-    //   if (!modelSave.dev_name) {swal('Error', 'Please add developer name', 'error'); return false; }
-    //   if (!modelSave.dev_countrycode) {swal('Error', 'Please add developer country code', 'error'); return false; }
-    //   if (!modelSave.dev_email) {swal('Error', 'Please add developer email', 'error'); return false; }
-    //   if (!modelSave.dev_phone) {swal('Error', 'Please add developer phone', 'error'); return false; }
-    //   if (!modelSave.dev_logo) {swal('Error', 'Please add developer image', 'error'); return false; }
+    //   if (!modelSave.dev_name) {swal(this.translate.instant('swal.error'), 'Please add developer name', 'error'); return false; }
+    //   if (!modelSave.dev_countrycode) {swal(this.translate.instant('swal.error'), 'Please add developer country code', 'error'); return false; }
+    //   if (!modelSave.dev_email) {swal(this.translate.instant('swal.error'), 'Please add developer email', 'error'); return false; }
+    //   if (!modelSave.dev_phone) {swal(this.translate.instant('swal.error'), 'Please add developer phone', 'error'); return false; }
+    //   if (!modelSave.dev_logo) {swal(this.translate.instant('swal.error'), 'Please add developer image', 'error'); return false; }
     // }
 
     if (modelSave.dev_email) {
       if (!modelSave.dev_name) {
-        swal('Error', this.translate.instant('message.info.pleaseAddDeveloperName'), 'error');
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseAddDeveloperName'), 'error');
         return false;
       }
       if (!modelSave.dev_countrycode) {
-        swal('Error', this.translate.instant('message.info.pleaseAddDeveloperCountryCode'), 'error');
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseAddDeveloperCountryCode'), 'error');
         return false;
       }
       if (!modelSave.dev_email) {
-        swal('Error', this.translate.instant('message.info.pleaseAddDeveloperEmail'), 'error');
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseAddDeveloperEmail'), 'error');
         return false;
       }
       if (!modelSave.dev_phone) {
-        swal('Error', this.translate.instant('message.info.pleaseAddDeveloperPhone'), 'error');
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseAddDeveloperPhone'), 'error');
         return false;
       }
       if (!modelSave.dev_logo) {
-        swal('Error', this.translate.instant('message.info.pleaseAddDeveloperImage'), 'error');
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseAddDeveloperImage'), 'error');
         return false;
       }
     }
@@ -1182,7 +1182,7 @@ export class AddProjectComponent implements OnInit {
       && modelSave.dev_phone && modelSave.dev_phone != null && modelSave.dev_logo) {
 
       modelSave.is_completed = 1;
-      // swal('Error', 'Please add building name', 'error');
+      // swal(this.translate.instant('swal.error'), 'Please add building name', 'error');
       // return false;
     }
 
@@ -1190,7 +1190,7 @@ export class AddProjectComponent implements OnInit {
     //   if (modelSave.dev_name && modelSave.dev_countrycode && modelSave.dev_email && modelSave.dev_phone &&
     //     modelSave.dev_logo) {
     //       modelSave.is_completed = 1;
-    //     // swal('Error', 'Please add developer name', 'error');
+    //     // swal(this.translate.instant('swal.error'), 'Please add developer name', 'error');
     //     // return false;
     //   }
     // }
@@ -1207,14 +1207,14 @@ export class AddProjectComponent implements OnInit {
       this.spinner.show();
       this.admin.postDataApi('updateProject', modelSave).subscribe(success => {
         this.spinner.hide();
-        swal('Success', this.translate.instant('message.success.updatedSuccessfully'), 'success');
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.updatedSuccessfully'), 'success');
         // set model to avoid duplication creation of project
         this.setProjectModel(success['data']);
 
         // this.router.navigate(['/dashboard/projects/view-projects']);
       }, error => {
         this.spinner.hide();
-        swal('Error', error.message, 'error');
+        swal(this.translate.instant('swal.error'), error.message, 'error');
       });
     } else {
       delete modelSave.id;
@@ -1222,14 +1222,14 @@ export class AddProjectComponent implements OnInit {
       this.spinner.show();
       this.admin.postDataApi('addProject', modelSave).subscribe(success => {
         this.spinner.hide();
-        swal('Success', this.translate.instant('message.success.addedSuccessfully'), 'success');
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
         // set model to avoid duplication creation of project
         this.id = success['data'].id;
         this.setProjectModel(success['data']);
         // this.router.navigate(['/dashboard/projects/view-projects']);
       }, error => {
         this.spinner.hide();
-        swal('Error', error.message, 'error');
+        swal(this.translate.instant('swal.error'), error.message, 'error');
       });
     }
   }
@@ -1276,7 +1276,7 @@ export class AddProjectComponent implements OnInit {
 
   addNewCustom() {
     if (!this.new_custom.name || !this.new_custom.value) {
-      swal('Error', this.translate.instant('message.info.pleaseAddParameterNameandValue'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseAddParameterNameandValue'), 'error');
       return false;
     }
     this.model.custom_attributes.unshift(this.new_custom);
@@ -1422,24 +1422,24 @@ export class AddProjectComponent implements OnInit {
     //   swal('First save the previous editted tower.');
     // }
     if (!this.newTower.tower_name) {
-      swal('Error', this.translate.instant('message.info.pleaseEnterTowerName'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterTowerName'), 'error');
       return false;
     }
     if (!this.newTower.num_of_floors && this.newTower.num_of_floors !== 0) {
-      swal('Error', this.translate.instant('message.info.pleaseEnterNumberoffloors'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterNumberoffloors'), 'error');
       return false;
     }
     if (!this.newTower.possession_status_id) {
-      swal('Error', this.translate.instant('message.info.pleaseChoosePossessionStatus'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChoosePossessionStatus'), 'error');
       return false;
     }
-    // if (!this.newTower.launch_date) { swal('Error', 'Please enter launch date.', 'error'); return false; }
+    // if (!this.newTower.launch_date) { swal(this.translate.instant('swal.error'), 'Please enter launch date.', 'error'); return false; }
 
     // launch date to be mandatory possession_status == presale
     if (this.newTower.possession_status_id &&
       (this.newTower.possession_status_id.toString() === this.apiConstants.possession_status_id) &&
       !this.newTower.launch_date) {
-      swal('Error', this.translate.instant('message.info.pleaseSelectLaunchDate'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectLaunchDate'), 'error');
       return false;
     }
 
@@ -1459,7 +1459,7 @@ export class AddProjectComponent implements OnInit {
     this.newTower.amenitiesId = this.selectedTowerAmenitiesId;
     this.newTower.amenitiesCount = this.newTower.amenities.length;
     if (this.newTower.amenities.length < 1) {
-      // swal('Error', 'Please choose tower amenities.', 'error'); return false;
+      // swal(this.translate.instant('swal.error'), 'Please choose tower amenities.', 'error'); return false;
       this.newTower.amenities = [];
     }
     this.model.building_towers.push(this.newTower);
@@ -1475,7 +1475,7 @@ export class AddProjectComponent implements OnInit {
 
   editTower(btower: any, index: number) {
     if (this.model.building_tower_edit_index !== '-1') {
-      swal('Warning', this.translate.instant('message.info.firstSaveThePreviousEdittedtower'), 'warning');
+      swal('Warning', this.translate.instant('message.error.firstSaveThePreviousEdittedtower'), 'warning');
       return;
     }
     this.model.building_tower_edit_index = index;
@@ -1495,7 +1495,7 @@ export class AddProjectComponent implements OnInit {
 
   deleteTower(index: number) {
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.translate.instant('message.question.wantToDelete'),
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.translate.instant('message.error.wantToDelete'),
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -1520,24 +1520,24 @@ export class AddProjectComponent implements OnInit {
     this.model.building_towers[index].launch_date = btower.launch_date;
     // this.allTowerAmenityForEdit = btower.amenities;
     if (!this.model.building_towers[index].tower_name) {
-      swal('Error', this.translate.instant('message.info.pleaseEnterTowerName'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterTowerName'), 'error');
       return false;
     }
     if (!this.model.building_towers[index].num_of_floors) {
-      swal('Error', this.translate.instant('message.info.pleaseEnterNumberoffloors'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterNumberoffloors'), 'error');
       return false;
     }
     if (!this.model.building_towers[index].possession_status_id) {
-      swal('Error', this.translate.instant('message.info.pleaseChoosePossessionStatus'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChoosePossessionStatus'), 'error');
       return false;
     }
-    // if (!this.model.building_towers[index].launch_date) { swal('Error', 'Please enter launch date.', 'error'); return false; }
+    // if (!this.model.building_towers[index].launch_date) { swal(this.translate.instant('swal.error'), 'Please enter launch date.', 'error'); return false; }
 
     // launch date to be mandatory possession_status == presale
     if (this.model.building_towers[index].possession_status_id &&
       (this.model.building_towers[index].possession_status_id.toString() === this.apiConstants.possession_status_id) &&
       !this.model.building_towers[index].launch_date) {
-        swal('Error', this.translate.instant('message.info.pleaseSelectLaunchDate'), 'error');
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectLaunchDate'), 'error');
       return false;
     }
 
@@ -1555,7 +1555,7 @@ export class AddProjectComponent implements OnInit {
     this.model.building_towers[index].amenitiesId = this.selectedTowerAmenitiesId;
     this.model.building_towers[index].amenities = this.selectedTowerAmenityObj;
     if (this.model.building_towers[index].amenities.length < 1) {
-      // swal('Error', 'Please choose tower amenities.', 'error'); return false;
+      // swal(this.translate.instant('swal.error'), 'Please choose tower amenities.', 'error'); return false;
       this.model.building_towers[index].amenities = [];
       this.allTowerAmenityForEdit.map(i => {
         i.selected = false;
@@ -1607,7 +1607,7 @@ export class AddProjectComponent implements OnInit {
 
   showCanvas(event) {
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
     } else {
 
       setTimeout(() => {
@@ -1675,8 +1675,8 @@ export class AddProjectComponent implements OnInit {
 
   amen360ImagesSelect($event) {
     if ((this.amen360Img.files.length + $event.target.files.length) > 6) {
-      swal(this.translate.instant('message.info.limitExceeded'),
-      this.translate.instant('message.info.youCanUploadMaximumof6Images'), 'error');
+      swal(this.translate.instant('message.error.limitExceeded'),
+      this.translate.instant('message.error.youCanUploadMaximumof6Images'), 'error');
       return false;
     }
     this.amen360Img.onSelectFile($event);
@@ -1684,8 +1684,8 @@ export class AddProjectComponent implements OnInit {
 
   amenVideosSelect($event, type) {
     if ((this.amenVideo.files.length + $event.target.files.length) > 6) {
-      swal(this.translate.instant('message.info.limitExceeded'),
-      this.translate.instant('message.info.youCanUploadMaximumof6Videos'), 'error');
+      swal(this.translate.instant('message.error.limitExceeded'),
+      this.translate.instant('message.error.youCanUploadMaximumof6Videos'), 'error');
       return false;
     }
     this.showamenVideo($event, type);
@@ -1697,7 +1697,7 @@ export class AddProjectComponent implements OnInit {
       if (event.target.files[index].size < this.constant.fileSizeLimit) {
         this.amenVideo.files.push(event.target.files[index]);
       } else {
-        swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
       }
     }
 
@@ -1734,7 +1734,7 @@ export class AddProjectComponent implements OnInit {
       if (event.target.files[index].size < this.constant.fileSizeLimit) {
         this.amenVideo.files.push(event.target.files[index]);
       } else {
-        swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
       }
     }
 
@@ -1821,14 +1821,14 @@ export class AddProjectComponent implements OnInit {
     this.parameter.managedBy = managedBy;
     if (managedBy === 1) {
       if (this.model.company && this.model.company.id) {
-        swal(this.translate.instant('message.info.companyIsLinkedtothisproject'),
-        this.translate.instant('message.info.pleaseRemoveCompanytoLinkManager'), 'error');
+        swal(this.translate.instant('message.error.companyIsLinkedtothisproject'),
+        this.translate.instant('message.error.pleaseRemoveCompanytoLinkManager'), 'error');
       }
     }
     if (managedBy === 2) {
       if (this.model.manager && this.model.manager.id) {
-        swal(this.translate.instant('message.info.managerIsLinkedToThisProject'),
-        this.translate.instant('message.info.pleaseRemoveManagertoLinkCompany'), 'error');
+        swal(this.translate.instant('message.error.managerIsLinkedToThisProject'),
+        this.translate.instant('message.error.pleaseRemoveManagertoLinkCompany'), 'error');
       }
     }
     this.spinner.show();

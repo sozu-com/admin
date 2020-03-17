@@ -62,14 +62,14 @@ export class DevelopersComponent implements OnInit {
 
   blockUnblockPopup(index: any, id: string, flag: number, user_type: string = '3') {
     this.parameter.index = index;
-    this.parameter.title = this.translate.instant('message.question.areYouSure');
+    this.parameter.title = this.translate.instant('message.error.areYouSure');
     switch (flag) {
       case 0:
-      this.parameter.text = this.translate.instant('message.question.wantToUnblockDeveloper');
+      this.parameter.text = this.translate.instant('message.error.wantToUnblockDeveloper');
       this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
       break;
     case 1:
-      this.parameter.text = this.translate.instant('message.question.wantToBlockDeveloper');
+      this.parameter.text = this.translate.instant('message.error.wantToBlockDeveloper');
       this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
     }
@@ -100,14 +100,14 @@ export class DevelopersComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          swal('Success', this.parameter.successText, 'success');
+          swal(this.translate.instant('swal.success'), this.parameter.successText, 'success');
           this.items[this.parameter.index]['is_blocked'] = flag;
         });
   }
 
   deletePopup(item: any, index: number) {
-    this.parameter.title = this.translate.instant('message.question.areYouSure');
-    this.parameter.text = this.translate.instant('message.question.wantToDeleteDeveloper');
+    this.parameter.title = this.translate.instant('message.error.areYouSure');
+    this.parameter.text = this.translate.instant('message.error.wantToDeleteDeveloper');
 
     swal({
       html: this.parameter.title + '<br>' + this.parameter.text,
@@ -128,10 +128,10 @@ export class DevelopersComponent implements OnInit {
     { id: item.id, user_type: 3 }).subscribe(r => {
       this.items.splice(index, 1);
       this.parameter.total--;
-      swal('Success', this.translate.instant('message.success.deletedSuccessfully'), 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
     },
     error => {
-      swal('Error', error.error.message, 'error');
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
     });
   }
 }

@@ -197,14 +197,14 @@ export class ProjectsComponent implements OnInit {
 
 
   blockUnblock(item, flag: number) {
-    this.parameter.title = this.translate.instant('message.question.areYouSure');
+    this.parameter.title = this.translate.instant('message.error.areYouSure');
     switch (flag) {
       case 0:
-        this.parameter.text = this.translate.instant('message.question.wantToUnBlockProject');
+        this.parameter.text = this.translate.instant('message.error.wantToUnBlockProject');
         this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
         break;
       case 1:
-        this.parameter.text = this.translate.instant('message.question.wantToBlockProject');
+        this.parameter.text = this.translate.instant('message.error.wantToBlockProject');
         this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
     }
@@ -227,36 +227,36 @@ export class ProjectsComponent implements OnInit {
     this.admin.postDataApi('blockProject', { building_id: item.id, flag: flag })
       .subscribe(
         success => {
-          swal('Success', this.parameter.successText, 'success');
+          swal(this.translate.instant('swal.success'), this.parameter.successText, 'success');
           item.is_blocked = flag;
         },
         error => {
-          swal('Error', error.error.message, 'error');
+          swal(this.translate.instant('swal.error'), error.error.message, 'error');
         });
   }
 
   approveProject(item, status) {
     if (item.is_completed !== 1) {
-      swal('Error', this.translate.instant('message.error.cannotApproveBuilding'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.cannotApproveBuilding'), 'error');
       return false;
     }
     item.status = status;
     this.admin.postDataApi('approveProject', { building_id: item.id }).subscribe(r => {
-      swal('Success', this.translate.instant('message.success.projectApprovedSuccessfully'), 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.projectApprovedSuccessfully'), 'success');
     },
       error => {
-        swal('Error', error.error.message, 'error');
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
       });
   }
 
   rejectProject(status) {
     this.items[this.parameter.index].status = status;
     this.admin.postDataApi('rejectProject', { building_id: this.parameter.building_id, reason: this.reason }).subscribe(r => {
-      swal('Success', this.translate.instant('message.success.projectUnapprovedSuccessfully'), 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.projectUnapprovedSuccessfully'), 'success');
       this.closeModal();
     },
       error => {
-        swal('Error', error.error.message, 'error');
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
       });
   }
 
@@ -290,10 +290,10 @@ export class ProjectsComponent implements OnInit {
   }
 
   deletePopup(item: any, index: number) {
-    this.parameter.text = this.translate.instant('message.question.wantToDeleteProject');
+    this.parameter.text = this.translate.instant('message.error.wantToDeleteProject');
 
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -309,12 +309,12 @@ export class ProjectsComponent implements OnInit {
   deleteProject(item: any, index: number) {
     this.admin.postDataApi('deleteProject',
       { building_id: item.id }).subscribe(r => {
-        swal('Success', this.translate.instant('message.success.deletedSuccessfully'), 'success');
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
         this.items.splice(index, 1);
         this.total--;
       },
         error => {
-          swal('Error', error.error.message, 'error');
+          swal(this.translate.instant('swal.error'), error.error.message, 'error');
         });
   }
 }

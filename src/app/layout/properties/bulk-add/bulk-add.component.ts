@@ -138,7 +138,7 @@ export class BulkAddComponent implements OnInit {
   }
 
   searchBuilding(keyword: string) {
-    if (!keyword) { swal('Error', this.translate.instant('message.info.pleaseEnterSomeText'), 'error'); return false; }
+    if (!keyword) { swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterSomeText'), 'error'); return false; }
 
     this.showBuilding = false;
     this.buildingLoading = true;
@@ -181,7 +181,7 @@ export class BulkAddComponent implements OnInit {
           this.spinner.hide();
           swal({
             html: this.translate.instant('message.success.submittedSccessfully') + '<br>' +
-            this.translate.instant('message.info.notifiedWhenAdminReview'),
+            this.translate.instant('message.error.notifiedWhenAdminReview'),
             type: 'success'
           });
           this.property_names = [];
@@ -244,7 +244,7 @@ export class BulkAddComponent implements OnInit {
           this.spinner.hide();
           swal({
             html: this.translate.instant('message.success.submittedSccessfully') + '<br>' +
-            this.translate.instant('message.info.notifiedWhenAdminReview'),
+            this.translate.instant('message.error.notifiedWhenAdminReview'),
             type: 'success'
           });
           if (this.router.url.indexOf('/dashboard/properties/edit-property') === -1) {
@@ -260,17 +260,17 @@ export class BulkAddComponent implements OnInit {
   buildingRequest() {
 
     if (this.building.dev_name && (!this.building.dev_phone || !this.building.dev_email || !this.building.dev_countrycode)) {
-      swal('Error', this.translate.instant('message.error.pleaseFillCompleteDevloperInformation'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseFillCompleteDevloperInformation'), 'error');
       return false;
     }
 
     if (!this.building.lat && !this.building.lng) {
-      swal('Error', this.translate.instant('message.error.pleaseSelectLocationFromTheDropdownList'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectLocationFromTheDropdownList'), 'error');
       return false;
     }
 
     if (!this.building.lat || !this.building.lng) {
-      swal('Error', this.translate.instant('message.error.pleaseSelectLocation'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectLocation'), 'error');
     }
     this.spinner.show();
     this.us.postDataApi('buildingRequest', this.building)

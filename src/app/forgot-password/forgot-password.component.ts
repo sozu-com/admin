@@ -5,6 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { IProperty } from '../common/property';
 import { AdminService } from '../services/admin.service';
 import { Constant } from '../common/constants';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -21,7 +22,8 @@ export class ForgotPasswordComponent implements OnInit {
   };
   projectName: string;
   constructor(public admin: AdminService, private router: Router, public constant: Constant,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService) {
     // const token =  localStorage.getItem('token');
     // if (token) {
     //   this.router.navigate(['dashboard/view-inhouse-users/data-collectors']);
@@ -31,16 +33,20 @@ export class ForgotPasswordComponent implements OnInit {
   ngOnInit() {}
 
   forgotPassword(formData: NgForm) {
+    console.log(formData.value.email);
     this.spinner.show();
     const input = new FormData();
     input.append('email', formData.value.email);
     this.admin.postDataApi('forgotPassword', input)
       .subscribe(
         success => {
+          console.log(success);
           this.spinner.hide();
-          swal('Success', success.message, 'success');
+          swal(this.translate.instant('swal.success'), success.message, 'success');
           formData.reset();
           this.router.navigate(['']);
+        }, error => {
+          console.log(error);
         });
   }
 }

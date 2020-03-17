@@ -211,7 +211,7 @@ export class SellerChatComponent implements OnInit {
   onSelectFile(param, event) {
     this.optionsButton.nativeElement.click();
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
 
@@ -251,7 +251,7 @@ export class SellerChatComponent implements OnInit {
     this.optionsButton.nativeElement.click();
 
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
 
@@ -288,7 +288,7 @@ export class SellerChatComponent implements OnInit {
     this.optionsButton.nativeElement.click();
 
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
 
@@ -394,7 +394,7 @@ export class SellerChatComponent implements OnInit {
   sendMessage(model) {
     model.sent_as = this.constant.userType.csr_seller;
     if (model.message_type === 1 && !model.message) {
-      swal('Error', this.translate.instant('message.error.pleaseEnterText'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterText'), 'error');
     } else {
 
       setTimeout(() => {

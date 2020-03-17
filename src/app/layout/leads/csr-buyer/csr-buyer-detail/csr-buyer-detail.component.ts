@@ -134,9 +134,9 @@ export class CsrBuyerDetailComponent implements OnInit {
       this.leadData.user = r.data['user'];
       this.leadData.broker = r.data['broker'];
       this.leadData.admin = r.data['admin'];
-      swal('Success', this.translate.instant('message.success.assignedSuccessfully'), 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.assignedSuccessfully'), 'success');
     }, error => {
-      swal('Error', this.translate.instant('message.error.noAgentAvailable'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.noAgentAvailable'), 'error');
     });
   }
 
@@ -179,7 +179,7 @@ export class CsrBuyerDetailComponent implements OnInit {
       this.appointment.appointment_date.push(f);
     });
     if (this.appointment.appointment_date.length === 0) {
-      swal('Error', this.translate.instant('message.error.chooseAtleastOneDate'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.chooseAtleastOneDate'), 'error');
       return false;
     }
     this.spinner.show();
@@ -192,7 +192,7 @@ export class CsrBuyerDetailComponent implements OnInit {
           // new Date(moment(this.appointment.appointment_date).utc(true).local().format('YYYY-MM-DD, h:mm a'));
           this.spinner.hide();
           this.closeModal();
-          swal('Success', this.translate.instant('message.success.appointmentScheduledSuccessfully'), 'success');
+          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.appointmentScheduledSuccessfully'), 'success');
         }, error => {
           this.spinner.hide();
         }

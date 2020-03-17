@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { IProperty } from './../common/property';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Injectable()
@@ -23,7 +24,8 @@ export class CommonService {
   propertyDetailsData$ = this.propertyDetails.asObservable();
 
   public parameter: IProperty = {};
-  constructor(public admin: AdminService, private router: Router, private spinner: NgxSpinnerService) { }
+  constructor(public admin: AdminService, private router: Router, private spinner: NgxSpinnerService,
+    private translate: TranslateService) { }
 
 
   getCountries(keyword) {
@@ -45,7 +47,7 @@ export class CommonService {
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           } else {
-            swal('Error', error.message, 'error');
+            swal(this.translate.instant('swal.error'), error.message, 'error');
           }
         });
   }
@@ -71,7 +73,7 @@ export class CommonService {
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           } else {
-            swal('Error', error.message, 'error');
+            swal(this.translate.instant('swal.error'), error.message, 'error');
           }
         });
   }
@@ -99,7 +101,7 @@ export class CommonService {
           if (error.statusCode === 401) {
             this.router.navigate(['']);
           } else {
-            swal('Error', error.message, 'error');
+            swal(this.translate.instant('swal.error'), error.message, 'error');
           }
         });
   }

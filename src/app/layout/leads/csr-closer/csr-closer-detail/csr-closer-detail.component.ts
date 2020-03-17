@@ -213,9 +213,9 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
 
   assignNoatary(notary) {
     this.notaryModel.noatary_id = notary.id;
-    this.parameter.text = this.translate.instant('message.question.wantToAssignNotary');
+    this.parameter.text = this.translate.instant('message.error.wantToAssignNotary');
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -232,7 +232,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
 
         this.admin.postDataApi('leads/assignNoatary', this.notaryModel).subscribe(r => {
           this.spinner.hide();
-          swal('Success', this.translate.instant('message.success.notaryAssignedSuccessfully'), 'success');
+          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.notaryAssignedSuccessfully'), 'success');
           this.notaryModel = new NotaryAssigned();
           this.hideNotaries.nativeElement.click();
         }, error => {
@@ -280,9 +280,9 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
 
   assignBank(bank) {
     this.bankModel.bank_id = bank.id;
-    this.parameter.text = this.translate.instant('message.question.wantToAssignBank');
+    this.parameter.text = this.translate.instant('message.error.wantToAssignBank');
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -295,7 +295,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
         this.chat_bank = bank;
         this.admin.postDataApi('leads/assignBank', this.bankModel).subscribe(r => {
           this.spinner.hide();
-          swal('Success', this.translate.instant('message.success.bankAssignedSuccessfully'), 'success');
+          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.bankAssignedSuccessfully'), 'success');
           this.bankModel = new BankAssigned();
           this.hideBanks.nativeElement.click();
         }, error => {
@@ -338,13 +338,13 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       documents: documents_ids
     };
     this.admin.postDataApi('leads/updateDocumentChecklist', input).subscribe(r => {
-      swal('Success', this.translate.instant('message.success.updatedSuccessfully'), 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.updatedSuccessfully'), 'success');
     }
     );
   }
 
   noDocumentUploaded() {
-    swal('Error', this.translate.instant('message.error.noDocumentUploadedYet'), 'error');
+    swal(this.translate.instant('swal.error'), this.translate.instant('message.error.noDocumentUploadedYet'), 'error');
   }
 
   viewPropertyDetails(property) {
@@ -353,9 +353,9 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   }
 
   markLeadClose() {
-    this.parameter.text = this.translate.instant('message.question.wantTocloseLead');
+    this.parameter.text = this.translate.instant('message.error.wantTocloseLead');
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -365,7 +365,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       if (result.value) {
         this.admin.postDataApi('leads/closer-mark-lead-closed', { lead_id: this.parameter.lead_id }).subscribe(r => {
           this.leadData.lead_status_closer = 1;
-          swal('Success', this.translate.instant('message.success.leadClosedSuccessfully'), 'success');
+          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.leadClosedSuccessfully'), 'success');
         });
       }
     });
@@ -467,7 +467,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   onSelectFile(param, event) {
     this.optionsButton.nativeElement.click();
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
 
@@ -508,7 +508,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     this.optionsButton.nativeElement.click();
 
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
 
@@ -545,7 +545,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     this.optionsButton.nativeElement.click();
 
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
 
@@ -667,7 +667,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   sendMessage(model) {
     model.sent_as = this.parameter.sent_as;
     if (model.message_type === 1 && !model.message) {
-      swal('Error', 'Please enter some text.', 'error');
+      swal(this.translate.instant('swal.error'), 'Please enter some text.', 'error');
     } else {
       // setTimeout(() => {
       //   this.scrollToBottom();
@@ -693,7 +693,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     input.append('attachment_name', file.name);
 
     this.admin.postDataApi('uploadDealDocument', input).subscribe(r => {
-      swal('Success', this.translate.instant('message.success.uploadedSuccessfully'), 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.uploadedSuccessfully'), 'success');
     });
   }
 
@@ -785,9 +785,9 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
 
 
   addAppointment(item) {
-    this.parameter.text = this.translate.instant('message.question.wantToScheduleMeeting');
+    this.parameter.text = this.translate.instant('message.error.wantToScheduleMeeting');
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -806,7 +806,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
         this.admin.postDataApi('leads/addAppointment', this.scheduleMeeting).subscribe(r => {
           this.scheduleMeeting = r.data;
           this.closeModal2();
-          swal('Success', this.translate.instant('message.success.meetingScheduledSuccessfully'), 'success');
+          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.meetingScheduledSuccessfully'), 'success');
         });
       }
     });
@@ -814,7 +814,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
 
   updatePropertyAmount() {
     if (this.pen_amount > this.selectedProperties.total_amount && this.pen_amount < 0) {
-      swal('Error', this.translate.instant('message.error.incorrectAmountEntered'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.incorrectAmountEntered'), 'error');
       return false;
     }
     const input = {
@@ -826,7 +826,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       this.showInput = false;
       this.selectedProperties.pending_amount = this.pen_amount;
       // this.leadData.lead_status_closer = 1;
-      swal('Success', this.translate.instant('message.success.amountUpdatedSuccessfully'), 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.amountUpdatedSuccessfully'), 'success');
     });
   }
 }

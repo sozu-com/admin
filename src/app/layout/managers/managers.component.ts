@@ -141,7 +141,7 @@ export class ManagersComponent implements OnInit {
   addNewUser(formdata: NgForm) {
 
     if (this.model.img_loader || this.model.logo_loader) {
-      swal('Error', this.translate.instant('message.error.uploadingImage'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.uploadingImage'), 'error');
       return false;
     }
     const input = new FormData();
@@ -166,13 +166,13 @@ export class ManagersComponent implements OnInit {
           success => {
             this.spinner.hide();
             if (success.success === '0') {
-              swal('Error', success.message, 'error');
+              swal(this.translate.instant('swal.error'), success.message, 'error');
             } else {
               this.modalClose.nativeElement.click();
               const text = this.model.id ?
                     this.translate.instant('message.success.updatedSuccessfully') :
                     this.translate.instant('message.success.addedSuccessfully');
-              swal('Success', text, 'success');
+              swal(this.translate.instant('swal.success'), text, 'success');
               if (this.model.id) {
                 this.items[this.parameter.index] = success.data;
               } else {
@@ -260,14 +260,14 @@ export class ManagersComponent implements OnInit {
 
   blockUnblockPopup(index, id, flag, user_type) {
     this.parameter.index = index;
-    this.parameter.title = this.translate.instant('message.question.areYouSure');
+    this.parameter.title = this.translate.instant('message.error.areYouSure');
     switch (flag) {
       case 0:
-      this.parameter.text = this.translate.instant('message.question.wantToUnblockManager');
+      this.parameter.text = this.translate.instant('message.error.wantToUnblockManager');
       this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
       break;
     case 1:
-      this.parameter.text = this.translate.instant('message.question.wantToBlockManager');
+      this.parameter.text = this.translate.instant('message.error.wantToBlockManager');
       this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
     }
@@ -295,7 +295,7 @@ export class ManagersComponent implements OnInit {
     this.admin.postDataApi('blockTowerManager', input)
       .subscribe(
         success => {
-          swal('Success', this.parameter.successText, 'success');
+          swal(this.translate.instant('swal.success'), this.parameter.successText, 'success');
           // this.items[this.parameter.index] = success.data;
           this.items[this.parameter.index]['is_blocked'] = flag;
         });
@@ -306,8 +306,8 @@ export class ManagersComponent implements OnInit {
   }
 
   deletePopup(item: any, index: number) {
-    this.parameter.title = this.translate.instant('message.question.areYouSure');
-    this.parameter.text = this.translate.instant('message.question.wantToDeleteManager');
+    this.parameter.title = this.translate.instant('message.error.areYouSure');
+    this.parameter.text = this.translate.instant('message.error.wantToDeleteManager');
 
     swal({
       html: this.parameter.title + '<br>' + this.parameter.text,
@@ -328,10 +328,10 @@ export class ManagersComponent implements OnInit {
     { id: item.id }).subscribe(r => {
       this.items.splice(index, 1);
       this.parameter.total--;
-      swal('Success', this.translate.instant('message.success.deletedSuccessfully'), 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
     },
     error => {
-      swal('Error', error.error.message, 'error');
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
     });
   }
 
@@ -341,7 +341,7 @@ export class ManagersComponent implements OnInit {
     if (file.files && file.files[0]) {
       attachment = file.files[0];
       if (attachment.size > this.constant.fileSizeLimit) {
-        swal('Error', this.translate.instant('message.info.fileSizeLimit'), 'error');
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeLimit'), 'error');
         return false;
       }
     this.spinner.show();
@@ -353,14 +353,14 @@ export class ManagersComponent implements OnInit {
           this.spinner.hide();
           this.fileInput.nativeElement.value = '';
           this.label = this.translate.instant('table.title.chooseManagersFile');
-          swal('Success', this.translate.instant('message.success.importedSuccessfully'), 'success');
+          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.importedSuccessfully'), 'success');
           this.getTowerManager();
         }, error => {
           this.fileInput.nativeElement.value = '';
           this.spinner.hide();
         });
     } else {
-      swal('Error', this.translate.instant('message.info.pleaseChooseFile'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseFile'), 'error');
       return false;
     }
   }

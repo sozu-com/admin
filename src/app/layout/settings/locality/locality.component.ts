@@ -375,7 +375,7 @@ export class LocalityComponent implements OnInit {
     const self = this;
     if (name_es === '') {
       swal({
-        text: this.translate.instant('message.info.saveEngCountryName'),
+        text: this.translate.instant('message.error.saveEngCountryName'),
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,
@@ -520,17 +520,17 @@ export class LocalityComponent implements OnInit {
     this.parameter.index = index;
     switch (type) {
       case 0:
-        this.parameter.text = this.translate.instant('message.question.wantToBlockLocality');
+        this.parameter.text = this.translate.instant('message.error.wantToBlockLocality');
         this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
       case 1:
-        this.parameter.text = this.translate.instant('message.question.wantToUnblockLocality');
+        this.parameter.text = this.translate.instant('message.error.wantToUnblockLocality');
         this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
         break;
     }
 
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -539,16 +539,16 @@ export class LocalityComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.removeSelection(locality, index, type);
-        swal('Success', this.parameter.successText, 'success');
+        swal(this.translate.instant('swal.success'), this.parameter.successText, 'success');
       }
     });
   }
 
   deleteLocality(locality, index: number) {
     this.parameter.index = index;
-    this.parameter.text = this.translate.instant('message.question.wantToDeleteLocality');
+    this.parameter.text = this.translate.instant('message.error.wantToDeleteLocality');
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -559,7 +559,7 @@ export class LocalityComponent implements OnInit {
         this.admin.postDataApi('deleteLocality', {id: locality.id}).subscribe(
           r => {
             this.parameter.localities.splice(index, 1);
-            swal('Success', this.translate.instant('message.success.deletedSuccessfully'), 'success');
+            swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
           });
       }
     });
@@ -584,12 +584,12 @@ export class LocalityComponent implements OnInit {
   markLocalityFeatured(index, locality_id, flag) {
     let title = '';
     if (flag === 1) {
-      title = this.translate.instant('message.question.wantToFeatureLocality');
+      title = this.translate.instant('message.error.wantToFeatureLocality');
     } else {
-      title = this.translate.instant('message.question.wantToUnFeatureLocality');
+      title = this.translate.instant('message.error.wantToUnFeatureLocality');
     }
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' + title,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + title,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -600,7 +600,7 @@ export class LocalityComponent implements OnInit {
         this.admin.postDataApi('markLocalityFeatured', { locality_id: locality_id, flag: flag }).subscribe(
           r => {
             this.parameter.localities[index] = r.data;
-            swal('Success', this.parameter.successText, 'success');
+            swal(this.translate.instant('swal.success'), this.parameter.successText, 'success');
           });
       }
     });

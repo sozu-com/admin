@@ -362,7 +362,7 @@ export class DataCollectorComponent implements OnInit {
     },
       error => {
         this.spinner.hide();
-        swal('Error', error.error.message, 'error');
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
       });
   }
 
@@ -377,7 +377,7 @@ export class DataCollectorComponent implements OnInit {
     // this.assign.keyword = '';
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     if (leads_ids.length === 0) {
-      swal('Error', this.translate.instant('message.error.pleaseChooseAtleast1Lead'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAtleast1Lead'), 'error');
       return false;
     }
     if (!this.assign.items) {
@@ -408,14 +408,14 @@ export class DataCollectorComponent implements OnInit {
     this.spinner.show();
     this.admin.postDataApi('leads/bulkAssignCollector', input).subscribe(r => {
       this.spinner.hide();
-      swal('Success', this.translate.instant('message.success.assignedSuccessfully'), 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.assignedSuccessfully'), 'success');
       this.closeAssignModel.nativeElement.click();
       this.getListing();
     },
       error => {
         this.spinner.hide();
         this.closeAssignModel.nativeElement.click();
-        swal('Error', error.error.message, 'error');
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
       });
 
   }
@@ -428,28 +428,28 @@ export class DataCollectorComponent implements OnInit {
 
   approveProject(item, status) {
     if (item.is_completed !== 1) {
-      swal('Error', this.translate.instant('message.error.cannotApproveBuilding'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.cannotApproveBuilding'), 'error');
       return false;
     }
     item.status = status;
     this.admin.postDataApi('approveProject', { building_id: item.id }).subscribe(r => {
       this.getCSRDashBoardData();
-      swal('Success', this.translate.instant('message.success.projectApprovedSuccessfully'), 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.projectApprovedSuccessfully'), 'success');
     },
       error => {
-        swal('Error', error.error.message, 'error');
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
       });
   }
 
   rejectProject(status) {
     this.items[this.parameter.index].status = status;
     this.admin.postDataApi('rejectProject', { building_id: this.parameter.building_id, reason: this.reason }).subscribe(r => {
-      swal('Success', this.translate.instant('message.success.projectUnapprovedSuccessfully'), 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.projectUnapprovedSuccessfully'), 'success');
       this.getCSRDashBoardData();
       this.closeModal();
     },
       error => {
-        swal('Error', error.error.message, 'error');
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
       });
   }
 

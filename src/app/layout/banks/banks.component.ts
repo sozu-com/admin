@@ -88,7 +88,7 @@ export class BanksComponent implements OnInit {
 
   changeListner(event: any, paramLoader: string, param: any) {
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
     this.model[paramLoader] = true;
@@ -114,7 +114,7 @@ export class BanksComponent implements OnInit {
 
   addBank(formData: NgForm) {
     if (this.model.img_loader) {
-      swal('Error', this.translate.instant('message.error.uploadingImage'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.uploadingImage'), 'error');
       return false;
     }
     this.spinner.show();
@@ -123,12 +123,12 @@ export class BanksComponent implements OnInit {
         success => {
           this.spinner.hide();
           if (success.success === '0') {
-            swal('Error', success.message, 'error');
+            swal(this.translate.instant('swal.error'), success.message, 'error');
           } else {
             this.modalClose.nativeElement.click();
             const text = this.model.id ? this.translate.instant('message.success.updatedSuccessfully') :
                                         this.translate.instant('message.success.addedSuccessfully');
-            swal('Success', text, 'success');
+            swal(this.translate.instant('swal.success'), text, 'success');
             if (this.model.id) {
               this.items[this.parameter.index] = success.data;
             } else {
@@ -159,14 +159,14 @@ export class BanksComponent implements OnInit {
 
   blockUnblockPopup(index, id, flag) {
     this.parameter.index = index;
-    this.parameter.title = this.translate.instant('message.question.areYouSure');
+    this.parameter.title = this.translate.instant('message.error.areYouSure');
     switch (flag) {
       case 0:
-        this.parameter.text = this.translate.instant('message.question.wantToUnblockBank');
+        this.parameter.text = this.translate.instant('message.error.wantToUnblockBank');
         this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
         break;
       case 1:
-        this.parameter.text = this.translate.instant('message.question.wantToBlockBank');
+        this.parameter.text = this.translate.instant('message.error.wantToBlockBank');
         this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
     }
@@ -193,7 +193,7 @@ export class BanksComponent implements OnInit {
       .subscribe(
         success => {
           this.spinner.hide();
-          swal('Success', this.parameter.successText, 'success');
+          swal(this.translate.instant('swal.success'), this.parameter.successText, 'success');
           this.items[this.parameter.index]['is_blocked'] = flag;
         }, error => {
           this.spinner.hide();
@@ -201,8 +201,8 @@ export class BanksComponent implements OnInit {
   }
 
   deletePopup(item: any, index: number) {
-    this.parameter.title = this.translate.instant('message.question.areYouSure');
-    this.parameter.text = this.translate.instant('message.question.wantToDeleteBank');
+    this.parameter.title = this.translate.instant('message.error.areYouSure');
+    this.parameter.text = this.translate.instant('message.error.wantToDeleteBank');
 
     swal({
       html: this.parameter.title + '<br>' + this.parameter.text,
@@ -221,12 +221,12 @@ export class BanksComponent implements OnInit {
   deleteBank(item: any, index: number) {
     this.admin.postDataApi('deleteBank',
       { bank_id: item.id }).subscribe(r => {
-        swal('Success', this.translate.instant('message.success.deletedSuccessfully'), 'success');
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
         this.items.splice(index, 1);
         this.parameter.total--;
       },
         error => {
-          swal('Error', error.error.message, 'error');
+          swal(this.translate.instant('swal.error'), error.error.message, 'error');
         });
   }
 }

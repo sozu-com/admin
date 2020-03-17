@@ -73,7 +73,7 @@ export class AddAclComponent implements OnInit {
 
   changeListner(event: any, paramLoader: string, param: any) {
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
     this.model[paramLoader] = true;
@@ -139,7 +139,7 @@ export class AddAclComponent implements OnInit {
 
   add(formData: NgForm) {
     if (this.model.img_loader) {
-      swal('Error', this.translate.instant('message.error.uploadingImage'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.uploadingImage'), 'error');
       return;
     }
     this.spinner.show();
@@ -148,12 +148,12 @@ export class AddAclComponent implements OnInit {
         success => {
           this.spinner.hide();
           if (success.success === '0') {
-            swal('Error', success.message, 'error');
+            swal(this.translate.instant('swal.error'), success.message, 'error');
           } else {
             const text = this.model.id === '' ?
                     this.translate.instant('message.success.addedSuccessfully') :
                     this.translate.instant('message.success.updatedSuccessfully');
-            swal('Success', text, 'success');
+            swal(this.translate.instant('swal.success'), text, 'success');
             if (this.model.id === '') {
               // this.model.image = '';
               // formData.reset();

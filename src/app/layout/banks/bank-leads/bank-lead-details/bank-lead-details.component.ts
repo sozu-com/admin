@@ -87,7 +87,7 @@ export class BankLeadDetailsComponent implements OnInit {
     this.spinner.show();
     this.admin.postDataApi('leads/updateDocumentChecklist', input).subscribe(r => {
       this.spinner.hide();
-      swal('Success', this.translate.instant('message.success.savedSuccessfully'), 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.savedSuccessfully'), 'success');
     }, error => {
       this.spinner.hide();
     }
@@ -95,7 +95,7 @@ export class BankLeadDetailsComponent implements OnInit {
   }
 
   noDocumentUploaded() {
-    swal('Error', this.translate.instant('message.error.noDocumentUploadedYet'), 'error');
+    swal(this.translate.instant('swal.error'), this.translate.instant('message.error.noDocumentUploadedYet'), 'error');
   }
 
   viewPropertyDetails(property) {
@@ -105,8 +105,8 @@ export class BankLeadDetailsComponent implements OnInit {
 
   markLeadClose() {
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' +
-            this.translate.instant('message.question.wantTocloseLead'),
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+            this.translate.instant('message.error.wantTocloseLead'),
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -118,7 +118,7 @@ export class BankLeadDetailsComponent implements OnInit {
         this.admin.postDataApi('leads/bank-mark-lead-closed', { lead_id: this.parameter.lead_id }).subscribe(r => {
           this.spinner.hide();
           this.parameter.lead.lead_status_bank = 1;
-          swal('Success', this.translate.instant('message.success.leadClosedSuccessfully'), 'success');
+          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.leadClosedSuccessfully'), 'success');
         }, error => {
           this.spinner.hide();
         });

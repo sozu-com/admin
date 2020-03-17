@@ -79,14 +79,14 @@ export class CompaniesComponent implements OnInit {
 
   blockUnblockPopup(index: any, id: string, flag: number) {
     this.parameter.index = index;
-    this.parameter.title = this.translate.instant('message.question.areYouSure');
+    this.parameter.title = this.translate.instant('message.error.areYouSure');
     switch (flag) {
       case 0:
-      this.parameter.text = this.translate.instant('message.question.wantToUnblockCompany');
+      this.parameter.text = this.translate.instant('message.error.wantToUnblockCompany');
       this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
       break;
     case 1:
-      this.parameter.text = this.translate.instant('message.question.wantToBlockCompany');
+      this.parameter.text = this.translate.instant('message.error.wantToBlockCompany');
       this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
     }
@@ -116,14 +116,14 @@ export class CompaniesComponent implements OnInit {
     this.admin.postDataApi('blockTowerManagerCompany', input)
       .subscribe(
         success => {
-          swal('Success', this.parameter.successText, 'success');
+          swal(this.translate.instant('swal.success'), this.parameter.successText, 'success');
           this.items[this.parameter.index]['is_blocked'] = flag;
         });
   }
 
   deletePopup(item: any, index: number) {
-    this.parameter.title = this.translate.instant('message.question.areYouSure');
-    this.parameter.text = this.translate.instant('message.question.wantToDeleteCompany');
+    this.parameter.title = this.translate.instant('message.error.areYouSure');
+    this.parameter.text = this.translate.instant('message.error.wantToDeleteCompany');
 
     swal({
       html: this.parameter.title + '<br>' + this.parameter.text,
@@ -144,10 +144,10 @@ export class CompaniesComponent implements OnInit {
       { id: item.id }).subscribe(r => {
         this.items.splice(index, 1);
         this.parameter.total--;
-        swal('Success', this.translate.instant('message.success.deletedSuccessfully'), 'success');
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
       },
         error => {
-          swal('Error', error.error.message, 'error');
+          swal(this.translate.instant('swal.error'), error.error.message, 'error');
         });
   }
 
@@ -157,7 +157,7 @@ export class CompaniesComponent implements OnInit {
     if (file.files && file.files[0]) {
       attachment = file.files[0];
       if (attachment.size > this.constant.fileSizeLimit) {
-        swal('Error', this.translate.instant('message.info.fileSizeLimit'), 'error');
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeLimit'), 'error');
         return false;
       }
       this.spinner.show();
@@ -169,14 +169,14 @@ export class CompaniesComponent implements OnInit {
             this.spinner.hide();
             this.fileInput.nativeElement.value = '';
             this.label = this.translate.instant('table.title.chooseCompaniesFile');
-            swal('Success', this.translate.instant('message.success.importedSuccessfully'), 'success');
+            swal(this.translate.instant('swal.success'), this.translate.instant('message.success.importedSuccessfully'), 'success');
             this.getTowerManagerCompany();
           }, error => {
             this.fileInput.nativeElement.value = '';
             this.spinner.hide();
           });
     } else {
-      swal('Error', this.translate.instant('message.info.pleaseChooseFile'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseFile'), 'error');
       return false;
     }
   }

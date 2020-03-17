@@ -41,14 +41,14 @@ export class NotesComponent implements OnInit {
       this.closeModal();
       // this.parameter.items.push(r.data);
       this.parameter.items = r.data;
-      swal('Success', this.translate.instant('message.success.addedSuccessfully'), 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
     });
   }
 
   deleteLeadPopup(note_id, index) {
-    this.parameter.text = this.translate.instant('message.question.wantToDeleteNote');
+    this.parameter.text = this.translate.instant('message.error.wantToDeleteNote');
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -64,7 +64,7 @@ export class NotesComponent implements OnInit {
   deleteLeadNote(note_id, index) {
     this.admin.postDataApi('leads/deleteLeadNote', {note_id: note_id}).subscribe(r => {
       this.parameter.items.splice(index, 1);
-      swal('Success', this.translate.instant('message.success.deletedSuccessfully'), 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
     });
   }
 

@@ -116,14 +116,14 @@ export class AclComponent implements OnInit {
       .subscribe(
         success => {
           if (success.success === '0') {
-            swal('Error', success.message, 'error');
+            swal(this.translate.instant('swal.error'), success.message, 'error');
           } else {
             this.modalClose.nativeElement.click();
             formdata.reset();
             const text = this.model.id === '' ?
                     this.translate.instant('message.success.addedSuccessfully') :
                     this.translate.instant('message.success.updatedSuccessfully');
-            swal('Success', text, 'success');
+            swal(this.translate.instant('swal.success'), text, 'success');
             if (this.parameter.items.length < 10) {
               if (this.model.id !== '') {
                 this.parameter.items[this.parameter.index] = success.data;
@@ -142,14 +142,14 @@ export class AclComponent implements OnInit {
 
   blockUnblockPopup(index, id, flag, user_type) {
     this.parameter.index = index;
-    this.parameter.title = this.translate.instant('message.question.areYouSure');
+    this.parameter.title = this.translate.instant('message.error.areYouSure');
     switch (flag) {
       case 0:
-      this.parameter.text = this.translate.instant('message.question.wantToUnblockUser');
+      this.parameter.text = this.translate.instant('message.error.wantToUnblockUser');
       this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
         break;
       case 1:
-      this.parameter.text = this.translate.instant('message.question.wantToBlockUser');
+      this.parameter.text = this.translate.instant('message.error.wantToBlockUser');
       this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
     }
@@ -174,7 +174,7 @@ export class AclComponent implements OnInit {
     this.admin.postDataApi('blockAclUser', { id: id, flag: flag })
       .subscribe(
         success => {
-          swal('Success', this.parameter.successText, 'success');
+          swal(this.translate.instant('swal.success'), this.parameter.successText, 'success');
           this.parameter.items[this.parameter.index]['is_blocked'] = flag;
         });
   }

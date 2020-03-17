@@ -70,7 +70,7 @@ export class AddCompanyComponent implements OnInit {
 
   changeListner(event: any, paramLoader: string, param: any) {
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
     this.model[paramLoader] = true;
@@ -97,21 +97,21 @@ export class AddCompanyComponent implements OnInit {
     const modelSave: Users = JSON.parse(JSON.stringify(this.model));
     // if (modelSave.address) {
     //   if (!modelSave.lat || !modelSave.lng) {
-    //     swal('Error', this.translate.instant('message.info.pleaseChooseAddressFromDropdown'), 'error');
+    //     swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAddressFromDropdown'), 'error');
     //     return;
     //   }
     // }
 
     // if (modelSave.branch) {
     //   if (!modelSave.branch_lat || !modelSave.branch_lng) {
-    //     swal('Error', this.translate.instant('message.info.pleaseChooseBranchAddressFromDropdown'), 'error');
-    //     swal('Error', '', 'error');
+    //     swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseBranchAddressFromDropdown'), 'error');
+    //     swal(this.translate.instant('swal.error'), '', 'error');
     //     return;
     //   }
     // }
 
     if (this.model.img_loader || this.model.logo_loader) {
-      swal('Error', this.translate.instant('message.error.uploadingImage'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.uploadingImage'), 'error');
       return;
     }
     delete this.model.logo_loader;
@@ -122,13 +122,13 @@ export class AddCompanyComponent implements OnInit {
         success => {
           this.spinner.hide();
           if (success.success === '0') {
-            swal('Error', success.message, 'error');
+            swal(this.translate.instant('swal.error'), success.message, 'error');
             return;
           } else {
             const text = this.model.id ?
                     this.translate.instant('message.success.updatedSuccessfully') :
                     this.translate.instant('message.success.addedSuccessfully');
-            swal('Success', text, 'success');
+            swal(this.translate.instant('swal.success'), text, 'success');
             if (!this.model.id) {
               formData.reset();
               this.image = ''; this.logo = '';

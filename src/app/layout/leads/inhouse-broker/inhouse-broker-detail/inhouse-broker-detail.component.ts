@@ -227,7 +227,7 @@ export class InhouseBrokerDetailComponent implements OnInit {
       }
     }, error => {
       this.spinner.hide();
-      swal('Error', this.translate.instant('message.error.dealIsNotFinalised'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.dealIsNotFinalised'), 'error');
     });
   }
 
@@ -260,7 +260,7 @@ export class InhouseBrokerDetailComponent implements OnInit {
     //       new Date(moment(this.appointment.appointment_date).utc(true).local().format('YYYY-MM-DD, h:mm a'));
     //       this.spinner.hide();
     //       this.closeModal();
-    //       swal('Success', 'Appointment scheduled successfully.', 'success');
+    //       swal(this.translate.instant('swal.success'), 'Appointment scheduled successfully.', 'success');
     //     }, error => {
     //       this.spinner.hide();
     //     }
@@ -274,7 +274,7 @@ export class InhouseBrokerDetailComponent implements OnInit {
       this.appointment.appointment_date.push(f);
     });
     if (this.appointment.appointment_date.length === 0) {
-      swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneDate'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAtleastOneDate'), 'error');
       return false;
     }
     this.spinner.show();
@@ -287,7 +287,7 @@ export class InhouseBrokerDetailComponent implements OnInit {
           // new Date(moment(this.appointment.appointment_date).utc(true).local().format('YYYY-MM-DD, h:mm a'));
           this.spinner.hide();
           this.closeModal();
-          swal('Success', this.translate.instant('message.success.appointmentScheduledSuccessfully'), 'success');
+          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.appointmentScheduledSuccessfully'), 'success');
         }, error => {
           this.spinner.hide();
         }

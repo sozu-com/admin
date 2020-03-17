@@ -3,11 +3,14 @@ import { Towers, Configuration } from './addProject.model';
 
 export class Collection {
     id: number;
+    property_id: number;
     step: number;
-    name: string;
+    building_id: string;
     building_towers_id: string;
     floor_num: string;
     building_towers: Towers;
+    deal_type_id: number;
+    name: string;
     for_rent: boolean;
     for_sale: boolean;
     for_hold: boolean;
@@ -20,14 +23,7 @@ export class Collection {
     building_configuration_id = '';
     configuration_id = '';
     property_type_id = '';
-    // carpet_areas: any = [
-    //     {
-    //         area: '',
-    //         price: ''
-    //     }
-    // ];
     carpet_areas: any = [];
-    property_id = '';
     cover_image: File;
     images: any = [];
     images360: any = [];
@@ -54,7 +50,6 @@ export class Collection {
     marital_status: any = [1];
     custom_attributes: any = [];
     property_quantity_details: any = [];
-    building_id: string;
     videoLoader: boolean;
     configuration: Configuration;
     creator: User;

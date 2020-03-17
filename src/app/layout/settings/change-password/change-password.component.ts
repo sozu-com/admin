@@ -33,7 +33,7 @@ export class ChangePasswordComponent implements OnInit {
       .subscribe(
         success => {
           this.spinner.hide();
-          swal('Success', this.translate.instant('message.success.updatedSuccessfully'), 'success');
+          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.updatedSuccessfully'), 'success');
           localStorage.removeItem('token');
           this.router.navigate(['']);
         },

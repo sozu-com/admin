@@ -200,7 +200,7 @@ export class ChatTabsComponent implements OnInit {
   onSelectFile(param, event) {
     this.optionsButton.nativeElement.click();
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
 
@@ -241,7 +241,7 @@ export class ChatTabsComponent implements OnInit {
     this.optionsButton.nativeElement.click();
 
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
 
@@ -278,7 +278,7 @@ export class ChatTabsComponent implements OnInit {
     this.optionsButton.nativeElement.click();
 
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
 
@@ -388,7 +388,7 @@ export class ChatTabsComponent implements OnInit {
   sendMessage(model) {
     model.sent_as = this.sent_as;
     if (model.message_type === 1 && !model.message) {
-      swal('Error', this.translate.instant('message.error.pleaseEnterText'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterText'), 'error');
     } else {
       // setTimeout(() => {
       //   this.scrollToBottom();
@@ -414,7 +414,7 @@ export class ChatTabsComponent implements OnInit {
     input.append('attachment_name', file.name);
 
     this.admin.postDataApi('uploadDealDocument', input).subscribe(r => {
-      swal('Success', this.translate.instant('message.success.uploadedSuccessfully'), 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.uploadedSuccessfully'), 'success');
     });
   }
 
@@ -429,7 +429,7 @@ export class ChatTabsComponent implements OnInit {
       } else {
         this.chat_admin = {};
         this.messages = [];
-        swal('Error', this.translate.instant('message.error.pleaseAssignAgentToContinue'), 'error');
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseAssignAgentToContinue'), 'error');
         return false;
       }
     }

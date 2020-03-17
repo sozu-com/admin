@@ -76,10 +76,10 @@ export class TemplatesComponent implements OnInit {
 
 
   deleteBlogPopUp(id: any, index: number) {
-    this.parameter.text = this.translate.instant('message.question.wantToDeleteTemplate');
+    this.parameter.text = this.translate.instant('message.error.wantToDeleteTemplate');
 
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -96,10 +96,10 @@ export class TemplatesComponent implements OnInit {
     this.items.splice(index, 1);
     this.admin.postDataApi('deleteBlog', { id: id }).subscribe(
       success => {
-        swal('Success', this.translate.instant('message.success.deletedSuccessfully'), 'success');
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
       },
       error => {
-        swal('Error', this.translate.instant('message.error.errorWhileDeleting'), 'error');
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.errorWhileDeleting'), 'error');
       });
   }
 

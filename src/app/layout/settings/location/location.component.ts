@@ -174,7 +174,7 @@ export class LocationComponent implements OnInit {
     const self = this;
     if (name_es === '') {
       swal({
-        text: this.translate.instant('message.info.saveEngCountryName'),
+        text: this.translate.instant('message.error.saveEngCountryName'),
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,
@@ -211,7 +211,7 @@ export class LocationComponent implements OnInit {
           const text = this.location.countryModel.country_id || country_id ?
           this.translate.instant('message.success.updatedSuccessfully') :
           this.translate.instant('message.success.addedSuccessfully');
-          swal('Success', text, 'success');
+          swal(this.translate.instant('swal.success'), text, 'success');
           this.getCountries('', '');
           // this.getAllCountries('', 'added-country');   // loading dropdown
 
@@ -229,7 +229,7 @@ export class LocationComponent implements OnInit {
     const self = this;
     if (name_es === '') {
       swal({
-        text: this.translate.instant('message.info.saveEngStateName'),
+        text: this.translate.instant('message.error.saveEngStateName'),
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,
@@ -273,7 +273,7 @@ export class LocationComponent implements OnInit {
           const text = this.location.stateModel.state_id || state_id ?
           this.translate.instant('message.success.updatedSuccessfully') :
           this.translate.instant('message.success.addedSuccessfully');
-          swal('Success', text, 'success');
+          swal(this.translate.instant('swal.success'), text, 'success');
           this.getStates(this.parameter.country_id1, '', 1);
           this.getStates(this.parameter.country_id2, '', 2);
           // this.getStatesWRTCountry(this.parameter.country_id, '');
@@ -290,7 +290,7 @@ export class LocationComponent implements OnInit {
     const self = this;
     if (name_es === '') {
       swal({
-        text: this.translate.instant('message.info.saveEngCityName'),
+        text: this.translate.instant('message.error.saveEngCityName'),
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,
@@ -332,7 +332,7 @@ export class LocationComponent implements OnInit {
           const text = this.location.cityModel.city_id || city_id ?
           this.translate.instant('message.success.updatedSuccessfully') :
           this.translate.instant('message.success.addedSuccessfully');
-          swal('Success', text, 'success');
+          swal(this.translate.instant('swal.success'), text, 'success');
           this.getCities(this.parameter.state_id1, '', 1);
         });
   }
@@ -342,17 +342,17 @@ export class LocationComponent implements OnInit {
     this.parameter.index = index;
     switch (type) {
       case 0:
-      this.parameter.text = this.translate.instant('message.question.wantToBlockCountry');
+      this.parameter.text = this.translate.instant('message.error.wantToBlockCountry');
       this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
       case 1:
-      this.parameter.text = this.translate.instant('message.question.wantToUnblockCountry');
+      this.parameter.text = this.translate.instant('message.error.wantToUnblockCountry');
       this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
         break;
     }
 
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -370,11 +370,11 @@ export class LocationComponent implements OnInit {
     this.parameter.index = index;
     switch (type) {
       case 0:
-      this.parameter.text = this.translate.instant('message.question.wantToBlockState');
+      this.parameter.text = this.translate.instant('message.error.wantToBlockState');
       this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
       case 1:
-      this.parameter.text = this.translate.instant('message.question.wantToUnblockState');
+      this.parameter.text = this.translate.instant('message.error.wantToUnblockState');
       this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
         break;
     }
@@ -383,7 +383,7 @@ export class LocationComponent implements OnInit {
     swal({
       // title: this.parameter.title,
       // text: this.parameter.text,
-      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -401,11 +401,11 @@ export class LocationComponent implements OnInit {
     this.parameter.index = index;
     switch (type) {
       case 0:
-      this.parameter.text = this.translate.instant('message.question.wantToBlockCity');
+      this.parameter.text = this.translate.instant('message.error.wantToBlockCity');
       this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
       case 1:
-      this.parameter.text = this.translate.instant('message.question.wantToUnblockCity');
+      this.parameter.text = this.translate.instant('message.error.wantToUnblockCity');
       this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
         break;
     }
@@ -413,7 +413,7 @@ export class LocationComponent implements OnInit {
     swal({
       // title: this.parameter.title,
       // text: this.parameter.text,
-      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,

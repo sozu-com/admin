@@ -4,10 +4,10 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
+import { throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { HttpInterceptor } from './http-interceptor';
-import { CommonService } from './common.service';
 import { Login, AdminACL } from './../models/login.model';
 import { MessagingService } from '../fire-base/messaging.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -54,7 +54,6 @@ export class AdminService {
     const headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
     headers.append('Authorization', 'Bearer ' + token);
-    // headers.append('Authorization', 'language_code ' + this.language_code);
     return headers;
   }
 
@@ -62,12 +61,13 @@ export class AdminService {
     const token = localStorage.getItem('token');
     const headers = new Headers();
     headers.append('Authorization', 'Bearer ' + token);
-    // headers.append('Authorization', 'language_code ' + this.language_code);
     return headers;
   }
 
   errorHandler(error: Response) {
-    return Observable.throw(error || 'Server error');
+    console.log(error);
+    // return Observable.throw(error || 'Server error');
+    return throwError(error || 'There is some problem with internet');
   }
 
   getCountries() {

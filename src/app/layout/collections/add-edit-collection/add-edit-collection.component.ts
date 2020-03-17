@@ -3,6 +3,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { NgForm, FormControl } from '@angular/forms';
 import { MapsAPILoader } from '@agm/core';
 import { AddProjectModel, Towers, Configuration } from 'src/app/models/addProject.model';
+
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AddPropertyModel, PropertyDetails, Building } from 'src/app/models/addProperty.model';
 // import { Building } from 'src/app/models/global.model';
@@ -15,7 +16,8 @@ import { CommonService } from 'src/app/services/common.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpInterceptor } from 'src/app/services/http-interceptor';
 import { TranslateService } from '@ngx-translate/core';
-
+import { SelectItem } from 'primeng/primeng';
+import { Collection } from 'src/app/models/collection.model';
 declare const google;
 declare let swal: any;
 
@@ -23,7 +25,7 @@ declare let swal: any;
   selector: 'app-add-edit-collection',
   templateUrl: './add-edit-collection.component.html',
   styleUrls: ['./add-edit-collection.component.css'],
-  providers: [AddPropertyModel, Building, Constant, HttpInterceptor]
+  providers: [AddPropertyModel, Building, Constant, HttpInterceptor, Collection]
 })
 export class AddEditCollectionComponent implements OnInit {
 
@@ -51,7 +53,7 @@ export class AddEditCollectionComponent implements OnInit {
   public zoom: number;
 
   name: string;
-
+  property_id: string;
   url: File;
   url2 = [];
   urlImg360 = [];
@@ -113,8 +115,9 @@ export class AddEditCollectionComponent implements OnInit {
   property_names: Array<any>;
   amenity_index: number;
   amenity_obj: any;
-
-  constructor(public model: AddPropertyModel, private us: AdminService, private cs: CommonService,
+  locale: any;
+  properties: SelectItem[];
+  constructor(public model: Collection, private us: AdminService, private cs: CommonService,
     private router: Router, private sanitization: DomSanitizer, private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone, private building: Building, public constant: Constant,
     private route: ActivatedRoute,
@@ -129,6 +132,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.setDatePickerLocale();
     this.property_names = [];
     this.parameter.page = 1;
     this.parameter.itemsPerPage = this.constant.limit4;
@@ -185,7 +189,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.initialCountry = { initialCountry: this.constant.initialCountry };
     this.building.dev_countrycode = this.constant.dial_code;
 
-    this.tab = 0;
+    this.tab = 1;
     // this.getCountries('');
     // this.getConfigurations();
     this.getPropertyTypes();
@@ -200,6 +204,23 @@ export class AddEditCollectionComponent implements OnInit {
     this.searchControl = new FormControl();
     // set current position
     this.setCurrentPosition();
+  }
+
+  setDatePickerLocale() {
+    this.locale = {
+      firstDayOfWeek: 0,
+      dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
+      dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+      dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+      monthNames: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+        'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
+      monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun',
+        'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+      today: 'Hoy',
+      clear: 'Clara',
+      dateFormat: 'mm/dd/yy',
+      weekHeader: 'Wk'
+    };
   }
 
   setAvailableStatus(aindex: number) {
@@ -261,11 +282,11 @@ export class AddEditCollectionComponent implements OnInit {
 
   getProjectById(step: number) {
     if (!this.building.id) {
-      swal('Error', this.translate.instant('message.info.pleaseSelectBuilding'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectBuilding'), 'error');
       return false;
     }
     if (!this.model.floor_num) {
-      swal('Error', this.translate.instant('message.info.pleaseSelectFloor'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectFloor'), 'error');
       return false;
     }
     this.spinner.show();
@@ -463,8 +484,8 @@ export class AddEditCollectionComponent implements OnInit {
 
   setTab(tab: any) {
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' +
-        this.translate.instant('message.question.movingBackCanResetInformationEnteredOnCurrentTab'),
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+        this.translate.instant('message.error.movingBackCanResetInformationEnteredOnCurrentTab'),
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -708,7 +729,7 @@ export class AddEditCollectionComponent implements OnInit {
 
   addCarpetArea() {
     if (!this.newcarpet_area.area || !this.newcarpet_area.price) {
-      swal('Error', this.translate.instant('message.info.pleaseFillCarpetAreaFields'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseFillCarpetAreaFields'), 'error');
     } else {
       this.model.carpet_areas.push(JSON.parse(JSON.stringify(this.newcarpet_area)));
       this.newcarpet_area = { area: '', price: '' };
@@ -717,7 +738,7 @@ export class AddEditCollectionComponent implements OnInit {
 
   addCustomAttribute() {
     if (!this.newcustom_attribute.name || !this.newcustom_attribute.value) {
-      swal('Error', this.translate.instant('message.info.pleaseFillCustomAttributeFields'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseFillCustomAttributeFields'), 'error');
     } else {
       this.model.custom_attributes.push(this.newcustom_attribute);
       this.newcustom_attribute = { name: '', value: '' };
@@ -736,7 +757,7 @@ export class AddEditCollectionComponent implements OnInit {
 
   searchBuilding(keyword: string) {
     if (!keyword) {
-      swal('Error', this.translate.instant('message.info.pleaseEnterSomeText'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterSomeText'), 'error');
       return false;
     }
 
@@ -775,7 +796,7 @@ export class AddEditCollectionComponent implements OnInit {
   onSelectFile2(event) {
     if (event.target.files && event.target.files[0]) {
       if ((this.url2.length + event.target.files.length) > 6 || event.target.files.length > 6) {
-        swal('Error', this.translate.instant('message.info.youCanUploadMaximumof6Images'), 'error');
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.youCanUploadMaximumof6Images'), 'error');
       } else {
         for (let index = 0; index < event.target.files.length; index++) {
           const reader = new FileReader();
@@ -794,8 +815,8 @@ export class AddEditCollectionComponent implements OnInit {
   onSelect360File(event) {
     if (event.target.files && event.target.files[0]) {
       if ((this.urlImg360.length + event.target.files.length) > 6 || event.target.files.length > 6) {
-        swal(this.translate.instant('message.info.limitExceeded'),
-          this.translate.instant('message.info.youCanUploadMaximumof6Images'), 'error');
+        swal(this.translate.instant('message.error.limitExceeded'),
+          this.translate.instant('message.error.youCanUploadMaximumof6Images'), 'error');
       } else {
         for (let index = 0; index < event.target.files.length; index++) {
           const reader = new FileReader();
@@ -848,7 +869,7 @@ export class AddEditCollectionComponent implements OnInit {
   saveImages() {
     let count = 0;
     // if (this.file2.files.length < 1) {
-    //   swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
+    //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAtleastOneImage'), 'error');
     //   return false;
     // }
     this.file2.upload().then(r => {
@@ -868,7 +889,7 @@ export class AddEditCollectionComponent implements OnInit {
   save360Images() {
     let count = 0;
     // if (this.file360.files.length < 1) {
-    //   swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
+    //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAtleastOneImage'), 'error');
     //   return false;
     // }
     this.file360.upload().then(r => {
@@ -887,8 +908,8 @@ export class AddEditCollectionComponent implements OnInit {
 
   file2Select($event) {
     if ((this.file2.files.length + $event.target.files.length) > 6) {
-      swal(this.translate.instant('message.info.limitExceeded'),
-          this.translate.instant('message.info.youCanUploadMaximumof6Images'), 'error');
+      swal(this.translate.instant('message.error.limitExceeded'),
+          this.translate.instant('message.error.youCanUploadMaximumof6Images'), 'error');
       return false;
     }
     this.file2.onSelectFile($event);
@@ -896,8 +917,8 @@ export class AddEditCollectionComponent implements OnInit {
 
   file360Select($event) {
     if ((this.file360.files.length + $event.target.files.length) > 6) {
-      swal(this.translate.instant('message.info.limitExceeded'),
-          this.translate.instant('message.info.youCanUploadMaximumof6Images'), 'error');
+      swal(this.translate.instant('message.error.limitExceeded'),
+          this.translate.instant('message.error.youCanUploadMaximumof6Images'), 'error');
       return false;
     }
     this.file360.onSelectFile($event);
@@ -930,44 +951,41 @@ export class AddEditCollectionComponent implements OnInit {
     this.testMarital[i].checked = this.testMarital[i].checked === true ? false : true;
   }
 
-  addProperty(formdata: NgForm, tab) {
-    // return;
-    if (this.model.parking_for_sale && this.model.parking_count) {
-      if (this.model.parking_for_sale > this.model.parking_count) {
-        swal('Error', this.translate.instant('message.info.parkingForSaleCannotGreaterThanTotalParking'), 'error');
+  createCollection(formdata: NgForm, tab: number) {
+console.log(this.tab);
+console.log(this.model, this.property_id);
+    this.model.step = tab;
+    if (this.model.step == 1) {
+      if (!this.model.building_id) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectBuilding'), 'error');
+        return;
+      } else if (!this.model.building_towers_id) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectFloor'), 'error');
+        return;
+      } else if (!this.model.floor_num) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseFloor'), 'error');
+        return;
+      } else if (!this.model.property_id) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseApartment'), 'error');
+        return;
+      } else if (!this.model.deal_type_id) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseDealType'), 'error');
         return;
       }
     }
-    this.model.floor = 0; // now static
-    this.model.marital_status = [];
-    if (this.model.videoLoader) {
-      swal('Error', this.translate.instant('message.error.uploadingVideo'), 'error');
-      return;
-    }
-    for (let index = 0; index < this.testMarital.length; index++) {
-      if (this.testMarital[index].checked === true) {
-        this.model.marital_status.push(this.testMarital[index].id);
-      }
-    }
-
-    this.model.step = tab - 1;
-
+    console.log(this.model);
     // setting newcarpert area to carpert_areas bcz ealier it was array => now single carpertarea
     this.model.carpet_areas = [];
     this.model.carpet_areas.push(JSON.parse(JSON.stringify(this.newcarpet_area)));
 
     if (this.model.carpet_areas.length < 1 && this.tab == 1) {
-      swal('Error', this.translate.instant('message.error.pleaseAddCarpetArea'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseAddCarpetArea'), 'error');
     } else if ((this.model.cover_image === null || this.model.cover_image === undefined) && (this.model.step == 2)) {
-      swal('Error', this.translate.instant('message.error.pleaseChooseCoverImage'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseCoverImage'), 'error');
     } else if ((this.model.floor_plan === null || this.model.floor_plan === undefined) && (this.model.step == 2)) {
-      swal('Error', this.translate.instant('message.error.pleaseChooseFloorPlan'), 'error');
-    }
-    // else if ((this.model.amenities.length === 0) && (this.model.step == 2)) {
-    //   swal('Error', 'Please choose amenity.', 'error');
-    // }
-    else if ((this.model.marital_status.length === 0) && (this.model.step == 3)) {
-      swal('Error', this.translate.instant('message.error.pleaseChooseMaritalStatus'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseFloorPlan'), 'error');
+    } else if ((this.model.marital_status.length === 0) && (this.model.step == 3)) {
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseMaritalStatus'), 'error');
     } else {
       const input = new FormData();
       if (this.parameter.property_id) {
@@ -1091,32 +1109,30 @@ export class AddEditCollectionComponent implements OnInit {
         input.append('step', this.model.step.toString());
         input.append('custom_attributes', JSON.stringify(this.model.custom_attributes));
       }
-      this.spinner.show();
-      this.us.postDataApi('addProperty', input)
-        .subscribe(
-          success => {
-            this.spinner.hide();
+      this.tab = tab + 1;
+      // this.spinner.show();
+      // this.us.postDataApi('addCollection', input)
+      //   .subscribe(
+      //     success => {
+      //       this.spinner.hide();
 
-            this.spinner.hide();
-            if (this.model.step.toString() === '4') {
-              const successText = this.parameter.bulk_approve_property ? '' :
-              this.translate.instant('message.info.notifiedWhenAdminReview');
-              swal({
-                html: this.translate.instant('message.success.submittedSccessfully') + '<br>' + successText, type: 'success'
-              });
-              // swal('Submitted successfully.',
-              //   'You will be notified once your property will be reviewed by them, you can view status in your properties.',
-              //   'success');
-              if (this.router.url.indexOf('/dashboard/properties/edit-property') === -1) {
-                this.router.navigate(['/dashboard/properties/view-properties']);
-              }
-            }
-            this.parameter.property_id = success['data'].id;
-            this.tab = tab;
-          }, error => {
-            this.spinner.hide();
-          }
-        );
+      //       this.spinner.hide();
+      //       if (this.model.step.toString() === '4') {
+      //         const successText = this.parameter.bulk_approve_property ? '' :
+      //         this.translate.instant('message.error.notifiedWhenAdminReview');
+      //         swal({
+      //           html: this.translate.instant('message.success.submittedSccessfully') + '<br>' + successText, type: 'success'
+      //         });
+      //         if (this.router.url.indexOf('/dashboard/properties/edit-property') === -1) {
+      //           this.router.navigate(['/dashboard/properties/view-properties']);
+      //         }
+      //       }
+      //       this.parameter.property_id = success['data'].id;
+      //       this.tab = tab;
+      //     }, error => {
+      //       this.spinner.hide();
+      //     }
+      //   );
     }
   }
 
@@ -1157,10 +1173,10 @@ export class AddEditCollectionComponent implements OnInit {
   setTower(tower: Towers) {
     this.selectedTower = tower;
     this.model.building_towers_id = tower.id;
-    this.selectedTower.floor_array = [];
-    for (let index = 0; index <= this.selectedTower.num_of_floors; index++) {
-      this.selectedTower.floor_array.push(index);
-    }
+    // this.selectedTower.floor_array = [];
+    // for (let index = 0; index <= this.selectedTower.num_of_floors; index++) {
+    //   this.selectedTower.floor_array.push(index);
+    // }
   }
 
   setFloor(floor_num: any) {
@@ -1182,7 +1198,7 @@ export class AddEditCollectionComponent implements OnInit {
           this.spinner.hide();
           swal({
             html: this.translate.instant('message.success.submittedSccessfully') + '<br>' +
-            this.translate.instant('message.info.notifiedWhenAdminReview'),
+            this.translate.instant('message.error.notifiedWhenAdminReview'),
             type: 'success'
           });
           if (this.router.url.indexOf('/dashboard/properties/edit-property') === -1) {
@@ -1270,12 +1286,12 @@ export class AddEditCollectionComponent implements OnInit {
   buildingRequest() {
 
     if (this.building.dev_name && (!this.building.dev_phone || !this.building.dev_email || !this.building.dev_countrycode)) {
-      swal('Error', this.translate.instant('message.error.pleaseFillCompleteDevloperInformation'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseFillCompleteDevloperInformation'), 'error');
       return false;
     }
 
     if (!this.latitude && !this.longitude) {
-      swal('Error', this.translate.instant('message.error.pleaseSelectLocationFromTheDropdownList'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectLocationFromTheDropdownList'), 'error');
       return false;
     }
 
@@ -1283,7 +1299,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.building.lng = this.longitude;
 
     if (!this.building.lat || !this.building.lng) {
-      swal('Error', this.translate.instant('message.error.pleaseSelectLocation'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectLocation'), 'error');
       return false;
     }
     this.spinner.show();
@@ -1341,7 +1357,7 @@ export class AddEditCollectionComponent implements OnInit {
 
   showCanvas(event) {
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
     } else {
 
       setTimeout(() => {
@@ -1420,8 +1436,8 @@ export class AddEditCollectionComponent implements OnInit {
 
   amenMoreImgSelect($event) {
     if ((this.amenMoreImg.files.length + $event.target.files.length) > 6) {
-      swal(this.translate.instant('message.info.limitExceeded'),
-          this.translate.instant('message.info.youCanUploadMaximumof6Images'), 'error');
+      swal(this.translate.instant('message.error.limitExceeded'),
+          this.translate.instant('message.error.youCanUploadMaximumof6Images'), 'error');
       return false;
     }
     this.amenMoreImg.onSelectFile($event);
@@ -1429,8 +1445,8 @@ export class AddEditCollectionComponent implements OnInit {
 
   amen360ImagesSelect($event) {
     if ((this.amen360Img.files.length + $event.target.files.length) > 6) {
-      swal(this.translate.instant('message.info.limitExceeded'),
-          this.translate.instant('message.info.youCanUploadMaximumof6Images'), 'error');
+      swal(this.translate.instant('message.error.limitExceeded'),
+          this.translate.instant('message.error.youCanUploadMaximumof6Images'), 'error');
       return false;
     }
     this.amen360Img.onSelectFile($event);
@@ -1441,104 +1457,6 @@ export class AddEditCollectionComponent implements OnInit {
     this.amenVideo.backup(JSON.parse(JSON.stringify(this.model.videos)));
   }
 
-  saveVideos() {
-    let count = 0;
-    // if (this.amenVideo.files.length < 1) {
-    //   swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
-    //   return false;
-    // }
-    this.amenVideo.upload().then(r => {
-      this.model.videos = this.amenVideo.files;
-    });
-    this.amenVideo.files.forEach(element => {
-      if (element.loading !== true) {
-        count++;
-      }
-    });
-    if (count === this.amenVideo.files.length) {
-      this.modalAddMoreVideos.nativeElement.click();
-    }
-  }
-
-
-  async saveAmenitiesMedia() {
-    let count = 0;
-    const totalFilesCount = this.amenMoreImg.files.length + this.amen360Img.files.length + this.amenVideo.files.length;
-    // if (totalFilesCount < 1) {
-    //   swal('Error', this.translate.instant('message.info.pleaseChooseAtleastOneImage'), 'error');
-    //   return false;
-    // }
-    this.amenMoreImg.upload().then(r => {
-      this.parameter.amenities[this.amenity_index].images = this.amenMoreImg.files;
-    });
-    this.amen360Img.upload().then(r => {
-      this.parameter.amenities[this.amenity_index].images_360 = this.amen360Img.files;
-    });
-    this.amenVideo.upload().then(r => {
-      this.parameter.amenities[this.amenity_index].videos = this.amenVideo.files;
-    });
-
-    this.amenMoreImg.files.forEach(element => {
-      if (element.loading !== true) {
-        count++;
-      }
-    });
-    this.amen360Img.files.forEach(element => {
-      if (element.loading !== true) {
-        count++;
-      }
-    });
-    this.amenVideo.files.forEach(element => {
-      if (element.loading !== true) {
-        count++;
-      }
-    });
-    if (count === totalFilesCount) {
-      this.modalAmenClose.nativeElement.click();
-    }
-  }
-
-  amenVideosSelect($event, type) {
-    if ((this.amenVideo.files.length + $event.target.files.length) > 6) {
-      swal(this.translate.instant('message.info.limitExceeded'),
-          this.translate.instant('message.info.youCanUploadMaximumof6Videos'), 'error');
-      return false;
-    }
-
-    this.showamenVideo($event, type);
-  }
-
-
-  async showamenVideo(event, type) {
-
-    for (let index = 0; index < event.target.files.length; index++) {
-      if (event.target.files[index].size < this.constant.fileSizeLimit) {
-        this.amenVideo.files.push(event.target.files[index]);
-      } else {
-        swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
-      }
-    }
-
-    setTimeout(async () => {
-      this.amenVideo.files.forEach(async (item, index) => {
-        if (!item.id) {
-          if (!this.amenVideo.files[index]['fileToUpload'] &&
-            !this.amenVideo.files[index]['thumb']) {          // check file if not then loader will show
-            this.amenVideo.files[index].loading = true;
-          }
-
-          const reader = new FileReader();
-          reader.onload = function (e) {
-            const timer = setTimeout(async () => {
-              const data = await this.setVideoStaticThumb(index);
-            }, 1000);
-          }.bind(this);
-          reader.readAsDataURL(this.amenVideo.files[index]);
-        }
-      });
-    }, 1000);
-  }
-
   setVideoStaticThumb(myIndex) {
     const fileToUpload = 'assets/img/video-file.svg';
     this.amenVideo.files[myIndex].loading = false;
@@ -1546,68 +1464,36 @@ export class AddEditCollectionComponent implements OnInit {
     this.amenVideo.files[myIndex]['fileToUpload'] = fileToUpload;
   }
 
-  async showamenVideoOld(event, type) {
-
-    const arr = [];
-
-    for (let index = 0; index < event.target.files.length; index++) {
-      if (event.target.files[index].size < this.constant.fileSizeLimit) {
-        this.amenVideo.files.push(event.target.files[index]);
-      } else {
-        swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
-      }
-    }
-
-    setTimeout(async () => {
-      this.amenVideo.files.forEach(async (item, index) => {
-        if (!item.id) {
-          if (!this.amenVideo.files[index]['fileToUpload'] &&
-            !this.amenVideo.files[index]['thumb']) {           // check file if not then loader will show
-            this.amenVideo.files[index].loading = true;
-          }
-
-          const reader = new FileReader();
-          const videoTest = this.element.nativeElement.querySelector('.video' + index);
-
-          reader.onload = function (e) {
-            const src = e.target['result'];
-            videoTest.src = src;
-            const timer = setTimeout(async () => {
-              // find duration of video only of video is in ready state
-              if (videoTest.readyState === 4) {
-                const data = await this.newcanvasamenVideo(videoTest, this.amenVideo.files[index], index, type);
-              }
-            }, 1000);
-          }.bind(this);
-          reader.readAsDataURL(this.amenVideo.files[index]);
-          // await func(item);
-        }
-      });
-    }, 1000);
-  }
-
-
-  // @ts-ignore
-  newcanvasamenVideo(video: any, videoFile: File, myIndex, type): Promise<any> {
-    let canvasID: any;
-    if (type === 'amenity' ? canvasID = 'canvas' : (type === 'tower' ? canvasID = 'canvas2' : canvasID = 'canvas3'))
-      if (myIndex !== undefined) {
-        const canvas = document.getElementById(canvasID + (myIndex)) as HTMLCanvasElement;
-        const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
-          0, 0, canvas.width, canvas.height);
-        const ImageURL = canvas.toDataURL('image/jpeg');
-        this.amenVideo.files[myIndex].canvasImage = ImageURL;
-        const fileToUpload = this.dataURLtoFile(ImageURL, 'tempFile.png');
-        const model: any = {};
-        model.fileToUpload = fileToUpload;
-        model.videoFile = videoFile;
-        this.amenVideo.files[myIndex].loading = false;
-        this.amenVideo.files[myIndex]['fileToUpload'] = fileToUpload;
-        // this.amenVideo.files[myIndex]['videoFile'].push(videoFile);
-      }
-  }
-
   remove(index: any) {
     this.amenVideo.files.splice(index, 1);
+  }
+
+  getProperties($event) {
+    $event.stopPropagation();
+    this.model.floor_num = $event.target.value;
+    if (!this.model.building_id) {
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectBuilding'), 'error');
+      return;
+    } else if (!this.model.building_towers_id) {
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectFloor'), 'error');
+      return;
+    } else if (!this.model.floor_num) {
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseFloor'), 'error');
+      return;
+    }
+    const input = {
+      'building_id' : this.model.building_id,
+      'tower_id' : this.model.building_towers_id,
+      'floor_num' : this.model.floor_num
+    };
+    this.us.postDataApi('getProperties', input)
+      .subscribe(
+        success => {
+          console.log(success.data);
+          this.properties = success.data;
+        }, error => {
+          this.spinner.hide();
+        }
+      );
   }
 }

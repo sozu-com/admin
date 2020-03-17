@@ -67,7 +67,7 @@ export class DocumentsComponent implements OnInit {
           const text = id ?
           this.translate.instant('message.success.updatedSuccessfully') :
           this.translate.instant('message.success.addedSuccessfully');
-          swal('Success', text, 'success');
+          swal(this.translate.instant('swal.success'), text, 'success');
           if (id === '') {
             this.parameter.items.push(success.data);
           } else {
@@ -100,7 +100,7 @@ export class DocumentsComponent implements OnInit {
   //   swal({
   //     // title: this.constant.title.ARE_YOU_SURE,
   //     // text: status === 1 ? this.constant.title.UNBLOCK_PROJECT_POSSESSION : this.constant.title.BLOCK_PROJECT_POSSESSION,
-  //     html: this.translate.instant('message.question.areYouSure') + '<br>' + text,
+  //     html: this.translate.instant('message.error.areYouSure') + '<br>' + text,
   //     type: 'warning',
   //     showCancelButton: true,
   //     confirmButtonColor: this.constant.confirmButtonColor,
@@ -119,7 +119,7 @@ export class DocumentsComponent implements OnInit {
     const self = this;
     if (name_es === undefined) {
       swal({
-        text: this.translate.instant('message.info.saveEngDocumentName'),
+        text: this.translate.instant('message.error.saveEngDocumentName'),
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,
@@ -139,17 +139,17 @@ export class DocumentsComponent implements OnInit {
     this.parameter.index = index;
     switch (status) {
       case 0:
-        this.parameter.text = this.translate.instant('message.question.wantToBlockDocument');
+        this.parameter.text = this.translate.instant('message.error.wantToBlockDocument');
         this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
       case 1:
-        this.parameter.text = this.translate.instant('message.question.wantToUnblockDocument');
+        this.parameter.text = this.translate.instant('message.error.wantToUnblockDocument');
         this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
         break;
     }
 
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,

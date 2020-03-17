@@ -244,17 +244,17 @@ export class CollectionsComponent implements OnInit {
   blockUnblock(item, flag: number) {
     switch (flag) {
       case 0:
-        this.parameter.text = this.translate.instant('message.question.wantToUnblockProperty');
+        this.parameter.text = this.translate.instant('message.error.wantToUnblockProperty');
         this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
         break;
       case 1:
-      this.parameter.text = this.translate.instant('message.question.wantToBlockProperty');
+      this.parameter.text = this.translate.instant('message.error.wantToBlockProperty');
         this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
     }
 
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -271,12 +271,12 @@ export class CollectionsComponent implements OnInit {
     this.admin.postDataApi('blockProperty', { property_id: item.id, flag: flag })
       .subscribe(
         success => {
-          swal('Success', this.parameter.successText, 'success');
+          swal(this.translate.instant('swal.success'), this.parameter.successText, 'success');
           item.is_blocked = flag;
           // this.items[this.parameter.index] = success.data;
         },
         error => {
-          swal('Error', error.error.message, 'error');
+          swal(this.translate.instant('swal.error'), error.error.message, 'error');
         });
   }
 
@@ -301,11 +301,11 @@ export class CollectionsComponent implements OnInit {
       input.reason = this.reason;
     }
     this.admin.postDataApi('updatePropertyStatus', input).subscribe(r => {
-      swal('Success', this.translate.instant('message.success.propertyStatusChanged'), 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.propertyStatusChanged'), 'success');
       this.closeModal();
     },
       error => {
-        swal('Error', error.error.message, 'error');
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
       });
   }
 
@@ -331,10 +331,10 @@ export class CollectionsComponent implements OnInit {
     this.admin.postDataApi('markPropertyFeatured', { property_id: item.id, flag: is_featured }).subscribe(r => {
       const msg = is_featured === 1 ? this.translate.instant('message.success.featuredSuccessfully') :
       this.translate.instant('message.success.unfeaturedSuccessfully');
-      swal('Success', msg, 'success');
+      swal(this.translate.instant('swal.success'), msg, 'success');
     },
       error => {
-        swal('Error', error.error.message, 'error');
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
       });
   }
 
@@ -348,7 +348,7 @@ export class CollectionsComponent implements OnInit {
       this.selecter_seller = r['selecter_seller'];
     }, error => {
       this.spinner.hide();
-      swal('Error', error.error.message, 'error');
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
     });
   }
 
@@ -372,7 +372,7 @@ export class CollectionsComponent implements OnInit {
       this.allUsers = r['data'];
     }, error => {
       this.spinner.hide();
-      swal('Error', error.error.message, 'error');
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
     });
   }
 
@@ -380,9 +380,9 @@ export class CollectionsComponent implements OnInit {
     this.parameter.property_id = property_id;
     this.parameter.user_id = user_id;
     this.parameter.status = status;
-    this.parameter.title = this.translate.instant('message.question.areYouSure');
-    this.parameter.text = status === 1 ? this.translate.instant('message.question.wantToAccessThisRequest') :
-                          this.translate.instant('message.question.wantToRejectThisRequest');
+    this.parameter.title = this.translate.instant('message.error.areYouSure');
+    this.parameter.text = status === 1 ? this.translate.instant('message.error.wantToAccessThisRequest') :
+                          this.translate.instant('message.error.wantToRejectThisRequest');
     swal({
       html: this.parameter.title + '<br>' + this.parameter.text,
       type: 'warning',
@@ -411,13 +411,13 @@ export class CollectionsComponent implements OnInit {
     this.parameter.user_id = user_id;
     this.parameter.fullName = name;
     this.parameter.status = status;
-    this.parameter.title = this.translate.instant('message.question.areYouSure');
+    this.parameter.title = this.translate.instant('message.error.areYouSure');
     if (type === 'request') {
-      this.parameter.text = status === 1 ? this.translate.instant('message.question.wantToAccessThisRequest') :
-                          this.translate.instant('message.question.wantToRejectThisRequest');
+      this.parameter.text = status === 1 ? this.translate.instant('message.error.wantToAccessThisRequest') :
+                          this.translate.instant('message.error.wantToRejectThisRequest');
     } else {
-      this.parameter.text = status === 1 ? this.translate.instant('message.question.wantToLinkSeller') :
-                          this.translate.instant('message.question.wantToUnLinkSeller');
+      this.parameter.text = status === 1 ? this.translate.instant('message.error.wantToLinkSeller') :
+                          this.translate.instant('message.error.wantToUnLinkSeller');
     }
 
     swal({
@@ -450,7 +450,7 @@ export class CollectionsComponent implements OnInit {
         this.items[this.parameter.index].selected_seller.user.name = this.parameter.fullName;
       }
       // const text = this.parameter.status === 1 ? 'accepted' : 'rejected';
-      swal('Success', this.translate.instant('message.success.doneSuccessfully'), 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.doneSuccessfully'), 'success');
       // accept => then close listing modal
       if (this.parameter.status === 1) {
         this.closeLinkSellerModal.nativeElement.click();
@@ -460,14 +460,14 @@ export class CollectionsComponent implements OnInit {
       this.rejectModalClose.nativeElement.click();
     },
       error => {
-        swal('Error', error.error.message, 'error');
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
       });
   }
 
   changeSoldStatusPopup(property: any, index: number, event) {
 
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.translate.instant('message.question.wantToChangeStatus'),
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.translate.instant('message.error.wantToChangeStatus'),
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -510,18 +510,18 @@ export class CollectionsComponent implements OnInit {
       input.for_hold = 1;
     }
     this.admin.postDataApi('changePropertySoldStatus', input).subscribe(r => {
-      swal('Success', this.translate.instant('message.success.changedSuccessfully'), 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.changedSuccessfully'), 'success');
     },
       error => {
-        swal('Error', error.error.message, 'error');
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
       });
   }
 
   deletePopup(property: any, index: number) {
 
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' +
-        this.translate.instant('message.question.wantToDeleteProperty'),
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+        this.translate.instant('message.error.wantToDeleteProperty'),
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -537,11 +537,11 @@ export class CollectionsComponent implements OnInit {
   deleteProperty(property: any, index: number) {
     this.admin.postDataApi('deleteProperty',
       { property_id: property.id }).subscribe(r => {
-        swal('Success', this.translate.instant('message.success.deletedSuccessfully'), 'success');
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
         this.items.splice(index, 1);
       },
         error => {
-          swal('Error', error.error.message, 'error');
+          swal(this.translate.instant('swal.error'), error.error.message, 'error');
         });
   }
 
@@ -556,16 +556,16 @@ export class CollectionsComponent implements OnInit {
       this.allExtBrokers = r['data'];
     }, error => {
       this.spinner.hide();
-      swal('Error', error.error.message, 'error');
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
     });
   }
 
   attachExternalBrokerPopUp(broker: any, flag: number) {
 
-    this.parameter.text = flag === 1 ? this.translate.instant('message.question.wantToLinkAgent') :
-    this.translate.instant('message.question.wantToUnLinkAgent');
+    this.parameter.text = flag === 1 ? this.translate.instant('message.error.wantToLinkAgent') :
+    this.translate.instant('message.error.wantToUnLinkAgent');
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -587,17 +587,17 @@ export class CollectionsComponent implements OnInit {
       this.property.external_broker = flag === 1 ? broker : null;
       const text = flag === 1 ? this.translate.instant('message.success.linkedSuccessfully') :
                     this.translate.instant('message.success.unlinkedSuccessfully');
-      swal('Success', text, 'success');
+      swal(this.translate.instant('swal.success'), text, 'success');
     },
       error => {
-        swal('Error', error.error.message, 'error');
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
       });
   }
 
   editPricePopup(item: any, index: number) {
-    this.parameter.title = this.translate.instant('message.question.areYouSure');
+    this.parameter.title = this.translate.instant('message.error.areYouSure');
     swal({
-      text: this.translate.instant('message.question.doYouWantToChangeThePrice'),
+      text: this.translate.instant('message.error.doYouWantToChangeThePrice'),
       type: 'question',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -606,7 +606,7 @@ export class CollectionsComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         swal({
-          text: this.translate.instant('message.question.pleaseEnterNewPropertyPrice'),
+          text: this.translate.instant('message.error.pleaseEnterNewPropertyPrice'),
           input: 'number',
           showCancelButton: true,
           confirmButtonColor: this.constant.confirmButtonColor,
@@ -621,9 +621,9 @@ export class CollectionsComponent implements OnInit {
           if (r.value) {
             this.admin.postDataApi('updatePrice', { id: item.id, price: r.value }).subscribe(success => {
               this.items[index].min_price = r.value;
-              swal('Success', this.translate.instant('message.success.updatedSuccessfully'), 'success');
+              swal(this.translate.instant('swal.success'), this.translate.instant('message.success.updatedSuccessfully'), 'success');
             }, error => {
-              swal('Error', error.error.message, 'error');
+              swal(this.translate.instant('swal.error'), error.error.message, 'error');
             });
           }
         });
@@ -632,9 +632,9 @@ export class CollectionsComponent implements OnInit {
   }
 
   editAgentCommissionPopup(item: any, index: number) {
-    this.parameter.title = this.translate.instant('message.question.areYouSure');
+    this.parameter.title = this.translate.instant('message.error.areYouSure');
     swal({
-      text: this.translate.instant('message.question.doYouWantToChangeTheCommission'),
+      text: this.translate.instant('message.error.doYouWantToChangeTheCommission'),
       type: 'question',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -643,7 +643,7 @@ export class CollectionsComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         swal({
-          text: this.translate.instant('message.question.pleaseEnterNewCommission') + ' -',
+          text: this.translate.instant('message.error.pleaseEnterNewCommission') + ' -',
           input: 'number',
           showCancelButton: true,
           confirmButtonColor: this.constant.confirmButtonColor,
@@ -651,16 +651,16 @@ export class CollectionsComponent implements OnInit {
           confirmButtonText: 'Update',
           inputValidator: (value) => {
             if (!value) {
-              return this.translate.instant('message.question.pleaseEnterNewCommission');
+              return this.translate.instant('message.error.pleaseEnterNewCommission');
             }
           }
         }).then((r) => {
           if (r.value) {
             this.admin.postDataApi('updateBrokerCommision', { id: item.id, broker_commision: r.value }).subscribe(success => {
               this.items[index].broker_commision = r.value;
-              swal('Success', this.translate.instant('message.success.updatedSuccessfully'), 'success');
+              swal(this.translate.instant('swal.success'), this.translate.instant('message.success.updatedSuccessfully'), 'success');
             }, error => {
-              swal('Error', error.error.message, 'error');
+              swal(this.translate.instant('swal.error'), error.error.message, 'error');
             });
           }
         });

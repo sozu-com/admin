@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         success => {
           this.spinner.hide();
           if (success.data.is_blocked === 1) {
-            swal('Error', this.translate.instant('login.blockedByAdmin'), 'error');
+            swal(this.translate.instant('swal.error'), this.translate.instant('login.blockedByAdmin'), 'error');
             return false;
           }
           if (success.data.permissions) {
@@ -90,7 +90,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
             } else if (success.data.permissions.can_noatary === 1) {
               this.router.navigate(['dashboard/notary/notary-leads']);
             } else {
-              swal('Error', this.translate.instant('login.apiMessages.noAccess'), 'error');
+              swal(this.translate.instant('swal.error'), this.translate.instant('login.apiMessages.noAccess'), 'error');
             }
           } else if (success.data.admin_acl) {
             let check = true;

@@ -230,7 +230,7 @@ export class InhouseUsersComponent implements OnInit {
 
   changeListner(event: any, paramLoader: string, param: any) {
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
     this.model[paramLoader] = true;
@@ -249,15 +249,15 @@ export class InhouseUsersComponent implements OnInit {
 
   addNewUser(formdata: NgForm) {
     // if (this.model.adr && this.model.adr.trim() && !this.model.lat && !this.model.lng) {
-    //   swal('Error', 'Please choose address from dropdown.', 'error');
+    //   swal(this.translate.instant('swal.error'), 'Please choose address from dropdown.', 'error');
     //   return;
     // }
     // if (this.model.branch_office && this.model.branch_office.trim() && !this.model.branch_lat && !this.model.branch_lng) {
-    //   swal('Error', 'Please choose branch address from dropdown.', 'error');
+    //   swal(this.translate.instant('swal.error'), 'Please choose branch address from dropdown.', 'error');
     //   return;
     // }
     if (this.model.img_loader) {
-      swal('Error', 'Uploading image.', 'error');
+      swal(this.translate.instant('swal.error'), 'Uploading image.', 'error');
       return false;
     }
     this.parameter.url = this.model.id ? 'updateNewUser' : 'addNewUser';
@@ -329,18 +329,18 @@ export class InhouseUsersComponent implements OnInit {
     });
     if (this.model.address[0].countries === '' || this.model.address[0].states === '' ||
       this.model.address[0].cities === '' || this.model.address[0].localities === '' || this.model.address[0].buildings === '') {
-      swal('Error', 'Please choose location.', 'error');
+      swal(this.translate.instant('swal.error'), 'Please choose location.', 'error');
     } else if (this.seenDuplicate) {
       this.testObject = [];
       this.seenDuplicate = false;
-      swal('Error', 'Please choose different localities.', 'error');
+      swal(this.translate.instant('swal.error'), 'Please choose different localities.', 'error');
     } else if ((formdata.value.is_broker_seller_dev === false && formdata.value.is_buyer_renter === false &&
       formdata.value.is_broker === false && formdata.value.is_data_collector === false &&
       formdata.value.is_csr_closer === false && formdata.value.is_external_agent === false) ||
       (formdata.value.is_broker_seller_dev === null && formdata.value.is_buyer_renter === null &&
         formdata.value.is_broker === null && formdata.value.is_data_collector === null &&
         formdata.value.is_csr_closer === null && formdata.value.is_external_agent === null)) {
-      swal('Error', 'Please choose a role for inhouse user.', 'error');
+      swal(this.translate.instant('swal.error'), 'Please choose a role for inhouse user.', 'error');
     } else {
       this.spinner.show();
       this.admin.postDataApi(this.parameter.url, input)
@@ -348,11 +348,11 @@ export class InhouseUsersComponent implements OnInit {
           success => {
             this.spinner.hide();
             if (success.success === '0') {
-              swal('Error', success.message, 'error');
+              swal(this.translate.instant('swal.error'), success.message, 'error');
             } else {
               this.modalClose.nativeElement.click();
               const text = this.model.id ? 'Updated successfully.' : 'Added successfully.';
-              swal('Success', text, 'success');
+              swal(this.translate.instant('swal.success'), text, 'success');
               if (this.model.id) {
                 // edit -- replace
                 this.parameter.items[this.parameter.index] = success.data;
@@ -686,17 +686,17 @@ export class InhouseUsersComponent implements OnInit {
     this.parameter.index = index;
     switch (flag) {
       case 0:
-        this.parameter.text = this.translate.instant('message.question.wantToUnblockUser');
+        this.parameter.text = this.translate.instant('message.error.wantToUnblockUser');
         this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
         break;
       case 1:
-        this.parameter.text = this.translate.instant('message.question.wantToBlockUser');
+        this.parameter.text = this.translate.instant('message.error.wantToBlockUser');
         this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
     }
 
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -722,7 +722,7 @@ export class InhouseUsersComponent implements OnInit {
       .subscribe(
         success => {
           this.spinner.hide();
-          swal('Success', this.parameter.successText, 'success');
+          swal(this.translate.instant('swal.success'), this.parameter.successText, 'success');
           this.parameter.items[this.parameter.index]['is_blocked'] = flag;
           // this.parameter.items[this.parameter.index] = success.data;
         });
@@ -870,7 +870,7 @@ export class InhouseUsersComponent implements OnInit {
 
   saveImages() {
     if (this.file1.files.length < 1) {
-      swal('Error', 'Please select atleast one image', 'error'); return false;
+      swal(this.translate.instant('swal.error'), 'Please select atleast one image', 'error'); return false;
     }
     this.moreImgModalClose.nativeElement.click();
     this.file1.upload().then(r => {
@@ -879,10 +879,10 @@ export class InhouseUsersComponent implements OnInit {
   }
 
   deletePopup(item: any, index: number) {
-    this.parameter.text = this.translate.instant('message.question.wantToDeleteUser');
+    this.parameter.text = this.translate.instant('message.error.wantToDeleteUser');
 
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -898,12 +898,12 @@ export class InhouseUsersComponent implements OnInit {
   deleteNewUser(item: any, index: number) {
     this.admin.postDataApi('deleteNewUser',
       { id: item.id }).subscribe(r => {
-        swal('Success', 'Deleted successfully.', 'success');
+        swal(this.translate.instant('swal.success'), 'Deleted successfully.', 'success');
         this.parameter.items.splice(index, 1);
         this.parameter.total--;
       },
         error => {
-          swal('Error', error.error.message, 'error');
+          swal(this.translate.instant('swal.error'), error.error.message, 'error');
         });
   }
 

@@ -15,7 +15,8 @@ import { TranslateModule } from '@ngx-translate/core';
 // general components
 import { AclUserGuard } from 'src/app/guards/acl-user.guard';
 import { SharedModule } from 'src/app/modules/shared.module';
-import { CalendarModule } from 'primeng/primeng';
+import { CalendarModule, DropdownModule } from 'primeng/primeng';
+// import { DropdownModule } from 'primeng/dropdown';
 import { AddEditCollectionComponent } from './add-edit-collection/add-edit-collection.component';
 import { CollectionsComponent } from './collections.component';
 
@@ -49,7 +50,8 @@ const routes: Routes = [
     SharedModule,
     LazyLoadImageModule,
     MalihuScrollbarModule.forRoot(),
-    TranslateModule
+    TranslateModule,
+    DropdownModule
   ],
   declarations: [
     CollectionsComponent,

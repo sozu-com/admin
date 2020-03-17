@@ -78,13 +78,13 @@ export class AppHeaderComponent {
 
   onLoggedout() {
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' +
-      this.translate.instant('message.question.wantToLogout'),
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+      this.translate.instant('message.error.wantToLogout'),
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
       cancelButtonColor: this.constant.cancelButtonColor,
-      confirmButtonText: this.translate.instant('message.question.logoutBtn')
+      confirmButtonText: this.translate.instant('message.error.logoutBtn')
     }).then((result) => {
       if (result.value) {
         this.logout();
@@ -98,7 +98,7 @@ export class AppHeaderComponent {
     this.admin.postDataApi('logout', {}).subscribe(r => {
       this.spinner.hide();
       if (r) {
-        swal('Success', this.translate.instant('message.success.logoutSuccessfully'), 'success');
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.logoutSuccessfully'), 'success');
         localStorage.removeItem('token');
         localStorage.removeItem('isLoggedin');
         localStorage.removeItem('permissions');

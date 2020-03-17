@@ -341,7 +341,7 @@ export class CsrCloserComponent implements OnInit {
   bulkAssign() {
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     if (leads_ids.length === 0) {
-      swal('Error', this.translate.instant('message.error.pleaseChooseAtleast1Lead'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAtleast1Lead'), 'error');
       return false;
     }
     if (!this.assign.items) {
@@ -369,13 +369,13 @@ export class CsrCloserComponent implements OnInit {
       leads: leads_ids
     };
     this.admin.postDataApi('leads/bulkAssignCloser', input).subscribe(r => {
-      swal('Success', this.translate.instant('message.success.assignedSuccessfully'), 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.assignedSuccessfully'), 'success');
       this.closeAssignModel.nativeElement.click();
       this.getListing();
     },
       error => {
         this.closeAssignModel.nativeElement.click();
-        swal('Error', error.error.message, 'error');
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
       });
   }
 

@@ -91,7 +91,7 @@ export class UsersComponent implements OnInit {
 
   changeListner(event, type: number) {
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
     if (type === 1) {
@@ -139,7 +139,7 @@ export class UsersComponent implements OnInit {
           const text = this.model.id ?
               this.translate.instant('message.success.updatedSuccessfully') :
               this.translate.instant('message.success.addedSuccessfully');
-          swal('Success', text, 'success');
+          swal(this.translate.instant('swal.success'), text, 'success');
           if (this.model.id) {
             this.parameter.items[this.parameter.index] = success.data;
           } else if (this.parameter.items.length < 10 && !this.model.id) {
@@ -170,17 +170,17 @@ export class UsersComponent implements OnInit {
     this.parameter.index = index;
     switch (flag) {
       case 0:
-        this.parameter.text = this.translate.instant('message.question.wantToUnblockUser');
+        this.parameter.text = this.translate.instant('message.error.wantToUnblockUser');
         this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
         break;
       case 1:
-        this.parameter.text = this.translate.instant('message.question.wantToBlockUser');
+        this.parameter.text = this.translate.instant('message.error.wantToBlockUser');
         this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
     }
 
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -204,7 +204,7 @@ export class UsersComponent implements OnInit {
     this.admin.postDataApi('blockBuyerSeller', input)
       .subscribe(
         success => {
-          swal('Success', this.parameter.successText, 'success');
+          swal(this.translate.instant('swal.success'), this.parameter.successText, 'success');
           this.parameter.items[this.parameter.index]['is_blocked'] = flag;
         });
   }
@@ -212,10 +212,10 @@ export class UsersComponent implements OnInit {
 
   deletePopup(index: number, id: string, user_type: string) {
     this.parameter.index = index;
-    this.parameter.text = this.translate.instant('message.question.wantToDeleteUser');
+    this.parameter.text = this.translate.instant('message.error.wantToDeleteUser');
 
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -237,7 +237,7 @@ export class UsersComponent implements OnInit {
     this.admin.postDataApi('deleteBuyerSeller', input)
       .subscribe(
         success => {
-          swal('Success', this.translate.instant('message.success.deletedSuccessfully'), 'success');
+          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
           this.parameter.items.splice(index, 1);
         });
   }

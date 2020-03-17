@@ -91,7 +91,7 @@ export class ProjectComponent implements OnInit {
           const text = id ?
           this.translate.instant('message.success.updatedSuccessfully') :
           this.translate.instant('message.success.addedSuccessfully');
-          swal('Success', text, 'success');
+          swal(this.translate.instant('swal.success'), text, 'success');
           this.project.possession.name_en = '';
           this.project.possession.name_es = '';
           if (this.parameter.index !== -1) {
@@ -126,7 +126,7 @@ export class ProjectComponent implements OnInit {
           this.translate.instant('message.success.addedSuccessfully');
           this.project.type.name_en = '';
           this.project.type.name_es = '';
-          swal('Success', text, 'success');
+          swal(this.translate.instant('swal.success'), text, 'success');
           if (this.parameter.index !== -1) {
             this.parameter.projectTypes[this.parameter.index] = success.data;
           } else {
@@ -162,7 +162,7 @@ export class ProjectComponent implements OnInit {
           const text = id ?
           this.translate.instant('message.success.updatedSuccessfully') :
           this.translate.instant('message.success.addedSuccessfully');
-          swal('Success', text, 'success');
+          swal(this.translate.instant('swal.success'), text, 'success');
           if (this.parameter.index !== -1) {
             this.parameter.amenities[this.parameter.index] = success.data;
           } else {
@@ -228,10 +228,10 @@ export class ProjectComponent implements OnInit {
 
   addPossessionStatusPopup(index, id, name_en, name_es, status, type) {
     this.parameter.index = index;
-    const text = status === 1 ? this.translate.instant('message.question.wantToUnblockPossessionStatus') :
-                        this.translate.instant('message.question.wantToBlockPossessionStatus');
+    const text = status === 1 ? this.translate.instant('message.error.wantToUnblockPossessionStatus') :
+                        this.translate.instant('message.error.wantToBlockPossessionStatus');
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -246,10 +246,10 @@ export class ProjectComponent implements OnInit {
 
   addBuildingTypePopup(index, id, name_en, name_es, status, type) {
     this.parameter.index = index;
-    const text = status === 1 ? this.translate.instant('message.question.wantToUnblockProjectType') :
-                        this.translate.instant('message.question.wantToBlockProjectType');
+    const text = status === 1 ? this.translate.instant('message.error.wantToUnblockProjectType') :
+                        this.translate.instant('message.error.wantToBlockProjectType');
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -264,10 +264,10 @@ export class ProjectComponent implements OnInit {
 
   addAmenityPopup(index, id, icon, name_en, name_es, status, type) {
     this.parameter.index = index;
-    const text = status === 1 ? this.translate.instant('message.question.wantToUnblockAmenity') :
-                        this.translate.instant('message.question.wantToBlockAmenity');
+    const text = status === 1 ? this.translate.instant('message.error.wantToUnblockAmenity') :
+                        this.translate.instant('message.error.wantToBlockAmenity');
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -285,7 +285,7 @@ export class ProjectComponent implements OnInit {
     formdata.reset();
     if (name_es === '') {
       swal({
-        text: this.translate.instant('message.info.saveEngProjectPossession'),
+        text: this.translate.instant('message.error.saveEngProjectPossession'),
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,
@@ -307,7 +307,7 @@ export class ProjectComponent implements OnInit {
     formdata.reset();
     if (name_es === '') {
       swal({
-        text: this.translate.instant('message.info.saveEngProjectType'),
+        text: this.translate.instant('message.error.saveEngProjectType'),
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,
@@ -329,7 +329,7 @@ export class ProjectComponent implements OnInit {
     formdata.reset();
     if (name_es === '') {
       swal({
-        text: this.translate.instant('message.info.saveEngAmenity'),
+        text: this.translate.instant('message.error.saveEngAmenity'),
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,

@@ -303,8 +303,8 @@ export class OutsideBrokerComponent implements OnInit {
     $event.stopPropagation();
     this.parameter.url = 'leads/updateLeadType';
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' +
-        this.translate.instant('message.question.wantToChangeAvailablity'),
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+        this.translate.instant('message.error.wantToChangeAvailablity'),
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -318,7 +318,7 @@ export class OutsideBrokerComponent implements OnInit {
             success => {
               this.spinner.hide();
               this.items[index].sale_rent = sale_rent;
-              swal('Success', this.translate.instant('message.success.availablityChangedSuccessfully'), 'success');
+              swal(this.translate.instant('swal.success'), this.translate.instant('message.success.availablityChangedSuccessfully'), 'success');
             }, error => {
               this.spinner.hide();
             });
@@ -337,7 +337,7 @@ export class OutsideBrokerComponent implements OnInit {
     // this.assign.keyword = '';
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     if (leads_ids.length === 0) {
-      swal('Error', this.translate.instant('message.error.pleaseChooseAtleast1Lead'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAtleast1Lead'), 'error');
       return false;
     }
     if (!this.assign.items) {
@@ -369,14 +369,14 @@ export class OutsideBrokerComponent implements OnInit {
     this.spinner.show();
     this.admin.postDataApi('leads/bulkAssignBroker', input).subscribe(r => {
       this.spinner.hide();
-      swal('Success', this.translate.instant('message.success.assignedSuccessfully'), 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.assignedSuccessfully'), 'success');
       this.closeAssignModel.nativeElement.click();
       this.getListing();
     },
       error => {
         this.spinner.hide();
         this.closeAssignModel.nativeElement.click();
-        swal('Error', error.error.message, 'error');
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
       });
 
   }

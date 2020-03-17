@@ -96,7 +96,7 @@ export class PropertyComponent implements OnInit {
           this.property.configuration.id = '';
           this.property.configuration.name_en = '';
           this.property.configuration.name_es = '';
-          swal('Success', text, 'success');
+          swal(this.translate.instant('swal.success'), text, 'success');
           if (this.parameter.index !== -1) {
             this.parameter.items[this.parameter.index] = success.data;
           } else {
@@ -126,7 +126,7 @@ export class PropertyComponent implements OnInit {
           const text = id ?
           this.translate.instant('message.success.updatedSuccessfully') :
           this.translate.instant('message.success.addedSuccessfully');
-          swal('Success', text, 'success');
+          swal(this.translate.instant('swal.success'), text, 'success');
           this.property.type.id = '';
           this.property.type.name_en = '';
           this.property.type.name_es = '';
@@ -163,7 +163,7 @@ export class PropertyComponent implements OnInit {
           const text = id ?
           this.translate.instant('message.success.updatedSuccessfully') :
           this.translate.instant('message.success.addedSuccessfully');
-          swal('Success', text, 'success');
+          swal(this.translate.instant('swal.success'), text, 'success');
           this.property.amenities.id = '';
           this.property.amenities.name_en = '';
           this.property.amenities.name_es = '';
@@ -235,10 +235,10 @@ export class PropertyComponent implements OnInit {
   addPropertyConfigurationPopup(index, id, name_en, name_es, bedroom, bathroom, half_bathroom, status, type) {
     this.parameter.index = index;
     const self = this;
-    const text = status === 1 ? this.translate.instant('message.question.wantToUnblockPropertyConfig') :
-                        this.translate.instant('message.question.wantToBlockPropertyConfig');
+    const text = status === 1 ? this.translate.instant('message.error.wantToUnblockPropertyConfig') :
+                        this.translate.instant('message.error.wantToBlockPropertyConfig');
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -254,10 +254,10 @@ export class PropertyComponent implements OnInit {
   addPropertyTypePopup(index, id, name_en, name_es, status, type) {
     this.parameter.index = index;
     const self = this;
-    const text = status === 1 ? this.translate.instant('message.question.wantToUnblockPropertyType') :
-                        this.translate.instant('message.question.wantToBlockPropertyType');
+    const text = status === 1 ? this.translate.instant('message.error.wantToUnblockPropertyType') :
+                        this.translate.instant('message.error.wantToBlockPropertyType');
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -273,10 +273,10 @@ export class PropertyComponent implements OnInit {
   addAmenityPopup(index, id, icon, name_en, name_es, status, type) {
     this.parameter.index = index;
     const self = this;
-    const text = status === 1 ? this.translate.instant('message.question.wantToUnblockAmenity') :
-                        this.translate.instant('message.question.wantToBlockAmenity');
+    const text = status === 1 ? this.translate.instant('message.error.wantToUnblockAmenity') :
+                        this.translate.instant('message.error.wantToBlockAmenity');
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -294,7 +294,7 @@ export class PropertyComponent implements OnInit {
     formdata.reset();
     if (name_es === '') {
       swal({
-        text: this.translate.instant('message.info.saveEngPropertyConfig'),
+        text: this.translate.instant('message.error.saveEngPropertyConfig'),
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,
@@ -316,7 +316,7 @@ export class PropertyComponent implements OnInit {
     formdata.reset();
     if (name_es === '') {
       swal({
-        text: this.translate.instant('message.info.saveEngPropertyType'),
+        text: this.translate.instant('message.error.saveEngPropertyType'),
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,
@@ -338,7 +338,7 @@ export class PropertyComponent implements OnInit {
     formdata.reset();
     if (name_es === '') {
       swal({
-        text: this.translate.instant('message.info.saveEngAmenity'),
+        text: this.translate.instant('message.error.saveEngAmenity'),
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,

@@ -167,7 +167,7 @@ export class ChatComponent implements OnInit {
 
   onSelectFile(param, event) {
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
     } else {
       this.optionsButton.nativeElement.click();
 
@@ -210,7 +210,7 @@ export class ChatComponent implements OnInit {
   saveAttachment(event) {
 
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
     } else {
       this.optionsButton.nativeElement.click();
       const model = new Chat;
@@ -245,7 +245,7 @@ export class ChatComponent implements OnInit {
 
   showCanvas(event) {
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
     } else {
       this.optionsButton.nativeElement.click();
       const model = new Chat;
@@ -367,7 +367,7 @@ export class ChatComponent implements OnInit {
   sendMessage(model) {
     model.sent_as = this.sent_as;
     if (model.message_type == 1 && !model.message) {
-      swal('Error', this.translate.instant('message.error.pleaseEnterText'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterText'), 'error');
     } else {
       this.admin.postDataApi('conversation/sendMessage', model).subscribe(r => {
         if (model.loading == true) {
@@ -380,7 +380,7 @@ export class ChatComponent implements OnInit {
         }, 100);
       },
       error => {
-        swal('Error', error.error.message, 'error');
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
       });
     }
   }

@@ -330,7 +330,7 @@ export class CsrSellerComponent implements OnInit {
   bulkAssign() {
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     if (leads_ids.length === 0) {
-      swal('Error', this.translate.instant('message.error.pleaseChooseAtleast1Lead'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAtleast1Lead'), 'error');
       return false;
     }
     if (!this.assign.items) {
@@ -360,14 +360,14 @@ export class CsrSellerComponent implements OnInit {
     this.spinner.show();
     this.admin.postDataApi('leads/bulkAssignSeller', input).subscribe(r => {
       this.spinner.hide();
-      swal('Success', this.translate.instant('message.success.assignedSuccessfully'), 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.assignedSuccessfully'), 'success');
       this.closeAssignModel.nativeElement.click();
       this.getListing();
     },
       error => {
         this.spinner.hide();
         this.closeAssignModel.nativeElement.click();
-        swal('Error', error.error.message, 'error');
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
       });
   }
 
@@ -376,7 +376,7 @@ export class CsrSellerComponent implements OnInit {
     if (csr_seller_id) {
       this.router.navigate(['/dashboard/leads/chat-with-seller', chat_with, csr_seller_id, lead_id]);
     } else {
-      swal('Error', this.translate.instant('message.error.noCSRSellerAssigned'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.noCSRSellerAssigned'), 'error');
     }
   }
 }

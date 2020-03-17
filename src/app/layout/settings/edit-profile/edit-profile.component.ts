@@ -63,7 +63,7 @@ export class EditProfileComponent implements OnInit {
 
   changeListner(event: any, paramLoader: string, param: any) {
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.translate.instant('message.error.fileSizeExceeds'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
     this.model[paramLoader] = true;
@@ -82,7 +82,7 @@ export class EditProfileComponent implements OnInit {
 
   updateProfile(formData: NgForm) {
     if (this.model.img_loader) {
-      swal('Error', this.translate.instant('message.error.uploadingImage'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.uploadingImage'), 'error');
       return;
     }
 
@@ -98,7 +98,7 @@ export class EditProfileComponent implements OnInit {
         success => {
           this.spinner.hide();
           this.admin.login.next(success.data);
-          swal('Success', success.message, 'success');
+          swal(this.translate.instant('swal.success'), success.message, 'success');
         }, error => {
           this.spinner.hide();
         }

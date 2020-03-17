@@ -154,30 +154,30 @@ export class CsrSellerDetailComponent implements OnInit {
   block(item) {
     item.is_blocked = true;
     this.admin.postDataApi('blockProperty', { property_id: item.id, flag: 1 }).subscribe(r => {
-      swal('Success', this.translate.instant('message.success.propertyBlockedSuccessfully'), 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.propertyBlockedSuccessfully'), 'success');
     },
       error => {
-        swal('Error', error.error.message, 'error');
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
       });
   }
 
   unblock(item) {
     item.is_blocked = false;
     this.admin.postDataApi('blockProperty', { property_id: item.id, flag: 0 }).subscribe(r => {
-      swal('Success', this.translate.instant('message.success.propertyUnblockedSuccessfully'), 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.propertyUnblockedSuccessfully'), 'success');
     },
       error => {
-        swal('Error', error.error.message, 'error');
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
       });
   }
 
   changeStatus(item, status) {
     item.status = status;
     this.admin.postDataApi('updatePropertyStatus', { property_id: item.id, status_id: status }).subscribe(r => {
-      swal('Success', this.translate.instant('message.success.propertyStatusChanged'), 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.propertyStatusChanged'), 'success');
     },
       error => {
-        swal('Error', error.error.message, 'error');
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
       });
   }
 }

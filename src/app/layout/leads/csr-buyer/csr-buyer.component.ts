@@ -311,7 +311,7 @@ export class CsrBuyerComponent implements OnInit {
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     if (leads_ids.length === 0) {
       this.showSearchText = true;
-      swal('Error', this.translate.instant('message.error.pleaseChooseAtleast1Lead'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAtleast1Lead'), 'error');
       return false;
     }
     if (!this.assign.items) {
@@ -341,14 +341,14 @@ export class CsrBuyerComponent implements OnInit {
     this.spinner.show();
     this.admin.postDataApi('leads/bulkAssignBuyer', input).subscribe(r => {
       this.spinner.hide();
-      swal('Success', this.translate.instant('message.success.assignedSuccessfully'), 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.assignedSuccessfully'), 'success');
       this.closeAssignModel.nativeElement.click();
       this.getListing();
     },
       error => {
         this.spinner.hide();
         this.closeAssignModel.nativeElement.click();
-        swal('Error', error.error.message, 'error');
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
       });
   }
 

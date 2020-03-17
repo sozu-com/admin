@@ -67,14 +67,14 @@ export class ManualLeadDetailsComponent implements OnInit {
     this.admin.postDataApi('addManualLeadNote', {manual_lead_id: this.parameter.lead_id, note: this.model.note}).subscribe(r => {
       this.closeModal();
       this.parameter.data.notes.unshift(r.data);
-      swal('Success', this.translate.instant('message.success.addedSuccessfully'), 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
     });
   }
 
   deleteLeadPopup(note_id, index) {
     swal({
-      html: this.translate.instant('message.question.areYouSure') + '<br>' +
-            this.translate.instant('message.question.wantToDeleteNote'),
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+            this.translate.instant('message.error.wantToDeleteNote'),
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -90,7 +90,7 @@ export class ManualLeadDetailsComponent implements OnInit {
   deleteLeadNote(note_id, index) {
     this.admin.postDataApi('deleteManualLeadNote', {note_id: note_id}).subscribe(r => {
       this.parameter.data.notes.splice(index, 1);
-      swal('Success', this.translate.instant('message.success.deletedSuccessfully'), 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
     });
   }
 }

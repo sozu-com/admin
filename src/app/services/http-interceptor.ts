@@ -12,6 +12,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/map';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class HttpInterceptor extends Http {
@@ -25,7 +26,8 @@ export class HttpInterceptor extends Http {
         options: RequestOptions,
         public http: Http,
         public router: Router,
-        private spinner: NgxSpinnerService) {
+        private spinner: NgxSpinnerService,
+        private translate: TranslateService) {
         super(backend, options);
     }
 
@@ -52,7 +54,7 @@ export class HttpInterceptor extends Http {
         this.spinner.hide();
         let body = error['_body'];
         body = JSON.parse(body);
-        swal('Error', body.message, 'error');
+        swal(this.translate.instant('swal.error'), body.message, 'error');
         if (body.message === 'Unauthenticated.') {
             this.router.navigate(['']);
         }

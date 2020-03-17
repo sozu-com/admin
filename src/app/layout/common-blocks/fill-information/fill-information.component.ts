@@ -129,7 +129,7 @@ export class FillInformationComponent implements OnInit {
 
   addPreferences() {
     if (this.leadData.prefs.min_price > this.leadData.prefs.max_price) {
-      swal('Error', this.translate.instant('message.error.maximumPriceLimit'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.maximumPriceLimit'), 'error');
       return false;
     }
     this.model = new AddPrefrences();
@@ -191,7 +191,7 @@ export class FillInformationComponent implements OnInit {
     this.spinner.show();
     this.admin.postDataApi('leads/addPreferences', this.model).subscribe(r => {
       this.spinner.hide();
-      swal('Success', this.translate.instant('message.success.updatedSuccessfully'), 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.updatedSuccessfully'), 'success');
     });
   }
 }
