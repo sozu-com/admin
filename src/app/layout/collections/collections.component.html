@@ -139,36 +139,9 @@
               <div class="table-responsive">
                  <table class="table table-striped table-align-left">
                     <tr>
-                       <th style="width:10%; text-align:left;">
+                       <th style="width:4%; text-align:left;">
                           <div class="table-search">
                              <label>{{'table.th.iDAccount' | translate}}</label>
-                             <div class="searh-3">
-                                <input class="width100px" type="text" [(ngModel)]="parameter.keyword" (keyup.enter)="getListing()" >
-                                <button *ngIf="parameter.keyword" (click)="getListing()"><i class="fa fa-search"></i></button>
-                             </div>
-                          </div>
-                       </th>
-                       <th style="width:10%; text-align:left;">
-                          <div class="table-search">
-                             <label>{{'table.th.buyerName' | translate}}</label>
-                             <div class="searh-3">
-                                <input class="width100px" type="text" [(ngModel)]="parameter.keyword" (keyup.enter)="getListing()" >
-                                <button *ngIf="parameter.keyword" (click)="getListing()"><i class="fa fa-search"></i></button>
-                             </div>
-                          </div>
-                       </th>
-                       <th style="width:10%; text-align:left;">
-                          <div class="table-search">
-                             <label>{{'table.th.buyerLegalRepresentative' | translate}}</label>
-                             <div class="searh-3">
-                                <input class="width100px" type="text" [(ngModel)]="parameter.keyword" (keyup.enter)="getListing()" >
-                                <button *ngIf="parameter.keyword" (click)="getListing()"><i class="fa fa-search"></i></button>
-                             </div>
-                          </div>
-                       </th>
-                       <th style="width:10%; text-align:left;">
-                          <div class="table-search">
-                             <label>{{'table.th.sellerName' | translate}}</label>
                              <div class="searh-3">
                                 <input class="width100px" type="text" [(ngModel)]="parameter.keyword" (keyup.enter)="getListing()" >
                                 <button *ngIf="parameter.keyword" (click)="getListing()"><i class="fa fa-search"></i></button>
@@ -219,6 +192,33 @@
                        <th style="width:10%; text-align:left;">
                           <div class="table-search">
                              <label>{{'table.th.locality' | translate}}</label>
+                             <div class="searh-3">
+                                <input class="width100px" type="text" [(ngModel)]="parameter.keyword" (keyup.enter)="getListing()" >
+                                <button *ngIf="parameter.keyword" (click)="getListing()"><i class="fa fa-search"></i></button>
+                             </div>
+                          </div>
+                       </th>
+                       <th style="width:10%; text-align:left;">
+                          <div class="table-search">
+                             <label>{{'table.th.buyerName' | translate}}</label>
+                             <div class="searh-3">
+                                <input class="width100px" type="text" [(ngModel)]="parameter.keyword" (keyup.enter)="getListing()" >
+                                <button *ngIf="parameter.keyword" (click)="getListing()"><i class="fa fa-search"></i></button>
+                             </div>
+                          </div>
+                       </th>
+                       <th style="width:10%; text-align:left;">
+                          <div class="table-search">
+                             <label>{{'table.th.buyerLegalRepresentative' | translate}}</label>
+                             <div class="searh-3">
+                                <input class="width100px" type="text" [(ngModel)]="parameter.keyword" (keyup.enter)="getListing()" >
+                                <button *ngIf="parameter.keyword" (click)="getListing()"><i class="fa fa-search"></i></button>
+                             </div>
+                          </div>
+                       </th>
+                       <th style="width:10%; text-align:left;">
+                          <div class="table-search">
+                             <label>{{'table.th.sellerName' | translate}}</label>
                              <div class="searh-3">
                                 <input class="width100px" type="text" [(ngModel)]="parameter.keyword" (keyup.enter)="getListing()" >
                                 <button *ngIf="parameter.keyword" (click)="getListing()"><i class="fa fa-search"></i></button>
@@ -335,26 +335,26 @@
                     </tr>
               
                     <tr *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
-                     <td><span>{{p?.name ? p?.name : ('table.tr.td.NA' | translate)}}</span></td>
-                     <td><span>{{p?.name ? p?.name : ('table.tr.td.NA' | translate)}}</span></td>
-                     <td><span>{{p?.name ? p?.name : ('table.tr.td.NA' | translate)}}</span></td>
-                     <td><span>{{p?.name ? p?.name : ('table.tr.td.NA' | translate)}}</span></td>     
+                     <td><span>{{p?.id ? p?.id : ('table.tr.td.NA' | translate)}}</span></td>
                      <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}" (click)="viewPropertyDetails(p.id, p)">
-                                <!-- routerLink="/dashboard/properties/details/{{p.id}}" -->
-                             <strong>{{p?.building?.name?p?.building?.name: ('table.tr.td.NA' | translate)}}</strong>
-                             <div class="clearfix"></div>
-                             <small *ngIf="p.quantity > 0">
-                                {{p.quantity}} 
-                                <span *ngIf="p.quantity == 1">property</span>
-                                <span *ngIf="p.quantity > 1">properties</span>
-                             </small>
-                          </td>
-                          <td><span>{{p?.building_towers ? p?.building_towers?.tower_name : ('table.tr.td.NA' | translate)}}</span></td>
-                          <td><span>{{p?.name ? p?.name : ('table.tr.td.NA' | translate)}}</span></td>
-                          <td>
-                             <app-property-configuration *ngIf="p.configuration" [configuration]="p.configuration"></app-property-configuration>
-                          </td>
-                          <td><span>{{p?.name ? p?.name : ('table.tr.td.NA' | translate)}}</span></td>
+                           <!-- routerLink="/dashboard/properties/details/{{p.id}}" -->
+                        <strong>{{p?.building?.name?p?.building?.name: ('table.tr.td.NA' | translate)}}</strong>
+                        <div class="clearfix"></div>
+                        <small *ngIf="p.quantity > 0">
+                           {{p.quantity}} 
+                           <span *ngIf="p.quantity == 1">property</span>
+                           <span *ngIf="p.quantity > 1">properties</span>
+                        </small>
+                     </td>
+                     <td><span>{{p?.building_towers ? p?.building_towers?.tower_name : ('table.tr.td.NA' | translate)}}</span></td>
+                     <td><span>{{p?.name ? p?.name : ('table.tr.td.NA' | translate)}}</span></td>
+                     <td>
+                        <app-property-configuration *ngIf="p.configuration" [configuration]="p.configuration"></app-property-configuration>
+                     </td>
+                     <td><span>{{p?.name ? p?.name : ('table.tr.td.NA' | translate)}}</span></td>
+                     <td><span>{{p?.buyer?.name ? p?.buyer?.name : ('table.tr.td.NA' | translate)}}</span></td>
+                     <td><span>{{p?.buyer_leg_rep_name ? p?.buyer_leg_rep_name : ('table.tr.td.NA' | translate)}}</span></td>
+                     <td><span>{{p?.seller?.name ? p?.seller?.name : ('table.tr.td.NA' | translate)}}</span></td>     
                           <td><span>{{p.min_price | price}}</span></td>
                           <td><span>
                              <button (click)="editPricePopup(p, i)" [disabled]="admin?.admin_acl['Property Management']?.can_update==0" title="{{'table.title.editPrice' | translate}}" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
@@ -395,8 +395,9 @@
                           <td><span>{{p?.name ? p?.name : ('table.tr.td.NA' | translate)}}</span></td>
                           <td *ngIf="parameter.flag!=5">
                           <div class="table-actions">
-                             <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="parameter?.flag!=3" routerLink="../edit-property/{{p.id}}" title="{{'table.title.editDetails' | translate}}" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
-                             <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="parameter?.flag==3" routerLink="../edit-property/{{p.id}}/edit" title="{{'table.title.editDetails' | translate}}" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                             <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                                 routerLink="../edit-collection/{{p.id}}" title="{{'table.title.editDetails' | translate}}" 
+                                 class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                              <button [disabled]="admin?.admin_acl['Property Management']?.can_delete==0" *ngIf="!p.is_blocked" (click)="blockUnblock(p, 1);" class="action-icon" title="{{'table.title.block' | translate}}"><img src="assets/img/block.png" alt="img"></button>
                              <button [disabled]="admin?.admin_acl['Property Management']?.can_delete==0" *ngIf="p.is_blocked == true" (click)="blockUnblock(p, 0);" class="action-icon unblock-bg" title="{{'table.title.unblock' | translate}}"><img src="assets/img/unblock.png" alt="img"></button>
                              

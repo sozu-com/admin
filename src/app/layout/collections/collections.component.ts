@@ -109,18 +109,7 @@ export class CollectionsComponent implements OnInit {
     } else {
       delete input.max;
     }
-    if (this.parameter.agent_id) {
-      input.agent_id = this.parameter.agent_id;
-    } else {
-      delete input.agent_id;
-    }
-    if (this.parameter.agency_id) {
-      input.agency_id = this.parameter.agency_id;
-    } else {
-      delete input.agency_id;
-    }
-    delete input.seller_id;
-    this.admin.postDataApi('propertyHome', input).subscribe(
+    this.admin.postDataApi('getCollection', input).subscribe(
       success => {
         this.items = success.data;
         this.total = success.total_count;

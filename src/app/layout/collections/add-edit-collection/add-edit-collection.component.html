@@ -86,7 +86,8 @@
       <img src="assets/img/loading_content.gif" />
     </div>
     <div *ngIf="!buildingLoading && parameter.buildingCount != 0" class="white-bg">
-      <form ngNativeValidate #tagABuilding="ngForm" (ngSubmit)="createCollection(1)">
+      <!-- ngNativeValidate  #tagABuilding="ngForm" -->
+      <form  [formGroup]="addFormStep1"  (ngSubmit)="createCollection(addFormStep1.value, 1)">
         
         <!-- buildings listing -->
         <div class="row">
@@ -108,11 +109,16 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="form-group-3">
               <label class="p16-two">{{'addCollection.selectTowerIn' | translate}} {{selectedBuilding?.name}} <span class="color-red">*</span></label>
-              <select name="tower" [(ngModel)]="selectedTower" required class="form-control" (change)="setTower(selectedTower)">
+              <select name="tower" *ngIf="selectedBuilding" formControlName="selectedTowerId" required class="form-control" (change)="setTower($event.target.value)">
+                <option value="">{{'addCollection.selectTower' | translate}}</option>
+                <option *ngFor="let bt of selectedBuilding?.building_towers" [value]="bt.id">
+                  {{bt.tower_name}}</option>
+              </select>
+              <!-- <select name="tower" [(ngModel)]="selectedTower" required class="form-control" (change)="setTower(selectedTower)">
                 <option value="">{{'addCollection.selectTower' | translate}}</option>
                 <option *ngFor="let bt of selectedBuilding?.building_towers" [ngValue]="bt">
                   {{bt.tower_name}}</option>
-              </select>
+              </select> -->
             </div>
           </div>  
         </div>
@@ -144,7 +150,7 @@
 
               <p-dropdown class="search-dropdown"
                 [options]="properties" [style]="{'width':'100%'}" formControlName="property_id"
-                [filter]="true" optionLabel="name">
+                [filter]="true" optionLabel="name" (onChange)="setPropertyId(property_id)">
               </p-dropdown>
              
             </div>
@@ -152,7 +158,7 @@
           <div class="col-lg-6 col-md-6 col-sm-12 col-6">
             <div class="form-group-3">
               <label class="p16-two">{{'addCollection.selectDealType' | translate}}<span class="color-red">*</span></label>
-              <select required class="form-control" (change)="setDealType($event.target.value)">
+              <select required class="form-control" formControlName="deal_type_id" (change)="setDealType($event.target.value)">
                 <option value="1">Purchase</option>
                 <option value="2">Purchase</option>
               </select>
@@ -163,7 +169,8 @@
         <div class="row">
           <div class="col-md-12">
             <div class="btn-cont text-right">
-              <button type="submit" [disabled]="tagABuilding.invalid" class="btn btn-primary">{{'addCollection.next' | translate}}</button>
+                <!-- [disabled]="tagABuilding.invalid" -->
+              <button type="submit"  class="btn btn-primary">{{'addCollection.next' | translate}}</button>
             </div>
           </div>
         </div>
@@ -248,8 +255,8 @@
 <!-- Tag a building end -->
 
 
-
-<form ngNativeValidate #createDraft="ngForm" (ngSubmit)="createCollection(createDraft, 2)">
+<!-- ngNativeValidate #createDraft="ngForm" -->
+<form [formGroup]="addFormStep2" (ngSubmit)="createCollection(addFormStep2.value, 2)">
   <div class="white-bg" *ngIf="tab==2">
     <div class="page-title">
       <h3>{{'addCollection.chooseTheSeller' | translate}}</h3>
@@ -259,55 +266,50 @@
       <!-- search seller -->
         <h5 class="p16-two">{{'addCollection.SearchASellerInOurDatabase' | translate}}</h5>
         <div class="searh d-flex">
-          <input class="border-right-0" autocomplete="off" type="text" #buildingname
+          <!-- <input class="border-right-0" autocomplete="off" type="text" #buildingname
             (keyup.enter)="searchBuilding(buildingname.value)" name="buildingName" [(ngModel)]="buildingName">
-          <button class="btn" type="button" (click)="searchBuilding(buildingname.value)">{{'addCollection.search' | translate}}</button>
+          <button class="btn" type="button" (click)="searchBuilding(buildingname.value)">{{'addCollection.search' | translate}}</button> -->
         </div>
         <div class="spacer50"></div>
 
         <!-- complete seller details -->
         <h5 class="p16-two">{{'addCollection.completeTheSellerInfo' | translate}}</h5>
         <div class="row">
-          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
             <div class="form-group-3">
               <label>{{'addCollection.name' | translate}}</label>
               <div class="clearfix"></div>
-              <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
-                  name="parking_count">
+              <input type="text" name="seller_name" class="form-control" formControlName="seller_name">
             </div>
           </div>
-          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
-            <div class="form-group-3">
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
               <label>{{'addCollection.phonenumber' | translate}}</label>
               <div class="clearfix"></div>
-              <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
-                  name="parking_count">
+              <input class="form-control" type="text" name="seller_phone" formControlName="seller_phone">
             </div>
           </div>
-          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
-            <div class="form-group-3">
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
               <label>{{'addCollection.email' | translate}}</label>
               <div class="clearfix"></div>
-              <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
-                  name="parking_count">
+              <input class="form-control" type="text" name="seller_email" formControlName="seller_email">
             </div>
           </div>
-          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
-            <div class="form-group-3">
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
               <label>{{'addCollection.companyName' | translate}}</label>
               <div class="clearfix"></div>
-              <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
-                  name="parking_count">
+              <input class="form-control" type="text" name="seller_company_name" formControlName="seller_company_name">
             </div>
           </div>
         </div>
         <div class="row">
-          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
-            <div class="form-group-3">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="form-group-3">
               <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}</label>
               <div class="clearfix"></div>
-              <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
-                  name="parking_count">
+              <input class="form-control" type="text" name="seller_fed_tax" formControlName="seller_fed_tax">
             </div>
           </div>
         </div>
@@ -315,80 +317,82 @@
         <div class="spacer50"></div>
         <!-- bank account -->
         <h5 class="p16-two">{{'addCollection.bankAccount' | translate}}
-          <span class="pull-right"><a class="add" href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
+          <span class="pull-right"><a class="add" (click)="addSellerBank($event)" href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
         </h5>
-        <div class="row">
-          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
-            <div class="form-group-3">
-              <label>{{'addCollection.accountNumber' | translate}}</label>
-              <div class="clearfix"></div>
-              <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
-                  name="parking_count">
+        <div formArrayName="collection_seller_banks">
+        <ng-container *ngFor="let seller_banks of addFormStep2.get('collection_seller_banks').controls; let i=index">
+            <div class="row" [formGroupName]="i">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                  <label>{{'addCollection.accountNumber' | translate}}</label>
+                  <div class="clearfix"></div>
+                  <input class="form-control" type="text" name="account_number" formControlName="account_number">
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                  <label>{{'addCollection.clabeSwift' | translate}}</label>
+                  <div class="clearfix"></div>
+                  <input class="form-control" type="text" name="swift" formControlName="swift">
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                  <label>{{'addCollection.currency' | translate}}</label>
+                  <div class="clearfix"></div>
+                  <input class="form-control" type="text" name="currency_id" formControlName="currency_id">
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                  <label>Remove</label>
+                  <div class="clearfix"></div>
+                  <button (click)="removeSellerBank($event, i)">Remove</button>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
-            <div class="form-group-3">
-              <label>{{'addCollection.clabeSwift' | translate}}</label>
-              <div class="clearfix"></div>
-              <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
-                  name="parking_count">
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
-            <div class="form-group-3">
-              <label>{{'addCollection.currency' | translate}}</label>
-              <div class="clearfix"></div>
-              <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
-                  name="parking_count">
-            </div>
-          </div>
+        </ng-container>
         </div>
-
 
         <div class="spacer50"></div>
         <!-- legal Representative Info -->
         <h5 class="p16-two">{{'addCollection.legalRepresentativeInfo' | translate}}</h5>
         <div class="row">
-          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
-            <div class="form-group-3">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="form-group-3">
               <label>{{'addCollection.name' | translate}}</label>
               <div class="clearfix"></div>
-              <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
-                  name="parking_count">
+              <input class="form-control" type="text" name="seller_leg_rep_name" formControlName="seller_leg_rep_name">
             </div>
           </div>
-          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
-            <div class="form-group-3">
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
               <label>{{'addCollection.phonenumber' | translate}}</label>
               <div class="clearfix"></div>
-              <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
-                  name="parking_count">
+              <input class="form-control" type="text" name="seller_leg_rep_phone" formControlName="seller_leg_rep_phone">
             </div>
           </div>
-          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
-            <div class="form-group-3">
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
               <label>{{'addCollection.email' | translate}}</label>
               <div class="clearfix"></div>
-              <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
-                  name="parking_count">
+              <input class="form-control" type="text" name="seller_leg_rep_email" formControlName="seller_leg_rep_email">
             </div>
           </div>
-          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
-            <div class="form-group-3">
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
               <label>{{'addCollection.companyName' | translate}}</label>
               <div class="clearfix"></div>
-              <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
-                  name="parking_count">
+              <input class="form-control" type="text" name="seller_leg_rep_comp" formControlName="seller_leg_rep_comp">
             </div>
           </div>
         </div>
         <div class="row">
-          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
-            <div class="form-group-3">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="form-group-3">
               <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}</label>
               <div class="clearfix"></div>
-              <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
-                  name="parking_count">
+              <input class="form-control" type="text" name="seller_leg_rep_fed_tax" formControlName="seller_leg_rep_fed_tax">
             </div>
           </div>
         </div>
@@ -400,7 +404,7 @@
         <div class="col-md-12">
           <div class="btn-cont text-right">
             <button type="button" class="btn btn-primary" (click)="setTab(1)">{{'addCollection.previous' | translate}}</button>
-            <button type="submit" [disabled]="createDraft.invalid" class="btn btn-primary marginL15">{{'addCollection.next' | translate}}</button>
+            <button type="submit" class="btn btn-primary marginL15">{{'addCollection.next' | translate}}</button>
           </div>
         </div>
       </div>
@@ -410,70 +414,167 @@
 </form>
 
 
-
-<form ngNativeValidate #additionalInfo="ngForm" (ngSubmit)="createCollection(additionalInfo, 3)">
-  <!-- tab-2 -->
-  <div class="white-bg" *ngIf="tab==3">
-    <div class="page-title">
-      <h3>{{'addForm.tabs.additionalInfo' | translate}}</h3>
-    </div>
-    <div class="padding40">
-      <div class="form-group-3">
-        <h5 class="p16-two">{{'addForm.addImagesofYourProperty' | translate}} <span class="color-red">*</span></h5>
+<!-- ngNativeValidate #createDraft="ngForm" -->
+<form [formGroup]="addFormStep3" (ngSubmit)="createCollection(addFormStep3.value, 3)">
+    <div class="white-bg" *ngIf="tab==3">
+      <div class="page-title">
+        <h3>{{'addCollection.chooseTheBuyer' | translate}}</h3>
+      </div>
+      <div class="paddingT0 padding40">
+  
+        <!-- search -->
+          <h5 class="p16-two">{{'addCollection.SearchABuyerInOurDatabase' | translate}}</h5>
+          <div class="searh d-flex">
+            <!-- <input class="border-right-0" autocomplete="off" type="text" #buildingname
+              (keyup.enter)="searchBuilding(buildingname.value)" name="buildingName" [(ngModel)]="buildingName">
+            <button class="btn" type="button" (click)="searchBuilding(buildingname.value)">{{'addCollection.search' | translate}}</button> -->
+          </div>
+          <div class="spacer50"></div>
+  
+          <!-- complete details -->
+          <h5 class="p16-two">{{'addCollection.completeTheBuyerInfo' | translate}}</h5>
+          <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.name' | translate}}</label>
+                <div class="clearfix"></div>
+                <input type="text" name="buyer_name" class="form-control" formControlName="buyer_name">
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="form-group-3">
+                <label>{{'addCollection.phonenumber' | translate}}</label>
+                <div class="clearfix"></div>
+                <input class="form-control" type="text" name="buyer_phone" formControlName="buyer_phone">
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="form-group-3">
+                <label>{{'addCollection.email' | translate}}</label>
+                <div class="clearfix"></div>
+                <input class="form-control" type="text" name="buyer_email" formControlName="buyer_email">
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="form-group-3">
+                <label>{{'addCollection.companyName' | translate}}</label>
+                <div class="clearfix"></div>
+                <input class="form-control" type="text" name="buyer_company_name" formControlName="buyer_company_name">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+              <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}</label>
+                <div class="clearfix"></div>
+                <input class="form-control" type="text" name="buyer_fed_tax" formControlName="buyer_fed_tax">
+              </div>
+            </div>
+          </div>
+  
+          <div class="spacer50"></div>
+          <!-- bank account -->
+          <h5 class="p16-two">{{'addCollection.bankAccount' | translate}}
+            <span class="pull-right"><a class="add" (click)="addBuyerBank($event)" href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
+          </h5>
+          <div formArrayName="collection_buyer_banks">
+          <ng-container *ngFor="let buyer_banks of addFormStep3.get('collection_buyer_banks').controls; let i=index">
+              <div class="row" [formGroupName]="i">
+                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                      <div class="form-group-3">
+                    <label>{{'addCollection.accountNumber' | translate}}</label>
+                    <div class="clearfix"></div>
+                    <input class="form-control" type="text" name="account_number" formControlName="account_number">
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                    <label>{{'addCollection.clabeSwift' | translate}}</label>
+                    <div class="clearfix"></div>
+                    <input class="form-control" type="text" name="swift" formControlName="swift">
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                    <label>{{'addCollection.currency' | translate}}</label>
+                    <div class="clearfix"></div>
+                    <input class="form-control" type="text" name="currency_id" formControlName="currency_id">
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                    <label>Remove</label>
+                    <div class="clearfix"></div>
+                    <button (click)="removeBuyerBank($event, i)">Remove</button>
+                  </div>
+                </div>
+              </div>
+          </ng-container>
+          </div>
+  
+          <div class="spacer50"></div>
+          <!-- legal Representative Info -->
+          <h5 class="p16-two">{{'addCollection.legalRepresentativeInfo' | translate}}</h5>
+          <div class="row">
+              <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                <label>{{'addCollection.name' | translate}}</label>
+                <div class="clearfix"></div>
+                <input class="form-control" type="text" name="buyer_leg_rep_name" formControlName="buyer_leg_rep_name">
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="form-group-3">
+                <label>{{'addCollection.phonenumber' | translate}}</label>
+                <div class="clearfix"></div>
+                <input class="form-control" type="text" name="buyer_leg_rep_phone" formControlName="buyer_leg_rep_phone">
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="form-group-3">
+                <label>{{'addCollection.email' | translate}}</label>
+                <div class="clearfix"></div>
+                <input class="form-control" type="text" name="buyer_leg_rep_email" formControlName="buyer_leg_rep_email">
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="form-group-3">
+                <label>{{'addCollection.companyName' | translate}}</label>
+                <div class="clearfix"></div>
+                <input class="form-control" type="text" name="buyer_leg_rep_comp" formControlName="buyer_leg_rep_comp">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+              <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}</label>
+                <div class="clearfix"></div>
+                <input class="form-control" type="text" name="buyer_leg_rep_fed_tax" formControlName="buyer_leg_rep_fed_tax">
+              </div>
+            </div>
+          </div>
+          
+        <div class="spacer15"></div>
+  
+        <div class="spacer15"></div>
         <div class="row">
-          <div class="col-md-7 col-sm-12 col-12">
-            <!-- <div class="upload-cover-img" [style.background-image]="image1"> -->
-            <div class="upload-cover-img">
-
-              <img [src]="model.cover_image" onerror="this.src='assets/img/placeholder.png'" class="floor-plan">
-              <div *ngIf="!model.cover_image" class="upload-caption">
-                <p class="green-color marginT30">{{'addForm.uploadCoverImageForProperty' | translate}}</p>
-                <p>{{'addForm.imageSizeForCover' | translate}}</p>
-              </div>
-              <input type="file" name="" accept="image/*" (change)="onSelectFile('cover_image', $event)">
-            </div>
-          </div>
-          <div class="col-md-5 col-sm-12 col-12">
-            <!-- <div class="upload-cover-img upload-cover-small" [style.background-image]="image3"> -->
-            <div class="upload-cover-img upload-cover-small">
-              <img [src]="model.floor_plan" onerror="this.src='assets/img/placeholder.png'" class="floor-plan">
-              <input type="file" name="" accept="image/*" (change)="onSelectFile('floor_plan', $event)">
-              <div *ngIf="!model.floor_plan" class="upload-caption">
-                <p class="green-color marginT30">{{'addForm.addfloorPlan' | translate}}</p>
-              </div>
-            </div>
-            <div class="upload-cover-img upload-cover-small">
-              <img [src]="model?.images?.length>0 ? model.images[0]?.image : ''" onerror="this.src='assets/img/placeholder-img.png'" class="img-fluid">
-              <div class="upload-caption">
-                <p *ngIf="model?.images?.length > 1" class="number" (click)="modelOpenFun()">
-                  +{{model?.images?.length-1}}</p>
-                <p *ngIf="model?.images?.length <= 1" class="green-color" (click)="modelOpenFun()">{{'addForm.moreImages.addMoreBtn' | translate}}</p>
-              </div>
+          <div class="col-md-12">
+            <div class="btn-cont text-right">
+              <button type="button" class="btn btn-primary" (click)="setTab(1)">{{'addCollection.previous' | translate}}</button>
+              <button type="submit" class="btn btn-primary marginL15">{{'addCollection.next' | translate}}</button>
             </div>
           </div>
         </div>
+  
       </div>
-
-      <div class="row">
-        <div class="col-md-12">
-          <div class="btn-cont text-right">
-            <!-- <a class="btn-third btn" href="javascript://" (click)="createCollection(addForm, 3)">Next</a> -->
-            <button type="button" class="btn btn-primary" (click)="setTab(2)">{{'addForm.previous' | translate}}</button>
-            <button type="submit" class="btn btn-primary marginL15" [disabled]="
-          additionalInfo.invalid
-          || !model.cover_image
-          || !model.floor_plan
-          || !model.description">{{'addForm.next' | translate}}</button>
-          </div>
-        </div>
-      </div>
-
     </div>
-  </div>
-</form>
+  </form>
 
 
-<form ngNativeValidate #preferableBuyer="ngForm" (ngSubmit)="createCollection(preferableBuyer, 4)">
+
+<form [formGroup]="addFormStep4" (ngSubmit)="createCollection(preferableBuyer, 4)">
   <!-- tab-4 -->
   <div class="white-bg" *ngIf="tab==4">
     <div class="page-title">
@@ -482,160 +583,156 @@
     <div class="padding40">
       <h5>{{'addCollection.completeTheDealInfo' | translate}}</h5>
       <div class="row">
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
             <label>{{'addCollection.purchaseDate' | translate}}</label>
             <div class="clearfix"></div>
-            <input class="form-control" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" [(ngModel)]="model.parking_count" min="0"
-                name="parking_count">
+            <p-calendar [style]="{'width':'100%'}" formControlName="deal_purchase_date" class="sz-calendar" [locale]="locale" showIcon="true" (onSelect)="onSelect($event)" 
+                showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
             <label>{{'addCollection.price' | translate}}</label>
             <div class="clearfix"></div>
-            <input class="form-control" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" [(ngModel)]="model.parking_count" min="0"
-                name="parking_count">
+            <input class="form-control" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="deal_price" min="0"
+                name="deal_price">
           </div>
         </div>
       </div>
 
       <label>{{'addCollection.layawayPayment' | translate}}</label>
       <div class="row">
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
             <div class="clearfix"></div>
-            <!-- <input class="form-control" type="number" placeholder="{{'addForm.placeholder.chooseDate' | translate}}" [(ngModel)]="model.parking_count" min="0"
-                name="parking_count"> -->
-            <div class="clearfix"></div>
-            <!-- [(ngModel)]="leadData.prefs.planning_to_buy" -->
-              <p-calendar [style]="{'width':'100%'}" class="sz-calendar" [locale]="locale" showIcon="true" (onSelect)="onSelect($event)" 
+              <p-calendar [style]="{'width':'100%'}" formControlName="deal_lay_date" class="sz-calendar" [locale]="locale" showIcon="true" (onSelect)="onSelect($event)" 
                 showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
-            <div class="clearfix"></div>
-
+              <div class="clearfix"></div>
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
             <div class="clearfix"></div>
-            <select name="tower" [(ngModel)]="selectedTower" required class="form-control" (change)="setTower(selectedTower)">
+            <select name="tower" formControlName="deal_lay_type" required class="form-control" (change)="setTower(selectedTower)">
               <option value="">{{'addCollection.percentage' | translate}}</option>
               <option value="">{{'addCollection.amount' | translate}}</option>
             </select>
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
             <div class="clearfix"></div>
-            <input class="form-control" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" [(ngModel)]="model.parking_count" min="0"
-                name="parking_count">
+            <input class="form-control" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="deal_lay_percent_value" min="0"
+                name="deal_lay_percent_value">
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
             <div class="clearfix"></div>
-            <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
-                name="parking_count">
+            <input class="form-control" type="number" formControlName="deal_lay_amount_value" min="0" name="deal_lay_amount_value">
           </div>
         </div>
       </div>
 
       <label>{{'addCollection.downPayment' | translate}}</label>
       <div class="row">
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
             <div class="clearfix"></div>
-            <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
-                name="parking_count">
+              <p-calendar [style]="{'width':'100%'}" formControlName="deal_lay_date" class="sz-calendar" [locale]="locale" showIcon="true" (onSelect)="onSelect($event)" 
+                showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+              <div class="clearfix"></div>
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
             <div class="clearfix"></div>
-            <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
-                name="parking_count">
+            <select name="tower" formControlName="deal_lay_type" required class="form-control" (change)="setTower(selectedTower)">
+              <option value="">{{'addCollection.percentage' | translate}}</option>
+              <option value="">{{'addCollection.amount' | translate}}</option>
+            </select>
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
             <div class="clearfix"></div>
-            <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
-                name="parking_count">
+            <input class="form-control" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="deal_lay_percent_value" min="0"
+                name="deal_lay_percent_value">
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
             <div class="clearfix"></div>
-            <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
-                name="parking_count">
+            <input class="form-control" type="number" formControlName="deal_lay_amount_value" min="0" name="deal_lay_amount_value">
           </div>
         </div>
       </div>
 
       <label>{{'addCollection.paymentUponDelivery' | translate}}</label>
       <div class="row">
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
-            <!-- <label>{{'addCollection.accountNumber' | translate}}</label> -->
             <div class="clearfix"></div>
-            <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
-                name="parking_count">
+              <p-calendar [style]="{'width':'100%'}" formControlName="deal_lay_date" class="sz-calendar" [locale]="locale" showIcon="true" (onSelect)="onSelect($event)" 
+                showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+              <div class="clearfix"></div>
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
-            <!-- <label>{{'addCollection.clabeSwift' | translate}}</label> -->
             <div class="clearfix"></div>
-            <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
-                name="parking_count">
+            <select name="tower" formControlName="deal_lay_type" required class="form-control" (change)="setTower(selectedTower)">
+              <option value="">{{'addCollection.percentage' | translate}}</option>
+              <option value="">{{'addCollection.amount' | translate}}</option>
+            </select>
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
-            <!-- <label>{{'addCollection.clabeSwift' | translate}}</label> -->
             <div class="clearfix"></div>
-            <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
-                name="parking_count">
+            <input class="form-control" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="deal_lay_percent_value" min="0"
+                name="deal_lay_percent_value">
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
-            <!-- <label>{{'addCollection.clabeSwift' | translate}}</label> -->
             <div class="clearfix"></div>
-            <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
-                name="parking_count">
+            <input class="form-control" type="number" formControlName="deal_lay_amount_value" min="0" name="deal_lay_amount_value">
           </div>
         </div>
       </div>
 
       <label>{{'addCollection.specialPayments' | translate}}</label>
       <div class="row">
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
             <div class="clearfix"></div>
-            <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
-                name="parking_count">
+              <p-calendar [style]="{'width':'100%'}" formControlName="deal_lay_date" class="sz-calendar" [locale]="locale" showIcon="true" (onSelect)="onSelect($event)" 
+                showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+              <div class="clearfix"></div>
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
             <div class="clearfix"></div>
-            <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
-                name="parking_count">
+            <select name="tower" formControlName="deal_lay_type" required class="form-control" (change)="setTower(selectedTower)">
+              <option value="">{{'addCollection.percentage' | translate}}</option>
+              <option value="">{{'addCollection.amount' | translate}}</option>
+            </select>
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
             <div class="clearfix"></div>
-            <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
-                name="parking_count">
+            <input class="form-control" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="deal_lay_percent_value" min="0"
+                name="deal_lay_percent_value">
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
             <div class="clearfix"></div>
-            <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
-                name="parking_count">
+            <input class="form-control" type="number" formControlName="deal_lay_amount_value" min="0" name="deal_lay_amount_value">
           </div>
         </div>
       </div>
@@ -645,32 +742,28 @@
           <div class="form-group-3">
             <label>{{'addCollection.interestRate' | translate}}</label>
             <div class="clearfix"></div>
-            <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
-                name="parking_count">
+            <input class="form-control" type="number" formControlName="deal_lay_amount_value" min="0" name="deal_lay_amount_value">
           </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
           <div class="form-group-3">
             <label>{{'addCollection.monthlyPayment' | translate}}</label>
             <div class="clearfix"></div>
-            <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
-                name="parking_count">
+            <input class="form-control" type="number" formControlName="deal_lay_amount_value" min="0" name="deal_lay_amount_value">
           </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
           <div class="form-group-3">
             <label>&nbsp;</label>
             <div class="clearfix"></div>
-            <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
-                name="parking_count">
+            <input class="form-control" type="number" formControlName="deal_lay_amount_value" min="0" name="deal_lay_amount_value">
           </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
           <div class="form-group-3">
             <label>{{'addCollection.penalityForLatePayment' | translate}}</label>
             <div class="clearfix"></div>
-            <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
-                name="parking_count">
+            <input class="form-control" type="number" formControlName="deal_lay_amount_value" min="0" name="deal_lay_amount_value">
           </div>
         </div>
       </div>
@@ -681,7 +774,7 @@
           <div class="btn-cont text-right">
             <!-- <a class="btn-third btn" href="javascript://" (click)="createCollection(addForm, 4)">Next</a> -->
             <button type="button" class="btn btn-primary" (click)="setTab(3)">{{'addForm.previous' | translate}}</button>
-            <button type="submit" [disabled]="preferableBuyer.invalid" class="btn btn-primary marginL15">{{'addForm.next' | translate}}</button>
+            <button type="submit" class="btn btn-primary marginL15">{{'addForm.next' | translate}}</button>
           </div>
         </div>
       </div>
@@ -691,8 +784,8 @@
 </form>
 
 
-
-<form ngNativeValidate #custom="ngForm" (ngSubmit)="createCollection(custom, 5)">
+<!-- [formGroup]="addFormStep5" -->
+<form ngNativeValidate  #custom="ngForm" (ngSubmit)="createCollection(custom, 5)">
   <!-- tab-5 -->
   <div class="white-bg" *ngIf="tab==5 || tab==6">
     <div class="page-title">

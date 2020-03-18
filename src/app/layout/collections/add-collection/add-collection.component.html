@@ -1,0 +1,732 @@
+
+<div class="white-bg padding15">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="title-group">
+          <h5 *ngIf="!editMode"><a routerLink="/dashboard/properties/view-properties" href="javascript://"><i
+                class="fa fa-angle-double-left"></i> </a> &nbsp;&nbsp;{{'addCollection.addLabel' | translate}}</h5>
+          <h5 *ngIf="editMode"> <a routerLink="/dashboard/properties/view-properties" href="javascript://"><i
+                class="fa fa-angle-double-left"></i> </a> &nbsp;&nbsp;{{'addCollection.editLabel' | translate}}: {{model?.name}}</h5>
+        </div>
+      </div>
+      <div class="col-md-6 btn-cont">
+        <!-- <app-add-lead *ngIf="this.parameter?.property_id && editMode"  [property_id]="parameter.property_id"></app-add-lead> -->
+      </div>
+    </div>
+  </div>
+  
+  <div class="spacer10"></div>
+  
+  <div class="white-bg add-property padding20">
+    <div class="steps">
+      <ul class="d-flex">
+        <li [ngClass]="{'current': tab == 1}"><span></span><a (click)="setTab(1)">{{'addCollection.tabs.property' | translate}}</a></li>
+        <li [ngClass]="{'current': tab == 2}"><span></span><a (click)="setTab(2)">{{'addCollection.tabs.seller' | translate}}</a></li>
+        <li [ngClass]="{'current': tab == 3}"><span></span><a (click)="setTab(3)">{{'addCollection.tabs.buyer' | translate}}</a></li>
+        <li [ngClass]="{'current': tab == 4}"><span></span><a (click)="setTab(4)">{{'addCollection.tabs.deal' | translate}}</a></li>
+        <li [ngClass]="{'current': tab == 5}"><span></span><a (click)="setTab(5)">{{'addCollection.tabs.commission' | translate}}</a></li>
+        <li [ngClass]="{'current': (tab == 6) || (tab == 7)}"><span></span><a (click)="setTab(6)">{{'addCollection.tabs.uploadDocuments' | translate}}</a></li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="spacer10"></div>
+  
+  
+  
+  <!-- Tag a building start -->
+  <div class="white-bg" *ngIf="tab==1">
+    <div class="page-title">
+      <h3>{{'addCollection.chooseYourProperty' | translate}}</h3>
+    </div>
+  
+    <div class="padding40" *ngIf="building.id && showSearch==false">
+      <div class="row">
+        <div class="col-sm-9 col-lg-9">
+          <p class="p16">{{'addCollection.taggedBuildingName' | translate}}</p>
+        </div>
+        <div class="col-sm-3 col-lg-3 btn-cont text-right">
+          <button type="button" class="btn btn-primary" (click)="showSearchBox()">{{'addCollection.change' | translate}}</button>
+        </div>
+      </div>
+      <p><b>{{building.name}}</b></p>
+  
+      <div class="row">
+        <div class="col-sm-9 col-lg-9">
+          <p class="p16">{{'addCollection.taggedTowerName' | translate}}</p>
+        </div>
+      </div>
+      <p><b>{{model?.building_towers?.tower_name ? model?.building_towers?.tower_name : ('table.tr.td.NA' | translate)}}</b></p>
+  
+      <div class="row" *ngIf="model?.building_towers">
+        <div class="col-sm-9 col-lg-9">
+          <p class="p16">{{'addCollection.taggedFloor' | translate}}</p>
+        </div>
+      </div>
+      <p><b>{{model?.building_towers?.tower_name ? (model?.floor_num == 0 ? ('addCollection.groundFloor' | translate) : ('addCollection.floor' | translate) + ' ' + model?.floor_num) : 'NA'}}</b></p>
+      
+      <div class="row">
+        <div class="col-md-12">
+          <div class="btn-cont text-right">
+            <button type="button" (click)="tab=2" class="btn btn-primary">{{'addCollection.next' | translate}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="padding40" *ngIf="showSearch">
+      <h5 class="p16-two">{{'addCollection.SearchYourBuildingInOurDatabase' | translate}}</h5>
+      <div class="searh d-flex">
+        <input class="border-right-0" autocomplete="off" type="text" #buildingname
+          (keyup.enter)="searchBuilding(buildingname.value)" name="buildingName" [(ngModel)]="buildingName">
+        <button class="btn" type="button" (click)="searchBuilding(buildingname.value)">{{'addCollection.search' | translate}}</button>
+      </div>
+      <div class="spacer50"></div>
+      <div *ngIf="buildingLoading">
+        <img src="assets/img/loading_content.gif" />
+      </div>
+      <div *ngIf="!buildingLoading && parameter.buildingCount != 0" class="white-bg">
+        <!-- ngNativeValidate  #tagABuilding="ngForm" -->
+        <form  [formGroup]="addFormStep1"  (ngSubmit)="createCollection('', 1)">
+          
+          <!-- buildings listing -->
+          <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12 col-12" 
+            *ngFor="let item of searchedBuildings| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.buildingCount }; let i = index">
+              <app-project-block (setBuilding)="setBuildingId($event)" (buildingIndex)="getBuildingIndex($event)" [data]="item" [index]="i"></app-project-block>
+            </div>
+          </div>
+  
+          <div class="row" *ngIf="searchedBuildings?.length>0">
+            <div class="col-lg-6 col-md-12 col-sm-12 col-12"></div>
+            <div class="col-lg-6 col-md-12 col-sm-12 col-12 btn-cont text-right marginT15">
+              <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+            </div>
+          </div>
+  
+          <!-- towers listing wrt building id -->
+          <div class="row marginT20" *ngIf="building.id">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+              <div class="form-group-3">
+                <label class="p16-two">{{'addCollection.selectTowerIn' | translate}} {{selectedBuilding?.name}} <span class="color-red">*</span></label>
+                <select name="tower" *ngIf="selectedBuilding" formControlName="selectedTowerId" required class="form-control" (change)="setTower($event.target.value)">
+                  <option value="">{{'addCollection.selectTower' | translate}}</option>
+                  <option *ngFor="let bt of selectedBuilding?.building_towers" [value]="bt.id">
+                    {{bt.tower_name}}</option>
+                </select>
+                <!-- <select name="tower" [(ngModel)]="selectedTower" required class="form-control" (change)="setTower(selectedTower)">
+                  <option value="">{{'addCollection.selectTower' | translate}}</option>
+                  <option *ngFor="let bt of selectedBuilding?.building_towers" [ngValue]="bt">
+                    {{bt.tower_name}}</option>
+                </select> -->
+              </div>
+            </div>  
+          </div>
+  
+          <!-- floor listing wrt tower id -->
+          <div class="row marginT20" *ngIf="selectedTower">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+              <div class="form-group-3">
+                <label class="p16-two">{{'addCollection.selectFloorIn' | translate}} {{selectedTower?.tower_name}} <span class="color-red">*</span></label>
+                <select required class="form-control" (change)="getProperties($event)">
+                  <option value="">{{'addCollection.selectFloor' | translate}}</option>
+                  <option *ngFor="let fa of selectedTower?.unique_floors; let j=index" [value]="fa">
+                    {{j == 0 ? ('addCollection.groundFloor' | translate): ('addCollection.floor' | translate) + ' '+fa}}</option>
+                </select>
+              </div>
+            </div>  
+          </div>
+  
+          <!-- properties listing wrt building id -->
+          <div class="row marginT20" *ngIf="model.floor_num">
+              <div class="col-lg-6 col-md-6 col-sm-12 col-6">
+              <div class="form-group form-group-3">
+                <label class="p16-two">{{'addCollection.selectYourApartment' | translate}} <span class="color-red">*</span></label>
+                
+                <!-- <p-dropdown [(ngModel)]="model.property_id" class="form-control search-dropdown"
+                  [options]="properties" [style]="{'width':'100%'}" (onChange)="setPropertyId(null)"
+                  [filter]="true" optionLabel="name">
+                </p-dropdown> -->
+  
+                <p-dropdown class="search-dropdown"
+                  [options]="properties" [style]="{'width':'100%'}" formControlName="property_id"
+                  [filter]="true" optionLabel="name" (onChange)="setPropertyId(property_id)">
+                </p-dropdown>
+               
+              </div>
+            </div>  
+            <div class="col-lg-6 col-md-6 col-sm-12 col-6">
+              <div class="form-group-3">
+                <label class="p16-two">{{'addCollection.selectDealType' | translate}}<span class="color-red">*</span></label>
+                <select required class="form-control" formControlName="deal_type_id" (change)="setDealType($event.target.value)">
+                  <option value="1">Purchase</option>
+                  <option value="2">Purchase</option>
+                </select>
+              </div>
+            </div>  
+          </div>
+          
+          <div class="row">
+            <div class="col-md-12">
+              <div class="btn-cont text-right">
+                  <!-- [disabled]="tagABuilding.invalid" -->
+                <button type="submit"  class="btn btn-primary">{{'addCollection.next' | translate}}</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+  
+      <p *ngIf="parameter.buildingCount == 0 && showText" class="p18">{{'addCollection.didntFoundyourBuilding' | translate}} <strong><span
+            (click)="showBuildingDetails(true)" class="green-color cursor-pointer">{{'addCollection.GenerateARequesttoAddABuildingByOurDataCollectors' | translate}}</span></strong></p>
+      <div *ngIf="showBuilding" class="spacer50"></div>
+  
+      <form ngNativeValidate #buildingRequestForm="ngForm" (ngSubmit)="buildingRequest()">
+        <div *ngIf="showBuilding" class="row">
+          <div class="col-lg-7 col-md-12 col-sm-12 col-12">
+            <div class="row">
+              <div class="col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>{{'addCollection.nameBuilding' | translate}}</label>
+                  <input autocomplete="off" required class="form-control" [pattern]="constant.onlyWhiteSpaces" type="text" name="name"
+                    [(ngModel)]="building.name" placeholder="{{'addForm.placeholder.nameOfBuilding' | translate}}">
+                </div>
+              </div>
+              <div class="col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>{{'addCollection.whereItIsLocated' | translate}}</label>
+                  <input required placeholder="{{'addForm.placeholder.searchForLocation' | translate}}" autocorrect="off" autocapitalize="off"
+                    spellcheck="off" type="text" class="form-control" #search (input)="loadPlaces()"
+                    [formControl]="searchControl" [(ngModel)]="building.address" name="address">
+                </div>
+              </div>
+            </div>
+            <label class="label-optional">{{'addCollection.developerDetails' | translate}}</label>
+            <div class="row">
+              <div class="col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>{{'addCollection.nameOfDeveloper' | translate}}</label>
+                  <input autocomplete="off" class="form-control" [pattern]="constant.onlyWhiteSpaces" type="text" name="dev_name"
+                    [(ngModel)]="building.dev_name">
+                </div>
+              </div>
+              <div class="col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>{{'addCollection.contactNumber' | translate}}</label>
+                  <input minlength="6" maxlength="16" autocomplete="off" type="text" class="form-control" id="dev_phone"
+                    [(ngModel)]="building.dev_phone" name="dev_phone" ng2TelInput [ng2TelInputOptions]="initialCountry"
+                    (countryChange)="onCountryChange($event)" />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12 col-12">
+                <div class="form-group-3">
+                  <label>{{'addCollection.emailId' | translate}}</label>
+                  <input autocomplete="off" class="form-control" type="email" name="dev_email"
+                    [(ngModel)]="building.dev_email">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-5 col-md-12 col-sm-12 col-12">
+            <div class="form-group-3 mark-pin-map">
+              <label>{{'addCollection.markPinonMap' | translate}}</label>
+            </div>
+            <div>
+              <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false"
+                (mapClick)="placeMarker($event)" [zoom]="zoom">
+                <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+              </agm-map>
+            </div>
+          </div>
+        </div>
+  
+        <div class="row" *ngIf="showBuilding">
+          <div class="col-md-12">
+            <div class="btn-cont text-right">
+              <button type="submit" [disabled]="buildingRequestForm.invalid" class="btn btn-primary">{{'addCollection.submitRequest' | translate}}</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Tag a building end -->
+  
+  
+  <form ngNativeValidate #createDraft="ngForm" (ngSubmit)="createCollection(createDraft, 2)">
+    <div class="white-bg" *ngIf="tab==2">
+      <div class="page-title">
+        <h3>{{'addCollection.chooseTheSeller' | translate}}</h3>
+      </div>
+      <div class="paddingT0 padding40">
+  
+          <h5 class="p16-two">{{'addCollection.SearchASellerInOurDatabase' | translate}}</h5>
+          <div class="searh d-flex">
+            <input class="border-right-0" autocomplete="off" type="text" #buildingname
+              (keyup.enter)="searchBuilding(buildingname.value)" name="buildingName" [(ngModel)]="buildingName">
+            <button class="btn" type="button" (click)="searchBuilding(buildingname.value)">{{'addCollection.search' | translate}}</button>
+          </div>
+          <div class="spacer50"></div>
+
+          <h5 class="p16-two">{{'addCollection.completeTheSellerInfo' | translate}}</h5>
+          <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.name' | translate}}</label>
+                <div class="clearfix"></div>
+                <input type="text" name="seller_name" [(ngModel)]="model.seller_name">
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="form-group form-group-3">
+                <label>{{'addCollection.phonenumber' | translate}}</label>
+                <div class="clearfix"></div>
+                <input class="form-control" type="text" name="seller_phone" [(ngModel)]="model.seller_phone">
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="form-group form-group-3">
+                <label>{{'addCollection.email' | translate}}</label>
+                <div class="clearfix"></div>
+                <input class="form-control" type="text" name="seller_email" [(ngModel)]="model.seller_email">
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="form-group form-group-3">
+                <label>{{'addCollection.companyName' | translate}}</label>
+                <div class="clearfix"></div>
+                <input class="form-control" type="text" name="seller_company_name" [(ngModel)]="model.seller_company_name">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+              <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <div class="form-group form-group-3">
+                <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}</label>
+                <div class="clearfix"></div>
+                <input class="form-control" type="text" name="seller_fed_tax" [(ngModel)]="model.seller_fed_tax">
+              </div>
+            </div>
+          </div>
+  
+          <div class="spacer50"></div>
+          <h5 class="p16-two">{{'addCollection.bankAccount' | translate}}
+            <span class="pull-right"><a class="add" href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
+          </h5>
+          <div class="row">
+              <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <div class="form-group form-group-3">
+                <label>{{'addCollection.accountNumber' | translate}}</label>
+                <div class="clearfix"></div>
+                <input class="form-control" type="text" name="seller_fed_tax" [(ngModel)]="model.seller_fed_tax">
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="form-group form-group-3">
+                <label>{{'addCollection.clabeSwift' | translate}}</label>
+                <div class="clearfix"></div>
+                <input class="form-control" type="text" name="seller_fed_tax" [(ngModel)]="model.seller_fed_tax">
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="form-group form-group-3">
+                <label>{{'addCollection.currency' | translate}}</label>
+                <div class="clearfix"></div>
+                <input class="form-control" type="text" name="seller_fed_tax" [(ngModel)]="model.seller_fed_tax">
+              </div>
+            </div>
+          </div>
+  
+  
+          <div class="spacer50"></div>
+          <h5 class="p16-two">{{'addCollection.legalRepresentativeInfo' | translate}}</h5>
+          <div class="row">
+              <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <div class="form-group form-group-3">
+                <label>{{'addCollection.name' | translate}}</label>
+                <div class="clearfix"></div>
+                <input class="form-control" type="text" name="seller_leg_rep_name" [(ngModel)]="model.seller_leg_rep_name">
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="form-group form-group-3">
+                <label>{{'addCollection.phonenumber' | translate}}</label>
+                <div class="clearfix"></div>
+                <input class="form-control" type="text" name="seller_leg_rep_phone" [(ngModel)]="model.seller_leg_rep_phone">
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="form-group form-group-3">
+                <label>{{'addCollection.email' | translate}}</label>
+                <div class="clearfix"></div>
+                <input class="form-control" type="text" name="seller_leg_rep_email" [(ngModel)]="model.seller_leg_rep_email">
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="form-group form-group-3">
+                <label>{{'addCollection.companyName' | translate}}</label>
+                <div class="clearfix"></div>
+                <input class="form-control" type="text" name="seller_leg_rep_comp" [(ngModel)]="model.seller_leg_rep_comp">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+              <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <div class="form-group form-group-3">
+                <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}</label>
+                <div class="clearfix"></div>
+                <input class="form-control" type="text" name="seller_leg_rep_fed_tax" [(ngModel)]="model.seller_leg_rep_fed_tax">
+              </div>
+            </div>
+          </div>
+          
+        <div class="spacer15"></div>
+  
+        <div class="spacer15"></div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="btn-cont text-right">
+              <button type="button" class="btn btn-primary" (click)="setTab(1)">{{'addCollection.previous' | translate}}</button>
+              <button type="submit" [disabled]="createDraft.invalid" class="btn btn-primary marginL15">{{'addCollection.next' | translate}}</button>
+            </div>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  </form>
+  
+  
+  <!-- [formGroup]="addFormStep3" -->
+  <!-- <form ngNativeValidate  #additionalInfo="ngForm" (ngSubmit)="createCollection(additionalInfo, 3)">
+    <div class="white-bg" *ngIf="tab==3">
+      <div class="page-title">
+        <h3>{{'addForm.tabs.additionalInfo' | translate}}</h3>
+      </div>
+      <div class="padding40">
+        <div class="form-group-3">
+          <h5 class="p16-two">{{'addForm.addImagesofYourProperty' | translate}} <span class="color-red">*</span></h5>
+          <div class="row">
+            <div class="col-md-7 col-sm-12 col-12">
+              <div class="upload-cover-img">
+  
+                <img [src]="model.cover_image" onerror="this.src='assets/img/placeholder.png'" class="floor-plan">
+                <div *ngIf="!model.cover_image" class="upload-caption">
+                  <p class="green-color marginT30">{{'addForm.uploadCoverImageForProperty' | translate}}</p>
+                  <p>{{'addForm.imageSizeForCover' | translate}}</p>
+                </div>
+                <input type="file" name="" accept="image/*" (change)="onSelectFile('cover_image', $event)">
+              </div>
+            </div>
+            <div class="col-md-5 col-sm-12 col-12">
+              <div class="upload-cover-img upload-cover-small">
+                <img [src]="model.floor_plan" onerror="this.src='assets/img/placeholder.png'" class="floor-plan">
+                <input type="file" name="" accept="image/*" (change)="onSelectFile('floor_plan', $event)">
+                <div *ngIf="!model.floor_plan" class="upload-caption">
+                  <p class="green-color marginT30">{{'addForm.addfloorPlan' | translate}}</p>
+                </div>
+              </div>
+              <div class="upload-cover-img upload-cover-small">
+                <img [src]="model?.images?.length>0 ? model.images[0]?.image : ''" onerror="this.src='assets/img/placeholder-img.png'" class="img-fluid">
+                <div class="upload-caption">
+                  <p *ngIf="model?.images?.length > 1" class="number" (click)="modelOpenFun()">
+                    +{{model?.images?.length-1}}</p>
+                  <p *ngIf="model?.images?.length <= 1" class="green-color" (click)="modelOpenFun()">{{'addForm.moreImages.addMoreBtn' | translate}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="row">
+          <div class="col-md-12">
+            <div class="btn-cont text-right">
+              <button type="button" class="btn btn-primary" (click)="setTab(2)">{{'addForm.previous' | translate}}</button>
+              <button type="submit" class="btn btn-primary marginL15" [disabled]="
+            additionalInfo.invalid
+            || !model.cover_image
+            || !model.floor_plan
+            || !model.description">{{'addForm.next' | translate}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form> -->
+  
+  <!-- [formGroup]="addFormStep4" -->
+  <!-- <form ngNativeValidate  #preferableBuyer="ngForm" (ngSubmit)="createCollection(preferableBuyer, 4)">
+    <div class="white-bg" *ngIf="tab==4">
+      <div class="page-title">
+        <h3>{{'addCollection.deal' | translate}}</h3>
+      </div>
+      <div class="padding40">
+        <h5>{{'addCollection.completeTheDealInfo' | translate}}</h5>
+        <div class="row">
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+            <div class="form-group-3">
+              <label>{{'addCollection.purchaseDate' | translate}}</label>
+              <div class="clearfix"></div>
+              <input class="form-control" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" [(ngModel)]="model.parking_count" min="0"
+                  name="parking_count">
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+            <div class="form-group-3">
+              <label>{{'addCollection.price' | translate}}</label>
+              <div class="clearfix"></div>
+              <input class="form-control" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" [(ngModel)]="model.parking_count" min="0"
+                  name="parking_count">
+            </div>
+          </div>
+        </div>
+  
+        <label>{{'addCollection.layawayPayment' | translate}}</label>
+        <div class="row">
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+            <div class="form-group-3">
+              <div class="clearfix"></div>
+              <div class="clearfix"></div>
+                <p-calendar [style]="{'width':'100%'}" class="sz-calendar" [locale]="locale" showIcon="true" (onSelect)="onSelect($event)" 
+                  showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+              <div class="clearfix"></div>
+  
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+            <div class="form-group-3">
+              <div class="clearfix"></div>
+              <select name="tower" [(ngModel)]="selectedTower" required class="form-control" (change)="setTower(selectedTower)">
+                <option value="">{{'addCollection.percentage' | translate}}</option>
+                <option value="">{{'addCollection.amount' | translate}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+            <div class="form-group-3">
+              <div class="clearfix"></div>
+              <input class="form-control" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" [(ngModel)]="model.parking_count" min="0"
+                  name="parking_count">
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+            <div class="form-group-3">
+              <div class="clearfix"></div>
+              <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
+                  name="parking_count">
+            </div>
+          </div>
+        </div>
+  
+        <label>{{'addCollection.downPayment' | translate}}</label>
+        <div class="row">
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+            <div class="form-group-3">
+              <div class="clearfix"></div>
+              <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
+                  name="parking_count">
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+            <div class="form-group-3">
+              <div class="clearfix"></div>
+              <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
+                  name="parking_count">
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+            <div class="form-group-3">
+              <div class="clearfix"></div>
+              <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
+                  name="parking_count">
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+            <div class="form-group-3">
+              <div class="clearfix"></div>
+              <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
+                  name="parking_count">
+            </div>
+          </div>
+        </div>
+  
+        <label>{{'addCollection.paymentUponDelivery' | translate}}</label>
+        <div class="row">
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+            <div class="form-group-3">
+              <div class="clearfix"></div>
+              <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
+                  name="parking_count">
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+            <div class="form-group-3">
+              <div class="clearfix"></div>
+              <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
+                  name="parking_count">
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+            <div class="form-group-3">
+              <div class="clearfix"></div>
+              <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
+                  name="parking_count">
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+            <div class="form-group-3">
+              <div class="clearfix"></div>
+              <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
+                  name="parking_count">
+            </div>
+          </div>
+        </div>
+  
+        <label>{{'addCollection.specialPayments' | translate}}</label>
+        <div class="row">
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+            <div class="form-group-3">
+              <div class="clearfix"></div>
+              <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
+                  name="parking_count">
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+            <div class="form-group-3">
+              <div class="clearfix"></div>
+              <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
+                  name="parking_count">
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+            <div class="form-group-3">
+              <div class="clearfix"></div>
+              <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
+                  name="parking_count">
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+            <div class="form-group-3">
+              <div class="clearfix"></div>
+              <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
+                  name="parking_count">
+            </div>
+          </div>
+        </div>
+  
+        <div class="row">
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+            <div class="form-group-3">
+              <label>{{'addCollection.interestRate' | translate}}</label>
+              <div class="clearfix"></div>
+              <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
+                  name="parking_count">
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+            <div class="form-group-3">
+              <label>{{'addCollection.monthlyPayment' | translate}}</label>
+              <div class="clearfix"></div>
+              <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
+                  name="parking_count">
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+            <div class="form-group-3">
+              <label>&nbsp;</label>
+              <div class="clearfix"></div>
+              <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
+                  name="parking_count">
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+            <div class="form-group-3">
+              <label>{{'addCollection.penalityForLatePayment' | translate}}</label>
+              <div class="clearfix"></div>
+              <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
+                  name="parking_count">
+            </div>
+          </div>
+        </div>
+        
+  
+        <div class="row">
+          <div class="col-md-12">
+            <div class="btn-cont text-right">
+              <button type="button" class="btn btn-primary" (click)="setTab(3)">{{'addForm.previous' | translate}}</button>
+              <button type="submit" [disabled]="preferableBuyer.invalid" class="btn btn-primary marginL15">{{'addForm.next' | translate}}</button>
+            </div>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  </form> -->
+  
+  
+  <!-- <form ngNativeValidate  #custom="ngForm" (ngSubmit)="createCollection(custom, 5)">
+    <div class="white-bg" *ngIf="tab==5 || tab==6">
+      <div class="page-title">
+        <h3>{{'addForm.tabs.Custom' | translate}}</h3>
+      </div>
+      <div class="padding40">
+        <h5 class="marginB30">{{'addForm.anyInformationWeMissedYouWantToAdd' | translate}}</h5>
+  
+        <div class="row">
+          <div class="col-md-4 col-sm-12 col-12">
+            <div class="form-group-3">
+              <label class="p16-two">{{'addForm.enterParameter' | translate}}</label>
+              <input autocomplete="off" class="form-control" [pattern]="constant.onlyWhiteSpaces" type="text" [(ngModel)]="newcustom_attribute.name"
+                name="name[{{c}}]" placeholder="{{'addForm.placeholder.enterParameter' | translate}}">
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-12 col-12">
+            <div class="form-group-3">
+              <label class="p16-two">{{'addForm.enterValue' | translate}}</label>
+              <input autocomplete="off" class="form-control" [pattern]="constant.onlyWhiteSpaces" type="text" [(ngModel)]="newcustom_attribute.value"
+                name="value[{{c}}]" placeholder="{{'addForm.placeholder.enterValue' | translate}}">
+            </div>
+          </div>
+          <div class="col-md-2 btn-cont">
+            <a href="javascript://" class="add-more btn" (click)="addCustomAttribute()">Add More</a>
+          </div>
+        </div>
+  
+        <div class="row" *ngFor="let custom_attribute of model.custom_attributes; let c = index;">
+          <div class="col-md-4 col-sm-12 col-12">
+            <div class="form-group-3">
+              <label class="p16-two">{{'addForm.enterParameter' | translate}}</label>
+              <input autocomplete="off" class="form-control" [pattern]="constant.onlyWhiteSpaces" type="text" [value]="custom_attribute.name" disabled />
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-12 col-12">
+            <div class="form-group-3">
+              <label class="p16-two">{{'addForm.enterValue' | translate}}</label>
+              <input autocomplete="off" class="form-control" [pattern]="constant.onlyWhiteSpaces" type="text" [value]="custom_attribute.value" disabled />
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-12 col-12">
+            <div class="btn-cont ">
+              <a href="javascript://" class="btn delete-button marginT30" (click)="model.custom_attributes.splice(c, 1)">
+                <img src="assets/img/delete-button.png" width="40" style="width: 20px; margin-top: 10px;">
+              </a>
+            </div>
+          </div>
+        </div>
+  
+        <div class="row">
+          <div class="col-md-12">
+            <div class="btn-cont text-right">
+              <button type="button" class="btn btn-primary" (click)="setTab(4)">{{'addForm.previous' | translate}}</button>
+              <button type="submit" class="btn btn-primary marginL15">{{'addForm.submit' | translate}}</button>
+            </div>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  </form> -->
+  
+  
