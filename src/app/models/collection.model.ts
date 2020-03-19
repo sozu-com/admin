@@ -1,19 +1,23 @@
 import { User } from './inhouse-users.model';
 import { Towers, Configuration } from './addProject.model';
+import { Building } from './addProperty.model';
 
 export class Collection {
-    id: number;
+    id: string;
     property_id: number;
     step: number;
     building_id: string;
     building_towers_id: string;
     floor_num: string;
+    building: Building;
     building_towers: Towers;
     deal_type_id: number;
+    deal_type: DealType;
     name: string;
-    for_rent: boolean;
-    for_sale: boolean;
-    for_hold: boolean;
+    seller_id: string;
+    seller: Seller;
+    buyer_id: string;
+    buyer: Seller;
     availabilityStatusId: string;
     is_property_sold: boolean;
     country_id = '';
@@ -54,4 +58,18 @@ export class Collection {
     configuration: Configuration;
     creator: User;
     broker_commision = 0;
+}
+
+export class DealType {
+    id: string;
+    name: string;
+}
+
+export class Seller {
+    id: string;
+    name: string;
+    phone: string;
+    email: string;
+    dial_code: string;
+    country_code: string;
 }

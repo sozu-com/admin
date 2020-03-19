@@ -815,6 +815,7 @@
       "managerIsLinkedToThisProject": "El gerente está vinculado a este proyecto",
       "pleaseRemoveManagertoLinkCompany": "Elimine el gerente para vincular la compañía",
       "pleaseSelectBuilding": "Seleccionar edificio.",
+      "pleaseSelectTower": "Por favor seleccione torre.",
       "pleaseSelectFloor": "Seleccionar piso.",
       "pleaseFillCarpetAreaFields": "Por favor llene los campos del área de piso",
       "pleaseFillCustomAttributeFields": "Llena los campos de atributos personalizados",

@@ -125,13 +125,14 @@ export class Configuration {
 
 export class Towers {
   id?: string;
-  building_id: string;
+  building_id?: string;
   tower_name: string;
-  num_of_floors: number;
-  possession_status_id: string;
-  launch_date: string;
-  amenities: Array<AmenitiesShowObj>;
-  amenitiesId: Array<string>;
+  num_of_floors?: number;
+  unique_floors?: Array<any>;
+  possession_status_id?: string;
+  launch_date?: string;
+  amenities?: Array<AmenitiesShowObj>;
+  amenitiesId?: Array<string>;
   floor_array?: Array<number>;
   amenitiesCount?: number;
   // amenities: Array<any>;

@@ -815,6 +815,7 @@
       "managerIsLinkedToThisProject": "Manager is linked to this project",
       "pleaseRemoveManagertoLinkCompany": "Please remove Manager to link Company.",
       "pleaseSelectBuilding": "Please select building.",
+      "pleaseSelectTower": "Please select tower.",
       "pleaseSelectFloor": "Please select floor.",
       "pleaseFillCarpetAreaFields": "Please fill carpet area fields",
       "pleaseFillCustomAttributeFields": "Please fill custom attribute fields",
@@ -1463,7 +1464,17 @@
     "specialPayments": "Special Payments (Specific Payment)",
     "interestRate": "Interest Rate (Simple/Compound)",
     "monthlyPayment": "Monthly Payments (Installments)",
-    "penalityForLatePayment": "Penality for Late Payment"
+    "penalityForLatePayment": "Penality for Late Payment",
+    "percentage": "Percentage",
+    "amount": "Amount",
+    "paymentMethods": "Payment Methods",
+    "commissionDetails": "Commission Details",
+    "completeCommissionInfo": "Complete the Commission Information",
+    "totalCommission": "Total Commission",
+    "sharedCommission":"Shared Commission",
+    "nameOfAgent": "Name of Agent",
+    "taggedApartmentName": "Tagged Apartment Name",
+    "selectedDealType": "Selected Deal Type"
   },
   "swal": {
     "error": "Error",

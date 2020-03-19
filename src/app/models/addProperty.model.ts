@@ -73,13 +73,13 @@ export class AddPropertyModel {
 export class Building {
     id: string;
     name: string;
-    address: string;
-    lat: number;
-    lng: number;
-    dev_name: string;
-    dev_phone: string;
-    dev_email: string;
-    dev_countrycode: string;
+    address?: string;
+    lat?: number;
+    lng?: number;
+    dev_name?: string;
+    dev_phone?: string;
+    dev_email?: string;
+    dev_countrycode?: string;
 }
 
 export class PropertyDetails {

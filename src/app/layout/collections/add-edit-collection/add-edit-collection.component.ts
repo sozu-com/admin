@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, NgZone, ɵCodegenComponentFactoryResolver } from '@angular/core';
 import { NgForm, FormControl, FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { AddProjectModel, Towers, Configuration } from 'src/app/models/addProject.model';
-
+import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AddPropertyModel, PropertyDetails, Building } from 'src/app/models/addProperty.model';
 // import { Building } from 'src/app/models/global.model';
@@ -15,7 +15,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HttpInterceptor } from 'src/app/services/http-interceptor';
 import { TranslateService } from '@ngx-translate/core';
 import { SelectItem } from 'primeng/primeng';
-import { Collection } from 'src/app/models/collection.model';
+import { Collection, Seller } from 'src/app/models/collection.model';
 declare const google;
 declare let swal: any;
 
@@ -44,6 +44,8 @@ export class AddEditCollectionComponent implements OnInit {
   @ViewChild('modalAmenOpen') modalAmenOpen: ElementRef;
   @ViewChild('modalAddMoreVideos') modalAddMoreVideos: ElementRef;
   @ViewChild('modalVideosClose') modalVideosClose: ElementRef;
+  @ViewChild('linkUserModal') linkUserModal: ElementRef;
+  @ViewChild('closeLinkUserModal') closeLinkUserModal: ElementRef;
 
   public latitude: number;
   public longitude: number;
@@ -81,20 +83,17 @@ export class AddEditCollectionComponent implements OnInit {
   selectedBuilding: AddProjectModel;
   selectedTower: Towers;
 
-  video: any;
-  image: any;
-  videoObj: Object = {
-    thumbnail: '',
-    original: ''
-  };
-  videoSrc: any;
   num_of_property: any;
   property_names: Array<any>;
   amenity_index: number;
   amenity_obj: any;
 
   locale: any;
+  allUsers: Array<any>;
   properties: SelectItem[];
+  paymentMethods: Array<any>;
+  dealTypes: Array<any>;
+  currencies: Array<any>;
   addFormStep1: FormGroup;
   addFormStep2: FormGroup;
   addFormStep3: FormGroup;
@@ -110,28 +109,17 @@ export class AddEditCollectionComponent implements OnInit {
     private element: ElementRef,
     private translate: TranslateService,
     private fb: FormBuilder) {
-
-    this.us.globalSettings$.subscribe(suc1 => {
-      this.parameter.bulk_approve_property = suc1['bulk_approve_property'];
-    });
   }
 
   ngOnInit() {
+    this.model = new Collection();
+    this.model.building = new Building();
+    this.model.building_towers = new Towers();
     this.setDatePickerLocale();
     this.property_names = [];
     this.parameter.page = 1;
     this.parameter.itemsPerPage = this.constant.limit4;
     this.buildingData = new AddProjectModel();
-    this.parameter.amenities = [];
-    this.parameter.banks = [];
-    this.http.loader.next({ value: true });
-    this.details = new PropertyDetails;
-
-    this.file2 = new FileUpload(false, this.us);
-    this.file360 = new FileUpload(false, this.us);
-    this.amenMoreImg = new FileUpload(false, this.us);
-    this.amen360Img = new FileUpload(false, this.us);
-    this.amenVideo = new VideoUpload(false, this.us);
 
     this.initFormStep1();
     this.initFormStep2();
@@ -142,43 +130,17 @@ export class AddEditCollectionComponent implements OnInit {
 
     this.parameter.sub = this.route.params.subscribe(params => {
       this.model.id = params['id'];
-      if (this.parameter.property_id === '0') {
-        this.us.postDataApi('getPropertyAmenities', {hide_blocked: 1}).subscribe(res => {
-          this.parameter.amenities = res.data.map(item => {
-            item.selected = false;
-            item.images = [];
-            item.images_360 = [];
-            item.images_360 = [];
-            item.videos = [];
-            return item;
-          });
-        });
-
-        this.parameter.property_id = '';
-        this.model.marital_status = [1];
-        // set 0 bcz optional
-        this.model.quantity = 0;
-        this.model.half_bathroom = 0;
-        this.model.property_price = 0;
+      if (params['id'] === '0') {
         this.showSearch = true;
-        this.parameter.propertyDetails = new AddPropertyModel();
       } else {
+        this.showSearch = false;
         this.getCollectionDetails(this.model.id);
       }
     });
-
-    this.parameter.buildingCount = 0;
-    this.initialCountry = { initialCountry: this.constant.initialCountry };
-    this.building.dev_countrycode = this.constant.dial_code;
-
     this.tab = 1;
-    this.getPropertyTypes();
-    this.getPropertyAmenities();
-    // this.getBanks();
-    // this.getBuildingSpecificTypes();
-    // this.getPaymentStatuses();
-
-    // create search FormControl
+    this.getPaymentMethods();
+    this.getDealTypes();
+    this.getCurrencies();
     this.searchControl = new FormControl();
   }
 
@@ -202,8 +164,10 @@ export class AddEditCollectionComponent implements OnInit {
   initFormStep1() {
     this.addFormStep1 = this.fb.group({
       // step 1
+      building_id: ['', [Validators.required]],
+      building_towers_id: ['', [Validators.required]],
+      floor_num: ['', [Validators.required]],
       property_id: ['', [Validators.required]],
-      selectedTowerId: ['', [Validators.required]],
       deal_type_id: ['', [Validators.required]],
       step: ['', [Validators.required]]
     });
@@ -269,7 +233,8 @@ export class AddEditCollectionComponent implements OnInit {
       deal_interest_rate: ['', [Validators.required]],
       deal_monthly_payment: ['', [Validators.required]],
       deal_payment_date: ['', [Validators.required]],
-      deal_penality: ['', [Validators.required]]
+      deal_penality: ['', [Validators.required]],
+      payment_method_id: ['', [Validators.required]]
     });
   }
 
@@ -280,8 +245,12 @@ export class AddEditCollectionComponent implements OnInit {
       step: ['', [Validators.required]],
       comm_total_commission: ['', [Validators.required]],
       comm_shared_commission: ['', [Validators.required]],
-      deal_commission_agents: ['', [Validators.required]],  // array
+      // deal_commission_agents: ['', [Validators.required]]
+      deal_commission_agents: this.fb.array([])
     });
+    // if (this.model.id === '0') {
+      this.addAgent('');
+    // }
   }
 
 
@@ -294,13 +263,12 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
 
-  getCollectionDetails(id: number) {
+  getCollectionDetails(id: string) {
     this.spinner.show();
     this.us.postDataApi('getCollectionById', {id: id})
       .subscribe(
         success => {
           this.spinner.hide();
-          // this.parameter.propertyDetails = success['data'];
           // this.setModelData(success['data']);
           this.patchFormData(success['data']);
         }, error => {
@@ -309,33 +277,76 @@ export class AddEditCollectionComponent implements OnInit {
       );
   }
 
+  getPaymentMethods() {
+    this.us.postDataApi('getPaymentMethods', {})
+      .subscribe(
+        success => {
+          this.paymentMethods = success.data;
+        }, error => {
+          this.spinner.hide();
+        }
+      );
+  }
+
+  getDealTypes() {
+    this.us.postDataApi('getDealTypes', {})
+      .subscribe(
+        success => {
+          this.dealTypes = success.data;
+        }, error => {
+          this.spinner.hide();
+        }
+      );
+  }
+
+  getCurrencies() {
+    this.us.postDataApi('getCurrencies', {})
+      .subscribe(
+        success => {
+          this.currencies = success.data;
+        }, error => {
+          this.spinner.hide();
+        }
+      );
+  }
+
+
   patchFormData(data) {
-    // this.patchFormStep1(data);
+    this.patchFormStep1(data);
     this.patchFormStep2(data);
     this.patchFormStep3(data);
-    // this.patchFormStep4(data);
-    // this.patchFormStep5(data);
+    this.patchFormStep4(data);
+    this.patchFormStep5(data);
   }
 
   patchFormStep1(data) {
-    // patch form 1
-    this.addFormStep1.controls.property_id.patchValue(data.property.id);
-    this.addFormStep1.controls.deal_type_id.patchValue(data.deal_type.id);
+    // this.model.building_id = data.building.id;
+    // this.model.building.name = data.building.name;
+    this.model.building = data.property.building;
+    this.model.building_towers = data.property.building_towers;
+    this.model.floor_num = data.property.floor_num;
+    this.model.name = data.property.name;
+    this.model.deal_type = data.deal_type;
+    this.addFormStep1.controls.building_id.patchValue(data.property.building.id);
+    this.addFormStep1.controls.building_towers_id.patchValue(data.property.building_towers.id);
+    this.addFormStep1.controls.floor_num.patchValue(data.property.floor_num);
+    this.addFormStep1.controls.property_id.patchValue(data.property_id);
+    this.addFormStep1.controls.deal_type_id.patchValue(data.deal_type_id);
     this.addFormStep1.controls.step.patchValue(1);
   }
 
   patchFormStep2(data) {
-    this.addFormStep2.controls.seller_id.patchValue(data.seller.id);
-    this.addFormStep2.controls.seller_name.patchValue(data.seller.name);
-    this.addFormStep2.controls.seller_email.patchValue(data.seller.email);
-    this.addFormStep2.controls.seller_phone.patchValue(data.seller.phone);
-    this.addFormStep2.controls.seller_company_name.patchValue(data.seller_company_name);
-    this.addFormStep2.controls.seller_fed_tax.patchValue(data.seller_fed_tax);
-    this.addFormStep2.controls.seller_leg_rep_name.patchValue(data.seller_leg_rep_name);
-    this.addFormStep2.controls.seller_leg_rep_phone.patchValue(data.seller_leg_rep_phone);
-    this.addFormStep2.controls.seller_leg_rep_email.patchValue(data.seller_leg_rep_email);
-    this.addFormStep2.controls.seller_leg_rep_comp.patchValue(data.seller_leg_rep_comp);
-    this.addFormStep2.controls.seller_leg_rep_fed_tax.patchValue(data.seller_leg_rep_fed_tax);
+    this.addFormStep2.controls.seller_id.patchValue(data.seller ? data.seller.id : '');
+    this.addFormStep2.controls.seller_name.patchValue(data.seller ? data.seller.name : '');
+    this.addFormStep2.controls.seller_email.patchValue(data.seller ? data.seller.email : '');
+    this.addFormStep2.controls.seller_phone.patchValue(data.seller ? data.seller.phone : '');
+    this.addFormStep2.controls.seller_company_name.patchValue(data.seller_company_name || '');
+    this.addFormStep2.controls.seller_fed_tax.patchValue(data.seller_fed_tax || '');
+    this.addFormStep2.controls.seller_leg_rep_name.patchValue(data.seller_leg_rep_name || '');
+    this.addFormStep2.controls.seller_leg_rep_phone.patchValue(data.seller_leg_rep_phone || '');
+    this.addFormStep2.controls.seller_leg_rep_email.patchValue(data.seller_leg_rep_email || '');
+    this.addFormStep2.controls.seller_leg_rep_comp.patchValue(data.seller_leg_rep_comp || '');
+    this.addFormStep2.controls.seller_leg_rep_fed_tax.patchValue(data.seller_leg_rep_fed_tax || '');
     this.addFormStep2.controls.step.patchValue(2);
     const control = this.addFormStep2.get('collection_seller_banks') as FormArray;
     data.collection_seller_banks.forEach(x => {
@@ -344,17 +355,17 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   patchFormStep3(data) {
-    this.addFormStep3.controls.buyer_id.patchValue(data.buyer.id);
-    this.addFormStep3.controls.buyer_name.patchValue(data.buyer.name);
-    this.addFormStep3.controls.buyer_email.patchValue(data.buyer.email);
-    this.addFormStep3.controls.buyer_phone.patchValue(data.buyer.phone);
-    this.addFormStep3.controls.buyer_company_name.patchValue(data.buyer_company_name);
-    this.addFormStep3.controls.buyer_fed_tax.patchValue(data.buyer_fed_tax);
-    this.addFormStep3.controls.buyer_leg_rep_name.patchValue(data.buyer_leg_rep_name);
-    this.addFormStep3.controls.buyer_leg_rep_phone.patchValue(data.buyer_leg_rep_phone);
-    this.addFormStep3.controls.buyer_leg_rep_email.patchValue(data.buyer_leg_rep_email);
-    this.addFormStep3.controls.buyer_leg_rep_comp.patchValue(data.buyer_leg_rep_comp);
-    this.addFormStep3.controls.buyer_leg_rep_fed_tax.patchValue(data.buyer_leg_rep_fed_tax);
+    this.addFormStep3.controls.buyer_id.patchValue(data.buyer ? data.buyer.id : '');
+    this.addFormStep3.controls.buyer_name.patchValue(data.buyer ? data.buyer.name : '');
+    this.addFormStep3.controls.buyer_email.patchValue(data.buyer ? data.buyer.email : '');
+    this.addFormStep3.controls.buyer_phone.patchValue(data.buyer ? data.buyer.phone : '');
+    this.addFormStep3.controls.buyer_company_name.patchValue(data.buyer_company_name || '');
+    this.addFormStep3.controls.buyer_fed_tax.patchValue(data.buyer_fed_tax || '');
+    this.addFormStep3.controls.buyer_leg_rep_name.patchValue(data.buyer_leg_rep_name || '');
+    this.addFormStep3.controls.buyer_leg_rep_phone.patchValue(data.buyer_leg_rep_phone || '');
+    this.addFormStep3.controls.buyer_leg_rep_email.patchValue(data.buyer_leg_rep_email || '');
+    this.addFormStep3.controls.buyer_leg_rep_comp.patchValue(data.buyer_leg_rep_comp || '');
+    this.addFormStep3.controls.buyer_leg_rep_fed_tax.patchValue(data.buyer_leg_rep_fed_tax || '');
     this.addFormStep3.controls.step.patchValue(2);
     const control = this.addFormStep3.get('collection_buyer_banks') as FormArray;
     data.collection_buyer_banks.forEach(x => {
@@ -363,33 +374,38 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   patchFormStep4(data) {
-    this.addFormStep4.controls.deal_purchase_date.patchValue(data.deal_purchase_date);
+    this.addFormStep4.controls.deal_purchase_date.patchValue(moment.utc(data.deal_purchase_date).toDate());
     this.addFormStep4.controls.deal_price.patchValue(data.deal_price);
-    this.addFormStep4.controls.deal_lay_date.patchValue(data.deal_lay_date);
+    this.addFormStep4.controls.deal_lay_date.patchValue(moment.utc(data.deal_lay_date).toDate());
     this.addFormStep4.controls.deal_lay_type.patchValue(data.deal_lay_type);
     this.addFormStep4.controls.deal_lay_percent_value.patchValue(data.deal_lay_percent_value);
     this.addFormStep4.controls.deal_lay_amount_value.patchValue(data.deal_lay_amount_value);
-    this.addFormStep4.controls.deal_down_date.patchValue(data.deal_down_date);
+    this.addFormStep4.controls.deal_down_date.patchValue(moment.utc(data.deal_down_date).toDate());
     this.addFormStep4.controls.deal_down_type.patchValue(data.deal_down_type);
     this.addFormStep4.controls.deal_down_percent_value.patchValue(data.deal_down_percent_value);
     this.addFormStep4.controls.deal_down_amount_value.patchValue(data.deal_down_amount_value);
-    this.addFormStep4.controls.deal_pay_date.patchValue(data.deal_pay_date);
+    this.addFormStep4.controls.deal_pay_date.patchValue(moment.utc(data.deal_pay_date).toDate());
     this.addFormStep4.controls.deal_pay_type.patchValue(data.deal_pay_type);
     this.addFormStep4.controls.deal_pay_percent_value.patchValue(data.deal_pay_percent_value);
     this.addFormStep4.controls.deal_pay_amount_value.patchValue(data.deal_pay_amount_value);
     this.addFormStep4.controls.deal_spe_name.patchValue(data.deal_spe_name);
-    this.addFormStep4.controls.deal_spe_date.patchValue(data.deal_spe_date);
+    this.addFormStep4.controls.deal_spe_date.patchValue(moment.utc(data.deal_spe_date).toDate());
     this.addFormStep4.controls.deal_interest_rate.patchValue(data.deal_interest_rate);
-    this.addFormStep4.controls.deal_spe_name.patchValue(data.deal_spe_name);
+    this.addFormStep4.controls.deal_payment_date.patchValue(moment.utc(data.deal_payment_date).toDate());
     this.addFormStep4.controls.deal_monthly_payment.patchValue(data.deal_monthly_payment);
     this.addFormStep4.controls.deal_penality.patchValue(data.deal_penality);
+    this.addFormStep4.controls.payment_method_id.patchValue(data.payment_method_id);
     this.addFormStep4.controls.step.patchValue(4);
   }
 
   patchFormStep5(data) {
-    // patch form 1
-    this.addFormStep5.controls.property_id.patchValue(data.property.id);
-    this.addFormStep5.controls.deal_type_id.patchValue(data.deal_type.id);
+    this.addFormStep5.controls.comm_total_commission.patchValue(data.comm_total_commission);
+    this.addFormStep5.controls.comm_shared_commission.patchValue(data.comm_shared_commission);
+    this.addFormStep5.controls.deal_commission_agents.patchValue(data.deal_commission_agents);
+    // const control = this.addFormStep5.get('deal_commission_agents') as FormArray;
+    // data.deal_commission_agents.forEach(x => {
+    //     control.push(this.fb.group(x));
+    // });
     this.addFormStep5.controls.step.patchValue(5);
   }
 
@@ -415,110 +431,6 @@ export class AddEditCollectionComponent implements OnInit {
       );
   }
 
-  setModelData(data) {
-    this.model.id = data.id;
-    this.model.name = data.name;
-    this.model.property_price = data.property_price;
-    this.model.for_hold = data.for_hold;
-    this.model.amenities = data.amenities;
-    this.model.building_id = data.building_id;
-    this.model.building_towers_id = data.building_towers_id;
-    this.model.floor_num = data.floor_num;
-    this.model.pets = data.pets !== null ? data.pets : '1';
-    this.model.kids_friendly = data.kids_friendly !== null ? data.kids_friendly : '1';
-    this.model.students_friendly = data.students_friendly !== null ? data.students_friendly : '1';
-    this.model.lgtb_friendly = data.lgtb_friendly !== null ? data.lgtb_friendly : '1';
-    this.model.mature_people_friendly = data.mature_people_friendly !== null ? data.mature_people_friendly : '1';
-
-    this.model.locality_id = data.locality.id;
-    this.model.city_id = data.locality.city.id;
-    this.model.state_id = data.locality.city.state.id;
-    this.model.country_id = data.locality.city.state.country.id;
-
-    this.model.configuration_id = data.configuration ? data.configuration.id : '';
-    this.model.building_configuration_id = data.building_configuration_id ? data.building_configuration_id : '';
-    this.model.property_type_id = data.property_type ? data.property_type.id : '';
-
-    // images
-    this.model.floor_plan = data.floor_plan;
-    this.model.cover_image = data.image;
-    this.model.images = data.images;
-    this.model.images360 = data.images360;
-    this.model.videos = data.videos;
-
-    this.model.description = data.description;
-    this.model.quantity = data.quantity;
-    this.model.floor = data.floor;
-    this.model.bedroom = data.configuration && data.configuration.bedroom ? data.configuration.bedroom : data.bedroom;
-    this.model.bathroom = data.configuration && data.configuration.bathroom ? data.configuration.bathroom : data.bathroom;
-    this.model.half_bathroom = data.configuration && data.configuration.bathroom ? data.configuration.half_bathroom : data.half_bathroom;
-    this.model.parking = data.parking;
-
-    this.model.parking_count = data.parking_count;
-    this.model.parking_for_sale = data.parking_for_sale;
-    this.model.furnished = data.furnished;
-    this.model.property_quantity_details = data.details;
-
-    this.model.for_hold = data.for_hold === 1 ? true : false;
-
-    this.building.id = data.building ? data.building.id : '';
-    this.building.name = data.building ? data.building.name : '';
-    this.model.building_towers = data.building_towers ? data.building_towers : {};
-    if (this.building.id === '') {
-      this.showSearch = true;
-    }
-
-
-    this.us.postDataApi('getPropertyAmenities', {hide_blocked: 1}).subscribe(res => {
-      this.parameter.amenities = res.data.map(item => {
-        item.selected = false;
-        item.images = [];
-        item.images_360 = [];
-        item.images_360 = [];
-        item.videos = [];
-        return item;
-      });
-
-      for (let index = 0; index < this.parameter.amenities.length; index++) {
-        if (this.model.amenities && this.model.amenities.length > 0) {
-          for (let i = 0; i < this.model.amenities.length; i++) {
-            if (this.model.amenities[i].id === this.parameter.amenities[index].id) {
-              this.parameter.amenities[index].selected = true;
-              const pivot = this.model.amenities[i]['pivot'];
-              this.parameter.amenities[index].images = pivot.images ? pivot.images : [];
-              this.parameter.amenities[index].images_360 = pivot.images_360 ? pivot.images_360 : [];
-              this.parameter.amenities[index].videos = pivot.videos ? pivot.videos : [];
-            }
-          }
-        }
-      }
-    });
-    // for (let index = 0; index < data.amenities.length; index++) {
-    //   this.addAmenity(data.amenities[index]);
-    // }
-
-    for (let index = 0; index < data.banks.length; index++) {
-      this.addBank(data.banks[index]);
-    }
-
-    this.bankList = data.banks;
-    for (let index = 0; index < data.banks.length; index++) {
-      const element = data.banks[index];
-      this.model.banks[index] = data.banks[index].id;
-    }
-    // this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.model.floor_plan})`);
-
-    for (let index = 0; index < data.carpet_areas.length; index++) {
-      const element = data.carpet_areas[index];
-      this.model.carpet_areas[index] = { area: element.area, price: element.price };
-      this.newcarpet_area = { area: element.area, price: element.price };
-    }
-
-    for (let index = 0; index < data.custom_values.length; index++) {
-      const element = data.custom_values[index];
-      this.model.custom_attributes[index] = { name: element.name, value: element.value };
-    }
-  }
 
   setTab(tab: any) {
     swal({
@@ -612,176 +524,6 @@ export class AddEditCollectionComponent implements OnInit {
       );
   }
 
-  setAmenity(id: any) {
-    this.model.amenities = [id];
-  }
-
-  setConfiguration(con: Configuration) {
-    this.model.building_configuration_id = con.id;
-    this.model.configuration_id = con.configuration_id;
-    this.model.floor_plan = con.floor_map_image;
-    this.model.images = con.images;
-    this.model.images360 = con.images360;
-    this.model.videos = con.videos;
-    this.model.bedroom = con.config.bedroom;
-    this.model.bathroom = con.config.bathroom;
-    this.model.half_bathroom = con.config.half_bathroom;
-  }
-
-  setValue(key: any, value: any) {
-    this.model[key] = value;
-  }
-
-  getConfigurations() {
-    this.us.postDataApi('getConfigurations', {hide_blocked: 1})
-      .subscribe(
-        success => {
-          this.parameter.items = success['data'];
-          if (this.parameter.items.length !== 0 && this.parameter.property_id === '') {
-            this.model.configuration_id = this.parameter.items[0].id;
-          }
-        }
-      );
-  }
-
-  getPropertyTypes() {
-    this.us.postDataApi('getPropertyTypes', {hide_blocked: 1})
-      .subscribe(
-        success => {
-          this.parameter.propertyTypes = success['data'];
-          if (this.parameter.propertyTypes.length !== 0 && this.parameter.property_id === '') {
-            this.model.property_type_id = this.parameter.propertyTypes[0].id;
-          }
-        }
-      );
-  }
-
-  getPropertyAmenities() {
-    this.us.postDataApi('getPropertyAmenities', {hide_blocked: 1})
-      .subscribe(
-        success => {
-          this.parameter.amenities = success['data'].map(item => {
-            item.selected = false;
-            item.images = [];
-            item.images_360 = [];
-            item.videos = [];
-            return item;
-          });
-        }
-      );
-  }
-
-  modelAmenityOpenFun(amenityObj: any, index: number) {
-    this.amenity_index = index;
-    this.amenity_obj = amenityObj;
-    this.modalAmenOpen.nativeElement.click();
-    this.amenMoreImg.backup(JSON.parse(JSON.stringify(this.parameter.amenities[index].images ?
-      this.parameter.amenities[index].images : [])));
-    this.amen360Img.backup(JSON.parse(JSON.stringify(this.parameter.amenities[index].images_360 ?
-      this.parameter.amenities[index].images_360 : [])));
-    this.amenVideo.backup(JSON.parse(JSON.stringify(this.parameter.amenities[index].videos ? this.parameter.amenities[index].videos : [])));
-  }
-
-  modelAmenityCloseFun() {
-    this.modalAmenClose.nativeElement.click();
-  }
-
-  addAmenity(amen) {
-    if (!amen) {
-      return false;
-    }
-    const index = this.amenityList.findIndex(x => x.id == amen.id);
-    if (index < 0) {
-      this.model.amenities.push(amen.id);
-      this.amenityList.push(amen);
-
-      const removeIndex = this.parameter.amenities.findIndex(x => x.id == amen.id);
-      this.parameter.amenities.splice(removeIndex, 1);
-    }
-  }
-
-  getSelectedAmenityByName(selectedName: string) {
-    const r = this.amenityList.find(amenity => amenity.name_en === selectedName);
-    if (r) {
-      return '';
-    } else {
-      return this.parameter.amenities.find(amenity => amenity.name_en === selectedName);
-    }
-  }
-
-  removeAmenity(amenity, index) {
-    this.parameter.amenities.push(amenity);
-    this.model.amenities.splice(index, 1);
-    this.amenityList.splice(index, 1);
-  }
-
-
-  getBanks() {
-    const input = new FormData();
-    this.us.postDataApi('getBanks', input)
-      .subscribe(
-        success => {
-          this.parameter.banks = success['data'];
-        }
-      );
-  }
-
-  getBuildingSpecificTypes() {
-    const input = new FormData();
-    this.us.postDataApi('getBuildingSpecificTypes', input)
-      .subscribe(
-        success => {
-          this.parameter.buildingSpecificTypes = success['data'];
-        }
-      );
-  }
-
-  getPaymentStatuses() {
-    const input = new FormData();
-    this.us.postDataApi('getPaymentStatuses', input)
-      .subscribe(
-        success => {
-          this.parameter.paymentStatuses = success['data'];
-        }
-      );
-  }
-
-  addBank(bank) {
-    if (!bank) {
-      return false;
-    }
-    const index = this.bankList.findIndex(x => x.id == bank.id);
-    if (index < 0) {
-      this.model.banks.push(bank.id);
-      this.bankList.push(bank);
-      const removeIndex = this.parameter.banks.findIndex(x => x.id == bank.id);
-      this.parameter.banks.splice(removeIndex, 1);
-    }
-  }
-
-  removeBank(bank, index) {
-    this.parameter.banks.push(bank);
-    this.model.banks.splice(index, 1);
-    this.bankList.splice(index, 1);
-  }
-
-  addCarpetArea() {
-    if (!this.newcarpet_area.area || !this.newcarpet_area.price) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseFillCarpetAreaFields'), 'error');
-    } else {
-      this.model.carpet_areas.push(JSON.parse(JSON.stringify(this.newcarpet_area)));
-      this.newcarpet_area = { area: '', price: '' };
-    }
-  }
-
-  addCustomAttribute() {
-    if (!this.newcustom_attribute.name || !this.newcustom_attribute.value) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseFillCustomAttributeFields'), 'error');
-    } else {
-      this.model.custom_attributes.push(this.newcustom_attribute);
-      this.newcustom_attribute = { name: '', value: '' };
-    }
-  }
 
   getSelectedBankByName(selectedName: string) {
     const r = this.bankList.find(bank => bank.name === selectedName);
@@ -829,125 +571,6 @@ export class AddEditCollectionComponent implements OnInit {
     this.showBuilding = showBuilding;
     this.buildingName = '';
   }
-
-  createCollection(formdata: NgForm, tab: number) {
-// console.log(this.tab);
-// console.log(formdata);
-// console.log(this.model, this.property_id);
-    this.model.step = tab;
-    formdata['step'] = tab;
-    if (this.model.id) {
-      formdata['id'] = this.model.id;
-    }
-    if (this.model.step == 1) {
-      if (!this.model.building_id) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectBuilding'), 'error');
-        return;
-      } else if (!this.model.building_towers_id) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectFloor'), 'error');
-        return;
-      } else if (!this.model.floor_num) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseFloor'), 'error');
-        return;
-      } else if (!this.model.property_id) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseApartment'), 'error');
-        return;
-      } else if (!this.model.deal_type_id) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseDealType'), 'error');
-        return;
-      }
-    }
-
-    // const input = new FormData();
-    // input.append('step', this.model.step.toString());
-    // if (this.model.step === 1) {
-    //   input.append('name', this.model.name);
-    //   input.append('country_id', this.model.country_id);
-    //   input.append('state_id', this.model.state_id);
-    //   input.append('city_id', this.model.city_id);
-    //   input.append('locality_id', this.model.locality_id);
-    //   input.append('configuration_id', this.model.configuration_id);
-    //   if (this.model.building_configuration_id) {
-    //     input.append('building_configuration_id', this.model.building_configuration_id);
-    //   }
-    //   input.append('carpet_areas', JSON.stringify(this.model.carpet_areas));
-    //   input.append('property_type_id', this.model.property_type_id);
-    //   input.append('building_id', this.model.building_id);
-    //   input.append('step', this.model.step.toString());
-    //   input.append('building_towers_id', this.model.building_towers_id);
-    //   input.append('floor_num', this.model.floor_num);
-    // }
-
-    // if (this.model.step === 2) {
-    //   const imagesString = this.model.images ? this.model.images.map(r => r.image) : [];
-    //   const imagesString360 = this.model.images360 ? this.model.images360.map(r => r.image) : [];
-    //   // const videoString = this.model.videos.map(r => r.image);
-    //   if (this.model.parking === 0) {
-    //     this.model.parking_count = 0;
-    //     this.model.parking_for_sale = 0;
-    //   }
-
-    //   // added building_id and step cuz need to update sttaus and step
-    //   input.append('building_id', this.model.building_id);
-    //   input.append('step', this.model.step.toString());
-    //   input.append('images', JSON.stringify(imagesString));
-    //   input.append('images360', JSON.stringify(imagesString360));
-    //   input.append('videos', JSON.stringify(this.model.videos));
-    //   input.append('cover_image', this.model.cover_image);
-    //   input.append('floor_plan', this.model.floor_plan);
-    //   input.append('bedroom', this.model.bedroom.toString());
-    //   input.append('bathroom', this.model.bathroom.toString());
-    //   input.append('half_bathroom', this.model.half_bathroom ? this.model.half_bathroom.toString() : '0');
-    //   input.append('floor', this.model.floor.toString());
-    //   input.append('broker_commision', this.model.broker_commision.toString());
-    //   input.append('property_price', this.model.property_price ? this.model.property_price.toString() : '0');
-    //   input.append('parking', this.model.parking.toString());
-    //   input.append('parking_count', this.model.parking_count ? this.model.parking_count.toString() : '0');
-    //   input.append('parking_for_sale', this.model.parking_for_sale ? this.model.parking_for_sale.toString() : '0');
-    //   input.append('furnished', this.model.furnished.toString());
-    //   input.append('description', this.model.description);
-    //   input.append('quantity', this.model.quantity ? this.model.quantity.toString() : '0');
-    //   input.append('amenities', JSON.stringify(this.model.amenities ? this.model.amenities : []));
-    //   input.append('banks', JSON.stringify(this.model.banks ? this.model.banks : []));
-    //   input.append('property_quantity_details',
-    //     JSON.stringify(this.model.property_quantity_details ? this.model.property_quantity_details : []));
-    // }
-    // if (this.model.step === 3) {
-    //   // added building_id and step cuz need to update sttaus and step
-    //   input.append('building_id', this.model.building_id);
-    //   input.append('step', this.model.step.toString());
-    //   input.append('pets', this.model.pets.toString());
-    //   input.append('kids_friendly', this.model.kids_friendly.toString());
-    //   input.append('students_friendly', this.model.students_friendly.toString());
-    //   input.append('lgtb_friendly', this.model.lgtb_friendly.toString());
-    //   input.append('mature_people_friendly', this.model.mature_people_friendly.toString());
-    //   input.append('marital_status', JSON.stringify(this.model.marital_status));
-    // }
-    // if (this.model.step === 4) {
-    //   // added building_id and step cuz need to update sttaus and step
-    //   input.append('building_id', this.model.building_id);
-    //   input.append('step', this.model.step.toString());
-    //   input.append('custom_attributes', JSON.stringify(this.model.custom_attributes));
-    // }
-    this.tab = tab + 1;
-    // this.spinner.show();
-    this.us.postDataApi('addCollection', formdata)
-      .subscribe(
-        success => {
-          this.spinner.hide();
-          const successText = this.parameter.bulk_approve_property ? '' :
-          this.translate.instant('message.error.notifiedWhenAdminReview');
-          swal({
-            html: this.translate.instant('message.success.submittedSccessfully') + '<br>' + successText, type: 'success'
-          });
-          this.parameter.property_id = success['data'].id;
-          this.tab = tab;
-        }, error => {
-          this.spinner.hide();
-        }
-      );
-  }
-
   getBuildingIndex(i: number) {
     this.searchedBuildings.forEach(e => {
       e.selected = false;
@@ -961,13 +584,6 @@ export class AddEditCollectionComponent implements OnInit {
     this.selectedBuilding = building;
     this.building.id = building.id;
     this.model.building_id = building.id;
-
-    this.model.pets = building.pets !== null ? building.pets : '1';
-    this.model.kids_friendly = building.kids_friendly !== null ? building.kids_friendly : '1';
-    this.model.students_friendly = building.students_friendly !== null ? building.students_friendly : '1';
-    this.model.lgtb_friendly = building.lgtb_friendly !== null ? building.lgtb_friendly : '1';
-    this.model.mature_people_friendly = building.mature_people_friendly !== null ? building.mature_people_friendly : '1';
-
   }
 
   // setTower(tower: Towers) {
@@ -986,7 +602,8 @@ export class AddEditCollectionComponent implements OnInit {
         const bt = this.searchedBuildings[index].building_towers;
         for(let i = 0; i < bt.length; i++) {
           if (bt[i].id == building_towers_id) {
-            this.selectedTower = bt[i];
+            // this.selectedTower = bt[i];
+            this.model.building_towers = bt[i];
           }
         }
       }
@@ -1095,71 +712,6 @@ export class AddEditCollectionComponent implements OnInit {
 
   }
 
-
-  showCanvas(event) {
-    if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
-    } else {
-
-      setTimeout(() => {
-        this.model.videoLoader = true;
-        this.video = document.getElementById('video1');
-        const reader = new FileReader();
-        const videoTest = this.element.nativeElement.querySelector('.video55');
-        reader.onload = function (e) {
-          const src = e.target['result'];
-          videoTest.src = src;
-          const timer = setInterval(() => {
-            // find duration of video only of video is in ready state
-            if (videoTest.readyState === 4) {
-              setTimeout(() => {
-                // create canvas at middle of video
-                this.newcanvas(videoTest, event.target.files[0]);
-              }, 3000);
-              clearInterval(timer);
-            }
-          }, 100);
-        }.bind(this);
-        reader.readAsDataURL(event.target.files[0]);
-      }, 100);
-    }
-  }
-
-  newcanvas(video: any, videoFile: File) {
-    const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-    const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
-      0, 0, canvas.width, canvas.height);
-    const ImageURL = canvas.toDataURL('image/jpeg');
-    // model.image = ImageURL;
-    const fileToUpload = this.dataURLtoFile(ImageURL, 'tempFile.png');
-    this.cs.saveVideo(videoFile, fileToUpload).subscribe(
-      success => {
-        this.model.videoLoader = false;
-        this.model.videos = [];
-        const videoObj = {
-          video: '', thumb: ''
-        };
-        videoObj.video = success['data'].video;
-        videoObj.thumb = success['data'].thumb;
-        this.model.videos = [videoObj];
-      }, error => {
-        // console.log(error);
-      }
-    );
-  }
-
-  dataURLtoFile(dataurl, filename) {
-    const arr = dataurl.split(',');
-    const mime = arr[0].match(/:(.*?);/)[1];
-    const bstr = atob(arr[1]);
-    let n = bstr.length;
-    const u8arr = new Uint8Array(n);
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new File([u8arr], filename, { type: mime });
-  }
-
   onEnteringNumOfProperty(e: any) {
     // this.property_names = Array(e).fill(1);
     this.property_names = [];
@@ -1175,47 +727,14 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
 
-  amenMoreImgSelect($event) {
-    if ((this.amenMoreImg.files.length + $event.target.files.length) > 6) {
-      swal(this.translate.instant('message.error.limitExceeded'),
-          this.translate.instant('message.error.youCanUploadMaximumof6Images'), 'error');
-      return false;
-    }
-    this.amenMoreImg.onSelectFile($event);
-  }
-
-  amen360ImagesSelect($event) {
-    if ((this.amen360Img.files.length + $event.target.files.length) > 6) {
-      swal(this.translate.instant('message.error.limitExceeded'),
-          this.translate.instant('message.error.youCanUploadMaximumof6Images'), 'error');
-      return false;
-    }
-    this.amen360Img.onSelectFile($event);
-  }
-
-  modelOpenVideos() {
-    this.modalAddMoreVideos.nativeElement.click();
-    this.amenVideo.backup(JSON.parse(JSON.stringify(this.model.videos)));
-  }
-
-  setVideoStaticThumb(myIndex) {
-    const fileToUpload = 'assets/img/video-file.svg';
-    this.amenVideo.files[myIndex].loading = false;
-    this.amenVideo.files[myIndex]['thumb'] = fileToUpload;
-    this.amenVideo.files[myIndex]['fileToUpload'] = fileToUpload;
-  }
-
-  remove(index: any) {
-    this.amenVideo.files.splice(index, 1);
-  }
-
   getProperties($event) {
+    console.log('qqqqq', $event.target.value)
     $event.stopPropagation();
     this.model.floor_num = $event.target.value;
     if (!this.model.building_id) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectBuilding'), 'error');
       return;
-    } else if (!this.model.building_towers_id) {
+    } else if (!this.model.building_towers.id) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectFloor'), 'error');
       return;
     } else if (!this.model.floor_num) {
@@ -1242,7 +761,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   setPropertyId(property_id) {
-    this.model.property_id = 5521; // property_id;
+    this.model.property_id = property_id;
   }
 
   addSellerBank($event) {
@@ -1288,4 +807,148 @@ export class AddEditCollectionComponent implements OnInit {
     $event.stopPropagation();
     this.collectionBuyerBanks.removeAt(i);
   }
+
+  addAgent($event) {
+    if ($event) {
+      $event.stopPropagation();
+    }
+    this.agents.push(this.newAgent());
+  }
+
+  get agents(): FormArray {
+    return this.addFormStep5.get('deal_commission_agents') as FormArray;
+  }
+
+  newAgent(): FormGroup {
+    return this.fb.group({
+      name: ['', [Validators.required]],
+      fed_tax_payer_reg: ['', [Validators.required]]
+    });
+  }
+
+  onSelect(e) {
+    // this.leadData.planning_to_buy = e;
+  }
+
+
+  getAllSellers(keyword: string) {
+    this.spinner.show();
+    const input = { name: '' };
+    input.name = keyword ? keyword : '';
+
+    this.us.postDataApi('getAllBuyers', input).subscribe(r => {
+      this.spinner.hide();
+      if (keyword === '') {
+        this.linkUserModal.nativeElement.click();
+      }
+      this.allUsers = r['data'];
+    }, error => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
+
+  setSeller(item) {
+    if (this.tab == 2) {
+      console.log(item);
+      this.model.seller_id = item.id;
+      this.model.seller = item;
+      this.addFormStep2.controls.seller_id.patchValue(item.id);
+      this.addFormStep2.controls.seller_name.patchValue(item.name);
+      this.addFormStep2.controls.seller_email.patchValue(item.email);
+      this.addFormStep2.controls.seller_phone.patchValue(item.phone);
+    } else {
+      this.model.buyer_id = item.id;
+      this.model.buyer = item;
+      this.addFormStep3.controls.buyer_id.patchValue(item.id);
+      this.addFormStep3.controls.buyer_name.patchValue(item.name);
+      this.addFormStep3.controls.buyer_email.patchValue(item.email);
+      this.addFormStep3.controls.buyer_phone.patchValue(item.phone);
+    }
+    this.closeLinkUserModal.nativeElement.click();
+  }
+
+  unsetSeller(item) {
+    if (this.tab == 2) {
+      this.model.seller_id = '';
+      this.model.seller = new Seller();
+      this.addFormStep2.controls.seller_id.patchValue('');
+      this.addFormStep2.controls.seller_name.patchValue('');
+      this.addFormStep2.controls.seller_email.patchValue('');
+      this.addFormStep2.controls.seller_phone.patchValue('');
+    } else {
+      this.model.buyer_id = '';
+      this.model.buyer = new Seller();
+      this.addFormStep3.controls.buyer_id.patchValue('');
+      this.addFormStep3.controls.buyer_name.patchValue('');
+      this.addFormStep3.controls.buyer_email.patchValue('');
+      this.addFormStep3.controls.buyer_phone.patchValue('');
+    }
+    this.closeLinkUserModal.nativeElement.click();
+  }
+
+  createCollection(formdata: NgForm, tab: number) {
+// console.log(this.tab);
+// console.log(formdata);
+// console.log(this.model, this.property_id);
+console.log(formdata);
+    this.model.step = tab;
+    formdata['step'] = tab;
+    if (this.model.id) {
+      formdata['id'] = this.model.id;
+    }
+    if (this.model.step == 1) {
+      if (formdata['property_id']) {
+        const pid = formdata['property_id'].id;
+        formdata['property_id'] = pid;
+      }
+      if (this.model.building_id) {
+        formdata['building_id'] = this.model.building_id;
+      }
+      if (!formdata['building_id']) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectBuilding'), 'error');
+        return;
+      } else if (!formdata['building_towers_id']) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectFloor'), 'error');
+        return;
+      } else if (!formdata['floor_num']) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseFloor'), 'error');
+        return;
+      } else if (!formdata['property_id']) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseApartment'), 'error');
+        return;
+      } else if (!formdata['deal_type_id']) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseDealType'), 'error');
+        return;
+      }
+    }
+
+    if (this.model.step == 4) {
+      formdata['deal_purchase_date'] = moment(formdata['deal_purchase_date']).format('YYYY-MM-DD');
+      formdata['deal_lay_date'] = moment(formdata['deal_lay_date']).format('YYYY-MM-DD');
+      formdata['deal_down_date'] = moment(formdata['deal_down_date']).format('YYYY-MM-DD');
+      formdata['deal_pay_date'] = moment(formdata['deal_pay_date']).format('YYYY-MM-DD');
+      formdata['deal_spe_date'] = moment(formdata['deal_spe_date']).format('YYYY-MM-DD');
+      formdata['deal_payment_date'] = moment(formdata['deal_payment_date']).format('YYYY-MM-DD');
+    }
+
+    // this.spinner.show();
+    this.us.postDataApi('addCollection', formdata)
+      .subscribe(
+        success => {
+          this.tab = tab + 1;
+          this.spinner.hide();
+          this.model.id = success['data'].id;
+          if (tab == 6) {
+            swal({
+              html: this.translate.instant('message.success.submittedSccessfully'), type: 'success'
+            });
+          }
+          this.parameter.property_id = success['data'].id;
+        }, error => {
+          this.spinner.hide();
+        }
+      );
+  }
+
 }
