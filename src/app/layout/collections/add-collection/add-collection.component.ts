@@ -287,7 +287,7 @@ export class AddCollectionComponent implements OnInit {
   }
 
 
-  getCollectionDetails(id: number) {
+  getCollectionDetails(id: string) {
     this.spinner.show();
     this.us.postDataApi('getCollectionById', {id: id})
       .subscribe(
@@ -374,110 +374,6 @@ export class AddCollectionComponent implements OnInit {
       );
   }
 
-  setModelData(data) {
-    this.model.id = data.id;
-    this.model.name = data.name;
-    this.model.property_price = data.property_price;
-    this.model.for_hold = data.for_hold;
-    this.model.amenities = data.amenities;
-    this.model.building_id = data.building_id;
-    this.model.building_towers_id = data.building_towers_id;
-    this.model.floor_num = data.floor_num;
-    this.model.pets = data.pets !== null ? data.pets : '1';
-    this.model.kids_friendly = data.kids_friendly !== null ? data.kids_friendly : '1';
-    this.model.students_friendly = data.students_friendly !== null ? data.students_friendly : '1';
-    this.model.lgtb_friendly = data.lgtb_friendly !== null ? data.lgtb_friendly : '1';
-    this.model.mature_people_friendly = data.mature_people_friendly !== null ? data.mature_people_friendly : '1';
-
-    this.model.locality_id = data.locality.id;
-    this.model.city_id = data.locality.city.id;
-    this.model.state_id = data.locality.city.state.id;
-    this.model.country_id = data.locality.city.state.country.id;
-
-    this.model.configuration_id = data.configuration ? data.configuration.id : '';
-    this.model.building_configuration_id = data.building_configuration_id ? data.building_configuration_id : '';
-    this.model.property_type_id = data.property_type ? data.property_type.id : '';
-
-    // images
-    this.model.floor_plan = data.floor_plan;
-    this.model.cover_image = data.image;
-    this.model.images = data.images;
-    this.model.images360 = data.images360;
-    this.model.videos = data.videos;
-
-    this.model.description = data.description;
-    this.model.quantity = data.quantity;
-    this.model.floor = data.floor;
-    this.model.bedroom = data.configuration && data.configuration.bedroom ? data.configuration.bedroom : data.bedroom;
-    this.model.bathroom = data.configuration && data.configuration.bathroom ? data.configuration.bathroom : data.bathroom;
-    this.model.half_bathroom = data.configuration && data.configuration.bathroom ? data.configuration.half_bathroom : data.half_bathroom;
-    this.model.parking = data.parking;
-
-    this.model.parking_count = data.parking_count;
-    this.model.parking_for_sale = data.parking_for_sale;
-    this.model.furnished = data.furnished;
-    this.model.property_quantity_details = data.details;
-
-    this.model.for_hold = data.for_hold === 1 ? true : false;
-
-    this.building.id = data.building ? data.building.id : '';
-    this.building.name = data.building ? data.building.name : '';
-    this.model.building_towers = data.building_towers ? data.building_towers : {};
-    if (this.building.id === '') {
-      this.showSearch = true;
-    }
-
-
-    this.us.postDataApi('getPropertyAmenities', {hide_blocked: 1}).subscribe(res => {
-      this.parameter.amenities = res.data.map(item => {
-        item.selected = false;
-        item.images = [];
-        item.images_360 = [];
-        item.images_360 = [];
-        item.videos = [];
-        return item;
-      });
-
-      for (let index = 0; index < this.parameter.amenities.length; index++) {
-        if (this.model.amenities && this.model.amenities.length > 0) {
-          for (let i = 0; i < this.model.amenities.length; i++) {
-            if (this.model.amenities[i].id === this.parameter.amenities[index].id) {
-              this.parameter.amenities[index].selected = true;
-              const pivot = this.model.amenities[i]['pivot'];
-              this.parameter.amenities[index].images = pivot.images ? pivot.images : [];
-              this.parameter.amenities[index].images_360 = pivot.images_360 ? pivot.images_360 : [];
-              this.parameter.amenities[index].videos = pivot.videos ? pivot.videos : [];
-            }
-          }
-        }
-      }
-    });
-    // for (let index = 0; index < data.amenities.length; index++) {
-    //   this.addAmenity(data.amenities[index]);
-    // }
-
-    for (let index = 0; index < data.banks.length; index++) {
-      this.addBank(data.banks[index]);
-    }
-
-    this.bankList = data.banks;
-    for (let index = 0; index < data.banks.length; index++) {
-      const element = data.banks[index];
-      this.model.banks[index] = data.banks[index].id;
-    }
-    // this.image1 = this.sanitization.bypassSecurityTrustStyle(`url(${this.model.floor_plan})`);
-
-    for (let index = 0; index < data.carpet_areas.length; index++) {
-      const element = data.carpet_areas[index];
-      this.model.carpet_areas[index] = { area: element.area, price: element.price };
-      this.newcarpet_area = { area: element.area, price: element.price };
-    }
-
-    for (let index = 0; index < data.custom_values.length; index++) {
-      const element = data.custom_values[index];
-      this.model.custom_attributes[index] = { name: element.name, value: element.value };
-    }
-  }
 
   setTab(tab: any) {
     swal({

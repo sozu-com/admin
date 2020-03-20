@@ -831,6 +831,27 @@
       "pleaseChooseFloor": "Por favor seleccione Piso",
       "pleaseChooseApartment": "Por favor seleccione Apartamento",
       "pleaseChooseDealType": "Por favor, seleccione el tipo de oferta",
+
+
+      "pleaseChooseSeller": "Por favor seleccione Vendedor",
+      "pleaseChooseBuyer": "Por favor seleccione Compradora",
+      "pleaseEnterCompanyName": "Por favor, introduzca el nombre de la empresa",
+      "pleaseEnterFederalTaxPayer": "Por favor ingrese al Registro Federal de Pagadores de Impuestos",
+      "pleaseEnterBankDetails": "Por favor complete los datos bancarios",
+      "pleaseEnterPurchaseDate": "Por favor, introduzca la fecha de compra",
+      "pleaseEnterPrice": "Por favor ingrese el precio",
+      "pleaseEnterLayawayPayment": "Ingrese Pago a plazos (pago específico)",
+      "pleaseEnterDownPayment": "Ingrese el anticipo (pago específico)",
+      "pleaseEnterPaymentUponDelivery": "Por favor, introduzca el pago a la entrega",
+      "pleaseEnterSpecialPayment": "Ingrese Pagos especiales (pago específico)",
+      "pleaseEnterInterestRate": "Ingrese la tasa de interés (simple / compuesto)",
+      "pleaseEnterMonthlyPayment": "Ingrese Pagos mensuales (cuotas)",
+      "pleaseEnterPenality": "Por favor, introduzca la penalidad por retraso en el pago",
+      "pleaseEnterTotalCommission": "Por favor ingrese Comisión Total",
+      "pleaseEnterSharedCommission": "Por favor ingrese Comisión Común",
+      "pleaseChooseAgent": "Por favor seleccione Agente",
+
+
       "areYouSure": "¿Estás seguro?",
       "wantToBlockNotary": "¿Quieres bloquear este notario?",
       "wantToUnblockNotary": "¿Quieres desbloquear este notario?",

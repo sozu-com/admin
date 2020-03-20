@@ -258,7 +258,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep6 = this.fb.group({
       // step 6
       step: ['', [Validators.required]],
-      collection_folders: ['', [Validators.required]] // array
+      collection_folders: this.fb.array([])
     });
   }
 
@@ -457,72 +457,72 @@ export class AddEditCollectionComponent implements OnInit {
     this.initialCountry = { initialCountry: e.iso2 };
   }
 
-  getCountries(keyword: string) {
-    this.us.postDataApi('getCountries', {})
-      .subscribe(
-        success => {
-          this.parameter.countries = success['data'];
-        }
-      );
-  }
+  // getCountries(keyword: string) {
+  //   this.us.postDataApi('getCountries', {})
+  //     .subscribe(
+  //       success => {
+  //         this.parameter.countries = success['data'];
+  //       }
+  //     );
+  // }
 
-  getStates(country_id: any, keyword: string) {
-    // this.spinner.show();
-    this.model.country_id = country_id;
-    this.model.state_id = '';
-    this.model.city_id = '';
-    this.model.locality_id = '';
-    this.parameter.cities = [];
-    this.parameter.localities = [];
-    const input = new FormData();
-    input.append('country_id', country_id);
+  // getStates(country_id: any, keyword: string) {
+  //   // this.spinner.show();
+  //   this.model.country_id = country_id;
+  //   this.model.state_id = '';
+  //   this.model.city_id = '';
+  //   this.model.locality_id = '';
+  //   this.parameter.cities = [];
+  //   this.parameter.localities = [];
+  //   const input = new FormData();
+  //   input.append('country_id', country_id);
 
-    this.us.postDataApi('country/getStates', input).subscribe(success => {
-      this.parameter.states = success['data'];
-      // this.spinner.hide();
-    },
-      error => {
-        // this.spinner.hide();
-      });
-  }
+  //   this.us.postDataApi('country/getStates', input).subscribe(success => {
+  //     this.parameter.states = success['data'];
+  //     // this.spinner.hide();
+  //   },
+  //     error => {
+  //       // this.spinner.hide();
+  //     });
+  // }
 
-  getCities(state_id: any, keyword: string) {
-    // this.spinner.show();
-    this.model.state_id = state_id;
-    this.model.city_id = '';
-    this.model.locality_id = '';
-    this.parameter.localities = [];
-    const input = new FormData();
-    input.append('state_id', state_id);
+  // getCities(state_id: any, keyword: string) {
+  //   // this.spinner.show();
+  //   this.model.state_id = state_id;
+  //   this.model.city_id = '';
+  //   this.model.locality_id = '';
+  //   this.parameter.localities = [];
+  //   const input = new FormData();
+  //   input.append('state_id', state_id);
 
-    this.us.postDataApi('getCities', input).subscribe(success => {
-      this.parameter.cities = success['data'];
-      // this.spinner.hide();
-    },
-      error => {
-        // this.spinner.hide();
-      });
-  }
+  //   this.us.postDataApi('getCities', input).subscribe(success => {
+  //     this.parameter.cities = success['data'];
+  //     // this.spinner.hide();
+  //   },
+  //     error => {
+  //       // this.spinner.hide();
+  //     });
+  // }
 
 
-  getLocalities(city_id: any, keyword = '') {
-    this.model.city_id = city_id;
-    this.model.locality_id = '';
+  // getLocalities(city_id: any, keyword = '') {
+  //   this.model.city_id = city_id;
+  //   this.model.locality_id = '';
 
-    const input = new FormData();
-    input.append('city_id', city_id);
+  //   const input = new FormData();
+  //   input.append('city_id', city_id);
 
-    if (keyword) {
-      input.append('keyword', keyword);
-    }
+  //   if (keyword) {
+  //     input.append('keyword', keyword);
+  //   }
 
-    this.us.postDataApi('getLocalities', input)
-      .subscribe(
-        success => {
-          this.parameter.localities = success['data'];
-        }
-      );
-  }
+  //   this.us.postDataApi('getLocalities', input)
+  //     .subscribe(
+  //       success => {
+  //         this.parameter.localities = success['data'];
+  //       }
+  //     );
+  // }
 
 
   getSelectedBankByName(selectedName: string) {
@@ -610,9 +610,9 @@ export class AddEditCollectionComponent implements OnInit {
     }
   }
 
-  setFloor(floor_num: any) {
-    this.model.floor_num = floor_num;
-  }
+  // setFloor(floor_num: any) {
+  //   this.model.floor_num = floor_num;
+  // }
 
   tagBuilding() {
 
@@ -786,6 +786,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.collectionSellerBanks.removeAt(i);
   }
 
+  // buyer bank
   addBuyerBank($event) {
     $event.stopPropagation();
     this.collectionBuyerBanks.push(this.newBuyerBanks());
@@ -807,6 +808,53 @@ export class AddEditCollectionComponent implements OnInit {
     $event.stopPropagation();
     this.collectionBuyerBanks.removeAt(i);
   }
+  // end buyer bank
+
+  // folder
+  addFolder($event) {
+    $event.stopPropagation();
+    this.folders.push(this.newFolder());
+  }
+
+  get folders(): FormArray {
+    return this.addFormStep6.get('collection_folders') as FormArray;
+  }
+
+  newFolder(): FormGroup {
+    return this.fb.group({
+      name: ['', [Validators.required]],
+      folder_docs: this.fb.array([])
+    });
+  }
+
+  removeFolder($event: Event, i: number) {
+    $event.stopPropagation();
+    this.collectionBuyerBanks.removeAt(i);
+  }
+  // end folder
+
+  addDocument($event) {
+    $event.stopPropagation();
+    this.folderDocs.push(this.newDocx());
+  }
+
+  get folderDocs(): FormArray {
+    const collFolders =  this.addFormStep6.get('collection_folders') as FormArray;
+    return collFolders.get('folder_docs') as FormArray;
+  }
+
+  newDocx(): FormGroup {
+    return this.fb.group({
+      display_name: ['', [Validators.required]],
+      name: ['', [Validators.required]]
+    });
+  }
+
+  removeDocs($event: Event, i: number) {
+    $event.stopPropagation();
+    this.collectionBuyerBanks.removeAt(i);
+  }
+  // end docx
 
   addAgent($event) {
     if ($event) {
@@ -923,7 +971,72 @@ console.log(formdata);
       }
     }
 
+    if (this.model.step == 2) {
+      if (!formdata['seller_id']) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseSeller'), 'error');
+        return;
+      } else if (!formdata['seller_company_name']) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterCompanyName'), 'error');
+        return;
+      } else if (!formdata['seller_fed_tax']) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), 'error');
+        return;
+      } else if (!formdata['collection_seller_banks']) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
+        return;
+      }
+    }
+
+    if (this.model.step == 3) {
+      if (!formdata['buyer_id']) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseSeller'), 'error');
+        return;
+      } else if (!formdata['buyer_company_name']) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterCompanyName'), 'error');
+        return;
+      } else if (!formdata['buyer_fed_tax']) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), 'error');
+        return;
+      } else if (!formdata['collection_buyer_banks']) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
+        return;
+      }
+    }
+
     if (this.model.step == 4) {
+      if (!formdata['deal_purchase_date']) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPurchaseDate'), 'error');
+        return;
+      } else if (!formdata['deal_price']) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPrice'), 'error');
+        return;
+      } else if (!formdata['deal_lay_date'] || !formdata['deal_lay_type'] ||
+          !formdata['deal_lay_percent_value'] || !formdata['deal_lay_amount_value']) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLayawayPayment'), 'error');
+        return;
+      } else if (!formdata['deal_down_date'] || !formdata['deal_down_type'] ||
+          !formdata['deal_down_percent_value'] || !formdata['deal_down_amount_value']) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterDownPayment'), 'error');
+        return;
+      } else if (!formdata['deal_pay_date'] || !formdata['deal_pay_type'] ||
+          !formdata['deal_pay_percent_value'] || !formdata['deal_pay_amount_value']) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPaymentUponDelivery'), 'error');
+        return;
+      } else if (!formdata['deal_spe_name'] || !formdata['deal_spe_date']) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterSpecialPayment'), 'error');
+        return;
+      } else if (!formdata['deal_interest_rate']) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterInterestRate'), 'error');
+        return;
+      } else if (!formdata['deal_monthly_payment']) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterMonthlyPayment'), 'error');
+        return;
+      } else if (!formdata['deal_penality']) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPenality'), 'error');
+        return;
+      }
+
+
       formdata['deal_purchase_date'] = moment(formdata['deal_purchase_date']).format('YYYY-MM-DD');
       formdata['deal_lay_date'] = moment(formdata['deal_lay_date']).format('YYYY-MM-DD');
       formdata['deal_down_date'] = moment(formdata['deal_down_date']).format('YYYY-MM-DD');
@@ -931,6 +1044,20 @@ console.log(formdata);
       formdata['deal_spe_date'] = moment(formdata['deal_spe_date']).format('YYYY-MM-DD');
       formdata['deal_payment_date'] = moment(formdata['deal_payment_date']).format('YYYY-MM-DD');
     }
+
+    if (this.model.step == 5) {
+      if (!formdata['comm_total_commission']) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterTotalCommission'), 'error');
+        return;
+      } else if (!formdata['comm_shared_commission']) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterSharedCommission'), 'error');
+        return;
+      } else if (!formdata['deal_commission_agents']) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), 'error');
+        return;
+      }
+    }
+
 
     // this.spinner.show();
     this.us.postDataApi('addCollection', formdata)

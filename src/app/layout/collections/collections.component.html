@@ -320,7 +320,7 @@
                      <td><span>{{p?.property?.building_towers ? p?.property?.building_towers?.tower_name : ('table.tr.td.NA' | translate)}}</span></td>
                      <td><span>{{p?.property?.name ? p?.property?.name : ('table.tr.td.NA' | translate)}}</span></td>
                      <td>
-                        <app-property-configuration *ngIf="p.configuration" [configuration]="p.configuration"></app-property-configuration>
+                        <app-property-configuration *ngIf="p.property.configuration" [configuration]="p.property.configuration"></app-property-configuration>
                      </td>
                      <td><span>{{p?.property?.locality?.name ? p?.property?.locality?.name : ('table.tr.td.NA' | translate)}}</span></td>
                      <td><span>{{p?.buyer?.name ? p?.buyer?.name : ('table.tr.td.NA' | translate)}}</span></td>

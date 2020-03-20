@@ -76,6 +76,12 @@ export class AdminService {
               .catch(this.errorHandler);
   }
 
+  getCollectionsData() {
+    return this.http.get('assets/data/cllections.json')
+              .map(response => response.json())
+              .catch(this.errorHandler);
+  }
+
   setLanguage (language_code: string) {
     this.language_code = language_code === this.constant.language[0].code ?
             this.constant.language[0].label : this.constant.language[1].label;

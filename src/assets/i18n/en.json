@@ -831,6 +831,27 @@
       "pleaseChooseFloor": "Please select Floor",
       "pleaseChooseApartment": "Please select Apartment",
       "pleaseChooseDealType": "Please select Deal type",
+      
+
+      "pleaseChooseSeller": "Please select Seller",
+      "pleaseChooseBuyer": "Please select Buyer",
+      "pleaseEnterCompanyName": "Please enter Company Name",
+      "pleaseEnterFederalTaxPayer": "Please enter Federal Tax Payer Registry",
+      "pleaseEnterBankDetails": "Please complete Bank Details",
+      "pleaseEnterPurchaseDate": "Please enter Purchase Date",
+      "pleaseEnterPrice": "Please enter price",
+      "pleaseEnterLayawayPayment": "Please enter Layaway Payment (Specific Payment)",
+      "pleaseEnterDownPayment": "Please enter Down Payment (Specific Payment)",
+      "pleaseEnterPaymentUponDelivery": "Please enter Payment Upon Delivery",
+      "pleaseEnterSpecialPayment": "Please enter Special Payments (Specific Payment)",
+      "pleaseEnterInterestRate": "Please enter Interest Rate (Simple/Compound)",
+      "pleaseEnterMonthlyPayment": "Please enter Monthly Payments (Installments)",
+      "pleaseEnterPenality": "Please enter Penality for Late Payment",
+      "pleaseEnterTotalCommission": "Please enter Total Commission",
+      "pleaseEnterSharedCommission": "Please enter Shared Commission",
+      "pleaseChooseAgent": "Please select Agent",
+
+
       "areYouSure": "Are you sure",
       "wantToBlockNotary": "You want to block this Notary?",
       "wantToUnblockNotary": "You want to unblock this Notary?",
@@ -1474,7 +1495,11 @@
     "sharedCommission":"Shared Commission",
     "nameOfAgent": "Name of Agent",
     "taggedApartmentName": "Tagged Apartment Name",
-    "selectedDealType": "Selected Deal Type"
+    "selectedDealType": "Selected Deal Type",
+    "choosePaymentType": "Choose Payment Type",
+    "folders": "Folders",
+    "addNewFolder": "Add New Folder",
+    "buildingYouAreSearchingNotFound": "Building you are searching, not found in our Database"
   },
   "swal": {
     "error": "Error",

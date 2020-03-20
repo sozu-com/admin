@@ -24,7 +24,7 @@
       <li [ngClass]="{'current': tab == 3}"><span></span><a (click)="setTab(3)">{{'addCollection.tabs.buyer' | translate}}</a></li>
       <li [ngClass]="{'current': tab == 4}"><span></span><a (click)="setTab(4)">{{'addCollection.tabs.deal' | translate}}</a></li>
       <li [ngClass]="{'current': tab == 5}"><span></span><a (click)="setTab(5)">{{'addCollection.tabs.commission' | translate}}</a></li>
-      <li [ngClass]="{'current': (tab == 6) || (tab == 7)}"><span></span><a (click)="setTab(6)">{{'addCollection.tabs.uploadDocuments' | translate}}</a></li>
+      <li [ngClass]="{'current': tab == 6}"><span></span><a (click)="setTab(6)">{{'addCollection.tabs.uploadDocuments' | translate}}</a></li>
     </ul>
   </div>
 </div>
@@ -184,8 +184,17 @@
       </form>
     </div>
 
-    <p *ngIf="parameter.buildingCount == 0 && showText" class="p18">{{'addCollection.didntFoundyourBuilding' | translate}} <strong><span
-          (click)="showBuildingDetails(true)" class="green-color cursor-pointer">{{'addCollection.GenerateARequesttoAddABuildingByOurDataCollectors' | translate}}</span></strong></p>
+    <p *ngIf="parameter.buildingCount == 0 && showText" class="p18">
+      {{'addCollection.didntFoundyourBuilding' | translate}} 
+      <strong>
+        <!-- <span (click)="showBuildingDetails(true)" class="green-color cursor-pointer">
+          {{'addCollection.GenerateARequesttoAddABuildingByOurDataCollectors' | translate}}
+        </span> -->
+        <span class="green-color">
+          {{'addCollection.buildingYouAreSearchingNotFound' | translate}}
+        </span>
+      </strong>
+    </p>
     <div *ngIf="showBuilding" class="spacer50"></div>
 
     <form ngNativeValidate #buildingRequestForm="ngForm" (ngSubmit)="buildingRequest()">
@@ -286,28 +295,28 @@
             <div class="form-group-3">
               <label>{{'addCollection.name' | translate}}</label>
               <div class="clearfix"></div>
-              <input type="text" name="seller_name" class="form-control" formControlName="seller_name">
+              <input required autocomplete="off" type="text" name="seller_name" class="form-control" formControlName="seller_name">
             </div>
           </div>
           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
               <div class="form-group-3">
               <label>{{'addCollection.phonenumber' | translate}}</label>
               <div class="clearfix"></div>
-              <input class="form-control" type="text" name="seller_phone" formControlName="seller_phone">
+              <input required autocomplete="off" class="form-control" type="number" minlength="6" maxlength="16" name="seller_phone" formControlName="seller_phone">
             </div>
           </div>
           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
               <div class="form-group-3">
               <label>{{'addCollection.email' | translate}}</label>
               <div class="clearfix"></div>
-              <input class="form-control" type="text" name="seller_email" formControlName="seller_email">
+              <input required autocomplete="off" class="form-control" type="text" name="seller_email" formControlName="seller_email">
             </div>
           </div>
           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
               <div class="form-group-3">
               <label>{{'addCollection.companyName' | translate}}</label>
               <div class="clearfix"></div>
-              <input class="form-control" type="text" name="seller_company_name" formControlName="seller_company_name">
+              <input required autocomplete="off" class="form-control" type="text" name="seller_company_name" formControlName="seller_company_name">
             </div>
           </div>
         </div>
@@ -316,7 +325,7 @@
                 <div class="form-group-3">
               <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}</label>
               <div class="clearfix"></div>
-              <input class="form-control" type="text" name="seller_fed_tax" formControlName="seller_fed_tax">
+              <input required autocomplete="off" class="form-control" type="text" name="seller_fed_tax" formControlName="seller_fed_tax">
             </div>
           </div>
         </div>
@@ -333,23 +342,23 @@
                     <div class="form-group-3">
                   <label>{{'addCollection.accountNumber' | translate}}</label>
                   <div class="clearfix"></div>
-                  <input class="form-control" type="text" name="account_number" formControlName="account_number">
+                  <input required autocomplete="off" class="form-control" type="text" name="account_number" formControlName="account_number">
                 </div>
               </div>
               <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                   <label>{{'addCollection.clabeSwift' | translate}}</label>
                   <div class="clearfix"></div>
-                  <input class="form-control" type="text" name="swift" formControlName="swift">
+                  <input required autocomplete="off" class="form-control" type="text" name="swift" formControlName="swift">
                 </div>
               </div>
               <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                   <label>{{'addCollection.currency' | translate}}</label>
                   <div class="clearfix"></div>
-                  <select name="currency_id" formControlName="currency_id" required class="form-control">
+                  <select required name="currency_id" formControlName="currency_id" required class="form-control">
                     <option value="">{{'addCollection.currency' | translate}}</option>
-                    <option value="{{c.id}}" *ngFor="let c of currencies">{{c?.symbol}}</option>
+                    <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.currency }} | {{c?.symbol}}</option>
                   </select>
                 </div>
               </div>
@@ -379,7 +388,7 @@
               <div class="form-group-3">
               <label>{{'addCollection.phonenumber' | translate}}</label>
               <div class="clearfix"></div>
-              <input autocomplete="off" class="form-control" type="text" name="seller_leg_rep_phone" formControlName="seller_leg_rep_phone">
+              <input autocomplete="off" class="form-control" type="number" minlength="6" maxlength="16" name="seller_leg_rep_phone" formControlName="seller_leg_rep_phone">
             </div>
           </div>
           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -455,7 +464,7 @@
                 <div class="form-group-3">
                 <label>{{'addCollection.phonenumber' | translate}}</label>
                 <div class="clearfix"></div>
-                <input autocomplete="off" class="form-control" type="text" name="buyer_phone" formControlName="buyer_phone">
+                <input autocomplete="off" class="form-control" type="number" minlength="6" maxlength="16" name="buyer_phone" formControlName="buyer_phone">
               </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -511,7 +520,7 @@
                     <div class="clearfix"></div>
                     <select name="currency_id" formControlName="currency_id" required class="form-control">
                       <option value="">{{'addCollection.currency' | translate}}</option>
-                      <option value="{{c.id}}" *ngFor="let c of currencies">{{c?.symbol}}</option>
+                      <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.currency }} | {{c?.symbol}}</option>
                     </select>
                   </div>
                 </div>
@@ -541,7 +550,7 @@
                 <div class="form-group-3">
                 <label>{{'addCollection.phonenumber' | translate}}</label>
                 <div class="clearfix"></div>
-                <input autocomplete="off" class="form-control" type="number" min="0" name="buyer_leg_rep_phone" formControlName="buyer_leg_rep_phone">
+                <input autocomplete="off" class="form-control" type="number" min="0" minlength="6" maxlength="16" name="buyer_leg_rep_phone" formControlName="buyer_leg_rep_phone">
               </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -629,6 +638,7 @@
           <div class="form-group-3">
             <div class="clearfix"></div>
             <select name="deal_lay_type" formControlName="deal_lay_type" required class="form-control">
+              <option value="">{{'addCollection.choosePaymentType' | translate}}</option>
                 <option value="Percent" selected="deal_lay_type=='Percent' ? 'selected' : ''">{{'addCollection.percentage' | translate}}</option>
                 <option value="Amount" selected="deal_lay_type=='Amount' ? 'selected' : ''">{{'addCollection.amount' | translate}}</option>
             </select>
@@ -663,6 +673,7 @@
           <div class="form-group-3">
             <div class="clearfix"></div>
             <select name="deal_down_type" formControlName="deal_down_type" required class="form-control">
+                <option value="">{{'addCollection.choosePaymentType' | translate}}</option>
                 <option value="Percent" selected="deal_down_type=='Percent' ? 'selected' : ''">{{'addCollection.percentage' | translate}}</option>
                 <option value="Amount" selected="deal_down_type=='Amount' ? 'selected' : ''">{{'addCollection.amount' | translate}}</option>
             </select>
@@ -697,6 +708,7 @@
           <div class="form-group-3">
             <div class="clearfix"></div>
             <select name="deal_pay_type" formControlName="deal_pay_type" required class="form-control">
+                <option value="">{{'addCollection.choosePaymentType' | translate}}</option>
                 <option value="Percent" selected="deal_pay_type=='Percent' ? 'selected' : ''">{{'addCollection.percentage' | translate}}</option>
                 <option value="Amount" selected="deal_pay_type=='Amount' ? 'selected' : ''">{{'addCollection.amount' | translate}}</option>
             </select>
@@ -854,7 +866,7 @@
         <div class="col-md-12">
           <div class="btn-cont text-right">
             <button type="button" class="btn btn-primary" (click)="setTab(4)">{{'addForm.previous' | translate}}</button>
-            <button type="submit" class="btn btn-primary marginL15">{{'addForm.submit' | translate}}</button>
+            <button type="submit" class="btn btn-primary marginL15">{{'addForm.next' | translate}}</button>
           </div>
         </div>
       </div>
@@ -863,6 +875,52 @@
   </div>
 </form>
 
+
+<form [formGroup]="addFormStep6" (ngSubmit)="createCollection(addFormStep6.value, 6)">
+    <!-- tab-5 -->
+    <div class="white-bg" *ngIf="tab==6">
+      <div class="page-title">
+        <h3>{{'addCollection.tabs.uploadDocuments' | translate}}</h3>
+      </div>
+      <div class="padding40">
+        <h5 class="marginB30">{{'addCollection.folders' | translate}}
+          <span class="pull-right"><a class="add" (click)="addFolder($event)" href="javascript://">{{'addCollection.addNewFolder' | translate}}</a></span>
+        </h5>
+  
+        <div formArrayName="collection_folders">
+          <ng-container *ngFor="let collection_folder of addFormStep6.get('collection_folders').controls; let i=index">
+              <div class="row" [formGroupName]="i">
+                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                      <div class="form-group-3">
+                    <label>{{'addCollection.nameOfAgent' | translate}}</label>
+                    <div class="clearfix"></div>
+                    <input autocomplete="off" class="form-control" type="text" name="name" formControlName="name">
+                  </div>
+                </div>
+                <!-- <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                    <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}</label>
+                    <div class="clearfix"></div>
+                    <input autocomplete="off" class="form-control" type="text" name="fed_tax_payer_reg" formControlName="fed_tax_payer_reg">
+                  </div>
+                </div> -->
+              </div>
+          </ng-container>
+        </div>
+  
+        <div class="row">
+          <div class="col-md-12">
+            <div class="btn-cont text-right">
+              <button type="button" class="btn btn-primary" (click)="setTab(4)">{{'addForm.previous' | translate}}</button>
+              <button type="submit" class="btn btn-primary marginL15">{{'addForm.submit' | translate}}</button>
+            </div>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  </form>
+  
 
 
 <!-- Link Seller -->
