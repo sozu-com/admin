@@ -100,6 +100,8 @@ export class AddEditCollectionComponent implements OnInit {
   addFormStep4: FormGroup;
   addFormStep5: FormGroup;
   addFormStep6: FormGroup;
+  keyword: string;
+  public scrollbarOptions = { axis: 'y', theme: 'dark' };
   constructor(public model: Collection, private us: AdminService, private cs: CommonService,
     private router: Router,
     private ngZone: NgZone, private building: Building, public constant: Constant,
@@ -989,7 +991,7 @@ console.log(formdata);
 
     if (this.model.step == 3) {
       if (!formdata['buyer_id']) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseSeller'), 'error');
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseBuyer'), 'error');
         return;
       } else if (!formdata['buyer_company_name']) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterCompanyName'), 'error');

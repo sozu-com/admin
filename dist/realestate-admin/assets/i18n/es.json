@@ -431,7 +431,9 @@
       "searchCSRSeller": "Buscar vendedor CSR",
       "searchDataCollector": "Buscar recopilador de datos",
       "searchInhouseAgent": "Buscar agente interno",
-      "searchOutsideAgent": "Buscar agente externo"
+      "searchOutsideAgent": "Buscar agente externo",
+      "enter":"Entrar",
+      "chooseDate":"Elegir fecha"
     }
   },
   "charts": {
@@ -773,9 +775,7 @@
       "noAgentAvailable": "Ningún agente disponible",
       "chooseAtleastOneDate": "Selecciona al menos una fecha",
       "incorrectAmountEntered": "Cantidad incorrecta ingresada",
-      "dealIsNotFinalised": "Acuerdo no finalizado."
-    },
-    "info": {
+      "dealIsNotFinalised": "Acuerdo no finalizado.",
       "pleaseChooseFile": "Selecciona archivo",
       "fileSizeLimit": "El tamaño del archivo es mayor a 50 MB",
       "saveEngCountryName": "Agrega el nombre del país en español o lo actualizaremos igual que en inglés",
@@ -815,6 +815,7 @@
       "managerIsLinkedToThisProject": "El gerente está vinculado a este proyecto",
       "pleaseRemoveManagertoLinkCompany": "Elimine el gerente para vincular la compañía",
       "pleaseSelectBuilding": "Seleccionar edificio.",
+      "pleaseSelectTower": "Por favor seleccione torre.",
       "pleaseSelectFloor": "Seleccionar piso.",
       "pleaseFillCarpetAreaFields": "Por favor llene los campos del área de piso",
       "pleaseFillCustomAttributeFields": "Llena los campos de atributos personalizados",
@@ -824,9 +825,33 @@
       "pleaseChooseCoverImage": "Seleccionar imagen de portada.",
       "pleaseChooseFloorPlan": "Selecciona el plano del piso.",
       "pleaseChooseMaritalStatus": "Selecciona tu estado civil.",
-      "notifiedWhenAdminReview": "Se te notificará una vez que el administrador revise su propiedad, puede ver el estado de sus propiedades."
-    },
-    "question": {
+      "notifiedWhenAdminReview": "Se te notificará una vez que el administrador revise su propiedad, puede ver el estado de sus propiedades.",
+      "pleaseChooseBuilding": "Por favor seleccione Edificio",
+      "pleaseChooseTower": "Por favor seleccione Torre",
+      "pleaseChooseFloor": "Por favor seleccione Piso",
+      "pleaseChooseApartment": "Por favor seleccione Apartamento",
+      "pleaseChooseDealType": "Por favor, seleccione el tipo de oferta",
+
+
+      "pleaseChooseSeller": "Por favor seleccione Vendedor",
+      "pleaseChooseBuyer": "Por favor seleccione Compradora",
+      "pleaseEnterCompanyName": "Por favor, introduzca el nombre de la empresa",
+      "pleaseEnterFederalTaxPayer": "Por favor ingrese al Registro Federal de Pagadores de Impuestos",
+      "pleaseEnterBankDetails": "Por favor complete los datos bancarios",
+      "pleaseEnterPurchaseDate": "Por favor, introduzca la fecha de compra",
+      "pleaseEnterPrice": "Por favor ingrese el precio",
+      "pleaseEnterLayawayPayment": "Ingrese Pago a plazos (pago específico)",
+      "pleaseEnterDownPayment": "Ingrese el anticipo (pago específico)",
+      "pleaseEnterPaymentUponDelivery": "Por favor, introduzca el pago a la entrega",
+      "pleaseEnterSpecialPayment": "Ingrese Pagos especiales (pago específico)",
+      "pleaseEnterInterestRate": "Ingrese la tasa de interés (simple / compuesto)",
+      "pleaseEnterMonthlyPayment": "Ingrese Pagos mensuales (cuotas)",
+      "pleaseEnterPenality": "Por favor, introduzca la penalidad por retraso en el pago",
+      "pleaseEnterTotalCommission": "Por favor ingrese Comisión Total",
+      "pleaseEnterSharedCommission": "Por favor ingrese Comisión Común",
+      "pleaseChooseAgent": "Por favor seleccione Agente",
+
+
       "areYouSure": "¿Estás seguro?",
       "wantToBlockNotary": "¿Quieres bloquear este notario?",
       "wantToUnblockNotary": "¿Quieres desbloquear este notario?",
@@ -1376,11 +1401,11 @@
     "search": "Buscar"
   },
   "viewCollections": {
-    "label": "Manage Collections",
-    "addNew": "+Add New",
-    "phone": "Phone",
-    "developer": "Developer",
-    "seller": "Seller",
+    "label": "Administrar colecciones",
+    "addNew": "+Agregar nuevo",
+    "phone": "Teléfono",
+    "developer": "Desarrollador",
+    "seller": "Vendedor",
     "noSellerFound": "No seller found.",
     "requests": "Requests",
     "currentlyLinkedToSeller": "Currently linked to Seller",
@@ -1413,6 +1438,7 @@
     "taggedFloor": "Tagged Floor",
     "groundFloor": "Ground Floor",
     "floor": "Floor",
+    "previous":"Previous",
     "next":"Next",
     "SearchYourBuildingInOurDatabase": "Search your building in Our Database",
     "search":"Search",
@@ -1420,6 +1446,8 @@
     "selectTower": "Select Tower",
     "selectFloorIn": "Select Floor In",
     "selectFloor": "Select Floor",
+    "selectYourApartment": "Select your Apartment",
+    "selectDealType": "Select Deal Type",
     "didntFoundyourBuilding": "Didn’t Found your Building?",
     "GenerateARequesttoAddABuildingByOurDataCollectors": "Generate a Request to add a building by our Data collectors",
     "nameOfBuilding": "Name of Building",
@@ -1443,10 +1471,21 @@
     "accountNumber": "Account Number",
     "clabeSwift": "Clabe/Swift",
     "currency": "Currency",
-    "legalRepresentativeInfo": "Legal Representative Information"
+    "legalRepresentativeInfo": "Legal Representative Information",
+    "deal": "Deal",
+    "completeTheDealInfo": "Complete the Deal Information",
+    "purchaseDate": "Purchase Date",
+    "price":"Price",
+    "layawayPayment": "Layaway Payment (Specific Payment)",
+    "downPayment": "Down Payment (Specific Payment)",
+    "paymentUponDelivery": "Payment Upon Delivery",
+    "specialPayments": "Special Payments (Specific Payment)",
+    "interestRate": "Interest Rate (Simple/Compound)",
+    "monthlyPayment": "Monthly Payments (Installments)",
+    "penalityForLatePayment": "Penality for Late Payment"
   },
   "swal": {
     "error": "Error",
-    "success": "Éxito"
+    "success": "Success"
   }
 }

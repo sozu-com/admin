@@ -3168,3 +3168,9 @@ h3 .tower{
     color: #4eb96f !important;
     border: 2px solid #4eb96f !important;
 }
+p-calendar.sz-calendar input {
+    height: 40px;
+    border: 1px solid rgba(196,196,196,0.5);
+    border-radius: 2px;
+    box-shadow: none;
+}
