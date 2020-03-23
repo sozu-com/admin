@@ -4,7 +4,7 @@ import { Building } from './addProperty.model';
 
 export class Collection {
     id: string;
-    property_id: number;
+    property_id: any;
     step: number;
     building_id: string;
     building_towers_id: string;
@@ -20,6 +20,7 @@ export class Collection {
     buyer: Seller;
     availabilityStatusId: string;
     is_property_sold: boolean;
+    deal_price: number;
     country_id = '';
     state_id = '';
     city_id = '';

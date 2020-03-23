@@ -46,6 +46,8 @@ export class AddEditCollectionComponent implements OnInit {
   @ViewChild('modalVideosClose') modalVideosClose: ElementRef;
   @ViewChild('linkUserModal') linkUserModal: ElementRef;
   @ViewChild('closeLinkUserModal') closeLinkUserModal: ElementRef;
+  @ViewChild('linkExtBrokerModal') linkExtBrokerModal: ElementRef;
+  @ViewChild('closeExtBrokerModal') closeExtBrokerModal: ElementRef;
 
   public latitude: number;
   public longitude: number;
@@ -90,6 +92,7 @@ export class AddEditCollectionComponent implements OnInit {
 
   locale: any;
   allUsers: Array<any>;
+  allExtBrokers: Array<any>;
   properties: SelectItem[];
   paymentMethods: Array<any>;
   dealTypes: Array<any>;
@@ -376,24 +379,24 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   patchFormStep4(data) {
-    this.addFormStep4.controls.deal_purchase_date.patchValue(moment.utc(data.deal_purchase_date).toDate());
+    this.addFormStep4.controls.deal_purchase_date.patchValue(data.deal_purchase_date ? moment.utc(data.deal_purchase_date).toDate() : null);
     this.addFormStep4.controls.deal_price.patchValue(data.deal_price);
-    this.addFormStep4.controls.deal_lay_date.patchValue(moment.utc(data.deal_lay_date).toDate());
+    this.addFormStep4.controls.deal_lay_date.patchValue(data.deal_lay_date ? moment.utc(data.deal_lay_date).toDate() : null);
     this.addFormStep4.controls.deal_lay_type.patchValue(data.deal_lay_type);
     this.addFormStep4.controls.deal_lay_percent_value.patchValue(data.deal_lay_percent_value);
     this.addFormStep4.controls.deal_lay_amount_value.patchValue(data.deal_lay_amount_value);
-    this.addFormStep4.controls.deal_down_date.patchValue(moment.utc(data.deal_down_date).toDate());
+    this.addFormStep4.controls.deal_down_date.patchValue(data.deal_down_date ? moment.utc(data.deal_down_date).toDate() : null);
     this.addFormStep4.controls.deal_down_type.patchValue(data.deal_down_type);
     this.addFormStep4.controls.deal_down_percent_value.patchValue(data.deal_down_percent_value);
     this.addFormStep4.controls.deal_down_amount_value.patchValue(data.deal_down_amount_value);
-    this.addFormStep4.controls.deal_pay_date.patchValue(moment.utc(data.deal_pay_date).toDate());
+    this.addFormStep4.controls.deal_pay_date.patchValue(data.deal_pay_date ? moment.utc(data.deal_pay_date).toDate() : null);
     this.addFormStep4.controls.deal_pay_type.patchValue(data.deal_pay_type);
     this.addFormStep4.controls.deal_pay_percent_value.patchValue(data.deal_pay_percent_value);
     this.addFormStep4.controls.deal_pay_amount_value.patchValue(data.deal_pay_amount_value);
     this.addFormStep4.controls.deal_spe_name.patchValue(data.deal_spe_name);
-    this.addFormStep4.controls.deal_spe_date.patchValue(moment.utc(data.deal_spe_date).toDate());
+    this.addFormStep4.controls.deal_spe_date.patchValue(data.deal_spe_date ? moment.utc(data.deal_spe_date).toDate() : null);
     this.addFormStep4.controls.deal_interest_rate.patchValue(data.deal_interest_rate);
-    this.addFormStep4.controls.deal_payment_date.patchValue(moment.utc(data.deal_payment_date).toDate());
+    this.addFormStep4.controls.deal_payment_date.patchValue(data.deal_payment_date ? moment.utc(data.deal_payment_date).toDate() : null);
     this.addFormStep4.controls.deal_monthly_payment.patchValue(data.deal_monthly_payment);
     this.addFormStep4.controls.deal_penality.patchValue(data.deal_penality);
     this.addFormStep4.controls.payment_method_id.patchValue(data.payment_method_id);
@@ -459,83 +462,6 @@ export class AddEditCollectionComponent implements OnInit {
     this.initialCountry = { initialCountry: e.iso2 };
   }
 
-  // getCountries(keyword: string) {
-  //   this.us.postDataApi('getCountries', {})
-  //     .subscribe(
-  //       success => {
-  //         this.parameter.countries = success['data'];
-  //       }
-  //     );
-  // }
-
-  // getStates(country_id: any, keyword: string) {
-  //   // this.spinner.show();
-  //   this.model.country_id = country_id;
-  //   this.model.state_id = '';
-  //   this.model.city_id = '';
-  //   this.model.locality_id = '';
-  //   this.parameter.cities = [];
-  //   this.parameter.localities = [];
-  //   const input = new FormData();
-  //   input.append('country_id', country_id);
-
-  //   this.us.postDataApi('country/getStates', input).subscribe(success => {
-  //     this.parameter.states = success['data'];
-  //     // this.spinner.hide();
-  //   },
-  //     error => {
-  //       // this.spinner.hide();
-  //     });
-  // }
-
-  // getCities(state_id: any, keyword: string) {
-  //   // this.spinner.show();
-  //   this.model.state_id = state_id;
-  //   this.model.city_id = '';
-  //   this.model.locality_id = '';
-  //   this.parameter.localities = [];
-  //   const input = new FormData();
-  //   input.append('state_id', state_id);
-
-  //   this.us.postDataApi('getCities', input).subscribe(success => {
-  //     this.parameter.cities = success['data'];
-  //     // this.spinner.hide();
-  //   },
-  //     error => {
-  //       // this.spinner.hide();
-  //     });
-  // }
-
-
-  // getLocalities(city_id: any, keyword = '') {
-  //   this.model.city_id = city_id;
-  //   this.model.locality_id = '';
-
-  //   const input = new FormData();
-  //   input.append('city_id', city_id);
-
-  //   if (keyword) {
-  //     input.append('keyword', keyword);
-  //   }
-
-  //   this.us.postDataApi('getLocalities', input)
-  //     .subscribe(
-  //       success => {
-  //         this.parameter.localities = success['data'];
-  //       }
-  //     );
-  // }
-
-
-  getSelectedBankByName(selectedName: string) {
-    const r = this.bankList.find(bank => bank.name === selectedName);
-    if (r) {
-      return '';
-    } else {
-      return this.parameter.banks.find(bank => bank.name === selectedName);
-    }
-  }
-
 
   searchBuilding(keyword: string) {
     if (!keyword) {
@@ -587,16 +513,6 @@ export class AddEditCollectionComponent implements OnInit {
     this.building.id = building.id;
     this.model.building_id = building.id;
   }
-
-  // setTower(tower: Towers) {
-  //   console.log(tower);
-  //   this.selectedTower = tower;
-  //   this.model.building_towers_id = tower.id;
-  //   // this.selectedTower.floor_array = [];
-  //   // for (let index = 0; index <= this.selectedTower.num_of_floors; index++) {
-  //   //   this.selectedTower.floor_array.push(index);
-  //   // }
-  // }
 
   setTower(building_towers_id: string) {
     for (let index = 0; index < this.searchedBuildings.length; index++) {
@@ -764,6 +680,13 @@ export class AddEditCollectionComponent implements OnInit {
 
   setPropertyId(property_id) {
     this.model.property_id = property_id;
+    this.model.property_id = this.addFormStep1.get('property_id').value.id;
+    this.properties.map((p: any) => {
+      if (p.id == this.model.property_id) {
+        this.model.deal_price = p.min_price;
+        this.addFormStep4.controls.deal_price.patchValue(p.min_price);
+      }
+    })
   }
 
   addSellerBank($event) {
@@ -880,6 +803,55 @@ export class AddEditCollectionComponent implements OnInit {
     // this.leadData.planning_to_buy = e;
   }
 
+  
+  getBothBroker(keyword: string) {
+    this.spinner.show();
+    // if (property) { this.property = property; }
+    const input = { keyword: '' };
+    input.keyword = keyword;
+    this.us.postDataApi('getBothBroker', input).subscribe(r => {
+      this.spinner.hide();
+      if (keyword === '') { this.linkExtBrokerModal.nativeElement.click(); }
+      this.allExtBrokers = r['data'];
+    }, error => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
+
+  setAgent(item) {
+    this.model.buyer_id = item.id;
+    this.model.buyer = item;
+    const ftpr = this.addFormStep5.get('deal_commission_agents').value;
+    console.log(ftpr);
+    const dca = [{
+      name: item.name,
+      fed_tax_payer_reg: ftpr.length > 0 ? ftpr[0].fed_tax_payer_reg : ''
+    }];
+    
+    this.addFormStep5.controls.deal_commission_agents.patchValue(dca);
+    
+    this.closeExtBrokerModal.nativeElement.click();
+  }
+
+  unsetAgent(item) {
+    if (this.tab == 2) {
+      this.model.seller_id = '';
+      this.model.seller = new Seller();
+      this.addFormStep2.controls.seller_id.patchValue('');
+      this.addFormStep2.controls.seller_name.patchValue('');
+      this.addFormStep2.controls.seller_email.patchValue('');
+      this.addFormStep2.controls.seller_phone.patchValue('');
+    } else {
+      this.model.buyer_id = '';
+      this.model.buyer = new Seller();
+      this.addFormStep3.controls.buyer_id.patchValue('');
+      this.addFormStep3.controls.buyer_name.patchValue('');
+      this.addFormStep3.controls.buyer_email.patchValue('');
+      this.addFormStep3.controls.buyer_phone.patchValue('');
+    }
+    this.closeLinkUserModal.nativeElement.click();
+  }
 
   getAllSellers(keyword: string) {
     this.spinner.show();
@@ -983,7 +955,7 @@ console.log(formdata);
       } else if (!formdata['seller_fed_tax']) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), 'error');
         return;
-      } else if (!formdata['collection_seller_banks']) {
+      } else if (!formdata['collection_seller_banks'] || formdata['collection_seller_banks'].length < 1) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
         return;
       }
@@ -999,7 +971,7 @@ console.log(formdata);
       } else if (!formdata['buyer_fed_tax']) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), 'error');
         return;
-      } else if (!formdata['collection_buyer_banks']) {
+      } else if (!formdata['collection_buyer_banks'] || formdata['collection_buyer_banks'].length < 1) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
         return;
       }
@@ -1039,7 +1011,8 @@ console.log(formdata);
       }
 
 
-      formdata['deal_purchase_date'] = moment(formdata['deal_purchase_date']).format('YYYY-MM-DD');
+      formdata['deal_purchase_date'] = formdata['deal_purchase_date'] ?
+       moment(formdata['deal_purchase_date']).format('YYYY-MM-DD') : null;
       formdata['deal_lay_date'] = moment(formdata['deal_lay_date']).format('YYYY-MM-DD');
       formdata['deal_down_date'] = moment(formdata['deal_down_date']).format('YYYY-MM-DD');
       formdata['deal_pay_date'] = moment(formdata['deal_pay_date']).format('YYYY-MM-DD');

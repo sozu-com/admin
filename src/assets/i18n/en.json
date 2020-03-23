@@ -1499,7 +1499,11 @@
     "choosePaymentType": "Choose Payment Type",
     "folders": "Folders",
     "addNewFolder": "Add New Folder",
-    "buildingYouAreSearchingNotFound": "Building you are searching, not found in our Database"
+    "buildingYouAreSearchingNotFound": "Building you are searching, not found in our Database",
+    "chooseDate":"Choose Date",
+    "enterPercentage": "Enter Percentage",
+    "enterAmount": "Enter Amount",
+    "enterSpecialPaymentName": "Enter Special Payment Name"
   },
   "swal": {
     "error": "Error",

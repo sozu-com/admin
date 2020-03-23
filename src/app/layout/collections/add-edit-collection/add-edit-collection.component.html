@@ -282,8 +282,7 @@
       <!-- search seller -->
         <h5 class="p16-two">{{'addCollection.SearchASellerInOurDatabase' | translate}}</h5>
         <div class="searh d-flex" (click)="getAllSellers('')">
-          <input class="border-right-0" autocomplete="off" type="text" #sellerSearchInput
-            (keyup.enter)="searchBuilding(sellerSearchInput.value)" name="sellerSearchInput">
+          <input class="border-right-0" autocomplete="off" type="text" readonly name="ss">
           <button class="btn" type="button">{{'addCollection.search' | translate}}</button>
         </div>
         <div class="spacer50"></div>
@@ -342,7 +341,7 @@
                     <div class="form-group-3">
                   <label>{{'addCollection.accountNumber' | translate}}</label>
                   <div class="clearfix"></div>
-                  <input required autocomplete="off" class="form-control" type="text" name="account_number" formControlName="account_number">
+                  <input required autocomplete="off" class="form-control" type="number" minlength="10" maxlength="20" min="0" name="account_number" formControlName="account_number">
                 </div>
               </div>
               <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -444,8 +443,7 @@
         <!-- search -->
           <h5 class="p16-two">{{'addCollection.SearchABuyerInOurDatabase' | translate}}</h5>
           <div class="searh d-flex" (click)="getAllSellers('')">
-            <input class="border-right-0" autocomplete="off" type="text" #sellerSearchInput
-              (keyup.enter)="searchBuilding(sellerSearchInput.value)" name="sellerSearchInput">
+            <input class="border-right-0" autocomplete="off" type="text" readonly name="bb">
             <button class="btn" type="button">{{'addCollection.search' | translate}}</button>
           </div>
           <div class="spacer50"></div>
@@ -504,7 +502,7 @@
                       <div class="form-group-3">
                     <label>{{'addCollection.accountNumber' | translate}}</label>
                     <div class="clearfix"></div>
-                    <input autocomplete="off" class="form-control" type="number" min="0" name="account_number" formControlName="account_number">
+                    <input autocomplete="off" class="form-control" type="number" min="0" minlength="10" maxlength="20" name="account_number" formControlName="account_number">
                   </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -626,7 +624,7 @@
 
       <label>{{'addCollection.layawayPayment' | translate}}</label>
       <div class="row">
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.chooseDate' | translate}}">
           <div class="form-group-3">
             <div class="clearfix"></div>
               <p-calendar [style]="{'width':'100%'}" formControlName="deal_lay_date" class="sz-calendar" [locale]="locale" showIcon="true" (onSelect)="onSelect($event)" 
@@ -634,7 +632,7 @@
               <div class="clearfix"></div>
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.choosePaymentType' | translate}}">
           <div class="form-group-3">
             <div class="clearfix"></div>
             <select name="deal_lay_type" formControlName="deal_lay_type" required class="form-control">
@@ -644,14 +642,18 @@
             </select>
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-          <div class="form-group-3">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.enterPercentage' | translate}}">
+          <div class="input-group form-group-3">
             <div class="clearfix"></div>
             <input autocomplete="off" class="form-control" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="deal_lay_percent_value" min="0"
                 name="deal_lay_percent_value">
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon1">%</span>
+            </div>
+                <!-- <span class="input-group-addon">%</span> -->
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.enterAmount' | translate}}">
           <div class="form-group-3">
             <div class="clearfix"></div>
             <input autocomplete="off" class="form-control" type="number" formControlName="deal_lay_amount_value" min="0" name="deal_lay_amount_value">
@@ -661,7 +663,7 @@
 
       <label>{{'addCollection.downPayment' | translate}}</label>
       <div class="row">
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.chooseDate' | translate}}">
           <div class="form-group-3">
             <div class="clearfix"></div>
               <p-calendar [style]="{'width':'100%'}" formControlName="deal_down_date" class="sz-calendar" [locale]="locale" showIcon="true" (onSelect)="onSelect($event)" 
@@ -669,7 +671,7 @@
               <div class="clearfix"></div>
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.choosePaymentType' | translate}}">
           <div class="form-group-3">
             <div class="clearfix"></div>
             <select name="deal_down_type" formControlName="deal_down_type" required class="form-control">
@@ -679,14 +681,17 @@
             </select>
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-          <div class="form-group-3">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.enterPercentage' | translate}}">
+          <div class="input-group form-group-3">
             <div class="clearfix"></div>
             <input autocomplete="off" class="form-control" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="deal_down_percent_value" min="0"
                 name="deal_down_percent_value">
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon1">%</span>
+            </div>
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.enterAmount' | translate}}">
           <div class="form-group-3">
             <div class="clearfix"></div>
             <input autocomplete="off" class="form-control" type="number" formControlName="deal_down_amount_value" min="0" name="deal_down_amount_value">
@@ -696,7 +701,7 @@
 
       <label>{{'addCollection.paymentUponDelivery' | translate}}</label>
       <div class="row">
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.chooseDate' | translate}}">
           <div class="form-group-3">
             <div class="clearfix"></div>
               <p-calendar [style]="{'width':'100%'}" formControlName="deal_pay_date" class="sz-calendar" [locale]="locale" showIcon="true" (onSelect)="onSelect($event)" 
@@ -704,7 +709,7 @@
               <div class="clearfix"></div>
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.choosePaymentType' | translate}}">
           <div class="form-group-3">
             <div class="clearfix"></div>
             <select name="deal_pay_type" formControlName="deal_pay_type" required class="form-control">
@@ -714,14 +719,17 @@
             </select>
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-          <div class="form-group-3">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.enterPercentage' | translate}}">
+          <div class="input-group form-group-3">
             <div class="clearfix"></div>
             <input autocomplete="off" class="form-control" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="deal_pay_percent_value" min="0"
                 name="deal_pay_percent_value">
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon1">%</span>
+            </div>
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.enterAmount' | translate}}">
           <div class="form-group-3">
             <div class="clearfix"></div>
             <input autocomplete="off" class="form-control" type="number" formControlName="deal_pay_amount_value" min="0" name="deal_pay_amount_value">
@@ -731,13 +739,13 @@
 
       <label>{{'addCollection.specialPayments' | translate}}</label>
       <div class="row">
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.enterSpecialPaymentName' | translate}}">
           <div class="form-group-3">
             <div class="clearfix"></div>
             <input autocomplete="off" class="form-control" type="text" formControlName="deal_spe_name" name="deal_spe_name">
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.chooseDate' | translate}}">
           <div class="form-group-3">
             <div class="clearfix"></div>
               <p-calendar [style]="{'width':'100%'}" formControlName="deal_spe_date" class="sz-calendar" [locale]="locale" showIcon="true" (onSelect)="onSelect($event)" 
@@ -745,7 +753,7 @@
               <div class="clearfix"></div>
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.paymentMethods' | translate}}">
           <div class="form-group-3">
             <div class="clearfix"></div>
             <select name="payment_method_id" formControlName="payment_method_id" required class="form-control">
@@ -754,14 +762,17 @@
             </select>
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-          <div class="form-group-3">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.enterPercentage' | translate}}">
+          <div class="input-group form-group-3">
             <div class="clearfix"></div>
             <input autocomplete="off" class="form-control" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="deal_lay_percent_value" min="0"
                 name="deal_lay_percent_value">
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon1">%</span>
+            </div>
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.enterAmount' | translate}}">
           <div class="form-group-3">
             <div class="clearfix"></div>
             <input autocomplete="off" class="form-control" type="number" formControlName="deal_lay_amount_value" min="0" name="deal_lay_amount_value">
@@ -770,21 +781,21 @@
       </div>
 
       <div class="row">
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
             <label>{{'addCollection.interestRate' | translate}}</label>
             <div class="clearfix"></div>
-            <input autocomplete="off" class="form-control" type="number" formControlName="deal_interest_rate" min="0" name="deal_interest_rate">
+            <input autocomplete="off" class="form-control" type="number" formControlName="deal_interest_rate" min="0" max="100" name="deal_interest_rate">
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
             <label>{{'addCollection.monthlyPayment' | translate}}</label>
             <div class="clearfix"></div>
             <input autocomplete="off" class="form-control" type="number" formControlName="deal_monthly_payment" min="0" name="deal_monthly_payment">
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.chooseDate' | translate}}">
           <div class="form-group-3">
             <label>&nbsp;</label>
             <div class="clearfix"></div>
@@ -793,7 +804,7 @@
               <div class="clearfix"></div>
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
             <label>{{'addCollection.penalityForLatePayment' | translate}}</label>
             <div class="clearfix"></div>
@@ -828,15 +839,21 @@
 
       <div class="row">
           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-          <div class="form-group-3">
-            <label class="p16-two">{{'addCollection.totalCommission' | translate}}</label>
-            <input autocomplete="off" class="form-control" type="number" min="0" name="comm_total_commission" formControlName="comm_total_commission">
+          <label class="p16-two">{{'addCollection.totalCommission' | translate}}</label>
+          <div class="input-group form-group-3">
+            <input autocomplete="off" class="form-control" type="number" min="0" max="100" name="comm_total_commission" formControlName="comm_total_commission">
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon1">%</span>
+            </div>
           </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-          <div class="form-group-3">
-            <label class="p16-two">{{'addCollection.sharedCommission' | translate}}</label>
-            <input autocomplete="off" class="form-control" type="number" min="0" name="comm_shared_commission" formControlName="comm_shared_commission">
+          <label class="p16-two">{{'addCollection.sharedCommission' | translate}}</label>
+          <div class="input-group form-group-3">
+            <input autocomplete="off" class="form-control" type="number" min="0" max="100" name="comm_shared_commission" formControlName="comm_shared_commission">
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon1">%</span>
+            </div>
           </div>
         </div>
       </div>
@@ -845,15 +862,15 @@
         <ng-container *ngFor="let deal_commission_agent of addFormStep5.get('deal_commission_agents').controls; let i=index">
             <div class="row" [formGroupName]="i">
                 <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <div class="form-group-3">
-                  <label>{{'addCollection.nameOfAgent' | translate}}</label>
-                  <div class="clearfix"></div>
-                  <input autocomplete="off" class="form-control" type="text" name="name" formControlName="name">
-                </div>
+                    <label>{{'addCollection.nameOfAgent' | translate}}</label>
+                    <div class="form-group-3" (click)="getBothBroker('')">
+                      <div class="clearfix"></div>
+                      <input autocomplete="off" class="form-control" type="text" name="name" readonly formControlName="name">
+                    </div>
               </div>
               <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                  <div class="form-group-3">
                   <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}</label>
+                  <div class="form-group-3">
                   <div class="clearfix"></div>
                   <input autocomplete="off" class="form-control" type="text" name="fed_tax_payer_reg" formControlName="fed_tax_payer_reg">
                 </div>
@@ -979,3 +996,64 @@
       </div>
    </div>
 </div>
+  
+
+
+<!-- Link External Broker -->
+<a data-toggle="modal" data-target="#link-broker-model" #linkExtBrokerModal></a>
+<div class="modal" id="link-broker-model">
+   <div class="modal-dialog ">
+      <div class="modal-content notary-avail">
+            <div class="modal-header popup-header">
+            <h4 class="modal-title">{{'viewProperty.linkAgent' | translate}}</h4>
+            <button type="button" class="close" #closeExtBrokerModal data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+
+               <!-- <p class="modal-title" *ngIf="property?.external_broker?.id">{{'viewProperty.currentlyLinkedToAgent' | translate}} - <b>{{property?.external_broker?.name}}</b></p> -->
+
+               <div class="row">
+                  <div class="col-md-8 col-6">
+                     <input style="max-width:200px" (keyup.enter)="getBothBroker(keyword)" [(ngModel)]="keyword" class="form-control" type="text" name="keyword" placeholder="{{'addForm.placeholder.search' | translate}}">
+                 </div>
+                 <div class="col-md-4 col-5 btn-cont">
+                     <a class="btn btn-primary pull-right" href="javascript://" (click)="getBothBroker(keyword)">{{'viewProperty.search' | translate}}</a>
+                 </div>
+               </div>
+
+               <div class="spacer40"></div>
+               <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+                  <table class="table">
+                     <tr *ngFor="let item of allExtBrokers">
+                        <td>
+                           <div class="n-avail-profile">
+                           <img *ngIf="item?.image" onerror='src="assets/img/default_img.png"' alt="img"
+                              [defaultImage]="item?.image| img:'thumb'" [lazyLoad]="item?.image">
+                           <img *ngIf="!item?.image" src="assets/img/default_img.png" alt="img">
+                           
+                           <div class="n-avail-info">
+                              <p class="p12">{{item?.name | titlecase}}</p>
+                              <p class="p10 marginB0">{{item?.is_external_agent ? 'OUTSIDE AGENT' : 'IN-HOUSE AGENT'}}</p>
+                              <p class="p10">{{'viewProperty.phone' | translate}} : {{item?.dial_code ? item?.dial_code : constant.dial_code}}-{{item?.phone}}</p>
+                           </div>
+                           </div>
+                        </td>
+                        <td>
+                           <button (click)="setAgent(item)" class="action-icon" title="{{'table.title.linkAgent' | translate}}">
+                              <img src="assets/img/green-icon.png" alt="img"></button>
+                           
+                           <button (click)="setAgent(item)" class="action-icon" title="{{'table.title.unlinkAgent' | translate}}">
+                              <img src="assets/img/ic_disapprove.png" alt="img"></button>
+                        </td>
+                     </tr>
+                     <tr *ngIf="allExtBrokers?.length==0">
+                        <p class="show-not-found">{{'viewProperty.noExternalAgentFound' | translate}}</p>
+                     </tr>
+                  </table>
+               </div>
+            </div>
+      </div>
+   </div>
+</div>
+
+

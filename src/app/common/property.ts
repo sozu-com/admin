@@ -170,4 +170,7 @@ export interface IProperty {
   bulk_approve_property?: number;
   bulk_approve_project?: number;
   hide_blocked?: number;
+  buyer_name?: string;
+  apartment_name?: string;
+  building_name?: string;
 }
