@@ -19,6 +19,8 @@ export class UsersComponent implements OnInit {
 
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
+  @ViewChild('entityModalOpen') entityModalOpen: ElementRef;
+  @ViewChild('entityModalClose') entityModalClose: ElementRef;
 
   obj: any;
   developer_image: any;
@@ -57,6 +59,13 @@ export class UsersComponent implements OnInit {
     this.image = '';
     this.developer_image = '';
     this.modalClose.nativeElement.click();
+  }
+
+  closeEntityModal() {
+    this.model = new Users();
+    this.image = '';
+    this.developer_image = '';
+    this.entityModalClose.nativeElement.click();
   }
 
   getPage(page) {
@@ -163,6 +172,16 @@ export class UsersComponent implements OnInit {
       this.obj.intlTelInput('setCountry', this.model.country_code);
     }
     this.modalOpen.nativeElement.click();
+  }
+
+  addLegalEntity(userdata: any, index: number) {
+    this.parameter.index = index;
+    this.model = userdata;
+    this.image = userdata.image;
+    this.developer_image = userdata.developer_image;
+    this.model.image = userdata.image != null ? userdata.image : '';
+    this.model.developer_image = userdata.developer_image != null ? userdata.developer_image : '';
+    this.entityModalOpen.nativeElement.click();
   }
 
 

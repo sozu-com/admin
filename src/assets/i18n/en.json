@@ -636,7 +636,7 @@
       "selectManager": "Select Manager",
       "selectCompany": "Select Company",
       "notary": "Notary",
-      "editDetails": "Edit Details",
+      "addLegalEntity": "Add Legal Entity",
       "block": "Block",
       "unblock": "Unblock",
       "approve": "Approve",
@@ -1498,15 +1498,20 @@
     "selectedDealType": "Selected Deal Type",
     "choosePaymentType": "Choose Payment Type",
     "folders": "Folders",
-    "addNewFolder": "Add New Folder",
+    "addNewFolder": "+ Add New Folder",
+    "folderName": "Folder Name",
     "buildingYouAreSearchingNotFound": "Building you are searching, not found in our Database",
     "chooseDate":"Choose Date",
     "enterPercentage": "Enter Percentage",
     "enterAmount": "Enter Amount",
-    "enterSpecialPaymentName": "Enter Special Payment Name"
+    "enterSpecialPaymentName": "Enter Special Payment Name",
+    "isSellerALegalEntity": "Is Seller a Legal Entity"
   },
   "swal": {
     "error": "Error",
     "success": "Success"
+  },
+  "manageUsers": {
+    "addLegalEntity": "Add Legal Entity"
   }
 }

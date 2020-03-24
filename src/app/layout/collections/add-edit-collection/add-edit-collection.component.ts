@@ -90,6 +90,7 @@ export class AddEditCollectionComponent implements OnInit {
   amenity_index: number;
   amenity_obj: any;
 
+  folderName: string;
   locale: any;
   allUsers: Array<any>;
   allExtBrokers: Array<any>;
@@ -192,10 +193,14 @@ export class AddEditCollectionComponent implements OnInit {
       seller_leg_rep_email: ['', [Validators.required]],
       seller_leg_rep_comp: ['', [Validators.required]],
       seller_leg_rep_fed_tax: ['', [Validators.required]],
-      collection_seller_banks: this.fb.array([])
+      collection_seller_banks: this.fb.array([]),
+      is_seller_legal_entity: ['', [Validators.required]]
     });
   }
 
+  setValue(key: string, value: number) {
+    this.model[key] = value;
+  }
 
   initFormStep3() {
     this.addFormStep3 = this.fb.group({
@@ -263,6 +268,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep6 = this.fb.group({
       // step 6
       step: ['', [Validators.required]],
+      folderName: [''],
       collection_folders: this.fb.array([])
     });
   }
@@ -685,6 +691,10 @@ export class AddEditCollectionComponent implements OnInit {
       if (p.id == this.model.property_id) {
         this.model.deal_price = p.min_price;
         this.addFormStep4.controls.deal_price.patchValue(p.min_price);
+//         for_sale: 1
+// for_rent: 0
+// for_hold: 0
+        // this.addFormStep1.controls.deal_type_id.patchValue(p.min_price);
       }
     })
   }
@@ -736,7 +746,19 @@ export class AddEditCollectionComponent implements OnInit {
   // end buyer bank
 
   // folder
-  addFolder($event) {
+  addFolder() {
+    // $event.stopPropagation();
+    // if () {
+     this.folders.push(this.newFolder());
+     this.closeModal();
+    // }
+  }
+
+  closeModal() {
+    this.modalClose.nativeElement.click();
+  }
+
+  saveFolder($event) {
     $event.stopPropagation();
     this.folders.push(this.newFolder());
   }
@@ -747,7 +769,7 @@ export class AddEditCollectionComponent implements OnInit {
 
   newFolder(): FormGroup {
     return this.fb.group({
-      name: ['', [Validators.required]],
+      name: [this.folderName, [Validators.required]],
       folder_docs: this.fb.array([])
     });
   }
@@ -855,9 +877,14 @@ export class AddEditCollectionComponent implements OnInit {
 
   getAllSellers(keyword: string) {
     this.spinner.show();
-    const input = { name: '' };
+    const input = { name: '', is_user_legal_entity: 0 };
     input.name = keyword ? keyword : '';
-
+    if (this.tab == 2 && this.model.is_seller_legal_entity) {
+     input.is_user_legal_entity = this.model.is_seller_legal_entity;
+    }
+    if (this.tab == 3 && this.model.is_buyer_legal_entity) {
+     input.is_user_legal_entity = this.model.is_buyer_legal_entity;
+    }
     this.us.postDataApi('getAllBuyers', input).subscribe(r => {
       this.spinner.hide();
       if (keyword === '') {
@@ -879,6 +906,19 @@ export class AddEditCollectionComponent implements OnInit {
       this.addFormStep2.controls.seller_name.patchValue(item.name);
       this.addFormStep2.controls.seller_email.patchValue(item.email);
       this.addFormStep2.controls.seller_phone.patchValue(item.phone);
+
+      if (this.model.is_seller_legal_entity) {   
+        // seller_company_name: ['', [Validators.required]],
+        // seller_fed_tax: ['', [Validators.required]],
+        // seller_leg_rep_comp: ['', [Validators.required]],
+        // seller_leg_rep_fed_tax: ['', [Validators.required]],   
+        this.addFormStep2.controls.seller_leg_rep_name.patchValue(item.name);
+        this.addFormStep2.controls.seller_leg_rep_phone.patchValue(item.phone);
+        this.addFormStep2.controls.seller_leg_rep_email.patchValue(item.email);
+        // this.addFormStep2.controls.seller_phone.patchValue(item.phone);
+        // this.addFormStep2.controls.seller_phone.patchValue(item.phone);
+        // this.addFormStep2.controls.seller_phone.patchValue(item.phone);
+      }
     } else {
       this.model.buyer_id = item.id;
       this.model.buyer = item;
@@ -886,6 +926,10 @@ export class AddEditCollectionComponent implements OnInit {
       this.addFormStep3.controls.buyer_name.patchValue(item.name);
       this.addFormStep3.controls.buyer_email.patchValue(item.email);
       this.addFormStep3.controls.buyer_phone.patchValue(item.phone);
+
+      this.addFormStep3.controls.buyer_leg_rep_name.patchValue(item.name);
+      this.addFormStep3.controls.buyer_leg_rep_phone.patchValue(item.phone);
+      this.addFormStep3.controls.buyer_leg_rep_email.patchValue(item.email);
     }
     this.closeLinkUserModal.nativeElement.click();
   }
@@ -898,6 +942,10 @@ export class AddEditCollectionComponent implements OnInit {
       this.addFormStep2.controls.seller_name.patchValue('');
       this.addFormStep2.controls.seller_email.patchValue('');
       this.addFormStep2.controls.seller_phone.patchValue('');
+      
+      this.addFormStep2.controls.seller_leg_rep_name.patchValue('');
+      this.addFormStep2.controls.seller_leg_rep_email.patchValue('');
+      this.addFormStep2.controls.seller_leg_rep_phone.patchValue('');
     } else {
       this.model.buyer_id = '';
       this.model.buyer = new Seller();
@@ -905,8 +953,28 @@ export class AddEditCollectionComponent implements OnInit {
       this.addFormStep3.controls.buyer_name.patchValue('');
       this.addFormStep3.controls.buyer_email.patchValue('');
       this.addFormStep3.controls.buyer_phone.patchValue('');
+      
+      this.addFormStep2.controls.buyer_leg_rep_name.patchValue('');
+      this.addFormStep2.controls.buyer_leg_rep_email.patchValue('');
+      this.addFormStep2.controls.buyer_leg_rep_phone.patchValue('');
     }
     this.closeLinkUserModal.nativeElement.click();
+  }
+
+  getAmount(key: string, key1: string, key2: string) {
+    const price = this.addFormStep4.get(key).value;
+    const percentage = this.addFormStep4.get(key1).value;
+    console.log(price, percentage);
+    const amount = Math.round((percentage * price) / 100);
+    this.addFormStep4.controls[key2].patchValue(amount);
+  }
+
+  getPercentage(key: string, key1: string, key2: string) {
+    const price = this.addFormStep4.get(key).value;
+    const amount = this.addFormStep4.get(key1).value;
+    console.log(price, amount);
+    const percentage = (amount * 100) / price;
+    this.addFormStep4.controls[key2].patchValue(percentage);
   }
 
   createCollection(formdata: NgForm, tab: number) {
