@@ -346,7 +346,15 @@
                         <button [disabled]="admin?.admin_acl['Property Management']?.can_delete==0" 
                               *ngIf="p.is_blocked == true" (click)="blockUnblock(p, 0);" class="action-icon unblock-bg" 
                               title="{{'table.title.unblock' | translate}}"><img src="assets/img/unblock.png" alt="img"></button>
-                        
+                            
+                        <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                        (click)="getLeadNotes()" title="{{'table.title.collectionNotes' | translate}}" 
+                        class="action-icon"><img src="assets/img/chat-icon.png" alt="img"></button>  
+
+                        <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                        (click)="showApplyPaymentPopup()" title="{{'table.title.collectionNotes' | translate}}" 
+                        class="action-icon"><img src="assets/img/chat-icon.png" alt="img"></button>  
+
                         <!-- unapprove -->
                         <!-- <a style="display:none;" #modalOpen data-toggle="modal" data-target="#addPropertyReason"></a>
                         <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="p.status == 3" (click)="openCancellationModal(p, 4);" class="action-icon" title="{{'table.title.unapprove' | translate}}"><img src="assets/img/ic_disapprove.png" alt="img"></button>
@@ -386,3 +394,58 @@
  </div>
 </div>
 
+<a href="javascript://" data-toggle="modal" data-target="#collection-notes" #notesModalOpen></a>
+<div class="modal animated" id="collection-notes">
+      <div class="modal-dialog fadeIndown">
+            <div class="modal-content notary-avail">
+                  <div class="modal-header popup-header">
+                        <h4>{{'table.title.collectionNotes' | translate}}</h4>
+                        <button style="display: none;" type="button" class="close" data-dismiss="modal" #notesModalClose>&times;</button>
+                        <button type="button" class="close" (click)="closeNotesModal()">&times;</button>
+                  </div>
+
+                  <div class="modal-body">
+                        <div class="white-bg">
+                              <div class="row">
+                                    <div class="col-6">
+                                          <p class="p16 marginB0">{{'commonBlock.writeANote' | translate}}</p>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                          <a class="add" href="javascript://" (click)="addNote()">{{'commonBlock.add' | translate}}</a>
+
+                                          <ng-template #noAddPermissiom>
+                                                <a class="add" href="javascript://">{{'commonBlock.add' | translate}}</a>
+                                          </ng-template>
+                                    </div>
+                              </div>
+                        </div>
+                        <div class="form-group-2">
+                              <div class="form-group">
+                                    <textarea rows="3" required class="form-control note" name="note" [(ngModel)]="model.note"></textarea>
+                              </div>
+                        </div>
+                        <div *ngIf="parameter.items?.length!=0" [ngStyle]="{'max-height':sent_as === 1 ? '250px' : '' }" class="write-note white-bg"
+                              malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+                              <div class="wn-block" *ngFor="let item of parameter.items; let i=index">
+                                    <div class="circle">
+                                          <span></span>
+                                    </div>
+                                    <a class="delete" href="javascript://" (click)="deleteLeadNote(item.id, i)">{{'commonBlock.delete' | translate}}</a>
+
+                                    <ng-template #noDeletePermissiom>
+                                          <a class="delete" href="javascript://">{{'commonBlock.delete' | translate}}</a>
+                                    </ng-template>
+                                    <p class="time">{{item.updated_at | chatTime: 'YYYY-MM-DD H:m:s': 2}}</p>
+                                    <pre class="p13" *ngIf="!item.show">{{item.note.slice(0, 90)}} <span class="read-more" *ngIf="item.note.length>100" (click)="item.show=true">Read more</span></pre>
+                                    <pre class="p13" *ngIf="item.show">{{item.note}}</pre>
+                              </div>
+                        </div>
+                        <div *ngIf="parameter.items?.length==0" class="write-note white-bg" [ngStyle]="{'height':sent_as === 1 ? '230px' : '245px' }">
+                              <p class="show-not-found">
+                                    {{'message.error.noNoteFound' | translate}}
+                              </p>
+                        </div>
+                  </div>
+            </div>
+      </div>
+</div>

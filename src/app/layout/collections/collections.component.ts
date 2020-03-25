@@ -9,12 +9,14 @@ import { AdminService } from 'src/app/services/admin.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PropertyService } from 'src/app/services/property.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Notes } from '../../models/leads.model';
 declare let swal: any;
 
 @Component({
   selector: 'app-collections',
   templateUrl: './collections.component.html',
-  styleUrls: ['./collections.component.css']
+  styleUrls: ['./collections.component.css'],
+  providers: [Notes]
 })
 export class CollectionsComponent implements OnInit {
 
@@ -47,11 +49,11 @@ export class CollectionsComponent implements OnInit {
 
   @ViewChild('linkUserModal') linkUserModal: ElementRef;
   @ViewChild('closeLinkUserModal') closeLinkUserModal: ElementRef;
-  @ViewChild('linkSellerModal') linkSellerModal: ElementRef;
-  @ViewChild('closeLinkSellerModal') closeLinkSellerModal: ElementRef;
+  @ViewChild('notesModalOpen') notesModalOpen: ElementRef;
+  @ViewChild('notesModalClose') notesModalClose: ElementRef;
   @ViewChild('linkExtBrokerModal') linkExtBrokerModal: ElementRef;
   @ViewChild('closeExtBrokerModal') closeExtBrokerModal: ElementRef;
-
+  
   constructor(
     public constant: Constant,
     public admin: AdminService,
@@ -59,11 +61,12 @@ export class CollectionsComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
     private router: Router,
-    private translate: TranslateService
+    private translate: TranslateService,
+    public model: Notes
   ) { }
 
   ngOnInit() {
-
+    this.model = new Notes();
     this.locale = {
       firstDayOfWeek: 0,
       dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
@@ -332,7 +335,7 @@ export class CollectionsComponent implements OnInit {
     if (index !== '') { this.parameter.index = index; }
     this.admin.postDataApi('getSellerSelections', { property_id: property_id }).subscribe(r => {
       this.spinner.hide();
-      this.linkSellerModal.nativeElement.click();
+      // this.linkSellerModal.nativeElement.click();
       this.allSellers = r['data'];
       this.selecter_seller = r['selecter_seller'];
     }, error => {
@@ -390,7 +393,7 @@ export class CollectionsComponent implements OnInit {
     this.parameter.property_id = property_id;
     this.parameter.user_id = user_id;
     this.parameter.status = status;
-    this.closeLinkSellerModal.nativeElement.click();
+    // this.closeLinkSellerModal.nativeElement.click();
     this.closeLinkUserModal.nativeElement.click();
     this.rejectModalOpen.nativeElement.click();
   }
@@ -442,7 +445,7 @@ export class CollectionsComponent implements OnInit {
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.doneSuccessfully'), 'success');
       // accept => then close listing modal
       if (this.parameter.status === 1) {
-        this.closeLinkSellerModal.nativeElement.click();
+        // this.closeLinkSellerModal.nativeElement.click();
         this.closeLinkUserModal.nativeElement.click();
       }
       // else reason modal
@@ -661,5 +664,57 @@ export class CollectionsComponent implements OnInit {
     // this.propertyService.property = data;
     this.propertyService.setPropertyData(data);
     this.router.navigate(['/dashboard/properties/details', property_id]);
+  }
+
+  getLeadNotes() {
+    this.admin.postDataApi('leads/getLeadNotes', {lead_id: 453, sent_as: 1}).subscribe(r => {
+      this.parameter.items = r.data;
+      this.notesModalOpen.nativeElement.click();
+    });
+  }
+
+  closeNotesModal() {
+    this.notesModalClose.nativeElement.click();
+  }
+
+  
+  addNote() {
+    if (!this.model.note) {
+      return;
+    }
+    this.spinner.show();
+    this.admin.postDataApi('leads/addLeadNote', {lead_id: 453, note: this.model.note, sent_as: 1}).subscribe(r => {
+      this.spinner.hide();
+      this.model = new Notes();
+      this.parameter.items = r.data;
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
+    });
+  }
+
+  deleteLeadPopup(note_id, index) {
+    this.parameter.text = this.translate.instant('message.error.wantToDeleteNote');
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Delete!'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteLeadNote(note_id, index);
+      }
+    });
+  }
+
+  deleteLeadNote(note_id, index) {
+    this.admin.postDataApi('leads/deleteLeadNote', {note_id: note_id}).subscribe(r => {
+      this.parameter.items.splice(index, 1);
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
+    });
+  }
+
+  showApplyPaymentPopup() {
+    
   }
 }

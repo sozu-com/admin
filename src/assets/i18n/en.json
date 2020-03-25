@@ -678,7 +678,9 @@
       "bank": "Bank",
       "editAmount": "Edit Amount",
       "saveAmount": "Save Amount",
-      "propertyImage": "Property Image"
+      "propertyImage": "Property Image",
+      "editDetails": "Edit Details",
+      "collectionNotes": "Collection Notes"
     },
     "pagination": {
       "showing": "Showing",
@@ -1505,7 +1507,8 @@
     "enterPercentage": "Enter Percentage",
     "enterAmount": "Enter Amount",
     "enterSpecialPaymentName": "Enter Special Payment Name",
-    "isSellerALegalEntity": "Is Seller a Legal Entity"
+    "isSellerALegalEntity": "Is Seller a Legal Entity",
+    "addDocxNameAndChooseFile": "Add docs name and choose file"
   },
   "swal": {
     "error": "Error",

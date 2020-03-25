@@ -28,22 +28,11 @@ declare let swal: any;
 export class AddEditCollectionComponent implements OnInit {
 
   file2: FileUpload;
-  file360: FileUpload;
-  amenMoreImg: FileUpload;
-  amen360Img: FileUpload;
-  amenVideo: VideoUpload;
 
   public parameter: IProperty = {};
-  @ViewChild('modalClose') modalClose: ElementRef;
-  @ViewChild('modalOpen') modalOpen: ElementRef;
-  @ViewChild('modalOpen360Img') modalOpen360Img: ElementRef;
-  @ViewChild('modalClose360Img') modalClose360Img: ElementRef;
-  @ViewChild('mapDiv') mapDiv: ElementRef;
+  @ViewChild('docsModalOpen') docsModalOpen: ElementRef;
+  @ViewChild('docsModalClose') docsModalClose: ElementRef;
   @ViewChild('search') searchElementRef: ElementRef;
-  @ViewChild('modalAmenClose') modalAmenClose: ElementRef;
-  @ViewChild('modalAmenOpen') modalAmenOpen: ElementRef;
-  @ViewChild('modalAddMoreVideos') modalAddMoreVideos: ElementRef;
-  @ViewChild('modalVideosClose') modalVideosClose: ElementRef;
   @ViewChild('linkUserModal') linkUserModal: ElementRef;
   @ViewChild('closeLinkUserModal') closeLinkUserModal: ElementRef;
   @ViewChild('linkExtBrokerModal') linkExtBrokerModal: ElementRef;
@@ -91,6 +80,8 @@ export class AddEditCollectionComponent implements OnInit {
   amenity_obj: any;
 
   folderName: string;
+  docsName: string;
+  docFile: any;
   locale: any;
   allUsers: Array<any>;
   allExtBrokers: Array<any>;
@@ -104,8 +95,15 @@ export class AddEditCollectionComponent implements OnInit {
   addFormStep4: FormGroup;
   addFormStep5: FormGroup;
   addFormStep6: FormGroup;
+  collectionFolders: Array<any>;
+  docs: Array<any>;
   keyword: string;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
+  
+  availabilityStatus = [
+    { id: '1', name: this.translate.instant('leadDetails.buy'), checked: false },
+    { id: '2', name: this.translate.instant('leadDetails.rent'), checked: false }];
+
   constructor(public model: Collection, private us: AdminService, private cs: CommonService,
     private router: Router,
     private ngZone: NgZone, private building: Building, public constant: Constant,
@@ -132,7 +130,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.initFormStep3();
     this.initFormStep4();
     this.initFormStep5();
-    this.initFormStep6();
+    // this.initFormStep6();
 
     this.parameter.sub = this.route.params.subscribe(params => {
       this.model.id = params['id'];
@@ -266,7 +264,6 @@ export class AddEditCollectionComponent implements OnInit {
 
   initFormStep6() {
     this.addFormStep6 = this.fb.group({
-      // step 6
       step: ['', [Validators.required]],
       folderName: [''],
       collection_folders: this.fb.array([])
@@ -328,6 +325,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.patchFormStep3(data);
     this.patchFormStep4(data);
     this.patchFormStep5(data);
+    this.setFolders(data);
   }
 
   patchFormStep1(data) {
@@ -418,6 +416,10 @@ export class AddEditCollectionComponent implements OnInit {
     //     control.push(this.fb.group(x));
     // });
     this.addFormStep5.controls.step.patchValue(5);
+  }
+
+  setFolders(data: any) {
+    this.collectionFolders = data['collection_folders'];
   }
 
   getProjectById(step: number) {
@@ -749,13 +751,75 @@ export class AddEditCollectionComponent implements OnInit {
   addFolder() {
     // $event.stopPropagation();
     // if () {
-     this.folders.push(this.newFolder());
-     this.closeModal();
+    const input = {
+      step: 6,
+    }
+    this.folders.push(this.newFolder());
+    // this.us.postDataApi('addCollection', formdata).subscribe(success => {
+    //   this.tab = tab + 1;
+    //   this.spinner.hide();
+    //   this.model.id = success['data'].id;
+    //   if (tab == 6) {
+    //     swal({
+    //       html: this.translate.instant('message.success.submittedSccessfully'), type: 'success'
+    //     });
+    //   }
+    //   this.parameter.property_id = success['data'].id;
+    // }, error => {
+    //   this.spinner.hide();
+    // });
+    this.closeModal();
     // }
   }
 
+  showFiles() {
+
+  }
+
+  
+  modelOpenFun(folder) {
+    this.folderName = folder.name;
+    this.docs = folder.folder_docs;
+    this.docsModalOpen.nativeElement.click();
+    // this.file2.backup(JSON.parse(JSON.stringify(this.model.images)));
+  }
+
   closeModal() {
-    this.modalClose.nativeElement.click();
+    this.docsModalClose.nativeElement.click();
+  }
+
+  onSelectFile(files) {
+    this.cs.saveAttachment(files[0]).subscribe(
+      success => {
+        this.docFile = success['data'].name;
+      }
+    );
+  }
+
+  saveCollectionFolders() {
+    console.log(this.collectionFolders);
+    this.spinner.show();
+    this.us.postDataApi('addCollection', {id: this.model.id, step: 6, 'collection_folders': this.collectionFolders})
+      .subscribe(
+        success => {
+          this.spinner.hide();
+        }, error => {
+          this.spinner.hide();
+        }
+      );
+  }
+
+  addDocs() {
+    if (!this.docsName) {
+      return;
+    }
+    if (!this.docFile) {
+      return;
+    }
+    console.log('sss');
+    console.log(this.docsName, this.docFile);
+    this.docs.push({name: this.docsName, display_name: this.docFile});
+    console.log(this.docs);
   }
 
   saveFolder($event) {

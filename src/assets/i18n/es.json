@@ -636,7 +636,6 @@
       "selectManager": "Seleccionar gerente",
       "selectCompany": "Seleccionar compañía",
       "notary": "Notario",
-      "editDetails": "Editar detalles",
       "addLegalEntity": "Agregar entidad legal",
       "block": "Bloquear",
       "unblock": "Desbloquear",
@@ -679,7 +678,9 @@
       "bank": "Banco",
       "editAmount": "Editar cantidad",
       "saveAmount": "Guardar cantidad",
-      "propertyImage": "Imagen del departamento"
+      "propertyImage": "Imagen del departamento",
+      "editDetails": "Editar detalles",
+      "collectionNotes": "Notas de colección"
     },
     "pagination": {
       "showing": "Mostrando",

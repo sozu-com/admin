@@ -90,7 +90,7 @@
   <div class="padding40" *ngIf="showSearch">
     <h5 class="p16-two">{{'addCollection.SearchYourBuildingInOurDatabase' | translate}}</h5>
     <div class="searh d-flex">
-      <input class="border-right-0" autocomplete="off" type="text" #buildingname
+      <input autocomplete="off" class="border-right-0" autocomplete="off" type="text" #buildingname
         (keyup.enter)="searchBuilding(buildingname.value)" name="buildingName" [(ngModel)]="buildingName">
       <button type="button" class="btn" type="button" (click)="searchBuilding(buildingname.value)">{{'addCollection.search' | translate}}</button>
     </div>
@@ -166,10 +166,13 @@
           <div class="col-lg-6 col-md-6 col-sm-12 col-6">
             <div class="form-group-3">
               <label class="p16-two">{{'addCollection.selectDealType' | translate}}<span class="color-red">*</span></label>
-              <select required class="form-control" name="deal_type_id" formControlName="deal_type_id" (change)="setDealType($event.target.value)">
-                  <option value="">{{'addCollection.selectDealType' | translate}}</option>
-                  <option *ngFor="let dt of dealTypes" [value]="dt.id">{{dt.name}}</option>
-              </select>
+              <div class="clearfix"></div>
+              <label class="cust-radio" *ngFor="let astatus of availabilityStatus; let a=index">
+                <input type="radio" (change)="setAvailableStatus(a)" value="{{astatus.id}}"
+                  [checked]="model?.availabilityStatusId == astatus.id ? 'checked' : ''" name="availabilityStatusId">
+                <span class="checkmark">{{astatus.name}}</span>
+              </label>      
+              <div class="clearfix"></div>
             </div>
           </div>  
         </div>
@@ -978,7 +981,7 @@
 </form>
 
 
-<form [formGroup]="addFormStep6" (ngSubmit)="createCollection(addFormStep6.value, 6)">
+<form ngNativeValidate #addFormStep6="ngForm" (ngSubmit)="saveCollectionFolders()">
     <!-- tab-5 -->
     <div class="white-bg" *ngIf="tab==6">
       <div class="page-title">
@@ -992,12 +995,24 @@
           </span>
               <!-- <a class="add" (click)="addFolder($event)" href="javascript://">{{'addCollection.addNewFolder' | translate}}</a></span> -->
         </h5>
-
-        <div formArrayName="collection_folders">
+  
+        <div class="row" >
+          <ng-container *ngFor="let folder of collectionFolders; let i=index">
+             
+                <div class="col-lg-2 col-md-2 col-sm-6 col-12 folder-box" (click)="modelOpenFun(folder, i)">
+                  <div class="form-group-3">
+                    <p>{{folder?.name}}</p>
+                    <!-- <input readonly class="form-control" type="text" name="name" [(ngModel)]=""> -->
+                  </div>
+                </div>
+          </ng-container>
+        </div>
+  
+        <!-- <div formArrayName="collection_folders">
             <div class="row" >
           <ng-container *ngFor="let collection_folder of addFormStep6.get('collection_folders').controls; let i=index">
              
-                <div class="col-lg-2 col-md-2 col-sm-6 col-12 folder-box" [formGroupName]="i" (click)="showFiles()">
+                <div class="col-lg-2 col-md-2 col-sm-6 col-12 folder-box" [formGroupName]="i" (click)="modelOpenFun(folder_docs)">
                   <div class="form-group-3">
                     <input readonly class="form-control" type="text" name="name" formControlName="name">
                   </div>
@@ -1005,7 +1020,7 @@
           </ng-container>
         </div>
         </div>
-  
+   -->
         <div class="row">
           <div class="col-md-12">
             <div class="btn-cont text-right">
@@ -1145,7 +1160,7 @@
       <div class="modal-content">
         <div class="modal-header modal-header-new">
             <h4 class="modal-title">{{'addCollection.folderName' | translate}}</h4>
-            <button style="display: none;" type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
+            <button style="display: none;" type="button" class="close" data-dismiss="modal" #fileModalClose>&times;</button>
             <button type="button" class="close" (click)="closeModal()">&times;</button>
         </div>
   
@@ -1155,7 +1170,7 @@
               <div class="col-12">
                 <div class="form-group-2">
                     <div class="form-group">
-                      <input required class="form-control note" name="folderName" [(ngModel)]="folderName">
+                      <input autocomplete="off" required class="form-control note" name="folderName" [(ngModel)]="folderName">
                   </div>
                 </div>
               </div>
@@ -1175,35 +1190,63 @@
   </div>
 
 
-<!-- <span data-target="#add-file" data-toggle="modal" #fileModalOpen></span>
-<div class="modal add-more-popup" id="add-file">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-
-      <div class="modal-header">
-        <h4 class="modal-title">{{'addForm.images' | translate}}</h4>
-        <button type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
-      </div>
-
-      <div class="modal-body">
-        <div class="uploaded-img-block">
-          <div class="uploaded-img" *ngFor="let item of file2.files; let i=index">
-            <a class="remove" (click)="file2.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
-            <img *ngIf="item" class="u-img" [src]="item.image| img:'thumb'" alt="img">
-            <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
-            <div *ngIf="item.loading" class="loaderr"></div>
-          </div>
+  <a href="javascript://" data-toggle="modal" data-target="#collection-notes" #docsModalOpen></a>
+  <div class="modal animated" id="collection-notes">
+        <div class="modal-dialog fadeIndown">
+              <div class="modal-content notary-avail">
+                    <div class="modal-header popup-header">
+                          <h4>{{folderName}}</h4>
+                          <button style="display: none;" type="button" class="close" data-dismiss="modal" #docsModalClose>&times;</button>
+                          <button type="button" class="close" (click)="closeNotesModal()">&times;</button>
+                    </div>
+  
+                    <div class="modal-body">
+                          <div class="white-bg">
+                                <div class="row">
+                                      <div class="col-8">
+                                            <p class="p16 marginB0">{{'addCollection.addDocxNameAndChooseFile' | translate}}</p>
+                                      </div>
+                                      <div class="col-4 text-right">
+                                            <a class="add" href="javascript://" (click)="addDocs()">{{'commonBlock.add' | translate}}</a>
+  
+                                            <ng-template #noAddPermissiom>
+                                                  <a class="add" href="javascript://">{{'commonBlock.add' | translate}}</a>
+                                            </ng-template>
+                                      </div>
+                                </div>
+                          </div>
+                          <div class="form-group-2">
+                                <div class="form-group">
+                                  <input type="text" autocomplete="off" name="docsName" [(ngModel)]="docsName">
+                                </div>
+                          </div>
+                          <div class="form-group-2">
+                                <div class="form-group">
+                                  <input type="file" name="docFile" accept="image/*" (change)="onSelectFile($event.target.files)">
+                                </div>
+                          </div>
+                          <div *ngIf="docs?.length!=0" [ngStyle]="{'max-height':sent_as === 1 ? '250px' : '' }" class="write-note white-bg"
+                                malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+                                <div class="wn-block" *ngFor="let item of docs; let i=index">
+                                      <div class="circle">
+                                            <span></span>
+                                      </div>
+                                      <a class="delete" href="javascript://" (click)="deleteLeadNote(item.id, i)">{{'commonBlock.delete' | translate}}</a>
+  
+                                      <ng-template #noDeletePermissiom>
+                                            <a class="delete" href="javascript://">{{'commonBlock.delete' | translate}}</a>
+                                      </ng-template>
+                                      <p class="time">{{item?.name}}</p>
+                                      <!-- <pre class="p13" *ngIf="!item.show">{{item.note.slice(0, 90)}} <span class="read-more" *ngIf="item.note.length>100" (click)="item.show=true">Read more</span></pre>
+                                      <pre class="p13" *ngIf="item.show">{{item.note}}</pre> -->
+                                </div>
+                          </div>
+                          <div *ngIf="docs?.length==0" class="write-note white-bg" [ngStyle]="{'height':sent_as === 1 ? '230px' : '245px' }">
+                                <p class="show-not-found">
+                                      {{'message.error.noNoteFound' | translate}}
+                                </p>
+                          </div>
+                    </div>
+              </div>
         </div>
-        <div class="add-more-images">
-          <input type="file" name="add-more" multiple max="6" accept="image/*" (change)="file2Select($event)">
-          <span>{{'addForm.moreImages.addMoreBtn' | translate}}</span>
-        </div>
-      </div>
-
-      <div class="modal-footer btn-cont">
-        <button type="button" (click)="saveImages()" class="btn btn-primary">{{'addForm.submit' | translate}}</button>
-      </div>
-
-    </div>
   </div>
-</div> -->
