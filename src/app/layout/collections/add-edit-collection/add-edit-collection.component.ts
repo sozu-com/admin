@@ -37,7 +37,7 @@ export class AddEditCollectionComponent implements OnInit {
   @ViewChild('closeLinkUserModal') closeLinkUserModal: ElementRef;
   @ViewChild('linkExtBrokerModal') linkExtBrokerModal: ElementRef;
   @ViewChild('closeExtBrokerModal') closeExtBrokerModal: ElementRef;
-
+  @ViewChild('folderModalOpen') folderModalOpen: ElementRef;
   public latitude: number;
   public longitude: number;
   public searchControl: FormControl;
@@ -79,6 +79,8 @@ export class AddEditCollectionComponent implements OnInit {
   amenity_index: number;
   amenity_obj: any;
 
+  folderIndex: number;
+  selectedFolder: any;
   folderName: string;
   docsName: string;
   docFile: any;
@@ -241,6 +243,8 @@ export class AddEditCollectionComponent implements OnInit {
       deal_interest_rate: ['', [Validators.required]],
       deal_monthly_payment: ['', [Validators.required]],
       deal_payment_date: ['', [Validators.required]],
+      deal_monthly_amount: ['', [Validators.required]],
+      deal_monthly_percentage: ['', [Validators.required]],
       deal_penality: ['', [Validators.required]],
       payment_method_id: ['', [Validators.required]]
     });
@@ -776,6 +780,25 @@ export class AddEditCollectionComponent implements OnInit {
 
   }
 
+  openAddFolder(folder, index: number) {
+    if (folder) {
+      this.folderIndex = index;
+      this.selectedFolder = folder;
+      this.folderName = folder.folder_name;
+    }
+    this.folderModalOpen.nativeElement.click();
+  }
+
+  editFolderName(folder) {
+    this.us.postDataApi('updateCollectionFolder', {id: this.selectedFolder.id, name: this.folderName})
+      .subscribe(
+        success => {
+          this.collectionFolders[this.folderIndex].name = this.folderName;
+        }, error => {
+          this.spinner.hide();
+        }
+      );
+  }
   
   modelOpenFun(folder) {
     this.folderName = folder.name;
@@ -1041,6 +1064,17 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep4.controls[key2].patchValue(percentage);
   }
 
+  getMonthlyPerAndAmount() {
+    const price = this.addFormStep4.get('deal_price').value;
+    const numOfInstallments = this.addFormStep4.get('deal_monthly_payment').value;
+    const monthlyAmount = Math.round(price / numOfInstallments);
+    // const percentage = Math.round(price / numOfInstallments);
+    // console.log(price, amount);
+    const percentage = (monthlyAmount * 100) / price;
+    this.addFormStep4.controls['deal_monthly_amount'].patchValue(monthlyAmount);
+    this.addFormStep4.controls['deal_monthly_percentage'].patchValue(percentage);
+  }
+
   createCollection(formdata: NgForm, tab: number) {
 // console.log(this.tab);
 // console.log(formdata);
@@ -1116,15 +1150,18 @@ console.log(formdata);
       } else if (!formdata['deal_price']) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPrice'), 'error');
         return;
-      } else if (!formdata['deal_lay_date'] || !formdata['deal_lay_type'] ||
-          !formdata['deal_lay_percent_value'] || !formdata['deal_lay_amount_value']) {
+      } else if (!formdata['deal_lay_date'] 
+      // || !formdata['deal_lay_type'] 
+        || !formdata['deal_lay_percent_value'] || !formdata['deal_lay_amount_value']) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLayawayPayment'), 'error');
         return;
-      } else if (!formdata['deal_down_date'] || !formdata['deal_down_type'] ||
+      } else if (!formdata['deal_down_date'] || 
+      // !formdata['deal_down_type'] ||
           !formdata['deal_down_percent_value'] || !formdata['deal_down_amount_value']) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterDownPayment'), 'error');
         return;
-      } else if (!formdata['deal_pay_date'] || !formdata['deal_pay_type'] ||
+      } else if (!formdata['deal_pay_date'] || 
+      // !formdata['deal_pay_type'] ||
           !formdata['deal_pay_percent_value'] || !formdata['deal_pay_amount_value']) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPaymentUponDelivery'), 'error');
         return;

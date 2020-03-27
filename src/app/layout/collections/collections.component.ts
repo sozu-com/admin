@@ -40,7 +40,10 @@ export class CollectionsComponent implements OnInit {
   reason: string;
   item: any;
   locale: any;
+  property_collection_id: string;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
+
+  paymentConcepts: Array<any>;
 
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
@@ -53,6 +56,8 @@ export class CollectionsComponent implements OnInit {
   @ViewChild('notesModalClose') notesModalClose: ElementRef;
   @ViewChild('linkExtBrokerModal') linkExtBrokerModal: ElementRef;
   @ViewChild('closeExtBrokerModal') closeExtBrokerModal: ElementRef;
+  @ViewChild('paymentModalOpen') paymentModalOpen: ElementRef;
+  @ViewChild('paymentModalClose') paymentModalClose: ElementRef;
   
   constructor(
     public constant: Constant,
@@ -66,6 +71,19 @@ export class CollectionsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.paymentConcepts = [
+      {id: 1, name: 'Layaway Payment'},
+      {id: 2, name: 'Monthly Payment 1'},
+      {id: 2, name: 'Monthly Payment 2'},
+      {id: 2, name: 'Monthly Payment 3'},
+      {id: 2, name: 'Monthly Payment 4'},
+      {id: 2, name: 'Monthly Payment 5'},
+      {id: 2, name: 'Monthly Payment 6'},
+      {id: 2, name: 'Monthly Payment 7'},
+      {id: 2, name: 'Monthly Payment 8'},
+      {id: 2, name: 'Monthly Payment 9'},
+      {id: 2, name: 'Monthly Payment 10'},
+    ]
     this.model = new Notes();
     this.locale = {
       firstDayOfWeek: 0,
@@ -666,8 +684,11 @@ export class CollectionsComponent implements OnInit {
     this.router.navigate(['/dashboard/properties/details', property_id]);
   }
 
-  getLeadNotes() {
-    this.admin.postDataApi('leads/getLeadNotes', {lead_id: 453, sent_as: 1}).subscribe(r => {
+  getLeadNotes(item) {
+    this.property_collection_id = item.id;
+    const input = {property_collection_id: item.id};
+    // const input = {lead_id: 453, sent_as:1};
+    this.admin.postDataApi('getCollectionNote', input).subscribe(r => {
       this.parameter.items = r.data;
       this.notesModalOpen.nativeElement.click();
     });
@@ -683,10 +704,10 @@ export class CollectionsComponent implements OnInit {
       return;
     }
     this.spinner.show();
-    this.admin.postDataApi('leads/addLeadNote', {lead_id: 453, note: this.model.note, sent_as: 1}).subscribe(r => {
+    this.admin.postDataApi('collectionNote', {property_collection_id: this.property_collection_id, note: this.model.note}).subscribe(r => {
       this.spinner.hide();
       this.model = new Notes();
-      this.parameter.items = r.data;
+      this.parameter.items.push(r.data);
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
     });
   }
@@ -708,13 +729,17 @@ export class CollectionsComponent implements OnInit {
   }
 
   deleteLeadNote(note_id, index) {
-    this.admin.postDataApi('leads/deleteLeadNote', {note_id: note_id}).subscribe(r => {
-      this.parameter.items.splice(index, 1);
+    this.admin.postDataApi('deleteCollectionNote', {id: 2}).subscribe(r => {
+      // this.parameter.items.splice(index, 1);
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
     });
   }
 
   showApplyPaymentPopup() {
-    
+    this.paymentModalOpen.nativeElement.click();
+  }
+
+  closePaymentModal() {
+    this.paymentModalClose.nativeElement.click();
   }
 }

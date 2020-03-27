@@ -284,16 +284,20 @@
     <div style="padding: 0px 40px;">
         
       <div class="form-group-3 row">
-          <h5 class="col-sm-6 p16-two">{{'addCollection.isSellerALegalEntity' | translate}}:</h5>
-          <div class="col-sm-6">
+          <h5 class="col-sm-3 p16-two">Choose Seller Type:</h5>
+          <div class="col-sm-9">
               <div class="clearfix"></div>
               <label class="cust-radio">
                 <input type="radio" (change)="setValue('is_seller_legal_entity', 1)" value="1" [checked]="model.is_seller_legal_entity == 1 ? 'checked' : ''" name="bulk_approve_property">
-                <span class="checkmark">{{'defaultSettings.yes' | translate}}</span>
+                <span class="checkmark">Person</span>
               </label>
               <label class="cust-radio">
                 <input type="radio" (change)="setValue('is_seller_legal_entity', 0)" value="0" [checked]="model.is_seller_legal_entity == 0 ? 'checked' : ''" name="bulk_approve_property">
-                <span class="checkmark">{{'defaultSettings.no' | translate}}</span>
+                <span class="checkmark">Legal Entity</span>
+              </label>
+              <label class="cust-radio">
+                <input type="radio" (change)="setValue('is_seller_legal_entity', 2)" value="2" [checked]="model.is_seller_legal_entity == 2 ? 'checked' : ''" name="bulk_approve_property">
+                <span class="checkmark">Developer</span>
               </label>
               <div class="clearfix"></div>
           </div>
@@ -656,7 +660,7 @@
               <div class="clearfix"></div>
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.paymentMethods' | translate}}">
+        <!-- <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.paymentMethods' | translate}}">
           <div class="form-group-3">
             <div class="clearfix"></div>
             <select name="payment_method_id" formControlName="payment_method_id" required class="form-control">
@@ -664,7 +668,7 @@
               <option value="{{pm.id}}" *ngFor="let pm of paymentMethods">{{pm?.name}}</option>
             </select>
           </div>
-        </div>
+        </div> -->
         <!-- <div class="col-lg-2 col-md-6 col-sm-6 col-12" title="{{'addCollection.choosePaymentType' | translate}}">
           <div class="form-group-3">
             <div class="clearfix"></div>
@@ -677,6 +681,7 @@
         </div> -->
         <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.enterPercentage' | translate}}">
           <div class="input-group form-group-3">
+            <label>&nbsp;</label>
             <div class="clearfix"></div>
             <input autocomplete="off" class="form-control" (input)="getAmount('deal_price', 'deal_lay_percent_value', 'deal_lay_amount_value')" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="deal_lay_percent_value" min="0"
                 name="deal_lay_percent_value">
@@ -687,7 +692,8 @@
           </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.enterAmount' | translate}}">
-          <div class="form-group-3">
+          <div class="input-group form-group-3">
+            <label>&nbsp;</label>
             <div class="clearfix"></div>
             <input autocomplete="off" class="form-control" (input)="getPercentage('deal_price', 'deal_lay_amount_value', 'deal_lay_percent_value')" type="number" formControlName="deal_lay_amount_value" min="0" name="deal_lay_amount_value">
             <div class="input-group-append">
@@ -708,7 +714,7 @@
               <div class="clearfix"></div>
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.paymentMethods' | translate}}">
+        <!-- <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.paymentMethods' | translate}}">
           <div class="form-group-3">
             <div class="clearfix"></div>
             <select name="payment_method_id" formControlName="payment_method_id" required class="form-control">
@@ -716,7 +722,7 @@
               <option value="{{pm.id}}" *ngFor="let pm of paymentMethods">{{pm?.name}}</option>
             </select>
           </div>
-        </div>
+        </div> -->
         <!-- <div class="col-lg-2 col-md-6 col-sm-6 col-12" title="{{'addCollection.choosePaymentType' | translate}}">
           <div class="form-group-3">
             <div class="clearfix"></div>
@@ -740,7 +746,7 @@
           </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.enterAmount' | translate}}">
-          <div class="form-group-3">
+          <div class="input-group form-group-3">
             <div class="clearfix"></div>
             <input autocomplete="off" class="form-control" type="number" 
               (input)="getPercentage('deal_price', 'deal_down_amount_value', 'deal_down_percent_value')"
@@ -763,7 +769,7 @@
               <div class="clearfix"></div>
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.paymentMethods' | translate}}">
+        <!-- <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.paymentMethods' | translate}}">
           <div class="form-group-3">
             <div class="clearfix"></div>
             <select name="payment_method_id" formControlName="payment_method_id" required class="form-control">
@@ -771,7 +777,7 @@
               <option value="{{pm.id}}" *ngFor="let pm of paymentMethods">{{pm?.name}}</option>
             </select>
           </div>
-        </div>
+        </div> -->
         <!-- <div class="col-lg-2 col-md-6 col-sm-6 col-12" title="{{'addCollection.choosePaymentType' | translate}}">
           <div class="form-group-3">
             <div class="clearfix"></div>
@@ -795,7 +801,7 @@
           </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.enterAmount' | translate}}">
-          <div class="form-group-3">
+          <div class="input-group form-group-3">
             <div class="clearfix"></div>
             <input autocomplete="off" class="form-control" type="number" 
             (input)="getPercentage('deal_price', 'deal_pay_amount_value', 'deal_pay_percent_value')"
@@ -824,13 +830,36 @@
               <div class="clearfix"></div>
           </div>
         </div>
-        <div class="col-lg-2 col-md-6 col-sm-6 col-12" title="{{'addCollection.paymentMethods' | translate}}">
+        <!-- <div class="col-lg-2 col-md-6 col-sm-6 col-12" title="{{'addCollection.paymentMethods' | translate}}">
           <div class="form-group-3">
             <div class="clearfix"></div>
             <select name="payment_method_id" formControlName="payment_method_id" required class="form-control">
               <option value="">{{'addCollection.paymentMethods' | translate}}</option>
               <option value="{{pm.id}}" *ngFor="let pm of paymentMethods">{{pm?.name}}</option>
             </select>
+          </div>
+        </div> -->
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.enterPercentage' | translate}}">
+          <div class="input-group form-group-3">
+            <div class="clearfix"></div>
+            <input autocomplete="off" class="form-control" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="deal_lay_percent_value" min="0"
+                
+              (input)="getAmount('deal_price', 'deal_lay_percent_value', 'deal_lay_amount_value')" name="deal_lay_percent_value">
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon1">%</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.enterAmount' | translate}}">
+          <div class="input-group form-group-3">
+            <div class="clearfix"></div>
+            <input autocomplete="off" class="form-control" type="number"
+            
+            (input)="getPercentage('deal_price', 'deal_lay_amount_value', 'deal_lay_percent_value')"
+             formControlName="deal_lay_amount_value" min="0" name="deal_lay_amount_value">
+             <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon1">.00</span>
+            </div>
           </div>
         </div>
       </div>
@@ -845,7 +874,7 @@
             </select>
           </div>
         </div> -->
-        <div class="col-lg-2 col-md-6 col-sm-6 col-12" title="{{'addCollection.enterPercentage' | translate}}">
+        <!-- <div class="col-lg-2 col-md-6 col-sm-6 col-12" title="{{'addCollection.enterPercentage' | translate}}">
           <div class="input-group form-group-3">
             <div class="clearfix"></div>
             <input autocomplete="off" class="form-control" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="deal_lay_percent_value" min="0"
@@ -864,10 +893,54 @@
             (input)="getPercentage('deal_price', 'deal_lay_amount_value', 'deal_lay_percent_value')"
              formControlName="deal_lay_amount_value" min="0" name="deal_lay_amount_value">
           </div>
-        </div>
+        </div> -->
       <!-- </div> -->
       
       <div class="spacer15"></div>
+      <label>{{'addCollection.monthlyPayment' | translate}}</label>
+      <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <!-- <label>&nbsp;</label> -->
+            <div class="clearfix"></div>
+            <input autocomplete="off" class="form-control" type="number" (input)="getMonthlyPerAndAmount($event)" formControlName="deal_monthly_payment" min="0" name="deal_monthly_payment">
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.chooseDate' | translate}}">
+          <div class="form-group-3">
+            <!-- <label>&nbsp;</label> -->
+            <div class="clearfix"></div>
+              <p-calendar [style]="{'width':'100%'}" formControlName="deal_payment_date" class="sz-calendar" [locale]="locale" showIcon="true" (onSelect)="onSelect($event)" 
+                showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+              <div class="clearfix"></div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.enterPercentage' | translate}}">
+          <div class="input-group form-group-3">
+            <label>&nbsp;</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" class="form-control" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="deal_monthly_percentage" min="0"
+                 name="deal_monthly_percentage">
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon1">%</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.enterAmount' | translate}}">
+          <div class="input-group form-group-3">
+            <label>&nbsp;</label>
+            <div class="clearfix"></div>
+            <input autocomplete="off" class="form-control" type="number"
+            readonly
+             formControlName="deal_monthly_amount" min="0" name="deal_monthly_amount">
+             <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon1">.00</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
       <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
@@ -878,29 +951,12 @@
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
-            <label>{{'addCollection.monthlyPayment' | translate}}</label>
-            <div class="clearfix"></div>
-            <input autocomplete="off" class="form-control" type="number" formControlName="deal_monthly_payment" min="0" name="deal_monthly_payment">
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.chooseDate' | translate}}">
-          <div class="form-group-3">
-            <label>&nbsp;</label>
-            <div class="clearfix"></div>
-              <p-calendar [style]="{'width':'100%'}" formControlName="deal_payment_date" class="sz-calendar" [locale]="locale" showIcon="true" (onSelect)="onSelect($event)" 
-                showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
-              <div class="clearfix"></div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-          <div class="form-group-3">
             <label>{{'addCollection.penalityForLatePayment' | translate}}</label>
             <div class="clearfix"></div>
             <input autocomplete="off" class="form-control" type="number" formControlName="deal_penality" min="0" name="deal_penality">
           </div>
         </div>
       </div>
-      
 
       <div class="row">
         <div class="col-md-12">
@@ -990,15 +1046,17 @@
       <div class="padding40">
         <h5 class="marginB30">{{'addCollection.folders' | translate}}
           <span class="pull-right">
-            <a class="add" href="javascript://" data-toggle="modal" data-target="#add-folder" #folderModalOpen>
-          {{'addCollection.addNewFolder' | translate}}</a>
+            <a href="javascript://" data-toggle="modal" data-target="#add-folder" #folderModalOpen></a>
+          <a class="add" href="javascript://" (click)="openAddFolder('', '')">
+            {{'addCollection.addNewFolder' | translate}}</a>
           </span>
               <!-- <a class="add" (click)="addFolder($event)" href="javascript://">{{'addCollection.addNewFolder' | translate}}</a></span> -->
         </h5>
   
         <div class="row" >
           <ng-container *ngFor="let folder of collectionFolders; let i=index">
-             
+             <button (click)="openAddFolder(folder, i)">Edit</button>
+             <button (click)="deleteFolder(folder)">Delete</button>
                 <div class="col-lg-2 col-md-2 col-sm-6 col-12 folder-box" (click)="modelOpenFun(folder, i)">
                   <div class="form-group-3">
                     <p>{{folder?.name}}</p>
@@ -1197,7 +1255,7 @@
                     <div class="modal-header popup-header">
                           <h4>{{folderName}}</h4>
                           <button style="display: none;" type="button" class="close" data-dismiss="modal" #docsModalClose>&times;</button>
-                          <button type="button" class="close" (click)="closeNotesModal()">&times;</button>
+                          <button type="button" class="close" (click)="closeModal()">&times;</button>
                     </div>
   
                     <div class="modal-body">

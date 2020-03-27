@@ -1314,6 +1314,7 @@
     "manageLeads": "Manage Leads",
     "manageProjects": "Manage Projects",
     "manageProperties": "Manage Properties",
+    "manageLegalEntity": "Manage Legal Entity",
     "manageCollections": "Manage Collections",
     "ACL": "ACL",
     "reports": "Reports",
@@ -1516,5 +1517,12 @@
   },
   "manageUsers": {
     "addLegalEntity": "Add Legal Entity"
+  },
+  "manageLegalEntity": {
+    "label": "Manage Legal Entity"
+  },
+  "addLegalEntity": {
+    "editEntity": "Edit Legal Entity",
+    "addEntity": "Add Legal Entity"
   }
 }

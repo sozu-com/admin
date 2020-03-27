@@ -94,6 +94,7 @@ export class Notes {
     id: number;
     lead_id: number;
     note: string;
+    name: string
 }
 
 // export class FillInformation {

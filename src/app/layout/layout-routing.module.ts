@@ -86,6 +86,10 @@ const routes: Routes = [
       {
         path: 'collections',
         loadChildren: './collections/collections.module#CollectionsModule'
+      },
+      {
+        path: 'legal-entities',
+        loadChildren: './legal-entity/legal-entity.module#LegalEntityModule'
       }
     ]
   }
