@@ -877,6 +877,9 @@
       "wantToBlockDeveloper": "You want to block this Developer?",
       "wantToUnblockDeveloper": "You want to unblock this Developer?",
       "wantToDeleteDeveloper": "You want to delete this Developer?",
+      "wantToBlockLegalEntity": "You want to block this Legal Entity?",
+      "wantToUnblockLegalEntity": "You want to unblock this Legal Entity?",
+      "wantToDeleteLegalEntity": "You want to delete this Legal Entity?",
       "wantToBlockManager": "You want to block this Manager?",
       "wantToUnblockManager": "You want to unblock this Manager?",
       "wantToDeleteManager": "You want to delete this Manager?",
@@ -1474,6 +1477,7 @@
     "fedralTaxPayerRegistry": "Federal Tax Payer Registry",
     "bankAccount": "Bank Account",
     "addNewBankAccount": "+ Add new bank account",
+    "bankName": "Bank Name",
     "accountNumber": "Account Number",
     "clabeSwift": "Clabe/Swift",
     "currency": "Currency",
@@ -1519,7 +1523,11 @@
     "addLegalEntity": "Add Legal Entity"
   },
   "manageLegalEntity": {
-    "label": "Manage Legal Entity"
+    "label": "Manage Legal Entity",
+    "commercialName": "Commercial Name",
+    "legalName": "Legal Name",
+    "phone": "Phone",
+    "legalRep": "Legal Representative"
   },
   "addLegalEntity": {
     "editEntity": "Edit Legal Entity",

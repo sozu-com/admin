@@ -21,8 +21,8 @@ export class Collection {
     availabilityStatusId: string;
     is_property_sold: boolean;
     deal_price: number;
-    is_seller_legal_entity: number;
-    is_buyer_legal_entity: number;
+    seller_type: number;
+    buyer_type: number;
     country_id = '';
     state_id = '';
     city_id = '';

@@ -100,12 +100,16 @@ export class AddEditCollectionComponent implements OnInit {
   collectionFolders: Array<any>;
   docs: Array<any>;
   keyword: string;
+  paymentChoices: Array<any>;
+  currentPaymentChoiceId: number;
+  showMonthlyInput: boolean;
+  num_of_months: number;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
   
   availabilityStatus = [
     { id: '1', name: this.translate.instant('leadDetails.buy'), checked: false },
     { id: '2', name: this.translate.instant('leadDetails.rent'), checked: false }];
-
+  
   constructor(public model: Collection, private us: AdminService, private cs: CommonService,
     private router: Router,
     private ngZone: NgZone, private building: Building, public constant: Constant,
@@ -121,12 +125,20 @@ export class AddEditCollectionComponent implements OnInit {
     this.model = new Collection();
     this.model.building = new Building();
     this.model.building_towers = new Towers();
+    this.model.seller_type = 1;
     this.setDatePickerLocale();
     this.property_names = [];
     this.parameter.page = 1;
     this.parameter.itemsPerPage = this.constant.limit4;
     this.buildingData = new AddProjectModel();
 
+    this.paymentChoices = [
+      { id: 1, name: 'Layaway Payment' },
+      { id: 2, name: 'Downaway Payment' },
+      { id: 3, name: 'Payment upon Delivery' },
+      { id: 4, name: 'Special Payment' },
+      { id: 5, name: 'Monthly Installments' }];
+    
     this.initFormStep1();
     this.initFormStep2();
     this.initFormStep3();
@@ -175,6 +187,8 @@ export class AddEditCollectionComponent implements OnInit {
       floor_num: ['', [Validators.required]],
       property_id: ['', [Validators.required]],
       deal_type_id: ['', [Validators.required]],
+      // for_sale: ['', [Validators.required]],
+      // for_rent: ['', [Validators.required]],
       step: ['', [Validators.required]]
     });
   }
@@ -194,7 +208,8 @@ export class AddEditCollectionComponent implements OnInit {
       seller_leg_rep_comp: ['', [Validators.required]],
       seller_leg_rep_fed_tax: ['', [Validators.required]],
       collection_seller_banks: this.fb.array([]),
-      is_seller_legal_entity: ['', [Validators.required]]
+      seller_type: ['', [Validators.required]],
+      seller_legal_entity_id: ['']
     });
   }
 
@@ -216,7 +231,9 @@ export class AddEditCollectionComponent implements OnInit {
       buyer_leg_rep_email: ['', [Validators.required]],
       buyer_leg_rep_comp: ['', [Validators.required]],
       buyer_leg_rep_fed_tax: ['', [Validators.required]],
-      collection_buyer_banks: this.fb.array([])
+      collection_buyer_banks: this.fb.array([]),
+      buyer_type: ['', [Validators.required]],
+      buyer_legal_entity_id: ['']
     });
   }
 
@@ -224,8 +241,13 @@ export class AddEditCollectionComponent implements OnInit {
   initFormStep4() {
     this.addFormStep4 = this.fb.group({
       step: ['', [Validators.required]],
+      paymentchoice: [''],
+      payment_choices: this.fb.array([]),
+      num_of_months: [''],
+
       deal_purchase_date: ['', [Validators.required]],
       deal_price: ['', [Validators.required]],
+
       deal_lay_date: ['', [Validators.required]],
       deal_lay_type: ['', [Validators.required]],
       deal_lay_percent_value: ['', [Validators.required]],
@@ -320,6 +342,20 @@ export class AddEditCollectionComponent implements OnInit {
           this.spinner.hide();
         }
       );
+  }
+
+  setAvailableStatus(aindex: number) {
+    // this.availabilityStatus[aindex].checked = !this.availabilityStatus[aindex].checked;
+    // handling this way because data already added in db
+    if (aindex === 0) {
+      this.availabilityStatus[0].checked = true;
+      this.availabilityStatus[1].checked = false;
+      this.model.availabilityStatusId = this.availabilityStatus[0].id;
+    }else {
+      this.availabilityStatus[0].checked = false;
+      this.availabilityStatus[1].checked = true;
+      this.model.availabilityStatusId = this.availabilityStatus[1].id;
+    }
   }
 
 
@@ -697,10 +733,13 @@ export class AddEditCollectionComponent implements OnInit {
       if (p.id == this.model.property_id) {
         this.model.deal_price = p.min_price;
         this.addFormStep4.controls.deal_price.patchValue(p.min_price);
-//         for_sale: 1
-// for_rent: 0
-// for_hold: 0
-        // this.addFormStep1.controls.deal_type_id.patchValue(p.min_price);
+        if (p.for_sale == 1) {
+          this.setAvailableStatus(0);
+        }
+        if (p.for_rent == 1) {
+          this.setAvailableStatus(1);
+        }
+        this.addFormStep5.controls.comm_total_commission.patchValue(p.broker_commision ? p.broker_commision : 0)
       }
     })
   }
@@ -750,6 +789,72 @@ export class AddEditCollectionComponent implements OnInit {
     this.collectionBuyerBanks.removeAt(i);
   }
   // end buyer bank
+
+  addPaymentChoice($event) {
+    this.currentPaymentChoiceId = $event.target.value;
+    $event.stopPropagation();
+    this.newPaymentChoice();
+  }
+
+  get getPaymentChoices(): FormArray {
+    return this.addFormStep4.get('payment_choices') as FormArray;
+  }
+
+  newPaymentChoice() {
+    if (this.currentPaymentChoiceId != 5){
+      let name = '';
+      this.paymentChoices.map(r => {
+        if (r.id == this.currentPaymentChoiceId) {
+          name = r.name;
+        }
+      });
+      const fb = this.fb.group({
+        payment_choices_id: [this.currentPaymentChoiceId, [Validators.required]],
+        name: [name, [Validators.required]],
+        date: ['', [Validators.required]],
+        percentage: ['', [Validators.required]],
+        amount: ['', [Validators.required]]
+      });
+      this.getPaymentChoices.push(fb);
+    }else {
+      this.showMonthlyInput = true;
+      // return this.fb.group({
+      //   name: ['', [Validators.required]],
+      //   date: ['', [Validators.required]],
+      //   percentage: ['', [Validators.required]],
+      //   amount: ['', [Validators.required]]
+      // });
+    }
+  }
+
+  addMonthlyInputs($event) {
+    this.num_of_months = $event.target.value;
+    $event.stopPropagation();
+    for (let index = 0; index < this.num_of_months; index++) {
+      this.getPaymentChoices.push(this.newMonthlyPaymentsChoice(index));
+    }
+  }
+
+  newMonthlyPaymentsChoice(index: number): FormGroup {
+      let name = '';
+      this.paymentChoices.map(r => {
+        if (r.id == this.currentPaymentChoiceId) {
+          name = r.name + ' ' + (index + 1);
+        }
+      });
+      return this.fb.group({
+        payment_choices_id: [this.currentPaymentChoiceId, [Validators.required]],
+        name: [name, [Validators.required]],
+        date: ['', [Validators.required]],
+        percentage: ['', [Validators.required]],
+        amount: ['', [Validators.required]]
+      });      
+  }
+
+  removePaymentChoice($event: Event, i: number) {
+    $event.stopPropagation();
+    this.getPaymentChoices.removeAt(i);
+  }
 
   // folder
   addFolder() {
@@ -964,13 +1069,13 @@ export class AddEditCollectionComponent implements OnInit {
 
   getAllSellers(keyword: string) {
     this.spinner.show();
-    const input = { name: '', is_user_legal_entity: 0 };
+    const input = { name: '', user_type: 0 };
     input.name = keyword ? keyword : '';
-    if (this.tab == 2 && this.model.is_seller_legal_entity) {
-     input.is_user_legal_entity = this.model.is_seller_legal_entity;
+    if (this.tab == 2 && this.model.seller_type) {
+     input.user_type = this.model.seller_type;
     }
-    if (this.tab == 3 && this.model.is_buyer_legal_entity) {
-     input.is_user_legal_entity = this.model.is_buyer_legal_entity;
+    if (this.tab == 3 && this.model.buyer_type) {
+     input.user_type = this.model.buyer_type;
     }
     this.us.postDataApi('getAllBuyers', input).subscribe(r => {
       this.spinner.hide();
@@ -990,11 +1095,11 @@ export class AddEditCollectionComponent implements OnInit {
       this.model.seller_id = item.id;
       this.model.seller = item;
       this.addFormStep2.controls.seller_id.patchValue(item.id);
-      this.addFormStep2.controls.seller_name.patchValue(item.name);
+      this.addFormStep2.controls.seller_name.patchValue(this.model.seller_type == 1 ? item.name : item.comm_name);
       this.addFormStep2.controls.seller_email.patchValue(item.email);
       this.addFormStep2.controls.seller_phone.patchValue(item.phone);
 
-      if (this.model.is_seller_legal_entity) {   
+      if (this.model.seller_type) {   
         // seller_company_name: ['', [Validators.required]],
         // seller_fed_tax: ['', [Validators.required]],
         // seller_leg_rep_comp: ['', [Validators.required]],
@@ -1048,28 +1153,54 @@ export class AddEditCollectionComponent implements OnInit {
     this.closeLinkUserModal.nativeElement.click();
   }
 
-  getAmount(key: string, key1: string, key2: string) {
-    const price = this.addFormStep4.get(key).value;
-    const percentage = this.addFormStep4.get(key1).value;
-    console.log(price, percentage);
+  // getAmount(key: string, key1: string, key2: string) {
+  //   const price = this.addFormStep4.get(key).value;
+  //   const percentage = this.addFormStep4.get(key1).value;
+  //   console.log(price, percentage);
+  //   const amount = Math.round((percentage * price) / 100);
+  //   this.addFormStep4.controls[key2].patchValue(amount);
+  // }
+
+  // getPercentage(key: string, key1: string, key2: string) {
+  //   const price = this.addFormStep4.get(key).value;
+  //   const amount = this.addFormStep4.get(key1).value;
+  //   console.log(price, amount);
+  //   const percentage = (amount * 100) / price;
+  //   this.addFormStep4.controls[key2].patchValue(percentage);
+  // }
+
+  getAmount(index: number) {
+    const price = this.addFormStep4.get('deal_price').value;
+    if (!price || price == 0) {
+      swal('Error', 'Please enter price', 'error');
+      return;
+    }
+    const pcArray = this.addFormStep4.get('payment_choices').value;
+    console.log(price, pcArray);
+    const percentage = pcArray[index].percentage;
     const amount = Math.round((percentage * price) / 100);
-    this.addFormStep4.controls[key2].patchValue(amount);
+    pcArray[index].amount = amount;
+    this.addFormStep4.controls['payment_choices'].patchValue(pcArray);
   }
 
-  getPercentage(key: string, key1: string, key2: string) {
-    const price = this.addFormStep4.get(key).value;
-    const amount = this.addFormStep4.get(key1).value;
+  getPercentage(index: number) {
+    const price = this.addFormStep4.get('deal_price').value;
+    if (!price || price == 0) {
+      swal('Error', 'Please enter price', 'error');
+      return;
+    }
+    const pcArray = this.addFormStep4.get('payment_choices').value;
+    const amount = pcArray[index].amount;
     console.log(price, amount);
     const percentage = (amount * 100) / price;
-    this.addFormStep4.controls[key2].patchValue(percentage);
+    pcArray[index].percentage = percentage;
+    this.addFormStep4.controls['payment_choices'].patchValue(pcArray);
   }
 
   getMonthlyPerAndAmount() {
     const price = this.addFormStep4.get('deal_price').value;
     const numOfInstallments = this.addFormStep4.get('deal_monthly_payment').value;
     const monthlyAmount = Math.round(price / numOfInstallments);
-    // const percentage = Math.round(price / numOfInstallments);
-    // console.log(price, amount);
     const percentage = (monthlyAmount * 100) / price;
     this.addFormStep4.controls['deal_monthly_amount'].patchValue(monthlyAmount);
     this.addFormStep4.controls['deal_monthly_percentage'].patchValue(percentage);
@@ -1082,6 +1213,13 @@ export class AddEditCollectionComponent implements OnInit {
 console.log(formdata);
     this.model.step = tab;
     formdata['step'] = tab;
+    formdata['deal_type_id'] = 1; //this.availabilityStatus[1].checked ? 1 : 0;
+    formdata['deal_lay_type'] = 'Percent';
+    formdata['deal_down_type'] = 'Percent';
+    formdata['deal_pay_type'] = 'Percent';
+    formdata['deal_pay_type'] = 'Percent';
+    formdata['deal_pay_type'] = 'Percent';
+    formdata['payment_method_id'] = 1;
     if (this.model.id) {
       formdata['id'] = this.model.id;
     }
@@ -1093,6 +1231,8 @@ console.log(formdata);
       if (this.model.building_id) {
         formdata['building_id'] = this.model.building_id;
       }
+      formdata['for_sale'] = this.availabilityStatus[0].checked ? 1 : 0;
+      formdata['for_rent'] = this.availabilityStatus[1].checked ? 1 : 0;
       if (!formdata['building_id']) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectBuilding'), 'error');
         return;
@@ -1105,10 +1245,11 @@ console.log(formdata);
       } else if (!formdata['property_id']) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseApartment'), 'error');
         return;
-      } else if (!formdata['deal_type_id']) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseDealType'), 'error');
-        return;
       }
+      // else if (!formdata['deal_type_id']) {
+      //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseDealType'), 'error');
+      //   return;
+      // }
     }
 
     if (this.model.step == 2) {

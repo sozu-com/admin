@@ -234,4 +234,8 @@ export class AddDeveloperComponent implements OnInit {
     });
   }
 
+  addLegalRepBank(e) {
+
+  }
+
 }

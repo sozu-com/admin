@@ -18,58 +18,60 @@ declare let swal: any;
 export class LegalEntityComponent implements OnInit {
 
   public parameter: IProperty = {};
-  model: Users;
   items: Array<Users>;
+  comm_name: string;
+  legal_name: string;
+  name: string;
+  phone: string;
   constructor(public constant: Constant, public admin: AdminService, private router: Router,
     private spinner: NgxSpinnerService,
     private translate: TranslateService) { }
 
   ngOnInit() {
-    this.model = new Users();
-    this.model.buildings_sort = 2;  // 2 means desc
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
-    this.getDevelopersFrAdmin();
+    this.getLegalEntity();
   }
 
   getPage(page: number) {
     this.parameter.page = page;
-    this.getDevelopersFrAdmin();
+    this.getLegalEntity();
   }
 
-  setBuildingsSort(buildings_sort: number) {
-    this.model.buildings_sort = buildings_sort;
-    this.getDevelopersFrAdmin();
-  }
-
-  getDevelopersFrAdmin() {
-    this.model.page = this.parameter.page;
+  getLegalEntity() {
+    const input = {
+      comm_name: this.comm_name,
+      legal_name: this.legal_name,
+      phone: this.phone,
+      name: this.name,
+      page: this.parameter.page
+    };
     this.spinner.show();
-    this.admin.postDataApi('getDevelopersFrAdmin', this.model)
+    this.admin.postDataApi('getLegalEntity', input)
       .subscribe(
         success => {
           this.spinner.hide();
           this.items = success.data;
-          this.parameter.total = 0;// success.total;
+          this.parameter.total = success.total_count;
         }, error => {
           this.spinner.hide();
         });
   }
 
   editUser(item: Users) {
-    this.router.navigate(['/dashboard/developers/add-developer', item.id]);
+    this.router.navigate(['/dashboard/legal-entities/add-legal-entity', item.id]);
   }
 
-  blockUnblockPopup(index: any, id: string, flag: number, user_type: string = '3') {
+  blockUnblockPopup(index: any, id: string, flag: number) {
     this.parameter.index = index;
     this.parameter.title = this.translate.instant('message.error.areYouSure');
     switch (flag) {
       case 0:
-      this.parameter.text = this.translate.instant('message.error.wantToUnblockDeveloper');
+      this.parameter.text = this.translate.instant('message.error.wantToUnblockLegalEntity');
       this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
       break;
     case 1:
-      this.parameter.text = this.translate.instant('message.error.wantToBlockDeveloper');
+      this.parameter.text = this.translate.instant('message.error.wantToBlockLegalEntity');
       this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
     }
@@ -83,21 +85,16 @@ export class LegalEntityComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.blockAdmin(index, id, flag, user_type);
+        this.blockAdmin(index, id, flag);
       }
     });
   }
 
 
-  blockAdmin(index: number, id: any, flag: any, user_type: any) {
+  blockAdmin(index: number, id: any, flag: any) {
     this.parameter.index = index;
-    this.parameter.url = 'blockBuyerSeller';
-    const input = new FormData();
-    input.append('id', id);
-    input.append('flag', flag);
-    input.append('user_type', user_type);
-
-    this.admin.postDataApi(this.parameter.url, input)
+    this.parameter.url = flag == 1 ? 'blockLegalEntity' : 'unblockLegalEntity';
+    this.admin.postDataApi(this.parameter.url, {id: id})
       .subscribe(
         success => {
           swal(this.translate.instant('swal.success'), this.parameter.successText, 'success');
@@ -107,7 +104,7 @@ export class LegalEntityComponent implements OnInit {
 
   deletePopup(item: any, index: number) {
     this.parameter.title = this.translate.instant('message.error.areYouSure');
-    this.parameter.text = this.translate.instant('message.error.wantToDeleteDeveloper');
+    this.parameter.text = this.translate.instant('message.error.wantToDeleteLegalEntity');
 
     swal({
       html: this.parameter.title + '<br>' + this.parameter.text,
@@ -124,8 +121,8 @@ export class LegalEntityComponent implements OnInit {
   }
 
   deleteData(item: any, index: number) {
-    this.admin.postDataApi('deleteBuyerSeller',
-    { id: item.id, user_type: 3 }).subscribe(r => {
+    this.admin.postDataApi('deleteLegalEntity',
+    { id: item.id }).subscribe(r => {
       this.items.splice(index, 1);
       this.parameter.total--;
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');

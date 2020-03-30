@@ -129,13 +129,19 @@
             </div>
             <div class="col-12">
               <div class="form-group-2">
-                <h5>Legal Representative Information</h5>
+                <h5>Legal Entity Information</h5>
                 <!-- <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" [(ngModel)]="model.name" name="name"> -->
               </div>
             </div>
             <div class="col-12">
                 <div class="form-group-2">
-                  <label>{{'addForm.name' | translate}} <span class="color-red">*</span></label>
+                  <label>Commercial Name <span class="color-red">*</span></label>
+                  <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" [(ngModel)]="model.developer_company" name="developer_company">
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group-2">
+                  <label>Legal Name <span class="color-red">*</span></label>
                   <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" [(ngModel)]="model.developer_company" name="developer_company">
                 </div>
             </div>
@@ -148,8 +154,8 @@
             </div>
           <div class="col-12">
               <div class="form-group-2">
-                <label>{{'addForm.emailId' | translate}} <span class="color-red">*</span></label>
-                <input (keydown.space)="$event.preventDefault();" autocomplete="off" required [pattern]="constant.emailPattern" type="email" class="form-control" [(ngModel)]="model.email" name="email">
+                <label>Address <span class="color-red">*</span></label>
+                <input autocomplete="off" required type="text" class="form-control" [(ngModel)]="model.address" name="address">
               </div>
           </div>
           <div class="col-12">
@@ -160,8 +166,17 @@
           </div>
 
           <div class="col-12">
-            <label>Bank Account Information<span class="color-red">*</span></label>
+            <label>Bank Account Information<span class="color-red">*</span>
+              <span class="pull-right"><a class="add" (click)="addLegalRepBank($event)" href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
+            </label>
             <div class="row">
+              <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                  <label>{{'addCollection.bankName' | translate}}</label>
+                  <div class="clearfix"></div>
+                  <input required autocomplete="off" class="form-control" type="text" name="bank_name">
+                </div>
+              </div>
               <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                 <label>{{'addCollection.accountNumber' | translate}}</label>
@@ -169,14 +184,14 @@
                 <input required autocomplete="off" class="form-control" type="number" minlength="10" maxlength="20" min="0" name="account_number">
               </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+            <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                 <label>{{'addCollection.clabeSwift' | translate}}</label>
                 <div class="clearfix"></div>
                 <input required autocomplete="off" class="form-control" type="text" name="swift">
               </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+            <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                 <label>{{'addCollection.currency' | translate}}</label>
                 <div class="clearfix"></div>
@@ -186,7 +201,7 @@
                 </select>
               </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+            <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                 <label>Remove</label>
                 <div class="clearfix"></div>
