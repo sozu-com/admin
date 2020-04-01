@@ -71,9 +71,57 @@
             <div class="col-12">
                 <div class="form-group-2">
                   <label>Federal Tax Payer Registry <span class="color-red">*</span></label>
-                  <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" [(ngModel)]="model.name" name="name">
+                  <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" 
+                  class="form-control" [(ngModel)]="model.fed_tax_pay" name="fed_tax_pay">
                 </div>
             </div>
+            
+            <div class="col-12">
+              <label>Bank Account Information<span class="color-red">*</span>
+                <span class="pull-right"><a class="add" (click)="addDeveloperBank($event)" href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
+              </label>
+              <div class="row" *ngFor="let bankAccount of model.legal_rep_banks; let i=index">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                    <label>{{'addCollection.bankName' | translate}}</label>
+                    <div class="clearfix"></div>
+                    <input required autocomplete="off" class="form-control" type="text" [(ngModel)]="bankAccount.bank_name" name="bank_name{{i}}">
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                  <label>{{'addCollection.accountNumber' | translate}}</label>
+                  <div class="clearfix"></div>
+                  <input required autocomplete="off" class="form-control" type="number" minlength="10" maxlength="20" min="0"  [(ngModel)]="bankAccount.account_number" name="account_number{{i}}">
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                  <label>{{'addCollection.clabeSwift' | translate}}</label>
+                  <div class="clearfix"></div>
+                  <input required autocomplete="off" class="form-control" type="text" [(ngModel)]="bankAccount.swift" name="swift{{i}}">
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                  <label>{{'addCollection.currency' | translate}}</label>
+                  <div class="clearfix"></div>
+                  <select required name="currency_id{{i}}" [(ngModel)]="bankAccount.currency_id" required class="form-control">
+                    <option value="">{{'addCollection.currency' | translate}}</option>
+                    <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.currency }} | {{c?.symbol}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                  <label>Remove</label>
+                  <div class="clearfix"></div>
+                  <button type="button" (click)="removeDeveloperBank($event, bankAccount, i)">Remove</button>
+                </div>
+              </div>
+            </div>
+            </div>
+
             <div class="col-12">
                 <div class="form-group-2">
                   <label>{{'addForm.address' | translate}} <span class="color-red">*</span></label>
@@ -136,68 +184,71 @@
             <div class="col-12">
                 <div class="form-group-2">
                   <label>Commercial Name <span class="color-red">*</span></label>
-                  <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" [(ngModel)]="model.developer_company" name="developer_company">
+                  <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" 
+                    [(ngModel)]="model.legal_entity.comm_name" name="comm_name">
                 </div>
             </div>
             <div class="col-12">
                 <div class="form-group-2">
                   <label>Legal Name <span class="color-red">*</span></label>
-                  <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" [(ngModel)]="model.developer_company" name="developer_company">
+                  <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" 
+                    class="form-control" [(ngModel)]="model.legal_entity.legal_name" name="legal_name">
                 </div>
             </div>
             <div class="col-12">
                 <div class="form-group-2">
                   <label>{{'addForm.contactNumber' | translate}} <span class="color-red">*</span></label>
-                  <input minlength="6" maxlength="16" autocomplete="off" type="text" [pattern]="constant.phonePattern" class="form-control" id="phone" required minlength="1" [(ngModel)]="model.phone" name="phone"
-                        ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
+                  <input minlength="6" maxlength="16" autocomplete="off" type="text" [pattern]="constant.phonePattern" 
+                    class="form-control" id="phone" required minlength="1" [(ngModel)]="model.legal_entity.phone" name="legal_entity_phone"
+                    ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
                 </div>
             </div>
           <div class="col-12">
               <div class="form-group-2">
                 <label>Address <span class="color-red">*</span></label>
-                <input autocomplete="off" required type="text" class="form-control" [(ngModel)]="model.address" name="address">
+                <input autocomplete="off" required type="text" class="form-control" [(ngModel)]="model.legal_entity.address" name="legal_entity_address">
               </div>
           </div>
           <div class="col-12">
               <div class="form-group-2">
                 <label>Federal Tax Payer Registry <span class="color-red">*</span></label>
-                <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" [(ngModel)]="model.name" name="name">
+                <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" [(ngModel)]="model.legal_entity.fed_tax_pay" name="le_fed_tax_pay">
               </div>
           </div>
 
           <div class="col-12">
             <label>Bank Account Information<span class="color-red">*</span>
-              <span class="pull-right"><a class="add" (click)="addLegalRepBank($event)" href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
+              <span class="pull-right"><a class="add" (click)="addLegalEntityBank($event)" href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
             </label>
-            <div class="row">
+            <div class="row" *ngFor="let leBankAccount of model.legal_entity.legal_entity_banks; let i=index">
               <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                   <label>{{'addCollection.bankName' | translate}}</label>
                   <div class="clearfix"></div>
-                  <input required autocomplete="off" class="form-control" type="text" name="bank_name">
+                  <input required autocomplete="off" class="form-control" type="text" [(ngModel)]="leBankAccount.bank_name" name="le_bank_name{{i}}">
                 </div>
               </div>
               <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                 <label>{{'addCollection.accountNumber' | translate}}</label>
                 <div class="clearfix"></div>
-                <input required autocomplete="off" class="form-control" type="number" minlength="10" maxlength="20" min="0" name="account_number">
+                <input required autocomplete="off" class="form-control" type="number" minlength="10" maxlength="20" min="0"  [(ngModel)]="leBankAccount.account_number" name="le_account_number{{i}}">
               </div>
             </div>
             <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                 <label>{{'addCollection.clabeSwift' | translate}}</label>
                 <div class="clearfix"></div>
-                <input required autocomplete="off" class="form-control" type="text" name="swift">
+                <input required autocomplete="off" class="form-control" type="text" [(ngModel)]="leBankAccount.swift" name="le_swift{{i}}">
               </div>
             </div>
             <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                 <label>{{'addCollection.currency' | translate}}</label>
                 <div class="clearfix"></div>
-                <select required name="currency_id" required class="form-control">
+                <select required name="le_currency_id{{i}}" [(ngModel)]="leBankAccount.currency_id" required class="form-control">
                   <option value="">{{'addCollection.currency' | translate}}</option>
-                  <!-- <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.currency }} | {{c?.symbol}}</option> -->
+                  <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.currency }} | {{c?.symbol}}</option>
                 </select>
               </div>
             </div>
@@ -205,8 +256,7 @@
                 <div class="form-group-3">
                 <label>Remove</label>
                 <div class="clearfix"></div>
-                <!-- <button type="button" (click)="removeSellerBank($event, i)">Remove</button> -->
-                <button type="button">Remove</button>
+                <button type="button" (click)="removeLegalEntityBank($event, leBankAccount, i)">Remove</button>
               </div>
             </div>
           </div>

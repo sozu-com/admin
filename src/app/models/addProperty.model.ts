@@ -68,6 +68,7 @@ export class AddPropertyModel {
     configuration: Configuration;
     creator: User;
     broker_commision = 0;
+    total_commission = 0;
 }
 
 export class Building {

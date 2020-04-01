@@ -1,3 +1,5 @@
+import { LegalEntity, Banks } from "./legalEntity.model";
+
 export class Users {
     id: string;
     company_name?: string;
@@ -30,4 +32,7 @@ export class Users {
     state_id?: string;
     city_id?: string;
     locality_id?: string;
+    fed_tax_pay?: string;
+    legal_rep_banks?: Array<Banks>;
+    legal_entity?: LegalEntity;
 }

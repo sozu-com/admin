@@ -38,6 +38,8 @@ export class AddEditCollectionComponent implements OnInit {
   @ViewChild('linkExtBrokerModal') linkExtBrokerModal: ElementRef;
   @ViewChild('closeExtBrokerModal') closeExtBrokerModal: ElementRef;
   @ViewChild('folderModalOpen') folderModalOpen: ElementRef;
+  @ViewChild('folderModalClose') folderModalClose: ElementRef;
+  @ViewChild('docsFile') docsFile: ElementRef;
   public latitude: number;
   public longitude: number;
   public searchControl: FormControl;
@@ -79,8 +81,9 @@ export class AddEditCollectionComponent implements OnInit {
   amenity_index: number;
   amenity_obj: any;
 
+  mode: string;
   folderIndex: number;
-  selectedFolder: any;
+  selectedFolder: any = {};
   folderName: string;
   docsName: string;
   docFile: any;
@@ -107,7 +110,7 @@ export class AddEditCollectionComponent implements OnInit {
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
   
   availabilityStatus = [
-    { id: '1', name: this.translate.instant('leadDetails.buy'), checked: false },
+    { id: '1', name: this.translate.instant('leadDetails.purchase'), checked: false },
     { id: '2', name: this.translate.instant('leadDetails.rent'), checked: false }];
   
   constructor(public model: Collection, private us: AdminService, private cs: CommonService,
@@ -122,22 +125,24 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.collectionFolders = [];
     this.model = new Collection();
     this.model.building = new Building();
     this.model.building_towers = new Towers();
     this.model.seller_type = 1;
+    this.model.buyer_type = 1;
     this.setDatePickerLocale();
     this.property_names = [];
     this.parameter.page = 1;
     this.parameter.itemsPerPage = this.constant.limit4;
     this.buildingData = new AddProjectModel();
-
-    this.paymentChoices = [
-      { id: 1, name: 'Layaway Payment' },
-      { id: 2, name: 'Downaway Payment' },
-      { id: 3, name: 'Payment upon Delivery' },
-      { id: 4, name: 'Special Payment' },
-      { id: 5, name: 'Monthly Installments' }];
+    this.getAllPaymentChoices();
+    // this.paymentChoices = [
+    //   { id: 1, name: 'Layaway Payment' },
+    //   { id: 2, name: 'Downaway Payment' },
+    //   { id: 3, name: 'Payment upon Delivery' },
+    //   { id: 4, name: 'Special Payment' },
+    //   { id: 5, name: 'Monthly Installments' }];
     
     this.initFormStep1();
     this.initFormStep2();
@@ -157,9 +162,20 @@ export class AddEditCollectionComponent implements OnInit {
     });
     this.tab = 1;
     this.getPaymentMethods();
-    this.getDealTypes();
+    // this.getDealTypes();
     this.getCurrencies();
     this.searchControl = new FormControl();
+  }
+
+  getAllPaymentChoices() {
+    this.us.postDataApi('getPaymentChoices', {})
+      .subscribe(
+        success => {
+          this.paymentChoices = success.data;
+        }, error => {
+          this.spinner.hide();
+        }
+      );
   }
 
   setDatePickerLocale() {
@@ -174,7 +190,7 @@ export class AddEditCollectionComponent implements OnInit {
         'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
       today: 'Hoy',
       clear: 'Clara',
-      dateFormat: 'mm/dd/yy',
+      dateFormat: 'yyyy-mm-dd',
       weekHeader: 'Wk'
     };
   }
@@ -186,9 +202,9 @@ export class AddEditCollectionComponent implements OnInit {
       building_towers_id: ['', [Validators.required]],
       floor_num: ['', [Validators.required]],
       property_id: ['', [Validators.required]],
-      deal_type_id: ['', [Validators.required]],
-      // for_sale: ['', [Validators.required]],
-      // for_rent: ['', [Validators.required]],
+      // deal_type_id: ['', [Validators.required]],
+      for_sale: ['', [Validators.required]],
+      for_rent: ['', [Validators.required]],
       step: ['', [Validators.required]]
     });
   }
@@ -197,7 +213,9 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep2 = this.fb.group({
       step: ['', [Validators.required]],
       seller_id: ['', [Validators.required]],
-      seller_name: ['', [Validators.required]],
+      seller_name: ['', [Validators.required]], // commer cial name and seller name
+      seller_legal_name: ['', [Validators.required]], // legal name in case of entity/dev
+      seller_address: ['', [Validators.required]],  // legal entiy/dev address
       seller_email: ['', [Validators.required]],
       seller_phone: ['', [Validators.required]],
       seller_company_name: ['', [Validators.required]],
@@ -208,6 +226,7 @@ export class AddEditCollectionComponent implements OnInit {
       seller_leg_rep_comp: ['', [Validators.required]],
       seller_leg_rep_fed_tax: ['', [Validators.required]],
       collection_seller_banks: this.fb.array([]),
+      collection_seller_rep_banks: this.fb.array([]),
       seller_type: ['', [Validators.required]],
       seller_legal_entity_id: ['']
     });
@@ -221,7 +240,9 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep3 = this.fb.group({
       step: ['', [Validators.required]],
       buyer_id: ['', [Validators.required]],
-      buyer_name: ['', [Validators.required]],
+      buyer_name: ['', [Validators.required]], // commer cial name and seller name
+      buyer_legal_name: ['', [Validators.required]], // legal name in case of entity/dev
+      buyer_address: ['', [Validators.required]],  // legal entiy/dev address
       buyer_email: ['', [Validators.required]],
       buyer_phone: ['', [Validators.required]],
       buyer_company_name: ['', [Validators.required]],
@@ -232,6 +253,7 @@ export class AddEditCollectionComponent implements OnInit {
       buyer_leg_rep_comp: ['', [Validators.required]],
       buyer_leg_rep_fed_tax: ['', [Validators.required]],
       collection_buyer_banks: this.fb.array([]),
+      collection_buyer_rep_banks: this.fb.array([]),
       buyer_type: ['', [Validators.required]],
       buyer_legal_entity_id: ['']
     });
@@ -244,31 +266,33 @@ export class AddEditCollectionComponent implements OnInit {
       paymentchoice: [''],
       payment_choices: this.fb.array([]),
       num_of_months: [''],
+      monthly_date: [''],
+      monthly_amount: [''],
 
       deal_purchase_date: ['', [Validators.required]],
       deal_price: ['', [Validators.required]],
 
-      deal_lay_date: ['', [Validators.required]],
-      deal_lay_type: ['', [Validators.required]],
-      deal_lay_percent_value: ['', [Validators.required]],
-      deal_lay_amount_value: ['', [Validators.required]],
-      deal_down_date: ['', [Validators.required]],
-      deal_down_type: ['', [Validators.required]],
-      deal_down_percent_value: ['', [Validators.required]],
-      deal_down_amount_value: ['', [Validators.required]],
-      deal_pay_date: ['', [Validators.required]],
-      deal_pay_type: ['', [Validators.required]],
-      deal_pay_percent_value: ['', [Validators.required]],
-      deal_pay_amount_value: ['', [Validators.required]],
-      deal_spe_name: ['', [Validators.required]],
-      deal_spe_date: ['', [Validators.required]],
+      // deal_lay_date: ['', [Validators.required]],
+      // deal_lay_type: ['', [Validators.required]],
+      // deal_lay_percent_value: ['', [Validators.required]],
+      // deal_lay_amount_value: ['', [Validators.required]],
+      // deal_down_date: ['', [Validators.required]],
+      // deal_down_type: ['', [Validators.required]],
+      // deal_down_percent_value: ['', [Validators.required]],
+      // deal_down_amount_value: ['', [Validators.required]],
+      // deal_pay_date: ['', [Validators.required]],
+      // deal_pay_type: ['', [Validators.required]],
+      // deal_pay_percent_value: ['', [Validators.required]],
+      // deal_pay_amount_value: ['', [Validators.required]],
+      // deal_spe_name: ['', [Validators.required]],
+      // deal_spe_date: ['', [Validators.required]],
       deal_interest_rate: ['', [Validators.required]],
-      deal_monthly_payment: ['', [Validators.required]],
-      deal_payment_date: ['', [Validators.required]],
-      deal_monthly_amount: ['', [Validators.required]],
-      deal_monthly_percentage: ['', [Validators.required]],
-      deal_penality: ['', [Validators.required]],
-      payment_method_id: ['', [Validators.required]]
+      // deal_monthly_payment: ['', [Validators.required]],
+      // deal_payment_date: ['', [Validators.required]],
+      // deal_monthly_amount: ['', [Validators.required]],
+      // deal_monthly_percentage: ['', [Validators.required]],
+      deal_penality: ['', [Validators.required]]
+      // payment_method_id: ['', [Validators.required]]
     });
   }
 
@@ -375,22 +399,46 @@ export class AddEditCollectionComponent implements OnInit {
     this.model.building_towers = data.property.building_towers;
     this.model.floor_num = data.property.floor_num;
     this.model.name = data.property.name;
-    this.model.deal_type = data.deal_type;
+    this.model.availabilityStatusId = data.for_sale ? this.availabilityStatus[0].id : this.availabilityStatus[1].id;
+    // this.model.deal_type = data.deal_type;
     this.addFormStep1.controls.building_id.patchValue(data.property.building.id);
     this.addFormStep1.controls.building_towers_id.patchValue(data.property.building_towers.id);
     this.addFormStep1.controls.floor_num.patchValue(data.property.floor_num);
     this.addFormStep1.controls.property_id.patchValue(data.property_id);
-    this.addFormStep1.controls.deal_type_id.patchValue(data.deal_type_id);
+    this.addFormStep1.controls.for_sale.patchValue(data.for_sale);
+    this.addFormStep1.controls.for_rent.patchValue(data.for_rent);
+    // this.addFormStep1.controls.deal_type_id.patchValue(data.deal_type_id);
     this.addFormStep1.controls.step.patchValue(1);
   }
 
   patchFormStep2(data) {
-    this.addFormStep2.controls.seller_id.patchValue(data.seller ? data.seller.id : '');
-    this.addFormStep2.controls.seller_name.patchValue(data.seller ? data.seller.name : '');
-    this.addFormStep2.controls.seller_email.patchValue(data.seller ? data.seller.email : '');
-    this.addFormStep2.controls.seller_phone.patchValue(data.seller ? data.seller.phone : '');
-    this.addFormStep2.controls.seller_company_name.patchValue(data.seller_company_name || '');
-    this.addFormStep2.controls.seller_fed_tax.patchValue(data.seller_fed_tax || '');
+    this.model.seller_type = data.seller_type;
+    this.addFormStep2.controls.seller_type.patchValue(data.seller_type || 1);
+    if (data.seller_type != 2) {
+      this.addFormStep2.controls.seller_id.patchValue(data.seller ? data.seller.id : '');
+      this.addFormStep2.controls.seller_email.patchValue(data.seller ? data.seller.email : '');
+      this.addFormStep2.controls.seller_company_name.patchValue(data.seller_company_name ? data.seller_company_name : '');
+    }
+    if (data.seller_type == 2) {
+      this.addFormStep2.controls.seller_legal_entity_id.patchValue(data.seller_legal_entity ? data.seller_legal_entity.id : '');
+    }
+    
+    this.addFormStep2.controls.seller_name.patchValue(data.seller_type == 2 
+      ? (data.seller_legal_entity ? data.seller_legal_entity.comm_name : '') 
+      : (data.seller ? data.seller.name : ''));
+    this.addFormStep2.controls.seller_legal_name.patchValue(data.seller_type == 2 
+      ? (data.seller_legal_entity ? data.seller_legal_entity.legal_name : '') 
+      : (data.seller_legal_name ? data.seller_legal_name : ''));
+    this.addFormStep2.controls.seller_address.patchValue(data.seller_type == 2 
+      ? (data.seller_legal_entity ? data.seller_legal_entity.address : '') 
+      : (data.seller_address ? data.seller_address : ''));
+    this.addFormStep2.controls.seller_phone.patchValue(data.seller_type == 2 
+      ? (data.seller_legal_entity ? data.seller_legal_entity.phone : '') 
+      : (data.seller ? data.seller.phone : ''));
+    this.addFormStep2.controls.seller_fed_tax.patchValue(data.seller_type == 2 
+      ? (data.seller_legal_entity ? data.seller_legal_entity.fed_tax_pay : '') 
+      : (data.seller_fed_tax || ''));
+
     this.addFormStep2.controls.seller_leg_rep_name.patchValue(data.seller_leg_rep_name || '');
     this.addFormStep2.controls.seller_leg_rep_phone.patchValue(data.seller_leg_rep_phone || '');
     this.addFormStep2.controls.seller_leg_rep_email.patchValue(data.seller_leg_rep_email || '');
@@ -398,18 +446,57 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep2.controls.seller_leg_rep_fed_tax.patchValue(data.seller_leg_rep_fed_tax || '');
     this.addFormStep2.controls.step.patchValue(2);
     const control = this.addFormStep2.get('collection_seller_banks') as FormArray;
-    data.collection_seller_banks.forEach(x => {
+    if (data.collection_seller_banks) {
+      data.collection_seller_banks.forEach(x => {
         control.push(this.fb.group(x));
-    });
+      });
+    }
+    const control1 = this.addFormStep2.get('collection_seller_rep_banks') as FormArray;
+    if (data.collection_seller_rep_banks) {
+      data.collection_seller_rep_banks.forEach(x => {
+        control1.push(this.fb.group(x));
+      });
+    }
+    this.setSeller(data);
   }
 
   patchFormStep3(data) {
-    this.addFormStep3.controls.buyer_id.patchValue(data.buyer ? data.buyer.id : '');
-    this.addFormStep3.controls.buyer_name.patchValue(data.buyer ? data.buyer.name : '');
-    this.addFormStep3.controls.buyer_email.patchValue(data.buyer ? data.buyer.email : '');
-    this.addFormStep3.controls.buyer_phone.patchValue(data.buyer ? data.buyer.phone : '');
-    this.addFormStep3.controls.buyer_company_name.patchValue(data.buyer_company_name || '');
-    this.addFormStep3.controls.buyer_fed_tax.patchValue(data.buyer_fed_tax || '');
+    this.model.buyer_type = data.buyer_type;
+    this.addFormStep3.controls.buyer_type.patchValue(data.buyer_type || 1);
+
+    if (data.buyer_type != 2) {
+      this.addFormStep3.controls.buyer_id.patchValue(data.buyer ? data.buyer.id : '');
+      this.addFormStep3.controls.buyer_email.patchValue(data.buyer ? data.buyer.email : '');
+      this.addFormStep3.controls.buyer_company_name.patchValue(data.buyer_company_name ? data.buyer_company_name : '');
+    }
+    if (data.seller_type == 2) {
+      this.addFormStep3.controls.buyer_legal_entity_id.patchValue(data.buyer_legal_entity ? data.buyer_legal_entity.id : '');
+    }
+
+    this.addFormStep3.controls.buyer_name.patchValue(data.buyer_type == 2 
+      ? (data.buyer_legal_entity ? data.buyer_legal_entity.comm_name : '') 
+      : (data.buyer ? data.buyer.name : ''));
+    this.addFormStep3.controls.buyer_legal_name.patchValue(data.buyer_type == 2 
+      ? (data.buyer_legal_entity ? data.buyer_legal_entity.legal_name : '') 
+      : (data.buyer_legal_name ? data.buyer_legal_name : ''));
+    this.addFormStep3.controls.buyer_address.patchValue(data.buyer_type == 2 
+      ? (data.buyer_legal_entity ? data.buyer_legal_entity.address : '') 
+      : (data.buyer_address ? data.buyer_address : ''));
+    this.addFormStep3.controls.buyer_phone.patchValue(data.buyer_type == 2 
+      ? (data.buyer_legal_entity ? data.buyer_legal_entity.phone : '') 
+      : (data.buyer ? data.buyer.phone : ''));
+    this.addFormStep3.controls.buyer_fed_tax.patchValue(data.buyer_type == 2 
+      ? (data.buyer_legal_entity ? data.buyer_legal_entity.fed_tax_pay : '') 
+      : (data.buyer_fed_tax || ''));
+      
+    // this.addFormStep3.controls.buyer_id.patchValue(data.buyer ? data.buyer.id : '');
+    // this.addFormStep3.controls.buyer_name.patchValue(data.buyer ? data.buyer.name : '');
+    // this.addFormStep3.controls.buyer_legal_name.patchValue(data.buyer ? data.buyer.legal_name : '');
+    // this.addFormStep3.controls.buyer_address.patchValue(data.buyer ? data.buyer.address : '');
+    // this.addFormStep3.controls.buyer_email.patchValue(data.buyer ? data.buyer.email : '');
+    // this.addFormStep3.controls.buyer_phone.patchValue(data.buyer ? data.buyer.phone : '');
+    // this.addFormStep3.controls.buyer_company_name.patchValue(data.buyer_company_name || '');
+    // this.addFormStep3.controls.buyer_fed_tax.patchValue(data.buyer_fed_tax || '');
     this.addFormStep3.controls.buyer_leg_rep_name.patchValue(data.buyer_leg_rep_name || '');
     this.addFormStep3.controls.buyer_leg_rep_phone.patchValue(data.buyer_leg_rep_phone || '');
     this.addFormStep3.controls.buyer_leg_rep_email.patchValue(data.buyer_leg_rep_email || '');
@@ -417,33 +504,48 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep3.controls.buyer_leg_rep_fed_tax.patchValue(data.buyer_leg_rep_fed_tax || '');
     this.addFormStep3.controls.step.patchValue(2);
     const control = this.addFormStep3.get('collection_buyer_banks') as FormArray;
-    data.collection_buyer_banks.forEach(x => {
+    if (data.collection_buyer_banks) {
+      data.collection_buyer_banks.forEach(x => {
         control.push(this.fb.group(x));
-    });
+      });
+    }
+    const control1 = this.addFormStep3.get('collection_buyer_rep_banks') as FormArray;
+    if (data.collection_buyer_rep_banks) {
+      data.collection_buyer_rep_banks.forEach(x => {
+        control1.push(this.fb.group(x));
+      });
+    }
   }
 
   patchFormStep4(data) {
     this.addFormStep4.controls.deal_purchase_date.patchValue(data.deal_purchase_date ? moment.utc(data.deal_purchase_date).toDate() : null);
     this.addFormStep4.controls.deal_price.patchValue(data.deal_price);
-    this.addFormStep4.controls.deal_lay_date.patchValue(data.deal_lay_date ? moment.utc(data.deal_lay_date).toDate() : null);
-    this.addFormStep4.controls.deal_lay_type.patchValue(data.deal_lay_type);
-    this.addFormStep4.controls.deal_lay_percent_value.patchValue(data.deal_lay_percent_value);
-    this.addFormStep4.controls.deal_lay_amount_value.patchValue(data.deal_lay_amount_value);
-    this.addFormStep4.controls.deal_down_date.patchValue(data.deal_down_date ? moment.utc(data.deal_down_date).toDate() : null);
-    this.addFormStep4.controls.deal_down_type.patchValue(data.deal_down_type);
-    this.addFormStep4.controls.deal_down_percent_value.patchValue(data.deal_down_percent_value);
-    this.addFormStep4.controls.deal_down_amount_value.patchValue(data.deal_down_amount_value);
-    this.addFormStep4.controls.deal_pay_date.patchValue(data.deal_pay_date ? moment.utc(data.deal_pay_date).toDate() : null);
-    this.addFormStep4.controls.deal_pay_type.patchValue(data.deal_pay_type);
-    this.addFormStep4.controls.deal_pay_percent_value.patchValue(data.deal_pay_percent_value);
-    this.addFormStep4.controls.deal_pay_amount_value.patchValue(data.deal_pay_amount_value);
-    this.addFormStep4.controls.deal_spe_name.patchValue(data.deal_spe_name);
-    this.addFormStep4.controls.deal_spe_date.patchValue(data.deal_spe_date ? moment.utc(data.deal_spe_date).toDate() : null);
+    // this.addFormStep4.controls.deal_lay_date.patchValue(data.deal_lay_date ? moment.utc(data.deal_lay_date).toDate() : null);
+    // this.addFormStep4.controls.deal_lay_type.patchValue(data.deal_lay_type);
+    // this.addFormStep4.controls.deal_lay_percent_value.patchValue(data.deal_lay_percent_value);
+    // this.addFormStep4.controls.deal_lay_amount_value.patchValue(data.deal_lay_amount_value);
+    // this.addFormStep4.controls.deal_down_date.patchValue(data.deal_down_date ? moment.utc(data.deal_down_date).toDate() : null);
+    // this.addFormStep4.controls.deal_down_type.patchValue(data.deal_down_type);
+    // this.addFormStep4.controls.deal_down_percent_value.patchValue(data.deal_down_percent_value);
+    // this.addFormStep4.controls.deal_down_amount_value.patchValue(data.deal_down_amount_value);
+    // this.addFormStep4.controls.deal_pay_date.patchValue(data.deal_pay_date ? moment.utc(data.deal_pay_date).toDate() : null);
+    // this.addFormStep4.controls.deal_pay_type.patchValue(data.deal_pay_type);
+    // this.addFormStep4.controls.deal_pay_percent_value.patchValue(data.deal_pay_percent_value);
+    // this.addFormStep4.controls.deal_pay_amount_value.patchValue(data.deal_pay_amount_value);
+    // this.addFormStep4.controls.deal_spe_name.patchValue(data.deal_spe_name);
+    // this.addFormStep4.controls.deal_spe_date.patchValue(data.deal_spe_date ? moment.utc(data.deal_spe_date).toDate() : null);
     this.addFormStep4.controls.deal_interest_rate.patchValue(data.deal_interest_rate);
-    this.addFormStep4.controls.deal_payment_date.patchValue(data.deal_payment_date ? moment.utc(data.deal_payment_date).toDate() : null);
-    this.addFormStep4.controls.deal_monthly_payment.patchValue(data.deal_monthly_payment);
+    // this.addFormStep4.controls.deal_payment_date.patchValue(data.deal_payment_date ? moment.utc(data.deal_payment_date).toDate() : null);
+    // this.addFormStep4.controls.deal_monthly_payment.patchValue(data.deal_monthly_payment);
     this.addFormStep4.controls.deal_penality.patchValue(data.deal_penality);
-    this.addFormStep4.controls.payment_method_id.patchValue(data.payment_method_id);
+    // this.addFormStep4.controls.payment_method_id.patchValue(data.payment_method_id);
+    const control1 = this.addFormStep4.get('payment_choices') as FormArray;
+    if (data.payment_choices) {
+      data.payment_choices.forEach(x => {
+        x.date = x.date ? moment.utc(x.date).toDate() : null;
+        control1.push(this.fb.group(x));
+      });
+    }
     this.addFormStep4.controls.step.patchValue(4);
   }
 
@@ -739,54 +841,108 @@ export class AddEditCollectionComponent implements OnInit {
         if (p.for_rent == 1) {
           this.setAvailableStatus(1);
         }
-        this.addFormStep5.controls.comm_total_commission.patchValue(p.broker_commision ? p.broker_commision : 0)
+        this.addFormStep5.controls.comm_total_commission.patchValue(p.total_commision ? p.total_commision : 0)
+        this.addFormStep5.controls.comm_shared_commission.patchValue(p.broker_commision ? p.broker_commision : 0)
       }
     })
   }
 
   addSellerBank($event) {
     $event.stopPropagation();
-    this.collectionSellerBanks.push(this.newSellerBanks());
+    this.collectionSellerBanks.push(this.newBank());
   }
 
   get collectionSellerBanks(): FormArray {
     return this.addFormStep2.get('collection_seller_banks') as FormArray;
   }
 
-  newSellerBanks(): FormGroup {
-    return this.fb.group({
-      account_number: ['', [Validators.required]],
-      swift: ['', [Validators.required]],
-      currency_id: ['', [Validators.required]]
-    });
-  }
-
-  removeSellerBank($event: Event, i: number) {
+  removeSellerBank($event: Event, item: any, i: number) {
     $event.stopPropagation();
     this.collectionSellerBanks.removeAt(i);
+    console.log(item);
+    if (item.value.id) {
+      this.us.postDataApi('deleteSellerBank', {id: item.value.id}).subscribe(success => {
+        this.spinner.hide();
+      }, error => {
+        this.spinner.hide();
+      });
+    }
+  }
+
+  addSellerRepBank($event) {
+    $event.stopPropagation();
+    this.collectionSellerRepBanks.push(this.newBank());
+  }
+
+  get collectionSellerRepBanks(): FormArray {
+    return this.addFormStep2.get('collection_seller_rep_banks') as FormArray;
+  }
+
+  removeSellerRepBank($event: Event, item: any, i: number) {
+    $event.stopPropagation();
+    this.collectionSellerRepBanks.removeAt(i);
+    console.log(item);
+    if (item.value.id) {
+      this.us.postDataApi('deleteSellerRefBank', {id: item.value.id}).subscribe(success => {
+        this.spinner.hide();
+      }, error => {
+        this.spinner.hide();
+      });
+    }
+  }
+
+  
+  addBuyerRepBank($event) {
+    $event.stopPropagation();
+    this.collectionBuyerRepBanks.push(this.newBank());
+  }
+
+  get collectionBuyerRepBanks(): FormArray {
+    return this.addFormStep3.get('collection_buyer_rep_banks') as FormArray;
+  }
+
+  removeBuyerRepBank($event: Event, item: any, i: number) {
+    $event.stopPropagation();
+    this.collectionBuyerRepBanks.removeAt(i);
+    console.log(item);
+    if (item.value.id) {
+      this.us.postDataApi('deleteBuyerRefBank', {id: item.value.id}).subscribe(success => {
+        this.spinner.hide();
+      }, error => {
+        this.spinner.hide();
+      });
+    }
   }
 
   // buyer bank
   addBuyerBank($event) {
     $event.stopPropagation();
-    this.collectionBuyerBanks.push(this.newBuyerBanks());
+    this.collectionBuyerBanks.push(this.newBank());
   }
 
   get collectionBuyerBanks(): FormArray {
     return this.addFormStep3.get('collection_buyer_banks') as FormArray;
   }
 
-  newBuyerBanks(): FormGroup {
+  newBank(): FormGroup {
     return this.fb.group({
+      bank_name: ['', [Validators.required]],
       account_number: ['', [Validators.required]],
       swift: ['', [Validators.required]],
       currency_id: ['', [Validators.required]]
     });
   }
 
-  removeBuyerBank($event: Event, i: number) {
+  removeBuyerBank($event: Event, item: any, i: number) {
     $event.stopPropagation();
     this.collectionBuyerBanks.removeAt(i);
+    if (item.value.id) {
+      this.us.postDataApi('deleteBuyerBank', {id: item.value.id}).subscribe(success => {
+        this.spinner.hide();
+      }, error => {
+        this.spinner.hide();
+      });
+    }
   }
   // end buyer bank
 
@@ -809,10 +965,10 @@ export class AddEditCollectionComponent implements OnInit {
         }
       });
       const fb = this.fb.group({
-        payment_choices_id: [this.currentPaymentChoiceId, [Validators.required]],
+        payment_choice_id: [this.currentPaymentChoiceId, [Validators.required]],
         name: [name, [Validators.required]],
         date: ['', [Validators.required]],
-        percentage: ['', [Validators.required]],
+        percent: ['', [Validators.required]],
         amount: ['', [Validators.required]]
       });
       this.getPaymentChoices.push(fb);
@@ -821,7 +977,7 @@ export class AddEditCollectionComponent implements OnInit {
       // return this.fb.group({
       //   name: ['', [Validators.required]],
       //   date: ['', [Validators.required]],
-      //   percentage: ['', [Validators.required]],
+      //   percent: ['', [Validators.required]],
       //   amount: ['', [Validators.required]]
       // });
     }
@@ -835,25 +991,80 @@ export class AddEditCollectionComponent implements OnInit {
     }
   }
 
-  newMonthlyPaymentsChoice(index: number): FormGroup {
-      let name = '';
-      this.paymentChoices.map(r => {
-        if (r.id == this.currentPaymentChoiceId) {
-          name = r.name + ' ' + (index + 1);
-        }
-      });
-      return this.fb.group({
-        payment_choices_id: [this.currentPaymentChoiceId, [Validators.required]],
-        name: [name, [Validators.required]],
-        date: ['', [Validators.required]],
-        percentage: ['', [Validators.required]],
-        amount: ['', [Validators.required]]
-      });      
+  addMonthlyDates($event) {
+    const date = this.addFormStep4.get('monthly_date').value;
+    const pchoice = this.getPaymentChoices.value;
+    console.log(date);
+    for (let index = 0; index < pchoice.length; index++) {
+      const element = pchoice[index];
+      if (element.payment_choice_id == 5) {
+        element['date'] = moment.utc(date).toDate();
+      }
+      console.log(element);
+    }
+    this.addFormStep4.get('payment_choices').patchValue(pchoice);
   }
 
-  removePaymentChoice($event: Event, i: number) {
+  addMonthlyAmounts() {
+    const monthly_amount = this.addFormStep4.get('monthly_amount').value;
+    const pchoice = this.getPaymentChoices.value;
+    console.log(monthly_amount);
+    for (let index = 0; index < pchoice.length; index++) {
+      const element = pchoice[index];
+      if (element.payment_choice_id == 5) {
+        element['amount'] = monthly_amount;
+      }
+      console.log(element);
+    }
+    this.addFormStep4.get('payment_choices').patchValue(pchoice);
+  }
+
+  findMonthlyInstallments() {
+    this.num_of_months = this.addFormStep4.get('num_of_months').value;
+    const monthly_amount = this.addFormStep4.get('monthly_amount').value;
+    const monthly_date = this.addFormStep4.get('monthly_date').value;
+    if (!this.num_of_months || !monthly_amount || !monthly_date) {
+      swal(this.translate.instant('swal.error'), 'Please enter Number of months, Monthly date, and Monthly amount to be paid', 'error');
+      return false;
+    }
+    for (let index = 0; index < this.num_of_months; index++) {
+      this.getPaymentChoices.push(this.newMonthlyPaymentsChoice(index));
+    }
+  }
+
+  newMonthlyPaymentsChoice(index: number): FormGroup {
+    const monthly_amount = this.addFormStep4.get('monthly_amount').value;
+    let monthly_date = this.addFormStep4.get('monthly_date').value;
+    console.log(monthly_date);
+    const price = this.addFormStep4.get('deal_price').value;
+    const percent = (price / monthly_amount);
+    let name = '';
+    monthly_date = moment.utc(moment(monthly_date).add(index, 'months').format('YYYY-MM-DD')).toDate();
+    this.paymentChoices.map(r => {
+      if (r.id == 5) {
+        name = r.name + ' ' + (index + 1);
+      }
+    });
+    console.log(monthly_date);
+    return this.fb.group({
+      payment_choice_id: [this.currentPaymentChoiceId, [Validators.required]],
+      name: [name, [Validators.required]],
+      date: [monthly_date, [Validators.required]],
+      percent: [percent, [Validators.required]],
+      amount: [monthly_amount, [Validators.required]]
+    });      
+  }
+
+  removePaymentChoice($event: Event, item: any, i: number) {
     $event.stopPropagation();
     this.getPaymentChoices.removeAt(i);
+    if (item.value.id) {
+      this.us.postDataApi('deletePaymentChoice', {id: item.value.id}).subscribe(success => {
+        this.spinner.hide();
+      }, error => {
+        this.spinner.hide();
+      });
+    }
   }
 
   // folder
@@ -863,7 +1074,11 @@ export class AddEditCollectionComponent implements OnInit {
     const input = {
       step: 6,
     }
-    this.folders.push(this.newFolder());
+    const folder_docs = {
+      display_name: '',
+      name: ''
+    }
+    // this.folders.push(this.newFolder());
     // this.us.postDataApi('addCollection', formdata).subscribe(success => {
     //   this.tab = tab + 1;
     //   this.spinner.hide();
@@ -877,19 +1092,34 @@ export class AddEditCollectionComponent implements OnInit {
     // }, error => {
     //   this.spinner.hide();
     // });
-    this.closeModal();
+    if (this.mode == 'add') {
+      this.collectionFolders.push({name: this.folderName, folder_docs: []})
+    }
+    else if (this.mode == 'edit') {
+      if (this.selectedFolder && this.selectedFolder.id) {
+        this.editFolderName(this.selectedFolder);
+      } else {
+        this.collectionFolders[this.folderIndex].name = this.folderName;
+      }
+    }
+    this.closeFolderModal();
     // }
+  }
+
+  closeFolderModal() {
+    this.folderModalClose.nativeElement.click();
   }
 
   showFiles() {
 
   }
 
-  openAddFolder(folder, index: number) {
+  openAddFolder(mode: string, folder, index: number) {
+    this.mode = mode;
     if (folder) {
       this.folderIndex = index;
       this.selectedFolder = folder;
-      this.folderName = folder.folder_name;
+      this.folderName = folder.name;
     }
     this.folderModalOpen.nativeElement.click();
   }
@@ -905,7 +1135,8 @@ export class AddEditCollectionComponent implements OnInit {
       );
   }
   
-  modelOpenFun(folder) {
+  modelOpenFun(folder, index: number) {
+    this.folderIndex = index;
     this.folderName = folder.name;
     this.docs = folder.folder_docs;
     this.docsModalOpen.nativeElement.click();
@@ -917,9 +1148,13 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   onSelectFile(files) {
+    this.parameter.loading = true;
     this.cs.saveAttachment(files[0]).subscribe(
       success => {
+        this.parameter.loading = false;
         this.docFile = success['data'].name;
+      }, error => {
+        this.parameter.loading = false;
       }
     );
   }
@@ -931,6 +1166,7 @@ export class AddEditCollectionComponent implements OnInit {
       .subscribe(
         success => {
           this.spinner.hide();
+          this.router.navigate(['dashboard/collections/view-collections']);
         }, error => {
           this.spinner.hide();
         }
@@ -939,15 +1175,39 @@ export class AddEditCollectionComponent implements OnInit {
 
   addDocs() {
     if (!this.docsName) {
+      swal(this.translate.instant('swal.error'), 'Please enter document name.', 'error');
       return;
     }
     if (!this.docFile) {
+      swal(this.translate.instant('swal.error'), 'Please choose the document file.', 'error');
       return;
     }
-    console.log('sss');
-    console.log(this.docsName, this.docFile);
     this.docs.push({name: this.docsName, display_name: this.docFile});
-    console.log(this.docs);
+    this.docFile = ''; this.docsName = '';
+    this.docsFile.nativeElement.value = '';
+  }
+
+  deleteDocs(item: any, i: number) {
+    this.collectionFolders[this.folderIndex].folder_docs.splice(i, 1);
+    console.log(item);
+    if (item.id) {
+      this.us.postDataApi('deleteFolderDoc', {id: item.id}).subscribe(success => {
+        this.spinner.hide();
+      }, error => {
+        this.spinner.hide();
+      });
+    }
+  }
+
+  deleteFolder(item, index: number) {
+    this.collectionFolders.splice(index, 1);
+    if (item.id) {
+      this.us.postDataApi('deleteCollectionFolder', {id: item.id}).subscribe(success => {
+        this.spinner.hide();
+      }, error => {
+        this.spinner.hide();
+      });
+    }
   }
 
   saveFolder($event) {
@@ -1092,36 +1352,147 @@ export class AddEditCollectionComponent implements OnInit {
   setSeller(item) {
     if (this.tab == 2) {
       console.log(item);
+      this.addFormStep2.reset();
       this.model.seller_id = item.id;
       this.model.seller = item;
-      this.addFormStep2.controls.seller_id.patchValue(item.id);
-      this.addFormStep2.controls.seller_name.patchValue(this.model.seller_type == 1 ? item.name : item.comm_name);
-      this.addFormStep2.controls.seller_email.patchValue(item.email);
-      this.addFormStep2.controls.seller_phone.patchValue(item.phone);
 
-      if (this.model.seller_type) {   
-        // seller_company_name: ['', [Validators.required]],
-        // seller_fed_tax: ['', [Validators.required]],
-        // seller_leg_rep_comp: ['', [Validators.required]],
-        // seller_leg_rep_fed_tax: ['', [Validators.required]],   
+      if (this.model.seller_type == 1) {
+        this.addFormStep2.controls.seller_id.patchValue(item.id);
+        this.addFormStep2.controls.seller_name.patchValue(this.model.seller_type == 1 ? item.name : item.comm_name);
+        this.addFormStep2.controls.seller_email.patchValue(this.model.seller_type == 1 ? item.email : '');
+        this.addFormStep2.controls.seller_phone.patchValue(this.model.seller_type == 1 ? item.phone : item.phone);  
+      }
+
+      if (this.model.seller_type == 2) {
+        this.addFormStep2.controls.seller_legal_entity_id.patchValue(item.id);   
+        this.addFormStep2.controls.seller_name.patchValue(item.comm_name);
+        this.addFormStep2.controls.seller_legal_name.patchValue(item.legal_name);
+        this.addFormStep2.controls.seller_fed_tax.patchValue(item.fed_tax_pay);
+        this.addFormStep2.controls.seller_phone.patchValue(item.phone);
+        this.addFormStep2.controls.seller_address.patchValue(item.address);
+        this.addFormStep2.controls.seller_leg_rep_name.patchValue(item.legal_reps ? item.legal_reps.name : '');
+        this.addFormStep2.controls.seller_leg_rep_phone.patchValue(item.legal_reps ? item.legal_reps.phone : '');
+        this.addFormStep2.controls.seller_leg_rep_email.patchValue(item.legal_reps ? item.legal_reps.email : '');
+        this.addFormStep2.controls.seller_leg_rep_comp.patchValue('');
+        this.addFormStep2.controls.seller_leg_rep_fed_tax.patchValue(item.legal_reps ? item.legal_reps.fed_tax_pay : '');
+        let control = new FormArray([]);
+        control = this.addFormStep2.get('collection_seller_banks') as FormArray;
+        if (item.legal_entity_banks) {
+          item.legal_entity_banks.forEach(x => {
+            delete x.id;  // no need to send id ( cuz these are saving separtely in table)
+            control.push(this.fb.group(x));
+          });
+        }
+        let control1 = new FormArray([]);
+        control1 = this.addFormStep2.get('collection_seller_rep_banks') as FormArray;
+        if (item.legal_reps && item.legal_reps.legal_rep_banks) {
+          item.legal_reps.legal_rep_banks.forEach(x => {
+            delete x.id;  // no need to send id ( cuz these are saving separtely in table)
+            control1.push(this.fb.group(x));
+          });
+        }
+      }
+      
+      if (this.model.seller_type == 3) {   
+        this.addFormStep2.controls.seller_id.patchValue(item.id);
+        this.addFormStep2.controls.seller_name.patchValue(item.legal_entity ? item.legal_entity.comm_name : '');
+        this.addFormStep2.controls.seller_legal_name.patchValue(item.legal_entity ? item.legal_entity.legal_name : '');
+        this.addFormStep2.controls.seller_fed_tax.patchValue(item.legal_entity ? item.legal_entity.fed_tax_pay : '');
+        this.addFormStep2.controls.seller_phone.patchValue(item.legal_entity ? item.legal_entity.phone : '');
+        this.addFormStep2.controls.seller_address.patchValue(item.legal_entity ? item.legal_entity.address : '');
         this.addFormStep2.controls.seller_leg_rep_name.patchValue(item.name);
         this.addFormStep2.controls.seller_leg_rep_phone.patchValue(item.phone);
         this.addFormStep2.controls.seller_leg_rep_email.patchValue(item.email);
-        // this.addFormStep2.controls.seller_phone.patchValue(item.phone);
-        // this.addFormStep2.controls.seller_phone.patchValue(item.phone);
-        // this.addFormStep2.controls.seller_phone.patchValue(item.phone);
+        this.addFormStep2.controls.seller_leg_rep_fed_tax.patchValue(item.fed_tax_pay);
+        const control = this.addFormStep2.get('collection_seller_banks') as FormArray;
+        if (item.legal_entity && item.legal_entity.legal_entity_banks) {
+          item.legal_entity.legal_entity_banks.forEach(x => {
+            delete x.id;  // no need to send id ( cuz these are saving separtely in table)
+            control.push(this.fb.group(x));
+          });
+        }
+        const control1 = this.addFormStep2.get('collection_seller_rep_banks') as FormArray;
+        if (item.legal_rep_banks) {
+          item.legal_rep_banks.forEach(x => {
+            delete x.id;  // no need to send id ( cuz these are saving separtely in table)
+            control1.push(this.fb.group(x));
+          });
+        }
       }
     } else {
+      this.addFormStep3.reset();
       this.model.buyer_id = item.id;
       this.model.buyer = item;
-      this.addFormStep3.controls.buyer_id.patchValue(item.id);
-      this.addFormStep3.controls.buyer_name.patchValue(item.name);
-      this.addFormStep3.controls.buyer_email.patchValue(item.email);
-      this.addFormStep3.controls.buyer_phone.patchValue(item.phone);
 
-      this.addFormStep3.controls.buyer_leg_rep_name.patchValue(item.name);
-      this.addFormStep3.controls.buyer_leg_rep_phone.patchValue(item.phone);
-      this.addFormStep3.controls.buyer_leg_rep_email.patchValue(item.email);
+      
+      if (this.model.buyer_type == 1) {
+        this.addFormStep3.controls.buyer_id.patchValue(item.id);
+        this.addFormStep3.controls.buyer_name.patchValue(this.model.buyer_type == 1 ? item.name : item.comm_name);
+        this.addFormStep3.controls.buyer_email.patchValue(this.model.buyer_type == 1 ? item.email : '');
+        this.addFormStep3.controls.buyer_phone.patchValue(this.model.buyer_type == 1 ? item.phone : item.phone);  
+      }
+
+      if (this.model.buyer_type == 2) {
+        this.addFormStep3.controls.buyer_legal_entity_id.patchValue(item.id);   
+        this.addFormStep3.controls.buyer_name.patchValue(item.comm_name);
+        this.addFormStep3.controls.buyer_legal_name.patchValue(item.legal_name);
+        this.addFormStep3.controls.buyer_fed_tax.patchValue(item.fed_tax_pay);
+        this.addFormStep3.controls.buyer_phone.patchValue(item.phone);
+        this.addFormStep3.controls.buyer_address.patchValue(item.address);
+        this.addFormStep3.controls.buyer_leg_rep_name.patchValue(item.legal_reps ? item.legal_reps.name : '');
+        this.addFormStep3.controls.buyer_leg_rep_phone.patchValue(item.legal_reps ? item.legal_reps.phone : '');
+        this.addFormStep3.controls.buyer_leg_rep_email.patchValue(item.legal_reps ? item.legal_reps.email : '');
+        this.addFormStep3.controls.buyer_leg_rep_comp.patchValue('');
+        this.addFormStep3.controls.buyer_leg_rep_fed_tax.patchValue(item.legal_reps ? item.legal_reps.fed_tax_pay : '');
+        let control = new FormArray([]);
+        control = this.addFormStep3.get('collection_buyer_banks') as FormArray;
+        if (item.legal_entity_banks) {
+          item.legal_entity_banks.forEach(x => {
+            control.push(this.fb.group(x));
+          });
+        }
+        let control1 = new FormArray([]);
+        control1 = this.addFormStep3.get('collection_buyer_rep_banks') as FormArray;
+        if (item.legal_reps && item.legal_reps.legal_rep_banks) {
+          item.legal_reps.legal_rep_banks.forEach(x => {
+            control1.push(this.fb.group(x));
+          });
+        }
+      }
+      
+      if (this.model.buyer_type == 3) {   
+        this.addFormStep3.controls.buyer_id.patchValue(item.id);
+        this.addFormStep3.controls.buyer_name.patchValue(item.legal_entity ? item.legal_entity.comm_name : '');
+        this.addFormStep3.controls.buyer_legal_name.patchValue(item.legal_entity ? item.legal_entity.legal_name : '');
+        this.addFormStep3.controls.buyer_fed_tax.patchValue(item.legal_entity ? item.legal_entity.fed_tax_pay : '');
+        this.addFormStep3.controls.buyer_phone.patchValue(item.legal_entity ? item.legal_entity.phone : '');
+        this.addFormStep3.controls.buyer_address.patchValue(item.legal_entity ? item.legal_entity.address : '');
+        this.addFormStep3.controls.buyer_leg_rep_name.patchValue(item.name);
+        this.addFormStep3.controls.buyer_leg_rep_phone.patchValue(item.phone);
+        this.addFormStep3.controls.buyer_leg_rep_email.patchValue(item.email);
+        this.addFormStep3.controls.buyer_leg_rep_fed_tax.patchValue(item.fed_tax_pay);
+        const control = this.addFormStep3.get('collection_buyer_banks') as FormArray;
+        if (item.legal_entity && item.legal_entity.legal_entity_banks) {
+          item.legal_entity.legal_entity_banks.forEach(x => {
+            control.push(this.fb.group(x));
+          });
+        }
+        const control1 = this.addFormStep3.get('collection_buyer_rep_banks') as FormArray;
+        if (item.legal_rep_banks) {
+          item.legal_rep_banks.forEach(x => {
+            control1.push(this.fb.group(x));
+          });
+        }
+      }
+
+      // this.addFormStep3.controls.buyer_id.patchValue(item.id);
+      // this.addFormStep3.controls.buyer_name.patchValue(item.name);
+      // this.addFormStep3.controls.buyer_email.patchValue(item.email);
+      // this.addFormStep3.controls.buyer_phone.patchValue(item.phone);
+
+      // this.addFormStep3.controls.buyer_leg_rep_name.patchValue(item.name);
+      // this.addFormStep3.controls.buyer_leg_rep_phone.patchValue(item.phone);
+      // this.addFormStep3.controls.buyer_leg_rep_email.patchValue(item.email);
     }
     this.closeLinkUserModal.nativeElement.click();
   }
@@ -1155,9 +1526,9 @@ export class AddEditCollectionComponent implements OnInit {
 
   // getAmount(key: string, key1: string, key2: string) {
   //   const price = this.addFormStep4.get(key).value;
-  //   const percentage = this.addFormStep4.get(key1).value;
-  //   console.log(price, percentage);
-  //   const amount = Math.round((percentage * price) / 100);
+  //   const percent = this.addFormStep4.get(key1).value;
+  //   console.log(price, percent);
+  //   const amount = Math.round((percent * price) / 100);
   //   this.addFormStep4.controls[key2].patchValue(amount);
   // }
 
@@ -1165,8 +1536,8 @@ export class AddEditCollectionComponent implements OnInit {
   //   const price = this.addFormStep4.get(key).value;
   //   const amount = this.addFormStep4.get(key1).value;
   //   console.log(price, amount);
-  //   const percentage = (amount * 100) / price;
-  //   this.addFormStep4.controls[key2].patchValue(percentage);
+  //   const percent = (amount * 100) / price;
+  //   this.addFormStep4.controls[key2].patchValue(percent);
   // }
 
   getAmount(index: number) {
@@ -1177,8 +1548,8 @@ export class AddEditCollectionComponent implements OnInit {
     }
     const pcArray = this.addFormStep4.get('payment_choices').value;
     console.log(price, pcArray);
-    const percentage = pcArray[index].percentage;
-    const amount = Math.round((percentage * price) / 100);
+    const percent = pcArray[index].percent;
+    const amount = Math.round((percent * price) / 100);
     pcArray[index].amount = amount;
     this.addFormStep4.controls['payment_choices'].patchValue(pcArray);
   }
@@ -1192,8 +1563,8 @@ export class AddEditCollectionComponent implements OnInit {
     const pcArray = this.addFormStep4.get('payment_choices').value;
     const amount = pcArray[index].amount;
     console.log(price, amount);
-    const percentage = (amount * 100) / price;
-    pcArray[index].percentage = percentage;
+    const percent = (amount * 100) / price;
+    pcArray[index].percent = percent;
     this.addFormStep4.controls['payment_choices'].patchValue(pcArray);
   }
 
@@ -1201,9 +1572,9 @@ export class AddEditCollectionComponent implements OnInit {
     const price = this.addFormStep4.get('deal_price').value;
     const numOfInstallments = this.addFormStep4.get('deal_monthly_payment').value;
     const monthlyAmount = Math.round(price / numOfInstallments);
-    const percentage = (monthlyAmount * 100) / price;
+    const percent = (monthlyAmount * 100) / price;
     this.addFormStep4.controls['deal_monthly_amount'].patchValue(monthlyAmount);
-    this.addFormStep4.controls['deal_monthly_percentage'].patchValue(percentage);
+    this.addFormStep4.controls['deal_monthly_percentage'].patchValue(percent);
   }
 
   createCollection(formdata: NgForm, tab: number) {
@@ -1213,13 +1584,15 @@ export class AddEditCollectionComponent implements OnInit {
 console.log(formdata);
     this.model.step = tab;
     formdata['step'] = tab;
-    formdata['deal_type_id'] = 1; //this.availabilityStatus[1].checked ? 1 : 0;
-    formdata['deal_lay_type'] = 'Percent';
-    formdata['deal_down_type'] = 'Percent';
-    formdata['deal_pay_type'] = 'Percent';
-    formdata['deal_pay_type'] = 'Percent';
-    formdata['deal_pay_type'] = 'Percent';
-    formdata['payment_method_id'] = 1;
+    // formdata['deal_type_id'] = this.availabilityStatus[1].checked ? 1 : 0;
+    // formdata['deal_lay_type'] = 'Percent';
+    // formdata['deal_down_type'] = 'Percent';
+    // formdata['deal_pay_type'] = 'Percent';
+    // formdata['deal_pay_type'] = 'Percent';
+    // formdata['deal_pay_type'] = 'Percent';
+    // formdata['payment_method_id'] = 1;
+    // formdata['seller_company_name'] = 'test'
+    // formdata['buyer_company_name'] = 'test'
     if (this.model.id) {
       formdata['id'] = this.model.id;
     }
@@ -1253,36 +1626,96 @@ console.log(formdata);
     }
 
     if (this.model.step == 2) {
-      if (!formdata['seller_id']) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseSeller'), 'error');
-        return;
-      } else if (!formdata['seller_company_name']) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterCompanyName'), 'error');
-        return;
-      } else if (!formdata['seller_fed_tax']) {
+      formdata['seller_type'] = this.model.seller_type;
+       if (!formdata['seller_fed_tax']) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), 'error');
         return;
-      } else if (!formdata['collection_seller_banks'] || formdata['collection_seller_banks'].length < 1) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
-        return;
+      }
+      // else if (!formdata['collection_seller_banks'] || formdata['collection_seller_banks'].length < 1) {
+      //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
+      //   return;
+      // }
+      if (this.model.seller_type == 1 || this.model.seller_type == 3) {
+        if (!formdata['seller_id']) {
+          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseSeller'), 'error');
+          return;
+        }
+      } 
+      if (this.model.seller_type == 1) {
+        if (!formdata['seller_company_name']) {
+          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterCompanyName'), 'error');
+          return;
+        }
+      }
+      if (this.model.seller_type != 1) {
+        if (!formdata['seller_leg_rep_name'] || !formdata['seller_leg_rep_phone'] || !formdata['seller_leg_rep_email'] || !formdata['seller_leg_rep_fed_tax']) {
+          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseFillLegalRepInfo'), 'error');
+          // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseSeller'), 'error');
+          return;
+        }
+        // else if (!formdata['seller_leg_rep_phone']) {
+        //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterCompanyName'), 'error');
+        //   return;
+        // } else if (!formdata['seller_leg_rep_email']) {
+        //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), 'error');
+        //   return;
+        // }  
       }
     }
 
     if (this.model.step == 3) {
-      if (!formdata['buyer_id']) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseBuyer'), 'error');
-        return;
-      } else if (!formdata['buyer_company_name']) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterCompanyName'), 'error');
-        return;
-      } else if (!formdata['buyer_fed_tax']) {
+      formdata['buyer_type'] = this.model.buyer_type;
+       if (!formdata['buyer_fed_tax']) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), 'error');
         return;
-      } else if (!formdata['collection_buyer_banks'] || formdata['collection_buyer_banks'].length < 1) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
-        return;
+      }
+      // else if (!formdata['collection_buyer_banks'] || formdata['collection_buyer_banks'].length < 1) {
+      //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
+      //   return;
+      // }
+      if (this.model.buyer_type == 1 || this.model.buyer_type == 3) {
+        if (!formdata['buyer_id']) {
+          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseBuyer'), 'error');
+          return;
+        }
+      } 
+      if (this.model.buyer_type == 1) {
+        if (!formdata['buyer_company_name']) {
+          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterCompanyName'), 'error');
+          return;
+        }
+      }
+      if (this.model.buyer_type != 1) {
+        if (!formdata['buyer_leg_rep_name'] || !formdata['buyer_leg_rep_phone'] || !formdata['buyer_leg_rep_email'] || !formdata['buyer_leg_rep_fed_tax']) {
+          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseFillLegalRepInfo'), 'error');
+          // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseSeller'), 'error');
+          return;
+        }
+        // else if (!formdata['seller_leg_rep_phone']) {
+        //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterCompanyName'), 'error');
+        //   return;
+        // } else if (!formdata['seller_leg_rep_email']) {
+        //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), 'error');
+        //   return;
+        // }  
       }
     }
+
+    // if (this.model.step == 3) {
+    //   if (!formdata['buyer_id']) {
+    //     swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseBuyer'), 'error');
+    //     return;
+    //   } else if (!formdata['buyer_company_name']) {
+    //     swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterCompanyName'), 'error');
+    //     return;
+    //   } else if (!formdata['buyer_fed_tax']) {
+    //     swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), 'error');
+    //     return;
+    //   } else if (!formdata['collection_buyer_banks'] || formdata['collection_buyer_banks'].length < 1) {
+    //     swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
+    //     return;
+    //   }
+    // }
 
     if (this.model.step == 4) {
       if (!formdata['deal_purchase_date']) {
@@ -1291,29 +1724,35 @@ console.log(formdata);
       } else if (!formdata['deal_price']) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPrice'), 'error');
         return;
-      } else if (!formdata['deal_lay_date'] 
-      // || !formdata['deal_lay_type'] 
-        || !formdata['deal_lay_percent_value'] || !formdata['deal_lay_amount_value']) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLayawayPayment'), 'error');
+      }
+      // else if (!formdata['deal_lay_date'] 
+      // // || !formdata['deal_lay_type'] 
+      //   || !formdata['deal_lay_percent_value'] || !formdata['deal_lay_amount_value']) {
+      //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLayawayPayment'), 'error');
+      //   return;
+      // } else if (!formdata['deal_down_date'] || 
+      // // !formdata['deal_down_type'] ||
+      //     !formdata['deal_down_percent_value'] || !formdata['deal_down_amount_value']) {
+      //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterDownPayment'), 'error');
+      //   return;
+      // } else if (!formdata['deal_pay_date'] || 
+      // // !formdata['deal_pay_type'] ||
+      //     !formdata['deal_pay_percent_value'] || !formdata['deal_pay_amount_value']) {
+      //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPaymentUponDelivery'), 'error');
+      //   return;
+      // } else if (!formdata['deal_spe_name'] || !formdata['deal_spe_date']) {
+      //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterSpecialPayment'), 'error');
+      //   return;
+      // } else if (!formdata['deal_monthly_payment']) {
+      //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterMonthlyPayment'), 'error');
+      //   return;
+      // } 
+      else if (!formdata['payment_choices']) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChoosePayments'), 'error');
         return;
-      } else if (!formdata['deal_down_date'] || 
-      // !formdata['deal_down_type'] ||
-          !formdata['deal_down_percent_value'] || !formdata['deal_down_amount_value']) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterDownPayment'), 'error');
-        return;
-      } else if (!formdata['deal_pay_date'] || 
-      // !formdata['deal_pay_type'] ||
-          !formdata['deal_pay_percent_value'] || !formdata['deal_pay_amount_value']) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPaymentUponDelivery'), 'error');
-        return;
-      } else if (!formdata['deal_spe_name'] || !formdata['deal_spe_date']) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterSpecialPayment'), 'error');
-        return;
-      } else if (!formdata['deal_interest_rate']) {
+      }
+      else if (!formdata['deal_interest_rate']) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterInterestRate'), 'error');
-        return;
-      } else if (!formdata['deal_monthly_payment']) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterMonthlyPayment'), 'error');
         return;
       } else if (!formdata['deal_penality']) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPenality'), 'error');
@@ -1321,13 +1760,14 @@ console.log(formdata);
       }
 
 
-      formdata['deal_purchase_date'] = formdata['deal_purchase_date'] ?
-       moment(formdata['deal_purchase_date']).format('YYYY-MM-DD') : null;
-      formdata['deal_lay_date'] = moment(formdata['deal_lay_date']).format('YYYY-MM-DD');
-      formdata['deal_down_date'] = moment(formdata['deal_down_date']).format('YYYY-MM-DD');
-      formdata['deal_pay_date'] = moment(formdata['deal_pay_date']).format('YYYY-MM-DD');
-      formdata['deal_spe_date'] = moment(formdata['deal_spe_date']).format('YYYY-MM-DD');
-      formdata['deal_payment_date'] = moment(formdata['deal_payment_date']).format('YYYY-MM-DD');
+      // formdata['deal_purchase_date'] = formdata['deal_purchase_date'] ?
+      //  moment(formdata['deal_purchase_date']).format('YYYY-MM-DD') : null;
+      // formdata['deal_lay_date'] = moment(formdata['deal_lay_date']).format('YYYY-MM-DD');
+      // formdata['deal_down_date'] = moment(formdata['deal_down_date']).format('YYYY-MM-DD');
+      // formdata['deal_pay_date'] = moment(formdata['deal_pay_date']).format('YYYY-MM-DD');
+      // formdata['deal_spe_date'] = moment(formdata['deal_spe_date']).format('YYYY-MM-DD');
+      // formdata['deal_payment_date'] = moment(formdata['deal_payment_date']).format('YYYY-MM-DD');
+      
     }
 
     if (this.model.step == 5) {
@@ -1343,8 +1783,8 @@ console.log(formdata);
       }
     }
 
-
-    // this.spinner.show();
+console.log(formdata.value);
+    this.spinner.show();
     this.us.postDataApi('addCollection', formdata)
       .subscribe(
         success => {

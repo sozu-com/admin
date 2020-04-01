@@ -313,6 +313,15 @@
                                  <label>{{'table.th.editCommission' | translate}}</label>
                               </div>
                            </th>
+                           <th style="width:8%;vertical-align:top;">
+                              <div (click)="sort_by(1)" class="d-flex table-search">
+                                 <label>{{'table.th.totalSozuCommission' | translate}}</label></div>
+                           </th>
+                           <th style="width:4%;vertical-align:top;">
+                              <div class="d-flex table-search">
+                                 <label>{{'table.th.editCommission' | translate}}</label>
+                              </div>
+                           </th>
                            <th style="width:4%;vertical-align:top;">
                               <div (click)="sort_by(3)" class="d-flex table-search">
                                  <label>{{'table.th.leads' | translate}}</label>
@@ -398,8 +407,14 @@
                               </span></td>
                               <td><span>{{p.broker_commision | percentage}}</span></td>
                               <td><span>
-                                 <button (click)="editAgentCommissionPopup(p, i)" [disabled]="admin?.admin_acl['Property Management']?.can_update==0" title="{{'table.title.editPrice' | translate}}" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                                 <button (click)="editAgentCommissionPopup(p, i, true)" [disabled]="admin?.admin_acl['Property Management']?.can_update==0" title="{{'table.title.editPrice' | translate}}" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                               </span></td>
+                              
+                              <td><span>{{p?.total_commission | percentage}}</span></td>
+                              <td><span>
+                                 <button (click)="editAgentCommissionPopup(p, i, false)" [disabled]="admin?.admin_acl['Property Management']?.can_update==0" title="{{'table.title.editPrice' | translate}}" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                              </span></td>
+
                               <td><span>{{p.lead_properties_count | numberWithCommas}}</span></td>
                               
                               <td *ngIf="parameter.flag==5" class="cursor-pointer" title="{{'table.title.viewSellerRequest' | translate}}" (click)="showAllSellers(p?.id, i)">

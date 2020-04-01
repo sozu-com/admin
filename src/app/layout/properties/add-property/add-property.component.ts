@@ -460,6 +460,9 @@ export class AddPropertyComponent implements OnInit {
       const element = data.custom_values[index];
       this.model.custom_attributes[index] = { name: element.name, value: element.value };
     }
+
+    this.model.broker_commision = data.broker_commision || 0;
+    this.model.total_commission = data.total_commission || 0;
   }
 
   setTab(tab: any) {
@@ -1063,6 +1066,7 @@ export class AddPropertyComponent implements OnInit {
         input.append('half_bathroom', this.model.half_bathroom ? this.model.half_bathroom.toString() : '0');
         input.append('floor', this.model.floor.toString());
         input.append('broker_commision', this.model.broker_commision.toString());
+        input.append('total_commission', this.model.total_commission.toString());
         input.append('property_price', this.model.property_price ? this.model.property_price.toString() : '0');
         input.append('parking', this.model.parking.toString());
         input.append('parking_count', this.model.parking_count ? this.model.parking_count.toString() : '0');

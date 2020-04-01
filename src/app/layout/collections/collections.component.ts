@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PropertyService } from 'src/app/services/property.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Notes } from '../../models/leads.model';
+import { CommonService } from '../../services/common.service';
 declare let swal: any;
 
 @Component({
@@ -41,8 +42,12 @@ export class CollectionsComponent implements OnInit {
   item: any;
   locale: any;
   property_collection_id: string;
+  docFile: string;
+  payment_choice_id: number;
+  description: string;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
 
+  paymentAmount: number;
   paymentConcepts: Array<any>;
 
   @ViewChild('modalOpen') modalOpen: ElementRef;
@@ -67,23 +72,11 @@ export class CollectionsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private translate: TranslateService,
-    public model: Notes
+    public model: Notes,
+    private cs: CommonService
   ) { }
 
   ngOnInit() {
-    this.paymentConcepts = [
-      {id: 1, name: 'Layaway Payment'},
-      {id: 2, name: 'Monthly Payment 1'},
-      {id: 2, name: 'Monthly Payment 2'},
-      {id: 2, name: 'Monthly Payment 3'},
-      {id: 2, name: 'Monthly Payment 4'},
-      {id: 2, name: 'Monthly Payment 5'},
-      {id: 2, name: 'Monthly Payment 6'},
-      {id: 2, name: 'Monthly Payment 7'},
-      {id: 2, name: 'Monthly Payment 8'},
-      {id: 2, name: 'Monthly Payment 9'},
-      {id: 2, name: 'Monthly Payment 10'},
-    ]
     this.model = new Notes();
     this.locale = {
       firstDayOfWeek: 0,
@@ -709,6 +702,7 @@ export class CollectionsComponent implements OnInit {
       this.model = new Notes();
       this.parameter.items.push(r.data);
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
+      this.closeNotesModal();
     });
   }
 
@@ -729,17 +723,49 @@ export class CollectionsComponent implements OnInit {
   }
 
   deleteLeadNote(note_id, index) {
-    this.admin.postDataApi('deleteCollectionNote', {id: 2}).subscribe(r => {
-      // this.parameter.items.splice(index, 1);
+    this.admin.postDataApi('deleteCollectionNote', {id: note_id}).subscribe(r => {
+      this.parameter.items.splice(index, 1);
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
     });
   }
 
-  showApplyPaymentPopup() {
+  showApplyPaymentPopup(item: any) {
+    this.paymentConcepts = item.payment_choices;
     this.paymentModalOpen.nativeElement.click();
+  }
+
+  setPaymentAmount(item: any) {
+    console.log(item)
+    this.paymentAmount = item.amount;
   }
 
   closePaymentModal() {
     this.paymentModalClose.nativeElement.click();
+  }
+
+  applyCollectionPayment(formdata) {
+    const input = {
+      collection_payment_choice_id : this.payment_choice_id['id'],
+      currency_id: 1,
+      amount : this.paymentAmount,
+      receipt: this.docFile,
+      description: this.description
+    }
+    this.admin.postDataApi('applyCollectionPayment', input).subscribe(r => {
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.savedSuccessfully'), 'success');
+      this.paymentModalClose.nativeElement.click();
+    });
+  }
+  
+  onSelectFile(files) {
+    this.parameter.loading = true;
+    this.cs.saveAttachment(files[0]).subscribe(
+      success => {
+        this.parameter.loading = false;
+        this.docFile = success['data'].name;
+      }, error => {
+        this.parameter.loading = false;
+      }
+    );
   }
 }

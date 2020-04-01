@@ -76,7 +76,7 @@
         <p class="p16">{{'addCollection.selectedDealType' | translate}}</p>
       </div>
     </div>
-    <p><b>{{model?.deal_type?.name ? model?.deal_type?.name : ('table.tr.td.NA' | translate)}}</b></p>
+    <p><b>{{model?.availabilityStatusId == 1 ? availabilityStatus[0].name : availabilityStatus[1].name}}</b></p>
       
     <div class="row">
       <div class="col-md-12">
@@ -288,15 +288,15 @@
           <div class="col-sm-9">
               <div class="clearfix"></div>
               <label class="cust-radio">
-                <input type="radio" (change)="setValue('seller_type', 1)" value="1" [checked]="model.seller_type == 1 ? 'checked' : ''" name="seller_type">
+                <input type="radio" formControlName="seller_type" (change)="setValue('seller_type', 1)" value="1" [checked]="model.seller_type == 1 ? 'checked' : ''" name="seller_type">
                 <span class="checkmark">Person</span>
               </label>
               <label class="cust-radio">
-                <input type="radio" (change)="setValue('seller_type', 2)" value="2" [checked]="model.seller_type == 2 ? 'checked' : ''" name="seller_type">
+                <input type="radio" formControlName="seller_type" (change)="setValue('seller_type', 2)" value="2" [checked]="model.seller_type == 2 ? 'checked' : ''" name="seller_type">
                 <span class="checkmark">Legal Entity</span>
               </label>
               <label class="cust-radio">
-                <input type="radio" (change)="setValue('seller_type', 3)" value="3" [checked]="model.seller_type == 3 ? 'checked' : ''" name="seller_type">
+                <input type="radio" formControlName="seller_type" (change)="setValue('seller_type', 3)" value="3" [checked]="model.seller_type == 3 ? 'checked' : ''" name="seller_type">
                 <span class="checkmark">Developer</span>
               </label>
               <div class="clearfix"></div>
@@ -319,9 +319,16 @@
         <div class="row">
           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
             <div class="form-group-3">
-              <label>{{ 'addCollection.name' | translate}}</label>
+              <label>{{ model.seller_type == 1 ? ('addCollection.name' | translate) : ('addCollection.commercialName' | translate)}}</label>
               <div class="clearfix"></div>
               <input required autocomplete="off" type="text" name="seller_name" class="form-control" formControlName="seller_name">
+            </div>
+          </div>
+          <div *ngIf="model.seller_type !=1 " class="col-lg-3 col-md-6 col-sm-6 col-12">
+            <div class="form-group-3">
+              <label>{{ 'addCollection.legalName' | translate }}</label>
+              <div class="clearfix"></div>
+              <input required autocomplete="off" type="text" name="seller_legal_name" class="form-control" formControlName="seller_legal_name">
             </div>
           </div>
           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -331,14 +338,21 @@
               <input required autocomplete="off" class="form-control" type="number" minlength="6" maxlength="16" name="seller_phone" formControlName="seller_phone">
             </div>
           </div>
-          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div *ngIf="model.seller_type !=1" class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+              <label>{{'addCollection.address' | translate}}</label>
+              <div class="clearfix"></div>
+              <input required autocomplete="off" class="form-control" type="text" name="seller_address" formControlName="seller_address">
+           </div>
+          </div>
+          <div *ngIf="model.seller_type==1" class="col-lg-3 col-md-6 col-sm-6 col-12">
               <div class="form-group-3">
               <label>{{'addCollection.email' | translate}}</label>
               <div class="clearfix"></div>
               <input required autocomplete="off" class="form-control" type="text" name="seller_email" formControlName="seller_email">
             </div>
           </div>
-          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div *ngIf="model.seller_type==1" class="col-lg-3 col-md-6 col-sm-6 col-12">
               <div class="form-group-3">
               <label>{{'addCollection.companyName' | translate}}</label>
               <div class="clearfix"></div>
@@ -364,21 +378,28 @@
         <div formArrayName="collection_seller_banks">
         <ng-container *ngFor="let seller_banks of addFormStep2.get('collection_seller_banks').controls; let i=index">
             <div class="row" [formGroupName]="i">
-                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <div class="form-group-3">
+              <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                  <label>{{'addCollection.bankName' | translate}}</label>
+                  <div class="clearfix"></div>
+                  <input required autocomplete="off" class="form-control" type="text" name="bank_name" formControlName="bank_name">
+                </div>
+              </div> 
+              <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
                   <label>{{'addCollection.accountNumber' | translate}}</label>
                   <div class="clearfix"></div>
                   <input required autocomplete="off" class="form-control" type="number" minlength="10" maxlength="20" min="0" name="account_number" formControlName="account_number">
                 </div>
               </div>
-              <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                   <label>{{'addCollection.clabeSwift' | translate}}</label>
                   <div class="clearfix"></div>
                   <input required autocomplete="off" class="form-control" type="text" name="swift" formControlName="swift">
                 </div>
               </div>
-              <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                   <label>{{'addCollection.currency' | translate}}</label>
                   <div class="clearfix"></div>
@@ -388,11 +409,11 @@
                   </select>
                 </div>
               </div>
-              <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                   <label>Remove</label>
                   <div class="clearfix"></div>
-                  <button type="button" (click)="removeSellerBank($event, i)">Remove</button>
+                  <button type="button" (click)="removeSellerBank($event, seller_banks, i)">Remove</button>
                 </div>
               </div>
             </div>
@@ -424,15 +445,15 @@
               <input autocomplete="off" class="form-control" type="text" name="seller_leg_rep_email" formControlName="seller_leg_rep_email">
             </div>
           </div>
-          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div *ngIf="model.seller_type==1" class="col-lg-3 col-md-6 col-sm-6 col-12">
               <div class="form-group-3">
               <label>{{'addCollection.companyName' | translate}}</label>
               <div class="clearfix"></div>
               <input autocomplete="off" class="form-control" type="text" name="seller_leg_rep_comp" formControlName="seller_leg_rep_comp">
             </div>
           </div>
-        </div>
-        <div class="row">
+        <!-- </div> -->
+        <!-- <div class="row"> -->
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
               <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}</label>
@@ -442,6 +463,58 @@
           </div>
         </div>
         
+        
+        <div class="spacer50"></div>
+        <!-- bank account -->
+        <h5 class="p16-two">{{'addCollection.bankAccount' | translate}}
+          <span class="pull-right"><a class="add" (click)="addSellerRepBank($event)" href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
+        </h5>
+        <div formArrayName="collection_seller_rep_banks">
+        <ng-container *ngFor="let seller_rep_banks of addFormStep2.get('collection_seller_rep_banks').controls; let i=index">
+            <div class="row" [formGroupName]="i">
+              <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                  <label>{{'addCollection.bankName' | translate}}</label>
+                  <div class="clearfix"></div>
+                  <input required autocomplete="off" class="form-control" type="text" name="bank_name" formControlName="bank_name">
+                </div>
+              </div> 
+              <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                  <label>{{'addCollection.accountNumber' | translate}}</label>
+                  <div class="clearfix"></div>
+                  <input required autocomplete="off" class="form-control" type="number" minlength="10" maxlength="20" min="0" name="account_number" formControlName="account_number">
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                  <label>{{'addCollection.clabeSwift' | translate}}</label>
+                  <div class="clearfix"></div>
+                  <input required autocomplete="off" class="form-control" type="text" name="swift" formControlName="swift">
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                  <label>{{'addCollection.currency' | translate}}</label>
+                  <div class="clearfix"></div>
+                  <select required name="currency_id" formControlName="currency_id" required class="form-control">
+                    <option value="">{{'addCollection.currency' | translate}}</option>
+                    <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.currency }} | {{c?.symbol}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                  <label>Remove</label>
+                  <div class="clearfix"></div>
+                  <button type="button" (click)="removeSellerRepBank($event, seller_rep_banks, i)">Remove</button>
+                </div>
+              </div>
+            </div>
+        </ng-container>
+        </div>
+
+
       <div class="spacer15"></div>
 
       <div class="spacer15"></div>
@@ -459,12 +532,39 @@
 </form>
 
 
+
+
 <!-- ngNativeValidate #createDraft="ngForm" -->
 <form [formGroup]="addFormStep3" (ngSubmit)="createCollection(addFormStep3.value, 3)">
     <div class="white-bg" *ngIf="tab==3">
       <div class="page-title">
         <h3>{{'addCollection.chooseTheBuyer' | translate}}</h3>
       </div>
+
+      
+      <div style="padding: 0px 40px;">      
+        <div class="form-group-3 row">
+            <h5 class="col-sm-3 p16-two">Choose Buyer Type:</h5>
+            <div class="col-sm-9">
+                <div class="clearfix"></div>
+                <label class="cust-radio">
+                  <input type="radio" formControlName="buyer_type" (change)="setValue('buyer_type', 1)" value="1" [checked]="model.buyer_type == 1 ? 'checked' : ''" name="buyer_type">
+                  <span class="checkmark">Person</span>
+                </label>
+                <label class="cust-radio">
+                  <input type="radio" formControlName="buyer_type" (change)="setValue('buyer_type', 2)" value="2" [checked]="model.buyer_type == 2 ? 'checked' : ''" name="buyer_type">
+                  <span class="checkmark">Legal Entity</span>
+                </label>
+                <label class="cust-radio">
+                  <input type="radio" formControlName="buyer_type" (change)="setValue('buyer_type', 3)" value="3" [checked]="model.buyer_type == 3 ? 'checked' : ''" name="buyer_type">
+                  <span class="checkmark">Developer</span>
+                </label>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+      </div>
+  
+
       <div class="paddingT0 padding40">
   
         <!-- search -->
@@ -478,6 +578,62 @@
           <!-- complete details -->
           <h5 class="p16-two">{{'addCollection.completeTheBuyerInfo' | translate}}</h5>
           <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{ model.buyer_type == 1 ? ('addCollection.name' | translate) : ('addCollection.commercialName' | translate)}}</label>
+                <div class="clearfix"></div>
+                <input required autocomplete="off" type="text" name="buyer_name" class="form-control" formControlName="buyer_name">
+              </div>
+            </div>
+            <div *ngIf="model.buyer_type !=1 " class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{ 'addCollection.legalName' | translate }}</label>
+                <div class="clearfix"></div>
+                <input required autocomplete="off" type="text" name="buyer_legal_name" class="form-control" formControlName="buyer_legal_name">
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="form-group-3">
+                <label>{{'addCollection.phonenumber' | translate}}</label>
+                <div class="clearfix"></div>
+                <input required autocomplete="off" class="form-control" type="number" minlength="6" maxlength="16" name="buyer_phone" formControlName="buyer_phone">
+              </div>
+            </div>
+            <div *ngIf="model.buyer_type !=1" class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="form-group-3">
+                <label>{{'addCollection.address' | translate}}</label>
+                <div class="clearfix"></div>
+                <input required autocomplete="off" class="form-control" type="text" name="buyer_address" formControlName="buyer_address">
+              </div>
+            </div>
+            <div *ngIf="model.buyer_type==1" class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="form-group-3">
+                <label>{{'addCollection.email' | translate}}</label>
+                <div class="clearfix"></div>
+                <input required autocomplete="off" class="form-control" type="text" name="buyer_email" formControlName="buyer_email">
+              </div>
+            </div>
+            <div *ngIf="model.buyer_type==1" class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="form-group-3">
+                <label>{{'addCollection.companyName' | translate}}</label>
+                <div class="clearfix"></div>
+                <input required autocomplete="off" class="form-control" type="text" name="buyer_company_name" formControlName="buyer_company_name">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+              <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}</label>
+                <div class="clearfix"></div>
+                <input required autocomplete="off" class="form-control" type="text" name="buyer_fed_tax" formControlName="buyer_fed_tax">
+              </div>
+            </div>
+          </div>
+    
+          
+          
+          <!-- <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
               <div class="form-group-3">
                 <label>{{'addCollection.name' | translate}}</label>
@@ -515,31 +671,41 @@
                 <input autocomplete="off" class="form-control" type="text" name="buyer_fed_tax" formControlName="buyer_fed_tax">
               </div>
             </div>
-          </div>
+          </div> -->
   
+
+
+
           <div class="spacer50"></div>
           <!-- bank account -->
           <h5 class="p16-two">{{'addCollection.bankAccount' | translate}}
             <span class="pull-right"><a class="add" (click)="addBuyerBank($event)" href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
           </h5>
-          <div formArrayName="collection_buyer_banks">
+          <!-- <div formArrayName="collection_buyer_banks">
           <ng-container *ngFor="let buyer_banks of addFormStep3.get('collection_buyer_banks').controls; let i=index">
               <div class="row" [formGroupName]="i">
                   <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                      <div class="form-group-3">
+                    <label>{{'addCollection.bankName' | translate}}</label>
+                    <div class="clearfix"></div>
+                    <input required autocomplete="off" class="form-control" type="text" name="bank_name" formControlName="bank_name">
+                  </div>
+                </div> 
+                 <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                       <div class="form-group-3">
                     <label>{{'addCollection.accountNumber' | translate}}</label>
                     <div class="clearfix"></div>
                     <input autocomplete="off" class="form-control" type="number" min="0" minlength="10" maxlength="20" name="account_number" formControlName="account_number">
                   </div>
                 </div>
-                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                     <div class="form-group-3">
                     <label>{{'addCollection.clabeSwift' | translate}}</label>
                     <div class="clearfix"></div>
                     <input autocomplete="off" class="form-control" type="text" name="swift" formControlName="swift">
                   </div>
                 </div>
-                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                     <div class="form-group-3">
                     <label>{{'addCollection.currency' | translate}}</label>
                     <div class="clearfix"></div>
@@ -549,21 +715,68 @@
                     </select>
                   </div>
                 </div>
-                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                     <div class="form-group-3">
                     <label>Remove</label>
                     <div class="clearfix"></div>
-                    <button type="button" (click)="removeBuyerBank($event, i)">Remove</button>
+                    <button type="button" (click)="removeBuyerBank($event, buyer_banks, i)">Remove</button>
                   </div>
                 </div>
               </div>
           </ng-container>
-          </div>
+          </div> -->
   
+
+          <div formArrayName="collection_buyer_banks">
+            <ng-container *ngFor="let buyer_banks of addFormStep3.get('collection_buyer_banks').controls; let i=index">
+              <div class="row" [formGroupName]="i">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                  <label>{{'addCollection.bankName' | translate}}</label>
+                  <div class="clearfix"></div>
+                  <input required autocomplete="off" class="form-control" type="text" name="bank_name" formControlName="bank_name">
+                </div>
+              </div> 
+              <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                  <label>{{'addCollection.accountNumber' | translate}}</label>
+                  <div class="clearfix"></div>
+                  <input required autocomplete="off" class="form-control" type="number" minlength="10" maxlength="20" min="0" name="account_number" formControlName="account_number">
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                  <label>{{'addCollection.clabeSwift' | translate}}</label>
+                  <div class="clearfix"></div>
+                  <input required autocomplete="off" class="form-control" type="text" name="swift" formControlName="swift">
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                  <label>{{'addCollection.currency' | translate}}</label>
+                  <div class="clearfix"></div>
+                  <select required name="currency_id" formControlName="currency_id" required class="form-control">
+                    <option value="">{{'addCollection.currency' | translate}}</option>
+                    <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.currency }} | {{c?.symbol}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                  <label>Remove</label>
+                  <div class="clearfix"></div>
+                  <button type="button" (click)="removeBuyerBank($event, buyer_banks, i)">Remove</button>
+                </div>
+              </div>
+            </div>
+        </ng-container>
+        </div>
+
+        
           <div class="spacer50"></div>
           <!-- legal Representative Info -->
           <h5 class="p16-two">{{'addCollection.legalRepresentativeInfo' | translate}}</h5>
-          <div class="row">
+          <!-- <div class="row">
               <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                 <label>{{'addCollection.name' | translate}}</label>
@@ -601,7 +814,100 @@
                 <input autocomplete="off" class="form-control" type="text" name="buyer_leg_rep_fed_tax" formControlName="buyer_leg_rep_fed_tax">
               </div>
             </div>
+          </div> -->
+
+
+          <div class="row">
+              <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                <label>{{'addCollection.name' | translate}}</label>
+                <div class="clearfix"></div>
+                <input autocomplete="off" class="form-control" type="text" name="buyer_leg_rep_name" formControlName="buyer_leg_rep_name">
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="form-group-3">
+                <label>{{'addCollection.phonenumber' | translate}}</label>
+                <div class="clearfix"></div>
+                <input autocomplete="off" class="form-control" type="number" minlength="6" maxlength="16" name="buyer_leg_rep_phone" formControlName="buyer_leg_rep_phone">
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="form-group-3">
+                <label>{{'addCollection.email' | translate}}</label>
+                <div class="clearfix"></div>
+                <input autocomplete="off" class="form-control" type="text" name="buyer_leg_rep_email" formControlName="buyer_leg_rep_email">
+              </div>
+            </div>
+            <div *ngIf="model.buyer_type==1" class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="form-group-3">
+                <label>{{'addCollection.companyName' | translate}}</label>
+                <div class="clearfix"></div>
+                <input autocomplete="off" class="form-control" type="text" name="buyer_leg_rep_comp" formControlName="buyer_leg_rep_comp">
+              </div>
+            </div>
+          <!-- </div> -->
+          <!-- <div class="row"> -->
+              <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}</label>
+                <div class="clearfix"></div>
+                <input autocomplete="off" class="form-control" type="text" name="buyer_leg_rep_fed_tax" formControlName="buyer_leg_rep_fed_tax">
+              </div>
+            </div>
           </div>
+        
+        
+          <div class="spacer50"></div>
+          <!-- bank account -->
+          <h5 class="p16-two">{{'addCollection.bankAccount' | translate}}
+            <span class="pull-right"><a class="add" (click)="addBuyerRepBank($event)" href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
+          </h5>
+          <div formArrayName="collection_buyer_rep_banks">
+          <ng-container *ngFor="let buyer_rep_banks of addFormStep3.get('collection_buyer_rep_banks').controls; let i=index">
+              <div class="row" [formGroupName]="i">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                    <label>{{'addCollection.bankName' | translate}}</label>
+                    <div class="clearfix"></div>
+                    <input required autocomplete="off" class="form-control" type="text" name="bank_name" formControlName="bank_name">
+                  </div>
+                </div> 
+                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                    <label>{{'addCollection.accountNumber' | translate}}</label>
+                    <div class="clearfix"></div>
+                    <input required autocomplete="off" class="form-control" type="number" minlength="10" maxlength="20" min="0" name="account_number" formControlName="account_number">
+                  </div>
+                </div>
+                <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                    <label>{{'addCollection.clabeSwift' | translate}}</label>
+                    <div class="clearfix"></div>
+                    <input required autocomplete="off" class="form-control" type="text" name="swift" formControlName="swift">
+                  </div>
+                </div>
+                <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                    <label>{{'addCollection.currency' | translate}}</label>
+                    <div class="clearfix"></div>
+                    <select required name="currency_id" formControlName="currency_id" required class="form-control">
+                      <option value="">{{'addCollection.currency' | translate}}</option>
+                      <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.currency }} | {{c?.symbol}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                    <label>Remove</label>
+                    <div class="clearfix"></div>
+                    <button type="button" (click)="removeBuyerRepBank($event, buyer_rep_banks, i)">Remove</button>
+                  </div>
+                </div>
+              </div>
+          </ng-container>
+          </div>
+          
           
         <div class="spacer15"></div>
   
@@ -635,7 +941,7 @@
             <label>{{'addCollection.purchaseDate' | translate}}</label>
             <div class="clearfix"></div>
             <p-calendar [style]="{'width':'100%'}" formControlName="deal_purchase_date" class="sz-calendar" [locale]="locale" showIcon="true" 
-                (onSelect)="onSelect($event)" 
+                (onSelect)="onSelect($event)"
                 showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
           </div>
         </div>
@@ -659,6 +965,7 @@
         </div>
       </div>
 
+      <div class="spacer15"></div>
       <div formArrayName="payment_choices">
         <ng-container *ngFor="let payment_choice of addFormStep4.get('payment_choices').controls; let i=index">
           <label *ngIf="i==0">Payments</label>
@@ -674,6 +981,7 @@
               <div class="form-group-3">
                 <!-- <label *ngIf="i==0">&nbsp;</label> -->
                 <div class="clearfix"></div>
+                {{date}}
                 <p-calendar [style]="{'width':'100%'}" formControlName="date" class="sz-calendar" [locale]="locale" showIcon="true" 
                   (onSelect)="onSelect($event)" 
                   showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
@@ -683,8 +991,8 @@
               <div class="input-group form-group-3">
                   <!-- <label *ngIf="i==0">&nbsp;</label> -->
                 <div class="clearfix"></div>
-                <input autocomplete="off" class="form-control" (input)="getAmount(i)" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="percentage" min="0"
-                    name="percentage">
+                <input autocomplete="off" class="form-control" (input)="getAmount(i)" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="percent" min="0"
+                    name="percent">
                 <div class="input-group-append">
                   <span class="input-group-text" id="basic-addon1">%</span>
                 </div>
@@ -705,20 +1013,48 @@
                 <div class="form-group-3">
                     <!-- <label *ngIf="i==0">&nbsp;</label> -->
                 <div class="clearfix"></div>
-                <button type="button" (click)="removePaymentChoice($event, i)">Remove</button>
+                <button type="button" (click)="removePaymentChoice($event, payment_choice, i)">Remove</button>
               </div>
             </div>
           </div>
         </ng-container>
       </div>
 
+      <div class="spacer15"></div>
       <div class="row" *ngIf="showMonthlyInput">
-        <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
             <label>No. of monthly installments</label>
             <div class="clearfix"></div>
-            <input autocomplete="off" class="form-control" (input)="addMonthlyInputs($event)" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="num_of_months" min="0"
+            <!-- (input)="addMonthlyInputs($event)" -->
+            <input autocomplete="off" class="form-control" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="num_of_months" min="0"
                 name="num_of_months">
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>Choose monthly installment date</label>
+            <div class="clearfix"></div>
+            <!-- (onSelect)="addMonthlyDates($event)"  -->
+              <p-calendar [style]="{'width':'100%'}" formControlName="monthly_date" class="sz-calendar" [locale]="locale" showIcon="true" 
+              (onSelect)="onSelect($event)" 
+              showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+           </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>Enter monthly amount</label>
+            <div class="clearfix"></div>
+            <!-- (input)="addMonthlyAmounts($event)" -->
+            <input autocomplete="off" class="form-control" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="monthly_amount" min="0"
+                name="monthly_amount">
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>Done</label>
+            <div class="clearfix"></div>
+            <button type="button" (click)="findMonthlyInstallments()">Done</button>
           </div>
         </div>
       </div>
@@ -1119,7 +1455,7 @@
         <h5 class="marginB30">{{'addCollection.folders' | translate}}
           <span class="pull-right">
             <a href="javascript://" data-toggle="modal" data-target="#add-folder" #folderModalOpen></a>
-          <a class="add" href="javascript://" (click)="openAddFolder('', '')">
+          <a class="add" href="javascript://" (click)="openAddFolder('add', '', '')">
             {{'addCollection.addNewFolder' | translate}}</a>
           </span>
               <!-- <a class="add" (click)="addFolder($event)" href="javascript://">{{'addCollection.addNewFolder' | translate}}</a></span> -->
@@ -1127,8 +1463,8 @@
   
         <div class="row" >
           <ng-container *ngFor="let folder of collectionFolders; let i=index">
-             <button (click)="openAddFolder(folder, i)">Edit</button>
-             <button (click)="deleteFolder(folder)">Delete</button>
+             <button type="button" (click)="openAddFolder('edit', folder, i)">Edit</button>
+             <button type="button" (click)="deleteFolder(folder, i)">Delete</button>
                 <div class="col-lg-2 col-md-2 col-sm-6 col-12 folder-box" (click)="modelOpenFun(folder, i)">
                   <div class="form-group-3">
                     <p>{{folder?.name}}</p>
@@ -1290,8 +1626,8 @@
       <div class="modal-content">
         <div class="modal-header modal-header-new">
             <h4 class="modal-title">{{'addCollection.folderName' | translate}}</h4>
-            <button style="display: none;" type="button" class="close" data-dismiss="modal" #fileModalClose>&times;</button>
-            <button type="button" class="close" (click)="closeModal()">&times;</button>
+            <button style="display: none;" type="button" class="close" data-dismiss="modal" #folderModalClose>&times;</button>
+            <button type="button" class="close" (click)="closeFolderModal()">&times;</button>
         </div>
   
         <form class="form-horizontal form-model0P form-model-newP" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="addFolder(); addForm.reset();">
@@ -1306,7 +1642,7 @@
               </div>
               <div class="col-12">
                   <div class="btn-cont text-right">
-                      <button *ngIf="!model.id else UpdateNote" [disabled]="!addForm.valid" type="submit" class="btn btn-primary">{{'commonBlock.addBtn' | translate}}</button>
+                      <button *ngIf="!selectedFolder.id else UpdateNote" [disabled]="!addForm.valid" type="submit" class="btn btn-primary">{{'commonBlock.addBtn' | translate}}</button>
                       <ng-template #UpdateNote>
                           <button type="submit" [disabled]="!addForm.valid" class="btn btn-primary">{{'commonBlock.updateBtn' | translate}}</button>
                       </ng-template>
@@ -1337,7 +1673,10 @@
                                             <p class="p16 marginB0">{{'addCollection.addDocxNameAndChooseFile' | translate}}</p>
                                       </div>
                                       <div class="col-4 text-right">
-                                            <a class="add" href="javascript://" (click)="addDocs()">{{'commonBlock.add' | translate}}</a>
+                                            <a class="add" href="javascript://" (click)="addDocs()">
+                                              <img src="assets/img/loader_gif.gif" height="10">
+                                              {{'commonBlock.add' | translate}}
+                                            </a>
   
                                             <ng-template #noAddPermissiom>
                                                   <a class="add" href="javascript://">{{'commonBlock.add' | translate}}</a>
@@ -1352,7 +1691,9 @@
                           </div>
                           <div class="form-group-2">
                                 <div class="form-group">
-                                  <input type="file" name="docFile" accept="image/*" (change)="onSelectFile($event.target.files)">
+                                  <input type="file" name="docFile" #docsFile
+                                  accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf"
+                                  (change)="onSelectFile($event.target.files)">
                                 </div>
                           </div>
                           <div *ngIf="docs?.length!=0" [ngStyle]="{'max-height':sent_as === 1 ? '250px' : '' }" class="write-note white-bg"
@@ -1361,12 +1702,15 @@
                                       <div class="circle">
                                             <span></span>
                                       </div>
-                                      <a class="delete" href="javascript://" (click)="deleteLeadNote(item.id, i)">{{'commonBlock.delete' | translate}}</a>
+                                      <a class="delete" href="javascript://" (click)="deleteDocs(item, i)">{{'commonBlock.delete' | translate}}</a>
   
                                       <ng-template #noDeletePermissiom>
                                             <a class="delete" href="javascript://">{{'commonBlock.delete' | translate}}</a>
                                       </ng-template>
-                                      <p class="time">{{item?.name}}</p>
+                                      <p class="time" title="'Click to view'">
+                                        <a target="_blank" href="{{item.display_name}}">
+                                            {{item?.name}}
+                                        </a></p>
                                       <!-- <pre class="p13" *ngIf="!item.show">{{item.note.slice(0, 90)}} <span class="read-more" *ngIf="item.note.length>100" (click)="item.show=true">Read more</span></pre>
                                       <pre class="p13" *ngIf="item.show">{{item.note}}</pre> -->
                                 </div>

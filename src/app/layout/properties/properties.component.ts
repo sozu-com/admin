@@ -631,7 +631,7 @@ export class PropertiesComponent implements OnInit {
     });
   }
 
-  editAgentCommissionPopup(item: any, index: number) {
+  editAgentCommissionPopup(item: any, index: number, isBrokerCommissionEdited: boolean) {
     this.parameter.title = this.translate.instant('message.error.areYouSure');
     swal({
       text: this.translate.instant('message.error.doYouWantToChangeTheCommission'),
@@ -656,8 +656,12 @@ export class PropertiesComponent implements OnInit {
           }
         }).then((r) => {
           if (r.value) {
-            this.admin.postDataApi('updateBrokerCommision', { id: item.id, broker_commision: r.value }).subscribe(success => {
-              this.items[index].broker_commision = r.value;
+            const broker_commision = isBrokerCommissionEdited ? r.value : (item.broker_commision || 0);
+            const total_commission = isBrokerCommissionEdited ? (item.total_commission || 0) : r.value;
+            const input = {id: item.id, broker_commision: broker_commision, total_commission: total_commission};
+            this.admin.postDataApi('updateBrokerCommision', input).subscribe(success => {
+              this.items[index].broker_commision = broker_commision;
+              this.items[index].total_commission = total_commission;
               swal(this.translate.instant('swal.success'), this.translate.instant('message.success.updatedSuccessfully'), 'success');
             }, error => {
               swal(this.translate.instant('swal.error'), error.error.message, 'error');

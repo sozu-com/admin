@@ -330,6 +330,7 @@
     "enterPrice": "Enter Price",
     "addImagesofYourProperty": "Add Images of your property",
     "agentCommission": "Agent Commission (in %)",
+    "totalSozuCommission": "Total Commission (in %)",
     "suggestedPrice": "Suggested Price",
     "isParkingAvailable": "Is Parking Available?",
     "totaNoofParkings": "Total no. of Parkings?",
@@ -477,6 +478,7 @@
       "price": "Price",
       "editPrice": "Edit Price",
       "agentCommission": "Agent Commission (in %)",
+      "totalSozuCommission": "Total Commission (in %)",
       "editCommission": "Edit Commission",
       "viewSellerRequest": "View Seller's Request",
       "changeSeller": "Change Seller",
@@ -680,7 +682,8 @@
       "saveAmount": "Save Amount",
       "propertyImage": "Property Image",
       "editDetails": "Edit Details",
-      "collectionNotes": "Collection Notes"
+      "collectionNotes": "Collection Notes",
+      "applyPayment": "Apply Payment"
     },
     "pagination": {
       "showing": "Showing",
@@ -835,6 +838,7 @@
       "pleaseChooseDealType": "Please select Deal type",
       
 
+      "pleaseFillLegalRepInfo": "Please fill all details of Legal Represenatative",
       "pleaseChooseSeller": "Please select Seller",
       "pleaseChooseBuyer": "Please select Buyer",
       "pleaseEnterCompanyName": "Please enter Company Name",
@@ -852,6 +856,7 @@
       "pleaseEnterTotalCommission": "Please enter Total Commission",
       "pleaseEnterSharedCommission": "Please enter Shared Commission",
       "pleaseChooseAgent": "Please select Agent",
+      "pleaseChoosePayments" : "Please select Payment Choices",
 
 
       "areYouSure": "Are you sure",
@@ -979,6 +984,7 @@
     "dealFinalized": "Deal Finalized",
     "buy": "For Sale",
     "rent": "Rent",
+    "purchase": "Purchase",
     "inventory": "Inventory",
     "status": "Status",
     "details": "Details",
@@ -1513,7 +1519,10 @@
     "enterAmount": "Enter Amount",
     "enterSpecialPaymentName": "Enter Special Payment Name",
     "isSellerALegalEntity": "Is Seller a Legal Entity",
-    "addDocxNameAndChooseFile": "Add docs name and choose file"
+    "addDocxNameAndChooseFile": "Add docs name and choose file",
+    "commercialName": "Commercial Name",
+    "legalName":"Legal Name",
+    "address":"Address"
   },
   "swal": {
     "error": "Error",

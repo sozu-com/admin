@@ -342,20 +342,20 @@
                         <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
                            routerLink="../edit-collection/{{p.id}}" title="{{'table.title.editDetails' | translate}}" 
                            class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
-                        <button [disabled]="admin?.admin_acl['Property Management']?.can_delete==0" 
+                        <!-- <button [disabled]="admin?.admin_acl['Property Management']?.can_delete==0" 
                               *ngIf="!p.is_blocked" (click)="blockUnblock(p, 1);" class="action-icon" 
                               title="{{'table.title.block' | translate}}"><img src="assets/img/block.png" alt="img"></button>
                         <button [disabled]="admin?.admin_acl['Property Management']?.can_delete==0" 
                               *ngIf="p.is_blocked == true" (click)="blockUnblock(p, 0);" class="action-icon unblock-bg" 
-                              title="{{'table.title.unblock' | translate}}"><img src="assets/img/unblock.png" alt="img"></button>
+                              title="{{'table.title.unblock' | translate}}"><img src="assets/img/unblock.png" alt="img"></button> -->
                             
                         <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
                         (click)="getLeadNotes(p)" title="{{'table.title.collectionNotes' | translate}}" 
                         class="action-icon"><img src="assets/img/chat-icon.png" alt="img"></button>  
 
                         <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
-                        (click)="showApplyPaymentPopup()" title="{{'table.title.collectionNotes' | translate}}" 
-                        class="action-icon"><img src="assets/img/chat-icon.png" alt="img"></button>  
+                        (click)="showApplyPaymentPopup(p)" title="{{'table.title.applyPayment' | translate}}" 
+                        class="action-icon"><img src="assets/img/bank.png" alt="img"></button>  
 
                         <!-- unapprove -->
                         <!-- <a style="display:none;" #modalOpen data-toggle="modal" data-target="#addPropertyReason"></a>
@@ -464,7 +464,7 @@
             <button type="button" class="close" (click)="closePaymentModal(); addForm.reset()">&times;</button>
         </div>
   
-        <form class="form-horizontal padding0" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="closePaymentModal()">
+        <form class="form-horizontal padding0" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="applyCollectionPayment(addForm.value)">
           <div class="modal-body">
             <div class="row">
               <div class="col-12">
@@ -474,12 +474,10 @@
                 <div class="form-group-2">
                     <label>Choose Payment Concept <span class="color-red">*</span></label>
                     <div class="form-group">
-                        <select name="tower" required class="form-control">
+                        <select name="tower" required class="form-control" [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
                         <option value="">Choose Payment Concept</option>
-                        <option *ngFor="let bt of paymentConcepts" >
-                              {{bt.name}}</option>
+                        <option *ngFor="let bt of paymentConcepts" [ngValue]="bt"> {{bt.name}}</option>
                         </select>
-                    <!-- <input autocomplete="off" required type="text" class="form-control" #name="ngModel" [(ngModel)]="model.name" name="name"> -->
                   </div>
                 </div>
               </div>
@@ -487,7 +485,8 @@
                 <div class="form-group-2">
                     <label>Enter Payment Amount<span class="color-red">*</span></label>
                     <div class="form-group">
-                    <input autocomplete="off" required type="number" class="form-control" #name="ngModel" [(ngModel)]="model.name" name="name">
+                    <input autocomplete="off" required type="number" min="0" class="form-control" [(ngModel)]="paymentAmount" 
+                        name="paymentAmount">
                   </div>
                 </div>
               </div>
@@ -495,18 +494,17 @@
                 <div class="form-group-2">
                     <label> Choose Payment Receipt <span class="color-red">*</span></label>
                     <div class="form-group">
-                          <input type="file">
-                    <!-- <input minlength="6" maxlength="16" autocomplete="off" type="text" [pattern]="constant.phonePattern" class="form-control" id="phone" required minlength="1" [(ngModel)]="model.phone" name="phone"
-                        ng2TelInput
-                        (intlTelInputObject)="telInputObject($event)" [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" /> -->
-                  </div>
+                        <input type="file" name="docFile" #docsFile
+                        accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf"
+                        (change)="onSelectFile($event.target.files)">
+                    </div>
                 </div>
               </div>
               <div class="col-12">
                 <div class="form-group-2">
                     <label>Description</label>
                     <div class="form-group">
-                          <textarea rows="3" class="form-control"></textarea>
+                          <textarea rows="3" [(ngModel)]="description" name="description" class="form-control"></textarea>
                     <!-- <input (keydown.space)="$event.preventDefault();" autocomplete="off" required [pattern]="constant.emailPattern" type="email" class="form-control" [(ngModel)]="model.email" name="email"> -->
                   </div>
                 </div>

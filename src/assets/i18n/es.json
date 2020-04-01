@@ -330,6 +330,7 @@
     "enterPrice": "Ingresa precio",
     "addImagesofYourProperty": "Ingresa imágenes de tu departamento",
     "agentCommission": "Comisión del agente (en %)",
+      "totalSozuCommission": "Comisión total (en %)",
     "suggestedPrice": "Precio sugerido",
     "isParkingAvailable": "¿Cuenta con estacionamiento?",
     "totaNoofParkings": "¿Núm. total de lugares de estacionamiento?",
@@ -477,6 +478,7 @@
       "price": "Precio",
       "editPrice": "Editar precio",
       "agentCommission": "Comisión del agente (en %)",
+      "totalSozuCommission": "Comisión total (en %)",
       "editCommission": "Editar comisión",
       "viewSellerRequest": "Ver la solicitud del vendedor",
       "changeSeller": "Cambiar vendedor",
@@ -680,7 +682,8 @@
       "saveAmount": "Guardar cantidad",
       "propertyImage": "Imagen del departamento",
       "editDetails": "Editar detalles",
-      "collectionNotes": "Notas de colección"
+      "collectionNotes": "Notas de colección",
+      "applyPayment": "Aplicar pago"
     },
     "pagination": {
       "showing": "Mostrando",
@@ -835,6 +838,7 @@
       "pleaseChooseDealType": "Por favor, seleccione el tipo de oferta",
 
 
+      "pleaseFillLegalRepInfo": "Por favor complete todos los detalles de Representación Legal",
       "pleaseChooseSeller": "Por favor seleccione Vendedor",
       "pleaseChooseBuyer": "Por favor seleccione Compradora",
       "pleaseEnterCompanyName": "Por favor, introduzca el nombre de la empresa",
@@ -852,6 +856,7 @@
       "pleaseEnterTotalCommission": "Por favor ingrese Comisión Total",
       "pleaseEnterSharedCommission": "Por favor ingrese Comisión Común",
       "pleaseChooseAgent": "Por favor seleccione Agente",
+      "pleaseChoosePayments" : "Por favor seleccione Opciones de pago",
 
 
       "areYouSure": "¿Estás seguro?",
@@ -979,6 +984,7 @@
     "dealFinalized": "Acuerdo finalizado",
     "buy": "En venta",
     "rent": "Renta",
+    "purchase": "Compra",
     "inventory": "Inventario",
     "status": "Estatus",
     "details": "Detalles",

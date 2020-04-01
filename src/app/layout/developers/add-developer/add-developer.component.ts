@@ -11,6 +11,7 @@ import { Constant } from 'src/app/common/constants';
 import { CommonService } from 'src/app/services/common.service';
 import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
+import { LegalEntity, Banks } from 'src/app/models/legalEntity.model';
 declare const google;
 declare let swal: any;
 
@@ -33,6 +34,7 @@ export class AddDeveloperComponent implements OnInit {
   file4: FileUpload;
   developer_image: any;
   model: Users;
+  currencies: Array<any>;
   constructor(
     public constant: Constant,
     private cs: CommonService,
@@ -47,11 +49,17 @@ export class AddDeveloperComponent implements OnInit {
   ngOnInit() {
     this.file4 = new FileUpload(false, this.admin);
     this.model = new Users();
+    this.model.legal_rep_banks = Array(new Banks());
+    this.model.legal_entity = new LegalEntity();
+    this.model.legal_entity.legal_entity_banks = Array(new Banks());
+    this.model.legal_entity.country_code = this.constant.country_code;
+    this.model.legal_entity.dial_code = this.constant.dial_code;
     this.setCurrentPosition();
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.p = this.constant.p;
+    this.getCurrencies();
     this.initialCountry = {initialCountry: this.constant.country_code};
       this.parameter.sub = this.route.params.subscribe(params => {
         if (params['id'] !== '0') {
@@ -64,6 +72,17 @@ export class AddDeveloperComponent implements OnInit {
       });
   }
 
+  getCurrencies() {
+    this.admin.postDataApi('getCurrencies', {})
+      .subscribe(
+        success => {
+          this.currencies = success.data;
+        }, error => {
+          this.spinner.hide();
+        }
+      );
+  }
+
   getUserById(id: string) {
     this.spinner.show();
     this.admin.postDataApi('getUserById', {'user_id': id})
@@ -71,6 +90,16 @@ export class AddDeveloperComponent implements OnInit {
       success => {
         this.spinner.hide();
         this.model = success.data;
+        this.model.legal_rep_banks = success.data.legal_rep_banks ? success.data.legal_rep_banks : Array(new Banks());
+        this.model.legal_entity = success.data.legal_entity ? success.data.legal_entity : new LegalEntity();
+        this.model.legal_entity.legal_entity_banks = success.data.legal_entity.legal_entity_banks ?
+        success.data.legal_entity.legal_entity_banks : []; // Array(new Banks());
+        // if (!success.data.legal_entity) {
+          console.log('11')
+          this.model.legal_entity.dial_code = this.constant.dial_code;
+          this.model.legal_entity.country_code = this.constant.country_code;
+        // }
+        console.log(this.model);
         this.image = this.model.image;
         this.developer_image = this.model.developer_image;
       }, error => {
@@ -234,8 +263,37 @@ export class AddDeveloperComponent implements OnInit {
     });
   }
 
-  addLegalRepBank(e) {
-
+  addLegalEntityBank(e) {
+    const bank = new Banks();
+    this.model.legal_entity.legal_entity_banks.push(bank);
   }
 
+  removeLegalEntityBank($event: Event, item: any, i: number) {
+    $event.stopPropagation();
+    this.model.legal_entity.legal_entity_banks.splice(i, 1);
+    if (item.id) {
+      this.admin.postDataApi('deleteSellerBank', {id: item.id}).subscribe(success => {
+        this.spinner.hide();
+      }, error => {
+        this.spinner.hide();
+      });
+    }
+  }
+
+  addDeveloperBank(e) {
+    const bank = new Banks();
+    this.model.legal_rep_banks.push(bank);
+  }
+
+  removeDeveloperBank($event: Event, item: any, i: number) {
+    $event.stopPropagation();
+    this.model.legal_rep_banks.splice(i, 1);
+    if (item.id) {
+      this.admin.postDataApi('deleteSellerBank', {id: item.id}).subscribe(success => {
+        this.spinner.hide();
+      }, error => {
+        this.spinner.hide();
+      });
+    }
+  }
 }

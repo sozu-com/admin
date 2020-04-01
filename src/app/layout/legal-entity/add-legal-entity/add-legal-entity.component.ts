@@ -26,7 +26,7 @@ export class AddLegalEntityComponent implements OnInit {
   show = false;
   model: LegalEntity;
   currencies: Array<any>;
-  addForm: FormGroup;
+  addDataForm: FormGroup;
   constructor(
     public constant: Constant,
     private cs: CommonService,
@@ -62,7 +62,7 @@ export class AddLegalEntityComponent implements OnInit {
   }
 
   initForm() {
-    this.addForm = this.fb.group({
+    this.addDataForm = this.fb.group({
       id: [''],
       comm_name: ['', [Validators.required]],
       legal_name: ['', [Validators.required]],
@@ -88,9 +88,9 @@ export class AddLegalEntityComponent implements OnInit {
       country_code: this.model.country_code,
       dial_code: this.model.dial_code
     }
-    this.addForm.controls.country_code.patchValue(this.model.country_code);
-    this.addForm.controls.dial_code.patchValue(this.model.dial_code);
-    this.addForm.patchValue({legal_rep: countryDialCode});
+    this.addDataForm.controls.country_code.patchValue(this.model.country_code);
+    this.addDataForm.controls.dial_code.patchValue(this.model.dial_code);
+    this.addDataForm.patchValue({legal_rep: countryDialCode});
   }
 
   getCurrencies() {
@@ -104,10 +104,10 @@ export class AddLegalEntityComponent implements OnInit {
       );
   }
 
-  addBank($event, param: string) {
-    const bank = new Banks();
-    this.model.legal_entity_banks.push(bank);
-  }
+  // addBank($event, param: string) {
+  //   const bank = new Banks();
+  //   this.model.legal_entity_banks.push(bank);
+  // }
 
   
   addLegalEntityBank($event) {
@@ -116,7 +116,7 @@ export class AddLegalEntityComponent implements OnInit {
   }
 
   get legalEntityBanks(): FormArray {
-    return this.addForm.get('legal_entity_banks') as FormArray;
+    return this.addDataForm.get('legal_entity_banks') as FormArray;
   }
 
   removeLegalEntityBank($event: Event, i: number) {
@@ -130,7 +130,7 @@ export class AddLegalEntityComponent implements OnInit {
   }
 
   get legalRepBanks(): FormArray {
-    const legalRep = this.addForm.get('legal_rep') as FormGroup;
+    const legalRep = this.addDataForm.get('legal_rep') as FormGroup;
     return legalRep.get('legal_rep_banks') as FormArray;
   }
 
@@ -163,7 +163,7 @@ export class AddLegalEntityComponent implements OnInit {
 
 
   patchForm(data) {
-    this.addForm.patchValue(data);
+    this.addDataForm.patchValue(data);
     // this.addForm.controls.comm_name.patchValue(data.comm_name);
     // this.addForm.controls.legal_name.patchValue(data.legal_name || '');
     // this.addForm.controls.phone.patchValue(data.phone || '');
@@ -171,12 +171,14 @@ export class AddLegalEntityComponent implements OnInit {
     // this.addForm.controls.dial_code.patchValue(data.dial_code || '');
     // this.addForm.controls.address.patchValue(data.address || '');
     // this.addForm.controls.fed_tax_pay.patchValue(data.fed_tax_pay || '');
-    const control = this.addForm.get('legal_entity_banks') as FormArray;
-    data.legal_entity_banks.forEach(x => {
+    const control = this.addDataForm.get('legal_entity_banks') as FormArray;
+    if (data.legal_entity_banks) {
+      data.legal_entity_banks.forEach(x => {
         control.push(this.fb.group(x));
-    });
+      });
+    }
     // this.addForm.controls.legal_rep.patchValue(data.legal_rep);
-    this.addForm.patchValue({legal_rep: data.legal_reps});
+    this.addDataForm.patchValue({legal_rep: data.legal_reps});
     // const legalRep = this.addForm.get('legal_rep') as FormGroup; 
     // legalRep.controls.name.patchValue(data.legal_rep.name || '');
     // legalRep.controls.phone.patchValue(data.legal_rep.phone || '');
@@ -184,10 +186,12 @@ export class AddLegalEntityComponent implements OnInit {
     // legalRep.controls.dial_code.patchValue(data.legal_rep.dial_code || '');
     // legalRep.controls.email.patchValue(data.legal_rep.email || '');
     // legalRep.controls.fed_tax_pay.patchValue(data.legal_rep.fed_tax_pay || '');
-    const repBanks = this.addForm.get('legal_rep').get('legal_rep_banks') as FormArray;
-    data.legal_reps.legal_rep_banks.forEach(x => {
-      repBanks.push(this.fb.group(x));
-    });
+    const repBanks = this.addDataForm.get('legal_rep').get('legal_rep_banks') as FormArray;
+    if (data.legal_reps && data.legal_reps.legal_rep_banks) {
+      data.legal_reps.legal_rep_banks.forEach(x => {
+        repBanks.push(this.fb.group(x));
+      });
+    }
   }
 
 
