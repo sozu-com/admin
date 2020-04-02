@@ -455,6 +455,7 @@
     },
     "th": {
       "all": "All",
+      "currency":"Currency",
       "agencyCommercialName": "Agency (Commercial Name)",
       "name": "Name",
       "contactNumber": "Contact Number",
@@ -479,6 +480,7 @@
       "editPrice": "Edit Price",
       "agentCommission": "Agent Commission (in %)",
       "totalSozuCommission": "Total Commission (in %)",
+      "sozuCommission": "Sozu Commission (in %)",
       "editCommission": "Edit Commission",
       "viewSellerRequest": "View Seller's Request",
       "changeSeller": "Change Seller",
@@ -683,7 +685,8 @@
       "propertyImage": "Property Image",
       "editDetails": "Edit Details",
       "collectionNotes": "Collection Notes",
-      "applyPayment": "Apply Payment"
+      "applyPayment": "Apply Payment",
+      "collectionCommission": "Collection Commission"
     },
     "pagination": {
       "showing": "Showing",
@@ -1506,6 +1509,8 @@
     "completeCommissionInfo": "Complete the Commission Information",
     "totalCommission": "Total Commission",
     "sharedCommission":"Shared Commission",
+    "agentCommission": "Agent Commission (in %)",
+    "sozuCommission": "Sozu Commission (in %)",
     "nameOfAgent": "Name of Agent",
     "taggedApartmentName": "Tagged Apartment Name",
     "selectedDealType": "Selected Deal Type",

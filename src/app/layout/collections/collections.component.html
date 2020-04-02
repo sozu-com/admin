@@ -197,14 +197,18 @@
                        <th style="width:10%; text-align:left;">
                           <div class="table-search">
                              <label>{{'table.th.configuration' | translate}}</label>
-                             <select [(ngModel)]="parameter.configuration_id" (change)="getListing()">
+                             <div class="searh-3">
+                                <input class="width100px" type="text" [(ngModel)]="parameter.config_name" (keyup.enter)="getListing()" >
+                                <button *ngIf="parameter.config_name" (click)="getListing()"><i class="fa fa-search"></i></button>
+                             </div>
+                             <!-- <select [(ngModel)]="parameter.configuration_id" (change)="getListing()">
                                 <option value="0">{{'table.th.allConfiguration' | translate}}</option>
                                 <option *ngFor="let c of configurations" value="{{c.id}}" >
                                    <span *ngIf="c.status">
                                       <app-property-configuration *ngIf="c" [configuration]="c"></app-property-configuration>
                                    </span>
                                 </option>
-                             </select>
+                             </select> -->
                           </div>
                        </th>
                        <th style="width:10%; text-align:left;">
@@ -243,7 +247,7 @@
                              <label>{{'table.th.dateOfPayment' | translate}}</label>
                           </div>
                        </th>
-                       <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
+                       <th style="width:5%;vertical-align:top;">
                           <div class="table-search">
                              <label>{{'table.th.amount' | translate}}</label>
                              <div class="searh-3">
@@ -252,17 +256,22 @@
                              </div>
                           </div>
                        </th> -->
-                       <th *ngIf="parameter.flag!=5" style="width:6%;vertical-align:top;">
+                       <th style="width:10%; text-align:left;">
+                              <div class="table-search">
+                              <label>{{'table.th.currency' | translate}}</label>
+                              </div>
+                        </th>
+                       <th style="width:6%;vertical-align:top;">
                           <div class="table-search">
-                             <label>{{'table.th.totalCommission' | translate}}</label>
+                             <label>{{'table.th.sozuCommission' | translate}}</label>
                           </div>
                        </th>
-                       <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
+                       <th style="width:5%;vertical-align:top;">
                           <div class="table-search">
-                             <label>{{'table.th.sharedCommission' | translate}}</label>
+                             <label>{{'table.th.agentCommission' | translate}}</label>
                           </div>
                        </th>
-                       <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
+                       <th style="width:5%;vertical-align:top;">
                           <div class="table-search">
                              <label>{{'table.th.commissionAgent' | translate}}</label>
                           </div>
@@ -301,9 +310,7 @@
                      <td><span>{{p?.property?.building_towers ? p?.property?.building_towers?.tower_name : ('table.tr.td.NA' | translate)}}</span></td>
                      <td><span>{{p?.property?.name ? p?.property?.name : ('table.tr.td.NA' | translate)}}</span></td>
                      <td>
-                        <app-property-configuration *ngIf="p.property.configuration" [configuration]="p.property.configuration"></app-property-configuration>
-                        <br>
-                        <span><b>{{p?.property?.building_configuration?.name}}</b></span>
+                        <span>{{p?.property?.building_configuration?.name}}</span>
                         </td>
                      <td><span>{{p?.property?.locality?.name ? p?.property?.locality?.name : ('table.tr.td.NA' | translate)}}</span></td>
                      <td><span>{{p.deal_purchase_date || ('table.tr.td.NA' | translate)}}</span></td>
@@ -320,12 +327,13 @@
                         <span class="green-color"><span>{{'table.tr.td.view' | translate}}</span></span>
                      </td>
                      
-                     <td *ngIf="parameter.flag!=5" class="cursor-pointer" title="{{p?.selected_seller?.user?.name ? ('table.title.clickToChangeSeller' | translate) : ('table.title.clickToAddSeller' | translate)}}" (click)="getAllSellers(p, '1', i)">
+                     <td class="cursor-pointer" title="{{p?.selected_seller?.user?.name ? ('table.title.clickToChangeSeller' | translate) : ('table.title.clickToAddSeller' | translate)}}" (click)="getAllSellers(p, '1', i)">
                         <span class="green-color"><span>
                               {{p?.selected_seller?.user?.name ? p?.selected_seller?.user?.name : ('table.tr.td.add' | translate)}}
                         </span></span>
                      </td>
                       -->
+                     <td><span>{{p?.currency?.currency || ('table.tr.td.NA' | translate)}}</span></td>
                      <td><span>{{p.comm_total_commission || ('table.tr.td.NA' | translate)}}</span></td>
                      <td><span>{{p.comm_shared_commission || ('table.tr.td.NA' | translate)}}</span></td>
                      <td *ngIf="p?.deal_commission_agents?.length">
@@ -354,8 +362,12 @@
                         class="action-icon"><img src="assets/img/chat-icon.png" alt="img"></button>  
 
                         <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
-                        (click)="showApplyPaymentPopup(p)" title="{{'table.title.applyPayment' | translate}}" 
-                        class="action-icon"><img src="assets/img/bank.png" alt="img"></button>  
+                        (click)="showApplyPaymentPopup(p, 'apply-popup')" title="{{'table.title.applyPayment' | translate}}" 
+                        class="action-icon"><img src="assets/img/ic_payment.png" alt="img"></button>  
+
+                        <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                        (click)="showApplyPaymentPopup(p, 'commission-popup')" title="{{'table.title.applyPayment' | translate}}" 
+                        class="action-icon"><img src="assets/img/ic_commission.png" alt="img"></button>  
 
                         <!-- unapprove -->
                         <!-- <a style="display:none;" #modalOpen data-toggle="modal" data-target="#addPropertyReason"></a>
@@ -459,7 +471,7 @@
     <div class="modal-dialog fadeIndown">
         <div class="modal-content notary-avail">
               <div class="modal-header popup-header">
-          <h4>Apply Payment</h4>
+          <h4>{{typeOfPayment == 'commission-popup' ? 'Collection Commission' : 'Apply Payment'}}</h4>
             <button style="display: none;" type="button" class="close" data-dismiss="modal" #paymentModalClose>&times;</button>
             <button type="button" class="close" (click)="closePaymentModal(); addForm.reset()">&times;</button>
         </div>

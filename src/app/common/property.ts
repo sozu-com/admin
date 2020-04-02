@@ -173,4 +173,5 @@ export interface IProperty {
   buyer_name?: string;
   apartment_name?: string;
   building_name?: string;
+  config_name?: string;
 }

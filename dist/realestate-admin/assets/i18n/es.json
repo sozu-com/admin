@@ -455,6 +455,7 @@
     },
     "th": {
       "all": "All",
+      "currency":"Moneda",
       "agencyCommercialName": "Agencia (Nombre comercial)",
       "name": "Nombre",
       "contactNumber": "Número del contacto",
@@ -479,6 +480,7 @@
       "editPrice": "Editar precio",
       "agentCommission": "Comisión del agente (en %)",
       "totalSozuCommission": "Comisión total (en %)",
+      "sozuCommission": "Sozu Comisión (in %)",
       "editCommission": "Editar comisión",
       "viewSellerRequest": "Ver la solicitud del vendedor",
       "changeSeller": "Cambiar vendedor",
@@ -683,7 +685,8 @@
       "propertyImage": "Imagen del departamento",
       "editDetails": "Editar detalles",
       "collectionNotes": "Notas de colección",
-      "applyPayment": "Aplicar pago"
+      "applyPayment": "Aplicar pago",
+      "collectionCommission": "Comisión de cobro"
     },
     "pagination": {
       "showing": "Mostrando",

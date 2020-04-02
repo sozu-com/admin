@@ -263,6 +263,7 @@ export class AddEditCollectionComponent implements OnInit {
   initFormStep4() {
     this.addFormStep4 = this.fb.group({
       step: ['', [Validators.required]],
+      currency_id: ['', [Validators.required]],
       paymentchoice: [''],
       payment_choices: this.fb.array([]),
       num_of_months: [''],
@@ -286,7 +287,7 @@ export class AddEditCollectionComponent implements OnInit {
       // deal_pay_amount_value: ['', [Validators.required]],
       // deal_spe_name: ['', [Validators.required]],
       // deal_spe_date: ['', [Validators.required]],
-      deal_interest_rate: ['', [Validators.required]],
+      deal_interest_rate: [0, [Validators.required]],
       // deal_monthly_payment: ['', [Validators.required]],
       // deal_payment_date: ['', [Validators.required]],
       // deal_monthly_amount: ['', [Validators.required]],
@@ -304,7 +305,8 @@ export class AddEditCollectionComponent implements OnInit {
       comm_total_commission: ['', [Validators.required]],
       comm_shared_commission: ['', [Validators.required]],
       // deal_commission_agents: ['', [Validators.required]]
-      deal_commission_agents: this.fb.array([])
+      deal_commission_agents: this.fb.array([]),
+      collection_agent_banks: this.fb.array([]),
     });
     // if (this.model.id === '0') {
       this.addAgent('');
@@ -534,6 +536,7 @@ export class AddEditCollectionComponent implements OnInit {
     // this.addFormStep4.controls.deal_pay_amount_value.patchValue(data.deal_pay_amount_value);
     // this.addFormStep4.controls.deal_spe_name.patchValue(data.deal_spe_name);
     // this.addFormStep4.controls.deal_spe_date.patchValue(data.deal_spe_date ? moment.utc(data.deal_spe_date).toDate() : null);
+    this.addFormStep4.controls.currency_id.patchValue(data.currency_id ? data.currency_id : 1);
     this.addFormStep4.controls.deal_interest_rate.patchValue(data.deal_interest_rate);
     // this.addFormStep4.controls.deal_payment_date.patchValue(data.deal_payment_date ? moment.utc(data.deal_payment_date).toDate() : null);
     // this.addFormStep4.controls.deal_monthly_payment.patchValue(data.deal_monthly_payment);
@@ -557,6 +560,12 @@ export class AddEditCollectionComponent implements OnInit {
     // data.deal_commission_agents.forEach(x => {
     //     control.push(this.fb.group(x));
     // });
+    const control = this.addFormStep5.get('collection_agent_banks') as FormArray;
+    if (data.collection_agent_banks) {
+      data.collection_agent_banks.forEach(x => {
+        control.push(this.fb.group(x));
+      });
+    }
     this.addFormStep5.controls.step.patchValue(5);
   }
 
@@ -796,7 +805,6 @@ export class AddEditCollectionComponent implements OnInit {
 
 
   getProperties($event) {
-    console.log('qqqqq', $event.target.value)
     $event.stopPropagation();
     this.model.floor_num = $event.target.value;
     if (!this.model.building_id) {
@@ -847,6 +855,27 @@ export class AddEditCollectionComponent implements OnInit {
     })
   }
 
+  addAgentBank($event) {
+    $event.stopPropagation();
+    this.collectionAgentBanks.push(this.newBank());
+  }
+
+  get collectionAgentBanks(): FormArray {
+    return this.addFormStep5.get('collection_agent_banks') as FormArray;
+  }
+
+  removeAgentBank($event: Event, item: any, i: number) {
+    $event.stopPropagation();
+    this.collectionAgentBanks.removeAt(i);
+    if (item.value.id) {
+      this.us.postDataApi('deleteAgentBank', {id: item.value.id}).subscribe(success => {
+        this.spinner.hide();
+      }, error => {
+        this.spinner.hide();
+      });
+    }
+  }
+
   addSellerBank($event) {
     $event.stopPropagation();
     this.collectionSellerBanks.push(this.newBank());
@@ -859,7 +888,6 @@ export class AddEditCollectionComponent implements OnInit {
   removeSellerBank($event: Event, item: any, i: number) {
     $event.stopPropagation();
     this.collectionSellerBanks.removeAt(i);
-    console.log(item);
     if (item.value.id) {
       this.us.postDataApi('deleteSellerBank', {id: item.value.id}).subscribe(success => {
         this.spinner.hide();
@@ -881,7 +909,6 @@ export class AddEditCollectionComponent implements OnInit {
   removeSellerRepBank($event: Event, item: any, i: number) {
     $event.stopPropagation();
     this.collectionSellerRepBanks.removeAt(i);
-    console.log(item);
     if (item.value.id) {
       this.us.postDataApi('deleteSellerRefBank', {id: item.value.id}).subscribe(success => {
         this.spinner.hide();
@@ -904,7 +931,6 @@ export class AddEditCollectionComponent implements OnInit {
   removeBuyerRepBank($event: Event, item: any, i: number) {
     $event.stopPropagation();
     this.collectionBuyerRepBanks.removeAt(i);
-    console.log(item);
     if (item.value.id) {
       this.us.postDataApi('deleteBuyerRefBank', {id: item.value.id}).subscribe(success => {
         this.spinner.hide();
@@ -994,13 +1020,11 @@ export class AddEditCollectionComponent implements OnInit {
   addMonthlyDates($event) {
     const date = this.addFormStep4.get('monthly_date').value;
     const pchoice = this.getPaymentChoices.value;
-    console.log(date);
     for (let index = 0; index < pchoice.length; index++) {
       const element = pchoice[index];
       if (element.payment_choice_id == 5) {
         element['date'] = moment.utc(date).toDate();
       }
-      console.log(element);
     }
     this.addFormStep4.get('payment_choices').patchValue(pchoice);
   }
@@ -1008,13 +1032,11 @@ export class AddEditCollectionComponent implements OnInit {
   addMonthlyAmounts() {
     const monthly_amount = this.addFormStep4.get('monthly_amount').value;
     const pchoice = this.getPaymentChoices.value;
-    console.log(monthly_amount);
     for (let index = 0; index < pchoice.length; index++) {
       const element = pchoice[index];
       if (element.payment_choice_id == 5) {
         element['amount'] = monthly_amount;
       }
-      console.log(element);
     }
     this.addFormStep4.get('payment_choices').patchValue(pchoice);
   }
@@ -1035,7 +1057,6 @@ export class AddEditCollectionComponent implements OnInit {
   newMonthlyPaymentsChoice(index: number): FormGroup {
     const monthly_amount = this.addFormStep4.get('monthly_amount').value;
     let monthly_date = this.addFormStep4.get('monthly_date').value;
-    console.log(monthly_date);
     const price = this.addFormStep4.get('deal_price').value;
     const percent = (price / monthly_amount);
     let name = '';
@@ -1045,7 +1066,6 @@ export class AddEditCollectionComponent implements OnInit {
         name = r.name + ' ' + (index + 1);
       }
     });
-    console.log(monthly_date);
     return this.fb.group({
       payment_choice_id: [this.currentPaymentChoiceId, [Validators.required]],
       name: [name, [Validators.required]],
@@ -1125,10 +1145,11 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   editFolderName(folder) {
+    this.collectionFolders[this.folderIndex]['name'] = this.folderName;
     this.us.postDataApi('updateCollectionFolder', {id: this.selectedFolder.id, name: this.folderName})
       .subscribe(
         success => {
-          this.collectionFolders[this.folderIndex].name = this.folderName;
+          // this.collectionFolders[this.folderIndex]['name'] = this.folderName;
         }, error => {
           this.spinner.hide();
         }
@@ -1160,13 +1181,15 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   saveCollectionFolders() {
-    console.log(this.collectionFolders);
     this.spinner.show();
     this.us.postDataApi('addCollection', {id: this.model.id, step: 6, 'collection_folders': this.collectionFolders})
       .subscribe(
         success => {
           this.spinner.hide();
-          this.router.navigate(['dashboard/collections/view-collections']);
+          swal({
+            html: this.translate.instant('message.success.submittedSccessfully'), type: 'success'
+          });
+          // this.router.navigate(['dashboard/collections/view-collections']);
         }, error => {
           this.spinner.hide();
         }
@@ -1174,6 +1197,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   addDocs() {
+
     if (!this.docsName) {
       swal(this.translate.instant('swal.error'), 'Please enter document name.', 'error');
       return;
@@ -1189,7 +1213,6 @@ export class AddEditCollectionComponent implements OnInit {
 
   deleteDocs(item: any, i: number) {
     this.collectionFolders[this.folderIndex].folder_docs.splice(i, 1);
-    console.log(item);
     if (item.id) {
       this.us.postDataApi('deleteFolderDoc', {id: item.id}).subscribe(success => {
         this.spinner.hide();
@@ -1297,7 +1320,6 @@ export class AddEditCollectionComponent implements OnInit {
     this.model.buyer_id = item.id;
     this.model.buyer = item;
     const ftpr = this.addFormStep5.get('deal_commission_agents').value;
-    console.log(ftpr);
     const dca = [{
       name: item.name,
       fed_tax_payer_reg: ftpr.length > 0 ? ftpr[0].fed_tax_payer_reg : ''
@@ -1351,7 +1373,6 @@ export class AddEditCollectionComponent implements OnInit {
 
   setSeller(item) {
     if (this.tab == 2) {
-      console.log(item);
       this.addFormStep2.reset();
       this.model.seller_id = item.id;
       this.model.seller = item;
@@ -1547,7 +1568,6 @@ export class AddEditCollectionComponent implements OnInit {
       return;
     }
     const pcArray = this.addFormStep4.get('payment_choices').value;
-    console.log(price, pcArray);
     const percent = pcArray[index].percent;
     const amount = Math.round((percent * price) / 100);
     pcArray[index].amount = amount;
@@ -1562,7 +1582,6 @@ export class AddEditCollectionComponent implements OnInit {
     }
     const pcArray = this.addFormStep4.get('payment_choices').value;
     const amount = pcArray[index].amount;
-    console.log(price, amount);
     const percent = (amount * 100) / price;
     pcArray[index].percent = percent;
     this.addFormStep4.controls['payment_choices'].patchValue(pcArray);
@@ -1578,21 +1597,8 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   createCollection(formdata: NgForm, tab: number) {
-// console.log(this.tab);
-// console.log(formdata);
-// console.log(this.model, this.property_id);
-console.log(formdata);
     this.model.step = tab;
     formdata['step'] = tab;
-    // formdata['deal_type_id'] = this.availabilityStatus[1].checked ? 1 : 0;
-    // formdata['deal_lay_type'] = 'Percent';
-    // formdata['deal_down_type'] = 'Percent';
-    // formdata['deal_pay_type'] = 'Percent';
-    // formdata['deal_pay_type'] = 'Percent';
-    // formdata['deal_pay_type'] = 'Percent';
-    // formdata['payment_method_id'] = 1;
-    // formdata['seller_company_name'] = 'test'
-    // formdata['buyer_company_name'] = 'test'
     if (this.model.id) {
       formdata['id'] = this.model.id;
     }
@@ -1751,10 +1757,11 @@ console.log(formdata);
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChoosePayments'), 'error');
         return;
       }
-      else if (!formdata['deal_interest_rate']) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterInterestRate'), 'error');
-        return;
-      } else if (!formdata['deal_penality']) {
+      // else if (!formdata['deal_interest_rate']) {
+      //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterInterestRate'), 'error');
+      //   return;
+      // } 
+      else if (!formdata['deal_penality']) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPenality'), 'error');
         return;
       }
@@ -1783,7 +1790,6 @@ console.log(formdata);
       }
     }
 
-console.log(formdata.value);
     this.spinner.show();
     this.us.postDataApi('addCollection', formdata)
       .subscribe(

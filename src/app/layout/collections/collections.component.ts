@@ -23,7 +23,7 @@ export class CollectionsComponent implements OnInit {
 
   public parameter: IProperty = {};
   public location: IProperty = {};
-
+  @ViewChild('docsFile') docsFile: ElementRef;
   items: any = [];
   total: any = 0;
   configurations: any = [];
@@ -45,6 +45,7 @@ export class CollectionsComponent implements OnInit {
   docFile: string;
   payment_choice_id: number;
   description: string;
+  typeOfPayment: string;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
 
   paymentAmount: number;
@@ -106,7 +107,7 @@ export class CollectionsComponent implements OnInit {
     this.parameter.dash_flag = this.propertyService.dash_flag ? this.propertyService.dash_flag : this.constant.dash_flag;
     this.parameter.flag = 3;
     this.getCountries();
-    this.getPropertyConfigurations();
+    // this.getPropertyConfigurations();
     this.getListing();
   }
 
@@ -729,14 +730,15 @@ export class CollectionsComponent implements OnInit {
     });
   }
 
-  showApplyPaymentPopup(item: any) {
+  showApplyPaymentPopup(item: any, type: string) {
+    this.typeOfPayment = type;
     this.paymentConcepts = item.payment_choices;
     this.paymentModalOpen.nativeElement.click();
   }
 
   setPaymentAmount(item: any) {
     console.log(item)
-    this.paymentAmount = item.amount;
+    this.paymentAmount = this.typeOfPayment == 'apply-popup' ? item.amount : 0;
   }
 
   closePaymentModal() {
@@ -745,14 +747,20 @@ export class CollectionsComponent implements OnInit {
 
   applyCollectionPayment(formdata) {
     const input = {
-      collection_payment_choice_id : this.payment_choice_id['id'],
       currency_id: 1,
+      collection_payment_choice_id : this.payment_choice_id['id'],
       amount : this.paymentAmount,
       receipt: this.docFile,
       description: this.description
     }
-    this.admin.postDataApi('applyCollectionPayment', input).subscribe(r => {
+    if (this.typeOfPayment == 'commission-popup') {
+      input['collection_payment_id'] = this.payment_choice_id['id']
+    }
+    const url = this.typeOfPayment == 'apply-popup' ? 'applyCollectionPayment' : 'applyCollectionPaymentCommission';
+    this.admin.postDataApi(url, input).subscribe(r => {
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.savedSuccessfully'), 'success');
+      this.paymentAmount = 0; this.docFile = ''; this.description = '';
+      this.docsFile.nativeElement.value = '';
       this.paymentModalClose.nativeElement.click();
     });
   }
@@ -768,4 +776,5 @@ export class CollectionsComponent implements OnInit {
       }
     );
   }
+
 }
