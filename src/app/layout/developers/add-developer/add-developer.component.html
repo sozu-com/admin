@@ -108,7 +108,7 @@
                   <div class="clearfix"></div>
                   <select required name="currency_id{{i}}" [(ngModel)]="bankAccount.currency_id" required class="form-control">
                     <option value="">{{'addCollection.currency' | translate}}</option>
-                    <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.currency }} | {{c?.symbol}}</option>
+                    <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
                   </select>
                 </div>
               </div>
@@ -248,7 +248,7 @@
                 <div class="clearfix"></div>
                 <select required name="le_currency_id{{i}}" [(ngModel)]="leBankAccount.currency_id" required class="form-control">
                   <option value="">{{'addCollection.currency' | translate}}</option>
-                  <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.currency }} | {{c?.symbol}}</option>
+                  <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
                 </select>
               </div>
             </div>

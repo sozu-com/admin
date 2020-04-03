@@ -71,12 +71,19 @@
     </div>
     <p><b>{{model?.name ? model?.name : ('table.tr.td.NA' | translate)}}</b></p>
   
-    <div class="row" *ngIf="model?.deal_type">
+    <div class="row">
       <div class="col-sm-9 col-lg-9">
         <p class="p16">{{'addCollection.selectedDealType' | translate}}</p>
       </div>
     </div>
     <p><b>{{model?.availabilityStatusId == 1 ? availabilityStatus[0].name : availabilityStatus[1].name}}</b></p>
+      
+    <div class="row">
+      <div class="col-sm-9 col-lg-9">
+        <p class="p16">{{'addCollection.selectedModal' | translate}}</p>
+      </div>
+    </div>
+    <p><b>{{model?.building_configuration?.name}}</b></p>
       
     <div class="row">
       <div class="col-md-12">
@@ -176,6 +183,24 @@
             </div>
           </div>  
         </div>
+
+        <div class="spacer15"></div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="form-group-3">
+              <label class="p16-two">{{'addForm.selectConfiguration' | translate}} <span class="color-red">*</span></label>
+              <div class="clearfix"></div>
+              <label class="cust-radio" *ngFor="let configuration of configurations">
+                <input type="radio" required (change)="setConfiguration(configuration)"
+                  value="{{configuration.id}}" [checked]="model.building_configuration_id == configuration.id ? 'checked' : ''"
+                  name="configuration_id">
+                <span class="checkmark">{{configuration.name ? configuration.name : configuration.config.name}}</span>
+              </label>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
+        <div class="spacer15"></div>
         
         <div class="row">
           <div class="col-md-12">
@@ -405,7 +430,7 @@
                   <div class="clearfix"></div>
                   <select required name="currency_id" formControlName="currency_id" required class="form-control">
                     <option value="">{{'addCollection.currency' | translate}}</option>
-                    <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.currency }} | {{c?.symbol}}</option>
+                    <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
                   </select>
                 </div>
               </div>
@@ -499,7 +524,7 @@
                   <div class="clearfix"></div>
                   <select required name="currency_id" formControlName="currency_id" required class="form-control">
                     <option value="">{{'addCollection.currency' | translate}}</option>
-                    <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.currency }} | {{c?.symbol}}</option>
+                    <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
                   </select>
                 </div>
               </div>
@@ -667,7 +692,7 @@
                   <div class="clearfix"></div>
                   <select required name="currency_id" formControlName="currency_id" required class="form-control">
                     <option value="">{{'addCollection.currency' | translate}}</option>
-                    <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.currency }} | {{c?.symbol}}</option>
+                    <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
                   </select>
                 </div>
               </div>
@@ -762,7 +787,7 @@
                     <div class="clearfix"></div>
                     <select required name="currency_id" formControlName="currency_id" required class="form-control">
                       <option value="">{{'addCollection.currency' | translate}}</option>
-                      <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.currency }} | {{c?.symbol}}</option>
+                      <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
                     </select>
                   </div>
                 </div>
@@ -840,7 +865,7 @@
             <div class="clearfix"></div>
             <select required name="currency_id" formControlName="currency_id" required class="form-control">
               <option value="">{{'addCollection.currency' | translate}}</option>
-              <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.currency }} | {{c?.symbol}}</option>
+              <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
             </select>
           </div>
         </div>
@@ -1034,9 +1059,9 @@
 
       
       <div class="spacer50"></div>
-      <!-- <h5 class="p16-two">{{'addCollection.bankAccount' | translate}}
+      <h5 class="p16-two">{{'addCollection.bankAccount' | translate}}
         <span class="pull-right"><a class="add" (click)="addAgentBank($event)" href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
-      </h5> -->
+      </h5>
       <div formArrayName="collection_agent_banks">
       <ng-container *ngFor="let agent_banks of addFormStep5.get('collection_agent_banks').controls; let i=index">
           <div class="row" [formGroupName]="i">
@@ -1067,7 +1092,7 @@
                 <div class="clearfix"></div>
                 <select required name="currency_id" formControlName="currency_id" required class="form-control">
                   <option value="">{{'addCollection.currency' | translate}}</option>
-                  <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.currency }} | {{c?.symbol}}</option>
+                  <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
                 </select>
               </div>
             </div>

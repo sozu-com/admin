@@ -19,6 +19,7 @@ import { CalendarModule, DropdownModule } from 'primeng/primeng';
 // import { DropdownModule } from 'primeng/dropdown';
 import { AddEditCollectionComponent } from './add-edit-collection/add-edit-collection.component';
 import { CollectionsComponent } from './collections.component';
+import { AnalyticsComponent } from './analytics/analytics.component';
 
 const routes: Routes = [
   // {
@@ -58,7 +59,8 @@ const routes: Routes = [
   ],
   declarations: [
     CollectionsComponent,
-    AddEditCollectionComponent
+    AddEditCollectionComponent,
+    AnalyticsComponent
   ]
 })
 

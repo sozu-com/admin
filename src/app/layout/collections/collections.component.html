@@ -148,7 +148,7 @@
                           <div class="table-search">
                              <label>{{'table.th.buyerName' | translate}}</label>
                              <div class="searh-3">
-                                <input class="width100px" type="text" [(ngModel)]="parameter.buyer_name" (keyup.enter)="getListing()" >
+                                <input autocomplete="off" class="width100px" type="text" [(ngModel)]="parameter.buyer_name" (keyup.enter)="getListing()" >
                                 <button *ngIf="parameter.buyer_name" (click)="getListing()"><i class="fa fa-search"></i></button>
                              </div>
                           </div>
@@ -162,7 +162,7 @@
                           <div class="table-search">
                              <label>{{'table.th.sellerName' | translate}}</label>
                              <div class="searh-3">
-                                <input class="width100px" type="text" [(ngModel)]="parameter.seller_name" (keyup.enter)="getListing()" >
+                                <input autocomplete="off" class="width100px" type="text" [(ngModel)]="parameter.seller_name" (keyup.enter)="getListing()" >
                                 <button *ngIf="parameter.seller_name" (click)="getListing()"><i class="fa fa-search"></i></button>
                              </div>
                           </div>
@@ -171,7 +171,7 @@
                           <div class="table-search">
                              <label>{{'table.th.nameOfBuilding' | translate}}</label>
                              <div class="searh-3">
-                                <input class="width100px" type="text" [(ngModel)]="parameter.building_name" (keyup.enter)="getListing()" >
+                                <input autocomplete="off" class="width100px" type="text" [(ngModel)]="parameter.building_name" (keyup.enter)="getListing()" >
                                 <button *ngIf="parameter.building_name" (click)="getListing()"><i class="fa fa-search"></i></button>
                              </div>
                           </div>
@@ -180,7 +180,7 @@
                           <div class="table-search">
                              <label>{{'table.th.nameOfTower' | translate}}</label>
                              <div class="searh-3">
-                                <input class="width100px" type="text" [(ngModel)]="parameter.tower_name" (keyup.enter)="getListing()" >
+                                <input autocomplete="off" class="width100px" type="text" [(ngModel)]="parameter.tower_name" (keyup.enter)="getListing()" >
                                 <button *ngIf="parameter.tower_name" (click)="getListing()"><i class="fa fa-search"></i></button>
                              </div>
                           </div>
@@ -189,7 +189,7 @@
                           <div class="table-search">
                              <label>{{'table.th.nameOfApartment' | translate}}</label>
                              <div class="searh-3">
-                                <input class="width100px" type="text" [(ngModel)]="parameter.apartment_name" (keyup.enter)="getListing()" >
+                                <input autocomplete="off" class="width100px" type="text" [(ngModel)]="parameter.apartment_name" (keyup.enter)="getListing()" >
                                 <button *ngIf="parameter.apartment_name" (click)="getListing()"><i class="fa fa-search"></i></button>
                              </div>
                           </div>
@@ -198,7 +198,7 @@
                           <div class="table-search">
                              <label>{{'table.th.configuration' | translate}}</label>
                              <div class="searh-3">
-                                <input class="width100px" type="text" [(ngModel)]="parameter.config_name" (keyup.enter)="getListing()" >
+                                <input autocomplete="off" class="width100px" type="text" [(ngModel)]="parameter.config_name" (keyup.enter)="getListing()" >
                                 <button *ngIf="parameter.config_name" (click)="getListing()"><i class="fa fa-search"></i></button>
                              </div>
                              <!-- <select [(ngModel)]="parameter.configuration_id" (change)="getListing()">
@@ -222,40 +222,42 @@
                              <!-- <a href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by==1 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a> -->
                            </div>
                        </th>
-                       <!-- <th style="width:4%;vertical-align:top;">
+
+                       <th style="width:4%;vertical-align:top;">
                           <div class="d-flex table-search">
                              <label>{{'table.th.concept' | translate}}</label>
                           </div>
                        </th>
                        <th style="width:8%;vertical-align:top;">
-                          <div (click)="sort_by(1)" class="d-flex table-search">
+                          <div class="d-flex table-search">
                              <label>{{'table.th.dateOfPayment' | translate}}</label></div>
                        </th>
                        <th style="width:4%;vertical-align:top;">
                           <div class="d-flex table-search">
-                             <label>{{'table.th.amount' | translate}}</label>
+                             <label class="width100px">{{'table.th.amount' | translate}}</label>
                           </div>
                        </th>
                        <th style="width:4%;vertical-align:top;">
-                          <div (click)="sort_by(3)" class="d-flex table-search">
+                          <div  class="d-flex table-search">
                              <label>{{'table.th.concept' | translate}}</label>
-                             <a href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by==3 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a>
+                             <!-- <a href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by==3 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a> -->
                           </div>
                        </th>
-                       <th style="width:5%;vertical-align:top;" *ngIf="parameter.flag==5">
+                       <th style="width:5%;vertical-align:top;">
                           <div class="d-flex table-search">
                              <label>{{'table.th.dateOfPayment' | translate}}</label>
                           </div>
                        </th>
                        <th style="width:5%;vertical-align:top;">
                           <div class="table-search">
-                             <label>{{'table.th.amount' | translate}}</label>
-                             <div class="searh-3">
+                             <label class="width100px">{{'table.th.amount' | translate}}</label>
+                             <!-- <div class="searh-3">
                                 <input class="width100px" type="text" [(ngModel)]="parameter.seller_name" (keyup.enter)="getListing()" >
                                 <button *ngIf="parameter.seller_name" (click)="getListing()"><i class="fa fa-search"></i></button>
-                             </div>
+                             </div> -->
                           </div>
-                       </th> -->
+                       </th>
+
                        <th style="width:10%; text-align:left;">
                               <div class="table-search">
                               <label>{{'table.th.currency' | translate}}</label>
@@ -300,9 +302,17 @@
               
                     <tr *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
                      <td><span>{{p?.id ? p?.id : ('table.tr.td.NA' | translate)}}</span></td>
-                     <td><span>{{p?.buyer?.name ? p?.buyer?.name : ('table.tr.td.NA' | translate)}}</span></td>
+                     <td>
+                        <span *ngIf="p?.buyer_type == 1">{{p?.buyer?.name ? p?.buyer?.name : ('table.tr.td.NA' | translate)}}</span>
+                        <span *ngIf="p?.buyer_type == 2">{{p?.buyer_legal_entity?.comm_name ? p?.buyer_legal_entity?.comm_name : ('table.tr.td.NA' | translate)}}</span>
+                        <span *ngIf="p?.buyer_type == 3">{{p?.buyer?.name ? p?.buyer?.name : ('table.tr.td.NA' | translate)}}</span>
+                     </td>
                      <td><span>{{p?.buyer_leg_rep_name ? p?.buyer_leg_rep_name : ('table.tr.td.NA' | translate)}}</span></td>
-                     <td><span>{{p?.seller?.name ? p?.seller?.name : ('table.tr.td.NA' | translate)}}</span></td>     
+                     <td>
+                        <span *ngIf="p?.seller_type == 1">{{p?.seller?.name ? p?.seller?.name : ('table.tr.td.NA' | translate)}}</span>
+                        <span *ngIf="p?.seller_type == 2">{{p?.seller?.comm_name ? p?.seller_legal_entity?.comm_name : ('table.tr.td.NA' | translate)}}</span>
+                        <span *ngIf="p?.seller_type == 3">{{p?.seller?.name ? p?.seller?.name : ('table.tr.td.NA' | translate)}}</span>
+                     </td>    
                      <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}" (click)="viewPropertyDetails(p.id, p)">
                            <!-- routerLink="/dashboard/properties/details/{{p.id}}" -->
                         <strong>{{p?.property?.building?.name ? p?.property?.building?.name: ('table.tr.td.NA' | translate)}}</strong>
@@ -314,25 +324,14 @@
                         </td>
                      <td><span>{{p?.property?.locality?.name ? p?.property?.locality?.name : ('table.tr.td.NA' | translate)}}</span></td>
                      <td><span>{{p.deal_purchase_date || ('table.tr.td.NA' | translate)}}</span></td>
-                     <!-- <td><span>
-                        <button (click)="editPricePopup(p, i)" [disabled]="admin?.admin_acl['Property Management']?.can_update==0" title="{{'table.title.editPrice' | translate}}" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
-                     </span></td>
-                     <td><span>{{p.broker_commision | percentage}}</span></td>
-                     <td><span>
-                        <button (click)="editAgentCommissionPopup(p, i)" [disabled]="admin?.admin_acl['Property Management']?.can_update==0" title="{{'table.title.editPrice' | translate}}" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
-                     </span></td>
-                     <td><span>{{p.lead_properties_count}}</span></td>
-                     
-                     <td *ngIf="parameter.flag==5" class="cursor-pointer" title="{{'table.title.viewSellerRequest' | translate}}" (click)="showAllSellers(p?.id, i)">
-                        <span class="green-color"><span>{{'table.tr.td.view' | translate}}</span></span>
-                     </td>
-                     
-                     <td class="cursor-pointer" title="{{p?.selected_seller?.user?.name ? ('table.title.clickToChangeSeller' | translate) : ('table.title.clickToAddSeller' | translate)}}" (click)="getAllSellers(p, '1', i)">
-                        <span class="green-color"><span>
-                              {{p?.selected_seller?.user?.name ? p?.selected_seller?.user?.name : ('table.tr.td.add' | translate)}}
-                        </span></span>
-                     </td>
-                      -->
+
+                     <td><span>{{p?.last_payment?.name || ('table.tr.td.NA' | translate)}}</span></td>
+                     <td><span>{{p?.last_payment?.date || ('table.tr.td.NA' | translate)}}</span></td>
+                     <td><span> {{p?.currency?.symbol}} {{ (p?.last_payment?.amount || 0) | numberWithCommas}}</span></td>
+                     <td><span>{{p?.next_payment?.name || ('table.tr.td.NA' | translate)}}</span></td>
+                     <td><span>{{p?.next_payment?.date || ('table.tr.td.NA' | translate)}}</span></td>
+                     <td><span>{{p?.currency?.symbol}} {{ (p?.next_payment?.amount || 0) | numberWithCommas}}</span></td>
+
                      <td><span>{{p?.currency?.currency || ('table.tr.td.NA' | translate)}}</span></td>
                      <td><span>{{p.comm_total_commission || ('table.tr.td.NA' | translate)}}</span></td>
                      <td><span>{{p.comm_shared_commission || ('table.tr.td.NA' | translate)}}</span></td>
@@ -366,7 +365,7 @@
                         class="action-icon"><img src="assets/img/ic_payment.png" alt="img"></button>  
 
                         <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
-                        (click)="showApplyPaymentPopup(p, 'commission-popup')" title="{{'table.title.applyPayment' | translate}}" 
+                        (click)="showApplyPaymentPopup(p, 'commission-popup')" title="{{'table.title.collectionCommission' | translate}}" 
                         class="action-icon"><img src="assets/img/ic_commission.png" alt="img"></button>  
 
                         <!-- unapprove -->

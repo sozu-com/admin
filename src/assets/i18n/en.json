@@ -839,6 +839,7 @@
       "pleaseChooseFloor": "Please select Floor",
       "pleaseChooseApartment": "Please select Apartment",
       "pleaseChooseDealType": "Please select Deal type",
+      "pleaseChooseModal": "Please select Modal",
       
 
       "pleaseFillLegalRepInfo": "Please fill all details of Legal Represenatative",
@@ -1514,6 +1515,7 @@
     "nameOfAgent": "Name of Agent",
     "taggedApartmentName": "Tagged Apartment Name",
     "selectedDealType": "Selected Deal Type",
+    "selectedModal": "Selected Modal",
     "choosePaymentType": "Choose Payment Type",
     "folders": "Folders",
     "addNewFolder": "+ Add New Folder",

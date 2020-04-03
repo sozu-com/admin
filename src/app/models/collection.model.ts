@@ -23,44 +23,8 @@ export class Collection {
     deal_price: number;
     seller_type: number;
     buyer_type: number;
-    country_id = '';
-    state_id = '';
-    city_id = '';
-    locality_id = '';
-    building_configuration_id = '';
-    configuration_id = '';
-    property_type_id = '';
-    carpet_areas: any = [];
-    cover_image: File;
-    images: any = [];
-    images360: any = [];
-    videos: any = [];
-    floor_plan: File;
-    bedroom = 1;
-    bathroom = 1;
-    half_bathroom = 1;
-    floor = 1;
-    parking = 1;
-    parking_count = 0;
-    parking_for_sale = 0;
-    furnished = 1;
-    description = '';
-    quantity = 1;
-    amenities: any = [];
-    banks: any = [];
-    pets = 1;
-    kids_friendly = 1;
-    students_friendly = 1;
-    lgtb_friendly = 1;
-    mature_people_friendly = 1;
-    property_price = 1;
-    marital_status: any = [1];
-    custom_attributes: any = [];
-    property_quantity_details: any = [];
-    videoLoader: boolean;
-    configuration: Configuration;
-    creator: User;
-    broker_commision = 0;
+    building_configuration?: any;
+    building_configuration_id: any;
 }
 
 export class DealType {

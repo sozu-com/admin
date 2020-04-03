@@ -107,6 +107,7 @@ export class AddEditCollectionComponent implements OnInit {
   currentPaymentChoiceId: number;
   showMonthlyInput: boolean;
   num_of_months: number;
+  configurations: Array<any>;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
   
   availabilityStatus = [
@@ -205,6 +206,7 @@ export class AddEditCollectionComponent implements OnInit {
       // deal_type_id: ['', [Validators.required]],
       for_sale: ['', [Validators.required]],
       for_rent: ['', [Validators.required]],
+      building_configuration_id: ['', [Validators.required]],
       step: ['', [Validators.required]]
     });
   }
@@ -402,6 +404,8 @@ export class AddEditCollectionComponent implements OnInit {
     this.model.floor_num = data.property.floor_num;
     this.model.name = data.property.name;
     this.model.availabilityStatusId = data.for_sale ? this.availabilityStatus[0].id : this.availabilityStatus[1].id;
+    this.model.building_configuration_id = data.property.building_configuration_id;
+    this.model.building_configuration = data.property.building_configuration;
     // this.model.deal_type = data.deal_type;
     this.addFormStep1.controls.building_id.patchValue(data.property.building.id);
     this.addFormStep1.controls.building_towers_id.patchValue(data.property.building_towers.id);
@@ -763,46 +767,6 @@ export class AddEditCollectionComponent implements OnInit {
       );
   }
 
-  addPropertyDetails() {
-    this.model.property_quantity_details.push(JSON.parse(JSON.stringify(this.details)));
-    this.details = new PropertyDetails;
-  }
-
-  checkEmptyDetails() {
-    for (const item of this.details) {
-      if (item == '') {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  removeDetails(i: any) {
-    this.model.property_quantity_details.splice(i, 1);
-  }
-
-  clickOnSale() {
-    // console.log(this.model.for_sale);
-  }
-
-  onSelectVideo(event) {
-
-  }
-
-  onEnteringNumOfProperty(e: any) {
-    // this.property_names = Array(e).fill(1);
-    this.property_names = [];
-    for (let index = 0; index < e; index++) {
-      const pn = { name: 0 };
-      pn.name = index;
-      this.property_names.push(pn);
-    }
-  }
-
-  setPropertyName(value: string, index: number) {
-    this.property_names[index] = value;
-  }
-
 
   getProperties($event) {
     $event.stopPropagation();
@@ -841,7 +805,9 @@ export class AddEditCollectionComponent implements OnInit {
     this.model.property_id = this.addFormStep1.get('property_id').value.id;
     this.properties.map((p: any) => {
       if (p.id == this.model.property_id) {
+        this.configurations = p.building.configurations;
         this.model.deal_price = p.min_price;
+        this.model.building_configuration_id = p.building_configuration.id;
         this.addFormStep4.controls.deal_price.patchValue(p.min_price);
         if (p.for_sale == 1) {
           this.setAvailableStatus(0);
@@ -853,6 +819,10 @@ export class AddEditCollectionComponent implements OnInit {
         this.addFormStep5.controls.comm_shared_commission.patchValue(p.broker_commision ? p.broker_commision : 0)
       }
     })
+  }
+  
+  setConfiguration(con: Configuration) {
+    this.model.building_configuration_id = con.id;
   }
 
   addAgentBank($event) {
@@ -1520,6 +1490,7 @@ export class AddEditCollectionComponent implements OnInit {
 
   unsetSeller(item) {
     if (this.tab == 2) {
+      this.addFormStep2.reset();
       this.model.seller_id = '';
       this.model.seller = new Seller();
       this.addFormStep2.controls.seller_id.patchValue('');
@@ -1531,6 +1502,7 @@ export class AddEditCollectionComponent implements OnInit {
       this.addFormStep2.controls.seller_leg_rep_email.patchValue('');
       this.addFormStep2.controls.seller_leg_rep_phone.patchValue('');
     } else {
+      this.addFormStep3.reset();
       this.model.buyer_id = '';
       this.model.buyer = new Seller();
       this.addFormStep3.controls.buyer_id.patchValue('');
@@ -1612,6 +1584,7 @@ export class AddEditCollectionComponent implements OnInit {
       }
       formdata['for_sale'] = this.availabilityStatus[0].checked ? 1 : 0;
       formdata['for_rent'] = this.availabilityStatus[1].checked ? 1 : 0;
+      formdata['building_configuration_id'] = this.model.building_configuration_id;
       if (!formdata['building_id']) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectBuilding'), 'error');
         return;
@@ -1622,6 +1595,9 @@ export class AddEditCollectionComponent implements OnInit {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseFloor'), 'error');
         return;
       } else if (!formdata['property_id']) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseApartment'), 'error');
+        return;
+      } else if (!formdata['building_configuration_id']) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseApartment'), 'error');
         return;
       }
