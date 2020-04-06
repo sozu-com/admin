@@ -46,6 +46,8 @@ export class CollectionsComponent implements OnInit {
   payment_choice_id: number;
   description: string;
   typeOfPayment: string;
+  collectionIndex: number;
+  selectedPaymentConcept: any;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
 
   paymentAmount: number;
@@ -64,6 +66,8 @@ export class CollectionsComponent implements OnInit {
   @ViewChild('closeExtBrokerModal') closeExtBrokerModal: ElementRef;
   @ViewChild('paymentModalOpen') paymentModalOpen: ElementRef;
   @ViewChild('paymentModalClose') paymentModalClose: ElementRef;
+  @ViewChild('collectionCommissionOpen') collectionCommissionOpen: ElementRef;
+  @ViewChild('collectionCommissionClose') collectionCommissionClose: ElementRef;
   
   constructor(
     public constant: Constant,
@@ -730,14 +734,16 @@ export class CollectionsComponent implements OnInit {
     });
   }
 
-  showApplyPaymentPopup(item: any, type: string) {
+  showApplyPaymentPopup(item: any, i: number, type: string) {
     this.typeOfPayment = type;
+    this.collectionIndex = i;
     this.paymentConcepts = item.payment_choices;
     this.paymentModalOpen.nativeElement.click();
   }
 
   setPaymentAmount(item: any) {
     console.log(item)
+    this.selectedPaymentConcept = item;
     this.paymentAmount = this.typeOfPayment == 'apply-popup' ? item.amount : 0;
   }
 
@@ -754,10 +760,23 @@ export class CollectionsComponent implements OnInit {
       description: this.description
     }
     if (this.typeOfPayment == 'commission-popup') {
-      input['collection_payment_id'] = this.payment_choice_id['id']
+      input['collection_payment_id'] = 6 // this.payment_choice_id['id']
+      input['percent'] = 2
     }
     const url = this.typeOfPayment == 'apply-popup' ? 'applyCollectionPayment' : 'applyCollectionPaymentCommission';
     this.admin.postDataApi(url, input).subscribe(r => {
+
+      if (this.typeOfPayment == 'apply-popup') {
+        let paymentChoiceIndex = 0;
+        for (let index = 0; index < this.items[this.collectionIndex].payment_choices.length; index++) {
+          const element = this.items[this.collectionIndex].payment_choices[index];
+          if (this.selectedPaymentConcept.id == this.selectedPaymentConcept.id) {
+            paymentChoiceIndex = index;
+          }
+        }
+        this.items[this.collectionIndex].payment_choices[paymentChoiceIndex].collection_payment = r.data;
+      }
+
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.savedSuccessfully'), 'success');
       this.paymentAmount = 0; this.docFile = ''; this.description = '';
       this.docsFile.nativeElement.value = '';
@@ -776,5 +795,22 @@ export class CollectionsComponent implements OnInit {
       }
     );
   }
+  
 
+  showCollectionCommissions(item: any, i: number) {
+    this.collectionIndex = i;
+    this.paymentConcepts = item.payment_choices;
+    this.collectionCommissionOpen.nativeElement.click();
+  }
+
+  uploadCollectionCommReceipt(item: any, i: number, type: string) {
+    // if () {
+
+    // }
+    this.collectionCommissionClose.nativeElement.click();
+    this.typeOfPayment = type;
+    this.collectionIndex = i;
+    this.paymentConcepts = item.payment_choices;
+    this.paymentModalOpen.nativeElement.click();
+  }
 }

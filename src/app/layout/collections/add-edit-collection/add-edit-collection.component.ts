@@ -40,6 +40,7 @@ export class AddEditCollectionComponent implements OnInit {
   @ViewChild('folderModalOpen') folderModalOpen: ElementRef;
   @ViewChild('folderModalClose') folderModalClose: ElementRef;
   @ViewChild('docsFile') docsFile: ElementRef;
+  @ViewChild('selectedPaymentChoice') selectedPaymentChoice: ElementRef;
   public latitude: number;
   public longitude: number;
   public searchControl: FormControl;
@@ -977,6 +978,7 @@ export class AddEditCollectionComponent implements OnInit {
       //   amount: ['', [Validators.required]]
       // });
     }
+    this.selectedPaymentChoice.nativeElement.value = '';
   }
 
   addMonthlyInputs($event) {

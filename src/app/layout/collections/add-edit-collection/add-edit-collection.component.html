@@ -185,7 +185,7 @@
         </div>
 
         <div class="spacer15"></div>
-        <div class="row">
+        <div class="row" *ngIf="building.id && model.building_towers && model.floor_num">
           <div class="col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="form-group-3">
               <label class="p16-two">{{'addForm.selectConfiguration' | translate}} <span class="color-red">*</span></label>
@@ -873,7 +873,7 @@
           <div class="form-group-3">
             <label>Payment Choice</label>
             <div class="clearfix"></div>
-            <select required name="paymentchoice" formControlName="paymentchoice" (change)="addPaymentChoice($event)" class="form-control">
+            <select required #selectedPaymentChoice name="paymentchoice" formControlName="paymentchoice" (change)="addPaymentChoice($event)" class="form-control">
               <!-- <option value="">Payment Choice</option> -->
               <option value="{{c.id}}" *ngFor="let c of paymentChoices">{{ c.name }}</option>
             </select>
@@ -908,7 +908,7 @@
                   <!-- <label *ngIf="i==0">&nbsp;</label> -->
                 <div class="clearfix"></div>
                 <input autocomplete="off" class="form-control" (input)="getAmount(i)" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="percent" min="0"
-                    name="percent">
+                  max="100"  name="percent">
                 <div class="input-group-append">
                   <span class="input-group-text" id="basic-addon1">%</span>
                 </div>

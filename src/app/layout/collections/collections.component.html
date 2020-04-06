@@ -361,11 +361,15 @@
                         class="action-icon"><img src="assets/img/chat-icon.png" alt="img"></button>  
 
                         <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
-                        (click)="showApplyPaymentPopup(p, 'apply-popup')" title="{{'table.title.applyPayment' | translate}}" 
+                        (click)="showApplyPaymentPopup(p, i, 'apply-popup')" title="{{'table.title.applyPayment' | translate}}" 
                         class="action-icon"><img src="assets/img/ic_payment.png" alt="img"></button>  
 
+                        <!-- <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                        (click)="showApplyPaymentPopup(p, i, 'commission-popup')" title="{{'table.title.collectionCommission' | translate}}" 
+                        class="action-icon"><img src="assets/img/ic_commission.png" alt="img"></button>   -->
+
                         <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
-                        (click)="showApplyPaymentPopup(p, 'commission-popup')" title="{{'table.title.collectionCommission' | translate}}" 
+                        (click)="showCollectionCommissions(p, i)" title="{{'table.title.collectionCommission' | translate}}" 
                         class="action-icon"><img src="assets/img/ic_commission.png" alt="img"></button>  
 
                         <!-- unapprove -->
@@ -486,8 +490,9 @@
                     <label>Choose Payment Concept <span class="color-red">*</span></label>
                     <div class="form-group">
                         <select name="tower" required class="form-control" [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
-                        <option value="">Choose Payment Concept</option>
-                        <option *ngFor="let bt of paymentConcepts" [ngValue]="bt"> {{bt.name}}</option>
+                              <option value="">Choose Payment Concept</option>
+                              <option *ngFor="let bt of paymentConcepts" [ngValue]="bt" 
+                               [disabled]="bt?.collection_payment"> {{bt?.name}}</option>
                         </select>
                   </div>
                 </div>
@@ -516,14 +521,80 @@
                     <label>Description</label>
                     <div class="form-group">
                           <textarea rows="3" [(ngModel)]="description" name="description" class="form-control"></textarea>
-                    <!-- <input (keydown.space)="$event.preventDefault();" autocomplete="off" required [pattern]="constant.emailPattern" type="email" class="form-control" [(ngModel)]="model.email" name="email"> -->
-                  </div>
+                 </div>
                 </div>
               </div>
               <div class="col-12">
                 <div class="btn-cont text-right">
                     <button type="submit" class="btn btn-primary-new">{{'addForm.addBtn' | translate}}</button>
-                    <!-- <button *ngIf="model.id" type="submit" [disabled]="!addForm.valid" class="btn btn-primary-new">{{'addForm.updateBtn' | translate}}</button> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+
+
+<a href="javascript://" data-toggle="modal" data-target="#coll-comm-Modal" #collectionCommissionOpen></a>
+<div class="modal animated" id="coll-comm-Modal">
+    <div class="modal-dialog modal-lg fadeIndown">
+        <div class="modal-content notary-avail">
+              <div class="modal-header popup-header">
+          <h4>Collection Commission</h4>
+            <button style="display: none;" type="button" class="close" data-dismiss="modal" #collectionCommissionClose>&times;</button>
+            <button type="button" class="close" (click)="closePaymentModal(); addForm.reset()">&times;</button>
+        </div>
+  
+        <form class="form-horizontal padding0" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="applyCollectionPayment(addForm.value)">
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="spacer40"></div>
+              </div>
+
+              <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                              <th rowspan="2"><b>Concept</b></th>
+                              <th rowspan="2"><b>Established Date</b></th>
+                              <th rowspan="2"><b>Amount</b></th>
+                              <th rowspan="2"><b>Add Collection Commission</b></th>
+                              <th colspan="2"><b>Enter Collection Commission</b></th>
+                              <th rowspan="2"><b>Upload Receipt</b></th>
+                        </tr>
+                        <tr>
+                              <th colspan="1"><b>Percent</b></th>
+                              <th colspan="1"><b>Amount</b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let p of paymentConcepts; let i=index">
+                              <td>{{p?.name}}</td>
+                              <td>{{p?.date}}</td>
+                              <td> {{items[collectionIndex]?.currency?.symbol}} {{p?.amount}}</td>
+                              <td [style.width]="'10px'">
+                                    <input type="checkbox" name="isCollectionCommissionEnabled{{i}}">
+                              </td>
+                              <td [style.width]="'15px'">
+                                    <input type="number" min="0" max="100" name="percent{{i}}">
+                              </td>
+                              <td [style.width]="'25px'">
+                                    <input type="number" min="0" name="amount{{i}}">
+                              </td>
+                              <td [style.width]="'25px'">
+                                    <button
+                                    (click)="uploadCollectionCommReceipt(p, i, 'commission-popup')" title="{{'table.title.collectionCommission' | translate}}" 
+                                    class="action-icon"><img src="assets/img/ic_commission.png" alt="img"></button>            
+                              </td>
+                        </tr>
+                    </tbody>
+              </table>
+              <div class="col-12">
+                <div class="btn-cont text-right">
+                    <button type="submit" class="btn btn-primary-new">{{'addForm.addBtn' | translate}}</button>
                 </div>
               </div>
             </div>
