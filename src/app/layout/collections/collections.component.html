@@ -225,32 +225,32 @@
 
                        <th style="width:4%;vertical-align:top;">
                           <div class="d-flex table-search">
-                             <label>{{'table.th.concept' | translate}}</label>
+                             <label>{{'table.th.lastConcept' | translate}}</label>
                           </div>
                        </th>
                        <th style="width:8%;vertical-align:top;">
                           <div class="d-flex table-search">
-                             <label>{{'table.th.dateOfPayment' | translate}}</label></div>
+                             <label>{{'table.th.lastDateOfPayment' | translate}}</label></div>
                        </th>
                        <th style="width:4%;vertical-align:top;">
                           <div class="d-flex table-search">
-                             <label class="width100px">{{'table.th.amount' | translate}}</label>
+                             <label class="width100px">{{'table.th.lastAmount' | translate}}</label>
                           </div>
                        </th>
                        <th style="width:4%;vertical-align:top;">
                           <div  class="d-flex table-search">
-                             <label>{{'table.th.concept' | translate}}</label>
+                             <label>{{'table.th.nextConcept' | translate}}</label>
                              <!-- <a href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by==3 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a> -->
                           </div>
                        </th>
                        <th style="width:5%;vertical-align:top;">
                           <div class="d-flex table-search">
-                             <label>{{'table.th.dateOfPayment' | translate}}</label>
+                             <label>{{'table.th.nextDateOfPayment' | translate}}</label>
                           </div>
                        </th>
                        <th style="width:5%;vertical-align:top;">
                           <div class="table-search">
-                             <label class="width100px">{{'table.th.amount' | translate}}</label>
+                             <label class="width100px">{{'table.th.nextAmount' | translate}}</label>
                              <!-- <div class="searh-3">
                                 <input class="width100px" type="text" [(ngModel)]="parameter.seller_name" (keyup.enter)="getListing()" >
                                 <button *ngIf="parameter.seller_name" (click)="getListing()"><i class="fa fa-search"></i></button>
@@ -474,7 +474,7 @@
     <div class="modal-dialog fadeIndown">
         <div class="modal-content notary-avail">
               <div class="modal-header popup-header">
-          <h4>{{typeOfPayment == 'commission-popup' ? 'Collection Commission' : 'Apply Payment'}}</h4>
+          <h4>Apply Payment</h4>
             <button style="display: none;" type="button" class="close" data-dismiss="modal" #paymentModalClose>&times;</button>
             <button type="button" class="close" (click)="closePaymentModal(); addForm.reset()">&times;</button>
         </div>
@@ -489,7 +489,7 @@
                 <div class="form-group-2">
                     <label>Choose Payment Concept <span class="color-red">*</span></label>
                     <div class="form-group">
-                        <select name="tower" required class="form-control" [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
+                        <select name="tower" #applyPaymentChoiceId required class="form-control" [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
                               <option value="">Choose Payment Concept</option>
                               <option *ngFor="let bt of paymentConcepts" [ngValue]="bt" 
                                [disabled]="bt?.collection_payment"> {{bt?.name}}</option>
@@ -526,7 +526,9 @@
               </div>
               <div class="col-12">
                 <div class="btn-cont text-right">
-                    <button type="submit" class="btn btn-primary-new">{{'addForm.addBtn' | translate}}</button>
+                    <button type="submit" class="btn btn-primary-new">
+                        <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
+                        {{'addForm.addBtn' | translate}}</button>
                 </div>
               </div>
             </div>
@@ -545,10 +547,10 @@
               <div class="modal-header popup-header">
           <h4>Collection Commission</h4>
             <button style="display: none;" type="button" class="close" data-dismiss="modal" #collectionCommissionClose>&times;</button>
-            <button type="button" class="close" (click)="closePaymentModal(); addForm.reset()">&times;</button>
+            <button type="button" class="close" (click)="closeCollCommissionModal(); addForm.reset()">&times;</button>
         </div>
   
-        <form class="form-horizontal padding0" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="applyCollectionPayment(addForm.value)">
+        <!-- <form class="form-horizontal padding0" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="applyCollectionPayment(addForm.value)"> -->
           <div class="modal-body">
             <div class="row">
               <div class="col-12">
@@ -563,6 +565,7 @@
                               <th rowspan="2"><b>Amount</b></th>
                               <th rowspan="2"><b>Add Collection Commission</b></th>
                               <th colspan="2"><b>Enter Collection Commission</b></th>
+                              <th rowspan="2"><b>Save</b></th>
                               <th rowspan="2"><b>Upload Receipt</b></th>
                         </tr>
                         <tr>
@@ -576,25 +579,123 @@
                               <td>{{p?.date}}</td>
                               <td> {{items[collectionIndex]?.currency?.symbol}} {{p?.amount}}</td>
                               <td [style.width]="'10px'">
-                                    <input type="checkbox" name="isCollectionCommissionEnabled{{i}}">
+                                    <input [disabled]="p?.collection_payment?.collection_commission && p?.collection_payment?.collection_commission?.payment"
+                                    type="checkbox" name="add_collection_commission{{i}}"
+                                    checked="{{p?.collection_payment?.collection_commission?.add_collection_commission ? 'checked' : ''}}">
                               </td>
                               <td [style.width]="'15px'">
-                                    <input type="number" min="0" max="100" name="percent{{i}}">
+                                          <!-- [readonly]="p?.collection_payment?.collection_commission?.payment ? 'true' : 'false'" -->
+                                    <input *ngIf="p?.collection_payment?.collection_commission && p?.collection_payment?.collection_commission?.percent"
+                                     type="number" min="0" max="100" name="percent{{i}}" 
+                                     [(ngModel)]="p.collection_payment.collection_commission.percent"
+                                     (input)="getAmount(i, $event.target.value)"
+                                     value="{{p?.collection_payment?.collection_commission?.percent}}">
+
+                                    <input *ngIf="!p?.collection_payment?.collection_commission"
+                                      type="number" min="0" max="100" name="percent{{i}}" 
+                                      (input)="getAmount(i, $event.target.value)"
+                                      value="{{p?.collection_payment?.collection_commission?.percent}}">
                               </td>
                               <td [style.width]="'25px'">
-                                    <input type="number" min="0" name="amount{{i}}">
+                                    <input  type="number" min="0" name="amount{{i}}" 
+                                    *ngIf="p?.collection_payment?.collection_commission && p?.collection_payment?.collection_commission?.amount"
+                                    [(ngModel)]="p.collection_payment.collection_commission.amount"
+                                    (input)="getPercentage(i, $event.target.value)"
+                                    value="{{p?.collection_payment?.collection_commission?.amount}}">
+                                    
+                                    <input *ngIf="!p?.collection_payment?.collection_commission"
+                                      type="number" min="0" name="amount{{i}}" 
+                                      value="{{p?.collection_payment?.collection_commission?.amount}}">
+                              </td>
+                              <td [style.width]="'5px'" class="addCollComm">
+                                    <a class="add" *ngIf="p?.collection_payment?.collection_commission && p?.collection_payment?.collection_commission?.payment"
+                                    >{{'addForm.addBtn' | translate}}</a>
+                                    <a class="add" *ngIf="!p?.collection_payment?.collection_commission?.payment"
+                                    (click)="saveCollectionCommAmount(p)">{{'addForm.addBtn' | translate}}</a>
                               </td>
                               <td [style.width]="'25px'">
-                                    <button
-                                    (click)="uploadCollectionCommReceipt(p, i, 'commission-popup')" title="{{'table.title.collectionCommission' | translate}}" 
+                                    <button [disabled]="p?.collection_payment?.collection_commission && p?.collection_payment?.collection_commission?.payment"
+                                    (click)="uploadCollectionCommReceipt(paymentConcepts, i, 'commission-popup')" 
+                                    title="{{'table.title.collectionCommission' | translate}}" 
                                     class="action-icon"><img src="assets/img/ic_commission.png" alt="img"></button>            
                               </td>
                         </tr>
                     </tbody>
               </table>
+              <!-- <div class="col-12">
+                <div class="btn-cont text-right">
+                    <button type="button" class="btn btn-primary-new">{{'addForm.addBtn' | translate}}</button>
+                </div>
+              </div> -->
+            </div>
+          </div>
+        <!-- </form> -->
+      </div>
+    </div>
+  </div>
+
+
+  
+<a href="javascript://" data-toggle="modal" data-target="#coll-receipt-Modal" #collectionReceiptOpen></a>
+<div class="modal animated" id="coll-receipt-Modal">
+    <div class="modal-dialog fadeIndown">
+        <div class="modal-content notary-avail">
+              <div class="modal-header popup-header">
+          <h4>Collection Commission</h4>
+            <button style="display: none;" type="button" class="close" data-dismiss="modal" #collectionReceiptClose>&times;</button>
+            <button type="button" class="close" (click)="closeCollReceiptModal(); addForm.reset()">&times;</button>
+        </div>
+  
+        <form class="form-horizontal padding0" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="applyCollectionPayment(addForm.value)">
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="spacer40"></div>
+              </div>
+              <div class="col-12">
+                <div class="form-group-2">
+                    <label>Choose Payment Concept <span class="color-red">*</span></label>
+                    <div class="form-group">
+                        <select name="tower" #applyPaymentChoiceId required class="form-control" [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
+                              <option value="">Choose Payment Concept</option>
+                              <option *ngFor="let bt of paymentConcepts" [ngValue]="bt" 
+                              [disabled]="bt?.collection_payment?.collection_commission?.payment"> {{bt?.name}}</option>
+                        </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group-2">
+                    <label>Enter Payment Amount<span class="color-red">*</span></label>
+                    <div class="form-group">
+                    <input autocomplete="off" required type="number" min="0" class="form-control" [(ngModel)]="paymentAmount" 
+                        name="paymentAmount">
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group-2">
+                    <label> Choose Payment Receipt <span class="color-red">*</span></label>
+                    <div class="form-group">
+                        <input type="file" name="docFile" #docsFile
+                        accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf"
+                        (change)="onSelectFile($event.target.files)">
+                    </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group-2">
+                    <label>Description</label>
+                    <div class="form-group">
+                          <textarea rows="3" [(ngModel)]="description" name="description" class="form-control"></textarea>
+                 </div>
+                </div>
+              </div>
               <div class="col-12">
                 <div class="btn-cont text-right">
-                    <button type="submit" class="btn btn-primary-new">{{'addForm.addBtn' | translate}}</button>
+                    <button type="submit" class="btn btn-primary-new">
+                        <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
+                        {{'addForm.addBtn' | translate}}</button>
                 </div>
               </div>
             </div>
@@ -603,3 +704,4 @@
       </div>
     </div>
   </div>
+  

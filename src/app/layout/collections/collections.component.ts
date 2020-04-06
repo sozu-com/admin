@@ -52,7 +52,12 @@ export class CollectionsComponent implements OnInit {
 
   paymentAmount: number;
   paymentConcepts: Array<any>;
+  add_collection_commission: any;
+  percent: number;
+  amount: number;
+  selectedCollectionCommission: any;
 
+  @ViewChild('applyPaymentChoiceId') applyPaymentChoiceId: ElementRef;
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('rejectModalOpen') rejectModalOpen: ElementRef;
@@ -68,7 +73,9 @@ export class CollectionsComponent implements OnInit {
   @ViewChild('paymentModalClose') paymentModalClose: ElementRef;
   @ViewChild('collectionCommissionOpen') collectionCommissionOpen: ElementRef;
   @ViewChild('collectionCommissionClose') collectionCommissionClose: ElementRef;
-  
+  @ViewChild('collectionReceiptOpen') collectionReceiptOpen: ElementRef;
+  @ViewChild('collectionReceiptClose') collectionReceiptClose: ElementRef;
+
   constructor(
     public constant: Constant,
     public admin: AdminService,
@@ -744,7 +751,8 @@ export class CollectionsComponent implements OnInit {
   setPaymentAmount(item: any) {
     console.log(item)
     this.selectedPaymentConcept = item;
-    this.paymentAmount = this.typeOfPayment == 'apply-popup' ? item.amount : 0;
+    this.paymentAmount = this.typeOfPayment == 'apply-popup' ? item.amount : 
+    (item.collection_payment ? item.collection_payment.collection_commission.amount : 0);
   }
 
   closePaymentModal() {
@@ -753,34 +761,38 @@ export class CollectionsComponent implements OnInit {
 
   applyCollectionPayment(formdata) {
     const input = {
-      currency_id: 1,
-      collection_payment_choice_id : this.payment_choice_id['id'],
+      // currency_id: 1,
       amount : this.paymentAmount,
       receipt: this.docFile,
       description: this.description
     }
     if (this.typeOfPayment == 'commission-popup') {
-      input['collection_payment_id'] = 6 // this.payment_choice_id['id']
-      input['percent'] = 2
+      input['collection_commission_id'] = this.selectedCollectionCommission.id; // this.payment_choice_id['id']
+      input['percent'] = this.selectedCollectionCommission.percent;
+    } else {
+      input['collection_payment_choice_id'] = this.payment_choice_id['id']
     }
-    const url = this.typeOfPayment == 'apply-popup' ? 'applyCollectionPayment' : 'applyCollectionPaymentCommission';
+    const url = this.typeOfPayment == 'apply-popup' ? 'applyCollectionPayment' : 'applyCommissionPayment';
     this.admin.postDataApi(url, input).subscribe(r => {
-
+      this.applyPaymentChoiceId.nativeElement.value='';
       if (this.typeOfPayment == 'apply-popup') {
         let paymentChoiceIndex = 0;
         for (let index = 0; index < this.items[this.collectionIndex].payment_choices.length; index++) {
           const element = this.items[this.collectionIndex].payment_choices[index];
-          if (this.selectedPaymentConcept.id == this.selectedPaymentConcept.id) {
+          if (element.id == this.selectedPaymentConcept.id) {
             paymentChoiceIndex = index;
           }
         }
-        this.items[this.collectionIndex].payment_choices[paymentChoiceIndex].collection_payment = r.data;
+        this.items[this.collectionIndex].payment_choices[paymentChoiceIndex]['collection_payment'] = r.data;
+      } else {
+
       }
 
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.savedSuccessfully'), 'success');
       this.paymentAmount = 0; this.docFile = ''; this.description = '';
       this.docsFile.nativeElement.value = '';
       this.paymentModalClose.nativeElement.click();
+      this.closeCollReceiptModal();
     });
   }
   
@@ -795,22 +807,102 @@ export class CollectionsComponent implements OnInit {
       }
     );
   }
-  
 
   showCollectionCommissions(item: any, i: number) {
     this.collectionIndex = i;
     this.paymentConcepts = item.payment_choices;
+    item.payment_choices.forEach(element => {
+      if (element.collection_payment && element.collection_payment.collection_commission
+        && element.collection_payment.collection_commission == null) {
+        if (element.collection_payment && element.collection_payment.collection_commission) {
+          element.collection_payment['collection_commission'] = {
+            add_collection_commission: 0,
+            percent: 0,
+            amount: 0
+          }
+        } else {
+          element['collection_payment'] = {
+            collection_commission: {
+              add_collection_commission: 0,
+              percent: 0, amount: 0
+            }
+          }
+        }
+      }
+    });
     this.collectionCommissionOpen.nativeElement.click();
   }
 
-  uploadCollectionCommReceipt(item: any, i: number, type: string) {
-    // if () {
-
-    // }
+  uploadCollectionCommReceipt(paymentConcepts: Array<any>, i: number, type: string) {
+    console.log(paymentConcepts);
+    if (!paymentConcepts[i].collection_payment.collection_commission) {
+      swal('Error', 'Please fill the details before uploading receipt.', 'error');
+      return false;
+    }
+    this.selectedCollectionCommission = paymentConcepts[i].collection_payment.collection_commission;
     this.collectionCommissionClose.nativeElement.click();
     this.typeOfPayment = type;
-    this.collectionIndex = i;
-    this.paymentConcepts = item.payment_choices;
-    this.paymentModalOpen.nativeElement.click();
+    // this.collectionIndex = i;
+    this.paymentConcepts = paymentConcepts;
+    this.collectionReceiptOpen.nativeElement.click();
+  }
+
+  saveCollectionCommAmount(p: any) {
+    console.log(p);
+    if (!p.collection_payment) {
+      swal('Error', 'Payment not received.', 'error');
+      return false;
+    }
+    if (!p.collection_payment.collection_commission.amount) {
+      swal('Error', 'Add collection commission amount.', 'error');
+      return false;
+    }
+    // if (!p.collection_payment.collection_commission.add_collection_commission) {
+    //   swal('Error', 'Click on collection commission checkbox.', 'error');
+    //   return false;
+    // }
+    const input = {
+      collection_payment_id: p.collection_payment.id,
+      add_collection_commission: 1, //this.add_collection_commission,
+      percent : this.percent,
+      amount : this.amount
+      // receipt: this.docFile,
+      // description: this.description
+    }
+    console.log(input);
+    this.admin.postDataApi('applyCollectionPaymentCommission', input).subscribe(r => {
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.savedSuccessfully'), 'success');
+      // this.paymentAmount = 0; this.docFile = ''; this.description = '';
+      // this.docsFile.nativeElement.value = '';
+      // this.paymentModalClose.nativeElement.click();
+    });
+  }
+
+  getAmount(index: number, percent: number) {
+    console.log(index, percent);
+    const amount = this.items[this.collectionIndex].payment_choices[index].collection_payment.amount;
+    const collection_commission = {
+      amount: Math.round((percent * amount) / 100),
+      percent: percent
+    }
+    this.items[this.collectionIndex].payment_choices[index].collection_payment.collection_commission = collection_commission;
+  }
+
+  getPercentage(index: number, amount: number) {
+    console.log(index, amount);
+    const Famount = this.items[this.collectionIndex].payment_choices[index].collection_payment.amount;
+    const collection_commission = {
+      percent: Math.round((amount * 100) / Famount),
+      amount: amount
+    }
+    this.items[this.collectionIndex].payment_choices[index].collection_payment.collection_commission = collection_commission;
+  }
+
+  closeCollReceiptModal() {
+    this.collectionReceiptClose.nativeElement.click();
+  }
+
+  closeCollCommissionModal() {
+    this.collectionCommissionClose.nativeElement.click();
   }
 }
