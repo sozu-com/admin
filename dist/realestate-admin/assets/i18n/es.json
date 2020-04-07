@@ -193,6 +193,7 @@
     "whereItIsLocated": "¿Dónde está ubicado?",
     "developerDetails": "Detalles del desarrollador (opcional)",
     "buildingAge": "Edad de construcción (en años)",
+    "numOfProperties": "No. de propiedades",
     "buildingType": {
       "label": "Tipo de construcción",
       "chooseType": "Seleccione tipo de edificio"
@@ -253,6 +254,7 @@
       "saveDetails": "Guardar detalles",
       "name": "Nombre de la torre",
       "numberofFloors": "Número de pisos",
+      "numOfProperties": "No. de propiedades",
       "possessionStatus": "Estatus de posesión",
       "tower": "Torre",
       "noAmenityAdded": "Ninguna amenidad agredada para esta torre."
@@ -325,6 +327,7 @@
     "submitRequest": "Enviar petición",
     "thisPropertyIsAvailableFor": "¿Esta propiedad está disponible para?",
     "selectConfiguration": "¿Seleccionar configuración?",
+    "selectModal": "¿Seleccionar Modal?",
     "selectPropertyType": "¿Seleccionar el tipo de departamento?",
     "enterCarpetArea": "Ingresa área del piso",
     "enterPrice": "Ingresa precio",
@@ -364,6 +367,7 @@
       "searchForBranch": "Buscar sucursal",
       "searchForLocation": "Buscar ubicación",
       "buildingAge": "Edad del edificio",
+      "numOfProperties": "No. de propiedades",
       "projectDescription": "Ingresar descripción del proyecto",
       "launchDate": "Fecha de lanzamiento",
       "parameterName": "Parámetro nombre",
@@ -857,8 +861,8 @@
       "pleaseEnterInterestRate": "Ingrese la tasa de interés (simple / compuesto)",
       "pleaseEnterMonthlyPayment": "Ingrese Pagos mensuales (cuotas)",
       "pleaseEnterPenality": "Por favor, introduzca la penalidad por retraso en el pago",
-      "pleaseEnterTotalCommission": "Por favor ingrese Comisión Total",
-      "pleaseEnterSharedCommission": "Por favor ingrese Comisión Común",
+      "pleaseEnterSozuCommission": "Por favor ingrese a la Comisión Sozu",
+      "pleaseEnterAgentCommission": "Por favor, introduzca la comisión del agente",
       "pleaseChooseAgent": "Por favor seleccione Agente",
       "pleaseChoosePayments" : "Por favor seleccione Opciones de pago",
 

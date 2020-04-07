@@ -163,7 +163,7 @@ export class AddEditCollectionComponent implements OnInit {
       }
     });
     this.tab = 1;
-    this.getPaymentMethods();
+    // this.getPaymentMethods();
     // this.getDealTypes();
     this.getCurrencies();
     this.searchControl = new FormControl();
@@ -310,6 +310,8 @@ export class AddEditCollectionComponent implements OnInit {
       // deal_commission_agents: ['', [Validators.required]]
       deal_commission_agents: this.fb.array([]),
       collection_agent_banks: this.fb.array([]),
+
+      collection_commissions: this.fb.array([]),
     });
     // if (this.model.id === '0') {
       this.addAgent('');
@@ -571,9 +573,29 @@ export class AddEditCollectionComponent implements OnInit {
         control.push(this.fb.group(x));
       });
     }
+
+    this.model.collection_commissions = [];
+    const control1 = this.addFormStep5.get('collection_commissions') as FormArray;
+    if (data.payment_choices) {
+      for (let index = 0; index < data.payment_choices.length; index++) {
+        const element = data.payment_choices[index];
+        const element1 = data.collection_commissions[index];
+        const obj = {};
+        obj['id'] = data.collection_commissions.length > 0 ? data.collection_commissions[index].id : '';
+        obj['name'] = element['name'];
+        obj['date'] = element['date'];
+        obj['payment_amount'] = element['amount'];
+        obj['payment_choice_id'] = element['id'];
+        obj['add_collection_commission'] = data.collection_commissions.length>0 && data.collection_commissions[index] ? data.collection_commissions[index].add_collection_commission : 0;
+        obj['percent'] = data.collection_commissions.length>0 && data.collection_commissions[index] ? data.collection_commissions[index].percent : 0;
+        obj['amount'] = data.collection_commissions.length>0 && data.collection_commissions[index] ? data.collection_commissions[index].amount : 0;
+        control1.push(this.fb.group(obj));
+        this.model.collection_commissions.push(obj);
+      }
+    }
     this.addFormStep5.controls.step.patchValue(5);
   }
-
+// 
   setFolders(data: any) {
     this.collectionFolders = data['collection_folders'];
   }
@@ -1561,6 +1583,20 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep4.controls['payment_choices'].patchValue(pcArray);
   }
 
+  getCollAmount(percent: number, index: number, payment_amount: number) {
+    const amount = Math.round((percent * payment_amount) / 100);
+    const pcArray = this.addFormStep5.get('collection_commissions').value;
+    pcArray[index].amount = amount;
+    this.addFormStep5.controls['collection_commissions'].patchValue(pcArray);
+  }
+
+  getCollPercentage(amount: number, index: number, payment_amount: number) {
+    const pcArray = this.addFormStep5.get('collection_commissions').value;
+    const percent = (amount * 100) / payment_amount;
+    pcArray[index].percent = percent;
+    this.addFormStep5.controls['collection_commissions'].patchValue(pcArray);
+  }
+
   getMonthlyPerAndAmount() {
     const price = this.addFormStep4.get('deal_price').value;
     const numOfInstallments = this.addFormStep4.get('deal_monthly_payment').value;
@@ -1743,29 +1779,25 @@ export class AddEditCollectionComponent implements OnInit {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPenality'), 'error');
         return;
       }
-
-
-      // formdata['deal_purchase_date'] = formdata['deal_purchase_date'] ?
-      //  moment(formdata['deal_purchase_date']).format('YYYY-MM-DD') : null;
-      // formdata['deal_lay_date'] = moment(formdata['deal_lay_date']).format('YYYY-MM-DD');
-      // formdata['deal_down_date'] = moment(formdata['deal_down_date']).format('YYYY-MM-DD');
-      // formdata['deal_pay_date'] = moment(formdata['deal_pay_date']).format('YYYY-MM-DD');
-      // formdata['deal_spe_date'] = moment(formdata['deal_spe_date']).format('YYYY-MM-DD');
-      // formdata['deal_payment_date'] = moment(formdata['deal_payment_date']).format('YYYY-MM-DD');
-      
     }
 
     if (this.model.step == 5) {
       if (!formdata['comm_total_commission']) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterTotalCommission'), 'error');
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterSozuCommission'), 'error');
         return;
       } else if (!formdata['comm_shared_commission']) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterSharedCommission'), 'error');
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterAgentCommission'), 'error');
         return;
       } else if (!formdata['deal_commission_agents']) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), 'error');
         return;
       }
+      const collection_commissions = formdata['collection_commissions'];
+      delete formdata['collection_commissions'];
+      collection_commissions.forEach(element => {
+        element.add_collection_commission = element.add_collection_commission ? 1 : 0
+      });
+      formdata['collection_commissions'] = collection_commissions;
     }
 
     this.spinner.show();
@@ -1775,6 +1807,10 @@ export class AddEditCollectionComponent implements OnInit {
           this.tab = tab + 1;
           this.spinner.hide();
           this.model.id = success['data'].id;
+          // if (tab == 4) {
+            // for payment choices
+            this.patchFormData(success['data']);
+          // }
           if (tab == 6) {
             swal({
               html: this.translate.instant('message.success.submittedSccessfully'), type: 'success'

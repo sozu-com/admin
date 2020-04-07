@@ -25,6 +25,7 @@ export class Collection {
     buyer_type: number;
     building_configuration?: any;
     building_configuration_id: any;
+    collection_commissions: any;
 }
 
 export class DealType {

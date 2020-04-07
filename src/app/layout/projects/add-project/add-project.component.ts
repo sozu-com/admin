@@ -1429,6 +1429,11 @@ export class AddProjectComponent implements OnInit {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterNumberoffloors'), 'error');
       return false;
     }
+    // if (!this.newTower.num_of_properties && this.newTower.num_of_properties !== 0) {
+    //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterNumberoffloors'), 'error');
+    //   return false;
+    // }
+    
     if (!this.newTower.possession_status_id) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChoosePossessionStatus'), 'error');
       return false;

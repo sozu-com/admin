@@ -44,6 +44,7 @@ export class CollectionsComponent implements OnInit {
   property_collection_id: string;
   docFile: string;
   payment_choice_id: number;
+  payment_method_id: number;
   description: string;
   typeOfPayment: string;
   collectionIndex: number;
@@ -56,8 +57,10 @@ export class CollectionsComponent implements OnInit {
   percent: number;
   amount: number;
   selectedCollectionCommission: any;
+  paymentMethods: Array<any>;
 
   @ViewChild('applyPaymentChoiceId') applyPaymentChoiceId: ElementRef;
+  @ViewChild('applyPaymentMethodId') applyPaymentMethodId: ElementRef;
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('rejectModalOpen') rejectModalOpen: ElementRef;
@@ -106,7 +109,6 @@ export class CollectionsComponent implements OnInit {
     };
     this.route.params.subscribe(params => {
       this.parameter.project_id = params.project_id;
-      console.log(params);
       if (params.type === 'agent') {
         this.parameter.agent_id = params.id;
       } else if (params.type === 'agency') {
@@ -117,6 +119,7 @@ export class CollectionsComponent implements OnInit {
     this.parameter.page = this.constant.p;
     this.parameter.dash_flag = this.propertyService.dash_flag ? this.propertyService.dash_flag : this.constant.dash_flag;
     this.parameter.flag = 3;
+    this.getPaymentMethods();
     this.getCountries();
     // this.getPropertyConfigurations();
     this.getListing();
@@ -144,6 +147,17 @@ export class CollectionsComponent implements OnInit {
       error => {
         this.spinner.hide();
       });
+  }
+
+  getPaymentMethods() {
+    this.admin.postDataApi('getPaymentMethods', {})
+      .subscribe(
+        success => {
+          this.paymentMethods = success.data;
+        }, error => {
+          this.spinner.hide();
+        }
+      );
   }
 
   getCountries() {
@@ -749,10 +763,17 @@ export class CollectionsComponent implements OnInit {
   }
 
   setPaymentAmount(item: any) {
-    console.log(item)
-    this.selectedPaymentConcept = item;
-    this.paymentAmount = this.typeOfPayment == 'apply-popup' ? item.amount : 
-    (item.collection_payment ? item.collection_payment.collection_commission.amount : 0);
+    this.paymentAmount = item.amount ? item.amount : 0;
+    if (this.typeOfPayment == 'commission-popup') {
+      if (item.add_collection_commission == 0) {
+        swal('Error', 'Please enable the collection commission checkbox from collection details', 'error');
+        this.closeCollReceiptModal();
+        return false;
+      }
+      this.selectedCollectionCommission = item;
+    } else {
+      this.selectedPaymentConcept = item;
+    }
   }
 
   closePaymentModal() {
@@ -761,13 +782,13 @@ export class CollectionsComponent implements OnInit {
 
   applyCollectionPayment(formdata) {
     const input = {
-      // currency_id: 1,
+      payment_method_id: this.payment_method_id,
       amount : this.paymentAmount,
       receipt: this.docFile,
       description: this.description
     }
     if (this.typeOfPayment == 'commission-popup') {
-      input['collection_commission_id'] = this.selectedCollectionCommission.id; // this.payment_choice_id['id']
+      input['collection_commission_id'] = this.selectedCollectionCommission.id;
       input['percent'] = this.selectedCollectionCommission.percent;
     } else {
       input['collection_payment_choice_id'] = this.payment_choice_id['id']
@@ -785,12 +806,21 @@ export class CollectionsComponent implements OnInit {
         }
         this.items[this.collectionIndex].payment_choices[paymentChoiceIndex]['collection_payment'] = r.data;
       } else {
-
+        let collectionCommIndex = 0;
+        for (let index = 0; index < this.items[this.collectionIndex].collection_commission.length; index++) {
+          const element = this.items[this.collectionIndex].collection_commission[index];
+          if (element.id == this.selectedCollectionCommission.id) {
+            collectionCommIndex = index;
+          }
+        }
+        this.items[this.collectionIndex].collection_commission[collectionCommIndex]['payment'] = r.data;
       }
 
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.savedSuccessfully'), 'success');
       this.paymentAmount = 0; this.docFile = ''; this.description = '';
       this.docsFile.nativeElement.value = '';
+      this.applyPaymentChoiceId.nativeElement.value = '';
+      this.applyPaymentMethodId.nativeElement.value = '';
       this.paymentModalClose.nativeElement.click();
       this.closeCollReceiptModal();
     });
@@ -833,22 +863,20 @@ export class CollectionsComponent implements OnInit {
     this.collectionCommissionOpen.nativeElement.click();
   }
 
-  uploadCollectionCommReceipt(paymentConcepts: Array<any>, i: number, type: string) {
-    console.log(paymentConcepts);
-    if (!paymentConcepts[i].collection_payment.collection_commission) {
-      swal('Error', 'Please fill the details before uploading receipt.', 'error');
-      return false;
-    }
-    this.selectedCollectionCommission = paymentConcepts[i].collection_payment.collection_commission;
+  showCollectionCommReceipt(item: any, i: number, type: string) {
+    // if (!paymentConcepts[i].collection_payment.collection_commission) {
+    //   swal('Error', 'Please fill the details before uploading receipt.', 'error');
+    //   return false;
+    // }
+    this.paymentConcepts = item.collection_commissions;
     this.collectionCommissionClose.nativeElement.click();
     this.typeOfPayment = type;
     // this.collectionIndex = i;
-    this.paymentConcepts = paymentConcepts;
+    // this.paymentConcepts = paymentConcepts;
     this.collectionReceiptOpen.nativeElement.click();
   }
 
   saveCollectionCommAmount(p: any) {
-    console.log(p);
     if (!p.collection_payment) {
       swal('Error', 'Payment not received.', 'error');
       return false;
@@ -869,7 +897,6 @@ export class CollectionsComponent implements OnInit {
       // receipt: this.docFile,
       // description: this.description
     }
-    console.log(input);
     this.admin.postDataApi('applyCollectionPaymentCommission', input).subscribe(r => {
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.savedSuccessfully'), 'success');
       // this.paymentAmount = 0; this.docFile = ''; this.description = '';
@@ -879,7 +906,6 @@ export class CollectionsComponent implements OnInit {
   }
 
   getAmount(index: number, percent: number) {
-    console.log(index, percent);
     const amount = this.items[this.collectionIndex].payment_choices[index].collection_payment.amount;
     const collection_commission = {
       amount: Math.round((percent * amount) / 100),
@@ -889,7 +915,6 @@ export class CollectionsComponent implements OnInit {
   }
 
   getPercentage(index: number, amount: number) {
-    console.log(index, amount);
     const Famount = this.items[this.collectionIndex].payment_choices[index].collection_payment.amount;
     const collection_commission = {
       percent: Math.round((amount * 100) / Famount),
@@ -899,6 +924,8 @@ export class CollectionsComponent implements OnInit {
   }
 
   closeCollReceiptModal() {
+    this.applyPaymentChoiceId.nativeElement.value = '';
+    this.applyPaymentMethodId.nativeElement.value = '';
     this.collectionReceiptClose.nativeElement.click();
   }
 

@@ -87,6 +87,7 @@ export class AddProjectModel {
   policies?: string;
   maintenance_cost?: string;
   maintenance?: string;
+  num_of_properties?: number;
 }
 
 
@@ -135,6 +136,7 @@ export class Towers {
   amenitiesId?: Array<string>;
   floor_array?: Array<number>;
   amenitiesCount?: number;
+  num_of_properties?: number;
   // amenities: Array<any>;
   // amenitiesId: Array<any>;
 }

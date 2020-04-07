@@ -193,6 +193,7 @@
     "whereItIsLocated": "Where it is located?",
     "developerDetails": "Developer Details (optional)",
     "buildingAge": "Building Age (in yrs)",
+    "numOfProperties": "No. of properties",
     "buildingType": {
       "label": "Building Type",
       "chooseType": "Choose Building type"
@@ -253,6 +254,7 @@
       "saveDetails": "Save Details",
       "name": "Name of the Tower",
       "numberofFloors": "Number of Floors",
+      "numOfProperties": "No. of properties",
       "possessionStatus": "Possession Status",
       "tower": "Tower",
       "noAmenityAdded": "No amenity added for this tower."
@@ -325,6 +327,7 @@
     "submitRequest": "Submit Request",
     "thisPropertyIsAvailableFor": "This Property is available for?",
     "selectConfiguration": "Select Configuration?",
+    "selectModal": "Select Modal?",
     "selectPropertyType": "Select Property Type?",
     "enterCarpetArea": "Enter Carpet Area",
     "enterPrice": "Enter Price",
@@ -364,6 +367,7 @@
       "searchForBranch": "Search for Branch Office",
       "searchForLocation": "Search for Location",
       "buildingAge": "Building Age",
+      "numOfProperties": "No. of properties",
       "projectDescription": "Enter Project Description",
       "launchDate": "Launch Date",
       "parameterName": "Parameter Name",
@@ -860,8 +864,8 @@
       "pleaseEnterInterestRate": "Please enter Interest Rate (Simple/Compound)",
       "pleaseEnterMonthlyPayment": "Please enter Monthly Payments (Installments)",
       "pleaseEnterPenality": "Please enter Penality for Late Payment",
-      "pleaseEnterTotalCommission": "Please enter Total Commission",
-      "pleaseEnterSharedCommission": "Please enter Shared Commission",
+      "pleaseEnterSozuCommission": "Please enter Sozu Commission",
+      "pleaseEnterAgentCommission": "Please enter Agent Commission",
       "pleaseChooseAgent": "Please select Agent",
       "pleaseChoosePayments" : "Please select Payment Choices",
 
@@ -1532,7 +1536,8 @@
     "addDocxNameAndChooseFile": "Add docs name and choose file",
     "commercialName": "Commercial Name",
     "legalName":"Legal Name",
-    "address":"Address"
+    "address":"Address",
+    "collectionCommission": "Collection Commission"
   },
   "swal": {
     "error": "Error",

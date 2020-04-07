@@ -182,7 +182,16 @@
                   </select>
                 </div>
               </div>
-
+              <div class="col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>{{'addForm.numOfProperties' | translate}}
+                    <!-- <span class="color-red">*</span> -->
+                  </label>
+                  <input placeholder="{{'addForm.placeholder.numOfProperties' | translate}}" min="0" class="form-control" [(ngModel)]="model.num_of_properties"
+                    type="number" name="num_of_properties" />
+                </div>
+              </div>
+              
               <div class="col-12">
                 <div class="form-group-3">
                   <label>{{'addForm.description' | translate}}
@@ -571,6 +580,14 @@
 
                   <div class="col-md-6 col-sm-6 col-12">
                     <div class="form-group-3">
+                      <label>{{'addForm.tower.numOfProperties' | translate}}</label>
+                      <input min="0" autocomplete="off" [(ngModel)]="newTower.num_of_properties" class="form-control"
+                        type="number" name="num_of_properties" placeholder="{{'addForm.placeholder.numOfProperties' | translate}}" />
+                    </div>
+                  </div>
+                  
+                  <div class="col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
                       <label>{{'addForm.possessionStatus.label' | translate}}</label>
                       <select [(ngModel)]="newTower.possession_status_id" class="form-control"
                         name="possession_status_id">
@@ -683,7 +700,16 @@
                         placeholder="{{'addForm.placeholder.numberofFloors' | translate}}" />
                     </div>
                   </div>
-
+           
+                  <div class="col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>{{'addForm.tower.numOfProperties' | translate}}</label>
+                      <input autocomplete="off" [disabled]="model?.building_tower_edit_index!=i"
+                        [(ngModel)]="btower.num_of_properties" class="form-control" type="number" name="num_of_properties{{i}}"
+                        placeholder="{{'addForm.placeholder.numOfProperties' | translate}}" />
+                    </div>
+                  </div>
+            
                   <div class="col-md-6 col-sm-6 col-12">
                     <div class="form-group-3">
                       <label>{{'addForm.possessionStatus.label' | translate}}</label>

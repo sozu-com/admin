@@ -313,7 +313,7 @@
                         <span *ngIf="p?.seller_type == 2">{{p?.seller?.comm_name ? p?.seller_legal_entity?.comm_name : ('table.tr.td.NA' | translate)}}</span>
                         <span *ngIf="p?.seller_type == 3">{{p?.seller?.name ? p?.seller?.name : ('table.tr.td.NA' | translate)}}</span>
                      </td>    
-                     <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}" (click)="viewPropertyDetails(p.id, p)">
+                     <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}">
                            <!-- routerLink="/dashboard/properties/details/{{p.id}}" -->
                         <strong>{{p?.property?.building?.name ? p?.property?.building?.name: ('table.tr.td.NA' | translate)}}</strong>
                      </td>
@@ -364,13 +364,13 @@
                         (click)="showApplyPaymentPopup(p, i, 'apply-popup')" title="{{'table.title.applyPayment' | translate}}" 
                         class="action-icon"><img src="assets/img/ic_payment.png" alt="img"></button>  
 
-                        <!-- <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
-                        (click)="showApplyPaymentPopup(p, i, 'commission-popup')" title="{{'table.title.collectionCommission' | translate}}" 
-                        class="action-icon"><img src="assets/img/ic_commission.png" alt="img"></button>   -->
-
                         <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
-                        (click)="showCollectionCommissions(p, i)" title="{{'table.title.collectionCommission' | translate}}" 
+                        (click)="showCollectionCommReceipt(p, i, 'commission-popup')" title="{{'table.title.collectionCommission' | translate}}" 
                         class="action-icon"><img src="assets/img/ic_commission.png" alt="img"></button>  
+
+                        <!-- <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                        (click)="showCollectionCommissions(p, i)" title="{{'table.title.collectionCommission' | translate}}" 
+                        class="action-icon"><img src="assets/img/ic_commission.png" alt="img"></button>   -->
 
                         <!-- unapprove -->
                         <!-- <a style="display:none;" #modalOpen data-toggle="modal" data-target="#addPropertyReason"></a>
@@ -499,6 +499,17 @@
               </div>
               <div class="col-12">
                 <div class="form-group-2">
+                    <label>Choose Payment Method <span class="color-red">*</span></label>
+                    <div class="form-group">
+                        <select name="tower" #applyPaymentMethodId required class="form-control" [(ngModel)]="payment_method_id">
+                              <option value="">Choose Payment Method</option>
+                              <option *ngFor="let bt of paymentMethods" [value]="bt.id"> {{bt?.name}}</option>
+                        </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group-2">
                     <label>Enter Payment Amount<span class="color-red">*</span></label>
                     <div class="form-group">
                     <input autocomplete="off" required type="number" min="0" class="form-control" [(ngModel)]="paymentAmount" 
@@ -615,7 +626,7 @@
                               </td>
                               <td [style.width]="'25px'">
                                     <button [disabled]="p?.collection_payment?.collection_commission && p?.collection_payment?.collection_commission?.payment"
-                                    (click)="uploadCollectionCommReceipt(paymentConcepts, i, 'commission-popup')" 
+                                    (click)="showCollectionCommReceipt(paymentConcepts, i, 'commission-popup')" 
                                     title="{{'table.title.collectionCommission' | translate}}" 
                                     class="action-icon"><img src="assets/img/ic_commission.png" alt="img"></button>            
                               </td>
@@ -659,7 +670,18 @@
                         <select name="tower" #applyPaymentChoiceId required class="form-control" [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
                               <option value="">Choose Payment Concept</option>
                               <option *ngFor="let bt of paymentConcepts" [ngValue]="bt" 
-                              [disabled]="bt?.collection_payment?.collection_commission?.payment"> {{bt?.name}}</option>
+                               [disabled]="bt?.payment"> {{bt?.payment_choice?.name}}</option>
+                        </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group-2">
+                    <label>Choose Payment Method <span class="color-red">*</span></label>
+                    <div class="form-group">
+                        <select name="tower" required #applyPaymentMethodId class="form-control" [(ngModel)]="payment_method_id">
+                              <option value="">Choose Payment Method</option>
+                              <option *ngFor="let bt of paymentMethods" [value]="bt.id"> {{bt?.name}}</option>
                         </select>
                   </div>
                 </div>
