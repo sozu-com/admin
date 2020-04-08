@@ -1440,7 +1440,7 @@
     "add": "Add",
     "addReasonForRejection": "Add Reason for Rejection"
   },
-  "addCollection": {
+"addCollection": {
     "addLabel": "Add new Collection",
     "editLabel": "Edit Collection",
     "tabs": {
@@ -1481,13 +1481,17 @@
     "chooseTheSeller": "Choose the Seller",
     "SearchASellerInOurDatabase": "Search a Seller in our Database",
     "completeTheSellerInfo": "Complete the Seller Information",
+    "chooseTheBuyer": "Choose the Buyer",
+    "SearchABuyerInOurDatabase": "Search a Buyer in our Database",
+    "completeTheBuyerInfo": "Complete the Buyer Information",
     "name": "Name",
     "phonenumber": "Phone Number",
     "email": "Email",
     "companyName": "Company Name",
-    "fedralTaxPayerRegistry": "Fedral Tax Payer Registry",
+    "fedralTaxPayerRegistry": "Federal Tax Payer Registry",
     "bankAccount": "Bank Account",
     "addNewBankAccount": "+ Add new bank account",
+    "bankName": "Bank Name",
     "accountNumber": "Account Number",
     "clabeSwift": "Clabe/Swift",
     "currency": "Currency",
@@ -1502,10 +1506,52 @@
     "specialPayments": "Special Payments (Specific Payment)",
     "interestRate": "Interest Rate (Simple/Compound)",
     "monthlyPayment": "Monthly Payments (Installments)",
-    "penalityForLatePayment": "Penality for Late Payment"
+    "penalityForLatePayment": "Penality for Late Payment",
+    "percentage": "Percentage",
+    "amount": "Amount",
+    "paymentMethods": "Payment Methods",
+    "commissionDetails": "Commission Details",
+    "completeCommissionInfo": "Complete the Commission Information",
+    "totalCommission": "Total Commission",
+    "sharedCommission":"Shared Commission",
+    "agentCommission": "Agent Commission (in %)",
+    "sozuCommission": "Sozu Commission (in %)",
+    "nameOfAgent": "Name of Agent",
+    "taggedApartmentName": "Tagged Apartment Name",
+    "selectedDealType": "Selected Deal Type",
+    "selectedModal": "Selected Modal",
+    "choosePaymentType": "Choose Payment Type",
+    "folders": "Folders",
+    "addNewFolder": "+ Add New Folder",
+    "folderName": "Folder Name",
+    "buildingYouAreSearchingNotFound": "Building you are searching, not found in our Database",
+    "chooseDate":"Choose Date",
+    "enterPercentage": "Enter Percentage",
+    "enterAmount": "Enter Amount",
+    "enterSpecialPaymentName": "Enter Special Payment Name",
+    "isSellerALegalEntity": "Is Seller a Legal Entity",
+    "addDocxNameAndChooseFile": "Add docs name and choose file",
+    "commercialName": "Commercial Name",
+    "legalName":"Legal Name",
+    "address":"Address",
+    "collectionCommission": "Collection Commission"
   },
   "swal": {
     "error": "Error",
     "success": "Success"
+  },
+  "manageUsers": {
+    "addLegalEntity": "Add Legal Entity"
+  },
+  "manageLegalEntity": {
+    "label": "Manage Legal Entity",
+    "commercialName": "Commercial Name",
+    "legalName": "Legal Name",
+    "phone": "Phone",
+    "legalRep": "Legal Representative"
+  },
+  "addLegalEntity": {
+    "editEntity": "Edit Legal Entity",
+    "addEntity": "Add Legal Entity"
   }
 }
