@@ -92,6 +92,7 @@ export class CollectionsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.parameter.flag = 1;
     this.model = new Notes();
     this.locale = {
       firstDayOfWeek: 0,
@@ -250,7 +251,7 @@ export class CollectionsComponent implements OnInit {
     this.getListing();
   }
 
-  changePropertyFlag(flag) {
+  changeAppUnappFlag(flag) {
     this.parameter.flag = flag;
     this.getListing();
   }

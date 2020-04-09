@@ -228,7 +228,10 @@
     "regulationsPolicies": "Regulaciones y Políticas",
     "maintenance": {
       "label": "Mantenimiento",
-      "cost": "Costo de mantenimiento",
+      "type": "Tipo de costo de mantenimiento",
+      "unitCost": "Costo unitario",
+      "costPerSqMeter": "Costo por metro cuadrado",
+      "cost": "Costo",
       "features": "Caracteristicas"
     },
     "show": "Mostrar",

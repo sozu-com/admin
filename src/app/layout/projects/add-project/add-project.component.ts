@@ -420,6 +420,7 @@ export class AddProjectComponent implements OnInit {
     this.model.policies = data.policies;
     this.model.maintenance = data.maintenance;
     this.model.maintenance_cost = data.maintenance_cost;
+    this.model.maintenance_cost_type = data.maintenance_cost_type;
   }
 
   setMaritalStatus(data) {
