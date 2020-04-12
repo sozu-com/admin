@@ -372,6 +372,10 @@
                         class="action-icon"><img src="assets/img/chat-icon.png" alt="img"></button>  
 
                         <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                        (click)="showPenaltyPaymentPopup(p, i, 'penalty-popup')" title="{{'table.title.penaltyPayment' | translate}}" 
+                        class="action-icon"><img src="assets/img/stamp.png" alt="img"></button>  
+
+                        <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
                         (click)="showApplyPaymentPopup(p, i, 'apply-popup')" title="{{'table.title.applyPayment' | translate}}" 
                         class="action-icon"><img src="assets/img/ic_payment.png" alt="img"></button>  
 
@@ -379,6 +383,14 @@
                         (click)="showCollectionCommReceipt(p, i, 'commission-popup')" title="{{'table.title.collectionCommission' | translate}}" 
                         class="action-icon"><img src="assets/img/ic_commission.png" alt="img"></button>  
 
+                        <button *ngIf="p.is_approved == 1" [disabled]="admin?.admin_acl['Property Management']?.can_update==0" 
+                        (click)="changeStatus(p, 0);" class="action-icon" 
+                        title="{{'table.title.unapprove' | translate}}"><img src="assets/img/ic_disapprove.png" alt="img"></button>
+                       
+                        <button *ngIf="p.is_approved == 0" [disabled]="admin?.admin_acl['Property Management']?.can_update==0" 
+                        (click)="changeStatus(p, 1);" class="action-icon" 
+                        title="{{'table.title.approve' | translate}}"><img src="assets/img/tick.png" alt="img"></button>
+                        
                         <!-- <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
                         (click)="showCollectionCommissions(p, i)" title="{{'table.title.collectionCommission' | translate}}" 
                         class="action-icon"><img src="assets/img/ic_commission.png" alt="img"></button>   -->
@@ -480,6 +492,65 @@
 
 
 
+<a href="javascript://" data-toggle="modal" data-target="#penaltyModal" #penaltyModalOpen></a>
+<div class="modal animated" id="penaltyModal">
+    <div class="modal-dialog fadeIndown">
+        <div class="modal-content notary-avail">
+              <div class="modal-header popup-header">
+          <h4>Add Penalty</h4>
+            <button style="display: none;" type="button" class="close" data-dismiss="modal" #penaltyModalClose>&times;</button>
+            <button type="button" class="close" (click)="closePenaltyPaymentPopup(); addForm.reset()">&times;</button>
+        </div>
+  
+        <form class="form-horizontal padding0" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="applyCollectionPenalty(addForm.value)">
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="spacer40"></div>
+              </div>
+              <div class="col-12">
+                <div class="form-group-2">
+                    <label>Choose Payment Concept <span class="color-red">*</span></label>
+                    <div class="form-group">
+                        <select name="payment_choice" required class="form-control" [(ngModel)]="payment_choice_id">
+                              <option value="">Choose Payment Concept</option>
+                              <option *ngFor="let bt of paymentConcepts" [ngValue]="bt" 
+                               [disabled]="bt?.collection_payment"> {{bt?.name}}</option>
+                        </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group-2">
+                    <label>Enter Payment Amount<span class="color-red">*</span></label>
+                    <div class="form-group">
+                    <input autocomplete="off" required type="number" min="0" class="form-control" [(ngModel)]="paymentAmount" 
+                        name="paymentAmount">
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group-2">
+                    <label>Description</label>
+                    <div class="form-group">
+                          <textarea rows="3" [(ngModel)]="description" name="description" class="form-control"></textarea>
+                 </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="btn-cont text-right">
+                    <button type="submit" class="btn btn-primary-new">
+                        {{'addForm.addBtn' | translate}}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+
 <a href="javascript://" data-toggle="modal" data-target="#entityModal" #paymentModalOpen></a>
 <div class="modal animated" id="entityModal">
     <div class="modal-dialog fadeIndown">
@@ -500,7 +571,7 @@
                 <div class="form-group-2">
                     <label>Choose Payment Concept <span class="color-red">*</span></label>
                     <div class="form-group">
-                        <select name="tower" #applyPaymentChoiceId required class="form-control" [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
+                        <select name="payment_choice" #applyPaymentChoiceId required class="form-control" [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
                               <option value="">Choose Payment Concept</option>
                               <option *ngFor="let bt of paymentConcepts" [ngValue]="bt" 
                                [disabled]="bt?.collection_payment"> {{bt?.name}}</option>
@@ -512,16 +583,33 @@
                 <div class="form-group-2">
                     <label>Choose Payment Method <span class="color-red">*</span></label>
                     <div class="form-group">
-                        <select name="tower" #applyPaymentMethodId required class="form-control" [(ngModel)]="payment_method_id">
+                        <select name="payment_method" #applyPaymentMethodId required class="form-control" [(ngModel)]="payment_method_id">
                               <option value="">Choose Payment Method</option>
                               <option *ngFor="let bt of paymentMethods" [value]="bt.id"> {{bt?.name}}</option>
                         </select>
                   </div>
                 </div>
               </div>
+              <div class="col-12" *ngIf="typeOfPayment=='apply-popup'">
+                <div class="form-group-2">
+                    <label>Pending/Extra Amount<span class="color-red">*</span></label>
+                    <div class="form-group">
+                    <input readonly class="form-control" value="{{pendingPayment}}" name="pendingPayment">
+                  </div>
+                </div>
+              </div>
+              <div class="col-12" *ngIf="typeOfPayment=='apply-popup'">
+                <div class="form-group-2">
+                    <label>Current amount to be paid<span class="color-red">*</span></label>
+                    <div class="form-group">
+                    <input autocomplete="off" required type="number" min="0" class="form-control" [(ngModel)]="currentAmount" 
+                        name="currentAmount">
+                  </div>
+                </div>
+              </div>
               <div class="col-12">
                 <div class="form-group-2">
-                    <label>Enter Payment Amount<span class="color-red">*</span></label>
+                    <label>Total amount to be paid<span class="color-red">*</span></label>
                     <div class="form-group">
                     <input autocomplete="off" required type="number" min="0" class="form-control" [(ngModel)]="paymentAmount" 
                         name="paymentAmount">
@@ -678,7 +766,7 @@
                 <div class="form-group-2">
                     <label>Choose Payment Concept <span class="color-red">*</span></label>
                     <div class="form-group">
-                        <select name="tower" #applyPaymentChoiceId required class="form-control" [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
+                        <select name="payment_choice" #applyPaymentChoiceId required class="form-control" [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
                               <option value="">Choose Payment Concept</option>
                               <option *ngFor="let bt of paymentConcepts" [ngValue]="bt" 
                                [disabled]="bt?.payment"> {{bt?.payment_choice?.name}}</option>
@@ -690,7 +778,7 @@
                 <div class="form-group-2">
                     <label>Choose Payment Method <span class="color-red">*</span></label>
                     <div class="form-group">
-                        <select name="tower" required #applyPaymentMethodId class="form-control" [(ngModel)]="payment_method_id">
+                        <select name="payment_method" required #applyPaymentMethodId class="form-control" [(ngModel)]="payment_method_id">
                               <option value="">Choose Payment Method</option>
                               <option *ngFor="let bt of paymentMethods" [value]="bt.id"> {{bt?.name}}</option>
                         </select>

@@ -215,12 +215,12 @@
                          <a class="nav-link" href="javascript://" routerLink="properties/view-properties"><i><img src="assets/img/ic_properties_manage.png"></i><span>{{'sidebar.manageProperties' | translate}}</span></a>
                        </li>
                        <!-- *ngIf="admin?.admin_acl['Property Management']?.can_read==1" -->
-                       <!-- <li class="nav-item" [routerLinkActive]="'active'">
+                       <li class="nav-item" [routerLinkActive]="'active'">
                         <a class="nav-link" href="javascript://" routerLink="legal-entities/view-all"><i><img src="assets/img/ic_properties_manage.png"></i><span>{{'sidebar.manageLegalEntity' | translate}}</span></a>
-                      </li> -->
-                       <!-- <li class="nav-item" [routerLinkActive]="'active'">
+                      </li>
+                       <li class="nav-item" [routerLinkActive]="'active'">
                          <a class="nav-link" href="javascript://" routerLink="collections/view-collections"><i><img src="assets/img/ic_properties_manage.png"></i><span>{{'sidebar.manageCollections' | translate}}</span></a>
-                       </li> -->
+                       </li>
                        <li *ngIf="admin?.admin_acl['Access Controls']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
                          <a class="nav-link" href="javascript://" routerLink="access-control-mgt"><i><img src="assets/img/key.png"></i><span>{{'sidebar.ACL' | translate}}</span></a>
                        </li>

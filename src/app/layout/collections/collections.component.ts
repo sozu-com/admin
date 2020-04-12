@@ -51,6 +51,7 @@ export class CollectionsComponent implements OnInit {
   selectedPaymentConcept: any;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
 
+  currentAmount: number;
   paymentAmount: number;
   paymentConcepts: Array<any>;
   add_collection_commission: any;
@@ -58,6 +59,7 @@ export class CollectionsComponent implements OnInit {
   amount: number;
   selectedCollectionCommission: any;
   paymentMethods: Array<any>;
+  pendingPayment: number;
 
   @ViewChild('applyPaymentChoiceId') applyPaymentChoiceId: ElementRef;
   @ViewChild('applyPaymentMethodId') applyPaymentMethodId: ElementRef;
@@ -78,6 +80,8 @@ export class CollectionsComponent implements OnInit {
   @ViewChild('collectionCommissionClose') collectionCommissionClose: ElementRef;
   @ViewChild('collectionReceiptOpen') collectionReceiptOpen: ElementRef;
   @ViewChild('collectionReceiptClose') collectionReceiptClose: ElementRef;
+  @ViewChild('penaltyModalOpen') penaltyModalOpen: ElementRef;
+  @ViewChild('penaltyModalClose') penaltyModalClose: ElementRef;
 
   constructor(
     public constant: Constant,
@@ -119,7 +123,6 @@ export class CollectionsComponent implements OnInit {
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.parameter.dash_flag = this.propertyService.dash_flag ? this.propertyService.dash_flag : this.constant.dash_flag;
-    this.parameter.flag = 3;
     this.getPaymentMethods();
     this.getCountries();
     // this.getPropertyConfigurations();
@@ -139,6 +142,7 @@ export class CollectionsComponent implements OnInit {
     } else {
       delete input.max;
     }
+    input.is_approved = this.parameter.flag;
     this.admin.postDataApi('getCollection', input).subscribe(
       success => {
         this.items = success.data;
@@ -324,15 +328,12 @@ export class CollectionsComponent implements OnInit {
     this.rejectModalClose.nativeElement.click();
   }
 
-  changeStatus(item, status) {
-    item.status = status;
-    const input = { property_id: item.id, status_id: status, reason: '' };
-    if (this.reason) {
-      input.reason = this.reason;
-    }
-    this.admin.postDataApi('updatePropertyStatus', input).subscribe(r => {
+  changeStatus(item: any, status: number) {
+    item.is_approved = status;
+    const input = { id: item.id, is_approved: status };
+    this.admin.postDataApi('approveCollection', input).subscribe(r => {
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.propertyStatusChanged'), 'success');
-      this.closeModal();
+      // this.closeModal();
     },
       error => {
         swal(this.translate.instant('swal.error'), error.error.message, 'error');
@@ -764,16 +765,41 @@ export class CollectionsComponent implements OnInit {
   }
 
   setPaymentAmount(item: any) {
-    this.paymentAmount = item.amount ? item.amount : 0;
+    // this.paymentAmount = item.amount ? item.amount : 0;
     if (this.typeOfPayment == 'commission-popup') {
       if (item.add_collection_commission == 0) {
         swal('Error', 'Please enable the collection commission checkbox from collection details', 'error');
         this.closeCollReceiptModal();
         return false;
       }
+      this.paymentAmount = item.amount ? item.amount : 0;
       this.selectedCollectionCommission = item;
     } else {
       this.selectedPaymentConcept = item;
+      let amt = 0;
+      let amtPaid = 0;
+      let currentAmt = 0;
+      let currentAmtPaid = 0;
+      for (let index = 0; index < this.paymentConcepts.length; index++) {
+        
+        const r = this.paymentConcepts[index];
+        currentAmt = r['amount']; currentAmtPaid = r['collection_payment'] ? r['collection_payment']['amount'] : 0;
+        console.log(r['name'])
+        if (r['id'] != item['id']) {
+          amt = amt + r['amount'];
+          amtPaid = amtPaid + currentAmtPaid;
+        } else {
+          break;
+        }
+      }
+      console.log(amt)
+      console.log(currentAmt)
+      console.log(amtPaid)
+      console.log(currentAmtPaid)
+      this.pendingPayment = amt - amtPaid;
+      console.log(this.pendingPayment);
+      this.currentAmount = currentAmt;
+      this.paymentAmount = (currentAmt + this.pendingPayment);
     }
   }
 
@@ -932,5 +958,33 @@ export class CollectionsComponent implements OnInit {
 
   closeCollCommissionModal() {
     this.collectionCommissionClose.nativeElement.click();
+  }
+
+  showPenaltyPaymentPopup(item: any, i: number, type: string) {
+    this.typeOfPayment = type;
+    this.collectionIndex = i;
+    this.paymentConcepts = item.payment_choices;
+    this.penaltyModalOpen.nativeElement.click();
+  }
+  
+  closePenaltyPaymentPopup() {
+    this.penaltyModalClose.nativeElement.click();
+  }
+
+  applyCollectionPenalty(formdata) {
+    console.log(formdata)
+    if (!formdata.payment_choice.id && !formdata.paymentAmount)
+    return false;
+    const input = {
+      collection_payment_choice_id: formdata.payment_choice.id,
+      amount : formdata.paymentAmount,
+      description: formdata.description ? formdata.description : ''
+    }
+    this.admin.postDataApi('applyCollectionPenalty', input).subscribe(r => {
+      // formdata.reset();
+      this.payment_choice_id = 0; this.paymentAmount = 0; this.description = '';
+      this.closePenaltyPaymentPopup();
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.savedSuccessfully'), 'success');
+    });
   }
 }
