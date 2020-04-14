@@ -295,7 +295,7 @@ export class AddEditCollectionComponent implements OnInit {
       // deal_payment_date: ['', [Validators.required]],
       // deal_monthly_amount: ['', [Validators.required]],
       // deal_monthly_percentage: ['', [Validators.required]],
-      deal_penality: ['', [Validators.required]]
+      deal_penality: [0, [Validators.required]]
       // payment_method_id: ['', [Validators.required]]
     });
   }
@@ -1775,10 +1775,10 @@ export class AddEditCollectionComponent implements OnInit {
       //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterInterestRate'), 'error');
       //   return;
       // } 
-      else if (!formdata['deal_penality']) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPenality'), 'error');
-        return;
-      }
+      // else if (!formdata['deal_penality']) {
+      //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPenality'), 'error');
+      //   return;
+      // }
     }
 
     if (this.model.step == 5) {

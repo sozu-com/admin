@@ -132,7 +132,7 @@
             <a [ngClass]="{'active':parameter.flag==1}" (click)="changeAppUnappFlag(1)" class="nav-link cursor-pointer" >{{'filters.flag.approved' | translate}}</a>
             </li>
             <li class="nav-item">
-            <a [ngClass]="{'active':parameter.flag==2}" (click)="changeAppUnappFlag(2)" class="nav-link cursor-pointer" >{{'filters.flag.unapproved' | translate}}</a>
+            <a [ngClass]="{'active':parameter.flag==0}" (click)="changeAppUnappFlag(0)" class="nav-link cursor-pointer" >{{'filters.flag.unapproved' | translate}}</a>
             </li>
       </ul>
       </div>
@@ -515,7 +515,7 @@
                         <select name="payment_choice" required class="form-control" [(ngModel)]="payment_choice_id">
                               <option value="">Choose Payment Concept</option>
                               <option *ngFor="let bt of paymentConcepts" [ngValue]="bt" 
-                               [disabled]="bt?.collection_payment"> {{bt?.name}}</option>
+                               [disabled]="bt?.penalty"> {{bt?.name}}</option>
                         </select>
                   </div>
                 </div>
@@ -595,6 +595,14 @@
                     <label>Pending/Extra Amount<span class="color-red">*</span></label>
                     <div class="form-group">
                     <input readonly class="form-control" value="{{pendingPayment}}" name="pendingPayment">
+                  </div>
+                </div>
+              </div>
+              <div class="col-12" *ngIf="typeOfPayment=='apply-popup'">
+                <div class="form-group-2">
+                    <label>Penalty Amount<span class="color-red">*</span></label>
+                    <div class="form-group">
+                    <input readonly class="form-control" value="{{penaltyAmount}}" name="penaltyAmount">
                   </div>
                 </div>
               </div>

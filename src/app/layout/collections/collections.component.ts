@@ -11,6 +11,7 @@ import { PropertyService } from 'src/app/services/property.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Notes } from '../../models/leads.model';
 import { CommonService } from '../../services/common.service';
+import { NgForm } from '@angular/forms';
 declare let swal: any;
 
 @Component({
@@ -60,6 +61,7 @@ export class CollectionsComponent implements OnInit {
   selectedCollectionCommission: any;
   paymentMethods: Array<any>;
   pendingPayment: number;
+  penaltyAmount: number;
 
   @ViewChild('applyPaymentChoiceId') applyPaymentChoiceId: ElementRef;
   @ViewChild('applyPaymentMethodId') applyPaymentMethodId: ElementRef;
@@ -776,30 +778,27 @@ export class CollectionsComponent implements OnInit {
       this.selectedCollectionCommission = item;
     } else {
       this.selectedPaymentConcept = item;
-      let amt = 0;
+      let amt = 0; let penaltyamt = 0;
       let amtPaid = 0;
       let currentAmt = 0;
       let currentAmtPaid = 0;
-      for (let index = 0; index < this.paymentConcepts.length; index++) {
-        
+      for (let index = 0; index < this.paymentConcepts.length; index++) {        
         const r = this.paymentConcepts[index];
         currentAmt = r['amount']; currentAmtPaid = r['collection_payment'] ? r['collection_payment']['amount'] : 0;
         console.log(r['name'])
         if (r['id'] != item['id']) {
-          amt = amt + r['amount'];
+          penaltyamt = r['penalty'] ? r['penalty']['amount'] : 0;
+          amt = amt + r['amount'] + penaltyamt;
           amtPaid = amtPaid + currentAmtPaid;
         } else {
           break;
         }
       }
-      console.log(amt)
-      console.log(currentAmt)
-      console.log(amtPaid)
-      console.log(currentAmtPaid)
+      this.penaltyAmount = item.penalty ? item.penalty.amount : 0;
       this.pendingPayment = amt - amtPaid;
-      console.log(this.pendingPayment);
       this.currentAmount = currentAmt;
-      this.paymentAmount = (currentAmt + this.pendingPayment);
+      this.paymentAmount = (currentAmt + this.pendingPayment + this.penaltyAmount);
+      console.log(this.penaltyAmount, this.pendingPayment, this.currentAmount, this.paymentAmount)
     }
   }
 
@@ -807,7 +806,7 @@ export class CollectionsComponent implements OnInit {
     this.paymentModalClose.nativeElement.click();
   }
 
-  applyCollectionPayment(formdata) {
+  applyCollectionPayment(formdata: NgForm) {
     const input = {
       payment_method_id: this.payment_method_id,
       amount : this.paymentAmount,
@@ -843,8 +842,10 @@ export class CollectionsComponent implements OnInit {
         this.items[this.collectionIndex].collection_commission[collectionCommIndex]['payment'] = r.data;
       }
 
+      // formdata.reset();
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.savedSuccessfully'), 'success');
       this.paymentAmount = 0; this.docFile = ''; this.description = '';
+      this.penaltyAmount = 0; this.pendingPayment = 0; this.currentAmount = 0;
       this.docsFile.nativeElement.value = '';
       this.applyPaymentChoiceId.nativeElement.value = '';
       this.applyPaymentMethodId.nativeElement.value = '';
@@ -972,7 +973,6 @@ export class CollectionsComponent implements OnInit {
   }
 
   applyCollectionPenalty(formdata) {
-    console.log(formdata)
     if (!formdata.payment_choice.id && !formdata.paymentAmount)
     return false;
     const input = {
@@ -982,6 +982,14 @@ export class CollectionsComponent implements OnInit {
     }
     this.admin.postDataApi('applyCollectionPenalty', input).subscribe(r => {
       // formdata.reset();
+      let paymentChoiceIndex = 0;
+      for (let index = 0; index < this.items[this.collectionIndex].payment_choices.length; index++) {
+        const element = this.items[this.collectionIndex].payment_choices[index];
+        if (element.id == formdata.payment_choice.id) {
+          paymentChoiceIndex = index;
+        }
+      }
+      this.items[this.collectionIndex].payment_choices[paymentChoiceIndex]['penalty'] = r.data;
       this.payment_choice_id = 0; this.paymentAmount = 0; this.description = '';
       this.closePenaltyPaymentPopup();
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.savedSuccessfully'), 'success');

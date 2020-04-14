@@ -297,3 +297,48 @@ export class AddDeveloperComponent implements OnInit {
     }
   }
 }
+
+
+
+// if($request->legal_representative){
+//   if(isset($request->legal_representative->id)){
+//        //update the legal entiry
+//        $legal_representative = Uer::find($request->legal_representative->id);
+//        $legal_representative->name = $request->legal_representative['name'];
+//        $legal_representative->email= $request->legal_representative['email'];
+//        $legal_representative->dial_code = $request->legal_representative['dial_code'];
+//        $legal_representative->country_code=$request->legal_representative['country_code'];
+//        $legal_representative->phone     = $request->legal_representative['phone'];
+//        $legal_representative->fed_tax_pay = $request->legal_entity['fed_tax_pay'];
+//        $legal_representative->save();
+//   }else{
+//        // create lega entity
+//        $legal_representative = new User();
+//        $legal_representative->name = $request->legal_representative['name'];
+//        $legal_representative->email= $request->legal_representative['email'];
+//        $legal_representative->dial_code = $request->legal_representative['dial_code'];
+//        $legal_representative->country_code=$request->legal_representative['country_code'];
+//        $legal_representative->phone     = $request->legal_representative['phone'];
+//        $legal_representative->fed_tax_pay = $request->legal_representative['fed_tax_pay'];
+//        $legal_representative->save();
+//   } 
+
+//   foreach ($request->legal_representative['legal_rep_banks'] as $k => $bank) {
+//       if(isset($bank['id'])){
+//            LegalRepresentativeBank::where('id',$bank['id'])->where('user_id',$legal_representative->id)->update([
+//                'bank_name'     =>  $bank['bank_name'],
+//                'swift'         =>  $bank['swift'],
+//                'account_number'=>  $bank['account_number'],
+//                'currency_id'   =>  $bank['currency_id']
+//            ]);
+//       }else{
+//            LegalRepresentativeBank::create([
+//                'user_id'   =>  $legal_representative->id,
+//                'bank_name'         =>  $bank['bank_name'],
+//                'swift'             =>  $bank['swift'],
+//                'account_number'    =>  $bank['account_number'],
+//                'currency_id'       =>  $bank['currency_id']
+//            ]);
+//       }
+//   }
+// }
