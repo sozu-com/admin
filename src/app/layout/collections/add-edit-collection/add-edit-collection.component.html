@@ -1026,6 +1026,12 @@
           </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <label class="p16-two">{{'addCollection.sozuCommissionAmount' | translate}}</label>
+          <div class="form-group-3">
+            <input autocomplete="off" class="form-control" type="number" min="0" max="100" name="comm_total_commission_amount" formControlName="comm_total_commission_amount">
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <label class="p16-two">{{'addCollection.agentCommission' | translate}}</label>
           <div class="input-group form-group-3">
             <input autocomplete="off" class="form-control" type="number" min="0" max="100" name="comm_shared_commission" formControlName="comm_shared_commission">
@@ -1123,6 +1129,8 @@
                 <th rowspan="2"><b>Amount</b></th>
                 <th rowspan="2"><b>Add Collection Commission</b></th>
                 <th colspan="2"><b>Enter Collection Commission</b></th>
+                <th rowspan="2"><b>Add Purchase Commission</b></th>
+                <th rowspan="2"><b>Enter PC Amount</b></th>
               </tr>
               <tr>
                 <th colspan="1"><b>Percent</b></th>
@@ -1146,6 +1154,12 @@
               </td>
               <td>
                   <input type="number" class="form-control" formControlName="amount" name="amount{{i}}" (input)="getCollPercentage($event.target.value, i, model.collection_commissions[i].payment_amount)">
+              </td>
+              <td>
+                  <input type="checkbox" class="form-control" formControlName="add_purchase_commission" name="add_purchase_commission">
+              </td>
+              <td>
+                  <input type="number" class="form-control" formControlName="purchase_comm_amount" name="purchase_comm_amount{{i}}">
               </td>
             </tr>
           </ng-container>

@@ -1524,6 +1524,7 @@
     "sharedCommission":"Shared Commission",
     "agentCommission": "Agent Commission (in %)",
     "sozuCommission": "Sozu Commission (in %)",
+    "sozuCommissionAmount": "Sozu Commission",
     "nameOfAgent": "Name of Agent",
     "taggedApartmentName": "Tagged Apartment Name",
     "selectedDealType": "Selected Deal Type",

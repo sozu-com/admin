@@ -306,6 +306,7 @@ export class AddEditCollectionComponent implements OnInit {
       // step 5
       step: ['', [Validators.required]],
       comm_total_commission: ['', [Validators.required]],
+      comm_total_commission_amount: ['', [Validators.required]],
       comm_shared_commission: ['', [Validators.required]],
       // deal_commission_agents: ['', [Validators.required]]
       deal_commission_agents: this.fb.array([]),
@@ -561,6 +562,7 @@ export class AddEditCollectionComponent implements OnInit {
 
   patchFormStep5(data) {
     this.addFormStep5.controls.comm_total_commission.patchValue(data.comm_total_commission);
+    this.addFormStep5.controls.comm_total_commission_amount.patchValue(data.comm_total_commission_amount ? data.comm_total_commission_amount : 0);
     this.addFormStep5.controls.comm_shared_commission.patchValue(data.comm_shared_commission);
     this.addFormStep5.controls.deal_commission_agents.patchValue(data.deal_commission_agents);
     // const control = this.addFormStep5.get('deal_commission_agents') as FormArray;
@@ -589,6 +591,10 @@ export class AddEditCollectionComponent implements OnInit {
         obj['add_collection_commission'] = data.collection_commissions.length>0 && data.collection_commissions[index] ? data.collection_commissions[index].add_collection_commission : 0;
         obj['percent'] = data.collection_commissions.length>0 && data.collection_commissions[index] ? data.collection_commissions[index].percent : 0;
         obj['amount'] = data.collection_commissions.length>0 && data.collection_commissions[index] ? data.collection_commissions[index].amount : 0;
+        
+        obj['add_purchase_commission'] = data.collection_commissions.length>0 && data.collection_commissions[index] ? data.collection_commissions[index].add_purchase_commission : 0;
+        obj['purchase_comm_amount'] = data.collection_commissions.length>0 && data.collection_commissions[index] ? data.collection_commissions[index].purchase_comm_amount : 0;
+        
         control1.push(this.fb.group(obj));
         this.model.collection_commissions.push(obj);
       }
@@ -839,6 +845,7 @@ export class AddEditCollectionComponent implements OnInit {
           this.setAvailableStatus(1);
         }
         this.addFormStep5.controls.comm_total_commission.patchValue(p.total_commision ? p.total_commision : 0)
+        this.addFormStep5.controls.comm_total_commission_amount.patchValue(p.total_commision ? (p.total_commision *p.min_price)/100 : 0)
         this.addFormStep5.controls.comm_shared_commission.patchValue(p.broker_commision ? p.broker_commision : 0)
       }
     })
@@ -1785,6 +1792,9 @@ export class AddEditCollectionComponent implements OnInit {
       if (!formdata['comm_total_commission']) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterSozuCommission'), 'error');
         return;
+      } else if (!formdata['comm_total_commission_amount']) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterSozuCommission'), 'error');
+        return;
       } else if (!formdata['comm_shared_commission']) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterAgentCommission'), 'error');
         return;
@@ -1796,6 +1806,7 @@ export class AddEditCollectionComponent implements OnInit {
       delete formdata['collection_commissions'];
       collection_commissions.forEach(element => {
         element.add_collection_commission = element.add_collection_commission ? 1 : 0
+        element.add_purchase_commission = element.add_purchase_commission ? 1 : 0
       });
       formdata['collection_commissions'] = collection_commissions;
     }
