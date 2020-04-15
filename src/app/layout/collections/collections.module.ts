@@ -20,6 +20,7 @@ import { CalendarModule, DropdownModule } from 'primeng/primeng';
 import { AddEditCollectionComponent } from './add-edit-collection/add-edit-collection.component';
 import { CollectionsComponent } from './collections.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
+import { QuickVisualizationComponent } from './quick-visualization/quick-visualization.component';
 
 const routes: Routes = [
   // {
@@ -34,6 +35,9 @@ const routes: Routes = [
   },
   {
     path: 'edit-collection/:id', component: AddEditCollectionComponent
+  },
+  {
+    path: 'quick-visualization/:id', component: QuickVisualizationComponent
   }
 ];
 
@@ -60,7 +64,8 @@ const routes: Routes = [
   declarations: [
     CollectionsComponent,
     AddEditCollectionComponent,
-    AnalyticsComponent
+    AnalyticsComponent,
+    QuickVisualizationComponent
   ]
 })
 

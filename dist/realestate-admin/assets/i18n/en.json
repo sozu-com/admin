@@ -697,7 +697,8 @@
       "collectionNotes": "Collection Notes",
       "applyPayment": "Apply Payment",
       "collectionCommission": "Collection Commission",
-      "penaltyPayment": "Add Penalty"
+      "penaltyPayment": "Add Penalty",
+      "quickVisuaization": "Quick Visualization"
     },
     "pagination": {
       "showing": "Showing",

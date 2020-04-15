@@ -694,7 +694,8 @@
       "collectionNotes": "Notas de colección",
       "applyPayment": "Aplicar pago",
       "collectionCommission": "Comisión de cobro",
-      "penaltyPayment": "Añadir penalización"
+      "penaltyPayment": "Añadir penalización",
+      "quickVisuaization": "Visualización rápida"
     },
     "pagination": {
       "showing": "Mostrando",

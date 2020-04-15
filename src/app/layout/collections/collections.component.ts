@@ -62,6 +62,7 @@ export class CollectionsComponent implements OnInit {
   paymentMethods: Array<any>;
   pendingPayment: number;
   penaltyAmount: number;
+  paymentDate: Date;
 
   @ViewChild('applyPaymentChoiceId') applyPaymentChoiceId: ElementRef;
   @ViewChild('applyPaymentMethodId') applyPaymentMethodId: ElementRef;
@@ -78,8 +79,8 @@ export class CollectionsComponent implements OnInit {
   @ViewChild('closeExtBrokerModal') closeExtBrokerModal: ElementRef;
   @ViewChild('paymentModalOpen') paymentModalOpen: ElementRef;
   @ViewChild('paymentModalClose') paymentModalClose: ElementRef;
-  @ViewChild('collectionCommissionOpen') collectionCommissionOpen: ElementRef;
-  @ViewChild('collectionCommissionClose') collectionCommissionClose: ElementRef;
+  @ViewChild('viewCollectionOpen') viewCollectionOpen: ElementRef;
+  @ViewChild('viewCollectionClose') viewCollectionClose: ElementRef;
   @ViewChild('collectionReceiptOpen') collectionReceiptOpen: ElementRef;
   @ViewChild('collectionReceiptClose') collectionReceiptClose: ElementRef;
   @ViewChild('penaltyModalOpen') penaltyModalOpen: ElementRef;
@@ -806,6 +807,12 @@ export class CollectionsComponent implements OnInit {
     this.paymentModalClose.nativeElement.click();
   }
 
+  onSelect(e) {
+console.log(e);
+    this.paymentDate = moment.utc(e).toDate();
+    console.log(this.paymentDate)
+  }
+
   applyCollectionPayment(formdata: NgForm) {
     const input = {
       payment_method_id: this.payment_method_id,
@@ -833,16 +840,15 @@ export class CollectionsComponent implements OnInit {
         this.items[this.collectionIndex].payment_choices[paymentChoiceIndex]['collection_payment'] = r.data;
       } else {
         let collectionCommIndex = 0;
-        for (let index = 0; index < this.items[this.collectionIndex].collection_commission.length; index++) {
-          const element = this.items[this.collectionIndex].collection_commission[index];
+        for (let index = 0; index < this.items[this.collectionIndex].collection_commissions.length; index++) {
+          const element = this.items[this.collectionIndex].collection_commissions[index];
           if (element.id == this.selectedCollectionCommission.id) {
             collectionCommIndex = index;
           }
         }
-        this.items[this.collectionIndex].collection_commission[collectionCommIndex]['payment'] = r.data;
+        this.items[this.collectionIndex].collection_commissions[collectionCommIndex]['payment'] = r.data;
       }
 
-      // formdata.reset();
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.savedSuccessfully'), 'success');
       this.paymentAmount = 0; this.docFile = ''; this.description = '';
       this.penaltyAmount = 0; this.pendingPayment = 0; this.currentAmount = 0;
@@ -866,38 +872,13 @@ export class CollectionsComponent implements OnInit {
     );
   }
 
-  showCollectionCommissions(item: any, i: number) {
-    this.collectionIndex = i;
-    this.paymentConcepts = item.payment_choices;
-    item.payment_choices.forEach(element => {
-      if (element.collection_payment && element.collection_payment.collection_commission
-        && element.collection_payment.collection_commission == null) {
-        if (element.collection_payment && element.collection_payment.collection_commission) {
-          element.collection_payment['collection_commission'] = {
-            add_collection_commission: 0,
-            percent: 0,
-            amount: 0
-          }
-        } else {
-          element['collection_payment'] = {
-            collection_commission: {
-              add_collection_commission: 0,
-              percent: 0, amount: 0
-            }
-          }
-        }
-      }
-    });
-    this.collectionCommissionOpen.nativeElement.click();
-  }
-
   showCollectionCommReceipt(item: any, i: number, type: string) {
     // if (!paymentConcepts[i].collection_payment.collection_commission) {
     //   swal('Error', 'Please fill the details before uploading receipt.', 'error');
     //   return false;
     // }
     this.paymentConcepts = item.collection_commissions;
-    this.collectionCommissionClose.nativeElement.click();
+    this.viewCollectionClose.nativeElement.click();
     this.typeOfPayment = type;
     // this.collectionIndex = i;
     // this.paymentConcepts = paymentConcepts;
@@ -958,7 +939,7 @@ export class CollectionsComponent implements OnInit {
   }
 
   closeCollCommissionModal() {
-    this.collectionCommissionClose.nativeElement.click();
+    this.viewCollectionClose.nativeElement.click();
   }
 
   showPenaltyPaymentPopup(item: any, i: number, type: string) {
@@ -995,4 +976,35 @@ export class CollectionsComponent implements OnInit {
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.savedSuccessfully'), 'success');
     });
   }
+
+  
+  quickCollectionView(item: any, i: number) {
+    // redirecting
+    this.router.navigate(['/dashboard/collections/quick-visualization', item.id])
+
+    // showing here
+    // this.collectionIndex = i;
+    // this.paymentConcepts = item.payment_choices;
+    // item.payment_choices.forEach(element => {
+    //   if (element.collection_payment && element.collection_payment.collection_commission
+    //     && element.collection_payment.collection_commission == null) {
+    //     if (element.collection_payment && element.collection_payment.collection_commission) {
+    //       element.collection_payment['collection_commission'] = {
+    //         add_collection_commission: 0,
+    //         percent: 0,
+    //         amount: 0
+    //       }
+    //     } else {
+    //       element['collection_payment'] = {
+    //         collection_commission: {
+    //           add_collection_commission: 0,
+    //           percent: 0, amount: 0
+    //         }
+    //       }
+    //     }
+    //   }
+    // });
+    // this.viewCollectionOpen.nativeElement.click();
+  }
+
 }

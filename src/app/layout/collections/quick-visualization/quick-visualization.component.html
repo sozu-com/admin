@@ -1,0 +1,214 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <p class="p16">Quick Visualization</p>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row cust-tabs">
+    <div class="col-md-4">
+
+        <div class="table-responsive">
+          <table class="table table-bordered white-bg">
+            <tbody>
+              <tr>
+                <th rowspan="3">Buyer:</th>
+                <td>Bill Gates</td>
+              </tr>
+              <tr>
+                <td>555 77 854</td>
+              </tr>
+              <tr>
+                <td>555 77 855</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+          <div class="table-responsive">
+            <table class="table table-bordered white-bg">
+              <tbody>
+                <tr>
+                  <th rowspan="3">Seller:</th>
+                  <td>Bill Gates</td>
+                </tr>
+                <tr>
+                  <td>555 77 854</td>
+                </tr>
+                <tr>
+                  <td>555 77 855</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+    </div>
+
+    <div class="col-md-1"></div>
+
+    <div class="col-md-4">
+
+          <div class="table-responsive">
+            <table class="table table-bordered white-bg">
+              <tbody>
+                <tr>
+                  <th rowspan="3">Buyer Legal Representative Contact:</th>
+                  <td>Bill Gates</td>
+                </tr>
+                <tr>
+                  <td>555 77 854</td>
+                </tr>
+                <tr>
+                  <td>555 77 855</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+            <div class="table-responsive">
+              <table class="table table-bordered white-bg">
+                <tbody>
+                  <tr>
+                    <th rowspan="3">Seller Legal Representative Contact:</th>
+                    <td>Bill Gates</td>
+                  </tr>
+                  <tr>
+                    <td>555 77 854</td>
+                  </tr>
+                  <tr>
+                    <td>555 77 855</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+      </div>
+  </div>
+
+
+    <h3>General Property Information</h3>
+    <div class="row">
+    <div class="col-md-4">
+
+          <div class="table-responsive">
+            <table class="table table-bordered white-bg">
+              <tbody>
+                  <tr>
+                      <th>Project:</th>
+                      <td>Bill Gates</td>
+                    </tr>
+                    <tr>
+                      <th>Model:</th>
+                      <td>555 77 854</td>
+                    </tr>
+                    <tr>
+                      <th>Floor:</th>
+                      <td>555 77 855</td>
+                    </tr>
+                    <tr>
+                      <th>Property Name:</th>
+                      <td>555 77 855</td>
+                    </tr>
+                    <tr>
+                      <th>M2:</th>
+                      <td>555 77 855</td>
+                    </tr>
+                    <tr>
+                      <th>Price:</th>
+                      <td>555 77 855</td>
+                    </tr>
+              </tbody>
+            </table>
+          </div>
+      </div>
+  
+      <div class="col-md-1"></div>
+  
+      <div class="col-md-4">
+  
+            <div class="table-responsive">
+              <table class="table table-bordered white-bg">
+                <tbody>
+                    <tr>
+                        <th>Purchase Date</th>
+                      </tr>
+                      <tr>
+                        <td>555 77 855</td>
+                      </tr>
+                </tbody>
+              </table>
+            </div>
+              <div class="table-responsive">
+                <table class="table table-bordered white-bg">
+                  <tbody>
+                      <tr>
+                          <th>Currency</th>
+                        </tr>
+                        <tr>
+                          <td>555 77 855</td>
+                        </tr>
+                  </tbody>
+                </table>
+              </div>
+        </div>
+  </div>
+
+
+  <div class="cust-tabs">
+    <div class="tab-content white-bg">
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>
+                <b>Concept</b>
+              </th>
+              <th>
+                <b>Month</b>
+              </th>
+              <th>
+                <b>Payment Date</b>
+              </th>
+              <th>
+                <b>Paid</b>
+              </th>
+              <th>
+                <b>Outstanding Payment</b>
+              </th>
+              <th>
+                <b>Penalty FLP</b>
+              </th>
+              <th>
+                <b>Purchased Commission</b>
+              </th>
+              <th>
+                <b>Date Of PC</b>
+              </th>
+              <th>
+                <b>Collection Commission</b>
+              </th>
+              <th>
+                <b>Date Of CC</b>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let p of paymentConcepts; let i=index">
+              <td>{{p?.name}}</td>
+              <td>{{p?.date}}</td>
+              <td>{{p?.date}}</td>
+              <td>{{p?.collection_payment ? p?.collection_payment?.amount : ''}}</td>
+              <td>{{p?.collection_payment ? '' : p?.amount}}</td>
+              <td>{{p?.penalty ? p?.penalty?.amount : ''}}</td>
+              <td>{{p?.date}}</td>
+              <td>{{p?.date}}</td>
+              <td>{{model?.currency?.symbol}} {{collectionCommission[i]['payment'] ? collectionCommission[i]['payment']?.amount
+                : ''}}</td>
+              <td>{{collectionCommission[i]['payment'] ? (collectionCommission[i]['payment']?.created_at | date:'mediumDate')
+                : ''}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -390,10 +390,15 @@
                         <button *ngIf="p.is_approved == 0" [disabled]="admin?.admin_acl['Property Management']?.can_update==0" 
                         (click)="changeStatus(p, 1);" class="action-icon" 
                         title="{{'table.title.approve' | translate}}"><img src="assets/img/tick.png" alt="img"></button>
-                        
-                        <!-- <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
-                        (click)="showCollectionCommissions(p, i)" title="{{'table.title.collectionCommission' | translate}}" 
+<!--                         
+                        <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                        (click)="quickCollectionView(p, i)" title="{{'table.title.collectionCommission' | translate}}" 
                         class="action-icon"><img src="assets/img/ic_commission.png" alt="img"></button>   -->
+
+
+                        <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                        (click)="quickCollectionView(p, i)" title="{{'table.title.collectionCommission' | translate}}" 
+                        class="action-icon"><img src="assets/img/ic_commission.png" alt="img"></button>  
 
                         <!-- unapprove -->
                         <!-- <a style="display:none;" #modalOpen data-toggle="modal" data-target="#addPropertyReason"></a>
@@ -561,7 +566,7 @@
             <button type="button" class="close" (click)="closePaymentModal(); addForm.reset()">&times;</button>
         </div>
   
-        <form class="form-horizontal padding0" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="applyCollectionPayment(addForm.value)">
+        <form autocomplete="off" class="form-horizontal padding0" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="applyCollectionPayment(addForm.value)">
           <div class="modal-body">
             <div class="row">
               <div class="col-12">
@@ -636,6 +641,17 @@
               </div>
               <div class="col-12">
                 <div class="form-group-2">
+                    <label>Payment Date</label>
+                    <div class="form-group">
+                      <div class="clearfix"></div>
+                      <p-calendar class="form-control" autocomplete="off" [style]="{'width':'100%'}" name="date" class="sz-calendar" [locale]="locale" showIcon="true" 
+                        (onSelect)="onSelect($event)" 
+                        showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+                    </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group-2">
                     <label>Description</label>
                     <div class="form-group">
                           <textarea rows="3" [(ngModel)]="description" name="description" class="form-control"></textarea>
@@ -658,18 +674,16 @@
   
 
 
-<a href="javascript://" data-toggle="modal" data-target="#coll-comm-Modal" #collectionCommissionOpen></a>
+<a href="javascript://" data-toggle="modal" data-target="#coll-comm-Modal" #viewCollectionOpen></a>
 <div class="modal animated" id="coll-comm-Modal">
     <div class="modal-dialog modal-lg fadeIndown">
         <div class="modal-content notary-avail">
               <div class="modal-header popup-header">
-          <h4>Collection Commission</h4>
-            <button style="display: none;" type="button" class="close" data-dismiss="modal" #collectionCommissionClose>&times;</button>
-            <button type="button" class="close" (click)="closeCollCommissionModal(); addForm.reset()">&times;</button>
+          <h4>Collection</h4>
+            <button style="display: none;" type="button" class="close" data-dismiss="modal" #viewCollectionClose>&times;</button>
+            <button type="button" class="close" (click)="closeCollCommissionModal()">&times;</button>
         </div>
-  
-        <!-- <form class="form-horizontal padding0" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="applyCollectionPayment(addForm.value)"> -->
-          <div class="modal-body">
+         <div class="modal-body">
             <div class="row">
               <div class="col-12">
                 <div class="spacer40"></div>
@@ -678,76 +692,35 @@
               <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                              <th rowspan="2"><b>Concept</b></th>
-                              <th rowspan="2"><b>Established Date</b></th>
-                              <th rowspan="2"><b>Amount</b></th>
-                              <th rowspan="2"><b>Add Collection Commission</b></th>
-                              <th colspan="2"><b>Enter Collection Commission</b></th>
-                              <th rowspan="2"><b>Save</b></th>
-                              <th rowspan="2"><b>Upload Receipt</b></th>
-                        </tr>
-                        <tr>
-                              <th colspan="1"><b>Percent</b></th>
-                              <th colspan="1"><b>Amount</b></th>
+                              <th><b>Concept</b></th>
+                              <th><b>Month</b></th>
+                              <th><b>Payment Date</b></th>
+                              <th><b>Paid</b></th>
+                              <th><b>Outstanding Payment</b></th>
+                              <th><b>Penalty FLP</b></th>
+                              <th><b>Purchased Commission</b></th>
+                              <th><b>Date Of PC</b></th>
+                              <th><b>Collection Commission</b></th>
+                              <th><b>Date Of CC</b></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let p of paymentConcepts; let i=index">
                               <td>{{p?.name}}</td>
                               <td>{{p?.date}}</td>
+                              <td>{{p?.date}}</td>
                               <td> {{items[collectionIndex]?.currency?.symbol}} {{p?.amount}}</td>
-                              <td [style.width]="'10px'">
-                                    <input [disabled]="p?.collection_payment?.collection_commission && p?.collection_payment?.collection_commission?.payment"
-                                    type="checkbox" name="add_collection_commission{{i}}"
-                                    checked="{{p?.collection_payment?.collection_commission?.add_collection_commission ? 'checked' : ''}}">
-                              </td>
-                              <td [style.width]="'15px'">
-                                          <!-- [readonly]="p?.collection_payment?.collection_commission?.payment ? 'true' : 'false'" -->
-                                    <input *ngIf="p?.collection_payment?.collection_commission && p?.collection_payment?.collection_commission?.percent"
-                                     type="number" min="0" max="100" name="percent{{i}}" 
-                                     [(ngModel)]="p.collection_payment.collection_commission.percent"
-                                     (input)="getAmount(i, $event.target.value)"
-                                     value="{{p?.collection_payment?.collection_commission?.percent}}">
-
-                                    <input *ngIf="!p?.collection_payment?.collection_commission"
-                                      type="number" min="0" max="100" name="percent{{i}}" 
-                                      (input)="getAmount(i, $event.target.value)"
-                                      value="{{p?.collection_payment?.collection_commission?.percent}}">
-                              </td>
-                              <td [style.width]="'25px'">
-                                    <input  type="number" min="0" name="amount{{i}}" 
-                                    *ngIf="p?.collection_payment?.collection_commission && p?.collection_payment?.collection_commission?.amount"
-                                    [(ngModel)]="p.collection_payment.collection_commission.amount"
-                                    (input)="getPercentage(i, $event.target.value)"
-                                    value="{{p?.collection_payment?.collection_commission?.amount}}">
-                                    
-                                    <input *ngIf="!p?.collection_payment?.collection_commission"
-                                      type="number" min="0" name="amount{{i}}" 
-                                      value="{{p?.collection_payment?.collection_commission?.amount}}">
-                              </td>
-                              <td [style.width]="'5px'" class="addCollComm">
-                                    <a class="add" *ngIf="p?.collection_payment?.collection_commission && p?.collection_payment?.collection_commission?.payment"
-                                    >{{'addForm.addBtn' | translate}}</a>
-                                    <a class="add" *ngIf="!p?.collection_payment?.collection_commission?.payment"
-                                    (click)="saveCollectionCommAmount(p)">{{'addForm.addBtn' | translate}}</a>
-                              </td>
-                              <td [style.width]="'25px'">
-                                    <button [disabled]="p?.collection_payment?.collection_commission && p?.collection_payment?.collection_commission?.payment"
-                                    (click)="showCollectionCommReceipt(paymentConcepts, i, 'commission-popup')" 
-                                    title="{{'table.title.collectionCommission' | translate}}" 
-                                    class="action-icon"><img src="assets/img/ic_commission.png" alt="img"></button>            
-                              </td>
+                              <td> {{items[collectionIndex]?.currency?.symbol}} {{p?.amount}}</td>
+                              <td> {{items[collectionIndex]?.currency?.symbol}} {{p?.amount}}</td>
+                              <td> {{items[collectionIndex]?.currency?.symbol}} {{p?.amount}}</td>
+                              <td> {{items[collectionIndex]?.currency?.symbol}} {{p?.amount}}</td>
+                              <td> {{items[collectionIndex]?.currency?.symbol}} {{p?.amount}}</td>
+                              <td> {{items[collectionIndex]?.currency?.symbol}} {{p?.amount}}</td>
                         </tr>
                     </tbody>
               </table>
-              <!-- <div class="col-12">
-                <div class="btn-cont text-right">
-                    <button type="button" class="btn btn-primary-new">{{'addForm.addBtn' | translate}}</button>
-                </div>
-              </div> -->
             </div>
           </div>
-        <!-- </form> -->
       </div>
     </div>
   </div>
@@ -764,7 +737,7 @@
             <button type="button" class="close" (click)="closeCollReceiptModal(); addForm.reset()">&times;</button>
         </div>
   
-        <form class="form-horizontal padding0" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="applyCollectionPayment(addForm.value)">
+        <form autocomplete="off" class="form-horizontal padding0" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="applyCollectionPayment(addForm.value)">
           <div class="modal-body">
             <div class="row">
               <div class="col-12">
@@ -809,6 +782,17 @@
                         <input type="file" name="docFile" #docsFile
                         accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf"
                         (change)="onSelectFile($event.target.files)">
+                    </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group-2">
+                    <label>Payment Date</label>
+                    <div class="form-group">
+                      <div class="clearfix"></div>
+                      <p-calendar class="form-control" autocomplete="off" [style]="{'width':'100%'}" name="date" class="sz-calendar" [locale]="locale" showIcon="true" 
+                        (onSelect)="onSelect($event)" 
+                        showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
                     </div>
                 </div>
               </div>
