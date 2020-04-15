@@ -27,6 +27,9 @@ export class Collection {
     building_configuration_id: any;
     collection_commissions: any;
     payment_choices?: Array<any>;
+    property?: any;
+    deal_purchase_date?: any;
+    currency?: any;
 }
 
 export class DealType {

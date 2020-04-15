@@ -451,6 +451,7 @@
   },
   "table": {
     "addNewBtn": "+Agregar nuevo",
+    "exportDataBtn": "Exportar",
     "bulkReAssign": "Reasignar masivamente",
     "dashboard": {
       "allLeads": "Todos los Leads",

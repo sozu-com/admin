@@ -1,13 +1,24 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-lg-11 col-md-11 col-6">
       <div class="form-group">
         <p class="p16">Quick Visualization</p>
       </div>
     </div>
+     
+    <div class="col-lg-1 col-md-1 col-6">
+      <div class="btn-cont text-right">
+          <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#addInhouseUser" #inhouseUserModalOpen>{{'table.addNewBtn' | translate}}</a>
+          <!-- *ngIf="admin?.admin_acl['Data Collector Management']?.can_create==1 && parameter.userType=='data-collectors' ||
+          admin?.admin_acl['Seller Management']?.can_create==1 && parameter.userType=='csr-sellers'" -->
+          <a class="btn btn-primary-new width100P" href="javascript://" (click)="exportData()">{{'table.exportDataBtn' | translate}}</a>
+      </div>
+    </div>
   </div>
 
+  <hr>
 
+  <h5>Stackholders Information</h5>
   <div class="row cust-tabs">
     <div class="col-md-4">
 
@@ -16,13 +27,13 @@
             <tbody>
               <tr>
                 <th rowspan="3">Buyer:</th>
-                <td>Bill Gates</td>
+                <td>{{model?.buyer?.name || ('table.tr.td.NA' | translate)}}</td>
               </tr>
               <tr>
-                <td>555 77 854</td>
+                <td>{{model?.buyer?.email || ('table.tr.td.NA' | translate)}}</td>
               </tr>
               <tr>
-                <td>555 77 855</td>
+                <td>{{model?.buyer?.dial_code}} {{model?.buyer?.phone || ('table.tr.td.NA' | translate)}}</td>
               </tr>
             </tbody>
           </table>
@@ -32,13 +43,13 @@
               <tbody>
                 <tr>
                   <th rowspan="3">Seller:</th>
-                  <td>Bill Gates</td>
+                  <td>{{model?.seller?.name || ('table.tr.td.NA' | translate)}}</td>
                 </tr>
                 <tr>
-                  <td>555 77 854</td>
+                  <td>{{model?.seller?.email || ('table.tr.td.NA' | translate)}}</td>
                 </tr>
                 <tr>
-                  <td>555 77 855</td>
+                  <td>{{model?.seller?.dial_code}} {{model?.buyer?.phone || ('table.tr.td.NA' | translate)}}</td>
                 </tr>
               </tbody>
             </table>
@@ -53,14 +64,14 @@
             <table class="table table-bordered white-bg">
               <tbody>
                 <tr>
-                  <th rowspan="3">Buyer Legal Representative Contact:</th>
-                  <td>Bill Gates</td>
+                  <th rowspan="3">Buyer Legal <br> Representative Contact:</th>
+                  <td>{{model?.buyer?.name || ('table.tr.td.NA' | translate)}}</td>
                 </tr>
                 <tr>
-                  <td>555 77 854</td>
+                  <td>{{model?.buyer?.email || ('table.tr.td.NA' | translate)}}</td>
                 </tr>
                 <tr>
-                  <td>555 77 855</td>
+                  <td>{{model?.buyer?.dial_code}} {{model?.buyer?.phone || ('table.tr.td.NA' | translate)}}</td>
                 </tr>
               </tbody>
             </table>
@@ -69,14 +80,14 @@
               <table class="table table-bordered white-bg">
                 <tbody>
                   <tr>
-                    <th rowspan="3">Seller Legal Representative Contact:</th>
-                    <td>Bill Gates</td>
+                    <th rowspan="3">Seller Legal <br> Representative Contact:</th>
+                    <td>{{model?.seller?.name || ('table.tr.td.NA' | translate)}}</td>
                   </tr>
                   <tr>
-                    <td>555 77 854</td>
+                    <td>{{model?.seller?.email || ('table.tr.td.NA' | translate)}}</td>
                   </tr>
                   <tr>
-                    <td>555 77 855</td>
+                    <td>{{model?.seller?.dial_code}} {{model?.buyer?.phone || ('table.tr.td.NA' | translate)}}</td>
                   </tr>
                 </tbody>
               </table>
@@ -85,7 +96,7 @@
   </div>
 
 
-    <h3>General Property Information</h3>
+    <h5>General Property Information</h5>
     <div class="row">
     <div class="col-md-4">
 
@@ -94,27 +105,33 @@
               <tbody>
                   <tr>
                       <th>Project:</th>
-                      <td>Bill Gates</td>
+                      <td>{{model?.property?.building?.name || ('table.tr.td.NA' | translate)}}</td>
                     </tr>
                     <tr>
-                      <th>Model:</th>
-                      <td>555 77 854</td>
+                      <th>Tower:</th>
+                      <td>{{model?.property?.building_towers?.tower_name || ('table.tr.td.NA' | translate)}}</td>
                     </tr>
                     <tr>
                       <th>Floor:</th>
-                      <td>555 77 855</td>
+                      <td>
+                          {{model?.property?.building_towers?.tower_name ? (model?.floor_num == 0 ? ('addCollection.groundFloor' | translate) : ('addCollection.floor' | translate) + ' ' + model?.floor_num) : ('table.tr.td.NA' | translate)}}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Model:</th>
+                      <td>{{model?.property?.building_configuration?.name || ('table.tr.td.NA' | translate)}}</td>
                     </tr>
                     <tr>
                       <th>Property Name:</th>
-                      <td>555 77 855</td>
+                      <td>{{model?.property?.name || ('table.tr.td.NA' | translate)}}</td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                       <th>M2:</th>
-                      <td>555 77 855</td>
-                    </tr>
+                      <td>{{model?.property?.building?.name || 'NA'}}</td>
+                    </tr> -->
                     <tr>
                       <th>Price:</th>
-                      <td>555 77 855</td>
+                      <td>{{(model?.property?.min_price || 0) | numberWithCommas}}</td>
                     </tr>
               </tbody>
             </table>
@@ -132,7 +149,7 @@
                         <th>Purchase Date</th>
                       </tr>
                       <tr>
-                        <td>555 77 855</td>
+                        <td>{{model?.deal_purchase_date || ('table.tr.td.NA' | translate)}}</td>
                       </tr>
                 </tbody>
               </table>
@@ -144,7 +161,7 @@
                           <th>Currency</th>
                         </tr>
                         <tr>
-                          <td>555 77 855</td>
+                          <td>{{model?.currency?.code || ('table.tr.td.NA' | translate)}}</td>
                         </tr>
                   </tbody>
                 </table>
@@ -153,6 +170,7 @@
   </div>
 
 
+  <h5>Payment Information</h5>
   <div class="cust-tabs">
     <div class="tab-content white-bg">
       <div class="table-responsive">
@@ -196,12 +214,12 @@
               <td>{{p?.name}}</td>
               <td>{{p?.date}}</td>
               <td>{{p?.date}}</td>
-              <td>{{p?.collection_payment ? p?.collection_payment?.amount : ''}}</td>
-              <td>{{p?.collection_payment ? '' : p?.amount}}</td>
-              <td>{{p?.penalty ? p?.penalty?.amount : ''}}</td>
+              <td>{{p?.collection_payment ? ((p?.collection_payment?.amount || 0) | numberWithCommas) : ''}}</td>
+              <td>{{p?.collection_payment ? '' : ((p?.amount || 0) | numberWithCommas)}}</td>
+              <td>{{p?.penalty ? ((p?.penalty?.amount || 0) || numberWithCommas) : ''}}</td>
               <td>{{p?.date}}</td>
               <td>{{p?.date}}</td>
-              <td>{{model?.currency?.symbol}} {{collectionCommission[i]['payment'] ? collectionCommission[i]['payment']?.amount
+              <td>{{model?.currency?.symbol}} {{collectionCommission[i]['payment'] ? (collectionCommission[i]['payment']?.amount | numberWithCommas)
                 : ''}}</td>
               <td>{{collectionCommission[i]['payment'] ? (collectionCommission[i]['payment']?.created_at | date:'mediumDate')
                 : ''}}</td>

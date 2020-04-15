@@ -62,7 +62,9 @@
         <p class="p16">{{'addCollection.taggedFloor' | translate}}</p>
       </div>
     </div>
-    <p><b>{{model?.building_towers?.tower_name ? (model?.floor_num == 0 ? ('addCollection.groundFloor' | translate) : ('addCollection.floor' | translate) + ' ' + model?.floor_num) : 'NA'}}</b></p>
+    <p><b>
+      {{model?.building_towers?.tower_name ? (model?.floor_num == 0 ? ('addCollection.groundFloor' | translate) : ('addCollection.floor' | translate) + ' ' + model?.floor_num) : 'NA'}}
+    </b></p>
     
     <div class="row" *ngIf="model?.name">
       <div class="col-sm-9 col-lg-9">

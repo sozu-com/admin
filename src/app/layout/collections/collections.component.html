@@ -366,11 +366,11 @@
                         <button [disabled]="admin?.admin_acl['Property Management']?.can_delete==0" 
                               *ngIf="p.is_blocked == true" (click)="blockUnblock(p, 0);" class="action-icon unblock-bg" 
                               title="{{'table.title.unblock' | translate}}"><img src="assets/img/unblock.png" alt="img"></button> -->
-                            
+                          
                         <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
-                        (click)="getLeadNotes(p)" title="{{'table.title.collectionNotes' | translate}}" 
-                        class="action-icon"><img src="assets/img/chat-icon.png" alt="img"></button>  
-
+                        (click)="quickCollectionView(p, i)" title="{{'table.title.quickVisuaization' | translate}}" 
+                        class="action-icon"><img src="assets/img/eye-icon.png" alt="img"></button>  
+  
                         <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
                         (click)="showPenaltyPaymentPopup(p, i, 'penalty-popup')" title="{{'table.title.penaltyPayment' | translate}}" 
                         class="action-icon"><img src="assets/img/stamp.png" alt="img"></button>  
@@ -395,10 +395,10 @@
                         (click)="quickCollectionView(p, i)" title="{{'table.title.collectionCommission' | translate}}" 
                         class="action-icon"><img src="assets/img/ic_commission.png" alt="img"></button>   -->
 
-
                         <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
-                        (click)="quickCollectionView(p, i)" title="{{'table.title.quickVisuaization' | translate}}" 
-                        class="action-icon"><img src="assets/img/ic_commission.png" alt="img"></button>  
+                        (click)="getLeadNotes(p)" title="{{'table.title.collectionNotes' | translate}}" 
+                        class="action-icon"><img src="assets/img/chat-icon.png" alt="img"></button>  
+
 
                         <!-- unapprove -->
                         <!-- <a style="display:none;" #modalOpen data-toggle="modal" data-target="#addPropertyReason"></a>
@@ -732,7 +732,7 @@
     <div class="modal-dialog fadeIndown">
         <div class="modal-content notary-avail">
               <div class="modal-header popup-header">
-          <h4>Collection Commission</h4>
+          <h4>Commission Payment</h4>
             <button style="display: none;" type="button" class="close" data-dismiss="modal" #collectionReceiptClose>&times;</button>
             <button type="button" class="close" (click)="closeCollReceiptModal(); addForm.reset()">&times;</button>
         </div>
@@ -745,9 +745,21 @@
               </div>
               <div class="col-12">
                 <div class="form-group-2">
+                    <label>Choose Commission Type <span class="color-red">*</span></label>
+                    <div class="form-group">
+                        <select name="commission_type" required class="form-control" [(ngModel)]="commission_type">
+                              <!-- <option value="">Choose Commission Type</option> -->
+                              <option value="1">Purchase Commission</option>
+                              <option value="2">Collection Commission</option>
+                        </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group-2">
                     <label>Choose Payment Concept <span class="color-red">*</span></label>
                     <div class="form-group">
-                        <select name="payment_choice" #applyPaymentChoiceId required class="form-control" [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
+                        <select name="payment_choice" #applyPaymentChoiceId1 required class="form-control" [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
                               <option value="">Choose Payment Concept</option>
                               <option *ngFor="let bt of paymentConcepts" [ngValue]="bt" 
                                [disabled]="bt?.payment"> {{bt?.payment_choice?.name}}</option>
@@ -759,7 +771,7 @@
                 <div class="form-group-2">
                     <label>Choose Payment Method <span class="color-red">*</span></label>
                     <div class="form-group">
-                        <select name="payment_method" required #applyPaymentMethodId class="form-control" [(ngModel)]="payment_method_id">
+                        <select name="payment_method" required #applyPaymentMethodId1 class="form-control" [(ngModel)]="payment_method_id">
                               <option value="">Choose Payment Method</option>
                               <option *ngFor="let bt of paymentMethods" [value]="bt.id"> {{bt?.name}}</option>
                         </select>

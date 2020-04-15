@@ -63,9 +63,12 @@ export class CollectionsComponent implements OnInit {
   pendingPayment: number;
   penaltyAmount: number;
   paymentDate: Date;
+  commission_type: number;
 
   @ViewChild('applyPaymentChoiceId') applyPaymentChoiceId: ElementRef;
   @ViewChild('applyPaymentMethodId') applyPaymentMethodId: ElementRef;
+  @ViewChild('applyPaymentChoiceId1') applyPaymentChoiceId1: ElementRef;
+  @ViewChild('applyPaymentMethodId1') applyPaymentMethodId1: ElementRef;
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('rejectModalOpen') rejectModalOpen: ElementRef;
@@ -814,13 +817,23 @@ console.log(e);
   }
 
   applyCollectionPayment(formdata: NgForm) {
+    if (!this.paymentDate) {
+      swal('Error', 'Please select payment date', 'error');
+      return false;
+    }
+    if (!this.docFile) {
+      swal('Error', 'Please choose receipt', 'error');
+      return false;
+    }
     const input = {
       payment_method_id: this.payment_method_id,
       amount : this.paymentAmount,
       receipt: this.docFile,
-      description: this.description
+      description: this.description,
+      payment_date: this.paymentDate
     }
     if (this.typeOfPayment == 'commission-popup') {
+      input['commission_type'] = this.commission_type;
       input['collection_commission_id'] = this.selectedCollectionCommission.id;
       input['percent'] = this.selectedCollectionCommission.percent;
     } else {
@@ -840,7 +853,11 @@ console.log(e);
         this.items[this.collectionIndex].payment_choices[paymentChoiceIndex]['collection_payment'] = r.data;
       } else {
         let collectionCommIndex = 0;
+        console.log(this.collectionIndex);
+        console.log(this.items[this.collectionIndex]);
+        console.log(this.items[this.collectionIndex].collection_commissions);
         for (let index = 0; index < this.items[this.collectionIndex].collection_commissions.length; index++) {
+          // console.log(this.items[this.collectionIndex]);
           const element = this.items[this.collectionIndex].collection_commissions[index];
           if (element.id == this.selectedCollectionCommission.id) {
             collectionCommIndex = index;
@@ -877,6 +894,7 @@ console.log(e);
     //   swal('Error', 'Please fill the details before uploading receipt.', 'error');
     //   return false;
     // }
+    this.collectionIndex = i;
     this.paymentConcepts = item.collection_commissions;
     this.viewCollectionClose.nativeElement.click();
     this.typeOfPayment = type;
@@ -933,8 +951,11 @@ console.log(e);
   }
 
   closeCollReceiptModal() {
-    this.applyPaymentChoiceId.nativeElement.value = '';
-    this.applyPaymentMethodId.nativeElement.value = '';
+    this.paymentAmount = 0; this.docFile = ''; this.description = '';
+    this.penaltyAmount = 0; this.pendingPayment = 0; this.currentAmount = 0;
+    this.docsFile.nativeElement.value = '';
+    this.applyPaymentChoiceId1.nativeElement.value = '';
+    this.applyPaymentMethodId1.nativeElement.value = '';
     this.collectionReceiptClose.nativeElement.click();
   }
 

@@ -8,12 +8,12 @@ import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
-
+import { NumberWithCommasPipe } from 'src/app/pipes/number-with-commas.pipe'
 @Component({
   selector: 'app-quick-visualization',
   templateUrl: './quick-visualization.component.html',
   styleUrls: ['./quick-visualization.component.css'],
-  providers: [Collection]
+  providers: [Collection, NumberWithCommasPipe]
 })
 export class QuickVisualizationComponent implements OnInit {
 
@@ -24,7 +24,8 @@ export class QuickVisualizationComponent implements OnInit {
     private route: ActivatedRoute,
     public model: Collection,
     private admin: AdminService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private numberWithCommas: NumberWithCommasPipe
   ) { }
 
   ngOnInit() {
@@ -51,16 +52,26 @@ export class QuickVisualizationComponent implements OnInit {
 
   
   exportData() {
-    if (this.model) {
+    if (this.paymentConcepts) {
       const finalData = [];
-      for (let index = 0; index < this.model.payment_choices.length; index++) {
-        const r = this.model[index];
+      for (let index = 0; index < this.paymentConcepts.length; index++) {
+        const r = this.paymentConcepts[index];
         
         finalData.push({
-          'Project': r.project_name ? r.project_name : '-'
+          'Concept': r.name ? r.name : '-',
+          'Month': r.date ? r.date : '-',
+          'Payment Date': r.date ? r.date : '-',
+          'Paid': r.collection_payment ? this.numberWithCommas.transform(r.collection_payment.amount || 0) : '',
+          // 'Paid': r.project_name ? r.project_name : '-',
+          // 'Outstanding Payment': r.project_name ? r.project_name : '-',
+          // 'Penalty FLP': r.project_name ? r.project_name : '-',
+          // 'Purchased Commission': r.project_name ? r.project_name : '-',
+          // 'Date Of PC': r.project_name ? r.project_name : '-',
+          // 'Collection Commission': r.project_name ? r.project_name : '-',
+          // 'Date Of CC': r.project_name ? r.project_name : '-'
         });
       }
-      this.exportAsExcelFile(finalData, 'projects');
+      this.exportAsExcelFile(finalData, 'collection-');
     }
   }
 
