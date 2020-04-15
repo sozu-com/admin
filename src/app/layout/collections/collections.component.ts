@@ -68,6 +68,7 @@ export class CollectionsComponent implements OnInit {
   @ViewChild('applyPaymentChoiceId') applyPaymentChoiceId: ElementRef;
   @ViewChild('applyPaymentMethodId') applyPaymentMethodId: ElementRef;
   @ViewChild('applyPaymentChoiceId1') applyPaymentChoiceId1: ElementRef;
+  @ViewChild('applyPaymentChoiceId2') applyPaymentChoiceId2: ElementRef;
   @ViewChild('applyPaymentMethodId1') applyPaymentMethodId1: ElementRef;
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
@@ -102,6 +103,7 @@ export class CollectionsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.commission_type = 1;
     this.parameter.flag = 1;
     this.model = new Notes();
     this.locale = {
@@ -284,11 +286,11 @@ export class CollectionsComponent implements OnInit {
   blockUnblock(item, flag: number) {
     switch (flag) {
       case 0:
-        this.parameter.text = this.translate.instant('message.error.wantToUnblockProperty');
+        this.parameter.text = this.translate.instant('message.error.wantToUnblockCollection');
         this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
         break;
       case 1:
-      this.parameter.text = this.translate.instant('message.error.wantToBlockProperty');
+      this.parameter.text = this.translate.instant('message.error.wantToBlockCollection');
         this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
     }
@@ -554,11 +556,11 @@ export class CollectionsComponent implements OnInit {
       });
   }
 
-  deletePopup(property: any, index: number) {
+  deletePopup(item: any, index: number) {
 
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' +
-        this.translate.instant('message.error.wantToDeleteProperty'),
+        this.translate.instant('message.error.wantToDeleteCollection'),
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -566,14 +568,14 @@ export class CollectionsComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.deleteProperty(property, index);
+        this.deleteCollection(item, index);
       }
     });
   }
 
-  deleteProperty(property: any, index: number) {
-    this.admin.postDataApi('deleteProperty',
-      { property_id: property.id }).subscribe(r => {
+  deleteCollection(item: any, index: number) {
+    this.admin.postDataApi('deleteCollection',
+      { id: item.id }).subscribe(r => {
         swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
         this.items.splice(index, 1);
       },
@@ -582,128 +584,6 @@ export class CollectionsComponent implements OnInit {
         });
   }
 
-  getBothBroker(property: any, keyword: string) {
-    this.spinner.show();
-    if (property) { this.property = property; }
-    const input = { keyword: '' };
-    input.keyword = keyword;
-    this.admin.postDataApi('getBothBroker', input).subscribe(r => {
-      this.spinner.hide();
-      if (property) { this.linkExtBrokerModal.nativeElement.click(); }
-      this.allExtBrokers = r['data'];
-    }, error => {
-      this.spinner.hide();
-      swal(this.translate.instant('swal.error'), error.error.message, 'error');
-    });
-  }
-
-  attachExternalBrokerPopUp(broker: any, flag: number) {
-
-    this.parameter.text = flag === 1 ? this.translate.instant('message.error.wantToLinkAgent') :
-    this.translate.instant('message.error.wantToUnLinkAgent');
-    swal({
-      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: this.constant.confirmButtonColor,
-      cancelButtonColor: this.constant.cancelButtonColor,
-      confirmButtonText: 'Yes'
-    }).then((result) => {
-      if (result.value) {
-        this.attachExternalBroker(broker, flag);
-      }
-    });
-  }
-
-  attachExternalBroker(broker: any, flag: number) {
-    this.admin.postDataApi('attachExternalBroker', {
-      property_id: this.property.id,
-      broker_id: broker.id, flag: flag
-    }).subscribe(r => {
-      this.closeExtBrokerModal.nativeElement.click();
-      this.property.external_broker = flag === 1 ? broker : null;
-      const text = flag === 1 ? this.translate.instant('message.success.linkedSuccessfully') :
-                    this.translate.instant('message.success.unlinkedSuccessfully');
-      swal(this.translate.instant('swal.success'), text, 'success');
-    },
-      error => {
-        swal(this.translate.instant('swal.error'), error.error.message, 'error');
-      });
-  }
-
-  editPricePopup(item: any, index: number) {
-    this.parameter.title = this.translate.instant('message.error.areYouSure');
-    swal({
-      text: this.translate.instant('message.error.doYouWantToChangeThePrice'),
-      type: 'question',
-      showCancelButton: true,
-      confirmButtonColor: this.constant.confirmButtonColor,
-      cancelButtonColor: this.constant.cancelButtonColor,
-      confirmButtonText: 'Yes'
-    }).then((result) => {
-      if (result.value) {
-        swal({
-          text: this.translate.instant('message.error.pleaseEnterNewPropertyPrice'),
-          input: 'number',
-          showCancelButton: true,
-          confirmButtonColor: this.constant.confirmButtonColor,
-          cancelButtonColor: this.constant.cancelButtonColor,
-          confirmButtonText: 'Update',
-          inputValidator: (value) => {
-            if (!value) {
-              return this.translate.instant('message.error.pleaseEnterNewPrice');
-            }
-          }
-        }).then((r) => {
-          if (r.value) {
-            this.admin.postDataApi('updatePrice', { id: item.id, price: r.value }).subscribe(success => {
-              this.items[index].min_price = r.value;
-              swal(this.translate.instant('swal.success'), this.translate.instant('message.success.updatedSuccessfully'), 'success');
-            }, error => {
-              swal(this.translate.instant('swal.error'), error.error.message, 'error');
-            });
-          }
-        });
-      }
-    });
-  }
-
-  editAgentCommissionPopup(item: any, index: number) {
-    this.parameter.title = this.translate.instant('message.error.areYouSure');
-    swal({
-      text: this.translate.instant('message.error.doYouWantToChangeTheCommission'),
-      type: 'question',
-      showCancelButton: true,
-      confirmButtonColor: this.constant.confirmButtonColor,
-      cancelButtonColor: this.constant.cancelButtonColor,
-      confirmButtonText: 'Yes'
-    }).then((result) => {
-      if (result.value) {
-        swal({
-          text: this.translate.instant('message.error.pleaseEnterNewCommission') + ' -',
-          input: 'number',
-          showCancelButton: true,
-          confirmButtonColor: this.constant.confirmButtonColor,
-          cancelButtonColor: this.constant.cancelButtonColor,
-          confirmButtonText: 'Update',
-          inputValidator: (value) => {
-            if (!value) {
-              return this.translate.instant('message.error.pleaseEnterNewCommission');
-            }
-          }
-        }).then((r) => {
-          if (r.value) {
-            this.admin.postDataApi('updateBrokerCommision', { id: item.id, broker_commision: r.value }).subscribe(success => {
-              this.items[index].broker_commision = r.value;
-              swal(this.translate.instant('swal.success'), this.translate.instant('message.success.updatedSuccessfully'), 'success');
-            }, error => {
-              swal(this.translate.instant('swal.error'), error.error.message, 'error');
-            });
-          }
-        });
-      }
-    });
-  }
 
   viewPropertyDetails(property_id: string, data: AddPropertyModel) {
     // this.propertyService.property = data;
@@ -711,7 +591,7 @@ export class CollectionsComponent implements OnInit {
     this.router.navigate(['/dashboard/properties/details', property_id]);
   }
 
-  getLeadNotes(item) {
+  getNotes(item) {
     this.property_collection_id = item.id;
     const input = {property_collection_id: item.id};
     // const input = {lead_id: 453, sent_as:1};
@@ -773,7 +653,12 @@ export class CollectionsComponent implements OnInit {
   setPaymentAmount(item: any) {
     // this.paymentAmount = item.amount ? item.amount : 0;
     if (this.typeOfPayment == 'commission-popup') {
-      if (item.add_collection_commission == 0) {
+      if (this.commission_type == 1 && item.add_purchase_commission == 0) {
+        swal('Error', 'Please enable the purchase commission checkbox from collection details', 'error');
+        this.closeCollReceiptModal();
+        return false;
+      }
+      if (this.commission_type == 2 && item.add_collection_commission == 0) {
         swal('Error', 'Please enable the collection commission checkbox from collection details', 'error');
         this.closeCollReceiptModal();
         return false;
@@ -954,7 +839,11 @@ console.log(e);
     this.paymentAmount = 0; this.docFile = ''; this.description = '';
     this.penaltyAmount = 0; this.pendingPayment = 0; this.currentAmount = 0;
     this.docsFile.nativeElement.value = '';
-    this.applyPaymentChoiceId1.nativeElement.value = '';
+    if (this.commission_type == 1) {
+      this.applyPaymentChoiceId1.nativeElement.value = '';
+    } else {
+      this.applyPaymentChoiceId2.nativeElement.value = ''
+    }
     this.applyPaymentMethodId1.nativeElement.value = '';
     this.collectionReceiptClose.nativeElement.click();
   }

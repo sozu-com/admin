@@ -44,6 +44,23 @@ export class QuickVisualizationComponent implements OnInit {
           this.model = success['data'];
           this.paymentConcepts = success['data']['payment_choices'];
           this.collectionCommission = success['data']['collection_commissions'];
+          let totalPaid = 0;
+          let totalOutstanding = 0;
+          this.paymentConcepts.forEach(m => {
+            if (m.collection_payment) {
+              totalPaid = totalPaid + m.collection_payment.amount;
+            } else {
+              totalOutstanding = totalOutstanding + m.amount;
+            }
+          })
+          const collection_payment = {amount: totalPaid};
+          this.paymentConcepts.push({
+            key: 'total',
+            name: 'Total',
+            collection_payment: collection_payment,
+            amount: totalOutstanding
+          })
+          this.collectionCommission.push({})
         }, error => {
           this.spinner.hide();
         }
@@ -55,20 +72,32 @@ export class QuickVisualizationComponent implements OnInit {
     if (this.paymentConcepts) {
       const finalData = [];
       for (let index = 0; index < this.paymentConcepts.length; index++) {
-        const r = this.paymentConcepts[index];
-        
+        const p = this.paymentConcepts[index];
+        const pcAmount = this.collectionCommission[index]['purchase_payment'] ?
+        this.model.currency.symbol + this.numberWithCommas.transform(this.collectionCommission[index]['purchase_payment']['amount']) : '';
+
+        const pcDate = this.collectionCommission[index]['purchase_payment'] ? this.collectionCommission[index]['purchase_payment']['payment_date'] : '';
+
+        const ccAmount = this.collectionCommission[index]['payment'] ?
+        this.model.currency.symbol + this.numberWithCommas.transform(this.collectionCommission[index]['payment']['amount']) : '';
+
+        const ccDate = this.collectionCommission[index]['payment'] ? this.collectionCommission[index]['payment']['payment_date'] : '';
+
         finalData.push({
-          'Concept': r.name ? r.name : '-',
-          'Month': r.date ? r.date : '-',
-          'Payment Date': r.date ? r.date : '-',
-          'Paid': r.collection_payment ? this.numberWithCommas.transform(r.collection_payment.amount || 0) : '',
-          // 'Paid': r.project_name ? r.project_name : '-',
-          // 'Outstanding Payment': r.project_name ? r.project_name : '-',
-          // 'Penalty FLP': r.project_name ? r.project_name : '-',
-          // 'Purchased Commission': r.project_name ? r.project_name : '-',
-          // 'Date Of PC': r.project_name ? r.project_name : '-',
-          // 'Collection Commission': r.project_name ? r.project_name : '-',
-          // 'Date Of CC': r.project_name ? r.project_name : '-'
+          'Concept': p.name || '',
+          'Month': p.date || '',
+          'Payment Date': p.collection_payment ? p.collection_payment.payment_date : '',
+          'Paid': p.collection_payment ? 
+                this.model.currency.symbol + this.numberWithCommas.transform(p.collection_payment.amount) : '',
+          'Outstanding Payment': p.key == 'total' ?
+                (this.model.currency.symbol + this.numberWithCommas.transform(p.amount))  :
+                ( p.collection_payment ? '' : this.model.currency.symbol + this.numberWithCommas.transform(p.amount)),
+          'Penalty FLP': p.penalty ? 
+                this.model.currency.symbol + this.numberWithCommas.transform(p.penalty.amount) : '',
+          'Purchased Commission': pcAmount,
+          'Date Of PC': pcDate,
+          'Collection Commission': ccAmount,
+          'Date Of CC': ccDate
         });
       }
       this.exportAsExcelFile(finalData, 'collection-');

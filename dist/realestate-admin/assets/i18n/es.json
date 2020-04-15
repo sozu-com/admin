@@ -956,7 +956,10 @@
       "wantToChangeAvailablity": "¿Desea cambiar la disponibilidad de esta propiedad?",
       "wantToScheduleMeeting": "¿Quieres programar esta hora para la reunión?",
       "wantToAssignBank": "¿Quieres asignar este banco?",
-      "wantToAssignNotary": "¿Quieres asignar este notario?"
+      "wantToAssignNotary": "¿Quieres asignar este notario?",
+      "wantToBlockCollection": "¿Quieres bloquear esta colección?",
+      "wantToUnblockCollection": "¿Quieres desbloquear esta colección?",
+      "wantToDeleteCollection": "¿Quieres eliminar esta colección?"
     }
   },
   "inhouseUsers": {

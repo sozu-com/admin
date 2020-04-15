@@ -114,7 +114,7 @@
                     <tr>
                       <th>Floor:</th>
                       <td>
-                          {{model?.property?.building_towers?.tower_name ? (model?.floor_num == 0 ? ('addCollection.groundFloor' | translate) : ('addCollection.floor' | translate) + ' ' + model?.floor_num) : ('table.tr.td.NA' | translate)}}
+                          {{model?.property?.floor_num ? (model?.property?.floor_num == 0 ? ('addCollection.groundFloor' | translate) : ('addCollection.floor' | translate) + ' ' + model?.property?.floor_num) : ('table.tr.td.NA' | translate)}}
                       </td>
                     </tr>
                     <tr>
@@ -131,7 +131,7 @@
                     </tr> -->
                     <tr>
                       <th>Price:</th>
-                      <td>{{(model?.property?.min_price || 0) | numberWithCommas}}</td>
+                      <td>${{(model?.property?.min_price || 0) | numberWithCommas}}</td>
                     </tr>
               </tbody>
             </table>
@@ -213,16 +213,33 @@
             <tr *ngFor="let p of paymentConcepts; let i=index">
               <td>{{p?.name}}</td>
               <td>{{p?.date}}</td>
-              <td>{{p?.date}}</td>
-              <td>{{p?.collection_payment ? ((p?.collection_payment?.amount || 0) | numberWithCommas) : ''}}</td>
-              <td>{{p?.collection_payment ? '' : ((p?.amount || 0) | numberWithCommas)}}</td>
-              <td>{{p?.penalty ? ((p?.penalty?.amount || 0) || numberWithCommas) : ''}}</td>
-              <td>{{p?.date}}</td>
-              <td>{{p?.date}}</td>
-              <td>{{model?.currency?.symbol}} {{collectionCommission[i]['payment'] ? (collectionCommission[i]['payment']?.amount | numberWithCommas)
-                : ''}}</td>
-              <td>{{collectionCommission[i]['payment'] ? (collectionCommission[i]['payment']?.created_at | date:'mediumDate')
-                : ''}}</td>
+              <td>{{p?.collection_payment?.payment_date || ''}}</td>
+              <td>
+                {{p?.collection_payment ? model?.currency?.symbol : ''}} 
+                {{p?.collection_payment ? ((p?.collection_payment?.amount || 0) | numberWithCommas) : ''}}
+              </td>
+              <td *ngIf="p?.key!='total'">
+                {{p?.collection_payment ? '' : model?.currency?.symbol}} 
+                {{p?.collection_payment ? '' : ((p?.amount || 0) | numberWithCommas)}}
+              </td>
+              <td *ngIf="p?.key=='total'">
+                {{model?.currency?.symbol}} 
+                {{(p?.amount || 0) | numberWithCommas}}
+              </td>
+              <td>
+                {{p?.penalty ? model?.currency?.symbol : ''}} 
+                {{p?.penalty ? ((p?.penalty?.amount || 0) || numberWithCommas) : ''}}
+              </td>
+              <td>
+                {{collectionCommission[i]['purchase_payment'] ? model?.currency?.symbol : ''}} 
+                {{collectionCommission[i]['purchase_payment'] ? (collectionCommission[i]['purchase_payment']?.amount | numberWithCommas) : ''}}</td>
+              <td>
+                {{collectionCommission[i]['purchase_payment'] ? (collectionCommission[i]['purchase_payment']?.payment_date | date:'mediumDate') : ''}}</td>
+              <td>
+                {{collectionCommission[i]['payment'] ? model?.currency?.symbol : ''}} 
+                {{collectionCommission[i]['payment'] ? (collectionCommission[i]['payment']?.amount | numberWithCommas) : ''}}</td>
+              <td>
+                {{collectionCommission[i]['payment'] ? (collectionCommission[i]['payment']?.payment_date | date:'mediumDate') : ''}}</td>
             </tr>
           </tbody>
         </table>

@@ -959,7 +959,10 @@
       "wantToChangeAvailablity": "You want to change availability for this property?",
       "wantToScheduleMeeting": "You want to schedule this time for meeting?",
       "wantToAssignBank": "You want to assign this bank?",
-      "wantToAssignNotary": "You want to assign this notary?"
+      "wantToAssignNotary": "You want to assign this notary?",
+      "wantToBlockCollection": "You want to block this Collection?",
+      "wantToUnblockCollection": "You want to unblock this Collection?",
+      "wantToDeleteCollection": "You want to delete this Collection?"
     }
   },
   "inhouseUsers": {
