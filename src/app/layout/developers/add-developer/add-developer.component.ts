@@ -11,7 +11,7 @@ import { Constant } from 'src/app/common/constants';
 import { CommonService } from 'src/app/services/common.service';
 import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
-import { LegalEntity, Banks } from 'src/app/models/legalEntity.model';
+import { LegalRepresentative, Banks } from 'src/app/models/legalEntity.model';
 declare const google;
 declare let swal: any;
 
@@ -50,10 +50,10 @@ export class AddDeveloperComponent implements OnInit {
     this.file4 = new FileUpload(false, this.admin);
     this.model = new Users();
     this.model.legal_rep_banks = Array(new Banks());
-    this.model.legal_entity = new LegalEntity();
-    this.model.legal_entity.legal_entity_banks = Array(new Banks());
-    this.model.legal_entity.country_code = this.constant.country_code;
-    this.model.legal_entity.dial_code = this.constant.dial_code;
+    this.model.legal_representative = new LegalRepresentative();
+    this.model.legal_representative.legal_rep_banks = Array(new Banks());
+    this.model.legal_representative.country_code = this.constant.country_code;
+    this.model.legal_representative.dial_code = this.constant.dial_code;
     this.setCurrentPosition();
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
@@ -91,15 +91,13 @@ export class AddDeveloperComponent implements OnInit {
         this.spinner.hide();
         this.model = success.data;
         this.model.legal_rep_banks = success.data.legal_rep_banks ? success.data.legal_rep_banks : Array(new Banks());
-        this.model.legal_entity = success.data.legal_entity ? success.data.legal_entity : new LegalEntity();
-        this.model.legal_entity.legal_entity_banks = success.data.legal_entity.legal_entity_banks ?
-        success.data.legal_entity.legal_entity_banks : []; // Array(new Banks());
+        this.model.legal_representative = success.data.legal_representative ? success.data.legal_representative : new LegalRepresentative();
+        this.model.legal_representative.legal_rep_banks = success.data.legal_representative.legal_rep_banks ?
+        success.data.legal_representative.legal_rep_banks : []; // Array(new Banks());
         // if (!success.data.legal_entity) {
-          console.log('11')
-          this.model.legal_entity.dial_code = this.constant.dial_code;
-          this.model.legal_entity.country_code = this.constant.country_code;
+          this.model.legal_representative.dial_code = this.constant.dial_code;
+          this.model.legal_representative.country_code = this.constant.country_code;
         // }
-        console.log(this.model);
         this.image = this.model.image;
         this.developer_image = this.model.developer_image;
       }, error => {
@@ -265,12 +263,12 @@ export class AddDeveloperComponent implements OnInit {
 
   addLegalEntityBank(e) {
     const bank = new Banks();
-    this.model.legal_entity.legal_entity_banks.push(bank);
+    this.model.legal_representative.legal_rep_banks.push(bank);
   }
 
   removeLegalEntityBank($event: Event, item: any, i: number) {
     $event.stopPropagation();
-    this.model.legal_entity.legal_entity_banks.splice(i, 1);
+    this.model.legal_representative.legal_rep_banks.splice(i, 1);
     if (item.id) {
       this.admin.postDataApi('deleteSellerBank', {id: item.id}).subscribe(success => {
         this.spinner.hide();
@@ -297,48 +295,3 @@ export class AddDeveloperComponent implements OnInit {
     }
   }
 }
-
-
-
-// if($request->legal_representative){
-//   if(isset($request->legal_representative->id)){
-//        //update the legal entiry
-//        $legal_representative = Uer::find($request->legal_representative->id);
-//        $legal_representative->name = $request->legal_representative['name'];
-//        $legal_representative->email= $request->legal_representative['email'];
-//        $legal_representative->dial_code = $request->legal_representative['dial_code'];
-//        $legal_representative->country_code=$request->legal_representative['country_code'];
-//        $legal_representative->phone     = $request->legal_representative['phone'];
-//        $legal_representative->fed_tax_pay = $request->legal_entity['fed_tax_pay'];
-//        $legal_representative->save();
-//   }else{
-//        // create lega entity
-//        $legal_representative = new User();
-//        $legal_representative->name = $request->legal_representative['name'];
-//        $legal_representative->email= $request->legal_representative['email'];
-//        $legal_representative->dial_code = $request->legal_representative['dial_code'];
-//        $legal_representative->country_code=$request->legal_representative['country_code'];
-//        $legal_representative->phone     = $request->legal_representative['phone'];
-//        $legal_representative->fed_tax_pay = $request->legal_representative['fed_tax_pay'];
-//        $legal_representative->save();
-//   } 
-
-//   foreach ($request->legal_representative['legal_rep_banks'] as $k => $bank) {
-//       if(isset($bank['id'])){
-//            LegalRepresentativeBank::where('id',$bank['id'])->where('user_id',$legal_representative->id)->update([
-//                'bank_name'     =>  $bank['bank_name'],
-//                'swift'         =>  $bank['swift'],
-//                'account_number'=>  $bank['account_number'],
-//                'currency_id'   =>  $bank['currency_id']
-//            ]);
-//       }else{
-//            LegalRepresentativeBank::create([
-//                'user_id'   =>  $legal_representative->id,
-//                'bank_name'         =>  $bank['bank_name'],
-//                'swift'             =>  $bank['swift'],
-//                'account_number'    =>  $bank['account_number'],
-//                'currency_id'       =>  $bank['currency_id']
-//            ]);
-//       }
-//   }
-// }

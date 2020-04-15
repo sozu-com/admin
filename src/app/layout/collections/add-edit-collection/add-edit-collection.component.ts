@@ -1417,18 +1417,18 @@ export class AddEditCollectionComponent implements OnInit {
       
       if (this.model.seller_type == 3) {   
         this.addFormStep2.controls.seller_id.patchValue(item.id);
-        this.addFormStep2.controls.seller_name.patchValue(item.legal_entity ? item.legal_entity.comm_name : '');
-        this.addFormStep2.controls.seller_legal_name.patchValue(item.legal_entity ? item.legal_entity.legal_name : '');
-        this.addFormStep2.controls.seller_fed_tax.patchValue(item.legal_entity ? item.legal_entity.fed_tax_pay : '');
-        this.addFormStep2.controls.seller_phone.patchValue(item.legal_entity ? item.legal_entity.phone : '');
-        this.addFormStep2.controls.seller_address.patchValue(item.legal_entity ? item.legal_entity.address : '');
-        this.addFormStep2.controls.seller_leg_rep_name.patchValue(item.name);
-        this.addFormStep2.controls.seller_leg_rep_phone.patchValue(item.phone);
-        this.addFormStep2.controls.seller_leg_rep_email.patchValue(item.email);
-        this.addFormStep2.controls.seller_leg_rep_fed_tax.patchValue(item.fed_tax_pay);
+        this.addFormStep2.controls.seller_name.patchValue(item.developer_company ? item.developer_company : '');
+        this.addFormStep2.controls.seller_legal_name.patchValue(item.name ? item.name : '');
+        this.addFormStep2.controls.seller_fed_tax.patchValue(item.fed_tax_pay ? item.fed_tax_pay : '');
+        this.addFormStep2.controls.seller_phone.patchValue(item.phone ? item.phone : '');
+        this.addFormStep2.controls.seller_address.patchValue(item.developer_address ? item.developer_address : '');
+        this.addFormStep2.controls.seller_leg_rep_name.patchValue(item.legal_representative ? item.legal_representative.name : '');
+        this.addFormStep2.controls.seller_leg_rep_phone.patchValue(item.legal_representative ? item.legal_representative.phone : '');
+        this.addFormStep2.controls.seller_leg_rep_email.patchValue(item.legal_representative ? item.legal_representative.email : '');
+        this.addFormStep2.controls.seller_leg_rep_fed_tax.patchValue(item.legal_representative ? item.legal_representative.fed_tax_pay : '');
         const control = this.addFormStep2.get('collection_seller_banks') as FormArray;
-        if (item.legal_entity && item.legal_entity.legal_entity_banks) {
-          item.legal_entity.legal_entity_banks.forEach(x => {
+        if (item.legal_representative && item.legal_representative.legal_rep_banks) {
+          item.legal_representative.legal_rep_banks.forEach(x => {
             delete x.id;  // no need to send id ( cuz these are saving separtely in table)
             control.push(this.fb.group(x));
           });
@@ -1484,37 +1484,30 @@ export class AddEditCollectionComponent implements OnInit {
       
       if (this.model.buyer_type == 3) {   
         this.addFormStep3.controls.buyer_id.patchValue(item.id);
-        this.addFormStep3.controls.buyer_name.patchValue(item.legal_entity ? item.legal_entity.comm_name : '');
-        this.addFormStep3.controls.buyer_legal_name.patchValue(item.legal_entity ? item.legal_entity.legal_name : '');
-        this.addFormStep3.controls.buyer_fed_tax.patchValue(item.legal_entity ? item.legal_entity.fed_tax_pay : '');
-        this.addFormStep3.controls.buyer_phone.patchValue(item.legal_entity ? item.legal_entity.phone : '');
-        this.addFormStep3.controls.buyer_address.patchValue(item.legal_entity ? item.legal_entity.address : '');
-        this.addFormStep3.controls.buyer_leg_rep_name.patchValue(item.name);
-        this.addFormStep3.controls.buyer_leg_rep_phone.patchValue(item.phone);
-        this.addFormStep3.controls.buyer_leg_rep_email.patchValue(item.email);
-        this.addFormStep3.controls.buyer_leg_rep_fed_tax.patchValue(item.fed_tax_pay);
+        this.addFormStep3.controls.buyer_name.patchValue(item.developer_company ? item.developer_company : '');
+        this.addFormStep3.controls.buyer_legal_name.patchValue(item.name ? item.name : '');
+        this.addFormStep3.controls.buyer_fed_tax.patchValue(item.fed_tax_pay ? item.fed_tax_pay : '');
+        this.addFormStep3.controls.buyer_phone.patchValue(item.phone ? item.phone : '');
+        this.addFormStep3.controls.buyer_address.patchValue(item.developer_address ? item.developer_address : '');
+        this.addFormStep3.controls.buyer_leg_rep_name.patchValue(item.legal_representative ? item.legal_representative.name : '');
+        this.addFormStep3.controls.buyer_leg_rep_phone.patchValue(item.legal_representative ? item.legal_representative.phone : '');
+        this.addFormStep3.controls.buyer_leg_rep_email.patchValue(item.legal_representative ? item.legal_representative.email : '');
+        this.addFormStep3.controls.buyer_leg_rep_fed_tax.patchValue(item.legal_representative ? item.legal_representative.fed_tax_pay : '');
         const control = this.addFormStep3.get('collection_buyer_banks') as FormArray;
-        if (item.legal_entity && item.legal_entity.legal_entity_banks) {
-          item.legal_entity.legal_entity_banks.forEach(x => {
+        if (item.legal_representative && item.legal_representative.legal_rep_banks) {
+          item.legal_representative.legal_rep_banks.forEach(x => {
+            delete x.id;  // no need to send id ( cuz these are saving separtely in table)
             control.push(this.fb.group(x));
           });
         }
         const control1 = this.addFormStep3.get('collection_buyer_rep_banks') as FormArray;
         if (item.legal_rep_banks) {
           item.legal_rep_banks.forEach(x => {
+            delete x.id;  // no need to send id ( cuz these are saving separtely in table)
             control1.push(this.fb.group(x));
           });
         }
       }
-
-      // this.addFormStep3.controls.buyer_id.patchValue(item.id);
-      // this.addFormStep3.controls.buyer_name.patchValue(item.name);
-      // this.addFormStep3.controls.buyer_email.patchValue(item.email);
-      // this.addFormStep3.controls.buyer_phone.patchValue(item.phone);
-
-      // this.addFormStep3.controls.buyer_leg_rep_name.patchValue(item.name);
-      // this.addFormStep3.controls.buyer_leg_rep_phone.patchValue(item.phone);
-      // this.addFormStep3.controls.buyer_leg_rep_email.patchValue(item.email);
     }
     this.closeLinkUserModal.nativeElement.click();
   }

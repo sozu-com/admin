@@ -30,6 +30,12 @@ export class Collection {
     property?: any;
     deal_purchase_date?: any;
     currency?: any;
+    buyer_leg_rep_name?: string;
+    buyer_leg_rep_email?: string;
+    buyer_leg_rep_phone?: string;
+    seller_leg_rep_name?: string;
+    seller_leg_rep_email?: string;
+    seller_leg_rep_phone?: string;
 }
 
 export class DealType {

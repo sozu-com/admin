@@ -27,7 +27,8 @@
             <tbody>
               <tr>
                 <th rowspan="3">Buyer:</th>
-                <td>{{model?.buyer?.name || ('table.tr.td.NA' | translate)}}</td>
+                <td *ngIf="model?.buyer_type==2">{{model?.buyer_legal_entity?.comm_name || ('table.tr.td.NA' | translate)}}</td>
+                <td *ngIf="model?.buyer_type!=2">{{model?.buyer?.name || ('table.tr.td.NA' | translate)}}</td>
               </tr>
               <tr>
                 <td>{{model?.buyer?.email || ('table.tr.td.NA' | translate)}}</td>
@@ -43,7 +44,8 @@
               <tbody>
                 <tr>
                   <th rowspan="3">Seller:</th>
-                  <td>{{model?.seller?.name || ('table.tr.td.NA' | translate)}}</td>
+                  <td *ngIf="model?.seller_type==2">{{model?.seller_legal_entity?.comm_name || ('table.tr.td.NA' | translate)}}</td>
+                  <td *ngIf="model?.seller_type!=2">{{model?.seller?.name || ('table.tr.td.NA' | translate)}}</td>
                 </tr>
                 <tr>
                   <td>{{model?.seller?.email || ('table.tr.td.NA' | translate)}}</td>
@@ -65,13 +67,13 @@
               <tbody>
                 <tr>
                   <th rowspan="3">Buyer Legal <br> Representative Contact:</th>
-                  <td>{{model?.buyer?.name || ('table.tr.td.NA' | translate)}}</td>
+                  <td>{{model?.buyer_leg_rep_name || ('table.tr.td.NA' | translate)}}</td>
                 </tr>
                 <tr>
-                  <td>{{model?.buyer?.email || ('table.tr.td.NA' | translate)}}</td>
+                  <td>{{model?.buyer_leg_rep_email || ('table.tr.td.NA' | translate)}}</td>
                 </tr>
                 <tr>
-                  <td>{{model?.buyer?.dial_code}} {{model?.buyer?.phone || ('table.tr.td.NA' | translate)}}</td>
+                  <td>{{model?.buyer?.dial_code}} {{model?.buyer_leg_rep_phone || ('table.tr.td.NA' | translate)}}</td>
                 </tr>
               </tbody>
             </table>
@@ -81,13 +83,13 @@
                 <tbody>
                   <tr>
                     <th rowspan="3">Seller Legal <br> Representative Contact:</th>
-                    <td>{{model?.seller?.name || ('table.tr.td.NA' | translate)}}</td>
+                    <td>{{model?.seller_leg_rep_name || ('table.tr.td.NA' | translate)}}</td>
                   </tr>
                   <tr>
-                    <td>{{model?.seller?.email || ('table.tr.td.NA' | translate)}}</td>
+                    <td>{{model?.seller_leg_rep_email || ('table.tr.td.NA' | translate)}}</td>
                   </tr>
                   <tr>
-                    <td>{{model?.seller?.dial_code}} {{model?.buyer?.phone || ('table.tr.td.NA' | translate)}}</td>
+                    <td>{{model?.seller?.dial_code}} {{model?.seller_leg_rep_phone || ('table.tr.td.NA' | translate)}}</td>
                   </tr>
                 </tbody>
               </table>

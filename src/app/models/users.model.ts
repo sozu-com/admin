@@ -1,4 +1,4 @@
-import { LegalEntity, Banks } from "./legalEntity.model";
+import { LegalEntity, Banks, LegalRepresentative } from "./legalEntity.model";
 
 export class Users {
     id: string;
@@ -34,5 +34,5 @@ export class Users {
     locality_id?: string;
     fed_tax_pay?: string;
     legal_rep_banks?: Array<Banks>;
-    legal_entity?: LegalEntity;
+    legal_representative?: LegalRepresentative;
 }

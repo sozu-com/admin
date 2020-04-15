@@ -43,9 +43,11 @@
             <div class="col-12">
                 <div class="spacer40"></div>
             </div>
+            <!-- https://basecamp.com/2370215/projects/14983041/messages/90854936 -->
             <div class="col-12">
                 <div class="form-group-2">
-                  <label>{{'addForm.name' | translate}} <span class="color-red">*</span></label>
+                  <!-- name is commercial name -->
+                  <label>{{'addForm.commercialName' | translate}} <span class="color-red">*</span></label>
                   <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" [(ngModel)]="model.name" name="name">
                 </div>
             </div>
@@ -63,8 +65,9 @@
                 </div>
             </div>
             <div class="col-12">
+              <!-- company name is legal name -->
                 <div class="form-group-2">
-                  <label>{{'addForm.companyName' | translate}} <span class="color-red">*</span></label>
+                  <label>{{'addForm.legalName' | translate}} <span class="color-red">*</span></label>
                   <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" [(ngModel)]="model.developer_company" name="developer_company">
                 </div>
             </div>
@@ -177,41 +180,35 @@
             </div>
             <div class="col-12">
               <div class="form-group-2">
-                <h5>Legal Entity Information</h5>
+                <h5>Legal Representative Information</h5>
               </div>
             </div>
             <div class="col-12">
                 <div class="form-group-2">
-                  <label>Commercial Name <span class="color-red">*</span></label>
+                  <label>Name <span class="color-red">*</span></label>
                   <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" 
-                    [(ngModel)]="model.legal_entity.comm_name" name="comm_name">
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="form-group-2">
-                  <label>Legal Name <span class="color-red">*</span></label>
-                  <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" 
-                    class="form-control" [(ngModel)]="model.legal_entity.legal_name" name="legal_name">
+                    [(ngModel)]="model.legal_representative.name" name="rep_name">
                 </div>
             </div>
             <div class="col-12">
                 <div class="form-group-2">
                   <label>{{'addForm.contactNumber' | translate}} <span class="color-red">*</span></label>
                   <input minlength="6" maxlength="16" autocomplete="off" type="text" [pattern]="constant.phonePattern" 
-                    class="form-control" id="phone" required minlength="1" [(ngModel)]="model.legal_entity.phone" name="legal_entity_phone"
+                    class="form-control" id="phone" required minlength="1" [(ngModel)]="model.legal_representative.phone" name="legal_representative_phone"
                     ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
                 </div>
             </div>
           <div class="col-12">
               <div class="form-group-2">
-                <label>Address <span class="color-red">*</span></label>
-                <input autocomplete="off" required type="text" class="form-control" [(ngModel)]="model.legal_entity.address" name="legal_entity_address">
+                <label>{{'addForm.emailId' | translate}} <span class="color-red">*</span></label>
+                <input (keydown.space)="$event.preventDefault();" autocomplete="off" required [pattern]="constant.emailPattern" 
+                type="email" class="form-control" [(ngModel)]="model.legal_representative.email" name="rep_email">
               </div>
           </div>
           <div class="col-12">
               <div class="form-group-2">
                 <label>Federal Tax Payer Registry <span class="color-red">*</span></label>
-                <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" [(ngModel)]="model.legal_entity.fed_tax_pay" name="le_fed_tax_pay">
+                <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" [(ngModel)]="model.legal_representative.fed_tax_pay" name="le_fed_tax_pay">
               </div>
           </div>
 
@@ -219,7 +216,7 @@
             <label>Bank Account Information<span class="color-red">*</span>
               <span class="pull-right"><a class="add" (click)="addLegalEntityBank($event)" href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
             </label>
-            <div class="row" *ngFor="let leBankAccount of model.legal_entity.legal_entity_banks; let i=index">
+            <div class="row" *ngFor="let leBankAccount of model.legal_representative.legal_rep_banks; let i=index">
               <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                   <label>{{'addCollection.bankName' | translate}}</label>
