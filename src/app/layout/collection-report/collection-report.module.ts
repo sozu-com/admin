@@ -1,4 +1,3 @@
-
 // third party libraries
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -16,11 +15,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AclUserGuard } from 'src/app/guards/acl-user.guard';
 import { SharedModule } from 'src/app/modules/shared.module';
 import { CalendarModule, DropdownModule } from 'primeng/primeng';
-// import { DropdownModule } from 'primeng/dropdown';
-import { AddEditCollectionComponent } from './add-edit-collection/add-edit-collection.component';
-import { CollectionsComponent } from './collections.component';
-import { AnalyticsComponent } from './analytics/analytics.component';
-import { QuickVisualizationComponent } from './quick-visualization/quick-visualization.component';
+import { GeneralComponent } from './general/general.component';
+import { ModelComponent } from './model/model.component';
+import { ConceptComponent } from './concept/concept.component';
+import { MonthlyComponent } from './monthly/monthly.component';
+import { CollectionReportComponent } from './collection-report.component';
 
 const routes: Routes = [
   // {
@@ -28,16 +27,16 @@ const routes: Routes = [
   //   canActivate: [AclUserGuard], data: { roles: ['Property Management', 'can_read', ''] }
   // }
   {
-    path: 'view-collections', component: CollectionsComponent
+    path: 'general-report', component: GeneralComponent
   },
   {
-    path: 'add-collection/:id', component: AddEditCollectionComponent
+    path: 'monthly-report', component: MonthlyComponent
   },
   {
-    path: 'edit-collection/:id', component: AddEditCollectionComponent
+    path: 'model-report', component: ModelComponent
   },
   {
-    path: 'quick-visualization/:id', component: QuickVisualizationComponent
+    path: 'concept-report', component: ConceptComponent
   }
 ];
 
@@ -48,26 +47,14 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     NgxSpinnerModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyDykCJGMqHIwJluSmSiqKTJBVN2KauM_uQ',
-      libraries: ['drawing', 'places']
-    }),
-    Ng2TelInputModule,
     NgxPaginationModule,
     CalendarModule,
     SharedModule,
-    LazyLoadImageModule,
-    MalihuScrollbarModule.forRoot(),
     TranslateModule,
     DropdownModule
   ],
-  declarations: [
-    CollectionsComponent,
-    AddEditCollectionComponent,
-    AnalyticsComponent,
-    QuickVisualizationComponent
-  ]
+  declarations: [CollectionReportComponent, GeneralComponent, ModelComponent, ConceptComponent, MonthlyComponent]
 })
 
-export class CollectionsModule { }
+export class CollectionReportModule { }
 

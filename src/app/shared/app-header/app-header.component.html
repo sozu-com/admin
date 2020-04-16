@@ -221,6 +221,20 @@
                        <li class="nav-item" [routerLinkActive]="'active'">
                          <a class="nav-link" href="javascript://" routerLink="collections/view-collections"><i><img src="assets/img/ic_properties_manage.png"></i><span>{{'sidebar.manageCollections' | translate}}</span></a>
                        </li>
+                       <li class="nav-item dropdown" [routerLinkActive]="'active'">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
+                        <i><img src="assets/img/graph2.png"></i><span>{{'sidebar.collectionReports' | translate}}</span></a>
+                        <div class="dropdown-menu">
+                           <ul>
+                              <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="collection-report/general-report">{{'sidebar.generalReport' | translate}}</a></li>
+                              <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="collection-report/monthly-report">{{'sidebar.monthlyReport' | translate}}</a></li>
+                              <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="collection-report/model-report">{{'sidebar.modelReport' | translate}}</a></li>
+                              <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="collection-report/concept-report">{{'sidebar.conceptReport' | translate}}</a></li>
+                           </ul>
+                        </div>
+                     </li>
+
+
                        <li *ngIf="admin?.admin_acl['Access Controls']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
                          <a class="nav-link" href="javascript://" routerLink="access-control-mgt"><i><img src="assets/img/key.png"></i><span>{{'sidebar.ACL' | translate}}</span></a>
                        </li>

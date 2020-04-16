@@ -90,6 +90,10 @@ const routes: Routes = [
       {
         path: 'legal-entities',
         loadChildren: './legal-entity/legal-entity.module#LegalEntityModule'
+      },
+      {
+        path: 'collection-report',
+        loadChildren: './collection-report/collection-report.module#CollectionReportModule'
       }
     ]
   }
