@@ -1105,3 +1105,10 @@ body .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item-group.ui-state-high
   transition: border-color 0.2s;
   border-radius: 0px;
 }
+
+.coll-report-calendar .ui-calendar.ui-calendar-w-btn input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  padding: 8px 25px 8px 15px !important;
+  height: 40px !important;
+}

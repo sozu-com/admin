@@ -1575,5 +1575,20 @@
   "addLegalEntity": {
     "editEntity": "Edit Legal Entity",
     "addEntity": "Add Legal Entity"
+  },
+  "collectionReport": {
+    "start_date": "Start Date",
+    "end_date":"End Date",
+    "developer":"Developer",
+    "project":"Project",
+    "property":"Property",
+    "currency":"Currency",
+    "apply":"Apply",
+    "reset":"Reset",
+    "export":"Export",
+    "model":"Model",
+    "filterDate":"Filter Data",
+    "projectConcept": "Payment Concept",
+    "totalPaid": "Total Paid"
   }
 }

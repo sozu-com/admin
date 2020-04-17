@@ -1,3 +1,150 @@
-<p>
-  model works!
-</p>
+
+<div class="container-fluid">
+    <div class="row">
+       <div class="col-md-4">
+             <div class="form-group">
+                <p class="p16">{{'collectionReport.modelReport' | translate}}</p>
+             </div>
+       </div>
+    </div>
+  
+<div class="row">
+            <div class="col-lg-2 col-md-2">
+                  <div class="form-group">
+                  <label>{{'collectionReport.start_date' | translate}}</label>
+                  <p-calendar [locale]="locale" showIcon="true" [(ngModel)]="input.start_date" [maxDate]="today" 
+                    showButtonBar="true" class="coll-report-calendar" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+                  </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+                  <div class="form-group">
+                    <label>{{'collectionReport.end_date' | translate}}</label>
+                    <p-calendar [locale]="locale" showIcon="true" [(ngModel)]="input.end_date" [maxDate]="today" 
+                      showButtonBar="true" class="coll-report-calendar" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+                  </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+                  <div class="form-group">
+                     <label>{{'collectionReport.developer' | translate}}</label>
+                     <select class="form-control" name="developer_id" [(ngModel)]="input.developer_id" (change)="searchBuilding($event.target.value)">
+                        <option value="0">{{'filters.location.allOption' | translate}}</option>
+                        <option *ngFor="let item of developers" [value]="item.id">{{item.name}}</option>
+                     </select>
+                  </div>
+            </div>
+          
+            <div class="col-lg-2 col-md-2">
+                  <div class="form-group">
+                     <label>{{'collectionReport.project' | translate}}</label>
+                  <select class="form-control" name="building_id" [(ngModel)]="input.building_id">
+                     <option value="0">{{'filters.location.allOption' | translate}}</option>
+                     <option *ngFor="let item of projects" [value]="item.id">{{item.name}}</option>
+                  </select>
+                  </div>
+            </div>
+          
+            <div class="col-lg-2 col-md-2">
+               <div class="form-group marginB0">
+                  <label>{{'collectionReport.currency' | translate}}</label>
+                     <select class="form-control" (change)="setBuilding($event.target.value)" name="currency_id" [(ngModel)]="input.currency_id">
+                        <option value="0">{{'filters.location.allOption' | translate}}</option>
+                        <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
+                     </select>           
+               </div>
+            </div>
+            
+            <div class="col-lg-1 col-md-2">
+                  <div class="form-group btn-cont">
+                  <label style="display: block; margin-top: 3px;">&nbsp;</label>
+                  <button type="button" (click)="getListing()" class="btn btn-primary-new width100P P86">{{'collectionReport.apply' | translate}}</button>
+                  </div>
+            </div>
+          
+            <div class="col-lg-1 col-md-2">
+                  <div class="form-group btn-cont">
+                  <label style="display: block; margin-top: 3px;">&nbsp;</label>
+                  <button type="button" (click)="resetFilters()" class="btn btn-primary-new width100P P86">{{'collectionReport.reset' | translate}}</button>
+                  </div>
+            </div>
+          </div>
+  
+       <div class="cust-tabs">
+        <div class="row flex-wrap-reverse">
+        
+        <div class="col-xl-10 col-lg-12 col-md-12 col-sm-12 col-12">
+        </div>
+        <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="add-new pull-right">
+                    <!-- *ngIf="admin?.admin_acl['Building Management']?.can_create==1 || admin?.permissions?.can_data_collector==1"  -->
+              <a 
+              class="btn" href="javascript://" routerLink="/dashboard/collections/add-collection/0">{{'viewCollections.addNew' | translate}}</a>
+        </div>
+        </div>
+        </div>
+       <div class="tab-content white-bg">
+          <div class="tab-pane active">
+             <div class="tabel-section">
+                <div class="table-responsive">
+                   <table class="table table-align-left">
+                      <thead>
+                          <tr class="text-bold">
+                              <th style="width:10%; text-align:left;">
+                                  Model
+                                 <!-- <div class="table-search">
+                                    <label>Model</label>
+                                 </div> -->
+                              </th>
+                              <th style="width:10%; text-align:left;">Status
+                                 <!-- <div class="table-search">
+                                    <label>Status</label>
+                                 </div> -->
+                              </th>
+                              <th style="width:10%; text-align:left;">Property Name
+                                 <!-- <div class="table-search">
+                                    <label>Property Name</label>
+                                 </div> -->
+                              </th>
+                              <th style="width:10%; text-align:left;">Paid
+                                 <!-- <div class="table-search">
+                                    <label>Paid</label>
+                                 </div> -->
+                              </th>
+                              <th style="width:10%; text-align:left;">Remaining
+                                 <!-- <div class="table-search">
+                                    <label>Remaining</label>
+                                 </div> -->
+                              </th>
+                              <th style="width:10%; text-align:left;">Penalty
+                                 <!-- <div class="table-search">
+                                    <label>Penalty</label>
+                                 </div> -->
+                              </th>
+                              <th style="width:10%; text-align:left;">Total
+                                 <!-- <div class="table-search">
+                                    <label>Total</label>
+                                 </div> -->
+                              </th>
+                           </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of finalData; let i=index" [ngClass]="{'text-bold' : item.calculated==1}">
+                          <td><span>{{(item?.model || ('table.tr.td.NA' | translate)) | uppercase}}</span></td>
+                          <td><span>{{(item?.is_approved == 1 ? 'Approved' : (item.is_approved == 0 ? 'Unapproved' : '')) | uppercase}}</span></td>
+                          <td><span>{{item?.name || ''}}</span></td>
+                           <td><span>{{(item?.paid || 0) | currency}}</span></td>
+                           <td><span>{{((item?.total || 0) - (item?.paid || 0)) | currency}}</span></td>
+                           <td><span>{{(item?.penalty || 0) | currency}}</span></td>
+                           <td><span>{{(item?.total || 0) | currency}}</span></td>
+                         </tr>
+                      </tbody>
+                   </table>
+                   <div class="padding20 center" *ngIf="finalData?.length == 0">
+                         <img src="assets/img/404-error.png">
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+  </div>
+  

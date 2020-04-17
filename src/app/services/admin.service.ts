@@ -77,7 +77,13 @@ export class AdminService {
   }
 
   getCollectionsData() {
-    return this.http.get('assets/data/cllections.json')
+    return this.http.get('assets/data/concept-report.json')
+              .map(response => response.json())
+              .catch(this.errorHandler);
+  }
+
+  getModelData() {
+    return this.http.get('assets/data/model.json')
               .map(response => response.json())
               .catch(this.errorHandler);
   }
