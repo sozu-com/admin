@@ -1577,18 +1577,32 @@
     "addEntity": "Add Legal Entity"
   },
   "collectionReport": {
+    "modelReport":"Model Report",
+    "generalReport":"General Report",
+    "conceptReport":"Concept Report",
+    "monthlyReport":"Monthly Report",
     "start_date": "Start Date",
     "end_date":"End Date",
     "developer":"Developer",
     "project":"Project",
+    "tower":"Tower",
+    "floor":"Floor",
     "property":"Property",
     "currency":"Currency",
+    "buyer":"Buyer",
     "apply":"Apply",
     "reset":"Reset",
     "export":"Export",
     "model":"Model",
     "filterDate":"Filter Data",
     "projectConcept": "Payment Concept",
-    "totalPaid": "Total Paid"
+    "totalPaid": "Total Paid",
+    "buyerName":"Buyer Name",
+    "sellerName":"Seller Name",
+    "propertyName":"Property Name",
+    "previousMonth": "Previous Month",
+    "nextMonth":"Next Month",
+    "currentMonth": "Current Month",
+    "outstandingAmt": "Outstanding Amount"
   }
 }

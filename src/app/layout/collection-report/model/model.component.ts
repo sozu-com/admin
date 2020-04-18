@@ -6,6 +6,7 @@ import { Constant } from 'src/app/common/constants';
 import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
 import { CollectionReport } from '../../../models/collection-report.model';
+import { Towers } from 'src/app/models/addProject.model';
 declare let swal: any;
 
 @Component({
@@ -17,6 +18,7 @@ export class ModelComponent implements OnInit {
 
   public parameter: IProperty = {};
   items: any = [];
+  today: any;
   total: any = 0;
   item: any;
   locale: any;
@@ -26,7 +28,12 @@ export class ModelComponent implements OnInit {
   model: Array<any>;
   finalData: Array<any>;
   projects: Array<any>;
+  towers: Array<Towers>;
   properties: Array<any>;
+  currencies: Array<any>;
+  developers: Array<any>;
+  selectedBuilding: any;
+
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
 
   constructor(
@@ -38,7 +45,13 @@ export class ModelComponent implements OnInit {
 
   ngOnInit() {
     this.finalData = [];
+    this.towers = [new Towers()];
     this.input = new CollectionReport();
+    this.input.start_date = moment().subtract(6, 'months').toDate();
+    this.input.end_date = moment().toDate();
+    this.today = new Date();
+    this.getDevelopers();
+    this.getCurrencies();
     this.locale = {
       firstDayOfWeek: 0,
       dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
@@ -53,13 +66,43 @@ export class ModelComponent implements OnInit {
       dateFormat: 'mm/dd/yy',
       weekHeader: 'Wk'
     };
-    // this.getListing();
+    this.getListing();
   }
 
+  getCurrencies() {
+    this.admin.postDataApi('getCurrencies', {})
+      .subscribe(
+        success => {
+          this.currencies = success.data;
+        }, error => {
+          this.spinner.hide();
+        }
+      );
+  }
   
-  searchBuilding(keyword: string) {
+  getDevelopers() {
+    const input = {
+      user_type : 3
+    };
+    this.admin.postDataApi('getAllBuyers', input)
+      .subscribe(
+        success => {
+          this.developers = success.data;
+        }, error => {
+          this.spinner.hide();
+        }
+      );
+  }
+  
+  searchBuilding(developer_id: string) {
     this.spinner.show();
-    this.admin.postDataApi('searchBuilding', {})
+    const input = {
+      developer_id: developer_id
+      // keyword: 'marg'
+    };
+    
+    // projectHome
+    this.admin.postDataApi('searchBuilding', input)
       .subscribe(
         success => {
           this.spinner.hide();
@@ -70,11 +113,34 @@ export class ModelComponent implements OnInit {
         }
       );
   }
+
+  setBuildingId(buildingId: any) {
+    this.projects.map(r => {
+      if (r.id == buildingId) {
+        this.selectedBuilding = r;
+      }
+    })
+    this.input.building_id = buildingId;
+  }
+
+  setTower(building_towers_id: string) {
+    for (let index = 0; index < this.projects.length; index++) {
+      if (this.projects[index].id == this.input.building_id) {
+        const bt = this.projects[index].building_towers;
+        for(let i = 0; i < bt.length; i++) {
+          if (bt[i].id == building_towers_id) {
+            this.towers = bt[i];
+          }
+        }
+      }
+    }
+  }
   
   getProperties($event) {
     const input = {
-      'building_id' : this.parameter.building_id,
-      // 'tower_id' : this.parameter.building_towers_id
+      'building_id' : this.input.building_id,
+      'tower_id' : this.input.building_towers_id,
+      floor_num: this.input.floor_num
     };
     this.admin.postDataApi('getProperties', input)
       .subscribe(
@@ -88,20 +154,12 @@ export class ModelComponent implements OnInit {
 
   getListing() {
     this.spinner.show();
-    const input: any = JSON.parse(JSON.stringify(this.input));
-    if (this.input.start_date) {
-      input.building_id = moment(this.input.start_date).format('YYYY-MM-DD');
-    } else {
-      delete input.start_date;
-    }
-    if (this.input.end_date) {
-      input.bulding_towers_id = moment(this.input.end_date).format('YYYY-MM-DD');
-    } else {
-      delete input.end_date;
-    }
-    input.property_id = 1;
     
-    this.admin.postDataApi('generateCollectionModelReport', {}).subscribe(
+    const input: any = JSON.parse(JSON.stringify(this.input));
+    input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
+    input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
+
+    this.admin.postDataApi('generateCollectionModelReport', input).subscribe(
       success => {
         this.data = success['data'];
         this.model = [];
@@ -134,4 +192,9 @@ export class ModelComponent implements OnInit {
       });
   }
 
+  resetFilters() {
+    this.input = new CollectionReport();
+    this.input.start_date = moment().subtract(6, 'months').toDate();
+    this.input.end_date = moment().toDate();
+  }
 }

@@ -338,10 +338,10 @@
 
                      <td><span>{{p?.last_payment?.name || ('table.tr.td.NA' | translate)}}</span></td>
                      <td><span>{{p?.last_payment?.date || ('table.tr.td.NA' | translate)}}</span></td>
-                     <td><span> {{p?.currency?.symbol}} {{ (p?.last_payment?.amount || 0) | numberWithCommas}}</span></td>
+                     <td><span> {{p?.currency?.symbol}} {{ (p?.last_payment?.amount || 0) | roundNumber}}</span></td>
                      <td><span>{{p?.next_payment?.name || ('table.tr.td.NA' | translate)}}</span></td>
                      <td><span>{{p?.next_payment?.date || ('table.tr.td.NA' | translate)}}</span></td>
-                     <td><span>{{p?.currency?.symbol}} {{ (p?.next_payment?.amount || 0) | numberWithCommas}}</span></td>
+                     <td><span>{{p?.currency?.symbol}} {{ (p?.next_payment?.amount || 0) | roundNumber}}</span></td>
 
                      <td><span>{{p?.currency?.currency || ('table.tr.td.NA' | translate)}}</span></td>
                      <td><span>{{p.comm_total_commission || ('table.tr.td.NA' | translate)}}</span></td>
@@ -352,8 +352,8 @@
                      <td *ngIf="!p?.deal_commission_agents?.length">
                         <span>{{('table.tr.td.NA' | translate)}}</span>
                      </td>
-                     <td><span>{{p?.currency?.symbol}} {{(p?.total_amount_paid || 0) | numberWithCommas}}</span></td>
-                     <td><span>{{p?.currency?.symbol}} {{(p?.remaining_amount || 0) | numberWithCommas}}</span></td>
+                     <td><span>{{p?.currency?.symbol}} {{(p?.total_amount_paid || 0) | roundNumber}}</span></td>
+                     <td><span>{{p?.currency?.symbol}} {{(p?.remaining_amount || 0) | roundNumber}}</span></td>
                      <!-- <td><span>{{p?.name ? p?.name : ('table.tr.td.NA' | translate)}}</span></td> -->
                      <td>NA</td>
                      <td>

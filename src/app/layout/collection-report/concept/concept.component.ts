@@ -22,6 +22,7 @@ export class ConceptComponent implements OnInit {
   locale: any;
   input: CollectionReport;
   data: any;
+  today: any;
   paymentConcepts: Array<any>;
   allMonths: Array<any>;
   finalData: Array<any>;
@@ -41,6 +42,7 @@ export class ConceptComponent implements OnInit {
     this.input = new CollectionReport();
     this.input.start_date = moment().subtract(6, 'months').toDate();
     this.input.end_date = moment().toDate();
+    this.today = new Date();
     this.getDevelopers();
     this.getCurrencies();
     this.locale = {
@@ -154,10 +156,9 @@ export class ConceptComponent implements OnInit {
   }
 
   resetFilters() {
-    // this.input = new CollectionReport();
-    this.input.developer_id = 0;
-    this.input.building_id = 0;
-    this.input.currency_id = 0;
+    this.input = new CollectionReport();
+    this.input.start_date = moment().subtract(6, 'months').toDate();
+    this.input.end_date = moment().toDate();
   }
 
 }

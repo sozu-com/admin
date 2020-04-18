@@ -7,60 +7,9 @@
            </div>
      </div>
   </div>
-  <!-- <div class="row">
-     <div class="offset-md-4"></div>
-     <div class="col-md-8 col-12">
-           <div class="cust-tabs-2">
-              <ul class="nav nav-tabs float-right">
-                 <li class="nav-item">
-                    <a [ngClass]="{'active':parameter.dash_flag == 1}" (click)="changeFlag(1)" class="nav-link" data-toggle="tab" href="#tw">{{'filters.time.thisWeek' | translate}}</a>
-                 </li>
-                 <li class="nav-item">
-                    <a [ngClass]="{'active':parameter.dash_flag == 2}" (click)="changeFlag(2)" class="nav-link" data-toggle="tab" href="#tm">{{'filters.time.thisMonth' | translate}}</a>
-                 </li>
-                 <li class="nav-item">
-                    <a [ngClass]="{'active':parameter.dash_flag == 3}" (click)="changeFlag(3)" class="nav-link" data-toggle="tab" href="#lm">{{'filters.time.lastMonth' | translate}}</a>
-                 </li>
-                 <li class="nav-item">
-                    <a [ngClass]="{'active':parameter.dash_flag == 4}" (click)="changeFlag(4)" class="nav-link" data-toggle="tab" href="#lt">{{'filters.time.lifetime' | translate}}</a>
-                 </li>
-                 <li class="nav-item">
-                    <a [ngClass]="{'active':parameter.dash_flag == 5}" (click)="changeFlag(5)" class="nav-link" data-toggle="tab" href="#cust">{{'filters.time.custom.label' | translate}}</a>
-                 </li>
-              </ul>
-           </div>
-     </div>
-  </div> -->
-<!-- 
-  <div class="row">
-  <div class="col-12">
-        <div class="row">
-           <div class="offset-lg-7"></div>
-           <div class="col-lg-2 col-md-2 col-sm-5 col-5">
-           <div class="form-group marginB0">
-              <label>{{'filters.time.custom.from' | translate}}</label>
-              <p-calendar [locale]="locale" showIcon="true" [(ngModel)]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
-           </div>
-           </div>
-           <div class="col-lg-2 col-md-2 col-sm-5 col-5">
-           <div class="form-group marginB0">
-              <label>{{'filters.time.custom.to' | translate}}</label>
-              <p-calendar [locale]="locale" showIcon="true" [(ngModel)]="parameter.max" [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
-           </div>
-           </div>
-           <div class="col-lg-1 col-md-2 col-sm-2 col-6">
-           <div class="form-group btn-cont">
-              <label class="addMT3">&nbsp;</label>
-              <button class="btn btn-calender" href="javascript://" (click)="getListing()"
-              [disabled]="!parameter.min || !parameter.max">{{'filters.time.custom.applyBtn' | translate}}</button>
-           </div>
-           </div>
-        </div>
-  </div>
-</div>
- -->
 
-
+  <hr>
+  
 
 <div class="row">
   <div class="col-lg-2 col-md-2">
@@ -100,7 +49,7 @@
   <div class="col-lg-2 col-md-2">
      <div class="form-group marginB0">
         <label>{{'collectionReport.currency' | translate}}</label>
-           <select class="form-control" (change)="setBuilding($event.target.value)" name="currency_id" [(ngModel)]="input.currency_id">
+           <select class="form-control" name="currency_id" [(ngModel)]="input.currency_id">
               <option value="0">{{'filters.location.allOption' | translate}}</option>
               <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
            </select>           
