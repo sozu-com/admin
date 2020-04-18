@@ -10,6 +10,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 import { TranslateModule } from '@ngx-translate/core';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 // general components
 import { AclUserGuard } from 'src/app/guards/acl-user.guard';
@@ -51,7 +52,8 @@ const routes: Routes = [
     CalendarModule,
     SharedModule,
     TranslateModule,
-    DropdownModule
+    DropdownModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   declarations: [CollectionReportComponent, GeneralComponent, ModelComponent, ConceptComponent, MonthlyComponent]
 })

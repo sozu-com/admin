@@ -16,6 +16,8 @@ declare let swal: any;
 export class ConceptComponent implements OnInit {
 
   public parameter: IProperty = {};
+  singleDropdownSettings: any;
+  multiDropdownSettings: any;
   items: any = [];
   total: any = 0;
   item: any;
@@ -28,7 +30,10 @@ export class ConceptComponent implements OnInit {
   finalData: Array<any>;
   currencies: Array<any>;
   projects: Array<any>;
+  selctedProjects: Array<any>;
+  selectedCurrencies: Array<any>;
   developers: Array<any>;
+  selectedDevelopers: Array<any>;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
 
   constructor(
@@ -43,6 +48,7 @@ export class ConceptComponent implements OnInit {
     this.input.start_date = moment().subtract(6, 'months').toDate();
     this.input.end_date = moment().toDate();
     this.today = new Date();
+    this.iniDropDownSetting()
     this.getDevelopers();
     this.getCurrencies();
     this.locale = {
@@ -62,11 +68,46 @@ export class ConceptComponent implements OnInit {
     this.getListing();
   }
 
+  iniDropDownSetting() {
+    this.singleDropdownSettings = {
+      singleSelection: true,
+      idField: 'id',
+      textField: 'name',
+      selectAllText: this.translate.instant('commonBlock.selectAll'),
+      unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
+      searchPlaceholderText: this.translate.instant('commonBlock.search'),
+      allowSearchFilter: true
+    };
+    this.multiDropdownSettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: 'name',
+      selectAllText: this.translate.instant('commonBlock.selectAll'),
+      unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
+      searchPlaceholderText: this.translate.instant('commonBlock.search'),
+      allowSearchFilter: true
+    };
+  }
+
+  onItemDeSelect(arrayNAme: any, obj: any) {
+    this[arrayNAme].push(obj);
+  }
+
+  onItemSelect(param:any, obj: any) {
+    this[param].push(obj);
+  }
+
+  onSelectAll(obj: any) {
+  }
+
   getCurrencies() {
     this.admin.postDataApi('getCurrencies', {})
       .subscribe(
         success => {
           this.currencies = success.data;
+          this.currencies.map(r => {
+            r['name'] = r.code + ' | ' + r.currency
+          })
         }, error => {
           this.spinner.hide();
         }
@@ -74,10 +115,10 @@ export class ConceptComponent implements OnInit {
   }
   
   getDevelopers() {
-    const input = {
-      user_type : 3
-    };
-    this.admin.postDataApi('getAllBuyers', input)
+    // const input = {
+    //   user_type : 3
+    // };
+    this.admin.postDataApi('getUnblockedDevelopers', {})
       .subscribe(
         success => {
           this.developers = success.data;
@@ -87,13 +128,21 @@ export class ConceptComponent implements OnInit {
       );
   }
 
+  onSelectDeveloper(isSelected: number, obj: any) {
+    if (isSelected) {
+      this.searchBuilding(obj.id);
+    } else {
+      this.projects = [];
+      this.selctedProjects = [];
+    }
+  }
+
   searchBuilding(developer_id: string) {
     this.spinner.show();
     const input = {
-      "userType": "developer",
       "developer_id": developer_id
     };
-    this.admin.postDataApi('projectHome', input)
+    this.admin.postDataApi('getUnblockedProjects', input)
       .subscribe(
         success => {
           this.spinner.hide();
@@ -107,11 +156,22 @@ export class ConceptComponent implements OnInit {
 
   getListing() {
     this.spinner.show();
-
     const input: any = JSON.parse(JSON.stringify(this.input));
     input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
     input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
 
+    if (this.selctedProjects) {
+      const d = this.selctedProjects.map(o => o.id);
+      input.building_id = d;
+    }
+    if (this.selectedDevelopers) {
+      const d = this.selectedDevelopers.map(o => o.id);
+      input.developer_id = d;
+    }
+    if (this.selectedCurrencies) {
+      const d = this.selectedCurrencies.map(o => o.id);
+      input.currency_id = d;
+    }
     this.admin.postDataApi('generateCollectionConceptReport', input).subscribe(
     // this.admin.getCollectionsData().subscribe(
       success => {
@@ -159,6 +219,9 @@ export class ConceptComponent implements OnInit {
     this.input = new CollectionReport();
     this.input.start_date = moment().subtract(6, 'months').toDate();
     this.input.end_date = moment().toDate();
+    this.selectedDevelopers = [];
+    this.selctedProjects = [];
+    this.selectedCurrencies = [];
   }
 
 }

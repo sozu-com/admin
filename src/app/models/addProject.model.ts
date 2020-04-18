@@ -139,6 +139,7 @@ export class Towers {
   floor_array?: Array<number>;
   amenitiesCount?: number;
   num_of_properties?: number;
+  floors?: Array<any>;
   // amenities: Array<any>;
   // amenitiesId: Array<any>;
 }

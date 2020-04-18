@@ -29,30 +29,63 @@
   <div class="col-lg-2 col-md-2">
         <div class="form-group">
            <label>{{'collectionReport.developer' | translate}}</label>
-           <select class="form-control" name="developer_id" [(ngModel)]="input.developer_id" (change)="searchBuilding($event.target.value)">
+           <!-- <select class="form-control" name="developer_id" [(ngModel)]="input.developer_id" (change)="searchBuilding($event.target.value)">
               <option value="0">{{'filters.location.allOption' | translate}}</option>
               <option *ngFor="let item of developers" [value]="item.id">{{item.name}}</option>
-           </select>
+           </select> -->
+           <div class="clearfix"></div>
+            <ng-multiselect-dropdown class="section-section2 multi-select"
+                  [placeholder]="''"
+                  [data]="developers"
+                  [(ngModel)]="selectedDevelopers"
+                  [settings]="singleDropdownSettings"
+                  (onDeSelect)="onSelectDeveloper(0, $event)"
+                  (onSelect)="onSelectDeveloper(1, $event)"
+                  (onSelectAll)="onSelectAll($event)">
+            </ng-multiselect-dropdown>
+        <div class="clearfix"></div>
         </div>
   </div>
 
   <div class="col-lg-2 col-md-2">
         <div class="form-group">
            <label>{{'collectionReport.project' | translate}}</label>
-        <select class="form-control" name="building_id" [(ngModel)]="input.building_id">
+        <!-- <select class="form-control" name="building_id" [(ngModel)]="input.building_id">
            <option value="0">{{'filters.location.allOption' | translate}}</option>
            <option *ngFor="let item of projects" [value]="item.id">{{item.name}}</option>
-        </select>
+        </select> -->
+        <div class="clearfix"></div>
+            <ng-multiselect-dropdown class="section-section2 multi-select"
+                  [placeholder]="''"
+                  [data]="projects"
+                  [(ngModel)]="selctedProjects"
+                  [settings]="multiDropdownSettings"
+                  (onDeSelect)="onItemDeSelect('projects', $event)"
+                  (onSelect)="onItemSelect('selctedProjects', $event)"
+                  (onSelectAll)="onSelectAll($event)">
+            </ng-multiselect-dropdown>
+        <div class="clearfix"></div>
         </div>
   </div>
 
   <div class="col-lg-2 col-md-2">
      <div class="form-group marginB0">
         <label>{{'collectionReport.currency' | translate}}</label>
-           <select class="form-control" name="currency_id" [(ngModel)]="input.currency_id">
+           <!-- <select class="form-control" name="currency_id" [(ngModel)]="input.currency_id">
               <option value="0">{{'filters.location.allOption' | translate}}</option>
               <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
-           </select>           
+           </select>      -->
+           <div class="clearfix"></div>
+               <ng-multiselect-dropdown class="section-section2 multi-select"
+                     [placeholder]="''"
+                     [data]="currencies"
+                     [(ngModel)]="selectedCurrencies"
+                     [settings]="multiDropdownSettings"
+                     (onDeSelect)="onItemDeSelect('currencies', $event)"
+                     (onSelect)="onItemSelect('selectedCurrencies', $event)"
+                     (onSelectAll)="onSelectAll($event)">
+               </ng-multiselect-dropdown>
+           <div class="clearfix"></div>      
      </div>
   </div>
   
@@ -90,55 +123,24 @@
               <div class="table-responsive">
                  <table class="table table-striped table-align-left">
                     <thead>
-                        <!-- <tr>
-                        <th style="width:10%; text-align:left;">
-                              <div class="table-search">
-                              <label>{{'collectionReport.model' | translate}}</label>
-                              </div>
-                        </th>
-                        <th *ngIf="allMonths?.length" style="width:10%; text-align:left;" [attr.colspan]="allMonths?.length">
-                              <div class="table-search">
-                              <label>{{'collectionReport.filterDate' | translate}}</label>
-                              </div>
-                        </th>
-                        <th style="width:10%; text-align:left;">
-                              <div class="table-search">
-                              <label>{{'table.th.configuration' | translate}}</label>
-                              </div>
-                        </th>
-                        </tr>
-                        <tr>
-                        <th style="width:10%; text-align:left;">
-                              <div class="table-search">
-                              <label>{{'table.th.configuration' | translate}}</label>
-                              </div>
-                        </th>
-                        <th *ngIf="allMonths?.length" [attr.colspan]="allMonths?.length" style="width:10%; text-align:left;">
-                              <div class="table-search">
-                              <label>Filter Data</label>
-                              </div>
-                        </th>
-                        <th style="width:10%; text-align:left;">
-                              <div class="table-search">
-                              <label>{{'table.th.configuration' | translate}}</label>
-                              </div>
-                        </th>
-                        </tr> -->
                         <tr>
                            <th style="width:10%; text-align:left;">
-                              <div class="table-search">
+                                 <b>{{'collectionReport.projectConcept' | translate}}</b>
+                              <!-- <div class="table-search">
                                  <label>{{'collectionReport.projectConcept' | translate}}</label>
-                              </div>
+                              </div> -->
                            </th>
                            <th *ngFor="let month of allMonths" style="width:10%; text-align:left;">
-                              <div class="table-search">
+                                 <b>{{month | date:'MMM, y'}}</b>
+                              <!-- <div class="table-search">
                                  <label>{{month | date:'MMM, y'}}</label>
-                              </div>
+                              </div> -->
                            </th>
                            <th style="width:10%; text-align:left;">
-                              <div class="table-search">
+                                 <b>{{'collectionReport.totalPaid' | translate}}</b>
+                              <!-- <div class="table-search">
                                  <label>{{'collectionReport.totalPaid' | translate}}</label>
-                              </div>
+                              </div> -->
                            </th>
                         </tr>
                     </thead>

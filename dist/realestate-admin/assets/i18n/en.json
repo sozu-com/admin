@@ -1603,6 +1603,11 @@
     "previousMonth": "Previous Month",
     "nextMonth":"Next Month",
     "currentMonth": "Current Month",
-    "outstandingAmt": "Outstanding Amount"
+    "outstandingAmt": "Outstanding Amount",
+    "paid":"Paid",
+    "total":"Total",
+    "status":"Status",
+    "remaining":"Remaining",
+    "penalty":"Penalty"
   }
 }

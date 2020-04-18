@@ -17,6 +17,8 @@ declare let swal: any;
 export class ModelComponent implements OnInit {
 
   public parameter: IProperty = {};
+  singleDropdownSettings: any;
+  multiDropdownSettings: any;
   items: any = [];
   today: any;
   total: any = 0;
@@ -28,11 +30,18 @@ export class ModelComponent implements OnInit {
   model: Array<any>;
   finalData: Array<any>;
   projects: Array<any>;
+  selctedProjects: Array<any>;
+  developers: Array<any>;
+  selectedDevelopers: Array<any>;  
+  selectedProperties: Array<any>;
+  selectedTowers: Array<any>;
+  selectedFloors: Array<any>;
+  selectedCurrencies: Array<any>;
   towers: Array<Towers>;
   properties: Array<any>;
   currencies: Array<any>;
-  developers: Array<any>;
-  selectedBuilding: any;
+  buildingTowers: any;
+  floors: Array<any>;
 
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
 
@@ -45,6 +54,7 @@ export class ModelComponent implements OnInit {
 
   ngOnInit() {
     this.finalData = [];
+    this.iniDropDownSetting();
     this.towers = [new Towers()];
     this.input = new CollectionReport();
     this.input.start_date = moment().subtract(6, 'months').toDate();
@@ -69,22 +79,69 @@ export class ModelComponent implements OnInit {
     this.getListing();
   }
 
+  iniDropDownSetting() {
+    this.singleDropdownSettings = {
+      singleSelection: true,
+      idField: 'id',
+      textField: 'name',
+      selectAllText: this.translate.instant('commonBlock.selectAll'),
+      unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
+      searchPlaceholderText: this.translate.instant('commonBlock.search'),
+      allowSearchFilter: true
+    };
+    this.multiDropdownSettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: 'name',
+      selectAllText: this.translate.instant('commonBlock.selectAll'),
+      unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
+      searchPlaceholderText: this.translate.instant('commonBlock.search'),
+      allowSearchFilter: true
+    };
+  }
+
+  onItemDeSelect(arrayNAme: any, obj: any) {
+    this[arrayNAme].push(obj);
+  }
+
+  onItemSelect(param:any, obj: any) {
+    this[param].push(obj);
+  }
+
+  onSelectAll(obj: any) {
+  }
+
   getCurrencies() {
     this.admin.postDataApi('getCurrencies', {})
       .subscribe(
         success => {
           this.currencies = success.data;
+          this.currencies.map(r => {
+            r['name'] = r.code + ' | ' + r.currency
+          })
         }, error => {
           this.spinner.hide();
         }
       );
   }
+
+  onSelectDeveloper(isSelected: number, obj: any) {
+    if (isSelected) {
+      this.searchBuilding(obj.id);
+    } else {
+      this.projects = [];
+      this.selctedProjects = [];
+      this.selectedTowers = [];
+      this.selectedFloors = [];
+      this.selectedProperties = [];
+    }
+  }
   
   getDevelopers() {
-    const input = {
-      user_type : 3
-    };
-    this.admin.postDataApi('getAllBuyers', input)
+    // const input = {
+    //   user_type : 3
+    // };
+    this.admin.postDataApi('getUnblockedDevelopers', {})
       .subscribe(
         success => {
           this.developers = success.data;
@@ -92,6 +149,18 @@ export class ModelComponent implements OnInit {
           this.spinner.hide();
         }
       );
+  }
+
+  onSelectProject(isSelected: number, obj: any) {
+console.log(obj)
+    if (isSelected) {
+      this.setBuildingId(obj.id);
+    } else {
+      this.input.building_id = [];
+      this.selectedTowers = []
+      this.selectedFloors = [];
+      this.selectedProperties = [];
+    }
   }
   
   searchBuilding(developer_id: string) {
@@ -102,7 +171,7 @@ export class ModelComponent implements OnInit {
     };
     
     // projectHome
-    this.admin.postDataApi('searchBuilding', input)
+    this.admin.postDataApi('getUnblockedProjects', input)
       .subscribe(
         success => {
           this.spinner.hide();
@@ -115,36 +184,82 @@ export class ModelComponent implements OnInit {
   }
 
   setBuildingId(buildingId: any) {
+    console.log(buildingId)
     this.projects.map(r => {
       if (r.id == buildingId) {
-        this.selectedBuilding = r;
+        this.buildingTowers = r.building_towers ? r.building_towers : [];
       }
     })
-    this.input.building_id = buildingId;
+    this.buildingTowers.map(s => {
+      s.name = s.tower_name;
+    })
+    console.log(this.buildingTowers)
+    this.input.building_id = [buildingId];
+  }
+
+  onSelectTower(isSelected: number, obj: any) {
+    console.log(obj)
+    if (isSelected) {
+      this.setTower(obj.id);
+    } else {
+      this.input.building_towers_id = [];
+      this.selectedFloors = []
+      this.selectedProperties = [];
+    }
   }
 
   setTower(building_towers_id: string) {
+    this.floors = [];
     for (let index = 0; index < this.projects.length; index++) {
       if (this.projects[index].id == this.input.building_id) {
         const bt = this.projects[index].building_towers;
         for(let i = 0; i < bt.length; i++) {
           if (bt[i].id == building_towers_id) {
             this.towers = bt[i];
+            this.towers['floors'] = [];
+            // floors
+            this.towers['unique_floors'].map(s => {
+              let obj = {};
+              obj = {id: s, name: s == 0 ? 'Ground Floor' : 'Floor '+s}
+              this.towers['floors'].push(obj);
+              this.floors.push(obj);
+            })
           }
         }
       }
     }
+    console.log(this.towers)
+  }
+
+  onSelectFloor(isSelected: number, obj: any) {
+    console.log(obj)
+    if (isSelected) {
+      this.getProperties(obj.id);
+    } else {
+      this.properties = [];
+      this.selectedProperties = [];
+    }
   }
   
   getProperties($event) {
-    const input = {
-      'building_id' : this.input.building_id,
-      'tower_id' : this.input.building_towers_id,
-      floor_num: this.input.floor_num
-    };
-    this.admin.postDataApi('getProperties', input)
+    let input = {};
+    if (this.selctedProjects) {
+      const d = this.selctedProjects.map(o => o.id);
+      input['building_id'] = d[0];
+    }
+    if (this.selectedTowers) {
+      const d = this.selectedTowers.map(o => o.id);
+      input['building_towers_id'] = d[0];
+    }
+    if (this.selectedFloors) {
+      const d = this.selectedFloors.map(o => o.id);
+      input['floor_num'] = d[0];
+    }
+    this.spinner.show()
+    this.admin.postDataApi('getUnblockedProperties', input)
       .subscribe(
         success => {
+          this.spinner.hide();
           this.properties = success.data;
         }, error => {
           this.spinner.hide();
@@ -159,6 +274,30 @@ export class ModelComponent implements OnInit {
     input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
     input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
 
+    if (this.selectedDevelopers) {
+      const d = this.selectedDevelopers.map(o => o.id);
+      input.developer_id = d;
+    }
+    if (this.selctedProjects) {
+      const d = this.selctedProjects.map(o => o.id);
+      input.building_id = d;
+    }
+    if (this.selectedTowers) {
+      const d = this.selectedTowers.map(o => o.id);
+      input.building_towers_id = d;
+    }
+    if (this.selectedFloors) {
+      const d = this.selectedFloors.map(o => o.id);
+      input['floor_num'] = d;
+    }
+    if (this.selectedProperties) {
+      const d = this.selectedProperties.map(o => o.id);
+      input.property_id = d;
+    }
+    if (this.selectedCurrencies) {
+      const d = this.selectedCurrencies.map(o => o.id);
+      input.currency_id = d;
+    }
     this.admin.postDataApi('generateCollectionModelReport', input).subscribe(
       success => {
         this.data = success['data'];
@@ -196,5 +335,12 @@ export class ModelComponent implements OnInit {
     this.input = new CollectionReport();
     this.input.start_date = moment().subtract(6, 'months').toDate();
     this.input.end_date = moment().toDate();
+
+    this.selectedDevelopers = [];
+    this.selctedProjects = [];
+    this.selectedTowers = [];
+    this.selectedFloors = [];
+    this.selectedCurrencies = [];
+    this.selectedProperties = [];
   }
 }

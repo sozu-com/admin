@@ -14,74 +14,132 @@
             <div class="col-lg-2 col-md-2">
                   <div class="form-group">
                      <label>{{'collectionReport.developer' | translate}}</label>
-                     <select class="form-control" name="developer_id" [(ngModel)]="input.developer_id" (change)="searchBuilding($event.target.value)">
+                     <!-- <select class="form-control" name="developer_id" [(ngModel)]="input.developer_id" (change)="searchBuilding($event.target.value)">
                         <option value="0">{{'filters.location.allOption' | translate}}</option>
                         <option *ngFor="let item of developers" [value]="item.id">{{item.name}}</option>
-                     </select>
-                        <!-- <div class="clearfix"></div>
-                        <ng-multiselect-dropdown [disabled]="sent_as==2" class="section-section2" *ngIf="leadData.buyer_amenities"
-                              [placeholder]="'Choose Amenities'"
-                              [data]="allAmenities"
-                              [(ngModel)]="selectedAmenities"
-                              [settings]="dropdownSettings"
-                              (onDeSelect)="onItemDeSelect($event)"
-                              (onSelect)="onItemSelect($event)"
-                              (onSelectAll)="onSelectAll($event)">
-                        </ng-multiselect-dropdown>
-                        <div class="clearfix"></div> -->
+                     </select> -->
+                     <div class="clearfix"></div>
+                     <ng-multiselect-dropdown class="section-section2 multi-select"
+                           [placeholder]="''"
+                           [data]="developers"
+                           [(ngModel)]="selectedDevelopers"
+                           [settings]="singleDropdownSettings"
+                           (onDeSelect)="onSelectDeveloper(0, $event)"
+                           (onSelect)="onSelectDeveloper(1, $event)"
+                           (onSelectAll)="onSelectAll($event)">
+                     </ng-multiselect-dropdown>
+                 <div class="clearfix"></div>
                   </div>
             </div>
           
             <div class="col-lg-2 col-md-2">
                   <div class="form-group">
                      <label>{{'collectionReport.project' | translate}}</label>
-                  <select class="form-control" name="building_id" [(ngModel)]="input.building_id" (change)="setBuildingId($event.target.value)">
+                  <!-- <select class="form-control" name="building_id" [(ngModel)]="input.building_id" (change)="setBuildingId($event.target.value)">
                      <option value="0">{{'filters.location.allOption' | translate}}</option>
                      <option *ngFor="let item of projects" [value]="item.id">{{item.name}}</option>
-                  </select>
+                  </select> -->
+                  <div class="clearfix"></div>
+                        <ng-multiselect-dropdown class="section-section2 multi-select"
+                              [placeholder]="''"
+                              [data]="projects"
+                              [(ngModel)]="selctedProjects"
+                              [settings]="singleDropdownSettings"
+                              (onDeSelect)="onSelectProject(0, $event)"
+                              (onSelect)="onSelectProject(1, $event)"
+                              (onSelectAll)="onSelectAll($event)">
+                        </ng-multiselect-dropdown>
+                  <div class="clearfix"></div>
                   </div>
             </div>
           
             <div class="col-lg-2 col-md-2">
                   <div class="form-group">
                      <label>{{'collectionReport.tower' | translate}}</label>
-                  <select class="form-control" name="building_towers_id" [(ngModel)]="input.building_towers_id" (change)="setTower($event.target.value)">
+                  <!-- <select class="form-control" name="building_towers_id" [(ngModel)]="input.building_towers_id" (change)="setTower($event.target.value)">
                      <option value="0">{{'filters.location.allOption' | translate}}</option>
                      <option *ngFor="let bt of selectedBuilding?.building_towers" [value]="bt.id">
                         {{bt.tower_name}}</option>
-                  </select>
+                  </select> -->
+                  <div class="clearfix"></div>
+                        <ng-multiselect-dropdown class="section-section2 multi-select"
+                              [placeholder]="''"
+                              [data]="buildingTowers"
+                              [(ngModel)]="selectedTowers"
+                              [settings]="singleDropdownSettings"
+                              (onDeSelect)="onSelectTower(0, $event)"
+                              (onSelect)="onSelectTower(1, $event)"
+                              (onSelectAll)="onSelectAll($event)">
+                        </ng-multiselect-dropdown>
+                  <div class="clearfix"></div>
+
                   </div>
             </div>
 
             <div class="col-lg-2 col-md-2">
                   <div class="form-group">
                      <label>{{'collectionReport.floor' | translate}}</label>
-                  <select class="form-control" name="floor_num" [(ngModel)]="input.floor_num" (change)="getProperties($event)">
+                  <!-- <select class="form-control" name="floor_num" [(ngModel)]="input.floor_num" (change)="getProperties($event)">
                      <option value="0">{{'filters.location.allOption' | translate}}</option>
                      <ng-container *ngIf="towers?.length">
                            <option *ngFor="let fa of towers?.unique_floors; let j=index" [value]="fa">
                               {{j == 0 ? ('addCollection.groundFloor' | translate): ('addCollection.floor' | translate) + ' '+fa}}</option>
                     </ng-container>
-                  </select>
+                  </select> -->
+                  <div class="clearfix"></div>
+                        <ng-multiselect-dropdown class="section-section2 multi-select"
+                              [placeholder]="''"
+                              [data]="floors"
+                              [(ngModel)]="selectedFloors"
+                              [settings]="singleDropdownSettings"
+                              (onDeSelect)="onSelectFloor(0, $event)"
+                              (onSelect)="onSelectFloor(1, $event)"
+                              (onSelectAll)="onSelectAll($event)">
+                        </ng-multiselect-dropdown>
+                  <div class="clearfix"></div>
                   </div>
             </div>
 
             <div class="col-lg-2 col-md-2">
                   <div class="form-group">
                      <label>{{'collectionReport.property' | translate}}</label>
-                  <select class="form-control" name="property_id" [(ngModel)]="input.property_id">
+                  <!-- <select class="form-control" name="property_id" [(ngModel)]="input.property_id">
                      <option value="0">{{'filters.location.allOption' | translate}}</option>
                      <option *ngFor="let item of properties" [value]="item.id">{{item.name}}</option>
-                  </select>
+                  </select> -->
+
+                  <div class="clearfix"></div>
+                        <ng-multiselect-dropdown class="section-section2 multi-select"
+                              [placeholder]="''"
+                              [data]="properties"
+                              [(ngModel)]="selectedProperties"
+                              [settings]="multiDropdownSettings"
+                              (onDeSelect)="onItemDeSelect('properties', $event)"
+                              (onSelect)="onItemSelect('selectedProperties', $event)"
+                              (onSelectAll)="onSelectAll($event)">
+                        </ng-multiselect-dropdown>
+                  <div class="clearfix"></div>
+
                   </div>
             </div>
             <div class="col-lg-2 col-md-2">
                <div class="form-group marginB0">
                   <label>{{'collectionReport.currency' | translate}}</label>
-                     <select class="form-control" name="currency_id" [(ngModel)]="input.currency_id">
+                     <!-- <select class="form-control" name="currency_id" [(ngModel)]="input.currency_id">
                         <option value="0">{{'filters.location.allOption' | translate}}</option>
                         <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
-                     </select>           
+                     </select>        -->
+                     <div class="clearfix"></div>
+                         <ng-multiselect-dropdown class="section-section2 multi-select"
+                               [placeholder]="''"
+                               [data]="currencies"
+                               [(ngModel)]="selectedCurrencies"
+                               [settings]="multiDropdownSettings"
+                               (onDeSelect)="onItemDeSelect('currencies', $event)"
+                               (onSelect)="onItemSelect('selectedCurrencies', $event)"
+                               (onSelectAll)="onSelectAll($event)">
+                         </ng-multiselect-dropdown>
+                     <div class="clearfix"></div>         
                </div>
             </div>
             
@@ -139,40 +197,25 @@
                       <thead>
                           <tr class="text-bold">
                               <th style="width:10%; text-align:left;">
-                                  Model
-                                 <!-- <div class="table-search">
-                                    <label>Model</label>
-                                 </div> -->
+                                  <b>{{'collectionReport.model' | translate}}</b>
                               </th>
-                              <th style="width:10%; text-align:left;">Status
-                                 <!-- <div class="table-search">
-                                    <label>Status</label>
-                                 </div> -->
+                              <th style="width:10%; text-align:left;">
+                                  <b>{{'collectionReport.status' | translate}}</b>
                               </th>
-                              <th style="width:10%; text-align:left;">Property Name
-                                 <!-- <div class="table-search">
-                                    <label>Property Name</label>
-                                 </div> -->
+                              <th style="width:10%; text-align:left;">
+                                  <b>{{'collectionReport.propertyName' | translate}}</b>
                               </th>
-                              <th style="width:10%; text-align:left;">Paid
-                                 <!-- <div class="table-search">
-                                    <label>Paid</label>
-                                 </div> -->
+                              <th style="width:10%; text-align:left;">
+                                    <b>{{'collectionReport.paid' | translate}}</b>
                               </th>
-                              <th style="width:10%; text-align:left;">Remaining
-                                 <!-- <div class="table-search">
-                                    <label>Remaining</label>
-                                 </div> -->
+                              <th style="width:10%; text-align:left;">
+                                    <b>{{'collectionReport.remaining' | translate}}</b>
                               </th>
-                              <th style="width:10%; text-align:left;">Penalty
-                                 <!-- <div class="table-search">
-                                    <label>Penalty</label>
-                                 </div> -->
+                              <th style="width:10%; text-align:left;">
+                                   <b>{{'collectionReport.penalty' | translate}}</b>
                               </th>
-                              <th style="width:10%; text-align:left;">Total
-                                 <!-- <div class="table-search">
-                                    <label>Total</label>
-                                 </div> -->
+                              <th style="width:10%; text-align:left;">
+                                    <b>{{'collectionReport.total' | translate}}</b>
                               </th>
                            </tr>
                       </thead>
