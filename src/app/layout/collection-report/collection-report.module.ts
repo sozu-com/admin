@@ -43,6 +43,21 @@ const routes: Routes = [
   },
   {
     path: 'concept-report', component: ConceptComponent
+  },
+  {
+    path: 'sales-report', component: SalesReportComponent
+  },
+  {
+    path: 'sales-trend', component: SalesTrendComponent
+  },
+  {
+    path: 'sales-booking', component: SalesBookingComponent
+  },
+  {
+    path: 'commission-income', component: CommissionIncomeComponent
+  },
+  {
+    path: 'approved-unapproved', component: AppUnapprovedComponent
   }
 ];
 
