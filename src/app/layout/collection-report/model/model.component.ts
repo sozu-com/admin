@@ -138,9 +138,6 @@ export class ModelComponent implements OnInit {
   }
   
   getDevelopers() {
-    // const input = {
-    //   user_type : 3
-    // };
     this.admin.postDataApi('getUnblockedDevelopers', {})
       .subscribe(
         success => {
@@ -152,7 +149,6 @@ export class ModelComponent implements OnInit {
   }
 
   onSelectProject(isSelected: number, obj: any) {
-console.log(obj)
     if (isSelected) {
       this.setBuildingId(obj.id);
     } else {
@@ -167,10 +163,8 @@ console.log(obj)
     this.spinner.show();
     const input = {
       developer_id: developer_id
-      // keyword: 'marg'
     };
     
-    // projectHome
     this.admin.postDataApi('getUnblockedProjects', input)
       .subscribe(
         success => {
@@ -184,7 +178,6 @@ console.log(obj)
   }
 
   setBuildingId(buildingId: any) {
-    console.log(buildingId)
     this.projects.map(r => {
       if (r.id == buildingId) {
         this.buildingTowers = r.building_towers ? r.building_towers : [];
@@ -193,12 +186,10 @@ console.log(obj)
     this.buildingTowers.map(s => {
       s.name = s.tower_name;
     })
-    console.log(this.buildingTowers)
     this.input.building_id = [buildingId];
   }
 
   onSelectTower(isSelected: number, obj: any) {
-    console.log(obj)
     if (isSelected) {
       this.setTower(obj.id);
     } else {
@@ -228,11 +219,9 @@ console.log(obj)
         }
       }
     }
-    console.log(this.towers)
   }
 
   onSelectFloor(isSelected: number, obj: any) {
-    console.log(obj)
     if (isSelected) {
       this.getProperties(obj.id);
     } else {

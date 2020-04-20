@@ -1608,6 +1608,8 @@
     "total":"Total",
     "status":"Status",
     "remaining":"Remaining",
-    "penalty":"Penalty"
+    "penalty":"Penalty",
+    "monthsOfSchedulePayments": "Months of Scheduled Payment",
+    "grandTotal": "Grand Total"
   }
 }

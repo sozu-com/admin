@@ -7,6 +7,10 @@ import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
 import { CollectionReport } from '../../../models/collection-report.model';
 declare let swal: any;
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 
 @Component({
   selector: 'app-concept',
@@ -115,9 +119,6 @@ export class ConceptComponent implements OnInit {
   }
   
   getDevelopers() {
-    // const input = {
-    //   user_type : 3
-    // };
     this.admin.postDataApi('getUnblockedDevelopers', {})
       .subscribe(
         success => {
@@ -173,7 +174,6 @@ export class ConceptComponent implements OnInit {
       input.currency_id = d;
     }
     this.admin.postDataApi('generateCollectionConceptReport', input).subscribe(
-    // this.admin.getCollectionsData().subscribe(
       success => {
         this.paymentConcepts = success['payment_concepts'];
         this.data = success['data'];
@@ -223,5 +223,58 @@ export class ConceptComponent implements OnInit {
     this.selctedProjects = [];
     this.selectedCurrencies = [];
   }
+
+    
+  exportData() {
+    if (this.finalData) {
+      const data = [];
+      for (let index = 0; index < this.finalData.length; index++) {
+        const p = this.paymentConcepts[index];
+        
+
+
+        data.push({
+          'Concept': p.name || '',
+          'Month': p.date || '',
+        });
+      }
+      this.exportAsExcelFile(data, 'collection-');
+    }
+  }
+
+
+  // will be used in case of excel
+  public exportAsExcelFile(json: any[], excelFileName: string): void {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { data: worksheet },
+      SheetNames: ['data']
+    };
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array'
+    });
+    this.saveAsExcelFile(excelBuffer, excelFileName);
+  }
+
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    const today = new Date();
+    const date =
+      today.getDate() +
+      '-' +
+      today.getMonth() +
+      '-' +
+      today.getFullYear() +
+      '_' +
+      today.getHours() +
+      '_' +
+      today.getMinutes() +
+      '_' +
+      today.getSeconds();
+    fileName = fileName + date;
+    FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
+  }
+
 
 }

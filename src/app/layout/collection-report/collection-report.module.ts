@@ -21,6 +21,11 @@ import { ModelComponent } from './model/model.component';
 import { ConceptComponent } from './concept/concept.component';
 import { MonthlyComponent } from './monthly/monthly.component';
 import { CollectionReportComponent } from './collection-report.component';
+import { SalesTrendComponent } from './sales-trend/sales-trend.component';
+import { SalesReportComponent } from './sales-report/sales-report.component';
+import { SalesBookingComponent } from './sales-booking/sales-booking.component';
+import { CommissionIncomeComponent } from './commission-income/commission-income.component';
+import { AppUnapprovedComponent } from './app-unapproved/app-unapproved.component';
 
 const routes: Routes = [
   // {
@@ -55,7 +60,7 @@ const routes: Routes = [
     DropdownModule,
     NgMultiSelectDropDownModule.forRoot()
   ],
-  declarations: [CollectionReportComponent, GeneralComponent, ModelComponent, ConceptComponent, MonthlyComponent]
+  declarations: [CollectionReportComponent, GeneralComponent, ModelComponent, ConceptComponent, MonthlyComponent, SalesTrendComponent, SalesReportComponent, SalesBookingComponent, CommissionIncomeComponent, AppUnapprovedComponent]
 })
 
 export class CollectionReportModule { }
