@@ -1,3 +1,85 @@
-<p>
-  app-unapproved works!
-</p>
+
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-12">
+        <div class="title-group">
+            <h5>{{'collectionReport.conceptReport' | translate}}</h5>
+        </div>
+      </div>
+  </div>
+
+<div class="white-bg marginT15 padding15">
+    <div class="page-title-4">
+        <h3>{{'reports.statsAndTrendAnalytics' | translate}}</h3>
+    </div>
+    
+    <div class="filters row">
+      <div class="col-lg-2 col-md-2">
+            <div class="form-group">
+            <label>{{'collectionReport.start_date' | translate}}</label>
+            <p-calendar [locale]="locale" showIcon="true" [(ngModel)]="input.start_date" [maxDate]="today" 
+              showButtonBar="true" class="coll-report-calendar" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+            </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+            <div class="form-group">
+              <label>{{'collectionReport.end_date' | translate}}</label>
+              <p-calendar [locale]="locale" showIcon="true" [(ngModel)]="input.end_date" [maxDate]="today" 
+                showButtonBar="true" class="coll-report-calendar" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+            </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+            <div class="form-group">
+               <label>{{'collectionReport.developer' | translate}}</label>
+               <div class="clearfix"></div>
+                <ng-multiselect-dropdown class="section-section2 multi-select"
+                      [placeholder]="''"
+                      [data]="developers"
+                      [(ngModel)]="selectedDevelopers"
+                      [settings]="singleDropdownSettings"
+                      (onDeSelect)="onSelectDeveloper(0, $event)"
+                      (onSelect)="onSelectDeveloper(1, $event)"
+                      (onSelectAll)="onSelectAll($event)">
+                </ng-multiselect-dropdown>
+            <div class="clearfix"></div>
+            </div>
+      </div>
+    
+      <div class="col-lg-2 col-md-2">
+            <div class="form-group">
+               <label>{{'collectionReport.project' | translate}}</label>
+            <div class="clearfix"></div>
+                <ng-multiselect-dropdown class="section-section2 multi-select"
+                      [placeholder]="''"
+                      [data]="projects"
+                      [(ngModel)]="selctedProjects"
+                      [settings]="multiDropdownSettings"
+                      (onDeSelect)="onItemDeSelect('projects', $event)"
+                      (onSelect)="onItemSelect('selctedProjects', $event)"
+                      (onSelectAll)="onSelectAll($event)">
+                </ng-multiselect-dropdown>
+            <div class="clearfix"></div>
+            </div>
+      </div>
+      
+      <div class="col-lg-1 col-md-2">
+            <div class="form-group btn-cont">
+            <label style="display: block; margin-top: 3px;">&nbsp;</label>
+            <button type="button" (click)="getReportData()" class="btn btn-primary-new width100P P86">{{'collectionReport.apply' | translate}}</button>
+            </div>
+      </div>
+    
+      <div class="col-lg-1 col-md-2">
+            <div class="form-group btn-cont">
+            <label style="display: block; margin-top: 3px;">&nbsp;</label>
+            <button type="button" (click)="resetFilters()" class="btn btn-primary-new width100P P86">{{'collectionReport.reset' | translate}}</button>
+            </div>
+      </div>
+    </div>
+      
+    <div class="graph-area">
+      <div id="chartContainer" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
+    </div>
+  </div>
+    
+</div>

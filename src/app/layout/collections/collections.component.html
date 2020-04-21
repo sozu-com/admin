@@ -301,7 +301,7 @@
                         </th>
                         <th style="width:10%; text-align:left;">
                         <div class="table-search">
-                           <label>{{'table.th.statusAmount' | translate}}</label>
+                           <label>{{'table.th.statusAccount' | translate}}</label>
                         </div>
                      </th>
                        <th style="width:10%;" *ngIf="parameter.flag!=5">
@@ -355,7 +355,7 @@
                      <td><span>{{p?.currency?.symbol}} {{(p?.total_amount_paid || 0) | roundNumber}}</span></td>
                      <td><span>{{p?.currency?.symbol}} {{(p?.remaining_amount || 0) | roundNumber}}</span></td>
                      <!-- <td><span>{{p?.name ? p?.name : ('table.tr.td.NA' | translate)}}</span></td> -->
-                     <td>NA</td>
+                     <td>('table.tr.td.NA' | translate)</td>
                      <td>
                      <div class="table-actions">
                         <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
@@ -506,7 +506,7 @@
     <div class="modal-dialog fadeIndown">
         <div class="modal-content notary-avail">
               <div class="modal-header popup-header">
-          <h4>Add Penalty</h4>
+          <h4>{{'viewCollections.addPenalty' | translate}}</h4>
             <button style="display: none;" type="button" class="close" data-dismiss="modal" #penaltyModalClose>&times;</button>
             <button type="button" class="close" (click)="closePenaltyPaymentPopup(); addForm.reset()">&times;</button>
         </div>
@@ -519,10 +519,10 @@
               </div>
               <div class="col-12">
                 <div class="form-group-2">
-                    <label>Choose Payment Concept <span class="color-red">*</span></label>
+                    <label>{{'viewCollections.choosePaymentConcept' | translate}}<span class="color-red">*</span></label>
                     <div class="form-group">
                         <select name="payment_choice" required class="form-control" [(ngModel)]="payment_choice_id">
-                              <option value="">Choose Payment Concept</option>
+                              <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
                               <option *ngFor="let bt of paymentConcepts" [ngValue]="bt" 
                                [disabled]="bt?.penalty"> {{bt?.name}}</option>
                         </select>
@@ -531,7 +531,7 @@
               </div>
               <div class="col-12">
                 <div class="form-group-2">
-                    <label>Enter Payment Amount<span class="color-red">*</span></label>
+                    <label>{{'viewCollections.enterPaymentAmt' | translate}}<span class="color-red">*</span></label>
                     <div class="form-group">
                     <input autocomplete="off" required type="number" min="0" class="form-control" [(ngModel)]="paymentAmount" 
                         name="paymentAmount">
@@ -540,7 +540,7 @@
               </div>
               <div class="col-12">
                 <div class="form-group-2">
-                    <label>Description</label>
+                    <label>{{'viewCollections.description' | translate}}</label>
                     <div class="form-group">
                           <textarea rows="3" [(ngModel)]="description" name="description" class="form-control"></textarea>
                  </div>
@@ -565,7 +565,7 @@
     <div class="modal-dialog fadeIndown">
         <div class="modal-content notary-avail">
               <div class="modal-header popup-header">
-          <h4>Apply Payment</h4>
+          <h4>{{'viewCollections.applyPayment' | translate}}</h4>
             <button style="display: none;" type="button" class="close" data-dismiss="modal" #paymentModalClose>&times;</button>
             <button type="button" class="close" (click)="closePaymentModal(); addForm.reset()">&times;</button>
         </div>
@@ -578,10 +578,10 @@
               </div>
               <div class="col-12">
                 <div class="form-group-2">
-                    <label>Choose Payment Concept <span class="color-red">*</span></label>
+                    <label>{{'viewCollections.choosePaymentConcept' | translate}} <span class="color-red">*</span></label>
                     <div class="form-group">
                         <select name="payment_choice" #applyPaymentChoiceId required class="form-control" [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
-                              <option value="">Choose Payment Concept</option>
+                              <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
                               <option *ngFor="let bt of paymentConcepts" [ngValue]="bt" 
                                [disabled]="bt?.collection_payment"> {{bt?.name}}</option>
                         </select>
@@ -590,10 +590,10 @@
               </div>
               <div class="col-12">
                 <div class="form-group-2">
-                    <label>Choose Payment Method <span class="color-red">*</span></label>
+                    <label>{{'viewCollections.choosePaymentMethod' | translate}} <span class="color-red">*</span></label>
                     <div class="form-group">
                         <select name="payment_method" #applyPaymentMethodId required class="form-control" [(ngModel)]="payment_method_id">
-                              <option value="">Choose Payment Method</option>
+                              <option value="">{{'viewCollections.choosePaymentMethod' | translate}}</option>
                               <option *ngFor="let bt of paymentMethods" [value]="bt.id"> {{bt?.name}}</option>
                         </select>
                   </div>
@@ -601,7 +601,7 @@
               </div>
               <div class="col-12" *ngIf="typeOfPayment=='apply-popup'">
                 <div class="form-group-2">
-                    <label>Pending/Extra Amount<span class="color-red">*</span></label>
+                    <label>{{'viewCollections.pendingExtraAmt' | translate}}<span class="color-red">*</span></label>
                     <div class="form-group">
                     <input readonly class="form-control" value="{{pendingPayment}}" name="pendingPayment">
                   </div>
@@ -609,7 +609,7 @@
               </div>
               <div class="col-12" *ngIf="typeOfPayment=='apply-popup'">
                 <div class="form-group-2">
-                    <label>Penalty Amount<span class="color-red">*</span></label>
+                    <label>{{'viewCollections.penaltyAmount' | translate}}<span class="color-red">*</span></label>
                     <div class="form-group">
                     <input readonly class="form-control" value="{{penaltyAmount}}" name="penaltyAmount">
                   </div>
@@ -617,7 +617,7 @@
               </div>
               <div class="col-12" *ngIf="typeOfPayment=='apply-popup'">
                 <div class="form-group-2">
-                    <label>Current amount to be paid<span class="color-red">*</span></label>
+                    <label>{{'viewCollections.currentAmtTobePaid' | translate}}<span class="color-red">*</span></label>
                     <div class="form-group">
                     <input autocomplete="off" required type="number" min="0" class="form-control" [(ngModel)]="currentAmount" 
                         name="currentAmount">
@@ -626,7 +626,7 @@
               </div>
               <div class="col-12">
                 <div class="form-group-2">
-                    <label>Total amount to be paid<span class="color-red">*</span></label>
+                    <label>{{'viewCollections.totalAmtToBePaid' | translate}}<span class="color-red">*</span></label>
                     <div class="form-group">
                     <input autocomplete="off" required type="number" min="0" class="form-control" [(ngModel)]="paymentAmount" 
                         name="paymentAmount">
@@ -635,7 +635,7 @@
               </div>
               <div class="col-12">
                 <div class="form-group-2">
-                    <label> Choose Payment Receipt <span class="color-red">*</span></label>
+                    <label>{{'viewCollections.choosePaymentReceipt' | translate}} <span class="color-red">*</span></label>
                     <div class="form-group">
                         <input type="file" name="docFile" #docsFile
                         accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf"
@@ -645,7 +645,7 @@
               </div>
               <div class="col-12">
                 <div class="form-group-2">
-                    <label>Payment Date</label>
+                    <label>{{'viewCollections.paymentDate' | translate}}</label>
                     <div class="form-group">
                       <div class="clearfix"></div>
                       <p-calendar class="form-control" autocomplete="off" [style]="{'width':'100%'}" name="date" class="sz-calendar" [locale]="locale" showIcon="true" 
@@ -656,7 +656,7 @@
               </div>
               <div class="col-12">
                 <div class="form-group-2">
-                    <label>Description</label>
+                    <label>{{'viewCollections.description' | translate}}</label>
                     <div class="form-group">
                           <textarea rows="3" [(ngModel)]="description" name="description" class="form-control"></textarea>
                  </div>
@@ -683,7 +683,7 @@
     <div class="modal-dialog modal-lg fadeIndown">
         <div class="modal-content notary-avail">
               <div class="modal-header popup-header">
-          <h4>Collection</h4>
+          <h4>{{'viewCollections.collection' | translate}}</h4>
             <button style="display: none;" type="button" class="close" data-dismiss="modal" #viewCollectionClose>&times;</button>
             <button type="button" class="close" (click)="closeCollCommissionModal()">&times;</button>
         </div>
@@ -696,7 +696,7 @@
               <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                              <th><b>Concept</b></th>
+                              <th><b>{{'viewCollections.concept' | translate}}</b></th>
                               <th><b>Month</b></th>
                               <th><b>Payment Date</b></th>
                               <th><b>Paid</b></th>
@@ -736,7 +736,7 @@
     <div class="modal-dialog fadeIndown">
         <div class="modal-content notary-avail">
               <div class="modal-header popup-header">
-          <h4>Commission Payment</h4>
+          <h4>{{'viewCollections.commissionPayment' | translate}}</h4>
             <button style="display: none;" type="button" class="close" data-dismiss="modal" #collectionReceiptClose>&times;</button>
             <button type="button" class="close" (click)="closeCollReceiptModal(); addForm.reset()">&times;</button>
         </div>
@@ -749,22 +749,22 @@
               </div>
               <div class="col-12">
                 <div class="form-group-2">
-                    <label>Choose Commission Type <span class="color-red">*</span></label>
+                    <label>{{'viewCollections.chooseCommissionType' | translate}} <span class="color-red">*</span></label>
                     <div class="form-group">
                         <select name="commission_type" required class="form-control" [(ngModel)]="commission_type">
                               <!-- <option value="">Choose Commission Type</option> -->
-                              <option value="1">Purchase Commission</option>
-                              <option value="2">Collection Commission</option>
+                              <option value="1">{{'viewCollections.purchaseCommission' | translate}}</option>
+                              <option value="2">{{'viewCollections.collectionCommission' | translate}}</option>
                         </select>
                   </div>
                 </div>
               </div>
               <div class="col-12" *ngIf="commission_type==1">
                 <div class="form-group-2">
-                    <label>Choose Payment Concept <span class="color-red">*</span></label>
+                    <label>{{'viewCollections.choosePaymentConcept' | translate}} <span class="color-red">*</span></label>
                     <div class="form-group">
                         <select name="payment_choice" #applyPaymentChoiceId1 required class="form-control" [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
-                              <option value="">Choose Payment Concept</option>
+                              <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
                               <option *ngFor="let bt of paymentConcepts" [ngValue]="bt" 
                               [disabled]="bt?.purchase_payment"> {{bt?.payment_choice?.name}}</option>
                         </select>
@@ -773,10 +773,10 @@
               </div>
               <div class="col-12" *ngIf="commission_type==2">
                 <div class="form-group-2">
-                    <label>Choose Payment Concept <span class="color-red">*</span></label>
+                    <label>{{'viewCollections.choosePaymentConcept' | translate}} <span class="color-red">*</span></label>
                     <div class="form-group">
                         <select name="payment_choice" #applyPaymentChoiceId2 required class="form-control" [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
-                              <option value="">Choose Payment Concept</option>
+                              <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
                               <option *ngFor="let bt of paymentConcepts" [ngValue]="bt" 
                                [disabled]="bt?.payment"> {{bt?.payment_choice?.name}}</option>
                         </select>
@@ -785,10 +785,10 @@
               </div>
               <div class="col-12">
                 <div class="form-group-2">
-                    <label>Choose Payment Method <span class="color-red">*</span></label>
+                    <label>{{'viewCollections.choosePaymentMethod' | translate}} <span class="color-red">*</span></label>
                     <div class="form-group">
                         <select name="payment_method" required #applyPaymentMethodId1 class="form-control" [(ngModel)]="payment_method_id">
-                              <option value="">Choose Payment Method</option>
+                              <option value="">{{'viewCollections.choosePaymentMethod' | translate}}</option>
                               <option *ngFor="let bt of paymentMethods" [value]="bt.id"> {{bt?.name}}</option>
                         </select>
                   </div>
@@ -796,7 +796,7 @@
               </div>
               <div class="col-12">
                 <div class="form-group-2">
-                    <label>Enter Payment Amount<span class="color-red">*</span></label>
+                    <label>{{'viewCollections.enterPaymentAmt' | translate}}<span class="color-red">*</span></label>
                     <div class="form-group">
                     <input autocomplete="off" required type="number" min="0" class="form-control" [(ngModel)]="paymentAmount" 
                         name="paymentAmount">
@@ -805,7 +805,7 @@
               </div>
               <div class="col-12">
                 <div class="form-group-2">
-                    <label> Choose Payment Receipt <span class="color-red">*</span></label>
+                    <label>{{'viewCollections.choosePaymentReceipt' | translate}} <span class="color-red">*</span></label>
                     <div class="form-group">
                         <input type="file" name="docFile" #docsFile
                         accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf"
@@ -815,7 +815,7 @@
               </div>
               <div class="col-12">
                 <div class="form-group-2">
-                    <label>Payment Date</label>
+                    <label>{{'viewCollections.paymentDate' | translate}} <span class="color-red">*</span> </label>
                     <div class="form-group">
                       <div class="clearfix"></div>
                       <p-calendar class="form-control" autocomplete="off" [style]="{'width':'100%'}" name="date" class="sz-calendar" [locale]="locale" showIcon="true" 
@@ -826,7 +826,7 @@
               </div>
               <div class="col-12">
                 <div class="form-group-2">
-                    <label>Description</label>
+                    <label>{{'viewCollections.description' | translate}}</label>
                     <div class="form-group">
                           <textarea rows="3" [(ngModel)]="description" name="description" class="form-control"></textarea>
                  </div>

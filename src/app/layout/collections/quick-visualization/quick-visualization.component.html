@@ -195,6 +195,9 @@
                 <b>Outstanding Payment</b>
               </th>
               <th>
+                <b>Payment Attachment</b>
+              </th>
+              <th>
                 <b>Penalty FLP</b>
               </th>
               <th>
@@ -204,10 +207,16 @@
                 <b>Date Of PC</b>
               </th>
               <th>
+                <b>PC Attachment</b>
+              </th>
+              <th>
                 <b>Collection Commission</b>
               </th>
               <th>
                 <b>Date Of CC</b>
+              </th>
+              <th>
+                <b>CC Attachment</b>
               </th>
             </tr>
           </thead>
@@ -229,6 +238,12 @@
                 {{(p?.amount || 0) | roundNumber}}
               </td>
               <td>
+                <a *ngIf="p?.collection_payment" target="_blank" href="{{p?.collection_payment?.receipt}}">
+                    View
+                </a>
+                <!-- <span #noPaymentAttachment></span> -->
+              </td>
+              <td>
                 {{p?.penalty ? model?.currency?.symbol : ''}} 
                 {{p?.penalty ? ((p?.penalty?.amount || 0) || roundNumber) : ''}}
               </td>
@@ -238,11 +253,24 @@
               <td>
                 {{collectionCommission[i]?.purchase_payment ? (collectionCommission[i]['purchase_payment']?.payment_date | date:'mediumDate') : ''}}</td>
               <td>
+                <a *ngIf="collectionCommission[i]?.purchase_payment" target="_blank" href="{{collectionCommission[i]?.purchase_payment?.receipt}}">
+                    View
+                </a>
+                <!-- <span #noCCAttachment></span> -->
+              </td>
+              <td>
                 {{collectionCommission[i]?.payment ? model?.currency?.symbol : ''}} 
                 {{collectionCommission[i]?.payment ? (collectionCommission[i]['payment']?.amount | roundNumber) : ''}}</td>
               <td>
                 {{collectionCommission[i]?.payment ? (collectionCommission[i]['payment']?.payment_date | date:'mediumDate') : ''}}</td>
-            </tr>
+              <td>
+                <a *ngIf="collectionCommission[i]?.payment" target="_blank" href="{{collectionCommission[i]?.payment?.receipt}}">
+                    View
+                </a>
+                <!-- <span #noPCAttachment></span> -->
+              </td>
+              
+              </tr>
           </tbody>
         </table>
       </div>
