@@ -1143,9 +1143,9 @@
           
           <ng-container *ngFor="let collection_commission of addFormStep5.get('collection_commissions').controls; let i=index">
             <tr [formGroupName]="i">
-              <td>{{model.collection_commissions[i].name}}</td>
-              <td>{{model.collection_commissions[i].date | date:'mediumDate'}}</td>
-              <td>{{model.collection_commissions[i].payment_amount}}</td>
+              <td>{{model.collection_commissions[i]?.name}}</td>
+              <td>{{model.collection_commissions[i]?.date | date:'mediumDate'}}</td>
+              <td>{{model.collection_commissions[i]?.payment_amount}}</td>
               <td>
                   <input type="checkbox" class="form-control" formControlName="add_collection_commission" name="add_collection_commission">
               </td>
@@ -1218,7 +1218,7 @@
         <div class="row">
           <div class="col-md-12">
             <div class="btn-cont text-right">
-              <button type="button" class="btn btn-primary" (click)="setTab(4)">{{'addForm.previous' | translate}}</button>
+              <button type="button" class="btn btn-primary" (click)="setTab(5)">{{'addForm.previous' | translate}}</button>
               <button type="submit" class="btn btn-primary marginL15">{{'addForm.submit' | translate}}</button>
             </div>
           </div>

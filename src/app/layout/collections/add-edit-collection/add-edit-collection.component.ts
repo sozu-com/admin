@@ -551,12 +551,15 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep4.controls.deal_penality.patchValue(data.deal_penality);
     // this.addFormStep4.controls.payment_method_id.patchValue(data.payment_method_id);
     const control1 = this.addFormStep4.get('payment_choices') as FormArray;
+    console.log(control1)
     if (data.payment_choices) {
       data.payment_choices.forEach(x => {
         x.date = x.date ? moment.utc(x.date).toDate() : null;
         control1.push(this.fb.group(x));
       });
     }
+    console.log(control1)
+    // this.addFormStep4.controls.payment_choices.patchValue(control1);
     this.addFormStep4.controls.step.patchValue(4);
   }
 
@@ -576,9 +579,17 @@ export class AddEditCollectionComponent implements OnInit {
       });
     }
 
+    this.setCommission(data);
+    this.addFormStep5.controls.step.patchValue(5);
+  }
+
+  setCommission(data) {
+    
     this.model.collection_commissions = [];
     const control1 = this.addFormStep5.get('collection_commissions') as FormArray;
+    console.log(control1)
     if (data.payment_choices) {
+      console.log(data.payment_choices)
       for (let index = 0; index < data.payment_choices.length; index++) {
         const element = data.payment_choices[index];
         const element1 = data.collection_commissions[index];
@@ -594,14 +605,17 @@ export class AddEditCollectionComponent implements OnInit {
         
         obj['add_purchase_commission'] = data.collection_commissions.length>0 && data.collection_commissions[index] ? data.collection_commissions[index].add_purchase_commission : 0;
         obj['purchase_comm_amount'] = data.collection_commissions.length>0 && data.collection_commissions[index] ? data.collection_commissions[index].purchase_comm_amount : 0;
-        
-        control1.push(this.fb.group(obj));
+       
+        if (control1.length != data.payment_choices.length) {
+          control1.push(this.fb.group(obj));
+        }
         this.model.collection_commissions.push(obj);
       }
+      console.log(control1)
+      console.log(this.model.collection_commissions);
     }
-    this.addFormStep5.controls.step.patchValue(5);
   }
-// 
+
   setFolders(data: any) {
     this.collectionFolders = data['collection_folders'];
   }
@@ -1811,10 +1825,10 @@ export class AddEditCollectionComponent implements OnInit {
           this.tab = tab + 1;
           this.spinner.hide();
           this.model.id = success['data'].id;
-          // if (tab == 4) {
+          if (tab == 4) {
             // for payment choices
-            this.patchFormData(success['data']);
-          // }
+            this.setCommission(success['data']);
+          }
           if (tab == 6) {
             swal({
               html: this.translate.instant('message.success.submittedSccessfully'), type: 'success'
