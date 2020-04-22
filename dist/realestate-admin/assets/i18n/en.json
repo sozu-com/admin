@@ -1598,7 +1598,11 @@
     "legalEntity":"Legal Entity",
     "developer":"Developer",
     "chooseBuyerType":"Choose Buyer Type",
-    "chooseSellerType":"Choose Seller Type"
+    "chooseSellerType":"Choose Seller Type",
+    "payments":"Payments",
+    "view":"View",
+    "edit":"Edit",
+    "delete":"Delete"
   },
   "swal": {
     "error": "Error",

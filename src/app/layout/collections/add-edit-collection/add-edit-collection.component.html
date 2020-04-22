@@ -886,7 +886,7 @@
       <div class="spacer15"></div>
       <div formArrayName="payment_choices">
         <ng-container *ngFor="let payment_choice of addFormStep4.get('payment_choices').controls; let i=index">
-          <label *ngIf="i==0">Payments</label>
+          <label *ngIf="i==0">{{'addCollection.payments' | translate}}</label>
           <div class="row" [formGroupName]="i">
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
               <div class="form-group-3">
@@ -1203,9 +1203,9 @@
         <div class="row" >
           <ng-container *ngFor="let folder of collectionFolders; let i=index">
             <div class="col-lg-2 col-md-2 col-sm-6 col-12 folder-box">
-              <button type="button"  (click)="modelOpenFun(folder, i)">View</button>
-              <button type="button"  (click)="openAddFolder('edit', folder, i)">Edit</button>
-              <button type="button"  (click)="deleteFolder(folder, i)">Delete</button>
+              <button type="button"  (click)="modelOpenFun(folder, i)">{{'addCollection.view' | translate}}</button>
+              <button type="button"  (click)="openAddFolder('edit', folder, i)">{{'addCollection.edit' | translate}}</button>
+              <button type="button"  (click)="deleteFolder(folder, i)">{{'addCollection.delete' | translate}}</button>
               <div class="form-group-3" (click)="modelOpenFun(folder, i)">
                 <p>{{folder.name}}</p>
               </div>

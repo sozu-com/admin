@@ -464,7 +464,7 @@
                                     <ng-template #noDeletePermissiom>
                                           <a class="delete" href="javascript://">{{'commonBlock.delete' | translate}}</a>
                                     </ng-template>
-                                    <p class="time">{{item.updated_at | chatTime: 'YYYY-MM-DD H:m:s': 2}}</p>
+                                    <!-- <p class="time">{{item.updated_at | chatTime: 'YYYY-MM-DD H:m:s': 2}}</p> -->
                                     <pre class="p13" *ngIf="!item.show">{{item.note.slice(0, 90)}} <span class="read-more" *ngIf="item.note.length>100" (click)="item.show=true">Read more</span></pre>
                                     <pre class="p13" *ngIf="item.show">{{item.note}}</pre>
                               </div>
