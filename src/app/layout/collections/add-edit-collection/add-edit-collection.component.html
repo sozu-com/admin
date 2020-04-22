@@ -311,20 +311,20 @@
     <div style="padding: 0px 40px;">
         
       <div class="form-group-3 row">
-          <h5 class="col-sm-3 p16-two">Choose Seller Type:</h5>
+          <h5 class="col-sm-3 p16-two">{{'addCollection.chooseSellerType' | translate}}:</h5>
           <div class="col-sm-9">
               <div class="clearfix"></div>
               <label class="cust-radio">
                 <input type="radio" formControlName="seller_type" (change)="setValue('seller_type', 1)" value="1" [checked]="model.seller_type == 1 ? 'checked' : ''" name="seller_type">
-                <span class="checkmark">Person</span>
+                <span class="checkmark">{{'addCollection.person' | translate}}</span>
               </label>
               <label class="cust-radio">
                 <input type="radio" formControlName="seller_type" (change)="setValue('seller_type', 2)" value="2" [checked]="model.seller_type == 2 ? 'checked' : ''" name="seller_type">
-                <span class="checkmark">Legal Entity</span>
+                <span class="checkmark">{{'addCollection.legalEntity' | translate}}</span>
               </label>
               <label class="cust-radio">
                 <input type="radio" formControlName="seller_type" (change)="setValue('seller_type', 3)" value="3" [checked]="model.seller_type == 3 ? 'checked' : ''" name="seller_type">
-                <span class="checkmark">Developer</span>
+                <span class="checkmark">{{'addCollection.developer' | translate}}</span>
               </label>
               <div class="clearfix"></div>
           </div>
@@ -438,9 +438,9 @@
               </div>
               <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
-                  <label>Remove</label>
+                  <label>{{'addCollection.remove' | translate}}</label>
                   <div class="clearfix"></div>
-                  <button type="button" (click)="removeSellerBank($event, seller_banks, i)">Remove</button>
+                  <button type="button" (click)="removeSellerBank($event, seller_banks, i)">{{'addCollection.remove' | translate}}</button>
                 </div>
               </div>
             </div>
@@ -532,9 +532,9 @@
               </div>
               <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
-                  <label>Remove</label>
+                  <label>{{'addCollection.remove' | translate}}</label>
                   <div class="clearfix"></div>
-                  <button type="button" (click)="removeSellerRepBank($event, seller_rep_banks, i)">Remove</button>
+                  <button type="button" (click)="removeSellerRepBank($event, seller_rep_banks, i)">{{'addCollection.remove' | translate}}</button>
                 </div>
               </div>
             </div>
@@ -571,20 +571,20 @@
       
       <div style="padding: 0px 40px;">      
         <div class="form-group-3 row">
-            <h5 class="col-sm-3 p16-two">Choose Buyer Type:</h5>
+            <h5 class="col-sm-3 p16-two">{{'addCollection.chooseBuyerType' | translate}}:</h5>
             <div class="col-sm-9">
                 <div class="clearfix"></div>
                 <label class="cust-radio">
                   <input type="radio" formControlName="buyer_type" (change)="setValue('buyer_type', 1)" value="1" [checked]="model.buyer_type == 1 ? 'checked' : ''" name="buyer_type">
-                  <span class="checkmark">Person</span>
+                  <span class="checkmark">{{'addCollection.person' | translate}}</span>
                 </label>
                 <label class="cust-radio">
                   <input type="radio" formControlName="buyer_type" (change)="setValue('buyer_type', 2)" value="2" [checked]="model.buyer_type == 2 ? 'checked' : ''" name="buyer_type">
-                  <span class="checkmark">Legal Entity</span>
+                  <span class="checkmark">{{'addCollection.legalEntity' | translate}}</span>
                 </label>
                 <label class="cust-radio">
                   <input type="radio" formControlName="buyer_type" (change)="setValue('buyer_type', 3)" value="3" [checked]="model.buyer_type == 3 ? 'checked' : ''" name="buyer_type">
-                  <span class="checkmark">Developer</span>
+                  <span class="checkmark">{{'addCollection.developer' | translate}}</span>
                 </label>
                 <div class="clearfix"></div>
             </div>
@@ -700,9 +700,9 @@
               </div>
               <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
-                  <label>Remove</label>
+                  <label>{{'addCollection.remove' | translate}}</label>
                   <div class="clearfix"></div>
-                  <button type="button" (click)="removeBuyerBank($event, buyer_banks, i)">Remove</button>
+                  <button type="button" (click)="removeBuyerBank($event, buyer_banks, i)">{{'addCollection.remove' | translate}}</button>
                 </div>
               </div>
             </div>
@@ -795,9 +795,9 @@
                 </div>
                 <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                     <div class="form-group-3">
-                    <label>Remove</label>
+                    <label>{{'addCollection.remove' | translate}}</label>
                     <div class="clearfix"></div>
-                    <button type="button" (click)="removeBuyerRepBank($event, buyer_rep_banks, i)">Remove</button>
+                    <button type="button" (click)="removeBuyerRepBank($event, buyer_rep_banks, i)">{{'addCollection.remove' | translate}}</button>
                   </div>
                 </div>
               </div>
@@ -873,7 +873,7 @@
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.choosePaymentType' | translate}}">
           <div class="form-group-3">
-            <label>Payment Choice</label>
+            <label>{{'addCollection.paymentChoice' | translate}}</label>
             <div class="clearfix"></div>
             <select required #selectedPaymentChoice name="paymentchoice" formControlName="paymentchoice" (change)="addPaymentChoice($event)" class="form-control">
               <!-- <option value="">Payment Choice</option> -->
@@ -931,7 +931,7 @@
                 <div class="form-group-3">
                     <!-- <label *ngIf="i==0">&nbsp;</label> -->
                 <div class="clearfix"></div>
-                <button type="button" (click)="removePaymentChoice($event, payment_choice, i)">Remove</button>
+                <button type="button" (click)="removePaymentChoice($event, payment_choice, i)">{{'addCollection.remove' | translate}}</button>
               </div>
             </div>
           </div>
@@ -942,7 +942,7 @@
       <div class="row" *ngIf="showMonthlyInput">
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
-            <label>No. of monthly installments</label>
+            <label>{{'addCollection.noOfMonthlyInstallments' | translate}}</label>
             <div class="clearfix"></div>
             <!-- (input)="addMonthlyInputs($event)" -->
             <input autocomplete="off" class="form-control" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="num_of_months" min="0"
@@ -951,7 +951,7 @@
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
-            <label>Choose monthly installment date</label>
+            <label>{{'addCollection.chooseMonthlyInstallmentDate' | translate}}</label>
             <div class="clearfix"></div>
             <!-- (onSelect)="addMonthlyDates($event)"  -->
               <p-calendar [style]="{'width':'100%'}" formControlName="monthly_date" class="sz-calendar" [locale]="locale" showIcon="true" 
@@ -961,7 +961,7 @@
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
-            <label>Enter monthly amount</label>
+            <label>{{'addCollection.enterMonthlyAmount' | translate}}</label>
             <div class="clearfix"></div>
             <!-- (input)="addMonthlyAmounts($event)" -->
             <input autocomplete="off" class="form-control" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="monthly_amount" min="0"
@@ -970,9 +970,9 @@
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
-            <label>Done</label>
+            <label>{{'addCollection.done' | translate}}</label>
             <div class="clearfix"></div>
-            <button type="button" (click)="findMonthlyInstallments()">Done</button>
+            <button type="button" (click)="findMonthlyInstallments()">{{'addCollection.done' | translate}}</button>
           </div>
         </div>
       </div>
@@ -1106,9 +1106,9 @@
             </div>
             <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
-                <label>Remove</label>
+                <label>{{'addCollection.remove' | translate}}</label>
                 <div class="clearfix"></div>
-                <button type="button" (click)="removeAgentBank($event, agent_banks, i)">Remove</button>
+                <button type="button" (click)="removeAgentBank($event, agent_banks, i)">{{'addCollection.remove' | translate}}</button>
               </div>
             </div>
           </div>
@@ -1126,17 +1126,17 @@
       <table class="table table-bordered table-striped">
           <thead>
               <tr>
-                <th rowspan="2"><b>Concept</b></th>
-                <th rowspan="2"><b>Established Date</b></th>
-                <th rowspan="2"><b>Amount</b></th>
-                <th rowspan="2"><b>Add Collection Commission</b></th>
-                <th colspan="2"><b>Enter Collection Commission</b></th>
-                <th rowspan="2"><b>Add Purchase Commission</b></th>
-                <th rowspan="2"><b>Enter PC Amount</b></th>
+                <th rowspan="2"><b>{{'addCollection.concept' | translate}}</b></th>
+                <th rowspan="2"><b>{{'addCollection.establishedDate' | translate}}</b></th>
+                <th rowspan="2"><b>{{'addCollection.amount' | translate}}</b></th>
+                <th rowspan="2"><b>{{'addCollection.addCollectionCommission' | translate}}</b></th>
+                <th colspan="2"><b>{{'addCollection.enterCollectionCommission' | translate}}</b></th>
+                <th rowspan="2"><b>{{'addCollection.addPurchaseCommission' | translate}}</b></th>
+                <th rowspan="2"><b>{{'addCollection.enterPCAmount' | translate}}</b></th>
               </tr>
               <tr>
-                <th colspan="1"><b>Percent</b></th>
-                <th colspan="1"><b>Amount</b></th>
+                <th colspan="1"><b>{{'addCollection.percent' | translate}}</b></th>
+                <th colspan="1"><b>{{'addCollection.amount' | translate}}</b></th>
               </tr>
           </thead>
           <tbody>

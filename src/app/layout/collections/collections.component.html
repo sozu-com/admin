@@ -343,7 +343,7 @@
                      <td><span>{{p?.next_payment?.date || ('table.tr.td.NA' | translate)}}</span></td>
                      <td><span>{{p?.currency?.symbol}} {{ (p?.next_payment?.amount || 0) | roundNumber}}</span></td>
 
-                     <td><span>{{p?.currency?.currency || ('table.tr.td.NA' | translate)}}</span></td>
+                     <td><span>{{p?.currency?.code || ('table.tr.td.NA' | translate)}}</span></td>
                      <td><span>{{p.comm_total_commission || ('table.tr.td.NA' | translate)}}</span></td>
                      <td><span>{{p.comm_shared_commission || ('table.tr.td.NA' | translate)}}</span></td>
                      <td *ngIf="p?.deal_commission_agents?.length">
@@ -355,19 +355,13 @@
                      <td><span>{{p?.currency?.symbol}} {{(p?.total_amount_paid || 0) | roundNumber}}</span></td>
                      <td><span>{{p?.currency?.symbol}} {{(p?.remaining_amount || 0) | roundNumber}}</span></td>
                      <!-- <td><span>{{p?.name ? p?.name : ('table.tr.td.NA' | translate)}}</span></td> -->
-                     <td>('table.tr.td.NA' | translate)</td>
+                     <td>{{'table.tr.td.NA' | translate}}</td>
                      <td>
                      <div class="table-actions">
                         <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
                            routerLink="../edit-collection/{{p.id}}" title="{{'table.title.editDetails' | translate}}" 
                            class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
-                        <!-- <button [disabled]="admin?.admin_acl['Property Management']?.can_delete==0" 
-                              *ngIf="!p.is_blocked" (click)="blockUnblock(p, 1);" class="action-icon" 
-                              title="{{'table.title.block' | translate}}"><img src="assets/img/block.png" alt="img"></button>
-                        <button [disabled]="admin?.admin_acl['Property Management']?.can_delete==0" 
-                              *ngIf="p.is_blocked == true" (click)="blockUnblock(p, 0);" class="action-icon unblock-bg" 
-                              title="{{'table.title.unblock' | translate}}"><img src="assets/img/unblock.png" alt="img"></button> -->
-                          
+                        
                         <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
                         (click)="quickCollectionView(p, i)" title="{{'table.title.quickVisuaization' | translate}}" 
                         class="action-icon"><img src="assets/img/eye-icon.png" alt="img"></button>  
@@ -391,10 +385,6 @@
                         <button *ngIf="p.is_approved == 0" [disabled]="admin?.admin_acl['Property Management']?.can_update==0" 
                         (click)="changeStatus(p, 1);" class="action-icon" 
                         title="{{'table.title.approve' | translate}}"><img src="assets/img/tick.png" alt="img"></button>
-<!--                         
-                        <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
-                        (click)="quickCollectionView(p, i)" title="{{'table.title.collectionCommission' | translate}}" 
-                        class="action-icon"><img src="assets/img/ic_commission.png" alt="img"></button>   -->
 
                         <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
                         (click)="getNotes(p)" title="{{'table.title.collectionNotes' | translate}}" 
@@ -404,17 +394,7 @@
                         (click)="deletePopup(p, i)" title="{{'table.title.delete' | translate}}" 
                         class="action-icon"><img src="assets/img/ic_delete.png" alt="img"></button>  
                         
-                        <!-- unapprove -->
-                        <!-- <a style="display:none;" #modalOpen data-toggle="modal" data-target="#addPropertyReason"></a>
-                        <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="p.status == 3" (click)="openCancellationModal(p, 4);" class="action-icon" title="{{'table.title.unapprove' | translate}}"><img src="assets/img/ic_disapprove.png" alt="img"></button>
-
-                        <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="p.status == 2" (click)="changeStatus(p,3);" class="action-icon" title="{{'table.title.approve' | translate}}"><img src="assets/img/tick.png" alt="img"></button>
-                        <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="p.status == 3 && p.is_featured==0" (click)="markPropertyFeatured(p,1);" class="action-icon" title="{{'table.title.markFeauture' | translate}}"><img src="assets/img/ic_featured.png" alt="img"></button>
-                        <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0" *ngIf="p.status == 3 && p.is_featured==1" (click)="markPropertyFeatured(p,0);" class="action-icon" title="{{'table.title.markUnfeauture' | translate}}"><img src="assets/img/tick-selected.png" alt="img"></button> -->
-                        <!-- delete -->
-                        <!-- <button [disabled]="admin?.admin_acl['Property Management']?.can_purge==0" (click)="deletePopup(p, i)" class="action-icon" 
-                           title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png" alt="img"></button> -->
-                     </div>
+                    </div>
 
                      </td>
                     </tr>

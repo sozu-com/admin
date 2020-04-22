@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-lg-11 col-md-11 col-6">
       <div class="form-group">
-        <p class="p16">Quick Visualization</p>
+        <p class="p16">{{'quickVisualization.label' | translate}}</p>
       </div>
     </div>
      
@@ -18,7 +18,7 @@
 
   <hr>
 
-  <h5>Stackholders Information</h5>
+  <h5>{{'quickVisualization.stackholdersInformation' | translate}}</h5>
   <div class="row cust-tabs">
     <div class="col-md-4">
 
@@ -26,7 +26,7 @@
           <table class="table table-bordered white-bg">
             <tbody>
               <tr>
-                <th rowspan="3">Buyer:</th>
+                <th rowspan="3">{{'quickVisualization.buyer' | translate}}:</th>
                 <td *ngIf="model?.buyer_type==2">{{model?.buyer_legal_entity?.comm_name || ('table.tr.td.NA' | translate)}}</td>
                 <td *ngIf="model?.buyer_type!=2">{{model?.buyer?.name || ('table.tr.td.NA' | translate)}}</td>
               </tr>
@@ -43,7 +43,7 @@
             <table class="table table-bordered white-bg">
               <tbody>
                 <tr>
-                  <th rowspan="3">Seller:</th>
+                  <th rowspan="3">{{'quickVisualization.seller' | translate}}:</th>
                   <td *ngIf="model?.seller_type==2">{{model?.seller_legal_entity?.comm_name || ('table.tr.td.NA' | translate)}}</td>
                   <td *ngIf="model?.seller_type!=2">{{model?.seller?.name || ('table.tr.td.NA' | translate)}}</td>
                 </tr>
@@ -66,7 +66,7 @@
             <table class="table table-bordered white-bg">
               <tbody>
                 <tr>
-                  <th rowspan="3">Buyer Legal <br> Representative Contact:</th>
+                  <th rowspan="3">{{'quickVisualization.buyerLegal' | translate}} <br> {{'quickVisualization.representativeContact' | translate}}:</th>
                   <td>{{model?.buyer_leg_rep_name || ('table.tr.td.NA' | translate)}}</td>
                 </tr>
                 <tr>
@@ -82,7 +82,7 @@
               <table class="table table-bordered white-bg">
                 <tbody>
                   <tr>
-                    <th rowspan="3">Seller Legal <br> Representative Contact:</th>
+                    <th rowspan="3">{{'quickVisualization.sellerLegal' | translate}} <br> {{'quickVisualization.representativeContact' | translate}}:</th>
                     <td>{{model?.seller_leg_rep_name || ('table.tr.td.NA' | translate)}}</td>
                   </tr>
                   <tr>
@@ -98,7 +98,7 @@
   </div>
 
 
-    <h5>General Property Information</h5>
+    <h5>{{'quickVisualization.generalPropertyInformation' | translate}}</h5>
     <div class="row">
     <div class="col-md-4">
 
@@ -106,25 +106,25 @@
             <table class="table table-bordered white-bg">
               <tbody>
                   <tr>
-                      <th>Project:</th>
+                      <th>{{'quickVisualization.project' | translate}}:</th>
                       <td>{{model?.property?.building?.name || ('table.tr.td.NA' | translate)}}</td>
                     </tr>
                     <tr>
-                      <th>Tower:</th>
+                      <th>{{'quickVisualization.tower' | translate}}:</th>
                       <td>{{model?.property?.building_towers?.tower_name || ('table.tr.td.NA' | translate)}}</td>
                     </tr>
                     <tr>
-                      <th>Floor:</th>
+                      <th>{{'quickVisualization.floor' | translate}}:</th>
                       <td>
                           {{model?.property?.floor_num ? (model?.property?.floor_num == 0 ? ('addCollection.groundFloor' | translate) : ('addCollection.floor' | translate) + ' ' + model?.property?.floor_num) : ('table.tr.td.NA' | translate)}}
                       </td>
                     </tr>
                     <tr>
-                      <th>Model:</th>
+                      <th>{{'quickVisualization.model' | translate}}:</th>
                       <td>{{model?.property?.building_configuration?.name || ('table.tr.td.NA' | translate)}}</td>
                     </tr>
                     <tr>
-                      <th>Property Name:</th>
+                      <th>{{'quickVisualization.propertyName' | translate}}:</th>
                       <td>{{model?.property?.name || ('table.tr.td.NA' | translate)}}</td>
                     </tr>
                     <!-- <tr>
@@ -132,7 +132,7 @@
                       <td>{{model?.property?.building?.name || 'NA'}}</td>
                     </tr> -->
                     <tr>
-                      <th>Price:</th>
+                      <th>{{'quickVisualization.price' | translate}}:</th>
                       <td>${{(model?.property?.min_price || 0) | roundNumber}}</td>
                     </tr>
               </tbody>
@@ -148,7 +148,7 @@
               <table class="table table-bordered white-bg">
                 <tbody>
                     <tr>
-                        <th>Purchase Date</th>
+                        <th>{{'quickVisualization.purchaseDate' | translate}}</th>
                       </tr>
                       <tr>
                         <td>{{model?.deal_purchase_date || ('table.tr.td.NA' | translate)}}</td>
@@ -160,7 +160,7 @@
                 <table class="table table-bordered white-bg">
                   <tbody>
                       <tr>
-                          <th>Currency</th>
+                          <th>{{'quickVisualization.currency' | translate}}</th>
                         </tr>
                         <tr>
                           <td>{{model?.currency?.code || ('table.tr.td.NA' | translate)}}</td>
@@ -172,7 +172,7 @@
   </div>
 
 
-  <h5>Payment Information</h5>
+  <h5>{{'quickVisualization.paymentInformation' | translate}}</h5>
   <div class="cust-tabs">
     <div class="tab-content white-bg">
       <div class="table-responsive">
@@ -180,43 +180,43 @@
           <thead>
             <tr>
               <th>
-                <b>Concept</b>
+                <b>{{'quickVisualization.concept' | translate}}</b>
               </th>
               <th>
-                <b>Month</b>
+                <b>{{'quickVisualization.month' | translate}}</b>
               </th>
               <th>
-                <b>Payment Date</b>
+                <b>{{'quickVisualization.paymentDate' | translate}}</b>
               </th>
               <th>
-                <b>Paid</b>
+                <b>{{'quickVisualization.paid' | translate}}</b>
               </th>
               <th>
-                <b>Outstanding Payment</b>
+                <b>{{'quickVisualization.outstandingPayment' | translate}}</b>
               </th>
               <th>
-                <b>Payment Attachment</b>
+                <b>{{'quickVisualization.paymentAttachment' | translate}}</b>
               </th>
               <th>
-                <b>Penalty FLP</b>
+                <b>{{'quickVisualization.penaltyFLP' | translate}}</b>
               </th>
               <th>
-                <b>Purchased Commission</b>
+                <b>{{'quickVisualization.purchasedCommission' | translate}}</b>
               </th>
               <th>
-                <b>Date Of PC</b>
+                <b>{{'quickVisualization.dateOfPC' | translate}}</b>
               </th>
               <th>
-                <b>PC Attachment</b>
+                <b>{{'quickVisualization.PCAttachment' | translate}}</b>
               </th>
               <th>
-                <b>Collection Commission</b>
+                <b>{{'quickVisualization.collectionCommission' | translate}}</b>
               </th>
               <th>
-                <b>Date Of CC</b>
+                <b>{{'quickVisualization.dateOfCC' | translate}}</b>
               </th>
               <th>
-                <b>CC Attachment</b>
+                <b>{{'quickVisualization.CCAttachment' | translate}}</b>
               </th>
             </tr>
           </thead>
@@ -238,10 +238,9 @@
                 {{(p?.amount || 0) | roundNumber}}
               </td>
               <td>
-                <a *ngIf="p?.collection_payment" target="_blank" href="{{p?.collection_payment?.receipt}}">
-                    View
+                <a class="green-color fontW500" *ngIf="p?.collection_payment && p?.key!='total'" target="_blank" href="{{p?.collection_payment?.receipt}}">
+                  {{'quickVisualization.view' | translate}}
                 </a>
-                <!-- <span #noPaymentAttachment></span> -->
               </td>
               <td>
                 {{p?.penalty ? model?.currency?.symbol : ''}} 
@@ -253,10 +252,9 @@
               <td>
                 {{collectionCommission[i]?.purchase_payment ? (collectionCommission[i]['purchase_payment']?.payment_date | date:'mediumDate') : ''}}</td>
               <td>
-                <a *ngIf="collectionCommission[i]?.purchase_payment" target="_blank" href="{{collectionCommission[i]?.purchase_payment?.receipt}}">
-                    View
+                <a class="green-color fontW500" *ngIf="collectionCommission[i]?.purchase_payment" target="_blank" href="{{collectionCommission[i]?.purchase_payment?.receipt}}">
+                  {{'quickVisualization.view' | translate}}
                 </a>
-                <!-- <span #noCCAttachment></span> -->
               </td>
               <td>
                 {{collectionCommission[i]?.payment ? model?.currency?.symbol : ''}} 
@@ -264,10 +262,9 @@
               <td>
                 {{collectionCommission[i]?.payment ? (collectionCommission[i]['payment']?.payment_date | date:'mediumDate') : ''}}</td>
               <td>
-                <a *ngIf="collectionCommission[i]?.payment" target="_blank" href="{{collectionCommission[i]?.payment?.receipt}}">
-                    View
+                <a class="green-color fontW500" *ngIf="collectionCommission[i]?.payment" target="_blank" href="{{collectionCommission[i]?.payment?.receipt}}">
+                  {{'quickVisualization.view' | translate}}
                 </a>
-                <!-- <span #noPCAttachment></span> -->
               </td>
               
               </tr>

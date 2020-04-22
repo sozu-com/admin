@@ -187,6 +187,7 @@ export class ConceptComponent implements OnInit {
         for (let index = 0; index < this.paymentConcepts.length; index++) {
           const obj = {};
           obj['p'] = this.paymentConcepts[index];
+          obj['key'] = 0;
           let total = 0;
           for (let i = 0; i < this.allMonths.length; i++) {
             const month = this.allMonths[i];
@@ -207,7 +208,7 @@ export class ConceptComponent implements OnInit {
         for(let i = 0; i < this.finalData.length; i++) {
           grandTotal = grandTotal + this.finalData[i].total
         }
-        this.finalData.push({p: 'Total', total: grandTotal})
+        this.finalData.push({p: 'Total', key: 1, total: grandTotal})
         this.spinner.hide();
       },
       error => {

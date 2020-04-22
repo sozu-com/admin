@@ -225,28 +225,32 @@
                               <th rowspan="3" style="width:10%; text-align:left;">
                                   <b>{{'collectionReport.propertyName' | translate}}</b>
                               </th>
-                              <th colspan="2" style="width:10%; text-align:left;">
+                              <th rowspan="3"><b>{{'collectionReport.currency' | translate}}</b></th>
+                              <th style="width:10%; text-align:left;">
                                   <b>{{'collectionReport.previousMonth' | translate}}</b>
                               </th>
-                              <th colspan="2" style="width:10%; text-align:left;">
+                              <th style="width:10%; text-align:left;">
                                   <b>{{'collectionReport.currentMonth' | translate}}</b>
                               </th>
-                              <th colspan="2" style="width:10%; text-align:left;">
+                              <th style="width:10%; text-align:left;">
                                   <b>{{'collectionReport.nextMonth' | translate}}</b>
                               </th>
                            </tr>
                            <tr>
-                              <th colspan="2"><b>{{previousMonth | date:'mediumDate'}}</b></th>
+                              <!-- <th colspan="2"><b>{{previousMonth | date:'mediumDate'}}</b></th>
                               <th colspan="2"><b>{{input.start_date | date:'mediumDate'}}</b></th>
-                              <th colspan="2"><b>{{nextMonth | date:'mediumDate'}}</b></th>
+                              <th colspan="2"><b>{{nextMonth | date:'mediumDate'}}</b></th> -->
+                              <th><b>{{previousMonth | date:'mediumDate'}}</b></th>
+                              <th><b>{{input.start_date | date:'mediumDate'}}</b></th>
+                              <th><b>{{nextMonth | date:'mediumDate'}}</b></th>
                             </tr>
                             <tr>
                                <th><b>{{'collectionReport.outstandingAmt' | translate}}</b></th>
-                               <th><b>{{'collectionReport.currency' | translate}}</b></th>
+                               <!-- <th><b>{{'collectionReport.currency' | translate}}</b></th> -->
                                <th><b>{{'collectionReport.outstandingAmt' | translate}}</b></th>
-                               <th><b>{{'collectionReport.currency' | translate}}</b></th>
+                               <!-- <th><b>{{'collectionReport.currency' | translate}}</b></th> -->
                                <th><b>{{'collectionReport.outstandingAmt' | translate}}</b></th>
-                               <th><b>{{'collectionReport.currency' | translate}}</b></th>
+                               <!-- <th><b>{{'collectionReport.currency' | translate}}</b></th> -->
                              </tr>
                       </thead>
                       <tbody>
@@ -256,12 +260,13 @@
                           <td><span>{{item?.project_name || ('table.tr.td.NA' | translate)}}</span></td>
                           <td><span>{{item?.model || ('table.tr.td.NA' | translate)}}</span></td>
                           <td><span>{{item?.property_name || ('table.tr.td.NA' | translate)}}</span></td>
+                          <td><span>{{item?.code || ('table.tr.td.NA' | translate)}}</span></td>
                           <td><span>${{((item?.previous_month_outstanding || 0) + (item?.previous_month_penalty || 0)) | roundNumber}}</span></td>
-                          <td><span>{{item?.code || ('table.tr.td.NA' | translate)}}</span></td>
+                          <!-- <td><span>{{item?.code || ('table.tr.td.NA' | translate)}}</span></td> -->
                           <td><span>${{((item?.current_month_outstanding || 0) + (item?.curent_month_penalty || 0)) | roundNumber}}</span></td>
-                          <td><span>{{item?.code || ('table.tr.td.NA' | translate)}}</span></td>
+                          <!-- <td><span>{{item?.code || ('table.tr.td.NA' | translate)}}</span></td> -->
                           <td><span>${{((item?.next_month_outstanding || 0) + (item?.next_month_penalty || 0)) | roundNumber}}</span></td>
-                          <td><span>{{item?.code || ('table.tr.td.NA' | translate)}}</span></td>
+                          <!-- <td><span>{{item?.code || ('table.tr.td.NA' | translate)}}</span></td> -->
                          </tr>
                       </tbody>
                    </table>

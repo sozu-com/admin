@@ -137,11 +137,11 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of finalData; let i=index">
-                        <td><span>{{item?.p || ('table.tr.td.NA' | translate)}}</span></td>
-                        <td *ngFor="let m of allMonths" >
+                        <td [ngClass]="{'text-bold': item?.key==1}"><span>{{item?.p || ('table.tr.td.NA' | translate)}}</span></td>
+                        <td *ngFor="let m of allMonths" [ngClass]="{'text-bold': item?.key==1}">
                               <span>{{(item[m] || 0) | currency}}</span>
-                              </td>
-                              <td><span>{{(item?.total || 0) | currency}}</span></td>
+                        </td>
+                        <td [ngClass]="{'text-bold': item?.key==1}"><span>{{(item?.total || 0) | currency}}</span></td>
                         </tr>
                     </tbody>
                  </table>

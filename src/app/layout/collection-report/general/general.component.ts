@@ -53,8 +53,8 @@ export class GeneralComponent implements OnInit {
 
   ngOnInit() {
     this.input = new CollectionReport();
-    this.input.start_date = moment().subtract(11, 'months').toDate();
-    this.input.end_date = moment().toDate();
+    this.input.start_date = moment().subtract(6, 'months').toDate();
+    this.input.end_date = moment().add(1, 'months').toDate();
     this.today = new Date();
     this.iniDropDownSetting()
     this.getDevelopers();
@@ -198,7 +198,8 @@ export class GeneralComponent implements OnInit {
         for (let index = 0; index < firstCol.length; index++) {
           const element = firstCol[index];
           obj = {
-            'firstCol': element
+            'firstCol': element,
+            key: 0
           }
             for (let i = 0; i < this.allMonths.length; i++) {
               const ele = this.allMonths[i];
@@ -227,7 +228,8 @@ export class GeneralComponent implements OnInit {
         }
 
         let f = {
-          'firstCol': 'Grand Total'
+          'firstCol': 'Grand Total',
+          key: 1
         }
         for (let index = 0; index < this.allMonths.length; index++) {
           const element = this.allMonths[index];
