@@ -819,7 +819,7 @@
         <div class="row">
           <div class="col-md-12">
             <div class="btn-cont text-right">
-              <button type="button" class="btn btn-primary" (click)="setTab(1)">{{'addCollection.previous' | translate}}</button>
+              <button type="button" class="btn btn-primary" (click)="setTab(2)">{{'addCollection.previous' | translate}}</button>
               <button type="submit" class="btn btn-primary marginL15">{{'addCollection.next' | translate}}</button>
             </div>
           </div>
@@ -853,7 +853,7 @@
           <div class="form-group-3">
             <label>{{'addCollection.price' | translate}}</label>
             <div class="clearfix"></div>
-            <input autocomplete="off" class="form-control" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="deal_price" min="0"
+            <input autocomplete="off" class="form-control" step="0.01" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="deal_price" min="0"
                 name="deal_price">
           </div>
         </div>
@@ -917,7 +917,7 @@
               <div class="input-group form-group-3">
                   <!-- <label *ngIf="i==0">&nbsp;</label> -->
                 <div class="clearfix"></div>
-                <input autocomplete="off" class="form-control" (input)="getAmount(i)" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="percent" min="0"
+                <input autocomplete="off" class="form-control" (input)="getAmount(i)" type="number" step="0.01" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="percent" min="0"
                   max="100"  name="percent">
                 <div class="input-group-append">
                   <span class="input-group-text" id="basic-addon1">%</span>
@@ -929,7 +929,7 @@
                   <!-- <label *ngIf="i==0">&nbsp;</label> -->
                 <div class="clearfix"></div>
                 <input autocomplete="off" class="form-control" (input)="getPercentage(i)" 
-                  type="number" formControlName="amount" min="0" name="amount">
+                  type="number" step="0.01" formControlName="amount" min="0" name="amount">
                 <div class="input-group-append">
                   <span class="input-group-text" id="basic-addon1">.00</span>
                 </div>
@@ -972,7 +972,7 @@
             <label>{{'addCollection.enterMonthlyAmount' | translate}}</label>
             <div class="clearfix"></div>
             <!-- (input)="addMonthlyAmounts($event)" -->
-            <input autocomplete="off" class="form-control" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="monthly_amount" min="0"
+            <input autocomplete="off" class="form-control" type="number" step="0.01" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="monthly_amount" min="0"
                 name="monthly_amount">
           </div>
         </div>
@@ -1029,7 +1029,7 @@
           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <label class="p16-two">{{'addCollection.sozuCommission' | translate}}</label>
           <div class="input-group form-group-3">
-            <input autocomplete="off" class="form-control" type="number" min="0" max="100" name="comm_total_commission" formControlName="comm_total_commission">
+            <input autocomplete="off" class="form-control" type="number" step="0.01" min="0" max="100" name="comm_total_commission" formControlName="comm_total_commission">
             <div class="input-group-append">
               <span class="input-group-text" id="basic-addon1">%</span>
             </div>
@@ -1038,13 +1038,13 @@
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <label class="p16-two">{{'addCollection.sozuCommissionAmount' | translate}}</label>
           <div class="form-group-3">
-            <input autocomplete="off" class="form-control" type="number" min="0" max="100" name="comm_total_commission_amount" formControlName="comm_total_commission_amount">
+            <input autocomplete="off" class="form-control" type="number" step="0.01" min="0" max="100" name="comm_total_commission_amount" formControlName="comm_total_commission_amount">
           </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <label class="p16-two">{{'addCollection.agentCommission' | translate}}</label>
           <div class="input-group form-group-3">
-            <input autocomplete="off" class="form-control" type="number" min="0" max="100" name="comm_shared_commission" formControlName="comm_shared_commission">
+            <input autocomplete="off" class="form-control" type="number" step="0.01" min="0" max="100" name="comm_shared_commission" formControlName="comm_shared_commission">
             <div class="input-group-append">
               <span class="input-group-text" id="basic-addon1">%</span>
             </div>
@@ -1160,16 +1160,16 @@
               <td>
                   <!-- [attr.readonly]="model.collection_commissions[i].payment != null ? 'true' : 'false'"  -->
                 <input 
-                  type="number" class="form-control" formControlName="percent" step="0.001" name="percent{{i}}" (input)="getCollAmount($event.target.value, i, model.collection_commissions[i].payment_amount)">
+                  type="number" class="form-control" formControlName="percent" step="0.01" name="percent{{i}}" (input)="getCollAmount($event.target.value, i, model.collection_commissions[i].payment_amount)">
               </td>
               <td>
-                  <input type="number" class="form-control" formControlName="amount" name="amount{{i}}" (input)="getCollPercentage($event.target.value, i, model.collection_commissions[i].payment_amount)">
+                  <input type="number" step="0.01" class="form-control" formControlName="amount" name="amount{{i}}" (input)="getCollPercentage($event.target.value, i, model.collection_commissions[i].payment_amount)">
               </td>
               <td>
                   <input type="checkbox" class="form-control" formControlName="add_purchase_commission" name="add_purchase_commission">
               </td>
               <td>
-                  <input type="number" class="form-control" formControlName="purchase_comm_amount" name="purchase_comm_amount{{i}}">
+                  <input type="number" step="0.01" class="form-control" formControlName="purchase_comm_amount" name="purchase_comm_amount{{i}}">
               </td>
             </tr>
           </ng-container>

@@ -594,6 +594,7 @@
       "nextDateOfPayment": "Próxima fecha de pago",
       "nextAmount": "Siguiente cantidad",
       "sellerName": "Nombre del vendedor",
+      "sellerLegalRepresentative": "Representante legal del vendedor",
       "locality": "Localidad",
       "purchaseDate": "Fecha de compra",
       "nextPayment": "Siguiente pago",
@@ -1630,6 +1631,11 @@
     "generalReport":"Informe general",
     "conceptReport":"Informe conceptual",
     "monthlyReport":"Reporte mensual",
+    "salesReport": "Reporte de ventas",
+    "salesTrend": "Tendencia de ventas",
+    "salesBooking": "Reserva de ventas",
+    "commissionIncome": "Ingresos por comisiones",
+    "appUnapproveReport": "Aprobado / No aprobado",
     "start_date": "Fecha de inicio",
     "end_date":"Fecha final",
     "developer":"Desarrolladora",
@@ -1659,7 +1665,11 @@
     "remaining":"Restante",
     "penalty":"Multa",
     "monthsOfSchedulePayments": "Meses de pago programado",
-    "grandTotal": "Gran total"
+    "grandTotal": "Gran total",
+    "price":"Precio",
+    "commissionType":"Tipo de comisión",
+    "purchaseCommission":"Comisión de compra",
+    "collectionCommission":"Comisión de cobro"
   },
   "quickVisualization": {
     "label":"Visualización rápida",

@@ -16,18 +16,18 @@ import { CollectionReport } from 'src/app/models/collection-report.model';
 export class SalesReportComponent implements OnInit {
 
   public parameter: IProperty = {};
-  singleDropdownSettings: any;
   multiDropdownSettings: any;
   input: CollectionReport;
   projects: Array<any>;
   selctedProjects: Array<any>;
-  developers: Array<any>;
-  selectedDevelopers: Array<any>;
+  currencies: Array<any>;
+  selectedCurrencies: Array<any>;
   colorScheme = {
     domain: ['#ee7b7c', '#f5d05c']
   };
   locale: any;
   today = new Date();
+  reportData: any;
   constructor(public admin: AdminService, 
     private spinner: NgxSpinnerService,
     private translate: TranslateService) {
@@ -37,10 +37,11 @@ export class SalesReportComponent implements OnInit {
 
   ngOnInit() {
     this.input = new CollectionReport();
-    this.input.start_date = moment().subtract(6, 'months').toDate();
+    this.input.start_date = moment().subtract(12, 'months').toDate();
     this.input.end_date = moment().toDate();
     this.iniDropDownSetting()
-    this.getDevelopers();
+    this.searchBuilding();
+    this.getCurrencies();
 
     this.locale = {
       firstDayOfWeek: 0,
@@ -61,15 +62,6 @@ export class SalesReportComponent implements OnInit {
 
 
   iniDropDownSetting() {
-    this.singleDropdownSettings = {
-      singleSelection: true,
-      idField: 'id',
-      textField: 'name',
-      selectAllText: this.translate.instant('commonBlock.selectAll'),
-      unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
-      searchPlaceholderText: this.translate.instant('commonBlock.search'),
-      allowSearchFilter: true
-    };
     this.multiDropdownSettings = {
       singleSelection: false,
       idField: 'id',
@@ -92,33 +84,22 @@ export class SalesReportComponent implements OnInit {
   onSelectAll(obj: any) {
   }
 
-  
-  getDevelopers() {
-    this.admin.postDataApi('getUnblockedDevelopers', {})
+  getCurrencies() {
+    this.admin.postDataApi('getCurrencies', {})
       .subscribe(
         success => {
-          this.developers = success.data;
+          this.currencies = success.data;
+          this.currencies.map(r => {
+            r['name'] = r.code + ' | ' + r.currency
+          })
         }, error => {
           this.spinner.hide();
         }
       );
   }
-
-  onSelectDeveloper(isSelected: number, obj: any) {
-    if (isSelected) {
-      this.searchBuilding(obj.id);
-    } else {
-      this.projects = [];
-      this.selctedProjects = [];
-    }
-  }
-
-  searchBuilding(developer_id: string) {
+  searchBuilding() {
     this.spinner.show();
-    const input = {
-      developer_id: developer_id
-    };
-    this.admin.postDataApi('getUnblockedProjects', input)
+    this.admin.postDataApi('getUnblockedProjects', {})
       .subscribe(
         success => {
           this.spinner.hide();
@@ -140,14 +121,15 @@ export class SalesReportComponent implements OnInit {
       const d = this.selctedProjects.map(o => o.id);
       input.building_id = d;
     }
-    if (this.selectedDevelopers) {
-      const d = this.selectedDevelopers.map(o => o.id);
-      input.developer_id = d;
+    if (this.selectedCurrencies) {
+      const d = this.selectedCurrencies.map(o => o.id);
+      input.currency_id = d;
     }
 
     this.spinner.show();
-    this.admin.postDataApi('reports/bank', input).subscribe(r => {
+    this.admin.postDataApi('graphs/sales-reports-2', input).subscribe(r => {
       this.spinner.hide();
+      this.reportData = r['data'];
       this.plotData();
     }, error => {
       this.spinner.hide();
@@ -155,56 +137,35 @@ export class SalesReportComponent implements OnInit {
   }
 
   plotData() {
-
+    
+// {{URL}}/api/admin/graphs/cash-flow
     var chart = new CanvasJS.Chart("chartContainer", {
       animationEnabled: true,
-      title:{
-        // text: "Google - Consolidated Quarterly Revenue",
-        fontFamily: "arial black",
-        fontColor: "#695A42"
-      },
-      axisX: {
-        interval: 1,
-        intervalType: "year"
-      },
+      // title:{
+      //   fontFamily: "arial black",
+      //   fontColor: "#695A42"
+      // },
       axisY:{
-        valueFormatString:"$#0bn",
-        gridColor: "#B6B1A8",
-        tickColor: "#B6B1A8"
+        gridColor: "#222222ab",
+        tickColor: "#222222ab"
       },
       toolTip: {
-        shared: true,
-        content: toolTipContent
+        shared: true
+        // content: toolTipContent
       },
       data: [{
         type: "stackedColumn",
         showInLegend: true,
-        color: "#696661",
-        name: "Q1",
-        dataPoints: [
-          { y: 6.75, x: new Date(2010,0) },
-          { y: 8.57, x: new Date(2011,0) },
-          { y: 10.64, x: new Date(2012,0) },
-          { y: 13.97, x: new Date(2013,0) },
-          { y: 15.42, x: new Date(2014,0) },
-          { y: 17.26, x: new Date(2015,0) },
-          { y: 20.26, x: new Date(2016,0) }
-        ]
+        color: "#f5d05c",
+        name: "Approved Collections",
+        dataPoints: this.reportData['approved']
         },
         {        
           type: "stackedColumn",
           showInLegend: true,
-          name: "Q4",
-          color: "#B6B1A8",
-          dataPoints: [
-            { y: 8.44, x: new Date(2010,0) },
-            { y: 10.58, x: new Date(2011,0) },
-            { y: 14.41, x: new Date(2012,0) },
-            { y: 16.86, x: new Date(2013,0) },
-            { y: 10.64, x: new Date(2014,0) },
-            { y: 21.32, x: new Date(2015,0) },
-            { y: 26.06, x: new Date(2016,0) }
-          ]
+          name: "Unapproved Collections",
+          color: "#2d2a2a",
+          dataPoints: this.reportData['unapproved']
       }]
     });
 
@@ -218,7 +179,7 @@ export class SalesReportComponent implements OnInit {
         total = e.entries[i].dataPoint.y + total;
         str = str.concat(str1);
       }
-      str2 = "<span style = \"color:DodgerBlue;\"><strong>"+(e.entries[0].dataPoint.x).getFullYear()+"</strong></span><br/>";
+      str2 = "<span style = \"color:DodgerBlue;\"><strong>"+(e.entries[0].dataPoint.label).getFullYear()+"</strong></span><br/>";
       total = Math.round(total * 100) / 100;
       str3 = "<span style = \"color:Tomato\">Total:</span><strong> $"+total+"</strong>bn<br/>";
       return (str2.concat(str)).concat(str3);
@@ -231,7 +192,7 @@ export class SalesReportComponent implements OnInit {
     this.input = new CollectionReport();
     this.input.start_date = moment().subtract(6, 'months').toDate();
     this.input.end_date = moment().toDate();
-    this.selectedDevelopers = [];
+    this.selectedCurrencies = [];
     this.selctedProjects = [];
   }
 }

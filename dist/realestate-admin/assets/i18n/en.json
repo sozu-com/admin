@@ -588,6 +588,7 @@
       "buyerName": "Buyer Name",
       "buyerLegalRepresentative": "Buyer Legal Representative",
       "sellerName": "Seller Name",
+      "sellerLegalRepresentative": "Seller Legal Representative",
       "locality": "Locality",
       "purchaseDate": "Purchase Date",
       "nextPayment": "Next Payment",
@@ -1627,6 +1628,11 @@
     "generalReport":"General Report",
     "conceptReport":"Concept Report",
     "monthlyReport":"Monthly Report",
+    "salesReport": "Sales Report",
+    "salesTrend": "Sales Trend",
+    "salesBooking": "Sales Booking",
+    "commissionIncome": "Commission Income",
+    "appUnapproveReport": "Approve / Unapprove",
     "start_date": "Start Date",
     "end_date":"End Date",
     "developer":"Developer",
@@ -1656,7 +1662,11 @@
     "remaining":"Remaining",
     "penalty":"Penalty",
     "monthsOfSchedulePayments": "Months of Scheduled Payment",
-    "grandTotal": "Grand Total"
+    "grandTotal": "Grand Total",
+    "price":"Price",
+    "commissionType":"Commission Type",
+    "purchaseCommission":"Purchase Commission",
+    "collectionCommission":"Collection Commission"
   },
   "quickVisualization": {
     "label":"Quick Visualization",

@@ -15,18 +15,19 @@ import { CollectionReport } from 'src/app/models/collection-report.model';
 export class SalesTrendComponent implements OnInit {
 
   public parameter: IProperty = {};
-  singleDropdownSettings: any;
   multiDropdownSettings: any;
   input: CollectionReport;
   projects: Array<any>;
   selctedProjects: Array<any>;
-  developers: Array<any>;
-  selectedDevelopers: Array<any>;
+  currencies: Array<any>;
+  selectedCurrencies: Array<any>;
   colorScheme = {
     domain: ['#ee7b7c', '#f5d05c']
   };
   locale: any;
   today = new Date();
+  reportData: any;
+  avgValue: number;
   constructor(public admin: AdminService, 
     private spinner: NgxSpinnerService,
     private translate: TranslateService) {
@@ -36,10 +37,11 @@ export class SalesTrendComponent implements OnInit {
 
   ngOnInit() {
     this.input = new CollectionReport();
-    this.input.start_date = moment().subtract(6, 'months').toDate();
+    this.input.start_date = moment().subtract(12, 'months').toDate();
     this.input.end_date = moment().toDate();
     this.iniDropDownSetting()
-    this.getDevelopers();
+    this.searchBuilding();
+    this.getCurrencies();
 
     this.locale = {
       firstDayOfWeek: 0,
@@ -60,15 +62,6 @@ export class SalesTrendComponent implements OnInit {
 
 
   iniDropDownSetting() {
-    this.singleDropdownSettings = {
-      singleSelection: true,
-      idField: 'id',
-      textField: 'name',
-      selectAllText: this.translate.instant('commonBlock.selectAll'),
-      unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
-      searchPlaceholderText: this.translate.instant('commonBlock.search'),
-      allowSearchFilter: true
-    };
     this.multiDropdownSettings = {
       singleSelection: false,
       idField: 'id',
@@ -91,33 +84,22 @@ export class SalesTrendComponent implements OnInit {
   onSelectAll(obj: any) {
   }
 
-  
-  getDevelopers() {
-    this.admin.postDataApi('getUnblockedDevelopers', {})
+  getCurrencies() {
+    this.admin.postDataApi('getCurrencies', {})
       .subscribe(
         success => {
-          this.developers = success.data;
+          this.currencies = success.data;
+          this.currencies.map(r => {
+            r['name'] = r.code + ' | ' + r.currency
+          })
         }, error => {
           this.spinner.hide();
         }
       );
   }
-
-  onSelectDeveloper(isSelected: number, obj: any) {
-    if (isSelected) {
-      this.searchBuilding(obj.id);
-    } else {
-      this.projects = [];
-      this.selctedProjects = [];
-    }
-  }
-
-  searchBuilding(developer_id: string) {
+  searchBuilding() {
     this.spinner.show();
-    const input = {
-      developer_id: developer_id
-    };
-    this.admin.postDataApi('getUnblockedProjects', input)
+    this.admin.postDataApi('getUnblockedProjects', {})
       .subscribe(
         success => {
           this.spinner.hide();
@@ -139,14 +121,23 @@ export class SalesTrendComponent implements OnInit {
       const d = this.selctedProjects.map(o => o.id);
       input.building_id = d;
     }
-    if (this.selectedDevelopers) {
-      const d = this.selectedDevelopers.map(o => o.id);
-      input.developer_id = d;
+    if (this.selectedCurrencies) {
+      const d = this.selectedCurrencies.map(o => o.id);
+      input.currency_id = d;
     }
 
     this.spinner.show();
-    this.admin.postDataApi('reports/bank', input).subscribe(r => {
+    this.admin.postDataApi('graphs/sales-trend', input).subscribe(r => {
       this.spinner.hide();
+      this.reportData = r['data'];
+      this.avgValue = 0;
+      if (this.reportData['trends']) {
+        for (let index = 0; index < this.reportData['trends'].length; index++) {
+          const element = this.reportData['trends'][index];
+          this.avgValue = this.avgValue + element['y'];
+        }
+        this.avgValue = this.avgValue / this.reportData['trends'].length;
+      }
       this.plotData();
     }, error => {
       this.spinner.hide();
@@ -158,50 +149,28 @@ export class SalesTrendComponent implements OnInit {
     var chart = new CanvasJS.Chart("chartContainer", {
       animationEnabled: true,  
       title:{
-        text: "Music Album Sales by Year"
+        // text: "Music Album Sales by Year"
       },
       axisY: {
-        title: "Units Sold",
-        valueFormatString: "#0,,.",
-        suffix: "mn",
         stripLines: [{
-          value: 3366500,
+          value: this.avgValue,
           label: "Average"
         }]
       },
       data: [{
-        yValueFormatString: "#,### Units",
-        xValueFormatString: "YYYY",
+        xValueFormatString: "MMM, YYYY",
         type: "spline",
-        dataPoints: [
-          {x: new Date(2002, 0), y: 2506000},
-          {x: new Date(2003, 0), y: 2798000},
-          {x: new Date(2004, 0), y: 3386000},
-          {x: new Date(2005, 0), y: 6944000},
-          {x: new Date(2006, 0), y: 6026000},
-          {x: new Date(2007, 0), y: 2394000},
-          {x: new Date(2008, 0), y: 1872000},
-          {x: new Date(2009, 0), y: 2140000},
-          {x: new Date(2010, 0), y: 7289000},
-          {x: new Date(2011, 0), y: 4830000},
-          {x: new Date(2012, 0), y: 2009000},
-          {x: new Date(2013, 0), y: 2840000},
-          {x: new Date(2014, 0), y: 2396000},
-          {x: new Date(2015, 0), y: 1613000},
-          {x: new Date(2016, 0), y: 2821000},
-          {x: new Date(2017, 0), y: 2000000}
-        ]
+        dataPoints: this.reportData['trends']
       }]
     });
-    chart.render();
-    
-      }
+    chart.render();    
+  }
 
   resetFilters() {
     this.input = new CollectionReport();
     this.input.start_date = moment().subtract(6, 'months').toDate();
     this.input.end_date = moment().toDate();
-    this.selectedDevelopers = [];
+    this.selectedCurrencies = [];
     this.selctedProjects = [];
   }
 }

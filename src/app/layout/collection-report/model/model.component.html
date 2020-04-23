@@ -206,6 +206,9 @@
                                   <b>{{'collectionReport.propertyName' | translate}}</b>
                               </th>
                               <th style="width:10%; text-align:left;">
+                                  <b>{{'collectionReport.price' | translate}}</b>
+                              </th>
+                              <th style="width:10%; text-align:left;">
                                     <b>{{'collectionReport.paid' | translate}}</b>
                               </th>
                               <th style="width:10%; text-align:left;">
@@ -224,6 +227,7 @@
                           <td><span>{{(item?.model || ('table.tr.td.NA' | translate)) | uppercase}}</span></td>
                           <td><span>{{(item?.is_approved == 1 ? 'Approved' : (item.is_approved == 0 ? 'Unapproved' : '')) | uppercase}}</span></td>
                           <td><span>{{item?.name || ''}}</span></td>
+                          <td><span>{{(item?.price || 0 | currency)}}</span></td>
                            <td><span>{{(item?.paid || 0) | currency}}</span></td>
                            <td><span>{{((item?.total || 0) - (item?.paid || 0)) | currency}}</span></td>
                            <td><span>{{(item?.penalty || 0) | currency}}</span></td>

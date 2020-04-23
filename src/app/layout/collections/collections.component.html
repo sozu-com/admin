@@ -180,6 +180,11 @@
                        </th>
                        <th style="width:10%; text-align:left;">
                           <div class="table-search">
+                             <label>{{'table.th.sellerLegalRepresentative' | translate}}</label>
+                          </div>
+                       </th>
+                       <th style="width:10%; text-align:left;">
+                          <div class="table-search">
                              <label>{{'table.th.nameOfBuilding' | translate}}</label>
                              <div class="searh-3">
                                 <input autocomplete="off" class="width100px" type="text" [(ngModel)]="parameter.building_name" (keyup.enter)="getListing()" >
@@ -212,14 +217,6 @@
                                 <input autocomplete="off" class="width100px" type="text" [(ngModel)]="parameter.config_name" (keyup.enter)="getListing()" >
                                 <button *ngIf="parameter.config_name" (click)="getListing()"><i class="fa fa-search"></i></button>
                              </div>
-                             <!-- <select [(ngModel)]="parameter.configuration_id" (change)="getListing()">
-                                <option value="0">{{'table.th.allConfiguration' | translate}}</option>
-                                <option *ngFor="let c of configurations" value="{{c.id}}" >
-                                   <span *ngIf="c.status">
-                                      <app-property-configuration *ngIf="c" [configuration]="c"></app-property-configuration>
-                                   </span>
-                                </option>
-                             </select> -->
                           </div>
                        </th>
                        <th style="width:10%; text-align:left;">
@@ -230,7 +227,6 @@
                        <th style="width:8%;vertical-align:top;">
                           <div (click)="sort_by(1)" class="d-flex table-search">
                              <label>{{'table.th.purchaseDate' | translate}}</label>
-                             <!-- <a href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by==1 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a> -->
                            </div>
                        </th>
 
@@ -251,7 +247,6 @@
                        <th style="width:4%;vertical-align:top;">
                           <div  class="d-flex table-search">
                              <label>{{'table.th.nextConcept' | translate}}</label>
-                             <!-- <a href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by==3 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a> -->
                           </div>
                        </th>
                        <th style="width:5%;vertical-align:top;">
@@ -262,13 +257,8 @@
                        <th style="width:5%;vertical-align:top;">
                           <div class="table-search">
                              <label class="width100px">{{'table.th.nextAmount' | translate}}</label>
-                             <!-- <div class="searh-3">
-                                <input class="width100px" type="text" [(ngModel)]="parameter.seller_name" (keyup.enter)="getListing()" >
-                                <button *ngIf="parameter.seller_name" (click)="getListing()"><i class="fa fa-search"></i></button>
-                             </div> -->
                           </div>
                        </th>
-
                        <th style="width:10%; text-align:left;">
                               <div class="table-search">
                               <label>{{'table.th.currency' | translate}}</label>
@@ -287,6 +277,11 @@
                        <th style="width:5%;vertical-align:top;">
                           <div class="table-search">
                              <label>{{'table.th.commissionAgent' | translate}}</label>
+                          </div>
+                       </th>
+                       <th style="width:10%; text-align:left;">
+                          <div class="table-search">
+                             <label>{{'table.th.price' | translate}}</label>
                           </div>
                        </th>
                        <th style="width:10%; text-align:left;">
@@ -324,8 +319,8 @@
                         <span *ngIf="p?.seller_type == 2">{{p?.seller_legal_entity?.comm_name ? p?.seller_legal_entity?.comm_name : ('table.tr.td.NA' | translate)}}</span>
                         <span *ngIf="p?.seller_type == 3">{{p?.seller?.name ? p?.seller?.name : ('table.tr.td.NA' | translate)}}</span>
                      </td>    
+                     <td><span>{{p?.seller_leg_rep_name ? p?.seller_leg_rep_name : ('table.tr.td.NA' | translate)}}</span></td>
                      <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}">
-                           <!-- routerLink="/dashboard/properties/details/{{p.id}}" -->
                         <strong>{{p?.property?.building?.name ? p?.property?.building?.name: ('table.tr.td.NA' | translate)}}</strong>
                      </td>
                      <td><span>{{p?.property?.building_towers ? p?.property?.building_towers?.tower_name : ('table.tr.td.NA' | translate)}}</span></td>
@@ -352,9 +347,9 @@
                      <td *ngIf="!p?.deal_commission_agents?.length">
                         <span>{{('table.tr.td.NA' | translate)}}</span>
                      </td>
+                     <td><span>{{p?.currency?.symbol ? p?.currency?.symbol : '$'}} {{(p?.deal_price || 0) | roundNumber}}</span></td>
                      <td><span>{{p?.currency?.symbol}} {{(p?.total_amount_paid || 0) | roundNumber}}</span></td>
                      <td><span>{{p?.currency?.symbol}} {{(p?.remaining_amount || 0) | roundNumber}}</span></td>
-                     <!-- <td><span>{{p?.name ? p?.name : ('table.tr.td.NA' | translate)}}</span></td> -->
                      <td>{{'table.tr.td.NA' | translate}}</td>
                      <td>
                      <div class="table-actions">
@@ -459,7 +454,7 @@
                                     <div class="circle">
                                           <span></span>
                                     </div>
-                                    <a class="delete" href="javascript://" (click)="deleteLeadNote(item.id, i)">{{'commonBlock.delete' | translate}}</a>
+                                    <a class="delete" href="javascript://" (click)="deleteLeadPopup(item.id, i)">{{'commonBlock.delete' | translate}}</a>
 
                                     <ng-template #noDeletePermissiom>
                                           <a class="delete" href="javascript://">{{'commonBlock.delete' | translate}}</a>
@@ -504,7 +499,7 @@
                         <select name="payment_choice" required class="form-control" [(ngModel)]="payment_choice_id">
                               <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
                               <option *ngFor="let bt of paymentConcepts" [ngValue]="bt" 
-                               [disabled]="bt?.penalty"> {{bt?.name}}</option>
+                               [disabled]="bt?.penalty || bt?.collection_payment"> {{bt?.name}}</option>
                         </select>
                   </div>
                 </div>
@@ -513,7 +508,7 @@
                 <div class="form-group-2">
                     <label>{{'viewCollections.enterPaymentAmt' | translate}}<span class="color-red">*</span></label>
                     <div class="form-group">
-                    <input autocomplete="off" required type="number" min="0" class="form-control" [(ngModel)]="paymentAmount" 
+                    <input autocomplete="off" required type="number" step="0.01" min="0" class="form-control" [(ngModel)]="paymentAmount" 
                         name="paymentAmount">
                   </div>
                 </div>
@@ -599,7 +594,7 @@
                 <div class="form-group-2">
                     <label>{{'viewCollections.currentAmtTobePaid' | translate}}<span class="color-red">*</span></label>
                     <div class="form-group">
-                    <input autocomplete="off" required type="number" min="0" class="form-control" [(ngModel)]="currentAmount" 
+                    <input autocomplete="off" required type="number" step="0.01" min="0" class="form-control" [(ngModel)]="currentAmount" 
                         name="currentAmount">
                   </div>
                 </div>
@@ -608,7 +603,7 @@
                 <div class="form-group-2">
                     <label>{{'viewCollections.totalAmtToBePaid' | translate}}<span class="color-red">*</span></label>
                     <div class="form-group">
-                    <input autocomplete="off" required type="number" min="0" class="form-control" [(ngModel)]="paymentAmount" 
+                    <input autocomplete="off" required type="number" step="0.01" min="0" class="form-control" [(ngModel)]="paymentAmount" 
                         name="paymentAmount">
                   </div>
                 </div>
@@ -778,7 +773,7 @@
                 <div class="form-group-2">
                     <label>{{'viewCollections.enterPaymentAmt' | translate}}<span class="color-red">*</span></label>
                     <div class="form-group">
-                    <input autocomplete="off" required type="number" min="0" class="form-control" [(ngModel)]="paymentAmount" 
+                    <input autocomplete="off" required type="number" step="0.01" min="0" class="form-control" [(ngModel)]="paymentAmount" 
                         name="paymentAmount">
                   </div>
                 </div>

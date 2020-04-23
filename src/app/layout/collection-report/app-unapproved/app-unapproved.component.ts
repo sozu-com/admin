@@ -14,19 +14,20 @@ import { CollectionReport } from 'src/app/models/collection-report.model';
 })
 export class AppUnapprovedComponent implements OnInit {
 
+
   public parameter: IProperty = {};
-  singleDropdownSettings: any;
   multiDropdownSettings: any;
   input: CollectionReport;
   projects: Array<any>;
   selctedProjects: Array<any>;
-  developers: Array<any>;
-  selectedDevelopers: Array<any>;
+  currencies: Array<any>;
+  selectedCurrencies: Array<any>;
   colorScheme = {
     domain: ['#ee7b7c', '#f5d05c']
   };
   locale: any;
   today = new Date();
+  reportData: any;
   constructor(public admin: AdminService, 
     private spinner: NgxSpinnerService,
     private translate: TranslateService) {
@@ -36,10 +37,11 @@ export class AppUnapprovedComponent implements OnInit {
 
   ngOnInit() {
     this.input = new CollectionReport();
-    this.input.start_date = moment().subtract(6, 'months').toDate();
+    this.input.start_date = moment().subtract(12, 'months').toDate();
     this.input.end_date = moment().toDate();
     this.iniDropDownSetting()
-    this.getDevelopers();
+    this.searchBuilding();
+    this.getCurrencies();
 
     this.locale = {
       firstDayOfWeek: 0,
@@ -60,15 +62,6 @@ export class AppUnapprovedComponent implements OnInit {
 
 
   iniDropDownSetting() {
-    this.singleDropdownSettings = {
-      singleSelection: true,
-      idField: 'id',
-      textField: 'name',
-      selectAllText: this.translate.instant('commonBlock.selectAll'),
-      unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
-      searchPlaceholderText: this.translate.instant('commonBlock.search'),
-      allowSearchFilter: true
-    };
     this.multiDropdownSettings = {
       singleSelection: false,
       idField: 'id',
@@ -91,33 +84,22 @@ export class AppUnapprovedComponent implements OnInit {
   onSelectAll(obj: any) {
   }
 
-  
-  getDevelopers() {
-    this.admin.postDataApi('getUnblockedDevelopers', {})
+  getCurrencies() {
+    this.admin.postDataApi('getCurrencies', {})
       .subscribe(
         success => {
-          this.developers = success.data;
+          this.currencies = success.data;
+          this.currencies.map(r => {
+            r['name'] = r.code + ' | ' + r.currency
+          })
         }, error => {
           this.spinner.hide();
         }
       );
   }
-
-  onSelectDeveloper(isSelected: number, obj: any) {
-    if (isSelected) {
-      this.searchBuilding(obj.id);
-    } else {
-      this.projects = [];
-      this.selctedProjects = [];
-    }
-  }
-
-  searchBuilding(developer_id: string) {
+  searchBuilding() {
     this.spinner.show();
-    const input = {
-      developer_id: developer_id
-    };
-    this.admin.postDataApi('getUnblockedProjects', input)
+    this.admin.postDataApi('getUnblockedProjects', {})
       .subscribe(
         success => {
           this.spinner.hide();
@@ -139,40 +121,28 @@ export class AppUnapprovedComponent implements OnInit {
       const d = this.selctedProjects.map(o => o.id);
       input.building_id = d;
     }
-    if (this.selectedDevelopers) {
-      const d = this.selectedDevelopers.map(o => o.id);
-      input.developer_id = d;
+    if (this.selectedCurrencies) {
+      const d = this.selectedCurrencies.map(o => o.id);
+      input.currency_id = d;
     }
 
     this.spinner.show();
-    this.admin.postDataApi('reports/bank', input).subscribe(r => {
+    this.admin.postDataApi('graphs/sales-reports', input).subscribe(r => {
       this.spinner.hide();
+      this.reportData = r['data'];
       this.plotData();
     }, error => {
       this.spinner.hide();
     });
   }
 
+
   plotData() {
 
     var chart = new CanvasJS.Chart("chartContainer", {
       animationEnabled: true,
       title:{
-        text: "Crude Oil Reserves vs Production, 2016"
-      },	
-      axisY: {
-        title: "Billions of Barrels",
-        titleFontColor: "#4F81BC",
-        lineColor: "#4F81BC",
-        labelFontColor: "#4F81BC",
-        tickColor: "#4F81BC"
-      },
-      axisY2: {
-        title: "Millions of Barrels/day",
-        titleFontColor: "#C0504E",
-        lineColor: "#C0504E",
-        labelFontColor: "#C0504E",
-        tickColor: "#C0504E"
+        // text: "Crude Oil Reserves vs Production, 2016"
       },	
       toolTip: {
         shared: true
@@ -183,32 +153,20 @@ export class AppUnapprovedComponent implements OnInit {
       },
       data: [{
         type: "column",
-        name: "Proven Oil Reserves (bn)",
-        legendText: "Proven Oil Reserves",
+        name: "Approved Collections",
+        legendText: "Approved Collections",
+        color: "#f5d05c",
         showInLegend: true, 
-        dataPoints:[
-          { label: "Saudi", y: 266.21 },
-          { label: "Venezuela", y: 302.25 },
-          { label: "Iran", y: 157.20 },
-          { label: "Iraq", y: 148.77 },
-          { label: "Kuwait", y: 101.50 },
-          { label: "UAE", y: 97.8 }
-        ]
+        dataPoints: this.reportData['approved']
       },
       {
         type: "column",	
-        name: "Oil Production (million/day)",
-        legendText: "Oil Production",
+        name: "Unapproved Collections",
+        legendText: "Unapproved Collections",
+        color: "#2d2a2a",
         axisYType: "secondary",
         showInLegend: true,
-        dataPoints:[
-          { label: "Saudi", y: 10.46 },
-          { label: "Venezuela", y: 2.27 },
-          { label: "Iran", y: 3.99 },
-          { label: "Iraq", y: 4.45 },
-          { label: "Kuwait", y: 2.92 },
-          { label: "UAE", y: 3.1 }
-        ]
+        dataPoints: this.reportData['unapproved']
       }]
     });
     chart.render();
@@ -225,11 +183,12 @@ export class AppUnapprovedComponent implements OnInit {
         
   }
 
+
   resetFilters() {
     this.input = new CollectionReport();
     this.input.start_date = moment().subtract(6, 'months').toDate();
     this.input.end_date = moment().toDate();
-    this.selectedDevelopers = [];
+    this.selectedCurrencies = [];
     this.selctedProjects = [];
   }
 }

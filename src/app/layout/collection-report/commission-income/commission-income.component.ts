@@ -20,13 +20,17 @@ export class CommissionIncomeComponent implements OnInit {
   input: CollectionReport;
   projects: Array<any>;
   selctedProjects: Array<any>;
-  developers: Array<any>;
-  selectedDevelopers: Array<any>;
+  currencies: Array<any>;
+  selectedCurrencies: Array<any>;
+  commissionsType: Array<any>;
+  selectedCommissions: Array<any>;
   colorScheme = {
     domain: ['#ee7b7c', '#f5d05c']
   };
   locale: any;
   today = new Date();
+  reportData: any;
+  avgValue: number;
   constructor(public admin: AdminService, 
     private spinner: NgxSpinnerService,
     private translate: TranslateService) {
@@ -35,11 +39,19 @@ export class CommissionIncomeComponent implements OnInit {
   onSelect(event) {}
 
   ngOnInit() {
+    this.commissionsType = [
+      {id: 1, name: this.translate.instant('collectionReport.purchaseCommission')},
+      {id: 2, name: this.translate.instant('collectionReport.collectionCommission')}
+    ];
+    this.selectedCommissions = [
+      {id: 1, name: this.translate.instant('collectionReport.purchaseCommission')}
+    ];
     this.input = new CollectionReport();
-    this.input.start_date = moment().subtract(6, 'months').toDate();
+    this.input.start_date = moment().subtract(12, 'months').toDate();
     this.input.end_date = moment().toDate();
     this.iniDropDownSetting()
-    this.getDevelopers();
+    this.searchBuilding();
+    this.getCurrencies();
 
     this.locale = {
       firstDayOfWeek: 0,
@@ -91,33 +103,22 @@ export class CommissionIncomeComponent implements OnInit {
   onSelectAll(obj: any) {
   }
 
-  
-  getDevelopers() {
-    this.admin.postDataApi('getUnblockedDevelopers', {})
+  getCurrencies() {
+    this.admin.postDataApi('getCurrencies', {})
       .subscribe(
         success => {
-          this.developers = success.data;
+          this.currencies = success.data;
+          this.currencies.map(r => {
+            r['name'] = r.code + ' | ' + r.currency
+          })
         }, error => {
           this.spinner.hide();
         }
       );
   }
-
-  onSelectDeveloper(isSelected: number, obj: any) {
-    if (isSelected) {
-      this.searchBuilding(obj.id);
-    } else {
-      this.projects = [];
-      this.selctedProjects = [];
-    }
-  }
-
-  searchBuilding(developer_id: string) {
+  searchBuilding() {
     this.spinner.show();
-    const input = {
-      developer_id: developer_id
-    };
-    this.admin.postDataApi('getUnblockedProjects', input)
+    this.admin.postDataApi('getUnblockedProjects', {})
       .subscribe(
         success => {
           this.spinner.hide();
@@ -129,24 +130,43 @@ export class CommissionIncomeComponent implements OnInit {
       );
   }
 
+  onSelectCommission(isSelected: number, obj: any) {
+    console.log(obj);
+    if (isSelected) {
+      // this.getProperties(obj.id);
+      // this.selectedCommissions()
+    } else {
+    }
+  }
 
   getReportData () {
     const input: any = JSON.parse(JSON.stringify(this.input));
     input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
     input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
 
+    // input.start_date = moment(this.input.start_date).format('YYYY-MM');
+    // input.end_date = moment(this.input.end_date).format('YYYY-MM');
+
+    // input.start_date = input.start_date + '-01';
+    // input.end_date = input.end_date + '-31';
+
     if (this.selctedProjects) {
       const d = this.selctedProjects.map(o => o.id);
       input.building_id = d;
     }
-    if (this.selectedDevelopers) {
-      const d = this.selectedDevelopers.map(o => o.id);
-      input.developer_id = d;
+    if (this.selectedCurrencies) {
+      const d = this.selectedCurrencies.map(o => o.id);
+      input.currency_id = d;
+    }
+    if (this.selectedCommissions) {
+      const d = this.selectedCommissions.map(o => o.id);
+      input.commission_type = d[0];
     }
 
     this.spinner.show();
-    this.admin.postDataApi('reports/bank', input).subscribe(r => {
+    this.admin.postDataApi('graphs/sozu-commission-income', input).subscribe(r => {
       this.spinner.hide();
+      this.reportData = r['data'];
       this.plotData();
     }, error => {
       this.spinner.hide();
@@ -157,39 +177,32 @@ export class CommissionIncomeComponent implements OnInit {
 
     var chart = new CanvasJS.Chart("chartContainer", {
       animationEnabled: true,
-      theme: "light2", // "light1", "light2", "dark1", "dark2"
+      theme: "light2",
+      dataPointWidth: 30,
       title:{
-        text: "Top Oil Reserves"
+        // text: "Top Oil Reserves"
       },
       axisY: {
-        title: "Reserves(MMbbl)"
+        // title: "Reserves(MMbbl)"
       },
       data: [{        
         type: "column",  
+        color: "#00b96f",
         showInLegend: true, 
         legendMarkerColor: "grey",
-        legendText: "MMbbl = one million barrels",
-        dataPoints: [      
-          { y: 300878, label: "Venezuela" },
-          { y: 266455,  label: "Saudi" },
-          { y: 169709,  label: "Canada" },
-          { y: 158400,  label: "Iran" },
-          { y: 142503,  label: "Iraq" },
-          { y: 101500, label: "Kuwait" },
-          { y: 97800,  label: "UAE" },
-          { y: 80000,  label: "Russia" }
-        ]
+        legendText: this.selectedCommissions[0].name,
+        dataPoints: this.reportData['commission']
       }]
     });
-    chart.render();
-    
+    chart.render(); 
   }
 
   resetFilters() {
     this.input = new CollectionReport();
     this.input.start_date = moment().subtract(6, 'months').toDate();
     this.input.end_date = moment().toDate();
-    this.selectedDevelopers = [];
+    this.selectedCurrencies = [];
     this.selctedProjects = [];
+    this.selectedCommissions = [];
   }
 }

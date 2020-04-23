@@ -3,7 +3,7 @@
   <div class="row">
       <div class="col-12">
         <div class="title-group">
-            <h5>{{'collectionReport.conceptReport' | translate}}</h5>
+            <h5>{{'collectionReport.salesReport' | translate}}</h5>
         </div>
       </div>
   </div>
@@ -28,22 +28,6 @@
                 showButtonBar="true" class="coll-report-calendar" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
             </div>
       </div>
-      <div class="col-lg-2 col-md-2">
-            <div class="form-group">
-               <label>{{'collectionReport.developer' | translate}}</label>
-               <div class="clearfix"></div>
-                <ng-multiselect-dropdown class="section-section2 multi-select"
-                      [placeholder]="''"
-                      [data]="developers"
-                      [(ngModel)]="selectedDevelopers"
-                      [settings]="singleDropdownSettings"
-                      (onDeSelect)="onSelectDeveloper(0, $event)"
-                      (onSelect)="onSelectDeveloper(1, $event)"
-                      (onSelectAll)="onSelectAll($event)">
-                </ng-multiselect-dropdown>
-            <div class="clearfix"></div>
-            </div>
-      </div>
     
       <div class="col-lg-2 col-md-2">
             <div class="form-group">
@@ -62,6 +46,22 @@
             </div>
       </div>
       
+      <div class="col-lg-2 col-md-2">
+            <div class="form-group marginB0">
+            <label>{{'collectionReport.currency' | translate}}</label>
+                  <div class="clearfix"></div>
+                  <ng-multiselect-dropdown class="section-section2 multi-select"
+                        [placeholder]="''"
+                        [data]="currencies"
+                        [(ngModel)]="selectedCurrencies"
+                        [settings]="multiDropdownSettings"
+                        (onDeSelect)="onItemDeSelect('currencies', $event)"
+                        (onSelect)="onItemSelect('selectedCurrencies', $event)"
+                        (onSelectAll)="onSelectAll($event)">
+                  </ng-multiselect-dropdown>
+                  <div class="clearfix"></div>      
+            </div>
+      </div>
       <div class="col-lg-1 col-md-2">
             <div class="form-group btn-cont">
             <label style="display: block; margin-top: 3px;">&nbsp;</label>
