@@ -18,13 +18,21 @@
 <div class="spacer10"></div>
 <div class="white-bg add-property padding20">
   <div class="steps">
-    <ul class="d-flex">
+    <!-- <ul class="d-flex">
       <li [ngClass]="{'current': tab == 1}"><span></span><a (click)="setTab(1)">{{'addCollection.tabs.property' | translate}}</a></li>
       <li [ngClass]="{'current': tab == 2}"><span></span><a (click)="setTab(2)">{{'addCollection.tabs.seller' | translate}}</a></li>
       <li [ngClass]="{'current': tab == 3}"><span></span><a (click)="setTab(3)">{{'addCollection.tabs.buyer' | translate}}</a></li>
       <li [ngClass]="{'current': tab == 4}"><span></span><a (click)="setTab(4)">{{'addCollection.tabs.deal' | translate}}</a></li>
       <li [ngClass]="{'current': tab == 5}"><span></span><a (click)="setTab(5)">{{'addCollection.tabs.commission' | translate}}</a></li>
       <li [ngClass]="{'current': tab == 6}"><span></span><a (click)="setTab(6)">{{'addCollection.tabs.uploadDocuments' | translate}}</a></li>
+    </ul> -->
+    <ul class="d-flex">
+      <li [ngClass]="{'current': tab == 1}"><span></span><a>{{'addCollection.tabs.property' | translate}}</a></li>
+      <li [ngClass]="{'current': tab == 2}"><span></span><a>{{'addCollection.tabs.seller' | translate}}</a></li>
+      <li [ngClass]="{'current': tab == 3}"><span></span><a>{{'addCollection.tabs.buyer' | translate}}</a></li>
+      <li [ngClass]="{'current': tab == 4}"><span></span><a>{{'addCollection.tabs.deal' | translate}}</a></li>
+      <li [ngClass]="{'current': tab == 5}"><span></span><a>{{'addCollection.tabs.commission' | translate}}</a></li>
+      <li [ngClass]="{'current': tab == 6}"><span></span><a>{{'addCollection.tabs.uploadDocuments' | translate}}</a></li>
     </ul>
   </div>
 </div>

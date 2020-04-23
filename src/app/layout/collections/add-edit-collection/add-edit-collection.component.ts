@@ -812,6 +812,7 @@ export class AddEditCollectionComponent implements OnInit {
 
 
   getProperties($event) {
+    this.properties = [];
     $event.stopPropagation();
     this.model.floor_num = $event.target.value;
     if (!this.model.building_id) {
