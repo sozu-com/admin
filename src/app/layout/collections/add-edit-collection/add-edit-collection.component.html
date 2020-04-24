@@ -144,11 +144,6 @@
                 <option *ngFor="let bt of selectedBuilding?.building_towers" [value]="bt.id">
                   {{bt.tower_name}}</option>
               </select>
-              <!-- <select name="tower" [(ngModel)]="selectedTower" required class="form-control" (change)="setTower(selectedTower)">
-                <option value="">{{'addCollection.selectTower' | translate}}</option>
-                <option *ngFor="let bt of selectedBuilding?.building_towers" [ngValue]="bt">
-                  {{bt.tower_name}}</option>
-              </select> -->
             </div>
           </div>  
         </div>
@@ -178,19 +173,6 @@
                 [filter]="true" optionLabel="name" (onChange)="setPropertyId(property_id)">
               </p-dropdown>
              
-
-              <!-- <div class="clearfix"></div>
-                <ng-multiselect-dropdown class="section-section2 multi-select"
-                      [placeholder]="''"
-                      [data]="properties"
-                      [(ngModel)]="selectedProperties"
-                      [settings]="multiDropdownSettings"
-                      (onDeSelect)="onItemDeSelect('properties', $event)"
-                      (onSelect)="onItemSelect('selectedProperties', $event)"
-                      (onSelectAll)="onSelectAll($event)">
-                </ng-multiselect-dropdown>
-              <div class="clearfix"></div> -->
-              
             </div>
           </div>  
           <div class="col-lg-6 col-md-6 col-sm-12 col-6">
