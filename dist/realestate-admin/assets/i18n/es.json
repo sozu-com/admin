@@ -749,7 +749,8 @@
       "bankAssignedSuccessfully": "Banco asignado exitosamente.",
       "notaryAssignedSuccessfully": "Notario asignado exitosamente.",
       "propertyBlockedSuccessfully": "Propiedad bloqueada exitosamente",
-      "propertyUnblockedSuccessfully": "Propiedad desbloqueada exitosamente"
+      "propertyUnblockedSuccessfully": "Propiedad desbloqueada exitosamente",
+      "collectionStatusChanged": "Estado de colección cambiado"
     },
     "error": {
       "uploadingImage": "Cargando imagen",

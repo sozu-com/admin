@@ -18,22 +18,22 @@
 <div class="spacer10"></div>
 <div class="white-bg add-property padding20">
   <div class="steps">
-    <!-- <ul class="d-flex">
+    <ul class="d-flex">
       <li [ngClass]="{'current': tab == 1}"><span></span><a (click)="setTab(1)">{{'addCollection.tabs.property' | translate}}</a></li>
       <li [ngClass]="{'current': tab == 2}"><span></span><a (click)="setTab(2)">{{'addCollection.tabs.seller' | translate}}</a></li>
       <li [ngClass]="{'current': tab == 3}"><span></span><a (click)="setTab(3)">{{'addCollection.tabs.buyer' | translate}}</a></li>
       <li [ngClass]="{'current': tab == 4}"><span></span><a (click)="setTab(4)">{{'addCollection.tabs.deal' | translate}}</a></li>
       <li [ngClass]="{'current': tab == 5}"><span></span><a (click)="setTab(5)">{{'addCollection.tabs.commission' | translate}}</a></li>
       <li [ngClass]="{'current': tab == 6}"><span></span><a (click)="setTab(6)">{{'addCollection.tabs.uploadDocuments' | translate}}</a></li>
-    </ul> -->
-    <ul class="d-flex">
+    </ul>
+    <!-- <ul class="d-flex">
       <li [ngClass]="{'current': tab == 1}"><span></span><a>{{'addCollection.tabs.property' | translate}}</a></li>
       <li [ngClass]="{'current': tab == 2}"><span></span><a>{{'addCollection.tabs.seller' | translate}}</a></li>
       <li [ngClass]="{'current': tab == 3}"><span></span><a>{{'addCollection.tabs.buyer' | translate}}</a></li>
       <li [ngClass]="{'current': tab == 4}"><span></span><a>{{'addCollection.tabs.deal' | translate}}</a></li>
       <li [ngClass]="{'current': tab == 5}"><span></span><a>{{'addCollection.tabs.commission' | translate}}</a></li>
       <li [ngClass]="{'current': tab == 6}"><span></span><a>{{'addCollection.tabs.uploadDocuments' | translate}}</a></li>
-    </ul>
+    </ul> -->
   </div>
 </div>
 
@@ -178,6 +178,19 @@
                 [filter]="true" optionLabel="name" (onChange)="setPropertyId(property_id)">
               </p-dropdown>
              
+
+              <!-- <div class="clearfix"></div>
+                <ng-multiselect-dropdown class="section-section2 multi-select"
+                      [placeholder]="''"
+                      [data]="properties"
+                      [(ngModel)]="selectedProperties"
+                      [settings]="multiDropdownSettings"
+                      (onDeSelect)="onItemDeSelect('properties', $event)"
+                      (onSelect)="onItemSelect('selectedProperties', $event)"
+                      (onSelectAll)="onSelectAll($event)">
+                </ng-multiselect-dropdown>
+              <div class="clearfix"></div> -->
+              
             </div>
           </div>  
           <div class="col-lg-6 col-md-6 col-sm-12 col-6">
@@ -277,7 +290,7 @@
             <div class="col-sm-12 col-12">
               <div class="form-group-3">
                 <label>{{'addCollection.emailId' | translate}}</label>
-                <input autocomplete="off" class="form-control" type="email" name="dev_email"
+                <input (keydown.space)="$event.preventDefault();" autocomplete="off" class="form-control" type="email" name="dev_email"
                   [(ngModel)]="building.dev_email">
               </div>
             </div>
@@ -384,7 +397,7 @@
               <div class="form-group-3">
               <label>{{'addCollection.email' | translate}}</label>
               <div class="clearfix"></div>
-              <input required autocomplete="off" class="form-control" type="text" name="seller_email" formControlName="seller_email">
+              <input required autocomplete="off" (keydown.space)="$event.preventDefault();" class="form-control" type="text" name="seller_email" formControlName="seller_email">
             </div>
           </div>
           <div *ngIf="model.seller_type==1" class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -431,7 +444,7 @@
                   <div class="form-group-3">
                   <label>{{'addCollection.clabeSwift' | translate}}</label>
                   <div class="clearfix"></div>
-                  <input required autocomplete="off" class="form-control" type="text" name="swift" formControlName="swift">
+                  <input required autocomplete="off" (keydown.space)="$event.preventDefault();" class="form-control" type="text" name="swift" formControlName="swift">
                 </div>
               </div>
               <div class="col-lg-2 col-md-6 col-sm-6 col-12">
@@ -477,7 +490,7 @@
               <div class="form-group-3">
               <label>{{'addCollection.email' | translate}}</label>
               <div class="clearfix"></div>
-              <input autocomplete="off" class="form-control" type="text" name="seller_leg_rep_email" formControlName="seller_leg_rep_email">
+              <input autocomplete="off" class="form-control" type="text" (keydown.space)="$event.preventDefault();" name="seller_leg_rep_email" formControlName="seller_leg_rep_email">
             </div>
           </div>
           <div *ngIf="model.seller_type==1" class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -525,7 +538,7 @@
                   <div class="form-group-3">
                   <label>{{'addCollection.clabeSwift' | translate}}</label>
                   <div class="clearfix"></div>
-                  <input required autocomplete="off" class="form-control" type="text" name="swift" formControlName="swift">
+                  <input required autocomplete="off" class="form-control" (keydown.space)="$event.preventDefault();" type="text" name="swift" formControlName="swift">
                 </div>
               </div>
               <div class="col-lg-2 col-md-6 col-sm-6 col-12">
@@ -645,7 +658,7 @@
                 <div class="form-group-3">
                 <label>{{'addCollection.email' | translate}}</label>
                 <div class="clearfix"></div>
-                <input required autocomplete="off" class="form-control" type="text" name="buyer_email" formControlName="buyer_email">
+                <input required autocomplete="off" (keydown.space)="$event.preventDefault();" class="form-control" type="text" name="buyer_email" formControlName="buyer_email">
               </div>
             </div>
             <div *ngIf="model.buyer_type==1" class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -693,7 +706,7 @@
                   <div class="form-group-3">
                   <label>{{'addCollection.clabeSwift' | translate}}</label>
                   <div class="clearfix"></div>
-                  <input required autocomplete="off" class="form-control" type="text" name="swift" formControlName="swift">
+                  <input required autocomplete="off" class="form-control" (keydown.space)="$event.preventDefault();" type="text" name="swift" formControlName="swift">
                 </div>
               </div>
               <div class="col-lg-2 col-md-6 col-sm-6 col-12">
@@ -740,7 +753,7 @@
                 <div class="form-group-3">
                 <label>{{'addCollection.email' | translate}}</label>
                 <div class="clearfix"></div>
-                <input autocomplete="off" class="form-control" type="text" name="buyer_leg_rep_email" formControlName="buyer_leg_rep_email">
+                <input autocomplete="off" class="form-control" (keydown.space)="$event.preventDefault();" type="text" name="buyer_leg_rep_email" formControlName="buyer_leg_rep_email">
               </div>
             </div>
             <div *ngIf="model.buyer_type==1" class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -788,7 +801,7 @@
                     <div class="form-group-3">
                     <label>{{'addCollection.clabeSwift' | translate}}</label>
                     <div class="clearfix"></div>
-                    <input required autocomplete="off" class="form-control" type="text" name="swift" formControlName="swift">
+                    <input required autocomplete="off" class="form-control" (keydown.space)="$event.preventDefault();" type="text" name="swift" formControlName="swift">
                   </div>
                 </div>
                 <div class="col-lg-2 col-md-6 col-sm-6 col-12">
@@ -857,18 +870,6 @@
                 name="deal_price">
           </div>
         </div>
-        <!-- <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-          <div class="form-group-3">
-            <label>{{'addCollection.penalityForLatePayment' | translate}}</label>
-            <div class="clearfix"></div>
-            <input autocomplete="off" class="form-control" type="number" formControlName="deal_penality" min="0" name="deal_penality">
-          </div>
-        </div> -->
-      </div>
-
-      
-      <div class="spacer15"></div>
-      <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
             <div class="form-group-3">
             <label>{{'addCollection.currency' | translate}}</label>
@@ -930,9 +931,9 @@
                 <div class="clearfix"></div>
                 <input autocomplete="off" class="form-control" (input)="getPercentage(i)" 
                   type="number" step="0.01" formControlName="amount" min="0" name="amount">
-                <div class="input-group-append">
+                <!-- <div class="input-group-append">
                   <span class="input-group-text" id="basic-addon1">.00</span>
-                </div>
+                </div> -->
               </div>
             </div>
             <div class="col-lg-2 col-md-6 col-sm-6 col-12">
@@ -1099,7 +1100,7 @@
                 <div class="form-group-3">
                 <label>{{'addCollection.clabeSwift' | translate}}</label>
                 <div class="clearfix"></div>
-                <input required autocomplete="off" class="form-control" type="text" name="swift" formControlName="swift">
+                <input required autocomplete="off" class="form-control" (keydown.space)="$event.preventDefault();" type="text" name="swift" formControlName="swift">
               </div>
             </div>
             <div class="col-lg-2 col-md-6 col-sm-6 col-12">

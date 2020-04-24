@@ -139,13 +139,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.parameter.itemsPerPage = this.constant.limit4;
     this.buildingData = new AddProjectModel();
     this.getAllPaymentChoices();
-    // this.paymentChoices = [
-    //   { id: 1, name: 'Layaway Payment' },
-    //   { id: 2, name: 'Downaway Payment' },
-    //   { id: 3, name: 'Payment upon Delivery' },
-    //   { id: 4, name: 'Special Payment' },
-    //   { id: 5, name: 'Monthly Installments' }];
-    
+ 
     this.initFormStep1();
     this.initFormStep2();
     this.initFormStep3();
@@ -181,20 +175,36 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   setDatePickerLocale() {
-    this.locale = {
-      firstDayOfWeek: 0,
-      dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
-      dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
-      dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
-      monthNames: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-        'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
-      monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun',
-        'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
-      today: 'Hoy',
-      clear: 'Clara',
-      dateFormat: 'yyyy-mm-dd',
-      weekHeader: 'Wk'
-    };
+    if (this.translate.defaultLang == 'en') {
+      this.locale = {
+        firstDayOfWeek: 0,
+        dayNames: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+        dayNamesShort: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        dayNamesMin: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+        monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
+            'November', 'December'],
+        monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        today: 'Today',
+        clear: 'Clear',
+        dateFormat: 'mm/dd/yy',
+        weekHeader: 'Wk'
+      }
+    } else {
+      this.locale = {
+        firstDayOfWeek: 0,
+        dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
+        dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+        dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+        monthNames: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+          'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
+        monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun',
+          'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+        today: 'Hoy',
+        clear: 'Clara',
+        dateFormat: 'mm/dd/yy',
+        weekHeader: 'Sm'
+      };
+    }
   }
 
   initFormStep1() {
@@ -204,7 +214,6 @@ export class AddEditCollectionComponent implements OnInit {
       building_towers_id: ['', [Validators.required]],
       floor_num: ['', [Validators.required]],
       property_id: ['', [Validators.required]],
-      // deal_type_id: ['', [Validators.required]],
       for_sale: ['', [Validators.required]],
       for_rent: ['', [Validators.required]],
       building_configuration_id: ['', [Validators.required]],
@@ -748,15 +757,6 @@ export class AddEditCollectionComponent implements OnInit {
       .subscribe(
         success => {
           this.spinner.hide();
-          // swal('Submitted successfully.',
-          //   'You will be notified once your property will be reviewed by them, you can view status in your properties.',
-          //   'success');
-          // if (this.router.url.indexOf('/dashboard/properties/edit-property') === -1) {
-          //   this.router.navigate(['/dashboard/properties/view-properties']);
-          // }
-          // update tab=1 because we need to save property details, after adding property details
-          // data collector will create project template and then edit property and tag that
-          // particular project
           swal({
             html: 'Success' + '<br>' +
             this.translate.instant('message.success.dataCollectorWillLinkPropertyToBuilding'),
@@ -792,6 +792,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.us.postDataApi('getProperties', input)
       .subscribe(
         success => {
+          success.data.unshift({'name': this.translate.instant('message.error.pleaseChooseApartment')})
           this.properties = success.data;
         }, error => {
           this.spinner.hide();
@@ -1250,6 +1251,7 @@ export class AddEditCollectionComponent implements OnInit {
 
   newAgent(): FormGroup {
     return this.fb.group({
+      broker_id: ['', [Validators.required]],
       name: ['', [Validators.required]],
       fed_tax_payer_reg: ['', [Validators.required]]
     });
@@ -1276,10 +1278,11 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   setAgent(item) {
-    this.model.buyer_id = item.id;
-    this.model.buyer = item;
+    // this.model.buyer_id = item.id;
+    // this.model.buyer = item;
     const ftpr = this.addFormStep5.get('deal_commission_agents').value;
     const dca = [{
+      broker_id: item.id,
       name: item.name,
       fed_tax_payer_reg: ftpr.length > 0 ? ftpr[0].fed_tax_payer_reg : ''
     }];

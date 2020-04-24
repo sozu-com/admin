@@ -746,7 +746,8 @@
       "bankAssignedSuccessfully": "Bank assigned Successfully.",
       "notaryAssignedSuccessfully": "Notary assigned Successfully.",
       "propertyBlockedSuccessfully": "Property blocked successfully",
-      "propertyUnblockedSuccessfully": "Property unblocked successfully"
+      "propertyUnblockedSuccessfully": "Property unblocked successfully",
+      "collectionStatusChanged": "Collection Status Changed"
     },
     "error": {
       "uploadingImage": "Uploading Image",

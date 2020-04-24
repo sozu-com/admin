@@ -340,7 +340,7 @@ export class CollectionsComponent implements OnInit {
     item.is_approved = status;
     const input = { id: item.id, is_approved: status };
     this.admin.postDataApi('approveCollection', input).subscribe(r => {
-      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.propertyStatusChanged'), 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.collectionStatusChanged'), 'success');
       // this.closeModal();
     },
       error => {
