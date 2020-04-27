@@ -882,6 +882,8 @@
       "pleaseEnterAgentCommission": "Please enter Agent Commission",
       "pleaseChooseAgent": "Please select Agent",
       "pleaseChoosePayments" : "Please select Payment Choices",
+      "pleaseFillAllDetailsFor": "Please fill all details for - ",
+      "pleaseFillAllDetails": "Please fill all details",
 
 
       "areYouSure": "Are you sure",

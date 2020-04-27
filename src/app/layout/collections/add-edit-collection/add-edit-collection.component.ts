@@ -514,17 +514,28 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   patchFormStep4(data) {
+    this.addFormStep4.controls.deal_purchase_date.patchValue(data.deal_purchase_date ? moment.utc(data.deal_purchase_date).local().toDate() : null);
     // this.addFormStep4.controls.deal_purchase_date.patchValue(data.deal_purchase_date ? moment.utc(data.deal_purchase_date).local().toDate() : null);
-    this.addFormStep4.controls.deal_purchase_date.patchValue(data.deal_purchase_date ? moment(data.deal_purchase_date).toDate() : null);
     this.addFormStep4.controls.deal_price.patchValue(data.deal_price);
     this.addFormStep4.controls.currency_id.patchValue(data.currency_id ? data.currency_id : 1);
     this.addFormStep4.controls.deal_interest_rate.patchValue(data.deal_interest_rate);
     this.addFormStep4.controls.deal_penality.patchValue(data.deal_penality);
     const control1 = this.addFormStep4.get('payment_choices') as FormArray;
+    console.log(control1)
+    
+    // const pcArray = this.addFormStep4.get('payment_choices').value;
+    // console.log(pcArray)
+    
+    // for (let index = 0; index < pcArray.length; index++) {
+    //   const x = pcArray[index];
+    //   x.date = x.date ? moment(x.date).toDate() : null;
+    // }
+    // this.addFormStep4.controls['payment_choices'].patchValue(pcArray);
+
     if (data.payment_choices) {
       data.payment_choices.forEach(x => {
-        // x.date = x.date ? moment.utc(x.date).local().toDate() : null;
-        x.date = x.date ? moment(x.date).toDate() : null;
+        x.date = x.date ? moment.utc(x.date).local().toDate() : null;
+        // x.date = x.date ? moment(x.date).toDate() : null;
         control1.push(this.fb.group(x));
       });
     }
@@ -554,10 +565,12 @@ export class AddEditCollectionComponent implements OnInit {
   setCommission(data) {
     
     this.model.collection_commissions = [];
-    const payment_choices = this.addFormStep4.get('payment_choices').value || data.payment_choices;
+    // const payment_choices = this.addFormStep4.get('payment_choices').value || data.payment_choices;
+    const payment_choices = data.payment_choices;
     // console.log(payment_choices)
     const control1 = this.addFormStep5.get('collection_commissions') as FormArray;
     // console.log(control1)
+    // const control1 = [...c]
     if (payment_choices) {
       // console.log(payment_choices)
       for (let index = 0; index < payment_choices.length; index++) {
@@ -1001,8 +1014,8 @@ export class AddEditCollectionComponent implements OnInit {
     for (let index = 0; index < pchoice.length; index++) {
       const element = pchoice[index];
       if (element.payment_choice_id == 5) {
-        // element['date'] = moment.utc(date).local().toDate();
-        element['date'] = moment(date).toDate();
+        element['date'] = moment.utc(date).local().toDate();
+        // element['date'] = moment(date).toDate();
       }
     }
     // console.log('choice', pchoice)
@@ -1042,8 +1055,8 @@ export class AddEditCollectionComponent implements OnInit {
     monthly_amount = monthly_amount.toFixed(2);
     let name = '';
     // console.log(monthly_date)
-    // monthly_date = moment.utc(moment(monthly_date).add(index, 'months').format('YYYY-MM-DD')).local().toDate();
-    monthly_date = moment(moment(monthly_date).add(index, 'months').format('YYYY-MM-DD')).toDate();
+    monthly_date = moment.utc(moment(monthly_date).add(index, 'months').format('YYYY-MM-DD')).local().toDate();
+    // monthly_date = moment(moment(monthly_date).add(index, 'months').format('YYYY-MM-DD')).toDate();
     this.paymentChoices.map(r => {
       if (r.id == 5) {
         name = r.name + ' ' + (index + 1);
@@ -1265,9 +1278,13 @@ export class AddEditCollectionComponent implements OnInit {
     });
   }
 
-  onSelect(e) {
+  onSelect(event) {
     // this.leadData.planning_to_buy = e;
-    console.log(e)
+    console.log(event)
+    // let d = new Date(Date.parse(event));
+    // let h = `${d.getMonth()+1}/${d.getDate()}/${d.getFullYear()}`;
+    // this.addFormStep4.controls.deal_purchase_date.patchValue(h);
+    // console.log(h)
   }
 
   
@@ -1717,7 +1734,6 @@ export class AddEditCollectionComponent implements OnInit {
       }
     }
 
-console.log(formdata['deal_purchase_date'])
     if (this.model.step == 4) {
       if (!formdata['deal_purchase_date']) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPurchaseDate'), 'error');
@@ -1729,6 +1745,18 @@ console.log(formdata['deal_purchase_date'])
       else if (!formdata['payment_choices']) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChoosePayments'), 'error');
         return;
+      }
+      let i = 0;
+      for (let index = 0; index < formdata['payment_choices'].length; index++) {
+        const element = formdata['payment_choices'][index];
+        if (!element.name || !element.amount || !element.date || !element.percent) {
+          i = i + 1;
+          const text = element.name ? 
+                        this.translate.instant('message.error.pleaseFillAllDetailsFor') + element.name :
+                        this.translate.instant('message.error.pleaseFillAllDetailsFor')
+          swal(this.translate.instant('swal.error'), text, 'error');
+          return;
+        }
       }
     }
 

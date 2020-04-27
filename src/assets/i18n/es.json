@@ -885,6 +885,8 @@
       "pleaseEnterAgentCommission": "Por favor, introduzca la comisión del agente",
       "pleaseChooseAgent": "Por favor seleccione Agente",
       "pleaseChoosePayments" : "Por favor seleccione Opciones de pago",
+      "pleaseFillAllDetailsFor": "Por favor complete todos los detalles para -",
+      "pleaseFillAllDetails": "Por favor complete todos los detalles",
 
 
       "areYouSure": "¿Estás seguro?",

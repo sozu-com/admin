@@ -262,7 +262,7 @@
             <div class="col-sm-6 col-12">
               <div class="form-group-3">
                 <label>{{'addCollection.contactNumber' | translate}}</label>
-                <input minlength="6" maxlength="16" autocomplete="off" type="text" class="form-control" id="dev_phone"
+                <input minlength="8" maxlength="15" autocomplete="off" type="text" class="form-control" id="dev_phone"
                   [(ngModel)]="building.dev_phone" name="dev_phone" ng2TelInput [ng2TelInputOptions]="initialCountry"
                   (countryChange)="onCountryChange($event)" />
               </div>
@@ -351,21 +351,21 @@
             <div class="form-group-3">
               <label>{{ model.seller_type == 1 ? ('addCollection.name' | translate) : ('addCollection.commercialName' | translate)}}</label>
               <div class="clearfix"></div>
-              <input required autocomplete="off" type="text" name="seller_name" class="form-control" formControlName="seller_name">
+              <input required autocomplete="off" minlength="1" maxlength="30" type="text" name="seller_name" class="form-control" formControlName="seller_name">
             </div>
           </div>
           <div *ngIf="model.seller_type !=1 " class="col-lg-3 col-md-6 col-sm-6 col-12">
             <div class="form-group-3">
               <label>{{ 'addCollection.legalName' | translate }}</label>
               <div class="clearfix"></div>
-              <input required autocomplete="off" type="text" name="seller_legal_name" class="form-control" formControlName="seller_legal_name">
+              <input required autocomplete="off" minlength="1" maxlength="30" type="text" name="seller_legal_name" class="form-control" formControlName="seller_legal_name">
             </div>
           </div>
           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
               <div class="form-group-3">
               <label>{{'addCollection.phonenumber' | translate}}</label>
               <div class="clearfix"></div>
-              <input required autocomplete="off" class="form-control" type="number" minlength="6" maxlength="16" name="seller_phone" formControlName="seller_phone">
+              <input required autocomplete="off" minlength="8" maxlength="15" class="form-control" type="number" name="seller_phone" formControlName="seller_phone">
             </div>
           </div>
           <div *ngIf="model.seller_type !=1" class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -379,14 +379,14 @@
               <div class="form-group-3">
               <label>{{'addCollection.email' | translate}}</label>
               <div class="clearfix"></div>
-              <input required autocomplete="off" (keydown.space)="$event.preventDefault();" class="form-control" type="text" name="seller_email" formControlName="seller_email">
+              <input required autocomplete="off" (keydown.space)="$event.preventDefault();" class="form-control" type="email" name="seller_email" formControlName="seller_email">
             </div>
           </div>
           <div *ngIf="model.seller_type==1" class="col-lg-3 col-md-6 col-sm-6 col-12">
               <div class="form-group-3">
               <label>{{'addCollection.companyName' | translate}}</label>
               <div class="clearfix"></div>
-              <input required autocomplete="off" class="form-control" type="text" name="seller_company_name" formControlName="seller_company_name">
+              <input required autocomplete="off" minlength="1" maxlength="30" class="form-control" type="text" name="seller_company_name" formControlName="seller_company_name">
             </div>
           </div>
         </div>
@@ -395,7 +395,7 @@
                 <div class="form-group-3">
               <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}</label>
               <div class="clearfix"></div>
-              <input required autocomplete="off" class="form-control" type="text" name="seller_fed_tax" formControlName="seller_fed_tax">
+              <input required autocomplete="off" minlength="12" maxlength="13" class="form-control" type="text" name="seller_fed_tax" formControlName="seller_fed_tax">
             </div>
           </div>
         </div>
@@ -412,7 +412,7 @@
                   <div class="form-group-3">
                   <label>{{'addCollection.bankName' | translate}}</label>
                   <div class="clearfix"></div>
-                  <input required autocomplete="off" class="form-control" type="text" name="bank_name" formControlName="bank_name">
+                  <input required autocomplete="off" minlength="1" maxlength="30" class="form-control" type="text" name="bank_name" formControlName="bank_name">
                 </div>
               </div> 
               <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -458,28 +458,28 @@
                 <div class="form-group-3">
               <label>{{'addCollection.name' | translate}}</label>
               <div class="clearfix"></div>
-              <input autocomplete="off" class="form-control" type="text" name="seller_leg_rep_name" formControlName="seller_leg_rep_name">
+              <input autocomplete="off" class="form-control" minlength="1" maxlength="30" type="text" name="seller_leg_rep_name" formControlName="seller_leg_rep_name">
             </div>
           </div>
           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
               <div class="form-group-3">
               <label>{{'addCollection.phonenumber' | translate}}</label>
               <div class="clearfix"></div>
-              <input autocomplete="off" class="form-control" type="number" minlength="6" maxlength="16" name="seller_leg_rep_phone" formControlName="seller_leg_rep_phone">
+              <input autocomplete="off" class="form-control" minlength="8" maxlength="15" type="number" name="seller_leg_rep_phone" formControlName="seller_leg_rep_phone">
             </div>
           </div>
           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
               <div class="form-group-3">
               <label>{{'addCollection.email' | translate}}</label>
               <div class="clearfix"></div>
-              <input autocomplete="off" class="form-control" type="text" (keydown.space)="$event.preventDefault();" name="seller_leg_rep_email" formControlName="seller_leg_rep_email">
+              <input autocomplete="off" class="form-control" type="email" (keydown.space)="$event.preventDefault();" name="seller_leg_rep_email" formControlName="seller_leg_rep_email">
             </div>
           </div>
           <div *ngIf="model.seller_type==1" class="col-lg-3 col-md-6 col-sm-6 col-12">
               <div class="form-group-3">
               <label>{{'addCollection.companyName' | translate}}</label>
               <div class="clearfix"></div>
-              <input autocomplete="off" class="form-control" type="text" name="seller_leg_rep_comp" formControlName="seller_leg_rep_comp">
+              <input autocomplete="off" class="form-control" minlength="1" maxlength="30" type="text" name="seller_leg_rep_comp" formControlName="seller_leg_rep_comp">
             </div>
           </div>
         <!-- </div> -->
@@ -488,7 +488,7 @@
                 <div class="form-group-3">
               <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}</label>
               <div class="clearfix"></div>
-              <input autocomplete="off" class="form-control" type="text" name="seller_leg_rep_fed_tax" formControlName="seller_leg_rep_fed_tax">
+              <input autocomplete="off" class="form-control" minlength="12" maxlength="13" type="text" name="seller_leg_rep_fed_tax" formControlName="seller_leg_rep_fed_tax">
             </div>
           </div>
         </div>
@@ -506,7 +506,7 @@
                   <div class="form-group-3">
                   <label>{{'addCollection.bankName' | translate}}</label>
                   <div class="clearfix"></div>
-                  <input required autocomplete="off" class="form-control" type="text" name="bank_name" formControlName="bank_name">
+                  <input required autocomplete="off" minlength="1" maxlength="30" class="form-control" type="text" name="bank_name" formControlName="bank_name">
                 </div>
               </div> 
               <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -612,21 +612,21 @@
               <div class="form-group-3">
                 <label>{{ model.buyer_type == 1 ? ('addCollection.name' | translate) : ('addCollection.commercialName' | translate)}}</label>
                 <div class="clearfix"></div>
-                <input required autocomplete="off" type="text" name="buyer_name" class="form-control" formControlName="buyer_name">
+                <input required autocomplete="off" minlength="1" maxlength="30" type="text" name="buyer_name" class="form-control" formControlName="buyer_name">
               </div>
             </div>
             <div *ngIf="model.buyer_type !=1 " class="col-lg-3 col-md-6 col-sm-6 col-12">
               <div class="form-group-3">
                 <label>{{ 'addCollection.legalName' | translate }}</label>
                 <div class="clearfix"></div>
-                <input required autocomplete="off" type="text" name="buyer_legal_name" class="form-control" formControlName="buyer_legal_name">
+                <input required autocomplete="off" minlength="1" maxlength="30" type="text" name="buyer_legal_name" class="form-control" formControlName="buyer_legal_name">
               </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                 <label>{{'addCollection.phonenumber' | translate}}</label>
                 <div class="clearfix"></div>
-                <input required autocomplete="off" class="form-control" type="number" minlength="6" maxlength="16" name="buyer_phone" formControlName="buyer_phone">
+                <input required autocomplete="off" class="form-control" type="number" minlength="8" maxlength="15" name="buyer_phone" formControlName="buyer_phone">
               </div>
             </div>
             <div *ngIf="model.buyer_type !=1" class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -640,14 +640,14 @@
                 <div class="form-group-3">
                 <label>{{'addCollection.email' | translate}}</label>
                 <div class="clearfix"></div>
-                <input required autocomplete="off" (keydown.space)="$event.preventDefault();" class="form-control" type="text" name="buyer_email" formControlName="buyer_email">
+                <input required autocomplete="off" (keydown.space)="$event.preventDefault();" class="form-control" type="email" name="buyer_email" formControlName="buyer_email">
               </div>
             </div>
             <div *ngIf="model.buyer_type==1" class="col-lg-3 col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                 <label>{{'addCollection.companyName' | translate}}</label>
                 <div class="clearfix"></div>
-                <input required autocomplete="off" class="form-control" type="text" name="buyer_company_name" formControlName="buyer_company_name">
+                <input required autocomplete="off" class="form-control" minlength="1" maxlength="30" type="text" name="buyer_company_name" formControlName="buyer_company_name">
               </div>
             </div>
           </div>
@@ -656,7 +656,7 @@
                   <div class="form-group-3">
                 <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}</label>
                 <div class="clearfix"></div>
-                <input required autocomplete="off" class="form-control" type="text" name="buyer_fed_tax" formControlName="buyer_fed_tax">
+                <input required autocomplete="off" class="form-control" minlength="12" maxlength="13" type="text" name="buyer_fed_tax" formControlName="buyer_fed_tax">
               </div>
             </div>
           </div>
@@ -674,7 +674,7 @@
                   <div class="form-group-3">
                   <label>{{'addCollection.bankName' | translate}}</label>
                   <div class="clearfix"></div>
-                  <input required autocomplete="off" class="form-control" type="text" name="bank_name" formControlName="bank_name">
+                  <input required autocomplete="off" minlength="1" maxlength="30" class="form-control" type="text" name="bank_name" formControlName="bank_name">
                 </div>
               </div> 
               <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -721,28 +721,28 @@
                   <div class="form-group-3">
                 <label>{{'addCollection.name' | translate}}</label>
                 <div class="clearfix"></div>
-                <input autocomplete="off" class="form-control" type="text" name="buyer_leg_rep_name" formControlName="buyer_leg_rep_name">
+                <input autocomplete="off" class="form-control" minlength="1" maxlength="30" type="text" name="buyer_leg_rep_name" formControlName="buyer_leg_rep_name">
               </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                 <label>{{'addCollection.phonenumber' | translate}}</label>
                 <div class="clearfix"></div>
-                <input autocomplete="off" class="form-control" type="number" minlength="6" maxlength="16" name="buyer_leg_rep_phone" formControlName="buyer_leg_rep_phone">
+                <input autocomplete="off" class="form-control" type="number" minlength="8" maxlength="15" name="buyer_leg_rep_phone" formControlName="buyer_leg_rep_phone">
               </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                 <label>{{'addCollection.email' | translate}}</label>
                 <div class="clearfix"></div>
-                <input autocomplete="off" class="form-control" (keydown.space)="$event.preventDefault();" type="text" name="buyer_leg_rep_email" formControlName="buyer_leg_rep_email">
+                <input autocomplete="off" class="form-control" (keydown.space)="$event.preventDefault();" type="email" name="buyer_leg_rep_email" formControlName="buyer_leg_rep_email">
               </div>
             </div>
             <div *ngIf="model.buyer_type==1" class="col-lg-3 col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                 <label>{{'addCollection.companyName' | translate}}</label>
                 <div class="clearfix"></div>
-                <input autocomplete="off" class="form-control" type="text" name="buyer_leg_rep_comp" formControlName="buyer_leg_rep_comp">
+                <input autocomplete="off" class="form-control" minlength="1" maxlength="30" type="text" name="buyer_leg_rep_comp" formControlName="buyer_leg_rep_comp">
               </div>
             </div>
           <!-- </div> -->
@@ -751,7 +751,7 @@
                   <div class="form-group-3">
                 <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}</label>
                 <div class="clearfix"></div>
-                <input autocomplete="off" class="form-control" type="text" name="buyer_leg_rep_fed_tax" formControlName="buyer_leg_rep_fed_tax">
+                <input autocomplete="off" class="form-control" minlength="12" maxlength="13" type="text" name="buyer_leg_rep_fed_tax" formControlName="buyer_leg_rep_fed_tax">
               </div>
             </div>
           </div>
@@ -769,7 +769,7 @@
                     <div class="form-group-3">
                     <label>{{'addCollection.bankName' | translate}}</label>
                     <div class="clearfix"></div>
-                    <input required autocomplete="off" class="form-control" type="text" name="bank_name" formControlName="bank_name">
+                    <input required autocomplete="off" minlength="1" maxlength="30" class="form-control" type="text" name="bank_name" formControlName="bank_name">
                   </div>
                 </div> 
                 <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -839,7 +839,7 @@
           <div class="form-group-3">
             <label>{{'addCollection.purchaseDate' | translate}}</label>
             <div class="clearfix"></div>
-            <p-calendar [style]="{'width':'100%'}" formControlName="deal_purchase_date" class="sz-calendar" [locale]="locale" showIcon="true" 
+            <p-calendar [style]="{'width':'100%'}" utc="true" formControlName="deal_purchase_date" class="sz-calendar" [locale]="locale" showIcon="true" 
                 (onSelect)="onSelect($event)"
                 showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
           </div>
@@ -883,15 +883,14 @@
               <div class="form-group-3">
                 <!-- <label *ngIf="i==0">Payments</label> -->
                 <div class="clearfix"></div>
-                <input
-                 required autocomplete="off" class="form-control" type="text" name="name" formControlName="name">
+                <input required autocomplete="off" class="form-control" minlength="1" maxlength="30" type="text" name="name" formControlName="name">
               </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
               <div class="form-group-3">
                 <!-- <label *ngIf="i==0">&nbsp;</label> -->
                 <div class="clearfix"></div>
-                <p-calendar [style]="{'width':'100%'}" formControlName="date" class="sz-calendar" [locale]="locale" showIcon="true" 
+                <p-calendar [style]="{'width':'100%'}" utc="true" formControlName="date" class="sz-calendar" [locale]="locale" showIcon="true" 
                   (onSelect)="onSelect($event)" 
                   showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
               </div>
@@ -945,7 +944,7 @@
             <label>{{'addCollection.chooseMonthlyInstallmentDate' | translate}}</label>
             <div class="clearfix"></div>
             <!-- (onSelect)="addMonthlyDates($event)"  -->
-              <p-calendar [style]="{'width':'100%'}" formControlName="monthly_date" class="sz-calendar" [locale]="locale" showIcon="true" 
+              <p-calendar [style]="{'width':'100%'}" utc="true" formControlName="monthly_date" class="sz-calendar" [locale]="locale" showIcon="true" 
               (onSelect)="onSelect($event)" 
               showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
            </div>
@@ -1068,7 +1067,7 @@
                 <div class="form-group-3">
                 <label>{{'addCollection.bankName' | translate}}</label>
                 <div class="clearfix"></div>
-                <input required autocomplete="off" class="form-control" type="text" name="bank_name" formControlName="bank_name">
+                <input required autocomplete="off" class="form-control" minlength="1" maxlength="30" type="text" name="bank_name" formControlName="bank_name">
               </div>
             </div> 
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -1141,8 +1140,7 @@
                   <input type="checkbox" class="form-control" formControlName="add_collection_commission" name="add_collection_commission">
               </td>
               <td>
-                  <!-- [attr.readonly]="model.collection_commissions[i].payment != null ? 'true' : 'false'"  -->
-                <input 
+               <input 
                   type="number" class="form-control" formControlName="percent" step="0.01" name="percent{{i}}" (input)="getCollAmount($event.target.value, i, model.collection_commissions[i].payment_amount)">
               </td>
               <td>

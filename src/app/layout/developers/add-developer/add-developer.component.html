@@ -48,13 +48,13 @@
                 <div class="form-group-2">
                   <!-- name is commercial name -->
                   <label>{{'addForm.commercialName' | translate}} <span class="color-red">*</span></label>
-                  <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" [(ngModel)]="model.name" name="name">
+                  <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" [(ngModel)]="model.name" name="name">
                 </div>
             </div>
             <div class="col-12">
                 <div class="form-group-2">
                   <label>{{'addForm.contactNumber' | translate}} <span class="color-red">*</span></label>
-                  <input minlength="6" maxlength="16" autocomplete="off" type="text" [pattern]="constant.phonePattern" class="form-control" id="phone" required minlength="1" [(ngModel)]="model.phone" name="phone"
+                  <input minlength="8" maxlength="15" autocomplete="off" type="text" [pattern]="constant.phonePattern" class="form-control" id="phone" required minlength="1" [(ngModel)]="model.phone" name="phone"
                         ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
                 </div>
             </div>
@@ -68,13 +68,13 @@
               <!-- company name is legal name -->
                 <div class="form-group-2">
                   <label>{{'addForm.legalName' | translate}} <span class="color-red">*</span></label>
-                  <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" [(ngModel)]="model.developer_company" name="developer_company">
+                  <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" [(ngModel)]="model.developer_company" name="developer_company">
                 </div>
             </div>
             <div class="col-12">
                 <div class="form-group-2">
                   <label>Federal Tax Payer Registry <span class="color-red">*</span></label>
-                  <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" 
+                  <input autocomplete="off" minlength="12" maxlength="13" [pattern]="constant.onlyWhiteSpaces" required type="text" 
                   class="form-control" [(ngModel)]="model.fed_tax_pay" name="fed_tax_pay">
                 </div>
             </div>
@@ -88,7 +88,7 @@
                     <div class="form-group-3">
                     <label>{{'addCollection.bankName' | translate}}</label>
                     <div class="clearfix"></div>
-                    <input required autocomplete="off" class="form-control" type="text" [(ngModel)]="bankAccount.bank_name" name="bank_name{{i}}">
+                    <input required autocomplete="off" minlength="1" maxlength="30" class="form-control" type="text" [(ngModel)]="bankAccount.bank_name" name="bank_name{{i}}">
                   </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -186,15 +186,15 @@
             <div class="col-12">
                 <div class="form-group-2">
                   <label>Name <span class="color-red">*</span></label>
-                  <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" 
+                  <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" 
                     [(ngModel)]="model.legal_representative.name" name="rep_name">
                 </div>
             </div>
             <div class="col-12">
                 <div class="form-group-2">
                   <label>{{'addForm.contactNumber' | translate}} <span class="color-red">*</span></label>
-                  <input minlength="6" maxlength="16" autocomplete="off" type="text" [pattern]="constant.phonePattern" 
-                    class="form-control" id="phone" required minlength="1" [(ngModel)]="model.legal_representative.phone" name="legal_representative_phone"
+                  <input minlength="8" maxlength="15" autocomplete="off" type="text" [pattern]="constant.phonePattern" 
+                    class="form-control" id="phone" required [(ngModel)]="model.legal_representative.phone" name="legal_representative_phone"
                     ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
                 </div>
             </div>
@@ -208,7 +208,7 @@
           <div class="col-12">
               <div class="form-group-2">
                 <label>Federal Tax Payer Registry <span class="color-red">*</span></label>
-                <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" [(ngModel)]="model.legal_representative.fed_tax_pay" name="le_fed_tax_pay">
+                <input autocomplete="off" minlength="12" maxlength="13" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" [(ngModel)]="model.legal_representative.fed_tax_pay" name="le_fed_tax_pay">
               </div>
           </div>
 
@@ -221,7 +221,7 @@
                   <div class="form-group-3">
                   <label>{{'addCollection.bankName' | translate}}</label>
                   <div class="clearfix"></div>
-                  <input required autocomplete="off" class="form-control" type="text" [(ngModel)]="leBankAccount.bank_name" name="le_bank_name{{i}}">
+                  <input required autocomplete="off" minlength="1" maxlength="30" class="form-control" type="text" [(ngModel)]="leBankAccount.bank_name" name="le_bank_name{{i}}">
                 </div>
               </div>
               <div class="col-lg-3 col-md-6 col-sm-6 col-12">
