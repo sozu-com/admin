@@ -286,6 +286,11 @@
                        </th>
                        <th style="width:10%; text-align:left;">
                           <div class="table-search">
+                             <label>{{'table.th.penalty' | translate}}</label>
+                          </div>
+                       </th>
+                       <th style="width:10%; text-align:left;">
+                          <div class="table-search">
                              <label>{{'table.th.amountPaid' | translate}}</label>
                           </div>
                        </th>
@@ -332,7 +337,7 @@
                      <td><span>{{p.deal_purchase_date || ('table.tr.td.NA' | translate)}}</span></td>
 
                      <td><span>{{p?.last_payment?.name || ('table.tr.td.NA' | translate)}}</span></td>
-                     <td><span>{{p?.last_payment?.date || ('table.tr.td.NA' | translate)}}</span></td>
+                     <td><span>{{(p?.last_payment?.payment_date ? (p?.last_payment?.payment_date | date:'yyyy-MM-dd') : ('table.tr.td.NA' | translate) )}}</span></td>
                      <td><span> {{p?.currency?.symbol}} {{ (p?.last_payment?.amount || 0) | roundNumber}}</span></td>
                      <td><span>{{p?.next_payment?.name || ('table.tr.td.NA' | translate)}}</span></td>
                      <td><span>{{p?.next_payment?.date || ('table.tr.td.NA' | translate)}}</span></td>
@@ -348,8 +353,9 @@
                         <span>{{('table.tr.td.NA' | translate)}}</span>
                      </td>
                      <td><span>{{p?.currency?.symbol ? p?.currency?.symbol : '$'}} {{(p?.deal_price || 0) | roundNumber}}</span></td>
-                     <td><span>{{p?.currency?.symbol}} {{(p?.total_amount_paid || 0) | roundNumber}}</span></td>
-                     <td><span>{{p?.currency?.symbol}} {{(p?.remaining_amount || 0) | roundNumber}}</span></td>
+                     <td><span>{{p?.currency?.symbol}} {{(p?.penalty || 0) | roundNumber}}</span></td>
+                     <td><span>{{p?.currency?.symbol}} {{(p?.paid || 0) | roundNumber}}</span></td>
+                     <td><span>{{p?.currency?.symbol}} {{((p?.total || 0) - (p?.paid || 0)) | roundNumber}}</span></td>
                      <td>{{'table.tr.td.NA' | translate}}</td>
                      <td>
                      <div class="table-actions">
@@ -612,8 +618,8 @@
                 <div class="form-group-2">
                     <label>{{'viewCollections.choosePaymentReceipt' | translate}} <span class="color-red">*</span></label>
                     <div class="form-group">
-                        <input type="file" name="docFile" #docsFile
-                        accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf"
+                        <input type="file" name="docFile" #docsFile1
+                        accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,image/x-png,image/jpg,image/jpeg"
                         (change)="onSelectFile($event.target.files)">
                     </div>
                 </div>
@@ -624,7 +630,7 @@
                     <div class="form-group">
                       <div class="clearfix"></div>
                       <p-calendar class="form-control" autocomplete="off" [style]="{'width':'100%'}" name="date" class="sz-calendar" [locale]="locale" showIcon="true" 
-                        (onSelect)="onSelect($event)" 
+                        (onSelect)="onSelect($event)" [maxDate]="today"
                         showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
                     </div>
                 </div>
@@ -726,8 +732,9 @@
                 <div class="form-group-2">
                     <label>{{'viewCollections.chooseCommissionType' | translate}} <span class="color-red">*</span></label>
                     <div class="form-group">
-                        <select name="commission_type" required class="form-control" [(ngModel)]="commission_type">
-                              <!-- <option value="">Choose Commission Type</option> -->
+                        <select name="commission_type" #collectionTypeSelect required class="form-control" (change)="setCommissionType($event.target.value)"
+                          [(ngModel)]="commission_type">
+                              <option value="">{{'viewCollections.chooseCommissionType' | translate}}</option>
                               <option value="1">{{'viewCollections.purchaseCommission' | translate}}</option>
                               <option value="2">{{'viewCollections.collectionCommission' | translate}}</option>
                         </select>
@@ -741,7 +748,7 @@
                         <select name="payment_choice" #applyPaymentChoiceId1 required class="form-control" [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
                               <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
                               <option *ngFor="let bt of paymentConcepts" [ngValue]="bt" 
-                              [disabled]="bt?.purchase_payment"> {{bt?.payment_choice?.name}}</option>
+                              [disabled]="bt?.payment_made==0 || bt?.purchase_payment"> {{bt?.payment_choice?.name}}</option>
                         </select>
                   </div>
                 </div>
@@ -753,7 +760,7 @@
                         <select name="payment_choice" #applyPaymentChoiceId2 required class="form-control" [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
                               <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
                               <option *ngFor="let bt of paymentConcepts" [ngValue]="bt" 
-                               [disabled]="bt?.payment"> {{bt?.payment_choice?.name}}</option>
+                               [disabled]="bt?.payment_made==0 || bt?.payment"> {{bt?.payment_choice?.name}}</option>
                         </select>
                   </div>
                 </div>
@@ -782,8 +789,8 @@
                 <div class="form-group-2">
                     <label>{{'viewCollections.choosePaymentReceipt' | translate}} <span class="color-red">*</span></label>
                     <div class="form-group">
-                        <input type="file" name="docFile" #docsFile
-                        accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf"
+                        <input type="file" name="docFile" #docsFile2
+                        accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,image/x-png,image/jpg,image/jpeg"
                         (change)="onSelectFile($event.target.files)">
                     </div>
                 </div>
@@ -794,7 +801,7 @@
                     <div class="form-group">
                       <div class="clearfix"></div>
                       <p-calendar class="form-control" autocomplete="off" [style]="{'width':'100%'}" name="date" class="sz-calendar" [locale]="locale" showIcon="true" 
-                        (onSelect)="onSelect($event)" 
+                        (onSelect)="onSelect($event)" [maxDate]="today"
                         showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
                     </div>
                 </div>

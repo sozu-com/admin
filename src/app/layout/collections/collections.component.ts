@@ -24,7 +24,6 @@ export class CollectionsComponent implements OnInit {
 
   public parameter: IProperty = {};
   public location: IProperty = {};
-  @ViewChild('docsFile') docsFile: ElementRef;
   items: any = [];
   total: any = 0;
   configurations: any = [];
@@ -63,7 +62,9 @@ export class CollectionsComponent implements OnInit {
   pendingPayment: number;
   penaltyAmount: number;
   paymentDate: Date;
-  commission_type: number;
+  commission_type: any;
+  today: Date;
+  selectedItem: any;
 
   @ViewChild('applyPaymentChoiceId') applyPaymentChoiceId: ElementRef;
   @ViewChild('applyPaymentMethodId') applyPaymentMethodId: ElementRef;
@@ -89,6 +90,9 @@ export class CollectionsComponent implements OnInit {
   @ViewChild('collectionReceiptClose') collectionReceiptClose: ElementRef;
   @ViewChild('penaltyModalOpen') penaltyModalOpen: ElementRef;
   @ViewChild('penaltyModalClose') penaltyModalClose: ElementRef;
+  @ViewChild('collectionTypeSelect') collectionTypeSelect: ElementRef;
+  @ViewChild('docsFile1') docsFile1: ElementRef;
+  @ViewChild('docsFile2') docsFile2: ElementRef;
 
   constructor(
     public constant: Constant,
@@ -103,23 +107,10 @@ export class CollectionsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.commission_type = 1;
+    this.today = new Date();
+    this.commission_type = '';
     this.parameter.flag = 1;
     this.model = new Notes();
-    this.locale = {
-      firstDayOfWeek: 0,
-      dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
-      dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
-      dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
-      monthNames: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-        'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
-      monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun',
-        'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
-      today: 'Hoy',
-      clear: 'Clara',
-      dateFormat: 'mm/dd/yy',
-      weekHeader: 'Wk'
-    };
     this.route.params.subscribe(params => {
       this.parameter.project_id = params.project_id;
       if (params.type === 'agent') {
@@ -134,7 +125,40 @@ export class CollectionsComponent implements OnInit {
     this.getPaymentMethods();
     this.getCountries();
     // this.getPropertyConfigurations();
+    this.initCalendarLocale();
     this.getListing();
+  }
+  initCalendarLocale() {
+    if (this.translate.defaultLang == 'en') {
+      this.locale = {
+        firstDayOfWeek: 0,
+        dayNames: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+        dayNamesShort: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        dayNamesMin: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+        monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
+          'November', 'December'],
+        monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        today: 'Today',
+        clear: 'Clear',
+        dateFormat: 'mm/dd/yy',
+        weekHeader: 'Wk'
+      }
+    } else {
+      this.locale = {
+        firstDayOfWeek: 0,
+        dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
+        dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+        dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+        monthNames: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+          'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
+        monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun',
+          'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+        today: 'Hoy',
+        clear: 'Clara',
+        dateFormat: 'mm/dd/yy',
+        weekHeader: 'Sm'
+      };
+    }
   }
 
   getListing() {
@@ -674,7 +698,7 @@ export class CollectionsComponent implements OnInit {
       for (let index = 0; index < this.paymentConcepts.length; index++) {        
         const r = this.paymentConcepts[index];
         currentAmt = r['amount']; currentAmtPaid = r['collection_payment'] ? r['collection_payment']['amount'] : 0;
-        console.log(r['name'])
+        // console.log(r['name'])
         if (r['id'] != item['id']) {
           penaltyamt = r['penalty'] ? r['penalty']['amount'] : 0;
           amt = amt + r['amount'] + penaltyamt;
@@ -687,7 +711,7 @@ export class CollectionsComponent implements OnInit {
       this.pendingPayment = amt - amtPaid;
       this.currentAmount = currentAmt;
       this.paymentAmount = (currentAmt + this.pendingPayment + this.penaltyAmount);
-      console.log(this.penaltyAmount, this.pendingPayment, this.currentAmount, this.paymentAmount)
+      // console.log(this.penaltyAmount, this.pendingPayment, this.currentAmount, this.paymentAmount)
     }
   }
 
@@ -696,9 +720,9 @@ export class CollectionsComponent implements OnInit {
   }
 
   onSelect(e) {
-console.log(e);
+// console.log(e);
     this.paymentDate = moment.utc(e).toDate();
-    console.log(this.paymentDate)
+    // console.log(this.paymentDate)
   }
 
   applyCollectionPayment(formdata: NgForm) {
@@ -735,12 +759,22 @@ console.log(e);
             paymentChoiceIndex = index;
           }
         }
+        this.items[this.collectionIndex].last_payment = {
+          name: this.items[this.collectionIndex].payment_choices[paymentChoiceIndex].name, 
+          payment_date: r.data.payment_date,
+          amount: r.data.amount
+        }
+        this.items[this.collectionIndex].next_payment = {
+          name: this.items[this.collectionIndex].payment_choices[paymentChoiceIndex+1].name, 
+          date: this.items[this.collectionIndex].payment_choices[paymentChoiceIndex+1].date,
+          amount: this.items[this.collectionIndex].payment_choices[paymentChoiceIndex+1].amount
+        }
         this.items[this.collectionIndex].payment_choices[paymentChoiceIndex]['collection_payment'] = r.data;
       } else {
         let collectionCommIndex = 0;
-        console.log(this.collectionIndex);
-        console.log(this.items[this.collectionIndex]);
-        console.log(this.items[this.collectionIndex].collection_commissions);
+        // console.log(this.collectionIndex);
+        // console.log(this.items[this.collectionIndex]);
+        // console.log(this.items[this.collectionIndex].collection_commissions);
         for (let index = 0; index < this.items[this.collectionIndex].collection_commissions.length; index++) {
           // console.log(this.items[this.collectionIndex]);
           const element = this.items[this.collectionIndex].collection_commissions[index];
@@ -751,14 +785,19 @@ console.log(e);
         this.items[this.collectionIndex].collection_commissions[collectionCommIndex]['payment'] = r.data;
       }
 
-      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.savedSuccessfully'), 'success');
       this.paymentAmount = 0; this.docFile = ''; this.description = '';
       this.penaltyAmount = 0; this.pendingPayment = 0; this.currentAmount = 0;
-      this.docsFile.nativeElement.value = '';
+      if (this.typeOfPayment == 'apply-popup') {
+        this.docsFile1.nativeElement.value = '';
+      } else {
+        this.docsFile2.nativeElement.value = '';
+      }
       this.applyPaymentChoiceId.nativeElement.value = '';
       this.applyPaymentMethodId.nativeElement.value = '';
       this.paymentModalClose.nativeElement.click();
       this.closeCollReceiptModal();
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.savedSuccessfully'), 'success');
+     
     });
   }
   
@@ -774,11 +813,58 @@ console.log(e);
     );
   }
 
+  setCommissionType(type: any) {
+    this.paymentConcepts = [];
+    for (let index = 0; index < this.selectedItem.collection_commissions.length; index++) {
+      const element = this.selectedItem.collection_commissions[index];
+      element['payment_made'] = 0;
+      if (this.selectedItem.payment_choices[index] && this.selectedItem.payment_choices[index].collection_payment) {
+        element['payment_made'] = 1;
+      }
+      if (type == 1) {
+        if (element.add_purchase_commission == 1) {
+          this.paymentConcepts.push(element);
+        }
+      } else {
+        if (element.add_collection_commission == 1) {
+          this.paymentConcepts.push(element);
+        }
+      }
+    }
+
+    // if (type == 1) {
+    //   for (let index = 0; index < this.selectedItem.collection_commissions.length; index++) {
+    //     const element = this.selectedItem.collection_commissions[index];
+    //     if (this.selectedItem.payment_choices[index] && this.selectedItem.payment_choices[index].collection_payment) {
+    //       element['payment_made'] = 1;
+    //     }
+    //     if () {
+    //       if (element.add_purchase_commission == 1) {
+    //         this.paymentConcepts.push(element);
+    //       } else {
+            
+    //       }
+    //     }
+    //   }
+    // } else {
+    //   for (let index = 0; index < this.selectedItem.collection_commissions.length; index++) {
+    //     const element = this.selectedItem.collection_commissions[index];
+    //     if (this.selectedItem.payment_choices[index] && this.selectedItem.payment_choices[index].collection_payment) {
+    //       element['payment_made'] = 1;
+    //     }
+    //     if (element.add_collection_commission == 1) {
+    //       this.paymentConcepts.push(element);
+    //     }
+    //   }
+    // }
+  }
+
   showCollectionCommReceipt(item: any, i: number, type: string) {
     // if (!paymentConcepts[i].collection_payment.collection_commission) {
     //   swal('Error', 'Please fill the details before uploading receipt.', 'error');
     //   return false;
     // }
+    this.selectedItem = item;
     this.collectionIndex = i;
     this.paymentConcepts = item.collection_commissions;
     this.viewCollectionClose.nativeElement.click();
@@ -838,13 +924,17 @@ console.log(e);
   closeCollReceiptModal() {
     this.paymentAmount = 0; this.docFile = ''; this.description = '';
     this.penaltyAmount = 0; this.pendingPayment = 0; this.currentAmount = 0;
-    this.docsFile.nativeElement.value = '';
+    // this.docsFile.nativeElement.value = '';
     if (this.commission_type == 1) {
+      this.collectionTypeSelect.nativeElement.value = '';
+      this.applyPaymentMethodId1.nativeElement.value = '';
       this.applyPaymentChoiceId1.nativeElement.value = '';
-    } else {
+    } else if (this.commission_type == 2)  {
+      this.collectionTypeSelect.nativeElement.value = '';
+      this.applyPaymentMethodId1.nativeElement.value = '';
       this.applyPaymentChoiceId2.nativeElement.value = ''
     }
-    this.applyPaymentMethodId1.nativeElement.value = '';
+    this.commission_type = ''
     this.collectionReceiptClose.nativeElement.click();
   }
 

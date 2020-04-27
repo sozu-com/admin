@@ -608,6 +608,7 @@
       "amountPaid": "Cantidad pagada",
       "remaniningAmount": "Cantidad restante",
       "statusAmount": "Monto de estado",
+      "penalty":"Multa",
       "statusAccount": "Cuenta de estado",
       "actions": {
         "label": "Acciones",
@@ -1707,14 +1708,18 @@
     "paymentDate":"Fecha de pago",
     "paid":"Pagada",
     "outstandingPayment":"Pago pendiente",
-    "paymentAttachment":"Adjunto de pago",
+    "paymentAttachment":"Recibo de pago SOZU",
     "penaltyFLP": "Penalización FLP",
     "purchasedCommission":"Comisión comprada",
     "dateOfPC":"Fecha de PC",
-    "PCAttachment":"Accesorio de PC",
+    "PCAttachment":"Recibo de PC SOZU",
     "collectionCommission": "Comisión de cobro",
     "dateOfCC":"Fecha de CC",
-    "CCAttachment":"Accesorio de CC",
-    "view":"Ver"
+    "CCAttachment":"Recibo de SOZU CC",
+    "view":"Ver",
+    "paymentDescription":"descripción de pago",
+    "penaltyDescription":"Descripción de la penalización",
+    "CCDescription":"Descripción CC",
+    "PCDescription":"Descripción PC"
   }
 }

@@ -54,7 +54,7 @@ export class GeneralComponent implements OnInit {
   ngOnInit() {
     this.input = new CollectionReport();
     this.input.start_date = moment().subtract(6, 'months').toDate();
-    this.input.end_date = moment().add(1, 'months').toDate();
+    this.input.end_date = moment().toDate();
     this.today = new Date();
     this.iniDropDownSetting()
     this.getDevelopers();
@@ -181,10 +181,10 @@ export class GeneralComponent implements OnInit {
     this.spinner.show();
     const input: any = JSON.parse(JSON.stringify(this.input));
     input.start_date = moment(this.input.start_date).format('YYYY-MM');
-    input.end_date = moment(this.input.end_date).format('YYYY-MM');
+    input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
 
     input.start_date = input.start_date + '-01';
-    input.end_date = input.end_date + '-01';
+    // input.end_date = input.end_date + '-01';
 
     if (this.selctedProjects) {
       const d = this.selctedProjects.map(o => o.id);

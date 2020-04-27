@@ -198,7 +198,13 @@
                 <b>{{'quickVisualization.paymentAttachment' | translate}}</b>
               </th>
               <th>
+                <b>{{'quickVisualization.paymentDescription' | translate}}</b>
+              </th>
+              <th>
                 <b>{{'quickVisualization.penaltyFLP' | translate}}</b>
+              </th>
+              <th>
+                <b>{{'quickVisualization.penaltyDescription' | translate}}</b>
               </th>
               <th>
                 <b>{{'quickVisualization.purchasedCommission' | translate}}</b>
@@ -210,6 +216,9 @@
                 <b>{{'quickVisualization.PCAttachment' | translate}}</b>
               </th>
               <th>
+                <b>{{'quickVisualization.PCDescription' | translate}}</b>
+              </th>
+              <th>
                 <b>{{'quickVisualization.collectionCommission' | translate}}</b>
               </th>
               <th>
@@ -217,6 +226,9 @@
               </th>
               <th>
                 <b>{{'quickVisualization.CCAttachment' | translate}}</b>
+              </th>
+              <th>
+                <b>{{'quickVisualization.CCDescription' | translate}}</b>
               </th>
             </tr>
           </thead>
@@ -243,8 +255,14 @@
                 </a>
               </td>
               <td>
+                {{p?.collection_payment?.description || ''}}
+              </td>
+              <td>
                 {{p?.penalty ? model?.currency?.symbol : ''}} 
                 {{p?.penalty ? ((p?.penalty?.amount || 0) || roundNumber) : ''}}
+              </td>
+              <td>
+                {{p?.penalty?.description || ''}}
               </td>
               <td>
                 {{collectionCommission[i]?.purchase_payment ? model?.currency?.symbol : ''}} 
@@ -257,6 +275,9 @@
                 </a>
               </td>
               <td>
+                {{collectionCommission[i]?.purchase_payment?.description || ''}}
+              </td>
+              <td>
                 {{collectionCommission[i]?.payment ? model?.currency?.symbol : ''}} 
                 {{collectionCommission[i]?.payment ? (collectionCommission[i]['payment']?.amount | roundNumber) : ''}}</td>
               <td>
@@ -265,6 +286,9 @@
                 <a class="green-color fontW500" *ngIf="collectionCommission[i]?.payment" target="_blank" href="{{collectionCommission[i]?.payment?.receipt}}">
                   {{'quickVisualization.view' | translate}}
                 </a>
+              </td>
+              <td>
+                {{collectionCommission[i]?.payment?.description || ''}}
               </td>
               
               </tr>

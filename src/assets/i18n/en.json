@@ -605,6 +605,7 @@
       "amountPaid": "Amount Paid",
       "remaniningAmount": "Remanining Amount",
       "statusAmount": "Status Amount",
+      "penalty":"Penalty",
       "statusAccount": "Status Account",
       "actions": {
         "label": "Actions",
@@ -1704,14 +1705,18 @@
     "paymentDate":"Payment Date",
     "paid":"Paid",
     "outstandingPayment":"Outstanding Payment",
-    "paymentAttachment":"Payment Attachment",
+    "paymentAttachment":"SOZU Payment Receipt",
     "penaltyFLP": "Penalty FLP",
     "purchasedCommission":"Purchased Commission",
     "dateOfPC":"Date Of PC",
-    "PCAttachment":"PC Attachment",
+    "PCAttachment":"SOZU PC Receipt",
     "collectionCommission": "Collection Commission",
     "dateOfCC":"Date Of CC",
-    "CCAttachment":"CC Attachment",
-    "view":"View"
+    "CCAttachment":"SOZU CC Receipt",
+    "view":"View",
+    "paymentDescription":"Payment Description",
+    "penaltyDescription":"Penalty Description",
+    "CCDescription":"CC Description",
+    "PCDescription":"PC Description"
   }
 }
