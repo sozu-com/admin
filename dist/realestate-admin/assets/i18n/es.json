@@ -975,7 +975,9 @@
       "wantToAssignNotary": "¿Quieres asignar este notario?",
       "wantToBlockCollection": "¿Quieres bloquear esta colección?",
       "wantToUnblockCollection": "¿Quieres desbloquear esta colección?",
-      "wantToDeleteCollection": "¿Quieres eliminar esta colección?"
+      "wantToDeleteCollection": "¿Quieres eliminar esta colección?",
+      "wantToDeleteDocs": "¿Quieres eliminar este documento?",
+      "wantToDeleteFolder": "¿Quieres eliminar esta carpeta?"
     }
   },
   "inhouseUsers": {

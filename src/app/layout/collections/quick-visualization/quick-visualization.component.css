@@ -9,3 +9,7 @@ table, th, td {
   h5{
     margin-top: 15px;
   }
+
+  textarea {
+    background: #fff !important;
+  }

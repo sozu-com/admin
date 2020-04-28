@@ -972,7 +972,9 @@
       "wantToAssignNotary": "You want to assign this notary?",
       "wantToBlockCollection": "You want to block this Collection?",
       "wantToUnblockCollection": "You want to unblock this Collection?",
-      "wantToDeleteCollection": "You want to delete this Collection?"
+      "wantToDeleteCollection": "You want to delete this Collection?",
+      "wantToDeleteDocs": "You want to delete this document?",
+      "wantToDeleteFolder": "You want to delete this folder?"
     }
   },
   "inhouseUsers": {

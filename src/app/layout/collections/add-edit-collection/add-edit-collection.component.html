@@ -1192,9 +1192,9 @@
         <div class="row" >
           <ng-container *ngFor="let folder of collectionFolders; let i=index">
             <div class="col-lg-2 col-md-2 col-sm-6 col-12 folder-box">
-              <button type="button"  (click)="modelOpenFun(folder, i)">{{'addCollection.view' | translate}}</button>
-              <button type="button"  (click)="openAddFolder('edit', folder, i)">{{'addCollection.edit' | translate}}</button>
-              <button type="button"  (click)="deleteFolder(folder, i)">{{'addCollection.delete' | translate}}</button>
+              <button class="cursor-pointer" type="button"  (click)="modelOpenFun(folder, i)">{{'addCollection.view' | translate}}</button>
+              <button class="cursor-pointer" type="button"  (click)="openAddFolder('edit', folder, i)">{{'addCollection.edit' | translate}}</button>
+              <button class="cursor-pointer" type="button"  (click)="deleteFolderPopup(folder, i)">{{'addCollection.delete' | translate}}</button>
               <div class="form-group-3" (click)="modelOpenFun(folder, i)">
                 <p>{{folder.name}}</p>
               </div>
@@ -1419,7 +1419,7 @@
                                       <div class="circle">
                                             <span></span>
                                       </div>
-                                      <a class="delete" href="javascript://" (click)="deleteDocs(item, i)">{{'commonBlock.delete' | translate}}</a>
+                                      <a class="delete" href="javascript://" (click)="deleteDocsPopup(item, i)">{{'commonBlock.delete' | translate}}</a>
   
                                       <ng-template #noDeletePermissiom>
                                             <a class="delete" href="javascript://">{{'commonBlock.delete' | translate}}</a>

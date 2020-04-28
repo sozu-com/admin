@@ -504,7 +504,7 @@
                     <div class="form-group">
                         <select name="payment_choice" required class="form-control" [(ngModel)]="payment_choice_id">
                               <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
-                              <option *ngFor="let bt of paymentConcepts" [ngValue]="bt" 
+                              <option *ngFor="let bt of paymentConcepts" [value]="bt.id" 
                                [disabled]="bt?.penalty || bt?.collection_payment"> {{bt?.name}}</option>
                         </select>
                   </div>

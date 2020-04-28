@@ -764,10 +764,12 @@ export class CollectionsComponent implements OnInit {
           payment_date: r.data.payment_date,
           amount: r.data.amount
         }
-        this.items[this.collectionIndex].next_payment = {
-          name: this.items[this.collectionIndex].payment_choices[paymentChoiceIndex+1].name, 
-          date: this.items[this.collectionIndex].payment_choices[paymentChoiceIndex+1].date,
-          amount: this.items[this.collectionIndex].payment_choices[paymentChoiceIndex+1].amount
+        if (this.items[this.collectionIndex].payment_choices[paymentChoiceIndex+1]) {
+          this.items[this.collectionIndex].next_payment = {
+            name: this.items[this.collectionIndex].payment_choices[paymentChoiceIndex+1].name, 
+            date: this.items[this.collectionIndex].payment_choices[paymentChoiceIndex+1].date,
+            amount: this.items[this.collectionIndex].payment_choices[paymentChoiceIndex+1].amount
+          }
         }
         this.items[this.collectionIndex].payment_choices[paymentChoiceIndex]['collection_payment'] = r.data;
       } else {
@@ -946,6 +948,7 @@ export class CollectionsComponent implements OnInit {
     this.typeOfPayment = type;
     this.collectionIndex = i;
     this.paymentConcepts = item.payment_choices;
+    console.log(this.paymentConcepts)
     this.penaltyModalOpen.nativeElement.click();
   }
   
@@ -954,19 +957,18 @@ export class CollectionsComponent implements OnInit {
   }
 
   applyCollectionPenalty(formdata) {
-    if (!formdata.payment_choice.id && !formdata.paymentAmount)
+    if (!this.payment_choice_id)
     return false;
     const input = {
-      collection_payment_choice_id: formdata.payment_choice.id,
+      collection_payment_choice_id: this.payment_choice_id,
       amount : formdata.paymentAmount,
       description: formdata.description ? formdata.description : ''
     }
     this.admin.postDataApi('applyCollectionPenalty', input).subscribe(r => {
-      // formdata.reset();
       let paymentChoiceIndex = 0;
       for (let index = 0; index < this.items[this.collectionIndex].payment_choices.length; index++) {
         const element = this.items[this.collectionIndex].payment_choices[index];
-        if (element.id == formdata.payment_choice.id) {
+        if (element.id == this.payment_choice_id) {
           paymentChoiceIndex = index;
         }
       }
@@ -981,30 +983,6 @@ export class CollectionsComponent implements OnInit {
   quickCollectionView(item: any, i: number) {
     // redirecting
     this.router.navigate(['/dashboard/collections/quick-visualization', item.id])
-
-    // showing here
-    // this.collectionIndex = i;
-    // this.paymentConcepts = item.payment_choices;
-    // item.payment_choices.forEach(element => {
-    //   if (element.collection_payment && element.collection_payment.collection_commission
-    //     && element.collection_payment.collection_commission == null) {
-    //     if (element.collection_payment && element.collection_payment.collection_commission) {
-    //       element.collection_payment['collection_commission'] = {
-    //         add_collection_commission: 0,
-    //         percent: 0,
-    //         amount: 0
-    //       }
-    //     } else {
-    //       element['collection_payment'] = {
-    //         collection_commission: {
-    //           add_collection_commission: 0,
-    //           percent: 0, amount: 0
-    //         }
-    //       }
-    //     }
-    //   }
-    // });
-    // this.viewCollectionOpen.nativeElement.click();
   }
 
 }

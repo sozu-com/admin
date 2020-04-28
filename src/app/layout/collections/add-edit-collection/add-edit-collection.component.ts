@@ -521,17 +521,22 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep4.controls.deal_interest_rate.patchValue(data.deal_interest_rate);
     this.addFormStep4.controls.deal_penality.patchValue(data.deal_penality);
     const control1 = this.addFormStep4.get('payment_choices') as FormArray;
-    console.log(control1)
+    console.log(data.payment_choices)
     
-    // const pcArray = this.addFormStep4.get('payment_choices').value;
-    // console.log(pcArray)
-    
+    // const newA = [];
+    // const pcArray = data.payment_choices; // this.addFormStep4.get('payment_choices').value;
     // for (let index = 0; index < pcArray.length; index++) {
-    //   const x = pcArray[index];
-    //   x.date = x.date ? moment(x.date).toDate() : null;
+    //   const o = {};
+    //   o['date'] = pcArray[index].date ? moment.utc(pcArray[index].date).local().toDate() : null;
+    //   o['name'] = pcArray[index].name;
+    //   o['percent'] = pcArray[index].percent;
+    //   o['amount'] = pcArray[index].amount;
+    //   o['id'] = pcArray[index].id ? pcArray[index].id : '';
+    //   newA.push(o);
+    //   // pcArray[index].date = pcArray[index].date ? moment.utc(pcArray[index].date).local().toDate() : null;
     // }
-    // this.addFormStep4.controls['payment_choices'].patchValue(pcArray);
-
+    // console.log(newA)
+    // control1.patchValue(newA);
     if (data.payment_choices) {
       data.payment_choices.forEach(x => {
         x.date = x.date ? moment.utc(x.date).local().toDate() : null;
@@ -565,36 +570,38 @@ export class AddEditCollectionComponent implements OnInit {
   setCommission(data) {
     
     this.model.collection_commissions = [];
-    // const payment_choices = this.addFormStep4.get('payment_choices').value || data.payment_choices;
-    const payment_choices = data.payment_choices;
-    // console.log(payment_choices)
+    const payment_choices = this.addFormStep4.get('payment_choices').value;
+    // const payment_choices = data.payment_choices;
+    console.log(payment_choices)
     const control1 = this.addFormStep5.get('collection_commissions') as FormArray;
-    // console.log(control1)
+    console.log(control1)
     // const control1 = [...c]
     if (payment_choices) {
       // console.log(payment_choices)
       for (let index = 0; index < payment_choices.length; index++) {
-        const element = payment_choices[index];
-        const element1 = data.collection_commissions[index];
-        const obj = {};
-        obj['id'] = data.collection_commissions.length > 0 && data.collection_commissions[index] ? data.collection_commissions[index].id : '';
-        obj['name'] = element['name'];
-        obj['date'] = element['date'];
-        obj['payment_amount'] = element['amount'];
-        obj['payment_choice_id'] = element['id'];
-        obj['add_collection_commission'] = data.collection_commissions.length>0 && data.collection_commissions[index] ? data.collection_commissions[index].add_collection_commission : 0;
-        obj['percent'] = data.collection_commissions.length>0 && data.collection_commissions[index] ? data.collection_commissions[index].percent : 0;
-        obj['amount'] = data.collection_commissions.length>0 && data.collection_commissions[index] ? data.collection_commissions[index].amount : 0;
+        // if (this.element['name']) {
+          const element = payment_choices[index];
+          const element1 = data.collection_commissions[index];
+          const obj = {};
+          obj['id'] = data.collection_commissions.length > 0 && data.collection_commissions[index] ? data.collection_commissions[index].id : '';
+          obj['name'] = element['name'];
+          obj['date'] = element['date'];
+          obj['payment_amount'] = element['amount'];
+          obj['payment_choice_id'] = element['id'];
+          obj['add_collection_commission'] = data.collection_commissions.length>0 && data.collection_commissions[index] ? data.collection_commissions[index].add_collection_commission : 0;
+          obj['percent'] = data.collection_commissions.length>0 && data.collection_commissions[index] ? data.collection_commissions[index].percent : 0;
+          obj['amount'] = data.collection_commissions.length>0 && data.collection_commissions[index] ? data.collection_commissions[index].amount : 0;
+          
+          obj['add_purchase_commission'] = data.collection_commissions.length>0 && data.collection_commissions[index] ? data.collection_commissions[index].add_purchase_commission : 0;
+          obj['purchase_comm_amount'] = data.collection_commissions.length>0 && data.collection_commissions[index] ? data.collection_commissions[index].purchase_comm_amount : 0;
         
-        obj['add_purchase_commission'] = data.collection_commissions.length>0 && data.collection_commissions[index] ? data.collection_commissions[index].add_purchase_commission : 0;
-        obj['purchase_comm_amount'] = data.collection_commissions.length>0 && data.collection_commissions[index] ? data.collection_commissions[index].purchase_comm_amount : 0;
-       
-        if (control1.length != payment_choices.length) {
-          control1.push(this.fb.group(obj));
-        }
-        this.model.collection_commissions.push(obj);
+          if (control1.length != payment_choices.length) {
+            control1.push(this.fb.group(obj));
+          }
+          this.model.collection_commissions.push(obj);
+        // }
       }
-      // console.log(control1)
+      console.log(control1)
       // console.log(this.model.collection_commissions);
     }
   }
@@ -987,15 +994,10 @@ export class AddEditCollectionComponent implements OnInit {
         percent: ['', [Validators.required]],
         amount: ['', [Validators.required]]
       });
-      this.getPaymentChoices.push(fb);
+      const c = this.getPaymentChoices.push(fb);
+      console.log(c);
     }else {
       this.showMonthlyInput = true;
-      // return this.fb.group({
-      //   name: ['', [Validators.required]],
-      //   date: ['', [Validators.required]],
-      //   percent: ['', [Validators.required]],
-      //   amount: ['', [Validators.required]]
-      // });
     }
     this.selectedPaymentChoice.nativeElement.value = '';
   }
@@ -1192,6 +1194,24 @@ export class AddEditCollectionComponent implements OnInit {
     this.docsFile.nativeElement.value = '';
   }
 
+  
+  deleteDocsPopup(item: any, index: number) {
+
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+        this.translate.instant('message.error.wantToDeleteDocs'),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteDocs(item, index);
+      }
+    });
+  }
+
   deleteDocs(item: any, i: number) {
     this.collectionFolders[this.folderIndex].folder_docs.splice(i, 1);
     if (item.id) {
@@ -1201,6 +1221,23 @@ export class AddEditCollectionComponent implements OnInit {
         this.spinner.hide();
       });
     }
+  }
+
+  deleteFolderPopup(item: any, index: number) {
+
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+        this.translate.instant('message.error.wantToDeleteFolder'),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteFolder(item, index);
+      }
+    });
   }
 
   deleteFolder(item, index: number) {
@@ -1815,9 +1852,40 @@ export class AddEditCollectionComponent implements OnInit {
           this.tab = tab + 1;
           this.spinner.hide();
           this.model.id = success['data'].id;
+          // if (tab == 3) {
+          //   // this.patchFormStep4(success['data']);
+          //   this.selectedPaymentChoice.nativeElement.value = '';
+          //   const control1 = this.addFormStep4.get('payment_choices') as FormArray;
+          //   console.log(success['data'].payment_choices)
+            
+          //   if (success['data'].payment_choices) {
+          //     success['data'].payment_choices.forEach(x => {
+          //       x.date = x.date ? moment.utc(x.date).local().toDate() : null;
+          //       control1.push(this.fb.group(x));
+          //     });
+          //   }
+          //   console.log(control1)
+          // }
           if (tab == 4) {
             // for payment choices
-            this.setCommission(success['data']);
+            // this.selectedPaymentChoice.nativeElement.value = '';
+            // const control1 = this.addFormStep4.get('payment_choices') as FormArray;
+            // console.log(success['data'].payment_choices)
+            
+            // if (success['data'].payment_choices) {
+            //   success['data'].payment_choices.forEach(x => {
+            //     x.date = x.date ? moment.utc(x.date).local().toDate() : null;
+            //     control1.push(this.fb.group(x));
+            //   });
+            // }
+            // console.log(control1)
+
+            this.initFormStep4();
+            this.patchFormStep4(success['data'])
+
+            this.initFormStep5()
+            this.selectedPaymentChoice.nativeElement.value = '';
+            this.patchFormStep5(success['data']);
           }
           if (tab == 6) {
             this.router.navigate(['/dashboard/collections/view-collections'])

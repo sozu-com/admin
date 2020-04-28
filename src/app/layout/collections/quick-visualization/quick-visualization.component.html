@@ -255,14 +255,20 @@
                 </a>
               </td>
               <td>
-                {{p?.collection_payment?.description || ''}}
+                <button class="action-icon" *ngIf="p?.collection_payment?.description" (click)="showDescription(p?.collection_payment?.description, 1)">
+                    <img src="assets/img/eye-icon.png" alt="img">
+                </button>
+                <!-- {{p?.collection_payment?.description || ''}} -->
               </td>
               <td>
                 {{p?.penalty ? model?.currency?.symbol : ''}} 
                 {{p?.penalty ? ((p?.penalty?.amount || 0) || roundNumber) : ''}}
               </td>
               <td>
-                {{p?.penalty?.description || ''}}
+                  <button class="action-icon" *ngIf="p?.penalty?.description" (click)="showDescription(p?.penalty?.description, 2)">
+                      <img src="assets/img/eye-icon.png" alt="img">
+                  </button>
+                <!-- {{p?.penalty?.description || ''}} -->
               </td>
               <td>
                 {{collectionCommission[i]?.purchase_payment ? model?.currency?.symbol : ''}} 
@@ -275,7 +281,10 @@
                 </a>
               </td>
               <td>
-                {{collectionCommission[i]?.purchase_payment?.description || ''}}
+                  <button class="action-icon" *ngIf="collectionCommission[i]?.purchase_payment?.description" (click)="showDescription(collectionCommission[i]?.purchase_payment?.description, 3)">
+                      <img src="assets/img/eye-icon.png" alt="img">
+                  </button>
+                <!-- {{collectionCommission[i]?.purchase_payment?.description || ''}} -->
               </td>
               <td>
                 {{collectionCommission[i]?.payment ? model?.currency?.symbol : ''}} 
@@ -288,7 +297,10 @@
                 </a>
               </td>
               <td>
-                {{collectionCommission[i]?.payment?.description || ''}}
+                  <button class="action-icon" *ngIf="collectionCommission[i]?.payment?.description" (click)="showDescription(collectionCommission[i]?.payment?.description, 4)">
+                      <img src="assets/img/eye-icon.png" alt="img">
+                  </button>
+                <!-- {{collectionCommission[i]?.payment?.description || ''}} -->
               </td>
               
               </tr>
@@ -297,4 +309,30 @@
       </div>
     </div>
   </div>
+</div>
+
+
+
+<a href="javascript://" data-toggle="modal" data-target="#des-modal" #viewDesModal></a>
+<div class="modal animated" id="des-modal">
+      <div class="modal-dialog fadeIndown">
+            <div class="modal-content notary-avail">
+                  <div class="modal-header popup-header">
+                        <h4 *ngIf="title==1">{{'quickVisualization.paymentDescription' | translate}}</h4>
+                        <h4 *ngIf="title==2">{{'quickVisualization.penaltyDescription' | translate}}</h4>
+                        <h4 *ngIf="title==3">{{'quickVisualization.PCDescription' | translate}}</h4>
+                        <h4 *ngIf="title==4">{{'quickVisualization.CCDescription' | translate}}</h4>
+                        <button style="display: none;" type="button" class="close" data-dismiss="modal" #viewDesModalClose>&times;</button>
+                        <button type="button" class="close" (click)="closeDescModal()">&times;</button>
+                  </div>
+
+                  <div class="modal-body">
+                        <div class="form-group-2">
+                              <div class="form-group">
+                                    <textarea rows="4" readonly required class="form-control note" name="description" [(ngModel)]="description"></textarea>
+                              </div>
+                        </div>
+                  </div>
+            </div>
+      </div>
 </div>

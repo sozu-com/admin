@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { IProperty } from 'src/app/common/property';
 import { ActivatedRoute } from '@angular/router';
 import { Collection } from 'src/app/models/collection.model';
@@ -17,6 +17,10 @@ import { NumberWithCommasPipe } from 'src/app/pipes/number-with-commas.pipe'
 })
 export class QuickVisualizationComponent implements OnInit {
 
+  @ViewChild('viewDesModal') viewDesModal: ElementRef;
+  @ViewChild('viewDesModalClose') viewDesModalClose: ElementRef;
+  description: string;
+  title: any;
   paymentConcepts: Array<any>;
   collectionCommission: Array<any>;
   public parameter: IProperty = {};
@@ -136,6 +140,18 @@ export class QuickVisualizationComponent implements OnInit {
       today.getSeconds();
     fileName = fileName + date;
     FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
+  }
+
+  showDescription(description: string, title: any) {
+    if (description) {
+      this.title = title;
+      this.description = description;
+      this.viewDesModal.nativeElement.click();
+    }
+  }
+
+  closeDescModal() {
+    this.viewDesModalClose.nativeElement.click();
   }
 
 }
