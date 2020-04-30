@@ -675,6 +675,7 @@ export class CollectionsComponent implements OnInit {
   }
 
   setPaymentAmount(item: any) {
+    console.log(item);
     // this.paymentAmount = item.amount ? item.amount : 0;
     if (this.typeOfPayment == 'commission-popup') {
       if (this.commission_type == 1 && item.add_purchase_commission == 0) {
@@ -698,7 +699,6 @@ export class CollectionsComponent implements OnInit {
       for (let index = 0; index < this.paymentConcepts.length; index++) {        
         const r = this.paymentConcepts[index];
         currentAmt = r['amount']; currentAmtPaid = r['collection_payment'] ? r['collection_payment']['amount'] : 0;
-        // console.log(r['name'])
         if (r['id'] != item['id']) {
           penaltyamt = r['penalty'] ? r['penalty']['amount'] : 0;
           amt = amt + r['amount'] + penaltyamt;
@@ -746,6 +746,10 @@ export class CollectionsComponent implements OnInit {
       input['collection_commission_id'] = this.selectedCollectionCommission.id;
       input['percent'] = this.selectedCollectionCommission.percent;
     } else {
+      // for edit the wrong amount uploaded
+      if (this.selectedPaymentConcept['collection_payment']) {
+        input['id'] = this.selectedPaymentConcept['collection_payment']['id']
+      }
       input['collection_payment_choice_id'] = this.payment_choice_id['id']
     }
     const url = this.typeOfPayment == 'apply-popup' ? 'applyCollectionPayment' : 'applyCommissionPayment';
@@ -772,6 +776,7 @@ export class CollectionsComponent implements OnInit {
           }
         }
         this.items[this.collectionIndex].payment_choices[paymentChoiceIndex]['collection_payment'] = r.data;
+        this.selectedPaymentConcept = {};
       } else {
         let collectionCommIndex = 0;
         // console.log(this.collectionIndex);
@@ -984,5 +989,4 @@ export class CollectionsComponent implements OnInit {
     // redirecting
     this.router.navigate(['/dashboard/collections/quick-visualization', item.id])
   }
-
 }

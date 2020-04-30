@@ -884,6 +884,8 @@
       "pleaseChoosePayments" : "Please select Payment Choices",
       "pleaseFillAllDetailsFor": "Please fill all details for - ",
       "pleaseFillAllDetails": "Please fill all details",
+      "pleaseEnterDocuName": "Please enter document name.",
+      "pleaseEnterDocuFile": "Please choose the document file.",
 
 
       "areYouSure": "Are you sure",
@@ -1492,7 +1494,8 @@
     "commissionPayment":"Commission Payment",
     "chooseCommissionType":"Choose Commission Type",
     "purchaseCommission":"Purchase Commission",
-    "collectionCommission":"Collection Commission"
+    "collectionCommission":"Collection Commission",
+    "programmedDate": "Programmed Date"
   },
   "addCollection": {
     "addLabel": "Add new Collection",

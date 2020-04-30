@@ -35,13 +35,13 @@ export class QuickVisualizationComponent implements OnInit {
   ngOnInit() {
     this.parameter.sub = this.route.params.subscribe(params => {
       this.model.id = params['id'];
-      this.getCollectionDetails(this.model.id);
+      this.getCollectionDetails();
     });
   }
 
-  getCollectionDetails(id: string) {
+  getCollectionDetails() {
     this.spinner.show();
-    this.admin.postDataApi('getCollectionById', {id: id})
+    this.admin.postDataApi('getCollectionById', {id: this.model.id})
       .subscribe(
         success => {
           this.spinner.hide();

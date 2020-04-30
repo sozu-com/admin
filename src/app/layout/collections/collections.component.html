@@ -312,7 +312,7 @@
                     </tr>
               
                     <tr *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
-                     <td><span>{{p?.id ? p?.id : ('table.tr.td.NA' | translate)}}</span></td>
+                    <td><span>{{p?.id ? p?.id : ('table.tr.td.NA' | translate)}}</span></td>
                      <td>
                         <span *ngIf="p?.buyer_type == 1">{{p?.buyer?.name ? p?.buyer?.name : ('table.tr.td.NA' | translate)}}</span>
                         <span *ngIf="p?.buyer_type == 2">{{p?.buyer_legal_entity?.comm_name ? p?.buyer_legal_entity?.comm_name : ('table.tr.td.NA' | translate)}}</span>
@@ -563,8 +563,12 @@
                     <div class="form-group">
                         <select name="payment_choice" #applyPaymentChoiceId required class="form-control" [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
                               <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
-                              <option *ngFor="let bt of paymentConcepts" [ngValue]="bt" 
-                               [disabled]="bt?.collection_payment"> {{bt?.name}}</option>
+                              <!-- <option *ngFor="let bt of paymentConcepts" [ngValue]="bt" 
+                               [disabled]="bt?.collection_payment"> {{bt?.name}}</option> -->
+                               <option *ngFor="let bt of paymentConcepts" [ngValue]="bt"> 
+                                 {{bt?.name}} 
+                                 <!-- <span *ngIf="bt?.is_paid_calculated"> | Paid</span> -->
+                                </option>
                         </select>
                   </div>
                 </div>
@@ -577,6 +581,14 @@
                               <option value="">{{'viewCollections.choosePaymentMethod' | translate}}</option>
                               <option *ngFor="let bt of paymentMethods" [value]="bt.id"> {{bt?.name}}</option>
                         </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12" *ngIf="typeOfPayment=='apply-popup' && selectedPaymentConcept">
+                <div class="form-group-2">
+                    <label>{{'viewCollections.programmedDate' | translate}}<span class="color-red">*</span></label>
+                    <div class="form-group">
+                    <input readonly class="form-control" value="{{selectedPaymentConcept?.date}}" name="pendingPayment">
                   </div>
                 </div>
               </div>
@@ -626,7 +638,7 @@
               </div>
               <div class="col-12">
                 <div class="form-group-2">
-                    <label>{{'viewCollections.paymentDate' | translate}}</label>
+                    <label>{{'viewCollections.paymentDate' | translate}}</label><span class="color-red">*</span>
                     <div class="form-group">
                       <div class="clearfix"></div>
                       <p-calendar class="form-control" autocomplete="off" [style]="{'width':'100%'}" name="date" class="sz-calendar" [locale]="locale" showIcon="true" 

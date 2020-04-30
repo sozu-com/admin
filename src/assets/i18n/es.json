@@ -887,6 +887,8 @@
       "pleaseChoosePayments" : "Por favor seleccione Opciones de pago",
       "pleaseFillAllDetailsFor": "Por favor complete todos los detalles para -",
       "pleaseFillAllDetails": "Por favor complete todos los detalles",
+      "pleaseEnterDocuName": "Por favor, introduzca el nombre del documento.",
+      "pleaseEnterDocuFile": "Por favor, elija el archivo del documento.",
 
 
       "areYouSure": "¿Estás seguro?",
@@ -1495,7 +1497,8 @@
     "commissionPayment":"Pago de comisión",
     "chooseCommissionType":"Elija tipo de comisión",
     "purchaseCommission":"Comisión de compra",
-    "collectionCommission":"Comisión de cobro"
+    "collectionCommission":"Comisión de cobro",
+    "programmedDate": "Fecha programada"
   },
   "addCollection": {
     "addLabel": "Agregar nueva colección",

@@ -187,6 +187,7 @@ export class ArrearReportComponent implements OnInit {
         this.spinner.hide();
         this.data = success['data'];
 
+        this.finalData = []
         this.model = [];
         for(var property in this.data) {
           this.model.push(property);

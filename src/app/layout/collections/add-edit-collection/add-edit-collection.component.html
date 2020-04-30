@@ -1048,7 +1048,7 @@
                   <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}</label>
                   <div class="form-group-3">
                   <div class="clearfix"></div>
-                  <input autocomplete="off" class="form-control" type="text" name="fed_tax_payer_reg" formControlName="fed_tax_payer_reg">
+                  <input autocomplete="off" class="form-control" type="text" minlength="12" maxlength="13" name="fed_tax_payer_reg" formControlName="fed_tax_payer_reg">
                 </div>
               </div>
             </div>
@@ -1191,12 +1191,24 @@
   
         <div class="row" >
           <ng-container *ngFor="let folder of collectionFolders; let i=index">
-            <div class="col-lg-2 col-md-2 col-sm-6 col-12 folder-box">
-              <button class="cursor-pointer" type="button"  (click)="modelOpenFun(folder, i)">{{'addCollection.view' | translate}}</button>
-              <button class="cursor-pointer" type="button"  (click)="openAddFolder('edit', folder, i)">{{'addCollection.edit' | translate}}</button>
-              <button class="cursor-pointer" type="button"  (click)="deleteFolderPopup(folder, i)">{{'addCollection.delete' | translate}}</button>
+            <div class="col-lg-2 col-md-4 col-sm-6 col-12 folder-box" style="background-image: url('/assets/img/ic_folder.svg')">
+              
               <div class="form-group-3" (click)="modelOpenFun(folder, i)">
                 <p>{{folder.name}}</p>
+              </div>
+              <div class="folder-action-btn">
+                <!-- <button class="cursor-pointer" type="button"  (click)="modelOpenFun(folder, i)"> -->
+                <!-- {{'addCollection.view' | translate}} -->
+                <i (click)="modelOpenFun(folder, i)" class="fa fa-folder" aria-hidden="true"></i>
+              <!-- </button>
+              <button class="cursor-pointer" type="button"  (click)="openAddFolder('edit', folder, i)">
+                {{'addCollection.edit' | translate}} -->
+                <i (click)="openAddFolder('edit', folder, i)" class="fa fa-pencil" aria-hidden="true"></i>
+              <!-- </button>
+              <button class="cursor-pointer" type="button"  (click)="deleteFolderPopup(folder, i)">
+                {{'addCollection.delete' | translate}} -->
+                <i (click)="deleteFolderPopup(folder, i)" class="fa fa-trash" aria-hidden="true"></i>
+              <!-- </button> -->
               </div>
             </div>
           </ng-container>
@@ -1225,7 +1237,7 @@
    <div class="modal-dialog ">
       <div class="modal-content notary-avail">
             <div class="modal-header popup-header">
-            <h4 class="modal-title">{{'viewProperty.requests' | translate}}</h4>
+            <h4 class="modal-title">{{tab==2 ? ('addCollection.chooseTheSeller' | translate) : ('addCollection.chooseTheBuyer' | translate)}}</h4>
             <button type="button" class="close" #closeLinkUserModal data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
@@ -1321,7 +1333,7 @@
                            <button type="button" (click)="setAgent(item)" class="action-icon" title="{{'table.title.linkAgent' | translate}}">
                               <img src="assets/img/green-icon.png" alt="img"></button>
                            
-                           <button type="button" (click)="setAgent(item)" class="action-icon" title="{{'table.title.unlinkAgent' | translate}}">
+                           <button type="button" (click)="unsetAgent()" class="action-icon" title="{{'table.title.unlinkAgent' | translate}}">
                               <img src="assets/img/ic_disapprove.png" alt="img"></button>
                         </td>
                      </tr>

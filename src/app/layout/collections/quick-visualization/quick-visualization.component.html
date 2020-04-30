@@ -11,8 +11,9 @@
           <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#addInhouseUser" #inhouseUserModalOpen>{{'table.addNewBtn' | translate}}</a>
           <!-- *ngIf="admin?.admin_acl['Data Collector Management']?.can_create==1 && parameter.userType=='data-collectors' ||
           admin?.admin_acl['Seller Management']?.can_create==1 && parameter.userType=='csr-sellers'" -->
-          <a class="btn btn-primary-new width100P" href="javascript://" (click)="exportData()">{{'table.exportDataBtn' | translate}}</a>
-      </div>
+          <!-- <a class="btn btn-primary-new width100P" href="javascript://" (click)="exportData()">{{'table.exportDataBtn' | translate}}</a> -->
+          <a class="btn btn-primary-new width100P" (click)="getCollectionDetails()">Refresh</a>
+        </div>
     </div>
   </div>
 
@@ -176,58 +177,58 @@
   <div class="cust-tabs">
     <div class="tab-content white-bg">
       <div class="table-responsive">
-        <table class="table table-bordered">
+        <table class="table table-bordered table-striped table-align-center quick-table">
           <thead>
             <tr>
-              <th>
+              <th [style.width]="'10%'">
                 <b>{{'quickVisualization.concept' | translate}}</b>
               </th>
-              <th>
+              <th [style.width]="'10%'">
                 <b>{{'quickVisualization.month' | translate}}</b>
               </th>
-              <th>
+              <th [style.width]="'10%'">
                 <b>{{'quickVisualization.paymentDate' | translate}}</b>
               </th>
-              <th>
+              <th [style.width]="'5%'">
                 <b>{{'quickVisualization.paid' | translate}}</b>
               </th>
-              <th>
+              <th [style.width]="'5%'">
                 <b>{{'quickVisualization.outstandingPayment' | translate}}</b>
               </th>
-              <th>
+              <th [style.width]="'5%'">
                 <b>{{'quickVisualization.paymentAttachment' | translate}}</b>
               </th>
-              <th>
+              <th [style.width]="'5%'">
                 <b>{{'quickVisualization.paymentDescription' | translate}}</b>
               </th>
-              <th>
+              <th [style.width]="'5%'">
                 <b>{{'quickVisualization.penaltyFLP' | translate}}</b>
               </th>
-              <th>
+              <th [style.width]="'5%'">
                 <b>{{'quickVisualization.penaltyDescription' | translate}}</b>
               </th>
-              <th>
+              <th [style.width]="'5%'">
                 <b>{{'quickVisualization.purchasedCommission' | translate}}</b>
               </th>
-              <th>
+              <th [style.width]="'5%'">
                 <b>{{'quickVisualization.dateOfPC' | translate}}</b>
               </th>
-              <th>
+              <th [style.width]="'5%'">
                 <b>{{'quickVisualization.PCAttachment' | translate}}</b>
               </th>
-              <th>
+              <th [style.width]="'5%'">
                 <b>{{'quickVisualization.PCDescription' | translate}}</b>
               </th>
-              <th>
+              <th [style.width]="'5%'">
                 <b>{{'quickVisualization.collectionCommission' | translate}}</b>
               </th>
-              <th>
+              <th [style.width]="'5%'">
                 <b>{{'quickVisualization.dateOfCC' | translate}}</b>
               </th>
-              <th>
+              <th [style.width]="'5%'">
                 <b>{{'quickVisualization.CCAttachment' | translate}}</b>
               </th>
-              <th>
+              <th [style.width]="'5%'">
                 <b>{{'quickVisualization.CCDescription' | translate}}</b>
               </th>
             </tr>
@@ -238,8 +239,10 @@
               <td>{{p?.date}}</td>
               <td>{{p?.collection_payment?.payment_date || ''}}</td>
               <td>
-                {{p?.collection_payment ? model?.currency?.symbol : ''}} 
-                {{p?.collection_payment ? ((p?.collection_payment?.amount || 0) | roundNumber) : ''}}
+                <!-- {{p?.collection_payment ? model?.currency?.symbol : ''}} 
+                {{p?.collection_payment ? ((p?.collection_payment?.amount || 0) | roundNumber) : ''}} -->
+                {{p?.is_paid == 1 ? model?.currency?.symbol : ''}} 
+                {{p?.is_paid == 1 ? ((p?.collection_payment ? p?.collection_payment?.amount : p?.amount) | roundNumber) : ''}}
               </td>
               <td *ngIf="p?.key!='total'">
                 {{p?.collection_payment ? '' : model?.currency?.symbol}} 
