@@ -39,6 +39,7 @@ import { Img360viewerComponent } from './layout/img360viewer/img360viewer.compon
 import { PropertyService } from './services/property.service';
 import { ProjectService } from './services/project.service';
 import { LeadsService } from './services/leads.service';
+import { ExcelService } from './services/excel.service';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent },
@@ -102,7 +103,8 @@ const appRoutes: Routes = [
     Login,
     AdminACL,
     // TranslateService,
-    AngularFireMessaging
+    AngularFireMessaging,
+    ExcelService
   ],
   bootstrap: [AppComponent]
 })

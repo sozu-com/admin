@@ -10,7 +10,9 @@ const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.
 const EXCEL_EXTENSION = '.xlsx';
 import { NumberWithCommasPipe } from 'src/app/pipes/number-with-commas.pipe'
 import { TranslateService } from '@ngx-translate/core';
-
+import { ExcelService } from 'src/app/services/excel.service';
+import { Workbook } from 'exceljs';
+import * as fs from 'file-saver';
 @Component({
   selector: 'app-account-statement',
   templateUrl: './account-statement.component.html',
@@ -35,7 +37,8 @@ export class AccountStatementComponent implements OnInit {
     private admin: AdminService,
     private spinner: NgxSpinnerService,
     private numberWithCommas: NumberWithCommasPipe,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private excelService: ExcelService
   ) { }
 
   ngOnInit() {
@@ -86,6 +89,8 @@ export class AccountStatementComponent implements OnInit {
 
   
   exportData() {
+    // this.generateExcel();
+    // return;
     if (this.paymentConcepts) {
       const finalData = [];
       // const concept = this.translate.instant('quickVisualization.concept');
@@ -177,5 +182,92 @@ export class AccountStatementComponent implements OnInit {
   closeDescModal() {
     this.viewDesModalClose.nativeElement.click();
   }
+
+
+  generateExcel() {
+    const title = 'Account Statement';
+    const header = ["Year", "Month", "Make", "Model", "Quantity", "Pct"]
+    const data = [
+      [2007, 1, "Volkswagen ", "Volkswagen Passat", 1267, 10],
+      [2007, 1, "Toyota ", "Toyota Rav4", 819, 6.5],
+      [2007, 1, "Toyota ", "Toyota Avensis", 787, 6.2],
+      [2007, 1, "Volkswagen ", "Volkswagen Golf", 720, 5.7],
+      [2007, 1, "Toyota ", "Toyota Corolla", 691, 5.4],
+    ];
+
+
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet('Account Statement');
+
+    // Add new row
+    let titleRow = worksheet.addRow([title]);
+
+    // Set font, size and style in title row.
+    titleRow.font = { name: 'Comic Sans MS', family: 4, size: 16, underline: 'double', bold: true };
+
+    // Blank Row
+    worksheet.addRow([]);
+
+    //Add row with current date
+    // let subTitleRow = worksheet.addRow(['Date : ']);
+    // let subTitleRow = worksheet.addRow(['Date : ' + this.datePipe.transform(new Date(), 'medium')]);
+    worksheet.mergeCells('A2:D5');
+    worksheet.addRow([]);
+
+
+    // Add buyer info
+    worksheet.mergeCells('A7:A9');
+    worksheet.getCell('A5').value = 'Buyer Info';
+    worksheet.getCell('B4').value = 'Name';
+    worksheet.getCell('B5').value = 'Email';
+    worksheet.getCell('B6').value = 'PhoneBuyer Info';
+    worksheet.getCell('C4').value = '';
+    worksheet.getCell('C5').value = '';
+    worksheet.getCell('C6').value = '';
+
+    worksheet.mergeCells('D4:D6');
+    worksheet.getCell('D5').value = 'Seller Info';
+    worksheet.getCell('E4').value = 'Name Info';
+    worksheet.getCell('E5').value = 'Phone Info';
+    worksheet.getCell('E6').value = 'Email Info';
+
+
+    //Add Header Row
+    let headerRow = worksheet.addRow(header);
+
+    // Cell Style : Fill and Border
+    headerRow.eachCell((cell, number) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FFFFFF00' },
+        bgColor: { argb: 'FF0000FF' }
+      }
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+    });
+    // Add Data and Conditional Formatting
+    data.forEach(d => {
+      let row = worksheet.addRow(d);
+      let qty = row.getCell(5);
+      let color = 'FF99FF99';
+      if (+qty.value < 500) {
+        color = 'FF9999'
+      }
+
+      qty.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: color }
+      }
+    }
+
+    );
+
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fs.saveAs(blob, 'CarData.xlsx');
+    });
+  }
+
 
 }

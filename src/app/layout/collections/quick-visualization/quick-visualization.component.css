@@ -18,3 +18,7 @@ table, th, td {
   /* .quick-table th {
     width: 15% !important;
   } */
+
+  .red-color{
+    color: red;
+  }
