@@ -1,0 +1,20 @@
+table, th, td {
+    /* border: 1px solid black; */
+    /* border-collapse: collapse; */
+  }
+  
+  th, td {
+    /* padding: 5px; */
+    text-align: center;
+  }
+  h5{
+    margin-top: 15px;
+  }
+
+  textarea {
+    background: #fff !important;
+  }
+
+  /* .quick-table th {
+    width: 15% !important;
+  } */

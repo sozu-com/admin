@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-lg-11 col-md-11 col-6">
       <div class="form-group">
-        <p class="p16">{{'quickVisualization.label' | translate}}</p>
+        <p class="p16">{{'quickVisualization.accountStatement' | translate}}</p>
       </div>
     </div>
      
@@ -12,12 +12,6 @@
           <!-- *ngIf="admin?.admin_acl['Data Collector Management']?.can_create==1 && parameter.userType=='data-collectors' ||
           admin?.admin_acl['Seller Management']?.can_create==1 && parameter.userType=='csr-sellers'" -->
           <a class="btn btn-primary-new width100P" href="javascript://" (click)="exportData()">{{'table.exportDataBtn' | translate}}</a>
-        </div>
-    </div>
-
-    <div class="col-lg-1 col-md-1 col-6">
-      <div class="btn-cont text-right">
-          <a class="btn btn-primary-new width100P" href="javascript://" (click)="getCollectionDetails()">Refresh</a>
         </div>
     </div>
   </div>
@@ -179,12 +173,10 @@
                       <tr>
                           <th>{{'quickVisualization.paid' | translate}}:</th>
                           <td>${{(model?.paid || 0) | roundNumber}}</td>
-                          <!-- <td>${{(model?.totalPaid || 0) | roundNumber}}</td> -->
                         </tr>
                         <tr>
                           <th>{{'quickVisualization.remaining' | translate}}:</th>
                           <td>${{((model?.total || 0) - (model?.paid || 0)) | roundNumber}}</td>
-                          <!-- <td>${{(model?.totalOutstanding || 0) | roundNumber}}</td> -->
                         </tr>
                   </tbody>
                 </table>
@@ -222,38 +214,11 @@
               <th [style.width]="'3%'">
                 <b>{{'quickVisualization.paymentAttachment' | translate}}</b>
               </th>
-              <th [style.width]="'3%'">
-                <b>{{'quickVisualization.paymentDescription' | translate}}</b>
-              </th>
               <th [style.width]="'5%'">
                 <b>{{'quickVisualization.penaltyFLP' | translate}}</b>
               </th>
               <th [style.width]="'3%'">
                 <b>{{'quickVisualization.penaltyDescription' | translate}}</b>
-              </th>
-              <th [style.width]="'5%'">
-                <b>{{'quickVisualization.purchasedCommission' | translate}}</b>
-              </th>
-              <th [style.width]="'5%'">
-                <b>{{'quickVisualization.dateOfPC' | translate}}</b>
-              </th>
-              <th [style.width]="'3%'">
-                <b>{{'quickVisualization.PCAttachment' | translate}}</b>
-              </th>
-              <th [style.width]="'3%'">
-                <b>{{'quickVisualization.PCDescription' | translate}}</b>
-              </th>
-              <th [style.width]="'5%'">
-                <b>{{'quickVisualization.collectionCommission' | translate}}</b>
-              </th>
-              <th [style.width]="'5%'">
-                <b>{{'quickVisualization.dateOfCC' | translate}}</b>
-              </th>
-              <th [style.width]="'3%'">
-                <b>{{'quickVisualization.CCAttachment' | translate}}</b>
-              </th>
-              <th [style.width]="'3%'">
-                <b>{{'quickVisualization.CCDescription' | translate}}</b>
               </th>
             </tr>
           </thead>
@@ -263,8 +228,6 @@
               <td>{{p?.date}}</td>
               <td>{{p?.collection_payment?.payment_date || ''}}</td>
               <td>
-                <!-- {{p?.collection_payment ? model?.currency?.symbol : ''}} 
-                {{p?.collection_payment ? ((p?.collection_payment?.amount || 0) | roundNumber) : ''}} -->
                 {{p?.is_paid_calculated == 1 ? model?.currency?.symbol : ''}} 
                 {{p?.is_paid_calculated == 1 ? ((p?.collection_payment ? p?.collection_payment?.amount : p?.amount) | roundNumber) : ''}}
               </td>
@@ -283,12 +246,6 @@
                 </a>
               </td>
               <td>
-                <button class="action-icon" *ngIf="p?.collection_payment?.description" (click)="showDescription(p?.collection_payment?.description, 1)">
-                    <img src="assets/img/eye-icon.png" alt="img">
-                </button>
-                <!-- {{p?.collection_payment?.description || ''}} -->
-              </td>
-              <td>
                 {{p?.penalty ? model?.currency?.symbol : ''}} 
                 {{p?.penalty ? ((p?.penalty?.amount || 0) || roundNumber) : ''}}
               </td>
@@ -296,41 +253,7 @@
                   <button class="action-icon" *ngIf="p?.penalty?.description" (click)="showDescription(p?.penalty?.description, 2)">
                       <img src="assets/img/eye-icon.png" alt="img">
                   </button>
-                <!-- {{p?.penalty?.description || ''}} -->
               </td>
-              <td>
-                {{collectionCommission[i]?.purchase_payment ? model?.currency?.symbol : ''}} 
-                {{collectionCommission[i]?.purchase_payment ? (collectionCommission[i]['purchase_payment']?.amount | roundNumber) : ''}}</td>
-              <td>
-                {{collectionCommission[i]?.purchase_payment ? (collectionCommission[i]['purchase_payment']?.payment_date | date:'mediumDate') : ''}}</td>
-              <td>
-                <a class="green-color fontW500" *ngIf="collectionCommission[i]?.purchase_payment" target="_blank" href="{{collectionCommission[i]?.purchase_payment?.receipt}}">
-                  {{'quickVisualization.view' | translate}}
-                </a>
-              </td>
-              <td>
-                  <button class="action-icon" *ngIf="collectionCommission[i]?.purchase_payment?.description" (click)="showDescription(collectionCommission[i]?.purchase_payment?.description, 3)">
-                      <img src="assets/img/eye-icon.png" alt="img">
-                  </button>
-                <!-- {{collectionCommission[i]?.purchase_payment?.description || ''}} -->
-              </td>
-              <td>
-                {{collectionCommission[i]?.payment ? model?.currency?.symbol : ''}} 
-                {{collectionCommission[i]?.payment ? (collectionCommission[i]['payment']?.amount | roundNumber) : ''}}</td>
-              <td>
-                {{collectionCommission[i]?.payment ? (collectionCommission[i]['payment']?.payment_date | date:'mediumDate') : ''}}</td>
-              <td>
-                <a class="green-color fontW500" *ngIf="collectionCommission[i]?.payment" target="_blank" href="{{collectionCommission[i]?.payment?.receipt}}">
-                  {{'quickVisualization.view' | translate}}
-                </a>
-              </td>
-              <td>
-                  <button class="action-icon" *ngIf="collectionCommission[i]?.payment?.description" (click)="showDescription(collectionCommission[i]?.payment?.description, 4)">
-                      <img src="assets/img/eye-icon.png" alt="img">
-                  </button>
-                <!-- {{collectionCommission[i]?.payment?.description || ''}} -->
-              </td>
-              
               </tr>
           </tbody>
         </table>

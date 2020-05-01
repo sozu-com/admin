@@ -706,7 +706,8 @@
       "applyPayment": "Apply Payment",
       "collectionCommission": "Collection Commission",
       "penaltyPayment": "Add Penalty",
-      "quickVisuaization": "Quick Visualization"
+      "quickVisuaization": "Quick Visualization",
+      "accountStatement": "Account Statement"
     },
     "pagination": {
       "showing": "Showing",
@@ -1729,6 +1730,7 @@
     "PCDescription":"PC Description",
     "programmedDate": "Programmed Date",
     "paymentMethods": "Payment Methods",
-    "remaining":"Remaining"
+    "remaining":"Remaining",
+    "accountStatement": "Account Statement"
   }
 }

@@ -985,8 +985,11 @@ export class CollectionsComponent implements OnInit {
   }
 
   
-  quickCollectionView(item: any, i: number) {
-    // redirecting
+  quickCollectionView(item: any) {
     this.router.navigate(['/dashboard/collections/quick-visualization', item.id])
+  }
+  
+  viewAccountStatement(item: any) {
+    this.router.navigate(['/dashboard/collections/account-statement', item.id])
   }
 }

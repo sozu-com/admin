@@ -709,7 +709,8 @@
       "applyPayment": "Aplicar pago",
       "collectionCommission": "Comisión de cobro",
       "penaltyPayment": "Añadir penalización",
-      "quickVisuaization": "Visualización rápida"
+      "quickVisuaization": "Visualización rápida",
+      "accountStatement": "Estado de cuenta"
     },
     "pagination": {
       "showing": "Mostrando",
@@ -1732,6 +1733,7 @@
     "PCDescription":"Descripción PC",
     "programmedDate": "Fecha programada",
     "paymentMethods": "Métodos de pago",
-    "remaining":"Restante"
+    "remaining":"Restante",
+    "accountStatement":"Estado de cuenta"
   }
 }

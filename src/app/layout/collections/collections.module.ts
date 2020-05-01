@@ -39,6 +39,9 @@ const routes: Routes = [
   },
   {
     path: 'quick-visualization/:id', component: QuickVisualizationComponent
+  },
+  {
+    path: 'account-statement/:id', component: AccountStatementComponent
   }
 ];
 
