@@ -300,6 +300,7 @@ export class AddEditCollectionComponent implements OnInit {
       comm_total_commission: ['', [Validators.required]],
       comm_total_commission_amount: ['', [Validators.required]],
       comm_shared_commission: ['', [Validators.required]],
+      comm_shared_commission_amount: ['', [Validators.required]],
       // deal_commission_agents: ['', [Validators.required]]
       deal_commission_agents: this.fb.array([]),
       collection_agent_banks: this.fb.array([]),
@@ -527,6 +528,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep5.controls.comm_total_commission.patchValue(data.comm_total_commission);
     this.addFormStep5.controls.comm_total_commission_amount.patchValue(data.comm_total_commission_amount ? data.comm_total_commission_amount : 0);
     this.addFormStep5.controls.comm_shared_commission.patchValue(data.comm_shared_commission);
+    this.addFormStep5.controls.comm_shared_commission_amount.patchValue(data.comm_shared_commission_amount ? data.comm_shared_commission_amount : 0);
     this.addFormStep5.controls.deal_commission_agents.patchValue(data.deal_commission_agents);
     const control = this.addFormStep5.get('collection_agent_banks') as FormArray;
     if (data.collection_agent_banks) {
@@ -751,6 +753,7 @@ export class AddEditCollectionComponent implements OnInit {
         this.addFormStep5.controls.comm_total_commission.patchValue(p.total_commision ? p.total_commision : 0)
         this.addFormStep5.controls.comm_total_commission_amount.patchValue(p.total_commision ? (p.total_commision *p.min_price)/100 : 0)
         this.addFormStep5.controls.comm_shared_commission.patchValue(p.broker_commision ? p.broker_commision : 0)
+        this.addFormStep5.controls.comm_shared_commission_amount.patchValue(p.broker_commision ? (p.broker_commision *p.min_price)/100 : 0)
       }
     })
   }
@@ -975,8 +978,23 @@ export class AddEditCollectionComponent implements OnInit {
     });      
   }
 
-  removePaymentChoice($event: Event, item: any, i: number) {
-    $event.stopPropagation();
+  removePaymentChoicePopup($event: Event, item: any, i: number) {
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+        this.translate.instant('message.error.wantToRemovePaymentConcept'),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.removePaymentChoice(item, i);
+      }
+    });
+  }
+
+  removePaymentChoice(item: any, i: number) {
     this.getPaymentChoices.removeAt(i);
     if (item.value.id) {
       this.us.postDataApi('deletePaymentChoice', {id: item.value.id}).subscribe(success => {
@@ -1469,6 +1487,16 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep5.controls['comm_total_commission_amount'].patchValue(amount);
   }
 
+  getAgentAmount(percent: number) {
+    const price = this.addFormStep4.get('deal_price').value;
+    if (!price || price == 0) {
+      swal('Error', 'Please enter price', 'error');
+      return;
+    }
+    const amount = ((percent * price) / 100).toFixed(2);
+    this.addFormStep5.controls['comm_shared_commission_amount'].patchValue(amount);
+  }
+
   getAmount(index: number) {
     const price = this.addFormStep4.get('deal_price').value;
     if (!price || price == 0) {
@@ -1672,6 +1700,9 @@ export class AddEditCollectionComponent implements OnInit {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterSozuCommission'), 'error');
         return;
       } else if (!formdata['comm_shared_commission']) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterAgentCommission'), 'error');
+        return;
+      } else if (!formdata['comm_shared_commission_amount']) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterAgentCommission'), 'error');
         return;
       } else if (!formdata['deal_commission_agents']) {

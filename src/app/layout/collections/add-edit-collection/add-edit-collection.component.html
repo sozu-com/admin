@@ -262,7 +262,7 @@
             <div class="col-sm-6 col-12">
               <div class="form-group-3">
                 <label>{{'addCollection.contactNumber' | translate}}</label>
-                <input minlength="8" maxlength="15" autocomplete="off" type="text" class="form-control" id="dev_phone"
+                <input minlength="8" maxlength="15" pattern="{{constant.phonePattern}}" (keydown.space)="$event.preventDefault();" autocomplete="off" type="text" class="form-control" id="dev_phone"
                   [(ngModel)]="building.dev_phone" name="dev_phone" ng2TelInput [ng2TelInputOptions]="initialCountry"
                   (countryChange)="onCountryChange($event)" />
               </div>
@@ -365,7 +365,8 @@
               <div class="form-group-3">
               <label>{{'addCollection.phonenumber' | translate}}</label>
               <div class="clearfix"></div>
-              <input required autocomplete="off" minlength="8" maxlength="15" class="form-control" type="number" name="seller_phone" formControlName="seller_phone">
+              <input required autocomplete="off" minlength="8" maxlength="15" pattern="{{constant.phonePattern}}" (keydown.space)="$event.preventDefault();"
+                class="form-control" type="number" name="seller_phone" formControlName="seller_phone">
             </div>
           </div>
           <div *ngIf="model.seller_type !=1" class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -465,7 +466,8 @@
               <div class="form-group-3">
               <label>{{'addCollection.phonenumber' | translate}}</label>
               <div class="clearfix"></div>
-              <input autocomplete="off" class="form-control" minlength="8" maxlength="15" type="number" name="seller_leg_rep_phone" formControlName="seller_leg_rep_phone">
+              <input autocomplete="off" class="form-control" minlength="8" maxlength="15" pattern="{{constant.phonePattern}}" (keydown.space)="$event.preventDefault();"
+                type="number" name="seller_leg_rep_phone" formControlName="seller_leg_rep_phone">
             </div>
           </div>
           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -626,7 +628,9 @@
                 <div class="form-group-3">
                 <label>{{'addCollection.phonenumber' | translate}}</label>
                 <div class="clearfix"></div>
-                <input required autocomplete="off" class="form-control" type="number" minlength="8" maxlength="15" name="buyer_phone" formControlName="buyer_phone">
+                <input required autocomplete="off" class="form-control" type="number" minlength="8" maxlength="15" 
+                pattern="{{constant.phonePattern}}" (keydown.space)="$event.preventDefault();"
+                name="buyer_phone" formControlName="buyer_phone">
               </div>
             </div>
             <div *ngIf="model.buyer_type !=1" class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -728,7 +732,9 @@
                 <div class="form-group-3">
                 <label>{{'addCollection.phonenumber' | translate}}</label>
                 <div class="clearfix"></div>
-                <input autocomplete="off" class="form-control" type="number" minlength="8" maxlength="15" name="buyer_leg_rep_phone" formControlName="buyer_leg_rep_phone">
+                <input autocomplete="off" class="form-control" type="number" minlength="8" maxlength="15" 
+                pattern="{{constant.phonePattern}}" (keydown.space)="$event.preventDefault();"  
+                name="buyer_leg_rep_phone" formControlName="buyer_leg_rep_phone">
               </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -921,7 +927,7 @@
                 <div class="form-group-3">
                     <!-- <label *ngIf="i==0">&nbsp;</label> -->
                 <div class="clearfix"></div>
-                <button type="button" (click)="removePaymentChoice($event, payment_choice, i)">{{'addCollection.remove' | translate}}</button>
+                <button type="button" (click)="removePaymentChoicePopup($event, payment_choice, i)">{{'addCollection.remove' | translate}}</button>
               </div>
             </div>
           </div>
@@ -1026,10 +1032,16 @@
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <label class="p16-two">{{'addCollection.agentCommission' | translate}}</label>
           <div class="input-group form-group-3">
-            <input autocomplete="off" class="form-control" type="number" step="0.01" min="0" max="100" name="comm_shared_commission" formControlName="comm_shared_commission">
+            <input autocomplete="off" class="form-control" type="number" (input)="getAgentAmount($event.target.value)" step="0.01" min="0" max="100" name="comm_shared_commission" formControlName="comm_shared_commission">
             <div class="input-group-append">
               <span class="input-group-text" id="basic-addon1">%</span>
             </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <label class="p16-two">{{'addCollection.agentCommissionAmount' | translate}}</label>
+          <div class="form-group-3">
+            <input autocomplete="off" class="form-control" type="number" step="0.01" min="0" max="100" name="comm_shared_commission_amount" formControlName="comm_shared_commission_amount">
           </div>
         </div>
       </div>

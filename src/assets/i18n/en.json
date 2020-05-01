@@ -976,7 +976,8 @@
       "wantToUnblockCollection": "You want to unblock this Collection?",
       "wantToDeleteCollection": "You want to delete this Collection?",
       "wantToDeleteDocs": "You want to delete this document?",
-      "wantToDeleteFolder": "You want to delete this folder?"
+      "wantToDeleteFolder": "You want to delete this folder?",
+      "wantToRemovePaymentConcept": "You want to remove this concept?"
     }
   },
   "inhouseUsers": {
@@ -1572,6 +1573,7 @@
     "totalCommission": "Total Commission",
     "sharedCommission":"Shared Commission",
     "agentCommission": "Agent Commission (in %)",
+    "agentCommissionAmount": "Agent Commission (in Amount)",
     "sozuCommission": "Sozu Commission (in %)",
     "sozuCommissionAmount": "Sozu Commission (in Amount)",
     "nameOfAgent": "Name of Agent",
@@ -1724,6 +1726,9 @@
     "paymentDescription":"Payment Description",
     "penaltyDescription":"Penalty Description",
     "CCDescription":"CC Description",
-    "PCDescription":"PC Description"
+    "PCDescription":"PC Description",
+    "programmedDate": "Programmed Date",
+    "paymentMethods": "Payment Methods",
+    "remaining":"Remaining"
   }
 }

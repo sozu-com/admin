@@ -21,6 +21,7 @@ import { AddEditCollectionComponent } from './add-edit-collection/add-edit-colle
 import { CollectionsComponent } from './collections.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { QuickVisualizationComponent } from './quick-visualization/quick-visualization.component';
+import { AccountStatementComponent } from './account-statement/account-statement.component';
 
 const routes: Routes = [
   // {
@@ -65,7 +66,8 @@ const routes: Routes = [
     CollectionsComponent,
     AddEditCollectionComponent,
     AnalyticsComponent,
-    QuickVisualizationComponent
+    QuickVisualizationComponent,
+    AccountStatementComponent
   ]
 })
 

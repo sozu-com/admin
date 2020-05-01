@@ -23,6 +23,8 @@ export class QuickVisualizationComponent implements OnInit {
   title: any;
   paymentConcepts: Array<any>;
   collectionCommission: Array<any>;
+  totalPaid: number;
+  totalOutstanding: number;
   public parameter: IProperty = {};
   constructor(
     private route: ActivatedRoute,
@@ -48,21 +50,28 @@ export class QuickVisualizationComponent implements OnInit {
           this.model = success['data'];
           this.paymentConcepts = success['data']['payment_choices'];
           this.collectionCommission = success['data']['collection_commissions'];
-          let totalPaid = 0;
-          let totalOutstanding = 0;
+          this.totalPaid = 0;
+          this.totalOutstanding = 0;
           this.paymentConcepts.forEach(m => {
+            // calculating paid and outstatnding payment
+            // if (m.is_paid_calculated == 1) {
+
+            // }
+
+            // calculating total paid and total outstanding payment
             if (m.collection_payment) {
-              totalPaid = totalPaid + m.collection_payment.amount;
+              this.totalPaid = this.totalPaid + m.collection_payment.amount;
             } else {
-              totalOutstanding = totalOutstanding + m.amount;
+              this.totalOutstanding = this.totalOutstanding + m.amount;
             }
           })
-          const collection_payment = {amount: totalPaid};
+          const collection_payment = {amount: this.totalPaid};
           this.paymentConcepts.push({
             key: 'total',
             name: 'Total',
             collection_payment: collection_payment,
-            amount: totalOutstanding
+            is_paid_calculated: 1,
+            amount: this.totalOutstanding
           })
           this.collectionCommission.push({})
         }, error => {
