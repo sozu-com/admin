@@ -229,16 +229,14 @@
               <td>{{p?.collection_payment?.payment_date || ''}}</td>
               <td>
                 {{p?.is_paid_calculated == 1 ? model?.currency?.symbol : ''}} 
-                {{p?.is_paid_calculated == 1 ? ((p?.collection_payment ? p?.collection_payment?.amount : p?.amount) | roundNumber) : ''}}
+                {{p?.paid_amount ? (p?.paid_amount | roundNumber) : ''}}
               </td>
               <td>{{p?.collection_payment?.payment_method?.name || ''}}</td>
-              <td *ngIf="p?.key!='total'">
-                {{p?.collection_payment ? '' : model?.currency?.symbol}} 
-                {{p?.collection_payment ? '' : ((p?.amount || 0) | roundNumber)}}
-              </td>
-              <td *ngIf="p?.key=='total'">
-                {{model?.currency?.symbol}} 
-                {{(p?.amount || 0) | roundNumber}}
+              <td>
+                <span [ngClass]="{'red-color':p?.is_pending}">
+                  {{p?.outstanding_amount ? model?.currency?.symbol : ''}} 
+                  {{p?.outstanding_amount ? (p?.outstanding_amount | roundNumber) : ''}}
+                </span>
               </td>
               <td>
                 <a class="green-color fontW500" *ngIf="p?.collection_payment && p?.key!='total'" target="_blank" href="{{p?.collection_payment?.receipt}}">

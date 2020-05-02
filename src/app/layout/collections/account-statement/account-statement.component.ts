@@ -9,6 +9,7 @@ import * as XLSX from 'xlsx';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 import { NumberWithCommasPipe } from 'src/app/pipes/number-with-commas.pipe'
+import { RoundNumberPipe } from 'src/app/pipes/round-number.pipe'
 import { TranslateService } from '@ngx-translate/core';
 import { ExcelService } from 'src/app/services/excel.service';
 import { Workbook } from 'exceljs';
@@ -17,7 +18,7 @@ import * as fs from 'file-saver';
   selector: 'app-account-statement',
   templateUrl: './account-statement.component.html',
   styleUrls: ['./account-statement.component.css'],
-  providers: [Collection, NumberWithCommasPipe]
+  providers: [Collection, NumberWithCommasPipe, RoundNumberPipe]
 })
 
 export class AccountStatementComponent implements OnInit {
@@ -38,7 +39,8 @@ export class AccountStatementComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private numberWithCommas: NumberWithCommasPipe,
     private translate: TranslateService,
-    private excelService: ExcelService
+    private excelService: ExcelService,
+    private roundNumber: RoundNumberPipe
   ) { }
 
   ngOnInit() {
@@ -60,26 +62,26 @@ export class AccountStatementComponent implements OnInit {
           this.totalPaid = 0;
           this.totalOutstanding = 0;
           this.paymentConcepts.forEach(m => {
-            // calculating paid and outstatnding payment
-            // if (m.is_paid_calculated == 1) {
-
-            // }
-
             // calculating total paid and total outstanding payment
-            if (m.collection_payment) {
-              this.totalPaid = this.totalPaid + m.collection_payment.amount;
-            } else {
-              this.totalOutstanding = this.totalOutstanding + m.amount;
+            if (m.is_paid_calculated) {
+              m['paid_amount'] = m.calc_payment_amount;
+              this.totalPaid = this.totalPaid + (m.calc_payment_amount||0);
+            } 
+            if ((m.amount - (m.calc_payment_amount||0))>=0) {
+              const a = (m.amount-(m.calc_payment_amount||0));
+              m['outstanding_amount'] = a;
+              m['is_pending'] = (a != m.amount && a!=0) ? 1 : 0;
+              this.totalOutstanding = this.totalOutstanding + a;
             }
           })
-          const collection_payment = {amount: this.totalPaid};
           this.paymentConcepts.push({
             key: 'total',
             name: 'Total',
-            collection_payment: collection_payment,
+            paid_amount: Math.floor(this.totalPaid),
             is_paid_calculated: 1,
-            amount: this.totalOutstanding
+            outstanding_amount: Math.floor(this.totalOutstanding)
           })
+          console.log(this.paymentConcepts)
           this.collectionCommission.push({})
         }, error => {
           this.spinner.hide();
@@ -89,51 +91,24 @@ export class AccountStatementComponent implements OnInit {
 
   
   exportData() {
-    // this.generateExcel();
-    // return;
     if (this.paymentConcepts) {
       const finalData = [];
-      // const concept = this.translate.instant('quickVisualization.concept');
-      // const month = this.translate.instant('quickVisualization.month');
-      // const paymentDate = this.translate.instant('quickVisualization.paymentDate');
-      // const paid = this.translate.instant('quickVisualization.paid');
-      // const paymentMethods = this.translate.instant('quickVisualization.paymentMethods');
-      // const outstandingPayment = this.translate.instant('quickVisualization.outstandingPayment');
-      // const paymentAttachment = this.translate.instant('quickVisualization.paymentAttachment');
-      // const penaltyFLP = this.translate.instant('quickVisualization.penaltyFLP');
-      // const penaltyDescription = this.translate.instant('quickVisualization.penaltyDescription');
-
       for (let index = 0; index < this.paymentConcepts.length; index++) {
         const p = this.paymentConcepts[index];
-        const pcAmount = this.collectionCommission[index]['purchase_payment'] ?
-        this.model.currency.symbol + this.numberWithCommas.transform(this.collectionCommission[index]['purchase_payment']['amount']) : '';
-
-        const pcDate = this.collectionCommission[index]['purchase_payment'] ? this.collectionCommission[index]['purchase_payment']['payment_date'] : '';
-
-        const ccAmount = this.collectionCommission[index]['payment'] ?
-        this.model.currency.symbol + this.numberWithCommas.transform(this.collectionCommission[index]['payment']['amount']) : '';
-
-        const ccDate = this.collectionCommission[index]['payment'] ? this.collectionCommission[index]['payment']['payment_date'] : '';
-        
-        finalData.push({});
-
         finalData.push({
           'Concept': p.name || '',
           'Month': p.date || '',
           'Payment Date': p.collection_payment ? p.collection_payment.payment_date : '',
-          'Paid': p.collection_payment ? 
-                this.model.currency.symbol + this.numberWithCommas.transform(p.collection_payment.amount) : '',
+          'Paid': p.paid_amount ? 
+                this.model.currency.symbol + this.roundNumber.transform(p.paid_amount) : '',
+          'Outstanding Payment': p.outstanding_amount ? this.model.currency.symbol + this.roundNumber.transform(p.outstanding_amount) : '',
           'Payment Method': p.collection_payment && p.collection_payment.payment_method ? p.collection_payment.payment_method.name : '',
-          'Outstanding Payment': p.key == 'total' ?
-                (this.model.currency.symbol + this.numberWithCommas.transform(p.amount))  :
-                ( p.collection_payment ? '' : this.model.currency.symbol + this.numberWithCommas.transform(p.amount)),
-          'Payment Attachment': p.collection_payment ? p.collection_payment.receipt : '',
-          'Penalty FLP': p.penalty ? 
-                this.model.currency.symbol + this.numberWithCommas.transform(p.penalty.amount) : '',
-          'Penalty Description': p.penalty && p.penalty.description ? p.penalty.description : ''
+          'Sozu Payment Receipt': p.collection_payment ? p.collection_payment.receipt : '',
+          'Penalty FLP': p.penalty ? this.model.currency.symbol + this.roundNumber.transform(p.penalty.amount) : '',
+          'Penalty Description': p.penalty ? p.penalty.description : '',
         });
       }
-      this.exportAsExcelFile(finalData, 'AccountStatement-');
+      this.exportAsExcelFile(finalData, 'accountStatement-');
     }
   }
 
