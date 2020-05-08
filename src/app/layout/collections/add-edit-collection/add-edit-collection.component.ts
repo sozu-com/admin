@@ -109,7 +109,7 @@ export class AddEditCollectionComponent implements OnInit {
   num_of_months: number;
   configurations: Array<any>;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
-  
+  showError:  boolean;
   availabilityStatus = [
     { id: '1', name: this.translate.instant('leadDetails.purchase'), checked: false },
     { id: '2', name: this.translate.instant('leadDetails.rent'), checked: false }];
@@ -222,57 +222,109 @@ export class AddEditCollectionComponent implements OnInit {
   initFormStep2() {
     this.addFormStep2 = this.fb.group({
       step: ['', [Validators.required]],
-      seller_id: ['', [Validators.required]],
-      seller_name: ['', [Validators.required]], // commer cial name and seller name
-      seller_legal_name: ['', [Validators.required]], // legal name in case of entity/dev
-      seller_address: ['', [Validators.required]],  // legal entiy/dev address
-      seller_email: ['', [Validators.required]],
-      seller_phone: ['', [Validators.required]],
-      seller_company_name: ['', [Validators.required]],
-      seller_fed_tax: ['', [Validators.required]],
-      seller_leg_rep_name: ['', [Validators.required]],
-      seller_leg_rep_phone: ['', [Validators.required]],
-      seller_leg_rep_email: ['', [Validators.required]],
-      seller_leg_rep_comp: ['', [Validators.required]],
-      seller_leg_rep_fed_tax: ['', [Validators.required]],
+      seller_id: [''],
+      seller_name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(30)]], // commer cial name and seller name
+      seller_legal_name: [''], // legal name in case of entity/dev
+      seller_address: [null],  // legal entiy/dev address
+      seller_email: [null],
+      seller_phone: ['', [Validators.required, Validators.pattern(this.constant.phonePattern), Validators.minLength(8), Validators.maxLength(15)]],
+      seller_company_name: ['', [Validators.minLength(1), Validators.maxLength(30)]],
+      seller_fed_tax: ['', [Validators.required, Validators.minLength(12), Validators.maxLength(13)]],
+      seller_leg_rep_name: ['', [Validators.minLength(1), Validators.maxLength(30)]],
+      seller_leg_rep_phone: ['', [Validators.pattern(this.constant.phonePattern), Validators.minLength(8), Validators.maxLength(15)]],
+      seller_leg_rep_email: ['', [Validators.email]],
+      seller_leg_rep_comp: [''],
+      seller_leg_rep_fed_tax: ['', [Validators.minLength(12), Validators.maxLength(13)]],
       collection_seller_banks: this.fb.array([]),
       collection_seller_rep_banks: this.fb.array([]),
       seller_type: ['', [Validators.required]],
       seller_legal_entity_id: ['']
     });
+    console.log(this.addFormStep2)
   }
 
   setValue(key: string, value: number) {
-    this.model[key] = value;
-    if (key == 'seller_type')
-      this.addFormStep2.reset();
-    else 
-      this.addFormStep3.reset();
+    this.model[key] = value; 
+    if (key == 'seller_type') {
+      // this.addFormStep2.reset();
+      this.initFormStep2();
+      this.showError = false;
+      if (value != 1) {
+        console.log('not person')
+        this.addFormStep2.controls['seller_address'].setValidators([Validators.required, Validators.minLength(1)]);
+        this.addFormStep2.controls['seller_legal_name'].setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
+        this.addFormStep2.controls['seller_leg_rep_name'].setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
+        this.addFormStep2.controls['seller_leg_rep_phone'].setValidators([Validators.required, Validators.pattern(this.constant.phonePattern), Validators.minLength(8), Validators.maxLength(15)]);
+        this.addFormStep2.controls['seller_leg_rep_email'].setValidators([Validators.required, Validators.email]);
+        // this.addFormStep2.controls['seller_leg_rep_comp'].setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
+        this.addFormStep2.controls['seller_leg_rep_fed_tax'].setValidators([Validators.required, Validators.minLength(12), Validators.maxLength(13)]);
+      } else {
+        console.log('person')
+        this.addFormStep2.controls['seller_email'].setValidators([Validators.required, Validators.email]);
+        this.addFormStep2.controls['seller_leg_rep_comp'].setValidators([Validators.minLength(1), Validators.maxLength(30)]);
+        this.addFormStep2.controls['seller_leg_rep_name'].setValidators(null);
+        this.addFormStep2.controls['seller_leg_rep_name'].updateValueAndValidity();
+        this.addFormStep2.controls['seller_leg_rep_phone'].setValidators(null);
+        this.addFormStep2.controls['seller_leg_rep_phone'].updateValueAndValidity();
+        this.addFormStep2.controls['seller_leg_rep_email'].setValidators(null);
+        this.addFormStep2.controls['seller_leg_rep_email'].updateValueAndValidity();
+        this.addFormStep2.controls['seller_leg_rep_comp'].setValidators(null);
+        this.addFormStep2.controls['seller_leg_rep_comp'].updateValueAndValidity();
+        this.addFormStep2.controls['seller_leg_rep_fed_tax'].setValidators(null);
+        this.addFormStep2.controls['seller_leg_rep_fed_tax'].updateValueAndValidity();
+      }
+    }
+    else {
+      this.initFormStep3();
+      this.showError = false;
+      if (value != 1) {
+        this.addFormStep3.controls['buyer_address'].setValidators([Validators.required, Validators.minLength(1)]);
+        this.addFormStep3.controls['buyer_legal_name'].setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
+        this.addFormStep3.controls['buyer_leg_rep_name'].setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
+        this.addFormStep3.controls['buyer_leg_rep_phone'].setValidators([Validators.required, Validators.pattern(this.constant.phonePattern), Validators.minLength(8), Validators.maxLength(15)]);
+        this.addFormStep3.controls['buyer_leg_rep_email'].setValidators([Validators.required, Validators.email]);
+        // this.addFormStep3.controls['buyer_leg_rep_comp'].setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
+        this.addFormStep3.controls['buyer_leg_rep_fed_tax'].setValidators([Validators.required, Validators.minLength(12), Validators.maxLength(13)]);
+      } else {
+        this.addFormStep3.controls['buyer_email'].setValidators([Validators.required, Validators.email]);
+        this.addFormStep3.controls['buyer_leg_rep_comp'].setValidators([Validators.minLength(1), Validators.maxLength(30)]);
+        this.addFormStep3.controls['buyer_leg_rep_name'].setValidators(null);
+        this.addFormStep3.controls['buyer_leg_rep_name'].updateValueAndValidity();
+        this.addFormStep3.controls['buyer_leg_rep_phone'].setValidators(null);
+        this.addFormStep3.controls['buyer_leg_rep_phone'].updateValueAndValidity();
+        this.addFormStep3.controls['buyer_leg_rep_email'].setValidators(null);
+        this.addFormStep3.controls['buyer_leg_rep_email'].updateValueAndValidity();
+        this.addFormStep3.controls['buyer_leg_rep_comp'].setValidators(null);
+        this.addFormStep3.controls['buyer_leg_rep_comp'].updateValueAndValidity();
+        this.addFormStep3.controls['buyer_leg_rep_fed_tax'].setValidators(null);
+        this.addFormStep3.controls['buyer_leg_rep_fed_tax'].updateValueAndValidity();
+      }
+    }
   }
 
   initFormStep3() {
     this.addFormStep3 = this.fb.group({
       step: ['', [Validators.required]],
-      buyer_id: ['', [Validators.required]],
-      buyer_name: ['', [Validators.required]], // commer cial name and seller name
-      buyer_legal_name: ['', [Validators.required]], // legal name in case of entity/dev
-      buyer_address: ['', [Validators.required]],  // legal entiy/dev address
-      buyer_email: ['', [Validators.required]],
-      buyer_phone: ['', [Validators.required]],
-      buyer_company_name: ['', [Validators.required]],
-      buyer_fed_tax: ['', [Validators.required]],
-      buyer_leg_rep_name: ['', [Validators.required]],
-      buyer_leg_rep_phone: ['', [Validators.required]],
-      buyer_leg_rep_email: ['', [Validators.required]],
-      buyer_leg_rep_comp: ['', [Validators.required]],
-      buyer_leg_rep_fed_tax: ['', [Validators.required]],
+      buyer_id: [''],
+      buyer_name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(30)]], // commer cial name and seller name
+      buyer_legal_name: [''], // legal name in case of entity/dev
+      buyer_address: [null],  // legal entiy/dev address
+      buyer_email: [null],
+      buyer_phone: ['', [Validators.required, Validators.pattern(this.constant.phonePattern), Validators.minLength(8), Validators.maxLength(15)]],
+      buyer_company_name: ['', [Validators.minLength(1), Validators.maxLength(30)]],
+      buyer_fed_tax: ['', [Validators.required, Validators.minLength(12), Validators.maxLength(13)]],
+      buyer_leg_rep_name: ['', [Validators.minLength(1), Validators.maxLength(30)]],
+      buyer_leg_rep_phone: ['', [Validators.pattern(this.constant.phonePattern), Validators.minLength(8), Validators.maxLength(15)]],
+      buyer_leg_rep_email: ['', [Validators.email]],
+      buyer_leg_rep_comp: [''],
+      buyer_leg_rep_fed_tax: ['', [Validators.minLength(12), Validators.maxLength(13)]],
       collection_buyer_banks: this.fb.array([]),
       collection_buyer_rep_banks: this.fb.array([]),
       buyer_type: ['', [Validators.required]],
       buyer_legal_entity_id: ['']
     });
+    console.log(this.addFormStep2)
   }
-
 
   initFormStep4() {
     this.addFormStep4 = this.fb.group({
@@ -859,10 +911,14 @@ export class AddEditCollectionComponent implements OnInit {
 
   newBank(): FormGroup {
     return this.fb.group({
-      bank_name: ['', [Validators.required]],
-      account_number: ['', [Validators.required]],
-      swift: ['', [Validators.required]],
-      currency_id: ['', [Validators.required]]
+      // bank_name: ['', [Validators.required]],
+      // account_number: ['', [Validators.required]],
+      // swift: ['', [Validators.required]],
+      // currency_id: ['', [Validators.required]]
+      bank_name: [''],
+      account_number: [''],
+      swift: [''],
+      currency_id: ['']
     });
   }
 
@@ -1583,87 +1639,106 @@ export class AddEditCollectionComponent implements OnInit {
 
     if (this.model.step == 2) {
       formdata['seller_type'] = this.model.seller_type;
-       if (!formdata['seller_fed_tax']) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), 'error');
+      this.addFormStep2.controls.seller_type.patchValue(this.model.seller_type);
+      this.addFormStep2.controls.step.patchValue(this.model.step);
+      // console.log(this.addFormStep2.controls)
+       if (this.addFormStep2.valid) {
+        if (!formdata['seller_fed_tax']) {
+          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), 'error');
+          return;
+        }
+        if (formdata['collection_seller_banks'] || formdata['collection_seller_banks'].length > 0) {
+          let i = 0;
+          for (let index = 0; index < formdata['collection_seller_banks'].length; index++) {
+            const element = formdata['collection_seller_banks'][index];
+            if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
+              i = i + 1;
+              swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
+              return;
+            }
+          };
+        }
+        if (formdata['collection_seller_rep_banks'] || formdata['collection_seller_banks']) {
+          let i = 0;
+          for (let index = 0; index < formdata['collection_seller_rep_banks'].length; index++) {
+            const element = formdata['collection_seller_rep_banks'][index];
+            if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
+              i = i + 1;
+              swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
+              return;
+            }
+          };
+        }
+        if (this.model.seller_type == 1 || this.model.seller_type == 3) {
+          if (!formdata['seller_id']) {
+            swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseSeller'), 'error');
+            return;
+          }
+        } 
+  
+        if (this.model.seller_type != 1) {
+          if (!formdata['seller_leg_rep_name'] || !formdata['seller_leg_rep_phone'] || !formdata['seller_leg_rep_email'] || !formdata['seller_leg_rep_fed_tax']) {
+            swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseFillLegalRepInfo'), 'error');
+            return;
+          }
+        }
+       } else {
+        this.showError = true;
         return;
-      }
-      if (formdata['collection_seller_banks'] || formdata['collection_seller_banks'].length > 0) {
-        let i = 0;
-        for (let index = 0; index < formdata['collection_seller_banks'].length; index++) {
-          const element = formdata['collection_seller_banks'][index];
-          if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
-            i = i + 1;
-            swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
-            return;
-          }
-        };
-      }
-      if (formdata['collection_seller_rep_banks'] || formdata['collection_seller_banks']) {
-        let i = 0;
-        for (let index = 0; index < formdata['collection_seller_rep_banks'].length; index++) {
-          const element = formdata['collection_seller_rep_banks'][index];
-          if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
-            i = i + 1;
-            swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
-            return;
-          }
-        };
-      }
-      if (this.model.seller_type == 1 || this.model.seller_type == 3) {
-        if (!formdata['seller_id']) {
-          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseSeller'), 'error');
-          return;
-        }
-      } 
-
-      if (this.model.seller_type != 1) {
-        if (!formdata['seller_leg_rep_name'] || !formdata['seller_leg_rep_phone'] || !formdata['seller_leg_rep_email'] || !formdata['seller_leg_rep_fed_tax']) {
-          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseFillLegalRepInfo'), 'error');
-          return;
-        }
-      }
+       }
     }
 
     if (this.model.step == 3) {
       formdata['buyer_type'] = this.model.buyer_type;
-       if (!formdata['buyer_fed_tax']) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), 'error');
+      this.addFormStep3.controls.buyer_type.patchValue(this.model.buyer_type);
+      this.addFormStep3.controls.step.patchValue(this.model.step);
+      console.log(this.addFormStep3.controls)
+      // formdata['buyer_type'] = this.model.buyer_type;
+       if (this.addFormStep3.valid) {
+        if (!formdata['buyer_fed_tax']) {
+          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), 'error');
+          return;
+        }
+        if (formdata['collection_buyer_banks'] || formdata['collection_buyer_banks'].length > 0) {
+          let i = 0;
+          for (let index = 0; index < formdata['collection_buyer_banks'].length; index++) {
+            const element = formdata['collection_buyer_banks'][index];
+            if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
+              i = i + 1;
+              swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
+              return;
+            }
+          };
+        }
+        if (formdata['collection_buyer_rep_banks'] || formdata['collection_buyer_rep_banks'].length > 0) {
+          let i = 0;
+          for (let index = 0; index < formdata['collection_buyer_rep_banks'].length; index++) {
+            const element = formdata['collection_buyer_rep_banks'][index];
+            if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
+              i = i + 1;
+              swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
+              return;
+            }
+          };
+        }
+        if (this.model.buyer_type == 1 || this.model.buyer_type == 3) {
+          if (!formdata['buyer_id']) {
+            swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseBuyer'), 'error');
+            return;
+          }
+        } 
+        if (this.model.buyer_type != 1) {
+          if (!formdata['buyer_leg_rep_name'] || !formdata['buyer_leg_rep_phone'] || !formdata['buyer_leg_rep_email'] || !formdata['buyer_leg_rep_fed_tax']) {
+            swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseFillLegalRepInfo'), 'error');
+            return;
+          }
+        }
+       }
+       else {
+        this.showError = true;
         return;
-      }
-      if (formdata['collection_buyer_banks'] || formdata['collection_buyer_banks'].length > 0) {
-        let i = 0;
-        for (let index = 0; index < formdata['collection_buyer_banks'].length; index++) {
-          const element = formdata['collection_buyer_banks'][index];
-          if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
-            i = i + 1;
-            swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
-            return;
-          }
-        };
-      }
-      if (formdata['collection_buyer_rep_banks'] || formdata['collection_buyer_rep_banks'].length > 0) {
-        let i = 0;
-        for (let index = 0; index < formdata['collection_buyer_rep_banks'].length; index++) {
-          const element = formdata['collection_buyer_rep_banks'][index];
-          if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
-            i = i + 1;
-            swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
-            return;
-          }
-        };
-      }
-      if (this.model.buyer_type == 1 || this.model.buyer_type == 3) {
-        if (!formdata['buyer_id']) {
-          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseBuyer'), 'error');
-          return;
-        }
-      } 
-      if (this.model.buyer_type != 1) {
-        if (!formdata['buyer_leg_rep_name'] || !formdata['buyer_leg_rep_phone'] || !formdata['buyer_leg_rep_email'] || !formdata['buyer_leg_rep_fed_tax']) {
-          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseFillLegalRepInfo'), 'error');
-          return;
-        }
-      }
+       }
+       
     }
 
     if (this.model.step == 4) {
@@ -1743,6 +1818,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.us.postDataApi('addCollection', formdata)
       .subscribe(
         success => {
+          this.showError = false;
           this.tab = tab + 1;
           this.spinner.hide();
           this.model.id = success['data'].id;
