@@ -866,12 +866,16 @@
       "pleaseChooseDealType": "Por favor, seleccione el tipo de oferta",
       "pleaseChooseModal": "Por favor seleccione Model",
       "pleaseSelectCommissionType": "Por favor seleccione el tipo de comisión",
+      "priceIsNotEqualToPaymentConceptPrice": "El precio no es igual a la suma del monto de todos los conceptos de pago",
+      "priceIs": "El precio es ",
+      "sumOfPaymentConceptIs": " La suma de la cantidad de todos los conceptos de pago es ",
 
       "pleaseFillLegalRepInfo": "Por favor complete todos los detalles de Representación Legal",
       "pleaseChooseSeller": "Por favor seleccione Vendedor",
       "pleaseChooseBuyer": "Por favor seleccione Compradora",
       "pleaseEnterCompanyName": "Por favor, introduzca el nombre de la empresa",
       "pleaseEnterFederalTaxPayer": "Por favor ingrese al Registro Federal de Pagadores de Impuestos",
+      "pleaseEnterAgent": "Por favor elija Agente",
       "pleaseEnterBankDetails": "Por favor complete los datos bancarios",
       "pleaseEnterPurchaseDate": "Por favor, introduzca la fecha de compra",
       "pleaseEnterPrice": "Por favor ingrese el precio",
@@ -1717,6 +1721,7 @@
     "month":"Mes",
     "paymentDate":"Fecha de pago",
     "paid":"Pagada",
+    "totalPenalty": "Penalidad total",
     "outstandingPayment":"Pago pendiente",
     "paymentAttachment":"Recibo de pago SOZU",
     "penaltyFLP": "Penalización FLP",
@@ -1735,5 +1740,17 @@
     "paymentMethods": "Métodos de pago",
     "remaining":"Restante",
     "accountStatement":"Estado de cuenta"
+  },
+  "addCollectionValidations": {
+    "thisIsRequired": "This is required",
+    "nameMin1Limit": "Minimum 1 character is required",
+    "nameMax30Limit": "Maximum 30 charactes are allowed",
+    "fedTaxMin12Limit": "Minimum 12 characters are required",
+    "fedTaxMax13Limit": "Maximum 13 charactes are allowed",
+    "phonePatternCheck": "The Phone Number field accepts only numeric characters",
+    "phoneMin8Limit": "Minimum 8 characters are required",
+    "phoneMax15Limit": "Maximum 15 charactes are allowed",
+    "emailInvalid": "Enter valid email",
+    "percentMax100Limit": "Maximum value can be 100"
   }
 }

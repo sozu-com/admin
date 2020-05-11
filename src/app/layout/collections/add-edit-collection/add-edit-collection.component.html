@@ -126,6 +126,11 @@
             <app-project-block (setBuilding)="setBuildingId($event)" (buildingIndex)="getBuildingIndex($event)" [data]="item" [index]="i"></app-project-block>
           </div>
         </div>
+        <div *ngIf="showError  &&  (addFormStep1.controls.building_id.invalid)">
+          <div *ngIf="addFormStep1.controls.building_id.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+          </div>
+        </div>
 
         <div class="row" *ngIf="searchedBuildings?.length>0">
           <div class="col-lg-6 col-md-12 col-sm-12 col-12"></div>
@@ -145,6 +150,11 @@
                   {{bt.tower_name}}</option>
               </select>
             </div>
+            <div *ngIf="showError  &&  (addFormStep1.controls.building_towers_id.invalid)">
+              <div *ngIf="addFormStep1.controls.building_towers_id.errors?.required " class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+              </div>
+            </div>
           </div>  
         </div>
 
@@ -158,6 +168,11 @@
                 <option *ngFor="let fa of model.building_towers?.unique_floors; let j=index" [value]="fa">
                   {{j == 0 ? ('addCollection.groundFloor' | translate): ('addCollection.floor' | translate) + ' '+fa}}</option>
               </select>
+            </div>
+            <div *ngIf="showError  &&  (addFormStep1.controls.floor_num.invalid)">
+              <div *ngIf="addFormStep1.controls.floor_num.errors?.required " class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+              </div>
             </div>
           </div>  
         </div>
@@ -174,17 +189,27 @@
               </p-dropdown>
              
             </div>
+            <div *ngIf="showError  &&  (addFormStep1.controls.property_id.invalid)">
+              <div *ngIf="addFormStep1.controls.property_id.errors?.required " class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+              </div>
+            </div>
           </div>  
           <div class="col-lg-6 col-md-6 col-sm-12 col-6">
             <div class="form-group-3">
               <label class="p16-two">{{'addCollection.selectDealType' | translate}}<span class="color-red">*</span></label>
               <div class="clearfix"></div>
               <label class="cust-radio" *ngFor="let astatus of availabilityStatus; let a=index">
-                <input type="radio" (change)="setAvailableStatus(a)" value="{{astatus.id}}"
+                <input disabled type="radio" (change)="setAvailableStatus(a)" value="{{astatus.id}}"
                   [checked]="model?.availabilityStatusId == astatus.id ? 'checked' : ''" name="availabilityStatusId">
                 <span class="checkmark">{{astatus.name}}</span>
               </label>      
               <div class="clearfix"></div>
+            </div>
+            <div *ngIf="showError  &&  (addFormStep1.controls.for_sale.invalid)">
+              <div *ngIf="addFormStep1.controls.for_sale.errors?.required " class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+              </div>
             </div>
           </div>  
         </div>
@@ -196,13 +221,18 @@
               <label class="p16-two">{{'addForm.selectModal' | translate}} <span class="color-red">*</span></label>
               <div class="clearfix"></div>
               <label class="cust-radio" *ngFor="let configuration of configurations">
-                <input type="radio" required (change)="setConfiguration(configuration)"
+                <input disabled type="radio" required (change)="setConfiguration(configuration)"
                   value="{{configuration.id}}" [checked]="model.building_configuration_id == configuration.id ? 'checked' : ''"
                   name="configuration_id">
                 <span class="checkmark">{{configuration.name ? configuration.name : configuration.config.name}}</span>
               </label>
               <div class="clearfix"></div>
             </div>
+          </div>
+        </div>
+        <div *ngIf="showError  &&  (addFormStep1.controls.building_configuration_id.invalid)">
+          <div *ngIf="addFormStep1.controls.building_configuration_id.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
           </div>
         </div>
         <div class="spacer15"></div>
@@ -354,13 +384,13 @@
             </div>
             <div *ngIf="showError  &&  (addFormStep2.controls.seller_name.invalid)">
               <div *ngIf="addFormStep2.controls.seller_name.errors?.required " class="show-error">
-                This is required
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
               </div>
               <div *ngIf="addFormStep2.controls.seller_name.errors?.minlength " class="show-error">
-                  Minimum 1 character is required
+                  {{'addCollectionValidations.nameMin1Limit' | translate}}
               </div>
               <div *ngIf="addFormStep2.controls.seller_name.errors?.maxlength " class="show-error">
-                  Maximum 30 charactes are allowed
+                  {{'addCollectionValidations.nameMax30Limit' | translate}}
               </div>
             </div>
           </div>
@@ -372,13 +402,13 @@
             </div>
             <div *ngIf="showError  &&  (addFormStep2.controls.seller_legal_name.invalid)">
               <div *ngIf="addFormStep2.controls.seller_legal_name.errors?.required " class="show-error">
-                  This is required
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
               </div>
               <div *ngIf="addFormStep2.controls.seller_legal_name.errors?.minlength " class="show-error">
-                  Minimum 1 character is required
+                  {{'addCollectionValidations.nameMin1Limit' | translate}}
               </div>
               <div *ngIf="addFormStep2.controls.seller_legal_name.errors?.maxlength " class="show-error">
-                  Maximum 30 charactes are allowed
+                  {{'addCollectionValidations.nameMax30Limit' | translate}}
               </div>
             </div>
           </div>
@@ -391,16 +421,16 @@
             </div>
             <div *ngIf="showError  &&  (addFormStep2.controls.seller_phone.invalid)">
               <div *ngIf="addFormStep2.controls.seller_phone.errors?.required " class="show-error">
-                  This is required
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
               </div>
               <div *ngIf="addFormStep2.controls.seller_phone.errors?.pattern " class="show-error">
-                  The Phone Number field accepts only numeric characters
+                  {{'addCollectionValidations.phonePatternCheck' | translate}}
               </div>
               <div *ngIf="addFormStep2.controls.seller_phone.errors?.minlength " class="show-error">
-                  Minimum 8 characters are required
+                  {{'addCollectionValidations.phoneMin8Limit' | translate}}
               </div>
               <div *ngIf="addFormStep2.controls.seller_phone.errors?.maxlength " class="show-error">
-                  Maximum 15 charactes are allowed
+                  {{'addCollectionValidations.phoneMax15Limit' | translate}}
               </div>
             </div>
           </div>
@@ -412,10 +442,10 @@
             </div>
             <div *ngIf="showError  &&  (addFormStep2.controls.seller_address.invalid)">
                 <div *ngIf="addFormStep2.controls.seller_address.errors?.required " class="show-error">
-                    This is required
+                    {{'addCollectionValidations.thisIsRequired' | translate}}
                 </div>
               <div *ngIf="addFormStep2.controls.seller_address.errors?.minlength " class="show-error">
-                  Minimum 1 character is required
+                  {{'addCollectionValidations.nameMin1Limit' | translate}}
               </div>
             </div>
           </div>
@@ -423,14 +453,18 @@
               <div class="form-group-3">
               <label>{{'addCollection.email' | translate}}</label>
               <div class="clearfix"></div>
-              <input required autocomplete="off" (keydown.space)="$event.preventDefault();" class="form-control" type="email" name="seller_email" formControlName="seller_email">
+              <input required autocomplete="off" (keydown.space)="$event.preventDefault();" 
+                class="form-control" type="email" name="seller_email" formControlName="seller_email">
             </div>
             <div *ngIf="showError  &&  (addFormStep2.controls.seller_email.invalid)">
               <div *ngIf="addFormStep2.controls.seller_email.errors?.required " class="show-error">
-                  This is required
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
               </div>
-              <div *ngIf="addFormStep2.controls.seller_email.errors?.email " class="show-error">
+              <!-- <div *ngIf="addFormStep2.controls.seller_email.errors?.pattern " class="show-error">
                   Enter valid email
+              </div> -->
+              <div *ngIf="addFormStep2.controls.seller_email.errors?.email " class="show-error">
+                  {{'addCollectionValidations.emailInvalid' | translate}}
               </div>
             </div>
           </div>
@@ -442,13 +476,13 @@
             </div>
             <div *ngIf="showError  &&  (addFormStep2.controls.seller_company_name.invalid)">
               <!-- <div *ngIf="addFormStep2.controls.seller_company_name.errors?.required " class="show-error">
-                  This is required
+                    {{'addCollectionValidations.thisIsRequired' | translate}}
               </div> -->
               <div *ngIf="addFormStep2.controls.seller_company_name.errors?.minlength " class="show-error">
-                  Minimum 1 character is required
+                  {{'addCollectionValidations.nameMin1Limit' | translate}}
               </div>
               <div *ngIf="addFormStep2.controls.seller_company_name.errors?.maxlength " class="show-error">
-                  Maximum 30 charactes are allowed
+                  {{'addCollectionValidations.nameMax30Limit' | translate}}
               </div>
             </div>
           </div>
@@ -462,13 +496,13 @@
             </div>
             <div *ngIf="showError  &&  (addFormStep2.controls.seller_fed_tax.invalid)">
                 <div *ngIf="addFormStep2.controls.seller_fed_tax.errors?.required " class="show-error">
-                    This is required
+                    {{'addCollectionValidations.thisIsRequired' | translate}}
                 </div>
                 <div *ngIf="addFormStep2.controls.seller_fed_tax.errors?.minlength " class="show-error">
-                    Minimum 12 characters are required
+                    {{'addCollectionValidations.fedTaxMin12Limit' | translate}}
                 </div>
                 <div *ngIf="addFormStep2.controls.seller_fed_tax.errors?.maxlength " class="show-error">
-                    Maximum 13 charactes are allowed
+                    {{'addCollectionValidations.fedTaxMax13Limit' | translate}}
                 </div>
             </div>
           </div>
@@ -490,13 +524,13 @@
                 </div>
                 <div *ngIf="showError  &&  (addFormStep2.controls.collection_seller_banks.controls[i].controls.bank_name.invalid)">
                   <div *ngIf="addFormStep2.controls.collection_seller_banks.controls[i].controls.bank_name.errors?.required " class="show-error">
-                    This is required
+                      {{'addCollectionValidations.thisIsRequired' | translate}}
                   </div>  
                     <div *ngIf="addFormStep2.controls.collection_seller_banks.controls[i].controls.bank_name.errors?.minlength " class="show-error">
-                        Minimum 1 character is required
+                        {{'addCollectionValidations.nameMin1Limit' | translate}}
                     </div>
                     <div *ngIf="addFormStep2.controls.collection_seller_banks.controls[i].controls.bank_name.errors?.maxlength " class="show-error">
-                        Maximum 30 charactes are allowed
+                        {{'addCollectionValidations.nameMax30Limit' | translate}}
                     </div>
                 </div>
               </div> 
@@ -508,10 +542,10 @@
                 </div>
                 <div *ngIf="showError  &&  (addFormStep2.controls.collection_seller_banks.controls[i].controls.account_number.invalid)">
                     <div *ngIf="addFormStep2.controls.collection_seller_banks.controls[i].controls.account_number.errors?.required " class="show-error">
-                        This is required
+                        {{'addCollectionValidations.thisIsRequired' | translate}}
                     </div>
                     <!-- <div *ngIf="addFormStep2.controls.collection_seller_banks.controls[i].controls.account_number.errors?.maxlength " class="show-error">
-                        Maximum 30 charactes are allowed
+                        {{'addCollectionValidations.nameMax30Limit' | translate}}
                     </div> -->
                 </div>
               </div>
@@ -523,10 +557,10 @@
                 </div>
                 <div *ngIf="showError  &&  (addFormStep2.controls.collection_seller_banks.controls[i].controls.swift.invalid)">
                     <div *ngIf="addFormStep2.controls.collection_seller_banks.controls[i].controls.swift.errors?.required " class="show-error">
-                        This is required
+                        {{'addCollectionValidations.thisIsRequired' | translate}}
                     </div>
                     <!-- <div *ngIf="addFormStep2.controls.collection_seller_banks.controls[i].controls.account_number.errors?.maxlength " class="show-error">
-                        Maximum 30 charactes are allowed
+                        {{'addCollectionValidations.nameMax30Limit' | translate}}
                     </div> -->
                 </div>
               </div>
@@ -541,10 +575,10 @@
                 </div>
                 <div *ngIf="showError  &&  (addFormStep2.controls.collection_seller_banks.controls[i].controls.currency_id.invalid)">
                     <div *ngIf="addFormStep2.controls.collection_seller_banks.controls[i].controls.currency_id.errors?.required " class="show-error">
-                        This is required
+                        {{'addCollectionValidations.thisIsRequired' | translate}}
                     </div>
                     <!-- <div *ngIf="addFormStep2.controls.collection_seller_banks.controls[i].controls.account_number.errors?.maxlength " class="show-error">
-                        Maximum 30 charactes are allowed
+                        {{'addCollectionValidations.nameMax30Limit' | translate}}
                     </div> -->
                 </div>
               </div>
@@ -571,13 +605,13 @@
             </div>
             <div *ngIf="showError  &&  (addFormStep2.controls.seller_leg_rep_name.invalid)">
               <div *ngIf="addFormStep2.controls.seller_leg_rep_name.errors?.required " class="show-error">
-                This is required
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
               </div>
               <div *ngIf="addFormStep2.controls.seller_leg_rep_name.errors?.minlength " class="show-error">
-                  Minimum 1 character is required
+                  {{'addCollectionValidations.nameMin1Limit' | translate}}
               </div>
               <div *ngIf="addFormStep2.controls.seller_leg_rep_name.errors?.maxlength " class="show-error">
-                  Maximum 30 charactes are allowed
+                  {{'addCollectionValidations.nameMax30Limit' | translate}}
               </div>
             </div>
           </div>
@@ -590,7 +624,7 @@
             </div>
             <div *ngIf="showError  &&  (addFormStep2.controls.seller_leg_rep_phone.invalid)">
               <div *ngIf="addFormStep2.controls.seller_leg_rep_phone.errors?.required " class="show-error">
-                  This is required
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
               </div>
               <div *ngIf="addFormStep2.controls.seller_leg_rep_phone.errors?.pattern " class="show-error">
                   The Phone Number field accepts only numeric characters
@@ -611,10 +645,10 @@
             </div>
             <div *ngIf="showError  &&  (addFormStep2.controls.seller_leg_rep_email.invalid)">
               <div *ngIf="addFormStep2.controls.seller_leg_rep_email.errors?.required " class="show-error">
-                  This is required
+                    {{'addCollectionValidations.thisIsRequired' | translate}}
               </div>
               <div *ngIf="addFormStep2.controls.seller_leg_rep_email.errors?.email " class="show-error">
-                  Enter valid email
+                  {{'addCollectionValidations.emailInvalid' | translate}}
               </div>
             </div>
           </div>
@@ -626,13 +660,13 @@
             </div>
             <div *ngIf="showError  &&  (addFormStep2.controls.seller_leg_rep_comp.invalid)">
               <div *ngIf="addFormStep2.controls.seller_leg_rep_comp.errors?.required " class="show-error">
-                This is required
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
               </div>
               <div *ngIf="addFormStep2.controls.seller_leg_rep_comp.errors?.minlength " class="show-error">
-                  Minimum 1 character is required
+                  {{'addCollectionValidations.nameMin1Limit' | translate}}
               </div>
               <div *ngIf="addFormStep2.controls.seller_leg_rep_comp.errors?.maxlength " class="show-error">
-                  Maximum 30 charactes are allowed
+                  {{'addCollectionValidations.nameMax30Limit' | translate}}
               </div>
             </div>
           </div>
@@ -646,13 +680,13 @@
             </div>
             <div *ngIf="showError  &&  (addFormStep2.controls.seller_leg_rep_fed_tax.invalid)">
                 <div *ngIf="addFormStep2.controls.seller_leg_rep_fed_tax.errors?.required " class="show-error">
-                    This is required
+                      {{'addCollectionValidations.thisIsRequired' | translate}}
                 </div>
                 <div *ngIf="addFormStep2.controls.seller_leg_rep_fed_tax.errors?.minlength " class="show-error">
-                    Minimum 12 characters are required
+                    {{'addCollectionValidations.fedTaxMin12Limit' | translate}}
                 </div>
                 <div *ngIf="addFormStep2.controls.seller_leg_rep_fed_tax.errors?.maxlength " class="show-error">
-                    Maximum 13 charactes are allowed
+                    {{'addCollectionValidations.fedTaxMax13Limit' | translate}}
                 </div>
             </div>
           </div>
@@ -675,13 +709,13 @@
                 </div>
                 <div *ngIf="showError  &&  (addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.bank_name.invalid)">
                   <div *ngIf="addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.bank_name.errors?.required " class="show-error">
-                    This is required
+                      {{'addCollectionValidations.thisIsRequired' | translate}}
                 </div>  
                   <div *ngIf="addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.bank_name.errors?.minlength " class="show-error">
-                        Minimum 1 character is required
+                        {{'addCollectionValidations.nameMin1Limit' | translate}}
                     </div>
                     <div *ngIf="addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.bank_name.errors?.maxlength " class="show-error">
-                        Maximum 30 charactes are allowed
+                        {{'addCollectionValidations.nameMax30Limit' | translate}}
                     </div>
                 </div>
               </div> 
@@ -693,10 +727,10 @@
                 </div>
                 <div *ngIf="showError  &&  (addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.account_number.invalid)">
                     <div *ngIf="addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.account_number.errors?.required " class="show-error">
-                        This is required
+                          {{'addCollectionValidations.thisIsRequired' | translate}}
                     </div>
                     <!-- <div *ngIf="addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.bank_name.errors?.maxlength " class="show-error">
-                        Maximum 30 charactes are allowed
+                        {{'addCollectionValidations.nameMax30Limit' | translate}}
                     </div> -->
                 </div>
               </div>
@@ -708,10 +742,10 @@
                 </div>
                 <div *ngIf="showError  &&  (addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.swift.invalid)">
                     <div *ngIf="addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.swift.errors?.required " class="show-error">
-                        This is required
+                          {{'addCollectionValidations.thisIsRequired' | translate}}
                     </div>
                     <!-- <div *ngIf="addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.bank_name.errors?.maxlength " class="show-error">
-                        Maximum 30 charactes are allowed
+                        {{'addCollectionValidations.nameMax30Limit' | translate}}
                     </div> -->
                 </div>
               </div>
@@ -726,10 +760,10 @@
                 </div>
                 <div *ngIf="showError  &&  (addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.currency_id.invalid)">
                     <div *ngIf="addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.currency_id.errors?.required " class="show-error">
-                        This is required
+                          {{'addCollectionValidations.thisIsRequired' | translate}}
                     </div>
                     <!-- <div *ngIf="addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.bank_name.errors?.maxlength " class="show-error">
-                        Maximum 30 charactes are allowed
+                        {{'addCollectionValidations.nameMax30Limit' | translate}}
                     </div> -->
                 </div>
               </div>
@@ -821,13 +855,13 @@
               </div>
               <div *ngIf="showError  &&  (addFormStep3.controls.buyer_name.invalid)">
                 <div *ngIf="addFormStep3.controls.buyer_name.errors?.required " class="show-error">
-                  This is required
+                    {{'addCollectionValidations.thisIsRequired' | translate}}
                 </div>
                 <div *ngIf="addFormStep3.controls.buyer_name.errors?.minlength " class="show-error">
-                    Minimum 1 character is required
+                    {{'addCollectionValidations.nameMin1Limit' | translate}}
                 </div>
                 <div *ngIf="addFormStep3.controls.buyer_name.errors?.maxlength " class="show-error">
-                    Maximum 30 charactes are allowed
+                    {{'addCollectionValidations.nameMax30Limit' | translate}}
                 </div>
               </div>
             </div>
@@ -839,13 +873,13 @@
               </div>
               <div *ngIf="showError  &&  (addFormStep3.controls.buyer_legal_name.invalid)">
                 <div *ngIf="addFormStep3.controls.buyer_legal_name.errors?.required " class="show-error">
-                  This is required
+                    {{'addCollectionValidations.thisIsRequired' | translate}}
                 </div>
                 <div *ngIf="addFormStep3.controls.buyer_legal_name.errors?.minlength " class="show-error">
-                    Minimum 1 character is required
+                    {{'addCollectionValidations.nameMin1Limit' | translate}}
                 </div>
                 <div *ngIf="addFormStep3.controls.buyer_legal_name.errors?.maxlength " class="show-error">
-                    Maximum 30 charactes are allowed
+                    {{'addCollectionValidations.nameMax30Limit' | translate}}
                 </div>
               </div>
             </div>
@@ -859,16 +893,16 @@
               </div>
               <div *ngIf="showError  &&  (addFormStep3.controls.buyer_phone.invalid)">
                 <div *ngIf="addFormStep3.controls.buyer_phone.errors?.required " class="show-error">
-                    This is required
+                      {{'addCollectionValidations.thisIsRequired' | translate}}
                 </div>
                 <div *ngIf="addFormStep3.controls.buyer_phone.errors?.pattern " class="show-error">
-                    The Phone Number field accepts only numeric characters
+                    {{'addCollectionValidations.phonePatternCheck' | translate}}
                 </div>
                 <div *ngIf="addFormStep3.controls.buyer_phone.errors?.minlength " class="show-error">
-                    Minimum 8 characters are required
+                    {{'addCollectionValidations.phoneMin8Limit' | translate}}
                 </div>
                 <div *ngIf="addFormStep3.controls.buyer_phone.errors?.maxlength " class="show-error">
-                    Maximum 15 charactes are allowed
+                    {{'addCollectionValidations.phoneMax15Limit' | translate}}
                 </div>
               </div>
             </div>
@@ -880,13 +914,13 @@
               </div>
               <div *ngIf="showError  &&  (addFormStep3.controls.buyer_address.invalid)">
                 <div *ngIf="addFormStep3.controls.buyer_address.errors?.required " class="show-error">
-                  This is required
+                    {{'addCollectionValidations.thisIsRequired' | translate}}
                 </div>
                 <div *ngIf="addFormStep3.controls.buyer_address.errors?.minlength " class="show-error">
-                    Minimum 1 character is required
+                    {{'addCollectionValidations.nameMin1Limit' | translate}}
                 </div>
                 <div *ngIf="addFormStep3.controls.buyer_address.errors?.maxlength " class="show-error">
-                    Maximum 30 charactes are allowed
+                    {{'addCollectionValidations.nameMax30Limit' | translate}}
                 </div>
               </div>
             </div>
@@ -898,10 +932,10 @@
               </div>
               <div *ngIf="showError  &&  (addFormStep3.controls.buyer_email.invalid)">
                 <div *ngIf="addFormStep3.controls.buyer_email.errors?.required " class="show-error">
-                    This is required
+                      {{'addCollectionValidations.thisIsRequired' | translate}}
                 </div>
                 <div *ngIf="addFormStep3.controls.buyer_email.errors?.email " class="show-error">
-                    Enter valid email
+                    {{'addCollectionValidations.emailInvalid' | translate}}
                 </div>
               </div>
             </div>
@@ -913,13 +947,13 @@
               </div>
               <div *ngIf="showError  &&  (addFormStep3.controls.buyer_company_name.invalid)">
                 <div *ngIf="addFormStep3.controls.buyer_company_name.errors?.required " class="show-error">
-                  This is required
+                    {{'addCollectionValidations.thisIsRequired' | translate}}
                 </div>
                 <div *ngIf="addFormStep3.controls.buyer_company_name.errors?.minlength " class="show-error">
-                    Minimum 1 character is required
+                    {{'addCollectionValidations.nameMin1Limit' | translate}}
                 </div>
                 <div *ngIf="addFormStep3.controls.buyer_company_name.errors?.maxlength " class="show-error">
-                    Maximum 30 charactes are allowed
+                    {{'addCollectionValidations.nameMax30Limit' | translate}}
                 </div>
               </div>
             </div>
@@ -933,13 +967,13 @@
               </div>
               <div *ngIf="showError  &&  (addFormStep3.controls.buyer_fed_tax.invalid)">
                 <div *ngIf="addFormStep3.controls.buyer_fed_tax.errors?.required " class="show-error">
-                  This is required
+                    {{'addCollectionValidations.thisIsRequired' | translate}}
                 </div>
                 <div *ngIf="addFormStep3.controls.buyer_fed_tax.errors?.minlength " class="show-error">
-                    Minimum 12 characters are required
+                    {{'addCollectionValidations.fedTaxMin12Limit' | translate}}
                 </div>
                 <div *ngIf="addFormStep3.controls.buyer_fed_tax.errors?.maxlength " class="show-error">
-                    Maximum 13 charactes are allowed
+                    {{'addCollectionValidations.fedTaxMax13Limit' | translate}}
                 </div>
               </div>
             </div>
@@ -962,13 +996,13 @@
                 </div>
                 <div *ngIf="showError  &&  (addFormStep3.controls.collection_buyer_banks.controls[i].controls.bank_name.invalid)">
                   <div *ngIf="addFormStep3.controls.collection_buyer_banks.controls[i].controls.bank_name.errors?.required " class="show-error">
-                    This is required
+                      {{'addCollectionValidations.thisIsRequired' | translate}}
                 </div>  
                   <div *ngIf="addFormStep3.controls.collection_buyer_banks.controls[i].controls.bank_name.errors?.minlength " class="show-error">
-                        Minimum 1 character is required
+                        {{'addCollectionValidations.nameMin1Limit' | translate}}
                     </div>
                     <div *ngIf="addFormStep3.controls.collection_buyer_banks.controls[i].controls.bank_name.errors?.maxlength " class="show-error">
-                        Maximum 30 charactes are allowed
+                        {{'addCollectionValidations.nameMax30Limit' | translate}}
                     </div>
                 </div>
               </div> 
@@ -980,10 +1014,10 @@
                 </div>
                 <div *ngIf="showError  &&  (addFormStep3.controls.collection_buyer_banks.controls[i].controls.account_number.invalid)">
                     <div *ngIf="addFormStep3.controls.collection_buyer_banks.controls[i].controls.account_number.errors?.required " class="show-error">
-                        This is required
+                          {{'addCollectionValidations.thisIsRequired' | translate}}
                     </div>
                     <!-- <div *ngIf="addFormStep3.controls.collection_buyer_banks.controls[i].controls.account_number.errors?.maxlength " class="show-error">
-                        Maximum 30 charactes are allowed
+                        {{'addCollectionValidations.nameMax30Limit' | translate}}
                     </div> -->
                 </div>
               </div>
@@ -995,10 +1029,10 @@
                 </div>
                 <div *ngIf="showError  &&  (addFormStep3.controls.collection_buyer_banks.controls[i].controls.swift.invalid)">
                     <div *ngIf="addFormStep3.controls.collection_buyer_banks.controls[i].controls.swift.errors?.required " class="show-error">
-                        This is required
+                          {{'addCollectionValidations.thisIsRequired' | translate}}
                     </div>
                     <!-- <div *ngIf="addFormStep3.controls.collection_buyer_banks.controls[i].controls.account_number.errors?.maxlength " class="show-error">
-                        Maximum 30 charactes are allowed
+                        {{'addCollectionValidations.nameMax30Limit' | translate}}
                     </div> -->
                 </div>
               </div>
@@ -1013,10 +1047,10 @@
                 </div>
                 <div *ngIf="showError  &&  (addFormStep3.controls.collection_buyer_banks.controls[i].controls.currency_id.invalid)">
                     <div *ngIf="addFormStep3.controls.collection_buyer_banks.controls[i].controls.currency_id.errors?.required " class="show-error">
-                        This is required
+                          {{'addCollectionValidations.thisIsRequired' | translate}}
                     </div>
                     <!-- <div *ngIf="addFormStep3.controls.collection_buyer_banks.controls[i].controls.account_number.errors?.maxlength " class="show-error">
-                        Maximum 30 charactes are allowed
+                        {{'addCollectionValidations.nameMax30Limit' | translate}}
                     </div> -->
                 </div>
               </div>
@@ -1044,13 +1078,13 @@
               </div>
               <div *ngIf="showError  &&  (addFormStep3.controls.buyer_leg_rep_name.invalid)">
                 <div *ngIf="addFormStep3.controls.buyer_leg_rep_name.errors?.required " class="show-error">
-                  This is required
+                    {{'addCollectionValidations.thisIsRequired' | translate}}
                 </div>
                 <div *ngIf="addFormStep3.controls.buyer_leg_rep_name.errors?.minlength " class="show-error">
-                    Minimum 1 character is required
+                    {{'addCollectionValidations.nameMin1Limit' | translate}}
                 </div>
                 <div *ngIf="addFormStep3.controls.buyer_leg_rep_name.errors?.maxlength " class="show-error">
-                    Maximum 30 charactes are allowed
+                    {{'addCollectionValidations.nameMax30Limit' | translate}}
                 </div>
               </div>
             </div>
@@ -1064,16 +1098,16 @@
               </div>
               <div *ngIf="showError  &&  (addFormStep3.controls.buyer_leg_rep_phone.invalid)">
                 <div *ngIf="addFormStep3.controls.buyer_leg_rep_phone.errors?.required " class="show-error">
-                    This is required
+                      {{'addCollectionValidations.thisIsRequired' | translate}}
                 </div>
                 <div *ngIf="addFormStep3.controls.buyer_leg_rep_phone.errors?.pattern " class="show-error">
-                    The Phone Number field accepts only numeric characters
+                    {{'addCollectionValidations.phonePatternCheck' | translate}}
                 </div>
                 <div *ngIf="addFormStep3.controls.buyer_leg_rep_phone.errors?.minlength " class="show-error">
-                    Minimum 8 characters are required
+                    {{'addCollectionValidations.phoneMin8Limit' | translate}}
                 </div>
                 <div *ngIf="addFormStep3.controls.buyer_leg_rep_phone.errors?.maxlength " class="show-error">
-                    Maximum 15 charactes are allowed
+                    {{'addCollectionValidations.phoneMax15Limit' | translate}}
                 </div>
               </div>
             </div>
@@ -1085,10 +1119,10 @@
               </div>
               <div *ngIf="showError  &&  (addFormStep3.controls.buyer_leg_rep_email.invalid)">
                 <div *ngIf="addFormStep3.controls.buyer_leg_rep_email.errors?.required " class="show-error">
-                    This is required
+                      {{'addCollectionValidations.thisIsRequired' | translate}}
                 </div>
                 <div *ngIf="addFormStep3.controls.buyer_leg_rep_email.errors?.email " class="show-error">
-                    Enter valid email
+                    {{'addCollectionValidations.emailInvalid' | translate}}
                 </div>
               </div>
             </div>
@@ -1100,13 +1134,13 @@
               </div>
               <div *ngIf="showError  &&  (addFormStep3.controls.buyer_leg_rep_comp.invalid)">
                 <div *ngIf="addFormStep3.controls.buyer_leg_rep_comp.errors?.required " class="show-error">
-                  This is required
+                    {{'addCollectionValidations.thisIsRequired' | translate}}
                 </div>
                 <div *ngIf="addFormStep3.controls.buyer_leg_rep_comp.errors?.minlength " class="show-error">
-                    Minimum 1 character is required
+                    {{'addCollectionValidations.nameMin1Limit' | translate}}
                 </div>
                 <div *ngIf="addFormStep3.controls.buyer_leg_rep_comp.errors?.maxlength " class="show-error">
-                    Maximum 30 charactes are allowed
+                    {{'addCollectionValidations.nameMax30Limit' | translate}}
                 </div>
               </div>
             </div>
@@ -1120,13 +1154,13 @@
               </div>
               <div *ngIf="showError  &&  (addFormStep3.controls.buyer_leg_rep_fed_tax.invalid)">
                 <div *ngIf="addFormStep3.controls.buyer_leg_rep_fed_tax.errors?.required " class="show-error">
-                  This is required
+                    {{'addCollectionValidations.thisIsRequired' | translate}}
                 </div>
                 <div *ngIf="addFormStep3.controls.buyer_leg_rep_fed_tax.errors?.minlength " class="show-error">
-                    Minimum 12 characters are required
+                    {{'addCollectionValidations.fedTaxMin12Limit' | translate}}
                 </div>
                 <div *ngIf="addFormStep3.controls.buyer_leg_rep_fed_tax.errors?.maxlength " class="show-error">
-                    Maximum 13 charactes are allowed
+                    {{'addCollectionValidations.fedTaxMax13Limit' | translate}}
                 </div>
               </div>
             </div>
@@ -1149,13 +1183,13 @@
                   </div>
                   <div *ngIf="showError  &&  (addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.bank_name.invalid)">
                     <div *ngIf="addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.bank_name.errors?.required " class="show-error">
-                      This is required
+                        {{'addCollectionValidations.thisIsRequired' | translate}}
                   </div>  
                     <div *ngIf="addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.bank_name.errors?.minlength " class="show-error">
-                          Minimum 1 character is required
+                          {{'addCollectionValidations.nameMin1Limit' | translate}}
                       </div>
                       <div *ngIf="addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.bank_name.errors?.maxlength " class="show-error">
-                          Maximum 30 charactes are allowed
+                          {{'addCollectionValidations.nameMax30Limit' | translate}}
                       </div>
                   </div>
                 </div> 
@@ -1167,10 +1201,10 @@
                   </div>
                   <div *ngIf="showError  &&  (addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.account_number.invalid)">
                       <div *ngIf="addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.account_number.errors?.required " class="show-error">
-                          This is required
+                            {{'addCollectionValidations.thisIsRequired' | translate}}
                       </div>
                       <!-- <div *ngIf="addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.account_number.errors?.maxlength " class="show-error">
-                          Maximum 30 charactes are allowed
+                          {{'addCollectionValidations.nameMax30Limit' | translate}}
                       </div> -->
                   </div>
                 </div>
@@ -1182,10 +1216,10 @@
                   </div>
                   <div *ngIf="showError  &&  (addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.swift.invalid)">
                       <div *ngIf="addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.swift.errors?.required " class="show-error">
-                          This is required
+                            {{'addCollectionValidations.thisIsRequired' | translate}}
                       </div>
                       <!-- <div *ngIf="addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.account_number.errors?.maxlength " class="show-error">
-                          Maximum 30 charactes are allowed
+                          {{'addCollectionValidations.nameMax30Limit' | translate}}
                       </div> -->
                   </div>
                 </div>
@@ -1200,10 +1234,10 @@
                   </div>
                   <div *ngIf="showError  &&  (addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.currency_id.invalid)">
                       <div *ngIf="addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.currency_id.errors?.required " class="show-error">
-                          This is required
+                            {{'addCollectionValidations.thisIsRequired' | translate}}
                       </div>
                       <!-- <div *ngIf="addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.account_number.errors?.maxlength " class="show-error">
-                          Maximum 30 charactes are allowed
+                          {{'addCollectionValidations.nameMax30Limit' | translate}}
                       </div> -->
                   </div>
                 </div>
@@ -1254,6 +1288,11 @@
                 (onSelect)="onSelect($event)"
                 showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
           </div>
+          <div *ngIf="showError  &&  (addFormStep4.controls.deal_purchase_date.invalid)">
+            <div *ngIf="addFormStep4.controls.deal_purchase_date.errors?.required " class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+          </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
@@ -1261,6 +1300,11 @@
             <div class="clearfix"></div>
             <input autocomplete="off" class="form-control" step="0.01" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="deal_price" min="0"
                 name="deal_price">
+          </div>
+          <div *ngIf="showError  &&  (addFormStep4.controls.deal_price.invalid)">
+            <div *ngIf="addFormStep4.controls.deal_price.errors?.required " class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
           </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -1272,12 +1316,17 @@
               <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
             </select>
           </div>
+          <div *ngIf="showError  &&  (addFormStep4.controls.currency_id.invalid)">
+            <div *ngIf="addFormStep4.controls.currency_id.errors?.required " class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+          </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.choosePaymentType' | translate}}">
           <div class="form-group-3">
             <label>{{'addCollection.paymentChoice' | translate}}</label>
             <div class="clearfix"></div>
-            <select required #selectedPaymentChoice name="paymentchoice" formControlName="paymentchoice" (change)="addPaymentChoice($event)" class="form-control">
+            <select #selectedPaymentChoice name="paymentchoice" formControlName="paymentchoice" (change)="addPaymentChoice($event)" class="form-control">
               <!-- <option value="">Payment Choice</option> -->
               <option value="{{c.id}}" *ngFor="let c of paymentChoices">{{ c.name }}</option>
             </select>
@@ -1292,45 +1341,64 @@
           <div class="row" [formGroupName]="i">
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
               <div class="form-group-3">
-                <!-- <label *ngIf="i==0">Payments</label> -->
                 <div class="clearfix"></div>
-                <input required autocomplete="off" class="form-control" minlength="1" maxlength="30" type="text" name="name" formControlName="name">
+                <input required autocomplete="off" class="form-control" minlength="1" type="text" name="name" formControlName="name">
+              </div>
+              <div *ngIf="showError  &&  (addFormStep4.controls.payment_choices.controls[i].controls.name.invalid)">
+                  <div *ngIf="addFormStep4.controls.payment_choices.controls[i].controls.name.errors?.required " class="show-error">
+                        {{'addCollectionValidations.thisIsRequired' | translate}}
+                  </div>
+                  <div *ngIf="addFormStep4.controls.payment_choices.controls[i].controls.name.errors?.minlength " class="show-error">
+                    {{'addCollectionValidations.nameMin1Limit' | translate}}
+                  </div>
               </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
               <div class="form-group-3">
-                <!-- <label *ngIf="i==0">&nbsp;</label> -->
                 <div class="clearfix"></div>
                 <p-calendar [style]="{'width':'100%'}" utc="true" formControlName="date" class="sz-calendar" [locale]="locale" showIcon="true" 
                   (onSelect)="onSelect($event)" 
                   showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
               </div>
+              <div *ngIf="showError  &&  (addFormStep4.controls.payment_choices.controls[i].controls.date.invalid)">
+                  <div *ngIf="addFormStep4.controls.payment_choices.controls[i].controls.date.errors?.required " class="show-error">
+                        {{'addCollectionValidations.thisIsRequired' | translate}}
+                  </div>
+              </div>
             </div>
             <div class="col-lg-2 col-md-6 col-sm-6 col-12" title="{{'addCollection.enterPercentage' | translate}}">
               <div class="input-group form-group-3">
-                  <!-- <label *ngIf="i==0">&nbsp;</label> -->
                 <div class="clearfix"></div>
-                <input autocomplete="off" class="form-control" (input)="getAmount(i)" type="number" step="0.01" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="percent" min="0"
+                <input required autocomplete="off" class="form-control" (input)="getAmount(i)" type="number" step="0.01" 
+                placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="percent" min="0"
                   max="100"  name="percent">
                 <div class="input-group-append">
                   <span class="input-group-text" id="basic-addon1">%</span>
                 </div>
               </div>
+              <div *ngIf="showError  &&  (addFormStep4.controls.payment_choices.controls[i].controls.percent.invalid)">
+                  <div *ngIf="addFormStep4.controls.payment_choices.controls[i].controls.percent.errors?.required " class="show-error">
+                        {{'addCollectionValidations.thisIsRequired' | translate}}
+                  </div>
+                  <div *ngIf="addFormStep4.controls.payment_choices.controls[i].controls.percent.errors?.max " class="show-error">
+                      {{'addCollectionValidations.percentMax100Limit' | translate}}
+                 </div>
+              </div>
             </div>
             <div class="col-lg-2 col-md-6 col-sm-6 col-12" title="{{'addCollection.enterAmount' | translate}}">
-              <div class="input-group form-group-3">
-                  <!-- <label *ngIf="i==0">&nbsp;</label> -->
+              <div class="form-group-3">
                 <div class="clearfix"></div>
-                <input autocomplete="off" class="form-control" (input)="getPercentage(i)" 
+                <input required autocomplete="off" class="form-control" (input)="getPercentage(i)" 
                   type="number" step="0.01" formControlName="amount" min="0" name="amount">
-                <!-- <div class="input-group-append">
-                  <span class="input-group-text" id="basic-addon1">.00</span>
-                </div> -->
+              </div>
+              <div *ngIf="showError  &&  (addFormStep4.controls.payment_choices.controls[i].controls.amount.invalid)">
+                  <div *ngIf="addFormStep4.controls.payment_choices.controls[i].controls.amount.errors?.required " class="show-error">
+                        {{'addCollectionValidations.thisIsRequired' | translate}}
+                  </div>
               </div>
             </div>
             <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
-                    <!-- <label *ngIf="i==0">&nbsp;</label> -->
                 <div class="clearfix"></div>
                 <button type="button" (click)="removePaymentChoicePopup($event, payment_choice, i)">{{'addCollection.remove' | translate}}</button>
               </div>
@@ -1422,31 +1490,57 @@
           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <label class="p16-two">{{'addCollection.sozuCommission' | translate}}</label>
           <div class="input-group form-group-3">
-            <input autocomplete="off" class="form-control" type="number" (input)="getSozuAmount($event.target.value)" step="0.01" min="0" max="100" name="comm_total_commission" formControlName="comm_total_commission">
+            <input required autocomplete="off" class="form-control" type="number" (input)="getSozuAmount($event.target.value)" step="0.01" min="0" max="100" name="comm_total_commission" formControlName="comm_total_commission">
             <div class="input-group-append">
               <span class="input-group-text" id="basic-addon1">%</span>
+            </div>
+          </div>
+          <div *ngIf="showError  &&  (addFormStep5.controls.comm_total_commission.invalid)">
+            <div *ngIf="addFormStep5.controls.comm_total_commission.errors?.required " class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+            <div *ngIf="addFormStep5.controls.comm_total_commission.errors?.max " class="show-error">
+                {{'addCollectionValidations.percentMax100Limit' | translate}}
             </div>
           </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <label class="p16-two">{{'addCollection.sozuCommissionAmount' | translate}}</label>
           <div class="form-group-3">
-            <input autocomplete="off" class="form-control" type="number" step="0.01" min="0" max="100" name="comm_total_commission_amount" formControlName="comm_total_commission_amount">
+            <input required autocomplete="off" class="form-control" type="number" step="0.01" min="0" max="100" name="comm_total_commission_amount" formControlName="comm_total_commission_amount">
+          </div>
+          <div *ngIf="showError  &&  (addFormStep5.controls.comm_total_commission_amount.invalid)">
+            <div *ngIf="addFormStep5.controls.comm_total_commission_amount.errors?.required " class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
           </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <label class="p16-two">{{'addCollection.agentCommission' | translate}}</label>
           <div class="input-group form-group-3">
-            <input autocomplete="off" class="form-control" type="number" (input)="getAgentAmount($event.target.value)" step="0.01" min="0" max="100" name="comm_shared_commission" formControlName="comm_shared_commission">
+            <input required autocomplete="off" class="form-control" type="number" (input)="getAgentAmount($event.target.value)" step="0.01" min="0" max="100" name="comm_shared_commission" formControlName="comm_shared_commission">
             <div class="input-group-append">
               <span class="input-group-text" id="basic-addon1">%</span>
+            </div>
+          </div>
+          <div *ngIf="showError  &&  (addFormStep5.controls.comm_shared_commission.invalid)">
+            <div *ngIf="addFormStep5.controls.comm_shared_commission.errors?.required " class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+            <div *ngIf="addFormStep5.controls.comm_shared_commission.errors?.max " class="show-error">
+                {{'addCollectionValidations.percentMax100Limit' | translate}}
             </div>
           </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <label class="p16-two">{{'addCollection.agentCommissionAmount' | translate}}</label>
           <div class="form-group-3">
-            <input autocomplete="off" class="form-control" type="number" step="0.01" min="0" max="100" name="comm_shared_commission_amount" formControlName="comm_shared_commission_amount">
+            <input required autocomplete="off" class="form-control" type="number" step="0.01" min="0" max="100" name="comm_shared_commission_amount" formControlName="comm_shared_commission_amount">
+          </div>
+          <div *ngIf="showError  &&  (addFormStep5.controls.comm_shared_commission_amount.invalid)">
+            <div *ngIf="addFormStep5.controls.comm_shared_commission_amount.errors?.required " class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
           </div>
         </div>
       </div>
@@ -1458,14 +1552,30 @@
                     <label>{{'addCollection.nameOfAgent' | translate}}</label>
                     <div class="form-group-3" (click)="getBothBroker('')">
                       <div class="clearfix"></div>
-                      <input autocomplete="off" class="form-control" type="text" name="name" readonly formControlName="name">
+                      <input required autocomplete="off" class="form-control" type="text" name="name" readonly formControlName="name">
+                    </div>
+                    <div *ngIf="showError  &&  (addFormStep5.controls.deal_commission_agents.controls[i].controls.name.invalid)">
+                        <div *ngIf="addFormStep5.controls.deal_commission_agents.controls[i].controls.name.errors?.required " class="show-error">
+                              {{'addCollectionValidations.thisIsRequired' | translate}}
+                        </div>
                     </div>
               </div>
               <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                   <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}</label>
                   <div class="form-group-3">
                   <div class="clearfix"></div>
-                  <input autocomplete="off" class="form-control" type="text" minlength="12" maxlength="13" name="fed_tax_payer_reg" formControlName="fed_tax_payer_reg">
+                  <input required autocomplete="off" class="form-control" type="text" minlength="12" maxlength="13" name="fed_tax_payer_reg" formControlName="fed_tax_payer_reg">
+                </div>
+                <div *ngIf="showError  &&  (addFormStep5.controls.deal_commission_agents.controls[i].controls.fed_tax_payer_reg.invalid)">
+                    <div *ngIf="addFormStep5.controls.deal_commission_agents.controls[i].controls.fed_tax_payer_reg.errors?.required " class="show-error">
+                          {{'addCollectionValidations.thisIsRequired' | translate}}
+                    </div>
+                    <div *ngIf="addFormStep5.controls.deal_commission_agents.controls[i].controls.fed_tax_payer_reg.errors?.minlength " class="show-error">
+                        {{'addCollectionValidations.fedTaxMin12Limit' | translate}}
+                    </div>
+                    <div *ngIf="addFormStep5.controls.deal_commission_agents.controls[i].controls.fed_tax_payer_reg.errors?.maxlength " class="show-error">
+                        {{'addCollectionValidations.fedTaxMax13Limit' | translate}}
+                    </div>
                 </div>
               </div>
             </div>
@@ -1486,14 +1596,17 @@
                 <div class="clearfix"></div>
                 <input required autocomplete="off" class="form-control" minlength="1" maxlength="30" type="text" name="bank_name" formControlName="bank_name">
               </div>
-              <!-- <div *ngIf="showError  &&  (addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.bank_name.invalid)">
-                  <div *ngIf="addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.bank_name.errors?.minlength " class="show-error">
-                      Minimum 1 character is required
+              <div *ngIf="showError  &&  (addFormStep5.controls.collection_agent_banks.controls[i].controls.bank_name.invalid)">
+                <div *ngIf="addFormStep5.controls.collection_agent_banks.controls[i].controls.bank_name.errors?.required " class="show-error">
+                    {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>  
+                  <div *ngIf="addFormStep5.controls.collection_agent_banks.controls[i].controls.bank_name.errors?.minlength " class="show-error">
+                      {{'addCollectionValidations.nameMin1Limit' | translate}}
                   </div>
-                  <div *ngIf="addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.bank_name.errors?.maxlength " class="show-error">
-                      Maximum 30 charactes are allowed
+                  <div *ngIf="addFormStep5.controls.collection_agent_banks.controls[i].controls.bank_name.errors?.maxlength " class="show-error">
+                      {{'addCollectionValidations.nameMax30Limit' | translate}}
                   </div>
-              </div> -->
+              </div>
             </div> 
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
@@ -1501,12 +1614,22 @@
                 <div class="clearfix"></div>
                 <input required autocomplete="off" class="form-control" type="number" minlength="10" maxlength="20" min="0" name="account_number" formControlName="account_number">
               </div>
+              <div *ngIf="showError  &&  (addFormStep5.controls.collection_agent_banks.controls[i].controls.account_number.invalid)">
+                <div *ngIf="addFormStep5.controls.collection_agent_banks.controls[i].controls.account_number.errors?.required " class="show-error">
+                    {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>  
+              </div>
             </div>
             <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                 <label>{{'addCollection.clabeSwift' | translate}}</label>
                 <div class="clearfix"></div>
                 <input required autocomplete="off" class="form-control" (keydown.space)="$event.preventDefault();" type="text" name="swift" formControlName="swift">
+              </div>
+              <div *ngIf="showError  &&  (addFormStep5.controls.collection_agent_banks.controls[i].controls.swift.invalid)">
+                <div *ngIf="addFormStep5.controls.collection_agent_banks.controls[i].controls.swift.errors?.required " class="show-error">
+                    {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>  
               </div>
             </div>
             <div class="col-lg-2 col-md-6 col-sm-6 col-12">
@@ -1517,6 +1640,11 @@
                   <option value="">{{'addCollection.currency' | translate}}</option>
                   <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
                 </select>
+              </div>
+              <div *ngIf="showError  &&  (addFormStep5.controls.collection_agent_banks.controls[i].controls.currency_id.invalid)">
+                <div *ngIf="addFormStep5.controls.collection_agent_banks.controls[i].controls.currency_id.errors?.required " class="show-error">
+                    {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>  
               </div>
             </div>
             <div class="col-lg-2 col-md-6 col-sm-6 col-12">
@@ -1790,7 +1918,7 @@
               <div class="col-12">
                 <div class="form-group-2">
                     <div class="form-group">
-                      <input autocomplete="off" required class="form-control note" name="folderName" [(ngModel)]="folderName">
+                      <input autocomplete="off" maxlength="20" required class="form-control note" name="folderName" [(ngModel)]="folderName">
                   </div>
                 </div>
               </div>

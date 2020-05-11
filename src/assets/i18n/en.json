@@ -863,12 +863,15 @@
       "pleaseChooseDealType": "Please select Deal type",
       "pleaseChooseModal": "Please select Model",
       "pleaseSelectCommissionType": "Please select commission type",
-
+      "priceIsNotEqualToPaymentConceptPrice": "Price is not equal to sum of amount of all payment concepts",
+      "priceIs": "Price is ",
+      "sumOfPaymentConceptIs": " Sum of amount of all payment concepts is ",
       "pleaseFillLegalRepInfo": "Please fill all details of Legal Represenatative",
       "pleaseChooseSeller": "Please select Seller",
       "pleaseChooseBuyer": "Please select Buyer",
       "pleaseEnterCompanyName": "Please enter Company Name",
       "pleaseEnterFederalTaxPayer": "Please enter Federal Tax Payer Registry",
+      "pleaseEnterAgent": "Please choose Agent",
       "pleaseEnterBankDetails": "Please complete Bank Details",
       "pleaseEnterPurchaseDate": "Please enter Purchase Date",
       "pleaseEnterPrice": "Please enter price",
@@ -1714,6 +1717,7 @@
     "month":"Month",
     "paymentDate":"Payment Date",
     "paid":"Paid",
+    "totalPenalty": "Total Penalty",
     "outstandingPayment":"Outstanding Payment",
     "paymentAttachment":"SOZU Payment Receipt",
     "penaltyFLP": "Penalty FLP",
@@ -1732,5 +1736,17 @@
     "paymentMethods": "Payment Methods",
     "remaining":"Remaining",
     "accountStatement": "Account Statement"
+  },
+  "addCollectionValidations": {
+    "thisIsRequired": "This is required",
+    "nameMin1Limit": "Minimum 1 character is required",
+    "nameMax30Limit": "Maximum 30 charactes are allowed",
+    "fedTaxMin12Limit": "Minimum 12 characters are required",
+    "fedTaxMax13Limit": "Maximum 13 charactes are allowed",
+    "phonePatternCheck": "The Phone Number field accepts only numeric characters",
+    "phoneMin8Limit": "Minimum 8 characters are required",
+    "phoneMax15Limit": "Maximum 15 charactes are allowed",
+    "emailInvalid": "Enter valid email",
+    "percentMax100Limit": "Maximum value can be 100"
   }
 }

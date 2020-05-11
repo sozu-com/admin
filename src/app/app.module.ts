@@ -63,7 +63,8 @@ const appRoutes: Routes = [
     PageNotFoundComponent
   ],
   imports: [
-    RouterModule.forRoot(appRoutes, { preloadingStrategy: PreloadAllModules }),
+    RouterModule.forRoot(appRoutes, { useHash: false , preloadingStrategy: PreloadAllModules }),
+    // RouterModule.forRoot(appRoutes, { preloadingStrategy: PreloadAllModules }),
     SweetAlert2Module.forRoot({
       // confirmButtonClass: 'btn btn-primary',
       // cancelButtonClass: 'btn'

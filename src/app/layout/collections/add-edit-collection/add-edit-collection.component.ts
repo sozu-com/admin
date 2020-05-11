@@ -140,8 +140,10 @@ export class AddEditCollectionComponent implements OnInit {
     this.getAllPaymentChoices();
  
     this.initFormStep1();
-    this.initFormStep2();
-    this.initFormStep3();
+    this.setValue('seller_type', 1);
+    this.setValue('buyer_type', 1);
+    // this.initFormStep2();
+    // this.initFormStep3();
     this.initFormStep4();
     this.initFormStep5();
 
@@ -212,9 +214,9 @@ export class AddEditCollectionComponent implements OnInit {
       building_towers_id: ['', [Validators.required]],
       floor_num: ['', [Validators.required]],
       property_id: ['', [Validators.required]],
-      for_sale: ['', [Validators.required]],
-      for_rent: ['', [Validators.required]],
-      building_configuration_id: ['', [Validators.required]],
+      for_sale: [''],
+      for_rent: [''],
+      building_configuration_id: [''],
       step: ['', [Validators.required]]
     });
   }
@@ -240,7 +242,7 @@ export class AddEditCollectionComponent implements OnInit {
       seller_type: ['', [Validators.required]],
       seller_legal_entity_id: ['']
     });
-    console.log(this.addFormStep2)
+    // console.log(this.addFormStep2)
   }
 
   setValue(key: string, value: number) {
@@ -250,7 +252,7 @@ export class AddEditCollectionComponent implements OnInit {
       this.initFormStep2();
       this.showError = false;
       if (value != 1) {
-        console.log('not person')
+        // console.log('not person')
         this.addFormStep2.controls['seller_address'].setValidators([Validators.required, Validators.minLength(1)]);
         this.addFormStep2.controls['seller_legal_name'].setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
         this.addFormStep2.controls['seller_leg_rep_name'].setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
@@ -259,7 +261,7 @@ export class AddEditCollectionComponent implements OnInit {
         // this.addFormStep2.controls['seller_leg_rep_comp'].setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
         this.addFormStep2.controls['seller_leg_rep_fed_tax'].setValidators([Validators.required, Validators.minLength(12), Validators.maxLength(13)]);
       } else {
-        console.log('person')
+        // console.log('person')
         this.addFormStep2.controls['seller_email'].setValidators([Validators.required, Validators.email]);
         this.addFormStep2.controls['seller_leg_rep_comp'].setValidators([Validators.minLength(1), Validators.maxLength(30)]);
         this.addFormStep2.controls['seller_leg_rep_name'].setValidators(null);
@@ -323,7 +325,7 @@ export class AddEditCollectionComponent implements OnInit {
       buyer_type: ['', [Validators.required]],
       buyer_legal_entity_id: ['']
     });
-    console.log(this.addFormStep2)
+    // console.log(this.addFormStep2)
   }
 
   initFormStep4() {
@@ -339,8 +341,8 @@ export class AddEditCollectionComponent implements OnInit {
       deal_purchase_date: ['', [Validators.required]],
       deal_price: ['', [Validators.required]],
 
-      deal_interest_rate: [0, [Validators.required]],
-      deal_penality: [0, [Validators.required]]
+      deal_interest_rate: [0],
+      deal_penality: [0]
     });
   }
 
@@ -349,9 +351,9 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep5 = this.fb.group({
       // step 5
       step: ['', [Validators.required]],
-      comm_total_commission: ['', [Validators.required]],
+      comm_total_commission: ['', [Validators.required, Validators.max(100)]],
       comm_total_commission_amount: ['', [Validators.required]],
-      comm_shared_commission: ['', [Validators.required]],
+      comm_shared_commission: ['', [Validators.required, Validators.max(100)]],
       comm_shared_commission_amount: ['', [Validators.required]],
       // deal_commission_agents: ['', [Validators.required]]
       deal_commission_agents: this.fb.array([]),
@@ -462,7 +464,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   patchFormStep2(data) {
-    this.model.seller_type = data.seller_type;
+    this.model.seller_type = data.seller_type ? data.seller_type : 1;
     this.addFormStep2.controls.seller_type.patchValue(data.seller_type || 1);
     if (data.seller_type != 2) {
       this.addFormStep2.controls.seller_id.patchValue(data.seller ? data.seller.id : '');
@@ -511,7 +513,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   patchFormStep3(data) {
-    this.model.buyer_type = data.buyer_type;
+    this.model.buyer_type = data.buyer_type ? data.buyer_type : 1;
     this.addFormStep3.controls.buyer_type.patchValue(data.buyer_type || 1);
 
     if (data.buyer_type != 2) {
@@ -1010,15 +1012,20 @@ export class AddEditCollectionComponent implements OnInit {
     for (let index = 0; index < this.num_of_months; index++) {
       this.getPaymentChoices.push(this.newMonthlyPaymentsChoice(index));
     }
+    this.addFormStep4.get('num_of_months').patchValue(null);
+    this.addFormStep4.get('monthly_amount').patchValue(null);
+    this.addFormStep4.get('monthly_date').patchValue(null);
   }
 
   newMonthlyPaymentsChoice(index: number): FormGroup {
+    const num_of_months = this.addFormStep4.get('num_of_months').value;
     let monthly_amount = this.addFormStep4.get('monthly_amount').value;
     let monthly_date = this.addFormStep4.get('monthly_date').value;
     const price = this.addFormStep4.get('deal_price').value;
-    const percent = (price / monthly_amount).toFixed(2);
+    const percent = ((monthly_amount * 100) / price).toFixed(2);
     monthly_amount = monthly_amount.toFixed(2);
     let name = '';
+    // moment.utc(x.date).local().toDate() : null;
     monthly_date = moment.utc(moment(monthly_date).add(index, 'months').format('YYYY-MM-DD')).local().toDate();
     this.paymentChoices.map(r => {
       if (r.id == 5) {
@@ -1278,7 +1285,7 @@ export class AddEditCollectionComponent implements OnInit {
     return this.fb.group({
       broker_id: ['', [Validators.required]],
       name: ['', [Validators.required]],
-      fed_tax_payer_reg: ['', [Validators.required]]
+      fed_tax_payer_reg: ['']
     });
   }
 
@@ -1314,10 +1321,13 @@ export class AddEditCollectionComponent implements OnInit {
 
   unsetAgent() {
     // this.addFormStep5.controls['deal_commission_agents'].patchValue([this.newAgent()]);
-    this.addFormStep5.controls['deal_commission_agents'].patchValue([]);
-    this.addFormStep5.controls['collection_agent_banks'].patchValue([]);
+    delete this.addFormStep5.value['deal_commission_agents'];
+    delete this.addFormStep5.value['collection_agent_banks'];
     // this.addAgent('');
-    const s = this.addFormStep5.get('collection_agent_banks').value;
+    delete this.addFormStep5.value.deal_commission_agents;
+    // this.addFormStep5.get('collection_agent_banks') as FormArray;
+    const s = this.addFormStep5.get('deal_commission_agents').value;
+    // console.log(s);
     this.closeExtBrokerModal.nativeElement.click();
   }
 
@@ -1493,26 +1503,10 @@ export class AddEditCollectionComponent implements OnInit {
       this.addFormStep2.reset();
       this.model.seller_id = '';
       this.model.seller = new Seller();
-      // this.addFormStep2.controls.seller_id.patchValue('');
-      // this.addFormStep2.controls.seller_name.patchValue('');
-      // this.addFormStep2.controls.seller_email.patchValue('');
-      // this.addFormStep2.controls.seller_phone.patchValue('');
-      
-      // this.addFormStep2.controls.seller_leg_rep_name.patchValue('');
-      // this.addFormStep2.controls.seller_leg_rep_email.patchValue('');
-      // this.addFormStep2.controls.seller_leg_rep_phone.patchValue('');
     } else {
       this.addFormStep3.reset();
       this.model.buyer_id = '';
       this.model.buyer = new Seller();
-      // this.addFormStep3.controls.buyer_id.patchValue('');
-      // this.addFormStep3.controls.buyer_name.patchValue('');
-      // this.addFormStep3.controls.buyer_email.patchValue('');
-      // this.addFormStep3.controls.buyer_phone.patchValue('');
-      
-      // this.addFormStep2.controls.buyer_leg_rep_name.patchValue('');
-      // this.addFormStep2.controls.buyer_leg_rep_email.patchValue('');
-      // this.addFormStep2.controls.buyer_leg_rep_phone.patchValue('');
     }
     this.closeLinkUserModal.nativeElement.click();
   }
@@ -1536,7 +1530,7 @@ export class AddEditCollectionComponent implements OnInit {
   getSozuAmount(percent: number) {
     const price = this.addFormStep4.get('deal_price').value;
     if (!price || price == 0) {
-      swal('Error', 'Please enter price', 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPrice'), 'error');
       return;
     }
     const amount = ((percent * price) / 100).toFixed(2);
@@ -1546,7 +1540,7 @@ export class AddEditCollectionComponent implements OnInit {
   getAgentAmount(percent: number) {
     const price = this.addFormStep4.get('deal_price').value;
     if (!price || price == 0) {
-      swal('Error', 'Please enter price', 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPrice'), 'error');
       return;
     }
     const amount = ((percent * price) / 100).toFixed(2);
@@ -1556,7 +1550,7 @@ export class AddEditCollectionComponent implements OnInit {
   getAmount(index: number) {
     const price = this.addFormStep4.get('deal_price').value;
     if (!price || price == 0) {
-      swal('Error', 'Please enter price', 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPrice'), 'error');
       return;
     }
     const pcArray = this.addFormStep4.get('payment_choices').value;
@@ -1569,7 +1563,7 @@ export class AddEditCollectionComponent implements OnInit {
   getPercentage(index: number) {
     const price = this.addFormStep4.get('deal_price').value;
     if (!price || price == 0) {
-      swal('Error', 'Please enter price', 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPrice'), 'error');
       return;
     }
     const pcArray = this.addFormStep4.get('payment_choices').value;
@@ -1619,21 +1613,34 @@ export class AddEditCollectionComponent implements OnInit {
       formdata['for_sale'] = this.availabilityStatus[0].checked ? 1 : 0;
       formdata['for_rent'] = this.availabilityStatus[1].checked ? 1 : 0;
       formdata['building_configuration_id'] = this.model.building_configuration_id;
-      if (!formdata['building_id']) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectBuilding'), 'error');
-        return;
-      } else if (!formdata['building_towers_id']) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectFloor'), 'error');
-        return;
-      } else if (!formdata['floor_num']) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseFloor'), 'error');
-        return;
-      } else if (!formdata['property_id']) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseApartment'), 'error');
-        return;
-      } else if (!formdata['building_configuration_id']) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseApartment'), 'error');
-        return;
+      
+      this.addFormStep1.controls.step.patchValue(this.model.step);
+      this.addFormStep1.controls.building_id.patchValue(formdata['building_id']);
+      this.addFormStep1.controls.property_id.patchValue(formdata['property_id']);
+      this.addFormStep1.controls.building_configuration_id.patchValue(formdata['building_configuration_id']);
+      this.addFormStep1.controls.for_rent.patchValue(formdata['for_rent']);
+      this.addFormStep1.controls.for_rent.patchValue(formdata['for_rent']);
+      console.log(this.addFormStep1.controls)
+      if (this.addFormStep1.valid) {
+        if (!formdata['building_id']) {
+          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectBuilding'), 'error');
+          return;
+        } else if (!formdata['building_towers_id']) {
+          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectFloor'), 'error');
+          return;
+        } else if (!formdata['floor_num']) {
+          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseFloor'), 'error');
+          return;
+        } else if (!formdata['property_id']) {
+          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseApartment'), 'error');
+          return;
+        } else if (!formdata['building_configuration_id']) {
+          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseApartment'), 'error');
+          return;
+        }
+      } else {
+        this.showError = true;
+        return false;
       }
     }
 
@@ -1692,7 +1699,7 @@ export class AddEditCollectionComponent implements OnInit {
       formdata['buyer_type'] = this.model.buyer_type;
       this.addFormStep3.controls.buyer_type.patchValue(this.model.buyer_type);
       this.addFormStep3.controls.step.patchValue(this.model.step);
-      console.log(this.addFormStep3.controls)
+      // console.log(this.addFormStep3.controls)
       // formdata['buyer_type'] = this.model.buyer_type;
        if (this.addFormStep3.valid) {
         if (!formdata['buyer_fed_tax']) {
@@ -1742,76 +1749,105 @@ export class AddEditCollectionComponent implements OnInit {
     }
 
     if (this.model.step == 4) {
-      if (!formdata['deal_purchase_date']) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPurchaseDate'), 'error');
-        return;
-      } else if (!formdata['deal_price']) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPrice'), 'error');
-        return;
-      }
-      else if (!formdata['payment_choices']) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChoosePayments'), 'error');
-        return;
-      }
-      let i = 0;
-      for (let index = 0; index < formdata['payment_choices'].length; index++) {
-        const element = formdata['payment_choices'][index];
-        if (!element.name || !element.amount || !element.date || !element.percent) {
-          i = i + 1;
-          const text = element.name ? 
-                        this.translate.instant('message.error.pleaseFillAllDetailsFor') + element.name :
-                        this.translate.instant('message.error.pleaseFillAllDetailsFor')
+      this.addFormStep4.controls.step.patchValue(this.model.step);
+      delete this.addFormStep4.value.paymentchoice;
+      console.log(this.addFormStep4.controls);
+      if (this.addFormStep4.valid) {
+        if (!formdata['deal_purchase_date']) {
+          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPurchaseDate'), 'error');
+          return;
+        } else if (!formdata['deal_price']) {
+          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPrice'), 'error');
+          return;
+        }
+        else if (!formdata['payment_choices']) {
+          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChoosePayments'), 'error');
+          return;
+        }
+        let paymentSum = 0
+        let i = 0;
+        for (let index = 0; index < formdata['payment_choices'].length; index++) {
+          const element = formdata['payment_choices'][index];
+          if (!element.name || !element.amount || !element.date || !element.percent) {
+            i = i + 1;
+            const text = element.name ? 
+                          this.translate.instant('message.error.pleaseFillAllDetailsFor') + element.name :
+                          this.translate.instant('message.error.pleaseFillAllDetailsFor')
+            swal(this.translate.instant('swal.error'), text, 'error');
+            return;
+          }
+          paymentSum = paymentSum + parseInt(element.amount || 0);
+        }
+  
+        // check if total sum of monthly installments is equal or greater than property price
+        if (formdata['deal_price'] != paymentSum) {
+          const text = this.translate.instant('message.error.priceIsNotEqualToPaymentConceptPrice') + '<br>' + 
+          this.translate.instant('message.error.priceIs') + formdata['deal_price'] + '<br>' +
+          this.translate.instant('message.error.sumOfPaymentConceptIs') + paymentSum;
           swal(this.translate.instant('swal.error'), text, 'error');
           return;
         }
+      } else {
+        this.showError = true;
+        return false;
       }
     }
 
     if (this.model.step == 5) {
-      if (!formdata['comm_total_commission']) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterSozuCommission'), 'error');
-        return;
-      } else if (!formdata['comm_total_commission_amount']) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterSozuCommission'), 'error');
-        return;
-      } else if (!formdata['comm_shared_commission']) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterAgentCommission'), 'error');
-        return;
-      } else if (!formdata['comm_shared_commission_amount']) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterAgentCommission'), 'error');
-        return;
-      } else if (!formdata['deal_commission_agents']) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), 'error');
-        return;
-      } else if (formdata['deal_commission_agents'] || formdata['deal_commission_agents']) {
-        let i = 0;
-        for (let index = 0; index < formdata['deal_commission_agents'].length; index++) {
-          const element = formdata['deal_commission_agents'][index];
-          if (!element.name || !element.fed_tax_payer_reg) {
-            i = i + 1;
-            swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), 'error');
-            return;
+      this.addFormStep5.controls.step.patchValue(this.model.step);
+      console.log(this.addFormStep5.controls);
+      if (this.addFormStep5.valid) {
+        if (!formdata['comm_total_commission']) {
+          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterSozuCommission'), 'error');
+          return;
+        } else if (!formdata['comm_total_commission_amount']) {
+          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterSozuCommission'), 'error');
+          return;
+        } else if (!formdata['comm_shared_commission']) {
+          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterAgentCommission'), 'error');
+          return;
+        } else if (!formdata['comm_shared_commission_amount']) {
+          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterAgentCommission'), 'error');
+          return;
+        } else if (!formdata['deal_commission_agents']) {
+          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterAgent'), 'error');
+          return;
+        } else if (formdata['deal_commission_agents'] || formdata['deal_commission_agents'].length>0) {
+          let i = 0;
+          for (let index = 0; index < formdata['deal_commission_agents'].length; index++) {
+            const element = formdata['deal_commission_agents'][index];
+            if (!element.name || !element.fed_tax_payer_reg) {
+              i = i + 1;
+              if (!element.name) 
+               swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterAgent'), 'error');
+              else 
+                swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), 'error');
+              return;
+            }
           }
         }
-      }
-      if (formdata['collection_agent_banks'] || formdata['collection_agent_banks'].length > 0) {
-        let i = 0;
-        for (let index = 0; index < formdata['collection_agent_banks'].length; index++) {
-          const element = formdata['collection_agent_banks'][index];
-          if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
-            i = i + 1;
-            swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
-            return;
+        if (formdata['collection_agent_banks'] || formdata['collection_agent_banks'].length > 0) {
+          let i = 0;
+          for (let index = 0; index < formdata['collection_agent_banks'].length; index++) {
+            const element = formdata['collection_agent_banks'][index];
+            if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
+              i = i + 1;
+              swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
+              return;
+            }
           }
         }
+        const collection_commissions = formdata['collection_commissions'];
+        delete formdata['collection_commissions'];
+        collection_commissions.forEach(element => {
+          element.add_collection_commission = element.add_collection_commission ? 1 : 0
+          element.add_purchase_commission = element.add_purchase_commission ? 1 : 0
+        });
+        formdata['collection_commissions'] = collection_commissions;
+      } else {
+        this.showError = true;
+        return false;
       }
-      const collection_commissions = formdata['collection_commissions'];
-      delete formdata['collection_commissions'];
-      collection_commissions.forEach(element => {
-        element.add_collection_commission = element.add_collection_commission ? 1 : 0
-        element.add_purchase_commission = element.add_purchase_commission ? 1 : 0
-      });
-      formdata['collection_commissions'] = collection_commissions;
     }
 
     this.spinner.show();

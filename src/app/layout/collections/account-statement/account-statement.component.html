@@ -1,8 +1,9 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-11 col-md-11 col-6">
-      <div class="form-group">
-        <p class="p16">{{'quickVisualization.accountStatement' | translate}}</p>
+      <div class="title-group">
+        <h5><a routerLink="/dashboard/collections/view-collections" href="javascript://"><i
+              class="fa fa-angle-double-left"></i> </a> &nbsp;&nbsp;{{'quickVisualization.accountStatement' | translate}}</h5>
       </div>
     </div>
      
@@ -133,7 +134,7 @@
                     </tr> -->
                     <tr>
                       <th>{{'quickVisualization.price' | translate}}:</th>
-                      <td>${{(model?.property?.min_price || 0) | roundNumber}}</td>
+                      <td>${{(model?.deal_price || 0) | roundNumber}}</td>
                     </tr>
               </tbody>
             </table>
