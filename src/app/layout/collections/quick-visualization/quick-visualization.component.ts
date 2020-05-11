@@ -55,7 +55,12 @@ export class QuickVisualizationComponent implements OnInit {
           this.collectionCommission = success['data']['collection_commissions'];
           this.totalPaid = 0.00;
           this.totalOutstanding = 0.00;
+          this.model.totalPenalty = 0;
           this.paymentConcepts.forEach(m => {
+            //  calculating total penalty
+            if (m.penalty){
+              this.model.totalPenalty = this.model.totalPenalty + parseInt(m.penalty.amount || 0)
+            }
             // calculating total paid and total outstanding payment
             if (m.is_paid_calculated) {
               m['paid_amount'] = m.calc_payment_amount;

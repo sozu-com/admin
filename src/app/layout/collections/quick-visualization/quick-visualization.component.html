@@ -1,22 +1,23 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-lg-10 col-md-10 col-6">
+    <div class="col-lg-8 col-md-8 col-6">
       <div class="title-group">
         <h5><a routerLink="/dashboard/collections/view-collections" href="javascript://"><i
               class="fa fa-angle-double-left"></i> </a> &nbsp;&nbsp;{{'quickVisualization.label' | translate}}</h5>
       </div>
     </div>
      
-    <div class="col-lg-1 col-md-1 col-6">
+    <div class="col-lg-2 col-md-2 col-6">
       <div class="btn-cont text-right">
           <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#addInhouseUser" #inhouseUserModalOpen>{{'table.addNewBtn' | translate}}</a>
           <!-- *ngIf="admin?.admin_acl['Data Collector Management']?.can_create==1 && parameter.userType=='data-collectors' ||
           admin?.admin_acl['Seller Management']?.can_create==1 && parameter.userType=='csr-sellers'" -->
           <a class="btn btn-primary-new width100P" href="javascript://" (click)="exportData()">{{'table.exportDataBtn' | translate}}</a>
+          <!-- <a class="btn btn-primary-new width100P" href="javascript://" (click)="getCollectionDetails()">Refresh</a> -->
         </div>
     </div>
 
-    <div class="col-lg-1 col-md-1 col-6">
+    <div class="col-lg-2 col-md-2 col-6">
       <div class="btn-cont text-right">
           <a class="btn btn-primary-new width100P" href="javascript://" (click)="getCollectionDetails()">Refresh</a>
         </div>
@@ -152,7 +153,7 @@
       <div class="col-md-4">  
             <div class="table-responsive">
               <table class="table table-bordered white-bg">
-                  <!-- <tbody>
+                  <tbody>
                       <tr>
                           <th>{{'quickVisualization.purchaseDate' | translate}}:</th>
                           <td>{{model?.deal_purchase_date || ('table.tr.td.NA' | translate)}}</td>
@@ -161,18 +162,18 @@
                           <th>{{'quickVisualization.currency' | translate}}:</th>
                           <td>{{model?.currency?.code || ('table.tr.td.NA' | translate)}}</td>
                         </tr>
-                  </tbody> -->
-                <tbody>
+                  </tbody>
+                <!-- <tbody>
                     <tr>
                         <th>{{'quickVisualization.purchaseDate' | translate}}</th>
                       </tr>
                       <tr>
                         <td>{{model?.deal_purchase_date || ('table.tr.td.NA' | translate)}}</td>
                       </tr>
-                </tbody>
+                </tbody> -->
               </table>
             </div>
-              <div class="table-responsive">
+              <!-- <div class="table-responsive">
                 <table class="table table-bordered white-bg">
                   <tbody>
                       <tr>
@@ -183,10 +184,10 @@
                         </tr>
                   </tbody>
                 </table>
-              </div>
+              </div> -->
               <div class="table-responsive">
                 <table class="table table-bordered white-bg">
-                    <!-- <tbody>
+                    <tbody>
                         <tr>
                             <th>{{'quickVisualization.paid' | translate}}:</th>
                             <td>${{(model?.paid || 0) | roundNumber}}</td>
@@ -197,10 +198,10 @@
                           </tr>
                           <tr>
                             <th>{{'quickVisualization.totalPenalty' | translate}}:</th>
-                            <td>${{((model?.total || 0) - (model?.paid || 0)) | roundNumber}}</td>
+                            <td>${{(model?.totalPenalty || 0) | roundNumber}}</td>
                           </tr>
-                    </tbody> -->
-                  <tbody>
+                    </tbody>
+                  <!-- <tbody>
                       <tr>
                           <th>{{'quickVisualization.paid' | translate}}:</th>
                           <td>${{(model?.paid || 0) | roundNumber}}</td>
@@ -209,7 +210,7 @@
                           <th>{{'quickVisualization.remaining' | translate}}:</th>
                           <td>${{((model?.total || 0) - (model?.paid || 0)) | roundNumber}}</td>
                         </tr>
-                  </tbody>
+                  </tbody> -->
                 </table>
               </div>
         </div>

@@ -38,6 +38,7 @@ export class Collection {
     seller_leg_rep_phone?: string;
     paid?: any;
     total?: any;
+    totalPenalty?: any;
 }
 
 export class DealType {
