@@ -11,7 +11,8 @@ import { PropertyService } from 'src/app/services/property.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Notes } from '../../models/leads.model';
 import { CommonService } from '../../services/common.service';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 declare let swal: any;
 
 @Component({
@@ -52,6 +53,7 @@ export class CollectionsComponent implements OnInit {
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
 
   currentAmount: number;
+  penaltyPercent: number;
   paymentAmount: number;
   paymentConcepts: Array<any>;
   add_collection_commission: any;
@@ -66,6 +68,10 @@ export class CollectionsComponent implements OnInit {
   today: Date;
   selectedItem: any;
 
+  // penalty form
+  penaltyForm: FormGroup;
+  showError: boolean;
+
   @ViewChild('applyPaymentChoiceId') applyPaymentChoiceId: ElementRef;
   @ViewChild('applyPaymentMethodId') applyPaymentMethodId: ElementRef;
   @ViewChild('applyPaymentChoiceId1') applyPaymentChoiceId1: ElementRef;
@@ -73,18 +79,13 @@ export class CollectionsComponent implements OnInit {
   @ViewChild('applyPaymentMethodId1') applyPaymentMethodId1: ElementRef;
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
-  @ViewChild('rejectModalOpen') rejectModalOpen: ElementRef;
-  @ViewChild('rejectModalClose') rejectModalClose: ElementRef;
+  // @ViewChild('rejectModalOpen') rejectModalOpen: ElementRef;
+  // @ViewChild('rejectModalClose') rejectModalClose: ElementRef;
 
-  @ViewChild('linkUserModal') linkUserModal: ElementRef;
-  @ViewChild('closeLinkUserModal') closeLinkUserModal: ElementRef;
   @ViewChild('notesModalOpen') notesModalOpen: ElementRef;
   @ViewChild('notesModalClose') notesModalClose: ElementRef;
-  @ViewChild('linkExtBrokerModal') linkExtBrokerModal: ElementRef;
-  @ViewChild('closeExtBrokerModal') closeExtBrokerModal: ElementRef;
   @ViewChild('paymentModalOpen') paymentModalOpen: ElementRef;
   @ViewChild('paymentModalClose') paymentModalClose: ElementRef;
-  @ViewChild('viewCollectionOpen') viewCollectionOpen: ElementRef;
   @ViewChild('viewCollectionClose') viewCollectionClose: ElementRef;
   @ViewChild('collectionReceiptOpen') collectionReceiptOpen: ElementRef;
   @ViewChild('collectionReceiptClose') collectionReceiptClose: ElementRef;
@@ -103,28 +104,23 @@ export class CollectionsComponent implements OnInit {
     private router: Router,
     private translate: TranslateService,
     public model: Notes,
-    private cs: CommonService
+    private cs: CommonService,
+    private fb: FormBuilder,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
+    this.showError = false;
     this.today = new Date();
     this.commission_type = '';
     this.parameter.flag = 1;
     this.model = new Notes();
-    this.route.params.subscribe(params => {
-      this.parameter.project_id = params.project_id;
-      if (params.type === 'agent') {
-        this.parameter.agent_id = params.id;
-      } else if (params.type === 'agency') {
-        this.parameter.agency_id = params.id;
-      }
-    });
+    this.initPenaltyForm();
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.parameter.dash_flag = this.propertyService.dash_flag ? this.propertyService.dash_flag : this.constant.dash_flag;
     this.getPaymentMethods();
     this.getCountries();
-    // this.getPropertyConfigurations();
     this.initCalendarLocale();
     this.getListing();
   }
@@ -159,6 +155,20 @@ export class CollectionsComponent implements OnInit {
         weekHeader: 'Sm'
       };
     }
+  }
+
+  initPenaltyForm() {
+    this.penaltyForm = this.fb.group({
+      collection_payment_choice_id: ['', [Validators.required]],
+      amount: ['', [Validators.required]],
+      description: [''],
+      percent: ['', Validators.required],
+      payment_concept_amt: ['', Validators.required]
+    });
+  }
+
+  get getPenaltyControls() {
+    return this.penaltyForm.controls;
   }
 
   getListing() {
@@ -307,45 +317,6 @@ export class CollectionsComponent implements OnInit {
     this.getListing();
   }
 
-  blockUnblock(item, flag: number) {
-    switch (flag) {
-      case 0:
-        this.parameter.text = this.translate.instant('message.error.wantToUnblockCollection');
-        this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
-        break;
-      case 1:
-      this.parameter.text = this.translate.instant('message.error.wantToBlockCollection');
-        this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
-        break;
-    }
-
-    swal({
-      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: this.constant.confirmButtonColor,
-      cancelButtonColor: this.constant.cancelButtonColor,
-      confirmButtonText: 'Yes'
-    }).then((result) => {
-      if (result.value) {
-        this.blockProperty(item, flag);
-      }
-    });
-  }
-
-  blockProperty(item, flag: number) {
-    this.admin.postDataApi('blockProperty', { property_id: item.id, flag: flag })
-      .subscribe(
-        success => {
-          swal(this.translate.instant('swal.success'), this.parameter.successText, 'success');
-          item.is_blocked = flag;
-          // this.items[this.parameter.index] = success.data;
-        },
-        error => {
-          swal(this.translate.instant('swal.error'), error.error.message, 'error');
-        });
-  }
-
   openCancellationModal(item, status) {
     this.item = item;
     this.parameter.status = status;
@@ -356,19 +327,23 @@ export class CollectionsComponent implements OnInit {
     this.modalClose.nativeElement.click();
   }
 
-  closeReasonModal() {
-    this.rejectModalClose.nativeElement.click();
-  }
+  // closeReasonModal() {
+  //   this.rejectModalClose.nativeElement.click();
+  // }
 
   changeStatus(item: any, status: number) {
     item.is_approved = status;
     const input = { id: item.id, is_approved: status };
     this.admin.postDataApi('approveCollection', input).subscribe(r => {
-      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.collectionStatusChanged'), 'success');
+      this.toastr.clear();
+      this.toastr.success(this.translate.instant('message.success.collectionStatusChanged'), this.translate.instant('swal.success'));
+      // swal(this.translate.instant('swal.success'), this.translate.instant('message.success.collectionStatusChanged'), 'success');
       // this.closeModal();
     },
       error => {
-        swal(this.translate.instant('swal.error'), error.error.message, 'error');
+      this.toastr.clear();
+      this.toastr.error(error.error.message, this.translate.instant('swal.error'));
+        // swal(this.translate.instant('swal.error'), error.error.message, 'error');
       });
   }
 
@@ -389,199 +364,7 @@ export class CollectionsComponent implements OnInit {
     this.parameter.max = '';
   }
 
-  markPropertyFeatured(item, is_featured: number) {
-    item.is_featured = is_featured;
-    this.admin.postDataApi('markPropertyFeatured', { property_id: item.id, flag: is_featured }).subscribe(r => {
-      const msg = is_featured === 1 ? this.translate.instant('message.success.featuredSuccessfully') :
-      this.translate.instant('message.success.unfeaturedSuccessfully');
-      swal(this.translate.instant('swal.success'), msg, 'success');
-    },
-      error => {
-        swal(this.translate.instant('swal.error'), error.error.message, 'error');
-      });
-  }
-
-  showAllSellers(property_id: any, index: any) {
-    this.spinner.show();
-    if (index !== '') { this.parameter.index = index; }
-    this.admin.postDataApi('getSellerSelections', { property_id: property_id }).subscribe(r => {
-      this.spinner.hide();
-      // this.linkSellerModal.nativeElement.click();
-      this.allSellers = r['data'];
-      this.selecter_seller = r['selecter_seller'];
-    }, error => {
-      this.spinner.hide();
-      swal(this.translate.instant('swal.error'), error.error.message, 'error');
-    });
-  }
-
-  getAllSellers(property: any, keyword: string, index) {
-    this.spinner.show();
-    if (index !== '') { this.parameter.index = index; }
-    if (property) {
-      this.parameter.property_id = property.id;
-      this.parameter.seller_id = property.selected_seller_id;
-      this.admin.postDataApi('getSellerSelections', { property_id: property.id }).subscribe(r => {
-        this.allSellers = r['data'];
-        this.selecter_seller = r['selecter_seller'];
-      });
-    }
-    const input = { name: '' };
-    input.name = keyword !== '1' ? keyword : '';
-
-    this.admin.postDataApi('getAllSellers', input).subscribe(r => {
-      this.spinner.hide();
-      if (property) { this.linkUserModal.nativeElement.click(); }
-      this.allUsers = r['data'];
-    }, error => {
-      this.spinner.hide();
-      swal(this.translate.instant('swal.error'), error.error.message, 'error');
-    });
-  }
-
-  linkSellerPopUp(property_id: any, user_id: any, status: number) {
-    this.parameter.property_id = property_id;
-    this.parameter.user_id = user_id;
-    this.parameter.status = status;
-    this.parameter.title = this.translate.instant('message.error.areYouSure');
-    this.parameter.text = status === 1 ? this.translate.instant('message.error.wantToAccessThisRequest') :
-                          this.translate.instant('message.error.wantToRejectThisRequest');
-    swal({
-      html: this.parameter.title + '<br>' + this.parameter.text,
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: this.constant.confirmButtonColor,
-      cancelButtonColor: this.constant.cancelButtonColor,
-      confirmButtonText: 'Yes'
-    }).then((result) => {
-      if (result.value) {
-        this.changeStatusSellerSelection();
-      }
-    });
-  }
-
-  showRejectSellerRequestModal(property_id: any, user_id: any, status: number) {
-    this.parameter.property_id = property_id;
-    this.parameter.user_id = user_id;
-    this.parameter.status = status;
-    // this.closeLinkSellerModal.nativeElement.click();
-    this.closeLinkUserModal.nativeElement.click();
-    this.rejectModalOpen.nativeElement.click();
-  }
-
-  changeStatusPopUp(property_id: any, user_id: any, name: string, status: number, type: string) {
-    this.parameter.property_id = property_id;
-    this.parameter.user_id = user_id;
-    this.parameter.fullName = name;
-    this.parameter.status = status;
-    this.parameter.title = this.translate.instant('message.error.areYouSure');
-    if (type === 'request') {
-      this.parameter.text = status === 1 ? this.translate.instant('message.error.wantToAccessThisRequest') :
-                          this.translate.instant('message.error.wantToRejectThisRequest');
-    } else {
-      this.parameter.text = status === 1 ? this.translate.instant('message.error.wantToLinkSeller') :
-                          this.translate.instant('message.error.wantToUnLinkSeller');
-    }
-
-    swal({
-      html: this.parameter.title + '<br>' + this.parameter.text,
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: this.constant.confirmButtonColor,
-      cancelButtonColor: this.constant.cancelButtonColor,
-      confirmButtonText: 'Yes'
-    }).then((result) => {
-      if (result.value) {
-        this.changeStatusSellerSelection();
-      }
-    });
-  }
-
-  changeStatusSellerSelection() {
-    const input = { property_id: this.parameter.property_id, user_id: this.parameter.user_id, status: this.parameter.status, reason: '' };
-    if (this.reason) {
-      input.reason = this.reason;
-    }
-    this.admin.postDataApi('changeStatusSellerSelection', input).subscribe(r => {
-      if (this.parameter.status === 1) {
-        this.parameter.seller_id = this.parameter.user_id;
-        this.items[this.parameter.index].selected_seller_id = this.parameter.user_id;
-        const sel_user = {
-          user: {name: ''}
-        };
-        this.items[this.parameter.index].selected_seller = sel_user;
-        this.items[this.parameter.index].selected_seller.user.name = this.parameter.fullName;
-      }
-      // const text = this.parameter.status === 1 ? 'accepted' : 'rejected';
-      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.doneSuccessfully'), 'success');
-      // accept => then close listing modal
-      if (this.parameter.status === 1) {
-        // this.closeLinkSellerModal.nativeElement.click();
-        this.closeLinkUserModal.nativeElement.click();
-      }
-      // else reason modal
-      this.rejectModalClose.nativeElement.click();
-    },
-      error => {
-        swal(this.translate.instant('swal.error'), error.error.message, 'error');
-      });
-  }
-
-  changeSoldStatusPopup(property: any, index: number, event) {
-
-    swal({
-      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.translate.instant('message.error.wantToChangeStatus'),
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: this.constant.confirmButtonColor,
-      cancelButtonColor: this.constant.cancelButtonColor,
-      confirmButtonText: 'Yes'
-    }).then((result) => {
-      if (result.value) {
-        this.changePropertySoldStatus(property, index, event.target.value);
-      } else {
-        if (property.for_sale === 1) {
-          event.target.value = 1;
-        } else if (property.for_rent === 1) {
-          event.target.value = 2;
-        } else {
-          event.target.value = 3;
-        }
-      }
-    });
-  }
-
-  changePropertySoldStatus(property: any, index: number, value: string) {
-    this.property_status = value;
-    this.items[index].for_sale = 0;
-    this.items[index].for_rent = 0;
-    this.items[index].for_hold = 0;
-    const input = {
-      property_id: property.id,
-      for_hold: 0,
-      for_sale: 0,
-      for_rent: 0
-    };
-    if (value === '1') {
-      this.items[index].for_sale = 1;
-      input.for_sale = 1;
-    } else if (value === '2') {
-      this.items[index].for_rent = 1;
-      input.for_rent = 1;
-    } else {
-      this.items[index].for_hold = 1;
-      input.for_hold = 1;
-    }
-    this.admin.postDataApi('changePropertySoldStatus', input).subscribe(r => {
-      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.changedSuccessfully'), 'success');
-    },
-      error => {
-        swal(this.translate.instant('swal.error'), error.error.message, 'error');
-      });
-  }
-
   deletePopup(item: any, index: number) {
-
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' +
         this.translate.instant('message.error.wantToDeleteCollection'),
@@ -598,27 +381,18 @@ export class CollectionsComponent implements OnInit {
   }
 
   deleteCollection(item: any, index: number) {
-    this.admin.postDataApi('deleteCollection',
-      { id: item.id }).subscribe(r => {
-        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
+    this.admin.postDataApi('deleteCollection', { id: item.id }).subscribe(r => {
+        this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
         this.items.splice(index, 1);
       },
-        error => {
-          swal(this.translate.instant('swal.error'), error.error.message, 'error');
-        });
-  }
-
-
-  viewPropertyDetails(property_id: string, data: AddPropertyModel) {
-    // this.propertyService.property = data;
-    this.propertyService.setPropertyData(data);
-    this.router.navigate(['/dashboard/properties/details', property_id]);
+      error => {
+        this.toastr.error(error.error.message, this.translate.instant('swal.error'));
+      });
   }
 
   getNotes(item) {
     this.property_collection_id = item.id;
     const input = {property_collection_id: item.id};
-    // const input = {lead_id: 453, sent_as:1};
     this.admin.postDataApi('getCollectionNote', input).subscribe(r => {
       this.parameter.items = r.data;
       this.notesModalOpen.nativeElement.click();
@@ -628,7 +402,6 @@ export class CollectionsComponent implements OnInit {
   closeNotesModal() {
     this.notesModalClose.nativeElement.click();
   }
-
   
   addNote() {
     if (!this.model.note) {
@@ -639,7 +412,10 @@ export class CollectionsComponent implements OnInit {
       this.spinner.hide();
       this.model = new Notes();
       this.parameter.items.push(r.data);
-      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
+      
+      this.toastr.clear();
+      this.toastr.success(this.translate.instant('message.success.addedSuccessfully'), this.translate.instant('swal.success'));
+      // swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
       this.closeNotesModal();
     });
   }
@@ -663,7 +439,10 @@ export class CollectionsComponent implements OnInit {
   deleteLeadNote(note_id, index) {
     this.admin.postDataApi('deleteCollectionNote', {id: note_id}).subscribe(r => {
       this.parameter.items.splice(index, 1);
-      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
+      this.toastr.clear();
+      this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+ 
+      // swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
     });
   }
 
@@ -674,17 +453,33 @@ export class CollectionsComponent implements OnInit {
     this.paymentModalOpen.nativeElement.click();
   }
 
+  setPaymentConceptAmount(id: any) {
+    this.paymentConcepts.map(r => {
+      if (r.id == id) {
+        this.penaltyForm.controls.payment_concept_amt.patchValue(r.amount || 0);        
+      }
+    }); 
+  }
+
   setPaymentAmount(item: any) {
     console.log(item);
     // this.paymentAmount = item.amount ? item.amount : 0;
     if (this.typeOfPayment == 'commission-popup') {
       if (this.commission_type == 1 && item.add_purchase_commission == 0) {
-        swal('Error', 'Please enable the purchase commission checkbox from collection details', 'error');
+        
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseEnablePurchaseCommission'), this.translate.instant('swal.error'));
+ 
+        // swal('Error', 'Please enable the purchase commission checkbox from collection details', 'error');
         this.closeCollReceiptModal();
         return false;
       }
       if (this.commission_type == 2 && item.add_collection_commission == 0) {
-        swal('Error', 'Please enable the collection commission checkbox from collection details', 'error');
+        
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseEnableCollectionCommission'), this.translate.instant('swal.error'));
+ 
+        // swal('Error', 'Please enable the collection commission checkbox from collection details', 'error');
         this.closeCollReceiptModal();
         return false;
       }
@@ -727,11 +522,19 @@ export class CollectionsComponent implements OnInit {
 
   applyCollectionPayment(formdata: NgForm) {
     if (!this.paymentDate) {
-      swal('Error', 'Please select payment date', 'error');
+      
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseSelectPaymentDate'), this.translate.instant('swal.error'));
+ 
+      // swal('Error', 'Please select payment date', 'error');
       return false;
     }
     if (!this.docFile) {
-      swal('Error', 'Please choose receipt', 'error');
+      
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseChooseReceipt'), this.translate.instant('swal.error'));
+ 
+      // swal('Error', 'Please choose receipt', 'error');
       return false;
     }
     const input = {
@@ -803,7 +606,11 @@ export class CollectionsComponent implements OnInit {
       this.applyPaymentMethodId.nativeElement.value = '';
       this.paymentModalClose.nativeElement.click();
       this.closeCollReceiptModal();
-      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.savedSuccessfully'), 'success');
+      
+      this.toastr.clear();
+      this.toastr.success(this.translate.instant('message.success.savedSuccessfully'), this.translate.instant('swal.success'));
+ 
+      // swal(this.translate.instant('swal.success'), this.translate.instant('message.success.savedSuccessfully'), 'success');
      
     });
   }
@@ -881,51 +688,29 @@ export class CollectionsComponent implements OnInit {
     this.collectionReceiptOpen.nativeElement.click();
   }
 
-  saveCollectionCommAmount(p: any) {
-    if (!p.collection_payment) {
-      swal('Error', 'Payment not received.', 'error');
-      return false;
+
+  getPenaltyAmount(percent: number) {
+    const paymentConceptAmount = this.penaltyForm.controls.payment_concept_amt.value;
+    if (!paymentConceptAmount || paymentConceptAmount == 0) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseChoosePaymentConcept'), this.translate.instant('swal.error'));
+      this.penaltyForm.controls.percent.patchValue(0);
+      return;
     }
-    if (!p.collection_payment.collection_commission.amount) {
-      swal('Error', 'Add collection commission amount.', 'error');
-      return false;
-    }
-    // if (!p.collection_payment.collection_commission.add_collection_commission) {
-    //   swal('Error', 'Click on collection commission checkbox.', 'error');
-    //   return false;
-    // }
-    const input = {
-      collection_payment_id: p.collection_payment.id,
-      add_collection_commission: 1, //this.add_collection_commission,
-      percent : this.percent,
-      amount : this.amount
-      // receipt: this.docFile,
-      // description: this.description
-    }
-    this.admin.postDataApi('applyCollectionPaymentCommission', input).subscribe(r => {
-      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.savedSuccessfully'), 'success');
-      // this.paymentAmount = 0; this.docFile = ''; this.description = '';
-      // this.docsFile.nativeElement.value = '';
-      // this.paymentModalClose.nativeElement.click();
-    });
+    const paymentAmount = Math.round((percent * paymentConceptAmount) / 100);
+    this.penaltyForm.controls.amount.patchValue(paymentAmount);
   }
 
-  getAmount(index: number, percent: number) {
-    const amount = this.items[this.collectionIndex].payment_choices[index].collection_payment.amount;
-    const collection_commission = {
-      amount: Math.round((percent * amount) / 100),
-      percent: percent
+  getPenaltyPercentage(amount: number) {
+    const paymentConceptAmount = this.penaltyForm.controls.payment_concept_amt.value;
+    if (!paymentConceptAmount || paymentConceptAmount == 0) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseChoosePaymentConcept'), this.translate.instant('swal.error'), );
+      this.penaltyForm.controls.amount.patchValue(0);
+      return;
     }
-    this.items[this.collectionIndex].payment_choices[index].collection_payment.collection_commission = collection_commission;
-  }
-
-  getPercentage(index: number, amount: number) {
-    const Famount = this.items[this.collectionIndex].payment_choices[index].collection_payment.amount;
-    const collection_commission = {
-      percent: Math.round((amount * 100) / Famount),
-      amount: amount
-    }
-    this.items[this.collectionIndex].payment_choices[index].collection_payment.collection_commission = collection_commission;
+    const penaltyPercent = Math.round((amount * 100) / paymentConceptAmount);
+    this.penaltyForm.controls.percent.patchValue(penaltyPercent);
   }
 
   closeCollReceiptModal() {
@@ -953,23 +738,20 @@ export class CollectionsComponent implements OnInit {
     this.typeOfPayment = type;
     this.collectionIndex = i;
     this.paymentConcepts = item.payment_choices;
-    console.log(this.paymentConcepts)
     this.penaltyModalOpen.nativeElement.click();
   }
   
   closePenaltyPaymentPopup() {
+    this.penaltyForm.reset();
     this.penaltyModalClose.nativeElement.click();
   }
 
   applyCollectionPenalty(formdata) {
-    if (!this.payment_choice_id)
-    return false;
-    const input = {
-      collection_payment_choice_id: this.payment_choice_id,
-      amount : formdata.paymentAmount,
-      description: formdata.description ? formdata.description : ''
+    if (this.penaltyForm.invalid) {
+      this.showError = true;
+      return;
     }
-    this.admin.postDataApi('applyCollectionPenalty', input).subscribe(r => {
+    this.admin.postDataApi('applyCollectionPenalty', this.penaltyForm.value).subscribe(r => {
       let paymentChoiceIndex = 0;
       for (let index = 0; index < this.items[this.collectionIndex].payment_choices.length; index++) {
         const element = this.items[this.collectionIndex].payment_choices[index];
@@ -978,9 +760,10 @@ export class CollectionsComponent implements OnInit {
         }
       }
       this.items[this.collectionIndex].payment_choices[paymentChoiceIndex]['penalty'] = r.data;
-      this.payment_choice_id = 0; this.paymentAmount = 0; this.description = '';
+      // this.payment_choice_id = 0; this.paymentAmount = 0; this.description = '';
       this.closePenaltyPaymentPopup();
-      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.savedSuccessfully'), 'success');
+      this.toastr.clear();
+      this.toastr.success(this.translate.instant('message.success.savedSuccessfully', this.translate.instant('swal.success')));
     });
   }
 

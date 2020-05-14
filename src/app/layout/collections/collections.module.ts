@@ -11,6 +11,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 import { TranslateModule } from '@ngx-translate/core';
+import { ToastrModule } from 'ngx-toastr';
 
 // general components
 import { AclUserGuard } from 'src/app/guards/acl-user.guard';
@@ -63,7 +64,12 @@ const routes: Routes = [
     LazyLoadImageModule,
     MalihuScrollbarModule.forRoot(),
     TranslateModule,
-    DropdownModule
+    DropdownModule,
+    ToastrModule.forRoot({
+      maxOpened: 1,
+      preventDuplicates: true,
+      autoDismiss: true
+    })
   ],
   declarations: [
     CollectionsComponent,

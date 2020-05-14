@@ -79,7 +79,11 @@ const appRoutes: Routes = [
     NgxSpinnerModule,
     MalihuScrollbarModule.forRoot(),
     Ng2TelInputModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      maxOpened: 1,
+      preventDuplicates: true,
+      autoDismiss: true
+    }),
     AngularFireModule.initializeApp(environment.firebase),
     HttpClientModule,
     TranslateModule.forRoot({

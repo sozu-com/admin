@@ -15,6 +15,7 @@ import { HttpInterceptor } from 'src/app/services/http-interceptor';
 import { TranslateService } from '@ngx-translate/core';
 import { SelectItem } from 'primeng/primeng';
 import { Collection, Seller } from 'src/app/models/collection.model';
+import { ToastrService } from 'ngx-toastr';
 declare const google;
 declare let swal: any;
 
@@ -122,7 +123,8 @@ export class AddEditCollectionComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private element: ElementRef,
     private translate: TranslateService,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    private toastr: ToastrService) {
   }
 
   ngOnInit() {
@@ -657,7 +659,11 @@ export class AddEditCollectionComponent implements OnInit {
 
   searchBuilding(keyword: string) {
     if (!keyword) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterSomeText'), 'error');
+      
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseEnterSomeText'), this.translate.instant('swal.error'));
+
+      // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterSomeText'), 'error');
       return false;
     }
 
@@ -721,12 +727,19 @@ export class AddEditCollectionComponent implements OnInit {
   buildingRequest() {
 
     if (this.building.dev_name && (!this.building.dev_phone || !this.building.dev_email || !this.building.dev_countrycode)) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseFillCompleteDevloperInformation'), 'error');
+           
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseFillCompleteDevloperInformation'), this.translate.instant('swal.error'));
+
+      // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseFillCompleteDevloperInformation'), 'error');
       return false;
     }
 
     if (!this.latitude && !this.longitude) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectLocationFromTheDropdownList'), 'error');
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseSelectLocationFromTheDropdownList'), this.translate.instant('swal.error'));
+
+      // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectLocationFromTheDropdownList'), 'error');
       return false;
     }
 
@@ -734,7 +747,10 @@ export class AddEditCollectionComponent implements OnInit {
     this.building.lng = this.longitude;
 
     if (!this.building.lat || !this.building.lng) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectLocation'), 'error');
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseSelectLocation'), this.translate.instant('swal.error'));
+
+      // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectLocation'), 'error');
       return false;
     }
     this.spinner.show();
@@ -742,11 +758,15 @@ export class AddEditCollectionComponent implements OnInit {
       .subscribe(
         success => {
           this.spinner.hide();
-          swal({
-            html: 'Success' + '<br>' +
-            this.translate.instant('message.success.dataCollectorWillLinkPropertyToBuilding'),
-            type: 'success'
-          });
+          
+      this.toastr.clear();
+      this.toastr.success(this.translate.instant('message.success.dataCollectorWillLinkPropertyToBuilding'), this.translate.instant('swal.success'));
+
+          // swal({
+          //   html: 'Success' + '<br>' +
+          //   this.translate.instant('message.success.dataCollectorWillLinkPropertyToBuilding'),
+          //   type: 'success'
+          // });
           // this.tab = 1;
         }, error => {
           this.spinner.hide();
@@ -760,13 +780,23 @@ export class AddEditCollectionComponent implements OnInit {
     $event.stopPropagation();
     this.model.floor_num = $event.target.value;
     if (!this.model.building_id) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectBuilding'), 'error');
+      
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseSelectBuilding'), this.translate.instant('swal.error'));
+
+      // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectBuilding'), 'error');
       return;
     } else if (!this.model.building_towers.id) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectFloor'), 'error');
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseSelectFloor'), this.translate.instant('swal.error'));
+
+      // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectFloor'), 'error');
       return;
     } else if (!this.model.floor_num) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseFloor'), 'error');
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseChooseFloor'), this.translate.instant('swal.error'));
+
+      // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseFloor'), 'error');
       return;
     }
     const input = {
@@ -1006,7 +1036,11 @@ export class AddEditCollectionComponent implements OnInit {
     const monthly_amount = this.addFormStep4.get('monthly_amount').value;
     const monthly_date = this.addFormStep4.get('monthly_date').value;
     if (!this.num_of_months || !monthly_amount || !monthly_date) {
-      swal(this.translate.instant('swal.error'), 'Please enter Number of months, Monthly date, and Monthly amount to be paid', 'error');
+      
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseEnterMonthlyData'), this.translate.instant('swal.error'));
+
+      // swal(this.translate.instant('swal.error'), '', 'error');
       return false;
     }
     for (let index = 0; index < this.num_of_months; index++) {
@@ -1161,11 +1195,19 @@ export class AddEditCollectionComponent implements OnInit {
 
   addDocs() {
     if (!this.docsName) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterDocuName'), 'error');
+      
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseEnterDocuName'), this.translate.instant('swal.error'));
+
+      // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterDocuName'), 'error');
       return;
     }
     if (!this.docFile) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterDocuFile'), 'error');
+      
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseEnterDocuFile'), this.translate.instant('swal.error'));
+
+      // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterDocuFile'), 'error');
       return;
     }
     this.docs.push({name: this.docsName, display_name: this.docFile});
@@ -1304,7 +1346,11 @@ export class AddEditCollectionComponent implements OnInit {
       this.allExtBrokers = r['data'];
     }, error => {
       this.spinner.hide();
-      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+      
+      this.toastr.clear();
+      this.toastr.error(error.error.message, this.translate.instant('swal.error'));
+
+      // swal(this.translate.instant('swal.error'), error.error.message, 'error');
     });
   }
 
@@ -1349,7 +1395,11 @@ export class AddEditCollectionComponent implements OnInit {
       this.allUsers = r['data'];
     }, error => {
       this.spinner.hide();
-      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+      
+      this.toastr.clear();
+      this.toastr.error(error.error.message, this.translate.instant('swal.error'));
+
+      // swal(this.translate.instant('swal.error'), error.error.message, 'error');
     });
   }
 
@@ -1530,7 +1580,11 @@ export class AddEditCollectionComponent implements OnInit {
   getSozuAmount(percent: number) {
     const price = this.addFormStep4.get('deal_price').value;
     if (!price || price == 0) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPrice'), 'error');
+      
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseEnterPrice'), this.translate.instant('swal.error'));
+
+      // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPrice'), 'error');
       return;
     }
     const amount = ((percent * price) / 100).toFixed(2);
@@ -1540,7 +1594,11 @@ export class AddEditCollectionComponent implements OnInit {
   getAgentAmount(percent: number) {
     const price = this.addFormStep4.get('deal_price').value;
     if (!price || price == 0) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPrice'), 'error');
+            
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseEnterPrice'), this.translate.instant('swal.error'));
+
+      // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPrice'), 'error');
       return;
     }
     const amount = ((percent * price) / 100).toFixed(2);
@@ -1550,7 +1608,11 @@ export class AddEditCollectionComponent implements OnInit {
   getAmount(index: number) {
     const price = this.addFormStep4.get('deal_price').value;
     if (!price || price == 0) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPrice'), 'error');
+                  
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseEnterPrice'), this.translate.instant('swal.error'));
+
+      // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPrice'), 'error');
       return;
     }
     const pcArray = this.addFormStep4.get('payment_choices').value;
@@ -1563,7 +1625,11 @@ export class AddEditCollectionComponent implements OnInit {
   getPercentage(index: number) {
     const price = this.addFormStep4.get('deal_price').value;
     if (!price || price == 0) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPrice'), 'error');
+                  
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseEnterPrice'), this.translate.instant('swal.error'));
+
+      // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPrice'), 'error');
       return;
     }
     const pcArray = this.addFormStep4.get('payment_choices').value;
@@ -1623,19 +1689,39 @@ export class AddEditCollectionComponent implements OnInit {
       console.log(this.addFormStep1.controls)
       if (this.addFormStep1.valid) {
         if (!formdata['building_id']) {
-          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectBuilding'), 'error');
+                          
+          this.toastr.clear();
+          this.toastr.error(this.translate.instant('message.error.pleaseSelectBuilding'), this.translate.instant('swal.error'));
+
+          // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectBuilding'), 'error');
           return;
         } else if (!formdata['building_towers_id']) {
-          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectFloor'), 'error');
+          
+          this.toastr.clear();
+          this.toastr.error(this.translate.instant('message.error.pleaseSelectFloor'), this.translate.instant('swal.error'));
+
+          // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectFloor'), 'error');
           return;
         } else if (!formdata['floor_num']) {
-          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseFloor'), 'error');
+          
+            this.toastr.clear();
+            this.toastr.error(this.translate.instant('message.error.pleaseChooseFloor'), this.translate.instant('swal.error'));
+
+          // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseFloor'), 'error');
           return;
         } else if (!formdata['property_id']) {
-          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseApartment'), 'error');
+          
+          this.toastr.clear();
+          this.toastr.error(this.translate.instant('message.error.pleaseChooseApartment'), this.translate.instant('swal.error'));
+
+          // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseApartment'), 'error');
           return;
         } else if (!formdata['building_configuration_id']) {
-          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseApartment'), 'error');
+              
+          this.toastr.clear();
+          this.toastr.error(this.translate.instant('message.error.pleaseChooseApartment'), this.translate.instant('swal.error'));
+
+          // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseApartment'), 'error');
           return;
         }
       } else {
@@ -1651,7 +1737,11 @@ export class AddEditCollectionComponent implements OnInit {
       // console.log(this.addFormStep2.controls)
        if (this.addFormStep2.valid) {
         if (!formdata['seller_fed_tax']) {
-          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), 'error');
+          
+          this.toastr.clear();
+          this.toastr.error(this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), this.translate.instant('swal.error'));
+
+          // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), 'error');
           return;
         }
         if (formdata['collection_seller_banks'] || formdata['collection_seller_banks'].length > 0) {
@@ -1660,7 +1750,11 @@ export class AddEditCollectionComponent implements OnInit {
             const element = formdata['collection_seller_banks'][index];
             if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
               i = i + 1;
-              swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
+              
+              this.toastr.clear();
+              this.toastr.error(this.translate.instant('message.error.pleaseEnterBankDetails'), this.translate.instant('swal.error'));
+
+              // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
               return;
             }
           };
@@ -1671,21 +1765,33 @@ export class AddEditCollectionComponent implements OnInit {
             const element = formdata['collection_seller_rep_banks'][index];
             if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
               i = i + 1;
-              swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
+              
+              this.toastr.clear();
+              this.toastr.error(this.translate.instant('message.error.pleaseEnterBankDetails'), this.translate.instant('swal.error'));
+
+              // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
               return;
             }
           };
         }
         if (this.model.seller_type == 1 || this.model.seller_type == 3) {
           if (!formdata['seller_id']) {
-            swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseSeller'), 'error');
+            
+            this.toastr.clear();
+            this.toastr.error(this.translate.instant('message.error.pleaseChooseSeller'), this.translate.instant('swal.error'));
+
+            // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseSeller'), 'error');
             return;
           }
         } 
   
         if (this.model.seller_type != 1) {
           if (!formdata['seller_leg_rep_name'] || !formdata['seller_leg_rep_phone'] || !formdata['seller_leg_rep_email'] || !formdata['seller_leg_rep_fed_tax']) {
-            swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseFillLegalRepInfo'), 'error');
+                       
+            this.toastr.clear();
+            this.toastr.error(this.translate.instant('message.error.pleaseFillLegalRepInfo'), this.translate.instant('swal.error'));
+
+            // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseFillLegalRepInfo'), 'error');
             return;
           }
         }
@@ -1703,7 +1809,11 @@ export class AddEditCollectionComponent implements OnInit {
       // formdata['buyer_type'] = this.model.buyer_type;
        if (this.addFormStep3.valid) {
         if (!formdata['buyer_fed_tax']) {
-          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), 'error');
+          
+          this.toastr.clear();
+          this.toastr.error(this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), this.translate.instant('swal.error'));
+
+          // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), 'error');
           return;
         }
         if (formdata['collection_buyer_banks'] || formdata['collection_buyer_banks'].length > 0) {
@@ -1712,7 +1822,11 @@ export class AddEditCollectionComponent implements OnInit {
             const element = formdata['collection_buyer_banks'][index];
             if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
               i = i + 1;
-              swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
+              
+              this.toastr.clear();
+              this.toastr.error(this.translate.instant('message.error.pleaseEnterBankDetails'), this.translate.instant('swal.error'));
+
+              // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
               return;
             }
           };
@@ -1723,20 +1837,32 @@ export class AddEditCollectionComponent implements OnInit {
             const element = formdata['collection_buyer_rep_banks'][index];
             if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
               i = i + 1;
-              swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
+              
+              this.toastr.clear();
+              this.toastr.error(this.translate.instant('message.error.pleaseEnterBankDetails'), this.translate.instant('swal.error'));
+
+              // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
               return;
             }
           };
         }
         if (this.model.buyer_type == 1 || this.model.buyer_type == 3) {
           if (!formdata['buyer_id']) {
-            swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseBuyer'), 'error');
+            
+            this.toastr.clear();
+            this.toastr.error(this.translate.instant('message.error.pleaseChooseBuyer'), this.translate.instant('swal.error'));
+
+            // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseBuyer'), 'error');
             return;
           }
         } 
         if (this.model.buyer_type != 1) {
           if (!formdata['buyer_leg_rep_name'] || !formdata['buyer_leg_rep_phone'] || !formdata['buyer_leg_rep_email'] || !formdata['buyer_leg_rep_fed_tax']) {
-            swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseFillLegalRepInfo'), 'error');
+       
+            this.toastr.clear();
+            this.toastr.error(this.translate.instant('message.error.pleaseFillLegalRepInfo'), this.translate.instant('swal.error'));
+
+            // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseFillLegalRepInfo'), 'error');
             return;
           }
         }
@@ -1754,14 +1880,26 @@ export class AddEditCollectionComponent implements OnInit {
       console.log(this.addFormStep4.controls);
       if (this.addFormStep4.valid) {
         if (!formdata['deal_purchase_date']) {
+          
+          this.toastr.clear();
+          this.toastr.error(this.translate.instant('message.error.pleaseEnterPurchaseDate'), this.translate.instant('swal.error'));
+
           swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPurchaseDate'), 'error');
           return;
         } else if (!formdata['deal_price']) {
-          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPrice'), 'error');
+          
+          this.toastr.clear();
+          this.toastr.error(this.translate.instant('message.error.pleaseEnterPrice'), this.translate.instant('swal.error'));
+
+          // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPrice'), 'error');
           return;
         }
         else if (!formdata['payment_choices']) {
-          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChoosePayments'), 'error');
+          
+          this.toastr.clear();
+          this.toastr.error(this.translate.instant('message.error.pleaseChoosePayments'), this.translate.instant('swal.error'));
+
+          // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChoosePayments'), 'error');
           return;
         }
         let paymentSum = 0
@@ -1773,20 +1911,24 @@ export class AddEditCollectionComponent implements OnInit {
             const text = element.name ? 
                           this.translate.instant('message.error.pleaseFillAllDetailsFor') + element.name :
                           this.translate.instant('message.error.pleaseFillAllDetailsFor')
-            swal(this.translate.instant('swal.error'), text, 'error');
+                          
+            this.toastr.clear();
+            this.toastr.error(text, this.translate.instant('swal.error'));
+
+            // swal(this.translate.instant('swal.error'), text, 'error');
             return;
           }
           paymentSum = paymentSum + parseInt(element.amount || 0);
         }
   
         // check if total sum of monthly installments is equal or greater than property price
-        if (formdata['deal_price'] != paymentSum) {
-          const text = this.translate.instant('message.error.priceIsNotEqualToPaymentConceptPrice') + '<br>' + 
-          this.translate.instant('message.error.priceIs') + formdata['deal_price'] + '<br>' +
-          this.translate.instant('message.error.sumOfPaymentConceptIs') + paymentSum;
-          swal(this.translate.instant('swal.error'), text, 'error');
-          return;
-        }
+        // if (formdata['deal_price'] != paymentSum) {
+        //   const text = this.translate.instant('message.error.priceIsNotEqualToPaymentConceptPrice') + '<br>' + 
+        //   this.translate.instant('message.error.priceIs') + formdata['deal_price'] + '<br>' +
+        //   this.translate.instant('message.error.sumOfPaymentConceptIs') + paymentSum;
+        //   swal(this.translate.instant('swal.error'), text, 'error');
+        //   return;
+        // }
       } else {
         this.showError = true;
         return false;
@@ -1798,19 +1940,39 @@ export class AddEditCollectionComponent implements OnInit {
       console.log(this.addFormStep5.controls);
       if (this.addFormStep5.valid) {
         if (!formdata['comm_total_commission']) {
-          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterSozuCommission'), 'error');
+          
+          this.toastr.clear();
+          this.toastr.error(this.translate.instant('message.error.pleaseEnterSozuCommission'), this.translate.instant('swal.error'));
+
+          // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterSozuCommission'), 'error');
           return;
         } else if (!formdata['comm_total_commission_amount']) {
-          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterSozuCommission'), 'error');
+          
+          this.toastr.clear();
+          this.toastr.error(this.translate.instant('message.error.pleaseEnterSozuCommission'), this.translate.instant('swal.error'));
+
+          // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterSozuCommission'), 'error');
           return;
         } else if (!formdata['comm_shared_commission']) {
-          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterAgentCommission'), 'error');
+                    
+          this.toastr.clear();
+          this.toastr.error(this.translate.instant('message.error.pleaseEnterAgentCommission'), this.translate.instant('swal.error'));
+
+          // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterAgentCommission'), 'error');
           return;
         } else if (!formdata['comm_shared_commission_amount']) {
-          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterAgentCommission'), 'error');
+                    
+          this.toastr.clear();
+          this.toastr.error(this.translate.instant('message.error.pleaseEnterAgentCommission'), this.translate.instant('swal.error'));
+
+          // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterAgentCommission'), 'error');
           return;
         } else if (!formdata['deal_commission_agents']) {
-          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterAgent'), 'error');
+                    
+          this.toastr.clear();
+          this.toastr.error(this.translate.instant('message.error.pleaseEnterAgent'), this.translate.instant('swal.error'));
+
+          // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterAgent'), 'error');
           return;
         } else if (formdata['deal_commission_agents'] || formdata['deal_commission_agents'].length>0) {
           let i = 0;
@@ -1818,10 +1980,20 @@ export class AddEditCollectionComponent implements OnInit {
             const element = formdata['deal_commission_agents'][index];
             if (!element.name || !element.fed_tax_payer_reg) {
               i = i + 1;
-              if (!element.name) 
-               swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterAgent'), 'error');
-              else 
-                swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), 'error');
+              if (!element.name) {
+                          
+                this.toastr.clear();
+                this.toastr.error(this.translate.instant('message.error.pleaseEnterAgent'), this.translate.instant('swal.error'));
+
+              }
+              //  swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterAgent'), 'error');
+              else {
+                          
+                this.toastr.clear();
+                this.toastr.error(this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), this.translate.instant('swal.error'));
+
+              }
+                // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), 'error');
               return;
             }
           }
@@ -1832,7 +2004,11 @@ export class AddEditCollectionComponent implements OnInit {
             const element = formdata['collection_agent_banks'][index];
             if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
               i = i + 1;
-              swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
+                                  
+              this.toastr.clear();
+              this.toastr.error(this.translate.instant('message.error.pleaseEnterBankDetails'), this.translate.instant('swal.error'));
+
+              // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
               return;
             }
           }

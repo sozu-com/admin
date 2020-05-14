@@ -2,20 +2,22 @@
     /* background: #68abf4;
     border: 1px solid #4543437d; */
     background-image: url(/assets/img/ic_folder.svg);
-    background-size: cover;
-    /* height: 207px; */
-    height: 180px;
-    padding: 15px 16px;
+    background-size: contain;
+    height: auto;
+    /* padding: 15px 6px; */
     margin: 15px;
     border-radius: 15px;
+    background-size: cover;
 }
 .folder-box .form-group-3 {
-    margin-top: 35%;
-    height: 60px;
+    margin-bottom: 0px;
+    height: 120px;
+    padding-top: 60px;
 }
 .folder-box .form-group-3 p {
     text-align: center;
-    font-size: 16px;
+    font-size: 15px;
+    word-break: break-word;
 }
 .folder-box button{
     padding: 4px 8px;
