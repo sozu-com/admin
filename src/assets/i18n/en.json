@@ -777,6 +777,8 @@
       "noViewedPropertyFound": "No property or project viewed by you.",
       "noNoteFound": "No notes to show.",
       "noRecordFound": "No record found",
+      "noApprovedCollectionFound": "No approved collection found",
+      "noUnApprovedCollectionFound": "No unapproved collection found",
       "fileSizeExceeds": "The file you have selected is too large. The maximum size is 50MB.",
       "noDocumentUploadedYet": "No document uploaded yet.",
       "pleaseSelectLocationFromTheDropdownList": "Please select location from the dropdown list.",

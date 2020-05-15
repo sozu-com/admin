@@ -780,6 +780,8 @@
       "noViewedPropertyFound": "Ninguna departamento o proyecto visto por usted.",
       "noNoteFound": "No hay notas para mostrar.",
       "noRecordFound": "Ningún registro encontrado",
+      "noApprovedCollectionFound": "No se encontró una colección aprobada.",
+      "noUnApprovedCollectionFound": "No se encontró una colección no aprobada",
       "fileSizeExceeds": "El archivo que ha seleccionado es demasiado grande. El tamaño máximo es 50 MB.",
       "noDocumentUploadedYet": "Todavía no se ha cargado ningún documento.",
       "pleaseSelectLocationFromTheDropdownList": "Selecciona la ubicación de la lista desplegable.",

@@ -16,6 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SelectItem } from 'primeng/primeng';
 import { Collection, Seller } from 'src/app/models/collection.model';
 import { ToastrService } from 'ngx-toastr';
+import { CurrencyPipe } from '@angular/common';
 declare const google;
 declare let swal: any;
 
@@ -23,7 +24,7 @@ declare let swal: any;
   selector: 'app-add-edit-collection',
   templateUrl: './add-edit-collection.component.html',
   styleUrls: ['./add-edit-collection.component.css'],
-  providers: [AddPropertyModel, Building, Constant, HttpInterceptor, Collection]
+  providers: [AddPropertyModel, Building, Constant, HttpInterceptor, Collection, CurrencyPipe]
 })
 export class AddEditCollectionComponent implements OnInit {
 
@@ -124,7 +125,8 @@ export class AddEditCollectionComponent implements OnInit {
     private element: ElementRef,
     private translate: TranslateService,
     private fb: FormBuilder,
-    private toastr: ToastrService) {
+    private toastr: ToastrService,
+    private currencyPipe: CurrencyPipe) {
   }
 
   ngOnInit() {
@@ -1635,11 +1637,8 @@ export class AddEditCollectionComponent implements OnInit {
   getAmount(index: number) {
     const price = this.addFormStep4.get('deal_price').value;
     if (!price || price == 0) {
-                  
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseEnterPrice'), this.translate.instant('swal.error'));
-
-      // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPrice'), 'error');
       return;
     }
     const pcArray = this.addFormStep4.get('payment_choices').value;
@@ -1652,18 +1651,16 @@ export class AddEditCollectionComponent implements OnInit {
   getPercentage(index: number) {
     const price = this.addFormStep4.get('deal_price').value;
     if (!price || price == 0) {
-                  
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseEnterPrice'), this.translate.instant('swal.error'));
-
-      // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPrice'), 'error');
       return;
     }
     const pcArray = this.addFormStep4.get('payment_choices').value;
-    const amount = pcArray[index].amount;
+    const amount = (pcArray[index].amount).toFixed(2);
     const percent = ((amount * 100) / price).toFixed(2);
-    pcArray[index].percent = percent;
-    this.addFormStep4.controls['payment_choices'].patchValue(pcArray);
+    // this.addFormStep4.controls.payment_choices['controls'][index]['controls'].amount.patchValue(amount);
+    this.addFormStep4.controls.payment_choices['controls'][index]['controls'].percent.patchValue(percent);
+    // this.addFormStep4.controls['payment_choices'].patchValue(pcArray);
   }
 
   getCollAmount(percent: number, index: number, payment_amount: number) {
@@ -1684,6 +1681,7 @@ export class AddEditCollectionComponent implements OnInit {
     const price = this.addFormStep4.get('deal_price').value;
     const numOfInstallments = this.addFormStep4.get('deal_monthly_payment').value;
     const monthlyAmount = Math.round(price / numOfInstallments);
+    // const monthlyAmount: any = this.currencyPipe.transform(price / numOfInstallments);
     const percent = ((monthlyAmount * 100) / price).toFixed(2);
     this.addFormStep4.controls['deal_monthly_amount'].patchValue(monthlyAmount);
     this.addFormStep4.controls['deal_monthly_percentage'].patchValue(percent);

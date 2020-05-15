@@ -1296,11 +1296,14 @@
         </div>
 
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-          <div class="form-group-3">
+          <div class="input-group form-group-3">
             <label>{{'addCollection.price' | translate}}</label>
             <div class="clearfix"></div>
-            <input autocomplete="off" class="form-control" step="0.01" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="deal_price" min="0"
-                name="deal_price">
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon1">$</span>
+              <input autocomplete="off" class="form-control" step="0.01" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="deal_price" min="0"
+                  name="deal_price" appUptoTwoDigitDecimalNumber>
+            </div>
           </div>
           <div *ngIf="showError  &&  (addFormStep4.controls.deal_price.invalid)">
             <div *ngIf="addFormStep4.controls.deal_price.errors?.required " class="show-error">
@@ -1373,7 +1376,7 @@
                 <div class="clearfix"></div>
                 <input required autocomplete="off" class="form-control" (input)="getAmount(i)" type="number" step="0.01" 
                 placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="percent" min="0"
-                  max="100"  name="percent">
+                  max="100"  name="percent" appUptoTwoDigitDecimalNumber>
                 <div class="input-group-append">
                   <span class="input-group-text" id="basic-addon1">%</span>
                 </div>
@@ -1388,10 +1391,13 @@
               </div>
             </div>
             <div class="col-lg-2 col-md-6 col-sm-6 col-12" title="{{'addCollection.enterAmount' | translate}}">
-              <div class="form-group-3">
+              <div class="input-group form-group-3">
                 <div class="clearfix"></div>
-                <input required autocomplete="off" class="form-control" (input)="getPercentage(i)" 
-                  type="number" step="0.01" formControlName="amount" min="0" name="amount">
+                <div class="input-group-append">
+                  <span class="input-group-text" id="basic-addon1">$</span>
+                  <input required autocomplete="off" class="form-control" (input)="getPercentage(i)" 
+                    type="number" step="0.01" formControlName="amount" min="0" name="amount" appUptoTwoDigitDecimalNumber>
+                </div>
               </div>
               <div *ngIf="showError  &&  (addFormStep4.controls.payment_choices.controls[i].controls.amount.invalid)">
                   <div *ngIf="addFormStep4.controls.payment_choices.controls[i].controls.amount.errors?.required " class="show-error">
@@ -1417,7 +1423,7 @@
             <div class="clearfix"></div>
             <!-- (input)="addMonthlyInputs($event)" -->
             <input autocomplete="off" class="form-control" type="number" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="num_of_months" min="0"
-                name="num_of_months">
+                  name="num_of_months">
           </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -1431,12 +1437,15 @@
            </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-          <div class="form-group-3">
+          <div class="input-group form-group-3">
             <label>{{'addCollection.enterMonthlyAmount' | translate}}</label>
             <div class="clearfix"></div>
             <!-- (input)="addMonthlyAmounts($event)" -->
-            <input autocomplete="off" class="form-control" type="number" step="0.01" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="monthly_amount" min="0"
-                name="monthly_amount">
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon1">$</span>
+              <input autocomplete="off" class="form-control" type="number" step="0.01" placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="monthly_amount" min="0"
+                  name="monthly_amount" appUptoTwoDigitDecimalNumber>
+            </div>
           </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -1492,7 +1501,7 @@
           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <label class="p16-two">{{'addCollection.sozuCommission' | translate}}</label>
           <div class="input-group form-group-3">
-            <input required autocomplete="off" class="form-control" type="number" (input)="getSozuAmount($event.target.value)" step="0.01" min="0" max="100" name="comm_total_commission" formControlName="comm_total_commission">
+            <input required autocomplete="off" class="form-control" type="number" appUptoTwoDigitDecimalNumber (input)="getSozuAmount($event.target.value)" step="0.01" min="0" max="100" name="comm_total_commission" formControlName="comm_total_commission">
             <div class="input-group-append">
               <span class="input-group-text" id="basic-addon1">%</span>
             </div>
@@ -1508,8 +1517,11 @@
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <label class="p16-two">{{'addCollection.sozuCommissionAmount' | translate}}</label>
-          <div class="form-group-3">
-            <input required autocomplete="off" class="form-control" type="number" step="0.01" min="0" max="100" name="comm_total_commission_amount" formControlName="comm_total_commission_amount">
+          <div class="input-group form-group-3">
+              <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon1">$</span>
+              </div>
+              <input required autocomplete="off" class="form-control" type="number" appUptoTwoDigitDecimalNumber step="0.01" min="0" max="100" name="comm_total_commission_amount" formControlName="comm_total_commission_amount">
           </div>
           <div *ngIf="showError  &&  (addFormStep5.controls.comm_total_commission_amount.invalid)">
             <div *ngIf="addFormStep5.controls.comm_total_commission_amount.errors?.required " class="show-error">
@@ -1520,7 +1532,7 @@
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <label class="p16-two">{{'addCollection.agentCommission' | translate}}</label>
           <div class="input-group form-group-3">
-            <input required autocomplete="off" class="form-control" type="number" (input)="getAgentAmount($event.target.value)" step="0.01" min="0" max="100" name="comm_shared_commission" formControlName="comm_shared_commission">
+            <input required autocomplete="off" class="form-control" type="number" appUptoTwoDigitDecimalNumber (input)="getAgentAmount($event.target.value)" step="0.01" min="0" max="100" name="comm_shared_commission" formControlName="comm_shared_commission">
             <div class="input-group-append">
               <span class="input-group-text" id="basic-addon1">%</span>
             </div>
@@ -1536,8 +1548,11 @@
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <label class="p16-two">{{'addCollection.agentCommissionAmount' | translate}}</label>
-          <div class="form-group-3">
-            <input required autocomplete="off" class="form-control" type="number" step="0.01" min="0" max="100" name="comm_shared_commission_amount" formControlName="comm_shared_commission_amount">
+          <div class="input-group form-group-3">
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon1">$</span>
+            </div>
+            <input required autocomplete="off" class="form-control" type="number" appUptoTwoDigitDecimalNumber step="0.01" min="0" max="100" name="comm_shared_commission_amount" formControlName="comm_shared_commission_amount">
           </div>
           <div *ngIf="showError  &&  (addFormStep5.controls.comm_shared_commission_amount.invalid)">
             <div *ngIf="addFormStep5.controls.comm_shared_commission_amount.errors?.required " class="show-error">
@@ -1696,16 +1711,16 @@
               </td>
               <td>
                <input 
-                  type="number" class="form-control" formControlName="percent" step="0.01" name="percent{{i}}" (input)="getCollAmount($event.target.value, i, model.collection_commissions[i].payment_amount)">
+                  type="number" class="form-control" appUptoTwoDigitDecimalNumber formControlName="percent" step="0.01" name="percent{{i}}" (input)="getCollAmount($event.target.value, i, model.collection_commissions[i].payment_amount)">
               </td>
               <td>
-                  <input type="number" step="0.01" class="form-control" formControlName="amount" name="amount{{i}}" (input)="getCollPercentage($event.target.value, i, model.collection_commissions[i].payment_amount)">
+                  <input type="number" step="0.01" appUptoTwoDigitDecimalNumber class="form-control" formControlName="amount" name="amount{{i}}" (input)="getCollPercentage($event.target.value, i, model.collection_commissions[i].payment_amount)">
               </td>
               <td>
                   <input type="checkbox" class="form-control" formControlName="add_purchase_commission" name="add_purchase_commission">
               </td>
               <td>
-                  <input type="number" step="0.01" class="form-control" formControlName="purchase_comm_amount" name="purchase_comm_amount{{i}}">
+                  <input type="number" step="0.01" appUptoTwoDigitDecimalNumber class="form-control" formControlName="purchase_comm_amount" name="purchase_comm_amount{{i}}">
               </td>
             </tr>
           </ng-container>

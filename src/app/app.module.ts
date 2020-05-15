@@ -40,6 +40,7 @@ import { PropertyService } from './services/property.service';
 import { ProjectService } from './services/project.service';
 import { LeadsService } from './services/leads.service';
 import { ExcelService } from './services/excel.service';
+import { UptoTwoDigitDecimalNumberDirective } from './directives/upto-two-digit-decimal-number.directive';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent },
@@ -60,7 +61,8 @@ const appRoutes: Routes = [
     AppComponent,
     ForgotPasswordComponent,
     LoginComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    // UptoTwoDigitDecimalNumberDirective
   ],
   imports: [
     RouterModule.forRoot(appRoutes, { useHash: false , preloadingStrategy: PreloadAllModules }),

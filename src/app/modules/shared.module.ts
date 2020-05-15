@@ -19,6 +19,7 @@ import { PercentagePipe } from '../pipes/percentage.pipe';
 import { TranslateModule } from '@ngx-translate/core';
 import { ProjectBlockComponent } from '../layout/common-blocks/project-block/project-block.component';
 import { RoundNumberPipe } from '../pipes/round-number.pipe';
+import { UptoTwoDigitDecimalNumberDirective } from '../directives/upto-two-digit-decimal-number.directive';
 
 @NgModule({
   imports: [
@@ -44,7 +45,8 @@ import { RoundNumberPipe } from '../pipes/round-number.pipe';
     PricePipe,
     PercentagePipe,
     ProjectBlockComponent,
-    RoundNumberPipe
+    RoundNumberPipe,
+    UptoTwoDigitDecimalNumberDirective
   ],
   exports: [
     ChatComponent,
@@ -60,7 +62,8 @@ import { RoundNumberPipe } from '../pipes/round-number.pipe';
     PricePipe,
     PercentagePipe,
     ProjectBlockComponent,
-    RoundNumberPipe
+    RoundNumberPipe,
+    UptoTwoDigitDecimalNumberDirective
   ]
 })
 export class SharedModule { }

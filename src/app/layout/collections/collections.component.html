@@ -405,7 +405,10 @@
                     </tr>
                  </table>
                  <div class="padding20 center" *ngIf="total == 0">
-                       <img src="assets/img/404-error.png">
+                       <!-- <img src="assets/img/404-error.png"> -->
+                    <p class="show-not-found">
+                      {{parameter.flag==1 ? ('message.error.noApprovedCollectionFound' | translate) : ('message.error.noUnApprovedCollectionFound' | translate)}}
+                    </p>
                  </div>
               </div>
            </div>
