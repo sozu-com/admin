@@ -338,10 +338,10 @@
 
                      <td><span>{{p?.last_payment?.name || ('table.tr.td.NA' | translate)}}</span></td>
                      <td><span>{{(p?.last_payment?.payment_date ? (p?.last_payment?.payment_date | date:'yyyy-MM-dd') : ('table.tr.td.NA' | translate) )}}</span></td>
-                     <td><span> {{p?.currency?.symbol}} {{ (p?.last_payment?.amount || 0) | roundNumber}}</span></td>
+                     <td><span>{{ (p?.last_payment?.amount || 0) | currency}}</span></td>
                      <td><span>{{p?.next_payment?.name || ('table.tr.td.NA' | translate)}}</span></td>
                      <td><span>{{p?.next_payment?.date || ('table.tr.td.NA' | translate)}}</span></td>
-                     <td><span>{{p?.currency?.symbol}} {{ (p?.next_payment?.amount || 0) | roundNumber}}</span></td>
+                     <td><span>{{ (p?.next_payment?.amount || 0) | currency}}</span></td>
 
                      <td><span>{{p?.currency?.code || ('table.tr.td.NA' | translate)}}</span></td>
                      <td><span>{{p.comm_total_commission || ('table.tr.td.NA' | translate)}}</span></td>
@@ -352,10 +352,10 @@
                      <td *ngIf="!p?.deal_commission_agents?.length">
                         <span>{{('table.tr.td.NA' | translate)}}</span>
                      </td>
-                     <td><span>{{p?.currency?.symbol ? p?.currency?.symbol : '$'}} {{(p?.deal_price || 0) | roundNumber}}</span></td>
-                     <td><span>{{p?.currency?.symbol}} {{(p?.penalty || 0) | roundNumber}}</span></td>
-                     <td><span>{{p?.currency?.symbol}} {{(p?.paid || 0) | roundNumber}}</span></td>
-                     <td><span>{{p?.currency?.symbol}} {{((p?.total || 0) - (p?.paid || 0)) | roundNumber}}</span></td>
+                     <td><span>{{(p?.deal_price || 0) | currency}}</span></td>
+                     <td><span>{{(p?.penalty || 0) | currency}}</span></td>
+                     <td><span>{{(p?.total_payment_recieved || 0) | currency}}</span></td>
+                     <td><span>{{(((p?.deal_price || 0) + (p?.penalty || 0)) - (p?.total_payment_recieved || 0)) | currency}}</span></td>
                      <td>{{'table.tr.td.NA' | translate}}</td>
                      <td>
                      <div class="table-actions">

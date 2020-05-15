@@ -724,7 +724,7 @@
       "updatedSuccessfully": "Updated Successfully.",
       "uploadedSuccessfully": "Uploaded Successfully.",
       "importedSuccessfully": "Imported successfully.",
-      "deletedSuccessfully": "Delete Successfully.",
+      "deletedSuccessfully": "Deleted Successfully.",
       "assignedSuccessfully": "Assigned Successfully.",
       "savedSuccessfully": "Saved Successfully.",
       "submittedSccessfully": "Submitted Successfully.",
@@ -1743,17 +1743,20 @@
     "programmedDate": "Programmed Date",
     "paymentMethods": "Payment Methods",
     "remaining":"Remaining",
-    "accountStatement": "Account Statement"
+    "accountStatement": "Account Statement",
+    "paidByUser": "Amount paid by User",
+    "toBePaidByUser": "Amount to be paid by User"
   },
   "addCollectionValidations": {
     "thisIsRequired": "This is required",
     "nameMin1Limit": "Minimum 1 character is required",
-    "nameMax30Limit": "Maximum 30 charactes are allowed",
+    "nameMax30Limit": "Maximum 30 characters are allowed",
     "fedTaxMin12Limit": "Minimum 12 characters are required",
-    "fedTaxMax13Limit": "Maximum 13 charactes are allowed",
+    "fedTaxMax13Limit": "Maximum 13 characters are allowed",
     "phonePatternCheck": "The Phone Number field accepts only numeric characters",
+    "phonePatternCheck1":"Please enter valid phone number",
     "phoneMin8Limit": "Minimum 8 characters are required",
-    "phoneMax15Limit": "Maximum 15 charactes are allowed",
+    "phoneMax15Limit": "Maximum 15 characters are allowed",
     "emailInvalid": "Enter valid email",
     "percentMax100Limit": "Maximum value can be 100"
   }

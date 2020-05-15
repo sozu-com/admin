@@ -141,20 +141,27 @@ export class AddEditCollectionComponent implements OnInit {
     this.buildingData = new AddProjectModel();
     this.getAllPaymentChoices();
  
-    this.initFormStep1();
-    this.setValue('seller_type', 1);
-    this.setValue('buyer_type', 1);
-    // this.initFormStep2();
-    // this.initFormStep3();
-    this.initFormStep4();
-    this.initFormStep5();
 
     this.parameter.sub = this.route.params.subscribe(params => {
       this.model.id = params['id'];
       if (params['id'] === '0') {
         this.showSearch = true;
+        this.initFormStep1();
+        this.setValue('seller_type', 1);
+        this.setValue('buyer_type', 1);
+        // this.initFormStep2();
+        // this.initFormStep3();
+        this.initFormStep4();
+        this.initFormStep5();
       } else {
         this.showSearch = false;
+        this.initFormStep1();
+        // this.setValue('seller_type', 1);
+        // this.setValue('buyer_type', 1);
+        this.initFormStep2();
+        this.initFormStep3();
+        this.initFormStep4();
+        this.initFormStep5();
         this.getCollectionDetails(this.model.id);
       }
     });
@@ -230,12 +237,12 @@ export class AddEditCollectionComponent implements OnInit {
       seller_name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(30)]], // commer cial name and seller name
       seller_legal_name: [''], // legal name in case of entity/dev
       seller_address: [null],  // legal entiy/dev address
-      seller_email: [null],
-      seller_phone: ['', [Validators.required, Validators.pattern(this.constant.phonePattern), Validators.minLength(8), Validators.maxLength(15)]],
+      seller_email: [''],
+      seller_phone: ['', [Validators.required, Validators.pattern(this.constant.numberPattern), Validators.minLength(8), Validators.maxLength(15)]],
       seller_company_name: ['', [Validators.minLength(1), Validators.maxLength(30)]],
-      seller_fed_tax: ['', [Validators.required, Validators.minLength(12), Validators.maxLength(13)]],
+      seller_fed_tax: [''],
       seller_leg_rep_name: ['', [Validators.minLength(1), Validators.maxLength(30)]],
-      seller_leg_rep_phone: ['', [Validators.pattern(this.constant.phonePattern), Validators.minLength(8), Validators.maxLength(15)]],
+      seller_leg_rep_phone: ['', [Validators.pattern(this.constant.numberPattern), Validators.minLength(8), Validators.maxLength(15)]],
       seller_leg_rep_email: ['', [Validators.email]],
       seller_leg_rep_comp: [''],
       seller_leg_rep_fed_tax: ['', [Validators.minLength(12), Validators.maxLength(13)]],
@@ -244,7 +251,6 @@ export class AddEditCollectionComponent implements OnInit {
       seller_type: ['', [Validators.required]],
       seller_legal_entity_id: ['']
     });
-    // console.log(this.addFormStep2)
   }
 
   setValue(key: string, value: number) {
@@ -254,17 +260,22 @@ export class AddEditCollectionComponent implements OnInit {
       this.initFormStep2();
       this.showError = false;
       if (value != 1) {
-        // console.log('not person')
+        console.log('not person')
+        this.addFormStep2.controls['seller_email'].setValidators(null);
+        this.addFormStep2.controls['seller_email'].updateValueAndValidity();
         this.addFormStep2.controls['seller_address'].setValidators([Validators.required, Validators.minLength(1)]);
+        this.addFormStep2.controls['seller_fed_tax'].setValidators([Validators.minLength(12), Validators.maxLength(13)]);
         this.addFormStep2.controls['seller_legal_name'].setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
         this.addFormStep2.controls['seller_leg_rep_name'].setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
-        this.addFormStep2.controls['seller_leg_rep_phone'].setValidators([Validators.required, Validators.pattern(this.constant.phonePattern), Validators.minLength(8), Validators.maxLength(15)]);
+        this.addFormStep2.controls['seller_leg_rep_phone'].setValidators([Validators.required, Validators.pattern(this.constant.numberPattern), Validators.minLength(8), Validators.maxLength(15)]);
         this.addFormStep2.controls['seller_leg_rep_email'].setValidators([Validators.required, Validators.email]);
         // this.addFormStep2.controls['seller_leg_rep_comp'].setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
         this.addFormStep2.controls['seller_leg_rep_fed_tax'].setValidators([Validators.required, Validators.minLength(12), Validators.maxLength(13)]);
+      
       } else {
         // console.log('person')
         this.addFormStep2.controls['seller_email'].setValidators([Validators.required, Validators.email]);
+        this.addFormStep2.controls['seller_fed_tax'].setValidators([Validators.minLength(12), Validators.maxLength(13)]);
         this.addFormStep2.controls['seller_leg_rep_comp'].setValidators([Validators.minLength(1), Validators.maxLength(30)]);
         this.addFormStep2.controls['seller_leg_rep_name'].setValidators(null);
         this.addFormStep2.controls['seller_leg_rep_name'].updateValueAndValidity();
@@ -272,10 +283,12 @@ export class AddEditCollectionComponent implements OnInit {
         this.addFormStep2.controls['seller_leg_rep_phone'].updateValueAndValidity();
         this.addFormStep2.controls['seller_leg_rep_email'].setValidators(null);
         this.addFormStep2.controls['seller_leg_rep_email'].updateValueAndValidity();
-        this.addFormStep2.controls['seller_leg_rep_comp'].setValidators(null);
-        this.addFormStep2.controls['seller_leg_rep_comp'].updateValueAndValidity();
+        // this.addFormStep2.controls['seller_leg_rep_comp'].setValidators(null);
+        // this.addFormStep2.controls['seller_leg_rep_comp'].updateValueAndValidity();
         this.addFormStep2.controls['seller_leg_rep_fed_tax'].setValidators(null);
         this.addFormStep2.controls['seller_leg_rep_fed_tax'].updateValueAndValidity();
+        // this.addFormStep2.controls['seller_fed_tax'].setValidators(null);
+        // this.addFormStep2.controls['seller_fed_tax'].updateValueAndValidity();
       }
     }
     else {
@@ -283,14 +296,18 @@ export class AddEditCollectionComponent implements OnInit {
       this.showError = false;
       if (value != 1) {
         this.addFormStep3.controls['buyer_address'].setValidators([Validators.required, Validators.minLength(1)]);
+        this.addFormStep3.controls['buyer_fed_tax'].setValidators([Validators.minLength(12), Validators.maxLength(13)]);
         this.addFormStep3.controls['buyer_legal_name'].setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
         this.addFormStep3.controls['buyer_leg_rep_name'].setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
-        this.addFormStep3.controls['buyer_leg_rep_phone'].setValidators([Validators.required, Validators.pattern(this.constant.phonePattern), Validators.minLength(8), Validators.maxLength(15)]);
+        this.addFormStep3.controls['buyer_leg_rep_phone'].setValidators([Validators.required, Validators.pattern(this.constant.numberPattern), Validators.minLength(8), Validators.maxLength(15)]);
         this.addFormStep3.controls['buyer_leg_rep_email'].setValidators([Validators.required, Validators.email]);
         // this.addFormStep3.controls['buyer_leg_rep_comp'].setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
         this.addFormStep3.controls['buyer_leg_rep_fed_tax'].setValidators([Validators.required, Validators.minLength(12), Validators.maxLength(13)]);
+        this.addFormStep3.controls['buyer_email'].setValidators(null);
+        this.addFormStep3.controls['buyer_email'].updateValueAndValidity();
       } else {
         this.addFormStep3.controls['buyer_email'].setValidators([Validators.required, Validators.email]);
+        this.addFormStep3.controls['buyer_fed_tax'].setValidators([Validators.minLength(12), Validators.maxLength(13)]);
         this.addFormStep3.controls['buyer_leg_rep_comp'].setValidators([Validators.minLength(1), Validators.maxLength(30)]);
         this.addFormStep3.controls['buyer_leg_rep_name'].setValidators(null);
         this.addFormStep3.controls['buyer_leg_rep_name'].updateValueAndValidity();
@@ -298,8 +315,8 @@ export class AddEditCollectionComponent implements OnInit {
         this.addFormStep3.controls['buyer_leg_rep_phone'].updateValueAndValidity();
         this.addFormStep3.controls['buyer_leg_rep_email'].setValidators(null);
         this.addFormStep3.controls['buyer_leg_rep_email'].updateValueAndValidity();
-        this.addFormStep3.controls['buyer_leg_rep_comp'].setValidators(null);
-        this.addFormStep3.controls['buyer_leg_rep_comp'].updateValueAndValidity();
+        // this.addFormStep3.controls['buyer_leg_rep_comp'].setValidators(null);
+        // this.addFormStep3.controls['buyer_leg_rep_comp'].updateValueAndValidity();
         this.addFormStep3.controls['buyer_leg_rep_fed_tax'].setValidators(null);
         this.addFormStep3.controls['buyer_leg_rep_fed_tax'].updateValueAndValidity();
       }
@@ -313,12 +330,12 @@ export class AddEditCollectionComponent implements OnInit {
       buyer_name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(30)]], // commer cial name and seller name
       buyer_legal_name: [''], // legal name in case of entity/dev
       buyer_address: [null],  // legal entiy/dev address
-      buyer_email: [null],
-      buyer_phone: ['', [Validators.required, Validators.pattern(this.constant.phonePattern), Validators.minLength(8), Validators.maxLength(15)]],
+      buyer_email: [''],
+      buyer_phone: ['', [Validators.required, Validators.pattern(this.constant.numberPattern), Validators.minLength(8), Validators.maxLength(15)]],
       buyer_company_name: ['', [Validators.minLength(1), Validators.maxLength(30)]],
-      buyer_fed_tax: ['', [Validators.required, Validators.minLength(12), Validators.maxLength(13)]],
+      buyer_fed_tax: [''],
       buyer_leg_rep_name: ['', [Validators.minLength(1), Validators.maxLength(30)]],
-      buyer_leg_rep_phone: ['', [Validators.pattern(this.constant.phonePattern), Validators.minLength(8), Validators.maxLength(15)]],
+      buyer_leg_rep_phone: ['', [Validators.pattern(this.constant.numberPattern), Validators.minLength(8), Validators.maxLength(15)]],
       buyer_leg_rep_email: ['', [Validators.email]],
       buyer_leg_rep_comp: [''],
       buyer_leg_rep_fed_tax: ['', [Validators.minLength(12), Validators.maxLength(13)]],
@@ -470,8 +487,10 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep2.controls.seller_type.patchValue(data.seller_type || 1);
     if (data.seller_type != 2) {
       this.addFormStep2.controls.seller_id.patchValue(data.seller ? data.seller.id : '');
-      this.addFormStep2.controls.seller_email.patchValue(data.seller ? data.seller.email : '');
       this.addFormStep2.controls.seller_company_name.patchValue(data.seller_company_name ? data.seller_company_name : '');
+    }
+    if (data.seller_type == 1) {
+      this.addFormStep2.controls.seller_email.patchValue(data.seller ? data.seller.email : '');
     }
     if (data.seller_type == 2) {
       this.addFormStep2.controls.seller_legal_entity_id.patchValue(data.seller_legal_entity ? data.seller_legal_entity.id : '');
@@ -520,10 +539,12 @@ export class AddEditCollectionComponent implements OnInit {
 
     if (data.buyer_type != 2) {
       this.addFormStep3.controls.buyer_id.patchValue(data.buyer ? data.buyer.id : '');
-      this.addFormStep3.controls.buyer_email.patchValue(data.buyer ? data.buyer.email : '');
       this.addFormStep3.controls.buyer_company_name.patchValue(data.buyer_company_name ? data.buyer_company_name : '');
     }
-    if (data.seller_type == 2) {
+    if (data.buyer_type == 1) {
+      this.addFormStep3.controls.buyer_email.patchValue(data.buyer ? data.buyer.email : '');
+    }
+    if (data.buyer_type == 2) {
       this.addFormStep3.controls.buyer_legal_entity_id.patchValue(data.buyer_legal_entity ? data.buyer_legal_entity.id : '');
     }
 
@@ -1405,16 +1426,19 @@ export class AddEditCollectionComponent implements OnInit {
 
   setSeller(item) {
     if (this.tab == 2) {
-      this.addFormStep2.reset();
+      // this.addFormStep2.reset();
+      // this.initFormStep2();
+      this.setValue('seller_type', this.model.seller_type);
+      this.addFormStep2.controls.seller_type.patchValue(this.model.seller_type);
       this.model.seller_id = item.id;
       this.model.seller = item;
 
       // seller as a person
       if (this.model.seller_type == 1) {
         this.addFormStep2.controls.seller_id.patchValue(item.id);
-        this.addFormStep2.controls.seller_name.patchValue(this.model.seller_type == 1 ? item.name : item.comm_name);
-        this.addFormStep2.controls.seller_email.patchValue(this.model.seller_type == 1 ? item.email : '');
-        this.addFormStep2.controls.seller_phone.patchValue(this.model.seller_type == 1 ? item.phone : item.phone);  
+        this.addFormStep2.controls.seller_name.patchValue(item.name || '');
+        this.addFormStep2.controls.seller_email.patchValue(item.email || '');
+        this.addFormStep2.controls.seller_phone.patchValue(item.phone || '');  
       }
 
       // seller as a legal entity
@@ -1476,16 +1500,19 @@ export class AddEditCollectionComponent implements OnInit {
         }
       }
     } else {
-      this.addFormStep3.reset();
+      // this.addFormStep3.reset();
+      // this.initFormStep3();
+      this.setValue('buyer_type', this.model.buyer_type);
+      console.log(this.model.buyer_type)
+      this.addFormStep3.controls.buyer_type.patchValue(this.model.buyer_type);
       this.model.buyer_id = item.id;
       this.model.buyer = item;
-
       // buyer as a person
       if (this.model.buyer_type == 1) {
         this.addFormStep3.controls.buyer_id.patchValue(item.id);
-        this.addFormStep3.controls.buyer_name.patchValue(this.model.buyer_type == 1 ? item.name : item.comm_name);
-        this.addFormStep3.controls.buyer_email.patchValue(this.model.buyer_type == 1 ? item.email : '');
-        this.addFormStep3.controls.buyer_phone.patchValue(this.model.buyer_type == 1 ? item.phone : item.phone);  
+        this.addFormStep3.controls.buyer_name.patchValue(item.name || '');
+        this.addFormStep3.controls.buyer_email.patchValue(item.email || '');
+        this.addFormStep3.controls.buyer_phone.patchValue(item.phone || '');  
       }
 
       // buyer as a legal entity
@@ -1734,64 +1761,57 @@ export class AddEditCollectionComponent implements OnInit {
       formdata['seller_type'] = this.model.seller_type;
       this.addFormStep2.controls.seller_type.patchValue(this.model.seller_type);
       this.addFormStep2.controls.step.patchValue(this.model.step);
-      // console.log(this.addFormStep2.controls)
+      console.log(this.addFormStep2.controls)
+      console.log(this.model.seller_type)
        if (this.addFormStep2.valid) {
-        if (!formdata['seller_fed_tax']) {
+        // if (!formdata['seller_fed_tax']) {
           
-          this.toastr.clear();
-          this.toastr.error(this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), this.translate.instant('swal.error'));
+        //   this.toastr.clear();
+        //   this.toastr.error(this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), this.translate.instant('swal.error'));
 
-          // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), 'error');
-          return;
-        }
-        if (formdata['collection_seller_banks'] || formdata['collection_seller_banks'].length > 0) {
-          let i = 0;
-          for (let index = 0; index < formdata['collection_seller_banks'].length; index++) {
-            const element = formdata['collection_seller_banks'][index];
-            if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
-              i = i + 1;
+        //   // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), 'error');
+        //   return;
+        // }
+        // if (formdata['collection_seller_banks'] || formdata['collection_seller_banks'].length > 0) {
+        //   let i = 0;
+        //   for (let index = 0; index < formdata['collection_seller_banks'].length; index++) {
+        //     const element = formdata['collection_seller_banks'][index];
+        //     if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
+        //       i = i + 1;
               
-              this.toastr.clear();
-              this.toastr.error(this.translate.instant('message.error.pleaseEnterBankDetails'), this.translate.instant('swal.error'));
+        //       this.toastr.clear();
+        //       this.toastr.error(this.translate.instant('message.error.pleaseEnterBankDetails'), this.translate.instant('swal.error'));
 
-              // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
-              return;
-            }
-          };
-        }
-        if (formdata['collection_seller_rep_banks'] || formdata['collection_seller_banks']) {
-          let i = 0;
-          for (let index = 0; index < formdata['collection_seller_rep_banks'].length; index++) {
-            const element = formdata['collection_seller_rep_banks'][index];
-            if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
-              i = i + 1;
+        //       // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
+        //       return;
+        //     }
+        //   };
+        // }
+        // if (formdata['collection_seller_rep_banks'] || formdata['collection_seller_banks']) {
+        //   let i = 0;
+        //   for (let index = 0; index < formdata['collection_seller_rep_banks'].length; index++) {
+        //     const element = formdata['collection_seller_rep_banks'][index];
+        //     if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
+        //       i = i + 1;
               
-              this.toastr.clear();
-              this.toastr.error(this.translate.instant('message.error.pleaseEnterBankDetails'), this.translate.instant('swal.error'));
+        //       this.toastr.clear();
+        //       this.toastr.error(this.translate.instant('message.error.pleaseEnterBankDetails'), this.translate.instant('swal.error'));
 
-              // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
-              return;
-            }
-          };
-        }
+        //       // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
+        //       return;
+        //     }
+        //   };
+        // }
         if (this.model.seller_type == 1 || this.model.seller_type == 3) {
           if (!formdata['seller_id']) {
-            
-            this.toastr.clear();
             this.toastr.error(this.translate.instant('message.error.pleaseChooseSeller'), this.translate.instant('swal.error'));
-
-            // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseSeller'), 'error');
             return;
           }
         } 
   
         if (this.model.seller_type != 1) {
           if (!formdata['seller_leg_rep_name'] || !formdata['seller_leg_rep_phone'] || !formdata['seller_leg_rep_email'] || !formdata['seller_leg_rep_fed_tax']) {
-                       
-            this.toastr.clear();
             this.toastr.error(this.translate.instant('message.error.pleaseFillLegalRepInfo'), this.translate.instant('swal.error'));
-
-            // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseFillLegalRepInfo'), 'error');
             return;
           }
         }
@@ -1802,67 +1822,60 @@ export class AddEditCollectionComponent implements OnInit {
     }
 
     if (this.model.step == 3) {
+
       formdata['buyer_type'] = this.model.buyer_type;
       this.addFormStep3.controls.buyer_type.patchValue(this.model.buyer_type);
       this.addFormStep3.controls.step.patchValue(this.model.step);
-      // console.log(this.addFormStep3.controls)
+      console.log(this.addFormStep3.controls)
       // formdata['buyer_type'] = this.model.buyer_type;
        if (this.addFormStep3.valid) {
-        if (!formdata['buyer_fed_tax']) {
+        // if (!formdata['buyer_fed_tax']) {
           
-          this.toastr.clear();
-          this.toastr.error(this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), this.translate.instant('swal.error'));
+        //   this.toastr.clear();
+        //   this.toastr.error(this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), this.translate.instant('swal.error'));
 
-          // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), 'error');
-          return;
-        }
-        if (formdata['collection_buyer_banks'] || formdata['collection_buyer_banks'].length > 0) {
-          let i = 0;
-          for (let index = 0; index < formdata['collection_buyer_banks'].length; index++) {
-            const element = formdata['collection_buyer_banks'][index];
-            if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
-              i = i + 1;
+        //   // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), 'error');
+        //   return;
+        // }
+        // if (formdata['collection_buyer_banks'] || formdata['collection_buyer_banks'].length > 0) {
+        //   let i = 0;
+        //   for (let index = 0; index < formdata['collection_buyer_banks'].length; index++) {
+        //     const element = formdata['collection_buyer_banks'][index];
+        //     if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
+        //       i = i + 1;
               
-              this.toastr.clear();
-              this.toastr.error(this.translate.instant('message.error.pleaseEnterBankDetails'), this.translate.instant('swal.error'));
+        //       this.toastr.clear();
+        //       this.toastr.error(this.translate.instant('message.error.pleaseEnterBankDetails'), this.translate.instant('swal.error'));
 
-              // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
-              return;
-            }
-          };
-        }
-        if (formdata['collection_buyer_rep_banks'] || formdata['collection_buyer_rep_banks'].length > 0) {
-          let i = 0;
-          for (let index = 0; index < formdata['collection_buyer_rep_banks'].length; index++) {
-            const element = formdata['collection_buyer_rep_banks'][index];
-            if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
-              i = i + 1;
+        //       // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
+        //       return;
+        //     }
+        //   };
+        // }
+        // if (formdata['collection_buyer_rep_banks'] || formdata['collection_buyer_rep_banks'].length > 0) {
+        //   let i = 0;
+        //   for (let index = 0; index < formdata['collection_buyer_rep_banks'].length; index++) {
+        //     const element = formdata['collection_buyer_rep_banks'][index];
+        //     if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
+        //       i = i + 1;
               
-              this.toastr.clear();
-              this.toastr.error(this.translate.instant('message.error.pleaseEnterBankDetails'), this.translate.instant('swal.error'));
+        //       this.toastr.clear();
+        //       this.toastr.error(this.translate.instant('message.error.pleaseEnterBankDetails'), this.translate.instant('swal.error'));
 
-              // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
-              return;
-            }
-          };
-        }
+        //       // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
+        //       return;
+        //     }
+        //   };
+        // }
         if (this.model.buyer_type == 1 || this.model.buyer_type == 3) {
           if (!formdata['buyer_id']) {
-            
-            this.toastr.clear();
             this.toastr.error(this.translate.instant('message.error.pleaseChooseBuyer'), this.translate.instant('swal.error'));
-
-            // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseBuyer'), 'error');
             return;
           }
         } 
         if (this.model.buyer_type != 1) {
           if (!formdata['buyer_leg_rep_name'] || !formdata['buyer_leg_rep_phone'] || !formdata['buyer_leg_rep_email'] || !formdata['buyer_leg_rep_fed_tax']) {
-       
-            this.toastr.clear();
             this.toastr.error(this.translate.instant('message.error.pleaseFillLegalRepInfo'), this.translate.instant('swal.error'));
-
-            // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseFillLegalRepInfo'), 'error');
             return;
           }
         }
@@ -1871,7 +1884,6 @@ export class AddEditCollectionComponent implements OnInit {
         this.showError = true;
         return;
        }
-       
     }
 
     if (this.model.step == 4) {
@@ -1879,30 +1891,27 @@ export class AddEditCollectionComponent implements OnInit {
       delete this.addFormStep4.value.paymentchoice;
       console.log(this.addFormStep4.controls);
       if (this.addFormStep4.valid) {
-        if (!formdata['deal_purchase_date']) {
+        // if (!formdata['deal_purchase_date']) {
           
-          this.toastr.clear();
-          this.toastr.error(this.translate.instant('message.error.pleaseEnterPurchaseDate'), this.translate.instant('swal.error'));
+        //   this.toastr.clear();
+        //   this.toastr.error(this.translate.instant('message.error.pleaseEnterPurchaseDate'), this.translate.instant('swal.error'));
 
-          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPurchaseDate'), 'error');
-          return;
-        } else if (!formdata['deal_price']) {
+        //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPurchaseDate'), 'error');
+        //   return;
+        // } else if (!formdata['deal_price']) {
           
-          this.toastr.clear();
-          this.toastr.error(this.translate.instant('message.error.pleaseEnterPrice'), this.translate.instant('swal.error'));
+        //   this.toastr.clear();
+        //   this.toastr.error(this.translate.instant('message.error.pleaseEnterPrice'), this.translate.instant('swal.error'));
 
-          // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPrice'), 'error');
-          return;
-        }
-        else if (!formdata['payment_choices']) {
-          
-          this.toastr.clear();
+        //   // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPrice'), 'error');
+        //   return;
+        // }
+         
+        if (this.addFormStep4.controls.payment_choices.value && this.addFormStep4.controls.payment_choices.value.length < 1) {
           this.toastr.error(this.translate.instant('message.error.pleaseChoosePayments'), this.translate.instant('swal.error'));
-
-          // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChoosePayments'), 'error');
           return;
         }
-        let paymentSum = 0
+        let paymentSum = 0;
         let i = 0;
         for (let index = 0; index < formdata['payment_choices'].length; index++) {
           const element = formdata['payment_choices'][index];
@@ -1914,8 +1923,6 @@ export class AddEditCollectionComponent implements OnInit {
                           
             this.toastr.clear();
             this.toastr.error(text, this.translate.instant('swal.error'));
-
-            // swal(this.translate.instant('swal.error'), text, 'error');
             return;
           }
           paymentSum = paymentSum + parseInt(element.amount || 0);
@@ -1939,40 +1946,38 @@ export class AddEditCollectionComponent implements OnInit {
       this.addFormStep5.controls.step.patchValue(this.model.step);
       console.log(this.addFormStep5.controls);
       if (this.addFormStep5.valid) {
-        if (!formdata['comm_total_commission']) {
+        // if (!formdata['comm_total_commission']) {
           
-          this.toastr.clear();
-          this.toastr.error(this.translate.instant('message.error.pleaseEnterSozuCommission'), this.translate.instant('swal.error'));
+        //   this.toastr.clear();
+        //   this.toastr.error(this.translate.instant('message.error.pleaseEnterSozuCommission'), this.translate.instant('swal.error'));
 
-          // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterSozuCommission'), 'error');
-          return;
-        } else if (!formdata['comm_total_commission_amount']) {
+        //   // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterSozuCommission'), 'error');
+        //   return;
+        // } else if (!formdata['comm_total_commission_amount']) {
           
-          this.toastr.clear();
-          this.toastr.error(this.translate.instant('message.error.pleaseEnterSozuCommission'), this.translate.instant('swal.error'));
+        //   this.toastr.clear();
+        //   this.toastr.error(this.translate.instant('message.error.pleaseEnterSozuCommission'), this.translate.instant('swal.error'));
 
-          // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterSozuCommission'), 'error');
-          return;
-        } else if (!formdata['comm_shared_commission']) {
+        //   // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterSozuCommission'), 'error');
+        //   return;
+        // } else if (!formdata['comm_shared_commission']) {
                     
-          this.toastr.clear();
-          this.toastr.error(this.translate.instant('message.error.pleaseEnterAgentCommission'), this.translate.instant('swal.error'));
+        //   this.toastr.clear();
+        //   this.toastr.error(this.translate.instant('message.error.pleaseEnterAgentCommission'), this.translate.instant('swal.error'));
 
-          // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterAgentCommission'), 'error');
-          return;
-        } else if (!formdata['comm_shared_commission_amount']) {
+        //   // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterAgentCommission'), 'error');
+        //   return;
+        // } else if (!formdata['comm_shared_commission_amount']) {
                     
-          this.toastr.clear();
-          this.toastr.error(this.translate.instant('message.error.pleaseEnterAgentCommission'), this.translate.instant('swal.error'));
+        //   this.toastr.clear();
+        //   this.toastr.error(this.translate.instant('message.error.pleaseEnterAgentCommission'), this.translate.instant('swal.error'));
 
-          // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterAgentCommission'), 'error');
-          return;
-        } else if (!formdata['deal_commission_agents']) {
-                    
+        //   // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterAgentCommission'), 'error');
+        //   return;
+        // } 
+        if (!formdata['deal_commission_agents']) {                    
           this.toastr.clear();
           this.toastr.error(this.translate.instant('message.error.pleaseEnterAgent'), this.translate.instant('swal.error'));
-
-          // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterAgent'), 'error');
           return;
         } else if (formdata['deal_commission_agents'] || formdata['deal_commission_agents'].length>0) {
           let i = 0;
@@ -1981,38 +1986,32 @@ export class AddEditCollectionComponent implements OnInit {
             if (!element.name || !element.fed_tax_payer_reg) {
               i = i + 1;
               if (!element.name) {
-                          
                 this.toastr.clear();
                 this.toastr.error(this.translate.instant('message.error.pleaseEnterAgent'), this.translate.instant('swal.error'));
-
+                return;
               }
-              //  swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterAgent'), 'error');
-              else {
-                          
-                this.toastr.clear();
-                this.toastr.error(this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), this.translate.instant('swal.error'));
-
-              }
-                // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), 'error');
-              return;
+              // else {                          
+              //   this.toastr.clear();
+              //   this.toastr.error(this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), this.translate.instant('swal.error'));
+              // }
             }
           }
         }
-        if (formdata['collection_agent_banks'] || formdata['collection_agent_banks'].length > 0) {
-          let i = 0;
-          for (let index = 0; index < formdata['collection_agent_banks'].length; index++) {
-            const element = formdata['collection_agent_banks'][index];
-            if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
-              i = i + 1;
+        // if (formdata['collection_agent_banks'] || formdata['collection_agent_banks'].length > 0) {
+        //   let i = 0;
+        //   for (let index = 0; index < formdata['collection_agent_banks'].length; index++) {
+        //     const element = formdata['collection_agent_banks'][index];
+        //     if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
+        //       i = i + 1;
                                   
-              this.toastr.clear();
-              this.toastr.error(this.translate.instant('message.error.pleaseEnterBankDetails'), this.translate.instant('swal.error'));
+        //       this.toastr.clear();
+        //       this.toastr.error(this.translate.instant('message.error.pleaseEnterBankDetails'), this.translate.instant('swal.error'));
 
-              // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
-              return;
-            }
-          }
-        }
+        //       // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
+        //       return;
+        //     }
+        //   }
+        // }
         const collection_commissions = formdata['collection_commissions'];
         delete formdata['collection_commissions'];
         collection_commissions.forEach(element => {

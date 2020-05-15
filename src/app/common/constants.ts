@@ -45,6 +45,7 @@ export class Constant {
     public confirmButtonColor = '#00b96f';
     public cancelButtonColor = '#ee7b7c';
     public phonePattern = '^[0-9]{8,15}$';
+    public numberPattern = '^[0-9]+$';
     public decimalPattern = '^\d+\.?\d{0,2}$';  // not allow more than 2 digits after decimal
     public onlyWhiteSpaces = '.*\\S.*[a-zA-z0-9 ]'; // '^[a-zA-Z1-9].*'; // [\w,./_=?-]+
     public emailPattern = '^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$';

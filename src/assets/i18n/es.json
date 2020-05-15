@@ -1747,18 +1747,21 @@
     "programmedDate": "Fecha programada",
     "paymentMethods": "Métodos de pago",
     "remaining":"Restante",
-    "accountStatement":"Estado de cuenta"
+    "accountStatement":"Estado de cuenta",
+    "paidByUser": "Monto pagado por el usuario",
+    "toBePaidByUser": "Monto a pagar por el usuario"
   },
   "addCollectionValidations": {
-    "thisIsRequired": "This is required",
-    "nameMin1Limit": "Minimum 1 character is required",
-    "nameMax30Limit": "Maximum 30 charactes are allowed",
-    "fedTaxMin12Limit": "Minimum 12 characters are required",
-    "fedTaxMax13Limit": "Maximum 13 charactes are allowed",
-    "phonePatternCheck": "The Phone Number field accepts only numeric characters",
-    "phoneMin8Limit": "Minimum 8 characters are required",
-    "phoneMax15Limit": "Maximum 15 charactes are allowed",
-    "emailInvalid": "Enter valid email",
-    "percentMax100Limit": "Maximum value can be 100"
+    "thisIsRequired": "Esto es requerido",
+    "nameMin1Limit": "Se requiere un mínimo de 1 carácter",
+    "nameMax30Limit": "Se permiten un máximo de 30 caracteres.",
+    "fedTaxMin12Limit": "Se requieren un mínimo de 12 caracteres.",
+    "fedTaxMax13Limit": "Se permiten un máximo de 13 caracteres.",
+    "phonePatternCheck": "El campo Número de teléfono solo acepta caracteres numéricos",
+    "phonePatternCheck1":"Por favor ingrese un número de teléfono válido",
+    "phoneMin8Limit": "Se requieren un mínimo de 8 caracteres.",
+    "phoneMax15Limit": "Se permiten un máximo de 15 caracteres.",
+    "emailInvalid": "Por favor introduzca un correo electrónico válido",
+    "percentMax100Limit": "El valor máximo puede ser 100"
   }
 }

@@ -39,6 +39,8 @@ export class Collection {
     paid?: any;
     total?: any;
     totalPenalty?: any;
+    total_payment_recieved?: any;
+    penalty?: any;
 }
 
 export class DealType {

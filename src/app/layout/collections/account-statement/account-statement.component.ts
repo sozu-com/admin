@@ -8,17 +8,16 @@ import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
-import { NumberWithCommasPipe } from 'src/app/pipes/number-with-commas.pipe'
-import { RoundNumberPipe } from 'src/app/pipes/round-number.pipe'
 import { TranslateService } from '@ngx-translate/core';
 import { ExcelService } from 'src/app/services/excel.service';
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
+import { CurrencyPipe } from '@angular/common';
 @Component({
   selector: 'app-account-statement',
   templateUrl: './account-statement.component.html',
   styleUrls: ['./account-statement.component.css'],
-  providers: [Collection, NumberWithCommasPipe, RoundNumberPipe]
+  providers: [Collection, CurrencyPipe]
 })
 
 export class AccountStatementComponent implements OnInit {
@@ -37,10 +36,9 @@ export class AccountStatementComponent implements OnInit {
     public model: Collection,
     private admin: AdminService,
     private spinner: NgxSpinnerService,
-    private numberWithCommas: NumberWithCommasPipe,
     private translate: TranslateService,
     private excelService: ExcelService,
-    private roundNumber: RoundNumberPipe
+    private currencyPipe: CurrencyPipe
   ) { }
 
   ngOnInit() {
@@ -59,22 +57,22 @@ export class AccountStatementComponent implements OnInit {
           this.model = success['data'];
           this.paymentConcepts = success['data']['payment_choices'];
           this.collectionCommission = success['data']['collection_commissions'];
-          this.totalPaid = 0;
-          this.totalOutstanding = 0;
-          this.model.totalPenalty = 0;
+          this.totalPaid = 0.00;
+          this.totalOutstanding = 0.00;
+          // this.model.totalPenalty = 0;
           this.paymentConcepts.forEach(m => {
-             //  calculating total penalty
-             if (m.penalty){
-                this.model.totalPenalty = this.model.totalPenalty + parseInt(m.penalty.amount || 0)
-              }
+            //  calculating total penalty
+            // if (m.penalty){
+            //   this.model.totalPenalty = this.model.totalPenalty + parseInt(m.penalty.amount || 0)
+            // }
             // calculating total paid and total outstanding payment
             if (m.is_paid_calculated) {
               m['paid_amount'] = m.calc_payment_amount;
-              this.totalPaid = this.totalPaid + (m.calc_payment_amount||0);
+              this.totalPaid = this.totalPaid + m.calc_payment_amount;
             } 
             if ((m.amount - (m.calc_payment_amount||0))>=0) {
-              const a = (m.amount-(m.calc_payment_amount||0));
-              m['outstanding_amount'] = a;
+              const a = (m.amount - (m.calc_payment_amount || 0) );
+              m['outstanding_amount'] = a > 0.01 ? a : 0;  // in a case difference was 0.02
               m['is_pending'] = (a != m.amount && a!=0) ? 1 : 0;
               this.totalOutstanding = this.totalOutstanding + a;
             }
@@ -82,11 +80,10 @@ export class AccountStatementComponent implements OnInit {
           this.paymentConcepts.push({
             key: 'total',
             name: 'Total',
-            paid_amount: Math.floor(this.totalPaid),
+            paid_amount: this.totalPaid,
             is_paid_calculated: 1,
-            outstanding_amount: Math.floor(this.totalOutstanding)
+            outstanding_amount: this.totalOutstanding
           })
-          console.log(this.paymentConcepts)
           this.collectionCommission.push({})
         }, error => {
           this.spinner.hide();
@@ -104,12 +101,11 @@ export class AccountStatementComponent implements OnInit {
           'Concept': p.name || '',
           'Month': p.date || '',
           'Payment Date': p.collection_payment ? p.collection_payment.payment_date : '',
-          'Paid': p.paid_amount ? 
-                this.model.currency.symbol + this.roundNumber.transform(p.paid_amount) : '',
-          'Outstanding Payment': p.outstanding_amount ? this.model.currency.symbol + this.roundNumber.transform(p.outstanding_amount) : '',
+          'Paid': p.paid_amount ? this.currencyPipe.transform(p.paid_amount) : '',
+          'Outstanding Payment': p.outstanding_amount ? this.currencyPipe.transform(p.outstanding_amount) : '',
           'Payment Method': p.collection_payment && p.collection_payment.payment_method ? p.collection_payment.payment_method.name : '',
           'Sozu Payment Receipt': p.collection_payment ? p.collection_payment.receipt : '',
-          'Penalty FLP': p.penalty ? this.model.currency.symbol + this.roundNumber.transform(p.penalty.amount) : '',
+          'Penalty FLP': p.penalty ? this.currencyPipe.transform(p.penalty.amount) : '',
           'Penalty Description': p.penalty ? p.penalty.description : '',
         });
       }

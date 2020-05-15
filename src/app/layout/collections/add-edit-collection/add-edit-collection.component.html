@@ -416,8 +416,8 @@
               <div class="form-group-3">
               <label>{{'addCollection.phonenumber' | translate}}</label>
               <div class="clearfix"></div>
-              <input autocomplete="off" (keydown.space)="$event.preventDefault();"
-                class="form-control" type="text" name="seller_phone" formControlName="seller_phone">
+              <input (keydown.space)="$event.preventDefault();"
+                class="form-control" type="text" name="seller_phone" formControlName="seller_phone" autocomplete="off" >
             </div>
             <div *ngIf="showError  &&  (addFormStep2.controls.seller_phone.invalid)">
               <div *ngIf="addFormStep2.controls.seller_phone.errors?.required " class="show-error">
@@ -426,10 +426,10 @@
               <div *ngIf="addFormStep2.controls.seller_phone.errors?.pattern " class="show-error">
                   {{'addCollectionValidations.phonePatternCheck' | translate}}
               </div>
-              <div *ngIf="addFormStep2.controls.seller_phone.errors?.minlength " class="show-error">
+              <div *ngIf="addFormStep2.controls.seller_phone.errors?.minlength && !addFormStep2.controls.seller_phone.errors?.pattern" class="show-error">
                   {{'addCollectionValidations.phoneMin8Limit' | translate}}
               </div>
-              <div *ngIf="addFormStep2.controls.seller_phone.errors?.maxlength " class="show-error">
+              <div *ngIf="addFormStep2.controls.seller_phone.errors?.maxlength && !addFormStep2.controls.seller_phone.errors?.pattern" class="show-error">
                   {{'addCollectionValidations.phoneMax15Limit' | translate}}
               </div>
             </div>
@@ -453,7 +453,7 @@
               <div class="form-group-3">
               <label>{{'addCollection.email' | translate}}</label>
               <div class="clearfix"></div>
-              <input required autocomplete="off" (keydown.space)="$event.preventDefault();" 
+              <input autocomplete="off" (keydown.space)="$event.preventDefault();" 
                 class="form-control" type="email" name="seller_email" formControlName="seller_email">
             </div>
             <div *ngIf="showError  &&  (addFormStep2.controls.seller_email.invalid)">
@@ -495,9 +495,9 @@
               <input autocomplete="off" class="form-control" type="text" name="seller_fed_tax" formControlName="seller_fed_tax">
             </div>
             <div *ngIf="showError  &&  (addFormStep2.controls.seller_fed_tax.invalid)">
-                <div *ngIf="addFormStep2.controls.seller_fed_tax.errors?.required " class="show-error">
+                <!-- <div *ngIf="addFormStep2.controls.seller_fed_tax.errors?.required " class="show-error">
                     {{'addCollectionValidations.thisIsRequired' | translate}}
-                </div>
+                </div> -->
                 <div *ngIf="addFormStep2.controls.seller_fed_tax.errors?.minlength " class="show-error">
                     {{'addCollectionValidations.fedTaxMin12Limit' | translate}}
                 </div>
@@ -629,10 +629,10 @@
               <div *ngIf="addFormStep2.controls.seller_leg_rep_phone.errors?.pattern " class="show-error">
                   The Phone Number field accepts only numeric characters
               </div>
-              <div *ngIf="addFormStep2.controls.seller_leg_rep_phone.errors?.minlength " class="show-error">
+              <div *ngIf="addFormStep2.controls.seller_leg_rep_phone.errors?.minlength && !addFormStep2.controls.seller_leg_rep_phone.errors?.pattern" class="show-error">
                   Minimum 8 characters are required
               </div>
-              <div *ngIf="addFormStep2.controls.seller_leg_rep_phone.errors?.maxlength " class="show-error">
+              <div *ngIf="addFormStep2.controls.seller_leg_rep_phone.errors?.maxlength && !addFormStep2.controls.seller_leg_rep_phone.errors?.pattern" class="show-error">
                   Maximum 15 charactes are allowed
               </div>
             </div>
@@ -851,7 +851,7 @@
               <div class="form-group-3">
                 <label>{{ model.buyer_type == 1 ? ('addCollection.name' | translate) : ('addCollection.commercialName' | translate)}}</label>
                 <div class="clearfix"></div>
-                <input required autocomplete="off" type="text" name="buyer_name" class="form-control" formControlName="buyer_name">
+                <input autocomplete="off" type="text" name="buyer_name" class="form-control" formControlName="buyer_name">
               </div>
               <div *ngIf="showError  &&  (addFormStep3.controls.buyer_name.invalid)">
                 <div *ngIf="addFormStep3.controls.buyer_name.errors?.required " class="show-error">
@@ -887,7 +887,7 @@
                 <div class="form-group-3">
                 <label>{{'addCollection.phonenumber' | translate}}</label>
                 <div class="clearfix"></div>
-                <input required autocomplete="off" class="form-control" type="text"
+                <input autocomplete="off" class="form-control" type="text"
                 pattern="{{constant.phonePattern}}" (keydown.space)="$event.preventDefault();"
                 name="buyer_phone" formControlName="buyer_phone">
               </div>
@@ -898,10 +898,10 @@
                 <div *ngIf="addFormStep3.controls.buyer_phone.errors?.pattern " class="show-error">
                     {{'addCollectionValidations.phonePatternCheck' | translate}}
                 </div>
-                <div *ngIf="addFormStep3.controls.buyer_phone.errors?.minlength " class="show-error">
+                <div *ngIf="addFormStep3.controls.buyer_phone.errors?.minlength && !addFormStep3.controls.buyer_phone.errors?.pattern" class="show-error">
                     {{'addCollectionValidations.phoneMin8Limit' | translate}}
                 </div>
-                <div *ngIf="addFormStep3.controls.buyer_phone.errors?.maxlength " class="show-error">
+                <div *ngIf="addFormStep3.controls.buyer_phone.errors?.maxlength && !addFormStep3.controls.buyer_phone.errors?.pattern" class="show-error">
                     {{'addCollectionValidations.phoneMax15Limit' | translate}}
                 </div>
               </div>
@@ -963,12 +963,12 @@
                   <div class="form-group-3">
                 <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}</label>
                 <div class="clearfix"></div>
-                <input required autocomplete="off" class="form-control" type="text" name="buyer_fed_tax" formControlName="buyer_fed_tax">
+                <input autocomplete="off" class="form-control" type="text" name="buyer_fed_tax" formControlName="buyer_fed_tax">
               </div>
               <div *ngIf="showError  &&  (addFormStep3.controls.buyer_fed_tax.invalid)">
-                <div *ngIf="addFormStep3.controls.buyer_fed_tax.errors?.required " class="show-error">
+                <!-- <div *ngIf="addFormStep3.controls.buyer_fed_tax.errors?.required " class="show-error">
                     {{'addCollectionValidations.thisIsRequired' | translate}}
-                </div>
+                </div> -->
                 <div *ngIf="addFormStep3.controls.buyer_fed_tax.errors?.minlength " class="show-error">
                     {{'addCollectionValidations.fedTaxMin12Limit' | translate}}
                 </div>
@@ -1103,10 +1103,10 @@
                 <div *ngIf="addFormStep3.controls.buyer_leg_rep_phone.errors?.pattern " class="show-error">
                     {{'addCollectionValidations.phonePatternCheck' | translate}}
                 </div>
-                <div *ngIf="addFormStep3.controls.buyer_leg_rep_phone.errors?.minlength " class="show-error">
+                <div *ngIf="addFormStep3.controls.buyer_leg_rep_phone.errors?.minlength && !addFormStep3.controls.buyer_leg_rep_phone.errors?.pattern" class="show-error">
                     {{'addCollectionValidations.phoneMin8Limit' | translate}}
                 </div>
-                <div *ngIf="addFormStep3.controls.buyer_leg_rep_phone.errors?.maxlength " class="show-error">
+                <div *ngIf="addFormStep3.controls.buyer_leg_rep_phone.errors?.maxlength && !addFormStep3.controls.buyer_leg_rep_phone.errors?.pattern" class="show-error">
                     {{'addCollectionValidations.phoneMax15Limit' | translate}}
                 </div>
               </div>
@@ -1294,6 +1294,7 @@
             </div>
           </div>
         </div>
+
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
             <label>{{'addCollection.price' | translate}}</label>
@@ -1307,6 +1308,7 @@
             </div>
           </div>
         </div>
+
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
             <div class="form-group-3">
             <label>{{'addCollection.currency' | translate}}</label>
@@ -1564,12 +1566,12 @@
                   <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}</label>
                   <div class="form-group-3">
                   <div class="clearfix"></div>
-                  <input required autocomplete="off" class="form-control" type="text" minlength="12" maxlength="13" name="fed_tax_payer_reg" formControlName="fed_tax_payer_reg">
+                  <input autocomplete="off" class="form-control" type="text" minlength="12" maxlength="13" name="fed_tax_payer_reg" formControlName="fed_tax_payer_reg">
                 </div>
                 <div *ngIf="showError  &&  (addFormStep5.controls.deal_commission_agents.controls[i].controls.fed_tax_payer_reg.invalid)">
-                    <div *ngIf="addFormStep5.controls.deal_commission_agents.controls[i].controls.fed_tax_payer_reg.errors?.required " class="show-error">
+                    <!-- <div *ngIf="addFormStep5.controls.deal_commission_agents.controls[i].controls.fed_tax_payer_reg.errors?.required " class="show-error">
                           {{'addCollectionValidations.thisIsRequired' | translate}}
-                    </div>
+                    </div> -->
                     <div *ngIf="addFormStep5.controls.deal_commission_agents.controls[i].controls.fed_tax_payer_reg.errors?.minlength " class="show-error">
                         {{'addCollectionValidations.fedTaxMin12Limit' | translate}}
                     </div>
