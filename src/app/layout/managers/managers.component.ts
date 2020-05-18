@@ -148,10 +148,19 @@ export class ManagersComponent implements OnInit {
     if (this.model.id) { input.append('id', this.model.id.toString()); }
 
     input.append('name', this.model.name);
-    input.append('country_code', this.model.country_code ? this.model.country_code : this.constant.dial_code);
-    input.append('dial_code', this.model.dial_code ? this.model.dial_code : this.constant.dial_code);
-    input.append('phone', this.model.phone);
-    input.append('email', this.model.email);
+    // input.append('country_code', this.model.country_code ? this.model.country_code : this.constant.dial_code);
+    // input.append('dial_code', this.model.dial_code ? this.model.dial_code : this.constant.dial_code);
+    // input.append('phone', this.model.phone);
+    // input.append('email', this.model.email);
+
+    if (this.model.phone) {
+      input.append('country_code', this.model.country_code ? this.model.country_code : this.constant.dial_code);
+      input.append('dial_code', this.model.dial_code ? this.model.dial_code : this.constant.dial_code);
+      input.append('phone', this.model.phone);
+    }
+    if (this.model.email) {
+      input.append('email', this.model.email);
+    }
 
     if (this.model.company.id) {
       input.append('company_id', this.model.company.id.toString());
@@ -195,7 +204,7 @@ export class ManagersComponent implements OnInit {
     this.logo = userdata.logo;
     this.model.img_loader = false; this.model.logo_loader = false;
     if (this.obj) {
-      this.obj.intlTelInput('setCountry', this.model.country_code);
+      this.obj.intlTelInput('setCountry', this.model.country_code ? this.model.country_code : this.constant.country_code);
     }
     this.inhouseUserModalOpen.nativeElement.click();
   }
