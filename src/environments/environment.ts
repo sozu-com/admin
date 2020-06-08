@@ -4,13 +4,11 @@
 
 export const environment = {
   production: false,
-  // baseIP: 'http://e24d6cec.ngrok.io/',
-  // baseUrl: 'http://e24d6cec.ngrok.io/api/admin/',
   baseIP: 'https://api.sozu.com/',
   baseUrl: 'https://api.sozu.com/api/admin/',
   socketUrl: 'https://sockettest.sozu.com',
-  termConditionUrl: 'https://api.sozu.com/termCondition/es',
-  privacyPolicyUrl: 'https://api.sozu.com/privacyPolicy/es',
+  termConditionUrl: 'https://apitest.sozu.com/termCondition/es',
+  privacyPolicyUrl: 'https://apitest.sozu.com/privacyPolicy/es',
   deviceId: 'ADMIN',
   versionCheckURL: 'https://admintest.sozu.com/version.json',
 

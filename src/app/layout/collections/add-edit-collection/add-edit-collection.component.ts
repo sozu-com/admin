@@ -16,7 +16,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { SelectItem } from 'primeng/primeng';
 import { Collection, Seller } from 'src/app/models/collection.model';
 import { ToastrService } from 'ngx-toastr';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, DecimalPipe } from '@angular/common';
+import * as numeral from 'numeral';
 declare const google;
 declare let swal: any;
 
@@ -24,7 +25,7 @@ declare let swal: any;
   selector: 'app-add-edit-collection',
   templateUrl: './add-edit-collection.component.html',
   styleUrls: ['./add-edit-collection.component.css'],
-  providers: [AddPropertyModel, Building, Constant, HttpInterceptor, Collection, CurrencyPipe]
+  providers: [AddPropertyModel, Building, Constant, HttpInterceptor, Collection, CurrencyPipe, DecimalPipe]
 })
 export class AddEditCollectionComponent implements OnInit {
 
@@ -126,7 +127,8 @@ export class AddEditCollectionComponent implements OnInit {
     private translate: TranslateService,
     private fb: FormBuilder,
     private toastr: ToastrService,
-    private currencyPipe: CurrencyPipe) {
+    private currencyPipe: CurrencyPipe,
+    private decimalPipe: DecimalPipe) {
   }
 
   ngOnInit() {
@@ -806,20 +808,14 @@ export class AddEditCollectionComponent implements OnInit {
       
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseSelectBuilding'), this.translate.instant('swal.error'));
-
-      // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectBuilding'), 'error');
       return;
     } else if (!this.model.building_towers.id) {
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseSelectFloor'), this.translate.instant('swal.error'));
-
-      // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectFloor'), 'error');
       return;
     } else if (!this.model.floor_num) {
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseChooseFloor'), this.translate.instant('swal.error'));
-
-      // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseFloor'), 'error');
       return;
     }
     const input = {
@@ -2053,4 +2049,31 @@ export class AddEditCollectionComponent implements OnInit {
       );
   }
 
+  CommaFormatted(event) {
+    // skip for arrow keys
+    if(event.which >= 37 && event.which <= 40) return;
+   
+    // format number
+    if (event.target.value) {
+     const product_price = event.target.value.replace(/\D/g, "")
+       .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+       console.log(product_price);
+    }}
+
+
+   
+   numberCheck (args) {
+   if (args.key === 'e' || args.key === '+' || args.key === '-') {
+     return false;
+   } else {
+     return true;
+   }}
+
+   formatNumber() {
+     const p =  this.addFormStep4.get('deal_price').value.replace(',', '');
+     console.log(p)
+    this.addFormStep4.controls.deal_price.patchValue(this.decimalPipe.transform(p, '1.2-2'));
+    // this.addFormStep4.controls.deal_price.patchValue(numeral(p).format("0,0"));
+    console.log(this.addFormStep4.get('deal_price'))
+   }
 }

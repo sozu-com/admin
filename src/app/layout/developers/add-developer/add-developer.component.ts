@@ -49,11 +49,13 @@ export class AddDeveloperComponent implements OnInit {
   ngOnInit() {
     this.file4 = new FileUpload(false, this.admin);
     this.model = new Users();
-    this.model.legal_rep_banks = Array(new Banks());
+    this.model.legal_rep_banks = new Array();
+    // this.model.legal_rep_banks = Array(new Banks());
     this.model.legal_representative = new LegalRepresentative();
-    this.model.legal_representative.legal_rep_banks = Array(new Banks());
-    this.model.legal_representative.country_code = this.constant.country_code;
-    this.model.legal_representative.dial_code = this.constant.dial_code;
+    // this.model.legal_representative.legal_rep_banks = new Array();
+    // this.model.legal_representative.legal_rep_banks = Array(new Banks());
+    // this.model.legal_representative.country_code = this.constant.country_code;
+    // this.model.legal_representative.dial_code = this.constant.dial_code;
     this.setCurrentPosition();
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
@@ -90,13 +92,19 @@ export class AddDeveloperComponent implements OnInit {
       success => {
         this.spinner.hide();
         this.model = success.data;
-        this.model.legal_rep_banks = success.data.legal_rep_banks ? success.data.legal_rep_banks : Array(new Banks());
-        this.model.legal_representative = success.data.legal_representative ? success.data.legal_representative : new LegalRepresentative();
-        this.model.legal_representative.legal_rep_banks = success.data.legal_representative.legal_rep_banks ?
-        success.data.legal_representative.legal_rep_banks : []; // Array(new Banks());
+        this.model.legal_rep_banks = success.data.legal_rep_banks;
+        this.model.legal_representative = new LegalRepresentative();
+        this.model.legal_representative = success.data.legal_representative;
+        this.model.legal_representative.legal_rep_banks = success.data.legal_representative.legal_rep_banks; // Array(new Banks());
+        // this.model.legal_representative = success.data.legal_representative ? success.data.legal_representative : new LegalRepresentative();
+        // this.model.legal_representative.legal_rep_banks = success.data.legal_representative.legal_rep_banks; // Array(new Banks());
         // if (!success.data.legal_entity) {
-          this.model.legal_representative.dial_code = this.constant.dial_code;
-          this.model.legal_representative.country_code = this.constant.country_code;
+          // this.model.legal_representative.dial_code = this.constant.dial_code;
+          // this.model.legal_representative.country_code = this.constant.country_code;
+          // this.model.legal_representative.phone = this.model.legal_representative.phone || '';
+          // this.model.legal_representative.email = this.model.legal_representative.email || '';
+          // this.model.legal_representative.name = this.model.legal_representative.name || '';
+          // this.model.legal_representative.fed_tax_pay = this.model.legal_representative.fed_tax_pay || '';
         // }
         this.image = this.model.image;
         this.developer_image = this.model.developer_image;
@@ -104,6 +112,16 @@ export class AddDeveloperComponent implements OnInit {
         this.spinner.hide();
       });
   }
+
+  // patchData() {
+  //   this.addFormStep2.controls.seller_type.patchValue(data.seller_type || 1);
+  //   const control1 = this.addFormStep2.get('collection_seller_rep_banks') as FormArray;
+  //   if (data.collection_seller_rep_banks) {
+  //     data.collection_seller_rep_banks.forEach(x => {
+  //       control1.push(this.fb.group(x));
+  //     });
+  //   }
+  // }
 
   set() {
     this.show = true;
@@ -136,7 +154,11 @@ export class AddDeveloperComponent implements OnInit {
 
   add(formData: NgForm) {
     const modelSave: Users = JSON.parse(JSON.stringify(this.model));
-    if (!modelSave.lat || !modelSave.lng) {
+    if (modelSave.legal_representative.phone) {
+      modelSave.legal_representative.country_code = modelSave.legal_representative.country_code || this.constant.country_code;
+      modelSave.legal_representative.dial_code = modelSave.legal_representative.dial_code || this.constant.dial_code;
+    }
+    if (modelSave.developer_address && (!modelSave.lat || !modelSave.lng)) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAddressFromDropdown'), 'error');
       return;
     }
@@ -263,6 +285,7 @@ export class AddDeveloperComponent implements OnInit {
 
   addLegalEntityBank(e) {
     const bank = new Banks();
+    this.model.legal_representative.legal_rep_banks = this.model.legal_representative.legal_rep_banks || [];
     this.model.legal_representative.legal_rep_banks.push(bank);
   }
 

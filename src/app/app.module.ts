@@ -41,6 +41,7 @@ import { ProjectService } from './services/project.service';
 import { LeadsService } from './services/leads.service';
 import { ExcelService } from './services/excel.service';
 import { UptoTwoDigitDecimalNumberDirective } from './directives/upto-two-digit-decimal-number.directive';
+import { LocalizedNumericInputDirective } from './directives/localized-numeric-input.directive';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent },
@@ -62,6 +63,7 @@ const appRoutes: Routes = [
     ForgotPasswordComponent,
     LoginComponent,
     PageNotFoundComponent,
+    // LocalizedNumericInputDirective,
     // UptoTwoDigitDecimalNumberDirective
   ],
   imports: [
