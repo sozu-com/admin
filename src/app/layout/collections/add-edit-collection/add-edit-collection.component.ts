@@ -697,6 +697,7 @@ export class AddEditCollectionComponent implements OnInit {
 
     const input = new FormData();
     input.append('keyword', keyword);
+    input.append('status', '1');  // means only approved projects
 
     this.us.postDataApi('searchBuilding', input)
       .subscribe(

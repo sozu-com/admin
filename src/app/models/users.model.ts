@@ -33,6 +33,7 @@ export class Users {
     city_id?: string;
     locality_id?: string;
     fed_tax_pay?: string;
+    developer_url?: string;
     legal_rep_banks?: Array<Banks>;
     legal_representative?: LegalRepresentative;
 }

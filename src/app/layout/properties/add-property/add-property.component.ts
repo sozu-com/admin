@@ -749,6 +749,7 @@ export class AddPropertyComponent implements OnInit {
 
     const input = new FormData();
     input.append('keyword', keyword);
+    input.append('status', '0');  // means only approved projects
 
     this.us.postDataApi('searchBuilding', input)
       .subscribe(

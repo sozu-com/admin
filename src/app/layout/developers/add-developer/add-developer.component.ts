@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
 import { ACL, Permission } from './../../../models/acl.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Users } from 'src/app/models/users.model';
 import { MapsAPILoader } from '@agm/core';
@@ -43,11 +43,29 @@ export class AddDeveloperComponent implements OnInit {
     private admin: AdminService,
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.file4 = new FileUpload(false, this.admin);
+    this.initModel();
+    this.parameter.itemsPerPage = this.constant.itemsPerPage;
+    this.parameter.p = this.constant.p;
+    this.getCurrencies();
+      this.parameter.sub = this.route.params.subscribe(params => {
+        if (params['id'] !== '0') {
+          this.model.id = params['id'];
+          this.getUserById(this.model.id);
+        } else {
+          this.model.id = '';
+          this.model.images = [];
+        }
+      });
+  }
+
+  initModel() {
+    this.initialCountry = {initialCountry: this.constant.country_code};
     this.model = new Users();
     this.model.legal_rep_banks = new Array();
     // this.model.legal_rep_banks = Array(new Banks());
@@ -59,19 +77,6 @@ export class AddDeveloperComponent implements OnInit {
     this.setCurrentPosition();
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
-    this.parameter.itemsPerPage = this.constant.itemsPerPage;
-    this.parameter.p = this.constant.p;
-    this.getCurrencies();
-    this.initialCountry = {initialCountry: this.constant.country_code};
-      this.parameter.sub = this.route.params.subscribe(params => {
-        if (params['id'] !== '0') {
-          this.model.id = params['id'];
-          this.getUserById(this.model.id);
-        } else {
-          this.model.id = '';
-          this.model.images = [];
-        }
-      });
   }
 
   getCurrencies() {
@@ -165,6 +170,30 @@ export class AddDeveloperComponent implements OnInit {
     if (modelSave.images) {
       modelSave.images = modelSave.images.map(r => r.image);
     }
+    if (modelSave.legal_representative.name || modelSave.legal_representative.phone 
+      || modelSave.legal_representative.fed_tax_pay || modelSave.legal_representative.email) {
+        // if any of key present, then all must be entered
+      if (!modelSave.legal_representative.name) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeName'), 'error');
+        return;
+      }
+      if (!modelSave.legal_representative.phone) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativePhone'), 'error');
+        return;
+      }
+      if (!modelSave.legal_representative.email) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeEmail'), 'error');
+        return;
+      }
+      if (!modelSave.legal_representative.fed_tax_pay) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeFTPR'), 'error');
+        return;
+      }
+    }
+    if (!modelSave.legal_representative.name || !modelSave.legal_representative.phone 
+      || !modelSave.legal_representative.fed_tax_pay || !modelSave.legal_representative.email) {
+        delete modelSave.legal_representative
+    }
     this.spinner.show();
     this.admin.postDataApi('addDeveloper', modelSave)
       .subscribe(
@@ -179,8 +208,12 @@ export class AddDeveloperComponent implements OnInit {
                     this.translate.instant('message.success.updatedSuccessfully');
             swal(this.translate.instant('swal.success'), text, 'success');
             if (this.model.id === '') {
-              formData.reset();
-              this.image = ''; this.developer_image = '';
+              this.router.navigate(['/dashboard/developers']);
+              // this.initModel();
+              // this.model.id = '';
+              // this.model.images = [];
+              // formData.reset();
+              // this.image = ''; this.developer_image = '';
             }
           }
         }, error => {
@@ -233,14 +266,14 @@ export class AddDeveloperComponent implements OnInit {
     }
   }
 
-  placeMarker($event: any, paramLat: string, paramLng: string) {
+  placeMarker($event: any, addParam: string, paramLat: string, paramLng: string) {
     this.model[paramLat] = $event.coords.lat;
     this.model[paramLng] = $event.coords.lng;
-    this.getGeoLocation(this.model[paramLat], this.model[paramLng]);
+    this.getGeoLocation(addParam, this.model[paramLat], this.model[paramLng]);
   }
 
 
-  getGeoLocation(lat: number, lng: number) {
+  getGeoLocation(addParam: string, lat: number, lng: number) {
     if (navigator.geolocation) {
       const geocoder = new google.maps.Geocoder();
       const latlng = new google.maps.LatLng(lat, lng);
@@ -250,9 +283,9 @@ export class AddDeveloperComponent implements OnInit {
         if (status === google.maps.GeocoderStatus.OK) {
           const result = results[0];
           if (result != null) {
-            this.model.address = result.formatted_address;
+            this.model[addParam] = result.formatted_address;
           } else {
-            this.model.address = lat + ',' + lng;
+            this.model[addParam] = lat + ',' + lng;
           }
         }
       });

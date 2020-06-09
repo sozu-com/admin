@@ -67,8 +67,10 @@
             <div class="col-12">
               <!-- company name is legal name -->
                 <div class="form-group-2">
-                  <label>{{'addForm.legalName' | translate}} <span class="color-red">*</span></label>
-                  <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" [(ngModel)]="model.developer_company" name="developer_company">
+                  <label>{{'addForm.legalName' | translate}} 
+                    <!-- <span class="color-red">*</span> -->
+                  </label>
+                  <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.onlyWhiteSpaces" type="text" class="form-control" [(ngModel)]="model.developer_company" name="developer_company">
                 </div>
             </div>
             <div class="col-12">
@@ -141,10 +143,18 @@
                   <label>{{'addForm.locationPinOnMap' | translate}} 
                     <!-- <span class="color-red">*</span> -->
                   </label>
-                  <agm-map class="height200" [latitude]="model.lat" [longitude]="model.lng" [scrollwheel]="false" (mapClick)="placeMarker($event, 'lat', 'lng')" [zoom]="constant.zoom">
+                  <agm-map class="height200" [latitude]="model.lat" [longitude]="model.lng" [scrollwheel]="false" (mapClick)="placeMarker($event, 'developer_address', 'lat', 'lng')" [zoom]="constant.zoom">
                     <agm-marker [latitude]="model.lat" [longitude]="model.lng"></agm-marker>
                   </agm-map>
               </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group-2">
+                <label>{{'addForm.websiteURL' | translate}} 
+                  <!-- <span class="color-red">*</span> -->
+                </label>
+                <input (keydown.space)="$event.preventDefault();" autocomplete="off" 
+                type="text" class="form-control" [(ngModel)]="model.developer_url" name="developer_url">              </div>
             </div>
             <div class="col-12">
               <div class="form-group-2">
@@ -163,7 +173,7 @@
             <div class="col-12">
               <div class="form-group-2">
                   <label>{{'addForm.locationPinOnMap' | translate}}</label>
-                  <agm-map class="height200" [latitude]="model.branch_lat" [longitude]="model.branch_lng" [scrollwheel]="false" (mapClick)="placeMarker($event, 'branch_lat', 'branch_lng')" [zoom]="constant.zoom">
+                  <agm-map class="height200" [latitude]="model.branch_lat" [longitude]="model.branch_lng" [scrollwheel]="false" (mapClick)="placeMarker($event, 'branch_office', 'branch_lat', 'branch_lng')" [zoom]="constant.zoom">
                     <agm-marker [latitude]="model.branch_lat" [longitude]="model.branch_lng"></agm-marker>
                   </agm-map>
               </div>
