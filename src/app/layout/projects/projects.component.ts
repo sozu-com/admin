@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { ApiConstants } from 'src/app/common/api-constants';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -35,7 +35,8 @@ export class ProjectsComponent implements OnInit {
     public admin: AdminService,
     public projectService: ProjectService,
     private spinner: NgxSpinnerService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -316,5 +317,19 @@ export class ProjectsComponent implements OnInit {
         error => {
           swal(this.translate.instant('swal.error'), error.error.message, 'error');
         });
+  }
+
+  viewDeveloper(item: any) {
+    if (item.developer && item.developer.name) {
+      this.router.navigate(['/dashboard/developers/view-all', item.developer.name]);
+    }
+  }
+
+  viewCompanyManager(item: any) {
+    if (item.manager && item.manager.id) {
+      this.router.navigate(['/dashboard/managers/view-all', item.manager.name]);
+    } else if (item.company && item.company.id) {
+      this.router.navigate(['/dashboard/companies/view-all', item.company.name]);
+    }
   }
 }

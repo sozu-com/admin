@@ -18,7 +18,10 @@ import { AddDeveloperComponent } from './add-developer/add-developer.component';
 
 const routes: Routes = [
   {
-    path: '', component: DevelopersComponent,
+    path: 'view-all', component: DevelopersComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Developers Management', 'can_read', ''] }
+  },{
+    path: 'view-all/:name', component: DevelopersComponent,
     canActivate: [AclUserGuard], data: { roles: ['Developers Management', 'can_read', ''] }
   },
   {

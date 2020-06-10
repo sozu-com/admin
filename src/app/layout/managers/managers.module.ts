@@ -16,7 +16,10 @@ import { TranslateModule } from '@ngx-translate/core';
 
 const routes: Routes = [
   {
-    path: '', component: ManagersComponent,
+    path: 'view-all', component: ManagersComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Managers Management', 'can_read', ''] }
+  },{
+    path: 'view-all/:name', component: ManagersComponent,
     canActivate: [AclUserGuard], data: { roles: ['Managers Management', 'can_read', ''] }
   }
 ];

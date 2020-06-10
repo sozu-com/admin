@@ -161,7 +161,7 @@
                      </li>
 
                     <li *ngIf="admin?.admin_acl['Companies Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
-                      <a class="nav-link" href="javascript://" routerLink="companies"><i><img src="assets/img/users.png"></i><span>{{'sidebar.manageCompanies' | translate}}</span></a>
+                      <a class="nav-link" href="javascript://" routerLink="companies/view-all"><i><img src="assets/img/users.png"></i><span>{{'sidebar.manageCompanies' | translate}}</span></a>
                     </li>
 
                     <li *ngIf="admin?.admin_acl['Managers Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
@@ -173,7 +173,7 @@
                     </li>
 
                     <li *ngIf="admin?.admin_acl['Developers Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
-                      <a class="nav-link" href="javascript://" routerLink="developers"><i><img src="assets/img/users.png"></i><span>{{'sidebar.manageDevelopers' | translate}}</span></a>
+                      <a class="nav-link" href="javascript://" routerLink="developers/view-all"><i><img src="assets/img/users.png"></i><span>{{'sidebar.manageDevelopers' | translate}}</span></a>
                     </li>
 
                       <!-- <li *ngIf="admin?.admin_acl['Developers Management']?.can_read==1" class="nav-item dropdown" [routerLinkActive]="'active'">

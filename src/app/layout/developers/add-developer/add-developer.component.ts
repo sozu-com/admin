@@ -208,7 +208,7 @@ export class AddDeveloperComponent implements OnInit {
                     this.translate.instant('message.success.updatedSuccessfully');
             swal(this.translate.instant('swal.success'), text, 'success');
             if (this.model.id === '') {
-              this.router.navigate(['/dashboard/developers']);
+              this.router.navigate(['/dashboard/developers/view-all']);
               // this.initModel();
               // this.model.id = '';
               // this.model.images = [];

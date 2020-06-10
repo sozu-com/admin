@@ -58,8 +58,13 @@ export class ManagersComponent implements OnInit {
 
     // this.setCurrentPosition();
     this.parameter.sub = this.route.params.subscribe(params => {
+      if (params.name) {
+        this.parameter.name = params.name; 
+      } else {
+        this.parameter.name = ''; 
+      }
       this.parameter.p = this.constant.p;
-      this.parameter.name = ''; this.parameter.phone = ''; this.parameter.email = '';
+      this.parameter.phone = ''; this.parameter.email = '';
       this.parameter.total = 0;
       this.getTowerManager();
       this.getAllCompanies();

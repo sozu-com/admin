@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Users } from 'src/app/models/users.model';
 import { IProperty } from 'src/app/common/property';
@@ -22,13 +22,17 @@ export class DevelopersComponent implements OnInit {
   items: Array<Users>;
   constructor(public constant: Constant, public admin: AdminService, private router: Router,
     private spinner: NgxSpinnerService,
-    private translate: TranslateService) { }
+    private translate: TranslateService,
+  private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.model = new Users();
     this.model.buildings_sort = 2;  // 2 means desc
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
+    this.route.params.subscribe(params => {
+      this.model.name = params.name;
+    });
     this.getDevelopersFrAdmin();
   }
 

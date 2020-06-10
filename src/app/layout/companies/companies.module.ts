@@ -20,7 +20,11 @@ import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 
 const routes: Routes = [
   {
-    path: '', component: CompaniesComponent,
+    path: 'view-all', component: CompaniesComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Companies Management', 'can_read', ''] }
+  },
+  {
+    path: 'view-all/:name', component: CompaniesComponent,
     canActivate: [AclUserGuard], data: { roles: ['Companies Management', 'can_read', ''] }
   },
   {

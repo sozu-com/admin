@@ -319,8 +319,8 @@
                             <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}" routerLink="/dashboard/projects/details/{{p.id}}">
                               <strong>{{p?.name}}</strong>
                             </td>
-                            <td><span>{{p?.developer?.name ? p?.developer?.name : ('table.tr.td.NA' | translate)}}</span></td>
-                            <td>
+                            <td [ngClass]="{'green-color cursor-pointer': p?.developer?.name}" (click)="viewDeveloper(p)"><span>{{p?.developer?.name ? p?.developer?.name : ('table.tr.td.NA' | translate)}}</span></td>
+                            <td [ngClass]="{'green-color cursor-pointer': p?.manager?.id || p?.company?.id}" (click)="viewCompanyManager(p)">
                               <span>{{p?.manager?.id ? p?.manager?.name : p?.company?.id ? p?.company?.name : ('table.tr.td.NA' | translate)}}</span>
                               <div class="clearfix"></div>
                               <small>
@@ -329,10 +329,14 @@
                             </td>
                             <td><span>{{p?.possession_status_id == apiConstant.possessionStatus.sale ? ('table.tr.td.sale' | translate) : ('table.tr.td.presale' | translate)}}</span></td>
                             <td>
-                              <a title="{{'table.title.clickToViewProperties' | translate}}" routerLink="/dashboard/properties/view-properties/{{p.id}}"><span class="green-color">{{p?.properties_count_all | numberWithCommas}}</span></a>
+                              <a title="{{'table.title.clickToViewProperties' | translate}}" routerLink="/dashboard/properties/view-properties/{{p.name}}/0"><span class="green-color">{{p?.properties_count_all | numberWithCommas}}</span></a>
                             </td>
-                            <td><span>{{p?.rent_count_all | numberWithCommas}}</span></td>
-                            <td><span>{{p?.sale_count_all | numberWithCommas}}</span></td>
+                            <td>
+                              <a title="{{'table.title.clickToViewProperties' | translate}}" routerLink="/dashboard/properties/view-properties/{{p.name}}/2"><span class="green-color">{{p?.rent_count_all | numberWithCommas}}</span></a>
+                            </td>
+                            <td>
+                              <a title="{{'table.title.clickToViewProperties' | translate}}" routerLink="/dashboard/properties/view-properties/{{p.name}}/1"><span class="green-color">{{p?.sale_count_all | numberWithCommas}}</span></a>
+                            </td>
                             <td><span>${{ p.avg_price ? (p.avg_price | number : '1.2-2') : 0.00}}</span></td>
                             <td>
                               <div class="table-actions">

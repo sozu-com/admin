@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Company } from 'src/app/models/company.model';
 import { IProperty } from 'src/app/common/property';
 import { Constant } from 'src/app/common/constants';
@@ -26,7 +26,7 @@ export class CompaniesComponent implements OnInit {
   constructor(public constant: Constant, public admin: AdminService,
     private spinner: NgxSpinnerService,
     private router: Router,
-    private translate: TranslateService) { }
+    private translate: TranslateService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.label = this.translate.instant('table.title.chooseCompaniesFile');
@@ -35,6 +35,11 @@ export class CompaniesComponent implements OnInit {
     this.model.sort_manager = null;
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
+    this.route.params.subscribe(params => {
+      if (params.name) {
+        this.model.name = params.name; 
+      }
+    });
     this.getTowerManagerCompany();
   }
 

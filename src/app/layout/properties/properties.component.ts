@@ -80,7 +80,10 @@ export class PropertiesComponent implements OnInit {
     };
     this.route.params.subscribe(params => {
       this.parameter.project_id = params.project_id;
-      console.log(params);
+      this.parameter.keyword = params.name;
+      if (params.availability_filter) {
+        this.parameter.availability_filter = params.availability_filter;
+      }
       if (params.type === 'agent') {
         this.parameter.agent_id = params.id;
       } else if (params.type === 'agency') {
