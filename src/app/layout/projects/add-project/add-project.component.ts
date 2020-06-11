@@ -14,6 +14,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Manager, Company } from 'src/app/models/company.model';
 import { Developer } from 'src/app/models/global.model';
 import { TranslateService } from '@ngx-translate/core';
+import { Agency } from 'src/app/models/agency.model';
 
 declare const google;
 declare let swal: any;
@@ -51,6 +52,9 @@ export class AddProjectComponent implements OnInit {
   @ViewChild('closeManagedByModel') closeManagedByModel: ElementRef;
 
   @ViewChild('towerEditAmenitiesModal') towerEditAmenitiesModal: ElementRef;
+  
+  @ViewChild('openAgencyModel') openAgencyModel: ElementRef;
+  @ViewChild('closeAgencyListModel') closeAgencyListModel: ElementRef;
   myform: FormGroup;
   myform2: FormGroup;
 
@@ -76,6 +80,7 @@ export class AddProjectComponent implements OnInit {
   all_amenities: any = [];
   all_configurations: any = [];
   all_developers: Array<Developer>;
+  agencies: Array<Agency>;
   all_managers: Array<Manager>;
   all_companies: Array<Company>;
   amenity_index: number;
@@ -184,6 +189,7 @@ export class AddProjectComponent implements OnInit {
           this.model = JSON.parse(JSON.stringify(r.data));
           this.model.manager = r.data.manager ? r.data.manager : new Manager();
           this.model.company = r.data.company ? r.data.company : new Company();
+          this.model.agency = r.data.agency ? r.data.agency : new Agency();
           // this.model.videos = this.model.videos && this.model.videos.length > 0 ? JSON.parse(this.model.videos) : [];
           if (r.data['locality']) {
             this.setCountryToLocality(r.data['locality']);
@@ -281,6 +287,7 @@ export class AddProjectComponent implements OnInit {
           this.model = JSON.parse(JSON.stringify(r.data));
           this.model.manager = r.data.manager ? r.data.manager : new Manager();
           this.model.company = r.data.company ? r.data.company : new Company();
+          this.model.agency = r.data.agency ? r.data.agency : new Agency();
           if (r.data['locality']) {
             this.setCountryToLocality(r.data['locality']);
           }
@@ -1219,6 +1226,7 @@ export class AddProjectComponent implements OnInit {
       modelSave.developer_id = modelSave.developer.id;
       modelSave.manager_id = modelSave.manager && modelSave.manager.id ? modelSave.manager.id : null;
       modelSave.company_id = modelSave.company && modelSave.company.id ? modelSave.company.id : null;
+      modelSave.agency_id = modelSave.agency && modelSave.agency.id ? modelSave.agency.id : null;
       this.spinner.show();
       this.admin.postDataApi('updateProject', modelSave).subscribe(success => {
         this.spinner.hide();
@@ -1891,5 +1899,23 @@ export class AddProjectComponent implements OnInit {
     // this.file5.image = item.image;
     // this.file6.image = item.developer_image;
     this.closeManagedByModel.nativeElement.click();
+  }
+
+  selectAgency(name: string, type: number) {
+    this.spinner.show();
+    this.admin.postDataApi('getAllAgencies', { name: name }).subscribe(r => {
+      this.spinner.hide();
+      this.agencies = r.data;
+      if (type !== 2) {
+        this.openAgencyModel.nativeElement.click();
+      }
+    });
+  }
+
+  setAgency(item: any) {
+    this.canEditdeveloperInfo = false;
+    this.model.agency = item;
+    this.model.agency_id = item.id;
+    this.closeAgencyListModel.nativeElement.click();
   }
 }

@@ -105,7 +105,15 @@
 
         <table class="table table-striped">
           <tr>
-            <th style="width:6%">&nbsp;</th>
+            <th style="width:6%">&nbsp;
+              <div class="searh-3" *ngIf="parameter.userType == 'outside-broker'">
+                <select [(ngModel)]="parameter.is_freelancer" name="is_freelancer" (change)="setIsFreelancer(parameter.is_freelancer)">
+                  <option value="0">All</option>
+                  <option value="1">Freelancer</option>
+                  <option value="2">Company</option>
+                </select>
+              </div>
+            </th>
             <th style="width:15%" *ngIf="parameter.userType == 'outside-broker'">
               <div class="table-search">
                   <label>{{'table.th.agencyCommercialName' | translate}}</label>
@@ -319,19 +327,67 @@
                       </div>
                     </div>
                  </div>
-                 <div class="col-12" *ngIf="parameter.userType=='outside-broker' || model.is_external_agent">
+                 <div class="col-12" *ngIf="(parameter.userType=='outside-broker' || model.is_external_agent)">
+                    <div class="form-group-2">
+                       <label>{{'addForm.freeLancerOrComapny' | translate}} <span class="color-red">*</span></label>
+                       <div class="form-group">
+                        <select class="form-control" (change)="setIsCompany($event.target.value)" [(ngModel)]="model.is_company" name="is_company">
+                          <option value="true">Company</option>
+                          <option value="false">Freelancer</option>
+                        </select>
+                      </div>
+                    </div>
+                 </div>
+                 <div class="col-12" *ngIf="(parameter.userType=='outside-broker' || model.is_external_agent) && (model.is_company=='true')">
                   <div class="form-group-2">
                     <label>{{'addForm.agencyCommercialName' | translate}}</label>
                     
                     <!-- [(ngModel)]="model.agency.id" -->
                     <div class="form-group marginB0">
-                      <select title="{{'table.title.chooseAgency' | translate}}" name="agency" class="form-control" (change)="setAgency($event.target.value)">
+                      <select required title="{{'table.title.chooseAgency' | translate}}" name="agency" class="form-control" (change)="setAgency($event.target.value)">
                         <option value="">{{'addForm.selectAgency' | translate}}</option>
                         <option *ngFor="let agency of agencies" value="{{agency.id}}" [selected]="model?.agency?.id == agency.id">{{agency.name}}</option>
                       </select>
                     </div>
                   </div>
                 </div>
+              </div>
+
+              <div class="row" *ngIf="(parameter.userType=='outside-broker' || model.is_external_agent) && (model.is_company=='false')">
+              <div class="col-12">
+                <div class="form-group-2">
+                   <label>{{'addForm.rfcLegalId' | translate}} <span class="color-red">*</span></label>
+                   <div class="form-group">
+                    <input required autocomplete="off" type="text" class="form-control" name="rfc_legal_id" [(ngModel)]="model.rfc_legal_id">
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group-2">
+                   <label>{{'addForm.address' | translate}}  <span class="color-red">*</span></label>
+                   <div class="form-group">
+                    <input required placeholder="Search for address" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search1 (input)="loadPlaces('adr', 'lat', 'lng', 'searchElementRef')" name="adr" [(ngModel)]="model.adr" autocomplete="off">
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group-2">
+                    <label>{{'addForm.locationPinOnMap' | translate}} <span class="color-red">*</span></label>
+                   <div class="form-group">
+                    <agm-map class="height200" [latitude]="model.lat" [longitude]="model.lng" [scrollwheel]="false" (mapClick)="placeMarker($event, 'lat', 'lng', 'adr')" [zoom]="constant.zoom">
+                      <agm-marker [latitude]="model.lat" [longitude]="model.lng"></agm-marker>
+                    </agm-map>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group-2">
+                   <label>{{'addForm.description' | translate}} <span class="color-red">*</span></label>
+                   <div class="form-group">
+                    <textarea autocomplete="off" rows="3" class="form-control" name="description" [(ngModel)]="model.description"></textarea>
+                  </div>
+                </div>
+              </div>
               </div>
 
               <div *ngFor="let add of model.address; let j=index">

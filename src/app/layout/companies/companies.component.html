@@ -88,11 +88,11 @@
               <td class="text-left">{{item.email ? item.email : ('table.tr.td.NA' | translate)}}</td>
               <td class="text-left">
                 <a routerLink="/dashboard/projects/view-projects/company/{{item.id}}">
-                  <span class="green-color">{{item.project_count | numberWithCommas}}</span>
+                  <span class="green-color">{{(item.project_count + item.project_count1) | numberWithCommas}}</span>
                 </a>
               </td>
               <td class="text-left">
-                <a class="cursor-pointer" *ngIf="item.managers_count; else noManagersLinked" (click)="getManagers(item.id)">
+                <a class="cursor-pointer" *ngIf="item.managers_count; else noManagersLinked" (click)="getManagers(item)">
                   <span class="green-color">{{item.managers_count | numberWithCommas}}</span>
                 </a>
                 <ng-template #noManagersLinked>

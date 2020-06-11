@@ -58,10 +58,10 @@ export class ManagersComponent implements OnInit {
 
     // this.setCurrentPosition();
     this.parameter.sub = this.route.params.subscribe(params => {
-      if (params.name) {
+      if (params.type == 'manager') {
         this.parameter.name = params.name; 
-      } else {
-        this.parameter.name = ''; 
+      } else if (params.type == 'company'){
+        this.parameter.company_name = params.name; 
       }
       this.parameter.p = this.constant.p;
       this.parameter.phone = ''; this.parameter.email = '';

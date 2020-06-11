@@ -22,6 +22,8 @@ export class Agency {
     description?: string;
     agents_count?: number;
     property_count?: number;
+    project_count?: number;
     property_sort?: number;     // for sorting
     agent_sort?: number;     // for sorting
+    project_sort?: number;  // for sorting
 }

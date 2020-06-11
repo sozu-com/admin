@@ -1,5 +1,6 @@
 import {City} from './location.model';
 import { Manager, Company } from './company.model';
+import { Agency } from './agency.model';
 
 export class CarpetAreas {
   carpet_areas: Array<object> = [
@@ -83,6 +84,8 @@ export class AddProjectModel {
   manager_id: number;
   company?: Company;
   company_id: number;
+  agency?: Agency;
+  agency_id?: number;
   selected?: boolean;
   policies?: string;
   maintenance_cost?: string;

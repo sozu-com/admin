@@ -174,4 +174,6 @@ export interface IProperty {
   apartment_name?: string;
   building_name?: string;
   config_name?: string;
+  is_freelancer?: string;
+  company_id?: string;
 }

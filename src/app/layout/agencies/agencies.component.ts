@@ -53,8 +53,13 @@ export class AgenciesComponent implements OnInit {
     this.model[param] = value;
     if (param === 'property_sort') {
       this.model.agent_sort = null;
+      this.model.project_sort = null;
+    } else if (param === 'project_sort') {
+      this.model.agent_sort = null;
+      this.model.property_sort = null;
     } else {
       this.model.property_sort = null;
+      this.model.project_sort = null;
     }
     this.getAgencies();
   }

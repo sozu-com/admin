@@ -50,16 +50,18 @@ export class UserModel {
     is_inhouse_agent?: boolean; // for frontend use only
     // company_name?: string;
     // company_logo?: string;
-    // description?: string;
-    // adr?: string;   // address string
-    // lat?: any;
-    // lng?: any;
+    description?: string;
+    adr?: string;   // address string
+    lat?: any;
+    lng?: any;
     // branches?: Array<Branches>;
     // branch_office?: string;
     // branch_lat?: any;
     // branch_lng?: any;
     // company_images?: Array<any>;
     // company_videos?: Array<any>;
+    rfc_legal_id?: string;
+    is_company?: string;
 }
 
 export class Branches {

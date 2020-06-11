@@ -68,6 +68,12 @@
                 <a (click)="sortData(model.property_sort==2?1:2, 'property_sort')" href="javascript://"><img [ngClass]="{'upsidedown':model.property_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
                   </div>
               </th>
+              <th style="width:7%; vertical-align: top;">
+                <div class="table-search">
+                  <label>{{'table.th.linkedProjects' | translate}}</label>
+                <a (click)="sortData(model.project_sort==2?1:2, 'project_sort')" href="javascript://"><img [ngClass]="{'upsidedown':model.project_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
+                  </div>
+              </th>
               <th style="width:20%">
                 &nbsp;
               </th>
@@ -100,6 +106,14 @@
                 </a>
                 <ng-template #noPropertyLinked>
                     {{item.property_count | numberWithCommas}}
+                </ng-template>
+              </td>
+              <td class="text-left">
+                <a *ngIf="item.project_count; else noProjectLinked" routerLink="/dashboard/projects/view-projects/agency/{{item.id}}">
+                  <span class="green-color">{{item.project_count | numberWithCommas}}</span>
+                </a>
+                <ng-template #noProjectLinked>
+                    {{item.project_count | numberWithCommas}}
                 </ng-template>
               </td>
               <td>

@@ -188,6 +188,11 @@ ngx-my-date-picker .ngxmdp .headertodaybtn {
   padding: 8px 15px;
 }
 
+.searh-3 select {
+  border: 1px solid rgba(196, 196, 196, 0.5);
+  background-color: #FEFEFE;
+}
+
 .searh-3 button {
   border: 1px solid rgba(196, 196, 196, 0.5);
   background-color: #00b96f;

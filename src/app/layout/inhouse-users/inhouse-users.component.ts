@@ -24,6 +24,7 @@ declare const google;
 
 export class InhouseUsersComponent implements OnInit {
 
+  @ViewChild('search1') searchElementRef: ElementRef;
   @ViewChild('inhouseUserModalOpen') inhouseUserModalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('viewModalOpen') viewModalOpen: ElementRef;
@@ -53,6 +54,7 @@ export class InhouseUsersComponent implements OnInit {
     private spinner: NgxSpinnerService,
     public admin: AdminService, private router: Router,
     private ngZone: NgZone,
+    private mapsAPILoader: MapsAPILoader,
     private translate: TranslateService) {
     this.admin.countryData$.subscribe(success => {
       this.parameter.allCountry = success;
@@ -64,11 +66,12 @@ export class InhouseUsersComponent implements OnInit {
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
     this.model.agency = new Agency();
+    this.model.is_company = 'true';
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.p = this.constant.p;
     this.parameter.routeName = this.router.url;
     this.tempAdd = this.model.address;
-    // this.setCurrentPosition();
+    this.setCurrentPosition();
     this.parameter.sub = this.route.params.subscribe(params => {
       this.parameter.p = this.constant.p;
       this.parameter.userType = params['userType'];
@@ -279,6 +282,14 @@ export class InhouseUsersComponent implements OnInit {
     input.append('is_csr_closer', formdata.value.is_csr_closer === true ? '1' : '0');
     input.append('is_external_agent', this.model.is_external_agent ? '1' : '0');
 
+    if ((this.parameter.userType=='outside-broker' || this.model.is_external_agent) && (this.model.is_company=='false')) {
+      input.append('adr', this.model.adr);
+      input.append('lat', this.model.lat);
+      input.append('lng', this.model.lng);
+      input.append('rfc_legal_id', this.model.rfc_legal_id);
+      input.append('description', this.model.description || '');
+    }
+
     if (this.model.is_external_agent) {
       input.append('agency_id', this.model.agency.id);
       // input.append('company_name', this.model.company_name);
@@ -378,6 +389,11 @@ export class InhouseUsersComponent implements OnInit {
     }
   }
 
+  setIsCompany(is_company: string) {
+    console.log(is_company);
+    this.model.is_company = is_company;
+  }
+
   editUser(userdata, index) {
     this.spinner.show();
     this.model.img_loader = false;
@@ -390,17 +406,23 @@ export class InhouseUsersComponent implements OnInit {
       this.model.name = userdata.name;
       this.model.email = userdata.email;
       this.model.phone = userdata.phone;
+      if (userdata.agency_id!=null && userdata.agency_id!=0) {
+        this.model.is_company = 'true';
+      } else {
+        this.model.is_company = 'false';
+      }
       this.model.country_code = userdata.country_code;
       if (this.obj) {
         this.obj.intlTelInput('setCountry', this.model.country_code ? this.model.country_code : this.constant.country_code);
       }
       // this.model.company_name = userdata.company_name;
-      // this.model.description = userdata.description;
+      this.model.description = userdata.description;
       this.model.is_external_agent = userdata.is_external_agent;
       this.model.agency = userdata.agency ? userdata.agency : new Agency();
-      // this.model.adr = userdata.address;
-      // this.model.lat = userdata.lat;
-      // this.model.lng = userdata.lng;
+      this.model.adr = userdata.address;
+      this.model.lat = userdata.lat;
+      this.model.lng = userdata.lng;
+      this.model.rfc_legal_id = userdata.rfc_legal_id;
 
       // branch
       // if (userdata.branches && userdata.branches.length > 0) {
@@ -553,6 +575,10 @@ export class InhouseUsersComponent implements OnInit {
     this.parameter.phone = phone;
     this.getInhouseUsers();
   }
+  setIsFreelancer(is_freelancer: string) {
+    this.parameter.is_freelancer = is_freelancer;
+    this.getInhouseUsers();
+  }
 
   setLeadSort() {
     this.lead_sort = this.lead_sort === 2 ? 1 : 2;
@@ -632,6 +658,7 @@ export class InhouseUsersComponent implements OnInit {
     if (this.parameter.email) { input.append('email', this.parameter.email); }
     if (this.parameter.phone) { input.append('phone', this.parameter.phone); }
     if (this.parameter.company_name) { input.append('company_name', this.parameter.company_name); }
+    if (this.parameter.is_freelancer) { input.append('is_freelancer', this.parameter.is_freelancer); }
     if (this.parameter.country_id && this.parameter.country_id !== '-1') {
       input.append('countries', JSON.stringify([this.parameter.country_id]));
     }
@@ -783,76 +810,76 @@ export class InhouseUsersComponent implements OnInit {
   }
 
 
-  // loadPlaces(paramAdd: string, paramLat: string, paramLng: string, searchRef: any) {
-  //   // load Places Autocomplete
-  //   this.model[paramLat] = null;
-  //   this.model[paramLng] = null;
-  //   this.mapsAPILoader.load().then(() => {
-  //     const autocomplete = new google.maps.places.Autocomplete(this[searchRef].nativeElement, {
-  //       types: []
-  //     });
-  //     autocomplete.addListener('place_changed', () => {
-  //       this.ngZone.run(() => {
-  //         // get the place result
-  //         // const place: google.maps.places.PlaceResult = autocomplete.getPlace();
-  //         const place = autocomplete.getPlace();
+  loadPlaces(paramAdd: string, paramLat: string, paramLng: string, searchRef: any) {
+    // load Places Autocomplete
+    this.model[paramLat] = null;
+    this.model[paramLng] = null;
+    this.mapsAPILoader.load().then(() => {
+      const autocomplete = new google.maps.places.Autocomplete(this[searchRef].nativeElement, {
+        types: []
+      });
+      autocomplete.addListener('place_changed', () => {
+        this.ngZone.run(() => {
+          // get the place result
+          // const place: google.maps.places.PlaceResult = autocomplete.getPlace();
+          const place = autocomplete.getPlace();
 
-  //         // verify result
-  //         if (place.geometry === undefined || place.geometry === null) {
-  //           return;
-  //         }
+          // verify result
+          if (place.geometry === undefined || place.geometry === null) {
+            return;
+          }
 
-  //         // set latitude, longitude and zoom
-  //         this.model[paramLat] = place.geometry.location.lat();
-  //         this.model[paramLng] = place.geometry.location.lng();
-  //         if (place.formatted_address) {
-  //           this.model[paramAdd] = place.formatted_address;
-  //         }
-  //       });
-  //     });
-  //   });
-  // }
-
-
-  // setCurrentPosition() {
-  //   if ('geolocation' in navigator) {
-  //     navigator.geolocation.getCurrentPosition((position) => {
-  //       // setting address lat lng
-  //       // this.model.lat = position.coords.latitude;
-  //       // this.model.lng = position.coords.longitude;
-
-  //       // setting branch office lat lng
-  //       // this.model.branch_lat = position.coords.latitude;
-  //       // this.model.branch_lng = position.coords.longitude;
-  //     });
-  //   }
-  // }
-
-  // placeMarker($event: any, paramLat: string, paramLng: string, param: string) {
-  //   this.model[paramLat] = $event.coords.lat;
-  //   this.model[paramLng] = $event.coords.lng;
-  //   this.getGeoLocation(this.model[paramLat], this.model[paramLng], param);
-  // }
+          // set latitude, longitude and zoom
+          this.model[paramLat] = place.geometry.location.lat();
+          this.model[paramLng] = place.geometry.location.lng();
+          if (place.formatted_address) {
+            this.model[paramAdd] = place.formatted_address;
+          }
+        });
+      });
+    });
+  }
 
 
-  // getGeoLocation(lat: number, lng: number, param: string) {
-  //   if (navigator.geolocation) {
-  //     const geocoder = new google.maps.Geocoder();
-  //     const latlng = new google.maps.LatLng(lat, lng);
-  //     const request = { latLng: latlng };
+  setCurrentPosition() {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        // setting address lat lng
+        // this.model.lat = position.coords.latitude;
+        // this.model.lng = position.coords.longitude;
 
-  //     geocoder.geocode(request, (results, status) => {
-  //       if (status === google.maps.GeocoderStatus.OK) {
-  //         const result = results[0];
-  //         if (result != null) {
-  //           this.model[param] = result.formatted_address;
-  //         } else {
-  //           this.model[param] = lat + ',' + lng;
-  //         }
-  //       }
-  //     });
-  //   }
-  // }
+        // setting branch office lat lng
+        // this.model.branch_lat = position.coords.latitude;
+        // this.model.branch_lng = position.coords.longitude;
+      });
+    }
+  }
+
+  placeMarker($event: any, paramLat: string, paramLng: string, param: string) {
+    this.model[paramLat] = $event.coords.lat;
+    this.model[paramLng] = $event.coords.lng;
+    this.getGeoLocation(this.model[paramLat], this.model[paramLng], param);
+  }
+
+
+  getGeoLocation(lat: number, lng: number, param: string) {
+    if (navigator.geolocation) {
+      const geocoder = new google.maps.Geocoder();
+      const latlng = new google.maps.LatLng(lat, lng);
+      const request = { latLng: latlng };
+
+      geocoder.geocode(request, (results, status) => {
+        if (status === google.maps.GeocoderStatus.OK) {
+          const result = results[0];
+          if (result != null) {
+            this.model[param] = result.formatted_address;
+          } else {
+            this.model[param] = lat + ',' + lng;
+          }
+        }
+      });
+    }
+  }
 
 
   file1Select($event) {

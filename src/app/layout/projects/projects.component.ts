@@ -99,6 +99,9 @@ export class ProjectsComponent implements OnInit {
     if (this.parameter.userType === 'company') {
       input.company_id = this.parameter.id;
     }
+    if (this.parameter.userType === 'agency') {
+      input.agency_id = this.parameter.id;
+    }
     this.admin.postDataApi('projectHome', input).subscribe(
       success => {
         this.items = success.data;
@@ -327,7 +330,7 @@ export class ProjectsComponent implements OnInit {
 
   viewCompanyManager(item: any) {
     if (item.manager && item.manager.id) {
-      this.router.navigate(['/dashboard/managers/view-all', item.manager.name]);
+      this.router.navigate(['/dashboard/managers/view-all', 'manager', item.manager.name]);
     } else if (item.company && item.company.id) {
       this.router.navigate(['/dashboard/companies/view-all', item.company.name]);
     }

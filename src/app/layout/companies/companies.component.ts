@@ -186,16 +186,17 @@ export class CompaniesComponent implements OnInit {
     }
   }
 
-  getManagers(company_id: string) {
-    this.spinner.show();
-    this.admin.postDataApi('getCompanyManagers', {company_id: company_id})
-      .subscribe(
-        success => {
-          this.spinner.hide();
-          this.viewManagersModal.nativeElement.click();
-          this.parameter.items = success.data;
-        }, error => {
-          this.spinner.hide();
-        });
+  getManagers(company: any) {
+    this.router.navigate(['/dashboard/managers/view-all', 'company', company.name]);
+    // this.spinner.show();
+    // this.admin.postDataApi('getCompanyManagers', {company_id: company_id})
+    //   .subscribe(
+    //     success => {
+    //       this.spinner.hide();
+    //       this.viewManagersModal.nativeElement.click();
+    //       this.parameter.items = success.data;
+    //     }, error => {
+    //       this.spinner.hide();
+    //     });
   }
 }
