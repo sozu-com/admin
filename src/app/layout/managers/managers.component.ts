@@ -1,7 +1,8 @@
 
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import { MapsAPILoader } from '@agm/core';
 import { FileUpload } from 'src/app/common/fileUpload';
 import { Manager, Company } from 'src/app/models/company.model';
 import { CommonService } from 'src/app/services/common.service';
@@ -11,6 +12,7 @@ import { AdminService } from 'src/app/services/admin.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
+declare const google;
 
 @Component({
   selector: 'app-managers',
@@ -19,6 +21,7 @@ declare let swal: any;
 })
 export class ManagersComponent implements OnInit {
 
+  @ViewChild('search1') searchElementRef: ElementRef;
   @ViewChild('fileInput') fileInput: ElementRef;
   @ViewChild('inhouseUserModalOpen') inhouseUserModalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
@@ -40,7 +43,9 @@ export class ManagersComponent implements OnInit {
     public admin: AdminService,
     private spinner: NgxSpinnerService,
     private ngZone: NgZone,
-    private translate: TranslateService) {
+    private translate: TranslateService,
+    private mapsAPILoader: MapsAPILoader,
+    private router: Router) {
     this.admin.countryData$.subscribe(success => {
       this.parameter.allCountry = success;
     });
@@ -50,12 +55,14 @@ export class ManagersComponent implements OnInit {
     this.label = this.translate.instant('table.title.chooseManagersFile');
     this.file1 = new FileUpload(false, this.admin);
     this.model = new Manager();
+    this.model.is_company = 'true';
     this.model.project_sort = 2;
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
     this.model.company = new Company();
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
 
+    this.setCurrentPosition();
     // this.setCurrentPosition();
     this.parameter.sub = this.route.params.subscribe(params => {
       if (params.type == 'manager') {
@@ -174,6 +181,14 @@ export class ManagersComponent implements OnInit {
     if (this.model.image) { input.append('image', this.model.image); }
     if (this.model.logo) { input.append('logo', this.model.logo); }
 
+    if (this.model.is_company=='false') {
+      input.append('address', this.model.address);
+      input.append('lat', this.model.lat);
+      input.append('lng', this.model.lng);
+      input.append('rfc_legal_id', this.model.rfc_legal_id);
+      input.append('description', this.model.description || '');
+    }
+
     this.spinner.show();
       this.admin.postDataApi('addTowerManager', input)
         .subscribe(
@@ -201,12 +216,21 @@ export class ManagersComponent implements OnInit {
           });
   }
 
+  setIsCompany(is_company: string) {
+    this.model.is_company = is_company;
+  }
+
   editUser(userdata: Manager, index: any) {
     this.parameter.index = index;
     this.model = userdata;
     this.model.company = userdata.company ? userdata.company : new Company();
     this.image = userdata.image;
     this.logo = userdata.logo;
+    if (userdata.company_id!=null && userdata.company_id!=0) {
+      this.model.is_company = 'true';
+    } else {
+      this.model.is_company = 'false';
+    }
     this.model.img_loader = false; this.model.logo_loader = false;
     if (this.obj) {
       this.obj.intlTelInput('setCountry', this.model.country_code ? this.model.country_code : this.constant.country_code);
@@ -236,6 +260,10 @@ export class ManagersComponent implements OnInit {
     this.parameter.phone = phone;
     this.getTowerManager();
   }
+  setIsFreelancer(is_freelancer: string) {
+    this.parameter.is_freelancer = is_freelancer;
+    this.getTowerManager();
+  }
 
   sortData(value: number) {
     this.model.project_sort = value;
@@ -251,6 +279,7 @@ export class ManagersComponent implements OnInit {
     if (this.parameter.email) { input.append('email', this.parameter.email); }
     if (this.parameter.phone) { input.append('phone', this.parameter.phone); }
     if (this.parameter.company_name) { input.append('company_name', this.parameter.company_name); }
+    if (this.parameter.is_freelancer) { input.append('is_freelancer', this.parameter.is_freelancer); }
 
     this.admin.postDataApi('getTowerManager', input)
       .subscribe(
@@ -376,6 +405,83 @@ export class ManagersComponent implements OnInit {
     } else {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseFile'), 'error');
       return false;
+    }
+  }
+
+  loadPlaces(paramAdd: string, paramLat: string, paramLng: string, searchRef: any) {
+    // load Places Autocomplete
+    this.model[paramLat] = null;
+    this.model[paramLng] = null;
+    this.mapsAPILoader.load().then(() => {
+      const autocomplete = new google.maps.places.Autocomplete(this[searchRef].nativeElement, {
+        types: []
+      });
+      autocomplete.addListener('place_changed', () => {
+        this.ngZone.run(() => {
+          // get the place result
+          // const place: google.maps.places.PlaceResult = autocomplete.getPlace();
+          const place = autocomplete.getPlace();
+
+          // verify result
+          if (place.geometry === undefined || place.geometry === null) {
+            return;
+          }
+
+          // set latitude, longitude and zoom
+          this.model[paramLat] = place.geometry.location.lat();
+          this.model[paramLng] = place.geometry.location.lng();
+          if (place.formatted_address) {
+            this.model[paramAdd] = place.formatted_address;
+          }
+        });
+      });
+    });
+  }
+
+
+  setCurrentPosition() {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        // setting address lat lng
+        // this.model.lat = position.coords.latitude;
+        // this.model.lng = position.coords.longitude;
+
+        // setting branch office lat lng
+        // this.model.branch_lat = position.coords.latitude;
+        // this.model.branch_lng = position.coords.longitude;
+      });
+    }
+  }
+
+  placeMarker($event: any, paramLat: string, paramLng: string, param: string) {
+    this.model[paramLat] = $event.coords.lat;
+    this.model[paramLng] = $event.coords.lng;
+    this.getGeoLocation(this.model[paramLat], this.model[paramLng], param);
+  }
+
+
+  getGeoLocation(lat: number, lng: number, param: string) {
+    if (navigator.geolocation) {
+      const geocoder = new google.maps.Geocoder();
+      const latlng = new google.maps.LatLng(lat, lng);
+      const request = { latLng: latlng };
+
+      geocoder.geocode(request, (results, status) => {
+        if (status === google.maps.GeocoderStatus.OK) {
+          const result = results[0];
+          if (result != null) {
+            this.model[param] = result.formatted_address;
+          } else {
+            this.model[param] = lat + ',' + lng;
+          }
+        }
+      });
+    }
+  }
+
+  viewCompany(item: any) {
+    if (item.company && item.company.id) {
+      this.router.navigate(['/dashboard/companies/view-all', item.company.name]);
     }
   }
 }

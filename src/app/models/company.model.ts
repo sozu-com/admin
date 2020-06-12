@@ -39,4 +39,11 @@ export class Manager {
     img_loader: boolean;
     logo_loader: boolean;
     project_sort: any;
+    description?: string;
+    address?: string;   // address string
+    lat?: any;
+    lng?: any;
+    rfc_legal_id?: string;
+    is_company?: string;
+    company_id?: number;
 }

@@ -331,7 +331,7 @@
                     <div class="form-group-2">
                        <label>{{'addForm.freeLancerOrComapny' | translate}} <span class="color-red">*</span></label>
                        <div class="form-group">
-                        <select class="form-control" (change)="setIsCompany($event.target.value)" [(ngModel)]="model.is_company" name="is_company">
+                        <select class="form-control" required (change)="setIsCompany($event.target.value)" [(ngModel)]="model.is_company" name="is_company">
                           <option value="true">Company</option>
                           <option value="false">Freelancer</option>
                         </select>
@@ -382,7 +382,9 @@
               </div>
               <div class="col-12">
                 <div class="form-group-2">
-                   <label>{{'addForm.description' | translate}} <span class="color-red">*</span></label>
+                   <label>{{'addForm.description' | translate}} 
+                     <!-- <span class="color-red">*</span> -->
+                  </label>
                    <div class="form-group">
                     <textarea autocomplete="off" rows="3" class="form-control" name="description" [(ngModel)]="model.description"></textarea>
                   </div>

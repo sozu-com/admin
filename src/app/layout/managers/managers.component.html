@@ -35,7 +35,15 @@
 
         <table class="table table-striped">
           <tr>
-            <th style="width:6%">&nbsp;</th>
+            <th style="width:6%">&nbsp;
+              <div class="searh-3">
+                <select [(ngModel)]="parameter.is_freelancer" name="is_freelancer" (change)="setIsFreelancer(parameter.is_freelancer)">
+                  <option value="0">All</option>
+                  <option value="1">Freelancer</option>
+                  <option value="2">Company</option>
+                </select>
+              </div>
+            </th>
             <th style="width:20%">
               <div class="table-search">
                 <label>{{'table.th.companyCommercialName' | translate}}</label>
@@ -98,7 +106,7 @@
                 class="rounded-circle" alt="img">
               <img *ngIf="!item.image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
             </td>
-            <td class="text-left">
+            <td class="text-left" [ngClass]="{'green-color cursor-pointer': item?.company?.name}" (click)="viewCompany(item)">
               <span class="name">{{item?.company?.name ? item?.company?.name : ('table.th.freelancer' | translate)}}</span>
             </td>
             <td class="text-left text-ellipsis120">
@@ -234,9 +242,20 @@
               </div>
             </div>
             <div class="col-12">
+               <div class="form-group-2">
+                  <label>{{'addForm.freeLancerOrComapny' | translate}} <span class="color-red">*</span></label>
+                  <div class="form-group">
+                   <select class="form-control" required (change)="setIsCompany($event.target.value)" [(ngModel)]="model.is_company" name="is_company">
+                     <option value="true">Company</option>
+                     <option value="false">Freelancer</option>
+                   </select>
+                 </div>
+               </div>
+            </div>
+            <div class="col-12" *ngIf="model.is_company=='true'">
               <div class="form-group-2">
                 <label>{{'addForm.companyName' | translate}}</label>
-                <select name="company" class="form-control"
+                <select name="company" class="form-control" required
                   (change)="setCompany($event.target.value)">
                   <option value="">{{'addForm.selectCompany' | translate}}</option>
                   <option *ngFor="let company of companies" value="{{company.id}}"
@@ -244,6 +263,45 @@
                 </select>
               </div>
             </div>
+          </div>
+
+          <div class="row" *ngIf="model.is_company=='false'">
+          <div class="col-12">
+            <div class="form-group-2">
+               <label>{{'addForm.rfcLegalId' | translate}} <span class="color-red">*</span></label>
+               <div class="form-group">
+                <input required autocomplete="off" type="text" class="form-control" name="rfc_legal_id" [(ngModel)]="model.rfc_legal_id">
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group-2">
+               <label>{{'addForm.address' | translate}}  <span class="color-red">*</span></label>
+               <div class="form-group">
+                <input required placeholder="Search for address" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search1 (input)="loadPlaces('address', 'lat', 'lng', 'searchElementRef')" name="address" [(ngModel)]="model.address" autocomplete="off">
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group-2">
+                <label>{{'addForm.locationPinOnMap' | translate}} <span class="color-red">*</span></label>
+               <div class="form-group">
+                <agm-map class="height200" [latitude]="model.lat" [longitude]="model.lng" [scrollwheel]="false" (mapClick)="placeMarker($event, 'lat', 'lng', 'address')" [zoom]="constant.zoom">
+                  <agm-marker [latitude]="model.lat" [longitude]="model.lng"></agm-marker>
+                </agm-map>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group-2">
+               <label>{{'addForm.description' | translate}} 
+                 <!-- <span class="color-red">*</span> -->
+              </label>
+               <div class="form-group">
+                <textarea autocomplete="off" rows="3" class="form-control" name="description" [(ngModel)]="model.description"></textarea>
+              </div>
+            </div>
+          </div>
           </div>
         </div>
       </form>
