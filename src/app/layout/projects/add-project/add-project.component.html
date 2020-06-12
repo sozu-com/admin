@@ -206,7 +206,7 @@
               <div class="col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>{{'addForm.possessionStatus.label' | translate}}
-                    <!-- <span class="color-red">*</span> -->
+                    <span class="color-red">*</span>
                   </label>
                   <select required [(ngModel)]="model.possession_status_id" class="form-control" name="possession_status_id">
                     <option value="">{{'addForm.possessionStatus.selectStatus' | translate}}</option>
@@ -567,7 +567,7 @@
               <div class="row">
                 <div class="col-12">
                   <div class="page-title paddingL0 paddingR0">
-                    <h3>{{'addForm.tower.label' | translate}}
+                    <h3>{{'addForm.tower.label' | translate}}<span class="color-red">*</span>
                       <span class="tower pull-right" (click)="showAddBtn=false" *ngIf="showAddBtn">{{'addForm.tower.addNew' | translate}}</span>
                       <span class="tower pull-right" (click)="addNewTower()" *ngIf="!showAddBtn">{{'addForm.tower.saveDetails' | translate}}</span>
                     </h3>
@@ -607,7 +607,7 @@
                     <div class="form-group-3">
                       <label>{{'addForm.possessionStatus.label' | translate}}</label>
                       <select [(ngModel)]="newTower.possession_status_id" class="form-control"
-                        name="possession_status_id">
+                        name="t_possession_status_id">
                         <option value="">{{'addForm.possessionStatus.selectStatus' | translate}}</option>
                         <option *ngFor="let s of all_possession_statuses" [value]="s.id">
                           {{s.name}}
@@ -628,13 +628,6 @@
                   <div class="col-12">
                     <div class="form-group-3 marginB0">
                       <label>{{'addForm.amenitiesAvailable' | translate}}</label>
-                      <!-- <ul class="loc-tags-group">
-                      <li *ngFor="let at of allTowerAmenities">
-                        <span *ngIf="at.selected==true">{{at.name}} 
-                          <b (click)="at.selected = false" title="remove"><img src="assets/img/close-tag.png" /></b>
-                        </span>
-                      </li>
-                    </ul> -->
 
                       <ul class="loc-tags-group">
                         <li *ngFor="let at of allTowerAmenities; let j=index"
@@ -648,24 +641,6 @@
                           <a *ngIf="at.selected==true" (click)="modelTowerAmenityOpenFun(at, j)"
                             class="btn-third btn btn-green" href="javascript://">{{'addForm.addView' | translate}}</a>
                           <div *ngIf="at.selected==true" class="spacer30"></div>
-
-
-                          <!-- <div *ngIf="at.selected==true">
-                          <div class="uploaded-img-block">
-                            <div class="uploaded-img2">
-                              <img src="assets/img/placeholder.png" class="u-img" alt="img">
-                              <div class="upload-caption">
-                                <p class="green-color" (click)="modelTowerAmenityOpenFun(at, j)">+ Add more images</p>
-                              </div>
-                            </div>
-                            <div class="uploaded-img2" *ngFor="let item of at.images.slice(0,3); let j=index">
-                              <img *ngIf="j<4" onerror="this.src='assets/img/placeholder.png'" class="u-img" [src]="item.image" alt="img">
-                              <div class="upload-caption">
-                                <p *ngIf="at.images?.length > 3 && j==2" class="number" (click)="modelTowerAmenityOpenFun(at, i)">+{{at?.images?.length-3}}</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div> -->
                         </li>
                       </ul>
 

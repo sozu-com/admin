@@ -857,6 +857,7 @@
       "pleaseAddParameterNameandValue": "Please add parameter name and value",
       "pleaseEnterTowerName": "Please enter tower name.",
       "pleaseEnterNumberoffloors": "Please enter number of floors.",
+      "pleaseEnterNumberofProperties": "Please enter number of properties.",
       "pleaseChoosePossessionStatus": "Please choose possession status",
       "firstSaveThePreviousEdittedtower": "First save the previous editted tower.",
       "limitExceeded": "Limit exceeded",

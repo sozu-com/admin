@@ -1034,12 +1034,12 @@ export class AddProjectComponent implements OnInit {
     }
 
     // launch date to be mandatory possession_status == presale
-    if (modelSave.possession_status_id &&
-      (modelSave.possession_status_id.toString() === this.apiConstants.possession_status_id) &&
-      !modelSave.launch_date) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectLaunchDate'), 'error');
-      return false;
-    }
+    // if (modelSave.possession_status_id &&
+    //   (modelSave.possession_status_id.toString() === this.apiConstants.possession_status_id) &&
+    //   !modelSave.launch_date) {
+    //     swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectLaunchDate'), 'error');
+    //   return false;
+    // }
     if (modelSave.images) {
       modelSave.building_images = modelSave.images.map(r => r.image);
     }
@@ -1190,7 +1190,7 @@ export class AddProjectComponent implements OnInit {
     }
     if (modelSave.cover_image &&
       modelSave.name && modelSave.address && modelSave.address != null &&  
-      modelSave.building_images.length > 0 && modelSave.building_age && modelSave.building_age != null && modelSave.building_type_id &&
+      modelSave.building_images.length > 0 && modelSave.building_type_id &&
       modelSave.description && modelSave.description != null && modelSave.possession_status_id &&
       // modelSave.floors && modelSave.floors != null &&
       // modelSave.launch_date && modelSave.launch_date != null &&
@@ -1452,24 +1452,23 @@ export class AddProjectComponent implements OnInit {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterNumberoffloors'), 'error');
       return false;
     }
-    // if (!this.newTower.num_of_properties && this.newTower.num_of_properties !== 0) {
-    //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterNumberoffloors'), 'error');
+    if (!this.newTower.num_of_properties && this.newTower.num_of_properties !== 0) {
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterNumberofProperties'), 'error');
+      return false;
+    }
+    
+    // if (!this.newTower.possession_status_id) {
+    //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChoosePossessionStatus'), 'error');
     //   return false;
     // }
-    
-    if (!this.newTower.possession_status_id) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChoosePossessionStatus'), 'error');
-      return false;
-    }
-    // if (!this.newTower.launch_date) { swal(this.translate.instant('swal.error'), 'Please enter launch date.', 'error'); return false; }
 
     // launch date to be mandatory possession_status == presale
-    if (this.newTower.possession_status_id &&
-      (this.newTower.possession_status_id.toString() === this.apiConstants.possession_status_id) &&
-      !this.newTower.launch_date) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectLaunchDate'), 'error');
-      return false;
-    }
+    // if (this.newTower.possession_status_id &&
+    //   (this.newTower.possession_status_id.toString() === this.apiConstants.possession_status_id) &&
+    //   !this.newTower.launch_date) {
+    //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectLaunchDate'), 'error');
+    //   return false;
+    // }
 
     const tempAmen = JSON.parse(JSON.stringify(this.allTowerAmenities));
     this.selectedTowerAmenitiesId = tempAmen.filter(op => {

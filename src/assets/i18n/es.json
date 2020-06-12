@@ -846,6 +846,7 @@
       "pleaseAddParameterNameandValue": "agrega el nombre y el valor del parámetro",
       "pleaseEnterTowerName": "Ingresa el nombre de la torre.",
       "pleaseEnterNumberoffloors": "Ingresa el número de pisos.",
+      "pleaseEnterNumberofProperties": "Por favor, introduzca el número de propiedades.",
       "pleaseChoosePossessionStatus": "Selecciona el estatus de la fecha de posesión",
       "firstSaveThePreviousEdittedtower": "Primero guarde la torre editada anteriormente.",
       "limitExceeded": "Límite excedido",
