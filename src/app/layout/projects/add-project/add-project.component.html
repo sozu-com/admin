@@ -206,9 +206,9 @@
               <div class="col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>{{'addForm.possessionStatus.label' | translate}}
-                    <span class="color-red">*</span>
+                    <!-- <span class="color-red">*</span> -->
                   </label>
-                  <select required [(ngModel)]="model.possession_status_id" class="form-control" name="possession_status_id">
+                  <select [(ngModel)]="model.possession_status_id" class="form-control" name="possession_status_id">
                     <option value="">{{'addForm.possessionStatus.selectStatus' | translate}}</option>
                     <option *ngFor="let s of all_possession_statuses" [value]="s.id">
                       {{s.name}}
@@ -567,7 +567,8 @@
               <div class="row">
                 <div class="col-12">
                   <div class="page-title paddingL0 paddingR0">
-                    <h3>{{'addForm.tower.label' | translate}}<span class="color-red">*</span>
+                    <h3>{{'addForm.tower.label' | translate}}
+                      <!-- <span class="color-red">*</span> -->
                       <span class="tower pull-right" (click)="showAddBtn=false" *ngIf="showAddBtn">{{'addForm.tower.addNew' | translate}}</span>
                       <span class="tower pull-right" (click)="addNewTower()" *ngIf="!showAddBtn">{{'addForm.tower.saveDetails' | translate}}</span>
                     </h3>

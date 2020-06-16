@@ -1023,15 +1023,15 @@ export class AddProjectComponent implements OnInit {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectLocality'), 'error');
       return false;
     }
-    if (!modelSave.possession_status_id) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectPossesionStatus'), 'error');
-      return false;
-    }
+    // if (!modelSave.possession_status_id) {
+    //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectPossesionStatus'), 'error');
+    //   return false;
+    // }
 
-    if (!modelSave.building_towers || modelSave.building_towers.length == 0) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseAddAtleastOneTower'), 'error');
-      return false;
-    }
+    // if (!modelSave.building_towers || modelSave.building_towers.length == 0) {
+    //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseAddAtleastOneTower'), 'error');
+    //   return false;
+    // }
 
     // launch date to be mandatory possession_status == presale
     // if (modelSave.possession_status_id &&
@@ -1195,6 +1195,7 @@ export class AddProjectComponent implements OnInit {
       // modelSave.floors && modelSave.floors != null &&
       // modelSave.launch_date && modelSave.launch_date != null &&
       // modelSave.avg_price && modelSave.avg_price != null &&
+      modelSave.num_of_properties &&
       modelSave.amenities.length > 0 &&
       modelSave.configurations.length > 0 
       // && modelSave.dev_email && modelSave.dev_email != null
