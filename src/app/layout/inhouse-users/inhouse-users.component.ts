@@ -283,10 +283,10 @@ export class InhouseUsersComponent implements OnInit {
     input.append('is_external_agent', this.model.is_external_agent ? '1' : '0');
 
     if ((this.parameter.userType=='outside-broker' || this.model.is_external_agent) && (this.model.is_company=='false')) {
-      input.append('adr', this.model.adr);
-      input.append('lat', this.model.lat);
-      input.append('lng', this.model.lng);
-      input.append('rfc_legal_id', this.model.rfc_legal_id);
+      input.append('adr', this.model.adr || '');
+      input.append('lat', this.model.lat || null);
+      input.append('lng', this.model.lng || null);
+      input.append('rfc_legal_id', this.model.rfc_legal_id || '');
       input.append('description', this.model.description || '');
     }
 

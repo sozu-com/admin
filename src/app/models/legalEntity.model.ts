@@ -20,6 +20,7 @@ export class Banks {
 }
 
 export class LegalRepresentative {
+    id?: string;
     name: string;
     dial_code: string;
     country_code: string;

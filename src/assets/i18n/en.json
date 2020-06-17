@@ -120,6 +120,8 @@
     "contactNumber": "Contact Number",
     "emailId": "Email ID",
     "address": "Address",
+    "fedralTaxPayerRegistry": "Federal Tax Payer Registry",
+    "legalRepresentativeInfo": "Legal Representative Information",
     "freeLancerOrComapny": "Is Freelancer Or Company",
     "agencyCommercialName": "Agency Name (Commercial Name)",
     "selectAgency": "Select Agency",

@@ -627,13 +627,13 @@
                   {{'addCollectionValidations.thisIsRequired' | translate}}
               </div>
               <div *ngIf="addFormStep2.controls.seller_leg_rep_phone.errors?.pattern " class="show-error">
-                  The Phone Number field accepts only numeric characters
+                {{'addCollectionValidations.phonePatternCheck' | translate}}
               </div>
               <div *ngIf="addFormStep2.controls.seller_leg_rep_phone.errors?.minlength && !addFormStep2.controls.seller_leg_rep_phone.errors?.pattern" class="show-error">
-                  Minimum 8 characters are required
+                {{'addCollectionValidations.phoneMin8Limit' | translate}}
               </div>
               <div *ngIf="addFormStep2.controls.seller_leg_rep_phone.errors?.maxlength && !addFormStep2.controls.seller_leg_rep_phone.errors?.pattern" class="show-error">
-                  Maximum 15 charactes are allowed
+                {{'addCollectionValidations.phoneMax15Limit' | translate}}
               </div>
             </div>
           </div>

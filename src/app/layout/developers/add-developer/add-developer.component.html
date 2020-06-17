@@ -192,19 +192,18 @@
             </div>
           </div>
 
-
           <div class="row">
             <div class="col-12">
                 <div class="spacer40"></div>
             </div>
             <div class="col-12">
               <div class="form-group-2">
-                <h5>Legal Representative Information</h5>
+                <h5>{{'addForm.legalRepresentativeInfo' | translate}}</h5>
               </div>
             </div>
             <div class="col-12">
                 <div class="form-group-2">
-                  <label>Name 
+                  <label>{{'addForm.name' | translate}} 
                     <!-- <span class="color-red">*</span> -->
                   </label>
                   <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.onlyWhiteSpaces" type="text" class="form-control" 
@@ -232,7 +231,7 @@
           </div>
           <div class="col-12">
               <div class="form-group-2">
-                <label>Federal Tax Payer Registry 
+                <label>{{'addForm.fedralTaxPayerRegistry' | translate}} 
                   <!-- <span class="color-red">*</span> -->
                 </label>
                 <input autocomplete="off" minlength="12" maxlength="13" [pattern]="constant.onlyWhiteSpaces" type="text" class="form-control" [(ngModel)]="model.legal_representative.fed_tax_pay" name="le_fed_tax_pay">
@@ -240,7 +239,7 @@
           </div>
 
           <div class="col-12">
-            <label>Bank Account Information
+            <label>{{'addCollection.bankAccount' | translate}}
               <!-- <span class="color-red">*</span> -->
               <span class="pull-right"><a class="add" (click)="addLegalEntityBank($event)" href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
             </label>
@@ -278,9 +277,9 @@
             </div>
             <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
-                <label>Remove</label>
+                <label>{{'addCollection.remove' | translate}}</label>
                 <div class="clearfix"></div>
-                <button type="button" (click)="removeLegalEntityBank($event, leBankAccount, i)">Remove</button>
+                <button type="button" (click)="removeLegalEntityBank($event, leBankAccount, i)">{{'addCollection.remove' | translate}}</button>
               </div>
             </div>
           </div>

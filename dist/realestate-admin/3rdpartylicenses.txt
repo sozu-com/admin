@@ -110,11 +110,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
-intl-tel-input
+@swimlane/ngx-charts
 MIT
-The MIT License (MIT)
+MIT License
 
-Copyright (c) 2014-2016 Jack O'Connor
+Copyright (c) 2017 Swimlane
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -135,11 +135,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
-@swimlane/ngx-charts
+intl-tel-input
 MIT
-MIT License
+The MIT License (MIT)
 
-Copyright (c) 2017 Swimlane
+Copyright (c) 2014-2016 Jack O'Connor
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -121,6 +121,8 @@
     "emailId": "ID de Correo electrónico",
     "freeLancerOrComapny": "Es autónoma o empresa",
     "address": "Dirección",
+    "fedralTaxPayerRegistry": "Registro Federal de Pagadores de Impuestos",
+    "legalRepresentativeInfo": "Información del representante legal",
     "agencyCommercialName": "Nombre de la agencia (nombre comercial)",
     "selectAgency": "Seleccionar agencia",
     "agencyInfo":"Información de la agencia",

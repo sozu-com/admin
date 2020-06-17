@@ -96,21 +96,16 @@ export class AddDeveloperComponent implements OnInit {
     .subscribe(
       success => {
         this.spinner.hide();
+        console.log(success.data.legal_representative)
+        this.model = new Users();
         this.model = success.data;
+        // this.model.legal_representative = new LegalRepresentative();
         this.model.legal_rep_banks = success.data.legal_rep_banks;
-        this.model.legal_representative = new LegalRepresentative();
-        this.model.legal_representative = success.data.legal_representative;
+        this.model.legal_representative = success.data.legal_representative || new LegalRepresentative();
+        console.log(success.data.legal_representative)
+        console.log(this.model.legal_representative)
         this.model.legal_representative.legal_rep_banks = success.data.legal_representative.legal_rep_banks; // Array(new Banks());
-        // this.model.legal_representative = success.data.legal_representative ? success.data.legal_representative : new LegalRepresentative();
-        // this.model.legal_representative.legal_rep_banks = success.data.legal_representative.legal_rep_banks; // Array(new Banks());
-        // if (!success.data.legal_entity) {
-          // this.model.legal_representative.dial_code = this.constant.dial_code;
-          // this.model.legal_representative.country_code = this.constant.country_code;
-          // this.model.legal_representative.phone = this.model.legal_representative.phone || '';
-          // this.model.legal_representative.email = this.model.legal_representative.email || '';
-          // this.model.legal_representative.name = this.model.legal_representative.name || '';
-          // this.model.legal_representative.fed_tax_pay = this.model.legal_representative.fed_tax_pay || '';
-        // }
+       
         this.image = this.model.image;
         this.developer_image = this.model.developer_image;
       }, error => {
@@ -194,6 +189,30 @@ export class AddDeveloperComponent implements OnInit {
       || !modelSave.legal_representative.fed_tax_pay || !modelSave.legal_representative.email) {
         delete modelSave.legal_representative
     }
+
+    if (modelSave['legal_rep_banks'] && modelSave['legal_rep_banks'].length > 0) {
+      let i = 0;
+      for (let index = 0; index < modelSave['legal_rep_banks'].length; index++) {
+        const element = modelSave['legal_rep_banks'][index];
+        if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
+          i = i + 1;
+          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
+          return;
+        }
+      };
+    }
+
+    if (modelSave['legal_representative'] && modelSave['legal_representative']['legal_rep_banks'] && modelSave['legal_representative']['legal_rep_banks'].length > 0) {
+      let i = 0;
+      for (let index = 0; index < modelSave['legal_representative']['legal_rep_banks'].length; index++) {
+        const element = modelSave['legal_representative']['legal_rep_banks'][index];
+        if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
+          i = i + 1;
+          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
+          return;
+        }
+      };
+    }
     this.spinner.show();
     this.admin.postDataApi('addDeveloper', modelSave)
       .subscribe(
@@ -214,6 +233,11 @@ export class AddDeveloperComponent implements OnInit {
               // this.model.images = [];
               // formData.reset();
               // this.image = ''; this.developer_image = '';
+            } else {
+              this.model = success.data;
+              this.model.legal_rep_banks = success.data.legal_rep_banks;
+              this.model.legal_representative = success.data.legal_representative;
+              this.model.legal_representative.legal_rep_banks = success.data.legal_representative.legal_rep_banks;
             }
           }
         }, error => {
