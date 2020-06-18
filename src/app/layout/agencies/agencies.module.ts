@@ -19,7 +19,11 @@ import { TranslateModule } from '@ngx-translate/core';
 
 const routes: Routes = [
   {
-    path: '', component: AgenciesComponent,
+    path: 'view-all', component: AgenciesComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Agencies Management', 'can_read', ''] }
+  },
+  {
+    path: 'view-all/:name', component: AgenciesComponent,
     canActivate: [AclUserGuard], data: { roles: ['Agencies Management', 'can_read', ''] }
   },
   {

@@ -38,6 +38,7 @@ export class PropertiesComponent implements OnInit {
   reason: string;
   item: any;
   locale: any;
+  floors: Array<any>;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
 
   @ViewChild('modalOpen') modalOpen: ElementRef;
@@ -90,6 +91,7 @@ export class PropertiesComponent implements OnInit {
         this.parameter.agency_id = params.id;
       }
     });
+    this.setFloors();
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.parameter.dash_flag = this.propertyService.dash_flag ? this.propertyService.dash_flag : this.constant.dash_flag;
@@ -97,6 +99,18 @@ export class PropertiesComponent implements OnInit {
     this.getCountries();
     this.getPropertyConfigurations();
     this.getListing();
+  }
+
+  setFloors() {
+    var foo = new Array(30);
+    this.floors = [];
+    for(var i = 0; i < foo.length; i++){
+      const obj = {
+        id: i,
+        name: i == 0 ? this.translate.instant('addForm.groundFloor') : this.translate.instant('addForm.floor') + i
+      }
+      this.floors.push(obj);
+    }
   }
 
   getListing() {

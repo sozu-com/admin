@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AdminService } from 'src/app/services/admin.service';
 import { IProperty } from 'src/app/common/property';
 import { Constant } from 'src/app/common/constants';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Agency } from 'src/app/models/agency.model';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
@@ -26,6 +26,7 @@ export class AgenciesComponent implements OnInit {
   constructor(public constant: Constant,
     private spinner: NgxSpinnerService,
     public admin: AdminService, private router: Router,
+    private route: ActivatedRoute,
     private translate: TranslateService) { }
 
   ngOnInit() {
@@ -35,6 +36,9 @@ export class AgenciesComponent implements OnInit {
     this.model.agent_sort = 2; // desc
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
+    this.route.params.subscribe(params => {
+      this.model.name = params.name;
+    });
     this.getAgencies();
   }
 

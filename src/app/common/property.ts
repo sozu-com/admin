@@ -176,4 +176,5 @@ export interface IProperty {
   config_name?: string;
   is_freelancer?: string;
   company_id?: string;
+  floor_num?: number;
 }

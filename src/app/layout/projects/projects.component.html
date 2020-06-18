@@ -325,7 +325,7 @@
                               <strong>{{p?.name}}</strong>
                             </td>
                             <td [ngClass]="{'green-color cursor-pointer': p?.developer?.name}" (click)="viewDeveloper(p)"><span>{{p?.developer?.name ? p?.developer?.name : ('table.tr.td.NA' | translate)}}</span></td>
-                            <td>
+                            <td [ngClass]="{'green-color cursor-pointer': p?.agency?.name}" (click)="viewAgency(p)">
                               <span>{{p?.agency?.name ? p?.agency?.name : ('table.tr.td.NA' | translate)}}</span>
                             </td>
                             <td [ngClass]="{'green-color cursor-pointer': p?.manager?.id || p?.company?.id}" (click)="viewCompanyManager(p)">

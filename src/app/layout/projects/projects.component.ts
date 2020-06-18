@@ -325,6 +325,16 @@ export class ProjectsComponent implements OnInit {
   viewDeveloper(item: any) {
     if (item.developer && item.developer.name) {
       this.router.navigate(['/dashboard/developers/view-all', item.developer.name]);
+    } else {
+      this.router.navigate(['/dashboard/projects/edit-project', item.id]);
+    }
+  }
+
+  viewAgency(item: any) {
+    if (item.agency && item.agency.name) {
+      this.router.navigate(['/dashboard/agencies/view-all', item.agency.name]);
+    } else {
+      this.router.navigate(['/dashboard/projects/edit-project', item.id]);
     }
   }
 
@@ -333,6 +343,8 @@ export class ProjectsComponent implements OnInit {
       this.router.navigate(['/dashboard/managers/view-all', 'manager', item.manager.name]);
     } else if (item.company && item.company.id) {
       this.router.navigate(['/dashboard/companies/view-all', item.company.name]);
+    } else {
+      this.router.navigate(['/dashboard/projects/edit-project', item.id]);
     }
   }
 }

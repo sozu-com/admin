@@ -273,6 +273,17 @@
                            </th>
                            <th style="width:10%; text-align:left;">
                               <div class="table-search">
+                                 <label>{{'table.th.floor' | translate}}</label>
+                                 <select [(ngModel)]="parameter.floor_num" (change)="getListing()">
+                                    <option value="">{{'table.th.allFloors' | translate}}</option>
+                                    <option *ngFor="let c of floors" value="{{c.id}}" >
+                                          {{c.name}}
+                                    </option>
+                                  </select>
+                              </div>
+                           </th>
+                           <th style="width:10%; text-align:left;">
+                              <div class="table-search">
                                  <label>{{'table.th.nameOfApartment' | translate}}</label>
                                  <div class="searh-3">
                                     <input class="width120px" type="text" [(ngModel)]="parameter.name" (keyup.enter)="getListing()" >
@@ -388,7 +399,7 @@
                         <tr *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
                               <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}" (click)="viewPropertyDetails(p.id, p)">
                                     <!-- routerLink="/dashboard/properties/details/{{p.id}}" -->
-                                 <strong>{{p?.building?.name?p?.building?.name: ('table.tr.td.NA' | translate)}}</strong>
+                                 <strong>{{p?.building?.name || ('table.tr.td.NA' | translate)}}</strong>
                                  <div class="clearfix"></div>
                                  <small *ngIf="p.quantity > 0">
                                     {{p.quantity}} 
@@ -397,9 +408,14 @@
                                  </small>
                               </td>
                               <td><span>{{p?.building_towers ? p?.building_towers?.tower_name : ('table.tr.td.NA' | translate)}}</span></td>
-                              <td><span>{{p?.name ? p?.name : ('table.tr.td.NA' | translate)}}</span></td>
+                              <td><span>{{p?.building_towers?.tower_name 
+                                    ? (p?.floor_num == 0 ? ('addCollection.groundFloor' | translate) : ('addCollection.floor' | translate) + ' ' + p?.floor_num) 
+                                    : ('table.tr.td.NA' | translate)}}</span></td>
+                              <td><span>{{p?.name || ('table.tr.td.NA' | translate)}}</span></td>
                               <td>
                                  <app-property-configuration *ngIf="p.configuration" [configuration]="p.configuration"></app-property-configuration>
+                                 <br>
+                                 <span [style.textAlign]="'center'">{{p?.building_configuration?.name || ('table.tr.td.NA' | translate)}}</span>
                               </td>
                               <td><span>{{p.min_price | price}}</span></td>
                               <td><span>
@@ -423,7 +439,7 @@
                               
                               <td *ngIf="parameter.flag!=5" class="cursor-pointer" title="{{p?.selected_seller?.user?.name ? ('table.title.clickToChangeSeller' | translate) : ('table.title.clickToAddSeller' | translate)}}" (click)="getAllSellers(p, '1', i)">
                                  <span class="green-color"><span>
-                                       {{p?.selected_seller?.user?.name ? p?.selected_seller?.user?.name : ('table.tr.td.add' | translate)}}
+                                       {{p?.selected_seller?.user?.name || ('table.tr.td.add' | translate)}}
                                  </span></span>
                               </td>
                               

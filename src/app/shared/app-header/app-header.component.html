@@ -145,7 +145,7 @@
                      </li>
 
                      <li *ngIf="admin?.admin_acl['Agencies Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
-                      <a class="nav-link" href="javascript://" routerLink="agencies"><i><img src="assets/img/users.png"></i><span>{{'sidebar.manageAgencies' | translate}}</span></a>
+                      <a class="nav-link" href="javascript://" routerLink="agencies/view-all"><i><img src="assets/img/users.png"></i><span>{{'sidebar.manageAgencies' | translate}}</span></a>
                     </li>
 
                     <li *ngIf="admin?.admin_acl['Broker Management']?.can_read==1 && admin?.admin_acl['Outside Broker Management']?.can_read==1" 

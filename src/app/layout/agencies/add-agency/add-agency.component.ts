@@ -120,7 +120,7 @@ export class AddAgencyComponent implements OnInit {
                     this.translate.instant('message.success.addedSuccessfully') :
                     this.translate.instant('message.success.updatedSuccessfully');
             swal(this.translate.instant('swal.success'), text, 'success');
-            this.router.navigate(['/dashboard/agencies']);
+            this.router.navigate(['/dashboard/agencies/view-all']);
             if (this.model.id === '') {
               this.model.image = ''; this.model.logo = '';
               formData.reset();

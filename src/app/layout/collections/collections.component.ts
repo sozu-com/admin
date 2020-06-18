@@ -681,7 +681,7 @@ export class CollectionsComponent implements OnInit {
     this.selectedItem = item;
     this.collectionIndex = i;
     this.paymentConcepts = item.collection_commissions;
-    this.viewCollectionClose.nativeElement.click();
+    // this.viewCollectionClose.nativeElement.click();
     this.typeOfPayment = type;
     // this.collectionIndex = i;
     // this.paymentConcepts = paymentConcepts;
