@@ -158,15 +158,7 @@ export class AddEditCollectionComponent implements OnInit {
         this.initFormStep4();
         this.initFormStep5();
       } else {
-        this.showSearch = false;
-        this.initFormStep1();
-        // this.setValue('seller_type', 1);
-        // this.setValue('buyer_type', 1);
-        this.initFormStep2();
-        this.initFormStep3();
-        this.initFormStep4();
-        this.initFormStep5();
-        this.getCollectionDetails(this.model.id);
+        this.editCollection();
       }
     });
     this.tab = 1;
@@ -174,6 +166,18 @@ export class AddEditCollectionComponent implements OnInit {
     // this.getDealTypes();
     this.getCurrencies();
     this.searchControl = new FormControl();
+  }
+
+  editCollection() {    
+    this.showSearch = false;
+    this.initFormStep1();
+    // this.setValue('seller_type', 1);
+    // this.setValue('buyer_type', 1);
+    this.initFormStep2();
+    this.initFormStep3();
+    this.initFormStep4();
+    this.initFormStep5();
+    this.getCollectionDetails(this.model.id);
   }
 
   getAllPaymentChoices() {
@@ -264,7 +268,7 @@ export class AddEditCollectionComponent implements OnInit {
       this.initFormStep2();
       this.showError = false;
       if (value != 1) {
-        console.log('not person')
+        // console.log('not person')
         this.addFormStep2.controls['seller_email'].setValidators(null);
         this.addFormStep2.controls['seller_email'].updateValueAndValidity();
         this.addFormStep2.controls['seller_address'].setValidators([Validators.required, Validators.minLength(1)]);
@@ -363,7 +367,7 @@ export class AddEditCollectionComponent implements OnInit {
 
       deal_purchase_date: ['', [Validators.required]],
       deal_price: ['', [Validators.required]],
-
+      sum_of_concepts: [''],
       deal_interest_rate: [0],
       deal_penality: [0]
     });
@@ -462,7 +466,7 @@ export class AddEditCollectionComponent implements OnInit {
 
   patchFormData(data) {
     this.patchFormStep1(data);
-    this.patchFormStep2(data);
+    this.patchFormStep2(data, 'edit');
     this.patchFormStep3(data);
     this.patchFormStep4(data);
     this.patchFormStep5(data);
@@ -486,7 +490,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep1.controls.step.patchValue(1);
   }
 
-  patchFormStep2(data) {
+  patchFormStep2(data, mode: string) {
     this.model.seller_type = data.seller_type ? data.seller_type : 1;
     this.addFormStep2.controls.seller_type.patchValue(data.seller_type || 1);
     if (data.seller_type != 2) {
@@ -534,7 +538,10 @@ export class AddEditCollectionComponent implements OnInit {
         control1.push(this.fb.group(x));
       });
     }
-    this.setSeller(data);
+    console.log('sellerrrrr', this.addFormStep2.value);
+    if (mode == 'edit') {
+      this.setSeller(data);
+    }
   }
 
   patchFormStep3(data) {
@@ -589,27 +596,36 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   patchFormStep4(data) {
-    this.addFormStep4.controls.deal_purchase_date.patchValue(data.deal_purchase_date ? moment.utc(data.deal_purchase_date).local().toDate() : null);
-    this.addFormStep4.controls.deal_price.patchValue(data.deal_price);
+    // const d = moment(data.deal_purchase_date).utc(true).local().toDate()
+    this.addFormStep4.controls.deal_purchase_date.patchValue(data.deal_purchase_date ? new Date(data.deal_purchase_date) : null);
+    this.addFormStep4.controls.deal_price.patchValue(this.numberUptoTwoDecimal(data.deal_price));
     this.addFormStep4.controls.currency_id.patchValue(data.currency_id ? data.currency_id : 1);
     this.addFormStep4.controls.deal_interest_rate.patchValue(data.deal_interest_rate);
     this.addFormStep4.controls.deal_penality.patchValue(data.deal_penality);
     const control1 = this.addFormStep4.get('payment_choices') as FormArray;
-    
+    let sum_of_concepts = 0;
     if (data.payment_choices) {
-      data.payment_choices.forEach(x => {
-        x.date = x.date ? moment.utc(x.date).local().toDate() : null;
-        control1.push(this.fb.group(x));
-      });
+      for (let index = 0; index < data.payment_choices.length; index++) {
+        const x = data.payment_choices[index];
+        x.percent = this.numberUptoTwoDecimal(x.percent);
+        x.amount = this.numberUptoTwoDecimal(x.amount);
+        sum_of_concepts = sum_of_concepts + parseFloat(x.amount);
+        // x.date = x.date ? moment.utc(x.date).toDate() : null;
+        console.log(sum_of_concepts);
+        x.date = x.date ? new Date(x.date) : null;
+        control1.push(this.fb.group(x)); 
+      }
     }
+
+    this.addFormStep4.controls['sum_of_concepts'].patchValue(sum_of_concepts);
     this.addFormStep4.controls.step.patchValue(4);
   }
 
   patchFormStep5(data) {
-    this.addFormStep5.controls.comm_total_commission.patchValue(data.comm_total_commission);
-    this.addFormStep5.controls.comm_total_commission_amount.patchValue(data.comm_total_commission_amount ? data.comm_total_commission_amount : 0);
-    this.addFormStep5.controls.comm_shared_commission.patchValue(data.comm_shared_commission);
-    this.addFormStep5.controls.comm_shared_commission_amount.patchValue(data.comm_shared_commission_amount ? data.comm_shared_commission_amount : 0);
+    this.addFormStep5.controls.comm_total_commission.patchValue(this.numberUptoTwoDecimal(data.comm_total_commission || 0));
+    this.addFormStep5.controls.comm_total_commission_amount.patchValue(this.numberUptoTwoDecimal(data.comm_total_commission_amount || 0));
+    this.addFormStep5.controls.comm_shared_commission.patchValue(this.numberUptoTwoDecimal(data.comm_shared_commission || 0));
+    this.addFormStep5.controls.comm_shared_commission_amount.patchValue(this.numberUptoTwoDecimal(data.comm_shared_commission_amount || 0));
     this.addFormStep5.controls.deal_commission_agents.patchValue(data.deal_commission_agents);
     const control = this.addFormStep5.get('collection_agent_banks') as FormArray;
     if (data.collection_agent_banks) {
@@ -638,7 +654,7 @@ export class AddEditCollectionComponent implements OnInit {
           obj['payment_choice_id'] = element['id'];
           obj['add_collection_commission'] = data.collection_commissions.length>0 && data.collection_commissions[index] ? data.collection_commissions[index].add_collection_commission : 0;
           obj['percent'] = data.collection_commissions.length>0 && data.collection_commissions[index] ? data.collection_commissions[index].percent : 0;
-          obj['amount'] = data.collection_commissions.length>0 && data.collection_commissions[index] ? data.collection_commissions[index].amount : 0;
+          obj['amount'] = data.collection_commissions.length>0 && data.collection_commissions[index] ? data.collection_commissions[index].amount : 0.00;
           
           obj['add_purchase_commission'] = data.collection_commissions.length>0 && data.collection_commissions[index] ? data.collection_commissions[index].add_purchase_commission : 0;
           obj['purchase_comm_amount'] = data.collection_commissions.length>0 && data.collection_commissions[index] ? data.collection_commissions[index].purchase_comm_amount : 0;
@@ -1019,48 +1035,18 @@ export class AddEditCollectionComponent implements OnInit {
     this.selectedPaymentChoice.nativeElement.value = '';
   }
 
-  addMonthlyInputs($event) {
-    this.num_of_months = $event.target.value;
-    $event.stopPropagation();
-    for (let index = 0; index < this.num_of_months; index++) {
-      this.getPaymentChoices.push(this.newMonthlyPaymentsChoice(index));
-    }
-  }
-
-  addMonthlyDates($event) {
-    const date = this.addFormStep4.get('monthly_date').value;
-    const pchoice = this.getPaymentChoices.value;
-    for (let index = 0; index < pchoice.length; index++) {
-      const element = pchoice[index];
-      if (element.payment_choice_id == 5) {
-        element['date'] = moment.utc(date).local().toDate();
-      }
-    }
-    this.addFormStep4.get('payment_choices').patchValue(pchoice);
-  }
-
-  addMonthlyAmounts() {
-    const monthly_amount = this.addFormStep4.get('monthly_amount').value;
-    const pchoice = this.getPaymentChoices.value;
-    for (let index = 0; index < pchoice.length; index++) {
-      const element = pchoice[index];
-      if (element.payment_choice_id == 5) {
-        element['amount'] = monthly_amount;
-      }
-    }
-    this.addFormStep4.get('payment_choices').patchValue(pchoice);
-  }
-
   findMonthlyInstallments() {
     this.num_of_months = this.addFormStep4.get('num_of_months').value;
     const monthly_amount = this.addFormStep4.get('monthly_amount').value;
     const monthly_date = this.addFormStep4.get('monthly_date').value;
-    if (!this.num_of_months || !monthly_amount || !monthly_date) {
-      
+  
+    // calculating sum of all payment concepts
+    const sum = this.addFormStep4.get('sum_of_concepts').value;
+    this.addFormStep4.controls['sum_of_concepts'].patchValue(this.numberUptoTwoDecimal(sum + this.num_of_months*monthly_amount));
+  
+    if (!this.num_of_months || !monthly_amount || !monthly_date) {      
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseEnterMonthlyData'), this.translate.instant('swal.error'));
-
-      // swal(this.translate.instant('swal.error'), '', 'error');
       return false;
     }
     for (let index = 0; index < this.num_of_months; index++) {
@@ -1076,11 +1062,12 @@ export class AddEditCollectionComponent implements OnInit {
     let monthly_amount = this.addFormStep4.get('monthly_amount').value;
     let monthly_date = this.addFormStep4.get('monthly_date').value;
     const price = this.addFormStep4.get('deal_price').value;
-    const percent = ((monthly_amount * 100) / price).toFixed(2);
-    monthly_amount = monthly_amount.toFixed(2);
+    const percent = this.numberUptoTwoDecimal((monthly_amount * 100) / price);
+    monthly_amount = this.numberUptoTwoDecimal(monthly_amount);
     let name = '';
     // moment.utc(x.date).local().toDate() : null;
-    monthly_date = moment.utc(moment(monthly_date).add(index, 'months').format('YYYY-MM-DD')).local().toDate();
+    // monthly_date = moment.utc(moment(monthly_date).add(index, 'months').format('YYYY-MM-DD')).toDate();
+    monthly_date = new Date(moment(monthly_date).add(index, 'months').format('YYYY-MM-DD'));
     this.paymentChoices.map(r => {
       if (r.id == 5) {
         name = r.name + ' ' + (index + 1);
@@ -1354,7 +1341,6 @@ export class AddEditCollectionComponent implements OnInit {
   onSelect(event) {
     console.log(event)
   }
-
   
   getBothBroker(keyword: string) {
     this.spinner.show();
@@ -1393,7 +1379,6 @@ export class AddEditCollectionComponent implements OnInit {
     delete this.addFormStep5.value.deal_commission_agents;
     // this.addFormStep5.get('collection_agent_banks') as FormArray;
     const s = this.addFormStep5.get('deal_commission_agents').value;
-    // console.log(s);
     this.closeExtBrokerModal.nativeElement.click();
   }
 
@@ -1502,7 +1487,6 @@ export class AddEditCollectionComponent implements OnInit {
       // this.addFormStep3.reset();
       // this.initFormStep3();
       this.setValue('buyer_type', this.model.buyer_type);
-      console.log(this.model.buyer_type)
       this.addFormStep3.controls.buyer_type.patchValue(this.model.buyer_type);
       this.model.buyer_id = item.id;
       this.model.buyer = item;
@@ -1587,33 +1571,15 @@ export class AddEditCollectionComponent implements OnInit {
     this.closeLinkUserModal.nativeElement.click();
   }
 
-  // getAmount(key: string, key1: string, key2: string) {
-  //   const price = this.addFormStep4.get(key).value;
-  //   const percent = this.addFormStep4.get(key1).value;
-  //   console.log(price, percent);
-  //   const amount = Math.round((percent * price) / 100);
-  //   this.addFormStep4.controls[key2].patchValue(amount);
-  // }
-
-  // getPercentage(key: string, key1: string, key2: string) {
-  //   const price = this.addFormStep4.get(key).value;
-  //   const amount = this.addFormStep4.get(key1).value;
-  //   console.log(price, amount);
-  //   const percent = (amount * 100) / price;
-  //   this.addFormStep4.controls[key2].patchValue(percent);
-  // }
-
   getSozuAmount(percent: number) {
     const price = this.addFormStep4.get('deal_price').value;
     if (!price || price == 0) {
       
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseEnterPrice'), this.translate.instant('swal.error'));
-
-      // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPrice'), 'error');
       return;
     }
-    const amount = ((percent * price) / 100).toFixed(2);
+    const amount = this.numberUptoTwoDecimal((percent * price) / 100);
     this.addFormStep5.controls['comm_total_commission_amount'].patchValue(amount);
   }
 
@@ -1627,7 +1593,7 @@ export class AddEditCollectionComponent implements OnInit {
       // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPrice'), 'error');
       return;
     }
-    const amount = ((percent * price) / 100).toFixed(2);
+    const amount = this.numberUptoTwoDecimal((percent * price) / 100);
     this.addFormStep5.controls['comm_shared_commission_amount'].patchValue(amount);
   }
 
@@ -1638,11 +1604,17 @@ export class AddEditCollectionComponent implements OnInit {
       this.toastr.error(this.translate.instant('message.error.pleaseEnterPrice'), this.translate.instant('swal.error'));
       return;
     }
-    const pcArray = this.addFormStep4.get('payment_choices').value;
+    const pcArray: Array<any> = this.addFormStep4.get('payment_choices').value;
     const percent = pcArray[index].percent;
-    const amount = ((percent * price) / 100).toFixed(2);
+    const amount = this.numberUptoTwoDecimal((percent * price) / 100);
     pcArray[index].amount = amount;
     this.addFormStep4.controls['payment_choices'].patchValue(pcArray);
+
+    // calculating sum of all payment concepts
+    const sum_of_concepts = pcArray.reduce(function (a, v) {
+      return a + parseFloat(v['amount']);
+    }, 0);
+    this.addFormStep4.controls['sum_of_concepts'].patchValue(this.numberUptoTwoDecimal(sum_of_concepts));
   }
 
   getPercentage(index: number) {
@@ -1652,16 +1624,21 @@ export class AddEditCollectionComponent implements OnInit {
       this.toastr.error(this.translate.instant('message.error.pleaseEnterPrice'), this.translate.instant('swal.error'));
       return;
     }
-    const pcArray = this.addFormStep4.get('payment_choices').value;
-    const amount = (pcArray[index].amount).toFixed(2);
-    const percent = ((amount * 100) / price).toFixed(2);
-    // this.addFormStep4.controls.payment_choices['controls'][index]['controls'].amount.patchValue(amount);
+    const pcArray: Array<any> = this.addFormStep4.get('payment_choices').value;
+    const amount: any = this.numberUptoTwoDecimal(pcArray[index].amount);
+    const percent: any = this.numberUptoTwoDecimal((amount * 100) / price);
+    pcArray[index].amount = amount;
     this.addFormStep4.controls.payment_choices['controls'][index]['controls'].percent.patchValue(percent);
-    // this.addFormStep4.controls['payment_choices'].patchValue(pcArray);
+    
+    // calculating sum of all payment concepts
+    const sum_of_concepts = pcArray.reduce(function (a, v) {
+      return a + parseFloat(v['amount']);
+    }, 0);
+    this.addFormStep4.controls['sum_of_concepts'].patchValue(this.numberUptoTwoDecimal(sum_of_concepts));
   }
 
   getCollAmount(percent: number, index: number, payment_amount: number) {
-    const amount = ((percent * payment_amount) / 100).toFixed(2);
+    const amount = this.numberUptoTwoDecimal((percent * payment_amount) / 100);
     const pcArray = this.addFormStep5.get('collection_commissions').value;
     pcArray[index].amount = amount;
     this.addFormStep5.controls['collection_commissions'].patchValue(pcArray);
@@ -1669,7 +1646,7 @@ export class AddEditCollectionComponent implements OnInit {
 
   getCollPercentage(amount: number, index: number, payment_amount: number) {
     const pcArray = this.addFormStep5.get('collection_commissions').value;
-    const percent = ((amount * 100) / payment_amount).toFixed(2);
+    const percent = this.numberUptoTwoDecimal((amount * 100) / payment_amount);
     pcArray[index].percent = percent;
     this.addFormStep5.controls['collection_commissions'].patchValue(pcArray);
   }
@@ -1679,7 +1656,7 @@ export class AddEditCollectionComponent implements OnInit {
     const numOfInstallments = this.addFormStep4.get('deal_monthly_payment').value;
     const monthlyAmount = Math.round(price / numOfInstallments);
     // const monthlyAmount: any = this.currencyPipe.transform(price / numOfInstallments);
-    const percent = ((monthlyAmount * 100) / price).toFixed(2);
+    const percent = this.numberUptoTwoDecimal((monthlyAmount * 100) / price);
     this.addFormStep4.controls['deal_monthly_amount'].patchValue(monthlyAmount);
     this.addFormStep4.controls['deal_monthly_percentage'].patchValue(percent);
   }
@@ -1708,42 +1685,31 @@ export class AddEditCollectionComponent implements OnInit {
       this.addFormStep1.controls.building_configuration_id.patchValue(formdata['building_configuration_id']);
       this.addFormStep1.controls.for_rent.patchValue(formdata['for_rent']);
       this.addFormStep1.controls.for_rent.patchValue(formdata['for_rent']);
-      console.log(this.addFormStep1.controls)
       if (this.addFormStep1.valid) {
         if (!formdata['building_id']) {
                           
           this.toastr.clear();
           this.toastr.error(this.translate.instant('message.error.pleaseSelectBuilding'), this.translate.instant('swal.error'));
-
-          // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectBuilding'), 'error');
           return;
         } else if (!formdata['building_towers_id']) {
           
           this.toastr.clear();
           this.toastr.error(this.translate.instant('message.error.pleaseSelectFloor'), this.translate.instant('swal.error'));
-
-          // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectFloor'), 'error');
           return;
         } else if (!formdata['floor_num']) {
           
             this.toastr.clear();
             this.toastr.error(this.translate.instant('message.error.pleaseChooseFloor'), this.translate.instant('swal.error'));
-
-          // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseFloor'), 'error');
           return;
         } else if (!formdata['property_id']) {
           
           this.toastr.clear();
           this.toastr.error(this.translate.instant('message.error.pleaseChooseApartment'), this.translate.instant('swal.error'));
-
-          // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseApartment'), 'error');
           return;
         } else if (!formdata['building_configuration_id']) {
               
           this.toastr.clear();
           this.toastr.error(this.translate.instant('message.error.pleaseChooseApartment'), this.translate.instant('swal.error'));
-
-          // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseApartment'), 'error');
           return;
         }
       } else {
@@ -1756,47 +1722,7 @@ export class AddEditCollectionComponent implements OnInit {
       formdata['seller_type'] = this.model.seller_type;
       this.addFormStep2.controls.seller_type.patchValue(this.model.seller_type);
       this.addFormStep2.controls.step.patchValue(this.model.step);
-      console.log(this.addFormStep2.controls)
-      console.log(this.model.seller_type)
        if (this.addFormStep2.valid) {
-        // if (!formdata['seller_fed_tax']) {
-          
-        //   this.toastr.clear();
-        //   this.toastr.error(this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), this.translate.instant('swal.error'));
-
-        //   // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), 'error');
-        //   return;
-        // }
-        // if (formdata['collection_seller_banks'] || formdata['collection_seller_banks'].length > 0) {
-        //   let i = 0;
-        //   for (let index = 0; index < formdata['collection_seller_banks'].length; index++) {
-        //     const element = formdata['collection_seller_banks'][index];
-        //     if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
-        //       i = i + 1;
-              
-        //       this.toastr.clear();
-        //       this.toastr.error(this.translate.instant('message.error.pleaseEnterBankDetails'), this.translate.instant('swal.error'));
-
-        //       // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
-        //       return;
-        //     }
-        //   };
-        // }
-        // if (formdata['collection_seller_rep_banks'] || formdata['collection_seller_banks']) {
-        //   let i = 0;
-        //   for (let index = 0; index < formdata['collection_seller_rep_banks'].length; index++) {
-        //     const element = formdata['collection_seller_rep_banks'][index];
-        //     if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
-        //       i = i + 1;
-              
-        //       this.toastr.clear();
-        //       this.toastr.error(this.translate.instant('message.error.pleaseEnterBankDetails'), this.translate.instant('swal.error'));
-
-        //       // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
-        //       return;
-        //     }
-        //   };
-        // }
         if (this.model.seller_type == 1 || this.model.seller_type == 3) {
           if (!formdata['seller_id']) {
             this.toastr.error(this.translate.instant('message.error.pleaseChooseSeller'), this.translate.instant('swal.error'));
@@ -1821,47 +1747,8 @@ export class AddEditCollectionComponent implements OnInit {
       formdata['buyer_type'] = this.model.buyer_type;
       this.addFormStep3.controls.buyer_type.patchValue(this.model.buyer_type);
       this.addFormStep3.controls.step.patchValue(this.model.step);
-      console.log(this.addFormStep3.controls)
       // formdata['buyer_type'] = this.model.buyer_type;
        if (this.addFormStep3.valid) {
-        // if (!formdata['buyer_fed_tax']) {
-          
-        //   this.toastr.clear();
-        //   this.toastr.error(this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), this.translate.instant('swal.error'));
-
-        //   // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), 'error');
-        //   return;
-        // }
-        // if (formdata['collection_buyer_banks'] || formdata['collection_buyer_banks'].length > 0) {
-        //   let i = 0;
-        //   for (let index = 0; index < formdata['collection_buyer_banks'].length; index++) {
-        //     const element = formdata['collection_buyer_banks'][index];
-        //     if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
-        //       i = i + 1;
-              
-        //       this.toastr.clear();
-        //       this.toastr.error(this.translate.instant('message.error.pleaseEnterBankDetails'), this.translate.instant('swal.error'));
-
-        //       // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
-        //       return;
-        //     }
-        //   };
-        // }
-        // if (formdata['collection_buyer_rep_banks'] || formdata['collection_buyer_rep_banks'].length > 0) {
-        //   let i = 0;
-        //   for (let index = 0; index < formdata['collection_buyer_rep_banks'].length; index++) {
-        //     const element = formdata['collection_buyer_rep_banks'][index];
-        //     if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
-        //       i = i + 1;
-              
-        //       this.toastr.clear();
-        //       this.toastr.error(this.translate.instant('message.error.pleaseEnterBankDetails'), this.translate.instant('swal.error'));
-
-        //       // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
-        //       return;
-        //     }
-        //   };
-        // }
         if (this.model.buyer_type == 1 || this.model.buyer_type == 3) {
           if (!formdata['buyer_id']) {
             this.toastr.error(this.translate.instant('message.error.pleaseChooseBuyer'), this.translate.instant('swal.error'));
@@ -1884,28 +1771,17 @@ export class AddEditCollectionComponent implements OnInit {
     if (this.model.step == 4) {
       this.addFormStep4.controls.step.patchValue(this.model.step);
       delete this.addFormStep4.value.paymentchoice;
-      console.log(this.addFormStep4.controls);
       if (this.addFormStep4.valid) {
-        // if (!formdata['deal_purchase_date']) {
-          
-        //   this.toastr.clear();
-        //   this.toastr.error(this.translate.instant('message.error.pleaseEnterPurchaseDate'), this.translate.instant('swal.error'));
-
-        //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPurchaseDate'), 'error');
-        //   return;
-        // } else if (!formdata['deal_price']) {
-          
-        //   this.toastr.clear();
-        //   this.toastr.error(this.translate.instant('message.error.pleaseEnterPrice'), this.translate.instant('swal.error'));
-
-        //   // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPrice'), 'error');
-        //   return;
-        // }
-         
+    
         if (this.addFormStep4.controls.payment_choices.value && this.addFormStep4.controls.payment_choices.value.length < 1) {
           this.toastr.error(this.translate.instant('message.error.pleaseChoosePayments'), this.translate.instant('swal.error'));
           return;
         }
+
+        // converting to local
+        const d = formdata['deal_purchase_date'];
+        const nd = moment(d).add(330, 'minutes').toDate();
+        formdata['deal_purchase_date']=nd;
         let paymentSum = 0;
         let i = 0;
         for (let index = 0; index < formdata['payment_choices'].length; index++) {
@@ -1920,9 +1796,9 @@ export class AddEditCollectionComponent implements OnInit {
             this.toastr.error(text, this.translate.instant('swal.error'));
             return;
           }
+          element.date = moment(element.date).add(330, 'minutes').toDate();
           paymentSum = paymentSum + parseInt(element.amount || 0);
         }
-  
         // check if total sum of monthly installments is equal or greater than property price
         // if (formdata['deal_price'] != paymentSum) {
         //   const text = this.translate.instant('message.error.priceIsNotEqualToPaymentConceptPrice') + '<br>' + 
@@ -1939,37 +1815,8 @@ export class AddEditCollectionComponent implements OnInit {
 
     if (this.model.step == 5) {
       this.addFormStep5.controls.step.patchValue(this.model.step);
-      console.log(this.addFormStep5.controls);
       if (this.addFormStep5.valid) {
-        // if (!formdata['comm_total_commission']) {
-          
-        //   this.toastr.clear();
-        //   this.toastr.error(this.translate.instant('message.error.pleaseEnterSozuCommission'), this.translate.instant('swal.error'));
-
-        //   // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterSozuCommission'), 'error');
-        //   return;
-        // } else if (!formdata['comm_total_commission_amount']) {
-          
-        //   this.toastr.clear();
-        //   this.toastr.error(this.translate.instant('message.error.pleaseEnterSozuCommission'), this.translate.instant('swal.error'));
-
-        //   // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterSozuCommission'), 'error');
-        //   return;
-        // } else if (!formdata['comm_shared_commission']) {
-                    
-        //   this.toastr.clear();
-        //   this.toastr.error(this.translate.instant('message.error.pleaseEnterAgentCommission'), this.translate.instant('swal.error'));
-
-        //   // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterAgentCommission'), 'error');
-        //   return;
-        // } else if (!formdata['comm_shared_commission_amount']) {
-                    
-        //   this.toastr.clear();
-        //   this.toastr.error(this.translate.instant('message.error.pleaseEnterAgentCommission'), this.translate.instant('swal.error'));
-
-        //   // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterAgentCommission'), 'error');
-        //   return;
-        // } 
+       
         if (!formdata['deal_commission_agents']) {                    
           this.toastr.clear();
           this.toastr.error(this.translate.instant('message.error.pleaseEnterAgent'), this.translate.instant('swal.error'));
@@ -1992,21 +1839,6 @@ export class AddEditCollectionComponent implements OnInit {
             }
           }
         }
-        // if (formdata['collection_agent_banks'] || formdata['collection_agent_banks'].length > 0) {
-        //   let i = 0;
-        //   for (let index = 0; index < formdata['collection_agent_banks'].length; index++) {
-        //     const element = formdata['collection_agent_banks'][index];
-        //     if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
-        //       i = i + 1;
-                                  
-        //       this.toastr.clear();
-        //       this.toastr.error(this.translate.instant('message.error.pleaseEnterBankDetails'), this.translate.instant('swal.error'));
-
-        //       // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
-        //       return;
-        //     }
-        //   }
-        // }
         const collection_commissions = formdata['collection_commissions'];
         delete formdata['collection_commissions'];
         collection_commissions.forEach(element => {
@@ -2024,11 +1856,24 @@ export class AddEditCollectionComponent implements OnInit {
     this.us.postDataApi('addCollection', formdata)
       .subscribe(
         success => {
-          this.showError = false;
           this.tab = tab + 1;
           this.spinner.hide();
+          this.showError = false;
           this.model.id = success['data'].id;
-         
+          // if (tab != 6) { 
+          //   if (tab == 4) {
+          //     this.selectedPaymentChoice.nativeElement.value = '';
+          //   }
+          //   this.editCollection();
+          // }
+          if (tab == 1 || tab == 2) {
+            this.initFormStep2();
+            this.patchFormStep2(success['data'], 'add')
+          // }
+          // if (tab == 2) {
+            this.initFormStep3();
+            this.patchFormStep3(success['data'])
+          }
           if (tab == 4) {
             this.initFormStep4();
             this.patchFormStep4(success['data'])
@@ -2043,38 +1888,14 @@ export class AddEditCollectionComponent implements OnInit {
             //   html: this.translate.instant('message.success.submittedSccessfully'), type: 'success'
             // });
           }
-          this.parameter.property_id = success['data'].id;
+          // this.parameter.property_id = success['data'].id;
         }, error => {
           this.spinner.hide();
         }
       );
   }
 
-  CommaFormatted(event) {
-    // skip for arrow keys
-    if(event.which >= 37 && event.which <= 40) return;
-   
-    // format number
-    if (event.target.value) {
-     const product_price = event.target.value.replace(/\D/g, "")
-       .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-       console.log(product_price);
-    }}
-
-
-   
-   numberCheck (args) {
-   if (args.key === 'e' || args.key === '+' || args.key === '-') {
-     return false;
-   } else {
-     return true;
-   }}
-
-   formatNumber() {
-     const p =  this.addFormStep4.get('deal_price').value.replace(',', '');
-     console.log(p)
-    this.addFormStep4.controls.deal_price.patchValue(this.decimalPipe.transform(p, '1.2-2'));
-    // this.addFormStep4.controls.deal_price.patchValue(numeral(p).format("0,0"));
-    console.log(this.addFormStep4.get('deal_price'))
+   numberUptoTwoDecimal(num: any) {
+     return num.toFixed(2);
    }
 }

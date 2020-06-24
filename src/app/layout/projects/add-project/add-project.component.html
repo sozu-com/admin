@@ -15,6 +15,7 @@
               <div class="upload-cover-img">
                 <img [src]="file1.image" [defaultImage]="file1.image| img:'thumb'" [lazyLoad]="file1.image"
                   onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
+                  <div *ngIf="file1.loading" class="loaderr"></div>
                 <div *ngIf="!file1.image" class="upload-caption">
                   <p class="green-color marginT30">{{'addForm.uploadCoverImage' | translate}}</p>
                   <p>{{'addForm.imageSizeForCover' | translate}}</p>
@@ -1643,11 +1644,12 @@
                 <label>{{'addForm.floorPlanImage' | translate}}</label>
                 <div class="upload-cover-img" style="max-width: 400px; margin: 0px auto;height: 250px;">
                   <img class="img-fluid" [src]="file3.image" onerror='this.src="assets/img/placeholder.png"' />
+                  <div *ngIf="file3.loading" class="loaderr"></div>
                   <div *ngIf="!file3.image" class="upload-caption">
                     <p class="green-color marginT30">{{'addForm.uploadCoverImage' | translate}}</p>
                     <p>{{'addForm.imageSizeForCover' | translate}}</p>
                   </div>
-                  <input type="file" accept="image/*" name="floor_map_image" (change)="file3.onSelectFile($event)">
+                  <input type="file" accept="image/*" name="floor_map_image" (change)="file3.onSelectFile($event, true)">
                 </div>
                 <div class="spacer30"></div>
                 <label>{{'addForm.otherImages' | translate}}</label>
@@ -1700,7 +1702,7 @@
             <div class="btn-cont">
               <button [disabled]="!new_config.configuration_id
             || !new_config.name
-            || !file3.image" (click)="addNewConfig()" type="button" class="btn btn-primary">{{'addForm.save' | translate}}</button>
+            || !file3.image || file3.loading" (click)="addNewConfig()" type="button" class="btn btn-primary">{{'addForm.save' | translate}}</button>
             </div>
           </div>
         </div>

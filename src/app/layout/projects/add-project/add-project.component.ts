@@ -596,17 +596,13 @@ export class AddProjectComponent implements OnInit {
       this.model.videos = this.amenVideo.files;
     });
     this.amenVideo.files.forEach(element => {
-      console.log('1');
       if (element.loading !== true) {
-        console.log('1434');
         count++;
       }
     });
     if (count === this.amenVideo.files.length) {
-      console.log('154435');
       this.modalAddMoreVideos.nativeElement.click();
     }
-    console.log('153345');
   }
 
 
@@ -938,9 +934,9 @@ export class AddProjectComponent implements OnInit {
       return false;
     }
     // this.spinner.show();
-    this.file3.upload().then(r => {
+    // this.file3.upload().then(r => {
       this.new_config.floor_map_image = this.file3.image;
-    });
+    // });
 
     this.file4.upload().then(r1 => {
       this.new_config.images = this.file4.files;

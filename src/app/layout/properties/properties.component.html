@@ -413,9 +413,11 @@
                                     : ('table.tr.td.NA' | translate)}}</span></td>
                               <td><span>{{p?.name || ('table.tr.td.NA' | translate)}}</span></td>
                               <td>
-                                 <app-property-configuration *ngIf="p.configuration" [configuration]="p.configuration"></app-property-configuration>
+                                 <app-property-configuration *ngIf="p?.building_configuration" [configuration]="p.building_configuration.config"></app-property-configuration>
                                  <br>
-                                 <span [style.textAlign]="'center'">{{p?.building_configuration?.name || ('table.tr.td.NA' | translate)}}</span>
+                                 <span [style.textAlign]="'center'">
+                                       <b>{{p?.building_configuration?.name || ('table.tr.td.NA' | translate)}}</b>
+                                 </span>
                               </td>
                               <td><span>{{p.min_price | price}}</span></td>
                               <td><span>
@@ -437,7 +439,7 @@
                                  <span class="green-color"><span>{{'table.tr.td.view' | translate}}</span></span>
                               </td>
                               
-                              <td *ngIf="parameter.flag!=5" class="cursor-pointer" title="{{p?.selected_seller?.user?.name ? ('table.title.clickToChangeSeller' | translate) : ('table.title.clickToAddSeller' | translate)}}" (click)="getAllSellers(p, '1', i)">
+                              <td *ngIf="parameter.flag!=5" class="cursor-pointer" title="{{p?.selected_seller?.user?.name ? ('table.title.clickToChangeSeller' | translate) : ('table.title.clickToAddSeller' | translate)}}" (click)="getAllSellers(p, '1', i, 1)">
                                  <span class="green-color"><span>
                                        {{p?.selected_seller?.user?.name || ('table.tr.td.add' | translate)}}
                                  </span></span>
@@ -521,16 +523,42 @@
             </div>
             <div class="modal-body">
 
-               <p class="modal-title marginB20" *ngIf="selecter_seller">{{'table.th.currentlyLinkedToSeller' | translate}} - <b>{{selecter_seller?.user?.name}}</b></p>
-
+               <p class="modal-title marginB20" *ngIf="selecter_seller">
+                  {{'table.th.currentlyLinkedToSeller' | translate}} 
+                  ({{selecter_seller?.user?.is_developer==1 ? 'Developer' : 
+                        (selecter_seller?.user?.legal_entity_id ? 'Legal Representative' : 'Person')}})- 
+                  <b>{{selecter_seller?.user?.name}}</b>
+                </p>
+ 
+               <div class="cust-tabs">
+                  <div class="row flex-wrap-reverse">            
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                              <ul class="nav nav-tabs">
+                              <li class="nav-item">
+                                    <a [ngClass]="{'active':seller_type == 1}" (click)="getAllSellers('', keyword, '', 1)" class="nav-link cursor-pointer" >Person</a>
+                              </li>
+                              <li class="nav-item">
+                                    <a [ngClass]="{'active':seller_type == 2}" (click)="getAllSellers('', keyword, '', 2)" class="nav-link cursor-pointer" >Legal Entity</a>
+                              </li>
+                              <li class="nav-item">
+                                    <a [ngClass]="{'active':seller_type == 3}" (click)="getAllSellers('', keyword, '', 3)" class="nav-link cursor-pointer" >Developer</a>
+                              </li>
+                              </ul>
+                        </div>
+                  </div>
+               </div>
+                  
+               <div class="spacer40"></div>
                <div class="row">
                   <div class="col-md-8 col-6">
-                     <input style="max-width:200px" (keyup.enter)="getAllSellers('', keyword, '')" [(ngModel)]="keyword" class="form-control" type="text" name="keyword" placeholder="{{'addForm.placeholder.search' | translate}}">
+                     <input style="max-width:200px" (keyup.enter)="getAllSellers('', keyword, '', seller_type)" [(ngModel)]="keyword" class="form-control" type="text" name="keyword" placeholder="{{'addForm.placeholder.search' | translate}}">
                  </div>
                  <div class="col-md-4 col-5 btn-cont">
-                     <a class="btn btn-primary pull-right" href="javascript://" (click)="getAllSellers('', keyword, '')">{{'table.th.search' | translate}}</a>
+                     <a class="btn btn-primary pull-right" href="javascript://" (click)="getAllSellers('', keyword, '', seller_type)">{{'table.th.search' | translate}}</a>
                  </div>
                </div>
+
+              
 
                <div class="spacer40"></div>
                <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
@@ -543,14 +571,15 @@
                            <img *ngIf="!item?.image" src="assets/img/default_img.png" alt="img">
                            
                            <div class="n-avail-info">
-                              <p class="p12">{{item?.name}}</p>
+                              <p class="p12">{{item?.name ? item?.name : item?.comm_name}}</p>
+                              <p class="p12" *ngIf="item?.legal_reps?.id">{{item?.legal_reps?.name}}</p>
                               <p class="p10 marginB0">{{'viewProperty.phone' | translate}} : {{item?.dial_code ? item?.dial_code : constant.dial_code}}-{{item?.phone}}</p>
-                              <p class="p10">{{item?.is_developer==1 ? ('viewProperty.developer' | translate) : ('viewProperty.seller' | translate)}}</p>
+                              <!-- <p class="p10">{{item?.is_developer==1 ? ('viewProperty.developer' | translate) : ('viewProperty.seller' | translate)}}</p> -->
                            </div>
                            </div>
                         </td>
                         <td>
-                           <button *ngIf="parameter.seller_id!=item.id" (click)="changeStatusPopUp(parameter.property_id, item.id, item.name, 1, 'link')" class="action-icon" title="{{'table.title.acceptRequest' | translate}}">
+                           <button *ngIf="parameter.seller_id!=item.id" (click)="changeStatusPopUp(parameter.property_id, (seller_type==2 ? item.legal_reps.id : item.id), item.name, 1, 'link')" class="action-icon" title="{{'table.title.acceptRequest' | translate}}">
                               <img src="assets/img/green-icon.png" alt="img"></button>
                            <button *ngIf="parameter.seller_id==item.id" (click)="showRejectSellerRequestModal(parameter.property_id, item.id, 2)" class="action-icon" title="{{'table.title.rejectRequest' | translate}}">
                                  <img src="assets/img/ic_disapprove.png" alt="img"></button>

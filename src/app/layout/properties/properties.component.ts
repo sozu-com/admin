@@ -39,6 +39,7 @@ export class PropertiesComponent implements OnInit {
   item: any;
   locale: any;
   floors: Array<any>;
+  seller_type: number;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
 
   @ViewChild('modalOpen') modalOpen: ElementRef;
@@ -64,7 +65,7 @@ export class PropertiesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
+    this.seller_type = 1;
     this.locale = {
       firstDayOfWeek: 0,
       dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
@@ -369,7 +370,8 @@ export class PropertiesComponent implements OnInit {
     });
   }
 
-  getAllSellers(property: any, keyword: string, index) {
+  getAllSellers(property: any, keyword: string, index, seller_type: number) {
+    this.seller_type = seller_type;
     this.spinner.show();
     if (index !== '') { this.parameter.index = index; }
     if (property) {
@@ -380,10 +382,18 @@ export class PropertiesComponent implements OnInit {
         this.selecter_seller = r['selecter_seller'];
       });
     }
-    const input = { name: '' };
+    
+    const input = { name: '', user_type: 0 };
     input.name = keyword !== '1' ? keyword : '';
+    input.user_type = seller_type;
+    // if (this.tab == 2 && this.model.seller_type) {
+    //  input.user_type = this.model.seller_type;
+    // }
+    // if (this.tab == 3 && this.model.buyer_type) {
+    //  input.user_type = this.model.buyer_type;
+    // }
 
-    this.admin.postDataApi('getAllSellers', input).subscribe(r => {
+    this.admin.postDataApi('getAllBuyers', input).subscribe(r => {
       this.spinner.hide();
       if (property) { this.linkUserModal.nativeElement.click(); }
       this.allUsers = r['data'];
@@ -452,7 +462,12 @@ export class PropertiesComponent implements OnInit {
   }
 
   changeStatusSellerSelection() {
-    const input = { property_id: this.parameter.property_id, user_id: this.parameter.user_id, status: this.parameter.status, reason: '' };
+    const input = { 
+      property_id: this.parameter.property_id, 
+      user_id: this.parameter.user_id, 
+      status: this.parameter.status, 
+      reason: '' 
+    };
     if (this.reason) {
       input.reason = this.reason;
     }

@@ -1649,7 +1649,8 @@
     "payments":"Pagos",
     "view":"Ver",
     "edit":"Editar",
-    "delete":"Eliminar"
+    "delete":"Eliminar",
+    "sumOfPaymentConcept": "Suma de conceptos de pago"
   },
   "swal": {
     "error": "Error",

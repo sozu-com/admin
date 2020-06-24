@@ -18,7 +18,7 @@
               {{property?.name}}
             </p>
             <p class="p12">
-              <app-property-configuration *ngIf="property?.configuration" [configuration]="property?.configuration"></app-property-configuration>
+              <app-property-configuration *ngIf="property?.building_configuration" [configuration]="property?.building_configuration?.config"></app-property-configuration>
               <span>&middot; {{property?.property_type?.name}} </span>
             </p>
 

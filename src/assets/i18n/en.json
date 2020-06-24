@@ -1659,7 +1659,8 @@
     "payments":"Payments",
     "view":"View",
     "edit":"Edit",
-    "delete":"Delete"
+    "delete":"Delete",
+    "sumOfPaymentConcept": "Sum of Payment Concepts"
   },
   "swal": {
     "error": "Error",

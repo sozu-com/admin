@@ -36,10 +36,10 @@ export class FileUpload {
             model.image = e.target.result;
             model.file = event.target.files[index];
             model.loading = false;
+            this.loading = false;
             this.files.push(model);
           }
 
-          this.loading = false;
           // if(upload == true && index== (total-1)){
           //   console.log('uploading');
           //   this.upload();
@@ -110,6 +110,7 @@ export class FileUpload {
             resolve();
           },
           error => {
+            this.image.loading = false;
             reject(error);
           });
       } else {
