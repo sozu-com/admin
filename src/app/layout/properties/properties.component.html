@@ -346,6 +346,15 @@
                            </th>
                            <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
                               <div class="table-search">
+                                 <label>{{'table.th.changeBuyer' | translate}}</label>
+                                 <div class="searh-3">
+                                    <input class="width100px" type="text" [(ngModel)]="parameter.seller_name" (keyup.enter)="getListing()" >
+                                    <button *ngIf="parameter.seller_name" (click)="getListing()"><i class="fa fa-search"></i></button>
+                                 </div>
+                              </div>
+                           </th>
+                           <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
+                              <div class="table-search">
                                  <label>{{'table.th.changeSeller' | translate}}</label>
                                  <div class="searh-3">
                                     <input class="width100px" type="text" [(ngModel)]="parameter.seller_name" (keyup.enter)="getListing()" >
@@ -435,11 +444,19 @@
 
                               <td><span>{{p.lead_properties_count | roundNumber}}</span></td>
                               
+                              <td *ngIf="parameter.flag!=5" class="cursor-pointer" title="{{p?.selected_buyer?.user?.name ? ('table.title.clickToChangeBuyer' | translate) : ('table.title.clickToAddBuyer' | translate)}}" 
+                                    (click)="getAllSellers(p, '1', i, 'buyer', 1)">
+                                    <span class="green-color"><span>
+                                          {{p?.selected_buyer?.user?.name || ('table.tr.td.add' | translate)}}
+                                    </span></span>
+                              </td>
+                              
                               <td *ngIf="parameter.flag==5" class="cursor-pointer" title="{{'table.title.viewSellerRequest' | translate}}" (click)="showAllSellers(p?.id, i)">
                                  <span class="green-color"><span>{{'table.tr.td.view' | translate}}</span></span>
                               </td>
                               
-                              <td *ngIf="parameter.flag!=5" class="cursor-pointer" title="{{p?.selected_seller?.user?.name ? ('table.title.clickToChangeSeller' | translate) : ('table.title.clickToAddSeller' | translate)}}" (click)="getAllSellers(p, '1', i, 1)">
+                              <td *ngIf="parameter.flag!=5" class="cursor-pointer" title="{{p?.selected_seller?.user?.name ? ('table.title.clickToChangeSeller' | translate) : ('table.title.clickToAddSeller' | translate)}}" 
+                                    (click)="getAllSellers(p, '1', i, 'seller', 1)">
                                  <span class="green-color"><span>
                                        {{p?.selected_seller?.user?.name || ('table.tr.td.add' | translate)}}
                                  </span></span>
@@ -518,7 +535,7 @@
    <div class="modal-dialog ">
       <div class="modal-content notary-avail">
             <div class="modal-header popup-header">
-            <h4 class="modal-title">{{'table.th.linkUnlinkSeller' | translate}}</h4>
+            <h4 class="modal-title">{{ user_type=='seller' ? ('table.th.linkUnlinkSeller' | translate) : ('table.th.linkUnlinkBuyer' | translate)}}</h4>
             <button type="button" class="close" #closeLinkUserModal data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
@@ -530,18 +547,25 @@
                   <b>{{selecter_seller?.user?.name}}</b>
                 </p>
  
+                  <p class="modal-title marginB20" *ngIf="selecter_buyer">
+                        {{'table.th.currentlyLinkedToBuyer' | translate}} 
+                        ({{selecter_buyer?.user?.is_developer==1 ? 'Developer' : 
+                              (selecter_buyer?.user?.legal_entity_id ? 'Legal Representative' : 'Person')}})- 
+                        <b>{{selecter_buyer?.user?.name}}</b>
+                  </p>
+                  
                <div class="cust-tabs">
                   <div class="row flex-wrap-reverse">            
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                               <ul class="nav nav-tabs">
                               <li class="nav-item">
-                                    <a [ngClass]="{'active':seller_type == 1}" (click)="getAllSellers('', keyword, '', 1)" class="nav-link cursor-pointer" >Person</a>
+                                    <a [ngClass]="{'active':seller_type == 1}" (click)="getAllSellers('', keyword, '', user_type, 1)" class="nav-link cursor-pointer" >Person</a>
                               </li>
                               <li class="nav-item">
-                                    <a [ngClass]="{'active':seller_type == 2}" (click)="getAllSellers('', keyword, '', 2)" class="nav-link cursor-pointer" >Legal Entity</a>
+                                    <a [ngClass]="{'active':seller_type == 2}" (click)="getAllSellers('', keyword, '', user_type, 2)" class="nav-link cursor-pointer" >Legal Entity</a>
                               </li>
                               <li class="nav-item">
-                                    <a [ngClass]="{'active':seller_type == 3}" (click)="getAllSellers('', keyword, '', 3)" class="nav-link cursor-pointer" >Developer</a>
+                                    <a [ngClass]="{'active':seller_type == 3}" (click)="getAllSellers('', keyword, '', user_type, 3)" class="nav-link cursor-pointer" >Developer</a>
                               </li>
                               </ul>
                         </div>
@@ -551,10 +575,10 @@
                <div class="spacer40"></div>
                <div class="row">
                   <div class="col-md-8 col-6">
-                     <input style="max-width:200px" (keyup.enter)="getAllSellers('', keyword, '', seller_type)" [(ngModel)]="keyword" class="form-control" type="text" name="keyword" placeholder="{{'addForm.placeholder.search' | translate}}">
+                     <input style="max-width:200px" (keyup.enter)="getAllSellers('', keyword, '', user_type, seller_type)" [(ngModel)]="keyword" class="form-control" type="text" name="keyword" placeholder="{{'addForm.placeholder.search' | translate}}">
                  </div>
                  <div class="col-md-4 col-5 btn-cont">
-                     <a class="btn btn-primary pull-right" href="javascript://" (click)="getAllSellers('', keyword, '', seller_type)">{{'table.th.search' | translate}}</a>
+                     <a class="btn btn-primary pull-right" href="javascript://" (click)="getAllSellers('', keyword, '', user_type, seller_type)">{{'table.th.search' | translate}}</a>
                  </div>
                </div>
 
@@ -579,7 +603,11 @@
                            </div>
                         </td>
                         <td>
-                           <button *ngIf="parameter.seller_id!=item.id" (click)="changeStatusPopUp(parameter.property_id, (seller_type==2 ? item.legal_reps.id : item.id), item.name, 1, 'link')" class="action-icon" title="{{'table.title.acceptRequest' | translate}}">
+                           <button *ngIf="parameter.seller_id!=item.id" 
+                              (click)="changeStatusPopUp(parameter.property_id, 
+                                                      (seller_type==2 ? item.legal_reps.id : item.id), 
+                                                      (seller_type==2 ? item.comm_name : item.name), 
+                                                      1, 'link')" class="action-icon" title="{{'table.title.acceptRequest' | translate}}">
                               <img src="assets/img/green-icon.png" alt="img"></button>
                            <button *ngIf="parameter.seller_id==item.id" (click)="showRejectSellerRequestModal(parameter.property_id, item.id, 2)" class="action-icon" title="{{'table.title.rejectRequest' | translate}}">
                                  <img src="assets/img/ic_disapprove.png" alt="img"></button>

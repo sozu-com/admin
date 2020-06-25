@@ -136,8 +136,8 @@ export class AddEditCollectionComponent implements OnInit {
     this.model = new Collection();
     this.model.building = new Building();
     this.model.building_towers = new Towers();
-    this.model.seller_type = 1;
-    this.model.buyer_type = 1;
+    this.model.seller_type = '1';
+    this.model.buyer_type = '1';
     this.setDatePickerLocale();
     this.property_names = [];
     this.parameter.page = 1;
@@ -151,8 +151,8 @@ export class AddEditCollectionComponent implements OnInit {
       if (params['id'] === '0') {
         this.showSearch = true;
         this.initFormStep1();
-        this.setValue('seller_type', 1);
-        this.setValue('buyer_type', 1);
+        this.setValue('seller_type', '1');
+        this.setValue('buyer_type', '1');
         // this.initFormStep2();
         // this.initFormStep3();
         this.initFormStep4();
@@ -261,13 +261,13 @@ export class AddEditCollectionComponent implements OnInit {
     });
   }
 
-  setValue(key: string, value: number) {
+  setValue(key: string, value: any) {
     this.model[key] = value; 
     if (key == 'seller_type') {
       // this.addFormStep2.reset();
       this.initFormStep2();
       this.showError = false;
-      if (value != 1) {
+      if (value != '1') {
         // console.log('not person')
         this.addFormStep2.controls['seller_email'].setValidators(null);
         this.addFormStep2.controls['seller_email'].updateValueAndValidity();
@@ -302,7 +302,7 @@ export class AddEditCollectionComponent implements OnInit {
     else {
       this.initFormStep3();
       this.showError = false;
-      if (value != 1) {
+      if (value != '1') {
         this.addFormStep3.controls['buyer_address'].setValidators([Validators.required, Validators.minLength(1)]);
         this.addFormStep3.controls['buyer_fed_tax'].setValidators([Validators.minLength(12), Validators.maxLength(13)]);
         this.addFormStep3.controls['buyer_legal_name'].setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
@@ -491,32 +491,32 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   patchFormStep2(data, mode: string) {
-    this.model.seller_type = data.seller_type ? data.seller_type : 1;
-    this.addFormStep2.controls.seller_type.patchValue(data.seller_type || 1);
-    if (data.seller_type != 2) {
+    this.model.seller_type = data.seller_type ? data.seller_type : '1';
+    this.addFormStep2.controls.seller_type.patchValue(data.seller_type ? data.seller_type.toString() : '1');
+    if (data.seller_type != '2') {
       this.addFormStep2.controls.seller_id.patchValue(data.seller ? data.seller.id : '');
       this.addFormStep2.controls.seller_company_name.patchValue(data.seller_company_name ? data.seller_company_name : '');
     }
-    if (data.seller_type == 1) {
+    if (data.seller_type == '1') {
       this.addFormStep2.controls.seller_email.patchValue(data.seller ? data.seller.email : '');
     }
-    if (data.seller_type == 2) {
+    if (data.seller_type == '2') {
       this.addFormStep2.controls.seller_legal_entity_id.patchValue(data.seller_legal_entity ? data.seller_legal_entity.id : '');
     }
     
-    this.addFormStep2.controls.seller_name.patchValue(data.seller_type == 2 
+    this.addFormStep2.controls.seller_name.patchValue(data.seller_type == '2' 
       ? (data.seller_legal_entity ? data.seller_legal_entity.comm_name : '') 
       : (data.seller ? data.seller.name : ''));
-    this.addFormStep2.controls.seller_legal_name.patchValue(data.seller_type == 2 
+    this.addFormStep2.controls.seller_legal_name.patchValue(data.seller_type == '2' 
       ? (data.seller_legal_entity ? data.seller_legal_entity.legal_name : '') 
       : (data.seller_legal_name ? data.seller_legal_name : ''));
-    this.addFormStep2.controls.seller_address.patchValue(data.seller_type == 2 
+    this.addFormStep2.controls.seller_address.patchValue(data.seller_type == '2' 
       ? (data.seller_legal_entity ? data.seller_legal_entity.address : '') 
       : (data.seller_address ? data.seller_address : ''));
-    this.addFormStep2.controls.seller_phone.patchValue(data.seller_type == 2 
+    this.addFormStep2.controls.seller_phone.patchValue(data.seller_type == '2' 
       ? (data.seller_legal_entity ? data.seller_legal_entity.phone : '') 
       : (data.seller ? data.seller.phone : ''));
-    this.addFormStep2.controls.seller_fed_tax.patchValue(data.seller_type == 2 
+    this.addFormStep2.controls.seller_fed_tax.patchValue(data.seller_type == '2' 
       ? (data.seller_legal_entity ? data.seller_legal_entity.fed_tax_pay : '') 
       : (data.seller_fed_tax || ''));
 
@@ -538,40 +538,40 @@ export class AddEditCollectionComponent implements OnInit {
         control1.push(this.fb.group(x));
       });
     }
-    console.log('sellerrrrr', this.addFormStep2.value);
+    // console.log('sellerrrrr', this.addFormStep2.value);
     if (mode == 'edit') {
       this.setSeller(data);
     }
   }
 
   patchFormStep3(data) {
-    this.model.buyer_type = data.buyer_type ? data.buyer_type : 1;
-    this.addFormStep3.controls.buyer_type.patchValue(data.buyer_type || 1);
+    this.model.buyer_type = data.buyer_type ? data.buyer_type : '1';
+    this.addFormStep3.controls.buyer_type.patchValue(data.buyer_type ? data.buyer_type.toString() : '1');
 
-    if (data.buyer_type != 2) {
+    if (data.buyer_type != '2') {
       this.addFormStep3.controls.buyer_id.patchValue(data.buyer ? data.buyer.id : '');
       this.addFormStep3.controls.buyer_company_name.patchValue(data.buyer_company_name ? data.buyer_company_name : '');
     }
-    if (data.buyer_type == 1) {
+    if (data.buyer_type == '1') {
       this.addFormStep3.controls.buyer_email.patchValue(data.buyer ? data.buyer.email : '');
     }
-    if (data.buyer_type == 2) {
+    if (data.buyer_type == '2') {
       this.addFormStep3.controls.buyer_legal_entity_id.patchValue(data.buyer_legal_entity ? data.buyer_legal_entity.id : '');
     }
 
-    this.addFormStep3.controls.buyer_name.patchValue(data.buyer_type == 2 
+    this.addFormStep3.controls.buyer_name.patchValue(data.buyer_type == '2' 
       ? (data.buyer_legal_entity ? data.buyer_legal_entity.comm_name : '') 
       : (data.buyer ? data.buyer.name : ''));
-    this.addFormStep3.controls.buyer_legal_name.patchValue(data.buyer_type == 2 
+    this.addFormStep3.controls.buyer_legal_name.patchValue(data.buyer_type == '2' 
       ? (data.buyer_legal_entity ? data.buyer_legal_entity.legal_name : '') 
       : (data.buyer_legal_name ? data.buyer_legal_name : ''));
-    this.addFormStep3.controls.buyer_address.patchValue(data.buyer_type == 2 
+    this.addFormStep3.controls.buyer_address.patchValue(data.buyer_type == '2' 
       ? (data.buyer_legal_entity ? data.buyer_legal_entity.address : '') 
       : (data.buyer_address ? data.buyer_address : ''));
-    this.addFormStep3.controls.buyer_phone.patchValue(data.buyer_type == 2 
+    this.addFormStep3.controls.buyer_phone.patchValue(data.buyer_type == '2' 
       ? (data.buyer_legal_entity ? data.buyer_legal_entity.phone : '') 
       : (data.buyer ? data.buyer.phone : ''));
-    this.addFormStep3.controls.buyer_fed_tax.patchValue(data.buyer_type == 2 
+    this.addFormStep3.controls.buyer_fed_tax.patchValue(data.buyer_type == '2' 
       ? (data.buyer_legal_entity ? data.buyer_legal_entity.fed_tax_pay : '') 
       : (data.buyer_fed_tax || ''));
       
@@ -611,7 +611,7 @@ export class AddEditCollectionComponent implements OnInit {
         x.amount = this.numberUptoTwoDecimal(x.amount);
         sum_of_concepts = sum_of_concepts + parseFloat(x.amount);
         // x.date = x.date ? moment.utc(x.date).toDate() : null;
-        console.log(sum_of_concepts);
+        // console.log(sum_of_concepts);
         x.date = x.date ? new Date(x.date) : null;
         control1.push(this.fb.group(x)); 
       }
@@ -1418,7 +1418,7 @@ export class AddEditCollectionComponent implements OnInit {
       this.model.seller = item;
 
       // seller as a person
-      if (this.model.seller_type == 1) {
+      if (this.model.seller_type == '1') {
         this.addFormStep2.controls.seller_id.patchValue(item.id);
         this.addFormStep2.controls.seller_name.patchValue(item.name || '');
         this.addFormStep2.controls.seller_email.patchValue(item.email || '');
@@ -1426,7 +1426,7 @@ export class AddEditCollectionComponent implements OnInit {
       }
 
       // seller as a legal entity
-      if (this.model.seller_type == 2) {
+      if (this.model.seller_type == '2') {
         this.addFormStep2.controls.seller_legal_entity_id.patchValue(item.id);   
         this.addFormStep2.controls.seller_name.patchValue(item.comm_name);
         this.addFormStep2.controls.seller_legal_name.patchValue(item.legal_name);
@@ -1457,7 +1457,7 @@ export class AddEditCollectionComponent implements OnInit {
       }
       
       // seller as a developer
-      if (this.model.seller_type == 3) {   
+      if (this.model.seller_type == '3') {   
         this.addFormStep2.controls.seller_id.patchValue(item.id);
         this.addFormStep2.controls.seller_name.patchValue(item.developer_company ? item.developer_company : '');
         this.addFormStep2.controls.seller_legal_name.patchValue(item.name ? item.name : '');
@@ -1491,7 +1491,7 @@ export class AddEditCollectionComponent implements OnInit {
       this.model.buyer_id = item.id;
       this.model.buyer = item;
       // buyer as a person
-      if (this.model.buyer_type == 1) {
+      if (this.model.buyer_type == '1') {
         this.addFormStep3.controls.buyer_id.patchValue(item.id);
         this.addFormStep3.controls.buyer_name.patchValue(item.name || '');
         this.addFormStep3.controls.buyer_email.patchValue(item.email || '');
@@ -1499,7 +1499,7 @@ export class AddEditCollectionComponent implements OnInit {
       }
 
       // buyer as a legal entity
-      if (this.model.buyer_type == 2) {
+      if (this.model.buyer_type == '2') {
         this.addFormStep3.controls.buyer_legal_entity_id.patchValue(item.id);   
         this.addFormStep3.controls.buyer_name.patchValue(item.comm_name);
         this.addFormStep3.controls.buyer_legal_name.patchValue(item.legal_name);
@@ -1528,7 +1528,7 @@ export class AddEditCollectionComponent implements OnInit {
       }
       
       // buyer as a developer
-      if (this.model.buyer_type == 3) {   
+      if (this.model.buyer_type == '3') {   
         this.addFormStep3.controls.buyer_id.patchValue(item.id);
         this.addFormStep3.controls.buyer_name.patchValue(item.developer_company || '');
         this.addFormStep3.controls.buyer_legal_name.patchValue(item.name || '');
@@ -1723,14 +1723,14 @@ export class AddEditCollectionComponent implements OnInit {
       this.addFormStep2.controls.seller_type.patchValue(this.model.seller_type);
       this.addFormStep2.controls.step.patchValue(this.model.step);
        if (this.addFormStep2.valid) {
-        if (this.model.seller_type == 1 || this.model.seller_type == 3) {
+        if (this.model.seller_type == '1' || this.model.seller_type == '3') {
           if (!formdata['seller_id']) {
             this.toastr.error(this.translate.instant('message.error.pleaseChooseSeller'), this.translate.instant('swal.error'));
             return;
           }
         } 
   
-        if (this.model.seller_type != 1) {
+        if (this.model.seller_type != '1') {
           if (!formdata['seller_leg_rep_name'] || !formdata['seller_leg_rep_phone'] || !formdata['seller_leg_rep_email'] || !formdata['seller_leg_rep_fed_tax']) {
             this.toastr.error(this.translate.instant('message.error.pleaseFillLegalRepInfo'), this.translate.instant('swal.error'));
             return;
@@ -1749,13 +1749,13 @@ export class AddEditCollectionComponent implements OnInit {
       this.addFormStep3.controls.step.patchValue(this.model.step);
       // formdata['buyer_type'] = this.model.buyer_type;
        if (this.addFormStep3.valid) {
-        if (this.model.buyer_type == 1 || this.model.buyer_type == 3) {
+        if (this.model.buyer_type == '1' || this.model.buyer_type == '3') {
           if (!formdata['buyer_id']) {
             this.toastr.error(this.translate.instant('message.error.pleaseChooseBuyer'), this.translate.instant('swal.error'));
             return;
           }
         } 
-        if (this.model.buyer_type != 1) {
+        if (this.model.buyer_type != '1') {
           if (!formdata['buyer_leg_rep_name'] || !formdata['buyer_leg_rep_phone'] || !formdata['buyer_leg_rep_email'] || !formdata['buyer_leg_rep_fed_tax']) {
             this.toastr.error(this.translate.instant('message.error.pleaseFillLegalRepInfo'), this.translate.instant('swal.error'));
             return;
@@ -1771,6 +1771,7 @@ export class AddEditCollectionComponent implements OnInit {
     if (this.model.step == 4) {
       this.addFormStep4.controls.step.patchValue(this.model.step);
       delete this.addFormStep4.value.paymentchoice;
+      // console.log(this.addFormStep4.controls);
       if (this.addFormStep4.valid) {
     
         if (this.addFormStep4.controls.payment_choices.value && this.addFormStep4.controls.payment_choices.value.length < 1) {
@@ -1812,9 +1813,11 @@ export class AddEditCollectionComponent implements OnInit {
         return false;
       }
     }
+    // console.log(formdata);
 
     if (this.model.step == 5) {
       this.addFormStep5.controls.step.patchValue(this.model.step);
+      // console.log(this.addFormStep5.controls)
       if (this.addFormStep5.valid) {
        
         if (!formdata['deal_commission_agents']) {                    
@@ -1846,6 +1849,7 @@ export class AddEditCollectionComponent implements OnInit {
           element.add_purchase_commission = element.add_purchase_commission ? 1 : 0
         });
         formdata['collection_commissions'] = collection_commissions;
+        // console.log(formdata);
       } else {
         this.showError = true;
         return false;

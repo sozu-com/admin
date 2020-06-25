@@ -1644,7 +1644,7 @@
                 <div class="form-group-3">
                 <label>{{'addCollection.accountNumber' | translate}}</label>
                 <div class="clearfix"></div>
-                <input required autocomplete="off" class="form-control" type="number" minlength="10" maxlength="20" min="0" name="account_number" formControlName="account_number">
+                <input required autocomplete="off" class="form-control" type="number" min="0" name="account_number" formControlName="account_number">
               </div>
               <div *ngIf="showError  &&  (addFormStep5.controls.collection_agent_banks.controls[i].controls.account_number.invalid)">
                 <div *ngIf="addFormStep5.controls.collection_agent_banks.controls[i].controls.account_number.errors?.required " class="show-error">

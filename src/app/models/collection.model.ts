@@ -21,8 +21,8 @@ export class Collection {
     availabilityStatusId: string;
     is_property_sold: boolean;
     deal_price: number;
-    seller_type: number;
-    buyer_type: number;
+    seller_type: any;
+    buyer_type: any;
     building_configuration?: any;
     building_configuration_id: any;
     collection_commissions: any;

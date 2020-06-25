@@ -31,6 +31,7 @@ export class PropertiesComponent implements OnInit {
   lead_sort = 1;
   keyword: string;
   selecter_seller: SellerSelections;
+  selecter_buyer: SellerSelections;
   allSellers: Array<SellerSelections>;
   allExtBrokers: Array<UserModel>;
   allUsers: Array<UserModel>;
@@ -40,6 +41,7 @@ export class PropertiesComponent implements OnInit {
   locale: any;
   floors: Array<any>;
   seller_type: number;
+  user_type: string;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
 
   @ViewChild('modalOpen') modalOpen: ElementRef;
@@ -138,6 +140,7 @@ export class PropertiesComponent implements OnInit {
       delete input.agency_id;
     }
     delete input.seller_id;
+    delete input.buyer_id;
     this.admin.postDataApi('propertyHome', input).subscribe(
       success => {
         this.items = success.data;
@@ -370,11 +373,13 @@ export class PropertiesComponent implements OnInit {
     });
   }
 
-  getAllSellers(property: any, keyword: string, index, seller_type: number) {
+  getAllSellers(property: any, keyword: string, index, user_type: string, seller_type: number) {
     this.seller_type = seller_type;
+    this.user_type = user_type;
     this.spinner.show();
     if (index !== '') { this.parameter.index = index; }
-    if (property) {
+    if (property && user_type == 'seller') {
+      delete this.selecter_buyer;
       this.parameter.property_id = property.id;
       this.parameter.seller_id = property.selected_seller_id;
       this.admin.postDataApi('getSellerSelections', { property_id: property.id }).subscribe(r => {
@@ -382,16 +387,16 @@ export class PropertiesComponent implements OnInit {
         this.selecter_seller = r['selecter_seller'];
       });
     }
+    if (property && user_type == 'buyer') {
+      delete this.selecter_seller;
+      this.parameter.property_id = property.id;
+      this.parameter.buyer_id = property.selected_buyer_id;
+      this.selecter_buyer = property.selected_buyer;
+    }
     
     const input = { name: '', user_type: 0 };
     input.name = keyword !== '1' ? keyword : '';
     input.user_type = seller_type;
-    // if (this.tab == 2 && this.model.seller_type) {
-    //  input.user_type = this.model.seller_type;
-    // }
-    // if (this.tab == 3 && this.model.buyer_type) {
-    //  input.user_type = this.model.buyer_type;
-    // }
 
     this.admin.postDataApi('getAllBuyers', input).subscribe(r => {
       this.spinner.hide();
@@ -443,8 +448,13 @@ export class PropertiesComponent implements OnInit {
       this.parameter.text = status === 1 ? this.translate.instant('message.error.wantToAccessThisRequest') :
                           this.translate.instant('message.error.wantToRejectThisRequest');
     } else {
-      this.parameter.text = status === 1 ? this.translate.instant('message.error.wantToLinkSeller') :
-                          this.translate.instant('message.error.wantToUnLinkSeller');
+      if(this.user_type == 'seller') {
+        this.parameter.text = status === 1 ? this.translate.instant('message.error.wantToLinkSeller') :
+                            this.translate.instant('message.error.wantToUnLinkSeller');
+      } else {
+        this.parameter.text = status === 1 ? this.translate.instant('message.error.wantToLinkBuyer') :
+        this.translate.instant('message.error.wantToUnLinkBuyer');
+      }
     }
 
     swal({
@@ -471,17 +481,27 @@ export class PropertiesComponent implements OnInit {
     if (this.reason) {
       input.reason = this.reason;
     }
-    this.admin.postDataApi('changeStatusSellerSelection', input).subscribe(r => {
+    const url = this.user_type == 'seller' ? 'changeStatusSellerSelection' : 'changeStatusBuyerSelection';
+    this.admin.postDataApi(url, input).subscribe(r => {
       if (this.parameter.status === 1) {
-        this.parameter.seller_id = this.parameter.user_id;
-        this.items[this.parameter.index].selected_seller_id = this.parameter.user_id;
-        const sel_user = {
-          user: {name: ''}
-        };
-        this.items[this.parameter.index].selected_seller = sel_user;
-        this.items[this.parameter.index].selected_seller.user.name = this.parameter.fullName;
+        if (this.user_type == 'seller') {
+          this.parameter.seller_id = this.parameter.user_id;
+          this.items[this.parameter.index].selected_seller_id = this.parameter.user_id;
+          const sel_user = {
+            user: {name: ''}
+          };
+          this.items[this.parameter.index].selected_seller = sel_user;
+          this.items[this.parameter.index].selected_seller.user.name = this.parameter.fullName;
+        } else {
+          this.parameter.buyer_id = this.parameter.user_id;
+          this.items[this.parameter.index].selected_buyer_id = this.parameter.user_id;
+          const sel_user = {
+            user: {name: ''}
+          };
+          this.items[this.parameter.index].selected_buyer = sel_user;
+          this.items[this.parameter.index].selected_buyer.user.name = this.parameter.fullName;
+        }
       }
-      // const text = this.parameter.status === 1 ? 'accepted' : 'rejected';
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.doneSuccessfully'), 'success');
       // accept => then close listing modal
       if (this.parameter.status === 1) {

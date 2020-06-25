@@ -138,6 +138,7 @@ export interface IProperty {
   sort_by_flag?: any;
   count_flag?: any;
   seller_id?: any;
+  buyer_id?: any;
   noResultFound?: any;
   data_collector_id?: string;
   assignee_id?: string;
