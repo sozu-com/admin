@@ -117,9 +117,13 @@
     "legalName": "Legal Name",
     "name": "Name",
     "phone": "Phone",
+    "company":"Company",
+    "developerName":"Developer",
+    "freelancer":"Freelancer",
     "contactNumber": "Contact Number",
     "emailId": "Email ID",
     "address": "Address",
+    "legalAddress":"Legal Address",
     "fedralTaxPayerRegistry": "Federal Tax Payer Registry",
     "legalRepresentativeInfo": "Legal Representative Information",
     "freeLancerOrComapny": "Is Freelancer Or Company",
@@ -183,6 +187,7 @@
     "floatingInt": "Floating value (%)",
     "buildings": "Buildings",
     "selectCompany": "Select Company",
+    "selectDeveloper": "Select Developer",
     "maritalStatus": {
       "married": "Married",
       "unmarried": "Unmarried",
@@ -603,6 +608,7 @@
       "user": "User",
       "adminDataCollector": "Admin/Data Collector",
       "buildings": "Buildings",
+      "legalEntities": "Legal Entities",
       "requestsPending": "Requests Pending",
       "changePropertyFor": "Change Property For",
       "userChoice": "User Choice",
@@ -1682,7 +1688,8 @@
     "commercialName": "Commercial Name",
     "legalName": "Legal Name",
     "phone": "Phone",
-    "legalRep": "Legal Representative"
+    "legalRep": "Legal Representative",
+    "developer":"Developer"
   },
   "addLegalEntity": {
     "editEntity": "Edit Legal Entity",

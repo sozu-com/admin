@@ -19,6 +19,7 @@ export class Users {
     developer_company?: string;
     developer_desc?: string;
     developer_address?: string;
+    legal_address?: string;
     lat?: any;
     lng?: any;
     branch_office?: string;
@@ -26,6 +27,7 @@ export class Users {
     branch_lng?: any;
     page?: number;
     buildings_sort?: number;
+    legal_entities_sort?: number;
     images?: Array<any>;
     videos?: Array<string>;
     country_id?: string;

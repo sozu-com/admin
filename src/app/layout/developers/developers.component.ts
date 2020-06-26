@@ -42,7 +42,14 @@ export class DevelopersComponent implements OnInit {
   }
 
   setBuildingsSort(buildings_sort: number) {
+    delete this.model.legal_entities_sort;
     this.model.buildings_sort = buildings_sort;
+    this.getDevelopersFrAdmin();
+  }
+
+  setLegalEntitySort(legal_entities_sort: number) {
+    delete this.model.buildings_sort;
+    this.model.legal_entities_sort = legal_entities_sort;
     this.getDevelopersFrAdmin();
   }
 

@@ -117,10 +117,14 @@
     "legalName": "Nombre legal",
     "name": "Nombre",
     "phone": "Teléfono",
+    "company":"Compañía",
+    "developerName":"Desarrolladora",
+    "freelancer":"Independiente",
     "contactNumber": "Número de contacto",
     "emailId": "ID de Correo electrónico",
     "freeLancerOrComapny": "Es autónoma o empresa",
     "address": "Dirección",
+    "legalAddress":"Dirección Legal",
     "fedralTaxPayerRegistry": "Registro Federal de Pagadores de Impuestos",
     "legalRepresentativeInfo": "Información del representante legal",
     "agencyCommercialName": "Nombre de la agencia (nombre comercial)",
@@ -183,6 +187,7 @@
     "floatingInt": "Valor flotante (%)",
     "buildings": "Edificios",
     "selectCompany": "Seleccionar empresa",
+    "selectDeveloper": "Seleccionar desarrolladora",
     "maritalStatus": {
       "married": "Casado(a)",
       "unmarried": "Soltero(a)",
@@ -589,6 +594,7 @@
       "user": "Usuario",
       "adminDataCollector": "Admin/Data Collector",
       "buildings": "Edificios",
+      "legalEntities": "Entidades legales",
       "requestsPending": "Solicitud pendiente",
       "changePropertyFor": "Cambiar propiedad para",
       "userChoice": "Elección de usuario",
@@ -1672,7 +1678,8 @@
     "commercialName": "Nombre comercial",
     "legalName": "Nombre legal",
     "phone": "Teléfono",
-    "legalRep": "Representante legal"
+    "legalRep": "Representante legal",
+    "developer":"Desarrollador"
   },
   "addLegalEntity": {
     "editEntity": "Editar entidad legal",

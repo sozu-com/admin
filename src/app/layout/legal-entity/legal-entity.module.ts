@@ -10,6 +10,7 @@ import { Ng2TelInputModule } from 'ng2-tel-input';
 import { AgmCoreModule } from '@agm/core';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { TranslateModule } from '@ngx-translate/core';
+import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 
 // general components
 import { AclUserGuard } from 'src/app/guards/acl-user.guard';
@@ -20,6 +21,9 @@ import { AddLegalEntityComponent } from './add-legal-entity/add-legal-entity.com
 const routes: Routes = [
   {
     path: 'view-all', component: LegalEntityComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Developers Management', 'can_read', ''] }
+  },{
+    path: 'view-all/:developer_name/:developer_id', component: LegalEntityComponent,
     canActivate: [AclUserGuard], data: { roles: ['Developers Management', 'can_read', ''] }
   },
   {
@@ -43,7 +47,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     Ng2TelInputModule,
     SharedModule,
-    TranslateModule
+    TranslateModule,
+    MalihuScrollbarModule.forRoot()
   ],
   declarations: [
     LegalEntityComponent,

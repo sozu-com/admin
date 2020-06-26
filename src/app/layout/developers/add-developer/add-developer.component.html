@@ -75,7 +75,7 @@
             </div>
             <div class="col-12">
                 <div class="form-group-2">
-                  <label>Federal Tax Payer Registry 
+                  <label>{{'addForm.fedralTaxPayerRegistry' | translate}}
                     <!-- <span class="color-red">*</span> -->
                   </label>
                   <input autocomplete="off" minlength="12" maxlength="13" [pattern]="constant.onlyWhiteSpaces" type="text" 
@@ -84,7 +84,7 @@
             </div>
             
             <div class="col-12">
-              <label>Bank Account Information
+              <label>{{'addCollection.bankName' | translate}}
                 <!-- <span class="color-red">*</span> -->
                 <span class="pull-right"><a class="add" (click)="addDeveloperBank($event)" href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
               </label>
@@ -130,6 +130,13 @@
             </div>
             </div>
 
+            <div class="col-12">
+                <div class="form-group-2">
+                  <label>{{'addForm.legalAddress' | translate}} 
+                  </label>
+                  <input type="text" class="form-control" name="legal_address" [(ngModel)]="model.legal_address" autocomplete="off">
+                </div>
+            </div>
             <div class="col-12">
                 <div class="form-group-2">
                   <label>{{'addForm.address' | translate}} 

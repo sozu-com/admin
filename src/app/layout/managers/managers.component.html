@@ -246,8 +246,8 @@
                   <label>{{'addForm.freeLancerOrComapny' | translate}} <span class="color-red">*</span></label>
                   <div class="form-group">
                    <select class="form-control" required (change)="setIsCompany($event.target.value)" [(ngModel)]="model.is_company" name="is_company">
-                     <option value="true">Company</option>
-                     <option value="false">Freelancer</option>
+                     <option value="true">{{'addForm.company' | translate}}</option>
+                     <option value="false">{{'addForm.freelancer' | translate}}</option>
                    </select>
                  </div>
                </div>

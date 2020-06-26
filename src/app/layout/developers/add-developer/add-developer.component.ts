@@ -102,7 +102,7 @@ export class AddDeveloperComponent implements OnInit {
         // this.model.legal_representative = new LegalRepresentative();
         this.model.legal_rep_banks = success.data.legal_rep_banks;
         this.model.legal_representative = success.data.legal_representative || new LegalRepresentative();
-        console.log(success.data.legal_representative)
+        // console.log(success.data.legal_representative)
         console.log(this.model.legal_representative)
         this.model.legal_representative.legal_rep_banks = success.data.legal_representative.legal_rep_banks; // Array(new Banks());
        
@@ -235,9 +235,9 @@ export class AddDeveloperComponent implements OnInit {
               // this.image = ''; this.developer_image = '';
             } else {
               this.model = success.data;
-              this.model.legal_rep_banks = success.data.legal_rep_banks;
-              this.model.legal_representative = success.data.legal_representative;
-              this.model.legal_representative.legal_rep_banks = success.data.legal_representative.legal_rep_banks;
+              this.model.legal_rep_banks = success.data.legal_rep_banks || [];
+              this.model.legal_representative = success.data.legal_representative || new LegalRepresentative();
+              this.model.legal_representative.legal_rep_banks = success.data.legal_representative.legal_rep_banks || [];
             }
           }
         }, error => {

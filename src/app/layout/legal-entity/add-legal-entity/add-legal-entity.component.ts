@@ -11,6 +11,7 @@ import { CommonService } from 'src/app/services/common.service';
 import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LegalEntity, LegalRepresentative, Banks } from '../../../models/legalEntity.model';
+import { Developer } from 'src/app/models/global.model';
 declare const google;
 declare let swal: any;
 
@@ -21,12 +22,18 @@ declare let swal: any;
 })
 export class AddLegalEntityComponent implements OnInit {
 
+  @ViewChild('openDeveloperModel') openDeveloperModel: ElementRef;
+  @ViewChild('closeDeveloperModel') closeDeveloperModel: ElementRef;
+  public scrollbarOptions = { axis: 'y', theme: 'dark' };
   public parameter: IProperty = {};
   initialCountry: any;
   show = false;
+  name: string;
   model: LegalEntity;
   currencies: Array<any>;
   addDataForm: FormGroup;
+  all_developers: Array<Developer>;
+
   constructor(
     public constant: Constant,
     private cs: CommonService,
@@ -49,6 +56,7 @@ export class AddLegalEntityComponent implements OnInit {
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.p = this.constant.p;
     this.initForm();
+    this.getDevelopers('');
     this.initialCountry = {initialCountry: this.constant.country_code};
       this.parameter.sub = this.route.params.subscribe(params => {
         if (params['id'] !== '0') {
@@ -72,6 +80,7 @@ export class AddLegalEntityComponent implements OnInit {
       address: ['', [Validators.required]],
       fed_tax_pay: ['', [Validators.required]],
       legal_entity_banks: this.fb.array([]),
+      developer_id: [''],
       legal_rep: this.fb.group({
         id: [''],
         name: ['', [Validators.required]],
@@ -91,6 +100,14 @@ export class AddLegalEntityComponent implements OnInit {
     this.addDataForm.controls.country_code.patchValue(this.model.country_code);
     this.addDataForm.controls.dial_code.patchValue(this.model.dial_code);
     this.addDataForm.patchValue({legal_rep: countryDialCode});
+  }
+
+  getDevelopers(name: string) {
+    this.spinner.show();
+    this.admin.postDataApi('getUnblockedDevelopers', { name: name }).subscribe(r => {
+      this.spinner.hide();
+      this.all_developers = r.data;
+    });
   }
 
   getCurrencies() {

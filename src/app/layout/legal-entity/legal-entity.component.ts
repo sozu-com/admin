@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Users } from 'src/app/models/users.model';
 import { IProperty } from 'src/app/common/property';
@@ -23,13 +23,21 @@ export class LegalEntityComponent implements OnInit {
   legal_name: string;
   name: string;
   phone: string;
+  legal_rep_name: string;
+  developer_name: string;
+  developer_id: number;
   constructor(public constant: Constant, public admin: AdminService, private router: Router,
     private spinner: NgxSpinnerService,
-    private translate: TranslateService) { }
+    private translate: TranslateService,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
+    this.parameter.sub = this.route.params.subscribe(params => {
+      this.developer_name = params['developer_name'];
+      this.developer_id = params['developer_id'];
+    });
     this.getLegalEntity();
   }
 
@@ -44,6 +52,9 @@ export class LegalEntityComponent implements OnInit {
       legal_name: this.legal_name,
       phone: this.phone,
       name: this.name,
+      developer_name: this.developer_name,
+      legal_rep_name: this.legal_rep_name,
+      developer_id: this.developer_id,
       page: this.parameter.page
     };
     this.spinner.show();
@@ -130,5 +141,11 @@ export class LegalEntityComponent implements OnInit {
     error => {
       swal(this.translate.instant('swal.error'), error.error.message, 'error');
     });
+  }
+
+  viewProjects(item: any) {
+    if (item.user && item.user.name) {
+      this.router.navigate(['/dashboard/projects/view-projects/developer', item.user.id]);
+    }
   }
 }
