@@ -76,7 +76,7 @@
               <td class="text-left" *ngIf="item.phone">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
               <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
               <td class="text-left">{{item?.legal_reps?.name}}</td>
-              <td [ngClass]="{'green-color cursor-pointer': item?.user?.name}" (click)="viewProjects(item)"><span>
+              <td [ngClass]="{'green-color cursor-pointer': item?.user?.name}" (click)="viewDeveloper(item)"><span>
                 {{item?.user?.name || ('table.tr.td.NA' | translate)}}</span></td>
               <!-- <td class="text-left" routerLink="/dashboard/projects/view-projects/developer/{{item.id}}">{{item?.user?.name || ('table.tr.td.NA' | translate)}}</td> -->
               <td>

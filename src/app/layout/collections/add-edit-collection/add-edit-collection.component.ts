@@ -1459,8 +1459,8 @@ export class AddEditCollectionComponent implements OnInit {
       // seller as a developer
       if (this.model.seller_type == '3') {   
         this.addFormStep2.controls.seller_id.patchValue(item.id);
-        this.addFormStep2.controls.seller_name.patchValue(item.developer_company ? item.developer_company : '');
-        this.addFormStep2.controls.seller_legal_name.patchValue(item.name ? item.name : '');
+        this.addFormStep2.controls.seller_legal_name.patchValue(item.developer_company || '');
+        this.addFormStep2.controls.seller_name.patchValue(item.name || '');
         this.addFormStep2.controls.seller_fed_tax.patchValue(item.fed_tax_pay ? item.fed_tax_pay : '');
         this.addFormStep2.controls.seller_phone.patchValue(item.phone ? item.phone : '');
         this.addFormStep2.controls.seller_address.patchValue(item.developer_address ? item.developer_address : '');
@@ -1530,8 +1530,8 @@ export class AddEditCollectionComponent implements OnInit {
       // buyer as a developer
       if (this.model.buyer_type == '3') {   
         this.addFormStep3.controls.buyer_id.patchValue(item.id);
-        this.addFormStep3.controls.buyer_name.patchValue(item.developer_company || '');
-        this.addFormStep3.controls.buyer_legal_name.patchValue(item.name || '');
+        this.addFormStep3.controls.buyer_name.patchValue(item.name || '');
+        this.addFormStep3.controls.buyer_legal_name.patchValue(item.developer_company || '');
         this.addFormStep3.controls.buyer_fed_tax.patchValue(item.fed_tax_pay || '');
         this.addFormStep3.controls.buyer_phone.patchValue(item.phone || '');
         this.addFormStep3.controls.buyer_address.patchValue(item.developer_address || '');

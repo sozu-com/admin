@@ -494,6 +494,7 @@
       "nameOfBuilding": "Nombre del edificio",
       "nameOfTower": "Nombre de la torre",
       "floor":"Piso",
+      "model":"Modelo",
       "nameOfApartment": "Nombre del departamento",
       "configuration": "Configuración",
       "allConfiguration": "Toda la configuración",

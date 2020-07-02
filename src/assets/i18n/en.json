@@ -508,6 +508,7 @@
       "nameOfBuilding": "Name of Building",
       "nameOfTower": "Name of Tower",
       "floor":"Floor",
+      "model": "Model",
       "nameOfApartment": "Name of Apartment",
       "configuration": "Configuration",
       "allConfiguration": "All configuration",

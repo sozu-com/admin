@@ -143,9 +143,9 @@ export class LegalEntityComponent implements OnInit {
     });
   }
 
-  viewProjects(item: any) {
+  viewDeveloper(item: any) {
     if (item.user && item.user.name) {
-      this.router.navigate(['/dashboard/projects/view-projects/developer', item.user.id]);
+      this.router.navigate(['/dashboard/developers/view-all', item.user.name]);
     }
   }
 }

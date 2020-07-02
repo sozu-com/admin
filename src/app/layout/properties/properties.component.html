@@ -293,6 +293,15 @@
                            </th>
                            <th style="width:10%; text-align:left;">
                               <div class="table-search">
+                                 <label>{{'table.th.model' | translate}}</label>
+                                 <!-- <div class="searh-3">
+                                    <input class="width120px" type="text" [(ngModel)]="parameter.configuration_name" (keyup.enter)="getListing()" >
+                                    <button *ngIf="parameter.configuration_name" (click)="getListing()"><i class="fa fa-search"></i></button>
+                                 </div> -->
+                              </div>
+                           </th>
+                           <th style="width:10%; text-align:left;">
+                              <div class="table-search">
                                  <label>{{'table.th.configuration' | translate}}</label>
                                  <select [(ngModel)]="parameter.configuration_id" (change)="getListing()">
                                     <option value="0">{{'table.th.allConfiguration' | translate}}</option>
@@ -422,11 +431,12 @@
                                     : ('table.tr.td.NA' | translate)}}</span></td>
                               <td><span>{{p?.name || ('table.tr.td.NA' | translate)}}</span></td>
                               <td>
-                                 <app-property-configuration *ngIf="p?.building_configuration" [configuration]="p.building_configuration.config"></app-property-configuration>
-                                 <br>
                                  <span [style.textAlign]="'center'">
-                                       <b>{{p?.building_configuration?.name || ('table.tr.td.NA' | translate)}}</b>
-                                 </span>
+                                    <b>{{p?.building_configuration?.name || ('table.tr.td.NA' | translate)}}</b>
+                                    </span>
+                              </td>
+                              <td>
+                                 <app-property-configuration *ngIf="p?.building_configuration" [configuration]="p.building_configuration.config"></app-property-configuration>
                               </td>
                               <td><span>{{p.min_price | price}}</span></td>
                               <td><span>
