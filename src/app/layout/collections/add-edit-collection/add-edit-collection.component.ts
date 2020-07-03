@@ -204,7 +204,8 @@ export class AddEditCollectionComponent implements OnInit {
         today: 'Today',
         clear: 'Clear',
         dateFormat: 'mm/dd/yy',
-        weekHeader: 'Wk'
+        weekHeader: 'Wk',
+        dataType: 'string'
       }
     } else {
       this.locale = {
@@ -219,7 +220,8 @@ export class AddEditCollectionComponent implements OnInit {
         today: 'Hoy',
         clear: 'Clara',
         dateFormat: 'mm/dd/yy',
-        weekHeader: 'Sm'
+        weekHeader: 'Sm',
+        dataType: 'string'
       };
     }
   }
@@ -648,6 +650,7 @@ export class AddEditCollectionComponent implements OnInit {
           const element1 = data.collection_commissions[index];
           const obj = {};
           obj['id'] = data.collection_commissions.length > 0 && data.collection_commissions[index] ? data.collection_commissions[index].id : '';
+          obj['pc_id'] = element['payment_choice_id'];   // payment choice dropdown id
           obj['name'] = element['name'];
           obj['date'] = element['date'];
           obj['payment_amount'] = element['amount'];
@@ -1067,7 +1070,9 @@ export class AddEditCollectionComponent implements OnInit {
     let name = '';
     // moment.utc(x.date).local().toDate() : null;
     // monthly_date = moment.utc(moment(monthly_date).add(index, 'months').format('YYYY-MM-DD')).toDate();
-    monthly_date = new Date(moment(monthly_date).add(index, 'months').format('YYYY-MM-DD'));
+    // monthly_date = new Date(moment(monthly_date).add(index, 'months').format('YYYY-MM-DD'));
+    // monthly_date = moment.utc(monthly_date).add(index, 'months').toDate();
+    monthly_date = moment(monthly_date).add(index, 'months').toDate();
     this.paymentChoices.map(r => {
       if (r.id == 5) {
         name = r.name + ' ' + (index + 1);
@@ -1637,10 +1642,34 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep4.controls['sum_of_concepts'].patchValue(this.numberUptoTwoDecimal(sum_of_concepts));
   }
 
+  setCollectionComm(percent: number, index: number) {
+    const pcArray: Array<any> = this.addFormStep5.get('collection_commissions').value;
+    const installOne = pcArray.find(r => r.pc_id == 5);
+    // if first monthly installment percent added, => update amount in all monthly installments
+    if (installOne.id == pcArray[index].id) {
+      pcArray.map(e => {
+        if (e.pc_id == 5) {
+          e.add_collection_commission = true;
+        }
+      })
+    }
+    this.addFormStep5.controls['collection_commissions'].patchValue(pcArray);
+  }
+
   getCollAmount(percent: number, index: number, payment_amount: number) {
     const amount = this.numberUptoTwoDecimal((percent * payment_amount) / 100);
-    const pcArray = this.addFormStep5.get('collection_commissions').value;
+    const pcArray: Array<any> = this.addFormStep5.get('collection_commissions').value;
     pcArray[index].amount = amount;
+    const installOne = pcArray.find(r => r.pc_id == 5);
+    // if first monthly installment percent added, => update amount in all monthly installments
+    if (installOne.id == pcArray[index].id) {
+      pcArray.map(e => {
+        if (e.pc_id == 5) {
+          e.amount = amount;
+          e.percent = percent;
+        }
+      })
+    }
     this.addFormStep5.controls['collection_commissions'].patchValue(pcArray);
   }
 
@@ -1648,6 +1677,16 @@ export class AddEditCollectionComponent implements OnInit {
     const pcArray = this.addFormStep5.get('collection_commissions').value;
     const percent = this.numberUptoTwoDecimal((amount * 100) / payment_amount);
     pcArray[index].percent = percent;
+    const installOne = pcArray.find(r => r.pc_id == 5);
+    // if first monthly installment percent added, => update amount in all monthly installments
+    if (installOne.id == pcArray[index].id) {
+      pcArray.map(e => {
+        if (e.pc_id == 5) {
+          e.amount = amount;
+          e.percent = percent;
+        }
+      })
+    }
     this.addFormStep5.controls['collection_commissions'].patchValue(pcArray);
   }
 
@@ -1781,12 +1820,14 @@ export class AddEditCollectionComponent implements OnInit {
 
         // converting to local
         const d = formdata['deal_purchase_date'];
-        const nd = moment(d).add(330, 'minutes').toDate();
-        formdata['deal_purchase_date']=nd;
+        // const nd = moment(d).add(330, 'minutes').toDate();
+        formdata['deal_purchase_date']=moment(d).format('YYYY-MM-DD');
         let paymentSum = 0;
         let i = 0;
         for (let index = 0; index < formdata['payment_choices'].length; index++) {
           const element = formdata['payment_choices'][index];
+          // console.log(element.date);
+
           if (!element.name || !element.amount || !element.date || !element.percent) {
             i = i + 1;
             const text = element.name ? 
@@ -1797,7 +1838,11 @@ export class AddEditCollectionComponent implements OnInit {
             this.toastr.error(text, this.translate.instant('swal.error'));
             return;
           }
-          element.date = moment(element.date).add(330, 'minutes').toDate();
+          // element.date = moment(moment.utc(element.date).toDate()).local().toDate();
+          // console.log(element.date);
+          element.date = moment(element.date).format('YYYY-MM-DD');
+          // console.log(element.date);
+          // element.date = moment(element.date).add(330, 'minutes').toDate();
           paymentSum = paymentSum + parseInt(element.amount || 0);
         }
         // check if total sum of monthly installments is equal or greater than property price
@@ -1900,6 +1945,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
    numberUptoTwoDecimal(num: any) {
+     console.log(num);
      return num.toFixed(2);
    }
 }
