@@ -192,6 +192,23 @@ export class InhouseUsersComponent implements OnInit {
         this.model.is_csr_closer = true;
         break;
 
+      case 'csr-renters':
+        this.parameter.url = 'getCsrRenter';
+        this.model.is_csr_renter = true;
+        break;
+
+        
+      case 'credit-agents':
+        this.parameter.url = 'getCreditAgent';
+        this.model.is_credit_agent = true;
+        break;
+
+      
+      case 'collection-agents':
+        this.parameter.url = 'getCollectionAgent';
+        this.model.is_collection_agent = true;
+        break;
+
       default:
         this.parameter.url = 'getDataCollectors';
         this.model.is_data_collector = true;
@@ -281,6 +298,9 @@ export class InhouseUsersComponent implements OnInit {
     input.append('is_data_collector', formdata.value.is_data_collector === true ? '1' : '0');
     input.append('is_csr_closer', formdata.value.is_csr_closer === true ? '1' : '0');
     input.append('is_external_agent', this.model.is_external_agent ? '1' : '0');
+    input.append('is_credit_agent', this.model.is_credit_agent ? '1' : '0');
+    input.append('is_collection_agent', this.model.is_collection_agent ? '1' : '0');
+    input.append('is_csr_renter', this.model.is_csr_renter ? '1' : '0');
 
     if ((this.parameter.userType=='outside-broker' || this.model.is_external_agent) && (this.model.is_company=='false')) {
       input.append('adr', this.model.adr || '');
@@ -375,6 +395,9 @@ export class InhouseUsersComponent implements OnInit {
                   (formdata.value.is_broker === true && this.parameter.userType === 'inhouse-broker') ||
                   (formdata.value.is_external_agent === true && this.parameter.userType === 'outside-broker') ||
                   (formdata.value.is_data_collector === true && this.parameter.userType === 'data-collectors') ||
+                  (formdata.value.is_csr_renter === true && this.parameter.userType === 'csr-renters') ||
+                  (formdata.value.is_credit_agent === true && this.parameter.userType === 'credit-agents') ||
+                  (formdata.value.is_collection_agent === true && this.parameter.userType === 'collection-agents') ||
                   (formdata.value.is_csr_closer === true && this.parameter.userType === 'csr-closers')) {
                   this.parameter.items.push(success.data);
                   this.parameter.total++;
@@ -438,7 +461,10 @@ export class InhouseUsersComponent implements OnInit {
       this.model.is_data_collector = userdata.permissions && userdata.permissions.can_data_collector === 1 ? true : false;
       this.model.is_csr_closer = userdata.permissions && userdata.permissions.can_csr_closer === 1 ? true : false;
       this.model.is_external_agent = userdata.is_external_agent && userdata.is_external_agent.toString() === '1' ? true : false;
-
+      this.model.is_csr_renter = userdata.permissions && userdata.permissions.can_csr_renter === 1 ? true : false;
+      this.model.is_collection_agent = userdata.permissions && userdata.permissions.can_collection_agent === 1 ? true : false;
+      this.model.is_credit_agent = userdata.permissions && userdata.permissions.can_credit_agent === 1 ? true : false;
+  
       for (let ind = 0; ind < userdata.countries.length; ind++) {
         const tempAdd = {
           countries: userdata.countries[ind].id.toString(),
@@ -467,6 +493,9 @@ export class InhouseUsersComponent implements OnInit {
     this.model.is_external_agent = userdata.permissions && userdata.permissions.can_outside_broker === 1 ? true : false;
     this.model.is_data_collector = userdata.permissions && userdata.permissions.can_data_collector === 1 ? true : false;
     this.model.is_csr_closer = userdata.permissions && userdata.permissions.can_csr_closer === 1 ? true : false;
+    this.model.is_csr_renter = userdata.permissions && userdata.permissions.can_csr_renter === 1 ? true : false;
+    this.model.is_collection_agent = userdata.permissions && userdata.permissions.can_collection_agent === 1 ? true : false;
+    this.model.is_credit_agent = userdata.permissions && userdata.permissions.can_credit_agent === 1 ? true : false;
 
     // for (let ind = 0; ind < userdata.countries.length; ind++) {
     //   const tempAdd = {
@@ -642,6 +671,24 @@ export class InhouseUsersComponent implements OnInit {
         this.parameter.url = 'getCsrClosers';
         this.title = 'CSR Closures';
         this.parameter.type = 5;
+        break;
+
+      case 'csr-renters':
+        this.parameter.url = 'getCsrRenter';
+        this.title = 'CSR Renters';
+        this.parameter.type = 6;
+        break;
+
+      case 'credit-agents':
+        this.parameter.url = 'getCreditAgent';
+        this.title = 'Credit Agents';
+        this.parameter.type = 7;
+        break;
+
+      case 'collection-agents':
+        this.parameter.url = 'getCollectionAgent';
+        this.title = 'Collection Agents';
+        this.parameter.type = 8;
         break;
 
       default:

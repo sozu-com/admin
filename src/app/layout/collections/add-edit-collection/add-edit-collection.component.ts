@@ -1644,14 +1644,25 @@ export class AddEditCollectionComponent implements OnInit {
 
   setCollectionComm(percent: number, index: number) {
     const pcArray: Array<any> = this.addFormStep5.get('collection_commissions').value;
+    console.log(pcArray)
     const installOne = pcArray.find(r => r.pc_id == 5);
     // if first monthly installment percent added, => update amount in all monthly installments
-    if (installOne.id == pcArray[index].id) {
-      pcArray.map(e => {
+    // console.log(installOne);
+    console.log(index)
+    if (installOne.name == pcArray[index].name) {
+      // console.log(installOne.add_collection_commission)
+      // const sta = !installOne.add_collection_commission ? true : false;
+      const sta =true;
+      console.log('pp')
+      // console.log('s',sta)
+      for (let index = 0; index < pcArray.length; index++) {
+        const e = pcArray[index];
         if (e.pc_id == 5) {
-          e.add_collection_commission = true;
+          console.log(index)
+          e.add_collection_commission = sta;
+          installOne.add_collection_commission = sta;
         }
-      })
+      }
     }
     this.addFormStep5.controls['collection_commissions'].patchValue(pcArray);
   }

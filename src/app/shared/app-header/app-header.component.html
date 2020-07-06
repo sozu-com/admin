@@ -114,7 +114,10 @@
                                 <!-- <li *ngIf="admin?.admin_acl['Broker Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/inhouse-broker">Inhouse Agent</a></li>
                                 <li *ngIf="admin?.admin_acl['Outside Broker Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/outside-broker">Outside Agent</a></li> -->
                                 <li *ngIf="admin?.admin_acl['Closer Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/csr-closers">{{'sidebar.CSRClosure' | translate}}</a></li>
-                             </ul>
+                                <li *ngIf="admin?.admin_acl['Closer Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/credit-agents">{{'sidebar.creditAgent' | translate}}</a></li>
+                                <li *ngIf="admin?.admin_acl['Closer Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/csr-renters">{{'sidebar.CSRRenter' | translate}}</a></li>
+                                <li *ngIf="admin?.admin_acl['Closer Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/collection-agents">{{'sidebar.collectionAgent' | translate}}</a></li>
+                              </ul>
                           </div>
                        </li>
 

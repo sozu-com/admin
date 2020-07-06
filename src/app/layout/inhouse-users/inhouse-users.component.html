@@ -31,6 +31,9 @@
                 admin?.admin_acl['Buyer Management']?.can_create==1 && parameter.userType=='csr-buyers' ||
                 admin?.admin_acl['Broker Management']?.can_create==1 && parameter.userType=='inhouse-broker' ||
                 admin?.admin_acl['Outside Broker Management']?.can_create==1 && parameter.userType=='outside-broker' ||
+                admin?.admin_acl['Credit Agent Management']?.can_create==1 && parameter.userType=='credit-agents' ||
+                admin?.admin_acl['Collection Agent Management']?.can_create==1 && parameter.userType=='collection-agents' ||
+                admin?.admin_acl['Renter Management']?.can_create==1 && parameter.userType=='csr-renters' ||
                 admin?.admin_acl['Closer Management']?.can_create==1 && parameter.userType=='csr-closers'" class="btn btn-primary-new width100P" href="javascript://" (click)="openAddModal()">{{'table.addNewBtn' | translate}}</a>
           </div>
         </div>
@@ -226,7 +229,10 @@
                     admin?.admin_acl['Buyer Management']?.can_update==0 && parameter.userType=='csr-buyers' ||
                     admin?.admin_acl['Broker Management']?.can_update==0 && parameter.userType=='inhouse-broker' ||
                     admin?.admin_acl['Closer Management']?.can_update==0 && parameter.userType=='csr-closers' ||
-                    admin?.admin_acl['Outside Broker Management']?.can_delete==0 && parameter.userType=='outside-broker'" 
+                    admin?.admin_acl['Credit Agent Management']?.can_update==0 && parameter.userType=='credit-agents' ||
+                    admin?.admin_acl['Collection Agent Management']?.can_update==0 && parameter.userType=='collection-agents' ||
+                    admin?.admin_acl['Renter Management']?.can_update==0 && parameter.userType=='csr-renters' ||
+                    admin?.admin_acl['Outside Broker Management']?.can_update==0 && parameter.userType=='outside-broker'" 
                   (click)="editUser(item, i)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
   
                   <button [disabled]="admin?.admin_acl['Data Collector Management']?.can_delete==0 && parameter.userType=='data-collectors' ||
@@ -234,6 +240,9 @@
                     admin?.admin_acl['Buyer Management']?.can_delete==0 && parameter.userType=='csr-buyers' ||
                     admin?.admin_acl['Broker Management']?.can_delete==0 && parameter.userType=='inhouse-broker' ||
                     admin?.admin_acl['Closer Management']?.can_delete==0 && parameter.userType=='csr-closers' ||
+                    admin?.admin_acl['Credit Agent Management']?.can_delete==0 && parameter.userType=='credit-agents' ||
+                    admin?.admin_acl['Collection Agent Management']?.can_delete==0 && parameter.userType=='collection-agents' ||
+                    admin?.admin_acl['Renter Management']?.can_delete==0 && parameter.userType=='csr-renters' ||
                     admin?.admin_acl['Outside Broker Management']?.can_delete==0 && parameter.userType=='outside-broker'"
                   (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1, parameter.type)" 
                   title="{{item.is_blocked==1 ? ('table.title.unblock' | translate) : ('table.title.block' | translate)}}" 
@@ -246,6 +255,9 @@
                   admin?.admin_acl['Buyer Management']?.can_purge==0 && parameter.userType=='csr-buyers' ||
                   admin?.admin_acl['Broker Management']?.can_purge==0 && parameter.userType=='inhouse-broker' ||
                   admin?.admin_acl['Closer Management']?.can_purge==0 && parameter.userType=='csr-closers' ||
+                  admin?.admin_acl['Credit Agent Management']?.can_purge==0 && parameter.userType=='credit-agents' ||
+                  admin?.admin_acl['Collection Agent Management']?.can_purge==0 && parameter.userType=='collection-agents' ||
+                  admin?.admin_acl['Renter Management']?.can_purge==0 && parameter.userType=='csr-renters' ||
                   admin?.admin_acl['Outside Broker Management']?.can_purge==0 && parameter.userType=='outside-broker'" 
                 (click)="deletePopup(item, i);" class="action-icon" title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png" alt="img"></button>
                 </div>
@@ -452,6 +464,21 @@
                       <input type="checkbox" [(ngModel)]="model.is_csr_closer" name="is_csr_closer">
                       <span class="checkmark"></span>
                     </label>
+                    
+                    <label *ngIf="parameter.userType!='inhouse-broker' && parameter.userType!='outside-broker'" [ngClass]="{'access-control11': model.is_csr_renter == true}" class="cust-check-bx2">{{'addForm.CSRRenter' | translate}}
+                      <input type="checkbox" [(ngModel)]="model.is_csr_renter" name="is_csr_renter">
+                      <span class="checkmark"></span>
+                    </label>
+                    
+                    <label *ngIf="parameter.userType!='inhouse-broker' && parameter.userType!='outside-broker'" [ngClass]="{'access-control11': model.is_collection_agent == true}" class="cust-check-bx2">{{'addForm.collectionAgent' | translate}}
+                      <input type="checkbox" [(ngModel)]="model.is_collection_agent" name="is_collection_agent">
+                      <span class="checkmark"></span>
+                    </label>
+                    
+                    <label *ngIf="parameter.userType!='inhouse-broker' && parameter.userType!='outside-broker'" [ngClass]="{'access-control11': model.is_credit_agent == true}" class="cust-check-bx2">{{'addForm.creditAgent' | translate}}
+                      <input type="checkbox" [(ngModel)]="model.is_credit_agent" name="is_credit_agent">
+                      <span class="checkmark"></span>
+                    </label>
                   </div>
                 </div>
               </div>
@@ -571,6 +598,18 @@
                  </label>
                  <label [ngClass]="{'access-control11': model.is_csr_closer == true}" class="cust-check-bx2">{{'addForm.CSRClosure' | translate}}
                    <input disabled type="checkbox" [(ngModel)]="model.is_csr_closer" name="is_csr_closer">
+                   <span class="checkmark"></span>
+                 </label>
+                 <label [ngClass]="{'access-control11': model.is_csr_renter == true}" class="cust-check-bx2">{{'addForm.CSRRenter' | translate}}
+                   <input disabled type="checkbox" [(ngModel)]="model.is_csr_renter" name="is_csr_renter1">
+                   <span class="checkmark"></span>
+                 </label>
+                 <label [ngClass]="{'access-control11': model.is_credit_agent == true}" class="cust-check-bx2">{{'addForm.creditAgent' | translate}}
+                   <input disabled type="checkbox" [(ngModel)]="model.is_credit_agent" name="is_credit_agent1">
+                   <span class="checkmark"></span>
+                 </label>
+                 <label [ngClass]="{'access-control11': model.is_collection_agent == true}" class="cust-check-bx2">{{'addForm.collectionAgent' | translate}}
+                   <input disabled type="checkbox" [(ngModel)]="model.is_collection_agent" name="is_collection_agent1">
                    <span class="checkmark"></span>
                  </label>
               </div>

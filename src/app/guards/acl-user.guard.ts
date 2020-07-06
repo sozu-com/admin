@@ -39,6 +39,9 @@ export class AclUserGuard implements CanActivate {
         ((state.url === '/dashboard/view-inhouse-users/csr-buyers') && (admin_acl['Buyer Management']['can_read'] === 1)) ||
         ((state.url === '/dashboard/view-inhouse-users/inhouse-broker') && (admin_acl['Broker Management']['can_read'] === 1)) ||
         ((state.url === '/dashboard/view-inhouse-users/outside-broker') && (admin_acl['Outside Broker Management']['can_read'] === 1)) ||
+        ((state.url === '/dashboard/view-inhouse-users/csr-renters') && (admin_acl['Renter Management']['can_read'] === 1)) ||
+        ((state.url === '/dashboard/view-inhouse-users/collection-agents') && (admin_acl['Collection Agent Management']['can_read'] === 1)) ||
+        ((state.url === '/dashboard/view-inhouse-users/credit-agents') && (admin_acl['Credit Agent Management']['can_read'] === 1)) ||
         ((state.url === '/dashboard/view-inhouse-users/csr-closers') && (admin_acl['Closer Management']['can_read'] === 1))) {
           return true;
       } else if ((obj && obj[subkey] === 1) || (permissions && permissions[inhouseUserRole] === 1)) {
