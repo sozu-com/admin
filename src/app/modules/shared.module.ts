@@ -21,6 +21,7 @@ import { ProjectBlockComponent } from '../layout/common-blocks/project-block/pro
 import { RoundNumberPipe } from '../pipes/round-number.pipe';
 import { UptoTwoDigitDecimalNumberDirective } from '../directives/upto-two-digit-decimal-number.directive';
 import { LocalizedNumericInputDirective } from '../directives/localized-numeric-input.directive';
+import { AddressComponent } from 'src/app/layout/inhouse-users/address/address.component';
 
 @NgModule({
   imports: [
@@ -48,7 +49,8 @@ import { LocalizedNumericInputDirective } from '../directives/localized-numeric-
     ProjectBlockComponent,
     RoundNumberPipe,
     UptoTwoDigitDecimalNumberDirective,
-    LocalizedNumericInputDirective
+    LocalizedNumericInputDirective,
+    AddressComponent
   ],
   exports: [
     ChatComponent,
@@ -66,7 +68,8 @@ import { LocalizedNumericInputDirective } from '../directives/localized-numeric-
     ProjectBlockComponent,
     RoundNumberPipe,
     UptoTwoDigitDecimalNumberDirective,
-    LocalizedNumericInputDirective
+    LocalizedNumericInputDirective,
+    AddressComponent
   ]
 })
 export class SharedModule { }

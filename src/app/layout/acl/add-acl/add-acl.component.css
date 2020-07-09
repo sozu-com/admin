@@ -1,0 +1,51 @@
+.form-group-2 .cust-radio {
+    float: left;
+    display: block;
+    font-size: 18px;
+    margin-right: 10px;
+    font-family: 'sf_ui_textregular';
+}
+/* .form-group-2 label {
+    color: #434B52;
+    font-size: 16px; */
+/* } */
+.cust-radio {
+    display: block;
+    position: relative;
+    padding-left: 0;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 18px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* .cust-radio input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    }
+    .cust-radio .checkmark {
+    background-color: #fff;
+    border-radius: 20px;
+    text-align: center;
+    border: 1px solid rgba(179,179,179,0.5);
+    padding-top: 2px;
+    display:inline-block;
+    padding: 1.5px 20px;
+    min-width: 88px;
+    }
+    .cust-radio input:checked ~ .checkmark {
+    background-color: #00B96F;
+    color:#fff; 
+    }
+    .cust-radio .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    }
+    .cust-radio input:checked ~ .checkmark:after {
+    display: block;
+    } */

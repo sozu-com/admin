@@ -146,6 +146,10 @@ export class InhouseUsersComponent implements OnInit {
     this.initialCountry = { initialCountry: e.iso2 };
   }
 
+  showAclAddPage() {
+    this.router.navigate(['/dashboard/access-control-mgt/add-acl-user', 0]);
+  }
+
   openAddModal() {
     this.model.address = [];
     this.model.img_loader = false;
@@ -415,6 +419,10 @@ export class InhouseUsersComponent implements OnInit {
   setIsCompany(is_company: string) {
     console.log(is_company);
     this.model.is_company = is_company;
+  }
+
+  getACLById(id: string) {
+    this.router.navigate(['/dashboard/access-control-mgt/add-acl-user', id]);
   }
 
   editUser(userdata, index) {

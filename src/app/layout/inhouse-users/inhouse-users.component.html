@@ -34,7 +34,7 @@
                 admin?.admin_acl['Credit Agent Management']?.can_create==1 && parameter.userType=='credit-agents' ||
                 admin?.admin_acl['Collection Agent Management']?.can_create==1 && parameter.userType=='collection-agents' ||
                 admin?.admin_acl['Renter Management']?.can_create==1 && parameter.userType=='csr-renters' ||
-                admin?.admin_acl['Closer Management']?.can_create==1 && parameter.userType=='csr-closers'" class="btn btn-primary-new width100P" href="javascript://" (click)="openAddModal()">{{'table.addNewBtn' | translate}}</a>
+                admin?.admin_acl['Closer Management']?.can_create==1 && parameter.userType=='csr-closers'" class="btn btn-primary-new width100P" href="javascript://" (click)="showAclAddPage()">{{'table.addNewBtn' | translate}}</a>
           </div>
         </div>
     </div>
@@ -233,7 +233,7 @@
                     admin?.admin_acl['Collection Agent Management']?.can_update==0 && parameter.userType=='collection-agents' ||
                     admin?.admin_acl['Renter Management']?.can_update==0 && parameter.userType=='csr-renters' ||
                     admin?.admin_acl['Outside Broker Management']?.can_update==0 && parameter.userType=='outside-broker'" 
-                  (click)="editUser(item, i)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                  (click)="getACLById(item.id)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
   
                   <button [disabled]="admin?.admin_acl['Data Collector Management']?.can_delete==0 && parameter.userType=='data-collectors' ||
                     admin?.admin_acl['Seller Management']?.can_delete==0 && parameter.userType=='csr-sellers' ||

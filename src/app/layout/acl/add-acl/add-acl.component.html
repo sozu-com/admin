@@ -53,7 +53,129 @@
                 </div>
             </div>
           </div>
-          <div class="access-controls">
+
+
+          <div class="row">
+         <!-- new addition -->
+         <div class="col-12">
+            <div class="form-group-2">
+               <label>Choose User Type<span class="color-red">*</span></label>
+               <div class="form-group">
+                <select class="form-control" required (change)="setUserType($event.target.value)" [(ngModel)]="model.user_type" name="user_type">
+                  <option value="">Choose User Type</option>
+                  <option value="1">Customised Role</option>
+                  <option value="2">Predefined Role</option>
+                </select>
+              </div>
+            </div>
+         </div>
+         <div class="col-12" *ngIf="model.user_type">
+            <div class="form-group-2">
+               <label>Choose User Roles <span class="color-red">*</span></label>
+                <div class="clearfix"></div>
+                <div>
+                <label class="cust-radio" *ngFor="let user of predefinedUsers; let i=index">
+                  <input type="checkbox" (change)="setPredefinedUsers(user, $event.target.value, i)"
+                    [value]="user.value" [checked]="user.value ? 'checked' : ''"
+                    name="user_id">
+                  <span class="checkmark">{{user.title}}|{{user.value}}|{{user.key}}</span>
+                </label>       
+              </div>
+                <div class="clearfix"></div>
+            </div>
+         </div>
+         <br>
+          <div class="col-12" *ngIf="model.is_external_agent">
+             <div class="form-group-2">
+              <div class="clearfix"></div>
+                <label>{{'addForm.freeLancerOrComapny' | translate}} <span class="color-red">*</span></label>
+                <div class="form-group">
+                 <select class="form-control" required (change)="setIsCompany($event.target.value)" [(ngModel)]="model.is_company" name="is_company">
+                   <option value="true">Company</option>
+                   <option value="false">Freelancer</option>
+                 </select>
+               </div>
+             </div>
+          </div>
+          <div class="col-12" *ngIf="model.is_external_agent && model.is_company=='true'">
+           <div class="form-group-2">
+             <label>{{'addForm.agencyCommercialName' | translate}}</label>
+             <div class="form-group marginB0">
+               <select required title="{{'table.title.chooseAgency' | translate}}" name="agency" class="form-control" (change)="setAgency($event.target.value)">
+                 <option value="">{{'addForm.selectAgency' | translate}}</option>
+                 <option *ngFor="let agency of agencies" value="{{agency.id}}" [selected]="model?.agency?.id == agency.id">{{agency.name}}</option>
+               </select>
+             </div>
+           </div>
+         </div>
+         </div>
+         <div class="row" *ngIf="model.is_external_agent && model.is_company=='false'">
+            <div class="col-12">
+              <div class="form-group-2">
+                 <label>{{'addForm.rfcLegalId' | translate}} 
+                   <!-- <span class="color-red">*</span> -->
+                  </label>
+                 <div class="form-group">
+                  <input autocomplete="off" type="text" class="form-control" name="rfc_legal_id" [(ngModel)]="model.rfc_legal_id">
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group-2">
+                 <label>{{'addForm.address' | translate}}  
+                   <!-- <span class="color-red">*</span> -->
+                </label>
+                 <div class="form-group">
+                  <input placeholder="Search for address" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search1 (input)="loadPlaces('adr', 'lat', 'lng', 'searchElementRef')" name="adr" [(ngModel)]="model.adr" autocomplete="off">
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group-2">
+                  <label>{{'addForm.locationPinOnMap' | translate}} 
+                    <!-- <span class="color-red">*</span> -->
+                  </label>
+                 <div class="form-group">
+                  <agm-map class="height200" [latitude]="model.lat" [longitude]="model.lng" [scrollwheel]="false" (mapClick)="placeMarker($event, 'lat', 'lng', 'adr')" [zoom]="constant.zoom">
+                    <agm-marker [latitude]="model.lat" [longitude]="model.lng"></agm-marker>
+                  </agm-map>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group-2">
+                 <label>{{'addForm.description' | translate}} 
+                   <!-- <span class="color-red">*</span> -->
+                </label>
+                 <div class="form-group">
+                  <textarea autocomplete="off" rows="3" class="form-control" name="description" [(ngModel)]="model.description"></textarea>
+                </div>
+              </div>
+            </div>
+            </div>
+
+            <div class="row">      
+              <div class="col-12">
+                <div class="form-group-2">
+                  <label>{{'addForm.locationTitle' | translate}}<span class="color-red">*</span></label>
+                  <div class="row">
+                    <div class="col-10" *ngFor="let add of model.address; let j=index">
+                      <app-address [countries]="parameter.countries" [address]="add" [index]="j" [status]="false" [disabledBuildings]="disabledBuildings" (disabledBuilding)="disabledBuildingId(j)" (removeAddress)="removeAddressObj($event)"></app-address>
+                    </div>
+                    <div class="col-2" *ngIf="model.address?.length!=0">
+                      <div class="btn-cont center">
+                        <button type="button" class="btn btn-primary-new margin0" (click)="addEmptyObj()">
+                          <img src="assets/img/add.png" alt="img">
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <div class="access-controls">
               <div class="select-controls select-controls-1" *ngFor="let permission of model.admin_acl; let i=index">
               <label class="cust-check-bx2" [ngClass]="{'access-control11':permission.can_create==1 || permission.can_read==1 || permission.can_update==1 || permission.can_delete==1 || permission.can_purge==1}">{{permission?.acl?.name}}
               <input (click)="expandBox(i)" type="checkbox" [checked]="permission.can_create == 1 || permission.can_read==1 || permission.can_update==1 || permission.can_delete==1 || permission.can_purge==1 ? 'checked': ''">
@@ -104,45 +226,7 @@
               </div>
               <div class="clearfix"></div>
             </div>
-            
-            <!-- inner-checked -->
-                  <!-- <div class="select-controls">
-              <label class="cust-check-bx2">Data Collector
-              <input id="dc" type="checkbox">
-              <span class="checkmark"></span>
-              </label>
-              <div class="clearfix"></div>
-                    <div style="display:none;" id="data-collector" class="inner-select">
-                <label class="cust-check-bx">Abc
-                              <input type="checkbox">
-                              <span class="checkmark"></span>
-                  </label>
-                  <label class="cust-check-bx inner-checked">Lorem ipsum
-                              <input type="checkbox" checked="checked">
-                              <span class="checkmark"></span>
-                  </label>
-                  <label class="cust-check-bx">xyz
-                              <input type="checkbox">
-                              <span class="checkmark"></span>
-                  </label>
-                  <label class="cust-check-bx">Abc
-                              <input type="checkbox">
-                              <span class="checkmark"></span>
-                  </label>
-                  <label class="cust-check-bx inner-checked">Lorem ipsum
-                              <input type="checkbox" checked="checked">
-                              <span class="checkmark"></span>
-                  </label>
-                  <label class="cust-check-bx">xyz
-                              <input type="checkbox">
-                              <span class="checkmark"></span>
-                  </label>
-  
-              </div>
-                </div> -->
-  
-  
-                
+                 
             </div>
       </div>
       </form>

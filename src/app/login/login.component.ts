@@ -74,25 +74,26 @@ export class LoginComponent implements OnInit, AfterViewInit {
             swal(this.translate.instant('swal.error'), this.translate.instant('login.blockedByAdmin'), 'error');
             return false;
           }
-          if (success.data.permissions) {
-            if (success.data.permissions.can_csr_buyer === 1) {
-              this.router.navigate(['dashboard/leads/csr-buyers']);
-            } else if (success.data.permissions.can_data_collector === 1) {
-              this.router.navigate(['dashboard/leads/data-collectors']);
-            } else if (success.data.permissions.can_in_house_broker === 1) {
-              this.router.navigate(['dashboard/leads/inhouse-broker']);
-            } else if (success.data.permissions.can_csr_seller === 1) {
-              this.router.navigate(['dashboard/leads/csr-sellers']);
-            } else if (success.data.permissions.can_csr_closer === 1) {
-              this.router.navigate(['dashboard/leads/csr-closers']);
-            } else if (success.data.permissions.can_bank === 1) {
-              this.router.navigate(['dashboard/banks/bank-leads']);
-            } else if (success.data.permissions.can_noatary === 1) {
-              this.router.navigate(['dashboard/notary/notary-leads']);
-            } else {
-              swal(this.translate.instant('swal.error'), this.translate.instant('login.apiMessages.noAccess'), 'error');
-            }
-          } else if (success.data.admin_acl) {
+          // if (success.data.permissions) {
+          //   if (success.data.permissions.can_csr_buyer === 1) {
+          //     this.router.navigate(['dashboard/leads/csr-buyers']);
+          //   } else if (success.data.permissions.can_data_collector === 1) {
+          //     this.router.navigate(['dashboard/leads/data-collectors']);
+          //   } else if (success.data.permissions.can_in_house_broker === 1) {
+          //     this.router.navigate(['dashboard/leads/inhouse-broker']);
+          //   } else if (success.data.permissions.can_csr_seller === 1) {
+          //     this.router.navigate(['dashboard/leads/csr-sellers']);
+          //   } else if (success.data.permissions.can_csr_closer === 1) {
+          //     this.router.navigate(['dashboard/leads/csr-closers']);
+          //   } else if (success.data.permissions.can_bank === 1) {
+          //     this.router.navigate(['dashboard/banks/bank-leads']);
+          //   } else if (success.data.permissions.can_noatary === 1) {
+          //     this.router.navigate(['dashboard/notary/notary-leads']);
+          //   } else {
+          //     swal(this.translate.instant('swal.error'), this.translate.instant('login.apiMessages.noAccess'), 'error');
+          //   }
+          // } else 
+          if (success.data.admin_acl) {
             let check = true;
             const dd = this.admin.admin_acl_array.map((obj, index) => {
               const key =  Object.keys(obj)[0];

@@ -26,7 +26,7 @@ import { AppFooterComponent } from '../shared/app-footer/app-footer.component';
 
 // importing general component
 import { InhouseUsersComponent } from './inhouse-users/inhouse-users.component';
-import { AddressComponent } from './inhouse-users/address/address.component';
+// import { AddressComponent } from './inhouse-users/address/address.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { GenerateThumbComponent } from './generate-thumb/generate-thumb.component';
 import { AclPermissionDirective } from '../directives/acl-permission.directive';
@@ -67,7 +67,7 @@ import { Img360viewerComponent } from './img360viewer/img360viewer.component';
     DashboardComponent,
     AppFooterComponent,
     InhouseUsersComponent,
-    AddressComponent,
+    // AddressComponent,
     GenerateThumbComponent,
     AclPermissionDirective,
     Img360viewerComponent

@@ -36,6 +36,9 @@ import { SellerChatComponent } from './csr-seller/csr-seller-detail/seller-chat/
 import { OutsideBrokerComponent } from './outside-broker/outside-broker.component';
 import { OutsideBrokerDetailComponent } from './outside-broker/outside-broker-detail/outside-broker-detail.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { CsrRenterComponent } from './csr-renter/csr-renter.component';
+import { CreditAgentComponent } from './credit-agent/credit-agent.component';
+import { CollectionAgentComponent } from './collection-agent/collection-agent.component';
 
 const routes: Routes = [
   {
@@ -43,6 +46,10 @@ const routes: Routes = [
     canActivate: [AclUserGuard], data: { roles: ['Data Collector Lead Management', 'can_read', 'can_data_collector'] }
   },
 
+  {
+    path: 'csr-renters', component: CsrRenterComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Renter Lead Management', 'can_read', 'can_csr_renter'] }
+  },
   {
     path: 'csr-sellers', component: CsrSellerComponent,
     canActivate: [AclUserGuard], data: { roles: ['Seller Lead Management', 'can_read', 'can_csr_seller'] }
@@ -170,7 +177,10 @@ const routes: Routes = [
     MyChatComponent,
     SellerChatComponent,
     OutsideBrokerComponent,
-    OutsideBrokerDetailComponent
+    OutsideBrokerDetailComponent,
+    CsrRenterComponent,
+    CreditAgentComponent,
+    CollectionAgentComponent
   ],
   // providers: [NgBoxService]
 })

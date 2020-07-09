@@ -1,6 +1,6 @@
 
 <div class="row" *ngIf="address">
-  <div class="col-sm-3 col-12">
+  <div class="col-sm-2 col-12">
     <div class="form-group-2">
       <label>{{'filters.location.country' | translate}} <span class="color-red">*</span></label>
       <select required class="form-control" (change)="getStatesNew($event.target.value, 1)">
@@ -10,7 +10,7 @@
       </select>
     </div>
   </div>
-  <div class="col-sm-3 col-12">
+  <div class="col-sm-2 col-12">
     <div class="form-group-2">
       <label>{{'filters.location.state' | translate}} <span class="color-red">*</span></label>
       <select [disabled]="status" required class="form-control" (change)="getCitiesNew($event.target.value, 1)">
@@ -20,7 +20,7 @@
       </select>
     </div>
   </div>
-  <div class="col-sm-3 col-12">
+  <div class="col-sm-2 col-12">
     <div class="form-group-2">
       <label>{{'filters.location.city' | translate}} <span class="color-red">*</span></label>
       <select [disabled]="status" required class="form-control" (change)="getLocalitiesNew($event.target.value, 1)">
@@ -30,7 +30,7 @@
     </select>
     </div>
   </div>
-  <div class="col-sm-3 col-12">
+  <div class="col-sm-2 col-12">
     <div class="form-group-2">
       <label>{{'filters.location.locality' | translate}} <span class="color-red">*</span></label>
       <select [disabled]="status" required class="form-control" (change)="getLocalityBuildings($event.target.value, 1)">
@@ -40,7 +40,7 @@
     </select>
     </div>
   </div>
-  <div class="col-sm-3 col-12">
+  <div class="col-sm-2 col-12">
     <div class="row">
       <div class="col-10">
       <div class="form-group-2">

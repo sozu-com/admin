@@ -207,7 +207,10 @@
                                 <li *ngIf="admin?.admin_acl['Broker Lead Management']?.can_read==1 || admin?.permissions?.can_in_house_broker==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/inhouse-broker">{{'sidebar.inhouseAgent' | translate}}</a></li>
                                 <li *ngIf="admin?.admin_acl['Outside Broker Lead Management']?.can_read==1 || admin?.permissions?.can_outside_broker==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/outside-broker">{{'sidebar.outsideAgent' | translate}}</a></li>
                                 <li *ngIf="admin?.admin_acl['Closer Lead Management']?.can_read==1 || admin?.permissions?.can_csr_closer==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/csr-closers">{{'sidebar.CSRClosure' | translate}}</a></li>
-                             </ul>
+                                <li *ngIf="admin?.admin_acl['Renter Lead Management']?.can_read==1 || admin?.permissions?.can_csr_renter==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/csr-renters">{{'sidebar.CSRRenter' | translate}}</a></li>
+                                <li *ngIf="admin?.admin_acl['Credit Agent Lead Management']?.can_read==1 || admin?.permissions?.can_credit_agent==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/csr-renters">{{'sidebar.creditAgent' | translate}}</a></li>
+                                <li *ngIf="admin?.admin_acl['Collection Agent Lead Management']?.can_read==1 || admin?.permissions?.can_collection_agent==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/csr-renters">{{'sidebar.collectionAgent' | translate}}</a></li>
+                              </ul>
                           </div>
                        </li>
                        <li *ngIf="admin?.admin_acl['Data Collector Lead Management']?.can_read==1 || admin?.permissions?.can_data_collector==1 ||
