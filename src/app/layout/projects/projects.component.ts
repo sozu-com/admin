@@ -347,4 +347,8 @@ export class ProjectsComponent implements OnInit {
       this.router.navigate(['/dashboard/projects/edit-project', item.id]);
     }
   }
+  
+  viewDocument(document: string) {
+    window.open(document, '_blank');
+  }
 }

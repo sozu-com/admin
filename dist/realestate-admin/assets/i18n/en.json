@@ -565,6 +565,7 @@
       "properties": "Properties",
       "propertiesForRent": "Properties Available For Rent",
       "propertiesForSale": "Properties Available For Sale",
+      "document":"Document",
       "avgPrice": "Avg Price",
       "assignee": "Assignee",
       "branch": "Branch",

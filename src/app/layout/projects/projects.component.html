@@ -300,7 +300,9 @@
                                 [ngClass]="{'upsidedown':parameter.property_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
                             </div>
                           </th>
-                          
+                          <th style="vertical-align:top;width:5%">
+                            <div class="d-flex table-search"><span><label>{{'table.th.document' | translate}}</label></span></div>
+                          </th>                          
                           <th style="vertical-align:top;width:100px;width:20%">
                             <div class="table-search">
                               <label>{{'table.th.actions.label' | translate}}</label>
@@ -346,6 +348,12 @@
                               <a title="{{'table.title.clickToViewProperties' | translate}}" routerLink="/dashboard/properties/view-properties/{{p.name}}/1"><span class="green-color">{{p?.sale_count_all | numberWithCommas}}</span></a>
                             </td>
                             <td><span>${{ p.avg_price ? (p.avg_price | number : '1.2-2') : 0.00}}</span></td>
+                            <td>            
+                              <span *ngIf="!p?.document">{{'table.tr.td.NA' | translate}}</span>                  
+                              <button *ngIf="p?.document" [disabled]="admin?.admin_acl['Building Management']?.can_read==0"
+                              (click)="viewDocument(p?.document)" class="action-icon">
+                              <img src="assets/img/eye-icon.png" alt="img"></button>  
+                            </td>
                             <td>
                               <div class="table-actions">
                                 <!-- <div class="message"> -->

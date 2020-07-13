@@ -551,6 +551,7 @@
       "properties": "Departamentos",
       "propertiesForRent": "Departamentos disponibles para renta",
       "propertiesForSale": "Departamentos disponibles para venta",
+      "document":"Documento",
       "avgPrice": "Precio promedio",
       "assignee": "Beneficiario",
       "branch": "Sucursal",
