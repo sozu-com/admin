@@ -33,6 +33,9 @@ const routes: Routes = [
     path: 'view-collections', component: CollectionsComponent
   },
   {
+    path: 'view-collections/:id', component: CollectionsComponent
+  },
+  {
     path: 'add-collection/:id', component: AddEditCollectionComponent
   },
   {

@@ -178,4 +178,33 @@ export class AclComponent implements OnInit {
           this.parameter.items[this.parameter.index]['is_blocked'] = flag;
         });
   }
+
+  
+  deletePopup(item: any, index: number) {
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+        this.translate.instant('message.error.wantToDeleteUser'),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteUser(item, index);
+      }
+    });
+  }
+
+  deleteUser(item: any, index: number) {
+    this.admin.postDataApi('deleteAclUser',
+      { id: item.id }).subscribe(r => {
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
+        this.parameter.items.splice(index, 1);
+      },
+        error => {
+          swal(this.translate.instant('swal.error'), error.error.message, 'error');
+        });
+  }
+
 }

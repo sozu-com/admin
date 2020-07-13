@@ -217,7 +217,6 @@ export class AddProjectComponent implements OnInit {
             this.model.developer.phone = r.data.developer != null && r.data.developer.phone ? r.data.developer.phone : '';
           }
           this.file1.image = this.model.main_image;
-
           this.model.configurations.map((item) => {
             item.building_configuration_id = item.id;
           });
@@ -999,6 +998,11 @@ export class AddProjectComponent implements OnInit {
     modelSave.marital_status = JSON.stringify(this.model.marital_status);
     modelSave.is_completed = 0;
     modelSave.cover_image = this.file1.image;
+    modelSave.document = this.model.document;
+    if (this.model.doc_loader) {
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.uploadingDocument'), 'error');
+      return;
+    }
     if (this.model.videoLoader) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.uploadingVideo'), 'error');
       return;
@@ -1913,5 +1917,32 @@ export class AddProjectComponent implements OnInit {
     this.model.agency = item;
     this.model.agency_id = item.id;
     this.closeAgencyListModel.nativeElement.click();
+  }
+  
+  changeListner(event: any, paramLoader: string, param: any) {
+    if (event.target.files[0].size > this.constant.fileSizeLimit) {
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
+      return false;
+    }
+    this.model[paramLoader] = true;
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.cs.saveAttachment(event.target.files[0]).subscribe(
+        success => {
+          this.model[paramLoader] = false;
+          this.model[param] = success['data'].name;
+        }
+      );
+    };
+    reader.readAsDataURL(event.target.files[0]);
+  }
+
+  removeDocument(e: Event) {
+    e.stopPropagation();
+    this.model.document = '';
+  }
+
+  viewDocument(document: string) {
+    window.open(document, '_blank');
   }
 }

@@ -74,6 +74,8 @@ export class AddProjectModel {
   possession_status_id: any = '';
   launch_date: any = '';
   main_image: any = '';
+  document?: string;
+  doc_loader?: boolean;
   is_completed: any;
   building_request_id: '';
   building_towers: Array<Towers>;

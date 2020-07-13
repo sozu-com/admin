@@ -87,6 +87,8 @@
                         title="{{item.is_blocked==1 ? ('table.title.unblock' | translate) : ('table.title.block' | translate)}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"
                         class="action-icon"><img src="assets/img/block.png" alt="img">
                     </button>
+                    <button [disabled]="admin?.admin_acl['Access Controls']?.can_purge==0" (click)="deletePopup(item, i)" class="action-icon" 
+                    title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png" alt="img"></button>
                   </div>
                 </td>
               </tr>

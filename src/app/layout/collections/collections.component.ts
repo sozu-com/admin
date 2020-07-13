@@ -122,8 +122,16 @@ export class CollectionsComponent implements OnInit {
     this.getPaymentMethods();
     this.getCountries();
     this.initCalendarLocale();
+    
+    this.route.params.subscribe(params => {
+      if (params['id']){
+        this.parameter.collection_id = params['id'];
+        this.parameter.dash_flag = 4;
+      }
+    });
     this.getListing();
   }
+
   initCalendarLocale() {
     if (this.translate.defaultLang == 'en') {
       this.locale = {
@@ -554,6 +562,7 @@ export class CollectionsComponent implements OnInit {
         input['id'] = this.selectedPaymentConcept['collection_payment']['id']
       }
       input['collection_payment_choice_id'] = this.payment_choice_id['id']
+      input['type'] = 1;
     }
     const url = this.typeOfPayment == 'apply-popup' ? 'applyCollectionPayment' : 'applyCommissionPayment';
     this.admin.postDataApi(url, input).subscribe(r => {

@@ -126,6 +126,10 @@
     "legalAddress":"Legal Address",
     "fedralTaxPayerRegistry": "Federal Tax Payer Registry",
     "legalRepresentativeInfo": "Legal Representative Information",
+    "chooseUserType":"Choose User Type",
+    "customisedRole":"Customized Role",
+    "predefinedRole":"Predefined Role",
+    "chooseUserRoles":"Choose User Roles",
     "freeLancerOrComapny": "Is Freelancer Or Company",
     "agencyCommercialName": "Agency Name (Commercial Name)",
     "selectAgency": "Select Agency",
@@ -211,6 +215,7 @@
     "developerDetails": "Developer Details (optional)",
     "buildingAge": "Building Age (in yrs)",
     "numOfProperties": "No. of properties",
+    "pdfDocument":"PDF Document",
     "buildingType": {
       "label": "Building Type",
       "chooseType": "Choose Building type"
@@ -541,6 +546,7 @@
       "rent": "Rent",
       "inventory": "Inventory",
       "isPropertySold": "Is Property Sold",
+      "linkedCollection": "Linked Collection",
       "yes": "Yes",
       "no": "No",
       "interestedIn": "Interested In",
@@ -798,8 +804,12 @@
       "collectionStatusChanged": "Collection Status Changed"
     },
     "error": {
+      "pleaseSelectEitherInhouseOrOutsideAgent": "Please choose one of Inhouse and Outside Agents",
+      "pleaseChooseLocation": "Please choose location",
+      "pleaseChooseDiffLocality":"Please choose different localities",
       "uploadingImage": "Uploading Image",
       "uploadingVideo": "Uploading video.",
+      "uploadingDocument": "Uploading document",
       "pleaseSelectCountry": "Please select country.",
       "pleaseSelectState": "Please select state.",
       "pleaseSelectCity": "Please select city.",

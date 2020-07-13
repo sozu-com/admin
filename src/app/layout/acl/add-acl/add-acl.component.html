@@ -59,26 +59,26 @@
          <!-- new addition -->
          <div class="col-12">
             <div class="form-group-2">
-               <label>Choose User Type<span class="color-red">*</span></label>
+               <label>{{'addForm.chooseUserType' | translate}}<span class="color-red">*</span></label>
                <div class="form-group">
                 <select class="form-control" required (change)="setUserType($event.target.value)" [(ngModel)]="model.user_type" name="user_type">
-                  <option value="">Choose User Type</option>
-                  <option value="1">Customised Role</option>
-                  <option value="2">Predefined Role</option>
+                  <option value="">{{'addForm.chooseUserType' | translate}}</option>
+                  <option value="1">{{'addForm.customisedRole' | translate}}</option>
+                  <option value="2">{{'addForm.predefinedRole' | translate}}</option>
                 </select>
               </div>
             </div>
          </div>
          <div class="col-12" *ngIf="model.user_type">
             <div class="form-group-2">
-               <label>Choose User Roles <span class="color-red">*</span></label>
+               <label>{{'addForm.chooseUserRoles' | translate}} <span class="color-red">*</span></label>
                 <div class="clearfix"></div>
                 <div>
-                <label class="cust-radio" *ngFor="let user of predefinedUsers; let i=index">
-                  <input type="checkbox" (change)="setPredefinedUsers(user, $event.target.value, i)"
+                <label class="cust-radio" *ngFor="let user of predefinedUsers; let ii=index">
+                  <input type="checkbox" (change)="setPredefinedUsers(user, !user.value, ii)"
                     [value]="user.value" [checked]="user.value ? 'checked' : ''"
                     name="user_id">
-                  <span class="checkmark">{{user.title}}|{{user.value}}|{{user.key}}</span>
+                  <span class="checkmark">{{user.title}}</span>
                 </label>       
               </div>
                 <div class="clearfix"></div>
@@ -91,8 +91,8 @@
                 <label>{{'addForm.freeLancerOrComapny' | translate}} <span class="color-red">*</span></label>
                 <div class="form-group">
                  <select class="form-control" required (change)="setIsCompany($event.target.value)" [(ngModel)]="model.is_company" name="is_company">
-                   <option value="true">Company</option>
-                   <option value="false">Freelancer</option>
+                   <option value="true">{{'addForm.company' | translate}}</option>
+                   <option value="false">{{'addForm.freelancer' | translate}}</option>
                  </select>
                </div>
              </div>

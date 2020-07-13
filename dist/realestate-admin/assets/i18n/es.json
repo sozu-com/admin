@@ -122,6 +122,10 @@
     "freelancer":"Independiente",
     "contactNumber": "Número de contacto",
     "emailId": "ID de Correo electrónico",
+    "chooseUserType":"Elegir tipo de usuario",
+    "customisedRole":"Rol personalizado",
+    "predefinedRole":"Rol Predefinido",
+    "chooseUserRoles":"Elegir roles de usuario",
     "freeLancerOrComapny": "Es autónoma o empresa",
     "address": "Dirección",
     "legalAddress":"Dirección Legal",
@@ -211,6 +215,7 @@
     "developerDetails": "Detalles del desarrollador (opcional)",
     "buildingAge": "Edad de construcción (en años)",
     "numOfProperties": "No. de propiedades",
+    "pdfDocument":"Documento PDF",
     "buildingType": {
       "label": "Tipo de construcción",
       "chooseType": "Seleccione tipo de edificio"
@@ -527,6 +532,7 @@
       "rent": "Renta",
       "inventory": "Inventario",
       "isPropertySold": "Esta vendida la propiedad",
+      "linkedCollection": "Colección vinculada",
       "yes": "Sí",
       "no": "No",
       "interestedIn": "Interesado en",
@@ -787,8 +793,12 @@
       "collectionStatusChanged": "Estado de colección cambiado"
     },
     "error": {
+      "pleaseSelectEitherInhouseOrOutsideAgent": "Por favor elija una de las Agentes Internas y Externas",
+      "pleaseChooseLocation": "Por favor elija ubicación",
+      "pleaseChooseDiffLocality":"Por favor elija diferentes localidades",
       "uploadingImage": "Cargando imagen",
-      "uploadingVideo": "Uploading video.",
+      "uploadingVideo": "Subiendo video.",
+      "uploadingDocument": "Subiendo documento.",
       "pleaseSelectCountry": "Selecciona tu país.",
       "pleaseSelectState": "Selecciona tu estado.",
       "pleaseSelectCity": "Selecciona tu ciudad.",

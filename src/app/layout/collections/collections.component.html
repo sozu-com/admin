@@ -153,6 +153,10 @@
                        <th style="width:4%; text-align:left;">
                           <div class="table-search">
                              <label>{{'table.th.iDAccount' | translate}}</label>
+                             <div class="searh-3">
+                                <input autocomplete="off" class="width100px" type="text" [(ngModel)]="parameter.collection_id" (keyup.enter)="getListing()" >
+                                <button *ngIf="parameter.collection_id" (click)="getListing()"><i class="fa fa-search"></i></button>
+                             </div>
                           </div>
                        </th>
                        <th style="width:10%; text-align:left;">
@@ -360,7 +364,7 @@
                      <td>
                      <div class="table-actions">
                         <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
-                           routerLink="../edit-collection/{{p.id}}" title="{{'table.title.editDetails' | translate}}" 
+                           routerLink="/dashboard/collections/edit-collection/{{p.id}}" title="{{'table.title.editDetails' | translate}}" 
                            class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                         
                         <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"

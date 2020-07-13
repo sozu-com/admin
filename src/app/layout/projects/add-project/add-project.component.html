@@ -185,11 +185,30 @@
               </div>
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
-                  <label>{{'addForm.numOfProperties' | translate}}
-                    <!-- <span class="color-red">*</span> -->
-                  </label>
+                  <label>{{'addForm.numOfProperties' | translate}}</label>
                   <input placeholder="{{'addForm.placeholder.numOfProperties' | translate}}" min="0" class="form-control" [(ngModel)]="model.num_of_properties"
                     type="number" name="num_of_properties" />
+                </div>
+              </div>
+              <div class="col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>{{'addForm.pdfDocument' | translate}}</label>
+                  
+                  
+                  <div class="chat-shared-file" *ngIf="model?.document || model?.doc_loader">
+                    <span *ngIf="model?.doc_loader" class="m-loader">
+                      <div *ngIf="model?.doc_loader" class="loaderr"></div>
+                    </span>
+                    <span *ngIf="model.document">
+                      <a *ngIf="model?.document" href="javascript://">
+                        <span (click)="viewDocument(model?.document)">Document <img class="viewfull" (click)="removeDocument($event)" src="assets/img/close-tag.png"></span>
+                        </a>
+                    </span>
+                  </div>
+
+                  <input class="form-control" *ngIf="!model?.document" accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf" name="document" 
+                    (change)="changeListner($event, 'doc_loader', 'document')" type="file">
+           
                 </div>
               </div>
               

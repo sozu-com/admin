@@ -401,6 +401,11 @@
                                  </select>
                               </div>
                            </th>
+                           <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
+                              <div class="table-search">
+                                 <label>{{'table.th.linkedCollection' | translate}}</label>
+                              </div>
+                           </th>
                            <th style="width:10%;" *ngIf="parameter.flag!=5">
                               <div class="table-search">
                                  <label>{{'table.th.actions.label' | translate}}</label>
@@ -486,6 +491,12 @@
                               </td>
                               <td *ngIf="parameter.flag!=5">
                                  {{p?.is_property_sold ? ('table.th.yes' | translate) : ('table.th.no' | translate)}}
+                              </td>
+                              <td *ngIf="parameter.flag!=5">
+                                    <span *ngIf="p?.collection">{{'table.th.yes' | translate}}
+                                          <span class="green-color cursor-pointer" routerLink="/dashboard/collections/view-collections/{{p?.collection?.id}}">{{p?.collection?.id}}</span>
+                                    </span>
+                                    <span *ngIf="!p?.collection">{{'table.th.no' | translate}}</span>
                               </td>
                               <td *ngIf="parameter.flag!=5">
                               <div class="table-actions">

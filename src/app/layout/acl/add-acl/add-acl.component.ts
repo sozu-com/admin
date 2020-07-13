@@ -185,7 +185,11 @@ export class AddAclComponent implements OnInit {
     //   return;
     // }
     if (this.model.img_loader) {
-      swal(this.translate.instant('swal.error'), 'Uploading image.', 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.uploadingImage'), 'error');
+      return false;
+    }
+    if (this.model.is_broker && this.model.is_external_agent) {
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectEitherInhouseOrOutsideAgent'), 'error');
       return false;
     }
     this.parameter.url = this.model.id ? 'updateAclUser' : 'addAclUser';
@@ -200,12 +204,12 @@ export class AddAclComponent implements OnInit {
     input.append('phone', this.model.phone);
     input.append('email', this.model.email);
     input.append('address', JSON.stringify(this.model.address));
-    input.append('is_broker_seller_dev', formdata.value.is_broker_seller_dev === true ? '1' : '0');
-    input.append('is_buyer_renter', formdata.value.is_buyer_renter === true ? '1' : '0');
+    input.append('is_broker_seller_dev', this.model.is_broker_seller_dev ? '1' : '0');
+    input.append('is_buyer_renter', this.model.is_buyer_renter ? '1' : '0');
     // input.append('is_broker', formdata.value.is_broker === true ? '1' : '0');
     input.append('is_broker', this.model.is_broker ? '1' : '0');
-    input.append('is_data_collector', formdata.value.is_data_collector === true ? '1' : '0');
-    input.append('is_csr_closer', formdata.value.is_csr_closer === true ? '1' : '0');
+    input.append('is_data_collector', this.model.is_data_collector ? '1' : '0');
+    input.append('is_csr_closer', this.model.is_csr_closer ? '1' : '0');
     input.append('is_external_agent', this.model.is_external_agent ? '1' : '0');
     input.append('is_credit_agent', this.model.is_credit_agent ? '1' : '0');
     input.append('is_collection_agent', this.model.is_collection_agent ? '1' : '0');
@@ -250,11 +254,11 @@ export class AddAclComponent implements OnInit {
     });
     if (this.model.address[0].countries === '' || this.model.address[0].states === '' ||
       this.model.address[0].cities === '' || this.model.address[0].localities === '' || this.model.address[0].buildings === '') {
-      swal(this.translate.instant('swal.error'), 'Please choose location.', 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseLocation'), 'error');
     } else if (this.seenDuplicate) {
       this.testObject = [];
       this.seenDuplicate = false;
-      swal(this.translate.instant('swal.error'), 'Please choose different localities.', 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseDiffLocality'), 'error');
     } else if ((formdata.value.is_broker_seller_dev === false && formdata.value.is_buyer_renter === false &&
       formdata.value.is_broker === false && formdata.value.is_data_collector === false &&
       formdata.value.is_csr_closer === false && formdata.value.is_external_agent === false) ||
@@ -344,15 +348,15 @@ export class AddAclComponent implements OnInit {
       // }
 
       this.model.image = userdata.image != null ? userdata.image : '';
-      this.model.is_broker_seller_dev = userdata.permissions && userdata.permissions.can_csr_seller === 1 ? true : false;
-      this.model.is_buyer_renter = userdata.permissions && userdata.permissions.can_csr_buyer === 1 ? true : false;
-      this.model.is_broker = userdata.permissions && userdata.permissions.can_in_house_broker === 1 ? true : false;
-      this.model.is_data_collector = userdata.permissions && userdata.permissions.can_data_collector === 1 ? true : false;
-      this.model.is_csr_closer = userdata.permissions && userdata.permissions.can_csr_closer === 1 ? true : false;
-      this.model.is_external_agent = userdata.can_outside_broker && userdata.can_outside_broker.toString() === '1' ? true : false;
-      this.model.is_csr_renter = userdata.permissions && userdata.permissions.can_csr_renter === 1 ? true : false;
-      this.model.is_collection_agent = userdata.permissions && userdata.permissions.can_collection_agent === 1 ? true : false;
-      this.model.is_credit_agent = userdata.permissions && userdata.permissions.can_credit_agent === 1 ? true : false;
+      this.model.is_broker_seller_dev = userdata.permissions && userdata.permissions.can_csr_seller == 1 ? true : false;
+      this.model.is_buyer_renter = userdata.permissions && userdata.permissions.can_csr_buyer == 1 ? true : false;
+      this.model.is_broker = userdata.permissions && userdata.permissions.can_in_house_broker == 1 ? true : false;
+      this.model.is_data_collector = userdata.permissions && userdata.permissions.can_data_collector == 1 ? true : false;
+      this.model.is_csr_closer = userdata.permissions && userdata.permissions.can_csr_closer == 1 ? true : false;
+      this.model.is_external_agent = userdata.can_outside_broker && userdata.can_outside_broker == 1 ? true : false;
+      this.model.is_csr_renter = userdata.permissions && userdata.permissions.can_csr_renter == 1 ? true : false;
+      this.model.is_collection_agent = userdata.permissions && userdata.permissions.can_collection_agent == 1 ? true : false;
+      this.model.is_credit_agent = userdata.permissions && userdata.permissions.can_credit_agent == 1 ? true : false;
   
       for (let ind = 0; ind < userdata.countries.length; ind++) {
         const tempAdd = {
@@ -382,7 +386,8 @@ export class AddAclComponent implements OnInit {
         element.can_delete = element.can_delete || 0,
         element.can_update = element.can_update || 0,
         element.can_read = element.can_read || 0,
-        element.can_crud = element.can_crud || 0
+        element.can_crud = element.can_crud || 0,
+        element.can_purge = element.can_purge || 0
       }
       this.setUserType(userdata.user_type);
     }, erorr => {
@@ -701,40 +706,40 @@ export class AddAclComponent implements OnInit {
         {
           title: this.translate.instant('addForm.CSRBuyer'),
           key: 'is_buyer_renter',
-          value: this.model.is_buyer_renter || false
+          value: this.model.is_buyer_renter
         },{
           title: this.translate.instant('addForm.CSRRenter'),
           key: 'is_csr_renter',
-          value: this.model.is_csr_renter || false
+          value: this.model.is_csr_renter
         },{
           title: this.translate.instant('addForm.inhouseAgent'),
           key: 'is_broker',
-          value: this.model.is_broker || false
+          value: this.model.is_broker
         },
         {
           title: this.translate.instant('addForm.outSideAgent'),
           key: 'is_external_agent',
-          value: this.model.is_external_agent || false
+          value: this.model.is_external_agent
         },{
           title: this.translate.instant('addForm.CSRSeller'),
           key: 'is_broker_seller_dev',
-          value: this.model.is_broker_seller_dev || false
+          value: this.model.is_broker_seller_dev
         },{
           title: this.translate.instant('addForm.dataCollector'),
           key: 'is_data_collector',
-          value: this.model.is_data_collector || false
+          value: this.model.is_data_collector
         },{
           title: this.translate.instant('addForm.CSRClosure'),
           key: 'is_csr_closer',
-          value: this.model.is_csr_closer || false
+          value: this.model.is_csr_closer
         },{
           title: this.translate.instant('addForm.collectionAgent'),
           key: 'is_collection_agent',
-          value: this.model.is_collection_agent || false
+          value: this.model.is_collection_agent
         },{
           title: this.translate.instant('addForm.creditAgent'),
           key: 'is_credit_agent',
-          value: this.model.is_credit_agent || false
+          value: this.model.is_credit_agent
         },
         // {
         //   title: this.translate.instant('addForm.developerName'),
@@ -747,23 +752,22 @@ export class AddAclComponent implements OnInit {
         {
           title: this.translate.instant('addForm.acl'),
           key: 'is_acl',
-          value: this.model.is_acl || false
+          value: this.model.is_acl
         }
       ];
     }
-    console.log(this.model.user_type)
   }
 
   setPredefinedUsers(item, value, i: number) {
+    console.log(item.key, this.model[item.key]);
     console.log(item, value)
     this.model[item.key] = value;
-    // this.predefinedUsers[i].value = !value;
-    console.log(this.predefinedUsers[i])
-    // this.showOutside = item.key == 'is_external_agent'
+    this.predefinedUsers[i].value = value;
+    console.log(item, value)
+    console.log(item.key, this.model[item.key]);
   }
   
   setIsCompany(is_company: string) {
-    console.log(is_company);
     this.model.is_company = is_company;
   }
 
