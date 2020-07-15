@@ -335,7 +335,7 @@ export class ChatComponent implements OnInit {
         ((Object.keys(this.admin.admin_acl).length !== 0 && this.admin.admin_acl['Buyer Lead Management'].can_update === 0)
         || this.admin.permissions.can_csr_buyer === 0)) ||
       this.sent_as === this.constant.userType.inhouse_broker &&
-      ((Object.keys(this.admin.admin_acl).length !== 0 && this.admin.admin_acl['Broker Lead Management'].can_update === 0) ||
+      ((Object.keys(this.admin.admin_acl).length !== 0 && this.admin.admin_acl['Inhouse Agent Lead Management'].can_update === 0) ||
       this.admin.permissions.can_in_house_broker === 0) ||
       this.sent_as === this.constant.userType.notary &&
       ((Object.keys(this.admin.admin_acl).length !== 0 && this.admin.admin_acl['Notary Lead Management'].can_update === 0) ||

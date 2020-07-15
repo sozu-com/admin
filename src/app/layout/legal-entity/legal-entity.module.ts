@@ -21,14 +21,14 @@ import { AddLegalEntityComponent } from './add-legal-entity/add-legal-entity.com
 const routes: Routes = [
   {
     path: 'view-all', component: LegalEntityComponent,
-    canActivate: [AclUserGuard], data: { roles: ['Developers Management', 'can_read', ''] }
+    canActivate: [AclUserGuard], data: { roles: ['Manage Legal Entity', 'can_read', ''] }
   },{
     path: 'view-all/:developer_name/:developer_id', component: LegalEntityComponent,
-    canActivate: [AclUserGuard], data: { roles: ['Developers Management', 'can_read', ''] }
+    canActivate: [AclUserGuard], data: { roles: ['Manage Legal Entity', 'can_read', ''] }
   },
   {
     path: 'add-legal-entity/:id', component: AddLegalEntityComponent,
-    canActivate: [AclUserGuard], data: { roles: ['Developers Management', 'can_read', ''] }
+    canActivate: [AclUserGuard], data: { roles: ['Manage Legal Entity', 'can_read', ''] }
   }
 ];
 

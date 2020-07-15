@@ -138,8 +138,7 @@
       </div>
       <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
       <div class="add-new pull-right">
-                  <!-- *ngIf="admin?.admin_acl['Building Management']?.can_create==1 || admin?.permissions?.can_data_collector==1"  -->
-            <a 
+            <a *ngIf="admin?.admin_acl['Manage Collections']?.can_create==1"
             class="btn" href="javascript://" routerLink="/dashboard/collections/add-collection/0">{{'viewCollections.addNew' | translate}}</a>
       </div>
       </div>
@@ -363,43 +362,43 @@
                      <td>{{'table.tr.td.NA' | translate}}</td>
                      <td>
                      <div class="table-actions">
-                        <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                        <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
                            routerLink="/dashboard/collections/edit-collection/{{p.id}}" title="{{'table.title.editDetails' | translate}}" 
                            class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                         
-                        <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                        <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
                         (click)="quickCollectionView(p)" title="{{'table.title.quickVisuaization' | translate}}" 
                         class="action-icon"><img src="assets/img/eye-icon.png" alt="img"></button>  
   
-                        <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                        <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
                         (click)="viewAccountStatement(p)" title="{{'table.title.accountStatement' | translate}}" 
                         class="action-icon"><img src="assets/img/ic_account.png" alt="img"></button>  
   
-                        <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                        <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
                         (click)="showPenaltyPaymentPopup(p, i, 'penalty-popup')" title="{{'table.title.penaltyPayment' | translate}}" 
                         class="action-icon"><img src="assets/img/stamp.png" alt="img"></button>  
 
-                        <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                        <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
                         (click)="showApplyPaymentPopup(p, i, 'apply-popup')" title="{{'table.title.applyPayment' | translate}}" 
                         class="action-icon"><img src="assets/img/ic_payment.png" alt="img"></button>  
 
-                        <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                        <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
                         (click)="showCollectionCommReceipt(p, i, 'commission-popup')" title="{{'table.title.collectionCommission' | translate}}" 
                         class="action-icon"><img src="assets/img/ic_commission.png" alt="img"></button>  
 
-                        <button *ngIf="p.is_approved == 1" [disabled]="admin?.admin_acl['Property Management']?.can_update==0" 
+                        <button *ngIf="p.is_approved == 1" [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0" 
                         (click)="changeStatus(p, 0);" class="action-icon" 
                         title="{{'table.title.unapprove' | translate}}"><img src="assets/img/ic_disapprove.png" alt="img"></button>
                        
-                        <button *ngIf="p.is_approved == 0" [disabled]="admin?.admin_acl['Property Management']?.can_update==0" 
+                        <button *ngIf="p.is_approved == 0" [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0" 
                         (click)="changeStatus(p, 1);" class="action-icon" 
                         title="{{'table.title.approve' | translate}}"><img src="assets/img/tick.png" alt="img"></button>
 
-                        <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                        <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
                         (click)="getNotes(p)" title="{{'table.title.collectionNotes' | translate}}" 
                         class="action-icon"><img src="assets/img/chat-icon.png" alt="img"></button>  
 
-                        <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                        <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
                         (click)="deletePopup(p, i)" title="{{'table.title.delete' | translate}}" 
                         class="action-icon"><img src="assets/img/ic_delete.png" alt="img"></button>  
                         
@@ -592,7 +591,7 @@
 
 <a href="javascript://" data-toggle="modal" data-target="#entityModal" #paymentModalOpen></a>
 <div class="modal animated" id="entityModal">
-    <div class="modal-dialog fadeIndown">
+    <div class="modal-dialog fadeIndown modal-lg">
         <div class="modal-content notary-avail">
               <div class="modal-header popup-header">
           <h4>{{'viewCollections.applyPayment' | translate}}</h4>
@@ -606,7 +605,18 @@
               <div class="col-12">
                 <div class="spacer40"></div>
               </div>
-              <div class="col-12">
+              <!-- <div class="col-12">
+                <div class="form-group-2">
+                    <label>{{'viewCollections.choosePaymentType' | translate}} <span class="color-red">*</span></label>
+                    <div class="form-group">
+                        <select name="payment_method" #applyPaymentMethodId required class="form-control" [(ngModel)]="payment_method_id">
+                              <option value="">{{'viewCollections.choosePaymentMethod' | translate}}</option>
+                              <option *ngFor="let bt of paymentMethods" [value]="bt.id"> {{bt?.name}}</option>
+                        </select>
+                  </div>
+                </div>
+              </div> -->
+              <div class="col-6">
                 <div class="form-group-2">
                     <label>{{'viewCollections.choosePaymentConcept' | translate}} <span class="color-red">*</span></label>
                     <div class="form-group">
@@ -622,7 +632,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-12">
+              <div class="col-6">
                 <div class="form-group-2">
                     <label>{{'viewCollections.choosePaymentMethod' | translate}} <span class="color-red">*</span></label>
                     <div class="form-group">
@@ -633,7 +643,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-12" *ngIf="typeOfPayment=='apply-popup' && selectedPaymentConcept">
+              <div class="col-6" *ngIf="typeOfPayment=='apply-popup' && selectedPaymentConcept">
                 <div class="form-group-2">
                     <label>{{'viewCollections.programmedDate' | translate}}<span class="color-red">*</span></label>
                     <div class="form-group">
@@ -641,7 +651,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-12" *ngIf="typeOfPayment=='apply-popup'">
+              <div class="col-6" *ngIf="typeOfPayment=='apply-popup'">
                 <div class="form-group-2">
                     <label>{{'viewCollections.pendingExtraAmt' | translate}}<span class="color-red">*</span></label>
                     <div class="form-group">
@@ -649,7 +659,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-12" *ngIf="typeOfPayment=='apply-popup'">
+              <div class="col-6" *ngIf="typeOfPayment=='apply-popup'">
                 <div class="form-group-2">
                     <label>{{'viewCollections.penaltyAmount' | translate}}<span class="color-red">*</span></label>
                     <div class="form-group">
@@ -657,7 +667,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-12" *ngIf="typeOfPayment=='apply-popup'">
+              <div class="col-6" *ngIf="typeOfPayment=='apply-popup'">
                 <div class="form-group-2">
                     <label>{{'viewCollections.currentAmtTobePaid' | translate}}<span class="color-red">*</span></label>
                     <div class="form-group">
@@ -666,7 +676,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-12">
+              <div class="col-6">
                 <div class="form-group-2">
                     <label>{{'viewCollections.totalAmtToBePaid' | translate}}<span class="color-red">*</span></label>
                     <div class="form-group">
@@ -675,7 +685,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-12">
+              <div class="col-6">
                 <div class="form-group-2">
                     <label>{{'viewCollections.choosePaymentReceipt' | translate}} <span class="color-red">*</span></label>
                     <div class="form-group">
@@ -685,7 +695,7 @@
                     </div>
                 </div>
               </div>
-              <div class="col-12">
+              <div class="col-6">
                 <div class="form-group-2">
                     <label>{{'viewCollections.paymentDate' | translate}}</label><span class="color-red">*</span>
                     <div class="form-group">

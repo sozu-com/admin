@@ -30,22 +30,28 @@ const routes: Routes = [
   //   canActivate: [AclUserGuard], data: { roles: ['Property Management', 'can_read', ''] }
   // }
   {
-    path: 'view-collections', component: CollectionsComponent
+    path: 'view-collections', component: CollectionsComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Manage Collections', 'can_read', ''] }
   },
   {
-    path: 'view-collections/:id', component: CollectionsComponent
+    path: 'view-collections/:id', component: CollectionsComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Manage Collections', 'can_read', ''] }
   },
   {
-    path: 'add-collection/:id', component: AddEditCollectionComponent
+    path: 'add-collection/:id', component: AddEditCollectionComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Manage Collections', 'can_create', ''] }
   },
   {
-    path: 'edit-collection/:id', component: AddEditCollectionComponent
+    path: 'edit-collection/:id', component: AddEditCollectionComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Manage Collections', 'can_update', ''] }
   },
   {
-    path: 'quick-visualization/:id', component: QuickVisualizationComponent
+    path: 'quick-visualization/:id', component: QuickVisualizationComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Manage Collections', 'can_read', ''] }
   },
   {
-    path: 'account-statement/:id', component: AccountStatementComponent
+    path: 'account-statement/:id', component: AccountStatementComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Manage Collections', 'can_read', ''] }
   }
 ];
 

@@ -86,39 +86,39 @@ const routes: Routes = [
 
   {
     path: 'inhouse-broker', component: InhouseBrokerComponent,
-    canActivate: [AclUserGuard], data: { roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker'] }
+    canActivate: [AclUserGuard], data: { roles: ['Inhouse Agent Lead Management', 'can_read', 'can_in_house_broker'] }
   },
   // leads wrt inhouse broker
   {
     path: 'inhouse-broker-leads/:id', component: InhouseBrokerComponent,
-    canActivate: [AclUserGuard], data: { roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker'] }
+    canActivate: [AclUserGuard], data: { roles: ['Inhouse Agent Lead Management', 'can_read', 'can_in_house_broker'] }
   },
   // lead details
   {
     path: 'inhouse-broker/:id', component: InhouseBrokerDetailComponent,
-    canActivate: [AclUserGuard], data: { roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker'] }
+    canActivate: [AclUserGuard], data: { roles: ['Inhouse Agent Lead Management', 'can_read', 'can_in_house_broker'] }
   },
   {
     path: 'chat-list/:type/:id', component: MyChatComponent,
-    canActivate: [AclUserGuard], data: { roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker'] }
+    canActivate: [AclUserGuard], data: { roles: ['Inhouse Agent Lead Management', 'can_read', 'can_in_house_broker'] }
   },
   // {
   //   path: 'chat-with-csr-seller/:type/:id', component: MyChatComponent,
-  //   canActivate: [AclUserGuard], data: { roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker'] }
+  //   canActivate: [AclUserGuard], data: { roles: ['Inhouse Agent Lead Management', 'can_read', 'can_in_house_broker'] }
   // },
   {
     path: 'outside-broker', component: OutsideBrokerComponent,
-    canActivate: [AclUserGuard], data: { roles: ['Outside Broker Lead Management', 'can_read', 'can_in_house_broker'] }
+    canActivate: [AclUserGuard], data: { roles: ['Outside Agent Lead Management', 'can_read', 'can_in_house_broker'] }
   },
   // leads wrt inhouse broker
   {
     path: 'outside-broker-leads/:id', component: OutsideBrokerComponent,
-    canActivate: [AclUserGuard], data: { roles: ['Outside Broker Lead Management', 'can_read', 'can_in_house_broker'] }
+    canActivate: [AclUserGuard], data: { roles: ['Outside Agent Lead Management', 'can_read', 'can_in_house_broker'] }
   },
   // lead details
   {
     path: 'outside-broker/:id', component: OutsideBrokerDetailComponent,
-    canActivate: [AclUserGuard], data: { roles: ['Outside Broker Lead Management', 'can_read', 'can_in_house_broker'] }
+    canActivate: [AclUserGuard], data: { roles: ['Outside Agent Lead Management', 'can_read', 'can_in_house_broker'] }
   },
 
   {

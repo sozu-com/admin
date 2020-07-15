@@ -10,7 +10,7 @@
         data-target="#add-property-popup">{{'commonBlock.add' | translate}}</a>
       <a style="margin-right:10px;"
         *ngIf="(sent_as==constant.userType.csr_buyer && (admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1)) ||
-          sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==1 || admin?.permissions?.can_in_house_broker==1); else noAddPermission"
+          sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Inhouse Agent Lead Management']?.can_update==1 || admin?.permissions?.can_in_house_broker==1); else noAddPermission"
         class="btn btn-fourth" href="javascript://" (click)="getCountries(lead_id)">{{'commonBlock.add' | translate}}</a>
 
       <ng-template #noAddPermission>
@@ -62,13 +62,13 @@
               data-target="#dealFinalize">{{'commonBlock.dealFinalized' | translate}}</a>
 
             <!-- deal finalised -->
-            <a *ngIf="!is_deal_finalised && sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==1 || admin?.permissions?.can_in_house_broker==1)"
+            <a *ngIf="!is_deal_finalised && sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Inhouse Agent Lead Management']?.can_update==1 || admin?.permissions?.can_in_house_broker==1)"
               class="dropdown-item" href="javascript://" (click)="openModal(data.property.id, data.lead_id)">
               {{'commonBlock.dealFinalized' | translate}}</a>
 
             <!-- Remove from in-property -->
             <a *ngIf="(sent_as==constant.userType.csr_buyer && (admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1)) ||
-            sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==1 || admin?.permissions?.can_in_house_broker==1); else noRemovePermission"
+            sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Inhouse Agent Lead Management']?.can_update==1 || admin?.permissions?.can_in_house_broker==1); else noRemovePermission"
               class="dropdown-item" (click)="deleteLeadInterestedProperty(data.property.id, data.lead_id, in)">
               {{'commonBlock.removeProperty' | translate}}</a>
 
@@ -311,12 +311,12 @@
                       <a style="display: none;" *ngIf="sent_as==2" class="dropdown-item" href="javascript://" #modalOpen
                         data-toggle="modal" data-target="#dealFinalize">{{'commonBlock.dealFinalized' | translate}}</a>
                       <!-- dela finalised -->
-                      <a *ngIf="!is_deal_finalised && sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==1 || admin?.permissions?.can_in_house_broker==1)"
+                      <a *ngIf="!is_deal_finalised && sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Inhouse Agent Lead Management']?.can_update==1 || admin?.permissions?.can_in_house_broker==1)"
                         class="dropdown-item" href="javascript://" (click)="openModal(x.property.id, x.lead_id)">{{'commonBlock.dealFinalized' | translate}}</a>
 
                       <!-- remove -->
                       <a *ngIf="(sent_as==constant.userType.csr_buyer && (admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1)) ||
-                            sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==1 || admin?.permissions?.can_in_house_broker==1); else noRemovePermission"
+                            sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Inhouse Agent Lead Management']?.can_update==1 || admin?.permissions?.can_in_house_broker==1); else noRemovePermission"
                         class="dropdown-item"
                         (click)="deleteLeadInterestedProperty(x.property.id, x.lead_id, in)">{{'commonBlock.removeProperty' | translate}}</a>
 

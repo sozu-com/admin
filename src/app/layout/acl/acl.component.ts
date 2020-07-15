@@ -34,7 +34,7 @@ export class AclComponent implements OnInit {
     private location: Location,
     private translate: TranslateService
   ) {
-    const dd = this.cs.checkAccess('Broker Management', 'can_read');
+    const dd = this.cs.checkAccess('Inhouse Agent Management', 'can_read');
     if (dd === 0) {
       this.location.back();
     }

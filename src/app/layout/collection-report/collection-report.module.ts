@@ -35,37 +35,48 @@ const routes: Routes = [
   //   canActivate: [AclUserGuard], data: { roles: ['Property Management', 'can_read', ''] }
   // }
   {
-    path: 'general-report', component: GeneralComponent
+    path: 'general-report', component: GeneralComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Collection Reports', 'can_read', ''] }
   },
   {
-    path: 'monthly-report', component: MonthlyComponent
+    path: 'monthly-report', component: MonthlyComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Collection Reports', 'can_read', ''] }
   },
   {
-    path: 'model-report', component: ModelComponent
+    path: 'model-report', component: ModelComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Collection Reports', 'can_read', ''] }
   },
   {
-    path: 'concept-report', component: ConceptComponent
+    path: 'concept-report', component: ConceptComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Collection Reports', 'can_read', ''] }
   },
   {
-    path: 'arrear-report', component: ArrearReportComponent
+    path: 'arrear-report', component: ArrearReportComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Collection Reports', 'can_read', ''] }
   },
   {
-    path: 'sales-report', component: SalesReportComponent
+    path: 'sales-report', component: SalesReportComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Collection Reports', 'can_read', ''] }
   },
   {
-    path: 'sales-trend', component: SalesTrendComponent
+    path: 'sales-trend', component: SalesTrendComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Collection Reports', 'can_read', ''] }
   },
   {
-    path: 'sales-booking', component: SalesBookingComponent
+    path: 'sales-booking', component: SalesBookingComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Collection Reports', 'can_read', ''] }
   },
   {
-    path: 'commission-income', component: CommissionIncomeComponent
+    path: 'commission-income', component: CommissionIncomeComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Collection Reports', 'can_read', ''] }
   },
   {
-    path: 'approved-unapproved', component: AppUnapprovedComponent
+    path: 'approved-unapproved', component: AppUnapprovedComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Collection Reports', 'can_read', ''] }
   },
   {
-    path: 'cash-flow-report', component: CashFlowComponent
+    path: 'cash-flow-report', component: CashFlowComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Collection Reports', 'can_read', ''] }
   }
 ];
 

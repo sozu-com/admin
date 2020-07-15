@@ -37,8 +37,8 @@ export class AclUserGuard implements CanActivate {
       if (((state.url === '/dashboard/view-inhouse-users/data-collectors') && (admin_acl['Data Collector Management']['can_read'] === 1)) ||
         ((state.url === '/dashboard/view-inhouse-users/csr-sellers') && (admin_acl['Seller Management']['can_read'] === 1)) ||
         ((state.url === '/dashboard/view-inhouse-users/csr-buyers') && (admin_acl['Buyer Management']['can_read'] === 1)) ||
-        ((state.url === '/dashboard/view-inhouse-users/inhouse-broker') && (admin_acl['Broker Management']['can_read'] === 1)) ||
-        ((state.url === '/dashboard/view-inhouse-users/outside-broker') && (admin_acl['Outside Broker Management']['can_read'] === 1)) ||
+        ((state.url === '/dashboard/view-inhouse-users/inhouse-broker') && (admin_acl['Inhouse Agent Management']['can_read'] === 1)) ||
+        ((state.url === '/dashboard/view-inhouse-users/outside-broker') && (admin_acl['Outside Agent Management']['can_read'] === 1)) ||
         ((state.url === '/dashboard/view-inhouse-users/csr-renters') && (admin_acl['Renter Management']['can_read'] === 1)) ||
         ((state.url === '/dashboard/view-inhouse-users/collection-agents') && (admin_acl['Collection Agent Management']['can_read'] === 1)) ||
         ((state.url === '/dashboard/view-inhouse-users/credit-agents') && (admin_acl['Credit Agent Management']['can_read'] === 1)) ||

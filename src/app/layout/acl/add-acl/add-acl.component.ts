@@ -91,9 +91,7 @@ export class AddAclComponent implements OnInit {
         this.model.id = '';
         this.getAclList();
       }
-      if (this.parameter.userType === 'inhouse-broker' || this.parameter.userType === 'outside-broker') {
-        this.getAllAgencies();
-      }
+      this.getAllAgencies();
     });
   }
 
@@ -206,7 +204,6 @@ export class AddAclComponent implements OnInit {
     input.append('address', JSON.stringify(this.model.address));
     input.append('is_broker_seller_dev', this.model.is_broker_seller_dev ? '1' : '0');
     input.append('is_buyer_renter', this.model.is_buyer_renter ? '1' : '0');
-    // input.append('is_broker', formdata.value.is_broker === true ? '1' : '0');
     input.append('is_broker', this.model.is_broker ? '1' : '0');
     input.append('is_data_collector', this.model.is_data_collector ? '1' : '0');
     input.append('is_csr_closer', this.model.is_csr_closer ? '1' : '0');
@@ -215,18 +212,18 @@ export class AddAclComponent implements OnInit {
     input.append('is_collection_agent', this.model.is_collection_agent ? '1' : '0');
     input.append('is_csr_renter', this.model.is_csr_renter ? '1' : '0');
 
-    if ((this.parameter.userType=='outside-broker' || this.model.is_external_agent) && (this.model.is_company=='false')) {
+    if (this.model.is_external_agent && this.model.is_company=='false') {
       input.append('adr', this.model.adr || '');
       input.append('lat', this.model.lat || null);
       input.append('lng', this.model.lng || null);
       input.append('rfc_legal_id', this.model.rfc_legal_id || '');
       input.append('description', this.model.description || '');
+      input.append('agency_id', '');
     }
 
-    if (this.model.is_external_agent) {
+    if (this.model.is_external_agent && this.model.is_company=='true') {
       input.append('agency_id', this.model.agency.id);
     } else {
-      // input.append('is_broker', '1');
       input.append('company_name', '');
       input.append('company_logo', '');
       input.append('description', '');
@@ -333,7 +330,7 @@ export class AddAclComponent implements OnInit {
       // }
       // this.model.company_name = userdata.company_name;
       this.model.description = userdata.description;
-      this.model.is_external_agent = userdata.is_external_agent;
+      // this.model.is_external_agent = userdata.is_external_agent;
       this.model.agency = userdata.agency ? userdata.agency : new Agency();
       this.model.adr = userdata.address;
       this.model.lat = userdata.lat;
@@ -353,7 +350,7 @@ export class AddAclComponent implements OnInit {
       this.model.is_broker = userdata.permissions && userdata.permissions.can_in_house_broker == 1 ? true : false;
       this.model.is_data_collector = userdata.permissions && userdata.permissions.can_data_collector == 1 ? true : false;
       this.model.is_csr_closer = userdata.permissions && userdata.permissions.can_csr_closer == 1 ? true : false;
-      this.model.is_external_agent = userdata.can_outside_broker && userdata.can_outside_broker == 1 ? true : false;
+      this.model.is_external_agent = userdata.permissions && userdata.permissions.can_outside_broker == 1 ? true : false;
       this.model.is_csr_renter = userdata.permissions && userdata.permissions.can_csr_renter == 1 ? true : false;
       this.model.is_collection_agent = userdata.permissions && userdata.permissions.can_collection_agent == 1 ? true : false;
       this.model.is_credit_agent = userdata.permissions && userdata.permissions.can_credit_agent == 1 ? true : false;
@@ -771,4 +768,8 @@ export class AddAclComponent implements OnInit {
     this.model.is_company = is_company;
   }
 
+  setAgency(id: string) {
+    this.model.agency = new Agency();
+    this.model.agency.id = id;
+  }
 }

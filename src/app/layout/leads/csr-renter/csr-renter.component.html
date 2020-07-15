@@ -9,7 +9,7 @@
   </div>
   <div class="row">
       <div class="col-md-4">
-          <div class="form-group" *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 && !this.parameter.assignee_id">
+          <div class="form-group" *ngIf="admin?.admin_acl['Renter Lead Management']?.can_read==1 && !this.parameter.assignee_id">
               <div class="d-flex">
               <div class="autocomplete">
                   <input placeholder="{{'addForm.placeholder.searchCSRSeller' | translate}}" style="max-width:200px" list="amenities" [(ngModel)]="parameter.keyword" (input)="getCsrListing()" class="form-control" type="text" name="keyword" (focusout)="closeCsrListing()">
@@ -70,7 +70,7 @@
       </div>
   </div>
   <div class="listingResults" >
-      <div class="row" *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 && !this.parameter.assignee_id">
+      <div class="row" *ngIf="admin?.admin_acl['Renter Lead Management']?.can_read==1 && !this.parameter.assignee_id">
           <div class="col-md-2">
               <div class="form-group">
               <label>{{'filters.location.country' | translate}}</label>
@@ -228,7 +228,7 @@
          </h5>
       </div>
    </div>
-   <div class="col-lg-6 col-md-6 col-5" *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 && !this.parameter.assignee_id">
+   <div class="col-lg-6 col-md-6 col-5" *ngIf="admin?.admin_acl['Renter Lead Management']?.can_read==1 && !this.parameter.assignee_id">
       <div class="add-new text-right">
           <a class="btn" (click)="bulkAssign()" href="javascript://">{{'table.th.bulkReassign' | translate}}</a>
       </div>
@@ -240,7 +240,7 @@
          <table class="table table-striped border-0">
             <tbody>
             <tr>
-              <th *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 && !this.parameter.assignee_id" style="width:5%;">
+              <th *ngIf="admin?.admin_acl['Renter Lead Management']?.can_read==1 && !this.parameter.assignee_id" style="width:5%;">
                   <div class="table-search">
                       <label>{{'table.th.all' | translate}}</label>
                       <div>
@@ -345,7 +345,7 @@
             </tr>
             <tr class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}" *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }"
             >
-              <td *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 && !this.parameter.assignee_id" (click)="$event.stopPropagation()">
+              <td *ngIf="admin?.admin_acl['Renter Lead Management']?.can_read==1 && !this.parameter.assignee_id" (click)="$event.stopPropagation()">
                   <label class="cust-check-bx marginT0">
                   <input type="checkbox" [(ngModel)]="item.selected" name="document">
                   <span class="checkmark"></span>

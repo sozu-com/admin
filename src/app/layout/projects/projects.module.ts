@@ -24,27 +24,27 @@ import { TranslateModule } from '@ngx-translate/core';
 const routes: Routes = [
   {
     path: 'details/:project_id', component: ProjectDetailsComponent,
-    canActivate: [AclUserGuard], data: { roles: ['Building Management', 'can_read', 'can_data_collector'] }
+    canActivate: [AclUserGuard], data: { roles: ['Project Management', 'can_read', 'can_data_collector'] }
   },
   {
     path: 'view-projects', component: ProjectsComponent,
-    canActivate: [AclUserGuard], data: { roles: ['Building Management', 'can_read', 'can_data_collector'] }
+    canActivate: [AclUserGuard], data: { roles: ['Project Management', 'can_read', 'can_data_collector'] }
   },
   {
     path: 'view-projects/:type/:id', component: ProjectsComponent,
-    canActivate: [AclUserGuard], data: { roles: ['Building Management', 'can_read', 'can_data_collector'] }
+    canActivate: [AclUserGuard], data: { roles: ['Project Management', 'can_read', 'can_data_collector'] }
   },
   {
     path: 'add-project', component: AddProjectComponent,
-    canActivate: [AclUserGuard], data: { roles: ['Building Management', 'can_create', 'can_data_collector'] }
+    canActivate: [AclUserGuard], data: { roles: ['Project Management', 'can_create', 'can_data_collector'] }
   },
   {
     path: 'edit-project/:id', component: AddProjectComponent,
-    canActivate: [AclUserGuard], data: { roles: ['Building Management', 'can_update', 'can_data_collector'] }
+    canActivate: [AclUserGuard], data: { roles: ['Project Management', 'can_update', 'can_data_collector'] }
   },
   {
     path: 'edit-building-request/:request_id', component: AddProjectComponent,
-    canActivate: [AclUserGuard], data: { roles: ['Building Management', 'can_update', 'can_data_collector'] }
+    canActivate: [AclUserGuard], data: { roles: ['Project Management', 'can_update', 'can_data_collector'] }
   }
 ];
 

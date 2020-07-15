@@ -227,7 +227,7 @@
         </div> -->
 
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"><div class="add-new pull-right">
-              <a *ngIf="admin?.admin_acl['Building Management']?.can_create==1 || admin?.permissions?.can_data_collector==1" 
+              <a *ngIf="admin?.admin_acl['Project Management']?.can_create==1 || admin?.permissions?.can_data_collector==1" 
                 class="btn" href="javascript://" routerLink="/dashboard/projects/add-project">{{'viewProjects.addBtn' | translate}}</a>
             </div></div>
             </div>
@@ -350,24 +350,24 @@
                             <td><span>${{ p.avg_price ? (p.avg_price | number : '1.2-2') : 0.00}}</span></td>
                             <td>            
                               <span *ngIf="!p?.document">{{'table.tr.td.NA' | translate}}</span>                  
-                              <button *ngIf="p?.document" [disabled]="admin?.admin_acl['Building Management']?.can_read==0"
+                              <button *ngIf="p?.document" [disabled]="admin?.admin_acl['Project Management']?.can_read==0"
                               (click)="viewDocument(p?.document)" class="action-icon">
                               <img src="assets/img/eye-icon.png" alt="img"></button>  
                             </td>
                             <td>
                               <div class="table-actions">
                                 <!-- <div class="message"> -->
-                                  <button [disabled]="admin?.admin_acl['Building Management']?.can_update==0 || admin?.permissions?.can_data_collector==0" routerLink="/dashboard/projects/edit-project/{{p.id}}" title="{{'table.title.editDetails' | translate}}" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
-                                  <button [disabled]="admin?.admin_acl['Building Management']?.can_delete==0" *ngIf="!p.is_blocked" (click)="blockUnblock(p, 1);" class="action-icon" title="{{'table.title.block' | translate}}"><img src="assets/img/block.png" alt="img"></button>
-                                  <button [disabled]="admin?.admin_acl['Building Management']?.can_delete==0" *ngIf="p.is_blocked == true" (click)="blockUnblock(p, 0);" class="action-icon unblock-bg" title="{{'table.title.unblock' | translate}}"><img src="assets/img/unblock.png" alt="img"></button>
+                                  <button [disabled]="admin?.admin_acl['Project Management']?.can_update==0 || admin?.permissions?.can_data_collector==0" routerLink="/dashboard/projects/edit-project/{{p.id}}" title="{{'table.title.editDetails' | translate}}" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                                  <button [disabled]="admin?.admin_acl['Project Management']?.can_delete==0" *ngIf="!p.is_blocked" (click)="blockUnblock(p, 1);" class="action-icon" title="{{'table.title.block' | translate}}"><img src="assets/img/block.png" alt="img"></button>
+                                  <button [disabled]="admin?.admin_acl['Project Management']?.can_delete==0" *ngIf="p.is_blocked == true" (click)="blockUnblock(p, 0);" class="action-icon unblock-bg" title="{{'table.title.unblock' | translate}}"><img src="assets/img/unblock.png" alt="img"></button>
                                   <!-- unapprove => when status=2(pending), 1(approved)-->
                                   <a style="display:none;" #modalOpen data-toggle="modal" data-target="#addNote"></a>
                                   <button (click)="openCancellationModal(p, i)" 
-                                    [disabled]="admin?.admin_acl['Building Management']?.can_update==0" *ngIf="p.status == 1 || p.status==2" class="action-icon" title="{{'table.title.unapprove' | translate}}"><img src="assets/img/ic_disapprove.png" alt="img"></button>
+                                    [disabled]="admin?.admin_acl['Project Management']?.can_update==0" *ngIf="p.status == 1 || p.status==2" class="action-icon" title="{{'table.title.unapprove' | translate}}"><img src="assets/img/ic_disapprove.png" alt="img"></button>
                                   <!-- approve => when status=2(pending), 4(rejected)-->
-                                  <button [disabled]="admin?.admin_acl['Building Management']?.can_update==0" *ngIf="p.status == 2 || p.status == 4"  (click)="approveProject(p, 1);" class="action-icon" title="{{'table.title.approve' | translate}}"><img src="assets/img/tick.png" alt="img"></button>
+                                  <button [disabled]="admin?.admin_acl['Project Management']?.can_update==0" *ngIf="p.status == 2 || p.status == 4"  (click)="approveProject(p, 1);" class="action-icon" title="{{'table.title.approve' | translate}}"><img src="assets/img/tick.png" alt="img"></button>
                                   <!-- delete project -->
-                                  <button [disabled]="admin?.admin_acl['Building Management']?.can_purge==0" (click)="deletePopup(p, i);" class="action-icon" title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png" alt="img"></button>
+                                  <button [disabled]="admin?.admin_acl['Project Management']?.can_purge==0" (click)="deletePopup(p, i);" class="action-icon" title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png" alt="img"></button>
                                 <!-- </div> -->
                               </div>
                             </td>

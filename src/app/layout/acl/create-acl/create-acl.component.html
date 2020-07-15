@@ -201,15 +201,15 @@
                   || permission?.acl?.name == 'Companies Management'
                   || permission?.acl?.name == 'Managers Management'
                   || permission?.acl?.name == 'Developers Management'
-                  || permission?.acl?.name == 'Outside Broker Management'
+                  || permission?.acl?.name == 'Outside Agent Management'
                   || permission?.acl?.name == 'Seller Management'
                   || permission?.acl?.name == 'Buyer Management'
-                  || permission?.acl?.name == 'Broker Management'
+                  || permission?.acl?.name == 'Inhouse Agent Management'
                   || permission?.acl?.name == 'Closer Management'
                   || permission?.acl?.name == 'Data Collector Management'
                   || permission?.acl?.name == 'Bank Management'
                   || permission?.acl?.name == 'Templates'
-                  || permission?.acl?.name == 'Building Management' || permission?.acl?.name == 'Notaries Management'" 
+                  || permission?.acl?.name == 'Project Management' || permission?.acl?.name == 'Notaries Management'" 
                     class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_purge==1}">{{'addForm.canDelete' | translate}}
                       <input type="checkbox" [checked]="permission.can_purge == 1 ? 'checked': ''"  (click)="setPermission('can_purge', i)">
                       <span class="checkmark"></span>

@@ -90,7 +90,7 @@
   <div class="chat-text">
     <div class="dropdown attach-items">
       <a *ngIf="(sent_as==constant.userType.csr_buyer && (admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1)) ||
-      (sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==1 || admin?.permissions?.can_in_house_broker==1)) ||
+      (sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Inhouse Agent Lead Management']?.can_update==1 || admin?.permissions?.can_in_house_broker==1)) ||
       (sent_as==constant.userType.notary && (admin?.admin_acl['Notary Lead Management']?.can_update==1 || admin?.permissions?.can_noatary==1)) ||
       (sent_as==constant.userType.bank && (admin?.admin_acl['Bank Lead Management']?.can_update==1 || admin?.permissions?.can_bank==1)); else noPermissiom" href="javascript://" class="dropdown-toggle" data-toggle="dropdown" #optionsButton>
      <i class="fa fa-paperclip" aria-hidden="true"></i>
@@ -158,7 +158,7 @@
     <canvas style="display: none;" width="800" height="600" id="canvas"></canvas>
 
     <button [disabled]="(sent_as==constant.userType.csr_buyer && (admin?.admin_acl['Buyer Lead Management']?.can_update==0 || admin?.permissions?.can_csr_buyer==0)) ||
-    (sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==0 || admin?.permissions?.can_in_house_broker==0)) ||
+    (sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Inhouse Agent Lead Management']?.can_update==0 || admin?.permissions?.can_in_house_broker==0)) ||
     (sent_as==constant.userType.notary && (admin?.admin_acl['Notary Lead Management']?.can_update==0 || admin?.permissions?.can_noatary==0)) ||
     (sent_as==constant.userType.bank && (admin?.admin_acl['Bank Lead Management']?.can_update==0 || admin?.permissions?.can_bank==0))" (click)="setText()" class="btn">{{'commonBlock.send' | translate}}</button>
  </div>

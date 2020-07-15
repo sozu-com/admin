@@ -29,8 +29,8 @@
               <a *ngIf="admin?.admin_acl['Data Collector Management']?.can_create==1 && parameter.userType=='data-collectors' ||
                 admin?.admin_acl['Seller Management']?.can_create==1 && parameter.userType=='csr-sellers' ||
                 admin?.admin_acl['Buyer Management']?.can_create==1 && parameter.userType=='csr-buyers' ||
-                admin?.admin_acl['Broker Management']?.can_create==1 && parameter.userType=='inhouse-broker' ||
-                admin?.admin_acl['Outside Broker Management']?.can_create==1 && parameter.userType=='outside-broker' ||
+                admin?.admin_acl['Inhouse Agent Management']?.can_create==1 && parameter.userType=='inhouse-broker' ||
+                admin?.admin_acl['Outside Agent Management']?.can_create==1 && parameter.userType=='outside-broker' ||
                 admin?.admin_acl['Credit Agent Management']?.can_create==1 && parameter.userType=='credit-agents' ||
                 admin?.admin_acl['Collection Agent Management']?.can_create==1 && parameter.userType=='collection-agents' ||
                 admin?.admin_acl['Renter Management']?.can_create==1 && parameter.userType=='csr-renters' ||
@@ -201,7 +201,7 @@
               </td>
               <td>
                 <div class="table-actions">
-                  <a *ngIf="(admin?.admin_acl['Building Management']?.can_read==1 || admin?.permissions?.can_data_collector==1)&& 
+                  <a *ngIf="(admin?.admin_acl['Project Management']?.can_read==1 || admin?.permissions?.can_data_collector==1)&& 
                   parameter.userType == 'data-collectors'" title="{{'table.title.viewProjects' | translate}}" href="javascript://" routerLink="/dashboard/projects/view-projects/data-collector/{{item.id}}" class="icon-block edit-icon">
                     <img src="assets/img/ic_projects_manage.png" alt="img">
                   </a>
@@ -211,10 +211,10 @@
                   <a *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_read==1 && parameter.userType == 'csr-buyers'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/csr-buyers-leads/{{item.id}}" class="icon-block edit-icon">
                     <img src="assets/img/ic_leads.png" alt="img">
                   </a>
-                  <a *ngIf="admin?.admin_acl['Broker Lead Management']?.can_read==1 && parameter.userType == 'inhouse-broker'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/inhouse-broker-leads/{{item.id}}" class="icon-block edit-icon">
+                  <a *ngIf="admin?.admin_acl['Inhouse Agent Lead Management']?.can_read==1 && parameter.userType == 'inhouse-broker'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/inhouse-broker-leads/{{item.id}}" class="icon-block edit-icon">
                     <img src="assets/img/ic_leads.png" alt="img">
                   </a>
-                  <a *ngIf="admin?.admin_acl['Outside Broker Lead Management']?.can_read==1 && parameter.userType == 'outside-broker'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/outside-broker-leads/{{item.id}}" class="icon-block edit-icon">
+                  <a *ngIf="admin?.admin_acl['Outside Agent Lead Management']?.can_read==1 && parameter.userType == 'outside-broker'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/outside-broker-leads/{{item.id}}" class="icon-block edit-icon">
                     <img src="assets/img/ic_leads.png" alt="img">
                   </a>
                   <a *ngIf="admin?.admin_acl['Closer Lead Management']?.can_read==1 && parameter.userType == 'csr-closers'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/csr-closers-leads/{{item.id}}" class="icon-block edit-icon">
@@ -227,23 +227,23 @@
                   <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Data Collector Management']?.can_update==0 && parameter.userType=='data-collectors' ||
                     admin?.admin_acl['Seller Management']?.can_update==0 && parameter.userType=='csr-sellers' ||
                     admin?.admin_acl['Buyer Management']?.can_update==0 && parameter.userType=='csr-buyers' ||
-                    admin?.admin_acl['Broker Management']?.can_update==0 && parameter.userType=='inhouse-broker' ||
+                    admin?.admin_acl['Inhouse Agent Management']?.can_update==0 && parameter.userType=='inhouse-broker' ||
                     admin?.admin_acl['Closer Management']?.can_update==0 && parameter.userType=='csr-closers' ||
                     admin?.admin_acl['Credit Agent Management']?.can_update==0 && parameter.userType=='credit-agents' ||
                     admin?.admin_acl['Collection Agent Management']?.can_update==0 && parameter.userType=='collection-agents' ||
                     admin?.admin_acl['Renter Management']?.can_update==0 && parameter.userType=='csr-renters' ||
-                    admin?.admin_acl['Outside Broker Management']?.can_update==0 && parameter.userType=='outside-broker'" 
+                    admin?.admin_acl['Outside Agent Management']?.can_update==0 && parameter.userType=='outside-broker'" 
                   (click)="getACLById(item.id)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
   
                   <button [disabled]="admin?.admin_acl['Data Collector Management']?.can_delete==0 && parameter.userType=='data-collectors' ||
                     admin?.admin_acl['Seller Management']?.can_delete==0 && parameter.userType=='csr-sellers' ||
                     admin?.admin_acl['Buyer Management']?.can_delete==0 && parameter.userType=='csr-buyers' ||
-                    admin?.admin_acl['Broker Management']?.can_delete==0 && parameter.userType=='inhouse-broker' ||
+                    admin?.admin_acl['Inhouse Agent Management']?.can_delete==0 && parameter.userType=='inhouse-broker' ||
                     admin?.admin_acl['Closer Management']?.can_delete==0 && parameter.userType=='csr-closers' ||
                     admin?.admin_acl['Credit Agent Management']?.can_delete==0 && parameter.userType=='credit-agents' ||
                     admin?.admin_acl['Collection Agent Management']?.can_delete==0 && parameter.userType=='collection-agents' ||
                     admin?.admin_acl['Renter Management']?.can_delete==0 && parameter.userType=='csr-renters' ||
-                    admin?.admin_acl['Outside Broker Management']?.can_delete==0 && parameter.userType=='outside-broker'"
+                    admin?.admin_acl['Outside Agent Management']?.can_delete==0 && parameter.userType=='outside-broker'"
                   (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1, parameter.type)" 
                   title="{{item.is_blocked==1 ? ('table.title.unblock' | translate) : ('table.title.block' | translate)}}" 
                   [ngClass]="{'unblock-bg':item.is_blocked==1}"
@@ -253,12 +253,12 @@
                 <button [disabled]="admin?.admin_acl['Data Collector Management']?.can_purge==0 && parameter.userType=='data-collectors' ||
                   admin?.admin_acl['Seller Management']?.can_purge==0 && parameter.userType=='csr-sellers' ||
                   admin?.admin_acl['Buyer Management']?.can_purge==0 && parameter.userType=='csr-buyers' ||
-                  admin?.admin_acl['Broker Management']?.can_purge==0 && parameter.userType=='inhouse-broker' ||
+                  admin?.admin_acl['Inhouse Agent Management']?.can_purge==0 && parameter.userType=='inhouse-broker' ||
                   admin?.admin_acl['Closer Management']?.can_purge==0 && parameter.userType=='csr-closers' ||
                   admin?.admin_acl['Credit Agent Management']?.can_purge==0 && parameter.userType=='credit-agents' ||
                   admin?.admin_acl['Collection Agent Management']?.can_purge==0 && parameter.userType=='collection-agents' ||
                   admin?.admin_acl['Renter Management']?.can_purge==0 && parameter.userType=='csr-renters' ||
-                  admin?.admin_acl['Outside Broker Management']?.can_purge==0 && parameter.userType=='outside-broker'" 
+                  admin?.admin_acl['Outside Agent Management']?.can_purge==0 && parameter.userType=='outside-broker'" 
                 (click)="deletePopup(item, i);" class="action-icon" title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png" alt="img"></button>
                 </div>
               </td>

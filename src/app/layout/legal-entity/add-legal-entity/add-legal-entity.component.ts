@@ -74,11 +74,13 @@ export class AddLegalEntityComponent implements OnInit {
       id: [''],
       comm_name: ['', [Validators.required]],
       legal_name: ['', [Validators.required]],
+      email: ['', [Validators.required]],
       phone: ['', [Validators.required]],
       country_code: ['', [Validators.required]],
       dial_code: ['', [Validators.required]],
       address: ['', [Validators.required]],
-      fed_tax_pay: ['', [Validators.required]],
+      // fed_tax_pay: ['', [Validators.required]],
+      fed_tax_pay: [''],
       legal_entity_banks: this.fb.array([]),
       developer_id: [''],
       legal_rep: this.fb.group({
@@ -88,7 +90,8 @@ export class AddLegalEntityComponent implements OnInit {
         country_code: ['', [Validators.required]],
         dial_code: ['', [Validators.required]],
         email: ['', [Validators.required]],
-        fed_tax_pay: ['', [Validators.required]],
+        // fed_tax_pay: ['', [Validators.required]],
+        fed_tax_pay: [''],
         legal_rep_banks: this.fb.array([])
       })
     });

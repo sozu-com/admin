@@ -207,7 +207,7 @@
     
     <div class="btn-cont text-right">
         <button *ngIf="sent_as!=2" [disabled]="(sent_as==constant.userType.csr_buyer && (admin?.admin_acl['Buyer Lead Management']?.can_update==0 || admin?.permissions?.can_csr_buyer==0)) ||
-                            (sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==0 || admin?.permissions?.can_in_house_broker==0))"
+                            (sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Inhouse Agent Lead Management']?.can_update==0 || admin?.permissions?.can_in_house_broker==0))"
             type="button" class="btn btn-primary" (click)="addPreferences()">{{'commonBlock.save' | translate}}</button>
     </div>
 </div>
@@ -319,7 +319,7 @@
 
         <button
             [disabled]="(sent_as==constant.userType.csr_buyer && (admin?.admin_acl['Buyer Lead Management']?.can_update==0 || admin?.permissions?.can_csr_buyer==0)) ||
-                            (sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Broker Lead Management']?.can_update==0 || admin?.permissions?.can_in_house_broker==0))"
+                            (sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Inhouse Agent Lead Management']?.can_update==0 || admin?.permissions?.can_in_house_broker==0))"
             type="button" class="btn btn-primary" (click)="addPreferences()">Save</button>
     </div>
 
