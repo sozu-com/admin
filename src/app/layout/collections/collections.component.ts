@@ -60,6 +60,7 @@ export class CollectionsComponent implements OnInit {
   percent: number;
   amount: number;
   selectedCollectionCommission: any;
+  payment_type: any;
   paymentMethods: Array<any>;
   pendingPayment: number;
   penaltyAmount: number;

@@ -1583,7 +1583,12 @@
     "chooseCommissionType":"Choose Commission Type",
     "purchaseCommission":"Purchase Commission",
     "collectionCommission":"Collection Commission",
-    "programmedDate": "Programmed Date"
+    "programmedDate": "Programmed Date",
+    "choosePaymentType": "Choose Payment Type",
+    "payToRemainingReducePayment": "Pay to Remaining (Reduce Payment)",
+    "payToRemainingPayment": "Pay to Remaining (Payment Time)",
+    "payToFollowing": "Pay to Following",
+    "payToSpecific": "Pay to Specific"
   },
   "addCollection": {
     "addLabel": "Add new Collection",
@@ -1668,6 +1673,10 @@
     "selectedDealType": "Selected Deal Type",
     "selectedModal": "Selected Model",
     "choosePaymentType": "Choose Payment Type",
+    "payToRemainingReducePayment": "Pay to Remaining (Reduce Payment)",
+    "payToRemainingPayment": "Pay to Remaining (Payment Time)",
+    "payToFollowing": "Pay to Following",
+    "payToSpecific": "Pay to Specific",
     "folders": "Folders",
     "addNewFolder": "+ Add New Folder",
     "folderName": "Folder Name",

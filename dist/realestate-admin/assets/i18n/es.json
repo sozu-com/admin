@@ -1573,7 +1573,12 @@
     "chooseCommissionType":"Elija tipo de comisión",
     "purchaseCommission":"Comisión de compra",
     "collectionCommission":"Comisión de cobro",
-    "programmedDate": "Fecha programada"
+    "programmedDate": "Fecha programada",
+    "choosePaymentType": "Elegir tipo de pago",
+    "payToRemainingReducePayment": "Pagar al resto (reducir el pago)",
+    "payToRemainingPayment": "Pagar al resto (tiempo de pago)",
+    "payToFollowing": "Pagar a los siguientes",
+    "payToSpecific": "Paga a específica"
   },
   "addCollection": {
     "addLabel": "Agregar nueva colección",
@@ -1658,6 +1663,10 @@
     "selectedDealType": "Tipo de oferta seleccionada",
     "selectedModal": "Model Seleccionado",
     "choosePaymentType": "Elegir tipo de pago",
+    "payToRemainingReducePayment": "Pagar al resto (reducir el pago)",
+    "payToRemainingPayment": "Pagar al resto (tiempo de pago)",
+    "payToFollowing": "Pagar a los siguientes",
+    "payToSpecific": "Paga a específica",
     "folders": "Carpetas",
     "addNewFolder": "+ Agregar nueva carpeta",
     "folderName": "Nombre de la carpeta",

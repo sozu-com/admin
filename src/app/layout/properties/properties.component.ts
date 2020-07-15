@@ -473,6 +473,7 @@ export class PropertiesComponent implements OnInit {
 
   changeStatusSellerSelection() {
     const input = { 
+      type: this.seller_type,
       property_id: this.parameter.property_id, 
       user_id: this.parameter.user_id, 
       status: this.parameter.status, 

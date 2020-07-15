@@ -605,17 +605,19 @@
               <div class="col-12">
                 <div class="spacer40"></div>
               </div>
-              <!-- <div class="col-12">
+              <div class="col-12">
                 <div class="form-group-2">
                     <label>{{'viewCollections.choosePaymentType' | translate}} <span class="color-red">*</span></label>
                     <div class="form-group">
-                        <select name="payment_method" #applyPaymentMethodId required class="form-control" [(ngModel)]="payment_method_id">
-                              <option value="">{{'viewCollections.choosePaymentMethod' | translate}}</option>
-                              <option *ngFor="let bt of paymentMethods" [value]="bt.id"> {{bt?.name}}</option>
+                        <select name="payment_type" required class="form-control" [(ngModel)]="payment_type">
+                              <option value="1">{{'viewCollections.payToFollowing' | translate}}</option>
+                              <option value="2">{{'viewCollections.payToRemainingReducePayment' | translate}}</option>
+                              <option value="3">{{'viewCollections.payToRemainingPayment' | translate}}</option>
+                              <option value="4">{{'viewCollections.payToSpecific' | translate}}</option>
                         </select>
                   </div>
                 </div>
-              </div> -->
+              </div>
               <div class="col-6">
                 <div class="form-group-2">
                     <label>{{'viewCollections.choosePaymentConcept' | translate}} <span class="color-red">*</span></label>
