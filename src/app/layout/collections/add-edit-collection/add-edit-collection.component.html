@@ -1722,7 +1722,7 @@
               <td>{{model.collection_commissions[i]?.date | date:'MM/dd/yyyy'}}</td>
               <td>{{model.collection_commissions[i]?.payment_amount}}</td>
               <td>
-                  <input type="checkbox" class="form-control" formControlName="add_collection_commission" name="add_collection_commission" (change)="setCollectionComm($event.target.value, i)">
+                  <input type="checkbox" class="form-control" formControlName="add_collection_commission" name="add_collection_commission" (change)="setCollectionComm($event.target.value ? false : true, i)">
               </td>
               <td>
                <input type="number" class="form-control" appUptoTwoDigitDecimalNumber formControlName="percent" step="0.01" name="percent{{i}}" (input)="getCollAmount($event.target.value, i, model.collection_commissions[i].payment_amount)">

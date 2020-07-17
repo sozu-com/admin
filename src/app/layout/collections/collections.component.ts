@@ -52,9 +52,9 @@ export class CollectionsComponent implements OnInit {
   selectedPaymentConcept: any;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
 
-  currentAmount: number;
+  currentAmount: any;
   penaltyPercent: number;
-  paymentAmount: number;
+  paymentAmount: any;
   paymentConcepts: Array<any>;
   add_collection_commission: any;
   percent: number;
@@ -62,8 +62,8 @@ export class CollectionsComponent implements OnInit {
   selectedCollectionCommission: any;
   payment_type: any;
   paymentMethods: Array<any>;
-  pendingPayment: number;
-  penaltyAmount: number;
+  pendingPayment: any;
+  penaltyAmount: any;
   paymentDate: Date;
   commission_type: any;
   today: Date;
@@ -496,9 +496,9 @@ export class CollectionsComponent implements OnInit {
       this.selectedCollectionCommission = item;
     } else {
       this.selectedPaymentConcept = item;
-      let amt = 0; let penaltyamt = 0;
-      let amtPaid = 0;
-      let currentAmt = 0;
+      let amt: any = 0; let penaltyamt = 0;
+      let amtPaid: any = 0;
+      let currentAmt: any = 0;
       let currentAmtPaid = 0;
       for (let index = 0; index < this.paymentConcepts.length; index++) {        
         const r = this.paymentConcepts[index];
@@ -511,11 +511,11 @@ export class CollectionsComponent implements OnInit {
           break;
         }
       }
-      this.penaltyAmount = item.penalty ? item.penalty.amount : 0;
-      this.pendingPayment = amt - amtPaid;
-      this.currentAmount = currentAmt;
-      this.paymentAmount = (currentAmt + this.pendingPayment + this.penaltyAmount);
-      // console.log(this.penaltyAmount, this.pendingPayment, this.currentAmount, this.paymentAmount)
+      this.penaltyAmount = item.penalty ? parseFloat(item.penalty.amount).toFixed(2) : 0;
+      this.pendingPayment = (amt - amtPaid).toFixed(2);
+      this.currentAmount = currentAmt.toFixed(2);
+      this.paymentAmount = (parseFloat(currentAmt) + parseFloat(this.pendingPayment) + parseFloat(this.penaltyAmount)).toFixed(2);
+      console.log(this.penaltyAmount, this.pendingPayment, this.currentAmount, this.paymentAmount)
     }
   }
 
@@ -563,7 +563,7 @@ export class CollectionsComponent implements OnInit {
         input['id'] = this.selectedPaymentConcept['collection_payment']['id']
       }
       input['collection_payment_choice_id'] = this.payment_choice_id['id']
-      input['type'] = 1;
+      input['type'] = this.payment_type;
     }
     const url = this.typeOfPayment == 'apply-popup' ? 'applyCollectionPayment' : 'applyCommissionPayment';
     this.admin.postDataApi(url, input).subscribe(r => {

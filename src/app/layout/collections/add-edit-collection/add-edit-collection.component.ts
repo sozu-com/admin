@@ -1045,7 +1045,7 @@ export class AddEditCollectionComponent implements OnInit {
   
     // calculating sum of all payment concepts
     const sum = this.addFormStep4.get('sum_of_concepts').value;
-    this.addFormStep4.controls['sum_of_concepts'].patchValue(this.numberUptoTwoDecimal(sum + this.num_of_months*monthly_amount));
+    const v = parseFloat(sum) + parseFloat((this.num_of_months*monthly_amount).toFixed(2));
   
     if (!this.num_of_months || !monthly_amount || !monthly_date) {      
       this.toastr.clear();
@@ -1055,6 +1055,8 @@ export class AddEditCollectionComponent implements OnInit {
     for (let index = 0; index < this.num_of_months; index++) {
       this.getPaymentChoices.push(this.newMonthlyPaymentsChoice(index));
     }
+    this.addFormStep4.controls['sum_of_concepts'].patchValue(this.numberUptoTwoDecimal(v));
+  
     this.addFormStep4.get('num_of_months').patchValue(null);
     this.addFormStep4.get('monthly_amount').patchValue(null);
     this.addFormStep4.get('monthly_date').patchValue(null);
@@ -1642,23 +1644,20 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep4.controls['sum_of_concepts'].patchValue(this.numberUptoTwoDecimal(sum_of_concepts));
   }
 
-  setCollectionComm(percent: number, index: number) {
+  setCollectionComm(add_collection_commission: any, index: number) {
     const pcArray: Array<any> = this.addFormStep5.get('collection_commissions').value;
-    console.log(pcArray)
     const installOne = pcArray.find(r => r.pc_id == 5);
+    // const installOne = pcArray.find(r => r.name.includes('Monthly Installment'));
     // if first monthly installment percent added, => update amount in all monthly installments
-    // console.log(installOne);
-    console.log(index)
-    if (installOne.name == pcArray[index].name) {
-      // console.log(installOne.add_collection_commission)
-      // const sta = !installOne.add_collection_commission ? true : false;
-      const sta =true;
-      console.log('pp')
-      // console.log('s',sta)
+    console.log(installOne, add_collection_commission, index, pcArray[index]);
+    if (installOne && (installOne.name == pcArray[index].name)) {
+      const sta = add_collection_commission;
       for (let index = 0; index < pcArray.length; index++) {
         const e = pcArray[index];
         if (e.pc_id == 5) {
-          console.log(index)
+          console.log('111')
+        // if (e.name.includes('Monthly Installment')){
+          console.log('999999999')
           e.add_collection_commission = sta;
           installOne.add_collection_commission = sta;
         }
@@ -1671,11 +1670,13 @@ export class AddEditCollectionComponent implements OnInit {
     const amount = this.numberUptoTwoDecimal((percent * payment_amount) / 100);
     const pcArray: Array<any> = this.addFormStep5.get('collection_commissions').value;
     pcArray[index].amount = amount;
-    const installOne = pcArray.find(r => r.pc_id == 5);
+    // const installOne = pcArray.find(r => r.pc_id == 5);
+    const installOne = pcArray.find(r => r.name.includes('Monthly Installment'));
     // if first monthly installment percent added, => update amount in all monthly installments
     if (installOne.id == pcArray[index].id) {
       pcArray.map(e => {
-        if (e.pc_id == 5) {
+        // if (e.pc_id == 5) {
+        if (e.name.includes('Monthly Installment')){
           e.amount = amount;
           e.percent = percent;
         }
@@ -1688,11 +1689,13 @@ export class AddEditCollectionComponent implements OnInit {
     const pcArray = this.addFormStep5.get('collection_commissions').value;
     const percent = this.numberUptoTwoDecimal((amount * 100) / payment_amount);
     pcArray[index].percent = percent;
-    const installOne = pcArray.find(r => r.pc_id == 5);
+    // const installOne = pcArray.find(r => r.pc_id == 5);
+    const installOne = pcArray.find(r => r.name.includes('Monthly Installment'));
     // if first monthly installment percent added, => update amount in all monthly installments
     if (installOne.id == pcArray[index].id) {
       pcArray.map(e => {
-        if (e.pc_id == 5) {
+        // if (e.pc_id == 5) {
+        if (e.name.includes('Monthly Installment')){
           e.amount = amount;
           e.percent = percent;
         }

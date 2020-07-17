@@ -289,10 +289,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let p of paymentConcepts; let i=index">
+            <ng-container *ngFor="let p of paymentConcepts; let i=index">
+            <tr [ngClass]="{'remaining_amt': p.key == 'remaining_amt'}">
               <td>{{p?.name}}</td>
               <td>{{p?.date}}</td>
-              <td>{{p?.collection_payment?.payment_date || ''}}</td>
+              <td>{{p?.payment_date || ''}}</td>
               <td>
                 {{p?.paid_amount ? (p?.paid_amount | currency) : ''}}
               </td>
@@ -355,6 +356,7 @@
                   </button>
               </td>              
               </tr>
+            </ng-container>
           </tbody>
         </table>
       </div>
