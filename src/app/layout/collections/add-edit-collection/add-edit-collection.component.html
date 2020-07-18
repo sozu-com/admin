@@ -1722,7 +1722,8 @@
               <td>{{model.collection_commissions[i]?.date | date:'MM/dd/yyyy'}}</td>
               <td>{{model.collection_commissions[i]?.payment_amount}}</td>
               <td>
-                  <input type="checkbox" class="form-control" formControlName="add_collection_commission" name="add_collection_commission" (change)="setCollectionComm($event.target.value ? false : true, i)">
+                <input type="checkbox" class="form-control" formControlName="add_collection_commission" name="add_collection_commission" 
+                  (change)="setCollectionComm(addFormStep5.controls.collection_commissions.controls[i].controls.add_collection_commission.value, i)">
               </td>
               <td>
                <input type="number" class="form-control" appUptoTwoDigitDecimalNumber formControlName="percent" step="0.01" name="percent{{i}}" (input)="getCollAmount($event.target.value, i, model.collection_commissions[i].payment_amount)">
@@ -1731,10 +1732,12 @@
                 <input type="number" step="0.01" appUptoTwoDigitDecimalNumber class="form-control" formControlName="amount" name="amount{{i}}" (input)="getCollPercentage($event.target.value, i, model.collection_commissions[i].payment_amount)">
               </td>
               <td>
-                  <input type="checkbox" class="form-control" formControlName="add_purchase_commission" name="add_purchase_commission">
+                <input type="checkbox" class="form-control" formControlName="add_purchase_commission" name="add_purchase_commission"
+                  (change)="setPurchaseComm(addFormStep5.controls.collection_commissions.controls[i].controls.add_purchase_commission.value, i)">
               </td>
               <td>
-                  <input type="number" step="0.01" appUptoTwoDigitDecimalNumber class="form-control" formControlName="purchase_comm_amount" name="purchase_comm_amount{{i}}">
+                <input type="number" step="0.01" appUptoTwoDigitDecimalNumber class="form-control" formControlName="purchase_comm_amount" name="purchase_comm_amount{{i}}"
+                  (input)="getPurcAmount($event.target.value, i)">
               </td>
             </tr>
           </ng-container>

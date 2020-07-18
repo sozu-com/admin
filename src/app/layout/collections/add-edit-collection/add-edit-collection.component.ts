@@ -1646,18 +1646,13 @@ export class AddEditCollectionComponent implements OnInit {
 
   setCollectionComm(add_collection_commission: any, index: number) {
     const pcArray: Array<any> = this.addFormStep5.get('collection_commissions').value;
-    const installOne = pcArray.find(r => r.pc_id == 5);
-    // const installOne = pcArray.find(r => r.name.includes('Monthly Installment'));
+    const installOne = pcArray.find(r => r.name.includes('Monthly Installment'));
     // if first monthly installment percent added, => update amount in all monthly installments
-    console.log(installOne, add_collection_commission, index, pcArray[index]);
     if (installOne && (installOne.name == pcArray[index].name)) {
       const sta = add_collection_commission;
       for (let index = 0; index < pcArray.length; index++) {
         const e = pcArray[index];
-        if (e.pc_id == 5) {
-          console.log('111')
-        // if (e.name.includes('Monthly Installment')){
-          console.log('999999999')
+        if (e.name.includes('Monthly Installment')){
           e.add_collection_commission = sta;
           installOne.add_collection_commission = sta;
         }
@@ -1698,6 +1693,38 @@ export class AddEditCollectionComponent implements OnInit {
         if (e.name.includes('Monthly Installment')){
           e.amount = amount;
           e.percent = percent;
+        }
+      })
+    }
+    this.addFormStep5.controls['collection_commissions'].patchValue(pcArray);
+  }
+
+  setPurchaseComm(add_purchase_commission: any, index: number) {
+    const pcArray: Array<any> = this.addFormStep5.get('collection_commissions').value;
+    const installOne = pcArray.find(r => r.name.includes('Monthly Installment'));
+    // if first monthly installment percent added, => update amount in all monthly installments
+    if (installOne && (installOne.name == pcArray[index].name)) {
+      const sta = add_purchase_commission;
+      for (let index = 0; index < pcArray.length; index++) {
+        const e = pcArray[index];
+        if (e.name.includes('Monthly Installment')){
+          e.add_purchase_commission = sta;
+          installOne.add_purchase_commission = sta;
+        }
+      }
+    }
+    this.addFormStep5.controls['collection_commissions'].patchValue(pcArray);
+  }
+  
+  getPurcAmount(amount: number, index: number) {
+    const pcArray: Array<any> = this.addFormStep5.get('collection_commissions').value;
+    pcArray[index].purchase_comm_amount = amount;
+    const installOne = pcArray.find(r => r.name.includes('Monthly Installment'));
+    // if first monthly installment percent added, => update amount in all monthly installments
+    if (installOne.id == pcArray[index].id) {
+      pcArray.map(e => {
+        if (e.name.includes('Monthly Installment')){
+          e.purchase_comm_amount = amount;
         }
       })
     }
@@ -1959,7 +1986,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
    numberUptoTwoDecimal(num: any) {
-     console.log(num);
+    //  console.log(num);
      return num.toFixed(2);
    }
 }
