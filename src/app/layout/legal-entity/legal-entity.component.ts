@@ -22,6 +22,7 @@ export class LegalEntityComponent implements OnInit {
   comm_name: string;
   legal_name: string;
   name: string;
+  email: string;
   phone: string;
   legal_rep_name: string;
   developer_name: string;
@@ -51,6 +52,7 @@ export class LegalEntityComponent implements OnInit {
       comm_name: this.comm_name,
       legal_name: this.legal_name,
       phone: this.phone,
+      email: this.email,
       name: this.name,
       developer_name: this.developer_name,
       legal_rep_name: this.legal_rep_name,

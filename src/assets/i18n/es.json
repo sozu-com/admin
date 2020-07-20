@@ -1717,6 +1717,7 @@
     "commercialName": "Nombre comercial",
     "legalName": "Nombre legal",
     "phone": "Teléfono",
+    "email":"Correo",
     "legalRep": "Representante legal",
     "developer":"Desarrollador"
   },

@@ -605,8 +605,6 @@ export class CollectionsComponent implements OnInit {
         this.items[this.collectionIndex].collection_commissions[collectionCommIndex]['payment'] = r.data;
       }
 
-      this.paymentAmount = 0; this.docFile = ''; this.description = '';
-      this.penaltyAmount = 0; this.pendingPayment = 0; this.currentAmount = 0;
       if (this.typeOfPayment == 'apply-popup') {
         this.docsFile1.nativeElement.value = '';
       } else {
@@ -784,5 +782,29 @@ export class CollectionsComponent implements OnInit {
   
   viewAccountStatement(item: any) {
     this.router.navigate(['/dashboard/collections/account-statement', item.id])
+  }
+
+  setPayMentType(payment_type: string) {
+    this.payment_type = payment_type;
+    console.log(this.payment_type)
+    const s = this.paymentConcepts.find(r => !r.is_paid_calculated && r.payment_choice_id==5);
+    for (let index = 0; index < this.paymentConcepts.length; index++) {
+      if (s.id == this.paymentConcepts[index].id) {
+        this.paymentConcepts[index].is_disabled = false;
+        console.log(this.paymentConcepts[index])
+      } else if (this.paymentConcepts[index].payment_choice_id == 5) {
+        this.paymentConcepts[index].is_disabled = true;
+      }
+      console.log(this.paymentConcepts[index].is_disabled)
+    }
+    if (this.typeOfPayment == 'apply-popup') {
+      this.docsFile1.nativeElement.value = '';
+    } else {
+      this.docsFile2.nativeElement.value = '';
+    }
+    this.applyPaymentChoiceId.nativeElement.value = '';
+    this.applyPaymentMethodId.nativeElement.value = '';
+    this.closeCollReceiptModal();
+    
   }
 }

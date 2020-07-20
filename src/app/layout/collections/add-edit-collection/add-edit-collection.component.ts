@@ -612,9 +612,8 @@ export class AddEditCollectionComponent implements OnInit {
         x.percent = this.numberUptoTwoDecimal(x.percent);
         x.amount = this.numberUptoTwoDecimal(x.amount);
         sum_of_concepts = sum_of_concepts + parseFloat(x.amount);
-        // x.date = x.date ? moment.utc(x.date).toDate() : null;
-        // console.log(sum_of_concepts);
-        x.date = x.date ? new Date(x.date) : null;
+        var offset = new Date(x.date).getTimezoneOffset();
+        x.date = x.date ? moment(x.date).add(offset, 'minutes').toDate() : null;
         control1.push(this.fb.group(x)); 
       }
     }
@@ -1431,7 +1430,7 @@ export class AddEditCollectionComponent implements OnInit {
         this.addFormStep2.controls.seller_email.patchValue(item.email || '');
         this.addFormStep2.controls.seller_phone.patchValue(item.phone || '');  
       }
-
+console.log(item);
       // seller as a legal entity
       if (this.model.seller_type == '2') {
         this.addFormStep2.controls.seller_legal_entity_id.patchValue(item.id);   
@@ -1475,14 +1474,14 @@ export class AddEditCollectionComponent implements OnInit {
         this.addFormStep2.controls.seller_leg_rep_phone.patchValue(item.legal_representative ? item.legal_representative.phone : '');
         this.addFormStep2.controls.seller_leg_rep_email.patchValue(item.legal_representative ? item.legal_representative.email : '');
         this.addFormStep2.controls.seller_leg_rep_fed_tax.patchValue(item.legal_representative ? item.legal_representative.fed_tax_pay : '');
-        const control = this.addFormStep2.get('collection_seller_banks') as FormArray;
+        const control = this.addFormStep2.get('collection_seller_rep_banks') as FormArray;
         if (item.legal_representative && item.legal_representative.legal_rep_banks) {
           item.legal_representative.legal_rep_banks.forEach(x => {
             delete x.id;  // no need to send id ( cuz these are saving separtely in table)
             control.push(this.fb.group(x));
           });
         }
-        const control1 = this.addFormStep2.get('collection_seller_rep_banks') as FormArray;
+        const control1 = this.addFormStep2.get('collection_seller_banks') as FormArray;
         if (item.legal_rep_banks) {
           item.legal_rep_banks.forEach(x => {
             delete x.id;  // no need to send id ( cuz these are saving separtely in table)
@@ -1546,14 +1545,14 @@ export class AddEditCollectionComponent implements OnInit {
         this.addFormStep3.controls.buyer_leg_rep_phone.patchValue(item.legal_representative ? item.legal_representative.phone : '');
         this.addFormStep3.controls.buyer_leg_rep_email.patchValue(item.legal_representative ? item.legal_representative.email : '');
         this.addFormStep3.controls.buyer_leg_rep_fed_tax.patchValue(item.legal_representative ? item.legal_representative.fed_tax_pay : '');
-        const control = this.addFormStep3.get('collection_buyer_banks') as FormArray;
+        const control = this.addFormStep3.get('collection_buyer_rep_banks') as FormArray;
         if (item.legal_representative && item.legal_representative.legal_rep_banks) {
           item.legal_representative.legal_rep_banks.forEach(x => {
             delete x.id;  // no need to send id ( cuz these are saving separtely in table)
             control.push(this.fb.group(x));
           });
         }
-        const control1 = this.addFormStep3.get('collection_buyer_rep_banks') as FormArray;
+        const control1 = this.addFormStep3.get('collection_buyer_banks') as FormArray;
         if (item.legal_rep_banks) {
           item.legal_rep_banks.forEach(x => {
             delete x.id;  // no need to send id ( cuz these are saving separtely in table)
@@ -1881,7 +1880,10 @@ export class AddEditCollectionComponent implements OnInit {
           }
           // element.date = moment(moment.utc(element.date).toDate()).local().toDate();
           // console.log(element.date);
+          console.log(element.date);
           element.date = moment(element.date).format('YYYY-MM-DD');
+          console.log(element.date);
+          
           // console.log(element.date);
           // element.date = moment(element.date).add(330, 'minutes').toDate();
           paymentSum = paymentSum + parseInt(element.amount || 0);
@@ -1899,8 +1901,7 @@ export class AddEditCollectionComponent implements OnInit {
         return false;
       }
     }
-    // console.log(formdata);
-
+    
     if (this.model.step == 5) {
       this.addFormStep5.controls.step.patchValue(this.model.step);
       // console.log(this.addFormStep5.controls)

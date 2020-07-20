@@ -40,6 +40,15 @@
               </th>
               <th style="width:20%; text-align:left;">
                 <div class="table-search">
+                    <label>{{'manageLegalEntity.email' | translate}}</label>
+                    <div class="searh-3">
+                      <input type="text" [(ngModel)]="email" (keyup.enter)="getLegalEntity()">
+                      <button *ngIf="email" (click)="getLegalEntity()"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+              </th>
+              <th style="width:20%; text-align:left;">
+                <div class="table-search">
                     <label>{{'manageLegalEntity.phone' | translate}}</label>
                     <div class="searh-3">
                       <input type="text" [(ngModel)]="phone" (keyup.enter)="getLegalEntity()" name="">
@@ -73,6 +82,7 @@
             <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index">
               <td class="text-left">{{item.comm_name ? item.comm_name : ('table.tr.td.NA' | translate)}}</td>
               <td class="text-left">{{item.legal_name ? item.legal_name : ('table.tr.td.NA' | translate)}}</td>
+              <td class="text-left">{{item.email ? item.email : ('table.tr.td.NA' | translate)}}</td>
               <td class="text-left" *ngIf="item.phone">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
               <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
               <td class="text-left">{{item?.legal_reps?.name}}</td>
