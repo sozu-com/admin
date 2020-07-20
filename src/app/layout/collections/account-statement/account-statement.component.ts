@@ -12,12 +12,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { ExcelService } from 'src/app/services/excel.service';
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
+
 @Component({
   selector: 'app-account-statement',
   templateUrl: './account-statement.component.html',
   styleUrls: ['./account-statement.component.css'],
-  providers: [Collection, CurrencyPipe]
+  providers: [Collection, CurrencyPipe, DatePipe]
 })
 
 export class AccountStatementComponent implements OnInit {
@@ -38,7 +39,8 @@ export class AccountStatementComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
     private excelService: ExcelService,
-    private currencyPipe: CurrencyPipe
+    private currencyPipe: CurrencyPipe,
+    private datePipe: DatePipe
   ) { }
 
   ngOnInit() {
@@ -59,15 +61,54 @@ export class AccountStatementComponent implements OnInit {
           this.collectionCommission = success['data']['collection_commissions'];
           this.totalPaid = 0.00;
           this.totalOutstanding = 0.00;
-          // this.model.totalPenalty = 0;
-          this.paymentConcepts.forEach(m => {
+
+
+          
+          const reducingP = [];
+          for (let index = 0; index < this.paymentConcepts.length; index++) {
+            const m = this.paymentConcepts[index];
+            m.payment_date = m.collection_payment ? m.collection_payment.payment_date : '';
             //  calculating total penalty
             // if (m.penalty){
             //   this.model.totalPenalty = this.model.totalPenalty + parseInt(m.penalty.amount || 0)
             // }
+
+
+            m.paid_amount = m.is_paid_calculated == 1 ? m.amount : (m.collection_payment ? (m.collection_payment.amount) : '');
+
+            // if type=2 means reducing payment => add one more row
+            // console.log(m)
+            if(m.type==2) {
+              const c = {
+                key: 'remaining_amt',
+                name: 'Payment to remaining (amount)',
+                paid_amount: m.extra_amount,
+                is_paid_calculated: 0,
+                outstanding_amount: 0,
+                index: index,
+                payment_date: this.datePipe.transform(m.created_at, 'yyyy-MM-dd')
+              };
+              // console.log(c)
+              reducingP.push(c);     
+            }
+
+            if(m.type==3) {
+              const c = {
+                key: 'remaining_amt',
+                name: 'Payment to remaining (schedule)',
+                paid_amount: m.extra_amount,
+                is_paid_calculated: 0,
+                outstanding_amount: 0,
+                index: index,
+                payment_date: this.datePipe.transform(m.created_at, 'yyyy-MM-dd')
+              };
+              // console.log(c)
+              reducingP.push(c);     
+            }
+
             // calculating total paid and total outstanding payment
             if (m.is_paid_calculated) {
-              m['paid_amount'] = m.calc_payment_amount;
+              // m['paid_amount'] = m.calc_payment_amount;
               this.totalPaid = this.totalPaid + m.calc_payment_amount;
             } 
             if ((m.amount - (m.calc_payment_amount||0))>=0) {
@@ -76,7 +117,14 @@ export class AccountStatementComponent implements OnInit {
               m['is_pending'] = (a != m.amount && a!=0) ? 1 : 0;
               this.totalOutstanding = this.totalOutstanding + a;
             }
-          })
+          }
+
+          // now insert at reducing remaining payments at type=2 index
+          for (let i = 0; i < reducingP.length; i++) {
+            const element = reducingP[i];
+            this.paymentConcepts.splice(element.index, 0, element);              
+          }
+
           this.paymentConcepts.push({
             key: 'total',
             name: 'Total',
@@ -84,6 +132,35 @@ export class AccountStatementComponent implements OnInit {
             is_paid_calculated: 1,
             outstanding_amount: this.totalOutstanding
           })
+
+
+
+
+          // // this.model.totalPenalty = 0;
+          // this.paymentConcepts.forEach(m => {
+          //   //  calculating total penalty
+          //   // if (m.penalty){
+          //   //   this.model.totalPenalty = this.model.totalPenalty + parseInt(m.penalty.amount || 0)
+          //   // }
+          //   // calculating total paid and total outstanding payment
+          //   if (m.is_paid_calculated) {
+          //     m['paid_amount'] = m.calc_payment_amount;
+          //     this.totalPaid = this.totalPaid + m.calc_payment_amount;
+          //   } 
+          //   if ((m.amount - (m.calc_payment_amount||0))>=0) {
+          //     const a = (m.amount - (m.calc_payment_amount || 0) );
+          //     m['outstanding_amount'] = a > 0.01 ? a : 0;  // in a case difference was 0.02
+          //     m['is_pending'] = (a != m.amount && a!=0) ? 1 : 0;
+          //     this.totalOutstanding = this.totalOutstanding + a;
+          //   }
+          // })
+          // this.paymentConcepts.push({
+          //   key: 'total',
+          //   name: 'Total',
+          //   paid_amount: this.totalPaid,
+          //   is_paid_calculated: 1,
+          //   outstanding_amount: this.totalOutstanding
+          // })
           this.collectionCommission.push({})
         }, error => {
           this.spinner.hide();

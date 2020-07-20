@@ -21,3 +21,7 @@ table.table-striped.quick-table th, table.table-striped.quick-table td {
   width: 70px;
   word-break: break-word;
 }
+.remaining_amt{
+  background: #faebd7b0 !important;
+  font-weight: 600;
+}

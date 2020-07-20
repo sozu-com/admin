@@ -65,6 +65,9 @@ export class QuickVisualizationComponent implements OnInit {
             //   this.model.totalPenalty = this.model.totalPenalty + parseInt(m.penalty.amount || 0)
             // }
 
+
+            m.paid_amount = m.is_paid_calculated == 1 ? m.amount : (m.collection_payment ? (m.collection_payment.amount) : '');
+
             // if type=2 means reducing payment => add one more row
             // console.log(m)
             if(m.type==2) {
@@ -81,9 +84,23 @@ export class QuickVisualizationComponent implements OnInit {
               reducingP.push(c);     
             }
 
+            if(m.type==3) {
+              const c = {
+                key: 'remaining_amt',
+                name: 'Payment to remaining (schedule)',
+                paid_amount: m.extra_amount,
+                is_paid_calculated: 0,
+                outstanding_amount: 0,
+                index: index,
+                payment_date: this.datePipe.transform(m.created_at, 'yyyy-MM-dd')
+              };
+              // console.log(c)
+              reducingP.push(c);     
+            }
+
             // calculating total paid and total outstanding payment
             if (m.is_paid_calculated) {
-              m['paid_amount'] = m.calc_payment_amount;
+              // m['paid_amount'] = m.calc_payment_amount;
               this.totalPaid = this.totalPaid + m.calc_payment_amount;
             } 
             if ((m.amount - (m.calc_payment_amount||0))>=0) {

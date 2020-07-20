@@ -296,11 +296,15 @@
               <td>{{p?.payment_date || ''}}</td>
               <td>
                 {{p?.paid_amount ? (p?.paid_amount | currency) : ''}}
+                <!-- {{p?.is_paid_calculated == 1 ? p?.amount : (p?.collection_payment ? (p?.collection_payment?.amount | currency) : '')}} -->
               </td>
               <td>{{p?.collection_payment?.payment_method?.name || ''}}</td>
               <td>
-                <span [ngClass]="{'red-color':p?.is_pending}">
+                <!-- <span [ngClass]="{'red-color':p?.is_pending}">
                   {{p?.outstanding_amount ? (p?.outstanding_amount | currency) : ''}}
+                </span> -->
+                <span [ngClass]="{'red-color':(p?.amount != p?.collection_payment?.amount) && p?.collection_payment?.amount}">
+                  {{p?.is_paid_calculated!=1 && p?.amount ? ((p?.amount || 0) | currency) : ''}}
                 </span>
               </td>
               <td>
