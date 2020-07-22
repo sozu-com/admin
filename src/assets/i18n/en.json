@@ -675,7 +675,9 @@
         "sale": "Sale",
         "presale": "Presale",
         "changeTo": "Change to",
-        "notAssigned": "Not Assigned"
+        "notAssigned": "Not Assigned",
+        "customised":"Customized",
+        "predefined":"Predefined"
       }
     },
     "title": {

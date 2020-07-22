@@ -180,4 +180,5 @@ export interface IProperty {
   floor_num?: number;
   configuration_name?: string;
   collection_id?:string;
+  user_type?: number;
 }

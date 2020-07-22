@@ -24,8 +24,8 @@
                   <div class="table-search">
                       <label>{{'table.th.name' | translate}}</label>
                       <div class="searh-3">
-                        <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getAclUsers(parameter.page, parameter.name, parameter.phone, parameter.email)" name="">
-                        <button *ngIf="parameter.name" (click)="getAclUsers(parameter.page, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
+                        <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getAclUsers()" name="">
+                        <button *ngIf="parameter.name" (click)="getAclUsers()"><i class="fa fa-search"></i></button>
                       </div>
                   </div>
                 </th>
@@ -33,8 +33,8 @@
                   <div class="table-search">
                       <label>{{'table.th.contactNumber' | translate}}</label>
                       <div class="searh-3">
-                        <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="getAclUsers(parameter.page, parameter.name, parameter.phone, parameter.email)" name="">
-                        <button *ngIf="parameter.phone" (click)="getAclUsers(parameter.page, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
+                        <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="getAclUsers()" name="">
+                        <button *ngIf="parameter.phone" (click)="getAclUsers()"><i class="fa fa-search"></i></button>
                       </div>
                   </div>
                 </th>
@@ -42,8 +42,8 @@
                   <div class="table-search">
                     <label>{{'table.th.emailAddress' | translate}}</label>
                       <div class="searh-3">
-                        <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="getAclUsers(parameter.page, parameter.name, parameter.phone, parameter.email)" name="">
-                        <button *ngIf="parameter.email" (click)="getAclUsers(parameter.page, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
+                        <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="getAclUsers()" name="">
+                        <button *ngIf="parameter.email" (click)="getAclUsers()"><i class="fa fa-search"></i></button>
                       </div>
                   </div>
                 </th>
@@ -52,7 +52,17 @@
                     <label>{{'table.th.empId' | translate}}</label>
                   </div>
                 </th>
-                <th style="width:14%">
+                <th style="width:5%; vertical-align: top;">
+                  <div class="table-search">
+                    <label>{{'table.th.type' | translate}}</label>
+                    <select [(ngModel)]="parameter.user_type" (change)="getAclUsers()">
+                      <option value="0">{{'table.th.all' | translate}}</option>
+                      <option value="1">{{'table.tr.td.customised' | translate}}</option>
+                      <option value="2">{{'table.tr.td.predefined' | translate}}</option>
+                   </select>
+                  </div>
+                </th>
+                <th style="width:10%">
                   &nbsp;
                 </th>
               </tr>
@@ -75,6 +85,7 @@
                 <td class="text-left" *ngIf="item.email">{{item.email}}</td>
                 <td class="text-left" *ngIf="!item.email">{{'table.tr.td.NA' | translate}}</td>
                 <td>{{item.id}}</td>
+                <td>{{item.user_type == 1 ? ('table.tr.td.customised' | translate) : ('table.tr.td.predefined' | translate)}}</td>
                 <td>
                   <div class="table-actions">
                     <!-- <a href="javascript://" routerLink="/dashboard/access-control-mgt/add-acl-user/{{item.id}}" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a> -->

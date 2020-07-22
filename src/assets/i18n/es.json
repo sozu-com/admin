@@ -664,7 +664,9 @@
         "sale": "Venta",
         "presale": "Preventa",
         "changeTo": "Cambiar a",
-        "notAssigned": "No asignado"
+        "notAssigned": "No asignado",
+        "customised":"Personalizado",
+        "predefined":"Predefinido"
       }
     },
     "title": {

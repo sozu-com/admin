@@ -456,6 +456,7 @@ export class CollectionsComponent implements OnInit {
   }
 
   showApplyPaymentPopup(item: any, i: number, type: string) {
+    this.property_collection_id = item.id;
     this.typeOfPayment = type;
     this.collectionIndex = i;
     this.paymentConcepts = item.payment_choices;
@@ -530,87 +531,90 @@ export class CollectionsComponent implements OnInit {
   }
 
   applyCollectionPayment(formdata: NgForm) {
+    // checking if date selected and receipt selected
     if (!this.paymentDate) {
-      
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseSelectPaymentDate'), this.translate.instant('swal.error'));
- 
-      // swal('Error', 'Please select payment date', 'error');
       return false;
     }
     if (!this.docFile) {
-      
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseChooseReceipt'), this.translate.instant('swal.error'));
- 
-      // swal('Error', 'Please choose receipt', 'error');
       return false;
     }
+
+    // inpur params
     const input = {
+      property_collection_id: this.property_collection_id,
       payment_method_id: this.payment_method_id,
       amount : this.paymentAmount,
       receipt: this.docFile,
       description: this.description,
       payment_date: this.paymentDate
     }
+
+    // send commission_type, collection_commission_id, percent incase of applying commission
     if (this.typeOfPayment == 'commission-popup') {
       input['commission_type'] = this.commission_type;
       input['collection_commission_id'] = this.selectedCollectionCommission.id;
       input['percent'] = this.selectedCollectionCommission.percent;
     } else {
+      // applying payment
       // for edit the wrong amount uploaded
-      if (this.selectedPaymentConcept['collection_payment']) {
+      if (this.selectedPaymentConcept && this.selectedPaymentConcept['collection_payment']) {
         input['id'] = this.selectedPaymentConcept['collection_payment']['id']
       }
-      input['collection_payment_choice_id'] = this.payment_choice_id['id']
+      // for type==2&3, no need to pass collection_payment_choice_id
+      if (this.payment_type == 1 || this.payment_type == 4) {
+        input['collection_payment_choice_id'] = this.payment_choice_id['id']
+      }
       input['type'] = this.payment_type;
     }
     const url = this.typeOfPayment == 'apply-popup' ? 'applyCollectionPayment' : 'applyCommissionPayment';
     this.admin.postDataApi(url, input).subscribe(r => {
-      this.applyPaymentChoiceId.nativeElement.value='';
-      if (this.typeOfPayment == 'apply-popup') {
-        let paymentChoiceIndex = 0;
-        for (let index = 0; index < this.items[this.collectionIndex].payment_choices.length; index++) {
-          const element = this.items[this.collectionIndex].payment_choices[index];
-          if (element.id == this.selectedPaymentConcept.id) {
-            paymentChoiceIndex = index;
+      if (this.payment_type == 1 || this.payment_type == 4) {
+        this.applyPaymentChoiceId.nativeElement.value='';
+        if (this.typeOfPayment == 'apply-popup') {
+          this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
+          // let paymentChoiceIndex = 0;
+          // for (let index = 0; index < this.items[this.collectionIndex].payment_choices.length; index++) {
+          //   const element = this.items[this.collectionIndex].payment_choices[index];
+          //   if (element.id == this.selectedPaymentConcept.id) {
+          //     paymentChoiceIndex = index;
+          //   }
+          // }
+          // this.items[this.collectionIndex].last_payment = {
+          //   name: this.items[this.collectionIndex].payment_choices[paymentChoiceIndex].name, 
+          //   payment_date: r.data.payment_date,
+          //   amount: r.data.amount
+          // }
+          // if (this.items[this.collectionIndex].payment_choices[paymentChoiceIndex+1]) {
+          //   this.items[this.collectionIndex].next_payment = {
+          //     name: this.items[this.collectionIndex].payment_choices[paymentChoiceIndex+1].name, 
+          //     date: this.items[this.collectionIndex].payment_choices[paymentChoiceIndex+1].date,
+          //     amount: this.items[this.collectionIndex].payment_choices[paymentChoiceIndex+1].amount
+          //   }
+          // }
+          // this.items[this.collectionIndex].payment_choices[paymentChoiceIndex]['collection_payment'] = r.data;
+          // this.selectedPaymentConcept = {};
+        } else {
+          let collectionCommIndex = 0;
+          for (let index = 0; index < this.items[this.collectionIndex].collection_commissions.length; index++) {
+            // console.log(this.items[this.collectionIndex]);
+            const element = this.items[this.collectionIndex].collection_commissions[index];
+            if (element.id == this.selectedCollectionCommission.id) {
+              collectionCommIndex = index;
+            }
           }
+          this.items[this.collectionIndex].collection_commissions[collectionCommIndex]['payment'] = r.data;
         }
-        this.items[this.collectionIndex].last_payment = {
-          name: this.items[this.collectionIndex].payment_choices[paymentChoiceIndex].name, 
-          payment_date: r.data.payment_date,
-          amount: r.data.amount
-        }
-        if (this.items[this.collectionIndex].payment_choices[paymentChoiceIndex+1]) {
-          this.items[this.collectionIndex].next_payment = {
-            name: this.items[this.collectionIndex].payment_choices[paymentChoiceIndex+1].name, 
-            date: this.items[this.collectionIndex].payment_choices[paymentChoiceIndex+1].date,
-            amount: this.items[this.collectionIndex].payment_choices[paymentChoiceIndex+1].amount
-          }
-        }
-        this.items[this.collectionIndex].payment_choices[paymentChoiceIndex]['collection_payment'] = r.data;
-        this.selectedPaymentConcept = {};
-      } else {
-        let collectionCommIndex = 0;
-        // console.log(this.collectionIndex);
-        // console.log(this.items[this.collectionIndex]);
-        // console.log(this.items[this.collectionIndex].collection_commissions);
-        for (let index = 0; index < this.items[this.collectionIndex].collection_commissions.length; index++) {
-          // console.log(this.items[this.collectionIndex]);
-          const element = this.items[this.collectionIndex].collection_commissions[index];
-          if (element.id == this.selectedCollectionCommission.id) {
-            collectionCommIndex = index;
-          }
-        }
-        this.items[this.collectionIndex].collection_commissions[collectionCommIndex]['payment'] = r.data;
       }
-
+      
       if (this.typeOfPayment == 'apply-popup') {
         this.docsFile1.nativeElement.value = '';
       } else {
         this.docsFile2.nativeElement.value = '';
       }
-      this.applyPaymentChoiceId.nativeElement.value = '';
       this.applyPaymentMethodId.nativeElement.value = '';
       this.paymentModalClose.nativeElement.click();
       this.closeCollReceiptModal();

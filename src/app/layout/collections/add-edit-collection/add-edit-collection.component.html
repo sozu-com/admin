@@ -1732,12 +1732,12 @@
                 <input type="number" step="0.01" appUptoTwoDigitDecimalNumber class="form-control" formControlName="amount" name="amount{{i}}" (input)="getCollPercentage($event.target.value, i, model.collection_commissions[i].payment_amount)">
               </td>
               <td>
-                <input type="checkbox" class="form-control" formControlName="add_purchase_commission" name="add_purchase_commission"
-                  (change)="setPurchaseComm(addFormStep5.controls.collection_commissions.controls[i].controls.add_purchase_commission.value, i)">
+                <input type="checkbox" class="form-control" formControlName="add_purchase_commission" name="add_purchase_commission">
+                  <!-- (change)="setPurchaseComm(addFormStep5.controls.collection_commissions.controls[i].controls.add_purchase_commission.value, i)" -->
               </td>
               <td>
-                <input type="number" step="0.01" appUptoTwoDigitDecimalNumber class="form-control" formControlName="purchase_comm_amount" name="purchase_comm_amount{{i}}"
-                  (input)="getPurcAmount($event.target.value, i)">
+                <input type="number" step="0.01" appUptoTwoDigitDecimalNumber class="form-control" formControlName="purchase_comm_amount" name="purchase_comm_amount{{i}}">
+                <!-- (input)="getPurcAmount($event.target.value, i)" -->
               </td>
             </tr>
           </ng-container>

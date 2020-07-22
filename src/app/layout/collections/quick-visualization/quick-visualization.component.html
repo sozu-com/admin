@@ -222,11 +222,11 @@
   <h5>{{'quickVisualization.paymentInformation' | translate}}</h5>
   <div class="cust-tabs">
     <div class="tab-content white-bg">
-      <div class="table-responsive">
+      <div class="table-responsive main-table">
         <table class="table table-bordered table-striped table-align-center quick-table">
           <thead>
             <tr>
-              <th [style.width]="'200px'">
+              <th [style.width]="'200px'" [style.z-index]="100">
                 <b>{{'quickVisualization.concept' | translate}}</b>
               </th>
               <th [style.width]="'140px'">
@@ -247,9 +247,9 @@
               <th [style.width]="'120px'">
                   <b>{{'quickVisualization.paidByUser' | translate}}</b>
               </th>
-              <th [style.width]="'120px'">
+              <!-- <th [style.width]="'120px'">
                   <b>{{'quickVisualization.toBePaidByUser' | translate}}</b>
-              </th>
+              </th> -->
               <th>
                   <b>{{'quickVisualization.paymentAttachment' | translate}}</b>
               </th>
@@ -310,9 +310,9 @@
               <td>
                 {{p?.collection_payment ? (p?.collection_payment?.amount | currency) : ''}}
               </td>
-              <td>
+              <!-- <td>
                   {{p?.amount ? ((p?.amount || 0) | currency) : ''}}
-              </td>
+              </td> -->
               <td>
                 <a class="green-color fontW500" *ngIf="p?.collection_payment && p?.key!='total'" target="_blank" href="{{p?.collection_payment?.receipt}}">
                   {{'quickVisualization.view' | translate}}

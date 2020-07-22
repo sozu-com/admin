@@ -25,3 +25,29 @@ table.table-striped.quick-table th, table.table-striped.quick-table td {
   background: #faebd7b0 !important;
   font-weight: 600;
 }
+
+
+/* freeze first col and row */
+.main-table{
+  height: 800px;
+}
+table.table-striped.quick-table th, table.table-striped.quick-table td {
+  width: 190px;
+}
+table.table-striped.quick-table {
+  table-layout: fixed;
+  width:100%;
+}
+table.table-striped.quick-table td:nth-child(1), table.table-striped.quick-table th:nth-child(1),
+table.table-striped.quick-table thead tr th {
+  position:sticky;
+  left:0;
+  top: 0;
+  z-index:1;
+  background-color: grey;
+  color: #fff;
+}
+table.table-striped.quick-table th:first-child {
+  z-index:2;
+}
+/* freeze first col and row */
