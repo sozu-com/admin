@@ -323,13 +323,21 @@
                         <span *ngIf="p?.buyer_type == 2">{{p?.buyer_legal_entity?.comm_name ? p?.buyer_legal_entity?.comm_name : ('table.tr.td.NA' | translate)}}</span>
                         <span *ngIf="p?.buyer_type == 3">{{p?.buyer?.name ? p?.buyer?.name : ('table.tr.td.NA' | translate)}}</span>
                      </td>
-                     <td><span>{{p?.buyer_leg_rep_name ? p?.buyer_leg_rep_name : ('table.tr.td.NA' | translate)}}</span></td>
+                     <td>
+                      <span *ngIf="p?.buyer_type == 1">{{p?.buyer_leg_rep_name ? p?.buyer_leg_rep_name : ('table.tr.td.NA' | translate)}}</span>
+                      <span *ngIf="p?.buyer_type == 2">{{p?.buyer_legal_entity?.legal_reps?.name || ('table.tr.td.NA' | translate)}}</span>
+                      <span *ngIf="p?.buyer_type == 3">{{p?.buyer?.legal_representative?.name || ('table.tr.td.NA' | translate)}}</span>
+                    </td>
                      <td>
                         <span *ngIf="p?.seller_type == 1">{{p?.seller?.name ? p?.seller?.name : ('table.tr.td.NA' | translate)}}</span>
                         <span *ngIf="p?.seller_type == 2">{{p?.seller_legal_entity?.comm_name ? p?.seller_legal_entity?.comm_name : ('table.tr.td.NA' | translate)}}</span>
                         <span *ngIf="p?.seller_type == 3">{{p?.seller?.name ? p?.seller?.name : ('table.tr.td.NA' | translate)}}</span>
                      </td>    
-                     <td><span>{{p?.seller_leg_rep_name ? p?.seller_leg_rep_name : ('table.tr.td.NA' | translate)}}</span></td>
+                     <td>
+                      <span *ngIf="p?.seller_type == 1">{{p?.seller_leg_rep_name ? p?.seller_leg_rep_name : ('table.tr.td.NA' | translate)}}</span>
+                      <span *ngIf="p?.seller_type == 2">{{p?.seller_legal_entity?.legal_reps?.name || ('table.tr.td.NA' | translate)}}</span>
+                      <span *ngIf="p?.seller_type == 3">{{p?.seller?.legal_representative?.name || ('table.tr.td.NA' | translate)}}</span>
+                    </td>                  
                      <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}">
                         <strong>{{p?.property?.building?.name ? p?.property?.building?.name: ('table.tr.td.NA' | translate)}}</strong>
                      </td>

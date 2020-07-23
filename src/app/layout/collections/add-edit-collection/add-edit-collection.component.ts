@@ -495,106 +495,253 @@ export class AddEditCollectionComponent implements OnInit {
   patchFormStep2(data, mode: string) {
     this.model.seller_type = data.seller_type ? data.seller_type : '1';
     this.addFormStep2.controls.seller_type.patchValue(data.seller_type ? data.seller_type.toString() : '1');
-    if (data.seller_type != '2') {
+  
+    // as a person
+    if (this.model.seller_type == '1') {
       this.addFormStep2.controls.seller_id.patchValue(data.seller ? data.seller.id : '');
       this.addFormStep2.controls.seller_company_name.patchValue(data.seller_company_name ? data.seller_company_name : '');
-    }
-    if (data.seller_type == '1') {
       this.addFormStep2.controls.seller_email.patchValue(data.seller ? data.seller.email : '');
-    }
-    if (data.seller_type == '2') {
-      this.addFormStep2.controls.seller_legal_entity_id.patchValue(data.seller_legal_entity ? data.seller_legal_entity.id : '');
-    }
-    
-    this.addFormStep2.controls.seller_name.patchValue(data.seller_type == '2' 
-      ? (data.seller_legal_entity ? data.seller_legal_entity.comm_name : '') 
-      : (data.seller ? data.seller.name : ''));
-    this.addFormStep2.controls.seller_legal_name.patchValue(data.seller_type == '2' 
-      ? (data.seller_legal_entity ? data.seller_legal_entity.legal_name : '') 
-      : (data.seller_legal_name ? data.seller_legal_name : ''));
-    this.addFormStep2.controls.seller_address.patchValue(data.seller_type == '2' 
-      ? (data.seller_legal_entity ? data.seller_legal_entity.address : '') 
-      : (data.seller_address ? data.seller_address : ''));
-    this.addFormStep2.controls.seller_phone.patchValue(data.seller_type == '2' 
-      ? (data.seller_legal_entity ? data.seller_legal_entity.phone : '') 
-      : (data.seller ? data.seller.phone : ''));
-    this.addFormStep2.controls.seller_fed_tax.patchValue(data.seller_type == '2' 
-      ? (data.seller_legal_entity ? data.seller_legal_entity.fed_tax_pay : '') 
-      : (data.seller_fed_tax || ''));
+      this.addFormStep2.controls.seller_name.patchValue(data.seller ? data.seller.name : '');
+      this.addFormStep2.controls.seller_legal_name.patchValue(data.seller_legal_name ? data.seller_legal_name : '');
+      this.addFormStep2.controls.seller_address.patchValue(data.seller_address ? data.seller_address : '');
+      this.addFormStep2.controls.seller_phone.patchValue(data.seller ? data.seller.phone : '');
+      this.addFormStep2.controls.seller_fed_tax.patchValue(data.seller_fed_tax || '');
 
-    this.addFormStep2.controls.seller_leg_rep_name.patchValue(data.seller_leg_rep_name || '');
-    this.addFormStep2.controls.seller_leg_rep_phone.patchValue(data.seller_leg_rep_phone || '');
-    this.addFormStep2.controls.seller_leg_rep_email.patchValue(data.seller_leg_rep_email || '');
-    this.addFormStep2.controls.seller_leg_rep_comp.patchValue(data.seller_leg_rep_comp || '');
-    this.addFormStep2.controls.seller_leg_rep_fed_tax.patchValue(data.seller_leg_rep_fed_tax || '');
-    this.addFormStep2.controls.step.patchValue(2);
-    const control = this.addFormStep2.get('collection_seller_banks') as FormArray;
-    if (data.collection_seller_banks) {
-      data.collection_seller_banks.forEach(x => {
-        control.push(this.fb.group(x));
-      });
+      this.addFormStep2.controls.seller_leg_rep_name.patchValue(data.seller_leg_rep_name || '');
+      this.addFormStep2.controls.seller_leg_rep_phone.patchValue(data.seller_leg_rep_phone || '');
+      this.addFormStep2.controls.seller_leg_rep_email.patchValue(data.seller_leg_rep_email || '');
+      this.addFormStep2.controls.seller_leg_rep_comp.patchValue(data.seller_leg_rep_comp || '');
+      this.addFormStep2.controls.seller_leg_rep_fed_tax.patchValue(data.seller_leg_rep_fed_tax || '');
+      this.addFormStep2.controls.step.patchValue(2);
+      const control = this.addFormStep2.get('collection_seller_banks') as FormArray;
+      if (data.collection_seller_banks) {
+        data.collection_seller_banks.forEach(x => {
+          control.push(this.fb.group(x));
+        });
+      }
+      const control1 = this.addFormStep2.get('collection_seller_rep_banks') as FormArray;
+      if (data.collection_seller_rep_banks) {
+        data.collection_seller_rep_banks.forEach(x => {
+          control1.push(this.fb.group(x));
+        });
+      }
+
     }
-    const control1 = this.addFormStep2.get('collection_seller_rep_banks') as FormArray;
-    if (data.collection_seller_rep_banks) {
-      data.collection_seller_rep_banks.forEach(x => {
-        control1.push(this.fb.group(x));
-      });
-    }
-    // console.log('sellerrrrr', this.addFormStep2.value);
+
+    
+      // seller as a legal entity
+      if (this.model.seller_type == '2') {
+        this.addFormStep2.controls.seller_legal_entity_id.patchValue(data.seller_legal_entity.id);   
+        this.addFormStep2.controls.seller_name.patchValue(data.seller_legal_entity.comm_name);
+        this.addFormStep2.controls.seller_legal_name.patchValue(data.seller_legal_entity.legal_name);
+        this.addFormStep2.controls.seller_fed_tax.patchValue(data.seller_legal_entity.fed_tax_pay);
+        this.addFormStep2.controls.seller_phone.patchValue(data.seller_legal_entity.phone);
+        this.addFormStep2.controls.seller_address.patchValue(data.seller_legal_entity.address);
+        this.addFormStep2.controls.seller_leg_rep_name.patchValue(data.seller_legal_entity.legal_reps ? data.seller_legal_entity.legal_reps.name : '');
+        this.addFormStep2.controls.seller_leg_rep_phone.patchValue(data.seller_legal_entity.legal_reps ? data.seller_legal_entity.legal_reps.phone : '');
+        this.addFormStep2.controls.seller_leg_rep_email.patchValue(data.seller_legal_entity.legal_reps ? data.seller_legal_entity.legal_reps.email : '');
+        this.addFormStep2.controls.seller_leg_rep_comp.patchValue('');
+        this.addFormStep2.controls.seller_leg_rep_fed_tax.patchValue(data.seller_legal_entity.legal_reps ? data.seller_legal_entity.legal_reps.fed_tax_pay : '');
+        let control = new FormArray([]);
+        control = this.addFormStep2.get('collection_seller_banks') as FormArray;
+        if (data.seller_legal_entity.legal_entity_banks) {
+          data.seller_legal_entity.legal_entity_banks.forEach(x => {
+            delete x.id;  // no need to send id ( cuz these are saving separtely in table)
+            control.push(this.fb.group(x));
+          });
+        }
+        let control1 = new FormArray([]);
+        control1 = this.addFormStep2.get('collection_seller_rep_banks') as FormArray;
+        if (data.seller_legal_entity.legal_reps && data.seller_legal_entity.legal_reps.legal_rep_banks) {
+          data.seller_legal_entity.legal_reps.legal_rep_banks.forEach(x => {
+            delete x.id;  // no need to send id ( cuz these are saving separtely in table)
+            control1.push(this.fb.group(x));
+          });
+        }
+      }
+      
+      // seller as a developer
+      if (this.model.seller_type == '3') {   
+        this.addFormStep2.controls.seller_id.patchValue(data.seller.id);
+        this.addFormStep2.controls.seller_company_name.patchValue(data.seller_company_name ? data.seller_company_name : '');
+        this.addFormStep2.controls.seller_legal_name.patchValue(data.seller.developer_company || '');
+        this.addFormStep2.controls.seller_name.patchValue(data.seller.name || '');
+        this.addFormStep2.controls.seller_fed_tax.patchValue(data.seller.fed_tax_pay || '');
+        this.addFormStep2.controls.seller_phone.patchValue(data.seller.phone || '');
+        this.addFormStep2.controls.seller_address.patchValue(data.seller.developer_address || '');
+        this.addFormStep2.controls.seller_leg_rep_name.patchValue(data.seller.legal_representative ? data.seller.legal_representative.name : '');
+        this.addFormStep2.controls.seller_leg_rep_phone.patchValue(data.seller.legal_representative ? data.seller.legal_representative.phone : '');
+        this.addFormStep2.controls.seller_leg_rep_email.patchValue(data.seller.legal_representative ? data.seller.legal_representative.email : '');
+        this.addFormStep2.controls.seller_leg_rep_fed_tax.patchValue(data.seller.legal_representative ? data.seller.legal_representative.fed_tax_pay : '');
+        const control = this.addFormStep2.get('collection_seller_rep_banks') as FormArray;
+        if (data.seller.legal_representative && data.seller.legal_representative.legal_rep_banks) {
+          data.seller.legal_representative.legal_rep_banks.forEach(x => {
+            delete x.id;  // no need to send id ( cuz these are saving separtely in table)
+            control.push(this.fb.group(x));
+          });
+        }
+        const control1 = this.addFormStep2.get('collection_seller_banks') as FormArray;
+        if (data.seller.legal_rep_banks) {
+          data.seller.legal_rep_banks.forEach(x => {
+            delete x.id;  // no need to send id ( cuz these are saving separtely in table)
+            control1.push(this.fb.group(x));
+          });
+        }
+      }
+
     if (mode == 'edit') {
       this.setSeller(data);
     }
   }
 
+  // patchFormStep3(data) {
+  //   this.model.buyer_type = data.buyer_type ? data.buyer_type : '1';
+  //   this.addFormStep3.controls.buyer_type.patchValue(data.buyer_type ? data.buyer_type.toString() : '1');
+
+  //   if (data.buyer_type != '2') {
+  //     this.addFormStep3.controls.buyer_id.patchValue(data.buyer ? data.buyer.id : '');
+  //     this.addFormStep3.controls.buyer_company_name.patchValue(data.buyer_company_name ? data.buyer_company_name : '');
+  //   }
+  //   if (data.buyer_type == '1') {
+  //     this.addFormStep3.controls.buyer_email.patchValue(data.buyer ? data.buyer.email : '');
+  //   }
+  //   if (data.buyer_type == '2') {
+  //     this.addFormStep3.controls.buyer_legal_entity_id.patchValue(data.buyer_legal_entity ? data.buyer_legal_entity.id : '');
+  //   }
+
+  //   this.addFormStep3.controls.buyer_name.patchValue(data.buyer_type == '2' 
+  //     ? (data.buyer_legal_entity ? data.buyer_legal_entity.comm_name : '') 
+  //     : (data.buyer ? data.buyer.name : ''));
+  //   this.addFormStep3.controls.buyer_legal_name.patchValue(data.buyer_type == '2' 
+  //     ? (data.buyer_legal_entity ? data.buyer_legal_entity.legal_name : '') 
+  //     : (data.buyer_legal_name ? data.buyer_legal_name : ''));
+  //   this.addFormStep3.controls.buyer_address.patchValue(data.buyer_type == '2' 
+  //     ? (data.buyer_legal_entity ? data.buyer_legal_entity.address : '') 
+  //     : (data.buyer_address ? data.buyer_address : ''));
+  //   this.addFormStep3.controls.buyer_phone.patchValue(data.buyer_type == '2' 
+  //     ? (data.buyer_legal_entity ? data.buyer_legal_entity.phone : '') 
+  //     : (data.buyer ? data.buyer.phone : ''));
+  //   this.addFormStep3.controls.buyer_fed_tax.patchValue(data.buyer_type == '2' 
+  //     ? (data.buyer_legal_entity ? data.buyer_legal_entity.fed_tax_pay : '') 
+  //     : (data.buyer_fed_tax || ''));
+      
+  //   this.addFormStep3.controls.buyer_leg_rep_name.patchValue(data.buyer_leg_rep_name || '');
+  //   this.addFormStep3.controls.buyer_leg_rep_phone.patchValue(data.buyer_leg_rep_phone || '');
+  //   this.addFormStep3.controls.buyer_leg_rep_email.patchValue(data.buyer_leg_rep_email || '');
+  //   this.addFormStep3.controls.buyer_leg_rep_comp.patchValue(data.buyer_leg_rep_comp || '');
+  //   this.addFormStep3.controls.buyer_leg_rep_fed_tax.patchValue(data.buyer_leg_rep_fed_tax || '');
+  //   this.addFormStep3.controls.step.patchValue(2);
+  //   const control = this.addFormStep3.get('collection_buyer_banks') as FormArray;
+  //   if (data.collection_buyer_banks) {
+  //     data.collection_buyer_banks.forEach(x => {
+  //       control.push(this.fb.group(x));
+  //     });
+  //   }
+  //   const control1 = this.addFormStep3.get('collection_buyer_rep_banks') as FormArray;
+  //   if (data.collection_buyer_rep_banks) {
+  //     data.collection_buyer_rep_banks.forEach(x => {
+  //       control1.push(this.fb.group(x));
+  //     });
+  //   }
+  // }
+
+  
   patchFormStep3(data) {
     this.model.buyer_type = data.buyer_type ? data.buyer_type : '1';
     this.addFormStep3.controls.buyer_type.patchValue(data.buyer_type ? data.buyer_type.toString() : '1');
 
-    if (data.buyer_type != '2') {
+    // as a person
+    if (this.model.buyer_type == '1') {
       this.addFormStep3.controls.buyer_id.patchValue(data.buyer ? data.buyer.id : '');
       this.addFormStep3.controls.buyer_company_name.patchValue(data.buyer_company_name ? data.buyer_company_name : '');
-    }
-    if (data.buyer_type == '1') {
       this.addFormStep3.controls.buyer_email.patchValue(data.buyer ? data.buyer.email : '');
-    }
-    if (data.buyer_type == '2') {
-      this.addFormStep3.controls.buyer_legal_entity_id.patchValue(data.buyer_legal_entity ? data.buyer_legal_entity.id : '');
+      this.addFormStep3.controls.buyer_name.patchValue(data.buyer ? data.buyer.name : '');
+      this.addFormStep3.controls.buyer_legal_name.patchValue(data.buyer_legal_name ? data.buyer_legal_name : '');
+      this.addFormStep3.controls.buyer_address.patchValue(data.buyer_address ? data.buyer_address : '');
+      this.addFormStep3.controls.buyer_phone.patchValue(data.buyer ? data.buyer.phone : '');
+      this.addFormStep3.controls.buyer_fed_tax.patchValue(data.buyer_fed_tax || '');
+
+      this.addFormStep3.controls.buyer_leg_rep_name.patchValue(data.buyer_leg_rep_name || '');
+      this.addFormStep3.controls.buyer_leg_rep_phone.patchValue(data.buyer_leg_rep_phone || '');
+      this.addFormStep3.controls.buyer_leg_rep_email.patchValue(data.buyer_leg_rep_email || '');
+      this.addFormStep3.controls.buyer_leg_rep_comp.patchValue(data.buyer_leg_rep_comp || '');
+      this.addFormStep3.controls.buyer_leg_rep_fed_tax.patchValue(data.buyer_leg_rep_fed_tax || '');
+      this.addFormStep3.controls.step.patchValue(2);
+      const control = this.addFormStep3.get('collection_buyer_banks') as FormArray;
+      if (data.collection_buyer_banks) {
+        data.collection_buyer_banks.forEach(x => {
+          control.push(this.fb.group(x));
+        });
+      }
+      const control1 = this.addFormStep3.get('collection_buyer_rep_banks') as FormArray;
+      if (data.collection_buyer_rep_banks) {
+        data.collection_buyer_rep_banks.forEach(x => {
+          control1.push(this.fb.group(x));
+        });
+      }
+
     }
 
-    this.addFormStep3.controls.buyer_name.patchValue(data.buyer_type == '2' 
-      ? (data.buyer_legal_entity ? data.buyer_legal_entity.comm_name : '') 
-      : (data.buyer ? data.buyer.name : ''));
-    this.addFormStep3.controls.buyer_legal_name.patchValue(data.buyer_type == '2' 
-      ? (data.buyer_legal_entity ? data.buyer_legal_entity.legal_name : '') 
-      : (data.buyer_legal_name ? data.buyer_legal_name : ''));
-    this.addFormStep3.controls.buyer_address.patchValue(data.buyer_type == '2' 
-      ? (data.buyer_legal_entity ? data.buyer_legal_entity.address : '') 
-      : (data.buyer_address ? data.buyer_address : ''));
-    this.addFormStep3.controls.buyer_phone.patchValue(data.buyer_type == '2' 
-      ? (data.buyer_legal_entity ? data.buyer_legal_entity.phone : '') 
-      : (data.buyer ? data.buyer.phone : ''));
-    this.addFormStep3.controls.buyer_fed_tax.patchValue(data.buyer_type == '2' 
-      ? (data.buyer_legal_entity ? data.buyer_legal_entity.fed_tax_pay : '') 
-      : (data.buyer_fed_tax || ''));
+    
+      // buyer as a legal entity
+      if (this.model.buyer_type == '2') {
+        this.addFormStep3.controls.buyer_legal_entity_id.patchValue(data.buyer_legal_entity.id);   
+        this.addFormStep3.controls.buyer_name.patchValue(data.buyer_legal_entity.comm_name);
+        this.addFormStep3.controls.buyer_legal_name.patchValue(data.buyer_legal_entity.legal_name);
+        this.addFormStep3.controls.buyer_fed_tax.patchValue(data.buyer_legal_entity.fed_tax_pay);
+        this.addFormStep3.controls.buyer_phone.patchValue(data.buyer_legal_entity.phone);
+        this.addFormStep3.controls.buyer_address.patchValue(data.buyer_legal_entity.address);
+        this.addFormStep3.controls.buyer_leg_rep_name.patchValue(data.buyer_legal_entity.legal_reps ? data.buyer_legal_entity.legal_reps.name : '');
+        this.addFormStep3.controls.buyer_leg_rep_phone.patchValue(data.buyer_legal_entity.legal_reps ? data.buyer_legal_entity.legal_reps.phone : '');
+        this.addFormStep3.controls.buyer_leg_rep_email.patchValue(data.buyer_legal_entity.legal_reps ? data.buyer_legal_entity.legal_reps.email : '');
+        this.addFormStep3.controls.buyer_leg_rep_comp.patchValue('');
+        this.addFormStep3.controls.buyer_leg_rep_fed_tax.patchValue(data.buyer_legal_entity.legal_reps ? data.buyer_legal_entity.legal_reps.fed_tax_pay : '');
+        let control = new FormArray([]);
+        control = this.addFormStep3.get('collection_buyer_banks') as FormArray;
+        if (data.buyer_legal_entity.legal_entity_banks) {
+          data.buyer_legal_entity.legal_entity_banks.forEach(x => {
+            delete x.id;  // no need to send id ( cuz these are saving separtely in table)
+            control.push(this.fb.group(x));
+          });
+        }
+        let control1 = new FormArray([]);
+        control1 = this.addFormStep3.get('collection_buyer_rep_banks') as FormArray;
+        if (data.buyer_legal_entity.legal_reps && data.buyer_legal_entity.legal_reps.legal_rep_banks) {
+          data.buyer_legal_entity.legal_reps.legal_rep_banks.forEach(x => {
+            delete x.id;  // no need to send id ( cuz these are saving separtely in table)
+            control1.push(this.fb.group(x));
+          });
+        }
+      }
       
-    this.addFormStep3.controls.buyer_leg_rep_name.patchValue(data.buyer_leg_rep_name || '');
-    this.addFormStep3.controls.buyer_leg_rep_phone.patchValue(data.buyer_leg_rep_phone || '');
-    this.addFormStep3.controls.buyer_leg_rep_email.patchValue(data.buyer_leg_rep_email || '');
-    this.addFormStep3.controls.buyer_leg_rep_comp.patchValue(data.buyer_leg_rep_comp || '');
-    this.addFormStep3.controls.buyer_leg_rep_fed_tax.patchValue(data.buyer_leg_rep_fed_tax || '');
-    this.addFormStep3.controls.step.patchValue(2);
-    const control = this.addFormStep3.get('collection_buyer_banks') as FormArray;
-    if (data.collection_buyer_banks) {
-      data.collection_buyer_banks.forEach(x => {
-        control.push(this.fb.group(x));
-      });
-    }
-    const control1 = this.addFormStep3.get('collection_buyer_rep_banks') as FormArray;
-    if (data.collection_buyer_rep_banks) {
-      data.collection_buyer_rep_banks.forEach(x => {
-        control1.push(this.fb.group(x));
-      });
-    }
+      // buyer as a developer
+      if (this.model.buyer_type == '3') {   
+        this.addFormStep3.controls.buyer_id.patchValue(data.buyer.id);
+        this.addFormStep3.controls.buyer_company_name.patchValue(data.buyer_company_name ? data.buyer_company_name : '');
+        this.addFormStep3.controls.buyer_legal_name.patchValue(data.buyer.developer_company || '');
+        this.addFormStep3.controls.buyer_name.patchValue(data.buyer.name || '');
+        this.addFormStep3.controls.buyer_fed_tax.patchValue(data.buyer.fed_tax_pay || '');
+        this.addFormStep3.controls.buyer_phone.patchValue(data.buyer.phone || '');
+        this.addFormStep3.controls.buyer_address.patchValue(data.buyer.developer_address || '');
+        this.addFormStep3.controls.buyer_leg_rep_name.patchValue(data.buyer.legal_representative ? data.buyer.legal_representative.name : '');
+        this.addFormStep3.controls.buyer_leg_rep_phone.patchValue(data.buyer.legal_representative ? data.buyer.legal_representative.phone : '');
+        this.addFormStep3.controls.buyer_leg_rep_email.patchValue(data.buyer.legal_representative ? data.buyer.legal_representative.email : '');
+        this.addFormStep3.controls.buyer_leg_rep_fed_tax.patchValue(data.buyer.legal_representative ? data.buyer.legal_representative.fed_tax_pay : '');
+        const control = this.addFormStep3.get('collection_buyer_rep_banks') as FormArray;
+        if (data.buyer.legal_representative && data.buyer.legal_representative.legal_rep_banks) {
+          data.buyer.legal_representative.legal_rep_banks.forEach(x => {
+            delete x.id;  // no need to send id ( cuz these are saving separtely in table)
+            control.push(this.fb.group(x));
+          });
+        }
+        const control1 = this.addFormStep3.get('collection_buyer_banks') as FormArray;
+        if (data.buyer.legal_rep_banks) {
+          data.buyer.legal_rep_banks.forEach(x => {
+            delete x.id;  // no need to send id ( cuz these are saving separtely in table)
+            control1.push(this.fb.group(x));
+          });
+        }
+      }
   }
 
   patchFormStep4(data) {
@@ -1430,7 +1577,7 @@ export class AddEditCollectionComponent implements OnInit {
         this.addFormStep2.controls.seller_email.patchValue(item.email || '');
         this.addFormStep2.controls.seller_phone.patchValue(item.phone || '');  
       }
-console.log(item);
+
       // seller as a legal entity
       if (this.model.seller_type == '2') {
         this.addFormStep2.controls.seller_legal_entity_id.patchValue(item.id);   

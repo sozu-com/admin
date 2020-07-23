@@ -40,10 +40,12 @@
                     <td *ngIf="model?.buyer_type!=2">{{model?.buyer?.name || ('table.tr.td.NA' | translate)}}</td>
                   </tr>
                   <tr>
-                    <td>{{model?.buyer?.email || ('table.tr.td.NA' | translate)}}</td>
+                    <td *ngIf="model?.buyer_type==2">{{model?.buyer_legal_entity?.email || ('table.tr.td.NA' | translate)}}</td>
+                    <td *ngIf="model?.buyer_type!=2">{{model?.buyer?.email || ('table.tr.td.NA' | translate)}}</td>
                   </tr>
                   <tr>
-                    <td>{{model?.buyer?.dial_code}} {{model?.buyer?.phone || ('table.tr.td.NA' | translate)}}</td>
+                    <td *ngIf="model?.buyer_type==2">{{model?.buyer_legal_entity?.dial_code}} {{model?.buyer_legal_entity?.phone || ('table.tr.td.NA' | translate)}}</td>
+                    <td *ngIf="model?.buyer_type!=2">{{model?.buyer?.dial_code}} {{model?.buyer?.phone || ('table.tr.td.NA' | translate)}}</td>
                   </tr>
                 </tbody>
               </table>
@@ -57,10 +59,12 @@
                       <td *ngIf="model?.seller_type!=2">{{model?.seller?.name || ('table.tr.td.NA' | translate)}}</td>
                     </tr>
                     <tr>
-                      <td>{{model?.seller?.email || ('table.tr.td.NA' | translate)}}</td>
+                      <td *ngIf="model?.seller_type==2">{{model?.seller_legal_entity?.email || ('table.tr.td.NA' | translate)}}</td>
+                      <td *ngIf="model?.seller_type!=2">{{model?.seller?.email || ('table.tr.td.NA' | translate)}}</td>
                     </tr>
                     <tr>
-                      <td>{{model?.seller?.dial_code}} {{model?.buyer?.phone || ('table.tr.td.NA' | translate)}}</td>
+                      <td *ngIf="model?.seller_type==2">{{model?.seller_legal_entity?.dial_code}} {{model?.seller_legal_entity?.phone || ('table.tr.td.NA' | translate)}}</td>
+                      <td *ngIf="model?.seller_type!=2">{{model?.seller?.dial_code}} {{model?.buyer?.phone || ('table.tr.td.NA' | translate)}}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -71,40 +75,53 @@
     
         <div class="col-md-4">
     
-              <div class="table-responsive">
-                <table class="table table-bordered white-bg">
-                  <tbody>
-                    <tr>
-                      <th rowspan="3">{{'quickVisualization.buyerLegal' | translate}} <br> {{'quickVisualization.representativeContact' | translate}}:</th>
-                      <td>{{model?.buyer_leg_rep_name || ('table.tr.td.NA' | translate)}}</td>
-                    </tr>
-                    <tr>
-                      <td>{{model?.buyer_leg_rep_email || ('table.tr.td.NA' | translate)}}</td>
-                    </tr>
-                    <tr>
-                      <td>{{model?.buyer?.dial_code}} {{model?.buyer_leg_rep_phone || ('table.tr.td.NA' | translate)}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-                <div class="table-responsive">
-                  <table class="table table-bordered white-bg">
-                    <tbody>
-                      <tr>
-                        <th rowspan="3">{{'quickVisualization.sellerLegal' | translate}} <br> {{'quickVisualization.representativeContact' | translate}}:</th>
-                        <td>{{model?.seller_leg_rep_name || ('table.tr.td.NA' | translate)}}</td>
-                      </tr>
-                      <tr>
-                        <td>{{model?.seller_leg_rep_email || ('table.tr.td.NA' | translate)}}</td>
-                      </tr>
-                      <tr>
-                        <td>{{model?.seller?.dial_code}} {{model?.seller_leg_rep_phone || ('table.tr.td.NA' | translate)}}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+          <div class="table-responsive">
+            <table class="table table-bordered white-bg">
+              <tbody>
+                <tr>
+                  <th rowspan="3">{{'quickVisualization.buyerLegal' | translate}} <br> {{'quickVisualization.representativeContact' | translate}}:</th>
+                    <td *ngIf="model?.buyer_type==1">{{model?.buyer_leg_rep_name || ('table.tr.td.NA' | translate)}}</td>
+                    <td *ngIf="model?.buyer_type==2">{{model?.buyer_legal_entity?.legal_reps?.name || ('table.tr.td.NA' | translate)}}</td>
+                    <td *ngIf="model?.buyer_type==3">{{model?.buyer?.legal_representative?.name || ('table.tr.td.NA' | translate)}}</td>
+                 </tr>
+                <tr>
+                  <td *ngIf="model?.buyer_type==1">{{model?.buyer_leg_rep_email || ('table.tr.td.NA' | translate)}}</td>
+                  <td *ngIf="model?.buyer_type==2">{{model?.buyer_legal_entity?.legal_reps?.email || ('table.tr.td.NA' | translate)}}</td>
+                  <td *ngIf="model?.buyer_type==3">{{model?.buyer?.legal_representative?.email || ('table.tr.td.NA' | translate)}}</td>
+                 </tr>
+                <tr>
+                  <td *ngIf="model?.buyer_type==1">{{model?.buyer?.dial_code}} {{model?.buyer_leg_rep_phone || ('table.tr.td.NA' | translate)}}</td>
+                  <td *ngIf="model?.buyer_type==2">{{model?.buyer_legal_entity?.legal_reps?.dial_code}} {{model?.buyer_legal_entity?.legal_reps?.phone || ('table.tr.td.NA' | translate)}}</td>
+                  <td *ngIf="model?.buyer_type==3">{{model?.buyer?.dial_code}} {{model?.buyer?.legal_representative?.phone || ('table.tr.td.NA' | translate)}}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
+            <div class="table-responsive">
+              <table class="table table-bordered white-bg">
+                <tbody>
+                  <tr>
+                    <th rowspan="3">{{'quickVisualization.sellerLegal' | translate}} <br> {{'quickVisualization.representativeContact' | translate}}:</th>
+                    <td *ngIf="model?.seller_type==1">{{model?.seller_leg_rep_name || ('table.tr.td.NA' | translate)}}</td>
+                    <td *ngIf="model?.seller_type==2">{{model?.seller_legal_entity?.legal_reps?.name || ('table.tr.td.NA' | translate)}}</td>
+                    <td *ngIf="model?.seller_type==3">{{model?.seller?.legal_representative?.name || ('table.tr.td.NA' | translate)}}</td>
+                 </tr>
+                <tr>
+                  <td *ngIf="model?.seller_type==1">{{model?.seller_leg_rep_email || ('table.tr.td.NA' | translate)}}</td>
+                  <td *ngIf="model?.seller_type==2">{{model?.seller_legal_entity?.legal_reps?.email || ('table.tr.td.NA' | translate)}}</td>
+                  <td *ngIf="model?.seller_type==3">{{model?.seller?.legal_representative?.email || ('table.tr.td.NA' | translate)}}</td>
+                 </tr>
+                <tr>
+                  <td *ngIf="model?.seller_type==1">{{model?.seller?.dial_code}} {{model?.seller_leg_rep_phone || ('table.tr.td.NA' | translate)}}</td>
+                  <td *ngIf="model?.seller_type==2">{{model?.seller_legal_entity?.legal_reps?.dial_code}} {{model?.seller_legal_entity?.legal_reps?.phone || ('table.tr.td.NA' | translate)}}</td>
+                  <td *ngIf="model?.seller_type==3">{{model?.seller?.dial_code}} {{model?.seller?.legal_representative?.phone || ('table.tr.td.NA' | translate)}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
       </div>
+  </div>
+    
     
     
         <h5>{{'quickVisualization.generalPropertyInformation' | translate}}</h5>
