@@ -746,7 +746,8 @@ export class AddEditCollectionComponent implements OnInit {
 
   patchFormStep4(data) {
     // const d = moment(data.deal_purchase_date).utc(true).local().toDate()
-    this.addFormStep4.controls.deal_purchase_date.patchValue(data.deal_purchase_date ? new Date(data.deal_purchase_date) : null);
+
+    this.addFormStep4.controls.deal_purchase_date.patchValue(data.deal_purchase_date ? this.getDateWRTTimezone(data.deal_purchase_date) : null);
     this.addFormStep4.controls.deal_price.patchValue(this.numberUptoTwoDecimal(data.deal_price));
     this.addFormStep4.controls.currency_id.patchValue(data.currency_id ? data.currency_id : 1);
     this.addFormStep4.controls.deal_interest_rate.patchValue(data.deal_interest_rate);
@@ -759,8 +760,13 @@ export class AddEditCollectionComponent implements OnInit {
         x.percent = this.numberUptoTwoDecimal(x.percent);
         x.amount = this.numberUptoTwoDecimal(x.amount);
         sum_of_concepts = sum_of_concepts + parseFloat(x.amount);
-        var offset = new Date(x.date).getTimezoneOffset();
-        x.date = x.date ? moment(x.date).add(offset, 'minutes').toDate() : null;
+        // var offset = new Date(x.date).getTimezoneOffset();
+        // if (offset < 0) {
+        //   x.date = x.date ? moment(x.date).subtract(offset, 'minutes').toDate() : null;
+        // } else {
+        //   x.date = x.date ? moment(x.date).add(offset, 'minutes').toDate() : null;
+        // }
+        x.date = x.date ? this.getDateWRTTimezone(x.date) : null;
         control1.push(this.fb.group(x)); 
       }
     }
@@ -2133,8 +2139,18 @@ export class AddEditCollectionComponent implements OnInit {
       );
   }
 
-   numberUptoTwoDecimal(num: any) {
-    //  console.log(num);
-     return num.toFixed(2);
-   }
+  numberUptoTwoDecimal(num: any) {
+  //  console.log(num);
+    return num.toFixed(2);
+  }
+
+  getDateWRTTimezone(date: any) {
+    var offset = new Date(date).getTimezoneOffset();
+    console.log(offset)
+    if (offset < 0) {
+      return moment(date).subtract(offset, 'minutes').toDate();
+    } else {
+      return moment(date).add(offset, 'minutes').toDate();
+    }
+  }
 }

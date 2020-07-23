@@ -8,7 +8,7 @@ textarea{
 
 /* freeze first col and row */
 .main-table{
-    height: 800px;
+    /* height: 800px; */
   }
   table.table-striped.quick-table th, table.table-striped.quick-table td {
     width: 190px;

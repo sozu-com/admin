@@ -13,6 +13,7 @@ import { ExcelService } from 'src/app/services/excel.service';
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
 import { CurrencyPipe, DatePipe } from '@angular/common';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-account-statement',
@@ -67,7 +68,7 @@ export class AccountStatementComponent implements OnInit {
           const reducingP = [];
           for (let index = 0; index < this.paymentConcepts.length; index++) {
             const m = this.paymentConcepts[index];
-            m.payment_date = m.collection_payment ? m.collection_payment.payment_date : '';
+            m.payment_date = m.collection_payment ? this.getDateWRTTimezone(m.collection_payment.payment_date) : '';
             //  calculating total penalty
             // if (m.penalty){
             //   this.model.totalPenalty = this.model.totalPenalty + parseInt(m.penalty.amount || 0)
@@ -86,7 +87,7 @@ export class AccountStatementComponent implements OnInit {
                 is_paid_calculated: 0,
                 outstanding_amount: 0,
                 index: index,
-                payment_date: this.datePipe.transform(m.created_at, 'yyyy-MM-dd')
+                payment_date: this.getDateWRTTimezone(m.collection_payment.payment_date)
               };
               // console.log(c)
               reducingP.push(c);     
@@ -100,7 +101,7 @@ export class AccountStatementComponent implements OnInit {
                 is_paid_calculated: 0,
                 outstanding_amount: 0,
                 index: index,
-                payment_date: this.datePipe.transform(m.created_at, 'yyyy-MM-dd')
+                payment_date: this.getDateWRTTimezone(m.collection_payment.payment_date)
               };
               // console.log(c)
               reducingP.push(c);     
@@ -323,4 +324,13 @@ export class AccountStatementComponent implements OnInit {
   }
 
 
+  getDateWRTTimezone(date: any) {
+    var offset = new Date(date).getTimezoneOffset();
+    console.log(offset)
+    if (offset < 0) {
+      return moment(date).subtract(offset, 'minutes').format('YYYY-MM-DD');
+    } else {
+      return moment(date).add(offset, 'minutes').format('YYYY-MM-DD');
+    }
+  }
 }

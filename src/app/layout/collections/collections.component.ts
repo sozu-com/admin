@@ -146,7 +146,8 @@ export class CollectionsComponent implements OnInit {
         today: 'Today',
         clear: 'Clear',
         dateFormat: 'mm/dd/yy',
-        weekHeader: 'Wk'
+        weekHeader: 'Wk',
+        dataType: 'string'
       }
     } else {
       this.locale = {
@@ -161,7 +162,8 @@ export class CollectionsComponent implements OnInit {
         today: 'Hoy',
         clear: 'Clara',
         dateFormat: 'mm/dd/yy',
-        weekHeader: 'Sm'
+        weekHeader: 'Sm',
+        dataType: 'string'
       };
     }
   }
@@ -543,6 +545,13 @@ export class CollectionsComponent implements OnInit {
       return false;
     }
 
+    var offset = new Date(this.paymentDate).getTimezoneOffset();
+    if (offset < 0) {
+      this.paymentDate = moment(this.paymentDate).subtract(offset, 'minutes').toDate();
+    } else {
+      this.paymentDate = moment(this.paymentDate).add(offset, 'minutes').toDate();
+    }
+
     // inpur params
     const input = {
       property_collection_id: this.property_collection_id,
@@ -572,10 +581,13 @@ export class CollectionsComponent implements OnInit {
     }
     const url = this.typeOfPayment == 'apply-popup' ? 'applyCollectionPayment' : 'applyCommissionPayment';
     this.admin.postDataApi(url, input).subscribe(r => {
+      if (this.typeOfPayment == 'apply-popup') {
+        this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
+      }
       if (this.payment_type == 1 || this.payment_type == 4) {
         this.applyPaymentChoiceId.nativeElement.value='';
         if (this.typeOfPayment == 'apply-popup') {
-          this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
+          // this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
           // let paymentChoiceIndex = 0;
           // for (let index = 0; index < this.items[this.collectionIndex].payment_choices.length; index++) {
           //   const element = this.items[this.collectionIndex].payment_choices[index];
@@ -810,5 +822,15 @@ export class CollectionsComponent implements OnInit {
     this.applyPaymentMethodId.nativeElement.value = '';
     this.closeCollReceiptModal();
     
+  }
+
+  getDateWRTTimezone(date: any) {
+    var offset = new Date(date).getTimezoneOffset();
+    console.log(offset)
+    if (offset < 0) {
+      return moment(date).subtract(offset, 'minutes').format('YYYY-MM-DD');
+    } else {
+      return moment(date).add(offset, 'minutes').format('YYYY-MM-DD');
+    }
   }
 }

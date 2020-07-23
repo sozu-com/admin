@@ -105,7 +105,7 @@ box-shadow: 0 2px 8px 0 rgba(0,0,0,0.08);
 padding: 5px 30px;
 background-color:#131313;
 position: fixed;
-z-index: 99;
+z-index: 1000;
 }
 .form-group-2 .form-control:focus, 
 .table-search input:focus{
