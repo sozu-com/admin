@@ -368,8 +368,8 @@
       <!-- search seller -->
         <h5 class="p16-two">{{'addCollection.SearchASellerInOurDatabase' | translate}}</h5>
         <div class="searh d-flex" (click)="getAllSellers('')">
-          <input class="border-right-0" autocomplete="off" type="text" readonly name="ss">
-          <button class="btn" type="button">{{'addCollection.search' | translate}}</button>
+          <input readonly class="border-right-0" autocomplete="off" type="text" readonly name="ss">
+          <button disabled class="btn" type="button">{{'addCollection.search' | translate}}</button>
         </div>
         <div class="spacer50"></div>
 
@@ -839,8 +839,8 @@
         <!-- search -->
           <h5 class="p16-two">{{'addCollection.SearchABuyerInOurDatabase' | translate}}</h5>
           <div class="searh d-flex" (click)="getAllSellers('')">
-            <input class="border-right-0" autocomplete="off" type="text" readonly name="bb">
-            <button class="btn" type="button">{{'addCollection.search' | translate}}</button>
+            <input readonly class="border-right-0" autocomplete="off" type="text" readonly name="bb">
+            <button disabled class="btn" type="button">{{'addCollection.search' | translate}}</button>
           </div>
           <div class="spacer50"></div>
   

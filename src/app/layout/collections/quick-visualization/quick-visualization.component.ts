@@ -67,8 +67,9 @@ export class QuickVisualizationComponent implements OnInit {
             // }
 
 
-            m.paid_amount = m.is_paid_calculated == 1 ? m.amount : (m.collection_payment ? (m.collection_payment.amount) : '');
-
+            // m.paid_amount = m.is_paid_calculated == 1 ? m.amount : (m.collection_payment ? (m.collection_payment.amount) : '');
+            // m.paid_amount = m.collection_payment ? m.collection_payment.amount : '';
+            m.paid_amount = m.calc_payment_amount || 0;
             // if type=2 means reducing payment => add one more row
             // console.log(m)
             if(m.type==2) {
@@ -79,7 +80,7 @@ export class QuickVisualizationComponent implements OnInit {
                 is_paid_calculated: 0,
                 outstanding_amount: 0,
                 index: index,
-                payment_date: this.getDateWRTTimezone(m.collection_payment.payment_date)
+                payment_date: m.collection_payment ? this.getDateWRTTimezone(m.collection_payment.payment_date) : ''
               };
               // console.log(c)
               reducingP.push(c);     
@@ -93,22 +94,29 @@ export class QuickVisualizationComponent implements OnInit {
                 is_paid_calculated: 0,
                 outstanding_amount: 0,
                 index: index,
-                payment_date: this.getDateWRTTimezone(m.collection_payment.payment_date)
+                payment_date: m.collection_payment ? this.getDateWRTTimezone(m.collection_payment.payment_date) : ''
               };
               // console.log(c)
               reducingP.push(c);     
             }
 
             // calculating total paid and total outstanding payment
-            if (m.is_paid_calculated) {
-              // m['paid_amount'] = m.calc_payment_amount;
-              this.totalPaid = this.totalPaid + m.calc_payment_amount;
-            } 
+            // if (m.is_paid_calculated) {
+            //   this.totalPaid = this.totalPaid + m.calc_payment_amount;
+            // } 
+            this.totalPaid = this.totalPaid + m.paid_amount;
+            m['outstanding_amount'] = m.amount - (m.calc_payment_amount || 0);
+            console.log(m.outstanding_amount)
             if ((m.amount - (m.calc_payment_amount||0))>=0) {
-              const a = (m.amount - (m.calc_payment_amount || 0) );
-              m['outstanding_amount'] = a > 0.01 ? a : 0;  // in a case difference was 0.02
-              m['is_pending'] = (a != m.amount && a!=0) ? 1 : 0;
-              this.totalOutstanding = this.totalOutstanding + a;
+              // const a = (m.amount - (m.calc_payment_amount || 0) );
+              // m['outstanding_amount'] = a > 0.01 ? a : 0;  // in a case difference was 0.02
+              const a = (m.calc_payment_amount || 0);
+              // console.log(a, m.amount)
+              // calc_payment_amount now containes value => user need to pay if less than amount, else it will be equal to amt used has paid
+              // m['outstanding_amount'] = m.amount==a ? 0 : (a == 0 ? m.amount : a);  // in a case difference was 0.02
+              // m['outstanding_amount'] = m.amount==a ? 0 : (m.amount - a); 
+              m['is_pending'] = a ? 1 : 0;
+              this.totalOutstanding = this.totalOutstanding + m['outstanding_amount'];
             }
           }
 

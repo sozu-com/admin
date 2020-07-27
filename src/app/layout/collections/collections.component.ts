@@ -474,28 +474,21 @@ export class CollectionsComponent implements OnInit {
   }
 
   setPaymentAmount(item: any) {
-    console.log(item);
     // this.paymentAmount = item.amount ? item.amount : 0;
     if (this.typeOfPayment == 'commission-popup') {
-      if (this.commission_type == 1 && item.add_purchase_commission == 0) {
-        
+      if (this.commission_type == 1 && item.add_purchase_commission == 0) {        
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseEnablePurchaseCommission'), this.translate.instant('swal.error'));
- 
-        // swal('Error', 'Please enable the purchase commission checkbox from collection details', 'error');
         this.closeCollReceiptModal();
         return false;
       }
       if (this.commission_type == 2 && item.add_collection_commission == 0) {
-        
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseEnableCollectionCommission'), this.translate.instant('swal.error'));
- 
-        // swal('Error', 'Please enable the collection commission checkbox from collection details', 'error');
         this.closeCollReceiptModal();
         return false;
       }
-      this.paymentAmount = item.amount ? item.amount : 0;
+      this.paymentAmount = this.commission_type == 1 ? (item.purchase_comm_amount || 0) : (item.amount || 0);
       this.selectedCollectionCommission = item;
     } else {
       this.selectedPaymentConcept = item;
@@ -505,7 +498,8 @@ export class CollectionsComponent implements OnInit {
       let currentAmtPaid = 0;
       for (let index = 0; index < this.paymentConcepts.length; index++) {        
         const r = this.paymentConcepts[index];
-        currentAmt = r['amount']; currentAmtPaid = r['collection_payment'] ? r['collection_payment']['amount'] : 0;
+        currentAmt = r['amount']; 
+        currentAmtPaid = r['collection_payment'] ? r['collection_payment']['amount'] : 0;
         if (r['id'] != item['id']) {
           penaltyamt = r['penalty'] ? r['penalty']['amount'] : 0;
           amt = amt + r['amount'] + penaltyamt;
@@ -518,7 +512,37 @@ export class CollectionsComponent implements OnInit {
       this.pendingPayment = (amt - amtPaid).toFixed(2);
       this.currentAmount = currentAmt.toFixed(2);
       this.paymentAmount = (parseFloat(currentAmt) + parseFloat(this.pendingPayment) + parseFloat(this.penaltyAmount)).toFixed(2);
-      console.log(this.penaltyAmount, this.pendingPayment, this.currentAmount, this.paymentAmount)
+      // for (let index = 0; index < this.paymentConcepts.length; index++) {        
+      //   const r = this.paymentConcepts[index];
+      //   currentAmt = r['amount']; 
+      //   currentAmtPaid = r['collection_payment'] ? r['collection_payment']['amount'] : 0;
+      //   if (r['id'] != item['id']) {
+      //     penaltyamt = r['penalty'] ? r['penalty']['amount'] : 0;
+      //     amt = amt + r['amount'] + penaltyamt;  // amt need to pay
+      //     amtPaid = amtPaid + currentAmtPaid;  // amt paid till now
+      //     console.log(r['amount'] + penaltyamt, currentAmtPaid)
+      //     console.log(amt, amtPaid)
+      //   } else {
+      //     // after calculating break, because it may be possible partial payment has been implemented for current concept
+      //     penaltyamt = r['penalty'] ? r['penalty']['amount'] : 0;
+      //     amt = amt + r['amount'] + penaltyamt;  // amt need to pay
+      //     amtPaid = amtPaid + currentAmtPaid;  // amt paid till now
+      //     console.log(r['amount'] + penaltyamt, currentAmtPaid)
+      //     console.log(amt, amtPaid)
+      //     break;
+      //   }
+      // }
+      // console.log(amt, amtPaid)
+      // this.penaltyAmount = item.penalty ? parseFloat(item.penalty.amount).toFixed(2) : 0;
+      // if (amtPaid > 0 && amtPaid != currentAmt) {
+      //   this.currentAmount = 0;
+      //   this.pendingPayment = 0;
+      // } else {
+      //   this.pendingPayment = (amt - amtPaid).toFixed(2);
+      //   this.currentAmount = currentAmt.toFixed(2);
+      // }
+      // this.paymentAmount = (parseFloat(this.currentAmount) + parseFloat(this.pendingPayment) + parseFloat(this.penaltyAmount)).toFixed(2);
+      // console.log(this.penaltyAmount, this.pendingPayment, this.currentAmount, this.paymentAmount)
     }
   }
 
@@ -527,9 +551,7 @@ export class CollectionsComponent implements OnInit {
   }
 
   onSelect(e) {
-// console.log(e);
     this.paymentDate = moment.utc(e).toDate();
-    // console.log(this.paymentDate)
   }
 
   applyCollectionPayment(formdata: NgForm) {
@@ -581,61 +603,55 @@ export class CollectionsComponent implements OnInit {
     }
     const url = this.typeOfPayment == 'apply-popup' ? 'applyCollectionPayment' : 'applyCommissionPayment';
     this.admin.postDataApi(url, input).subscribe(r => {
-      if (this.typeOfPayment == 'apply-popup') {
-        this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
-      }
-      if (this.payment_type == 1 || this.payment_type == 4) {
-        this.applyPaymentChoiceId.nativeElement.value='';
-        if (this.typeOfPayment == 'apply-popup') {
-          // this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
-          // let paymentChoiceIndex = 0;
-          // for (let index = 0; index < this.items[this.collectionIndex].payment_choices.length; index++) {
-          //   const element = this.items[this.collectionIndex].payment_choices[index];
-          //   if (element.id == this.selectedPaymentConcept.id) {
-          //     paymentChoiceIndex = index;
-          //   }
-          // }
-          // this.items[this.collectionIndex].last_payment = {
-          //   name: this.items[this.collectionIndex].payment_choices[paymentChoiceIndex].name, 
-          //   payment_date: r.data.payment_date,
-          //   amount: r.data.amount
-          // }
-          // if (this.items[this.collectionIndex].payment_choices[paymentChoiceIndex+1]) {
-          //   this.items[this.collectionIndex].next_payment = {
-          //     name: this.items[this.collectionIndex].payment_choices[paymentChoiceIndex+1].name, 
-          //     date: this.items[this.collectionIndex].payment_choices[paymentChoiceIndex+1].date,
-          //     amount: this.items[this.collectionIndex].payment_choices[paymentChoiceIndex+1].amount
-          //   }
-          // }
-          // this.items[this.collectionIndex].payment_choices[paymentChoiceIndex]['collection_payment'] = r.data;
-          // this.selectedPaymentConcept = {};
-        } else {
-          let collectionCommIndex = 0;
-          for (let index = 0; index < this.items[this.collectionIndex].collection_commissions.length; index++) {
-            // console.log(this.items[this.collectionIndex]);
-            const element = this.items[this.collectionIndex].collection_commissions[index];
-            if (element.id == this.selectedCollectionCommission.id) {
-              collectionCommIndex = index;
-            }
-          }
-          this.items[this.collectionIndex].collection_commissions[collectionCommIndex]['payment'] = r.data;
-        }
-      }
+      this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
+      // if (this.payment_type == 1 || this.payment_type == 4) {
+      //   this.applyPaymentChoiceId.nativeElement.value='';
+      //   if (this.typeOfPayment == 'apply-popup') {
+      //     this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
+      //     let paymentChoiceIndex = 0;
+      //     for (let index = 0; index < this.items[this.collectionIndex].payment_choices.length; index++) {
+      //       const element = this.items[this.collectionIndex].payment_choices[index];
+      //       if (element.id == this.selectedPaymentConcept.id) {
+      //         paymentChoiceIndex = index;
+      //       }
+      //     }
+      //     this.items[this.collectionIndex].last_payment = {
+      //       name: this.items[this.collectionIndex].payment_choices[paymentChoiceIndex].name, 
+      //       payment_date: r.data.payment_date,
+      //       amount: r.data.amount
+      //     }
+      //     if (this.items[this.collectionIndex].payment_choices[paymentChoiceIndex+1]) {
+      //       this.items[this.collectionIndex].next_payment = {
+      //         name: this.items[this.collectionIndex].payment_choices[paymentChoiceIndex+1].name, 
+      //         date: this.items[this.collectionIndex].payment_choices[paymentChoiceIndex+1].date,
+      //         amount: this.items[this.collectionIndex].payment_choices[paymentChoiceIndex+1].amount
+      //       }
+      //     }
+      //     this.items[this.collectionIndex].payment_choices[paymentChoiceIndex]['collection_payment'] = r.data;
+      //     this.selectedPaymentConcept = {};
+      //   } else {
+      //     let collectionCommIndex = 0;
+      //     for (let index = 0; index < this.items[this.collectionIndex].collection_commissions.length; index++) {
+      //       const element = this.items[this.collectionIndex].collection_commissions[index];
+      //       if (element.id == this.selectedCollectionCommission.id) {
+      //         collectionCommIndex = index;
+      //       }
+      //     }
+      //     this.items[this.collectionIndex].collection_commissions[collectionCommIndex]['payment'] = r.data;
+      //   }
+      // }
       
-      if (this.typeOfPayment == 'apply-popup') {
-        this.docsFile1.nativeElement.value = '';
-      } else {
-        this.docsFile2.nativeElement.value = '';
-      }
-      this.applyPaymentMethodId.nativeElement.value = '';
+      // if (this.typeOfPayment == 'apply-popup') {
+      //   this.docsFile1.nativeElement.value = '';
+      // } else {
+      //   this.docsFile2.nativeElement.value = '';
+      // }
+      // this.applyPaymentMethodId.nativeElement.value = '';
       this.paymentModalClose.nativeElement.click();
       this.closeCollReceiptModal();
       
       this.toastr.clear();
       this.toastr.success(this.translate.instant('message.success.savedSuccessfully'), this.translate.instant('swal.success'));
- 
-      // swal(this.translate.instant('swal.success'), this.translate.instant('message.success.savedSuccessfully'), 'success');
-     
     });
   }
   
@@ -669,7 +685,7 @@ export class CollectionsComponent implements OnInit {
         }
       }
     }
-
+console.log(this.paymentConcepts)
     // if (type == 1) {
     //   for (let index = 0; index < this.selectedItem.collection_commissions.length; index++) {
     //     const element = this.selectedItem.collection_commissions[index];
@@ -702,9 +718,11 @@ export class CollectionsComponent implements OnInit {
     //   swal('Error', 'Please fill the details before uploading receipt.', 'error');
     //   return false;
     // }
+    this.property_collection_id = item.id;
     this.selectedItem = item;
     this.collectionIndex = i;
     this.paymentConcepts = item.collection_commissions;
+    console.log(this.paymentConcepts)
     // this.viewCollectionClose.nativeElement.click();
     this.typeOfPayment = type;
     // this.collectionIndex = i;
@@ -759,6 +777,7 @@ export class CollectionsComponent implements OnInit {
   }
 
   showPenaltyPaymentPopup(item: any, i: number, type: string) {
+    this.property_collection_id = item.id;
     this.typeOfPayment = type;
     this.collectionIndex = i;
     this.paymentConcepts = item.payment_choices;
@@ -776,15 +795,15 @@ export class CollectionsComponent implements OnInit {
       return;
     }
     this.admin.postDataApi('applyCollectionPenalty', this.penaltyForm.value).subscribe(r => {
-      let paymentChoiceIndex = 0;
-      for (let index = 0; index < this.items[this.collectionIndex].payment_choices.length; index++) {
-        const element = this.items[this.collectionIndex].payment_choices[index];
-        if (element.id == this.payment_choice_id) {
-          paymentChoiceIndex = index;
-        }
-      }
-      this.items[this.collectionIndex].payment_choices[paymentChoiceIndex]['penalty'] = r.data;
-      // this.payment_choice_id = 0; this.paymentAmount = 0; this.description = '';
+      // let paymentChoiceIndex = 0;
+      // for (let index = 0; index < this.items[this.collectionIndex].payment_choices.length; index++) {
+      //   const element = this.items[this.collectionIndex].payment_choices[index];
+      //   if (element.id == this.payment_choice_id) {
+      //     paymentChoiceIndex = index;
+      //   }
+      // }
+      // this.items[this.collectionIndex].payment_choices[paymentChoiceIndex]['penalty'] = r.data;
+      this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
       this.closePenaltyPaymentPopup();
       this.toastr.clear();
       this.toastr.success(this.translate.instant('message.success.savedSuccessfully', this.translate.instant('swal.success')));
@@ -826,7 +845,6 @@ export class CollectionsComponent implements OnInit {
 
   getDateWRTTimezone(date: any) {
     var offset = new Date(date).getTimezoneOffset();
-    console.log(offset)
     if (offset < 0) {
       return moment(date).subtract(offset, 'minutes').format('YYYY-MM-DD');
     } else {

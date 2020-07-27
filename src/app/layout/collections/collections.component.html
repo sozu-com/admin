@@ -357,8 +357,8 @@
                      <td><span>{{ (p?.next_payment?.amount || 0) | currency}}</span></td>
 
                      <td><span>{{p?.currency?.code || ('table.tr.td.NA' | translate)}}</span></td>
-                     <td><span>{{p.comm_total_commission || ('table.tr.td.NA' | translate)}}</span></td>
-                     <td><span>{{p.comm_shared_commission || ('table.tr.td.NA' | translate)}}</span></td>
+                     <td><span>{{p?.comm_total_commission ? (p?.comm_total_commission | number : '1.2-2') : ('table.tr.td.NA' | translate)}}</span></td>
+                     <td><span>{{p?.comm_shared_commission ? (p?.comm_shared_commission | number : '1.2-2') : ('table.tr.td.NA' | translate)}}</span></td>
                      <td *ngIf="p?.deal_commission_agents?.length">
                         <span>{{p?.deal_commission_agents[0]?.name || ('table.tr.td.NA' | translate)}}</span>
                      </td>
