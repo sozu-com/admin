@@ -17,14 +17,15 @@ textarea{
     table-layout: fixed;
     width:100%;
   }
-  table.table-striped.quick-table td:first-child, table.table-striped.quick-table th:first-child,
+  table.table-striped.quick-table td:first-child, table.table-striped.quick-table th:first-child
   /* table.table-striped.quick-table td:nth-child(2), table.table-striped.quick-table th:nth-child(2), */
-  table.table-striped.quick-table thead tr th, table.table-striped.quick-table thead tr th .table-search label{
+  /* table.table-striped.quick-table thead tr th, table.table-striped.quick-table thead tr th .table-search label */
+  {
     position:sticky;
     left:0;
     top: 0;
     z-index:1;
-    background-color: grey;
+    background-color: #00B96F;
     color: #fff;
   }
   table.table-striped.quick-table th:first-child {

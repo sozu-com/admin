@@ -492,57 +492,55 @@ export class CollectionsComponent implements OnInit {
       this.selectedCollectionCommission = item;
     } else {
       this.selectedPaymentConcept = item;
-      let amt: any = 0; let penaltyamt = 0;
+      let amt: any = 0; let penaltyamt: any = 0;
       let amtPaid: any = 0;
       let currentAmt: any = 0;
-      let currentAmtPaid = 0;
-      for (let index = 0; index < this.paymentConcepts.length; index++) {        
-        const r = this.paymentConcepts[index];
-        currentAmt = r['amount']; 
-        currentAmtPaid = r['collection_payment'] ? r['collection_payment']['amount'] : 0;
-        if (r['id'] != item['id']) {
-          penaltyamt = r['penalty'] ? r['penalty']['amount'] : 0;
-          amt = amt + r['amount'] + penaltyamt;
-          amtPaid = amtPaid + currentAmtPaid;
-        } else {
-          break;
+      let currentAmtPaid: any = 0;
+      console.log(item)
+      // checking if method is pay to specific (4), then user will pay only for that specific installment + user cannot pay more than the amount+penalty
+      if (this.payment_type == 4) {
+        currentAmt = item['amount']; 
+        currentAmtPaid = item['calc_payment_amount'] || 0;
+        this.penaltyAmount = item.penalty ? parseFloat(item.penalty.amount).toFixed(2) : 0;
+        this.pendingPayment = parseFloat(currentAmtPaid).toFixed(2); // amt already paid
+        this.currentAmount = currentAmt.toFixed(2);
+        this.paymentAmount = (parseFloat(currentAmt) - parseFloat(this.pendingPayment) + parseFloat(this.penaltyAmount)).toFixed(2);     
+      } else if (this.payment_type == 1){
+        for (let index = 0; index < this.paymentConcepts.length; index++) {        
+          const r = this.paymentConcepts[index];
+          currentAmt = r['amount']; 
+          currentAmtPaid = r['calc_payment_amount'] || 0;
+          if (r['id'] != item['id']) {
+            penaltyamt = r['penalty'] ? parseFloat(r['penalty']['amount']) : 0;
+            amt = parseFloat(amt) + parseFloat(r['amount']) + parseFloat(penaltyamt);
+            amtPaid = parseFloat(amtPaid) + parseFloat(currentAmtPaid);
+          } else {
+            break;
+          }
         }
+        this.penaltyAmount = item.penalty ? parseFloat(item.penalty.amount).toFixed(2) : 0;
+        this.pendingPayment = (amt - amtPaid).toFixed(2);
+        this.currentAmount = (parseFloat(currentAmt) - parseFloat(currentAmtPaid)).toFixed(2);
+        this.paymentAmount = (parseFloat(this.currentAmount) + parseFloat(this.pendingPayment) + parseFloat(this.penaltyAmount)).toFixed(2);
       }
-      this.penaltyAmount = item.penalty ? parseFloat(item.penalty.amount).toFixed(2) : 0;
-      this.pendingPayment = (amt - amtPaid).toFixed(2);
-      this.currentAmount = currentAmt.toFixed(2);
-      this.paymentAmount = (parseFloat(currentAmt) + parseFloat(this.pendingPayment) + parseFloat(this.penaltyAmount)).toFixed(2);
-      // for (let index = 0; index < this.paymentConcepts.length; index++) {        
-      //   const r = this.paymentConcepts[index];
-      //   currentAmt = r['amount']; 
-      //   currentAmtPaid = r['collection_payment'] ? r['collection_payment']['amount'] : 0;
-      //   if (r['id'] != item['id']) {
-      //     penaltyamt = r['penalty'] ? r['penalty']['amount'] : 0;
-      //     amt = amt + r['amount'] + penaltyamt;  // amt need to pay
-      //     amtPaid = amtPaid + currentAmtPaid;  // amt paid till now
-      //     console.log(r['amount'] + penaltyamt, currentAmtPaid)
-      //     console.log(amt, amtPaid)
-      //   } else {
-      //     // after calculating break, because it may be possible partial payment has been implemented for current concept
-      //     penaltyamt = r['penalty'] ? r['penalty']['amount'] : 0;
-      //     amt = amt + r['amount'] + penaltyamt;  // amt need to pay
-      //     amtPaid = amtPaid + currentAmtPaid;  // amt paid till now
-      //     console.log(r['amount'] + penaltyamt, currentAmtPaid)
-      //     console.log(amt, amtPaid)
-      //     break;
+      // else {
+      //   for (let index = 0; index < this.paymentConcepts.length; index++) {        
+      //     const r = this.paymentConcepts[index];
+      //     currentAmt = r['amount']; 
+      //     currentAmtPaid = r['collection_payment'] ? r['collection_payment']['amount'] : 0;
+      //     if (r['id'] != item['id']) {
+      //       penaltyamt = r['penalty'] ? r['penalty']['amount'] : 0;
+      //       amt = amt + r['amount'] + penaltyamt;
+      //       amtPaid = amtPaid + currentAmtPaid;
+      //     } else {
+      //       break;
+      //     }
       //   }
-      // }
-      // console.log(amt, amtPaid)
-      // this.penaltyAmount = item.penalty ? parseFloat(item.penalty.amount).toFixed(2) : 0;
-      // if (amtPaid > 0 && amtPaid != currentAmt) {
-      //   this.currentAmount = 0;
-      //   this.pendingPayment = 0;
-      // } else {
+      //   this.penaltyAmount = item.penalty ? parseFloat(item.penalty.amount).toFixed(2) : 0;
       //   this.pendingPayment = (amt - amtPaid).toFixed(2);
       //   this.currentAmount = currentAmt.toFixed(2);
+      //   this.paymentAmount = (parseFloat(currentAmt) + parseFloat(this.pendingPayment) + parseFloat(this.penaltyAmount)).toFixed(2);
       // }
-      // this.paymentAmount = (parseFloat(this.currentAmount) + parseFloat(this.pendingPayment) + parseFloat(this.penaltyAmount)).toFixed(2);
-      // console.log(this.penaltyAmount, this.pendingPayment, this.currentAmount, this.paymentAmount)
     }
   }
 
@@ -566,6 +564,12 @@ export class CollectionsComponent implements OnInit {
       this.toastr.error(this.translate.instant('message.error.pleaseChooseReceipt'), this.translate.instant('swal.error'));
       return false;
     }
+
+    // checking if method is pay to specific (4), then user cannot pay more than the amount
+    // if (this.payment_type == 4) {
+    //   const paymentConceptAmt = this.selectedPaymentConcept.amount + (this.selectedPaymentConcept.penalty ? this.selectedPaymentConcept.penalty.amount : 0);
+    //   if (this.paymentAmount > this.selectedPaymentConcept.amount)
+    // }
 
     var offset = new Date(this.paymentDate).getTimezoneOffset();
     if (offset < 0) {
@@ -592,9 +596,9 @@ export class CollectionsComponent implements OnInit {
     } else {
       // applying payment
       // for edit the wrong amount uploaded
-      if (this.selectedPaymentConcept && this.selectedPaymentConcept['collection_payment']) {
-        input['id'] = this.selectedPaymentConcept['collection_payment']['id']
-      }
+      // if (this.selectedPaymentConcept && this.selectedPaymentConcept['collection_payment']) {
+      //   input['id'] = this.selectedPaymentConcept['collection_payment']['id']
+      // }
       // for type==2&3, no need to pass collection_payment_choice_id
       if (this.payment_type == 1 || this.payment_type == 4) {
         input['collection_payment_choice_id'] = this.payment_choice_id['id']
