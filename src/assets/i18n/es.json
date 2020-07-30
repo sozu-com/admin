@@ -954,6 +954,7 @@
       "pleaseEnterLegalRepresentativeEmail":"Por favor ingrese el correo electrónico del representante legal",
       "pleaseEnterLegalRepresentativePhone":"Por favor ingrese el teléfono del representante legal",
       "pleaseEnterLegalRepresentativeFTPR":"Ingrese el registro de contribuyentes federales del representante legal",
+      "payToSpecificCheck": "In Pay to Specific, you can either pay partial amount or the exact amount.",
 
       "areYouSure": "¿Estás seguro?",
       "wantToBlockNotary": "¿Quieres bloquear este notario?",

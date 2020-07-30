@@ -527,7 +527,7 @@
                             (change)="setPaymentConceptAmount($event.target.value)">
                               <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
                               <option *ngFor="let bt of paymentConcepts" [value]="bt.id" 
-                               [disabled]="bt?.penalty || bt?.collection_payment"> {{bt?.name}}</option>
+                               [disabled]="bt?.penalty || bt?.is_paid_calculated"> {{bt?.name}}</option>
                         </select>
                   </div>
                   <div *ngIf="showError  &&  (penaltyForm.controls.collection_payment_choice_id.invalid)">

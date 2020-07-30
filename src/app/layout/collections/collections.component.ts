@@ -500,15 +500,16 @@ export class CollectionsComponent implements OnInit {
       let amtPaid: any = 0;
       let currentAmt: any = 0;
       let currentAmtPaid: any = 0;
-      console.log(item)
+      // console.log(item)
       // checking if method is pay to specific (4), then user will pay only for that specific installment + user cannot pay more than the amount+penalty
       if (this.payment_type == 4) {
         currentAmt = item['amount']; 
         currentAmtPaid = item['calc_payment_amount'] || 0;
         this.penaltyAmount = item.penalty ? parseFloat(item.penalty.amount).toFixed(2) : 0;
-        this.pendingPayment = parseFloat(currentAmtPaid).toFixed(2); // amt already paid
-        this.currentAmount = currentAmt.toFixed(2);
-        this.paymentAmount = (parseFloat(currentAmt) - parseFloat(this.pendingPayment) + parseFloat(this.penaltyAmount)).toFixed(2);     
+        this.pendingPayment = 0.00 // amt already paid
+        this.currentAmount = (parseFloat(currentAmt) - parseFloat(currentAmtPaid)).toFixed(2);
+        this.paymentAmount = (parseFloat(this.currentAmount) + parseFloat(this.pendingPayment) + parseFloat(this.penaltyAmount)).toFixed(2);     
+        this.calculatedPayAmount = [...this.paymentAmount];
       } else if (this.payment_type == 1){
         for (let index = 0; index < this.paymentConcepts.length; index++) {        
           const r = this.paymentConcepts[index];
@@ -527,8 +528,8 @@ export class CollectionsComponent implements OnInit {
         this.currentAmount = (parseFloat(currentAmt) - parseFloat(currentAmtPaid)).toFixed(2);
         this.paymentAmount = (parseFloat(this.currentAmount) + parseFloat(this.pendingPayment) + parseFloat(this.penaltyAmount)).toFixed(2);
         this.calculatedPayAmount = [...this.paymentAmount];
-        console.log(this.calculatedPayAmount);
-        console.log(this.paymentAmount)
+        // console.log(this.calculatedPayAmount);
+        // console.log(this.paymentAmount)
       }
       // else {
       //   for (let index = 0; index < this.paymentConcepts.length; index++) {        
@@ -587,6 +588,15 @@ export class CollectionsComponent implements OnInit {
     // if (this.payment_type == 4) {
     //   const paymentConceptAmt = this.selectedPaymentConcept.amount + (this.selectedPaymentConcept.penalty ? this.selectedPaymentConcept.penalty.amount : 0);
     //   if (this.paymentAmount > this.selectedPaymentConcept.amount)
+    // }
+
+    // in pay to specific, user is allowed to pay either exact amount or partial amt
+    // if (this.payment_type == 4 && this.calculatedPayAmount < this.paymentAmount) {
+    //   this.toastr.clear();
+    //   this.toastr.error(this.translate.instant('message.error.payToSpecificCheck'), this.translate.instant('swal.error'));
+    //   return false;
+    // } else {
+    //   this.payment_type = 1;
     // }
 
     var offset = new Date(this.paymentDate).getTimezoneOffset();

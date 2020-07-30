@@ -73,7 +73,7 @@
               <tbody>
                 <tr>
                   <th rowspan="3">
-                    {{model?.deal_commission_agents?.length>0 && model?.deal_commission_agents[0]?.broker?.is_external_agent==1 ? ('quickVisualization.outsideAgent' | translate) : ('quickVisualization.inhouseAgent' | translate)}}
+                    {{model?.deal_commission_agents?.length>0 && model?.deal_commission_agents[0]?.broker?.is_external_agent==1 ? ('quickVisualization.outsideAgent' | translate) : ('quickVisualization.inhouseAgent' | translate)}}:
                   </th>
                   <td>{{model?.deal_commission_agents?.length>0 ? model?.deal_commission_agents[0]?.name : ('table.tr.td.NA' | translate)}}</td>
                 </tr>
@@ -335,8 +335,8 @@
               <td>{{p?.date}}</td>
               <!-- <td>{{p?.payment_date || ''}}</td> -->
               <td>
-                <!-- {{p?.paid_amount ? (p?.paid_amount | currency) : ''}} -->
-                {{p?.new_paid_amt ? (p?.new_paid_amt | currency) : ''}} 
+                {{p?.paid_amount ? (p?.paid_amount | currency) : ''}}
+                <!-- {{p?.new_paid_amt ? (p?.new_paid_amt | currency) : ''}}  -->
                 <!-- {{p?.is_paid_calculated == 1 ? p?.amount : (p?.collection_payment ? (p?.collection_payment?.amount | currency) : '')}} -->
               </td>
               <!-- <td>{{p?.collection_payment?.payment_method?.name || ''}}</td> -->
@@ -426,7 +426,7 @@
                           {{stats.payment_date || 'NA'}}
                         </td>
                         <td>
-                          <span> {{stats.amount || 'NA'}}</span> 
+                          <span> {{stats?.amount ? (stats?.amount | currency) : ''}}</span> 
                         </td>
                         <td>
                           <span> {{stats?.payment_method?.name || 'NA'}}</span> 
