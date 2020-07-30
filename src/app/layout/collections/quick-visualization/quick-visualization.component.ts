@@ -164,58 +164,60 @@ export class QuickVisualizationComponent implements OnInit {
             m.paid_amount = m.calc_payment_amount || 0;
 
             // if type=2 means reducing payment => add one more row
-            for (let i = 0; i < m.collection_paymentss.length; i++) {
-              const paymnts = m.collection_paymentss[i];
-              if (paymnts.payment_type == 2) {
-                const c = {
-                  key: 'remaining_amt',
-                  name: 'Payment to remaining (amount)',
-                  paid_amount: paymnts.amount,
-                  is_paid_calculated: 0,
-                  outstanding_amount: 0,
-                  index: index,
-                  payment_type: 1,  // in real its 2
-                  amount: paymnts.amount,
-                  // payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
-                  receipt: paymnts.receipt,
-                  description: paymnts.description
-                };
-                c['collection_paymentss'] = [{
-                  payment_type: 1,  // in real its 2
-                  paid_amount: paymnts.amount,
-                  amount: paymnts.amount,
-                  payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
-                  receipt: paymnts.receipt,
-                  description: paymnts.description,
-                  payment_method: paymnts.payment_method
-                }]
-                reducingP.push(c);     
-              }
-              else if (paymnts.payment_type == 3) {
-                const c = {
-                  key: 'remaining_amt',
-                  name: 'Payment to remaining (reduce time)',
-                  paid_amount: paymnts.amount,
-                  is_paid_calculated: 0,
-                  outstanding_amount: 0,
-                  index: index,
-                  payment_type: 1,  // in real its 2
-                  amount: paymnts.amount,
-                  // payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
-                  receipt: paymnts.receipt,
-                  description: paymnts.description
-                };
-                c['collection_paymentss'] = [{
-                  payment_type: 1,  // in real its 3
-                  paid_amount: paymnts.amount,
-                  amount: paymnts.amount,
-                  payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
-                  receipt: paymnts.receipt,
-                  description: paymnts.description,
-                  payment_method: paymnts.payment_method
-                }]
-                console.log(c);
-                reducingP.push(c);     
+            if (m.collection_paymentss && m.collection_paymentss.length>0) {
+              for (let i = 0; i < m.collection_paymentss.length; i++) {
+                const paymnts = m.collection_paymentss[i];
+                if (paymnts.payment_type == 2) {
+                  const c = {
+                    key: 'remaining_amt',
+                    name: 'Payment to remaining (amount)',
+                    paid_amount: paymnts.amount,
+                    is_paid_calculated: 0,
+                    outstanding_amount: 0,
+                    index: index,
+                    payment_type: 1,  // in real its 2
+                    // amount: paymnts.amount,
+                    // payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
+                    receipt: paymnts.receipt,
+                    description: paymnts.description
+                  };
+                  c['collection_paymentss'] = [{
+                    payment_type: 1,  // in real its 2
+                    paid_amount: paymnts.amount,
+                    amount: paymnts.amount,
+                    payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
+                    receipt: paymnts.receipt,
+                    description: paymnts.description,
+                    payment_method: paymnts.payment_method
+                  }]
+                  reducingP.push(c);     
+                }
+                else if (paymnts.payment_type == 3) {
+                  const c = {
+                    key: 'remaining_amt',
+                    name: 'Payment to remaining (reduce time)',
+                    paid_amount: paymnts.amount,
+                    is_paid_calculated: 0,
+                    outstanding_amount: 0,
+                    index: index,
+                    payment_type: 1,  // in real its 2
+                    // amount: paymnts.amount,
+                    // payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
+                    receipt: paymnts.receipt,
+                    description: paymnts.description
+                  };
+                  c['collection_paymentss'] = [{
+                    payment_type: 1,  // in real its 3
+                    paid_amount: paymnts.amount,
+                    amount: paymnts.amount,
+                    payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
+                    receipt: paymnts.receipt,
+                    description: paymnts.description,
+                    payment_method: paymnts.payment_method
+                  }]
+                  console.log(c);
+                  reducingP.push(c);     
+                }
               }
             }
 
@@ -233,10 +235,26 @@ export class QuickVisualizationComponent implements OnInit {
           }
 
           // now insert at reducing remaining payments at type=2 index
-          reducingP = reducingP.reverse();
+          // reducingP = reducingP.reverse();
           for (let i = 0; i < reducingP.length; i++) {
             const element = reducingP[i];
             this.paymentConcepts.splice(element.index, 0, element);              
+          }
+
+
+          // calculating new paid amt, by skipping type 2
+          for (let index = 0; index < this.paymentConcepts.length; index++) {
+            const element = this.paymentConcepts[index];
+            let p_amt: any = 0;
+            if (element.collection_paymentss && element.collection_paymentss.length>0) {
+              for (let i = 0; i < element.collection_paymentss.length; i++) {
+                const ele = element.collection_paymentss[i];
+                if (ele.payment_type != 2 && ele.payment_type != 3) {
+                  p_amt = parseFloat(p_amt) + parseFloat(ele.amount);
+                }
+              }
+            }
+            element.new_paid_amt = p_amt;
           }
 
           this.paymentConcepts.push({

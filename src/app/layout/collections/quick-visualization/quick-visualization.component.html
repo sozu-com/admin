@@ -19,7 +19,7 @@
 
     <div class="col-lg-2 col-md-2 col-6">
       <div class="btn-cont text-right">
-          <a class="btn btn-primary-new width100P" href="javascript://" (click)="getCollectionDetails()">Refresh</a>
+          <a class="btn btn-primary-new width100P" href="javascript://" (click)="getCollectionDetails()">{{'quickVisualization.refresh' | translate}}</a>
         </div>
     </div>
   </div>
@@ -64,6 +64,24 @@
                 <tr>
                   <td *ngIf="model?.seller_type==2">{{model?.seller_legal_entity?.phone ? model?.seller_legal_entity?.dial_code + ' ' + model?.seller_legal_entity?.phone : ('table.tr.td.NA' | translate)}}</td>
                   <td *ngIf="model?.seller_type!=2">{{model?.seller?.phone ? model?.seller?.dial_code + ' ' + model?.seller?.phone : ('table.tr.td.NA' | translate)}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-bordered white-bg">
+              <tbody>
+                <tr>
+                  <th rowspan="3">
+                    {{model?.deal_commission_agents?.length>0 && model?.deal_commission_agents[0]?.broker?.is_external_agent==1 ? ('quickVisualization.outsideAgent' | translate) : ('quickVisualization.inhouseAgent' | translate)}}
+                  </th>
+                  <td>{{model?.deal_commission_agents?.length>0 ? model?.deal_commission_agents[0]?.name : ('table.tr.td.NA' | translate)}}</td>
+                </tr>
+                <tr>
+                  <td>{{model?.deal_commission_agents?.length>0 ? model?.deal_commission_agents[0]?.broker?.email : ('table.tr.td.NA' | translate)}}</td>
+                </tr>
+                <tr>
+                  <td>{{model?.deal_commission_agents?.length>0 ? model?.deal_commission_agents[0]?.broker?.dial_code + ' ' +model?.deal_commission_agents[0]?.broker?.phone : ('table.tr.td.NA' | translate)}}</td>
                 </tr>
               </tbody>
             </table>
@@ -317,7 +335,8 @@
               <td>{{p?.date}}</td>
               <!-- <td>{{p?.payment_date || ''}}</td> -->
               <td>
-                {{p?.paid_amount ? (p?.paid_amount | currency) : ''}}
+                <!-- {{p?.paid_amount ? (p?.paid_amount | currency) : ''}} -->
+                {{p?.new_paid_amt ? (p?.new_paid_amt | currency) : ''}} 
                 <!-- {{p?.is_paid_calculated == 1 ? p?.amount : (p?.collection_payment ? (p?.collection_payment?.amount | currency) : '')}} -->
               </td>
               <!-- <td>{{p?.collection_payment?.payment_method?.name || ''}}</td> -->
@@ -396,7 +415,7 @@
                       <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.paymentAttachment' | translate}}</th>
                       <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.paymentDescription' | translate}}</th>
                     </thead>
-                    <tbody>
+                    <tbody *ngIf="p?.collection_paymentss?.length>0">
                       <ng-container *ngFor="let stats of p?.collection_paymentss">
                       <tr *ngIf="stats.payment_type==1 || stats.payment_type==4">
                         <!-- <td [style.backgroundColor]="'#fff'"></td> -->

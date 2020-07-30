@@ -1,5 +1,5 @@
 
-<div class="container-fluid">
+<div class="container-fluid ">
   <div class="row">
      <div class="col-md-4">
            <div class="form-group">
@@ -148,7 +148,7 @@
            <div class="tabel-section">
               <div class="table-responsive main-table">
                  <table class="table table-striped table-align-left quick-table">
-                   <thead>
+                   <thead id="myHeader">
                     <tr>
                        <th style="text-align:left; width: 80px;"  [style.z-index]="100">
                           <div class="table-search">
@@ -315,7 +315,7 @@
                        </th>
                     </tr>
                   </thead>
-                    <tbody>
+                    <tbody class="content">
                     <tr *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
                     <td><span>{{p?.id ? p?.id : ('table.tr.td.NA' | translate)}}</span></td>
                      <td>
@@ -752,6 +752,53 @@
     </div>
   </div>
   
+
+
+  <a href="javascript://" data-toggle="modal" data-target="#surplusMoneyModal" #surplusMoneyModalOpen></a>
+  <div class="modal animated" id="surplusMoneyModal">
+      <div class="modal-dialog fadeIndown">
+          <div class="modal-content notary-avail">
+                <div class="modal-header popup-header">
+            <h4>{{'viewCollections.surplusMoney' | translate}}</h4>
+              <button style="display: none;" type="button" class="close" data-dismiss="modal" #surplusMoneyModalClose>&times;</button>
+              <button type="button" class="close" (click)="closeSurplusMoney()">&times;</button>
+          </div>
+    
+          <form autocomplete="off" class="form-horizontal padding0" role="form" ngNativeValidate #addSurplusForm="ngForm" (ngSubmit)="setPayMentTypeSurplus(addSurplusForm.value.surplus_payment_type)">
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-12">
+                  <div class="spacer40"></div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group-2">
+                      <label>{{'viewCollections.chooseWhichPaymentTypeYouwantToApplyForSurplusMoney' | translate}} <span class="color-red">*</span></label>
+                      <div class="form-group">
+                          <select name="surplus_payment_type" required class="form-control" [(ngModel)]="surplus_payment_type">
+                            <option value="">{{'viewCollections.choose' | translate}}</option>    
+                            <option value="1">{{'viewCollections.payToFollowing' | translate}}</option>
+                            <option value="2">{{'viewCollections.payToRemainingReducePayment' | translate}}</option>
+                            <option value="3">{{'viewCollections.payToRemainingPayment' | translate}}</option>
+                                <!-- <option value="4">{{'viewCollections.payToSpecific' | translate}}</option> -->
+                          </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="btn-cont text-right">
+                      <button type="submit" class="btn btn-primary-new">
+                          <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
+                          {{'addForm.saveBtn' | translate}}</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+
 
   
 <a href="javascript://" data-toggle="modal" data-target="#coll-receipt-Modal" #collectionReceiptOpen></a>

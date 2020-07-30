@@ -1590,7 +1590,9 @@
     "payToRemainingReducePayment": "Pay to Remaining (Reduce Payment)",
     "payToRemainingPayment": "Pay to Remaining (Payment Time)",
     "payToFollowing": "Pay to Following",
-    "payToSpecific": "Pay to Specific"
+    "payToSpecific": "Pay to Specific",
+    "surplusMoney": "Surplus Money",
+    "chooseWhichPaymentTypeYouwantToApplyForSurplusMoney": "Choose which payment type you want to apply for surplus money"
   },
   "addCollection": {
     "addLabel": "Add new Collection",
@@ -1834,7 +1836,11 @@
     "remaining":"Remaining",
     "accountStatement": "Account Statement",
     "paidByUser": "Amount paid by User",
-    "toBePaidByUser": "Amount to be paid by User"
+    "toBePaidByUser": "Amount to be paid by User",
+    "agent":"Agent",
+    "inhouseAgent":"Inhouse Agent",
+    "outsideAgent":"Outside Agent",
+    "refresh":"Refresh"
   },
   "addCollectionValidations": {
     "thisIsRequired": "This is required",

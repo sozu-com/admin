@@ -41,6 +41,7 @@ export class Collection {
     totalPenalty?: any;
     total_payment_recieved?: any;
     penalty?: any;
+    deal_commission_agents?: Array<any>;
 }
 
 export class DealType {

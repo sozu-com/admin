@@ -61,10 +61,12 @@ export class CollectionsComponent implements OnInit {
   amount: number;
   selectedCollectionCommission: any;
   payment_type: any;
+  surplus_payment_type: string;
   paymentMethods: Array<any>;
   pendingPayment: any;
   penaltyAmount: any;
   paymentDate: Date;
+  calculatedPayAmount: any;
   commission_type: any;
   today: Date;
   selectedItem: any;
@@ -93,6 +95,8 @@ export class CollectionsComponent implements OnInit {
   @ViewChild('penaltyModalOpen') penaltyModalOpen: ElementRef;
   @ViewChild('penaltyModalClose') penaltyModalClose: ElementRef;
   @ViewChild('collectionTypeSelect') collectionTypeSelect: ElementRef;
+  @ViewChild('surplusMoneyModalOpen') surplusMoneyModalOpen: ElementRef;
+  @ViewChild('surplusMoneyModalClose') surplusMoneyModalClose: ElementRef;
   @ViewChild('docsFile1') docsFile1: ElementRef;
   @ViewChild('docsFile2') docsFile2: ElementRef;
 
@@ -522,6 +526,9 @@ export class CollectionsComponent implements OnInit {
         this.pendingPayment = (amt - amtPaid).toFixed(2);
         this.currentAmount = (parseFloat(currentAmt) - parseFloat(currentAmtPaid)).toFixed(2);
         this.paymentAmount = (parseFloat(this.currentAmount) + parseFloat(this.pendingPayment) + parseFloat(this.penaltyAmount)).toFixed(2);
+        this.calculatedPayAmount = [...this.paymentAmount];
+        console.log(this.calculatedPayAmount);
+        console.log(this.paymentAmount)
       }
       // else {
       //   for (let index = 0; index < this.paymentConcepts.length; index++) {        
@@ -565,6 +572,17 @@ export class CollectionsComponent implements OnInit {
       return false;
     }
 
+    let amt = this.paymentAmount;
+    // in case of pay to following, if user is paying surplus money ask the user, what he wants to do with durplus money
+    // if (this.payment_type == 1 && this.calculatedPayAmount < this.paymentAmount) {
+    //   if (!this.surplus_payment_type) {
+    //     this.askUserForSurplusMomey();
+    //     return;
+    //   } else {
+    //     amt = this.calculatedPayAmount;
+    //   }
+    // }
+
     // checking if method is pay to specific (4), then user cannot pay more than the amount
     // if (this.payment_type == 4) {
     //   const paymentConceptAmt = this.selectedPaymentConcept.amount + (this.selectedPaymentConcept.penalty ? this.selectedPaymentConcept.penalty.amount : 0);
@@ -582,7 +600,7 @@ export class CollectionsComponent implements OnInit {
     const input = {
       property_collection_id: this.property_collection_id,
       payment_method_id: this.payment_method_id,
-      amount : this.paymentAmount,
+      amount : amt,
       receipt: this.docFile,
       description: this.description,
       payment_date: this.paymentDate
@@ -606,7 +624,20 @@ export class CollectionsComponent implements OnInit {
       input['type'] = this.payment_type;
     }
     const url = this.typeOfPayment == 'apply-popup' ? 'applyCollectionPayment' : 'applyCommissionPayment';
+
+
     this.admin.postDataApi(url, input).subscribe(r => {
+
+      // input['amount'] = this.paymentAmount - this.calculatedPayAmount;
+      // input['type'] = this.surplus_payment_type;
+      // if (this.surplus_payment_type) {
+      //   this.admin.postDataApi(url, input).subscribe(r => {
+      //     // if (this.surplus_payment_type == '1' || this.surplus_payment_type == '4') {
+      //     //   input['collection_payment_choice_id'] = this.payment_choice_id['id']
+      //     // }
+      //   });
+      // }
+  
       this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
       // if (this.payment_type == 1 || this.payment_type == 4) {
       //   this.applyPaymentChoiceId.nativeElement.value='';
@@ -657,6 +688,70 @@ export class CollectionsComponent implements OnInit {
       this.toastr.clear();
       this.toastr.success(this.translate.instant('message.success.savedSuccessfully'), this.translate.instant('swal.success'));
     });
+  }
+
+  askUserForSurplusMomey() {
+    this.surplusMoneyModalOpen.nativeElement.click();
+    // swal({
+    //   text: this.translate.instant('message.error.pleaseEnterNewPropertyPrice'),
+    //   input: 'number',
+    //   showCancelButton: true,
+    //   confirmButtonColor: this.constant.confirmButtonColor,
+    //   cancelButtonColor: this.constant.cancelButtonColor,
+    //   confirmButtonText: 'Update',
+    //   inputValidator: (value) => {
+    //     if (!value) {
+    //       return this.translate.instant('message.error.pleaseEnterNewPrice');
+    //     }
+    //   }
+    // }).then((r) => {
+    //   if (r.value) {
+    //     console.log(r.value);
+    //     // this.admin.postDataApi('updatePrice', { id: item.id, price: r.value }).subscribe(success => {
+    //     //   this.items[index].min_price = r.value;
+    //     //   swal(this.translate.instant('swal.success'), this.translate.instant('message.success.updatedSuccessfully'), 'success');
+    //     // }, error => {
+    //     //   swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    //     // });
+    //   }
+    // });
+    // swal({
+    //   text: this.translate.instant('message.error.doYouWantToChangeThePrice'),
+    //   type: 'question',
+    //   showCancelButton: true,
+    //   confirmButtonColor: this.constant.confirmButtonColor,
+    //   cancelButtonColor: this.constant.cancelButtonColor,
+    //   confirmButtonText: 'Yes'
+    // }).then((result) => {
+    //   if (result.value) {
+    //     swal({
+    //       text: this.translate.instant('message.error.pleaseEnterNewPropertyPrice'),
+    //       input: 'number',
+    //       showCancelButton: true,
+    //       confirmButtonColor: this.constant.confirmButtonColor,
+    //       cancelButtonColor: this.constant.cancelButtonColor,
+    //       confirmButtonText: 'Update',
+    //       inputValidator: (value) => {
+    //         if (!value) {
+    //           return this.translate.instant('message.error.pleaseEnterNewPrice');
+    //         }
+    //       }
+    //     }).then((r) => {
+    //       if (r.value) {
+    //         this.admin.postDataApi('updatePrice', { id: item.id, price: r.value }).subscribe(success => {
+    //           this.items[index].min_price = r.value;
+    //           swal(this.translate.instant('swal.success'), this.translate.instant('message.success.updatedSuccessfully'), 'success');
+    //         }, error => {
+    //           swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    //         });
+    //       }
+    //     });
+    //   }
+    // });
+  }
+
+  closeSurplusMoney() {
+    this.surplusMoneyModalClose.nativeElement.click();
   }
   
   onSelectFile(files) {
@@ -828,13 +923,13 @@ console.log(this.paymentConcepts)
     console.log(this.payment_type)
     const s = this.paymentConcepts.find(r => !r.is_paid_calculated && r.payment_choice_id==5);
     for (let index = 0; index < this.paymentConcepts.length; index++) {
+      console.log(s);
+      console.log(this.paymentConcepts[index])
       if (s.id == this.paymentConcepts[index].id) {
         this.paymentConcepts[index].is_disabled = false;
-        console.log(this.paymentConcepts[index])
       } else if (this.paymentConcepts[index].payment_choice_id == 5) {
         this.paymentConcepts[index].is_disabled = true;
       }
-      console.log(this.paymentConcepts[index].is_disabled)
     }
     if (this.typeOfPayment == 'apply-popup') {
       this.docsFile1.nativeElement.value = '';
@@ -844,7 +939,11 @@ console.log(this.paymentConcepts)
     this.applyPaymentChoiceId.nativeElement.value = '';
     this.applyPaymentMethodId.nativeElement.value = '';
     this.closeCollReceiptModal();
-    
+  }
+
+  setPayMentTypeSurplus(payment_type: string) {
+    console.log(payment_type)
+    this.surplus_payment_type = payment_type;
   }
 
   getDateWRTTimezone(date: any) {

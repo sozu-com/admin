@@ -1580,7 +1580,9 @@
     "payToRemainingReducePayment": "Pagar al resto (reducir el pago)",
     "payToRemainingPayment": "Pagar al resto (tiempo de pago)",
     "payToFollowing": "Pagar a los siguientes",
-    "payToSpecific": "Paga a específica"
+    "payToSpecific": "Paga a específica",
+    "surplusMoney": "Dinero excedente",
+    "chooseWhichPaymentTypeYouwantToApplyForSurplusMoney": "Elija qué tipo de pago desea solicitar para el dinero excedente"
   },
   "addCollection": {
     "addLabel": "Agregar nueva colección",
@@ -1824,7 +1826,11 @@
     "remaining":"Restante",
     "accountStatement":"Estado de cuenta",
     "paidByUser": "Monto pagado por el usuario",
-    "toBePaidByUser": "Monto a pagar por el usuario"
+    "toBePaidByUser": "Monto a pagar por el usuario",
+    "agent":"Agente",
+    "inhouseAgent":"Agente interno",
+    "outsideAgent":"Agente externo",
+    "refresh":"Actualizar"
   },
   "addCollectionValidations": {
     "thisIsRequired": "Esto es requerido",
