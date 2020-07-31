@@ -764,7 +764,7 @@
               <button type="button" class="close" (click)="closeSurplusMoney()">&times;</button>
           </div>
     
-          <form autocomplete="off" class="form-horizontal padding0" role="form" ngNativeValidate #addSurplusForm="ngForm" (ngSubmit)="setPayMentTypeSurplus(addSurplusForm.value.surplus_payment_type)">
+          <form autocomplete="off" class="form-horizontal padding0" role="form" ngNativeValidate #addSurplusForm="ngForm" >
             <div class="modal-body">
               <div class="row">
                 <div class="col-12">
@@ -774,7 +774,7 @@
                   <div class="form-group-2">
                       <label>{{'viewCollections.chooseWhichPaymentTypeYouwantToApplyForSurplusMoney' | translate}} <span class="color-red">*</span></label>
                       <div class="form-group">
-                          <select name="surplus_payment_type" required class="form-control" [(ngModel)]="surplus_payment_type">
+                          <select name="surplus_payment_type" required class="form-control" [(ngModel)]="surplus_payment_type" (change)="setPayMentTypeSurplus($event.target.value)">
                             <option value="">{{'viewCollections.choose' | translate}}</option>    
                             <option value="1">{{'viewCollections.payToFollowing' | translate}}</option>
                             <option value="2">{{'viewCollections.payToRemainingReducePayment' | translate}}</option>
@@ -786,7 +786,7 @@
                 </div>
                 <div class="col-12">
                   <div class="btn-cont text-right">
-                      <button type="submit" class="btn btn-primary-new">
+                      <button type="button" (click)="closeSurplusMoney()" class="btn btn-primary-new">
                           <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
                           {{'addForm.saveBtn' | translate}}</button>
                   </div>
