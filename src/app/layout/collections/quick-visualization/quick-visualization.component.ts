@@ -161,7 +161,7 @@ export class QuickVisualizationComponent implements OnInit {
             const m = this.paymentConcepts[index];
             // this.newPaymentConcepts.push(m);
             m.payment_date = m.collection_payment>0 ? this.getDateWRTTimezone(m.collection_payment.payment_date) : '';
-            m.paid_amount = m.calc_payment_amount || 0;
+            m.paid_amount = m.calc_payment_amount ? m.calc_payment_amount : 0;
 
             // if type=2 means reducing payment => add one more row
             if (m.collection_paymentss && m.collection_paymentss.length>0) {
@@ -249,7 +249,7 @@ export class QuickVisualizationComponent implements OnInit {
             if (element.collection_paymentss && element.collection_paymentss.length>0) {
               for (let i = 0; i < element.collection_paymentss.length; i++) {
                 const ele = element.collection_paymentss[i];
-                if (ele.payment_type != 2 && ele.payment_type != 3) {
+                if (ele.payment_type != 2) {
                   p_amt = parseFloat(p_amt) + parseFloat(ele.amount);
                 }
               }

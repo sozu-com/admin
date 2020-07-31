@@ -1537,6 +1537,7 @@
     "search": "Buscar"
   },
   "viewCollections": {
+    "choose": "Escoger",
     "label": "Administrar colecciones",
     "addNew": "+Agregar nuevo",
     "phone": "Teléfono",

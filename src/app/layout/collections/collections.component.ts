@@ -575,29 +575,21 @@ export class CollectionsComponent implements OnInit {
 
     let amt = this.paymentAmount;
     // in case of pay to following, if user is paying surplus money ask the user, what he wants to do with durplus money
-    // if (this.payment_type == 1 && this.calculatedPayAmount < this.paymentAmount) {
-    //   if (!this.surplus_payment_type) {
-    //     this.askUserForSurplusMomey();
-    //     return;
-    //   } else {
-    //     amt = this.calculatedPayAmount;
-    //   }
-    // }
-
-    // checking if method is pay to specific (4), then user cannot pay more than the amount
-    // if (this.payment_type == 4) {
-    //   const paymentConceptAmt = this.selectedPaymentConcept.amount + (this.selectedPaymentConcept.penalty ? this.selectedPaymentConcept.penalty.amount : 0);
-    //   if (this.paymentAmount > this.selectedPaymentConcept.amount)
-    // }
+    if (this.payment_type == 1 && this.calculatedPayAmount < this.paymentAmount) {
+      if (!this.surplus_payment_type) {
+        this.askUserForSurplusMomey();
+        return;
+      } else {
+        amt = this.calculatedPayAmount;
+      }
+    }
 
     // in pay to specific, user is allowed to pay either exact amount or partial amt
-    // if (this.payment_type == 4 && this.calculatedPayAmount < this.paymentAmount) {
-    //   this.toastr.clear();
-    //   this.toastr.error(this.translate.instant('message.error.payToSpecificCheck'), this.translate.instant('swal.error'));
-    //   return false;
-    // } else {
-    //   this.payment_type = 1;
-    // }
+    if (this.payment_type == 4 && this.calculatedPayAmount < this.paymentAmount) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.payToSpecificCheck'), this.translate.instant('swal.error'));
+      return false;
+    }
 
     var offset = new Date(this.paymentDate).getTimezoneOffset();
     if (offset < 0) {
@@ -638,15 +630,15 @@ export class CollectionsComponent implements OnInit {
 
     this.admin.postDataApi(url, input).subscribe(r => {
 
-      // input['amount'] = this.paymentAmount - this.calculatedPayAmount;
-      // input['type'] = this.surplus_payment_type;
-      // if (this.surplus_payment_type) {
-      //   this.admin.postDataApi(url, input).subscribe(r => {
-      //     // if (this.surplus_payment_type == '1' || this.surplus_payment_type == '4') {
-      //     //   input['collection_payment_choice_id'] = this.payment_choice_id['id']
-      //     // }
-      //   });
-      // }
+      input['amount'] = this.paymentAmount - this.calculatedPayAmount;
+      input['type'] = this.surplus_payment_type;
+      if (this.surplus_payment_type) {
+        this.admin.postDataApi(url, input).subscribe(r => {
+          // if (this.surplus_payment_type == '1' || this.surplus_payment_type == '4') {
+          //   input['collection_payment_choice_id'] = this.payment_choice_id['id']
+          // }
+        });
+      }
   
       this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
       // if (this.payment_type == 1 || this.payment_type == 4) {
@@ -935,7 +927,7 @@ console.log(this.paymentConcepts)
     for (let index = 0; index < this.paymentConcepts.length; index++) {
       console.log(s);
       console.log(this.paymentConcepts[index])
-      if (s.id == this.paymentConcepts[index].id) {
+      if (s && s.id && s.id == this.paymentConcepts[index].id) {
         this.paymentConcepts[index].is_disabled = false;
       } else if (this.paymentConcepts[index].payment_choice_id == 5) {
         this.paymentConcepts[index].is_disabled = true;
@@ -946,7 +938,9 @@ console.log(this.paymentConcepts)
     } else {
       this.docsFile2.nativeElement.value = '';
     }
-    this.applyPaymentChoiceId.nativeElement.value = '';
+    if (this.payment_type!=2 && this.payment_type !=3) {
+      this.applyPaymentChoiceId.nativeElement.value = '';
+    }
     this.applyPaymentMethodId.nativeElement.value = '';
     this.closeCollReceiptModal();
   }
@@ -954,6 +948,7 @@ console.log(this.paymentConcepts)
   setPayMentTypeSurplus(payment_type: string) {
     console.log(payment_type)
     this.surplus_payment_type = payment_type;
+    this.closeSurplusMoney();
   }
 
   getDateWRTTimezone(date: any) {

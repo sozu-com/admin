@@ -1547,6 +1547,7 @@
     "search": "Search"
   },
   "viewCollections": {
+    "choose": "Choose",
     "label": "Manage Collections",
     "addNew": "+Add New",
     "phone": "Phone",
