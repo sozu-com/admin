@@ -170,11 +170,11 @@ export class QuickVisualizationComponent implements OnInit {
                 if (paymnts.payment_type == 2) {
                   const c = {
                     key: 'remaining_amt',
-                    name: 'Payment to remaining (amount)',
+                    name: 'Payment to remaining (Reduce Amount)',
                     paid_amount: paymnts.amount,
                     is_paid_calculated: 0,
                     outstanding_amount: 0,
-                    index: index,
+                    index: index+i,
                     payment_type: 1,  // in real its 2
                     // amount: paymnts.amount,
                     // payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
@@ -195,11 +195,11 @@ export class QuickVisualizationComponent implements OnInit {
                 else if (paymnts.payment_type == 3) {
                   const c = {
                     key: 'remaining_amt',
-                    name: 'Payment to remaining (reduce time)',
+                    name: 'Payment to remaining (Reduce ime)',
                     paid_amount: paymnts.amount,
                     is_paid_calculated: 0,
                     outstanding_amount: 0,
-                    index: index,
+                    index: index+i,
                     payment_type: 1,  // in real its 2
                     // amount: paymnts.amount,
                     // payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
@@ -233,7 +233,6 @@ export class QuickVisualizationComponent implements OnInit {
               this.totalOutstanding = this.totalOutstanding + m['outstanding_amount'];
             }
           }
-
           // now insert at reducing remaining payments at type=2 index
           // reducingP = reducingP.reverse();
           for (let i = 0; i < reducingP.length; i++) {

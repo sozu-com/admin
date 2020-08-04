@@ -349,9 +349,9 @@
                      <td><span>{{p?.property?.locality?.name ? p?.property?.locality?.name : ('table.tr.td.NA' | translate)}}</span></td>
                      <td><span>{{p.deal_purchase_date ? getDateWRTTimezone(p.deal_purchase_date) : ('table.tr.td.NA' | translate)}}</span></td>
 
-                     <td><span>{{p?.last_payment?.name || ('table.tr.td.NA' | translate)}}</span></td>
+                     <td><span>{{ p?.last_payment ? getLastPaymentConcept(p) : ('table.tr.td.NA' | translate)}}</span></td>
                      <td><span>{{(p?.last_payment?.payment_date ? (p?.last_payment?.payment_date | date:'yyyy-MM-dd') : ('table.tr.td.NA' | translate) )}}</span></td>
-                     <td><span>{{ (p?.last_payment?.amount || 0) | currency}}</span></td>
+                     <td><span>{{ (p?.last_payment?.collection_amount || 0) | currency}}</span></td>
                      <td><span>{{p?.next_payment?.name || ('table.tr.td.NA' | translate)}}</span></td>
                      <td><span>{{p?.next_payment?.date || ('table.tr.td.NA' | translate)}}</span></td>
                      <td><span>{{ (p?.next_payment?.amount || 0) | currency}}</span></td>
@@ -772,7 +772,7 @@
                 </div>
                 <div class="col-12">
                   <div class="form-group-2">
-                      <label>{{'viewCollections.chooseWhichPaymentTypeYouwantToApplyForSurplusMoney' | translate}} <span class="color-red">*</span></label>
+                      <label>{{('viewCollections.chooseWhichPaymentTypeYouwantToApplyForSurplusMoney' | translate) +' '+ (paymentAmount-calculatedPayAmount | currency) }} <span class="color-red">*</span></label>
                       <div class="form-group">
                           <select name="surplus_payment_type" required class="form-control" [(ngModel)]="surplus_payment_type" (change)="setPayMentTypeSurplus($event.target.value)">
                             <option value="">{{'viewCollections.choose' | translate}}</option>    

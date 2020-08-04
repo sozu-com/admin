@@ -689,6 +689,9 @@ export class CollectionsComponent implements OnInit {
       
       this.toastr.clear();
       this.toastr.success(this.translate.instant('message.success.savedSuccessfully'), this.translate.instant('swal.success'));
+    }, error => {
+      this.toastr.error(error.message, this.translate.instant('swal.error'));
+      return false;
     });
   }
 
@@ -957,6 +960,19 @@ console.log(this.paymentConcepts)
       return moment(date).subtract(offset, 'minutes').format('YYYY-MM-DD');
     } else {
       return moment(date).add(offset, 'minutes').format('YYYY-MM-DD');
+    }
+  }
+
+  getLastPaymentConcept(item: any) {
+    // payment_type == 1 means => pay to following => means show concept name
+    // payment_type == 2 means => pay to remaining (reduce amt) => show same
+    // payment_type == 3 means => pay to remaining (reduce time) => show same
+    if (item.last_payment.payment_type == 1 || item.last_payment.payment_type == 4) {
+      return item.last_payment.name;
+    } else if (item.last_payment.payment_type == 2){
+      return 'Payment to remaining (Reduce Amount)';
+    } else {
+      return 'Payment to remaining (Reduce Time)';
     }
   }
 }

@@ -1594,7 +1594,7 @@
     "payToFollowing": "Pay to Following",
     "payToSpecific": "Pay to Specific",
     "surplusMoney": "Surplus Money",
-    "chooseWhichPaymentTypeYouwantToApplyForSurplusMoney": "Choose which payment type you want to apply for surplus money"
+    "chooseWhichPaymentTypeYouwantToApplyForSurplusMoney": "Choose which payment type you want to apply for surplus money of"
   },
   "addCollection": {
     "addLabel": "Add new Collection",
@@ -1848,6 +1848,7 @@
     "thisIsRequired": "This is required",
     "nameMin1Limit": "Minimum 1 character is required",
     "nameMax30Limit": "Maximum 30 characters are allowed",
+    "nameMax50Limit": "Maximum 50 characters are allowed",
     "fedTaxMin12Limit": "Minimum 12 characters are required",
     "fedTaxMax13Limit": "Maximum 13 characters are allowed",
     "phonePatternCheck": "The Phone Number field accepts only numeric characters",

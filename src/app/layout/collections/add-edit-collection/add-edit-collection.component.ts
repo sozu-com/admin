@@ -244,7 +244,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep2 = this.fb.group({
       step: ['', [Validators.required]],
       seller_id: [''],
-      seller_name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(30)]], // commer cial name and seller name
+      seller_name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]], // commer cial name and seller name
       seller_legal_name: [''], // legal name in case of entity/dev
       seller_address: [null],  // legal entiy/dev address
       seller_email: [''],
@@ -337,7 +337,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep3 = this.fb.group({
       step: ['', [Validators.required]],
       buyer_id: [''],
-      buyer_name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(30)]], // commer cial name and seller name
+      buyer_name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]], // commer cial name and seller name
       buyer_legal_name: [''], // legal name in case of entity/dev
       buyer_address: [null],  // legal entiy/dev address
       buyer_email: [''],
