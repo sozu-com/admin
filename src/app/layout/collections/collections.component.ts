@@ -789,7 +789,7 @@ export class CollectionsComponent implements OnInit {
         }
       }
     }
-console.log(this.paymentConcepts)
+// console.log(this.paymentConcepts)
     // if (type == 1) {
     //   for (let index = 0; index < this.selectedItem.collection_commissions.length; index++) {
     //     const element = this.selectedItem.collection_commissions[index];
@@ -826,7 +826,7 @@ console.log(this.paymentConcepts)
     this.selectedItem = item;
     this.collectionIndex = i;
     this.paymentConcepts = item.collection_commissions;
-    console.log(this.paymentConcepts)
+    // console.log(this.paymentConcepts)
     // this.viewCollectionClose.nativeElement.click();
     this.typeOfPayment = type;
     // this.collectionIndex = i;
@@ -925,11 +925,11 @@ console.log(this.paymentConcepts)
 
   setPayMentType(payment_type: string) {
     this.payment_type = payment_type;
-    console.log(this.payment_type)
+    // console.log(this.payment_type)
     const s = this.paymentConcepts.find(r => !r.is_paid_calculated && r.payment_choice_id==5);
     for (let index = 0; index < this.paymentConcepts.length; index++) {
-      console.log(s);
-      console.log(this.paymentConcepts[index])
+      // console.log(s);
+      // console.log(this.paymentConcepts[index])
       if (s && s.id && s.id == this.paymentConcepts[index].id) {
         this.paymentConcepts[index].is_disabled = false;
       } else if (this.paymentConcepts[index].payment_choice_id == 5) {
@@ -949,7 +949,7 @@ console.log(this.paymentConcepts)
   }
 
   setPayMentTypeSurplus(payment_type: string) {
-    console.log(payment_type)
+    // console.log(payment_type)
     this.surplus_payment_type = payment_type;
     this.closeSurplusMoney();
   }

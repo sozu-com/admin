@@ -195,7 +195,7 @@ export class QuickVisualizationComponent implements OnInit {
                 else if (paymnts.payment_type == 3) {
                   const c = {
                     key: 'remaining_amt',
-                    name: 'Payment to remaining (Reduce ime)',
+                    name: 'Payment to remaining (Reduce Time)',
                     paid_amount: paymnts.amount,
                     is_paid_calculated: 0,
                     outstanding_amount: 0,
@@ -240,19 +240,78 @@ export class QuickVisualizationComponent implements OnInit {
             this.paymentConcepts.splice(element.index, 0, element);              
           }
 
+          // for (let index = 0; index < this.paymentConcepts.length; index++) {
+          //   const element = this.paymentConcepts[index];
+
+          // }
 
           // calculating new paid amt, by skipping type 2
           for (let index = 0; index < this.paymentConcepts.length; index++) {
             const element = this.paymentConcepts[index];
             let p_amt: any = 0;
+            let extraAmt: any = 0;
             if (element.collection_paymentss && element.collection_paymentss.length>0) {
               for (let i = 0; i < element.collection_paymentss.length; i++) {
                 const ele = element.collection_paymentss[i];
-                if (ele.payment_type != 2) {
-                  p_amt = parseFloat(p_amt) + parseFloat(ele.amount);
+                // if (ele.payment_type != 2) {
+                //   p_amt = parseFloat(p_amt) + parseFloat(ele.amount);
+                // }
+                if (ele.payment_type == 2) {
+                  // console.log('1')
+                  // extraAmt = parseFloat(extraAmt) + parseFloat(ele.amount);
+                  let v = (ele.amt_share || 0).toFixed(2);
+                  // for (let j = 0; j < this.paymentConcepts.length; j++) {
+                  //   const e = this.paymentConcepts[j];
+                  //   console.log(e, element)
+                  //   if (e.id > element.id && element.name.includes('Monthly Installment')) {
+                  //     v++;
+                  //     console.log(v);
+                  //   }
+                  // }
+                  // console.log(v);
+                  const aa: any = (ele.amount/v || 0).toFixed(2);
+                  const ids = ele.choices_ids.split(',');
+                  for (let j = 0; j < this.paymentConcepts.length; j++) {
+                    const e = this.paymentConcepts[j];
+                    // console.log('1222', ids, e.id, v)
+                    if (e.id) {
+                      const d = e.id.toString();
+                      const h = ids.indexOf(d)
+                      if (h>=0) {
+                        // console.log('aaaaaaaaaaaa', ele)
+                        const obj = {
+                          amount: v,
+                          name: 'Payment to remaining (Reduce Amount)',
+                          payment_type: 1,  // in real its 3
+                          paid_amount: v,
+                          payment_date:  this.getDateWRTTimezone(ele.payment_date),
+                          receipt: ele.receipt,
+                          description: ele.description,
+                          payment_method: ele.payment_method
+                        }
+                        // console.log('dddddddddddddddddddd')
+                        // console.log(obj)
+                        // obj['amount'] = v;
+                        // if (this.paymentConcepts[j].collection_paymentss && this.paymentConcepts[j].collection_paymentss.length > 0) {
+                        //   this.paymentConcepts[j].collection_paymentss.unshift(obj)
+                        // } else {
+                        //   this.paymentConcepts[j].collection_paymentss = [obj];
+                        // }
+                        this.paymentConcepts[j].paid_amount = parseFloat(this.paymentConcepts[j].paid_amount) - parseFloat(v);
+                        // console.log(v,element,element.paid_amount);
+                        // break;
+                      }
+                    }
+                    // if (e.id > element.id && element.name.includes('Monthly Installment')) {
+                    //   element.paid_amount = element.paid_amount - aa;
+                    //   console.log('ssdsd')
+                    // }
+                  }
                 }
               }
             }
+
+
             element.new_paid_amt = p_amt;
           }
 
@@ -361,7 +420,7 @@ export class QuickVisualizationComponent implements OnInit {
 
   getDateWRTTimezone(date: any) {
     var offset = new Date(date).getTimezoneOffset();
-    console.log(offset)
+    // console.log(offset)
     if (offset < 0) {
       return moment(date).subtract(offset, 'minutes').format('YYYY-MM-DD');
     } else {

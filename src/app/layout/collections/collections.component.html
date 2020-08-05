@@ -303,7 +303,7 @@
                               <label>{{'table.th.remaniningAmount' | translate}}</label>
                            </div>
                         </th>
-                        <th style="text-align:left; width: 200px;">
+                        <th style="text-align:left; width: 70px;">
                         <div class="table-search">
                            <label>{{'table.th.statusAccount' | translate}}</label>
                         </div>
@@ -351,10 +351,12 @@
 
                      <td><span>{{ p?.last_payment ? getLastPaymentConcept(p) : ('table.tr.td.NA' | translate)}}</span></td>
                      <td><span>{{(p?.last_payment?.payment_date ? (p?.last_payment?.payment_date | date:'yyyy-MM-dd') : ('table.tr.td.NA' | translate) )}}</span></td>
-                     <td><span>{{ (p?.last_payment?.collection_amount || 0) | currency}}</span></td>
+                     <td><span [ngClass]="{'red-color':((p?.last_payment?.collection_amount || 0) < (p?.last_payment?.amount || 0)) && p?.payment_type==1}">
+                       {{ (p?.last_payment?.collection_amount || 0) | currency}}
+                      </span></td>
                      <td><span>{{p?.next_payment?.name || ('table.tr.td.NA' | translate)}}</span></td>
                      <td><span>{{p?.next_payment?.date || ('table.tr.td.NA' | translate)}}</span></td>
-                     <td><span>{{ (p?.next_payment?.amount || 0) | currency}}</span></td>
+                     <td><span>{{ ((p?.next_payment?.amount || 0)-(p?.next_payment?.calc_payment_amount || 0)) | currency}}</span></td>
 
                      <td><span>{{p?.currency?.code || ('table.tr.td.NA' | translate)}}</span></td>
                      <td><span>{{p?.comm_total_commission ? (p?.comm_total_commission | number : '1.2-2') : ('table.tr.td.NA' | translate)}}</span></td>
@@ -369,7 +371,16 @@
                      <td><span>{{(p?.penalty || 0) | currency}}</span></td>
                      <td><span>{{(p?.total_payment_recieved || 0) | currency}}</span></td>
                      <td><span>{{(((p?.deal_price || 0) + (p?.penalty || 0)) - (p?.total_payment_recieved || 0)) | currency}}</span></td>
-                     <td>{{'table.tr.td.NA' | translate}}</td>
+                    
+                     <td>
+                       <div *ngIf="p?.payment_status==1" class="status green" title="Up to Date"></div>
+                       <div *ngIf="p?.payment_status==2" class="status yellow" title="Payment Period"></div>
+                       <div *ngIf="p?.payment_status==3" class="status red" title="Overdue Payment"></div>
+                       <div *ngIf="p?.payment_status==4" class="status grey" title="Cancelled"></div>
+                       <div *ngIf="p?.payment_status==5" class="status blue" title="Settled"></div>
+                       <div *ngIf="p?.payment_status==6" class="status purple" title="Only Commission for sale"></div>
+                     </td>
+                    
                      <td>
                      <div class="table-actions">
                         <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
