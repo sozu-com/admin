@@ -351,7 +351,7 @@
 
                      <td><span>{{ p?.last_payment ? getLastPaymentConcept(p) : ('table.tr.td.NA' | translate)}}</span></td>
                      <td><span>{{(p?.last_payment?.payment_date ? (p?.last_payment?.payment_date | date:'yyyy-MM-dd') : ('table.tr.td.NA' | translate) )}}</span></td>
-                     <td><span [ngClass]="{'red-color':((p?.last_payment?.collection_amount || 0) < (p?.last_payment?.amount || 0)) && p?.payment_type==1}">
+                     <td><span [ngClass]="{'red-color':((p?.last_payment?.calc_payment_amount || 0) < (p?.last_payment?.amount || 0))}">
                        {{ (p?.last_payment?.collection_amount || 0) | currency}}
                       </span></td>
                      <td><span>{{p?.next_payment?.name || ('table.tr.td.NA' | translate)}}</span></td>
