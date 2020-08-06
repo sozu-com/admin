@@ -572,6 +572,11 @@ export class CollectionsComponent implements OnInit {
       this.toastr.error(this.translate.instant('message.error.pleaseChooseReceipt'), this.translate.instant('swal.error'));
       return false;
     }
+    if (!this.paymentAmount || this.paymentAmount == 0) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseEnterValidAmt'), this.translate.instant('swal.error'));
+      return false;
+    }
 
     let amt = this.paymentAmount;
     // in case of pay to following, if user is paying surplus money ask the user, what he wants to do with durplus money

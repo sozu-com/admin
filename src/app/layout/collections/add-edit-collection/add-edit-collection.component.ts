@@ -1800,6 +1800,7 @@ export class AddEditCollectionComponent implements OnInit {
     const pcArray: Array<any> = this.addFormStep5.get('collection_commissions').value;
     const installOne = pcArray.find(r => r.name.includes('Monthly Installment'));
     // if first monthly installment percent added, => update amount in all monthly installments
+    console.log('aaa');
     if (installOne && (installOne.name == pcArray[index].name)) {
       const sta = add_collection_commission;
       for (let index = 0; index < pcArray.length; index++) {
@@ -1814,16 +1815,19 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   getCollAmount(percent: number, index: number, payment_amount: number) {
+    console.log(percent, index, payment_amount);
     const amount = this.numberUptoTwoDecimal((percent * payment_amount) / 100);
     const pcArray: Array<any> = this.addFormStep5.get('collection_commissions').value;
     pcArray[index].amount = amount;
     // const installOne = pcArray.find(r => r.pc_id == 5);
     const installOne = pcArray.find(r => r.name.includes('Monthly Installment'));
     // if first monthly installment percent added, => update amount in all monthly installments
-    if (installOne.id == pcArray[index].id) {
+    console.log(installOne, pcArray[index]);
+    if (installOne.name == pcArray[index].name) {
       pcArray.map(e => {
         // if (e.pc_id == 5) {
         if (e.name.includes('Monthly Installment')){
+          console.log('aaaaaaaaaaaaaa')
           e.amount = amount;
           e.percent = percent;
         }
@@ -1839,7 +1843,7 @@ export class AddEditCollectionComponent implements OnInit {
     // const installOne = pcArray.find(r => r.pc_id == 5);
     const installOne = pcArray.find(r => r.name.includes('Monthly Installment'));
     // if first monthly installment percent added, => update amount in all monthly installments
-    if (installOne.id == pcArray[index].id) {
+    if (installOne.name == pcArray[index].name) {
       pcArray.map(e => {
         // if (e.pc_id == 5) {
         if (e.name.includes('Monthly Installment')){
@@ -1873,7 +1877,7 @@ export class AddEditCollectionComponent implements OnInit {
     pcArray[index].purchase_comm_amount = amount;
     const installOne = pcArray.find(r => r.name.includes('Monthly Installment'));
     // if first monthly installment percent added, => update amount in all monthly installments
-    if (installOne.id == pcArray[index].id) {
+    if (installOne.name == pcArray[index].name) {
       pcArray.map(e => {
         if (e.name.includes('Monthly Installment')){
           e.purchase_comm_amount = amount;
@@ -2087,6 +2091,9 @@ export class AddEditCollectionComponent implements OnInit {
         collection_commissions.forEach(element => {
           element.add_collection_commission = element.add_collection_commission ? 1 : 0
           element.add_purchase_commission = element.add_purchase_commission ? 1 : 0
+          element.percent = element.percent || 0
+          element.amount = element.amount || 0
+          element.purchase_comm_amount = element.purchase_comm_amount || 0
         });
         formdata['collection_commissions'] = collection_commissions;
         // console.log(formdata);
@@ -2141,7 +2148,7 @@ export class AddEditCollectionComponent implements OnInit {
 
   numberUptoTwoDecimal(num: any) {
   //  console.log(num);
-    return num.toFixed(2);
+    return num ? num.toFixed(2) : 0;
   }
 
   getDateWRTTimezone(date: any) {

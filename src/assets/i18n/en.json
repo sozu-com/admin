@@ -959,6 +959,7 @@
       "pleaseEnableCollectionCommission": "Please enable the collection commission checkbox from collection details",
       "pleaseSelectPaymentDate":"Please select payment date",
       "pleaseChooseReceipt": "Please choose receipt",
+      "pleaseEnterValidAmt": "Please enter valid amount",
       "pleaseEnterMonthlyData":"Please enter Number of months, Monthly date, and Monthly amount to be paid",
       "pleaseEnterLegalRepresentativeName":"Please enter legal representative's name",
       "pleaseEnterLegalRepresentativeEmail":"Please enter legal representative email",

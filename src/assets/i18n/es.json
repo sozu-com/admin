@@ -949,6 +949,7 @@
       "pleaseEnableCollectionCommission": "Habilite la casilla de verificación de la comisión de cobro en los detalles de cobro.",
       "pleaseSelectPaymentDate":"Por favor seleccione fecha de pago",
       "pleaseChooseReceipt": "Por favor elija recibo",
+      "pleaseEnterValidAmt": "Por favor ingrese una cantidad válida",
       "pleaseEnterMonthlyData":"Ingrese el número de meses, la fecha mensual y el monto mensual a pagar",
       "pleaseEnterLegalRepresentativeName":"Por favor ingrese el nombre del representante legal",
       "pleaseEnterLegalRepresentativeEmail":"Por favor ingrese el correo electrónico del representante legal",
