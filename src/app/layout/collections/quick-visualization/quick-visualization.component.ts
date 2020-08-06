@@ -259,7 +259,7 @@ export class QuickVisualizationComponent implements OnInit {
                 if (ele.payment_type == 2) {
                   // console.log('1')
                   // extraAmt = parseFloat(extraAmt) + parseFloat(ele.amount);
-                  let v = (ele.amt_share || 0).toFixed(2);
+                  let v = ele.amt_share || 0;
                   // for (let j = 0; j < this.paymentConcepts.length; j++) {
                   //   const e = this.paymentConcepts[j];
                   //   console.log(e, element)
@@ -268,8 +268,6 @@ export class QuickVisualizationComponent implements OnInit {
                   //     console.log(v);
                   //   }
                   // }
-                  // console.log(v);
-                  const aa: any = (ele.amount/v || 0).toFixed(2);
                   const ids = ele.choices_ids.split(',');
                   for (let j = 0; j < this.paymentConcepts.length; j++) {
                     const e = this.paymentConcepts[j];
@@ -278,7 +276,6 @@ export class QuickVisualizationComponent implements OnInit {
                       const d = e.id.toString();
                       const h = ids.indexOf(d)
                       if (h>=0) {
-                        // console.log('aaaaaaaaaaaa', ele)
                         const obj = {
                           amount: v,
                           name: 'Payment to remaining (Reduce Amount)',
@@ -297,15 +294,12 @@ export class QuickVisualizationComponent implements OnInit {
                         // } else {
                         //   this.paymentConcepts[j].collection_paymentss = [obj];
                         // }
+                        console.log(this.paymentConcepts[j].paid_amount, v);
                         this.paymentConcepts[j].paid_amount = parseFloat(this.paymentConcepts[j].paid_amount) - parseFloat(v);
                         // console.log(v,element,element.paid_amount);
                         // break;
                       }
                     }
-                    // if (e.id > element.id && element.name.includes('Monthly Installment')) {
-                    //   element.paid_amount = element.paid_amount - aa;
-                    //   console.log('ssdsd')
-                    // }
                   }
                 }
               }

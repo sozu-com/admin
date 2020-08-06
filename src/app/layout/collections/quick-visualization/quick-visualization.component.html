@@ -335,7 +335,7 @@
               <td>{{p?.date}}</td>
               <!-- <td>{{p?.payment_date || ''}}</td> -->
               <td>
-                <!-- {{p?.paid_amount}} -->
+                <!-- {{p?.paid_amount}}<br> -->
                 {{p?.paid_amount && p?.paid_amount!='0.000' ? (p?.paid_amount | currency) : ''}}<br>
                 <!-- {{p?.new_paid_amt ? (p?.new_paid_amt | currency) : ''}}  -->
                 <!-- {{p?.is_paid_calculated == 1 ? p?.amount : (p?.collection_payment ? (p?.collection_payment?.amount | currency) : '')}} -->
