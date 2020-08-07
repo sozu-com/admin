@@ -403,9 +403,9 @@
                         (click)="showApplyPaymentPopup(p, i, 'apply-popup')" title="{{'table.title.applyPayment' | translate}}" 
                         class="action-icon"><img src="assets/img/ic_payment.png" alt="img"></button>  
 
-                        <!-- <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
+                        <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
                         (click)="showEditPaymentPopup(p, i)" title="{{'table.title.applyPayment' | translate}}" 
-                        class="action-icon"><img src="assets/img/edit.png" alt="img"></button>   -->
+                        class="action-icon"><img src="assets/img/edit.png" alt="img"></button>  
 
                         <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
                         (click)="showCollectionCommReceipt(p, i, 'commission-popup')" title="{{'table.title.collectionCommission' | translate}}" 
@@ -773,13 +773,13 @@
       <div class="modal-dialog fadeIndown modal-lg">
           <div class="modal-content notary-avail">
                 <div class="modal-header popup-header">
-            <h4>{{'viewCollections.applyPayment' | translate}}</h4>
+            <h4>{{'quickVisualization.editPaymentMade' | translate}}</h4>
               <button style="display: none;" type="button" class="close" data-dismiss="modal" #editPaymentModalClose>&times;</button>
               <button type="button" class="close" (click)="closeEditPaymentModal()">&times;</button>
           </div>
 
 
-          <div class="cust-tabs">
+          <div class="cust-tabs" style="padding: 30px;">
             <div class="tab-content white-bg">
               <div id="accordion" class="table-responsive main-table">
                 <table class="table table-bordered table-striped table-align-center edit-table">
@@ -799,9 +799,6 @@
                       </th>
                       <th [style.width]="'120px'">
                           <b>{{'quickVisualization.toBePaidByUser' | translate}}</b>
-                      </th>
-                      <th>
-                          <b>{{'quickVisualization.CCDescription' | translate}}</b>
                       </th>
                     </tr>
                   </thead>
@@ -823,12 +820,7 @@
                       </td>
                       <td>
                           {{p?.amount ? ((p?.amount || 0) | currency) : ''}}
-                      </td>
-                      <td>
-                          <button class="action-icon">
-                              <img src="assets/img/eye-icon.png" alt="img">
-                          </button>
-                      </td>              
+                      </td>            
                       </tr>
                     
                     
@@ -842,9 +834,10 @@
                               <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.paymentMethods' | translate}}</th>
                               <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.paymentAttachment' | translate}}</th>
                               <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.paymentDescription' | translate}}</th>
+                              <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.action' | translate}}</th>
                             </thead>
                             <tbody *ngIf="p?.collection_paymentss?.length>0">
-                              <ng-container *ngFor="let stats of p?.collection_paymentss">
+                              <ng-container *ngFor="let stats of p?.collection_paymentss; let s=index">
                               <tr *ngIf="stats.payment_type==1 || stats.payment_type==4">
                                 <td [style.backgroundColor]="'#fff'" [style.color]="'#222'">
                                   {{p?.name || 'NA'}}
@@ -866,6 +859,14 @@
                                 <td>
                                   <button class="action-icon" *ngIf="stats?.description" (click)="showDescription(stats?.description, 1)">
                                       <img src="assets/img/eye-icon.png" alt="img">
+                                  </button>
+                                </td>
+                                <td>
+                                  <!-- <button class="action-icon" (click)="showDescription(stats?.description, 1)">
+                                      <img src="assets/img/edit.png" alt="img">
+                                  </button> -->
+                                  <button [ngClass]="{'highlight': stats?.id==last_payment_id}" [disabled]="stats?.id!=last_payment_id" title="{{stats?.id}}|{{last_payment_id}}" class="action-icon" (click)="deletePayment(stats?.id, i, s)">
+                                      <img src="assets/img/ic_delete.png" alt="img">
                                   </button>
                                 </td>
                               </tr>

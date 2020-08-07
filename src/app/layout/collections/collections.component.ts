@@ -49,6 +49,7 @@ export class CollectionsComponent implements OnInit {
   description: string;
   typeOfPayment: string;
   collectionIndex: number;
+  last_payment_id: string;
   selectedPaymentConcept: any;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
 
@@ -467,20 +468,21 @@ export class CollectionsComponent implements OnInit {
     this.property_collection_id = item.id;
     this.collectionIndex = i;
     this.paymentConcepts = item.payment_choices;
+    this.last_payment_id = item.last_payment ? item.last_payment.collection_payment_id : '';
     this.getCollectionDetails(item.id)
     this.editPaymentModalOpen.nativeElement.click();
   }
 
 
   getCollectionDetails(id) {
-    this.spinner.show();
-    this.admin.postDataApi('getCollectionById', {id: id})
-      .subscribe(
-        success => {
-          this.spinner.hide();
-          this.model = success['data'];
-          this.paymentConcepts = success['data']['payment_choices'];
-          this.collectionCommission = success['data']['collection_commissions'];
+    // this.spinner.show();
+    // this.admin.postDataApi('getCollectionById', {id: id})
+    //   .subscribe(
+    //     success => {
+    //       this.spinner.hide();
+    //       this.model = success['data'];
+          // this.paymentConcepts = success['data']['payment_choices'];
+          // this.collectionCommission = success['data']['collection_commissions'];
 
           let reducingP = [];
           for (let index = 0; index < this.paymentConcepts.length; index++) {
@@ -596,12 +598,53 @@ export class CollectionsComponent implements OnInit {
             }
           }
 
-        }, error => {
-          this.spinner.hide();
-        }
-      );
+      //   }, error => {
+      //     this.spinner.hide();
+      //   }
+      // );
   }
 
+  deletePayment(payment_id: string, mainIndex: number, index: number){
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+        this.translate.instant('message.error.wantToDeletePayment'),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.admin.postDataApi('deleteCollectionPayment', {payment_id: payment_id})
+          .subscribe(
+            success => {
+            // this.paymentConcepts[mainIndex].collection_paymentss.splice(index, 1);
+             this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
+            this.closeEditPaymentModal();
+             this.toastr.clear();
+             this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+           },
+            error => {
+              this.toastr.error(error.error.message, this.translate.instant('swal.error'));
+            });
+      }
+    });
+  }
+
+  editPayment(payment_id: string){
+    const input = {
+      payment_id:560,
+      receipt:'wq',
+      description:'wqe',
+      payment_method_id:3,
+      payment_date:'2021-07-01'
+    }
+    this.admin.postDataApi('updateCollectionPayment', input)
+      .subscribe(
+        success => {
+          this.spinner.hide();
+        });
+  }
 
   showApplyPaymentPopup(item: any, i: number, type: string) {
     this.property_collection_id = item.id;

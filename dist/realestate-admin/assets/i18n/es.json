@@ -1046,6 +1046,7 @@
       "wantToBlockCollection": "¿Quieres bloquear esta colección?",
       "wantToUnblockCollection": "¿Quieres desbloquear esta colección?",
       "wantToDeleteCollection": "¿Quieres eliminar esta colección?",
+      "wantToDeletePayment": "¿Quieres eliminar este pago?",
       "wantToDeleteDocs": "¿Quieres eliminar este documento?",
       "wantToDeleteFolder": "¿Quieres eliminar esta carpeta?",
       "wantToRemovePaymentConcept": "¿Quieres eliminar este concepto?"
@@ -1821,6 +1822,8 @@
     "CCAttachment":"Recibo de SOZU CC",
     "view":"Ver",
     "paymentDescription":"descripción de pago",
+    "action":"Acción",
+    "editPaymentMade":"Editar pago aplicado",
     "penaltyDescription":"Descripción de la penalización",
     "CCDescription":"Descripción CC",
     "PCDescription":"Descripción PC",
