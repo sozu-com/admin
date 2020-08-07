@@ -32,7 +32,10 @@ textarea{
     z-index:2;
   }
   /* freeze first col and row */
-
+  table.table-striped.edit-table td:first-child, table.table-striped.edit-table th:first-child{
+    background-color: #00B96F;
+    color: #fff;
+  }
 
 
 

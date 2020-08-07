@@ -312,7 +312,8 @@ export class QuickVisualizationComponent implements OnInit {
           this.paymentConcepts.push({
             key: 'total',
             name: 'Total',
-            paid_amount: this.totalPaid,
+            // paid_amount: this.totalPaid,
+            paid_amount: this.model.total_payment_recieved,
             is_paid_calculated: 1,
             outstanding_amount: this.totalOutstanding
           })

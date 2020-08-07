@@ -70,7 +70,7 @@ export class CollectionsComponent implements OnInit {
   commission_type: any;
   today: Date;
   selectedItem: any;
-
+  collectionCommission: any;
   // penalty form
   penaltyForm: FormGroup;
   showError: boolean;
@@ -89,6 +89,8 @@ export class CollectionsComponent implements OnInit {
   @ViewChild('notesModalClose') notesModalClose: ElementRef;
   @ViewChild('paymentModalOpen') paymentModalOpen: ElementRef;
   @ViewChild('paymentModalClose') paymentModalClose: ElementRef;
+  @ViewChild('editPaymentModalOpen') editPaymentModalOpen: ElementRef;
+  @ViewChild('editPaymentModalClose') editPaymentModalClose: ElementRef;
   @ViewChild('viewCollectionClose') viewCollectionClose: ElementRef;
   @ViewChild('collectionReceiptOpen') collectionReceiptOpen: ElementRef;
   @ViewChild('collectionReceiptClose') collectionReceiptClose: ElementRef;
@@ -461,6 +463,146 @@ export class CollectionsComponent implements OnInit {
     });
   }
 
+  showEditPaymentPopup(item: any, i: number) {
+    this.property_collection_id = item.id;
+    this.collectionIndex = i;
+    this.paymentConcepts = item.payment_choices;
+    this.getCollectionDetails(item.id)
+    this.editPaymentModalOpen.nativeElement.click();
+  }
+
+
+  getCollectionDetails(id) {
+    this.spinner.show();
+    this.admin.postDataApi('getCollectionById', {id: id})
+      .subscribe(
+        success => {
+          this.spinner.hide();
+          this.model = success['data'];
+          this.paymentConcepts = success['data']['payment_choices'];
+          this.collectionCommission = success['data']['collection_commissions'];
+
+          let reducingP = [];
+          for (let index = 0; index < this.paymentConcepts.length; index++) {
+            const m = this.paymentConcepts[index];
+            // this.newPaymentConcepts.push(m);
+            m.payment_date = m.collection_payment>0 ? this.getDateWRTTimezone(m.collection_payment.payment_date) : '';
+            m.paid_amount = m.calc_payment_amount ? m.calc_payment_amount : 0;
+
+            // if type=2 means reducing payment => add one more row
+            if (m.collection_paymentss && m.collection_paymentss.length>0) {
+              for (let i = 0; i < m.collection_paymentss.length; i++) {
+                const paymnts = m.collection_paymentss[i];
+                if (paymnts.payment_type == 2) {
+                  const c = {
+                    key: 'remaining_amt',
+                    name: 'Payment to remaining (Reduce Amount)',
+                    paid_amount: paymnts.amount,
+                    is_paid_calculated: 0,
+                    outstanding_amount: 0,
+                    index: index+i,
+                    payment_type: 1,  // in real its 2
+                    // amount: paymnts.amount,
+                    // payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
+                    receipt: paymnts.receipt,
+                    description: paymnts.description
+                  };
+                  c['collection_paymentss'] = [{
+                    payment_type: 1,  // in real its 2
+                    paid_amount: paymnts.amount,
+                    amount: paymnts.amount,
+                    payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
+                    receipt: paymnts.receipt,
+                    description: paymnts.description,
+                    payment_method: paymnts.payment_method
+                  }]
+                  reducingP.push(c);     
+                }
+                else if (paymnts.payment_type == 3) {
+                  const c = {
+                    key: 'remaining_amt',
+                    name: 'Payment to remaining (Reduce Time)',
+                    paid_amount: paymnts.amount,
+                    is_paid_calculated: 0,
+                    outstanding_amount: 0,
+                    index: index+i,
+                    payment_type: 1,  // in real its 2
+                    // amount: paymnts.amount,
+                    // payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
+                    receipt: paymnts.receipt,
+                    description: paymnts.description
+                  };
+                  c['collection_paymentss'] = [{
+                    payment_type: 1,  // in real its 3
+                    paid_amount: paymnts.amount,
+                    amount: paymnts.amount,
+                    payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
+                    receipt: paymnts.receipt,
+                    description: paymnts.description,
+                    payment_method: paymnts.payment_method
+                  }]
+                  console.log(c);
+                  reducingP.push(c);     
+                }
+              }
+            }
+
+            m['outstanding_amount'] = m.amount - (m.calc_payment_amount || 0);
+            if ((m.amount - (m.calc_payment_amount||0))>=0) {
+              const a = (m.calc_payment_amount || 0);
+              m['is_pending'] = a ? 1 : 0;
+            }
+          }
+          // now insert at reducing remaining payments at type=2 index
+          // reducingP = reducingP.reverse();
+          for (let i = 0; i < reducingP.length; i++) {
+            const element = reducingP[i];
+            this.paymentConcepts.splice(element.index, 0, element);              
+          }
+
+          // calculating new paid amt, by skipping type 2
+          for (let index = 0; index < this.paymentConcepts.length; index++) {
+            const element = this.paymentConcepts[index];
+            let p_amt: any = 0;
+            let extraAmt: any = 0;
+            if (element.collection_paymentss && element.collection_paymentss.length>0) {
+              for (let i = 0; i < element.collection_paymentss.length; i++) {
+                const ele = element.collection_paymentss[i];
+                if (ele.payment_type == 2) {
+                  let v = ele.amt_share || 0;
+                  const ids = ele.choices_ids.split(',');
+                  for (let j = 0; j < this.paymentConcepts.length; j++) {
+                    const e = this.paymentConcepts[j];
+                    if (e.id) {
+                      const d = e.id.toString();
+                      const h = ids.indexOf(d)
+                      if (h>=0) {
+                        const obj = {
+                          amount: v,
+                          name: 'Payment to remaining (Reduce Amount)',
+                          payment_type: 1,  // in real its 3
+                          paid_amount: v,
+                          payment_date:  this.getDateWRTTimezone(ele.payment_date),
+                          receipt: ele.receipt,
+                          description: ele.description,
+                          payment_method: ele.payment_method
+                        }
+                        this.paymentConcepts[j].paid_amount = parseFloat(this.paymentConcepts[j].paid_amount) - parseFloat(v);
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+        }, error => {
+          this.spinner.hide();
+        }
+      );
+  }
+
+
   showApplyPaymentPopup(item: any, i: number, type: string) {
     this.property_collection_id = item.id;
     this.typeOfPayment = type;
@@ -554,6 +696,10 @@ export class CollectionsComponent implements OnInit {
 
   closePaymentModal() {
     this.paymentModalClose.nativeElement.click();
+  }
+
+  closeEditPaymentModal() {
+    this.editPaymentModalClose.nativeElement.click();
   }
 
   onSelect(e) {
