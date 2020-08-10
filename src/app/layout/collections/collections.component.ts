@@ -1103,7 +1103,7 @@ export class CollectionsComponent implements OnInit {
       this.penaltyForm.controls.percent.patchValue(0);
       return;
     }
-    const paymentAmount = Math.round((percent * paymentConceptAmount) / 100);
+    const paymentAmount = ((percent * paymentConceptAmount) / 100).toFixed(2);
     this.penaltyForm.controls.amount.patchValue(paymentAmount);
   }
 
@@ -1115,7 +1115,7 @@ export class CollectionsComponent implements OnInit {
       this.penaltyForm.controls.amount.patchValue(0);
       return;
     }
-    const penaltyPercent = Math.round((amount * 100) / paymentConceptAmount);
+    const penaltyPercent = ((amount * 100) / paymentConceptAmount).toFixed(3);
     this.penaltyForm.controls.percent.patchValue(penaltyPercent);
   }
 
