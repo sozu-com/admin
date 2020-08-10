@@ -44,6 +44,7 @@ export class CollectionsComponent implements OnInit {
   locale: any;
   property_collection_id: string;
   docFile: string;
+  payment_date: any = new Date();
   payment_choice_id: number;
   payment_method_id: number;
   description: string;
@@ -62,6 +63,7 @@ export class CollectionsComponent implements OnInit {
   amount: number;
   selectedCollectionCommission: any;
   payment_type: any;
+  payment_id: any;
   surplus_payment_type: string;
   paymentMethods: Array<any>;
   pendingPayment: any;
@@ -92,6 +94,8 @@ export class CollectionsComponent implements OnInit {
   @ViewChild('paymentModalClose') paymentModalClose: ElementRef;
   @ViewChild('editPaymentModalOpen') editPaymentModalOpen: ElementRef;
   @ViewChild('editPaymentModalClose') editPaymentModalClose: ElementRef;
+  @ViewChild('updatePaymentModalOpen') updatePaymentModalOpen: ElementRef;
+  @ViewChild('updatePaymentModalClose') updatePaymentModalClose: ElementRef;
   @ViewChild('viewCollectionClose') viewCollectionClose: ElementRef;
   @ViewChild('collectionReceiptOpen') collectionReceiptOpen: ElementRef;
   @ViewChild('collectionReceiptClose') collectionReceiptClose: ElementRef;
@@ -473,6 +477,64 @@ export class CollectionsComponent implements OnInit {
     this.editPaymentModalOpen.nativeElement.click();
   }
 
+  
+  showUpdatePaymentPopup(item: any, i: number) {
+    this.payment_id = item.id;
+    this.payment_type = item.payment_type;
+    this.payment_method_id = item.payment_method.id;
+    this.description = item.description;
+    this.docFile = item.receipt;
+    console.log(item);
+    this.payment_date = item.payment_date ? this.getDateWRTTimezone(item.payment_date, 'MM/DD/YYYY') : '';
+    console.log(this.payment_date);
+    this.closeEditPaymentModal();
+    this.updatePaymentModalOpen.nativeElement.click();
+  }
+
+  closeUpdatePaymentModal() {
+    this.updatePaymentModalClose.nativeElement.click();
+  }
+
+
+  updateCollectionPayment(formdata: NgForm) {
+    // checking if date selected and receipt selected
+    if (!this.paymentDate) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseSelectPaymentDate'), this.translate.instant('swal.error'));
+      return false;
+    }
+    if (!this.docFile) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseChooseReceipt'), this.translate.instant('swal.error'));
+      return false;
+    }
+
+    var offset = new Date(this.paymentDate).getTimezoneOffset();
+    if (offset < 0) {
+      this.paymentDate = moment(this.paymentDate).subtract(offset, 'minutes').toDate();
+    } else {
+      this.paymentDate = moment(this.paymentDate).add(offset, 'minutes').toDate();
+    }
+
+    // inpur params
+    const input = {
+      payment_id: this.payment_id,
+      payment_method_id: this.payment_method_id,
+      receipt: this.docFile,
+      description: this.description,
+      payment_date: this.paymentDate
+    }
+
+    this.admin.postDataApi('updateCollectionPayment', input).subscribe(r => {
+      this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
+      this.closeUpdatePaymentModal();
+      this.toastr.clear();
+      this.toastr.success(this.translate.instant('message.success.savedSuccessfully'), this.translate.instant('swal.success'));
+    }, error => {
+      this.toastr.error(error.message, this.translate.instant('swal.error'));
+      return false;
+    });
+  }
 
   getCollectionDetails(id) {
     // this.spinner.show();
@@ -488,13 +550,14 @@ export class CollectionsComponent implements OnInit {
           for (let index = 0; index < this.paymentConcepts.length; index++) {
             const m = this.paymentConcepts[index];
             // this.newPaymentConcepts.push(m);
-            m.payment_date = m.collection_payment>0 ? this.getDateWRTTimezone(m.collection_payment.payment_date) : '';
+            m.payment_date = m.collection_payment>0 ? this.getDateWRTTimezone(m.collection_payment.payment_date, 'YYYY-MM-DD') : '';
             m.paid_amount = m.calc_payment_amount ? m.calc_payment_amount : 0;
 
             // if type=2 means reducing payment => add one more row
             if (m.collection_paymentss && m.collection_paymentss.length>0) {
               for (let i = 0; i < m.collection_paymentss.length; i++) {
                 const paymnts = m.collection_paymentss[i];
+                console.log(paymnts)
                 if (paymnts.payment_type == 2) {
                   const c = {
                     key: 'remaining_amt',
@@ -505,15 +568,16 @@ export class CollectionsComponent implements OnInit {
                     index: index+i,
                     payment_type: 1,  // in real its 2
                     // amount: paymnts.amount,
-                    // payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
+                    // payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
                     receipt: paymnts.receipt,
                     description: paymnts.description
                   };
                   c['collection_paymentss'] = [{
+                    id: paymnts.id,
                     payment_type: 1,  // in real its 2
                     paid_amount: paymnts.amount,
                     amount: paymnts.amount,
-                    payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
+                    payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
                     receipt: paymnts.receipt,
                     description: paymnts.description,
                     payment_method: paymnts.payment_method
@@ -530,15 +594,16 @@ export class CollectionsComponent implements OnInit {
                     index: index+i,
                     payment_type: 1,  // in real its 2
                     // amount: paymnts.amount,
-                    // payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
+                    // payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
                     receipt: paymnts.receipt,
                     description: paymnts.description
                   };
                   c['collection_paymentss'] = [{
+                    id: paymnts.id,
                     payment_type: 1,  // in real its 3
                     paid_amount: paymnts.amount,
                     amount: paymnts.amount,
-                    payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
+                    payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
                     receipt: paymnts.receipt,
                     description: paymnts.description,
                     payment_method: paymnts.payment_method
@@ -580,11 +645,12 @@ export class CollectionsComponent implements OnInit {
                       const h = ids.indexOf(d)
                       if (h>=0) {
                         const obj = {
+                          id: ele.id,
                           amount: v,
                           name: 'Payment to remaining (Reduce Amount)',
                           payment_type: 1,  // in real its 3
                           paid_amount: v,
-                          payment_date:  this.getDateWRTTimezone(ele.payment_date),
+                          payment_date:  this.getDateWRTTimezone(ele.payment_date, 'YYYY-MM-DD'),
                           receipt: ele.receipt,
                           description: ele.description,
                           payment_method: ele.payment_method
@@ -1148,12 +1214,12 @@ export class CollectionsComponent implements OnInit {
     this.closeSurplusMoney();
   }
 
-  getDateWRTTimezone(date: any) {
+  getDateWRTTimezone(date: any, format: any) {
     var offset = new Date(date).getTimezoneOffset();
     if (offset < 0) {
-      return moment(date).subtract(offset, 'minutes').format('YYYY-MM-DD');
+      return moment(date).subtract(offset, 'minutes').format(format);
     } else {
-      return moment(date).add(offset, 'minutes').format('YYYY-MM-DD');
+      return moment(date).add(offset, 'minutes').format(format);
     }
   }
 

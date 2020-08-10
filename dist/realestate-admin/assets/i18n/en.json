@@ -1835,6 +1835,8 @@
     "paymentDescription":"Payment Description",
     "action":"Action",
     "editPaymentMade":"Edit Applied Payment",
+    "editPaymentDetails":"Edit Payment Details",
+    "clickToViewReceipt":"Click to view receipt",
     "penaltyDescription":"Penalty Description",
     "CCDescription":"CC Description",
     "PCDescription":"PC Description",
