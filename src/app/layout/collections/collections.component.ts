@@ -78,6 +78,9 @@ export class CollectionsComponent implements OnInit {
   penaltyForm: FormGroup;
   showError: boolean;
 
+  @ViewChild('viewDesModal') viewDesModal: ElementRef;
+  @ViewChild('viewDesModalClose') viewDesModalClose: ElementRef;
+  title: any;
   @ViewChild('applyPaymentChoiceId') applyPaymentChoiceId: ElementRef;
   @ViewChild('applyPaymentMethodId') applyPaymentMethodId: ElementRef;
   @ViewChild('applyPaymentChoiceId1') applyPaymentChoiceId1: ElementRef;
@@ -713,6 +716,7 @@ export class CollectionsComponent implements OnInit {
   }
 
   showApplyPaymentPopup(item: any, i: number, type: string) {
+    this.payment_type = '';
     this.property_collection_id = item.id;
     this.typeOfPayment = type;
     this.collectionIndex = i;
@@ -729,7 +733,6 @@ export class CollectionsComponent implements OnInit {
   }
 
   setPaymentAmount(item: any) {
-    // this.paymentAmount = item.amount ? item.amount : 0;
     if (this.typeOfPayment == 'commission-popup') {
       if (this.commission_type == 1 && item.add_purchase_commission == 0) {        
       this.toastr.clear();
@@ -781,24 +784,26 @@ export class CollectionsComponent implements OnInit {
         this.calculatedPayAmount = [...this.paymentAmount];
         // console.log(this.calculatedPayAmount);
         // console.log(this.paymentAmount)
-      }
-      // else {
+      } 
+      // else if (this.payment_type == 5){
       //   for (let index = 0; index < this.paymentConcepts.length; index++) {        
       //     const r = this.paymentConcepts[index];
       //     currentAmt = r['amount']; 
-      //     currentAmtPaid = r['collection_payment'] ? r['collection_payment']['amount'] : 0;
-      //     if (r['id'] != item['id']) {
-      //       penaltyamt = r['penalty'] ? r['penalty']['amount'] : 0;
-      //       amt = amt + r['amount'] + penaltyamt;
-      //       amtPaid = amtPaid + currentAmtPaid;
-      //     } else {
-      //       break;
-      //     }
+      //     currentAmtPaid = r['calc_payment_amount'] || 0;
+      //       penaltyamt = r['penalty'] ? parseFloat(r['penalty']['amount']) : 0;
+      //       amt = parseFloat(amt) + parseFloat(r['amount']) + parseFloat(penaltyamt);
+      //       amtPaid = parseFloat(amtPaid) + parseFloat(currentAmtPaid);
+      //     // } else {
+      //     //   break;
+      //     // }
       //   }
       //   this.penaltyAmount = item.penalty ? parseFloat(item.penalty.amount).toFixed(2) : 0;
       //   this.pendingPayment = (amt - amtPaid).toFixed(2);
-      //   this.currentAmount = currentAmt.toFixed(2);
-      //   this.paymentAmount = (parseFloat(currentAmt) + parseFloat(this.pendingPayment) + parseFloat(this.penaltyAmount)).toFixed(2);
+      //   this.currentAmount = (parseFloat(currentAmt) - parseFloat(currentAmtPaid)).toFixed(2);
+      //   this.paymentAmount = (parseFloat(this.currentAmount) + parseFloat(this.pendingPayment) + parseFloat(this.penaltyAmount)).toFixed(2);
+      //   this.calculatedPayAmount = [...this.paymentAmount];
+      //   console.log(this.calculatedPayAmount);
+      //   console.log(this.paymentAmount)
       // }
     }
   }
@@ -815,7 +820,7 @@ export class CollectionsComponent implements OnInit {
     this.paymentDate = moment.utc(e).toDate();
   }
 
-  applyCollectionPayment(formdata: NgForm) {
+  applyCollectionPayment() {
     // checking if date selected and receipt selected
     if (!this.paymentDate) {
       this.toastr.clear();
@@ -956,6 +961,7 @@ export class CollectionsComponent implements OnInit {
   }
 
   askUserForSurplusMomey() {
+    this.closePaymentModal();
     this.surplusMoneyModalOpen.nativeElement.click();
     // swal({
     //   text: this.translate.instant('message.error.pleaseEnterNewPropertyPrice'),
@@ -1204,6 +1210,31 @@ export class CollectionsComponent implements OnInit {
     if (this.payment_type!=2 && this.payment_type !=3) {
       this.applyPaymentChoiceId.nativeElement.value = '';
     }
+    if (this.payment_type == 5) {
+      let amt: any = 0; let penaltyamt: any = 0;
+        let amtPaid: any = 0;
+        let currentAmt: any = 0;
+        let currentAmtPaid: any = 0;
+        for (let index = 0; index < this.paymentConcepts.length; index++) {        
+          const r = this.paymentConcepts[index];
+          currentAmt = r['amount']; 
+          currentAmtPaid = r['calc_payment_amount'] || 0;
+            penaltyamt = r['penalty'] ? parseFloat(r['penalty']['amount']) : 0;
+            amt = parseFloat(amt) + parseFloat(r['amount']) + parseFloat(penaltyamt);
+            amtPaid = parseFloat(amtPaid) + parseFloat(currentAmtPaid);
+          // } else {
+          //   break;
+          // }
+        }
+        console.log(penaltyamt, amt,amtPaid)
+        // this.penaltyAmount = item.penalty ? parseFloat(item.penalty.amount).toFixed(2) : 0;
+        this.pendingPayment = (amt - amtPaid).toFixed(2);
+        this.currentAmount = (parseFloat(currentAmt) - parseFloat(currentAmtPaid)).toFixed(2);
+        this.paymentAmount = (parseFloat(this.currentAmount) + parseFloat(this.pendingPayment) + parseFloat(this.penaltyAmount)).toFixed(2);
+        this.calculatedPayAmount = [...this.paymentAmount];
+        console.log(this.calculatedPayAmount);
+        console.log(this.paymentAmount)
+    }
     this.applyPaymentMethodId.nativeElement.value = '';
     this.closeCollReceiptModal();
   }
@@ -1211,7 +1242,7 @@ export class CollectionsComponent implements OnInit {
   setPayMentTypeSurplus(payment_type: string) {
     // console.log(payment_type)
     this.surplus_payment_type = payment_type;
-    this.closeSurplusMoney();
+    // this.closeSurplusMoney();
   }
 
   getDateWRTTimezone(date: any, format: any) {
@@ -1235,4 +1266,17 @@ export class CollectionsComponent implements OnInit {
       return 'Payment to remaining (Reduce Time)';
     }
   }
+
+  showDescription(description: string, title: any) {
+    if (description) {
+      this.title = title;
+      this.description = description;
+      this.viewDesModal.nativeElement.click();
+    }
+  }
+
+  closeDescModal() {
+    this.viewDesModalClose.nativeElement.click();
+  }
+
 }

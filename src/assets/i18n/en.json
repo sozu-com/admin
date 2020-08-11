@@ -1596,6 +1596,7 @@
     "payToRemainingPayment": "Pay to Remaining (Payment Time)",
     "payToFollowing": "Pay to Following",
     "payToSpecific": "Pay to Specific",
+    "totalPayment": "Total Payment",
     "surplusMoney": "Surplus Money",
     "chooseWhichPaymentTypeYouwantToApplyForSurplusMoney": "Choose which payment type you want to apply for surplus money of"
   },

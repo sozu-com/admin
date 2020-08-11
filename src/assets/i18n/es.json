@@ -1586,6 +1586,7 @@
     "payToRemainingPayment": "Pagar al resto (tiempo de pago)",
     "payToFollowing": "Pagar a los siguientes",
     "payToSpecific": "Paga a específica",
+    "totalPayment": "Pago total",
     "surplusMoney": "Dinero excedente",
     "chooseWhichPaymentTypeYouwantToApplyForSurplusMoney": "Elija qué tipo de pago desea solicitar para el dinero excedente de"
   },

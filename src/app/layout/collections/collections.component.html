@@ -347,7 +347,7 @@
                         <span>{{p?.property?.building_configuration?.name}}</span>
                         </td>
                      <td><span>{{p?.property?.locality?.name ? p?.property?.locality?.name : ('table.tr.td.NA' | translate)}}</span></td>
-                     <td><span>{{p.deal_purchase_date ? getDateWRTTimezone(p.deal_purchase_date) : ('table.tr.td.NA' | translate)}}</span></td>
+                     <td><span>{{p.deal_purchase_date ? getDateWRTTimezone(p.deal_purchase_date, 'YYYY-MM-DD') : ('table.tr.td.NA' | translate)}}</span></td>
 
                      <td><span>{{ p?.last_payment ? getLastPaymentConcept(p) : ('table.tr.td.NA' | translate)}}</span></td>
                      <td><span>{{(p?.last_payment?.payment_date ? (p?.last_payment?.payment_date | date:'yyyy-MM-dd') : ('table.tr.td.NA' | translate) )}}</span></td>
@@ -625,7 +625,7 @@
             <button type="button" class="close" (click)="closePaymentModal(); addForm.reset()">&times;</button>
         </div>
   
-        <form autocomplete="off" class="form-horizontal padding0" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="applyCollectionPayment(addForm.value)">
+        <form autocomplete="off" class="form-horizontal padding0" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="applyCollectionPayment()">
           <div class="modal-body">
             <div class="row">
               <div class="col-12">
@@ -641,11 +641,12 @@
                           <option value="2">{{'viewCollections.payToRemainingReducePayment' | translate}}</option>
                           <option value="3">{{'viewCollections.payToRemainingPayment' | translate}}</option>
                           <option value="4">{{'viewCollections.payToSpecific' | translate}}</option>
+                          <!-- <option value="5">{{'viewCollections.totalPayment' | translate}}</option> -->
                         </select>
                   </div>
                 </div>
               </div>
-              <div class="col-6" *ngIf="payment_type!=2 && payment_type !=3">
+              <div class="col-6" *ngIf="payment_type!=2 && payment_type !=3 && payment_type != 5">
                 <div class="form-group-2">
                     <label>{{'viewCollections.choosePaymentConcept' | translate}} <span class="color-red">*</span></label>
                     <div class="form-group">
@@ -653,7 +654,7 @@
                               <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
                               <!-- <option *ngFor="let bt of paymentConcepts" [ngValue]="bt" 
                                [disabled]="bt?.collection_payment"> {{bt?.name}}</option> -->
-                               <option *ngFor="let bt of paymentConcepts" [ngValue]="bt"> 
+                               <option *ngFor="let bt of paymentConcepts" [disabled]="bt?.is_paid_calculated" [ngValue]="bt"> 
                                  {{bt?.name}} 
                                  <span *ngIf="bt?.is_paid_calculated"> | Paid</span>
                                 </option>
@@ -1015,7 +1016,7 @@
                 </div>
                 <div class="col-12">
                   <div class="btn-cont text-right">
-                      <button type="button" (click)="closeSurplusMoney()" class="btn btn-primary-new">
+                      <button type="button" (click)="closeSurplusMoney(); applyCollectionPayment()" class="btn btn-primary-new">
                           <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
                           {{'addForm.saveBtn' | translate}}</button>
                   </div>
@@ -1040,7 +1041,7 @@
             <button type="button" class="close" (click)="closeCollReceiptModal(); addForm.reset()">&times;</button>
         </div>
   
-        <form autocomplete="off" class="form-horizontal padding0" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="applyCollectionPayment(addForm.value)">
+        <form autocomplete="off" class="form-horizontal padding0" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="applyCollectionPayment()">
           <div class="modal-body">
             <div class="row">
               <div class="col-12">
@@ -1144,5 +1145,27 @@
         </form>
       </div>
     </div>
+  </div>
+  
+
+  <a href="javascript://" data-toggle="modal" data-target="#des-modal" #viewDesModal></a>
+  <div class="modal animated" id="des-modal">
+        <div class="modal-dialog fadeIndown">
+              <div class="modal-content notary-avail">
+                    <div class="modal-header popup-header">
+                          <h4 *ngIf="title==1">{{'quickVisualization.paymentDescription' | translate}}</h4>
+                          <button style="display: none;" type="button" class="close" data-dismiss="modal" #viewDesModalClose>&times;</button>
+                          <button type="button" class="close" (click)="closeDescModal()">&times;</button>
+                    </div>
+  
+                    <div class="modal-body">
+                          <div class="form-group-2">
+                                <div class="form-group">
+                                      <textarea rows="4" readonly required class="form-control note" name="description" [(ngModel)]="description"></textarea>
+                                </div>
+                          </div>
+                    </div>
+              </div>
+        </div>
   </div>
   
