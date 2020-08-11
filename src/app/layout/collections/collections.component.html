@@ -641,7 +641,7 @@
                           <option value="2">{{'viewCollections.payToRemainingReducePayment' | translate}}</option>
                           <option value="3">{{'viewCollections.payToRemainingPayment' | translate}}</option>
                           <option value="4">{{'viewCollections.payToSpecific' | translate}}</option>
-                          <!-- <option value="5">{{'viewCollections.totalPayment' | translate}}</option> -->
+                          <option value="5">{{'viewCollections.totalPayment' | translate}}</option>
                         </select>
                   </div>
                 </div>
@@ -682,7 +682,7 @@
                   </div>
                 </div>
               </div>
-              <ng-container  *ngIf="payment_type!=2 && payment_type !=3">
+              <ng-container  *ngIf="payment_type!=2 && payment_type !=3 && payment_type != 5">
               <div class="col-6" *ngIf="typeOfPayment=='apply-popup' && selectedPaymentConcept">
                 <div class="form-group-2">
                     <label>{{'viewCollections.programmedDate' | translate}}<span class="color-red">*</span></label>

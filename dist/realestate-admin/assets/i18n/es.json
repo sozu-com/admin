@@ -956,7 +956,8 @@
       "pleaseEnterLegalRepresentativeEmail":"Por favor ingrese el correo electrónico del representante legal",
       "pleaseEnterLegalRepresentativePhone":"Por favor ingrese el teléfono del representante legal",
       "pleaseEnterLegalRepresentativeFTPR":"Ingrese el registro de contribuyentes federales del representante legal",
-      "payToSpecificCheck": "In Pay to Specific, you can either pay partial amount or the exact amount.",
+      "payToSpecificCheck": "En Pagar a Específico, puede pagar un monto parcial o el monto exacto.",
+      "totalPayemntCheck": "En Pago total, debe pagar la suma exacta del monto restante y las multas.",
 
       "areYouSure": "¿Estás seguro?",
       "wantToBlockNotary": "¿Quieres bloquear este notario?",

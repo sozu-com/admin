@@ -595,7 +595,7 @@ export class CollectionsComponent implements OnInit {
                     is_paid_calculated: 0,
                     outstanding_amount: 0,
                     index: index+i,
-                    payment_type: 1,  // in real its 2
+                    payment_type: 1,  // in real its 3
                     // amount: paymnts.amount,
                     // payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
                     receipt: paymnts.receipt,
@@ -604,6 +604,33 @@ export class CollectionsComponent implements OnInit {
                   c['collection_paymentss'] = [{
                     id: paymnts.id,
                     payment_type: 1,  // in real its 3
+                    paid_amount: paymnts.amount,
+                    amount: paymnts.amount,
+                    payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
+                    receipt: paymnts.receipt,
+                    description: paymnts.description,
+                    payment_method: paymnts.payment_method
+                  }]
+                  console.log(c);
+                  reducingP.push(c);     
+                }
+                else if (paymnts.payment_type == 5) {
+                  const c = {
+                    key: 'remaining_amt',
+                    name: 'Total Payment',
+                    paid_amount: paymnts.amount,
+                    is_paid_calculated: 0,
+                    outstanding_amount: 0,
+                    index: index+i,
+                    payment_type: 1,  // in real its 5
+                    // amount: paymnts.amount,
+                    // payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
+                    receipt: paymnts.receipt,
+                    description: paymnts.description
+                  };
+                  c['collection_paymentss'] = [{
+                    id: paymnts.id,
+                    payment_type: 1,  // in real its 5
                     paid_amount: paymnts.amount,
                     amount: paymnts.amount,
                     payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
@@ -853,6 +880,13 @@ export class CollectionsComponent implements OnInit {
     if (this.payment_type == 4 && this.calculatedPayAmount < this.paymentAmount) {
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.payToSpecificCheck'), this.translate.instant('swal.error'));
+      return false;
+    }
+
+    // in total payment, user is allowed to pay sum of exact remaining amount (sum of installments and penalty)
+    if (this.payment_type == 5 && this.calculatedPayAmount != this.paymentAmount) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.totalPayemntCheck'), this.translate.instant('swal.error'));
       return false;
     }
 
@@ -1210,33 +1244,30 @@ export class CollectionsComponent implements OnInit {
     if (this.payment_type!=2 && this.payment_type !=3) {
       this.applyPaymentChoiceId.nativeElement.value = '';
     }
+    this.closeCollReceiptModal();
     if (this.payment_type == 5) {
       let amt: any = 0; let penaltyamt: any = 0;
         let amtPaid: any = 0;
         let currentAmt: any = 0;
         let currentAmtPaid: any = 0;
+        this.penaltyAmount = 0;
         for (let index = 0; index < this.paymentConcepts.length; index++) {        
           const r = this.paymentConcepts[index];
           currentAmt = r['amount']; 
           currentAmtPaid = r['calc_payment_amount'] || 0;
-            penaltyamt = r['penalty'] ? parseFloat(r['penalty']['amount']) : 0;
-            amt = parseFloat(amt) + parseFloat(r['amount']) + parseFloat(penaltyamt);
-            amtPaid = parseFloat(amtPaid) + parseFloat(currentAmtPaid);
-          // } else {
-          //   break;
-          // }
+          penaltyamt = r['penalty'] ? parseFloat(r['penalty']['amount']) : 0;
+          amt = parseFloat(amt) + parseFloat(r['amount']) + parseFloat(penaltyamt);
+          amtPaid = parseFloat(amtPaid) + parseFloat(currentAmtPaid);
         }
-        console.log(penaltyamt, amt,amtPaid)
-        // this.penaltyAmount = item.penalty ? parseFloat(item.penalty.amount).toFixed(2) : 0;
-        this.pendingPayment = (amt - amtPaid).toFixed(2);
-        this.currentAmount = (parseFloat(currentAmt) - parseFloat(currentAmtPaid)).toFixed(2);
-        this.paymentAmount = (parseFloat(this.currentAmount) + parseFloat(this.pendingPayment) + parseFloat(this.penaltyAmount)).toFixed(2);
+        this.paymentAmount = (amt - amtPaid).toFixed(2);
+        // this.currentAmount = (parseFloat(currentAmt) - parseFloat(currentAmtPaid)).toFixed(2);
+        // this.paymentAmount = (parseFloat(this.currentAmount) + parseFloat(this.pendingPayment) + parseFloat(this.penaltyAmount)).toFixed(2);
         this.calculatedPayAmount = [...this.paymentAmount];
-        console.log(this.calculatedPayAmount);
+        // console.log(this.calculatedPayAmount);
+        // console.log(this.penaltyAmount, this.pendingPayment, this.currentAmount)
         console.log(this.paymentAmount)
     }
     this.applyPaymentMethodId.nativeElement.value = '';
-    this.closeCollReceiptModal();
   }
 
   setPayMentTypeSurplus(payment_type: string) {

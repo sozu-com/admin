@@ -200,7 +200,7 @@ export class QuickVisualizationComponent implements OnInit {
                     is_paid_calculated: 0,
                     outstanding_amount: 0,
                     index: index+i,
-                    payment_type: 1,  // in real its 2
+                    payment_type: 1,  // in real its 3
                     // amount: paymnts.amount,
                     // payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
                     receipt: paymnts.receipt,
@@ -208,6 +208,32 @@ export class QuickVisualizationComponent implements OnInit {
                   };
                   c['collection_paymentss'] = [{
                     payment_type: 1,  // in real its 3
+                    paid_amount: paymnts.amount,
+                    amount: paymnts.amount,
+                    payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
+                    receipt: paymnts.receipt,
+                    description: paymnts.description,
+                    payment_method: paymnts.payment_method
+                  }]
+                  console.log(c);
+                  reducingP.push(c);     
+                }
+                else if (paymnts.payment_type == 5) {
+                  const c = {
+                    key: 'remaining_amt',
+                    name: 'Total Payment',
+                    paid_amount: paymnts.amount,
+                    is_paid_calculated: 0,
+                    outstanding_amount: 0,
+                    index: index+i,
+                    payment_type: 1,  // in real its 5
+                    // amount: paymnts.amount,
+                    // payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
+                    receipt: paymnts.receipt,
+                    description: paymnts.description
+                  };
+                  c['collection_paymentss'] = [{
+                    payment_type: 1,  // in real its 5
                     paid_amount: paymnts.amount,
                     amount: paymnts.amount,
                     payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
