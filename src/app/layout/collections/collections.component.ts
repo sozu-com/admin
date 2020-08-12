@@ -415,6 +415,32 @@ export class CollectionsComponent implements OnInit {
       });
   }
 
+  cancelPopup(item: any, index: number, status: number) {
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+        this.translate.instant('message.error.wantToCancelCollection'),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.cancelPropertyCollections(item, index, status);
+      }
+    });
+  }
+
+  cancelPropertyCollections(item: any, index: number, status: number) {
+    this.admin.postDataApi('cancelPropertyCollections', { property_collection_id: item.id, status: status }).subscribe(r => {
+        this.toastr.success(this.translate.instant('message.success.cancelledSuccessfully'), this.translate.instant('swal.success'));
+        this.items[index].is_cancelled = status;
+      },
+      error => {
+        this.toastr.error(error.error.message, this.translate.instant('swal.error'));
+      });
+  }
+
   getNotes(item) {
     this.property_collection_id = item.id;
     const input = {property_collection_id: item.id};

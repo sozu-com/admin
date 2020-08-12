@@ -373,11 +373,11 @@
                      <td><span>{{(((p?.deal_price || 0) + (p?.penalty || 0)) - (p?.total_payment_recieved || 0)) | currency}}</span></td>
                     
                      <td>
-                       <div *ngIf="p?.payment_status==1" class="status green" title="Up to Date"></div>
-                       <div *ngIf="p?.payment_status==2" class="status yellow" title="Payment Period"></div>
-                       <div *ngIf="p?.payment_status==3" class="status red" title="Overdue Payment"></div>
-                       <div *ngIf="p?.payment_status==4" class="status grey" title="Cancelled"></div>
-                       <div *ngIf="p?.payment_status==5" class="status blue" title="Settled"></div>
+                      <div *ngIf="p?.is_cancelled==1" class="status grey" title="Cancelled"></div>
+                       <div *ngIf="p?.is_cancelled==0 && p?.payment_status==1" class="status green" title="Up to Date"></div>
+                       <div *ngIf="p?.is_cancelled==0 && p?.payment_status==2" class="status yellow" title="Payment Period"></div>
+                       <div *ngIf="p?.is_cancelled==0 && p?.payment_status==3" class="status red" title="Overdue Payment"></div>
+                       <div *ngIf="p?.is_cancelled==0 && p?.payment_status==5" class="status blue" title="Settled"></div>
                        <div *ngIf="p?.payment_status==6" class="status purple" title="Only Commission for sale"></div>
                      </td>
                     
@@ -422,7 +422,12 @@
                         <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
                         (click)="getNotes(p)" title="{{'table.title.collectionNotes' | translate}}" 
                         class="action-icon"><img src="assets/img/chat-icon.png" alt="img"></button>  
-
+                        
+                        <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
+                        (click)="cancelPopup(p, i, p?.is_cancelled == 0 ? 1 : 0)" 
+                        title="{{p?.is_cancelled == 0 ? ('table.title.cancelCollection' | translate) : ('table.title.activeCollection' | translate)}}" 
+                        class="action-icon"><img src="assets/img/ic_delete.png" alt="img"></button>  
+                        
                         <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
                         (click)="deletePopup(p, i)" title="{{'table.title.delete' | translate}}" 
                         class="action-icon"><img src="assets/img/ic_delete.png" alt="img"></button>  
@@ -641,7 +646,7 @@
                           <option value="2">{{'viewCollections.payToRemainingReducePayment' | translate}}</option>
                           <option value="3">{{'viewCollections.payToRemainingPayment' | translate}}</option>
                           <option value="4">{{'viewCollections.payToSpecific' | translate}}</option>
-                          <!-- <option value="5">{{'viewCollections.totalPayment' | translate}}</option> -->
+                          <option value="5">{{'viewCollections.totalPayment' | translate}}</option>
                         </select>
                   </div>
                 </div>
