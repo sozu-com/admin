@@ -416,9 +416,9 @@ export class CollectionsComponent implements OnInit {
   }
 
   cancelPopup(item: any, index: number, status: number) {
+    const t = status == 1 ? this.translate.instant('message.error.wantToCancelCollection') : this.translate.instant('message.error.wantToActiveCollection');
     swal({
-      html: this.translate.instant('message.error.areYouSure') + '<br>' +
-        this.translate.instant('message.error.wantToCancelCollection'),
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + t,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -433,7 +433,8 @@ export class CollectionsComponent implements OnInit {
 
   cancelPropertyCollections(item: any, index: number, status: number) {
     this.admin.postDataApi('cancelPropertyCollections', { property_collection_id: item.id, status: status }).subscribe(r => {
-        this.toastr.success(this.translate.instant('message.success.cancelledSuccessfully'), this.translate.instant('swal.success'));
+      const t = status == 1 ? this.translate.instant('message.success.cancelledSuccessfully') : this.translate.instant('message.success.activedSuccessfully');
+      this.toastr.success(t, this.translate.instant('swal.success'));
         this.items[index].is_cancelled = status;
       },
       error => {

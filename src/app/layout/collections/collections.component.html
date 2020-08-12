@@ -426,7 +426,7 @@
                         <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
                         (click)="cancelPopup(p, i, p?.is_cancelled == 0 ? 1 : 0)" 
                         title="{{p?.is_cancelled == 0 ? ('table.title.cancelCollection' | translate) : ('table.title.activeCollection' | translate)}}" 
-                        class="action-icon"><img src="assets/img/ic_delete.png" alt="img"></button>  
+                        class="action-icon" [ngClass]="{'unblock-bg':p?.is_cancelled==1}"><img src="assets/img/block.png" alt="img"></button>  
                         
                         <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
                         (click)="deletePopup(p, i)" title="{{'table.title.delete' | translate}}" 
