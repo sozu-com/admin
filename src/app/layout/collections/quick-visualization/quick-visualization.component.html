@@ -13,7 +13,6 @@
           <!-- *ngIf="admin?.admin_acl['Data Collector Management']?.can_create==1 && parameter.userType=='data-collectors' ||
           admin?.admin_acl['Seller Management']?.can_create==1 && parameter.userType=='csr-sellers'" -->
           <a class="btn btn-primary-new width100P" href="javascript://" (click)="exportData()">{{'table.exportDataBtn' | translate}}</a>
-          <!-- <a class="btn btn-primary-new width100P" href="javascript://" (click)="getCollectionDetails()">Refresh</a> -->
         </div>
     </div>
 
@@ -169,10 +168,6 @@
                       <th>{{'quickVisualization.propertyName' | translate}}:</th>
                       <td>{{model?.property?.name || ('table.tr.td.NA' | translate)}}</td>
                     </tr>
-                    <!-- <tr>
-                      <th>M2:</th>
-                      <td>{{model?.property?.building?.name || 'NA'}}</td>
-                    </tr> -->
                     <tr>
                       <th>{{'quickVisualization.price' | translate}}:</th>
                       <td>{{(model?.deal_price || 0) | currency}}</td>
@@ -197,28 +192,8 @@
                           <td>{{model?.currency?.code || ('table.tr.td.NA' | translate)}}</td>
                         </tr>
                   </tbody>
-                <!-- <tbody>
-                    <tr>
-                        <th>{{'quickVisualization.purchaseDate' | translate}}</th>
-                      </tr>
-                      <tr>
-                        <td>{{model?.deal_purchase_date || ('table.tr.td.NA' | translate)}}</td>
-                      </tr>
-                </tbody> -->
               </table>
             </div>
-              <!-- <div class="table-responsive">
-                <table class="table table-bordered white-bg">
-                  <tbody>
-                      <tr>
-                          <th>{{'quickVisualization.currency' | translate}}</th>
-                        </tr>
-                        <tr>
-                          <td>{{model?.currency?.code || ('table.tr.td.NA' | translate)}}</td>
-                        </tr>
-                  </tbody>
-                </table>
-              </div> -->
               <div class="table-responsive">
                 <table class="table table-bordered white-bg">
                     <tbody>
@@ -238,16 +213,6 @@
                             <td>{{(model?.penalty || 0) | currency}}</td>
                           </tr>
                     </tbody>
-                  <!-- <tbody>
-                      <tr>
-                          <th>{{'quickVisualization.paid' | translate}}:</th>
-                          <td>{{(model?.paid || 0) | currency}}</td>
-                        </tr>
-                        <tr>
-                          <th>{{'quickVisualization.remaining' | translate}}:</th>
-                          <td>{{((model?.total || 0) - (model?.paid || 0)) | currency}}</td>
-                        </tr>
-                  </tbody> -->
                 </table>
               </div>
         </div>
@@ -325,7 +290,6 @@
             </tr>
           </thead>
           <tbody *ngFor="let p of paymentConcepts; let i=index">
-            <!-- <ng-container > -->
             <tr [ngClass]="{'remaining_amt': p.key == 'remaining_amt'}">
               <td>
                 <a style="color: #fff;" class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{i}}">
@@ -408,7 +372,6 @@
                   <td colspan="8" style="background: #fff;">
                   <table>
                     <thead style="background: #00B96F; color: #fff;">
-                      <!-- <th [style.width]="'200px'" ></th> -->
                       <th [style.width]="'240px'" [style.color]="'#fff'">{{'quickVisualization.concept' | translate}}</th>
                       <th [style.width]="'300px'" [style.color]="'#fff'">{{'quickVisualization.paymentDate' | translate}}</th>
                       <th [style.width]="'300px'" [style.color]="'#fff'">{{'quickVisualization.paidByUser' | translate}}</th>
@@ -419,7 +382,6 @@
                     <tbody *ngIf="p?.collection_paymentss?.length>0">
                       <ng-container *ngFor="let stats of p?.collection_paymentss">
                       <tr *ngIf="stats.payment_type==1 || stats.payment_type==4">
-                        <!-- <td [style.backgroundColor]="'#fff'"></td> -->
                         <td [style.backgroundColor]="'#fff'" [style.color]="'#222'">
                           {{p?.name || 'NA'}}
                         </td>
@@ -449,8 +411,6 @@
                 </td>
                 </tr>
             
-            
-            <!-- </ng-container> -->
           </tbody>
         </table>
       </div>

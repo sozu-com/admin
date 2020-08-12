@@ -51,6 +51,125 @@ export class AccountStatementComponent implements OnInit {
     });
   }
 
+  // getCollectionDetails() {
+  //   this.spinner.show();
+  //   this.admin.postDataApi('getCollectionById', {id: this.model.id})
+  //     .subscribe(
+  //       success => {
+  //         this.spinner.hide();
+  //         this.model = success['data'];
+  //         this.paymentConcepts = success['data']['payment_choices'];
+  //         this.collectionCommission = success['data']['collection_commissions'];
+  //         this.totalPaid = 0.00;
+  //         this.totalOutstanding = 0.00;
+
+
+          
+  //         const reducingP = [];
+  //         for (let index = 0; index < this.paymentConcepts.length; index++) {
+  //           const m = this.paymentConcepts[index];
+  //           m.payment_date = m.collection_payment ? this.getDateWRTTimezone(m.collection_payment.payment_date) : '';
+  //           //  calculating total penalty
+  //           // if (m.penalty){
+  //           //   this.model.totalPenalty = this.model.totalPenalty + parseInt(m.penalty.amount || 0)
+  //           // }
+
+
+  //           m.paid_amount = m.is_paid_calculated == 1 ? m.amount : (m.collection_payment ? (m.collection_payment.amount) : '');
+
+  //           // if type=2 means reducing payment => add one more row
+  //           // console.log(m)
+  //           if(m.type==2) {
+  //             const c = {
+  //               key: 'remaining_amt',
+  //               name: 'Payment to remaining (amount)',
+  //               paid_amount: m.extra_amount,
+  //               is_paid_calculated: 0,
+  //               outstanding_amount: 0,
+  //               index: index,
+  //               payment_date: this.getDateWRTTimezone(m.collection_payment.payment_date)
+  //             };
+  //             // console.log(c)
+  //             reducingP.push(c);     
+  //           }
+
+  //           if(m.type==3) {
+  //             const c = {
+  //               key: 'remaining_amt',
+  //               name: 'Payment to remaining (schedule)',
+  //               paid_amount: m.extra_amount,
+  //               is_paid_calculated: 0,
+  //               outstanding_amount: 0,
+  //               index: index,
+  //               payment_date: this.getDateWRTTimezone(m.collection_payment.payment_date)
+  //             };
+  //             // console.log(c)
+  //             reducingP.push(c);     
+  //           }
+
+  //           // calculating total paid and total outstanding payment
+  //           if (m.is_paid_calculated) {
+  //             // m['paid_amount'] = m.calc_payment_amount;
+  //             this.totalPaid = this.totalPaid + m.calc_payment_amount;
+  //           } 
+  //           if ((m.amount - (m.calc_payment_amount||0))>=0) {
+  //             const a = (m.amount - (m.calc_payment_amount || 0) );
+  //             m['outstanding_amount'] = a > 0.01 ? a : 0;  // in a case difference was 0.02
+  //             m['is_pending'] = (a != m.amount && a!=0) ? 1 : 0;
+  //             this.totalOutstanding = this.totalOutstanding + a;
+  //           }
+  //         }
+
+  //         // now insert at reducing remaining payments at type=2 index
+  //         for (let i = 0; i < reducingP.length; i++) {
+  //           const element = reducingP[i];
+  //           this.paymentConcepts.splice(element.index, 0, element);              
+  //         }
+
+  //         this.paymentConcepts.push({
+  //           key: 'total',
+  //           name: 'Total',
+  //           paid_amount: this.totalPaid,
+  //           is_paid_calculated: 1,
+  //           outstanding_amount: this.totalOutstanding
+  //         })
+
+
+
+
+  //         // // this.model.totalPenalty = 0;
+  //         // this.paymentConcepts.forEach(m => {
+  //         //   //  calculating total penalty
+  //         //   // if (m.penalty){
+  //         //   //   this.model.totalPenalty = this.model.totalPenalty + parseInt(m.penalty.amount || 0)
+  //         //   // }
+  //         //   // calculating total paid and total outstanding payment
+  //         //   if (m.is_paid_calculated) {
+  //         //     m['paid_amount'] = m.calc_payment_amount;
+  //         //     this.totalPaid = this.totalPaid + m.calc_payment_amount;
+  //         //   } 
+  //         //   if ((m.amount - (m.calc_payment_amount||0))>=0) {
+  //         //     const a = (m.amount - (m.calc_payment_amount || 0) );
+  //         //     m['outstanding_amount'] = a > 0.01 ? a : 0;  // in a case difference was 0.02
+  //         //     m['is_pending'] = (a != m.amount && a!=0) ? 1 : 0;
+  //         //     this.totalOutstanding = this.totalOutstanding + a;
+  //         //   }
+  //         // })
+  //         // this.paymentConcepts.push({
+  //         //   key: 'total',
+  //         //   name: 'Total',
+  //         //   paid_amount: this.totalPaid,
+  //         //   is_paid_calculated: 1,
+  //         //   outstanding_amount: this.totalOutstanding
+  //         // })
+  //         this.collectionCommission.push({})
+  //       }, error => {
+  //         this.spinner.hide();
+  //       }
+  //     );
+  // }
+
+
   getCollectionDetails() {
     this.spinner.show();
     this.admin.postDataApi('getCollectionById', {id: this.model.id})
@@ -63,112 +182,200 @@ export class AccountStatementComponent implements OnInit {
           this.totalPaid = 0.00;
           this.totalOutstanding = 0.00;
 
-
-          
-          const reducingP = [];
+          let reducingP = [];
           for (let index = 0; index < this.paymentConcepts.length; index++) {
             const m = this.paymentConcepts[index];
-            m.payment_date = m.collection_payment ? this.getDateWRTTimezone(m.collection_payment.payment_date) : '';
-            //  calculating total penalty
-            // if (m.penalty){
-            //   this.model.totalPenalty = this.model.totalPenalty + parseInt(m.penalty.amount || 0)
-            // }
-
-
-            m.paid_amount = m.is_paid_calculated == 1 ? m.amount : (m.collection_payment ? (m.collection_payment.amount) : '');
+            // this.newPaymentConcepts.push(m);
+            m.payment_date = m.collection_payment>0 ? this.getDateWRTTimezone(m.collection_payment.payment_date) : '';
+            m.paid_amount = m.calc_payment_amount ? m.calc_payment_amount : 0;
 
             // if type=2 means reducing payment => add one more row
-            // console.log(m)
-            if(m.type==2) {
-              const c = {
-                key: 'remaining_amt',
-                name: 'Payment to remaining (amount)',
-                paid_amount: m.extra_amount,
-                is_paid_calculated: 0,
-                outstanding_amount: 0,
-                index: index,
-                payment_date: this.getDateWRTTimezone(m.collection_payment.payment_date)
-              };
-              // console.log(c)
-              reducingP.push(c);     
-            }
-
-            if(m.type==3) {
-              const c = {
-                key: 'remaining_amt',
-                name: 'Payment to remaining (schedule)',
-                paid_amount: m.extra_amount,
-                is_paid_calculated: 0,
-                outstanding_amount: 0,
-                index: index,
-                payment_date: this.getDateWRTTimezone(m.collection_payment.payment_date)
-              };
-              // console.log(c)
-              reducingP.push(c);     
+            if (m.collection_paymentss && m.collection_paymentss.length>0) {
+              for (let i = 0; i < m.collection_paymentss.length; i++) {
+                const paymnts = m.collection_paymentss[i];
+                if (paymnts.payment_type == 2) {
+                  const c = {
+                    key: 'remaining_amt',
+                    name: 'Payment to remaining (Reduce Amount)',
+                    paid_amount: paymnts.amount,
+                    is_paid_calculated: 0,
+                    outstanding_amount: 0,
+                    index: index+i,
+                    payment_type: 1,  // in real its 2
+                    // amount: paymnts.amount,
+                    // payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
+                    receipt: paymnts.receipt,
+                    description: paymnts.description
+                  };
+                  c['collection_paymentss'] = [{
+                    payment_type: 1,  // in real its 2
+                    paid_amount: paymnts.amount,
+                    amount: paymnts.amount,
+                    payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
+                    receipt: paymnts.receipt,
+                    description: paymnts.description,
+                    payment_method: paymnts.payment_method
+                  }]
+                  reducingP.push(c);     
+                }
+                else if (paymnts.payment_type == 3) {
+                  const c = {
+                    key: 'remaining_amt',
+                    name: 'Payment to remaining (Reduce Time)',
+                    paid_amount: paymnts.amount,
+                    is_paid_calculated: 0,
+                    outstanding_amount: 0,
+                    index: index+i,
+                    payment_type: 1,  // in real its 3
+                    // amount: paymnts.amount,
+                    // payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
+                    receipt: paymnts.receipt,
+                    description: paymnts.description
+                  };
+                  c['collection_paymentss'] = [{
+                    payment_type: 1,  // in real its 3
+                    paid_amount: paymnts.amount,
+                    amount: paymnts.amount,
+                    payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
+                    receipt: paymnts.receipt,
+                    description: paymnts.description,
+                    payment_method: paymnts.payment_method
+                  }]
+                  console.log(c);
+                  reducingP.push(c);     
+                }
+                else if (paymnts.payment_type == 5) {
+                  const c = {
+                    key: 'remaining_amt',
+                    name: 'Total Payment',
+                    paid_amount: paymnts.amount,
+                    is_paid_calculated: 0,
+                    outstanding_amount: 0,
+                    index: index+i,
+                    payment_type: 1,  // in real its 5
+                    // amount: paymnts.amount,
+                    // payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
+                    receipt: paymnts.receipt,
+                    description: paymnts.description
+                  };
+                  c['collection_paymentss'] = [{
+                    payment_type: 1,  // in real its 5
+                    paid_amount: paymnts.amount,
+                    amount: paymnts.amount,
+                    payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
+                    receipt: paymnts.receipt,
+                    description: paymnts.description,
+                    payment_method: paymnts.payment_method
+                  }]
+                  console.log(c);
+                  reducingP.push(c);     
+                }
+              }
             }
 
             // calculating total paid and total outstanding payment
-            if (m.is_paid_calculated) {
-              // m['paid_amount'] = m.calc_payment_amount;
-              this.totalPaid = this.totalPaid + m.calc_payment_amount;
-            } 
+            // if (m.is_paid_calculated) {
+            //   this.totalPaid = this.totalPaid + m.calc_payment_amount;
+            // } 
+            this.totalPaid = this.totalPaid + m.paid_amount;
+            m['outstanding_amount'] = m.amount - (m.calc_payment_amount || 0);
             if ((m.amount - (m.calc_payment_amount||0))>=0) {
-              const a = (m.amount - (m.calc_payment_amount || 0) );
-              m['outstanding_amount'] = a > 0.01 ? a : 0;  // in a case difference was 0.02
-              m['is_pending'] = (a != m.amount && a!=0) ? 1 : 0;
-              this.totalOutstanding = this.totalOutstanding + a;
+              const a = (m.calc_payment_amount || 0);
+              m['is_pending'] = a ? 1 : 0;
+              this.totalOutstanding = this.totalOutstanding + m['outstanding_amount'];
             }
           }
-
           // now insert at reducing remaining payments at type=2 index
+          // reducingP = reducingP.reverse();
           for (let i = 0; i < reducingP.length; i++) {
             const element = reducingP[i];
             this.paymentConcepts.splice(element.index, 0, element);              
           }
 
+          // for (let index = 0; index < this.paymentConcepts.length; index++) {
+          //   const element = this.paymentConcepts[index];
+
+          // }
+
+          // calculating new paid amt, by skipping type 2
+          for (let index = 0; index < this.paymentConcepts.length; index++) {
+            const element = this.paymentConcepts[index];
+            let p_amt: any = 0;
+            let extraAmt: any = 0;
+            if (element.collection_paymentss && element.collection_paymentss.length>0) {
+              for (let i = 0; i < element.collection_paymentss.length; i++) {
+                const ele = element.collection_paymentss[i];
+                // if (ele.payment_type != 2) {
+                //   p_amt = parseFloat(p_amt) + parseFloat(ele.amount);
+                // }
+                if (ele.payment_type == 2) {
+                  // console.log('1')
+                  // extraAmt = parseFloat(extraAmt) + parseFloat(ele.amount);
+                  let v = ele.amt_share || 0;
+                  // for (let j = 0; j < this.paymentConcepts.length; j++) {
+                  //   const e = this.paymentConcepts[j];
+                  //   console.log(e, element)
+                  //   if (e.id > element.id && element.name.includes('Monthly Installment')) {
+                  //     v++;
+                  //     console.log(v);
+                  //   }
+                  // }
+                  const ids = ele.choices_ids.split(',');
+                  for (let j = 0; j < this.paymentConcepts.length; j++) {
+                    const e = this.paymentConcepts[j];
+                    // console.log('1222', ids, e.id, v)
+                    if (e.id) {
+                      const d = e.id.toString();
+                      const h = ids.indexOf(d)
+                      if (h>=0) {
+                        const obj = {
+                          amount: v,
+                          name: 'Payment to remaining (Reduce Amount)',
+                          payment_type: 1,  // in real its 3
+                          paid_amount: v,
+                          payment_date:  this.getDateWRTTimezone(ele.payment_date),
+                          receipt: ele.receipt,
+                          description: ele.description,
+                          payment_method: ele.payment_method
+                        }
+                        // console.log('dddddddddddddddddddd')
+                        // console.log(obj)
+                        // obj['amount'] = v;
+                        // if (this.paymentConcepts[j].collection_paymentss && this.paymentConcepts[j].collection_paymentss.length > 0) {
+                        //   this.paymentConcepts[j].collection_paymentss.unshift(obj)
+                        // } else {
+                        //   this.paymentConcepts[j].collection_paymentss = [obj];
+                        // }
+                        console.log(this.paymentConcepts[j].paid_amount, v);
+                        this.paymentConcepts[j].paid_amount = parseFloat(this.paymentConcepts[j].paid_amount) - parseFloat(v);
+                        // console.log(v,element,element.paid_amount);
+                        // break;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+
+
+            element.new_paid_amt = p_amt;
+          }
+
           this.paymentConcepts.push({
             key: 'total',
             name: 'Total',
-            paid_amount: this.totalPaid,
+            // paid_amount: this.totalPaid,
+            paid_amount: this.model.total_payment_recieved,
             is_paid_calculated: 1,
             outstanding_amount: this.totalOutstanding
           })
 
-
-
-
-          // // this.model.totalPenalty = 0;
-          // this.paymentConcepts.forEach(m => {
-          //   //  calculating total penalty
-          //   // if (m.penalty){
-          //   //   this.model.totalPenalty = this.model.totalPenalty + parseInt(m.penalty.amount || 0)
-          //   // }
-          //   // calculating total paid and total outstanding payment
-          //   if (m.is_paid_calculated) {
-          //     m['paid_amount'] = m.calc_payment_amount;
-          //     this.totalPaid = this.totalPaid + m.calc_payment_amount;
-          //   } 
-          //   if ((m.amount - (m.calc_payment_amount||0))>=0) {
-          //     const a = (m.amount - (m.calc_payment_amount || 0) );
-          //     m['outstanding_amount'] = a > 0.01 ? a : 0;  // in a case difference was 0.02
-          //     m['is_pending'] = (a != m.amount && a!=0) ? 1 : 0;
-          //     this.totalOutstanding = this.totalOutstanding + a;
-          //   }
-          // })
-          // this.paymentConcepts.push({
-          //   key: 'total',
-          //   name: 'Total',
-          //   paid_amount: this.totalPaid,
-          //   is_paid_calculated: 1,
-          //   outstanding_amount: this.totalOutstanding
-          // })
           this.collectionCommission.push({})
         }, error => {
           this.spinner.hide();
         }
       );
   }
-
   
   exportData() {
     if (this.paymentConcepts) {

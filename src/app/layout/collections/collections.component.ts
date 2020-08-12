@@ -1252,14 +1252,14 @@ export class CollectionsComponent implements OnInit {
   setPayMentType(payment_type: string) {
     this.payment_type = payment_type;
     // console.log(this.payment_type)
-    const s = this.paymentConcepts.find(r => !r.is_paid_calculated && r.payment_choice_id==5);
-    for (let index = 0; index < this.paymentConcepts.length; index++) {
-      // console.log(s);
-      // console.log(this.paymentConcepts[index])
-      if (s && s.id && s.id == this.paymentConcepts[index].id) {
-        this.paymentConcepts[index].is_disabled = false;
-      } else if (this.paymentConcepts[index].payment_choice_id == 5) {
-        this.paymentConcepts[index].is_disabled = true;
+    // const s = this.paymentConcepts.find(r => !r.is_paid_calculated && r.payment_choice_id==5);
+    if (payment_type == '1') {
+      this.paymentConcepts.map(r => r.is_disabled = true);
+      for (let index = 0; index < this.paymentConcepts.length; index++) {
+        if (!this.paymentConcepts[index].is_paid_calculated) {
+          this.paymentConcepts[index].is_disabled = false;
+          break;
+        }
       }
     }
     if (this.typeOfPayment == 'apply-popup') {
@@ -1319,8 +1319,10 @@ export class CollectionsComponent implements OnInit {
       return item.last_payment.name;
     } else if (item.last_payment.payment_type == 2){
       return 'Payment to remaining (Reduce Amount)';
+    } else if (item.last_payment.payment_type == 3){
+      return 'Payment to remaining (Reduce Amount)';
     } else {
-      return 'Payment to remaining (Reduce Time)';
+      return 'Total Payment';
     }
   }
 

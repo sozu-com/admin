@@ -374,11 +374,11 @@
                     
                      <td>
                       <div *ngIf="p?.is_cancelled==1" class="status grey" title="Cancelled"></div>
-                       <div *ngIf="p?.is_cancelled==0 && p?.payment_status==1" class="status green" title="Up to Date"></div>
-                       <div *ngIf="p?.is_cancelled==0 && p?.payment_status==2" class="status yellow" title="Payment Period"></div>
-                       <div *ngIf="p?.is_cancelled==0 && p?.payment_status==3" class="status red" title="Overdue Payment"></div>
-                       <div *ngIf="p?.is_cancelled==0 && p?.payment_status==5" class="status blue" title="Settled"></div>
-                       <div *ngIf="p?.payment_status==6" class="status purple" title="Only Commission for sale"></div>
+                      <div *ngIf="p?.is_cancelled==0 && p?.is_commission_sale_enabled==1" class="status purple" title="Only Commission for sale"></div>
+                       <div *ngIf="p?.is_cancelled==0 && p?.is_commission_sale_enabled==0 && p?.payment_status==1" class="status green" title="Up to Date"></div>
+                       <div *ngIf="p?.is_cancelled==0 && p?.is_commission_sale_enabled==0 && p?.payment_status==2" class="status yellow" title="Payment Period"></div>
+                       <div *ngIf="p?.is_cancelled==0 && p?.is_commission_sale_enabled==0 && p?.payment_status==3" class="status red" title="Overdue Payment"></div>
+                       <div *ngIf="p?.is_cancelled==0 && p?.is_commission_sale_enabled==0 && p?.payment_status==5" class="status blue" title="Settled"></div>
                      </td>
                     
                      <td>
@@ -657,23 +657,12 @@
                     <div class="form-group">
                         <select name="payment_choice" #applyPaymentChoiceId required class="form-control" [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
                               <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
-                              <!-- <option *ngFor="let bt of paymentConcepts" [ngValue]="bt" 
-                               [disabled]="bt?.collection_payment"> {{bt?.name}}</option> -->
-                               <option *ngFor="let bt of paymentConcepts" [disabled]="bt?.is_paid_calculated" [ngValue]="bt"> 
-                                 {{bt?.name}} 
+                               <option *ngFor="let bt of paymentConcepts" [disabled]="bt?.is_paid_calculated || (bt?.is_disabled && payment_type==1)" [ngValue]="bt"> 
+                                 {{bt?.name}}
                                  <span *ngIf="bt?.is_paid_calculated"> | Paid</span>
                                 </option>
                         </select>
                   </div>
-                  <!-- <div class="form-group" *ngIf="payment_type==4">
-                    <select name="payment_choice" #applyPaymentChoiceId required class="form-control" [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
-                          <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
-                          <option *ngFor="let bt of paymentConcepts" [ngValue]="bt"  [disabled]="bt?.is_disabled"> 
-                             {{bt?.name}}
-                             <span *ngIf="bt?.is_paid_calculated"> | Paid | {{bt?.is_disabled}}</span>
-                            </option>
-                    </select>
-                  </div> -->
                 </div>
               </div>
               <div class="col-6">
@@ -787,8 +776,7 @@
 
 
           <div class="cust-tabs" style="padding: 30px;    height: 500px;
-          overflow-y: scroll;
-      ">
+          overflow-y: scroll;">
             <div class="tab-content white-bg">
               <div id="accordion" class="table-responsive main-table">
                 <table class="table table-bordered table-striped table-align-center edit-table">

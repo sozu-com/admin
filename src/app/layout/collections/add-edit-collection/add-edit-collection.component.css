@@ -31,3 +31,7 @@
     margin: 5px;
     font-size: 20px;
 }
+.is_commission_sale_enabled{
+    width: 25px;
+    height: 25px;
+}

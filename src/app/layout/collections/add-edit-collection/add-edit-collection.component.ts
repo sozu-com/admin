@@ -387,8 +387,8 @@ export class AddEditCollectionComponent implements OnInit {
       // deal_commission_agents: ['', [Validators.required]]
       deal_commission_agents: this.fb.array([]),
       collection_agent_banks: this.fb.array([]),
-
       collection_commissions: this.fb.array([]),
+      is_commission_sale_enabled: [''],
     });
     // if (this.model.id === '0') {
       this.addAgent('');
@@ -778,6 +778,7 @@ export class AddEditCollectionComponent implements OnInit {
   patchFormStep5(data) {
     this.addFormStep5.controls.comm_total_commission.patchValue(this.numberUptoTwoDecimal(data.comm_total_commission || 0));
     this.addFormStep5.controls.comm_total_commission_amount.patchValue(this.numberUptoTwoDecimal(data.comm_total_commission_amount || 0));
+    this.addFormStep5.controls.is_commission_sale_enabled.patchValue(data.is_commission_sale_enabled || 0);
     this.addFormStep5.controls.comm_shared_commission.patchValue(this.numberUptoTwoDecimal(data.comm_shared_commission || 0));
     this.addFormStep5.controls.comm_shared_commission_amount.patchValue(this.numberUptoTwoDecimal(data.comm_shared_commission_amount || 0));
     this.addFormStep5.controls.deal_commission_agents.patchValue(data.deal_commission_agents);
@@ -1027,6 +1028,7 @@ export class AddEditCollectionComponent implements OnInit {
         }
         this.addFormStep5.controls.comm_total_commission.patchValue(p.total_commision ? p.total_commision : 0)
         this.addFormStep5.controls.comm_total_commission_amount.patchValue(p.total_commision ? (p.total_commision *p.min_price)/100 : 0)
+        this.addFormStep5.controls.is_commission_sale_enabled.patchValue(p.is_commission_sale_enabled ? 1 : 0)
         this.addFormStep5.controls.comm_shared_commission.patchValue(p.broker_commision ? p.broker_commision : 0)
         this.addFormStep5.controls.comm_shared_commission_amount.patchValue(p.broker_commision ? (p.broker_commision *p.min_price)/100 : 0)
       }
@@ -2096,6 +2098,7 @@ export class AddEditCollectionComponent implements OnInit {
           element.purchase_comm_amount = element.purchase_comm_amount || 0
         });
         formdata['collection_commissions'] = collection_commissions;
+        formdata['is_commission_sale_enabled'] = formdata['is_commission_sale_enabled'] ? 1 : 0;
         // console.log(formdata);
       } else {
         this.showError = true;

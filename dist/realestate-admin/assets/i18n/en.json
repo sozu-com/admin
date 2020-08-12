@@ -1681,6 +1681,7 @@
     "sharedCommission":"Shared Commission",
     "agentCommission": "Agent Commission (in %)",
     "agentCommissionAmount": "Agent Commission (in Amount)",
+    "salecommissionCheck": "Is this collection has only commission sale?",
     "sozuCommission": "Sozu Commission (in %)",
     "sozuCommissionAmount": "Sozu Commission (in Amount)",
     "nameOfAgent": "Name of Agent",

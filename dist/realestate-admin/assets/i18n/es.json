@@ -1671,6 +1671,7 @@
     "sharedCommission":"Comisión compartida",
     "agentCommission": "Comisión de agente (en%)",
     "agentCommissionAmount": "Comisión de agente (en cantidad)",
+    "salecommissionCheck": "¿Esta colección solo tiene venta a comisión?",
     "sozuCommission": "Comisión Sozu (en%)",
     "sozuCommissionAmount": "Comisión Sozu (en cantidad)",
     "nameOfAgent": "Nombre de la agente",
