@@ -1568,6 +1568,7 @@
     "addReasonForRejection": "Añadir motivo de rechazo",
     "addPenalty": "Añadir penalización",
     "choosePaymentConcept":"Elegir concepto de pago",
+    "amountToBePaid":"Importe a pagar por este concepto",
     "enterPaymentAmt":"Ingrese el monto del pago",
     "enterPnaltyPercentage":"Introducir penalización (en%)",
     "enterPnaltyAmount":"Ingresar penalización (en cantidad)",

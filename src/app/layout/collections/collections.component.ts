@@ -45,7 +45,7 @@ export class CollectionsComponent implements OnInit {
   property_collection_id: string;
   docFile: string;
   payment_date: any = new Date();
-  payment_choice_id: number;
+  payment_choice_id: any;
   surplus_payment_choice_id: any;
   payment_method_id: number;
   description: string;
@@ -549,7 +549,7 @@ export class CollectionsComponent implements OnInit {
 
   updateCollectionPayment(formdata: NgForm) {
     // checking if date selected and receipt selected
-    if (!this.paymentDate) {
+    if (!this.payment_date) {
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseSelectPaymentDate'), this.translate.instant('swal.error'));
       return false;
@@ -793,7 +793,10 @@ export class CollectionsComponent implements OnInit {
   }
 
   showApplyPaymentPopup(item: any, i: number, type: string) {
-    this.payment_type = '';
+    this.surplus_payment_type = null;
+    this.payment_type = null;
+    this.paymentDate = null;
+    this.payment_choice_id = null;
     this.property_collection_id = item.id;
     this.typeOfPayment = type;
     this.collectionIndex = i;
@@ -1307,9 +1310,9 @@ export class CollectionsComponent implements OnInit {
     console.log(this.surplus_amt)
     
     if ((this.paymentAmount - this.calculatedPayAmount)>this.surplus_amt) {
+      this.surplus_payment_choice_id = '';
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.payToSpecificCheck'), this.translate.instant('swal.error'));
-      this.surplus_payment_choice_id = '';
       return false;
     }
   }
