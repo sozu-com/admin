@@ -42,6 +42,20 @@ export class QuickVisualizationComponent implements OnInit {
     this.parameter.sub = this.route.params.subscribe(params => {
       this.model.id = params['id'];
       this.getCollectionDetails();
+
+
+      // window.onscroll = function() {myFunction()};
+  
+      // var header = document.getElementById("myHeader");
+      // var sticky = header.offsetTop;
+      
+      // function myFunction() {
+      //   if (window.pageYOffset > sticky) {
+      //     header.classList.add("sticky");
+      //   } else {
+      //     header.classList.remove("sticky");
+      //   }
+      // }
     });
   }
 

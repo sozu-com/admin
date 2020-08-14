@@ -46,6 +46,7 @@ export class CollectionsComponent implements OnInit {
   docFile: string;
   payment_date: any = new Date();
   payment_choice_id: number;
+  surplus_payment_choice_id: any;
   payment_method_id: number;
   description: string;
   typeOfPayment: string;
@@ -77,7 +78,7 @@ export class CollectionsComponent implements OnInit {
   // penalty form
   penaltyForm: FormGroup;
   showError: boolean;
-
+  surplus_amt: any;
   @ViewChild('viewDesModal') viewDesModal: ElementRef;
   @ViewChild('viewDesModalClose') viewDesModalClose: ElementRef;
   title: any;
@@ -214,6 +215,26 @@ export class CollectionsComponent implements OnInit {
       success => {
         this.items = success.data;
         this.total = success.total_count;
+
+        // fetching payment status
+        for (let index = 0; index < this.items.length; index++) {
+          const element = this.items[index];
+          if (element.next_payment && element.next_payment.date) {
+            const date1 = moment();
+            const date2 = moment(element.next_payment.date);
+            const diff = date1.diff(date2, 'days');
+            if (diff>0 && diff<5) {
+              element.payment_status = 2;
+            } else if (diff>=5) {
+              element.payment_status = 3;
+            } else if (diff<0) {
+              element.payment_status = 1;
+            } 
+          } else {
+            element.payment_status = 5;
+          }
+        }
+
         this.spinner.hide();
       },
       error => {
@@ -700,6 +721,7 @@ export class CollectionsComponent implements OnInit {
                     if (e.id) {
                       const d = e.id.toString();
                       const h = ids.indexOf(d)
+                      console.log(this.paymentConcepts[j].paid_amount);
                       if (h>=0) {
                         const obj = {
                           id: ele.id,
@@ -714,6 +736,7 @@ export class CollectionsComponent implements OnInit {
                         }
                         this.paymentConcepts[j].paid_amount = parseFloat(this.paymentConcepts[j].paid_amount) - parseFloat(v);
                       }
+                      console.log(this.paymentConcepts[j].paid_amount);
                     }
                   }
                 }
@@ -891,6 +914,11 @@ export class CollectionsComponent implements OnInit {
       this.toastr.error(this.translate.instant('message.error.pleaseEnterValidAmt'), this.translate.instant('swal.error'));
       return false;
     }
+    if (this.surplus_payment_type=='4' && !this.surplus_payment_choice_id) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseChoosePayments'), this.translate.instant('swal.error'));
+      return false;
+    }
 
     let amt = this.paymentAmount;
     // in case of pay to following, if user is paying surplus money ask the user, what he wants to do with durplus money
@@ -958,6 +986,7 @@ export class CollectionsComponent implements OnInit {
 
       input['amount'] = this.paymentAmount - this.calculatedPayAmount;
       input['type'] = this.surplus_payment_type;
+      input['collection_payment_choice_id'] = this.surplus_payment_type=='4' ? this.surplus_payment_choice_id : this.payment_choice_id['id']
       if (this.surplus_payment_type) {
         this.admin.postDataApi(url, input).subscribe(r => {
           // if (this.surplus_payment_type == '1' || this.surplus_payment_type == '4') {
@@ -1024,62 +1053,6 @@ export class CollectionsComponent implements OnInit {
   askUserForSurplusMomey() {
     this.closePaymentModal();
     this.surplusMoneyModalOpen.nativeElement.click();
-    // swal({
-    //   text: this.translate.instant('message.error.pleaseEnterNewPropertyPrice'),
-    //   input: 'number',
-    //   showCancelButton: true,
-    //   confirmButtonColor: this.constant.confirmButtonColor,
-    //   cancelButtonColor: this.constant.cancelButtonColor,
-    //   confirmButtonText: 'Update',
-    //   inputValidator: (value) => {
-    //     if (!value) {
-    //       return this.translate.instant('message.error.pleaseEnterNewPrice');
-    //     }
-    //   }
-    // }).then((r) => {
-    //   if (r.value) {
-    //     console.log(r.value);
-    //     // this.admin.postDataApi('updatePrice', { id: item.id, price: r.value }).subscribe(success => {
-    //     //   this.items[index].min_price = r.value;
-    //     //   swal(this.translate.instant('swal.success'), this.translate.instant('message.success.updatedSuccessfully'), 'success');
-    //     // }, error => {
-    //     //   swal(this.translate.instant('swal.error'), error.error.message, 'error');
-    //     // });
-    //   }
-    // });
-    // swal({
-    //   text: this.translate.instant('message.error.doYouWantToChangeThePrice'),
-    //   type: 'question',
-    //   showCancelButton: true,
-    //   confirmButtonColor: this.constant.confirmButtonColor,
-    //   cancelButtonColor: this.constant.cancelButtonColor,
-    //   confirmButtonText: 'Yes'
-    // }).then((result) => {
-    //   if (result.value) {
-    //     swal({
-    //       text: this.translate.instant('message.error.pleaseEnterNewPropertyPrice'),
-    //       input: 'number',
-    //       showCancelButton: true,
-    //       confirmButtonColor: this.constant.confirmButtonColor,
-    //       cancelButtonColor: this.constant.cancelButtonColor,
-    //       confirmButtonText: 'Update',
-    //       inputValidator: (value) => {
-    //         if (!value) {
-    //           return this.translate.instant('message.error.pleaseEnterNewPrice');
-    //         }
-    //       }
-    //     }).then((r) => {
-    //       if (r.value) {
-    //         this.admin.postDataApi('updatePrice', { id: item.id, price: r.value }).subscribe(success => {
-    //           this.items[index].min_price = r.value;
-    //           swal(this.translate.instant('swal.success'), this.translate.instant('message.success.updatedSuccessfully'), 'success');
-    //         }, error => {
-    //           swal(this.translate.instant('swal.error'), error.error.message, 'error');
-    //         });
-    //       }
-    //     });
-    //   }
-    // });
   }
 
   closeSurplusMoney() {
@@ -1300,7 +1273,45 @@ export class CollectionsComponent implements OnInit {
   setPayMentTypeSurplus(payment_type: string) {
     // console.log(payment_type)
     this.surplus_payment_type = payment_type;
+    // incase user select type 4 in surplus popup => therefore, needs to disable selected concept in payment modal
+    this.paymentConcepts.map(r => r.is_disabled = false);
+    for (let index = 0; index < this.paymentConcepts.length; index++) {
+      // paid and if selected concept => only then disable
+      console.log(this.payment_choice_id['id'] , this.paymentConcepts[index].id)
+      if (this.payment_choice_id['id'] == this.paymentConcepts[index].id) {
+        this.paymentConcepts[index].is_disabled = true;
+        break;
+      }
+    }
     // this.closeSurplusMoney();
+  }
+
+  setPaymentSurplusAmount(item) {
+    console.log(item)
+    this.selectedPaymentConcept = item;
+    this.surplus_payment_choice_id = item.id;
+    let currentAmt: any = 0;
+    let currentAmtPaid: any = 0;
+    // checking if method is pay to specific (4), then user will pay only for that specific installment + user cannot pay more than the amount+penalty
+    if (this.surplus_payment_type == '4') {
+      currentAmt = item['amount']; 
+      currentAmtPaid = item['calc_payment_amount'] || 0;
+      const penaltyAmount: any = item.penalty ? parseFloat(item.penalty.amount).toFixed(2) : 0;
+      const currentAmount: any = (parseFloat(currentAmt) - parseFloat(currentAmtPaid)).toFixed(2);
+      this.surplus_amt = (parseFloat(currentAmount) + parseFloat(penaltyAmount)).toFixed(2);     
+    }
+
+    // paymentAmount-calculatedPayAmount
+    console.log(this.paymentAmount)
+    console.log(this.calculatedPayAmount)
+    console.log(this.surplus_amt)
+    
+    if ((this.paymentAmount - this.calculatedPayAmount)>this.surplus_amt) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.payToSpecificCheck'), this.translate.instant('swal.error'));
+      this.surplus_payment_choice_id = '';
+      return false;
+    }
   }
 
   getDateWRTTimezone(date: any, format: any) {
