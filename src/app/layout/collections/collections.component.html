@@ -751,7 +751,8 @@
               </div>
               <div class="col-12">
                 <div class="btn-cont text-right">
-                    <button [disabled]="isApplyBtnClicked"
+                  <!-- [disabled]="isApplyBtnClicked" -->
+                    <button 
                       type="submit" class="btn btn-primary-new">
                         <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
                         {{'addForm.addBtn' | translate}}
