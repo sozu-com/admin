@@ -79,6 +79,8 @@ export class CollectionsComponent implements OnInit {
   penaltyForm: FormGroup;
   showError: boolean;
   surplus_amt: any;
+  disablePayToRemaining: boolean = true;
+  isApplyBtnClicked: boolean = false;
   @ViewChild('viewDesModal') viewDesModal: ElementRef;
   @ViewChild('viewDesModalClose') viewDesModalClose: ElementRef;
   title: any;
@@ -222,6 +224,7 @@ export class CollectionsComponent implements OnInit {
           if (element.next_payment && element.next_payment.date) {
             const date1 = moment();
             const date2 = moment(element.next_payment.date);
+            console.log(date2, date1);
             const diff = date1.diff(date2, 'days');
             if (diff>0 && diff<5) {
               element.payment_status = 2;
@@ -588,166 +591,152 @@ export class CollectionsComponent implements OnInit {
   }
 
   getCollectionDetails(id) {
-    // this.spinner.show();
-    // this.admin.postDataApi('getCollectionById', {id: id})
-    //   .subscribe(
-    //     success => {
-    //       this.spinner.hide();
-    //       this.model = success['data'];
-          // this.paymentConcepts = success['data']['payment_choices'];
-          // this.collectionCommission = success['data']['collection_commissions'];
+    let reducingP = [];
+    for (let index = 0; index < this.paymentConcepts.length; index++) {
+      const m = this.paymentConcepts[index];
+      // this.newPaymentConcepts.push(m);
+      m.payment_date = m.collection_payment>0 ? this.getDateWRTTimezone(m.collection_payment.payment_date, 'YYYY-MM-DD') : '';
+      m.paid_amount = m.calc_payment_amount ? m.calc_payment_amount : 0;
 
-          let reducingP = [];
-          for (let index = 0; index < this.paymentConcepts.length; index++) {
-            const m = this.paymentConcepts[index];
-            // this.newPaymentConcepts.push(m);
-            m.payment_date = m.collection_payment>0 ? this.getDateWRTTimezone(m.collection_payment.payment_date, 'YYYY-MM-DD') : '';
-            m.paid_amount = m.calc_payment_amount ? m.calc_payment_amount : 0;
+      // if type=2 means reducing payment => add one more row
+      if (m.collection_paymentss && m.collection_paymentss.length>0) {
+        for (let i = 0; i < m.collection_paymentss.length; i++) {
+          const paymnts = m.collection_paymentss[i];
+          console.log(paymnts)
+          if (paymnts.payment_type == 2) {
+            const c = {
+              key: 'remaining_amt',
+              name: 'Payment to remaining (Reduce Amount)',
+              paid_amount: paymnts.amount,
+              is_paid_calculated: 0,
+              outstanding_amount: 0,
+              index: index+i,
+              payment_type: 1,  // in real its 2
+              // amount: paymnts.amount,
+              // payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
+              receipt: paymnts.receipt,
+              description: paymnts.description
+            };
+            c['collection_paymentss'] = [{
+              id: paymnts.id,
+              payment_type: 1,  // in real its 2
+              paid_amount: paymnts.amount,
+              amount: paymnts.amount,
+              payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
+              receipt: paymnts.receipt,
+              description: paymnts.description,
+              payment_method: paymnts.payment_method
+            }]
+            reducingP.push(c);     
+          }
+          else if (paymnts.payment_type == 3) {
+            const c = {
+              key: 'remaining_amt',
+              name: 'Payment to remaining (Reduce Time)',
+              paid_amount: paymnts.amount,
+              is_paid_calculated: 0,
+              outstanding_amount: 0,
+              index: index+i,
+              payment_type: 1,  // in real its 3
+              // amount: paymnts.amount,
+              // payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
+              receipt: paymnts.receipt,
+              description: paymnts.description
+            };
+            c['collection_paymentss'] = [{
+              id: paymnts.id,
+              payment_type: 1,  // in real its 3
+              paid_amount: paymnts.amount,
+              amount: paymnts.amount,
+              payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
+              receipt: paymnts.receipt,
+              description: paymnts.description,
+              payment_method: paymnts.payment_method
+            }]
+            console.log(c);
+            reducingP.push(c);     
+          }
+          else if (paymnts.payment_type == 5) {
+            const c = {
+              key: 'remaining_amt',
+              name: 'Total Payment',
+              paid_amount: paymnts.amount,
+              is_paid_calculated: 0,
+              outstanding_amount: 0,
+              index: index+i,
+              payment_type: 1,  // in real its 5
+              // amount: paymnts.amount,
+              // payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
+              receipt: paymnts.receipt,
+              description: paymnts.description
+            };
+            c['collection_paymentss'] = [{
+              id: paymnts.id,
+              payment_type: 1,  // in real its 5
+              paid_amount: paymnts.amount,
+              amount: paymnts.amount,
+              payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
+              receipt: paymnts.receipt,
+              description: paymnts.description,
+              payment_method: paymnts.payment_method
+            }]
+            console.log(c);
+            reducingP.push(c);     
+          }
+        }
+      }
 
-            // if type=2 means reducing payment => add one more row
-            if (m.collection_paymentss && m.collection_paymentss.length>0) {
-              for (let i = 0; i < m.collection_paymentss.length; i++) {
-                const paymnts = m.collection_paymentss[i];
-                console.log(paymnts)
-                if (paymnts.payment_type == 2) {
-                  const c = {
-                    key: 'remaining_amt',
+      m['outstanding_amount'] = m.amount - (m.calc_payment_amount || 0);
+      if ((m.amount - (m.calc_payment_amount||0))>=0) {
+        const a = (m.calc_payment_amount || 0);
+        m['is_pending'] = a ? 1 : 0;
+      }
+    }
+    // now insert at reducing remaining payments at type=2 index
+    // reducingP = reducingP.reverse();
+    for (let i = 0; i < reducingP.length; i++) {
+      const element = reducingP[i];
+      this.paymentConcepts.splice(element.index, 0, element);              
+    }
+
+    // calculating new paid amt, by skipping type 2
+    for (let index = 0; index < this.paymentConcepts.length; index++) {
+      const element = this.paymentConcepts[index];
+      let p_amt: any = 0;
+      let extraAmt: any = 0;
+      if (element.collection_paymentss && element.collection_paymentss.length>0) {
+        for (let i = 0; i < element.collection_paymentss.length; i++) {
+          const ele = element.collection_paymentss[i];
+          if (ele.payment_type == 2) {
+            let v = ele.amt_share || 0;
+            const ids = ele.choices_ids.split(',');
+            for (let j = 0; j < this.paymentConcepts.length; j++) {
+              const e = this.paymentConcepts[j];
+              if (e.id) {
+                const d = e.id.toString();
+                const h = ids.indexOf(d)
+                console.log(this.paymentConcepts[j].paid_amount);
+                if (h>=0) {
+                  const obj = {
+                    id: ele.id,
+                    amount: v,
                     name: 'Payment to remaining (Reduce Amount)',
-                    paid_amount: paymnts.amount,
-                    is_paid_calculated: 0,
-                    outstanding_amount: 0,
-                    index: index+i,
-                    payment_type: 1,  // in real its 2
-                    // amount: paymnts.amount,
-                    // payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
-                    receipt: paymnts.receipt,
-                    description: paymnts.description
-                  };
-                  c['collection_paymentss'] = [{
-                    id: paymnts.id,
-                    payment_type: 1,  // in real its 2
-                    paid_amount: paymnts.amount,
-                    amount: paymnts.amount,
-                    payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
-                    receipt: paymnts.receipt,
-                    description: paymnts.description,
-                    payment_method: paymnts.payment_method
-                  }]
-                  reducingP.push(c);     
-                }
-                else if (paymnts.payment_type == 3) {
-                  const c = {
-                    key: 'remaining_amt',
-                    name: 'Payment to remaining (Reduce Time)',
-                    paid_amount: paymnts.amount,
-                    is_paid_calculated: 0,
-                    outstanding_amount: 0,
-                    index: index+i,
                     payment_type: 1,  // in real its 3
-                    // amount: paymnts.amount,
-                    // payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
-                    receipt: paymnts.receipt,
-                    description: paymnts.description
-                  };
-                  c['collection_paymentss'] = [{
-                    id: paymnts.id,
-                    payment_type: 1,  // in real its 3
-                    paid_amount: paymnts.amount,
-                    amount: paymnts.amount,
-                    payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
-                    receipt: paymnts.receipt,
-                    description: paymnts.description,
-                    payment_method: paymnts.payment_method
-                  }]
-                  console.log(c);
-                  reducingP.push(c);     
-                }
-                else if (paymnts.payment_type == 5) {
-                  const c = {
-                    key: 'remaining_amt',
-                    name: 'Total Payment',
-                    paid_amount: paymnts.amount,
-                    is_paid_calculated: 0,
-                    outstanding_amount: 0,
-                    index: index+i,
-                    payment_type: 1,  // in real its 5
-                    // amount: paymnts.amount,
-                    // payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
-                    receipt: paymnts.receipt,
-                    description: paymnts.description
-                  };
-                  c['collection_paymentss'] = [{
-                    id: paymnts.id,
-                    payment_type: 1,  // in real its 5
-                    paid_amount: paymnts.amount,
-                    amount: paymnts.amount,
-                    payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
-                    receipt: paymnts.receipt,
-                    description: paymnts.description,
-                    payment_method: paymnts.payment_method
-                  }]
-                  console.log(c);
-                  reducingP.push(c);     
-                }
-              }
-            }
-
-            m['outstanding_amount'] = m.amount - (m.calc_payment_amount || 0);
-            if ((m.amount - (m.calc_payment_amount||0))>=0) {
-              const a = (m.calc_payment_amount || 0);
-              m['is_pending'] = a ? 1 : 0;
-            }
-          }
-          // now insert at reducing remaining payments at type=2 index
-          // reducingP = reducingP.reverse();
-          for (let i = 0; i < reducingP.length; i++) {
-            const element = reducingP[i];
-            this.paymentConcepts.splice(element.index, 0, element);              
-          }
-
-          // calculating new paid amt, by skipping type 2
-          for (let index = 0; index < this.paymentConcepts.length; index++) {
-            const element = this.paymentConcepts[index];
-            let p_amt: any = 0;
-            let extraAmt: any = 0;
-            if (element.collection_paymentss && element.collection_paymentss.length>0) {
-              for (let i = 0; i < element.collection_paymentss.length; i++) {
-                const ele = element.collection_paymentss[i];
-                if (ele.payment_type == 2) {
-                  let v = ele.amt_share || 0;
-                  const ids = ele.choices_ids.split(',');
-                  for (let j = 0; j < this.paymentConcepts.length; j++) {
-                    const e = this.paymentConcepts[j];
-                    if (e.id) {
-                      const d = e.id.toString();
-                      const h = ids.indexOf(d)
-                      console.log(this.paymentConcepts[j].paid_amount);
-                      if (h>=0) {
-                        const obj = {
-                          id: ele.id,
-                          amount: v,
-                          name: 'Payment to remaining (Reduce Amount)',
-                          payment_type: 1,  // in real its 3
-                          paid_amount: v,
-                          payment_date:  this.getDateWRTTimezone(ele.payment_date, 'YYYY-MM-DD'),
-                          receipt: ele.receipt,
-                          description: ele.description,
-                          payment_method: ele.payment_method
-                        }
-                        this.paymentConcepts[j].paid_amount = parseFloat(this.paymentConcepts[j].paid_amount) - parseFloat(v);
-                      }
-                      console.log(this.paymentConcepts[j].paid_amount);
-                    }
+                    paid_amount: v,
+                    payment_date:  this.getDateWRTTimezone(ele.payment_date, 'YYYY-MM-DD'),
+                    receipt: ele.receipt,
+                    description: ele.description,
+                    payment_method: ele.payment_method
                   }
+                  this.paymentConcepts[j].paid_amount = parseFloat(this.paymentConcepts[j].paid_amount) - parseFloat(v);
                 }
+                console.log(this.paymentConcepts[j].paid_amount);
               }
             }
           }
-
-      //   }, error => {
-      //     this.spinner.hide();
-      //   }
-      // );
+        }
+      }
+    }
   }
 
   deletePayment(payment_id: string, mainIndex: number, index: number){
@@ -801,6 +790,11 @@ export class CollectionsComponent implements OnInit {
     this.typeOfPayment = type;
     this.collectionIndex = i;
     this.paymentConcepts = item.payment_choices;
+    const check = this.paymentConcepts.find(r => r.name.includes('Monthly Installment'));
+    this.disablePayToRemaining = true;
+    if (check) {
+      this.disablePayToRemaining = false;
+    }
     this.paymentModalOpen.nativeElement.click();
   }
 
@@ -934,6 +928,45 @@ export class CollectionsComponent implements OnInit {
       }
     }
 
+    // check for type 2
+    if (this.payment_type == '1') {
+      let a = 0;
+      this.paymentConcepts.map(v => {
+        if (!v['is_paid_calculated']) {
+          const remaining_amt = parseFloat(v['amount']) - parseFloat(v['calc_payment_amount']);
+          console.log(remaining_amt, a)
+          a = a + remaining_amt + (v['penalty'] ? parseFloat(v['penalty']['amount']) : 0);
+        }
+      }, 0);
+      console.log(amt,a)
+      if (amt > a) {
+        this.toastr.clear();
+        this.toastr.error(this.translate.instant('message.error.payToFollowingCheck'), this.translate.instant('swal.error'));
+        return false;
+      }
+      return
+    }
+
+    // check for type 2
+    if (this.payment_type == '2' || this.payment_type == '3') {
+      console.log(this.payment_type)
+      let a = 0;
+      this.paymentConcepts.map(v => {
+        if (!v['is_paid_calculated'] && v.name.includes('Monthly Installment')) {
+          const remaining_amt = parseFloat(v['amount']) - parseFloat(v['calc_payment_amount']);
+          console.log(remaining_amt, a)
+          a = a + remaining_amt + (v['penalty'] ? parseFloat(v['penalty']['amount']) : 0);
+        }
+      }, 0);
+      console.log(amt,a)
+      if (amt > a) {
+        this.toastr.clear();
+        this.toastr.error(this.translate.instant('message.error.payToRemainingcheck'), this.translate.instant('swal.error'));
+        return false;
+      }
+      return
+    }
+
     // in pay to specific, user is allowed to pay either exact amount or partial amt
     if (this.payment_type == 4 && this.calculatedPayAmount < this.paymentAmount) {
       this.toastr.clear();
@@ -984,13 +1017,16 @@ export class CollectionsComponent implements OnInit {
     }
     const url = this.typeOfPayment == 'apply-popup' ? 'applyCollectionPayment' : 'applyCommissionPayment';
 
-
+    this.isApplyBtnClicked = true;
     this.admin.postDataApi(url, input).subscribe(r => {
-
-      input['amount'] = this.paymentAmount - this.calculatedPayAmount;
-      input['type'] = this.surplus_payment_type;
-      input['collection_payment_choice_id'] = this.surplus_payment_type=='4' ? this.surplus_payment_choice_id : this.payment_choice_id['id']
+      this.isApplyBtnClicked = false;
       if (this.surplus_payment_type) {
+        input['amount'] = this.paymentAmount - this.calculatedPayAmount;
+        input['type'] = this.surplus_payment_type;
+        if (this.surplus_payment_type=='4') {
+          input['collection_payment_choice_id'] = this.surplus_payment_choice_id 
+        }
+
         this.admin.postDataApi(url, input).subscribe(r => {
           // if (this.surplus_payment_type == '1' || this.surplus_payment_type == '4') {
           //   input['collection_payment_choice_id'] = this.payment_choice_id['id']
@@ -1051,6 +1087,10 @@ export class CollectionsComponent implements OnInit {
       this.toastr.error(error.message, this.translate.instant('swal.error'));
       return false;
     });
+  }
+
+  log() {
+    console.log('000000000000000')
   }
 
   askUserForSurplusMomey() {
@@ -1244,7 +1284,7 @@ export class CollectionsComponent implements OnInit {
     } else {
       this.docsFile2.nativeElement.value = '';
     }
-    if (this.payment_type!=2 && this.payment_type !=3) {
+    if (this.payment_type && this.payment_type!='2' && this.payment_type !='3' && this.payment_type !='5') {
       this.applyPaymentChoiceId.nativeElement.value = '';
     }
     this.closeCollReceiptModal();
@@ -1263,18 +1303,13 @@ export class CollectionsComponent implements OnInit {
           amtPaid = parseFloat(amtPaid) + parseFloat(currentAmtPaid);
         }
         this.paymentAmount = (amt - amtPaid).toFixed(2);
-        // this.currentAmount = (parseFloat(currentAmt) - parseFloat(currentAmtPaid)).toFixed(2);
-        // this.paymentAmount = (parseFloat(this.currentAmount) + parseFloat(this.pendingPayment) + parseFloat(this.penaltyAmount)).toFixed(2);
         this.calculatedPayAmount = [...this.paymentAmount];
-        // console.log(this.calculatedPayAmount);
-        // console.log(this.penaltyAmount, this.pendingPayment, this.currentAmount)
         console.log(this.paymentAmount)
     }
     this.applyPaymentMethodId.nativeElement.value = '';
   }
 
   setPayMentTypeSurplus(payment_type: string) {
-    // console.log(payment_type)
     this.surplus_payment_type = payment_type;
     // incase user select type 4 in surplus popup => therefore, needs to disable selected concept in payment modal
     this.paymentConcepts.map(r => r.is_disabled = false);
@@ -1286,7 +1321,6 @@ export class CollectionsComponent implements OnInit {
         break;
       }
     }
-    // this.closeSurplusMoney();
   }
 
   setPaymentSurplusAmount(item) {
@@ -1304,7 +1338,6 @@ export class CollectionsComponent implements OnInit {
       this.surplus_amt = (parseFloat(currentAmount) + parseFloat(penaltyAmount)).toFixed(2);     
     }
 
-    // paymentAmount-calculatedPayAmount
     console.log(this.paymentAmount)
     console.log(this.calculatedPayAmount)
     console.log(this.surplus_amt)

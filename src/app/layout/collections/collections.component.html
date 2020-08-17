@@ -643,8 +643,8 @@
                         <select name="payment_type" required class="form-control" [(ngModel)]="payment_type" (change)="setPayMentType($event.target.value)">
                           <option value="">{{'viewCollections.choose' | translate}}</option>      
                           <option value="1">{{'viewCollections.payToFollowing' | translate}}</option>
-                          <option value="2">{{'viewCollections.payToRemainingReducePayment' | translate}}</option>
-                          <option value="3">{{'viewCollections.payToRemainingPayment' | translate}}</option>
+                          <option value="2" [disabled]="disablePayToRemaining">{{'viewCollections.payToRemainingReducePayment' | translate}}</option>
+                          <option value="3" [disabled]="disablePayToRemaining">{{'viewCollections.payToRemainingPayment' | translate}}</option>
                           <option value="4">{{'viewCollections.payToSpecific' | translate}}</option>
                           <option value="5">{{'viewCollections.totalPayment' | translate}}</option>
                         </select>
@@ -751,9 +751,11 @@
               </div>
               <div class="col-12">
                 <div class="btn-cont text-right">
-                    <button type="submit" class="btn btn-primary-new">
+                    <button [disabled]="isApplyBtnClicked"
+                      type="submit" class="btn btn-primary-new">
                         <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
-                        {{'addForm.addBtn' | translate}}</button>
+                        {{'addForm.addBtn' | translate}}
+                      </button>
                 </div>
               </div>
             </div>

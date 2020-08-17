@@ -962,6 +962,8 @@
       "pleaseEnterLegalRepresentativeFTPR":"Ingrese el registro de contribuyentes federales del representante legal",
       "payToSpecificCheck": "En Pagar a Específico, puede pagar un monto parcial o el monto exacto.",
       "totalPayemntCheck": "En Pago total, debe pagar la suma exacta del monto restante y las multas.",
+      "payToRemainingcheck": "No puede pagar más que la suma de las cuotas mensuales pendientes de pago",
+      "payToFollowingCheck": "No puede pagar más que la cantidad restante",
 
       "areYouSure": "¿Estás seguro?",
       "wantToBlockNotary": "¿Quieres bloquear este notario?",

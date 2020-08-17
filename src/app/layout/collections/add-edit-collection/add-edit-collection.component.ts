@@ -1802,7 +1802,6 @@ export class AddEditCollectionComponent implements OnInit {
     const pcArray: Array<any> = this.addFormStep5.get('collection_commissions').value;
     const installOne = pcArray.find(r => r.name.includes('Monthly Installment'));
     // if first monthly installment percent added, => update amount in all monthly installments
-    console.log('aaa');
     if (installOne && (installOne.name == pcArray[index].name)) {
       const sta = add_collection_commission;
       for (let index = 0; index < pcArray.length; index++) {

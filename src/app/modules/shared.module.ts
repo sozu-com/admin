@@ -22,6 +22,7 @@ import { RoundNumberPipe } from '../pipes/round-number.pipe';
 import { UptoTwoDigitDecimalNumberDirective } from '../directives/upto-two-digit-decimal-number.directive';
 import { LocalizedNumericInputDirective } from '../directives/localized-numeric-input.directive';
 import { AddressComponent } from 'src/app/layout/inhouse-users/address/address.component';
+import { PreventDoubleClickDirective } from '../directives/prevent-double-click.directive';
 
 @NgModule({
   imports: [
@@ -50,7 +51,8 @@ import { AddressComponent } from 'src/app/layout/inhouse-users/address/address.c
     RoundNumberPipe,
     UptoTwoDigitDecimalNumberDirective,
     LocalizedNumericInputDirective,
-    AddressComponent
+    AddressComponent,
+    PreventDoubleClickDirective
   ],
   exports: [
     ChatComponent,
@@ -69,7 +71,8 @@ import { AddressComponent } from 'src/app/layout/inhouse-users/address/address.c
     RoundNumberPipe,
     UptoTwoDigitDecimalNumberDirective,
     LocalizedNumericInputDirective,
-    AddressComponent
+    AddressComponent,
+    PreventDoubleClickDirective
   ]
 })
 export class SharedModule { }
