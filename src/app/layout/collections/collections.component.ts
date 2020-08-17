@@ -929,23 +929,22 @@ export class CollectionsComponent implements OnInit {
     }
 
     // check for type 2
-    if (this.payment_type == '1') {
-      let a = 0;
-      this.paymentConcepts.map(v => {
-        if (!v['is_paid_calculated']) {
-          const remaining_amt = parseFloat(v['amount']) - parseFloat(v['calc_payment_amount']);
-          console.log(remaining_amt, a)
-          a = a + remaining_amt + (v['penalty'] ? parseFloat(v['penalty']['amount']) : 0);
-        }
-      }, 0);
-      console.log(amt,a)
-      if (amt > a) {
-        this.toastr.clear();
-        this.toastr.error(this.translate.instant('message.error.payToFollowingCheck'), this.translate.instant('swal.error'));
-        return false;
-      }
-      return
-    }
+    // if (this.payment_type == '1') {
+    //   let a = 0;
+    //   this.paymentConcepts.map(v => {
+    //     if (!v['is_paid_calculated']) {
+    //       const remaining_amt = parseFloat(v['amount']) - parseFloat(v['calc_payment_amount']);
+    //       console.log(remaining_amt, a)
+    //       a = a + remaining_amt + (v['penalty'] ? parseFloat(v['penalty']['amount']) : 0);
+    //     }
+    //   }, 0);
+    //   console.log(amt,a)
+    //   if (amt > a) {
+    //     this.toastr.clear();
+    //     this.toastr.error(this.translate.instant('message.error.payToFollowingCheck'), this.translate.instant('swal.error'));
+    //     return false;
+    //   }
+    // }
 
     // check for type 2
     if (this.payment_type == '2' || this.payment_type == '3') {
@@ -964,7 +963,6 @@ export class CollectionsComponent implements OnInit {
         this.toastr.error(this.translate.instant('message.error.payToRemainingcheck'), this.translate.instant('swal.error'));
         return false;
       }
-      return
     }
 
     // in pay to specific, user is allowed to pay either exact amount or partial amt
