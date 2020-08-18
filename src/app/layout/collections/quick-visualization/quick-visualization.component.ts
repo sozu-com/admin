@@ -280,11 +280,6 @@ export class QuickVisualizationComponent implements OnInit {
             this.paymentConcepts.splice(element.index, 0, element);              
           }
 
-          // for (let index = 0; index < this.paymentConcepts.length; index++) {
-          //   const element = this.paymentConcepts[index];
-
-          // }
-
           // calculating new paid amt, by skipping type 2
           for (let index = 0; index < this.paymentConcepts.length; index++) {
             const element = this.paymentConcepts[index];
@@ -296,18 +291,9 @@ export class QuickVisualizationComponent implements OnInit {
                 // if (ele.payment_type != 2) {
                 //   p_amt = parseFloat(p_amt) + parseFloat(ele.amount);
                 // }
+                // if payment_type 2 then reduce the amount from all MI (only)
                 if (ele.payment_type == 2) {
-                  // console.log('1')
-                  // extraAmt = parseFloat(extraAmt) + parseFloat(ele.amount);
                   let v = ele.amt_share || 0;
-                  // for (let j = 0; j < this.paymentConcepts.length; j++) {
-                  //   const e = this.paymentConcepts[j];
-                  //   console.log(e, element)
-                  //   if (e.id > element.id && element.name.includes('Monthly Installment')) {
-                  //     v++;
-                  //     console.log(v);
-                  //   }
-                  // }
                   const ids = ele.choices_ids.split(',');
                   for (let j = 0; j < this.paymentConcepts.length; j++) {
                     const e = this.paymentConcepts[j];

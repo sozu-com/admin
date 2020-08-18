@@ -813,7 +813,7 @@
                       </td>
                       <td>{{p?.date}}</td>
                       <td>
-                        {{p?.paid_amount && p?.paid_amount!='0.000' ? (p?.paid_amount | currency) : ''}}<br>
+                        {{p?.paid_amount && p?.paid_amount>'0.1' ? (p?.paid_amount | currency) : ''}}<br>
                       </td>
                       <td>
                         <span [ngClass]="{'red-color':p?.is_pending}">
@@ -853,7 +853,7 @@
                                   {{stats.payment_date || 'NA'}}
                                 </td>
                                 <td>
-                                  <span> {{stats?.amount ? (stats?.amount | currency) : ''}}</span> 
+                                  <span> {{stats?.amount && stats?.amount>'0.1'? (stats?.amount | currency) : ''}}</span> 
                                 </td>
                                 <td>
                                   <span> {{stats?.payment_method?.name || 'NA'}}</span> 
