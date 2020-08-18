@@ -396,7 +396,7 @@
                         class="action-icon"><img src="assets/img/ic_account.png" alt="img"></button>  
   
                         <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
-                        (click)="showPenaltyPaymentPopup(p, i, 'penalty-popup')" title="{{'table.title.penaltyPayment' | translate}}" 
+                        (click)="showPenaltyPaymentPopup(p, i, 'penalty-popup', 0)" title="{{'table.title.penaltyPayment' | translate}}" 
                         class="action-icon"><img src="assets/img/stamp.png" alt="img"></button>  
 
                         <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
@@ -528,7 +528,7 @@
     <div class="modal-dialog fadeIndown">
         <div class="modal-content notary-avail">
               <div class="modal-header popup-header">
-          <h4>{{'viewCollections.addPenalty' | translate}}</h4>
+          <h4>{{penaltyForm.controls.id.value ? ('viewCollections.editPenalty' | translate) : ('viewCollections.addPenalty' | translate)}}</h4>
             <button style="display: none;" type="button" class="close" data-dismiss="modal" #penaltyModalClose>&times;</button>
             <button type="button" class="close" (click)="closePenaltyPaymentPopup();">&times;</button>
         </div>
@@ -539,7 +539,7 @@
               <div class="col-12">
                 <div class="spacer40"></div>
               </div>
-              <div class="col-12">
+              <div class="col-12" *ngIf="!penaltyForm.controls.id.value">
                 <div class="form-group-2">
                     <label>{{'viewCollections.choosePaymentConcept' | translate}}<span class="color-red">*</span></label>
                     <div class="form-group">
@@ -609,7 +609,7 @@
               <div class="col-12">
                 <div class="btn-cont text-right">
                     <button type="submit" class="btn btn-primary-new">
-                        {{'addForm.addBtn' | translate}}</button>
+                        {{penaltyForm.controls.id.value ? ('addForm.updateBtn' | translate) : ('addForm.addBtn' | translate)}}</button>
                 </div>
               </div>
             </div>
@@ -799,6 +799,9 @@
                       <th [style.width]="'120px'">
                           <b>{{'quickVisualization.toBePaidByUser' | translate}}</b>
                       </th>
+                      <th [style.width]="'120px'">
+                          <b>{{'quickVisualization.action' | translate}}</b>
+                      </th>
                     </tr>
                   </thead>
                   <tbody *ngFor="let p of paymentConcepts; let i=index">
@@ -819,6 +822,11 @@
                       </td>
                       <td>
                           {{p?.amount ? ((p?.amount || 0) | currency) : ''}}
+                      </td>    
+                      <td>
+                        <button *ngIf="!p.calc_payment_amount && p.penalty" (click)="showPenaltyPaymentPopup(p, i, 'penalty-popup', p.id)" 
+                        title="{{'table.title.editPenalty' | translate}}" 
+                        class="action-icon"><img src="assets/img/stamp.png" alt="img"></button>  
                       </td>            
                       </tr>
                     
@@ -867,6 +875,11 @@
                                   <button [ngClass]="{'highlight': stats?.id==last_payment_id}" [disabled]="stats?.id!=last_payment_id" class="action-icon" (click)="deletePayment(stats?.id, i, s)">
                                       <img src="assets/img/ic_delete.png" alt="img">
                                   </button>
+
+                                  <!-- <button (click)="showCollectionCommReceipt(p, i, 'commission-popup')" 
+                                  title="{{'table.title.collectionCommission' | translate}}" 
+                                  class="action-icon"><img src="assets/img/ic_commission.png" alt="img"></button>   -->
+
                                 </td>
                               </tr>
                             </ng-container>

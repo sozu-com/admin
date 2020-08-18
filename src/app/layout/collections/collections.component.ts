@@ -187,6 +187,7 @@ export class CollectionsComponent implements OnInit {
 
   initPenaltyForm() {
     this.penaltyForm = this.fb.group({
+      id: [''],
       collection_payment_choice_id: ['', [Validators.required]],
       amount: ['', [Validators.required]],
       description: [''],
@@ -928,25 +929,25 @@ export class CollectionsComponent implements OnInit {
       }
     }
 
-    // check for type 2
-    // if (this.payment_type == '1') {
-    //   let a = 0;
-    //   this.paymentConcepts.map(v => {
-    //     if (!v['is_paid_calculated']) {
-    //       const remaining_amt = parseFloat(v['amount']) - parseFloat(v['calc_payment_amount']);
-    //       console.log(remaining_amt, a)
-    //       a = a + remaining_amt + (v['penalty'] ? parseFloat(v['penalty']['amount']) : 0);
-    //     }
-    //   }, 0);
-    //   console.log(amt,a)
-    //   if (amt > a) {
-    //     this.toastr.clear();
-    //     this.toastr.error(this.translate.instant('message.error.payToFollowingCheck'), this.translate.instant('swal.error'));
-    //     return false;
-    //   }
-    // }
+    // check for type 1, user can not pay more than the sum of all installments
+    if (this.payment_type == '1') {
+      let a = 0;
+      this.paymentConcepts.map(v => {
+        if (!v['is_paid_calculated']) {
+          const remaining_amt = parseFloat(v['amount']) - parseFloat(v['calc_payment_amount']);
+          console.log(remaining_amt, a)
+          a = a + remaining_amt + (v['penalty'] ? parseFloat(v['penalty']['amount']) : 0);
+        }
+      }, 0);
+      console.log(this.paymentAmount,a)
+      if (this.paymentAmount > a) {
+        this.toastr.clear();
+        this.toastr.error(this.translate.instant('message.error.payToFollowingCheck'), this.translate.instant('swal.error'));
+        return false;
+      }
+    }
 
-    // check for type 2
+    // check for type 2 abd 2, user cannot pay more than sum of remaining MI
     if (this.payment_type == '2' || this.payment_type == '3') {
       console.log(this.payment_type)
       let a = 0;
@@ -957,8 +958,8 @@ export class CollectionsComponent implements OnInit {
           a = a + remaining_amt + (v['penalty'] ? parseFloat(v['penalty']['amount']) : 0);
         }
       }, 0);
-      console.log(amt,a)
-      if (amt > a) {
+      console.log(this.paymentAmount,a)
+      if (this.paymentAmount > a) {
         this.toastr.clear();
         this.toastr.error(this.translate.instant('message.error.payToRemainingcheck'), this.translate.instant('swal.error'));
         return false;
@@ -1117,7 +1118,7 @@ export class CollectionsComponent implements OnInit {
     for (let index = 0; index < this.selectedItem.collection_commissions.length; index++) {
       const element = this.selectedItem.collection_commissions[index];
       element['payment_made'] = 0;
-      if (this.selectedItem.payment_choices[index] && this.selectedItem.payment_choices[index].collection_payment) {
+      if (this.selectedItem.payment_choices[index] && this.selectedItem.payment_choices[index].is_paid_calculated) {
         element['payment_made'] = 1;
       }
       if (type == 1) {
@@ -1221,11 +1222,21 @@ export class CollectionsComponent implements OnInit {
     this.viewCollectionClose.nativeElement.click();
   }
 
-  showPenaltyPaymentPopup(item: any, i: number, type: string) {
-    this.property_collection_id = item.id;
-    this.typeOfPayment = type;
-    this.collectionIndex = i;
-    this.paymentConcepts = item.payment_choices;
+  showPenaltyPaymentPopup(item: any, i: number, type: string, collection_payment_choice_id: string) {
+    if (collection_payment_choice_id) {
+      this.editPaymentModalOpen.nativeElement.click();
+      this.penaltyForm.controls.payment_concept_amt.patchValue(item.amount);
+      this.penaltyForm.controls.amount.patchValue(item.penalty.amount);
+      this.penaltyForm.controls.description.patchValue(item.penalty.description);
+      this.penaltyForm.controls.percent.patchValue(((item.penalty.amount*100)/item.amount).toFixed(2));
+      this.penaltyForm.controls.id.patchValue(item.penalty.id);
+      this.penaltyForm.controls.collection_payment_choice_id.patchValue(item.penalty.collection_payment_choice_id);
+    } else {
+      this.property_collection_id = item.id;
+      this.typeOfPayment = type;
+      this.collectionIndex = i;
+      this.paymentConcepts = item.payment_choices;
+    }
     this.penaltyModalOpen.nativeElement.click();
   }
   

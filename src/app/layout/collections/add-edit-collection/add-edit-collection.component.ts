@@ -1172,14 +1172,18 @@ export class AddEditCollectionComponent implements OnInit {
 
   newPaymentChoice() {
     if (this.currentPaymentChoiceId != 5){
-      let name = '';
+      let name = ''; let payment_choice = {};
       this.paymentChoices.map(r => {
         if (r.id == this.currentPaymentChoiceId) {
           name = r.name;
+          payment_choice = {
+            name: r.name
+          }
         }
       });
       const fb = this.fb.group({
         payment_choice_id: [this.currentPaymentChoiceId, [Validators.required]],
+        payment_choice: [payment_choice],
         name: [name, [Validators.required]],
         date: ['', [Validators.required]],
         percent: ['', [Validators.required]],
@@ -1223,19 +1227,19 @@ export class AddEditCollectionComponent implements OnInit {
     const price = this.addFormStep4.get('deal_price').value;
     const percent = this.numberUptoTwoDecimal((monthly_amount * 100) / price);
     monthly_amount = this.numberUptoTwoDecimal(monthly_amount);
-    let name = '';
-    // moment.utc(x.date).local().toDate() : null;
-    // monthly_date = moment.utc(moment(monthly_date).add(index, 'months').format('YYYY-MM-DD')).toDate();
-    // monthly_date = new Date(moment(monthly_date).add(index, 'months').format('YYYY-MM-DD'));
-    // monthly_date = moment.utc(monthly_date).add(index, 'months').toDate();
+    let name = ''; let payment_choice = {}
     monthly_date = moment(monthly_date).add(index, 'months').toDate();
     this.paymentChoices.map(r => {
       if (r.id == 5) {
         name = r.name + ' ' + (index + 1);
+        payment_choice = {
+          name: r.name
+        }
       }
     });
     return this.fb.group({
       payment_choice_id: [this.currentPaymentChoiceId, [Validators.required]],
+      payment_choice: [payment_choice],
       name: [name, [Validators.required]],
       date: [monthly_date, [Validators.required]],
       percent: [percent, [Validators.required]],
@@ -1769,8 +1773,9 @@ export class AddEditCollectionComponent implements OnInit {
     const percent = pcArray[index].percent;
     const amount = this.numberUptoTwoDecimal((percent * price) / 100);
     pcArray[index].amount = amount;
-    this.addFormStep4.controls['payment_choices'].patchValue(pcArray);
-
+    // this.addFormStep4.controls['payment_choices'].patchValue(pcArray);
+    this.addFormStep4.controls.payment_choices['controls'][index]['controls'].amount.patchValue(amount);
+    
     // calculating sum of all payment concepts
     const sum_of_concepts = pcArray.reduce(function (a, v) {
       return a + parseFloat(v['amount']);
