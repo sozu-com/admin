@@ -1360,9 +1360,10 @@
       <div class="spacer15"></div>
       <div formArrayName="payment_choices">
         <ng-container *ngFor="let payment_choice of addFormStep4.get('payment_choices').controls; let i=index">
-          <label *ngIf="i==0">{{'addCollection.payments' | translate}}</label>
+         
           <div class="row" [formGroupName]="i">
-            <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <label *ngIf="i==0">{{'addCollection.payments' | translate}}</label>
               <div class="form-group-3">
                 <div class="clearfix"></div>
                 <input title="{{addFormStep4.controls.payment_choices.controls[i].controls.payment_choice ? addFormStep4.controls.payment_choices.controls[i].controls.payment_choice.value.id : ''}}" required autocomplete="off" class="form-control" minlength="1" type="text" name="name" formControlName="name">
@@ -1377,6 +1378,7 @@
               </div>
             </div>
             <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+              <label *ngIf="i==0">{{'addCollection.category' | translate}}</label>
               <div class="form-group-3">
                 <div class="clearfix"></div>
                 <!-- {{addFormStep4.controls.payment_choices.controls[i].controls.payment_choice.value|json}} -->
@@ -1386,6 +1388,7 @@
               </div>
             </div>
             <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+              <label *ngIf="i==0">&nbsp;&nbsp;</label>
               <div class="form-group-3">
                 <div class="clearfix"></div>
                 <p-calendar [style]="{'width':'100%'}" formControlName="date" class="sz-calendar" [locale]="locale" showIcon="true" 
@@ -1399,7 +1402,8 @@
               </div>
             </div>
             <div class="col-lg-2 col-md-6 col-sm-6 col-12" title="{{'addCollection.enterPercentage' | translate}}">
-              <div class="input-group form-group-3">
+              <label *ngIf="i==0">&nbsp;&nbsp;</label>
+                <div class="input-group form-group-3">
                 <div class="clearfix"></div>
                 <input required autocomplete="off" class="form-control" (input)="getAmount(i)" type="number" step="0.01" 
                 placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="percent" min="0"
@@ -1418,6 +1422,7 @@
               </div>
             </div>
             <div class="col-lg-2 col-md-6 col-sm-6 col-12" title="{{'addCollection.enterAmount' | translate}}">
+             <label *ngIf="i==0">&nbsp;&nbsp;</label>
               <div class="input-group form-group-3">
                 <div class="clearfix"></div>
                 <div class="input-group-append">
@@ -1432,10 +1437,14 @@
                   </div>
               </div>
             </div>
-            <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                <div class="form-group-3">
+            <div class="col-lg-1 col-md-6 col-sm-6 col-12">
+              <label *ngIf="i==0">&nbsp;&nbsp;</label>
+              <div class="form-group-3">
                 <div class="clearfix"></div>
-                <button type="button" (click)="removePaymentChoicePopup($event, payment_choice, i)">{{'addCollection.remove' | translate}}</button>
+                <button type="button" (click)="removePaymentChoicePopup($event, payment_choice, i)">
+                  <img src="assets/img/ic_delete.png" alt="img">
+                  <!-- {{'addCollection.remove' | translate}} -->
+                </button>
               </div>
             </div>
           </div>

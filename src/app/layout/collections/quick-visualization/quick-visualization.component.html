@@ -205,7 +205,7 @@
                           <tr>
                             <th>{{'quickVisualization.remaining' | translate}}:</th>
                             <!-- <td>{{((model?.total || 0) - (model?.paid || 0)) | currency}}</td> -->
-                            <td>{{(((model?.deal_price || 0) + (model?.penalty || 0)) - (model?.total_payment_recieved || 0)) | currency}}</td>
+                            <td>{{remainingAmt > 0 ? (remainingAmt | currency) : ( 0 | currency)}}</td>
                            <!-- <td>{{(totalOutstanding || 0) | currency}}</td> -->
                           </tr>
                           <tr>

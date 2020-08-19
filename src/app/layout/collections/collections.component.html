@@ -370,7 +370,7 @@
                      <td><span>{{(p?.deal_price || 0) | currency}}</span></td>
                      <td><span>{{(p?.penalty || 0) | currency}}</span></td>
                      <td><span>{{(p?.total_payment_recieved || 0) | currency}}</span></td>
-                     <td><span>{{(((p?.deal_price || 0) + (p?.penalty || 0)) - (p?.total_payment_recieved || 0)) | currency}}</span></td>
+                     <td><span>{{getRemainingAmt(p) | currency}}</span></td>
                     
                      <td>
                       <div *ngIf="p?.is_cancelled==1" class="status grey" title="Cancelled"></div>
@@ -380,7 +380,6 @@
                        <div *ngIf="p?.is_cancelled==0 && p?.is_commission_sale_enabled==0 && p?.payment_status==3" class="status red" title="Overdue Payment"></div>
                        <div *ngIf="p?.is_cancelled==0 && p?.is_commission_sale_enabled==0 && p?.payment_status==5" class="status blue" title="Settled"></div>
                      </td>
-                    
                      <td>
                      <div class="table-actions">
                         <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"

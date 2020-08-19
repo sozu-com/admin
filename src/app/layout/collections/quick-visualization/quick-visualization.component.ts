@@ -26,6 +26,7 @@ export class QuickVisualizationComponent implements OnInit {
   paymentConcepts: Array<any>;
   collectionCommission: Array<any>;
   totalPaid: number;
+  remainingAmt: number;
   totalOutstanding: number;
   public parameter: IProperty = {};
   newPaymentConcepts: Array<any>;
@@ -169,7 +170,7 @@ export class QuickVisualizationComponent implements OnInit {
           this.collectionCommission = success['data']['collection_commissions'];
           this.totalPaid = 0.00;
           this.totalOutstanding = 0.00;
-
+          this.remainingAmt = (((this.model.deal_price || 0) + (this.model.penalty || 0)) - (this.model.total_payment_recieved || 0))
           let reducingP = [];
           for (let index = 0; index < this.paymentConcepts.length; index++) {
             const m = this.paymentConcepts[index];
@@ -181,8 +182,9 @@ export class QuickVisualizationComponent implements OnInit {
             if (m.collection_paymentss && m.collection_paymentss.length>0) {
               for (let i = 0; i < m.collection_paymentss.length; i++) {
                 const paymnts = m.collection_paymentss[i];
+                let c = {}
                 if (paymnts.payment_type == 2) {
-                  const c = {
+                  c = {
                     key: 'remaining_amt',
                     name: 'Payment to remaining (Reduce Amount)',
                     paid_amount: paymnts.amount,
@@ -207,7 +209,7 @@ export class QuickVisualizationComponent implements OnInit {
                   reducingP.push(c);     
                 }
                 else if (paymnts.payment_type == 3) {
-                  const c = {
+                  c = {
                     key: 'remaining_amt',
                     name: 'Payment to remaining (Reduce Time)',
                     paid_amount: paymnts.amount,
@@ -233,7 +235,7 @@ export class QuickVisualizationComponent implements OnInit {
                   reducingP.push(c);     
                 }
                 else if (paymnts.payment_type == 5) {
-                  const c = {
+                  c = {
                     key: 'remaining_amt',
                     name: 'Total Payment',
                     paid_amount: paymnts.amount,
@@ -256,15 +258,14 @@ export class QuickVisualizationComponent implements OnInit {
                     payment_method: paymnts.payment_method
                   }]
                   console.log(c);
-                  reducingP.push(c);     
+                  reducingP.push(c);       
                 }
+                // const newIndex = c['index'];     // adding i because on evry insertion array size is increasing
+                // this.paymentConcepts.splice(newIndex, 0, c); 
               }
             }
 
             // calculating total paid and total outstanding payment
-            // if (m.is_paid_calculated) {
-            //   this.totalPaid = this.totalPaid + m.calc_payment_amount;
-            // } 
             this.totalPaid = this.totalPaid + m.paid_amount;
             m['outstanding_amount'] = m.amount - (m.calc_payment_amount || 0);
             if ((m.amount - (m.calc_payment_amount||0))>=0) {
@@ -275,9 +276,13 @@ export class QuickVisualizationComponent implements OnInit {
           }
           // now insert at reducing remaining payments at type=2 index
           // reducingP = reducingP.reverse();
+
+          console.log(this.paymentConcepts)
+          console.log(reducingP)
           for (let i = 0; i < reducingP.length; i++) {
             const element = reducingP[i];
-            this.paymentConcepts.splice(element.index, 0, element);              
+            const newIndex = element.index;     // adding i because on evry insertion array size is increasing
+            this.paymentConcepts.splice(newIndex, 0, element);              
           }
 
           // calculating new paid amt, by skipping type 2
