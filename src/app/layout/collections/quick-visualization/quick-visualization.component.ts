@@ -300,6 +300,8 @@ export class QuickVisualizationComponent implements OnInit {
                 if (ele.payment_type == 2) {
                   let v = ele.amt_share || 0;
                   const ids = ele.choices_ids.split(',');
+
+                  // deleting the share of type 2 from main header
                   for (let j = 0; j < this.paymentConcepts.length; j++) {
                     const e = this.paymentConcepts[j];
                     // console.log('1222', ids, e.id, v)
@@ -332,6 +334,13 @@ export class QuickVisualizationComponent implements OnInit {
                       }
                     }
                   }
+
+                  // deleting from sub table if choices_id match the collection_payment_choice_id
+                  // const d = ele.collection_payment_choice_id.toString();
+                  // const h = ids.indexOf(d)
+                  // if (h>=0) {
+                  //   ele.amount = parseFloat(ele.amount) - parseFloat(v);
+                  // }
                 }
               }
             }

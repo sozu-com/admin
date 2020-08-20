@@ -871,10 +871,13 @@
                                   <button class="action-icon" (click)="showUpdatePaymentPopup(stats, i, s)">
                                       <img src="assets/img/edit.png" alt="img">
                                   </button>
-                                  <button [ngClass]="{'highlight': stats?.id==last_payment_id}" [disabled]="stats?.id!=last_payment_id" class="action-icon" (click)="deletePayment(stats?.id, i, s)">
+                                  <!-- <button [ngClass]="{'highlight': stats?.id==last_payment_id}" [disabled]="stats?.id!=last_payment_id" class="action-icon" (click)="deletePayment(stats?.id, i, s)">
                                       <img src="assets/img/ic_delete.png" alt="img">
-                                  </button>
+                                  </button> -->
 
+                                  <button [ngClass]="{'highlight': stats?.id==last_payment_id}" [disabled]="stats?.id!=last_payment_id" class="action-icon" (click)="deletePayment(stats?.parent_id, i, s)">
+                                    <img src="assets/img/ic_delete.png" alt="img">
+                                  </button>
                                   <!-- <button (click)="showCollectionCommReceipt(p, i, 'commission-popup')" 
                                   title="{{'table.title.collectionCommission' | translate}}" 
                                   class="action-icon"><img src="assets/img/ic_commission.png" alt="img"></button>   -->

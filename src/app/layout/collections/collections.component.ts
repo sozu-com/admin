@@ -515,7 +515,8 @@ export class CollectionsComponent implements OnInit {
     this.property_collection_id = item.id;
     this.collectionIndex = i;
     this.paymentConcepts = [...item.payment_choices];
-    this.last_payment_id = item.last_payment ? item.last_payment.collection_payment_id : '';
+    // this.last_payment_id = item.last_payment ? item.last_payment.collection_payment_id : '';
+    this.last_payment_id = item.last_payment ? item.last_payment.parent_id : '';
     this.getCollectionDetails()
     this.editPaymentModalOpen.nativeElement.click();
   }
@@ -603,6 +604,7 @@ export class CollectionsComponent implements OnInit {
             };
             c['collection_paymentss'] = [{
               id: paymnts.id,
+              parent_id: paymnts.parent_id,
               payment_type: 1,  // in real its 2
               paid_amount: paymnts.amount,
               amount: paymnts.amount,
@@ -627,6 +629,7 @@ export class CollectionsComponent implements OnInit {
             };
             c['collection_paymentss'] = [{
               id: paymnts.id,
+              parent_id: paymnts.parent_id,
               payment_type: 1,  // in real its 3
               paid_amount: paymnts.amount,
               amount: paymnts.amount,
@@ -652,6 +655,7 @@ export class CollectionsComponent implements OnInit {
             };
             c['collection_paymentss'] = [{
               id: paymnts.id,
+              parent_id: paymnts.parent_id,
               payment_type: 1,  // in real its 5
               paid_amount: paymnts.amount,
               amount: paymnts.amount,
@@ -730,7 +734,8 @@ export class CollectionsComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.admin.postDataApi('deleteCollectionPayment', {payment_id: payment_id})
+        // this.admin.postDataApi('deleteCollectionPayment', {payment_id: payment_id})
+        this.admin.postDataApi('deletePayment', {parent_id: payment_id})
           .subscribe(
             success => {
             // this.paymentConcepts[mainIndex].collection_paymentss.splice(index, 1);
@@ -957,10 +962,11 @@ export class CollectionsComponent implements OnInit {
     const input = {
       property_collection_id: this.property_collection_id,
       payment_method_id: this.payment_method_id,
-      amount : amt,
+      amount : amt, 
       receipt: this.docFile,
       description: this.description,
-      payment_date: this.paymentDate
+      payment_date: this.paymentDate,
+      full_amount: this.paymentAmount // sending real amount entered by user
     }
 
     // send commission_type, collection_commission_id, percent incase of applying commission
@@ -986,8 +992,10 @@ export class CollectionsComponent implements OnInit {
     this.admin.postDataApi(url, input).subscribe(r => {
       this.isApplyBtnClicked = false;
       if (this.surplus_payment_type) {
+        console.log(r);
         input['amount'] = this.paymentAmount - this.calculatedPayAmount;
         input['type'] = this.surplus_payment_type;
+        input['parent_id'] = r.data['id'];   // send parent_id in case of type 1 and surplus (to make parent delete)
         if (this.surplus_payment_type=='4') {
           input['collection_payment_choice_id'] = this.surplus_payment_choice_id 
         }
