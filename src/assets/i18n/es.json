@@ -970,6 +970,7 @@
       "totalPayemntCheck": "En Pago total, debe pagar la suma exacta del monto restante y las multas.",
       "payToRemainingcheck": "No puede pagar más que la suma de las cuotas mensuales pendientes de pago",
       "payToFollowingCheck": "No puede pagar más que la cantidad restante",
+      "payToRemainingReduceTimecheck": "Si desea aplicar un pago al restante para reducir (tiempo), el pago debe cubrir las cuotas mensuales completas 1,2, 3 ...",
 
       "areYouSure": "¿Estás seguro?",
       "wantToBlockNotary": "¿Quieres bloquear este notario?",

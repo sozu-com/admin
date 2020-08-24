@@ -270,7 +270,6 @@ export class AddEditCollectionComponent implements OnInit {
       this.initFormStep2();
       this.showError = false;
       if (value != '1') {
-        // console.log('not person')
         this.addFormStep2.controls['seller_email'].setValidators(null);
         this.addFormStep2.controls['seller_email'].updateValueAndValidity();
         this.addFormStep2.controls['seller_address'].setValidators([Validators.required, Validators.minLength(1)]);
@@ -283,7 +282,6 @@ export class AddEditCollectionComponent implements OnInit {
         this.addFormStep2.controls['seller_leg_rep_fed_tax'].setValidators([Validators.required, Validators.minLength(12), Validators.maxLength(13)]);
       
       } else {
-        // console.log('person')
         this.addFormStep2.controls['seller_email'].setValidators([Validators.required, Validators.email]);
         this.addFormStep2.controls['seller_fed_tax'].setValidators([Validators.minLength(12), Validators.maxLength(13)]);
         this.addFormStep2.controls['seller_leg_rep_comp'].setValidators([Validators.minLength(1), Validators.maxLength(30)]);
@@ -354,7 +352,6 @@ export class AddEditCollectionComponent implements OnInit {
       buyer_type: ['', [Validators.required]],
       buyer_legal_entity_id: ['']
     });
-    // console.log(this.addFormStep2)
   }
 
   initFormStep4() {
@@ -1821,19 +1818,16 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   getCollAmount(percent: number, index: number, payment_amount: number) {
-    console.log(percent, index, payment_amount);
     const amount = this.numberUptoTwoDecimal((percent * payment_amount) / 100);
     const pcArray: Array<any> = this.addFormStep5.get('collection_commissions').value;
     pcArray[index].amount = amount;
     // const installOne = pcArray.find(r => r.pc_id == 5);
     const installOne = pcArray.find(r => r.name.includes('Monthly Installment'));
     // if first monthly installment percent added, => update amount in all monthly installments
-    console.log(installOne, pcArray[index]);
     if (installOne.name == pcArray[index].name) {
       pcArray.map(e => {
         // if (e.pc_id == 5) {
         if (e.name.includes('Monthly Installment')){
-          console.log('aaaaaaaaaaaaaa')
           e.amount = amount;
           e.percent = percent;
         }
@@ -2013,7 +2007,6 @@ export class AddEditCollectionComponent implements OnInit {
     if (this.model.step == 4) {
       this.addFormStep4.controls.step.patchValue(this.model.step);
       delete this.addFormStep4.value.paymentchoice;
-      // console.log(this.addFormStep4.controls);
       if (this.addFormStep4.valid) {
     
         if (this.addFormStep4.controls.payment_choices.value && this.addFormStep4.controls.payment_choices.value.length < 1) {
@@ -2029,7 +2022,6 @@ export class AddEditCollectionComponent implements OnInit {
         let i = 0;
         for (let index = 0; index < formdata['payment_choices'].length; index++) {
           const element = formdata['payment_choices'][index];
-          // console.log(element.date);
 
           if (!element.name || !element.amount || !element.date || !element.percent) {
             i = i + 1;
@@ -2042,12 +2034,8 @@ export class AddEditCollectionComponent implements OnInit {
             return;
           }
           // element.date = moment(moment.utc(element.date).toDate()).local().toDate();
-          // console.log(element.date);
-          console.log(element.date);
           element.date = moment(element.date).format('YYYY-MM-DD');
-          console.log(element.date);
           
-          // console.log(element.date);
           // element.date = moment(element.date).add(330, 'minutes').toDate();
           paymentSum = paymentSum + parseInt(element.amount || 0);
         }
@@ -2067,7 +2055,6 @@ export class AddEditCollectionComponent implements OnInit {
     
     if (this.model.step == 5) {
       this.addFormStep5.controls.step.patchValue(this.model.step);
-      // console.log(this.addFormStep5.controls)
       if (this.addFormStep5.valid) {
        
         if (!formdata['deal_commission_agents']) {                    
@@ -2103,7 +2090,6 @@ export class AddEditCollectionComponent implements OnInit {
         });
         formdata['collection_commissions'] = collection_commissions;
         formdata['is_commission_sale_enabled'] = formdata['is_commission_sale_enabled'] ? 1 : 0;
-        // console.log(formdata);
       } else {
         this.showError = true;
         return false;
@@ -2154,13 +2140,11 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   numberUptoTwoDecimal(num: any) {
-  //  console.log(num);
     return num ? num.toFixed(2) : 0;
   }
 
   getDateWRTTimezone(date: any) {
     var offset = new Date(date).getTimezoneOffset();
-    console.log(offset)
     if (offset < 0) {
       return moment(date).subtract(offset, 'minutes').toDate();
     } else {

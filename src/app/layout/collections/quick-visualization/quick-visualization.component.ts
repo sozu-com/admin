@@ -220,7 +220,8 @@ export class QuickVisualizationComponent implements OnInit {
                     // amount: paymnts.amount,
                     // payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
                     receipt: paymnts.receipt,
-                    description: paymnts.description
+                    description: paymnts.description,
+                    display_choice_id: paymnts.display_choice_id
                   };
                   c['collection_paymentss'] = [{
                     payment_type: 3,  // in real its 3
@@ -231,7 +232,7 @@ export class QuickVisualizationComponent implements OnInit {
                     description: paymnts.description,
                     payment_method: paymnts.payment_method
                   }]
-                  console.log(c);
+                  // console.log(c);
                   reducingP.push(c);     
                 }
                 else if (paymnts.payment_type == 5 && paymnts.display_choice_id) {
@@ -246,7 +247,8 @@ export class QuickVisualizationComponent implements OnInit {
                     // amount: paymnts.amount,
                     // payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
                     receipt: paymnts.receipt,
-                    description: paymnts.description
+                    description: paymnts.description,
+                    display_choice_id: paymnts.display_choice_id
                   };
                   c['collection_paymentss'] = [{
                     payment_type: 5,  // in real its 5
@@ -257,12 +259,9 @@ export class QuickVisualizationComponent implements OnInit {
                     description: paymnts.description,
                     payment_method: paymnts.payment_method
                   }]
-                  console.log(c);
+                  // console.log(c);
                   reducingP.push(c);       
                 }
-                // paymnts.payment_type = 1  // to print // because previous data saved into database
-                // const newIndex = c['index'];     // adding i because on evry insertion array size is increasing
-                // this.paymentConcepts.splice(newIndex, 0, c); 
               }
             }
 
@@ -276,14 +275,28 @@ export class QuickVisualizationComponent implements OnInit {
             }
           }
           // now insert at reducing remaining payments at type=2 index
-          // reducingP = reducingP.reverse();
 
           console.log(this.paymentConcepts)
           console.log(reducingP)
           for (let i = 0; i < reducingP.length; i++) {
             const element = reducingP[i];
-            const newIndex = element.index;     // adding i because on evry insertion array size is increasing
-            this.paymentConcepts.splice(newIndex, 0, element);              
+            const newIndex = element.index; 
+            if (element.payment_type == 2) {
+              console.log(newIndex)
+              this.paymentConcepts.splice(newIndex, 0, element);    
+            } else {
+              // for payment_type 3,5 check display_choice_id
+              let index = this.paymentConcepts.length - 1;
+              for ( index ; index >= 0; index--) {
+              // for (let index = 0; index < this.paymentConcepts.length; index++) {
+                const e = this.paymentConcepts[index];
+                if (e.id==element.display_choice_id) {
+                  console.log('====================',e,index)
+                  this.paymentConcepts.splice(index, 0, element); 
+                  break;   
+                }
+              }
+            }
           }
 
           // calculating new paid amt, by skipping type 2
@@ -328,7 +341,7 @@ export class QuickVisualizationComponent implements OnInit {
                         // } else {
                         //   this.paymentConcepts[j].collection_paymentss = [obj];
                         // }
-                        console.log(this.paymentConcepts[j].paid_amount, v);
+                        // console.log(this.paymentConcepts[j].paid_amount, v);
                         this.paymentConcepts[j].paid_amount = parseFloat(this.paymentConcepts[j].paid_amount) - parseFloat(v);
                         // console.log(v,element,element.paid_amount);
                         // break;

@@ -980,6 +980,7 @@
       "totalPayemntCheck": "In Total Payment, you need to pay exact sum of remanining amount and penalties.",
       "payToRemainingcheck": "You cannot pay more than the sum of remaining unpaid monthly installments",
       "payToFollowingCheck": "You cannot pay more than the remaining amount",
+      "payToRemainingReduceTimecheck": " If you want to apply a payment to remaining to reduce (time) the payment needs to cover complete monthly instalments 1,2 ,3...",
       "areYouSure": "Are you sure",
       "wantToBlockNotary": "You want to block this Notary?",
       "wantToUnblockNotary": "You want to unblock this Notary?",

@@ -382,7 +382,7 @@
                     </thead>
                     <tbody *ngIf="p?.collection_paymentss?.length>0">
                       <ng-container *ngFor="let stats of p?.collection_paymentss">
-                      <tr *ngIf="stats.payment_type==1 || stats.payment_type==4">
+                      <tr *ngIf="stats.payment_type==1 || stats.payment_type==3 || stats.payment_type==4 || stats.payment_type==5">
                         <td [style.backgroundColor]="'#fff'" [style.color]="'#222'">
                           {{p?.name || 'NA'}}
                         </td>
