@@ -45,6 +45,7 @@ export class CollectionsComponent implements OnInit {
   property_collection_id: string;
   docFile: string;
   payment_date: any = new Date();
+  collection_commission_id: number;
   payment_choice_id: any;
   surplus_payment_choice_id: any;
   payment_method_id: number;
@@ -102,6 +103,8 @@ export class CollectionsComponent implements OnInit {
   @ViewChild('viewCollectionClose') viewCollectionClose: ElementRef;
   @ViewChild('collectionReceiptOpen') collectionReceiptOpen: ElementRef;
   @ViewChild('collectionReceiptClose') collectionReceiptClose: ElementRef;
+  @ViewChild('editCollectionReceiptOpen') editCollectionReceiptOpen: ElementRef;
+  @ViewChild('editCollectionReceiptClose') editCollectionReceiptClose: ElementRef;
   @ViewChild('penaltyModalOpen') penaltyModalOpen: ElementRef;
   @ViewChild('penaltyModalClose') penaltyModalClose: ElementRef;
   @ViewChild('collectionTypeSelect') collectionTypeSelect: ElementRef;
@@ -514,6 +517,13 @@ export class CollectionsComponent implements OnInit {
     this.paymentConcepts = [];
     this.property_collection_id = item.id;
     this.collectionIndex = i;
+    // adding purchase and collection commission in payment concept
+    if (item.collection_commissions && item.collection_commissions.length > 0) {
+      for (let index = 0; index < item.collection_commissions.length; index++) {
+        const element = item.collection_commissions[index];
+        item.payment_choices[index]['commission'] = element;
+      }
+    }
     this.paymentConcepts = [...item.payment_choices];
     // this.last_payment_id = item.last_payment ? item.last_payment.collection_payment_id : '';
     this.last_payment_id = item.last_payment ? item.last_payment.parent_id : '';
@@ -551,11 +561,11 @@ export class CollectionsComponent implements OnInit {
       return false;
     }
 
-    var offset = new Date(this.paymentDate).getTimezoneOffset();
+    var offset = new Date(this.payment_date).getTimezoneOffset();
     if (offset < 0) {
-      this.paymentDate = moment(this.paymentDate).subtract(offset, 'minutes').toDate();
+      this.payment_date = moment(this.payment_date).subtract(offset, 'minutes').toDate();
     } else {
-      this.paymentDate = moment(this.paymentDate).add(offset, 'minutes').toDate();
+      this.payment_date = moment(this.payment_date).add(offset, 'minutes').toDate();
     }
 
     // inpur params
@@ -564,7 +574,7 @@ export class CollectionsComponent implements OnInit {
       payment_method_id: this.payment_method_id,
       receipt: this.docFile,
       description: this.description,
-      payment_date: this.paymentDate
+      payment_date: this.payment_date
     }
 
     this.admin.postDataApi('updateCollectionPayment', input).subscribe(r => {
@@ -615,7 +625,7 @@ export class CollectionsComponent implements OnInit {
             }]
             reducingP.push(c);     
           }
-          else if (paymnts.payment_type == 3) {
+          else if (paymnts.payment_type == 3 && paymnts.display_choice_id) {
             const c = {
               key: 'remaining_amt',
               name: 'Payment to remaining (Reduce Time)',
@@ -631,8 +641,8 @@ export class CollectionsComponent implements OnInit {
               id: paymnts.id,
               parent_id: paymnts.parent_id,
               payment_type: 1,  // in real its 3
-              paid_amount: paymnts.amount,
-              amount: paymnts.amount,
+              paid_amount: paymnts.full_amount,
+              amount: paymnts.full_amount,
               payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
               receipt: paymnts.receipt,
               description: paymnts.description,
@@ -641,7 +651,7 @@ export class CollectionsComponent implements OnInit {
             console.log(c);
             reducingP.push(c);     
           }
-          else if (paymnts.payment_type == 5) {
+          else if (paymnts.payment_type == 5 && paymnts.display_choice_id) {
             const c = {
               key: 'remaining_amt',
               name: 'Total Payment',
@@ -937,6 +947,11 @@ export class CollectionsComponent implements OnInit {
       }
     }
 
+    // check for type 3, user can only pay exact amount of M1, or sum of M1 & M2, or sum of M1,M2,M3 and soon
+    // if (this.payment_type == '3') {
+      
+    // }
+
     // in pay to specific, user is allowed to pay either exact amount or partial amt
     if (this.payment_type == 4 && this.calculatedPayAmount < this.paymentAmount) {
       this.toastr.clear();
@@ -1116,6 +1131,93 @@ export class CollectionsComponent implements OnInit {
     this.collectionReceiptOpen.nativeElement.click();
   }
 
+  editCollectionCommReceipt(item: any) {
+    this.payment_id = item.id;
+    this.payment_method_id = item.payment_method.id;
+    this.description = item.description;
+    this.docFile = item.receipt;
+    this.amount = item.amount;
+    this.commission_type = item.commission_type;
+    this.collection_commission_id = item.collection_commission_id;
+    this.payment_date = item.payment_date ? this.getDateWRTTimezone(item.payment_date, 'MM/DD/YYYY') : '';
+    this.closeEditPaymentModal();
+    this.editCollectionReceiptOpen.nativeElement.click();
+  }
+
+  deleteCollectionCommReceipt(item: any) {
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+        this.translate.instant('message.error.wantToDeletePenalty'),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.admin.postDataApi('deleteCommissionPayment', {id: item.id, commission_type: item.commission_type})
+          .subscribe(
+            success => {
+              this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
+              this.closeEditPaymentModal();
+              this.toastr.clear();
+              this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+            },
+            error => {
+              this.toastr.error(error.error.message, this.translate.instant('swal.error'));
+            });
+      }
+    });
+
+  }
+
+  closeEditCollReceiptModal() {
+    this.editCollectionReceiptClose.nativeElement.click();
+  }
+
+  updateCollectionCommPayment() {
+    // checking if date selected and receipt selected
+    if (!this.payment_date) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseSelectPaymentDate'), this.translate.instant('swal.error'));
+      return false;
+    }
+    if (!this.docFile) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseChooseReceipt'), this.translate.instant('swal.error'));
+      return false;
+    }
+
+    var offset = new Date(this.payment_date).getTimezoneOffset();
+    if (offset < 0) {
+      this.payment_date = moment(this.payment_date).subtract(offset, 'minutes').toDate();
+    } else {
+      this.payment_date = moment(this.payment_date).add(offset, 'minutes').toDate();
+    }
+
+    // inpur params
+    const input = {
+      id: this.payment_id,
+      payment_method_id: this.payment_method_id,
+      receipt: this.docFile,
+      description: this.description,
+      payment_date: this.payment_date,
+      collection_commission_id: this.collection_commission_id,
+      commission_type: this.commission_type,
+      amount: this.amount
+    }
+
+    this.admin.postDataApi('applyCommissionPayment', input).subscribe(r => {
+      this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
+      this.closeEditCollReceiptModal();
+      this.toastr.clear();
+      this.toastr.success(this.translate.instant('message.success.savedSuccessfully'), this.translate.instant('swal.success'));
+    }, error => {
+      this.toastr.error(error.message, this.translate.instant('swal.error'));
+      return false;
+    });
+  }
+
   getPenaltyAmount(percent: number) {
     const paymentConceptAmount = this.penaltyForm.controls.payment_concept_amt.value;
     if (!paymentConceptAmount || paymentConceptAmount == 0) {
@@ -1177,6 +1279,33 @@ export class CollectionsComponent implements OnInit {
       this.paymentConcepts = item.payment_choices;
     }
     this.penaltyModalOpen.nativeElement.click();
+  }
+
+
+  deletePenaltyPaymentPopup(id: number) {
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+        this.translate.instant('message.error.wantToDeletePenalty'),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.admin.postDataApi('deleteCollectionPenalty', {id: id})
+          .subscribe(
+            success => {
+              this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
+              this.closeEditPaymentModal();
+              this.toastr.clear();
+              this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+            },
+            error => {
+              this.toastr.error(error.error.message, this.translate.instant('swal.error'));
+            });
+      }
+    });
   }
   
   closePenaltyPaymentPopup() {

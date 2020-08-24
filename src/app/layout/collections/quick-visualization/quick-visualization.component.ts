@@ -191,7 +191,7 @@ export class QuickVisualizationComponent implements OnInit {
                     is_paid_calculated: 0,
                     outstanding_amount: 0,
                     index: index+i,
-                    payment_type: 1,  // in real its 2
+                    payment_type: 2,  // in real its 2
                     // amount: paymnts.amount,
                     // payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
                     receipt: paymnts.receipt,
@@ -208,24 +208,24 @@ export class QuickVisualizationComponent implements OnInit {
                   }]
                   reducingP.push(c);     
                 }
-                else if (paymnts.payment_type == 3) {
+                else if (paymnts.payment_type == 3 && paymnts.display_choice_id) {
                   c = {
                     key: 'remaining_amt',
                     name: 'Payment to remaining (Reduce Time)',
-                    paid_amount: paymnts.amount,
+                    paid_amount: paymnts.full_amount,
                     is_paid_calculated: 0,
                     outstanding_amount: 0,
                     index: index+i,
-                    payment_type: 1,  // in real its 3
+                    payment_type: 3,  // in real its 3
                     // amount: paymnts.amount,
                     // payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
                     receipt: paymnts.receipt,
                     description: paymnts.description
                   };
                   c['collection_paymentss'] = [{
-                    payment_type: 1,  // in real its 3
-                    paid_amount: paymnts.amount,
-                    amount: paymnts.amount,
+                    payment_type: 3,  // in real its 3
+                    paid_amount: paymnts.full_amount,
+                    amount: paymnts.full_amount,
                     payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
                     receipt: paymnts.receipt,
                     description: paymnts.description,
@@ -234,24 +234,24 @@ export class QuickVisualizationComponent implements OnInit {
                   console.log(c);
                   reducingP.push(c);     
                 }
-                else if (paymnts.payment_type == 5) {
+                else if (paymnts.payment_type == 5 && paymnts.display_choice_id) {
                   c = {
                     key: 'remaining_amt',
                     name: 'Total Payment',
-                    paid_amount: paymnts.amount,
+                    paid_amount: paymnts.full_amount,
                     is_paid_calculated: 0,
                     outstanding_amount: 0,
                     index: index+i,
-                    payment_type: 1,  // in real its 5
+                    payment_type: 5,  // in real its 5
                     // amount: paymnts.amount,
                     // payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
                     receipt: paymnts.receipt,
                     description: paymnts.description
                   };
                   c['collection_paymentss'] = [{
-                    payment_type: 1,  // in real its 5
-                    paid_amount: paymnts.amount,
-                    amount: paymnts.amount,
+                    payment_type: 5,  // in real its 5
+                    paid_amount: paymnts.full_amount,
+                    amount: paymnts.full_amount,
                     payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
                     receipt: paymnts.receipt,
                     description: paymnts.description,
@@ -260,6 +260,7 @@ export class QuickVisualizationComponent implements OnInit {
                   console.log(c);
                   reducingP.push(c);       
                 }
+                // paymnts.payment_type = 1  // to print // because previous data saved into database
                 // const newIndex = c['index'];     // adding i because on evry insertion array size is increasing
                 // this.paymentConcepts.splice(newIndex, 0, c); 
               }
