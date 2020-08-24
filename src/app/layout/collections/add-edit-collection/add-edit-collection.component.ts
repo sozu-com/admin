@@ -1,12 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef, NgZone, ɵCodegenComponentFactoryResolver } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { NgForm, FormControl, FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { AddProjectModel, Towers, Configuration } from 'src/app/models/addProject.model';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { AddPropertyModel, PropertyDetails, Building } from 'src/app/models/addProperty.model';
+import { AddPropertyModel, Building } from 'src/app/models/addProperty.model';
 import { Constant } from 'src/app/common/constants';
 import { FileUpload } from 'src/app/common/fileUpload';
-import { VideoUpload } from 'src/app/common/videoUpload';
 import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
 import { CommonService } from 'src/app/services/common.service';
@@ -16,7 +15,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { SelectItem } from 'primeng/primeng';
 import { Collection, Seller } from 'src/app/models/collection.model';
 import { ToastrService } from 'ngx-toastr';
-import { CurrencyPipe, DecimalPipe } from '@angular/common';
 import * as numeral from 'numeral';
 declare const google;
 declare let swal: any;
@@ -25,7 +23,7 @@ declare let swal: any;
   selector: 'app-add-edit-collection',
   templateUrl: './add-edit-collection.component.html',
   styleUrls: ['./add-edit-collection.component.css'],
-  providers: [AddPropertyModel, Building, Constant, HttpInterceptor, Collection, CurrencyPipe, DecimalPipe]
+  providers: [AddPropertyModel, Building, Constant, HttpInterceptor, Collection]
 })
 export class AddEditCollectionComponent implements OnInit {
 
@@ -126,9 +124,7 @@ export class AddEditCollectionComponent implements OnInit {
     private element: ElementRef,
     private translate: TranslateService,
     private fb: FormBuilder,
-    private toastr: ToastrService,
-    private currencyPipe: CurrencyPipe,
-    private decimalPipe: DecimalPipe) {
+    private toastr: ToastrService) {
   }
 
   ngOnInit() {
@@ -745,7 +741,7 @@ export class AddEditCollectionComponent implements OnInit {
     // const d = moment(data.deal_purchase_date).utc(true).local().toDate()
 
     this.addFormStep4.controls.deal_purchase_date.patchValue(data.deal_purchase_date ? this.getDateWRTTimezone(data.deal_purchase_date) : null);
-    this.addFormStep4.controls.deal_price.patchValue(this.numberUptoTwoDecimal(data.deal_price));
+    this.addFormStep4.controls.deal_price.patchValue(this.numberUptoNDecimal(data.deal_price, 2));
     this.addFormStep4.controls.currency_id.patchValue(data.currency_id ? data.currency_id : 1);
     this.addFormStep4.controls.deal_interest_rate.patchValue(data.deal_interest_rate);
     this.addFormStep4.controls.deal_penality.patchValue(data.deal_penality);
@@ -754,8 +750,8 @@ export class AddEditCollectionComponent implements OnInit {
     if (data.payment_choices) {
       for (let index = 0; index < data.payment_choices.length; index++) {
         const x = data.payment_choices[index];
-        x.percent = this.numberUptoTwoDecimal(x.percent);
-        x.amount = this.numberUptoTwoDecimal(x.amount);
+        x.percent = this.numberUptoNDecimal(x.percent, 2);
+        x.amount = this.numberUptoNDecimal(x.amount, 2);
         sum_of_concepts = sum_of_concepts + parseFloat(x.amount);
         // var offset = new Date(x.date).getTimezoneOffset();
         // if (offset < 0) {
@@ -768,16 +764,16 @@ export class AddEditCollectionComponent implements OnInit {
       }
     }
 
-    this.addFormStep4.controls['sum_of_concepts'].patchValue(sum_of_concepts);
+    this.addFormStep4.controls['sum_of_concepts'].patchValue(this.numberUptoNDecimal(sum_of_concepts, 2));
     this.addFormStep4.controls.step.patchValue(4);
   }
 
   patchFormStep5(data) {
-    this.addFormStep5.controls.comm_total_commission.patchValue(this.numberUptoTwoDecimal(data.comm_total_commission || 0));
-    this.addFormStep5.controls.comm_total_commission_amount.patchValue(this.numberUptoTwoDecimal(data.comm_total_commission_amount || 0));
+    this.addFormStep5.controls.comm_total_commission.patchValue(this.numberUptoNDecimal(data.comm_total_commission || 0, 3));
+    this.addFormStep5.controls.comm_total_commission_amount.patchValue(this.numberUptoNDecimal(data.comm_total_commission_amount || 0, 2));
     this.addFormStep5.controls.is_commission_sale_enabled.patchValue(data.is_commission_sale_enabled || 0);
-    this.addFormStep5.controls.comm_shared_commission.patchValue(this.numberUptoTwoDecimal(data.comm_shared_commission || 0));
-    this.addFormStep5.controls.comm_shared_commission_amount.patchValue(this.numberUptoTwoDecimal(data.comm_shared_commission_amount || 0));
+    this.addFormStep5.controls.comm_shared_commission.patchValue(this.numberUptoNDecimal(data.comm_shared_commission || 0, 3));
+    this.addFormStep5.controls.comm_shared_commission_amount.patchValue(this.numberUptoNDecimal(data.comm_shared_commission_amount || 0, 2));
     this.addFormStep5.controls.deal_commission_agents.patchValue(data.deal_commission_agents);
     const control = this.addFormStep5.get('collection_agent_banks') as FormArray;
     if (data.collection_agent_banks) {
@@ -1210,7 +1206,7 @@ export class AddEditCollectionComponent implements OnInit {
     for (let index = 0; index < this.num_of_months; index++) {
       this.getPaymentChoices.push(this.newMonthlyPaymentsChoice(index));
     }
-    this.addFormStep4.controls['sum_of_concepts'].patchValue(this.numberUptoTwoDecimal(v));
+    this.addFormStep4.controls['sum_of_concepts'].patchValue(this.numberUptoNDecimal(v, 2));
   
     this.addFormStep4.get('num_of_months').patchValue(null);
     this.addFormStep4.get('monthly_amount').patchValue(null);
@@ -1222,8 +1218,8 @@ export class AddEditCollectionComponent implements OnInit {
     let monthly_amount = this.addFormStep4.get('monthly_amount').value;
     let monthly_date = this.addFormStep4.get('monthly_date').value;
     const price = this.addFormStep4.get('deal_price').value;
-    const percent = this.numberUptoTwoDecimal((monthly_amount * 100) / price);
-    monthly_amount = this.numberUptoTwoDecimal(monthly_amount);
+    const percent = this.numberUptoNDecimal((monthly_amount * 100) / price, 2);
+    monthly_amount = this.numberUptoNDecimal(monthly_amount, 2);
     let name = ''; let payment_choice = {}
     monthly_date = moment(monthly_date).add(index, 'months').toDate();
     this.paymentChoices.map(r => {
@@ -1741,7 +1737,7 @@ export class AddEditCollectionComponent implements OnInit {
       this.toastr.error(this.translate.instant('message.error.pleaseEnterPrice'), this.translate.instant('swal.error'));
       return;
     }
-    const amount = this.numberUptoTwoDecimal((percent * price) / 100);
+    const amount = this.numberUptoNDecimal((percent * price) / 100, 2);
     this.addFormStep5.controls['comm_total_commission_amount'].patchValue(amount);
   }
 
@@ -1755,7 +1751,7 @@ export class AddEditCollectionComponent implements OnInit {
       // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPrice'), 'error');
       return;
     }
-    const amount = this.numberUptoTwoDecimal((percent * price) / 100);
+    const amount = this.numberUptoNDecimal((percent * price) / 100, 2);
     this.addFormStep5.controls['comm_shared_commission_amount'].patchValue(amount);
   }
 
@@ -1768,7 +1764,7 @@ export class AddEditCollectionComponent implements OnInit {
     }
     const pcArray: Array<any> = this.addFormStep4.get('payment_choices').value;
     const percent = pcArray[index].percent;
-    const amount = this.numberUptoTwoDecimal((percent * price) / 100);
+    const amount = this.numberUptoNDecimal((percent * price) / 100, 2);
     pcArray[index].amount = amount;
     // this.addFormStep4.controls['payment_choices'].patchValue(pcArray);
     this.addFormStep4.controls.payment_choices['controls'][index]['controls'].amount.patchValue(amount);
@@ -1777,7 +1773,7 @@ export class AddEditCollectionComponent implements OnInit {
     const sum_of_concepts = pcArray.reduce(function (a, v) {
       return a + parseFloat(v['amount']);
     }, 0);
-    this.addFormStep4.controls['sum_of_concepts'].patchValue(this.numberUptoTwoDecimal(sum_of_concepts));
+    this.addFormStep4.controls['sum_of_concepts'].patchValue(this.numberUptoNDecimal(sum_of_concepts, 2));
   }
 
   getPercentage(index: number) {
@@ -1788,8 +1784,8 @@ export class AddEditCollectionComponent implements OnInit {
       return;
     }
     const pcArray: Array<any> = this.addFormStep4.get('payment_choices').value;
-    const amount: any = this.numberUptoTwoDecimal(pcArray[index].amount);
-    const percent: any = this.numberUptoTwoDecimal((amount * 100) / price);
+    const amount: any = this.numberUptoNDecimal(pcArray[index].amount, 2);
+    const percent: any = this.numberUptoNDecimal((amount * 100) / price, 2);
     pcArray[index].amount = amount;
     this.addFormStep4.controls.payment_choices['controls'][index]['controls'].percent.patchValue(percent);
     
@@ -1797,7 +1793,7 @@ export class AddEditCollectionComponent implements OnInit {
     const sum_of_concepts = pcArray.reduce(function (a, v) {
       return a + parseFloat(v['amount']);
     }, 0);
-    this.addFormStep4.controls['sum_of_concepts'].patchValue(this.numberUptoTwoDecimal(sum_of_concepts));
+    this.addFormStep4.controls['sum_of_concepts'].patchValue(this.numberUptoNDecimal(sum_of_concepts, 2));
   }
 
   setCollectionComm(add_collection_commission: any, index: number) {
@@ -1818,7 +1814,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   getCollAmount(percent: number, index: number, payment_amount: number) {
-    const amount = this.numberUptoTwoDecimal((percent * payment_amount) / 100);
+    const amount = this.numberUptoNDecimal((percent * payment_amount) / 100, 2);
     const pcArray: Array<any> = this.addFormStep5.get('collection_commissions').value;
     pcArray[index].amount = amount;
     // const installOne = pcArray.find(r => r.pc_id == 5);
@@ -1838,7 +1834,7 @@ export class AddEditCollectionComponent implements OnInit {
 
   getCollPercentage(amount: number, index: number, payment_amount: number) {
     const pcArray = this.addFormStep5.get('collection_commissions').value;
-    const percent = this.numberUptoTwoDecimal((amount * 100) / payment_amount);
+    const percent = this.numberUptoNDecimal((amount * 100) / payment_amount, 2);
     pcArray[index].percent = percent;
     // const installOne = pcArray.find(r => r.pc_id == 5);
     const installOne = pcArray.find(r => r.name.includes('Monthly Installment'));
@@ -1892,7 +1888,7 @@ export class AddEditCollectionComponent implements OnInit {
     const numOfInstallments = this.addFormStep4.get('deal_monthly_payment').value;
     const monthlyAmount = Math.round(price / numOfInstallments);
     // const monthlyAmount: any = this.currencyPipe.transform(price / numOfInstallments);
-    const percent = this.numberUptoTwoDecimal((monthlyAmount * 100) / price);
+    const percent = this.numberUptoNDecimal((monthlyAmount * 100) / price, 2);
     this.addFormStep4.controls['deal_monthly_amount'].patchValue(monthlyAmount);
     this.addFormStep4.controls['deal_monthly_percentage'].patchValue(percent);
   }
@@ -2141,6 +2137,10 @@ export class AddEditCollectionComponent implements OnInit {
 
   numberUptoTwoDecimal(num: any) {
     return num ? num.toFixed(2) : 0;
+  }
+
+  numberUptoNDecimal(num: any, n: number) {
+    return num ? num.toFixed(n) : 0;
   }
 
   getDateWRTTimezone(date: any) {

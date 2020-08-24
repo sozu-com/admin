@@ -23,6 +23,7 @@ import { UptoTwoDigitDecimalNumberDirective } from '../directives/upto-two-digit
 import { LocalizedNumericInputDirective } from '../directives/localized-numeric-input.directive';
 import { AddressComponent } from 'src/app/layout/inhouse-users/address/address.component';
 import { PreventDoubleClickDirective } from '../directives/prevent-double-click.directive';
+import { UptoThreeDecimalDirective } from '../directives/upto-three-decimal.directive';
 
 @NgModule({
   imports: [
@@ -52,7 +53,8 @@ import { PreventDoubleClickDirective } from '../directives/prevent-double-click.
     UptoTwoDigitDecimalNumberDirective,
     LocalizedNumericInputDirective,
     AddressComponent,
-    PreventDoubleClickDirective
+    PreventDoubleClickDirective,
+    UptoThreeDecimalDirective
   ],
   exports: [
     ChatComponent,
@@ -72,7 +74,8 @@ import { PreventDoubleClickDirective } from '../directives/prevent-double-click.
     UptoTwoDigitDecimalNumberDirective,
     LocalizedNumericInputDirective,
     AddressComponent,
-    PreventDoubleClickDirective
+    PreventDoubleClickDirective,
+    UptoThreeDecimalDirective
   ]
 })
 export class SharedModule { }
