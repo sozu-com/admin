@@ -31,6 +31,7 @@ export class AccountStatementComponent implements OnInit {
   paymentConcepts: Array<any>;
   collectionCommission: Array<any>;
   totalPaid: number;
+  remainingAmt: number;
   totalOutstanding: number;
   public parameter: IProperty = {};
   constructor(
@@ -181,7 +182,7 @@ export class AccountStatementComponent implements OnInit {
           this.collectionCommission = success['data']['collection_commissions'];
           this.totalPaid = 0.00;
           this.totalOutstanding = 0.00;
-
+          this.remainingAmt = (((this.model.deal_price || 0) + (this.model.penalty || 0)) - (this.model.total_payment_recieved || 0))
           let reducingP = [];
           for (let index = 0; index < this.paymentConcepts.length; index++) {
             const m = this.paymentConcepts[index];
@@ -193,15 +194,16 @@ export class AccountStatementComponent implements OnInit {
             if (m.collection_paymentss && m.collection_paymentss.length>0) {
               for (let i = 0; i < m.collection_paymentss.length; i++) {
                 const paymnts = m.collection_paymentss[i];
+                let c = {}
                 if (paymnts.payment_type == 2) {
-                  const c = {
+                  c = {
                     key: 'remaining_amt',
                     name: 'Payment to remaining (Reduce Amount)',
                     paid_amount: paymnts.amount,
                     is_paid_calculated: 0,
                     outstanding_amount: 0,
                     index: index+i,
-                    payment_type: 1,  // in real its 2
+                    payment_type: 2,  // in real its 2
                     // amount: paymnts.amount,
                     // payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
                     receipt: paymnts.receipt,
@@ -218,65 +220,64 @@ export class AccountStatementComponent implements OnInit {
                   }]
                   reducingP.push(c);     
                 }
-                else if (paymnts.payment_type == 3) {
-                  const c = {
+                else if (paymnts.payment_type == 3 && paymnts.display_choice_id) {
+                  c = {
                     key: 'remaining_amt',
                     name: 'Payment to remaining (Reduce Time)',
-                    paid_amount: paymnts.amount,
+                    paid_amount: paymnts.full_amount,
                     is_paid_calculated: 0,
                     outstanding_amount: 0,
                     index: index+i,
-                    payment_type: 1,  // in real its 3
+                    payment_type: 3,  // in real its 3
                     // amount: paymnts.amount,
                     // payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
                     receipt: paymnts.receipt,
-                    description: paymnts.description
+                    description: paymnts.description,
+                    display_choice_id: paymnts.display_choice_id
                   };
                   c['collection_paymentss'] = [{
-                    payment_type: 1,  // in real its 3
-                    paid_amount: paymnts.amount,
-                    amount: paymnts.amount,
+                    payment_type: 3,  // in real its 3
+                    paid_amount: paymnts.full_amount,
+                    amount: paymnts.full_amount,
                     payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
                     receipt: paymnts.receipt,
                     description: paymnts.description,
                     payment_method: paymnts.payment_method
                   }]
-                  console.log(c);
+                  // console.log(c);
                   reducingP.push(c);     
                 }
-                else if (paymnts.payment_type == 5) {
-                  const c = {
+                else if (paymnts.payment_type == 5 && paymnts.display_choice_id) {
+                  c = {
                     key: 'remaining_amt',
                     name: 'Total Payment',
-                    paid_amount: paymnts.amount,
+                    paid_amount: paymnts.full_amount,
                     is_paid_calculated: 0,
                     outstanding_amount: 0,
                     index: index+i,
-                    payment_type: 1,  // in real its 5
+                    payment_type: 5,  // in real its 5
                     // amount: paymnts.amount,
                     // payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
                     receipt: paymnts.receipt,
-                    description: paymnts.description
+                    description: paymnts.description,
+                    display_choice_id: paymnts.display_choice_id
                   };
                   c['collection_paymentss'] = [{
-                    payment_type: 1,  // in real its 5
-                    paid_amount: paymnts.amount,
-                    amount: paymnts.amount,
+                    payment_type: 5,  // in real its 5
+                    paid_amount: paymnts.full_amount,
+                    amount: paymnts.full_amount,
                     payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
                     receipt: paymnts.receipt,
                     description: paymnts.description,
                     payment_method: paymnts.payment_method
                   }]
-                  console.log(c);
-                  reducingP.push(c);     
+                  // console.log(c);
+                  reducingP.push(c);       
                 }
               }
             }
 
             // calculating total paid and total outstanding payment
-            // if (m.is_paid_calculated) {
-            //   this.totalPaid = this.totalPaid + m.calc_payment_amount;
-            // } 
             this.totalPaid = this.totalPaid + m.paid_amount;
             m['outstanding_amount'] = m.amount - (m.calc_payment_amount || 0);
             if ((m.amount - (m.calc_payment_amount||0))>=0) {
@@ -286,16 +287,29 @@ export class AccountStatementComponent implements OnInit {
             }
           }
           // now insert at reducing remaining payments at type=2 index
-          // reducingP = reducingP.reverse();
+
+          console.log(this.paymentConcepts)
+          console.log(reducingP)
           for (let i = 0; i < reducingP.length; i++) {
             const element = reducingP[i];
-            this.paymentConcepts.splice(element.index, 0, element);              
+            const newIndex = element.index; 
+            if (element.payment_type == 2) {
+              console.log(newIndex)
+              this.paymentConcepts.splice(newIndex, 0, element);    
+            } else {
+              // for payment_type 3,5 check display_choice_id
+              let index = this.paymentConcepts.length - 1;
+              for ( index ; index >= 0; index--) {
+              // for (let index = 0; index < this.paymentConcepts.length; index++) {
+                const e = this.paymentConcepts[index];
+                if (e.id==element.display_choice_id) {
+                  console.log('====================',e,index)
+                  this.paymentConcepts.splice(index, 0, element); 
+                  break;   
+                }
+              }
+            }
           }
-
-          // for (let index = 0; index < this.paymentConcepts.length; index++) {
-          //   const element = this.paymentConcepts[index];
-
-          // }
 
           // calculating new paid amt, by skipping type 2
           for (let index = 0; index < this.paymentConcepts.length; index++) {
@@ -308,19 +322,12 @@ export class AccountStatementComponent implements OnInit {
                 // if (ele.payment_type != 2) {
                 //   p_amt = parseFloat(p_amt) + parseFloat(ele.amount);
                 // }
+                // if payment_type 2 then reduce the amount from all MI (only)
                 if (ele.payment_type == 2) {
-                  // console.log('1')
-                  // extraAmt = parseFloat(extraAmt) + parseFloat(ele.amount);
                   let v = ele.amt_share || 0;
-                  // for (let j = 0; j < this.paymentConcepts.length; j++) {
-                  //   const e = this.paymentConcepts[j];
-                  //   console.log(e, element)
-                  //   if (e.id > element.id && element.name.includes('Monthly Installment')) {
-                  //     v++;
-                  //     console.log(v);
-                  //   }
-                  // }
                   const ids = ele.choices_ids.split(',');
+
+                  // deleting the share of type 2 from main header
                   for (let j = 0; j < this.paymentConcepts.length; j++) {
                     const e = this.paymentConcepts[j];
                     // console.log('1222', ids, e.id, v)
@@ -346,13 +353,20 @@ export class AccountStatementComponent implements OnInit {
                         // } else {
                         //   this.paymentConcepts[j].collection_paymentss = [obj];
                         // }
-                        console.log(this.paymentConcepts[j].paid_amount, v);
+                        // console.log(this.paymentConcepts[j].paid_amount, v);
                         this.paymentConcepts[j].paid_amount = parseFloat(this.paymentConcepts[j].paid_amount) - parseFloat(v);
                         // console.log(v,element,element.paid_amount);
                         // break;
                       }
                     }
                   }
+
+                  // deleting from sub table if choices_id match the collection_payment_choice_id
+                  // const d = ele.collection_payment_choice_id.toString();
+                  // const h = ids.indexOf(d)
+                  // if (h>=0) {
+                  //   ele.amount = parseFloat(ele.amount) - parseFloat(v);
+                  // }
                 }
               }
             }

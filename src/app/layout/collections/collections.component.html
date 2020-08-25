@@ -347,15 +347,15 @@
                         <span>{{p?.property?.building_configuration?.name}}</span>
                         </td>
                      <td><span>{{p?.property?.locality?.name ? p?.property?.locality?.name : ('table.tr.td.NA' | translate)}}</span></td>
-                     <td><span>{{p.deal_purchase_date ? getDateWRTTimezone(p.deal_purchase_date, 'YYYY-MM-DD') : ('table.tr.td.NA' | translate)}}</span></td>
+                     <td><span>{{p.deal_purchase_date ? getDateWRTTimezone(p.deal_purchase_date, 'DD/MMM/YYYY') : ('table.tr.td.NA' | translate)}}</span></td>
 
                      <td><span>{{ p?.last_payment ? getLastPaymentConcept(p) : ('table.tr.td.NA' | translate)}}</span></td>
-                     <td><span>{{(p?.last_payment?.payment_date ? (p?.last_payment?.payment_date | date:'yyyy-MM-dd') : ('table.tr.td.NA' | translate) )}}</span></td>
+                     <td><span>{{(p?.last_payment?.payment_date ? (p?.last_payment?.payment_date | date:'dd/MMM/yyyy') : ('table.tr.td.NA' | translate) )}}</span></td>
                      <td><span [ngClass]="{'red-color':((p?.last_payment?.calc_payment_amount || 0) < (p?.last_payment?.amount || 0))}">
                        {{ (p?.last_payment?.collection_amount || 0) | currency}}
                       </span></td>
                      <td><span>{{p?.next_payment?.name || ('table.tr.td.NA' | translate)}}</span></td>
-                     <td><span>{{p?.next_payment?.date || ('table.tr.td.NA' | translate)}}</span></td>
+                     <td><span>{{(p?.next_payment?.date ? (p?.next_payment?.date | date:'dd/MMM/yyyy') : ('table.tr.td.NA' | translate) )}}</span></td>
                      <td><span>{{ ((p?.next_payment?.amount || 0)-(p?.next_payment?.calc_payment_amount || 0)) | currency}}</span></td>
 
                      <td><span>{{p?.currency?.code || ('table.tr.td.NA' | translate)}}</span></td>
@@ -813,7 +813,7 @@
                             {{p?.name}}
                         </a>
                       </td>
-                      <td>{{p?.date}}</td>
+                      <td>{{p?.date | date:'dd/MMM/yyyy'}}</td>
                       <td>
                         {{p?.paid_amount && p?.paid_amount>'0.1' ? (p?.paid_amount | currency) : ''}}<br>
                       </td>
@@ -874,7 +874,7 @@
                                   {{p?.name || 'NA'}}
                                 </td>
                                 <td>
-                                  {{stats.payment_date || 'NA'}}
+                                  {{stats.payment_date ? (stats.payment_date | date:'dd/MMM/yyyy') : 'NA'}}
                                 </td>
                                 <td>
                                   <span> {{stats?.amount && stats?.amount>'0.1'? (stats?.amount | currency) : ''}}</span> 
@@ -941,20 +941,6 @@
               <div class="col-12">
                 <div class="spacer40"></div>
               </div>
-              <!-- <div class="col-12">
-                <div class="form-group-2">
-                    <label>{{'viewCollections.choosePaymentType' | translate}} <span class="color-red">*</span></label>
-                    <div class="form-group">
-                        <select name="payment_type" disabled required class="form-control" [(ngModel)]="payment_type" (change)="setPayMentType($event.target.value)">
-                          <option value="">{{'viewCollections.choose' | translate}}</option>      
-                          <option value="1">{{'viewCollections.payToFollowing' | translate}}</option>
-                          <option value="2">{{'viewCollections.payToRemainingReducePayment' | translate}}</option>
-                          <option value="3">{{'viewCollections.payToRemainingPayment' | translate}}</option>
-                          <option value="4">{{'viewCollections.payToSpecific' | translate}}</option>
-                        </select>
-                  </div>
-                </div>
-              </div> -->
               <div class="col-6">
                 <div class="form-group-2">
                     <label>{{'viewCollections.choosePaymentMethod' | translate}} <span class="color-red">*</span></label>

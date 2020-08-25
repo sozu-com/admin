@@ -226,7 +226,8 @@ export class CollectionsComponent implements OnInit {
             const date1 = moment();
             const date2 = moment(element.next_payment.date);
             const diff = date1.diff(date2, 'days');
-            if (diff>0 && diff<5) {
+            console.log(diff)
+            if (diff>=0 && diff<5) {
               element.payment_status = 2;
             } else if (diff>=5) {
               element.payment_status = 3;

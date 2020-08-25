@@ -10,6 +10,8 @@ const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.
 const EXCEL_EXTENSION = '.xlsx';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import * as moment from 'moment';
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-quick-visualization',
@@ -21,6 +23,8 @@ export class QuickVisualizationComponent implements OnInit {
 
   @ViewChild('viewDesModal') viewDesModal: ElementRef;
   @ViewChild('viewDesModalClose') viewDesModalClose: ElementRef;
+  @ViewChild('updatePaymentModalOpen') updatePaymentModalOpen: ElementRef;
+  @ViewChild('updatePaymentModalClose') updatePaymentModalClose: ElementRef;
   description: string;
   title: any;
   paymentConcepts: Array<any>;
@@ -30,16 +34,26 @@ export class QuickVisualizationComponent implements OnInit {
   totalOutstanding: number;
   public parameter: IProperty = {};
   newPaymentConcepts: Array<any>;
+  payment_type: any;
+  payment_id: any;
+  docFile: string;
+  payment_method_id: number;
+  today1: Date;
+  payment_date: any = new Date();
+
   constructor(
     private route: ActivatedRoute,
     public model: Collection,
     private admin: AdminService,
     private spinner: NgxSpinnerService,
     private currencyPipe: CurrencyPipe,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private translate: TranslateService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
+    this.today1 = new Date();
     this.parameter.sub = this.route.params.subscribe(params => {
       this.model.id = params['id'];
       this.getCollectionDetails();
@@ -175,7 +189,7 @@ export class QuickVisualizationComponent implements OnInit {
           for (let index = 0; index < this.paymentConcepts.length; index++) {
             const m = this.paymentConcepts[index];
             // this.newPaymentConcepts.push(m);
-            m.payment_date = m.collection_payment>0 ? this.getDateWRTTimezone(m.collection_payment.payment_date) : '';
+            m.payment_date = m.collection_payment>0 ? this.getDateWRTTimezone(m.collection_payment.payment_date, 'YYYY-MM-DD') : '';
             m.paid_amount = m.calc_payment_amount ? m.calc_payment_amount : 0;
 
             // if type=2 means reducing payment => add one more row
@@ -201,7 +215,7 @@ export class QuickVisualizationComponent implements OnInit {
                     payment_type: 1,  // in real its 2
                     paid_amount: paymnts.amount,
                     amount: paymnts.amount,
-                    payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
+                    payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
                     receipt: paymnts.receipt,
                     description: paymnts.description,
                     payment_method: paymnts.payment_method
@@ -227,7 +241,7 @@ export class QuickVisualizationComponent implements OnInit {
                     payment_type: 3,  // in real its 3
                     paid_amount: paymnts.full_amount,
                     amount: paymnts.full_amount,
-                    payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
+                    payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
                     receipt: paymnts.receipt,
                     description: paymnts.description,
                     payment_method: paymnts.payment_method
@@ -254,7 +268,7 @@ export class QuickVisualizationComponent implements OnInit {
                     payment_type: 5,  // in real its 5
                     paid_amount: paymnts.full_amount,
                     amount: paymnts.full_amount,
-                    payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
+                    payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
                     receipt: paymnts.receipt,
                     description: paymnts.description,
                     payment_method: paymnts.payment_method
@@ -328,7 +342,7 @@ export class QuickVisualizationComponent implements OnInit {
                           name: 'Payment to remaining (Reduce Amount)',
                           payment_type: 1,  // in real its 3
                           paid_amount: v,
-                          payment_date:  this.getDateWRTTimezone(ele.payment_date),
+                          payment_date:  this.getDateWRTTimezone(ele.payment_date, 'YYYY-MM-DD'),
                           receipt: ele.receipt,
                           description: ele.description,
                           payment_method: ele.payment_method
@@ -467,13 +481,63 @@ export class QuickVisualizationComponent implements OnInit {
     this.viewDesModalClose.nativeElement.click();
   }
 
-  getDateWRTTimezone(date: any) {
+  getDateWRTTimezone(date: any, format: any) {
     var offset = new Date(date).getTimezoneOffset();
-    // console.log(offset)
     if (offset < 0) {
-      return moment(date).subtract(offset, 'minutes').format('YYYY-MM-DD');
+      return moment(date).subtract(offset, 'minutes').format(format);
     } else {
-      return moment(date).add(offset, 'minutes').format('YYYY-MM-DD');
+      return moment(date).add(offset, 'minutes').format(format);
     }
+  }
+
+
+  showUpdatePaymentPopup(item: any, i: number) {
+    this.payment_id = item.id;
+    this.payment_type = item.payment_type;
+    this.payment_method_id = item.payment_method.id;
+    this.description = item.description;
+    this.docFile = item.receipt;
+    this.payment_date = item.payment_date ? this.getDateWRTTimezone(item.payment_date, 'MM/DD/YYYY') : '';
+    this.updatePaymentModalOpen.nativeElement.click();
+  }
+
+
+  updateCollectionPayment() {
+    // checking if date selected and receipt selected
+    if (!this.payment_date) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseSelectPaymentDate'), this.translate.instant('swal.error'));
+      return false;
+    }
+    if (!this.docFile) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseChooseReceipt'), this.translate.instant('swal.error'));
+      return false;
+    }
+
+    var offset = new Date(this.payment_date).getTimezoneOffset();
+    if (offset < 0) {
+      this.payment_date = moment(this.payment_date).subtract(offset, 'minutes').toDate();
+    } else {
+      this.payment_date = moment(this.payment_date).add(offset, 'minutes').toDate();
+    }
+
+    // inpur params
+    const input = {
+      payment_id: this.payment_id,
+      payment_method_id: this.payment_method_id,
+      receipt: this.docFile,
+      description: this.description,
+      payment_date: this.payment_date
+    }
+
+    this.admin.postDataApi('updateCollectionPayment', input).subscribe(r => {
+      this.updatePaymentModalClose.nativeElement.click();
+      this.toastr.clear();
+      this.toastr.success(this.translate.instant('message.success.savedSuccessfully'), this.translate.instant('swal.success'));
+    }, error => {
+      this.toastr.error(error.message, this.translate.instant('swal.error'));
+      return false;
+    });
   }
 }

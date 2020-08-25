@@ -8,13 +8,10 @@
           </div>
         </div>
          
-        <div class="col-lg-2 col-md-2 col-6">
+        <!-- <div class="col-lg-2 col-md-2 col-6">
           <div class="btn-cont text-right">
               <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#addInhouseUser" #inhouseUserModalOpen>{{'table.addNewBtn' | translate}}</a>
-              <!-- *ngIf="admin?.admin_acl['Data Collector Management']?.can_create==1 && parameter.userType=='data-collectors' ||
-              admin?.admin_acl['Seller Management']?.can_create==1 && parameter.userType=='csr-sellers'" -->
               <a class="btn btn-primary-new width100P" href="javascript://" (click)="exportData()">{{'table.exportDataBtn' | translate}}</a>
-              <!-- <a class="btn btn-primary-new width100P" href="javascript://" (click)="getCollectionDetails()">Refresh</a> -->
             </div>
         </div>
     
@@ -22,7 +19,7 @@
           <div class="btn-cont text-right">
               <a class="btn btn-primary-new width100P" href="javascript://" (click)="getCollectionDetails()">Refresh</a>
             </div>
-        </div>
+        </div> -->
       </div>
     
       <hr>
@@ -187,7 +184,7 @@
                           <tbody>
                               <tr>
                                   <th>{{'quickVisualization.purchaseDate' | translate}}:</th>
-                                  <td>{{model?.deal_purchase_date || ('table.tr.td.NA' | translate)}}</td>
+                                  <td>{{model?.deal_purchase_date ? (model?.deal_purchase_date | date:'dd/MMM/yyyy') : ('table.tr.td.NA' | translate)}}</td>
                                 </tr>
                                 <tr>
                                   <th>{{'quickVisualization.currency' | translate}}:</th>
@@ -207,8 +204,7 @@
                                   <tr>
                                     <th>{{'quickVisualization.remaining' | translate}}:</th>
                                     <!-- <td>{{((model?.total || 0) - (model?.paid || 0)) | currency}}</td> -->
-                                    <td>{{(((model?.deal_price || 0) + (model?.penalty || 0)) - (model?.total_payment_recieved || 0)) | currency}}</td>
-                                   <!-- <td>{{(totalOutstanding || 0) | currency}}</td> -->
+                                    <td>{{remainingAmt > 0 ? (remainingAmt | currency) : ( 0 | currency)}}</td>                                   <!-- <td>{{(totalOutstanding || 0) | currency}}</td> -->
                                   </tr>
                                   <tr>
                                     <th>{{'quickVisualization.totalPenalty' | translate}}:</th>
@@ -272,7 +268,7 @@
                     {{p?.name}}
                 </a>
               </td>
-              <td>{{p?.date}}</td>
+              <td>{{p?.date | date:'dd/MMM/yyyy'}}</td>
               <!-- <td>{{p?.payment_date || ''}}</td> -->
               <td>
                 <!-- {{p?.paid_amount}}<br> -->
@@ -317,7 +313,7 @@
             
             
               <tr id="collapse{{i}}" class="panel-collapse collapse">
-                  <td colspan="8" style="background: #fff;">
+                  <td colspan="5" style="background: #fff;">
                   <table>
                     <thead style="background: #00B96F; color: #fff;">
                       <th [style.width]="'240px'" [style.color]="'#fff'">{{'quickVisualization.concept' | translate}}</th>
@@ -329,30 +325,30 @@
                     </thead>
                     <tbody *ngIf="p?.collection_paymentss?.length>0">
                       <ng-container *ngFor="let stats of p?.collection_paymentss">
-                      <tr *ngIf="stats.payment_type==1 || stats.payment_type==4">
-                        <td [style.backgroundColor]="'#fff'" [style.color]="'#222'">
-                          {{p?.name || 'NA'}}
-                        </td>
-                        <td>
-                          {{stats.payment_date || 'NA'}}
-                        </td>
-                        <td>
-                          <span> {{stats?.amount ? (stats?.amount | currency) : ''}}</span> 
-                        </td>
-                        <td>
-                          <span> {{stats?.payment_method?.name || 'NA'}}</span> 
-                        </td>
-                        <td>
-                          <a class="green-color fontW500" *ngIf="stats?.key!='total'" target="_blank" href="{{stats?.receipt}}">
-                            {{'quickVisualization.view' | translate}}
-                          </a>
-                        </td>
-                        <!-- <td>
-                          <button class="action-icon" *ngIf="stats?.description" (click)="showDescription(stats?.description, 1)">
-                              <img src="assets/img/eye-icon.png" alt="img">
-                          </button>
-                        </td> -->
-                      </tr>
+                        <tr *ngIf="stats.payment_type==1 || stats.payment_type==3 || stats.payment_type==4 || stats.payment_type==5">
+                          <td [style.backgroundColor]="'#fff'" [style.color]="'#222'">
+                            {{p?.name || 'NA'}}
+                          </td>
+                          <td>
+                            {{stats.payment_date ? (stats.payment_date | date:'dd/MMM/yyyy') : 'NA'}}
+                          </td>
+                          <td>
+                            <span> {{stats?.amount ? (stats?.amount | currency) : ''}}</span> 
+                          </td>
+                          <td>
+                            <span> {{stats?.payment_method?.name || 'NA'}}</span> 
+                          </td>
+                          <td>
+                            <a class="green-color fontW500" *ngIf="stats?.key!='total'" target="_blank" href="{{stats?.receipt}}">
+                              {{'quickVisualization.view' | translate}}
+                            </a>
+                          </td>
+                          <!-- <td>
+                            <button class="action-icon" *ngIf="stats?.description" (click)="showDescription(stats?.description, 1)">
+                                <img src="assets/img/eye-icon.png" alt="img">
+                            </button>
+                          </td> -->
+                        </tr>
                     </ng-container>
                     </tbody>
                   </table>

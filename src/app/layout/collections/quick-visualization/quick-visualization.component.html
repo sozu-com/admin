@@ -7,11 +7,9 @@
       </div>
     </div>
      
-    <div class="col-lg-2 col-md-2 col-6">
+    <!-- <div class="col-lg-2 col-md-2 col-6">
       <div class="btn-cont text-right">
           <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#addInhouseUser" #inhouseUserModalOpen>{{'table.addNewBtn' | translate}}</a>
-          <!-- *ngIf="admin?.admin_acl['Data Collector Management']?.can_create==1 && parameter.userType=='data-collectors' ||
-          admin?.admin_acl['Seller Management']?.can_create==1 && parameter.userType=='csr-sellers'" -->
           <a class="btn btn-primary-new width100P" href="javascript://" (click)="exportData()">{{'table.exportDataBtn' | translate}}</a>
         </div>
     </div>
@@ -20,7 +18,7 @@
       <div class="btn-cont text-right">
           <a class="btn btn-primary-new width100P" href="javascript://" (click)="getCollectionDetails()">{{'quickVisualization.refresh' | translate}}</a>
         </div>
-    </div>
+    </div> -->
   </div>
 
   <hr>
@@ -185,7 +183,7 @@
                   <tbody>
                       <tr>
                           <th>{{'quickVisualization.purchaseDate' | translate}}:</th>
-                          <td>{{model?.deal_purchase_date || ('table.tr.td.NA' | translate)}}</td>
+                          <td>{{model?.deal_purchase_date ? (model?.deal_purchase_date | date:'dd/MMM/yyyy') : ('table.tr.td.NA' | translate)}}</td>
                         </tr>
                         <tr>
                           <th>{{'quickVisualization.currency' | translate}}:</th>
@@ -297,7 +295,7 @@
                     {{p?.name}}
                 </a>
               </td>
-              <td>{{p?.date}}</td>
+              <td>{{p?.date | date:'dd/MMM/yyyy'}}</td>
               <!-- <td>{{p?.payment_date || ''}}</td> -->
               <td>
                 <!-- {{p?.paid_amount}}<br> -->
@@ -341,7 +339,7 @@
               <td>
                 {{collectionCommission[i]?.purchase_payment ? (collectionCommission[i]['purchase_payment']?.amount | currency) : ''}}</td>
               <td>
-                {{collectionCommission[i]?.purchase_payment ? (collectionCommission[i]['purchase_payment']?.payment_date | date:'mediumDate') : ''}}</td>
+                {{collectionCommission[i]?.purchase_payment ? (collectionCommission[i]['purchase_payment']?.payment_date | date:'dd/MMM/yyyy') : ''}}</td>
               <td>
                 <a class="green-color fontW500" *ngIf="collectionCommission[i]?.purchase_payment" target="_blank" href="{{collectionCommission[i]?.purchase_payment?.receipt}}">
                   {{'quickVisualization.view' | translate}}
@@ -355,7 +353,7 @@
               <td>
                 {{collectionCommission[i]?.payment ? (collectionCommission[i]['payment']?.amount | currency) : ''}}</td>
               <td>
-                {{collectionCommission[i]?.payment ? (collectionCommission[i]['payment']?.payment_date | date:'mediumDate') : ''}}</td>
+                {{collectionCommission[i]?.payment ? (collectionCommission[i]['payment']?.payment_date | date:'dd/MMM/yyyy') : ''}}</td>
               <td>
                 <a class="green-color fontW500" *ngIf="collectionCommission[i]?.payment" target="_blank" href="{{collectionCommission[i]?.payment?.receipt}}">
                   {{'quickVisualization.view' | translate}}
@@ -379,15 +377,16 @@
                       <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.paymentMethods' | translate}}</th>
                       <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.paymentAttachment' | translate}}</th>
                       <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.paymentDescription' | translate}}</th>
+                      <!-- <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.action' | translate}}</th> -->
                     </thead>
                     <tbody *ngIf="p?.collection_paymentss?.length>0">
-                      <ng-container *ngFor="let stats of p?.collection_paymentss">
+                      <ng-container *ngFor="let stats of p?.collection_paymentss; let s=index">
                       <tr *ngIf="stats.payment_type==1 || stats.payment_type==3 || stats.payment_type==4 || stats.payment_type==5">
                         <td [style.backgroundColor]="'#fff'" [style.color]="'#222'">
                           {{p?.name || 'NA'}}
                         </td>
                         <td>
-                          {{stats.payment_date || 'NA'}}
+                          {{stats.payment_date ? (stats.payment_date | date:'dd/MMM/yyyy') : 'NA'}}
                         </td>
                         <td>
                           <span> {{stats?.amount ? (stats?.amount | currency) : ''}}</span> 
@@ -405,6 +404,11 @@
                               <img src="assets/img/eye-icon.png" alt="img">
                           </button>
                         </td>
+                        <!-- <td>
+                          <button class="action-icon" (click)="showUpdatePaymentPopup(stats, i, s)">
+                            <img src="assets/img/edit.png" alt="img">
+                          </button>
+                        </td> -->
                       </tr>
                     </ng-container>
                     </tbody>
@@ -444,3 +448,83 @@
             </div>
       </div>
 </div>
+
+<!-- 
+<a href="javascript://" data-toggle="modal" data-target="#updatePyamentModal" #updatePaymentModalOpen></a>
+<div class="modal animated" id="updatePyamentModal">
+    <div class="modal-dialog fadeIndown modal-lg">
+        <div class="modal-content notary-avail">
+              <div class="modal-header popup-header">
+          <h4>{{'quickVisualization.editPaymentDetails' | translate}}</h4>
+            <button style="display: none;" type="button" class="close" data-dismiss="modal" #updatePaymentModalClose>&times;</button>
+            <button type="button" class="close" (click)="closeUpdatePaymentModal(); addForm.reset()">&times;</button>
+        </div>
+  
+        <form autocomplete="off" class="form-horizontal padding0" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="updateCollectionPayment()">
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="spacer40"></div>
+              </div>
+              <div class="col-6">
+                <div class="form-group-2">
+                    <label>{{'viewCollections.choosePaymentMethod' | translate}} <span class="color-red">*</span></label>
+                    <div class="form-group">
+                        <select name="payment_method" required class="form-control" [(ngModel)]="payment_method_id">
+                              <option value="">{{'viewCollections.choosePaymentMethod' | translate}}</option>
+                              <option *ngFor="let bt of paymentMethods" [value]="bt.id"> {{bt?.name}}</option>
+                        </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group-2">
+                    <label>{{'viewCollections.choosePaymentReceipt' | translate}} <span class="color-red">*</span></label>
+                    <div class="form-group">
+                      <p *ngIf="docFile">
+                        <span>
+                          <a target="_blank" href="{{docFile}}">{{'quickVisualization.clickToViewReceipt' | translate}}</a>
+                        </span>
+                        <span>
+                          <a class="remove" (click)="docFile=''"><img src="assets/img/remove-icon.png" alt="img"></a>
+                        </span>
+                      </p>
+                        <input *ngIf="!docFile" type="file" name="docFile" #docsFile1
+                        accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,image/x-png,image/jpg,image/jpeg"
+                        (change)="onSelectFile($event.target.files)">
+                    </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group-2">
+                    <label>{{'viewCollections.paymentDate' | translate}}</label><span class="color-red">*</span>
+                    <div class="form-group">
+                      <div class="clearfix"></div>
+                      <p-calendar class="form-control" autocomplete="off" [(ngModel)]="payment_date" [style]="{'width':'100%'}" name="date" class="sz-calendar" [locale]="locale" showIcon="true" 
+                        (onSelect)="onSelect($event)" [maxDate]="today1"
+                        showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+                    </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group-2">
+                    <label>{{'viewCollections.description' | translate}}</label>
+                    <div class="form-group">
+                          <textarea rows="3" [(ngModel)]="description" name="description" class="form-control"></textarea>
+                 </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="btn-cont text-right">
+                    <button type="submit" class="btn btn-primary-new">
+                        <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
+                        {{'addForm.addBtn' | translate}}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div> -->
+  
