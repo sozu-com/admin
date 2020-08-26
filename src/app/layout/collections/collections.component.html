@@ -39,13 +39,13 @@
            <div class="col-lg-2 col-md-2 col-sm-5 col-5">
            <div class="form-group marginB0">
               <label>{{'filters.time.custom.from' | translate}}</label>
-              <p-calendar [locale]="locale" showIcon="true" [(ngModel)]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+              <p-calendar dateFormat="dd/M/yy" [locale]="locale" showIcon="true" [(ngModel)]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
            </div>
            </div>
            <div class="col-lg-2 col-md-2 col-sm-5 col-5">
            <div class="form-group marginB0">
               <label>{{'filters.time.custom.to' | translate}}</label>
-              <p-calendar [locale]="locale" showIcon="true" [(ngModel)]="parameter.max" [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+              <p-calendar dateFormat="dd/M/yy" [locale]="locale" showIcon="true" [(ngModel)]="parameter.max" [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
            </div>
            </div>
            <div class="col-lg-1 col-md-2 col-sm-2 col-6">
@@ -734,7 +734,7 @@
                     <label>{{'viewCollections.paymentDate' | translate}}</label><span class="color-red">*</span>
                     <div class="form-group">
                       <div class="clearfix"></div>
-                      <p-calendar class="form-control" [(ngModel)]="paymentDate" autocomplete="off" [style]="{'width':'100%'}" name="date" class="sz-calendar" [locale]="locale" showIcon="true" 
+                      <p-calendar dateFormat="dd/M/yy" class="form-control" [(ngModel)]="paymentDate" autocomplete="off" [style]="{'width':'100%'}" name="date" class="sz-calendar" [locale]="locale" showIcon="true" 
                         (onSelect)="onSelect($event)" [maxDate]="today"
                         showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
                     </div>
@@ -764,6 +764,67 @@
     </div>
   </div>
   
+
+
+  <a href="javascript://" data-toggle="modal" data-target="#surplusMoneyModal" #surplusMoneyModalOpen></a>
+  <div class="modal animated" id="surplusMoneyModal">
+      <div class="modal-dialog fadeIndown">
+          <div class="modal-content notary-avail">
+                <div class="modal-header popup-header">
+            <h4>{{'viewCollections.surplusMoney' | translate}}</h4>
+              <button style="display: none;" type="button" class="close" data-dismiss="modal" #surplusMoneyModalClose>&times;</button>
+              <button type="button" class="close" (click)="closeSurplusMoney()">&times;</button>
+          </div>
+    
+          <form autocomplete="off" class="form-horizontal padding0" role="form" ngNativeValidate #addSurplusForm="ngForm" >
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-12">
+                  <div class="spacer40"></div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group-2">
+                      <label>{{('viewCollections.chooseWhichPaymentTypeYouwantToApplyForSurplusMoney' | translate) +' '+ (paymentAmount-calculatedPayAmount | currency) }} <span class="color-red">*</span></label>
+                      <div class="form-group">
+                          <select name="surplus_payment_type" required class="form-control" [(ngModel)]="surplus_payment_type" (change)="setPayMentTypeSurplus($event.target.value)">
+                            <option value="">{{'viewCollections.choose' | translate}}</option>    
+                            <option value="1">{{'viewCollections.payToFollowing' | translate}}</option>
+                            <option value="2">{{'viewCollections.payToRemainingReducePayment' | translate}}</option>
+                            <option value="3">{{'viewCollections.payToRemainingPayment' | translate}}</option>
+                            <option value="4">{{'viewCollections.payToSpecific' | translate}}</option>
+                          </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12" *ngIf="surplus_payment_type=='4'">
+                  <div class="form-group-2">
+                      <label>{{'viewCollections.choosePaymentConcept' | translate}} <span class="color-red">*</span></label>
+                      <div class="form-group">
+                          <select name="payment_choice13" required [(ngModel)]="surplus_payment_choice_id" class="form-control" (ngModelChange)="setPaymentSurplusAmount($event)">
+                                <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
+                                 <option *ngFor="let bt of paymentConcepts" [disabled]="bt?.is_paid_calculated || bt?.is_disabled" [ngValue]="bt"> 
+                                   {{bt?.name}}
+                                   <span *ngIf="bt?.is_paid_calculated"> | Paid</span>
+                                  </option>
+                          </select>
+                      </div>
+                      <p>{{'viewCollections.amountToBePaid' | translate}} : {{surplus_amt}}</p>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="btn-cont text-right">
+                      <button type="button" (click)="closeSurplusMoney(); applyCollectionPayment()" class="btn btn-primary-new">
+                          <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
+                          {{'addForm.saveBtn' | translate}}</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
 
   <a href="javascript://" data-toggle="modal" data-target="#editPayment" #editPaymentModalOpen></a>
   <div class="modal animated" id="editPayment">
@@ -842,7 +903,7 @@
                         <button *ngIf="p.commission && p.commission.payment" (click)="deleteCollectionCommReceipt(p.commission.payment)" 
                         title="{{'table.title.deleteCCPayment' | translate}}" 
                         class="action-icon"><img src="assets/img/ic_delete.png" alt="img"></button>  
-
+<br>
                         <button *ngIf="p.commission && p.commission.purchase_payment" (click)="editCollectionCommReceipt(p.commission.purchase_payment)" 
                         title="{{'table.title.editPCPayment' | translate}}" 
                         class="action-icon"><img src="assets/img/ic_commission.png" alt="img"></button>  
@@ -975,7 +1036,7 @@
                     <label>{{'viewCollections.paymentDate' | translate}}</label><span class="color-red">*</span>
                     <div class="form-group">
                       <div class="clearfix"></div>
-                      <p-calendar class="form-control" autocomplete="off" [(ngModel)]="payment_date" [style]="{'width':'100%'}" name="date" class="sz-calendar" [locale]="locale" showIcon="true" 
+                      <p-calendar dateFormat="dd/M/yy" class="form-control" autocomplete="off" [(ngModel)]="payment_date" [style]="{'width':'100%'}" name="date" class="sz-calendar" [locale]="locale" showIcon="true" 
                         (onSelect)="onSelect($event)" [maxDate]="today"
                         showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
                     </div>
@@ -993,7 +1054,7 @@
                 <div class="btn-cont text-right">
                     <button type="submit" class="btn btn-primary-new">
                         <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
-                        {{'addForm.addBtn' | translate}}</button>
+                        {{'addForm.updateBtn' | translate}}</button>
                 </div>
               </div>
             </div>
@@ -1003,67 +1064,6 @@
     </div>
   </div>
   
-
-
-  <a href="javascript://" data-toggle="modal" data-target="#surplusMoneyModal" #surplusMoneyModalOpen></a>
-  <div class="modal animated" id="surplusMoneyModal">
-      <div class="modal-dialog fadeIndown">
-          <div class="modal-content notary-avail">
-                <div class="modal-header popup-header">
-            <h4>{{'viewCollections.surplusMoney' | translate}}</h4>
-              <button style="display: none;" type="button" class="close" data-dismiss="modal" #surplusMoneyModalClose>&times;</button>
-              <button type="button" class="close" (click)="closeSurplusMoney()">&times;</button>
-          </div>
-    
-          <form autocomplete="off" class="form-horizontal padding0" role="form" ngNativeValidate #addSurplusForm="ngForm" >
-            <div class="modal-body">
-              <div class="row">
-                <div class="col-12">
-                  <div class="spacer40"></div>
-                </div>
-                <div class="col-12">
-                  <div class="form-group-2">
-                      <label>{{('viewCollections.chooseWhichPaymentTypeYouwantToApplyForSurplusMoney' | translate) +' '+ (paymentAmount-calculatedPayAmount | currency) }} <span class="color-red">*</span></label>
-                      <div class="form-group">
-                          <select name="surplus_payment_type" required class="form-control" [(ngModel)]="surplus_payment_type" (change)="setPayMentTypeSurplus($event.target.value)">
-                            <option value="">{{'viewCollections.choose' | translate}}</option>    
-                            <option value="1">{{'viewCollections.payToFollowing' | translate}}</option>
-                            <option value="2">{{'viewCollections.payToRemainingReducePayment' | translate}}</option>
-                            <option value="3">{{'viewCollections.payToRemainingPayment' | translate}}</option>
-                            <option value="4">{{'viewCollections.payToSpecific' | translate}}</option>
-                          </select>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12" *ngIf="surplus_payment_type=='4'">
-                  <div class="form-group-2">
-                      <label>{{'viewCollections.choosePaymentConcept' | translate}} <span class="color-red">*</span></label>
-                      <div class="form-group">
-                          <select name="payment_choice13" required [(ngModel)]="surplus_payment_choice_id" class="form-control" (ngModelChange)="setPaymentSurplusAmount($event)">
-                                <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
-                                 <option *ngFor="let bt of paymentConcepts" [disabled]="bt?.is_paid_calculated || bt?.is_disabled" [ngValue]="bt"> 
-                                   {{bt?.name}}
-                                   <span *ngIf="bt?.is_paid_calculated"> | Paid</span>
-                                  </option>
-                          </select>
-                      </div>
-                      <p>{{'viewCollections.amountToBePaid' | translate}} : {{surplus_amt}}</p>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="btn-cont text-right">
-                      <button type="button" (click)="closeSurplusMoney(); applyCollectionPayment()" class="btn btn-primary-new">
-                          <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
-                          {{'addForm.saveBtn' | translate}}</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    
 
 
   
@@ -1155,7 +1155,7 @@
                     <label>{{'viewCollections.paymentDate' | translate}} <span class="color-red">*</span> </label>
                     <div class="form-group">
                       <div class="clearfix"></div>
-                      <p-calendar class="form-control" autocomplete="off" [style]="{'width':'100%'}" name="date" class="sz-calendar" [locale]="locale" showIcon="true" 
+                      <p-calendar dateFormat="dd/M/yy" class="form-control" autocomplete="off" [style]="{'width':'100%'}" name="date" class="sz-calendar" [locale]="locale" showIcon="true" 
                         (onSelect)="onSelect($event)" [maxDate]="today"
                         showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
                     </div>
@@ -1251,7 +1251,7 @@
                     <label>{{'viewCollections.paymentDate' | translate}} <span class="color-red">*</span> </label>
                     <div class="form-group">
                       <div class="clearfix"></div>
-                        <p-calendar class="form-control" autocomplete="off" [(ngModel)]="payment_date" [style]="{'width':'100%'}" name="date" class="sz-calendar" [locale]="locale" showIcon="true" 
+                        <p-calendar dateFormat="dd/M/yy" class="form-control" autocomplete="off" [(ngModel)]="payment_date" [style]="{'width':'100%'}" name="date" class="sz-calendar" [locale]="locale" showIcon="true" 
                         (onSelect)="onSelect($event)" [maxDate]="today"
                         showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
                     </div>

@@ -15,8 +15,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { SelectItem } from 'primeng/primeng';
 import { Collection, Seller } from 'src/app/models/collection.model';
 import { ToastrService } from 'ngx-toastr';
-import * as numeral from 'numeral';
-declare const google;
 declare let swal: any;
 
 @Component({
@@ -117,9 +115,8 @@ export class AddEditCollectionComponent implements OnInit {
   
   constructor(public model: Collection, private us: AdminService, private cs: CommonService,
     private router: Router,
-    private ngZone: NgZone, private building: Building, public constant: Constant,
+    private building: Building, public constant: Constant,
     private route: ActivatedRoute,
-    private http: HttpInterceptor,
     private spinner: NgxSpinnerService,
     private element: ElementRef,
     private translate: TranslateService,
@@ -149,8 +146,6 @@ export class AddEditCollectionComponent implements OnInit {
         this.initFormStep1();
         this.setValue('seller_type', '1');
         this.setValue('buyer_type', '1');
-        // this.initFormStep2();
-        // this.initFormStep3();
         this.initFormStep4();
         this.initFormStep5();
       } else {
@@ -158,8 +153,6 @@ export class AddEditCollectionComponent implements OnInit {
       }
     });
     this.tab = 1;
-    // this.getPaymentMethods();
-    // this.getDealTypes();
     this.getCurrencies();
     this.searchControl = new FormControl();
   }
@@ -167,8 +160,6 @@ export class AddEditCollectionComponent implements OnInit {
   editCollection() {    
     this.showSearch = false;
     this.initFormStep1();
-    // this.setValue('seller_type', 1);
-    // this.setValue('buyer_type', 1);
     this.initFormStep2();
     this.initFormStep3();
     this.initFormStep4();
@@ -586,58 +577,6 @@ export class AddEditCollectionComponent implements OnInit {
       this.setSeller(data);
     }
   }
-
-  // patchFormStep3(data) {
-  //   this.model.buyer_type = data.buyer_type ? data.buyer_type : '1';
-  //   this.addFormStep3.controls.buyer_type.patchValue(data.buyer_type ? data.buyer_type.toString() : '1');
-
-  //   if (data.buyer_type != '2') {
-  //     this.addFormStep3.controls.buyer_id.patchValue(data.buyer ? data.buyer.id : '');
-  //     this.addFormStep3.controls.buyer_company_name.patchValue(data.buyer_company_name ? data.buyer_company_name : '');
-  //   }
-  //   if (data.buyer_type == '1') {
-  //     this.addFormStep3.controls.buyer_email.patchValue(data.buyer ? data.buyer.email : '');
-  //   }
-  //   if (data.buyer_type == '2') {
-  //     this.addFormStep3.controls.buyer_legal_entity_id.patchValue(data.buyer_legal_entity ? data.buyer_legal_entity.id : '');
-  //   }
-
-  //   this.addFormStep3.controls.buyer_name.patchValue(data.buyer_type == '2' 
-  //     ? (data.buyer_legal_entity ? data.buyer_legal_entity.comm_name : '') 
-  //     : (data.buyer ? data.buyer.name : ''));
-  //   this.addFormStep3.controls.buyer_legal_name.patchValue(data.buyer_type == '2' 
-  //     ? (data.buyer_legal_entity ? data.buyer_legal_entity.legal_name : '') 
-  //     : (data.buyer_legal_name ? data.buyer_legal_name : ''));
-  //   this.addFormStep3.controls.buyer_address.patchValue(data.buyer_type == '2' 
-  //     ? (data.buyer_legal_entity ? data.buyer_legal_entity.address : '') 
-  //     : (data.buyer_address ? data.buyer_address : ''));
-  //   this.addFormStep3.controls.buyer_phone.patchValue(data.buyer_type == '2' 
-  //     ? (data.buyer_legal_entity ? data.buyer_legal_entity.phone : '') 
-  //     : (data.buyer ? data.buyer.phone : ''));
-  //   this.addFormStep3.controls.buyer_fed_tax.patchValue(data.buyer_type == '2' 
-  //     ? (data.buyer_legal_entity ? data.buyer_legal_entity.fed_tax_pay : '') 
-  //     : (data.buyer_fed_tax || ''));
-      
-  //   this.addFormStep3.controls.buyer_leg_rep_name.patchValue(data.buyer_leg_rep_name || '');
-  //   this.addFormStep3.controls.buyer_leg_rep_phone.patchValue(data.buyer_leg_rep_phone || '');
-  //   this.addFormStep3.controls.buyer_leg_rep_email.patchValue(data.buyer_leg_rep_email || '');
-  //   this.addFormStep3.controls.buyer_leg_rep_comp.patchValue(data.buyer_leg_rep_comp || '');
-  //   this.addFormStep3.controls.buyer_leg_rep_fed_tax.patchValue(data.buyer_leg_rep_fed_tax || '');
-  //   this.addFormStep3.controls.step.patchValue(2);
-  //   const control = this.addFormStep3.get('collection_buyer_banks') as FormArray;
-  //   if (data.collection_buyer_banks) {
-  //     data.collection_buyer_banks.forEach(x => {
-  //       control.push(this.fb.group(x));
-  //     });
-  //   }
-  //   const control1 = this.addFormStep3.get('collection_buyer_rep_banks') as FormArray;
-  //   if (data.collection_buyer_rep_banks) {
-  //     data.collection_buyer_rep_banks.forEach(x => {
-  //       control1.push(this.fb.group(x));
-  //     });
-  //   }
-  // }
-
   
   patchFormStep3(data) {
     this.model.buyer_type = data.buyer_type ? data.buyer_type : '1';
@@ -738,8 +677,6 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   patchFormStep4(data) {
-    // const d = moment(data.deal_purchase_date).utc(true).local().toDate()
-
     this.addFormStep4.controls.deal_purchase_date.patchValue(data.deal_purchase_date ? this.getDateWRTTimezone(data.deal_purchase_date) : null);
     this.addFormStep4.controls.deal_price.patchValue(this.numberUptoNDecimal(data.deal_price, 2));
     this.addFormStep4.controls.currency_id.patchValue(data.currency_id ? data.currency_id : 1);
@@ -753,12 +690,6 @@ export class AddEditCollectionComponent implements OnInit {
         x.percent = this.numberUptoNDecimal(x.percent, 2);
         x.amount = this.numberUptoNDecimal(x.amount, 2);
         sum_of_concepts = sum_of_concepts + parseFloat(x.amount);
-        // var offset = new Date(x.date).getTimezoneOffset();
-        // if (offset < 0) {
-        //   x.date = x.date ? moment(x.date).subtract(offset, 'minutes').toDate() : null;
-        // } else {
-        //   x.date = x.date ? moment(x.date).add(offset, 'minutes').toDate() : null;
-        // }
         x.date = x.date ? this.getDateWRTTimezone(x.date) : null;
         control1.push(this.fb.group(x)); 
       }
@@ -846,14 +777,10 @@ export class AddEditCollectionComponent implements OnInit {
     this.initialCountry = { initialCountry: e.iso2 };
   }
 
-
   searchBuilding(keyword: string) {
     if (!keyword) {
-      
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseEnterSomeText'), this.translate.instant('swal.error'));
-
-      // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterSomeText'), 'error');
       return false;
     }
 
@@ -918,19 +845,14 @@ export class AddEditCollectionComponent implements OnInit {
   buildingRequest() {
 
     if (this.building.dev_name && (!this.building.dev_phone || !this.building.dev_email || !this.building.dev_countrycode)) {
-           
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseFillCompleteDevloperInformation'), this.translate.instant('swal.error'));
-
-      // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseFillCompleteDevloperInformation'), 'error');
       return false;
     }
 
     if (!this.latitude && !this.longitude) {
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseSelectLocationFromTheDropdownList'), this.translate.instant('swal.error'));
-
-      // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectLocationFromTheDropdownList'), 'error');
       return false;
     }
 
@@ -940,25 +862,15 @@ export class AddEditCollectionComponent implements OnInit {
     if (!this.building.lat || !this.building.lng) {
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseSelectLocation'), this.translate.instant('swal.error'));
-
-      // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectLocation'), 'error');
       return false;
     }
     this.spinner.show();
     this.us.postDataApi('buildingRequest', this.building)
       .subscribe(
         success => {
-          this.spinner.hide();
-          
-      this.toastr.clear();
-      this.toastr.success(this.translate.instant('message.success.dataCollectorWillLinkPropertyToBuilding'), this.translate.instant('swal.success'));
-
-          // swal({
-          //   html: 'Success' + '<br>' +
-          //   this.translate.instant('message.success.dataCollectorWillLinkPropertyToBuilding'),
-          //   type: 'success'
-          // });
-          // this.tab = 1;
+          this.spinner.hide();          
+          this.toastr.clear();
+          this.toastr.success(this.translate.instant('message.success.dataCollectorWillLinkPropertyToBuilding'), this.translate.instant('swal.success'));
         }, error => {
           this.spinner.hide();
         }
@@ -1094,7 +1006,6 @@ export class AddEditCollectionComponent implements OnInit {
       });
     }
   }
-
   
   addBuyerRepBank($event) {
     $event.stopPropagation();
@@ -1360,19 +1271,13 @@ export class AddEditCollectionComponent implements OnInit {
 
   addDocs() {
     if (!this.docsName) {
-      
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseEnterDocuName'), this.translate.instant('swal.error'));
-
-      // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterDocuName'), 'error');
       return;
     }
     if (!this.docFile) {
-      
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseEnterDocuFile'), this.translate.instant('swal.error'));
-
-      // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterDocuFile'), 'error');
       return;
     }
     this.docs.push({name: this.docsName, display_name: this.docFile});
@@ -1380,7 +1285,6 @@ export class AddEditCollectionComponent implements OnInit {
     this.docsFile.nativeElement.value = '';
   }
 
-  
   deleteDocsPopup(item: any, index: number) {
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' +
@@ -1530,12 +1434,9 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   unsetAgent() {
-    // this.addFormStep5.controls['deal_commission_agents'].patchValue([this.newAgent()]);
     delete this.addFormStep5.value['deal_commission_agents'];
     delete this.addFormStep5.value['collection_agent_banks'];
-    // this.addAgent('');
     delete this.addFormStep5.value.deal_commission_agents;
-    // this.addFormStep5.get('collection_agent_banks') as FormArray;
     const s = this.addFormStep5.get('deal_commission_agents').value;
     this.closeExtBrokerModal.nativeElement.click();
   }
@@ -1558,11 +1459,8 @@ export class AddEditCollectionComponent implements OnInit {
       this.allUsers = r['data'];
     }, error => {
       this.spinner.hide();
-      
       this.toastr.clear();
       this.toastr.error(error.error.message, this.translate.instant('swal.error'));
-
-      // swal(this.translate.instant('swal.error'), error.error.message, 'error');
     });
   }
 
@@ -1743,12 +1641,9 @@ export class AddEditCollectionComponent implements OnInit {
 
   getAgentAmount(percent: number) {
     const price = this.addFormStep4.get('deal_price').value;
-    if (!price || price == 0) {
-            
+    if (!price || price == 0) {      
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseEnterPrice'), this.translate.instant('swal.error'));
-
-      // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPrice'), 'error');
       return;
     }
     const amount = this.numberUptoNDecimal((percent * price) / 100, 2);
@@ -1820,7 +1715,7 @@ export class AddEditCollectionComponent implements OnInit {
     // const installOne = pcArray.find(r => r.pc_id == 5);
     const installOne = pcArray.find(r => r.name.includes('Monthly Installment'));
     // if first monthly installment percent added, => update amount in all monthly installments
-    if (installOne.name == pcArray[index].name) {
+    if (installOne && (installOne.name == pcArray[index].name)) {
       pcArray.map(e => {
         // if (e.pc_id == 5) {
         if (e.name.includes('Monthly Installment')){
@@ -1839,7 +1734,7 @@ export class AddEditCollectionComponent implements OnInit {
     // const installOne = pcArray.find(r => r.pc_id == 5);
     const installOne = pcArray.find(r => r.name.includes('Monthly Installment'));
     // if first monthly installment percent added, => update amount in all monthly installments
-    if (installOne.name == pcArray[index].name) {
+    if (installOne && (installOne.name == pcArray[index].name)) {
       pcArray.map(e => {
         // if (e.pc_id == 5) {
         if (e.name.includes('Monthly Installment')){
@@ -1918,28 +1813,23 @@ export class AddEditCollectionComponent implements OnInit {
       this.addFormStep1.controls.for_rent.patchValue(formdata['for_rent']);
       this.addFormStep1.controls.for_rent.patchValue(formdata['for_rent']);
       if (this.addFormStep1.valid) {
-        if (!formdata['building_id']) {
-                          
+        if (!formdata['building_id']) {                          
           this.toastr.clear();
           this.toastr.error(this.translate.instant('message.error.pleaseSelectBuilding'), this.translate.instant('swal.error'));
           return;
-        } else if (!formdata['building_towers_id']) {
-          
+        } else if (!formdata['building_towers_id']) {          
           this.toastr.clear();
           this.toastr.error(this.translate.instant('message.error.pleaseSelectFloor'), this.translate.instant('swal.error'));
           return;
-        } else if (!formdata['floor_num']) {
-          
-            this.toastr.clear();
-            this.toastr.error(this.translate.instant('message.error.pleaseChooseFloor'), this.translate.instant('swal.error'));
+        } else if (!formdata['floor_num']) {          
+          this.toastr.clear();
+          this.toastr.error(this.translate.instant('message.error.pleaseChooseFloor'), this.translate.instant('swal.error'));
           return;
-        } else if (!formdata['property_id']) {
-          
+        } else if (!formdata['property_id']) {          
           this.toastr.clear();
           this.toastr.error(this.translate.instant('message.error.pleaseChooseApartment'), this.translate.instant('swal.error'));
           return;
-        } else if (!formdata['building_configuration_id']) {
-              
+        } else if (!formdata['building_configuration_id']) {              
           this.toastr.clear();
           this.toastr.error(this.translate.instant('message.error.pleaseChooseApartment'), this.translate.instant('swal.error'));
           return;

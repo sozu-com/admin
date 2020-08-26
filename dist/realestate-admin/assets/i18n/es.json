@@ -970,6 +970,7 @@
       "totalPayemntCheck": "En Pago total, debe pagar la suma exacta del monto restante y las multas.",
       "payToRemainingcheck": "No puede pagar más que la suma de las cuotas mensuales pendientes de pago",
       "payToFollowingCheck": "No puede pagar más que la cantidad restante",
+      "paytoRemainingPendingCheck": "Primero complete su Cuota Mensual pendiente",
       "payToRemainingReduceTimecheck": "Si desea aplicar un pago al restante para reducir (tiempo), el pago debe cubrir las cuotas mensuales completas 1,2, 3 ...",
 
       "areYouSure": "¿Estás seguro?",
@@ -1065,6 +1066,7 @@
       "wantToActiveCollection": "¿Quieres activar esta colección?",
       "wantToDeletePayment": "¿Quieres eliminar este pago?",
       "wantToDeletePenalty": "¿Quieres eliminar esta penalización?",
+      "wantToDeleteCommission": "¿Quiere eliminar esta Comisión?",
       "wantToDeleteDocs": "¿Quieres eliminar este documento?",
       "wantToDeleteFolder": "¿Quieres eliminar esta carpeta?",
       "wantToRemovePaymentConcept": "¿Quieres eliminar este concepto?"
@@ -1861,7 +1863,8 @@
     "agent":"Agente",
     "inhouseAgent":"Agente interno",
     "outsideAgent":"Agente externo",
-    "refresh":"Actualizar"
+    "refresh":"Actualizar",
+    "back":"Espalda"
   },
   "addCollectionValidations": {
     "thisIsRequired": "Esto es requerido",

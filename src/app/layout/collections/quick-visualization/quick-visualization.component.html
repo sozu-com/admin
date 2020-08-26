@@ -1,24 +1,27 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-lg-8 col-md-8 col-6">
+    <div class="col-lg-10 col-md-10 col-6">
       <div class="title-group">
-        <h5><a routerLink="/dashboard/collections/view-collections/{{model.id}}" href="javascript://"><i
+        <h5><a routerLink="/dashboard/collections/view-collections/{{property_collection_id}}" href="javascript://"><i
               class="fa fa-angle-double-left" style="font-size: 1.5em;"></i> </a> &nbsp;&nbsp;{{'quickVisualization.label' | translate}}</h5>
       </div>
     </div>
      
-    <!-- <div class="col-lg-2 col-md-2 col-6">
+    <div class="col-lg-1 col-md-1 col-6">
       <div class="btn-cont text-right">
           <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#addInhouseUser" #inhouseUserModalOpen>{{'table.addNewBtn' | translate}}</a>
-          <a class="btn btn-primary-new width100P" href="javascript://" (click)="exportData()">{{'table.exportDataBtn' | translate}}</a>
+          <a class="btn btn-primary-new" href="javascript://" (click)="showApplyPaymentPopup()">
+            {{'table.title.applyPayment' | translate}}
+          </a>
         </div>
     </div>
 
-    <div class="col-lg-2 col-md-2 col-6">
+    <div class="col-lg-1 col-md-1 col-6">
       <div class="btn-cont text-right">
-          <a class="btn btn-primary-new width100P" href="javascript://" (click)="getCollectionDetails()">{{'quickVisualization.refresh' | translate}}</a>
+          <a routerLink="/dashboard/collections/view-collections/{{property_collection_id}}" 
+          class="btn btn-primary-new" href="javascript://">{{'quickVisualization.back' | translate}}</a>
         </div>
-    </div> -->
+    </div>
   </div>
 
   <hr>
@@ -288,7 +291,7 @@
               </th>
             </tr>
           </thead>
-          <tbody *ngFor="let p of paymentConcepts; let i=index">
+          <tbody *ngFor="let p of allPaymentConcepts; let i=index">
             <tr [ngClass]="{'remaining_amt': p.key == 'remaining_amt'}">
               <td>
                 <a style="color: #fff;" class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{i}}">
@@ -377,7 +380,7 @@
                       <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.paymentMethods' | translate}}</th>
                       <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.paymentAttachment' | translate}}</th>
                       <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.paymentDescription' | translate}}</th>
-                      <!-- <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.action' | translate}}</th> -->
+                      <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.action' | translate}}</th>
                     </thead>
                     <tbody *ngIf="p?.collection_paymentss?.length>0">
                       <ng-container *ngFor="let stats of p?.collection_paymentss; let s=index">
@@ -404,11 +407,11 @@
                               <img src="assets/img/eye-icon.png" alt="img">
                           </button>
                         </td>
-                        <!-- <td>
+                        <td>
                           <button class="action-icon" (click)="showUpdatePaymentPopup(stats, i, s)">
                             <img src="assets/img/edit.png" alt="img">
                           </button>
-                        </td> -->
+                        </td>
                       </tr>
                     </ng-container>
                     </tbody>
@@ -449,7 +452,7 @@
       </div>
 </div>
 
-<!-- 
+
 <a href="javascript://" data-toggle="modal" data-target="#updatePyamentModal" #updatePaymentModalOpen></a>
 <div class="modal animated" id="updatePyamentModal">
     <div class="modal-dialog fadeIndown modal-lg">
@@ -500,7 +503,8 @@
                     <label>{{'viewCollections.paymentDate' | translate}}</label><span class="color-red">*</span>
                     <div class="form-group">
                       <div class="clearfix"></div>
-                      <p-calendar class="form-control" autocomplete="off" [(ngModel)]="payment_date" [style]="{'width':'100%'}" name="date" class="sz-calendar" [locale]="locale" showIcon="true" 
+                      <p-calendar dateFormat="dd/M/yy" class="form-control" autocomplete="off" [(ngModel)]="payment_date" 
+                        [style]="{'width':'100%'}" name="payment_date" class="sz-calendar" [locale]="locale" showIcon="true" 
                         (onSelect)="onSelect($event)" [maxDate]="today1"
                         showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
                     </div>
@@ -518,7 +522,7 @@
                 <div class="btn-cont text-right">
                     <button type="submit" class="btn btn-primary-new">
                         <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
-                        {{'addForm.addBtn' | translate}}</button>
+                        {{'addForm.updateBtn' | translate}}</button>
                 </div>
               </div>
             </div>
@@ -526,5 +530,211 @@
         </form>
       </div>
     </div>
-  </div> -->
+  </div>
   
+
+
+<a href="javascript://" data-toggle="modal" data-target="#entityModal" #paymentModalOpen></a>
+<div class="modal animated" id="entityModal">
+    <div class="modal-dialog fadeIndown modal-lg">
+        <div class="modal-content notary-avail">
+              <div class="modal-header popup-header">
+          <h4>{{'viewCollections.applyPayment' | translate}}</h4>
+            <button style="display: none;" type="button" class="close" data-dismiss="modal" #paymentModalClose>&times;</button>
+            <button type="button" class="close" (click)="closePaymentModal(); addForm.reset()">&times;</button>
+        </div>
+  
+        <form autocomplete="off" class="form-horizontal padding0" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="applyCollectionPayment()">
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="spacer40"></div>
+              </div>
+              <div class="col-12">
+                <div class="form-group-2">
+                    <label>{{'viewCollections.choosePaymentType' | translate}} <span class="color-red">*</span></label>
+                    <div class="form-group">
+                        <select name="payment_type" required class="form-control" [(ngModel)]="payment_type" (change)="setPayMentType($event.target.value)">
+                          <option value="">{{'viewCollections.choose' | translate}}</option>      
+                          <option value="1">{{'viewCollections.payToFollowing' | translate}}</option>
+                          <option value="2" [disabled]="disablePayToRemaining">{{'viewCollections.payToRemainingReducePayment' | translate}}</option>
+                          <option value="3" [disabled]="disablePayToRemaining">{{'viewCollections.payToRemainingPayment' | translate}}</option>
+                          <option value="4">{{'viewCollections.payToSpecific' | translate}}</option>
+                          <option value="5">{{'viewCollections.totalPayment' | translate}}</option>
+                        </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6" *ngIf="payment_type!=2 && payment_type !=3 && payment_type != 5">
+                <div class="form-group-2">
+                    <label>{{'viewCollections.choosePaymentConcept' | translate}} <span class="color-red">*</span></label>
+                    <div class="form-group">
+                        <select name="payment_choice" #applyPaymentChoiceId required class="form-control" [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
+                              <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
+                               <option *ngFor="let bt of paymentConcepts" [disabled]="bt?.is_paid_calculated || (bt?.is_disabled && payment_type==1)" [ngValue]="bt"> 
+                                 {{bt?.name}}
+                                 <span *ngIf="bt?.is_paid_calculated"> | Paid</span>
+                                </option>
+                        </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group-2">
+                    <label>{{'viewCollections.choosePaymentMethod' | translate}} <span class="color-red">*</span></label>
+                    <div class="form-group">
+                        <select name="payment_method" #applyPaymentMethodId required class="form-control" [(ngModel)]="payment_method_id">
+                              <option value="">{{'viewCollections.choosePaymentMethod' | translate}}</option>
+                              <option *ngFor="let bt of paymentMethods" [value]="bt.id"> {{bt?.name}}</option>
+                        </select>
+                  </div>
+                </div>
+              </div>
+              <ng-container  *ngIf="payment_type!=2 && payment_type !=3 && payment_type != 5">
+              <div class="col-6" *ngIf="selectedPaymentConcept">
+                <div class="form-group-2">
+                    <label>{{'viewCollections.programmedDate' | translate}}<span class="color-red">*</span></label>
+                    <div class="form-group">
+                    <input readonly class="form-control" value="{{selectedPaymentConcept?.date}}" name="pendingPayment">
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group-2">
+                    <label>{{'viewCollections.pendingExtraAmt' | translate}}<span class="color-red">*</span></label>
+                    <div class="form-group">
+                    <input readonly class="form-control" value="{{pendingPayment}}" name="pendingPayment">
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group-2">
+                    <label>{{'viewCollections.penaltyAmount' | translate}}<span class="color-red">*</span></label>
+                    <div class="form-group">
+                    <input readonly class="form-control" value="{{penaltyAmount}}" name="penaltyAmount">
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group-2">
+                    <label>{{'viewCollections.currentAmtTobePaid' | translate}}<span class="color-red">*</span></label>
+                    <div class="form-group">
+                    <input autocomplete="off" readonly required type="number" step="0.01" min="0" class="form-control" [(ngModel)]="currentAmount" 
+                        name="currentAmount">
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+              <div class="col-6">
+                <div class="form-group-2">
+                    <label>{{'viewCollections.totalAmtToBePaid' | translate}}<span class="color-red">*</span></label>
+                    <div class="form-group">
+                    <input autocomplete="off" required type="number" step="0.01" min="0" class="form-control" [(ngModel)]="paymentAmount" 
+                        name="paymentAmount">
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group-2">
+                    <label>{{'viewCollections.choosePaymentReceipt' | translate}} <span class="color-red">*</span></label>
+                    <div class="form-group">
+                        <input type="file" name="docFile" #docsFile1
+                        accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,image/x-png,image/jpg,image/jpeg"
+                        (change)="onSelectFile($event.target.files)">
+                    </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group-2">
+                    <label>{{'viewCollections.paymentDate' | translate}}</label><span class="color-red">*</span>
+                    <div class="form-group">
+                      <div class="clearfix"></div>
+                      <p-calendar dateFormat="dd/M/yy" class="form-control" [(ngModel)]="paymentDate" autocomplete="off" [style]="{'width':'100%'}" name="date" class="sz-calendar" [locale]="locale" showIcon="true" 
+                        (onSelect)="onSelect($event)" [maxDate]="today1"
+                        showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+                    </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group-2">
+                    <label>{{'viewCollections.description' | translate}}</label>
+                    <div class="form-group">
+                          <textarea rows="3" [(ngModel)]="description" name="description" class="form-control"></textarea>
+                 </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="btn-cont text-right">
+                    <button [disabled]="isApplyBtnClicked"
+                      type="submit" class="btn btn-primary-new">
+                        <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
+                        {{'addForm.addBtn' | translate}}
+                      </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <a href="javascript://" data-toggle="modal" data-target="#surplusMoneyModal" #surplusMoneyModalOpen></a>
+  <div class="modal animated" id="surplusMoneyModal">
+      <div class="modal-dialog fadeIndown">
+          <div class="modal-content notary-avail">
+                <div class="modal-header popup-header">
+            <h4>{{'viewCollections.surplusMoney' | translate}}</h4>
+              <button style="display: none;" type="button" class="close" data-dismiss="modal" #surplusMoneyModalClose>&times;</button>
+              <button type="button" class="close" (click)="closeSurplusMoney()">&times;</button>
+          </div>
+    
+          <form autocomplete="off" class="form-horizontal padding0" role="form" ngNativeValidate #addSurplusForm="ngForm" >
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-12">
+                  <div class="spacer40"></div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group-2">
+                      <label>{{('viewCollections.chooseWhichPaymentTypeYouwantToApplyForSurplusMoney' | translate) +' '+ (paymentAmount-calculatedPayAmount | currency) }} <span class="color-red">*</span></label>
+                      <div class="form-group">
+                          <select name="surplus_payment_type" required class="form-control" [(ngModel)]="surplus_payment_type" (change)="setPayMentTypeSurplus($event.target.value)">
+                            <option value="">{{'viewCollections.choose' | translate}}</option>    
+                            <option value="1">{{'viewCollections.payToFollowing' | translate}}</option>
+                            <option value="2">{{'viewCollections.payToRemainingReducePayment' | translate}}</option>
+                            <option value="3">{{'viewCollections.payToRemainingPayment' | translate}}</option>
+                            <option value="4">{{'viewCollections.payToSpecific' | translate}}</option>
+                          </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12" *ngIf="surplus_payment_type=='4'">
+                  <div class="form-group-2">
+                      <label>{{'viewCollections.choosePaymentConcept' | translate}} <span class="color-red">*</span></label>
+                      <div class="form-group">
+                          <select name="payment_choice13" required [(ngModel)]="surplus_payment_choice_id" class="form-control" (ngModelChange)="setPaymentSurplusAmount($event)">
+                                <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
+                                 <option *ngFor="let bt of paymentConcepts" [disabled]="bt?.is_paid_calculated || bt?.is_disabled" [ngValue]="bt"> 
+                                   {{bt?.name}}
+                                   <span *ngIf="bt?.is_paid_calculated"> | Paid</span>
+                                  </option>
+                          </select>
+                      </div>
+                      <p>{{'viewCollections.amountToBePaid' | translate}} : {{surplus_amt}}</p>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="btn-cont text-right">
+                      <button type="button" (click)="closeSurplusMoney(); applyCollectionPayment()" class="btn btn-primary-new">
+                          <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
+                          {{'addForm.saveBtn' | translate}}</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>

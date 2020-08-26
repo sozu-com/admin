@@ -980,6 +980,7 @@
       "totalPayemntCheck": "In Total Payment, you need to pay exact sum of remanining amount and penalties.",
       "payToRemainingcheck": "You cannot pay more than the sum of remaining unpaid monthly installments",
       "payToFollowingCheck": "You cannot pay more than the remaining amount",
+      "paytoRemainingPendingCheck": "Please complete your pending Monthly Installment first",
       "payToRemainingReduceTimecheck": " If you want to apply a payment to remaining to reduce (time) the payment needs to cover complete monthly instalments 1,2 ,3...",
       "areYouSure": "Are you sure",
       "wantToBlockNotary": "You want to block this Notary?",
@@ -1074,6 +1075,7 @@
       "wantToActiveCollection": "You want to active this Collection?",
       "wantToDeletePayment": "You want to delete this Payment?",
       "wantToDeletePenalty": "You want to delete this Penalty?",
+      "wantToDeleteCommission": "You want to delete this Commission?",
       "wantToDeleteDocs": "You want to delete this document?",
       "wantToDeleteFolder": "You want to delete this folder?",
       "wantToRemovePaymentConcept": "You want to remove this concept?"
@@ -1870,7 +1872,8 @@
     "agent":"Agent",
     "inhouseAgent":"Inhouse Agent",
     "outsideAgent":"Outside Agent",
-    "refresh":"Refresh"
+    "refresh":"Refresh",
+    "back":"Back"
   },
   "addCollectionValidations": {
     "thisIsRequired": "This is required",

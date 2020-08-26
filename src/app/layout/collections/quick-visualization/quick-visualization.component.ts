@@ -3,12 +3,13 @@ import { IProperty } from 'src/app/common/property';
 import { ActivatedRoute } from '@angular/router';
 import { Collection } from 'src/app/models/collection.model';
 import { AdminService } from 'src/app/services/admin.service';
+import { CommonService } from 'src/app/services/common.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
-import { CurrencyPipe, DatePipe } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
@@ -17,7 +18,7 @@ import { TranslateService } from '@ngx-translate/core';
   selector: 'app-quick-visualization',
   templateUrl: './quick-visualization.component.html',
   styleUrls: ['./quick-visualization.component.css'],
-  providers: [Collection, CurrencyPipe, DatePipe]
+  providers: [Collection, CurrencyPipe]
 })
 export class QuickVisualizationComponent implements OnInit {
 
@@ -25,9 +26,18 @@ export class QuickVisualizationComponent implements OnInit {
   @ViewChild('viewDesModalClose') viewDesModalClose: ElementRef;
   @ViewChild('updatePaymentModalOpen') updatePaymentModalOpen: ElementRef;
   @ViewChild('updatePaymentModalClose') updatePaymentModalClose: ElementRef;
+  @ViewChild('paymentModalOpen') paymentModalOpen: ElementRef;
+  @ViewChild('paymentModalClose') paymentModalClose: ElementRef;
+  @ViewChild('surplusMoneyModalOpen') surplusMoneyModalOpen: ElementRef;
+  @ViewChild('surplusMoneyModalClose') surplusMoneyModalClose: ElementRef;
+  @ViewChild('applyPaymentChoiceId') applyPaymentChoiceId: ElementRef;
+  @ViewChild('applyPaymentMethodId') applyPaymentMethodId: ElementRef;
+  @ViewChild('docsFile1') docsFile1: ElementRef;
+
   description: string;
   title: any;
   paymentConcepts: Array<any>;
+  allPaymentConcepts: Array<any>;
   collectionCommission: Array<any>;
   totalPaid: number;
   remainingAmt: number;
@@ -40,6 +50,26 @@ export class QuickVisualizationComponent implements OnInit {
   payment_method_id: number;
   today1: Date;
   payment_date: any = new Date();
+  locale: any;
+  mainIndex: number;
+  index: number;
+  item: any;
+  paymentMethods: Array<any>;
+  surplus_payment_type: string;
+  payment_choice_id: any;
+  surplus_payment_choice_id: any;
+  selectedPaymentConcept: any;
+  property_collection_id: string;
+  collectionIndex: number;
+  disablePayToRemaining: boolean = true;
+  isApplyBtnClicked: boolean = false;
+  pendingPayment: any;
+  paymentAmount: any;
+  paymentDate: Date;
+  calculatedPayAmount: any;
+  penaltyAmount: any;
+  currentAmount: any;
+  surplus_amt: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -47,15 +77,17 @@ export class QuickVisualizationComponent implements OnInit {
     private admin: AdminService,
     private spinner: NgxSpinnerService,
     private currencyPipe: CurrencyPipe,
-    private datePipe: DatePipe,
     private translate: TranslateService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private cs: CommonService
   ) { }
 
   ngOnInit() {
     this.today1 = new Date();
+    this.setDatePickerLocale();
+    this.getPaymentMethods();
     this.parameter.sub = this.route.params.subscribe(params => {
-      this.model.id = params['id'];
+      this.property_collection_id = params['id'];
       this.getCollectionDetails();
 
 
@@ -74,121 +106,59 @@ export class QuickVisualizationComponent implements OnInit {
     });
   }
 
-  // getCollectionDetails() {
-  //   this.spinner.show();
-  //   this.admin.postDataApi('getCollectionById', {id: this.model.id})
-  //     .subscribe(
-  //       success => {
-  //         this.spinner.hide();
-  //         this.model = success['data'];
-  //         this.paymentConcepts = success['data']['payment_choices'];
-  //         this.collectionCommission = success['data']['collection_commissions'];
-  //         this.totalPaid = 0.00;
-  //         this.totalOutstanding = 0.00;
-  //         // this.model.totalPenalty = 0;
-
-  //         const reducingP = [];
-  //         for (let index = 0; index < this.paymentConcepts.length; index++) {
-  //           const m = this.paymentConcepts[index];
-  //           m.payment_date = m.collection_payment ? this.getDateWRTTimezone(m.collection_payment.payment_date) : '';
-  //           //  calculating total penalty
-  //           // if (m.penalty){
-  //           //   this.model.totalPenalty = this.model.totalPenalty + parseInt(m.penalty.amount || 0)
-  //           // }
-
-
-  //           // m.paid_amount = m.is_paid_calculated == 1 ? m.amount : (m.collection_payment ? (m.collection_payment.amount) : '');
-  //           // m.paid_amount = m.collection_payment ? m.collection_payment.amount : '';
-  //           m.paid_amount = m.calc_payment_amount || 0;
-  //           // if type=2 means reducing payment => add one more row
-  //           // console.log(m)
-  //           if(m.type==2) {
-  //             const c = {
-  //               key: 'remaining_amt',
-  //               name: 'Payment to remaining (amount)',
-  //               paid_amount: m.extra_amount,
-  //               is_paid_calculated: 0,
-  //               outstanding_amount: 0,
-  //               index: index,
-  //               payment_date: m.collection_payment ? this.getDateWRTTimezone(m.collection_payment.payment_date) : ''
-  //             };
-  //             // console.log(c)
-  //             reducingP.push(c);     
-  //           }
-
-  //           if(m.type==3) {
-  //             const c = {
-  //               key: 'remaining_amt',
-  //               name: 'Payment to remaining (schedule)',
-  //               paid_amount: m.extra_amount,
-  //               is_paid_calculated: 0,
-  //               outstanding_amount: 0,
-  //               index: index,
-  //               payment_date: m.collection_payment ? this.getDateWRTTimezone(m.collection_payment.payment_date) : ''
-  //             };
-  //             // console.log(c)
-  //             reducingP.push(c);     
-  //           }
-
-  //           // calculating total paid and total outstanding payment
-  //           // if (m.is_paid_calculated) {
-  //           //   this.totalPaid = this.totalPaid + m.calc_payment_amount;
-  //           // } 
-  //           this.totalPaid = this.totalPaid + m.paid_amount;
-  //           m['outstanding_amount'] = m.amount - (m.calc_payment_amount || 0);
-  //           console.log(m.outstanding_amount)
-  //           if ((m.amount - (m.calc_payment_amount||0))>=0) {
-  //             // const a = (m.amount - (m.calc_payment_amount || 0) );
-  //             // m['outstanding_amount'] = a > 0.01 ? a : 0;  // in a case difference was 0.02
-  //             const a = (m.calc_payment_amount || 0);
-  //             // console.log(a, m.amount)
-  //             // calc_payment_amount now containes value => user need to pay if less than amount, else it will be equal to amt used has paid
-  //             // m['outstanding_amount'] = m.amount==a ? 0 : (a == 0 ? m.amount : a);  // in a case difference was 0.02
-  //             // m['outstanding_amount'] = m.amount==a ? 0 : (m.amount - a); 
-  //             m['is_pending'] = a ? 1 : 0;
-  //             this.totalOutstanding = this.totalOutstanding + m['outstanding_amount'];
-  //           }
-  //         }
-
-  //         // now insert at reducing remaining payments at type=2 index
-  //         for (let i = 0; i < reducingP.length; i++) {
-  //           const element = reducingP[i];
-  //           this.paymentConcepts.splice(element.index, 0, element);              
-  //         }
-
-  //         this.paymentConcepts.push({
-  //           key: 'total',
-  //           name: 'Total',
-  //           paid_amount: this.totalPaid,
-  //           is_paid_calculated: 1,
-  //           outstanding_amount: this.totalOutstanding
-  //         })
-
-  //         console.log(this.paymentConcepts);
-  //         this.collectionCommission.push({})
-  //       }, error => {
-  //         this.spinner.hide();
-  //       }
-  //     );
-  // }
-
+  setDatePickerLocale() {
+    if (this.translate.defaultLang == 'en') {
+      this.locale = {
+        firstDayOfWeek: 0,
+        dayNames: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+        dayNamesShort: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        dayNamesMin: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+        monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
+            'November', 'December'],
+        monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        today: 'Today',
+        clear: 'Clear',
+        dateFormat: 'mm/dd/yy',
+        weekHeader: 'Wk',
+        dataType: 'string'
+      }
+    } else {
+      this.locale = {
+        firstDayOfWeek: 0,
+        dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
+        dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+        dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+        monthNames: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+          'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
+        monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun',
+          'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+        today: 'Hoy',
+        clear: 'Clara',
+        dateFormat: 'mm/dd/yy',
+        weekHeader: 'Sm',
+        dataType: 'string'
+      };
+    }
+  }
   
   getCollectionDetails() {
     this.spinner.show();
-    this.admin.postDataApi('getCollectionById', {id: this.model.id})
+    this.admin.postDataApi('getCollectionById', {id: this.property_collection_id})
       .subscribe(
         success => {
           this.spinner.hide();
           this.model = success['data'];
-          this.paymentConcepts = success['data']['payment_choices'];
+          this.allPaymentConcepts = success['data']['payment_choices'];
+          // for dropdown
+          this.paymentConcepts = [...this.allPaymentConcepts]
+
           this.collectionCommission = success['data']['collection_commissions'];
           this.totalPaid = 0.00;
           this.totalOutstanding = 0.00;
           this.remainingAmt = (((this.model.deal_price || 0) + (this.model.penalty || 0)) - (this.model.total_payment_recieved || 0))
           let reducingP = [];
-          for (let index = 0; index < this.paymentConcepts.length; index++) {
-            const m = this.paymentConcepts[index];
-            // this.newPaymentConcepts.push(m);
+          for (let index = 0; index < this.allPaymentConcepts.length; index++) {
+            const m = this.allPaymentConcepts[index];
             m.payment_date = m.collection_payment>0 ? this.getDateWRTTimezone(m.collection_payment.payment_date, 'YYYY-MM-DD') : '';
             m.paid_amount = m.calc_payment_amount ? m.calc_payment_amount : 0;
 
@@ -206,12 +176,12 @@ export class QuickVisualizationComponent implements OnInit {
                     outstanding_amount: 0,
                     index: index+i,
                     payment_type: 2,  // in real its 2
-                    // amount: paymnts.amount,
-                    // payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
                     receipt: paymnts.receipt,
                     description: paymnts.description
                   };
                   c['collection_paymentss'] = [{
+                    id: paymnts.id,
+                    parent_id: paymnts.parent_id,
                     payment_type: 1,  // in real its 2
                     paid_amount: paymnts.amount,
                     amount: paymnts.amount,
@@ -231,13 +201,13 @@ export class QuickVisualizationComponent implements OnInit {
                     outstanding_amount: 0,
                     index: index+i,
                     payment_type: 3,  // in real its 3
-                    // amount: paymnts.amount,
-                    // payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
                     receipt: paymnts.receipt,
                     description: paymnts.description,
                     display_choice_id: paymnts.display_choice_id
                   };
                   c['collection_paymentss'] = [{
+                    id: paymnts.id,
+                    parent_id: paymnts.parent_id,
                     payment_type: 3,  // in real its 3
                     paid_amount: paymnts.full_amount,
                     amount: paymnts.full_amount,
@@ -258,13 +228,13 @@ export class QuickVisualizationComponent implements OnInit {
                     outstanding_amount: 0,
                     index: index+i,
                     payment_type: 5,  // in real its 5
-                    // amount: paymnts.amount,
-                    // payment_date:  this.getDateWRTTimezone(paymnts.payment_date),
                     receipt: paymnts.receipt,
                     description: paymnts.description,
                     display_choice_id: paymnts.display_choice_id
                   };
                   c['collection_paymentss'] = [{
+                    id: paymnts.id,
+                    parent_id: paymnts.parent_id,
                     payment_type: 5,  // in real its 5
                     paid_amount: paymnts.full_amount,
                     amount: paymnts.full_amount,
@@ -290,23 +260,23 @@ export class QuickVisualizationComponent implements OnInit {
           }
           // now insert at reducing remaining payments at type=2 index
 
-          console.log(this.paymentConcepts)
+          console.log(this.allPaymentConcepts)
           console.log(reducingP)
           for (let i = 0; i < reducingP.length; i++) {
             const element = reducingP[i];
             const newIndex = element.index; 
             if (element.payment_type == 2) {
               console.log(newIndex)
-              this.paymentConcepts.splice(newIndex, 0, element);    
+              this.allPaymentConcepts.splice(newIndex, 0, element);    
             } else {
               // for payment_type 3,5 check display_choice_id
-              let index = this.paymentConcepts.length - 1;
+              let index = this.allPaymentConcepts.length - 1;
               for ( index ; index >= 0; index--) {
-              // for (let index = 0; index < this.paymentConcepts.length; index++) {
-                const e = this.paymentConcepts[index];
+              // for (let index = 0; index < this.allPaymentConcepts.length; index++) {
+                const e = this.allPaymentConcepts[index];
                 if (e.id==element.display_choice_id) {
                   console.log('====================',e,index)
-                  this.paymentConcepts.splice(index, 0, element); 
+                  this.allPaymentConcepts.splice(index, 0, element); 
                   break;   
                 }
               }
@@ -314,8 +284,8 @@ export class QuickVisualizationComponent implements OnInit {
           }
 
           // calculating new paid amt, by skipping type 2
-          for (let index = 0; index < this.paymentConcepts.length; index++) {
-            const element = this.paymentConcepts[index];
+          for (let index = 0; index < this.allPaymentConcepts.length; index++) {
+            const element = this.allPaymentConcepts[index];
             let p_amt: any = 0;
             let extraAmt: any = 0;
             if (element.collection_paymentss && element.collection_paymentss.length>0) {
@@ -330,8 +300,8 @@ export class QuickVisualizationComponent implements OnInit {
                   const ids = ele.choices_ids.split(',');
 
                   // deleting the share of type 2 from main header
-                  for (let j = 0; j < this.paymentConcepts.length; j++) {
-                    const e = this.paymentConcepts[j];
+                  for (let j = 0; j < this.allPaymentConcepts.length; j++) {
+                    const e = this.allPaymentConcepts[j];
                     // console.log('1222', ids, e.id, v)
                     if (e.id) {
                       const d = e.id.toString();
@@ -350,13 +320,13 @@ export class QuickVisualizationComponent implements OnInit {
                         // console.log('dddddddddddddddddddd')
                         // console.log(obj)
                         // obj['amount'] = v;
-                        // if (this.paymentConcepts[j].collection_paymentss && this.paymentConcepts[j].collection_paymentss.length > 0) {
-                        //   this.paymentConcepts[j].collection_paymentss.unshift(obj)
+                        // if (this.allPaymentConcepts[j].collection_paymentss && this.allPaymentConcepts[j].collection_paymentss.length > 0) {
+                        //   this.allPaymentConcepts[j].collection_paymentss.unshift(obj)
                         // } else {
-                        //   this.paymentConcepts[j].collection_paymentss = [obj];
+                        //   this.allPaymentConcepts[j].collection_paymentss = [obj];
                         // }
-                        // console.log(this.paymentConcepts[j].paid_amount, v);
-                        this.paymentConcepts[j].paid_amount = parseFloat(this.paymentConcepts[j].paid_amount) - parseFloat(v);
+                        // console.log(this.allPaymentConcepts[j].paid_amount, v);
+                        this.allPaymentConcepts[j].paid_amount = parseFloat(this.allPaymentConcepts[j].paid_amount) - parseFloat(v);
                         // console.log(v,element,element.paid_amount);
                         // break;
                       }
@@ -377,7 +347,7 @@ export class QuickVisualizationComponent implements OnInit {
             element.new_paid_amt = p_amt;
           }
 
-          this.paymentConcepts.push({
+          this.allPaymentConcepts.push({
             key: 'total',
             name: 'Total',
             // paid_amount: this.totalPaid,
@@ -395,10 +365,10 @@ export class QuickVisualizationComponent implements OnInit {
 
   
   exportData() {
-    if (this.paymentConcepts) {
+    if (this.allPaymentConcepts) {
       const finalData = [];
-      for (let index = 0; index < this.paymentConcepts.length; index++) {
-        const p = this.paymentConcepts[index];
+      for (let index = 0; index < this.allPaymentConcepts.length; index++) {
+        const p = this.allPaymentConcepts[index];
 
         const pcAmount = this.collectionCommission[index]['purchase_payment'] ?
         this.currencyPipe.transform(this.collectionCommission[index]['purchase_payment']['amount']) : '';
@@ -490,17 +460,49 @@ export class QuickVisualizationComponent implements OnInit {
     }
   }
 
+  getPaymentMethods() {
+    this.admin.postDataApi('getPaymentMethods', {})
+      .subscribe(
+        success => {
+          this.paymentMethods = success.data;
+        }, error => {
+          this.spinner.hide();
+        }
+      );
+  }
 
-  showUpdatePaymentPopup(item: any, i: number) {
+  onSelectFile(files) {
+    this.parameter.loading = true;
+    this.cs.saveAttachment(files[0]).subscribe(
+      success => {
+        this.parameter.loading = false;
+        this.docFile = success['data'].name;
+      }, error => {
+        this.parameter.loading = false;
+      }
+    );
+  }
+
+  onSelect(e) {
+    this.payment_date = moment.utc(e).toDate();
+  }
+
+  showUpdatePaymentPopup(item: any, i: number, s:number) {
+    this.item = item;
+    this.mainIndex = i;
+    this.index = s;
     this.payment_id = item.id;
     this.payment_type = item.payment_type;
     this.payment_method_id = item.payment_method.id;
     this.description = item.description;
     this.docFile = item.receipt;
-    this.payment_date = item.payment_date ? this.getDateWRTTimezone(item.payment_date, 'MM/DD/YYYY') : '';
+    this.payment_date = item.payment_date ? this.getDateWRTTimezone(item.payment_date, 'DD/MMM/YYYY') : '';
     this.updatePaymentModalOpen.nativeElement.click();
   }
 
+  closeUpdatePaymentModal() {
+    this.updatePaymentModalClose.nativeElement.click();
+  }
 
   updateCollectionPayment() {
     // checking if date selected and receipt selected
@@ -522,22 +524,368 @@ export class QuickVisualizationComponent implements OnInit {
       this.payment_date = moment(this.payment_date).add(offset, 'minutes').toDate();
     }
 
-    // inpur params
-    const input = {
-      payment_id: this.payment_id,
-      payment_method_id: this.payment_method_id,
-      receipt: this.docFile,
-      description: this.description,
-      payment_date: this.payment_date
-    }
+    this.item.payment_method_id = this.payment_method_id
+    this.item.payment_id = this.payment_id
+    this.item.receipt = this.docFile
+    this.item.description = this.description
+    this.item.payment_date = this.payment_date
 
-    this.admin.postDataApi('updateCollectionPayment', input).subscribe(r => {
-      this.updatePaymentModalClose.nativeElement.click();
+    this.admin.postDataApi('updateCollectionPayment', this.item).subscribe(r => {
+      this.closeUpdatePaymentModal();
+      this.allPaymentConcepts[this.mainIndex].collection_paymentss[this.index] = this.item;
       this.toastr.clear();
       this.toastr.success(this.translate.instant('message.success.savedSuccessfully'), this.translate.instant('swal.success'));
     }, error => {
       this.toastr.error(error.message, this.translate.instant('swal.error'));
       return false;
     });
+  }
+
+
+
+  showApplyPaymentPopup() {
+    console.log(this.paymentConcepts)
+    this.surplus_payment_type = null;
+    this.payment_type = null;
+    this.payment_date = null;
+    this.payment_choice_id = null;
+    const check = this.paymentConcepts.find(r => r.name.includes('Monthly Installment'));
+    this.disablePayToRemaining = true;
+    if (check) {
+      this.disablePayToRemaining = false;
+    }
+    this.paymentModalOpen.nativeElement.click();
+  }
+
+
+  applyCollectionPayment() {
+    // checking if date selected and receipt selected
+    if (!this.paymentDate) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseSelectPaymentDate'), this.translate.instant('swal.error'));
+      return false;
+    }
+    if (!this.docFile) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseChooseReceipt'), this.translate.instant('swal.error'));
+      return false;
+    }
+    if (!this.paymentAmount || this.paymentAmount == 0) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseEnterValidAmt'), this.translate.instant('swal.error'));
+      return false;
+    }
+    if (this.surplus_payment_type=='4' && !this.surplus_payment_choice_id) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseChoosePayments'), this.translate.instant('swal.error'));
+      return false;
+    }
+
+    let amt = this.paymentAmount;
+    // in case of pay to following, if user is paying surplus money ask the user, what he wants to do with durplus money
+    if (this.payment_type == 1 && this.calculatedPayAmount < this.paymentAmount) {
+      if (!this.surplus_payment_type) {
+        this.askUserForSurplusMomey();
+        return;
+      } else {
+        amt = this.calculatedPayAmount;
+      }
+    }
+
+    // check for type 1, user can not pay more than the sum of all installments
+    if (this.payment_type == '1') {
+      let a = 0;
+      this.paymentConcepts.map(v => {
+        if (!v['is_paid_calculated']) {
+          const remaining_amt = parseFloat(v['amount']) - parseFloat(v['calc_payment_amount']);
+          a = a + remaining_amt + (v['penalty'] ? parseFloat(v['penalty']['amount']) : 0);
+        }
+      }, 0);
+      if (this.paymentAmount > a) {
+        this.toastr.clear();
+        this.toastr.error(this.translate.instant('message.error.payToFollowingCheck'), this.translate.instant('swal.error'));
+        return false;
+      }
+    }
+
+    // check for type 2 abd 2, user cannot pay more than sum of remaining MI
+    if (this.payment_type == '2' || this.payment_type == '3') {
+      console.log('---')
+      let a: any = 0;
+      // this.paymentConcepts.map(v => {
+      for (let index = 0; index < this.paymentConcepts.length; index++) {
+        const v = this.paymentConcepts[index];
+        if (!v['is_paid_calculated'] && v.name.includes('Monthly Installment')) {
+          // calculating total amt to be paid
+          const remaining_amt = parseFloat(v['amount']) - parseFloat(v['calc_payment_amount']);
+          a = parseFloat(a) + remaining_amt + (v['penalty'] ? parseFloat(v['penalty']['amount']) : 0);
+          console.log(a)
+          a = a.toFixed(2);
+
+          // checking if any pending monthly installment exist
+          const paymnets = v['collection_paymentss'];
+          const l = paymnets.length;
+          if (l>0) {
+            const last_payment = paymnets[l-1];
+            if (last_payment['payment_type']!=2) {
+              console.log('complete first')
+              this.toastr.clear();
+              this.toastr.error(this.translate.instant('message.error.paytoRemainingPendingCheck'), this.translate.instant('swal.error'));
+              return false;
+            }
+          }
+        }
+      }
+      if (this.paymentAmount > a) {
+        console.log('complete first')
+        this.toastr.clear();
+        this.toastr.error(this.translate.instant('message.error.payToRemainingcheck'), this.translate.instant('swal.error'));
+        return false;
+      }
+    }
+
+    // check for type 3, user can only pay exact amount of M1, or sum of M1 & M2, or sum of M1,M2,M3 and soon
+    let a1 = this.surplus_payment_type == '3' ? this.paymentAmount - this.calculatedPayAmount : this.paymentAmount;
+    if (this.payment_type == '3' || this.surplus_payment_type == '3') {
+      let a: any = 0;
+      let index = this.paymentConcepts.length-1;
+      for (index; index>=0; index--) { 
+        const v = this.paymentConcepts[index]  ;
+        if (!v['is_paid_calculated'] && v.name.includes('Monthly Installment')) {
+          const remaining_amt = parseFloat(v['amount']) - parseFloat(v['calc_payment_amount']);
+          a = parseFloat(a) + remaining_amt + (v['penalty'] ? parseFloat(v['penalty']['amount']) : 0);
+          a = a.toFixed(2);
+        }
+        // using a1 and not this.paymentAmount because, need to check for both direct type 3 and type 3 in surplus popup
+      
+        console.log(a1,a)
+        if (a1 > a) {
+          continue;
+        } else if (a1 == a){
+          break;
+        } else if (this.paymentAmount < a){
+          console.log(a1,a)
+          this.toastr.clear();
+          this.toastr.error(this.translate.instant('message.error.payToRemainingReduceTimecheck'), this.translate.instant('swal.error'));
+          this.surplus_payment_type == '3' ? this.surplusMoneyModalClose.nativeElement.click() : this.paymentModalClose.nativeElement.click();
+          return false;
+        }
+      }
+    }
+
+    // in pay to specific, user is allowed to pay either exact amount or partial amt
+    if (this.payment_type == 4 && this.calculatedPayAmount < this.paymentAmount) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.payToSpecificCheck'), this.translate.instant('swal.error'));
+      return false;
+    }
+
+    // in total payment, user is allowed to pay sum of exact remaining amount (sum of installments and penalty)
+    if (this.payment_type == 5 && this.calculatedPayAmount != this.paymentAmount) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.totalPayemntCheck'), this.translate.instant('swal.error'));
+      return false;
+    }
+
+    var offset = new Date(this.paymentDate).getTimezoneOffset();
+    if (offset < 0) {
+      this.paymentDate = moment(this.paymentDate).subtract(offset, 'minutes').toDate();
+    } else {
+      this.paymentDate = moment(this.paymentDate).add(offset, 'minutes').toDate();
+    }
+
+    // inpur params
+    const input = {
+      property_collection_id: this.property_collection_id,
+      payment_method_id: this.payment_method_id,
+      amount : amt, 
+      receipt: this.docFile,
+      description: this.description,
+      payment_date: this.paymentDate,
+      full_amount: this.paymentAmount // sending real amount entered by user
+    }
+
+    if (this.payment_type == 1 || this.payment_type == 4) {
+      input['collection_payment_choice_id'] = this.payment_choice_id['id']
+    }
+    input['type'] = this.payment_type;
+    this.isApplyBtnClicked = true;
+    this.admin.postDataApi('applyCollectionPayment', input).subscribe(r => {
+      this.isApplyBtnClicked = false;
+      if (this.surplus_payment_type) {
+        input['amount'] = this.paymentAmount - this.calculatedPayAmount;
+        input['type'] = this.surplus_payment_type;
+        input['parent_id'] = r.data['id'];   // send parent_id in case of type 1 and surplus (to make parent delete)
+        if (this.surplus_payment_type=='4') {
+          input['collection_payment_choice_id'] = this.surplus_payment_choice_id 
+        }
+
+        this.admin.postDataApi('applyCollectionPayment', input).subscribe(r => {
+          // if (this.surplus_payment_type == '1' || this.surplus_payment_type == '4') {
+          //   input['collection_payment_choice_id'] = this.payment_choice_id['id']
+          // }
+        });
+      }
+
+      this.paymentModalClose.nativeElement.click();
+      this.closeCollReceiptModal();
+      this.getCollectionDetails();
+      
+      this.toastr.clear();
+      this.toastr.success(this.translate.instant('message.success.savedSuccessfully'), this.translate.instant('swal.success'));
+    }, error => {
+      this.paymentConcepts = [];
+      this.isApplyBtnClicked = false;
+      this.paymentModalClose.nativeElement.click();
+      this.closeCollReceiptModal();  
+      this.getCollectionDetails();    
+      return false;
+    });
+  }
+
+  askUserForSurplusMomey() {
+    this.closePaymentModal();
+    this.surplusMoneyModalOpen.nativeElement.click();
+  }
+
+  setPayMentType(payment_type: string) {
+    this.payment_type = payment_type;
+    if (payment_type == '1') {
+      this.paymentConcepts.map(r => r.is_disabled = true);
+      for (let index = 0; index < this.paymentConcepts.length; index++) {
+        if (!this.paymentConcepts[index].is_paid_calculated) {
+          this.paymentConcepts[index].is_disabled = false;
+          break;
+        }
+      }
+    }
+    this.docsFile1.nativeElement.value = '';
+    if (this.payment_type && this.payment_type!='2' && this.payment_type !='3' && this.payment_type !='5') {
+      this.applyPaymentChoiceId.nativeElement.value = '';
+    }
+    this.closeCollReceiptModal();
+    if (this.payment_type == 5) {
+      let amt: any = 0; let penaltyamt: any = 0;
+        let amtPaid: any = 0;
+        let currentAmt: any = 0;
+        let currentAmtPaid: any = 0;
+        this.penaltyAmount = 0;
+        for (let index = 0; index < this.paymentConcepts.length; index++) {        
+          const r = this.paymentConcepts[index];
+          currentAmt = r['amount']; 
+          currentAmtPaid = r['calc_payment_amount'] || 0;
+          penaltyamt = r['penalty'] ? parseFloat(r['penalty']['amount']) : 0;
+          amt = parseFloat(amt) + parseFloat(r['amount']) + parseFloat(penaltyamt);
+          amtPaid = parseFloat(amtPaid) + parseFloat(currentAmtPaid);
+        }
+        this.paymentAmount = (amt - amtPaid).toFixed(2);
+        this.calculatedPayAmount = [...this.paymentAmount];
+    }
+    this.applyPaymentMethodId.nativeElement.value = '';
+  }
+
+  setPayMentTypeSurplus(payment_type: string) {
+    this.surplus_payment_type = payment_type;
+    // incase user select type 4 in surplus popup => therefore, needs to disable selected concept in payment modal
+    this.paymentConcepts.map(r => r.is_disabled = false);
+    for (let index = 0; index < this.paymentConcepts.length; index++) {
+      // paid and if selected concept => only then disable
+      if (this.payment_choice_id['id'] == this.paymentConcepts[index].id) {
+        this.paymentConcepts[index].is_disabled = true;
+        break;
+      }
+    }
+  }
+
+  setPaymentAmount(item: any) {
+      this.selectedPaymentConcept = item;
+      let amt: any = 0; let penaltyamt: any = 0;
+      let amtPaid: any = 0;
+      let currentAmt: any = 0;
+      let currentAmtPaid: any = 0;
+      // checking if method is pay to specific (4), then user will pay only for that specific installment + user cannot pay more than the amount+penalty
+      if (this.payment_type == 4) {
+        currentAmt = item['amount']; 
+        currentAmtPaid = item['calc_payment_amount'] || 0;
+        this.penaltyAmount = item.penalty ? parseFloat(item.penalty.amount).toFixed(2) : 0;
+        this.pendingPayment = 0.00 // amt already paid
+        this.currentAmount = (parseFloat(currentAmt) - parseFloat(currentAmtPaid)).toFixed(2);
+        this.paymentAmount = (parseFloat(this.currentAmount) + parseFloat(this.pendingPayment) + parseFloat(this.penaltyAmount)).toFixed(2);     
+        this.calculatedPayAmount = [...this.paymentAmount];
+      } else if (this.payment_type == 1){
+        for (let index = 0; index < this.paymentConcepts.length; index++) {        
+          const r = this.paymentConcepts[index];
+          currentAmt = r['amount']; 
+          currentAmtPaid = r['calc_payment_amount'] || 0;
+          if (r['id'] != item['id']) {
+            penaltyamt = r['penalty'] ? parseFloat(r['penalty']['amount']) : 0;
+            amt = parseFloat(amt) + parseFloat(r['amount']) + parseFloat(penaltyamt);
+            amtPaid = parseFloat(amtPaid) + parseFloat(currentAmtPaid);
+          } else {
+            break;
+          }
+        }
+        this.penaltyAmount = item.penalty ? parseFloat(item.penalty.amount).toFixed(2) : 0;
+        this.pendingPayment = (amt - amtPaid).toFixed(2);
+        this.currentAmount = (parseFloat(currentAmt) - parseFloat(currentAmtPaid)).toFixed(2);
+        this.paymentAmount = (parseFloat(this.currentAmount) + parseFloat(this.pendingPayment) + parseFloat(this.penaltyAmount)).toFixed(2);
+        this.calculatedPayAmount = [...this.paymentAmount];
+      } 
+      // else if (this.payment_type == 5){
+      //   for (let index = 0; index < this.paymentConcepts.length; index++) {        
+      //     const r = this.paymentConcepts[index];
+      //     currentAmt = r['amount']; 
+      //     currentAmtPaid = r['calc_payment_amount'] || 0;
+      //       penaltyamt = r['penalty'] ? parseFloat(r['penalty']['amount']) : 0;
+      //       amt = parseFloat(amt) + parseFloat(r['amount']) + parseFloat(penaltyamt);
+      //       amtPaid = parseFloat(amtPaid) + parseFloat(currentAmtPaid);
+      //     // } else {
+      //     //   break;
+      //     // }
+      //   }
+      //   this.penaltyAmount = item.penalty ? parseFloat(item.penalty.amount).toFixed(2) : 0;
+      //   this.pendingPayment = (amt - amtPaid).toFixed(2);
+      //   this.currentAmount = (parseFloat(currentAmt) - parseFloat(currentAmtPaid)).toFixed(2);
+      //   this.paymentAmount = (parseFloat(this.currentAmount) + parseFloat(this.pendingPayment) + parseFloat(this.penaltyAmount)).toFixed(2);
+      //   this.calculatedPayAmount = [...this.paymentAmount];
+      // }
+    
+  }
+
+  setPaymentSurplusAmount(item) {
+    this.selectedPaymentConcept = item;
+    this.surplus_payment_choice_id = item.id;
+    let currentAmt: any = 0;
+    let currentAmtPaid: any = 0;
+    // checking if method is pay to specific (4), then user will pay only for that specific installment + user cannot pay more than the amount+penalty
+    if (this.surplus_payment_type == '4') {
+      currentAmt = item['amount']; 
+      currentAmtPaid = item['calc_payment_amount'] || 0;
+      const penaltyAmount: any = item.penalty ? parseFloat(item.penalty.amount).toFixed(2) : 0;
+      const currentAmount: any = (parseFloat(currentAmt) - parseFloat(currentAmtPaid)).toFixed(2);
+      this.surplus_amt = (parseFloat(currentAmount) + parseFloat(penaltyAmount)).toFixed(2);     
+    }
+    
+    if ((this.paymentAmount - this.calculatedPayAmount)>this.surplus_amt) {
+      this.surplus_payment_choice_id = '';
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.payToSpecificCheck'), this.translate.instant('swal.error'));
+      return false;
+    }
+  }
+
+  closeSurplusMoney() {
+    this.surplusMoneyModalClose.nativeElement.click();
+  }
+
+  closePaymentModal() {
+    this.paymentModalClose.nativeElement.click();
+  }
+
+  closeCollReceiptModal() {
+    this.paymentAmount = 0; this.docFile = ''; this.description = '';
+    this.penaltyAmount = 0; this.pendingPayment = 0; this.currentAmount = 0;
+    this.paymentDate = null;
+    this.docsFile1.nativeElement.value = '';
   }
 }
