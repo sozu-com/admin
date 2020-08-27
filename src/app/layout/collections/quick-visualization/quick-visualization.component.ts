@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { IProperty } from 'src/app/common/property';
 import { ActivatedRoute } from '@angular/router';
 import { Collection } from 'src/app/models/collection.model';
@@ -71,6 +71,10 @@ export class QuickVisualizationComponent implements OnInit {
   currentAmount: any;
   surplus_amt: any;
 
+  @ViewChild('stickyMenu') menuElement: ElementRef;
+
+  sticky: boolean = false;
+  elementPosition: any;
   constructor(
     private route: ActivatedRoute,
     public model: Collection,
@@ -106,6 +110,19 @@ export class QuickVisualizationComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit(){
+    this.elementPosition = this.menuElement.nativeElement.offsetTop;
+  }
+
+  @HostListener('window:scroll', ['$event'])
+    handleScroll(){
+      const windowScroll = window.pageYOffset;
+      if(windowScroll >= this.elementPosition){
+        this.sticky = true;
+      } else {
+        this.sticky = false;
+      }
+    }
   setDatePickerLocale() {
     if (this.translate.defaultLang == 'en') {
       this.locale = {

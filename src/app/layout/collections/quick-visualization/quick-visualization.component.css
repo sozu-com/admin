@@ -53,3 +53,14 @@ table.table-striped.quick-table th:first-child {
 }
 /* freeze first col and row */
 
+.sticky{
+  position: sticky;    
+  top: 46px;
+  overflow: hidden;
+  z-index: 10;
+}
+
+
+.content{
+  height: 200vh;
+}

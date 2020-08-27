@@ -221,10 +221,82 @@
   </div>
 
 
-  <h5>{{'quickVisualization.paymentInformation' | translate}}</h5>
-  <div class="cust-tabs">
+  <div 
+  #stickyMenu
+  [class.sticky] = "sticky">
+  <table class="table table-bordered table-striped table-align-center quick-table" *ngIf="sticky" style="background-color: #00B96F;
+  color: #fff;">
+    <thead>  
+        <!-- class="header" id="myHeader" -->
+      <tr>
+        <th [style.width]="'200px'" [style.z-index]="100">
+          <b>{{'quickVisualization.concept' | translate}}</b>
+        </th>
+        <th [style.width]="'140px'">
+          <b>{{'quickVisualization.month' | translate}}</b>
+        </th>
+        <!-- <th [style.width]="'140px'">
+          <b>{{'quickVisualization.paymentDate' | translate}}</b>
+        </th> -->
+        <th [style.width]="'120px'">
+            <b>{{'quickVisualization.paid' | translate}}</b>
+        </th>
+        <!-- <th [style.width]="'150px'">
+          <b>{{'quickVisualization.paymentMethods' | translate}}</b>
+        </th> -->
+        <th [style.width]="'120px'">
+            <b>{{'quickVisualization.outstandingPayment' | translate}}</b>
+        </th>
+        <!-- <th [style.width]="'120px'">
+            <b>{{'quickVisualization.paidByUser' | translate}}</b>
+        </th> -->
+        <th [style.width]="'120px'">
+            <b>{{'quickVisualization.toBePaidByUser' | translate}}</b>
+        </th>
+        <!-- <th>
+            <b>{{'quickVisualization.paymentAttachment' | translate}}</b>
+        </th>
+        <th>
+            <b>{{'quickVisualization.paymentDescription' | translate}}</b>
+        </th> -->
+        <th [style.width]="'120px'">
+            <b>{{'quickVisualization.penaltyFLP' | translate}}</b>
+        </th>
+        <th>
+            <b>{{'quickVisualization.penaltyDescription' | translate}}</b>
+        </th>
+        <th [style.width]="'120px'">
+            <b>{{'quickVisualization.purchasedCommission' | translate}}</b>
+        </th>
+        <th [style.width]="'150px'">
+            <b>{{'quickVisualization.dateOfPC' | translate}}</b>
+        </th>
+        <th>
+            <b>{{'quickVisualization.PCAttachment' | translate}}</b>
+        </th>
+        <th>
+            <b>{{'quickVisualization.PCDescription' | translate}}</b>
+        </th>
+        <th [style.width]="'120px'">
+            <b>{{'quickVisualization.collectionCommission' | translate}}</b>
+        </th>
+        <th [style.width]="'150px'">
+            <b>{{'quickVisualization.dateOfCC' | translate}}</b>
+        </th>
+        <th>
+            <b>{{'quickVisualization.CCAttachment' | translate}}</b>
+        </th>
+        <th>
+            <b>{{'quickVisualization.CCDescription' | translate}}</b>
+        </th>
+      </tr>
+    </thead>
+    </table>
+</div>
+<h5 >{{'quickVisualization.paymentInformation' | translate}}</h5>
+  <div class="cust-tabs content">
     <div class="tab-content white-bg">
-      <div id="accordion" class="table-responsive main-table">
+      <div id="accordion" class="table-responsive">
         <table class="table table-bordered table-striped table-align-center quick-table">
           <thead>  
               <!-- class="header" id="myHeader" -->
@@ -595,7 +667,7 @@
                 <div class="form-group-2">
                     <label>{{'viewCollections.programmedDate' | translate}}<span class="color-red">*</span></label>
                     <div class="form-group">
-                    <input readonly class="form-control" value="{{selectedPaymentConcept?.date}}" name="pendingPayment">
+                    <input readonly class="form-control" value="{{selectedPaymentConcept?.date | date:'dd/MMM/yyyy'}}" name="pendingPayment">
                   </div>
                 </div>
               </div>
