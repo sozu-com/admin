@@ -18,7 +18,7 @@
 
     <div class="col-lg-1 col-md-1 col-6">
       <div class="btn-cont text-right">
-          <a routerLink="/dashboard/collections/view-collections/{{property_collection_id}}" 
+          <a routerLink="/dashboard/collections/view-collections" 
           class="btn btn-primary-new" href="javascript://">{{'quickVisualization.back' | translate}}</a>
         </div>
     </div>
@@ -221,7 +221,8 @@
   </div>
 
 
-  <!-- <div >
+  <div #stickyMenu
+  [class.sticky] = "sticky">
   <table class="table table-bordered table-striped table-align-center quick-table" *ngIf="sticky" style="background-color: #00B96F;
   color: #fff;">
     <thead>  
@@ -274,12 +275,10 @@
       </tr>
     </thead>
     </table>
-</div> -->
+</div>
 <h5 >{{'quickVisualization.paymentInformation' | translate}}</h5>
   <!-- <div class="cust-tabs " >
     <div class="tab-content white-bg"> -->
-      <!-- #stickyMenu
-      [class.sticky] = "sticky" -->
       <div id="accordion" class="table-responsive" >
         <table class="table table-bordered table-striped table-align-center quick-table" >
           <thead >  
