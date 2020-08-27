@@ -54,7 +54,7 @@ table.table-striped.quick-table th:first-child {
 /* freeze first col and row */
 
 .sticky{
-  position: sticky;    
+  position: fixed;    
   top: 46px;
   overflow: hidden;
   z-index: 10;

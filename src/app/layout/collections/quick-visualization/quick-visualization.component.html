@@ -1,13 +1,13 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-lg-10 col-md-10 col-6">
+    <div class="col-lg-9 col-md-9 col-6">
       <div class="title-group">
         <h5><a routerLink="/dashboard/collections/view-collections/{{property_collection_id}}" href="javascript://"><i
               class="fa fa-angle-double-left" style="font-size: 1.5em;"></i> </a> &nbsp;&nbsp;{{'quickVisualization.label' | translate}}</h5>
       </div>
     </div>
      
-    <div class="col-lg-1 col-md-1 col-6">
+    <div class="col-lg-2 col-md-2 col-6">
       <div class="btn-cont text-right">
           <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#addInhouseUser" #inhouseUserModalOpen>{{'table.addNewBtn' | translate}}</a>
           <a class="btn btn-primary-new" href="javascript://" (click)="showApplyPaymentPopup()">
@@ -276,13 +276,13 @@
     </table>
 </div> -->
 <h5 >{{'quickVisualization.paymentInformation' | translate}}</h5>
-  <div class="cust-tabs " 
-  #stickyMenu
-  [class.sticky] = "sticky">
-    <div class="tab-content white-bg">
-      <div id="accordion" class="table-responsive">
-        <table class="table table-bordered table-striped table-align-center quick-table">
-          <thead>  
+  <!-- <div class="cust-tabs " >
+    <div class="tab-content white-bg"> -->
+      <!-- #stickyMenu
+      [class.sticky] = "sticky" -->
+      <div id="accordion" class="table-responsive" >
+        <table class="table table-bordered table-striped table-align-center quick-table" >
+          <thead >  
               <!-- class="header" id="myHeader" -->
             <tr>
               <th [style.width]="'200px'" [style.z-index]="100">
@@ -478,8 +478,8 @@
           </tbody>
         </table>
       </div>
-    </div>
-  </div>
+    <!-- </div>
+  </div> -->
 </div>
 
 
