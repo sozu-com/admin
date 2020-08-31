@@ -1789,6 +1789,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   createCollection(formdata: NgForm, tab: number) {
+    let callApi = true;
     this.model.step = tab;
     formdata['step'] = tab;
     if (this.model.id) {
@@ -1805,7 +1806,7 @@ export class AddEditCollectionComponent implements OnInit {
       formdata['for_sale'] = this.availabilityStatus[0].checked ? 1 : 0;
       formdata['for_rent'] = this.availabilityStatus[1].checked ? 1 : 0;
       formdata['building_configuration_id'] = this.model.building_configuration_id;
-      
+
       this.addFormStep1.controls.step.patchValue(this.model.step);
       this.addFormStep1.controls.building_id.patchValue(formdata['building_id']);
       this.addFormStep1.controls.property_id.patchValue(formdata['property_id']);
@@ -1850,8 +1851,8 @@ export class AddEditCollectionComponent implements OnInit {
             this.toastr.error(this.translate.instant('message.error.pleaseChooseSeller'), this.translate.instant('swal.error'));
             return;
           }
-        } 
-  
+        }
+
         if (this.model.seller_type != '1') {
           if (!formdata['seller_leg_rep_name'] || !formdata['seller_leg_rep_phone'] || !formdata['seller_leg_rep_email'] || !formdata['seller_leg_rep_fed_tax']) {
             this.toastr.error(this.translate.instant('message.error.pleaseFillLegalRepInfo'), this.translate.instant('swal.error'));
@@ -1865,7 +1866,6 @@ export class AddEditCollectionComponent implements OnInit {
     }
 
     if (this.model.step == 3) {
-
       formdata['buyer_type'] = this.model.buyer_type;
       this.addFormStep3.controls.buyer_type.patchValue(this.model.buyer_type);
       this.addFormStep3.controls.step.patchValue(this.model.step);
@@ -1876,7 +1876,7 @@ export class AddEditCollectionComponent implements OnInit {
             this.toastr.error(this.translate.instant('message.error.pleaseChooseBuyer'), this.translate.instant('swal.error'));
             return;
           }
-        } 
+        }
         if (this.model.buyer_type != '1') {
           if (!formdata['buyer_leg_rep_name'] || !formdata['buyer_leg_rep_phone'] || !formdata['buyer_leg_rep_email'] || !formdata['buyer_leg_rep_fed_tax']) {
             this.toastr.error(this.translate.instant('message.error.pleaseFillLegalRepInfo'), this.translate.instant('swal.error'));
@@ -1894,7 +1894,7 @@ export class AddEditCollectionComponent implements OnInit {
       this.addFormStep4.controls.step.patchValue(this.model.step);
       delete this.addFormStep4.value.paymentchoice;
       if (this.addFormStep4.valid) {
-    
+
         if (this.addFormStep4.controls.payment_choices.value && this.addFormStep4.controls.payment_choices.value.length < 1) {
           this.toastr.error(this.translate.instant('message.error.pleaseChoosePayments'), this.translate.instant('swal.error'));
           return;
@@ -1903,8 +1903,8 @@ export class AddEditCollectionComponent implements OnInit {
         // converting to local
         const d = formdata['deal_purchase_date'];
         // const nd = moment(d).add(330, 'minutes').toDate();
-        formdata['deal_purchase_date']=moment(d).format('YYYY-MM-DD');
-        let paymentSum = 0;
+        formdata['deal_purchase_date'] = moment(d).format('YYYY-MM-DD');
+        let paymentSum: any = 0;
         let i = 0;
         for (let index = 0; index < formdata['payment_choices'].length; index++) {
           const element = formdata['payment_choices'][index];
@@ -1914,36 +1914,52 @@ export class AddEditCollectionComponent implements OnInit {
             const text = element.name ? 
                           this.translate.instant('message.error.pleaseFillAllDetailsFor') + element.name :
                           this.translate.instant('message.error.pleaseFillAllDetailsFor')
-                          
             this.toastr.clear();
             this.toastr.error(text, this.translate.instant('swal.error'));
             return;
           }
           // element.date = moment(moment.utc(element.date).toDate()).local().toDate();
           element.date = moment(element.date).format('YYYY-MM-DD');
-          
+
           // element.date = moment(element.date).add(330, 'minutes').toDate();
-          paymentSum = paymentSum + parseInt(element.amount || 0);
+          paymentSum = parseFloat(paymentSum) + parseFloat(element.amount || 0);
         }
         // check if total sum of monthly installments is equal or greater than property price
-        // if (formdata['deal_price'] != paymentSum) {
-        //   const text = this.translate.instant('message.error.priceIsNotEqualToPaymentConceptPrice') + '<br>' + 
-        //   this.translate.instant('message.error.priceIs') + formdata['deal_price'] + '<br>' +
-        //   this.translate.instant('message.error.sumOfPaymentConceptIs') + paymentSum;
-        //   swal(this.translate.instant('swal.error'), text, 'error');
-        //   return;
-        // }
+        paymentSum = paymentSum.toFixed(2);
+        console.log(formdata['deal_price'], paymentSum)
+        if (formdata['deal_price'] != paymentSum) {
+          callApi = false;
+          const text = this.translate.instant('message.error.priceIsNotEqualToPaymentConceptPrice') + '<br>';
+          // this.translate.instant('message.error.priceIs') + formdata['deal_price'] + '<br>' +
+          // this.translate.instant('message.error.sumOfPaymentConceptIs') + paymentSum;
+          swal({
+            html: this.translate.instant('message.error.areYouSure') + '<br>' + text,
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: this.constant.confirmButtonColor,
+            cancelButtonColor: this.constant.cancelButtonColor,
+            confirmButtonText: 'Yes'
+          }).then((result) => {
+            if (result.value) {
+              // continue;
+              this.callCollectionView(formdata, tab);
+            } else {
+              return;
+            }
+          });
+          // return;
+        }
       } else {
         this.showError = true;
         return false;
       }
     }
-    
+
     if (this.model.step == 5) {
       this.addFormStep5.controls.step.patchValue(this.model.step);
       if (this.addFormStep5.valid) {
-       
-        if (!formdata['deal_commission_agents']) {                    
+
+        if (!formdata['deal_commission_agents']) {
           this.toastr.clear();
           this.toastr.error(this.translate.instant('message.error.pleaseEnterAgent'), this.translate.instant('swal.error'));
           return;
@@ -1958,7 +1974,7 @@ export class AddEditCollectionComponent implements OnInit {
                 this.toastr.error(this.translate.instant('message.error.pleaseEnterAgent'), this.translate.instant('swal.error'));
                 return;
               }
-              // else {                          
+              // else {
               //   this.toastr.clear();
               //   this.toastr.error(this.translate.instant('message.error.pleaseEnterFederalTaxPayer'), this.translate.instant('swal.error'));
               // }
@@ -1982,6 +1998,52 @@ export class AddEditCollectionComponent implements OnInit {
       }
     }
 
+    if (callApi) {
+      this.spinner.show();
+      this.us.postDataApi('addCollection', formdata)
+        .subscribe(
+          success => {
+            this.tab = tab + 1;
+            this.spinner.hide();
+            this.showError = false;
+            this.model.id = success['data'].id;
+            // if (tab != 6) { 
+            //   if (tab == 4) {
+            //     this.selectedPaymentChoice.nativeElement.value = '';
+            //   }
+            //   this.editCollection();
+            // }
+            if (tab == 1 || tab == 2) {
+              this.initFormStep2();
+              this.patchFormStep2(success['data'], 'add')
+            // }
+            // if (tab == 2) {
+              this.initFormStep3();
+              this.patchFormStep3(success['data'])
+            }
+            if (tab == 4) {
+              this.initFormStep4();
+              this.patchFormStep4(success['data'])
+
+              this.initFormStep5()
+              this.selectedPaymentChoice.nativeElement.value = '';
+              this.patchFormStep5(success['data']);
+            }
+            if (tab == 6) {
+              this.router.navigate(['/dashboard/collections/view-collections'])
+              // swal({
+              //   html: this.translate.instant('message.success.submittedSccessfully'), type: 'success'
+              // });
+            }
+            // this.parameter.property_id = success['data'].id;
+          }, error => {
+            this.spinner.hide();
+          }
+        );
+    }
+  }
+
+  callCollectionView(formdata, tab) {
     this.spinner.show();
     this.us.postDataApi('addCollection', formdata)
       .subscribe(
@@ -1990,20 +2052,6 @@ export class AddEditCollectionComponent implements OnInit {
           this.spinner.hide();
           this.showError = false;
           this.model.id = success['data'].id;
-          // if (tab != 6) { 
-          //   if (tab == 4) {
-          //     this.selectedPaymentChoice.nativeElement.value = '';
-          //   }
-          //   this.editCollection();
-          // }
-          if (tab == 1 || tab == 2) {
-            this.initFormStep2();
-            this.patchFormStep2(success['data'], 'add')
-          // }
-          // if (tab == 2) {
-            this.initFormStep3();
-            this.patchFormStep3(success['data'])
-          }
           if (tab == 4) {
             this.initFormStep4();
             this.patchFormStep4(success['data'])
@@ -2012,17 +2060,12 @@ export class AddEditCollectionComponent implements OnInit {
             this.selectedPaymentChoice.nativeElement.value = '';
             this.patchFormStep5(success['data']);
           }
-          if (tab == 6) {
-            this.router.navigate(['/dashboard/collections/view-collections'])
-            // swal({
-            //   html: this.translate.instant('message.success.submittedSccessfully'), type: 'success'
-            // });
-          }
           // this.parameter.property_id = success['data'].id;
         }, error => {
           this.spinner.hide();
         }
       );
+
   }
 
   numberUptoTwoDecimal(num: any) {

@@ -493,10 +493,10 @@
                                  {{p?.is_property_sold ? ('table.th.yes' | translate) : ('table.th.no' | translate)}}
                               </td>
                               <td *ngIf="parameter.flag!=5">
-                                    <span *ngIf="p?.collection">{{'table.th.yes' | translate}}
+                                    <span *ngIf="p?.collection && p?.collection?.is_cancelled!=1">{{'table.th.yes' | translate}}
                                           <span class="green-color cursor-pointer" routerLink="/dashboard/collections/view-collections/{{p?.collection?.id}}">{{p?.collection?.id}}</span>
                                     </span>
-                                    <span *ngIf="!p?.collection">{{'table.th.no' | translate}}</span>
+                                    <span *ngIf="!p?.collection || (p?.collection && p?.collection?.is_cancelled==1)">{{'table.th.no' | translate}}</span>
                               </td>
                               <td *ngIf="parameter.flag!=5">
                               <div class="table-actions">

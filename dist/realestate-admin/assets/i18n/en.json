@@ -938,7 +938,7 @@
       "pleaseChooseDealType": "Please select Deal type",
       "pleaseChooseModal": "Please select Model",
       "pleaseSelectCommissionType": "Please select commission type",
-      "priceIsNotEqualToPaymentConceptPrice": "Price is not equal to sum of amount of all payment concepts",
+      "priceIsNotEqualToPaymentConceptPrice": "The difference between price and sum of the payment concepts is more than the accepted",
       "priceIs": "Price is ",
       "sumOfPaymentConceptIs": " Sum of amount of all payment concepts is ",
       "pleaseFillLegalRepInfo": "Please fill all details of Legal Represenatative",

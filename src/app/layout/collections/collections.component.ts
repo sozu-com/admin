@@ -140,7 +140,7 @@ export class CollectionsComponent implements OnInit {
     this.getPaymentMethods();
     this.getCountries();
     this.initCalendarLocale();
-    
+
     this.route.params.subscribe(params => {
       if (params['id']){
         this.parameter.collection_id = params['id'];
@@ -222,11 +222,18 @@ export class CollectionsComponent implements OnInit {
         // fetching payment status
         for (let index = 0; index < this.items.length; index++) {
           const element = this.items[index];
-          if (element.next_payment && element.next_payment.date) {
+          // 78 means mexican currency
+          //   const d = element.deal_price.toFixed(2) - element.total_deals_sum.toFixed(2);
+          // if (element.currency_id == 78) {
+
+          // }
+          if (!element.total_deals_sum || (element.total_deals_sum && element.deal_price.toFixed(2) != element.total_deals_sum.toFixed(2))) {
+            element.payment_status = 6;
+          } else if (element.next_payment && element.next_payment.date) {
             const date1 = moment();
             const date2 = moment(element.next_payment.date);
             const diff = date1.diff(date2, 'days');
-            console.log(diff)
+            console.log(diff);
             if (diff>=0 && diff<5) {
               element.payment_status = 2;
             } else if (diff>=5) {

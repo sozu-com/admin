@@ -927,7 +927,7 @@
       "pleaseChooseDealType": "Por favor, seleccione el tipo de oferta",
       "pleaseChooseModal": "Por favor seleccione Model",
       "pleaseSelectCommissionType": "Por favor seleccione el tipo de comisión",
-      "priceIsNotEqualToPaymentConceptPrice": "El precio no es igual a la suma del monto de todos los conceptos de pago",
+      "priceIsNotEqualToPaymentConceptPrice": "La diferencia entre precio y suma de los conceptos de pago es mayor que la aceptada",
       "priceIs": "El precio es ",
       "sumOfPaymentConceptIs": " La suma de la cantidad de todos los conceptos de pago es ",
 
