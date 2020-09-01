@@ -222,31 +222,22 @@ export class CollectionsComponent implements OnInit {
         // fetching payment status
         for (let index = 0; index < this.items.length; index++) {
           const element = this.items[index];
-          // 78 means mexican currency
-          //   const d = element.deal_price.toFixed(2) - element.total_deals_sum.toFixed(2);
-          // if (element.currency_id == 78) {
-
-          // }
-
-        const diff = (element.deal_price || 0).toFixed(2) - (element.total_deals_sum || 0).toFixed(2);
-        const currency_id = element.currency_id;
+          const diff = (element.deal_price || 0).toFixed(2) - (element.total_deals_sum || 0).toFixed(2);
+          const currency_id = element.currency_id;
 
           if (!element.total_deals_sum) {
             element.payment_status = 6;
           } else if ((diff >= 5 && currency_id == 78) || (diff >= 0.5 && currency_id == 124)) {
             element.payment_status = 6;
           } else if (element.next_payment && element.next_payment.date) {
-            const date1 = moment();
-            const date2 = moment(element.next_payment.date);
-            const diff = date1.diff(date2, 'days');
-            console.log(diff);
-            if (diff>=0 && diff<5) {
+            const diff: any = moment().diff(moment(element.next_payment.date, 'YYYY-MM-DD'), 'days', true);
+            if (diff >= 0 && diff < 5) {
               element.payment_status = 2;
-            } else if (diff>=5) {
+            } else if (diff >= 5) {
               element.payment_status = 3;
-            } else if (diff<0) {
+            } else if (diff < 0) {
               element.payment_status = 1;
-            } 
+            }
           } else {
             element.payment_status = 5;
           }
@@ -546,7 +537,6 @@ export class CollectionsComponent implements OnInit {
     this.editPaymentModalOpen.nativeElement.click();
   }
 
-  
   showUpdatePaymentPopup(item: any, i: number) {
     this.payment_id = item.id;
     this.payment_type = item.payment_type;
@@ -1409,7 +1399,7 @@ export class CollectionsComponent implements OnInit {
       const currentAmount: any = (parseFloat(currentAmt) - parseFloat(currentAmtPaid)).toFixed(2);
       this.surplus_amt = (parseFloat(currentAmount) + parseFloat(penaltyAmount)).toFixed(2);     
     }
-    
+
     if ((this.paymentAmount - this.calculatedPayAmount)>this.surplus_amt) {
       this.surplus_payment_choice_id = '';
       this.toastr.clear();
@@ -1419,7 +1409,7 @@ export class CollectionsComponent implements OnInit {
   }
 
   getDateWRTTimezone(date: any, format: any) {
-    var offset = new Date(date).getTimezoneOffset();
+    const offset = new Date(date).getTimezoneOffset();
     if (offset < 0) {
       return moment(date).subtract(offset, 'minutes').format(format);
     } else {
