@@ -28,7 +28,7 @@ table.table-striped.quick-table th, table.table-striped.quick-table td {
 
 /* freeze first col and row */
 .main-table{
-  /* height: 800px; */
+  height: 700px;
 }
 table.table-striped.quick-table th, table.table-striped.quick-table td {
   width: 190px;
@@ -37,8 +37,8 @@ table.table-striped.quick-table {
   table-layout: fixed;
   width:100%;
 }
-table.table-striped.quick-table td:nth-child(1), table.table-striped.quick-table th:nth-child(1)
-/* table.table-striped.quick-table thead tr th  */
+table.table-striped.quick-table td:nth-child(1), table.table-striped.quick-table th:nth-child(1),
+table.table-striped.quick-table thead tr th 
 {
   position:sticky;
   left:0;

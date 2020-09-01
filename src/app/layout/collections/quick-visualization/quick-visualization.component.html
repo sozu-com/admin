@@ -220,11 +220,11 @@
 
   </div>
 
-
-  <div #stickyMenu
+<!-- 
+  <div class="table-responsive" #stickyMenu
   [class.sticky] = "sticky">
-  <table class="table table-bordered table-striped table-align-center quick-table" *ngIf="sticky" style="background-color: #00B96F;
-  color: #fff;">
+  <table *ngIf="sticky" class="table table-bordered table-striped table-align-center quick-table" 
+    style="background-color: #00B96F; color: #fff;">
     <thead>  
       <tr>
         <th [style.width]="'200px'" [style.z-index]="100">
@@ -275,14 +275,14 @@
       </tr>
     </thead>
     </table>
-</div>
-<h5 >{{'quickVisualization.paymentInformation' | translate}}</h5>
+</div> -->
+<h5>{{'quickVisualization.paymentInformation' | translate}}</h5>
   <!-- <div class="cust-tabs " >
     <div class="tab-content white-bg"> -->
-      <div id="accordion" class="table-responsive" >
+      <!-- <div id="accordion" class="table-responsive" #stickyMenu -->
+      <div id="accordion" class="table-responsive main-table">
         <table class="table table-bordered table-striped table-align-center quick-table" >
-          <thead >  
-              <!-- class="header" id="myHeader" -->
+          <thead class="header" id="myHeader" >  
             <tr>
               <th [style.width]="'200px'" [style.z-index]="100">
                 <b>{{'quickVisualization.concept' | translate}}</b>

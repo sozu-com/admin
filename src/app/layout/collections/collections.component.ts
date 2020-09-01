@@ -227,7 +227,13 @@ export class CollectionsComponent implements OnInit {
           // if (element.currency_id == 78) {
 
           // }
-          if (!element.total_deals_sum || (element.total_deals_sum && element.deal_price.toFixed(2) != element.total_deals_sum.toFixed(2))) {
+
+        const diff = (element.deal_price || 0).toFixed(2) - (element.total_deals_sum || 0).toFixed(2);
+        const currency_id = element.currency_id;
+
+          if (!element.total_deals_sum) {
+            element.payment_status = 6;
+          } else if ((diff >= 5 && currency_id == 78) || (diff >= 0.5 && currency_id == 124)) {
             element.payment_status = 6;
           } else if (element.next_payment && element.next_payment.date) {
             const date1 = moment();

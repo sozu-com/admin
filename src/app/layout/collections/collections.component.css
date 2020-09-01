@@ -8,8 +8,8 @@ textarea{
 
 /* freeze first col and row */
 .main-table{
-    /* height: 800px; */
-  }
+  height: 700px;
+}
   table.table-striped.quick-table th, table.table-striped.quick-table td {
     width: 190px;
   }
@@ -17,9 +17,8 @@ textarea{
     table-layout: fixed;
     width:100%;
   }
-  table.table-striped.quick-table td:first-child, table.table-striped.quick-table th:first-child
-  /* table.table-striped.quick-table td:nth-child(2), table.table-striped.quick-table th:nth-child(2), */
-  /* table.table-striped.quick-table thead tr th, table.table-striped.quick-table thead tr th .table-search label */
+  table.table-striped.quick-table td:nth-child(1), table.table-striped.quick-table th:nth-child(1),
+  table.table-striped.quick-table thead tr th 
   {
     position:sticky;
     left:0;

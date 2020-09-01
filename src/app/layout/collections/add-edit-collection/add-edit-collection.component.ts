@@ -1911,9 +1911,9 @@ export class AddEditCollectionComponent implements OnInit {
 
           if (!element.name || !element.amount || !element.date || !element.percent) {
             i = i + 1;
-            const text = element.name ? 
+            const text = element.name ?
                           this.translate.instant('message.error.pleaseFillAllDetailsFor') + element.name :
-                          this.translate.instant('message.error.pleaseFillAllDetailsFor')
+                          this.translate.instant('message.error.pleaseFillAllDetailsFor');
             this.toastr.clear();
             this.toastr.error(text, this.translate.instant('swal.error'));
             return;
@@ -1926,8 +1926,10 @@ export class AddEditCollectionComponent implements OnInit {
         }
         // check if total sum of monthly installments is equal or greater than property price
         paymentSum = paymentSum.toFixed(2);
-        console.log(formdata['deal_price'], paymentSum)
-        if (formdata['deal_price'] != paymentSum) {
+        console.log(formdata['deal_price'], paymentSum);
+        const diff = formdata['deal_price'] - paymentSum;
+        const currency_id = this.addFormStep4.get('currency_id').value;
+        if ((diff >= 5 && currency_id == 78) || (diff >= 0.5 && currency_id == 124)) {
           callApi = false;
           const text = this.translate.instant('message.error.priceIsNotEqualToPaymentConceptPrice') + '<br>';
           // this.translate.instant('message.error.priceIs') + formdata['deal_price'] + '<br>' +

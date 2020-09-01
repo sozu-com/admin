@@ -95,34 +95,24 @@ export class QuickVisualizationComponent implements OnInit {
       this.getCollectionDetails();
 
 
-      // window.onscroll = function() {myFunction()};
-  
-      // var header = document.getElementById("myHeader");
-      // var sticky = header.offsetTop;
-      
-      // function myFunction() {
-      //   if (window.pageYOffset > sticky) {
-      //     header.classList.add("sticky");
-      //   } else {
-      //     header.classList.remove("sticky");
-      //   }
-      // }
     });
   }
 
-  ngAfterViewInit(){
-    this.elementPosition = this.menuElement.nativeElement.offsetTop;
-  }
+  // ngAfterViewInit(){
+  //   this.elementPosition = this.menuElement.nativeElement.offsetTop;
+  // }
 
-  @HostListener('window:scroll', ['$event'])
-    handleScroll(){
-      const windowScroll = window.pageYOffset;
-      if(windowScroll >= this.elementPosition){
-        this.sticky = true;
-      } else {
-        this.sticky = false;
-      }
-    }
+  // @HostListener('window:scroll', ['$event'])
+  //   handleScroll(){
+  //     const windowScroll = window.pageYOffset;
+  //     if(windowScroll >= this.elementPosition){
+  //       console.log('true', windowScroll, this.elementPosition)
+  //       this.sticky = true;
+  //     } else {
+  //       console.log('tr78678687ue', windowScroll, this.elementPosition)
+  //       this.sticky = false;
+  //     }
+  //   }
   setDatePickerLocale() {
     if (this.translate.defaultLang == 'en') {
       this.locale = {
