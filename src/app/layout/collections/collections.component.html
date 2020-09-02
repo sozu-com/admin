@@ -306,10 +306,10 @@
                         <th style="text-align:left; width: 100px;">
                         <div class="table-search">
                            <label>{{'table.th.statusAccount' | translate}}</label>
-                           <select [(ngModel)]="parameter.collection_status" (change)="getListing()">
+                           <!-- <select [(ngModel)]="parameter.collection_status" (change)="getListing()">
                             <option value="">{{'table.th.all' | translate}}</option>
                             <option *ngFor="let c of collectionStatusFilter" value="{{c.value}}" >{{c.name}}</option>
-                         </select>
+                         </select> -->
                         </div>
                      </th>
                        <th style="width: 350px;" *ngIf="parameter.flag!=5">

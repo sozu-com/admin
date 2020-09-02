@@ -118,7 +118,7 @@ export class CollectionsComponent implements OnInit {
     { name: 'Payment Period', value: 2 },
     { name: 'Overdue Payment', value: 3 },
     { name: 'Cancelled', value: 4 },
-    // { name: 'Settled', value: 5 },
+    { name: 'Settled', value: 5 },
     // { name: 'Inconsistency', value: 6 },
     { name: 'Only Commission for sale', value: 7 }];
 
