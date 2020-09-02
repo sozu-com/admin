@@ -624,23 +624,35 @@
                            </div>
                         </td>
                         <td *ngIf="user_type=='seller'">
-                           <button *ngIf="parameter.seller_id!=item.id" 
+                           <button *ngIf="seller_type==2 ? parameter.seller_id!=item.legal_reps.id : parameter.seller_id!=item.id" 
                               (click)="changeStatusPopUp(parameter.property_id, 
                                                       (seller_type==2 ? item.legal_reps.id : item.id), 
                                                       (seller_type==2 ? item.comm_name : item.name), 
                                                       1, 'link')" class="action-icon" title="{{'table.title.acceptRequest' | translate}}">
                               <img src="assets/img/green-icon.png" alt="img"></button>
-                           <button *ngIf="parameter.seller_id==item.id" (click)="showRejectSellerRequestModal(parameter.property_id, item.id, 2)" class="action-icon" title="{{'table.title.rejectRequest' | translate}}">
+                           <button *ngIf="seller_type==2 ? parameter.seller_id==item.legal_reps.id : parameter.seller_id==item.id" 
+                           (click)="changeStatusPopUp(parameter.property_id, 
+                              (seller_type==2 ? item.legal_reps.id : item.id), 
+                              (seller_type==2 ? item.comm_name : item.name), 
+                              2, 'request')"
+                           class="action-icon" title="{{'table.title.rejectRequest' | translate}}">
+                           <!-- (click)="showRejectSellerRequestModal(parameter.property_id, item.id, 2)"  -->
                                  <img src="assets/img/ic_disapprove.png" alt="img"></button>
                         </td>
                         <td *ngIf="user_type=='buyer'">
-                           <button *ngIf="parameter.buyer_id!=item.id" 
+                           <button *ngIf="seller_type==2 ? parameter.buyer_id!=item.legal_reps.id : parameter.buyer_id!=item.id" 
                               (click)="changeStatusPopUp(parameter.property_id, 
                                                       (seller_type==2 ? item.legal_reps.id : item.id), 
                                                       (seller_type==2 ? item.comm_name : item.name), 
                                                       1, 'link')" class="action-icon" title="{{'table.title.acceptRequest' | translate}}">
                               <img src="assets/img/green-icon.png" alt="img"></button>
-                           <button *ngIf="parameter.buyer_id==item.id" (click)="showRejectSellerRequestModal(parameter.property_id, item.id, 2)" class="action-icon" title="{{'table.title.rejectRequest' | translate}}">
+                           <button *ngIf="seller_type==2 ? parameter.buyer_id==item.legal_reps.id : parameter.buyer_id==item.id" 
+                           (click)="changeStatusPopUp(parameter.property_id, 
+                                                      (seller_type==2 ? item.legal_reps.id : item.id), 
+                                                      (seller_type==2 ? item.comm_name : item.name), 
+                                                      2, 'request')" 
+                           class="action-icon" title="{{'table.title.rejectRequest' | translate}}">
+                           <!-- (click)="showRejectSellerRequestModal(parameter.property_id, item.id, 2)"  -->
                                  <img src="assets/img/ic_disapprove.png" alt="img"></button>
                         </td>
                      </tr>

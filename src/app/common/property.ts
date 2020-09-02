@@ -179,6 +179,7 @@ export interface IProperty {
   company_id?: string;
   floor_num?: number;
   configuration_name?: string;
-  collection_id?:string;
+  collection_id?: string;
   user_type?: number;
+  collection_status?: any;
 }

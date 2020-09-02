@@ -433,9 +433,10 @@ export class PropertiesComponent implements OnInit {
     this.parameter.property_id = property_id;
     this.parameter.user_id = user_id;
     this.parameter.status = status;
+    this.changeStatusSellerSelection();
     this.closeLinkSellerModal.nativeElement.click();
     this.closeLinkUserModal.nativeElement.click();
-    this.rejectModalOpen.nativeElement.click();
+    // this.rejectModalOpen.nativeElement.click();
   }
 
   changeStatusPopUp(property_id: any, user_id: any, name: string, status: number, type: string) {
@@ -472,12 +473,12 @@ export class PropertiesComponent implements OnInit {
   }
 
   changeStatusSellerSelection() {
-    const input = { 
+    const input = {
       type: this.seller_type,
-      property_id: this.parameter.property_id, 
-      user_id: this.parameter.user_id, 
-      status: this.parameter.status, 
-      reason: '' 
+      property_id: this.parameter.property_id,
+      user_id: this.parameter.user_id,
+      status: this.parameter.status,
+      reason: ''
     };
     if (this.reason) {
       input.reason = this.reason;
@@ -502,13 +503,22 @@ export class PropertiesComponent implements OnInit {
           this.items[this.parameter.index].selected_buyer = sel_user;
           this.items[this.parameter.index].selected_buyer.user.name = this.parameter.fullName;
         }
+      } else {
+        // reject
+        if (this.user_type == 'seller') {
+          this.items[this.parameter.index].selected_seller_id = null;
+          this.items[this.parameter.index].selected_seller = null;
+        } else {
+          this.items[this.parameter.index].selected_buyer_id = null;
+          this.items[this.parameter.index].selected_buyer = null;
+        }
       }
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.doneSuccessfully'), 'success');
       // accept => then close listing modal
-      if (this.parameter.status === 1) {
+      // if (this.parameter.status === 1) {
         this.closeLinkSellerModal.nativeElement.click();
         this.closeLinkUserModal.nativeElement.click();
-      }
+      // }
       // else reason modal
       this.rejectModalClose.nativeElement.click();
     },
