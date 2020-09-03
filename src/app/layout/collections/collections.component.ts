@@ -604,28 +604,32 @@ export class CollectionsComponent implements OnInit {
   }
 
   getCollectionDetails() {
-    let reducingP = [];
+    const reducingP = [];
     for (let index = 0; index < this.paymentConcepts.length; index++) {
       const m = this.paymentConcepts[index];
-      m.payment_date = m.collection_payment>0 ? this.getDateWRTTimezone(m.collection_payment.payment_date, 'YYYY-MM-DD') : '';
+      m.payment_date = m.collection_payment > 0 ? this.getDateWRTTimezone(m.collection_payment.payment_date, 'YYYY-MM-DD') : '';
       m.paid_amount = m.calc_payment_amount ? m.calc_payment_amount : 0;
 
+      let c = {};
       // if type=2 means reducing payment => add one more row
-      if (m.collection_paymentss && m.collection_paymentss.length>0) {
+      if (m.collection_paymentss && m.collection_paymentss.length > 0) {
         for (let i = 0; i < m.collection_paymentss.length; i++) {
           const paymnts = m.collection_paymentss[i];
+          c = {
+            key: 'remaining_amt',
+            name: '',
+            paid_amount: paymnts.full_amount,
+            is_paid_calculated: 0,
+            outstanding_amount: 0,
+            index: index + i,
+            payment_type: 2,  // in real its 2
+            receipt: paymnts.receipt,
+            description: paymnts.description,
+            display_choice_id: paymnts.display_choice_id,
+            created_at: paymnts.created_at
+          };
           if (paymnts.payment_type == 2) {
-            const c = {
-              key: 'remaining_amt',
-              name: 'Payment to remaining (Reduce Amount)',
-              paid_amount: paymnts.amount,
-              is_paid_calculated: 0,
-              outstanding_amount: 0,
-              index: index+i,
-              payment_type: 2,  // in real its 2
-              receipt: paymnts.receipt,
-              description: paymnts.description
-            };
+            c['name'] = 'Payment to remaining (Reduce Amount)';
             c['collection_paymentss'] = [{
               id: paymnts.id,
               parent_id: paymnts.parent_id,
@@ -636,22 +640,10 @@ export class CollectionsComponent implements OnInit {
               receipt: paymnts.receipt,
               description: paymnts.description,
               payment_method: paymnts.payment_method
-            }]
-            reducingP.push(c);     
-          }
-          else if (paymnts.payment_type == 3 && paymnts.display_choice_id) {
-            const c = {
-              key: 'remaining_amt',
-              name: 'Payment to remaining (Reduce Time)',
-              paid_amount: paymnts.full_amount,
-              is_paid_calculated: 0,
-              outstanding_amount: 0,
-              index: index+i,
-              payment_type: 3,  // in real its 3
-              receipt: paymnts.receipt,
-              description: paymnts.description,
-              display_choice_id: paymnts.display_choice_id
-            };
+            }];
+            reducingP.push(c);
+          } else if (paymnts.payment_type == 3 && paymnts.display_choice_id) {
+            c['name'] = 'Payment to remaining (Reduce Time)';
             c['collection_paymentss'] = [{
               id: paymnts.id,
               parent_id: paymnts.parent_id,
@@ -662,22 +654,10 @@ export class CollectionsComponent implements OnInit {
               receipt: paymnts.receipt,
               description: paymnts.description,
               payment_method: paymnts.payment_method
-            }]
-            reducingP.push(c);     
-          }
-          else if (paymnts.payment_type == 5 && paymnts.display_choice_id) {
-            const c = {
-              key: 'remaining_amt',
-              name: 'Total Payment',
-              paid_amount: paymnts.full_amount,
-              is_paid_calculated: 0,
-              outstanding_amount: 0,
-              index: index+i,
-              payment_type: 5,  // in real its 5
-              receipt: paymnts.receipt,
-              description: paymnts.description,
-              display_choice_id: paymnts.display_choice_id
-            };
+            }];
+            reducingP.push(c);
+          } else if (paymnts.payment_type == 5 && paymnts.display_choice_id) {
+            c['name'] = 'Total Payment';
             c['collection_paymentss'] = [{
               id: paymnts.id,
               parent_id: paymnts.parent_id,
@@ -688,40 +668,32 @@ export class CollectionsComponent implements OnInit {
               receipt: paymnts.receipt,
               description: paymnts.description,
               payment_method: paymnts.payment_method
-            }]
-            reducingP.push(c);     
+            }];
+            reducingP.push(c);
           }
         }
       }
 
       m['outstanding_amount'] = m.amount - (m.calc_payment_amount || 0);
-      if ((m.amount - (m.calc_payment_amount||0))>=0) {
+      if ((m.amount - (m.calc_payment_amount || 0)) >= 0) {
         const a = (m.calc_payment_amount || 0);
         m['is_pending'] = a ? 1 : 0;
       }
     }
+
     // now insert at reducing remaining payments at type=2 index
-    // reducingP = reducingP.reverse();
-    // for (let i = 0; i < reducingP.length; i++) {
-    //   const element = reducingP[i];
-    //   this.paymentConcepts.splice(element.index, 0, element);              
-    // }
+    // sorting reducingP according to date => in case user is paying using type 3 consecutively many times
+    reducingP.sort(this.sortFunction);
 
     for (let i = 0; i < reducingP.length; i++) {
       const element = reducingP[i];
-      const newIndex = element.index; 
-      if (element.payment_type == 2) {
-        this.paymentConcepts.splice(newIndex, 0, element);    
-      } else {
-        // for payment_type 3,5 check display_choice_id
-        let index = this.paymentConcepts.length - 1;
-        for ( index ; index >= 0; index--) {
-        // for (let index = 0; index < this.paymentConcepts.length; index++) {
-          const e = this.paymentConcepts[index];
-          if (e.id==element.display_choice_id) {
-            this.paymentConcepts.splice(index, 0, element); 
-            break;   
-          }
+      // for payment_type 3,5 check display_choice_id
+      // loop is for if need to insert 2 type 2 payments on same index
+      for (let j = 0; j < this.paymentConcepts.length; j++) {
+        const e = this.paymentConcepts[j];
+        if (e.id == element.display_choice_id) {
+          this.paymentConcepts.splice(j, 0, element);
+          break;
         }
       }
     }
@@ -729,20 +701,18 @@ export class CollectionsComponent implements OnInit {
     // calculating new paid amt, by skipping type 2
     for (let index = 0; index < this.paymentConcepts.length; index++) {
       const element = this.paymentConcepts[index];
-      let p_amt: any = 0;
-      let extraAmt: any = 0;
-      if (element.collection_paymentss && element.collection_paymentss.length>0) {
+      if (element.collection_paymentss && element.collection_paymentss.length > 0) {
         for (let i = 0; i < element.collection_paymentss.length; i++) {
           const ele = element.collection_paymentss[i];
           if (ele.payment_type == 2) {
-            let v = ele.amt_share || 0;
+            const v = ele.amt_share || 0;
             const ids = ele.choices_ids.split(',');
             for (let j = 0; j < this.paymentConcepts.length; j++) {
               const e = this.paymentConcepts[j];
               if (e.id) {
                 const d = e.id.toString();
-                const h = ids.indexOf(d)
-                if (h>=0) {
+                const h = ids.indexOf(d);
+                if (h >= 0) {
                   const obj = {
                     id: ele.id,
                     amount: v,
@@ -753,7 +723,7 @@ export class CollectionsComponent implements OnInit {
                     receipt: ele.receipt,
                     description: ele.description,
                     payment_method: ele.payment_method
-                  }
+                  };
                   this.paymentConcepts[j].paid_amount = parseFloat(this.paymentConcepts[j].paid_amount) - parseFloat(v);
                 }
               }
@@ -764,7 +734,7 @@ export class CollectionsComponent implements OnInit {
     }
   }
 
-  deletePayment(payment_id: string, mainIndex: number, index: number){
+  deletePayment(payment_id: string, mainIndex: number, index: number) {
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' +
         this.translate.instant('message.error.wantToDeletePayment'),
@@ -813,14 +783,14 @@ export class CollectionsComponent implements OnInit {
   setPaymentConceptAmount(id: any) {
     this.paymentConcepts.map(r => {
       if (r.id == id) {
-        this.penaltyForm.controls.payment_concept_amt.patchValue(r.amount || 0);        
+        this.penaltyForm.controls.payment_concept_amt.patchValue(r.amount || 0);
       }
-    }); 
+    });
   }
 
   setPaymentAmount(item: any) {
-    if (this.typeOfPayment == 'commission-popup') {
-      if (this.commission_type == 1 && item.add_purchase_commission == 0) {        
+    if (this.typeOfPayment === 'commission-popup') {
+      if (this.commission_type == 1 && item.add_purchase_commission == 0) {
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseEnablePurchaseCommission'), this.translate.instant('swal.error'));
         this.closeCollReceiptModal();
@@ -840,17 +810,19 @@ export class CollectionsComponent implements OnInit {
       let amtPaid: any = 0;
       let currentAmt: any = 0;
       let currentAmtPaid: any = 0;
-      // checking if method is pay to specific (4), then user will pay only for that specific installment + user cannot pay more than the amount+penalty
+      // checking if method is pay to specific (4), then user will pay only for that specific installment
+      // + user cannot pay more than the amount+penalty
       if (this.payment_type == 4) {
-        currentAmt = item['amount']; 
+        currentAmt = item['amount'];
         currentAmtPaid = item['calc_payment_amount'] || 0;
         this.penaltyAmount = item.penalty ? parseFloat(item.penalty.amount).toFixed(2) : 0;
-        this.pendingPayment = 0.00 // amt already paid
+        this.pendingPayment = 0.00; // amt already paid
         this.currentAmount = (parseFloat(currentAmt) - parseFloat(currentAmtPaid)).toFixed(2);
-        this.paymentAmount = (parseFloat(this.currentAmount) + parseFloat(this.pendingPayment) + parseFloat(this.penaltyAmount)).toFixed(2);     
+        this.paymentAmount = (parseFloat(this.currentAmount) + parseFloat(this.pendingPayment) +
+        parseFloat(this.penaltyAmount)).toFixed(2);
         this.calculatedPayAmount = [...this.paymentAmount];
-      } else if (this.payment_type == 1){
-        for (let index = 0; index < this.paymentConcepts.length; index++) {        
+      } else if (this.payment_type == 1) {
+        for (let index = 0; index < this.paymentConcepts.length; index++) {
           const r = this.paymentConcepts[index];
           currentAmt = r['amount']; 
           currentAmtPaid = r['calc_payment_amount'] || 0;
@@ -867,25 +839,7 @@ export class CollectionsComponent implements OnInit {
         this.currentAmount = (parseFloat(currentAmt) - parseFloat(currentAmtPaid)).toFixed(2);
         this.paymentAmount = (parseFloat(this.currentAmount) + parseFloat(this.pendingPayment) + parseFloat(this.penaltyAmount)).toFixed(2);
         this.calculatedPayAmount = [...this.paymentAmount];
-      } 
-      // else if (this.payment_type == 5){
-      //   for (let index = 0; index < this.paymentConcepts.length; index++) {        
-      //     const r = this.paymentConcepts[index];
-      //     currentAmt = r['amount']; 
-      //     currentAmtPaid = r['calc_payment_amount'] || 0;
-      //       penaltyamt = r['penalty'] ? parseFloat(r['penalty']['amount']) : 0;
-      //       amt = parseFloat(amt) + parseFloat(r['amount']) + parseFloat(penaltyamt);
-      //       amtPaid = parseFloat(amtPaid) + parseFloat(currentAmtPaid);
-      //     // } else {
-      //     //   break;
-      //     // }
-      //   }
-      //   this.penaltyAmount = item.penalty ? parseFloat(item.penalty.amount).toFixed(2) : 0;
-      //   this.pendingPayment = (amt - amtPaid).toFixed(2);
-      //   this.currentAmount = (parseFloat(currentAmt) - parseFloat(currentAmtPaid)).toFixed(2);
-      //   this.paymentAmount = (parseFloat(this.currentAmount) + parseFloat(this.pendingPayment) + parseFloat(this.penaltyAmount)).toFixed(2);
-      //   this.calculatedPayAmount = [...this.paymentAmount];
-      // }
+      }
     }
   }
 
@@ -919,7 +873,7 @@ export class CollectionsComponent implements OnInit {
       this.toastr.error(this.translate.instant('message.error.pleaseEnterValidAmt'), this.translate.instant('swal.error'));
       return false;
     }
-    if (this.surplus_payment_type=='4' && !this.surplus_payment_choice_id) {
+    if (this.surplus_payment_type == '4' && !this.surplus_payment_choice_id) {
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseChoosePayments'), this.translate.instant('swal.error'));
       return false;
@@ -970,11 +924,11 @@ export class CollectionsComponent implements OnInit {
     }
 
     // check for type 3, user can only pay exact amount of M1, or sum of M1 & M2, or sum of M1,M2,M3 and soon
-    let a1 = this.surplus_payment_type == '3' ? this.paymentAmount - this.calculatedPayAmount : this.paymentAmount;
+    const a1 = this.surplus_payment_type == '3' ? this.paymentAmount - this.calculatedPayAmount : this.paymentAmount;
     if (this.payment_type == '3' || this.surplus_payment_type == '3') {
       let a: any = 0;
-      let index = this.paymentConcepts.length-1;
-      for (index; index>=0; index--) { 
+      let index = this.paymentConcepts.length - 1;
+      for (index; index >= 0; index--) {
         const v = this.paymentConcepts[index]  ;
         if (!v['is_paid_calculated'] && v.name.includes('Monthly Installment')) {
           const remaining_amt = parseFloat(v['amount']) - parseFloat(v['calc_payment_amount']);
@@ -984,12 +938,14 @@ export class CollectionsComponent implements OnInit {
         // using a1 and not this.paymentAmount because, need to check for both direct type 3 and type 3 in surplus popup
         if (a1 > a) {
           continue;
-        } else if (a1 == a){
+        } else if (a1 == a) {
           break;
-        } else if (this.paymentAmount < a){
+        } else if (this.paymentAmount < a) {
           this.toastr.clear();
           this.toastr.error(this.translate.instant('message.error.payToRemainingReduceTimecheck'), this.translate.instant('swal.error'));
-          this.surplus_payment_type == '3' ? this.surplusMoneyModalClose.nativeElement.click() : this.paymentModalClose.nativeElement.click();
+          this.surplus_payment_type == '3' ?
+                  this.surplusMoneyModalClose.nativeElement.click() :
+                  this.paymentModalClose.nativeElement.click();
           return false;
         }
       }
@@ -1009,26 +965,25 @@ export class CollectionsComponent implements OnInit {
       return false;
     }
 
-    var offset = new Date(this.paymentDate).getTimezoneOffset();
+    const offset = new Date(this.paymentDate).getTimezoneOffset();
     if (offset < 0) {
       this.paymentDate = moment(this.paymentDate).subtract(offset, 'minutes').toDate();
     } else {
       this.paymentDate = moment(this.paymentDate).add(offset, 'minutes').toDate();
     }
 
-    // inpur params
     const input = {
       property_collection_id: this.property_collection_id,
       payment_method_id: this.payment_method_id,
-      amount : amt, 
+      amount : amt,
       receipt: this.docFile,
       description: this.description,
       payment_date: this.paymentDate,
       full_amount: this.paymentAmount // sending real amount entered by user
-    }
+    };
 
     // send commission_type, collection_commission_id, percent incase of applying commission
-    if (this.typeOfPayment == 'commission-popup') {
+    if (this.typeOfPayment === 'commission-popup') {
       input['commission_type'] = this.commission_type;
       input['collection_commission_id'] = this.selectedCollectionCommission.id;
       input['percent'] = this.selectedCollectionCommission.percent;
@@ -1044,7 +999,7 @@ export class CollectionsComponent implements OnInit {
       }
       input['type'] = this.payment_type;
     }
-    const url = this.typeOfPayment == 'apply-popup' ? 'applyCollectionPayment' : 'applyCommissionPayment';
+    const url = this.typeOfPayment === 'apply-popup' ? 'applyCollectionPayment' : 'applyCommissionPayment';
 
     this.isApplyBtnClicked = true;
     this.admin.postDataApi(url, input).subscribe(r => {
@@ -1053,8 +1008,8 @@ export class CollectionsComponent implements OnInit {
         input['amount'] = this.paymentAmount - this.calculatedPayAmount;
         input['type'] = this.surplus_payment_type;
         input['parent_id'] = r.data['id'];   // send parent_id in case of type 1 and surplus (to make parent delete)
-        if (this.surplus_payment_type=='4') {
-          input['collection_payment_choice_id'] = this.surplus_payment_choice_id 
+        if (this.surplus_payment_type == '4') {
+          input['collection_payment_choice_id'] = this.surplus_payment_choice_id;
         }
 
         this.admin.postDataApi(url, input).subscribe(r => {
@@ -1063,11 +1018,11 @@ export class CollectionsComponent implements OnInit {
           // }
         });
       }
-  
+
       this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
       this.paymentModalClose.nativeElement.click();
       this.closeCollReceiptModal();
-      
+
       this.toastr.clear();
       this.toastr.success(this.translate.instant('message.success.savedSuccessfully'), this.translate.instant('swal.success'));
     }, error => {
@@ -1075,7 +1030,7 @@ export class CollectionsComponent implements OnInit {
       this.isApplyBtnClicked = false;
       this.docsFile1.nativeElement.value = '';
       this.paymentModalClose.nativeElement.click();
-      this.closeCollReceiptModal();      
+      this.closeCollReceiptModal();
       // this.toastr.error(error.message, this.translate.instant('swal.error'));
       return false;
     });
@@ -1089,7 +1044,7 @@ export class CollectionsComponent implements OnInit {
   closeSurplusMoney() {
     this.surplusMoneyModalClose.nativeElement.click();
   }
-  
+
   onSelectFile(files) {
     this.parameter.loading = true;
     this.cs.saveAttachment(files[0]).subscribe(
@@ -1188,7 +1143,7 @@ export class CollectionsComponent implements OnInit {
       return false;
     }
 
-    var offset = new Date(this.payment_date).getTimezoneOffset();
+    const offset = new Date(this.payment_date).getTimezoneOffset();
     if (offset < 0) {
       this.payment_date = moment(this.payment_date).subtract(offset, 'minutes').toDate();
     } else {
@@ -1253,9 +1208,9 @@ export class CollectionsComponent implements OnInit {
     } else if (this.commission_type == 2)  {
       this.collectionTypeSelect.nativeElement.value = '';
       this.applyPaymentMethodId1.nativeElement.value = '';
-      this.applyPaymentChoiceId2.nativeElement.value = ''
+      this.applyPaymentChoiceId2.nativeElement.value = '';
     }
-    this.commission_type = ''
+    this.commission_type = '';
     this.collectionReceiptClose.nativeElement.click();
   }
 
@@ -1269,7 +1224,7 @@ export class CollectionsComponent implements OnInit {
       this.penaltyForm.controls.payment_concept_amt.patchValue(item.amount);
       this.penaltyForm.controls.amount.patchValue(item.penalty.amount);
       this.penaltyForm.controls.description.patchValue(item.penalty.description);
-      this.penaltyForm.controls.percent.patchValue(((item.penalty.amount*100)/item.amount).toFixed(2));
+      this.penaltyForm.controls.percent.patchValue(((item.penalty.amount * 100) / item.amount).toFixed(2));
       this.penaltyForm.controls.id.patchValue(item.penalty.id);
       this.penaltyForm.controls.collection_payment_choice_id.patchValue(item.penalty.collection_payment_choice_id);
     } else {
@@ -1307,7 +1262,7 @@ export class CollectionsComponent implements OnInit {
       }
     });
   }
-  
+
   closePenaltyPaymentPopup() {
     this.penaltyForm.reset();
     this.penaltyModalClose.nativeElement.click();
@@ -1334,13 +1289,12 @@ export class CollectionsComponent implements OnInit {
     });
   }
 
-  
   quickCollectionView(item: any) {
-    this.router.navigate(['/dashboard/collections/quick-visualization', item.id])
+    this.router.navigate(['/dashboard/collections/quick-visualization', item.id]);
   }
-  
+
   viewAccountStatement(item: any) {
-    this.router.navigate(['/dashboard/collections/account-statement', item.id])
+    this.router.navigate(['/dashboard/collections/account-statement', item.id]);
   }
 
   setPayMentType(payment_type: string) {
@@ -1359,7 +1313,7 @@ export class CollectionsComponent implements OnInit {
     } else {
       this.docsFile2.nativeElement.value = '';
     }
-    if (this.payment_type && this.payment_type!='2' && this.payment_type !='3' && this.payment_type !='5') {
+    if (this.payment_type && this.payment_type != '2' && this.payment_type != '3' && this.payment_type != '5') {
       this.applyPaymentChoiceId.nativeElement.value = '';
     }
     this.closeCollReceiptModal();
@@ -1369,9 +1323,9 @@ export class CollectionsComponent implements OnInit {
         let currentAmt: any = 0;
         let currentAmtPaid: any = 0;
         this.penaltyAmount = 0;
-        for (let index = 0; index < this.paymentConcepts.length; index++) {        
+        for (let index = 0; index < this.paymentConcepts.length; index++) {
           const r = this.paymentConcepts[index];
-          currentAmt = r['amount']; 
+          currentAmt = r['amount'];
           currentAmtPaid = r['calc_payment_amount'] || 0;
           penaltyamt = r['penalty'] ? parseFloat(r['penalty']['amount']) : 0;
           amt = parseFloat(amt) + parseFloat(r['amount']) + parseFloat(penaltyamt);
@@ -1401,16 +1355,17 @@ export class CollectionsComponent implements OnInit {
     this.surplus_payment_choice_id = item.id;
     let currentAmt: any = 0;
     let currentAmtPaid: any = 0;
-    // checking if method is pay to specific (4), then user will pay only for that specific installment + user cannot pay more than the amount+penalty
+    // checking if method is pay to specific (4),
+    // then user will pay only for that specific installment + user cannot pay more than the amount+penalty
     if (this.surplus_payment_type == '4') {
-      currentAmt = item['amount']; 
+      currentAmt = item['amount'];
       currentAmtPaid = item['calc_payment_amount'] || 0;
       const penaltyAmount: any = item.penalty ? parseFloat(item.penalty.amount).toFixed(2) : 0;
       const currentAmount: any = (parseFloat(currentAmt) - parseFloat(currentAmtPaid)).toFixed(2);
-      this.surplus_amt = (parseFloat(currentAmount) + parseFloat(penaltyAmount)).toFixed(2);     
+      this.surplus_amt = (parseFloat(currentAmount) + parseFloat(penaltyAmount)).toFixed(2);
     }
 
-    if ((this.paymentAmount - this.calculatedPayAmount)>this.surplus_amt) {
+    if ((this.paymentAmount - this.calculatedPayAmount) > this.surplus_amt) {
       this.surplus_payment_choice_id = '';
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.payToSpecificCheck'), this.translate.instant('swal.error'));
@@ -1459,4 +1414,9 @@ export class CollectionsComponent implements OnInit {
     this.viewDesModalClose.nativeElement.click();
   }
 
+  sortFunction(a, b) {
+    const dateA = new Date(a.created_at).getTime();
+    const dateB = new Date(b.created_at).getTime();
+    return dateA > dateB ? 1 : -1;
+  }
 }

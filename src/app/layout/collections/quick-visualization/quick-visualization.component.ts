@@ -61,8 +61,8 @@ export class QuickVisualizationComponent implements OnInit {
   selectedPaymentConcept: any;
   property_collection_id: string;
   collectionIndex: number;
-  disablePayToRemaining: boolean = true;
-  isApplyBtnClicked: boolean = false;
+  disablePayToRemaining = true;
+  isApplyBtnClicked = false;
   pendingPayment: any;
   paymentAmount: any;
   paymentDate: Date;
@@ -73,8 +73,6 @@ export class QuickVisualizationComponent implements OnInit {
 
   @ViewChild('stickyMenu') menuElement: ElementRef;
 
-  sticky: boolean = false;
-  elementPosition: any;
   constructor(
     private route: ActivatedRoute,
     public model: Collection,
@@ -93,28 +91,11 @@ export class QuickVisualizationComponent implements OnInit {
     this.parameter.sub = this.route.params.subscribe(params => {
       this.property_collection_id = params['id'];
       this.getCollectionDetails();
-
-
     });
   }
 
-  // ngAfterViewInit(){
-  //   this.elementPosition = this.menuElement.nativeElement.offsetTop;
-  // }
-
-  // @HostListener('window:scroll', ['$event'])
-  //   handleScroll(){
-  //     const windowScroll = window.pageYOffset;
-  //     if(windowScroll >= this.elementPosition){
-  //       console.log('true', windowScroll, this.elementPosition)
-  //       this.sticky = true;
-  //     } else {
-  //       console.log('tr78678687ue', windowScroll, this.elementPosition)
-  //       this.sticky = false;
-  //     }
-  //   }
   setDatePickerLocale() {
-    if (this.translate.defaultLang == 'en') {
+    if (this.translate.defaultLang === 'en') {
       this.locale = {
         firstDayOfWeek: 0,
         dayNames: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
@@ -128,7 +109,7 @@ export class QuickVisualizationComponent implements OnInit {
         dateFormat: 'mm/dd/yy',
         weekHeader: 'Wk',
         dataType: 'string'
-      }
+      };
     } else {
       this.locale = {
         firstDayOfWeek: 0,
@@ -147,7 +128,7 @@ export class QuickVisualizationComponent implements OnInit {
       };
     }
   }
-  
+
   getCollectionDetails() {
     this.spinner.show();
     this.admin.postDataApi('getCollectionById', {id: this.property_collection_id})
@@ -157,35 +138,38 @@ export class QuickVisualizationComponent implements OnInit {
           this.model = success['data'];
           this.allPaymentConcepts = success['data']['payment_choices'];
           // for dropdown
-          this.paymentConcepts = [...this.allPaymentConcepts]
+          this.paymentConcepts = [...this.allPaymentConcepts];
 
           this.collectionCommission = success['data']['collection_commissions'];
           this.totalPaid = 0.00;
           this.totalOutstanding = 0.00;
-          this.remainingAmt = (((this.model.deal_price || 0) + (this.model.penalty || 0)) - (this.model.total_payment_recieved || 0))
-          let reducingP = [];
+          this.remainingAmt = (((this.model.deal_price || 0) + (this.model.penalty || 0)) - (this.model.total_payment_recieved || 0));
+          const reducingP = [];
           for (let index = 0; index < this.allPaymentConcepts.length; index++) {
             const m = this.allPaymentConcepts[index];
-            m.payment_date = m.collection_payment>0 ? this.getDateWRTTimezone(m.collection_payment.payment_date, 'YYYY-MM-DD') : '';
+            m.payment_date = m.collection_payment > 0 ? this.getDateWRTTimezone(m.collection_payment.payment_date, 'YYYY-MM-DD') : '';
             m.paid_amount = m.calc_payment_amount ? m.calc_payment_amount : 0;
 
+            let c = {};
             // if type=2 means reducing payment => add one more row
-            if (m.collection_paymentss && m.collection_paymentss.length>0) {
+            if (m.collection_paymentss && m.collection_paymentss.length > 0) {
               for (let i = 0; i < m.collection_paymentss.length; i++) {
                 const paymnts = m.collection_paymentss[i];
-                let c = {}
+                c = {
+                  key: 'remaining_amt',
+                  name: '',
+                  paid_amount: paymnts.full_amount,
+                  is_paid_calculated: 0,
+                  outstanding_amount: 0,
+                  index: index + i,
+                  payment_type: 2,  // in real its 2
+                  receipt: paymnts.receipt,
+                  description: paymnts.description,
+                  display_choice_id: paymnts.display_choice_id,
+                  created_at: paymnts.created_at
+                };
                 if (paymnts.payment_type == 2) {
-                  c = {
-                    key: 'remaining_amt',
-                    name: 'Payment to remaining (Reduce Amount)',
-                    paid_amount: paymnts.amount,
-                    is_paid_calculated: 0,
-                    outstanding_amount: 0,
-                    index: index+i,
-                    payment_type: 2,  // in real its 2
-                    receipt: paymnts.receipt,
-                    description: paymnts.description
-                  };
+                  c['name'] = 'Payment to remaining (Reduce Amount)';
                   c['collection_paymentss'] = [{
                     id: paymnts.id,
                     parent_id: paymnts.parent_id,
@@ -196,62 +180,36 @@ export class QuickVisualizationComponent implements OnInit {
                     receipt: paymnts.receipt,
                     description: paymnts.description,
                     payment_method: paymnts.payment_method
-                  }]
-                  reducingP.push(c);     
-                }
-                else if (paymnts.payment_type == 3 && paymnts.display_choice_id) {
-                  c = {
-                    key: 'remaining_amt',
-                    name: 'Payment to remaining (Reduce Time)',
-                    paid_amount: paymnts.full_amount,
-                    is_paid_calculated: 0,
-                    outstanding_amount: 0,
-                    index: index+i,
-                    payment_type: 3,  // in real its 3
-                    receipt: paymnts.receipt,
-                    description: paymnts.description,
-                    display_choice_id: paymnts.display_choice_id
-                  };
+                  }];
+                  reducingP.push(c);
+                } else if (paymnts.payment_type == 3 && paymnts.display_choice_id) {
+                  c['name'] = 'Payment to remaining (Reduce Time)';
                   c['collection_paymentss'] = [{
                     id: paymnts.id,
                     parent_id: paymnts.parent_id,
-                    payment_type: 3,  // in real its 3
+                    payment_type: 3,
                     paid_amount: paymnts.full_amount,
                     amount: paymnts.full_amount,
                     payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
                     receipt: paymnts.receipt,
                     description: paymnts.description,
                     payment_method: paymnts.payment_method
-                  }]
-                  // console.log(c);
-                  reducingP.push(c);     
-                }
-                else if (paymnts.payment_type == 5 && paymnts.display_choice_id) {
-                  c = {
-                    key: 'remaining_amt',
-                    name: 'Total Payment',
-                    paid_amount: paymnts.full_amount,
-                    is_paid_calculated: 0,
-                    outstanding_amount: 0,
-                    index: index+i,
-                    payment_type: 5,  // in real its 5
-                    receipt: paymnts.receipt,
-                    description: paymnts.description,
-                    display_choice_id: paymnts.display_choice_id
-                  };
+                  }];
+                  reducingP.push(c);
+                } else if (paymnts.payment_type == 5 && paymnts.display_choice_id) {
+                  c['name'] = 'Total Payment';
                   c['collection_paymentss'] = [{
                     id: paymnts.id,
                     parent_id: paymnts.parent_id,
-                    payment_type: 5,  // in real its 5
+                    payment_type: 5,
                     paid_amount: paymnts.full_amount,
                     amount: paymnts.full_amount,
                     payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
                     receipt: paymnts.receipt,
                     description: paymnts.description,
                     payment_method: paymnts.payment_method
-                  }]
-                  // console.log(c);
-                  reducingP.push(c);       
+                  }];
+                  reducingP.push(c);
                 }
               }
             }
@@ -259,33 +217,25 @@ export class QuickVisualizationComponent implements OnInit {
             // calculating total paid and total outstanding payment
             this.totalPaid = this.totalPaid + m.paid_amount;
             m['outstanding_amount'] = m.amount - (m.calc_payment_amount || 0);
-            if ((m.amount - (m.calc_payment_amount||0))>=0) {
+            if ((m.amount - (m.calc_payment_amount || 0)) >= 0) {
               const a = (m.calc_payment_amount || 0);
               m['is_pending'] = a ? 1 : 0;
               this.totalOutstanding = this.totalOutstanding + m['outstanding_amount'];
             }
           }
           // now insert at reducing remaining payments at type=2 index
+          // sorting reducingP according to date => in case user is paying using type 3 consecutively many times
+          reducingP.sort(this.sortFunction);
 
-          console.log(this.allPaymentConcepts)
-          console.log(reducingP)
           for (let i = 0; i < reducingP.length; i++) {
             const element = reducingP[i];
-            const newIndex = element.index; 
-            if (element.payment_type == 2) {
-              console.log(newIndex)
-              this.allPaymentConcepts.splice(newIndex, 0, element);    
-            } else {
-              // for payment_type 3,5 check display_choice_id
-              let index = this.allPaymentConcepts.length - 1;
-              for ( index ; index >= 0; index--) {
-              // for (let index = 0; index < this.allPaymentConcepts.length; index++) {
-                const e = this.allPaymentConcepts[index];
-                if (e.id==element.display_choice_id) {
-                  console.log('====================',e,index)
-                  this.allPaymentConcepts.splice(index, 0, element); 
-                  break;   
-                }
+            // for payment_type 3,5 check display_choice_id
+            // loop is for if need to insert 2 type 2 payments on same index
+            for (let j = 0; j < this.allPaymentConcepts.length; j++) {
+              const e = this.allPaymentConcepts[j];
+              if (e.id == element.display_choice_id) {
+                this.allPaymentConcepts.splice(j, 0, element);
+                break;
               }
             }
           }
@@ -293,27 +243,22 @@ export class QuickVisualizationComponent implements OnInit {
           // calculating new paid amt, by skipping type 2
           for (let index = 0; index < this.allPaymentConcepts.length; index++) {
             const element = this.allPaymentConcepts[index];
-            let p_amt: any = 0;
-            let extraAmt: any = 0;
-            if (element.collection_paymentss && element.collection_paymentss.length>0) {
+            const p_amt: any = 0;
+            if (element.collection_paymentss && element.collection_paymentss.length > 0) {
               for (let i = 0; i < element.collection_paymentss.length; i++) {
                 const ele = element.collection_paymentss[i];
-                // if (ele.payment_type != 2) {
-                //   p_amt = parseFloat(p_amt) + parseFloat(ele.amount);
-                // }
                 // if payment_type 2 then reduce the amount from all MI (only)
                 if (ele.payment_type == 2) {
-                  let v = ele.amt_share || 0;
+                  const v = ele.amt_share || 0;
                   const ids = ele.choices_ids.split(',');
 
                   // deleting the share of type 2 from main header
                   for (let j = 0; j < this.allPaymentConcepts.length; j++) {
                     const e = this.allPaymentConcepts[j];
-                    // console.log('1222', ids, e.id, v)
                     if (e.id) {
                       const d = e.id.toString();
-                      const h = ids.indexOf(d)
-                      if (h>=0) {
+                      const h = ids.indexOf(d);
+                      if (h >= 0) {
                         const obj = {
                           amount: v,
                           name: 'Payment to remaining (Reduce Amount)',
@@ -323,33 +268,14 @@ export class QuickVisualizationComponent implements OnInit {
                           receipt: ele.receipt,
                           description: ele.description,
                           payment_method: ele.payment_method
-                        }
-                        // console.log('dddddddddddddddddddd')
-                        // console.log(obj)
-                        // obj['amount'] = v;
-                        // if (this.allPaymentConcepts[j].collection_paymentss && this.allPaymentConcepts[j].collection_paymentss.length > 0) {
-                        //   this.allPaymentConcepts[j].collection_paymentss.unshift(obj)
-                        // } else {
-                        //   this.allPaymentConcepts[j].collection_paymentss = [obj];
-                        // }
-                        // console.log(this.allPaymentConcepts[j].paid_amount, v);
+                        };
                         this.allPaymentConcepts[j].paid_amount = parseFloat(this.allPaymentConcepts[j].paid_amount) - parseFloat(v);
-                        // console.log(v,element,element.paid_amount);
-                        // break;
                       }
                     }
                   }
-
-                  // deleting from sub table if choices_id match the collection_payment_choice_id
-                  // const d = ele.collection_payment_choice_id.toString();
-                  // const h = ids.indexOf(d)
-                  // if (h>=0) {
-                  //   ele.amount = parseFloat(ele.amount) - parseFloat(v);
-                  // }
                 }
               }
             }
-
 
             element.new_paid_amt = p_amt;
           }
@@ -361,16 +287,15 @@ export class QuickVisualizationComponent implements OnInit {
             paid_amount: this.model.total_payment_recieved,
             is_paid_calculated: 1,
             outstanding_amount: this.totalOutstanding
-          })
+          });
 
-          this.collectionCommission.push({})
+          this.collectionCommission.push({});
         }, error => {
           this.spinner.hide();
         }
       );
   }
 
-  
   exportData() {
     if (this.allPaymentConcepts) {
       const finalData = [];
@@ -380,7 +305,8 @@ export class QuickVisualizationComponent implements OnInit {
         const pcAmount = this.collectionCommission[index]['purchase_payment'] ?
         this.currencyPipe.transform(this.collectionCommission[index]['purchase_payment']['amount']) : '';
 
-        const pcDate = this.collectionCommission[index]['purchase_payment'] ? this.collectionCommission[index]['purchase_payment']['payment_date'] : '';
+        const pcDate = this.collectionCommission[index]['purchase_payment'] ?
+        this.collectionCommission[index]['purchase_payment']['payment_date'] : '';
 
         const ccAmount = this.collectionCommission[index]['payment'] ?
         this.currencyPipe.transform(this.collectionCommission[index]['payment']['amount']) : '';
@@ -400,12 +326,16 @@ export class QuickVisualizationComponent implements OnInit {
           'Penalty Description': p.penalty ? p.penalty.description : '',
           'Purchased Commission': pcAmount,
           'Date Of PC': pcDate,
-          'Sozu PC Receipt': this.collectionCommission[index] && this.collectionCommission[index].purchase_payment ? this.collectionCommission[index].purchase_payment.receipt : '',
-          'PC Description': this.collectionCommission[index] && this.collectionCommission[index].purchase_payment ? this.collectionCommission[index].purchase_payment.description : '',
+          'Sozu PC Receipt': this.collectionCommission[index] && this.collectionCommission[index].purchase_payment
+                            ? this.collectionCommission[index].purchase_payment.receipt : '',
+          'PC Description': this.collectionCommission[index] && this.collectionCommission[index].purchase_payment
+                            ? this.collectionCommission[index].purchase_payment.description : '',
           'Collection Commission': ccAmount,
           'Date Of CC': ccDate,
-          'Sozu CC Receipt': this.collectionCommission[index] && this.collectionCommission[index].payment ? this.collectionCommission[index].payment.receipt : '',
-          'CC Description': this.collectionCommission[index] && this.collectionCommission[index].payment ? this.collectionCommission[index].payment.description : '',
+          'Sozu CC Receipt': this.collectionCommission[index] && this.collectionCommission[index].payment
+                            ? this.collectionCommission[index].payment.receipt : '',
+          'CC Description': this.collectionCommission[index] && this.collectionCommission[index].payment
+                            ? this.collectionCommission[index].payment.description : '',
         });
       }
       this.exportAsExcelFile(finalData, 'collection-');
@@ -459,7 +389,7 @@ export class QuickVisualizationComponent implements OnInit {
   }
 
   getDateWRTTimezone(date: any, format: any) {
-    var offset = new Date(date).getTimezoneOffset();
+    const offset = new Date(date).getTimezoneOffset();
     if (offset < 0) {
       return moment(date).subtract(offset, 'minutes').format(format);
     } else {
@@ -494,7 +424,7 @@ export class QuickVisualizationComponent implements OnInit {
     this.payment_date = moment.utc(e).toDate();
   }
 
-  showUpdatePaymentPopup(item: any, i: number, s:number) {
+  showUpdatePaymentPopup(item: any, i: number, s: number) {
     this.item = item;
     this.mainIndex = i;
     this.index = s;
@@ -524,18 +454,18 @@ export class QuickVisualizationComponent implements OnInit {
       return false;
     }
 
-    var offset = new Date(this.payment_date).getTimezoneOffset();
+    const offset = new Date(this.payment_date).getTimezoneOffset();
     if (offset < 0) {
       this.payment_date = moment(this.payment_date).subtract(offset, 'minutes').toDate();
     } else {
       this.payment_date = moment(this.payment_date).add(offset, 'minutes').toDate();
     }
 
-    this.item.payment_method_id = this.payment_method_id
-    this.item.payment_id = this.payment_id
-    this.item.receipt = this.docFile
-    this.item.description = this.description
-    this.item.payment_date = this.payment_date
+    this.item.payment_method_id = this.payment_method_id;
+    this.item.payment_id = this.payment_id;
+    this.item.receipt = this.docFile;
+    this.item.description = this.description;
+    this.item.payment_date = this.payment_date;
 
     this.admin.postDataApi('updateCollectionPayment', this.item).subscribe(r => {
       this.closeUpdatePaymentModal();
@@ -548,10 +478,7 @@ export class QuickVisualizationComponent implements OnInit {
     });
   }
 
-
-
   showApplyPaymentPopup() {
-    console.log(this.paymentConcepts)
     this.surplus_payment_type = null;
     this.payment_type = null;
     this.payment_date = null;
@@ -563,7 +490,6 @@ export class QuickVisualizationComponent implements OnInit {
     }
     this.paymentModalOpen.nativeElement.click();
   }
-
 
   applyCollectionPayment() {
     // checking if date selected and receipt selected
@@ -582,7 +508,7 @@ export class QuickVisualizationComponent implements OnInit {
       this.toastr.error(this.translate.instant('message.error.pleaseEnterValidAmt'), this.translate.instant('swal.error'));
       return false;
     }
-    if (this.surplus_payment_type=='4' && !this.surplus_payment_choice_id) {
+    if (this.surplus_payment_type == '4' && !this.surplus_payment_choice_id) {
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseChoosePayments'), this.translate.instant('swal.error'));
       return false;
@@ -617,7 +543,7 @@ export class QuickVisualizationComponent implements OnInit {
 
     // check for type 2 abd 2, user cannot pay more than sum of remaining MI
     if (this.payment_type == '2' || this.payment_type == '3') {
-      console.log('---')
+      console.log('---');
       let a: any = 0;
       // this.paymentConcepts.map(v => {
       for (let index = 0; index < this.paymentConcepts.length; index++) {
@@ -626,16 +552,16 @@ export class QuickVisualizationComponent implements OnInit {
           // calculating total amt to be paid
           const remaining_amt = parseFloat(v['amount']) - parseFloat(v['calc_payment_amount']);
           a = parseFloat(a) + remaining_amt + (v['penalty'] ? parseFloat(v['penalty']['amount']) : 0);
-          console.log(a)
+          console.log(a);
           a = a.toFixed(2);
 
           // checking if any pending monthly installment exist
           const paymnets = v['collection_paymentss'];
           const l = paymnets.length;
-          if (l>0) {
-            const last_payment = paymnets[l-1];
-            if (last_payment['payment_type']!=2) {
-              console.log('complete first')
+          if (l > 0) {
+            const last_payment = paymnets[l - 1];
+            if (last_payment['payment_type'] != 2) {
+              console.log('complete first');
               this.toastr.clear();
               this.toastr.error(this.translate.instant('message.error.paytoRemainingPendingCheck'), this.translate.instant('swal.error'));
               return false;
@@ -644,7 +570,7 @@ export class QuickVisualizationComponent implements OnInit {
         }
       }
       if (this.paymentAmount > a) {
-        console.log('complete first')
+        console.log('complete first');
         this.toastr.clear();
         this.toastr.error(this.translate.instant('message.error.payToRemainingcheck'), this.translate.instant('swal.error'));
         return false;
@@ -652,11 +578,11 @@ export class QuickVisualizationComponent implements OnInit {
     }
 
     // check for type 3, user can only pay exact amount of M1, or sum of M1 & M2, or sum of M1,M2,M3 and soon
-    let a1 = this.surplus_payment_type == '3' ? this.paymentAmount - this.calculatedPayAmount : this.paymentAmount;
+    const a1 = this.surplus_payment_type == '3' ? this.paymentAmount - this.calculatedPayAmount : this.paymentAmount;
     if (this.payment_type == '3' || this.surplus_payment_type == '3') {
       let a: any = 0;
-      let index = this.paymentConcepts.length-1;
-      for (index; index>=0; index--) { 
+      let index = this.paymentConcepts.length - 1;
+      for (index; index >= 0; index--) {
         const v = this.paymentConcepts[index]  ;
         if (!v['is_paid_calculated'] && v.name.includes('Monthly Installment')) {
           const remaining_amt = parseFloat(v['amount']) - parseFloat(v['calc_payment_amount']);
@@ -664,17 +590,19 @@ export class QuickVisualizationComponent implements OnInit {
           a = a.toFixed(2);
         }
         // using a1 and not this.paymentAmount because, need to check for both direct type 3 and type 3 in surplus popup
-      
-        console.log(a1,a)
+
+        console.log(a1,a);
         if (a1 > a) {
           continue;
-        } else if (a1 == a){
+        } else if (a1 == a) {
           break;
-        } else if (this.paymentAmount < a){
-          console.log(a1,a)
+        } else if (this.paymentAmount < a) {
+          console.log(a1,a);
           this.toastr.clear();
           this.toastr.error(this.translate.instant('message.error.payToRemainingReduceTimecheck'), this.translate.instant('swal.error'));
-          this.surplus_payment_type == '3' ? this.surplusMoneyModalClose.nativeElement.click() : this.paymentModalClose.nativeElement.click();
+          this.surplus_payment_type == '3'
+                  ? this.surplusMoneyModalClose.nativeElement.click()
+                  : this.paymentModalClose.nativeElement.click();
           return false;
         }
       }
@@ -694,7 +622,7 @@ export class QuickVisualizationComponent implements OnInit {
       return false;
     }
 
-    var offset = new Date(this.paymentDate).getTimezoneOffset();
+    const offset = new Date(this.paymentDate).getTimezoneOffset();
     if (offset < 0) {
       this.paymentDate = moment(this.paymentDate).subtract(offset, 'minutes').toDate();
     } else {
@@ -705,7 +633,7 @@ export class QuickVisualizationComponent implements OnInit {
     const input = {
       property_collection_id: this.property_collection_id,
       payment_method_id: this.payment_method_id,
-      amount : amt, 
+      amount : amt,
       receipt: this.docFile,
       description: this.description,
       payment_date: this.paymentDate,
@@ -713,7 +641,7 @@ export class QuickVisualizationComponent implements OnInit {
     }
 
     if (this.payment_type == 1 || this.payment_type == 4) {
-      input['collection_payment_choice_id'] = this.payment_choice_id['id']
+      input['collection_payment_choice_id'] = this.payment_choice_id['id'];
     }
     input['type'] = this.payment_type;
     this.isApplyBtnClicked = true;
@@ -723,8 +651,8 @@ export class QuickVisualizationComponent implements OnInit {
         input['amount'] = this.paymentAmount - this.calculatedPayAmount;
         input['type'] = this.surplus_payment_type;
         input['parent_id'] = r.data['id'];   // send parent_id in case of type 1 and surplus (to make parent delete)
-        if (this.surplus_payment_type=='4') {
-          input['collection_payment_choice_id'] = this.surplus_payment_choice_id 
+        if (this.surplus_payment_type == '4') {
+          input['collection_payment_choice_id'] = this.surplus_payment_choice_id;
         }
 
         this.admin.postDataApi('applyCollectionPayment', input).subscribe(r => {
@@ -737,15 +665,15 @@ export class QuickVisualizationComponent implements OnInit {
       this.paymentModalClose.nativeElement.click();
       this.closeCollReceiptModal();
       this.getCollectionDetails();
-      
+
       this.toastr.clear();
       this.toastr.success(this.translate.instant('message.success.savedSuccessfully'), this.translate.instant('swal.success'));
     }, error => {
       this.paymentConcepts = [];
       this.isApplyBtnClicked = false;
       this.paymentModalClose.nativeElement.click();
-      this.closeCollReceiptModal();  
-      this.getCollectionDetails();    
+      this.closeCollReceiptModal();
+      this.getCollectionDetails();
       return false;
     });
   }
@@ -767,7 +695,7 @@ export class QuickVisualizationComponent implements OnInit {
       }
     }
     this.docsFile1.nativeElement.value = '';
-    if (this.payment_type && this.payment_type!='2' && this.payment_type !='3' && this.payment_type !='5') {
+    if (this.payment_type && this.payment_type != '2' && this.payment_type !='3' && this.payment_type !='5') {
       this.applyPaymentChoiceId.nativeElement.value = '';
     }
     this.closeCollReceiptModal();
@@ -777,9 +705,9 @@ export class QuickVisualizationComponent implements OnInit {
         let currentAmt: any = 0;
         let currentAmtPaid: any = 0;
         this.penaltyAmount = 0;
-        for (let index = 0; index < this.paymentConcepts.length; index++) {        
+        for (let index = 0; index < this.paymentConcepts.length; index++) {
           const r = this.paymentConcepts[index];
-          currentAmt = r['amount']; 
+          currentAmt = r['amount'];
           currentAmtPaid = r['calc_payment_amount'] || 0;
           penaltyamt = r['penalty'] ? parseFloat(r['penalty']['amount']) : 0;
           amt = parseFloat(amt) + parseFloat(r['amount']) + parseFloat(penaltyamt);
@@ -810,19 +738,22 @@ export class QuickVisualizationComponent implements OnInit {
       let amtPaid: any = 0;
       let currentAmt: any = 0;
       let currentAmtPaid: any = 0;
-      // checking if method is pay to specific (4), then user will pay only for that specific installment + user cannot pay more than the amount+penalty
+      // checking if method is pay to specific (4),
+      // then user will pay only for that specific installment +
+      // user cannot pay more than the amount+penalty
       if (this.payment_type == 4) {
         currentAmt = item['amount']; 
         currentAmtPaid = item['calc_payment_amount'] || 0;
         this.penaltyAmount = item.penalty ? parseFloat(item.penalty.amount).toFixed(2) : 0;
-        this.pendingPayment = 0.00 // amt already paid
+        this.pendingPayment = 0.00; // amt already paid
         this.currentAmount = (parseFloat(currentAmt) - parseFloat(currentAmtPaid)).toFixed(2);
-        this.paymentAmount = (parseFloat(this.currentAmount) + parseFloat(this.pendingPayment) + parseFloat(this.penaltyAmount)).toFixed(2);     
+        this.paymentAmount = (parseFloat(this.currentAmount) + parseFloat(this.pendingPayment)
+                              + parseFloat(this.penaltyAmount)).toFixed(2);
         this.calculatedPayAmount = [...this.paymentAmount];
-      } else if (this.payment_type == 1){
-        for (let index = 0; index < this.paymentConcepts.length; index++) {        
+      } else if (this.payment_type == 1) {
+        for (let index = 0; index < this.paymentConcepts.length; index++) {
           const r = this.paymentConcepts[index];
-          currentAmt = r['amount']; 
+          currentAmt = r['amount'];
           currentAmtPaid = r['calc_payment_amount'] || 0;
           if (r['id'] != item['id']) {
             penaltyamt = r['penalty'] ? parseFloat(r['penalty']['amount']) : 0;
@@ -837,26 +768,7 @@ export class QuickVisualizationComponent implements OnInit {
         this.currentAmount = (parseFloat(currentAmt) - parseFloat(currentAmtPaid)).toFixed(2);
         this.paymentAmount = (parseFloat(this.currentAmount) + parseFloat(this.pendingPayment) + parseFloat(this.penaltyAmount)).toFixed(2);
         this.calculatedPayAmount = [...this.paymentAmount];
-      } 
-      // else if (this.payment_type == 5){
-      //   for (let index = 0; index < this.paymentConcepts.length; index++) {        
-      //     const r = this.paymentConcepts[index];
-      //     currentAmt = r['amount']; 
-      //     currentAmtPaid = r['calc_payment_amount'] || 0;
-      //       penaltyamt = r['penalty'] ? parseFloat(r['penalty']['amount']) : 0;
-      //       amt = parseFloat(amt) + parseFloat(r['amount']) + parseFloat(penaltyamt);
-      //       amtPaid = parseFloat(amtPaid) + parseFloat(currentAmtPaid);
-      //     // } else {
-      //     //   break;
-      //     // }
-      //   }
-      //   this.penaltyAmount = item.penalty ? parseFloat(item.penalty.amount).toFixed(2) : 0;
-      //   this.pendingPayment = (amt - amtPaid).toFixed(2);
-      //   this.currentAmount = (parseFloat(currentAmt) - parseFloat(currentAmtPaid)).toFixed(2);
-      //   this.paymentAmount = (parseFloat(this.currentAmount) + parseFloat(this.pendingPayment) + parseFloat(this.penaltyAmount)).toFixed(2);
-      //   this.calculatedPayAmount = [...this.paymentAmount];
-      // }
-    
+      }
   }
 
   setPaymentSurplusAmount(item) {
@@ -864,16 +776,18 @@ export class QuickVisualizationComponent implements OnInit {
     this.surplus_payment_choice_id = item.id;
     let currentAmt: any = 0;
     let currentAmtPaid: any = 0;
-    // checking if method is pay to specific (4), then user will pay only for that specific installment + user cannot pay more than the amount+penalty
+    // checking if method is pay to specific (4),
+    // then user will pay only for that specific installment +
+    // user cannot pay more than the amount+penalty
     if (this.surplus_payment_type == '4') {
-      currentAmt = item['amount']; 
+      currentAmt = item['amount'];
       currentAmtPaid = item['calc_payment_amount'] || 0;
       const penaltyAmount: any = item.penalty ? parseFloat(item.penalty.amount).toFixed(2) : 0;
       const currentAmount: any = (parseFloat(currentAmt) - parseFloat(currentAmtPaid)).toFixed(2);
-      this.surplus_amt = (parseFloat(currentAmount) + parseFloat(penaltyAmount)).toFixed(2);     
+      this.surplus_amt = (parseFloat(currentAmount) + parseFloat(penaltyAmount)).toFixed(2);
     }
-    
-    if ((this.paymentAmount - this.calculatedPayAmount)>this.surplus_amt) {
+
+    if ((this.paymentAmount - this.calculatedPayAmount) > this.surplus_amt) {
       this.surplus_payment_choice_id = '';
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.payToSpecificCheck'), this.translate.instant('swal.error'));
@@ -894,5 +808,11 @@ export class QuickVisualizationComponent implements OnInit {
     this.penaltyAmount = 0; this.pendingPayment = 0; this.currentAmount = 0;
     this.paymentDate = null;
     this.docsFile1.nativeElement.value = '';
+  }
+
+  sortFunction(a, b) {
+    const dateA = new Date(a.created_at).getTime();
+    const dateB = new Date(b.created_at).getTime();
+    return dateA > dateB ? 1 : -1;
   }
 }
