@@ -306,7 +306,7 @@
                         <th style="text-align:left; width: 100px;">
                         <div class="table-search">
                            <label>{{'table.th.statusAccount' | translate}}</label>
-                           <!-- <select [(ngModel)]="parameter.collection_status" (change)="getListing()">
+                           <!-- <select [(ngModel)]="parameter.collection_status" (change)="parameter.page=1;getListing()">
                             <option value="">{{'table.th.all' | translate}}</option>
                             <option *ngFor="let c of collectionStatusFilter" value="{{c.value}}" >{{c.name}}</option>
                          </select> -->
@@ -377,6 +377,7 @@
                      <td><span>{{getRemainingAmt(p) | currency}}</span></td>
                     
                      <td>
+                       <!-- {{p?.days_delay}}<br> -->
                       <div *ngIf="p?.is_cancelled==1" class="status grey" title="Cancelled"></div>
                       <div *ngIf="p?.is_cancelled==0 && p?.is_commission_sale_enabled==1" class="status purple" title="Only Commission for sale"></div>
                        <div *ngIf="p?.is_cancelled==0 && p?.is_commission_sale_enabled==0 && p?.payment_status==1" class="status green" title="Up to Date"></div>

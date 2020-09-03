@@ -119,7 +119,7 @@ export class CollectionsComponent implements OnInit {
     { name: 'Overdue Payment', value: 3 },
     { name: 'Cancelled', value: 4 },
     { name: 'Settled', value: 5 },
-    // { name: 'Inconsistency', value: 6 },
+    { name: 'Inconsistency', value: 6 },
     { name: 'Only Commission for sale', value: 7 }];
 
   constructor(
@@ -231,23 +231,23 @@ export class CollectionsComponent implements OnInit {
         // fetching payment status
         for (let index = 0; index < this.items.length; index++) {
           const element = this.items[index];
-          const diff = (element.deal_price || 0).toFixed(2) - (element.total_deals_sum || 0).toFixed(2);
+          const dif = (element.deal_price || 0).toFixed(2) - (element.total_deals_sum || 0).toFixed(2);
           const currency_id = element.currency_id;
 
           if (!element.total_deals_sum) {
             element.payment_status = 6;
-          } else if ((diff >= 5 && currency_id == 78) || (diff >= 0.5 && currency_id == 124)) {
+          } else if ((dif >= 5 && currency_id == 78) || (dif >= 0.5 && currency_id == 124)) {
             element.payment_status = 6;
           } else if (element.next_payment && element.next_payment.date) {
-            // const diff: any = moment().diff(moment(element.next_payment.date, 'YYYY-MM-DD'), 'days', true);
-            // if (diff >= 0 && diff < 5) {
-            //   element.payment_status = 2;
-            // } else if (diff >= 5) {
-            //   element.payment_status = 3;
-            // } else if (diff < 0) {
-            //   element.payment_status = 1;
-            // }
-            element.payment_status = element.collection_status;
+            const diff: any = moment().diff(moment(element.next_payment.date, 'YYYY-MM-DD'), 'days', true);
+            if (diff > 0 && diff <= 5) {
+              element.payment_status = 2;
+            } else if (diff > 5) {
+              element.payment_status = 3;
+            } else if (diff <= 0) {
+              element.payment_status = 1;
+            }
+            // element.payment_status = element.collection_status;
           } else {
             element.payment_status = 5;
           }
@@ -363,6 +363,7 @@ export class CollectionsComponent implements OnInit {
 
   changeAppUnappFlag(flag) {
     this.parameter.flag = flag;
+    this.parameter.page = this.constant.p;
     this.getListing();
   }
 
