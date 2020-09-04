@@ -306,10 +306,10 @@
                         <th style="text-align:left; width: 100px;">
                         <div class="table-search">
                            <label>{{'table.th.statusAccount' | translate}}</label>
-                           <!-- <select [(ngModel)]="parameter.collection_status" (change)="parameter.page=1;getListing()">
+                           <select [(ngModel)]="parameter.collection_status" (change)="parameter.page=1;getListing()">
                             <option value="">{{'table.th.all' | translate}}</option>
                             <option *ngFor="let c of collectionStatusFilter" value="{{c.value}}" >{{c.name}}</option>
-                         </select> -->
+                         </select>
                         </div>
                      </th>
                        <th style="width: 350px;" *ngIf="parameter.flag!=5">
@@ -388,6 +388,11 @@
                      </td>
                      <td>
                      <div class="table-actions">
+
+                      <!-- <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
+                      (click)="openFoldersModal(p.collection_folders)" title="{{'table.title.applyPayment' | translate}}" 
+                      class="action-icon"><img src="assets/img/ic_payment.png" alt="img"></button>   -->
+
                         <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
                            routerLink="/dashboard/collections/edit-collection/{{p.id}}" title="{{'table.title.editDetails' | translate}}" 
                            class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
@@ -1306,3 +1311,74 @@
         </div>
   </div>
   
+
+<a href="javascript://" data-toggle="modal" data-target="#collection-folders" #foldersModalOpen></a>
+<div class="modal animated" id="collection-folders">
+      <div class="modal-dialog fadeIndown">
+            <div class="modal-content notary-avail">
+                  <div class="modal-header popup-header">
+                        <h4>{{'table.title.collectionNotes' | translate}}</h4>
+                        <button style="display: none;" type="button" class="close" data-dismiss="modal" #notesModalClose>&times;</button>
+                        <button type="button" class="close" (click)="closeNotesModal()">&times;</button>
+                  </div>
+
+                  <div class="cust-tabs" style="padding: 20px;    height: 500px;
+                  overflow-y: scroll;">
+                    <div class="tab-content white-bg">
+                      <div id="accordion" class="table-responsive main-table">
+                        <table class="table table-bordered table-striped table-align-center edit-table">
+                          <thead>
+                            <tr>
+                              <th [style.width]="'210px'" [style.z-index]="100">
+                                <b>{{'quickVisualization.concept' | translate}}</b>
+                              </th>
+                              <th [style.width]="'130px'">
+                                <b>{{'quickVisualization.month' | translate}}</b>
+                              </th>
+                              <th [style.width]="'120px'">
+                                  <b>{{'quickVisualization.paid' | translate}}</b>
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody *ngFor="let p of collectionFolders; let i=index">
+                            <tr>
+                              <td>
+                                <a style="color: #fff;" class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{i}}">
+                                    {{p?.name}}
+                                </a>
+                              </td>
+                              <td>{{p?.updated_at | date:'dd/MMM/yyyy'}}</td>
+                              <!-- <td>
+                                {{p?.paid_amount && p?.paid_amount>'0.1' ? (p?.paid_amount | currency) : ''}}<br>
+                              </td>            -->
+                              </tr>
+                            
+                            
+                              <tr id="collapse{{i}}" class="panel-collapse collapse">
+                                  <td colspan="8" style="background: #fff;">
+                                  <table>
+                                    <thead style="background: #00B96F; color: #fff;">
+                                      <th [style.width]="'240px'" [style.color]="'#fff'">{{'quickVisualization.concept' | translate}}</th>
+                                    </thead>
+                                    <tbody *ngIf="p?.folder_docs?.length>0">
+                                      <ng-container *ngFor="let stats of p?.folder_docs; let s=index">
+                                      <tr>
+                                        <td>
+                                          <a href="{{stats?.display_name}}">
+                                          {{stats?.name || 'NA'}}</a>
+                                        </td>
+                                        </tr>
+                                    </ng-container>
+                                    </tbody>
+                                  </table>
+                                </td>
+                                </tr>
+                            
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+      </div>
+</div>

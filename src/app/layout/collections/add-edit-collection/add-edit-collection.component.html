@@ -1366,7 +1366,7 @@
               <label *ngIf="i==0">{{'addCollection.payments' | translate}}</label>
               <div class="form-group-3">
                 <div class="clearfix"></div>
-                <input title="{{addFormStep4.controls.payment_choices.controls[i].controls.payment_choice ? addFormStep4.controls.payment_choices.controls[i].controls.payment_choice.value.id : ''}}" required autocomplete="off" class="form-control" minlength="1" type="text" name="name" formControlName="name">
+                <input required autocomplete="off" class="form-control" minlength="1" type="text" name="name" formControlName="name">
               </div>
               <div *ngIf="showError  &&  (addFormStep4.controls.payment_choices.controls[i].controls.name.invalid)">
                   <div *ngIf="addFormStep4.controls.payment_choices.controls[i].controls.name.errors?.required " class="show-error">
@@ -1381,10 +1381,9 @@
               <label *ngIf="i==0">{{'addCollection.category' | translate}}</label>
               <div class="form-group-3">
                 <div class="clearfix"></div>
-                <!-- {{addFormStep4.controls.payment_choices.controls[i].controls.payment_choice.value|json}} -->
-                <input disabled readonly 
-                value="{{addFormStep4.controls.payment_choices.controls[i].controls.payment_choice ? addFormStep4.controls.payment_choices.controls[i].controls.payment_choice.value.name : ''}}" 
-                required autocomplete="off" class="form-control" minlength="1" type="text" name="name1" formControlName="name">
+                <!-- value="{{addFormStep4.controls.payment_choices.controls[i].controls.category_name ? addFormStep4.controls.payment_choices.controls[i].controls.category_name.value : ''}}"  -->
+                <input readonly 
+                required autocomplete="off" class="form-control" minlength="1" type="text" name="name1" formControlName="category_name">
               </div>
             </div>
             <div class="col-lg-2 col-md-6 col-sm-6 col-12">

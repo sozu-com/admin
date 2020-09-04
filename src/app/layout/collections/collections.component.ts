@@ -79,9 +79,10 @@ export class CollectionsComponent implements OnInit {
   penaltyForm: FormGroup;
   showError: boolean;
   surplus_amt: any;
-  disablePayToRemaining: boolean = true;
-  isApplyBtnClicked: boolean = false;
+  disablePayToRemaining = true;
+  isApplyBtnClicked = false;
   title: any;
+  collectionFolders: Array<any>;
 
   @ViewChild('viewDesModal') viewDesModal: ElementRef;
   @ViewChild('viewDesModalClose') viewDesModalClose: ElementRef;
@@ -112,6 +113,7 @@ export class CollectionsComponent implements OnInit {
   @ViewChild('surplusMoneyModalClose') surplusMoneyModalClose: ElementRef;
   @ViewChild('docsFile1') docsFile1: ElementRef;
   @ViewChild('docsFile2') docsFile2: ElementRef;
+  @ViewChild('foldersModalOpen') foldersModalOpen: ElementRef;
 
   collectionStatusFilter = [
     { name: 'Up to Date', value: 1 },
@@ -145,7 +147,7 @@ export class CollectionsComponent implements OnInit {
     this.initPenaltyForm();
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
-    this.parameter.dash_flag = this.propertyService.dash_flag ? this.propertyService.dash_flag : this.constant.dash_flag;
+    this.parameter.dash_flag = 4 // this.propertyService.dash_flag ? this.propertyService.dash_flag : this.constant.dash_flag;
     this.getPaymentMethods();
     this.getCountries();
     this.initCalendarLocale();
@@ -239,15 +241,15 @@ export class CollectionsComponent implements OnInit {
           } else if ((dif >= 5 && currency_id == 78) || (dif >= 0.5 && currency_id == 124)) {
             element.payment_status = 6;
           } else if (element.next_payment && element.next_payment.date) {
-            const diff: any = moment().diff(moment(element.next_payment.date, 'YYYY-MM-DD'), 'days', true);
-            if (diff > 0 && diff <= 5) {
-              element.payment_status = 2;
-            } else if (diff > 5) {
-              element.payment_status = 3;
-            } else if (diff <= 0) {
-              element.payment_status = 1;
-            }
-            // element.payment_status = element.collection_status;
+            // const diff: any = moment().diff(moment(element.next_payment.date, 'YYYY-MM-DD'), 'days', true);
+            // if (diff > 0 && diff <= 5) {
+            //   element.payment_status = 2;
+            // } else if (diff > 5) {
+            //   element.payment_status = 3;
+            // } else if (diff <= 0) {
+            //   element.payment_status = 1;
+            // }
+            element.payment_status = element.collection_status;
           } else {
             element.payment_status = 5;
           }
@@ -1419,5 +1421,11 @@ export class CollectionsComponent implements OnInit {
     const dateA = new Date(a.created_at).getTime();
     const dateB = new Date(b.created_at).getTime();
     return dateA > dateB ? 1 : -1;
+  }
+
+  openFoldersModal(collectionFolders: Array<any>) {
+    this.collectionFolders = [];
+    this.collectionFolders = collectionFolders;
+    this.foldersModalOpen.nativeElement.click();
   }
 }
