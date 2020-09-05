@@ -44,6 +44,8 @@ export class Collection {
     deal_commission_agents?: Array<any>;
     collection_seller_banks?: Array<any>;
     collection_buyer_banks?: Array<any>;
+    collection_buyer_rep_banks: Array<any>;
+    collection_seller_rep_banks: Array<any>;
     buyer_legal_entity?: any;
     seller_legal_entity?: any;
 }
@@ -60,4 +62,6 @@ export class Seller {
     email: string;
     dial_code: string;
     country_code: string;
+    legal_rep_banks?: any;
+    legal_representative?: any;
 }

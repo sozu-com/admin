@@ -70,6 +70,10 @@ export class QuickVisualizationComponent implements OnInit {
   penaltyAmount: any;
   currentAmount: any;
   surplus_amt: any;
+  sellerBanks: Array<any>;
+  buyerBanks: Array<any>;
+  sellerRepBanks: Array<any>;
+  buyerRepBanks: Array<any>;
 
   @ViewChild('stickyMenu') menuElement: ElementRef;
 
@@ -136,6 +140,30 @@ export class QuickVisualizationComponent implements OnInit {
         success => {
           this.spinner.hide();
           this.model = success['data'];
+          if (this.model.seller_type === 1) {
+            this.sellerBanks = this.model.collection_seller_banks;
+            this.sellerRepBanks = this.model.collection_seller_rep_banks;
+          } else if (this.model.seller_type === 2) {
+            this.sellerBanks = this.model.seller_legal_entity.legal_entity_banks;
+            this.sellerRepBanks = this.model.seller_legal_entity.legal_reps && this.model.seller_legal_entity.legal_reps.legal_rep_banks ?
+                      this.model.seller_legal_entity.legal_reps.legal_rep_banks : null;
+          } else {
+            this.sellerBanks = this.model.seller.legal_rep_banks;
+            this.sellerRepBanks = this.model.seller.legal_representative.legal_rep_banks;
+          }
+          if (this.model.buyer_type === 1) {
+            this.buyerBanks = this.model.collection_buyer_banks;
+            this.buyerRepBanks = this.model.collection_buyer_rep_banks;
+          } else if (this.model.buyer_type === 2) {
+            this.buyerBanks = this.model.buyer_legal_entity.legal_entity_banks;
+            this.buyerRepBanks = this.model.buyer_legal_entity.legal_reps && this.model.buyer_legal_entity.legal_reps.legal_rep_banks ?
+                    this.model.buyer_legal_entity.legal_reps.legal_rep_banks : null;
+          } else {
+            this.buyerBanks = this.model.buyer.legal_rep_banks;
+            this.buyerRepBanks = this.model.buyer.legal_representative && this.model.buyer.legal_representative.legal_rep_banks ?
+                    this.model.buyer.legal_representative.legal_rep_banks : null;
+          }
+
           this.allPaymentConcepts = success['data']['payment_choices'];
           // for dropdown
           this.paymentConcepts = [...this.allPaymentConcepts];
