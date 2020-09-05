@@ -42,6 +42,10 @@ export class Collection {
     total_payment_recieved?: any;
     penalty?: any;
     deal_commission_agents?: Array<any>;
+    collection_seller_banks?: Array<any>;
+    collection_buyer_banks?: Array<any>;
+    buyer_legal_entity?: any;
+    seller_legal_entity?: any;
 }
 
 export class DealType {

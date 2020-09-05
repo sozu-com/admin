@@ -751,9 +751,11 @@
       "propertyImage": "Property Image",
       "editDetails": "Edit Details",
       "collectionNotes": "Collection Notes",
+      "collectionFolders": "Folders and Documents",
       "cancelCollection": "Cancel Collection",
       "activeCollection": "Active Collection",
       "applyPayment": "Apply Payment",
+      "viewFolders":"View Folders",
       "editPayment": "Edit Applied Payment",
       "collectionCommission": "Collection Commission",
       "penaltyPayment": "Add Penalty",
@@ -853,6 +855,7 @@
       "noUnApprovedCollectionFound": "No unapproved collection found",
       "fileSizeExceeds": "The file you have selected is too large. The maximum size is 50MB.",
       "noDocumentUploadedYet": "No document uploaded yet.",
+      "nnFolderCreated": "No folder created yet.",
       "pleaseSelectLocationFromTheDropdownList": "Please select location from the dropdown list.",
       "pleaseFillCompleteDevloperInformation": "Please fill complete devloper information",
       "pleaseSelectLocation": "Please select location",
@@ -1873,7 +1876,11 @@
     "inhouseAgent":"Inhouse Agent",
     "outsideAgent":"Outside Agent",
     "refresh":"Refresh",
-    "back":"Back"
+    "back":"Back",
+    "name":"Name",
+    "lastCommit": "Last Commit",
+    "size": "Size",
+    "docsCount": "Docs"
   },
   "addCollectionValidations": {
     "thisIsRequired": "This is required",

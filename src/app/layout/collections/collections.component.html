@@ -377,7 +377,6 @@
                      <td><span>{{getRemainingAmt(p) | currency}}</span></td>
                     
                      <td>
-                       <!-- {{p?.days_delay}}<br> -->
                       <div *ngIf="p?.is_cancelled==1" class="status grey" title="Cancelled"></div>
                       <div *ngIf="p?.is_cancelled==0 && p?.is_commission_sale_enabled==1" class="status purple" title="Only Commission for sale"></div>
                        <div *ngIf="p?.is_cancelled==0 && p?.is_commission_sale_enabled==0 && p?.payment_status==1" class="status green" title="Up to Date"></div>
@@ -388,10 +387,6 @@
                      </td>
                      <td>
                      <div class="table-actions">
-
-                      <!-- <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
-                      (click)="openFoldersModal(p.collection_folders)" title="{{'table.title.applyPayment' | translate}}" 
-                      class="action-icon"><img src="assets/img/ic_payment.png" alt="img"></button>   -->
 
                         <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
                            routerLink="/dashboard/collections/edit-collection/{{p.id}}" title="{{'table.title.editDetails' | translate}}" 
@@ -429,6 +424,10 @@
                         (click)="changeStatus(p, 1);" class="action-icon" 
                         title="{{'table.title.approve' | translate}}"><img src="assets/img/tick.png" alt="img"></button>
 
+                        <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
+                        (click)="openFoldersModal(p.collection_folders)" title="{{'table.title.viewFolders' | translate}}" 
+                        class="action-icon"><img src="assets/img/ic_folder_1.svg" alt="img"></button>  
+  
                         <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
                         (click)="getNotes(p)" title="{{'table.title.collectionNotes' | translate}}" 
                         class="action-icon"><img src="assets/img/chat-icon.png" alt="img"></button>  
@@ -1317,67 +1316,61 @@
       <div class="modal-dialog fadeIndown">
             <div class="modal-content notary-avail">
                   <div class="modal-header popup-header">
-                        <h4>{{'table.title.collectionNotes' | translate}}</h4>
-                        <button style="display: none;" type="button" class="close" data-dismiss="modal" #notesModalClose>&times;</button>
-                        <button type="button" class="close" (click)="closeNotesModal()">&times;</button>
+                        <h4>{{'table.title.collectionFolders' | translate}}</h4>
+                        <button style="display: none;" type="button" class="close" data-dismiss="modal" #foldersModalClose>&times;</button>
+                        <button type="button" class="close" (click)="closeFoldersModal()">&times;</button>
                   </div>
 
                   <div class="cust-tabs" style="padding: 20px;    height: 500px;
                   overflow-y: scroll;">
-                    <div class="tab-content white-bg">
                       <div id="accordion" class="table-responsive main-table">
-                        <table class="table table-bordered table-striped table-align-center edit-table">
+                        <table class="table table-bordered table-striped folder-table">
                           <thead>
                             <tr>
-                              <th [style.width]="'210px'" [style.z-index]="100">
-                                <b>{{'quickVisualization.concept' | translate}}</b>
+                              <th [style.width]="'310px'" [style.z-index]="100">
+                                <b>{{'quickVisualization.name' | translate}}</b>
                               </th>
                               <th [style.width]="'130px'">
-                                <b>{{'quickVisualization.month' | translate}}</b>
+                                <b>{{'quickVisualization.docsCount' | translate}}</b>
                               </th>
-                              <th [style.width]="'120px'">
-                                  <b>{{'quickVisualization.paid' | translate}}</b>
-                              </th>
+                              <!-- <th [style.width]="'120px'">
+                                  <b>{{'quickVisualization.lastCommit' | translate}}</b>
+                              </th> -->
                             </tr>
                           </thead>
                           <tbody *ngFor="let p of collectionFolders; let i=index">
                             <tr>
                               <td>
-                                <a style="color: #fff;" class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{i}}">
-                                    {{p?.name}}
+                                <a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{i}}">
+                                    <img src="assets/img/ic_folder_1.svg">{{p?.name}}
                                 </a>
                               </td>
-                              <td>{{p?.updated_at | date:'dd/MMM/yyyy'}}</td>
-                              <!-- <td>
-                                {{p?.paid_amount && p?.paid_amount>'0.1' ? (p?.paid_amount | currency) : ''}}<br>
-                              </td>            -->
-                              </tr>
-                            
-                            
-                              <tr id="collapse{{i}}" class="panel-collapse collapse">
-                                  <td colspan="8" style="background: #fff;">
-                                  <table>
-                                    <thead style="background: #00B96F; color: #fff;">
-                                      <th [style.width]="'240px'" [style.color]="'#fff'">{{'quickVisualization.concept' | translate}}</th>
-                                    </thead>
-                                    <tbody *ngIf="p?.folder_docs?.length>0">
-                                      <ng-container *ngFor="let stats of p?.folder_docs; let s=index">
-                                      <tr>
-                                        <td>
-                                          <a href="{{stats?.display_name}}">
-                                          {{stats?.name || 'NA'}}</a>
-                                        </td>
-                                        </tr>
-                                    </ng-container>
-                                    </tbody>
-                                  </table>
-                                </td>
-                                </tr>
-                            
+                              <td>{{p?.folder_docs?.length || 0}}</td>
+                              <!-- <td>{{p?.updated_at | date:'dd/MMM/yyyy'}}</td> -->
+                            </tr>
+                          
+                            <tr id="collapse{{i}}" class="panel-collapse collapse">
+                              <td colspan="3" >
+                                <ng-container *ngFor="let stats of p?.folder_docs; let s=index">
+                                  <span class="">○</span> <a [style.color]="'#4661B1'" target="_blank" href="{{stats?.display_name}}">
+                                    {{stats?.name || 'NA'}}
+                                  </a> <br>
+                                </ng-container>
+                                <div class="padding20 center" *ngIf="p?.folder_docs?.length == 0">
+                                  <p class="show-not-found">
+                                    {{'message.error.noDocumentUploadedYet' | translate}}
+                                  </p>
+                                </div>
+                              </td>
+                            </tr>                            
                           </tbody>
+                          <div class="padding20 center" *ngIf="collectionFolders?.length == 0">
+                            <p class="show-not-found">
+                              {{'message.error.nnFolderCreated' | translate}}
+                            </p>
+                          </div>
                         </table>
                       </div>
-                    </div>
                   </div>
             </div>
       </div>

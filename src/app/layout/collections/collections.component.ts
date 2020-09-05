@@ -114,6 +114,7 @@ export class CollectionsComponent implements OnInit {
   @ViewChild('docsFile1') docsFile1: ElementRef;
   @ViewChild('docsFile2') docsFile2: ElementRef;
   @ViewChild('foldersModalOpen') foldersModalOpen: ElementRef;
+  @ViewChild('foldersModalClose') foldersModalClose: ElementRef;
 
   collectionStatusFilter = [
     { name: 'Up to Date', value: 1 },
@@ -147,13 +148,13 @@ export class CollectionsComponent implements OnInit {
     this.initPenaltyForm();
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
-    this.parameter.dash_flag = 4 // this.propertyService.dash_flag ? this.propertyService.dash_flag : this.constant.dash_flag;
+    this.parameter.dash_flag = this.propertyService.dash_flag ? this.propertyService.dash_flag : this.constant.dash_flag;
     this.getPaymentMethods();
     this.getCountries();
     this.initCalendarLocale();
 
     this.route.params.subscribe(params => {
-      if (params['id']){
+      if (params['id']) {
         this.parameter.collection_id = params['id'];
         this.parameter.dash_flag = 4;
       }
@@ -162,7 +163,7 @@ export class CollectionsComponent implements OnInit {
   }
 
   initCalendarLocale() {
-    if (this.translate.defaultLang == 'en') {
+    if (this.translate.defaultLang === 'en') {
       this.locale = {
         firstDayOfWeek: 0,
         dayNames: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
@@ -176,7 +177,7 @@ export class CollectionsComponent implements OnInit {
         dateFormat: 'mm/dd/yy',
         weekHeader: 'Wk',
         dataType: 'string'
-      }
+      };
     } else {
       this.locale = {
         firstDayOfWeek: 0,
@@ -1427,5 +1428,9 @@ export class CollectionsComponent implements OnInit {
     this.collectionFolders = [];
     this.collectionFolders = collectionFolders;
     this.foldersModalOpen.nativeElement.click();
+  }
+
+  closeFoldersModal() {
+    this.foldersModalClose.nativeElement.click();
   }
 }

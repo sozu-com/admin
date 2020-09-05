@@ -740,9 +740,11 @@
       "propertyImage": "Imagen del departamento",
       "editDetails": "Editar detalles",
       "collectionNotes": "Notas de colección",
+      "collectionFolders": "Carpetas y documentos",
       "cancelCollection": "Cancelar colección",
       "activeCollection": "Colección activa",
       "applyPayment": "Aplicar pago",
+      "viewFolders":"Ver carpetas",
       "editPayment": "Editar pago aplicado",
       "collectionCommission": "Comisión de cobro",
       "penaltyPayment": "Añadir penalización",
@@ -842,6 +844,7 @@
       "noUnApprovedCollectionFound": "No se encontró una colección no aprobada",
       "fileSizeExceeds": "El archivo que ha seleccionado es demasiado grande. El tamaño máximo es 50 MB.",
       "noDocumentUploadedYet": "Todavía no se ha cargado ningún documento.",
+      "nnFolderCreated": "Aún no se ha creado ninguna carpeta.",
       "pleaseSelectLocationFromTheDropdownList": "Selecciona la ubicación de la lista desplegable.",
       "pleaseFillCompleteDevloperInformation": "Completa la información del desarrollador",
       "pleaseSelectLocation": "Selecciona su ubicación",
@@ -1864,7 +1867,11 @@
     "inhouseAgent":"Agente interno",
     "outsideAgent":"Agente externo",
     "refresh":"Actualizar",
-    "back":"Espalda"
+    "back":"Espalda",
+    "name":"Nombre",
+    "lastCommit": "Último compromiso",
+    "size": "Talla",
+    "docsCount": "Docs"
   },
   "addCollectionValidations": {
     "thisIsRequired": "Esto es requerido",

@@ -102,3 +102,13 @@ textarea{
 .table-search:focus-within label {
   color: #434B52;
 }
+.table.table-striped.folder-table tr td, .table.table-striped.folder-table tr th {
+  text-align: left;
+  padding-left: 10px;
+}
+.table.table-striped.folder-table tr td a{
+  color: #222;
+}
+.table.table-striped.folder-table tr td a img{
+  padding-right: 10px;
+}

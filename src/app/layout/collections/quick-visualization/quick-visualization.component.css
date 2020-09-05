@@ -65,3 +65,6 @@ table.table-striped.quick-table th:first-child {
 .content{
   height: 200vh;
 }
+.black{
+  color: #222;
+}
