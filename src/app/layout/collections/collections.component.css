@@ -112,3 +112,6 @@ textarea{
 .table.table-striped.folder-table tr td a img{
   padding-right: 10px;
 }
+.write-note {
+  max-height: none;
+}

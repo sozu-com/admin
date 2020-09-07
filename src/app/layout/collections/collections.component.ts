@@ -83,6 +83,9 @@ export class CollectionsComponent implements OnInit {
   isApplyBtnClicked = false;
   title: any;
   collectionFolders: Array<any>;
+  docs: Array<any>;
+  docsName: string;
+  folderIndex: number;
 
   @ViewChild('viewDesModal') viewDesModal: ElementRef;
   @ViewChild('viewDesModalClose') viewDesModalClose: ElementRef;
@@ -113,6 +116,7 @@ export class CollectionsComponent implements OnInit {
   @ViewChild('surplusMoneyModalClose') surplusMoneyModalClose: ElementRef;
   @ViewChild('docsFile1') docsFile1: ElementRef;
   @ViewChild('docsFile2') docsFile2: ElementRef;
+  @ViewChild('docsFile') docsFile: ElementRef;
   @ViewChild('foldersModalOpen') foldersModalOpen: ElementRef;
   @ViewChild('foldersModalClose') foldersModalClose: ElementRef;
 
@@ -490,7 +494,7 @@ export class CollectionsComponent implements OnInit {
   closeNotesModal() {
     this.notesModalClose.nativeElement.click();
   }
-  
+
   addNote() {
     if (!this.model.note) {
       return;
@@ -500,7 +504,7 @@ export class CollectionsComponent implements OnInit {
       this.spinner.hide();
       this.model = new Notes();
       this.parameter.items.push(r.data);
-      
+
       this.toastr.clear();
       this.toastr.success(this.translate.instant('message.success.addedSuccessfully'), this.translate.instant('swal.success'));
       this.closeNotesModal();
@@ -1432,5 +1436,55 @@ export class CollectionsComponent implements OnInit {
 
   closeFoldersModal() {
     this.foldersModalClose.nativeElement.click();
+  }
+
+  addDocs(folderIndex: number, collection_folder_id: number) {
+    if (!this.docsName) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseEnterDocuName'), this.translate.instant('swal.error'));
+      return;
+    }
+    if (!this.docFile) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseEnterDocuFile'), this.translate.instant('swal.error'));
+      return;
+    }
+    const input = {name: this.docsName, display_name: this.docFile, collection_folder_id: collection_folder_id};
+    const allDocx: Array<any> = this.collectionFolders[folderIndex].folder_docs;
+    this.admin.postDataApi('addFolderDoc', input).subscribe(success => {
+      input['id'] = success['data'];
+      allDocx.push(input);
+      this.collectionFolders[folderIndex].folder_docs = allDocx;
+      this.toastr.clear();
+      this.toastr.success(this.translate.instant('message.success.addedSuccessfully'), this.translate.instant('swal.success'));
+      this.docFile = ''; this.docsName = '';
+      this.docsFile.nativeElement.value = '';
+    });
+  }
+
+  deleteDocsPopup(item: any, folderIndex: number, docIndex: number) {
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+        this.translate.instant('message.error.wantToDeleteDocs'),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteDocs(item, folderIndex, docIndex);
+      }
+    });
+  }
+
+  deleteDocs(item: any, folderIndex: number, docIndex: number) {
+    this.collectionFolders[folderIndex].folder_docs.splice(docIndex, 1);
+    if (item.id) {
+      this.admin.postDataApi('deleteFolderDoc', {id: item.id}).subscribe(success => {
+        this.toastr.clear();
+        this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+      });
+    }
   }
 }

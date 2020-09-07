@@ -172,12 +172,11 @@ export class AddEditCollectionComponent implements OnInit {
           this.paymentChoices = success.data;
         }, error => {
           this.spinner.hide();
-        }
-      );
+        });
   }
 
   setDatePickerLocale() {
-    if (this.translate.defaultLang == 'en') {
+    if (this.translate.defaultLang === 'en') {
       this.locale = {
         firstDayOfWeek: 0,
         dayNames: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
@@ -191,7 +190,7 @@ export class AddEditCollectionComponent implements OnInit {
         dateFormat: 'mm/dd/yy',
         weekHeader: 'Wk',
         dataType: 'string'
-      }
+      };
     } else {
       this.locale = {
         firstDayOfWeek: 0,
@@ -747,12 +746,14 @@ export class AddEditCollectionComponent implements OnInit {
     if (payment_choices) {
       for (let index = 0; index < payment_choices.length; index++) {
           const element = payment_choices[index];
+          console.log(element);
           const element1 = data.collection_commissions[index];
           const obj = {};
           obj['id'] = data.collection_commissions.length > 0 &&
           data.collection_commissions[index] ? data.collection_commissions[index].id : '';
           obj['pc_id'] = element['payment_choice_id'];   // payment choice dropdown id
           obj['name'] = element['name'];
+          obj['category_name'] = element['category_name'];
           obj['date'] = element['date'];
           obj['payment_amount'] = element['amount'];
           obj['payment_choice_id'] = element['id'];
@@ -1099,6 +1100,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.currentPaymentChoiceId = $event.target.value;
     $event.stopPropagation();
     this.newPaymentChoice();
+    console.log('======================', this.addFormStep4.get('payment_choices') as FormArray)
   }
 
   get getPaymentChoices(): FormArray {

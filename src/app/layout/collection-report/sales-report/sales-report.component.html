@@ -17,14 +17,14 @@
       <div class="col-lg-2 col-md-2">
             <div class="form-group">
             <label>{{'collectionReport.start_date' | translate}}</label>
-            <p-calendar [locale]="locale" showIcon="true" [(ngModel)]="input.start_date" [maxDate]="today" 
+            <p-calendar dateFormat="dd/M/yy" [locale]="locale" showIcon="true" [(ngModel)]="input.start_date" [maxDate]="today" 
               showButtonBar="true" class="coll-report-calendar" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
             </div>
       </div>
       <div class="col-lg-2 col-md-2">
             <div class="form-group">
               <label>{{'collectionReport.end_date' | translate}}</label>
-              <p-calendar [locale]="locale" showIcon="true" [(ngModel)]="input.end_date" [maxDate]="today" 
+              <p-calendar dateFormat="dd/M/yy" [locale]="locale" showIcon="true" [(ngModel)]="input.end_date" [maxDate]="today" 
                 showButtonBar="true" class="coll-report-calendar" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
             </div>
       </div>

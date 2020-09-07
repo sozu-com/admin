@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { IProperty } from 'src/app/common/property';
@@ -6,7 +6,6 @@ import { Constant } from 'src/app/common/constants';
 import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
 import { CollectionReport } from '../../../models/collection-report.model';
-declare let swal: any;
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
@@ -52,15 +51,15 @@ export class ConceptComponent implements OnInit {
     this.input.start_date = moment().subtract(6, 'months').toDate();
     this.input.end_date = moment().toDate();
     this.today = new Date();
-    this.initCalendarLocale()
-    this.iniDropDownSetting()
+    this.initCalendarLocale();
+    this.iniDropDownSetting();
     this.getDevelopers();
     this.getCurrencies();
     this.getListing();
   }
 
   initCalendarLocale() {
-    if (this.translate.defaultLang == 'en') {
+    if (this.translate.defaultLang === 'en') {
       this.locale = {
         firstDayOfWeek: 0,
         dayNames: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
@@ -73,7 +72,7 @@ export class ConceptComponent implements OnInit {
         clear: 'Clear',
         dateFormat: 'mm/dd/yy',
         weekHeader: 'Wk'
-      }
+      };
     } else {
       this.locale = {
         firstDayOfWeek: 0,
@@ -116,7 +115,7 @@ export class ConceptComponent implements OnInit {
     this[arrayNAme].push(obj);
   }
 
-  onItemSelect(param:any, obj: any) {
+  onItemSelect(param: any, obj: any) {
     this[param].push(obj);
   }
 
@@ -129,14 +128,14 @@ export class ConceptComponent implements OnInit {
         success => {
           this.currencies = success.data;
           this.currencies.map(r => {
-            r['name'] = r.code + ' | ' + r.currency
-          })
+            r['name'] = r.code + ' | ' + r.currency;
+          });
         }, error => {
           this.spinner.hide();
         }
       );
   }
-  
+
   getDevelopers() {
     this.admin.postDataApi('getUnblockedDevelopers', {})
       .subscribe(
@@ -160,7 +159,7 @@ export class ConceptComponent implements OnInit {
   searchBuilding(developer_id: string) {
     this.spinner.show();
     const input = {
-      "developer_id": developer_id
+      'developer_id': developer_id
     };
     this.admin.postDataApi('getUnblockedProjects', input)
       .subscribe(
@@ -224,10 +223,10 @@ export class ConceptComponent implements OnInit {
         }
         // calculating grand total
         let grandTotal = 0;
-        for(let i = 0; i < this.finalData.length; i++) {
-          grandTotal = grandTotal + this.finalData[i].total
+        for (let i = 0; i < this.finalData.length; i++) {
+          grandTotal = grandTotal + this.finalData[i].total;
         }
-        this.finalData.push({p: 'Total', key: 1, total: grandTotal})
+        this.finalData.push({p: 'Total', key: 1, total: grandTotal});
         this.spinner.hide();
       },
       error => {
@@ -244,14 +243,11 @@ export class ConceptComponent implements OnInit {
     this.selectedCurrencies = [];
   }
 
-    
   exportData() {
     if (this.finalData) {
       const data = [];
       for (let index = 0; index < this.finalData.length; index++) {
         const p = this.paymentConcepts[index];
-        
-
 
         data.push({
           'Concept': p.name || '',

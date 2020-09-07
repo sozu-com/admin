@@ -151,7 +151,7 @@
             <div class="col-lg-2 col-md-2">
                   <div class="form-group">
                   <label>{{'collectionReport.currentMonth' | translate}}</label>
-                  <p-calendar [locale]="locale" showIcon="true" [(ngModel)]="input.start_date" [maxDate]="today" 
+                  <p-calendar dateFormat="dd/M/yy" [locale]="locale" showIcon="true" [(ngModel)]="input.start_date" [maxDate]="today" 
                     showButtonBar="true" class="coll-report-calendar" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
                   </div>
             </div>
@@ -261,11 +261,11 @@
                           <td><span>{{item?.model || ('table.tr.td.NA' | translate)}}</span></td>
                           <td><span>{{item?.property_name || ('table.tr.td.NA' | translate)}}</span></td>
                           <td><span>{{item?.code || ('table.tr.td.NA' | translate)}}</span></td>
-                          <td><span>${{((item?.previous_month_outstanding || 0) + (item?.previous_month_penalty || 0)) | roundNumber}}</span></td>
+                          <td><span>${{((item?.previous_month_outstanding || 0) + (item?.previous_month_penalty || 0) - (item?.previous_month_paid || 0)) | roundNumber}}</span></td>
                           <!-- <td><span>{{item?.code || ('table.tr.td.NA' | translate)}}</span></td> -->
-                          <td><span>${{((item?.current_month_outstanding || 0) + (item?.curent_month_penalty || 0)) | roundNumber}}</span></td>
+                          <td><span>${{((item?.curent_month_outstanding || 0) + (item?.curent_month_penalty || 0) - (item?.curent_month_paid || 0)) | roundNumber}}</span></td>
                           <!-- <td><span>{{item?.code || ('table.tr.td.NA' | translate)}}</span></td> -->
-                          <td><span>${{((item?.next_month_outstanding || 0) + (item?.next_month_penalty || 0)) | roundNumber}}</span></td>
+                          <td><span>${{((item?.next_month_outstanding || 0) + (item?.next_month_penalty || 0) - (item?.next_month_paid || 0)) | roundNumber}}</span></td>
                           <!-- <td><span>{{item?.code || ('table.tr.td.NA' | translate)}}</span></td> -->
                          </tr>
                       </tbody>

@@ -312,7 +312,7 @@
                          </select>
                         </div>
                      </th>
-                       <th style="width: 350px;" *ngIf="parameter.flag!=5">
+                       <th style="width: 400px;" *ngIf="parameter.flag!=5">
                           <div class="table-search">
                              <label>{{'table.th.actions.label' | translate}}</label>
                           </div>
@@ -1323,7 +1323,7 @@
 
                   <div class="cust-tabs" style="padding: 20px;    height: 500px;
                   overflow-y: scroll;">
-                      <div id="accordion" class="table-responsive main-table">
+                      <!-- <div id="accordion" class="table-responsive main-table"> -->
                         <table class="table table-bordered table-striped folder-table">
                           <thead>
                             <tr>
@@ -1351,11 +1351,54 @@
                           
                             <tr id="collapse{{i}}" class="panel-collapse collapse">
                               <td colspan="3" >
-                                <ng-container *ngFor="let stats of p?.folder_docs; let s=index">
-                                  <span class="">○</span> <a [style.color]="'#4661B1'" target="_blank" href="{{stats?.display_name}}">
-                                    {{stats?.name || 'NA'}}
-                                  </a> <br>
-                                </ng-container>
+                                <!-- add document -->
+                                <div class="white-bg">
+                                  <div class="row">
+                                    <div class="col-8">
+                                      <p class="p16 marginB0">{{'addCollection.addDocxNameAndChooseFile' | translate}}</p>
+                                    </div>
+                                    <div class="col-4 text-right">
+                                      <a class="add" href="javascript://" (click)="addDocs(i, p.id)">
+                                        <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
+                                        {{'commonBlock.add' | translate}}
+                                      </a>
+
+                                      <ng-template #noAddPermissiom>
+                                        <a class="add" href="javascript://">{{'commonBlock.add' | translate}}</a>
+                                      </ng-template>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="form-group-2">
+                                  <div class="form-group">
+                                    <input type="text" autocomplete="off" name="docsName" [(ngModel)]="docsName">
+                                  </div>
+                                </div>
+                                <div class="form-group-2">
+                                  <div class="form-group">
+                                    <input type="file" name="docFile" #docsFile
+                                    accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,image/x-png,image/jpg,image/jpeg"
+                                    (change)="onSelectFile($event.target.files)">
+                                  </div>
+                                </div>
+
+                                <!-- list all documents -->
+                                <div class="write-note white-bg">
+                                  <div class="wn-block" *ngFor="let item of p?.folder_docs; let s=index">
+                                    <div class="circle">
+                                      <span></span>
+                                    </div>
+                                    <a class="delete" href="javascript://" (click)="deleteDocsPopup(item, i, s)">{{'commonBlock.delete' | translate}}</a>
+
+                                    <ng-template #noDeletePermissiom>
+                                          <a class="delete" href="javascript://">{{'commonBlock.delete' | translate}}</a>
+                                    </ng-template>
+                                    <p class="time" title="'Click to view'">
+                                      <a target="_blank" href="{{item.display_name}}">
+                                          {{item?.name}}
+                                      </a></p>
+                                  </div>
+                                </div>
                                 <div class="padding20 center" *ngIf="p?.folder_docs?.length == 0">
                                   <p class="show-not-found">
                                     {{'message.error.noDocumentUploadedYet' | translate}}
@@ -1373,5 +1416,4 @@
                       </div>
                   </div>
             </div>
-      </div>
 </div>

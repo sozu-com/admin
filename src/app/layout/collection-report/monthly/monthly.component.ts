@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { IProperty } from 'src/app/common/property';
@@ -7,7 +7,6 @@ import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
 import { CollectionReport } from '../../../models/collection-report.model';
 import { Towers } from '../../../models/addProject.model';
-declare let swal: any;
 
 @Component({
   selector: 'app-monthly',
@@ -36,7 +35,7 @@ export class MonthlyComponent implements OnInit {
   projects: Array<any>;
   selctedProjects: Array<any>;
   developers: Array<any>;
-  selectedDevelopers: Array<any>;  
+  selectedDevelopers: Array<any>;
   selectedProperties: Array<any>;
   selectedTowers: Array<any>;
   selectedFloors: Array<any>;
@@ -69,12 +68,12 @@ export class MonthlyComponent implements OnInit {
     this.getDevelopers();
     this.getBuyers();
     this.getCurrencies();
-    this.initCalendarLocale()
+    this.initCalendarLocale();
     this.getListing();
   }
 
   initCalendarLocale() {
-    if (this.translate.defaultLang == 'en') {
+    if (this.translate.defaultLang === 'en') {
       this.locale = {
         firstDayOfWeek: 0,
         dayNames: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
@@ -87,7 +86,7 @@ export class MonthlyComponent implements OnInit {
         clear: 'Clear',
         dateFormat: 'mm/dd/yy',
         weekHeader: 'Wk'
-      }
+      };
     } else {
       this.locale = {
         firstDayOfWeek: 0,
@@ -130,7 +129,7 @@ export class MonthlyComponent implements OnInit {
     this[arrayNAme].push(obj);
   }
 
-  onItemSelect(param:any, obj: any) {
+  onItemSelect(param: any, obj: any) {
     this[param].push(obj);
   }
 
@@ -144,7 +143,7 @@ export class MonthlyComponent implements OnInit {
         success => {
           this.currencies = success.data;
           this.currencies.map(r => {
-            r['name'] = r.code + ' | ' + r.currency
+            r['name'] = r.code + ' | ' + r.currency;
           })
         }, error => {
           this.spinner.hide();
@@ -163,7 +162,7 @@ export class MonthlyComponent implements OnInit {
       this.selectedProperties = [];
     }
   }
-  
+
   getDevelopers() {
     this.admin.postDataApi('getUnblockedDevelopers', {})
       .subscribe(
@@ -185,13 +184,13 @@ export class MonthlyComponent implements OnInit {
       this.selectedProperties = [];
     }
   }
-  
+
   searchBuilding(developer_id: string) {
     this.spinner.show();
     const input = {
       developer_id: developer_id
     };
-    
+
     this.admin.postDataApi('getUnblockedProjects', input)
       .subscribe(
         success => {
@@ -209,10 +208,10 @@ export class MonthlyComponent implements OnInit {
       if (r.id == buildingId) {
         this.buildingTowers = r.building_towers ? r.building_towers : [];
       }
-    })
+    });
     this.buildingTowers.map(s => {
       s.name = s.tower_name;
-    })
+    });
     this.input.building_id = [buildingId];
   }
 
@@ -221,7 +220,7 @@ export class MonthlyComponent implements OnInit {
       this.setTower(obj.id);
     } else {
       this.input.building_towers_id = [];
-      this.selectedFloors = []
+      this.selectedFloors = [];
       this.selectedProperties = [];
     }
   }
@@ -238,10 +237,10 @@ export class MonthlyComponent implements OnInit {
             // floors
             this.towers['unique_floors'].map(s => {
               let obj = {};
-              obj = {id: s, name: s == 0 ? 'Ground Floor' : 'Floor '+s}
+              obj = {id: s, name: s == 0 ? 'Ground Floor' : 'Floor ' + s};
               this.towers['floors'].push(obj);
               this.floors.push(obj);
-            })
+            });
           }
         }
       }
@@ -256,9 +255,9 @@ export class MonthlyComponent implements OnInit {
       this.selectedProperties = [];
     }
   }
-  
+
   getProperties($event) {
-    let input = {};
+    const input = {};
     if (this.selctedProjects) {
       const d = this.selctedProjects.map(o => o.id);
       input['building_id'] = d[0];
@@ -271,7 +270,7 @@ export class MonthlyComponent implements OnInit {
       const d = this.selectedFloors.map(o => o.id);
       input['floor_num'] = d[0];
     }
-    this.spinner.show()
+    this.spinner.show();
     this.admin.postDataApi('getUnblockedProperties', input)
       .subscribe(
         success => {
@@ -282,7 +281,7 @@ export class MonthlyComponent implements OnInit {
         }
       );
   }
-  
+
   onSelectBuyer(isSelected: number, obj: any) {
     if (isSelected) {
       this.getBuyers();
@@ -304,15 +303,14 @@ export class MonthlyComponent implements OnInit {
         }
       );
   }
-  
 
   getListing() {
     this.spinner.show();
-    
+
     const input: any = JSON.parse(JSON.stringify(this.input));
     input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
     input.year = new Date(this.input.start_date).getFullYear(),
-    input.month = new Date(this.input.start_date).getMonth() + 1
+    input.month = new Date(this.input.start_date).getMonth() + 1;
 
     this.previousMonth = moment(this.input.start_date).subtract(1, 'months').toDate();
     this.nextMonth = moment(this.input.start_date).add(1, 'months').toDate();
@@ -365,7 +363,6 @@ export class MonthlyComponent implements OnInit {
     this.selectedFloors = [];
     this.selectedCurrencies = [];
     this.selectedProperties = [];
-    this.selectedBuyers = []
+    this.selectedBuyers = [];
   }
-
 }
