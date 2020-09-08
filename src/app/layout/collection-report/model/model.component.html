@@ -192,47 +192,74 @@
        <div class="tab-content white-bg">
           <div class="tab-pane active">
              <div class="tabel-section">
-                <div class="table-responsive">
+                <div id="accordion" class="table-responsive">
                    <table class="table table-align-left">
                       <thead>
                           <tr class="text-bold">
-                              <th style="width:10%; text-align:left;">
+                              <th>
                                   <b>{{'collectionReport.model' | translate}}</b>
                               </th>
-                              <th style="width:10%; text-align:left;">
+                              <th>
                                   <b>{{'collectionReport.status' | translate}}</b>
                               </th>
-                              <th style="width:10%; text-align:left;">
+                              <th>
                                   <b>{{'collectionReport.propertyName' | translate}}</b>
                               </th>
-                              <th style="width:10%; text-align:left;">
+                              <th>
                                   <b>{{'collectionReport.price' | translate}}</b>
                               </th>
-                              <th style="width:10%; text-align:left;">
+                              <th>
                                     <b>{{'collectionReport.paid' | translate}}</b>
                               </th>
-                              <th style="width:10%; text-align:left;">
+                              <th>
                                     <b>{{'collectionReport.remaining' | translate}}</b>
                               </th>
-                              <th style="width:10%; text-align:left;">
+                              <th>
                                    <b>{{'collectionReport.penalty' | translate}}</b>
                               </th>
-                              <th style="width:10%; text-align:left;">
+                              <th>
                                     <b>{{'collectionReport.total' | translate}}</b>
                               </th>
                            </tr>
                       </thead>
-                      <tbody>
-                        <tr *ngFor="let item of finalData; let i=index" [ngClass]="{'text-bold' : item.calculated==1}">
-                          <td><span>{{(item?.model || ('table.tr.td.NA' | translate)) | uppercase}}</span></td>
-                          <td><span>{{(item?.is_approved == 1 ? 'Approved' : (item.is_approved == 0 ? 'Unapproved' : '')) | uppercase}}</span></td>
-                          <td><span>{{item?.name || ''}}</span></td>
-                          <td><span>{{(item?.price || 0 | currency)}}</span></td>
-                           <td><span>{{(item?.paid || 0) | currency}}</span></td>
-                           <td><span>{{((item?.total || 0) - (item?.paid || 0)) | currency}}</span></td>
-                           <td><span>{{(item?.penalty || 0) | currency}}</span></td>
-                           <td><span>{{(item?.total || 0) | currency}}</span></td>
+                      <tbody *ngFor="let final of finalData; let i=index">
+                        <tr class="text-bold">
+                          <td><span>
+                                <a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{i}}">
+                                    <span><i class="fa fa-plus-circle"></i> </span>{{final?.name}}
+                                </a>
+                              </span></td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td><span>{{(final?.deal_price || 0 | currency)}}</span></td>
+                           <td><span>{{(final?.paid || 0) | currency}}</span></td>
+                           <td><span>{{(final?.remaining || 0) | currency}}</span></td>
+                           <td><span>{{(final?.penalty || 0) | currency}}</span></td>
+                           <td><span>{{((final?.paid || 0) + (final?.remaining || 0)) | currency}}</span></td>
                          </tr>
+                         <tr id="collapse{{i}}" class="panel-collapse collapse">
+                           <td colspan="8">
+                              <table [style.width]="'100%'">
+                                    <thead></thead>
+                                    <tbody>
+                                          <tr *ngFor="let item of final.data">
+                                             <td><span>
+                                                   <a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{i}}">
+                                                       {{(item?.model || ('table.tr.td.NA' | translate)) | uppercase}}
+                                                   </a>
+                                                 </span></td>
+                                             <td><span>{{(item?.is_approved == 1 ? 'Approved' : (item.is_approved == 0 ? 'Unapproved' : '')) | uppercase}}</span></td>
+                                             <td><span>{{item?.name || ''}}</span></td>
+                                             <td><span>{{(item?.deal_price || 0 | currency)}}</span></td>
+                                              <td><span>{{(item?.paid || 0) | currency}}</span></td>
+                                              <td><span>{{((item?.deal_price || 0) + (item?.penalty || 0) - (item?.paid || 0)) | currency}}</span></td>
+                                              <td><span>{{(item?.penalty || 0) | currency}}</span></td>
+                                              <td><span>{{((item?.deal_price || 0) + (item?.penalty || 0)) | currency}}</span></td>
+                                          </tr>
+                                    </tbody>
+                              </table>
+                           </td>
+                          </tr>
                       </tbody>
                    </table>
                    <div class="padding20 center" *ngIf="finalData?.length == 0">

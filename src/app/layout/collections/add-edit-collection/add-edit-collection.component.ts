@@ -936,7 +936,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.us.postDataApi('getProperties', input)
       .subscribe(
         success => {
-          success.data.unshift({'name': this.translate.instant('message.error.pleaseChooseApartment')})
+          success.data.unshift({'name': this.translate.instant('message.error.pleaseChooseApartment')});
           this.properties = success.data;
         }, error => {
           this.spinner.hide();
@@ -963,11 +963,11 @@ export class AddEditCollectionComponent implements OnInit {
         if (p.for_rent == 1) {
           this.setAvailableStatus(1);
         }
-        this.addFormStep5.controls.comm_total_commission.patchValue(p.total_commision ? p.total_commision : 0)
-        this.addFormStep5.controls.comm_total_commission_amount.patchValue(p.total_commision ? (p.total_commision *p.min_price)/100 : 0)
-        this.addFormStep5.controls.is_commission_sale_enabled.patchValue(p.is_commission_sale_enabled ? 1 : 0)
-        this.addFormStep5.controls.comm_shared_commission.patchValue(p.broker_commision ? p.broker_commision : 0)
-        this.addFormStep5.controls.comm_shared_commission_amount.patchValue(p.broker_commision ? (p.broker_commision *p.min_price)/100 : 0)
+        this.addFormStep5.controls.comm_total_commission.patchValue(p.total_commision ? p.total_commision : 0);
+        this.addFormStep5.controls.comm_total_commission_amount.patchValue(p.total_commision ? (p.total_commision *p.min_price)/100 : 0);
+        this.addFormStep5.controls.is_commission_sale_enabled.patchValue(p.is_commission_sale_enabled ? 1 : 0);
+        this.addFormStep5.controls.comm_shared_commission.patchValue(p.broker_commision ? p.broker_commision : 0);
+        this.addFormStep5.controls.comm_shared_commission_amount.patchValue(p.broker_commision ? (p.broker_commision *p.min_price)/100 : 0);
       }
     });
   }
@@ -1100,7 +1100,6 @@ export class AddEditCollectionComponent implements OnInit {
     this.currentPaymentChoiceId = $event.target.value;
     $event.stopPropagation();
     this.newPaymentChoice();
-    console.log('======================', this.addFormStep4.get('payment_choices') as FormArray)
   }
 
   get getPaymentChoices(): FormArray {
@@ -1125,7 +1124,8 @@ export class AddEditCollectionComponent implements OnInit {
         category_name: [name, [Validators.required]],
         date: ['', [Validators.required]],
         percent: ['', [Validators.required]],
-        amount: ['', [Validators.required]]
+        amount: ['', [Validators.required]],
+        calc_payment_amount: ['']
       });
       const c = this.getPaymentChoices.push(fb);
     } else {
@@ -1186,20 +1186,26 @@ export class AddEditCollectionComponent implements OnInit {
     });
   }
 
-  removePaymentChoicePopup($event: Event, item: any, i: number) {
-    swal({
-      html: this.translate.instant('message.error.areYouSure') + '<br>' +
-        this.translate.instant('message.error.wantToRemovePaymentConcept'),
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: this.constant.confirmButtonColor,
-      cancelButtonColor: this.constant.cancelButtonColor,
-      confirmButtonText: 'Yes'
-    }).then((result) => {
-      if (result.value) {
-        this.removePaymentChoice(item, i);
-      }
-    });
+  removePaymentChoicePopup(item: any, i: number) {
+    if (item.value.calc_payment_amount) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.cannotRemoveAsPaymentApplied'), this.translate.instant('swal.error'));
+      return;
+    } else {
+      swal({
+        html: this.translate.instant('message.error.areYouSure') + '<br>' +
+          this.translate.instant('message.error.wantToRemovePaymentConcept'),
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: this.constant.confirmButtonColor,
+        cancelButtonColor: this.constant.cancelButtonColor,
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.value) {
+          this.removePaymentChoice(item, i);
+        }
+      });
+    }
   }
 
   removePaymentChoice(item: any, i: number) {
@@ -1732,8 +1738,8 @@ export class AddEditCollectionComponent implements OnInit {
     // if first monthly installment percent added, => update amount in all monthly installments
     if (installOne && (installOne.name == pcArray[index].name)) {
       const sta = add_collection_commission;
-      for (let index = 0; index < pcArray.length; index++) {
-        const e = pcArray[index];
+      for (let i = 0; i < pcArray.length; i++) {
+        const e = pcArray[i];
         if (e.name.includes('Monthly Installment')) {
           e.add_collection_commission = sta;
           installOne.add_collection_commission = sta;
@@ -1750,7 +1756,7 @@ export class AddEditCollectionComponent implements OnInit {
     // const installOne = pcArray.find(r => r.pc_id == 5);
     const installOne = pcArray.find(r => r.name.includes('Monthly Installment'));
     // if first monthly installment percent added, => update amount in all monthly installments
-    if (installOne && (installOne.name == pcArray[index].name)) {
+    if (installOne && (installOne.name === pcArray[index].name)) {
       pcArray.map(e => {
         // if (e.pc_id == 5) {
         if (e.name.includes('Monthly Installment')) {
@@ -1769,10 +1775,10 @@ export class AddEditCollectionComponent implements OnInit {
     // const installOne = pcArray.find(r => r.pc_id == 5);
     const installOne = pcArray.find(r => r.name.includes('Monthly Installment'));
     // if first monthly installment percent added, => update amount in all monthly installments
-    if (installOne && (installOne.name == pcArray[index].name)) {
+    if (installOne && (installOne.name === pcArray[index].name)) {
       pcArray.map(e => {
         // if (e.pc_id == 5) {
-        if (e.name.includes('Monthly Installment')){
+        if (e.name.includes('Monthly Installment')) {
           e.amount = amount;
           e.percent = percent;
         }
@@ -1785,10 +1791,10 @@ export class AddEditCollectionComponent implements OnInit {
     const pcArray: Array<any> = this.addFormStep5.get('collection_commissions').value;
     const installOne = pcArray.find(r => r.name.includes('Monthly Installment'));
     // if first monthly installment percent added, => update amount in all monthly installments
-    if (installOne && (installOne.name == pcArray[index].name)) {
+    if (installOne && (installOne.name === pcArray[index].name)) {
       const sta = add_purchase_commission;
-      for (let index = 0; index < pcArray.length; index++) {
-        const e = pcArray[index];
+      for (let index1 = 0; index1 < pcArray.length; index1++) {
+        const e = pcArray[index1];
         if (e.name.includes('Monthly Installment')) {
           e.add_purchase_commission = sta;
           installOne.add_purchase_commission = sta;
@@ -1803,7 +1809,7 @@ export class AddEditCollectionComponent implements OnInit {
     pcArray[index].purchase_comm_amount = amount;
     const installOne = pcArray.find(r => r.name.includes('Monthly Installment'));
     // if first monthly installment percent added, => update amount in all monthly installments
-    if (installOne.name == pcArray[index].name) {
+    if (installOne.name === pcArray[index].name) {
       pcArray.map(e => {
         if (e.name.includes('Monthly Installment')) {
           e.purchase_comm_amount = amount;
@@ -1889,7 +1895,8 @@ export class AddEditCollectionComponent implements OnInit {
         }
 
         if (this.model.seller_type != '1') {
-          if (!formdata['seller_leg_rep_name'] || !formdata['seller_leg_rep_phone'] || !formdata['seller_leg_rep_email'] || !formdata['seller_leg_rep_fed_tax']) {
+          if (!formdata['seller_leg_rep_name'] || !formdata['seller_leg_rep_phone'] ||
+          !formdata['seller_leg_rep_email'] || !formdata['seller_leg_rep_fed_tax']) {
             this.toastr.error(this.translate.instant('message.error.pleaseFillLegalRepInfo'), this.translate.instant('swal.error'));
             return;
           }
@@ -1913,13 +1920,13 @@ export class AddEditCollectionComponent implements OnInit {
           }
         }
         if (this.model.buyer_type != '1') {
-          if (!formdata['buyer_leg_rep_name'] || !formdata['buyer_leg_rep_phone'] || !formdata['buyer_leg_rep_email'] || !formdata['buyer_leg_rep_fed_tax']) {
+          if (!formdata['buyer_leg_rep_name'] || !formdata['buyer_leg_rep_phone'] ||
+          !formdata['buyer_leg_rep_email'] || !formdata['buyer_leg_rep_fed_tax']) {
             this.toastr.error(this.translate.instant('message.error.pleaseFillLegalRepInfo'), this.translate.instant('swal.error'));
             return;
           }
         }
-       }
-       else {
+       } else {
         this.showError = true;
         return;
        }
@@ -2017,11 +2024,11 @@ export class AddEditCollectionComponent implements OnInit {
         const collection_commissions = formdata['collection_commissions'];
         delete formdata['collection_commissions'];
         collection_commissions.forEach(element => {
-          element.add_collection_commission = element.add_collection_commission ? 1 : 0
-          element.add_purchase_commission = element.add_purchase_commission ? 1 : 0
-          element.percent = element.percent || 0
-          element.amount = element.amount || 0
-          element.purchase_comm_amount = element.purchase_comm_amount || 0
+          element.add_collection_commission = element.add_collection_commission ? 1 : 0;
+          element.add_purchase_commission = element.add_purchase_commission ? 1 : 0;
+          element.percent = element.percent || 0;
+          element.amount = element.amount || 0;
+          element.purchase_comm_amount = element.purchase_comm_amount || 0;
         });
         formdata['collection_commissions'] = collection_commissions;
         formdata['is_commission_sale_enabled'] = formdata['is_commission_sale_enabled'] ? 1 : 0;
@@ -2048,22 +2055,22 @@ export class AddEditCollectionComponent implements OnInit {
             // }
             if (tab == 1 || tab == 2) {
               this.initFormStep2();
-              this.patchFormStep2(success['data'], 'add')
+              this.patchFormStep2(success['data'], 'add');
             // }
             // if (tab == 2) {
               this.initFormStep3();
-              this.patchFormStep3(success['data'])
+              this.patchFormStep3(success['data']);
             }
             if (tab == 4) {
               this.initFormStep4();
-              this.patchFormStep4(success['data'])
+              this.patchFormStep4(success['data']);
 
-              this.initFormStep5()
+              this.initFormStep5();
               this.selectedPaymentChoice.nativeElement.value = '';
               this.patchFormStep5(success['data']);
             }
             if (tab == 6) {
-              this.router.navigate(['/dashboard/collections/view-collections'])
+              this.router.navigate(['/dashboard/collections/view-collections']);
               // swal({
               //   html: this.translate.instant('message.success.submittedSccessfully'), type: 'success'
               // });
@@ -2087,9 +2094,9 @@ export class AddEditCollectionComponent implements OnInit {
           this.model.id = success['data'].id;
           if (tab == 4) {
             this.initFormStep4();
-            this.patchFormStep4(success['data'])
+            this.patchFormStep4(success['data']);
 
-            this.initFormStep5()
+            this.initFormStep5();
             this.selectedPaymentChoice.nativeElement.value = '';
             this.patchFormStep5(success['data']);
           }

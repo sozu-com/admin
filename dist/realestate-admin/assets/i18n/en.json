@@ -1081,7 +1081,8 @@
       "wantToDeleteCommission": "You want to delete this Commission?",
       "wantToDeleteDocs": "You want to delete this document?",
       "wantToDeleteFolder": "You want to delete this folder?",
-      "wantToRemovePaymentConcept": "You want to remove this concept?"
+      "wantToRemovePaymentConcept": "You want to remove this concept?",
+      "cannotRemoveAsPaymentApplied": "You cannot remove this deal, as payment has been applied"
     }
   },
   "inhouseUsers": {

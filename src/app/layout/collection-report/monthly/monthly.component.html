@@ -261,11 +261,11 @@
                           <td><span>{{item?.model || ('table.tr.td.NA' | translate)}}</span></td>
                           <td><span>{{item?.property_name || ('table.tr.td.NA' | translate)}}</span></td>
                           <td><span>{{item?.code || ('table.tr.td.NA' | translate)}}</span></td>
-                          <td><span>${{((item?.previous_month_outstanding || 0) + (item?.previous_month_penalty || 0) - (item?.previous_month_paid || 0)) | roundNumber}}</span></td>
+                          <td><span>${{((item?.previous_month_amount || 0) + (item?.previous_month_penalty || 0) - (item?.previous_month_paid || 0)) | roundNumber}}</span></td>
                           <!-- <td><span>{{item?.code || ('table.tr.td.NA' | translate)}}</span></td> -->
-                          <td><span>${{((item?.curent_month_outstanding || 0) + (item?.curent_month_penalty || 0) - (item?.curent_month_paid || 0)) | roundNumber}}</span></td>
+                          <td><span>${{((item?.curent_month_amount || 0) + (item?.curent_month_penalty || 0) - (item?.curent_month_paid || 0)) | roundNumber}}</span></td>
                           <!-- <td><span>{{item?.code || ('table.tr.td.NA' | translate)}}</span></td> -->
-                          <td><span>${{((item?.next_month_outstanding || 0) + (item?.next_month_penalty || 0) - (item?.next_month_paid || 0)) | roundNumber}}</span></td>
+                          <td><span>${{((item?.next_month_amount || 0) + (item?.next_month_penalty || 0) - (item?.next_month_paid || 0)) | roundNumber}}</span></td>
                           <!-- <td><span>{{item?.code || ('table.tr.td.NA' | translate)}}</span></td> -->
                          </tr>
                       </tbody>

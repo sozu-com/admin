@@ -2,3 +2,7 @@
     font-weight: 600;
     background-color: #F9F9F9;
 }
+.table td, .table th {
+    width: 10%;
+    text-align: left;
+}

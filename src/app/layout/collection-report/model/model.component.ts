@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { IProperty } from 'src/app/common/property';
@@ -7,7 +7,6 @@ import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
 import { CollectionReport } from '../../../models/collection-report.model';
 import { Towers } from 'src/app/models/addProject.model';
-declare let swal: any;
 
 @Component({
   selector: 'app-model',
@@ -32,7 +31,7 @@ export class ModelComponent implements OnInit {
   projects: Array<any>;
   selctedProjects: Array<any>;
   developers: Array<any>;
-  selectedDevelopers: Array<any>;  
+  selectedDevelopers: Array<any>;
   selectedProperties: Array<any>;
   selectedTowers: Array<any>;
   selectedFloors: Array<any>;
@@ -57,17 +56,17 @@ export class ModelComponent implements OnInit {
     this.iniDropDownSetting();
     this.towers = [new Towers()];
     this.input = new CollectionReport();
-    this.input.start_date = moment().subtract(6, 'months').toDate();
+    this.input.start_date = moment().subtract(3, 'months').toDate();
     this.input.end_date = moment().toDate();
     this.today = new Date();
-    this.initCalendarLocale()
+    this.initCalendarLocale();
     this.getDevelopers();
     this.getCurrencies();
     this.getListing();
   }
 
   initCalendarLocale() {
-    if (this.translate.defaultLang == 'en') {
+    if (this.translate.defaultLang === 'en') {
       this.locale = {
         firstDayOfWeek: 0,
         dayNames: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
@@ -80,7 +79,7 @@ export class ModelComponent implements OnInit {
         clear: 'Clear',
         dateFormat: 'mm/dd/yy',
         weekHeader: 'Wk'
-      }
+      };
     } else {
       this.locale = {
         firstDayOfWeek: 0,
@@ -123,7 +122,7 @@ export class ModelComponent implements OnInit {
     this[arrayNAme].push(obj);
   }
 
-  onItemSelect(param:any, obj: any) {
+  onItemSelect(param: any, obj: any) {
     this[param].push(obj);
   }
 
@@ -136,8 +135,8 @@ export class ModelComponent implements OnInit {
         success => {
           this.currencies = success.data;
           this.currencies.map(r => {
-            r['name'] = r.code + ' | ' + r.currency
-          })
+            r['name'] = r.code + ' | ' + r.currency;
+          });
         }, error => {
           this.spinner.hide();
         }
@@ -155,7 +154,7 @@ export class ModelComponent implements OnInit {
       this.selectedProperties = [];
     }
   }
-  
+
   getDevelopers() {
     this.admin.postDataApi('getUnblockedDevelopers', {})
       .subscribe(
@@ -172,18 +171,18 @@ export class ModelComponent implements OnInit {
       this.setBuildingId(obj.id);
     } else {
       this.input.building_id = [];
-      this.selectedTowers = []
+      this.selectedTowers = [];
       this.selectedFloors = [];
       this.selectedProperties = [];
     }
   }
-  
+
   searchBuilding(developer_id: string) {
     this.spinner.show();
     const input = {
       developer_id: developer_id
     };
-    
+
     this.admin.postDataApi('getUnblockedProjects', input)
       .subscribe(
         success => {
@@ -201,10 +200,10 @@ export class ModelComponent implements OnInit {
       if (r.id == buildingId) {
         this.buildingTowers = r.building_towers ? r.building_towers : [];
       }
-    })
+    });
     this.buildingTowers.map(s => {
       s.name = s.tower_name;
-    })
+    });
     this.input.building_id = [buildingId];
   }
 
@@ -213,7 +212,7 @@ export class ModelComponent implements OnInit {
       this.setTower(obj.id);
     } else {
       this.input.building_towers_id = [];
-      this.selectedFloors = []
+      this.selectedFloors = [];
       this.selectedProperties = [];
     }
   }
@@ -223,17 +222,17 @@ export class ModelComponent implements OnInit {
     for (let index = 0; index < this.projects.length; index++) {
       if (this.projects[index].id == this.input.building_id) {
         const bt = this.projects[index].building_towers;
-        for(let i = 0; i < bt.length; i++) {
+        for (let i = 0; i < bt.length; i++) {
           if (bt[i].id == building_towers_id) {
             this.towers = bt[i];
             this.towers['floors'] = [];
             // floors
             this.towers['unique_floors'].map(s => {
               let obj = {};
-              obj = {id: s, name: s == 0 ? 'Ground Floor' : 'Floor '+s}
+              obj = {id: s, name: s == 0 ? 'Ground Floor' : 'Floor ' + s};
               this.towers['floors'].push(obj);
               this.floors.push(obj);
-            })
+            });
           }
         }
       }
@@ -248,9 +247,9 @@ export class ModelComponent implements OnInit {
       this.selectedProperties = [];
     }
   }
-  
+
   getProperties($event) {
-    let input = {};
+    const input = {};
     if (this.selctedProjects) {
       const d = this.selctedProjects.map(o => o.id);
       input['building_id'] = d[0];
@@ -263,7 +262,7 @@ export class ModelComponent implements OnInit {
       const d = this.selectedFloors.map(o => o.id);
       input['floor_num'] = d[0];
     }
-    this.spinner.show()
+    this.spinner.show();
     this.admin.postDataApi('getUnblockedProperties', input)
       .subscribe(
         success => {
@@ -277,7 +276,7 @@ export class ModelComponent implements OnInit {
 
   getListing() {
     this.spinner.show();
-    
+
     const input: any = JSON.parse(JSON.stringify(this.input));
     input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
     input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
@@ -310,28 +309,57 @@ export class ModelComponent implements OnInit {
       success => {
         this.data = success['data'];
         this.model = [];
-        for(var property in this.data) {
-          this.model.push(property);
-        }
-        let grandTotal = 0; let grandPaidTotal = 0; let grandRemTotal = 0; let grandPenalty = 0;
         this.finalData = [];
-        for (let index = 0; index < this.model.length; index++) {
-          let m = this.model[index];
-          let obj = {};
-          let total = 0; let paidTotal = 0; let remainingTotal = 0; let penaltyTotal = 0;
-          for (let i = 0; i < this.data[m].length; i++) {
-            this.finalData.push(this.data[m][i]);
-            total = total + this.data[m][i]['total'];
-            paidTotal = paidTotal + this.data[m][i]['paid'];
-            penaltyTotal = penaltyTotal + this.data[m][i]['penalty'];
-            obj = {calculated: 1, model: 'total', total: total, paid: paidTotal, penalty: penaltyTotal}
-            grandTotal = grandTotal + this.data[m][i]['total'];
-            grandPaidTotal = grandPaidTotal + this.data[m][i]['paid'];
-            grandPenalty = grandPenalty + this.data[m][i]['penalty'];
+        for (const property in this.data) {
+          if (property) {
+            const deal_price = this.data[property].reduce((a, b) => a + (b['deal_price'] || 0), 0);
+            const penalty = this.data[property].reduce((a, b) => a + (b['penalty'] || 0), 0);
+            const paid = this.data[property].reduce((a, b) => a + (b['paid'] || 0), 0);
+            const remaining = deal_price + penalty - paid;
+            this.finalData.push({
+              model: property,
+              name: 'TOTAL - ' + property,
+              deal_price: deal_price,
+              paid: paid,
+              remaining: remaining,
+              penalty: penalty,
+              total: this.data[property].reduce((a, b) => a + (b['total'] || 0), 0),
+              data: this.data[property]
+            });
+            // this.model.push(property);
           }
-          this.finalData.push(obj);
         }
-        this.finalData.push({calculated: 1,model: 'grand total', total: grandTotal, paid: grandPaidTotal, penalty: grandPenalty});
+        console.log(this.finalData);
+        const f = [...this.finalData];
+        this.finalData.push({
+          model: '',
+          name: 'Grand Total',
+          deal_price: f.reduce((a, b) => a + (b['deal_price'] || 0), 0),
+          paid: f.reduce((a, b) => a + (b['paid'] || 0), 0),
+          penalty: f.reduce((a, b) => a + (b['penalty'] || 0), 0),
+          total: f.reduce((a, b) => a + (b['total'] || 0), 0),
+          data: null
+        });
+        console.log(this.model);
+        // let grandTotal = 0; let grandPaidTotal = 0; let grandPenalty = 0;
+        // for (let index = 0; index < this.model.length; index++) {
+        //   const m = this.model[index];
+        //   let obj = {};
+        //   let total = 0; let paidTotal = 0; let penaltyTotal = 0;
+        //   for (let i = 0; i < this.data[m].length; i++) {
+        //     this.finalData.push(this.data[m][i]);
+        //     total = total + this.data[m][i]['total'];
+        //     paidTotal = paidTotal + this.data[m][i]['paid'];
+        //     penaltyTotal = penaltyTotal + this.data[m][i]['penalty'];
+        //     obj = {calculated: 1, model: 'total', total: total, paid: paidTotal, penalty: penaltyTotal};
+        //     grandTotal = grandTotal + this.data[m][i]['total'];
+        //     grandPaidTotal = grandPaidTotal + this.data[m][i]['paid'];
+        //     grandPenalty = grandPenalty + this.data[m][i]['penalty'];
+        //   }
+        //   this.finalData.push(obj);
+        // }
+        // this.finalData.push({calculated: 1, model: 'grand total', total: grandTotal, paid: grandPaidTotal, penalty: grandPenalty});
+        // console.log(this.finalData);
         this.spinner.hide();
       },
       error => {
@@ -343,7 +371,6 @@ export class ModelComponent implements OnInit {
     this.input = new CollectionReport();
     this.input.start_date = moment().subtract(6, 'months').toDate();
     this.input.end_date = moment().toDate();
-
     this.selectedDevelopers = [];
     this.selctedProjects = [];
     this.selectedTowers = [];

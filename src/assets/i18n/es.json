@@ -1072,7 +1072,8 @@
       "wantToDeleteCommission": "¿Quiere eliminar esta Comisión?",
       "wantToDeleteDocs": "¿Quieres eliminar este documento?",
       "wantToDeleteFolder": "¿Quieres eliminar esta carpeta?",
-      "wantToRemovePaymentConcept": "¿Quieres eliminar este concepto?"
+      "wantToRemovePaymentConcept": "¿Quieres eliminar este concepto?",
+      "cannotRemoveAsPaymentApplied": "No puede eliminar esta oferta, ya que se aplicó el pago"
     }
   },
   "inhouseUsers": {
