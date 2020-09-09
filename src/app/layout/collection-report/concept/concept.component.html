@@ -29,10 +29,6 @@
   <div class="col-lg-2 col-md-2">
         <div class="form-group">
            <label>{{'collectionReport.developer' | translate}}</label>
-           <!-- <select class="form-control" name="developer_id" [(ngModel)]="input.developer_id" (change)="searchBuilding($event.target.value)">
-              <option value="0">{{'filters.location.allOption' | translate}}</option>
-              <option *ngFor="let item of developers" [value]="item.id">{{item.name}}</option>
-           </select> -->
            <div class="clearfix"></div>
             <ng-multiselect-dropdown class="section-section2 multi-select"
                   [placeholder]="''"
@@ -50,10 +46,6 @@
   <div class="col-lg-2 col-md-2">
         <div class="form-group">
            <label>{{'collectionReport.project' | translate}}</label>
-        <!-- <select class="form-control" name="building_id" [(ngModel)]="input.building_id">
-           <option value="0">{{'filters.location.allOption' | translate}}</option>
-           <option *ngFor="let item of projects" [value]="item.id">{{item.name}}</option>
-        </select> -->
         <div class="clearfix"></div>
             <ng-multiselect-dropdown class="section-section2 multi-select"
                   [placeholder]="''"
@@ -71,10 +63,6 @@
   <div class="col-lg-2 col-md-2">
      <div class="form-group marginB0">
         <label>{{'collectionReport.currency' | translate}}</label>
-           <!-- <select class="form-control" name="currency_id" [(ngModel)]="input.currency_id">
-              <option value="0">{{'filters.location.allOption' | translate}}</option>
-              <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
-           </select>      -->
            <div class="clearfix"></div>
                <ng-multiselect-dropdown class="section-section2 multi-select"
                      [placeholder]="''"

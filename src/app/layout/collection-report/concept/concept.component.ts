@@ -197,8 +197,10 @@ export class ConceptComponent implements OnInit {
         this.data = success['data'];
 
         this.allMonths = [];
-        for(var property in this.data) {
-          this.allMonths.push(property);
+        for (const property in this.data) {
+          if (property) {
+            this.allMonths.push(property);
+          }
         }
 
         this.finalData = [];
@@ -211,7 +213,7 @@ export class ConceptComponent implements OnInit {
             const month = this.allMonths[i];
             let d = 0;
             this.data[month].map(o => {
-              if (o.name == obj['p']) {
+              if (o.category_name == obj['p']) {
                 d = o.total_payments;
                 total = total + o.total_payments;
               }
@@ -250,7 +252,7 @@ export class ConceptComponent implements OnInit {
         const p = this.paymentConcepts[index];
 
         data.push({
-          'Concept': p.name || '',
+          'Concept': p.category_name || '',
           'Month': p.date || '',
         });
       }

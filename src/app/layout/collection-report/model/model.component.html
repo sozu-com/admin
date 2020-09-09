@@ -232,10 +232,10 @@
                           <td>-</td>
                           <td>-</td>
                           <td><span>{{(final?.deal_price || 0 | currency)}}</span></td>
-                           <td><span>{{(final?.paid || 0) | currency}}</span></td>
+                           <td><span>{{(final?.received || 0) | currency}}</span></td>
                            <td><span>{{(final?.remaining || 0) | currency}}</span></td>
                            <td><span>{{(final?.penalty || 0) | currency}}</span></td>
-                           <td><span>{{((final?.paid || 0) + (final?.remaining || 0)) | currency}}</span></td>
+                           <td><span>{{((final?.received || 0) + (final?.remaining || 0)) | currency}}</span></td>
                          </tr>
                          <tr id="collapse{{i}}" class="panel-collapse collapse">
                            <td colspan="8">
@@ -251,8 +251,8 @@
                                              <td><span>{{(item?.is_approved == 1 ? 'Approved' : (item.is_approved == 0 ? 'Unapproved' : '')) | uppercase}}</span></td>
                                              <td><span>{{item?.name || ''}}</span></td>
                                              <td><span>{{(item?.deal_price || 0 | currency)}}</span></td>
-                                              <td><span>{{(item?.paid || 0) | currency}}</span></td>
-                                              <td><span>{{((item?.deal_price || 0) + (item?.penalty || 0) - (item?.paid || 0)) | currency}}</span></td>
+                                              <td><span>{{(item?.received || 0) | currency}}</span></td>
+                                              <td><span>{{((item?.deal_price || 0) + (item?.penalty || 0) - (item?.received || 0)) | currency}}</span></td>
                                               <td><span>{{(item?.penalty || 0) | currency}}</span></td>
                                               <td><span>{{((item?.deal_price || 0) + (item?.penalty || 0)) | currency}}</span></td>
                                           </tr>

@@ -144,7 +144,7 @@ export class MonthlyComponent implements OnInit {
           this.currencies = success.data;
           this.currencies.map(r => {
             r['name'] = r.code + ' | ' + r.currency;
-          })
+          });
         }, error => {
           this.spinner.hide();
         }
@@ -179,7 +179,7 @@ export class MonthlyComponent implements OnInit {
       this.setBuildingId(obj.id);
     } else {
       this.input.building_id = [];
-      this.selectedTowers = []
+      this.selectedTowers = [];
       this.selectedFloors = [];
       this.selectedProperties = [];
     }

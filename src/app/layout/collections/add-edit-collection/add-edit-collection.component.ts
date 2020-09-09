@@ -2066,7 +2066,9 @@ export class AddEditCollectionComponent implements OnInit {
               this.patchFormStep4(success['data']);
 
               this.initFormStep5();
-              this.selectedPaymentChoice.nativeElement.value = '';
+              if (this.selectedPaymentChoice) {
+                this.selectedPaymentChoice.nativeElement.value = '';
+              }
               this.patchFormStep5(success['data']);
             }
             if (tab == 6) {

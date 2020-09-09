@@ -314,13 +314,13 @@ export class ModelComponent implements OnInit {
           if (property) {
             const deal_price = this.data[property].reduce((a, b) => a + (b['deal_price'] || 0), 0);
             const penalty = this.data[property].reduce((a, b) => a + (b['penalty'] || 0), 0);
-            const paid = this.data[property].reduce((a, b) => a + (b['paid'] || 0), 0);
-            const remaining = deal_price + penalty - paid;
+            const received = this.data[property].reduce((a, b) => a + (b['received'] || 0), 0);
+            const remaining = deal_price + penalty - received;
             this.finalData.push({
               model: property,
               name: 'TOTAL - ' + property,
               deal_price: deal_price,
-              paid: paid,
+              received: received,
               remaining: remaining,
               penalty: penalty,
               total: this.data[property].reduce((a, b) => a + (b['total'] || 0), 0),
@@ -335,31 +335,12 @@ export class ModelComponent implements OnInit {
           model: '',
           name: 'Grand Total',
           deal_price: f.reduce((a, b) => a + (b['deal_price'] || 0), 0),
-          paid: f.reduce((a, b) => a + (b['paid'] || 0), 0),
+          received: f.reduce((a, b) => a + (b['received'] || 0), 0),
           penalty: f.reduce((a, b) => a + (b['penalty'] || 0), 0),
           total: f.reduce((a, b) => a + (b['total'] || 0), 0),
           data: null
         });
         console.log(this.model);
-        // let grandTotal = 0; let grandPaidTotal = 0; let grandPenalty = 0;
-        // for (let index = 0; index < this.model.length; index++) {
-        //   const m = this.model[index];
-        //   let obj = {};
-        //   let total = 0; let paidTotal = 0; let penaltyTotal = 0;
-        //   for (let i = 0; i < this.data[m].length; i++) {
-        //     this.finalData.push(this.data[m][i]);
-        //     total = total + this.data[m][i]['total'];
-        //     paidTotal = paidTotal + this.data[m][i]['paid'];
-        //     penaltyTotal = penaltyTotal + this.data[m][i]['penalty'];
-        //     obj = {calculated: 1, model: 'total', total: total, paid: paidTotal, penalty: penaltyTotal};
-        //     grandTotal = grandTotal + this.data[m][i]['total'];
-        //     grandPaidTotal = grandPaidTotal + this.data[m][i]['paid'];
-        //     grandPenalty = grandPenalty + this.data[m][i]['penalty'];
-        //   }
-        //   this.finalData.push(obj);
-        // }
-        // this.finalData.push({calculated: 1, model: 'grand total', total: grandTotal, paid: grandPaidTotal, penalty: grandPenalty});
-        // console.log(this.finalData);
         this.spinner.hide();
       },
       error => {
