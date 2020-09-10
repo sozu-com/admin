@@ -14,10 +14,6 @@
             <div class="col-lg-2 col-md-2">
                   <div class="form-group">
                      <label>{{'collectionReport.developer' | translate}}</label>
-                     <!-- <select class="form-control" name="developer_id" [(ngModel)]="input.developer_id" (change)="searchBuilding($event.target.value)">
-                        <option value="0">{{'filters.location.allOption' | translate}}</option>
-                        <option *ngFor="let item of developers" [value]="item.id">{{item.name}}</option>
-                     </select> -->
                      <div class="clearfix"></div>
                      <ng-multiselect-dropdown class="section-section2 multi-select"
                            [placeholder]="''"
@@ -35,10 +31,6 @@
             <div class="col-lg-2 col-md-2">
                   <div class="form-group">
                      <label>{{'collectionReport.project' | translate}}</label>
-                  <!-- <select class="form-control" name="building_id" [(ngModel)]="input.building_id" (change)="setBuildingId($event.target.value)">
-                     <option value="0">{{'filters.location.allOption' | translate}}</option>
-                     <option *ngFor="let item of projects" [value]="item.id">{{item.name}}</option>
-                  </select> -->
                   <div class="clearfix"></div>
                         <ng-multiselect-dropdown class="section-section2 multi-select"
                               [placeholder]="''"
@@ -56,11 +48,6 @@
             <div class="col-lg-2 col-md-2">
                   <div class="form-group">
                      <label>{{'collectionReport.tower' | translate}}</label>
-                  <!-- <select class="form-control" name="building_towers_id" [(ngModel)]="input.building_towers_id" (change)="setTower($event.target.value)">
-                     <option value="0">{{'filters.location.allOption' | translate}}</option>
-                     <option *ngFor="let bt of selectedBuilding?.building_towers" [value]="bt.id">
-                        {{bt.tower_name}}</option>
-                  </select> -->
                   <div class="clearfix"></div>
                         <ng-multiselect-dropdown class="section-section2 multi-select"
                               [placeholder]="''"
@@ -79,13 +66,6 @@
             <div class="col-lg-2 col-md-2">
                   <div class="form-group">
                      <label>{{'collectionReport.floor' | translate}}</label>
-                  <!-- <select class="form-control" name="floor_num" [(ngModel)]="input.floor_num" (change)="getProperties($event)">
-                     <option value="0">{{'filters.location.allOption' | translate}}</option>
-                     <ng-container *ngIf="towers?.length">
-                           <option *ngFor="let fa of towers?.unique_floors; let j=index" [value]="fa">
-                              {{j == 0 ? ('addCollection.groundFloor' | translate): ('addCollection.floor' | translate) + ' '+fa}}</option>
-                    </ng-container>
-                  </select> -->
                   <div class="clearfix"></div>
                         <ng-multiselect-dropdown class="section-section2 multi-select"
                               [placeholder]="''"
@@ -103,11 +83,6 @@
             <div class="col-lg-2 col-md-2">
                   <div class="form-group">
                      <label>{{'collectionReport.property' | translate}}</label>
-                  <!-- <select class="form-control" name="property_id" [(ngModel)]="input.property_id">
-                     <option value="0">{{'filters.location.allOption' | translate}}</option>
-                     <option *ngFor="let item of properties" [value]="item.id">{{item.name}}</option>
-                  </select> -->
-
                   <div class="clearfix"></div>
                         <ng-multiselect-dropdown class="section-section2 multi-select"
                               [placeholder]="''"
@@ -125,10 +100,6 @@
             <div class="col-lg-2 col-md-2">
                <div class="form-group marginB0">
                   <label>{{'collectionReport.currency' | translate}}</label>
-                     <!-- <select class="form-control" name="currency_id" [(ngModel)]="input.currency_id">
-                        <option value="0">{{'filters.location.allOption' | translate}}</option>
-                        <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
-                     </select>        -->
                      <div class="clearfix"></div>
                          <ng-multiselect-dropdown class="section-section2 multi-select"
                                [placeholder]="''"
@@ -206,6 +177,12 @@
                                   <b>{{'collectionReport.propertyName' | translate}}</b>
                               </th>
                               <th>
+                                  <b>{{'collectionReport.buyerName' | translate}}</b>
+                              </th>
+                              <th>
+                                  <b>{{'collectionReport.sellerName' | translate}}</b>
+                              </th>
+                              <th>
                                   <b>{{'collectionReport.price' | translate}}</b>
                               </th>
                               <th>
@@ -231,6 +208,8 @@
                               </span></td>
                           <td>-</td>
                           <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
                           <td><span>{{(final?.deal_price || 0 | currency)}}</span></td>
                            <td><span>{{(final?.received || 0) | currency}}</span></td>
                            <td><span>{{(final?.remaining || 0) | currency}}</span></td>
@@ -238,7 +217,7 @@
                            <td><span>{{((final?.received || 0) + (final?.remaining || 0)) | currency}}</span></td>
                          </tr>
                          <tr id="collapse{{i}}" class="panel-collapse collapse">
-                           <td colspan="8">
+                           <td colspan="10">
                               <table [style.width]="'100%'">
                                     <thead></thead>
                                     <tbody>
@@ -250,7 +229,9 @@
                                                  </span></td>
                                              <td><span>{{(item?.is_approved == 1 ? 'Approved' : (item.is_approved == 0 ? 'Unapproved' : '')) | uppercase}}</span></td>
                                              <td><span>{{item?.name || ''}}</span></td>
-                                             <td><span>{{(item?.deal_price || 0 | currency)}}</span></td>
+                                             <td><span>{{item?.buyer_name || ('table.tr.td.NA' | translate)}}</span></td>
+                                          <td><span>{{item?.seller_name || ('table.tr.td.NA' | translate)}}</span></td>
+                                          <td><span>{{(item?.deal_price || 0 | currency)}}</span></td>
                                               <td><span>{{(item?.received || 0) | currency}}</span></td>
                                               <td><span>{{((item?.deal_price || 0) + (item?.penalty || 0) - (item?.received || 0)) | currency}}</span></td>
                                               <td><span>{{(item?.penalty || 0) | currency}}</span></td>

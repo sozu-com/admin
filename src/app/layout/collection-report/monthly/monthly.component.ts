@@ -121,7 +121,8 @@ export class MonthlyComponent implements OnInit {
       selectAllText: this.translate.instant('commonBlock.selectAll'),
       unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
       searchPlaceholderText: this.translate.instant('commonBlock.search'),
-      allowSearchFilter: true
+      allowSearchFilter: true,
+      itemsShowLimit: 1
     };
   }
 
@@ -152,14 +153,19 @@ export class MonthlyComponent implements OnInit {
   }
 
   onSelectDeveloper(isSelected: number, obj: any) {
+    this.projects = [];
+    this.selctedProjects = [];
+    this.selectedTowers = [];
+    this.selectedFloors = [];
+    this.selectedProperties = [];
     if (isSelected) {
       this.searchBuilding(obj.id);
     } else {
-      this.projects = [];
-      this.selctedProjects = [];
-      this.selectedTowers = [];
-      this.selectedFloors = [];
-      this.selectedProperties = [];
+      // this.projects = [];
+      // this.selctedProjects = [];
+      // this.selectedTowers = [];
+      // this.selectedFloors = [];
+      // this.selectedProperties = [];
     }
   }
 
@@ -175,13 +181,17 @@ export class MonthlyComponent implements OnInit {
   }
 
   onSelectProject(isSelected: number, obj: any) {
+    this.input.building_id = [];
+    this.selectedTowers = [];
+    this.selectedFloors = [];
+    this.selectedProperties = [];
     if (isSelected) {
       this.setBuildingId(obj.id);
     } else {
-      this.input.building_id = [];
-      this.selectedTowers = [];
-      this.selectedFloors = [];
-      this.selectedProperties = [];
+      // this.input.building_id = [];
+      // this.selectedTowers = [];
+      // this.selectedFloors = [];
+      // this.selectedProperties = [];
     }
   }
 
@@ -216,12 +226,15 @@ export class MonthlyComponent implements OnInit {
   }
 
   onSelectTower(isSelected: number, obj: any) {
+    this.input.building_towers_id = [];
+    this.selectedFloors = [];
+    this.selectedProperties = [];
     if (isSelected) {
       this.setTower(obj.id);
     } else {
-      this.input.building_towers_id = [];
-      this.selectedFloors = [];
-      this.selectedProperties = [];
+      // this.input.building_towers_id = [];
+      // this.selectedFloors = [];
+      // this.selectedProperties = [];
     }
   }
 
@@ -248,11 +261,13 @@ export class MonthlyComponent implements OnInit {
   }
 
   onSelectFloor(isSelected: number, obj: any) {
+    this.properties = [];
+    this.selectedProperties = [];
     if (isSelected) {
       this.getProperties(obj.id);
     } else {
-      this.properties = [];
-      this.selectedProperties = [];
+      // this.properties = [];
+      // this.selectedProperties = [];
     }
   }
 
@@ -283,10 +298,11 @@ export class MonthlyComponent implements OnInit {
   }
 
   onSelectBuyer(isSelected: number, obj: any) {
+    this.selectedBuyers = [];
     if (isSelected) {
       this.getBuyers();
     } else {
-      this.selectedBuyers = [];
+      // this.selectedBuyers = [];
     }
   }
 

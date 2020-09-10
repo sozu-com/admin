@@ -114,7 +114,8 @@ export class ModelComponent implements OnInit {
       selectAllText: this.translate.instant('commonBlock.selectAll'),
       unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
       searchPlaceholderText: this.translate.instant('commonBlock.search'),
-      allowSearchFilter: true
+      allowSearchFilter: true,
+      itemsShowLimit: 1
     };
   }
 
@@ -167,13 +168,17 @@ export class ModelComponent implements OnInit {
   }
 
   onSelectProject(isSelected: number, obj: any) {
+    this.input.building_id = [];
+    this.selectedTowers = [];
+    this.selectedFloors = [];
+    this.selectedProperties = [];
     if (isSelected) {
       this.setBuildingId(obj.id);
     } else {
-      this.input.building_id = [];
-      this.selectedTowers = [];
-      this.selectedFloors = [];
-      this.selectedProperties = [];
+      // this.input.building_id = [];
+      // this.selectedTowers = [];
+      // this.selectedFloors = [];
+      // this.selectedProperties = [];
     }
   }
 
@@ -208,12 +213,15 @@ export class ModelComponent implements OnInit {
   }
 
   onSelectTower(isSelected: number, obj: any) {
+    this.input.building_towers_id = [];
+    this.selectedFloors = [];
+    this.selectedProperties = [];
     if (isSelected) {
       this.setTower(obj.id);
     } else {
-      this.input.building_towers_id = [];
-      this.selectedFloors = [];
-      this.selectedProperties = [];
+      // this.input.building_towers_id = [];
+      // this.selectedFloors = [];
+      // this.selectedProperties = [];
     }
   }
 
@@ -240,11 +248,13 @@ export class ModelComponent implements OnInit {
   }
 
   onSelectFloor(isSelected: number, obj: any) {
+    this.properties = [];
+    this.selectedProperties = [];
     if (isSelected) {
       this.getProperties(obj.id);
     } else {
-      this.properties = [];
-      this.selectedProperties = [];
+      // this.properties = [];
+      // this.selectedProperties = [];
     }
   }
 
@@ -336,6 +346,7 @@ export class ModelComponent implements OnInit {
           name: 'Grand Total',
           deal_price: f.reduce((a, b) => a + (b['deal_price'] || 0), 0),
           received: f.reduce((a, b) => a + (b['received'] || 0), 0),
+          remaining: f.reduce((a, b) => a + (b['remaining'] || 0), 0),
           penalty: f.reduce((a, b) => a + (b['penalty'] || 0), 0),
           total: f.reduce((a, b) => a + (b['total'] || 0), 0),
           data: null

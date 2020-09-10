@@ -31,12 +31,15 @@ export class ConceptComponent implements OnInit {
   paymentConcepts: Array<any>;
   allMonths: Array<any>;
   finalData: Array<any>;
+  paymentChoices: Array<any>;
   currencies: Array<any>;
   projects: Array<any>;
+  selctedConcepts: Array<any>;
   selctedProjects: Array<any>;
   selectedCurrencies: Array<any>;
   developers: Array<any>;
   selectedDevelopers: Array<any>;
+  colCount: number;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
 
   constructor(
@@ -47,6 +50,7 @@ export class ConceptComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.colCount = 0;
     this.input = new CollectionReport();
     this.input.start_date = moment().subtract(6, 'months').toDate();
     this.input.end_date = moment().toDate();
@@ -55,6 +59,7 @@ export class ConceptComponent implements OnInit {
     this.iniDropDownSetting();
     this.getDevelopers();
     this.getCurrencies();
+    this.getAllPaymentChoices();
     this.getListing();
   }
 
@@ -107,7 +112,8 @@ export class ConceptComponent implements OnInit {
       selectAllText: this.translate.instant('commonBlock.selectAll'),
       unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
       searchPlaceholderText: this.translate.instant('commonBlock.search'),
-      allowSearchFilter: true
+      allowSearchFilter: true,
+      itemsShowLimit: 1
     };
   }
 
@@ -120,6 +126,16 @@ export class ConceptComponent implements OnInit {
   }
 
   onSelectAll(obj: any) {
+  }
+
+  getAllPaymentChoices() {
+    this.admin.postDataApi('getPaymentChoices', {})
+      .subscribe(
+        success => {
+          this.paymentChoices = success.data;
+        }, error => {
+          this.spinner.hide();
+        });
   }
 
   getCurrencies() {
@@ -191,18 +207,24 @@ export class ConceptComponent implements OnInit {
       const d = this.selectedCurrencies.map(o => o.id);
       input.currency_id = d;
     }
+    if (this.selctedConcepts) {
+      const d = this.selctedConcepts.map(o => o.id);
+      input.payment_choice_id = d;
+    }
     this.admin.postDataApi('generateCollectionConceptReport', input).subscribe(
       success => {
         this.paymentConcepts = success['payment_concepts'];
         this.data = success['data'];
 
         this.allMonths = [];
+        const months = [];
         for (const property in this.data) {
           if (property) {
+            months.push({key: property, value: 0});
             this.allMonths.push(property);
           }
         }
-
+        this.colCount = this.allMonths.length - 6;
         this.finalData = [];
         for (let index = 0; index < this.paymentConcepts.length; index++) {
           const obj = {};
@@ -225,10 +247,18 @@ export class ConceptComponent implements OnInit {
         }
         // calculating grand total
         let grandTotal = 0;
+
         for (let i = 0; i < this.finalData.length; i++) {
+          months.map(e => {
+            e.value = e.value + this.finalData[i][e.key];
+          });
           grandTotal = grandTotal + this.finalData[i].total;
         }
-        this.finalData.push({p: 'Total', key: 1, total: grandTotal});
+        const obj1 = {p: 'Total', key: 1, total: grandTotal};
+        months.map(m => {
+          obj1[m.key] = m.value;
+        });
+        this.finalData.push(obj1);
         this.spinner.hide();
       },
       error => {

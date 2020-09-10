@@ -1824,7 +1824,9 @@
     "price":"Price",
     "commissionType":"Commission Type",
     "purchaseCommission":"Purchase Commission",
-    "collectionCommission":"Collection Commission"
+    "collectionCommission":"Collection Commission",
+    "monthsBefore": "Months before",
+    "concept1":"Concept"
   },
   "quickVisualization": {
     "label":"Quick Visualization",

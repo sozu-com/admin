@@ -57,7 +57,7 @@ export class ArrearReportComponent implements OnInit {
     this.nextMonth = moment().add(1, 'months').toDate();
     this.searchBuilding();
     this.getCurrencies();
-    this.initCalendarLocale()
+    this.initCalendarLocale();
     this.getListing();
   }
 
@@ -75,7 +75,7 @@ export class ArrearReportComponent implements OnInit {
         clear: 'Clear',
         dateFormat: 'mm/dd/yy',
         weekHeader: 'Wk'
-      }
+      };
     } else {
       this.locale = {
         firstDayOfWeek: 0,
@@ -110,7 +110,8 @@ export class ArrearReportComponent implements OnInit {
       selectAllText: this.translate.instant('commonBlock.selectAll'),
       unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
       searchPlaceholderText: this.translate.instant('commonBlock.search'),
-      allowSearchFilter: true
+      allowSearchFilter: true,
+      itemsShowLimit: 1
     };
   }
 
@@ -132,8 +133,8 @@ export class ArrearReportComponent implements OnInit {
         success => {
           this.currencies = success.data;
           this.currencies.map(r => {
-            r['name'] = r.code + ' | ' + r.currency
-          })
+            r['name'] = r.code + ' | ' + r.currency;
+          });
         }, error => {
           this.spinner.hide();
         }
@@ -169,7 +170,7 @@ export class ArrearReportComponent implements OnInit {
     const input: any = JSON.parse(JSON.stringify(this.input));
     input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
     input.year = new Date(this.input.end_date).getFullYear(),
-    input.month = new Date(this.input.end_date).getMonth() + 1
+    input.month = new Date(this.input.end_date).getMonth() + 1;
 
     this.previousMonth = moment(this.input.end_date).subtract(1, 'months').toDate();
     this.nextMonth = moment(this.input.end_date).add(1, 'months').toDate();
@@ -187,10 +188,12 @@ export class ArrearReportComponent implements OnInit {
         this.spinner.hide();
         this.data = success['data'];
 
-        this.finalData = []
+        this.finalData = [];
         this.model = [];
-        for(var property in this.data) {
-          this.model.push(property);
+        for (const property in this.data) {
+          if (property) {
+            this.model.push(property);
+          }
         }
 
         for (let index = 0; index < this.model.length; index++) {
@@ -198,22 +201,22 @@ export class ArrearReportComponent implements OnInit {
           this.data[element][0]['showInfo'] = true;
           let t = 0;
           this.data[element].map(r => {
-            t = t + (r['amount'] || 0) + (r['penelty'] || 0)
-          })
+            t = t + (r['amount'] || 0) + (r['penelty'] || 0);
+          });
           this.data[element][0]['total_amount'] = t;
-          this.finalData = [...this.finalData, ...this.data[element]]
+          this.finalData = [...this.finalData, ...this.data[element]];
         }
 
-        let grand_amount = 0; let grand_penalty = 0; let grand_total = 0; let grand_total_amount = 0;
+        let grand_amount = 0; let grand_penalty = 0; let grand_total_amount = 0;
         for (let index = 0; index < this.finalData.length; index++) {
           const element = this.finalData[index];
-          grand_amount = grand_amount + (element['amount'] || 0)
-          grand_penalty = grand_penalty + (element['penelty'] || 0)
+          grand_amount = grand_amount + (element['amount'] || 0);
+          grand_penalty = grand_penalty + (element['penelty'] || 0);
           // grand_total = grand_total + (element['amount'] || 0) + (element['penalty'] || 0)
-          grand_total_amount = grand_total_amount + (element['total_amount'] || 0)
+          grand_total_amount = grand_total_amount + (element['total_amount'] || 0);
         }
-        this.finalData.push({id: 'Total', amount: grand_amount, penelty: grand_penalty, total_amount: grand_total_amount})
-        console.log(this.finalData)
+        this.finalData.push({id: 'Total', key: 1, amount: grand_amount, penelty: grand_penalty, total_amount: grand_total_amount});
+        console.log(this.finalData);
       },
       error => {
         this.spinner.hide();

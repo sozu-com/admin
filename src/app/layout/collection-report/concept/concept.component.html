@@ -14,20 +14,6 @@
 <div class="row">
   <div class="col-lg-2 col-md-2">
         <div class="form-group">
-        <label>{{'collectionReport.start_date' | translate}}</label>
-        <p-calendar dateFormat="dd/M/yy" [locale]="locale" showIcon="true" [(ngModel)]="input.start_date" [maxDate]="today" 
-          showButtonBar="true" class="coll-report-calendar" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
-        </div>
-  </div>
-  <div class="col-lg-2 col-md-2">
-        <div class="form-group">
-          <label>{{'collectionReport.end_date' | translate}}</label>
-          <p-calendar dateFormat="dd/M/yy" [locale]="locale" showIcon="true" [(ngModel)]="input.end_date" [maxDate]="today" 
-            showButtonBar="true" class="coll-report-calendar" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
-        </div>
-  </div>
-  <div class="col-lg-2 col-md-2">
-        <div class="form-group">
            <label>{{'collectionReport.developer' | translate}}</label>
            <div class="clearfix"></div>
             <ng-multiselect-dropdown class="section-section2 multi-select"
@@ -76,20 +62,54 @@
            <div class="clearfix"></div>      
      </div>
   </div>
-  
-  <div class="col-lg-1 col-md-2">
-        <div class="form-group btn-cont">
-        <label style="display: block; margin-top: 3px;">&nbsp;</label>
-        <button type="button" (click)="getListing()" class="btn btn-primary-new width100P P86">{{'collectionReport.apply' | translate}}</button>
-        </div>
-  </div>
 
-  <div class="col-lg-1 col-md-2">
-        <div class="form-group btn-cont">
-        <label style="display: block; margin-top: 3px;">&nbsp;</label>
-        <button type="button" (click)="resetFilters()" class="btn btn-primary-new width100P P86">{{'collectionReport.reset' | translate}}</button>
-        </div>
+  <div class="col-lg-2 col-md-2">
+     <div class="form-group marginB0">
+        <label>{{'collectionReport.concept1' | translate}}</label>
+           <div class="clearfix"></div>
+               <ng-multiselect-dropdown class="section-section2 multi-select"
+                     [placeholder]="''"
+                     [data]="paymentChoices"
+                     [(ngModel)]="selctedConcepts"
+                     [settings]="multiDropdownSettings"
+                     (onDeSelect)="onItemDeSelect('paymentChoices', $event)"
+                     (onSelect)="onItemSelect('selctedConcepts', $event)"
+                     (onSelectAll)="onSelectAll($event)">
+               </ng-multiselect-dropdown>
+           <div class="clearfix"></div>      
+     </div>
   </div>
+</div>
+
+<div class="row">
+      <div class="col-lg-2 col-md-2">
+            <div class="form-group">
+            <label>{{'collectionReport.start_date' | translate}}</label>
+            <p-calendar dateFormat="dd/M/yy" [locale]="locale" showIcon="true" [(ngModel)]="input.start_date" [maxDate]="today" 
+            showButtonBar="true" class="coll-report-calendar" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+            </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+            <div class="form-group">
+            <label>{{'collectionReport.end_date' | translate}}</label>
+            <p-calendar dateFormat="dd/M/yy" [locale]="locale" showIcon="true" [(ngModel)]="input.end_date" [maxDate]="today" 
+            showButtonBar="true" class="coll-report-calendar" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+            </div>
+      </div>
+  
+      <div class="col-lg-1 col-md-2">
+            <div class="form-group btn-cont">
+            <label style="display: block; margin-top: 3px;">&nbsp;</label>
+            <button type="button" (click)="getListing()" class="btn btn-primary-new width100P P86">{{'collectionReport.apply' | translate}}</button>
+            </div>
+      </div>
+    
+      <div class="col-lg-1 col-md-2">
+            <div class="form-group btn-cont">
+            <label style="display: block; margin-top: 3px;">&nbsp;</label>
+            <button type="button" (click)="resetFilters()" class="btn btn-primary-new width100P P86">{{'collectionReport.reset' | translate}}</button>
+            </div>
+      </div>
 </div>
 
      <div class="cust-tabs">
@@ -115,7 +135,7 @@
                            <th style="width:10%; text-align:left;">
                                  <b>{{'collectionReport.projectConcept' | translate}}</b>
                            </th>
-                           <th *ngFor="let month of allMonths" style="width:10%; text-align:left;">
+                           <th *ngFor="let month of allMonths| slice:colCount" style="width:10%; text-align:left;">
                                  <b>{{month | date:'MMM, y'}}</b>
                            </th>
                            <th style="width:10%; text-align:left;">
@@ -126,7 +146,7 @@
                     <tbody>
                         <tr *ngFor="let item of finalData; let i=index">
                         <td [ngClass]="{'text-bold': item?.key==1}"><span>{{item?.p || ('table.tr.td.NA' | translate)}}</span></td>
-                        <td *ngFor="let m of allMonths" [ngClass]="{'text-bold': item?.key==1}">
+                        <td *ngFor="let m of allMonths| slice:colCount" [ngClass]="{'text-bold': item?.key==1}">
                               <span>{{(item[m] || 0) | currency}}</span>
                         </td>
                         <td [ngClass]="{'text-bold': item?.key==1}"><span>{{(item?.total || 0) | currency}}</span></td>

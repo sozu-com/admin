@@ -112,7 +112,8 @@ export class GeneralComponent implements OnInit {
       selectAllText: this.translate.instant('commonBlock.selectAll'),
       unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
       searchPlaceholderText: this.translate.instant('commonBlock.search'),
-      allowSearchFilter: true
+      allowSearchFilter: true,
+      itemsShowLimit: 1
     };
   }
 

@@ -84,42 +84,43 @@
                    <table class="table table-bordered table-striped table-align-left">
                       <thead>
                           <tr class="text-bold">
-                              <th rowspan="2">
+                              <th rowspan="2" style="width:5%; text-align:left;">
                                   <b>{{'collectionReport.id' | translate}}</b>
                               </th>
-                              <th rowspan="2">
+                              <th rowspan="2" style="width:15%; text-align:left;">
                                   <b>{{'collectionReport.buyerName' | translate}}</b>
                               </th>
-                              <th rowspan="2">
+                              <th rowspan="2" style="width:15%; text-align:left;">
                                   <b>{{'collectionReport.sellerName' | translate}}</b>
                               </th>
-                              <th rowspan="2">
+                              <th rowspan="2" style="width:10%; text-align:left;">
                                   <b>{{'collectionReport.project' | translate}}</b>
                               </th>
-                              <th rowspan="2">
+                              <th rowspan="2"style="width:10%; text-align:left;">
                                   <b>{{'collectionReport.model' | translate}}</b>
                               </th>
-                              <th rowspan="2">
+                              <th rowspan="2"style="width:5%; text-align:left;">
                                   <b>{{'collectionReport.propertyName' | translate}}</b>
                               </th>
-                              <th rowspan="2"><b>{{'collectionReport.currency' | translate}}</b></th>
-                              <th colspan="5" style="width:10%; text-align:center;">
+                              <th rowspan="2"style="width:5%; text-align:left;">
+                                 <b>{{'collectionReport.currency' | translate}}</b></th>
+                              <th colspan="3" style="width:25%; text-align:center;">
                                   <b>{{'collectionReport.overDuePayments' | translate}}</b>
                               </th>
-                              <th rowspan="2">
+                              <th rowspan="2" style="width:10%; text-align:left;">
                                   <b>{{'collectionReport.totalArrear' | translate}}</b>
                               </th>
                            </tr>
                             <tr>
                                <th><b>{{'collectionReport.concept' | translate}}</b></th>
                                <th><b>{{'collectionReport.date' | translate}}</b></th>
-                               <th><b>{{'collectionReport.amount' | translate}}</b></th>
-                               <th><b>{{'collectionReport.penalty' | translate}}</b></th>
+                               <!-- <th><b>{{'collectionReport.amount' | translate}}</b></th>
+                               <th><b>{{'collectionReport.penalty' | translate}}</b></th> -->
                                <th><b>{{'collectionReport.paymentTotal' | translate}}</b></th>
                              </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let item of finalData; let i=index" [ngClass]="{'text-bold' : item?.showInfo}">
+                        <tr *ngFor="let item of finalData; let i=index" [ngClass]="{'text-bold' : item?.key}">
                           <td><span>{{(item?.showInfo || item?.id=='Total')? (item?.id || ('table.tr.td.NA' | translate)) : ''}}</span></td>
                           <td><span>{{item?.showInfo ? (item?.buyer_name || ('table.tr.td.NA' | translate)) : ''}}</span></td>
                           <td><span>{{item?.showInfo ? (item?.seller_name || ('table.tr.td.NA' | translate)) : ''}}</span></td>
@@ -130,9 +131,9 @@
 
                           <td><span>{{item?.NAME || ''}}</span></td>
                           <td><span>{{(item?.date || '')}}</span></td>
-                          <td><span>${{(item?.amount || 0) | roundNumber}}</span></td>
-                          <td><span>${{(item?.penelty || 0) | roundNumber}}</span></td>
-                          <td><span>${{((item?.amount || 0) + (item?.penelty || 0)) | roundNumber}}</span></td>
+                          <!-- <td><span>${{(item?.amount || 0) | roundNumber}}</span></td>
+                          <td><span>${{(item?.penelty || 0) | roundNumber}}</span></td> -->
+                          <td><span>${{((item?.amount || 0) + (item?.penelty || 0) - (item?.calc_payment_amount || 0)) | roundNumber}}</span></td>
 
                           <td><span>{{(item?.showInfo || item?.id=='Total')? '$'+((item?.total_amount || 0) | roundNumber) : ''}}</span></td>
                          </tr>
