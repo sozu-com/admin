@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { IProperty } from 'src/app/common/property';
@@ -7,7 +7,6 @@ import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
 import { CollectionReport } from '../../../models/collection-report.model';
 import { DatePipe, TitleCasePipe } from '@angular/common';
-declare let swal: any;
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
@@ -56,15 +55,15 @@ export class GeneralComponent implements OnInit {
     this.input.start_date = moment().subtract(6, 'months').toDate();
     this.input.end_date = moment().toDate();
     this.today = new Date();
-    this.iniDropDownSetting()
+    this.iniDropDownSetting();
     this.getDevelopers();
     this.getCurrencies();
-    this.initCalendarLocale()
+    this.initCalendarLocale();
     this.getListing();
   }
 
   initCalendarLocale() {
-    if (this.translate.defaultLang == 'en') {
+    if (this.translate.defaultLang === 'en') {
       this.locale = {
         firstDayOfWeek: 0,
         dayNames: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
@@ -77,7 +76,7 @@ export class GeneralComponent implements OnInit {
         clear: 'Clear',
         dateFormat: 'mm/dd/yy',
         weekHeader: 'Wk'
-      }
+      };
     } else {
       this.locale = {
         firstDayOfWeek: 0,
@@ -121,7 +120,7 @@ export class GeneralComponent implements OnInit {
     this[arrayNAme].push(obj);
   }
 
-  onItemSelect(param:any, obj: any) {
+  onItemSelect(param: any, obj: any) {
     this[param].push(obj);
   }
 
@@ -134,22 +133,17 @@ export class GeneralComponent implements OnInit {
         success => {
           this.currencies = success.data;
           this.currencies.map(r => {
-            r['name'] = r.code + ' | ' + r.currency
-          })
-        }, error => {
-          this.spinner.hide();
+            r['name'] = r.code + ' | ' + r.currency;
+          });
         });
   }
-  
+
   getDevelopers() {
     this.admin.postDataApi('getUnblockedDevelopers', {})
       .subscribe(
         success => {
           this.developers = success.data;
-        }, error => {
-          this.spinner.hide();
-        }
-      );
+        });
   }
 
   onSelectDeveloper(isSelected: number, obj: any) {
@@ -199,33 +193,36 @@ export class GeneralComponent implements OnInit {
       const d = this.selectedCurrencies.map(o => o.id);
       input.currency_id = d;
     }
-    // this.admin.getModelData().subscribe(
     this.admin.postDataApi('generateCollectionGeneralReport', input).subscribe(
       success => {
         this.data = success['data'];
         this.finalData = [];
 
-        this.allMonths = []; let firstCol = []; let temp = {};
-        for(var property in this.data) {
-          this.allMonths.push(property);
+        this.allMonths = []; const firstCol = [];
+        for (const property in this.data) {
+          if (property) {
+            this.allMonths.push(property);
+          }
         }
 
-        for(var property in this.data[this.allMonths[0]]) {
-          firstCol.push(property);
+        for (const property in this.data[this.allMonths[0]]) {
+          if (property) {
+            firstCol.push(property);
+          }
         }
 
-        let obj = {}
+        let obj = {};
         for (let index = 0; index < firstCol.length; index++) {
           const element = firstCol[index];
           obj = {
             'firstCol': element,
             key: 0
-          }
+          };
             for (let i = 0; i < this.allMonths.length; i++) {
               const ele = this.allMonths[i];
               if (element == ele) {
                 obj[ele] = this.data[ele][element][0]['total_amount'];
-              } else if (element == 'unapproved') {
+              } else if (element == 'is_cancelled') {
                 obj[ele] = this.data[ele][element][0]['total_amount'];
               } else if (element == 'purchase_commission') {
                 obj[ele] = this.data[ele][element][0]['total_amount'];
@@ -238,9 +235,9 @@ export class GeneralComponent implements OnInit {
 
             // calculating horizontal => obj wise total
             let t = 0;
-            for(var pro in obj) {
+            for (var pro in obj) {
               if (pro != 'firstCol') {
-                t = t + (obj[pro] || 0)
+                t = t + (obj[pro] || 0);
               }
             }
             obj['t'] = t;
@@ -250,13 +247,13 @@ export class GeneralComponent implements OnInit {
         let f = {
           'firstCol': 'Grand Total',
           key: 1
-        }
+        };
         for (let index = 0; index < this.allMonths.length; index++) {
           const element = this.allMonths[index];
-          let t = 0
+          let t = 0;
           for (let i = 0; i < this.finalData.length; i++) {
             const e = this.finalData[i];
-            t = t + (e[element] || 0)
+            t = t + (e[element] || 0);
           }
           f[element] = t;
         }
@@ -265,7 +262,7 @@ export class GeneralComponent implements OnInit {
         let t = 0;
         for (let i = 0; i < this.finalData.length; i++) {
           const e = this.finalData[i];
-          t = t + (e['t'] || 0)
+          t = t + (e['t'] || 0);
 
           // renaming firstCol
           if (e['firstCol'].includes('-')) {
@@ -303,7 +300,7 @@ export class GeneralComponent implements OnInit {
       const h2 = [];
       this.allMonths.forEach(r => {
         h2.push(this.datePipe.transform(r, 'MMM, y'));
-      })
+      });
       const h = [...['Months of Schedule Payments'], ...h2, ...['Grand Total']];
       console.log('h', h);
       for (let index = 0; index < this.finalData.length; index++) {

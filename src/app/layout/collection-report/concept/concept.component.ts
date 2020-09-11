@@ -258,6 +258,7 @@ export class ConceptComponent implements OnInit {
         months.map(m => {
           obj1[m.key] = m.value;
         });
+        console.log(this.allMonths)
         this.finalData.push(obj1);
         this.spinner.hide();
       },

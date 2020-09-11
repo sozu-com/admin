@@ -136,7 +136,7 @@
                                  <b>{{'collectionReport.projectConcept' | translate}}</b>
                            </th>
                            <th *ngFor="let month of allMonths| slice:colCount" style="width:10%; text-align:left;">
-                                 <b>{{month | date:'MMM, y'}}</b>
+                                 <b>{{month+'-15' | date:'MMM, y'}}</b>
                            </th>
                            <th style="width:10%; text-align:left;">
                                  <b>{{'collectionReport.totalPaid' | translate}}</b>

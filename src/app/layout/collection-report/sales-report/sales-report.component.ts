@@ -7,7 +7,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
 import { CollectionReport } from 'src/app/models/collection-report.model';
 
-
 @Component({
   selector: 'app-sales-report',
   templateUrl: './sales-report.component.html',
@@ -28,7 +27,7 @@ export class SalesReportComponent implements OnInit {
   locale: any;
   today = new Date();
   reportData: any;
-  constructor(public admin: AdminService, 
+  constructor(public admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService) {
   }
@@ -39,15 +38,15 @@ export class SalesReportComponent implements OnInit {
     this.input = new CollectionReport();
     this.input.start_date = moment().subtract(12, 'months').toDate();
     this.input.end_date = moment().toDate();
-    this.iniDropDownSetting()
+    this.iniDropDownSetting();
     this.searchBuilding();
     this.getCurrencies();
-    this.initCalendarLocale()
+    this.initCalendarLocale();
     this.getReportData();
   }
 
   initCalendarLocale() {
-    if (this.translate.defaultLang == 'en') {
+    if (this.translate.defaultLang === 'en') {
       this.locale = {
         firstDayOfWeek: 0,
         dayNames: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
@@ -60,7 +59,7 @@ export class SalesReportComponent implements OnInit {
         clear: 'Clear',
         dateFormat: 'mm/dd/yy',
         weekHeader: 'Wk'
-      }
+      };
     } else {
       this.locale = {
         firstDayOfWeek: 0,
@@ -96,7 +95,7 @@ export class SalesReportComponent implements OnInit {
     this[arrayNAme].push(obj);
   }
 
-  onItemSelect(param:any, obj: any) {
+  onItemSelect(param: any, obj: any) {
     this[param].push(obj);
   }
 
@@ -109,8 +108,8 @@ export class SalesReportComponent implements OnInit {
         success => {
           this.currencies = success.data;
           this.currencies.map(r => {
-            r['name'] = r.code + ' | ' + r.currency
-          })
+            r['name'] = r.code + ' | ' + r.currency;
+          });
         }, error => {
           this.spinner.hide();
         }
@@ -156,51 +155,50 @@ export class SalesReportComponent implements OnInit {
   }
 
   plotData() {
-    
-// {{URL}}/api/admin/graphs/cash-flow
-    var chart = new CanvasJS.Chart("chartContainer", {
+
+    const chart = new CanvasJS.Chart('chartContainer', {
       animationEnabled: true,
       // title:{
       //   fontFamily: "arial black",
       //   fontColor: "#695A42"
       // },
-      axisY:{
-        gridColor: "#222222ab",
-        tickColor: "#222222ab"
+      axisY: {
+        gridColor: '#222222ab',
+        tickColor: '#222222ab'
       },
       toolTip: {
         shared: true
         // content: toolTipContent
       },
       data: [{
-        type: "stackedColumn",
+        type: 'stackedColumn',
         showInLegend: true,
-        color: "#f5d05c",
-        name: "Inhouse Agent Approved Collections",
+        color: '#f5d05c',
+        name: 'Inhouse Agent Approved Collections',
         dataPoints: this.reportData['approved']
         },
-        {        
-          type: "stackedColumn",
+        {
+          type: 'stackedColumn',
           showInLegend: true,
-          name: "Outside Agent Approved Collections",
-          color: "#2d2a2a",
+          name: 'Outside Agent Approved Collections',
+          color: '#2d2a2a',
           dataPoints: this.reportData['unapproved']
       }]
     });
 
-    
     function toolTipContent(e) {
-      var str = "";
+      var str = '';
       var total = 0;
       var str2, str3;
       for (var i = 0; i < e.entries.length; i++){
-        var  str1 = "<span style= \"color:"+e.entries[i].dataSeries.color + "\"> "+e.entries[i].dataSeries.name+"</span>: $<strong>"+e.entries[i].dataPoint.y+"</strong>bn<br/>";
+        var  str1 = '<span style= "color:' + e.entries[i].dataSeries.color + '"> ' +
+        e.entries[i].dataSeries.name + '</span>: $<strong>' + e.entries[i].dataPoint.y + '</strong>bn<br/>';
         total = e.entries[i].dataPoint.y + total;
         str = str.concat(str1);
       }
-      str2 = "<span style = \"color:DodgerBlue;\"><strong>"+(e.entries[0].dataPoint.label).getFullYear()+"</strong></span><br/>";
+      str2 = '<span style = "color:DodgerBlue;"><strong>' + (e.entries[0].dataPoint.label).getFullYear() + '</strong></span><br/>';
       total = Math.round(total * 100) / 100;
-      str3 = "<span style = \"color:Tomato\">Total:</span><strong> $"+total+"</strong>bn<br/>";
+      str3 = '<span style = "color:Tomato">Total:</span><strong> $' + total + '</strong>bn<br/>';
       return (str2.concat(str)).concat(str3);
     }
 

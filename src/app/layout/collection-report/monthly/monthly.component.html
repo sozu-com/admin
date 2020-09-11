@@ -168,8 +168,8 @@
                               [data]="buyers"
                               [(ngModel)]="selectedBuyers"
                               [settings]="multiDropdownSettings"
-                              (onDeSelect)="onSelectBuyer(0, $event)"
-                              (onSelect)="onSelectBuyer(1, $event)"
+                              (onDeSelect)="onItemDeSelect('buyers', $event)"
+                              (onSelect)="onItemSelect('selectedBuyers', $event)"
                               (onSelectAll)="onSelectAll($event)">
                         </ng-multiselect-dropdown>
                   <div class="clearfix"></div>
@@ -206,26 +206,27 @@
        <div class="tab-content white-bg">
           <div class="tab-pane active">
              <div class="tabel-section">
-                <div class="table-responsive">
-                   <table class="table table-bordered table-striped table-align-left">
+                <div class="table-responsive main-table">
+                   <table class="table table-bordered table-striped table-align-left quick-table">
                       <thead>
                           <tr class="text-bold">
-                              <th rowspan="3" style="width:10%; text-align:left;">
+                              <th rowspan="3" style="width:17%; text-align:left;">
                                   <b>{{'collectionReport.buyerName' | translate}}</b>
                               </th>
-                              <th rowspan="3" style="width:10%; text-align:left;">
+                              <th rowspan="3" style="width:17%; text-align:left;">
                                   <b>{{'collectionReport.sellerName' | translate}}</b>
                               </th>
-                              <th rowspan="3" style="width:10%; text-align:left;">
+                              <th rowspan="3" style="width:13%; text-align:left;">
                                   <b>{{'collectionReport.project' | translate}}</b>
                               </th>
-                              <th rowspan="3" style="width:10%; text-align:left;">
+                              <th rowspan="3" style="width:7%; text-align:left;">
                                   <b>{{'collectionReport.model' | translate}}</b>
                               </th>
-                              <th rowspan="3" style="width:10%; text-align:left;">
+                              <th rowspan="3" style="width:7%; text-align:left;">
                                   <b>{{'collectionReport.propertyName' | translate}}</b>
                               </th>
-                              <th rowspan="3"><b>{{'collectionReport.currency' | translate}}</b></th>
+                              <th rowspan="3" style="width:5%; text-align:left;">
+                                    <b>{{'collectionReport.currency' | translate}}</b></th>
                               <th style="width:10%; text-align:left;">
                                   <b>{{'collectionReport.previousMonth' | translate}} (s)</b>
                               </th>
@@ -254,7 +255,7 @@
                              </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let item of finalData; let i=index" [ngClass]="{'text-bold' : item.calculated==1}">
+                        <tr *ngFor="let item of finalData | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index" [ngClass]="{'text-bold' : item.calculated==1}">
                           <td><span>{{item?.buyer_name || ('table.tr.td.NA' | translate)}}</span></td>
                           <td><span>{{item?.seller_name || ('table.tr.td.NA' | translate)}}</span></td>
                           <td><span>{{item?.project_name || ('table.tr.td.NA' | translate)}}</span></td>
@@ -276,6 +277,19 @@
                 </div>
              </div>
           </div>
+
+            <div class="btn-cont marginT15" *ngIf="total">
+                  <div class="row">
+                  <div class="col-6">
+                        <div class="title-group">
+                              <p>{{'table.pagination.showing' | translate}} {{finalData?.length}} {{'table.pagination.outof' | translate}} {{total}}</p>
+                        </div>
+                  </div>
+                  <div class="col-6 text-right">
+                        <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+                  </div>
+                  </div>
+            </div>
        </div>
     </div>
   </div>

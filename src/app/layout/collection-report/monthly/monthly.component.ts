@@ -65,6 +65,8 @@ export class MonthlyComponent implements OnInit {
     this.previousMonth = moment().subtract(1, 'months').toDate();
     this.input.start_date = moment().toDate();
     this.nextMonth = moment().add(1, 'months').toDate();
+    this.parameter.itemsPerPage = this.constant.itemsPerPage;
+    this.parameter.page = this.constant.p;
     this.getDevelopers();
     this.getBuyers();
     this.getCurrencies();
@@ -124,6 +126,11 @@ export class MonthlyComponent implements OnInit {
       allowSearchFilter: true,
       itemsShowLimit: 1
     };
+  }
+
+  getPage(page) {
+    this.parameter.page = page;
+    this.getListing();
   }
 
   onItemDeSelect(arrayNAme: any, obj: any) {
@@ -327,6 +334,7 @@ export class MonthlyComponent implements OnInit {
     input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
     input.year = new Date(this.input.start_date).getFullYear(),
     input.month = new Date(this.input.start_date).getMonth() + 1;
+    input.page = this.parameter.page;
 
     this.previousMonth = moment(this.input.start_date).subtract(1, 'months').toDate();
     this.nextMonth = moment(this.input.start_date).add(1, 'months').toDate();
@@ -361,6 +369,7 @@ export class MonthlyComponent implements OnInit {
     }
     this.admin.postDataApi('generateCollectionMonthlyReport', input).subscribe(
       success => {
+        this.total = success['total_count'];
         this.finalData = success['data'];
         this.spinner.hide();
       },
