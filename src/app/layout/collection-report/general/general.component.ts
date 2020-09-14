@@ -218,19 +218,23 @@ export class GeneralComponent implements OnInit {
             'firstCol': element,
             key: 0
           };
+          console.log('element', element);
             for (let i = 0; i < this.allMonths.length; i++) {
               const ele = this.allMonths[i];
-              if (element == ele) {
-                obj[ele] = this.data[ele][element][0]['total_amount'];
-              } else if (element == 'is_cancelled') {
-                obj[ele] = this.data[ele][element][0]['total_amount'];
-              } else if (element == 'purchase_commission') {
-                obj[ele] = this.data[ele][element][0]['total_amount'];
-              } else if (element == 'collection_commission') {
-                obj[ele] = this.data[ele][element][0]['total_amount'];
-              } else {
-                obj[ele] = '';
-              }
+              console.log('ele', ele);
+              // if (element == ele) {
+              //   obj[ele] = this.data[ele][element][0]['total_amount'];
+              // } else if (element == 'is_cancelled') {
+              //   obj[ele] = this.data[ele][element][0]['total_amount'];
+              // } else if (element == 'purchase_commission') {
+              //   obj[ele] = this.data[ele][element][0]['total_amount'];
+              // } else if (element == 'collection_commission') {
+              //   obj[ele] = this.data[ele][element][0]['total_amount'];
+              // } else {
+              //   obj[ele] = '';
+              // }
+              console.log('this.data[element][ele]', this.data[ele][element]);
+              obj[ele] = this.data[ele][element] ? this.data[ele][element][0]['total_amount'] : '';
             }
 
             // calculating horizontal => obj wise total
