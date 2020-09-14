@@ -27,7 +27,7 @@ export class CashFlowComponent implements OnInit {
   locale: any;
   today = new Date();
   reportData: any;
-  constructor(public admin: AdminService, 
+  constructor(public admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService) {
   }
@@ -38,7 +38,7 @@ export class CashFlowComponent implements OnInit {
     this.input = new CollectionReport();
     this.input.start_date = moment().subtract(12, 'months').toDate();
     this.input.end_date = moment().toDate();
-    this.iniDropDownSetting()
+    this.iniDropDownSetting();
     this.searchBuilding();
     this.getCurrencies();
     this.initCalendarLocale();
@@ -59,7 +59,7 @@ export class CashFlowComponent implements OnInit {
         clear: 'Clear',
         dateFormat: 'mm/dd/yy',
         weekHeader: 'Wk'
-      }
+      };
     } else {
       this.locale = {
         firstDayOfWeek: 0,
@@ -96,7 +96,7 @@ export class CashFlowComponent implements OnInit {
     this[arrayNAme].push(obj);
   }
 
-  onItemSelect(param:any, obj: any) {
+  onItemSelect(param: any, obj: any) {
     this[param].push(obj);
   }
 
@@ -109,8 +109,8 @@ export class CashFlowComponent implements OnInit {
         success => {
           this.currencies = success.data;
           this.currencies.map(r => {
-            r['name'] = r.code + ' | ' + r.currency
-          })
+            r['name'] = r.code + ' | ' + r.currency;
+          });
         }, error => {
           this.spinner.hide();
         }
@@ -129,7 +129,6 @@ export class CashFlowComponent implements OnInit {
         }
       );
   }
-
 
   getReportData () {
     const input: any = JSON.parse(JSON.stringify(this.input));
@@ -155,53 +154,48 @@ export class CashFlowComponent implements OnInit {
     });
   }
 
-
   plotData() {
-
-    var chart = new CanvasJS.Chart("chartContainer", {
+    const chart = new CanvasJS.Chart('chartContainer', {
       animationEnabled: true,
-      title:{
+      title: {
         // text: "Crude Oil Reserves vs Production, 2016"
-      },	
+      },
       toolTip: {
         shared: true
       },
       legend: {
-        cursor:"pointer",
+        cursor: 'pointer',
         itemclick: toggleDataSeries
       },
       data: [{
-        type: "column",
-        name: "Expected Cash Flow",
-        legendText: "Expected Cash Flow",
-        color: "#4a85ff",
-        showInLegend: true, 
+        type: 'column',
+        name: 'Expected Cash Flow',
+        legendText: 'Expected Cash Flow',
+        color: '#4a85ff',
+        showInLegend: true,
         dataPoints: this.reportData['expected']
       },
       {
-        type: "column",	
-        name: "Actual Cash Flow",
-        legendText: "Actual Cash Flow",
-        color: "#ee7b7c",
+        type: 'column',	
+        name: 'Actual Cash Flow',
+        legendText: 'Actual Cash Flow',
+        color: '#ee7b7c',
         // axisYType: "secondary",
         showInLegend: true,
         dataPoints: this.reportData['actual']
       }]
     });
     chart.render();
-    
+
     function toggleDataSeries(e) {
-      if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+      if (typeof(e.dataSeries.visible) === 'undefined' || e.dataSeries.visible) {
         e.dataSeries.visible = false;
-      }
-      else {
+      } else {
         e.dataSeries.visible = true;
       }
       chart.render();
     }
-        
   }
-
 
   resetFilters() {
     this.input = new CollectionReport();
