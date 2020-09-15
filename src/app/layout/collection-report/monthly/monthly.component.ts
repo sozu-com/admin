@@ -18,6 +18,7 @@ export class MonthlyComponent implements OnInit {
   public parameter: IProperty = {};
   singleDropdownSettings: any;
   multiDropdownSettings: any;
+  legalRepDropdownSettings: any;
   items: any = [];
   total: any = 0;
   today: any;
@@ -29,6 +30,7 @@ export class MonthlyComponent implements OnInit {
   model: Array<any>;
   finalData: Array<any>;
   buyers: Array<any>;
+  legalReps: Array<any>;
   selectedBuilding: any;
   previousMonth: any;
   nextMonth: any;
@@ -40,6 +42,8 @@ export class MonthlyComponent implements OnInit {
   selectedTowers: Array<any>;
   selectedFloors: Array<any>;
   selectedBuyers: Array<any>;
+  selectedBuyerDev: Array<any>;
+  selectedLegalReps: Array<any>;
   selectedCurrencies: Array<any>;
   towers: Array<Towers>;
   properties: Array<any>;
@@ -69,6 +73,7 @@ export class MonthlyComponent implements OnInit {
     this.parameter.page = this.constant.p;
     this.getDevelopers();
     this.getBuyers();
+    this.getLegalRep();
     this.getCurrencies();
     this.initCalendarLocale();
     this.getListing();
@@ -126,6 +131,16 @@ export class MonthlyComponent implements OnInit {
       allowSearchFilter: true,
       itemsShowLimit: 1
     };
+    this.legalRepDropdownSettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: 'comm_name',
+      selectAllText: this.translate.instant('commonBlock.selectAll'),
+      unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
+      searchPlaceholderText: this.translate.instant('commonBlock.search'),
+      allowSearchFilter: true,
+      itemsShowLimit: 1
+    };
   }
 
   getPage(page) {
@@ -167,12 +182,6 @@ export class MonthlyComponent implements OnInit {
     this.selectedProperties = [];
     if (isSelected) {
       this.searchBuilding(obj.id);
-    } else {
-      // this.projects = [];
-      // this.selctedProjects = [];
-      // this.selectedTowers = [];
-      // this.selectedFloors = [];
-      // this.selectedProperties = [];
     }
   }
 
@@ -181,10 +190,7 @@ export class MonthlyComponent implements OnInit {
       .subscribe(
         success => {
           this.developers = success.data;
-        }, error => {
-          this.spinner.hide();
-        }
-      );
+        });
   }
 
   onSelectProject(isSelected: number, obj: any) {
@@ -194,11 +200,6 @@ export class MonthlyComponent implements OnInit {
     this.selectedProperties = [];
     if (isSelected) {
       this.setBuildingId(obj.id);
-    } else {
-      // this.input.building_id = [];
-      // this.selectedTowers = [];
-      // this.selectedFloors = [];
-      // this.selectedProperties = [];
     }
   }
 
@@ -238,10 +239,6 @@ export class MonthlyComponent implements OnInit {
     this.selectedProperties = [];
     if (isSelected) {
       this.setTower(obj.id);
-    } else {
-      // this.input.building_towers_id = [];
-      // this.selectedFloors = [];
-      // this.selectedProperties = [];
     }
   }
 
@@ -272,9 +269,6 @@ export class MonthlyComponent implements OnInit {
     this.selectedProperties = [];
     if (isSelected) {
       this.getProperties(obj.id);
-    } else {
-      // this.properties = [];
-      // this.selectedProperties = [];
     }
   }
 
@@ -304,27 +298,27 @@ export class MonthlyComponent implements OnInit {
       );
   }
 
-  onSelectBuyer(isSelected: number, obj: any) {
-    this.selectedBuyers = [];
-    if (isSelected) {
-      this.getBuyers();
-    } else {
-      // this.selectedBuyers = [];
-    }
-  }
+  // onSelectBuyer(isSelected: number, obj: any) {
+  //   this.selectedBuyers = [];
+  //   if (isSelected) {
+  //     this.getBuyers();
+  //   }
+  // }
 
   getBuyers() {
-    const input = {
-      user_type : 1
-    };
-    this.admin.postDataApi('getAllBuyers', input)
+    this.admin.postDataApi('getAllBuyers', { user_type : 1 })
       .subscribe(
         success => {
           this.buyers = success.data;
-        }, error => {
-          // this.spinner.hide();
-        }
-      );
+        });
+  }
+
+  getLegalRep() {
+    this.admin.postDataApi('getAllBuyers', { user_type : 2 })
+      .subscribe(
+        success => {
+          this.legalReps = success.data;
+        });
   }
 
   getListing() {
@@ -363,6 +357,14 @@ export class MonthlyComponent implements OnInit {
       const d = this.selectedBuyers.map(o => o.id);
       input.buyer_id = d;
     }
+    if (this.selectedLegalReps) {
+      const d = this.selectedLegalReps.map(o => o.id);
+      input.legal_rep_id = d;
+    }
+    if (this.selectedBuyerDev) {
+      const d = this.selectedBuyerDev.map(o => o.id);
+      input.buyer_dev_id = d;
+    }
     if (this.selectedCurrencies) {
       const d = this.selectedCurrencies.map(o => o.id);
       input.currency_id = d;
@@ -382,12 +384,15 @@ export class MonthlyComponent implements OnInit {
     this.input = new CollectionReport();
     this.input.start_date = moment().subtract(6, 'months').toDate();
     this.input.end_date = moment().toDate();
+    this.selectedBuyers = [];
     this.selectedDevelopers = [];
     this.selctedProjects = [];
     this.selectedTowers = [];
     this.selectedFloors = [];
     this.selectedCurrencies = [];
     this.selectedProperties = [];
-    this.selectedBuyers = [];
+    this.selectedBuyerDev = [];
+    this.selectedProperties = [];
+    this.selectedLegalReps = [];
   }
 }

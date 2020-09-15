@@ -28,7 +28,7 @@ export class SalesBookingComponent implements OnInit {
   locale: any;
   today = new Date();
   reportData: any;
-  constructor(public admin: AdminService, 
+  constructor(public admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService) {
   }
@@ -39,15 +39,15 @@ export class SalesBookingComponent implements OnInit {
     this.input = new CollectionReport();
     this.input.start_date = moment().subtract(12, 'months').toDate();
     this.input.end_date = moment().toDate();
-    this.iniDropDownSetting()
+    this.iniDropDownSetting();
     this.searchBuilding();
     this.getCurrencies();
-    this.initCalendarLocale()
+    this.initCalendarLocale();
     this.getReportData();
   }
 
   initCalendarLocale() {
-    if (this.translate.defaultLang == 'en') {
+    if (this.translate.defaultLang === 'en') {
       this.locale = {
         firstDayOfWeek: 0,
         dayNames: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
@@ -60,7 +60,7 @@ export class SalesBookingComponent implements OnInit {
         clear: 'Clear',
         dateFormat: 'mm/dd/yy',
         weekHeader: 'Wk'
-      }
+      };
     } else {
       this.locale = {
         firstDayOfWeek: 0,
@@ -96,7 +96,7 @@ export class SalesBookingComponent implements OnInit {
     this[arrayNAme].push(obj);
   }
 
-  onItemSelect(param:any, obj: any) {
+  onItemSelect(param: any, obj: any) {
     this[param].push(obj);
   }
 
@@ -109,8 +109,8 @@ export class SalesBookingComponent implements OnInit {
         success => {
           this.currencies = success.data;
           this.currencies.map(r => {
-            r['name'] = r.code + ' | ' + r.currency
-          })
+            r['name'] = r.code + ' | ' + r.currency;
+          });
         }, error => {
           this.spinner.hide();
         }
@@ -157,24 +157,22 @@ export class SalesBookingComponent implements OnInit {
 
 
   plotData() {
-
-    var chart = new CanvasJS.Chart("chartContainer", {
+    const chart = new CanvasJS.Chart('chartContainer', {
       animationEnabled: true,
-      theme: "light2",
-      title:{
+      theme: 'light2',
+      title: {
         // text: "Simple Line Chart"
       },
-      axisY:{
+      axisY: {
         includeZero: false
       },
-      data: [{        
-        type: "line",
+      data: [{
+        type: 'line',
         indexLabelFontSize: 16,
         dataPoints: this.reportData['trends']
       }]
     });
     chart.render();
-    
   }
 
   resetFilters() {

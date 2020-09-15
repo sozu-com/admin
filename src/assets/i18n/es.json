@@ -1475,6 +1475,7 @@
     "commissionIncome": "Ingresos por comisiones",
     "appUnapproveReport": "Aprobado / No aprobado",
     "cashFlowReport": "Informe de flujo de caja",
+    "projectReport": "Reporte de Proyecto",
     "ACL": "ACL",
     "reports": "Reportes",
     "seller": "Vendedor",
@@ -1775,6 +1776,7 @@
     "appUnapproveReport": "Aprobado / No aprobado",
     "cashFlowReport": "Informe de flujo de caja",
     "expectedAndRealCashFlow":"Flujo de caja esperado vs flujo de caja real",
+    "projectReport": "Reporte de Proyecto",
     "start_date": "Fecha de inicio",
     "end_date":"Fecha final",
     "developer":"Desarrolladora",
@@ -1817,7 +1819,10 @@
     "purchaseCommission":"Comisión de compra",
     "collectionCommission":"Comisión de cobro",
     "monthsBefore": "Meses antes",
-    "concept1":"Concepto"
+    "concept1":"Concepto",
+    "buyerAsAPerson": "Comprador (persona)",
+    "buyerAsADev": "Comprador (Desarrollador)",
+    "buyerAsALegalRep": "Comprador (persona jurídica)"
   },
   "quickVisualization": {
     "label":"Visualización rápida",

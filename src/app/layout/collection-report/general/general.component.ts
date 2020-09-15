@@ -218,22 +218,8 @@ export class GeneralComponent implements OnInit {
             'firstCol': element,
             key: 0
           };
-          console.log('element', element);
             for (let i = 0; i < this.allMonths.length; i++) {
               const ele = this.allMonths[i];
-              console.log('ele', ele);
-              // if (element == ele) {
-              //   obj[ele] = this.data[ele][element][0]['total_amount'];
-              // } else if (element == 'is_cancelled') {
-              //   obj[ele] = this.data[ele][element][0]['total_amount'];
-              // } else if (element == 'purchase_commission') {
-              //   obj[ele] = this.data[ele][element][0]['total_amount'];
-              // } else if (element == 'collection_commission') {
-              //   obj[ele] = this.data[ele][element][0]['total_amount'];
-              // } else {
-              //   obj[ele] = '';
-              // }
-              console.log('this.data[element][ele]', this.data[ele][element]);
               obj[ele] = this.data[ele][element] ? this.data[ele][element][0]['total_amount'] : '';
             }
 
@@ -293,8 +279,6 @@ export class GeneralComponent implements OnInit {
     this.selectedCurrencies = [];
   }
 
-
-    
   exportData() {
     if (this.finalData) {
       const data = [];
@@ -306,10 +290,8 @@ export class GeneralComponent implements OnInit {
         h2.push(this.datePipe.transform(r, 'MMM, y'));
       });
       const h = [...['Months of Schedule Payments'], ...h2, ...['Grand Total']];
-      console.log('h', h);
       for (let index = 0; index < this.finalData.length; index++) {
         const p = this.finalData[index];
-        
         // this.translate.instant('collectionReport.monthsOfSchedulePayments');
 
         data.push({

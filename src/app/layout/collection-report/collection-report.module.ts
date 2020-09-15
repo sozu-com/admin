@@ -28,6 +28,7 @@ import { CommissionIncomeComponent } from './commission-income/commission-income
 import { AppUnapprovedComponent } from './app-unapproved/app-unapproved.component';
 import { ArrearReportComponent } from './arrear-report/arrear-report.component';
 import { CashFlowComponent } from './cash-flow/cash-flow.component';
+import { ProjectReportComponent } from './project-report/project-report.component';
 
 const routes: Routes = [
   // {
@@ -77,6 +78,10 @@ const routes: Routes = [
   {
     path: 'cash-flow-report', component: CashFlowComponent,
     canActivate: [AclUserGuard], data: { roles: ['Collection Reports', 'can_read', ''] }
+  },
+  {
+    path: 'project-report', component: ProjectReportComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Collection Reports', 'can_read', ''] }
   }
 ];
 
@@ -94,7 +99,7 @@ const routes: Routes = [
     DropdownModule,
     NgMultiSelectDropDownModule.forRoot()
   ],
-  declarations: [CollectionReportComponent, GeneralComponent, ModelComponent, ConceptComponent, MonthlyComponent, SalesTrendComponent, SalesReportComponent, SalesBookingComponent, CommissionIncomeComponent, AppUnapprovedComponent, ArrearReportComponent, CashFlowComponent]
+  declarations: [CollectionReportComponent, GeneralComponent, ModelComponent, ConceptComponent, MonthlyComponent, SalesTrendComponent, SalesReportComponent, SalesBookingComponent, CommissionIncomeComponent, AppUnapprovedComponent, ArrearReportComponent, CashFlowComponent, ProjectReportComponent]
 })
 
 export class CollectionReportModule { }

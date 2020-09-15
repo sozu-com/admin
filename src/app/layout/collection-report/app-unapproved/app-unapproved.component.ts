@@ -28,7 +28,7 @@ export class AppUnapprovedComponent implements OnInit {
   locale: any;
   today = new Date();
   reportData: any;
-  constructor(public admin: AdminService, 
+  constructor(public admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService) {
   }
@@ -39,7 +39,7 @@ export class AppUnapprovedComponent implements OnInit {
     this.input = new CollectionReport();
     this.input.start_date = moment().subtract(12, 'months').toDate();
     this.input.end_date = moment().toDate();
-    this.iniDropDownSetting()
+    this.iniDropDownSetting();
     this.searchBuilding();
     this.getCurrencies();
     this.initCalendarLocale();
@@ -47,7 +47,7 @@ export class AppUnapprovedComponent implements OnInit {
   }
 
   initCalendarLocale() {
-    if (this.translate.defaultLang == 'en') {
+    if (this.translate.defaultLang === 'en') {
       this.locale = {
         firstDayOfWeek: 0,
         dayNames: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
@@ -60,7 +60,7 @@ export class AppUnapprovedComponent implements OnInit {
         clear: 'Clear',
         dateFormat: 'mm/dd/yy',
         weekHeader: 'Wk'
-      }
+      };
     } else {
       this.locale = {
         firstDayOfWeek: 0,
@@ -97,7 +97,7 @@ export class AppUnapprovedComponent implements OnInit {
     this[arrayNAme].push(obj);
   }
 
-  onItemSelect(param:any, obj: any) {
+  onItemSelect(param: any, obj: any) {
     this[param].push(obj);
   }
 
@@ -110,8 +110,8 @@ export class AppUnapprovedComponent implements OnInit {
         success => {
           this.currencies = success.data;
           this.currencies.map(r => {
-            r['name'] = r.code + ' | ' + r.currency
-          })
+            r['name'] = r.code + ' | ' + r.currency;
+          });
         }, error => {
           this.spinner.hide();
         }
@@ -158,49 +158,46 @@ export class AppUnapprovedComponent implements OnInit {
 
 
   plotData() {
-
-    var chart = new CanvasJS.Chart("chartContainer", {
+    const chart = new CanvasJS.Chart('chartContainer', {
       animationEnabled: true,
-      title:{
+      title: {
         // text: "Crude Oil Reserves vs Production, 2016"
-      },	
+      },
       toolTip: {
         shared: true
       },
       legend: {
-        cursor:"pointer",
+        cursor: 'pointer',
         itemclick: toggleDataSeries
       },
       data: [{
-        type: "column",
-        name: "Approved Collections",
-        legendText: "Approved Collections",
-        color: "#f5d05c",
-        showInLegend: true, 
+        type: 'column',
+        name: 'Approved Collections',
+        legendText: 'Approved Collections',
+        color: '#f5d05c',
+        showInLegend: true,
         dataPoints: this.reportData['approved']
       },
       {
-        type: "column",	
-        name: "Unapproved Collections",
-        legendText: "Unapproved Collections",
-        color: "#2d2a2a",
+        type: 'column',
+        name: 'Unapproved Collections',
+        legendText: 'Unapproved Collections',
+        color: '#2d2a2a',
         // axisYType: "secondary",
         showInLegend: true,
         dataPoints: this.reportData['unapproved']
       }]
     });
     chart.render();
-    
+
     function toggleDataSeries(e) {
-      if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+      if (typeof(e.dataSeries.visible) === 'undefined' || e.dataSeries.visible) {
         e.dataSeries.visible = false;
-      }
-      else {
+      } else {
         e.dataSeries.visible = true;
       }
       chart.render();
     }
-        
   }
 
 

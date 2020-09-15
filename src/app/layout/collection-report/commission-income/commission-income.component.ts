@@ -32,7 +32,7 @@ export class CommissionIncomeComponent implements OnInit {
   today = new Date();
   reportData: any;
   avgValue: number;
-  constructor(public admin: AdminService, 
+  constructor(public admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService) {
   }
@@ -50,7 +50,7 @@ export class CommissionIncomeComponent implements OnInit {
     this.input = new CollectionReport();
     this.input.start_date = moment().subtract(12, 'months').toDate();
     this.input.end_date = moment().toDate();
-    this.iniDropDownSetting()
+    this.iniDropDownSetting();
     this.searchBuilding();
     this.getCurrencies();
     this.initCalendarLocale();
@@ -58,7 +58,7 @@ export class CommissionIncomeComponent implements OnInit {
   }
 
   initCalendarLocale() {
-    if (this.translate.defaultLang == 'en') {
+    if (this.translate.defaultLang === 'en') {
       this.locale = {
         firstDayOfWeek: 0,
         dayNames: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
@@ -71,7 +71,7 @@ export class CommissionIncomeComponent implements OnInit {
         clear: 'Clear',
         dateFormat: 'mm/dd/yy',
         weekHeader: 'Wk'
-      }
+      };
     } else {
       this.locale = {
         firstDayOfWeek: 0,
@@ -116,7 +116,7 @@ export class CommissionIncomeComponent implements OnInit {
     this[arrayNAme].push(obj);
   }
 
-  onItemSelect(param:any, obj: any) {
+  onItemSelect(param: any, obj: any) {
     this[param].push(obj);
   }
 
@@ -129,8 +129,8 @@ export class CommissionIncomeComponent implements OnInit {
         success => {
           this.currencies = success.data;
           this.currencies.map(r => {
-            r['name'] = r.code + ' | ' + r.currency
-          })
+            r['name'] = r.code + ' | ' + r.currency;
+          });
         }, error => {
           this.spinner.hide();
         }
@@ -151,7 +151,6 @@ export class CommissionIncomeComponent implements OnInit {
   }
 
   onSelectCommission(isSelected: number, obj: any) {
-    console.log(obj);
     if (isSelected) {
       // this.getProperties(obj.id);
       // this.selectedCommissions()
@@ -197,27 +196,26 @@ export class CommissionIncomeComponent implements OnInit {
   }
 
   plotData() {
-
-    var chart = new CanvasJS.Chart("chartContainer", {
+    const chart = new CanvasJS.Chart('chartContainer', {
       animationEnabled: true,
-      theme: "light2",
+      theme: 'light2',
       dataPointWidth: 30,
-      title:{
+      title: {
         // text: "Top Oil Reserves"
       },
       axisY: {
         // title: "Reserves(MMbbl)"
       },
-      data: [{        
-        type: "column",  
-        color: "#00b96f",
-        showInLegend: true, 
-        legendMarkerColor: "grey",
+      data: [{
+        type: 'column',
+        color: '#00b96f',
+        showInLegend: true,
+        legendMarkerColor: 'grey',
         legendText: this.selectedCommissions[0].name,
         dataPoints: this.reportData['commission']
       }]
     });
-    chart.render(); 
+    chart.render();
   }
 
   resetFilters() {

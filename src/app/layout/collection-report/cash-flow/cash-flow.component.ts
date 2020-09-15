@@ -46,7 +46,7 @@ export class CashFlowComponent implements OnInit {
   }
 
   initCalendarLocale() {
-    if (this.translate.defaultLang == 'en') {
+    if (this.translate.defaultLang === 'en') {
       this.locale = {
         firstDayOfWeek: 0,
         dayNames: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
@@ -176,7 +176,7 @@ export class CashFlowComponent implements OnInit {
         dataPoints: this.reportData['expected']
       },
       {
-        type: 'column',	
+        type: 'column',
         name: 'Actual Cash Flow',
         legendText: 'Actual Cash Flow',
         color: '#ee7b7c',

@@ -1484,6 +1484,7 @@
     "commissionIncome": "Commission Income",
     "appUnapproveReport": "Approve / Unapprove",
     "cashFlowReport": "Cash Flow Report",
+    "projectReport": "Project Report",
     "ACL": "ACL",
     "reports": "Reports",
     "seller": "Seller",
@@ -1784,6 +1785,7 @@
     "appUnapproveReport": "Approve / Unapprove",
     "cashFlowReport": "Cash Flow Report",
     "expectedAndRealCashFlow":"Expected Cash Flow Vs Real Cash Flow",
+    "projectReport": "Project Report",
     "start_date": "Start Date",
     "end_date":"End Date",
     "developer":"Developer",
@@ -1826,7 +1828,10 @@
     "purchaseCommission":"Purchase Commission",
     "collectionCommission":"Collection Commission",
     "monthsBefore": "Months before",
-    "concept1":"Concept"
+    "concept1":"Concept",
+    "buyerAsAPerson": "Buyer (Person)",
+    "buyerAsADev": "Buyer (Developer)",
+    "buyerAsALegalRep": "Buyer (Legal Entity)"
   },
   "quickVisualization": {
     "label":"Quick Visualization",

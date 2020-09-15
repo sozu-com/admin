@@ -2105,9 +2105,7 @@ export class AddEditCollectionComponent implements OnInit {
           // this.parameter.property_id = success['data'].id;
         }, error => {
           this.spinner.hide();
-        }
-      );
-
+        });
   }
 
   numberUptoTwoDecimal(num: any) {

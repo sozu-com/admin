@@ -174,11 +174,6 @@ export class ModelComponent implements OnInit {
     this.selectedProperties = [];
     if (isSelected) {
       this.setBuildingId(obj.id);
-    } else {
-      // this.input.building_id = [];
-      // this.selectedTowers = [];
-      // this.selectedFloors = [];
-      // this.selectedProperties = [];
     }
   }
 
@@ -218,10 +213,6 @@ export class ModelComponent implements OnInit {
     this.selectedProperties = [];
     if (isSelected) {
       this.setTower(obj.id);
-    } else {
-      // this.input.building_towers_id = [];
-      // this.selectedFloors = [];
-      // this.selectedProperties = [];
     }
   }
 
@@ -252,9 +243,6 @@ export class ModelComponent implements OnInit {
     this.selectedProperties = [];
     if (isSelected) {
       this.getProperties(obj.id);
-    } else {
-      // this.properties = [];
-      // this.selectedProperties = [];
     }
   }
 
@@ -339,7 +327,6 @@ export class ModelComponent implements OnInit {
             // this.model.push(property);
           }
         }
-        console.log(this.finalData);
         const f = [...this.finalData];
         this.finalData.push({
           model: '',
@@ -351,7 +338,6 @@ export class ModelComponent implements OnInit {
           total: f.reduce((a, b) => a + (b['total'] || 0), 0),
           data: null
         });
-        console.log(this.model);
         this.spinner.hide();
       },
       error => {

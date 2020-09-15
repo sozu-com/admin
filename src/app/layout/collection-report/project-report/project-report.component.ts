@@ -8,26 +8,24 @@ import { TranslateService } from '@ngx-translate/core';
 import { CollectionReport } from 'src/app/models/collection-report.model';
 
 @Component({
-  selector: 'app-sales-trend',
-  templateUrl: './sales-trend.component.html',
-  styleUrls: ['./sales-trend.component.css']
+  selector: 'app-project-report',
+  templateUrl: './project-report.component.html',
+  styleUrls: ['./project-report.component.css']
 })
-export class SalesTrendComponent implements OnInit {
+export class ProjectReportComponent implements OnInit {
 
   public parameter: IProperty = {};
   multiDropdownSettings: any;
   input: CollectionReport;
   projects: Array<any>;
   selctedProjects: Array<any>;
-  currencies: Array<any>;
-  selectedCurrencies: Array<any>;
   colorScheme = {
     domain: ['#ee7b7c', '#f5d05c']
   };
   locale: any;
-  today = new Date();
   reportData: any;
-  avgValue: number;
+  dataPoints1: Array<any>;
+
   constructor(public admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService) {
@@ -41,9 +39,8 @@ export class SalesTrendComponent implements OnInit {
     this.input.end_date = moment().toDate();
     this.iniDropDownSetting();
     this.searchBuilding();
-    this.getCurrencies();
     this.initCalendarLocale();
-    this.getReportData();
+    // this.getReportData();
   }
 
   initCalendarLocale() {
@@ -81,7 +78,7 @@ export class SalesTrendComponent implements OnInit {
 
   iniDropDownSetting() {
     this.multiDropdownSettings = {
-      singleSelection: false,
+      singleSelection: true,
       idField: 'id',
       textField: 'name',
       selectAllText: this.translate.instant('commonBlock.selectAll'),
@@ -103,19 +100,6 @@ export class SalesTrendComponent implements OnInit {
   onSelectAll(obj: any) {
   }
 
-  getCurrencies() {
-    this.admin.postDataApi('getCurrencies', {})
-      .subscribe(
-        success => {
-          this.currencies = success.data;
-          this.currencies.map(r => {
-            r['name'] = r.code + ' | ' + r.currency;
-          });
-        }, error => {
-          this.spinner.hide();
-        }
-      );
-  }
   searchBuilding() {
     this.spinner.show();
     this.admin.postDataApi('getUnblockedProjects', {})
@@ -130,33 +114,27 @@ export class SalesTrendComponent implements OnInit {
       );
   }
 
-
   getReportData () {
-    const input: any = JSON.parse(JSON.stringify(this.input));
-    input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
-    input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
-
-    if (this.selctedProjects) {
-      const d = this.selctedProjects.map(o => o.id);
-      input.building_id = d;
-    }
-    if (this.selectedCurrencies) {
-      const d = this.selectedCurrencies.map(o => o.id);
-      input.currency_id = d;
-    }
-
     this.spinner.show();
-    this.admin.postDataApi('graphs/sales-trend', input).subscribe(r => {
+    this.admin.postDataApi('projectReport', {building_id: 295}).subscribe(r => {
       this.spinner.hide();
       this.reportData = r['data'];
-      this.avgValue = 0;
-      if (this.reportData['trends']) {
-        for (let index = 0; index < this.reportData['trends'].length; index++) {
-          const element = this.reportData['trends'][index];
-          this.avgValue = this.avgValue + element['y'];
-        }
-        this.avgValue = this.avgValue / this.reportData['trends'].length;
+      const obj = {};
+      for (let index = 0; index < this.reportData.length; index++) {
+        const element = this.reportData[index];
+        element.available_units = element.total_units - element.sold_units;
+        element.sold_per = ((element.sold_units / element.total_units) * 100).toFixed(2);
+        element.available_per = ((element.available_units / element.total_units) * 100).toFixed(2);
+        element.available_per = ((element.available_units / element.total_units) * 100).toFixed(2);
+        obj['total_units'] = element.total_units + (obj['total_units'] || 0);
+        obj['sold_units'] = element.sold_units + (obj['sold_units'] || 0);
+        obj['available_units'] = element.available_units + (obj['available_units'] || 0);
+        obj['sold_per'] = parseFloat(element.sold_per) + (obj['sold_per'] || 0);
+        obj['available_per'] = parseFloat(element.available_per) + (obj['available_per'] || 0);
+        obj['total_per'] = parseFloat(element.total_per) + (obj['total_per'] || 0);
       }
+      this.reportData.push(obj);
+      console.log(this.reportData);
       this.plotData();
     }, error => {
       this.spinner.hide();
@@ -164,31 +142,38 @@ export class SalesTrendComponent implements OnInit {
   }
 
   plotData() {
+
     const chart = new CanvasJS.Chart('chartContainer', {
-      animationEnabled: true,
       title: {
-        // text: "Music Album Sales by Year"
+        text: 'Percentage per model name'
       },
-      axisY: {
-        stripLines: [{
-          value: this.avgValue,
-          label: 'Average'
-        }]
+      legend: {
+        maxWidth: 350,
+        itemWidth: 120
       },
-      data: [{
-        xValueFormatString: 'MMM, YYYY',
-        type: 'spline',
-        dataPoints: this.reportData['trends']
-      }]
+      data: [
+      {
+        type: 'pie',
+        showInLegend: true,
+        legendText: '{indexLabel}',
+        dataPoints: [
+          { y: 4181563, indexLabel: 'PlayStation 3' },
+          { y: 2175498, indexLabel: 'Wii' },
+          { y: 3125844, indexLabel: 'Xbox 360' },
+          { y: 1176121, indexLabel: 'Nintendo DS'},
+          { y: 1727161, indexLabel: 'PSP' },
+          { y: 4303364, indexLabel: 'Nintendo 3DS'},
+          { y: 1717786, indexLabel: 'PS Vita'}
+        ]
+      }
+      ]
     });
     chart.render();
   }
 
   resetFilters() {
     this.input = new CollectionReport();
-    this.input.start_date = moment().subtract(6, 'months').toDate();
-    this.input.end_date = moment().toDate();
-    this.selectedCurrencies = [];
     this.selctedProjects = [];
   }
 }
+

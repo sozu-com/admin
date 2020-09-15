@@ -187,11 +187,11 @@ export class SalesReportComponent implements OnInit {
     });
 
     function toolTipContent(e) {
-      var str = '';
-      var total = 0;
-      var str2, str3;
-      for (var i = 0; i < e.entries.length; i++){
-        var  str1 = '<span style= "color:' + e.entries[i].dataSeries.color + '"> ' +
+      let str = '';
+      let total = 0;
+      let str2, str3;
+      for (let i = 0; i < e.entries.length; i++) {
+        const  str1 = '<span style= "color:' + e.entries[i].dataSeries.color + '"> ' +
         e.entries[i].dataSeries.name + '</span>: $<strong>' + e.entries[i].dataPoint.y + '</strong>bn<br/>';
         total = e.entries[i].dataPoint.y + total;
         str = str.concat(str1);
