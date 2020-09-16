@@ -139,7 +139,7 @@ export class GeneralComponent implements OnInit {
   }
 
   getDevelopers() {
-    this.admin.postDataApi('getUnblockedDevelopers', {})
+    this.admin.postDataApi('getDevelopersForCollections', {})
       .subscribe(
         success => {
           this.developers = success.data;
@@ -160,7 +160,7 @@ export class GeneralComponent implements OnInit {
     const input = {
       developer_id: developer_id
     };
-    this.admin.postDataApi('getUnblockedProjects', input)
+    this.admin.postDataApi('getProjectsForCollections', input)
       .subscribe(
         success => {
           this.spinner.hide();

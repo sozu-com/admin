@@ -118,7 +118,7 @@ export class CashFlowComponent implements OnInit {
   }
   searchBuilding() {
     this.spinner.show();
-    this.admin.postDataApi('getUnblockedProjects', {})
+    this.admin.postDataApi('getProjectsForCollections', {})
       .subscribe(
         success => {
           this.spinner.hide();

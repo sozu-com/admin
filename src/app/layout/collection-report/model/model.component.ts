@@ -157,7 +157,7 @@ export class ModelComponent implements OnInit {
   }
 
   getDevelopers() {
-    this.admin.postDataApi('getUnblockedDevelopers', {})
+    this.admin.postDataApi('getDevelopersForCollections', {})
       .subscribe(
         success => {
           this.developers = success.data;
@@ -183,7 +183,7 @@ export class ModelComponent implements OnInit {
       developer_id: developer_id
     };
 
-    this.admin.postDataApi('getUnblockedProjects', input)
+    this.admin.postDataApi('getProjectsForCollections', input)
       .subscribe(
         success => {
           this.spinner.hide();
@@ -261,7 +261,7 @@ export class ModelComponent implements OnInit {
       input['floor_num'] = d[0];
     }
     this.spinner.show();
-    this.admin.postDataApi('getUnblockedProperties', input)
+    this.admin.postDataApi('getPropertiesForCollections', input)
       .subscribe(
         success => {
           this.spinner.hide();

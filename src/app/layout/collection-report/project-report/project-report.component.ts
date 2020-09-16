@@ -24,6 +24,7 @@ export class ProjectReportComponent implements OnInit {
   };
   locale: any;
   reportData: any;
+  agentData: Array<any>;
   dataPoints1: Array<any>;
 
   constructor(public admin: AdminService,
@@ -102,7 +103,7 @@ export class ProjectReportComponent implements OnInit {
 
   searchBuilding() {
     this.spinner.show();
-    this.admin.postDataApi('getUnblockedProjects', {})
+    this.admin.postDataApi('getProjectsForCollections', {})
       .subscribe(
         success => {
           this.spinner.hide();
@@ -119,6 +120,7 @@ export class ProjectReportComponent implements OnInit {
     this.admin.postDataApi('projectReport', {building_id: 295}).subscribe(r => {
       this.spinner.hide();
       this.reportData = r['data'];
+      this.agentData = r['agent_data'];
       const obj = {};
       for (let index = 0; index < this.reportData.length; index++) {
         const element = this.reportData[index];
@@ -131,10 +133,32 @@ export class ProjectReportComponent implements OnInit {
         obj['available_units'] = element.available_units + (obj['available_units'] || 0);
         obj['sold_per'] = parseFloat(element.sold_per) + (obj['sold_per'] || 0);
         obj['available_per'] = parseFloat(element.available_per) + (obj['available_per'] || 0);
-        obj['total_per'] = parseFloat(element.total_per) + (obj['total_per'] || 0);
+        // obj['total_per'] = parseFloat(element.total_per) + (obj['total_per'] || 0);
       }
+      this.dataPoints1 = [];
+      for (let index = 0; index < this.reportData.length; index++) {
+        this.dataPoints1.push({
+          indexLabel: this.reportData[index].model,
+          y: ((this.reportData[index].total_units / obj['total_units']) * 100).toFixed(2) });
+      }
+
+      const externalAgent = {indexLabel: 'Outside Agent', y: 0};
+      const removeValFromIndex = [];
+      for (let index = 0; index < this.agentData.length; index++) {
+        const r1 = this.agentData[index];
+        if (r1.is_external_agent) {
+          externalAgent.y = externalAgent.y + r1.y;
+          removeValFromIndex.push(index);
+        }
+      }
+
+      for (let i = removeValFromIndex.length - 1; i >= 0; i--) {
+        this.agentData.splice(removeValFromIndex[i], 1);
+      }
+
+      this.agentData.push(externalAgent);
+
       this.reportData.push(obj);
-      console.log(this.reportData);
       this.plotData();
     }, error => {
       this.spinner.hide();
@@ -145,7 +169,7 @@ export class ProjectReportComponent implements OnInit {
 
     const chart = new CanvasJS.Chart('chartContainer', {
       title: {
-        text: 'Percentage per model name'
+        text: this.translate.instant('collectionReport.percentPerModelName')
       },
       legend: {
         maxWidth: 350,
@@ -156,19 +180,29 @@ export class ProjectReportComponent implements OnInit {
         type: 'pie',
         showInLegend: true,
         legendText: '{indexLabel}',
-        dataPoints: [
-          { y: 4181563, indexLabel: 'PlayStation 3' },
-          { y: 2175498, indexLabel: 'Wii' },
-          { y: 3125844, indexLabel: 'Xbox 360' },
-          { y: 1176121, indexLabel: 'Nintendo DS'},
-          { y: 1727161, indexLabel: 'PSP' },
-          { y: 4303364, indexLabel: 'Nintendo 3DS'},
-          { y: 1717786, indexLabel: 'PS Vita'}
-        ]
+        dataPoints: this.dataPoints1
       }
       ]
     });
     chart.render();
+    const chart1 = new CanvasJS.Chart('agentContainer', {
+      title: {
+        text: this.translate.instant('collectionReport.percentagePerAgent')
+      },
+      legend: {
+        maxWidth: 350,
+        itemWidth: 120
+      },
+      data: [
+      {
+        type: 'pie',
+        showInLegend: true,
+        legendText: '{indexLabel}',
+        dataPoints: this.agentData
+      }
+      ]
+    });
+    chart1.render();
   }
 
   resetFilters() {

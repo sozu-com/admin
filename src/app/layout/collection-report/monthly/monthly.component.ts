@@ -186,7 +186,7 @@ export class MonthlyComponent implements OnInit {
   }
 
   getDevelopers() {
-    this.admin.postDataApi('getUnblockedDevelopers', {})
+    this.admin.postDataApi('getDevelopersForCollections', {})
       .subscribe(
         success => {
           this.developers = success.data;
@@ -209,7 +209,7 @@ export class MonthlyComponent implements OnInit {
       developer_id: developer_id
     };
 
-    this.admin.postDataApi('getUnblockedProjects', input)
+    this.admin.postDataApi('getProjectsForCollections', input)
       .subscribe(
         success => {
           this.spinner.hide();
@@ -287,7 +287,7 @@ export class MonthlyComponent implements OnInit {
       input['floor_num'] = d[0];
     }
     this.spinner.show();
-    this.admin.postDataApi('getUnblockedProperties', input)
+    this.admin.postDataApi('getPropertiesForCollections', input)
       .subscribe(
         success => {
           this.spinner.hide();
@@ -306,7 +306,7 @@ export class MonthlyComponent implements OnInit {
   // }
 
   getBuyers() {
-    this.admin.postDataApi('getAllBuyers', { user_type : 1 })
+    this.admin.postDataApi('getAllBuyersForCollections', { user_type : 1 })
       .subscribe(
         success => {
           this.buyers = success.data;
@@ -314,7 +314,7 @@ export class MonthlyComponent implements OnInit {
   }
 
   getLegalRep() {
-    this.admin.postDataApi('getAllBuyers', { user_type : 2 })
+    this.admin.postDataApi('getAllBuyersForCollections', { user_type : 2 })
       .subscribe(
         success => {
           this.legalReps = success.data;

@@ -644,7 +644,7 @@ export class PropertiesComponent implements OnInit {
   attachExternalBroker(broker: any, flag: number) {
     this.admin.postDataApi('attachExternalBroker', {
       property_id: this.property.id,
-      broker_id: broker.id, flag: flag
+      broker_id: broker.id, flag: flag, name: broker.name
     }).subscribe(r => {
       this.closeExtBrokerModal.nativeElement.click();
       this.property.external_broker = flag === 1 ? broker : null;

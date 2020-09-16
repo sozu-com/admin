@@ -1831,7 +1831,16 @@
     "concept1":"Concept",
     "buyerAsAPerson": "Buyer (Person)",
     "buyerAsADev": "Buyer (Developer)",
-    "buyerAsALegalRep": "Buyer (Legal Entity)"
+    "buyerAsALegalRep": "Buyer (Legal Entity)",
+    "totalUnits": "Total Units",
+    "soldUnits": "Sold Units",
+    "soldPer": "Sold %",
+    "availableUnits": "Available Units",
+    "availablePer": "Available %",
+    "name":"Name",
+    "percent":"Percent",
+    "percentPerModelName": "Percentage per model name",
+    "percentagePerAgent": "Percentage sales per agent"
   },
   "quickVisualization": {
     "label":"Quick Visualization",

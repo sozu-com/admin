@@ -169,7 +169,7 @@ export class ArrearReportComponent implements OnInit {
 
   searchBuilding() {
     this.spinner.show();
-    this.admin.postDataApi('getUnblockedProjects', {})
+    this.admin.postDataApi('getProjectsForCollections', {})
       .subscribe(
         success => {
           this.spinner.hide();
@@ -182,14 +182,14 @@ export class ArrearReportComponent implements OnInit {
   }
 
   getDevelopers() {
-    this.admin.postDataApi('getUnblockedDevelopers', {})
+    this.admin.postDataApi('getDevelopersForCollections', {})
       .subscribe(
         success => {
           this.developers = success.data;
         });
   }
   getBuyers() {
-    this.admin.postDataApi('getAllBuyers', { user_type : 1 })
+    this.admin.postDataApi('getAllBuyersForCollections', { user_type : 1 })
       .subscribe(
         success => {
           this.buyers = success.data;
@@ -197,7 +197,7 @@ export class ArrearReportComponent implements OnInit {
   }
 
   getLegalRep() {
-    this.admin.postDataApi('getAllBuyers', { user_type : 2 })
+    this.admin.postDataApi('getAllBuyersForCollections', { user_type : 2 })
       .subscribe(
         success => {
           this.legalReps = success.data;
