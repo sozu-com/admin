@@ -1238,7 +1238,8 @@
   },
   "viewUsers": {
     "label": "Administrar usuarios",
-    "addBtn": "+Agregar nuevo proyecto",
+    "addBtn": "Agregar nuevo usuario",
+    "editBtn": "Editar usuario",
     "sellerTabOn": "Pestaña de vendedor",
     "addReason": "Agregar razón",
     "addReasonBtn": "Agregar"

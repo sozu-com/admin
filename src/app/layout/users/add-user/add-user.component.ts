@@ -1,8 +1,9 @@
 import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import { Users } from 'src/app/models/users.model';
 import { MapsAPILoader } from '@agm/core';
-import { Agency } from 'src/app/models/agency.model';
+import { FileUpload } from 'src/app/common/fileUpload';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { IProperty } from 'src/app/common/property';
 import { Constant } from 'src/app/common/constants';
@@ -10,26 +11,27 @@ import { CommonService } from 'src/app/services/common.service';
 import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LegalRepresentative, Banks } from 'src/app/models/legalEntity.model';
-declare const google: any;
+declare const google;
 declare let swal: any;
 
 @Component({
-  selector: 'app-add-agency',
-  templateUrl: './add-agency.component.html',
-  styleUrls: ['./add-agency.component.css']
+  selector: 'app-add-user',
+  templateUrl: './add-user.component.html',
+  styleUrls: ['./add-user.component.css']
 })
-export class AddAgencyComponent implements OnInit {
+export class AddUserComponent implements OnInit {
 
   @ViewChild('mapDiv') mapDiv: ElementRef;
   @ViewChild('search') searchElementRef: ElementRef;
-  @ViewChild('search1') search1ElementRef: ElementRef;
   public parameter: IProperty = {};
   initialCountry: any;
   show = false;
-  model: Agency;
+  image: any;
+  file4: FileUpload;
+  developer_image: any;
+  model: Users;
   currencies: Array<any>;
   constructor(
-    private router: Router,
     public constant: Constant,
     private cs: CommonService,
     private mapsAPILoader: MapsAPILoader,
@@ -37,28 +39,33 @@ export class AddAgencyComponent implements OnInit {
     private admin: AdminService,
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private router: Router
   ) { }
 
   ngOnInit() {
-    this.model = new Agency();
-    this.model.agency_banks = new Array();
-    this.model.legal_representative = new LegalRepresentative();
-    this.setCurrentPosition();
-    this.getCurrencies();
-    this.model.country_code = this.constant.country_code;
-    this.model.dial_code = this.constant.dial_code;
+    this.initModel();
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.p = this.constant.p;
-    this.initialCountry = {initialCountry: this.constant.country_code};
+    this.getCurrencies();
       this.parameter.sub = this.route.params.subscribe(params => {
-        if (params['id'] != '0') {
+        if (params['id']) {
           this.model.id = params['id'];
-          this.getAgencyById(this.model.id);
+          this.getUserById(this.model.id);
         } else {
           this.model.id = '';
         }
       });
+  }
+
+  initModel() {
+    this.initialCountry = {initialCountry: this.constant.country_code};
+    this.model = new Users();
+    this.model.legal_rep_banks = new Array();
+    this.model.legal_representative = new LegalRepresentative();
+    this.setCurrentPosition();
+    this.model.country_code = this.constant.country_code;
+    this.model.dial_code = this.constant.dial_code;
   }
 
   getCurrencies() {
@@ -69,23 +76,20 @@ export class AddAgencyComponent implements OnInit {
         });
   }
 
-  onCountryChange(e) {
-    this.model.country_code = e.iso2;
-    this.model.dial_code = '+' + e.dialCode;
-    this.initialCountry = {initialCountry: e.iso2};
-  }
-
-  getAgencyById(id: string) {
+  getUserById(id: string) {
     this.spinner.show();
-    this.admin.postDataApi('getAgencyById', {'id': id})
+    this.admin.postDataApi('getUserById', {'user_id': id})
     .subscribe(
       success => {
         this.spinner.hide();
+        this.model = new Users();
         this.model = success.data;
-        this.model.agency_banks = success.data.agency_banks;
+        // this.model.legal_representative = new LegalRepresentative();
+        this.model.legal_rep_banks = success.data.legal_rep_banks;
         this.model.legal_representative = success.data.legal_representative || new LegalRepresentative();
         this.model.legal_representative.legal_rep_banks = success.data.legal_representative.legal_rep_banks; // Array(new Banks());
 
+        this.image = this.model.image;
       }, error => {
         this.spinner.hide();
       });
@@ -95,18 +99,18 @@ export class AddAgencyComponent implements OnInit {
     this.show = true;
   }
 
-  changeListner(event: any, paramLoader: string, param: any) {
+  changeListner(event: any, param: any) {
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
-    this.model[paramLoader] = true;
     const reader = new FileReader();
     reader.onload = (e: any) => {
-      this.model[param] = e.target.result;
+      this[param] = e.target.result;
+      this.spinner.show();
       this.cs.saveImage(event.target.files[0]).subscribe(
         success => {
-          this.model[paramLoader] = false;
+          this.spinner.hide();
           this.model[param] = success['data'].image;
         }
       );
@@ -114,25 +118,24 @@ export class AddAgencyComponent implements OnInit {
     reader.readAsDataURL(event.target.files[0]);
   }
 
-  onCountryCodeChange(e) {
+  onCountryChange(e) {
     this.model.country_code = e.iso2;
     this.model.dial_code = '+' + e.dialCode;
     this.initialCountry = {initialCountry: e.iso2};
   }
 
   add(formData: NgForm) {
-    const modelSave: Agency = JSON.parse(JSON.stringify(this.model));
-    // if (!modelSave.lat || !modelSave.lng) {
-    //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAddressFromDropdown'), 'error');
-    //   return;
-    // }
-    if (modelSave.img_loader || modelSave.logo_loader) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.uploadingImage'), 'error');
-      return;
-    }
+    const modelSave: Users = JSON.parse(JSON.stringify(this.model));
     if (modelSave.legal_representative.phone) {
       modelSave.legal_representative.country_code = modelSave.legal_representative.country_code || this.constant.country_code;
       modelSave.legal_representative.dial_code = modelSave.legal_representative.dial_code || this.constant.dial_code;
+    }
+    if (modelSave.developer_address && (!modelSave.lat || !modelSave.lng)) {
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAddressFromDropdown'), 'error');
+      return;
+    }
+    if (modelSave.images) {
+      modelSave.images = modelSave.images.map(r => r.image);
     }
     if (modelSave.legal_representative.name || modelSave.legal_representative.phone
       || modelSave.legal_representative.fed_tax_pay || modelSave.legal_representative.email) {
@@ -159,10 +162,10 @@ export class AddAgencyComponent implements OnInit {
         delete modelSave.legal_representative;
     }
 
-    if (modelSave['agency_banks'] && modelSave['agency_banks'].length > 0) {
+    if (modelSave['legal_rep_banks'] && modelSave['legal_rep_banks'].length > 0) {
       let i = 0;
-      for (let index = 0; index < modelSave['agency_banks'].length; index++) {
-        const element = modelSave['agency_banks'][index];
+      for (let index = 0; index < modelSave['legal_rep_banks'].length; index++) {
+        const element = modelSave['legal_rep_banks'][index];
         if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
           i = i + 1;
           swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
@@ -184,7 +187,7 @@ export class AddAgencyComponent implements OnInit {
       }
     }
     this.spinner.show();
-    this.admin.postDataApi('addAgency', modelSave)
+    this.admin.postDataApi('addSeller', modelSave)
       .subscribe(
         success => {
           this.spinner.hide();
@@ -196,16 +199,20 @@ export class AddAgencyComponent implements OnInit {
                     this.translate.instant('message.success.addedSuccessfully') :
                     this.translate.instant('message.success.updatedSuccessfully');
             swal(this.translate.instant('swal.success'), text, 'success');
-            this.router.navigate(['/dashboard/agencies/view-all']);
             if (this.model.id === '') {
-              this.model.image = ''; this.model.logo = '';
-              formData.reset();
+              this.router.navigate(['/dashboard/users']);
+            } else {
+              this.model = success.data;
+              this.model.legal_rep_banks = success.data.legal_rep_banks || [];
+              this.model.legal_representative = success.data.legal_representative || new LegalRepresentative();
+              this.model.legal_representative.legal_rep_banks = success.data.legal_representative.legal_rep_banks || [];
             }
           }
         }, error => {
           this.spinner.hide();
         });
   }
+
 
   loadPlaces(paramAdd: string, paramLat: string, paramLng: string, searchRef: any) {
     // load Places Autocomplete
@@ -251,14 +258,14 @@ export class AddAgencyComponent implements OnInit {
     }
   }
 
-  placeMarker($event: any, param: string, paramLat: string, paramLng: string) {
+  placeMarker($event: any, addParam: string, paramLat: string, paramLng: string) {
     this.model[paramLat] = $event.coords.lat;
     this.model[paramLng] = $event.coords.lng;
-    this.getGeoLocation(param, this.model[paramLat], this.model[paramLng]);
+    this.getGeoLocation(addParam, this.model[paramLat], this.model[paramLng]);
   }
 
 
-  getGeoLocation(param: string, lat: number, lng: number) {
+  getGeoLocation(addParam: string, lat: number, lng: number) {
     if (navigator.geolocation) {
       const geocoder = new google.maps.Geocoder();
       const latlng = new google.maps.LatLng(lat, lng);
@@ -268,9 +275,9 @@ export class AddAgencyComponent implements OnInit {
         if (status === google.maps.GeocoderStatus.OK) {
           const result = results[0];
           if (result != null) {
-            this.model[param] = result.formatted_address;
+            this.model[addParam] = result.formatted_address;
           } else {
-            this.model[param] = lat + ',' + lng;
+            this.model[addParam] = lat + ',' + lng;
           }
         }
       });
@@ -297,13 +304,12 @@ export class AddAgencyComponent implements OnInit {
 
   addDeveloperBank(e) {
     const bank = new Banks();
-    console.log(this.model);
-    this.model.agency_banks.push(bank);
+    this.model.legal_rep_banks.push(bank);
   }
 
   removeDeveloperBank($event: Event, item: any, i: number) {
     $event.stopPropagation();
-    this.model.agency_banks.splice(i, 1);
+    this.model.legal_rep_banks.splice(i, 1);
     if (item.id) {
       this.admin.postDataApi('deleteLegalRepBank', {id: item.id}).subscribe(success => {
         this.spinner.hide();
@@ -313,3 +319,4 @@ export class AddAgencyComponent implements OnInit {
     }
   }
 }
+

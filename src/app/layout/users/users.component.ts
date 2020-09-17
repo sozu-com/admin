@@ -6,6 +6,7 @@ import { Constant } from 'src/app/common/constants';
 import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 declare let swal: any;
 
 @Component({
@@ -30,7 +31,8 @@ export class UsersComponent implements OnInit {
 
   constructor(public constant: Constant, public model: Users, public admin: AdminService,
     private spinner: NgxSpinnerService,
-    private translate: TranslateService) { }
+    private translate: TranslateService,
+    private router: Router) { }
 
   ngOnInit() {
     this.parameter.property_sort = 2;
@@ -162,16 +164,17 @@ export class UsersComponent implements OnInit {
   }
 
   editUser(userdata, index) {
-    this.parameter.index = index;
-    this.model = userdata;
-    this.image = userdata.image;
-    this.developer_image = userdata.developer_image;
-    this.model.image = userdata.image != null ? userdata.image : '';
-    this.model.developer_image = userdata.developer_image != null ? userdata.developer_image : '';
-    if (this.obj) {
-      this.obj.intlTelInput('setCountry', this.model.country_code);
-    }
-    this.modalOpen.nativeElement.click();
+    this.router.navigate(['/dashboard/users/add-user', userdata.id]);
+    // this.parameter.index = index;
+    // this.model = userdata;
+    // this.image = userdata.image;
+    // this.developer_image = userdata.developer_image;
+    // this.model.image = userdata.image != null ? userdata.image : '';
+    // this.model.developer_image = userdata.developer_image != null ? userdata.developer_image : '';
+    // if (this.obj) {
+    //   this.obj.intlTelInput('setCountry', this.model.country_code);
+    // }
+    // this.modalOpen.nativeElement.click();
   }
 
   addLegalEntity(userdata: any, index: number) {

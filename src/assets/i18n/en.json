@@ -1247,7 +1247,8 @@
   },
   "viewUsers": {
     "label": "Manage Users",
-    "addBtn": "+Add New Project",
+    "addBtn": "Add New User",
+    "editBtn": "Edit User",
     "sellerTabOn": "Seller tab on",
     "addReason": "Add Reason",
     "addReasonBtn": "Add"

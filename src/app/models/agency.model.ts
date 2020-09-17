@@ -1,3 +1,5 @@
+import { Banks, LegalRepresentative } from './legalEntity.model';
+
 export class Agency {
     id: string;
     person_in_charge: string;   // incharge of company
@@ -26,4 +28,7 @@ export class Agency {
     property_sort?: number;     // for sorting
     agent_sort?: number;     // for sorting
     project_sort?: number;  // for sorting
+    fed_tax_pay?: string;
+    agency_banks?: Array<Banks>;
+    legal_representative?: LegalRepresentative;
 }

@@ -347,7 +347,7 @@ export class AddDeveloperComponent implements OnInit {
     $event.stopPropagation();
     this.model.legal_representative.legal_rep_banks.splice(i, 1);
     if (item.id) {
-      this.admin.postDataApi('deleteSellerBank', {id: item.id}).subscribe(success => {
+      this.admin.postDataApi('deleteLegalRepBank', {id: item.id}).subscribe(success => {
         this.spinner.hide();
       }, error => {
         this.spinner.hide();
@@ -364,7 +364,7 @@ export class AddDeveloperComponent implements OnInit {
     $event.stopPropagation();
     this.model.legal_rep_banks.splice(i, 1);
     if (item.id) {
-      this.admin.postDataApi('deleteSellerBank', {id: item.id}).subscribe(success => {
+      this.admin.postDataApi('deleteLegalRepBank', {id: item.id}).subscribe(success => {
         this.spinner.hide();
       }, error => {
         this.spinner.hide();

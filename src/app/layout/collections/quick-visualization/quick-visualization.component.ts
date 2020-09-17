@@ -149,7 +149,8 @@ export class QuickVisualizationComponent implements OnInit {
                       this.model.seller_legal_entity.legal_reps.legal_rep_banks : null;
           } else {
             this.sellerBanks = this.model.seller.legal_rep_banks;
-            this.sellerRepBanks = this.model.seller.legal_representative.legal_rep_banks;
+            this.sellerRepBanks = this.model.seller.legal_representative && this.model.seller.legal_representative.legal_rep_banks ?
+                    this.model.seller.legal_representative.legal_rep_banks : null;
           }
           if (this.model.buyer_type === 1) {
             this.buyerBanks = this.model.collection_buyer_banks;
