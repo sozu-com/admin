@@ -30,6 +30,7 @@ export class MonthlyComponent implements OnInit {
   model: Array<any>;
   finalData: Array<any>;
   buyers: Array<any>;
+  buyersAsDev: Array<any>;
   legalReps: Array<any>;
   selectedBuilding: any;
   previousMonth: any;
@@ -73,6 +74,7 @@ export class MonthlyComponent implements OnInit {
     this.parameter.page = this.constant.p;
     this.getDevelopers();
     this.getBuyers();
+    this.getBuyersAsDev();
     this.getLegalRep();
     this.getCurrencies();
     this.initCalendarLocale();
@@ -298,13 +300,6 @@ export class MonthlyComponent implements OnInit {
       );
   }
 
-  // onSelectBuyer(isSelected: number, obj: any) {
-  //   this.selectedBuyers = [];
-  //   if (isSelected) {
-  //     this.getBuyers();
-  //   }
-  // }
-
   getBuyers() {
     this.admin.postDataApi('getAllBuyersForCollections', { user_type : 1 })
       .subscribe(
@@ -321,6 +316,13 @@ export class MonthlyComponent implements OnInit {
         });
   }
 
+  getBuyersAsDev() {
+    this.admin.postDataApi('getAllBuyersForCollections', { user_type : 3 })
+      .subscribe(
+        success => {
+          this.buyersAsDev = success.data;
+        });
+  }
   getListing() {
     this.spinner.show();
 

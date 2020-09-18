@@ -182,4 +182,5 @@ export interface IProperty {
   collection_id?: string;
   user_type?: number;
   collection_status?: any;
+  property_name?: string;
 }

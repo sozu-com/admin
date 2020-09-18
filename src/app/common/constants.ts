@@ -15,6 +15,7 @@ export class Constant {
     public minValue = 0;
     public maxValue = 1000000; // 1000000000;
     public fileSizeLimit = 60000000; // 60MB
+    public pdfSizeLimit = 100000000; // 100MB
     public steps = 1000;
     public zoom = 16;
     public middleDot = ' · ';

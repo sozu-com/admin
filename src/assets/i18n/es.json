@@ -843,6 +843,7 @@
       "noApprovedCollectionFound": "No se encontró una colección aprobada.",
       "noUnApprovedCollectionFound": "No se encontró una colección no aprobada",
       "fileSizeExceeds": "El archivo que ha seleccionado es demasiado grande. El tamaño máximo es 50 MB.",
+      "pdfSizeExceeds": "El archivo que ha seleccionado es demasiado grande. El tamaño máximo es 100 MB.",
       "noDocumentUploadedYet": "Todavía no se ha cargado ningún documento.",
       "nnFolderCreated": "Aún no se ha creado ninguna carpeta.",
       "pleaseSelectLocationFromTheDropdownList": "Selecciona la ubicación de la lista desplegable.",
@@ -1742,7 +1743,10 @@
     "view":"Ver",
     "edit":"Editar",
     "delete":"Eliminar",
-    "sumOfPaymentConcept": "Suma de conceptos de pago"
+    "sumOfPaymentConcept": "Suma de conceptos de pago",
+    "whoWillReceivePaymentDirectly": "¿Quién recibirá el pago directamente?",
+    "Sozu": "Sozu",
+    "Seller": "Vendedor"
   },
   "swal": {
     "error": "Error",

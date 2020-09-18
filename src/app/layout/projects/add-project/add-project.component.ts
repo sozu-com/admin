@@ -1918,10 +1918,10 @@ export class AddProjectComponent implements OnInit {
     this.model.agency_id = item.id;
     this.closeAgencyListModel.nativeElement.click();
   }
-  
+
   changeListner(event: any, paramLoader: string, param: any) {
-    if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
+    if (event.target.files[0].size > this.constant.pdfSizeLimit) {
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pdfSizeExceeds'), 'error');
       return false;
     }
     this.model[paramLoader] = true;

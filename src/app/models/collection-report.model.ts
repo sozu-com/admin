@@ -10,4 +10,8 @@ export class CollectionReport {
     buyer_id: number;
     month?: number;
     year?: number;
+    property_name?: string;
+    name?: string;
+    seller_name?: string;
+    buyer_name?: string;
 }

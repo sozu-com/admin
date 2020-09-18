@@ -126,7 +126,7 @@
                             <tr *ngFor="let item of finalData; let i=index" [ngClass]="{'text-bold' : item.key==1}">
                             <td><b>{{item?.firstCol}}</b></td>
                             <td *ngFor="let m of allMonths" >
-                                  <span>{{ item[m] ? ((item[m] || 0) | currency) : '' }}</span>
+                                  <span>{{item[m] ? ((item[m] || 0) | currency) : '' }}</span>
                               </td>
                               <td><span>{{(item?.t || 0) | currency}}</span></td>
                             </tr>

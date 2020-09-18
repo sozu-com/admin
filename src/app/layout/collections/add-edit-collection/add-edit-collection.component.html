@@ -1709,20 +1709,53 @@
       
       
       <div class="spacer15"></div>
-      <h5 class="p16-two">{{'addCollection.collectionCommission' | translate}}
-      </h5>
+      <h5 class="p16-two">{{'addCollection.collectionCommission' | translate}}</h5>
 
+      <div class="spacer15"></div>
       <div class="row">
         
         <div class="col-lg-6 col-md-12 col-sm-6 col-12">
           <label class="p16-two">
-            <input class="form-control" class="is_commission_sale_enabled" type="checkbox" name="is_commission_sale_enabled" formControlName="is_commission_sale_enabled"
+            <input class="form-control" class="is_commission_sale_enabled" type="checkbox" 
+            name="is_commission_sale_enabled" formControlName="is_commission_sale_enabled"
     >
             <span style="margin-left: 10px;    vertical-align: super;">{{'addCollection.salecommissionCheck' | translate}}</span>
           </label>
         </div>
       </div>
+      <div class="spacer15"></div>
       
+
+      <div class="form-group-3 row">
+          <h5 class="col-sm-3 p16-two">{{'addCollection.whoWillReceivePaymentDirectly' | translate}}</h5>
+          <div class="col-sm-9">
+              <div class="clearfix"></div>
+              <label class="cust-radio">
+                <input class="form-control" type="radio" formControlName="payment_received_by" 
+                value="1" 
+                name="payment_received_by">
+                <span class="checkmark">{{'addCollection.Sozu' | translate}}</span>
+              </label>
+              <label class="cust-radio">
+                <input class="form-control" type="radio" formControlName="payment_received_by" 
+                value="0" 
+                name="payment_received_by">
+                <span class="checkmark">{{'addCollection.Seller' | translate}}</span>
+              </label>
+              <!-- <label class="p16-two">
+                <input class="form-control" type="radio" formControlName="payment_received_by" 
+                value="1" >
+                <span>{{'addCollection.Sozu' | translate}}</span>
+              </label>
+              <label class="p16-two">
+                <input class="form-control" type="radio" formControlName="payment_received_by" 
+                value="0" >
+                <span>{{'addCollection.Seller' | translate}}</span>
+              </label> -->
+              <div class="clearfix"></div>
+          </div>
+      </div>
+
       <div formArrayName="collection_commissions">
         
       <table class="table table-bordered table-striped">
