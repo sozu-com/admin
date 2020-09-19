@@ -59,13 +59,13 @@
                   <td></td>
                   <table [style.width]="'100%'">
                     <tbody>
-                      <tr><th>Bank Account</th></tr>
+                      <tr><th>{{'quickVisualization.bankName' | translate}}</th></tr>
                       <tr><td>{{buyer_bank?.bank_name || 'NA'}}</td></tr>
-                      <tr><th>Account Number</th></tr>
+                      <tr><th>{{'quickVisualization.accountNumber' | translate}}</th></tr>
                       <tr><td>{{buyer_bank?.account_number || 'NA'}}</td></tr>
-                      <tr><th>Clabe/SWIFT</th></tr>
+                      <tr><th>{{'quickVisualization.clabeSwift' | translate}}</th></tr>
                       <tr><td>{{buyer_bank?.swift || 'NA'}}</td></tr>
-                      <tr><th>Currency</th></tr>
+                      <tr><th>{{'quickVisualization.currency' | translate}}</th></tr>
                       <tr><td>{{buyer_bank?.currency?.code || 'NA'}}</td></tr>
                     </tbody>
                     </table>
@@ -103,13 +103,13 @@
                     <td></td>
                     <table [style.width]="'100%'">
                       <tbody>
-                        <tr><th>Bank Account</th></tr>
+                        <tr><th>{{'quickVisualization.bankName' | translate}}</th></tr>
                         <tr><td>{{seller_bank?.bank_name || 'NA'}}</td></tr>
-                        <tr><th>Account Number</th></tr>
+                        <tr><th>{{'quickVisualization.accountNumber' | translate}}</th></tr>
                         <tr><td>{{seller_bank?.account_number || 'NA'}}</td></tr>
-                        <tr><th>Clabe/SWIFT</th></tr>
+                        <tr><th>{{'quickVisualization.clabeSwift' | translate}}</th></tr>
                         <tr><td>{{seller_bank?.swift || 'NA'}}</td></tr>
-                        <tr><th>Currency</th></tr>
+                        <tr><th>{{'quickVisualization.currency' | translate}}</th></tr>
                         <tr><td>{{seller_bank?.currency?.code || 'NA'}}</td></tr>
                       </tbody>
                       </table>
@@ -174,13 +174,13 @@
                     <td></td>
                     <table [style.width]="'100%'">
                       <tbody>
-                        <tr><th>Bank Account</th></tr>
+                        <tr><th>{{'quickVisualization.bankName' | translate}}</th></tr>
                         <tr><td>{{buyer_rep_banks?.bank_name || 'NA'}}</td></tr>
-                        <tr><th>Account Number</th></tr>
+                        <tr><th>{{'quickVisualization.accountNumber' | translate}}</th></tr>
                         <tr><td>{{buyer_rep_banks?.account_number || 'NA'}}</td></tr>
-                        <tr><th>Clabe/SWIFT</th></tr>
+                        <tr><th>{{'quickVisualization.clabeSwift' | translate}}</th></tr>
                         <tr><td>{{buyer_rep_banks?.swift || 'NA'}}</td></tr>
-                        <tr><th>Currency</th></tr>
+                        <tr><th>{{'quickVisualization.currency' | translate}}</th></tr>
                         <tr><td>{{buyer_rep_banks?.currency?.code || 'NA'}}</td></tr>
                       </tbody>
                       </table>
@@ -221,13 +221,13 @@
                      <td></td>
                      <table [style.width]="'100%'">
                        <tbody>
-                         <tr><th>Bank Account</th></tr>
+                         <tr><th>{{'quickVisualization.bankName' | translate}}</th></tr>
                          <tr><td>{{seller_rep_banks?.bank_name || 'NA'}}</td></tr>
-                         <tr><th>Account Number</th></tr>
+                         <tr><th>{{'quickVisualization.accountNumber' | translate}}</th></tr>
                          <tr><td>{{seller_rep_banks?.account_number || 'NA'}}</td></tr>
-                         <tr><th>Clabe/SWIFT</th></tr>
+                         <tr><th>{{'quickVisualization.clabeSwift' | translate}}</th></tr>
                          <tr><td>{{seller_rep_banks?.swift || 'NA'}}</td></tr>
-                         <tr><th>Currency</th></tr>
+                         <tr><th>{{'quickVisualization.currency' | translate}}</th></tr>
                          <tr><td>{{seller_rep_banks?.currency?.code || 'NA'}}</td></tr>
                        </tbody>
                        </table>
@@ -474,6 +474,7 @@
                       <th [style.width]="'300px'" [style.color]="'#fff'">{{'quickVisualization.paymentDate' | translate}}</th>
                       <th [style.width]="'300px'" [style.color]="'#fff'">{{'quickVisualization.paidByUser' | translate}}</th>
                       <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.paymentMethods' | translate}}</th>
+                      <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.bankDetails' | translate}}</th>
                       <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.paymentAttachment' | translate}}</th>
                       <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.paymentDescription' | translate}}</th>
                       <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.action' | translate}}</th>
@@ -492,6 +493,11 @@
                         </td>
                         <td>
                           <span> {{stats?.payment_method?.name || 'NA'}}</span> 
+                        </td>
+                        <td>
+                          <a class="green-color cursor-pointer fontW500" *ngIf="stats?.payment_bank" (click)="showBank(stats?.payment_bank)">
+                            {{'quickVisualization.view' | translate}}
+                          </a>
                         </td>
                         <td>
                           <a class="green-color fontW500" *ngIf="stats?.key!='total'" target="_blank" href="{{stats?.receipt}}">
@@ -520,6 +526,35 @@
       </div>
 </div>
 
+
+
+<a href="javascript://" data-toggle="modal" data-target="#des-modal" #viewBankDetailsModal></a>
+<div class="modal animated" id="des-modal">
+      <div class="modal-dialog fadeIndown">
+            <div class="modal-content notary-avail">
+                  <div class="modal-header popup-header">
+                        <h4>{{'quickVisualization.bankDetails' | translate}}</h4>
+                        <button style="display: none;" type="button" class="close" data-dismiss="modal" #closeBankDetailsModal>&times;</button>
+                        <button type="button" class="close" (click)="closeBankModal()">&times;</button>
+                  </div>
+
+                  <div class="modal-body">
+                    <table [style.width]="'100%'">
+                      <tbody>
+                        <tr><th>{{'quickVisualization.bankName' | translate}}</th></tr>
+                        <tr><td>{{paymentBank?.bank_name || 'NA'}}</td></tr>
+                        <tr><th>{{'quickVisualization.accountNumber' | translate}}</th></tr>
+                        <tr><td>{{paymentBank?.account_number || 'NA'}}</td></tr>
+                        <tr><th>{{'quickVisualization.clabeSwift' | translate}}</th></tr>
+                        <tr><td>{{paymentBank?.swift || 'NA'}}</td></tr>
+                        <tr><th>{{'quickVisualization.currency' | translate}}</th></tr>
+                        <tr><td>{{paymentBank?.currency?.code || 'NA'}}</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+            </div>
+      </div>
+</div>
 
 
 <a href="javascript://" data-toggle="modal" data-target="#des-modal" #viewDesModal></a>
@@ -680,6 +715,18 @@
                         <select name="payment_method" #applyPaymentMethodId required class="form-control" [(ngModel)]="payment_method_id">
                               <option value="">{{'viewCollections.choosePaymentMethod' | translate}}</option>
                               <option *ngFor="let bt of paymentMethods" [value]="bt.id"> {{bt?.name}}</option>
+                        </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-6">
+                <div class="form-group-2">
+                    <label>{{'viewCollections.chooseBank' | translate}} <span class="color-red">*</span></label>
+                    <div class="form-group">
+                        <select name="payment_bank" class="form-control" [(ngModel)]="payment_bank">
+                              <option value="">{{'viewCollections.chooseBank' | translate}}</option>
+                              <option *ngFor="let bt of paymentBanks" [ngValue]="bt"> {{bt?.name}}</option>
                         </select>
                   </div>
                 </div>

@@ -86,6 +86,8 @@ export class CollectionsComponent implements OnInit {
   docs: Array<any>;
   docsName: string;
   folderIndex: number;
+  paymentBanks: Array<any>;
+  payment_bank: any;
 
   @ViewChild('viewDesModal') viewDesModal: ElementRef;
   @ViewChild('viewDesModalClose') viewDesModalClose: ElementRef;
@@ -551,7 +553,7 @@ export class CollectionsComponent implements OnInit {
     this.paymentConcepts = [...item.payment_choices];
     // this.last_payment_id = item.last_payment ? item.last_payment.collection_payment_id : '';
     this.last_payment_id = item.last_payment ? item.last_payment.parent_id : '';
-    this.getCollectionDetails()
+    this.getCollectionDetails();
     this.editPaymentModalOpen.nativeElement.click();
   }
 
@@ -584,7 +586,7 @@ export class CollectionsComponent implements OnInit {
       return false;
     }
 
-    var offset = new Date(this.payment_date).getTimezoneOffset();
+    const offset = new Date(this.payment_date).getTimezoneOffset();
     if (offset < 0) {
       this.payment_date = moment(this.payment_date).subtract(offset, 'minutes').toDate();
     } else {
@@ -598,7 +600,7 @@ export class CollectionsComponent implements OnInit {
       receipt: this.docFile,
       description: this.description,
       payment_date: this.payment_date
-    }
+    };
 
     this.admin.postDataApi('updateCollectionPayment', input).subscribe(r => {
       this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
@@ -784,6 +786,84 @@ export class CollectionsComponent implements OnInit {
     this.disablePayToRemaining = true;
     if (check) {
       this.disablePayToRemaining = false;
+    }
+
+    // payment banks
+    this.paymentBanks = [];
+    if (item.payment_received_by) {
+      // payment directly received by agency
+      if (item.property.building && item.property.building.agency_id) {
+          // agency banks
+          for (let index = 0; index < item.property.building.agency.agency_banks.length; index++) {
+            const element = item.property.building.agency.agency_banks[index];
+            element.name = 'Agency Bank | ' + element.bank_name;
+            element.is_agency = 1;
+            element.bank_id = element.id;
+            element.legal_rep_bank_id = null;
+            this.paymentBanks.push(element);
+          }
+
+          // agency legal representative banks
+          if (item.property.building.agency.legal_representative) {
+            for (let index = 0; index < item.property.building.agency.legal_representative.legal_rep_banks.length; index++) {
+              const element = item.property.building.agency.legal_representative.legal_rep_banks[index];
+              element.name = 'Agency Legal Rep Bank | ' + element.bank_name;
+              element.is_agency = 1;
+              element.bank_id = null;
+              element.legal_rep_bank_id = element.id;
+              this.paymentBanks.push(element);
+            }
+          }
+      }
+    } else {
+      // payment directly received by seller
+      if (item.seller_type != 2) {
+        // seller (as a person or developer) banks
+        for (let index = 0; index < item.seller.legal_rep_banks.length; index++) {
+          const element = item.seller.legal_rep_banks[index];
+          element.name = 'Seller Bank | ' + element.bank_name;
+          element.is_agency = 2;
+          element.bank_id = element.id;
+          element.legal_rep_bank_id = null;
+          this.paymentBanks.push(element);
+        }
+
+        // agency legal representative banks
+        if (item.seller.legal_representative) {
+          for (let index = 0; index < item.seller.legal_representative.legal_rep_banks.length; index++) {
+            const element = item.seller.legal_representative.legal_rep_banks[index];
+            element.name = 'Seller Legal Rep Bank | ' + element.bank_name;
+            element.is_agency = 2;
+            element.bank_id = null;
+            element.legal_rep_bank_id = element.id;
+            this.paymentBanks.push(element);
+          }
+        }
+      } else {
+        // seller (as a legal entity) banks
+        if (item.seller_legal_entity && item.seller_legal_entity.legal_entity_banks) {
+          for (let index = 0; index < item.seller_legal_entity.legal_entity_banks.length; index++) {
+            const element = item.seller_legal_entity.legal_entity_banks[index];
+            element.name = 'Seller Bank | ' + element.bank_name;
+            element.is_agency = 2;
+            element.bank_id = element.id;
+            element.legal_rep_bank_id = null;
+            this.paymentBanks.push(element);
+          }
+
+          // agency legal representative banks
+          if (item.seller_legal_entity.legal_reps && item.seller_legal_entity.legal_reps.legal_rep_banks) {
+            for (let index = 0; index < item.seller_legal_entity.legal_reps.legal_rep_banks.length; index++) {
+              const element = item.seller_legal_entity.legal_reps.legal_rep_banks[index];
+              element.name = 'Seller Legal Rep Bank | ' + element.bank_name;
+              element.is_agency = 2;
+              element.bank_id = null;
+              element.legal_rep_bank_id = element.id;
+              this.paymentBanks.push(element);
+            }
+          }
+        }
+      }
     }
     this.paymentModalOpen.nativeElement.click();
   }
@@ -983,6 +1063,9 @@ export class CollectionsComponent implements OnInit {
     const input = {
       property_collection_id: this.property_collection_id,
       payment_method_id: this.payment_method_id,
+      is_agency: this.payment_bank ? this.payment_bank.is_agency : null,
+      bank_id: this.payment_bank ? this.payment_bank.bank_id : null,
+      legal_rep_bank_id: this.payment_bank ? this.payment_bank.legal_rep_bank_id : null,
       amount : amt,
       receipt: this.docFile,
       description: this.description,
@@ -1003,7 +1086,7 @@ export class CollectionsComponent implements OnInit {
       // }
       // for type==2&3, no need to pass collection_payment_choice_id
       if (this.payment_type == 1 || this.payment_type == 4) {
-        input['collection_payment_choice_id'] = this.payment_choice_id['id']
+        input['collection_payment_choice_id'] = this.payment_choice_id['id'];
       }
       input['type'] = this.payment_type;
     }
@@ -1168,7 +1251,7 @@ export class CollectionsComponent implements OnInit {
       collection_commission_id: this.collection_commission_id,
       commission_type: this.commission_type,
       amount: this.amount
-    }
+    };
 
     this.admin.postDataApi('applyCommissionPayment', input).subscribe(r => {
       this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);

@@ -239,7 +239,8 @@
                               <table [style.width]="'100%'">
                                     <thead></thead>
                                     <tbody>
-                                          <tr *ngFor="let item of final.data">
+                                          <tr *ngFor="let item of final.data"
+                                          [style.background]="item.is_cancelled ? '#80808057' : ''">
                                              <td><span>
                                                    <a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{i}}">
                                                        {{(item?.model || ('table.tr.td.NA' | translate)) | uppercase}}

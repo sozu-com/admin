@@ -24,6 +24,8 @@ export class QuickVisualizationComponent implements OnInit {
 
   @ViewChild('viewDesModal') viewDesModal: ElementRef;
   @ViewChild('viewDesModalClose') viewDesModalClose: ElementRef;
+  @ViewChild('viewBankDetailsModal') viewBankDetailsModal: ElementRef;
+  @ViewChild('closeBankDetailsModal') closeBankDetailsModal: ElementRef;
   @ViewChild('updatePaymentModalOpen') updatePaymentModalOpen: ElementRef;
   @ViewChild('updatePaymentModalClose') updatePaymentModalClose: ElementRef;
   @ViewChild('paymentModalOpen') paymentModalOpen: ElementRef;
@@ -74,6 +76,9 @@ export class QuickVisualizationComponent implements OnInit {
   buyerBanks: Array<any>;
   sellerRepBanks: Array<any>;
   buyerRepBanks: Array<any>;
+  paymentBanks: Array<any>;
+  payment_bank: any;
+  paymentBank: any;
 
   @ViewChild('stickyMenu') menuElement: ElementRef;
 
@@ -184,6 +189,37 @@ export class QuickVisualizationComponent implements OnInit {
             if (m.collection_paymentss && m.collection_paymentss.length > 0) {
               for (let i = 0; i < m.collection_paymentss.length; i++) {
                 const paymnts = m.collection_paymentss[i];
+                paymnts.payment_bank = null;
+                // payment bank
+                if (paymnts.is_agency == 1) {
+                  // payment directly received by agency
+                  if (paymnts.bank_id) {
+                    // agency bank
+                    paymnts['payment_bank'] = paymnts.agency_banks;
+                  } else if (paymnts.legal_rep_bank_id) {
+                    // agency legal rep bank
+                    paymnts['payment_bank'] = paymnts.legal_rep_bank;
+                  }
+                } else {
+                  // payment directly received by seller
+                  if (this.model.seller_type != 2) {  // seller as person or developer
+                    if (paymnts.bank_id) {
+                      // seller bank
+                      paymnts['payment_bank'] = paymnts.legal_representative_banks;
+                    } else if (paymnts.legal_rep_bank_id) {
+                      // seller legal rep bank
+                      paymnts['payment_bank'] = paymnts.legal_rep_bank;
+                    }
+                  } else {  // seller as legal entity
+                    if (paymnts.bank_id) {
+                      // seller bank
+                      paymnts['payment_bank'] = paymnts.legal_entitiy_bank;
+                    } else if (paymnts.legal_rep_bank_id) {
+                      // seller legal rep bank
+                      paymnts['payment_bank'] = paymnts.legal_rep_bank;
+                    }
+                  }
+                }
                 c = {
                   key: 'remaining_amt',
                   name: '',
@@ -208,7 +244,8 @@ export class QuickVisualizationComponent implements OnInit {
                     payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
                     receipt: paymnts.receipt,
                     description: paymnts.description,
-                    payment_method: paymnts.payment_method
+                    payment_method: paymnts.payment_method,
+                    payment_bank: paymnts.payment_bank
                   }];
                   reducingP.push(c);
                 } else if (paymnts.payment_type == 3 && paymnts.display_choice_id) {
@@ -222,7 +259,8 @@ export class QuickVisualizationComponent implements OnInit {
                     payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
                     receipt: paymnts.receipt,
                     description: paymnts.description,
-                    payment_method: paymnts.payment_method
+                    payment_method: paymnts.payment_method,
+                    payment_bank: paymnts.payment_bank
                   }];
                   reducingP.push(c);
                 } else if (paymnts.payment_type == 5 && paymnts.display_choice_id) {
@@ -236,7 +274,8 @@ export class QuickVisualizationComponent implements OnInit {
                     payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
                     receipt: paymnts.receipt,
                     description: paymnts.description,
-                    payment_method: paymnts.payment_method
+                    payment_method: paymnts.payment_method,
+                    payment_bank: paymnts.payment_bank
                   }];
                   reducingP.push(c);
                 }
@@ -296,7 +335,8 @@ export class QuickVisualizationComponent implements OnInit {
                           payment_date:  this.getDateWRTTimezone(ele.payment_date, 'YYYY-MM-DD'),
                           receipt: ele.receipt,
                           description: ele.description,
-                          payment_method: ele.payment_method
+                          payment_method: ele.payment_method,
+                          payment_bank: ele.payment_bank
                         };
                         this.allPaymentConcepts[j].paid_amount = parseFloat(this.allPaymentConcepts[j].paid_amount) - parseFloat(v);
                       }
@@ -417,6 +457,15 @@ export class QuickVisualizationComponent implements OnInit {
     this.viewDesModalClose.nativeElement.click();
   }
 
+  showBank(payment_bank: any) {
+    this.paymentBank = payment_bank;
+    this.viewBankDetailsModal.nativeElement.click();
+  }
+
+  closeBankModal() {
+    this.closeBankDetailsModal.nativeElement.click();
+  }
+
   getDateWRTTimezone(date: any, format: any) {
     const offset = new Date(date).getTimezoneOffset();
     if (offset < 0) {
@@ -516,6 +565,83 @@ export class QuickVisualizationComponent implements OnInit {
     this.disablePayToRemaining = true;
     if (check) {
       this.disablePayToRemaining = false;
+    }
+    // payment banks
+    this.paymentBanks = [];
+    if (this.model.payment_received_by) {
+      // payment directly received by agency
+      if (this.model.property.building && this.model.property.building.agency_id) {
+          // agency banks
+          for (let index = 0; index < this.model.property.building.agency.agency_banks.length; index++) {
+            const element = this.model.property.building.agency.agency_banks[index];
+            element.name = 'Agency Bank | ' + element.bank_name;
+            element.is_agency = 1;
+            element.bank_id = element.id;
+            element.legal_rep_bank_id = null;
+            this.paymentBanks.push(element);
+          }
+
+          // agency legal representative banks
+          if (this.model.property.building.agency.legal_representative) {
+            for (let index = 0; index < this.model.property.building.agency.legal_representative.legal_rep_banks.length; index++) {
+              const element = this.model.property.building.agency.legal_representative.legal_rep_banks[index];
+              element.name = 'Agency Legal Rep Bank | ' + element.bank_name;
+              element.is_agency = 1;
+              element.bank_id = null;
+              element.legal_rep_bank_id = element.id;
+              this.paymentBanks.push(element);
+            }
+          }
+      }
+    } else {
+      // payment directly received by seller
+      if (this.model.seller_type != 2) {
+        // seller (as a person or developer) banks
+        for (let index = 0; index < this.model.seller.legal_rep_banks.length; index++) {
+          const element = this.model.seller.legal_rep_banks[index];
+          element.name = 'Seller Bank | ' + element.bank_name;
+          element.is_agency = 2;
+          element.bank_id = element.id;
+          element.legal_rep_bank_id = null;
+          this.paymentBanks.push(element);
+        }
+
+        // agency legal representative banks
+        if (this.model.seller.legal_representative) {
+          for (let index = 0; index < this.model.seller.legal_representative.legal_rep_banks.length; index++) {
+            const element = this.model.seller.legal_representative.legal_rep_banks[index];
+            element.name = 'Seller Legal Rep Bank | ' + element.bank_name;
+            element.is_agency = 2;
+            element.bank_id = null;
+            element.legal_rep_bank_id = element.id;
+            this.paymentBanks.push(element);
+          }
+        }
+      } else {
+        // seller (as a legal entity) banks
+        if (this.model.seller_legal_entity && this.model.seller_legal_entity.legal_entity_banks) {
+          for (let index = 0; index < this.model.seller_legal_entity.legal_entity_banks.length; index++) {
+            const element = this.model.seller_legal_entity.legal_entity_banks[index];
+            element.name = 'Seller Bank | ' + element.bank_name;
+            element.is_agency = 2;
+            element.bank_id = element.id;
+            element.legal_rep_bank_id = null;
+            this.paymentBanks.push(element);
+          }
+
+          // agency legal representative banks
+          if (this.model.seller_legal_entity.legal_reps && this.model.seller_legal_entity.legal_reps.legal_rep_banks) {
+            for (let index = 0; index < this.model.seller_legal_entity.legal_reps.legal_rep_banks.length; index++) {
+              const element = this.model.seller_legal_entity.legal_reps.legal_rep_banks[index];
+              element.name = 'Seller Legal Rep Bank | ' + element.bank_name;
+              element.is_agency = 2;
+              element.bank_id = null;
+              element.legal_rep_bank_id = element.id;
+              this.paymentBanks.push(element);
+            }
+          }
+        }
+      }
     }
     this.paymentModalOpen.nativeElement.click();
   }
@@ -620,13 +746,13 @@ export class QuickVisualizationComponent implements OnInit {
         }
         // using a1 and not this.paymentAmount because, need to check for both direct type 3 and type 3 in surplus popup
 
-        console.log(a1,a);
+        console.log(a1, a);
         if (a1 > a) {
           continue;
         } else if (a1 == a) {
           break;
         } else if (this.paymentAmount < a) {
-          console.log(a1,a);
+          console.log(a1, a);
           this.toastr.clear();
           this.toastr.error(this.translate.instant('message.error.payToRemainingReduceTimecheck'), this.translate.instant('swal.error'));
           this.surplus_payment_type == '3'
@@ -662,12 +788,15 @@ export class QuickVisualizationComponent implements OnInit {
     const input = {
       property_collection_id: this.property_collection_id,
       payment_method_id: this.payment_method_id,
+      is_agency: this.payment_bank ? this.payment_bank.is_agency : null,
+      bank_id: this.payment_bank ? this.payment_bank.bank_id : null,
+      legal_rep_bank_id: this.payment_bank ? this.payment_bank.legal_rep_bank_id : null,
       amount : amt,
       receipt: this.docFile,
       description: this.description,
       payment_date: this.paymentDate,
       full_amount: this.paymentAmount // sending real amount entered by user
-    }
+    };
 
     if (this.payment_type == 1 || this.payment_type == 4) {
       input['collection_payment_choice_id'] = this.payment_choice_id['id'];
@@ -724,7 +853,7 @@ export class QuickVisualizationComponent implements OnInit {
       }
     }
     this.docsFile1.nativeElement.value = '';
-    if (this.payment_type && this.payment_type != '2' && this.payment_type !='3' && this.payment_type !='5') {
+    if (this.payment_type && this.payment_type != '2' && this.payment_type != '3' && this.payment_type != '5') {
       this.applyPaymentChoiceId.nativeElement.value = '';
     }
     this.closeCollReceiptModal();

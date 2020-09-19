@@ -685,6 +685,17 @@
                   </div>
                 </div>
               </div>
+              <div class="col-6">
+                <div class="form-group-2">
+                    <label>{{'viewCollections.chooseBank' | translate}} <span class="color-red">*</span></label>
+                    <div class="form-group">
+                        <select name="payment_bank" class="form-control" [(ngModel)]="payment_bank">
+                              <option value="">{{'viewCollections.chooseBank' | translate}}</option>
+                              <option *ngFor="let bt of paymentBanks" [ngValue]="bt"> {{bt?.name}}</option>
+                        </select>
+                  </div>
+                </div>
+              </div>
               <ng-container  *ngIf="payment_type!=2 && payment_type !=3 && payment_type != 5">
               <div class="col-6" *ngIf="typeOfPayment=='apply-popup' && selectedPaymentConcept">
                 <div class="form-group-2">
