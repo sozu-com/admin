@@ -145,14 +145,13 @@ export class ModelComponent implements OnInit {
   }
 
   onSelectDeveloper(isSelected: number, obj: any) {
+    this.projects = [];
+    this.selctedProjects = [];
+    this.selectedTowers = [];
+    this.selectedFloors = [];
+    this.selectedProperties = [];
     if (isSelected) {
       this.searchBuilding(obj.id);
-    } else {
-      this.projects = [];
-      this.selctedProjects = [];
-      this.selectedTowers = [];
-      this.selectedFloors = [];
-      this.selectedProperties = [];
     }
   }
 
@@ -163,8 +162,7 @@ export class ModelComponent implements OnInit {
           this.developers = success.data;
         }, error => {
           this.spinner.hide();
-        }
-      );
+        });
   }
 
   onSelectProject(isSelected: number, obj: any) {
@@ -310,14 +308,18 @@ export class ModelComponent implements OnInit {
         this.finalData = [];
         for (const property in this.data) {
           if (property) {
+            console.log(this.data[property]);
             const deal_price = this.data[property].reduce((a, b) => a + (b['deal_price'] || 0), 0);
             const penalty = this.data[property].reduce((a, b) => a + (b['penalty'] || 0), 0);
             const received = this.data[property].reduce((a, b) => a + (b['received'] || 0), 0);
-            const remaining = deal_price + penalty - received;
+            const c_deal_price = this.data[property].reduce((a, b) => a + (b['is_cancelled'] === 1 ? (b['deal_price'] || 0) : 0), 0);
+            const c_penalty = this.data[property].reduce((a, b) => a + (b['is_cancelled'] === 1 ? (b['penalty'] || 0) : 0), 0);
+            const c_received = this.data[property].reduce((a, b) => a + (b['is_cancelled'] === 1 ? (b['received'] || 0) : 0), 0);
+            const remaining =  (deal_price + penalty - received) - (c_deal_price + c_penalty - c_received);
             this.finalData.push({
               model: property,
               name: 'TOTAL - ' + property,
-              deal_price: deal_price,
+              deal_price: deal_price - c_deal_price,
               received: received,
               remaining: remaining,
               penalty: penalty,

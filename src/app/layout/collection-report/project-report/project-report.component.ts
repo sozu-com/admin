@@ -95,7 +95,7 @@ export class ProjectReportComponent implements OnInit {
   }
 
   onItemSelect(param: any, obj: any) {
-    this[param].push(obj);
+    this[param] = [obj];
   }
 
   onSelectAll(obj: any) {
@@ -116,8 +116,12 @@ export class ProjectReportComponent implements OnInit {
   }
 
   getReportData () {
+    const v = this.selctedProjects.length > 0 ? this.selctedProjects[0].id : '';
+    if (!v) {
+      return false;
+    }
     this.spinner.show();
-    this.admin.postDataApi('projectReport', {building_id: 295}).subscribe(r => {
+    this.admin.postDataApi('projectReport', {building_id: v}).subscribe(r => {
       this.spinner.hide();
       this.reportData = r['data'];
       this.agentData = r['agent_data'];

@@ -252,7 +252,8 @@
                                           <td><span>{{item?.seller_name || ('table.tr.td.NA' | translate)}}</span></td>
                                           <td><span>{{(item?.deal_price || 0 | currency)}}</span></td>
                                               <td><span>{{(item?.received || 0) | currency}}</span></td>
-                                              <td><span>{{((item?.deal_price || 0) + (item?.penalty || 0) - (item?.received || 0)) | currency}}</span></td>
+                                              <td *ngIf="item.is_cancelled!=1"><span>{{((item?.deal_price || 0) + (item?.penalty || 0) - (item?.received || 0)) | currency}}</span></td>
+                                              <td *ngIf="item.is_cancelled==1"><span>$0</span></td>
                                               <td><span>{{(item?.penalty || 0) | currency}}</span></td>
                                               <td><span>{{((item?.deal_price || 0) + (item?.penalty || 0)) | currency}}</span></td>
                                           </tr>

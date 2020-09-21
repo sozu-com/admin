@@ -27,6 +27,9 @@ export class CashFlowComponent implements OnInit {
   locale: any;
   today = new Date();
   reportData: any;
+  expectedData: Array<any>;
+  actualData: Array<any>;
+
   constructor(public admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService) {
@@ -148,6 +151,26 @@ export class CashFlowComponent implements OnInit {
     this.admin.postDataApi('graphs/cash-flow', input).subscribe(r => {
       this.spinner.hide();
       this.reportData = r['data'];
+
+      // for (let index = 0; index < this.reportData['expected'].length; index++) {
+      //   const element = this.reportData['expected'][index];
+      //   const temp = {
+      //     type: 'stackedBar',
+      //     name: 'Meals',
+      //     showInLegend: 'true',
+      //     xValueFormatString: 'DD, MMM',
+      //     yValueFormatString: '$#,##0',
+      //     dataPoints: [
+      //       { x: new Date(2017, 0, 30), y: 56 },
+      //       { x: new Date(2017, 0, 31), y: 45 },
+      //       { x: new Date(2017, 1, 1), y: 71 },
+      //       { x: new Date(2017, 1, 2), y: 41 },
+      //       { x: new Date(2017, 1, 3), y: 60 },
+      //       { x: new Date(2017, 1, 4), y: 75 },
+      //       { x: new Date(2017, 1, 5), y: 98 }
+      //     ]
+      //   };
+      // }
       this.plotData();
     }, error => {
       this.spinner.hide();
