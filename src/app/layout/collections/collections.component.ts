@@ -49,6 +49,7 @@ export class CollectionsComponent implements OnInit {
   payment_choice_id: any;
   surplus_payment_choice_id: any;
   payment_method_id: number;
+  bank_id: number;
   description: string;
   typeOfPayment: string;
   collectionIndex: number;
@@ -88,6 +89,7 @@ export class CollectionsComponent implements OnInit {
   folderIndex: number;
   paymentBanks: Array<any>;
   payment_bank: any;
+  seller_type: any;
 
   @ViewChild('viewDesModal') viewDesModal: ElementRef;
   @ViewChild('viewDesModalClose') viewDesModalClose: ElementRef;
@@ -458,7 +460,9 @@ export class CollectionsComponent implements OnInit {
   }
 
   cancelPopup(item: any, index: number, status: number) {
-    const t = status == 1 ? this.translate.instant('message.error.wantToCancelCollection') : this.translate.instant('message.error.wantToActiveCollection');
+    const t = status == 1 ?
+    this.translate.instant('message.error.wantToCancelCollection') :
+    this.translate.instant('message.error.wantToActiveCollection');
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' + t,
       type: 'warning',
@@ -474,8 +478,11 @@ export class CollectionsComponent implements OnInit {
   }
 
   cancelPropertyCollections(item: any, index: number, status: number) {
-    this.admin.postDataApi('cancelPropertyCollections', { property_collection_id: item.id, status: status }).subscribe(r => {
-      const t = status == 1 ? this.translate.instant('message.success.cancelledSuccessfully') : this.translate.instant('message.success.activedSuccessfully');
+    this.admin.postDataApi('cancelPropertyCollections',
+    { property_collection_id: item.id, status: status }).subscribe(r => {
+      const t = status == 1 ?
+      this.translate.instant('message.success.cancelledSuccessfully') :
+      this.translate.instant('message.success.activedSuccessfully');
       this.toastr.success(t, this.translate.instant('swal.success'));
         this.items[index].is_cancelled = status;
       },
@@ -553,14 +560,18 @@ export class CollectionsComponent implements OnInit {
     this.paymentConcepts = [...item.payment_choices];
     // this.last_payment_id = item.last_payment ? item.last_payment.collection_payment_id : '';
     this.last_payment_id = item.last_payment ? item.last_payment.parent_id : '';
+    this.seller_type = item.seller_type;
+    this.showPaymentBanks(item);
     this.getCollectionDetails();
     this.editPaymentModalOpen.nativeElement.click();
   }
 
   showUpdatePaymentPopup(item: any, i: number) {
+    console.log(item);
     this.payment_id = item.id;
     this.payment_type = item.payment_type;
     this.payment_method_id = item.payment_method.id;
+    this.payment_bank = item.payment_bank.id;
     this.description = item.description;
     this.docFile = item.receipt;
     this.payment_date = item.payment_date ? this.getDateWRTTimezone(item.payment_date, 'DD/MMM/YYYY') : '';
@@ -597,6 +608,9 @@ export class CollectionsComponent implements OnInit {
     const input = {
       payment_id: this.payment_id,
       payment_method_id: this.payment_method_id,
+      // is_agency: this.payment_bank ? this.payment_bank.is_agency : null,
+      // bank_id: this.payment_bank ? this.payment_bank.bank_id : null,
+      // legal_rep_bank_id: this.payment_bank ? this.payment_bank.legal_rep_bank_id : null,
       receipt: this.docFile,
       description: this.description,
       payment_date: this.payment_date
@@ -625,6 +639,37 @@ export class CollectionsComponent implements OnInit {
       if (m.collection_paymentss && m.collection_paymentss.length > 0) {
         for (let i = 0; i < m.collection_paymentss.length; i++) {
           const paymnts = m.collection_paymentss[i];
+          paymnts.payment_bank = null;
+          // payment bank
+          if (paymnts.is_agency == 1) {
+            // payment directly received by agency
+            if (paymnts.bank_id) {
+              // agency bank
+              paymnts['payment_bank'] = paymnts.agency_banks;
+            } else if (paymnts.legal_rep_bank_id) {
+              // agency legal rep bank
+              paymnts['payment_bank'] = paymnts.legal_rep_bank;
+            }
+          } else {
+            // payment directly received by seller
+            if (this.seller_type != 2) {  // seller as person or developer
+              if (paymnts.bank_id) {
+                // seller bank
+                paymnts['payment_bank'] = paymnts.legal_representative_banks;
+              } else if (paymnts.legal_rep_bank_id) {
+                // seller legal rep bank
+                paymnts['payment_bank'] = paymnts.legal_rep_bank;
+              }
+            } else {  // seller as legal entity
+              if (paymnts.bank_id) {
+                // seller bank
+                paymnts['payment_bank'] = paymnts.legal_entitiy_bank;
+              } else if (paymnts.legal_rep_bank_id) {
+                // seller legal rep bank
+                paymnts['payment_bank'] = paymnts.legal_rep_bank;
+              }
+            }
+          }
           c = {
             key: 'remaining_amt',
             name: '',
@@ -649,7 +694,8 @@ export class CollectionsComponent implements OnInit {
               payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
               receipt: paymnts.receipt,
               description: paymnts.description,
-              payment_method: paymnts.payment_method
+              payment_method: paymnts.payment_method,
+              payment_bank: paymnts.payment_bank
             }];
             reducingP.push(c);
           } else if (paymnts.payment_type == 3 && paymnts.display_choice_id) {
@@ -663,7 +709,8 @@ export class CollectionsComponent implements OnInit {
               payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
               receipt: paymnts.receipt,
               description: paymnts.description,
-              payment_method: paymnts.payment_method
+              payment_method: paymnts.payment_method,
+              payment_bank: paymnts.payment_bank
             }];
             reducingP.push(c);
           } else if (paymnts.payment_type == 5 && paymnts.display_choice_id) {
@@ -677,7 +724,8 @@ export class CollectionsComponent implements OnInit {
               payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
               receipt: paymnts.receipt,
               description: paymnts.description,
-              payment_method: paymnts.payment_method
+              payment_method: paymnts.payment_method,
+              payment_bank: paymnts.payment_bank
             }];
             reducingP.push(c);
           }
@@ -732,7 +780,8 @@ export class CollectionsComponent implements OnInit {
                     payment_date:  this.getDateWRTTimezone(ele.payment_date, 'YYYY-MM-DD'),
                     receipt: ele.receipt,
                     description: ele.description,
-                    payment_method: ele.payment_method
+                    payment_method: ele.payment_method,
+                    payment_bank: ele.payment_bank
                   };
                   this.paymentConcepts[j].paid_amount = parseFloat(this.paymentConcepts[j].paid_amount) - parseFloat(v);
                 }
@@ -787,7 +836,11 @@ export class CollectionsComponent implements OnInit {
     if (check) {
       this.disablePayToRemaining = false;
     }
+    this.showPaymentBanks(item);
+    this.paymentModalOpen.nativeElement.click();
+  }
 
+  showPaymentBanks(item: any) {
     // payment banks
     this.paymentBanks = [];
     if (item.payment_received_by) {
@@ -865,7 +918,6 @@ export class CollectionsComponent implements OnInit {
         }
       }
     }
-    this.paymentModalOpen.nativeElement.click();
   }
 
   setPaymentConceptAmount(id: any) {

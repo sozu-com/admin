@@ -62,6 +62,17 @@
                   <div class="clearfix"></div>      
             </div>
       </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="form-group marginB0">
+              <label>{{'collectionReport.sortBy' | translate}}</label>
+              <div class="clearfix"></div>
+              <select class="form-control" name="sort_sales_by" [(ngModel)]="input.sort_sales_by">
+                    <option value="1">{{'collectionReport.purchaseDate' | translate}}</option>
+                    <option value="2">{{'collectionReport.firstPayment' | translate}}</option>
+              </select>
+              <div class="clearfix"></div>      
+        </div>
+        </div>
       <div class="col-lg-1 col-md-2">
             <div class="form-group btn-cont">
             <label style="display: block; margin-top: 3px;">&nbsp;</label>

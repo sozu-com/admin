@@ -29,7 +29,8 @@ export class CashFlowComponent implements OnInit {
   reportData: any;
   expectedData: Array<any>;
   actualData: Array<any>;
-
+  paymentChoices: Array<any>;
+  finalData: Array<any>;
   constructor(public admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService) {
@@ -45,6 +46,7 @@ export class CashFlowComponent implements OnInit {
     this.searchBuilding();
     this.getCurrencies();
     this.initCalendarLocale();
+    this.getAllPaymentChoices();
     this.getReportData();
   }
 
@@ -81,6 +83,15 @@ export class CashFlowComponent implements OnInit {
     }
   }
 
+  getAllPaymentChoices() {
+    this.admin.postDataApi('getPaymentChoices', {})
+      .subscribe(
+        success => {
+          this.paymentChoices = success.data;
+        }, error => {
+          this.spinner.hide();
+        });
+  }
 
   iniDropDownSetting() {
     this.multiDropdownSettings = {
@@ -150,27 +161,28 @@ export class CashFlowComponent implements OnInit {
     this.spinner.show();
     this.admin.postDataApi('graphs/cash-flow', input).subscribe(r => {
       this.spinner.hide();
+      this.finalData = [];
       this.reportData = r['data'];
-
       // for (let index = 0; index < this.reportData['expected'].length; index++) {
       //   const element = this.reportData['expected'][index];
-      //   const temp = {
-      //     type: 'stackedBar',
-      //     name: 'Meals',
-      //     showInLegend: 'true',
-      //     xValueFormatString: 'DD, MMM',
-      //     yValueFormatString: '$#,##0',
-      //     dataPoints: [
-      //       { x: new Date(2017, 0, 30), y: 56 },
-      //       { x: new Date(2017, 0, 31), y: 45 },
-      //       { x: new Date(2017, 1, 1), y: 71 },
-      //       { x: new Date(2017, 1, 2), y: 41 },
-      //       { x: new Date(2017, 1, 3), y: 60 },
-      //       { x: new Date(2017, 1, 4), y: 75 },
-      //       { x: new Date(2017, 1, 5), y: 98 }
-      //     ]
-      //   };
+      //   const ff = []; let d = {};
+      //   for (let ind = 0; ind < this.paymentChoices.length; ind++) {
+      //     const ele = this.paymentChoices[ind];
+      //     if (element.y[ele.name_en]) {
+      //       // console.log(element.y[ele.name_en])
+      //       d = {y: element.y[ele.name_en][0].count, label: ele.name_en};
+      //     } else {
+      //       d = {y: 0, label: ele.name_en};
+      //     }
+      //     ff.push(d);
+      //   }
+      //   this.finalData.push({
+      //     type: 'stackedColumn',
+      //     dataPoints: ff
+      //   });
       // }
+      console
+      .log(this.finalData)
       this.plotData();
     }, error => {
       this.spinner.hide();
@@ -190,7 +202,8 @@ export class CashFlowComponent implements OnInit {
         cursor: 'pointer',
         itemclick: toggleDataSeries
       },
-      data: [{
+      data: // this.finalData
+      [{
         type: 'column',
         name: 'Expected Cash Flow',
         legendText: 'Expected Cash Flow',
@@ -206,7 +219,8 @@ export class CashFlowComponent implements OnInit {
         // axisYType: "secondary",
         showInLegend: true,
         dataPoints: this.reportData['actual']
-      }]
+      }
+    ]
     });
     chart.render();
 

@@ -726,7 +726,7 @@
                     <div class="form-group">
                         <select name="payment_bank" class="form-control" [(ngModel)]="payment_bank">
                               <option value="">{{'viewCollections.chooseBank' | translate}}</option>
-                              <option *ngFor="let bt of paymentBanks" [ngValue]="bt"> {{bt?.name}}</option>
+                              <option *ngFor="let bt of paymentBanks" [ngValue]="bt"> {{bt?.name}} | {{bt?.account_number}}</option>
                         </select>
                   </div>
                 </div>

@@ -381,7 +381,7 @@
             <div class="form-group-3">
               <label>{{ model.seller_type == 1 ? ('addCollection.name' | translate) : ('addCollection.commercialName' | translate)}}</label>
               <div class="clearfix"></div>
-              <input autocomplete="off" type="text" name="seller_name" class="form-control" formControlName="seller_name">
+              <input readonly autocomplete="off" type="text" name="seller_name" class="form-control" formControlName="seller_name">
             </div>
             <div *ngIf="showError  &&  (addFormStep2.controls.seller_name.invalid)">
               <div *ngIf="addFormStep2.controls.seller_name.errors?.required " class="show-error">
@@ -399,7 +399,7 @@
             <div class="form-group-3">
               <label>{{ 'addCollection.legalName' | translate }}</label>
               <div class="clearfix"></div>
-              <input autocomplete="off" type="text" name="seller_legal_name" class="form-control" formControlName="seller_legal_name">
+              <input readonly autocomplete="off" type="text" name="seller_legal_name" class="form-control" formControlName="seller_legal_name">
             </div>
             <div *ngIf="showError  &&  (addFormStep2.controls.seller_legal_name.invalid)">
               <div *ngIf="addFormStep2.controls.seller_legal_name.errors?.required " class="show-error">
@@ -417,7 +417,7 @@
               <div class="form-group-3">
               <label>{{'addCollection.phonenumber' | translate}}</label>
               <div class="clearfix"></div>
-              <input (keydown.space)="$event.preventDefault();"
+              <input readonly (keydown.space)="$event.preventDefault();"
                 class="form-control" type="text" name="seller_phone" formControlName="seller_phone" autocomplete="off" >
             </div>
             <div *ngIf="showError  &&  (addFormStep2.controls.seller_phone.invalid)">
@@ -439,7 +439,7 @@
               <div class="form-group-3">
                 <label>{{'addCollection.address' | translate}}</label>
                 <div class="clearfix"></div>
-                <input autocomplete="off" class="form-control" type="text" name="seller_address" formControlName="seller_address">
+                <input readonly autocomplete="off" class="form-control" type="text" name="seller_address" formControlName="seller_address">
             </div>
             <div *ngIf="showError  &&  (addFormStep2.controls.seller_address.invalid)">
                 <div *ngIf="addFormStep2.controls.seller_address.errors?.required " class="show-error">
@@ -454,17 +454,14 @@
               <div class="form-group-3">
               <label>{{'addCollection.email' | translate}}</label>
               <div class="clearfix"></div>
-              <input autocomplete="off" (keydown.space)="$event.preventDefault();" 
+              <input readonly autocomplete="off" (keydown.space)="$event.preventDefault();" 
                 class="form-control" type="email" name="seller_email" formControlName="seller_email">
             </div>
             <div *ngIf="showError  &&  (addFormStep2.controls.seller_email.invalid)">
               <div *ngIf="addFormStep2.controls.seller_email.errors?.required " class="show-error">
                   {{'addCollectionValidations.thisIsRequired' | translate}}
               </div>
-              <!-- <div *ngIf="addFormStep2.controls.seller_email.errors?.pattern " class="show-error">
-                  Enter valid email
-              </div> -->
-              <div *ngIf="addFormStep2.controls.seller_email.errors?.email " class="show-error">
+             <div *ngIf="addFormStep2.controls.seller_email.errors?.email " class="show-error">
                   {{'addCollectionValidations.emailInvalid' | translate}}
               </div>
             </div>
@@ -473,12 +470,9 @@
               <div class="form-group-3">
               <label>{{'addCollection.companyName' | translate}}</label>
               <div class="clearfix"></div>
-              <input autocomplete="off" class="form-control" type="text" name="seller_company_name" formControlName="seller_company_name">
+              <input readonly autocomplete="off" class="form-control" type="text" name="seller_company_name" formControlName="seller_company_name">
             </div>
             <div *ngIf="showError  &&  (addFormStep2.controls.seller_company_name.invalid)">
-              <!-- <div *ngIf="addFormStep2.controls.seller_company_name.errors?.required " class="show-error">
-                    {{'addCollectionValidations.thisIsRequired' | translate}}
-              </div> -->
               <div *ngIf="addFormStep2.controls.seller_company_name.errors?.minlength " class="show-error">
                   {{'addCollectionValidations.nameMin1Limit' | translate}}
               </div>
@@ -493,12 +487,9 @@
                 <div class="form-group-3">
               <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}</label>
               <div class="clearfix"></div>
-              <input autocomplete="off" class="form-control" type="text" name="seller_fed_tax" formControlName="seller_fed_tax">
+              <input readonly autocomplete="off" class="form-control" type="text" name="seller_fed_tax" formControlName="seller_fed_tax">
             </div>
             <div *ngIf="showError  &&  (addFormStep2.controls.seller_fed_tax.invalid)">
-                <!-- <div *ngIf="addFormStep2.controls.seller_fed_tax.errors?.required " class="show-error">
-                    {{'addCollectionValidations.thisIsRequired' | translate}}
-                </div> -->
                 <div *ngIf="addFormStep2.controls.seller_fed_tax.errors?.minlength " class="show-error">
                     {{'addCollectionValidations.fedTaxMin12Limit' | translate}}
                 </div>
@@ -512,7 +503,7 @@
         <div class="spacer50"></div>
         <!-- bank account -->
         <h5 class="p16-two">{{'addCollection.bankAccount' | translate}}
-          <span class="pull-right"><a class="add" (click)="addSellerBank($event)" href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
+          <span [style.display]="'none'" class="pull-right"><a class="add" (click)="addSellerBank($event)" href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
         </h5>
         <div formArrayName="collection_seller_banks">
         <ng-container *ngFor="let seller_banks of addFormStep2.get('collection_seller_banks').controls; let i=index">
@@ -521,7 +512,7 @@
                   <div class="form-group-3">
                   <label>{{'addCollection.bankName' | translate}}</label>
                   <div class="clearfix"></div>
-                  <input required autocomplete="off" class="form-control" minlength="1" maxlength="30" type="text" name="bank_name" formControlName="bank_name">
+                  <input readonly required autocomplete="off" class="form-control" minlength="1" maxlength="30" type="text" name="bank_name" formControlName="bank_name">
                 </div>
                 <div *ngIf="showError  &&  (addFormStep2.controls.collection_seller_banks.controls[i].controls.bank_name.invalid)">
                   <div *ngIf="addFormStep2.controls.collection_seller_banks.controls[i].controls.bank_name.errors?.required " class="show-error">
@@ -539,37 +530,31 @@
                   <div class="form-group-3">
                   <label>{{'addCollection.accountNumber' | translate}}</label>
                   <div class="clearfix"></div>
-                  <input required autocomplete="off" class="form-control" type="number" min="0" name="account_number" formControlName="account_number">
+                  <input readonly required autocomplete="off" class="form-control" type="number" min="0" name="account_number" formControlName="account_number">
                 </div>
                 <div *ngIf="showError  &&  (addFormStep2.controls.collection_seller_banks.controls[i].controls.account_number.invalid)">
                     <div *ngIf="addFormStep2.controls.collection_seller_banks.controls[i].controls.account_number.errors?.required " class="show-error">
                         {{'addCollectionValidations.thisIsRequired' | translate}}
                     </div>
-                    <!-- <div *ngIf="addFormStep2.controls.collection_seller_banks.controls[i].controls.account_number.errors?.maxlength " class="show-error">
-                        {{'addCollectionValidations.nameMax30Limit' | translate}}
-                    </div> -->
                 </div>
               </div>
               <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                   <label>{{'addCollection.clabeSwift' | translate}}</label>
                   <div class="clearfix"></div>
-                  <input required autocomplete="off" (keydown.space)="$event.preventDefault();" class="form-control" type="text" name="swift" formControlName="swift">
+                  <input readonly required autocomplete="off" (keydown.space)="$event.preventDefault();" class="form-control" type="text" name="swift" formControlName="swift">
                 </div>
                 <div *ngIf="showError  &&  (addFormStep2.controls.collection_seller_banks.controls[i].controls.swift.invalid)">
                     <div *ngIf="addFormStep2.controls.collection_seller_banks.controls[i].controls.swift.errors?.required " class="show-error">
                         {{'addCollectionValidations.thisIsRequired' | translate}}
                     </div>
-                    <!-- <div *ngIf="addFormStep2.controls.collection_seller_banks.controls[i].controls.account_number.errors?.maxlength " class="show-error">
-                        {{'addCollectionValidations.nameMax30Limit' | translate}}
-                    </div> -->
                 </div>
               </div>
               <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                   <label>{{'addCollection.currency' | translate}}</label>
                   <div class="clearfix"></div>
-                  <select required name="currency_id" formControlName="currency_id" required class="form-control">
+                  <select readonly required name="currency_id" formControlName="currency_id" required class="form-control">
                     <option value="">{{'addCollection.currency' | translate}}</option>
                     <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
                   </select>
@@ -578,12 +563,9 @@
                     <div *ngIf="addFormStep2.controls.collection_seller_banks.controls[i].controls.currency_id.errors?.required " class="show-error">
                         {{'addCollectionValidations.thisIsRequired' | translate}}
                     </div>
-                    <!-- <div *ngIf="addFormStep2.controls.collection_seller_banks.controls[i].controls.account_number.errors?.maxlength " class="show-error">
-                        {{'addCollectionValidations.nameMax30Limit' | translate}}
-                    </div> -->
                 </div>
               </div>
-              <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+              <div [style.display]="'none'" class="col-lg-2 col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                   <label>{{'addCollection.remove' | translate}}</label>
                   <div class="clearfix"></div>
@@ -602,7 +584,7 @@
                 <div class="form-group-3">
               <label>{{'addCollection.name' | translate}}</label>
               <div class="clearfix"></div>
-              <input autocomplete="off" class="form-control" type="text" name="seller_leg_rep_name" formControlName="seller_leg_rep_name">
+              <input readonly autocomplete="off" class="form-control" type="text" name="seller_leg_rep_name" formControlName="seller_leg_rep_name">
             </div>
             <div *ngIf="showError  &&  (addFormStep2.controls.seller_leg_rep_name.invalid)">
               <div *ngIf="addFormStep2.controls.seller_leg_rep_name.errors?.required " class="show-error">
@@ -620,7 +602,7 @@
               <div class="form-group-3">
               <label>{{'addCollection.phonenumber' | translate}}</label>
               <div class="clearfix"></div>
-              <input autocomplete="off" class="form-control" (keydown.space)="$event.preventDefault();"
+              <input readonly autocomplete="off" class="form-control" (keydown.space)="$event.preventDefault();"
                 type="text" name="seller_leg_rep_phone" formControlName="seller_leg_rep_phone">
             </div>
             <div *ngIf="showError  &&  (addFormStep2.controls.seller_leg_rep_phone.invalid)">
@@ -642,7 +624,7 @@
               <div class="form-group-3">
               <label>{{'addCollection.email' | translate}}</label>
               <div class="clearfix"></div>
-              <input autocomplete="off" class="form-control" type="email" (keydown.space)="$event.preventDefault();" name="seller_leg_rep_email" formControlName="seller_leg_rep_email">
+              <input readonly autocomplete="off" class="form-control" type="email" (keydown.space)="$event.preventDefault();" name="seller_leg_rep_email" formControlName="seller_leg_rep_email">
             </div>
             <div *ngIf="showError  &&  (addFormStep2.controls.seller_leg_rep_email.invalid)">
               <div *ngIf="addFormStep2.controls.seller_leg_rep_email.errors?.required " class="show-error">
@@ -657,7 +639,7 @@
               <div class="form-group-3">
               <label>{{'addCollection.companyName' | translate}}</label>
               <div class="clearfix"></div>
-              <input autocomplete="off" class="form-control" type="text" name="seller_leg_rep_comp" formControlName="seller_leg_rep_comp">
+              <input readonly autocomplete="off" class="form-control" type="text" name="seller_leg_rep_comp" formControlName="seller_leg_rep_comp">
             </div>
             <div *ngIf="showError  &&  (addFormStep2.controls.seller_leg_rep_comp.invalid)">
               <div *ngIf="addFormStep2.controls.seller_leg_rep_comp.errors?.required " class="show-error">
@@ -677,7 +659,7 @@
                 <div class="form-group-3">
               <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}</label>
               <div class="clearfix"></div>
-              <input autocomplete="off" class="form-control" type="text" name="seller_leg_rep_fed_tax" formControlName="seller_leg_rep_fed_tax">
+              <input readonly autocomplete="off" class="form-control" type="text" name="seller_leg_rep_fed_tax" formControlName="seller_leg_rep_fed_tax">
             </div>
             <div *ngIf="showError  &&  (addFormStep2.controls.seller_leg_rep_fed_tax.invalid)">
                 <div *ngIf="addFormStep2.controls.seller_leg_rep_fed_tax.errors?.required " class="show-error">
@@ -697,7 +679,7 @@
         <div class="spacer50"></div>
         <!-- bank account -->
         <h5 class="p16-two">{{'addCollection.bankAccount' | translate}}
-          <span class="pull-right"><a class="add" (click)="addSellerRepBank($event)" href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
+          <span [style.display]="'none'" class="pull-right"><a class="add" (click)="addSellerRepBank($event)" href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
         </h5>
         <div formArrayName="collection_seller_rep_banks">
         <ng-container *ngFor="let seller_rep_banks of addFormStep2.get('collection_seller_rep_banks').controls; let i=index">
@@ -706,7 +688,7 @@
                   <div class="form-group-3">
                   <label>{{'addCollection.bankName' | translate}}</label>
                   <div class="clearfix"></div>
-                  <input required autocomplete="off" minlength="1" maxlength="30" class="form-control" type="text" name="bank_name" formControlName="bank_name">
+                  <input readonly required autocomplete="off" minlength="1" maxlength="30" class="form-control" type="text" name="bank_name" formControlName="bank_name">
                 </div>
                 <div *ngIf="showError  &&  (addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.bank_name.invalid)">
                   <div *ngIf="addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.bank_name.errors?.required " class="show-error">
@@ -724,37 +706,31 @@
                   <div class="form-group-3">
                   <label>{{'addCollection.accountNumber' | translate}}</label>
                   <div class="clearfix"></div>
-                  <input required autocomplete="off" class="form-control" type="number" min="0" name="account_number" formControlName="account_number">
+                  <input readonly required autocomplete="off" class="form-control" type="number" min="0" name="account_number" formControlName="account_number">
                 </div>
                 <div *ngIf="showError  &&  (addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.account_number.invalid)">
                     <div *ngIf="addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.account_number.errors?.required " class="show-error">
                           {{'addCollectionValidations.thisIsRequired' | translate}}
                     </div>
-                    <!-- <div *ngIf="addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.bank_name.errors?.maxlength " class="show-error">
-                        {{'addCollectionValidations.nameMax30Limit' | translate}}
-                    </div> -->
                 </div>
               </div>
               <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                   <label>{{'addCollection.clabeSwift' | translate}}</label>
                   <div class="clearfix"></div>
-                  <input required autocomplete="off" class="form-control" (keydown.space)="$event.preventDefault();" type="text" name="swift" formControlName="swift">
+                  <input readonly required autocomplete="off" class="form-control" (keydown.space)="$event.preventDefault();" type="text" name="swift" formControlName="swift">
                 </div>
                 <div *ngIf="showError  &&  (addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.swift.invalid)">
                     <div *ngIf="addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.swift.errors?.required " class="show-error">
                           {{'addCollectionValidations.thisIsRequired' | translate}}
                     </div>
-                    <!-- <div *ngIf="addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.bank_name.errors?.maxlength " class="show-error">
-                        {{'addCollectionValidations.nameMax30Limit' | translate}}
-                    </div> -->
                 </div>
               </div>
               <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                   <label>{{'addCollection.currency' | translate}}</label>
                   <div class="clearfix"></div>
-                  <select required name="currency_id" formControlName="currency_id" required class="form-control">
+                  <select readonly required name="currency_id" formControlName="currency_id" required class="form-control">
                     <option value="">{{'addCollection.currency' | translate}}</option>
                     <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
                   </select>
@@ -763,16 +739,13 @@
                     <div *ngIf="addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.currency_id.errors?.required " class="show-error">
                           {{'addCollectionValidations.thisIsRequired' | translate}}
                     </div>
-                    <!-- <div *ngIf="addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.bank_name.errors?.maxlength " class="show-error">
-                        {{'addCollectionValidations.nameMax30Limit' | translate}}
-                    </div> -->
                 </div>
               </div>
-              <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+              <div [style.display]="'none'" class="col-lg-2 col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                   <label>{{'addCollection.remove' | translate}}</label>
                   <div class="clearfix"></div>
-                  <button type="button" (click)="removeSellerRepBank($event, seller_rep_banks, i)">{{'addCollection.remove' | translate}}</button>
+                  <button  type="button" (click)="removeSellerRepBank($event, seller_rep_banks, i)">{{'addCollection.remove' | translate}}</button>
                 </div>
               </div>
             </div>
@@ -853,7 +826,7 @@
               <div class="form-group-3">
                 <label>{{ model.buyer_type == 1 ? ('addCollection.name' | translate) : ('addCollection.commercialName' | translate)}}</label>
                 <div class="clearfix"></div>
-                <input autocomplete="off" type="text" name="buyer_name" class="form-control" formControlName="buyer_name">
+                <input readonly autocomplete="off" type="text" name="buyer_name" class="form-control" formControlName="buyer_name">
               </div>
               <div *ngIf="showError  &&  (addFormStep3.controls.buyer_name.invalid)">
                 <div *ngIf="addFormStep3.controls.buyer_name.errors?.required " class="show-error">
@@ -871,7 +844,7 @@
               <div class="form-group-3">
                 <label>{{ 'addCollection.legalName' | translate }}</label>
                 <div class="clearfix"></div>
-                <input autocomplete="off" type="text" name="buyer_legal_name" class="form-control" formControlName="buyer_legal_name">
+                <input readonly autocomplete="off" type="text" name="buyer_legal_name" class="form-control" formControlName="buyer_legal_name">
               </div>
               <div *ngIf="showError  &&  (addFormStep3.controls.buyer_legal_name.invalid)">
                 <div *ngIf="addFormStep3.controls.buyer_legal_name.errors?.required " class="show-error">
@@ -889,7 +862,7 @@
                 <div class="form-group-3">
                 <label>{{'addCollection.phonenumber' | translate}}</label>
                 <div class="clearfix"></div>
-                <input autocomplete="off" class="form-control" type="text"
+                <input  readonly autocomplete="off" class="form-control" type="text"
                 pattern="{{constant.phonePattern}}" (keydown.space)="$event.preventDefault();"
                 name="buyer_phone" formControlName="buyer_phone">
               </div>
@@ -912,7 +885,7 @@
                 <div class="form-group-3">
                 <label>{{'addCollection.address' | translate}}</label>
                 <div class="clearfix"></div>
-                <input autocomplete="off" class="form-control" type="text" name="buyer_address" formControlName="buyer_address">
+                <input readonly autocomplete="off" class="form-control" type="text" name="buyer_address" formControlName="buyer_address">
               </div>
               <div *ngIf="showError  &&  (addFormStep3.controls.buyer_address.invalid)">
                 <div *ngIf="addFormStep3.controls.buyer_address.errors?.required " class="show-error">
@@ -930,7 +903,7 @@
                 <div class="form-group-3">
                 <label>{{'addCollection.email' | translate}}</label>
                 <div class="clearfix"></div>
-                <input autocomplete="off" (keydown.space)="$event.preventDefault();" class="form-control" type="email" name="buyer_email" formControlName="buyer_email">
+                <input readonly autocomplete="off" (keydown.space)="$event.preventDefault();" class="form-control" type="email" name="buyer_email" formControlName="buyer_email">
               </div>
               <div *ngIf="showError  &&  (addFormStep3.controls.buyer_email.invalid)">
                 <div *ngIf="addFormStep3.controls.buyer_email.errors?.required " class="show-error">
@@ -945,7 +918,7 @@
                 <div class="form-group-3">
                 <label>{{'addCollection.companyName' | translate}}</label>
                 <div class="clearfix"></div>
-                <input autocomplete="off" class="form-control" type="text" name="buyer_company_name" formControlName="buyer_company_name">
+                <input readonly autocomplete="off" class="form-control" type="text" name="buyer_company_name" formControlName="buyer_company_name">
               </div>
               <div *ngIf="showError  &&  (addFormStep3.controls.buyer_company_name.invalid)">
                 <div *ngIf="addFormStep3.controls.buyer_company_name.errors?.required " class="show-error">
@@ -965,13 +938,10 @@
                   <div class="form-group-3">
                 <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}</label>
                 <div class="clearfix"></div>
-                <input autocomplete="off" class="form-control" type="text" name="buyer_fed_tax" formControlName="buyer_fed_tax">
+                <input readonly autocomplete="off" class="form-control" type="text" name="buyer_fed_tax" formControlName="buyer_fed_tax">
               </div>
               <div *ngIf="showError  &&  (addFormStep3.controls.buyer_fed_tax.invalid)">
-                <!-- <div *ngIf="addFormStep3.controls.buyer_fed_tax.errors?.required " class="show-error">
-                    {{'addCollectionValidations.thisIsRequired' | translate}}
-                </div> -->
-                <div *ngIf="addFormStep3.controls.buyer_fed_tax.errors?.minlength " class="show-error">
+               <div *ngIf="addFormStep3.controls.buyer_fed_tax.errors?.minlength " class="show-error">
                     {{'addCollectionValidations.fedTaxMin12Limit' | translate}}
                 </div>
                 <div *ngIf="addFormStep3.controls.buyer_fed_tax.errors?.maxlength " class="show-error">
@@ -985,7 +955,7 @@
           <div class="spacer50"></div>
           <!-- bank account -->
           <h5 class="p16-two">{{'addCollection.bankAccount' | translate}}
-            <span class="pull-right"><a class="add" (click)="addBuyerBank($event)" href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
+            <span [style.display]="'none'" class="pull-right"><a class="add" (click)="addBuyerBank($event)" href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
           </h5>
           <div formArrayName="collection_buyer_banks">
             <ng-container *ngFor="let buyer_banks of addFormStep3.get('collection_buyer_banks').controls; let i=index">
@@ -994,7 +964,7 @@
                   <div class="form-group-3">
                   <label>{{'addCollection.bankName' | translate}}</label>
                   <div class="clearfix"></div>
-                  <input required autocomplete="off" class="form-control" type="text" name="bank_name" formControlName="bank_name">
+                  <input readonly required autocomplete="off" class="form-control" type="text" name="bank_name" formControlName="bank_name">
                 </div>
                 <div *ngIf="showError  &&  (addFormStep3.controls.collection_buyer_banks.controls[i].controls.bank_name.invalid)">
                   <div *ngIf="addFormStep3.controls.collection_buyer_banks.controls[i].controls.bank_name.errors?.required " class="show-error">
@@ -1012,37 +982,31 @@
                   <div class="form-group-3">
                   <label>{{'addCollection.accountNumber' | translate}}</label>
                   <div class="clearfix"></div>
-                  <input required autocomplete="off" class="form-control" type="number" min="0" name="account_number" formControlName="account_number">
+                  <input readonly required autocomplete="off" class="form-control" type="number" min="0" name="account_number" formControlName="account_number">
                 </div>
                 <div *ngIf="showError  &&  (addFormStep3.controls.collection_buyer_banks.controls[i].controls.account_number.invalid)">
                     <div *ngIf="addFormStep3.controls.collection_buyer_banks.controls[i].controls.account_number.errors?.required " class="show-error">
                           {{'addCollectionValidations.thisIsRequired' | translate}}
                     </div>
-                    <!-- <div *ngIf="addFormStep3.controls.collection_buyer_banks.controls[i].controls.account_number.errors?.maxlength " class="show-error">
-                        {{'addCollectionValidations.nameMax30Limit' | translate}}
-                    </div> -->
                 </div>
               </div>
               <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                   <label>{{'addCollection.clabeSwift' | translate}}</label>
                   <div class="clearfix"></div>
-                  <input required autocomplete="off" class="form-control" (keydown.space)="$event.preventDefault();" type="text" name="swift" formControlName="swift">
+                  <input readonly required autocomplete="off" class="form-control" (keydown.space)="$event.preventDefault();" type="text" name="swift" formControlName="swift">
                 </div>
                 <div *ngIf="showError  &&  (addFormStep3.controls.collection_buyer_banks.controls[i].controls.swift.invalid)">
                     <div *ngIf="addFormStep3.controls.collection_buyer_banks.controls[i].controls.swift.errors?.required " class="show-error">
                           {{'addCollectionValidations.thisIsRequired' | translate}}
                     </div>
-                    <!-- <div *ngIf="addFormStep3.controls.collection_buyer_banks.controls[i].controls.account_number.errors?.maxlength " class="show-error">
-                        {{'addCollectionValidations.nameMax30Limit' | translate}}
-                    </div> -->
                 </div>
               </div>
               <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                   <label>{{'addCollection.currency' | translate}}</label>
                   <div class="clearfix"></div>
-                  <select required name="currency_id" formControlName="currency_id" required class="form-control">
+                  <select disabled required name="currency_id" formControlName="currency_id" required class="form-control">
                     <option value="">{{'addCollection.currency' | translate}}</option>
                     <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
                   </select>
@@ -1051,12 +1015,9 @@
                     <div *ngIf="addFormStep3.controls.collection_buyer_banks.controls[i].controls.currency_id.errors?.required " class="show-error">
                           {{'addCollectionValidations.thisIsRequired' | translate}}
                     </div>
-                    <!-- <div *ngIf="addFormStep3.controls.collection_buyer_banks.controls[i].controls.account_number.errors?.maxlength " class="show-error">
-                        {{'addCollectionValidations.nameMax30Limit' | translate}}
-                    </div> -->
                 </div>
               </div>
-              <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+              <div [style.display]="'none'" class="col-lg-2 col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                   <label>{{'addCollection.remove' | translate}}</label>
                   <div class="clearfix"></div>
@@ -1076,7 +1037,7 @@
                   <div class="form-group-3">
                 <label>{{'addCollection.name' | translate}}</label>
                 <div class="clearfix"></div>
-                <input autocomplete="off" class="form-control" type="text" name="buyer_leg_rep_name" formControlName="buyer_leg_rep_name">
+                <input readonly autocomplete="off" class="form-control" type="text" name="buyer_leg_rep_name" formControlName="buyer_leg_rep_name">
               </div>
               <div *ngIf="showError  &&  (addFormStep3.controls.buyer_leg_rep_name.invalid)">
                 <div *ngIf="addFormStep3.controls.buyer_leg_rep_name.errors?.required " class="show-error">
@@ -1094,7 +1055,7 @@
                 <div class="form-group-3">
                 <label>{{'addCollection.phonenumber' | translate}}</label>
                 <div class="clearfix"></div>
-                <input autocomplete="off" class="form-control" type="text" 
+                <input readonly autocomplete="off" class="form-control" type="text" 
                 pattern="{{constant.phonePattern}}" (keydown.space)="$event.preventDefault();"  
                 name="buyer_leg_rep_phone" formControlName="buyer_leg_rep_phone">
               </div>
@@ -1117,7 +1078,7 @@
                 <div class="form-group-3">
                 <label>{{'addCollection.email' | translate}}</label>
                 <div class="clearfix"></div>
-                <input autocomplete="off" class="form-control" (keydown.space)="$event.preventDefault();" type="email" name="buyer_leg_rep_email" formControlName="buyer_leg_rep_email">
+                <input readonly autocomplete="off" class="form-control" (keydown.space)="$event.preventDefault();" type="email" name="buyer_leg_rep_email" formControlName="buyer_leg_rep_email">
               </div>
               <div *ngIf="showError  &&  (addFormStep3.controls.buyer_leg_rep_email.invalid)">
                 <div *ngIf="addFormStep3.controls.buyer_leg_rep_email.errors?.required " class="show-error">
@@ -1132,7 +1093,7 @@
                 <div class="form-group-3">
                 <label>{{'addCollection.companyName' | translate}}</label>
                 <div class="clearfix"></div>
-                <input autocomplete="off" class="form-control" type="text" name="buyer_leg_rep_comp" formControlName="buyer_leg_rep_comp">
+                <input readonly autocomplete="off" class="form-control" type="text" name="buyer_leg_rep_comp" formControlName="buyer_leg_rep_comp">
               </div>
               <div *ngIf="showError  &&  (addFormStep3.controls.buyer_leg_rep_comp.invalid)">
                 <div *ngIf="addFormStep3.controls.buyer_leg_rep_comp.errors?.required " class="show-error">
@@ -1146,13 +1107,11 @@
                 </div>
               </div>
             </div>
-          <!-- </div> -->
-          <!-- <div class="row"> -->
               <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                 <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}</label>
                 <div class="clearfix"></div>
-                <input autocomplete="off" class="form-control"  type="text" name="buyer_leg_rep_fed_tax" formControlName="buyer_leg_rep_fed_tax">
+                <input readonly autocomplete="off" class="form-control"  type="text" name="buyer_leg_rep_fed_tax" formControlName="buyer_leg_rep_fed_tax">
               </div>
               <div *ngIf="showError  &&  (addFormStep3.controls.buyer_leg_rep_fed_tax.invalid)">
                 <div *ngIf="addFormStep3.controls.buyer_leg_rep_fed_tax.errors?.required " class="show-error">
@@ -1172,7 +1131,7 @@
           <div class="spacer50"></div>
           <!-- bank account -->
           <h5 class="p16-two">{{'addCollection.bankAccount' | translate}}
-            <span class="pull-right"><a class="add" (click)="addBuyerRepBank($event)" href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
+            <span [style.display]="'none'" class="pull-right"><a class="add" (click)="addBuyerRepBank($event)" href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
           </h5>
           <div formArrayName="collection_buyer_rep_banks">
           <ng-container *ngFor="let buyer_rep_banks of addFormStep3.get('collection_buyer_rep_banks').controls; let i=index">
@@ -1181,7 +1140,7 @@
                     <div class="form-group-3">
                     <label>{{'addCollection.bankName' | translate}}</label>
                     <div class="clearfix"></div>
-                    <input required minlength="1" maxlength="30" autocomplete="off" class="form-control" type="text" name="bank_name" formControlName="bank_name">
+                    <input readonly required minlength="1" maxlength="30" autocomplete="off" class="form-control" type="text" name="bank_name" formControlName="bank_name">
                   </div>
                   <div *ngIf="showError  &&  (addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.bank_name.invalid)">
                     <div *ngIf="addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.bank_name.errors?.required " class="show-error">
@@ -1199,7 +1158,7 @@
                     <div class="form-group-3">
                     <label>{{'addCollection.accountNumber' | translate}}</label>
                     <div class="clearfix"></div>
-                    <input required autocomplete="off" class="form-control" type="number" min="0" name="account_number" formControlName="account_number">
+                    <input readonly required autocomplete="off" class="form-control" type="number" min="0" name="account_number" formControlName="account_number">
                   </div>
                   <div *ngIf="showError  &&  (addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.account_number.invalid)">
                       <div *ngIf="addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.account_number.errors?.required " class="show-error">
@@ -1214,7 +1173,7 @@
                     <div class="form-group-3">
                     <label>{{'addCollection.clabeSwift' | translate}}</label>
                     <div class="clearfix"></div>
-                    <input required autocomplete="off" class="form-control" (keydown.space)="$event.preventDefault();" type="text" name="swift" formControlName="swift">
+                    <input readonly required autocomplete="off" class="form-control" (keydown.space)="$event.preventDefault();" type="text" name="swift" formControlName="swift">
                   </div>
                   <div *ngIf="showError  &&  (addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.swift.invalid)">
                       <div *ngIf="addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.swift.errors?.required " class="show-error">
@@ -1229,7 +1188,7 @@
                     <div class="form-group-3">
                     <label>{{'addCollection.currency' | translate}}</label>
                     <div class="clearfix"></div>
-                    <select required name="currency_id" formControlName="currency_id" required class="form-control">
+                    <select disabled required name="currency_id" formControlName="currency_id" required class="form-control">
                       <option value="">{{'addCollection.currency' | translate}}</option>
                       <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
                     </select>
@@ -1243,7 +1202,7 @@
                       </div> -->
                   </div>
                 </div>
-                <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                <div [style.display]="'none'" class="col-lg-2 col-md-6 col-sm-6 col-12">
                     <div class="form-group-3">
                     <label>{{'addCollection.remove' | translate}}</label>
                     <div class="clearfix"></div>

@@ -1846,7 +1846,12 @@
     "name":"Name",
     "percent":"Percent",
     "percentPerModelName": "Percentage per model name",
-    "percentagePerAgent": "Percentage sales per agent"
+    "percentagePerAgent": "Percentage sales per agent",
+    "sortBy": "Sort Sales By",
+    "purchaseDate": "Purchase Date",
+    "firstPayment": "First Payment Received",
+    "successiveBookings": "Successive Bookings",
+    "accumulatedBookings": "Accumulative Bookings"
   },
   "quickVisualization": {
     "label":"Quick Visualization",

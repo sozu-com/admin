@@ -37,6 +37,7 @@ export class SalesTrendComponent implements OnInit {
 
   ngOnInit() {
     this.input = new CollectionReport();
+    this.input.sort_sales_by = 1;
     this.input.start_date = moment().subtract(12, 'months').toDate();
     this.input.end_date = moment().toDate();
     this.iniDropDownSetting();
@@ -135,7 +136,6 @@ export class SalesTrendComponent implements OnInit {
     const input: any = JSON.parse(JSON.stringify(this.input));
     input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
     input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
-
     if (this.selctedProjects) {
       const d = this.selctedProjects.map(o => o.id);
       input.building_id = d;

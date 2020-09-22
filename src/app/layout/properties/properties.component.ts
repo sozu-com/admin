@@ -393,7 +393,7 @@ export class PropertiesComponent implements OnInit {
       this.parameter.buyer_id = property.selected_buyer_id;
       this.selecter_buyer = property.selected_buyer;
     }
-    
+
     const input = { name: '', user_type: 0 };
     input.name = keyword !== '1' ? keyword : '';
     input.user_type = seller_type;

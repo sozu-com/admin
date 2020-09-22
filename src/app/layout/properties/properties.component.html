@@ -461,9 +461,12 @@
                               
                               <td *ngIf="parameter.flag!=5" class="cursor-pointer" title="{{p?.selected_buyer?.user?.name ? ('table.title.clickToChangeBuyer' | translate) : ('table.title.clickToAddBuyer' | translate)}}" 
                                     (click)="getAllSellers(p, '1', i, 'buyer', 1)">
-                                    <span class="green-color"><span>
-                                          {{p?.selected_buyer?.user?.name || ('table.tr.td.add' | translate)}}
-                                    </span></span>
+                                    <span *ngIf="p?.selected_buyer?.user?.legal_entity" class="green-color">
+                                          {{p?.selected_buyer?.user?.legal_entity?.comm_name || ('table.tr.td.add' | translate)}}
+                                    </span>
+                                    <span *ngIf="!p?.selected_buyer?.user?.legal_entity" class="green-color">
+                                       {{p?.selected_buyer?.user?.name || ('table.tr.td.add' | translate)}}
+                                    </span>
                               </td>
                               
                               <td *ngIf="parameter.flag==5" class="cursor-pointer" title="{{'table.title.viewSellerRequest' | translate}}" (click)="showAllSellers(p?.id, i)">
@@ -472,9 +475,12 @@
                               
                               <td *ngIf="parameter.flag!=5" class="cursor-pointer" title="{{p?.selected_seller?.user?.name ? ('table.title.clickToChangeSeller' | translate) : ('table.title.clickToAddSeller' | translate)}}" 
                                     (click)="getAllSellers(p, '1', i, 'seller', 1)">
-                                 <span class="green-color"><span>
-                                       {{p?.selected_seller?.user?.name || ('table.tr.td.add' | translate)}}
-                                 </span></span>
+                                 <span *ngIf="p?.selected_seller?.user?.legal_entity" class="green-color">
+                                       {{p?.selected_seller?.user?.legal_entity?.comm_name || ('table.tr.td.add' | translate)}}
+                                 </span>
+                                 <span *ngIf="!p?.selected_seller?.user?.legal_entity" class="green-color">
+                                    {{p?.selected_seller?.user?.name || ('table.tr.td.add' | translate)}}
+                                 </span>
                               </td>
                               
                               <td *ngIf="parameter.flag!=5" class="cursor-pointer" (click)="getBothBroker(p, '')">
@@ -565,14 +571,14 @@
                   {{'table.th.currentlyLinkedToSeller' | translate}} 
                   ({{selecter_seller?.user?.is_developer==1 ? 'Developer' : 
                         (selecter_seller?.user?.legal_entity_id ? 'Legal Representative' : 'Person')}})- 
-                  <b>{{selecter_seller?.user?.name}}</b>
+                  <b>{{selecter_seller?.user?.legal_entity_id ? selecter_seller?.user?.legal_entity?.comm_name : selecter_seller?.user?.name}}</b>
                 </p>
  
                   <p class="modal-title marginB20" *ngIf="selecter_buyer">
                         {{'table.th.currentlyLinkedToBuyer' | translate}} 
                         ({{selecter_buyer?.user?.is_developer==1 ? 'Developer' : 
                               (selecter_buyer?.user?.legal_entity_id ? 'Legal Representative' : 'Person')}})- 
-                        <b>{{selecter_buyer?.user?.name}}</b>
+                        <b>{{selecter_buyer?.user?.legal_entity_id ? selecter_buyer?.user?.legal_entity?.comm_name : selecter_buyer?.user?.name}}</b>
                   </p>
                   
                <div class="cust-tabs">

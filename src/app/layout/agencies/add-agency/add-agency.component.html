@@ -68,29 +68,25 @@
                 <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" type="text" class="form-control" [(ngModel)]="model.razon_social" name="razon_social">
               </div>
             </div>
-            <div class="col-12">
+            <!-- <div class="col-12">
               <div class="form-group-2">
-                <label>{{'addForm.name' | translate}}
-                  <!-- <span class="color-red">*</span> -->
-                </label>
+                <label>{{'addForm.name' | translate}}</label>
                 <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" type="text" class="form-control" [(ngModel)]="model.person_in_charge" name="person_in_charge">
               </div>
-            </div>
-            <div class="col-12">
-                <div class="form-group-2">
-                  <label>{{'addForm.contactNumber' | translate}} 
-                    <!-- <span class="color-red">*</span> -->
-                  </label>
-                  <input minlength="6" maxlength="16" autocomplete="off" type="text" [pattern]="constant.phonePattern" class="form-control" id="phone" minlength="1" [(ngModel)]="model.phone" name="phone"
-                        ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryCodeChange($event)" />
-                </div>
-            </div>
+            </div> -->
             <div class="col-12">
                 <div class="form-group-2">
                   <label>{{'addForm.emailId' | translate}} 
                     <!-- <span class="color-red">*</span> -->
                   </label>
                   <input (keydown.space)="$event.preventDefault();" autocomplete="off" [pattern]="constant.emailPattern" type="email" class="form-control" [(ngModel)]="model.email" name="email">
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group-2">
+                  <label>{{'addForm.contactNumber' | translate}} </label>
+                  <input minlength="6" maxlength="16" autocomplete="off" type="text" [pattern]="constant.phonePattern" class="form-control" id="phone" minlength="1" [(ngModel)]="model.phone" name="phone"
+                        ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryCodeChange($event)" />
                 </div>
             </div>
 

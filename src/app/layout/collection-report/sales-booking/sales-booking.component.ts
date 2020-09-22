@@ -37,6 +37,7 @@ export class SalesBookingComponent implements OnInit {
 
   ngOnInit() {
     this.input = new CollectionReport();
+    this.input.sort_sales_by = 1;
     this.input.start_date = moment().subtract(12, 'months').toDate();
     this.input.end_date = moment().toDate();
     this.iniDropDownSetting();
@@ -149,6 +150,14 @@ export class SalesBookingComponent implements OnInit {
     this.admin.postDataApi('graphs/sales-booking', input).subscribe(r => {
       this.spinner.hide();
       this.reportData = r['data'];
+      let s = 0;
+      if (input.sort_sales_by == 2) {
+        for (let index = 0; index < this.reportData['trends'].length; index++) {
+          const element = this.reportData['trends'][index];
+          s = element.y + s;
+          element.y = s;
+        }
+      }
       this.plotData();
     }, error => {
       this.spinner.hide();

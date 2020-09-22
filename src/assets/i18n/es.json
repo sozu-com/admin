@@ -182,8 +182,8 @@
     "canDelete": "Puedan Borrar",
     "canCRUD": "CRUD",
     "companyCommercialName": "Nombre de la empresa (nombre comercial)",
-    "rfcLegalId": "RFC",
-    "razonSocial": "Razon Social",
+    "rfcLegalId": "RFC (identificación legal)",
+    "razonSocial": "Razon Social (Nombre legal)",
     "locationPinOnMap": "Ubicación del Pin en el mapa",
     "description": "Descripción",
     "websiteURL": "URL del sitio web",
@@ -1837,7 +1837,12 @@
     "name":"Nombre",
     "percent":"Por ciento",
     "percentPerModelName": "Porcentaje por nombre de modelo",
-    "percentagePerAgent": "Porcentaje de ventas por agente"
+    "percentagePerAgent": "Porcentaje de ventas por agente",
+    "sortBy": "Ordenar ventas por",
+    "purchaseDate": "Fecha de compra",
+    "firstPayment": "Primer pago recibido",
+    "successiveBookings": "Reservas sucesivas",
+    "accumulatedBookings": "Reservas acumulativas"
   },
   "quickVisualization": {
     "label":"Visualización rápida",

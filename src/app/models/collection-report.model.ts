@@ -14,4 +14,5 @@ export class CollectionReport {
     name?: string;
     seller_name?: string;
     buyer_name?: string;
+    sort_sales_by?: number;
 }

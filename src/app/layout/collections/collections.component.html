@@ -691,7 +691,7 @@
                     <div class="form-group">
                         <select name="payment_bank" class="form-control" [(ngModel)]="payment_bank">
                               <option value="">{{'viewCollections.chooseBank' | translate}}</option>
-                              <option *ngFor="let bt of paymentBanks" [ngValue]="bt"> {{bt?.name}}</option>
+                              <option *ngFor="let bt of paymentBanks" [ngValue]="bt"> {{bt?.name}} | {{bt?.account_number}}</option>
                         </select>
                   </div>
                 </div>
@@ -1034,6 +1034,18 @@
                   </div>
                 </div>
               </div>
+              <!-- <div class="col-6">
+                <div class="form-group-2">
+                    <label>{{'viewCollections.chooseBank' | translate}} <span class="color-red">*</span></label>
+                    <div class="form-group">
+                        <select name="payment_bank" class="form-control" [(ngModel)]="bank_id" (ngModelChange)="get()">
+                              <option value="">{{'viewCollections.chooseBank' | translate}}</option>
+                              <option *ngFor="let bt of paymentBanks" [ngValue]="bt"
+                              [selected]="bt.bank_id == true"> {{bt?.name}} | {{bt?.account_number}}</option>
+                        </select>
+                  </div>
+                </div>
+              </div> -->
               <div class="col-6">
                 <div class="form-group-2">
                     <label>{{'viewCollections.choosePaymentReceipt' | translate}} <span class="color-red">*</span></label>
