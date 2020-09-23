@@ -105,8 +105,8 @@
                       <div class="form-group-3">
                       <label>{{'addCollection.accountNumber' | translate}}</label>
                       <div class="clearfix"></div>
-                      <input required autocomplete="off" class="form-control" type="number" minlength="10" 
-                      maxlength="20" min="0" name="account_number" formControlName="account_number">
+                      <input required autocomplete="off" class="form-control" type="text" minlength="10" 
+                      maxlength="20" [pattern]="constant.accountPattern" name="account_number" formControlName="account_number">
                     </div>
                   </div>
                   <div class="col-lg-2 col-md-6 col-sm-6 col-12">
@@ -200,8 +200,8 @@
                     <div class="form-group-3">
                     <label>{{'addCollection.accountNumber' | translate}}</label>
                     <div class="clearfix"></div>
-                    <input required autocomplete="off" class="form-control" type="number" minlength="10" 
-                    maxlength="20" min="0" name="account_number" formControlName="account_number">
+                    <input required autocomplete="off" class="form-control" type="text" minlength="10" 
+                    maxlength="20" [pattern]="constant.accountPattern" name="account_number" formControlName="account_number">
                   </div>
                 </div>
                 <div class="col-lg-2 col-md-6 col-sm-6 col-12">

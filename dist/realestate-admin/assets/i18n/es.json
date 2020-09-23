@@ -1478,6 +1478,7 @@
     "appUnapproveReport": "Aprobado / No aprobado",
     "cashFlowReport": "Informe de flujo de caja",
     "projectReport": "Reporte de Proyecto",
+    "buyerReport": "Informe del comprador",
     "ACL": "ACL",
     "reports": "Reportes",
     "seller": "Vendedor",
@@ -1783,6 +1784,7 @@
     "cashFlowReport": "Informe de flujo de caja",
     "expectedAndRealCashFlow":"Flujo de caja esperado vs flujo de caja real",
     "projectReport": "Reporte de Proyecto",
+    "buyerReport": "Informe del comprador",
     "start_date": "Fecha de inicio",
     "end_date":"Fecha final",
     "developer":"Desarrolladora",
@@ -1842,7 +1844,12 @@
     "purchaseDate": "Fecha de compra",
     "firstPayment": "Primer pago recibido",
     "successiveBookings": "Reservas sucesivas",
-    "accumulatedBookings": "Reservas acumulativas"
+    "accumulatedBookings": "Reservas acumulativas",
+    "destinyBank": "Destiny Bank",
+    "amountPaidByUser":"Importe pagado por el usuario",
+    "bankName": "Nombre del banco",
+    "accountNumber": "Número de cuenta",
+    "clabeSwift": "Clabe / Swift"
   },
   "quickVisualization": {
     "label":"Visualización rápida",

@@ -77,7 +77,7 @@
                       <div class="form-group-3">
                     <label>{{'addCollection.accountNumber' | translate}}</label>
                     <div class="clearfix"></div>
-                    <input autocomplete="off" class="form-control" type="number" minlength="10" maxlength="20" min="0"  [(ngModel)]="bankAccount.account_number" name="account_number{{i}}">
+                    <input autocomplete="off" class="form-control" type="text" minlength="10" maxlength="20" [pattern]="constant.accountPattern" [(ngModel)]="bankAccount.account_number" name="account_number{{i}}">
                   </div>
                 </div>
                 <div class="col-lg-2 col-md-6 col-sm-6 col-12">
@@ -188,7 +188,7 @@
                     <div class="form-group-3">
                   <label>{{'addCollection.accountNumber' | translate}}</label>
                   <div class="clearfix"></div>
-                  <input autocomplete="off" class="form-control" type="number" minlength="10" maxlength="20" min="0"  [(ngModel)]="leBankAccount.account_number" name="le_account_number{{i}}">
+                  <input autocomplete="off" class="form-control" type="text" minlength="10" maxlength="20" [pattern]="constant.accountPattern" [(ngModel)]="leBankAccount.account_number" name="le_account_number{{i}}">
                 </div>
               </div>
               <div class="col-lg-2 col-md-6 col-sm-6 col-12">

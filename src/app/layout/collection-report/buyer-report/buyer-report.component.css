@@ -1,0 +1,7 @@
+
+table.table-striped.quick-table th:nth-child(1),
+table.table-striped.quick-table thead tr th 
+{
+  background-color: #00B96F;
+  color: #fff;
+}

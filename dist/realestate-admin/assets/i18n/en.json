@@ -1487,6 +1487,7 @@
     "appUnapproveReport": "Approve / Unapprove",
     "cashFlowReport": "Cash Flow Report",
     "projectReport": "Project Report",
+    "buyerReport": "Buyer Report",
     "ACL": "ACL",
     "reports": "Reports",
     "seller": "Seller",
@@ -1792,6 +1793,7 @@
     "cashFlowReport": "Cash Flow Report",
     "expectedAndRealCashFlow":"Expected Cash Flow Vs Real Cash Flow",
     "projectReport": "Project Report",
+    "buyerReport": "Buyer Report",
     "start_date": "Start Date",
     "end_date":"End Date",
     "developer":"Developer",
@@ -1851,7 +1853,12 @@
     "purchaseDate": "Purchase Date",
     "firstPayment": "First Payment Received",
     "successiveBookings": "Successive Bookings",
-    "accumulatedBookings": "Accumulative Bookings"
+    "accumulatedBookings": "Accumulative Bookings",
+    "destinyBank": "Destiny Bank",
+    "amountPaidByUser":"Amount paid by user",
+    "bankName": "Bank Name",
+    "accountNumber": "Account Number",
+    "clabeSwift": "Clabe/Swift"
   },
   "quickVisualization": {
     "label":"Quick Visualization",

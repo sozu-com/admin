@@ -83,6 +83,10 @@ const routes: Routes = [
   {
     path: 'project-report', component: ProjectReportComponent,
     canActivate: [AclUserGuard], data: { roles: ['Collection Reports', 'can_read', ''] }
+  },
+  {
+    path: 'buyer-report', component: BuyerReportComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Collection Reports', 'can_read', ''] }
   }
 ];
 

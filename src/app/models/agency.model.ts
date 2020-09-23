@@ -3,7 +3,7 @@ import { Banks, LegalRepresentative } from './legalEntity.model';
 export class Agency {
     id: string;
     person_in_charge?: string;   // incharge of company
-    rfc: string;    // legal id => unique company id
+    rfc?: string;    // legal id => unique company id
     razon_social: string;   // legal company name
     name: string;   // commercial name
     country_code: string;
