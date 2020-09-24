@@ -372,9 +372,39 @@ export class BuyerReportComponent implements OnInit {
       success => {
         this.total = success['total'];
         this.finalData = success['data'];
-        // for (let index = 0; index < this.finalData.length; index++) {
-        //   const element = this.finalData[index];
-        // }
+        for (let index = 0; index < this.finalData.length; index++) {
+          const element = this.finalData[index];
+          var b = '';
+          if (element.payment_received_by == 1) {
+            if (element.bank_id) {
+              b = element.agency_bank_name;
+            } else {
+              b = element.legal_representative_banks_name;
+            }
+          } else {
+            if (element.seller_type != 2) {  // seller as person or developer
+              if (element.bank_id) {
+                b = element.legal_representative_banks_name;
+              } else if (element.legal_rep_bank_id) {
+                b = element.legal_representative_banks_name;
+              }
+            } else {  // seller as legal entity
+              if (element.bank_id) {
+                b = element.legal_entitiy_bank_name;
+              } else if (element.legal_rep_bank_id) {
+                b = element.legal_representative_banks_name;
+              }
+            }
+          }
+
+          if (b) {
+            const bn = b.split(',');
+            element.bank_name = bn[0];
+            element.account_number = bn[1];
+            element.swift = bn[2];
+            element.bank_currency = bn[3];
+          }
+        }
         this.spinner.hide();
       },
       error => {

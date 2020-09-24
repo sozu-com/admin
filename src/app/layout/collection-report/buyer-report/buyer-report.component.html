@@ -234,9 +234,9 @@
                                 </div>
                              </div>
                             </th>
-                            <!-- <th style="width:17%; text-align:left;">
+                            <th style="width:10%; text-align:left;">
                                 <b>{{'collectionReport.destinyBank' | translate}}</b>
-                            </th> -->
+                            </th>
                             <th style="width:13%; text-align:left;">
                                 <b>{{'collectionReport.project' | translate}}</b>
                             </th>
@@ -257,19 +257,19 @@
                             <th style="width:7%; text-align:left;">
                                 <b>{{'collectionReport.amountPaidByUser' | translate}}</b>
                             </th>
-                            <!-- <th style="width:7%; text-align:left;">
+                            <th style="width:7%; text-align:left;">
                                 <b>{{'collectionReport.bankName' | translate}}</b>
                             </th>
                             <th style="width:7%; text-align:left;">
                                 <b>{{'collectionReport.accountNumber' | translate}}</b>
-                            </th> -->
-                            <!-- <th style="width:10%; text-align:left;">
+                            </th>
+                            <th style="width:10%; text-align:left;">
                                 <b>{{'collectionReport.clabeSwift' | translate}} (s)</b>
                             </th>
                             <th style="width:10%; text-align:left;">
                                 <b>{{'collectionReport.currency' | translate}}</b>
                             </th>
-                            <th style="width:10%; text-align:left;">
+                            <!-- <th style="width:10%; text-align:left;">
                                 <b>{{'collectionReport.totalPaid' | translate}}</b>
                             </th>
                             <th style="width:10%; text-align:left;">
@@ -290,7 +290,9 @@
                          <span *ngIf="item?.seller_type == 2">{{item?.seller_legal_entity?.comm_name ? item?.seller_legal_entity?.comm_name : ('table.tr.td.NA' | translate)}}</span>
                          <span *ngIf="item?.seller_type == 3">{{item?.seller?.name ? item?.seller?.name : ('table.tr.td.NA' | translate)}}</span>
                       </td>    
-                        <!-- <td><span>{{item?.project_name || ('table.tr.td.NA' | translate)}}</span></td> -->
+                        <td><span>
+                              {{item?.payment_received_by == 1 ? item?.property?.building?.agency?.name : 'Seller'}}
+                        </span></td>
                         <td><span>{{item?.property?.building?.name || ('table.tr.td.NA' | translate)}}</span></td>
                         <td><span>{{item?.property?.building_towers?.tower_name || ('table.tr.td.NA' | translate)}}</span></td>
                         <td><span>{{item?.property?.building_configuration?.name || ('table.tr.td.NA' | translate)}}</span></td>
@@ -298,8 +300,10 @@
                         <td><span>{{item?.currency?.code || ('table.tr.td.NA' | translate)}}</span></td>
                         <td><span>{{item?.payment_date}}</span></td>
                         <td><span>{{item?.amt_paid | currency}}</span></td>
-                        <!-- <td><span>${{((item?.curent_month_amount || 0) + (item?.curent_month_penalty || 0) - (item?.curent_month_paid || 0)) | roundNumber}}</span></td>
-                        <td><span>{{item?.code || ('table.tr.td.NA' | translate)}}</span></td> -->
+                        <td><span>{{item?.bank_name}}</span></td>
+                        <td><span>{{item?.account_number}}</span></td>
+                        <td><span>{{item?.swift}}</span></td>
+                        <td><span>{{item?.bank_currency}}</span></td>
                         <!-- <td><span>${{((item?.next_month_amount || 0) + (item?.next_month_penalty || 0) - (item?.next_month_paid || 0)) | roundNumber}}</span></td>
                         <td><span>{{item?.code || ('table.tr.td.NA' | translate)}}</span></td>
                         <td><span>${{((item?.next_month_amount || 0) + (item?.next_month_penalty || 0) - (item?.next_month_paid || 0)) | roundNumber}}</span></td>
