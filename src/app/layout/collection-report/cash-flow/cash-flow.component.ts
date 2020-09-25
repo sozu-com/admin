@@ -31,6 +31,8 @@ export class CashFlowComponent implements OnInit {
   actualData: Array<any>;
   paymentChoices: Array<any>;
   finalData: Array<any>;
+  finalData1: Array<any>;
+  finalData2: Array<any>;
   constructor(public admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService) {
@@ -144,7 +146,12 @@ export class CashFlowComponent implements OnInit {
       );
   }
 
-  getReportData () {
+  getReportData() {
+    this.getReportData1();
+    this.getReportData2();
+  }
+
+  getReportData1 () {
     const input: any = JSON.parse(JSON.stringify(this.input));
     input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
     input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
@@ -162,28 +169,65 @@ export class CashFlowComponent implements OnInit {
     this.admin.postDataApi('graphs/cash-flow', input).subscribe(r => {
       this.spinner.hide();
       this.finalData = [];
-      this.reportData = r['data'];
-      // for (let index = 0; index < this.reportData['expected'].length; index++) {
-      //   const element = this.reportData['expected'][index];
-      //   const ff = []; let d = {};
-      //   for (let ind = 0; ind < this.paymentChoices.length; ind++) {
-      //     const ele = this.paymentChoices[ind];
-      //     if (element.y[ele.name_en]) {
-      //       // console.log(element.y[ele.name_en])
-      //       d = {y: element.y[ele.name_en][0].count, label: ele.name_en};
-      //     } else {
-      //       d = {y: 0, label: ele.name_en};
-      //     }
-      //     ff.push(d);
-      //   }
-      //   this.finalData.push({
-      //     type: 'stackedColumn',
-      //     dataPoints: ff
-      //   });
-      // }
-      console
-      .log(this.finalData)
+      this.finalData1 = [];
+      const reportData = r['data'];
+      for (let index = 0; index < reportData['expected'].length; index++) {
+        const element = reportData['expected'][index];
+        const ff = []; let d = {};
+        for (let ind = 0; ind < element.y.length; ind++) {
+          d = {y: element.y[ind].y, label: element.y[ind].label};
+          ff.push(d);
+        }
+        this.finalData.push({
+          legendText: element.label,
+          showInLegend: 'true',
+          type: 'stackedColumn',
+          dataPoints: ff
+        });
+      }
       this.plotData();
+
+      for (let index = 0; index < reportData['actual'].length; index++) {
+        const element = reportData['actual'][index];
+        const ff = []; let d = {};
+        for (let ind = 0; ind < element.y.length; ind++) {
+          d = {y: element.y[ind].y, label: element.y[ind].label};
+          ff.push(d);
+        }
+        this.finalData1.push({
+          legendText: element.label,
+          showInLegend: 'true',
+          type: 'stackedColumn',
+          dataPoints: ff
+        });
+      }
+      this.plotData1();
+    }, error => {
+      this.spinner.hide();
+    });
+  }
+
+
+
+  getReportData2 () {
+    const input: any = JSON.parse(JSON.stringify(this.input));
+    input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
+    input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
+
+    if (this.selctedProjects) {
+      const d = this.selctedProjects.map(o => o.id);
+      input.building_id = d;
+    }
+    if (this.selectedCurrencies) {
+      const d = this.selectedCurrencies.map(o => o.id);
+      input.currency_id = d;
+    }
+
+    this.spinner.show();
+    this.admin.postDataApi('graphs/cash-flows', input).subscribe(r => {
+      this.spinner.hide();
+      this.reportData = r['data'];
+      this.plotData2();
     }, error => {
       this.spinner.hide();
     });
@@ -195,6 +239,46 @@ export class CashFlowComponent implements OnInit {
       title: {
         // text: "Crude Oil Reserves vs Production, 2016"
       },
+      data: this.finalData
+    });
+    chart.render();
+
+    function toggleDataSeries(e) {
+      if (typeof(e.dataSeries.visible) === 'undefined' || e.dataSeries.visible) {
+        e.dataSeries.visible = false;
+      } else {
+        e.dataSeries.visible = true;
+      }
+      chart.render();
+    }
+  }
+
+  plotData1() {
+    const chart = new CanvasJS.Chart('chartContainer1', {
+      animationEnabled: true,
+      title: {
+        // text: "Crude Oil Reserves vs Production, 2016"
+      },
+      data: this.finalData1
+    });
+    chart.render();
+
+    function toggleDataSeries(e) {
+      if (typeof(e.dataSeries.visible) === 'undefined' || e.dataSeries.visible) {
+        e.dataSeries.visible = false;
+      } else {
+        e.dataSeries.visible = true;
+      }
+      chart.render();
+    }
+  }
+
+  plotData2() {
+    const chart = new CanvasJS.Chart('chartContainer2', {
+      animationEnabled: true,
+      title: {
+        // text: "Crude Oil Reserves vs Production, 2016"
+      },
       toolTip: {
         shared: true
       },
@@ -202,8 +286,7 @@ export class CashFlowComponent implements OnInit {
         cursor: 'pointer',
         itemclick: toggleDataSeries
       },
-      data: // this.finalData
-      [{
+      data: [{
         type: 'column',
         name: 'Expected Cash Flow',
         legendText: 'Expected Cash Flow',

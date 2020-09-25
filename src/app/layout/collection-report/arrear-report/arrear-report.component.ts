@@ -41,7 +41,9 @@ export class ArrearReportComponent implements OnInit {
   selectedBuyerDev: Array<any>;
   selectedLegalReps: Array<any>;
   currencies: Array<any>;
-
+  paymentChoices: Array<any>;
+  incomeProjection: Array<any>;
+  paidConcepts: Array<any>;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
 
   constructor(
@@ -65,6 +67,7 @@ export class ArrearReportComponent implements OnInit {
     this.searchBuilding();
     this.getCurrencies();
     this.initCalendarLocale();
+    this.getAllPaymentChoices();
     this.getListing();
   }
 
@@ -143,6 +146,15 @@ export class ArrearReportComponent implements OnInit {
   onSelectAll(obj: any) {
   }
 
+  getAllPaymentChoices() {
+    this.admin.postDataApi('getPaymentChoices', {})
+      .subscribe(
+        success => {
+          this.paymentChoices = success.data;
+        }, error => {
+          this.spinner.hide();
+        });
+  }
 
   getCurrencies() {
     this.admin.postDataApi('getCurrencies', {})
@@ -238,6 +250,8 @@ export class ArrearReportComponent implements OnInit {
       success => {
         this.spinner.hide();
         this.data = success['data'];
+        this.incomeProjection = success['income_projection'];
+        this.paidConcepts = success['data2'];
 
         this.finalData = [];
         this.model = [];
@@ -267,6 +281,17 @@ export class ArrearReportComponent implements OnInit {
           grand_total_amount = grand_total_amount + (element['total_amount'] || 0);
         }
         this.finalData.push({id: 'Total', key: 1, amount: grand_amount, penelty: grand_penalty, total_amount: grand_total_amount});
+
+        for (let index = 0; index < this.paymentChoices.length; index++) {
+          const element = this.paymentChoices[index];
+          const expected_amt = this.incomeProjection.filter(r => { if (r.id == element.id) {return r['expected_amt']}});
+          const penalty = this.incomeProjection.filter(r => { if (r.id == element.id) {return r['expected_penalty']}});
+          const paid_amount = this.paidConcepts.filter(r => { if (r.id == element.id) {return r['paid_amount']}});
+          element.paid_amount = paid_amount && paid_amount.length > 0 ? paid_amount[0].paid_amount : 0;
+          const ea = expected_amt && expected_amt.length > 0 ? expected_amt[0].expected_amt : 0;
+          const p = penalty && penalty.length > 0 ? penalty[0].penalty : 0;
+          element.total = (ea + p).toFixed(2);
+        }
       },
       error => {
         this.spinner.hide();

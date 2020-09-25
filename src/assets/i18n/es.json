@@ -1849,7 +1849,10 @@
     "amountPaidByUser":"Importe pagado por el usuario",
     "bankName": "Nombre del banco",
     "accountNumber": "Número de cuenta",
-    "clabeSwift": "Clabe / Swift"
+    "clabeSwift": "Clabe / Swift",
+    "incomeProjection": "Proyección de ingresos",
+    "paymentconcpets": "Conceptos de pago",
+    "paymentMade": "Pago realizado"
   },
   "quickVisualization": {
     "label":"Visualización rápida",

@@ -269,12 +269,12 @@
                             <th style="width:10%; text-align:left;">
                                 <b>{{'collectionReport.currency' | translate}}</b>
                             </th>
-                            <!-- <th style="width:10%; text-align:left;">
+                            <th style="width:10%; text-align:left;">
                                 <b>{{'collectionReport.totalPaid' | translate}}</b>
                             </th>
                             <th style="width:10%; text-align:left;">
                                 <b>{{'collectionReport.remaining' | translate}}</b>
-                            </th> -->
+                            </th>
                          </tr>
                     </thead>
                     <tbody>
@@ -304,10 +304,8 @@
                         <td><span>{{item?.account_number}}</span></td>
                         <td><span>{{item?.swift}}</span></td>
                         <td><span>{{item?.bank_currency}}</span></td>
-                        <!-- <td><span>${{((item?.next_month_amount || 0) + (item?.next_month_penalty || 0) - (item?.next_month_paid || 0)) | roundNumber}}</span></td>
-                        <td><span>{{item?.code || ('table.tr.td.NA' | translate)}}</span></td>
-                        <td><span>${{((item?.next_month_amount || 0) + (item?.next_month_penalty || 0) - (item?.next_month_paid || 0)) | roundNumber}}</span></td>
-                        <td><span>{{item?.code || ('table.tr.td.NA' | translate)}}</span></td> -->
+                        <td><span>{{item?.total_amt_paid | currency}}</span></td>
+                        <td><span>{{(item?.deal_price - (item?.penalty || 0)) | currency}}</span></td>
                        </tr>
                     </tbody>
                  </table>

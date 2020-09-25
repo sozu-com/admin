@@ -1858,7 +1858,10 @@
     "amountPaidByUser":"Amount paid by user",
     "bankName": "Bank Name",
     "accountNumber": "Account Number",
-    "clabeSwift": "Clabe/Swift"
+    "clabeSwift": "Clabe/Swift",
+    "incomeProjection": "Income Projection",
+    "paymentconcpets": "Payment Concepts",
+    "paymentMade": "Payment Made"
   },
   "quickVisualization": {
     "label":"Quick Visualization",
