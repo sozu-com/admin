@@ -164,6 +164,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   onLocalityChange(id) {
+    this.parameter.locality_id = '';
     if (!id || id === '0') {
       return false;
     }

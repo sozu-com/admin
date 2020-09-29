@@ -951,6 +951,7 @@
       "pleaseEnterCompanyName": "Please enter Company Name",
       "pleaseEnterFederalTaxPayer": "Please enter Federal Tax Payer Registry",
       "pleaseEnterAgent": "Please choose Agent",
+      "pleaseChooseOtherDates": "Date difference should not be greater tan 1yr",
       "pleaseEnterBankDetails": "Please complete Bank Details",
       "pleaseEnterPurchaseDate": "Please enter Purchase Date",
       "pleaseEnterPrice": "Please enter price",

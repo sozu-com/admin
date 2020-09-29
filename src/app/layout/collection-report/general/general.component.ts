@@ -9,6 +9,7 @@ import { CollectionReport } from '../../../models/collection-report.model';
 import { DatePipe, TitleCasePipe } from '@angular/common';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
+import { ToastrService } from 'ngx-toastr';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 
@@ -47,7 +48,8 @@ export class GeneralComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
     private datePipe: DatePipe,
-    private titleCase: TitleCasePipe
+    private titleCase: TitleCasePipe,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -173,14 +175,19 @@ export class GeneralComponent implements OnInit {
   }
 
   getListing() {
-    this.spinner.show();
     const input: any = JSON.parse(JSON.stringify(this.input));
     input.start_date = moment(this.input.start_date).format('YYYY-MM');
     input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
 
-    input.start_date = input.start_date + '-01';
-    // input.end_date = input.end_date + '-01';
+    const a = moment(input.end_date);
+    const b = moment(input.start_date);
+    const f = a.diff(b, 'days');
 
+    input.start_date = input.start_date + '-01';
+    if (f > 365) {
+      this.toastr.error(this.translate.instant('message.error.pleaseChooseOtherDates'), this.translate.instant('swal.error'));
+      return false;
+    }
     if (this.selctedProjects) {
       const d = this.selctedProjects.map(o => o.id);
       input.building_id = d;
@@ -193,6 +200,7 @@ export class GeneralComponent implements OnInit {
       const d = this.selectedCurrencies.map(o => o.id);
       input.currency_id = d;
     }
+    this.spinner.show();
     this.admin.postDataApi('generateCollectionGeneralReport', input).subscribe(
       success => {
         this.data = success['data'];

@@ -90,6 +90,7 @@ export class CollectionsComponent implements OnInit {
   paymentBanks: Array<any>;
   payment_bank: any;
   seller_type: any;
+  isPenaltyFormSub: boolean;
 
   @ViewChild('viewDesModal') viewDesModal: ElementRef;
   @ViewChild('viewDesModalClose') viewDesModalClose: ElementRef;
@@ -148,6 +149,7 @@ export class CollectionsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.isPenaltyFormSub = false;
     this.showError = false;
     this.today = new Date();
     this.commission_type = '';
@@ -1380,7 +1382,7 @@ export class CollectionsComponent implements OnInit {
   }
 
 
-  deletePenaltyPaymentPopup(id: number) {
+  deletePenaltyPaymentPopup(i: any) {
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' +
         this.translate.instant('message.error.wantToDeletePenalty'),
@@ -1391,7 +1393,7 @@ export class CollectionsComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.admin.postDataApi('deleteCollectionPenalty', {id: id})
+        this.admin.postDataApi('deleteCollectionPenalty', {id: i.id, collection_payment_choice_id: i.collection_payment_choice_id})
           .subscribe(
             success => {
               this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
@@ -1414,8 +1416,10 @@ export class CollectionsComponent implements OnInit {
   applyCollectionPenalty(formdata) {
     if (this.penaltyForm.invalid) {
       this.showError = true;
+      this.isPenaltyFormSub = false;
       return;
     }
+    this.isPenaltyFormSub = true;
     this.admin.postDataApi('applyCollectionPenalty', this.penaltyForm.value).subscribe(r => {
       // let paymentChoiceIndex = 0;
       // for (let index = 0; index < this.items[this.collectionIndex].payment_choices.length; index++) {

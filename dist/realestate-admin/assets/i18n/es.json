@@ -941,6 +941,7 @@
       "pleaseEnterCompanyName": "Por favor, introduzca el nombre de la empresa",
       "pleaseEnterFederalTaxPayer": "Por favor ingrese al Registro Federal de Pagadores de Impuestos",
       "pleaseEnterAgent": "Por favor elija Agente",
+      "pleaseChooseOtherDates": "La diferencia de fecha no debe ser superior a 1 año",
       "pleaseEnterBankDetails": "Por favor complete los datos bancarios",
       "pleaseEnterPurchaseDate": "Por favor, introduzca la fecha de compra",
       "pleaseEnterPrice": "Por favor ingrese el precio",

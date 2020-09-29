@@ -617,7 +617,7 @@
               </div>
               <div class="col-12">
                 <div class="btn-cont text-right">
-                    <button type="submit" class="btn btn-primary-new">
+                    <button type="submit" [disabled]="isPenaltyFormSub" class="btn btn-primary-new">
                         {{penaltyForm.controls.id.value ? ('addForm.updateBtn' | translate) : ('addForm.addBtn' | translate)}}</button>
                 </div>
               </div>
@@ -691,7 +691,7 @@
                     <div class="form-group">
                         <select name="payment_bank" class="form-control" [(ngModel)]="payment_bank">
                               <option value="">{{'viewCollections.chooseBank' | translate}}</option>
-                              <option *ngFor="let bt of paymentBanks" [ngValue]="bt"> {{bt?.name}} | {{bt?.account_number}}</option>
+                              <option *ngFor="let bt of paymentBanks" [ngValue]="bt"> {{bt?.name}} | {{bt?.account_number}} | {{bt?.currency?.code}}</option>
                         </select>
                   </div>
                 </div>
@@ -912,7 +912,7 @@
                         title="{{'table.title.editPenalty' | translate}}" 
                         class="action-icon"><img src="assets/img/stamp.png" alt="img"></button>  
 
-                        <button *ngIf="!p.calc_payment_amount && p.penalty" (click)="deletePenaltyPaymentPopup(p.penalty.id)" 
+                        <button *ngIf="!p.calc_payment_amount && p.penalty" (click)="deletePenaltyPaymentPopup(p.penalty)" 
                         title="{{'table.title.deletePenalty' | translate}}" 
                         class="action-icon"><img src="assets/img/ic_delete.png" alt="img"></button>  
                       </td>   
