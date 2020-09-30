@@ -39,13 +39,31 @@
             <table class="table table-striped table-align-left">
               <tr>
                 <th style="width:6%">&nbsp;</th>
-                <th style="width:20%">
+                <th style="width:10%">
                   <div class="table-search">
                       <label>{{'table.th.name' | translate}}</label>
                       <div class="searh-3">
                         <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email)" name="">
                         <button *ngIf="parameter.name" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
                       </div>
+                  </div>
+                </th>
+                <th style="width:10%">
+                  <div class="table-search">
+                      <label>{{'table.th.firstSurname' | translate}}</label>
+                      <!-- <div class="searh-3">
+                        <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email)" name="">
+                        <button *ngIf="parameter.name" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
+                      </div> -->
+                  </div>
+                </th>
+                <th style="width:10%">
+                  <div class="table-search">
+                      <label>{{'table.th.secondSurname' | translate}}</label>
+                      <!-- <div class="searh-3">
+                        <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email)" name="">
+                        <button *ngIf="parameter.name" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
+                      </div> -->
                   </div>
                 </th>
                 <th style="width:20%; text-align:left;">
@@ -71,7 +89,7 @@
                     <label>{{'table.th.interestedIn' | translate}}</label>
                   </div>
                 </th>
-                <th style="width:20%; vertical-align: top;" *ngIf="parameter.type==2">
+                <th style="width:10%; vertical-align: top;" *ngIf="parameter.type==2">
                   <div class="table-search">
                     <label>{{'table.th.properties' | translate}}</label>
                     <a (click)="sortData(parameter.property_sort==2?1:2, 'property_sort')" href="javascript://"><img [ngClass]="{'upsidedown':parameter.property_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
@@ -90,7 +108,15 @@
                 <td class="text-left">
                     <a class="text-ellipsis" data-toggle="popover" data-placement="top" title="{{item.name}}">
                       {{item.name | titlecase}}
+                      <!-- {{item.first_surname ? (item.first_surname | titlecase) : ''}}
+                      {{item.second_surname ? (item.second_surname | titlecase) : ''}} -->
                     </a>
+                </td>
+                <td class="text-left">
+                  {{item.first_surname ? (item.first_surname | titlecase) : 'NA'}}
+                </td>
+                <td class="text-left">
+                  {{item.second_surname ? (item.second_surname | titlecase) : 'NA'}}
                 </td>
                 <td class="text-left" *ngIf="item.phone">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
                 <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
