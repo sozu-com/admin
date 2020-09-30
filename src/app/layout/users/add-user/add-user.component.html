@@ -136,13 +136,32 @@
               </div>
               <div class="col-12">
                   <div class="form-group-2">
-                    <label>{{'addForm.name' | translate}} 
+                    <label>{{'addForm.names' | translate}} 
+                      <!-- <span class="color-red">*</span> -->
+                    </label>
+                    <input autocomplete="off" minlength="1" maxlength="50" [pattern]="constant.onlyWhiteSpaces" type="text" class="form-control" 
+                      [(ngModel)]="model.legal_representative.name" name="name">
+                  </div>
+              </div>
+              <div class="col-12">
+                  <div class="form-group-2">
+                    <label>{{'addForm.firstSurname' | translate}} 
                       <!-- <span class="color-red">*</span> -->
                     </label>
                     <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.onlyWhiteSpaces" type="text" class="form-control" 
-                      [(ngModel)]="model.legal_representative.name" name="rep_name">
+                      [(ngModel)]="model.legal_representative.first_surname" name="first_surname">
                   </div>
               </div>
+              <div class="col-12">
+                  <div class="form-group-2">
+                    <label>{{'addForm.secondSurname' | translate}} 
+                      <!-- <span class="color-red">*</span> -->
+                    </label>
+                    <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.onlyWhiteSpaces" type="text" class="form-control" 
+                      [(ngModel)]="model.legal_representative.second_surname" name="second_surname">
+                  </div>
+              </div>
+
               <div class="col-12">
                   <div class="form-group-2">
                     <label>{{'addForm.contactNumber' | translate}} 

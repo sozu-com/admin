@@ -1,16 +1,14 @@
 import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
-import { ACL, Permission } from './../../../models/acl.model';
 import { ActivatedRoute } from '@angular/router';
 import { NgForm, FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { MapsAPILoader } from '@agm/core';
-import { FileUpload } from 'src/app/common/fileUpload';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { IProperty } from 'src/app/common/property';
 import { Constant } from 'src/app/common/constants';
 import { CommonService } from 'src/app/services/common.service';
 import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
-import { LegalEntity, LegalRepresentative, Banks } from '../../../models/legalEntity.model';
+import { LegalEntity, LegalRepresentative } from '../../../models/legalEntity.model';
 import { Developer } from 'src/app/models/global.model';
 declare const google;
 declare let swal: any;
@@ -37,8 +35,6 @@ export class AddLegalEntityComponent implements OnInit {
   constructor(
     public constant: Constant,
     private cs: CommonService,
-    private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone,
     private admin: AdminService,
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
@@ -86,6 +82,8 @@ export class AddLegalEntityComponent implements OnInit {
       legal_rep: this.fb.group({
         id: [''],
         name: ['', [Validators.required]],
+        first_surname: ['', [Validators.required]],
+        second_surname: [''],
         phone: ['', [Validators.required]],
         country_code: ['', [Validators.required]],
         dial_code: ['', [Validators.required]],
@@ -99,7 +97,7 @@ export class AddLegalEntityComponent implements OnInit {
     const countryDialCode = {
       country_code: this.model.country_code,
       dial_code: this.model.dial_code
-    }
+    };
     this.addDataForm.controls.country_code.patchValue(this.model.country_code);
     this.addDataForm.controls.dial_code.patchValue(this.model.dial_code);
     this.addDataForm.patchValue({legal_rep: countryDialCode});
@@ -124,12 +122,6 @@ export class AddLegalEntityComponent implements OnInit {
       );
   }
 
-  // addBank($event, param: string) {
-  //   const bank = new Banks();
-  //   this.model.legal_entity_banks.push(bank);
-  // }
-
-  
   addLegalEntityBank($event) {
     $event.stopPropagation();
     this.legalEntityBanks.push(this.newBanks());
@@ -184,28 +176,13 @@ export class AddLegalEntityComponent implements OnInit {
 
   patchForm(data) {
     this.addDataForm.patchValue(data);
-    // this.addForm.controls.comm_name.patchValue(data.comm_name);
-    // this.addForm.controls.legal_name.patchValue(data.legal_name || '');
-    // this.addForm.controls.phone.patchValue(data.phone || '');
-    // this.addForm.controls.country_code.patchValue(data.country_code || '');
-    // this.addForm.controls.dial_code.patchValue(data.dial_code || '');
-    // this.addForm.controls.address.patchValue(data.address || '');
-    // this.addForm.controls.fed_tax_pay.patchValue(data.fed_tax_pay || '');
     const control = this.addDataForm.get('legal_entity_banks') as FormArray;
     if (data.legal_entity_banks) {
       data.legal_entity_banks.forEach(x => {
         control.push(this.fb.group(x));
       });
     }
-    // this.addForm.controls.legal_rep.patchValue(data.legal_rep);
     this.addDataForm.patchValue({legal_rep: data.legal_reps});
-    // const legalRep = this.addForm.get('legal_rep') as FormGroup; 
-    // legalRep.controls.name.patchValue(data.legal_rep.name || '');
-    // legalRep.controls.phone.patchValue(data.legal_rep.phone || '');
-    // legalRep.controls.country_code.patchValue(data.legal_rep.country_code || '');
-    // legalRep.controls.dial_code.patchValue(data.legal_rep.dial_code || '');
-    // legalRep.controls.email.patchValue(data.legal_rep.email || '');
-    // legalRep.controls.fed_tax_pay.patchValue(data.legal_rep.fed_tax_pay || '');
     const repBanks = this.addDataForm.get('legal_rep').get('legal_rep_banks') as FormArray;
     if (data.legal_reps && data.legal_reps.legal_rep_banks) {
       data.legal_reps.legal_rep_banks.forEach(x => {
@@ -227,10 +204,10 @@ export class AddLegalEntityComponent implements OnInit {
 
   add(formData: NgForm) {
     // const modelSave: LegalEntity = JSON.parse(JSON.stringify(this.model));
-    formData['country_code']=this.model.country_code;
-    formData['dial_code']=this.model.dial_code;
-    formData['legal_rep']['country_code']=this.model.country_code;
-    formData['legal_rep']['dial_code']=this.model.dial_code;
+    formData['country_code'] = this.model.country_code;
+    formData['dial_code'] = this.model.dial_code;
+    formData['legal_rep']['country_code'] = this.model.country_code;
+    formData['legal_rep']['dial_code'] = this.model.dial_code;
     if (this.model.id) {
       formData['id'] = this.model.id;
     }

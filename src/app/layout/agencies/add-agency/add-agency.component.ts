@@ -134,11 +134,16 @@ export class AddAgencyComponent implements OnInit {
       modelSave.legal_representative.country_code = modelSave.legal_representative.country_code || this.constant.country_code;
       modelSave.legal_representative.dial_code = modelSave.legal_representative.dial_code || this.constant.dial_code;
     }
-    if (modelSave.legal_representative.name || modelSave.legal_representative.phone
+    if (modelSave.legal_representative.name || modelSave.legal_representative.first_surname || modelSave.legal_representative.phone
       || modelSave.legal_representative.fed_tax_pay || modelSave.legal_representative.email) {
         // if any of key present, then all must be entered
       if (!modelSave.legal_representative.name) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeName'), 'error');
+        return;
+      }
+      if (!modelSave.legal_representative.first_surname) {
+        swal(this.translate.instant('swal.error'),
+        this.translate.instant('message.error.pleaseEnterLegalRepresentativeFirstName'), 'error');
         return;
       }
       if (!modelSave.legal_representative.phone) {
@@ -154,7 +159,7 @@ export class AddAgencyComponent implements OnInit {
         return;
       }
     }
-    if (!modelSave.legal_representative.name || !modelSave.legal_representative.phone 
+    if (!modelSave.legal_representative.name || !modelSave.legal_representative.first_surname || !modelSave.legal_representative.phone 
       || !modelSave.legal_representative.fed_tax_pay || !modelSave.legal_representative.email) {
         delete modelSave.legal_representative;
     }

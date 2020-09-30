@@ -35,8 +35,20 @@
               </div>
               <div class="col-12">
                   <div class="form-group-2">
-                    <label>{{'addForm.name' | translate}} <span class="color-red">*</span></label>
-                    <input [pattern]="constant.onlyWhiteSpaces" autocomplete="off" required type="text" class="form-control" [(ngModel)]="model.name" name="name">
+                    <label>{{'addForm.names' | translate}} <span class="color-red">*</span></label>
+                    <input [pattern]="constant.onlyWhiteSpaces" autocomplete="off" maxlength="50" required type="text" class="form-control" [(ngModel)]="model.name" name="name">
+                  </div>
+              </div>
+              <div class="col-12">
+                  <div class="form-group-2">
+                    <label>{{'addForm.firstSurname' | translate}} <span class="color-red">*</span></label>
+                    <input [pattern]="constant.onlyWhiteSpaces" autocomplete="off" maxlength="30" required type="text" class="form-control" [(ngModel)]="model.first_surname" name="first_surname">
+                  </div>
+              </div>
+              <div class="col-12">
+                  <div class="form-group-2">
+                    <label>{{'addForm.secondSurname' | translate}} </label>
+                    <input [pattern]="constant.onlyWhiteSpaces" autocomplete="off" maxlength="30" type="text" class="form-control" [(ngModel)]="model.second_surname" name="second_surname">
                   </div>
               </div>
               <div class="col-12">

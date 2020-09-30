@@ -66,9 +66,9 @@ export class ManagersComponent implements OnInit {
     // this.setCurrentPosition();
     this.parameter.sub = this.route.params.subscribe(params => {
       if (params.type == 'manager') {
-        this.parameter.name = params.name; 
-      } else if (params.type == 'company'){
-        this.parameter.company_name = params.name; 
+        this.parameter.name = params.name;
+      } else if (params.type == 'company') {
+        this.parameter.company_name = params.name;
       }
       this.parameter.p = this.constant.p;
       this.parameter.phone = ''; this.parameter.email = '';
@@ -160,10 +160,8 @@ export class ManagersComponent implements OnInit {
     if (this.model.id) { input.append('id', this.model.id.toString()); }
 
     input.append('name', this.model.name);
-    // input.append('country_code', this.model.country_code ? this.model.country_code : this.constant.dial_code);
-    // input.append('dial_code', this.model.dial_code ? this.model.dial_code : this.constant.dial_code);
-    // input.append('phone', this.model.phone);
-    // input.append('email', this.model.email);
+    input.append('first_surname', this.model.first_surname || '');
+    input.append('second_surname', this.model.second_surname || '');
 
     if (this.model.phone) {
       input.append('country_code', this.model.country_code ? this.model.country_code : this.constant.dial_code);

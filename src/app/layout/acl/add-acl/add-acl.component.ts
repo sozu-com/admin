@@ -172,7 +172,6 @@ export class AddAclComponent implements OnInit {
     }
   }
 
-  
   add(formdata: NgForm) {
     // if (this.model.adr && this.model.adr.trim() && !this.model.lat && !this.model.lng) {
     //   swal(this.translate.instant('swal.error'), 'Please choose address from dropdown.', 'error');
@@ -197,6 +196,8 @@ export class AddAclComponent implements OnInit {
 
     input.append('user_type', this.model.user_type);
     input.append('name', this.model.name);
+    input.append('first_surname', this.model.first_surname ? this.model.first_surname : '');
+    input.append('second_surname', this.model.second_surname ? this.model.second_surname : '');
     input.append('country_code', this.model.country_code ? this.model.country_code : this.constant.dial_code);
     input.append('dial_code', this.model.dial_code ? this.model.dial_code : this.constant.dial_code);
     input.append('phone', this.model.phone);
@@ -212,7 +213,7 @@ export class AddAclComponent implements OnInit {
     input.append('is_collection_agent', this.model.is_collection_agent ? '1' : '0');
     input.append('is_csr_renter', this.model.is_csr_renter ? '1' : '0');
 
-    if (this.model.is_external_agent && this.model.is_company=='false') {
+    if (this.model.is_external_agent && this.model.is_company == 'false') {
       input.append('adr', this.model.adr || '');
       input.append('lat', this.model.lat || null);
       input.append('lng', this.model.lng || null);
@@ -221,7 +222,7 @@ export class AddAclComponent implements OnInit {
       input.append('agency_id', '');
     }
 
-    if (this.model.is_external_agent && this.model.is_company=='true') {
+    if (this.model.is_external_agent && this.model.is_company == 'true') {
       input.append('agency_id', this.model.agency.id);
     } else {
       input.append('company_name', '');
@@ -303,7 +304,6 @@ export class AddAclComponent implements OnInit {
     }
   }
 
-  
   getAclUserById(id: string) {
     this.spinner.show();
     this.model.img_loader = false;
@@ -312,14 +312,16 @@ export class AddAclComponent implements OnInit {
       const userdata = r['data'];
       for (let index = 0; index < userdata.admin_acls.length; index++) {
         const element = userdata.admin_acls[index];
-        element['acl'] = {name: element.name, id: element.acl_id}
+        element['acl'] = {name: element.name, id: element.acl_id};
       }
       this.model.address = [];
       this.model.id = userdata.id;
       this.model.name = userdata.name;
+      this.model.first_surname = userdata.first_surname;
+      this.model.second_surname = userdata.second_surname;
       this.model.email = userdata.email;
       this.model.phone = userdata.phone;
-      if (userdata.agency_id!=null && userdata.agency_id!=0) {
+      if (userdata.agency_id != null && userdata.agency_id != 0) {
         this.model.is_company = 'true';
       } else {
         this.model.is_company = 'false';
@@ -354,7 +356,7 @@ export class AddAclComponent implements OnInit {
       this.model.is_csr_renter = userdata.permissions && userdata.permissions.can_csr_renter == 1 ? true : false;
       this.model.is_collection_agent = userdata.permissions && userdata.permissions.can_collection_agent == 1 ? true : false;
       this.model.is_credit_agent = userdata.permissions && userdata.permissions.can_credit_agent == 1 ? true : false;
-  
+
       for (let ind = 0; ind < userdata.countries.length; ind++) {
         const tempAdd = {
           countries: userdata.countries[ind].id.toString(),
@@ -366,7 +368,7 @@ export class AddAclComponent implements OnInit {
         this.model.address[ind] = tempAdd;
       }
 
-      if(this.model.address.length < 1) {
+      if (this.model.address.length < 1) {
         const obj = {
           countries: this.parameter.countries && this.parameter.countries[0] ? this.parameter.countries[0].id : 0,
           states: '0',
@@ -384,7 +386,7 @@ export class AddAclComponent implements OnInit {
         element.can_update = element.can_update || 0,
         element.can_read = element.can_read || 0,
         element.can_crud = element.can_crud || 0,
-        element.can_purge = element.can_purge || 0
+        element.can_purge = element.can_purge || 0;
       }
       this.setUserType(userdata.user_type);
     }, erorr => {
@@ -440,9 +442,6 @@ export class AddAclComponent implements OnInit {
   //       });
   // }
 
-
-
-  
   removeAddressObj(index) {
     this.model.address.splice(index, 1);
     this.disabledBuildings.splice(index, 1);
@@ -478,7 +477,6 @@ export class AddAclComponent implements OnInit {
     this.initialCountry = { initialCountry: e.iso2 };
   }
 
-  
   getCountries() {
     this.parameter.countries = [];
     this.parameter.country_id = '-1';
@@ -570,7 +568,6 @@ export class AddAclComponent implements OnInit {
     this.model.address.push(obj);
   }
 
-  
   getCountryLocality() {
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
       this.parameter.countries = r['data'];
@@ -704,11 +701,11 @@ export class AddAclComponent implements OnInit {
           title: this.translate.instant('addForm.CSRBuyer'),
           key: 'is_buyer_renter',
           value: this.model.is_buyer_renter
-        },{
+        }, {
           title: this.translate.instant('addForm.CSRRenter'),
           key: 'is_csr_renter',
           value: this.model.is_csr_renter
-        },{
+        }, {
           title: this.translate.instant('addForm.inhouseAgent'),
           key: 'is_broker',
           value: this.model.is_broker
@@ -717,23 +714,23 @@ export class AddAclComponent implements OnInit {
           title: this.translate.instant('addForm.outSideAgent'),
           key: 'is_external_agent',
           value: this.model.is_external_agent
-        },{
+        }, {
           title: this.translate.instant('addForm.CSRSeller'),
           key: 'is_broker_seller_dev',
           value: this.model.is_broker_seller_dev
-        },{
+        }, {
           title: this.translate.instant('addForm.dataCollector'),
           key: 'is_data_collector',
           value: this.model.is_data_collector
-        },{
+        }, {
           title: this.translate.instant('addForm.CSRClosure'),
           key: 'is_csr_closer',
           value: this.model.is_csr_closer
-        },{
+        }, {
           title: this.translate.instant('addForm.collectionAgent'),
           key: 'is_collection_agent',
           value: this.model.is_collection_agent
-        },{
+        }, {
           title: this.translate.instant('addForm.creditAgent'),
           key: 'is_credit_agent',
           value: this.model.is_credit_agent
@@ -757,10 +754,10 @@ export class AddAclComponent implements OnInit {
 
   setPredefinedUsers(item, value, i: number) {
     console.log(item.key, this.model[item.key]);
-    console.log(item, value)
+    console.log(item, value);
     this.model[item.key] = value;
     this.predefinedUsers[i].value = value;
-    console.log(item, value)
+    console.log(item, value);
     console.log(item.key, this.model[item.key]);
   }
   

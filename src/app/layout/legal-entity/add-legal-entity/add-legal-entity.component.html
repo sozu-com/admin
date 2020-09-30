@@ -151,9 +151,27 @@
                   </div>
                   <div class="col-12">
                       <div class="form-group-2">
-                        <label>{{'addForm.name' | translate}} <span class="color-red">*</span></label>
-                        <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.onlyWhiteSpaces" required type="text" 
+                        <label>{{'addForm.names' | translate}} <span class="color-red">*</span></label>
+                        <input autocomplete="off" minlength="1" maxlength="50" [pattern]="constant.onlyWhiteSpaces" required type="text" 
                           class="form-control" formControlName="name" name="name1">
+                      </div>
+                  </div>
+                  <div class="col-12">
+                      <div class="form-group-2">
+                        <label>{{'addForm.firstSurname' | translate}} 
+                          <span class="color-red">*</span>
+                        </label>
+                        <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.onlyWhiteSpaces" type="text" class="form-control" 
+                        formControlName="first_surname" name="first_surname">
+                      </div>
+                  </div>
+                  <div class="col-12">
+                      <div class="form-group-2">
+                        <label>{{'addForm.secondSurname' | translate}} 
+                          <!-- <span class="color-red">*</span> -->
+                        </label>
+                        <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.onlyWhiteSpaces" type="text" class="form-control" 
+                        formControlName="second_surname" name="second_surname">
                       </div>
                   </div>
                   <div class="col-12">
@@ -238,51 +256,3 @@
         </div>
     </div>
     
-<!--   
-<a #openDeveloperModel class="btn-third btn btn-block" data-target="#developer-list" data-toggle="modal"></a>
-<div class="modal" id="developer-list">
-  <div class="modal-dialog">
-    <div class="modal-content notary-avail">
-      <div class="modal-header popup-header">
-        <h4 class="modal-title">{{'addForm.developer.selectDeveloper' | translate}}</h4>
-        <button type="button" class="close" data-dismiss="modal" #closeDeveloperModel>&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-md-8 col-6">
-            <input style="max-width:200px" autocomplete="off" [(ngModel)]="name" class="form-control" type="text"
-              name="keyword" placeholder="{{'addForm.placeholder.search' | translate}}">
-          </div>
-          <div class="col-md-4 col-5 btn-cont">
-            <a class="btn btn-primary pull-right" href="javascript://" (click)="selectDeveloper(name, 2)">Search</a>
-          </div>
-        </div>
-        <div class="spacer40"></div>
-        <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
-          <table class="table">
-            <tr *ngFor="let item of all_developers">
-              <td>
-                <div class="n-avail-profile">
-                  <img [src]="item.image| img:'thumb'" onerror='src="assets/img/default_img.png"' alt="img">
-                  <div class="n-avail-info">
-                    <p class="p12">{{item.name}}</p>
-                    <p class="p10">{{'addForm.developer.phone' | translate}} : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <label class="cust-check-bx float-right">
-                  <input type="radio" name="notary_id" (click)="setDeveloper(item)">
-                  <span class="checkmark"></span>
-                </label>
-              </td>
-            </tr>
-            <tr *ngIf="all_developers?.length<1">
-              <p class="show-not-found">{{'addForm.developer.notFound' | translate}}</p>
-            </tr>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->

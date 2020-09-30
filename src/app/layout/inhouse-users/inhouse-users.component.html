@@ -181,7 +181,11 @@
                 <span class="name">{{item?.agency?.name ? item?.agency?.name : ('table.tr.td.NA' | translate)}}</span>
               </td>
               <td class="text-left text-ellipsis120">
-                <span class="name">{{item.name | titlecase}}</span>
+                <span class="name">
+                  {{item.name | titlecase}}
+                  {{item.first_surname | titlecase}}
+                  {{item.second_surname | titlecase}}
+                </span>
               </td>
               <td class="text-left" *ngIf="item.phone">{{item.dial_code && item.dial_code!=undefined ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
               <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>

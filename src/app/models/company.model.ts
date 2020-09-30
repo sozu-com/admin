@@ -1,3 +1,5 @@
+import { LegalRepresentative } from './legalEntity.model';
+
 export class Company {
     id: any;
     person_in_charge: string;   // incharge of company
@@ -24,12 +26,15 @@ export class Company {
     project_count?: number;
     sort_manager?: number;
     project_sort?: number;
+    legal_representative?: LegalRepresentative;
 }
 
 export class Manager {
     id: number;
     company?: Company;
     name: string;
+    first_surname?: string;
+    second_surname?: string;
     country_code: string;
     dial_code: string;
     phone: string;

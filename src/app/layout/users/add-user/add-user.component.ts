@@ -137,11 +137,16 @@ export class AddUserComponent implements OnInit {
     if (modelSave.images) {
       modelSave.images = modelSave.images.map(r => r.image);
     }
-    if (modelSave.legal_representative.name || modelSave.legal_representative.phone
+    if (modelSave.legal_representative.name || modelSave.legal_representative.first_surname || modelSave.legal_representative.phone
       || modelSave.legal_representative.fed_tax_pay || modelSave.legal_representative.email) {
         // if any of key present, then all must be entered
       if (!modelSave.legal_representative.name) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeName'), 'error');
+        return;
+      }
+      if (!modelSave.legal_representative.first_surname) {
+        swal(this.translate.instant('swal.error'),
+        this.translate.instant('message.error.pleaseEnterLegalRepresentativeFirstName'), 'error');
         return;
       }
       if (!modelSave.legal_representative.phone) {
@@ -157,7 +162,7 @@ export class AddUserComponent implements OnInit {
         return;
       }
     }
-    if (!modelSave.legal_representative.name || !modelSave.legal_representative.phone 
+    if (!modelSave.legal_representative.name || !modelSave.legal_representative.first_surname || !modelSave.legal_representative.phone 
       || !modelSave.legal_representative.fed_tax_pay || !modelSave.legal_representative.email) {
         delete modelSave.legal_representative;
     }

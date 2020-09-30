@@ -1,5 +1,5 @@
 import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Users } from 'src/app/models/users.model';
 import { MapsAPILoader } from '@agm/core';
@@ -10,6 +10,7 @@ import { CommonService } from 'src/app/services/common.service';
 import { AdminService } from 'src/app/services/admin.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
+import { LegalRepresentative, Banks } from 'src/app/models/legalEntity.model';
 declare const google: any;
 declare let swal: any;
 
@@ -29,6 +30,7 @@ export class AddCompanyComponent implements OnInit {
   image: any;
   logo: any;
   model: Company;
+  currencies: Array<any>;
   constructor(
     public constant: Constant,
     private cs: CommonService,
@@ -37,12 +39,15 @@ export class AddCompanyComponent implements OnInit {
     private admin: AdminService,
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.model = new Company();
+    this.model.legal_representative = new LegalRepresentative();
     this.setCurrentPosition();
+    this.getCurrencies();
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
     this.initialCountry = {initialCountry: this.constant.country_code};
@@ -54,6 +59,22 @@ export class AddCompanyComponent implements OnInit {
       });
   }
 
+  getCurrencies() {
+    this.admin.postDataApi('getCurrencies', {})
+      .subscribe(
+        success => {
+          this.currencies = success.data;
+        }, error => {
+          this.spinner.hide();
+        }
+      );
+  }
+
+  onCountryChange(e) {
+    this.model.country_code = e.iso2;
+    this.model.dial_code = '+' + e.dialCode;
+    this.initialCountry = {initialCountry: e.iso2};
+  }
   getTowerManagerCompanyById(id: number) {
     this.spinner.show();
     this.admin.postDataApi('getTowerManagerCompanyById', {'id': id})
@@ -63,6 +84,8 @@ export class AddCompanyComponent implements OnInit {
         this.model = success.data;
         this.image = this.model.image;
         this.logo = this.model.logo;
+        this.model.legal_representative = success.data.legal_representative || new LegalRepresentative();
+        this.model.legal_representative.legal_rep_banks = success.data.legal_representative.legal_rep_banks; // Array(new Banks());
       }, error => {
         this.spinner.hide();
       });
@@ -95,20 +118,10 @@ export class AddCompanyComponent implements OnInit {
 
   add(formData: NgForm) {
     const modelSave: Users = JSON.parse(JSON.stringify(this.model));
-    // if (modelSave.address) {
-    //   if (!modelSave.lat || !modelSave.lng) {
-    //     swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAddressFromDropdown'), 'error');
-    //     return;
-    //   }
-    // }
-
-    // if (modelSave.branch) {
-    //   if (!modelSave.branch_lat || !modelSave.branch_lng) {
-    //     swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseBranchAddressFromDropdown'), 'error');
-    //     swal(this.translate.instant('swal.error'), '', 'error');
-    //     return;
-    //   }
-    // }
+    if (modelSave.legal_representative.phone) {
+      modelSave.legal_representative.country_code = modelSave.legal_representative.country_code || this.constant.country_code;
+      modelSave.legal_representative.dial_code = modelSave.legal_representative.dial_code || this.constant.dial_code;
+    }
 
     if (this.model.img_loader || this.model.logo_loader) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.uploadingImage'), 'error');
@@ -116,6 +129,49 @@ export class AddCompanyComponent implements OnInit {
     }
     delete this.model.logo_loader;
     delete this.model.img_loader;
+
+    if (modelSave.legal_representative.name || modelSave.legal_representative.first_surname || modelSave.legal_representative.phone 
+      || modelSave.legal_representative.fed_tax_pay || modelSave.legal_representative.email) {
+        // if any of key present, then all must be entered
+      if (!modelSave.legal_representative.name) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeName'), 'error');
+        return;
+      }
+      if (!modelSave.legal_representative.first_surname) {
+        swal(this.translate.instant('swal.error'),
+        this.translate.instant('message.error.pleaseEnterLegalRepresentativeFirstName'), 'error');
+        return;
+      }
+      if (!modelSave.legal_representative.phone) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativePhone'), 'error');
+        return;
+      }
+      if (!modelSave.legal_representative.email) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeEmail'), 'error');
+        return;
+      }
+      if (!modelSave.legal_representative.fed_tax_pay) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeFTPR'), 'error');
+        return;
+      }
+    }
+    if (!modelSave.legal_representative.name || !modelSave.legal_representative.first_surname || !modelSave.legal_representative.phone 
+      || !modelSave.legal_representative.fed_tax_pay || !modelSave.legal_representative.email) {
+        delete modelSave.legal_representative;
+    }
+
+    if (modelSave['legal_representative'] && modelSave['legal_representative']['legal_rep_banks'] &&
+      modelSave['legal_representative']['legal_rep_banks'].length > 0) {
+      let i = 0;
+      for (let index = 0; index < modelSave['legal_representative']['legal_rep_banks'].length; index++) {
+        const element = modelSave['legal_representative']['legal_rep_banks'][index];
+        if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
+          i = i + 1;
+          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
+          return;
+        }
+      }
+    }
     this.spinner.show();
     this.admin.postDataApi('addTowerManagerCompany', modelSave)
       .subscribe(
@@ -129,10 +185,15 @@ export class AddCompanyComponent implements OnInit {
                     this.translate.instant('message.success.updatedSuccessfully') :
                     this.translate.instant('message.success.addedSuccessfully');
             swal(this.translate.instant('swal.success'), text, 'success');
-            if (!this.model.id) {
-              formData.reset();
-              this.image = ''; this.logo = '';
-            }
+            // if (!this.model.id) {
+            //   formData.reset();
+            //   this.image = ''; this.logo = '';
+            //   this.model.legal_representative = success.data.legal_representative || new LegalRepresentative();
+            //   this.model.legal_representative.legal_rep_banks = success.data.legal_representative.legal_rep_banks || [];
+            // } else {
+            //   this.router.navigate(['/dashboard/companies/view-all']);
+            // }
+            this.router.navigate(['/dashboard/companies/view-all']);
           }
         }, error => {
           this.spinner.hide();
@@ -206,6 +267,24 @@ export class AddCompanyComponent implements OnInit {
             this.model[param] = lat + ',' + lng;
           }
         }
+      });
+    }
+  }
+
+  addLegalEntityBank(e) {
+    const bank = new Banks();
+    this.model.legal_representative.legal_rep_banks = this.model.legal_representative.legal_rep_banks || [];
+    this.model.legal_representative.legal_rep_banks.push(bank);
+  }
+
+  removeLegalEntityBank($event: Event, item: any, i: number) {
+    $event.stopPropagation();
+    this.model.legal_representative.legal_rep_banks.splice(i, 1);
+    if (item.id) {
+      this.admin.postDataApi('deleteLegalRepBank', {id: item.id}).subscribe(success => {
+        this.spinner.hide();
+      }, error => {
+        this.spinner.hide();
       });
     }
   }

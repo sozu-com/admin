@@ -3,6 +3,8 @@ import { Agency } from "src/app/models/agency.model";
 export class ACL {
     id?: string;
     name?: string;
+    first_surname?: string;
+    second_surname?: string;
     country_code?: string;
     dial_code?: string;
     phone?: string;

@@ -8,7 +8,7 @@ export class LegalEntity {
     address: string;
     fed_tax_pay: string;
     legal_entity_banks: Array<Banks>;
-    legal_rep: LegalRepresentative
+    legal_rep: LegalRepresentative;
 }
 
 export class Banks {
@@ -22,6 +22,8 @@ export class Banks {
 export class LegalRepresentative {
     id?: string;
     name: string;
+    first_surname?: string;
+    second_surname?: string;
     dial_code: string;
     country_code: string;
     phone: string;
