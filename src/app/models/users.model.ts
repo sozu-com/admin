@@ -4,6 +4,8 @@ export class Users {
     id: string;
     company_name?: string;
     name: string;
+    first_surname?: string;
+    second_surname?: string;
     country_code: string;
     dial_code: string;
     phone: string;
