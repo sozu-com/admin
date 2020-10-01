@@ -113,6 +113,8 @@ export class AddEditCollectionComponent implements OnInit {
     { id: '1', name: this.translate.instant('leadDetails.purchase'), checked: false },
     { id: '2', name: this.translate.instant('leadDetails.rent'), checked: false }];
 
+  ccsum: any;
+  pcsum: any;
   constructor(public model: Collection, private us: AdminService, private cs: CommonService,
     private router: Router,
     private building: Building, public constant: Constant,
@@ -376,6 +378,13 @@ export class AddEditCollectionComponent implements OnInit {
       comm_total_commission_amount: ['', [Validators.required]],
       comm_shared_commission: ['', [Validators.required, Validators.max(100)]],
       comm_shared_commission_amount: ['', [Validators.required]],
+      sozu_iva_percent: ['', [Validators.required, Validators.max(100)]],
+      sozu_iva_amt: ['', [Validators.required]],
+      agent_iva_percent: ['', [Validators.required, Validators.max(100)]],
+      agent_iva_amt: ['', [Validators.required]],
+      iva_percent: ['', [Validators.required]],
+      add_iva_to_pc: [''],
+      add_iva_to_cc: [''],
       // deal_commission_agents: ['', [Validators.required]]
       deal_commission_agents: this.fb.array([]),
       collection_agent_banks: this.fb.array([]),
@@ -729,6 +738,14 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep5.controls.comm_shared_commission.patchValue(this.numberUptoNDecimal(data.comm_shared_commission || 0, 3));
     this.addFormStep5.controls.comm_shared_commission_amount.patchValue(
       this.numberUptoNDecimal(data.comm_shared_commission_amount || 0, 2));
+    this.addFormStep5.controls.sozu_iva_percent.patchValue(this.numberUptoNDecimal(data.sozu_iva_percent || 0, 3));
+    this.addFormStep5.controls.sozu_iva_amt.patchValue(this.numberUptoNDecimal(data.sozu_iva_amt || 0, 2));
+    this.addFormStep5.controls.agent_iva_percent.patchValue(this.numberUptoNDecimal(data.agent_iva_percent || 0, 3));
+    this.addFormStep5.controls.agent_iva_amt.patchValue(this.numberUptoNDecimal(data.agent_iva_amt || 0, 2));
+    this.addFormStep5.controls.iva_percent.patchValue(this.numberUptoNDecimal(data.iva_percent || 0, 3));
+    this.addFormStep5.controls.add_iva_to_cc.patchValue(data.add_iva_to_cc || 0);
+    this.addFormStep5.controls.add_iva_to_pc.patchValue(data.add_iva_to_pc || 0);
+
     this.addFormStep5.controls.deal_commission_agents.patchValue(data.deal_commission_agents);
     const control = this.addFormStep5.get('collection_agent_banks') as FormArray;
     if (data.collection_agent_banks) {
@@ -745,6 +762,8 @@ export class AddEditCollectionComponent implements OnInit {
     this.model.collection_commissions = [];
     const payment_choices = this.addFormStep4.get('payment_choices').value;
     const control1 = this.addFormStep5.get('collection_commissions') as FormArray;
+    this.ccsum = 0;
+    this.pcsum = 0;
     if (payment_choices) {
       for (let index = 0; index < payment_choices.length; index++) {
           const element = payment_choices[index];
@@ -774,6 +793,9 @@ export class AddEditCollectionComponent implements OnInit {
             control1.push(this.fb.group(obj));
           }
           this.model.collection_commissions.push(obj);
+
+          this.ccsum = parseFloat(this.ccsum) + (obj['amount'] ? parseFloat(obj['amount']) : 0.00);
+          this.pcsum = parseFloat(this.pcsum) + (obj['purchase_comm_amount'] ? parseFloat(obj['purchase_comm_amount']) : 0.00);
       }
     }
   }
@@ -1673,7 +1695,6 @@ export class AddEditCollectionComponent implements OnInit {
   getSozuAmount(percent: number) {
     const price = this.addFormStep4.get('deal_price').value;
     if (!price || price == 0) {
-
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseEnterPrice'), this.translate.instant('swal.error'));
       return;
@@ -1693,6 +1714,39 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep5.controls['comm_shared_commission_amount'].patchValue(amount);
   }
 
+  getIVAAmount(percent: number, key: string, key2: string) {
+    const price = this.addFormStep5.get(key).value;
+    if (!price || price == 0) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseEnterPrice'), this.translate.instant('swal.error'));
+      return;
+    }
+    const amount = this.numberUptoNDecimal((percent * price) / 100, 2);
+    this.addFormStep5.controls[key2].patchValue(amount);
+  }
+
+
+  getSozuIVAAmount(percent: number) {
+    const price = this.addFormStep4.get('comm_total_commission_amount').value;
+    if (!price || price == 0) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseEnterPrice'), this.translate.instant('swal.error'));
+      return;
+    }
+    const amount = this.numberUptoNDecimal((percent * price) / 100, 2);
+    this.addFormStep5.controls['sozu_iva_amt'].patchValue(amount);
+  }
+
+  getAgentIVAAmount(percent: number) {
+    const price = this.addFormStep4.get('comm_shared_commission_amount').value;
+    if (!price || price == 0) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseEnterPrice'), this.translate.instant('swal.error'));
+      return;
+    }
+    const amount = this.numberUptoNDecimal((percent * price) / 100, 2);
+    this.addFormStep5.controls['agent_iva_amt'].patchValue(amount);
+  }
   getAmount(index: number) {
     const price = this.addFormStep4.get('deal_price').value;
     if (!price || price == 0) {
@@ -1758,6 +1812,8 @@ export class AddEditCollectionComponent implements OnInit {
     // const installOne = pcArray.find(r => r.pc_id == 5);
     const installOne = pcArray.find(r => r.name.includes('Monthly Installment'));
     // if first monthly installment percent added, => update amount in all monthly installments
+    this.ccsum = 0;
+    this.pcsum = 0;
     if (installOne && (installOne.name === pcArray[index].name)) {
       pcArray.map(e => {
         // if (e.pc_id == 5) {
@@ -1767,6 +1823,10 @@ export class AddEditCollectionComponent implements OnInit {
         }
       });
     }
+    pcArray.map(e => {
+      this.ccsum = parseFloat(this.ccsum) + parseFloat(e.amount);
+      this.pcsum = parseFloat(this.pcsum) + parseFloat(e.purchase_comm_amount);
+    });
     this.addFormStep5.controls['collection_commissions'].patchValue(pcArray);
   }
 
@@ -1777,6 +1837,8 @@ export class AddEditCollectionComponent implements OnInit {
     // const installOne = pcArray.find(r => r.pc_id == 5);
     const installOne = pcArray.find(r => r.name.includes('Monthly Installment'));
     // if first monthly installment percent added, => update amount in all monthly installments
+    this.ccsum = 0;
+    this.pcsum = 0;
     if (installOne && (installOne.name === pcArray[index].name)) {
       pcArray.map(e => {
         // if (e.pc_id == 5) {
@@ -1786,12 +1848,18 @@ export class AddEditCollectionComponent implements OnInit {
         }
       });
     }
+    pcArray.map(e => {
+      this.ccsum = parseFloat(this.ccsum) + parseFloat(e.amount);
+      this.pcsum = parseFloat(this.pcsum) + parseFloat(e.purchase_comm_amount);
+    });
     this.addFormStep5.controls['collection_commissions'].patchValue(pcArray);
   }
 
   setPurchaseComm(add_purchase_commission: any, index: number) {
     const pcArray: Array<any> = this.addFormStep5.get('collection_commissions').value;
     const installOne = pcArray.find(r => r.name.includes('Monthly Installment'));
+    this.ccsum = 0;
+    this.pcsum = 0;
     // if first monthly installment percent added, => update amount in all monthly installments
     if (installOne && (installOne.name === pcArray[index].name)) {
       const sta = add_purchase_commission;
@@ -1803,21 +1871,22 @@ export class AddEditCollectionComponent implements OnInit {
         }
       }
     }
+    pcArray.map(e => {
+      this.ccsum = parseFloat(this.ccsum) + parseFloat(e.amount);
+      this.pcsum = parseFloat(this.pcsum) + parseFloat(e.purchase_comm_amount);
+    });
     this.addFormStep5.controls['collection_commissions'].patchValue(pcArray);
   }
 
   getPurcAmount(amount: number, index: number) {
     const pcArray: Array<any> = this.addFormStep5.get('collection_commissions').value;
     pcArray[index].purchase_comm_amount = amount;
-    const installOne = pcArray.find(r => r.name.includes('Monthly Installment'));
-    // if first monthly installment percent added, => update amount in all monthly installments
-    if (installOne.name === pcArray[index].name) {
-      pcArray.map(e => {
-        if (e.name.includes('Monthly Installment')) {
-          e.purchase_comm_amount = amount;
-        }
-      });
-    }
+    this.ccsum = 0;
+    this.pcsum = 0;
+    pcArray.map(e => {
+      this.ccsum = parseFloat(this.ccsum) + parseFloat(e.amount);
+      this.pcsum = parseFloat(this.pcsum) + parseFloat(e.purchase_comm_amount);
+    });
     this.addFormStep5.controls['collection_commissions'].patchValue(pcArray);
   }
 
@@ -2033,6 +2102,8 @@ export class AddEditCollectionComponent implements OnInit {
         });
         formdata['collection_commissions'] = collection_commissions;
         formdata['is_commission_sale_enabled'] = formdata['is_commission_sale_enabled'] ? 1 : 0;
+        formdata['add_iva_to_cc'] = formdata['add_iva_to_cc'] ? 1 : 0;
+        formdata['add_iva_to_pc'] = formdata['add_iva_to_pc'] ? 1 : 0;
         formdata['payment_received_by'] = formdata['payment_received_by'];
       } else {
         this.showError = true;
