@@ -204,15 +204,33 @@ export class CommissionIncomeComponent implements OnInit {
         // text: "Top Oil Reserves"
       },
       axisY: {
-        // title: "Reserves(MMbbl)"
+        gridColor: '#222222ab',
+        tickColor: '#222222ab'
+      },
+      // data: [{
+      //   type: 'column',
+      //   color: '#00b96f',
+      //   showInLegend: true,
+      //   legendMarkerColor: 'grey',
+      //   legendText: this.selectedCommissions[0].name,
+      //   dataPoints: this.reportData['commission']
+      // }]
+      toolTip: {
+        shared: true
       },
       data: [{
-        type: 'column',
-        color: '#00b96f',
+        type: 'stackedColumn',
         showInLegend: true,
-        legendMarkerColor: 'grey',
-        legendText: this.selectedCommissions[0].name,
+        color: '#00b96f',
+        name: 'Commission Amount',
         dataPoints: this.reportData['commission']
+        },
+        {
+          type: 'stackedColumn',
+          showInLegend: true,
+          name: 'IVA Amount',
+          color: '#00b96f61',
+          dataPoints: this.reportData['iva_amount']
       }]
     });
     chart.render();

@@ -373,6 +373,18 @@
               <th>
                   <b>{{'quickVisualization.PCDescription' | translate}}</b>
               </th>
+              <th>
+                  <b>{{'quickVisualization.invoiceDate' | translate}}</b>
+              </th>
+              <th>
+                  <b>{{'quickVisualization.invoiceID' | translate}}</b>
+              </th>
+              <th>
+                  <b>{{'quickVisualization.pdfDoc' | translate}}</b>
+              </th>
+              <th>
+                  <b>{{'quickVisualization.xmlDoc' | translate}}</b>
+              </th>
               <th [style.width]="'120px'">
                   <b>{{'quickVisualization.collectionCommission' | translate}}</b>
               </th>
@@ -384,6 +396,18 @@
               </th>
               <th>
                   <b>{{'quickVisualization.CCDescription' | translate}}</b>
+              </th>
+              <th>
+                  <b>{{'quickVisualization.invoiceDate' | translate}}</b>
+              </th>
+              <th>
+                  <b>{{'quickVisualization.invoiceID' | translate}}</b>
+              </th>
+              <th>
+                  <b>{{'quickVisualization.pdfDoc' | translate}}</b>
+              </th>
+              <th>
+                  <b>{{'quickVisualization.xmlDoc' | translate}}</b>
               </th>
             </tr>
           </thead>
@@ -436,7 +460,8 @@
                   </button>
               </td>
               <td>
-                {{collectionCommission[i]?.purchase_payment ? (collectionCommission[i]['purchase_payment']?.amount | currency) : ''}}</td>
+                {{collectionCommission[i]?.purchase_payment ? 
+                  ((collectionCommission[i]['purchase_payment']?.amount + (collectionCommission[i]['purchase_payment']?.iva_amount || 0)) | currency) : ''}}</td>
               <td>
                 {{collectionCommission[i]?.purchase_payment ? (collectionCommission[i]['purchase_payment']?.payment_date | date:'dd/MMM/yyyy') : ''}}</td>
               <td>
@@ -449,8 +474,22 @@
                       <img src="assets/img/eye-icon.png" alt="img">
                   </button>
               </td>
+              <td>{{collectionCommission[i]?.purchase_payment ?
+                (collectionCommission[i]['purchase_payment']?.invoice_date | date:'dd/MMM/yyyy') : ''}}</td>
+              <td>{{collectionCommission[i]?.purchase_payment ?
+                (collectionCommission[i]['purchase_payment']?.invoice_id) : ''}}</td>
               <td>
-                {{collectionCommission[i]?.payment ? (collectionCommission[i]['payment']?.amount | currency) : ''}}</td>
+                <a class="green-color fontW500" *ngIf="collectionCommission[i]?.purchase_payment && collectionCommission[i]?.purchase_payment?.pdf_url" target="_blank" href="{{collectionCommission[i]?.purchase_payment?.pdf_url}}">
+                  {{'quickVisualization.view' | translate}}
+                </a>
+              </td>
+              <td>
+                <a class="green-color fontW500" *ngIf="collectionCommission[i]?.purchase_payment && collectionCommission[i]?.purchase_payment?.xml_url" target="_blank" href="{{collectionCommission[i]?.purchase_payment?.xml_url}}">
+                  {{'quickVisualization.view' | translate}}
+                </a>
+              </td>
+              <td> {{collectionCommission[i]?.payment ? 
+                ((collectionCommission[i]['payment']?.amount + (collectionCommission[i]['payment']?.iva_amount || 0)) | currency) : ''}}</td>
               <td>
                 {{collectionCommission[i]?.payment ? (collectionCommission[i]['payment']?.payment_date | date:'dd/MMM/yyyy') : ''}}</td>
               <td>
@@ -462,7 +501,19 @@
                   <button class="action-icon" *ngIf="collectionCommission[i]?.payment?.description" (click)="showDescription(collectionCommission[i]?.payment?.description, 4)">
                       <img src="assets/img/eye-icon.png" alt="img">
                   </button>
-              </td>              
+              </td>   
+              <td>{{collectionCommission[i]?.payment ? (collectionCommission[i]['payment']?.invoice_date | date:'dd/MMM/yyyy') : ''}}</td>
+              <td>{{collectionCommission[i]?.payment ? (collectionCommission[i]['payment']?.invoice_id) : ''}}</td>
+              <td>
+                <a class="green-color fontW500" *ngIf="collectionCommission[i]?.payment && collectionCommission[i]?.payment?.pdf_url" target="_blank" href="{{collectionCommission[i]?.payment?.pdf_url}}">
+                  {{'quickVisualization.view' | translate}}
+                </a>
+              </td>
+              <td>
+                <a class="green-color fontW500" *ngIf="collectionCommission[i]?.payment && collectionCommission[i]?.payment?.xml_url" target="_blank" href="{{collectionCommission[i]?.payment?.xml_url}}">
+                  {{'quickVisualization.view' | translate}}
+                </a>
+              </td>           
               </tr>
             
             

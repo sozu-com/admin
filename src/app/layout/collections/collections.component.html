@@ -270,7 +270,42 @@
                         </th>
                        <th style="vertical-align:top; width: 100px;">
                           <div class="table-search">
-                             <label>{{'table.th.sozuCommission' | translate}}</label>
+                             <label>{{'table.th.sozuPC' | translate}}</label>
+                          </div>
+                       </th>
+                       <th style="vertical-align:top; width: 100px;">
+                          <div class="table-search">
+                             <label>{{'table.th.tobeRePC' | translate}}</label>
+                          </div>
+                       </th>
+                       <th style="vertical-align:top; width: 100px;">
+                          <div class="table-search">
+                             <label>{{'table.th.PCReceipt' | translate}}</label>
+                          </div>
+                       </th>
+                       <th style="vertical-align:top; width: 100px;">
+                          <div class="table-search">
+                             <label>{{'table.th.PCInvoice' | translate}}</label>
+                          </div>
+                       </th>
+                       <th style="vertical-align:top; width: 100px;">
+                          <div class="table-search">
+                             <label>{{'table.th.sozuCC' | translate}}</label>
+                          </div>
+                       </th>
+                       <th style="vertical-align:top; width: 100px;">
+                          <div class="table-search">
+                             <label>{{'table.th.tobeReCC' | translate}}</label>
+                          </div>
+                       </th>
+                       <th style="vertical-align:top; width: 100px;">
+                          <div class="table-search">
+                             <label>{{'table.th.CCReceipt' | translate}}</label>
+                          </div>
+                       </th>
+                       <th style="vertical-align:top; width: 100px;">
+                          <div class="table-search">
+                             <label>{{'table.th.CCInvoice' | translate}}</label>
                           </div>
                        </th>
                        <th style="vertical-align:top; width: 100px;">
@@ -364,6 +399,21 @@
 
                      <td><span>{{p?.currency?.code || ('table.tr.td.NA' | translate)}}</span></td>
                      <td><span>{{p?.comm_total_commission ? (p?.comm_total_commission | number : '1.2-3') : ('table.tr.td.NA' | translate)}}</span></td>
+                     <td>{{(p?.pc_received || 0) | currency}}</td>
+                     <td>
+                       <input name="pc_receipt{{i}}" disabled class="form-control checkbox_size" type="checkbox" [checked]="p?.pc_receipt ? 'checked' : ''" readonly>
+                     </td>
+                     <td>
+                      <input name="pc_invoice{{i}}" disabled class="form-control checkbox_size" type="checkbox" [checked]="p?.pc_invoice ? 'checked' : ''" readonly> 
+                    </td>
+                     <td>{{p?.cc_percent}}</td>
+                     <td>{{(p?.cc_received || 0) | currency}}</td>
+                     <td>
+                       <input name="cc_receipt{{i}}" disabled class="form-control checkbox_size" type="checkbox" [checked]="p?.cc_receipt ? 'checked' : ''" readonly>
+                     </td>
+                     <td>
+                      <input name="cc_invoice{{i}}" disabled class="form-control checkbox_size" type="checkbox" [checked]="p?.cc_invoice ? 'checked' : ''" readonly> 
+                    </td>
                      <td><span>{{p?.comm_shared_commission ? (p?.comm_shared_commission | number : '1.2-3') : ('table.tr.td.NA' | translate)}}</span></td>
                      <td *ngIf="p?.deal_commission_agents?.length">
                         <span>{{p?.deal_commission_agents[0]?.name || ('table.tr.td.NA' | translate)}}</span>
@@ -746,7 +796,7 @@
                     <div class="form-group">
                         <input type="file" name="docFile" #docsFile1
                         accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,image/x-png,image/jpg,image/jpeg"
-                        (change)="onSelectFile($event.target.files)">
+                        (change)="onSelectFile($event.target.files, 'docFile')">
                     </div>
                 </div>
               </div>
@@ -978,17 +1028,9 @@
                                   <button class="action-icon" (click)="showUpdatePaymentPopup(stats, i, s)">
                                       <img src="assets/img/edit.png" alt="img">
                                   </button>
-                                  <!-- <button [ngClass]="{'highlight': stats?.id==last_payment_id}" [disabled]="stats?.id!=last_payment_id" class="action-icon" (click)="deletePayment(stats?.id, i, s)">
-                                      <img src="assets/img/ic_delete.png" alt="img">
-                                  </button> -->
-
                                   <button [ngClass]="{'highlight': stats?.id==last_payment_id}" [disabled]="stats?.id!=last_payment_id" class="action-icon" (click)="deletePayment(stats?.parent_id, i, s)">
                                     <img src="assets/img/ic_delete.png" alt="img">
                                   </button>
-                                  <!-- <button (click)="showCollectionCommReceipt(p, i, 'commission-popup')" 
-                                  title="{{'table.title.collectionCommission' | translate}}" 
-                                  class="action-icon"><img src="assets/img/ic_commission.png" alt="img"></button>   -->
-
                                 </td>
                               </tr>
                             </ng-container>
@@ -1060,7 +1102,7 @@
                       </p>
                         <input *ngIf="!docFile" type="file" name="docFile" #docsFile1
                         accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,image/x-png,image/jpg,image/jpeg"
-                        (change)="onSelectFile($event.target.files)">
+                        (change)="onSelectFile($event.target.files, 'docFile')">
                     </div>
                 </div>
               </div>
@@ -1102,7 +1144,7 @@
   
 <a href="javascript://" data-toggle="modal" data-target="#coll-receipt-Modal" #collectionReceiptOpen></a>
 <div class="modal animated" id="coll-receipt-Modal">
-    <div class="modal-dialog fadeIndown">
+    <div class="modal-dialog fadeIndown modal-lg">
         <div class="modal-content notary-avail">
               <div class="modal-header popup-header">
           <h4>{{'viewCollections.commissionPayment' | translate}}</h4>
@@ -1116,7 +1158,7 @@
               <div class="col-12">
                 <div class="spacer40"></div>
               </div>
-              <div class="col-12">
+              <div class="col-6">
                 <div class="form-group-2">
                     <label>{{'viewCollections.chooseCommissionType' | translate}} <span class="color-red">*</span></label>
                     <div class="form-group">
@@ -1129,7 +1171,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-12" *ngIf="commission_type==1">
+              <div class="col-6" *ngIf="commission_type==1">
                 <div class="form-group-2">
                     <label>{{'viewCollections.choosePaymentConcept' | translate}} <span class="color-red">*</span></label>
                     <div class="form-group">
@@ -1141,7 +1183,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-12" *ngIf="commission_type==2">
+              <div class="col-6" *ngIf="commission_type==2">
                 <div class="form-group-2">
                     <label>{{'viewCollections.choosePaymentConcept' | translate}} <span class="color-red">*</span></label>
                     <div class="form-group">
@@ -1153,7 +1195,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-12">
+              <div class="col-6">
                 <div class="form-group-2">
                     <label>{{'viewCollections.choosePaymentMethod' | translate}} <span class="color-red">*</span></label>
                     <div class="form-group">
@@ -1164,26 +1206,27 @@
                   </div>
                 </div>
               </div>
-              <div class="col-12">
+              <div class="col-6">
                 <div class="form-group-2">
                     <label>{{'viewCollections.enterPaymentAmt' | translate}}<span class="color-red">*</span></label>
                     <div class="form-group">
-                    <input autocomplete="off" required type="number" step="0.01" min="0" class="form-control" [(ngModel)]="paymentAmount" 
+                    <input autocomplete="off" readonly required type="number" step="0.01" min="0" class="form-control" 
+                    [(ngModel)]="paymentAmount" 
                         name="paymentAmount">
                   </div>
                 </div>
               </div>
-              <div class="col-12">
+              <div class="col-6">
                 <div class="form-group-2">
                     <label>{{'viewCollections.choosePaymentReceipt' | translate}} <span class="color-red">*</span></label>
                     <div class="form-group">
                         <input type="file" name="docFile" #docsFile2
                         accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,image/x-png,image/jpg,image/jpeg"
-                        (change)="onSelectFile($event.target.files)">
+                        (change)="onSelectFile($event.target.files, 'docFile')">
                     </div>
                 </div>
               </div>
-              <div class="col-12">
+              <div class="col-6">
                 <div class="form-group-2">
                     <label>{{'viewCollections.paymentDate' | translate}} <span class="color-red">*</span> </label>
                     <div class="form-group">
@@ -1198,15 +1241,64 @@
                 <div class="form-group-2">
                     <label>{{'viewCollections.description' | translate}}</label>
                     <div class="form-group">
-                          <textarea rows="3" [(ngModel)]="description" name="description" class="form-control"></textarea>
+                          <textarea rows="3" [(ngModel)]="description" name="description" class="form-control">{{description || ''}}</textarea>
                  </div>
                 </div>
               </div>
               <div class="col-12">
                 <div class="btn-cont text-right">
-                    <button type="submit" class="btn btn-primary-new">
-                        <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
-                        {{'addForm.addBtn' | translate}}</button>
+                    <button type="button" class="btn btn-primary-new" (click)="invoiceKeys = invoiceKeys ? false : true">
+                        {{'viewCollections.addInvice' | translate}}</button>
+                </div>
+              </div>
+
+              <div *ngIf="invoiceKeys" class="row">
+                <div class="col-6">
+                  <div class="form-group-2">
+                      <label>{{'viewCollections.invoiceDate' | translate}} <span class="color-red">*</span> </label>
+                      <div class="form-group">
+                        <div class="clearfix"></div>
+                        <p-calendar dateFormat="dd/M/yy" class="form-control" autocomplete="off" [style]="{'width':'100%'}" name="invoice_date" class="sz-calendar" [locale]="locale" showIcon="true" 
+                          (onSelect)="onSelectInvoiceDate($event)" [maxDate]="today"
+                          showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+                      </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group-2">
+                      <label>{{'viewCollections.invoiceID' | translate}} <span class="color-red">*</span> </label>
+                      <div class="form-group">
+                        <div class="clearfix"></div>
+                        <input type="text" [(ngModel)]="invoice_id" name="description" class="form-control">
+                      </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group-2">
+                      <label>{{'viewCollections.uploadPDF' | translate}}</label>
+                      <div class="form-group">
+                          <input type="file" name="pdf_url" #docsFile3
+                          accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,image/x-png,image/jpg,image/jpeg"
+                          (change)="onSelectFile($event.target.files, 'pdf_url')">
+                      </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group-2">
+                      <label>{{'viewCollections.uploadXML' | translate}}</label>
+                      <div class="form-group">
+                          <input type="file" name="xml_url" #docsFile4
+                          accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,image/x-png,image/jpg,image/jpeg"
+                          (change)="onSelectFile($event.target.files, 'xml_url')">
+                      </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="btn-cont text-right">
+                      <button type="submit" class="btn btn-primary-new">
+                          <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
+                          {{'addForm.addBtn' | translate}}</button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1267,7 +1359,7 @@
                       </p>
                         <input *ngIf="!docFile" type="file" name="docFile" #docsFile1
                         accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,image/x-png,image/jpg,image/jpeg"
-                        (change)="onSelectFile($event.target.files)">
+                        (change)="onSelectFile($event.target.files, 'docFile')">
                     </div>
                 </div>
                 <!-- <div class="form-group-2">
@@ -1401,7 +1493,7 @@
                                   <div class="form-group">
                                     <input type="file" name="docFile" #docsFile
                                     accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,image/x-png,image/jpg,image/jpeg"
-                                    (change)="onSelectFile($event.target.files)">
+                                    (change)="onSelectFile($event.target.files, 'docFile')">
                                   </div>
                                 </div>
 

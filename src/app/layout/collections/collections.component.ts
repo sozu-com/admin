@@ -56,10 +56,15 @@ export class CollectionsComponent implements OnInit {
   last_payment_id: string;
   selectedPaymentConcept: any;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
-
+  invoiceKeys: boolean;
+  xml_url: any;
+  pdf_url: any;
+  invoice_id: string;
+  invoice_date: Date;
   currentAmount: any;
   penaltyPercent: number;
   paymentAmount: any;
+  ivaAmount: any;
   paymentConcepts: Array<any>;
   add_collection_commission: any;
   percent: number;
@@ -150,6 +155,7 @@ export class CollectionsComponent implements OnInit {
 
   ngOnInit() {
     this.isPenaltyFormSub = false;
+    this.invoiceKeys = false;
     this.showError = false;
     this.today = new Date();
     this.commission_type = '';
@@ -264,6 +270,42 @@ export class CollectionsComponent implements OnInit {
           } else {
             element.payment_status = 5;
           }
+
+          // fetching commissions %
+          let cc_percent = 0, cc_received = 0, cc_receipt = 0, cc_invoice = 0, cc_active = 0;
+          let pc_percent = 0, pc_received = 0, pc_receipt = 0, pc_invoice = 0, pc_active = 0;
+          for (let i = 0; i < element.collection_commissions.length; i++) {
+            const ele = element.collection_commissions[i];
+            cc_percent = cc_percent + (ele.add_collection_commission ? ele.percent : 0);
+            cc_received = cc_received + (ele.add_collection_commission ? ele.amount : 0);
+            if (ele.add_collection_commission) {
+              cc_active ++;
+            }
+            if (ele.payment) {
+              cc_receipt ++;
+              if (ele.payment.invoice_id) {
+                cc_invoice ++;
+              }
+            }
+
+            pc_received = pc_received + (ele.add_purchase_commission ? ele.purchase_comm_amount : 0);
+            if (ele.add_purchase_commission) {
+              pc_active ++;
+            }
+            if (ele.purchase_payment) {
+              pc_receipt ++;
+              if (ele.purchase_payment.invoice_id) {
+                pc_invoice ++;
+              }
+            }
+          }
+          element['cc_percent'] = this.numberUptoNDecimal((cc_percent / cc_active), 3);
+          element['cc_received'] = cc_received;
+          element['cc_receipt'] = cc_receipt == cc_active && cc_receipt!=0 ? 1 : 0;
+          element['cc_invoice'] = cc_invoice == cc_active && cc_invoice!=0 ? 1 : 0;
+          element['pc_received'] = pc_received;
+          element['pc_receipt'] = pc_receipt == pc_active && pc_receipt!=0 ? 1 : 0;
+          element['pc_invoice'] = pc_invoice == pc_active && pc_invoice!=0 ? 1 : 0;
         }
 
         this.spinner.hide();
@@ -944,7 +986,20 @@ export class CollectionsComponent implements OnInit {
         this.closeCollReceiptModal();
         return false;
       }
-      this.paymentAmount = this.commission_type == 1 ? (item.purchase_comm_amount || 0) : (item.amount || 0);
+      if (this.commission_type == 1) {
+        this.paymentAmount = item.purchase_comm_amount || 0;
+        if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_pc)) {
+          this.ivaAmount = (this.paymentAmount * this.selectedItem.iva_percent) / 100;
+          this.paymentAmount = this.paymentAmount + this.ivaAmount;
+        }
+      } else {
+        this.paymentAmount = item.amount || 0;
+        if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_cc)) {
+          this.ivaAmount = (this.paymentAmount * this.selectedItem.iva_percent) / 100;
+          this.paymentAmount = this.paymentAmount + this.ivaAmount;
+        }
+      }
+      // this.paymentAmount = this.commission_type == 1 ? (item.purchase_comm_amount || 0) : (item.amount || 0);
       this.selectedCollectionCommission = item;
     } else {
       this.selectedPaymentConcept = item;
@@ -996,6 +1051,10 @@ export class CollectionsComponent implements OnInit {
 
   onSelect(e) {
     this.paymentDate = moment.utc(e).toDate();
+  }
+
+  onSelectInvoiceDate(e) {
+    this.invoice_date = moment.utc(e).toDate();
   }
 
   applyCollectionPayment() {
@@ -1129,9 +1188,26 @@ export class CollectionsComponent implements OnInit {
 
     // send commission_type, collection_commission_id, percent incase of applying commission
     if (this.typeOfPayment === 'commission-popup') {
+      delete input.amount;
       input['commission_type'] = this.commission_type;
       input['collection_commission_id'] = this.selectedCollectionCommission.id;
       input['percent'] = this.selectedCollectionCommission.percent;
+      input['invoice_id'] = this.invoice_id;
+      input['pdf_url'] = this.pdf_url;
+      input['xml_url'] = this.xml_url;
+      input['amount'] = amt - this.ivaAmount;
+      input['iva_amount'] = this.ivaAmount;
+
+      const offset1 = new Date(this.invoice_date).getTimezoneOffset();
+      if (offset < 0) {
+        input['invoice_date'] = moment(this.invoice_date).subtract(offset1, 'minutes').toDate();
+      } else {
+        input['invoice_date'] = moment(this.invoice_date).add(offset1, 'minutes').toDate();
+      }
+      // if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_cc && this.commission_type ==2) ||
+      //   (this.selectedItem.iva_percent && this.selectedItem.add_iva_to_pc && this.commission_type ==1)) {
+      //   input['iva_amount'] = (amt * this.selectedItem.iva_percent) / 100;
+      // }
     } else {
       // applying payment
       // for edit the wrong amount uploaded
@@ -1190,12 +1266,12 @@ export class CollectionsComponent implements OnInit {
     this.surplusMoneyModalClose.nativeElement.click();
   }
 
-  onSelectFile(files) {
+  onSelectFile(files, key: string) {
     this.parameter.loading = true;
     this.cs.saveAttachment(files[0]).subscribe(
       success => {
         this.parameter.loading = false;
-        this.docFile = success['data'].name;
+        this[key] = success['data'].name;
       }, error => {
         this.parameter.loading = false;
       }
@@ -1625,5 +1701,12 @@ export class CollectionsComponent implements OnInit {
         this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
       });
     }
+  }
+
+  showInvoicekeys() {
+    this.invoiceKeys = this.invoiceKeys ? false : true;
+  }
+  numberUptoNDecimal(num: any, n: number) {
+    return num ? num.toFixed(n) : 0;
   }
 }
