@@ -275,6 +275,11 @@
                        </th>
                        <th style="vertical-align:top; width: 100px;">
                           <div class="table-search">
+                             <label>{{'table.th.ivaAdded' | translate}}</label>
+                          </div>
+                       </th>
+                       <th style="vertical-align:top; width: 100px;">
+                          <div class="table-search">
                              <label>{{'table.th.tobeRePC' | translate}}</label>
                           </div>
                        </th>
@@ -291,6 +296,11 @@
                        <th style="vertical-align:top; width: 100px;">
                           <div class="table-search">
                              <label>{{'table.th.sozuCC' | translate}}</label>
+                          </div>
+                       </th>
+                       <th style="vertical-align:top; width: 100px;">
+                          <div class="table-search">
+                             <label>{{'table.th.ivaAdded' | translate}}</label>
                           </div>
                        </th>
                        <th style="vertical-align:top; width: 100px;">
@@ -399,6 +409,9 @@
 
                      <td><span>{{p?.currency?.code || ('table.tr.td.NA' | translate)}}</span></td>
                      <td><span>{{p?.comm_total_commission ? (p?.comm_total_commission | number : '1.2-3') : ('table.tr.td.NA' | translate)}}</span></td>
+                     <td>
+                      <input name="add_iva_to_pc{{i}}" disabled class="form-control checkbox_size" type="checkbox" [checked]="p?.add_iva_to_pc ? 'checked' : ''" readonly> 
+                    </td>
                      <td>{{(p?.pc_received || 0) | currency}}</td>
                      <td>
                        <input name="pc_receipt{{i}}" disabled class="form-control checkbox_size" type="checkbox" [checked]="p?.pc_receipt ? 'checked' : ''" readonly>
@@ -407,6 +420,9 @@
                       <input name="pc_invoice{{i}}" disabled class="form-control checkbox_size" type="checkbox" [checked]="p?.pc_invoice ? 'checked' : ''" readonly> 
                     </td>
                      <td>{{p?.cc_percent}}</td>
+                     <td>
+                      <input name="add_iva_to_cc{{i}}" disabled class="form-control checkbox_size" type="checkbox" [checked]="p?.add_iva_to_cc ? 'checked' : ''" readonly> 
+                    </td>
                      <td>{{(p?.cc_received || 0) | currency}}</td>
                      <td>
                        <input name="cc_receipt{{i}}" disabled class="form-control checkbox_size" type="checkbox" [checked]="p?.cc_receipt ? 'checked' : ''" readonly>
@@ -1255,7 +1271,7 @@
               <div *ngIf="invoiceKeys" class="row">
                 <div class="col-6">
                   <div class="form-group-2">
-                      <label>{{'viewCollections.invoiceDate' | translate}} <span class="color-red">*</span> </label>
+                      <label>{{'viewCollections.invoiceDate' | translate}} </label>
                       <div class="form-group">
                         <div class="clearfix"></div>
                         <p-calendar dateFormat="dd/M/yy" class="form-control" autocomplete="off" [style]="{'width':'100%'}" name="invoice_date" class="sz-calendar" [locale]="locale" showIcon="true" 
@@ -1266,10 +1282,10 @@
                 </div>
                 <div class="col-6">
                   <div class="form-group-2">
-                      <label>{{'viewCollections.invoiceID' | translate}} <span class="color-red">*</span> </label>
+                      <label>{{'viewCollections.invoiceID' | translate}} </label>
                       <div class="form-group">
                         <div class="clearfix"></div>
-                        <input type="text" [(ngModel)]="invoice_id" name="description" class="form-control">
+                        <input type="text" [(ngModel)]="invoice_id" name="invoice_id" class="form-control">
                       </div>
                   </div>
                 </div>
@@ -1311,7 +1327,7 @@
   
 <a href="javascript://" data-toggle="modal" data-target="#edit-coll-receipt-Modal" #editCollectionReceiptOpen></a>
 <div class="modal animated" id="edit-coll-receipt-Modal">
-    <div class="modal-dialog fadeIndown">
+    <div class="modal-dialog fadeIndown modal-lg">
         <div class="modal-content notary-avail">
               <div class="modal-header popup-header">
           <h4>{{'viewCollections.commissionPayment' | translate}}</h4>
@@ -1325,7 +1341,7 @@
               <div class="col-12">
                 <div class="spacer40"></div>
               </div>
-              <div class="col-12">
+              <div class="col-6">
                 <div class="form-group-2">
                     <label>{{'viewCollections.choosePaymentMethod' | translate}} <span class="color-red">*</span></label>
                     <div class="form-group">
@@ -1345,7 +1361,7 @@
                   </div>
                 </div>
               </div> -->
-              <div class="col-12">
+              <div class="col-6">
                 <div class="form-group-2">
                     <label>{{'viewCollections.choosePaymentReceipt' | translate}} <span class="color-red">*</span></label>
                     <div class="form-group">
@@ -1371,32 +1387,123 @@
                     </div>
                 </div> -->
               </div>
-              <div class="col-12">
+              <div class="col-6">
                 <div class="form-group-2">
                     <label>{{'viewCollections.paymentDate' | translate}} <span class="color-red">*</span> </label>
                     <div class="form-group">
                       <div class="clearfix"></div>
-                        <p-calendar dateFormat="dd/M/yy" class="form-control" autocomplete="off" [(ngModel)]="payment_date" [style]="{'width':'100%'}" name="date" class="sz-calendar" [locale]="locale" showIcon="true" 
+                        <p-calendar dateFormat="dd/M/yy" class="form-control" autocomplete="off" 
+                        [(ngModel)]="payment_date" [style]="{'width':'100%'}" name="date" class="sz-calendar" 
+                        [locale]="locale" showIcon="true" 
                         (onSelect)="onSelect($event)" [maxDate]="today"
                         showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
                     </div>
                 </div>
               </div>
-              <div class="col-12">
+              <div class="col-6">
                 <div class="form-group-2">
                     <label>{{'viewCollections.description' | translate}}</label>
                     <div class="form-group">
-                          <textarea rows="3" [(ngModel)]="description" name="description" class="form-control"></textarea>
+                          <textarea rows="3" [(ngModel)]="description" name="description2" class="form-control"></textarea>
                  </div>
                 </div>
               </div>
-              <div class="col-12">
+              <!-- <div class="col-12">
                 <div class="btn-cont text-right">
                     <button type="submit" class="btn btn-primary-new">
                         <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
                         {{'addForm.addBtn' | translate}}</button>
                 </div>
-              </div>
+              </div> -->
+
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group-2">
+                      <label>{{'viewCollections.invoiceDate' | translate}} </label>
+                      <div class="form-group">
+                        <div class="clearfix"></div>
+                        <p-calendar dateFormat="dd/M/yy" class="form-control" autocomplete="off" 
+                          [(ngModel)]="invoice_date" [style]="{'width':'100%'}" name="invoice_date" 
+                          class="sz-calendar" [locale]="locale" showIcon="true" 
+                          (onSelect)="onSelectInvoiceDate($event)" [maxDate]="today"
+                          showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" 
+                          yearRange="2000:2040"></p-calendar>
+                      </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group-2">
+                      <label>{{'viewCollections.invoiceID' | translate}} </label>
+                      <div class="form-group">
+                        <div class="clearfix"></div>
+                        <input type="text" [(ngModel)]="invoice_id" name="invoice_id" class="form-control">
+                      </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group-2">
+                      <label>{{'viewCollections.uploadPDF' | translate}} </label>
+                      <div class="form-group">
+                        <p *ngIf="pdf_url">
+                          <span>
+                            <a target="_blank" href="{{pdf_url}}">{{'quickVisualization.clickToViewReceipt' | translate}}</a>
+                          </span>
+                          <span>
+                            <a class="remove" (click)="pdf_url=''"><img src="assets/img/remove-icon.png" alt="img"></a>
+                          </span>
+                        </p>
+                          <input *ngIf="!pdf_url" type="file" name="pdf_url" #docsFile3
+                          accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,image/x-png,image/jpg,image/jpeg"
+                          (change)="onSelectFile($event.target.files, 'pdf_url')">
+                      </div>
+                  </div>
+
+                  <!-- <div class="form-group-2">
+                      <label>{{'viewCollections.uploadPDF' | translate}}</label>
+                      <div class="form-group">
+                          <input type="file" name="pdf_url" #docsFile3
+                          accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,image/x-png,image/jpg,image/jpeg"
+                          (change)="onSelectFile($event.target.files, 'pdf_url')">
+                      </div>
+                  </div> -->
+                </div>
+                <div class="col-6">
+                  <div class="form-group-2">
+                      <label>{{'viewCollections.uploadXML' | translate}} </label>
+                      <div class="form-group">
+                        <p *ngIf="xml_url">
+                          <span>
+                            <a target="_blank" href="{{xml_url}}">{{'quickVisualization.clickToViewReceipt' | translate}}</a>
+                          </span>
+                          <span>
+                            <a class="remove" (click)="xml_url=''"><img src="assets/img/remove-icon.png" alt="img"></a>
+                          </span>
+                        </p>
+                          <input *ngIf="!xml_url" type="file" name="xml_url" #docsFile4
+                          accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,image/x-png,image/jpg,image/jpeg"
+                          (change)="onSelectFile($event.target.files, 'xml_url')">
+                      </div>
+                  </div>
+
+                  <!-- <div class="form-group-2">
+                      <label>{{'viewCollections.uploadXML' | translate}}</label>
+                      <div class="form-group">
+                          <input type="file" name="xml_url" #docsFile4
+                          accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,image/x-png,image/jpg,image/jpeg"
+                          (change)="onSelectFile($event.target.files, 'xml_url')">
+                      </div>
+                  </div> -->
+                </div>
+                <div class="col-12">
+                  <div class="btn-cont text-right">
+                      <button type="submit" class="btn btn-primary-new">
+                          <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
+                          {{'addForm.addBtn' | translate}}</button>
+                  </div>
+                </div>
+            </div>
+
+
             </div>
           </div>
         </form>

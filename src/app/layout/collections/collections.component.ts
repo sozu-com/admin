@@ -60,7 +60,7 @@ export class CollectionsComponent implements OnInit {
   xml_url: any;
   pdf_url: any;
   invoice_id: string;
-  invoice_date: Date;
+  invoice_date: any = new Date();
   currentAmount: any;
   penaltyPercent: number;
   paymentAmount: any;
@@ -300,10 +300,12 @@ export class CollectionsComponent implements OnInit {
             }
           }
           element['cc_percent'] = this.numberUptoNDecimal((cc_percent / cc_active), 3);
-          element['cc_received'] = cc_received;
+          element['cc_received'] = element.iva_percent && element.add_iva_to_cc ?
+                                  (cc_received + (cc_received * element.iva_percent)/ 100) : cc_received;
           element['cc_receipt'] = cc_receipt == cc_active && cc_receipt!=0 ? 1 : 0;
           element['cc_invoice'] = cc_invoice == cc_active && cc_invoice!=0 ? 1 : 0;
-          element['pc_received'] = pc_received;
+          element['pc_received'] = element.iva_percent && element.add_iva_to_pc ?
+                                  (pc_received + (pc_received * element.iva_percent) / 100) : pc_received;
           element['pc_receipt'] = pc_receipt == pc_active && pc_receipt!=0 ? 1 : 0;
           element['pc_invoice'] = pc_invoice == pc_active && pc_invoice!=0 ? 1 : 0;
         }
@@ -1204,10 +1206,6 @@ export class CollectionsComponent implements OnInit {
       } else {
         input['invoice_date'] = moment(this.invoice_date).add(offset1, 'minutes').toDate();
       }
-      // if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_cc && this.commission_type ==2) ||
-      //   (this.selectedItem.iva_percent && this.selectedItem.add_iva_to_pc && this.commission_type ==1)) {
-      //   input['iva_amount'] = (amt * this.selectedItem.iva_percent) / 100;
-      // }
     } else {
       // applying payment
       // for edit the wrong amount uploaded
@@ -1308,6 +1306,7 @@ export class CollectionsComponent implements OnInit {
   }
 
   editCollectionCommReceipt(item: any) {
+    console.log(item)
     this.payment_id = item.id;
     this.payment_method_id = item.payment_method.id;
     this.description = item.description;
@@ -1316,6 +1315,11 @@ export class CollectionsComponent implements OnInit {
     this.commission_type = item.commission_type;
     this.collection_commission_id = item.collection_commission_id;
     this.payment_date = item.payment_date ? this.getDateWRTTimezone(item.payment_date, 'DD/MMM/YYYY') : '';
+    this.invoice_date = item.invoice_date ? this.getDateWRTTimezone(item.invoice_date, 'DD/MMM/YYYY') : '';
+    this.pdf_url = item.pdf_url;
+    this.xml_url = item.xml_url;
+    this.invoice_id = item.invoice_id;
+
     this.closeEditPaymentModal();
     this.editCollectionReceiptOpen.nativeElement.click();
   }
@@ -1382,6 +1386,20 @@ export class CollectionsComponent implements OnInit {
       commission_type: this.commission_type,
       amount: this.amount
     };
+    input['invoice_id'] = this.invoice_id;
+    input['pdf_url'] = this.pdf_url;
+    input['xml_url'] = this.xml_url;
+    // input['amount'] = amt - this.ivaAmount;
+    // input['iva_amount'] = this.ivaAmount;
+
+    if (this.invoice_date) {
+      const offset1 = new Date(this.invoice_date).getTimezoneOffset();
+      if (offset < 0) {
+        input['invoice_date'] = moment(this.invoice_date).subtract(offset1, 'minutes').toDate();
+      } else {
+        input['invoice_date'] = moment(this.invoice_date).add(offset1, 'minutes').toDate();
+      }
+    }
 
     this.admin.postDataApi('applyCommissionPayment', input).subscribe(r => {
       this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
