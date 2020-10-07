@@ -1,11 +1,10 @@
 import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm, FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { MapsAPILoader } from '@agm/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { IProperty } from 'src/app/common/property';
 import { Constant } from 'src/app/common/constants';
-import { CommonService } from 'src/app/services/common.service';
 import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LegalEntity, LegalRepresentative } from '../../../models/legalEntity.model';
@@ -20,6 +19,8 @@ declare let swal: any;
 })
 export class AddLegalEntityComponent implements OnInit {
 
+  @ViewChild('mapDiv') mapDiv: ElementRef;
+  @ViewChild('search') searchElementRef: ElementRef;
   @ViewChild('openDeveloperModel') openDeveloperModel: ElementRef;
   @ViewChild('closeDeveloperModel') closeDeveloperModel: ElementRef;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
@@ -34,8 +35,10 @@ export class AddLegalEntityComponent implements OnInit {
 
   constructor(
     public constant: Constant,
-    private cs: CommonService,
+    private router: Router,
     private admin: AdminService,
+    private mapsAPILoader: MapsAPILoader,
+    private ngZone: NgZone,
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
@@ -74,20 +77,23 @@ export class AddLegalEntityComponent implements OnInit {
       phone: ['', [Validators.required]],
       country_code: ['', [Validators.required]],
       dial_code: ['', [Validators.required]],
-      address: ['', [Validators.required]],
-      // fed_tax_pay: ['', [Validators.required]],
+      address: [''],
+      description: [''],
+      lat: [''],
+      lng: [''],
+      // mapvalue: [''],
       fed_tax_pay: [''],
       legal_entity_banks: this.fb.array([]),
       developer_id: [''],
       legal_rep: this.fb.group({
         id: [''],
-        name: ['', [Validators.required]],
-        first_surname: ['', [Validators.required]],
+        name: [''],
+        first_surname: [''],
         second_surname: [''],
-        phone: ['', [Validators.required]],
-        country_code: ['', [Validators.required]],
-        dial_code: ['', [Validators.required]],
-        email: ['', [Validators.required]],
+        phone: [''],
+        country_code: [''],
+        dial_code: [''],
+        email: [''],
         // fed_tax_pay: ['', [Validators.required]],
         fed_tax_pay: [''],
         legal_rep_banks: this.fb.array([])
@@ -101,6 +107,8 @@ export class AddLegalEntityComponent implements OnInit {
     this.addDataForm.controls.country_code.patchValue(this.model.country_code);
     this.addDataForm.controls.dial_code.patchValue(this.model.dial_code);
     this.addDataForm.patchValue({legal_rep: countryDialCode});
+
+    this.setCurrentPosition();
   }
 
   getDevelopers(name: string) {
@@ -176,6 +184,10 @@ export class AddLegalEntityComponent implements OnInit {
 
   patchForm(data) {
     this.addDataForm.patchValue(data);
+    if (data.lat && data.lng) {
+      this.model.lat = data.lat;
+      this.model.lng = data.lng;
+    }
     const control = this.addDataForm.get('legal_entity_banks') as FormArray;
     if (data.legal_entity_banks) {
       data.legal_entity_banks.forEach(x => {
@@ -203,7 +215,6 @@ export class AddLegalEntityComponent implements OnInit {
   }
 
   add(formData: NgForm) {
-    // const modelSave: LegalEntity = JSON.parse(JSON.stringify(this.model));
     formData['country_code'] = this.model.country_code;
     formData['dial_code'] = this.model.dial_code;
     formData['legal_rep']['country_code'] = this.model.country_code;
@@ -211,6 +222,65 @@ export class AddLegalEntityComponent implements OnInit {
     if (this.model.id) {
       formData['id'] = this.model.id;
     }
+    if (this.model.lat && this.model.lng) {
+      formData['lat'] = this.model.lat;
+      formData['lng'] = this.model.lng;
+      formData['address'] = this.model.address;
+    }
+    if (formData['legal_rep'].name || formData['legal_rep'].first_surname || formData['legal_rep'].phone 
+      || formData['legal_rep'].fed_tax_pay || formData['legal_rep'].email) {
+        // if any of key present, then all must be entered
+      if (!formData['legal_rep'].name) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeName'), 'error');
+        return;
+      }
+      if (!formData['legal_rep'].first_surname) {
+        swal(this.translate.instant('swal.error'),
+        this.translate.instant('message.error.pleaseEnterLegalRepresentativeFirstName'), 'error');
+        return;
+      }
+      if (!formData['legal_rep'].phone) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativePhone'), 'error');
+        return;
+      }
+      if (!formData['legal_rep'].email) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeEmail'), 'error');
+        return;
+      }
+      if (!formData['legal_rep'].fed_tax_pay) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeFTPR'), 'error');
+        return;
+      }
+    }
+    if (!formData['legal_rep'].name || !formData['legal_rep'].first_surname || !formData['legal_rep'].phone
+      || !formData['legal_rep'].fed_tax_pay || !formData['legal_rep'].email) {
+        delete formData['legal_rep'];
+    }
+
+    if (formData['legal_entity_banks'] && formData['legal_entity_banks'].length > 0) {
+      let i = 0;
+      for (let index = 0; index < formData['legal_entity_banks'].length; index++) {
+        const element = formData['legal_entity_banks'][index];
+        if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
+          i = i + 1;
+          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
+          return;
+        }
+      }
+    }
+
+    if (formData['legal_rep'] && formData['legal_rep']['legal_rep_banks'] && formData['legal_rep']['legal_rep_banks'].length > 0) {
+      let i = 0;
+      for (let index = 0; index < formData['legal_rep']['legal_rep_banks'].length; index++) {
+        const element = formData['legal_rep']['legal_rep_banks'][index];
+        if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
+          i = i + 1;
+          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
+          return;
+        }
+      }
+    }
+
     this.spinner.show();
     this.admin.postDataApi('addLegalEntity', formData)
       .subscribe(
@@ -224,13 +294,78 @@ export class AddLegalEntityComponent implements OnInit {
                     this.translate.instant('message.success.addedSuccessfully') :
                     this.translate.instant('message.success.updatedSuccessfully');
             swal(this.translate.instant('swal.success'), text, 'success');
-            if (this.model.id === '') {
-              formData.reset();
-            }
+            this.router.navigate(['/dashboard/legal-entities/view-all']);
+            // if (this.model.id === '') {
+            //   formData.reset();
+            // }
           }
         }, error => {
           this.spinner.hide();
         });
   }
 
+  loadPlaces(paramAdd: string, paramLat: string, paramLng: string, searchRef: any) {
+    // load Places Autocomplete
+    this.model[paramLat] = null;
+    this.model[paramLng] = null;
+    this.mapsAPILoader.load().then(() => {
+      const autocomplete = new google.maps.places.Autocomplete(this[searchRef].nativeElement, {
+        types: []
+      });
+      autocomplete.addListener('place_changed', () => {
+        this.ngZone.run(() => {
+          // get the place result
+          // const place: google.maps.places.PlaceResult = autocomplete.getPlace();
+          const place = autocomplete.getPlace();
+
+          // verify result
+          if (place.geometry === undefined || place.geometry === null) {
+            return;
+          }
+
+          // set latitude, longitude and zoom
+          this.model[paramLat] = place.geometry.location.lat();
+          this.model[paramLng] = place.geometry.location.lng();
+          if (place.formatted_address) {
+            this.model[paramAdd] = place.formatted_address;
+          }
+        });
+      });
+    });
+  }
+  setCurrentPosition() {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        // setting address lat lng
+        this.model.lat = this.model.lat ? this.model.lat : position.coords.latitude;
+        this.model.lng = this.model.lng ? this.model.lng : position.coords.longitude;
+      });
+    }
+  }
+
+  placeMarker($event: any, addParam: string, paramLat: string, paramLng: string) {
+    this.model[paramLat] = $event.coords.lat;
+    this.model[paramLng] = $event.coords.lng;
+    this.getGeoLocation(addParam, this.model[paramLat], this.model[paramLng]);
+  }
+
+
+  getGeoLocation(addParam: string, lat: number, lng: number) {
+    if (navigator.geolocation) {
+      const geocoder = new google.maps.Geocoder();
+      const latlng = new google.maps.LatLng(lat, lng);
+      const request = { latLng: latlng };
+
+      geocoder.geocode(request, (results, status) => {
+        if (status === google.maps.GeocoderStatus.OK) {
+          const result = results[0];
+          if (result != null) {
+            this.model[addParam] = result.formatted_address;
+          } else {
+            this.model[addParam] = lat + ',' + lng;
+          }
+        }
+      });
+    }
+  }
 }

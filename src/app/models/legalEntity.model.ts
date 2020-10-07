@@ -7,6 +7,9 @@ export class LegalEntity {
     phone: string;
     address: string;
     fed_tax_pay: string;
+    lat?: any;
+    lng?: any;
+    description?: string;
     legal_entity_banks: Array<Banks>;
     legal_rep: LegalRepresentative;
 }

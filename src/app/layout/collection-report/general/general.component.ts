@@ -260,7 +260,12 @@ export class GeneralComponent implements OnInit {
         let t = 0;
         for (let i = 0; i < this.finalData.length; i++) {
           const e = this.finalData[i];
-          t = t + (e['t'] || 0);
+          // if (e.total_purchase_commission) {
+
+            console.log( e.firstCol);
+            if (!e.firstCol.includes('total')){
+              t = t + (e['t'] || 0);
+            }
 
           // renaming firstCol
           if (e['firstCol'].includes('-')) {

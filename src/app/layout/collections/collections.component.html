@@ -412,7 +412,11 @@
                      <td>
                       <input name="add_iva_to_pc{{i}}" disabled class="form-control checkbox_size" type="checkbox" [checked]="p?.add_iva_to_pc ? 'checked' : ''" readonly> 
                     </td>
-                     <td>{{(p?.pc_received || 0) | currency}}</td>
+                     <td>
+                       <span [ngClass]="{'red-color':((p?.sum_pc || 0) != (p?.comm_total_commission_amount || 0))}">
+                        {{(p?.pc_received || 0) | currency}}
+                       </span>
+                      </td>
                      <td>
                        <input name="pc_receipt{{i}}" disabled class="form-control checkbox_size" type="checkbox" [checked]="p?.pc_receipt ? 'checked' : ''" readonly>
                      </td>

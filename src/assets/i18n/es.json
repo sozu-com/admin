@@ -956,6 +956,7 @@
       "pleaseEnterCompanyName": "Por favor, introduzca el nombre de la empresa",
       "pleaseEnterFederalTaxPayer": "Por favor ingrese al Registro Federal de Pagadores de Impuestos",
       "pleaseEnterAgent": "Por favor elija Agente",
+      "pcAmountIsNotEualToSozuCommission": "La suma de PC no está en consonancia con la Comisión Sozu",
       "pleaseChooseOtherDates": "La diferencia de fecha no debe ser superior a 1 año",
       "pleaseEnterBankDetails": "Por favor complete los datos bancarios",
       "pleaseEnterPurchaseDate": "Por favor, introduzca la fecha de compra",
@@ -1781,7 +1782,7 @@
     "sumPC":"SUMA (PC)",
     "IVAPC":"IVA (PC)",
     "TotalPC":"Total (PC)",
-    "TotalCC":"Total (PC)",
+    "TotalCC":"Total (CC)",
     "Sozu": "Sozu",
     "Seller": "Vendedor"
   },

@@ -1,5 +1,4 @@
 import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
-import { ACL, Permission } from './../../../models/acl.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Users } from 'src/app/models/users.model';

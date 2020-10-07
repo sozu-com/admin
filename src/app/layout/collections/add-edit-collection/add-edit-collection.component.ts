@@ -2072,7 +2072,6 @@ export class AddEditCollectionComponent implements OnInit {
     if (this.model.step == 5) {
       this.addFormStep5.controls.step.patchValue(this.model.step);
       if (this.addFormStep5.valid) {
-
         if (!formdata['deal_commission_agents']) {
           this.toastr.clear();
           this.toastr.error(this.translate.instant('message.error.pleaseEnterAgent'), this.translate.instant('swal.error'));
@@ -2091,6 +2090,11 @@ export class AddEditCollectionComponent implements OnInit {
             }
           }
         }
+        // if (this.pcsum != formdata['comm_total_commission_amount']) {
+        //   this.toastr.clear();
+        //   this.toastr.error(this.translate.instant('message.error.pcAmountIsNotEualToSozuCommission'), this.translate.instant('swal.error'));
+        //   return;
+        // }
         const collection_commissions = formdata['collection_commissions'];
         delete formdata['collection_commissions'];
         collection_commissions.forEach(element => {

@@ -299,6 +299,7 @@ export class CollectionsComponent implements OnInit {
               }
             }
           }
+          element['sum_pc'] = pc_received;
           element['cc_percent'] = this.numberUptoNDecimal((cc_percent / cc_active), 3);
           element['cc_received'] = element.iva_percent && element.add_iva_to_cc ?
                                   (cc_received + (cc_received * element.iva_percent)/ 100) : cc_received;
