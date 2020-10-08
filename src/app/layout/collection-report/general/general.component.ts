@@ -251,7 +251,9 @@ export class GeneralComponent implements OnInit {
           let t = 0;
           for (let i = 0; i < this.finalData.length; i++) {
             const e = this.finalData[i];
-            t = t + (e[element] || 0);
+            if (!e.firstCol.includes('total')) {
+              t = t + (e[element] || 0);
+            }
           }
           f[element] = t;
         }
@@ -260,10 +262,7 @@ export class GeneralComponent implements OnInit {
         let t = 0;
         for (let i = 0; i < this.finalData.length; i++) {
           const e = this.finalData[i];
-          // if (e.total_purchase_commission) {
-
-            console.log( e.firstCol);
-            if (!e.firstCol.includes('total')){
+            if (!e.firstCol.includes('total')) {
               t = t + (e['t'] || 0);
             }
 
