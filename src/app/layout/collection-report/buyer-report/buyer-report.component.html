@@ -281,14 +281,26 @@
                       <tr *ngFor="let item of finalData | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index" 
                       [ngClass]="{'text-bold' : item.calculated==1}">
                       <td>
-                          <span *ngIf="item?.buyer_type == 1">{{item?.buyer?.name ? item?.buyer?.name : ('table.tr.td.NA' | translate)}}</span>
-                          <span *ngIf="item?.buyer_type == 2">{{item?.buyer_legal_entity?.comm_name ? item?.buyer_legal_entity?.comm_name : ('table.tr.td.NA' | translate)}}</span>
-                          <span *ngIf="item?.buyer_type == 3">{{item?.buyer?.name ? item?.buyer?.name : ('table.tr.td.NA' | translate)}}</span>
+                        <span *ngIf="item?.buyer_type == 1">
+                              {{item?.buyer?.name ? (item?.buyer?.name + ' ' + item?.buyer?.first_surname + ' ' + item?.buyer?.second_surname) : ('table.tr.td.NA' | translate)}}
+                        </span>
+                        <span *ngIf="item?.buyer_type == 2">
+                              {{item?.buyer_legal_entity?.comm_name ? item?.buyer_legal_entity?.comm_name : ('table.tr.td.NA' | translate)}}
+                        </span>
+                        <span *ngIf="item?.buyer_type == 3">
+                              {{item?.buyer?.name ? (item?.buyer?.name + ' ' + item?.buyer?.first_surname + ' ' + item?.buyer?.second_surname) : ('table.tr.td.NA' | translate)}}
+                        </span>
                       </td>
                       <td>
-                         <span *ngIf="item?.seller_type == 1">{{item?.seller?.name ? item?.seller?.name : ('table.tr.td.NA' | translate)}}</span>
-                         <span *ngIf="item?.seller_type == 2">{{item?.seller_legal_entity?.comm_name ? item?.seller_legal_entity?.comm_name : ('table.tr.td.NA' | translate)}}</span>
-                         <span *ngIf="item?.seller_type == 3">{{item?.seller?.name ? item?.seller?.name : ('table.tr.td.NA' | translate)}}</span>
+                         <span *ngIf="item?.seller_type == 1">
+                              {{item?.seller?.name ? (item?.seller?.name + ' ' + item?.seller?.first_surname + ' ' + item?.seller?.second_surname) : ('table.tr.td.NA' | translate)}}
+                        </span>
+                         <span *ngIf="item?.seller_type == 2">
+                              {{item?.seller_legal_entity?.comm_name ? item?.seller_legal_entity?.comm_name : ('table.tr.td.NA' | translate)}}
+                        </span>
+                         <span *ngIf="item?.seller_type == 3">
+                              {{item?.seller?.name ? (item?.seller?.name + ' ' + item?.seller?.first_surname + ' ' + item?.seller?.second_surname) : ('table.tr.td.NA' | translate)}}
+                        </span>
                       </td>    
                         <td><span>
                               {{item?.payment_received_by == 1 ? item?.property?.building?.agency?.name : 'Seller'}}

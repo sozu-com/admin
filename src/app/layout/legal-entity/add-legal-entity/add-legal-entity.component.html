@@ -60,6 +60,13 @@
                     </div>
                 </div>
                 <div class="col-12">
+                  <div class="form-group-2">
+                    <label>{{'addForm.description' | translate}} 
+                    </label>
+                    <textarea autocomplete="off" rows="3" class="form-control" name="description" formControlName="description"></textarea>
+                  </div>
+                </div>
+                <div class="col-12">
                     <div class="form-group-2">
                       <label>{{'addForm.address' | translate}} 
                       </label>
@@ -90,13 +97,6 @@
                       <input autocomplete="off" minlength="12" maxlength="13" [pattern]="constant.onlyWhiteSpaces" type="text" 
                       class="form-control" formControlName="fed_tax_pay" name="fed_tax_pay">
                     </div>
-                </div>
-                <div class="col-12">
-                  <div class="form-group-2">
-                    <label>{{'addForm.description' | translate}} 
-                    </label>
-                    <textarea autocomplete="off" rows="3" class="form-control" name="description" formControlName="description"></textarea>
-                  </div>
                 </div>
                 <div class="col-12">
                   <div class="form-group-2">

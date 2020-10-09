@@ -79,6 +79,7 @@ export class QuickVisualizationComponent implements OnInit {
   paymentBanks: Array<any>;
   payment_bank: any;
   paymentBank: any;
+  data2: any;
 
   @ViewChild('stickyMenu') menuElement: ElementRef;
 
@@ -145,6 +146,7 @@ export class QuickVisualizationComponent implements OnInit {
         success => {
           this.spinner.hide();
           this.model = success['data'];
+          this.data2 = success['data2'];
           if (this.model.seller_type === 1) {
             this.sellerBanks = this.model.collection_seller_banks;
             this.sellerRepBanks = this.model.collection_seller_rep_banks;

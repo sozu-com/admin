@@ -35,8 +35,12 @@
             <tbody id="accordion">
               <tr>
                 <th rowspan="3">{{'quickVisualization.buyer' | translate}}:</th>
-                <td *ngIf="model?.buyer_type==2">{{model?.buyer_legal_entity?.comm_name || ('table.tr.td.NA' | translate)}}</td>
-                <td *ngIf="model?.buyer_type!=2">{{model?.buyer?.name || ('table.tr.td.NA' | translate)}}</td>
+                <td *ngIf="model?.buyer_type==2">
+                  {{model?.buyer_legal_entity?.comm_name || ('table.tr.td.NA' | translate)}}
+                </td>
+                <td *ngIf="model?.buyer_type!=2">
+                  {{model?.buyer?.name ? (model?.buyer?.name + ' ' + model?.buyer?.first_surname + ' ' + model?.buyer?.second_surname) : ('table.tr.td.NA' | translate)}}
+                </td>
               </tr>
               <tr>
                 <td *ngIf="model?.buyer_type==2">{{model?.buyer_legal_entity?.email || ('table.tr.td.NA' | translate)}}</td>
@@ -80,7 +84,9 @@
                 <tr>
                   <th rowspan="3">{{'quickVisualization.seller' | translate}}:</th>
                   <td *ngIf="model?.seller_type==2">{{model?.seller_legal_entity?.comm_name || ('table.tr.td.NA' | translate)}}</td>
-                  <td *ngIf="model?.seller_type!=2">{{model?.seller?.name || ('table.tr.td.NA' | translate)}}</td>
+                  <td *ngIf="model?.seller_type!=2">
+                    {{model?.seller?.name ? (model?.seller?.name + ' ' + model?.seller?.first_surname + ' ' + model?.seller?.second_surname) : ('table.tr.td.NA' | translate)}}
+                  </td>
                 </tr>
                 <tr>
                   <td *ngIf="model?.seller_type==2">{{model?.seller_legal_entity?.email || ('table.tr.td.NA' | translate)}}</td>
@@ -125,7 +131,10 @@
                   <th rowspan="3">
                     {{model?.deal_commission_agents?.length>0 && model?.deal_commission_agents[0]?.broker?.is_external_agent==1 ? ('quickVisualization.outsideAgent' | translate) : ('quickVisualization.inhouseAgent' | translate)}}:
                   </th>
-                  <td>{{model?.deal_commission_agents?.length>0 ? model?.deal_commission_agents[0]?.name : ('table.tr.td.NA' | translate)}}</td>
+                  <td>
+                    {{model?.deal_commission_agents?.length>0 ? 
+                      (model?.deal_commission_agents[0]?.broker?.name + ' ' + model?.deal_commission_agents[0]?.broker?.first_surname + ' ' +model?.deal_commission_agents[0]?.broker?.second_surname) : 
+                      ('table.tr.td.NA' | translate)}}</td>
                 </tr>
                 <tr>
                   <td>{{model?.deal_commission_agents?.length>0 ? model?.deal_commission_agents[0]?.broker?.email : ('table.tr.td.NA' | translate)}}</td>
@@ -147,9 +156,15 @@
               <tbody>
                 <tr>
                   <th rowspan="3">{{'quickVisualization.buyerLegal' | translate}} <br> {{'quickVisualization.representativeContact' | translate}}:</th>
-                    <td *ngIf="model?.buyer_type==1">{{model?.buyer_leg_rep_name || ('table.tr.td.NA' | translate)}}</td>
-                    <td *ngIf="model?.buyer_type==2">{{model?.buyer_legal_entity?.legal_reps?.name || ('table.tr.td.NA' | translate)}}</td>
-                    <td *ngIf="model?.buyer_type==3">{{model?.buyer?.legal_representative?.name || ('table.tr.td.NA' | translate)}}</td>
+                    <td *ngIf="model?.buyer_type==1">
+                      {{model?.buyer?.legal_representative?.name ? (model?.buyer?.legal_representative?.name + ' ' + model?.buyer?.legal_representative?.first_surname + ' ' + model?.buyer?.legal_representative?.second_surname) : ('table.tr.td.NA' | translate)}}
+                    </td>
+                    <td *ngIf="model?.buyer_type==2">
+                      {{model?.buyer_legal_entity?.legal_reps?.name ? (model?.buyer_legal_entity?.legal_reps?.name + ' ' +model?.buyer_legal_entity?.legal_reps?.first_surname + ' ' + model?.buyer_legal_entity?.legal_reps?.second_surname) : ('table.tr.td.NA' | translate)}}
+                    </td>
+                    <td *ngIf="model?.buyer_type==3">
+                      {{model?.buyer?.legal_representative?.name ? (model?.buyer?.legal_representative?.name + ' ' + model?.buyer?.legal_representative?.first_surname + ' ' + model?.buyer?.legal_representative?.second_surname) : ('table.tr.td.NA' | translate)}}
+                    </td>
                  </tr>
                 <tr>
                   <td *ngIf="model?.buyer_type==1">{{model?.buyer_leg_rep_email || ('table.tr.td.NA' | translate)}}</td>
@@ -194,9 +209,15 @@
                 <tbody>
                   <tr>
                     <th rowspan="3">{{'quickVisualization.sellerLegal' | translate}} <br> {{'quickVisualization.representativeContact' | translate}}:</th>
-                    <td *ngIf="model?.seller_type==1">{{model?.seller_leg_rep_name || ('table.tr.td.NA' | translate)}}</td>
-                    <td *ngIf="model?.seller_type==2">{{model?.seller_legal_entity?.legal_reps?.name || ('table.tr.td.NA' | translate)}}</td>
-                    <td *ngIf="model?.seller_type==3">{{model?.seller?.legal_representative?.name || ('table.tr.td.NA' | translate)}}</td>
+                    <td *ngIf="model?.seller_type==1">
+                      {{model?.seller?.legal_representative?.name ? (model?.seller?.legal_representative?.name + ' ' + model?.seller?.legal_representative?.first_surname + ' ' + model?.seller?.legal_representative?.second_surname) : ('table.tr.td.NA' | translate)}}
+                    </td>
+                    <td *ngIf="model?.seller_type==2">
+                      {{model?.seller_legal_entity?.legal_reps?.name ? (model?.seller_legal_entity?.legal_reps?.name + ' ' +model?.seller_legal_entity?.legal_reps?.first_surname + ' ' + model?.seller_legal_entity?.legal_reps?.second_surname) : ('table.tr.td.NA' | translate)}}
+                    </td>
+                    <td *ngIf="model?.seller_type==3">
+                      {{model?.seller?.legal_representative?.name ? (model?.seller?.legal_representative?.name + ' ' + model?.seller?.legal_representative?.first_surname + ' ' + model?.seller?.legal_representative?.second_surname) : ('table.tr.td.NA' | translate)}}
+                    </td>
                  </tr>
                 <tr>
                   <td *ngIf="model?.seller_type==1">{{model?.seller_leg_rep_email || ('table.tr.td.NA' | translate)}}</td>
@@ -298,10 +319,25 @@
               <div class="table-responsive">
                 <table class="table table-bordered white-bg">
                     <tbody>
-                        <tr>
-                            <th>{{'quickVisualization.paid' | translate}}:</th>
-                            <td>{{(model?.total_payment_recieved || 0) | currency}}</td>
-                            <!-- <td>{{(totalPaid || 0) | currency}}</td> -->
+                          <tr>
+                              <th>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#coll">
+                                  {{'quickVisualization.paid' | translate}}:
+                                </a>
+                              </th>
+                              <td>{{(model?.total_payment_recieved || 0) | currency}}</td>
+                          </tr>
+                          <tr id="coll" class="panel-collapse collapse">
+                            <td colspan="2">
+                              <table>
+                                <tbody>
+                                  <tr *ngFor="let d of data2">
+                                    <th>{{d?.name_en}}</th>
+                                    <td>{{(d?.total_amount || 0) | currency}}</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </td>
                           </tr>
                           <tr>
                             <th>{{'quickVisualization.remaining' | translate}}:</th>

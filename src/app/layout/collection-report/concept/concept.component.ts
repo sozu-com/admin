@@ -164,11 +164,13 @@ export class ConceptComponent implements OnInit {
   }
 
   onSelectDeveloper(isSelected: number, obj: any) {
+    this.projects = [];
+    this.selctedProjects = [];
     if (isSelected) {
       this.searchBuilding(obj.id);
     } else {
-      this.projects = [];
-      this.selctedProjects = [];
+      // this.projects = [];
+      // this.selctedProjects = [];
     }
   }
 

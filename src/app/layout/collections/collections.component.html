@@ -368,25 +368,49 @@
                     <tr *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
                     <td><span>{{p?.id ? p?.id : ('table.tr.td.NA' | translate)}}</span></td>
                      <td>
-                        <span *ngIf="p?.buyer_type == 1">{{p?.buyer?.name ? p?.buyer?.name : ('table.tr.td.NA' | translate)}}</span>
-                        <span *ngIf="p?.buyer_type == 2">{{p?.buyer_legal_entity?.comm_name ? p?.buyer_legal_entity?.comm_name : ('table.tr.td.NA' | translate)}}</span>
-                        <span *ngIf="p?.buyer_type == 3">{{p?.buyer?.name ? p?.buyer?.name : ('table.tr.td.NA' | translate)}}</span>
+                        <span *ngIf="p?.buyer_type == 1">
+                          {{p?.buyer?.name ? (p?.buyer?.name + ' ' + p?.buyer?.first_surname + ' ' + p?.buyer?.second_surname) : ('table.tr.td.NA' | translate)}}
+                        </span>
+                        <span *ngIf="p?.buyer_type == 2">
+                          {{p?.buyer_legal_entity?.comm_name ? (p?.buyer_legal_entity?.comm_name) : ('table.tr.td.NA' | translate)}}
+                        </span>
+                        <span *ngIf="p?.buyer_type == 3">
+                          {{p?.buyer?.name ? (p?.buyer?.name + ' ' + p?.buyer?.first_surname + ' ' + p?.buyer?.second_surname) : ('table.tr.td.NA' | translate)}}
+                        </span>
                      </td>
                      <td>
-                      <span *ngIf="p?.buyer_type == 1">{{p?.buyer_leg_rep_name ? p?.buyer_leg_rep_name : ('table.tr.td.NA' | translate)}}</span>
-                      <span *ngIf="p?.buyer_type == 2">{{p?.buyer_legal_entity?.legal_reps?.name || ('table.tr.td.NA' | translate)}}</span>
-                      <span *ngIf="p?.buyer_type == 3">{{p?.buyer?.legal_representative?.name || ('table.tr.td.NA' | translate)}}</span>
+                      <span *ngIf="p?.buyer_type == 1">
+                        {{p?.buyer?.legal_representative?.name ? (p?.buyer?.legal_representative?.name + ' ' + p?.buyer?.legal_representative?.first_surname + ' ' + p?.buyer?.legal_representative?.second_surname) : ('table.tr.td.NA' | translate)}}
+                      </span>
+                      <span *ngIf="p?.buyer_type == 2">
+                        {{p?.buyer_legal_entity?.legal_reps?.name ? (p?.buyer_legal_entity?.legal_reps?.name + ' ' +p?.buyer_legal_entity?.legal_reps?.first_surname + ' ' + p?.buyer_legal_entity?.legal_reps?.second_surname) : ('table.tr.td.NA' | translate)}}
+                      </span>
+                      <span *ngIf="p?.buyer_type == 3">
+                        {{p?.buyer?.legal_representative?.name ? (p?.buyer?.legal_representative?.name + ' ' + p?.buyer?.legal_representative?.first_surname + ' ' + p?.buyer?.legal_representative?.second_surname) : ('table.tr.td.NA' | translate)}}
+                      </span>
                     </td>
-                     <td>
-                        <span *ngIf="p?.seller_type == 1">{{p?.seller?.name ? p?.seller?.name : ('table.tr.td.NA' | translate)}}</span>
-                        <span *ngIf="p?.seller_type == 2">{{p?.seller_legal_entity?.comm_name ? p?.seller_legal_entity?.comm_name : ('table.tr.td.NA' | translate)}}</span>
-                        <span *ngIf="p?.seller_type == 3">{{p?.seller?.name ? p?.seller?.name : ('table.tr.td.NA' | translate)}}</span>
-                     </td>    
-                     <td>
-                      <span *ngIf="p?.seller_type == 1">{{p?.seller_leg_rep_name ? p?.seller_leg_rep_name : ('table.tr.td.NA' | translate)}}</span>
-                      <span *ngIf="p?.seller_type == 2">{{p?.seller_legal_entity?.legal_reps?.name || ('table.tr.td.NA' | translate)}}</span>
-                      <span *ngIf="p?.seller_type == 3">{{p?.seller?.legal_representative?.name || ('table.tr.td.NA' | translate)}}</span>
-                    </td>                  
+                    <td>
+                      <span *ngIf="p?.seller_type == 1">
+                        {{p?.seller?.name ? (p?.seller?.name + ' ' + p?.seller?.first_surname + ' ' + p?.seller?.second_surname) : ('table.tr.td.NA' | translate)}}
+                      </span>
+                      <span *ngIf="p?.seller_type == 2">
+                        {{p?.seller_legal_entity?.comm_name ? (p?.seller_legal_entity?.comm_name) : ('table.tr.td.NA' | translate)}}
+                      </span>
+                      <span *ngIf="p?.seller_type == 3">
+                        {{p?.seller?.name ? (p?.seller?.name + ' ' + p?.seller?.first_surname + ' ' + p?.seller?.second_surname) : ('table.tr.td.NA' | translate)}}
+                      </span>
+                   </td>
+                   <td>
+                    <span *ngIf="p?.seller_type == 1">
+                      {{p?.seller?.legal_representative?.name ? (p?.seller?.legal_representative?.name + ' ' + p?.seller?.legal_representative?.first_surname + ' ' + p?.seller?.legal_representative?.second_surname) : ('table.tr.td.NA' | translate)}}
+                    </span>
+                    <span *ngIf="p?.seller_type == 2">
+                      {{p?.seller_legal_entity?.legal_reps?.name ? (p?.seller_legal_entity?.legal_reps?.name + ' ' +p?.seller_legal_entity?.legal_reps?.first_surname + ' ' + p?.seller_legal_entity?.legal_reps?.second_surname) : ('table.tr.td.NA' | translate)}}
+                    </span>
+                    <span *ngIf="p?.seller_type == 3">
+                      {{p?.seller?.legal_representative?.name ? (p?.seller?.legal_representative?.name + ' ' + p?.seller?.legal_representative?.first_surname + ' ' + p?.seller?.legal_representative?.second_surname) : ('table.tr.td.NA' | translate)}}
+                    </span>
+                  </td>              
                      <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}">
                         <strong>{{p?.property?.building?.name ? p?.property?.building?.name: ('table.tr.td.NA' | translate)}}</strong>
                      </td>
