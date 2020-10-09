@@ -127,7 +127,7 @@
                       <div class="form-group-3">
                       <label>{{'addCollection.accountNumber' | translate}}</label>
                       <div class="clearfix"></div>
-                      <input required autocomplete="off" class="form-control" type="text" minlength="10" 
+                      <input required autocomplete="off" class="form-control" type="text" minlength="9" 
                       maxlength="20" [pattern]="constant.accountPattern" name="account_number" formControlName="account_number">
                     </div>
                   </div>
@@ -152,7 +152,7 @@
                       <div class="form-group-3">
                       <label>{{'addCollection.remove' | translate}}</label>
                       <div class="clearfix"></div>
-                      <button type="button" (click)="removeLegalEntityBank($event, i)">{{'addCollection.remove' | translate}}</button>
+                      <button type="button" (click)="removeLegalEntityBank($event, i, lebanks)">{{'addCollection.remove' | translate}}</button>
                     </div>
                   </div>
                 </div>
@@ -240,7 +240,7 @@
                     <div class="form-group-3">
                     <label>{{'addCollection.accountNumber' | translate}}</label>
                     <div class="clearfix"></div>
-                    <input required autocomplete="off" class="form-control" type="text" minlength="10" 
+                    <input required autocomplete="off" class="form-control" type="text" minlength="9" 
                     maxlength="20" [pattern]="constant.accountPattern" name="account_number" formControlName="account_number">
                   </div>
                 </div>

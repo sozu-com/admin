@@ -139,9 +139,17 @@ export class AddLegalEntityComponent implements OnInit {
     return this.addDataForm.get('legal_entity_banks') as FormArray;
   }
 
-  removeLegalEntityBank($event: Event, i: number) {
+  removeLegalEntityBank($event: Event, i: number, item) {
+    console.log(item);
     $event.stopPropagation();
     this.legalEntityBanks.removeAt(i);
+    if (item && item.value.id) {
+      this.admin.postDataApi('deleteLegalEntityBank', {id: item.value.id}).subscribe(success => {
+        this.spinner.hide();
+      }, error => {
+        this.spinner.hide();
+      });
+    }
   }
 
   addLegalRepBank($event) {
