@@ -448,6 +448,7 @@ export class QuickVisualizationComponent implements OnInit {
   }
 
   showDescription(description: string, title: any) {
+    console.log('aaaa')
     if (description) {
       this.title = title;
       this.description = description;

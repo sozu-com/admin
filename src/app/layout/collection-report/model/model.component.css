@@ -9,7 +9,7 @@
 
 /* freeze first col and row */
 .main-table{
-  height: 700px;
+  height: 600px;
 }
 table.table-striped.quick-table th, table.table-striped.quick-table td {
   width: 190px;

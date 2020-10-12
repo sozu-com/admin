@@ -445,6 +445,30 @@
               <th>
                   <b>{{'quickVisualization.xmlDoc' | translate}}</b>
               </th>
+              <th [style.width]="'120px'">
+                  <b>{{'quickVisualization.agentCommission' | translate}}</b>
+              </th>
+              <th [style.width]="'150px'">
+                  <b>{{'quickVisualization.dateOfAC' | translate}}</b>
+              </th>
+              <th>
+                  <b>{{'quickVisualization.ACAttachment' | translate}}</b>
+              </th>
+              <th>
+                  <b>{{'quickVisualization.ACDescription' | translate}}</b>
+              </th>
+              <th>
+                  <b>{{'quickVisualization.invoiceDate' | translate}}</b>
+              </th>
+              <th>
+                  <b>{{'quickVisualization.invoiceID' | translate}}</b>
+              </th>
+              <th>
+                  <b>{{'quickVisualization.pdfDoc' | translate}}</b>
+              </th>
+              <th>
+                  <b>{{'quickVisualization.xmlDoc' | translate}}</b>
+              </th>
             </tr>
           </thead>
           <tbody *ngFor="let p of allPaymentConcepts; let i=index">
@@ -549,7 +573,37 @@
                 <a class="green-color fontW500" *ngIf="collectionCommission[i]?.payment && collectionCommission[i]?.payment?.xml_url" target="_blank" href="{{collectionCommission[i]?.payment?.xml_url}}">
                   {{'quickVisualization.view' | translate}}
                 </a>
-              </td>           
+              </td>   
+
+              <td>
+                {{collectionCommission[i]?.agent_payment ? 
+                  ((collectionCommission[i]['agent_payment']?.amount + (collectionCommission[i]['agent_payment']?.iva_amount || 0)) | currency) : ''}}</td>
+              <td>
+                {{collectionCommission[i]?.agent_payment ? (collectionCommission[i]['agent_payment']?.payment_date | date:'dd/MMM/yyyy') : ''}}</td>
+              <td>
+                <a class="green-color fontW500" *ngIf="collectionCommission[i]?.agent_payment" target="_blank" href="{{collectionCommission[i]?.agent_payment?.receipt}}">
+                  {{'quickVisualization.view' | translate}}
+                </a>
+              </td>
+              <td>
+                  <button class="action-icon" *ngIf="collectionCommission[i]?.agent_payment?.description" (click)="showDescription(collectionCommission[i]?.agent_payment?.description, 5)">
+                      <img src="assets/img/eye-icon.png" alt="img">
+                  </button>
+              </td>
+              <td>{{collectionCommission[i]?.agent_payment ?
+                (collectionCommission[i]['agent_payment']?.invoice_date | date:'dd/MMM/yyyy') : ''}}</td>
+              <td>{{collectionCommission[i]?.agent_payment ?
+                (collectionCommission[i]['agent_payment']?.invoice_id) : ''}}</td>
+              <td>
+                <a class="green-color fontW500" *ngIf="collectionCommission[i]?.agent_payment && collectionCommission[i]?.agent_payment?.pdf_url" target="_blank" href="{{collectionCommission[i]?.agent_payment?.pdf_url}}">
+                  {{'quickVisualization.view' | translate}}
+                </a>
+              </td>
+              <td>
+                <a class="green-color fontW500" *ngIf="collectionCommission[i]?.agent_payment && collectionCommission[i]?.agent_payment?.xml_url" target="_blank" href="{{collectionCommission[i]?.agent_payment?.xml_url}}">
+                  {{'quickVisualization.view' | translate}}
+                </a>
+              </td>        
               </tr>
             
             
@@ -615,8 +669,8 @@
 
 
 
-<a href="javascript://" data-toggle="modal" data-target="#des-modal" #viewBankDetailsModal></a>
-<div class="modal animated" id="des-modal">
+<a href="javascript://" data-toggle="modal" data-target="#bank-modal" #viewBankDetailsModal></a>
+<div class="modal animated" id="bank-modal">
       <div class="modal-dialog fadeIndown">
             <div class="modal-content notary-avail">
                   <div class="modal-header popup-header">
@@ -653,6 +707,7 @@
                         <h4 *ngIf="title==2">{{'quickVisualization.penaltyDescription' | translate}}</h4>
                         <h4 *ngIf="title==3">{{'quickVisualization.PCDescription' | translate}}</h4>
                         <h4 *ngIf="title==4">{{'quickVisualization.CCDescription' | translate}}</h4>
+                        <h4 *ngIf="title==5">{{'quickVisualization.ACDescription' | translate}}</h4>
                         <button style="display: none;" type="button" class="close" data-dismiss="modal" #viewDesModalClose>&times;</button>
                         <button type="button" class="close" (click)="closeDescModal()">&times;</button>
                   </div>

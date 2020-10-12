@@ -325,6 +325,21 @@
                        </th>
                        <th style="vertical-align:top; width: 100px;">
                           <div class="table-search">
+                             <label>{{'table.th.ivaAdded' | translate}}</label>
+                          </div>
+                       </th>
+                       <th style="vertical-align:top; width: 100px;">
+                          <div class="table-search">
+                             <label>{{'table.th.ACReceipt' | translate}}</label>
+                          </div>
+                       </th>
+                       <th style="vertical-align:top; width: 100px;">
+                          <div class="table-search">
+                             <label>{{'table.th.ACInvoice' | translate}}</label>
+                          </div>
+                       </th>
+                       <th style="vertical-align:top; width: 100px;">
+                          <div class="table-search">
                              <label>{{'table.th.commissionAgent' | translate}}</label>
                           </div>
                        </th>
@@ -402,7 +417,7 @@
                    </td>
                    <td>
                     <span *ngIf="p?.seller_type == 1">
-                      {{p?.seller?.legal_representative?.name ? (p?.seller?.legal_representative?.name + ' ' + p?.seller?.legal_representative?.first_surname + ' ' + p?.seller?.legal_representative?.second_surname) : ('table.tr.td.NA' | translate)}}
+                      
                     </span>
                     <span *ngIf="p?.seller_type == 2">
                       {{p?.seller_legal_entity?.legal_reps?.name ? (p?.seller_legal_entity?.legal_reps?.name + ' ' +p?.seller_legal_entity?.legal_reps?.first_surname + ' ' + p?.seller_legal_entity?.legal_reps?.second_surname) : ('table.tr.td.NA' | translate)}}
@@ -459,8 +474,21 @@
                       <input name="cc_invoice{{i}}" disabled class="form-control checkbox_size" type="checkbox" [checked]="p?.cc_invoice ? 'checked' : ''" readonly> 
                     </td>
                      <td><span>{{p?.comm_shared_commission ? (p?.comm_shared_commission | number : '1.2-3') : ('table.tr.td.NA' | translate)}}</span></td>
+                    
+                    <td>
+                      <input name="add_iva_to_ac{{i}}" disabled class="form-control checkbox_size" type="checkbox" [checked]="p?.add_iva_to_ac ? 'checked' : ''" readonly> 
+                    </td>
+                     <td>
+                       <input name="ac_receipt{{i}}" disabled class="form-control checkbox_size" type="checkbox" [checked]="p?.ac_receipt ? 'checked' : ''" readonly>
+                     </td>
+                     <td>
+                      <input name="ac_invoice{{i}}" disabled class="form-control checkbox_size" type="checkbox" [checked]="p?.ac_invoice ? 'checked' : ''" readonly> 
+                    </td>
+
                      <td *ngIf="p?.deal_commission_agents?.length">
-                        <span>{{p?.deal_commission_agents[0]?.name || ('table.tr.td.NA' | translate)}}</span>
+                        <span>
+                          {{p?.deal_commission_agents[0]?.broker?.name ? (p?.deal_commission_agents[0]?.broker?.name + ' ' +p?.deal_commission_agents[0]?.broker?.first_surname + ' ' + p?.deal_commission_agents[0]?.broker?.second_surname) : ('table.tr.td.NA' | translate)}}                       
+                        </span>
                      </td>
                      <td *ngIf="!p?.deal_commission_agents?.length">
                         <span>{{('table.tr.td.NA' | translate)}}</span>
@@ -1026,6 +1054,14 @@
                         <button *ngIf="p.commission && p.commission.purchase_payment" (click)="deleteCollectionCommReceipt(p.commission.purchase_payment)" 
                         title="{{'table.title.deletePCPayment' | translate}}" 
                         class="action-icon"><img src="assets/img/ic_delete.png" alt="img"></button>  
+<br>
+                        <button *ngIf="p.commission && p.commission.agent_payment" (click)="editCollectionCommReceipt(p.commission.agent_payment)" 
+                        title="{{'table.title.editACPayment' | translate}}" 
+                        class="action-icon"><img src="assets/img/ic_commission.png" alt="img"></button>  
+
+                        <button *ngIf="p.commission && p.commission.agent_payment" (click)="deleteCollectionCommReceipt(p.commission.agent_payment)" 
+                        title="{{'table.title.deleteACPayment' | translate}}" 
+                        class="action-icon"><img src="assets/img/ic_delete.png" alt="img"></button>  
 
                       </td>            
                       </tr>
@@ -1211,6 +1247,7 @@
                               <option value="">{{'viewCollections.chooseCommissionType' | translate}}</option>
                               <option value="1">{{'viewCollections.purchaseCommission' | translate}}</option>
                               <option value="2">{{'viewCollections.collectionCommission' | translate}}</option>
+                              <option value="3">{{'viewCollections.agentCommission' | translate}}</option>
                         </select>
                   </div>
                 </div>
@@ -1223,6 +1260,18 @@
                               <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
                               <option *ngFor="let bt of paymentConcepts" [ngValue]="bt" 
                               [disabled]="bt?.payment_made==0 || bt?.purchase_payment"> {{bt?.payment_choice?.name}}</option>
+                        </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6" *ngIf="commission_type==3">
+                <div class="form-group-2">
+                    <label>{{'viewCollections.choosePaymentConcept' | translate}} <span class="color-red">*</span></label>
+                    <div class="form-group">
+                        <select name="payment_choice" #applyPaymentChoiceId1 required class="form-control" [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
+                              <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
+                              <option *ngFor="let bt of paymentConcepts" [ngValue]="bt" 
+                              [disabled]="bt?.payment_made==0 || bt?.agent_payment"> {{bt?.payment_choice?.name}}</option>
                         </select>
                   </div>
                 </div>
@@ -1289,14 +1338,14 @@
                  </div>
                 </div>
               </div>
-              <div class="col-12">
+              <div class="col-12" *ngIf="commission_type!=3 || (commission_type==3 && is_external_agent==1)">
                 <div class="btn-cont text-right">
                     <button type="button" class="btn btn-primary-new" (click)="invoiceKeys = invoiceKeys ? false : true">
                         {{'viewCollections.addInvice' | translate}}</button>
                 </div>
               </div>
 
-              <div *ngIf="invoiceKeys" class="row">
+              <div *ngIf="invoiceKeys && !(is_external_agent==0 && commission_type==3)" class="row">
                 <div class="col-6">
                   <div class="form-group-2">
                       <label>{{'viewCollections.invoiceDate' | translate}} </label>
@@ -1337,12 +1386,14 @@
                       </div>
                   </div>
                 </div>
-                <div class="col-12">
-                  <div class="btn-cont text-right">
-                      <button type="submit" class="btn btn-primary-new">
-                          <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
-                          {{'addForm.addBtn' | translate}}</button>
-                  </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="invoiceKeys || (is_external_agent==0 && commission_type==3)">
+              <div class="col-12">
+                <div class="btn-cont text-right">
+                    <button type="submit" class="btn btn-primary-new">
+                        <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
+                        {{'addForm.addBtn' | translate}}</button>
                 </div>
               </div>
             </div>

@@ -81,6 +81,7 @@ export class CollectionsComponent implements OnInit {
   commission_type: any;
   today: Date;
   selectedItem: any;
+  is_external_agent: any;
   collectionCommission: any;
   penaltyForm: FormGroup;
   showError: boolean;
@@ -273,7 +274,8 @@ export class CollectionsComponent implements OnInit {
 
           // fetching commissions %
           let cc_percent = 0, cc_received = 0, cc_receipt = 0, cc_invoice = 0, cc_active = 0;
-          let pc_percent = 0, pc_received = 0, pc_receipt = 0, pc_invoice = 0, pc_active = 0;
+          let pc_received = 0, pc_receipt = 0, pc_invoice = 0, pc_active = 0;
+          let ac_receipt = 0, ac_invoice = 0, ac_active = 0;
           for (let i = 0; i < element.collection_commissions.length; i++) {
             const ele = element.collection_commissions[i];
             cc_percent = cc_percent + (ele.add_collection_commission ? ele.percent : 0);
@@ -298,6 +300,16 @@ export class CollectionsComponent implements OnInit {
                 pc_invoice ++;
               }
             }
+
+            if (ele.add_agent_commission) {
+              ac_active ++;
+            }
+            if (ele.agent_payment) {
+              ac_receipt ++;
+              if (ele.agent_payment.invoice_id) {
+                ac_invoice ++;
+              }
+            }
           }
           element['sum_pc'] = pc_received;
           element['cc_percent'] = this.numberUptoNDecimal((cc_percent / cc_active), 3);
@@ -309,6 +321,9 @@ export class CollectionsComponent implements OnInit {
                                   (pc_received + (pc_received * element.iva_percent) / 100) : pc_received;
           element['pc_receipt'] = pc_receipt == pc_active && pc_receipt!=0 ? 1 : 0;
           element['pc_invoice'] = pc_invoice == pc_active && pc_invoice!=0 ? 1 : 0;
+
+          element['ac_receipt'] = ac_receipt == ac_active && ac_receipt!=0 ? 1 : 0;
+          element['ac_invoice'] = ac_invoice == ac_active && ac_invoice!=0 ? 1 : 0;
         }
 
         this.spinner.hide();
@@ -614,7 +629,6 @@ export class CollectionsComponent implements OnInit {
   }
 
   showUpdatePaymentPopup(item: any, i: number) {
-    console.log(item);
     this.payment_id = item.id;
     this.payment_type = item.payment_type;
     this.payment_method_id = item.payment_method.id;
@@ -989,9 +1003,22 @@ export class CollectionsComponent implements OnInit {
         this.closeCollReceiptModal();
         return false;
       }
+      if (this.commission_type == 3 && item.add_agent_commission == 0) {
+        this.toastr.clear();
+        this.toastr.error(this.translate.instant('message.error.pleaseEnableAgentCommission'), this.translate.instant('swal.error'));
+          this.closeCollReceiptModal();
+          return false;
+        }
+      this.ivaAmount = 0;
       if (this.commission_type == 1) {
         this.paymentAmount = item.purchase_comm_amount || 0;
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_pc)) {
+          this.ivaAmount = (this.paymentAmount * this.selectedItem.iva_percent) / 100;
+          this.paymentAmount = this.paymentAmount + this.ivaAmount;
+        }
+      } else if (this.commission_type == 3) {
+        this.paymentAmount = item.agent_comm_amount || 0;
+        if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_ac)) {
           this.ivaAmount = (this.paymentAmount * this.selectedItem.iva_percent) / 100;
           this.paymentAmount = this.paymentAmount + this.ivaAmount;
         }
@@ -1289,6 +1316,10 @@ export class CollectionsComponent implements OnInit {
         if (element.add_purchase_commission == 1) {
           this.paymentConcepts.push(element);
         }
+      } else if (type == 3) {
+        if (element.add_agent_commission == 1) {
+          this.paymentConcepts.push(element);
+        }
       } else {
         if (element.add_collection_commission == 1) {
           this.paymentConcepts.push(element);
@@ -1303,11 +1334,12 @@ export class CollectionsComponent implements OnInit {
     this.collectionIndex = i;
     this.paymentConcepts = item.collection_commissions;
     this.typeOfPayment = type;
+    this.is_external_agent = item.deal_commission_agents && item.deal_commission_agents.length > 0 ?
+    item.deal_commission_agents[0].broker.is_external_agent : 0;
     this.collectionReceiptOpen.nativeElement.click();
   }
 
   editCollectionCommReceipt(item: any) {
-    console.log(item)
     this.payment_id = item.id;
     this.payment_method_id = item.payment_method.id;
     this.description = item.description;
