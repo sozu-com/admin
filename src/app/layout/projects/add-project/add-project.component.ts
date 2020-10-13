@@ -1457,7 +1457,7 @@ export class AddProjectComponent implements OnInit {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterNumberofProperties'), 'error');
       return false;
     }
-    
+
     // if (!this.newTower.possession_status_id) {
     //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChoosePossessionStatus'), 'error');
     //   return false;
@@ -1470,7 +1470,6 @@ export class AddProjectComponent implements OnInit {
     //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectLaunchDate'), 'error');
     //   return false;
     // }
-
     const tempAmen = JSON.parse(JSON.stringify(this.allTowerAmenities));
     this.selectedTowerAmenitiesId = tempAmen.filter(op => {
       if (op.selected === true) {
@@ -1546,6 +1545,7 @@ export class AddProjectComponent implements OnInit {
   saveTower(btower: Towers, index: any) {
 
     this.model.building_towers[index].launch_date = btower.launch_date;
+
     // this.allTowerAmenityForEdit = btower.amenities;
     if (!this.model.building_towers[index].tower_name) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterTowerName'), 'error');

@@ -743,7 +743,7 @@
                       <label>{{'addForm.launchDate' | translate}}</label>
                       <input class="form-control" [disabled]="model?.building_tower_edit_index!=i"
                         [ngModel]="btower.launch_date  | date:'yyyy-MM-dd'"
-                        (ngModelChange)="newTower.launch_date  = $event" type="date" name="launch_date{{i}}"
+                        (ngModelChange)="btower.launch_date  = $event" type="date" name="launch_date{{i}}"
                         placeholder="{{'addForm.placeholder.launchDate' | translate}}">
                     </div>
                   </div>

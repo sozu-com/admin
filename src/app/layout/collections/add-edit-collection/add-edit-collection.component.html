@@ -395,6 +395,20 @@
               </div>
             </div>
           </div>
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.seller_type !=2 ">
+            <div class="form-group-3">
+              <label>{{ model.seller_type == 1 ? ('addCollection.firstSurname' | translate) : ('addCollection.firstSurname' | translate)}}</label>
+              <div class="clearfix"></div>
+              <input readonly autocomplete="off" type="text" name="seller_first_surname" class="form-control" formControlName="seller_first_surname">
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.seller_type !=2 ">
+            <div class="form-group-3">
+              <label>{{ model.seller_type == 1 ? ('addCollection.secondSurname' | translate) : ('addCollection.secondSurname' | translate)}}</label>
+              <div class="clearfix"></div>
+              <input readonly autocomplete="off" type="text" name="seller_second_surname" class="form-control" formControlName="seller_second_surname">
+            </div>
+          </div>
           <div *ngIf="model.seller_type !=1 " class="col-lg-3 col-md-6 col-sm-6 col-12">
             <div class="form-group-3">
               <label>{{ 'addCollection.legalName' | translate }}</label>
@@ -597,6 +611,20 @@
                   {{'addCollectionValidations.nameMax30Limit' | translate}}
               </div>
             </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+              <label>{{'addCollection.firstSurname' | translate}}</label>
+              <div class="clearfix"></div>
+              <input readonly autocomplete="off" class="form-control" type="text" name="seller_leg_rep_first_surname" formControlName="seller_leg_rep_first_surname">
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+            <label>{{'addCollection.secondSurname' | translate}}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" class="form-control" type="text" name="seller_leg_rep_second_surname" formControlName="seller_leg_rep_second_surname">
+          </div>
           </div>
           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
               <div class="form-group-3">
@@ -840,6 +868,20 @@
                 </div>
               </div>
             </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.buyer_type !=2 ">
+              <div class="form-group-3">
+                <label>{{ model.buyer_type == 1 ? ('addCollection.firstSurname' | translate) : ('addCollection.firstSurname' | translate)}}</label>
+                <div class="clearfix"></div>
+                <input readonly autocomplete="off" type="text" name="buyer_first_surname" class="form-control" formControlName="buyer_first_surname">
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.buyer_type !=2 ">
+              <div class="form-group-3">
+                <label>{{ model.buyer_type == 1 ? ('addCollection.secondSurname' | translate) : ('addCollection.secondSurname' | translate)}}</label>
+                <div class="clearfix"></div>
+                <input readonly autocomplete="off" type="text" name="buyer_second_surname" class="form-control" formControlName="buyer_second_surname">
+              </div>
+            </div>
             <div *ngIf="model.buyer_type !=1 " class="col-lg-3 col-md-6 col-sm-6 col-12">
               <div class="form-group-3">
                 <label>{{ 'addCollection.legalName' | translate }}</label>
@@ -1050,6 +1092,20 @@
                     {{'addCollectionValidations.nameMax30Limit' | translate}}
                 </div>
               </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="form-group-3">
+                <label>{{'addCollection.firstSurname' | translate}}</label>
+                <div class="clearfix"></div>
+                <input readonly autocomplete="off" class="form-control" type="text" name="buyer_leg_rep_first_surname" formControlName="buyer_leg_rep_first_surname">
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="form-group-3">
+              <label>{{'addCollection.secondSurname' | translate}}</label>
+              <div class="clearfix"></div>
+              <input readonly autocomplete="off" class="form-control" type="text" name="buyer_leg_rep_second_surname" formControlName="buyer_leg_rep_second_surname">
+            </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">

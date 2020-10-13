@@ -148,8 +148,11 @@ export class QuickVisualizationComponent implements OnInit {
           this.model = success['data'];
           this.data2 = success['data2'];
           if (this.model.seller_type === 1) {
-            this.sellerBanks = this.model.collection_seller_banks;
-            this.sellerRepBanks = this.model.collection_seller_rep_banks;
+            // this.sellerBanks = this.model.collection_seller_banks;
+            // this.sellerRepBanks = this.model.collection_seller_rep_banks;
+            this.sellerBanks = this.model.seller.legal_rep_banks;
+            this.sellerRepBanks = this.model.seller.legal_representative && this.model.seller.legal_representative.legal_rep_banks ?
+                    this.model.seller.legal_representative.legal_rep_banks : null;
           } else if (this.model.seller_type === 2) {
             this.sellerBanks = this.model.seller_legal_entity.legal_entity_banks;
             this.sellerRepBanks = this.model.seller_legal_entity.legal_reps && this.model.seller_legal_entity.legal_reps.legal_rep_banks ?
@@ -160,8 +163,11 @@ export class QuickVisualizationComponent implements OnInit {
                     this.model.seller.legal_representative.legal_rep_banks : null;
           }
           if (this.model.buyer_type === 1) {
-            this.buyerBanks = this.model.collection_buyer_banks;
-            this.buyerRepBanks = this.model.collection_buyer_rep_banks;
+            // this.buyerBanks = this.model.collection_buyer_banks;
+            // this.buyerRepBanks = this.model.collection_buyer_rep_banks;
+            this.buyerBanks = this.model.buyer.legal_rep_banks;
+            this.buyerRepBanks = this.model.buyer.legal_representative && this.model.buyer.legal_representative.legal_rep_banks ?
+                    this.model.buyer.legal_representative.legal_rep_banks : null;
           } else if (this.model.buyer_type === 2) {
             this.buyerBanks = this.model.buyer_legal_entity.legal_entity_banks;
             this.buyerRepBanks = this.model.buyer_legal_entity.legal_reps && this.model.buyer_legal_entity.legal_reps.legal_rep_banks ?
